@@ -1,0 +1,14 @@
+{
+  "decision_id": "movement-2026-09-26",
+  "status": "confirmed",
+  "decided_on": "2026-09-26",
+  "rule": "Each eligible player may move once during a round, at any time before voting begins.",
+  "eligible_origin_locations": ["Room A", "Room B", "Command Room"],
+  "room_a_b": "Players who can occupy Room A or Room B may move between these rooms.",
+  "command_room_access": "Only the current Captain may enter Command Room.",
+  "captain_after_leaving": "Leaving Command Room does not remove Captain status. The Captain may return using a later available movement.",
+  "one_move_implication": "After leaving Command Room, a return cannot occur in the same round under the one-move-per-round limit.",
+  "hospital_and_jail": "No voluntary movement from Hospital or Jail.",
+  "command_room_immunity": "The room's protection applies while a player is inside Command Room.",
+  "note": "This decision updates the movement and Captain location wording in the v2.1 playtest draft; other rules remain as written."
+}

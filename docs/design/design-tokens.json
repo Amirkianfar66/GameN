@@ -1,0 +1,87 @@
+{
+  "version": "0.2.0",
+  "status": "proposal_for_evaluation",
+  "color": {
+    "canvas": "#10141C",
+    "panel": "#202837",
+    "paper": "#F4EBDD",
+    "ink": "#151923",
+    "textPrimary": "#F4EBDD",
+    "textSecondary": "#B9C4D3",
+    "publicToken": "#C6CDD4",
+    "interactiveAccent": "#F1B84B",
+    "focusRing": "#FFD36D",
+    "factionPrivateOrRevealed": {
+      "blue": "#70AFFF",
+      "red": "#FF8C8C",
+      "alien": "#C4A4FF"
+    }
+  },
+  "type": {
+    "bodyFamily": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+    "headingFamily": "Arial Narrow, Helvetica Neue, Arial, sans-serif",
+    "bodyPx": 16,
+    "labelPx": 14,
+    "headingPx": 24,
+    "displayPx": 36,
+    "bodyLineHeight": 1.5,
+    "headingLineHeight": 1.15
+  },
+  "spacingPx": [
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    48
+  ],
+  "radiusPx": {
+    "control": 8,
+    "panel": 12
+  },
+  "strokePx": {
+    "control": 2,
+    "focus": 3,
+    "illustration": 3
+  },
+  "interaction": {
+    "minimumTargetCssPx": 44,
+    "cardArtAspectRatio": "5:7",
+    "breakpointsCssPx": {
+      "expandedPlayerLayout": 600,
+      "wideTableLayout": 960
+    },
+    "dragRequired": false
+  },
+  "motionMs": {
+    "selection": 120,
+    "cardTransition": 220,
+    "publicMove": 450,
+    "comicBeatMaximum": 900,
+    "reducedMotionFade": 80,
+    "registrationStamp": 120,
+    "publicImpact": 320,
+    "roundTransition": 700
+  },
+  "usageConstraints": [
+    "Faction accents require authorized private knowledge or an explicit reveal.",
+    "Public tokens remain neutral and identical across roles.",
+    "Use ink on paper/amber; primary or secondary text on dark panels.",
+    "Confirm contrast in final compositing; these tokens alone do not certify accessibility.",
+    "Motion durations never determine server phase deadlines or outcomes."
+  ],
+  "motionPolicy": {
+    "specification": "docs/design/motion-direction.md",
+    "durationStatus": "proposed_targets_not_measured",
+    "levels": [
+      "interaction",
+      "game_event",
+      "phase_or_finale"
+    ],
+    "reducedMotion": "direct state update or short fade; no spatial travel, shake, zoom or moving trails",
+    "publicSecretActionCue": false,
+    "blocksActiveControls": false,
+    "mutatesGameplayState": false
+  }
+}

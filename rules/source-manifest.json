@@ -1,0 +1,43 @@
+{
+  "snapshot_date": "2026-09-26",
+  "project": "Mothership",
+  "status": "source_snapshot_not_compiled_ruleset",
+  "precedence": "Confirmed later decisions supersede baseline only where applicable. Archived branches and provisional layout defaults must not be promoted to canon.",
+  "sources": [
+    {
+      "path": "rules/overlays/consolidated-decisions-2026-09-26.json",
+      "sha256": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
+      "declared_status": "See source content for confirmation/provisional status"
+    },
+    {
+      "path": "rules/overlays/direct-shot-decision.json",
+      "sha256": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be",
+      "declared_status": "current_playtest_rule"
+    },
+    {
+      "path": "rules/overlays/final-showdown-decision.json",
+      "sha256": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1",
+      "declared_status": "confirmed_current_design_choice"
+    },
+    {
+      "path": "rules/overlays/location-board-layout-v1.json",
+      "sha256": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691",
+      "declared_status": "physical_layout_prototype"
+    },
+    {
+      "path": "rules/overlays/movement-decision.json",
+      "sha256": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d",
+      "declared_status": "confirmed"
+    },
+    {
+      "path": "rules/overlays/player-modes-officer.json",
+      "sha256": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19",
+      "declared_status": "playtest_configurations_not_balance_validated"
+    },
+    {
+      "path": "rules/sources/v2.1-decisions.json",
+      "sha256": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564",
+      "declared_status": "See source content for confirmation/provisional status"
+    }
+  ]
+}

@@ -1,0 +1,1180 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "declarative_scenario_specification",
+  "project": "Mothership",
+  "created_on": "2026-09-26",
+  "execution_status": "not_executed",
+  "implementation_branch": "agent/game-balance-baseline",
+  "repository_url": "https://github.com/Amirkianfar66/GameN",
+  "base_commit": null,
+  "ruleset_version": null,
+  "version_note": "Source hashes pin this handoff; pin the implementation/engine baseline and immutable approved runtime ruleset ID before execution. No scenarios have run.",
+  "source_precedence": [
+    "Latest explicit game-owner decisions recorded in repository",
+    "Confirmed current overlay fields",
+    "Unsuperseded baseline behavior",
+    "Architecture requirements for technical-contract tests only"
+  ],
+  "sources": {
+    "baseline": {
+      "path": "rules/sources/v2.1-decisions.json",
+      "sha256": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
+    },
+    "consolidated": {
+      "path": "rules/overlays/consolidated-decisions-2026-09-26.json",
+      "sha256": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5"
+    },
+    "direct_shot": {
+      "path": "rules/overlays/direct-shot-decision.json",
+      "sha256": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be"
+    },
+    "showdown": {
+      "path": "rules/overlays/final-showdown-decision.json",
+      "sha256": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1"
+    },
+    "board": {
+      "path": "rules/overlays/location-board-layout-v1.json",
+      "sha256": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691"
+    },
+    "movement": {
+      "path": "rules/overlays/movement-decision.json",
+      "sha256": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d"
+    },
+    "modes": {
+      "path": "rules/overlays/player-modes-officer.json",
+      "sha256": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19"
+    },
+    "architecture": {
+      "path": "docs/architecture/production-v1.0.md",
+      "sha256": "bfe295eeb1736b700fdf43593d05f86183589aca789a859098071bdc70e7972e"
+    }
+  },
+  "reference_syntax": "source_key#JSON_pointer for JSON sources; source_key# means the whole source document, including Markdown.",
+  "defaults": {
+    "optional_original_powers": false,
+    "hidden_state": "Server-only fixture; publish only audience-authorized projections.",
+    "initial_positions": "Explicit test inputs, not an approved initial-deal rule.",
+    "clock": "Injected server clock; avoid exact equality unless D08 is resolved.",
+    "unknown_expectations": "Do not guess, auto-approve, or count blocked entries as passed."
+  },
+  "mode_fixtures": {
+    "7": {
+      "Blue": [
+        "Insider",
+        "Cracker",
+        "Blue Disabler",
+        "Supplier"
+      ],
+      "Red": [
+        "Undercover",
+        "Hacker"
+      ],
+      "Independent": [
+        "Alien"
+      ]
+    },
+    "8": {
+      "Blue": [
+        "Insider",
+        "Cracker",
+        "Blue Disabler",
+        "Supplier"
+      ],
+      "Red": [
+        "Undercover",
+        "Hacker",
+        "Red Disabler"
+      ],
+      "Independent": [
+        "Alien"
+      ]
+    },
+    "9": {
+      "Blue": [
+        "Insider",
+        "Cracker",
+        "Blue Disabler",
+        "Supplier",
+        "Officer"
+      ],
+      "Red": [
+        "Undercover",
+        "Hacker",
+        "Red Disabler"
+      ],
+      "Independent": [
+        "Alien"
+      ]
+    }
+  },
+  "required_report_fields": [
+    "case_id",
+    "mode",
+    "ruleset_version",
+    "source_hashes",
+    "engine_commit",
+    "protocol_version",
+    "fixture_or_seed",
+    "actual_result",
+    "expected_result",
+    "pass_fail_blocked",
+    "replay_reference"
+  ],
+  "scenarios": [
+    {
+      "id": "BAL-001",
+      "title": "Exact supported role configurations",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "modes#/modes",
+        "modes#/six_player_mode"
+      ],
+      "given": [
+        "Use each role map in mode_fixtures; Original Powers disabled."
+      ],
+      "when": "Create one match in each supported mode; request a six-player match.",
+      "expected": [
+        "Exactly one unique seat per listed role; faction and total counts match the selected mode.",
+        "Officer exists only in mode 9; Red Disabler only in modes 8 and 9.",
+        "Six-player creation is not an available current configuration."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-002",
+      "title": "Code structure and order independence",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/code"
+      ],
+      "given": [
+        "Each supported mode has assigned unique player numbers."
+      ],
+      "when": "Generate Code facts; validate an exact reordered copy and a set with one wrong member.",
+      "expected": [
+        "Exactly four distinct numbers, including Alien and excluding Undercover.",
+        "The reordered exact set is correct; the wrong set is incorrect.",
+        "Do not infer a terminal victory checkpoint from validation alone."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "No uniform-selection distribution is assumed by this specification."
+    },
+    {
+      "id": "BAL-003",
+      "title": "Direct ordinary shooting without identification",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "direct_shot#/current"
+      ],
+      "given": [
+        "R4 or R5; healthy free shooter; legal unused ordinary weapon; same-location target; no immunity, defense, or movement.",
+        "Run for eligible Blue, Red and Alien shooters; include Officer in mode 9."
+      ],
+      "when": "Register and resolve a direct shot carrying only its target.",
+      "expected": [
+        "No third-player or faction-identification field is required.",
+        "A healthy target becomes Injured; an injured target becomes Eliminated.",
+        "No wrong-identification failure branch runs."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-004",
+      "title": "Ordinary and Officer round windows",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "direct_shot#/current/unchanged_requirements",
+        "modes#/officer/timing"
+      ],
+      "given": [
+        "Healthy free shooter in their own ordinary turn with a same-location target and unused legal weapon."
+      ],
+      "when": "Attempt ordinary shots in R1/R3/R4/R5; repeat with Officer in mode 9.",
+      "expected": [
+        "Ordinary weapons are unavailable in R1/R3 and available in R4/R5.",
+        "Officer may use the starting shot from R1."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Unrelated location and defense conditions remain fixed and legal."
+    },
+    {
+      "id": "BAL-005",
+      "title": "Officer lifetime ordinary-shot cap",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        9
+      ],
+      "source_refs": [
+        "modes#/officer",
+        "showdown#/options/1/shot"
+      ],
+      "given": [
+        "Mode 9 Officer has resolved the one ordinary shot.",
+        "Separately model the circumstance that Supplier makes another weapon available."
+      ],
+      "when": "Attempt another ordinary shot during an otherwise legal own turn.",
+      "expected": [
+        "No second ordinary shot can be accepted/resolved during the match.",
+        "Supplier cannot bypass the Officer cap.",
+        "The separate showdown-shot exception is covered by BAL-020."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "This does not decide whether Supplier may select Officer as a recipient or how an unusable grant is represented."
+    },
+    {
+      "id": "BAL-006",
+      "title": "Ordinary shooting eligibility and Command immunity",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/health_and_status",
+        "baseline#/locations/special_access",
+        "direct_shot#/current"
+      ],
+      "given": [
+        "Single ordinary shot; no optional powers."
+      ],
+      "when": "Try to register while Injured, Jailed, or Eliminated; separately target a player currently in Command Room.",
+      "expected": [
+        "An ineligible shooter cannot register an ordinary shot.",
+        "A player inside Command Room cannot be targeted by ordinary shots.",
+        "No rejected request causes damage."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-007",
+      "title": "Actor status does not discard valid registration",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "consolidated#/registered_action"
+      ],
+      "given": [
+        "An action was valid when registered."
+      ],
+      "when": "Before its scheduled stage change the actor to Injured, Jailed, or Eliminated.",
+      "expected": [
+        "Do not remove or cancel the action solely because of the actor status change.",
+        "Resolve at its scheduled stage subject to applicable target defenses and confirmed conditions."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "The final hit outcome with relocation is blocked by D04; this case asserts queue retention, not invented location semantics."
+    },
+    {
+      "id": "BAL-008",
+      "title": "Voluntary movement quota and phase",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "movement#"
+      ],
+      "given": [
+        "Healthy free player in A/B with one remaining movement this round."
+      ],
+      "when": "Move once before voting, then request a second move; request movement after voting starts; separately request voluntary departure from Hospital/Jail.",
+      "expected": [
+        "One A/B move is allowed before voting; a second in the same round is rejected.",
+        "Voluntary movement is unavailable after voting starts.",
+        "Hospital/Jail do not allow voluntary departure."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-009",
+      "title": "Captain title after leaving Command",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "movement#/captain_after_leaving",
+        "movement#/one_move_implication",
+        "movement#/command_room_immunity"
+      ],
+      "given": [
+        "Healthy free Captain in Command with an available movement; use an approved fixture destination."
+      ],
+      "when": "Leave Command; request return during the same round.",
+      "expected": [
+        "Leaving alone preserves Captain status.",
+        "Command immunity is absent outside the room.",
+        "The same-round return is unavailable because movement is spent."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "A/B adjacency and later return route require D02; this case does not choose a route."
+    },
+    {
+      "id": "BAL-010",
+      "title": "Self-Protection and delayed activation",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "consolidated#/undercover_protection",
+        "baseline#/roles/Undercover/protection"
+      ],
+      "given": [
+        "Undercover has never received Protection; legal self-grant in R3."
+      ],
+      "when": "Grant Protection to self and advance to the next normal round.",
+      "expected": [
+        "Self-targeting is valid.",
+        "The new instance does not block an attack in the grant round.",
+        "It becomes active at the start of R4."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Who learns the grant is separate from internal engine state and remains D09."
+    },
+    {
+      "id": "BAL-011",
+      "title": "Protection lifetime receipt limit",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "consolidated#/undercover_protection"
+      ],
+      "given": [
+        "A player has already received one Protection, whether pending, active, or consumed."
+      ],
+      "when": "Request a second grant to that same player.",
+      "expected": [
+        "No second Protection is granted in any of those states.",
+        "Self-targeting does not bypass the lifetime limit."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-012",
+      "title": "Active Protection blocks once",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/protection",
+        "direct_shot#/current"
+      ],
+      "given": [
+        "Healthy stationary target has active Protection at R4 start; one legal ordinary attack in R4 and a separate one in R5.",
+        "No other effects apply."
+      ],
+      "when": "Resolve the attacks in their separate rounds.",
+      "expected": [
+        "R4 attack deals no damage; Protection and attack resource are consumed.",
+        "R5 attack is not blocked by the consumed instance and makes the healthy target Injured."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Separate rounds avoid assuming an unresolved order among competing normal-stage attacks."
+    },
+    {
+      "id": "BAL-013",
+      "title": "Jail vote threshold and Protection bypass",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/jail_voting",
+        "baseline#/health_and_status/jail"
+      ],
+      "given": [
+        "All 7/8/9 players are eligible voters at voting start; protected target; no optional powers."
+      ],
+      "when": "Apply unique-top votes of 4/4/5 respectively; also test one less and an 8-player 4\u20134 tie.",
+      "expected": [
+        "The unique target meets the threshold at 4/7, 4/8 or 5/9 and is Jailed without damage.",
+        "One vote below those counts is insufficient; 4\u20134 tie jails nobody.",
+        "Protection is neither a veto nor consumed by the vote.",
+        "The denominator is eligible voters, not ballots cast."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-014",
+      "title": "Cracker self-rescue and irreversible elimination",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/roles/Cracker",
+        "baseline#/health_and_status",
+        "consolidated#/end_of_round_order"
+      ],
+      "given": [
+        "Injured, non-jailed Cracker has an unused rescue.",
+        "Separate case: a validly registered rescue target becomes Eliminated during the preceding damage stage."
+      ],
+      "when": "Resolve Rescue.",
+      "expected": [
+        "Injured Cracker may self-rescue without an optional power and becomes Healthy.",
+        "Rescue cannot revive an Eliminated target.",
+        "A heal never removes Jail."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Hospital exit and cross-room access are blocked separately; this case does not relocate the healed player."
+    },
+    {
+      "id": "BAL-015",
+      "title": "Hacker Scan use and information",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/roles/Hacker/scan"
+      ],
+      "given": [
+        "Healthy free Hacker; same-location legal target, no Command immunity."
+      ],
+      "when": "Submit an incorrect faction guess; retry a scan in that round; compare with a correct-guess fixture.",
+      "expected": [
+        "Incorrect guess reveals no Code information and consumes that round scan.",
+        "No second scan is available that round.",
+        "Correct guess returns only membership in the unordered Code, not a position."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-016",
+      "title": "One Code attempt in Round 5",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "consolidated#/hacker_round_5_code",
+        "baseline#/code/submission",
+        "baseline#/health_and_status"
+      ],
+      "given": [
+        "Hacker is non-eliminated; vary Healthy, Injured, and Jailed states."
+      ],
+      "when": "Submit during R5, then attempt again; separately try before R5, as a non-Hacker, and after Hacker elimination.",
+      "expected": [
+        "One attempt is allowed during R5 despite Injury/Jail.",
+        "A second attempt is unavailable even after an incorrect Code.",
+        "Other roles and eliminated Hacker cannot submit; ability is not inherited.",
+        "No submission is accepted in R4."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Use times clearly inside each phase, not exact boundary races. Terminal result timing remains D06."
+    },
+    {
+      "id": "BAL-017",
+      "title": "Ordinary turn and additional Hack time",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "consolidated#/turn_timing"
+      ],
+      "given": [
+        "Eligible player requests Hack well within the ordinary minute; cap and target conditions satisfied."
+      ],
+      "when": "Advance the controlled clock through the ordinary turn and the conversation.",
+      "expected": [
+        "Ordinary turn lasts 60 seconds shared by speaking/action.",
+        "Hack conversation starts after it and lasts another 60 seconds.",
+        "The next ordinary player turn follows that conversation.",
+        "A request made clearly after the ordinary minute cannot start its Hack."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Exact equality and network/commit race behavior require D08; use well-separated timestamps here."
+    },
+    {
+      "id": "BAL-018",
+      "title": "Hack caps and disclosure rule",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_and_product_contract",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "baseline#/standard_hack",
+        "consolidated#/round_5_standard_hack"
+      ],
+      "given": [
+        "Eligible same-location participants; no optional powers."
+      ],
+      "when": "Attempt a second personal initiation and a third conversation in one round; inspect the R5 player instructions.",
+      "expected": [
+        "Each player initiates at most once per match; a round contains at most two conversations.",
+        "R5 instructions retain the content embargo through game end.",
+        "No ordinary private messaging channel is added."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Human truthfulness and spoken embargo compliance cannot be proved by automated tests."
+    },
+    {
+      "id": "BAL-019",
+      "title": "Conditional showdown trigger",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "showdown#/trigger"
+      ],
+      "given": [
+        "Normal R5 effects and the normal victory check have completed."
+      ],
+      "when": "Compare a fixture with a determined winner to one where none applies.",
+      "expected": [
+        "A determined winner ends the match without showdown.",
+        "No winner triggers one final showdown, not R6 or indefinite rounds."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-020",
+      "title": "Showdown participants and independent ammunition",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "showdown#/options/1",
+        "showdown#/shared_location"
+      ],
+      "given": [
+        "No winner after R5; include healthy, injured, jailed, eliminated players, and a spent Officer in mode 9."
+      ],
+      "when": "Enter showdown.",
+      "expected": [
+        "Every non-eliminated participant transfers to Final Zone, including Injured/Jailed.",
+        "Each receives one special one-damage shot regardless of prior ordinary weapons.",
+        "Eliminated players receive none.",
+        "Forced placement does not spend voluntary movement.",
+        "A spent Officer receives this separate shot."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ]
+    },
+    {
+      "id": "BAL-021",
+      "title": "Showdown order and eliminated shooter",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "showdown#/shot_resolution"
+      ],
+      "given": [
+        "Targets are all secretly registered before resolution.",
+        "In R5 order: A targets injured B; B targets healthy C; C targets healthy A. No defenses apply."
+      ],
+      "when": "Resolve A, then B, then C.",
+      "expected": [
+        "A eliminates B.",
+        "B still deals one damage to C despite B elimination.",
+        "C deals one damage to A.",
+        "The sequence follows R5 order, independent of registration arrival."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "This constructed sequence never targets a player already eliminated by an earlier shot."
+    },
+    {
+      "id": "BAL-022",
+      "title": "Showdown Protection and loss of room immunity",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "showdown#/options/1/captain",
+        "showdown#/shot_resolution/protection"
+      ],
+      "given": [
+        "Captain was in Command and is forced to Final Zone; active Protection present in one fixture and absent in another."
+      ],
+      "when": "Resolve the first legal special shot at Captain.",
+      "expected": [
+        "Being Captain gives no Command Room immunity in Final Zone.",
+        "Existing active Protection blocks and is consumed in the protected fixture.",
+        "Without it the special shot deals one damage."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "No optional-power interaction or newly granted R5 Protection activation is introduced."
+    },
+    {
+      "id": "BAL-023",
+      "title": "Showdown terminal checkpoint",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "rules_correctness",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "showdown#/terminal_result",
+        "baseline#/victory"
+      ],
+      "given": [
+        "All registered special shots have resolved.",
+        "Use separate snapshots: clearly satisfied Blue elimination victory; clearly satisfied Red elimination victory; no existing winner."
+      ],
+      "when": "Evaluate the final result.",
+      "expected": [
+        "Apply the existing faction victory rules only after all special shots finish.",
+        "If none applies the terminal result is Draw.",
+        "Do not start another showdown or normal round."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Alien solo fixtures additionally need evidence for the baseline simultaneous-elimination condition; do not infer simultaneity from survivor counts alone."
+    },
+    {
+      "id": "BAL-024",
+      "title": "Hidden actions do not leak through the table",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "privacy_integration",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "board#/physical_information",
+        "baseline#/player_setup/elimination_reveal",
+        "consolidated#/round_5_standard_hack",
+        "architecture#"
+      ],
+      "given": [
+        "Authoritative state contains roles, Code, weapons, Protection and hidden registered targets."
+      ],
+      "when": "Register a private action; inspect public documents/events and rendered table data.",
+      "expected": [
+        "Public views do not expose role, Code, weapons, Protection or private target queues before authorized disclosure.",
+        "No unrelated public sequence/timestamp changes reveal a secret registration.",
+        "Elimination faction reveal respects its public-phase timing; exact role/power waits until game end."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "Architecture supplies side-channel constraints; positive private-recipient visibility is pending D09."
+    },
+    {
+      "id": "BAL-025",
+      "title": "Retry, replay and reconnect integrity",
+      "status": "ready_for_implementation",
+      "executed": false,
+      "kind": "technical_contract",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "source_refs": [
+        "consolidated#/registered_action",
+        "modes#/officer/shot_limit",
+        "architecture#"
+      ],
+      "given": [
+        "Pinned engine/ruleset; recorded deterministic random facts; approved command IDs and view contracts."
+      ],
+      "when": "Replay a fixture; resend the same accepted command; reconnect the same seat; deliver an obsolete phase task.",
+      "expected": [
+        "Replay produces the same authoritative result.",
+        "One command causes one effect and at most one resource spend.",
+        "Reconnect preserves role, resources and seat.",
+        "An obsolete phase task does not advance the current phase."
+      ],
+      "evidence": [
+        "Pinned source and build versions",
+        "Fixture and command sequence",
+        "Expected versus observed state/events"
+      ],
+      "limits": "These are architecture requirements, not additional game rules. Backend owns transaction and scheduler integration tests."
+    },
+    {
+      "id": "BAL-101",
+      "title": "Initial assignment and exit transfers",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D01"
+      ],
+      "source_refs": [
+        "board#/open_board_decisions",
+        "baseline#/locations/assignment_rules"
+      ],
+      "given": [
+        "Match start, a healed Hospital player, and a successful Jail release."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-102",
+      "title": "Captain routes and deferred candidate failure",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D02"
+      ],
+      "source_refs": [
+        "board#/layout_proposal",
+        "consolidated#/captain_candidate_question"
+      ],
+      "given": [
+        "Captain requests Command from A/B; separately an election has no healthy free candidate."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-103",
+      "title": "Cracker Hospital access",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D03"
+      ],
+      "source_refs": [
+        "baseline#/locations/special_access",
+        "baseline#/roles/Cracker"
+      ],
+      "given": [
+        "Healthy Cracker in A; injured target in Hospital; role remains secret."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-104",
+      "title": "Location changes after valid registration",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D04"
+      ],
+      "source_refs": [
+        "consolidated#/registered_action",
+        "baseline#/locations/same_location_target_rule"
+      ],
+      "given": [
+        "Valid action registered with actor and target together; later one moves or is sent to Jail."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-105",
+      "title": "Normal-stage competing effect precedence",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D05"
+      ],
+      "source_refs": [
+        "consolidated#/end_of_round_order",
+        "baseline#/protection"
+      ],
+      "given": [
+        "Several attacks and defenses compete in the same normal-round resolution stage."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-106",
+      "title": "Code victory timing with changed health",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D06"
+      ],
+      "source_refs": [
+        "consolidated#/hacker_round_5_code",
+        "baseline#/victory"
+      ],
+      "given": [
+        "Correct Code submitted mid-R5; actual healthy Red membership changes before end-round resolution."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-107",
+      "title": "Vote and showdown incomplete submissions",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D07"
+      ],
+      "source_refs": [
+        "baseline#/jail_voting",
+        "showdown#/shot_resolution"
+      ],
+      "given": [
+        "Voting/showdown deadline approached without all submissions; a later shot targets someone eliminated by an earlier shot."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-108",
+      "title": "Exact timer boundary and disconnect policy",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D08"
+      ],
+      "source_refs": [
+        "consolidated#/turn_timing"
+      ],
+      "given": [
+        "A request races the exact server deadline; active player disconnects during turn or Hack."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-109",
+      "title": "Private disclosure recipients",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D09"
+      ],
+      "source_refs": [
+        "baseline#/protection",
+        "baseline#/roles/Undercover/protection"
+      ],
+      "given": [
+        "Protection is granted/consumed; determine precisely which players receive which feedback and when."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    },
+    {
+      "id": "BAL-110",
+      "title": "Optional-power modes and special-shot interactions",
+      "status": "blocked_rule_decision",
+      "executed": false,
+      "kind": "decision_boundary",
+      "modes": [
+        7,
+        8,
+        9
+      ],
+      "decision_ids": [
+        "D10"
+      ],
+      "source_refs": [
+        "baseline#/optional_original_power_pack",
+        "showdown#/shot_resolution"
+      ],
+      "given": [
+        "Enable powers in mode 7 or 9; an owner has Heavy Shot or Silencer during showdown."
+      ],
+      "expected": null,
+      "unblock_requirement": "Record an explicit game-owner decision, version the ruleset, then add expected results and fixtures.",
+      "evidence": [
+        "Source conflict or missing rule",
+        "Approved decision reference when resolved"
+      ]
+    }
+  ],
+  "human_evidence_required": [
+    "Separate current direct-shot cohorts for 7/8/9 modes",
+    "Sample counts, group counts, uncertainty and exclusions",
+    "Restricted post-match telemetry defined in agents/game-balance.md",
+    "No conversion of random-agent success rates into human balance claims"
+  ]
+}

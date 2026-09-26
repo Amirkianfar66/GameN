@@ -1,0 +1,43 @@
+{
+  "status": "drafts_not_published",
+  "repository_full_name": "Amirkianfar66/GameN",
+  "issues": [
+    {
+      "key": "backend",
+      "title": "Server-authoritative match slice and command contract",
+      "branch": "agent/backend-foundation",
+      "brief": "agents/backend.md",
+      "specification": "docs/backend/first-slice.md",
+      "assignees": [],
+      "body": "## Outcome\n\nServer-authoritative match slice and command contract.\n\n## Assignment\n\n- Workstream: backend\n- Branch: `agent/backend-foundation`\n- Brief: `agents/backend.md`\n- Specification: `docs/backend/first-slice.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Draft command, receipt, per-audience projection and deadline contracts for integration review.\n- [ ] Implement the pure engine and Firebase adapter for the approved nine-seat Officer/Protection fixture.\n- [ ] Prove idempotency, private/public boundaries, phase deadlines and reconnect recovery with executable evidence.\n\n## Dependencies\n\n- Shared contracts reviewed by Frontend and Game Balance.\n- Exact private-disclosure and relevant resolution semantics settled for the chosen fixture.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+    },
+    {
+      "key": "frontend",
+      "title": "Player UI and Three.js board evaluation slice",
+      "branch": "agent/frontend-tabletop",
+      "brief": "agents/frontend.md",
+      "specification": "docs/frontend/first-slice.md",
+      "assignees": [],
+      "body": "## Outcome\n\nPlayer UI and Three.js board evaluation slice.\n\n## Assignment\n\n- Workstream: frontend\n- Branch: `agent/frontend-tabletop`\n- Brief: `agents/frontend.md`\n- Specification: `docs/frontend/first-slice.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Build accessible English player/table shells and the authorized snapshot adapter.\n- [ ] Evaluate one Three.js/R3F 2.5D board with Designer tokens and labeled fixtures.\n- [ ] Integrate registration/receipt/reconnect/deadline flows and attach measured device evidence.\n\n- [ ] Implement the comic motion fixture gallery and authorized-event director from `docs/design/motion-direction.md`, including reduced-motion, retry/reconnect and deadline behavior.\n\n## Dependencies\n\n- Approved command/projection/receipt contracts from Backend.\n- Versioned visual tokens and card/board states from Designer.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+    },
+    {
+      "key": "designer",
+      "title": "Comic visual system and interaction handoff",
+      "branch": "agent/designer-art-direction",
+      "brief": "agents/designer.md",
+      "specification": "docs/design/art-direction.md",
+      "assignees": [],
+      "body": "## Outcome\n\nComic visual system and interaction handoff.\n\n## Assignment\n\n- Workstream: designer\n- Branch: `agent/designer-art-direction`\n- Brief: `agents/designer.md`\n- Specification: `docs/design/art-direction.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Develop the comic card/board visual system and responsive interaction states.\n- [ ] Deliver versioned design tokens and one production-direction card/board asset treatment.\n- [ ] Review readability, reduced motion and audience-safe animation/audio with Frontend.\n\n- [ ] Deliver comic motion storyboards, layered cue assets and reduced-motion variants from `docs/design/motion-direction.md`.\n\n## Dependencies\n\n- Approved disclosure vocabulary and public/private UI boundaries.\n- Frontend asset/renderer integration contract.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+    },
+    {
+      "key": "game-balance",
+      "title": "Canon audit and comparative 7/8/9 test baseline",
+      "branch": "agent/game-balance-baseline",
+      "brief": "agents/game-balance.md",
+      "specification": "docs/balance/rules-audit.md",
+      "assignees": [],
+      "body": "## Outcome\n\nCanon audit and comparative 7/8/9 test baseline.\n\n## Assignment\n\n- Workstream: game-balance\n- Branch: `agent/game-balance-baseline`\n- Brief: `agents/game-balance.md`\n- Specification: `docs/balance/rules-audit.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Resolve source precedence into an evidence-linked rule audit without silently changing canon.\n- [ ] Define executable scenario expectations, keeping unresolved results explicitly blocked.\n- [ ] Prepare separate 7/8/9 playtest protocols, telemetry and uncertainty reporting.\n\n## Dependencies\n\n- Game-owner decisions for blocked rules.\n- Engine scenario adapter and sanitized post-match telemetry from Backend.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+    }
+  ],
+  "repository_visibility_at_import": "public"
+}

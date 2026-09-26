@@ -1,0 +1,41 @@
+name: Agent work package
+description: A scoped Mothership task with explicit ownership and acceptance criteria.
+title: "[Agent] "
+body:
+  - type: dropdown
+    id: workstream
+    attributes:
+      label: Workstream
+      options:
+        - Backend
+        - Frontend
+        - Designer
+        - Game Balance
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Required outcome
+      description: Describe one reviewable result and its purpose.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Ownership and dependencies
+      description: Include owned paths, shared-contract dependencies, base commit and ruleset.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: State observable checks and unresolved decisions; do not invent expected outcomes.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Source references
+      description: Link the role brief, rule decisions, designs and related work packages.

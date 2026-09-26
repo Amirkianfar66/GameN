@@ -1,0 +1,21 @@
+{
+  "status": "playtest_configurations_not_balance_validated",
+  "supported_player_counts_for_testing": [7, 8, 9],
+  "six_player_mode": "Removed from the current design.",
+  "modes": {
+    "7": {"blue": 4, "red": 2, "alien": 1, "blue_roles": ["Insider", "Cracker", "Blue Disabler", "Supplier"], "red_roles": ["Undercover", "Hacker"]},
+    "8": {"blue": 4, "red": 3, "alien": 1, "blue_roles": ["Insider", "Cracker", "Blue Disabler", "Supplier"], "red_roles": ["Undercover", "Hacker", "Red Disabler"]},
+    "9": {"blue": 5, "red": 3, "alien": 1, "blue_roles": ["Insider", "Cracker", "Blue Disabler", "Supplier", "Officer"], "red_roles": ["Undercover", "Hacker", "Red Disabler"]}
+  },
+  "officer": {
+    "team": "Blue",
+    "availability": "Only in the 9-player setup.",
+    "starting_weapon": "Begins the match with one usable shot.",
+    "shot_limit": "One shot total during the match.",
+    "timing": "May use the shot from Round 1 onward during the Officer's own ordinary turn.",
+    "no_identification": "No faction guess or identification of a third player is required; choose only a target.",
+    "ordinary_shot_baseline": "Treat as a one-damage shot under existing same-location, health, Jail, Command Room, and defensive rules, with explicit exceptions for early timing and identification.",
+    "no_extra_shot_from_supplier": "The Officer's one-shot-per-match limit remains even if a second weapon becomes available."
+  },
+  "balance_test_note": "Record Officer shot timing, target's actual faction, protection, hit outcome, and the eventual winner separately in every 9-player playtest."
+}

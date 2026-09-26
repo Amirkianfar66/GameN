@@ -1,0 +1,20 @@
+{
+  "status": "physical_layout_prototype",
+  "format": "A3 landscape, vector SVG, 420 x 297 mm",
+  "artifact": "/mothership-location-board-v1.svg",
+  "public_zones": ["Room A", "Room B", "Command Room", "Hospital", "Jail", "conditional Final Zone"],
+  "confirmed_topology": {
+    "room_a_room_b": "Direct movement, once per eligible player per round before voting begins.",
+    "command_room": "Only Captain may enter; immunity applies while inside. Captain keeps title after leaving.",
+    "hospital_jail": "No voluntary movement from either space.",
+    "final_zone": "After the Round 5 victory check, only if no winner, all non-eliminated players transfer here for the one-stage showdown. This transfer is not a voluntary move."
+  },
+  "physical_information": "Use neutral numbered player tokens and a public Captain marker. Never encode secret faction, exact role, weapon, Code, or Protection on the board.",
+  "layout_proposal": "The two dotted paths from Room A and Room B to Command Room illustrate possible Captain access, not a finalized adjacency decision.",
+  "open_board_decisions": [
+    "Where does a healed player leave Hospital after recovering?",
+    "Where does a released player leave Jail after the release vote?",
+    "May Captain enter Command Room directly from both Room A and Room B?"
+  ],
+  "capacity_note": "Unnumbered token areas avoid imposing an artificial room-capacity rule."
+}

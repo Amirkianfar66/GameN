@@ -1,0 +1,609 @@
+{
+  "project": {
+    "name_fa": "سفینه مادر",
+    "name_en": "Mothership",
+    "document_type": "game_design_decisions",
+    "version": "2.1",
+    "status": "playtest_draft",
+    "generated_on": "2026-09-26",
+    "purpose": "Structured record of confirmed rules, design explanations, superseded rules, and open questions."
+  },
+  "design_vision": {
+    "format": "Hybrid tabletop/card/mobile social deduction game",
+    "core_principles": [
+      "Face-to-face discussion is the main activity.",
+      "Physical cards and a physical table/board are part of the experience.",
+      "Phones handle secret information, hidden actions, validation, and rule resolution.",
+      "The game has no ordinary private messaging/chat.",
+      "Standard Hack and optional Private Link are the only private interactions.",
+      "The base game must work without Original Powers.",
+      "The game is round-based and has no match-wide countdown."
+    ]
+  },
+  "player_setup": {
+    "player_count": 8,
+    "teams": {
+      "Blue": 4,
+      "Red": 3,
+      "Alien": 1
+    },
+    "roles": {
+      "Blue": [
+        "Insider",
+        "Cracker",
+        "Blue Disabler",
+        "Supplier"
+      ],
+      "Red": [
+        "Undercover",
+        "Hacker",
+        "Red Disabler"
+      ],
+      "Independent": [
+        "Alien"
+      ]
+    },
+    "physical_components": [
+      "Hidden role cards",
+      "Player number / seat cards",
+      "Optional Original Power cards",
+      "Location board / zones"
+    ],
+    "elimination_reveal": {
+      "timing": "At the next public phase after elimination",
+      "reveal": "Faction only: Blue / Red / Alien",
+      "do_not_reveal_until_game_end": [
+        "Exact role",
+        "Original Power card"
+      ],
+      "note": "Alien faction effectively reveals the Alien role because Alien is unique."
+    }
+  },
+  "round_structure": {
+    "normal_rounds": 5,
+    "final_round": 5,
+    "round_6": {
+      "exists": false,
+      "status": "removed"
+    },
+    "turn_order": {
+      "method": "Randomized at the start of each normal round",
+      "confirmed": true
+    },
+    "player_turn": {
+      "sequence": [
+        "Public speaking",
+        "Optional Standard Hack immediately after speaking",
+        "Main Action and/or Shot if permitted",
+        "Next player"
+      ],
+      "formula": "Talk -> Standard Hack -> Action / Shot -> Next Player",
+      "notes": [
+        "Main Action, Shot, and Standard Hack are independent opportunities; they are not collapsed into one total action.",
+        "Standard Hack cannot be postponed until the end of the turn.",
+        "Exact duration of a player turn is not finalized in v2.1."
+      ]
+    }
+  },
+  "health_and_status": {
+    "health_states": [
+      "Healthy",
+      "Injured",
+      "Eliminated"
+    ],
+    "damage_rules": {
+      "Healthy_plus_1_damage": "Injured",
+      "Injured_plus_1_damage": "Eliminated",
+      "Eliminated": "Irreversible"
+    },
+    "injury": {
+      "persistent": true,
+      "automatic_degradation_over_time": false,
+      "permissions": {
+        "can_speak": true,
+        "can_vote": true,
+        "can_participate_in_standard_hack": true,
+        "can_submit_code_if_hacker_in_round_5": true,
+        "can_use_ordinary_main_action": false,
+        "can_shoot": false,
+        "power_contribution": 0
+      },
+      "exceptions": [
+        "Cracker may self-rescue while Injured without Emergency Override.",
+        "Emergency Override may allow one otherwise-valid role Main Action while Injured."
+      ]
+    },
+    "jail": {
+      "is_separate_from_health": true,
+      "health_is_preserved_under_jail": true,
+      "permissions_while_jailed": {
+        "can_speak": true,
+        "can_vote": true,
+        "can_standard_hack_if_other_rules_allow": true,
+        "hacker_can_submit_code_if_applicable": true,
+        "can_main_action": false,
+        "can_shoot": false,
+        "power_contribution": 0
+      },
+      "rescue_or_heal_does_not_release_jail": true,
+      "public_status": true
+    }
+  },
+  "locations": {
+    "locations": [
+      "Room A",
+      "Room B",
+      "Hospital",
+      "Jail",
+      "Command Room"
+    ],
+    "assignment_rules": {
+      "Healthy_non_captain": "May occupy Room A or Room B",
+      "Injured": "Moves to Hospital at the end of the round",
+      "Jailed": "Confined to Jail",
+      "Captain": "Occupies Command Room"
+    },
+    "movement": {
+      "room_a_room_b": "Active/Healthy non-Captain players may move between Room A and Room B",
+      "exact_timing": "OPEN",
+      "frequency_per_round": "OPEN"
+    },
+    "same_location_target_rule": {
+      "rule": "A direct action targeting another player requires actor and target to be in the same location unless an explicit exception says otherwise.",
+      "confirmed_for": [
+        "Standard Hack",
+        "Hacker Scan",
+        "Blue Disabler",
+        "Red Disabler",
+        "Cracker Rescue",
+        "Undercover Protection",
+        "Supplier weapon distribution",
+        "Ordinary Shot",
+        "Heavy Shot",
+        "Final Collision"
+      ],
+      "not_location_gated": [
+        "Code submission",
+        "Captain election",
+        "Jail vote",
+        "Jail release vote",
+        "Movement",
+        "Reinforced Systems",
+        "Silencer",
+        "Emergency Override",
+        "Initial secret information"
+      ]
+    },
+    "special_access": {
+      "Cracker": "Has access to Hospital for Rescue.",
+      "Command Room": "Protected from all actions and shots; players inside cannot be targeted by those effects."
+    }
+  },
+  "captain": {
+    "first_election": "End of Round 1",
+    "election_method": {
+      "type": "Simple plurality",
+      "requires_50_percent": false,
+      "tie_rule": "Immediate runoff among tied candidates; repeat until one candidate has the highest vote."
+    },
+    "candidate_eligibility": [
+      "Healthy",
+      "Free / not Jailed",
+      "Not Eliminated"
+    ],
+    "loss_of_role": [
+      "Captain immediately loses Captain status if Injured.",
+      "Captain immediately loses Captain status if Jailed.",
+      "Captain obviously loses the role if Eliminated."
+    ],
+    "replacement_timing": "No mid-round replacement; if a new Captain is needed, election is held at the start of the next round.",
+    "multiple_events_same_round": "Only one Captain election is needed at the start of the next round.",
+    "automatic_self_protection": {
+      "exists": false,
+      "status": "removed"
+    },
+    "location": "Command Room",
+    "jail_release_authority": "Only the current Captain may initiate the match-wide jail release request."
+  },
+  "jail_voting": {
+    "normal_vote_effect": "Successful vote sends a player to Jail; it does not deal damage or eliminate.",
+    "success_conditions": [
+      "There must be a unique top-vote getter.",
+      "The top-vote getter must receive at least 50% of all players eligible to vote at the start of voting.",
+      "Exactly 50% is sufficient.",
+      "If tied for top votes, nobody is jailed."
+    ],
+    "denominator": "All eligible voters, not votes cast.",
+    "protection_does_not_affect_vote": true,
+    "reinforced_does_not_affect_vote": true,
+    "release_request": {
+      "uses_per_match": 1,
+      "initiator": "Captain only",
+      "timing": "At the start of the normal-round voting phase",
+      "sequence_if_used": [
+        "Release vote",
+        "Normal jail vote"
+      ],
+      "threshold": "At least 50% of all eligible voters; exactly 50% is sufficient.",
+      "jailed_player_cannot_initiate_own_release": true,
+      "failed_request_consumes_match_wide_opportunity": true
+    }
+  },
+  "standard_hack": {
+    "personal_initiations_per_match": 1,
+    "maximum_conversations_per_round": 2,
+    "request_timing": "Only during the player's own turn, immediately after public speaking.",
+    "question_format": "Yes / No",
+    "truth_rule": {
+      "normal_players": "Must tell the truth",
+      "Undercover": "May lie",
+      "Alien": "May lie"
+    },
+    "same_location_required": true,
+    "content_embargo": "Both participants may not discuss or reveal the content of that Hack during the same round. They may discuss it starting next round.",
+    "ordinary_private_messaging": false,
+    "note": "Because Round 5 is final, a Hack performed in Round 5 currently cannot be discussed before the game ends unless this rule is changed."
+  },
+  "code": {
+    "format": "Unordered set",
+    "size": 4,
+    "distinct_player_numbers": true,
+    "order_matters": false,
+    "alien_number_always_included": true,
+    "undercover_number_always_excluded": true,
+    "remaining_three_numbers": "Selected from the remaining players",
+    "known_by_alien_from_start": true,
+    "submission": {
+      "only_hacker_can_submit": true,
+      "deadline": "End of Round 5",
+      "permutation_of_same_four_numbers_is_correct": true,
+      "inheritance_if_hacker_eliminated": false
+    }
+  },
+  "roles": {
+    "Insider": {
+      "team": "Blue",
+      "ability": "At game start receives the unordered set of three players who are Undercover, Alien, and Cracker, without knowing which is which.",
+      "status": "unchanged"
+    },
+    "Cracker": {
+      "team": "Blue",
+      "rescues_per_match": 2,
+      "main_action": "Targets one player; at end of round, if target is Injured, target becomes Healthy.",
+      "cannot_revive_eliminated": true,
+      "injured_self_rescue_exception": true,
+      "injured_rescue_others": "Requires Emergency Override if that optional power is available and used.",
+      "hospital_access": true,
+      "same_location_required_for_targeting": true
+    },
+    "Blue_Disabler": {
+      "team": "Blue",
+      "uses_per_match": 1,
+      "hidden_main_action": true,
+      "effect": {
+        "Healthy_target": "Injured",
+        "Injured_target": "Eliminated"
+      },
+      "same_location_required": true
+    },
+    "Supplier": {
+      "team": "Blue",
+      "round": 3,
+      "main_action": "Selects two distinct recipients; each receives one ordinary weapon usable in Round 4 or 5.",
+      "same_location_required_for_distribution": true
+    },
+    "Undercover": {
+      "team": "Red",
+      "can_lie_in_standard_hack": true,
+      "excluded_from_code": true,
+      "protection": {
+        "main_action": "Targets a Healthy or Injured player.",
+        "activation": "Automatically becomes active at the start of the next normal round.",
+        "manual_activation_required": false,
+        "same_location_required_when_granted": true
+      },
+      "weapon": {
+        "ordinary_weapon_count": 1,
+        "uses_ordinary_shot_identification_rules": true
+      }
+    },
+    "Hacker": {
+      "team": "Red",
+      "starting_knowledge": "Knows only who Undercover is and therefore knows that player's number is excluded from Code.",
+      "scan": {
+        "uses_per_round": 1,
+        "can_target_self": true,
+        "can_target_undercover": true,
+        "same_location_required_for_other_player_target": true,
+        "input": [
+          "Target player",
+          "Guessed faction: Blue / Red / Purple(Alien)"
+        ],
+        "wrong_faction_guess": "Scan fails, reveals no Code information, and the round's Scan is consumed.",
+        "correct_faction_guess": "App reveals only whether the target's number is in the unordered Code set.",
+        "no_position_information": true
+      },
+      "removed_old_mechanics": [
+        "Bonus scan",
+        "Position test",
+        "Steal hack",
+        "Scan transfer",
+        "Knowledge of own Green/Red state"
+      ],
+      "code_submission": {
+        "only_hacker": true,
+        "deadline": "End of Round 5",
+        "inheritance": false
+      }
+    },
+    "Red_Disabler": {
+      "team": "Red",
+      "uses_per_match": 1,
+      "hidden_main_action": true,
+      "effect": {
+        "Healthy_target": "Injured",
+        "Injured_target": "Eliminated"
+      },
+      "ordinary_weapon": false,
+      "same_location_required": true
+    },
+    "Alien": {
+      "team": "Independent",
+      "knows_full_code_from_start": true,
+      "can_lie_in_standard_hack": true,
+      "ordinary_private_messaging": false,
+      "ordinary_shot_identification_rule": "Must correctly identify one Red player, then shoot a different player.",
+      "blue_power_bonus_if_healthy": 1
+    }
+  },
+  "ordinary_shot": {
+    "combat_rounds": [
+      4,
+      5
+    ],
+    "identification_rule": {
+      "Blue_shooter": "Must correctly identify one Red player.",
+      "Red_shooter": "Must correctly identify one Blue player.",
+      "Alien_shooter": "Must correctly identify one Red player."
+    },
+    "three_distinct_people_required": [
+      "Shooter",
+      "Identified player",
+      "Shot target"
+    ],
+    "target_faction_guess_required": false,
+    "identified_player_must_not_be_eliminated_or_officially_faction_revealed": true,
+    "same_location_required_for_shot_target": true,
+    "validation_order": [
+      "Validate faction identification.",
+      "If wrong: Shot fails, attack resources are consumed, target Protection is not consumed, and Silencer does not trigger.",
+      "If correct: attack becomes valid; then Protection / Silencer / damage resolution applies."
+    ]
+  },
+  "protection": {
+    "sources": [
+      "Undercover Main Action only"
+    ],
+    "captain_protection": "removed",
+    "activation": "Undercover Protection activates automatically at the start of the next normal round.",
+    "blocks_first_valid_applicable_attack": true,
+    "applicable_to": [
+      "Ordinary Shot",
+      "Heavy Shot",
+      "Disabler",
+      "Final Collision"
+    ],
+    "does_not_block": [
+      "Vote / Jail",
+      "Standard Hack",
+      "Hacker Scan",
+      "Captain election",
+      "Jail release vote"
+    ],
+    "on_block": "The effect is canceled and both the Protection instance and all attack resources are consumed.",
+    "hidden": true,
+    "public_block_event_may_be_known": true
+  },
+  "optional_original_power_pack": {
+    "optional": true,
+    "base_game_requires_it": false,
+    "deal_rule_if_enabled": "All 8 players receive exactly one Original Power card before Role cards; duplicate powers are allowed.",
+    "powers": {
+      "Heavy_Shot": {
+        "effect": "Automatically modifies the first valid ordinary-shot attempt into 2 damage.",
+        "successful_unblocked_effect": "Eliminates a Healthy or Injured target through 2 damage unless Reinforced Systems prevents damage-caused elimination.",
+        "protection_interaction": "Protection blocks it; weapon + Heavy Shot + Protection are consumed.",
+        "wrong_identification": "Weapon and Heavy Shot are consumed; no damage."
+      },
+      "Reinforced_Systems": {
+        "uses_per_match": 1,
+        "automatic": true,
+        "effect": "Prevents an elimination caused by DAMAGE; target remains Injured.",
+        "final_collision_interaction": "Final Collision is canceled; neither player changes status; both Final Collision and Reinforced Systems are consumed."
+      },
+      "Final_Collision": {
+        "trigger": "Automatically becomes ready when owner becomes Injured.",
+        "availability": "From owner's next own turn while still Injured.",
+        "effect": "Owner may choose another player and directly eliminate both self and target.",
+        "same_location_required": true,
+        "not_an_ordinary_shot": true,
+        "protection_interaction": "If target Protection blocks it, neither player changes status; both Collision and Protection are consumed.",
+        "reinforced_interaction": "If target has unused Reinforced Systems, neither player changes status; both Collision and Reinforced are consumed."
+      },
+      "Silencer": {
+        "uses_per_match": 1,
+        "automatic": true,
+        "trigger": "First valid Ordinary or Heavy Shot targeting owner.",
+        "effect_on_shooter_next_round": [
+          "Cannot speak publicly",
+          "Cannot vote"
+        ],
+        "does_not_block_damage": true,
+        "triggers_if_valid_shot_is_blocked_by_protection": true,
+        "does_not_trigger_on_invalid_identification": true
+      },
+      "Private_Link": {
+        "trigger": "First Standard Hack targeting owner.",
+        "effect": "Schedules one separate 30-second private interaction between the same two players at the start of the next normal round.",
+        "both_may_lie": true,
+        "not_another_standard_hack": true,
+        "one_use": true,
+        "no_refund_if_no_next_round_or_participant_eliminated": true
+      },
+      "Emergency_Override": {
+        "uses_per_match": 1,
+        "condition": "Owner is Injured.",
+        "effect": "Allows one otherwise-valid role Main Action despite Injury restrictions.",
+        "does_not_allow": [
+          "Shot",
+          "Heal by itself"
+        ],
+        "cracker_self_rescue_does_not_consume_it": true
+      }
+    },
+    "removed_power_or_system": [
+      "Surrender mechanic"
+    ]
+  },
+  "victory": {
+    "power_formula": {
+      "Blue_Power": "Number of Healthy Blue players + 1 if Alien is Healthy",
+      "Red_Power": "Number of Healthy Red players",
+      "Injured_contribution": 0,
+      "Jailed_contribution": 0
+    },
+    "minimum_health_requirement": "Every team victory requires at least one Healthy member of that actual team. Alien does not satisfy the Healthy Blue requirement.",
+    "Blue": [
+      "All Red players are Eliminated AND at least one Healthy Blue exists.",
+      "At end of Round 5, Hacker has NOT submitted the correct Code, at least one Healthy Blue exists, and Blue Power > Red Power."
+    ],
+    "Red": [
+      "All Blue players are Eliminated AND at least one Healthy Red exists.",
+      "Hacker submits the correct Code by end of Round 5 AND at least one Healthy Red exists. No Power comparison is required for this Code victory."
+    ],
+    "Alien": [
+      "If Blue wins and Alien is not Eliminated, Alien also wins.",
+      "If Blue and Red are eliminated simultaneously and Alien is not Eliminated, Alien wins solo.",
+      "If Red wins, Alien does not win."
+    ]
+  },
+  "confirmed_removed_or_superseded_rules": [
+    {
+      "rule": "Round 6 / Final Escape",
+      "status": "removed",
+      "replacement": "Round 5 is the final round."
+    },
+    {
+      "rule": "Ordered Code / code positions / Position Test",
+      "status": "removed",
+      "replacement": "Code is an unordered set of 4 distinct player numbers."
+    },
+    {
+      "rule": "Blue Code submission",
+      "status": "removed",
+      "replacement": "Only Hacker submits Code."
+    },
+    {
+      "rule": "Ordinary private messaging",
+      "status": "removed",
+      "replacement": "Only Standard Hack and optional Private Link are private interactions."
+    },
+    {
+      "rule": "Old Active / Disabled / Critical / Destroyed health model",
+      "status": "replaced",
+      "replacement": "Healthy / Injured / Eliminated, with Jail as a separate overlay."
+    },
+    {
+      "rule": "Vote causes damage/elimination",
+      "status": "removed",
+      "replacement": "Vote sends a player to Jail."
+    },
+    {
+      "rule": "Red Disabler ordinary weapon",
+      "status": "removed"
+    },
+    {
+      "rule": "Captain automatic self-Protection",
+      "status": "removed"
+    },
+    {
+      "rule": "Surrender",
+      "status": "removed"
+    },
+    {
+      "rule": "Hacker bonus scan / position test / steal hack / scan transfer",
+      "status": "removed"
+    },
+    {
+      "rule": "Automatic injury degradation over rounds",
+      "status": "removed"
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "Movement timing",
+      "question": "Exactly when may a Healthy non-Captain player move between Room A and Room B?"
+    },
+    {
+      "topic": "Movement frequency",
+      "question": "How many Room A <-> Room B moves are allowed per round?"
+    },
+    {
+      "topic": "Turn timing",
+      "question": "Exact duration of public speaking / player turn and Standard Hack timer in v2.1."
+    },
+    {
+      "topic": "End-of-round resolution order",
+      "question": "Finalize exact ordering of Jail vote, registered actions, Disabler, damage, Rescue, Supplier distribution, elimination/reveal, victory check, and Captain-election flagging."
+    },
+    {
+      "topic": "Registered actions after status change",
+      "question": "If an action was validly registered and the actor later becomes Injured, Jailed, or Eliminated in the same round, does it still resolve?"
+    },
+    {
+      "topic": "Undercover Protection stacking",
+      "question": "Can multiple Protection instances stack on the same player, and can Undercover target self?"
+    },
+    {
+      "topic": "Hacker Round 5 submission timing",
+      "question": "Exact point in Round 5 when Hacker may submit, and whether there is exactly one attempt."
+    },
+    {
+      "topic": "No-winner edge case",
+      "question": "If Code is not correct by end of Round 5 but Blue Power is not greater than Red Power and neither elimination victory applies, is the result No Winner / Draw or is there a tie-breaker?"
+    },
+    {
+      "topic": "Captain candidate edge case",
+      "question": "What happens if a Captain election is required but no eligible candidate exists?"
+    },
+    {
+      "topic": "Round 5 Standard Hack embargo",
+      "question": "Because there is no Round 6, should Standard Hack content from Round 5 remain undisclosed until game end, or should Round 5 use a special rule?"
+    }
+  ],
+  "implementation_notes": {
+    "app_should_handle": [
+      "Random turn order per round",
+      "Hidden role information",
+      "Hidden role actions",
+      "Standard Hack eligibility and round cap",
+      "Hacker Scan validation and Code-membership result",
+      "Code submission",
+      "Protection state",
+      "Health and Jail state",
+      "Locations",
+      "Target legality by location",
+      "Captain status and Command Room immunity",
+      "Victory checks",
+      "Optional Original Power state"
+    ],
+    "physical_table_should_emphasize": [
+      "Face-to-face discussion",
+      "Role cards",
+      "Player number cards",
+      "Location zones",
+      "Visible movement / placement",
+      "Public voting and social deduction"
+    ]
+  }
+}

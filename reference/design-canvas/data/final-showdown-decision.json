@@ -1,0 +1,30 @@
+{
+  "decision_id": "conditional-final-showdown-2026-09-26",
+  "status": "confirmed_current_design_choice",
+  "trigger": "After all normal Round 5 effects and the victory check, only if no winner has been determined, activate the final showdown in a common final location.",
+  "current_option": 1,
+  "options": {
+    "1": {
+      "label": "Everyone gets a special shot",
+      "status": "current_choice",
+      "participants": "All non-eliminated players, including Injured and Jailed, are moved to the final location.",
+      "shot": "Each participant receives one special shot dealing one damage without requiring an earlier weapon or faction identification.",
+      "captain": "A Captain moved out of Command Room has no Command Room immunity at the final location; Captain status itself is not removed by movement."
+    },
+    "2": {
+      "label": "Only ordinary eligible shooters",
+      "status": "alternative_not_selected",
+      "participants": "The final location gathers the remaining players.",
+      "shot": "Only players who may shoot under ordinary rules and have a usable weapon can shoot. Ordinary identification and status restrictions still apply; the shared location satisfies the same-location requirement."
+    }
+  },
+  "shared_location": "This is a forced final-stage placement, not the voluntary once-per-round movement action.",
+  "shot_resolution": {
+    "registration": "All participants secretly register a target before any final shot is resolved.",
+    "order": "Resolve registered shots in the Round 5 player turn order.",
+    "damage_per_shot": 1,
+    "protection": "Existing Protection blocks the first applicable valid special shot and is consumed as usual.",
+    "actor_status_change": "A validly registered shot still resolves even if its shooter is eliminated before its place in the resolution order."
+  },
+  "terminal_result": "After all special shots resolve, check existing victory conditions again. If none applies, the match ends in a draw."
+}

@@ -1,0 +1,15 @@
+{
+  "decision_id": "direct-shot-2026-09-26",
+  "status": "current_playtest_rule",
+  "reason": "Simplify shooting across 7, 8, and 9 player modes.",
+  "current": {
+    "targeting": "Choose a target directly. Do not identify or guess the faction or role of a different player.",
+    "third_player_requirement": "Removed. Only shooter and target are required.",
+    "applies_to": "All ordinary shots, including Blue, Red, Alien, and Officer.",
+    "unchanged_requirements": "A usable shot or weapon, eligible shooter state, a target in the same location, Command Room immunity, existing damage and defensive interactions remain. Ordinary weapons are still usable in Rounds 4 and 5; Officer's own shot is available from Round 1.",
+    "ordinary_damage": 1,
+    "validation": "There is no failed-shot result from an incorrect third-player identification. Resolve a legal registered shot against defenses and damage."
+  },
+  "officer_after_change": "Officer's distinct advantages in the 9-player mode are the starting shot and Round 1 availability. The absence of an identification requirement now applies to everyone.",
+  "balance_test_note": "Restart comparative playtest records for all three player counts with this common shooting rule; distinguish records from the earlier identification version."
+}

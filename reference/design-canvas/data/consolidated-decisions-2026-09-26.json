@@ -1,0 +1,30 @@
+{
+  "turn_timing": {
+    "ordinary_turn_seconds": 60,
+    "ordinary_turn_use": "The player chooses how to divide the minute between public speaking and eligible action and/or shot.",
+    "standard_hack_request": "Must be requested within the same ordinary 60-second turn.",
+    "standard_hack_conversation_seconds": 60,
+    "standard_hack_conversation_start": "After the ordinary minute; next player follows its completion when requested."
+  },
+  "end_of_round_order": [
+    "Resolve the Jail vote first, before registered actions and attacks.",
+    "Resolve registered actions and attacks, including Protection and damage.",
+    "Resolve Rescue.",
+    "Distribute Supplier weapons if this is Round 3.",
+    "Finalize eliminations and the faction-reveal step, subject to the existing public reveal timing.",
+    "Check victory conditions.",
+    "Flag whether the next round needs a Captain election."
+  ],
+  "registered_action": "An action valid when registered resolves at its scheduled stage even if its actor later becomes Injured, Jailed, or Eliminated; target defenses and applicable conditions are checked at resolution.",
+  "undercover_protection": {
+    "may_target_self": true,
+    "maximum_receipts_per_player_per_match": 1,
+    "no_second_grant_after_consumption": true
+  },
+  "hacker_round_5_code": {
+    "submission_window": "Any time during Round 5",
+    "attempts_total": 1
+  },
+  "round_5_standard_hack": "Content remains undisclosed through the end of the match; players may use the answer for their own decisions without revealing or discussing the Hack content during Round 5.",
+  "captain_candidate_question": "Set aside for the current playtest at the designer's request. No new fallback rule has been adopted; revisit only if the situation appears in playtesting."
+}
