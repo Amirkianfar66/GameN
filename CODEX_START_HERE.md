@@ -1,15 +1,16 @@
-# Continue Mothership in Codex
+# Continue Mothership with Codex Astra and Claude
 
 Imported on 26 September 2026 into **[Amirkianfar66/GameN](https://github.com/Amirkianfar66/GameN)** on `main`. `Amirkianfar66/planet-a` is not this project's destination.
 
-This repository carries the project context into new Codex tasks. It does not depend on access to the previous conversation. The four roles are new tasks launched with these files; no running agent session is embedded in this archive.
+This repository carries the project context into Codex Astra and Claude Code tasks. See [the agreed four-agent roster](docs/agent-roster.md). It does not depend on access to the previous conversation. The four roles are new tasks launched with these files; no running agent session is embedded in this archive.
 
 ## 1. Connect this repository
 
 1. The source import is already on `main` in `Amirkianfar66/GameN`. Do not create another repository, re-import the archive or run `git init` again in an existing checkout.
 2. Open [Codex cloud](https://chatgpt.com/codex), connect GitHub and include `Amirkianfar66/GameN` in the allowed repository selection.
-3. Create/select an environment for this repository and use its `main` branch. Initial context reading and emulator-first development do not require production Firebase credentials. The bootstrap task below establishes reproducible dependency setup.
-4. Run [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) first. Review and commit its shared baseline, then launch the four role tasks from that same commit. Their work packages are in [GitHub Issues](https://github.com/Amirkianfar66/GameN/issues).
+3. Create/select an environment for this repository and use its `main` branch. Select **Astra** in the actual model control; naming a model in a prompt does not switch it. If Astra is unavailable, report that before substituting. Initial context reading and emulator-first development do not require production Firebase credentials. The bootstrap task below establishes reproducible dependency setup.
+   For the first bootstrap, allow dependency downloads during task execution (including `registry.npmjs.org`). There is no root production manifest yet, so do not configure an install command that assumes it already exists. The task must document the resulting setup and maintenance commands.
+4. Run [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) first in **Codex Astra**. Review its PR and checks and merge the approved baseline. Then launch Backend in Codex Astra and the other three roles in separate Claude Code sessions from that same resulting commit. Their work packages are in [GitHub Issues](https://github.com/Amirkianfar66/GameN/issues).
 
 Record the actual base commit in every task report. The imported source is a Canvas/facilitator reference plus production specifications; it is not a completed Firebase game.
 
@@ -17,14 +18,14 @@ Published queue: [bootstrap and four workstream issues](github/work-items.md).
 
 ## 2. First task: establish the shared baseline
 
-Paste this into the first Codex task:
+Select Astra, then paste this into the first Codex task:
 
 ```text
 Continue Mothership from this repository. Read CODEX_START_HERE.md,
-AGENTS.md, docs/project-context.md, docs/decisions.md, and
+AGENTS.md, docs/agent-roster.md, docs/project-context.md, docs/decisions.md, and
 docs/architecture/rendering-direction.md before editing.
 
-Act as the integration owner. Implement a reviewable bootstrap on
+Act as the Backend and Integration owner. Implement only bootstrap issue #1 on
 chore/mothership-bootstrap:
 
 1. Inspect the imported files and report the actual repository and base SHA.
@@ -44,6 +45,9 @@ chore/mothership-bootstrap:
    Keep the pure engine independent of Firebase and rendering.
 5. Create docs/integration-baseline.md with the shared contract, ownership,
    source references, pending decisions and four concrete follow-up tasks.
+   Include separate launch instructions for Codex Astra Backend and Claude
+   Frontend, Visual/Motion Designer, and Game Design/Balance. Have the PR
+   handoff identify the reviewed baseline after merge; never invent its SHA.
 
 Keep new code, UI and documentation in English. Firebase is the chosen
 backend direction; evaluate React Three Fiber/Three.js for the board,
@@ -62,26 +66,29 @@ role tasks will start from its reviewed committed baseline.
 
 ## 3. Launch four role tasks from one baseline
 
-After the bootstrap is committed and reviewed, select that same branch/commit for each task. Each cloud task gets its own checkout. For local Codex, use a separate Git worktree for each concurrent task. Do not have four tasks mutate the same working directory or root lockfile.
+After the bootstrap is reviewed and merged, select its resulting commit for each task. Run Backend in Codex Astra. Run Frontend, Designer, and Game Balance in three independent Claude Code sessions. Each cloud task gets its own checkout; local sessions use separate Git worktrees. Do not have four tasks mutate the same working directory or root lockfile. Claude sessions read `CLAUDE.md`; all sessions follow `AGENTS.md` and `docs/agent-roster.md`.
 
 Use the prompt for each role below. Replace `BASE_SHA` with the reviewed bootstrap commit. Prefer one reviewable PR per concrete deliverable. Root tooling and shared contracts remain the integration owner's responsibility.
 
-### Backend
+### Backend — Codex Astra
 
 ```text
-Act as Mothership Backend. Start from BASE_SHA. Read AGENTS.md,
+Act as Mothership Backend and Integration. Start from BASE_SHA. Read AGENTS.md,
+docs/agent-roster.md,
 docs/integration-baseline.md, agents/backend.md and docs/backend/first-slice.md.
 Implement the first server-authoritative Officer/Protection slice within
 your owned paths on agent/backend-foundation. Use the approved contracts,
 pure engine and Firebase emulators. Keep unresolved semantics isolated;
 continue independent work. Report tests actually run, blockers and a
-reviewable diff/PR. Coordinate shared contract changes with the integrator.
+reviewable diff/PR. As integration owner, coordinate shared contract changes
+with the affected Claude workstreams and obtain review before adoption.
 ```
 
-### Frontend
+### Frontend — Claude Code
 
 ```text
-Act as Mothership Frontend. Start from BASE_SHA. Read AGENTS.md,
+Act as Mothership Frontend in Claude Code. Start from BASE_SHA. Read CLAUDE.md,
+AGENTS.md, docs/agent-roster.md,
 docs/integration-baseline.md, agents/frontend.md, docs/frontend/first-slice.md
 and docs/architecture/rendering-direction.md. Build the English player/table
 slice on agent/frontend-tabletop using the approved contracts and labeled
@@ -92,10 +99,11 @@ Keep mock and emulator modes explicit. Report actual checks and measurements;
 mark unavailable real-device measurements not run. Prepare a reviewable diff/PR.
 ```
 
-### Designer
+### Visual and Motion Designer — Claude Code
 
 ```text
-Act as Mothership Designer. Start from BASE_SHA. Read AGENTS.md,
+Act as Mothership Visual and Motion Designer in Claude Code. Start from BASE_SHA.
+Read CLAUDE.md, AGENTS.md, docs/agent-roster.md,
 docs/integration-baseline.md, agents/designer.md and docs/design/art-direction.md.
 Deliver the first comic card/board visual system and interaction states on
 agent/designer-art-direction, within your owned paths. Provide versioned
@@ -106,10 +114,11 @@ information out of public tokens, effects and previews. Visual design does
 not approve gameplay rules. Report actual deliverables and a reviewable diff/PR.
 ```
 
-### Game Balance
+### Game Design and Balance — Claude Code
 
 ```text
-Act as Mothership Game Balance. Start from BASE_SHA. Read AGENTS.md,
+Act as Mothership Game Design and Balance in Claude Code. Start from BASE_SHA.
+Read CLAUDE.md, AGENTS.md, docs/agent-roster.md,
 docs/integration-baseline.md, agents/game-balance.md, docs/balance/rules-audit.md
 and docs/balance/scenario-matrix.json. Implement the first evidence-backed
 scenario/playtest baseline on agent/game-balance-baseline. Cover 7, 8 and 9
@@ -127,7 +136,7 @@ proof of social balance. Report actual runs, uncertainty and a reviewable diff/P
 | Physical board | Printable SVG at `reference/design-canvas/public/mothership-location-board-v1.svg` |
 | Rules | Historical v2.1 PDF/JSON plus later decision overlays and unresolved-rule register |
 | Production game | Architecture and first-slice specifications; no production Firebase game implementation |
-| Four roles | Agent briefs, ownership boundaries, initial issue drafts and launch prompts |
+| Four roles | Codex Astra Backend/Integration and three Claude roles, shared instructions, published issues and launch prompts |
 | Balance | 35 declarative scenarios: 25 ready for implementation, 10 blocked; none executed |
 
 The live Canvas database is **not included**. The source seed and overlays are included. A database read returned a truncated payload; a direct read returned HTTP 403. To retain any additional manual node edits/positions, use **Export JSON** in the existing Canvas and provide that separate design-state file for review. A Canvas export can include drafts and archived choices; it does not automatically supersede confirmed rules. See [reference/README.md](reference/README.md).
@@ -140,3 +149,5 @@ Checked on 26 September 2026. These explain the product workflow; the Mothership
 - [Cloud environments](https://learn.chatgpt.com/docs/environments/cloud-environment): checkout, setup/maintenance and task execution. Dependency installation belongs in reproducible setup; default agent networking can be restricted.
 - [Git worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees): local checkout isolation for concurrent work.
 - [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md): repository instructions for future Codex tasks.
+- [Codex models](https://learn.chatgpt.com/docs/models): select the actual model for the session.
+- [Claude Code parallel sessions](https://support.claude.com/en/articles/14554000-claude-code-power-user-tips) and [project instructions](https://code.claude.com/docs/en/memory): isolated work and shared project guidance.

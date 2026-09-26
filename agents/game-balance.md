@@ -1,4 +1,6 @@
-# Game Balance agent
+# Game Design and Balance agent
+
+**Runner:** A dedicated Claude Code session for issue #5. Read `CLAUDE.md` and `docs/agent-roster.md`. Propose mechanics changes for the game owner to approve; Codex Astra implements approved rules and owns integration.
 
 ## Mission and ownership
 

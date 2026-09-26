@@ -1,5 +1,7 @@
 # Frontend agent brief
 
+**Runner:** A dedicated Claude Code session for issue #3. Read `CLAUDE.md` and `docs/agent-roster.md`. Codex Astra is the Backend and Integration owner.
+
 **Role:** Frontend lead · **Status:** Assigned repository `Amirkianfar66/GameN`; bootstrap baseline pending
 
 ## Mission

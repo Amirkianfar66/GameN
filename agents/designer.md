@@ -1,4 +1,6 @@
-# Designer workstream
+# Visual and Motion Designer workstream
+
+**Runner:** A dedicated Claude Code session for issue #4. Read `CLAUDE.md` and `docs/agent-roster.md`. Frontend integrates the delivered assets and motion; Codex Astra owns technical integration.
 
 **Role:** Product, art and interaction direction for Mothership.  
 **Status:** Assignment for `Amirkianfar66/GameN`; implementation branch/PR starts after the shared bootstrap.  

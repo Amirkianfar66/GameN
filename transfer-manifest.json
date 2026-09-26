@@ -39,38 +39,48 @@
     },
     {
       "path": "AGENTS.md",
-      "bytes": 4603,
-      "sha256": "ae91caf800418dc352383bf2123f2ec883a3c8a35f194fc6ba3257752ac53486"
+      "bytes": 5315,
+      "sha256": "5068ba9fae85b597288193db1388879de61459eff4d7957944cd2b653c8e889e"
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 1301,
+      "sha256": "6bc80052bf210fb78c9ab848d3ec089596855477fe47497aa4bcaafeb3629360"
     },
     {
       "path": "CODEX_START_HERE.md",
-      "bytes": 9127,
-      "sha256": "311cd145adbfe5b769de76448a368dc8ddbb7eb21c9a20f014ca4d85e42121df"
+      "bytes": 10962,
+      "sha256": "162f6d9342822ed2464be65d3ad3e5707f7340552dc96c5f8ed17e34e2a4d7ff"
     },
     {
       "path": "README.md",
-      "bytes": 3986,
-      "sha256": "f5c5464d44a28af76a9b557ec94e02694430fe95d4e8ebf51230729953ae8f36"
+      "bytes": 4337,
+      "sha256": "9fbe370664195dc653e33fea33a41738bbbbd792b501b45369cea5e27be9266b"
     },
     {
       "path": "agents/backend.md",
-      "bytes": 5427,
-      "sha256": "acd4d4d34598f6e89f5807be68c9cfb249d97ce3db16c70b872da75df3ab7e18"
+      "bytes": 5791,
+      "sha256": "e95baff8e77b3fbf69a1360e56d9bfd0ad61e6d5dfd6056ce435e0215393c8a8"
     },
     {
       "path": "agents/designer.md",
-      "bytes": 4414,
-      "sha256": "c96bf257e8fa1350668dfe09b2a77deee90d5ceac67dbc6f3560d9c1f42963ca"
+      "bytes": 4629,
+      "sha256": "42dc86757c8d3f4f696e7c7135b46722e907c25b0b544b6261b1a839f4814324"
     },
     {
       "path": "agents/frontend.md",
-      "bytes": 4905,
-      "sha256": "59c39431c8ed931c4d695b994b6691e09b6946f3073467a26ccfaf962b95f18b"
+      "bytes": 5059,
+      "sha256": "84045f6428753c502debd72fb86bd4d7ca9870e86b3ea51eed0222bed7e97ac6"
     },
     {
       "path": "agents/game-balance.md",
-      "bytes": 6960,
-      "sha256": "dce8e17d6751bffba98d9c114030a6260ce7c83bc690b0bed3a7ccd6448e51d9"
+      "bytes": 7192,
+      "sha256": "fe153ca0fdf06c201473070b3424363754e7746ab4c71f9305a0fc85749054f0"
+    },
+    {
+      "path": "docs/agent-roster.md",
+      "bytes": 4942,
+      "sha256": "bb465e50b4f8ce2dfcafbbd95dbae09daa92fc593bf26b796c13e1c9ec33050f"
     },
     {
       "path": "docs/architecture/production-v1.0.md",
@@ -129,8 +139,8 @@
     },
     {
       "path": "github/initial-issues.json",
-      "bytes": 10437,
-      "sha256": "288f63913de0d7f290e9f25fd6108ad95aaf1d661e218003e87527218aa99667"
+      "bytes": 12523,
+      "sha256": "cdf18bfe5e0768c71a1082b5411a7f45f7032c7424cd36738b53378d943640c8"
     },
     {
       "path": "github/publication-checklist.md",
@@ -139,8 +149,8 @@
     },
     {
       "path": "github/work-items.md",
-      "bytes": 2129,
-      "sha256": "e64eb0c8ccf257c19b8856e594addc6bfaa4527d38404fce610a430ecb5a130a"
+      "bytes": 2371,
+      "sha256": "0aeaa2516a84aeaa2eeb917325b189b6b69e1c75e9b67e022ed03687636b1bbf"
     },
     {
       "path": "reference/README.md",
@@ -798,10 +808,11 @@
       "sha256": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
     }
   ],
-  "updated_at": "2026-09-26T15:58:00.460706+00:00",
-  "revision_note": "Published the verified source import and linked bootstrap #1 plus four workstream issues #2\u2013#5. No production-game implementation started.",
+  "updated_at": "2026-09-26T16:25:20.328578+00:00",
+  "revision_note": "Confirmed Codex Astra Backend/Integration and three Claude Code roles; added shared Claude entry point and mixed-provider launch instructions. No production-game implementation started.",
   "repository_url": "https://github.com/Amirkianfar66/GameN",
   "repository_visibility_at_import": "public",
   "publication_status": "source_and_five_issues_published",
-  "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869"
+  "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+  "agent_roster": "docs/agent-roster.md"
 }
