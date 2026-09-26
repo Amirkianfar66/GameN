@@ -1,15 +1,15 @@
 # Mothership · GameN
 
-**Imported:** 26 September 2026. This is the Mothership source and context handoff in [Amirkianfar66/GameN](https://github.com/Amirkianfar66/GameN). Development continues in Codex. The repository name is GameN; the game remains Mothership. `Amirkianfar66/planet-a` is excluded.
+**Imported:** 26 September 2026. This is the Mothership source and context handoff in [Amirkianfar66/GameN](https://github.com/Amirkianfar66/GameN). Development continues with Codex Astra and three Claude Code sessions. The repository name is GameN; the game remains Mothership. `Amirkianfar66/planet-a` is excluded.
 
-Start with [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) and [CODEX_START_HERE.md](CODEX_START_HERE.md). The handoff is at the repository root. Connect this repository in Codex and run the bootstrap prompt. After its shared baseline is reviewed, launch Backend, Frontend, Designer and Game Balance as four separate tasks from the same commit.
+Start with [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) and [CODEX_START_HERE.md](CODEX_START_HERE.md). The handoff is at the repository root. Connect this repository in Codex and run the bootstrap prompt. After its shared baseline is reviewed and merged, launch Backend in Codex Astra and Frontend, Visual/Motion Designer and Game Design/Balance in three Claude Code sessions from the same commit. See [the agreed roster](docs/agent-roster.md).
 
 ## Included
 
 | Material | Location |
 | --- | --- |
-| Codex setup and five launch prompts | [CODEX_START_HERE.md](CODEX_START_HERE.md) |
-| Shared instructions and ownership | [AGENTS.md](AGENTS.md) |
+| Codex/Claude setup and five launch prompts | [CODEX_START_HERE.md](CODEX_START_HERE.md) |
+| Shared instructions and ownership | [AGENTS.md](AGENTS.md), [CLAUDE.md](CLAUDE.md), [agent roster](docs/agent-roster.md) |
 | Context and decisions | [Project context](docs/project-context.md), [decision register](docs/decisions.md) |
 | Existing Canvas and facilitator source | [Reference guide](reference/README.md), `reference/design-canvas/` |
 | Rule sources and overlays | `rules/`, [source manifest](rules/source-manifest.json) |
@@ -22,14 +22,14 @@ Start with [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1)
 
 ## Workstreams
 
-| Role | Launch brief | GitHub task | Intended branch |
-| --- | --- | --- | --- |
-| Backend | [Backend](agents/backend.md) | [#2](https://github.com/Amirkianfar66/GameN/issues/2) | `agent/backend-foundation` |
-| Frontend | [Frontend](agents/frontend.md) | [#3](https://github.com/Amirkianfar66/GameN/issues/3) | `agent/frontend-tabletop` |
-| Designer | [Designer](agents/designer.md) | [#4](https://github.com/Amirkianfar66/GameN/issues/4) | `agent/designer-art-direction` |
-| Game Balance | [Game Balance](agents/game-balance.md) | [#5](https://github.com/Amirkianfar66/GameN/issues/5) | `agent/game-balance-baseline` |
+| Role | Runner | Launch brief | GitHub task | Intended branch |
+| --- | --- | --- | --- | --- |
+| Backend and Integration | Codex Astra | [Backend](agents/backend.md) | [#2](https://github.com/Amirkianfar66/GameN/issues/2) | `agent/backend-foundation` |
+| Frontend | Claude Code | [Frontend](agents/frontend.md) | [#3](https://github.com/Amirkianfar66/GameN/issues/3) | `agent/frontend-tabletop` |
+| Visual and Motion Designer | Claude Code | [Designer](agents/designer.md) | [#4](https://github.com/Amirkianfar66/GameN/issues/4) | `agent/designer-art-direction` |
+| Game Design and Balance | Claude Code | [Game Balance](agents/game-balance.md) | [#5](https://github.com/Amirkianfar66/GameN/issues/5) | `agent/game-balance-baseline` |
 
-The coordinating developer owns root tooling, shared contracts and integration. This is a coordination responsibility rather than an additional requested workstream. The game owner approves canon; agents propose and test changes. All new game strings, code, documentation and GitHub work items use English; historical source artifacts remain intact.
+Codex Astra, in its Backend and Integration role, owns root tooling, shared contracts and integration. This is a coordination responsibility rather than an additional requested workstream. The game owner approves canon; agents propose and test changes. All new game strings, code, documentation and GitHub work items use English; historical source artifacts remain intact.
 
 ## First milestone and current limits
 

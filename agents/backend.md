@@ -1,4 +1,6 @@
-# Backend agent brief
+# Backend and Integration agent brief
+
+**Runner:** Codex with Astra selected. Own bootstrap #1 first, then Backend #2. Read `docs/agent-roster.md`; the other three roles run in Claude Code.
 
 **Mission:** Build the authoritative Mothership match service and deterministic rules engine. Firebase is the selected infrastructure. Presentation, including the Three.js evaluation, consumes authorized results and never determines gameplay.
 
@@ -17,7 +19,7 @@ Later confirmed decisions supersede baseline mechanics. Neither architecture rec
 
 Own `packages/engine/`, `services/game-api/`, `infra/firebase/` and `docs/backend/`. Keep engine tests within the engine package; Game Balance owns shared scenario assets in `tests/scenarios/` and simulation tooling. Coordinate the adapter that consumes those scenarios.
 
-The integration owner owns `packages/contracts/`, canonical rule definitions, workspace manifests, lockfiles, CI and cross-cutting architecture decisions. Submit proposed shared types for review rather than editing these concurrently. Do not edit Frontend or Designer files to make your API appear integrated.
+This Backend role also serves as integration owner for `packages/contracts/`, canonical rule definitions, workspace manifests, lockfiles, CI and cross-cutting architecture decisions. Obtain review from affected Claude roles before adopting shared changes; game-owner approval is still required for rule changes. Keep shared changes focused and avoid concurrent edits by multiple roles. Do not edit Frontend or Designer files to make your API appear integrated.
 
 Frontend needs approved command examples, projection fixtures, public error categories and retry semantics. Game Balance provides independently specified expected outcomes and ambiguity reports. Designer needs the allowed public event vocabulary; private effects cannot become public sounds or animations without an approved disclosure rule.
 
@@ -31,7 +33,7 @@ The fixture is an integration harness, not a new player mode. It does not establ
 
 ## Definition of done
 
-- Integrator approves shared request/view schemas before consumers depend on them.
+- As integration owner, obtain Frontend and Game Balance review of shared request/view schemas before consumers depend on them.
 - Engine imports no Firebase, UI or renderer packages; explicit time and recorded inputs make transitions replayable.
 - Accepted commands survive retries without duplicate resource spending or damage.
 - Auth, membership and seat ownership are checked server-side; clients cannot write authority or generated views.

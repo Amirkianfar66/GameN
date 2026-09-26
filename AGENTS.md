@@ -2,7 +2,7 @@
 
 All new code, documentation, game strings and GitHub work items are in English. Preserve historical source artifacts as evidence.
 
-Start with `CODEX_START_HERE.md`. The user selected `Amirkianfar66/GameN` for Mothership and will continue in Codex. `Amirkianfar66/planet-a` is excluded. Use this repository and the actual committed baseline. The destination is settled; do not ask the user to select or create a repository again.
+Start with `CODEX_START_HERE.md`. The user selected `Amirkianfar66/GameN` for Mothership and will continue with Codex Astra and three Claude Code sessions. `Amirkianfar66/planet-a` is excluded. Use this repository and the actual committed baseline. The destination is settled; do not ask the user to select or create a repository again.
 
 Read `docs/project-context.md`, `docs/architecture/rendering-direction.md`, and your role brief in `agents/` before implementation. Read the applicable rule sources rather than relying on a historical summary.
 
@@ -17,14 +17,16 @@ Do not blindly merge the source JSON files. Superseded mechanics remain present 
 
 ## Four workstreams
 
-| Agent | Proposed implementation ownership | First branch |
-| --- | --- | --- |
-| Backend | `services/game-api/`, `packages/engine/`, `infra/firebase/`, `docs/backend/` | `agent/backend-foundation` |
-| Frontend | `apps/game/`, `packages/presentation/`, `docs/frontend/` | `agent/frontend-tabletop` |
-| Designer | `design/`, `packages/design-tokens/`, `docs/design/` | `agent/designer-art-direction` |
-| Game Balance | `tools/balance/`, `tests/scenarios/`, `docs/balance/` | `agent/game-balance-baseline` |
+The agreed runner allocation is recorded in [docs/agent-roster.md](docs/agent-roster.md). Codex Astra handles Backend and Integration; Claude handles Frontend, Visual and Motion Design, and Game Design and Balance in three independent sessions. Claude starts with `CLAUDE.md`, which imports this shared instruction file.
 
-Shared files (`packages/contracts/`, canonical rule definitions, root manifests/lockfiles, CI and architecture decisions) have an integration owner. Propose cross-boundary changes explicitly and integrate them through a focused PR; do not let several agents rewrite the same files concurrently.
+| Agent | Runner | Proposed implementation ownership | First branch |
+| --- | --- | --- | --- |
+| Backend and Integration | Codex Astra | `services/game-api/`, `packages/engine/`, `infra/firebase/`, `docs/backend/` | `agent/backend-foundation` |
+| Frontend | Claude Code | `apps/game/`, `packages/presentation/`, `docs/frontend/` | `agent/frontend-tabletop` |
+| Visual and Motion Designer | Claude Code | `design/`, `packages/design-tokens/`, `docs/design/` | `agent/designer-art-direction` |
+| Game Design and Balance | Claude Code | `tools/balance/`, `tests/scenarios/`, `docs/balance/` | `agent/game-balance-baseline` |
+
+Shared files (`packages/contracts/`, canonical rule definitions, root manifests/lockfiles, CI and architecture decisions) are owned by Codex Astra in its integration role. Shared contracts still require review by affected roles. Propose cross-boundary changes explicitly and integrate them through a focused PR; do not let several agents rewrite the same files concurrently.
 
 ## Collaboration protocol
 
@@ -43,8 +45,8 @@ Agents are task roles, not GitHub user accounts. Use real GitHub assignees only 
 
 ## Current delivery status
 
-The source/context transfer is imported into `Amirkianfar66/GameN` on `main`. GitHub Issues track the bootstrap and four implementation workstreams. Implementation branches, PRs and task execution start in Codex from the agreed baseline; this import does not create permanent background agents. It contains documentation, source decisions and the existing Canvas/facilitator source under `reference/design-canvas/`. Production-game paths above are proposed, not implemented.
+The source/context transfer is imported into `Amirkianfar66/GameN` on `main`. GitHub Issues track the bootstrap and four implementation workstreams. Implementation branches, PRs and task execution start in Codex Astra and Claude Code from the agreed baseline; this import does not create permanent background agents. It contains documentation, source decisions and the existing Canvas/facilitator source under `reference/design-canvas/`. Production-game paths above are proposed, not implemented.
 
 Preserve `reference/design-canvas/` as a source snapshot. Keep its platform-specific code, dependencies and configuration outside the new workspace and CI globs. It is not the production Firebase runtime. The live Canvas database is not included; see `reference/README.md`.
 
-Run the bootstrap task once before the four implementation tasks. Shared files are changed by the integration owner. Record actual verified install/build/test commands here when the new workspace exists; there is no root production build command to run yet. Reuse completed work and do not ask the user to choose the destination type again.
+Run bootstrap #1 once in Codex Astra before the four implementation tasks. After review and merge, run Backend #2 in Codex Astra and #3/#4/#5 in separate Claude Code sessions from the same baseline. Shared files are changed by the integration owner. Record actual verified install/build/test commands here when the new workspace exists; there is no root production build command to run yet. Reuse completed work and do not ask the user to choose the destination type again.
