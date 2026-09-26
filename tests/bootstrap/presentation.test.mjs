@@ -12,7 +12,7 @@ test('private registration event cannot be converted into public activity', () =
 });
 
 test('public event vocabulary permits health facts but rejects attack causes and private sequences', () => {
-  const event = { protocolVersion: 1, matchId: 'fixture-officer', audience: { kind: 'public' }, eventId: 'display-event-a', viewRevision: 11, fact: { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-2', health: 'Injured' } };
+  const event = { protocolVersion: 1, matchId: 'fixture-match-a', audience: { kind: 'public' }, eventId: 'display-event-a', viewRevision: 11, fact: { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-2', health: 'Injured' } };
   assert.ok(PublicPresentationEventSchema.safeParse(event).success);
   for (const extra of [{ shooterSeatId: 'seat-1' }, { protection: true }, { cause: 'SHOT' }]) {
     assert.equal(PublicPresentationEventSchema.safeParse({ ...event, fact: { ...event.fact, ...extra } }).success, false);

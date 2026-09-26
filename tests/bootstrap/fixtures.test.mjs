@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { PlayerViewSchema, PublicViewSchema } from '@mothership/contracts';
+import { PlayerViewSchema, PublicViewSchema, RoleSchema } from '@mothership/contracts';
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
 
 test('both synthetic fixtures pin source provenance and all nine canonical seats with powers off', () => {
@@ -23,6 +23,28 @@ test('both synthetic fixtures pin source provenance and all nine canonical seats
       PublicViewSchema.parse(stage.public);
       PlayerViewSchema.parse(stage.officer);
       PlayerViewSchema.parse(stage.target);
+    }
+  }
+});
+
+test('audience-facing fixture identifiers do not disclose hidden roles', () => {
+  const hiddenRoles = new RegExp(RoleSchema.options.map(role => role.replaceAll(' ', '[-_ ]+')).join('|'), 'i');
+  for (const variant of ['protected', 'unprotected']) {
+    const fixture = createOfficerFixture(variant);
+    for (const [stageName, stage] of Object.entries({ before: fixture.before, afterRegistration: fixture.afterRegistration })) {
+      for (const audience of ['public', 'officer', 'target']) {
+        const view = stage[audience];
+        for (const [field, value] of Object.entries({ phaseId: view.phase.id, matchId: view.matchId })) {
+          assert.doesNotMatch(value, hiddenRoles, `${variant} ${stageName} ${audience} ${field}`);
+          assert.equal(value, fixture.command[field], 'Every audience and command must use the same context');
+          assert.equal(value, fixture.acceptedReceipt[field], 'Receipt must preserve the command context');
+        }
+      }
+      assert.doesNotMatch(JSON.stringify(stage.public), hiddenRoles, 'Public snapshot must not label hidden roles');
+    }
+    for (const event of fixture.afterRegistration.officerEvents) {
+      assert.doesNotMatch(event.eventId, hiddenRoles, 'Event identifiers must be role-neutral too');
+      assert.equal(event.matchId, fixture.before.public.matchId);
     }
   }
 });

@@ -27,12 +27,13 @@ const initialPublic: PublicView = {
     engineVersion: '0.0.0-bootstrap-no-engine',
     assetManifestVersion: '0.0.0-no-assets',
   },
-  matchId: 'fixture-officer',
+  matchId: 'fixture-match-a',
   audience: { kind: 'public' },
   viewRevision: 10,
   playerCount: 9,
   round: 2,
-  phase: { id: 'round-2-officer-turn', kind: 'ORDINARY_TURN', startedAt: 1_800_000_000_000, endsAt: 1_800_000_060_000 },
+  // Shared IDs never encode the active player's hidden role.
+  phase: { id: 'phase-a', kind: 'ORDINARY_TURN', startedAt: 1_800_000_000_000, endsAt: 1_800_000_060_000 },
   activeSeatId: 'seat-1',
   seats: seats.map((seatId, i) => ({
     seatId, location: i === 4 ? 'Command Room' : i >= 6 ? 'Room B' : 'Room A',
@@ -66,7 +67,7 @@ const officerAfter: PlayerView = {
   self: { ...officerBefore.self, shotAvailable: false }, ownPendingCommandIds: [command.commandId],
 };
 const registrationEvent: PlayerPresentationEvent = {
-  protocolVersion: 1, matchId: initialPublic.matchId, eventId: 'officer-event-a',
+  protocolVersion: 1, matchId: initialPublic.matchId, eventId: 'player-event-a',
   audience: { kind: 'player', seatId: 'seat-1' }, viewRevision: officerAfter.viewRevision,
   fact: { type: 'COMMAND_REGISTERED', commandId: command.commandId },
 };

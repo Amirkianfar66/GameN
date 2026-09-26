@@ -52,14 +52,16 @@ The source of truth for draft shapes is [packages/contracts/src/index.ts](../pac
 
 The initial schemas deliberately cover nine-player Officer integration only. They do not claim 7/8 support, all role knowledge, voting, Standard Hack, terminal reveals or full-match phase coverage. Health, Jail, location and Captain remain separate. Exact-role/faction-reveal fields are omitted rather than approving their emission timing implicitly. Extend the protocol through affected-role review before adding a new connected slice.
 
+Match, phase and event identifiers must be role-neutral. A phase identifier combined with the public `activeSeatId` must not reveal the active player's hidden role; the same identifiers also appear in composed player views, commands and receipts.
+
 Synthetic example; no real player data:
 
 ```json
 {
   "protocolVersion": 1,
-  "matchId": "fixture-officer",
+  "matchId": "fixture-match-a",
   "commandId": "fixture-command-1",
-  "phaseId": "round-2-officer-turn",
+  "phaseId": "phase-a",
   "command": { "type": "REGISTER_SHOT", "targetSeatId": "seat-2" }
 }
 ```
@@ -67,9 +69,9 @@ Synthetic example; no real player data:
 ```json
 {
   "protocolVersion": 1,
-  "matchId": "fixture-officer",
+  "matchId": "fixture-match-a",
   "commandId": "fixture-command-1",
-  "phaseId": "round-2-officer-turn",
+  "phaseId": "phase-a",
   "status": "accepted",
   "code": "REGISTERED"
 }
