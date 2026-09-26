@@ -12,9 +12,8 @@
   "verification": [
     "119 copied Canvas source files matched the clean source checkout SHA-256 values",
     "All pinned rule and scenario source hashes matched",
-    "Non-reference JSON parsed",
-    "Local Markdown file links resolved",
-    "ZIP integrity checked"
+    "Non-reference JSON parsed and local Markdown links resolved",
+    "The 155-file source import was verified against GitHub blob hashes and file modes"
   ],
   "verification_limits": [
     "No new runtime build or deployment performed",
@@ -45,13 +44,13 @@
     },
     {
       "path": "CODEX_START_HERE.md",
-      "bytes": 8991,
-      "sha256": "66e5306254d981f102c1b24db55156d9254194520f4292fc277deb6857a42fd9"
+      "bytes": 9127,
+      "sha256": "311cd145adbfe5b769de76448a368dc8ddbb7eb21c9a20f014ca4d85e42121df"
     },
     {
       "path": "README.md",
-      "bytes": 3642,
-      "sha256": "3a13fdcbd1b444a716d955b6317e385d781424bcf2717d87eee1367a28932f8a"
+      "bytes": 3986,
+      "sha256": "f5c5464d44a28af76a9b557ec94e02694430fe95d4e8ebf51230729953ae8f36"
     },
     {
       "path": "agents/backend.md",
@@ -130,13 +129,18 @@
     },
     {
       "path": "github/initial-issues.json",
-      "bytes": 5678,
-      "sha256": "a8bc0002c781192e366051a98c3f92c4dd538dae45ee73dd32d9b672a7c57a5c"
+      "bytes": 10437,
+      "sha256": "288f63913de0d7f290e9f25fd6108ad95aaf1d661e218003e87527218aa99667"
     },
     {
       "path": "github/publication-checklist.md",
-      "bytes": 2562,
-      "sha256": "9cfc18b8daa6f73aa7930adfef9f90160c6b8d0e71b12258313ce78472da104c"
+      "bytes": 2598,
+      "sha256": "0122759ad6b8a3d7b368823fbcc466eb463668dc9bb97758bc9bf4eac9f7b59d"
+    },
+    {
+      "path": "github/work-items.md",
+      "bytes": 2129,
+      "sha256": "e64eb0c8ccf257c19b8856e594addc6bfaa4527d38404fce610a430ecb5a130a"
     },
     {
       "path": "reference/README.md",
@@ -794,9 +798,10 @@
       "sha256": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
     }
   ],
-  "updated_at": "2026-09-26T15:51:42.026951+00:00",
-  "revision_note": "Prepared Codex handoff imported to the user-selected GameN repository. Original Canvas source and rule decisions preserved.",
+  "updated_at": "2026-09-26T15:58:00.460706+00:00",
+  "revision_note": "Published the verified source import and linked bootstrap #1 plus four workstream issues #2\u2013#5. No production-game implementation started.",
   "repository_url": "https://github.com/Amirkianfar66/GameN",
   "repository_visibility_at_import": "public",
-  "publication_status": "source_import"
+  "publication_status": "source_and_five_issues_published",
+  "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869"
 }

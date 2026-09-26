@@ -7,7 +7,7 @@
 - Source import: shared context, four briefs, first work packages, source rules, historical PDF, Canvas/facilitator source, comic-motion direction and Codex guide.
 - The user supplied initial-push instructions, so the initial import uses `main`; a comparison PR is not needed for this empty repository.
 - Subsequent implementation work uses isolated branches and reviewable PRs.
-- Bootstrap and four workstream issues are the launch queue. Creating an issue does not start a Codex task or create a GitHub user account.
+- [Bootstrap #1 and workstream issues #2–#5](work-items.md) are published as the launch queue. Creating an issue does not start a Codex task or create a GitHub user account.
 - `Amirkianfar66/planet-a` is excluded.
 
 ## Codex launch

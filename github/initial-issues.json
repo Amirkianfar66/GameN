@@ -1,5 +1,5 @@
 {
-  "status": "drafts_not_published",
+  "status": "published",
   "repository_full_name": "Amirkianfar66/GameN",
   "issues": [
     {
@@ -9,7 +9,14 @@
       "brief": "agents/backend.md",
       "specification": "docs/backend/first-slice.md",
       "assignees": [],
-      "body": "## Outcome\n\nServer-authoritative match slice and command contract.\n\n## Assignment\n\n- Workstream: backend\n- Branch: `agent/backend-foundation`\n- Brief: `agents/backend.md`\n- Specification: `docs/backend/first-slice.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Draft command, receipt, per-audience projection and deadline contracts for integration review.\n- [ ] Implement the pure engine and Firebase adapter for the approved nine-seat Officer/Protection fixture.\n- [ ] Prove idempotency, private/public boundaries, phase deadlines and reconnect recovery with executable evidence.\n\n## Dependencies\n\n- Shared contracts reviewed by Frontend and Game Balance.\n- Exact private-disclosure and relevant resolution semantics settled for the chosen fixture.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+      "body": "## Outcome\n\nServer-authoritative match slice and command contract.\n\n## Assignment\n\n- Workstream: backend\n- Branch: `agent/backend-foundation`\n- Brief: [agents/backend.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/agents/backend.md)\n- Specification: [docs/backend/first-slice.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/docs/backend/first-slice.md)\n- Verified source import: `7e28c2cd100642667fb0021be0b85fa8cade1869`.\n- Rule-source manifest SHA-256: `34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc`.\n- Implementation baseline: the reviewed bootstrap from #1; record its actual commit before starting.\n\n## Scope\n\n- [ ] Draft command, receipt, per-audience projection and deadline contracts for integration review.\n- [ ] Implement the pure engine and Firebase adapter for the approved nine-seat Officer/Protection fixture.\n- [ ] Prove idempotency, private/public boundaries, phase deadlines and reconnect recovery with executable evidence.\n\n## Dependencies\n\n- Shared workspace and contracts from [bootstrap #1](https://github.com/Amirkianfar66/GameN/issues/1).\n\n- Shared contracts reviewed by Frontend and Game Balance.\n- Exact private-disclosure and relevant resolution semantics settled for the chosen fixture.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n\n## Execution\n\nUse the corresponding launch prompt in [CODEX_START_HERE.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/CODEX_START_HERE.md) and a separate checkout/branch. Creating this issue does not launch an autonomous task. Preserve English UI and the comic motion direction. Record actual checks and unresolved decisions in the PR.\n",
+      "number": 2,
+      "url": "https://github.com/Amirkianfar66/GameN/issues/2",
+      "state": "open",
+      "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+      "depends_on": [
+        1
+      ]
     },
     {
       "key": "frontend",
@@ -18,7 +25,14 @@
       "brief": "agents/frontend.md",
       "specification": "docs/frontend/first-slice.md",
       "assignees": [],
-      "body": "## Outcome\n\nPlayer UI and Three.js board evaluation slice.\n\n## Assignment\n\n- Workstream: frontend\n- Branch: `agent/frontend-tabletop`\n- Brief: `agents/frontend.md`\n- Specification: `docs/frontend/first-slice.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Build accessible English player/table shells and the authorized snapshot adapter.\n- [ ] Evaluate one Three.js/R3F 2.5D board with Designer tokens and labeled fixtures.\n- [ ] Integrate registration/receipt/reconnect/deadline flows and attach measured device evidence.\n\n- [ ] Implement the comic motion fixture gallery and authorized-event director from `docs/design/motion-direction.md`, including reduced-motion, retry/reconnect and deadline behavior.\n\n## Dependencies\n\n- Approved command/projection/receipt contracts from Backend.\n- Versioned visual tokens and card/board states from Designer.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+      "body": "## Outcome\n\nPlayer UI and Three.js board evaluation slice.\n\n## Assignment\n\n- Workstream: frontend\n- Branch: `agent/frontend-tabletop`\n- Brief: [agents/frontend.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/agents/frontend.md)\n- Specification: [docs/frontend/first-slice.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/docs/frontend/first-slice.md)\n- Verified source import: `7e28c2cd100642667fb0021be0b85fa8cade1869`.\n- Rule-source manifest SHA-256: `34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc`.\n- Implementation baseline: the reviewed bootstrap from #1; record its actual commit before starting.\n\n## Scope\n\n- [ ] Build accessible English player/table shells and the authorized snapshot adapter.\n- [ ] Evaluate one Three.js/R3F 2.5D board with Designer tokens and labeled fixtures.\n- [ ] Integrate registration/receipt/reconnect/deadline flows and attach measured device evidence.\n\n- [ ] Implement the comic motion fixture gallery and authorized-event director from `docs/design/motion-direction.md`, including reduced-motion, retry/reconnect and deadline behavior.\n\n## Dependencies\n\n- Shared workspace and contracts from [bootstrap #1](https://github.com/Amirkianfar66/GameN/issues/1).\n\n- Approved command/projection/receipt contracts from Backend.\n- Versioned visual tokens and card/board states from Designer.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n\n## Execution\n\nUse the corresponding launch prompt in [CODEX_START_HERE.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/CODEX_START_HERE.md) and a separate checkout/branch. Creating this issue does not launch an autonomous task. Preserve English UI and the comic motion direction. Record actual checks and unresolved decisions in the PR.\n",
+      "number": 3,
+      "url": "https://github.com/Amirkianfar66/GameN/issues/3",
+      "state": "open",
+      "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+      "depends_on": [
+        1
+      ]
     },
     {
       "key": "designer",
@@ -27,7 +41,14 @@
       "brief": "agents/designer.md",
       "specification": "docs/design/art-direction.md",
       "assignees": [],
-      "body": "## Outcome\n\nComic visual system and interaction handoff.\n\n## Assignment\n\n- Workstream: designer\n- Branch: `agent/designer-art-direction`\n- Brief: `agents/designer.md`\n- Specification: `docs/design/art-direction.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Develop the comic card/board visual system and responsive interaction states.\n- [ ] Deliver versioned design tokens and one production-direction card/board asset treatment.\n- [ ] Review readability, reduced motion and audience-safe animation/audio with Frontend.\n\n- [ ] Deliver comic motion storyboards, layered cue assets and reduced-motion variants from `docs/design/motion-direction.md`.\n\n## Dependencies\n\n- Approved disclosure vocabulary and public/private UI boundaries.\n- Frontend asset/renderer integration contract.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+      "body": "## Outcome\n\nComic visual system and interaction handoff.\n\n## Assignment\n\n- Workstream: designer\n- Branch: `agent/designer-art-direction`\n- Brief: [agents/designer.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/agents/designer.md)\n- Specification: [docs/design/art-direction.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/docs/design/art-direction.md)\n- Verified source import: `7e28c2cd100642667fb0021be0b85fa8cade1869`.\n- Rule-source manifest SHA-256: `34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc`.\n- Implementation baseline: the reviewed bootstrap from #1; record its actual commit before starting.\n\n## Scope\n\n- [ ] Develop the comic card/board visual system and responsive interaction states.\n- [ ] Deliver versioned design tokens and one production-direction card/board asset treatment.\n- [ ] Review readability, reduced motion and audience-safe animation/audio with Frontend.\n\n- [ ] Deliver comic motion storyboards, layered cue assets and reduced-motion variants from `docs/design/motion-direction.md`.\n\n## Dependencies\n\n- Shared workspace and contracts from [bootstrap #1](https://github.com/Amirkianfar66/GameN/issues/1).\n\n- Approved disclosure vocabulary and public/private UI boundaries.\n- Frontend asset/renderer integration contract.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n\n## Execution\n\nUse the corresponding launch prompt in [CODEX_START_HERE.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/CODEX_START_HERE.md) and a separate checkout/branch. Creating this issue does not launch an autonomous task. Preserve English UI and the comic motion direction. Record actual checks and unresolved decisions in the PR.\n",
+      "number": 4,
+      "url": "https://github.com/Amirkianfar66/GameN/issues/4",
+      "state": "open",
+      "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+      "depends_on": [
+        1
+      ]
     },
     {
       "key": "game-balance",
@@ -36,8 +57,22 @@
       "brief": "agents/game-balance.md",
       "specification": "docs/balance/rules-audit.md",
       "assignees": [],
-      "body": "## Outcome\n\nCanon audit and comparative 7/8/9 test baseline.\n\n## Assignment\n\n- Workstream: game-balance\n- Branch: `agent/game-balance-baseline`\n- Brief: `agents/game-balance.md`\n- Specification: `docs/balance/rules-audit.md`\n- Base commit and source manifest hash: to be pinned after repository selection.\n\n## Scope\n\n- [ ] Resolve source precedence into an evidence-linked rule audit without silently changing canon.\n- [ ] Define executable scenario expectations, keeping unresolved results explicitly blocked.\n- [ ] Prepare separate 7/8/9 playtest protocols, telemetry and uncertainty reporting.\n\n## Dependencies\n\n- Game-owner decisions for blocked rules.\n- Engine scenario adapter and sanitized post-match telemetry from Backend.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n"
+      "body": "## Outcome\n\nCanon audit and comparative 7/8/9 test baseline.\n\n## Assignment\n\n- Workstream: game-balance\n- Branch: `agent/game-balance-baseline`\n- Brief: [agents/game-balance.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/agents/game-balance.md)\n- Specification: [docs/balance/rules-audit.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/docs/balance/rules-audit.md)\n- Verified source import: `7e28c2cd100642667fb0021be0b85fa8cade1869`.\n- Rule-source manifest SHA-256: `34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc`.\n- Implementation baseline: the reviewed bootstrap from #1; record its actual commit before starting.\n\n## Scope\n\n- [ ] Resolve source precedence into an evidence-linked rule audit without silently changing canon.\n- [ ] Define executable scenario expectations, keeping unresolved results explicitly blocked.\n- [ ] Prepare separate 7/8/9 playtest protocols, telemetry and uncertainty reporting.\n\n## Dependencies\n\n- Shared workspace and contracts from [bootstrap #1](https://github.com/Amirkianfar66/GameN/issues/1).\n\n- Game-owner decisions for blocked rules.\n- Engine scenario adapter and sanitized post-match telemetry from Backend.\n\n## Acceptance\n\nFollow the role brief and specification. Report only actual checks and measurements. A seeded nine-seat fixture with two controlled clients is not a new two-player mode. Preserve current rule overlays and secret-information boundaries.\n\n## Execution\n\nUse the corresponding launch prompt in [CODEX_START_HERE.md](https://github.com/Amirkianfar66/GameN/blob/7e28c2cd100642667fb0021be0b85fa8cade1869/CODEX_START_HERE.md) and a separate checkout/branch. Creating this issue does not launch an autonomous task. Preserve English UI and the comic motion direction. Record actual checks and unresolved decisions in the PR.\n",
+      "number": 5,
+      "url": "https://github.com/Amirkianfar66/GameN/issues/5",
+      "state": "open",
+      "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+      "depends_on": [
+        1
+      ]
     }
   ],
-  "repository_visibility_at_import": "public"
+  "repository_visibility_at_import": "public",
+  "source_import_commit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+  "bootstrap_issue": {
+    "number": 1,
+    "title": "[Bootstrap] Establish the shared Mothership workspace and contracts",
+    "url": "https://github.com/Amirkianfar66/GameN/issues/1",
+    "state": "open"
+  }
 }

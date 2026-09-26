@@ -9,9 +9,11 @@ This repository carries the project context into new Codex tasks. It does not de
 1. The source import is already on `main` in `Amirkianfar66/GameN`. Do not create another repository, re-import the archive or run `git init` again in an existing checkout.
 2. Open [Codex cloud](https://chatgpt.com/codex), connect GitHub and include `Amirkianfar66/GameN` in the allowed repository selection.
 3. Create/select an environment for this repository and use its `main` branch. Initial context reading and emulator-first development do not require production Firebase credentials. The bootstrap task below establishes reproducible dependency setup.
-4. Run the bootstrap first. Review and commit its shared baseline, then launch the four role tasks from that same commit. Their work packages are in [GitHub Issues](https://github.com/Amirkianfar66/GameN/issues).
+4. Run [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) first. Review and commit its shared baseline, then launch the four role tasks from that same commit. Their work packages are in [GitHub Issues](https://github.com/Amirkianfar66/GameN/issues).
 
 Record the actual base commit in every task report. The imported source is a Canvas/facilitator reference plus production specifications; it is not a completed Firebase game.
+
+Published queue: [bootstrap and four workstream issues](github/work-items.md).
 
 ## 2. First task: establish the shared baseline
 
