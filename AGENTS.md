@@ -45,8 +45,14 @@ Agents are task roles, not GitHub user accounts. Use real GitHub assignees only 
 
 ## Current delivery status
 
-The source/context transfer is imported into `Amirkianfar66/GameN` on `main`. GitHub Issues track the bootstrap and four implementation workstreams. Implementation branches, PRs and task execution start in Codex Astra and Claude Code from the agreed baseline; this import does not create permanent background agents. It contains documentation, source decisions and the existing Canvas/facilitator source under `reference/design-canvas/`. Production-game paths above are proposed, not implemented.
+The source/context transfer is imported into `Amirkianfar66/GameN` on `main`. GitHub Issues track the bootstrap and four implementation workstreams. The bootstrap adds the eight workspace shells and draft shared contracts; it does not implement the production game or create background agents. Its contract and review/merge gate are in `docs/integration-baseline.md`. The existing Canvas/facilitator source remains under `reference/design-canvas/`.
 
 Preserve `reference/design-canvas/` as a source snapshot. Keep its platform-specific code, dependencies and configuration outside the new workspace and CI globs. It is not the production Firebase runtime. The live Canvas database is not included; see `reference/README.md`.
 
-Run bootstrap #1 once in Codex Astra before the four implementation tasks. After review and merge, run Backend #2 in Codex Astra and #3/#4/#5 in separate Claude Code sessions from the same baseline. Shared files are changed by the integration owner. Record actual verified install/build/test commands here when the new workspace exists; there is no root production build command to run yet. Reuse completed work and do not ask the user to choose the destination type again.
+Run bootstrap #1 once in Codex Astra before the four implementation tasks. After review and merge, record the actual resulting baseline commit, then run Backend #2 in Codex Astra and #3/#4/#5 in separate Claude Code sessions from it. Shared files are changed by the integration owner. Reuse completed work and do not ask the user to choose the destination type again.
+
+## Workspace checks established by bootstrap #1
+
+Use Node `22.21.1` and npm `10.9.4` at the repository root. Run `npm ci`, `npm run typecheck`, `npm run test:contracts`, and `npm run build`; `npm run verify` combines toolchain, workspace/source integrity, typecheck, build and all bootstrap tests. `npm run clean` removes only generated workspace outputs. Actual results and limits are in `docs/bootstrap-verification.md`; setup/maintenance instructions are in `docs/development.md`.
+
+The root build produces package JavaScript/declarations, not a playable game or deployed backend. Keep all production tool globs on the explicit workspace list. Reference integrity checks may read Canvas bytes without installing/running its historical stack. `@mothership/contracts/fixtures` is test/development-only, excluded from the normal package export and runtime import allowlist. Any future development harness must verify fixture code is absent from production bundles.

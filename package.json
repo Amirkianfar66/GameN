@@ -1,0 +1,32 @@
+{
+  "name": "mothership-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.4",
+  "engines": { "node": "22.21.1", "npm": "10.9.4" },
+  "workspaces": [
+    "apps/game",
+    "services/game-api",
+    "packages/engine",
+    "packages/contracts",
+    "packages/presentation",
+    "packages/design-tokens",
+    "infra/firebase",
+    "tools/balance"
+  ],
+  "scripts": {
+    "preinstall": "node scripts/check-toolchain.mjs",
+    "check:toolchain": "node scripts/check-toolchain.mjs",
+    "check:workspace": "node scripts/check-workspace.mjs",
+    "check:sources": "node scripts/check-sources.mjs",
+    "typecheck": "tsc --project tsconfig.check.json --noEmit",
+    "build": "tsc --build",
+    "clean": "node scripts/clean.mjs",
+    "test:contracts": "tsc --build packages/contracts && node --test tests/bootstrap/contracts.test.mjs tests/bootstrap/fixtures.test.mjs",
+    "test:bootstrap": "npm run build && node --test tests/bootstrap/*.test.mjs",
+    "test": "npm run test:bootstrap",
+    "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm run test:bootstrap"
+  },
+  "devDependencies": { "@types/node": "22.19.19", "typescript": "5.9.3" }
+}
