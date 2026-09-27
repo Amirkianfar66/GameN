@@ -2,18 +2,18 @@
 
 **Imported:** 26 September 2026. This is the Mothership source and context handoff in [Amirkianfar66/GameN](https://github.com/Amirkianfar66/GameN). Development continues with Codex Astra and three Claude Code sessions. The repository name is GameN; the game remains Mothership. `Amirkianfar66/planet-a` is excluded.
 
-Start with [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) and [CODEX_START_HERE.md](CODEX_START_HERE.md). The handoff is at the repository root. Connect this repository in Codex and run the bootstrap prompt. After its shared baseline is reviewed and merged, launch Backend in Codex Astra and Frontend, Visual/Motion Designer and Game Design/Balance in three Claude Code sessions from the same commit. See [the agreed roster](docs/agent-roster.md).
+Start with [CODEX_START_HERE.md](CODEX_START_HERE.md). [Bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) is complete: [PR #7](https://github.com/Amirkianfar66/GameN/pull/7) was reviewed and merged, and the shared `BASE_SHA` is **`333c9e820f362a211352bc689372663f29b73ac4`**. Use that commit when launching Backend in Codex Astra and Frontend, Visual/Motion Designer and Game Design/Balance in three Claude Code sessions. These four workstreams have not started. See [the agreed roster](docs/agent-roster.md).
 
 ## Bootstrap workspace
 
-The eight-package TypeScript workspace, draft runtime schemas and synthetic Officer/Protection fixtures are ready for review. Use Node `22.21.1` and npm `10.9.4`:
+The eight-package TypeScript workspace, draft runtime schemas and synthetic Officer/Protection fixtures are merged. Affected-role contract adoption review remains open. Use Node `22.21.1` and npm `10.9.4`:
 
 ```sh
 npm ci
 npm run verify
 ```
 
-See [setup and maintenance commands](docs/development.md), [shared contracts and four launch handoffs](docs/integration-baseline.md), and [actual verification results](docs/bootstrap-verification.md). The build emits package code/declarations. Gameplay, Firebase services, React/Three.js rendering and runtime comic motion start in issues #2–#5 after the bootstrap is reviewed and merged; their implementation is not included here.
+See [setup and maintenance commands](docs/development.md), [shared contracts and four launch handoffs](docs/integration-baseline.md), and [actual verification results](docs/bootstrap-verification.md). The build emits package code/declarations. Gameplay, Firebase services, React/Three.js rendering and runtime comic motion remain separate work in issues #2–#5; their implementation is not included here.
 
 ## Included
 

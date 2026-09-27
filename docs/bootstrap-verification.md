@@ -39,7 +39,15 @@ Review base: `34ecc23e26c9338570307701f8b7417b2e04af2f`. The public phase identi
 | Documentation examples | Both JSON examples use the same neutral match/phase IDs as the fixture |
 | `git diff --check` | Passed |
 
-The regression covers both fixture variants, public and both composed player views before/after registration, command/receipt context consistency and event identifiers. It also rejects hidden role names anywhere in the serialized public snapshot. This is fixture evidence, not a claim of runtime authorization. PR #7 remains unmerged pending correction review; no reviewed `BASE_SHA` or workstream launch is claimed.
+The regression covers both fixture variants, public and both composed player views before/after registration, command/receipt context consistency and event identifiers. It also rejects hidden role names anywhere in the serialized public snapshot. This is fixture evidence, not a claim of runtime authorization.
+
+## Integration review and merge — 27 September 2026
+
+The final integration review at `eae665bba68626d7518b5f10daa8fccff548fd12` found no blocking findings within bootstrap scope. A fresh local `npm run verify` passed all **16 tests**, typecheck, build and workspace/source-integrity checks. Documentation JSON examples matched the fixture, all eight TypeScript project references matched declared internal dependencies, and `git diff --check` passed. Canvas, rules, motion direction and the decision register remained unchanged from the starting commit.
+
+After game-owner authorization, [PR #7](https://github.com/Amirkianfar66/GameN/pull/7) merged as **`333c9e820f362a211352bc689372663f29b73ac4`**, the shared `BASE_SHA`. GitHub's merged-state readback confirmed this SHA. Fetching and ancestry verification passed; the merge tree is identical to the reviewed head. [Reviewed-head CI](https://github.com/Amirkianfar66/GameN/actions/runs/36259481604) and [merged-baseline CI](https://github.com/Amirkianfar66/GameN/actions/runs/36348145957) both passed.
+
+The baseline is recorded in [integration-baseline.md](integration-baseline.md) and the bootstrap issue handoff. This completes only bootstrap #1; none of the four implementation workstreams was started.
 
 ## Not run / not implemented in this bootstrap
 
@@ -49,6 +57,6 @@ The regression covers both fixture variants, public and both composed player vie
 - Finished assets/storyboards, actual composited contrast or visual approval: Designer #4.
 - All 35 declarative balance scenarios (25 ready for implementation, 10 blocked), simulated games, human playtests and win-rate analysis: Game Design/Balance #5. None counted as passing by these bootstrap tests.
 - Production/staging provisioning, deployments, load, recovery and paid service measurements: not performed.
-- Affected-role contract approval, branch-protection configuration, PR merge and resulting reviewed `BASE_SHA`: pending review/merge; no future SHA invented.
+- Affected-role contract adoption approval and branch-protection configuration: not performed by this bootstrap. The integration review and merge above do not claim either.
 
 Source rules, Canvas and motion direction remain intact. [integration-baseline.md](integration-baseline.md) lists every unresolved rule/disclosure decision and the four separate launch handoffs. Stop after this bootstrap PR.

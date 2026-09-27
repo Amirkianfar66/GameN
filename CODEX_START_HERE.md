@@ -10,15 +10,15 @@ This repository carries the project context into Codex Astra and Claude Code tas
 2. Open [Codex cloud](https://chatgpt.com/codex), connect GitHub and include `Amirkianfar66/GameN` in the allowed repository selection.
 3. Create/select an environment for this repository and use its `main` branch. Select **Astra** in the actual model control; naming a model in a prompt does not switch it. If Astra is unavailable, report that before substituting. Initial context reading and emulator-first development do not require production Firebase credentials. The bootstrap task below establishes reproducible dependency setup.
    The bootstrap workspace now pins Node `22.21.1` and npm `10.9.4`. Use the setup/maintenance commands in [docs/development.md](docs/development.md), including `npm ci`, and allow `registry.npmjs.org` for dependency setup. If working from the historical pre-bootstrap source import, its root manifest did not exist yet. The workspace build is scaffolding, not a production game.
-4. Run [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) first in **Codex Astra**. Review its PR and checks and merge the approved baseline. Then launch Backend in Codex Astra and the other three roles in separate Claude Code sessions from that same resulting commit. Their work packages are in [GitHub Issues](https://github.com/Amirkianfar66/GameN/issues).
+4. [Bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) is complete and [PR #7](https://github.com/Amirkianfar66/GameN/pull/7) is merged. Use the recorded `BASE_SHA` below for later work. Backend runs in Codex Astra and the other three roles run in separate Claude Code sessions; none has started. Their work packages are in [GitHub Issues](https://github.com/Amirkianfar66/GameN/issues).
 
 Record the actual base commit in every task report. The imported source is a Canvas/facilitator reference plus production specifications; it is not a completed Firebase game.
 
 Published queue: [bootstrap and four workstream issues](github/work-items.md).
 
-## 2. First task: establish the shared baseline
+## 2. Completed bootstrap task (historical prompt)
 
-Select Astra, then paste this into the first Codex task:
+This prompt is retained as the record of bootstrap #1. Do not rerun it.
 
 ```text
 Continue Mothership from this repository. Read CODEX_START_HERE.md,
@@ -64,11 +64,11 @@ role tasks will start from its reviewed committed baseline.
 
 `chore/mothership-bootstrap` is the intended branch name. If the Codex surface creates its own branch, record the actual branch; branch naming is not a dependency for producing the work.
 
-The resulting bootstrap contract, ownership and merge gate are in [docs/integration-baseline.md](docs/integration-baseline.md). Check [the recorded verification](docs/bootstrap-verification.md) and review its PR before starting later tasks. Do not rerun bootstrap or infer that its PR is merged from the existence of these files. Its reviewed merge SHA remains pending until explicitly recorded.
+The resulting bootstrap contract, ownership and adoption gates are in [docs/integration-baseline.md](docs/integration-baseline.md). The actual reviewed merge commit is **`BASE_SHA=333c9e820f362a211352bc689372663f29b73ac4`**. [Recorded verification](docs/bootstrap-verification.md) includes the completed review, GitHub merged-state readback, commit ancestry and passing CI. This documentation update does not redefine the baseline.
 
 ## 3. Launch four role tasks from one baseline
 
-After the bootstrap is reviewed and merged, select its resulting commit for each task. Run Backend in Codex Astra. Run Frontend, Designer, and Game Balance in three independent Claude Code sessions. Each cloud task gets its own checkout; local sessions use separate Git worktrees. Do not have four tasks mutate the same working directory or root lockfile. Claude sessions read `CLAUDE.md`; all sessions follow `AGENTS.md` and `docs/agent-roster.md`.
+When the game owner launches the next tasks, use `333c9e820f362a211352bc689372663f29b73ac4` for each. Run Backend in Codex Astra. Run Frontend, Designer, and Game Balance in three independent Claude Code sessions. Each cloud task gets its own checkout; local sessions use separate Git worktrees. Do not have four tasks mutate the same working directory or root lockfile. Claude sessions read `CLAUDE.md`; all sessions follow `AGENTS.md` and `docs/agent-roster.md`.
 
 Use the prompt for each role below. Replace `BASE_SHA` with the reviewed bootstrap commit. Prefer one reviewable PR per concrete deliverable. Root tooling and shared contracts remain the integration owner's responsibility.
 
