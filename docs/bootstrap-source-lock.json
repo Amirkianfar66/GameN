@@ -1,0 +1,104 @@
+{
+  "status": "bootstrap-source-lock-not-compiled-ruleset",
+  "baseCommit": "0a4ff9a772eda25ea27922a331ff406a3ffc9000",
+  "sourceImportCommit": "7e28c2cd100642667fb0021be0b85fa8cade1869",
+  "canvasGitTree": "d5b0eedbdfba668645f76b79ca68ee4e96596694",
+  "files": [
+    {
+      "path": "rules/source-manifest.json",
+      "sha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc"
+    },
+    {
+      "path": "docs/decisions.md",
+      "sha256": "acb0631214124ecc01996df1ab7d3c2ca857e95efb478d1b765e3275aa8ddcb1"
+    },
+    {
+      "path": "docs/backend/first-slice.md",
+      "sha256": "c1974b5c54dd6686205d1b778ae337d175603304f575db9c1056f1962e52c4ac"
+    },
+    {
+      "path": "docs/frontend/first-slice.md",
+      "sha256": "73a49f0dcd480aa6a5a9490ac6bb35a345bd1198a9ac3a59b5c50e96b9f95c66"
+    },
+    {
+      "path": "docs/architecture/production-v1.0.md",
+      "sha256": "bfe295eeb1736b700fdf43593d05f86183589aca789a859098071bdc70e7972e"
+    },
+    {
+      "path": "docs/architecture/rendering-direction.md",
+      "sha256": "6e8ae7a660d6f8313df4a15035fdd81dbf35252c1a400eedb3252d1e9cc34fad"
+    },
+    {
+      "path": "docs/design/motion-direction.md",
+      "sha256": "e65e251b53c1446f4f59a3d84a1d3e2b09869420694b0106b39ec3cd229bbdf2"
+    },
+    {
+      "path": "docs/design/art-direction.md",
+      "sha256": "b993de2aba70e7de0db580e8710c7e3a2ce128da105876b65824c7dcc2dc0656"
+    },
+    {
+      "path": "docs/design/design-tokens.json",
+      "sha256": "013e5e60d6ad255ca24a373f02a0095fb31cca17df39b6287315c225d70127e1"
+    },
+    {
+      "path": "docs/balance/scenario-matrix.json",
+      "sha256": "d6b5591273e6b3b416bfd6542681265e65b11000a669c0804804a4031ab9a6e5"
+    },
+    {
+      "path": "docs/balance/rules-audit.md",
+      "sha256": "e12a10858594bd0fe589c1c7efe32bd406091c38ff0675614557b8c6a5cf5356"
+    },
+    {
+      "path": "reference/source-export-manifest.json",
+      "sha256": "bb2b038a22ccf905d1cc9a0ff4e38c9694da489021fdeed5b036422c6fbfbe00"
+    },
+    {
+      "path": "reference/design-canvas/.openai/hosting.example.json",
+      "sha256": "89610cb100afd3db32d865423a69a3fe2de1da54150570ea979a63143a6d5bdd"
+    },
+    {
+      "path": "agents/backend.md",
+      "sha256": "e95baff8e77b3fbf69a1360e56d9bfd0ad61e6d5dfd6056ce435e0215393c8a8"
+    },
+    {
+      "path": "agents/designer.md",
+      "sha256": "42dc86757c8d3f4f696e7c7135b46722e907c25b0b544b6261b1a839f4814324"
+    },
+    {
+      "path": "agents/frontend.md",
+      "sha256": "84045f6428753c502debd72fb86bd4d7ca9870e86b3ea51eed0222bed7e97ac6"
+    },
+    {
+      "path": "agents/game-balance.md",
+      "sha256": "fe153ca0fdf06c201473070b3424363754e7746ab4c71f9305a0fc85749054f0"
+    },
+    {
+      "path": "rules/overlays/consolidated-decisions-2026-09-26.json",
+      "sha256": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5"
+    },
+    {
+      "path": "rules/overlays/direct-shot-decision.json",
+      "sha256": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be"
+    },
+    {
+      "path": "rules/overlays/final-showdown-decision.json",
+      "sha256": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1"
+    },
+    {
+      "path": "rules/overlays/location-board-layout-v1.json",
+      "sha256": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691"
+    },
+    {
+      "path": "rules/overlays/movement-decision.json",
+      "sha256": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d"
+    },
+    {
+      "path": "rules/overlays/player-modes-officer.json",
+      "sha256": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19"
+    },
+    {
+      "path": "rules/sources/v2.1-decisions.json",
+      "sha256": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
+    }
+  ]
+}

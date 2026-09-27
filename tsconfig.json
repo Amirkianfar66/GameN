@@ -1,0 +1,29 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "apps/game"
+    },
+    {
+      "path": "services/game-api"
+    },
+    {
+      "path": "packages/engine"
+    },
+    {
+      "path": "packages/contracts"
+    },
+    {
+      "path": "packages/presentation"
+    },
+    {
+      "path": "packages/design-tokens"
+    },
+    {
+      "path": "infra/firebase"
+    },
+    {
+      "path": "tools/balance"
+    }
+  ]
+}

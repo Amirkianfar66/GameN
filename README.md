@@ -4,6 +4,17 @@
 
 Start with [bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) and [CODEX_START_HERE.md](CODEX_START_HERE.md). The handoff is at the repository root. Connect this repository in Codex and run the bootstrap prompt. After its shared baseline is reviewed and merged, launch Backend in Codex Astra and Frontend, Visual/Motion Designer and Game Design/Balance in three Claude Code sessions from the same commit. See [the agreed roster](docs/agent-roster.md).
 
+## Bootstrap workspace
+
+The eight-package TypeScript workspace, draft runtime schemas and synthetic Officer/Protection fixtures are ready for review. Use Node `22.21.1` and npm `10.9.4`:
+
+```sh
+npm ci
+npm run verify
+```
+
+See [setup and maintenance commands](docs/development.md), [shared contracts and four launch handoffs](docs/integration-baseline.md), and [actual verification results](docs/bootstrap-verification.md). The build emits package code/declarations. Gameplay, Firebase services, React/Three.js rendering and runtime comic motion start in issues #2–#5 after the bootstrap is reviewed and merged; their implementation is not included here.
+
 ## Included
 
 | Material | Location |
