@@ -1,6 +1,6 @@
 # Shared integration baseline — bootstrap #1
 
-Status: **draft contract and workspace ready for integration review; not a merged baseline**. This is the complete scope of [issue #1](https://github.com/Amirkianfar66/GameN/issues/1). Backend #2 and the three Claude workstreams #3–#5 have not started.
+Status: **bootstrap reviewed and merged in [PR #7](https://github.com/Amirkianfar66/GameN/pull/7) on 27 September 2026; shared baseline recorded below**. This completes [issue #1](https://github.com/Amirkianfar66/GameN/issues/1). Contracts remain a bootstrap draft subject to the adoption gates below. Backend #2 and the three Claude workstreams #3–#5 have not started.
 
 | Provenance | Actual value |
 | --- | --- |
@@ -13,7 +13,8 @@ Status: **draft contract and workspace ready for integration review; not a merge
 | Fixture source version | `fixture-source-2026-09-26` |
 | Fixture source-manifest SHA-256 | `34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc` |
 | Fixture engine / assets | `0.0.0-bootstrap-no-engine` / `0.0.0-no-assets` |
-| Reviewed merge baseline (`BASE_SHA`) | **Pending review and merge. Unknown; do not substitute the task base or PR head.** |
+| Reviewed PR head | `eae665bba68626d7518b5f10daa8fccff548fd12` |
+| Reviewed merge baseline (`BASE_SHA`) | `333c9e820f362a211352bc689372663f29b73ac4` — actual PR #7 merge commit |
 
 The fixture source hash identifies the unchanged source manifest, which in turn pins seven JSON sources. It is not a compiled or approved production ruleset. No game canon is changed. Exact preserved file hashes are in [bootstrap-source-lock.json](bootstrap-source-lock.json); the 119 copied Canvas files and unbound example remain intact. [reference/README.md](../reference/README.md) retains the live database export limitation.
 
@@ -127,18 +128,21 @@ Each session uses the same recorded `BASE_SHA`, an isolated checkout/worktree an
 | [#4](https://github.com/Amirkianfar66/GameN/issues/4) Claude Code Visual/Motion Designer | `agent/designer-art-direction` | Versioned card/board/token states, one finished room/neutral token/Officer card and editable source/rights manifest. Supply opening/accent/settled frames, anchors and normal/reduced-motion alternatives; keep blocked disclosure examples synthetic. Review with Frontend for actual composition/readability. |
 | [#5](https://github.com/Amirkianfar66/GameN/issues/5) Claude Code Game Design/Balance | `agent/game-balance-baseline` | Source-pinned scenario adapter and evidence report after Backend publishes engine hooks. Keep 7/8/9 and powers-off cases separate, retain blocked cases, define human playtest/telemetry forms and report actual runs. No inferred win rates or automatic canon changes. |
 
-### Record the reviewed baseline
+### Verified merge baseline
 
-The integrator first verifies the bootstrap PR is merged, reads its actual resulting `mergeCommit.oid` from GitHub (including squash/rebase behavior), fetches that commit and records it here/in the issue handoff in a focused update. For example, after replacing `PR_NUMBER` with this bootstrap PR:
+GitHub confirms PR #7 is merged with resulting commit `333c9e820f362a211352bc689372663f29b73ac4`. The integrator fetched it, verified it is an ancestor of `origin/main`, and confirmed its tree exactly matches reviewed head `eae665bba68626d7518b5f10daa8fccff548fd12`. Both [reviewed-head CI](https://github.com/Amirkianfar66/GameN/actions/runs/36259481604) and [merged-baseline CI](https://github.com/Amirkianfar66/GameN/actions/runs/36348145957) passed. The integration review found no remaining bootstrap blockers after the role-neutral identifier correction; the game owner authorized the merge.
+
+Use this exact baseline for all four later workstreams. The documentation commit recording it does not redefine `BASE_SHA`. To recheck its provenance:
 
 ```sh
-gh pr view PR_NUMBER --repo Amirkianfar66/GameN --json state,mergeCommit
+BASE_SHA=333c9e820f362a211352bc689372663f29b73ac4
+gh pr view 7 --repo Amirkianfar66/GameN --json state,mergeCommit
 git fetch origin
-git show --no-patch --format=fuller BASE_SHA
-git merge-base --is-ancestor BASE_SHA origin/main
+git show --no-patch --format=fuller "$BASE_SHA"
+git merge-base --is-ancestor "$BASE_SHA" origin/main
 ```
 
-Use the verified merge result, not `origin/main` at some later time and not a guessed SHA. If unmerged or review is incomplete, stop. Do not launch a role based only on a passing bootstrap check. Obtain integration review of contracts/ownership/source preservation; required checks and game-owner decisions stay visible.
+The bootstrap integration review covers contracts, ownership and source preservation within issue #1. Affected-role contract adoption review and the listed game-owner decisions remain open. No role was launched as part of merging or recording this baseline.
 
 ### Codex Astra Backend launch
 
@@ -160,4 +164,4 @@ Start a separate Claude Code session from verified `BASE_SHA` on `agent/game-bal
 
 This contract follows all four [role briefs](../agents/), [backend](backend/first-slice.md) and [frontend](frontend/first-slice.md) specifications, [production architecture](architecture/production-v1.0.md), the later [rendering direction](architecture/rendering-direction.md), current rules and [motion direction](design/motion-direction.md). Historical Canvas platform code remains reference-only.
 
-Run the commands in [development.md](development.md). Actual bootstrap evidence and checks not run are recorded in [bootstrap-verification.md](bootstrap-verification.md). The bootstrap stops at the reviewable PR; merge, baseline recording, production services and all four implementation tasks remain subsequent steps.
+Run the commands in [development.md](development.md). Actual bootstrap evidence and checks not run are recorded in [bootstrap-verification.md](bootstrap-verification.md). Bootstrap review, merge and baseline recording are complete. Production services and all four implementation tasks remain separate, unstarted work.
