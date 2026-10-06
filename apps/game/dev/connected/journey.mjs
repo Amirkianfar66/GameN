@@ -733,9 +733,10 @@ async function main() {
       }
       roles.set(player, await player.text('.ms-role-card'));
       // Nothing can be started until this device has the server's time. Then: what the
-      // server offers this seat now, in words: a move, and no shot.
+      // server offers this seat now, in words: a move, and no shot. Those are the first two
+      // rows; a role's own action may be listed after them, and the roles journey checks those.
       await player.page.waitFor("document.getElementById('ms-action-open-move') !== null", `${player.label}: the clock is trusted and a move is offered`);
-      assert.deepEqual(await player.page.evaluate("[...document.querySelectorAll('.ms-offer')].map(offer => [offer.dataset.kind, offer.querySelector('.ms-offer__status').textContent, offer.querySelector('button') !== null])"),
+      assert.deepEqual(await player.page.evaluate("[...document.querySelectorAll('.ms-offer')].slice(0, 2).map(offer => [offer.dataset.kind, offer.querySelector('.ms-offer__status').textContent, offer.querySelector('button') !== null])"),
         [['move', 'Available', true], ['shot', 'Not available', false]], `${player.label}: a move is offered and no shot`);
     }
     assert.deepEqual([...roles.values()].sort(), SEVEN_PLAYER_ROLES, 'Seven players hold the seven roles of the seven-player roster, each once');
