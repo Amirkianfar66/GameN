@@ -1,6 +1,6 @@
 import type { FullPlayerView, FullPublicView, SeatId } from '@mothership/contracts';
 import {
-  actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, choiceValue, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
+  actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
 } from '@mothership/presentation';
 import type { ConnectedPlayerInput, ConnectedPlayerShellModel, ShellIntent, TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts, PlayerPorts } from '../ports.js';
@@ -8,7 +8,7 @@ import { createScreen } from '../screens/screen.js';
 import type { ScreenController, ScreenHost } from '../screens/screen.js';
 import { DEFAULT_SESSION_TIMING } from '../session/audience-session.js';
 import type { SessionTiming } from '../session/audience-session.js';
-import { createActionFlow, offeredChoices } from './action-flow.js';
+import { createActionFlow } from './action-flow.js';
 import type { ActionFlow, ActionFlowTiming } from './action-flow.js';
 import { createConnectedApi } from './api.js';
 import { createDeadlineCatchUp } from './deadline-catch-up.js';
@@ -66,16 +66,11 @@ export interface ConnectedPlayerScreenOptions extends Omit<ConnectedTableScreenO
 }
 
 // Returns whether the flow changed, or null when the intent is not one of its own.
-function applyActionIntent(flow: ActionFlow, intent: ShellIntent, view: FullPlayerView | null): boolean | null {
+function applyActionIntent(flow: ActionFlow, intent: ShellIntent): boolean | null {
   switch (intent.type) {
     case 'action/open': return flow.open(intent.kind);
-    case 'action/choose': {
-      const state = flow.getState();
-      if (state.step !== 'choosing' || view === null) return false;
-      // The control carried a name. It becomes a choice only if the server offers exactly that.
-      const choice = offeredChoices(view, state.kind).find(candidate => choiceValue(candidate) === intent.value);
-      return choice === undefined ? false : flow.choose(choice);
-    }
+    // The control carried a name. The flow takes it only if the server's view offers exactly that next.
+    case 'action/choose': return flow.pick(intent.value);
     case 'action/back': return flow.back();
     case 'action/confirm': return flow.confirm();
     case 'action/check-again': return flow.checkAgain();
@@ -91,15 +86,12 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
   const flow = createActionFlow({ api, ports: options.ports, matchId: options.matchId, seatId: options.seatId, timing: options.actionTiming });
   // A phone asks later than a display would, and each seat at its own moment.
   const catchUp = createDeadlineCatchUp({ api, ports: options.ports, matchId: options.matchId, order: Number(options.seatId.slice(5)), timing: options.catchUpTiming });
-  let latest: FullPlayerView | null = null;
-
   return createScreen<FullPlayerView, ConnectedPlayerInput, ConnectedPlayerShellModel>({
     session,
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
     buildInput(environment, view, local) {
-      latest = view;
       // The flow is told the present before its state is read, so a choice that was not sent
       // never outlives a closed panel, a view that is no longer fresh, or an ended phase.
       flow.observe({
@@ -125,7 +117,7 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
       // An action control exists only inside the open private panel. An intent that names one
       // while the panel is closed did not come from the screen as it stands.
       if (model.match?.privateArea.content == null) return null;
-      if (applyActionIntent(flow, intent, latest) !== true) return null;
+      if (applyActionIntent(flow, intent) !== true) return null;
       return {
         focus(next) {
           const card = next.match?.privateArea.content?.actions.card;

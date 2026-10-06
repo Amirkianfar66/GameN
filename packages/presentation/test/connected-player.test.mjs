@@ -187,7 +187,7 @@ test('every step of the open card passes the structural audit, and focus goes to
 test('the intent parser accepts the action intents and nothing a control could not carry', () => {
   assert.deepEqual(parseShellIntent('action/open', { kind: 'move' }), { type: 'action/open', kind: 'move' });
   assert.deepEqual(parseShellIntent('action/open', { kind: 'shot' }), { type: 'action/open', kind: 'shot' });
-  assert.equal(parseShellIntent('action/open', { kind: 'scan' }), null);
+  assert.equal(parseShellIntent('action/open', { kind: 'jump' }), null);
   assert.equal(parseShellIntent('action/open', {}), null);
   assert.deepEqual(parseShellIntent('action/choose', { value: 'Room B' }), { type: 'action/choose', value: 'Room B' });
   assert.equal(parseShellIntent('action/choose', {}), null);
@@ -238,10 +238,10 @@ const TARGET_ACTIONS = {
 const listing = (command, seats) => view => { view.legalTargets = { ...view.legalTargets, [command]: seats }; };
 
 test('the actions the phone can offer are a fixed list, and each one that names a seat reads its targets from the view under its own command', () => {
-  assert.deepEqual(ACTION_KINDS, ['move', 'shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-shot', 'vote', 'release-choice', 'release-vote']);
+  assert.deepEqual(ACTION_KINDS, ['move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote']);
   assert.deepEqual(TARGET_ACTION_COMMANDS, { shot: 'REGISTER_SHOT', disable: 'DISABLE', protect: 'PROTECT', rescue: 'RESCUE', hack: 'REQUEST_HACK', 'showdown-shot': 'SHOWDOWN_SHOT' });
   for (const kind of ACTION_KINDS) assert.equal(isActionKind(kind), true);
-  for (const other of ['scan', 'supply', 'code', 'VOTE', 'MOVE', '', null, undefined, 3]) assert.equal(isActionKind(other), false, String(other));
+  for (const other of ['jump', 'SCAN', 'VOTE', 'MOVE', '', null, undefined, 3]) assert.equal(isActionKind(other), false, String(other));
   for (const [kind, { command }] of Object.entries(TARGET_ACTIONS)) {
     assert.equal(offeredTargets(playerView(), kind), null, `${kind}: not opened by the view`);
     assert.deepEqual(offeredTargets(playerView(listing(command, ['seat-5', 'seat-3'])), kind), ['seat-5', 'seat-3'], `${kind}: the view's own list, as given`);
@@ -259,7 +259,7 @@ test('an action other than a move or a shot is listed only while the server open
   // Nothing opened: the card lists a move and a shot, and no role's action by name.
   assert.deepEqual(card(playerView()).body.offers.map(offer => offer.kind), ['move', 'shot']);
   // Commands this screen does not offer, and keys it does not know, list nothing either.
-  const unknown = card(playerView(view => { view.legalTargets = { SCAN: ['seat-2'], SUPPLY: ['seat-2', 'seat-3'], RELEASE_VOTE: ['seat-2'], SOMETHING_NEW: ['seat-4'] }; }));
+  const unknown = card(playerView(view => { view.legalTargets = { RELEASE_VOTE: ['seat-2'], SUBMIT_CODE: ['seat-2', 'seat-3'], MOVE: ['seat-2'], SOMETHING_NEW: ['seat-4'] }; }));
   assert.deepEqual(unknown.body.offers.map(offer => offer.kind), ['move', 'shot']);
 
   for (const [kind, expected] of Object.entries(TARGET_ACTIONS)) {
@@ -357,5 +357,5 @@ test('while the server says this seat is in a Hack, the open panel says who with
 
 test('a control can ask to open any of these actions and nothing that is not one', () => {
   for (const kind of ACTION_KINDS) assert.deepEqual(parseShellIntent('action/open', { kind }), { type: 'action/open', kind });
-  for (const kind of ['scan', 'supply', 'REGISTER_SHOT', 'VOTE', '', undefined]) assert.equal(parseShellIntent('action/open', { kind }), null, String(kind));
+  for (const kind of ['jump', 'REGISTER_SHOT', 'VOTE', 'SCAN', '', undefined]) assert.equal(parseShellIntent('action/open', { kind }), null, String(kind));
 });

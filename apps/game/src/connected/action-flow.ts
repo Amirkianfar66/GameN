@@ -1,6 +1,8 @@
 import { FullCommandRequestSchema, IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { FullCommandRequest, FullPlayerView, FullReceipt, SeatId } from '@mothership/contracts';
-import { offeredChoices as offeredByView, sameChoice, SEAT_BALLOT_COMMANDS, TARGET_ACTION_COMMANDS } from '@mothership/presentation';
+import {
+  completeChoice, isCompoundKind, isOffered, nextOptions, offeredChoices as offeredByView, openness, SEAT_BALLOT_COMMANDS, TARGET_ACTION_COMMANDS,
+} from '@mothership/presentation';
 import type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import type { ConnectedApi, ConnectedCommandResult } from './api.js';
@@ -9,11 +11,12 @@ export type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAccepte
 
 // One player's own command under wire protocol 2, from picking an action up to knowing what
 // the server did with it: a move, any action that names one seat (an ordinary shot, a
-// Disable, a grant of Protection, a Rescue, a Hack request, a showdown shot), or a ballot (a
-// vote in an election or a Jail vote, the Captain's release choice, a vote on that release).
-// The flow is the same for all of them. One command at a time for the seat, whatever its
-// kind: while an earlier one is unaccounted for, no new intent is offered, and the flow has
-// no way to put an unaccounted-for command aside.
+// Disable, a grant of Protection, a Rescue, a Hack request, a showdown shot), a ballot (a
+// vote in an election or a Jail vote, the Captain's release choice, a vote on that release),
+// or an action whose choice has several parts picked one after another (a Scan, a Supply, a
+// Code attempt). The flow is the same for all of them. One command at a time for the seat,
+// whatever its kind: while an earlier one is unaccounted for, no new intent is offered, and
+// the flow has no way to put an unaccounted-for command aside.
 //
 // The flow decides nothing about the game. What may be chosen is read from the player's own
 // authoritative view (the server's destinations, the server's legal targets) and from
@@ -80,6 +83,9 @@ export interface ActionFlow {
   observe(context: ActionFlowContext): void;
   // Each returns whether it changed anything. None of them notifies.
   open(kind: ActionKind): boolean;
+  /** One part of a choice, by the name its control carries. When the choice is whole the flow moves on to confirming it. */
+  pick(value: string): boolean;
+  /** A whole choice at once. */
   choose(choice: ActionChoice): boolean;
   back(): boolean;
   confirm(): boolean;
@@ -121,8 +127,8 @@ interface Pending {
 
 type State =
   | { readonly step: 'idle' }
-  // A choice belongs to the phase it was made in.
-  | { readonly step: 'choosing'; readonly kind: ActionKind; readonly phaseId: string }
+  // A choice belongs to the phase it was made in. picked: the parts chosen so far, in order.
+  | { readonly step: 'choosing'; readonly kind: ActionKind; readonly picked: readonly string[]; readonly phaseId: string }
   | { readonly step: 'confirming'; readonly choice: ActionChoice; readonly phaseId: string }
   | { readonly step: 'submitting' | 'checking' | 'unknown'; readonly pending: Pending }
   | { readonly step: 'accepted'; readonly choice: ActionChoice | null }
@@ -133,12 +139,13 @@ type State =
 type Outcome = { readonly receipt: FullReceipt } | { readonly reason: NotAcceptedReason } | null;
 
 /**
- * What the server's own view offers this seat right now, for one kind of action, and
- * nothing else. An action the view does not open, or opens with nobody to choose, offers
- * nothing.
+ * What the server's own view offers this seat right now, for one kind of action whose
+ * choice is one pick, and nothing else. An action the view does not open, or opens with
+ * nobody to choose, offers nothing. An action whose choice has several parts is not listed
+ * choice by choice: what may be picked next for it is nextOptions.
  */
 export function offeredChoices(view: FullPlayerView, kind: ActionKind): ActionChoice[] {
-  return [...(offeredByView(view, kind) ?? [])];
+  return isCompoundKind(kind) ? [] : [...(offeredByView(view, kind) ?? [])];
 }
 
 /** The wire command a choice stands for. The shared strict schema judges it before anything is sent. */
@@ -148,6 +155,9 @@ function commandOf(choice: ActionChoice): unknown {
     case 'vote':
     case 'release-choice': return { type: SEAT_BALLOT_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
     case 'release-vote': return { type: 'RELEASE_VOTE', approve: choice.approve };
+    case 'scan': return { type: 'SCAN', targetSeatId: choice.targetSeatId, guess: choice.guess };
+    case 'supply': return { type: 'SUPPLY', targetSeatIds: [...choice.targetSeatIds] };
+    case 'code': return { type: 'SUBMIT_CODE', seatIds: [...choice.seatIds] };
     default: return { type: TARGET_ACTION_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
   }
 }
@@ -241,7 +251,7 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
 
   /** The interface would let the player start or send something right now. */
   const canAct = (): boolean => context.view !== null && context.current && context.inTime && context.panelOpen;
-  const offered = (choice: ActionChoice): boolean => context.view !== null && offeredChoices(context.view, choice.kind).some(candidate => sameChoice(candidate, choice));
+  const offered = (choice: ActionChoice): boolean => context.view !== null && isOffered(context.view, choice);
 
   /** True while this is still the command the flow is waiting on. Late answers find it false. */
   function isOpen(pending: Pending): boolean {
@@ -481,7 +491,7 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
     getState() {
       switch (state.step) {
         case 'idle': return { step: 'idle' };
-        case 'choosing': return { step: 'choosing', kind: state.kind };
+        case 'choosing': return state.picked.length > 0 ? { step: 'choosing', kind: state.kind, picked: state.picked } : { step: 'choosing', kind: state.kind };
         case 'confirming': return { step: 'confirming', choice: state.choice, armed: isArmed() };
         case 'submitting': return { step: 'submitting', choice: state.pending.choice };
         case 'checking': return { step: 'checking', choice: state.pending.choice, recovered: state.pending.request === null };
@@ -531,17 +541,35 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
       if (state.step === 'choosing' || state.step === 'confirming') {
         if (!canAct() || view === null || view.phase.id !== state.phaseId) state = { step: 'idle' };
         else {
-          // What was picked is no longer offered: asked to choose again. Nothing is offered any more: the action closes.
-          if (state.step === 'confirming' && !offered(state.choice)) state = { step: 'choosing', kind: state.choice.kind, phaseId: state.phaseId };
-          if (state.step === 'choosing' && offeredChoices(view, state.kind).length === 0) state = { step: 'idle' };
+          // What was picked is no longer offered: asked to choose again, from the start.
+          // No whole choice can be made any more: the action closes.
+          if (state.step === 'confirming' && !offered(state.choice)) state = { step: 'choosing', kind: state.choice.kind, picked: [], phaseId: state.phaseId };
+          if (state.step === 'choosing') {
+            if (openness(view, state.kind) !== 'open') state = { step: 'idle' };
+            else if (nextOptions(view, state.kind, state.picked) === null) state = { ...state, picked: [] };
+          }
         }
       }
     },
 
     open(kind) {
       if (disposed || state.step !== 'idle' || !canAct() || context.view === null) return false;
-      if (offeredChoices(context.view, kind).length === 0) return false;
-      state = { step: 'choosing', kind, phaseId: context.view.phase.id };
+      if (openness(context.view, kind) !== 'open') return false;
+      state = { step: 'choosing', kind, picked: [], phaseId: context.view.phase.id };
+      return true;
+    },
+    pick(value) {
+      if (disposed || state.step !== 'choosing' || !canAct() || context.view === null) return false;
+      // Only what the view offers next, given what is already picked, can be picked.
+      if (!(nextOptions(context.view, state.kind, state.picked) ?? []).includes(value)) return false;
+      const picked = [...state.picked, value];
+      const choice = completeChoice(context.view, state.kind, picked);
+      if (choice === null) {
+        state = { ...state, picked };
+        return true;
+      }
+      state = { step: 'confirming', choice, phaseId: state.phaseId };
+      arm();
       return true;
     },
     choose(choice) {
@@ -552,8 +580,9 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
     },
     back() {
       if (disposed) return false;
-      if (state.step === 'confirming') state = { step: 'choosing', kind: state.choice.kind, phaseId: state.phaseId };
-      else if (state.step === 'choosing') state = { step: 'idle' };
+      // From confirming: choose again, from the start. From choosing: undo the last pick, or put the action down.
+      if (state.step === 'confirming') state = { step: 'choosing', kind: state.choice.kind, picked: [], phaseId: state.phaseId };
+      else if (state.step === 'choosing') state = state.picked.length > 0 ? { ...state, picked: state.picked.slice(0, -1) } : { step: 'idle' };
       else return false;
       return true;
     },

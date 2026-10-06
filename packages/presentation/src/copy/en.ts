@@ -1,6 +1,6 @@
 import type {
-  ActionKind, DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ReleaseVoteKind, SeatBallotKind,
-  ShotRejectionCode, TargetActionKind,
+  ActionKind, CompoundActionKind, DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ReleaseVoteKind,
+  SeatBallotKind, ShotRejectionCode, TargetActionKind,
 } from '../model/types.js';
 
 type NamedPhaseKind = Exclude<PhaseFacts['kind'], 'ORDINARY_TURN' | 'ROUND_RESOLUTION'>;
@@ -194,6 +194,7 @@ export const en = {
     kind: {
       move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot',
       vote: 'Vote', 'release-choice': 'Release request', 'release-vote': 'Release vote',
+      scan: 'Scan', supply: 'Supply', code: 'Code attempt',
     } satisfies Record<ActionKind, string>,
     status: {
       idle: 'Nothing in progress',
@@ -210,11 +211,13 @@ export const en = {
       paused: 'Paused',
       unavailable: 'Not available',
       noTarget: 'No one you can target right now',
+      tooFew: 'Too few players to choose right now',
     },
     open: {
       move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
       hack: 'Choose a player', 'showdown-shot': 'Choose a target',
       vote: 'Cast your ballot', 'release-choice': 'Choose', 'release-vote': 'Cast your ballot',
+      scan: 'Choose a player', supply: 'Choose two players', code: 'Enter a Code',
     } satisfies Record<ActionKind, string>,
     queued: (count: number) => (count === 1
       ? 'One action of yours is registered and waiting to be resolved.'
@@ -224,7 +227,8 @@ export const en = {
       hack: 'Who do you request a Hack with?', 'showdown-shot': 'Choose a target',
       'release-choice': 'Ask for a release vote for which jailed player?',
       // A vote's question depends on what is being voted on, which the server's phase and ballot say: see "ballot" below.
-    } satisfies Record<Exclude<ActionKind, 'vote' | ReleaseVoteKind>, string>,
+      // An action with several parts asks one question for each part: see "compound" below.
+    } satisfies Record<Exclude<ActionKind, 'vote' | ReleaseVoteKind | CompoundActionKind>, string>,
     chooseNote: 'These are the choices the server offers you now.',
     cancel: 'Cancel',
     chooseAgain: 'Choose again',
@@ -253,16 +257,23 @@ export const en = {
       'release-vote': 'This is your one ballot in this vote. You cannot change it once the server accepts it.',
       // The Captain has one release request in a match, and a request that fails is still used up (V1-11).
       'release-choice': 'The Captain has one release request in a match. This uses it, whatever the vote decides. You cannot change it once the server accepts it.',
+      // A Scan is used up when the server accepts it, right guess or wrong (V1-14).
+      scan: 'This uses your Scan for this round, whatever the result. You cannot change or withdraw it once the server accepts it.',
+      supply: 'You cannot change or withdraw it here once it is registered.',
+      // The Hacker has one Code attempt (V1-08).
+      code: 'This is your one Code attempt in this match. You cannot change it once the server accepts it.',
     } satisfies Record<ActionKind, string>,
     confirm: {
       move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
       'showdown-shot': 'Register shot', vote: 'Cast ballot', 'release-choice': 'Confirm choice', 'release-vote': 'Cast ballot',
+      scan: 'Scan', supply: 'Register Supply', code: 'Submit Code attempt',
     } satisfies Record<ActionKind, string>,
     submitting: {
       move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
       protect: 'Sending your Protection to the server…', rescue: 'Sending your Rescue to the server…', hack: 'Sending your Hack request to the server…',
       'showdown-shot': 'Sending your shot to the server…', vote: 'Sending your ballot to the server…',
       'release-choice': 'Sending your choice to the server…', 'release-vote': 'Sending your ballot to the server…',
+      scan: 'Sending your Scan to the server…', supply: 'Sending your Supply to the server…', code: 'Sending your Code attempt to the server…',
       unknownKind: 'Sending your action to the server…',
     } satisfies Record<ActionKind | 'unknownKind', string>,
     checking: 'Checking what the server did with your action…',
@@ -336,6 +347,32 @@ export const en = {
         no: 'Your ballot in this vote: no.',
       },
     },
+    // Actions whose choice has several parts, picked one after another: a Scan (a player,
+    // then a guessed faction), a Supply (two players), a Code attempt (four players). Four
+    // statements are about the game and are taken from the approved rules: a Scan is used
+    // up at acceptance and its result is given to the Hacker at once, privately (V1-14);
+    // a registered Supply is resolved at the end of the round (the resolution order,
+    // V1-07); and the one Code attempt is checked when round 5 is resolved, not when it is
+    // sent (V1-08).
+    compound: {
+      scanSeat: 'Who do you scan?',
+      scanGuess: (who: string) => `Guess a faction for ${who}.`,
+      supplyFirst: 'Two players get a weapon each. Choose the first.',
+      supplySecond: 'Choose the second player.',
+      codePick: (left: number) => (left === 4 ? 'Choose the four players of your Code attempt.' : left === 1 ? 'Choose one more player.' : `Choose ${left} more players.`),
+      picked: (names: string) => `Chosen so far: ${names}.`,
+      undo: (name: string) => `Take back ${name}`,
+      undoLast: 'Take back the last choice',
+      confirmScan: (who: string, guess: FactionName) => `Scan ${who}, guessing ${guess}?`,
+      confirmSupply: (first: string, second: string) => `Register a weapon each for ${first} and ${second}?`,
+      confirmCode: (names: string) => `Submit this Code attempt: ${names}?`,
+      scanAccepted: (who: string, guess: FactionName) => `Scan of ${who}, guessing ${guess}, accepted.`,
+      scanDetail: 'The result is listed under “What you know”, as the server gives it.',
+      supplyAccepted: (first: string, second: string) => `Supply for ${first} and ${second} registered.`,
+      supplyDetail: 'This is not a result. Registered actions are resolved at the end of the round.',
+      codeAccepted: 'Your Code attempt is recorded.',
+      codeDetail: 'This is not a result. It is checked when the round is resolved, not now.',
+    },
     acceptedAfterReload: 'The server accepted your action.',
     acceptedAfterReloadDetail: 'This page was reloaded, so it no longer knows what the action was. This is not a result.',
     rejected: {
@@ -362,6 +399,29 @@ export const en = {
     checkAgain: 'Check again',
     done: 'Done',
     ok: 'OK',
+  },
+
+  // What the server's view tells one seat and nobody else: what its role knows from the
+  // start, the results it has been given, and what it holds. Each sentence says what the
+  // view carries, in the words of the confirmed rule that defines it: the Insider knows
+  // the three players who are Undercover, Alien and Cracker as a set; the Hacker knows who
+  // the Undercover is; the Alien knows the Code, a set of four players; a wrong Scan guess
+  // gives no Code information and a right one gives only membership (V1-14); only the
+  // Undercover knows of a Protection, that it became active and that it was used up (V1-17).
+  knowledge: {
+    heading: 'What you know',
+    insider: (names: string) => `${names} hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which.`,
+    undercover: (who: string) => `The Undercover is ${who}.`,
+    code: (names: string) => `The Code is these four players: ${names}.`,
+    scan: (round: number, who: string, guess: FactionName) => `Round ${round}: you scanned ${who} and guessed ${guess}.`,
+    scanWrong: 'The guess was wrong.',
+    scanRightInCode: 'The guess was right, and that player is in the Code.',
+    scanRightNotInCode: 'The guess was right, and that player is not in the Code.',
+    // The round is the one the view names. Whether that round has come is not worked out here.
+    protectionFrom: (who: string, round: number) => `Protection for ${who}: active from round ${round}.`,
+    protectionUsed: (who: string) => `Protection for ${who}: used up.`,
+    weapons: (count: number) => `Ordinary weapons you hold: ${count}.`,
+    rescues: (count: number) => `Rescues you have left: ${count}.`,
   },
 
   // What every audience may know about a vote: what is being voted on, who may be voted

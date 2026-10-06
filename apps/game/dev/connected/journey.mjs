@@ -15,7 +15,10 @@
 // (MOTHERSHIP_JOURNEY=votes) plays a seven-player match from its start to the end of its
 // second round's Jail vote: a Jail vote, a Captain election that ties and is run again, the
 // Captain's release choice and the vote on it. Nobody acts on a turn; every phase is still a
-// real 60-second window, so it takes about twenty-one minutes.
+// real 60-second window, so it takes about twenty-one minutes. A fifth
+// (MOTHERSHIP_JOURNEY=knowledge) reads what each of seven phones is told in private, checks
+// it against what the other phones show, and has the Hacker scan a player on its own turn.
+// Up to about eight minutes.
 //
 // What this is: the real Firebase web client, real anonymous identities, real Security
 // Rules, the real protocol-2 service and its real 60-second phases, in headless Chrome.
@@ -49,9 +52,9 @@ const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
 /** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
 const PAGE_LOAD_MS = 30_000;
 
-const SCENARIO = ['shot', 'roles', 'votes'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
+const SCENARIO = ['shot', 'roles', 'votes', 'knowledge'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
 /** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
-const PLAYERS = SCENARIO === 'movement' || SCENARIO === 'votes' ? 7 : 9;
+const PLAYERS = ['movement', 'votes', 'knowledge'].includes(SCENARIO) ? 7 : 9;
 const WORDS = { 7: 'seven', 9: 'nine' };
 
 const evidence = process.argv[2] ?? process.env.MOTHERSHIP_EVIDENCE_DIR ?? null;
@@ -229,6 +232,8 @@ async function device(browser, label, shape) {
     }
     if ((method === 'Network.loadingFinished' || method === 'Network.loadingFailed') && pending.has(params.requestId)) {
       const call = pending.get(params.requestId);
+      // Why a request ended without an answer, as the browser's network layer says it: cancelled by the page, or failed.
+      if (method === 'Network.loadingFailed') arranged.set(params.requestId, { ...(arranged.get(params.requestId) ?? {}), ended: params.canceled ? 'cancelled by the page' : params.errorText });
       const answered = method === 'Network.loadingFinished' ? page.send('Network.getResponseBody', { requestId: params.requestId }).catch(() => null) : null;
       void Promise.all([call.request, answered]).then(([request, body]) => {
         let response = null;
@@ -382,6 +387,17 @@ const waitShownAt = (display, seat, location, label) => display.page.waitFor(`((
   const model = globalThis.mothershipConnected.frame().model;
   return model.match?.board.zones.flatMap(zone => zone.seats).find(entry => entry.number === ${seat})?.location === ${JSON.stringify(location)};
 })()`, label);
+/**
+ * Everything a phone shows and holds in its model, apart from the list of what its own seat
+ * is told. That list may name other roles, because the server tells that seat about them;
+ * nothing else on a phone may. What the list says is checked in the knowledge journey.
+ */
+const shownApartFromWhatItIsTold = player => player.page.evaluate(`(() => {
+  const page = document.body.cloneNode(true);
+  for (const told of page.querySelectorAll('[data-region="knowledge"]')) told.remove();
+  const model = JSON.stringify(globalThis.mothershipConnected.frame().model, (key, value) => (key === 'knowledge' ? undefined : value));
+  return model + ' ' + page.textContent;
+})()`);
 /** Nothing of a match that is private may be anywhere that outlives the page. */
 function assertStored(stored, label, { unresolved, alsoAbsent = [] }) {
   const SIGN_IN = 'firebase:authUser:emulator-only:mothership-emulator-1';
@@ -792,6 +808,156 @@ async function votesScenario({ display, players, seatOf, matchId }) {
 }
 
 /**
+ * The seven-player private-knowledge scenario. What each phone is told in its private panel
+ * is read, and checked against what the other phones show: the script can see all seven,
+ * which no player can. Then the Hacker scans a player on its own turn, guessing that
+ * player's real faction, and the result is checked against the Alien's own statement of
+ * the Code.
+ */
+async function knowledgeScenario({ display, players, seatOf, matchId }) {
+  for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
+  const seat = who => seatOf.get(who);
+  const name = number => `Player ${number}`;
+  const roleOf = new Map();
+  const known = new Map();
+  const knowledgeOf = who => who.page.evaluate("[...document.querySelectorAll('[data-region=\"knowledge\"] li')].map(item => item.textContent)");
+  for (const player of players) {
+    assert.equal(await player.exists('[data-region="knowledge"]'), false, 'Closed, nothing a seat is told is in the document');
+    await openPanel(player);
+    roleOf.set(player, await player.text('.ms-role-card'));
+    known.set(player, await knowledgeOf(player));
+  }
+  assert.deepEqual([...roleOf.values()].sort(), SEVEN_PLAYER_ROLES);
+  const holder = role => players.find(player => roleOf.get(player) === role);
+  const factionOf = player => (roleOf.get(player) === 'Alien' ? 'Alien' : ['Undercover', 'Hacker'].includes(roleOf.get(player)) ? 'Red' : 'Blue');
+  const listed = (numbers, self = null) => [...numbers].sort((a, b) => a - b).map(number => (number === self ? `${name(number)} (you)` : name(number))).join(', ');
+
+  // ---------------------------------------------------------------- K1. What each seat is told
+  const WEAPONS = 'Ordinary weapons you hold: 0.';
+  const three = [holder('Undercover'), holder('Alien'), holder('Cracker')].map(seat);
+  assert.deepEqual(known.get(holder('Insider')), [`${listed(three)} hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which.`, WEAPONS], 'The Insider is told the three seats that really hold those roles');
+  assert.deepEqual(known.get(holder('Hacker')), [`The Undercover is ${name(seat(holder('Undercover')))}.`, WEAPONS], 'The Hacker is told the seat that really holds Undercover');
+  assert.deepEqual(known.get(holder('Undercover')), ['Ordinary weapons you hold: 1.'], 'The Undercover holds one weapon');
+  assert.deepEqual(known.get(holder('Cracker')), [WEAPONS, 'Rescues you have left: 2.']);
+  for (const role of ['Blue Disabler', 'Supplier']) assert.deepEqual(known.get(holder(role)), [WEAPONS], `${role}: told only what it holds`);
+  const alien = holder('Alien');
+  const [codeLine, ...rest] = known.get(alien);
+  assert.deepEqual(rest, [WEAPONS]);
+  const codeMatch = /^The Code is these four players: (.+)\.$/.exec(codeLine);
+  assert.notEqual(codeMatch, null, codeLine);
+  const code = codeMatch[1].split(', ').map(entry => Number(/^Player (\d)/.exec(entry)[1]));
+  assert.deepEqual([code.length, new Set(code).size], [4, 4], 'Four different players');
+  assert.equal(codeMatch[1].includes(`${name(seat(alien))} (you)`), true, 'The Alien is in the Code and is told so in the second person');
+  assert.equal(code.includes(seat(holder('Undercover'))), false, 'The Undercover is not in the Code');
+  // Nobody is told what belongs to another role.
+  for (const player of players) {
+    const text = known.get(player).join(' ');
+    assert.equal(/hold the roles/.test(text), player === holder('Insider'), player.label);
+    assert.equal(/The Undercover is/.test(text), player === holder('Hacker'), player.label);
+    assert.equal(/The Code is/.test(text), player === alien, player.label);
+    assertStored(await player.stored(), player.label, { unresolved: false, alsoAbsent: ['The Code', 'hold the roles', 'you hold', 'What you know'] });
+  }
+  assert.equal(/What you know|The Code is|The Undercover is|hold the roles|you hold/.test(await display.page.evaluate('document.body.textContent')), false, 'None of it is on the shared display');
+  await holder('Insider').shot('k1-phone-what-you-know.png');
+  established('K1. What each seat is told in private, checked against the other six phones', [
+    'With its private panel open each phone lists what the server’s view tells that seat; closed, none of it is in the document.',
+    `The Insider's phone names three seats as holding Undercover, Alien and Cracker. The three phones that show those roles are exactly those seats.`,
+    `The Hacker's phone names the Undercover's seat, and the phone in that seat shows Undercover.`,
+    `The Alien's phone lists a Code of four different seats, its own among them and the Undercover's not.`,
+    'The Undercover is told it holds one weapon, the Cracker that it has two Rescues, and every other seat that it holds no weapon and nothing else. No phone is told what belongs to another role, the display shows none of it, and none of it is in any page’s storage.',
+  ]);
+
+  // ---------------------------------------------------------------- K2. A Scan on the Hacker's own turn
+  const hacker = holder('Hacker');
+  const bySeat = new Map(players.map(player => [seat(player), player]));
+  const offers = who => who.page.evaluate("[...document.querySelectorAll('.ms-offer')].map(offer => [offer.dataset.kind, offer.querySelector('button') !== null])");
+  const boardOf = async () => JSON.stringify((await display.frame()).model.match.board);
+  let last = null;
+  let turns = 0;
+  for (; turns < PLAYERS; turns += 1) {
+    if (last !== null) await display.page.waitFor(`(() => { const p = globalThis.mothershipConnected.frame().model.match.phase; return p.timer.state === 'running' && p.phaseLabel !== ${JSON.stringify(last)}; })()`, 'the next turn', 100_000);
+    await display.page.waitFor("globalThis.mothershipConnected.frame().model.match.phase.timer.state === 'running'", 'the display has the server’s time');
+    const phase = await display.page.evaluate("(() => { const m = globalThis.mothershipConnected.frame().model.match; return { label: m.phase.phaseLabel, active: m.board.zones.flatMap(zone => zone.seats).find(entry => entry.isActive)?.number ?? null }; })()");
+    last = phase.label;
+    // On every turn: no phone but the Hacker's on its own turn lists a Scan.
+    for (const player of players.filter(candidate => !(candidate === hacker && phase.active === seat(hacker)))) {
+      const theirs = await offers(player);
+      assert.equal(theirs.length >= 2, true, `${player.label}: the idle card is on screen`);
+      assert.equal(theirs.some(offer => offer[0] === 'scan' || offer[0] === 'supply' || offer[0] === 'code'), false, `${player.label} is not offered a Scan, a Supply or a Code attempt`);
+    }
+    if (phase.active === seat(hacker)) break;
+  }
+  assert.equal(turns < PLAYERS, true, 'The Hacker had a turn');
+  await hacker.page.waitFor("document.getElementById('ms-action-open-scan') !== null", 'the Hacker is offered a Scan on its own turn', 20_000);
+  const board = await boardOf();
+  await hacker.page.tap('#ms-action-open-scan');
+  await hacker.page.waitFor(`document.querySelector('${CARD}')?.dataset.step === 'choosing'`, 'the seats the server lists');
+  assert.equal(await hacker.text('#ms-action-step'), 'Who do you scan?');
+  const scannable = await hacker.page.evaluate("[...document.querySelectorAll('button[data-intent=\"action/choose\"]')].map(choice => choice.dataset.value)");
+  assert.equal(scannable.includes(`seat-${seat(hacker)}`), true, 'The server lists the Hacker’s own seat too');
+  // Another player if the server lists one, else itself. The guess is that player's real faction.
+  const targetSeat = Number((scannable.find(value => value !== `seat-${seat(hacker)}`) ?? scannable[0]).slice(5));
+  const target = bySeat.get(targetSeat);
+  const guess = factionOf(target);
+  await hacker.page.tap(`#ms-action-choice-seat-${targetSeat}`);
+  await hacker.page.waitFor("document.getElementById('ms-action-progress') !== null", 'the second part is asked for');
+  const who = target === hacker ? 'yourself' : name(targetSeat);
+  assert.equal(await hacker.text('#ms-action-step'), `Guess a faction for ${who}.`);
+  assert.deepEqual(await hacker.page.evaluate("[...document.querySelectorAll('button[data-intent=\"action/choose\"]')].map(choice => choice.dataset.value)"), ['Blue', 'Red', 'Alien']);
+  assert.equal((await hacker.operations('v1Command')).length, 0, 'Nothing is sent by choosing');
+  await hacker.shot('k2-phone-scan-guess.png', { selector: '[data-action="connected"]' });
+  await hacker.page.tap(`#ms-action-choice-${guess.toLowerCase()}`);
+  await hacker.page.waitFor(`document.querySelector('${CARD}')?.dataset.step === 'confirming'`, 'asked to confirm');
+  assert.match((await card(hacker)).text, new RegExp(`Scan ${who}, guessing ${guess}\\? This uses your Scan for this round, whatever the result\\.`));
+  await tapWhenActive(hacker, '#ms-action-confirm');
+  await cardIs(hacker, 'accepted', 'the Scan is accepted', 20_000);
+  // One command. If its answer does not arrive within the 8 s a phone waits, the phone asks what became of it and
+  // sends the identical request again; the server then answers with the one receipt. Whatever happened is recorded.
+  const scanCalls = await hacker.operations('v1Command');
+  const [sent] = scanCalls;
+  const scanAnswers = scanCalls.map(call => ({ tookMs: call.tookMs, answer: call.response?.receipt?.status ?? call.response?.error?.code ?? call.ended ?? call.dropped ?? 'no answer' }));
+  assert.deepEqual(sent.request.command, { type: 'SCAN', targetSeatId: `seat-${targetSeat}`, guess });
+  for (const again of scanCalls.slice(1)) assert.deepEqual(again.request, sent.request, 'Sent again only as the identical request, with the same identifier');
+  const scanReceipt = { protocolVersion: 2, matchId, phaseId: sent.request.phaseId, commandId: sent.request.commandId, status: 'accepted', code: 'REGISTERED' };
+  const scanAnswered = scanCalls.filter(call => call.response !== null);
+  assert.equal(scanAnswered.length >= 1, true, `The server answered: ${JSON.stringify(scanAnswers)}`);
+  for (const call of scanAnswered) assert.deepEqual(call.response.receipt, scanReceipt, 'Every answer is the one receipt');
+  if (scanCalls.length > 1) note(`The SCAN went out ${scanCalls.length} times as the identical request: ${JSON.stringify(scanAnswers)}; lookups: ${JSON.stringify((await hacker.operations('v1Receipt')).map(call => ({ tookMs: call.tookMs, answer: call.response?.status ?? call.response?.error?.code ?? call.ended ?? 'no answer' })))}.`);
+  assert.match((await card(hacker)).text.replace(/^accepted /i, ''), new RegExp(`^Scan of ${who}, guessing ${guess}, accepted\\. The result is listed under`));
+  // The result, as the server's next view gives it: right, and membership as the Alien's own Code says.
+  const result = `Round 1: you scanned ${who} and guessed ${guess}. The guess was right, and that player is ${code.includes(targetSeat) ? '' : 'not '}in the Code.`;
+  await hacker.page.waitFor(`[...document.querySelectorAll('[data-region="knowledge"] li')].some(item => item.textContent === ${JSON.stringify(result)})`, 'the result is listed', 20_000);
+  assert.deepEqual(await knowledgeOf(hacker), [`The Undercover is ${name(seat(holder('Undercover')))}.`, result, WEAPONS]);
+  await hacker.shot('k3-phone-scan-result.png');
+  await tapWhenActive(hacker, '#ms-action-dismiss');
+  await cardIs(hacker, 'idle', 'the card is put away');
+  assert.equal((await offers(hacker)).some(offer => offer[0] === 'scan'), false, 'The server offers no second Scan this round');
+  // Nobody else is told, and nothing public moved.
+  await sleep(1_500);
+  assert.equal(await boardOf(), board, 'The shared display’s board is what it was before the Scan');
+  for (const player of players.filter(candidate => candidate !== hacker)) {
+    assert.deepEqual(await knowledgeOf(player), known.get(player), `${player.label} is told nothing new`);
+    assert.deepEqual((await everSpoken(player)).filter(line => /scan/i.test(line)), [], `${player.label} heard nothing of a Scan`);
+  }
+  assert.deepEqual((await everSpoken(display)).filter(line => /scan/i.test(line)), []);
+  assertStored(await hacker.stored(), hacker.label, { unresolved: false, alsoAbsent: ['SCAN', 'guess', 'you scanned', 'The Code'] });
+  facts.match = {
+    note: 'A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.',
+    playerCount: PLAYERS,
+    turnsFollowed: turns + 1,
+    scan: { bySeat: seat(hacker), ofSeat: targetSeat, ofOwnSeat: target === hacker, guess, seatsListed: scannable.length, commandCalls: scanAnswers },
+  };
+  established('K2. A Scan on the Hacker’s own turn, and its result', [
+    `The journey followed ${turns + 1} turn(s) to the Hacker's. On every one of them no other phone listed a Scan, a Supply or a Code attempt.`,
+    `On its own turn the Hacker's phone offered a Scan with ${scannable.length} seat(s) from the server, its own among them. It asked for the seat, then for a guess among Blue, Red and Alien, and sent nothing until the choice was confirmed.`,
+    `One confirmation made one SCAN naming seat ${targetSeat} and guessing ${guess}, that player's real faction as its own phone's role shows. Receipt accepted.${scanCalls.length > 1 ? ` The request went out ${scanCalls.length} times, each time as the identical request (${scanAnswers.map(call => `${call.answer} after ${call.tookMs} ms`).join('; ')}), and was accepted once.` : ''}`,
+    `The server's next view carried the result and the phone listed it: the guess was right, and that player is ${code.includes(targetSeat) ? '' : 'not '}in the Code, which agrees with the Code the Alien's phone lists.`,
+    'The server offered no second Scan in the round. No other phone was told anything, the display’s board did not change, nothing of a Scan was spoken anywhere but privately on the Hacker’s phone, and nothing of it was in the page’s storage.',
+    'NOT RUN: a wrong guess, a Supply (round 3 only) and a Code attempt (round 5 only) against the backend. They are unit-tested.',
+  ]);
+}
+
+/**
  * The nine-player scenario: a shot registered on the Officer's own turn, which is the only
  * ordinary shot the approved ruleset opens in a first round. Every turn is a real
  * 60-second phase and nothing here can shorten one, so this waits for as many of them as
@@ -1165,6 +1331,7 @@ async function main() {
     if (SCENARIO === 'shot') return await shotScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'roles') return await rolesScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'votes') return await votesScenario({ display, players, seatOf, matchId });
+    if (SCENARIO === 'knowledge') return await knowledgeScenario({ display, players, seatOf, matchId });
 
     // ---------------------------------------------------------------- 4. Each player receives only their authorized private view
     for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
@@ -1196,7 +1363,7 @@ async function main() {
     }
     assert.deepEqual([...roles.values()].sort(), SEVEN_PLAYER_ROLES, 'Seven players hold the seven roles of the seven-player roster, each once');
     for (const player of players) {
-      const shown = `${JSON.stringify((await player.frame()).model)} ${await player.page.evaluate('document.body.textContent')}`;
+      const shown = await shownApartFromWhatItIsTold(player);
       for (const role of SEVEN_PLAYER_ROLES) {
         assert.equal(new RegExp(`\\b${role}\\b`).test(shown), role === roles.get(player), `${player.label} shows its own role and no other (${role})`);
       }
@@ -1207,7 +1374,7 @@ async function main() {
     }
     await A.shot('05-phone-private-panel-open.png');
     established('4. Each player receives only their authorized private view', [
-      'Seven phones show seven different seats and, with the private panel open, the seven roles of the seven-player roster, each exactly once. With the panel closed nothing private was in the page or its model.',
+      'Seven phones show seven different seats and, with the private panel open, the seven roles of the seven-player roster, each exactly once. Apart from the list of what its own seat is told, which the knowledge journey checks, no phone names a role that is not its own. With the panel closed nothing private was in the page or its model.',
       'Each phone asked Firestore for three things in all: its own admission request, the lobby, and the private view stored under its own identity. No phone asked for another view.',
       'Every phone says it is on the local emulator.',
       'What each phone keeps in the browser: its sign-in for this tab, which match the tab is in, and the Firebase SDK’s own heartbeat record. No role, location, target or view.',
