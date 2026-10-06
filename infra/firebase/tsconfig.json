@@ -4,10 +4,21 @@
     "composite": true,
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.json"
+  ],
+  "references": [
+    {
+      "path": "../../services/game-api"
+    },
+    {
+      "path": "../../packages/contracts"
+    }
   ]
 }
