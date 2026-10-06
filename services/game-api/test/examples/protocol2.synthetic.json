@@ -1,0 +1,899 @@
+{
+  "syntheticOnly": true,
+  "requests": {
+    "v1CreateMatch": {
+      "protocolVersion": 2,
+      "requestId": "synthetic-create",
+      "playerCount": 7
+    },
+    "v1RequestAdmission": {
+      "protocolVersion": 2,
+      "requestId": "synthetic-admission-request",
+      "roomCode": "0123456789AB",
+      "initialRoom": "Room A"
+    },
+    "v1ApproveAdmission": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "requestId": "synthetic-approve",
+      "admissionId": "synthetic-admission",
+      "seatId": "seat-5"
+    },
+    "v1AdmitDisplay": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "requestId": "synthetic-display-admission",
+      "displayUid": "synthetic-display"
+    },
+    "v1StartMatch": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "requestId": "synthetic-start"
+    },
+    "v1Command": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command",
+      "command": {
+        "type": "PROTECT",
+        "targetSeatId": "seat-5"
+      }
+    },
+    "v1Receipt": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "commandId": "synthetic-command"
+    },
+    "v1Advance": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase"
+    },
+    "v1ServerTime": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match"
+    },
+    "v1AbortMatch": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "requestId": "synthetic-abort"
+    },
+    "v1IssueSeatRecovery": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "requestId": "synthetic-issue",
+      "seatId": "seat-5"
+    },
+    "v1RedeemSeatRecovery": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "requestId": "synthetic-redeem",
+      "recoveryToken": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "commandRequests": [
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-1",
+      "command": {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-2",
+      "command": {
+        "type": "REGISTER_SHOT",
+        "targetSeatId": "seat-2"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-3",
+      "command": {
+        "type": "DISABLE",
+        "targetSeatId": "seat-2"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-4",
+      "command": {
+        "type": "PROTECT",
+        "targetSeatId": "seat-2"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-5",
+      "command": {
+        "type": "RESCUE",
+        "targetSeatId": "seat-2"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-6",
+      "command": {
+        "type": "SUPPLY",
+        "targetSeatIds": [
+          "seat-1",
+          "seat-2"
+        ]
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-7",
+      "command": {
+        "type": "SCAN",
+        "targetSeatId": "seat-2",
+        "guess": "Red"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-8",
+      "command": {
+        "type": "REQUEST_HACK",
+        "targetSeatId": "seat-2"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-9",
+      "command": {
+        "type": "SUBMIT_CODE",
+        "seatIds": [
+          "seat-1",
+          "seat-2",
+          "seat-3",
+          "seat-7"
+        ]
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-10",
+      "command": {
+        "type": "VOTE",
+        "targetSeatId": null
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-11",
+      "command": {
+        "type": "RELEASE_CHOICE",
+        "targetSeatId": null
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-12",
+      "command": {
+        "type": "RELEASE_VOTE",
+        "approve": null
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-13",
+      "command": {
+        "type": "SHOWDOWN_SHOT",
+        "targetSeatId": "seat-2"
+      }
+    }
+  ],
+  "responses": {
+    "operations": {
+      "created": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "matchId": "synthetic-match",
+          "roomCode": "0123456789AB",
+          "playerCount": 7,
+          "status": "lobby"
+        }
+      },
+      "admissionPending": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "matchId": "synthetic-match",
+          "admissionId": "synthetic-admission",
+          "status": "pending"
+        }
+      },
+      "admissionApproved": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "admissionId": "synthetic-admission",
+          "seatId": "seat-5",
+          "status": "approved"
+        }
+      },
+      "displayAdmitted": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "admitted": true
+        }
+      },
+      "started": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "started": true,
+          "matchId": "synthetic-match"
+        }
+      },
+      "aborted": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "aborted": true
+        }
+      },
+      "recoveryIssued": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "issued": true,
+          "seatId": "seat-5",
+          "recoveryToken": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "expiresAt": 1800000600000
+        }
+      },
+      "recoveryIssueReplay": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "issued": true,
+          "seatId": "seat-5",
+          "recoveryToken": null,
+          "expiresAt": 1800000600000
+        }
+      },
+      "recovered": {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "result": {
+          "recovered": true,
+          "seatId": "seat-5"
+        }
+      }
+    },
+    "commands": [
+      {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "receipt": {
+          "protocolVersion": 2,
+          "matchId": "synthetic-match",
+          "phaseId": "synthetic-phase",
+          "commandId": "synthetic-command",
+          "status": "accepted",
+          "code": "REGISTERED"
+        }
+      },
+      {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "receipt": {
+          "protocolVersion": 2,
+          "matchId": "synthetic-match",
+          "phaseId": "synthetic-phase",
+          "commandId": "synthetic-command",
+          "status": "rejected",
+          "code": "PHASE_CLOSED"
+        }
+      },
+      {
+        "ok": true,
+        "serverTimeMs": 1800000000000,
+        "receipt": {
+          "protocolVersion": 2,
+          "matchId": "synthetic-match",
+          "phaseId": "synthetic-phase",
+          "commandId": "synthetic-command",
+          "status": "rejected",
+          "code": "NOT_ALLOWED"
+        }
+      }
+    ],
+    "lookups": [
+      {
+        "status": "found",
+        "serverTimeMs": 1800000000000,
+        "receipt": {
+          "protocolVersion": 2,
+          "matchId": "synthetic-match",
+          "phaseId": "synthetic-phase",
+          "commandId": "synthetic-command",
+          "status": "accepted",
+          "code": "REGISTERED"
+        }
+      },
+      {
+        "status": "found",
+        "serverTimeMs": 1800000000000,
+        "receipt": {
+          "protocolVersion": 2,
+          "matchId": "synthetic-match",
+          "phaseId": "synthetic-phase",
+          "commandId": "synthetic-command",
+          "status": "rejected",
+          "code": "PHASE_CLOSED"
+        }
+      },
+      {
+        "status": "found",
+        "serverTimeMs": 1800000000000,
+        "receipt": {
+          "protocolVersion": 2,
+          "matchId": "synthetic-match",
+          "phaseId": "synthetic-phase",
+          "commandId": "synthetic-command",
+          "status": "rejected",
+          "code": "NOT_ALLOWED"
+        }
+      },
+      {
+        "status": "unknown",
+        "serverTimeMs": 1800000000000
+      }
+    ],
+    "advances": [
+      {
+        "protocolVersion": 2,
+        "matchId": "synthetic-match",
+        "phaseId": "synthetic-phase",
+        "serverTimeMs": 1800000000000,
+        "result": "advanced"
+      },
+      {
+        "protocolVersion": 2,
+        "matchId": "synthetic-match",
+        "phaseId": "synthetic-phase",
+        "serverTimeMs": 1800000000000,
+        "result": "unchanged"
+      }
+    ],
+    "serverTime": {
+      "protocolVersion": 2,
+      "serverTimeMs": 1800000000000
+    }
+  },
+  "failures": [
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "UNAUTHENTICATED"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "FORBIDDEN"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "INVALID_REQUEST"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "UNSUPPORTED_PROTOCOL"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "COMMAND_ID_CONFLICT"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "REQUEST_ID_CONFLICT"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "UNAVAILABLE"
+      }
+    },
+    {
+      "ok": false,
+      "serverTimeMs": 1800000000000,
+      "error": {
+        "code": "RATE_LIMITED",
+        "retryAfterMs": 1250
+      }
+    }
+  ],
+  "views": {
+    "lobby": {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "playerCount": 7,
+      "status": "running",
+      "seats": [
+        {
+          "seatId": "seat-1",
+          "initialRoom": "Room A"
+        },
+        {
+          "seatId": "seat-2",
+          "initialRoom": "Room A"
+        },
+        {
+          "seatId": "seat-3",
+          "initialRoom": "Room A"
+        },
+        {
+          "seatId": "seat-4",
+          "initialRoom": "Room A"
+        },
+        {
+          "seatId": "seat-5",
+          "initialRoom": "Room A"
+        },
+        {
+          "seatId": "seat-6",
+          "initialRoom": "Room A"
+        },
+        {
+          "seatId": "seat-7",
+          "initialRoom": "Room A"
+        }
+      ]
+    },
+    "public": {
+      "versions": {
+        "protocolVersion": 2,
+        "rulesetVersion": "in-person-v1-2026-10-06",
+        "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+        "engineVersion": "full-game-1.0.0",
+        "assetManifestVersion": "0.0.0-no-assets"
+      },
+      "matchId": "synthetic-match",
+      "viewRevision": 0,
+      "playerCount": 7,
+      "round": 1,
+      "phase": {
+        "id": "synthetic-phase",
+        "kind": "ORDINARY_TURN",
+        "startedAt": 1800000000000,
+        "endsAt": 1800000060000
+      },
+      "activeSeatId": "seat-5",
+      "seats": [
+        {
+          "seatId": "seat-1",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-2",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-3",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-4",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-5",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-6",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-7",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        }
+      ],
+      "ballot": {
+        "eligibleVoters": [],
+        "eligibleTargets": [],
+        "releaseTargetSeatId": null
+      },
+      "lastTally": null,
+      "result": null,
+      "endReveal": null,
+      "audience": {
+        "kind": "public"
+      }
+    },
+    "player": {
+      "versions": {
+        "protocolVersion": 2,
+        "rulesetVersion": "in-person-v1-2026-10-06",
+        "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+        "engineVersion": "full-game-1.0.0",
+        "assetManifestVersion": "0.0.0-no-assets"
+      },
+      "matchId": "synthetic-match",
+      "viewRevision": 0,
+      "playerCount": 7,
+      "round": 1,
+      "phase": {
+        "id": "synthetic-phase",
+        "kind": "ORDINARY_TURN",
+        "startedAt": 1800000000000,
+        "endsAt": 1800000060000
+      },
+      "activeSeatId": "seat-5",
+      "seats": [
+        {
+          "seatId": "seat-1",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-2",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-3",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-4",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-5",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-6",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-7",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        }
+      ],
+      "ballot": {
+        "eligibleVoters": [],
+        "eligibleTargets": [],
+        "releaseTargetSeatId": null
+      },
+      "lastTally": null,
+      "result": null,
+      "endReveal": null,
+      "audience": {
+        "kind": "player",
+        "seatId": "seat-5"
+      },
+      "self": {
+        "seatId": "seat-5",
+        "role": "Undercover",
+        "movementDestinations": [
+          "Room B"
+        ],
+        "releaseVoteAvailable": false,
+        "ordinaryWeapons": 1,
+        "shotAvailable": false,
+        "rescuesRemaining": 0,
+        "disablerAvailable": false,
+        "hackAvailable": true,
+        "scanAvailable": false,
+        "codeAttemptAvailable": false
+      },
+      "knowledge": {
+        "insiderCandidates": [],
+        "undercoverSeatId": null,
+        "code": [],
+        "scanResults": [],
+        "protections": []
+      },
+      "legalTargets": {
+        "REQUEST_HACK": [
+          "seat-1",
+          "seat-2",
+          "seat-3",
+          "seat-4",
+          "seat-6",
+          "seat-7"
+        ],
+        "PROTECT": [
+          "seat-1",
+          "seat-2",
+          "seat-3",
+          "seat-4",
+          "seat-5",
+          "seat-6",
+          "seat-7"
+        ]
+      },
+      "ownPendingCommandIds": [],
+      "ownBallot": null,
+      "hasVoted": false,
+      "hackPartnerSeatId": null
+    },
+    "playerWithoutShotTargets": {
+      "versions": {
+        "protocolVersion": 2,
+        "rulesetVersion": "in-person-v1-2026-10-06",
+        "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+        "engineVersion": "full-game-1.0.0",
+        "assetManifestVersion": "0.0.0-no-assets"
+      },
+      "matchId": "synthetic-match",
+      "viewRevision": 9,
+      "playerCount": 7,
+      "round": 4,
+      "phase": {
+        "id": "synthetic-phase",
+        "kind": "ORDINARY_TURN",
+        "startedAt": 1800000000000,
+        "endsAt": 1800000060000
+      },
+      "activeSeatId": "seat-5",
+      "seats": [
+        {
+          "seatId": "seat-1",
+          "health": "Healthy",
+          "location": "Room B",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-2",
+          "health": "Healthy",
+          "location": "Room B",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-3",
+          "health": "Healthy",
+          "location": "Room B",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-4",
+          "health": "Healthy",
+          "location": "Room B",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-5",
+          "health": "Healthy",
+          "location": "Room A",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-6",
+          "health": "Healthy",
+          "location": "Room B",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        },
+        {
+          "seatId": "seat-7",
+          "health": "Healthy",
+          "location": "Room B",
+          "jailed": false,
+          "captain": false,
+          "revealedFaction": null
+        }
+      ],
+      "ballot": {
+        "eligibleVoters": [],
+        "eligibleTargets": [],
+        "releaseTargetSeatId": null
+      },
+      "lastTally": null,
+      "result": null,
+      "endReveal": null,
+      "audience": {
+        "kind": "player",
+        "seatId": "seat-5"
+      },
+      "self": {
+        "seatId": "seat-5",
+        "role": "Undercover",
+        "movementDestinations": [
+          "Room B"
+        ],
+        "releaseVoteAvailable": false,
+        "ordinaryWeapons": 1,
+        "shotAvailable": true,
+        "rescuesRemaining": 0,
+        "disablerAvailable": false,
+        "hackAvailable": true,
+        "scanAvailable": false,
+        "codeAttemptAvailable": false
+      },
+      "knowledge": {
+        "insiderCandidates": [],
+        "undercoverSeatId": null,
+        "code": [],
+        "scanResults": [],
+        "protections": []
+      },
+      "legalTargets": {
+        "REGISTER_SHOT": [],
+        "REQUEST_HACK": [],
+        "PROTECT": [
+          "seat-5"
+        ]
+      },
+      "ownPendingCommandIds": [],
+      "ownBallot": null,
+      "hasVoted": false,
+      "hackPartnerSeatId": null
+    }
+  },
+  "events": [
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "eventId": "synthetic-event-0",
+      "viewRevision": 1,
+      "audience": {
+        "kind": "public"
+      },
+      "fact": {
+        "type": "PHASE_CHANGED",
+        "phaseId": "synthetic-phase-next"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "eventId": "synthetic-event-1",
+      "viewRevision": 1,
+      "audience": {
+        "kind": "public"
+      },
+      "fact": {
+        "type": "PUBLIC_HEALTH_CHANGED",
+        "seatId": "seat-2",
+        "health": "Injured"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "eventId": "synthetic-event-2",
+      "viewRevision": 1,
+      "audience": {
+        "kind": "public"
+      },
+      "fact": {
+        "type": "PUBLIC_MOVE",
+        "seatId": "seat-2",
+        "location": "Hospital"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "eventId": "synthetic-private-event",
+      "viewRevision": 1,
+      "audience": {
+        "kind": "player",
+        "seatId": "seat-5"
+      },
+      "fact": {
+        "type": "COMMAND_REGISTERED",
+        "commandId": "synthetic-command"
+      }
+    }
+  ]
+}
