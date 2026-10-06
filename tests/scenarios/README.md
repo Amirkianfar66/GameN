@@ -73,13 +73,13 @@ To execute against another commit, build a copy of it and pass its directory:
 npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/built/checkout --engine-commit <sha> --out report.json
 ```
 
-Where a merge depends on the result, the exit status of that command is not enough. Run the engine gate, which also runs the controls and the playouts and then holds the three reports to the catalogue, the exception list and each other:
+Where a decision depends on the result, the exit status of that command is not enough. Run the engine gate, which also runs the controls and the playouts and then holds the three reports to the catalogue, the exception list and each other:
 
 ```sh
-npm run engine-gate --workspace @mothership/balance -- --out-dir /a/directory/outside/the/checkout
+npm run engine-gate --workspace @mothership/balance -- --engine-root /path/to/a/clean/checkout --out-dir /a/directory/outside/both/checkouts
 ```
 
-It needs a clean commit. `docs/balance/README.md` describes the gate; `docs/balance/integration-requests.md` has the lines for CI.
+It needs clean commits on both sides. `docs/balance/README.md` describes the gate. In CI the gate for a merge is Integration's own guard, which runs these same commands; `docs/balance/integration-requests.md` says how the two relate.
 
 ## Adding or changing a scenario
 

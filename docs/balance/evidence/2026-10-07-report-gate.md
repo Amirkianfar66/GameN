@@ -21,8 +21,9 @@ This report stands beside [the baseline of 6 October](2026-10-06-baseline.md) an
 | The report gate on the three reports committed with this document | Passed. No problem named |
 | Copies of those reports, each wrong in one respect, and the gate told to expect something else: sixteen cases | Refused in every case, with the problem named |
 | The engine gate in the scratch merge, ten playouts per mode, as CI would run it | Passed |
-| The engine gate there with its reports written inside the checkout | Refused, as the request to Integration says it will be |
-| An independent attempt to make the gate pass when it should not | Ten defects found at its edges; all fixed, with regressions. Section 6 |
+| The engine gate there with its reports written inside the checkout | Refused, as its own description says it will be |
+| Integration's own verification, draft PR #47, on a scratch merge with this branch | Passed unchanged. Section 6 |
+| An independent attempt to make the gate pass when it should not | Ten defects found at its edges; all fixed, with regressions. Section 7 |
 
 The 431 passes are against an unmerged candidate, once built in a throwaway checkout of it and once in a scratch merge. They are evidence about that candidate, not about anything that is merged. A pass of the gate says that the checks ran completely against the named engine and found nothing. It is not a statement about balance.
 
@@ -58,7 +59,7 @@ npm run check --workspace @mothership/balance -- --allow-missing-overlay
 
 `npm run verify` passed: toolchain, workspace boundaries, source integrity, typecheck, build, and 16 of 16 bootstrap tests. `tools/balance` keeps its two workspace dependencies, and its source imports nothing else.
 
-The static check passed with the switch: the scenario files equal the catalogue, the traceability table is current, and of 62 tests in 6 files 59 passed and 3 were not run, with none failed, cancelled or marked todo. Without the switch the command exits 1 on this branch and names the three tests and the switch; that is intended. The same was run from an exported archive of the branch without Git, which is how the integration review runs it, with the same result.
+The static check passed with the switch: the scenario files equal the catalogue, the traceability table is current, and of 62 tests in 5 files 59 passed and 3 were not run, with none failed, cancelled or marked todo. Without the switch the command exits 1 on this branch and names the three tests and the switch; that is intended. The same was run from an exported archive of the branch without Git, which is how the integration review runs it, with the same result.
 
 These checks need no engine and execute no scenario.
 
@@ -157,7 +158,7 @@ The committed reports of 6 October do not pass the gate either, and should not: 
 
 ## 5. Rehearsal of the CI sequence in a scratch merge
 
-Backend's plan runs the Balance commands from a clean, committed, combined candidate. To rehearse that, this branch at `aef75fbd55d9637f73a599cb592fe365616fc0ae` was merged with the landing candidate in a throwaway clone outside every worktree, with a real merge commit, so that Git reports a clean tree there. That is the commit just before the one that adds this report. The two differ only by this report, its three artifacts, two tests and two links, and the last paragraph of this section is about the later one. The merge has no conflict, and relative to the candidate it changes no file outside `tools/balance/`, `tests/scenarios/` and `docs/balance/`. The clone, its commits and its reports were not pushed and are not kept: its commit identifiers mean nothing outside it.
+Backend's plan runs the Balance commands from a clean, committed, combined candidate. To rehearse that, this branch at `aef75fbd55d9637f73a599cb592fe365616fc0ae` was merged with the landing candidate in a throwaway clone outside every worktree, with a real merge commit, so that Git reports a clean tree there. Later commits on this branch change this report, its artifacts, tests and documents, and none of the commands rehearsed here; the last paragraph of this section is about the head of the branch. The merge has no conflict, and relative to the candidate it changes no file outside `tools/balance/`, `tests/scenarios/` and `docs/balance/`. The clone, its commits and its reports were not pushed and are not kept: its commit identifiers mean nothing outside it.
 
 | In the scratch merge, from a clean tree | Result |
 | --- | --- |
@@ -168,28 +169,41 @@ Backend's plan runs the Balance commands from a clean, committed, combined candi
 | The same with `-- --allow-missing-overlay` | Exit status 1, as intended: the switch is refused where the file is present |
 | `npm run engine-gate --workspace @mothership/balance -- --out-dir <outside>` | Passed in 1 minute 52 seconds: 470 fixtures, 431 passed, 0 failed, 33 blocked, 6 not run; 4130 controls, all detected; ten playouts per mode, all finished, with no invariant violation, hint mismatch or replay mismatch. The engine was the merge's own, its commit read from Git, and the gate required a clean tree at exactly that commit |
 
-Then the two lines and the extended `test` script that BAL-REQ-1 suggests were added to the root `package.json` of the clone, in a second local commit:
-
-| With the suggested root scripts | Result |
-| --- | --- |
-| `npm run verify` | Passed: the 558 tests above and, through `test:balance`, the 60 static tests |
-| `npm run test:balance:engine -- --out-dir <outside>` | Passed in 1 minute 49 seconds |
-| `npm run test:balance:engine -- --out-dir reports-inside` | Exit status 1. The scenario report was written first, into the checkout. The controls and playout reports then recorded a tree with uncommitted changes, and the gate named that for both, and that they disagree with the scenario report |
-
-Four refusals were tried there as well, because they need a clean checkout to show:
+Five refusals were tried there as well, because they need a clean checkout to show:
 
 | Tried in the clean scratch merge | Result |
 | --- | --- |
+| The engine gate with its reports written inside the checkout | Exit status 1. The scenario report was written first, into the checkout. The controls and playout reports then recorded a tree with uncommitted changes, and the gate named that for both, and that they disagree with the scenario report |
 | A scenario run told `--engine-commit` with another commit than the checkout's | Exit status 2 before anything ran. The message names both commits |
 | The engine gate told the same | Exit status 2, not run, with the same message |
 | The engine gate pointed at an exported archive of the candidate, which has no Git | Exit status 2, not run: the commit of an engine outside a Git checkout can only be stated, and that is accepted only for a trial |
 | The gate with `tests/scenarios/v1/exceptions.json` moved away | Exit status 1 with the problem named, and no stack trace |
 
-The commit that adds this report adds two tests, which makes 62: one holds the three artifacts to the gate, and the other is the regression for defect 9 of section 6. The static check was run again in a scratch merge of that commit with the candidate: 62 tests in 6 files, all of them run, none skipped.
+An earlier draft of the request to Integration suggested root scripts for these two checks. They were added to the clone in a second local commit and worked: `npm run verify` passed with the static check in it, and the engine gate passed through the root script. The suggestion is withdrawn, because Integration has written the adoption itself; section 6 is about that.
+
+Commits after the rehearsed one add two tests, which makes 62: one holds the three artifacts to the gate, and the other is the regression for defect 9 of section 7. They also move the gate tests into the five test files that Integration's guard names. At the head of the branch the static check and the engine gate were run once more in a scratch merge with the candidate: 62 tests in 5 files, all of them run and none skipped, and the engine gate passed.
 
 The emulator suites (`npm run test:emulator`, `npm run test:frontend:emulator`) and the Backend package check were not run by Balance. They are Backend's and Frontend's gates in the plan and need Java 21 and fixed ports.
 
-## 6. Independent review of the gate
+## 6. With Integration's CI adoption, PR #47
+
+While this work was in progress Integration published its own adoption of the Balance checks: draft PR [#47](https://github.com/Amirkianfar66/GameN/pull/47), `codex/v1-balance-ci-adoption` at `40e47f060521276672c8ee6312e122ce37566d8a`. It imports the reviewed Balance commit `a3898b8` unchanged on the landing candidate and adds two steps to `npm run verify`: the Balance static check, whose TAP totals it reads, and the three engine commands, whose fresh reports it validates against pinned counts and hashes. Its guard is integration-owned and is the gate for a merge. BAL-REQ-1 is answered by it.
+
+This branch changes the commands that guard calls, so it was tried against it. The head of this branch was merged with the head of PR #47 in a throwaway clone, with a real merge commit. There was no conflict, and no file outside `tools/balance/`, `tests/scenarios/` and `docs/balance/` differs from PR #47. Then Integration's own commands were run, unchanged:
+
+| In the scratch merge with PR #47, from a clean tree | Result |
+| --- | --- |
+| `npm ci` | 886 packages |
+| `npm run verify` | Passed. 636 tests in the root suites, none failed, skipped, cancelled or marked todo: 25 bootstrap and contracts, 79 engine, 46 Backend, 89 tooling, 106 presentation and 291 game. The 89 include Integration's 78 regressions for its Balance guard |
+| Its static gate, `test:balance`, inside `verify` | "Balance static: 62 executed, 62 passed, zero failed/cancelled/skipped/todo; materialization and traceability checked" |
+| Its engine gate, `test:scenarios`, inside `verify` | "470 catalogue IDs; 431 passed, 33 reviewed blocked, 6 explicit manual; zero errors", "423 baselines passed; 4130 controls executed and detected; zero misses", "10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches" |
+| `npm run check:browser-dependencies` | Passed |
+
+Two things in this branch would have failed that verification, and were changed here and not there. The strict runner printed only the readable reporter; it now writes TAP when its output is captured, which is what `node --test` does and what Integration's guard reads. And the gate tests were in a sixth test file, where one of Integration's own tests counts five; they are now in the five.
+
+The emulator suites and the Backend package check of PR #47 were not run here. Its GitHub run was not repeated either; this was a local run of its commands.
+
+## 7. Independent review of the gate
 
 A gate is worth what it refuses, so before any evidence was kept the gate was given to a separate Claude Code agent with one instruction: break it by experiment. It had the code at the first commit of this branch (`5c18377`), Backend's table of required assertions, real reports to tamper with and the author's tests, and it was told what those tests already covered and not what the author concluded. It worked in its own scratch directory and changed nothing in the checkout. It is not a human review.
 
@@ -210,9 +224,9 @@ What it found, all at the edges, all fixed in commit `fc42c4c` with a regression
 | 9 | A relative `--engine-root` was resolved against the workspace directory under `npm run` | Resolved against the directory the command was started from, like the other paths |
 | 10 | A checkout reached through a symbolic link was not recognized as this checkout | Recognized |
 
-It also found statements in BAL-REQ-1 that the code did not do, and they are corrected: that nothing was skipped (defects 5 and 7), that the reasons in the exception list were compared (the reason each run gives is; the list's explanation for reviewers is not, and the request now says so), what "a clean tree" does and does not see, a row of Backend's plan without a line, and a stack trace where a missing catalogue file should have been a named problem.
+It also found statements in the request to Integration that the code did not do: that nothing was skipped (defects 5 and 7), that the reasons in the exception list were compared (the reason each run gives is; the list's explanation for reviewers is not), what "a clean tree" does and does not see, and a row of Backend's plan without a line. And it found a stack trace where a missing catalogue file should have been a named problem. All were corrected. The request has since been rewritten around PR #47, and what the corrected statements say is now in the [Balance README](../README.md) and in the commands' own descriptions.
 
-**What it showed the gate cannot do, and what is left as it is.** The gate holds the reports against the catalogue and the exception list of the same commit. In a scratch copy the reviewer turned a ready case into a manual one, added its line to the list, regenerated the files and the evidence, and the gate passed with three ready cases fewer. Every change it tried to the list alone was refused; a change to the list and the fixtures together is not, and cannot be by a check that reads one commit. A ready case deleted or emptied of its expectations is the same. What the change cannot be is quiet: the scenario files, the list, the traceability table and the committed evidence all change, and the static check fails until the evidence is produced again. Review of that diff is the protection. BAL-REQ-1 says so and suggests a code-owner rule.
+**What it showed the gate cannot do, and what is left as it is.** The gate holds the reports against the catalogue and the exception list of the same commit. In a scratch copy the reviewer turned a ready case into a manual one, added its line to the list, regenerated the files and the evidence, and the gate passed with three ready cases fewer. Every change it tried to the list alone was refused; a change to the list and the fixtures together is not, and cannot be by a check that reads one commit. A ready case deleted or emptied of its expectations is the same. What the change cannot be is quiet: the scenario files, the list, the traceability table and the committed evidence all change, and the static check fails until the evidence is produced again. Review of that diff is one protection. Integration's guard is the other, and the stronger: it pins the counts and the hashes in a file that Balance does not own, so the same change fails there until Integration has reviewed it.
 
 Two more limits are stated in the strict runner and not closed: a test that decides for itself to return before asserting anything, and a test that its file never registers because the file ends the process first. The runner is told of neither. A test that holds a timer open hangs without a time limit; CI's own limit ends it.
 
@@ -220,15 +234,15 @@ Not tested by the reviewer or by the author: the gate inside GitHub Actions, Lin
 
 The fixes were not given to an independent reader a second time.
 
-## 7. Not run
+## 8. Not run
 
 - **Any human playtest.** No session has taken place.
 - **Anything on a device or in a browser.**
-- **The Firebase service and the emulator suites.** Backend and Frontend own them.
-- **The gate inside real CI.** The sequence was rehearsed locally in a clone. The root manifest and the workflow are Codex's, and nothing in them is changed by this branch.
+- **The Firebase service, the emulator suites and the Backend package check.** Backend and Frontend own them.
+- **Either gate inside real CI with this branch.** Both were run locally in clones. The root manifest and the workflow are Codex's, and nothing in them is changed by this branch.
 - **On this branch, the three static tests that read the owner-decision file.** They ran in the scratch merge.
 - **The six manual scenarios**, and every scenario for a rule that the traceability table lists as not exercised.
-- **A review by a person**, and a second independent reading of the fixes of section 6.
+- **A review by a person**, and a second independent reading of the fixes of section 7.
 - **Original Powers.** Off everywhere, and outside Version 1.
 
 ## Reproducing
@@ -241,4 +255,4 @@ npm run check --workspace @mothership/balance -- --allow-missing-overlay
 npm run engine-gate --workspace @mothership/balance -- --engine-root <checkout> --engine-commit 71dfd0277c6ccc4a5dd78b9702face98a46310b8 --playouts-per-mode 200 --out-dir <directory outside both checkouts>
 ```
 
-The engine gate needs both checkouts to be clean commits. When the engine is on the default branch, drop `--engine-root`, `--engine-commit` and the switch on the static check: the gate then runs against the engine of the checkout at its own commit, which is the form BAL-REQ-1 gives for CI.
+The engine gate needs both checkouts to be clean commits. When the engine is on the default branch, drop `--engine-root`, `--engine-commit` and the switch on the static check: the gate then runs against the engine of the checkout at its own commit. In CI the gate for a merge is Integration's guard, which runs the same three commands.
