@@ -86,8 +86,8 @@ The journey was run twice. The first run passed too, but one of its checks (what
 | --- | --- | --- |
 | **Votes**: Captain election and runoff, Jail vote, release choice and release vote | **Done in the next slice**: [connected-voting.md](connected-voting.md) | |
 | **Scan, Supply, Code** | **Done in a later slice**: [connected-knowledge-actions.md](connected-knowledge-actions.md) | Game Balance's read of the sentences that say what a seat is told |
-| **The result**: Finished and Aborted, the end reveal | Result screens for phone and display | The Designer for the screens; nothing technical |
-| **Host abort** | `v1AbortMatch` in the lobby console | Nothing. Small |
+| **The result**: Finished and Aborted, the end reveal | **Done in a later slice**, functional and not designed: [connected-match-end.md](connected-match-end.md) | The Designer, for how the end of a match looks |
+| **Host abort** | **Done in the same slice**: [connected-match-end.md](connected-match-end.md) | |
 | **Seat recovery** | `v1IssueSeatRecovery` and `v1RedeemSeatRecovery`: a one-time token shown by the host, entered on the replacement device, kept in memory only | Nothing technical. The policy to follow is the host-supervised one Integration proposes in draft [#41](https://github.com/Amirkianfar66/GameN/pull/41), which is not adopted yet |
 | **Host and display pairing** | The display shows its identifier and the host enters it (it does today). Anything shorter is a later change within the same permissions | Entering the full identifier is the stated interim (Integration's drafts [#39](https://github.com/Amirkianfar66/GameN/pull/39) and #41) |
 | **Device acceptance** | Real phones against a backend they can reach | The first-phone environment (draft #41): everything is loopback-only today |
