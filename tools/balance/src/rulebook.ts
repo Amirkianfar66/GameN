@@ -5,6 +5,12 @@
 export const RULE_STATUSES = ['CONFIRMED', 'OWNER-V1', 'DERIVED', 'CONDUCT', 'OPEN'] as const;
 export type RuleStatus = typeof RULE_STATUSES[number];
 
+// RESOLVED: an approved decision or a confirmed source states it. READING: the approved sources
+// give the answer when read closely; no approval is asked. OPEN: an open rule edge that no
+// approved source answers. DEFERRED: outside Version 1.
+export const DECISION_STATUSES = ['RESOLVED', 'READING', 'OPEN', 'DEFERRED'] as const;
+export type DecisionStatus = typeof DECISION_STATUSES[number];
+
 export interface SourceRef {
   raw: string;
   kind: 'pointer' | 'v1' | 'rule' | 'decision' | 'issue';
@@ -94,7 +100,7 @@ export function parseRulebook(markdown: string): ParsedTable<RuleEntry> {
     if (entry.status === 'DERIVED' && !sourced && !kinds.includes('rule')) issues.push(`${entry.id}: DERIVED needs the rules or sources it follows from`);
     if (entry.status === 'CONDUCT' && !sourced) issues.push(`${entry.id}: CONDUCT needs its source`);
     if (entry.status === 'OPEN' && !kinds.includes('decision')) issues.push(`${entry.id}: OPEN needs its decision identifier`);
-    if (entry.status !== 'OPEN' && entry.status !== 'DERIVED' && kinds.includes('decision')) issues.push(`${entry.id}: only OPEN rules and DERIVED working readings cite a decision`);
+    if (entry.status !== 'OPEN' && entry.status !== 'DERIVED' && kinds.includes('decision')) issues.push(`${entry.id}: only OPEN rules and DERIVED readings cite a decision`);
   }
   const known = new Set(entries.map(entry => entry.id));
   for (const entry of entries) {
@@ -115,7 +121,7 @@ export function parseDecisionRegister(markdown: string): ParsedTable<DecisionEnt
     if (row.length !== 4) { issues.push(`${id}: a decision row needs exactly four cells (line ${index + 1})`); return; }
     if (entries.some(entry => entry.id === id)) { issues.push(`${id}: duplicate decision identifier (line ${index + 1})`); return; }
     const status = row[2] ?? '';
-    if (!/^(OPEN|RESOLVED|CONFIRM)$/.test(status)) issues.push(`${id}: status must be OPEN, RESOLVED or CONFIRM (line ${index + 1})`);
+    if (!(DECISION_STATUSES as readonly string[]).includes(status)) issues.push(`${id}: status must be one of ${DECISION_STATUSES.join(', ')} (line ${index + 1})`);
     entries.push({ id, topic: row[1] ?? '', status, resolution: row[3] ?? '', line: index + 1 });
   });
   return { entries, issues };

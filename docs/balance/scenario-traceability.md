@@ -10,9 +10,9 @@ The three modes are separate files and separate evidence. They are never added t
 
 | File | Mode | Ready | Blocked | Manual | Total |
 | --- | --- | --- | --- | --- | --- |
-| `tests/scenarios/v1/mode-7.scenarios.json` | 7 players | 138 | 12 | 2 | 152 |
-| `tests/scenarios/v1/mode-8.scenarios.json` | 8 players | 140 | 12 | 2 | 154 |
-| `tests/scenarios/v1/mode-9.scenarios.json` | 9 players | 145 | 12 | 2 | 159 |
+| `tests/scenarios/v1/mode-7.scenarios.json` | 7 players | 138 | 11 | 2 | 151 |
+| `tests/scenarios/v1/mode-8.scenarios.json` | 8 players | 140 | 11 | 2 | 153 |
+| `tests/scenarios/v1/mode-9.scenarios.json` | 9 players | 145 | 11 | 2 | 158 |
 | `tests/scenarios/v1/unsupported.scenarios.json` | Configurations the rules do not allow | 8 | 0 | 0 | 8 |
 
 Ready means the expected result is derived from decided rules and can be executed. Blocked means the case waits for an owner decision and asserts nothing. Manual means the evidence must come from the service, the user interface or people, not from an engine run.
@@ -59,16 +59,14 @@ Ready means the expected result is derived from decided rules and can be execute
 | BAL-109 | Private disclosure recipients | Blocked on D09 | Decided by the owner; ready | PROT-06, SUP-01, SCAN-06 |
 | BAL-110 | Optional-power modes and special-shot interactions | Blocked on D10 | Still blocked on D10 | POW-01 |
 
-## Open decisions and the cases that wait for them
+## Open rule edges and the cases that wait for them
 
-A blocked case has no expected result. Where a probe is listed, a run records what an engine does today; that is an observation, never a pass.
+An open rule edge is a question that no approved source answers. A blocked case has no expected result. Where a probe is listed, a run records what an engine does today; that is an observation and an implementation choice, never a pass and never canon. The last row is not an open edge of Version 1: Original Powers are off.
 
 | Decision | Question | Blocked scenarios | Probe |
 | --- | --- | --- | --- |
-| D10 | How Original Powers are dealt with seven or nine players, and how they meet the showdown's special shots | POW-01 | None possible |
 | D11 | May Supplier name themself as one of the two recipients? | SUP-08, SUP-09 | Yes |
 | D12 | What may Supplier do with fewer than two eligible recipients in the same location? | SUP-09 | Yes |
-| D15 | What ends a match in which no victory condition can still be met, or in which nobody is left? | WIN-07 | None possible |
 | D16 | May a player move while a Captain election is being voted? | MOVE-05 | Yes |
 | D17 | Windows that might be shorter: may a player end their turn or a Hack conversation early, and does the release-choice window close when the Captain has chosen? | FLOW-07, FLOW-10 | Yes |
 | D18 | Format of a Standard Hack conversation: who asks, how many questions, what if a player declines | HACK-06 | None possible |
@@ -76,14 +74,14 @@ A blocked case has no expected result. Where a probe is listed, a run records wh
 | D20 | Is a round's turn order announced in advance or revealed one turn at a time? | FLOW-08 | None possible |
 | D34 | May a showdown participant target themself? | SHOW-15 | Yes |
 | D35 | Does a match that the host aborts reveal roles and the Code? | OPS-03 | Yes |
+| D10, deferred | How Original Powers are dealt with seven or nine players, and how they meet the showdown's special shots | POW-01 | None possible |
 
-## Working readings and the scenarios that touch them
+## Readings and the scenarios that touch them
 
-A working reading is a DERIVED rule that cites a decision the owner is asked to confirm. The third column lists the ready scenarios whose expected result is about the rule. The fourth counts the further ready scenarios, for 7, 8 and 9 players, whose lead-up relies on it; each scenario names those rules in its `dependsOn` field. If the owner answers a reading differently, both groups are derived again.
+A reading is a DERIVED rule that follows from the approved sources when they are read closely, without their saying it in so many words. No approval is asked for it. The third column lists the ready scenarios whose expected result is about the rule. The fourth counts the further ready scenarios, for 7, 8 and 9 players, that use it on the way; each scenario names those rules in its `dependsOn` field. If a reading is ever decided differently, that is a rule change, and both groups are derived again.
 
 | Decision | Rules | Scenarios that assert the reading | Further scenarios that use it on the way |
 | --- | --- | --- | --- |
-| D13 | R-CAPT-13 | CAPT-09 | 0, 0, 0 |
 | D14 | R-WIN-11 | WIN-06, SHOW-16 | 0, 0, 0 |
 | D21 | R-SETUP-16 | None: see the next table | 0, 0, 0 |
 | D22 | R-SETUP-14 | SETUP-04, DIS-02 (8, 9) | 7, 8, 9 |
@@ -93,7 +91,6 @@ A working reading is a DERIVED rule that cites a decision the owner is asked to 
 | D26 | R-PROT-07 | SHOW-11 | 0, 0, 0 |
 | D27 | R-VOTE-08, R-SHOW-10 | RESC-08, SHOW-01 | 40, 40, 41 |
 | D28 | R-WIN-13 | CODE-09 | 0, 0, 0 |
-| D29 | R-VOTE-09 | VOTE-05 | 0, 0, 0 |
 | D30 | R-ROLE-18 | SCAN-04, SCAN-05, SCAN-07 | 0, 0, 0 |
 | D31 | R-SHOT-05 | SHOT-01, SHOT-02, SHOT-06, SHOT-08, SUP-01, OFF-01 (9), OFF-03 (9) | 0, 0, 0 |
 | D32 | R-CAPT-15 | CAPT-11, CAPT-12, CAPT-13 | 0, 0, 0 |
@@ -115,10 +112,11 @@ Every other rule of the rulebook that is not OPEN is cited by at least one ready
 | R-HACK-05 | 7, 8, 9 | Conduct rule. Manual case HACK-07. |
 | R-HACK-06 | 7, 8, 9 | Nothing to exercise: the protocol has no messaging command. Checked by reading. |
 | R-WIN-08 | 7, 8, 9 | Unreachable by legal play in every mode (audit, S-05). No fixture is possible without a synthetic state, which this baseline does not use. |
+| R-WIN-12 | 7, 8, 9 | Its one distinguishing case, a match that neither side can still win, cannot be reached before the showdown with powers off (audit, S-15). That an ordinary match is not ended early is shown by FLOW-01 and WIN-01. |
 | R-OPS-01 | 7, 8, 9 | Service behaviour. Manual case OPS-02; Backend owns the tests. |
 | R-OPS-03 | 7, 8, 9 | Service behaviour. Manual case OPS-02; Backend owns the tests. |
 | R-POW-01 | 7, 8, 9 | Nothing to exercise: powers are off in every fixture. |
 
 ## Cases with no counterpart in the earlier matrix
 
-SETUP-03, SETUP-04, SETUP-06, FLOW-05, FLOW-06, FLOW-07, FLOW-08, FLOW-09, MOVE-05, CAPT-08, CAPT-11, CAPT-12, CAPT-13, SHOT-08, DIS-01, DIS-04, DIS-05, PROT-05, SUP-02, SUP-03, SUP-04, SUP-06, SUP-07, SUP-08, SUP-09, HACK-06, REL-07, FLOW-10, WIN-06, WIN-08, WIN-09, WIN-07, SHOW-15, VIEW-03, OPS-03, SUP-05 (8, 9).
+SETUP-03, SETUP-04, SETUP-06, FLOW-05, FLOW-06, FLOW-07, FLOW-08, FLOW-09, MOVE-05, CAPT-08, CAPT-11, CAPT-12, CAPT-13, SHOT-08, DIS-01, DIS-04, DIS-05, PROT-05, SUP-02, SUP-03, SUP-04, SUP-06, SUP-07, SUP-08, SUP-09, HACK-06, REL-07, FLOW-10, WIN-06, WIN-08, WIN-09, SHOW-15, VIEW-03, OPS-03, SUP-05 (8, 9).

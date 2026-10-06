@@ -1076,7 +1076,8 @@ function build(mode) {
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Alien')), ...jailEach(equal.slice(0, -1)), untilPhase('SHOWDOWN'),
       check(is('hasResult', false), truth('Alien', 'health', 'Injured'), count('jailed', equal.length - 1), count('injured', 1))],
   });
-  add('WIN', 7, 'A match in which no victory can still be reached', { status: 'blocked', decisions: ['D15'], areas: ['victory', 'phase-transitions'], rules: ['R-WIN-12'], setup: null, kind: 'decision_boundary' });
+  // WIN-07 is withdrawn. It waited on D15, which the existing five-round and showdown structure
+  // answers: nothing ends a match early (R-WIN-12). The number is not reused.
 
   // ----- Final showdown ------------------------------------------------------------------------
   const showdown = [...toEqualPower(M), untilPhase('SHOWDOWN')];

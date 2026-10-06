@@ -33,6 +33,7 @@ const NOT_EXERCISED = {
   'R-HACK-05': 'Conduct rule. Manual case HACK-07.',
   'R-HACK-06': 'Nothing to exercise: the protocol has no messaging command. Checked by reading.',
   'R-WIN-08': 'Unreachable by legal play in every mode (audit, S-05). No fixture is possible without a synthetic state, which this baseline does not use.',
+  'R-WIN-12': 'Its one distinguishing case, a match that neither side can still win, cannot be reached before the showdown with powers off (audit, S-15). That an ordinary match is not ended early is shown by FLOW-01 and WIN-01.',
   'R-OPS-01': 'Service behaviour. Manual case OPS-02; Backend owns the tests.',
   'R-OPS-03': 'Service behaviour. Manual case OPS-02; Backend owns the tests.',
   'R-POW-01': 'Nothing to exercise: powers are off in every fixture.',
@@ -75,27 +76,27 @@ for (const item of matrix.scenarios) {
   say(`| ${item.id} | ${item.title} | ${then} | ${now} | ${listed(carried)}${ux.length > 0 ? `; unsupported configurations ${ux.join(', ')}` : ''} |`);
 }
 say('');
-say('## Open decisions and the cases that wait for them');
+say('## Open rule edges and the cases that wait for them');
 say('');
-say('A blocked case has no expected result. Where a probe is listed, a run records what an engine does today; that is an observation, never a pass.');
+say('An open rule edge is a question that no approved source answers. A blocked case has no expected result. Where a probe is listed, a run records what an engine does today; that is an observation and an implementation choice, never a pass and never canon. The last row is not an open edge of Version 1: Original Powers are off.');
 say('');
 say('| Decision | Question | Blocked scenarios | Probe |');
 say('| --- | --- | --- | --- |');
-for (const decision of decisions.filter(entry => entry.status === 'OPEN')) {
+for (const decision of [...decisions.filter(entry => entry.status === 'OPEN'), ...decisions.filter(entry => entry.status === 'DEFERRED')]) {
   const waits = scenario => scenario.status === 'blocked' && scenario.decisionIds.includes(decision.id);
   const probed = MODES.some(mode => scenarios[mode].filter(waits).some(scenario => scenario.steps.some(step => step.op === 'probe' || step.op === 'note')));
-  say(`| ${decision.id} | ${decision.topic} | ${listed(waits)} | ${probed ? 'Yes' : 'None possible'} |`);
+  say(`| ${decision.id}${decision.status === 'DEFERRED' ? ', deferred' : ''} | ${decision.topic} | ${listed(waits)} | ${probed ? 'Yes' : 'None possible'} |`);
 }
 say('');
-say('## Working readings and the scenarios that touch them');
+say('## Readings and the scenarios that touch them');
 say('');
-say('A working reading is a DERIVED rule that cites a decision the owner is asked to confirm. The third column lists the ready scenarios whose expected result is about the rule. The fourth counts the further ready scenarios, for 7, 8 and 9 players, whose lead-up relies on it; each scenario names those rules in its `dependsOn` field. If the owner answers a reading differently, both groups are derived again.');
+say('A reading is a DERIVED rule that follows from the approved sources when they are read closely, without their saying it in so many words. No approval is asked for it. The third column lists the ready scenarios whose expected result is about the rule. The fourth counts the further ready scenarios, for 7, 8 and 9 players, that use it on the way; each scenario names those rules in its `dependsOn` field. If a reading is ever decided differently, that is a rule change, and both groups are derived again.');
 say('');
 say('| Decision | Rules | Scenarios that assert the reading | Further scenarios that use it on the way |');
 say('| --- | --- | --- | --- |');
-for (const decision of decisions.filter(entry => entry.status === 'CONFIRM')) {
+for (const decision of decisions.filter(entry => entry.status === 'READING')) {
   const ids = rules.filter(rule => rule.refs.some(ref => ref.kind === 'decision' && ref.key === decision.id)).map(rule => rule.id);
-  if (ids.length === 0) { console.error(`${decision.id} is a working reading that no rule cites`); process.exit(1); }
+  if (ids.length === 0) { console.error(`${decision.id} is a reading that no rule cites`); process.exit(1); }
   const asserts = scenario => scenario.status === 'ready' && scenario.ruleRefs.some(id => ids.includes(id));
   const uses = scenario => scenario.status === 'ready' && !asserts(scenario) && scenario.dependsOn.some(id => ids.includes(id));
   say(`| ${decision.id} | ${ids.join(', ')} | ${listed(asserts) || 'None: see the next table'} | ${MODES.map(mode => scenarios[mode].filter(uses).length).join(', ')} |`);

@@ -31,7 +31,7 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 ```
 
 - `ruleRefs` are rule identifiers in `docs/balance/game-rules.md`. The expected result is derived from those rules by hand. It is not copied from an engine.
-- `dependsOn` lists further rules the scenario uses on the way: the rules behind each command it expects to be accepted, behind the checkpoints it runs to and behind the weapon counts it checks. `v1/catalog.mjs` reads them mechanically from the steps, and the list is generous on purpose. Its use is to find every scenario that a rule touches when a working reading changes. It decides no expectation.
+- `dependsOn` lists further rules the scenario uses on the way: the rules behind each command it expects to be accepted, behind the checkpoints it runs to and behind the weapon counts it checks. `v1/catalog.mjs` reads them mechanically from the steps, and the list is generous on purpose. Its use is to find every scenario that a rule touches if a reading is ever decided differently. It decides no expectation.
 - `setup` names the recorded facts of the match: who holds which role, the starting rooms, the three other Code numbers and the five turn orders. Each setup is listed once per file and is reproduced exactly from its seed label by `setupFromSeed`.
 - `steps` are the inputs and the expectations. Players are written `@Role` and resolved through the setup.
 - `lineage` names the specification of the earlier matrix that the scenario carries forward.

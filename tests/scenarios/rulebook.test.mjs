@@ -71,13 +71,17 @@ test('the decision register is complete and consistent with rule statuses', () =
     for (const ref of entry.refs.filter(item => item.kind === 'decision')) {
       const decision = decisions.get(ref.key);
       assert.ok(decision, `${entry.id}: unknown decision ${ref.key}`);
-      assert.equal(decision.status, entry.status === 'OPEN' ? 'OPEN' : 'CONFIRM', `${entry.id} (${entry.status}) cites ${ref.key} (${decision.status})`);
+      // An OPEN rule waits for an open edge or for something deferred; a DERIVED rule may rest on a reading.
+      const allowed = entry.status === 'OPEN' ? ['OPEN', 'DEFERRED'] : ['READING'];
+      assert.ok(allowed.includes(decision.status), `${entry.id} (${entry.status}) cites ${ref.key} (${decision.status})`);
     }
   }
   const citedBy = id => rulebook.entries.filter(entry => entry.refs.some(ref => ref.kind === 'decision' && ref.key === id));
   for (const decision of register.entries) {
     if (decision.status === 'RESOLVED') assert.equal(citedBy(decision.id).length, 0, `${decision.id} is resolved but still cited as undecided`);
     else assert.ok(citedBy(decision.id).length > 0, `${decision.id} (${decision.status}) is cited by no rule`);
+    // A resolved decision says what resolved it: an owner decision, or the rule that states the answer.
+    if (decision.status === 'RESOLVED') assert.match(decision.resolution, /V1-\d{2}|R-[A-Z]+-\d{2}/, `${decision.id} is resolved without naming what resolved it`);
     // The register names the rules that carry each decision; they must exist.
     for (const id of decision.resolution.match(/R-[A-Z]+-\d{2}/g) ?? []) assert.ok(rules.has(id), `${decision.id}: names unknown rule ${id}`);
   }

@@ -105,11 +105,11 @@ INV-WIN-02 states necessary conditions only. It does not decide who should have 
 - Whether a particular command should have been accepted. The scenarios do that.
 - Retry safety, duplicate delivery, security rules, seat recovery and scheduling. Backend owns those.
 - Anything said aloud. The Hack truth rule and embargo are conduct rules (R-HACK-04, R-HACK-05).
-- The open questions D10 to D12, D15 to D20, D34 and D35. No invariant encodes an answer to one of them.
+- The open rule edges D11, D12, D16 to D20, D34 and D35. No invariant encodes an answer to one of them.
 
-## Invariants that rest on a working reading
+## Invariants that rest on a reading
 
-A working reading is a rule the owner has been asked to confirm. If one is answered differently, the invariant named beside it changes with the rule.
+A reading is a rule that follows from the approved sources when they are read closely, although no one sentence says it. If one is ever decided differently, the invariant named beside it changes with the rule.
 
 | Invariant | Part that rests on a reading | Decision |
 | --- | --- | --- |

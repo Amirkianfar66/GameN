@@ -49,7 +49,6 @@ Not decided:
 | --- | --- |
 | D11 | May Supplier name themself as a recipient? |
 | D12 | What can Supplier do with fewer than two players in the room? |
-| D15 | What ends a match that nobody can still win? |
 | D16 | May a player move during a Captain election? |
 | D17 | May a player end their turn or a Hack conversation early? Does the Captain's choice close its window at once? |
 | D18 | How is a Hack conversation held: who asks, how many questions? |
@@ -58,9 +57,12 @@ Not decided:
 | D34 | May a player aim the showdown's special shot at themself? |
 | D35 | Does an aborted match reveal roles and the Code? |
 
-Working readings that the owner has been asked to confirm. The two below are the ones a table is most likely to meet. The others are D21 to D33 and D36 to D38 in [the register](../rules-audit-v1.md#decision-register). If a table plays against a reading, or is surprised by one, log it as `rule-misunderstood` with its D number.
+Decided rules that a table may not expect. They are rules, not questions. If a table plays against one, or is surprised by one, log it as `rule-misunderstood` with its number; that tells the owner how the rule lands with people.
 
-| Number | Reading |
+| Number | Rule |
 | --- | --- |
-| D13 | A tied Captain election repeats until the tie is broken. A runoff in which nobody votes elects nobody |
-| D14 | A Healthy but Jailed player counts as a Healthy member when a win is judged |
+| D13 | A tied Captain election repeats until the tie is broken. A runoff in which nobody votes elects nobody (R-CAPT-13) |
+| D14 | A Healthy but Jailed player counts as a Healthy member when a win is judged (R-WIN-11) |
+| D38 | A released player is free at once and can be voted back into Jail in the same round (R-VOTE-10) |
+
+The other readings are D21 to D28, D30 to D33, D36 and D37 in [the register](../rules-audit-v1.md#decision-register).

@@ -1,13 +1,13 @@
 # Mothership rulebook: in-person Version 1 base game
 
-**Rulebook version:** `rulebook-v1-2026-10-06-r2`. **Scope:** people playing together in person, 7, 8 or 9 players, optional Original Powers off.
+**Rulebook version:** `rulebook-v1-2026-10-06-r3`. **Scope:** people playing together in person, 7, 8 or 9 players, optional Original Powers off.
 **Maintainer:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)). **Canon is decided by the game owner.**
 
 This is the one document every agent reads to learn how the game plays. It consolidates the rule sources into a single ordered text so that Backend, Frontend, Designer and Balance implement, draw, test and explain the same game. It does not create rules. Each row cites the source that makes it true, and `npm run check --workspace @mothership/balance` verifies that every citation resolves in the pinned source files.
 
 If this document and a rule source disagree, the source wins and this document has a defect: report it on issue #5. Do not edit a rule here to make a test pass or a screen simpler.
 
-This is revision 2. It follows an independent check of revision 1 against the sources, made before any review was requested. No source changed and no rule that a source states changed; what did change is listed in [rules-audit-v1.md](rules-audit-v1.md#revision-2-of-the-rulebook).
+This is revision 3. Revision 2 followed independent checks of revision 1 against the sources. Revision 3 follows the integration review of 6 October 2026: the decision register was triaged against the approved decisions, so that nothing already approved is asked again, and three rows changed status. No source changed and no rule that a source states changed. Both lists of changes are in [rules-audit-v1.md](rules-audit-v1.md#revisions-of-the-rulebook).
 
 ## 1. Authority, pins and how to read a rule
 
@@ -20,7 +20,7 @@ This is revision 2. It follows an independent check of revision 1 against the so
 
 The table is in order of precedence: where two rows differ, the upper row applies. Architecture documents, the Canvas, the board drawing and prototype defaults are not rules.
 
-**The owner decision is recorded but not yet merged.** At the reviewed baseline `333c9e820f362a211352bc689372663f29b73ac4` the V1 overlay file does not exist. It is on the draft branch `codex/backend-v1-core` (commit `8d4a2e5dc47eb827dbcbfd8382755db2fa3b0bde`, PR [#16](https://github.com/Amirkianfar66/GameN/pull/16)), and issue [#13](https://github.com/Amirkianfar66/GameN/issues/13) records that the owner approved all 21 decisions. Rows marked OWNER-V1 depend on that record. The delivery priority itself, in-person Version 1 before remote Version 2, is issue [#9](https://github.com/Amirkianfar66/GameN/issues/9); it changes no rule.
+**V1-01 to V1-21 are approved. The file that records them is not yet on `main`.** The owner approved all 21 decisions on 6 October 2026 with the answer "Use the proposed V1 decisions": issue [#13](https://github.com/Amirkianfar66/GameN/issues/13) and the approved sheet on PR [#16](https://github.com/Amirkianfar66/GameN/pull/16) record it, and the integration review of 6 October restates it. At the reviewed baseline `333c9e820f362a211352bc689372663f29b73ac4` the overlay file does not exist; it is on the draft branch `codex/backend-v1-core` (commit `8d4a2e5dc47eb827dbcbfd8382755db2fa3b0bde`). Rows marked OWNER-V1 cite that file. The delivery priority itself, in-person Version 1 before remote Version 2, is issue [#9](https://github.com/Amirkianfar66/GameN/issues/9); it changes no rule.
 
 Every rule has a status:
 
@@ -28,9 +28,9 @@ Every rule has a status:
 | --- | --- | --- |
 | CONFIRMED | Stated by a pinned rule source | Implement exactly |
 | OWNER-V1 | Stated by an owner decision V1-01 to V1-21 | Implement exactly; cite the V1 ruleset pin |
-| DERIVED | Follows from the cited rules; adds no behaviour. A DERIVED row that cites a decision number is a working reading that the owner is asked to confirm | Implement; raise it if you disagree |
+| DERIVED | Follows from the cited rules; adds no behaviour. A DERIVED row that cites a decision number is a reading: what the approved sources say when read closely, although no one sentence says it. No approval is asked for a reading. Changing one would be a rule change | Implement; raise it if you read the sources differently |
 | CONDUCT | Binding on players; software cannot verify it | Show it as instruction; never claim to enforce it |
-| OPEN | Not decided | Do not present any behaviour as approved. The scenario stays blocked |
+| OPEN | An open rule edge: no approved source answers it | Do not present any behaviour as approved. What a build does today is an implementation choice, not canon. The scenario stays blocked |
 
 Source references read `key#/json/pointer`. The keys are `baseline`, `consolidated`, `direct_shot`, `showdown`, `board`, `movement` and `modes` for the seven pinned files. `v1#V1-nn` names an owner decision, and `v1#/pointer` a field of the owner-decision file. The decision register with every D number is in [rules-audit-v1.md](rules-audit-v1.md).
 
@@ -65,7 +65,7 @@ Three configurations exist. They are different games for balance purposes and th
 | R-SETUP-13 | Starting resources: Undercover holds one ordinary weapon. Officer holds one usable shot. Cracker has two Rescues. Blue Disabler and Red Disabler each have one use. Every player has one Standard Hack to initiate. Hacker has one Scan per round and one Code attempt. | CONFIRMED | `baseline#/roles/Undercover/weapon/ordinary_weapon_count`, `modes#/officer/starting_weapon`, `baseline#/roles/Cracker/rescues_per_match`, `baseline#/roles/Blue_Disabler`, `baseline#/roles/Red_Disabler`, `baseline#/standard_hack/personal_initiations_per_match`, `baseline#/roles/Hacker/scan`, `consolidated#/hacker_round_5_code` |
 | R-SETUP-14 | No other role starts with an ordinary weapon. Insider, Cracker, Blue Disabler, Supplier, Hacker, Red Disabler and Alien can fire an ordinary shot only with a weapon received from Supplier. | DERIVED | `R-SETUP-13`, `baseline#/roles/Red_Disabler/ordinary_weapon`, `D22` |
 | R-SETUP-15 | Original Powers are not dealt in Version 1's base game. The base game is complete without them. | OWNER-V1 | `v1#/optional_powers`, `baseline#/optional_original_power_pack/optional`, `baseline#/optional_original_power_pack/base_game_requires_it`, `baseline#/design_vision/core_principles/5` |
-| R-SETUP-16 | The server chooses the three other Code numbers at random and records them with the match. No source fixes the method; drawing each eligible set with equal chance is the working reading. | DERIVED | `baseline#/code/remaining_three_numbers`, `D21` |
+| R-SETUP-16 | The server chooses the three other Code numbers at random and records them with the match. No source fixes the method; drawing each eligible set with equal chance is the reading used here. | DERIVED | `baseline#/code/remaining_three_numbers`, `D21` |
 
 ## 4. Rounds, turns and clocks
 
@@ -131,7 +131,7 @@ Health, Jail and location are three separate things. A player can be Injured and
 | R-CAPT-10 | Only the current Captain may ask for a prisoner's release, so no prisoner can ask for their own. | CONFIRMED | `baseline#/captain/jail_release_authority`, `baseline#/jail_voting/release_request/jailed_player_cannot_initiate_own_release` |
 | R-CAPT-11 | A Captain inside Command Room cannot target another player, because nobody else can be in that room. | DERIVED | `R-ACT-02`, `R-MOVE-04` |
 | R-CAPT-12 | Votes do not depend on location. A Captain inside Command Room can be voted into Jail. | DERIVED | `baseline#/locations/same_location_target_rule/not_location_gated`, `R-CAPT-07` |
-| R-CAPT-13 | A tied election repeats as often as it ties: no source sets a limit or a tie-break. A runoff in which every ballot abstains elects nobody (R-CAPT-06). | DERIVED | `R-CAPT-02`, `R-CAPT-06`, `D13` |
+| R-CAPT-13 | A tied election repeats for as long as it ties. No limit and no tie-break exists, and adding one would be a new rule. A runoff in which every ballot abstains elects nobody (R-CAPT-06). | OWNER-V1 | `v1#V1-04`, `baseline#/captain/election_method/tie_rule` |
 | R-CAPT-14 | A player who stops being Captain while Healthy returns to their last room. Jail and injury send them to Jail or Hospital as usual. | OWNER-V1 | `v1#V1-03` |
 | R-CAPT-15 | The protection of Command Room covers every action, including one a player inside would aim at themself: a Captain inside cannot Scan, protect or Rescue themself. | DERIVED | `R-CAPT-08`, `R-ROLE-14`, `D32` |
 
@@ -221,7 +221,7 @@ Health, Jail and location are three separate things. A player can be Injured and
 | R-VOTE-06 | A release vote is held before the Jail vote. Every player who is not Eliminated votes, under the ballot rules of R-VOTE-02. The prisoner is released if at least half of all eligible voters approve; exactly half is enough. A failed release vote still uses up the match's one request. | OWNER-V1 | `baseline#/jail_voting/release_request`, `v1#V1-10`, `v1#V1-09` |
 | R-VOTE-07 | A released Healthy player returns to the last of Room A or Room B they occupied. A released Injured player goes to Hospital. Neither spends movement. | OWNER-V1 | `v1#V1-02` |
 | R-VOTE-08 | Jail has no time limit. Only a successful release vote ends it. Healing does not. | DERIVED | `baseline#/health_and_status/jail/rescue_or_heal_does_not_release_jail`, `R-VOTE-06`, `D27` |
-| R-VOTE-09 | A ballot cannot be changed after it is cast. | DERIVED | `R-VOTE-02`, `D29` |
+| R-VOTE-09 | A ballot cannot be changed after it is cast. | OWNER-V1 | `v1#V1-10` |
 | R-VOTE-10 | A release takes effect when the release vote closes. The freed player is placed at once (R-VOTE-07) and may be voted for in the Jail vote that follows. | DERIVED | `R-VOTE-06`, `R-RES-01`, `baseline#/jail_voting/release_request/sequence_if_used`, `D38` |
 
 ## 14. End-of-round resolution
@@ -251,7 +251,7 @@ The phone app resolves a round in a fixed order. Nothing in it depends on which 
 | R-WIN-09 | The elimination conditions are checked at every end-of-round victory check. The Code and Power conditions are not checked before the end of Round 5: they are checked at the Round 5 victory check and again after the showdown (R-SHOW-08). | DERIVED | `R-RES-01`, `R-WIN-03`, `R-WIN-04`, `R-WIN-05`, `R-WIN-06`, `R-SHOW-08` |
 | R-WIN-10 | If no condition is met after Round 5 has resolved, the final showdown begins. | CONFIRMED | `showdown#/trigger` |
 | R-WIN-11 | A player who is Healthy but Jailed is a Healthy member for R-WIN-02, because Jail is separate from health. Such a player still adds nothing to Power. | DERIVED | `R-WIN-02`, `R-STATE-04`, `R-WIN-01`, `D14` |
-| R-WIN-12 | What ends a match early when no remaining condition can be met, including when nobody is left, is not decided. | OPEN | `D15` |
+| R-WIN-12 | Nothing ends a match early except a victory or a host abort. A match that neither side can still win is played to the Round 5 check and, with no winner there, to the showdown like any other. A rule that ended such a match early would be a new rule. | DERIVED | `R-FLOW-01`, `R-WIN-09`, `R-WIN-10`, `R-SHOW-08`, `R-OPS-02` |
 | R-WIN-13 | If the correct Code was submitted but no Red player is Healthy at the Round 5 check, Red does not win on the Code, and Blue cannot win on Power in that match because the Code was correct. | DERIVED | `R-WIN-04`, `R-WIN-06`, `D28` |
 
 ## 16. Final showdown
@@ -319,11 +319,11 @@ The same rules as a table, for whoever builds or draws a screen. "Not stated" me
 | ID | Rule | Status | Sources |
 | --- | --- | --- | --- |
 | R-POW-01 | Original Powers are an optional pack. Version 1's base game, its scenarios and its first playtest comparison run with the pack off. | OWNER-V1 | `v1#/optional_powers`, `baseline#/optional_original_power_pack/optional`, `baseline#/optional_original_power_pack/base_game_requires_it` |
-| R-POW-02 | How powers are dealt in seven- and nine-player games, and how they interact with the showdown's special shots, is not decided. | OPEN | `D10` |
+| R-POW-02 | How powers are dealt in seven- and nine-player games, and how they interact with the showdown's special shots, is not decided. It is outside Version 1, in which powers are off. | OPEN | `D10` |
 
 ## 20. Mode sheets
 
-The three sheets below restate setup facts and add arithmetic that follows from them. Two rows rest on working readings and say so. Keep results, playtests and conclusions for each mode apart.
+The three sheets below restate setup facts and add arithmetic that follows from them. Two rows rest on readings and say so. Keep results, playtests and conclusions for each mode apart.
 
 | Fact | 7 players | 8 players | 9 players |
 | --- | --- | --- | --- |
@@ -372,4 +372,4 @@ These were removed or replaced. They stay in the historical files as evidence. N
 2. Game Balance updates this rulebook and the scenarios in the same change, gives the rulebook a new version and moves the decision out of OPEN.
 3. Nothing else changes a rule. A balance proposal, an engine behaviour, a screen design or a passing test is not a decision.
 
-Each OPEN rule cites the decision it waits on. A DERIVED rule that cites a decision number is a working reading that the owner is asked to confirm. The register of both is in [rules-audit-v1.md](rules-audit-v1.md#decision-register).
+Each OPEN rule cites the open rule edge it waits on. A DERIVED rule that cites a decision number is a reading of the approved sources, for which no approval is asked. The register of both, and one consolidated sheet of the open edges, are in [rules-audit-v1.md](rules-audit-v1.md#decision-register).

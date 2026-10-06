@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { CATALOG_FILES } from './catalog.mjs';
 
 export const SCENARIO_SCHEMA = 'mothership.balance.scenarios/1';
-export const RULEBOOK_VERSION = 'rulebook-v1-2026-10-06-r2';
+export const RULEBOOK_VERSION = 'rulebook-v1-2026-10-06-r3';
 export const SOURCE_MANIFEST_SHA256 = '34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc';
 export const V1_RULESET_VERSION = 'in-person-v1-2026-10-06';
 export const V1_OVERLAY_SHA256 = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90';

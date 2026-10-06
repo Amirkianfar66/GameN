@@ -60,7 +60,7 @@ test('every expectation names rules that exist, and ready cases rest only on dec
     const statuses = scenario.ruleRefs.map(id => rules.get(id).status);
     if (scenario.status === 'blocked') {
       assert.ok(statuses.includes('OPEN'), `${scenario.id}: a blocked case must cite the OPEN rule it waits for`);
-      for (const id of scenario.decisionIds) assert.equal(decisions.get(id)?.status, 'OPEN', `${scenario.id}: ${id} is not an open decision`);
+      for (const id of scenario.decisionIds) assert.ok(['OPEN', 'DEFERRED'].includes(decisions.get(id)?.status), `${scenario.id}: ${id} is neither an open rule edge nor deferred`);
       const waiting = scenario.ruleRefs.flatMap(id => rules.get(id).refs.filter(ref => ref.kind === 'decision').map(ref => ref.key));
       for (const id of waiting) assert.ok(scenario.decisionIds.includes(id), `${scenario.id}: cites a rule waiting on ${id} without naming it`);
     } else {
@@ -70,11 +70,14 @@ test('every expectation names rules that exist, and ready cases rest only on dec
 });
 
 test('every open decision has a blocked case in each mode, and no blocked case asserts an outcome', () => {
-  const open = [...decisions.values()].filter(decision => decision.status === 'OPEN').map(decision => decision.id);
-  assert.deepEqual(open, ['D10', 'D11', 'D12', 'D15', 'D16', 'D17', 'D18', 'D19', 'D20', 'D34', 'D35']);
+  const withStatus = status => [...decisions.values()].filter(decision => decision.status === status).map(decision => decision.id);
+  // The nine open rule edges named by the integration review of 6 October, and the one deferred topic.
+  const open = withStatus('OPEN');
+  assert.deepEqual(open, ['D11', 'D12', 'D16', 'D17', 'D18', 'D19', 'D20', 'D34', 'D35']);
+  assert.deepEqual(withStatus('DEFERRED'), ['D10']);
   for (const mode of [7, 8, 9]) {
     const blocked = byMode(mode).filter(scenario => scenario.status === 'blocked');
-    for (const id of open) assert.ok(blocked.some(scenario => scenario.decisionIds.includes(id)), `mode ${mode}: no blocked case for ${id}`);
+    for (const id of [...open, 'D10']) assert.ok(blocked.some(scenario => scenario.decisionIds.includes(id)), `mode ${mode}: no blocked case for ${id}`);
     for (const scenario of blocked) assert.ok(!scenario.steps.some(step => step.op === 'assert'), `${scenario.id} asserts an outcome`);
   }
 });

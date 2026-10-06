@@ -22,7 +22,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | [game-rules.md](game-rules.md) | The consolidated rulebook. One row per rule, each with a status and its sources. The single text all four workstreams follow |
 | [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D38, and consequences derived from the rules |
 | [invariants.md](invariants.md) | Statements that must hold in every match, with the rule behind each |
-| [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each working reading, and the rules without a scenario |
+| [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each reading, and the rules without a scenario |
 | [contract-review.md](contract-review.md) | Independent review of the shared contracts, the Officer and Protection fixture and Backend's draft engine |
 | [integration-requests.md](integration-requests.md) | The exact shared changes requested |
 | [telemetry-spec.md](telemetry-spec.md), [telemetry-export.schema.json](telemetry-export.schema.json) | The restricted post-match research record |
@@ -63,7 +63,7 @@ At the bootstrap baseline the engine package has no rules in it, so `npm run sce
 
 A scenario is **ready** when its expected result follows from decided rules. It is **blocked** when it waits for an owner decision; a blocked scenario asserts nothing. It is **manual** when the evidence has to come from the service, the screen or people.
 
-A rule is decided when a source states it or when it follows from the sources. Nineteen rules rest on one of eighteen readings that the owner has been asked to confirm. A ready scenario may rest on such a reading, and then says so: its `ruleRefs` or `dependsOn` name the rule, and the traceability page lists every scenario that touches each reading.
+A rule is decided when an approved source states it or when it follows from the approved sources. Seventeen rules rest on one of sixteen readings: what the sources say when read closely, although no one sentence says it. No approval is asked for a reading. A ready scenario may rest on one, and then says so: its `ruleRefs` or `dependsOn` name the rule, and the traceability page lists every scenario that touches each reading.
 
 A run reports four separate numbers: **passed**, **failed**, **blocked** and **not run**. Only an executed scenario whose every expectation held is passed. Blocked and not-run are never added to it.
 
