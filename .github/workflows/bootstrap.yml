@@ -35,3 +35,4 @@ jobs:
       - run: npm run test:emulator
         env:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
+      - run: npm run package:backend -- --verify-install

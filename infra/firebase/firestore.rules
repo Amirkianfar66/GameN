@@ -1,54 +1,73 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isMember(matchId) {
-      return request.auth != null
-        && exists(/databases/$(database)/documents/matches/$(matchId)/members/$(request.auth.uid))
-        && (member(matchId).kind == 'display'
-          || (member(matchId).kind == 'player' && isSeat(member(matchId).seatId)));
-    }
-
     function member(matchId) {
       return get(/databases/$(database)/documents/matches/$(matchId)/members/$(request.auth.uid)).data;
     }
-
     function isSeat(seatId) {
       return seatId in ['seat-1', 'seat-2', 'seat-3', 'seat-4', 'seat-5', 'seat-6', 'seat-7', 'seat-8', 'seat-9'];
     }
-
-    match /matches/{matchId}/views/public {
-      allow get: if isMember(matchId)
-        && resource.data.matchId == matchId
-        && resource.data.audience.kind == 'public';
+    function legacyMatch(matchId) {
+      return !exists(/databases/$(database)/documents/matches/$(matchId)/control/session);
+    }
+    function fullMatch(matchId) {
+      return exists(/databases/$(database)/documents/matches/$(matchId)/control/session)
+        && get(/databases/$(database)/documents/matches/$(matchId)/control/session).data.protocolVersion == 2;
+    }
+    function activePlayer(matchId) {
+      return member(matchId).kind == 'player'
+        && isSeat(member(matchId).seatId)
+        && exists(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId))
+        && get(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId)).data.uid == request.auth.uid
+        && get(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId)).data.bindingRevision == member(matchId).bindingRevision;
+    }
+    function admitted(matchId) {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/matches/$(matchId)/members/$(request.auth.uid))
+        && ((legacyMatch(matchId) && (member(matchId).kind == 'display'
+              || (member(matchId).kind == 'player' && isSeat(member(matchId).seatId))))
+          || (fullMatch(matchId) && (member(matchId).kind == 'display' || activePlayer(matchId))));
+    }
+    function host(matchId) {
+      return request.auth != null && fullMatch(matchId)
+        && get(/databases/$(database)/documents/matches/$(matchId)/control/session).data.hostUid == request.auth.uid;
+    }
+    match /matches/{matchId}/control/session {
+      allow get: if request.auth != null && resource.data.protocolVersion == 2 && resource.data.hostUid == request.auth.uid;
       allow list, write: if false;
     }
-
+    match /matches/{matchId}/admissions/{admissionId} {
+      // Requesters must constrain a list query by uid. Host admission data contains no engine secrets.
+      allow get, list: if host(matchId) || (request.auth != null && fullMatch(matchId) && resource.data.uid == request.auth.uid);
+      allow write: if false;
+    }
+    match /matches/{matchId}/lobby/public {
+      allow get: if admitted(matchId) && fullMatch(matchId)
+        && resource.data.protocolVersion == 2 && resource.data.matchId == matchId;
+      allow list, write: if false;
+    }
+    match /matches/{matchId}/views/public {
+      allow get: if admitted(matchId) && resource.data.matchId == matchId && resource.data.audience.kind == 'public';
+      allow list, write: if false;
+    }
     match /matches/{matchId}/playerViews/{uid} {
-      allow get: if isMember(matchId)
-        && request.auth.uid == uid
-        && member(matchId).kind == 'player'
-        && isSeat(member(matchId).seatId)
-        && resource.data.matchId == matchId
-        && resource.data.audience.kind == 'player'
-        && resource.data.audience.seatId == member(matchId).seatId
+      allow get: if admitted(matchId) && request.auth.uid == uid && member(matchId).kind == 'player'
+        && isSeat(member(matchId).seatId) && resource.data.matchId == matchId
+        && resource.data.audience.kind == 'player' && resource.data.audience.seatId == member(matchId).seatId
         && resource.data.self.seatId == member(matchId).seatId;
       allow list, write: if false;
     }
-
     match /matches/{matchId}/audienceEvents/{audienceKey}/items/{eventId} {
-      allow get, list: if isMember(matchId)
+      allow get, list: if admitted(matchId)
         && ((audienceKey == 'public' && resource.data.audience.kind == 'public')
-          || (audienceKey == request.auth.uid
-            && member(matchId).kind == 'player'
-            && resource.data.audience.kind == 'player'
-            && resource.data.audience.seatId == member(matchId).seatId));
+          || (member(matchId).kind == 'player' && resource.data.audience.kind == 'player'
+            && resource.data.audience.seatId == member(matchId).seatId
+            && ((legacyMatch(matchId) && audienceKey == request.auth.uid)
+              || (fullMatch(matchId) && audienceKey == 'p-' + member(matchId).seatId))));
       allow write: if false;
     }
-
-    // Admin SDK transactions must authorize separately. No client role, including host,
-    // can read engine state, private journals, receipts, members or scheduling intents.
-    match /{document=**} {
-      allow read, write: if false;
-    }
+    // Engine state, role assignments, journals, receipts, bindings, recovery tokens and
+    // outbox intents remain server-only. Host capability does not grant their visibility.
+    match /{document=**} { allow read, write: if false; }
   }
 }
