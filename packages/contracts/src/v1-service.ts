@@ -9,6 +9,17 @@ const room=z.enum(['Room A','Room B']);
 const playerCount=z.union([z.literal(7),z.literal(8),z.literal(9)]);
 const roomCode=z.string().regex(/^[A-F0-9]{12}$/);
 const recoveryToken=z.string().regex(/^[A-Za-z0-9_-]{43}$/);
+// Exact Firestore document bodies. Match/admission identity comes from the authorized path;
+// do not add path IDs, admission protocol fields, or engine secrets to these existing shapes.
+export const FullHostSessionSchema=z.strictObject({...protocol,hostUid:uid,playerCount,
+  status:z.enum(['lobby','running','complete','aborted']),roomCode,createdAt:TimestampSchema});
+const admissionDocument={uid,initialRoom:room,requestedAt:TimestampSchema};
+export const FullAdmissionDocumentSchema=z.discriminatedUnion('status',[
+  z.strictObject({...admissionDocument,status:z.literal('pending')}),
+  z.strictObject({...admissionDocument,status:z.literal('approved'),seatId:SeatIdSchema}),
+]);
+export type FullHostSession=z.infer<typeof FullHostSessionSchema>;
+export type FullAdmissionDocument=z.infer<typeof FullAdmissionDocumentSchema>;
 export const FullCreateMatchRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,playerCount});
 export const FullAdmissionRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,roomCode,initialRoom:room});
 export const FullApproveAdmissionRequestSchema=z.strictObject({...operation,admissionId:IdentifierSchema,seatId:SeatIdSchema});

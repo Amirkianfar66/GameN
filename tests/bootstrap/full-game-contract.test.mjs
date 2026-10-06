@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {FullCommandRequestSchema,FullReceiptSchema,FullPhaseSchema,FullEventSchema,FULL_PROTOCOL_VERSION,PROTOCOL_VERSION,FullAssetManifestVersionSchema,FullCreateMatchRequestSchema,FullAdmissionRequestSchema,FullApproveAdmissionRequestSchema,FullIssueSeatRecoveryRequestSchema,FullRedeemSeatRecoveryRequestSchema,FullOperationResponseSchema,FullLobbyViewSchema,FullLookupResponseSchema,FullAdvanceResponseSchema,FullPublicViewSchema} from '../../packages/contracts/dist/index.js';
+import {FullCommandRequestSchema,FullReceiptSchema,FullPhaseSchema,FullEventSchema,FULL_PROTOCOL_VERSION,PROTOCOL_VERSION,FullAssetManifestVersionSchema,FullCreateMatchRequestSchema,FullAdmissionRequestSchema,FullApproveAdmissionRequestSchema,FullIssueSeatRecoveryRequestSchema,FullRedeemSeatRecoveryRequestSchema,FullOperationResponseSchema,FullLobbyViewSchema,FullLookupResponseSchema,FullAdvanceResponseSchema,FullPublicViewSchema,FullHostSessionSchema,FullAdmissionDocumentSchema} from '../../packages/contracts/dist/index.js';
 const base={protocolVersion:2,matchId:'match-v1',phaseId:'neutral-phase-1',commandId:'cmd-1'};
 test('full-game commands use strict protocol 2 envelopes and reject forged authority',()=>{
   assert.equal(PROTOCOL_VERSION,1);assert.equal(FULL_PROTOCOL_VERSION,2);
@@ -75,4 +75,55 @@ test('terminal reveals require the canonical role permutation and Alien-in, Unde
   const broken=structuredClone(view);broken.endReveal.roles.forEach(s=>s.role='Officer');assert.equal(FullPublicViewSchema.safeParse(broken).success,false);
   assert.equal(FullPublicViewSchema.safeParse({...view,endReveal:{...view.endReveal,code:['seat-1','seat-2','seat-3','seat-5']}}).success,false);
   const wrongFaction=structuredClone(view);wrongFaction.seats[4].health='Eliminated';wrongFaction.seats[4].revealedFaction='Blue';assert.equal(FullPublicViewSchema.safeParse(wrongFaction).success,false);
+});
+
+const hostDocument={protocolVersion:2,hostUid:'synthetic-host',playerCount:7,status:'lobby',roomCode:'0123456789AB',createdAt:0};
+const pendingAdmission={uid:'synthetic-player',initialRoom:'Room A',requestedAt:0,status:'pending'};
+const approvedAdmission={...pendingAdmission,status:'approved',seatId:'seat-1'};
+
+test('shared host document schema preserves the existing six-field body in every mode and lifecycle status',()=>{
+  for(const playerCount of [7,8,9])for(const status of ['lobby','running','complete','aborted']){
+    const document={...hostDocument,playerCount,status};
+    assert.deepEqual(FullHostSessionSchema.parse(document),document);
+    assert.deepEqual(Object.keys(document).sort(),['protocolVersion','hostUid','playerCount','status','roomCode','createdAt'].sort());
+  }
+  for(const createdAt of [0,Number.MAX_SAFE_INTEGER])assert.equal(FullHostSessionSchema.safeParse({...hostDocument,createdAt}).success,true);
+});
+
+test('shared admission document schema preserves pending and approved bodies without adding path identifiers or a protocol field',()=>{
+  for(const initialRoom of ['Room A','Room B']){
+    const pending={...pendingAdmission,initialRoom};
+    assert.deepEqual(FullAdmissionDocumentSchema.parse(pending),pending);
+    for(let n=1;n<=9;n++){
+      const approved={...pending,status:'approved',seatId:`seat-${n}`};
+      assert.deepEqual(FullAdmissionDocumentSchema.parse(approved),approved);
+    }
+  }
+  assert.equal(FullAdmissionDocumentSchema.safeParse({...pendingAdmission,seatId:'seat-1'}).success,false);
+  assert.equal(FullAdmissionDocumentSchema.safeParse({...pendingAdmission,seatId:undefined}).success,false);
+  for(const seatId of [undefined,null,'seat-0','seat-10','seat-1/child'])assert.equal(FullAdmissionDocumentSchema.safeParse({...approvedAdmission,seatId}).success,false);
+});
+
+test('host and admission documents reject missing fields, unsafe identities, timestamps and unsupported states',()=>{
+  const cases=[[FullHostSessionSchema,hostDocument,'hostUid','createdAt'],[FullAdmissionDocumentSchema,pendingAdmission,'uid','requestedAt'],[FullAdmissionDocumentSchema,approvedAdmission,'uid','requestedAt']];
+  for(const [schema,document,uidKey,timeKey] of cases){
+    for(const key of Object.keys(document)){const missing={...document};delete missing[key];assert.equal(schema.safeParse(missing).success,false,key);}
+    for(const value of ['',null,123,'unsafe/child','space identity','a'.repeat(129)])assert.equal(schema.safeParse({...document,[uidKey]:value}).success,false);
+    for(const value of [-1,1.5,NaN,Infinity,Number.MAX_SAFE_INTEGER+1,'0',null])assert.equal(schema.safeParse({...document,[timeKey]:value}).success,false);
+    for(const status of ['finished','denied',null])assert.equal(schema.safeParse({...document,status}).success,false);
+  }
+  for(const protocolVersion of [1,3,'2',null])assert.equal(FullHostSessionSchema.safeParse({...hostDocument,protocolVersion}).success,false);
+  for(const playerCount of [6,10,'7',null])assert.equal(FullHostSessionSchema.safeParse({...hostDocument,playerCount}).success,false);
+  for(const roomCode of ['0123456789ab','short','0123456789AB/child',null])assert.equal(FullHostSessionSchema.safeParse({...hostDocument,roomCode}).success,false);
+  for(const initialRoom of ['Command Room','Hospital','Jail',null])assert.equal(FullAdmissionDocumentSchema.safeParse({...pendingAdmission,initialRoom}).success,false);
+});
+
+test('host and admission document schemas reject engine secrets and invented metadata instead of stripping fields',()=>{
+  for(const [schema,document] of [[FullHostSessionSchema,hostDocument],[FullAdmissionDocumentSchema,pendingAdmission],[FullAdmissionDocumentSchema,approvedAdmission]]){
+    for(const key of ['role','roles','code','protections','targetSeatId','recoveryToken','engine','matchId','admissionId','viewRevision']){
+      assert.equal(schema.safeParse({...document,[key]:'synthetic-private'}).success,false,key);
+    }
+  }
+  assert.equal(FullAdmissionDocumentSchema.safeParse({...pendingAdmission,protocolVersion:2}).success,false);
+  assert.equal(FullHostSessionSchema.safeParse({...hostDocument,seats:[]}).success,false);
 });

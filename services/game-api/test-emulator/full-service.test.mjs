@@ -6,7 +6,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import {
   FullPublicViewSchema, FullPlayerViewSchema, FullReceiptSchema, FullEventSchema, FullFailureSchema,
   FullOperationResponseSchema, FullCommandResponseSchema, FullLookupResponseSchema, FullAdvanceResponseSchema,
-  FullServerTimeResponseSchema, FullLobbyViewSchema,
+  FullServerTimeResponseSchema, FullLobbyViewSchema, FullHostSessionSchema, FullAdmissionDocumentSchema,
 } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
@@ -34,20 +34,31 @@ async function harness(playerCount = 7, { deal = true, hostPlays = false, assetM
   const created = success(await service.createMatch(host.uid, createPayload));
   const base = db.collection('matches').doc(created.matchId);
   const lobbyView = async () => FullLobbyViewSchema.parse((await base.collection('lobby').doc('public').get()).data());
+  const hostSessionView = async () => FullHostSessionSchema.parse((await base.collection('control').doc('session').get()).data());
+  assert.deepEqual(await hostSessionView(), { protocolVersion: 2, hostUid: host.uid, playerCount, status: 'lobby', roomCode: created.roomCode, createdAt: now });
   assert.equal((await lobbyView()).status, 'lobby');
   const request = (fields = {}) => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
-  const admission = async (identity, initialRoom = 'Room A') => success(await service.requestAdmission(identity.uid, {
-    protocolVersion: 2, requestId: randomUUID(), roomCode: created.roomCode, initialRoom,
-  }));
+  const admission = async (identity, initialRoom = 'Room A') => {
+    const pending = success(await service.requestAdmission(identity.uid, {
+      protocolVersion: 2, requestId: randomUUID(), roomCode: created.roomCode, initialRoom,
+    }));
+    const document = FullAdmissionDocumentSchema.parse((await base.collection('admissions').doc(pending.admissionId).get()).data());
+    assert.deepEqual(document, { uid: identity.uid, initialRoom, requestedAt: now, status: 'pending' });
+    return pending;
+  };
   const approve = async (identity, seatId) => {
     const pending = await admission(identity);
     const response = await service.approveAdmission(host.uid, request({ admissionId: pending.admissionId, seatId }));
     FullOperationResponseSchema.parse(response);
-    if (response.ok) { const actualLobby = await lobbyView(); assert.ok(actualLobby.seats.some(item => item.seatId === seatId)); }
+    if (response.ok) {
+      const actualLobby = await lobbyView(); assert.ok(actualLobby.seats.some(item => item.seatId === seatId));
+      const approved = FullAdmissionDocumentSchema.parse((await base.collection('admissions').doc(pending.admissionId).get()).data());
+      assert.deepEqual(approved, { uid: identity.uid, initialRoom: 'Room A', requestedAt: now, status: 'approved', seatId });
+    }
     return response;
   };
   const current = async () => decodeV1State((await base.collection('engine').doc('current').get()).data());
-  const h = { service, host, players, created, createPayload, base, request, admission, approve, current, lobbyView,
+  const h = { service, host, players, created, createPayload, base, request, admission, approve, current, lobbyView, hostSessionView,
     setTime: value => { now = value; }, now: () => now,
     command: async (seatNumber, command, commandId = randomUUID(), phaseId) => {
       const state = await current();
@@ -61,6 +72,7 @@ async function harness(playerCount = 7, { deal = true, hostPlays = false, assetM
     for (let i = 0; i < playerCount; i++) success(await approve(players[i], `seat-${i + 1}`));
     success(await service.startMatch(host.uid, request()));
     assert.equal((await lobbyView()).status, 'running');
+    assert.equal((await hostSessionView()).status, 'running');
   }
   return h;
 }
@@ -110,8 +122,43 @@ test('lobby creation is idempotent; host capability is separate from player iden
   assert.equal((await read(selfHost, `playerViews/${selfHost.host.uid}`, selfHost.host)).status, 200);
   success(await selfHost.service.abortMatch(selfHost.host.uid, selfHost.request()));
   assert.equal((await selfHost.lobbyView()).status, 'aborted');
+  assert.equal((await selfHost.hostSessionView()).status, 'aborted');
   assert.equal((await selfHost.current()).phase.kind, 'ABORTED');
   assert.equal((await read(selfHost, 'views/public', selfHost.host)).body.fields.endReveal.nullValue, null);
+});
+
+test('host session schema preserves its existing body when seat recovery transfers host authority', async () => {
+  const h = await harness(7, { hostPlays: true });
+  const original = await h.hostSessionView();
+  const issued = success(await h.service.issueSeatRecovery(h.host.uid, h.request({ seatId: 'seat-1' })));
+  const replacement = await createEmulatorIdentity();
+  success(await h.service.redeemSeatRecovery(replacement.uid, h.request({ recoveryToken: issued.recoveryToken })));
+  assert.deepEqual(await h.hostSessionView(), { ...original, hostUid: replacement.uid });
+  assert.equal((await read(h, 'control/session', h.host)).status, 403);
+  assert.equal((await read(h, 'control/session', replacement)).status, 200);
+  error(await h.service.abortMatch(h.host.uid, h.request()), 'FORBIDDEN');
+  success(await h.service.abortMatch(replacement.uid, h.request()));
+  assert.deepEqual(await h.hostSessionView(), { ...original, hostUid: replacement.uid, status: 'aborted' });
+});
+
+test('approval validates the complete admission document before creating a seat or durable operation response', async () => {
+  const h = await harness(7, { deal: false });
+  const pending = await h.admission(h.players[0], 'Room B');
+  const admissionRef = h.base.collection('admissions').doc(pending.admissionId);
+  const original = FullAdmissionDocumentSchema.parse((await admissionRef.get()).data());
+  const approval = h.request({ admissionId: pending.admissionId, seatId: 'seat-1' });
+  for (const malformed of [{ ...original, requestedAt: -1 }, { ...original, role: 'synthetic-private' }]) {
+    await admissionRef.set(malformed); // Trusted test setup simulates retained-document drift.
+    error(await h.service.approveAdmission(h.host.uid, approval), 'UNAVAILABLE');
+    assert.deepEqual((await admissionRef.get()).data(), malformed);
+    assert.equal((await h.base.collection('seats').doc('seat-1').get()).exists, false);
+    assert.equal((await h.base.collection('members').doc(h.players[0].uid).get()).exists, false);
+    assert.equal((await db.collection('identityOperations').doc(hash([h.host.uid, approval.requestId])).get()).exists, false);
+    assert.equal((await h.lobbyView()).seats.length, 0);
+  }
+  await admissionRef.set(original);
+  success(await h.service.approveAdmission(h.host.uid, approval));
+  assert.deepEqual(FullAdmissionDocumentSchema.parse((await admissionRef.get()).data()), { ...original, status: 'approved', seatId: 'seat-1' });
 });
 
 test('concurrent admissions cannot assign one seat twice or one identity to two seats', async () => {
@@ -167,7 +214,7 @@ for (const playerCount of [7, 8, 9]) test(`${playerCount}-player real Firestore 
   assert.equal(finished.deadlineToken, null);
   const publicView = FullPublicViewSchema.parse((await h.base.collection('views').doc('public').get()).data());
   assert.notEqual(publicView.endReveal, null);
-  assert.equal((await h.base.collection('control').doc('session').get()).get('status'), 'complete');
+  assert.equal((await h.hostSessionView()).status, 'complete');
   assert.equal((await h.lobbyView()).status, 'complete');
   for (const identity of h.players) FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(identity.uid).get()).data());
   assert.equal((await h.service.runDeadline({ matchId: first.matchId, phaseId: first.phase.id, deadlineToken: first.deadlineToken })).result, 'unchanged');
