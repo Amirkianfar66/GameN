@@ -1,7 +1,10 @@
 import { FullCommandRequestSchema, IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { FullCommandRequest, FullPlayerView, FullReceipt, SeatId } from '@mothership/contracts';
+import type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
-import type { ConnectedApi, ConnectedCommandResult, ConnectedFailureCode } from './api.js';
+import type { ConnectedApi, ConnectedCommandResult } from './api.js';
+
+export type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason };
 
 // One player's own command under wire protocol 2, from picking an action up to knowing what
 // the server did with it. One command at a time for the seat, whatever its kind: while an
@@ -24,12 +27,6 @@ import type { ConnectedApi, ConnectedCommandResult, ConnectedFailureCode } from 
 // reloaded page can ask about the command but cannot send it again. It keeps the command
 // pending while its phase is open; once a fresh view shows that phase closed, a lookup made
 // after that view settles it, and "unknown" then means it was not accepted.
-
-export type Destination = Extract<FullCommandRequest['command'], { type: 'MOVE' }>['destination'];
-export type ActionKind = 'move' | 'shot';
-export type ActionChoice =
-  | { readonly kind: 'move'; readonly destination: Destination }
-  | { readonly kind: 'shot'; readonly targetSeatId: SeatId };
 
 /** Client-side technical parameters. None of them is a game rule or a server deadline. */
 export interface ActionFlowTiming {
@@ -58,22 +55,6 @@ export interface ActionFlowContext {
   readonly panelOpen: boolean;
   readonly foreground: boolean;
 }
-
-export type NotAcceptedReason = Exclude<ConnectedFailureCode, 'UNAVAILABLE' | 'RATE_LIMITED'> | 'NOT_SENT' | 'PHASE_OVER';
-
-/** Where the player's own command stands on this device, as far as this device knows. */
-export type ActionFlowState =
-  | { readonly step: 'idle' }
-  | { readonly step: 'choosing'; readonly kind: ActionKind }
-  | { readonly step: 'confirming'; readonly choice: ActionChoice; readonly armed: boolean }
-  /** kind and choice are null on a reloaded page, which kept the identifiers only. */
-  | { readonly step: 'submitting'; readonly choice: ActionChoice | null }
-  | { readonly step: 'checking'; readonly choice: ActionChoice | null; readonly recovered: boolean }
-  | { readonly step: 'unknown'; readonly choice: ActionChoice | null; readonly recovered: boolean; readonly phaseOver: boolean; readonly armed: boolean }
-  /** The server accepted it. For a queued command that is a registration and not an outcome; a move has already happened. */
-  | { readonly step: 'accepted'; readonly choice: ActionChoice | null; readonly armed: boolean }
-  | { readonly step: 'rejected'; readonly choice: ActionChoice | null; readonly code: 'PHASE_CLOSED' | 'NOT_ALLOWED'; readonly armed: boolean }
-  | { readonly step: 'not-accepted'; readonly choice: ActionChoice | null; readonly reason: NotAcceptedReason; readonly armed: boolean };
 
 export interface ActionFlow {
   getState(): ActionFlowState;

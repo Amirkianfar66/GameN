@@ -1,9 +1,11 @@
-import type { AudienceView, SeatId } from '@mothership/contracts';
+import type { SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import type {
-  BannerModel, BlockedModel, DataSourceMode, DeadlineEstimate, LocationName, MarkerModel, MatchDetailsModel,
+  AudienceFacts, BannerModel, BlockedModel, DataSourceMode, DeadlineEstimate, LocationName, MarkerModel, MatchDetailsModel,
   MotionSettingsInput, PhaseStripModel, SeatModel, SettingsModel, ShellEnvironment, TimerModel, ZoneModel,
 } from './types.js';
+
+type AudienceView = AudienceFacts;
 
 const SEAT_NUMBER: Readonly<Record<SeatId, number>> = {
   'seat-1': 1, 'seat-2': 2, 'seat-3': 3, 'seat-4': 4, 'seat-5': 5, 'seat-6': 6, 'seat-7': 7, 'seat-8': 8, 'seat-9': 9,
@@ -54,6 +56,10 @@ export function buildSeats(view: AudienceView, selfSeatId: SeatId | null): SeatM
       markers.push({ kind: 'health', variant: seat.health.toLowerCase(), label: en.marker.health(seat.health) });
       if (seat.jailed) markers.push({ kind: 'jail', variant: 'jailed', label: en.marker.jailed });
       if (seat.captain) markers.push({ kind: 'captain', variant: 'captain', label: en.marker.captain });
+      // A faction is public only once the server reveals it, and is shown only then.
+      if ('revealedFaction' in seat && seat.revealedFaction !== null) {
+        markers.push({ kind: 'faction', variant: seat.revealedFaction.toLowerCase(), label: en.marker.faction(seat.revealedFaction) });
+      }
       return {
         seatId: seat.seatId, number, label: isSelf ? en.seat.labelSelf(number) : en.seat.label(number),
         isSelf, isActive, location: seat.location, health: seat.health, jailed: seat.jailed, captain: seat.captain, markers,
@@ -102,16 +108,28 @@ export function buildTimer(deadline: DeadlineEstimate): TimerModel {
 }
 
 export function phaseLabel(view: AudienceView, selfSeatId: SeatId | null): string {
-  if (view.phase.kind === 'ROUND_RESOLUTION') return en.phase.resolution;
+  const { kind } = view.phase;
+  if (kind === 'ROUND_RESOLUTION') return en.phase.resolution;
+  // Every other kind is named as it is. None is described by what the players should do in it.
+  if (kind !== 'ORDINARY_TURN') return en.phase.kind[kind];
   if (view.activeSeatId === null) return en.phase.turnUnassigned;
   return view.activeSeatId === selfSeatId ? en.phase.yourTurn : en.phase.turnOf(seatNumber(view.activeSeatId));
+}
+
+function phaseDetail(view: AudienceView): string | null {
+  const { kind } = view.phase;
+  if (kind === 'ROUND_RESOLUTION') return en.phase.resolutionDetail;
+  // This build shows these phases and their clock and cannot take part in them yet. Saying
+  // so is better than a screen that looks as if nothing could be done in the game.
+  if (kind === 'ORDINARY_TURN' || kind === 'FINISHED' || kind === 'ABORTED') return null;
+  return en.phase.notPlayableYet;
 }
 
 export function buildPhaseStrip(view: AudienceView, selfSeatId: SeatId | null, deadline: DeadlineEstimate): PhaseStripModel {
   return {
     roundLabel: en.phase.round(view.round),
     phaseLabel: phaseLabel(view, selfSeatId),
-    detail: view.phase.kind === 'ROUND_RESOLUTION' ? en.phase.resolutionDetail : null,
+    detail: phaseDetail(view),
     timer: buildTimer(deadline),
   };
 }

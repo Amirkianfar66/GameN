@@ -7,7 +7,7 @@ import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 import { hiddenText, renderDetails, renderMarkers, renderPhase, renderSeat, renderShell, renderZones } from './parts.js';
 
-function renderLocation(location: PlayerMatchModel['location']): MarkupElement {
+export function renderLocation(location: PlayerMatchModel['location']): MarkupElement {
   return h('section', { class: 'ms-panel ms-location', 'aria-labelledby': 'ms-location-heading', 'data-region': 'location' },
     h('h2', { class: 'ms-panel__heading', id: 'ms-location-heading' }, location.heading),
     h('p', { class: 'ms-location__name' }, en.location.name(location.name)),
@@ -24,7 +24,7 @@ function renderLocation(location: PlayerMatchModel['location']): MarkupElement {
 
 // A control that is not active yet says so to assistive technology and stays focusable, so
 // focus placed on it is not thrown away when it becomes active a moment later.
-function renderButton(button: CardButtonModel): MarkupElement {
+export function renderButton(button: CardButtonModel): MarkupElement {
   return h('button', {
     type: 'button', class: button.primary ? 'ms-button ms-button--primary' : 'ms-button', id: button.id, 'data-intent': button.intent,
     'aria-disabled': button.disabled ? 'true' : null,

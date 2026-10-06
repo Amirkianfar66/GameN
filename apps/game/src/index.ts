@@ -40,6 +40,10 @@ export type {
 export { createConnectedPlayerStore, createConnectedPublicStore, readAdmission, readHostSession, readLobby, SUPPORTED_CONNECTED_VERSIONS } from './connected/readers.js';
 export type { Admission, DocumentOutcome, DocumentRejection, HostSession } from './connected/readers.js';
 export { collectionPath, documentPath } from './connected/paths.js';
+export { createConnectedPlayerSession, createConnectedPublicSession } from './connected/session.js';
+export type { ConnectedSessionOptions } from './connected/session.js';
+export { createConnectedPlayerScreen, createConnectedTableScreen } from './connected/screens.js';
+export type { ConnectedPlayerScreenOptions, ConnectedTableScreenOptions } from './connected/screens.js';
 export { createActionFlow, DEFAULT_ACTION_FLOW_TIMING, offeredChoices } from './connected/action-flow.js';
 export type {
   ActionChoice, ActionFlow, ActionFlowContext, ActionFlowOptions, ActionFlowState, ActionFlowTiming, ActionKind, Destination, NotAcceptedReason,

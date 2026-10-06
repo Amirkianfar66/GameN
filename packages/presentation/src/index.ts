@@ -14,7 +14,8 @@ export interface MotionPreferences {
 }
 
 export { en } from './copy/en.js';
-export { createPlayerAnnouncer, createTableAnnouncer } from './model/announcements.js';
+export { createConnectedPlayerAnnouncer, createPlayerAnnouncer, createTableAnnouncer } from './model/announcements.js';
+export { actionStepFocusId, buildConnectedPlayerShellModel, describeAction } from './model/connected-player.js';
 export type { Announcer } from './model/announcements.js';
 export { displaySeconds, FINAL_SECONDS, formatClock, isCurrent, isSeatId, resolveScreen, seatNumber } from './model/common.js';
 export { parseShellIntent } from './model/intent.js';
@@ -28,6 +29,7 @@ export { escapeAttribute, escapeText, h, isElement, splitRegions, textOf, toHtml
 export type { MarkupAttributes, MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode, MarkupTag, RegionSplit } from './markup/node.js';
 export { planRedraw } from './markup/redraw.js';
 export type { RedrawPlan, RedrawStep } from './markup/redraw.js';
-export { SHELL_IDS, shotTargetId } from './ids.js';
+export { actionChoiceId, actionOpenId, SHELL_IDS, shotTargetId } from './ids.js';
+export { renderConnectedPlayerShell } from './markup/connected-player.js';
 export { renderPlayerShell } from './markup/player-shell.js';
 export { renderTableShell } from './markup/table-shell.js';

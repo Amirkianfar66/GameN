@@ -17,7 +17,22 @@ export const SHELL_IDS = {
   shotConfirm: 'ms-shot-confirm',
   shotCheck: 'ms-shot-check',
   shotDismiss: 'ms-shot-dismiss',
+  /** The connected action card. The title is not redrawn as the card changes step. */
+  actionTitle: 'ms-action-title',
+  actionStep: 'ms-action-step',
+  actionBack: 'ms-action-back',
+  actionConfirm: 'ms-action-confirm',
+  actionCheck: 'ms-action-check',
+  actionDismiss: 'ms-action-dismiss',
 } as const;
+
+export function actionOpenId(kind: 'move' | 'shot'): string {
+  return `ms-action-open-${kind}`;
+}
+/** A choice is a destination or a seat; its id is built from letters, digits and hyphens only. */
+export function actionChoiceId(value: string): string {
+  return `ms-action-choice-${value.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+}
 
 export function shotTargetId(seatId: SeatId): string {
   return `ms-shot-target-${seatId}`;

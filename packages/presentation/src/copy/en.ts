@@ -1,4 +1,6 @@
-import type { DataSourceMode, HealthState, LocationName } from '../model/types.js';
+import type { DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ShotRejectionCode } from '../model/types.js';
+
+type NamedPhaseKind = Exclude<PhaseFacts['kind'], 'ORDINARY_TURN' | 'ROUND_RESOLUTION'>;
 
 // Every string the shells show or speak. Interface wording only: nothing here states a
 // rule, an eligibility reason or an outcome that the audience view did not supply.
@@ -54,6 +56,18 @@ export const en = {
     turnUnassigned: 'Turn in progress',
     resolution: 'Round resolution',
     resolutionDetail: 'The round is being resolved.',
+    // The server's own phase kinds under wire protocol 2, named and nothing more.
+    kind: {
+      HACK: 'Hack',
+      CAPTAIN_ELECTION: 'Captain election',
+      RELEASE_CHOICE: 'Release choice',
+      RELEASE_VOTE: 'Release vote',
+      JAIL_VOTE: 'Jail vote',
+      SHOWDOWN: 'Showdown',
+      FINISHED: 'Match finished',
+      ABORTED: 'Match ended by the host',
+    } satisfies Record<NamedPhaseKind, string>,
+    notPlayableYet: 'This preview shows this phase and its clock. It cannot take part in it yet.',
   },
 
   timer: {
@@ -82,6 +96,7 @@ export const en = {
     jailed: 'Jailed',
     captain: 'Captain',
     health: (health: HealthState): string => health,
+    faction: (faction: FactionName): string => `Revealed: ${faction}`,
   },
 
   privateArea: {
@@ -165,11 +180,82 @@ export const en = {
     ok: 'OK',
   },
 
+  // Interface wording for the connected prototype's one action card, provisional until the
+  // copy is reviewed. "Registered" and "accepted" are never outcomes. Two statements are
+  // about the game: a move takes effect when the server accepts it, as the engine does it,
+  // and registered shots are resolved at the end of the round (end_of_round_order).
+  action: {
+    title: 'Your action',
+    kind: { move: 'Move', shot: 'Shot' },
+    status: {
+      idle: 'Nothing in progress',
+      choosing: 'Choosing',
+      confirming: 'Not sent yet',
+      submitting: 'Submitting',
+      checking: 'Checking',
+      unknown: 'Result unknown',
+      accepted: 'Accepted',
+      'not-accepted': 'Not accepted',
+    },
+    offer: {
+      available: 'Available',
+      unavailable: 'Not available',
+      noTarget: 'No one you can target right now',
+    },
+    open: { move: 'Choose where to move', shot: 'Choose a target' },
+    queued: (count: number) => (count === 1
+      ? 'One action of yours is registered and waiting to be resolved.'
+      : `${count} actions of yours are registered and waiting to be resolved.`),
+    choosePrompt: { move: 'Where do you move?', shot: 'Choose a target' },
+    chooseNote: 'These are the choices the server offers you now.',
+    cancel: 'Cancel',
+    chooseAgain: 'Choose again',
+    confirmMove: (destination: Destination) => `Move to ${destination}?`,
+    confirmShot: (seat: number) => `Register a shot at Player ${seat}?`,
+    consequence: {
+      move: 'A move takes effect as soon as the server accepts it.',
+      shot: 'You cannot change or withdraw it here once it is registered.',
+    },
+    confirm: { move: 'Move', shot: 'Register shot' },
+    submitting: { move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', unknownKind: 'Sending your action to the server…' },
+    checking: 'Checking what the server did with your action…',
+    checkingAfterReload: 'This page was reloaded before the server answered. Checking what became of your action…',
+    moved: (destination: Destination) => `Moved to ${destination}.`,
+    shotRegistered: (seat: number) => `Shot at Player ${seat} registered.`,
+    shotRegisteredDetail: 'This is not a result. Registered shots are resolved at the end of the round.',
+    acceptedAfterReload: 'The server accepted your action.',
+    acceptedAfterReloadDetail: 'This page was reloaded, so it no longer knows what the action was. This is not a result.',
+    rejected: {
+      PHASE_CLOSED: 'Not accepted. It reached the server after that phase had ended.',
+      NOT_ALLOWED: 'Not accepted. The server did not allow it.',
+    } satisfies Record<ShotRejectionCode, string>,
+    notAccepted: {
+      UNAUTHENTICATED: 'Not accepted. This device is not signed in to the match.',
+      FORBIDDEN: 'Not accepted. This device may not act for this seat.',
+      INVALID_REQUEST: 'Not accepted. The server could not read the request.',
+      UNSUPPORTED_PROTOCOL: 'Not accepted. This app is out of date. Reload to update.',
+      COMMAND_ID_CONFLICT: 'Not accepted. The server refused the request.',
+      REQUEST_ID_CONFLICT: 'Not accepted. The server refused the request.',
+      NOT_SENT: 'Not accepted. The request could not be sent.',
+      PHASE_OVER: 'Not accepted. That phase ended before the server received it.',
+    } satisfies Record<NotAcceptedReason, string>,
+    tryAgainHint: 'You can choose again if the server still offers it.',
+    choiceDropped: 'Your choice was not sent.',
+    unknown: 'Result unknown. The app could not confirm what the server did with your action.',
+    unknownDetail: 'Do not assume either way. You can check again at any time.',
+    unknownAfterReload: 'This page was reloaded before the server answered, so it cannot send the action again. Do not assume either way.',
+    unknownPhaseOver: 'That phase has ended, so nothing more can be accepted for it. Do not assume either way.',
+    checkAgain: 'Check again',
+    stopChecking: 'Stop checking',
+    done: 'Done',
+    ok: 'OK',
+  },
+
   roster: {
     playerHeading: 'All players',
     boardHeading: 'Board',
     tableHeading: 'Players',
-    caption: 'Public status of all nine players',
+    caption: 'Public status of every player',
     column: { player: 'Player', location: 'Location', health: 'Health', status: 'Status' },
     noStatus: 'None',
   },
