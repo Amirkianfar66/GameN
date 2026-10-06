@@ -1,0 +1,199 @@
+{
+  "note": "Review renders of the pages under design/prototypes/. Each is a picture of a synthetic page in desktop Chrome on one machine. None is a device measurement, a match or an engine result.",
+  "renderedWith": "Google Chrome 155.0.8059.39",
+  "command": "node design/tools/render-review.mjs",
+  "inputsSha256": "e22f8267d6e06a412b3c407ee2ff73e3f230ef9862dc59cd7d0e57163e630da5",
+  "images": [
+    {
+      "file": "design/review/asset-all.png",
+      "page": "design/prototypes/assets.html?sheet=all",
+      "width": 1564,
+      "height": 5345,
+      "scale": 1
+    },
+    {
+      "file": "design/review/asset-board-room-a.png",
+      "page": "design/prototypes/assets.html?sheet=room",
+      "width": 1336,
+      "height": 2405,
+      "scale": 1
+    },
+    {
+      "file": "design/review/asset-card-officer.png",
+      "page": "design/prototypes/assets.html?sheet=officer",
+      "width": 1184,
+      "height": 901,
+      "scale": 1
+    },
+    {
+      "file": "design/review/asset-kit.png",
+      "page": "design/prototypes/assets.html?sheet=kit",
+      "width": 1306,
+      "height": 1645,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-missing-assets.png",
+      "page": "design/prototypes/layouts.html?board=missing-assets",
+      "width": 1740,
+      "height": 1168,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-phone-narrow-large-text.png",
+      "page": "design/prototypes/layouts.html?board=phone-narrow-large-text",
+      "width": 2666,
+      "height": 1865,
+      "scale": 2,
+      "browserDefaultFontPx": 32
+    },
+    {
+      "file": "design/review/layout-phone-private.png",
+      "page": "design/prototypes/layouts.html?board=phone-private",
+      "width": 2368,
+      "height": 1911,
+      "scale": 2
+    },
+    {
+      "file": "design/review/layout-phone-public-full.png",
+      "page": "design/prototypes/layouts.html?board=phone-public-full",
+      "width": 2368,
+      "height": 4619,
+      "scale": 2
+    },
+    {
+      "file": "design/review/layout-phone-public.png",
+      "page": "design/prototypes/layouts.html?board=phone-public",
+      "width": 2368,
+      "height": 1911,
+      "scale": 2
+    },
+    {
+      "file": "design/review/layout-phone-short-large-text.png",
+      "page": "design/prototypes/layouts.html?board=phone-short-large-text",
+      "width": 3373,
+      "height": 1481,
+      "scale": 2,
+      "browserDefaultFontPx": 32
+    },
+    {
+      "file": "design/review/layout-player-wide.png",
+      "page": "design/prototypes/layouts.html?board=player-wide",
+      "width": 1184,
+      "height": 1095,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-reconnect.png",
+      "page": "design/prototypes/layouts.html?board=reconnect",
+      "width": 1740,
+      "height": 1237,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-table-narrow.png",
+      "page": "design/prototypes/layouts.html?board=table-narrow",
+      "width": 1184,
+      "height": 1725,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-table-varied.png",
+      "page": "design/prototypes/layouts.html?board=table-varied",
+      "width": 1344,
+      "height": 1299,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-table-wide.png",
+      "page": "design/prototypes/layouts.html?board=table-wide",
+      "width": 1860,
+      "height": 1169,
+      "scale": 1
+    },
+    {
+      "file": "design/review/states-controls.png",
+      "page": "design/prototypes/states.html?sheet=controls",
+      "width": 1339,
+      "height": 1592,
+      "scale": 1
+    },
+    {
+      "file": "design/review/states-shot-card.png",
+      "page": "design/prototypes/states.html?sheet=cards",
+      "width": 1800,
+      "height": 1785,
+      "scale": 1
+    },
+    {
+      "file": "design/review/states-token-markers.png",
+      "page": "design/prototypes/states.html?sheet=tokens",
+      "width": 1681,
+      "height": 2522,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-phase-change.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-phase-change",
+      "width": 1259,
+      "height": 644,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-public-move.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-public-move",
+      "width": 1626,
+      "height": 1249,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-registration.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-registration",
+      "width": 1305,
+      "height": 1045,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-round-transition.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-round-transition",
+      "width": 1896,
+      "height": 726,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-selection.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-selection",
+      "width": 1239,
+      "height": 1231,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-status-change.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-status-change",
+      "width": 1293,
+      "height": 705,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboards-without-art.png",
+      "page": "design/prototypes/storyboards.html?art=none",
+      "width": 1896,
+      "height": 5349,
+      "scale": 1
+    },
+    {
+      "file": "design/review/study-blocked-outcome.png",
+      "page": "design/prototypes/studies.html?study=study-blocked-outcome",
+      "width": 2154,
+      "height": 1173,
+      "scale": 1
+    },
+    {
+      "file": "design/review/study-resolved-shot.png",
+      "page": "design/prototypes/studies.html?study=study-resolved-shot",
+      "width": 2154,
+      "height": 1187,
+      "scale": 1
+    }
+  ]
+}
