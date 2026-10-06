@@ -29,7 +29,10 @@
       "@mothership/contracts/fixtures": [
         "./packages/contracts/src/fixtures.ts"
       ]
-    }
+    },
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "apps/game/src/**/*.ts",

@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isMember(matchId) {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/matches/$(matchId)/members/$(request.auth.uid))
+        && (member(matchId).kind == 'display'
+          || (member(matchId).kind == 'player' && isSeat(member(matchId).seatId)));
+    }
+
+    function member(matchId) {
+      return get(/databases/$(database)/documents/matches/$(matchId)/members/$(request.auth.uid)).data;
+    }
+
+    function isSeat(seatId) {
+      return seatId in ['seat-1', 'seat-2', 'seat-3', 'seat-4', 'seat-5', 'seat-6', 'seat-7', 'seat-8', 'seat-9'];
+    }
+
+    match /matches/{matchId}/views/public {
+      allow get: if isMember(matchId)
+        && resource.data.matchId == matchId
+        && resource.data.audience.kind == 'public';
+      allow list, write: if false;
+    }
+
+    match /matches/{matchId}/playerViews/{uid} {
+      allow get: if isMember(matchId)
+        && request.auth.uid == uid
+        && member(matchId).kind == 'player'
+        && isSeat(member(matchId).seatId)
+        && resource.data.matchId == matchId
+        && resource.data.audience.kind == 'player'
+        && resource.data.audience.seatId == member(matchId).seatId
+        && resource.data.self.seatId == member(matchId).seatId;
+      allow list, write: if false;
+    }
+
+    match /matches/{matchId}/audienceEvents/{audienceKey}/items/{eventId} {
+      allow get, list: if isMember(matchId)
+        && ((audienceKey == 'public' && resource.data.audience.kind == 'public')
+          || (audienceKey == request.auth.uid
+            && member(matchId).kind == 'player'
+            && resource.data.audience.kind == 'player'
+            && resource.data.audience.seatId == member(matchId).seatId));
+      allow write: if false;
+    }
+
+    // Admin SDK transactions must authorize separately. No client role, including host,
+    // can read engine state, private journals, receipts, members or scheduling intents.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

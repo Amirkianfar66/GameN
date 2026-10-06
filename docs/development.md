@@ -80,3 +80,7 @@ Codex Backend/Integration owns root dependencies, the lockfile, CI and shared co
 The fixture export `@mothership/contracts/fixtures` is deliberately separate from the normal package entrypoint. Import it only in tests or an explicitly isolated development harness. A future app harness must add a production-bundle exclusion check before using it. The current workspace guard disallows fixture subpath imports in runtime source trees.
 
 Implementation references: [TypeScript project references](https://www.typescriptlang.org/docs/handbook/project-references.html) and [Zod schemas](https://zod.dev/api). Existing Codex launch guidance remains in [CODEX_START_HERE.md](../CODEX_START_HERE.md); use the reviewed baseline procedure in [integration-baseline.md](integration-baseline.md).
+
+## Backend emulator checkpoint
+
+Backend issue #2 adds engine/API/HTTP guard tests to `npm run verify`. `npm run test:emulator` additionally requires Java 21 and runs local Auth, Firestore, Functions and Rules evidence against `demo-mothership`. Its CLI is pinned in the root lockfile. See [the backend handoff](backend/implementation.md); emulator tests fail rather than silently skip when their prerequisites are absent. No cloud login or deployment is required.

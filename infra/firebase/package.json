@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "22"
+  },
   "files": [
     "dist"
   ],
@@ -14,5 +18,11 @@
   },
   "scripts": {
     "build": "tsc --build"
+  },
+  "dependencies": {
+    "@mothership/game-api": "0.1.0",
+    "@mothership/contracts": "0.1.0",
+    "firebase-admin": "14.5.0",
+    "firebase-functions": "7.4.0"
   }
 }
