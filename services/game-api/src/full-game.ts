@@ -6,9 +6,9 @@ import {
   FullCreateMatchRequestSchema, FullAdmissionRequestSchema, FullApproveAdmissionRequestSchema, FullAdmitDisplayRequestSchema,
   FullStartMatchRequestSchema, FullAbortMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullRedeemSeatRecoveryRequestSchema,
   FullLookupRequestSchema, FullAdvanceRequestSchema, FullServerTimeRequestSchema, FullOperationResponseSchema, FullLobbyViewSchema,
-  FullAssetManifestVersionSchema,
+  FullAssetManifestVersionSchema, FullHostSessionSchema, FullAdmissionDocumentSchema,
 } from '@mothership/contracts';
-import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId } from '@mothership/contracts';
+import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, FullHostSession, SeatId } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH } from '@mothership/engine';
 import type { FullGameSetup, FullGameState } from '@mothership/engine';
 
@@ -19,7 +19,7 @@ type Body = Record<string, unknown>;
 type EnvelopeSchema = { safeParse(value: unknown): { success: true; data: Body } | { success: false } };
 type Role = FullPlayerView['self']['role'];
 type Room = 'Room A' | 'Room B';
-type Control = { protocolVersion: 2; hostUid: string; playerCount: 7 | 8 | 9; status: 'lobby' | 'running' | 'complete' | 'aborted'; roomCode: string; createdAt: number };
+type Control = FullHostSession;
 type SeatBinding = { uid: string; bindingRevision: number; initialRoom: Room };
 type ActivePlayer = { seatId: SeatId; binding: SeatBinding };
 type Shuffler = <T>(items: readonly T[]) => T[];
@@ -221,7 +221,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     return operation(uid, body, 'createMatch', async (tx, now) => {
       const collision = await tx.get(codeRef);
       if (collision.exists) return failure('UNAVAILABLE');
-      const control: Control = { protocolVersion: 2, hostUid: uid, playerCount: body['playerCount'] as 7 | 8 | 9, status: 'lobby', roomCode, createdAt: now };
+      const control: Control = FullHostSessionSchema.parse({ protocolVersion: 2, hostUid: uid, playerCount: body['playerCount'], status: 'lobby', roomCode, createdAt: now });
       return { response: success(now, { matchId, roomCode, playerCount: control.playerCount, status: 'lobby' }), write: () => {
         tx.create(codeRef, { matchId }); tx.create(base.collection('control').doc('session'), control);
         tx.create(base.collection('members').doc(uid), { kind: 'display' });
@@ -240,8 +240,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
       const member = await tx.get(base.collection('members').doc(uid));
       if (control?.protocolVersion !== 2 || control.status !== 'lobby' || member.get('kind') === 'player') return failure('FORBIDDEN');
+      const admissionDocument = FullAdmissionDocumentSchema.parse({ uid, initialRoom: body['initialRoom'], requestedAt: now, status: 'pending' });
       return { response: success(now, { matchId: base.id, admissionId, status: 'pending' }), write: () => {
-        tx.create(base.collection('admissions').doc(admissionId), { uid, initialRoom: body['initialRoom'], requestedAt: now, status: 'pending' });
+        tx.create(base.collection('admissions').doc(admissionId), admissionDocument);
       } };
     });
   }
@@ -262,6 +263,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const initialRoom = admission.get('initialRoom') as Room;
       const nextLobby = lobby(base, control, bindings.docs); nextLobby.seats.push({ seatId, initialRoom });
       FullLobbyViewSchema.parse(nextLobby);
+      // Approval updates only status/seat; validate the complete retained document before writing.
+      FullAdmissionDocumentSchema.parse({ ...admission.data(), status: 'approved', seatId });
       return { response: success(now, { admissionId: admission.id, seatId, status: 'approved' }), write: () => {
         tx.create(bindingRef, { uid: targetUid, bindingRevision: 1, initialRoom });
         tx.set(memberRef, { kind: 'player', seatId, bindingRevision: 1 });
