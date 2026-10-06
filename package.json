@@ -38,7 +38,8 @@
     "typecheck:browser": "tsc --project tsconfig.check.browser.json --noEmit",
     "test:tooling": "node --test tests/tooling/*.test.mjs",
     "test:frontend": "npm run build && node scripts/test-frontend.mjs",
-    "check:browser-dependencies": "node scripts/check-browser-dependencies.mjs"
+    "check:browser-dependencies": "node scripts/check-browser-dependencies.mjs",
+    "test:frontend:emulator": "npm run test:emulator --workspace @mothership/game"
   },
   "devDependencies": {
     "@types/node": "22.19.19",
