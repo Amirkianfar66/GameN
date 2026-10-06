@@ -2,9 +2,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "@mothership/game": [
-        "./apps/game/src/index.ts"
-      ],
       "@mothership/game-api": [
         "./services/game-api/src/index.ts"
       ],
@@ -35,13 +32,19 @@
     ]
   },
   "include": [
-    "apps/game/src/**/*.ts",
     "services/game-api/src/**/*.ts",
+    "services/game-api/src/**/*.tsx",
     "packages/engine/src/**/*.ts",
+    "packages/engine/src/**/*.tsx",
     "packages/contracts/src/**/*.ts",
+    "packages/contracts/src/**/*.tsx",
     "packages/presentation/src/**/*.ts",
+    "packages/presentation/src/**/*.tsx",
     "packages/design-tokens/src/**/*.ts",
+    "packages/design-tokens/src/**/*.tsx",
     "infra/firebase/src/**/*.ts",
-    "tools/balance/src/**/*.ts"
+    "infra/firebase/src/**/*.tsx",
+    "tools/balance/src/**/*.ts",
+    "tools/balance/src/**/*.tsx"
   ]
 }

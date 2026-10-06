@@ -1,0 +1,12 @@
+{
+  "baseCommit": "230cc39bdced7f54dbd44eabeef6aa91e9462ce0",
+  "frontendCommit": "ba716d71b3c5a2e15acf3cd80c4bb458e657fc9f",
+  "ownedPrefixes": [
+    "apps/game",
+    "packages/presentation",
+    "docs/frontend"
+  ],
+  "trackedFileCount": 112,
+  "contentHashAlgorithm": "SHA256 of sorted path TAB SHA256(file bytes) LF",
+  "contentHash": "f0e19b4b9a5e681db20b59794697deba10a9110860bd6f7a18a7c3f9c96ad66a"
+}
