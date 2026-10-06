@@ -112,8 +112,9 @@ test('journey: the events arrive before their view. Each is still played once, w
   w.scenario.synthetic('move');
   await flush();
   for (const name of w.names) {
-    assert.deepEqual(w.cues(name), [{ kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' }], name);
-    assert.deepEqual(w.frame(name).cues.map(item => item.seq), [2], `${name}: the phase change was cue 1`);
+    // The phase has not changed again, so its cue is still due beside the newer one.
+    assert.deepEqual(w.cues(name), [{ kind: 'phase-change' }, { kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' }], name);
+    assert.deepEqual(w.frame(name).cues.map(item => item.seq), [1, 2], `${name}: the phase change was cue 1`);
   }
 });
 
@@ -177,7 +178,8 @@ test('journey: a public move and a status change are cues about one token each, 
   w.scenario.synthetic('status');
   await flush();
   for (const name of w.names) {
-    assert.deepEqual(w.cues(name), [{ kind: 'status-change', seatId: 'seat-9', health: 'Injured' }], name);
+    // Another seat's fact does not cut the first cue short: Player 8 is still where it moved to.
+    assert.deepEqual(w.cues(name), [{ kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' }, { kind: 'status-change', seatId: 'seat-9', health: 'Injured' }], name);
     assert.equal(w.frame(name).announcement.text, 'Player 9 is now Injured.', name);
     assert.match(w.text(name), /Player 9[^.]*Injured/, name);
     // No cause is known, so none is shown: not in a cue, a spoken line or the words on screen.
@@ -219,7 +221,7 @@ test('journey: choosing reduced motion changes the screen’s motion setting at 
   // Later facts are still cued; how little is drawn for them is the renderer's part.
   w.scenario.synthetic('move');
   await flush();
-  assert.deepEqual(w.cues('table').map(cue => cue.kind), ['public-move']);
+  assert.deepEqual(w.cues('table').map(cue => cue.kind), ['status-change', 'public-move']);
 });
 
 test('journey: events a correct backend would never send change nothing on any screen', async () => {

@@ -48,6 +48,7 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
+    seatsOf: view => view.seats,
     buildInput(environment, view, local) {
       const panelOpen = local.pageVisible && local.privateRevealed && view !== null;
       // The flow is told the present before its state is read, so a choice that was not
