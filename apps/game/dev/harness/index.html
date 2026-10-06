@@ -1,0 +1,30 @@
+<!doctype html>
+<!-- mothership:dev-only — fixture harness index. Synthetic data. Never deploy. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="mothership:dev-only" content="fixture harness; never deploy">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Mothership fixture harness</title>
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/harness/harness.css">
+</head>
+<body class="harness-body">
+<main class="harness-page">
+  <h1>Mothership fixture harness</h1>
+  <p class="harness-warning"><strong>Development only.</strong> Every screen below shows synthetic data replayed from the contract fixture. Nothing here is connected to a game server, and choosing a seat is not authentication.</p>
+  <h2>Audience screens</h2>
+  <ul class="harness-links">
+    <li><a href="/harness/player.html?seat=seat-1">Player 1 phone</a> <span>controlled seat</span></li>
+    <li><a href="/harness/player.html?seat=seat-2">Player 2 phone</a> <span>controlled seat</span></li>
+    <li><a href="/harness/table.html">Table display</a> <span>public facts only</span></li>
+  </ul>
+  <h2>Operator</h2>
+  <ul class="harness-links">
+    <li><a href="/harness/operator.html">Operator console</a> <span>steps the script, drops feeds, sends bad payloads</span></li>
+  </ul>
+  <p>Seven of the nine seats are scripted and have no screen. Two phones and one table display are the integration fixture; they are not a two-player mode.</p>
+</main>
+</body>
+</html>
