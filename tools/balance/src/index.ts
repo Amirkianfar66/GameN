@@ -13,3 +13,4 @@ export * from './codeinfo.js';
 export * from './walker.js';
 export * from './telemetry.js';
 export * from './evidence.js';
+export * from './controls.js';

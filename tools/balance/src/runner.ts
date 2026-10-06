@@ -325,12 +325,16 @@ function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapte
     return { ...base, status: 'failed', failure: { stepIndex: 0, op: 'createRejected', message: 'the engine accepted a setup that the rules do not allow' } };
   }
   let match: EngineMatch;
+  let first: Observation;
   try {
     match = adapter.createMatch(setup, `scenario-${scenario.id}`);
+    first = match.observe();
   } catch (error) {
-    return { ...base, status: 'failed', failure: { stepIndex: -1, op: 'create', message: `the engine refused a legal setup: ${error instanceof Error ? error.message : String(error)}` } };
+    const failure = { stepIndex: -1, op: 'create', message: `the engine refused a legal setup: ${error instanceof Error ? error.message : String(error)}` };
+    // A blocked case is never a pass and never a failure. Here it could not even be probed.
+    if (scenario.status === 'blocked') return { ...base, status: 'blocked', failure, reason: `probe could not be completed: ${failure.message}` };
+    return { ...base, status: 'failed', failure };
   }
-  const first = match.observe();
   const session: Session = {
     setup, match, ledger: startLedger(first), current: first, marks: {},
     trace: [{ round: first.round, phaseKind: first.phaseKind, activeSeat: first.activeSeat }],

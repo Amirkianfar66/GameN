@@ -109,8 +109,27 @@ function isOffered(view: PlayerFacts, command: NeutralCommand): boolean {
     : command.target !== undefined && targets.includes(command.target);
 }
 
+/**
+ * One seeded playout. An engine that refuses the setup or throws part-way does not stop the run:
+ * the playout is reported as unfinished with the error as a violation, so that a command built on
+ * this function fails instead of crashing or passing.
+ */
 export function walk(adapter: EngineAdapter, mode: Mode, seed: string, options: WalkOptions = DEFAULT_WALK): WalkResult {
   const setup = deriveSetup(mode, seed, { roles: 'seeded', rooms: 'seeded', orders: 'seeded' });
+  try {
+    return play(adapter, mode, seed, setup, options);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return {
+      mode, seed, setup, completed: false, phases: 0, commandsAccepted: 0, commandsRejected: 0, hintMismatches: [],
+      violations: [{ invariant: 'engine-error', message: `the engine or its adapter threw: ${message}` }],
+      terminalPhase: 'none', winner: null, alienCoWinner: null, showdown: false, eliminatedBeforeShowdown: 0, eliminatedAtEnd: 0,
+      maxJailed: 0, windowSeconds: 0, endDigest: `error: ${message}`,
+    };
+  }
+}
+
+function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioSetup, options: WalkOptions): WalkResult {
   const random = mulberry32(hashSeed(`walk|${seed}|${mode}`));
   const seats = seatIdsFor(mode);
   const match = adapter.createMatch(setup, `walk-${mode}-${hashSeed(seed).toString(36)}`);

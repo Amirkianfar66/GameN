@@ -12,7 +12,7 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `v1/files.mjs` | Reading and writing those files; the pins they carry |
 | `adapters/full-game-v1.mjs` | Binding to Backend's full-game engine API |
 | `support/stub.mjs` | A scripted stand-in used only to test the runner and the invariants |
-| `*.test.mjs` | Static checks, run on `node:test` |
+| `*.test.mjs` | Static checks, run on `node:test`. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status |
 
 ## What a scenario is
 
@@ -61,7 +61,7 @@ npm run check --workspace @mothership/balance
 npm run scenarios --workspace @mothership/balance
 ```
 
-The first needs no engine. The second executes against `@mothership/engine` of this checkout; at the bootstrap baseline that package has no rules, so nothing is executed and every ready scenario is reported as not run.
+The first needs no engine. The second executes against `@mothership/engine` of this checkout; at the bootstrap baseline that package has no rules, so nothing is executed and every ready scenario is reported as not run. It then exits 0. Where the command is a gate, add `-- --require-engine`: a run that executed nothing then exits 2.
 
 To execute against another commit, build a copy of it and pass its directory:
 

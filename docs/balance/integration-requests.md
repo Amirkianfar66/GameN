@@ -38,10 +38,21 @@ Requested change to the root `package.json`, shown against the bootstrap baselin
 These checks validate documents and fixtures. They do not execute a scenario. When the full-game engine is on the default branch, add the execution as a second step:
 
 ```diff
-+    "test:scenarios": "npm run scenarios --workspace @mothership/balance",
++    "test:scenarios": "npm run scenarios --workspace @mothership/balance -- --require-engine",
 ```
 
-`npm run scenarios` exits non-zero when any executed scenario fails. With no full-game engine in the checkout it executes nothing, reports every ready scenario as not run, and exits zero: at the bootstrap baseline that is the correct result, and it must not be read as a pass.
+`npm run scenarios` exits 1 when any executed scenario fails. With no full-game engine in the checkout it executes nothing, reports every ready scenario as not run, and exits zero: at the bootstrap baseline that is the correct result, and it must not be read as a pass. `--require-engine` turns that case into exit status 2, so a gate cannot pass because the engine failed to load. The same switch exists on `controls` and `walk`.
+
+On the current integration candidates the root manifest has moved on from the bootstrap baseline: `verify` ends in `npm test`, and `test` chains the engine, backend, tooling and Frontend suites. Against that manifest the request is these three lines:
+
+```diff
++    "test:balance": "npm run check --workspace @mothership/balance",
++    "test:scenarios": "npm run scenarios --workspace @mothership/balance -- --require-engine",
+-    "test": "npm run test:bootstrap && npm run test:engine && npm run test:backend && npm run test:tooling && npm run test:frontend",
++    "test": "npm run test:bootstrap && npm run test:engine && npm run test:backend && npm run test:tooling && npm run test:frontend && npm run test:balance && npm run test:scenarios",
+```
+
+The evidence report records what both commands did on a scratch merge of this branch with the candidate.
 
 ## BAL-REQ-2
 

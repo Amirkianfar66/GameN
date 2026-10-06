@@ -50,12 +50,14 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 | `npm run check --workspace @mothership/balance` | Static checks. Needs no engine. Verifies hashes, every rule citation, the decision register, the scenario files and the numbers quoted in the documents |
 | `npm run scenarios --workspace @mothership/balance` | Executes the scenarios against the engine of this checkout. Add `-- --engine-root <dir>` for a built copy of another commit, and `-- --out <file>` to write a report |
 | `npm run walk --workspace @mothership/balance -- --engine-root <dir>` | Seeded random playouts with the invariants checked after every transition |
-| `npm run controls --workspace @mothership/balance -- --engine-root <dir>` | Negative controls: changes one expectation at a time and requires the run to fail |
+| `npm run controls --workspace @mothership/balance -- --engine-root <dir>` | Negative controls: changes one expectation at a time and requires the run to fail. The command itself fails if any ready scenario does not pass unmodified, if a control is missed, or if no control ran |
 | `npm run facts --workspace @mothership/balance` | Prints the arithmetic quoted in the audit |
 | `npm run materialize --workspace @mothership/balance` | Rewrites the scenario files from the catalogue |
 | `npm run traceability --workspace @mothership/balance` | Rewrites the traceability table |
 
 At the bootstrap baseline the engine package has no rules in it, so `npm run scenarios` executes nothing and reports every ready scenario as **not run**. That is the correct result at this commit and is not a pass. These commands are not yet part of `npm run verify`; see request BAL-REQ-1.
+
+**Exit status, for use as a gate.** `scenarios`, `controls` and `walk` exit 1 when something they executed went wrong: a failed scenario, a ready scenario that does not pass before its controls are tried, a missed control, an invariant violation, an unfinished playout. When no engine is available they print NOT RUN and exit 0, which suits a commit that has no engine. Add `-- --require-engine` wherever the command is a gate: then a run that executed nothing exits 2 and cannot be mistaken for a pass.
 
 ## How to read a status
 

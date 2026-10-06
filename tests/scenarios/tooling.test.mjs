@@ -5,8 +5,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
-  MATCH_RECORD_SCHEMA, buildReport, checkSetup, checkState, checkTransition, damageBudget, deriveSetup, runScenario, scanInformationBound,
-  startLedger, summarize, summarizeOutcomes, toEvidence, validateMatchRecord, wilson,
+  MATCH_RECORD_SCHEMA, buildReport, checkSetup, checkState, checkTransition, controlVerdict, controlsFor, damageBudget, deriveSetup, runControls,
+  runScenario, scanInformationBound, startLedger, summarize, summarizeOutcomes, toEvidence, validateMatchRecord, walk, wilson,
 } from '@mothership/balance';
 import { openingObservation, stubAdapter } from './support/stub.mjs';
 
@@ -52,6 +52,52 @@ test('a blocked case stays blocked whatever the engine does, and only records wh
   assert.equal(run.status, 'blocked');
   assert.deepEqual(run.probes, [{ label: 'self supply', outcome: 'REGISTERED' }, { label: 'phase', outcome: 'ORDINARY_TURN' }]);
   assert.deepEqual(toEvidence(run, 'evidence.json'), { status: 'blocked', scenarioId: 'V1-M7-SETUP-01', decisionIds: ['D11'] });
+  // An engine that refuses the setup cannot be probed. The case is still blocked, not failed.
+  const unprobed = runScenario(scenario('blocked', steps), stubAdapter({ refuseSetup: true }), '');
+  assert.equal(unprobed.status, 'blocked');
+  assert.match(unprobed.reason, /probe could not be completed: the engine refused a legal setup/);
+  assert.deepEqual(unprobed.probes, []);
+});
+
+test('a controls run fails when a baseline does not pass, when a control is missed and when nothing ran', () => {
+  // Integration review finding R2: a failing baseline used to be counted and skipped, and the run still succeeded.
+  const ready = scenario('ready', [refused, roundOne]);
+  const controls = controlsFor(ready);
+  assert.deepEqual(controls.map(control => control.kind), ['command expectation', 'asserted fact']);
+  assert.equal(controls[0].scenario.steps[0].expect, 'REGISTERED');
+  assert.equal(controls[1].scenario.steps[1].checks[0].equals, 2);
+  assert.deepEqual(ready.steps, [refused, roundOne], 'a control is a copy; the scenario itself is untouched');
+
+  const healthy = runControls([ready, scenario('blocked', []), scenario('manual', [], { setup: null })], stubAdapter());
+  assert.deepEqual(healthy.stats, { scenarios: 1, controls: 2, detected: 2, undetected: 0, baselineNotPassing: 0 });
+  assert.deepEqual(controlVerdict([healthy]), { passed: true, problems: [] });
+
+  const refusing = runControls([ready], stubAdapter({ refuseSetup: true }));
+  assert.deepEqual(refusing.stats, { scenarios: 1, controls: 0, detected: 0, undetected: 0, baselineNotPassing: 1 });
+  assert.match(refusing.baselineFailures[0], /V1-M7-SETUP-01: the engine refused a legal setup/);
+  const verdict = controlVerdict([refusing]);
+  assert.equal(verdict.passed, false);
+  assert.match(verdict.problems.join(' | '), /1 of 1 ready scenarios do not pass unmodified.*no control was executed/);
+  // One mode failing its baselines fails the whole run, however well the others did.
+  assert.equal(controlVerdict([healthy, refusing]).passed, false);
+
+  // A stand-in that refuses the command while the baseline runs (twice, for the replay) and accepts
+  // it afterwards: the control with the flipped expectation then passes, which is a missed control.
+  let calls = 0;
+  const drifting = { ...stubAdapter(), createMatch: (...args) => ({ ...stubAdapter().createMatch(...args), command: () => { calls += 1; return calls <= 2 ? 'NOT_ALLOWED' : 'REGISTERED'; } }) };
+  const missed = runControls([scenario('ready', [refused])], drifting);
+  assert.deepEqual(missed.stats, { scenarios: 1, controls: 1, detected: 0, undetected: 1, baselineNotPassing: 0 });
+  assert.deepEqual(missed.undetected, ['V1-M7-SETUP-01 step 0 (command expectation)']);
+  assert.match(controlVerdict([missed]).problems.join(' | '), /1 of 1 controls were not detected/);
+  assert.match(controlVerdict([]).problems.join(' | '), /no control was executed/);
+});
+
+test('a playout against an engine that refuses the setup is reported as unfinished, not thrown and not passed', () => {
+  const result = walk(stubAdapter({ refuseSetup: true }), 7, 'walk-1');
+  assert.equal(result.completed, false);
+  assert.equal(result.violations.length, 1);
+  assert.match(result.violations[0].message, /the engine or its adapter threw: stub refuses this setup/);
+  assert.equal(walk(stubAdapter({ refuseSetup: true }), 7, 'walk-1').endDigest, result.endDigest);
 });
 
 test('an invariant violation fails a case even when every scripted expectation holds', () => {

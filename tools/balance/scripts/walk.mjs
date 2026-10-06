@@ -1,6 +1,9 @@
 // Seeded random-policy playouts with the rulebook invariants checked after every transition.
 //
-//   node scripts/walk.mjs [--engine-root <dir>] [--engine-commit <sha>] [--seeds 200] [--out <file.json>]
+//   node scripts/walk.mjs [--engine-root <dir>] [--engine-commit <sha>] [--seeds 200] [--out <file.json>] [--require-engine]
+//
+// Exit status: 1 on any invariant violation, hint mismatch, replay mismatch or unfinished playout;
+// 2 when --require-engine was given and no engine is available; otherwise 0.
 //
 // What this is for: legality, resource accounting, phase transitions, elimination and audience
 // boundaries over many reachable states, and whether the engine's own target hints agree with
@@ -19,8 +22,9 @@ const out = option('--out');
 
 const loaded = await load(engineRoot ? resolve(engineRoot) : null);
 if (!loaded.available) {
-  console.log(`No playout was run. Engine adapter unavailable: ${loaded.reason}`);
-  process.exit(0);
+  // Nothing ran. With --require-engine that is a failure of the gate, with its own exit status.
+  console.log(`NOT RUN. No playout was run. Engine adapter unavailable: ${loaded.reason}`);
+  process.exit(args.includes('--require-engine') ? 2 : 0);
 }
 const summary = { schema: 'mothership.balance.walk/1', engine: loaded.adapter.pins, engineCommit: option('--engine-commit') ?? 'not stated', policy: { ...DEFAULT_WALK, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
 let problems = 0;
@@ -45,8 +49,10 @@ for (const mode of [7, 8, 9]) {
     if (result.showdown) stats.showdowns += 1;
     stats.mostEliminatedBeforeShowdown = Math.max(stats.mostEliminatedBeforeShowdown, result.eliminatedBeforeShowdown);
     stats.mostJailedAtOnce = Math.max(stats.mostJailedAtOnce, result.maxJailed);
-    stats.windowMinutes.min = Math.min(stats.windowMinutes.min, result.windowSeconds / 60);
-    stats.windowMinutes.max = Math.max(stats.windowMinutes.max, result.windowSeconds / 60);
+    if (result.completed) {
+      stats.windowMinutes.min = Math.min(stats.windowMinutes.min, result.windowSeconds / 60);
+      stats.windowMinutes.max = Math.max(stats.windowMinutes.max, result.windowSeconds / 60);
+    }
     stats.terminal[result.winner ?? 'unfinished'] += 1;
     if (result.alienCoWinner === true) stats.alienCoWin += 1;
     if ((result.violations.length > 0 || result.hintMismatches.length > 0) && stats.examples.length < 5) {
@@ -66,7 +72,8 @@ for (const mode of [7, 8, 9]) {
   delete stats.terminal;
   delete stats.alienCoWin;
   delete stats.showdowns;
-  console.log(`  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
+  if (stats.completed === 0) stats.windowMinutes = null;
+  console.log(stats.windowMinutes === null ? '  clock length not available: no playout finished' : `  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
   for (const example of stats.examples) console.log(`  example ${example.seed}: ${JSON.stringify(example)}`);
 }
 if (out !== null) {

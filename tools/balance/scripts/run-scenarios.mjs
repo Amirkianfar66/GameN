@@ -2,10 +2,15 @@
 //
 //   node scripts/run-scenarios.mjs                       engine of this checkout
 //   node scripts/run-scenarios.mjs --engine-root <dir>   a built checkout of another commit
-//     [--engine-commit <sha>] [--out <report.json>] [--only <id-prefix>] [--verbose]
+//     [--engine-commit <sha>] [--out <report.json>] [--only <id-prefix>] [--verbose] [--require-engine]
 //
 // Nothing is reported as passed unless it was executed. Without an engine every ready
 // scenario is "not-run". Blocked scenarios stay blocked whatever an engine does.
+//
+// Exit status: 1 when an executed scenario failed or a fixture is malformed; 2 when
+// --require-engine was given and no engine is available; otherwise 0. Without that switch a run
+// that executed nothing exits 0, which is the expected state at a commit without a full-game
+// engine and is not a pass. A gate must pass --require-engine.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -79,3 +84,8 @@ if (out !== null) {
   console.log(`Report written to ${target}`);
 }
 if (invalid > 0 || report.totals.failed > 0) process.exit(1);
+// Nothing was executed. With --require-engine that is a failure of the gate, with its own exit status.
+if (adapter === null && args.includes('--require-engine')) {
+  console.error('FAILED: --require-engine was given and no engine is available.');
+  process.exit(2);
+}
