@@ -10,12 +10,12 @@ A scripted stand-in for the backend plus pages that host the real client core ag
 
 | Path | Role |
 | --- | --- |
-| `fixture/scenario.mjs` | Replays the authored contract fixture, and two frontend-authored variations, in a fixed order, and answers command and receipt requests at a scripted command desk. It is not an engine and applies no game rule. |
+| `fixture/scenario.mjs` | Replays the authored contract fixture, and two frontend-authored variations, in a fixed order, keeps a scripted stream of presentation events for each audience, and answers command and receipt requests at a scripted command desk. It is not an engine and applies no game rule. |
 | `fixture/fixture-transport.mjs` | In-process transport over the scenario, for tests. |
-| `serve.mjs` | Loopback-only server: built client modules, harness pages, a server-sent-event feed per audience, command and receipt endpoints, and operator endpoints. |
+| `serve.mjs` | Loopback-only server: built client modules, harness pages, a server-sent-event feed per audience that carries its views and its presentation events, command and receipt endpoints, and operator endpoints. |
 | `harness/host.js` | Interim browser renderer: draws a controller's frames, forwards input and platform signals. |
 | `harness/player.html`, `table.html` | Audience screens. |
-| `harness/operator.html` | Debug controls: step the script, run the phase clock out, drop feeds, send bad payloads, arrange what happens to the next command. |
+| `harness/operator.html` | Debug controls: step the script, run the phase clock out, drop feeds, send bad payloads and bad events, ask for a synthetic public fact, arrange what happens to the next command. |
 | `capture/browser.mjs`, `capture-evidence.mjs`, `capture-shot-flow.mjs` | Optional evidence capture: drive a local Chromium-based browser with real key and touch input and write screenshots and measured facts. Not part of any check. |
 
 ## Run it
@@ -65,6 +65,30 @@ The operator console can arrange what happens to the next command request, once:
 | Answer “unavailable” | The contract's `UNAVAILABLE` error. This double then stores nothing, though a real server giving that answer may have |
 
 “Fail every command and receipt request” keeps doing so until switched back, while the feeds carry on. “End Player 1's turn without the scripted registration” opens the next turn directly, to see what a phone does when the turn it acted in is over.
+
+## The event streams
+
+Each audience has a stream of presentation events, modelled on what the integration owner has proposed for delivering them (`docs/backend/contract-review-response.md` on the backend branch, FE-C04 and FE-C11). It is a script, not a backend:
+
+- An event is written together with the view it belongs to and names that view's revision.
+- A stream is kept for the life of the script. Any feed that comes up is handed its current view and then the whole stream again, as a listener that starts over would be. Nothing is delivered while a feed is down.
+- Events are numbered within one audience's stream. A count shared between streams would show every audience, as a gap in its own numbers, that something had been written for someone else.
+- Nothing is promised about whether a view or its events arrive first. The operator can arrange either.
+
+What is on the streams:
+
+| Event | When | Source |
+| --- | --- | --- |
+| `COMMAND_REGISTERED`, on the registering seat's stream only | The scripted registration step, or a command the desk accepts | The authored contract fixture's one event, with the client's own command identifier when a phone sent the command |
+| `PHASE_CHANGED`, for every audience | The two synthetic steps, `next-turn` and `resolution` | Frontend-authored, like the views of those steps |
+| `PUBLIC_MOVE`, for every audience | “Synthetic public move”: Player 8 goes to the other of Room A and Room B | Frontend-authored and synthetic |
+| `PUBLIC_HEALTH_CHANGED`, for every audience | “Synthetic public status change”: Player 9 goes to the other of Healthy and Injured | Frontend-authored and synthetic |
+
+**The two synthetic facts follow no rule and are the outcome of nothing.** They exist so that a move and a status change can be seen on the screens. Two bystanders are used, never the scripted shot's actor or target, so that neither can be read as that shot's result. The backend implements no movement, and this is not a claim that it does.
+
+To test the client the operator can also send a feed its whole stream again, an unreadable event, an event in another protocol version, and an event shaped like the other seat's registration. The last is refused for the public stream, like the misdelivered view: nothing private goes there under any control. Injected events are not kept in a stream.
+
+In this slice a page draws nothing for an event. The client core turns events into cues and carries them in its frames, and the harness host does not act on them yet.
 
 ## What a harness page keeps
 

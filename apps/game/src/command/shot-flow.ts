@@ -57,6 +57,11 @@ export interface ShotFlowContext {
 
 export interface ShotFlow {
   getState(): ShotFlowInput;
+  /**
+   * The identifier of the command the flow reports as registered, while it reports it. It
+   * tells one registration from another and is never put on screen.
+   */
+  registeredCommandId(): string | null;
   /** Told only about changes the flow makes on its own time: an answer, a check, a control becoming active. */
   subscribe(listener: () => void): () => void;
   /** Never notifies; the caller reads the state afterwards. */
@@ -385,6 +390,7 @@ export function createShotFlow(options: ShotFlowOptions): ShotFlow {
         case 'not-registered': return { step: 'not-registered', reason: state.reason, armed: isArmed() };
       }
     },
+    registeredCommandId: () => (state.step === 'registered' ? state.ids.commandId : null),
     subscribe(listener) {
       listeners.add(listener);
       return () => {

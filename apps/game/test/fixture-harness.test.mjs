@@ -2,13 +2,14 @@ import assert from 'node:assert/strict';
 import { request } from 'node:http';
 import test from 'node:test';
 import {
-  ApiFailureSchema, CommandResponseSchema, PlayerViewSchema, PublicViewSchema, ReceiptLookupResponseSchema, RoleSchema, ServerTimeResponseSchema,
+  ApiFailureSchema, CommandResponseSchema, PlayerPresentationEventSchema, PlayerViewSchema, PublicPresentationEventSchema, PublicViewSchema,
+  ReceiptLookupResponseSchema, RoleSchema, ServerTimeResponseSchema,
 } from '@mothership/contracts';
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
 import { createPlayerScreen, createTableScreen } from '@mothership/game';
 import { renderPlayerShell, renderTableShell, toHtml } from '@mothership/presentation';
 import { createFixtureTransport } from '../dev/fixture/fixture-transport.mjs';
-import { AUDIENCES, COMMAND_PLANS, createScenario, SLOW_ANSWER_MS, STEPS } from '../dev/fixture/scenario.mjs';
+import { AUDIENCES, COMMAND_PLANS, createScenario, EVENT_INJECTIONS, SLOW_ANSWER_MS, STEPS, SYNTHETIC_FACTS } from '../dev/fixture/scenario.mjs';
 import { createDevServer, resolveStatic } from '../dev/serve.mjs';
 import { createFakeHost, flush } from './support/fakes.mjs';
 
@@ -745,13 +746,16 @@ test('command and receipt requests work over HTTP for a named seat, and an arran
 
 test('an open stream receives later views and a restart notice, and is closed when the feed is dropped', async t => {
   const { origin, devServer } = await withServer(t);
-  const pending = firstEvents(origin, 'seat-1', 3);
+  const pending = firstEvents(origin, 'seat-1', 4);
   await new Promise(resolve => setTimeout(resolve, 50));
   devServer.scenario.advance();
   devServer.scenario.restart();
   const events = await pending;
-  assert.deepEqual(events.map(event => event.name), ['payload', 'payload', 'restart']);
+  // The registration event travels on the same connection as the views, as a message of its own kind.
+  assert.deepEqual(events.map(event => event.name), ['payload', 'payload', 'presentation-event', 'restart']);
   assert.deepEqual(events[1].data.ownPendingCommandIds, ['fixture-command-1']);
+  assert.deepEqual(PlayerPresentationEventSchema.parse(events[2].data).fact, { type: 'COMMAND_REGISTERED', commandId: 'fixture-command-1' });
+  assert.equal(events[2].data.viewRevision, events[1].data.viewRevision);
 
   const controller = new AbortController();
   const response = await fetch(`${origin}/api/fixture/stream?audience=seat-2`, { signal: controller.signal });
@@ -762,4 +766,276 @@ test('an open stream receives later views and a restart notice, and is closed wh
   for (let attempt = 0; attempt < 5 && !closed; attempt += 1) closed = (await reader.read()).done;
   assert.equal(closed, true);
   controller.abort();
+});
+
+// Presentation events. The scripted streams follow what the integration owner has proposed
+// for delivering events; they are not the result of an engine and prove nothing about one.
+
+const eventSchemaFor = audience => (audience === 'public' ? PublicPresentationEventSchema : PlayerPresentationEventSchema);
+
+/** Records everything each audience's feed delivers, in order, tagged by kind. */
+function tap(scenario, audiences = AUDIENCES) {
+  const feeds = Object.fromEntries(audiences.map(audience => [audience, []]));
+  for (const audience of audiences) {
+    scenario.subscribe(audience, {
+      onConnectionChange: state => feeds[audience].push({ kind: state }),
+      onPayload: view => feeds[audience].push({ kind: 'view', view }),
+      onEventPayload: event => feeds[audience].push({ kind: 'event', event }),
+    });
+  }
+  const brief = audience => feeds[audience].map(item => (item.kind === 'view' ? `view ${item.view.viewRevision}` : item.kind === 'event' ? `event ${item.event.eventId}@${item.event.viewRevision}` : item.kind));
+  const eventsOf = audience => feeds[audience].filter(item => item.kind === 'event').map(item => item.event);
+  return { feeds, brief, eventsOf };
+}
+
+test('every event the scripted scenario emits satisfies the shared contract and agrees with the view it was written with', () => {
+  for (const variant of ['protected', 'unprotected']) {
+    let now = 0;
+    const scenario = createScenario({ now: () => now, variant });
+    const { feeds, eventsOf } = tap(scenario);
+    do { now += 5_000; } while (scenario.advance());
+    for (const fact of ['move', 'status', 'move', 'status']) scenario.synthetic(fact);
+    for (const audience of AUDIENCES) {
+      const views = new Map(feeds[audience].filter(item => item.kind === 'view').map(item => [item.view.viewRevision, item.view]));
+      assert.equal(eventsOf(audience).length > 0, true);
+      for (const event of eventsOf(audience)) {
+        assert.deepEqual(eventSchemaFor(audience).parse(event), event, `${variant} ${audience} ${event.eventId}`);
+        const view = views.get(event.viewRevision);
+        assert.notEqual(view, undefined, 'An event is written with a view of the same revision');
+        assert.deepEqual([event.matchId, event.audience], [view.matchId, view.audience]);
+        const { fact } = event;
+        if (fact.type === 'PHASE_CHANGED') assert.equal(view.phase.id, fact.phaseId);
+        if (fact.type === 'PUBLIC_MOVE') assert.equal(view.seats.find(seat => seat.seatId === fact.seatId).location, fact.to);
+        if (fact.type === 'PUBLIC_HEALTH_CHANGED') assert.equal(view.seats.find(seat => seat.seatId === fact.seatId).health, fact.health);
+        if (fact.type === 'COMMAND_REGISTERED') assert.deepEqual(view.ownPendingCommandIds, [fact.commandId]);
+      }
+      const ids = eventsOf(audience).map(event => event.eventId);
+      assert.equal(new Set(ids).size, ids.length, 'Identifiers are unique within a stream');
+      for (const id of ids) for (const role of roles) assert.equal(id.toLowerCase().includes(role.toLowerCase()), false);
+    }
+  }
+});
+
+test('a registration puts the authored fact on the registering seat’s stream and nothing on any other', () => {
+  const authored = createOfficerFixture('protected').afterRegistration;
+  // Stepped by the operator: the authored registration itself.
+  const stepped = createScenario({ now: () => 0 });
+  const steppedTap = tap(stepped);
+  stepped.advance();
+  assert.deepEqual(steppedTap.eventsOf('public'), authored.publicEvents);
+  assert.deepEqual(steppedTap.eventsOf('seat-2'), authored.targetEvents);
+  const [event] = steppedTap.eventsOf('seat-1');
+  assert.equal(steppedTap.eventsOf('seat-1').length, 1);
+  // The authored event, in an envelope numbered by this script.
+  assert.deepEqual({ ...event, eventId: authored.officerEvents[0].eventId }, authored.officerEvents[0]);
+
+  // Sent by the phone: the same fact with the client's own identifier.
+  const sent = createScenario({ now: () => 0 });
+  const sentTap = tap(sent);
+  sent.submitCommand('seat-1', shot('client-command-7'));
+  assert.deepEqual(sentTap.eventsOf('public'), []);
+  assert.deepEqual(sentTap.eventsOf('seat-2'), []);
+  assert.deepEqual(sentTap.eventsOf('seat-1').map(item => [item.viewRevision, item.fact]), [[21, { type: 'COMMAND_REGISTERED', commandId: 'client-command-7' }]]);
+  assert.deepEqual(sentTap.brief('public'), ['connected', 'view 10'], 'The table hears nothing at all');
+  assert.deepEqual(sentTap.brief('seat-2'), ['connected', 'view 30']);
+
+  // A rejected command writes nothing anywhere.
+  const rejected = createScenario({ now: () => 0 });
+  const rejectedTap = tap(rejected);
+  rejected.planNextCommand('reject-not-allowed');
+  rejected.submitCommand('seat-1', shot('client-command-8'));
+  for (const audience of AUDIENCES) assert.deepEqual(rejectedTap.eventsOf(audience), []);
+});
+
+test('nobody else can tell from their own stream whether a registration happened: not from an event, a revision or an identifier', () => {
+  const run = registered => {
+    let now = 0;
+    const scenario = createScenario({ now: () => now });
+    const { feeds } = tap(scenario, ['public', 'seat-2']);
+    now += 3_000;
+    if (registered) scenario.submitCommand('seat-1', shot('client-command-9', 'seat-2'));
+    now += 3_000;
+    scenario.endFirstTurn();
+    now += 3_000;
+    scenario.advance();
+    scenario.synthetic('move');
+    return feeds;
+  };
+  assert.deepEqual(run(true), run(false));
+});
+
+test('a stream is kept and handed over again whenever a feed comes up, and nothing is delivered while it is down', () => {
+  const scenario = createScenario({ now: () => 0 });
+  const live = tap(scenario, ['seat-1']);
+  scenario.advance();
+  scenario.advance();
+  assert.deepEqual(live.brief('seat-1'), ['connected', 'view 20', 'view 21', 'event fixture-event-1@21', 'view 22', 'event fixture-event-2@22']);
+
+  // Someone who subscribes now gets the current view and the whole stream.
+  const late = tap(scenario, ['seat-1']);
+  assert.deepEqual(late.brief('seat-1'), ['connected', 'view 22', 'event fixture-event-1@21', 'event fixture-event-2@22']);
+
+  scenario.setConnected('seat-1', false);
+  scenario.advance();
+  assert.deepEqual(late.brief('seat-1').slice(4), ['disconnected']);
+  scenario.setConnected('seat-1', true);
+  assert.deepEqual(late.brief('seat-1').slice(5), ['connected', 'view 23', 'event fixture-event-1@21', 'event fixture-event-2@22', 'event fixture-event-3@23']);
+
+  const count = late.feeds['seat-1'].length;
+  scenario.redeliverEvents('seat-1');
+  assert.deepEqual(late.brief('seat-1').slice(count), ['event fixture-event-1@21', 'event fixture-event-2@22', 'event fixture-event-3@23']);
+  assert.deepEqual(scenario.status().events, { order: 'view-first', stored: { public: 2, 'seat-1': 3, 'seat-2': 2 } });
+  assert.throws(() => scenario.redeliverEvents('seat-3'), /Unknown fixture audience/);
+
+  scenario.restart();
+  assert.deepEqual(scenario.status().events, { order: 'view-first', stored: { public: 0, 'seat-1': 0, 'seat-2': 0 } }, 'A new match session starts with empty streams');
+});
+
+test('the operator can have events delivered before the view they belong to', () => {
+  const scenario = createScenario({ now: () => 0 });
+  scenario.setEventOrder('event-first');
+  assert.equal(scenario.status().events.order, 'event-first');
+  const { brief } = tap(scenario, ['public']);
+  scenario.advance();
+  scenario.advance();
+  assert.deepEqual(brief('public'), ['connected', 'view 10', 'event fixture-event-1@11', 'view 11']);
+  // On coming up, the stream arrives before the view as well.
+  const late = tap(scenario, ['public']);
+  assert.deepEqual(late.brief('public'), ['connected', 'event fixture-event-1@11', 'view 11']);
+  scenario.setEventOrder('view-first');
+  scenario.advance();
+  assert.deepEqual(brief('public').slice(4), ['view 12', 'event fixture-event-2@12']);
+  assert.throws(() => scenario.setEventOrder('random'), /Unknown event order/);
+});
+
+test('the synthetic public facts move one bystander and change one bystander’s status, for every audience alike', () => {
+  const scenario = createScenario({ now: () => 0 });
+  const { eventsOf } = tap(scenario);
+  const seatOf = (audience, seatId) => scenario.viewFor(audience).seats.find(seat => seat.seatId === seatId);
+  const untouched = () => JSON.stringify(AUDIENCES.map(audience => scenario.viewFor(audience).seats.filter(seat => seat.seatId !== 'seat-8' && seat.seatId !== 'seat-9')));
+  const before = untouched();
+  assert.deepEqual(SYNTHETIC_FACTS, ['move', 'status']);
+
+  scenario.synthetic('move');
+  scenario.synthetic('status');
+  for (const audience of AUDIENCES) {
+    assert.deepEqual([seatOf(audience, 'seat-8').location, seatOf(audience, 'seat-9').health], ['Room A', 'Injured']);
+    assert.deepEqual(eventsOf(audience).map(event => event.fact), [
+      { type: 'PUBLIC_MOVE', seatId: 'seat-8', from: 'Room B', to: 'Room A' },
+      { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-9', health: 'Injured' },
+    ]);
+    assert.deepEqual(schemaFor(audience).parse(scenario.viewFor(audience)), scenario.viewFor(audience));
+  }
+  scenario.synthetic('move');
+  scenario.synthetic('status');
+  for (const audience of AUDIENCES) assert.deepEqual([seatOf(audience, 'seat-8').location, seatOf(audience, 'seat-9').health], ['Room B', 'Healthy']);
+  assert.equal(untouched(), before, 'Neither the scripted shot’s actor nor its target, nor anyone else, is touched');
+  assert.equal(scenario.step().id, 'officer-turn', 'The script itself has not moved');
+  assert.deepEqual(scenario.status().revisions, { public: 14, 'seat-1': 24, 'seat-2': 34 });
+  assert.throws(() => scenario.synthetic('shot'), /Unknown synthetic fact/);
+});
+
+test('bad events can be aimed at one feed to test the client; nothing private goes on the public stream and nothing injected is kept', () => {
+  const scenario = createScenario({ now: () => 0 });
+  const { eventsOf } = tap(scenario);
+  assert.deepEqual(EVENT_INJECTIONS, ['incompatible-protocol', 'unreadable', 'other-audience']);
+  for (const audience of AUDIENCES) {
+    scenario.injectEvent(audience, 'incompatible-protocol');
+    scenario.injectEvent(audience, 'unreadable');
+  }
+  scenario.injectEvent('seat-2', 'other-audience');
+  assert.throws(() => scenario.injectEvent('public', 'other-audience'), /never sent on the public stream/);
+  assert.throws(() => scenario.injectEvent('seat-2', 'nonsense'), /Unknown event injection/);
+  assert.throws(() => scenario.injectEvent('seat-3', 'unreadable'), /Unknown fixture audience/);
+
+  assert.equal(eventsOf('public').length, 2);
+  assert.equal(JSON.stringify(eventsOf('public')).includes('COMMAND_REGISTERED'), false);
+  for (const audience of AUDIENCES) {
+    const [otherProtocol, unreadable] = eventsOf(audience);
+    assert.equal(otherProtocol.protocolVersion, 2);
+    assert.equal(eventSchemaFor(audience).safeParse(unreadable).success, false);
+  }
+  // Seat 2 is handed an event addressed to seat 1, at the revision of seat 2's own view.
+  const misdelivered = eventsOf('seat-2')[2];
+  assert.deepEqual([misdelivered.audience, misdelivered.viewRevision, misdelivered.fact.type], [{ kind: 'player', seatId: 'seat-1' }, 30, 'COMMAND_REGISTERED']);
+  assert.equal(PlayerPresentationEventSchema.safeParse(misdelivered).success, true, 'Well-formed: only the client’s own checks keep it off the screen');
+  assert.deepEqual(scenario.status().events.stored, { public: 0, 'seat-1': 0, 'seat-2': 0 });
+
+  // Nothing is sent to a feed that is down.
+  scenario.setConnected('seat-1', false);
+  const count = eventsOf('seat-1').length;
+  scenario.injectEvent('seat-1', 'unreadable');
+  scenario.redeliverEvents('seat-1');
+  assert.equal(eventsOf('seat-1').length, count);
+});
+
+test('no event and no status line carries server-only truth, and the public stream names no role and no command', () => {
+  for (const variant of ['protected', 'unprotected']) {
+    let now = 0;
+    const scenario = createScenario({ now: () => now, variant });
+    const { eventsOf } = tap(scenario);
+    scenario.submitCommand('seat-1', shot('secret-command-id', 'seat-4'));
+    do { now += 4_000; } while (scenario.advance());
+    for (const fact of SYNTHETIC_FACTS) scenario.synthetic(fact);
+    for (const audience of AUDIENCES) scenario.redeliverEvents(audience);
+    const everything = JSON.stringify([AUDIENCES.map(eventsOf), scenario.status()]);
+    for (const secret of ['serverOnly', 'protection', 'grantedBy', 'resolutionExpectation', 'officerOrdinaryShotsRemaining', 'lifetimeReceipts', 'targetSeatId', 'seat-4', ...roles]) {
+      assert.equal(everything.includes(secret), false, `${variant}: ${secret}`);
+    }
+    for (const audience of ['public', 'seat-2']) {
+      const stream = JSON.stringify(eventsOf(audience));
+      for (const word of ['COMMAND_REGISTERED', 'secret-command-id', 'commandId']) assert.equal(stream.includes(word), false, `${audience}: ${word}`);
+    }
+    assert.equal(JSON.stringify(scenario.status()).includes('secret-command-id'), false);
+  }
+});
+
+test('the two variants put identical events on every stream through the whole script', () => {
+  const run = variant => {
+    let now = 0;
+    const scenario = createScenario({ now: () => now, variant });
+    const { feeds } = tap(scenario);
+    scenario.submitCommand('seat-1', shot('client-command-1'));
+    do { now += 7_000; } while (scenario.advance());
+    for (const fact of SYNTHETIC_FACTS) scenario.synthetic(fact);
+    return feeds;
+  };
+  assert.deepEqual(run('protected'), run('unprotected'));
+});
+
+test('event controls work over HTTP, refuse what the script does not know, and show counts only', async t => {
+  const { origin, devServer } = await withServer(t);
+  const send = (path, body = {}) => fetch(origin + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const post = async (path, body) => {
+    const response = await send(path, body);
+    assert.equal(response.status, 200, path);
+    return response.json();
+  };
+  const { eventsOf } = tap(devServer.scenario);
+
+  let status = await post('/api/operator/synthetic', { fact: 'move' });
+  assert.deepEqual(status.events, { order: 'view-first', stored: { public: 1, 'seat-1': 1, 'seat-2': 1 } });
+  status = await post('/api/operator/synthetic', { fact: 'status' });
+  assert.deepEqual(status.revisions, { public: 12, 'seat-1': 22, 'seat-2': 32 });
+  status = await post('/api/operator/event-order', { order: 'event-first' });
+  assert.equal(status.events.order, 'event-first');
+  await post('/api/operator/redeliver-events', { audience: 'seat-2' });
+  assert.deepEqual([eventsOf('public').length, eventsOf('seat-1').length, eventsOf('seat-2').length], [2, 2, 4]);
+  await post('/api/operator/redeliver-events', { audience: 'all' });
+  assert.deepEqual([eventsOf('public').length, eventsOf('seat-1').length, eventsOf('seat-2').length], [4, 4, 6]);
+  await post('/api/operator/inject-event', { audience: 'seat-2', kind: 'other-audience' });
+  await post('/api/operator/inject-event', { audience: 'public', kind: 'unreadable' });
+  assert.equal(eventsOf('seat-2').at(-1).audience.seatId, 'seat-1');
+  assert.equal(JSON.stringify(eventsOf('public')).includes('COMMAND_REGISTERED'), false);
+
+  for (const [path, body] of [
+    ['/api/operator/synthetic', { fact: 'shot' }], ['/api/operator/synthetic', {}],
+    ['/api/operator/event-order', { order: 'shuffled' }],
+    ['/api/operator/redeliver-events', { audience: 'seat-9' }],
+    ['/api/operator/inject-event', { kind: 'unreadable' }], ['/api/operator/inject-event', { kind: 'unreadable', audience: 'all' }],
+    ['/api/operator/inject-event', { kind: 'other-audience', audience: 'public' }], ['/api/operator/inject-event', { kind: 'nonsense', audience: 'seat-1' }],
+  ]) assert.equal((await send(path, body)).status, 400, `${path} ${JSON.stringify(body)}`);
+
+  status = await post('/api/operator/restart', {});
+  assert.deepEqual(status.events, { order: 'view-first', stored: { public: 0, 'seat-1': 0, 'seat-2': 0 } });
 });

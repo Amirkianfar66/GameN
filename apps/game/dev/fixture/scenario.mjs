@@ -12,8 +12,14 @@
 // the same identifier with another payload conflicts, and a command for a phase that is
 // not open is rejected. Beyond that it applies no game rule. It never judges a target.
 //
+// Presentation events follow what the integration owner has proposed for delivering them
+// (the same document, FE-C04 and FE-C11): each audience has a stream of its own, an event
+// is written together with the view it belongs to, and the stream is kept, so whoever
+// subscribes later is handed all of it again. Whether an event or its view arrives first is
+// not promised, and the operator can arrange either order.
+//
 // The whole authored fixture, including its server-only truth, stays inside this module.
-// Only audience views leave it, and only to the audience they were authored for.
+// Only audience views and events leave it, and only to the audience they were made for.
 
 import { ReceiptLookupRequestSchema, RegisterShotSchema } from '@mothership/contracts';
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
@@ -28,7 +34,8 @@ const AUTHORED = { public: 'public', 'seat-1': 'officer', 'seat-2': 'target' };
 /**
  * officer-turn and registered are the authored contract fixture, unmodified apart from
  * the clock. next-turn and resolution are frontend-authored so the shells can be seen
- * in a phase other than the Officer's turn; they show no outcome of any kind.
+ * in a phase other than the Officer's turn; they show no outcome of any kind. Each of the
+ * two comes with a frontend-authored phase-change event for every audience.
  */
 export const STEPS = [
   { id: 'officer-turn', source: 'authored contract fixture: before', label: 'Player 1’s ordinary turn' },
@@ -51,6 +58,21 @@ export const STEPS = [
  */
 export const COMMAND_PLANS = ['scripted', 'reject-not-allowed', 'reject-phase-closed', 'lose-acknowledgment', 'drop-request', 'unavailable', 'slow'];
 export const SLOW_ANSWER_MS = 2_500;
+
+/**
+ * Public facts the operator can ask for at any point of the script, so that a public move
+ * and a public status change can be seen on the screens. Frontend-authored and synthetic:
+ * the seats, the places and the status are fixed here, follow no rule and are the outcome
+ * of nothing. Two bystanders are used, never the scripted shot's actor or target.
+ *   move    Player 8 goes to the other of Room A and Room B
+ *   status  Player 9's public health goes to the other of Healthy and Injured
+ */
+export const SYNTHETIC_FACTS = ['move', 'status'];
+const MOVING_SEAT = 'seat-8';
+const STATUS_SEAT = 'seat-9';
+/** Which of a view and the events written with it a feed delivers first. */
+export const EVENT_ORDERS = ['view-first', 'event-first'];
+export const EVENT_INJECTIONS = ['incompatible-protocol', 'unreadable', 'other-audience'];
 
 const clone = value => JSON.parse(JSON.stringify(value));
 const isPlayerAudience = audience => audience === 'seat-1' || audience === 'seat-2';
@@ -75,6 +97,10 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
   let commandPlan;
   let commandService;
   let lastReceipt;
+  // Each audience's stream of presentation events, kept for the life of the script.
+  let events;
+  let injectedCount;
+  let eventOrder;
 
   // The fixture's timestamps are fixed far from today's date. Server time here starts at
   // the authored phase start and then runs in real time, so a client that used its own
@@ -93,20 +119,62 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
     commandPlan = 'scripted';
     commandService = 'answering';
     lastReceipt = null;
+    events = new Map(AUDIENCES.map(audience => [audience, []]));
+    injectedCount = 0;
+    eventOrder = 'view-first';
   }
 
-  function publish(next) {
+  // An event is numbered within its own audience's stream and by nothing else. A count
+  // shared between streams would show every audience, as a gap in its own numbers, that
+  // something had been written for somebody else.
+  function record(audience, fact) {
+    const view = views[audience];
+    const stream = events.get(audience);
+    const event = { protocolVersion: 1, matchId: view.matchId, eventId: `fixture-event-${stream.length + 1}`, audience: clone(view.audience), viewRevision: view.viewRevision, fact: clone(fact) };
+    stream.push(event);
+    return event;
+  }
+
+  // factsFor names the facts to put on an audience's stream with its new view.
+  function publish(next, factsFor = () => []) {
     for (const audience of AUDIENCES) {
       const changed = JSON.stringify(next[audience]) !== JSON.stringify(views[audience]);
       views[audience] = next[audience];
       // Like the real backend, write only the documents that changed. An untouched
       // audience hears nothing, which is what makes a hidden action hidden.
-      if (changed && connected.get(audience)) deliver(audience, views[audience]);
+      if (!changed) continue;
+      const written = factsFor(audience).map(fact => record(audience, fact));
+      if (!connected.get(audience)) continue;
+      for (const subscriber of [...subscribers.get(audience)]) send(subscriber, views[audience], written);
     }
+  }
+
+  // A view and events for one subscriber, in the order the operator arranged.
+  function send(subscriber, view, stream) {
+    const sendView = () => subscriber.onPayload(clone(view));
+    const sendEvents = () => {
+      for (const event of stream) subscriber.onEventPayload?.(clone(event));
+    };
+    if (eventOrder === 'event-first') {
+      sendEvents();
+      sendView();
+    } else {
+      sendView();
+      sendEvents();
+    }
+  }
+
+  // What a feed delivers as it comes up: the current view, and all its stream still holds.
+  function greet(audience, subscriber) {
+    subscriber.onConnectionChange('connected');
+    send(subscriber, views[audience], events.get(audience));
   }
 
   function deliver(audience, payload) {
     for (const subscriber of [...subscribers.get(audience)]) subscriber.onPayload(clone(payload));
+  }
+  function deliverEvent(audience, payload) {
+    for (const subscriber of [...subscribers.get(audience)]) subscriber.onEventPayload?.(clone(payload));
   }
 
   function derive(change) {
@@ -118,22 +186,30 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
     }));
   }
 
+  // Moves the script to a step: every audience's new view, and the facts for its stream.
   function enter(step) {
-    if (step.id === 'officer-turn') return Object.fromEntries(AUDIENCES.map(audience => [audience, clone(fixture.before[AUTHORED[audience]])]));
-    if (step.id === 'registered') return Object.fromEntries(AUDIENCES.map(audience => [audience, clone(fixture.afterRegistration[AUTHORED[audience]])]));
-    if (step.id === 'next-turn') {
-      // A turn's minute starts when the phase actually opens, not when the last one was due.
-      const startedAt = Math.round(serverTimeMs());
-      return derive(view => {
-        view.phase = { id: 'phase-b', kind: 'ORDINARY_TURN', startedAt, endsAt: startedAt + 60_000 };
-        view.activeSeatId = 'seat-2';
-      });
+    if (step.id === 'registered') {
+      // The authored events of this step: one for the Officer, none for anyone else. The
+      // fact is the authored one; the envelope is numbered by this script.
+      publish(
+        Object.fromEntries(AUDIENCES.map(audience => [audience, clone(fixture.afterRegistration[AUTHORED[audience]])])),
+        audience => fixture.afterRegistration[`${AUTHORED[audience]}Events`].map(event => event.fact),
+      );
+      return;
     }
+    // A turn's minute starts when the phase actually opens, not when the last one was due.
     const startedAt = Math.round(serverTimeMs());
-    return derive(view => {
-      view.phase = { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt, endsAt: null };
-      view.activeSeatId = null;
-    });
+    const phase = step.id === 'next-turn'
+      ? { id: 'phase-b', kind: 'ORDINARY_TURN', startedAt, endsAt: startedAt + 60_000 }
+      : { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt, endsAt: null };
+    publish(
+      derive(view => {
+        view.phase = phase;
+        view.activeSeatId = step.id === 'next-turn' ? 'seat-2' : null;
+      }),
+      // Frontend-authored, like the views of these two steps.
+      () => [{ type: 'PHASE_CHANGED', phaseId: phase.id }],
+    );
   }
 
   const answer = body => ({ answered: true, body });
@@ -189,15 +265,16 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
   }
 
   // Applies the authored registration to the actor's own view and to no other. For the
-  // Officer on the first step this yields the authored afterRegistration view, with the
-  // client's command identifier in place of the authored one.
+  // Officer on the first step this yields the authored afterRegistration view and the
+  // authored registration fact, with the client's command identifier in place of the
+  // authored one. Nothing is put on any other audience's stream.
   function register(audience, commandId) {
     const view = clone(views[audience]);
     view.viewRevision += 1;
     view.self.shotAvailable = false;
     view.ownPendingCommandIds = [commandId];
     if (stepIndex === 0) stepIndex = 1;
-    publish({ ...views, [audience]: view });
+    publish({ ...views, [audience]: view }, () => [{ type: 'COMMAND_REGISTERED', commandId }]);
   }
 
   load(variant);
@@ -211,14 +288,14 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
     },
     isConnected: audience => connected.get(audience) === true,
 
-    /** Starts a feed. Reports the connection, then the current view, as the transport contract requires. */
+    /**
+     * Starts a feed. Reports the connection, then delivers the current view and every
+     * event the audience's stream holds, as the transport contract allows.
+     */
     subscribe(audience, subscriber) {
       if (!AUDIENCES.includes(audience)) throw new RangeError(`Unknown fixture audience: ${audience}`);
       subscribers.get(audience).add(subscriber);
-      if (connected.get(audience)) {
-        subscriber.onConnectionChange('connected');
-        subscriber.onPayload(clone(views[audience]));
-      }
+      if (connected.get(audience)) greet(audience, subscriber);
       return () => {
         subscribers.get(audience).delete(subscriber);
       };
@@ -279,7 +356,7 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
     advance() {
       if (stepIndex >= STEPS.length - 1) return false;
       stepIndex += 1;
-      publish(enter(STEPS[stepIndex]));
+      enter(STEPS[stepIndex]);
       return true;
     },
     /**
@@ -291,8 +368,30 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
       const next = STEPS.findIndex(step => step.id === 'next-turn');
       if (stepIndex >= next) return false;
       stepIndex = next;
-      publish(enter(STEPS[stepIndex]));
+      enter(STEPS[stepIndex]);
       return true;
+    },
+    /** One synthetic public fact, in every audience's view and on every audience's stream. See SYNTHETIC_FACTS. */
+    synthetic(kind) {
+      if (kind === 'move') {
+        const from = views.public.seats.find(seat => seat.seatId === MOVING_SEAT).location;
+        const to = from === 'Room B' ? 'Room A' : 'Room B';
+        publish(derive(view => {
+          view.seats.find(seat => seat.seatId === MOVING_SEAT).location = to;
+        }), () => [{ type: 'PUBLIC_MOVE', seatId: MOVING_SEAT, from, to }]);
+      } else if (kind === 'status') {
+        const health = views.public.seats.find(seat => seat.seatId === STATUS_SEAT).health === 'Healthy' ? 'Injured' : 'Healthy';
+        publish(derive(view => {
+          view.seats.find(seat => seat.seatId === STATUS_SEAT).health = health;
+        }), () => [{ type: 'PUBLIC_HEALTH_CHANGED', seatId: STATUS_SEAT, health }]);
+      } else {
+        throw new RangeError(`Unknown synthetic fact: ${kind}`);
+      }
+    },
+    /** Arranges whether a feed delivers a view or the events written with it first. */
+    setEventOrder(next) {
+      if (!EVENT_ORDERS.includes(next)) throw new RangeError(`Unknown event order: ${next}`);
+      eventOrder = next;
     },
     /** Lets server time pass at once, e.g. to the end of the current phase. Views are untouched. */
     skipTime(ms) {
@@ -306,13 +405,18 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
       if (connected.get(audience) === next) return;
       connected.set(audience, next);
       for (const subscriber of [...subscribers.get(audience)]) {
-        subscriber.onConnectionChange(next ? 'connected' : 'disconnected');
-        if (next) subscriber.onPayload(clone(views[audience]));
+        if (next) greet(audience, subscriber);
+        else subscriber.onConnectionChange('disconnected');
       }
     },
     /** Sends the current view again, unchanged. */
     redeliver(audience) {
       if (connected.get(audience)) deliver(audience, views[audience]);
+    },
+    /** Sends every event the audience's stream holds again, unchanged, as a listener that started over would get them. */
+    redeliverEvents(audience) {
+      if (!AUDIENCES.includes(audience)) throw new RangeError(`Unknown fixture audience: ${audience}`);
+      if (connected.get(audience)) for (const event of events.get(audience)) deliverEvent(audience, event);
     },
     /**
      * Sends something a correct backend never would, to exercise the client's defences.
@@ -329,6 +433,25 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
       if (payload === null) throw new RangeError(`Unknown injection: ${kind}`);
       if (connected.get(audience)) deliver(audience, payload);
     },
+    /**
+     * The same for the event stream. Each is addressed to the view the audience has now,
+     * so only the client's own checks keep it off the screen. An event shaped like the
+     * other seat's registration can be misdelivered to a seat. It is never put on the
+     * public stream, not even as a test.
+     */
+    injectEvent(audience, kind) {
+      if (!AUDIENCES.includes(audience)) throw new RangeError(`Unknown fixture audience: ${audience}`);
+      if (kind === 'other-audience' && audience === 'public') throw new RangeError('A private event is never sent on the public stream');
+      const view = views[audience];
+      injectedCount += 1;
+      const envelope = { protocolVersion: 1, matchId: view.matchId, eventId: `fixture-injected-${injectedCount}`, audience: clone(view.audience), viewRevision: view.viewRevision };
+      const payload = kind === 'incompatible-protocol' ? { ...envelope, protocolVersion: 2, fact: { type: 'PHASE_CHANGED', phaseId: view.phase.id } }
+        : kind === 'unreadable' ? { note: 'not a presentation event' }
+        : kind === 'other-audience' ? { ...envelope, audience: { kind: 'player', seatId: audience === 'seat-1' ? 'seat-2' : 'seat-1' }, fact: { type: 'COMMAND_REGISTERED', commandId: 'fixture-misdelivered-command' } }
+        : null;
+      if (payload === null) throw new RangeError(`Unknown event injection: ${kind}`);
+      if (connected.get(audience)) deliverEvent(audience, payload);
+    },
     /** What the operator console may show. Deliberately excludes every server-only fact. */
     status() {
       return {
@@ -344,6 +467,8 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
         revisions: Object.fromEntries(AUDIENCES.map(audience => [audience, views[audience].viewRevision])),
         // No target and no command identifier: the console shows that the desk answered, not what a seat chose.
         commands: { service: commandService, next: commandPlan, receipts: receipts.size, last: lastReceipt === null ? null : { ...lastReceipt } },
+        // How many events each stream holds, never what they say.
+        events: { order: eventOrder, stored: Object.fromEntries(AUDIENCES.map(audience => [audience, events.get(audience).length])) },
       };
     },
   };

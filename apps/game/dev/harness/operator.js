@@ -17,8 +17,10 @@ const PLAN_LABELS = {
   'drop-request': 'Lost before it arrives',
   unavailable: 'Answered “unavailable”',
 };
+const ORDER_LABELS = { 'view-first': 'Each view, then the events written with it', 'event-first': 'Events first, then the view they belong to' };
 const statusList = document.getElementById('operator-status');
 const commandList = document.getElementById('operator-commands');
+const eventList = document.getElementById('operator-events');
 const feedRows = document.getElementById('operator-feeds');
 
 async function request(action, body) {
@@ -69,6 +71,13 @@ function show(status) {
     commandList.replaceChildren(...commandFacts.flatMap(([term, value]) => [element('dt', term), element('dd', value)]));
   }
 
+  const eventFacts = [['Delivery order', ORDER_LABELS[status.events.order] ?? status.events.order]];
+  const eventText = JSON.stringify(eventFacts);
+  if (eventList.dataset.shown !== eventText) {
+    eventList.dataset.shown = eventText;
+    eventList.replaceChildren(...eventFacts.flatMap(([term, value]) => [element('dt', term), element('dd', value)]));
+  }
+
   // Rows are rebuilt only when something other than the clock changed, so focus is kept.
   if (serialized === lastStatus) return;
   lastStatus = serialized;
@@ -83,11 +92,18 @@ function show(status) {
       feedButton('Send unreadable', audience, 'inject', 'unreadable'),
     );
     if (audience !== 'public') controls.append(feedButton('Send the other seat’s view', audience, 'inject', 'other-audience'));
+    controls.append(
+      feedButton('Send all events again', audience, 'redeliver-events'),
+      feedButton('Send other-protocol event', audience, 'inject-event', 'incompatible-protocol'),
+      feedButton('Send unreadable event', audience, 'inject-event', 'unreadable'),
+    );
+    if (audience !== 'public') controls.append(feedButton('Send an event of the other seat', audience, 'inject-event', 'other-audience'));
     const row = element('tr');
     row.append(
       element('th', AUDIENCE_LABELS[audience] ?? audience, { scope: 'row' }),
       element('td', on ? 'On' : 'Off'),
       element('td', String(status.revisions[audience])),
+      element('td', String(status.events.stored[audience])),
       element('td', String(status.subscribers[audience])),
       controls,
     );
@@ -106,13 +122,15 @@ async function refresh() {
 document.addEventListener('click', async event => {
   const button = event.target instanceof Element ? event.target.closest('button[data-action]') : null;
   if (button === null) return;
-  const { action, audience, kind, variant, plan, state } = button.dataset;
+  const { action, audience, kind, variant, plan, state, fact, order } = button.dataset;
   const body = {};
   if (audience) body.audience = audience;
   if (kind) body.kind = kind;
   if (variant) body.variant = variant;
   if (plan) body.plan = plan;
   if (state) body.state = state;
+  if (fact) body.fact = fact;
+  if (order) body.order = order;
   try {
     show(await request(action, body));
   } catch {

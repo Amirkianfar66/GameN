@@ -1,5 +1,5 @@
-import type { PublicView } from '@mothership/contracts';
-import { buildTableShellModel, createTableAnnouncer } from '@mothership/presentation';
+import type { PublicPresentationEvent, PublicView } from '@mothership/contracts';
+import { buildTableShellModel, createPublicDirector, createTableAnnouncer } from '@mothership/presentation';
 import type { TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts } from '../ports.js';
 import { createPublicSession } from '../session/audience-session.js';
@@ -22,7 +22,7 @@ export interface TableScreenOptions {
  */
 export function createTableScreen(options: TableScreenOptions): ScreenController<TableShellModel> {
   const session = createPublicSession(options);
-  return createScreen<PublicView, TableShellInput, TableShellModel>({
+  return createScreen<PublicView, PublicPresentationEvent, TableShellInput, TableShellModel>({
     session,
     ports: options.ports,
     host: options.host,
@@ -30,6 +30,7 @@ export function createTableScreen(options: TableScreenOptions): ScreenController
     buildInput: (environment, view) => ({ ...environment, view }),
     buildModel: buildTableShellModel,
     announcer: createTableAnnouncer(),
+    director: createPublicDirector(),
     handleIntent: () => null,
   });
 }

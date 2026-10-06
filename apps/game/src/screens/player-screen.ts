@@ -1,6 +1,6 @@
-import type { PlayerView } from '@mothership/contracts';
+import type { PlayerPresentationEvent, PlayerView } from '@mothership/contracts';
 import {
-  buildPlayerShellModel, createPlayerAnnouncer, isCurrent, resolveShotGate, shotStepFocusId, shotTargetCandidates,
+  buildPlayerShellModel, createPlayerAnnouncer, createPlayerDirector, isCurrent, resolveShotGate, shotStepFocusId, shotTargetCandidates,
 } from '@mothership/presentation';
 import type { PlayerShellInput, PlayerShellModel, ShellIntent } from '@mothership/presentation';
 import { createShotFlow } from '../command/shot-flow.js';
@@ -40,8 +40,9 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
   const session = createPlayerSession(options);
   const api = createPlayerApiClient(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const flow = createShotFlow({ api, ports: options.ports, matchId: options.matchId, timing: options.shotTiming });
+  const director = createPlayerDirector();
 
-  return createScreen<PlayerView, PlayerShellInput, PlayerShellModel>({
+  return createScreen<PlayerView, PlayerPresentationEvent, PlayerShellInput, PlayerShellModel>({
     session,
     ports: options.ports,
     host: options.host,
@@ -62,6 +63,13 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
     },
     buildModel: buildPlayerShellModel,
     announcer: createPlayerAnnouncer(),
+    director,
+    // The flow's own word that the server registered its command: a receipt, or the view
+    // listing it. The director makes one cue of it however often it is asked.
+    moreCues() {
+      const commandId = flow.registeredCommandId();
+      return commandId === null ? [] : director.onRegistered(commandId);
+    },
     handleIntent(intent, { local, model }) {
       if (intent.type === 'private/toggle') {
         // There is nothing to reveal unless a match is on screen in the foreground.

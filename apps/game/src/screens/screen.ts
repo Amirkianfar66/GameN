@@ -1,5 +1,5 @@
-import { resolveScreen, SHELL_IDS } from '@mothership/presentation';
-import type { Announcer, LiveAnnouncement, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
+import { isCurrent, resolveScreen, SHELL_IDS } from '@mothership/presentation';
+import type { Announcer, Cue, Director, IssuedCue, LiveAnnouncement, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
 import { estimateDeadline, millisecondsToNextSecond } from '../clock/deadline.js';
 import type { ClientPorts } from '../ports.js';
 import type { AudienceSession } from '../session/audience-session.js';
@@ -10,6 +10,14 @@ export interface SpokenLine {
   readonly politeness: 'polite' | 'assertive';
   readonly text: string;
 }
+
+/** One cue for the page to show once. A new seq means show it; seq only ever goes up, across both lists of a frame. */
+export interface FrameCue {
+  readonly seq: number;
+  readonly cue: Cue;
+}
+
+const NO_CUES: readonly FrameCue[] = Object.freeze([]);
 
 export interface ScreenFrame<Model> {
   readonly model: Model;
@@ -33,6 +41,18 @@ export interface ScreenFrame<Model> {
    * leave with it.
    */
   readonly privacyEpoch: number;
+  /**
+   * The cues issued most recently for what anyone at the table may see, in order. A cue is
+   * emphasis for something the model already shows: a page that ignores this list loses no
+   * fact, and nothing ever waits for a cue to finish. One is put here at the moment its
+   * fact reaches a match that is on screen in the foreground, or never.
+   */
+  readonly cues: readonly FrameCue[];
+  /**
+   * The same for cues that belong to this seat alone. Filled only while private content is
+   * on screen, and empty again the moment it is not.
+   */
+  readonly privateCues: readonly FrameCue[];
 }
 
 /** What only the embedding page can do. */
@@ -70,8 +90,8 @@ export interface IntentOutcome<Model> {
   readonly focus?: (model: Model) => string | null;
 }
 
-interface ScreenConfig<View, Input, Model> {
-  readonly session: AudienceSession<View>;
+interface ScreenConfig<View, Event, Input, Model> {
+  readonly session: AudienceSession<View, Event>;
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly phaseOf: (view: View) => PhaseFacts;
@@ -79,6 +99,10 @@ interface ScreenConfig<View, Input, Model> {
   readonly buildInput: (environment: ShellEnvironment, view: View | null, local: LocalState) => Input;
   readonly buildModel: (input: Input) => Model;
   readonly announcer: Announcer<Input>;
+  /** Decides which of the session's events become cues, and when. */
+  readonly director: Director<View, Event>;
+  /** Cues from a source other than the event feed. Asked on every redraw, once the input is built. */
+  readonly moreCues?: () => IssuedCue[];
   /** Surface-specific intents. Returns null when the intent is not handled or changed nothing. */
   readonly handleIntent: (intent: ShellIntent, context: { readonly local: LocalState; readonly model: Model }) => IntentOutcome<Model> | null;
   /** Other sources of change that should redraw the screen. Returns the function that stops watching. */
@@ -86,10 +110,10 @@ interface ScreenConfig<View, Input, Model> {
   readonly dispose?: () => void;
 }
 
-export function createScreen<View, Input, Model extends { readonly screen: string }>(
-  config: ScreenConfig<View, Input, Model>,
+export function createScreen<View, Event, Input, Model extends { readonly screen: string }>(
+  config: ScreenConfig<View, Event, Input, Model>,
 ): ScreenController<Model> {
-  const { session, ports } = config;
+  const { session, ports, director } = config;
   const listeners = new Set<() => void>();
   let local: LocalState = { pageVisible: true, privateRevealed: false, deviceReducedMotion: false, motionChoice: null };
   let announcement: SpokenLine | null = null;
@@ -101,12 +125,18 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
   let focusIsPrivate = false;
   let privacyEpoch = 0;
   let privateWasOpen = false;
+  let cues = NO_CUES;
+  let privateCues = NO_CUES;
+  let cueSeq = 0;
+  /** What the director made of events that arrived since the last redraw. */
+  let eventCues: IssuedCue[] = [];
   let tick: unknown = null;
   let stopSession: (() => void) | null = null;
+  let stopEvents: (() => void) | null = null;
   let stopWatching: (() => void) | null = null;
   let disposed = false;
 
-  function compute(): { input: Input; model: Model; remainingMs: number | null } {
+  function compute(): { input: Input; model: Model; remainingMs: number | null; view: View | null; current: boolean } {
     const state = session.getState();
     const deadline = state.view === null ? { kind: 'unsynced' } as const : estimateDeadline(config.phaseOf(state.view), session.readClock());
     const environment: ShellEnvironment = {
@@ -120,10 +150,13 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     // after a recovery screen, it is shown again only if the player asks again.
     if (local.privateRevealed && resolveScreen(environment, state.view !== null) !== 'match') local = { ...local, privateRevealed: false };
     const input = config.buildInput(environment, state.view, local);
-    return { input, model: config.buildModel(input), remainingMs: deadline.kind === 'running' ? deadline.remainingMs : null };
+    return {
+      input, model: config.buildModel(input), remainingMs: deadline.kind === 'running' ? deadline.remainingMs : null,
+      view: state.view, current: isCurrent(environment),
+    };
   }
 
-  let frame: ScreenFrame<Model> = { model: compute().model, announcement, privateAnnouncement, focus, privacyEpoch };
+  let frame: ScreenFrame<Model> = { model: compute().model, announcement, privateAnnouncement, focus, privacyEpoch, cues, privateCues };
   let drawn = JSON.stringify(frame.model);
 
   function refresh(focusFor?: (model: Model) => string | null): void {
@@ -131,17 +164,40 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     if (tick !== null) ports.scheduler.clearTimeout(tick);
     tick = null;
 
-    const { input, model, remainingMs } = compute();
+    const { input, model, remainingMs, view, current } = compute();
     const privateOpen = local.pageVisible && local.privateRevealed;
     if (privateWasOpen && !privateOpen) {
       privacyEpoch += 1;
       // Once private content has left the screen the frame carries no private line either,
-      // and no request to focus something that only a phone able to act would have.
+      // no private cue, and no request to focus something that only a phone able to act
+      // would have.
       privateAnnouncement = null;
+      privateCues = NO_CUES;
       if (focusIsPrivate) focus = null;
       focusIsPrivate = false;
     }
     privateWasOpen = privateOpen;
+
+    // The director is told where the screen stands on every redraw, so it judges each event
+    // against the view that is actually shown. Only a view known to be current counts.
+    const issued = eventCues;
+    eventCues = [];
+    if (current && view !== null) issued.push(...director.onView(view));
+    else director.suspend();
+    if (config.moreCues) issued.push(...config.moreCues());
+    // A cue is shown now or not at all. With no match in front of the player there is
+    // nothing to emphasize, and a private cue belongs inside the open private panel.
+    const matchShowing = model.screen === 'match' && local.pageVisible;
+    const nextPublic: FrameCue[] = [];
+    const nextPrivate: FrameCue[] = [];
+    for (const { cue, privacy } of issued) {
+      const list = privacy === 'private' ? (privateOpen ? nextPrivate : null) : matchShowing ? nextPublic : null;
+      if (list === null) continue;
+      cueSeq += 1;
+      list.push({ seq: cueSeq, cue });
+    }
+    if (nextPublic.length > 0) cues = nextPublic;
+    if (nextPrivate.length > 0) privateCues = nextPrivate;
 
     const say = (lines: readonly LiveAnnouncement[]): SpokenLine => {
       spokenSeq += 1;
@@ -176,11 +232,14 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
       }, millisecondsToNextSecond(remainingMs));
     }
 
-    // Nothing to draw, say, focus or withdraw: keep the frame's identity and tell nobody.
+    // Nothing to draw, say, focus, emphasize or withdraw: keep the frame's identity and tell nobody.
     const serialized = JSON.stringify(model);
-    if (serialized === drawn && announcement === frame.announcement && privateAnnouncement === frame.privateAnnouncement && focus === frame.focus && privacyEpoch === frame.privacyEpoch) return;
+    if (
+      serialized === drawn && announcement === frame.announcement && privateAnnouncement === frame.privateAnnouncement
+      && focus === frame.focus && privacyEpoch === frame.privacyEpoch && cues === frame.cues && privateCues === frame.privateCues
+    ) return;
     drawn = serialized;
-    frame = { model, announcement, privateAnnouncement, focus, privacyEpoch };
+    frame = { model, announcement, privateAnnouncement, focus, privacyEpoch, cues, privateCues };
     for (const listener of [...listeners]) listener();
   }
 
@@ -221,6 +280,12 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     start() {
       if (disposed || stopSession) return;
       stopSession = session.subscribe(() => refresh());
+      // Every change of state has been drawn by the time an event is handed over, so the
+      // director already knows the view the event is to be judged against.
+      stopEvents = session.subscribeEvents(event => {
+        eventCues.push(...director.onEvent(event));
+        if (eventCues.length > 0) refresh();
+      });
       stopWatching = config.watch?.(() => refresh()) ?? null;
       session.start();
       refresh();
@@ -231,6 +296,7 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
       if (tick !== null) ports.scheduler.clearTimeout(tick);
       tick = null;
       stopSession?.();
+      stopEvents?.();
       stopWatching?.();
       session.dispose();
       config.dispose?.();

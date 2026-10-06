@@ -139,6 +139,11 @@ export function createFakeTransport(host, { audience = 'player', mode = 'fixture
       for (const listener of [...listeners]) listener.onPayload(structuredClone(payload));
       await flush();
     },
+    /** One presentation event on this audience's stream. Like a view, it is handed over as it is. */
+    async deliverEvent(payload) {
+      for (const listener of [...listeners]) listener.onEventPayload(structuredClone(payload));
+      await flush();
+    },
     /** Connects and delivers the current view, as the transport contract requires. */
     async connectWith(payload) {
       await this.connect();

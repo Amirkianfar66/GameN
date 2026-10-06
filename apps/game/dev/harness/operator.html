@@ -14,7 +14,7 @@
 <body class="harness-body">
 <main class="harness-page">
   <h1>Fixture operator console</h1>
-  <p class="harness-warning"><strong>Development only.</strong> These controls stand in for the backend's own scheduler and exist nowhere in the game client. They replay authored views in a fixed order; they do not resolve anything.</p>
+  <p class="harness-warning"><strong>Development only.</strong> These controls stand in for the backend's own scheduler and exist nowhere in the game client. They replay authored views and events in a fixed order; they do not resolve anything.</p>
 
   <section aria-labelledby="operator-status-heading">
     <h2 id="operator-status-heading">Script</h2>
@@ -51,11 +51,25 @@
     <p class="harness-note">A request that gets “no answer” here fails at once with an empty gateway error; a real one could also hang until the client gives up. The feeds keep running, so a screen stays live while its command goes unanswered.</p>
   </section>
 
+  <section aria-labelledby="operator-events-heading">
+    <h2 id="operator-events-heading">Presentation events</h2>
+    <p class="harness-note">Each audience has an event stream of its own, written together with its views and kept, so a screen that reconnects is handed all of it again. A registration puts one event on the registering seat’s stream and nothing anywhere else. The two facts below are frontend-authored and synthetic: they follow no rule and are the outcome of nothing.</p>
+    <dl class="harness-facts" id="operator-events" aria-live="polite"></dl>
+    <div class="harness-row">
+      <button type="button" data-action="synthetic" data-fact="move">Synthetic public move (Player 8 changes room)</button>
+      <button type="button" data-action="synthetic" data-fact="status">Synthetic public status change (Player 9, no cause)</button>
+    </div>
+    <div class="harness-row">
+      <button type="button" data-action="event-order" data-order="view-first">Deliver each view before its events</button>
+      <button type="button" data-action="event-order" data-order="event-first">Deliver events before their view</button>
+    </div>
+  </section>
+
   <section aria-labelledby="operator-feeds-heading">
     <h2 id="operator-feeds-heading">Feeds</h2>
     <table class="harness-table">
       <caption>Per-audience feed controls</caption>
-      <thead><tr><th scope="col">Audience</th><th scope="col">Feed</th><th scope="col">Revision</th><th scope="col">Screens</th><th scope="col">Controls</th></tr></thead>
+      <thead><tr><th scope="col">Audience</th><th scope="col">Feed</th><th scope="col">Revision</th><th scope="col">Events kept</th><th scope="col">Screens</th><th scope="col">Controls</th></tr></thead>
       <tbody id="operator-feeds"></tbody>
     </table>
   </section>
