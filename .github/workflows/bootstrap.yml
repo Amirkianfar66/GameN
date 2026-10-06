@@ -1,4 +1,4 @@
-name: Workspace and backend checks
+name: Workspace, frontend and backend checks
 
 on:
   pull_request:
@@ -27,6 +27,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm install --global npm@10.9.4
       - run: npm ci
+      # verify requires both Frontend suites and the production-exclusion checker; missing suites fail.
       - run: npm run verify
       - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
