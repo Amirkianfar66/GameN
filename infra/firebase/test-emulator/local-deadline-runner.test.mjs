@@ -50,6 +50,16 @@ test('independent local CLI advances a real 60-second phase with every browser c
   const h = await match(); const initial = await h.current();
   assert.equal(initial.phase.endsAt - initial.phase.startedAt, 60_000);
   assert.equal((await h.base.get()).exists, false, 'the reader must discover controls without root match documents');
+  const intents = (await h.base.collection('outbox').get()).docs;
+  const initialIntent = intents.find(doc => doc.get('phaseId') === initial.phase.id);
+  assert.ok(initialIntent, 'this phase must have its atomic outbox intent');
+  // Wait for the normal emulator trigger, without manually dispatching or changing
+  // the intent. The acknowledged original task must precede the independent CLI.
+  await waitFor(() => initialIntent.ref.get(), doc => doc.get('status') === 'dispatched', 15_000);
+  const beforeRunner = await h.current();
+  assert.equal(beforeRunner.phase.id, initial.phase.id);
+  assert.equal(beforeRunner.journalSequence, initial.journalSequence);
+  assert.ok(Date.now() < beforeRunner.phase.endsAt, 'the acknowledged phase must still be unexpired before CLI startup');
   let output = '', errors = '';
   const child = spawn(process.execPath, ['infra/firebase/dev/run-deadlines.mjs'], {
     cwd: fileURLToPath(new URL('../../../', import.meta.url)),
