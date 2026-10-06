@@ -17,6 +17,9 @@ async function loadLocalRuntime(configuration) {
 export async function startLocalDeadlineCli({ environment = process.env, loadRuntime = loadLocalRuntime,
   report = counts => console.log(JSON.stringify({ localDeadlines: counts })) } = {}) {
   const configuration = assertLocalDeadlineEnvironment(environment);
+  // Supported gcp-metadata option for this dedicated, validated local process.
+  // Avoid cloud metadata discovery rather than suppressing warnings or supplying credentials.
+  process.env.METADATA_SERVER_DETECTION = 'none';
   const runtime = await loadRuntime(configuration);
   const runner = createLocalDeadlineRunner({ readPage: createFirestoreDeadlineReader(runtime.db, runtime.documentIdField),
     runDeadline: payload => runtime.service.runDeadline(payload), report });

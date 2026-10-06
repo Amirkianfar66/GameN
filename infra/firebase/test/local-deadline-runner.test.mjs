@@ -110,9 +110,37 @@ test('runner bounds fail closed and diagnostic failures do not stop evaluation',
 test('guarded CLI starts one poll and releases the initialized runtime on shutdown', async () => {
   let loaded = 0, closed = 0, polls = 0;
   const query = { where() { return this; }, orderBy() { return this; }, limit() { return this; }, async get() { polls++; return { docs: [], size: 0 }; } };
-  const stop = await startLocalDeadlineCli({ environment: local, report: () => {}, loadRuntime: async configuration => {
-    loaded++; assert.equal(configuration.projectId, 'demo-mothership');
-    return { db: { collectionGroup: () => query }, documentIdField: 'document-id', service: { runDeadline: async () => assert.fail() }, close: async () => { closed++; } };
-  } });
-  await stop(); assert.equal(loaded, 1); assert.equal(polls, 1); assert.equal(closed, 1);
+  const previousDetection = process.env.METADATA_SERVER_DETECTION;
+  try {
+    const stop = await startLocalDeadlineCli({ environment: local, report: () => {}, loadRuntime: async configuration => {
+      loaded++; assert.equal(configuration.projectId, 'demo-mothership');
+      return { db: { collectionGroup: () => query }, documentIdField: 'document-id', service: { runDeadline: async () => assert.fail() }, close: async () => { closed++; } };
+    } });
+    await stop(); assert.equal(loaded, 1); assert.equal(polls, 1); assert.equal(closed, 1);
+  } finally {
+    if (previousDetection === undefined) delete process.env.METADATA_SERVER_DETECTION;
+    else process.env.METADATA_SERVER_DETECTION = previousDetection;
+  }
+});
+
+test('metadata detection is disabled only after the local guard and before SDK loading', async () => {
+  const previousDetection = process.env.METADATA_SERVER_DETECTION;
+  let loaded = 0;
+  try {
+    process.env.METADATA_SERVER_DETECTION = 'ping-only';
+    await assert.rejects(startLocalDeadlineCli({ environment: { ...local, GCLOUD_PROJECT: 'production-project' },
+      loadRuntime: async () => { loaded++; assert.fail('invalid configuration must not load the SDK'); } }));
+    assert.equal(loaded, 0);
+    assert.equal(process.env.METADATA_SERVER_DETECTION, 'ping-only', 'invalid configuration must not alter SDK detection settings');
+    const query = { where() { return this; }, orderBy() { return this; }, limit() { return this; }, async get() { return { docs: [], size: 0 }; } };
+    const stop = await startLocalDeadlineCli({ environment: local, report: () => {}, loadRuntime: async () => {
+      loaded++;
+      assert.equal(process.env.METADATA_SERVER_DETECTION, 'none', 'the supported setting must precede SDK imports and initialization');
+      return { db: { collectionGroup: () => query }, documentIdField: 'document-id', service: { runDeadline: async () => assert.fail() }, close: async () => {} };
+    } });
+    await stop(); assert.equal(loaded, 1);
+  } finally {
+    if (previousDetection === undefined) delete process.env.METADATA_SERVER_DETECTION;
+    else process.env.METADATA_SERVER_DETECTION = previousDetection;
+  }
 });
