@@ -1,0 +1,140 @@
+/* mothership:dev-only — page chrome for the emulator-connected preview's lobby console.
+   Not part of the game client, and not a designed lobby: the lobby screens are still to be
+   designed with the Designer. */
+
+html {
+  /* A declaration, not only a comment, so the label survives CSS minification. */
+  --mothership-dev-only-connected: "mothership:dev-only";
+  background: var(--ms-color-canvas);
+}
+
+.connected-body {
+  margin: 0;
+  background: var(--ms-color-canvas);
+  color: var(--ms-color-text);
+  font-family: var(--ms-font-body);
+  font-size: var(--ms-text-body);
+  line-height: var(--ms-leading-body);
+}
+
+.connected-lobby {
+  display: grid;
+  gap: var(--ms-space-4);
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: var(--ms-space-5) var(--ms-space-4);
+}
+
+.connected-lobby h1,
+.connected-lobby h2 {
+  margin: 0;
+  font-family: var(--ms-font-heading);
+  line-height: var(--ms-leading-heading);
+  text-transform: uppercase;
+}
+
+.connected-lobby p,
+.connected-lobby ul,
+.connected-lobby dl,
+.connected-lobby dd {
+  margin: 0;
+  padding: 0;
+}
+
+.connected-lobby ul {
+  display: grid;
+  gap: var(--ms-space-2);
+  list-style: none;
+}
+
+.connected-lobby .connected-banner {
+  padding: var(--ms-space-3);
+  border: var(--ms-stroke-control) dashed var(--ms-color-text);
+  border-radius: var(--ms-radius-control);
+}
+
+.connected-facts {
+  display: grid;
+  grid-template-columns: minmax(7rem, auto) 1fr;
+  gap: var(--ms-space-1) var(--ms-space-4);
+}
+
+.connected-facts dt {
+  color: var(--ms-color-text-secondary);
+  font-weight: 700;
+}
+
+.connected-facts dd {
+  overflow-wrap: anywhere;
+}
+
+.connected-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-2);
+}
+
+.connected-lobby label {
+  display: grid;
+  gap: var(--ms-space-1);
+  font-weight: 700;
+}
+
+.connected-lobby input,
+.connected-lobby select,
+.connected-lobby button {
+  min-height: var(--ms-target-min);
+  padding: var(--ms-space-2) var(--ms-space-3);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-control);
+  font: inherit;
+}
+
+.connected-lobby input,
+.connected-lobby select {
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+}
+
+.connected-lobby button {
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.connected-lobby button[disabled] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.connected-lobby a {
+  color: var(--ms-color-accent);
+  font-weight: 700;
+}
+
+.connected-lobby :focus-visible {
+  outline: var(--ms-stroke-focus) solid var(--ms-color-focus);
+  outline-offset: 2px;
+}
+
+.connected-status {
+  min-height: 1.5em;
+  color: var(--ms-color-text-secondary);
+}
+
+.connected-lobby .connected-quiet {
+  justify-self: start;
+  min-height: 0;
+  background: none;
+  color: var(--ms-color-text-secondary);
+  border-style: dashed;
+  border-color: currentColor;
+  font-weight: 400;
+}
+
+.connected-status[data-kind="problem"] {
+  color: var(--ms-color-text);
+  font-weight: 700;
+}

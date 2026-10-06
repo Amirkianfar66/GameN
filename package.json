@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "packageManager": "npm@10.9.4",
-  "engines": { "node": "22.21.1", "npm": "10.9.4" },
+  "engines": {
+    "node": "22.21.1",
+    "npm": "10.9.4"
+  },
   "workspaces": [
     "apps/game",
     "services/game-api",
@@ -20,13 +23,27 @@
     "check:toolchain": "node scripts/check-toolchain.mjs",
     "check:workspace": "node scripts/check-workspace.mjs",
     "check:sources": "node scripts/check-sources.mjs",
-    "typecheck": "tsc --project tsconfig.check.json --noEmit",
+    "typecheck": "npm run typecheck:pure && npm run typecheck:browser",
     "build": "tsc --build",
     "clean": "node scripts/clean.mjs",
-    "test:contracts": "tsc --build packages/contracts && node --test tests/bootstrap/contracts.test.mjs tests/bootstrap/fixtures.test.mjs",
+    "test:contracts": "tsc --build packages/contracts && node --test tests/bootstrap/contracts.test.mjs tests/bootstrap/fixtures.test.mjs tests/bootstrap/full-game-contract.test.mjs",
     "test:bootstrap": "npm run build && node --test tests/bootstrap/*.test.mjs",
-    "test": "npm run test:bootstrap",
-    "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm run test:bootstrap"
+    "test": "npm run test:bootstrap && npm run test:engine && npm run test:backend && npm run test:tooling && npm run test:frontend",
+    "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm test",
+    "test:engine": "npm run build && node --test packages/engine/test/*.test.mjs",
+    "test:backend": "npm run build && node --test services/game-api/test/*.test.mjs infra/firebase/test/*.test.mjs",
+    "test:emulator": "npm run build && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node --test --test-concurrency=1 services/game-api/test-emulator/*.test.mjs infra/firebase/test-emulator/*.test.mjs\"",
+    "package:backend": "npm run build && node scripts/package-backend.mjs",
+    "typecheck:pure": "tsc --project tsconfig.check.json --noEmit",
+    "typecheck:browser": "tsc --project tsconfig.check.browser.json --noEmit",
+    "test:tooling": "node --test tests/tooling/*.test.mjs",
+    "test:frontend": "npm run build && node scripts/test-frontend.mjs",
+    "check:browser-dependencies": "node scripts/check-browser-dependencies.mjs",
+    "test:frontend:emulator": "npm run test:emulator --workspace @mothership/game"
   },
-  "devDependencies": { "@types/node": "22.19.19", "typescript": "5.9.3" }
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "firebase-tools": "15.0.0",
+    "typescript": "5.9.3"
+  }
 }
