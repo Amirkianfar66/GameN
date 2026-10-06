@@ -91,28 +91,42 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
     retryHandle = null;
   }
 
+  // Listeners run synchronously inside update() and may dispose or reconnect the session
+  // while being told. Whatever continues after an update re-checks that it is still current.
+
   function syncClock(): void {
+    if (disposed) return;
     const generation = ++syncGeneration;
     cancelRetry();
+    const current = (): boolean => !disposed && generation === syncGeneration;
     void (async () => {
-      for (let attempt = 0; attempt < timing.clockSamples; attempt += 1) {
-        const result = await api.serverTime();
-        if (disposed || generation !== syncGeneration) return;
-        if (result.kind === 'no-response') break;
-        // A safe error still carries the server's time, which is all this needs.
-        if (serverClock.addSample(result.sample)) update({ clockRevision: state.clockRevision + 1 });
-        const reading = serverClock.read();
-        if (reading.status === 'synced' && reading.uncertaintyMs <= timing.clockGoodEnoughMs) break;
+      try {
+        for (let attempt = 0; attempt < timing.clockSamples; attempt += 1) {
+          const result = await api.serverTime();
+          if (!current()) return;
+          if (result.kind === 'no-response') break;
+          // A safe error still carries the server's time, which is all this needs.
+          if (serverClock.addSample(result.sample)) {
+            update({ clockRevision: state.clockRevision + 1 });
+            if (!current()) return;
+          }
+          const reading = serverClock.read();
+          if (reading.status === 'synced' && reading.uncertaintyMs <= timing.clockGoodEnoughMs) break;
+        }
+      } catch {
+        // A transport that misbehaves is the same as one that did not answer: try again later.
+        if (!current()) return;
       }
       if (serverClock.read().status === 'synced') {
         retryDelayMs = timing.clockRetryMs;
-      } else if (feedConnected) {
-        retryHandle = ports.scheduler.setTimeout(() => {
-          retryHandle = null;
-          if (!disposed && feedConnected && generation === syncGeneration) syncClock();
-        }, retryDelayMs);
-        retryDelayMs = Math.min(retryDelayMs * 2, timing.clockRetryMaxMs);
+        return;
       }
+      if (!feedConnected) return;
+      retryHandle = ports.scheduler.setTimeout(() => {
+        retryHandle = null;
+        if (current() && feedConnected) syncClock();
+      }, retryDelayMs);
+      retryDelayMs = Math.min(retryDelayMs * 2, timing.clockRetryMaxMs);
     })();
   }
 
@@ -136,13 +150,14 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
     update({ view: outcome.view, problem: null, connection: feedConnected ? 'live' : 'stale' });
   }
 
-  function onConnectionChange(next: 'connected' | 'disconnected'): void {
+  function onConnectionChange(next: 'connected' | 'disconnected', generation: number): void {
     if (next === 'connected') {
       if (feedConnected) return;
       feedConnected = true;
       // Local elapsed time may not have been trustworthy while disconnected. The view stays
       // stale until the feed delivers the current one.
       invalidateClock();
+      if (disposed || generation !== feedGeneration || !feedConnected) return;
       syncClock();
       return;
     }
@@ -160,9 +175,11 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
         if (!disposed && generation === feedGeneration) onPayload(payload);
       },
       onConnectionChange: next => {
-        if (!disposed && generation === feedGeneration) onConnectionChange(next);
+        if (!disposed && generation === feedGeneration) onConnectionChange(next, generation);
       },
     });
+    // A transport may call back before subscribe returns, and a listener may have replaced
+    // or disposed this feed in the meantime. Then this subscription is already unwanted.
     if (disposed || generation !== feedGeneration) stop();
     else unsubscribe = stop;
   }
@@ -193,15 +210,18 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
     reconnect() {
       if (!started || disposed) return;
       detach();
+      const generation = feedGeneration;
       cancelRetry();
       syncGeneration += 1;
       update({ connection: state.view ? 'stale' : 'connecting' });
+      // A listener that reconnected or disposed while being told has already settled this.
+      if (disposed || generation !== feedGeneration) return;
       attach();
     },
     resyncClock() {
       if (!started || disposed) return;
       invalidateClock();
-      if (feedConnected) syncClock();
+      if (!disposed && feedConnected) syncClock();
     },
     dispose() {
       if (disposed) return;

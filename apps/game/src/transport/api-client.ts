@@ -70,7 +70,9 @@ function createCaller(ports: ClientPorts, timeoutMs: number) {
       const timer = ports.scheduler.setTimeout(() => finish({ kind: 'no-response', reason: 'timeout' }), timeoutMs);
       let response: Promise<unknown>;
       try {
-        response = invoke();
+        // A transport that answers with a plain value, or with nothing, is still answered here:
+        // the value simply fails validation instead of breaking the call.
+        response = Promise.resolve(invoke());
       } catch {
         finish({ kind: 'no-response', reason: 'transport-error' });
         return;

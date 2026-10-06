@@ -148,14 +148,129 @@ test('reconnect resubscribes once, keeps the seat pinned and ignores the feed it
   assert.deepEqual(brief(session.getState()), ['stale', 20, null]);
 
   // A transport that wrongly keeps calling the old listener cannot move the session.
+  const timeCalls = fake.calls.serverTime;
   captured[0].onConnectionChange('connected');
   captured[0].onPayload(structuredClone(afterRegistration.officer));
   await flush();
   assert.deepEqual(brief(session.getState()), ['stale', 20, null]);
+  assert.equal(fake.calls.serverTime, timeCalls, 'The replaced feed cannot start a time measurement');
+  // Nor can it vouch for its replacement: a view on the new feed, before that feed has
+  // reported itself up, is kept but not called current.
+  captured[1].onPayload(structuredClone(afterRegistration.officer));
+  assert.deepEqual(brief(session.getState()), ['stale', 21, null]);
 
   await fake.connectWith(before.target);
   assert.equal(session.getState().problem, 'integrity', 'Another seat is refused after a reconnect too');
   void host;
+});
+
+test('a listener that reconnects while being told the feed is stale does not leak a feed', async () => {
+  const { fake, session } = setup();
+  session.start();
+  await fake.connectWith(before.officer);
+  let reacted = false;
+  session.subscribe(() => {
+    if (session.getState().connection === 'stale' && !reacted) {
+      reacted = true;
+      session.reconnect();
+    }
+  });
+  session.reconnect();
+  assert.equal(reacted, true);
+  assert.deepEqual([fake.calls.subscribe - fake.calls.unsubscribe, fake.subscribers()], [1, 1], 'exactly one feed is open');
+  await fake.connectWith(afterRegistration.officer);
+  assert.deepEqual(brief(session.getState()), ['live', 21, null]);
+  session.dispose();
+  assert.deepEqual([fake.calls.subscribe - fake.calls.unsubscribe, fake.subscribers()], [0, 0], 'and none after dispose');
+});
+
+test('a listener that disposes while being told causes no further work of any kind', async () => {
+  // Inside the "stale" notification of a reconnect: no new subscription afterwards.
+  const stale = setup();
+  stale.session.start();
+  await stale.fake.connectWith(before.officer);
+  stale.session.subscribe(() => {
+    if (stale.session.getState().connection === 'stale') stale.session.dispose();
+  });
+  stale.session.reconnect();
+  assert.deepEqual([stale.fake.calls.subscribe, stale.fake.calls.unsubscribe, stale.fake.subscribers()], [1, 1, 0]);
+
+  // Inside the notification for a loose time sample, where another sample would follow.
+  const sample = setup();
+  sample.fake.delayServerTime(400);
+  sample.session.start();
+  sample.session.subscribe(() => {
+    if (sample.session.readClock().status === 'synced') sample.session.dispose();
+  });
+  await sample.fake.connect();
+  await sample.host.advance(400);
+  assert.equal(sample.fake.calls.serverTime, 1, 'no second request after dispose');
+  assert.equal(sample.host.pendingTimers(), 0);
+  await sample.host.advance(60_000);
+  assert.equal(sample.fake.calls.serverTime, 1);
+
+  // Inside the notification that the feed connected: no time request at all.
+  const connected = setup();
+  connected.session.start();
+  connected.session.subscribe(() => connected.session.dispose());
+  await connected.fake.connect();
+  assert.deepEqual([connected.fake.calls.serverTime, connected.fake.subscribers(), connected.host.pendingTimers()], [0, 0, 0]);
+
+  // Inside a callback the transport makes before subscribe has even returned.
+  const early = setup();
+  const subscribe = early.fake.transport.subscribe.bind(early.fake.transport);
+  early.fake.transport.subscribe = listener => {
+    const stop = subscribe(listener);
+    listener.onConnectionChange('connected');
+    listener.onPayload(structuredClone(before.officer));
+    return stop;
+  };
+  early.session.subscribe(() => {
+    if (early.session.getState().view !== null) early.session.dispose();
+  });
+  early.session.start();
+  await flush();
+  assert.deepEqual([early.fake.calls.subscribe, early.fake.calls.unsubscribe, early.fake.subscribers()], [1, 1, 0]);
+});
+
+test('a time sample from a superseded measurement is ignored', async () => {
+  const { host, fake, session } = setup();
+  const answers = [];
+  fake.respond.serverTime = () => new Promise(resolve => answers.push(resolve));
+  session.start();
+  await fake.connect();
+  // The device sleeps: the server moves on, local time does not. A new measurement starts.
+  host.sleepDevice(50_000);
+  session.resyncClock();
+  await flush();
+  assert.equal(answers.length, 2);
+  answers[1]({ protocolVersion: 1, serverTimeMs: host.serverNow() });
+  await flush();
+  const reading = session.readClock();
+  const revision = session.getState().clockRevision;
+  assert.equal(reading.serverNowMs, SERVER_EPOCH + 50_000);
+  // The first request's answer was stamped before the sleep and arrives late. Taken at face
+  // value it would wind the clock back fifty seconds.
+  answers[0]({ protocolVersion: 1, serverTimeMs: SERVER_EPOCH });
+  await flush();
+  assert.deepEqual(session.readClock(), reading);
+  assert.equal(session.getState().clockRevision, revision);
+});
+
+test('dispose cancels a pending time retry, and a nonsense answer is retried like silence', async () => {
+  const { host, fake, session } = setup('public', { timing: { clockRetryMs: 1_000 } });
+  fake.respond.serverTime = () => undefined;
+  session.start();
+  await fake.connect();
+  assert.equal(fake.calls.serverTime, 1);
+  assert.equal(host.pendingTimers(), 1, 'a retry is scheduled');
+  await host.advance(1_000);
+  assert.equal(fake.calls.serverTime, 2);
+  assert.equal(host.pendingTimers(), 1);
+  session.dispose();
+  assert.equal(host.pendingTimers(), 0, 'and cancelled by dispose');
+  await host.advance(60_000);
+  assert.equal(fake.calls.serverTime, 2);
 });
 
 test('the countdown clock is calibrated from the server as soon as the feed connects', async () => {

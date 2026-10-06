@@ -73,6 +73,20 @@ test('a lost connection or a thrown transport leaves the outcome unknown, not fa
   assert.deepEqual(await client.submit(command), { kind: 'no-response', reason: 'transport-error' });
 });
 
+test('a transport that answers with a plain value, or with nothing, is handled rather than thrown', async () => {
+  const { host, fake, client } = setup();
+  for (const answer of [undefined, null, 42, 'text', {}, [], { then: 'not a function' }]) {
+    fake.respond.serverTime = () => answer;
+    assert.deepEqual(await client.serverTime(), { kind: 'no-response', reason: 'unreadable-response' }, JSON.stringify(answer));
+    fake.respond.submitCommand = () => answer;
+    assert.deepEqual(await client.submit(command), { kind: 'no-response', reason: 'unreadable-response' }, JSON.stringify(answer));
+  }
+  // A valid answer need not be wrapped in a promise.
+  fake.respond.serverTime = () => ({ protocolVersion: 1, serverTimeMs: host.serverNow() });
+  assert.equal((await client.serverTime()).kind, 'time');
+  assert.equal(host.pendingTimers(), 0);
+});
+
 test('a call that never answers times out, and a late answer is ignored', async () => {
   const { host, fake, client } = setup();
   let resolveLate;
