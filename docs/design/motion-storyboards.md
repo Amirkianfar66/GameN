@@ -14,10 +14,50 @@ Every cue works without art. The layers that are pictures (the ink trail, the du
 
 - A cue is emphasis for a fact the audience's own view already states in words. It adds no fact.
 - A cue changes nothing: not health, resources, turn ownership, a phase or a deadline. Nothing waits for it.
-- A cue plays once, for exactly its duration, and is never queued. A newer view replaces it.
+- A cue plays once, for exactly its duration, and is never queued. It is withdrawn early only when the fact it belongs to changes again, or when the screen stops showing a current match.
+- A public cue never depends on anything private. An update that changes no public fact (the seat's own registration, a receipt, its pending commands, its private sheet opening or closing) does not withdraw, restart, renumber or delay a public cue.
 - Its layers take no pointer events, hold no content and cannot take focus.
 - No cue is played for a registration on any public surface, on any other seat's phone, or outside the open private sheet.
 - No cue exists for a shot, a shooter, an attack type, a block, Protection or a cause of any kind.
+
+<a id="cue-freshness"></a>
+
+## Cue freshness
+
+**Proposed, for agreement with Frontend.** The open items for the Designer in docs/frontend/slice-3-event-director.md on agent/frontend-motion-gallery at fccadf7, and findings R3 to R6 of the integration reviews of 6 October 2026. Frontend owns the director and the frame contract; this says what the drawing needs from them.
+
+A public cue belongs to one public fact on the screen: the phase caption, the place of one seat, or the public health of one seat. A private cue belongs to the seat's own command. No cue belongs to a view as a whole: a seat's view also changes when only something private does.
+
+|  | Proposed | Meaning |
+| --- | --- | --- |
+| Start window | 1000 ms | A treatment starts when its cue is issued. A renderer that first sees a cue more than startWithinMs after it was issued does not start it and shows the settled state. One window serves every kind; how long a treatment then runs is its own token duration, 120 to 700 ms. |
+| Event lateness | 1000 ms | An event that arrives more than eventLatenessMs after the view that states its fact came on screen is not a cue. A token that has stood in its new place for seconds and then drops in reads as a second move. |
+| Token drops for one view | at most 4 | Status rings are small and are not capped. Token drops are: when one view moves more than maxSeatDropsPerView seats, no drop is drawn for it and the tokens are simply in their new places. A mass move belongs to a composed cue such as Final Zone entry, which is not designed yet. |
+
+Frontend's provisional values are a frame lifetime of 2000 ms and a lateness of 5000 ms. Either the frame lifetime becomes the start window, or the renderer applies the window itself: the drawing needs only that no treatment starts later than the window and that one which has started finishes.
+
+A cue is withdrawn when, and only when:
+
+- Its treatment has run for its duration.
+- Its start window passed before anything started it.
+- The fact it belongs to changed again: a newer place or health of the same seat, a newer phase. The newer cue takes its place.
+- The screen stopped showing a current match: the page is hidden, the feed is stale or unreadable, or a connecting or recovery screen is up. The settled state is shown at once and nothing is caught up afterwards.
+- For a private cue only: the private sheet closed. It is never played later.
+
+It is never withdrawn, restarted, renumbered or delayed because of:
+
+- An update that changes no public fact. On a phone the public cues, their order, their numbers and their timing are the same whatever the seat does privately at that moment; otherwise an onlooker could see a registration in a public animation that stopped short.
+- Its time in a frame running out while its treatment is running. A treatment that has started finishes.
+
+A public fact the cue does not belong to should not cut it either: another seat's move leaves this seat's ring to finish. The motion direction allows a renderer to cancel on any new authoritative state, so this is a preference. Cutting on a private-only update is not allowed.
+
+**Several at once.** Cues issued for one view start together. They are never played one after another: a sequence is a queue, and the later ones would be late for their facts.
+
+**Kinds.** phase-change is drawn: a rule under the labels. public-move draws no origin: the token drops in from above and the place it left is redrawn without it, so the cue's own origin is not used by the drawing and no path may be drawn from it.
+
+**Frontend's choices.** Frontend's own choices that the design accepts as they are: a cue can be missed and a fact cannot; a private cue is never played later; nothing is cued on a stale screen; a health change is a status change with no impact; a round sweep needs the round before it; public and private cues are numbered apart.
+
+The two windows and the cap are judgments made on desktop Chrome storyboards. None is measured on a device or against a real event feed. `check-shell.mjs` holds the one part of this that belongs to the reference stylesheet: a private-only update leaves a running public cue untouched.
 
 ## Cues
 
@@ -42,6 +82,7 @@ Every cue works without art. The layers that are pictures (the ink trail, the du
 | Authorized by | The player's own tap or key press. No event and no server fact is involved. |
 | Audience | The player's own phone, inside the open private sheet. |
 | Lands on | `.ms-card` |
+| Belongs to | The card the player picked up. Local to this device. |
 | Duration | 120 ms: 0 opening, 70 accent, 50 settle |
 | Easing | accent: `motionEasing.snap` · settle: `motionEasing.settle` |
 | Frames shown | opening at 0 ms, accent at 70 ms, settled at 120 ms |
@@ -64,6 +105,7 @@ Every cue works without art. The layers that are pictures (the ink trail, the du
 | Authorized by | An accepted receipt for this device's own command, or a COMMAND_REGISTERED event for a command the seat's own view lists as pending. One cue however many ways the device hears of it. |
 | Audience | One seat, inside its open private sheet only. Withheld while the sheet is closed or the page is in the background. |
 | Lands on | `data-cue-at="registration"` |
+| Belongs to | The seat's own command. Private. |
 | Duration | 120 ms: 30 opening, 50 accent, 40 settle |
 | Easing | opening: `motionEasing.impact` · accent: `motionEasing.impact` · settle: `motionEasing.settle` |
 | Frames shown | opening at 22 ms, accent at 80 ms, settled at 120 ms |
@@ -92,6 +134,7 @@ Must not show:
 | Authorized by | A PUBLIC_MOVE event for a view that shows the seat in its new location, where the view before showed it elsewhere. |
 | Audience | Table display, and every phone's public layer. |
 | Lands on | `data-cue-at="seat-N/place"` |
+| Belongs to | The place of one seat. |
 | Duration | 450 ms: 110 opening, 220 accent, 120 settle |
 | Easing | opening: `motionEasing.impact` · accent: `motionEasing.impact` · settle: `motionEasing.settle` |
 | Frames shown | opening at 150 ms, accent at 330 ms, settled at 450 ms |
@@ -120,6 +163,7 @@ Must not show:
 | Authorized by | A PUBLIC_HEALTH_CHANGED event for a view that shows the seat's new health, where the view before showed another. |
 | Audience | Table display, and every phone's public layer. |
 | Lands on | `data-cue-at="seat-N/health"` |
+| Belongs to | The public health of one seat. |
 | Duration | 220 ms: 60 opening, 100 accent, 60 settle |
 | Easing | opening: `motionEasing.impact` · accent: `motionEasing.impact` · settle: `motionEasing.settle` |
 | Frames shown | opening at 60 ms, accent at 160 ms, settled at 220 ms |
@@ -149,6 +193,7 @@ Must not show:
 | Authorized by | A PHASE_CHANGED event for a view whose phase changed while its round number did not. |
 | Audience | Table display, and every phone's public layer. |
 | Lands on | `data-cue-at="phase"` |
+| Belongs to | The phase caption: the round and the phase on screen. |
 | Duration | 220 ms: 60 opening, 100 accent, 60 settle |
 | Easing | all: `motionEasing.sweep` |
 | Frames shown | opening at 60 ms, accent at 160 ms, settled at 220 ms |
@@ -176,6 +221,7 @@ Must not show:
 | Authorized by | A PHASE_CHANGED event for a view whose round number went up, on a device that showed the round before. |
 | Audience | Table display, and every phone's public layer. |
 | Lands on | `data-cue-at="phase"` |
+| Belongs to | The phase caption: the round and the phase on screen. |
 | Duration | 700 ms: 180 opening, 220 accent, 300 settle |
 | Easing | opening: `motionEasing.sweep` · accent: `motionEasing.impact` · settle: `motionEasing.sweep` |
 | Frames shown | opening at 140 ms, accent at 380 ms, settled at 700 ms |

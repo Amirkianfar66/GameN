@@ -421,7 +421,7 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
     const [a, b, c] = cue.storyboardFramesMs;
     if (!(a >= 0 && a <= b && b <= c && c === cue.durationMs)) problems.push(`${cue.id}: storyboard frames must rise to the full duration`);
     for (const name of Object.values(cue.easing)) if (!tokens.motionEasing[name]) problems.push(`${cue.id}: no easing token "${name}"`);
-    for (const field of ['title', 'audience', 'authorizedBy', 'says', 'reducedMotion', 'reducedEffects', 'audio', 'fallback']) if (!cue[field]) problems.push(`${cue.id}: no ${field}`);
+    for (const field of ['title', 'audience', 'authorizedBy', 'belongsTo', 'says', 'reducedMotion', 'reducedEffects', 'audio', 'fallback']) if (!cue[field]) problems.push(`${cue.id}: no ${field}`);
     if (cue.frontendCue !== null && !cues.directorVocabulary.includes(cue.frontendCue)) problems.push(`${cue.id}: "${cue.frontendCue}" is not a cue the director issues`);
     else if (cue.frontendCue === null && cue.audienceTag !== 'local') problems.push(`${cue.id}: a cue with no director kind must be local input`);
   }
@@ -430,6 +430,20 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
   if (cues.cues.find(cue => cue.frontendCue === 'registration')?.audienceTag !== 'private') problems.push('the registration cue must be private');
   if (Object.keys(tokens.motionBeatsMs).some(name => tokens.motionMs[name] === undefined)) problems.push('motionBeatsMs splits a duration that motionMs does not have');
   if (tokens.motionBeatsMs.publicImpact) problems.push('motionBeatsMs.publicImpact would give the synthetic studies a token of their own');
+  // Cue freshness: when a cue may start and what may withdraw it. The numbers are proposals;
+  // what is held here is that they exist, that they are not looser than Frontend's own
+  // provisional values, and that the contract does not let a view as a whole own a cue.
+  const fresh = cues.freshness;
+  if (!fresh) problems.push('the motion contract says nothing about cue freshness');
+  else {
+    for (const field of ['status', 'answers', 'belonging', 'starting', 'lateness', 'preference', 'together', 'cap', 'kinds', 'accepted', 'notMeasured']) if (typeof fresh[field] !== 'string' || fresh[field].trim() === '') problems.push(`freshness: no ${field}`);
+    for (const field of ['leaves', 'neverLeavesBecause']) if (!Array.isArray(fresh[field]) || fresh[field].length === 0) problems.push(`freshness: no ${field}`);
+    if (!(fresh.startWithinMs > 0 && fresh.startWithinMs <= fresh.frontendProvisional?.lifetimeMs)) problems.push('freshness.startWithinMs must be positive and no longer than the frame lifetime Frontend holds a cue for');
+    if (!(fresh.eventLatenessMs > 0 && fresh.eventLatenessMs <= fresh.frontendProvisional?.maxLatenessMs)) problems.push('freshness.eventLatenessMs must be positive and no looser than Frontend\'s provisional lateness');
+    if (!(Number.isInteger(fresh.maxSeatDropsPerView) && fresh.maxSeatDropsPerView >= 1 && fresh.maxSeatDropsPerView <= 9)) problems.push('freshness.maxSeatDropsPerView must be a whole number of seats from 1 to 9');
+    if (!/no public fact/i.test((fresh.neverLeavesBecause ?? []).join(' '))) problems.push('freshness.neverLeavesBecause must say that an update which changes no public fact withdraws no public cue');
+  }
+  if (cues.rules.some(rule => /newer view replaces/i.test(rule))) problems.push('a rule lets any newer view replace a cue: a seat\'s view also changes when only something private does');
   check('motion contract matches the tokens and the director vocabulary', problems);
 }
 

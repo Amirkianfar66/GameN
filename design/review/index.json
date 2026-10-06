@@ -2,7 +2,7 @@
   "note": "Review renders of the pages under design/prototypes/. Each is a picture of a synthetic page in desktop Chrome on one machine. None is a device measurement, a match or an engine result.",
   "renderedWith": "Google Chrome 155.0.8059.39",
   "command": "node design/tools/render-review.mjs",
-  "inputsSha256": "e22f8267d6e06a412b3c407ee2ff73e3f230ef9862dc59cd7d0e57163e630da5",
+  "inputsSha256": "02b6a6db81bed2778bdea59a1abec7be36f64a1ccaefb14c40c04f585a557d9c",
   "images": [
     {
       "file": "design/review/asset-all.png",

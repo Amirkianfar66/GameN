@@ -19,7 +19,7 @@ Nothing here installs anything. Every script Designer added uses Node built-ins 
 
 **Run the Designer checks in `verify`. Needed now.**
 
-`npm run verify` runs `tests/bootstrap` only. This PR adds 51 tests and a 13-part check in Designer's own package and directory. They pass locally and **do not run in CI** until the root script includes them.
+`npm run verify` runs `tests/bootstrap` only. This PR adds 52 tests and a 13-part check in Designer's own package and directory. They pass locally and **do not run in CI** until the root script includes them.
 
 Requested change to the root `package.json`:
 
@@ -29,7 +29,7 @@ Requested change to the root `package.json`:
 
 and `&& npm run test:design` at the end of `test` and of `verify`. It composes with Frontend's REQ-1, which adds `test:frontend` the same way.
 
-That command line was run as written after a clean `npm ci` and passed. It needs no network, browser or credentials, and took 5.1 seconds on the development machine. It writes only to the system temporary directory, and removes what it wrote.
+That command line was run as written after a clean `npm ci` and passed. It needs no network, browser or credentials, and took between 5 and 6 seconds on the development machine. It writes only to the system temporary directory, and removes what it wrote.
 
 Two things to know before wiring it:
 

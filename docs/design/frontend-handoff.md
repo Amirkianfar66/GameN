@@ -146,6 +146,28 @@ Four things to keep if you rewrite them:
 
 GSAP is not needed for any of these five; they are CSS. That is not an opinion on its license, which is the owner's question.
 
+## Cue freshness
+
+Your slice 3 document leaves the cue timing to the Designer, and findings R3 to R6 of the integration reviews of 6 October 2026 are about the same thing: when a cue is due and what may take it away. The proposal is in `design/contract/motion-cues.json` under `freshness` and is printed in [motion-storyboards.md](motion-storyboards.md#cue-freshness). You own the director and the frame contract; this is what the drawing needs from them.
+
+| Your open item | Answer, proposed |
+| --- | --- |
+| Lifetime, 2000 ms provisional | **A start window of 1000 ms**, one for every kind. A cue is for starting a treatment, not for holding it: once started, a treatment runs its own 120 to 700 ms and finishes. If your renderer needs the cue in the frame for the whole run, keep 2000 and apply the window in the renderer |
+| Lateness, 5000 ms provisional | **1000 ms.** A token that has stood in its new place for seconds and then drops in reads as a second move |
+| Should a lifetime differ by kind of cue? | No. How long a treatment runs is its token duration; when it may start is one number |
+| Several cues in one frame: together, in sequence, or capped? | **Together, never in sequence.** A sequence is a queue, and the later cues would be late for their facts. Status rings are small and uncapped. Token drops are capped: when one view moves more than four seats, draw no drop for it |
+| Is `phase-change` drawn at all? | Yes: a rule ruled under the labels, 220 ms. It is storyboarded |
+| A move is drawn from where the token was on this screen | The drawing uses no origin. The token drops in from above and the place it left is redrawn without it. The cue's `from` is unused, and nothing may draw a path from it |
+| A cue can be missed and a fact cannot; a private cue is never played later; nothing is cued on a stale screen; a health change is a status change; public and private cues are numbered apart | Accepted as they are |
+
+**R6, and one sentence of mine.** A public cue belongs to a public fact on the screen: the phase caption, the place of one seat, the health of one seat. It does not belong to a view as a whole, because a seat's view also changes when only something private does. So a private-only update (the seat's own registration, a receipt, its pending commands, its sheet opening or closing) must not withdraw, restart, renumber or delay a public cue. Otherwise someone watching a phone's public layer could see a registration in a public animation that stopped short. The motion contract in the first push of this PR said “A newer view replaces it”, which is the same mistake in words; it is corrected.
+
+A public fact the cue does not belong to should not cut it either: another seat's move leaves this seat's ring to finish. That one is a preference. The motion direction lets a renderer cancel on any new authoritative state, and cutting on a public change gives nothing away.
+
+What is checked on my side is only the stylesheet's part: `check:shell` starts a move, a status change and a round transition, holds each of their eleven animations halfway, redraws only the private section 26 times through every picture of the Shot card, and finds every animation where it was. Your frame contract and renderer need the regression the review asks for; mine cannot stand in for it.
+
+None of the three numbers is measured. They are judgments from storyboards in desktop Chrome.
+
 ## What was and was not checked
 
 Checked, in desktop Chrome 155 on one Mac, on the hand-built copy of your markup: the layout matrix and the request watch described in [verification.md](verification.md#checks-that-need-a-browser).
@@ -158,9 +180,10 @@ Not checked by anyone: a phone. A shared display at a real distance. iOS Safari 
 2. **FE-D1.** Does a bottom dock survive iOS Safari's own bottom bar and a keyboard? Should the connection banner stay in view when the page is scrolled?
 3. **The table display's scale.** Everything is in rem and the board in container units, so one root font size scales the whole display. I would try `clamp(16px, 1.25vw, 32px)` on the table route. In desktop Chrome at 1280 px wide the Room A panel is 365 px wide and a standee is 50 by 62 px, so its numeral's box is 18 px tall; at 1920 they are 569, 77 by 97 and 28. Roster text is 18 px and the countdown 56 px at both, and names and chips on a plain panel are 14 px. That is small from across a table, and I have not seen it from one.
 4. **The closed dock is 146 px tall at 360 px wide** in the same render, because the privacy reminder is shown under the control. Below 22em wide the dock is its control alone. At 320 by 568 with text doubled that control wraps to three lines and the dock is 216 px, 38% of the screen. A shorter visible label there would help; the wording is yours.
-5. **Board markers are badges without words.** Their words are in the roster and, hidden from sight only, in the panel. Is that enough at a distance, or should the panel carry short labels when few tokens are in it?
-6. **Amber twice.** The active-turn chip is not drawn inside the private sheet, but an amber control in an open sheet and an amber “Active turn” chip in the list behind it can be on one screen. Does that confuse anyone who plays it?
-7. **`:has()` quantity queries** for the standee rows are convenient and unusual. If you would rather compute the row split in the view model, the rule is in the manifest.
-8. **Target rows** draw the idle badge whatever the seat's health; the status is in the row's words. A `data-target-health` on the control would let the token match the roster.
+5. **Cue freshness.** Are a 1000 ms start window, 1000 ms of lateness and at most four drops per view workable in your director, and would you rather hold the window in the frame or in the renderer?
+6. **Board markers are badges without words.** Their words are in the roster and, hidden from sight only, in the panel. Is that enough at a distance, or should the panel carry short labels when few tokens are in it?
+7. **Amber twice.** The active-turn chip is not drawn inside the private sheet, but an amber control in an open sheet and an amber “Active turn” chip in the list behind it can be on one screen. Does that confuse anyone who plays it?
+8. **`:has()` quantity queries** for the standee rows are convenient and unusual. If you would rather compute the row split in the view model, the rule is in the manifest.
+9. **Target rows** draw the idle badge whatever the seat's health; the status is in the row's words. A `data-target-health` on the control would let the token match the roster.
 
 Your answers belong on the PR. I will change the design, not argue with the device.

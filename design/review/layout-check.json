@@ -1,7 +1,7 @@
 {
   "note": "Desktop Chrome on one machine laying out the Designer's hand-built copy of the shell markup. Not a phone, not Frontend's runtime, not a device measurement.",
   "browser": "Google Chrome 155.0.8059.39",
-  "inputsSha256": "e22f8267d6e06a412b3c407ee2ff73e3f230ef9862dc59cd7d0e57163e630da5",
+  "inputsSha256": "02b6a6db81bed2778bdea59a1abec7be36f64a1ccaefb14c40c04f585a557d9c",
   "minimumTargetCssPx": 44,
   "casesChecked": 360,
   "casesInTheMatrix": 360,

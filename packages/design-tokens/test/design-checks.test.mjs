@@ -327,6 +327,20 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     refuses(await run(root, 'check-assets.mjs'), /cue-public-move: 600 ms is not the token value 450/, /the registration cue must be private/);
   });
 
+  test('a cue that belongs to nothing, a contract that lets any newer view replace a cue, and freshness looser than Frontend\'s', async () => {
+    const root = scratchCopy();
+    edit(root, 'design/contract/motion-cues.json', text => text
+      .replace('"belongsTo": "The place of one seat.",\n', '')
+      .replace('It is withdrawn early only when the fact it belongs to changes again, or when the screen stops showing a current match.', 'A newer view replaces it.')
+      .replace('"eventLatenessMs": 1000,', '"eventLatenessMs": 9000,')
+      .replace('An update that changes no public fact. On a phone', 'On a phone'));
+    refuses(await run(root, 'check-assets.mjs'),
+      /cue-public-move: no belongsTo/,
+      /a rule lets any newer view replace a cue/,
+      /freshness\.eventLatenessMs must be positive and no looser than Frontend's provisional lateness/,
+      /freshness\.neverLeavesBecause must say that an update which changes no public fact withdraws no public cue/);
+  });
+
   test('a state with no words, and a state with no source', async () => {
     const root = scratchCopy();
     editJson(root, STATES, contract => {

@@ -71,6 +71,12 @@ const mistakes = [
     expect: [/a shell asked for \/prototypes\/css\/synthetic\.css/],
   },
   {
+    name: 'a public cue is cut short when the seat registers something privately',
+    check: 'check-shell.mjs',
+    make: append('design/prototypes/css/cues.css', '.ms-shell:has(.ms-card__state[data-status="registered"]) li[data-cue="public-move"] > .ms-token { animation-name: none; }'),
+    expect: [/a private-only update \(.*registered.*\) disturbed a running public cue/],
+  },
+  {
     name: 'roster cells no longer wrap',
     check: 'check-layout.mjs',
     args: ['--match=surface=table&state=D at 1280'],

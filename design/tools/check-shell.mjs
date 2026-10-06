@@ -36,7 +36,7 @@ const TABLE_BUNDLES = [sheetOf('public-board')];
 const PICTURES = manifest.assets.flatMap(asset => asset.variants.map(variant => ({ property: `--ms-asset-${asset.id}-${variant.variant}`, surfaces: variant.surfaces })));
 
 const failures = [];
-const counts = { pageLoads: 0, redraws: 0, publicLayerComparisons: 0, picturesPlaced: 0 };
+const counts = { pageLoads: 0, redraws: 0, publicLayerComparisons: 0, picturesPlaced: 0, privateUpdatesUnderRunningCues: 0, publicCueAnimationsHeld: 0 };
 const pathsOf = (requests, origin) => requests.map(url => url.replace(origin, '').replace(/\?.*$/, ''));
 
 // Runs in the page. Which pictures are drawn where: each drawn picture is matched to the
@@ -215,6 +215,56 @@ try {
     await page.close();
   }
 
+  // ---- 3b. A private-only update leaves a running public cue alone ----
+  // Three public cues are started and each of their animations is held halfway. Then only
+  // the private section is redrawn, through every picture of the Shot card that can occur
+  // in that public state, two roles, and the sheet closing. Not one held animation may be
+  // cancelled, restarted, moved in time or joined by a new one outside the private section.
+  {
+    const page = await open('surface=player&state=B&viewer=1&open=1&status=available');
+    const held = await page.evaluate(`(() => {
+      const mark = (selector, kind) => { const found = [...document.querySelectorAll(selector)]; for (const node of found) node.setAttribute('data-cue', kind); return found.length; };
+      const marked = mark('li[data-cue-at="seat-2/place"]', 'public-move') + mark('.ms-marker[data-cue-at="seat-8/health"]', 'status-change') + mark('[data-cue-at="phase"]', 'round-transition');
+      const publicOnes = () => document.getAnimations().filter(animation => animation.effect?.target && !animation.effect.target.closest('.ms-private'));
+      window.__publicAnimations = publicOnes;
+      window.__held = publicOnes();
+      for (const animation of window.__held) { animation.pause(); animation.currentTime = animation.effect.getComputedTiming().duration / 2; }
+      window.__heldState = () => window.__held.map(animation => [animation.animationName ?? 'transition', animation.effect.pseudoElement ?? '', animation.playState, animation.currentTime === null ? null : Math.round(animation.currentTime), animation.effect.target.isConnected].join(' '));
+      return { marked, names: [...new Set(window.__held.map(animation => animation.animationName))].sort(), state: window.__heldState() };
+    })()`);
+    counts.publicCueAnimationsHeld = held.state.length;
+    const kinds = ['ms-cue-drop', 'ms-cue-ring', 'ms-cue-sweep'];
+    if (held.marked < 3 || !kinds.every(name => held.names.includes(name))) failures.push(`the running-cue case did not start a move, a status change and a round transition (marked ${held.marked}; running ${held.names.join(', ') || 'nothing'}), so it tests nothing`);
+    const paintBefore = await page.evaluate(publicLayer);
+    const ownTurn = SPECIMENS.filter(([, spec]) => spec.needs === null || spec.needs === 'own-turn').map(([id]) => id);
+    const updates = [
+      ...ownTurn.flatMap(specimen => ['Officer', 'Hacker'].map(role => ({ specimen, role, open: true }))),
+      { roleExpanded: true },
+      { roleExpanded: false },
+      { open: false },
+      { open: true, specimen: 'registered' },
+    ];
+    for (const update of updates) {
+      await page.evaluate(`window.__drawPrivate(${JSON.stringify(update)})`);
+      // The registration stamp itself plays inside the sheet; it must not touch anything outside it.
+      await page.evaluate(`document.querySelector('.ms-private [data-cue-at="registration"]')?.setAttribute('data-cue', 'registration')`);
+      const after = await page.evaluate('({ state: window.__heldState(), running: window.__publicAnimations().length })');
+      counts.privateUpdatesUnderRunningCues += 1;
+      const label = `a private-only update (${JSON.stringify(update)})`;
+      const changed = after.state.filter((line, index) => line !== held.state[index]);
+      if (changed.length > 0) failures.push(`${label} disturbed a running public cue: ${changed.slice(0, 2).join(' | ')}`);
+      if (after.running !== held.state.length) failures.push(`${label} left ${after.running} public animations where ${held.state.length} were running`);
+    }
+    // Back in the state it started in, with the cues still held where they were, the public
+    // layer is painted exactly as before.
+    await page.evaluate(`window.__drawPrivate(${JSON.stringify({ specimen: 'available', role: 'Officer', open: true, roleExpanded: false })})`);
+    const paintAfter = await page.evaluate(publicLayer);
+    const repainted = paintAfter.length !== paintBefore.length ? ['a different number of parts'] : paintAfter.filter((line, index) => line !== paintBefore[index]).slice(0, 2).map(line => line.slice(0, 160));
+    if (repainted.length > 0) failures.push(`after a round of private-only updates the public layer with its held cues is painted differently: ${repainted.join(' | ')}`);
+    await check(page, 'private-only updates under running public cues');
+    await page.close();
+  }
+
   // ---- 4. A device whose art never arrives ----
   for (const [query, size] of [['surface=player&open=1&status=targeting', {}], ['surface=table&state=C', { width: 1280, height: 800 }]]) {
     const page = await open(query, { ...size, blocked: ['*/exports/*'] });
@@ -271,6 +321,7 @@ const ASSERTIONS = [
   'no shell asks for a synthetic study, its stylesheet or its module',
   'one phone redrawn in place through every role, every picture of the Shot card and the open and closed sheet makes no request at all',
   'everything outside the private panel is painted identically for every role and every picture of the Shot card that can occur in the same public state, with the sheet open and with it closed',
+  'with a public move, a status change and a round transition each held halfway, redrawing only the private section through every picture of the Shot card, two roles and the sheet closing cancels, restarts, shifts or adds no animation outside it, and the public layer is painted as before',
   'every picture that is drawn is drawn on a surface its manifest entry allows: nothing private outside the private panel, nothing phone-only on the table',
   'with every art request refused the page marks no bundle as arrived, every token shows its numeral and no name or marker is hidden',
   'with only the role bundle refused the public art is still drawn and the role card makes no room for a picture',
@@ -291,5 +342,5 @@ const report = {
 await writeFile(resolve(repoRoot, 'design/review/shell-check.json'), `${JSON.stringify(report, null, 2)}\n`);
 for (const failure of failures.slice(0, 40)) console.error(`FAIL ${failure}`);
 if (failures.length > 40) console.error(`… and ${failures.length - 40} more`);
-console.log(`Shell check: ${counts.pageLoads} page loads, ${counts.redraws} redraws, ${counts.publicLayerComparisons} public-layer comparisons, ${counts.picturesPlaced} drawn pictures placed, in ${chrome.version}; ${failures.length} failures`);
+console.log(`Shell check: ${counts.pageLoads} page loads, ${counts.redraws} redraws, ${counts.publicLayerComparisons} public-layer comparisons, ${counts.picturesPlaced} drawn pictures placed, ${counts.privateUpdatesUnderRunningCues} private-only updates under ${counts.publicCueAnimationsHeld} held public cue animations, in ${chrome.version}; ${failures.length} failures`);
 if (failures.length > 0) process.exitCode = 1;

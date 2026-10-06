@@ -92,6 +92,7 @@ None of these is decided here. Each says who decides and what the design does me
 | DSN-D09 | Is there any sound, and from which device? | Game owner | None produced. Two table-display sounds are proposed; phones stay silent for anything secret |
 | DSN-D10 | How is Captain immunity shown, if at all? | Game owner; Backend supplies the fact | The Captain marker is a rank star and the word “Captain”. It says nothing about immunity and is deliberately not a shield |
 | DSN-D11 | Where does an eliminated player's token go? | Game owner | It is drawn where the view says the seat is, flat and hollow. No extra zone is invented |
+| DSN-D12 | When may a cue start, and what may take it away? | Frontend, with Designer | Proposed in the motion contract ([cue freshness](motion-storyboards.md#cue-freshness)): start within 1000 ms, an event at most 1000 ms late, a public cue belongs to a public fact and never to a view, so nothing private can cut one. Frontend's provisional values are 2000 and 5000 ms, and its frame contract still clears public cues on a private-only update (review finding R6, theirs to fix) |
 
 The gameplay and disclosure questions in [decisions.md](../decisions.md) and [integration-baseline.md](../integration-baseline.md#decisions-and-adoption-gates) stay open exactly as recorded. No layout here settles one by drawing it: no route, exit, adjacency, capacity or default is implied by any picture.
 

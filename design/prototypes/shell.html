@@ -19,7 +19,7 @@
   //   &status=<shot specimen from kit.js>  &turn=own|other  &connection=stale
   //   &motion=reduced  &art=none  &proposals=0  &about=open
   import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
-  import { loadProposedCopy, playerShell, settle, STATES, tableShell } from './js/kit.js';
+  import { loadProposedCopy, playerShell, privateAreaEl, publicStateFor, settle, STATES, tableShell } from './js/kit.js';
 
   window.__designReady = false;
   const query = new URLSearchParams(location.search);
@@ -50,8 +50,10 @@
   // Redraws the shell in place, the way a client redraws on a new view: no navigation and
   // no new document. check-shell.mjs steps through every private state with it and asserts
   // that nothing is requested.
+  let drawn = fromQuery;
   window.__draw = async (changes = {}) => {
     const options = { ...fromQuery, ...changes, copy };
+    drawn = options;
     document.querySelector('.ms-shell')?.remove();
     document.body.append(surface === 'table' ? tableShell(options) : playerShell(options));
     await settle();
@@ -62,6 +64,22 @@
       phase.scrollIntoView({ block: 'start' });
       document.documentElement.style.setProperty('--ms-phase-block-size', `${Math.ceil(phase.getBoundingClientRect().height) + 12}px`);
     }
+  };
+  // A private-only update, the way a client redraws one region: the private section is
+  // replaced and nothing else in the document is touched. Only private things may change.
+  // check-shell.mjs uses it to show that a running public cue is left alone.
+  window.__drawPrivate = async (changes = {}) => {
+    const unknown = Object.keys(changes).filter(key => !['specimen', 'role', 'open', 'roleExpanded', 'target'].includes(key));
+    if (unknown.length > 0) throw new Error(`${unknown.join(', ')} is not private: use __draw`);
+    if (surface !== 'player') throw new Error('The table has nothing private to redraw');
+    const before = publicStateFor(drawn);
+    const turn = before.state.activeSeat === drawn.viewer ? 'own' : 'other';
+    const options = { ...drawn, ...changes, turn, connection: before.connection };
+    // Refuses a picture of the Shot card that cannot occur in the public state on screen.
+    const shown = publicStateFor(options);
+    document.querySelector('.ms-private').replaceWith(privateAreaEl({ ...options, state: shown.state, connection: shown.connection, copy }));
+    drawn = options;
+    await settle();
   };
   await window.__draw();
   window.__designReady = true;
