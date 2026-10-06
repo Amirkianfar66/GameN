@@ -77,7 +77,7 @@ For adoption:
 4. **What the gate cannot do.** It holds the reports against the catalogue and the exception list of the same commit. It cannot tell a legitimate change to them from an illegitimate one: a ready case that is deleted, or emptied of its expectations, or moved to manual together with its line in the list, leaves nothing for the gate to find. Its own floor is low, one pass and one baseline with a control in each mode. What shows such a change is the diff. It cannot be made quietly: the scenario files, the exception list, the traceability table and the committed evidence all change with it, and the static check fails until the evidence has been produced again. Review of that diff is the protection, and a code-owner rule on `tests/scenarios/` and `docs/balance/evidence/` would be its repository form; that is a repository setting, and is only suggested here.
 5. **A pass of the gate is not a statement about balance.** It says the checks ran completely against the named engine and found nothing.
 
-The evidence report of 7 October records the gate running on real reports against the landing candidate, the gate refusing reports that are wrong in one respect, a rehearsal of the sequence above in a scratch merge, and an independent review of the gate with what it found.
+The [evidence report of 7 October](evidence/2026-10-07-report-gate.md) records the gate running on real reports against the landing candidate, the gate refusing reports that are wrong in one respect, a rehearsal of the sequence above in a scratch merge, and an independent review of the gate with what it found.
 
 ## BAL-REQ-2
 

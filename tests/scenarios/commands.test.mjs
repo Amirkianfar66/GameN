@@ -16,6 +16,9 @@ const work = mkdtempSync(join(tmpdir(), 'mothership-balance-commands-'));
 test.after(() => { rmSync(work, { recursive: true, force: true }); });
 
 const run = (name, ...args) => spawnSync(process.execPath, [join(root, 'tools/balance/scripts', name), ...args], { cwd: root, encoding: 'utf8' });
+// As `npm run --workspace` starts a script: in the workspace directory, with INIT_CWD naming the
+// directory the person was in.
+const runFrom = (directory, name, ...args) => spawnSync(process.execPath, [join(root, 'tools/balance/scripts', name), ...args], { cwd: join(root, 'tools/balance'), encoding: 'utf8', env: { ...process.env, INIT_CWD: directory } });
 
 // An importable engine with the full-game API whose every setup fails: the integration review's
 // reproducer for finding R2.
@@ -68,6 +71,21 @@ test('with no engine the three commands say NOT RUN, and fail only when an engin
   const strict = run('run-scenarios.mjs', '--engine-root', absent, '--require-engine');
   assert.equal(strict.status, 2, strict.stderr);
   assert.match(strict.stderr, /--require-engine was given and no engine is available/);
+});
+
+test('a relative path means the directory the command was started from, not the workspace directory', () => {
+  // The stand-in engine is found only if --engine-root is resolved against INIT_CWD. Resolved
+  // against the workspace directory there is no engine, and the commands would say NOT RUN.
+  const scenarios = runFrom(work, 'run-scenarios.mjs', '--engine-root', 'refusing', '--out', 'relative/scenarios.json');
+  assert.equal(scenarios.status, 1, scenarios.stdout + scenarios.stderr);
+  assert.match(scenarios.stdout, new RegExp(`all +total +\\d+ +passed +${ready.length - readyInModes} +failed +${readyInModes} `));
+  assert.equal(JSON.parse(readFileSync(join(work, 'relative/scenarios.json'), 'utf8')).totals.failed, readyInModes);
+  const controls = runFrom(work, 'controls.mjs', '--engine-root', 'refusing', '--out', 'relative/controls.json');
+  assert.equal(controls.status, 1, controls.stdout + controls.stderr);
+  assert.equal(JSON.parse(readFileSync(join(work, 'relative/controls.json'), 'utf8')).verdict, 'failed');
+  const playouts = runFrom(work, 'walk.mjs', '--engine-root', 'refusing', '--seeds', '1', '--out', 'relative/playouts.json');
+  assert.equal(playouts.status, 1, playouts.stdout + playouts.stderr);
+  assert.equal(JSON.parse(readFileSync(join(work, 'relative/playouts.json'), 'utf8')).modes[7].completed, 0);
 });
 
 test('an engine that refuses every setup fails the scenario and playout commands without passing or crashing', () => {

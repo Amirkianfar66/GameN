@@ -11,7 +11,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | --- | --- |
 | How the game plays, rule by rule | [game-rules.md](game-rules.md) |
 | Where each rule comes from, what is undecided, and what follows by counting | [rules-audit-v1.md](rules-audit-v1.md) |
-| What has actually been run, and against what | [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md) |
+| What has actually been run, and against what | [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md), and for the landing candidate and the report gate [evidence/2026-10-07-report-gate.md](evidence/2026-10-07-report-gate.md) |
 | What Balance asks of Codex Integration | [integration-requests.md](integration-requests.md), [contract-review.md](contract-review.md) |
 | To run a playtest | [playtest/protocol.md](playtest/protocol.md) |
 
