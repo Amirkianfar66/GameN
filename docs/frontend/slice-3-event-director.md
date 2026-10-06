@@ -1,7 +1,7 @@
 # Slice 3a: the event director
 
 **Issue:** [#3](https://github.com/Amirkianfar66/GameN/issues/3) · **Branch:** `agent/frontend-event-director`, stacked on `agent/frontend-shot-flow` ([PR #18](https://github.com/Amirkianfar66/GameN/pull/18)) at `ba716d7` · **Bootstrap base:** `333c9e820f362a211352bc689372663f29b73ac4`
-**Status: fixture-tested, with open findings from an independent review.** Not integrated with a backend or an emulator. The review found no hidden-information leak in production code, and five things that should be fixed before this slice is merged; they are listed, unfixed, in [verification-slice-3.md](verification-slice-3.md#independent-review). The slice was parked there when the Firebase-connected prototype became the priority.
+**Status: fixture-tested; the findings of two reviews are addressed and await re-review.** Not integrated with a backend or an emulator. The independent review of this slice and the integration review of 6 October 2026 (R3 to R5) found defects in the frame contract a renderer consumes, one development-fixture defect and tests that could not fail. They are fixed in this branch; what was done about each is in [verification-slice-3.md](verification-slice-3.md#review-findings-and-what-was-done). Two values are **proposed, not agreed**: how long a cue stays in a frame and how late one may start. They are the Designer's to agree ([below](#cue-timing-proposed-for-the-designer)).
 
 This slice decides **which authorized presentation events become a moment of emphasis on a screen, and when**. It draws nothing: no animation, style or sound is added, and a page looks exactly as it did after slice 2. Drawing the cues, and the development-only motion gallery, are the next slice. It adds no dependency and changes no shared file.
 
@@ -20,9 +20,9 @@ The specification asks for the gallery first and for its *approved* cues to be c
 A cue is a moment of emphasis for something the screen already shows. An event authorizes it; what it shows is taken from the audience's own views.
 
 - It **states nothing new.** Every fact a cue points at is in the document in words, and is spoken, whether or not the cue is ever drawn. A page that ignores cues loses nothing.
-- It **changes nothing.** No health, resource, turn, phase or deadline depends on one. No timer belongs to one.
-- It **holds nothing up.** There is no queue. Input is taken in the same instant a cue is issued, and the turn clock keeps its seconds.
-- It is **shown at the moment its fact reaches the screen, or never.** A cue is not kept for a page that was in the background, a panel that was closed or a screen that was reconnecting.
+- It **changes nothing.** No health, resource, turn, phase or deadline depends on one.
+- It **holds nothing up.** There is no queue. Input is taken in the same instant a cue is issued, and the turn clock keeps its seconds. The one timer a cue has only takes it out of the frame again when its time is up; nothing waits for it.
+- It is **issued at the moment its fact reaches the screen, or never.** A cue is not kept for a page that was in the background, a panel that was closed or a screen that was reconnecting, and one that has left a frame never comes back.
 
 The whole vocabulary:
 
@@ -34,7 +34,7 @@ The whole vocabulary:
 | `status-change` | `PUBLIC_HEALTH_CHANGED` | The seat and its public health | An impact. The contract gives no cause, so none is shown: no attack, shooter, block or lettering |
 | `registration` | `COMMAND_REGISTERED`, or this device's own accepted receipt | Nothing | An outcome, or a public event. It is private to the seat |
 
-No cue carries an identifier: not the command's, the phase's, the event's or the match's. There is no cue kind for an attack, a block or a result, because no approved fact says one happened (RULE-003).
+A move and a status change carry the public seat they concern. No cue carries any other identifier: not the command's, the phase's, the event's or the match's. There is no cue kind for an attack, a block or a result, because no approved fact says one happened (RULE-003).
 
 ## The director's rules
 
@@ -74,17 +74,57 @@ transport ──unvalidated──▶ event reader ──checked──▶ session
 - **The event reader** is the single place an event enters client state. It parses strictly against the audience's own schema, so a fact the contract does not list, a field it does not name, or a seat's event on the table's stream never gets past it. An event that fails is dropped and nothing else happens: the screen takes its facts from views alone, so a bad event is not a reason for a recovery screen.
 - **The session** hands checked events on in feed order and in step with its state. After an integrity failure it trusts the feed's events no more than its views.
 - **The screen** tells the director where it stands on every redraw, and suspends it whenever the view is not known to be current.
-- **A frame** carries `cues` and `privateCues`. Each cue has a number that only goes up; a new number means show it once. A frame keeps its latest cues until newer ones replace them, so a page that redraws for another reason does not play them again.
+- **A frame** carries `cues` and `privateCues`: every cue that may be shown right now. What they hold, how a page consumes them and when a cue leaves is the next section.
 
 Privacy and visibility are the screen's own rules, enforced whatever a director returns:
 
 | Situation | Public cue | Private cue |
 | --- | --- | --- |
-| Match on screen, in the foreground, private panel open | Shown | Shown |
-| Private panel closed | Shown | **Dropped.** Opening the panel later does not play it |
+| Match on screen, in the foreground, on a current feed, private panel open | Issued | Issued |
+| Private panel closed | Issued | **Dropped.** Opening the panel later does not play it |
 | Page in the background | Dropped | Dropped |
-| Connecting, or a recovery screen | Dropped | Dropped |
+| Connecting, a recovery screen, or a feed that is not current | Dropped | Dropped |
 | Private panel closes while a private cue is in the frame | Kept | **Removed from the frame at once** |
+| The match leaves the screen, the page is hidden, or the feed stops being current while a cue is in the frame | **Removed at once** | **Removed at once** |
+
+A cue that is dropped takes no number, on either list.
+
+## The frame's cue lists: what a page may rely on
+
+This is the contract a renderer consumes. It was corrected after two reviews showed that the first version depended on delivery order, never withdrew a public cue, and numbered both lists with one counter.
+
+**What is in a list.** `frame.cues` holds every public cue that may be shown right now, in the order issued. A cue is added when the director issues it for the view on screen: together with the view when its event came first, with the event when the view came first. The same facts at one revision therefore end up as the same list whichever way they were delivered, and a page that reads only the latest frame, as one sampling once per paint does, has all of them.
+
+**How a page consumes it.** Each cue has a `seq`. A page keeps the highest `seq` it has shown **per list** and shows what is above it, once. The two lists are numbered separately, each from 1, and a number only ever goes up within its own list. The public list is therefore identical whether or not this seat was ever given a private cue. The two spoken lines (`announcement` and `privateAnnouncement`) are numbered apart in the same way.
+
+**When a cue leaves.** It stays in the frame until the first of these, and never comes back:
+
+| What happens | Public cue | Private cue |
+| --- | --- | --- |
+| Another view comes on screen | Leaves: a public cue belongs to the view that shows its fact | Stays: it is about the seat's own command, not about a view |
+| The match is no longer on screen, the page is hidden, or the feed is no longer current | Leaves | Leaves |
+| The private panel closes | Stays | Leaves |
+| Its lifetime is over | Leaves | Leaves |
+
+So a frame of a recovery screen carries no cue, and a page that starts reading late finds nothing older than one lifetime. A page that looks less often than views arrive can miss the emphasis for a view that was replaced before it looked. It never misses a fact: those are in the model.
+
+**What a page must not assume.** That a cue it has started showing is still in the next frame (it may have left; an animation already running may simply finish), or that `seq` values of the two lists can be compared.
+
+## Cue timing: proposed, for the Designer
+
+Two client-side values decide freshness. Neither is a game rule and neither delays or changes anything the model shows. **Both are provisional** (`DEFAULT_CUE_TIMING` in `apps/game/src/screens/screen.ts`) until the Designer has agreed them; changing either is a one-line change.
+
+| Value | Proposed | Meaning | Why this number |
+| --- | --- | --- | --- |
+| Lifetime | 2000 ms | A cue leaves the frame this long after it was issued, if nothing took it out sooner | Longer than any cue treatment in the motion gallery draft, short enough that a page mounted late does not play something stale |
+| Lateness | 5000 ms | An event that arrives after its view is a cue only if that view has been on screen for no longer than this | By then the fact has long been drawn where it is. The delivery proposal sets no bound, so without one an event a minute late would still play |
+
+Two more freshness rules are not numbers:
+
+- **A registration learned late is history.** The command flow reports a registration as a cue only on the page that sent the command, and only while the phase it was sent in is on screen. A lookup answered in a later phase, or on a reloaded page, shows its report and stamps nothing, as an event arriving that late would not.
+- **An event that arrives just after a feed came back is history**, even if it is for the view on screen. This follows the delivery proposal to the letter ("establish a replay cutoff"), and costs an emphasis at worst.
+
+For the Designer to decide: the two numbers; whether a lifetime should differ by kind of cue; and whether several cues in one frame play together, in sequence, or capped.
 
 ## A registration, end to end
 
@@ -106,7 +146,7 @@ Events are not needed for correctness. If the stream is late, missing or wrong, 
 - **Hidden information.** A registration is a private cue and is never issued outside the open private panel. No cue names a role, a target, a shooter or a cause. Event identifiers in the fixture are counted within one audience's stream, so no audience can see from a gap that something was written for another.
 - **Registration is not damage.** `registration` has the same neutral shape for any secret command. Nothing about it reaches a public surface.
 - **The client adjudicates nothing.** The director compares views and never derives an outcome. A health change is a status that changed.
-- **Server-controlled deadlines.** A cue has no timer and no say in the countdown.
+- **Server-controlled deadlines.** A cue has no say in the countdown. Its one timer takes it out of the frame and does nothing else.
 - **Reduced motion.** The cues issued are the same; how little is drawn for them is the renderer's part, keyed on the model's motion setting, which changes with the very next frame.
 - **Fixture truth stays out of production.** Event streams, operator controls and synthetic facts live under `apps/game/dev`; the exclusion check covers them.
 
@@ -131,7 +171,7 @@ Each is reversible and is listed so the owning role can overrule it.
 | A health change is `status-change`; the `publicImpact` token is unused | The token's name implies an impact. No fact says there was one | Designer; RULE-003 |
 | A move is drawn from where the token was on this screen | After a skipped revision the event's own origin was never shown here | Designer |
 | No cue carries an identifier | A renderer needs none, and a command identifier in a frame is one more place it could leak from | Codex Integration |
-| Memory is bounded: 64 events waiting, 256 identifiers remembered | A correct feed stays far below both. A flood costs old entries, not growth | Codex Integration |
+| Memory is bounded: 64 events waiting, 256 identifiers remembered | A correct feed stays far below both. Identifiers are remembered per audience and only for events that can still be played, so a whole stream handed over again adds nothing. A feed that floods past the bound gets no more cues until the screen moves on, and never a cue twice | Codex Integration |
 | An event that fails a check is dropped silently | Facts come from views. A bad event is not worth a recovery screen | Codex Integration: if such events should be reported, a diagnostics port is needed; none exists |
 
 ## Not in this slice
@@ -145,6 +185,6 @@ Each is reversible and is listed so the owning role can overrule it.
 ## Open items carried by this slice
 
 - **For Codex Integration:** requests E to G in [contract-re-review.md](contract-re-review.md#requests): confirm the two statements about revisions; say where the ordinal lives; say how many revisions one round resolution writes.
-- **For the Designer:** the choices above; and whether several cues issued together should play together, in sequence or capped. They are issued in stream order and nothing here sequences them.
+- **For the Designer:** the choices above; the two proposed cue timing values and the questions with them; and whether several cues issued together should play together, in sequence or capped. They are issued in stream order and nothing here sequences them.
 - **For Game Balance:** whether any cue, as specified here, gives one player information or time another does not have. The director's position is that it cannot, because every cue restates a fact on the same screen at the same moment.
 - **Unchanged and still open:** RULE-001 to RULE-010; the reload lock and the private-result questions from slice 2.

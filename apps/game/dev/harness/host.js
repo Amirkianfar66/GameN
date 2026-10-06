@@ -4,7 +4,7 @@
 // forwards input and platform signals back. This is the interim renderer used by the
 // fixture harness. It holds no game state and makes no decision of its own.
 
-import { parseShellIntent, planCues, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
+import { cuesAlreadyIn, parseShellIntent, planCues, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A statement, not only a comment: it survives bundling and comment stripping, so the
 // production-exclusion check finds this module wherever it ends up.
@@ -91,11 +91,13 @@ export function mountScreen({ container, screen, render }) {
 
   let rootAttributes = {};
   let drawn = null;
-  let spokenSeq = 0;
+  // One mark per channel: public and private lines are numbered apart.
+  const spoken = { public: 0, private: 0 };
   let focusSeq = 0;
   let privacyEpoch = 0;
-  // Cues already in the frame this host starts on are not its to play.
-  let cuesShown = Math.max(0, ...[...screen.getFrame().cues, ...screen.getFrame().privateCues].map(item => item.seq));
+  // Cues already in the frame this host starts on are not its to play. One mark per list:
+  // the two are numbered apart.
+  let cuesShown = cuesAlreadyIn(screen.getFrame().cues, screen.getFrame().privateCues);
   const cueTimers = new Map();
 
   // A cue is a mark on the elements it is about, and the stylesheet does the rest. The mark
@@ -168,8 +170,9 @@ export function mountScreen({ container, screen, render }) {
     }
     // Two channels, never mixed: what anyone could be told, then what is this seat's alone.
     for (const [line, isPrivate] of [[frame.announcement, false], [frame.privateAnnouncement, true]]) {
-      if (line === null || line.seq <= spokenSeq) continue;
-      spokenSeq = line.seq;
+      const channel = isPrivate ? 'private' : 'public';
+      if (line === null || line.seq <= spoken[channel]) continue;
+      spoken[channel] = line.seq;
       speak(container, line.politeness === 'assertive' ? assertive : polite, line.text, isPrivate);
     }
 

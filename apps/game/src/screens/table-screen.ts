@@ -6,7 +6,7 @@ import { createPublicSession } from '../session/audience-session.js';
 import type { SessionTiming } from '../session/audience-session.js';
 import type { PublicTransport } from '../transport/transport.js';
 import { createScreen } from './screen.js';
-import type { ScreenController, ScreenHost } from './screen.js';
+import type { CueTiming, ScreenController, ScreenHost } from './screen.js';
 
 export interface TableScreenOptions {
   readonly transport: PublicTransport;
@@ -14,6 +14,7 @@ export interface TableScreenOptions {
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly timing?: Partial<SessionTiming>;
+  readonly cueTiming?: Partial<CueTiming>;
 }
 
 /**
@@ -31,6 +32,7 @@ export function createTableScreen(options: TableScreenOptions): ScreenController
     buildModel: buildTableShellModel,
     announcer: createTableAnnouncer(),
     director: createPublicDirector(),
+    cueTiming: options.cueTiming,
     handleIntent: () => null,
   });
 }

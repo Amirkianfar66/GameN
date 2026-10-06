@@ -969,12 +969,58 @@ test('bad events can be aimed at one feed to test the client; nothing private go
   assert.equal(PlayerPresentationEventSchema.safeParse(misdelivered).success, true, 'Well-formed: only the client’s own checks keep it off the screen');
   assert.deepEqual(scenario.status().events.stored, { public: 0, 'seat-1': 0, 'seat-2': 0 });
 
-  // Nothing is sent to a feed that is down.
+  // Nothing is sent to a feed that is down, though its stream holds events to hand over.
+  scenario.synthetic('move');
+  assert.equal(scenario.status().events.stored['seat-1'], 1, 'There is something a redelivery would send');
   scenario.setConnected('seat-1', false);
   const count = eventsOf('seat-1').length;
   scenario.injectEvent('seat-1', 'unreadable');
   scenario.redeliverEvents('seat-1');
   assert.equal(eventsOf('seat-1').length, count);
+  // Up again, the same redelivery does send it.
+  scenario.setConnected('seat-1', true);
+  const up = eventsOf('seat-1').length;
+  scenario.redeliverEvents('seat-1');
+  assert.equal(eventsOf('seat-1').length, up + 1);
+});
+
+test('the registered step follows whatever the operator did before it: revisions never go back and nobody else hears of it', () => {
+  // From the authored start it is exactly the authored step.
+  const authored = createScenario();
+  authored.advance();
+  assert.equal(authored.step().id, 'registered');
+  for (const [audience, name] of [['public', 'public'], ['seat-1', 'officer'], ['seat-2', 'target']]) {
+    assert.deepEqual(authored.viewFor(audience), createOfficerFixture('protected').afterRegistration[name], `${audience}: the authored view after registration`);
+  }
+
+  // After synthetic facts moved every view on, the step still only touches the Officer.
+  const scenario = createScenario();
+  const { feeds } = tap(scenario);
+  scenario.synthetic('move');
+  scenario.synthetic('status');
+  const revisions = { ...scenario.status().revisions };
+  const stored = { ...scenario.status().events.stored };
+  const seen = Object.fromEntries(AUDIENCES.map(audience => [audience, feeds[audience].length]));
+  const others = Object.fromEntries(['public', 'seat-2'].map(audience => [audience, scenario.viewFor(audience)]));
+  scenario.advance();
+  assert.equal(scenario.step().id, 'registered');
+  assert.deepEqual(scenario.status().revisions, { ...revisions, 'seat-1': revisions['seat-1'] + 1 }, 'One revision on for the Officer, and no revision anywhere goes back');
+  assert.deepEqual(scenario.status().events.stored, { ...stored, 'seat-1': stored['seat-1'] + 1 }, 'One event, on the Officer’s stream');
+  for (const audience of ['public', 'seat-2']) {
+    assert.equal(feeds[audience].length, seen[audience], `${audience}: an untouched audience hears nothing`);
+    assert.deepEqual(scenario.viewFor(audience), others[audience]);
+  }
+  const officer = scenario.viewFor('seat-1');
+  assert.deepEqual([officer.self.shotAvailable, officer.ownPendingCommandIds.length], [false, 1]);
+  assert.equal(PlayerViewSchema.safeParse(officer).success, true);
+  // What the synthetic facts changed is still there: the step did not put the authored board back.
+  assert.equal(officer.seats.find(seat => seat.seatId === 'seat-8').location, others.public.seats.find(seat => seat.seatId === 'seat-8').location);
+  assert.equal(officer.seats.find(seat => seat.seatId === 'seat-9').health, 'Injured');
+  // And the rest of the script still runs forward from there.
+  scenario.advance();
+  scenario.advance();
+  const end = scenario.status().revisions;
+  for (const audience of AUDIENCES) assert.equal(end[audience] > revisions[audience], true, audience);
 });
 
 test('no event and no status line carries server-only truth, and the public stream names no role and no command', () => {

@@ -80,14 +80,25 @@ function describe(specimen) {
   about.replaceChildren(element('dt', 'Status'), status, ...facts.flatMap(([term, value]) => [element('dt', term), element('dd', value)]));
 }
 
+/** What the director has issued for the scene now playing, collected as frames go by. */
+let issuedSoFar = { shown: { public: 0, private: 0 }, kinds: [] };
+
 function reportIssued(specimen, screen) {
   if (specimen.status === 'not-connected') {
     issued.textContent = 'Cues issued by the director for this scene: none, and there cannot be one. This treatment is drawn by the gallery alone.';
     return;
   }
+  // A cue leaves a frame again when its time is up, so what was issued is collected as it
+  // is seen, per list: the two lists are numbered apart.
   const frame = screen.getFrame();
-  const kinds = [...frame.cues, ...frame.privateCues].sort((a, b) => a.seq - b.seq).map(item => `${item.cue.kind} (#${item.seq})`);
-  const text = `Cues issued by the director for this scene: ${kinds.length > 0 ? kinds.join(', ') : 'none'}.`;
+  for (const [list, name] of [[frame.cues, 'public'], [frame.privateCues, 'private']]) {
+    for (const item of list) {
+      if (item.seq <= issuedSoFar.shown[name]) continue;
+      issuedSoFar.shown[name] = item.seq;
+      issuedSoFar.kinds.push(`${item.cue.kind} (${name} #${item.seq})`);
+    }
+  }
+  const text = `Cues issued by the director for this scene: ${issuedSoFar.kinds.length > 0 ? issuedSoFar.kinds.join(', ') : 'none'}.`;
   if (issued.textContent !== text) issued.textContent = text;
 }
 
@@ -102,6 +113,7 @@ function play() {
     current.unmount();
   }
   for (const overlay of stage.querySelectorAll('.gallery-overlay')) overlay.remove();
+  issuedSoFar = { shown: { public: 0, private: 0 }, kinds: [] };
   const specimen = SPECIMENS.find(candidate => candidate.id === choice('specimen')) ?? SPECIMENS[0];
   stage.dataset.surface = specimen.surface;
   describe(specimen);

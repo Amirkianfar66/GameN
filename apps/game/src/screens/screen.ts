@@ -4,17 +4,48 @@ import { estimateDeadline, millisecondsToNextSecond } from '../clock/deadline.js
 import type { ClientPorts } from '../ports.js';
 import type { AudienceSession } from '../session/audience-session.js';
 
-/** One thing for the page's live region to say. A new seq means say it, even if the text repeats; seq only ever goes up. */
+/**
+ * One thing for the page's live region to say. A new seq means say it, even if the text
+ * repeats. The public and the private line are numbered separately, each from 1, and a
+ * number only ever goes up within its own channel: nothing about one channel can be read
+ * from the other's numbers.
+ */
 export interface SpokenLine {
   readonly seq: number;
   readonly politeness: 'polite' | 'assertive';
   readonly text: string;
 }
 
-/** One cue for the page to show once. A new seq means show it; seq only ever goes up, across both lists of a frame. */
+/**
+ * One cue for the page to show once. A consumer keeps the highest seq it has shown, per
+ * list, and shows what is above it. Public and private cues are numbered separately, each
+ * from 1, and a number only ever goes up within its own list: the public list is the same
+ * whether or not this seat was ever given a private cue.
+ */
 export interface FrameCue {
   readonly seq: number;
   readonly cue: Cue;
+}
+
+/**
+ * How long a cue may be shown, and how late one may start. Client-side technical values,
+ * PROVISIONAL until the Designer has agreed them (docs/frontend/slice-3-event-director.md);
+ * neither is a game rule, and neither delays or changes anything the model shows.
+ */
+export interface CueTiming {
+  /** A cue leaves the frame this long after it was issued, if nothing took it out sooner. */
+  readonly lifetimeMs: number;
+  /**
+   * An event that arrives after its view is a cue only if the view has been on screen for
+   * no longer than this. Later than that, the fact has long been shown and the moment is over.
+   */
+  readonly maxLatenessMs: number;
+}
+export const DEFAULT_CUE_TIMING: CueTiming = { lifetimeMs: 2_000, maxLatenessMs: 5_000 };
+
+interface LiveCue extends FrameCue {
+  /** By this device's monotonic clock. Not part of the frame. */
+  readonly expiresAt: number;
 }
 
 const NO_CUES: readonly FrameCue[] = Object.freeze([]);
@@ -42,15 +73,28 @@ export interface ScreenFrame<Model> {
    */
   readonly privacyEpoch: number;
   /**
-   * The cues issued most recently for what anyone at the table may see, in order. A cue is
-   * emphasis for something the model already shows: a page that ignores this list loses no
-   * fact, and nothing ever waits for a cue to finish. One is put here at the moment its
-   * fact reaches a match that is on screen in the foreground, or never.
+   * Every cue that may be shown right now for what anyone at the table may see, in the
+   * order issued. A cue is emphasis for something the model already shows: a page that
+   * ignores this list loses no fact, and nothing ever waits for a cue to finish.
+   *
+   * What is in the list does not depend on how the facts were delivered. A cue is added
+   * when the director issues it for the view on screen: with the view when its event came
+   * first, with the event when the view came first. It stays until one of these takes it
+   * out, and it never comes back:
+   *   - another view comes on screen (a public cue belongs to the view that shows its fact);
+   *   - the match is no longer on screen in the foreground, or its feed is no longer current;
+   *   - its lifetime is over.
+   * So a consumer that reads only the latest frame sees every cue of the view on screen
+   * that is still due, and one that starts reading late finds nothing older than a cue's
+   * lifetime. A consumer that looks less often than views arrive can miss the emphasis for
+   * a view that was replaced before it looked. It never misses a fact: those are in the model.
    */
   readonly cues: readonly FrameCue[];
   /**
-   * The same for cues that belong to this seat alone. Filled only while private content is
-   * on screen, and empty again the moment it is not.
+   * Cues that belong to this seat alone. They are in the list only while private content is
+   * on screen, and gone the moment it is not. A private cue is about the seat's own command,
+   * not about a view, so a new view does not take it out; its lifetime does, and so does
+   * everything that takes a public cue out except a new view.
    */
   readonly privateCues: readonly FrameCue[];
 }
@@ -103,6 +147,7 @@ interface ScreenConfig<View, Event, Input, Model> {
   readonly director: Director<View, Event>;
   /** Cues from a source other than the event feed. Asked on every redraw, once the input is built. */
   readonly moreCues?: () => IssuedCue[];
+  readonly cueTiming?: Partial<CueTiming> | undefined;
   /** Surface-specific intents. Returns null when the intent is not handled or changed nothing. */
   readonly handleIntent: (intent: ShellIntent, context: { readonly local: LocalState; readonly model: Model }) => IntentOutcome<Model> | null;
   /** Other sources of change that should redraw the screen. Returns the function that stops watching. */
@@ -118,19 +163,28 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
   let local: LocalState = { pageVisible: true, privateRevealed: false, deviceReducedMotion: false, motionChoice: null };
   let announcement: SpokenLine | null = null;
   let privateAnnouncement: SpokenLine | null = null;
-  let spokenSeq = 0;
+  // One counter per channel. A shared one would let the public numbers show that something
+  // private had been said or shown in between.
+  let publicSpokenSeq = 0;
+  let privateSpokenSeq = 0;
   let focus: ScreenFrame<Model>['focus'] = null;
   let focusSeq = 0;
   /** The current focus request names an element that exists only inside the private panel. */
   let focusIsPrivate = false;
   let privacyEpoch = 0;
   let privateWasOpen = false;
-  let cues = NO_CUES;
-  let privateCues = NO_CUES;
-  let cueSeq = 0;
+  const cueTiming: CueTiming = { ...DEFAULT_CUE_TIMING, ...config.cueTiming };
+  let cues: readonly LiveCue[] = [];
+  let privateCues: readonly LiveCue[] = [];
+  let publicCueSeq = 0;
+  let privateCueSeq = 0;
+  /** The view the cues in the frame were issued for, and when it came on screen. */
+  let cueView: View | null = null;
+  let cueViewSince = 0;
   /** What the director made of events that arrived since the last redraw. */
   let eventCues: IssuedCue[] = [];
   let tick: unknown = null;
+  let cueExpiry: unknown = null;
   let stopSession: (() => void) | null = null;
   let stopEvents: (() => void) | null = null;
   let stopWatching: (() => void) | null = null;
@@ -156,13 +210,19 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
     };
   }
 
-  let frame: ScreenFrame<Model> = { model: compute().model, announcement, privateAnnouncement, focus, privacyEpoch, cues, privateCues };
+  /** What the frame hands out: the cue and its number, and nothing about this device's clock. */
+  const published = (list: readonly LiveCue[]): readonly FrameCue[] => (list.length === 0 ? NO_CUES : list.map(({ seq, cue }) => ({ seq, cue })));
+  let frame: ScreenFrame<Model> = { model: compute().model, announcement, privateAnnouncement, focus, privacyEpoch, cues: NO_CUES, privateCues: NO_CUES };
+  let frameCues: readonly LiveCue[] = cues;
+  let framePrivateCues: readonly LiveCue[] = privateCues;
   let drawn = JSON.stringify(frame.model);
 
   function refresh(focusFor?: (model: Model) => string | null): void {
     if (disposed) return;
     if (tick !== null) ports.scheduler.clearTimeout(tick);
     tick = null;
+    if (cueExpiry !== null) ports.scheduler.clearTimeout(cueExpiry);
+    cueExpiry = null;
 
     const { input, model, remainingMs, view, current } = compute();
     const privateOpen = local.pageVisible && local.privateRevealed;
@@ -172,7 +232,7 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
       // no private cue, and no request to focus something that only a phone able to act
       // would have.
       privateAnnouncement = null;
-      privateCues = NO_CUES;
+      privateCues = [];
       if (focusIsPrivate) focus = null;
       focusIsPrivate = false;
     }
@@ -180,39 +240,78 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
 
     // The director is told where the screen stands on every redraw, so it judges each event
     // against the view that is actually shown. Only a view known to be current counts.
-    const issued = eventCues;
+    const now = ports.clock.now();
+    const fromEvents = eventCues;
     eventCues = [];
-    if (current && view !== null) issued.push(...director.onView(view));
-    else director.suspend();
-    if (config.moreCues) issued.push(...config.moreCues());
-    // A cue is shown now or not at all. With no match in front of the player there is
-    // nothing to emphasize, and a private cue belongs inside the open private panel.
-    const matchShowing = model.screen === 'match' && local.pageVisible;
-    const nextPublic: FrameCue[] = [];
-    const nextPrivate: FrameCue[] = [];
-    for (const { cue, privacy } of issued) {
-      const list = privacy === 'private' ? (privateOpen ? nextPrivate : null) : matchShowing ? nextPublic : null;
-      if (list === null) continue;
-      cueSeq += 1;
-      list.push({ seq: cueSeq, cue });
-    }
-    if (nextPublic.length > 0) cues = nextPublic;
-    if (nextPrivate.length > 0) privateCues = nextPrivate;
+    const withView = current && view !== null ? director.onView(view) : [];
+    if (!current || view === null) director.suspend();
+    const fromElsewhere = config.moreCues ? config.moreCues() : [];
 
-    const say = (lines: readonly LiveAnnouncement[]): SpokenLine => {
-      spokenSeq += 1;
-      return {
-        seq: spokenSeq,
-        politeness: lines.some(line => line.politeness === 'assertive') ? 'assertive' : 'polite',
-        text: lines.map(line => line.text).join(' '),
-      };
-    };
+    // A public cue belongs to the view that shows its fact: with another view on screen it
+    // is no longer due. A private cue belongs to this seat's own command, not to a view, so
+    // a new view leaves it alone. With no match in front of the player on a current feed,
+    // nothing issued earlier is still due, public or private.
+    const matchShowing = model.screen === 'match' && local.pageVisible && current && view !== null;
+    if (view !== cueView) {
+      cueView = view;
+      cueViewSince = now;
+      if (cues.length > 0) cues = [];
+    }
+    if (!matchShowing) {
+      if (cues.length > 0) cues = [];
+      if (privateCues.length > 0) privateCues = [];
+    }
+    // The rest leave when their time is up, whether or not anyone showed them.
+    if (cues.some(cue => cue.expiresAt <= now)) cues = cues.filter(cue => cue.expiresAt > now);
+    if (privateCues.some(cue => cue.expiresAt <= now)) privateCues = privateCues.filter(cue => cue.expiresAt > now);
+
+    // An event that came after its view is a cue only while that view is still new on screen.
+    const late = now - cueViewSince > cueTiming.maxLatenessMs;
+    const issued = [...(late ? [] : fromEvents), ...withView, ...fromElsewhere];
+    // A cue is shown now or not at all: one that cannot be shown takes no number and is
+    // never kept for a later frame. A private cue belongs inside the open private panel.
+    const addedPublic: LiveCue[] = [];
+    const addedPrivate: LiveCue[] = [];
+    for (const { cue, privacy } of issued) {
+      if (!matchShowing) continue;
+      if (privacy === 'private') {
+        if (!privateOpen) continue;
+        privateCueSeq += 1;
+        addedPrivate.push({ seq: privateCueSeq, cue, expiresAt: now + cueTiming.lifetimeMs });
+      } else {
+        publicCueSeq += 1;
+        addedPublic.push({ seq: publicCueSeq, cue, expiresAt: now + cueTiming.lifetimeMs });
+      }
+    }
+    if (addedPublic.length > 0) cues = [...cues, ...addedPublic];
+    if (addedPrivate.length > 0) privateCues = [...privateCues, ...addedPrivate];
+    // Nothing waits for this timer. It only takes a cue out of the frame when its time is up,
+    // so that a frame read late never offers an old cue as a new one.
+    const nextExpiry = Math.min(...cues.map(cue => cue.expiresAt), ...privateCues.map(cue => cue.expiresAt));
+    if (Number.isFinite(nextExpiry)) {
+      cueExpiry = ports.scheduler.setTimeout(() => {
+        cueExpiry = null;
+        refresh();
+      }, Math.max(0, nextExpiry - now));
+    }
+
+    const say = (seq: number, lines: readonly LiveAnnouncement[]): SpokenLine => ({
+      seq,
+      politeness: lines.some(line => line.politeness === 'assertive') ? 'assertive' : 'polite',
+      text: lines.map(line => line.text).join(' '),
+    });
     const lines = config.announcer.next(input);
     const open = lines.filter(line => line.private !== true);
     // A private line is spoken only in front of an open private panel, whatever produced it.
     const secret = privateOpen ? lines.filter(line => line.private === true) : [];
-    if (open.length > 0) announcement = say(open);
-    if (secret.length > 0) privateAnnouncement = say(secret);
+    if (open.length > 0) {
+      publicSpokenSeq += 1;
+      announcement = say(publicSpokenSeq, open);
+    }
+    if (secret.length > 0) {
+      privateSpokenSeq += 1;
+      privateAnnouncement = say(privateSpokenSeq, secret);
+    }
     const blocked = model.screen === 'blocked' && frame.model.screen !== 'blocked';
     const requested = blocked ? SHELL_IDS.blockedHeading : focusFor?.(model) ?? null;
     if (requested !== null) {
@@ -236,10 +335,15 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
     const serialized = JSON.stringify(model);
     if (
       serialized === drawn && announcement === frame.announcement && privateAnnouncement === frame.privateAnnouncement
-      && focus === frame.focus && privacyEpoch === frame.privacyEpoch && cues === frame.cues && privateCues === frame.privateCues
+      && focus === frame.focus && privacyEpoch === frame.privacyEpoch && cues === frameCues && privateCues === framePrivateCues
     ) return;
     drawn = serialized;
-    frame = { model, announcement, privateAnnouncement, focus, privacyEpoch, cues, privateCues };
+    frame = {
+      model, announcement, privateAnnouncement, focus, privacyEpoch,
+      cues: cues === frameCues ? frame.cues : published(cues), privateCues: privateCues === framePrivateCues ? frame.privateCues : published(privateCues),
+    };
+    frameCues = cues;
+    framePrivateCues = privateCues;
     for (const listener of [...listeners]) listener();
   }
 
@@ -295,6 +399,8 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
       disposed = true;
       if (tick !== null) ports.scheduler.clearTimeout(tick);
       tick = null;
+      if (cueExpiry !== null) ports.scheduler.clearTimeout(cueExpiry);
+      cueExpiry = null;
       stopSession?.();
       stopEvents?.();
       stopWatching?.();

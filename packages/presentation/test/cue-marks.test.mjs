@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  buildPlayerShellModel, buildTableShellModel, CUE_AT, cueMark, planCues, renderPlayerShell, renderTableShell,
+  buildPlayerShellModel, buildTableShellModel, CUE_AT, cueMark, cuesAlreadyIn, planCues, renderPlayerShell, renderTableShell,
 } from '@mothership/presentation';
 import { fixture, openInput, playerInput, tableInput } from './support/inputs.mjs';
 import { byClass, byRegion, find, findAll } from './support/markup-audit.mjs';
@@ -89,27 +89,48 @@ const PHASE = { kind: 'phase-change' };
 const MOVE = { kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' };
 const STAMP = { kind: 'registration' };
 
-test('a renderer plays each numbered cue once: only numbers above the last one it showed, in order', () => {
-  assert.deepEqual(planCues(0, [], []), { marks: [], shown: 0 });
-  const first = planCues(0, [numbered(1, PHASE), numbered(2, MOVE)], []);
-  assert.deepEqual(first, { marks: [{ at: 'phase', name: 'phase-change' }, { at: 'seat-8/place', name: 'public-move' }], shown: 2 });
+const NONE = { public: 0, private: 0 };
+
+test('a renderer plays each numbered cue once: only numbers above the last one it showed from that list, in order', () => {
+  assert.deepEqual(planCues(NONE, [], []), { marks: [], shown: NONE });
+  const first = planCues(NONE, [numbered(1, PHASE), numbered(2, MOVE)], []);
+  assert.deepEqual(first, { marks: [{ at: 'phase', name: 'phase-change' }, { at: 'seat-8/place', name: 'public-move' }], shown: { public: 2, private: 0 } });
   // The same frame again, as after a countdown tick: nothing.
-  assert.deepEqual(planCues(first.shown, [numbered(1, PHASE), numbered(2, MOVE)], []), { marks: [], shown: 2 });
-  // A private cue issued later, while the public list still holds the older ones.
-  const second = planCues(first.shown, [numbered(1, PHASE), numbered(2, MOVE)], [numbered(3, STAMP)]);
-  assert.deepEqual(second, { marks: [{ at: 'registration', name: 'registration' }], shown: 3 });
-  // Both lists new at once: in the order the cues were issued, whichever list they are in.
-  assert.deepEqual(planCues(3, [numbered(5, MOVE)], [numbered(4, STAMP)]).marks.map(mark => mark.name), ['registration', 'public-move']);
+  assert.deepEqual(planCues(first.shown, [numbered(1, PHASE), numbered(2, MOVE)], []), { marks: [], shown: first.shown });
+  // A list that grew while the frame was up: only what was added.
+  const grown = planCues({ public: 1, private: 0 }, [numbered(1, PHASE), numbered(2, MOVE)], []);
+  assert.deepEqual(grown.marks.map(mark => mark.name), ['public-move']);
+});
+
+test('the two lists are numbered apart: a private cue is played whatever the public numbers are, and the other way round', () => {
+  // A private cue numbered 1 while the public list is already at 2. One mark for both lists would skip it.
+  const stamp = planCues({ public: 2, private: 0 }, [numbered(1, PHASE), numbered(2, MOVE)], [numbered(1, STAMP)]);
+  assert.deepEqual(stamp, { marks: [{ at: 'registration', name: 'registration' }], shown: { public: 2, private: 1 } });
+  // And a public cue numbered 1 after two private ones.
+  const move = planCues({ public: 0, private: 2 }, [numbered(1, MOVE)], [numbered(2, STAMP)]);
+  assert.deepEqual(move, { marks: [{ at: 'seat-8/place', name: 'public-move' }], shown: { public: 1, private: 2 } });
+  // Both new in one frame: each list in its own order, the public one first.
+  assert.deepEqual(planCues(NONE, [numbered(1, PHASE), numbered(2, MOVE)], [numbered(1, STAMP)]).marks.map(mark => mark.name), ['phase-change', 'public-move', 'registration']);
+});
+
+test('a cue that has left the frame is not played again when it is gone, and its number is not reused', () => {
+  const first = planCues(NONE, [numbered(1, PHASE)], []);
+  // Its time was up: the list is empty. Nothing to play, and the mark stays where it was.
+  assert.deepEqual(planCues(first.shown, [], []), { marks: [], shown: first.shown });
+  // The next cue of that list has a higher number and is played.
+  assert.deepEqual(planCues(first.shown, [numbered(2, MOVE)], []).marks.map(mark => mark.name), ['public-move']);
 });
 
 test('a renderer that starts on a frame which already carries cues plays none of them', () => {
-  const lists = [[numbered(7, PHASE)], [numbered(8, STAMP)]];
-  const startedAt = Math.max(...lists.flat().map(item => item.seq));
-  assert.deepEqual(planCues(startedAt, ...lists), { marks: [], shown: 8 });
+  const lists = [[numbered(7, PHASE)], [numbered(3, STAMP)]];
+  const startedAt = cuesAlreadyIn(...lists);
+  assert.deepEqual(startedAt, { public: 7, private: 3 });
+  assert.deepEqual(planCues(startedAt, ...lists), { marks: [], shown: startedAt });
+  assert.deepEqual(cuesAlreadyIn([], []), NONE);
 });
 
 test('a cue this build cannot place is skipped, and its number is still counted as shown', () => {
-  const plan = planCues(0, [numbered(1, { kind: 'something-new' }), numbered(2, PHASE)]);
-  assert.deepEqual(plan, { marks: [{ at: 'phase', name: 'phase-change' }], shown: 2 });
-  assert.deepEqual(planCues(plan.shown, [numbered(1, { kind: 'something-new' }), numbered(2, PHASE)]).marks, []);
+  const plan = planCues(NONE, [numbered(1, { kind: 'something-new' }), numbered(2, PHASE)], []);
+  assert.deepEqual(plan, { marks: [{ at: 'phase', name: 'phase-change' }], shown: { public: 2, private: 0 } });
+  assert.deepEqual(planCues(plan.shown, [numbered(1, { kind: 'something-new' }), numbered(2, PHASE)], []).marks, []);
 });

@@ -41,7 +41,7 @@ async function world() {
     host, scenario, sent, screens, names, frame,
     cues: name => frame(name).cues.map(item => item.cue),
     privateCues: name => frame(name).privateCues.map(item => item.cue),
-    /** Every cue number each screen has ever shown in a frame, public and private. */
+    /** The cue lists of each screen's current frame, public and private. */
     allCues: () => Object.fromEntries(names.map(name => [name, [frame(name).cues, frame(name).privateCues]])),
     frames: () => Object.fromEntries(names.map(name => [name, frame(name)])),
     html: name => toHtml((name === 'table' ? renderTableShell : renderPlayerShell)(frame(name).model)),
@@ -137,9 +137,11 @@ test('journey: a screen that was away replays nothing on return, though its stre
   const w = await world();
   w.scenario.endFirstTurn();
   await flush();
-  const played = w.allCues();
+  for (const name of w.names) assert.deepEqual(w.cues(name), [{ kind: 'phase-change' }], `${name}: the turn change is being emphasized`);
   for (const audience of ['public', 'seat-1', 'seat-2']) w.scenario.setConnected(audience, false);
   await flush();
+  // A feed that is no longer current emphasizes nothing: the last known state stays, its cue does not.
+  for (const name of w.names) assert.deepEqual([w.frame(name).cues, w.frame(name).privateCues], [[], []], name);
   // The match moves on while every feed is down.
   w.scenario.advance();
   w.scenario.synthetic('move');
@@ -149,7 +151,7 @@ test('journey: a screen that was away replays nothing on return, though its stre
   for (const name of w.names) {
     assert.equal(w.frame(name).model.connection, 'live', name);
     assert.equal(w.frame(name).model.match.phase.phaseLabel, 'Round resolution', name);
-    assert.deepEqual([w.frame(name).cues, w.frame(name).privateCues], played[name], `${name}: nothing played for what was missed`);
+    assert.deepEqual([w.frame(name).cues, w.frame(name).privateCues], [[], []], `${name}: nothing played for what was missed, and nothing old brought back`);
     assert.match(w.frame(name).announcement.text, /^Reconnected\. Round 2\. Round resolution\.$/, `${name}: the present is stated instead`);
     assert.match(w.text(name), /Player 9[^.]*Injured/, `${name}: and the missed facts are on screen`);
   }
@@ -157,7 +159,7 @@ test('journey: a screen that was away replays nothing on return, though its stre
   w.scenario.setEventOrder('event-first');
   for (const name of w.names) w.screens[name].dispatch({ type: 'session/reconnect' });
   await flush();
-  for (const name of w.names) assert.deepEqual([w.frame(name).cues, w.frame(name).privateCues], played[name], name);
+  for (const name of w.names) assert.deepEqual([w.frame(name).cues, w.frame(name).privateCues], [[], []], name);
   // What happens next is played.
   w.scenario.synthetic('move');
   await flush();

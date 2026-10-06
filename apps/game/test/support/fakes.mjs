@@ -139,9 +139,13 @@ export function createFakeTransport(host, { audience = 'player', mode = 'fixture
       for (const listener of [...listeners]) listener.onPayload(structuredClone(payload));
       await flush();
     },
-    /** One presentation event on this audience's stream. Like a view, it is handed over as it is. */
-    async deliverEvent(payload) {
-      for (const listener of [...listeners]) listener.onEventPayload(structuredClone(payload));
+    /**
+     * One presentation event on this audience's stream. A copy by default, as a transport
+     * that parses bytes hands over; `asIs` hands over the very object, as one that parses
+     * once and shares the result might.
+     */
+    async deliverEvent(payload, { asIs = false } = {}) {
+      for (const listener of [...listeners]) listener.onEventPayload(asIs ? payload : structuredClone(payload));
       await flush();
     },
     /** Connects and delivers the current view, as the transport contract requires. */

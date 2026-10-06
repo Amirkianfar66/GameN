@@ -41,27 +41,44 @@ export function cueMark(cue: Cue): CueMark | null {
   }
 }
 
-/** A cue as a screen frame carries it: a new number means show it once. */
+/** A cue as a screen frame carries it: within its own list, a new number means show it once. */
 export interface NumberedCue {
   readonly seq: number;
   readonly cue: Cue;
 }
 
+/**
+ * The highest number a renderer has shown, per list. A frame's two lists are numbered
+ * separately, so one mark for both would skip cues, and the numbers of one list say nothing
+ * about the other.
+ */
+export interface CuesShown {
+  readonly public: number;
+  readonly private: number;
+}
+
 export interface CuePlan {
-  /** In the order the cues were issued. */
+  /** The public list's new cues in the order issued, then the private list's. Nothing orders the two lists against each other. */
   readonly marks: readonly CueMark[];
-  /** The highest number seen. A renderer keeps it and passes it back with the next frame. */
-  readonly shown: number;
+  /** A renderer keeps this and passes it back with the next frame. */
+  readonly shown: CuesShown;
+}
+
+/** The marks a renderer starts with on a frame it did not see come about: whatever that frame carries is not its to play. */
+export function cuesAlreadyIn(publicCues: readonly NumberedCue[], privateCues: readonly NumberedCue[]): CuesShown {
+  return { public: Math.max(0, ...publicCues.map(item => item.seq)), private: Math.max(0, ...privateCues.map(item => item.seq)) };
 }
 
 /**
- * What a renderer has to mark for a frame it has just drawn: every cue in the frame's
- * lists with a number above the last one it showed. Pure, so "each cue exactly once"
- * is tested without a browser. A renderer that starts on a frame which already carries
- * cues passes the highest of their numbers as `shown`, and plays none of them.
+ * What a renderer has to mark for a frame it has just drawn: every cue in each of the
+ * frame's lists with a number above the last one it showed from that list. Pure, so "each
+ * cue exactly once" is tested without a browser. A cue that has since left the frame is
+ * simply not there any more: a mark already made for it is left to finish.
  */
-export function planCues(shown: number, ...lists: readonly (readonly NumberedCue[])[]): CuePlan {
-  const fresh = lists.flat().filter(item => item.seq > shown).sort((a, b) => a.seq - b.seq);
-  const marks = fresh.map(item => cueMark(item.cue)).filter((mark): mark is CueMark => mark !== null);
-  return { marks, shown: fresh.reduce((highest, item) => Math.max(highest, item.seq), shown) };
+export function planCues(shown: CuesShown, publicCues: readonly NumberedCue[], privateCues: readonly NumberedCue[]): CuePlan {
+  const fresh = (list: readonly NumberedCue[], mark: number): NumberedCue[] => list.filter(item => item.seq > mark).sort((a, b) => a.seq - b.seq);
+  const [open, own] = [fresh(publicCues, shown.public), fresh(privateCues, shown.private)];
+  const marks = [...open, ...own].map(item => cueMark(item.cue)).filter((mark): mark is CueMark => mark !== null);
+  const highest = (list: readonly NumberedCue[], mark: number): number => list.reduce((most, item) => Math.max(most, item.seq), mark);
+  return { marks, shown: { public: highest(open, shown.public), private: highest(own, shown.private) } };
 }
