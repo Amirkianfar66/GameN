@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { initializeApp, deleteApp } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { execFileSync } from 'node:child_process';
 import { deadlineTaskId } from '@mothership/game-api';
 import { createDeadlineEnqueuer, createTrustedDeadlineHandler } from '../dist/tasks.js';
 
@@ -72,16 +71,18 @@ test('trusted deadline handler acknowledges advanced/stale jobs and makes evalua
   await assert.rejects(handler(payload), error => error.message === 'Deadline evaluation unavailable');
 });
 
-test('SDK deadline export retains the private invoker deployment declaration', async () => {
-  const app = initializeApp({ projectId: 'demo-mothership' }, 'task-metadata-test');
-  try {
-    const { deadlineTask } = await import('../dist/index.js');
-    assert.equal(deadlineTask.__endpoint.platform, 'gcfv2');
-    assert.deepEqual(deadlineTask.__endpoint.region, ['us-central1']);
-    assert.deepEqual(deadlineTask.__endpoint.taskQueueTrigger.invoker, ['private']);
-    assert.equal(deadlineTask.__endpoint.taskQueueTrigger.retryConfig.maxAttempts, 5);
-  } finally {
-    await getFirestore(app).terminate();
-    await deleteApp(app);
-  }
+test('SDK legacy and V1 deadline exports retain private invoker declarations', () => {
+  const environment={...process.env,GCLOUD_PROJECT:'demo-mothership',GCP_PROJECT:'demo-mothership',FUNCTIONS_EMULATOR:'true',FIREBASE_AUTH_EMULATOR_HOST:'127.0.0.1:9199',FIRESTORE_EMULATOR_HOST:'127.0.0.1:8180',MOTHERSHIP_FUNCTIONS_EMULATOR_HOST:'127.0.0.1:5101'};
+  delete environment.FIREBASE_CONFIG;
+  execFileSync(process.execPath,['--input-type=module','-e',`
+    import assert from 'node:assert/strict';
+    const {deadlineTask,v1DeadlineTask}=await import('./infra/firebase/dist/index.js');
+    for(const task of [deadlineTask,v1DeadlineTask]){
+      assert.equal(task.__endpoint.platform,'gcfv2');
+      assert.deepEqual(task.__endpoint.region,['us-central1']);
+      assert.deepEqual(task.__endpoint.taskQueueTrigger.invoker,['private']);
+    }
+    assert.equal(deadlineTask.__endpoint.taskQueueTrigger.retryConfig.maxAttempts,5);
+    assert.equal(v1DeadlineTask.__endpoint.taskQueueTrigger.retryConfig.maxAttempts,10);
+  `],{env:environment});
 });

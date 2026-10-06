@@ -56,7 +56,7 @@ for (const workspace of expected) {
       } else {
         const adapterImports = {
           'services/game-api': ['node:crypto', 'firebase-admin/firestore'],
-          'infra/firebase': ['node:buffer', 'firebase-admin/app', 'firebase-admin/auth', 'firebase-admin/app-check', 'firebase-admin/firestore', 'firebase-admin/functions', 'firebase-functions/v2/tasks', 'firebase-functions/v2/https'],
+          'infra/firebase': ['node:crypto', 'node:buffer', 'firebase-admin/app', 'firebase-admin/auth', 'firebase-admin/app-check', 'firebase-admin/firestore', 'firebase-admin/functions', 'firebase-functions/v2/tasks', 'firebase-functions/v2/https', 'firebase-functions/v2/firestore', 'firebase-functions/v2/scheduler', 'firebase-functions/v2/core'],
         };
         assert.ok(allowed[workspace].includes(specifier) || (adapterImports[workspace] ?? []).includes(specifier), `Unreviewed source dependency: ${workspace} -> ${specifier}`);
       }

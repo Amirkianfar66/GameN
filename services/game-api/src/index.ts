@@ -165,7 +165,9 @@ export function createGameService({ db, clock = Date.now, newId = randomUUID }: 
     const pending = await db.collectionGroup('outbox').where('status', '==', 'pending').get();
     let dispatched = 0, failed = 0;
     for (const entry of pending.docs) {
-      const intent = entry.data() as DeadlineIntent;
+      const intent = entry.data() as DeadlineIntent & {protocolVersion?:number};
+      // The retained protocol-1 harness must not consume newer handlers' outboxes.
+      if (intent.protocolVersion !== undefined && intent.protocolVersion !== 1) continue;
       try {
         // Stable taskId means a retry after enqueue/ack failure must be treated as already enqueued.
         await enqueue(intent);
@@ -194,3 +196,6 @@ export function createGameService({ db, clock = Date.now, newId = randomUUID }: 
   }
   return { submit, lookup, advance, serverTime, runDeadline, repairOutbox, resolveFixtureAfterVote };
 }
+
+export { createV1Service, encodeV1Setup, decodeV1Setup, encodeV1State, decodeV1State } from './full-game.js';
+export type { V1DeadlineIntent, EnqueueV1Deadline, StoredV1State, StoredV1Setup } from './full-game.js';
