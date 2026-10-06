@@ -91,7 +91,7 @@ A cue that is dropped takes no number, on either list.
 
 ## The frame's cue lists: what a page may rely on
 
-This is the contract a renderer consumes. It was corrected after two reviews showed that the first version depended on delivery order, never withdrew a public cue, and numbered both lists with one counter.
+This is the contract a renderer consumes. It was corrected after two reviews showed that the first version depended on delivery order, never withdrew a public cue, and numbered both lists with one counter; and corrected again after a third (finding R6 of the follow-up integration review of 6 October 2026) showed that the second version withdrew every public cue whenever a view changed at all, also when nothing public had.
 
 **What is in a list.** `frame.cues` holds every public cue that may be shown right now, in the order issued. A cue is added when the director issues it for the view on screen: together with the view when its event came first, with the event when the view came first. The same facts at one revision therefore end up as the same list whichever way they were delivered, and a page that reads only the latest frame, as one sampling once per paint does, has all of them.
 
@@ -101,30 +101,38 @@ This is the contract a renderer consumes. It was corrected after two reviews sho
 
 | What happens | Public cue | Private cue |
 | --- | --- | --- |
-| Another view comes on screen | Leaves: a public cue belongs to the view that shows its fact | Stays: it is about the seat's own command, not about a view |
+| The public fact it belongs to changes again: a newer phase, or a newer place or health of the same seat | Leaves. A public cue belongs to one fact, not to a view | Stays: it is about the seat's own command |
+| A view arrives that changes no public fact, or only another seat's | **Stays, untouched**: the same cue, the same number, the same place in the list | Stays |
 | The match is no longer on screen, the page is hidden, or the feed is no longer current | Leaves | Leaves |
 | The private panel closes | Stays | Leaves |
-| Its lifetime is over | Leaves | Leaves |
+| Its lifetime, the window in which it may be started, is over | Leaves | Leaves |
 
-So a frame of a recovery screen carries no cue, and a page that starts reading late finds nothing older than one lifetime. A page that looks less often than views arrive can miss the emphasis for a view that was replaced before it looked. It never misses a fact: those are in the model.
+So a frame of a recovery screen carries no cue, and a page that starts reading late finds nothing older than one lifetime. It never misses a fact: those are in the model.
+
+**Nothing private can be read from the public list.** A seat's own view also changes when only something private does, its own registration for one. Such a view leaves the public list exactly as it was: on a phone the public cues, their order and their numbers are the same whatever the seat does in private at that moment. Otherwise an onlooker could see a registration in a public animation that stopped short. The test takes two phones through the same public moments, lets one of them register a command in between, and compares the lists.
 
 **What a page must not assume.** That a cue it has started showing is still in the next frame (it may have left; an animation already running may simply finish), or that `seq` values of the two lists can be compared.
 
-## Cue timing: proposed, for the Designer
+## Cue timing: agreed with the Designer
 
-Two client-side values decide freshness. Neither is a game rule and neither delays or changes anything the model shows. **Both are provisional** (`DEFAULT_CUE_TIMING` in `apps/game/src/screens/screen.ts`) until the Designer has agreed them; changing either is a one-line change.
+Two client-side values decide freshness. Neither is a game rule and neither delays or changes anything the model shows (`DEFAULT_CUE_TIMING` in `apps/game/src/screens/screen.ts`). The Designer proposed both in `docs/design/motion-storyboards.md`, "Cue freshness" (pull request #45), in answer to the questions this document used to leave open, and Frontend agrees. **Neither is measured on a device or against a real event feed.**
 
-| Value | Proposed | Meaning | Why this number |
+| Value | Agreed | Was | Meaning |
 | --- | --- | --- | --- |
-| Lifetime | 2000 ms | A cue leaves the frame this long after it was issued, if nothing took it out sooner | Longer than any cue treatment in the motion gallery draft, short enough that a page mounted late does not play something stale |
-| Lateness | 5000 ms | An event that arrives after its view is a cue only if that view has been on screen for no longer than this | By then the fact has long been drawn where it is. The delivery proposal sets no bound, so without one an event a minute late would still play |
+| Lifetime, the start window | 1000 ms | 2000 ms | A cue leaves the frame this long after it was issued, if nothing took it out sooner. A renderer that first reads the frame later than that never starts it and shows the settled state |
+| Lateness | 1000 ms | 5000 ms | An event that arrives after its view is a cue only if that view has been on screen for no longer than this. A token that has stood in its new place for seconds and then drops in reads as a second move |
+
+What follows from the Designer's proposal for whoever draws the cues, and is not the frame's to enforce:
+
+- **A treatment that has started finishes.** A cue leaving the frame does not cut it. Treatments run 120 to 700 ms by their own tokens.
+- **Cues issued together start together.** They are never played one after another.
+- **A move draws no origin.** The token drops in from above; no path is drawn from where it was. The cue still names where the token was on this screen, and a renderer does not use it for a path.
+- **No more than four token drops for one view.** When one view moves more than four seats, no drop is drawn for it. *Not implemented in the frame.* Whether the director should issue no move cue for such a view, so that every renderer gets it right, or each renderer applies the cap, is the one point still open between Frontend and the Designer; Frontend proposes the director.
 
 Two more freshness rules are not numbers:
 
 - **A registration learned late is history.** The command flow reports a registration as a cue only on the page that sent the command, and only while the phase it was sent in is on screen. A lookup answered in a later phase, or on a reloaded page, shows its report and stamps nothing, as an event arriving that late would not.
 - **An event that arrives just after a feed came back is history**, even if it is for the view on screen. This follows the delivery proposal to the letter ("establish a replay cutoff"), and costs an emphasis at worst.
-
-For the Designer to decide: the two numbers; whether a lifetime should differ by kind of cue; and whether several cues in one frame play together, in sequence, or capped.
 
 ## A registration, end to end
 

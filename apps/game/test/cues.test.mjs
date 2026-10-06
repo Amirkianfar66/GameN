@@ -120,24 +120,83 @@ test('every cue of the view on screen is in the latest frame, in whichever order
   await mixed.fake.deliverEvent(status);
   assert.deepEqual(mixed.frame().cues, all);
 
-  // A countdown tick redraws the screen and leaves the list exactly as it was.
+  // A redraw that changes no public fact leaves the list exactly as it was: the same object.
   const list = viewFirst.cues();
-  await viewFirst.host.advance(1_000);
+  viewFirst.screen.dispatch({ type: 'settings/reduce-motion', checked: true });
   assert.equal(viewFirst.cues(), list);
 
-  // The next view takes them out: a public cue belongs to the view that shows its fact.
-  // Its own cues come out together, in stream order, and the numbers go on.
+  // A newer view takes out only the cues whose own fact changed again. Here the phase
+  // changes and Player 7 moves: the earlier phase cue goes, the cues about Players 3 and 4
+  // stay where they were with their numbers, and the new ones follow in stream order.
   const third = next(second, 'phase-c', v => { v.round += 1; v.seats[6].location = 'Hospital'; });
   await viewFirst.fake.deliverEvent(eventFor(third, { type: 'PUBLIC_MOVE', seatId: 'seat-7', from: 'Room B', to: 'Hospital' }));
   await viewFirst.fake.deliverEvent(phaseChanged(third));
   await viewFirst.fake.deliver(third);
   assert.deepEqual(viewFirst.cues(), [
+    all[1],
+    all[2],
     { seq: 4, cue: { kind: 'public-move', seatId: 'seat-7', from: 'Room B', to: 'Hospital' } },
     { seq: 5, cue: { kind: 'round-transition', round: before.public.round + 1 } },
   ]);
-  // A view with nothing to emphasize leaves the frame with no cue at all.
+  // A view that changes no public fact leaves all of them as they were.
+  const kept = viewFirst.cues();
   await viewFirst.fake.deliver(variant(third, v => { v.viewRevision += 1; }));
+  assert.equal(viewFirst.cues(), kept);
+  // A seat's own fact changing again takes that seat's cue out, and no other seat's.
+  await viewFirst.fake.deliver(variant(third, v => { v.viewRevision += 2; v.seats[2].location = 'Command Room'; }));
+  assert.deepEqual(viewFirst.cues().map(item => item.seq), [3, 4, 5], 'Player 3 moved again: only the cue about Player 3 is gone');
+  await viewFirst.fake.deliver(variant(third, v => { v.viewRevision += 3; v.seats[2].location = 'Command Room'; v.seats[3].health = 'Healthy'; }));
+  assert.deepEqual(viewFirst.cues().map(item => item.seq), [4, 5], 'Player 4 is Healthy again: the cue that said Injured is gone');
+  // And every one of them still leaves when its window is over.
+  await viewFirst.host.advance(LIFETIME);
   assert.deepEqual(viewFirst.cues(), []);
+});
+
+test('a private-only update leaves the public cues exactly as they were: the same cues, the same numbers, the same frame list', async () => {
+  // Review finding R6. A public cue is live on a phone; then this seat's own view changes in
+  // nothing but something private. Two phones are taken through the same public moments, and
+  // one of them also registers a command in between. Nothing an onlooker could see of the
+  // public cues may differ between the two.
+  const moved = next(before.officer, before.officer.phase.id, v => { v.seats[7].location = 'Room A'; });
+  const run = async privately => {
+    const s = setup('player');
+    s.screen.start();
+    await s.fake.connectWith(before.officer);
+    s.screen.dispatch(TOGGLE);
+    await s.fake.deliver(moved);
+    await s.fake.deliverEvent(eventFor(moved, { type: 'PUBLIC_MOVE', seatId: 'seat-8', from: 'Room B', to: 'Room A' }));
+    assert.deepEqual(s.cues(), [{ seq: 1, cue: { kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' } }]);
+    const list = s.cues();
+    if (privately) {
+      // The same public facts, one revision on, with a command of this seat's now pending.
+      const registered = variant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = [COMMAND]; });
+      assert.deepEqual([registered.seats, registered.phase, registered.round], [moved.seats, moved.phase, moved.round], 'Nothing public differs');
+      await s.fake.deliver(registered);
+      await s.fake.deliverEvent({ ...registrationEvent, viewRevision: registered.viewRevision, audience: registered.audience });
+      assert.deepEqual(s.frame().privateCues.map(item => item.cue.kind), ['registration'], 'The private cue is there, in its own list');
+    }
+    return { s, list };
+  };
+  const quiet = await run(false);
+  const busy = await run(true);
+  assert.equal(busy.s.cues(), busy.list, 'The public list is the very same object after the private update');
+  assert.deepEqual(busy.s.cues(), quiet.s.cues(), 'and it is what a phone that did nothing in private shows');
+  // Later public cues take the same numbers on both, and time takes the first cue out of both at the same moment.
+  for (const { s } of [quiet, busy]) {
+    await s.host.advance(LIFETIME - 1);
+    assert.deepEqual(s.cues().map(item => item.seq), [1]);
+    const turn = next(s.frame().model.match === null ? moved : variant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = s === busy.s ? [COMMAND] : []; }), 'phase-next');
+    await s.fake.deliver(turn);
+    await s.fake.deliverEvent(phaseChanged(turn));
+    assert.deepEqual(s.cues().map(item => [item.seq, item.cue.kind]), [[1, 'public-move'], [2, 'phase-change']]);
+    await s.host.advance(1);
+    assert.deepEqual(s.cues().map(item => [item.seq, item.cue.kind]), [[2, 'phase-change']]);
+  }
+});
+
+test('the two windows are the ones agreed with the Designer: a second to start a cue, and a second for an event to be late', () => {
+  // docs/design/motion-storyboards.md, "Cue freshness". Neither is a game rule and neither is measured on a device.
+  assert.deepEqual(DEFAULT_CUE_TIMING, { lifetimeMs: 1_000, maxLatenessMs: 1_000 });
 });
 
 test('a cue leaves the frame when its time is up, so a frame read late offers nothing old', async () => {
@@ -758,6 +817,7 @@ test('the screen itself keeps a private cue behind the open panel and any cue of
     ports: host.ports,
     host: { reload() {} },
     phaseOf: view => view.phase,
+    seatsOf: view => view.seats,
     buildInput: (environment, view, local) => ({ environment, view, local }),
     buildModel: input => ({ screen: input.view === null ? 'connecting' : recovering ? 'blocked' : 'match', revealed: input.local.privateRevealed }),
     announcer: { next: () => [] },

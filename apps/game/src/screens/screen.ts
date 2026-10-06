@@ -1,5 +1,6 @@
 import { isCurrent, resolveScreen, SHELL_IDS } from '@mothership/presentation';
 import type { Announcer, Cue, Director, IssuedCue, LiveAnnouncement, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
+import type { SeatId } from '@mothership/contracts';
 import { estimateDeadline, millisecondsToNextSecond } from '../clock/deadline.js';
 import type { ClientPorts } from '../ports.js';
 import type { AudienceSession } from '../session/audience-session.js';
@@ -28,12 +29,19 @@ export interface FrameCue {
 }
 
 /**
- * How long a cue may be shown, and how late one may start. Client-side technical values,
- * PROVISIONAL until the Designer has agreed them (docs/frontend/slice-3-event-director.md);
- * neither is a game rule, and neither delays or changes anything the model shows.
+ * How long a cue may be started, and how late an event may make one. Client-side technical
+ * values, neither a game rule, and neither delays or changes anything the model shows. They
+ * are the two windows the Designer proposed (docs/design/motion-storyboards.md, "Cue
+ * freshness", in the Designer's pull request #45) and Frontend agreed. Neither is measured on
+ * a device or against a real event feed.
  */
 export interface CueTiming {
-  /** A cue leaves the frame this long after it was issued, if nothing took it out sooner. */
+  /**
+   * The start window. A cue leaves the frame this long after it was issued, if nothing took
+   * it out sooner, so a renderer that first reads the frame later than that does not start
+   * it. A treatment that has started is the renderer's to finish: leaving the frame does
+   * not cut it.
+   */
   readonly lifetimeMs: number;
   /**
    * An event that arrives after its view is a cue only if the view has been on screen for
@@ -41,11 +49,40 @@ export interface CueTiming {
    */
   readonly maxLatenessMs: number;
 }
-export const DEFAULT_CUE_TIMING: CueTiming = { lifetimeMs: 2_000, maxLatenessMs: 5_000 };
+export const DEFAULT_CUE_TIMING: CueTiming = { lifetimeMs: 1_000, maxLatenessMs: 1_000 };
 
 interface LiveCue extends FrameCue {
   /** By this device's monotonic clock. Not part of the frame. */
   readonly expiresAt: number;
+  /** For a cue about the phase: the phase it was issued for. Not part of the frame. */
+  readonly phaseId: string | null;
+}
+
+/** What anyone at the table may know about one seat, as far as a cue is concerned. */
+export interface PublicSeatFacts {
+  readonly seatId: SeatId;
+  readonly location: string;
+  readonly health: string;
+}
+
+/**
+ * Whether the public fact a cue belongs to still stands on the screen: the phase it was
+ * issued for is the phase shown, the seat is where the cue put it, the seat's health is
+ * what the cue said. A cue about a seat that is no longer listed has nothing to stand on.
+ */
+function factStands(live: LiveCue, phaseId: string, seats: readonly PublicSeatFacts[]): boolean {
+  const { cue } = live;
+  switch (cue.kind) {
+    case 'phase-change':
+    case 'round-transition':
+      return live.phaseId === phaseId;
+    case 'public-move':
+      return seats.find(seat => seat.seatId === cue.seatId)?.location === cue.to;
+    case 'status-change':
+      return seats.find(seat => seat.seatId === cue.seatId)?.health === cue.health;
+    case 'registration':
+      return true;
+  }
 }
 
 const NO_CUES: readonly FrameCue[] = Object.freeze([]);
@@ -81,13 +118,17 @@ export interface ScreenFrame<Model> {
    * when the director issues it for the view on screen: with the view when its event came
    * first, with the event when the view came first. It stays until one of these takes it
    * out, and it never comes back:
-   *   - another view comes on screen (a public cue belongs to the view that shows its fact);
+   *   - the public fact it belongs to changes again: a newer phase, or a newer place or
+   *     health of the same seat. A public cue belongs to one fact, not to a view;
    *   - the match is no longer on screen in the foreground, or its feed is no longer current;
-   *   - its lifetime is over.
-   * So a consumer that reads only the latest frame sees every cue of the view on screen
-   * that is still due, and one that starts reading late finds nothing older than a cue's
-   * lifetime. A consumer that looks less often than views arrive can miss the emphasis for
-   * a view that was replaced before it looked. It never misses a fact: those are in the model.
+   *   - its lifetime, which is the window in which it may be started, is over.
+   * Nothing else takes it out, moves it or renumbers it. In particular a new view that
+   * changes no public fact does not: on a phone the public list, its order and its numbers
+   * are the same whatever this seat does in private at that moment, so nothing private can
+   * be read from a public cue that stopped short.
+   * So a consumer that reads only the latest frame sees every public cue that is still due,
+   * and one that starts reading late finds nothing older than a cue's lifetime. It never
+   * misses a fact: those are in the model.
    */
   readonly cues: readonly FrameCue[];
   /**
@@ -139,6 +180,8 @@ interface ScreenConfig<View, Event, Input, Model> {
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly phaseOf: (view: View) => PhaseFacts;
+  /** The public facts about each seat that a cue can belong to. */
+  readonly seatsOf: (view: View) => readonly PublicSeatFacts[];
   /** Called for every redraw and before every intent is judged, so it may bring other state up to date. */
   readonly buildInput: (environment: ShellEnvironment, view: View | null, local: LocalState) => Input;
   readonly buildModel: (input: Input) => Model;
@@ -247,15 +290,23 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
     if (!current || view === null) director.suspend();
     const fromElsewhere = config.moreCues ? config.moreCues() : [];
 
-    // A public cue belongs to the view that shows its fact: with another view on screen it
-    // is no longer due. A private cue belongs to this seat's own command, not to a view, so
-    // a new view leaves it alone. With no match in front of the player on a current feed,
-    // nothing issued earlier is still due, public or private.
+    // A public cue belongs to one public fact: the phase on screen, or where a seat is, or
+    // its health. It is taken out early only when that fact has changed again. A view that
+    // changes no public fact leaves every public cue exactly as it was: such a view arrives
+    // when only something private changed, this seat's own registration for one, and a
+    // public cue that stopped short at that moment would show an onlooker that it had. A
+    // private cue belongs to this seat's own command, so a new view leaves it alone too.
+    // With no match in front of the player on a current feed, nothing issued earlier is
+    // still due, public or private.
     const matchShowing = model.screen === 'match' && local.pageVisible && current && view !== null;
     if (view !== cueView) {
       cueView = view;
       cueViewSince = now;
-      if (cues.length > 0) cues = [];
+    }
+    if (view !== null && cues.length > 0) {
+      const phaseId = config.phaseOf(view).id;
+      const seats = config.seatsOf(view);
+      if (cues.some(cue => !factStands(cue, phaseId, seats))) cues = cues.filter(cue => factStands(cue, phaseId, seats));
     }
     if (!matchShowing) {
       if (cues.length > 0) cues = [];
@@ -277,10 +328,11 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
       if (privacy === 'private') {
         if (!privateOpen) continue;
         privateCueSeq += 1;
-        addedPrivate.push({ seq: privateCueSeq, cue, expiresAt: now + cueTiming.lifetimeMs });
+        addedPrivate.push({ seq: privateCueSeq, cue, expiresAt: now + cueTiming.lifetimeMs, phaseId: null });
       } else {
         publicCueSeq += 1;
-        addedPublic.push({ seq: publicCueSeq, cue, expiresAt: now + cueTiming.lifetimeMs });
+        // A cue is issued for the view on screen, so the phase it is about is the phase shown.
+        addedPublic.push({ seq: publicCueSeq, cue, expiresAt: now + cueTiming.lifetimeMs, phaseId: view === null ? null : config.phaseOf(view).id });
       }
     }
     if (addedPublic.length > 0) cues = [...cues, ...addedPublic];

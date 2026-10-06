@@ -28,6 +28,7 @@ export function createTableScreen(options: TableScreenOptions): ScreenController
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
+    seatsOf: view => view.seats,
     buildInput: (environment, view) => ({ ...environment, view }),
     buildModel: buildTableShellModel,
     announcer: createTableAnnouncer(),
