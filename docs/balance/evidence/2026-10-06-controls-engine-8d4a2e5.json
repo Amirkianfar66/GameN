@@ -11,23 +11,23 @@
  "node": "v22.21.1",
  "modes": {
   "7": {
-   "scenarios": 127,
-   "controls": 1147,
-   "detected": 1147,
+   "scenarios": 138,
+   "controls": 1316,
+   "detected": 1316,
    "undetected": 0,
    "baselineNotPassing": 0
   },
   "8": {
-   "scenarios": 129,
-   "controls": 1121,
-   "detected": 1121,
+   "scenarios": 140,
+   "controls": 1296,
+   "detected": 1296,
    "undetected": 0,
    "baselineNotPassing": 0
   },
   "9": {
-   "scenarios": 134,
-   "controls": 1311,
-   "detected": 1311,
+   "scenarios": 145,
+   "controls": 1518,
+   "detected": 1518,
    "undetected": 0,
    "baselineNotPassing": 0
   }

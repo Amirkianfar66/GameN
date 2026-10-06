@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "agent/game-balance-baseline",
-  "workingTreeCommit": "61e47a30ba35a1860b37890bdacb603dc76df60e",
+  "workingTreeCommit": "0da5a9e00e374a6c5e7646dfb8336fb241c199f5",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -17,12 +17,12 @@
   },
   "v1OverlaySha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
   "scenarioFileHashes": {
-   "mode-7.scenarios.json": "0db90849e32935e5be6cb8ef844f961e7e76c537b0b7bb9543af7808c6393437",
-   "mode-8.scenarios.json": "4a80ea54a98f4af57719d53755fd13d5848ba16a1e28d175e19fe5383c3fc32b",
-   "mode-9.scenarios.json": "28302510a367d5ccd0342e0daa66da716689a1a98334a6f8555d5bd160a1f87b",
-   "unsupported.scenarios.json": "12848a14f87cbfce914acbb78bfaf6466e815e92146cbfc07005f8a41905f61f"
+   "mode-7.scenarios.json": "4518c3668c1184dd21fc9838f5675f088085a6d06a3f890d8e899a3c0cf3fb3c",
+   "mode-8.scenarios.json": "974c05cc0689778515a2c08a21af06418485b2fa17e59e8b31ba370d4bd14215",
+   "mode-9.scenarios.json": "f5b0426c4dbf77f5c4cff9bcff36d4f26abd79cf1a1e09e3e9178a6a11a23a89",
+   "unsupported.scenarios.json": "b277fef23c9d727479e593dc19e69fdbdb1ff564a78812a4dd5d167b8a6b0236"
   },
-  "rulebookSha256": "9e64ae0f52243c6c7151b20481c30adf1f3fbe90c71709f0a48fe552f77fb0a5",
+  "rulebookSha256": "9d678adff8bc18bb0e29c5da47ac293521a477fbef3700f88459f498ef20d4d4",
   "engine": {
    "adapter": "full-game-v1",
    "engineVersion": "full-game-1.0.0",
@@ -34,33 +34,33 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance scenario runner",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-06T14:46:51.119Z"
+  "generatedAt": "2026-10-06T16:33:50.243Z"
  },
  "totals": {
-  "total": 440,
-  "passed": 398,
+  "total": 473,
+  "passed": 431,
   "failed": 0,
   "blocked": 36,
   "notRun": 6
  },
  "byGroup": {
   "mode-7": {
-   "total": 141,
-   "passed": 127,
+   "total": 152,
+   "passed": 138,
    "failed": 0,
    "blocked": 12,
    "notRun": 2
   },
   "mode-8": {
-   "total": 143,
-   "passed": 129,
+   "total": 154,
+   "passed": 140,
    "failed": 0,
    "blocked": 12,
    "notRun": 2
   },
   "mode-9": {
-   "total": 148,
-   "passed": 134,
+   "total": 159,
+   "passed": 145,
    "failed": 0,
    "blocked": 12,
    "notRun": 2
@@ -426,7 +426,7 @@
    "invariantViolations": [],
    "probes": [],
    "transitions": 17,
-   "commands": 7,
+   "commands": 0,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -511,22 +511,15 @@
    "scenarioId": "V1-M7-CAPT-09",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "D13"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "phase after three tied ballots",
-     "outcome": "CAPTAIN_ELECTION"
-    }
-   ],
-   "transitions": 11,
+   "probes": [],
+   "transitions": 12,
    "commands": 6,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
@@ -539,6 +532,51 @@
    "probes": [],
    "transitions": 35,
    "commands": 20,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAPT-11",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 12,
+   "commands": 4,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAPT-12",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 13,
+   "commands": 4,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAPT-13",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 15,
+   "commands": 4,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -635,21 +673,6 @@
    "failure": null
   },
   {
-   "scenarioId": "V1-M7-SHOT-07",
-   "group": "mode-7",
-   "mode": 7,
-   "decisionIds": [],
-   "seed": "v1-A-1",
-   "invariantViolations": [],
-   "probes": [],
-   "transitions": 31,
-   "commands": 4,
-   "finalDigest": null,
-   "reason": null,
-   "status": "passed",
-   "failure": null
-  },
-  {
    "scenarioId": "V1-M7-SHOT-08",
    "group": "mode-7",
    "mode": 7,
@@ -732,7 +755,7 @@
    "seed": "v1-A-1",
    "invariantViolations": [],
    "probes": [],
-   "transitions": 8,
+   "transitions": 9,
    "commands": 2,
    "finalDigest": null,
    "reason": null,
@@ -852,8 +875,8 @@
    "seed": "v1-A-1",
    "invariantViolations": [],
    "probes": [],
-   "transitions": 18,
-   "commands": 3,
+   "transitions": 17,
+   "commands": 2,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -1233,6 +1256,21 @@
    "probes": [],
    "transitions": 5,
    "commands": 1,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-SCAN-07",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 5,
+   "commands": 2,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -1676,6 +1714,58 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M7-REL-06",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 26,
+   "commands": 14,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-REL-07",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 24,
+   "commands": 5,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-FLOW-10",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [
+    "D17"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "phase right after the Captain chose a prisoner",
+     "outcome": "RELEASE_CHOICE"
+    }
+   ],
+   "transitions": 16,
+   "commands": 6,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M7-LOCK-01",
    "group": "mode-7",
    "mode": 7,
@@ -1904,26 +1994,15 @@
    "scenarioId": "V1-M7-WIN-06",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "D14"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "phase after the Round 5 check",
-     "outcome": "FINISHED"
-    },
-    {
-     "label": "winner after the Round 5 check",
-     "outcome": "Blue"
-    }
-   ],
+   "probes": [],
    "transitions": 44,
    "commands": 21,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
@@ -1951,6 +2030,21 @@
    "probes": [],
    "transitions": 44,
    "commands": 1,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-WIN-10",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 44,
+   "commands": 9,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -2094,25 +2188,33 @@
    "failure": null
   },
   {
-   "scenarioId": "V1-M7-SHOW-10",
+   "scenarioId": "V1-M7-SHOW-16",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "D14"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "winner when no free Blue player is Healthy",
-     "outcome": "Blue"
-    }
-   ],
+   "probes": [],
    "transitions": 45,
    "commands": 14,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-SHOW-10",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 45,
+   "commands": 16,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
    "failure": null
   },
   {
@@ -2176,6 +2278,28 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M7-SHOW-15",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [
+    "D34"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "SHOWDOWN_SHOT naming the shooter",
+     "outcome": "NOT_ALLOWED"
+    }
+   ],
+   "transitions": 44,
+   "commands": 10,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M7-VIEW-01",
    "group": "mode-7",
    "mode": 7,
@@ -2206,6 +2330,21 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M7-VIEW-03",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 9,
+   "commands": 0,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M7-OPS-01",
    "group": "mode-7",
    "mode": 7,
@@ -2218,6 +2357,28 @@
    "finalDigest": null,
    "reason": null,
    "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-OPS-03",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [
+    "D35"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "roles and the Code public after a host abort",
+     "outcome": "false"
+    }
+   ],
+   "transitions": 0,
+   "commands": 0,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
    "failure": null
   },
   {
@@ -2604,7 +2765,7 @@
    "invariantViolations": [],
    "probes": [],
    "transitions": 19,
-   "commands": 8,
+   "commands": 0,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -2689,22 +2850,15 @@
    "scenarioId": "V1-M8-CAPT-09",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "D13"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "phase after three tied ballots",
-     "outcome": "CAPTAIN_ELECTION"
-    }
-   ],
-   "transitions": 12,
+   "probes": [],
+   "transitions": 13,
    "commands": 6,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
@@ -2717,6 +2871,51 @@
    "probes": [],
    "transitions": 39,
    "commands": 21,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-CAPT-11",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 12,
+   "commands": 4,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-CAPT-12",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 14,
+   "commands": 4,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-CAPT-13",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 10,
+   "commands": 4,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -2807,21 +3006,6 @@
    "probes": [],
    "transitions": 32,
    "commands": 5,
-   "finalDigest": null,
-   "reason": null,
-   "status": "passed",
-   "failure": null
-  },
-  {
-   "scenarioId": "V1-M8-SHOT-07",
-   "group": "mode-8",
-   "mode": 8,
-   "decisionIds": [],
-   "seed": "v1-A-1",
-   "invariantViolations": [],
-   "probes": [],
-   "transitions": 37,
-   "commands": 4,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -2925,7 +3109,7 @@
    "seed": "v1-A-1",
    "invariantViolations": [],
    "probes": [],
-   "transitions": 9,
+   "transitions": 10,
    "commands": 2,
    "finalDigest": null,
    "reason": null,
@@ -3045,8 +3229,8 @@
    "seed": "v1-A-1",
    "invariantViolations": [],
    "probes": [],
-   "transitions": 20,
-   "commands": 3,
+   "transitions": 19,
+   "commands": 2,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -3441,6 +3625,21 @@
    "probes": [],
    "transitions": 7,
    "commands": 1,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-SCAN-07",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 7,
+   "commands": 2,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -3884,6 +4083,58 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M8-REL-06",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 29,
+   "commands": 14,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-REL-07",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 27,
+   "commands": 5,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-FLOW-10",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [
+    "D17"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "phase right after the Captain chose a prisoner",
+     "outcome": "RELEASE_CHOICE"
+    }
+   ],
+   "transitions": 18,
+   "commands": 6,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M8-LOCK-01",
    "group": "mode-8",
    "mode": 8,
@@ -4008,7 +4259,7 @@
    "group": "mode-8",
    "mode": 8,
    "decisionIds": [],
-   "seed": "v1-A-2",
+   "seed": "v1-A-3",
    "invariantViolations": [],
    "probes": [],
    "transitions": 19,
@@ -4112,26 +4363,15 @@
    "scenarioId": "V1-M8-WIN-06",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "D14"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "phase after the Round 5 check",
-     "outcome": "FINISHED"
-    },
-    {
-     "label": "winner after the Round 5 check",
-     "outcome": "Blue"
-    }
-   ],
+   "probes": [],
    "transitions": 49,
    "commands": 23,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
@@ -4159,6 +4399,21 @@
    "probes": [],
    "transitions": 49,
    "commands": 1,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-WIN-10",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 49,
+   "commands": 5,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -4302,25 +4557,33 @@
    "failure": null
   },
   {
-   "scenarioId": "V1-M8-SHOW-10",
+   "scenarioId": "V1-M8-SHOW-16",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "D14"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "winner when no free Blue player is Healthy",
-     "outcome": "Blue"
-    }
-   ],
+   "probes": [],
    "transitions": 50,
    "commands": 19,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-SHOW-10",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 50,
+   "commands": 18,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
    "failure": null
   },
   {
@@ -4384,6 +4647,28 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M8-SHOW-15",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [
+    "D34"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "SHOWDOWN_SHOT naming the shooter",
+     "outcome": "NOT_ALLOWED"
+    }
+   ],
+   "transitions": 49,
+   "commands": 6,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M8-VIEW-01",
    "group": "mode-8",
    "mode": 8,
@@ -4414,6 +4699,21 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M8-VIEW-03",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 10,
+   "commands": 0,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M8-OPS-01",
    "group": "mode-8",
    "mode": 8,
@@ -4426,6 +4726,28 @@
    "finalDigest": null,
    "reason": null,
    "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-OPS-03",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [
+    "D35"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "roles and the Code public after a host abort",
+     "outcome": "false"
+    }
+   ],
+   "transitions": 0,
+   "commands": 0,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
    "failure": null
   },
   {
@@ -4812,7 +5134,7 @@
    "invariantViolations": [],
    "probes": [],
    "transitions": 21,
-   "commands": 9,
+   "commands": 0,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -4897,22 +5219,15 @@
    "scenarioId": "V1-M9-CAPT-09",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "D13"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "phase after three tied ballots",
-     "outcome": "CAPTAIN_ELECTION"
-    }
-   ],
-   "transitions": 13,
+   "probes": [],
+   "transitions": 14,
    "commands": 6,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
@@ -4925,6 +5240,51 @@
    "probes": [],
    "transitions": 43,
    "commands": 26,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-CAPT-11",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 19,
+   "commands": 4,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-CAPT-12",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 15,
+   "commands": 4,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-CAPT-13",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 12,
+   "commands": 4,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -5015,21 +5375,6 @@
    "probes": [],
    "transitions": 39,
    "commands": 5,
-   "finalDigest": null,
-   "reason": null,
-   "status": "passed",
-   "failure": null
-  },
-  {
-   "scenarioId": "V1-M9-SHOT-07",
-   "group": "mode-9",
-   "mode": 9,
-   "decisionIds": [],
-   "seed": "v1-A-1",
-   "invariantViolations": [],
-   "probes": [],
-   "transitions": 40,
-   "commands": 4,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -5193,7 +5538,7 @@
    "seed": "v1-A-1",
    "invariantViolations": [],
    "probes": [],
-   "transitions": 10,
+   "transitions": 11,
    "commands": 2,
    "finalDigest": null,
    "reason": null,
@@ -5313,8 +5658,8 @@
    "seed": "v1-A-1",
    "invariantViolations": [],
    "probes": [],
-   "transitions": 22,
-   "commands": 3,
+   "transitions": 21,
+   "commands": 2,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -5709,6 +6054,21 @@
    "probes": [],
    "transitions": 7,
    "commands": 1,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-SCAN-07",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 7,
+   "commands": 2,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -6152,6 +6512,58 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M9-REL-06",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 32,
+   "commands": 17,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-REL-07",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 30,
+   "commands": 6,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-FLOW-10",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [
+    "D17"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "phase right after the Captain chose a prisoner",
+     "outcome": "RELEASE_CHOICE"
+    }
+   ],
+   "transitions": 20,
+   "commands": 7,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M9-LOCK-01",
    "group": "mode-9",
    "mode": 9,
@@ -6380,26 +6792,15 @@
    "scenarioId": "V1-M9-WIN-06",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "D14"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "phase after the Round 5 check",
-     "outcome": "FINISHED"
-    },
-    {
-     "label": "winner after the Round 5 check",
-     "outcome": "Blue"
-    }
-   ],
+   "probes": [],
    "transitions": 54,
    "commands": 29,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
@@ -6427,6 +6828,21 @@
    "probes": [],
    "transitions": 54,
    "commands": 1,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-WIN-10",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 54,
+   "commands": 11,
    "finalDigest": null,
    "reason": null,
    "status": "passed",
@@ -6585,25 +7001,33 @@
    "failure": null
   },
   {
-   "scenarioId": "V1-M9-SHOW-10",
+   "scenarioId": "V1-M9-SHOW-16",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "D14"
-   ],
+   "decisionIds": [],
    "seed": "v1-A-1",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "winner when no free Blue player is Healthy",
-     "outcome": "Blue"
-    }
-   ],
+   "probes": [],
    "transitions": 55,
    "commands": 27,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-SHOW-10",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 55,
+   "commands": 26,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
    "failure": null
   },
   {
@@ -6667,6 +7091,28 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M9-SHOW-15",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [
+    "D34"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "SHOWDOWN_SHOT naming the shooter",
+     "outcome": "NOT_ALLOWED"
+    }
+   ],
+   "transitions": 54,
+   "commands": 12,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M9-VIEW-01",
    "group": "mode-9",
    "mode": 9,
@@ -6697,6 +7143,21 @@
    "failure": null
   },
   {
+   "scenarioId": "V1-M9-VIEW-03",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 11,
+   "commands": 0,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
    "scenarioId": "V1-M9-OPS-01",
    "group": "mode-9",
    "mode": 9,
@@ -6709,6 +7170,28 @@
    "finalDigest": null,
    "reason": null,
    "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-OPS-03",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [
+    "D35"
+   ],
+   "seed": "v1-A-1",
+   "invariantViolations": [],
+   "probes": [
+    {
+     "label": "roles and the Code public after a host abort",
+     "outcome": "false"
+    }
+   ],
+   "transitions": 0,
+   "commands": 0,
+   "finalDigest": null,
+   "reason": null,
+   "status": "blocked",
    "failure": null
   },
   {
