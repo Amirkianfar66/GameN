@@ -25,7 +25,8 @@
     "@mothership/presentation": "0.1.0",
     "@mothership/design-tokens": "0.1.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "firebase": "12.18.0"
   },
   "devDependencies": {
     "@types/react": "19.3.0",
