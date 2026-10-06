@@ -1,0 +1,129 @@
+/* mothership:dev-only — page chrome for the fixture harness. Not part of the game client. */
+
+html {
+  background: var(--ms-color-canvas);
+}
+
+.harness-body {
+  margin: 0;
+  background: var(--ms-color-canvas);
+  color: var(--ms-color-text);
+  font-family: var(--ms-font-body);
+  font-size: var(--ms-text-body);
+  line-height: var(--ms-leading-body);
+}
+
+.harness-noscript {
+  padding: var(--ms-space-4);
+}
+
+.harness-page {
+  display: grid;
+  gap: var(--ms-space-4);
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--ms-space-5) var(--ms-space-4) var(--ms-space-7);
+}
+
+.harness-page h1,
+.harness-page h2 {
+  margin: 0;
+  font-family: var(--ms-font-heading);
+  line-height: var(--ms-leading-heading);
+  text-transform: uppercase;
+}
+
+.harness-page p,
+.harness-page ul,
+.harness-page dl,
+.harness-page dd {
+  margin: 0;
+  padding: 0;
+}
+
+.harness-page section {
+  display: grid;
+  gap: var(--ms-space-3);
+}
+
+.harness-warning {
+  padding: var(--ms-space-3);
+  border: var(--ms-stroke-control) dashed var(--ms-color-text);
+  border-radius: var(--ms-radius-control);
+}
+
+.harness-note {
+  color: var(--ms-color-text-secondary);
+  font-size: var(--ms-text-label);
+}
+
+.harness-links {
+  display: grid;
+  gap: var(--ms-space-2);
+  list-style: none;
+}
+
+.harness-links span {
+  color: var(--ms-color-text-secondary);
+  font-size: var(--ms-text-label);
+}
+
+.harness-page a {
+  color: var(--ms-color-accent);
+  font-weight: 700;
+}
+
+.harness-page a:focus-visible,
+.harness-page button:focus-visible {
+  outline: var(--ms-stroke-focus) solid var(--ms-color-focus);
+  outline-offset: 2px;
+}
+
+.harness-facts {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) 1fr;
+  gap: var(--ms-space-1) var(--ms-space-4);
+}
+
+.harness-facts dt {
+  color: var(--ms-color-text-secondary);
+  font-weight: 700;
+}
+
+.harness-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ms-space-2);
+}
+
+.harness-page button {
+  min-height: var(--ms-target-min);
+  padding: var(--ms-space-2) var(--ms-space-3);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-control);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.harness-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.harness-table caption {
+  text-align: left;
+  color: var(--ms-color-text-secondary);
+  font-size: var(--ms-text-label);
+  padding-bottom: var(--ms-space-2);
+}
+
+.harness-table th,
+.harness-table td {
+  padding: var(--ms-space-2);
+  border-bottom: 1px solid var(--ms-color-text-secondary);
+  text-align: left;
+  vertical-align: top;
+}

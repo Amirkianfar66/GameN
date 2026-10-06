@@ -15,7 +15,9 @@
   "scripts": {
     "build": "tsc --build",
     "test": "tsc --build && node --test \"test/**/*.test.mjs\"",
-    "check:exclusion": "tsc --build && node scripts/check-production-exclusion.mjs"
+    "check:exclusion": "tsc --build && node scripts/check-production-exclusion.mjs",
+    "dev:fixture": "tsc --build && node dev/serve.mjs",
+    "dev:capture": "tsc --build && node dev/capture-evidence.mjs"
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0",
