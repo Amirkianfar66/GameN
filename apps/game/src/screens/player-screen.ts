@@ -1,5 +1,5 @@
 import type { PlayerView } from '@mothership/contracts';
-import { buildPlayerShellModel, describePlayerTransition } from '@mothership/presentation';
+import { buildPlayerShellModel, createPlayerAnnouncer } from '@mothership/presentation';
 import type { PlayerShellInput, PlayerShellModel } from '@mothership/presentation';
 import type { ClientPorts } from '../ports.js';
 import { createPlayerSession } from '../session/audience-session.js';
@@ -27,15 +27,15 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
     buildInput: (environment, view, local) => ({
       ...environment,
       view,
-      privacy: { concealed: !local.pageVisible, roleDrawerOpen: local.roleDrawerOpen },
+      privacy: { concealed: !local.pageVisible, revealed: local.privateRevealed },
     }),
     buildModel: buildPlayerShellModel,
-    describe: describePlayerTransition,
+    announcer: createPlayerAnnouncer(),
     reduceLocal(local, intent, model) {
-      if (intent.type !== 'role-drawer/toggle') return null;
+      if (intent.type !== 'private/toggle') return null;
       // There is nothing to reveal unless a match is on screen in the foreground.
       if (model.match === null || !local.pageVisible) return null;
-      return { ...local, roleDrawerOpen: !local.roleDrawerOpen };
+      return { ...local, privateRevealed: !local.privateRevealed };
     },
   });
 }

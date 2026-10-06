@@ -1,5 +1,5 @@
 import type { PublicView } from '@mothership/contracts';
-import { buildTableShellModel, describeTableTransition } from '@mothership/presentation';
+import { buildTableShellModel, createTableAnnouncer } from '@mothership/presentation';
 import type { TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts } from '../ports.js';
 import { createPublicSession } from '../session/audience-session.js';
@@ -29,7 +29,7 @@ export function createTableScreen(options: TableScreenOptions): ScreenController
     phaseOf: view => view.phase,
     buildInput: (environment, view) => ({ ...environment, view }),
     buildModel: buildTableShellModel,
-    describe: describeTableTransition,
+    announcer: createTableAnnouncer(),
     reduceLocal: () => null,
   });
 }

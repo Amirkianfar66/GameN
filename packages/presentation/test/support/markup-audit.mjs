@@ -25,7 +25,7 @@ export function find(root, predicate) {
   return first;
 }
 
-const INTENTS = new Set(['role-drawer/toggle', 'session/reconnect', 'app/reload', 'settings/reduce-motion']);
+const INTENTS = new Set(['private/toggle', 'session/reconnect', 'app/reload', 'settings/reduce-motion']);
 const IDREF_ATTRIBUTES = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'for'];
 
 /** Returns a list of human-readable problems; an empty list means the audit passed. */

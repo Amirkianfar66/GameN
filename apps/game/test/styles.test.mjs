@@ -46,6 +46,27 @@ test('the token stylesheet is one :root rule that names the token version', () =
   for (const [name, value] of variables) assert.equal(sheet.includes(`  ${name}: ${value};\n`), true, name);
 });
 
+test('a numeric token must really be a number: a string in its place cannot reach the stylesheet', () => {
+  const hostile = '8px; } * { display: none } .x { --y: 0';
+  const cases = [
+    tokens => ({ ...tokens, radiusPx: { ...tokens.radiusPx, control: hostile } }),
+    tokens => ({ ...tokens, strokePx: { ...tokens.strokePx, focus: hostile } }),
+    tokens => ({ ...tokens, type: { ...tokens.type, bodyLineHeight: hostile } }),
+    tokens => ({ ...tokens, type: { ...tokens.type, displayPx: '36' } }),
+    tokens => ({ ...tokens, motionMs: { ...tokens.motionMs, selection: hostile } }),
+    tokens => ({ ...tokens, motionMs: { ...tokens.motionMs, reducedMotionFade: Number.NaN } }),
+    tokens => ({ ...tokens, spacingPx: [4, hostile] }),
+    tokens => ({ ...tokens, spacingPx: [4, -8] }),
+    tokens => ({ ...tokens, interaction: { ...tokens.interaction, minimumTargetCssPx: Number.POSITIVE_INFINITY } }),
+  ];
+  for (const [index, change] of cases.entries()) {
+    assert.throws(() => shellTokenStylesheet(change(proposedDesignTokens)), /not a non-negative number/, `case ${index}`);
+  }
+  assert.throws(() => shellBreakpoints({ ...proposedDesignTokens, interaction: { ...proposedDesignTokens.interaction, breakpointsCssPx: { expandedPlayerLayout: '600px) { * { display:none } } @media (min-width: 1', wideTableLayout: 960 } } }), /not a non-negative number/);
+  assert.throws(() => shellTokenStylesheet({ ...proposedDesignTokens, color: { ...proposedDesignTokens.color, canvas: 16 } }), /not a plain CSS value/);
+  assert.equal(shellTokenStylesheet(proposedDesignTokens).split('}').length, 2, 'the real tokens still produce exactly one rule');
+});
+
 test('a token value that is not a plain CSS value is refused instead of written into a stylesheet', () => {
   for (const hostile of ['#000; } body { display: none', 'red}', 'url(https://example.test/x)', 'a"b', "a'b", 'x\ny', '</style>']) {
     const tokens = { ...proposedDesignTokens, color: { ...proposedDesignTokens.color, canvas: hostile } };
@@ -78,16 +99,24 @@ test('layout breakpoints are the two the tokens define, and both are used', () =
   assert.deepEqual(withoutComments.match(/max-width:\s*\d+px/g) ?? [], [], 'no device-width ceilings');
 });
 
-test('reduced motion is honored for the device setting and for the in-app choice alike', () => {
+test('reduced motion is honored for the device setting and for the in-app choice, and the choice wins', () => {
   assert.equal(proposedDesignTokens.motionMs.reducedMotionFade <= 80, true);
-  const media = withoutComments.slice(withoutComments.indexOf('@media (prefers-reduced-motion: reduce)'));
-  assert.equal(media.length > 0 && withoutComments.includes('@media (prefers-reduced-motion: reduce)'), true);
-  for (const block of [media.slice(0, media.indexOf('.ms-shell[data-motion="reduced"]')), withoutComments.slice(withoutComments.indexOf('.ms-shell[data-motion="reduced"]'))]) {
+  const mediaStart = withoutComments.indexOf('@media (prefers-reduced-motion: reduce)');
+  const attributeStart = withoutComments.indexOf('.ms-shell[data-motion="reduced"] *');
+  assert.equal(mediaStart !== -1 && attributeStart > mediaStart, true);
+  const media = withoutComments.slice(mediaStart, attributeStart);
+  const attribute = withoutComments.slice(attributeStart, withoutComments.indexOf('@media (forced-colors: active)'));
+  for (const block of [media, attribute]) {
     assert.match(block, /transition-duration: var\(--ms-motion-reduced-fade\) !important/);
     assert.match(block, /transition-property: opacity, border-color !important/);
-    assert.match(block, /\.ms-role__panel \{\s*animation: ms-fade var\(--ms-motion-reduced-fade\) linear;/);
+    assert.match(block, /\.ms-private__panel \{\s*animation: ms-fade var\(--ms-motion-reduced-fade\) linear;/);
     assert.match(block, /\.ms-button:active \{\s*transform: none;/);
   }
+  // Every rule under the device setting yields to an explicit "full" chosen in the app, so
+  // unchecking "Reduce motion" really restores motion on a device that asks for less.
+  const deviceSelectors = [...media.matchAll(/^\s*(\.ms-shell[^,{]*)[,{]/gm)].map(match => match[1].trim());
+  assert.equal(deviceSelectors.length, 5);
+  for (const selector of deviceSelectors) assert.equal(selector.startsWith('.ms-shell:not([data-motion="full"])'), true, selector);
   // The only keyframes that travel or scale are the ones reduced motion replaces.
   const moving = [...withoutComments.matchAll(/@keyframes (ms-[a-z-]+) \{([\s\S]*?)\n\}/g)].filter(match => /transform/.test(match[2])).map(match => match[1]);
   assert.deepEqual(moving, ['ms-reveal']);
@@ -138,6 +167,13 @@ test('layout survives a narrow screen with enlarged text: found broken in a brow
   assert.equal(rule('.ms-shell').includes('overflow-wrap: break-word'), true);
   assert.deepEqual([...withoutComments.matchAll(/([^{}]+)\{[^{}]*overflow-wrap: anywhere/g)].map(match => match[1].trim()), ['.ms-details__list dd']);
   assert.match(rule('.ms-shell--table .ms-roster'), /overflow-x: auto/);
+});
+
+test('the element reset cannot out-rank a component class', () => {
+  // Found in a browser: a reset written as ".ms-shell p" beat ".ms-notice" and silently
+  // removed the padding of every paragraph-based chip, notice and card.
+  assert.match(withoutComments, /:where\(\.ms-shell\) :where\(p, h1, h2, h3, h4, ul, dl, dd\) \{\s*margin: 0;\s*padding: 0;/);
+  assert.deepEqual(withoutComments.match(/\.ms-shell (p|h[1-6]|ul|dl|dd)\b[^{]*\{/g) ?? [], []);
 });
 
 test('the stylesheet respects safe areas, user font size and forced colors', () => {

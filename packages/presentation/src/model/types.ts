@@ -44,9 +44,10 @@ export interface ShellEnvironment {
 export interface PlayerShellInput extends ShellEnvironment {
   readonly view: PlayerView | null;
   readonly privacy: {
-    /** The page is backgrounded: every private panel is withheld from the document. */
+    /** The page is backgrounded: nothing private is put in the document, whatever was open. */
     readonly concealed: boolean;
-    readonly roleDrawerOpen: boolean;
+    /** The player has deliberately opened the private panel. Closed is the default. */
+    readonly revealed: boolean;
   };
 }
 
@@ -56,7 +57,7 @@ export interface TableShellInput extends ShellEnvironment {
 
 /** Actions a shell control can request. The host forwards them; it never acts on its own. */
 export type ShellIntent =
-  | { readonly type: 'role-drawer/toggle' }
+  | { readonly type: 'private/toggle' }
   | { readonly type: 'session/reconnect' }
   | { readonly type: 'app/reload' }
   | { readonly type: 'settings/reduce-motion'; readonly checked: boolean };
@@ -138,19 +139,25 @@ export interface ActionCardModel {
 
 export interface ActionsModel {
   readonly heading: string;
-  /** When set, no card is rendered and this text stands in for the private content. */
-  readonly concealedText: string | null;
   readonly notice: string | null;
   readonly cards: readonly ActionCardModel[];
 }
 
-export interface RoleDrawerModel {
+/**
+ * Everything on a phone that is private to its seat: the role and what the seat can do.
+ * It is one panel, closed by default, because in early rounds merely having an available
+ * action identifies a role to anyone who glimpses the screen.
+ */
+export interface PrivateAreaModel {
   readonly heading: string;
+  readonly hint: string;
   readonly open: boolean;
   readonly toggleLabel: string;
-  readonly hint: string;
-  /** Present only while the drawer is open and the page is in the foreground. */
-  readonly role: { readonly label: string; readonly name: RoleName } | null;
+  /** Present only while open in the foreground. Closed, nothing private is in the model at all. */
+  readonly content: {
+    readonly role: { readonly label: string; readonly name: RoleName };
+    readonly actions: ActionsModel;
+  } | null;
 }
 
 interface ShellModelBase {
@@ -178,8 +185,7 @@ export interface PlayerMatchModel {
     readonly others: readonly SeatModel[];
     readonly aloneText: string;
   };
-  readonly actions: ActionsModel;
-  readonly roleDrawer: RoleDrawerModel;
+  readonly privateArea: PrivateAreaModel;
   readonly roster: { readonly heading: string; readonly zones: readonly ZoneModel[] };
   readonly details: MatchDetailsModel;
 }

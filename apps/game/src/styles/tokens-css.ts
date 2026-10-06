@@ -26,13 +26,22 @@ export interface ShellTokenSource {
 }
 
 const ROOT_FONT_PX = 16;
-// Sizes follow the reader's own font setting instead of fixing pixels.
-const rem = (px: number): string => `${px / ROOT_FONT_PX}rem`;
 
-// Token strings are data from another package. Anything that could close the declaration
-// or the rule is refused rather than written into a stylesheet.
+// Token values are data from another package and reach this function untyped from plain
+// JavaScript callers. A number must really be one, and a string must be a plain CSS value;
+// anything else is refused rather than written into a stylesheet where it could close a
+// declaration or a rule.
+function num(value: number): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) throw new TypeError(`Design token is not a non-negative number: ${String(value)}`);
+  return value;
+}
+// Sizes follow the reader's own font setting instead of fixing pixels.
+const rem = (px: number): string => `${num(px) / ROOT_FONT_PX}rem`;
+const px = (value: number): string => `${num(value)}px`;
+const ms = (value: number): string => `${num(value)}ms`;
+
 function cssValue(value: string): string {
-  if (!/^[A-Za-z0-9 #%.,()\-]+$/.test(value)) throw new TypeError(`Design token is not a plain CSS value: ${value}`);
+  if (typeof value !== 'string' || !/^[A-Za-z0-9 #%.,()\-]+$/.test(value)) throw new TypeError(`Design token is not a plain CSS value: ${String(value)}`);
   return value;
 }
 
@@ -53,19 +62,19 @@ export function shellCssVariables(tokens: ShellTokenSource): ReadonlyMap<string,
     ['--ms-text-label', rem(tokens.type.labelPx)],
     ['--ms-text-heading', rem(tokens.type.headingPx)],
     ['--ms-text-display', rem(tokens.type.displayPx)],
-    ['--ms-leading-body', String(tokens.type.bodyLineHeight)],
-    ['--ms-leading-heading', String(tokens.type.headingLineHeight)],
-    ['--ms-radius-control', `${tokens.radiusPx.control}px`],
-    ['--ms-radius-panel', `${tokens.radiusPx.panel}px`],
-    ['--ms-stroke-control', `${tokens.strokePx.control}px`],
-    ['--ms-stroke-focus', `${tokens.strokePx.focus}px`],
-    ['--ms-stroke-illustration', `${tokens.strokePx.illustration}px`],
+    ['--ms-leading-body', String(num(tokens.type.bodyLineHeight))],
+    ['--ms-leading-heading', String(num(tokens.type.headingLineHeight))],
+    ['--ms-radius-control', px(tokens.radiusPx.control)],
+    ['--ms-radius-panel', px(tokens.radiusPx.panel)],
+    ['--ms-stroke-control', px(tokens.strokePx.control)],
+    ['--ms-stroke-focus', px(tokens.strokePx.focus)],
+    ['--ms-stroke-illustration', px(tokens.strokePx.illustration)],
     ['--ms-target-min', rem(tokens.interaction.minimumTargetCssPx)],
-    ['--ms-motion-selection', `${tokens.motionMs.selection}ms`],
-    ['--ms-motion-card', `${tokens.motionMs.cardTransition}ms`],
-    ['--ms-motion-reduced-fade', `${tokens.motionMs.reducedMotionFade}ms`],
+    ['--ms-motion-selection', ms(tokens.motionMs.selection)],
+    ['--ms-motion-card', ms(tokens.motionMs.cardTransition)],
+    ['--ms-motion-reduced-fade', ms(tokens.motionMs.reducedMotionFade)],
   ]);
-  tokens.spacingPx.forEach((px, index) => variables.set(`--ms-space-${index + 1}`, rem(px)));
+  tokens.spacingPx.forEach((value, index) => variables.set(`--ms-space-${index + 1}`, rem(value)));
   return variables;
 }
 
@@ -80,5 +89,5 @@ export function shellTokenStylesheet(tokens: ShellTokenSource): string {
  * stylesheet repeats these two numbers and a test keeps them equal to the tokens.
  */
 export function shellBreakpoints(tokens: ShellTokenSource): { readonly expandedPlayer: number; readonly wideTable: number } {
-  return { expandedPlayer: tokens.interaction.breakpointsCssPx.expandedPlayerLayout, wideTable: tokens.interaction.breakpointsCssPx.wideTableLayout };
+  return { expandedPlayer: num(tokens.interaction.breakpointsCssPx.expandedPlayerLayout), wideTable: num(tokens.interaction.breakpointsCssPx.wideTableLayout) };
 }

@@ -84,20 +84,19 @@ export const en = {
     health: (health: HealthState): string => health,
   },
 
+  privateArea: {
+    heading: 'Private',
+    show: 'Show private information',
+    hide: 'Hide private information',
+    hint: 'Only open this where other players cannot see your screen.',
+    role: 'Your role',
+  },
+
   actions: {
     heading: 'Actions',
-    concealed: 'Private controls are hidden while the app is in the background.',
     pausedStale: 'Actions are paused until the connection is restored.',
     pausedExpired: 'This phase has ended. Waiting for phase update.',
     shot: { title: 'Shot', available: 'Available', unavailable: 'Not available' },
-  },
-
-  role: {
-    heading: 'Private role',
-    show: 'Show my role',
-    hide: 'Hide my role',
-    hint: 'Only open this where other players cannot see your screen.',
-    label: 'Your role',
   },
 
   roster: {
@@ -137,7 +136,7 @@ export const en = {
     connectionLost: 'Connection lost. Showing the last known state.',
     unreadable: 'The latest update could not be read.',
     timeUp: 'Time is up. Waiting for phase update.',
-    finalSeconds: (seconds: number) => `${seconds} seconds left.`,
+    finalSeconds: (seconds: number) => (seconds === 1 ? '1 second left.' : `${seconds} seconds left.`),
     health: (seat: number, health: HealthState) => `Player ${seat} is now ${health}.`,
     jailed: (seat: number) => `Player ${seat} is now jailed.`,
     released: (seat: number) => `Player ${seat} is no longer jailed.`,

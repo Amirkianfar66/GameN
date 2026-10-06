@@ -3,7 +3,7 @@
 // without re-deriving its accessibility semantics.
 
 const TAGS = [
-  'a', 'button', 'caption', 'dd', 'details', 'div', 'dl', 'dt', 'footer', 'h1', 'h2', 'h3', 'header',
+  'a', 'button', 'caption', 'dd', 'details', 'div', 'dl', 'dt', 'footer', 'h1', 'h2', 'h3', 'h4', 'header',
   'input', 'label', 'li', 'main', 'ol', 'p', 'section', 'span', 'strong', 'summary', 'table', 'tbody',
   'td', 'th', 'thead', 'tr', 'ul',
 ] as const;
@@ -22,13 +22,19 @@ export type MarkupChild = MarkupNode | null | undefined | false | readonly Marku
 export type MarkupAttributes = Readonly<Record<string, MarkupAttributeValue | null | undefined>>;
 
 const ATTRIBUTE_NAME = /^[a-z][a-z0-9-]*$/;
-// Markup stays compatible with a strict content security policy and can never carry
-// script, inline style or a navigation target chosen by data.
-const FORBIDDEN_ATTRIBUTES: ReadonlySet<string> = new Set(['style', 'src', 'srcdoc', 'srcset', 'action', 'formaction']);
+// An allowlist, not a list of known dangers: markup stays compatible with a strict content
+// security policy and can never carry script, inline style, an event handler, a resource
+// URL, or a navigation target chosen by data, including through an attribute nobody thought of.
+const ATTRIBUTES: ReadonlySet<string> = new Set(['class', 'id', 'href', 'type', 'role', 'tabindex', 'hidden', 'checked', 'for', 'scope', 'disabled', 'open', 'lang']);
+const PREFIXED_ATTRIBUTE = /^(aria|data)-[a-z][a-z0-9-]*$/;
+
+function checkTag(tag: string): void {
+  if (!TAG_SET.has(tag)) throw new TypeError(`Tag not permitted in shell markup: ${tag}`);
+}
 
 function checkAttribute(tag: string, name: string, value: MarkupAttributeValue): void {
   if (!ATTRIBUTE_NAME.test(name)) throw new TypeError(`Invalid attribute name on <${tag}>: ${name}`);
-  if (name.startsWith('on') || FORBIDDEN_ATTRIBUTES.has(name)) throw new TypeError(`Attribute not permitted in shell markup: ${name}`);
+  if (!ATTRIBUTES.has(name) && !PREFIXED_ATTRIBUTE.test(name)) throw new TypeError(`Attribute not permitted in shell markup: ${name}`);
   if (name === 'href' && !(typeof value === 'string' && /^#[A-Za-z][A-Za-z0-9_-]*$/.test(value))) {
     throw new TypeError('Shell markup links may only target an in-page fragment');
   }
@@ -47,7 +53,7 @@ function isChildList(child: MarkupElement | readonly MarkupChild[]): child is re
 }
 
 export function h(tag: MarkupTag, attrs: MarkupAttributes | null, ...children: readonly MarkupChild[]): MarkupElement {
-  if (!TAG_SET.has(tag)) throw new TypeError(`Tag not permitted in shell markup: ${String(tag)}`);
+  checkTag(String(tag));
   const kept: Record<string, MarkupAttributeValue> = {};
   for (const [name, value] of Object.entries(attrs ?? {})) {
     if (value === null || value === undefined || value === false) continue;
@@ -73,8 +79,12 @@ export function escapeAttribute(value: string): string {
 
 export function toHtml(node: MarkupNode): string {
   if (typeof node === 'string') return escapeText(node);
+  // Checked again here, so a node assembled by hand is held to the same rules as one from h().
+  checkTag(node.tag);
   let html = `<${node.tag}`;
   for (const [name, value] of Object.entries(node.attrs)) {
+    if (value === false) continue;
+    checkAttribute(node.tag, name, value);
     html += value === true ? ` ${name}` : ` ${name}="${escapeAttribute(String(value))}"`;
   }
   html += '>';

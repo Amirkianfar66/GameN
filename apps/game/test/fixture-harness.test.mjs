@@ -151,12 +151,14 @@ test('the real player screen runs against the fixture transport, labeled as fixt
   assert.equal(model.mode, 'fixture');
   assert.equal(model.banners[0].text, 'Fixture data. A synthetic development scenario, not a live match.');
   assert.equal(model.match.phase.phaseLabel, 'Your turn');
-  assert.equal(model.match.actions.cards[0].statusLabel, 'Available');
+  assert.equal(model.match.privateArea.content, null, 'nothing private until asked');
   assert.equal(model.match.phase.timer.display, '1:00');
+  screen.dispatch({ type: 'private/toggle' });
+  assert.equal(screen.getFrame().model.match.privateArea.content.actions.cards[0].statusLabel, 'Available');
 
   scenario.advance();
   await flush();
-  assert.equal(screen.getFrame().model.match.actions.cards[0].statusLabel, 'Not available');
+  assert.equal(screen.getFrame().model.match.privateArea.content.actions.cards[0].statusLabel, 'Not available');
   now += 2_000;
   scenario.advance();
   await flush();

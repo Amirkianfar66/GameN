@@ -9,13 +9,14 @@ import { auditMarkup, byClass, byId, byRegion, byTag, find, findAll, identifierV
 const { before, afterRegistration } = fixture();
 const player = (view, overrides) => renderPlayerShell(buildPlayerShellModel(playerInput(view, overrides)));
 const table = (view, overrides) => renderTableShell(buildTableShellModel(tableInput(view, overrides)));
-const open = { privacy: { concealed: false, roleDrawerOpen: true } };
+const open = { privacy: { concealed: false, revealed: true } };
 
 const screens = {
   'player match': () => player(before.officer),
-  'player match, drawer open': () => player(before.officer, open),
-  'player match, concealed': () => player(before.officer, { privacy: { concealed: true, roleDrawerOpen: true } }),
+  'player match, private panel open': () => player(before.officer, open),
+  'player match, concealed': () => player(before.officer, { privacy: { concealed: true, revealed: true } }),
   'player stale': () => player(before.target, { connection: 'stale' }),
+  'player stale, private panel open': () => player(before.target, { connection: 'stale', ...open }),
   'player connecting': () => player(null, { connection: 'connecting', deadline: { kind: 'unsynced' } }),
   'player blocked': () => player(before.officer, { problem: 'incompatible-protocol' }),
   'player integrity': () => player(before.officer, { problem: 'integrity' }),
@@ -46,8 +47,8 @@ test('the table display never renders a role, a private control or an intent tha
     const root = table(view);
     const html = toHtml(root);
     for (const role of ROLE_NAMES) assert.equal(html.includes(role), false, role);
-    assert.equal(findAll(root, byRegion('role')).length, 0);
-    assert.equal(findAll(root, byRegion('actions')).length, 0);
+    assert.equal(findAll(root, byRegion('private')).length, 0);
+    assert.equal(findAll(root, byClass('ms-card')).length, 0);
     const intents = findAll(root, element => element.attrs['data-intent'] !== undefined).map(element => element.attrs['data-intent']);
     assert.deepEqual(intents, ['settings/reduce-motion']);
   }
@@ -58,39 +59,47 @@ test('a hidden registration leaves the table and the target phone byte-for-byte 
   assert.equal(toHtml(player(afterRegistration.target, open)), toHtml(player(before.target, open)));
 });
 
-test('the role exists in the document only while the drawer is open in the foreground', () => {
-  const closed = player(before.officer);
-  assert.equal(toHtml(closed).includes('Officer'), false);
-  const panel = find(closed, byId(SHELL_IDS.rolePanel));
-  assert.equal(panel.attrs.hidden, true);
-  assert.deepEqual(panel.children, []);
-  const toggle = find(closed, byId(SHELL_IDS.roleToggle));
-  assert.equal(toggle.attrs['aria-expanded'], 'false');
-  assert.equal(toggle.attrs['aria-controls'], SHELL_IDS.rolePanel);
-  assert.equal(textOf(toggle), 'Show my role');
+test('the role and the action status exist in the document only while the private panel is open in the foreground', () => {
+  for (const view of [before.officer, before.target]) {
+    const closed = player(view);
+    const html = toHtml(closed);
+    for (const word of [...ROLE_NAMES, 'Available', 'Not available', 'Shot', 'data-status', 'ms-card']) assert.equal(html.includes(word), false, word);
+    const panel = find(closed, byId(SHELL_IDS.privatePanel));
+    assert.equal(panel.attrs.hidden, true);
+    assert.deepEqual(panel.children, []);
+    const toggle = find(closed, byId(SHELL_IDS.privateToggle));
+    assert.equal(toggle.attrs['aria-expanded'], 'false');
+    assert.equal(toggle.attrs['aria-controls'], SHELL_IDS.privatePanel);
+    assert.equal(textOf(toggle), 'Show private information');
+  }
 
   const shown = player(before.officer, open);
-  assert.equal(textOf(find(shown, byId(SHELL_IDS.rolePanel))), 'Your roleOfficer');
-  assert.equal(find(shown, byId(SHELL_IDS.rolePanel)).attrs.hidden, undefined);
-  assert.equal(find(shown, byId(SHELL_IDS.roleToggle)).attrs['aria-expanded'], 'true');
-  assert.equal(toHtml(shown).split('Officer').length - 1, 1, 'The role is stated once, inside the drawer');
+  assert.equal(textOf(find(shown, byId(SHELL_IDS.privatePanel))), 'Your roleOfficerActionsShotAvailable');
+  assert.equal(find(shown, byId(SHELL_IDS.privatePanel)).attrs.hidden, undefined);
+  assert.equal(find(shown, byId(SHELL_IDS.privateToggle)).attrs['aria-expanded'], 'true');
+  assert.equal(textOf(find(shown, byId(SHELL_IDS.privateToggle))), 'Hide private information');
+  assert.equal(toHtml(shown).split('Officer').length - 1, 1, 'The role is stated once, inside the panel');
 
-  const concealed = player(before.officer, { privacy: { concealed: true, roleDrawerOpen: true } });
+  const concealed = player(before.officer, { privacy: { concealed: true, revealed: true } });
   assert.equal(toHtml(concealed).includes('Officer'), false);
   assert.equal(findAll(concealed, byClass('ms-card')).length, 0);
+  assert.equal(find(concealed, byId(SHELL_IDS.privateToggle)).attrs['aria-expanded'], 'false');
 });
 
-test('identifiers, classes and data attributes are role-neutral even with the drawer open', () => {
+test('identifiers, classes and data attributes are role-neutral even with the private panel open', () => {
   for (const view of [before.officer, before.target, afterRegistration.officer]) {
     for (const value of identifierValues(player(view, open))) assert.doesNotMatch(value, ROLE_PATTERN, value);
   }
   for (const value of identifierValues(table(before.public))) assert.doesNotMatch(value, ROLE_PATTERN, value);
 });
 
-test('a phone renders the same document whatever role it holds; only the open drawer names the role', () => {
+test('a closed phone is the same document whatever role it holds or what it can do; open, only the supplied facts differ', () => {
   for (const role of ROLE_NAMES) {
+    for (const shotAvailable of [true, false]) {
+      const reassigned = playerVariant(before.officer, v => { v.self.role = role; v.self.shotAvailable = shotAvailable; });
+      assert.equal(toHtml(player(reassigned)), toHtml(player(before.officer)), `${role} ${shotAvailable}`);
+    }
     const reassigned = playerVariant(before.officer, v => { v.self.role = role; });
-    assert.equal(toHtml(player(reassigned)), toHtml(player(before.officer)), role);
     assert.equal(toHtml(player(reassigned, open)), toHtml(player(before.officer, open)).replace('Officer', role), role);
   }
 });
@@ -100,8 +109,10 @@ test('status is never carried by color alone: every seat marker and action state
   for (const marker of findAll(root, byClass('ms-marker'))) assert.notEqual(textOf(marker).trim(), '');
   const injured = findAll(root, element => element.attrs['data-seat'] === 'seat-2')[0];
   assert.equal(textOf(injured), '2Player 2: Injured, Jailed');
-  assert.equal(textOf(find(root, byClass('ms-card__status'))), 'Available');
-  assert.equal(find(root, byClass('ms-card')).attrs['data-status'], 'available');
+  const shown = player(before.officer, open);
+  assert.equal(textOf(find(shown, byClass('ms-card__status'))), 'Available');
+  assert.equal(find(shown, byClass('ms-card')).attrs['data-status'], 'available');
+  assert.equal(textOf(find(player(before.target, open), byClass('ms-card__status'))), 'Not available');
 });
 
 test('the countdown is a timer that is not announced every second, with a spoken equivalent', () => {
@@ -126,14 +137,21 @@ test('a countdown tick replaces only the timer region', () => {
   assert.deepEqual(first.rootAttrs, second.rootAttrs);
   const changed = [...first.regions.keys()].filter(id => first.regions.get(id) !== second.regions.get(id));
   assert.deepEqual(changed, ['timer']);
-  assert.deepEqual([...first.regions.keys()], ['banners', 'phase', 'timer', 'location', 'actions', 'role', 'roster', 'settings', 'details']);
+  assert.deepEqual([...first.regions.keys()], ['banners', 'phase', 'timer', 'location', 'private', 'roster', 'settings', 'details']);
 });
 
-test('opening the drawer replaces only the role region, so focus elsewhere is untouched', () => {
+test('opening the private panel replaces only its own region, so focus elsewhere is untouched', () => {
   const closed = splitRegions(player(before.officer));
   const shown = splitRegions(player(before.officer, open));
   assert.equal(closed.frameHtml, shown.frameHtml);
-  assert.deepEqual([...closed.regions.keys()].filter(id => closed.regions.get(id) !== shown.regions.get(id)), ['role']);
+  assert.deepEqual([...closed.regions.keys()].filter(id => closed.regions.get(id) !== shown.regions.get(id)), ['private']);
+});
+
+test('a hidden registration touches only the private region of the registering phone, and only while it is open', () => {
+  const regions = (view, overrides) => splitRegions(player(view, overrides)).regions;
+  const changed = (a, b) => [...a.keys()].filter(id => a.get(id) !== b.get(id));
+  assert.deepEqual(changed(regions(before.officer), regions(afterRegistration.officer)), []);
+  assert.deepEqual(changed(regions(before.officer, open), regions(afterRegistration.officer, open)), ['private']);
 });
 
 test('the shell root states surface, screen, connection, data source and motion for styling and tests', () => {
@@ -173,7 +191,8 @@ test('the stale banner offers a keyboard-reachable reconnect and the last view s
   assert.equal(action.attrs['data-intent'], 'session/reconnect');
   assert.equal(textOf(action), 'Reconnect now');
   assert.equal(findAll(root, byClass('ms-seat')).length > 0, true);
-  assert.equal(textOf(find(root, byClass('ms-notice'))), 'Actions are paused until the connection is restored.');
+  assert.equal(findAll(root, byClass('ms-notice')).length, 0, 'the paused notice is private-panel content');
+  assert.equal(textOf(find(player(before.officer, { connection: 'stale', ...open }), byClass('ms-notice'))), 'Actions are paused until the connection is restored.');
 });
 
 test('the table roster is a real table: caption, column and row headers, one row per seat', () => {

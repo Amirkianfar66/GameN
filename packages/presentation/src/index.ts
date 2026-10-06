@@ -14,7 +14,8 @@ export interface MotionPreferences {
 }
 
 export { en } from './copy/en.js';
-export { describePlayerTransition, describeTableTransition } from './model/announcements.js';
+export { createPlayerAnnouncer, createTableAnnouncer } from './model/announcements.js';
+export type { Announcer } from './model/announcements.js';
 export { displaySeconds, FINAL_SECONDS, formatClock, seatNumber } from './model/common.js';
 export { buildPlayerShellModel } from './model/player-shell.js';
 export { buildTableShellModel } from './model/table-shell.js';

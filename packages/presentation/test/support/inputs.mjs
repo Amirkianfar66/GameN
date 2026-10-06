@@ -16,7 +16,7 @@ const environment = {
 };
 
 export function playerInput(view, overrides = {}) {
-  return { ...environment, view, privacy: { concealed: false, roleDrawerOpen: false }, ...overrides };
+  return { ...environment, view, privacy: { concealed: false, revealed: false }, ...overrides };
 }
 export function tableInput(view, overrides = {}) {
   return { ...environment, view, ...overrides };

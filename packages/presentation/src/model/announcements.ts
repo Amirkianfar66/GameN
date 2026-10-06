@@ -8,21 +8,19 @@ interface Moment {
   readonly view: AudienceView | null;
 }
 
+/** What has already been said about the phase on screen, so it is said once. */
+interface PhaseMemory {
+  readonly phaseId: string | null;
+  readonly expirySpoken: boolean;
+  readonly lastSecondsSpoken: boolean;
+}
+const NOTHING_SPOKEN: PhaseMemory = { phaseId: null, expirySpoken: false, lastSecondsSpoken: false };
+
 /** More simultaneous seat changes than this are summarized instead of read out one by one. */
 const MAX_SEAT_ANNOUNCEMENTS = 3;
 
 function polite(text: string): LiveAnnouncement {
   return { politeness: 'polite', text };
-}
-
-function sawExpiry(moment: Moment | null, view: AudienceView): boolean {
-  return moment?.view?.phase.id === view.phase.id && moment.env.deadline.kind === 'expired';
-}
-
-// Where the match stands. Mentions an expired phase unless the listener already heard that.
-function summary(previous: Moment | null, next: Moment, view: AudienceView, selfSeatId: SeatId | null): string {
-  const base = phaseSummary(view, selfSeatId);
-  return next.env.deadline.kind === 'expired' && !sawExpiry(previous, view) ? `${base} ${en.announce.timeUp}` : base;
 }
 
 // Only public seat facts are compared. A health change is read out as a status and never
@@ -42,65 +40,99 @@ function seatChanges(previous: AudienceView, next: AudienceView): string[] {
   return changes.length > MAX_SEAT_ANNOUNCEMENTS ? [en.announce.manyChanges] : changes;
 }
 
-function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | null): LiveAnnouncement[] {
-  const nextScreen = resolveScreen(next.env, next.view !== null);
+// What changed about connection, phase and seats between two moments.
+function describeChange(previous: Moment | null, next: Moment, view: AudienceView, selfSeatId: SeatId | null): LiveAnnouncement[] {
   const previousScreen = previous ? resolveScreen(previous.env, previous.view !== null) : 'connecting';
   const becameUnreadable = next.env.problem === 'unreadable-update' && previous?.env.problem !== 'unreadable-update';
-
-  if (nextScreen === 'blocked') {
-    if (previousScreen === 'blocked' && previous?.env.problem === next.env.problem) return [];
-    const heading = next.env.problem === 'integrity' ? en.blocked.integrity.heading : en.blocked.incompatible.heading;
-    return [{ politeness: 'assertive', text: `${heading}.` }];
-  }
-  if (nextScreen === 'connecting' || next.view === null) return becameUnreadable ? [polite(en.announce.unreadable)] : [];
-
-  const view = next.view;
   const current = isCurrent(next.env);
   const wasShown = previous !== null && previousScreen === 'match' && previous.view !== null;
   const wasCurrent = wasShown && isCurrent(previous.env);
-  const out: LiveAnnouncement[] = [];
+  const summary = phaseSummary(view, selfSeatId);
 
   if (!current) {
-    if (becameUnreadable) out.push(polite(en.announce.unreadable));
-    else if (wasCurrent) out.push(polite(en.announce.connectionLost));
-  } else if (!wasShown) {
-    return [polite(en.announce.connected(summary(previous, next, view, selfSeatId)))];
-  } else if (!wasCurrent) {
-    // Whatever happened in the meantime is obsolete: state the present, do not replay it.
-    const wasConnected = previous?.env.connection === 'live';
-    const phrase = wasConnected ? en.announce.readableAgain : en.announce.reconnected;
-    return [polite(phrase(summary(previous, next, view, selfSeatId)))];
-  } else if (previous?.view) {
-    if (previous.view.phase.id !== view.phase.id) out.push(polite(summary(previous, next, view, selfSeatId)));
-    for (const change of seatChanges(previous.view, view)) out.push(polite(change));
+    if (becameUnreadable) return [polite(en.announce.unreadable)];
+    return wasCurrent ? [polite(en.announce.connectionLost)] : [];
   }
-
-  // The countdown is a trusted fact about the shown phase, so it is voiced even while stale.
-  // "unsynced" covers the moment after a return from the background, before time is re-measured.
-  const before = previous?.view?.phase.id === view.phase.id ? previous.env.deadline : null;
-  const after = next.env.deadline;
-  if (before && (before.kind === 'running' || before.kind === 'unsynced')) {
-    if (after.kind === 'expired') {
-      out.push(polite(en.announce.timeUp));
-    } else if (after.kind === 'running' && selfSeatId !== null && view.activeSeatId === selfSeatId) {
-      const seconds = displaySeconds(after.remainingMs);
-      const wasAbove = before.kind === 'unsynced' || displaySeconds(before.remainingMs) > FINAL_SECONDS;
-      // A screen-reader user gets the same warning a sighted player reads off the countdown.
-      if (wasAbove && seconds <= FINAL_SECONDS) out.push(polite(en.announce.finalSeconds(seconds)));
-    }
+  if (!wasShown) return [polite(en.announce.connected(summary))];
+  if (!wasCurrent) {
+    // Whatever happened in the meantime is obsolete: state the present, do not replay it.
+    const phrase = previous?.env.connection === 'live' ? en.announce.readableAgain : en.announce.reconnected;
+    return [polite(phrase(summary))];
+  }
+  const out: LiveAnnouncement[] = [];
+  if (previous?.view) {
+    if (previous.view.phase.id !== view.phase.id) out.push(polite(summary));
+    for (const change of seatChanges(previous.view, view)) out.push(polite(change));
   }
   return out;
 }
 
-function moment(input: PlayerShellInput | TableShellInput): Moment {
-  return { env: input, view: input.view };
+// The countdown is a trusted fact about the phase on screen, so it is voiced even while the
+// connection is stale. Each of its two notices is given once per phase, however many times
+// the clock is re-measured after a reconnect or a return from the background, and in
+// whichever order the view and the time happen to arrive.
+function describeCountdown(next: Moment, view: AudienceView, selfSeatId: SeatId | null, memory: PhaseMemory): { out: LiveAnnouncement[]; memory: PhaseMemory } {
+  let remembered = memory.phaseId === view.phase.id ? memory : { ...NOTHING_SPOKEN, phaseId: view.phase.id };
+  const out: LiveAnnouncement[] = [];
+  const deadline = next.env.deadline;
+  if (deadline.kind === 'expired' && !remembered.expirySpoken) {
+    out.push(polite(en.announce.timeUp));
+    // Once time is up there is nothing left to warn about.
+    remembered = { ...remembered, expirySpoken: true, lastSecondsSpoken: true };
+  } else if (deadline.kind === 'running' && !remembered.lastSecondsSpoken && selfSeatId !== null && view.activeSeatId === selfSeatId) {
+    const seconds = displaySeconds(deadline.remainingMs);
+    if (seconds <= FINAL_SECONDS) {
+      // A screen-reader user gets the same warning a sighted player reads off the countdown.
+      out.push(polite(en.announce.finalSeconds(seconds)));
+      remembered = { ...remembered, lastSecondsSpoken: true };
+    }
+  }
+  return { out, memory: remembered };
 }
 
-/** What a screen reader should hear because the player's screen changed from one input to the next. */
-export function describePlayerTransition(previous: PlayerShellInput | null, next: PlayerShellInput): LiveAnnouncement[] {
-  return describe(previous ? moment(previous) : null, moment(next), next.view?.self.seatId ?? null);
+function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | null, memory: PhaseMemory): { out: LiveAnnouncement[]; memory: PhaseMemory } {
+  const nextScreen = resolveScreen(next.env, next.view !== null);
+  if (nextScreen === 'blocked') {
+    const previousScreen = previous ? resolveScreen(previous.env, previous.view !== null) : 'connecting';
+    if (previousScreen === 'blocked' && previous?.env.problem === next.env.problem) return { out: [], memory };
+    const heading = next.env.problem === 'integrity' ? en.blocked.integrity.heading : en.blocked.incompatible.heading;
+    return { out: [{ politeness: 'assertive', text: `${heading}.` }], memory };
+  }
+  if (nextScreen === 'connecting' || next.view === null) {
+    const becameUnreadable = next.env.problem === 'unreadable-update' && previous?.env.problem !== 'unreadable-update';
+    return { out: becameUnreadable ? [polite(en.announce.unreadable)] : [], memory };
+  }
+  const countdown = describeCountdown(next, next.view, selfSeatId, memory);
+  return { out: [...describeChange(previous, next, next.view, selfSeatId), ...countdown.out], memory: countdown.memory };
 }
 
-export function describeTableTransition(previous: TableShellInput | null, next: TableShellInput): LiveAnnouncement[] {
-  return describe(previous ? moment(previous) : null, moment(next), null);
+/**
+ * Decides what a screen reader should hear as a screen moves from one input to the next.
+ * It remembers the previous input and what it has already said about the current phase,
+ * so feed it every input the screen is drawn from, in order.
+ */
+export interface Announcer<Input> {
+  next(input: Input): LiveAnnouncement[];
+}
+
+function createAnnouncer<Input extends PlayerShellInput | TableShellInput>(selfSeatOf: (input: Input) => SeatId | null): Announcer<Input> {
+  let previous: Moment | null = null;
+  let memory = NOTHING_SPOKEN;
+  return {
+    next(input) {
+      const moment: Moment = { env: input, view: input.view };
+      const result = describe(previous, moment, selfSeatOf(input), memory);
+      previous = moment;
+      memory = result.memory;
+      return result.out;
+    },
+  };
+}
+
+export function createPlayerAnnouncer(): Announcer<PlayerShellInput> {
+  return createAnnouncer<PlayerShellInput>(input => input.view?.self.seatId ?? null);
+}
+
+export function createTableAnnouncer(): Announcer<TableShellInput> {
+  return createAnnouncer<TableShellInput>(() => null);
 }

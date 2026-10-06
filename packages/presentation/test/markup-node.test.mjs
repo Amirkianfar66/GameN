@@ -13,14 +13,31 @@ test('markup cannot carry script, inline style, event handlers or a data-chosen 
   for (const tag of ['script', 'style', 'iframe', 'img', 'form', 'object']) {
     assert.throws(() => h(tag, null), /not permitted/, tag);
   }
-  for (const name of ['onclick', 'onload', 'style', 'src', 'srcdoc', 'action', 'formaction']) {
+  // Attributes are allowed by name, so one nobody thought to forbid is refused as well.
+  for (const name of ['onclick', 'onload', 'style', 'src', 'srcdoc', 'action', 'formaction', 'ping', 'background', 'poster', 'target', 'download', 'name', 'value', 'title', 'contenteditable', 'accesskey']) {
     assert.throws(() => h('div', { [name]: 'x' }), /not permitted/, name);
+  }
+  for (const name of ['class', 'id', 'role', 'tabindex', 'hidden', 'for', 'scope', 'aria-label', 'aria-live', 'data-region', 'data-intent']) {
+    assert.doesNotThrow(() => h('div', { [name]: 'x' }), name);
+  }
+  for (const name of ['aria-', 'data-', 'data-Upper', 'aria_label', 'xml:lang', 'data-x y']) {
+    assert.throws(() => h('div', { [name]: 'x' }), /not permitted|Invalid attribute name/, name);
   }
   for (const href of ['https://example.test/', 'javascript:alert(1)', '//example.test', '/path', '#', '#9bad', '# spaced']) {
     assert.throws(() => h('a', { href }, 'link'), /in-page fragment/, href);
   }
   assert.throws(() => h('div', { 'Bad Name': 'x' }), /Invalid attribute name/);
   assert.equal(toHtml(h('a', { href: '#ms-main' }, 'Skip')), '<a href="#ms-main">Skip</a>');
+});
+
+test('a node assembled by hand is held to the same rules when it is serialized', () => {
+  const text = 'ok';
+  assert.throws(() => toHtml({ tag: 'script', attrs: {}, children: ['alert(1)'] }), /Tag not permitted/);
+  assert.throws(() => toHtml({ tag: 'div', attrs: { onclick: 'alert(1)' }, children: [text] }), /not permitted/);
+  assert.throws(() => toHtml({ tag: 'a', attrs: { href: 'javascript:alert(1)' }, children: [text] }), /in-page fragment/);
+  assert.throws(() => toHtml(h('div', null, { tag: 'iframe', attrs: {}, children: [] })), /Tag not permitted/);
+  assert.throws(() => splitRegions({ tag: 'div', attrs: {}, children: [{ tag: 'div', attrs: { 'data-region': 'a', style: 'x' }, children: [] }] }), /not permitted/);
+  assert.equal(toHtml({ tag: 'p', attrs: { hidden: false, id: 'p' }, children: [text] }), '<p id="p">ok</p>');
 });
 
 test('boolean, absent and void handling matches HTML', () => {

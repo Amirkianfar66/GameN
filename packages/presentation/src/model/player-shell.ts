@@ -2,23 +2,31 @@ import { en } from '../copy/en.js';
 import {
   buildBanners, buildBlocked, buildDetails, buildPhaseStrip, buildSeats, buildSettings, buildZones, isCurrent, resolveScreen, seatNumber,
 } from './common.js';
-import type { ActionsModel, PlayerMatchModel, PlayerShellInput, PlayerShellModel, RoleDrawerModel } from './types.js';
+import type { ActionsModel, PlayerMatchModel, PlayerShellInput, PlayerShellModel, PrivateAreaModel } from './types.js';
 
 function buildActions(input: PlayerShellInput, shotAvailable: boolean): ActionsModel {
-  if (input.privacy.concealed) {
-    return { heading: en.actions.heading, concealedText: en.actions.concealed, notice: null, cards: [] };
-  }
   const notice = !isCurrent(input) ? en.actions.pausedStale : input.deadline.kind === 'expired' ? en.actions.pausedExpired : null;
   return {
     heading: en.actions.heading,
-    concealedText: null,
     notice,
-    // Every seat gets the same card. Only the server-supplied status differs, so the layout
-    // of a phone does not depend on the role dealt to it.
+    // Every seat gets the same card. Only the server-supplied status differs.
     cards: [{
       id: 'shot', title: en.actions.shot.title, status: shotAvailable ? 'available' : 'unavailable',
       statusLabel: shotAvailable ? en.actions.shot.available : en.actions.shot.unavailable,
     }],
+  };
+}
+
+function buildPrivateArea(input: PlayerShellInput, view: NonNullable<PlayerShellInput['view']>): PrivateAreaModel {
+  const open = input.privacy.revealed && !input.privacy.concealed;
+  return {
+    heading: en.privateArea.heading,
+    hint: en.privateArea.hint,
+    open,
+    toggleLabel: open ? en.privateArea.hide : en.privateArea.show,
+    // Closed or backgrounded, the role and the action status are not merely hidden by
+    // style: they are not in the model, so they cannot reach the document.
+    content: open ? { role: { label: en.privateArea.role, name: view.self.role }, actions: buildActions(input, view.self.shotAvailable) } : null,
   };
 }
 
@@ -27,15 +35,6 @@ function buildMatch(input: PlayerShellInput, view: NonNullable<PlayerShellInput[
   const seats = buildSeats(view, selfSeatId);
   const self = seats.find(seat => seat.isSelf);
   if (!self) throw new Error('A validated player view always contains its own seat');
-  const open = input.privacy.roleDrawerOpen && !input.privacy.concealed;
-  const roleDrawer: RoleDrawerModel = {
-    heading: en.role.heading,
-    open,
-    toggleLabel: open ? en.role.hide : en.role.show,
-    hint: en.role.hint,
-    // A closed or concealed drawer carries no role at all; it is not merely hidden by style.
-    role: open ? { label: en.role.label, name: view.self.role } : null,
-  };
   return {
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),
@@ -48,8 +47,7 @@ function buildMatch(input: PlayerShellInput, view: NonNullable<PlayerShellInput[
       others: seats.filter(seat => !seat.isSelf && seat.location === self.location),
       aloneText: en.location.alone,
     },
-    actions: buildActions(input, view.self.shotAvailable),
-    roleDrawer,
+    privateArea: buildPrivateArea(input, view),
     roster: { heading: en.roster.playerHeading, zones: buildZones(seats) },
     details: buildDetails(view, input.mode),
   };

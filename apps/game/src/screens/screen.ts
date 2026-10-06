@@ -1,5 +1,5 @@
 import { SHELL_IDS } from '@mothership/presentation';
-import type { LiveAnnouncement, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
+import type { Announcer, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
 import { estimateDeadline, millisecondsToNextSecond } from '../clock/deadline.js';
 import type { ClientPorts } from '../ports.js';
 import type { AudienceSession } from '../session/audience-session.js';
@@ -22,7 +22,7 @@ export interface ScreenController<Model> {
   getFrame(): ScreenFrame<Model>;
   subscribe(listener: () => void): () => void;
   dispatch(intent: ShellIntent): void;
-  /** Backgrounding conceals private panels and stops the countdown; returning re-measures time. */
+  /** Backgrounding closes the private panel and stops the countdown; returning re-measures time. */
   setPageVisible(visible: boolean): void;
   setDeviceReducedMotion(reduced: boolean): void;
   start(): void;
@@ -32,7 +32,8 @@ export interface ScreenController<Model> {
 /** State that belongs to this device alone. It is never sent anywhere and never persisted. */
 export interface LocalState {
   readonly pageVisible: boolean;
-  readonly roleDrawerOpen: boolean;
+  /** The player has opened the private panel. Never true by default, never restored. */
+  readonly privateRevealed: boolean;
   readonly deviceReducedMotion: boolean;
   /** null while the player has not overridden the device setting. */
   readonly motionChoice: boolean | null;
@@ -45,7 +46,7 @@ interface ScreenConfig<View, Input, Model> {
   readonly phaseOf: (view: View) => PhaseFacts;
   readonly buildInput: (environment: ShellEnvironment, view: View | null, local: LocalState) => Input;
   readonly buildModel: (input: Input) => Model;
-  readonly describe: (previous: Input | null, next: Input) => LiveAnnouncement[];
+  readonly announcer: Announcer<Input>;
   /** Surface-specific intents. Returns the new local state, or null when the intent is not handled. */
   readonly reduceLocal: (local: LocalState, intent: ShellIntent, model: Model) => LocalState | null;
 }
@@ -55,8 +56,7 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
 ): ScreenController<Model> {
   const { session, ports } = config;
   const listeners = new Set<() => void>();
-  let local: LocalState = { pageVisible: true, roleDrawerOpen: false, deviceReducedMotion: false, motionChoice: null };
-  let previousInput: Input | null = null;
+  let local: LocalState = { pageVisible: true, privateRevealed: false, deviceReducedMotion: false, motionChoice: null };
   let announcement: ScreenFrame<Model>['announcement'] = null;
   let focus: ScreenFrame<Model>['focus'] = null;
   let tick: unknown = null;
@@ -78,6 +78,7 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
   }
 
   let frame: ScreenFrame<Model> = { model: compute().model, announcement, focus };
+  let drawn = JSON.stringify(frame.model);
 
   function refresh(): void {
     if (disposed) return;
@@ -86,9 +87,12 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
 
     const { input, model, remainingMs } = compute();
     // A private panel never outlives the screen it was opened on: when the match returns
-    // after a recovery screen, the role is shown again only if the player asks again.
-    if (model.screen !== 'match' && local.roleDrawerOpen) local = { ...local, roleDrawerOpen: false };
-    const spoken = config.describe(previousInput, input);
+    // after a recovery screen, it is shown again only if the player asks again.
+    if (model.screen !== 'match' && local.privateRevealed) local = { ...local, privateRevealed: false };
+
+    const spoken = config.announcer.next(input);
+    const previousAnnouncement = announcement;
+    const previousFocus = focus;
     if (spoken.length > 0) {
       announcement = {
         seq: (announcement?.seq ?? 0) + 1,
@@ -99,17 +103,21 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     if (model.screen === 'blocked' && frame.model.screen !== 'blocked') {
       focus = { seq: (focus?.seq ?? 0) + 1, targetId: SHELL_IDS.blockedHeading };
     }
-    previousInput = input;
-    frame = { model, announcement, focus };
 
-    // One redraw per displayed second, and none while the page is hidden. A timer that fires
-    // a moment early just finds the same second still showing and waits out the remainder.
-    if (remainingMs !== null && local.pageVisible) {
+    // One redraw per displayed second while a match is on screen in the foreground. A timer
+    // that fires a moment early finds the same second still showing and waits out the rest.
+    if (remainingMs !== null && local.pageVisible && model.screen === 'match') {
       tick = ports.scheduler.setTimeout(() => {
         tick = null;
         refresh();
       }, millisecondsToNextSecond(remainingMs));
     }
+
+    // Nothing to draw, say or focus: keep the frame's identity and tell nobody.
+    const serialized = JSON.stringify(model);
+    if (serialized === drawn && announcement === previousAnnouncement && focus === previousFocus) return;
+    drawn = serialized;
+    frame = { model, announcement, focus };
     for (const listener of [...listeners]) listener();
   }
 
@@ -136,8 +144,8 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     },
     setPageVisible(visible) {
       if (disposed || visible === local.pageVisible) return;
-      // Leaving closes the role drawer for good; coming back does not reopen it.
-      local = { ...local, pageVisible: visible, roleDrawerOpen: visible ? local.roleDrawerOpen : false };
+      // Leaving closes the private panel for good; coming back does not reopen it.
+      local = { ...local, pageVisible: visible, privateRevealed: visible ? local.privateRevealed : false };
       if (visible) session.resyncClock();
       refresh();
     },

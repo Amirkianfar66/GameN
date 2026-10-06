@@ -43,18 +43,14 @@
   display: none !important;
 }
 
-.ms-shell p,
-.ms-shell h1,
-.ms-shell h2,
-.ms-shell h3,
-.ms-shell ul,
-.ms-shell dl,
-.ms-shell dd {
+/* Element defaults are cleared at zero specificity, so a component class on a paragraph or
+   list can set its own padding without having to out-rank this rule. */
+:where(.ms-shell) :where(p, h1, h2, h3, h4, ul, dl, dd) {
   margin: 0;
   padding: 0;
 }
 
-.ms-shell ul {
+:where(.ms-shell) ul {
   list-style: none;
 }
 
@@ -65,6 +61,7 @@
 .ms-phase > *,
 .ms-panel > *,
 .ms-zone > *,
+.ms-private__panel > *,
 .ms-card > * {
   min-width: 0;
 }
@@ -152,7 +149,7 @@
 .ms-surface {
   position: relative;
   z-index: 1;
-  padding: 0 var(--ms-space-2);
+  /* Paper behind the label keeps the halftone out from under small text. */
   background: var(--ms-color-paper);
   font-size: var(--ms-text-label);
   font-weight: 700;
@@ -307,8 +304,7 @@
   font-size: var(--ms-text-label);
 }
 
-.ms-notice,
-.ms-concealed {
+.ms-notice {
   padding: var(--ms-space-3);
   border: var(--ms-stroke-control) dashed var(--ms-color-text);
   border-radius: var(--ms-radius-control);
@@ -325,6 +321,7 @@
 
 .ms-location__others,
 .ms-zone__name,
+.ms-private__subheading,
 .ms-card__title {
   font-size: var(--ms-text-body);
   font-weight: 800;
@@ -433,7 +430,14 @@
   border-color: var(--ms-color-ink);
 }
 
-/* Action cards: paper with ink, the comic card face. */
+/* The private panel. Closed, it holds nothing; open, it shows the role and the actions on
+   paper cards with ink, the comic card face. */
+.ms-private__panel {
+  display: grid;
+  gap: var(--ms-space-3);
+  animation: ms-reveal var(--ms-motion-card) ease-out;
+}
+
 .ms-cards {
   display: grid;
   gap: var(--ms-space-3);
@@ -441,7 +445,7 @@
 }
 
 .ms-card,
-.ms-role__panel {
+.ms-role-card {
   display: grid;
   gap: var(--ms-space-2);
   padding: var(--ms-space-4);
@@ -450,6 +454,14 @@
   border: var(--ms-stroke-illustration) solid var(--ms-color-ink);
   border-radius: var(--ms-radius-control);
   box-shadow: 4px 4px 0 var(--ms-color-ink);
+}
+
+.ms-role-card {
+  font-family: var(--ms-font-heading);
+  font-size: var(--ms-text-display-fit);
+  font-weight: 800;
+  line-height: var(--ms-leading-heading);
+  text-transform: uppercase;
 }
 
 .ms-card__status {
@@ -470,30 +482,6 @@
 
 .ms-card[data-status="unavailable"] .ms-card__status {
   border-style: dashed;
-}
-
-.ms-role__facts {
-  display: grid;
-  gap: var(--ms-space-1);
-}
-
-.ms-role__facts dt {
-  font-size: var(--ms-text-label);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.ms-role__facts dd {
-  font-family: var(--ms-font-heading);
-  font-size: var(--ms-text-display-fit);
-  font-weight: 800;
-  line-height: var(--ms-leading-heading);
-  text-transform: uppercase;
-}
-
-.ms-role__panel {
-  animation: ms-reveal var(--ms-motion-card) ease-out;
 }
 
 @keyframes ms-reveal {
@@ -539,7 +527,7 @@
   box-shadow: var(--ms-halo);
 }
 
-.ms-role .ms-button,
+.ms-private .ms-button,
 .ms-blocked .ms-button {
   justify-self: start;
 }
@@ -680,22 +668,23 @@
   }
 }
 
-/* Reduced motion: no travel or scale, at most the short fade. Applies to the device
-   setting and to the player's own choice alike. */
+/* Reduced motion: no travel or scale, at most the short fade. The device setting applies
+   until the player makes a choice in the app; after that the player's own choice wins in
+   either direction, so unchecking "Reduce motion" is honored on a device that asks for it. */
 @media (prefers-reduced-motion: reduce) {
-  .ms-shell *,
-  .ms-shell *::before,
-  .ms-shell *::after {
+  .ms-shell:not([data-motion="full"]) *,
+  .ms-shell:not([data-motion="full"]) *::before,
+  .ms-shell:not([data-motion="full"]) *::after {
     transition-duration: var(--ms-motion-reduced-fade) !important;
     transition-property: opacity, border-color !important;
     scroll-behavior: auto !important;
   }
 
-  .ms-shell .ms-role__panel {
+  .ms-shell:not([data-motion="full"]) .ms-private__panel {
     animation: ms-fade var(--ms-motion-reduced-fade) linear;
   }
 
-  .ms-shell .ms-button:active {
+  .ms-shell:not([data-motion="full"]) .ms-button:active {
     transform: none;
   }
 }
@@ -708,7 +697,7 @@
   scroll-behavior: auto !important;
 }
 
-.ms-shell[data-motion="reduced"] .ms-role__panel {
+.ms-shell[data-motion="reduced"] .ms-private__panel {
   animation: ms-fade var(--ms-motion-reduced-fade) linear;
 }
 
@@ -719,7 +708,7 @@
 @media (forced-colors: active) {
   .ms-token,
   .ms-card,
-  .ms-role__panel,
+  .ms-role-card,
   .ms-button {
     box-shadow: none;
   }

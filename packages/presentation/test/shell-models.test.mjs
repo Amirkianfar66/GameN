@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildPlayerShellModel, buildTableShellModel, formatClock } from '@mothership/presentation';
-import { fixture, playerInput, playerVariant, publicVariant, tableInput } from './support/inputs.mjs';
+import { fixture, playerInput, playerVariant, publicVariant, ROLE_NAMES, tableInput } from './support/inputs.mjs';
 
 const { before, afterRegistration } = fixture();
+const revealed = { privacy: { concealed: false, revealed: true } };
+const privateContent = (view, overrides = {}) => buildPlayerShellModel(playerInput(view, { ...revealed, ...overrides })).match.privateArea.content;
 
-test('the Officer phone states identity, phase, location and shot status from its own view only', () => {
+test('the Officer phone states identity, phase and location from its own view', () => {
   const model = buildPlayerShellModel(playerInput(before.officer));
   assert.equal(model.surface, 'player');
   assert.equal(model.screen, 'match');
@@ -15,24 +17,63 @@ test('the Officer phone states identity, phase, location and shot status from it
   assert.equal(model.match.phase.phaseLabel, 'Your turn');
   assert.equal(model.match.location.name, 'Room A');
   assert.deepEqual(model.match.location.others.map(seat => seat.label), ['Player 2', 'Player 3', 'Player 4', 'Player 6']);
-  assert.deepEqual(model.match.actions.cards, [{ id: 'shot', title: 'Shot', status: 'available', statusLabel: 'Available' }]);
 });
 
 test('the target phone names the active player and never claims a turn it does not have', () => {
   const model = buildPlayerShellModel(playerInput(before.target));
   assert.equal(model.title, 'Mothership — Player 2');
   assert.equal(model.match.phase.phaseLabel, 'Player 1’s turn');
-  assert.equal(model.match.actions.cards[0].status, 'unavailable');
-  assert.equal(model.match.actions.cards[0].statusLabel, 'Not available');
   const self = model.match.location.self;
   assert.equal(self.label, 'Player 2 (you)');
   assert.equal(self.isActive, false);
 });
 
-test('both phones get the same action cards so a layout never reveals the role dealt to it', () => {
-  const officer = buildPlayerShellModel(playerInput(before.officer)).match.actions.cards;
-  const target = buildPlayerShellModel(playerInput(before.target)).match.actions.cards;
-  assert.deepEqual(officer.map(card => [card.id, card.title]), target.map(card => [card.id, card.title]));
+test('nothing private is in the model until the player opens the private panel', () => {
+  for (const view of [before.officer, before.target, afterRegistration.officer]) {
+    const closed = buildPlayerShellModel(playerInput(view));
+    assert.equal(closed.match.privateArea.open, false);
+    assert.equal(closed.match.privateArea.content, null);
+    assert.equal(closed.match.privateArea.toggleLabel, 'Show private information');
+    const serialized = JSON.stringify(closed);
+    for (const role of ROLE_NAMES) assert.equal(serialized.includes(role), false, role);
+    // Before Round 4 only one role can have a shot, so the action status is as private as the role.
+    for (const word of ['Available', 'Not available', 'available', 'shot', 'Shot']) assert.equal(serialized.includes(word), false, word);
+  }
+});
+
+test('a closed phone is the same model whatever role it holds and whatever it can do', () => {
+  const base = buildPlayerShellModel(playerInput(before.officer));
+  for (const role of ROLE_NAMES) {
+    for (const shotAvailable of [true, false]) {
+      const view = playerVariant(before.officer, v => { v.self.role = role; v.self.shotAvailable = shotAvailable; });
+      assert.deepEqual(buildPlayerShellModel(playerInput(view)), base, `${role} ${shotAvailable}`);
+    }
+  }
+});
+
+test('opened, the private panel shows the role and the server-supplied action status, nothing inferred', () => {
+  assert.deepEqual(privateContent(before.officer), {
+    role: { label: 'Your role', name: 'Officer' },
+    actions: { heading: 'Actions', notice: null, cards: [{ id: 'shot', title: 'Shot', status: 'available', statusLabel: 'Available' }] },
+  });
+  assert.deepEqual(privateContent(before.target).role, { label: 'Your role', name: 'Insider' });
+  assert.deepEqual(privateContent(before.target).actions.cards, [{ id: 'shot', title: 'Shot', status: 'unavailable', statusLabel: 'Not available' }]);
+  assert.equal(buildPlayerShellModel(playerInput(before.officer, revealed)).match.privateArea.toggleLabel, 'Hide private information');
+});
+
+test('every phone gets the same set of action cards; only their status can differ', () => {
+  const ids = view => privateContent(view).actions.cards.map(card => [card.id, card.title]);
+  assert.deepEqual(ids(before.officer), ids(before.target));
+});
+
+test('a backgrounded page conceals everything private, even if the panel was open', () => {
+  const concealed = buildPlayerShellModel(playerInput(before.officer, { privacy: { concealed: true, revealed: true } }));
+  assert.equal(concealed.match.privateArea.open, false);
+  assert.equal(concealed.match.privateArea.content, null);
+  assert.equal(JSON.stringify(concealed).includes('Officer'), false);
+  assert.equal(JSON.stringify(concealed).includes('Available'), false);
+  // Public facts stay on screen.
+  assert.equal(concealed.match.location.name, 'Room A');
 });
 
 test('seat markers keep health, Jail, Captain and turn as separate labeled facts', () => {
@@ -76,16 +117,26 @@ test('the countdown rounds up, never shows zero while time remains, and distingu
   assert.equal(formatClock(125), '2:05');
 });
 
-test('round resolution has no countdown and names nobody as active', () => {
-  const view = publicVariant(v => {
+test('round resolution has no countdown and marks nobody active, even if the view still names a seat', () => {
+  const resolution = activeSeatId => publicVariant(v => {
     v.phase = { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt: v.phase.endsAt, endsAt: null };
-    v.activeSeatId = null;
+    v.activeSeatId = activeSeatId;
   });
-  const model = buildTableShellModel(tableInput(view, { deadline: { kind: 'none' } }));
-  assert.equal(model.match.phase.phaseLabel, 'Round resolution');
-  assert.equal(model.match.phase.detail, 'The round is being resolved.');
-  assert.equal(model.match.phase.timer.state, 'none');
-  assert.equal(model.match.roster.rows.some(row => row.seat.isActive), false);
+  // The contract allows a non-null active seat here; a turn marker belongs to ordinary turns only.
+  for (const activeSeatId of [null, 'seat-1']) {
+    const model = buildTableShellModel(tableInput(resolution(activeSeatId), { deadline: { kind: 'none' } }));
+    assert.equal(model.match.phase.phaseLabel, 'Round resolution', String(activeSeatId));
+    assert.equal(model.match.phase.detail, 'The round is being resolved.');
+    assert.equal(model.match.phase.timer.state, 'none');
+    assert.equal(model.match.roster.rows.some(row => row.seat.isActive), false, String(activeSeatId));
+    assert.equal(model.match.roster.rows.some(row => row.status.includes('Active turn')), false, String(activeSeatId));
+    assert.equal(JSON.stringify(model.match.board).includes('Active turn'), false, String(activeSeatId));
+  }
+  const player = buildPlayerShellModel(playerInput(playerVariant(before.officer, v => {
+    v.phase = { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt: v.phase.endsAt, endsAt: null };
+  })));
+  assert.equal(player.match.phase.phaseLabel, 'Round resolution', 'Not "Your turn", though the view still names this seat');
+  assert.equal(player.match.location.self.isActive, false);
 });
 
 test('an ordinary turn without an active seat is shown as given, not guessed', () => {
@@ -93,41 +144,22 @@ test('an ordinary turn without an active seat is shown as given, not guessed', (
   assert.equal(buildTableShellModel(tableInput(view)).match.phase.phaseLabel, 'Turn in progress');
 });
 
-test('a closed or concealed role drawer contains no role anywhere in the model', () => {
-  const closed = buildPlayerShellModel(playerInput(before.officer));
-  assert.equal(closed.match.roleDrawer.open, false);
-  assert.equal(closed.match.roleDrawer.role, null);
-  assert.equal(JSON.stringify(closed).includes('Officer'), false);
-
-  const open = buildPlayerShellModel(playerInput(before.officer, { privacy: { concealed: false, roleDrawerOpen: true } }));
-  assert.deepEqual(open.match.roleDrawer.role, { label: 'Your role', name: 'Officer' });
-  assert.equal(open.match.roleDrawer.toggleLabel, 'Hide my role');
-
-  const concealed = buildPlayerShellModel(playerInput(before.officer, { privacy: { concealed: true, roleDrawerOpen: true } }));
-  assert.equal(concealed.match.roleDrawer.open, false);
-  assert.equal(concealed.match.roleDrawer.role, null);
-  assert.deepEqual(concealed.match.actions.cards, []);
-  assert.equal(concealed.match.actions.concealedText, 'Private controls are hidden while the app is in the background.');
-  assert.equal(JSON.stringify(concealed).includes('Officer'), false);
-  assert.equal(JSON.stringify(concealed).includes('Available'), false);
-});
-
 test('stale and expired states pause actions with a reason and keep the last view readable', () => {
-  const stale = buildPlayerShellModel(playerInput(before.officer, { connection: 'stale' }));
+  const stale = buildPlayerShellModel(playerInput(before.officer, { connection: 'stale', ...revealed }));
   assert.equal(stale.screen, 'match');
-  assert.equal(stale.match.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(stale.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
   assert.deepEqual(stale.banners.map(banner => banner.variant), ['fixture', 'stale']);
   assert.deepEqual(stale.banners[1].action, { intent: 'session/reconnect', label: 'Reconnect now' });
   assert.equal(stale.match.location.name, 'Room A');
 
-  const expired = buildPlayerShellModel(playerInput(before.officer, { deadline: { kind: 'expired' } }));
-  assert.equal(expired.match.actions.notice, 'This phase has ended. Waiting for phase update.');
+  const expired = buildPlayerShellModel(playerInput(before.officer, { deadline: { kind: 'expired' }, ...revealed }));
+  assert.equal(expired.match.privateArea.content.actions.notice, 'This phase has ended. Waiting for phase update.');
   assert.equal(expired.match.phase.timer.note, 'Waiting for phase update');
 
-  const unreadable = buildPlayerShellModel(playerInput(before.officer, { problem: 'unreadable-update' }));
+  const unreadable = buildPlayerShellModel(playerInput(before.officer, { problem: 'unreadable-update', ...revealed }));
   assert.equal(unreadable.screen, 'match');
   assert.deepEqual(unreadable.banners.map(banner => banner.variant), ['fixture', 'unreadable']);
-  assert.equal(unreadable.match.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(unreadable.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
 });
 
 test('the data source is always labeled unless it is the live server', () => {
@@ -142,7 +174,7 @@ test('the data source is always labeled unless it is the live server', () => {
 
 test('blocking problems replace the match entirely; nothing from the view is carried along', () => {
   for (const [problem, heading] of [['incompatible-protocol', 'Update required'], ['integrity', 'Match data check failed']]) {
-    const player = buildPlayerShellModel(playerInput(before.officer, { problem, privacy: { concealed: false, roleDrawerOpen: true } }));
+    const player = buildPlayerShellModel(playerInput(before.officer, { problem, ...revealed }));
     assert.equal(player.screen, 'blocked');
     assert.equal(player.match, null);
     assert.equal(player.blocked.heading, heading);
@@ -175,12 +207,14 @@ test('the motion setting reports its source truthfully', () => {
 
 test('registering a hidden shot changes nothing in the table model or the target phone model', () => {
   assert.deepEqual(buildTableShellModel(tableInput(afterRegistration.public)), buildTableShellModel(tableInput(before.public)));
-  assert.deepEqual(buildPlayerShellModel(playerInput(afterRegistration.target)), buildPlayerShellModel(playerInput(before.target)));
-  const officerBefore = buildPlayerShellModel(playerInput(before.officer));
-  const officerAfter = buildPlayerShellModel(playerInput(afterRegistration.officer));
-  assert.equal(officerAfter.match.actions.cards[0].status, 'unavailable');
-  // Only the Officer's own action status differs; every public part of the phone is identical.
-  assert.deepEqual({ ...officerAfter.match, actions: null }, { ...officerBefore.match, actions: null });
+  assert.deepEqual(buildPlayerShellModel(playerInput(afterRegistration.target, revealed)), buildPlayerShellModel(playerInput(before.target, revealed)));
+  // On the registering phone nothing changes while the panel is closed, and only the action
+  // status changes while it is open.
+  assert.deepEqual(buildPlayerShellModel(playerInput(afterRegistration.officer)), buildPlayerShellModel(playerInput(before.officer)));
+  const open = view => buildPlayerShellModel(playerInput(view, revealed)).match;
+  assert.equal(open(afterRegistration.officer).privateArea.content.actions.cards[0].status, 'unavailable');
+  const withoutActions = match => ({ ...match, privateArea: { ...match.privateArea, content: { ...match.privateArea.content, actions: null } } });
+  assert.deepEqual(withoutActions(open(afterRegistration.officer)), withoutActions(open(before.officer)));
 });
 
 test('Protection truth never reaches a model: both fixture variants render identically for every audience', () => {
@@ -189,8 +223,7 @@ test('Protection truth never reaches a model: both fixture variants render ident
   for (const stage of ['before', 'afterRegistration']) {
     assert.deepEqual(buildTableShellModel(tableInput(guarded[stage].public)), buildTableShellModel(tableInput(open[stage].public)));
     for (const seat of ['officer', 'target']) {
-      const privacy = { concealed: false, roleDrawerOpen: true };
-      assert.deepEqual(buildPlayerShellModel(playerInput(guarded[stage][seat], { privacy })), buildPlayerShellModel(playerInput(open[stage][seat], { privacy })));
+      assert.deepEqual(buildPlayerShellModel(playerInput(guarded[stage][seat], revealed)), buildPlayerShellModel(playerInput(open[stage][seat], revealed)));
     }
   }
 });

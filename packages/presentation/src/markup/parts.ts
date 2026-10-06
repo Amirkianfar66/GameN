@@ -11,8 +11,8 @@ export const SHELL_IDS = {
   main: 'ms-main',
   title: 'ms-title',
   blockedHeading: 'ms-blocked-heading',
-  roleToggle: 'ms-role-toggle',
-  rolePanel: 'ms-role-panel',
+  privateToggle: 'ms-private-toggle',
+  privatePanel: 'ms-private-panel',
   reduceMotion: 'ms-reduce-motion',
 } as const;
 

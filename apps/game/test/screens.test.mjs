@@ -10,6 +10,7 @@ import { createFakeHost, createFakeTransport, flush } from './support/fakes.mjs'
 const { before, afterRegistration } = createOfficerFixture('protected');
 const matchId = before.public.matchId;
 const SERVER_EPOCH = before.public.phase.startedAt;
+const TOGGLE = { type: 'private/toggle' };
 
 /** Frontend-authored synthetic variations, each still valid against the contract schema. */
 function variant(view, change) {
@@ -27,6 +28,7 @@ const resolution = view => variant(view, v => {
   v.phase = { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt: v.phase.endsAt, endsAt: null };
   v.activeSeatId = null;
 });
+const otherProtocol = view => ({ ...structuredClone(view), versions: { ...view.versions, protocolVersion: 2 } });
 
 function setup(surface, hostOptions = {}) {
   const host = createFakeHost({ serverStart: SERVER_EPOCH, ...hostOptions });
@@ -40,6 +42,7 @@ function setup(surface, hostOptions = {}) {
 }
 const timer = screen => screen.getFrame().model.match.phase.timer;
 const spoken = screen => screen.getFrame().announcement?.text ?? null;
+const privateArea = screen => screen.getFrame().model.match.privateArea;
 
 test('before it starts a screen shows that it is connecting and asks the transport for nothing', () => {
   const { fake, screen } = setup('player');
@@ -49,7 +52,7 @@ test('before it starts a screen shows that it is connecting and asks the transpo
   assert.equal(fake.calls.subscribe, 0);
 });
 
-test('the Officer phone goes from connecting to its own turn with a full minute on the clock', async () => {
+test('the Officer phone goes from connecting to its own turn with a full minute on the clock and nothing private showing', async () => {
   const { fake, screen } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
@@ -59,6 +62,8 @@ test('the Officer phone goes from connecting to its own turn with a full minute 
   assert.equal(model.match.phase.phaseLabel, 'Your turn');
   assert.deepEqual(timer(screen), { state: 'running', display: '1:00', spoken: '60 seconds remaining', finalSeconds: false });
   assert.deepEqual(announcement, { seq: 1, politeness: 'polite', text: 'Connected. Round 2. Your turn.' });
+  assert.equal(model.match.privateArea.open, false);
+  assert.equal(model.match.privateArea.content, null);
   assert.deepEqual(auditMarkup(renderPlayerShell(model)), []);
 });
 
@@ -66,6 +71,7 @@ test('the countdown follows server time second by second, warns once, and stops 
   const { host, fake, screen, frames } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
+  screen.dispatch(TOGGLE);
   const shown = [];
   const said = [];
   for (let second = 0; second < 60; second += 1) {
@@ -78,7 +84,7 @@ test('the countdown follows server time second by second, warns once, and stops 
   assert.deepEqual(shown.slice(48), ['0:11', '0:10', '0:09', '0:08', '0:07', '0:06', '0:05', '0:04', '0:03', '0:02', '0:01', 'expired']);
   assert.deepEqual(said, ['Connected. Round 2. Your turn.', '10 seconds left.', 'Time is up. Waiting for phase update.']);
   assert.deepEqual(timer(screen), { state: 'expired', display: '0:00', spoken: 'Time is up', note: 'Waiting for phase update' });
-  assert.equal(screen.getFrame().model.match.actions.notice, 'This phase has ended. Waiting for phase update.');
+  assert.equal(privateArea(screen).content.actions.notice, 'This phase has ended. Waiting for phase update.');
   assert.equal(host.pendingTimers(), 0, 'Nothing keeps ticking after zero');
 
   // Reaching zero changes nothing by itself: the same phase is shown until the server moves on.
@@ -112,10 +118,31 @@ test('joining late shows the time that is actually left, or that the phase has r
   assert.equal(over.host.pendingTimers(), 0);
 });
 
+test('a player who joins in the last seconds of their own turn is warned, whichever arrives first', async () => {
+  // The time measurement completes before the first view (the usual order here).
+  const first = setup('player', { serverStart: SERVER_EPOCH + 52_000 });
+  first.screen.start();
+  await first.fake.connectWith(before.officer);
+  assert.equal(spoken(first.screen), 'Connected. Round 2. Your turn. 8 seconds left.');
+
+  // The view arrives while the time request is still in flight.
+  const second = setup('player', { serverStart: SERVER_EPOCH + 52_000 });
+  let answerTime;
+  second.fake.respond.serverTime = () => new Promise(resolve => { answerTime = resolve; });
+  second.screen.start();
+  await second.fake.connectWith(before.officer);
+  assert.equal(spoken(second.screen), 'Connected. Round 2. Your turn.');
+  assert.equal(timer(second.screen).state, 'syncing');
+  answerTime({ protocolVersion: 1, serverTimeMs: second.host.serverNow() });
+  await flush();
+  assert.equal(spoken(second.screen), '8 seconds left.');
+});
+
 test('only an authoritative view moves the phase on, and the next turn gets its own full minute', async () => {
   const { host, fake, screen } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
+  screen.dispatch(TOGGLE);
   await host.advance(75_000);
   assert.equal(timer(screen).state, 'expired');
   // The server opens the next turn late; that turn still runs its whole minute from then.
@@ -123,7 +150,7 @@ test('only an authoritative view moves the phase on, and the next turn gets its 
   assert.equal(screen.getFrame().model.match.phase.phaseLabel, 'Player 2’s turn');
   assert.equal(timer(screen).display, '1:00');
   assert.equal(spoken(screen), 'Round 2. Player 2’s turn.');
-  assert.equal(screen.getFrame().model.match.actions.notice, null);
+  assert.equal(privateArea(screen).content.actions.notice, null);
   await host.advance(1_000);
   assert.equal(timer(screen).display, '0:59');
 });
@@ -139,41 +166,41 @@ test('round resolution shows no timer and schedules nothing', async () => {
   assert.deepEqual(auditMarkup(renderTableShell(screen.getFrame().model)), []);
 });
 
-test('the role is shown only on request and is withdrawn the moment the app is backgrounded', async () => {
+test('private information is shown only on request and is withdrawn the moment the app is backgrounded', async () => {
   const { host, fake, screen } = setup('player');
-  const role = () => screen.getFrame().model.match.roleDrawer.role;
+  const html = () => toHtml(renderPlayerShell(screen.getFrame().model));
   screen.start();
   await fake.connectWith(before.officer);
-  assert.equal(role(), null);
-  assert.equal(toHtml(renderPlayerShell(screen.getFrame().model)).includes('Officer'), false);
+  assert.equal(privateArea(screen).content, null);
+  for (const word of ['Officer', 'Available', 'Shot']) assert.equal(html().includes(word), false, word);
 
-  screen.dispatch({ type: 'role-drawer/toggle' });
-  assert.deepEqual(role(), { label: 'Your role', name: 'Officer' });
-  screen.dispatch({ type: 'role-drawer/toggle' });
-  assert.equal(role(), null);
-  screen.dispatch({ type: 'role-drawer/toggle' });
+  screen.dispatch(TOGGLE);
+  assert.deepEqual(privateArea(screen).content.role, { label: 'Your role', name: 'Officer' });
+  assert.equal(privateArea(screen).content.actions.cards[0].statusLabel, 'Available');
+  screen.dispatch(TOGGLE);
+  assert.equal(privateArea(screen).content, null);
+  screen.dispatch(TOGGLE);
 
   const timeCalls = fake.calls.serverTime;
   screen.setPageVisible(false);
   const hidden = screen.getFrame().model;
-  assert.equal(hidden.match.roleDrawer.open, false);
-  assert.equal(role(), null);
-  assert.deepEqual(hidden.match.actions.cards, []);
-  assert.equal(hidden.match.actions.concealedText, 'Private controls are hidden while the app is in the background.');
-  assert.equal(JSON.stringify(hidden).includes('Officer'), false);
+  assert.equal(hidden.match.privateArea.open, false);
+  assert.equal(hidden.match.privateArea.content, null);
+  for (const word of ['Officer', 'Available', 'Shot']) assert.equal(JSON.stringify(hidden).includes(word), false, word);
   assert.equal(host.pendingTimers(), 0, 'Nothing is redrawn while hidden');
-  screen.dispatch({ type: 'role-drawer/toggle' });
-  assert.equal(role(), null, 'Cannot be opened while hidden');
+  screen.dispatch(TOGGLE);
+  assert.equal(privateArea(screen).content, null, 'Cannot be opened while hidden');
 
   screen.setPageVisible(true);
   await flush();
-  const shown = screen.getFrame().model;
-  assert.equal(shown.match.actions.cards.length, 1, 'Ordinary controls return');
-  assert.equal(shown.match.roleDrawer.open, false, 'The role does not reopen by itself');
+  assert.equal(privateArea(screen).open, false, 'It does not reopen by itself');
+  assert.equal(privateArea(screen).content, null);
   assert.equal(fake.calls.serverTime, timeCalls + 1, 'Time is re-measured on return');
+  screen.dispatch(TOGGLE);
+  assert.equal(privateArea(screen).content.role.name, 'Officer', 'It opens again when asked');
 });
 
-test('time that passed in the background is accounted for on return', async () => {
+test('time that passed in the background is accounted for on return, and its expiry is spoken once', async () => {
   const { host, fake, screen } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
@@ -184,26 +211,40 @@ test('time that passed in the background is accounted for on return', async () =
   assert.equal(timer(screen).state, 'syncing', 'Not a stale number while re-measuring');
   await flush();
   assert.equal(timer(screen).display, '0:20');
-  host.sleepDevice(0);
   screen.setPageVisible(false);
   host.sleepDevice(30_000);
   screen.setPageVisible(true);
   await flush();
   assert.equal(timer(screen).state, 'expired');
   assert.equal(spoken(screen), 'Time is up. Waiting for phase update.');
+  const announced = screen.getFrame().announcement.seq;
+
+  // Further trips to the background, and a dropped feed, do not announce the same expiry again.
+  for (let trip = 0; trip < 3; trip += 1) {
+    screen.setPageVisible(false);
+    screen.setPageVisible(true);
+    await flush();
+  }
+  assert.equal(screen.getFrame().announcement.seq, announced);
+  await fake.disconnect();
+  await fake.connectWith(before.officer);
+  assert.equal(spoken(screen), 'Reconnected. Round 2. Your turn.');
+  assert.equal(screen.getFrame().announcement.seq, announced + 2, 'connection lost, then reconnected; no third expiry');
+  assert.equal(timer(screen).state, 'expired');
 });
 
 test('losing the connection keeps the screen readable, says so, and recovers without replaying anything', async () => {
   const { host, fake, screen } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
+  screen.dispatch(TOGGLE);
   await host.advance(4_000);
   await fake.disconnect();
   let model = screen.getFrame().model;
   assert.equal(model.screen, 'match');
   assert.equal(model.connection, 'stale');
   assert.deepEqual(model.banners.map(banner => banner.variant), ['fixture', 'stale']);
-  assert.equal(model.match.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
   assert.equal(model.match.location.name, 'Room A');
   assert.equal(spoken(screen), 'Connection lost. Showing the last known state.');
   await host.advance(2_000);
@@ -218,8 +259,7 @@ test('losing the connection keeps the screen readable, says so, and recovers wit
   assert.deepEqual(model.banners.map(banner => banner.variant), ['fixture']);
   assert.equal(spoken(screen), 'Reconnected. Round 2. Player 2’s turn.');
   assert.equal(model.title, 'Mothership — Player 1', 'Same seat');
-  screen.dispatch({ type: 'role-drawer/toggle' });
-  assert.equal(screen.getFrame().model.match.roleDrawer.role.name, 'Officer', 'Same role');
+  assert.equal(model.match.privateArea.content.role.name, 'Officer', 'Same role');
 });
 
 test('the reconnect control resubscribes and the reload control is left to the host', async () => {
@@ -234,12 +274,12 @@ test('the reconnect control resubscribes and the reload control is left to the h
   assert.equal(reloads(), 1);
 });
 
-test('an incompatible protocol replaces the match with a recoverable screen and moves focus to it', async () => {
-  const { fake, screen } = setup('player');
+test('an incompatible protocol replaces the match with a recoverable screen and moves focus to it once', async () => {
+  const { host, fake, screen, frames } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
-  screen.dispatch({ type: 'role-drawer/toggle' });
-  await fake.deliver({ ...structuredClone(afterRegistration.officer), versions: { ...before.officer.versions, protocolVersion: 2 } });
+  screen.dispatch(TOGGLE);
+  await fake.deliver(otherProtocol(afterRegistration.officer));
   const frame = screen.getFrame();
   assert.equal(frame.model.screen, 'blocked');
   assert.equal(frame.model.match, null);
@@ -249,19 +289,44 @@ test('an incompatible protocol replaces the match with a recoverable screen and 
   assert.equal(JSON.stringify(frame.model).includes('Officer'), false);
   assert.deepEqual(auditMarkup(renderPlayerShell(frame.model)), []);
 
+  // While blocked, time passing and repeated bad payloads cause no redraw, no timer and no
+  // second request for focus: the heading would otherwise be re-focused every second.
+  const drawn = frames.length;
+  assert.equal(host.pendingTimers(), 0);
+  await host.advance(5_000);
+  await fake.deliver(otherProtocol(afterRegistration.officer));
+  await host.advance(5_000);
+  assert.equal(frames.length, drawn);
+  assert.equal(screen.getFrame(), frame);
+  assert.deepEqual(screen.getFrame().focus, { seq: 1, targetId: 'ms-blocked-heading' });
+  // A legitimate redraw of the blocked screen (its settings changed) must not pull focus
+  // back to the heading from wherever the player has moved it.
+  screen.dispatch({ type: 'settings/reduce-motion', checked: true });
+  screen.setPageVisible(false);
+  screen.setPageVisible(true);
+  await flush();
+  assert.equal(frames.length > drawn, true);
+  assert.equal(screen.getFrame().model.screen, 'blocked');
+  assert.deepEqual(screen.getFrame().focus, { seq: 1, targetId: 'ms-blocked-heading' });
+
   await fake.deliver(afterRegistration.officer);
   assert.equal(screen.getFrame().model.screen, 'match');
-  assert.deepEqual(screen.getFrame().focus, { seq: 1, targetId: 'ms-blocked-heading' }, 'Focus is requested once, not on every frame');
-  assert.equal(screen.getFrame().model.match.roleDrawer.open, false, 'A drawer that was open before the interruption does not reopen by itself');
+  assert.deepEqual(screen.getFrame().focus, { seq: 1, targetId: 'ms-blocked-heading' }, 'Leaving the screen does not ask for focus again');
+  assert.equal(privateArea(screen).open, false, 'A panel that was open before the interruption does not reopen by itself');
   assert.equal(JSON.stringify(screen.getFrame().model).includes('Officer'), false);
-  screen.dispatch({ type: 'role-drawer/toggle' });
-  assert.equal(screen.getFrame().model.match.roleDrawer.role.name, 'Officer', 'It opens again when asked');
+  screen.dispatch(TOGGLE);
+  assert.equal(privateArea(screen).content.role.name, 'Officer', 'It opens again when asked');
+
+  // A second, separate interruption asks for focus again.
+  await fake.deliver(otherProtocol(afterRegistration.officer));
+  assert.deepEqual(screen.getFrame().focus, { seq: 2, targetId: 'ms-blocked-heading' });
 });
 
 test('data for another seat blocks the phone for good and shows none of it', async () => {
   const { fake, screen } = setup('player');
   screen.start();
   await fake.connectWith(before.officer);
+  screen.dispatch(TOGGLE);
   await fake.deliver(before.target);
   const { model } = screen.getFrame();
   assert.equal(model.screen, 'blocked');
@@ -296,11 +361,10 @@ test('the table display has no private state to show and ignores private intents
   assert.equal(model.surface, 'table');
   assert.equal(model.title, 'Mothership — Table display');
   assert.equal(model.match.phase.phaseLabel, 'Player 1’s turn');
-  assert.equal('roleDrawer' in model.match, false);
-  assert.equal('actions' in model.match, false);
+  assert.equal('privateArea' in model.match, false);
   for (const role of RoleSchema.options) assert.equal(JSON.stringify(model).includes(role), false, role);
   const count = frames.length;
-  screen.dispatch({ type: 'role-drawer/toggle' });
+  screen.dispatch(TOGGLE);
   assert.equal(frames.length, count);
   assert.deepEqual(auditMarkup(renderTableShell(model)), []);
 });
@@ -318,20 +382,30 @@ test('a hidden registration does not even redraw the table or the target phone',
   const target = setup('player');
   target.screen.start();
   await target.fake.connectWith(before.target);
+  target.screen.dispatch(TOGGLE);
   const targetFrame = target.screen.getFrame();
   await target.fake.deliver(afterRegistration.target);
   assert.equal(target.screen.getFrame(), targetFrame);
 
-  const officer = setup('player');
-  officer.screen.start();
-  await officer.fake.connectWith(before.officer);
-  const said = officer.screen.getFrame().announcement;
-  await officer.fake.deliver(afterRegistration.officer);
-  assert.equal(officer.screen.getFrame().model.match.actions.cards[0].statusLabel, 'Not available');
-  assert.equal(officer.screen.getFrame().announcement, said, 'Nothing is spoken by a snapshot alone');
+  // The registering phone redraws only if its private panel is open, and says nothing either way.
+  const closed = setup('player');
+  closed.screen.start();
+  await closed.fake.connectWith(before.officer);
+  const closedFrame = closed.screen.getFrame();
+  await closed.fake.deliver(afterRegistration.officer);
+  assert.equal(closed.screen.getFrame(), closedFrame, 'closed panel: the new view changes nothing on screen');
+
+  const open = setup('player');
+  open.screen.start();
+  await open.fake.connectWith(before.officer);
+  open.screen.dispatch(TOGGLE);
+  const said = open.screen.getFrame().announcement;
+  await open.fake.deliver(afterRegistration.officer);
+  assert.equal(privateArea(open.screen).content.actions.cards[0].statusLabel, 'Not available');
+  assert.equal(open.screen.getFrame().announcement, said, 'Nothing is spoken by a snapshot alone');
 });
 
-test('a frame keeps its identity until something changes', async () => {
+test('a frame keeps its identity until something changes, and listeners hear of real changes only', async () => {
   const { host, fake, screen, frames } = setup('table');
   screen.start();
   await fake.connectWith(before.public);
@@ -343,6 +417,17 @@ test('a frame keeps its identity until something changes', async () => {
   await host.advance(600);
   assert.equal(frames.length, count + 1);
   assert.notEqual(screen.getFrame(), frame);
+
+  // Input that changes nothing on screen tells nobody: the same setting, an ignored intent,
+  // a repeated view.
+  const settled = screen.getFrame();
+  const heard = frames.length;
+  screen.setDeviceReducedMotion(false);
+  screen.dispatch({ type: 'settings/reduce-motion', checked: false });
+  screen.dispatch({ type: 'settings/reduce-motion', checked: false });
+  await fake.deliver(before.public);
+  assert.equal(frames.length, heard + 1, 'only the first explicit choice changed the screen (its hint)');
+  assert.notEqual(screen.getFrame(), settled);
 });
 
 test('dispose releases the feed, every timer and every listener', async () => {
@@ -356,7 +441,7 @@ test('dispose releases the feed, every timer and every listener', async () => {
   screen.dispose();
   screen.dispose();
   assert.deepEqual([fake.subscribers(), fake.calls.unsubscribe, host.pendingTimers()], [0, 1, 0]);
-  screen.dispatch({ type: 'role-drawer/toggle' });
+  screen.dispatch(TOGGLE);
   screen.setPageVisible(false);
   screen.setDeviceReducedMotion(true);
   screen.start();
