@@ -7,6 +7,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Mothership — emulator-connected preview</title>
+<script>
+  // Every tab of this page is a device in a running match. The development server adds a
+  // client of its own to the page, and that client reloads the tab whenever its connection
+  // to the server drops: in the middle of a ballot, if that is when it happens. It is
+  // given no connection to lose. This runs before any module of the page does.
+  (() => {
+    const Real = window.WebSocket;
+    const hotReload = protocols => protocols === 'vite-hmr' || (Array.isArray(protocols) && protocols.includes('vite-hmr'));
+    window.WebSocket = new Proxy(Real, {
+      construct(target, [url, protocols]) {
+        if (hotReload(protocols)) {
+          window.mothershipHotReloadRefused = (window.mothershipHotReloadRefused ?? 0) + 1;
+          throw new DOMException('This page takes no hot-reload connection.', 'SecurityError');
+        }
+        return new target(url, protocols);
+      },
+    });
+  })();
+</script>
 <script type="module" src="./main.js"></script>
 </head>
 <body class="connected-body">

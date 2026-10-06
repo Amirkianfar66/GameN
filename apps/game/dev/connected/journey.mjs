@@ -76,12 +76,23 @@ async function preview() {
   return { reused: false, close: () => server.close() };
 }
 
+/** Every device of this run, so that the end of the run can ask each how often it was loaded. */
+const devices = [];
+
 /** A device: one page in a browser context of its own, with its network watched. */
 async function device(browser, label, shape) {
   const page = await openPage(browser, { ...shape, ownContext: true });
   await page.send('Network.enable');
+  // How often this script loaded the page. The page counts for itself how often it was loaded.
+  let loadsMade = 0;
+  const reloadPage = page.reload.bind(page);
+  page.reload = (...parameters) => {
+    loadsMade += 1;
+    return reloadPage(...parameters);
+  };
   // Notes when the phase this page shows changes, by the machine's clock. It only reads.
   await page.send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => {
+    window.name = String((Number(window.name) || 0) + 1);
     window.__phases = [];
     let last = null;
     setInterval(() => {
@@ -185,9 +196,14 @@ async function device(browser, label, shape) {
   const text = selector => page.evaluate(`document.querySelector(${JSON.stringify(selector)})?.textContent ?? null`);
   const exists = selector => page.evaluate(`document.querySelector(${JSON.stringify(selector)}) !== null`);
   const attribute = (selector, name) => page.evaluate(`document.querySelector(${JSON.stringify(selector)})?.getAttribute(${JSON.stringify(name)}) ?? null`);
-  return {
+  const made = {
     label, page, fault, calls, listened, text, exists, attribute, stop,
-    open: (kind, ready) => page.goto(`${ORIGIN}/?as=${kind}`, ready),
+    open(kind, ready) {
+      loadsMade += 1;
+      return page.goto(`${ORIGIN}/?as=${kind}`, ready);
+    },
+    /** How often this script loaded the page, and how often the page says it was loaded. A tab keeps its name across reloads. */
+    loads: async () => ({ byThisScript: loadsMade, counted: await page.evaluate('Number(window.name)') }),
     uid: () => page.evaluate('globalThis.mothershipConnected?.uid ?? null'),
     frame: () => page.evaluate('JSON.parse(JSON.stringify(globalThis.mothershipConnected.frame()))'),
     /** Everything this page keeps where it would survive the page: both storages and the names of its databases. */
@@ -220,6 +236,24 @@ async function device(browser, label, shape) {
       if (outDir !== null) await page.screenshot(join(outDir, name), options);
     },
   };
+  devices.push(made);
+  return made;
+}
+
+/**
+ * No page was loaded by anything but this script. A page that reloads itself loses whatever
+ * its player was doing, and every check made on it afterwards is made on another page.
+ */
+async function noPageReloadedItself() {
+  const loads = {};
+  for (const who of devices) {
+    const { byThisScript, counted } = await who.loads();
+    loads[who.label] = counted;
+    assert.equal(counted, byThisScript, `${who.label} was loaded ${counted} time(s), and this script loaded it ${byThisScript} time(s)`);
+    assert.equal(await who.page.evaluate('window.mothershipHotReloadRefused ?? 0') >= 1, true, `${who.label}: the development server's hot-reload connection was refused`);
+  }
+  facts.run.pageLoads = loads;
+  note('No page was loaded by anything but this script: each tab counted as many loads as the script made, and each refused the development server’s hot-reload connection.');
 }
 
 const CARD = '[data-region="action"]';
@@ -580,6 +614,7 @@ async function main() {
     if (message.method === 'Runtime.exceptionThrown') browserErrors.push(message.params.exceptionDetails.exception?.description ?? message.params.exceptionDetails.text);
   });
   try {
+    await (async () => {
     facts.run.browser = (await browser.send('Browser.getVersion')).product;
     facts.run.previewServer = served.reused ? 'already running' : 'started by this script';
     note(`Browser: ${facts.run.browser}. Preview server: ${facts.run.previewServer}.`);
@@ -986,6 +1021,9 @@ async function main() {
       'Seven players, seven accepted moves, seven command identifiers; every seat is where its one move put it in the authoritative public view.',
       'No tab holds anything of the match but its sign-in and which match it is in. The display and the host console never sent a command.',
     ]);
+    })();
+    // Whichever scenario ran, and only if it held to its end.
+    await noPageReloadedItself();
   } finally {
     if (outDir !== null) {
       await writeFile(join(outDir, 'journey-log.txt'), `${log.join('\n')}\n`);

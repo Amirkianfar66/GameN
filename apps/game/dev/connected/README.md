@@ -59,6 +59,12 @@ gone, and the server refuses what it sends.
 Saving a file does not reload the tabs (hot reload is off, because every tab is a device
 in a running match). Reload a tab by hand to pick up a change.
 
+**A tab is never reloaded for you.** The development server adds a client of its own to
+every page it serves, and that client reloads the page when its connection to the server
+drops, which under load it does. In a running match that would take a player's choice
+away mid-ballot. The server is started without that connection, and the page refuses it
+as well. Reload a tab by hand to pick up a change.
+
 **More than five tabs in one browser.** A browser opens at most six connections to one
 host, and every tab keeps one open to the Firestore emulator. Open some of the tabs on
 `http://127.0.0.1:5173/` and the others on `http://localhost:5173/` (each then reaches the
