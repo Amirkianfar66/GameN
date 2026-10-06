@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- mothership:dev-only — fixture operator console. Debug controls. Never deploy. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="mothership:dev-only" content="fixture harness; never deploy">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Mothership fixture operator</title>
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/harness/harness.css">
+<script type="module" src="/harness/operator.js"></script>
+</head>
+<body class="harness-body">
+<main class="harness-page">
+  <h1>Fixture operator console</h1>
+  <p class="harness-warning"><strong>Development only.</strong> These controls stand in for the backend's own scheduler and exist nowhere in the game client. They replay authored views in a fixed order; they do not resolve anything.</p>
+
+  <section aria-labelledby="operator-status-heading">
+    <h2 id="operator-status-heading">Script</h2>
+    <dl class="harness-facts" id="operator-status" aria-live="polite"></dl>
+    <div class="harness-row">
+      <button type="button" data-action="advance">Next step</button>
+      <button type="button" data-action="end-turn">End Player 1’s turn without the scripted registration</button>
+      <button type="button" data-action="expire">Let the phase clock run out (reconnects every screen)</button>
+    </div>
+    <div class="harness-row">
+      <button type="button" data-action="restart" data-variant="protected">Restart (protected variant)</button>
+      <button type="button" data-action="restart" data-variant="unprotected">Restart (unprotected variant)</button>
+    </div>
+    <p class="harness-note">Both variants send identical views to every audience. They differ only in truth that stays on the server side of this harness.</p>
+  </section>
+
+  <section aria-labelledby="operator-commands-heading">
+    <h2 id="operator-commands-heading">Commands</h2>
+    <p class="harness-note">The command desk follows the command contract as stated for protocol 1 and applies no game rule; it never judges a target. An arrangement below applies to the next command request only, then the desk answers as scripted again.</p>
+    <dl class="harness-facts" id="operator-commands" aria-live="polite"></dl>
+    <div class="harness-row">
+      <button type="button" data-action="plan-command" data-plan="scripted">Answer as scripted</button>
+      <button type="button" data-action="plan-command" data-plan="slow">Slow request, then as scripted</button>
+      <button type="button" data-action="plan-command" data-plan="reject-not-allowed">Reject: not allowed</button>
+      <button type="button" data-action="plan-command" data-plan="reject-phase-closed">Reject: phase closed</button>
+      <button type="button" data-action="plan-command" data-plan="lose-acknowledgment">Register, then lose the answer</button>
+      <button type="button" data-action="plan-command" data-plan="drop-request">Lose the request</button>
+      <button type="button" data-action="plan-command" data-plan="unavailable">Answer “unavailable”</button>
+    </div>
+    <div class="harness-row">
+      <button type="button" data-action="command-service" data-state="silent">Fail every command and receipt request</button>
+      <button type="button" data-action="command-service" data-state="answering">Answer them again</button>
+    </div>
+    <p class="harness-note">A request that gets “no answer” here fails at once with an empty gateway error; a real one could also hang until the client gives up. The feeds keep running, so a screen stays live while its command goes unanswered.</p>
+  </section>
+
+  <section aria-labelledby="operator-feeds-heading">
+    <h2 id="operator-feeds-heading">Feeds</h2>
+    <table class="harness-table">
+      <caption>Per-audience feed controls</caption>
+      <thead><tr><th scope="col">Audience</th><th scope="col">Feed</th><th scope="col">Revision</th><th scope="col">Screens</th><th scope="col">Controls</th></tr></thead>
+      <tbody id="operator-feeds"></tbody>
+    </table>
+  </section>
+  <p><a href="/">Harness index</a></p>
+</main>
+</body>
+</html>
