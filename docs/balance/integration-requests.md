@@ -23,16 +23,18 @@ Nothing here adds a package. `tools/balance` keeps its two workspace dependencie
 
 Backend's reconciliation (PR [#39](https://github.com/Amirkianfar66/GameN/pull/39), `docs/backend/v1-request-reconciliation.md` at `e6923b3ffd6f47beb3b7a5963ce5f423c7b08e8e`) accepts this request as an additive integration change once the corrections for R1 and R2 are reviewed, and lists what a permanent report gate must enforce beyond the exit status of each command. The follow-up review of 6 October records R1 and R2 as resolved at `a3898b83deaf19f25e83436b1b18856520b27876` and leaves CI adoption to integration. Balance has now written the gate and the reviewed exception list that the plan asks for. The root manifest and the CI workflow are Codex's; neither is changed here.
 
-There are two checks. Both run from the repository root after `npm ci`.
+There are two checks. Both run from the repository root after `npm ci`, in a checkout that contains the engine.
 
 ```sh
 npm run check --workspace @mothership/balance
 npm run engine-gate --workspace @mothership/balance -- --out-dir "$RUNNER_TEMP/balance"
 ```
 
-**The static check** needs no engine. It verifies that the scenario files equal the catalogue and that the traceability table is current, and runs the static tests. It fails unless every test file ran at least one test and nothing failed, was cancelled, was skipped or was marked todo. It validates documents and fixtures and executes no scenario.
+**The static check** needs no engine. It verifies that the scenario files equal the catalogue and that the traceability table is current, and runs the static tests. It validates documents and fixtures and executes no scenario. It fails unless every test file ran a test, every test that was started finished, and nothing failed, was cancelled, was skipped or was marked todo.
 
-**The engine gate** needs the full-game engine in the checkout, built, and a clean committed tree. It runs the scenarios, the negative controls and ten seeded playouts per mode against that engine at the checkout's own commit, each with `--require-engine`, writes three reports and holds them to the report gate. It is Backend's sequence with the gate as its last step. Written out:
+Three of its tests compare the rulebook with the owner-decision file, which arrives with the engine. In a checkout that contains the engine they run, and the command above is the whole of it. On a branch without the engine, such as the Balance branch by itself, they cannot run. There the command fails and says why, and `-- --allow-missing-overlay` accepts exactly those three as not run and reports them so. The switch is refused where the file is present, so it cannot survive in a CI line by mistake.
+
+**The engine gate** needs the built full-game engine in the checkout and a clean committed tree. It runs the scenarios, the negative controls and ten seeded playouts per mode against that engine at the checkout's own commit, each with `--require-engine`, writes three reports and holds them to the report gate. It is Backend's sequence with the gate as its last step. Written out:
 
 ```sh
 CANDIDATE_PATH="$PWD"
@@ -44,20 +46,23 @@ npm run walk --workspace @mothership/balance -- --require-engine --engine-root "
 npm run gate --workspace @mothership/balance -- --scenarios "$REPORTS/scenarios.json" --controls "$REPORTS/controls.json" --playouts "$REPORTS/playouts.json" --engine-root "$CANDIDATE_PATH" --engine-commit "$CANDIDATE_SHA" --candidate-commit "$CANDIDATE_SHA" --playouts-per-mode 10
 ```
 
-The gate executes nothing. It reads the three reports and fails, naming every problem, unless all of the following hold. Each line is a row of Backend's plan.
+The gate executes nothing. It reads the three reports and fails, naming every problem, unless all of the following hold. The rows are those of Backend's plan, in its order.
 
 | Backend's plan asks for | What enforces it |
 | --- | --- |
-| Static check: a positive test count; no failure, skip, todo or cancellation; materialization and traceability match the catalogue | `npm run check`, through `scripts/static-tests.mjs`. A test file that defines no test also fails it: `node --test` counts such a file as one passed test |
-| Scenarios: an available engine with the exact candidate commit and pins; every ready scenario executed; passes in each of the three modes; none failed, invalid or not run; every catalogue identifier exactly once | The gate. Each report must name the engine commit given to the gate and an engine that reports the approved ruleset and owner-decision hash. Every ready fixture must be `passed`, each mode must have passes, and every fixture must be reported once and no other |
-| Blocked and manual exceptions compared with a reviewed list of identifiers, statuses, decisions and reasons | `tests/scenarios/v1/exceptions.json`: eleven blocked cases and two manual cases in each mode, 39 fixtures. The gate and the static check both fail when the fixtures that are not ready differ from the list in any case, status, decision or kind. A blocked case with a probe must have run to its undecided point; one without must give the runner's reason for that |
-| Controls: every ready baseline accounted for against the catalogue, every generated control executed, none undetected, no baseline failing | The gate counts the baselines and generates the controls from the catalogue itself and compares both numbers with the report, for each mode. The report's own verdict must be `passed` |
-| Playouts: exactly ten asked for, executed and finished per mode; no invariant violation, hint mismatch or replay mismatch | The gate, with `--playouts-per-mode 10`. The playout command now refuses to run no playouts |
-| Reports that identify the engine commit and the source and fixture hashes; fail on mismatched or unavailable pins and on an unexpected working tree | All three reports carry the same pins. The gate compares the scenario files, the rule sources and the rulebook with the files on disk, requires the pinned source manifest and the approved owner-decision file, requires the three reports to agree, and with `--candidate-commit` requires a clean tree at exactly that commit. A tree with uncommitted changes, or without Git, fails |
+| The corrections for R1 and R2 and their regressions | The static check. Records: `consent and a pseudonym are required for every kept participant, whatever the record status`, and the test of the blank template. Controls: `the controls command fails when its baselines do not pass`, which starts the real command against a stand-in engine, and `a controls run fails when a baseline does not pass, when a control is missed and when nothing ran` |
+| Static check: a positive test count; no failure, skip, todo or cancellation; materialization and traceability match the catalogue | `npm run check`, through `scripts/static-tests.mjs`. It reads the runner's events and not only its totals, because `node --test` exits 0 for a skipped suite, for a file that defines no test and for a file that ends the process before its tests have finished. A test file that the check would not run, in a subdirectory or under another extension, also fails it |
+| Scenarios: an available engine with the exact candidate commit and pins; every ready scenario executed; passes in each of the three modes; none failed, invalid or not run; every catalogue identifier exactly once | The gate. Each report must name the engine commit given to the gate, and an engine that reports the approved ruleset and owner-decision hash. Every ready fixture must be `passed` and carry no failure, reason or invariant violation; each mode must have passes; and every fixture must be reported once and no other |
+| Blocked and manual exceptions compared with a reviewed list of identifiers, statuses, decisions and reasons | `tests/scenarios/v1/exceptions.json`: eleven blocked cases and two manual cases in each mode, 39 fixtures. The gate and the static check both fail when the fixtures that are not ready differ from the list in any case, status, decision or kind (probed or not). The reason each run gives is compared with the reason that belongs to its kind: a blocked case with a probe must have run to its undecided point and recorded every observation, and the other two kinds must give the runner's fixed reason. The list's `why` is the explanation for a reviewer; nothing is compared with it |
+| Controls: every ready baseline accounted for against the catalogue, every generated control executed, none undetected, no baseline failing | The gate counts the baselines and generates the controls from the catalogue itself and compares both numbers with the report, for each mode. The report's own verdict must be `passed` and its two lists of failures must be there and empty |
+| Playouts: exactly ten asked for, executed and finished per mode; no invariant violation, hint mismatch or replay mismatch | The gate, with `--playouts-per-mode 10`. The playout command refuses to run no playouts |
+| Reports that identify the engine commit and the source and fixture hashes; fail on mismatched or unavailable pins and on an unexpected working tree | All three reports carry the same pins. The gate compares the scenario files, the rule sources and the rulebook with the files on disk; requires the pinned source manifest, the approved owner-decision file and the combined Version 1 manifest, each present, as three separate hashes; and requires the three reports to agree, down to one digest of the built engine modules. The engine commit must have been read from Git, not only stated: a commit on the command line that contradicts the checkout stops the command. With `--candidate-commit` every report must come from a clean tree at exactly that commit |
+
+"Clean" means that Git reports nothing modified and nothing untracked, whatever the user's status settings are, and that no tracked file is hidden from status. Git does not see ignored files, and build output is ignored: that is what the build digest is for. It shows that the three reports ran one build. It cannot show that the build was made from the named commit; CI building from its own checkout is what makes that so.
 
 For adoption:
 
-1. **Write the reports outside the checkout**, as Backend's plan does. A report file inside the checkout is itself an uncommitted change: the next report then records one, and the gate refuses it.
+1. **Write the reports outside the checkout**, as Backend's plan does. A report file inside the checkout is itself an uncommitted change: the next report then records one, and the gate refuses it. For the same reason run the engine gate before any step that leaves untracked files behind, or it will refuse to start.
 2. **The engine gate belongs in CI as its own step, not inside `npm run verify`.** It requires a clean commit, and people run `verify` on work in progress. The static check has no such requirement and can join `test`. Suggested, against the manifest of the landing candidate `71dfd0277c6ccc4a5dd78b9702face98a46310b8`:
 
 ```diff
@@ -67,11 +72,12 @@ For adoption:
 +    "test": "npm run test:bootstrap && npm run test:engine && npm run test:backend && npm run test:tooling && npm run test:frontend && npm run test:balance",
 ```
 
-   and one CI step after the build: `npm run test:balance:engine -- --out-dir "$RUNNER_TEMP/balance"`, with that directory kept as a build artifact.
+   and one CI step: `npm run test:balance:engine -- --out-dir "$RUNNER_TEMP/balance"`, with that directory kept as a build artifact. On a pull request the commit that CI checks out is its merge commit, and that is the commit the reports will name.
 3. **The exception list is three cases shorter than the one in Backend's plan.** The plan was written at `dedfe69` and names twelve blocked cases per mode. The twelfth waited on D15, and D15 is answered by the existing five-round and showdown structure: the case was withdrawn in the reviewed commit, and the reconciliation itself classes D15 as a proposal for a new rule. The list has 33 blocked and 6 manual fixtures.
-4. **A pass of the gate is not a statement about balance.** It says the checks ran completely against the named engine and found nothing. It cannot show that the built engine was built from the named commit; CI builds from its own checkout, and that is what makes it so.
+4. **What the gate cannot do.** It holds the reports against the catalogue and the exception list of the same commit. It cannot tell a legitimate change to them from an illegitimate one: a ready case that is deleted, or emptied of its expectations, or moved to manual together with its line in the list, leaves nothing for the gate to find. Its own floor is low, one pass and one baseline with a control in each mode. What shows such a change is the diff. It cannot be made quietly: the scenario files, the exception list, the traceability table and the committed evidence all change with it, and the static check fails until the evidence has been produced again. Review of that diff is the protection, and a code-owner rule on `tests/scenarios/` and `docs/balance/evidence/` would be its repository form; that is a repository setting, and is only suggested here.
+5. **A pass of the gate is not a statement about balance.** It says the checks ran completely against the named engine and found nothing.
 
-The evidence report of 7 October records the gate running on real reports against the landing candidate, the gate refusing reports that are wrong in one respect, and a rehearsal of the sequence above in a scratch merge.
+The evidence report of 7 October records the gate running on real reports against the landing candidate, the gate refusing reports that are wrong in one respect, a rehearsal of the sequence above in a scratch merge, and an independent review of the gate with what it found.
 
 ## BAL-REQ-2
 

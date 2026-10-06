@@ -12,36 +12,41 @@
 //      also when no engine is available and --require-engine was not given: nothing ran, and the
 //      output says NOT RUN. That is the expected state at a commit without a full-game engine.
 //   1  a ready scenario did not pass unmodified, a control was not detected, or no control ran.
-//   2  --require-engine was given and no engine is available.
+//   2  nothing was run that could count: --require-engine was given and no engine is available,
+//      the command line cannot be understood, or the engine commit it states contradicts the checkout.
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname } from 'node:path';
 import { controlVerdict, runControls } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
 import { loadGroup } from '../../../tests/scenarios/v1/files.mjs';
-import { buildPins, noteProvenance, reportPath } from './pins.mjs';
+import { invocationPath, readArgs } from './args.mjs';
+import { buildPins, noteProvenance } from './pins.mjs';
 
-const args = process.argv.slice(2);
-const option = name => { const index = args.indexOf(name); return index < 0 ? null : args[index + 1] ?? null; };
-const engineRoot = option('--engine-root');
-const out = option('--out');
-const requireEngine = args.includes('--require-engine');
+const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out'], flags: ['require-engine'] }, refuse);
+const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
+const out = values.out;
+const requireEngine = flags['require-engine'];
 const write = summary => {
   if (out === null) return;
-  const target = reportPath(out);
+  const target = invocationPath(out);
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, `${JSON.stringify(summary, null, 1)}\n`);
   console.log(`Summary written to ${target}`);
 };
 
-const loaded = await load(engineRoot ? resolve(engineRoot) : null);
+const loaded = await load(engineRoot);
+const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance negative controls' });
+if ('problem' in built) refuse(built.problem);
+const pins = built.pins;
 if (!loaded.available) {
   console.log(`NOT RUN. No control was executed. Engine adapter unavailable: ${loaded.reason}`);
-  write({ schema: 'mothership.balance.controls/1', verdict: 'not-run', reason: loaded.reason, node: process.version, modes: {}, undetected: [], baselineFailures: [] });
+  // The report is written all the same, so that an older report in its place cannot be taken for this run.
+  write({ schema: 'mothership.balance.controls/1', pins, verdict: 'not-run', reason: loaded.reason, node: process.version, modes: {}, undetected: [], baselineFailures: [] });
   process.exit(requireEngine ? 2 : 0);
 }
 const adapter = loaded.adapter;
 
-const pins = buildPins({ engineRoot, engineCommit: option('--engine-commit'), adapter, runner: '@mothership/balance negative controls' });
 const summary = { schema: 'mothership.balance.controls/1', pins, engine: adapter.pins, engineCommit: pins.engineCommit, node: process.version, modes: {}, undetected: [], baselineFailures: [], verdict: 'failed' };
 const runs = [];
 for (const mode of [7, 8, 9]) {

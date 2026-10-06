@@ -48,7 +48,7 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 
 | Command | What it does |
 | --- | --- |
-| `npm run check --workspace @mothership/balance` | Static checks. Needs no engine. Verifies hashes, every rule citation, the decision register, the scenario files, the exception list and the numbers quoted in the documents. Fails unless every test file ran a test and nothing failed, was cancelled, was skipped or was marked todo |
+| `npm run check --workspace @mothership/balance` | Static checks. Needs no engine. Verifies hashes, every rule citation, the decision register, the scenario files, the exception list and the numbers quoted in the documents. Fails unless every test file ran a test, every started test finished, and nothing failed, was cancelled, was skipped or was marked todo. **On a branch without the engine add `-- --allow-missing-overlay`**: see below |
 | `npm run scenarios --workspace @mothership/balance` | Executes the scenarios against the engine of this checkout. Add `-- --engine-root <dir>` for a built copy of another commit, and `-- --out <file>` to write a report |
 | `npm run walk --workspace @mothership/balance -- --engine-root <dir>` | Seeded random playouts with the invariants checked after every transition |
 | `npm run controls --workspace @mothership/balance -- --engine-root <dir>` | Negative controls: changes one expectation at a time and requires the run to fail. The command itself fails if any ready scenario does not pass unmodified, if a control is missed, or if no control ran |
@@ -60,9 +60,21 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 
 At the bootstrap baseline the engine package has no rules in it, so `npm run scenarios` executes nothing and reports every ready scenario as **not run**. That is the correct result at this commit and is not a pass. These commands are not yet part of `npm run verify`; see request BAL-REQ-1.
 
+**The static check on a branch without the engine.** Three tests compare the rulebook with the owner-decision file, `rules/overlays/in-person-v1-owner-decisions-2026-10-06.json`. That file arrives with the engine and is not on this branch. The tests skip, and a skipped test is a failure of the check: it has shown nothing. So here the command is
+
+```sh
+npm run check --workspace @mothership/balance -- --allow-missing-overlay
+```
+
+which accepts exactly those three as **not run**, names them, and still fails on any other skip. In a checkout that contains the engine the plain command runs all of them, and the switch is refused.
+
 **Exit status, for use as a gate.** `scenarios`, `controls` and `walk` exit 1 when something they executed went wrong: a failed scenario, a ready scenario that does not pass before its controls are tried, a missed control, an invariant violation, an unfinished playout. When no engine is available they print NOT RUN and exit 0, which suits a commit that has no engine. Add `-- --require-engine` wherever the command is a gate: then a run that executed nothing exits 2 and cannot be mistaken for a pass.
 
-**The report gate.** An exit status of 0 says that a command found nothing wrong in what it did. It does not say that it did everything, or against which engine. `gate` reads the reports the three commands write with `-- --out <file>` and exits 0 only when together they are complete, clean and about one engine at one commit; otherwise it exits 1 and names every problem. A fixture counts as an exception only if [`tests/scenarios/v1/exceptions.json`](../../tests/scenarios/v1/exceptions.json) lists it with the same status and decision. Reports from a working tree with uncommitted changes are refused unless `--allow-unpinned-tree` is given, which is for trying the gate and never for a merge. A pass says the checks ran completely and found nothing; it says nothing about balance or human play. Request BAL-REQ-1 has the lines for CI.
+**The report gate.** An exit status of 0 says that a command found nothing wrong in what it did. It does not say that it did everything, or against which engine. `gate` reads the reports the three commands write with `-- --out <file>` and exits 0 only when together they are complete, clean and about one engine at one commit; otherwise it exits 1 and names every problem. A fixture counts as an exception only if [`tests/scenarios/v1/exceptions.json`](../../tests/scenarios/v1/exceptions.json) lists it with the same status and decision.
+
+The gate wants commits it can trust. The working tree must be a clean commit, and the engine commit must have been read from Git: from this checkout, or from the engine's own checkout when `--engine-root` names one. An engine in an exported archive has no Git to read, and its commit can only be stated; that, like uncommitted changes, is accepted only with `--allow-unpinned-tree`, and the result is then called a trial and never a pass for a merge. Every command refuses an option it does not know, an option without its value and an option given twice, so that a typing mistake cannot switch a check off.
+
+The gate holds the reports against the catalogue of the same commit. It cannot tell a reviewed change to the catalogue or the exception list from an unreviewed one; the diff shows that, and request BAL-REQ-1 says how. A pass says the checks ran completely and found nothing; it says nothing about balance or human play.
 
 ## How to read a status
 

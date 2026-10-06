@@ -60,11 +60,11 @@ Every fixture that is not `ready` must be in `v1/exceptions.json` with the same 
 ## Running
 
 ```sh
-npm run check --workspace @mothership/balance
+npm run check --workspace @mothership/balance -- --allow-missing-overlay
 npm run scenarios --workspace @mothership/balance
 ```
 
-The first needs no engine. The second executes against `@mothership/engine` of this checkout; at the bootstrap baseline that package has no rules, so nothing is executed and every ready scenario is reported as not run. It then exits 0. Where the command is a gate, add `-- --require-engine`: a run that executed nothing then exits 2.
+The first needs no engine. A skipped test fails it. On a branch without the engine three tests cannot run, because the owner-decision file they read arrives with the engine; the switch accepts exactly those three as not run and names them. In a checkout that contains the engine, leave the switch out: it is refused there, and every test runs. The second executes against `@mothership/engine` of this checkout; at the bootstrap baseline that package has no rules, so nothing is executed and every ready scenario is reported as not run. It then exits 0. Where the command is a gate, add `-- --require-engine`: a run that executed nothing then exits 2.
 
 To execute against another commit, build a copy of it and pass its directory:
 
@@ -86,5 +86,5 @@ It needs a clean commit. `docs/balance/README.md` describes the gate; `docs/bala
 2. Edit `v1/catalog.mjs`. Write the expected result from the rule, before running anything.
 3. `npm run materialize --workspace @mothership/balance`, then `npm run traceability --workspace @mothership/balance`.
 4. If the scenario is blocked or manual, add it to `v1/exceptions.json` with its decision and the reason. If a decision has made it ready, remove it there.
-5. `npm run check --workspace @mothership/balance`.
+5. `npm run check --workspace @mothership/balance`, with `-- --allow-missing-overlay` on a branch without the engine.
 6. If an engine disagrees, decide which is wrong by reading the rule again. Change the scenario only when the reading was wrong, and say so in the evidence report. Never change an expectation to make a run pass.

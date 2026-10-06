@@ -30,6 +30,11 @@ export interface RunPins {
   rulebookSha256: string;
   engine: EnginePins | null;
   engineCommit: string | null;
+  // How the commit is known: read from Git, here or in the engine's own checkout, or only stated.
+  engineCommitBasis: string;
+  engineTreeClean: boolean | null;
+  // One digest of the built engine and contracts modules that were loaded.
+  engineBuildSha256: string | null;
   engineOrigin: string;
   runner: string;
   node: string;

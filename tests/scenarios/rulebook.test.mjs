@@ -7,7 +7,7 @@ import test from 'node:test';
 import {
   damageBudget, durationBound, factionCounts, jailThreshold, parseDecisionRegister, parseRulebook, resolvePointer, scanInformationBound, wilson,
 } from '@mothership/balance';
-import { V1_OVERLAY_PATH, loadGroup } from './v1/files.mjs';
+import { OVERLAY_ABSENT, V1_OVERLAY_PATH, loadGroup } from './v1/files.mjs';
 
 const root = new URL('../../', import.meta.url);
 const text = path => readFileSync(new URL(path, root), 'utf8');
@@ -37,31 +37,38 @@ test('the rulebook parses cleanly and covers every section', () => {
   }
 });
 
-test('every source pointer resolves in the pinned rule sources', t => {
-  const ownerFile = existsSync(new URL(V1_OVERLAY_PATH, root)) ? JSON.parse(text(V1_OVERLAY_PATH)) : null;
-  if (ownerFile === null) t.diagnostic('Pointers of the form v1#/field were not resolved: the owner-decision file is absent at this commit.');
-  for (const entry of rulebook.entries) {
-    for (const ref of entry.refs.filter(item => item.kind === 'pointer')) {
-      if (ref.key === 'v1') {
-        if (ownerFile !== null) assert.ok(resolvePointer(ownerFile, ref.pointer).found, `${entry.id}: ${ref.raw} does not resolve`);
-        continue;
-      }
-      assert.ok(ref.key in documents, `${entry.id}: unknown source key ${ref.key}`);
-      assert.ok(resolvePointer(documents[ref.key], ref.pointer).found, `${entry.id}: ${ref.raw} does not resolve`);
-    }
+const pointers = rulebook.entries.flatMap(entry => entry.refs.filter(item => item.kind === 'pointer').map(ref => ({ entry, ref })));
+const ownerDecisionsCited = rulebook.entries.flatMap(entry => entry.refs.filter(ref => ref.kind === 'v1').map(ref => ref.pointer));
+
+test('every pointer into a baseline source or an overlay resolves in the pinned rule sources', () => {
+  const elsewhere = pointers.filter(({ ref }) => ref.key !== 'v1');
+  assert.ok(elsewhere.length > 0);
+  for (const { entry, ref } of elsewhere) {
+    assert.ok(ref.key in documents, `${entry.id}: unknown source key ${ref.key}`);
+    assert.ok(resolvePointer(documents[ref.key], ref.pointer).found, `${entry.id}: ${ref.raw} does not resolve`);
   }
 });
 
-test('owner-decision citations name real decisions, and resolve when the overlay is present', t => {
-  const cited = rulebook.entries.flatMap(entry => entry.refs.filter(ref => ref.kind === 'v1').map(ref => ref.pointer));
-  for (const id of cited) assert.ok(V1_IDS.includes(id), `unknown owner decision ${id}`);
-  for (const id of V1_IDS) assert.ok(cited.includes(id), `owner decision ${id} is carried by no rule`);
-  if (!existsSync(new URL(V1_OVERLAY_PATH, root))) {
-    t.diagnostic('The owner-decision overlay is absent at this commit; decision text was not compared here.');
-    return;
-  }
+test('owner-decision citations name real decisions, and every decision is carried by a rule', () => {
+  for (const id of ownerDecisionsCited) assert.ok(V1_IDS.includes(id), `unknown owner decision ${id}`);
+  for (const id of V1_IDS) assert.ok(ownerDecisionsCited.includes(id), `owner decision ${id} is carried by no rule`);
+});
+
+// The next two tests read the owner-decision file, which arrives with the engine. Where it is
+// absent they cannot run, and they say so by skipping: the static check then fails unless it was
+// told to expect that. They are separate tests so that what did run is not counted with them.
+test('every pointer into the owner-decision file resolves in it', t => {
+  if (!existsSync(new URL(V1_OVERLAY_PATH, root))) { t.skip(OVERLAY_ABSENT); return; }
+  const ownerFile = JSON.parse(text(V1_OVERLAY_PATH));
+  const intoIt = pointers.filter(({ ref }) => ref.key === 'v1');
+  assert.ok(intoIt.length > 0);
+  for (const { entry, ref } of intoIt) assert.ok(resolvePointer(ownerFile, ref.pointer).found, `${entry.id}: ${ref.raw} does not resolve`);
+});
+
+test('every owner decision the rulebook cites is in the owner-decision file', t => {
+  if (!existsSync(new URL(V1_OVERLAY_PATH, root))) { t.skip(OVERLAY_ABSENT); return; }
   const overlay = JSON.parse(text(V1_OVERLAY_PATH));
-  for (const id of cited) assert.ok(overlay.decisions.some(decision => decision.id === id), `${id} is missing from the overlay`);
+  for (const id of ownerDecisionsCited) assert.ok(overlay.decisions.some(decision => decision.id === id), `${id} is missing from the overlay`);
 });
 
 test('the decision register is complete and consistent with rule statuses', () => {

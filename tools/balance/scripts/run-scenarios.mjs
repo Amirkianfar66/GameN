@@ -7,26 +7,30 @@
 // Nothing is reported as passed unless it was executed. Without an engine every ready
 // scenario is "not-run". Blocked scenarios stay blocked whatever an engine does.
 //
-// Exit status: 1 when an executed scenario failed or a fixture is malformed; 2 when
-// --require-engine was given and no engine is available; otherwise 0. Without that switch a run
-// that executed nothing exits 0, which is the expected state at a commit without a full-game
-// engine and is not a pass. A gate must pass --require-engine.
+// Exit status: 1 when an executed scenario failed or a fixture is malformed; 2 when nothing was
+// run that could count: --require-engine was given and no engine is available, the command line
+// cannot be understood, or the engine commit it states contradicts the checkout; otherwise 0.
+// Without --require-engine a run that executed nothing exits 0, which is the expected state at a
+// commit without a full-game engine and is not a pass. A gate must pass --require-engine.
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname } from 'node:path';
 import { buildReport, runScenario, validateScenario } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
 import { GROUPS, loadGroup } from '../../../tests/scenarios/v1/files.mjs';
-import { buildPins, noteProvenance, reportPath } from './pins.mjs';
+import { invocationPath, readArgs } from './args.mjs';
+import { buildPins, noteProvenance } from './pins.mjs';
 
-const args = process.argv.slice(2);
-const option = name => { const index = args.indexOf(name); return index < 0 ? null : args[index + 1] ?? null; };
-const engineRoot = option('--engine-root');
-const only = option('--only');
-const out = option('--out');
-const verbose = args.includes('--verbose');
-const loaded = await load(engineRoot ? resolve(engineRoot) : null);
+const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out', 'only'], flags: ['verbose', 'require-engine'] }, refuse);
+const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
+const only = values.only;
+const out = values.out;
+const verbose = flags.verbose;
+const loaded = await load(engineRoot);
 const adapter = loaded.available ? loaded.adapter : null;
 const reason = loaded.available ? '' : `engine adapter unavailable: ${loaded.reason}`;
+const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter, runner: '@mothership/balance scenario runner' });
+if ('problem' in built) refuse(built.problem);
 
 const runs = [];
 let invalid = 0;
@@ -39,7 +43,7 @@ for (const group of GROUPS) {
   }
 }
 
-const report = buildReport(runs, buildPins({ engineRoot, engineCommit: option('--engine-commit'), adapter, runner: '@mothership/balance scenario runner' }));
+const report = buildReport(runs, built.pins);
 
 const row = (label, summary) => `${label.padEnd(12)} total ${String(summary.total).padStart(3)}  passed ${String(summary.passed).padStart(3)}  failed ${String(summary.failed).padStart(3)}  blocked ${String(summary.blocked).padStart(3)}  not-run ${String(summary.notRun).padStart(3)}`;
 console.log(adapter === null ? `No scenario was executed. ${reason}` : `Engine ${adapter.pins.engineVersion}, ruleset ${adapter.pins.rulesetVersion}, protocol ${adapter.pins.protocolVersion}, commit ${report.pins.engineCommit}`);
@@ -53,14 +57,14 @@ for (const run of runs) {
 }
 noteProvenance(report.pins);
 if (out !== null) {
-  const target = reportPath(out);
+  const target = invocationPath(out);
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, `${JSON.stringify(report, null, 1)}\n`);
   console.log(`Report written to ${target}`);
 }
 if (invalid > 0 || report.totals.failed > 0) process.exit(1);
 // Nothing was executed. With --require-engine that is a failure of the gate, with its own exit status.
-if (adapter === null && args.includes('--require-engine')) {
+if (adapter === null && flags['require-engine']) {
   console.error('FAILED: --require-engine was given and no engine is available.');
   process.exit(2);
 }

@@ -11,6 +11,13 @@ import type { Scenario } from './scenario.js';
 
 export const EXCEPTIONS_SCHEMA = 'mothership.balance.scenario-exceptions/1';
 
+/** How a report came to know the commit of the engine it ran. Only the first two were read from Git. */
+export const ENGINE_COMMIT_BASIS = {
+  here: 'head of this checkout',
+  there: 'head of the engine checkout',
+  stated: 'stated on the command line, not checked',
+} as const;
+
 /** A reviewed fixture that is not executed as a ready case. Changing the list is a change to review. */
 export interface ScenarioException {
   // The scenario identifier without its mode group: FLOW-07 stands for V1-M7-FLOW-07 and so on.
@@ -30,14 +37,16 @@ export interface GateExpectations {
   playoutsPerMode: number;
   // When given, every report must come from a clean working tree at exactly this commit.
   candidateCommit: string | null;
-  // Accept reports from a tree that is unknown or has uncommitted changes. Never for a merge gate.
+  // Accept reports from a tree that is unknown or has uncommitted changes, and an engine whose
+  // commit was only stated. For trying the gate. Never for a merge gate, and without effect when a
+  // candidate commit is named.
   allowUnpinnedTree: boolean;
   rulesetVersion: string;
   // The approved owner decision and the pinned rule-source manifest. Two separate pins.
   overlaySha256: string;
   sourceManifestSha256: string;
   // The combined Version 1 manifest beside the engine, when that checkout is at hand. Without it
-  // (null) the reports only have to agree with each other about it.
+  // (null) the reports still have to carry its hash and agree with each other about it.
   v1Manifest: { sha256: string | null } | null;
   // What is on disk now, to hold the reports against.
   scenarioFileHashes: Record<string, string>;
@@ -57,6 +66,8 @@ const object = (value: unknown): Json => (isObject(value) ? value : {});
 const list = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
 const strings = (value: unknown): value is string[] => Array.isArray(value) && value.every(item => typeof item === 'string');
 const COMMIT = /^[0-9a-f]{40}$/;
+const SHA256 = /^[0-9a-f]{64}$/;
+const isHash = (value: unknown): boolean => typeof value === 'string' && SHA256.test(value);
 const MODES = [7, 8, 9] as const;
 
 // The two reasons the runner gives for a case it does not execute.
@@ -122,7 +133,10 @@ function pinProblems(label: string, report: Json, expected: GateExpectations): s
   }
   if (pins['engineCommit'] !== expected.engineCommit) say(`the engine commit is ${String(pins['engineCommit'])}, not ${expected.engineCommit}`);
   if (pins['v1OverlaySha256'] !== expected.overlaySha256) say('the owner-decision file beside the engine is missing or is not the approved one');
-  if (expected.v1Manifest !== null && pins['v1ManifestSha256'] !== expected.v1Manifest.sha256) say('the combined Version 1 manifest differs from the file beside the engine');
+  // An absent pin is a failure, not an agreement: three reports without the manifest prove nothing about it.
+  if (!isHash(pins['v1ManifestSha256'])) say('the combined Version 1 manifest was not found beside the engine');
+  else if (expected.v1Manifest !== null && pins['v1ManifestSha256'] !== expected.v1Manifest.sha256) say('the combined Version 1 manifest differs from the file beside the engine');
+  if (!isHash(pins['engineBuildSha256'])) say('the built engine modules were not found, so the report does not say which build it ran');
   if (pins['sourceManifestSha256'] !== expected.sourceManifestSha256) say('the rule-source manifest is not the pinned one');
   if (!deepEqual(pins['ruleSourceHashes'], expected.ruleSourceHashes)) say('the rule sources differ from the files on disk');
   if (!deepEqual(pins['scenarioFileHashes'], expected.scenarioFileHashes)) say('the scenario files differ from the files on disk');
@@ -131,6 +145,13 @@ function pinProblems(label: string, report: Json, expected: GateExpectations): s
   if (expected.candidateCommit !== null) {
     if (tree !== expected.candidateCommit) say(`the working tree is ${String(tree)}, not the clean candidate ${expected.candidateCommit}`);
   } else if (!expected.allowUnpinnedTree && (typeof tree !== 'string' || !COMMIT.test(tree))) say(`the working tree is not a clean commit (${String(tree)})`);
+  // The engine commit has to be more than a label: read from Git, from a tree with nothing uncommitted.
+  if (expected.candidateCommit !== null || !expected.allowUnpinnedTree) {
+    const basis = pins['engineCommitBasis'];
+    if (basis !== ENGINE_COMMIT_BASIS.here && basis !== ENGINE_COMMIT_BASIS.there) say('the engine commit was only stated on the command line: the engine was not in a Git checkout that it could be read from');
+    else if (pins['engineTreeClean'] !== true) say("the engine's checkout had uncommitted changes");
+    else if (basis === ENGINE_COMMIT_BASIS.here && pins['engineCommit'] !== tree) say(`the engine is this checkout's own, but its commit ${String(pins['engineCommit'])} is not the working tree's`);
+  }
   return problems;
 }
 
@@ -141,7 +162,8 @@ function scenarioReportProblems(report: Json, catalogue: readonly Scenario[]): s
   const runs = new Map<string, Json>();
   for (const item of list(report['runs'])) {
     const run = object(item);
-    const id = String(run['scenarioId']);
+    const id = run['scenarioId'];
+    if (typeof id !== 'string') { say('a run has no scenario identifier'); continue; }
     if (runs.has(id)) say(`${id} is reported twice`);
     runs.set(id, run);
   }
@@ -156,6 +178,8 @@ function scenarioReportProblems(report: Json, catalogue: readonly Scenario[]): s
     if (scenario.status === 'ready') {
       const detail = object(run['failure'])['message'] ?? reason;
       if (status !== 'passed') say(`${scenario.id} is ready and was ${String(status)}${typeof detail === 'string' && detail.length > 0 ? `: ${detail}` : ''}`);
+      // A pass that carries a failure, a reason or an invariant violation contradicts itself.
+      else if (run['failure'] !== null || reason !== null || !Array.isArray(run['invariantViolations']) || run['invariantViolations'].length > 0) say(`${scenario.id} is reported passed and carries a failure, a reason or an invariant violation`);
       else if (scenario.mode !== null) passed.set(scenario.mode, (passed.get(scenario.mode) ?? 0) + 1);
     } else if (scenario.status === 'blocked') {
       // A blocked case is never a pass. With a setup it is run to the undecided point and what the
@@ -167,7 +191,8 @@ function scenarioReportProblems(report: Json, catalogue: readonly Scenario[]): s
       } else {
         if (reason !== null) say(`${scenario.id}: its probe was not completed (${String(reason)})`);
         const wanted = scenario.steps.filter(step => step.op === 'probe' || step.op === 'note').length;
-        if (list(run['probes']).length !== wanted) say(`${scenario.id}: ${list(run['probes']).length} observations recorded, ${wanted} defined`);
+        const recorded = list(run['probes']).filter(probe => typeof object(probe)['label'] === 'string' && typeof object(probe)['outcome'] === 'string').length;
+        if (recorded !== wanted || list(run['probes']).length !== wanted) say(`${scenario.id}: ${recorded} observations recorded, ${wanted} defined`);
       }
     } else {
       if (status !== 'not-run') say(`${scenario.id} is manual and was reported ${String(status)}`);
@@ -187,8 +212,12 @@ function controlsReportProblems(report: Json, catalogue: readonly Scenario[]): s
   const say = (message: string) => { problems.push(`controls: ${message}`); };
   if (report['schema'] !== 'mothership.balance.controls/1') say(`unexpected schema ${String(report['schema'])}`);
   if (report['verdict'] !== 'passed') say(`the run's own verdict is ${String(report['verdict'])}`);
-  if (list(report['baselineFailures']).length > 0) say(`${list(report['baselineFailures']).length} baselines are listed as not passing`);
-  if (list(report['undetected']).length > 0) say(`${list(report['undetected']).length} controls are listed as not detected`);
+  // Both lists have to be there and empty. Anything else in their place is not an empty list.
+  for (const [field, what] of [['baselineFailures', 'baselines that did not pass'], ['undetected', 'controls that were not detected']] as const) {
+    const value = report[field];
+    if (!Array.isArray(value)) say(`the list of ${what} is missing`);
+    else if (value.length > 0) say(`the list of ${what} has ${value.length} ${value.length === 1 ? 'entry' : 'entries'}`);
+  }
   const modes = object(report['modes']);
   for (const mode of MODES) {
     const stats = modes[String(mode)];
@@ -198,10 +227,10 @@ function controlsReportProblems(report: Json, catalogue: readonly Scenario[]): s
     const controls = baselines.reduce((sum, scenario) => sum + controlsFor(scenario).length, 0);
     if (baselines.length === 0 || controls === 0) say(`the catalogue has no baseline or no control for ${mode} players`);
     if (stats['scenarios'] !== baselines.length) say(`${mode} players: ${String(stats['scenarios'])} baselines reported, ${baselines.length} in the catalogue`);
-    if (stats['baselineNotPassing'] !== 0) say(`${mode} players: ${String(stats['baselineNotPassing'])} baselines did not pass`);
+    if (stats['baselineNotPassing'] !== 0) say(`${mode} players: baselines that did not pass: ${String(stats['baselineNotPassing'])}`);
     if (stats['controls'] !== controls) say(`${mode} players: ${String(stats['controls'])} controls executed, ${controls} generated from the catalogue`);
     if (stats['detected'] !== stats['controls']) say(`${mode} players: ${String(stats['detected'])} of ${String(stats['controls'])} controls detected`);
-    if (stats['undetected'] !== 0) say(`${mode} players: ${String(stats['undetected'])} controls not detected`);
+    if (stats['undetected'] !== 0) say(`${mode} players: controls not detected: ${String(stats['undetected'])}`);
   }
   return problems;
 }
@@ -217,9 +246,9 @@ function playoutReportProblems(report: Json, playoutsPerMode: number): string[] 
     if (!isObject(stats)) { say(`no result for ${mode} players`); continue; }
     if (stats['playouts'] !== playoutsPerMode) say(`${mode} players: ${String(stats['playouts'])} playouts executed, ${playoutsPerMode} required`);
     if (stats['completed'] !== stats['playouts']) say(`${mode} players: ${String(stats['completed'])} of ${String(stats['playouts'])} playouts finished`);
-    if (stats['invariantViolations'] !== 0) say(`${mode} players: ${String(stats['invariantViolations'])} invariant violations`);
-    if (stats['hintMismatches'] !== 0) say(`${mode} players: ${String(stats['hintMismatches'])} hint mismatches`);
-    if (stats['replayMismatches'] !== 0) say(`${mode} players: ${String(stats['replayMismatches'])} replay mismatches`);
+    if (stats['invariantViolations'] !== 0) say(`${mode} players: invariant violations: ${String(stats['invariantViolations'])}`);
+    if (stats['hintMismatches'] !== 0) say(`${mode} players: hint mismatches: ${String(stats['hintMismatches'])}`);
+    if (stats['replayMismatches'] !== 0) say(`${mode} players: replay mismatches: ${String(stats['replayMismatches'])}`);
     if (object(stats['terminalReached'])['unfinished'] !== 0) say(`${mode} players: unfinished playouts are reported`);
   }
   return problems;
@@ -248,6 +277,7 @@ export function gateProblems(reports: GateReports, catalogue: readonly Scenario[
   for (const [label, report] of named.slice(1)) {
     const pins = pinsOf(report);
     if (!deepEqual(pins['engine'], first['engine'])) problems.push(`${label}: not the same engine as the scenario report`);
+    if (pins['engineBuildSha256'] !== first['engineBuildSha256']) problems.push(`${label}: not the same engine build as the scenario report`);
     if (pins['v1ManifestSha256'] !== first['v1ManifestSha256']) problems.push(`${label}: not the same combined Version 1 manifest as the scenario report`);
     if (pins['workingTreeCommit'] !== first['workingTreeCommit']) problems.push(`${label}: not the same working tree as the scenario report`);
   }

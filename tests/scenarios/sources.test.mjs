@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
-import { SOURCE_MANIFEST_SHA256, V1_OVERLAY_PATH, V1_OVERLAY_SHA256, V1_RULESET_VERSION } from './v1/files.mjs';
+import { OVERLAY_ABSENT, SOURCE_MANIFEST_SHA256, V1_OVERLAY_PATH, V1_OVERLAY_SHA256, V1_RULESET_VERSION } from './v1/files.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = path => readFileSync(new URL(path, root));
@@ -25,9 +25,11 @@ test('the earlier audit and scenario matrix are unchanged; this baseline adds fi
   }
 });
 
-test('the owner-decision overlay matches its pin when it is present in this checkout', t => {
+// The owner-decision file arrives with the engine. Where it is absent this test cannot run, and it
+// says so by skipping: the static check then fails unless it was told to expect that.
+test('the owner-decision overlay matches its pin', t => {
   if (!existsSync(new URL(V1_OVERLAY_PATH, root))) {
-    t.diagnostic(`${V1_OVERLAY_PATH} is not present at this commit. OWNER-V1 citations are unverifiable here; they were checked against commit 8d4a2e5.`);
+    t.skip(OVERLAY_ABSENT);
     return;
   }
   assert.equal(sha256(V1_OVERLAY_PATH), V1_OVERLAY_SHA256);
