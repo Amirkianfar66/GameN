@@ -33,6 +33,8 @@ All run from the repository root of the dedicated worktree.
 | `git diff --check` against the base | Clean |
 | Diff against the base for every path outside `apps/game/`, `packages/presentation/` and `docs/frontend/` | Empty. No shared contract, rule, root manifest, lockfile, CI file, guard or other role's file changed |
 
+**Correction, 6 October 2026.** The first push of this branch failed CI. Its last commit added a status line to `docs/frontend/first-slice.md`, which is pinned by `docs/bootstrap-source-lock.json`, so `check:sources` failed. `npm run verify` had been run before that edit and not after it, and this document recorded it as passing. The file is restored byte-for-byte (SHA-256 `73a49f0dcd480aa6a5a9490ac6bb35a345bd1198a9ac3a59b5c50e96b9f95c66`) and `npm run verify` was re-run at the corrected commit: passed, 16 of 16. An independent review of the slice found this; its other findings and their fixes are listed under [Independent review](#independent-review).
+
 **The 168 Frontend tests and the exclusion check are not part of `npm run verify` or CI yet.** Wiring them in is a root change that belongs to Codex Integration; the exact request is REQ-1 in [integration-requests.md](integration-requests.md). Until it lands, a green CI run says nothing about them.
 
 ### What the tests cover

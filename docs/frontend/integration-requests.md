@@ -12,6 +12,7 @@ Codex owns the root manifests, the lockfile, CI and the workspace guard. Fronten
 | [REQ-3](#req-3) | Guard changes for `.tsx`, subpaths and development dependencies | Adding React | None |
 | [REQ-4](#req-4) | Dependencies, in four stages | React shells, R3F evaluation, GSAP cues, browser tests | 12 direct, 72 resolved |
 | [REQ-5](#req-5) | A browser test job in CI | Automated browser journeys | With REQ-4 stage D |
+| [REQ-6](#req-6) | A reviewed way to update the two pinned Frontend documents | Keeping the brief and the slice plan current | None |
 
 Nothing here is installed. The versions and hashes below were read from the npm registry on 6 October 2026, and the full set was resolved in a scratch copy of the manifests with `npm install --package-lock-only --ignore-scripts` under npm 10.9.4. That run downloaded metadata only and touched no file in the repository.
 
@@ -115,6 +116,16 @@ Frontend's own check, `apps/game/scripts/check-production-exclusion.mjs`, alread
 **A browser job in CI. With stage D.**
 
 Playwright downloads browser builds that are not npm packages. Requested: a separate CI job that installs the browsers for the pinned Playwright version, builds, starts the fixture harness on the loopback interface and runs the journeys. Keeping it separate leaves `Bootstrap checks / bootstrap` fast and free of the download. WebKit in CI approximates iOS Safari; it does not replace the named physical-device checks in the frontend specification.
+
+## REQ-6
+
+**The Frontend brief and slice plan are pinned by the source lock.**
+
+`docs/bootstrap-source-lock.json` pins `docs/frontend/first-slice.md` and `agents/frontend.md`. Both sit in or beside Frontend's ownership, and the brief asks Frontend to maintain it through review, but any edit fails `check:sources`. Frontend found this the hard way: a one-line status pointer in `first-slice.md` broke CI on the first push of this PR and was reverted.
+
+Two lines in those files are now out of date: `agents/frontend.md` still says "bootstrap baseline pending", and `first-slice.md` has no pointer to progress. Frontend has left both untouched and tracks status in [README.md](README.md) instead.
+
+Requested: either a reviewed lock update when Frontend proposes a wording change to these two files, or a statement that they are frozen as historical sources and status lives elsewhere. Frontend will not regenerate the lock.
 
 ## What Frontend does next, and what it waits for
 
