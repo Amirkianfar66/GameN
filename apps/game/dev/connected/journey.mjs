@@ -23,6 +23,9 @@
 // winner and with nothing revealed. Under a minute. A seventh (MOTHERSHIP_JOURNEY=recovery)
 // moves a seat to another device with a one-time code the host issues: the new device has
 // the seat as it stood, and the old one is refused and shows nothing more. About a minute.
+// An eighth (MOTHERSHIP_JOURNEY=match) plays one seven-player match from its lobby to its
+// result: five rounds, a Scan in each, a Supply, a Code attempt, three Jail votes that jail
+// someone, a showdown, and the end reveal. Every phase is a real minute: about 47 minutes.
 //
 // What this is: the real Firebase web client, real anonymous identities, real Security
 // Rules, the real protocol-2 service and its real 60-second phases, in headless Chrome.
@@ -56,9 +59,9 @@ const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
 /** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
 const PAGE_LOAD_MS = 30_000;
 
-const SCENARIO = ['shot', 'roles', 'votes', 'knowledge', 'end', 'lobby-end', 'recovery'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
+const SCENARIO = ['shot', 'roles', 'votes', 'knowledge', 'end', 'lobby-end', 'recovery', 'match'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
 /** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
-const PLAYERS = ['movement', 'votes', 'knowledge', 'end', 'lobby-end', 'recovery'].includes(SCENARIO) ? 7 : 9;
+const PLAYERS = ['movement', 'votes', 'knowledge', 'end', 'lobby-end', 'recovery', 'match'].includes(SCENARIO) ? 7 : 9;
 const WORDS = { 7: 'seven', 9: 'nine' };
 
 const evidence = process.argv[2] ?? process.env.MOTHERSHIP_EVIDENCE_DIR ?? null;
@@ -1375,6 +1378,333 @@ async function recoveryScenario({ browser, host, display, players, seatOf, match
 }
 
 /**
+ * One whole seven-player match, from its first turn to its result.
+ *
+ * The script can see all seven phones, which no player can, and uses that to steer the
+ * match somewhere worth looking at and to check what the screens say against one another:
+ *   - every round the Hacker scans a player, guessing right in odd rounds and wrong in even ones;
+ *   - in round 3 the Supplier registers a Supply;
+ *   - in round 5 the Hacker submits a Code attempt that cannot be right;
+ *   - the Jail votes of rounds 1 to 3 jail three Blue players, so that at the end of round 5
+ *     neither side is stronger and the server opens a showdown;
+ *   - in the showdown four players shoot the two Red players, two each.
+ * Nothing is decided by the script: what each of these comes to is whatever the server says,
+ * and every expectation below is stated as one.
+ */
+async function matchScenario({ host, display, players, seatOf, matchId }) {
+  for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
+  const seat = who => seatOf.get(who);
+  const name = number => `Player ${number}`;
+  const bySeat = new Map(players.map(player => [seat(player), player]));
+  const slug = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const knowledgeOf = who => who.page.evaluate("[...document.querySelectorAll('[data-region=\"knowledge\"] li')].map(item => item.textContent)");
+  const voteOf = who => who.page.evaluate('JSON.parse(JSON.stringify(globalThis.mothershipConnected.frame().model.match.vote))');
+  const resultOf = who => who.page.evaluate('JSON.parse(JSON.stringify(globalThis.mothershipConnected.frame().model.match?.result ?? null))');
+  const boardOf = async () => JSON.stringify((await display.frame()).model.match.board);
+  const seatOnBoard = number => display.page.evaluate(`(() => {
+    const found = globalThis.mothershipConnected.frame().model.match.board.zones.flatMap(zone => zone.seats).find(entry => entry.number === ${number});
+    return found ? { location: found.location, markers: found.markers.filter(marker => marker.kind !== 'turn').map(marker => marker.label) } : null;
+  })()`);
+
+  const roleOf = new Map();
+  for (const player of players) {
+    await openPanel(player);
+    roleOf.set(player, await player.text('.ms-role-card'));
+  }
+  assert.deepEqual([...roleOf.values()].sort(), SEVEN_PLAYER_ROLES);
+  const holder = role => players.find(player => roleOf.get(player) === role);
+  const factionOf = player => (roleOf.get(player) === 'Alien' ? 'Alien' : ['Undercover', 'Hacker'].includes(roleOf.get(player)) ? 'Red' : 'Blue');
+  const hacker = holder('Hacker');
+  const supplier = holder('Supplier');
+  const undercover = holder('Undercover');
+  const alien = holder('Alien');
+  const codeLine = (await knowledgeOf(alien))[0];
+  const code = /^The Code is these four players: (.+)\.$/.exec(codeLine)[1].split(', ').map(entry => Number(/^Player (\d)/.exec(entry)[1]));
+  // Who is voted into Jail at the end of rounds 1, 2 and 3: three Blue players, never the Supplier, who must still act in round 3.
+  const toJail = ['Insider', 'Cracker', 'Blue Disabler'].map(holder);
+
+  /**
+   * One command through the card, by touch: open the action, pick each part the card asks
+   * for (chosen by `choose` from what the card lists), confirm once, and put the card away.
+   * Returns what the card asked and said, and what was sent.
+   */
+  async function perform(who, kind, choose) {
+    await openPanel(who);
+    await who.page.waitFor(`document.getElementById('ms-action-open-${kind}') !== null`, `${who.label}: ${kind} is offered`, 25_000);
+    const before = (await who.operations('v1Command')).length;
+    const reached = (wait, what) => wait.catch(async error => {
+      const commands = (await who.operations('v1Command')).slice(before);
+      throw new Error(`${error.message}. ${who.label} while waiting for ${what}: card ${JSON.stringify(await card(who).catch(() => null))}; commands sent ${JSON.stringify(commands.map(call => call.response?.receipt?.status ?? call.response?.error?.code ?? call.dropped ?? 'no answer'))}; loads ${JSON.stringify(await who.loads().catch(() => null))}; lately: ${await lately(who).catch(() => '?')}`);
+    });
+    await who.page.tap(`#ms-action-open-${kind}`);
+    const picked = [];
+    const listings = [];
+    for (;;) {
+      await reached(who.page.waitFor(`['choosing', 'confirming'].includes(document.querySelector('${CARD}')?.dataset.step)`, `${who.label}: the card asks`), 'the card to ask');
+      const state = await who.page.evaluate(`(() => ({ step: document.querySelector('${CARD}').dataset.step, options: [...document.querySelectorAll('button[data-intent="action/choose"]')].map(choice => choice.dataset.value) }))()`);
+      if (state.step === 'confirming') break;
+      listings.push(state.options);
+      const value = choose(state.options, picked);
+      assert.equal(state.options.includes(value), true, `${who.label}: ${value} is among what the card lists for ${kind}: ${state.options.join(', ')}`);
+      const listed = JSON.stringify(state.options);
+      await who.page.tap(`#ms-action-choice-${slug(value)}`);
+      picked.push(value);
+      await reached(who.page.waitFor(`(() => {
+        const state = document.querySelector('${CARD}');
+        return state?.dataset.step === 'confirming' || JSON.stringify([...document.querySelectorAll('button[data-intent="action/choose"]')].map(choice => choice.dataset.value)) !== ${JSON.stringify(listed)};
+      })()`, `${who.label}: the next part`), 'the next part');
+    }
+    const confirm = (await card(who)).text;
+    await reached(whenActive(who, '#ms-action-confirm'), 'the confirm control to become active');
+    await who.page.tap('#ms-action-confirm');
+    await reached(cardIs(who, 'accepted', `${kind} is accepted`, 25_000), 'the acceptance');
+    const said = (await card(who)).text.replace(/^accepted /i, '');
+    const sent = (await who.operations('v1Command')).slice(before);
+    // One command, sent again only as the identical request if its answer was slow, and one receipt.
+    assert.equal(sent.length >= 1, true);
+    for (const again of sent.slice(1)) assert.deepEqual(again.request, sent[0].request);
+    const answered = sent.filter(each => each.response !== null);
+    assert.equal(answered.length >= 1, true, `${who.label}: the server answered`);
+    for (const each of answered) assert.deepEqual(each.response.receipt, { protocolVersion: 2, matchId, phaseId: sent[0].request.phaseId, commandId: sent[0].request.commandId, status: 'accepted', code: 'REGISTERED' });
+    await tapWhenActive(who, '#ms-action-dismiss');
+    await cardIs(who, 'idle', 'the card is put away');
+    return { picked, listings, confirm, said, command: sent[0].request.command };
+  }
+
+  /** The server's next view no longer offers the action: one of it was all there was. */
+  const noSecond = (who, kind) => who.page.waitFor(`document.getElementById('ms-action-open-${kind}') === null`, `${who.label}: no second ${kind} is offered`, 15_000);
+  /** What a phone lists as told to its seat. Its private panel is opened first if it is not open. */
+  const toldTo = async who => {
+    await openPanel(who);
+    return knowledgeOf(who);
+  };
+
+  /** The phase the display shows next, once it differs from the one before: its labels, and whose turn it is. */
+  async function nextPhase(last) {
+    await display.page.waitFor(`(() => {
+      const phase = globalThis.mothershipConnected.frame().model.match?.phase;
+      if (!phase || !['running', 'none'].includes(phase.timer.state)) return false;
+      return phase.roundLabel + ', ' + phase.phaseLabel !== ${JSON.stringify(last)};
+    })()`, `the phase after "${last}"`, 100_000);
+    return display.page.evaluate(`(() => {
+      const match = globalThis.mothershipConnected.frame().model.match;
+      return {
+        label: match.phase.roundLabel + ', ' + match.phase.phaseLabel, round: Number(match.phase.roundLabel.replace('Round ', '')), kind: match.phase.phaseLabel,
+        active: match.board.zones.flatMap(zone => zone.seats).find(entry => entry.isActive)?.number ?? null,
+      };
+    })()`);
+  }
+
+  const story = [];        // What the script did in each round, for the record.
+  const scans = [];
+  const expectedScanLines = [];
+  let supply = null;
+  let codeAttempt = null;
+  let weaponsBefore = null;
+  const jailCounts = [];
+  const elections = [];
+  let last = null;
+  let phase = null;
+  let showdown = null;
+  const phasesSeen = [];
+
+  for (;;) {
+    phase = await nextPhase(last);
+    last = phase.label;
+    phasesSeen.push(phase.label);
+    if (phase.kind === 'Match finished') break;
+
+    // ---------------------------------------------------------------- A count, published when the vote before this phase closed
+    const tally = (await voteOf(display))?.lastTally ?? null;
+    const closed = phasesSeen.at(-2) ?? '';
+    if (/Jail vote$/.test(closed)) {
+      const round = Number(/^Round (\d)/.exec(closed)[1]);
+      const target = round <= 3 ? seat(toJail[round - 1]) : null;
+      assert.equal(tally.title, 'Jail vote');
+      assert.equal(tally.lines.at(-1), target === null ? 'Nobody was sent to Jail.' : `Sent to Jail: ${name(target)}.`, `The count of round ${round}'s Jail vote`);
+      if (target !== null) assert.deepEqual(await seatOnBoard(target), { location: 'Jail', markers: ['Healthy', 'Jailed'] });
+      jailCounts.push({ round, sentToJail: target, votes: Object.fromEntries(tally.counts.filter(row => row.votes > 0).map(row => [row.label, row.votes])) });
+      if (round === 1) await display.shot('m2-table-display-jail-vote-counted.png');
+    }
+    if (/Captain election$/.test(closed)) {
+      assert.deepEqual([tally.title, tally.lines.at(-1)], ['Captain election', 'Nobody was elected.']);
+      elections.push(Number(/^Round (\d)/.exec(closed)[1]));
+    }
+
+    // ---------------------------------------------------------------- A turn
+    if (/’s turn$/.test(phase.kind)) {
+      const actor = bySeat.get(phase.active);
+      // Round 3's Supply is resolved at the end of round 3. In round 4 each of the two holds one weapon more.
+      if (phase.round === 4 && supply !== null && weaponsBefore !== null) {
+        for (const [recipient, held] of weaponsBefore) {
+          const expected = `Ordinary weapons you hold: ${held + (supply.recipients.includes(seat(recipient)) ? 1 : 0)}.`;
+          await openPanel(recipient);
+          await recipient.page.waitFor(`[...document.querySelectorAll('[data-region="knowledge"] li')].some(item => item.textContent === ${JSON.stringify(expected)})`, `${recipient.label}: ${expected}`, 20_000);
+        }
+        await bySeat.get(supply.recipients[0]).shot('m4-phone-weapon-received.png');
+        story.push(`Round 4: the two players named in the Supply (${supply.recipients.map(name).join(' and ')}) each hold one weapon more than before; the other five hold what they held. Only their own phones say so.`);
+        weaponsBefore = null;
+      }
+      // The Hacker's one Code attempt, in round 5, with a seat in it that is never in the Code.
+      if (phase.round === 5 && codeAttempt === null) {
+        const attempt = [seat(undercover), ...[...bySeat.keys()].filter(number => number !== seat(undercover)).sort((a, b) => a - b).slice(0, 3)];
+        const known = await toldTo(hacker);
+        const done = await perform(hacker, 'code', (options, picked) => `seat-${attempt[picked.length]}`);
+        assert.deepEqual(done.command, { type: 'SUBMIT_CODE', seatIds: attempt.map(number => `seat-${number}`) });
+        assert.match(done.confirm, /Submit this Code attempt: .+\? This is your one Code attempt in this match\./);
+        assert.match(done.said, /^Your Code attempt is recorded\. This is not a result\./);
+        assert.equal(/Player \d/.test(done.said), false, 'The accepted attempt is not written out again');
+        await noSecond(hacker, 'code');
+        assert.deepEqual(await toldTo(hacker), known, 'The Hacker is told nothing about whether it was right');
+        assertStored(await hacker.stored(), hacker.label, { unresolved: false, alsoAbsent: ['SUBMIT_CODE', 'seatIds', 'The Code', 'Code attempt'] });
+        await hacker.shot('m5-phone-code-attempt-recorded.png', { selector: '[data-action="connected"]' });
+        codeAttempt = { round: 5, duringTurnOfSeat: phase.active, seats: attempt, includesTheUndercover: true };
+        story.push(`Round 5, during ${name(phase.active)}'s turn: the Hacker (${name(seat(hacker))}) submitted its one Code attempt, four seats with the Undercover's among them, so it cannot be right. Accepted; the phone said it is recorded, did not write it out again, and learned nothing about whether it was right.`);
+      }
+      if (actor === hacker) {
+        const done = await perform(hacker, 'scan', (options, picked) => {
+          if (picked.length === 1) {
+            // The real faction in odd rounds; in even rounds, one that is not it.
+            const real = factionOf(bySeat.get(Number(picked[0].slice(5))));
+            return phase.round % 2 === 1 ? real : options.find(faction => faction !== real);
+          }
+          return options.find(value => value !== `seat-${seat(hacker)}`) ?? options[0];
+        });
+        const targetSeat = Number(done.picked[0].slice(5));
+        const guess = done.picked[1];
+        const right = guess === factionOf(bySeat.get(targetSeat));
+        const who = targetSeat === seat(hacker) ? 'yourself' : name(targetSeat);
+        assert.deepEqual(done.command, { type: 'SCAN', targetSeatId: `seat-${targetSeat}`, guess });
+        assert.equal(done.said.startsWith(`Scan of ${who}, guessing ${guess}, accepted.`), true, done.said);
+        const line = `Round ${phase.round}: you scanned ${who} and guessed ${guess}. ${right ? `The guess was right, and that player is ${code.includes(targetSeat) ? '' : 'not '}in the Code.` : 'The guess was wrong.'}`;
+        expectedScanLines.push(line);
+        await hacker.page.waitFor(`[...document.querySelectorAll('[data-region="knowledge"] li')].some(item => item.textContent === ${JSON.stringify(line)})`, `the result of round ${phase.round}'s Scan`, 20_000);
+        assert.deepEqual((await toldTo(hacker)).filter(item => /you scanned/.test(item)), expectedScanLines, 'Every Scan so far, in order, as the server gave each result');
+        await noSecond(hacker, 'scan');
+        if (phase.round === 1) await hacker.shot('m1-phone-scan-result.png');
+        scans.push({ round: phase.round, ofSeat: targetSeat, guess, guessWasRight: right, inCode: right ? code.includes(targetSeat) : null });
+        story.push(`Round ${phase.round}: on its own turn the Hacker scanned ${name(targetSeat)} guessing ${guess}, ${right ? 'that player’s real faction' : 'which is not that player’s faction'}. The phone then listed: "${line.replace(/^Round \d: /, '')}"`);
+      }
+      if (actor === supplier && phase.round === 3) {
+        await openPanel(supplier);
+        // A Supply names two players in the Supplier's location. If the server lists fewer, the Supplier moves first.
+        const offered = () => supplier.exists('#ms-action-open-supply');
+        await sleep(1_500);
+        let movedFirst = null;
+        if (!await offered() && await supplier.exists('#ms-action-open-move')) {
+          movedFirst = (await perform(supplier, 'move', options => options[0])).picked[0];
+          await sleep(1_500);
+        }
+        if (await offered()) {
+          weaponsBefore = new Map();
+          for (const player of players) weaponsBefore.set(player, Number(/Ordinary weapons you hold: (\d+)\./.exec((await toldTo(player)).join(' '))[1]));
+          const board = await boardOf();
+          const done = await perform(supplier, 'supply', options => options[0]);
+          const recipients = done.picked.map(value => Number(value.slice(5)));
+          assert.deepEqual(done.command, { type: 'SUPPLY', targetSeatIds: done.picked });
+          assert.equal(new Set(recipients).size, 2, 'Two different players');
+          assert.equal(done.listings[1].includes(done.picked[0]), false, 'The first player picked is not offered again');
+          assert.match(done.said, /^Supply for .+ and .+ registered\. This is not a result\. Registered actions are resolved at the end of the round\./);
+          await sleep(1_500);
+          assert.equal(await boardOf(), board, 'Nothing public changes when a Supply is registered');
+          for (const [player, held] of weaponsBefore) assert.equal((await toldTo(player)).includes(`Ordinary weapons you hold: ${held}.`), true, `${player.label}: nothing is held yet`);
+          await supplier.shot('m3-phone-supply-registered.png');
+          supply = { round: 3, recipients, movedFirst };
+          story.push(`Round 3: on its own turn the Supplier${movedFirst === null ? '' : `, after moving to ${movedFirst},`} registered a Supply for ${recipients.map(name).join(' and ')}, the first two the server listed. Nothing public changed and nobody held anything more yet.`);
+        } else {
+          supply = null;
+          story.push('Round 3: the server listed the Supplier fewer than two players in either room, so no Supply could be made. The phone said so and offered no control.');
+        }
+      }
+      continue;
+    }
+
+    // ---------------------------------------------------------------- A Jail vote
+    if (phase.kind === 'Jail vote') {
+      if (phase.round > 3) continue;
+      const target = seat(toJail[phase.round - 1]);
+      const voters = players.filter(player => player !== toJail[phase.round - 1]).slice(0, 4);
+      const ballots = await Promise.all(voters.map(voter => perform(voter, 'vote', () => `seat-${target}`)));
+      for (const done of ballots) assert.deepEqual(done.command, { type: 'VOTE', targetSeatId: `seat-${target}` });
+      story.push(`Round ${phase.round}, Jail vote: four players voted to send ${name(target)} (${roleOf.get(toJail[phase.round - 1])}) to Jail; three did not vote.`);
+      continue;
+    }
+
+    // ---------------------------------------------------------------- The showdown
+    if (phase.kind === 'Showdown') {
+      const zones = await display.page.evaluate("globalThis.mothershipConnected.frame().model.match.board.zones.filter(zone => zone.seats.length > 0).map(zone => [zone.name, zone.seats.length])");
+      assert.deepEqual(zones, [['Final Zone', 7]], 'The server put every player in the Final Zone');
+      const board = await boardOf();
+      const shooters = [[holder('Insider'), undercover], [holder('Cracker'), undercover], [holder('Blue Disabler'), hacker], [supplier, hacker]];
+      await shooters[0][0].page.waitFor("document.getElementById('ms-action-open-showdown-shot') !== null", 'a showdown shot is offered', 25_000);
+      assert.deepEqual(await shooters[0][0].page.evaluate("[...document.querySelectorAll('.ms-offer')].filter(offer => offer.querySelector('button') !== null).map(offer => offer.dataset.kind)"), ['showdown-shot'], 'A showdown shot, and nothing else, can be started');
+      const shots = await Promise.all(shooters.map(([shooter, target]) => perform(shooter, 'showdown-shot', options => {
+        assert.equal(options.includes(`seat-${seat(shooter)}`), false, 'A showdown shot cannot be aimed at oneself');
+        assert.equal(options.length, 6, 'Every other player can be chosen');
+        return `seat-${seat(target)}`;
+      })));
+      for (const [index, done] of shots.entries()) {
+        assert.deepEqual(done.command, { type: 'SHOWDOWN_SHOT', targetSeatId: `seat-${seat(shooters[index][1])}` });
+        assert.equal(done.said.startsWith(`Showdown shot at ${name(seat(shooters[index][1]))} registered. This is not a result.`), true, done.said);
+        await noSecond(shooters[index][0], 'showdown-shot');
+      }
+      await sleep(1_500);
+      assert.equal(await boardOf(), board, 'Registered showdown shots change nothing public before the showdown is resolved');
+      await shooters[0][0].shot('m6-phone-showdown-shot-registered.png');
+      await display.shot('m7-table-display-showdown.png');
+      showdown = { shots: shooters.map(([shooter, target]) => ({ bySeat: seat(shooter), atSeat: seat(target) })) };
+      story.push(`Showdown: the server put all seven players in the Final Zone and offered each a showdown shot at any other player. Four Blue players registered one each, two at each Red player (${name(seat(undercover))} and ${name(seat(hacker))}). Nothing public changed until the showdown was resolved.`);
+    }
+  }
+
+  // ---------------------------------------------------------------- The result
+  const rolesBySeat = [...bySeat.keys()].sort((a, b) => a - b).map(number => ({ seatId: `seat-${number}`, label: name(number), role: roleOf.get(bySeat.get(number)) }));
+  const expected = {
+    heading: 'Result', outcome: 'Blue wins.', lines: ['The Alien wins with Blue.'],
+    reveal: { heading: 'Roles', columns: { player: 'Player', role: 'Role' }, roles: rolesBySeat, code: `The Code was: ${[...code].sort((a, b) => a - b).map(name).join(', ')}.` },
+  };
+  assert.deepEqual(await resultOf(display), expected, 'The display shows the winner the server names, and a reveal that agrees with what each phone showed its own player all along');
+  for (const number of [seat(undercover), seat(hacker)]) assert.deepEqual((await seatOnBoard(number)).markers, ['Eliminated', 'Revealed: Red'], `${name(number)} was shot twice`);
+  for (const player of players.filter(candidate => candidate !== undercover && candidate !== hacker)) assert.equal((await seatOnBoard(seat(player))).markers.some(marker => /Revealed|Eliminated|Injured/.test(marker)), false);
+  for (const player of players) {
+    await player.page.waitFor("globalThis.mothershipConnected.frame().model.match?.phase.phaseLabel === 'Match finished'", `${player.label} shows the match as finished`, 20_000);
+    await openPanel(player);
+    const own = await resultOf(player);
+    assert.deepEqual([own.outcome, own.lines, own.reveal.roles.map(entry => entry.role)], [expected.outcome, expected.lines, rolesBySeat.map(entry => entry.role)], player.label);
+    assert.equal(own.reveal.roles.find(entry => entry.seatId === `seat-${seat(player)}`).label, `${name(seat(player))} (you)`);
+    assert.equal(await player.page.evaluate("globalThis.mothershipConnected.frame().model.match.privateArea.content?.actions.notice ?? null"), 'The match is over.');
+    assert.equal(await player.exists('[data-action="connected"] button'), false, `${player.label}: nothing can be started`);
+  }
+  assert.equal((await everSpoken(display)).filter(line => line.includes('Blue wins. The Alien wins with Blue.')).length, 1, 'The display says the result once');
+  await host.page.waitFor("document.getElementById('connected-match-status').textContent === 'complete'", 'the host console reads the match as complete', 20_000);
+  await display.shot('m8-table-display-result.png');
+  await alien.shot('m9-phone-result.png');
+  for (const who of [hacker, alien, supplier]) assertStored(await who.stored(), who.label, { unresolved: false, alsoAbsent: ['The Code', 'SUBMIT_CODE', 'SCAN', 'SUPPLY', 'you scanned'] });
+  assert.equal((await display.operations('v1Command')).length, 0, 'The display never sent a command');
+
+  const followed = await display.page.evaluate('window.__phases');
+  facts.match = {
+    note: 'A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person. Roles are recorded because the server reveals them at the end of a finished match.',
+    playerCount: PLAYERS,
+    phases: followed.map((entry, index) => ({ label: entry.label, secondsAfterThePreviousOne: index === 0 ? null : Math.round((entry.at - followed[index - 1].at) / 100) / 10 })),
+    rolesRevealedAtTheEnd: Object.fromEntries(rolesBySeat.map(entry => [entry.label, entry.role])),
+    code: [...code].sort((a, b) => a - b),
+    scans, supply, codeAttempt, jailVotes: jailCounts, electionsInWhichNobodyVoted: elections, showdown,
+    result: { winner: 'Blue', alienCoWinner: true },
+    commandsByDevice: Object.fromEntries(await Promise.all(players.map(async player => [`${name(seat(player))} (${roleOf.get(player)})`, (await player.operations('v1Command')).map(call => call.request.command.type)]))),
+  };
+  established('M. One whole match, from its first turn to its result (seven players)', [
+    `The display followed ${phasesSeen.length} phases in the server's order, each a real 60-second window: five rounds of seven turns, a Captain election before rounds 2 to 5 in which nobody voted ("Nobody was elected", ${elections.length} times), a Jail vote in every round, a showdown, and the end.`,
+    ...story,
+    `After round 5 neither side was stronger and no Code had been right, and the server opened a showdown: three of the four Blue players were in Jail by then (${jailCounts.filter(entry => entry.sentToJail !== null).map(entry => name(entry.sentToJail)).join(', ')}).`,
+    `The result, from the server's public view, on the display and on all seven phones in the same words: "Blue wins. The Alien wins with Blue." Both Red players were shown Eliminated and revealed as Red; nobody else was marked.`,
+    'The end reveal names a role for each of the seven seats. Each one is the role that seat’s own phone had shown its player in private since the first turn, and the Code it lists is the one the Alien’s phone had listed. Before the end, no screen but a phone’s own open private panel had named a role.',
+    'Every phone said the match is over and had no control left; the host console read the match as "complete".',
+    'NOT RUN in this match: a Disable, Protection, a Rescue, a Hack and an ordinary shot (they are in the roles journey), a Captain and a release, an injured player healing, a Code attempt that is right, a draw.',
+  ]);
+}
+
+/**
  * The nine-player scenario: a shot registered on the Officer's own turn, which is the only
  * ordinary shot the approved ruleset opens in a first round. Every turn is a real
  * 60-second phase and nothing here can shorten one, so this waits for as many of them as
@@ -1753,6 +2083,7 @@ async function main() {
     if (SCENARIO === 'knowledge') return await knowledgeScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'end') return await endScenario({ host, display, players, seatOf, matchId });
     if (SCENARIO === 'recovery') return await recoveryScenario({ browser, host, display, players, seatOf, matchId });
+    if (SCENARIO === 'match') return await matchScenario({ host, display, players, seatOf, matchId });
 
     // ---------------------------------------------------------------- 4. Each player receives only their authorized private view
     for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
