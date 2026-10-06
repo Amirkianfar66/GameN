@@ -1,0 +1,84 @@
+/* mothership:dev-only
+
+   Mothership · SYNTHETIC STUDIES · never part of the reference stylesheets
+
+   Two treatments from docs/design/motion-direction.md that have no approved fact behind
+   them: a "public resolved shot" and a "disclosed blocked outcome". The contracts carry no
+   shot, shooter, attack type, block or Protection fact for any audience (RULE-003 / D09).
+
+   This file exists so the treatments can be judged on one review page, studies.html, which
+   is the only page that loads it. Nothing in comic.css or cues.css refers to it, and no
+   shell page may link it: check-assets.mjs and check-shell.mjs both refuse that. Do not
+   copy these rules into a shell stylesheet.
+
+   Each study is drawn over the room as a whole and beside no token: no fact says who.
+   The duration is motionMs.publicImpact from the pinned 0.2.0 tokens, written here as a
+   number so that no shell variable has to exist for it. */
+
+.study-overlay {
+  position: absolute;
+  inset-block-start: 15%;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  z-index: var(--ms-layer-cue-overlay);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  animation-duration: 320ms;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-delay: var(--cue-at, 0s);
+  animation-play-state: var(--cue-play, running);
+}
+
+.study-overlay > span {
+  color: var(--ms-color-ink);
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.study-overlay--impact {
+  inline-size: 34%;
+  aspect-ratio: 1;
+  background: var(--ms-study-resolved-shot) center / contain no-repeat;
+  animation-name: study-burst;
+}
+
+.study-overlay--impact > span {
+  font-size: 5.6cqw;
+  rotate: -8deg;
+}
+
+.study-overlay--shield {
+  inline-size: 22%;
+  aspect-ratio: 180 / 206;
+  background: var(--ms-study-blocked-outcome) center / contain no-repeat;
+  animation-name: study-shield;
+}
+
+.study-overlay--shield > span {
+  position: absolute;
+  inset-block-start: 104%;
+  padding: 1px 6px;
+  background: var(--ms-color-paper);
+  border: var(--ms-stroke-ink-fine) solid var(--ms-color-ink);
+  font-size: 3.4cqw;
+  white-space: nowrap;
+}
+
+@keyframes study-burst {
+  0% { opacity: 0; scale: 0.3; rotate: -14deg; animation-timing-function: var(--ms-ease-impact); }
+  18.75% { opacity: 1; scale: 0.72; rotate: -8deg; animation-timing-function: var(--ms-ease-snap); }
+  56.25% { opacity: 1; scale: 1.14; rotate: 4deg; animation-timing-function: var(--ms-ease-settle); }
+  100% { opacity: 1; scale: 1; rotate: 0deg; }
+}
+
+@keyframes study-shield {
+  0% { opacity: 0; scale: 1.5; animation-timing-function: var(--ms-ease-impact); }
+  18.75% { opacity: 1; scale: 1.22; animation-timing-function: var(--ms-ease-impact); }
+  56.25% { opacity: 1; scale: 0.94; animation-timing-function: var(--ms-ease-settle); }
+  100% { opacity: 1; scale: 1; }
+}

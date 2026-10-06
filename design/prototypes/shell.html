@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Mothership design — one shell (synthetic, development only)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/comic.css">
+<link rel="stylesheet" href="css/cues.css">
+<style>
+  html, body { margin: 0; block-size: 100%; background: var(--ms-color-canvas); }
+</style>
+</head>
+<body>
+<script type="module">
+  // One player or table shell in one synthetic state, for a review page to frame.
+  //   ?surface=player|table  &state=A|B|C|D  &viewer=1..9  &role=<role name>  &open=1
+  //   &status=<shot specimen from kit.js>  &turn=own|other  &connection=stale
+  //   &motion=reduced  &art=none  &proposals=0  &about=open
+  import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
+  import { loadProposedCopy, playerShell, settle, STATES, tableShell } from './js/kit.js';
+
+  window.__designReady = false;
+  const query = new URLSearchParams(location.search);
+  const surface = query.get('surface') === 'table' ? 'table' : 'player';
+
+  // What a client does first, whatever it is about to show: it asks for its bundles, each
+  // of them whole. Nothing below this line causes another request for art.
+  // ?art=none stands for a device whose bundles never arrived.
+  window.__bundles = query.get('art') === 'none' ? [] : await loadBundles(SURFACE_BUNDLES[surface]);
+  const copy = await loadProposedCopy();
+
+  const stale = query.get('connection') === 'stale';
+  const fromQuery = {
+    state: STATES[query.get('state') ?? (surface === 'table' ? 'B' : 'A')],
+    viewer: Number(query.get('viewer') ?? 1),
+    role: query.get('role') ?? 'Officer',
+    open: query.get('open') === '1',
+    // With no picture asked for, the card is whichever idle picture fits the connection.
+    specimen: query.get('status') ?? (stale ? 'available-paused' : 'available'),
+    turn: query.get('turn') ?? 'auto',
+    connection: query.get('connection') ?? (surface === 'table' ? 'live' : 'auto'),
+    motion: query.get('motion') ?? 'full',
+    proposals: query.get('proposals') !== '0',
+    roleExpanded: query.get('about') === 'open',
+  };
+  if (!fromQuery.state) throw new Error(`No state named ${query.get('state')}`);
+
+  // Redraws the shell in place, the way a client redraws on a new view: no navigation and
+  // no new document. check-shell.mjs steps through every private state with it and asserts
+  // that nothing is requested.
+  window.__draw = async (changes = {}) => {
+    const options = { ...fromQuery, ...changes, copy };
+    document.querySelector('.ms-shell')?.remove();
+    document.body.append(surface === 'table' ? tableShell(options) : playerShell(options));
+    await settle();
+    // What the client does when the sheet opens: the phase strip is brought to the top edge
+    // and its measured height is the room the open sheet leaves above itself.
+    const phase = document.querySelector('.ms-shell--player .ms-phase');
+    if (phase && options.open && options.proposals) {
+      phase.scrollIntoView({ block: 'start' });
+      document.documentElement.style.setProperty('--ms-phase-block-size', `${Math.ceil(phase.getBoundingClientRect().height) + 12}px`);
+    }
+  };
+  await window.__draw();
+  window.__designReady = true;
+</script>
+</body>
+</html>

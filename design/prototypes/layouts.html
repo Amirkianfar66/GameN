@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — annotated layouts (synthetic, development only)</title>
+<link rel="stylesheet" href="css/review.css">
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // One annotated layout board: ?board=<name from /contract/layout-callouts.json>
+  // Each frame is a real shell at its own viewport size, so breakpoints, sticky parts and
+  // text size behave as they would on a device of that width. Callouts are placed from the
+  // elements themselves, never by hand.
+  import { ASSET_MANIFEST_VERSION } from './js/asset-index.js';
+  import { h } from './js/kit.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const name = new URLSearchParams(location.search).get('board') ?? 'phone-public';
+  const { boards } = await (await fetch('/contract/layout-callouts.json')).json();
+  const board = boards[name];
+  if (!board) throw new Error(`No board named ${name}`);
+
+  page.append(
+    h('header', { class: 'review-head' },
+      h('h1', null, board.title),
+      h('span', { class: 'review-synthetic' }, 'Synthetic · not a match'),
+      h('p', { class: 'review-meta' }, `Design tokens 0.3.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · desktop Chrome render, not a device measurement`),
+    ),
+    h('p', { class: 'review-note' }, board.note),
+  );
+  const row = h('div', { class: 'review-row' });
+  page.append(row);
+
+  const frames = [];
+  for (const frame of board.frames) {
+    const iframe = h('iframe', { src: frame.src, width: frame.width, height: frame.height, title: frame.caption });
+    row.append(h('figure', { class: 'review-frame' }, iframe, h('figcaption', null, `${frame.caption} · ${frame.width} CSS px wide`)));
+    await new Promise(done => iframe.addEventListener('load', done, { once: true }));
+    while (iframe.contentWindow.__designReady !== true) await new Promise(done => setTimeout(done, 30));
+    if (frame.fit) {
+      iframe.height = iframe.contentDocument.documentElement.scrollHeight;
+      await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+    }
+    frames.push(iframe);
+  }
+
+  if (board.callouts.length > 0) {
+    const legend = h('ol', { class: 'review-legend' });
+    const target = frames[0];
+    const origin = row.getBoundingClientRect();
+    const frameBox = target.getBoundingClientRect();
+    for (const callout of board.callouts) {
+      const element = target.contentDocument.querySelector(callout.selector);
+      if (!element) throw new Error(`${name}: nothing matches ${callout.selector}`);
+      const box = element.getBoundingClientRect();
+      // Clipped to the frame: a part that runs past the first screenful is boxed where it shows.
+      const top = Math.max(0, box.top);
+      const bottom = Math.min(target.clientHeight, box.bottom);
+      const left = Math.max(0, box.left);
+      const right = Math.min(target.clientWidth, box.right);
+      const x = frameBox.left - origin.left + left;
+      const y = frameBox.top - origin.top + top;
+      const width = right - left;
+      const height = Math.max(0, bottom - top);
+      // The number sits just outside a corner of its box, so it never covers the words inside.
+      const corner = callout.corner ?? 'tl';
+      const badgeX = corner.endsWith('r') ? x + width + 7 : x - 7;
+      const badgeY = corner.startsWith('b') ? y + height + 7 : y - 7;
+      row.append(
+        h('div', { class: 'review-callout-box', style: `left:${x}px;top:${y}px;width:${width}px;height:${height}px` }),
+        h('div', { class: 'review-callout', style: `left:${badgeX}px;top:${badgeY}px` }, callout.n),
+      );
+      legend.append(h('li', null,
+        h('span', { class: 'review-callout' }, callout.n),
+        h('span', null, h('strong', null, callout.label), ' ', h('code', null, callout.component)),
+        h('p', null, callout.source),
+      ));
+    }
+    row.append(legend);
+  }
+  window.__designReady = true;
+</script>
+</body>
+</html>
