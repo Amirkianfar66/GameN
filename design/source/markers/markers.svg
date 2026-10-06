@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · public status markers
+  Original vector artwork made for this repository. Rights and provenance: design/exports/asset-manifest.json.
+
+  Every marker stands for one public fact and is told apart by its outline, never by color:
+    health  healthy     solid heart            seats[].health = Healthy
+    health  injured     split heart            seats[].health = Injured
+    health  eliminated  hollow heart, crossed  seats[].health = Eliminated
+    jail                barred window          seats[].jailed = true
+    captain             five-point rank star   seats[].captain = true
+    turn                speech balloon         activeSeatId = this seat
+    self                location pin           the viewer's own seat (player phone only)
+
+  A marker is always shown with its English label, which is live text and not part of the art.
+  Health, Jail and Captain are separate facts and get separate markers; none implies another.
+  The Captain mark is a rank star and deliberately not a shield: a shield reads as protection,
+  and the marker says nothing about immunity.
+  No marker exists for a role, a faction, a weapon, a Code or Protection.
+
+  Each glyph group carries its own paint and no transform. Glyphs are drawn in a 32 x 32 cell
+  with their center at 16,16. The wrappers only lay the sheet out.
+
+  Palette (design tokens 0.3.0): ink #151923 · paper #F4EBDD · interactiveAccent #F1B84B
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" width="400" height="60">
+  <defs>
+    <pattern id="halftone-ink-marker" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="1.6" cy="1.6" r="0.95" fill="#151923"/>
+    </pattern>
+    <clipPath id="clip-heart-left">
+      <path d="M0 0 H17 L14 10 L18 15 L13.5 20 L16.5 32 H0 Z"/>
+    </clipPath>
+    <clipPath id="clip-heart-right">
+      <path d="M17 0 H32 V32 H16.5 L13.5 20 L18 15 L14 10 Z"/>
+    </clipPath>
+  </defs>
+
+  <g id="sheet-markers" transform="translate(10 12)">
+    <g transform="translate(0 0)">
+      <g id="glyph-health-healthy">
+        <path d="M16 27 C6 19.5 3.5 14 5.5 9.8 C7.6 5.4 13.2 5.6 16 10 C18.8 5.6 24.4 5.4 26.5 9.8 C28.5 14 26 19.5 16 27 Z"
+              fill="#151923" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M9.2 12.2 C9.6 10 11.4 9.2 12.8 9.6" fill="none" stroke="#F4EBDD" stroke-width="1.8" stroke-linecap="round"/>
+      </g>
+    </g>
+    <g transform="translate(40 0)">
+      <g id="glyph-health-injured">
+        <path d="M16 27 C6 19.5 3.5 14 5.5 9.8 C7.6 5.4 13.2 5.6 16 10 C18.8 5.6 24.4 5.4 26.5 9.8 C28.5 14 26 19.5 16 27 Z"
+              fill="#151923" clip-path="url(#clip-heart-left)"/>
+        <path d="M16 27 C6 19.5 3.5 14 5.5 9.8 C7.6 5.4 13.2 5.6 16 10 C18.8 5.6 24.4 5.4 26.5 9.8 C28.5 14 26 19.5 16 27 Z"
+              fill="#F4EBDD" clip-path="url(#clip-heart-right)"/>
+        <path d="M16 27 C6 19.5 3.5 14 5.5 9.8 C7.6 5.4 13.2 5.6 16 10 C18.8 5.6 24.4 5.4 26.5 9.8 C28.5 14 26 19.5 16 27 Z"
+              fill="url(#halftone-ink-marker)" clip-path="url(#clip-heart-right)"/>
+        <path d="M16.6 7.5 L14 10 L18 15 L13.5 20 L16.2 26" fill="none" stroke="#F4EBDD" stroke-width="2.4" stroke-linejoin="miter"/>
+        <path d="M16 27 C6 19.5 3.5 14 5.5 9.8 C7.6 5.4 13.2 5.6 16 10 C18.8 5.6 24.4 5.4 26.5 9.8 C28.5 14 26 19.5 16 27 Z"
+              fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g transform="translate(80 0)">
+      <g id="glyph-health-eliminated">
+        <path d="M16 27 C6 19.5 3.5 14 5.5 9.8 C7.6 5.4 13.2 5.6 16 10 C18.8 5.6 24.4 5.4 26.5 9.8 C28.5 14 26 19.5 16 27 Z"
+              fill="#F4EBDD" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M7 6.5 L25 26.5 M25 6.5 L7 26.5" fill="none" stroke="#F4EBDD" stroke-width="6" stroke-linecap="round"/>
+        <path d="M7 6.5 L25 26.5 M25 6.5 L7 26.5" fill="none" stroke="#151923" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </g>
+    <g transform="translate(120 0)">
+      <g id="glyph-jail">
+        <rect x="5.5" y="4.5" width="21" height="23" rx="3" fill="#151923" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M11 6.5 V25.5 M16 6.5 V25.5 M21 6.5 V25.5" fill="none" stroke="#F4EBDD" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M7.5 16 H24.5" fill="none" stroke="#F4EBDD" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    </g>
+    <g transform="translate(160 0)">
+      <g id="glyph-captain">
+        <path d="M16.00 3.00 L19.35 11.99 L28.93 12.40 L21.42 18.36 L23.99 27.60 L16.00 22.30 L8.01 27.60 L10.58 18.36 L3.07 12.40 L12.65 11.99 Z"
+              fill="#151923" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M16.00 11.40 L17.29 14.82 L20.95 14.99 L18.09 17.28 L19.06 20.81 L16.00 18.80 L12.94 20.81 L13.91 17.28 L11.05 14.99 L14.71 14.82 Z"
+              fill="#F4EBDD"/>
+      </g>
+    </g>
+    <g transform="translate(200 0)">
+      <g id="glyph-turn-shadow">
+        <path d="M11.5 7.5 H25.5 A5 5 0 0 1 30.5 12.5 V18.5 A5 5 0 0 1 25.5 23.5 H18.5 L12 30.5 L13.5 23.5 H11.5 A5 5 0 0 1 6.5 18.5 V12.5 A5 5 0 0 1 11.5 7.5 Z"
+              fill="#151923" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+      </g>
+      <g id="glyph-turn">
+        <path d="M9 5 H23 A5 5 0 0 1 28 10 V16 A5 5 0 0 1 23 21 H16 L9.5 28 L11 21 H9 A5 5 0 0 1 4 16 V10 A5 5 0 0 1 9 5 Z"
+              fill="#F1B84B" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="10.5" cy="13" r="1.7" fill="#151923"/>
+        <circle cx="16" cy="13" r="1.7" fill="#151923"/>
+        <circle cx="21.5" cy="13" r="1.7" fill="#151923"/>
+      </g>
+    </g>
+    <g transform="translate(240 0)">
+      <g id="glyph-self">
+        <path d="M16 29 C9 20 6.5 16.5 6.5 12 A9.5 9.5 0 1 1 25.5 12 C25.5 16.5 23 20 16 29 Z"
+              fill="#F4EBDD" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="16" cy="12" r="3.6" fill="#151923"/>
+      </g>
+    </g>
+    <!-- The disc a glyph sits on when it is attached to a token on the board. 36 x 36 cell, center 17,17. -->
+    <g transform="translate(290 -2)">
+      <g id="badge-disc">
+        <circle cx="19.5" cy="19.5" r="14.5" fill="#151923"/>
+        <circle cx="17" cy="17" r="14.5" fill="#F4EBDD" stroke="#151923" stroke-width="2.5"/>
+      </g>
+    </g>
+  </g>
+</svg>
