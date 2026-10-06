@@ -1,0 +1,101 @@
+{
+ "schema": "mothership.balance.walk/1",
+ "engine": {
+  "adapter": "full-game-v1",
+  "engineVersion": "full-game-1.0.0",
+  "rulesetVersion": "in-person-v1-2026-10-06",
+  "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "protocolVersion": 2
+ },
+ "engineCommit": "8d4a2e5dc47eb827dbcbfd8382755db2fa3b0bde",
+ "policy": {
+  "activity": 0.6,
+  "noise": 0.25,
+  "coordination": 0.5,
+  "maxPhases": 400,
+  "description": "uniform random choice among offered commands, plus arbitrary commands"
+ },
+ "seedsPerMode": 200,
+ "seedLabels": "walk-1 .. walk-200",
+ "node": "v22.21.1",
+ "modes": {
+  "7": {
+   "playouts": 200,
+   "completed": 200,
+   "phases": 10108,
+   "commandsAccepted": 16974,
+   "commandsRejected": 17490,
+   "invariantViolations": 0,
+   "hintMismatches": 0,
+   "replayMismatches": 0,
+   "mostEliminatedBeforeShowdown": 1,
+   "mostJailedAtOnce": 5,
+   "windowMinutes": {
+    "min": 47,
+    "max": 56
+   },
+   "examples": [],
+   "terminalReached": {
+    "Blue": true,
+    "Red": true,
+    "Alien": false,
+    "Draw": true,
+    "alienCoWin": true,
+    "unfinished": 0
+   },
+   "showdownReached": true
+  },
+  "8": {
+   "playouts": 200,
+   "completed": 200,
+   "phases": 11230,
+   "commandsAccepted": 18899,
+   "commandsRejected": 21970,
+   "invariantViolations": 0,
+   "hintMismatches": 0,
+   "replayMismatches": 0,
+   "mostEliminatedBeforeShowdown": 1,
+   "mostJailedAtOnce": 5,
+   "windowMinutes": {
+    "min": 48,
+    "max": 62
+   },
+   "examples": [],
+   "terminalReached": {
+    "Blue": true,
+    "Red": true,
+    "Alien": false,
+    "Draw": true,
+    "alienCoWin": true,
+    "unfinished": 0
+   },
+   "showdownReached": true
+  },
+  "9": {
+   "playouts": 200,
+   "completed": 200,
+   "phases": 12314,
+   "commandsAccepted": 20752,
+   "commandsRejected": 27599,
+   "invariantViolations": 0,
+   "hintMismatches": 0,
+   "replayMismatches": 0,
+   "mostEliminatedBeforeShowdown": 2,
+   "mostJailedAtOnce": 5,
+   "windowMinutes": {
+    "min": 55,
+    "max": 66
+   },
+   "examples": [],
+   "terminalReached": {
+    "Blue": true,
+    "Red": true,
+    "Alien": false,
+    "Draw": true,
+    "alienCoWin": true,
+    "unfinished": 0
+   },
+   "showdownReached": true
+  }
+ }
+}

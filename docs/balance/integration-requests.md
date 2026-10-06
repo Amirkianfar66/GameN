@@ -23,7 +23,7 @@ Nothing here adds a package. `tools/balance` keeps its two workspace dependencie
 
 `npm run verify` runs `tests/bootstrap` only. This PR adds static checks under `tests/scenarios/`; the evidence report gives the count. They pass locally and do not run in CI until the root script includes them.
 
-Requested change to the root `package.json`:
+Requested change to the root `package.json`, shown against the bootstrap baseline. On PR #16 the same two lines already carry Backend's steps; add `test:balance` beside them:
 
 ```diff
 -    "test": "npm run test:bootstrap",

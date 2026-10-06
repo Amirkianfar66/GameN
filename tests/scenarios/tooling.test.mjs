@@ -167,6 +167,28 @@ test('the blank match record is valid as a template and names every section', ()
   const schema = JSON.parse(readFileSync(new URL('docs/balance/telemetry-export.schema.json', root), 'utf8'));
   for (const section of schema.required) assert.ok(section in template, `template lacks ${section}`);
   assert.deepEqual(Object.keys(template).sort(), Object.keys(schema.properties).sort());
+  // The blank record must conform to the schema: required keys, no extra keys, types and enums.
+  const kind = value => (value === null ? 'null' : Array.isArray(value) ? 'array' : Number.isInteger(value) ? 'integer' : typeof value);
+  const fits = (value, spec) => {
+    if ('const' in spec) return value === spec.const;
+    if ('enum' in spec) return spec.enum.includes(value);
+    if ('oneOf' in spec) return spec.oneOf.some(option => fits(value, option));
+    if (spec.type === undefined) return true;
+    const allowed = [spec.type].flat();
+    return allowed.includes(kind(value)) || (kind(value) === 'integer' && allowed.includes('number'));
+  };
+  const problems = [];
+  const walk = (value, spec, path) => {
+    if (!fits(value, spec)) problems.push(`${path}: ${JSON.stringify(value)} does not fit the schema`);
+    if (kind(value) !== 'object' || spec.properties === undefined) return;
+    for (const key of spec.required ?? []) if (!(key in value)) problems.push(`${path}.${key} is required`);
+    for (const [key, item] of Object.entries(value)) {
+      if (key in spec.properties) walk(item, spec.properties[key], `${path}.${key}`);
+      else if (spec.additionalProperties === false) problems.push(`${path}.${key} is not in the schema`);
+    }
+  };
+  walk(template, schema, 'record');
+  assert.deepEqual(problems, []);
 });
 
 test('the record validator enforces separation by mode, consent, exclusions and the collection limits', () => {

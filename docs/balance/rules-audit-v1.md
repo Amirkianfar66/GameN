@@ -153,11 +153,11 @@ This register continues the D numbers of the earlier audit. RESOLVED means an ow
 
 These are settled by precedence. They are listed because a table of players is likely to be surprised by them.
 
-1. **Command Room protection and the location lock.** `movement#/command_room_immunity` says the room protects a player "while inside". V1-06 says protection is checked at registration and not again. Under V1-06 a Captain who is targeted outside the room and then walks in is still hit. V1-06 is later and governs. Scenario family `LOCK` pins this.
-2. **Movement and the same-location rule.** A target who changes rooms after being targeted is still hit, and so is a target who was voted into Jail first. Players cannot dodge an attack by moving. `LOCK` and `ORDER` pin both.
+1. **Command Room protection and the location lock.** `movement#/command_room_immunity` says the room protects a player "while inside". V1-06 says protection is checked at registration and not again. Under V1-06 a Captain who is targeted outside the room and then walks in is still hit. V1-06 is later and governs. Scenario `LOCK-03` pins this.
+2. **Movement and the same-location rule.** A target who changes rooms after being targeted is still hit, and so is a target who was voted into Jail first. Players cannot dodge an attack by moving. `LOCK-01` and `LOCK-02` pin both.
 3. **"One final ballot."** V1-09 says "accept final inputs until the deadline" and V1-10 says "one final ballot per player per phase". The gap being answered was whether a ballot can be replaced, and the reading here is that it cannot (D29).
 4. **The first election.** The baseline places it at the "end of Round 1". Every later election is "at the start of the next round". They are the same boundary. A table display may label it either way; D16 asks whether movement is open during it.
-5. **Rescue and Jail.** The baseline says healing does not release from Jail, which suggests a Jailed player can be healed. Under the same-location rule and V1-05 Cracker can reach Hospital but not Jail. A Jailed and Injured player is therefore healed only by a Rescue that was registered before they were jailed in that same round. Scenario `RESC` shows the one path.
+5. **Rescue and Jail.** The baseline says healing does not release from Jail, which suggests a Jailed player can be healed. Under the same-location rule and V1-05 Cracker can reach Hospital but not Jail. A Jailed and Injured player is therefore healed only by a Rescue that was registered before they were jailed in that same round. Scenario `RESC-08` shows the one path.
 
 ## Structural consequences
 
@@ -165,7 +165,7 @@ Everything in this section follows from the audited rules by counting. Nothing h
 
 ### Attacks, eliminations and what can end a match
 
-Each attack deals one damage and elimination needs two. With powers off the attack sources are Undercover's weapon, Supplier's two weapons, Blue Disabler, Red Disabler and Officer's shot.
+Each attack deals one damage and elimination needs two. With powers off the attack sources are Undercover's weapon, Supplier's two weapons, Blue Disabler, Red Disabler and Officer's shot. The counts below rest on the working reading D22, that no other role starts armed. One more starting weapon would raise every attack count by one and would make S-05 a matter of exact play instead of impossibility.
 
 | Quantity | 7 players | 8 players | 9 players |
 | --- | --- | --- | --- |

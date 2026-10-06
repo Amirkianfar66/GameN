@@ -271,6 +271,27 @@ The phone app resolves a round in a fixed order. Nothing in it depends on which 
 | R-VIEW-07 | Registering a secret action changes nothing that any other player or the public display can see. | DERIVED | `R-VIEW-02`, `R-ACT-08` |
 | R-VIEW-08 | Exact roles and the Code become public when the match ends with a result. | OWNER-V1 | `v1#V1-18`, `baseline#/player_setup/elimination_reveal` |
 
+The same rules as a table, for whoever builds or draws a screen. "Not stated" means no source says the fact is ever revealed, so it stays hidden.
+
+| Fact | On the public board or display | In the player's own view | In another player's view | When the match ends with a result |
+| --- | --- | --- | --- | --- |
+| Player number, location, health, Jail, Captain marker | Yes | Yes | Yes | Yes |
+| Round, phase, whose turn it is | Yes | Yes | Yes | Yes |
+| A player's role | No | Their own | No | Yes, everyone's |
+| The faction of a player who is not Eliminated | No | Their own | No | Yes, through the roles |
+| The faction of an Eliminated player | Yes, from the next public phase | Yes | Yes | Yes |
+| A weapon held | No | The holder. Supplier knows whom they armed | No | Not stated |
+| A Protection | No | Undercover only. Never the recipient | No | Not stated |
+| The Code | No | Alien | No | Yes |
+| Insider's three candidates | No | Insider | No | Not stated |
+| Who Undercover is | No | Undercover and Hacker | No | Yes, through the roles |
+| A Scan and its result | No | Hacker | No | Not stated |
+| A registered action or shot and its target | No | The actor | No | Not stated |
+| Why an attack had no effect | No | Nobody, the attacker included | No | Not stated |
+| An individual ballot | No | The voter | No | Not stated |
+| Who may vote, who may be voted for, and the totals | Yes; totals when the vote closes | Yes | Yes | Yes |
+| What was said in a Hack | No | The two players, under R-HACK-05 | No | Free to discuss |
+
 ## 18. Operating policy for an in-person session
 
 | ID | Rule | Status | Sources |

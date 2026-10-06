@@ -27,7 +27,7 @@ let problems = 0;
 for (const mode of [7, 8, 9]) {
   const stats = {
     playouts: 0, completed: 0, phases: 0, commandsAccepted: 0, commandsRejected: 0, invariantViolations: 0, hintMismatches: 0,
-    replayMismatches: 0, showdowns: 0, eliminatedBeforeShowdown: { 0: 0, 1: 0, 2: 0, 3: 0, more: 0 }, maxJailedSeen: 0,
+    replayMismatches: 0, showdowns: 0, mostEliminatedBeforeShowdown: 0, mostJailedAtOnce: 0,
     windowMinutes: { min: Infinity, max: 0 }, terminal: { Blue: 0, Red: 0, Alien: 0, Draw: 0, unfinished: 0 }, alienCoWin: 0, examples: [],
   };
   for (let index = 1; index <= seeds; index += 1) {
@@ -43,8 +43,8 @@ for (const mode of [7, 8, 9]) {
     stats.hintMismatches += result.hintMismatches.length;
     if (again.endDigest !== result.endDigest) stats.replayMismatches += 1;
     if (result.showdown) stats.showdowns += 1;
-    stats.eliminatedBeforeShowdown[result.eliminatedBeforeShowdown > 3 ? 'more' : result.eliminatedBeforeShowdown] += 1;
-    stats.maxJailedSeen = Math.max(stats.maxJailedSeen, result.maxJailed);
+    stats.mostEliminatedBeforeShowdown = Math.max(stats.mostEliminatedBeforeShowdown, result.eliminatedBeforeShowdown);
+    stats.mostJailedAtOnce = Math.max(stats.mostJailedAtOnce, result.maxJailed);
     stats.windowMinutes.min = Math.min(stats.windowMinutes.min, result.windowSeconds / 60);
     stats.windowMinutes.max = Math.max(stats.windowMinutes.max, result.windowSeconds / 60);
     stats.terminal[result.winner ?? 'unfinished'] += 1;
@@ -57,14 +57,16 @@ for (const mode of [7, 8, 9]) {
   summary.modes[mode] = stats;
   console.log(`mode ${mode}: ${stats.playouts} playouts, ${stats.completed} finished, ${stats.phases} phases, ${stats.commandsAccepted} accepted and ${stats.commandsRejected} refused commands`);
   console.log(`  invariant violations ${stats.invariantViolations}, hint mismatches ${stats.hintMismatches}, replay mismatches ${stats.replayMismatches}`);
-  console.log(`  reached: showdown ${stats.showdowns}; eliminated before showdown 0/1/2/3/more = ${Object.values(stats.eliminatedBeforeShowdown).join('/')}; most players Jailed at once ${stats.maxJailedSeen}`);
+  console.log(`  reached: showdown ${stats.showdowns > 0}; most players Eliminated before a showdown ${stats.mostEliminatedBeforeShowdown}; most players Jailed at once ${stats.mostJailedAtOnce}`);
   const reached = Object.fromEntries(['Blue', 'Red', 'Alien', 'Draw'].map(name => [name, stats.terminal[name] > 0]));
   console.log(`  terminal categories reached at least once: Blue ${reached.Blue}, Red ${reached.Red}, Alien solo ${reached.Alien}, Draw ${reached.Draw}, Alien co-win ${stats.alienCoWin > 0}`);
   // Frequencies under a random policy say nothing about balance and are deliberately not kept.
   stats.terminalReached = { ...reached, alienCoWin: stats.alienCoWin > 0, unfinished: stats.terminal.unfinished };
+  stats.showdownReached = stats.showdowns > 0;
   delete stats.terminal;
   delete stats.alienCoWin;
-  console.log(`  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows`);
+  delete stats.showdowns;
+  console.log(`  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
   for (const example of stats.examples) console.log(`  example ${example.seed}: ${JSON.stringify(example)}`);
 }
 if (out !== null) {
