@@ -66,10 +66,12 @@ export async function connect(endpoint) {
   const pending = new Map();
   /** Every protocol event the browser reported, e.g. console entries and uncaught exceptions. */
   const events = [];
+  const listeners = new Set();
   socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
     if (message.id === undefined) {
       events.push(message);
+      for (const listener of listeners) listener(message);
       return;
     }
     const waiter = pending.get(message.id);
@@ -83,12 +85,24 @@ export async function connect(endpoint) {
     pending.set(id, { resolve: resolveSend, reject: rejectSend, method });
     socket.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
   });
-  return { send, events, close: () => socket.close() };
+  /** Calls `listener` with every protocol event as it arrives. Returns a function that stops it. */
+  const on = listener => {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  };
+  return { send, events, on, close: () => socket.close() };
 }
 
-/** One browser tab with the handful of operations this script needs. */
-export async function openPage(browser, { width, height, scale = 1, mobile = false }) {
-  const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank' });
+const MATCH_ON_SCREEN = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
+
+/**
+ * One browser tab with the handful of operations this script needs. With `ownContext` the
+ * tab is a device of its own: its own storage and sign-in, its own connections, and its own
+ * window, so it stays visible to its page while other tabs are used.
+ */
+export async function openPage(browser, { width, height, scale = 1, mobile = false, ownContext = false }) {
+  const context = ownContext ? (await browser.send('Target.createBrowserContext', { disposeOnDetach: true })).browserContextId : null;
+  const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank', ...(context === null ? {} : { browserContextId: context, newWindow: true }) });
   const { sessionId } = await browser.send('Target.attachToTarget', { targetId, flatten: true });
   const send = (method, params) => browser.send(method, params, sessionId);
   await send('Page.enable');
@@ -111,18 +125,20 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
     throw new Error(`Timed out waiting for: ${label}`);
   }
   return {
+    sessionId,
     send,
     evaluate,
     waitFor,
-    async goto(url) {
+    /** `ready` is what must be true of the page before it is used; by default, a match or a harness page on screen. */
+    async goto(url, ready = `${MATCH_ON_SCREEN} || document.querySelector('.harness-page')`) {
       await send('Page.navigate', { url });
-      await waitFor("document.querySelector('.ms-shell[data-screen=\"match\"]') || document.querySelector('.harness-page')", `page ready: ${url}`);
+      await waitFor(ready, `page ready: ${url}`);
     },
-    /** Reloads the page as a person would, and waits for the match to be back on screen. */
-    async reload() {
+    /** Reloads the page as a person would, and waits for the match (or `ready`) to be back on screen. */
+    async reload(ready = MATCH_ON_SCREEN, timeoutMs = 10_000) {
       await evaluate('window.__beforeReload = true');
       await send('Page.reload');
-      await waitFor("window.__beforeReload === undefined && document.querySelector('.ms-shell[data-screen=\"match\"]')", 'page reloaded');
+      await waitFor(`window.__beforeReload === undefined && (${ready})`, 'page reloaded', timeoutMs);
     },
     media: features => send('Emulation.setEmulatedMedia', { features: Object.entries(features).map(([name, value]) => ({ name, value })) }),
     /** Only the frontmost tab is visible to its page; a background tab conceals private panels. */
@@ -141,8 +157,8 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
       await send('Input.dispatchKeyEvent', { type: 'keyUp', ...base });
     },
     /** Presses Tab until the element with this id has focus, as a keyboard user would. */
-    async tabTo(id) {
-      for (let presses = 0; presses < 16; presses += 1) {
+    async tabTo(id, limit = 16) {
+      for (let presses = 0; presses < limit; presses += 1) {
         if (await evaluate(`document.activeElement?.id === ${JSON.stringify(id)}`)) return presses;
         await this.press('Tab');
       }
@@ -167,6 +183,21 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
       }
       return point;
     },
+    /** A mouse click at the middle of an element, through the browser's own input. */
+    async click(selector) {
+      const point = await evaluate(`(() => {
+        const node = document.querySelector(${JSON.stringify(selector)});
+        node.scrollIntoView({ block: 'center' });
+        const box = node.getBoundingClientRect();
+        return { x: Math.round(box.x + box.width / 2), y: Math.round(box.y + box.height / 2) };
+      })()`);
+      const base = { ...point, button: 'left', clickCount: 1 };
+      await send('Input.dispatchMouseEvent', { type: 'mousePressed', ...base });
+      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...base });
+      return point;
+    },
+    /** Types into whatever has focus, as an input method would. */
+    type: text => send('Input.insertText', { text }),
     /**
      * PNG of the whole page by default, of the first screenful with { viewport: true },
      * or of one element (with a small margin) with { selector }.

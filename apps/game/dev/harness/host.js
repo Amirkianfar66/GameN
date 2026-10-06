@@ -144,12 +144,12 @@ export function mountScreen({ container, screen, render }) {
     }
   }
 
-  // A control says what it is for and, for a target, which seat. The shared parser decides
+  // A control says what it is for and, where it stands for one, which seat, action or choice. The shared parser decides
   // whether that is an intent at all; this host assembles none of its own.
   function onClick(event) {
     const control = event.target instanceof Element ? event.target.closest('button[data-intent]') : null;
     if (control === null || !root.contains(control)) return;
-    const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat });
+    const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat, kind: control.dataset.kind, value: control.dataset.value });
     if (intent !== null) screen.dispatch(intent);
   }
   function onChange(event) {

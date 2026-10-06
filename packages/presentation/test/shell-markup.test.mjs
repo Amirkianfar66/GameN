@@ -201,7 +201,7 @@ test('the stale banner offers a keyboard-reachable reconnect and the last view s
 test('the table roster is a real table: caption, column and row headers, one row per seat', () => {
   const root = table(before.public);
   const roster = find(root, byTag('table'));
-  assert.equal(textOf(find(roster, byTag('caption'))), 'Public status of all nine players');
+  assert.equal(textOf(find(roster, byTag('caption'))), 'Public status of every player');
   assert.deepEqual(findAll(roster, element => element.tag === 'th' && element.attrs.scope === 'col').map(textOf), ['Player', 'Location', 'Health', 'Status']);
   const rows = findAll(find(roster, byTag('tbody')), byTag('tr'));
   assert.equal(rows.length, 9);

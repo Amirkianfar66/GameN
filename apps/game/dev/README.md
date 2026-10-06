@@ -2,6 +2,8 @@
 
 <!-- mothership:dev-only -->
 
+**This page describes the fixture harness: a scripted, synthetic scenario and no backend.** The emulator-connected preview, which talks to the local Firebase emulators, is a different thing with its own page, port and instructions: see [`connected/README.md`](connected/README.md).
+
 Everything in this directory is a development tool. None of it is part of the game client, none of it is imported from `apps/game/src`, and none of it may be deployed. `npm run check:exclusion --workspace @mothership/game` enforces that. Every file here carries the `mothership:dev-only` sentinel the check looks for, as a statement in modules, a `meta` element in pages and a declaration in CSS, so the label survives bundling and minification. A new file here needs it too.
 
 ## What it is

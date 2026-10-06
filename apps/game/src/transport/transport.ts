@@ -4,8 +4,12 @@ import type { AdvanceIfExpiredRequest, ReceiptLookupRequest, RegisterShot } from
 export type TransportMode = 'fixture' | 'emulator' | 'production';
 
 export interface FeedListener {
-  /** One unvalidated audience view. The transport must not interpret, merge or cache it. */
-  onPayload(payload: unknown): void;
+  /**
+   * One unvalidated audience view. The transport must not interpret, merge or cache it.
+   * `confirmed` is true only when the transport knows the payload to be the server's current
+   * state; a transport that cannot tell leaves it out.
+   */
+  onPayload(payload: unknown, confirmed?: boolean): void;
   onConnectionChange(state: 'connected' | 'disconnected'): void;
 }
 

@@ -15,7 +15,9 @@ export type SnapshotRejection =
   /** Versions or player count differ from those the match was pinned to. */
   | { readonly kind: 'pins-changed' }
   /** The current revision arrived again with different content. */
-  | { readonly kind: 'revision-conflict' };
+  | { readonly kind: 'revision-conflict' }
+  /** The server itself confirmed a revision lower than one it had already sent: the match was restored or replaced under this client. */
+  | { readonly kind: 'revision-regressed' };
 
 export type SnapshotOutcome<View> =
   | { readonly kind: 'accepted'; readonly view: View }
@@ -26,7 +28,11 @@ export type SnapshotOutcome<View> =
   | { readonly kind: 'rejected'; readonly rejection: SnapshotRejection };
 
 export interface SnapshotStore<View> {
-  accept(payload: unknown): SnapshotOutcome<View>;
+  /**
+   * `confirmed` says the transport knows this payload to be the server's current state, not
+   * something replayed or cached. Only a store told to care about that uses it.
+   */
+  accept(payload: unknown, options?: { readonly confirmed?: boolean }): SnapshotOutcome<View>;
   current(): View | null;
 }
 
@@ -56,16 +62,34 @@ interface Pins {
   readonly identity: string | null;
 }
 
-interface StoreConfig<View> {
+export interface SnapshotStoreConfig<View> {
   readonly matchId: string;
   readonly parse: (payload: unknown) => View | null;
   readonly identityOf: (view: View) => string | null;
+  /** Wire protocol versions this store can hold. Defaults to the protocol-1 fixture protocol. */
+  readonly supportedVersions?: readonly number[];
+  /**
+   * What a lower revision means when the transport says the server confirmed it. Over a feed
+   * that may replay, nothing: it is dropped ('ignore', the default). Over a backend whose
+   * confirmed snapshot is always its latest state, it means the match went backwards under
+   * this client, which is an integrity failure ('integrity').
+   */
+  readonly confirmedRegression?: 'ignore' | 'integrity';
+}
+
+/** What every wire protocol's composed view has, and all a store needs to know about one. */
+interface ComposedView {
+  readonly matchId: string;
+  readonly viewRevision: number;
+  readonly versions: unknown;
+  readonly playerCount: number;
 }
 
 // The single place an audience view enters client state. Strict parsing means a field the
 // contract does not list, or a view built for another audience, never gets past this point.
-function createStore<View extends PublicView | PlayerView>(config: StoreConfig<View>): SnapshotStore<View> {
+export function createSnapshotStore<View extends ComposedView>(config: SnapshotStoreConfig<View>): SnapshotStore<View> {
   if (!IdentifierSchema.safeParse(config.matchId).success) throw new TypeError('A snapshot store needs a valid match id');
+  const supported = config.supportedVersions ?? SUPPORTED_PROTOCOL_VERSIONS;
   let held: { readonly view: View; readonly canonical: string } | null = null;
   let pins: Pins | null = null;
 
@@ -73,9 +97,9 @@ function createStore<View extends PublicView | PlayerView>(config: StoreConfig<V
 
   return {
     current: () => held?.view ?? null,
-    accept(payload) {
+    accept(payload, options) {
       const version = probeProtocolVersion(payload);
-      if (version !== null && !SUPPORTED_PROTOCOL_VERSIONS.includes(version)) return reject({ kind: 'incompatible-protocol', receivedVersion: version });
+      if (version !== null && !supported.includes(version)) return reject({ kind: 'incompatible-protocol', receivedVersion: version });
       const view = config.parse(payload);
       if (view === null) return reject({ kind: 'unreadable' });
       if (view.matchId !== config.matchId) return reject({ kind: 'wrong-match' });
@@ -90,7 +114,9 @@ function createStore<View extends PublicView | PlayerView>(config: StoreConfig<V
       const canonical = JSON.stringify(view);
       if (held) {
         // Only the order of revisions is used. The size of a step carries no meaning here.
-        if (view.viewRevision < held.view.viewRevision) return { kind: 'ignored-stale' };
+        if (view.viewRevision < held.view.viewRevision) {
+          return config.confirmedRegression === 'integrity' && options?.confirmed === true ? reject({ kind: 'revision-regressed' }) : { kind: 'ignored-stale' };
+        }
         if (view.viewRevision === held.view.viewRevision) {
           return canonical === held.canonical ? { kind: 'unchanged', view: held.view } : reject({ kind: 'revision-conflict' });
         }
@@ -104,7 +130,7 @@ function createStore<View extends PublicView | PlayerView>(config: StoreConfig<V
 
 /** For the table display. A player's view fails this schema and cannot enter public state. */
 export function createPublicSnapshotStore(options: { readonly matchId: string }): SnapshotStore<PublicView> {
-  return createStore<PublicView>({
+  return createSnapshotStore<PublicView>({
     matchId: options.matchId,
     parse: payload => {
       const result = PublicViewSchema.safeParse(payload);
@@ -116,7 +142,7 @@ export function createPublicSnapshotStore(options: { readonly matchId: string })
 
 /** For one seat. The first accepted view fixes the seat and role for the life of the store. */
 export function createPlayerSnapshotStore(options: { readonly matchId: string }): SnapshotStore<PlayerView> {
-  return createStore<PlayerView>({
+  return createSnapshotStore<PlayerView>({
     matchId: options.matchId,
     parse: payload => {
       const result = PlayerViewSchema.safeParse(payload);

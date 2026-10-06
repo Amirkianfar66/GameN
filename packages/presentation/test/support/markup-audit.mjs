@@ -28,6 +28,7 @@ export function find(root, predicate) {
 const INTENTS = new Set([
   'private/toggle', 'session/reconnect', 'app/reload', 'settings/reduce-motion',
   'shot/open', 'shot/choose-target', 'shot/back', 'shot/confirm', 'shot/check-again', 'shot/dismiss',
+  'action/open', 'action/choose', 'action/back', 'action/confirm', 'action/check-again', 'action/dismiss',
 ]);
 const IDREF_ATTRIBUTES = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'for', 'data-focus-fallback'];
 
@@ -76,6 +77,8 @@ export function auditMarkup(root) {
     if (attrs['data-intent'] !== undefined && !INTENTS.has(attrs['data-intent'])) problems.push(`unknown intent: ${attrs['data-intent']}`);
     if (attrs['data-intent'] !== undefined && !['button', 'input'].includes(tag)) problems.push(`intent on <${tag}>, which is not a control`);
     if ((attrs['data-intent'] === 'shot/choose-target') !== (attrs['data-target-seat'] !== undefined)) problems.push('a target control and its seat must come together');
+    if ((attrs['data-intent'] === 'action/choose') !== (attrs['data-value'] !== undefined)) problems.push('a choice control and its value must come together');
+    if ((attrs['data-intent'] === 'action/open') !== (attrs['data-kind'] !== undefined && tag === 'button')) problems.push('an open control and its kind must come together');
     if (tag === 'button' && findAll(element, child => child !== element && !['span', 'strong'].includes(child.tag)).length > 0) problems.push('button with non-phrasing content');
     if (attrs['aria-hidden'] === 'true' && findAll(element, child => ['button', 'input', 'a'].includes(child.tag)).length > 0) problems.push('focusable control inside aria-hidden');
     if (attrs['data-focus-fallback'] !== undefined && attrs['data-region'] === undefined) problems.push('a focus fallback belongs on a region');

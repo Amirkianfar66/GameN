@@ -1,7 +1,6 @@
 import { en } from '../copy/en.js';
 import type {
-  BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, PlayerShellModel, SeatModel, SettingsModel, TableShellModel,
-  TimerModel, ZoneModel,
+  BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, SeatModel, SettingsModel, ShellModelBase, TimerModel, ZoneModel,
 } from '../model/types.js';
 import { SHELL_IDS } from '../ids.js';
 import { h } from './node.js';
@@ -127,7 +126,7 @@ function renderConnecting(text: string): MarkupElement {
 
 /** Frame shared by both surfaces: skip link, banner, data-source and connection notes, main, footer. */
 export function renderShell(
-  model: PlayerShellModel | TableShellModel,
+  model: ShellModelBase & { readonly surface: 'player' | 'table' },
   header: MarkupChild,
   matchContent: MarkupChild,
   footer: MarkupChild,
