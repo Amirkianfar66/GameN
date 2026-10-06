@@ -463,9 +463,14 @@ test('the event handed on is the checked one, not the object the feed supplied',
   session.subscribeEvents(event => received.push(event));
   session.start();
   await fake.connectWith(before.officer);
-  await fake.deliverEvent(registrationEvent);
+  // The feed hands over the very object it holds, and goes on holding it.
+  const supplied = structuredClone(registrationEvent);
+  await fake.deliverEvent(supplied, { asIs: true });
   assert.deepEqual(received, [registrationEvent]);
-  assert.notEqual(received[0], registrationEvent);
+  assert.notEqual(received[0], supplied, 'What is handed on is the checked copy');
+  assert.notEqual(received[0].fact, supplied.fact, 'all the way down');
+  supplied.fact.commandId = 'changed-by-the-feed-afterwards';
+  assert.deepEqual(received, [registrationEvent], 'so nothing the feed does to its own object later reaches a listener');
 });
 
 test('an event that fails a check is dropped, tells nobody and changes nothing', async () => {

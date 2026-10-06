@@ -408,7 +408,59 @@ test('the vocabulary has no attack, block, shooter or cause', () => {
   assert.deepEqual(cues[1].cue, { kind: 'phase-change' });
 });
 
-test('memory stays bounded: a feed that floods costs old entries, not growth', () => {
+test('an identifier is this audience’s own: an event misdelivered from another audience never makes its own event look like a repeat', () => {
+  // The backend promises identifiers unique within one match and audience, and no more.
+  const director = createPlayerDirector();
+  const own = playerVariant(before.target, view => { view.viewRevision += 1; view.phase = { ...view.phase, id: 'phase-b' }; });
+  director.onView(before.target);
+  director.onView(own);
+  const fact = { type: 'PHASE_CHANGED', phaseId: 'phase-b' };
+  const shared = { eventId: 'stream-event-1' };
+  // Seat 1's event, then the table's, each with the identifier seat 2's own event has.
+  assert.deepEqual(director.onEvent(playerEvent('seat-1', own.viewRevision, fact, shared)), []);
+  assert.deepEqual(director.onEvent(publicEvent(own.viewRevision, fact, shared)), []);
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', own.viewRevision, fact, { ...shared, matchId: 'another-match' })), []);
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', own.viewRevision, fact, shared)), [PHASE_CUE], 'Its own event is still played');
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', own.viewRevision, fact, shared)), [], 'and only once');
+});
+
+test('a stream handed over again in full replays nothing, however long it is', () => {
+  for (const length of [10, 256, 257, 1_000]) {
+    const director = createPublicDirector();
+    director.onView(before.public);
+    // A long match: one event a revision, each played as it happens.
+    const stream = [];
+    for (let step = 1; step <= length; step += 1) {
+      const event = phaseChanged(step);
+      stream.push(event);
+      director.onView(nextPhase(step));
+      assert.equal(director.onEvent(event).length, 1);
+    }
+    // The feed stays current and delivers everything it holds once more, twice over.
+    for (let round = 0; round < 2; round += 1) {
+      for (const event of stream) assert.deepEqual(director.onEvent(event), [], `${length} events: a repeat is never taken for something new`);
+    }
+    // What happens next is still played, once.
+    director.onView(nextPhase(length + 1));
+    const next = phaseChanged(length + 1);
+    assert.equal(director.onEvent(next).length, 1);
+    assert.deepEqual(director.onEvent(next), []);
+  }
+});
+
+test('events waiting for a view still to come survive a feed that goes away and comes back', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  // Ahead of the screen by two revisions when the feed stops being current.
+  assert.deepEqual(director.onEvent(phaseChanged(2)), []);
+  director.suspend();
+  // It resumes on the revision in between: history, as every first view is.
+  assert.deepEqual(director.onView(nextPhase(1)), []);
+  // The view the waiting event belongs to then arrives, and the event is played with it.
+  assert.deepEqual(director.onView(nextPhase(2)), [PHASE_CUE]);
+});
+
+test('memory stays bounded: a feed that floods loses emphasis, never plays a cue twice, and recovers when the screen moves on', () => {
   // A hundred events, each for a revision still to come. Only the most recent are kept.
   const ahead = createPublicDirector();
   ahead.onView(before.public);
@@ -416,14 +468,18 @@ test('memory stays bounded: a feed that floods costs old entries, not growth', (
   assert.deepEqual(ahead.onView(nextPhase(1)), []);
   assert.deepEqual(ahead.onView(nextPhase(100)), [PHASE_CUE]);
 
-  // Hundreds of distinct events for the view on screen. The oldest identifiers are let go,
-  // so only then can a repeat be taken for something new.
+  // Hundreds of distinct events for the view on screen: a feed no correct backend produces.
   const current = createPublicDirector();
   current.onView(before.public);
   current.onView(nextPhase(1));
   const first = phaseChanged(1);
   assert.equal(current.onEvent(first).length, 1);
-  assert.deepEqual(current.onEvent(first), []);
   for (let count = 0; count < 300; count += 1) current.onEvent(phaseChanged(1, 'phase-elsewhere'));
-  assert.equal(current.onEvent(first).length, 1);
+  assert.deepEqual(current.onEvent(first), [], 'What was played is remembered through the flood: it is not played again');
+  // Past the bound nothing more is taken in for this view, so a true event arriving now costs its emphasis.
+  assert.deepEqual(current.onEvent(phaseChanged(1)), []);
+  // The screen moves on, and the next view is served as usual.
+  current.onView(nextPhase(2));
+  assert.deepEqual(current.onEvent(phaseChanged(2)), [PHASE_CUE]);
+  assert.deepEqual(current.onEvent(first), []);
 });

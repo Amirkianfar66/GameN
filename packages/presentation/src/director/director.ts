@@ -3,15 +3,17 @@ import type { HealthState, LocationName } from '../model/types.js';
 
 // The event director: decides which authorized presentation events become a cue, and when.
 //
-// A cue is a moment of emphasis and nothing else. An event authorizes it; what it shows is
-// taken from the audience's own views, so a cue never states anything the screen does not.
-// It changes nothing: not health, not resources, not whose turn it is, not a deadline.
-// Nothing waits for a cue, and a cue is never kept for later.
+// A cue is a moment of emphasis and nothing else. An event authorizes it, or, for a seat's
+// own registration, the seat's own receipt or view; what it shows is taken from the
+// audience's own views, so a cue never states anything the screen does not. It changes
+// nothing: not health, not resources, not whose turn it is, not a deadline. Nothing waits
+// for a cue. The director issues each cue once and keeps none: whether one that cannot be
+// shown at that moment is dropped, and how long one that can stays up, is the screen's part.
 //
 // Delivery is as the integration owner has proposed for wire protocol 1 (the response to
-// FE-C04, FE-C10 and FE-C11 in docs/backend/contract-review-response.md on the backend
-// branch): events come on a stream of their own, in order, with no promise about whether an
-// event or the view it belongs to arrives first. So:
+// FE-C04, FE-C10 and FE-C11 in docs/backend/contract-review-response.md, a file of the
+// backend branch that is not in this tree): events come on a stream of their own, in
+// order, with no promise about whether an event or the view it belongs to arrives first. So:
 //   - an event is played only when the view it names is the one on screen;
 //   - an event the view has already moved past is not played;
 //   - when a feed becomes current, whatever its first view already reflects is history;
@@ -23,7 +25,9 @@ import type { HealthState, LocationName } from '../model/types.js';
 
 /**
  * Something a renderer may show for a moment. These kinds are the whole vocabulary: there
- * is no attack, block or cause. A cue carries what is needed to draw it and no identifier.
+ * is no attack, block or cause. A cue carries what is needed to draw it: for a move or a
+ * status change the public seat it concerns, and never a command, event, phase or match
+ * identifier.
  */
 export type Cue =
   /** The phase on screen changed. */
@@ -63,7 +67,12 @@ export interface PlayerDirector extends Director<PlayerView, PlayerPresentationE
 type AnyView = PublicView | PlayerView;
 type AnyEvent = PublicPresentationEvent | PlayerPresentationEvent;
 
-// Memory bounds, not behavior: a correct feed stays far below them.
+// Bounds on memory. Events waiting for a view ahead of the screen are few on a correct
+// feed; past the bound the oldest is let go, and it then plays no cue. Event identifiers are
+// remembered only for events that can still be played, so replaying a stream's whole history
+// adds nothing to them; a feed that floods past the bound gets no more cues until the screen
+// moves on, and never a cue twice. Registered commands are remembered so that one
+// registration is one cue; a seat registers far fewer in a match than the bound.
 const MAX_WAITING = 64;
 const MAX_REMEMBERED = 256;
 
@@ -94,9 +103,17 @@ function createCore() {
   let screen: { readonly shown: AnyView; readonly before: AnyView } | null = null;
   /** Events ahead of the view on screen, or that arrived while the feed was not current. */
   let waiting: AnyEvent[] = [];
-  /** Event ids already taken in. */
-  const seen = new Set<string>();
+  /**
+   * Events already taken in that could still be played: their own audience's identifier,
+   * and the revision they belong to. An identifier is unique only within one match and
+   * audience, so it is remembered with both, and an event misdelivered from another
+   * audience can never make this audience's own event look like a repeat.
+   */
+  const seen = new Map<string, number>();
   const registered = new Set<string>();
+
+  const keyOf = (event: AnyEvent): string =>
+    `${event.matchId}\u0000${event.audience.kind}\u0000${event.audience.kind === 'player' ? event.audience.seatId : ''}\u0000${event.eventId}`;
 
   function registration(commandId: string): IssuedCue[] {
     if (registered.has(commandId)) return [];
@@ -146,19 +163,27 @@ function createCore() {
       screen = { shown: view, before };
       const due = waiting.filter(event => event.viewRevision === view.viewRevision);
       waiting = waiting.filter(event => event.viewRevision > view.viewRevision);
+      // What the screen has moved past can no longer be played, so it need not be remembered:
+      // delivered again, it is recognized as history by its revision alone.
+      for (const [key, revision] of seen) if (revision < view.viewRevision) seen.delete(key);
       return due.flatMap(event => present(event, view, before));
     },
     onEvent(event: AnyEvent): IssuedCue[] {
-      if (seen.has(event.eventId)) return [];
-      seen.add(event.eventId);
-      if (seen.size > MAX_REMEMBERED) dropOldest(seen);
+      // The screen has moved past it. Its facts are on screen; the moment for it is over.
+      // Known by its revision alone, however often it is delivered, so it is not remembered.
+      if (live && screen !== null && event.viewRevision < screen.shown.viewRevision) return [];
+      const key = keyOf(event);
+      if (seen.has(key)) return [];
+      // A feed that floods: past the bound nothing more is taken in until the screen moves
+      // on. An identifier already remembered is never let go to make room, because that
+      // would let a repeat play twice; an event not taken in only costs its emphasis.
+      if (seen.size >= MAX_REMEMBERED) return [];
+      seen.set(key, event.viewRevision);
       // Not current, or ahead of the screen: kept until a view can be put next to it.
       if (!live || screen === null || event.viewRevision > screen.shown.viewRevision) {
         hold(event);
         return [];
       }
-      // The screen has moved past it. Its facts are on screen; the moment for it is over.
-      if (event.viewRevision < screen.shown.viewRevision) return [];
       return present(event, screen.shown, screen.before);
     },
     suspend(): void {

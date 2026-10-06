@@ -11,7 +11,7 @@ import type { SessionTiming } from '../session/audience-session.js';
 import { createPlayerApiClient } from '../transport/api-client.js';
 import type { PlayerTransport } from '../transport/transport.js';
 import { createScreen } from './screen.js';
-import type { ScreenController, ScreenHost } from './screen.js';
+import type { CueTiming, ScreenController, ScreenHost } from './screen.js';
 
 export interface PlayerScreenOptions {
   readonly transport: PlayerTransport;
@@ -20,6 +20,7 @@ export interface PlayerScreenOptions {
   readonly host: ScreenHost;
   readonly timing?: Partial<SessionTiming>;
   readonly shotTiming?: Partial<ShotFlowTiming>;
+  readonly cueTiming?: Partial<CueTiming>;
 }
 
 // Returns whether the flow changed, or null when the intent is not one of its own.
@@ -64,8 +65,11 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
     buildModel: buildPlayerShellModel,
     announcer: createPlayerAnnouncer(),
     director,
-    // The flow's own word that the server registered its command: a receipt, or the view
-    // listing it. The director makes one cue of it however often it is asked.
+    cueTiming: options.cueTiming,
+    // The flow's own word that the server registered its command just now: a receipt, or the
+    // view listing it, learned while the phase it was sent in is still on screen. The
+    // director makes one cue of it however often it is asked. A registration learned later
+    // than that is history here, as it is when an event reports it late.
     moreCues() {
       const commandId = flow.registeredCommandId();
       return commandId === null ? [] : director.onRegistered(commandId);

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { PlayerViewSchema, PublicViewSchema } from '@mothership/contracts';
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
-import { createPlayerScreen, createPlayerSession, createTableScreen, DEFAULT_SHOT_FLOW_TIMING } from '@mothership/game';
+import { createPlayerScreen, createPlayerSession, createTableScreen, DEFAULT_CUE_TIMING, DEFAULT_SHOT_FLOW_TIMING } from '@mothership/game';
 import { createFakeHost, createFakeTransport } from './support/fakes.mjs';
 
 // Cues as a screen issues them: views and events in, frames out, against a transport whose
@@ -13,6 +13,7 @@ const { before, afterRegistration } = createOfficerFixture('protected');
 const matchId = before.public.matchId;
 const SERVER_EPOCH = before.public.phase.startedAt;
 const TOGGLE = { type: 'private/toggle' };
+const { lifetimeMs: LIFETIME, maxLatenessMs: LATENESS } = DEFAULT_CUE_TIMING;
 const registrationEvent = afterRegistration.officerEvents[0];
 const COMMAND = registrationEvent.fact.commandId;
 
@@ -79,37 +80,233 @@ test('a public event is a numbered cue in the very frame that shows its fact, wh
   }
 });
 
-test('cue numbers only go up, and a frame keeps its cues until newer ones replace them', async () => {
-  const s = setup('table');
-  s.screen.start();
-  await s.fake.connectWith(before.public);
+test('every cue of the view on screen is in the latest frame, in whichever order its facts arrived', async () => {
+  // Three facts at one revision. A consumer that reads only the latest frame, as a
+  // renderer sampling once per paint does, must get the same cues either way.
   const second = next(before.public, 'phase-b', v => { v.seats[2].location = 'Room B'; v.seats[3].health = 'Injured'; });
-  await s.fake.deliver(second);
-  await s.fake.deliverEvent(phaseChanged(second));
-  const first = s.cues();
-  assert.deepEqual(first.map(item => item.seq), [1]);
-  // A countdown tick redraws the screen and leaves the cues exactly as they were.
-  await s.host.advance(1_000);
-  assert.equal(s.cues(), first);
+  const facts = () => [
+    phaseChanged(second),
+    eventFor(second, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }),
+    eventFor(second, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-4', health: 'Injured' }),
+  ];
+  const all = [
+    { seq: 1, cue: { kind: 'phase-change' } },
+    { seq: 2, cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' } },
+    { seq: 3, cue: { kind: 'status-change', seatId: 'seat-4', health: 'Injured' } },
+  ];
 
-  // Two more events for the view on screen, one at a time.
-  await s.fake.deliverEvent(eventFor(second, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }));
-  assert.deepEqual(s.cues(), [{ seq: 2, cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' } }]);
-  await s.fake.deliverEvent(eventFor(second, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-4', health: 'Injured' }));
-  assert.deepEqual(s.cues(), [{ seq: 3, cue: { kind: 'status-change', seatId: 'seat-4', health: 'Injured' } }]);
+  const viewFirst = setup('table');
+  viewFirst.screen.start();
+  await viewFirst.fake.connectWith(before.public);
+  await viewFirst.fake.deliver(second);
+  for (const event of facts()) await viewFirst.fake.deliverEvent(event);
+  assert.deepEqual(viewFirst.frame().cues, all, 'View first: the last frame still holds the first cue');
 
-  // Several events that were waiting for one view come out together, in stream order.
+  const eventsFirst = setup('table');
+  eventsFirst.screen.start();
+  await eventsFirst.fake.connectWith(before.public);
+  for (const event of facts()) await eventsFirst.fake.deliverEvent(event);
+  await eventsFirst.fake.deliver(second);
+  assert.deepEqual(eventsFirst.frame().cues, all, 'Events first: the same list');
+
+  // Mixed: one event before the view and two after it.
+  const mixed = setup('table');
+  mixed.screen.start();
+  await mixed.fake.connectWith(before.public);
+  const [phase, move, status] = facts();
+  await mixed.fake.deliverEvent(phase);
+  await mixed.fake.deliver(second);
+  await mixed.fake.deliverEvent(move);
+  await mixed.fake.deliverEvent(status);
+  assert.deepEqual(mixed.frame().cues, all);
+
+  // A countdown tick redraws the screen and leaves the list exactly as it was.
+  const list = viewFirst.cues();
+  await viewFirst.host.advance(1_000);
+  assert.equal(viewFirst.cues(), list);
+
+  // The next view takes them out: a public cue belongs to the view that shows its fact.
+  // Its own cues come out together, in stream order, and the numbers go on.
   const third = next(second, 'phase-c', v => { v.round += 1; v.seats[6].location = 'Hospital'; });
-  await s.fake.deliverEvent(eventFor(third, { type: 'PUBLIC_MOVE', seatId: 'seat-7', from: 'Room B', to: 'Hospital' }));
-  await s.fake.deliverEvent(phaseChanged(third));
-  await s.fake.deliver(third);
-  assert.deepEqual(s.cues(), [
+  await viewFirst.fake.deliverEvent(eventFor(third, { type: 'PUBLIC_MOVE', seatId: 'seat-7', from: 'Room B', to: 'Hospital' }));
+  await viewFirst.fake.deliverEvent(phaseChanged(third));
+  await viewFirst.fake.deliver(third);
+  assert.deepEqual(viewFirst.cues(), [
     { seq: 4, cue: { kind: 'public-move', seatId: 'seat-7', from: 'Room B', to: 'Hospital' } },
     { seq: 5, cue: { kind: 'round-transition', round: before.public.round + 1 } },
   ]);
+  // A view with nothing to emphasize leaves the frame with no cue at all.
+  await viewFirst.fake.deliver(variant(third, v => { v.viewRevision += 1; }));
+  assert.deepEqual(viewFirst.cues(), []);
 });
 
-test('a cue schedules nothing and holds nothing up: input is taken in the same instant', async () => {
+test('a cue leaves the frame when its time is up, so a frame read late offers nothing old', async () => {
+  const s = setup('table');
+  s.screen.start();
+  await s.fake.connectWith(before.public);
+  const second = next(before.public, 'phase-b');
+  await s.fake.deliver(second);
+  await s.fake.deliverEvent(phaseChanged(second));
+  assert.deepEqual(s.cues(), [{ seq: 1, cue: { kind: 'phase-change' } }]);
+  await s.host.advance(LIFETIME - 1);
+  assert.deepEqual(s.cues().map(item => item.seq), [1], 'Still due');
+  const notified = s.frames.length;
+  await s.host.advance(1);
+  assert.deepEqual(s.cues(), [], 'Its time is up');
+  assert.equal(s.frames.length > notified, true, 'and whoever is listening is told the frame changed');
+  // A consumer that mounts now, or minutes from now, finds nothing to play.
+  await s.host.advance(200_000);
+  assert.deepEqual([s.frame().cues, s.frame().privateCues], [[], []]);
+  assert.equal(s.frame().model.match.phase.phaseLabel, 'Player 1’s turn', 'The fact itself is still on screen');
+  // Each cue has its own time: one issued later outlives one issued earlier.
+  const third = next(second, 'phase-c', v => { v.seats[2].location = 'Room B'; });
+  await s.fake.deliver(third);
+  await s.fake.deliverEvent(phaseChanged(third));
+  await s.host.advance(LIFETIME - 500);
+  await s.fake.deliverEvent(eventFor(third, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }));
+  assert.deepEqual(s.kinds(), ['phase-change', 'public-move']);
+  await s.host.advance(500);
+  assert.deepEqual(s.kinds(), ['public-move']);
+  await s.host.advance(LIFETIME - 500);
+  assert.deepEqual(s.kinds(), []);
+});
+
+test('an event that comes long after its view is no longer a moment: it plays nothing', async () => {
+  const s = setup('table');
+  s.screen.start();
+  await s.fake.connectWith(before.public);
+  const second = next(before.public, 'phase-b', v => { v.seats[2].location = 'Room B'; });
+  await s.fake.deliver(second);
+  await s.host.advance(LATENESS);
+  await s.fake.deliverEvent(phaseChanged(second));
+  assert.deepEqual(s.kinds(), ['phase-change'], 'Just in time');
+  await s.host.advance(1);
+  await s.fake.deliverEvent(eventFor(second, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }));
+  assert.deepEqual(s.kinds(), ['phase-change'], 'A moment later the move, long since drawn where it is, is not emphasized');
+  // It took no number: the next cue follows the last one that was shown.
+  const third = next(second, 'phase-c');
+  await s.fake.deliver(third);
+  await s.fake.deliverEvent(phaseChanged(third));
+  assert.deepEqual(s.cues(), [{ seq: 2, cue: { kind: 'phase-change' } }]);
+});
+
+test('cues leave with the match: a recovery screen, a hidden page and a stale feed carry none, and none comes back', async () => {
+  const withCue = async surface => {
+    const s = setup(surface);
+    s.screen.start();
+    const view = surface === 'table' ? before.public : before.target;
+    await s.fake.connectWith(view);
+    const second = next(view, 'phase-b');
+    await s.fake.deliver(second);
+    await s.fake.deliverEvent(phaseChanged(second));
+    assert.deepEqual(s.kinds(), ['phase-change']);
+    return { s, second };
+  };
+
+  // A recovery screen. The frame that shows it carries no cue from the match it replaced.
+  const blocked = await withCue('table');
+  await blocked.s.fake.deliver({ ...structuredClone(blocked.second), viewRevision: blocked.second.viewRevision + 1, versions: { ...blocked.second.versions, protocolVersion: 2 } });
+  assert.equal(blocked.s.frame().model.screen, 'blocked');
+  assert.deepEqual(blocked.s.frame().cues, [], 'A consumer mounted on the recovery screen has nothing to play');
+  for (const frame of blocked.s.frames.filter(frame => frame.model.screen !== 'match')) assert.deepEqual(frame.cues, []);
+
+  // A hidden page, and the page back in front.
+  const hidden = await withCue('player');
+  hidden.s.screen.setPageVisible(false);
+  assert.deepEqual(hidden.s.frame().cues, []);
+  hidden.s.screen.setPageVisible(true);
+  await hidden.s.host.advance(0);
+  assert.deepEqual(hidden.s.frame().cues, [], 'Coming back does not bring it back');
+
+  // The same for a private cue with the panel still open: it leaves with the feed.
+  const stamped = setup('player');
+  stamped.screen.start();
+  await stamped.fake.connectWith(before.officer);
+  stamped.screen.dispatch(TOGGLE);
+  await stamped.fake.deliver(afterRegistration.officer);
+  await stamped.fake.deliverEvent(registrationEvent);
+  assert.deepEqual(stamped.frame().privateCues.map(item => item.cue.kind), ['registration']);
+  await stamped.fake.disconnect();
+  assert.notEqual(stamped.frame().model.match.privateArea.content, null, 'The panel is still open on the last known state');
+  assert.deepEqual(stamped.frame().privateCues, []);
+
+  // A feed that is no longer current: the last known state stays, its emphasis does not.
+  const stale = await withCue('table');
+  await stale.s.fake.disconnect();
+  assert.equal(stale.s.frame().model.connection, 'stale');
+  assert.equal(stale.s.frame().model.screen, 'match');
+  assert.deepEqual(stale.s.frame().cues, []);
+  await stale.s.fake.connect();
+  await stale.s.fake.deliver(stale.second);
+  assert.deepEqual(stale.s.frame().cues, [], 'Nor does reconnecting on the same view');
+});
+
+test('public and private cues are numbered apart: the public list is the same whether or not this seat was given a private cue', async () => {
+  // Two phones of the same seat see the same public move. One of them registered a shot,
+  // with its panel open, a moment before.
+  const publicMove = async registerFirst => {
+    const s = setup('player');
+    s.screen.start();
+    await s.fake.connectWith(before.officer);
+    let view = before.officer;
+    if (registerFirst) {
+      s.screen.dispatch(TOGGLE);
+      await s.fake.deliver(afterRegistration.officer);
+      await s.fake.deliverEvent(registrationEvent);
+      assert.deepEqual(s.frame().privateCues, [{ seq: 1, cue: { kind: 'registration' } }]);
+      s.screen.dispatch(TOGGLE);
+      view = afterRegistration.officer;
+    }
+    const moved = variant(view, v => { v.viewRevision += 1; v.seats[2].location = 'Room B'; });
+    await s.fake.deliver(moved);
+    await s.fake.deliverEvent(eventFor(moved, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }));
+    return s.frame();
+  };
+  const quiet = await publicMove(false);
+  const registered = await publicMove(true);
+  assert.deepEqual(quiet.cues, [{ seq: 1, cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' } }]);
+  assert.deepEqual(registered.cues, quiet.cues, 'Nothing in the public list records that a private cue was ever issued');
+  assert.deepEqual([registered.privateCues, quiet.privateCues], [[], []]);
+
+  // Both lists filled in one frame: each starts from 1, so a consumer with one mark per
+  // list shows both, whichever list it reads first.
+  const s = setup('player');
+  s.screen.start();
+  await s.fake.connectWith(before.officer);
+  s.screen.dispatch(TOGGLE);
+  const both = variant(afterRegistration.officer, v => { v.seats[2].location = 'Room B'; });
+  await s.fake.deliverEvent(eventFor(both, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }));
+  await s.fake.deliverEvent({ ...registrationEvent, eventId: 'own-registration' });
+  await s.fake.deliver(both);
+  assert.deepEqual(s.frame().cues.map(item => [item.seq, item.cue.kind]), [[1, 'public-move']]);
+  assert.deepEqual(s.frame().privateCues.map(item => [item.seq, item.cue.kind]), [[1, 'registration']]);
+});
+
+test('spoken lines are numbered apart too: the public line’s number says nothing about private speech', async () => {
+  const lost = async registerFirst => {
+    const s = setup('player');
+    s.screen.start();
+    await s.fake.connectWith(before.officer);
+    if (registerFirst) {
+      // Something is said privately: the player starts choosing, and the turn then ends under the choice.
+      s.screen.dispatch(TOGGLE);
+      s.screen.dispatch({ type: 'shot/open' });
+      await s.fake.deliver(next(before.officer, 'phase-b', v => { v.activeSeatId = 'seat-2'; }));
+      assert.notEqual(s.frame().privateAnnouncement, null, 'A private line was spoken');
+      s.screen.dispatch(TOGGLE);
+    } else {
+      await s.fake.deliver(next(before.officer, 'phase-b', v => { v.activeSeatId = 'seat-2'; }));
+    }
+    await s.fake.disconnect();
+    return s.frame().announcement;
+  };
+  const quiet = await lost(false);
+  const spoke = await lost(true);
+  assert.match(quiet.text, /^Connection lost\./);
+  assert.deepEqual(spoke, quiet, 'The same public line with the same number on both phones');
+});
+
+test('a cue holds nothing up: input is taken in the same instant, and the one timer a cue has only takes it out of the frame', async () => {
   const s = setup('player');
   s.screen.start();
   await s.fake.connectWith(before.officer);
@@ -118,7 +315,7 @@ test('a cue schedules nothing and holds nothing up: input is taken in the same i
   const timers = s.host.pendingTimers();
   await s.fake.deliverEvent(eventFor(moved, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' }));
   assert.deepEqual(s.kinds(), ['public-move']);
-  assert.equal(s.host.pendingTimers(), timers, 'No timer belongs to a cue');
+  assert.equal(s.host.pendingTimers(), timers + 1, 'One timer: the one that ends the cue’s time in the frame');
 
   // The player opens the panel and starts a shot with the cue still in the frame.
   s.screen.dispatch(TOGGLE);
@@ -127,6 +324,17 @@ test('a cue schedules nothing and holds nothing up: input is taken in the same i
   assert.equal(card.status, 'targeting');
   assert.deepEqual(card.body.targets.map(target => target.label), ['Player 2', 'Player 4', 'Player 6'], 'And the targets offered already follow the new view');
   assert.deepEqual(s.kinds(), ['public-move']);
+  // When the cue's time is up it goes, and nothing else on the screen changes with it.
+  const model = JSON.stringify(s.frame().model.match.privateArea);
+  await s.host.advance(LIFETIME);
+  assert.deepEqual(s.kinds(), []);
+  assert.equal(JSON.stringify(s.frame().model.match.privateArea), model);
+  // Disposed with a cue in the frame, the screen leaves no timer behind.
+  await s.fake.deliver(variant(moved, v => { v.viewRevision += 1; v.seats[2].location = 'Room A'; }));
+  await s.fake.deliverEvent(eventFor({ ...moved, viewRevision: moved.viewRevision + 1 }, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room B', to: 'Room A' }));
+  assert.deepEqual(s.kinds(), ['public-move']);
+  s.screen.dispose();
+  assert.equal(s.host.pendingTimers(), 0);
 });
 
 test('an event delivered again is not played again', async () => {
@@ -158,11 +366,11 @@ test('reconnecting replays nothing: what the stream still holds is history', asy
   await s.fake.deliver(second);
   await s.fake.deliverEvent(stream[0]);
   assert.deepEqual(s.cues().map(item => item.seq), [1]);
-  const played = s.cues();
 
   // The feed drops. The match moves on to the third view meanwhile, and on return the
   // stream delivers everything it holds, old and missed alike, before and after the view.
   await s.fake.disconnect();
+  assert.deepEqual(s.cues(), [], 'A feed that is not current emphasizes nothing');
   await s.fake.connect();
   await s.fake.deliverEvent(stream[0]);
   await s.fake.deliverEvent(stream[1]);
@@ -170,9 +378,9 @@ test('reconnecting replays nothing: what the stream still holds is history', asy
   await s.fake.deliverEvent(stream[2]);
   for (const event of stream) await s.fake.deliverEvent(event);
   assert.equal(s.frame().model.connection, 'live');
-  assert.equal(s.cues(), played, 'Nothing was played for what happened while away');
+  assert.deepEqual(s.cues(), [], 'Nothing was played for what happened while away, and nothing old came back');
 
-  // What happens from here on is played as before.
+  // What happens from here on is played as before, numbered after the last cue that was shown.
   const fourth = next(third, 'phase-d');
   await s.fake.deliver(fourth);
   await s.fake.deliverEvent(phaseChanged(fourth));
@@ -329,6 +537,23 @@ test('a registration puts no cue on the table or on any other phone, even if its
   await target.fake.deliverEvent({ ...registrationEvent, viewRevision: before.target.viewRevision });
   await target.fake.deliverEvent({ ...registrationEvent, audience: { kind: 'player', seatId: 'seat-2' }, viewRevision: before.target.viewRevision });
   assert.equal(target.frame(), targetFrame);
+
+  // The audience check by itself: an event that says something true of this phone's own
+  // screen, at the revision that just showed it, and that would be a cue in every other
+  // respect. Addressed to another seat, it is not this phone's to play.
+  const phone = setup('player');
+  phone.screen.start();
+  await phone.fake.connectWith(before.target);
+  const turn = next(before.target, 'phase-b', v => { v.activeSeatId = 'seat-2'; });
+  await phone.fake.deliver(turn);
+  const own = phaseChanged(turn);
+  await phone.fake.deliverEvent({ ...own, eventId: 'misdelivered', audience: { kind: 'player', seatId: 'seat-1' } });
+  assert.deepEqual(phone.cues(), [], 'Seat 1’s event on seat 2’s stream plays nothing, though seat 2’s screen shows that very change');
+  await phone.fake.deliverEvent({ ...own, eventId: 'misdelivered-public', audience: { kind: 'public' } });
+  assert.deepEqual(phone.cues(), [], 'nor does the table’s');
+  // Seat 2's own event, with the very identifier the misdelivered one carried, is still played.
+  await phone.fake.deliverEvent({ ...own, eventId: 'misdelivered' });
+  assert.deepEqual(phone.kinds(), ['phase-change']);
 });
 
 const GUARD = DEFAULT_SHOT_FLOW_TIMING.controlGuardMs;
@@ -385,6 +610,85 @@ test('the player’s own receipt, the view and the event are one registration cu
   assert.equal(eventFirst.frame().privateCues, single);
 });
 
+test('a registration is a cue only while it is still the present: learned late, on a reloaded page or on a stale feed, it is history', async () => {
+  const RECHECK = DEFAULT_SHOT_FLOW_TIMING.recheckDelaysMs;
+  const found = (s, commandId) => async () => ({
+    status: 'found', serverTimeMs: s.host.serverNow(),
+    receipt: { protocolVersion: 1, matchId, phaseId: before.officer.phase.id, commandId, status: 'accepted', code: 'REGISTERED' },
+  });
+
+  // The view has been on screen for a long time when the player confirms. That is the usual
+  // case, and it is not lateness: nothing here came after its own view.
+  const unhurried = await atConfirm();
+  await unhurried.host.advance(LATENESS * 3);
+  unhurried.fake.respond.submitCommand = async command => unhurried.accepted(command);
+  unhurried.screen.dispatch({ type: 'shot/confirm' });
+  await unhurried.host.advance(0);
+  assert.deepEqual(unhurried.frame().privateCues.map(item => item.cue.kind), ['registration']);
+
+  // The answer is lost and found by a lookup a moment later, in the same phase: still the present.
+  const soon = await atConfirm();
+  soon.fake.respond.submitCommand = () => Promise.reject(new Error('answer lost'));
+  soon.screen.dispatch({ type: 'shot/confirm' });
+  await soon.host.advance(0);
+  soon.fake.respond.lookupReceipt = found(soon, soon.fake.calls.submitCommand[0].commandId);
+  await soon.host.advance(RECHECK[0]);
+  assert.equal(soon.status(), 'registered');
+  assert.deepEqual(soon.frame().privateCues.map(item => item.cue.kind), ['registration']);
+
+  // The same lookup answers only after the turn has ended: the report is shown, in the past
+  // tense, and nothing is stamped.
+  const late = await atConfirm();
+  late.fake.respond.submitCommand = () => Promise.reject(new Error('answer lost'));
+  late.screen.dispatch({ type: 'shot/confirm' });
+  await late.host.advance(0);
+  const sent = late.fake.calls.submitCommand[0].commandId;
+  await late.host.advance(RECHECK.reduce((sum, delay) => sum + delay, 0));
+  assert.equal(late.status(), 'unknown');
+  // The turn ends, which makes the flow ask at once, and this time the server answers.
+  late.fake.respond.lookupReceipt = found(late, sent);
+  await late.fake.deliver(next(before.officer, 'phase-b', v => { v.activeSeatId = 'seat-2'; }));
+  await late.host.advance(0);
+  assert.equal(late.status(), 'was-registered');
+  assert.deepEqual(late.frame().privateCues, [], 'A registration learned a phase later is not a moment any more');
+
+  // A page that was reloaded did not see the command go: whatever it learns is history.
+  const kept = JSON.stringify({ matchId, seatId: 'seat-1', phaseId: before.officer.phase.id, commandId: 'kept-command' });
+  const reloaded = setup('player');
+  reloaded.host.kept = kept;
+  const fresh = createPlayerScreen({ transport: reloaded.fake.transport, matchId, ports: reloaded.host.ports, host: { reload() {} } });
+  // The lookup answers only once the panel is open, so nothing but the freshness rule decides.
+  let tell;
+  reloaded.fake.respond.lookupReceipt = () => new Promise(resolve => { tell = async () => resolve(await found(reloaded, 'kept-command')()); });
+  fresh.start();
+  await reloaded.fake.connectWith(before.officer);
+  fresh.dispatch(TOGGLE);
+  const cardOf = () => fresh.getFrame().model.match.privateArea.content.actions.cards[0];
+  assert.equal(cardOf().status, 'checking');
+  await tell();
+  await reloaded.host.advance(0);
+  assert.match(cardOf().status, /registered/);
+  assert.deepEqual(fresh.getFrame().privateCues, [], 'The reloaded page reports it and stamps nothing');
+  fresh.dispose();
+
+  // The receipt arrives while the feed is not current: the screen shows no cue on such a
+  // feed, and does not play it afterwards either.
+  const stale = await atConfirm();
+  let answer;
+  stale.fake.respond.submitCommand = command => new Promise(resolve => { answer = () => resolve(stale.accepted(command)); });
+  stale.screen.dispatch({ type: 'shot/confirm' });
+  await stale.host.advance(0);
+  await stale.fake.disconnect();
+  answer();
+  await stale.host.advance(0);
+  assert.equal(stale.frame().model.connection, 'stale');
+  assert.match(stale.status(), /registered/);
+  assert.deepEqual(stale.frame().privateCues, []);
+  await stale.fake.connect();
+  await stale.fake.deliver(before.officer);
+  assert.deepEqual(stale.frame().privateCues, [], 'and it is not played when the feed comes back');
+});
+
 test('a registration learned behind a closed panel is not played when the panel is opened', async () => {
   const s = await atConfirm();
   let answer;
@@ -409,6 +713,19 @@ test('a rejection and an unknown result are not cues', async () => {
   assert.equal(rejected.status(), 'not-registered');
   assert.deepEqual([rejected.frame().cues, rejected.frame().privateCues], [[], []]);
 
+  // A refusal that is no receipt at all: the server did nothing, and nothing is stamped.
+  for (const code of ['FORBIDDEN', 'UNAUTHENTICATED', 'INVALID_REQUEST']) {
+    const refused = await atConfirm();
+    refused.fake.respond.submitCommand = async () => ({ ok: false, serverTimeMs: refused.host.serverNow(), error: { code } });
+    refused.screen.dispatch({ type: 'shot/confirm' });
+    await refused.host.advance(0);
+    assert.equal(refused.status(), 'not-registered', code);
+    assert.deepEqual([refused.frame().cues, refused.frame().privateCues], [[], []], code);
+    // Nor later, when the screen is redrawn for other reasons.
+    await refused.host.advance(3_000);
+    assert.deepEqual(refused.frame().privateCues, [], code);
+  }
+
   const unknown = await atConfirm();
   unknown.fake.respond.submitCommand = () => Promise.reject(new Error('connection lost'));
   unknown.screen.dispatch({ type: 'shot/confirm' });
@@ -419,16 +736,22 @@ test('a rejection and an unknown result are not cues', async () => {
 });
 
 test('the screen itself keeps a private cue behind the open panel and any cue off a screen nobody is looking at, whatever issued it', async () => {
-  // The directors already behave. This checks the screen's own rule with a director that
+  // The directors already behave. This checks the screen's own rules with a source that
   // does not, reaching past the package entry for the generic controller on purpose.
   const { createScreen } = await import('../dist/screens/screen.js');
   const host = createFakeHost({ serverStart: SERVER_EPOCH });
   const fake = createFakeTransport(host);
   const session = createPlayerSession({ transport: fake.transport, matchId, ports: host.ports });
-  let asked = 0;
+  let offered = 0;
+  let offering = false;
+  /** The model says a recovery screen is up, though the view is there and its feed is current. */
+  let recovering = false;
+  // Offers one private and one public cue on the next redraw, whatever the screen is showing.
   const both = () => {
-    asked += 1;
-    return [{ cue: { kind: 'registration', note: `secret-${asked}` }, privacy: 'private' }, { cue: { kind: 'phase-change' }, privacy: 'public' }];
+    if (!offering) return [];
+    offering = false;
+    offered += 1;
+    return [{ cue: { kind: 'registration', note: `secret-${offered}` }, privacy: 'private' }, { cue: { kind: 'phase-change' }, privacy: 'public' }];
   };
   const screen = createScreen({
     session,
@@ -436,27 +759,59 @@ test('the screen itself keeps a private cue behind the open panel and any cue of
     host: { reload() {} },
     phaseOf: view => view.phase,
     buildInput: (environment, view, local) => ({ environment, view, local }),
-    buildModel: input => ({ screen: input.view === null ? 'connecting' : 'match', revealed: input.local.privateRevealed }),
+    buildModel: input => ({ screen: input.view === null ? 'connecting' : recovering ? 'blocked' : 'match', revealed: input.local.privateRevealed }),
     announcer: { next: () => [] },
     director: { onView: () => [], onEvent: () => [], suspend() {} },
     moreCues: both,
     handleIntent: (intent, { local }) => (intent.type === 'private/toggle' ? { local: { ...local, privateRevealed: !local.privateRevealed } } : null),
   });
-  const kinds = () => [screen.getFrame().cues.map(item => item.cue.kind), screen.getFrame().privateCues.map(item => item.cue.kind)];
+  const lists = () => [screen.getFrame().cues.map(item => [item.seq, item.cue.kind]), screen.getFrame().privateCues.map(item => [item.seq, item.cue.kind])];
+  /** Has the source offer its two cues, and redraws without changing anything else. */
+  const offer = () => {
+    offering = true;
+    screen.dispatch({ type: 'shot/back' });
+    assert.equal(offering, false, 'The source was asked');
+  };
+
   screen.start();
-  assert.deepEqual(kinds(), [[], []], 'No match on screen: nothing at all');
+  offer();
+  assert.deepEqual(lists(), [[], []], 'No match on screen: nothing at all');
   await fake.connectWith(before.officer);
-  assert.deepEqual(kinds(), [['phase-change'], []], 'Closed: the private cue is dropped, not carried');
+  offer();
+  assert.deepEqual(lists(), [[[1, 'phase-change']], []], 'Closed: the private cue is dropped, not carried. And what could not be shown before took no number');
   screen.dispatch(TOGGLE);
-  assert.deepEqual(kinds(), [['phase-change'], ['registration']]);
-  const seqs = [...screen.getFrame().cues, ...screen.getFrame().privateCues].map(item => item.seq);
-  assert.equal(new Set(seqs).size, 2, 'One numbering across both lists');
+  assert.deepEqual(lists()[1], [], 'Opening the panel does not bring the dropped one back');
+  offer();
+  assert.deepEqual(lists(), [[[1, 'phase-change'], [2, 'phase-change']], [[1, 'registration']]], 'Open: each list has its own numbers, and the private one starts at 1');
+  // A second one while the first is still due: both are in the list, in order.
+  await host.advance(DEFAULT_CUE_TIMING.lifetimeMs - 500);
+  offer();
+  assert.deepEqual(lists()[1], [[1, 'registration'], [2, 'registration']]);
+  await host.advance(500);
+  assert.deepEqual(lists()[1], [[2, 'registration']], 'and each leaves when its own time is up');
+
+  // A model that is not the match carries no cue and is issued none, whatever else is true.
+  offer();
+  assert.equal(lists()[0].length > 0, true);
+  recovering = true;
+  offer();
+  assert.deepEqual(lists(), [[], []], 'A recovery screen: what was in the frame is gone, and what is offered now is dropped');
+  recovering = false;
+  screen.dispatch({ type: 'shot/back' });
+  assert.deepEqual(lists(), [[], []], 'and nothing comes back with the match');
+
   screen.setPageVisible(false);
-  assert.deepEqual(kinds()[1], [], 'Backgrounded: nothing private is carried, though the source still offers it');
-  const kept = screen.getFrame().cues;
+  assert.deepEqual(lists(), [[], []], 'Backgrounded: nothing is carried, public or private');
+  offer();
+  assert.deepEqual(lists(), [[], []], 'and nothing is issued to a hidden page, though the source still offers it');
+  screen.setPageVisible(true);
   await host.advance(3_000);
-  screen.dispatch(TOGGLE);
-  assert.equal(screen.getFrame().cues, kept, 'and no public cue is issued to a hidden page');
+  assert.deepEqual(lists(), [[], []], 'Coming back plays nothing that was offered while away');
   assert.equal(JSON.stringify(screen.getFrame()).includes('secret-'), false);
+  // What was suppressed took no number on either list.
+  screen.dispatch(TOGGLE);
+  offer();
+  assert.deepEqual(lists(), [[[5, 'phase-change']], [[4, 'registration']]]);
   screen.dispose();
+  assert.equal(host.pendingTimers(), 0);
 });

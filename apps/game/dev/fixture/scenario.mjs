@@ -6,8 +6,9 @@
 // how the real server sequences a match.
 //
 // Its command desk follows the command contract as the integration owner has stated it
-// for wire protocol 1 (docs/backend/contract-review-response.md on the backend branch,
-// items FE-C01 to FE-C03): receipts are durable for accepted and rejected commands alike,
+// for wire protocol 1 (docs/backend/contract-review-response.md, a file of the backend
+// branch that is not in this tree; items FE-C01 to FE-C03): receipts are durable for
+// accepted and rejected commands alike,
 // the identical command gets its original receipt back before phase or time is looked at,
 // the same identifier with another payload conflicts, and a command for a phase that is
 // not open is rejected. Beyond that it applies no game rule. It never judges a target.
@@ -30,6 +31,8 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 
 export const AUDIENCES = ['public', 'seat-1', 'seat-2'];
 const AUTHORED = { public: 'public', 'seat-1': 'officer', 'seat-2': 'target' };
+/** The audience whose seat registers the scripted shot. */
+const OFFICER = 'seat-1';
 
 /**
  * officer-turn and registered are the authored contract fixture, unmodified apart from
@@ -189,12 +192,17 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
   // Moves the script to a step: every audience's new view, and the facts for its stream.
   function enter(step) {
     if (step.id === 'registered') {
-      // The authored events of this step: one for the Officer, none for anyone else. The
-      // fact is the authored one; the envelope is numbered by this script.
-      publish(
-        Object.fromEntries(AUDIENCES.map(audience => [audience, clone(fixture.afterRegistration[AUTHORED[audience]])])),
-        audience => fixture.afterRegistration[`${AUTHORED[audience]}Events`].map(event => event.fact),
-      );
+      // The authored registration, applied to the Officer's view as it stands and to no
+      // other. From the authored start that is exactly the authored view after registration;
+      // after anything the operator did meanwhile it is still one revision on, never back,
+      // and every other audience's view and stream are left untouched. The fact is the
+      // authored one; the envelope is numbered by this script.
+      const [authored] = fixture.afterRegistration.officerEvents.map(event => event.fact);
+      const view = clone(views[OFFICER]);
+      view.viewRevision += 1;
+      view.self.shotAvailable = false;
+      view.ownPendingCommandIds = [authored.commandId];
+      publish({ ...views, [OFFICER]: view }, audience => (audience === OFFICER ? [clone(authored)] : []));
       return;
     }
     // A turn's minute starts when the phase actually opens, not when the last one was due.
@@ -434,10 +442,11 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
       if (connected.get(audience)) deliver(audience, payload);
     },
     /**
-     * The same for the event stream. Each is addressed to the view the audience has now,
-     * so only the client's own checks keep it off the screen. An event shaped like the
-     * other seat's registration can be misdelivered to a seat. It is never put on the
-     * public stream, not even as a test.
+     * The same for the event stream. Each is addressed to the view the audience has now.
+     * An event shaped like the other seat's registration can be misdelivered to a seat; the
+     * client refuses it for its audience, and it names a command no view of this script
+     * lists, so it could not be played in any case. It is never put on the public stream,
+     * not even as a test.
      */
     injectEvent(audience, kind) {
       if (!AUDIENCES.includes(audience)) throw new RangeError(`Unknown fixture audience: ${audience}`);

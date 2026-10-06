@@ -30,7 +30,8 @@ export { createPlayerScreen } from './screens/player-screen.js';
 export type { PlayerScreenOptions } from './screens/player-screen.js';
 export { createTableScreen } from './screens/table-screen.js';
 export type { TableScreenOptions } from './screens/table-screen.js';
-export type { FrameCue, IntentOutcome, ScreenController, ScreenFrame, ScreenHost, SpokenLine } from './screens/screen.js';
+export { DEFAULT_CUE_TIMING } from './screens/screen.js';
+export type { CueTiming, FrameCue, IntentOutcome, ScreenController, ScreenFrame, ScreenHost, SpokenLine } from './screens/screen.js';
 
 export { shellBreakpoints, shellCssVariables, shellTokenStylesheet } from './styles/tokens-css.js';
 export type { ShellTokenSource } from './styles/tokens-css.js';
