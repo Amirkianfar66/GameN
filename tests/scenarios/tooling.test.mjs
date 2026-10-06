@@ -8,6 +8,10 @@ import {
   MATCH_RECORD_SCHEMA, buildReport, checkSetup, checkState, checkTransition, controlVerdict, controlsFor, damageBudget, deriveSetup, runControls,
   runScenario, scanInformationBound, startLedger, summarize, summarizeOutcomes, toEvidence, validateMatchRecord, walk, wilson,
 } from '@mothership/balance';
+import { ENGINE_COMMIT_BASIS, exceptionProblems } from '@mothership/balance';
+import {
+  MANIFEST, TREE_COMMIT, allowlist, catalogue, cleanReports, copy, disk, eachIsNamed, everyReport, first, judge, probed, runOf, unprobed,
+} from './support/gate-reports.mjs';
 import { openingObservation, stubAdapter } from './support/stub.mjs';
 
 const root = new URL('../../', import.meta.url);
@@ -375,4 +379,176 @@ test('the record validator enforces separation by mode, consent, exclusions and 
   assert.match(broken(r => { r.participants[0].email = 'someone@example.com'; }), /must not be collected/);
   assert.match(broken(r => { r.officer = {}; }), /Officer section exists only in mode 9/);
   assert.match(broken(r => { r.experience = [{ clarity: 6 }]; }), /must be 1\.\.5/);
+});
+
+// The report gate and the reviewed exception list. The gate is given reports written from the
+// catalogue: one clean set, and then that set with exactly one thing wrong at a time. Each wrong
+// thing must be named. No engine is involved.
+test('the fixtures that are not ready are exactly the reviewed exceptions', () => {
+  assert.deepEqual(exceptionProblems(catalogue, allowlist), []);
+  const waiting = catalogue.filter(scenario => scenario.status !== 'ready');
+  const listed = allowlist.exceptions.reduce((sum, entry) => sum + entry.modes.length, 0);
+  assert.equal(listed, waiting.length, 'the list and the catalogue count the same cases');
+  // Each blocked exception names a decision that the register still holds open or deferred.
+  const audit = readFileSync(new URL('docs/balance/rules-audit-v1.md', root), 'utf8');
+  for (const entry of allowlist.exceptions) {
+    for (const id of entry.decisionIds) assert.match(audit, new RegExp(`^\\| ${id} \\|[^\\n]*\\| (OPEN|DEFERRED) \\|`, 'm'), `${entry.code}: ${id} is not open or deferred in the register`);
+  }
+});
+
+test('a difference between the fixtures and the exception list is named', () => {
+  const without = entry => ({ ...allowlist, exceptions: allowlist.exceptions.filter(item => item !== entry) });
+  const changed = (entry, change) => ({ ...allowlist, exceptions: allowlist.exceptions.map(item => (item === entry ? { ...entry, ...change } : item)) });
+  const blocked = allowlist.exceptions.find(entry => entry.status === 'blocked' && entry.probe);
+  const manual = allowlist.exceptions.find(entry => entry.status === 'manual');
+  const ready = first('ready');
+  const cases = [
+    ['a blocked fixture that is not listed', catalogue, without(blocked), new RegExp(`V1-M7-${blocked.code} is blocked and is not in the reviewed exception list`)],
+    ['a listed case that is a ready fixture', catalogue, { ...allowlist, exceptions: [...allowlist.exceptions, { code: ready.id.replace('V1-M7-', ''), modes: [7], status: 'blocked', decisionIds: ['D11'], probe: true, why: 'none' }] }, /which is not a blocked or manual fixture/],
+    ['another status', catalogue, changed(manual, { status: 'blocked', decisionIds: ['D11'] }), /is manual; the exception list says blocked/],
+    ['another decision', catalogue, changed(blocked, { decisionIds: ['D99'] }), /the exception list says D99/],
+    ['a probe the list does not know', catalogue, changed(blocked, { probe: false }), /is probed; the exception list says otherwise/],
+    ['a mode left out', catalogue, changed(blocked, { modes: [7, 8] }), new RegExp(`V1-M9-${blocked.code} is blocked and is not in the reviewed exception list`)],
+    ['a case listed twice', catalogue, { ...allowlist, exceptions: [...allowlist.exceptions, manual] }, /names V1-M7-[A-Z]+-\d+ twice/],
+    ['an entry without a reason', catalogue, changed(blocked, { why: ' ' }), /exception \d+ is malformed/],
+    ['a blocked entry without a decision', catalogue, changed(blocked, { decisionIds: [] }), /is blocked and names no decision/],
+    ['a list of another kind', catalogue, { exceptions: [] }, /must have the schema/],
+    ['no list at all', catalogue, null, /must have the schema/],
+    // A fixture quietly turned from ready to blocked is the case the list exists for.
+    ['a ready fixture turned blocked', catalogue.map(scenario => (scenario === ready ? { ...scenario, status: 'blocked', decisionIds: ['D11'] } : scenario)), allowlist, new RegExp(`${ready.id} is blocked and is not in the reviewed exception list`)],
+  ];
+  for (const [name, fixtures, list, pattern] of cases) {
+    const problems = exceptionProblems(fixtures, list);
+    assert.ok(problems.some(problem => pattern.test(problem)), `${name}: ${JSON.stringify(problems.slice(0, 3))}`);
+  }
+});
+
+test('a complete and clean set of reports passes the gate, and only that', () => {
+  assert.deepEqual(judge(cleanReports()), []);
+  assert.deepEqual(judge(cleanReports(), { candidateCommit: TREE_COMMIT }), []);
+  assert.deepEqual(judge(cleanReports(200), { playoutsPerMode: 200 }), []);
+  for (const missing of ['scenarios', 'controls', 'playouts']) {
+    const reports = { ...cleanReports(), [missing]: null };
+    assert.ok(judge(reports).includes(`${missing}: the report is missing or is not an object`), missing);
+  }
+  assert.ok(judge({ scenarios: null, controls: null, playouts: null }).length >= 3);
+});
+
+test('one wrong thing in the scenario report fails the gate and is named', () => {
+  const ready = first('ready');
+  const manual = first('manual');
+  eachIsNamed([
+    ['a missing case', reports => { reports.scenarios.runs = reports.scenarios.runs.filter(run => run.scenarioId !== ready.id); }, new RegExp(`${ready.id} is missing from the report`)],
+    ['a case reported twice', reports => { reports.scenarios.runs.push(copy(runOf(reports, ready.id))); }, new RegExp(`${ready.id} is reported twice`)],
+    ['a case that is not in the catalogue', reports => { reports.scenarios.runs.push({ ...copy(runOf(reports, ready.id)), scenarioId: 'V1-M7-NONE-01' }); }, /V1-M7-NONE-01 is reported and is not in the catalogue/],
+    ['a run without an identifier', reports => { runOf(reports, ready.id).scenarioId = [ready.id]; }, /a run has no scenario identifier/],
+    ['a ready case that failed', reports => { Object.assign(runOf(reports, ready.id), { status: 'failed', failure: { stepIndex: 1, op: 'assert', message: 'observed something else' } }); }, new RegExp(`${ready.id} is ready and was failed: observed something else`)],
+    ['a ready case that was not run', reports => { Object.assign(runOf(reports, ready.id), { status: 'not-run', reason: 'engine adapter unavailable' }); }, new RegExp(`${ready.id} is ready and was not-run: engine adapter unavailable`)],
+    ['a ready case reported blocked', reports => { runOf(reports, ready.id).status = 'blocked'; }, new RegExp(`${ready.id} is ready and was blocked`)],
+    // A report that contradicts itself is not a pass, whoever wrote it.
+    ['a pass that carries a failure', reports => { runOf(reports, ready.id).failure = { stepIndex: 1, op: 'assert', message: 'observed something else' }; }, new RegExp(`${ready.id} is reported passed and carries a failure`)],
+    ['a pass that carries an invariant violation', reports => { runOf(reports, ready.id).invariantViolations = [{ invariant: 'INV-PH-07', message: 'a window nobody could use' }]; }, new RegExp(`${ready.id} is reported passed and carries`)],
+    ['a pass without its list of violations', reports => { delete runOf(reports, ready.id).invariantViolations; }, new RegExp(`${ready.id} is reported passed and carries`)],
+    ['a blocked case reported passed', reports => { runOf(reports, probed.id).status = 'passed'; }, new RegExp(`${probed.id} is blocked and was reported passed`)],
+    ['a blocked case with another decision', reports => { runOf(reports, probed.id).decisionIds = ['D99']; }, new RegExp(`${probed.id} reports other decisions than its fixture`)],
+    ['a probe that was not completed', reports => { runOf(reports, probed.id).reason = 'probe could not be completed: the engine refused a legal setup'; }, new RegExp(`${probed.id}: its probe was not completed`)],
+    ['a probe that recorded nothing', reports => { runOf(reports, probed.id).probes = []; }, new RegExp(`${probed.id}: 0 observations recorded`)],
+    ['a probe that recorded no outcome', reports => { const run = runOf(reports, probed.id); run.probes = run.probes.map(() => null); }, new RegExp(`${probed.id}: 0 observations recorded`)],
+    ['an unprobed case with another reason', reports => { runOf(reports, unprobed.id).reason = null; }, new RegExp(`${unprobed.id}: unexpected reason null`)],
+    ['a manual case reported passed', reports => { runOf(reports, manual.id).status = 'passed'; }, new RegExp(`${manual.id} is manual and was reported passed`)],
+    ['totals that do not match the runs', reports => { reports.scenarios.totals.passed += 1; }, /the totals do not match the runs/],
+    ['another kind of report', reports => { reports.scenarios.schema = 'something-else/1'; }, /scenarios: unexpected schema/],
+  ]);
+  // A whole mode left out cannot hide behind the other two.
+  const reports = cleanReports();
+  reports.scenarios.runs = reports.scenarios.runs.filter(run => run.mode !== 8);
+  assert.ok(judge(reports).includes('scenarios: no scenario passed for 8 players'));
+});
+
+test('one wrong thing in the controls or playout report fails the gate and is named', () => {
+  eachIsNamed([
+    ['a run that judged itself failed', reports => { reports.controls.verdict = 'failed'; }, /controls: the run's own verdict is failed/],
+    ['a run that did not happen', reports => { reports.controls = { schema: 'mothership.balance.controls/1', pins: reports.controls.pins, verdict: 'not-run', modes: {}, undetected: [], baselineFailures: [] }; }, /controls: the run's own verdict is not-run/],
+    ['a baseline that did not pass', reports => { reports.controls.modes[7].baselineNotPassing = 1; }, /7 players: baselines that did not pass: 1/],
+    ['fewer baselines than the catalogue has', reports => { reports.controls.modes[8].scenarios -= 1; }, /8 players: \d+ baselines reported, \d+ in the catalogue/],
+    ['fewer controls than the catalogue generates', reports => { reports.controls.modes[9].controls -= 1; reports.controls.modes[9].detected -= 1; }, /9 players: \d+ controls executed, \d+ generated from the catalogue/],
+    ['a control that was not detected', reports => { reports.controls.modes[7].detected -= 1; reports.controls.modes[7].undetected = 1; }, /7 players: controls not detected: 1/],
+    ['an undetected control in the list', reports => { reports.controls.undetected.push('V1-M7-SETUP-01 step 1 (asserted fact)'); }, /the list of controls that were not detected has 1 entry/],
+    ['a failing baseline in the list', reports => { reports.controls.baselineFailures.push('V1-M7-SETUP-01: refused', 'V1-M7-SETUP-02: refused'); }, /the list of baselines that did not pass has 2 entries/],
+    ['something else where a list belongs', reports => { reports.controls.undetected = { 0: 'V1-M7-SETUP-01 step 1' }; }, /the list of controls that were not detected is missing/],
+    ['no list of failing baselines', reports => { reports.controls.baselineFailures = 'none'; }, /the list of baselines that did not pass is missing/],
+    ['a mode without controls', reports => { delete reports.controls.modes[9]; }, /controls: no result for 9 players/],
+    ['another number of playouts asked for', reports => { reports.playouts.seedsPerMode = 5; }, /5 playouts per mode were asked for, 10 are required/],
+    ['fewer playouts than required', reports => { reports.playouts.modes[7].playouts = 9; reports.playouts.modes[7].completed = 9; }, /7 players: 9 playouts executed, 10 required/],
+    ['a playout that did not finish', reports => { reports.playouts.modes[8].completed = 9; }, /8 players: 9 of 10 playouts finished/],
+    ['an unfinished playout in the terminal record', reports => { reports.playouts.modes[8].terminalReached.unfinished = 1; }, /8 players: unfinished playouts are reported/],
+    ['an invariant violation', reports => { reports.playouts.modes[9].invariantViolations = 1; }, /9 players: invariant violations: 1/],
+    ['a hint mismatch', reports => { reports.playouts.modes[9].hintMismatches = 2; }, /9 players: hint mismatches: 2/],
+    ['a replay mismatch', reports => { reports.playouts.modes[7].replayMismatches = 1; }, /7 players: replay mismatches: 1/],
+    ['a mode without playouts', reports => { delete reports.playouts.modes[7]; }, /playouts: no result for 7 players/],
+    ['a playout run that did not happen', reports => { reports.playouts = { schema: 'mothership.balance.walk/1', pins: reports.playouts.pins, verdict: 'not-run', seedsPerMode: 10, modes: {} }; }, /playouts: no result for 8 players/],
+  ]);
+});
+
+test('reports about another engine, other files or an unpinned tree fail the gate', () => {
+  eachIsNamed([
+    ['no engine', reports => { reports.scenarios.pins.engine = null; }, /scenarios: no engine was available when the report was made/],
+    ['another engine commit', reports => { reports.controls.pins.engineCommit = 'c'.repeat(40); }, /controls: the engine commit is c{40}, not a{40}/],
+    ['an engine commit that was not stated', reports => { reports.playouts.pins.engineCommit = 'not stated'; }, /playouts: the engine commit is not stated/],
+    ['another ruleset', reports => { reports.scenarios.pins.engine.rulesetVersion = 'in-person-v0'; }, /the engine reports ruleset in-person-v0/],
+    ['an engine with another owner decision', reports => { reports.scenarios.pins.engine.rulesetHash = 'd'.repeat(64); }, /a ruleset hash that is not the approved owner decision/],
+    ['an owner-decision file that is not the approved one', reports => { reports.scenarios.pins.v1OverlaySha256 = 'd'.repeat(64); }, /the owner-decision file beside the engine is missing or is not the approved one/],
+    ['no owner-decision file', reports => { reports.controls.pins.v1OverlaySha256 = null; }, /controls: the owner-decision file beside the engine is missing/],
+    ['another source manifest', reports => { reports.scenarios.pins.sourceManifestSha256 = 'd'.repeat(64); }, /the rule-source manifest is not the pinned one/],
+    ['a rule source that changed', reports => { const key = Object.keys(reports.scenarios.pins.ruleSourceHashes)[0]; reports.scenarios.pins.ruleSourceHashes[key] = 'd'.repeat(64); }, /the rule sources differ from the files on disk/],
+    ['a scenario file that changed', reports => { reports.controls.pins.scenarioFileHashes['mode-7.scenarios.json'] = 'd'.repeat(64); }, /controls: the scenario files differ from the files on disk/],
+    ['a rulebook that changed', reports => { reports.playouts.pins.rulebookSha256 = 'd'.repeat(64); }, /playouts: the rulebook differs from the file on disk/],
+    ['uncommitted changes', reports => { everyReport(reports, report => { report.pins.workingTreeCommit = `${TREE_COMMIT} plus uncommitted changes`; }); }, /the working tree is not a clean commit/],
+    ['no Git provenance', reports => { everyReport(reports, report => { report.pins.workingTreeCommit = 'unknown'; }); }, /the working tree is not a clean commit \(unknown\)/],
+    ['reports from two trees', reports => { reports.playouts.pins.workingTreeCommit = 'c'.repeat(40); }, /playouts: not the same working tree as the scenario report/],
+    ['reports about two engines', reports => { reports.controls.pins.engine.engineVersion = 'another'; }, /controls: not the same engine as the scenario report/],
+    ['reports about two builds of the engine', reports => { reports.playouts.pins.engineBuildSha256 = 'f'.repeat(64); }, /playouts: not the same engine build as the scenario report/],
+    ['a report that does not say which build it ran', reports => { everyReport(reports, report => { report.pins.engineBuildSha256 = null; }); }, /the built engine modules were not found/],
+    ['a report without pins', reports => { delete reports.playouts.pins; }, /playouts: the report carries no pins/],
+    // An absent pin is not an agreement. Three reports without the combined manifest fail, whether
+    // or not the engine's checkout is at hand to compare it with.
+    ['no combined manifest in any report', reports => { everyReport(reports, report => { report.pins.v1ManifestSha256 = null; }); }, /the combined Version 1 manifest was not found beside the engine/],
+    ['reports about two combined manifests', reports => { reports.controls.pins.v1ManifestSha256 = 'd'.repeat(64); }, /controls: not the same combined Version 1 manifest as the scenario report/],
+    // The engine commit has to have been read from Git, from a clean tree. A label is not enough.
+    ['an engine commit that was only stated', reports => { everyReport(reports, report => { report.pins.engineCommitBasis = ENGINE_COMMIT_BASIS.stated; report.pins.engineTreeClean = null; }); }, /the engine commit was only stated on the command line/],
+    ['an engine commit of unknown origin', reports => { delete reports.scenarios.pins.engineCommitBasis; }, /scenarios: the engine commit was only stated on the command line/],
+    ['an engine checkout with uncommitted changes', reports => { everyReport(reports, report => { report.pins.engineTreeClean = false; }); }, /the engine's checkout had uncommitted changes/],
+    ["this checkout's engine under another commit", reports => { everyReport(reports, report => { report.pins.engineCommitBasis = ENGINE_COMMIT_BASIS.here; }); }, /the engine is this checkout's own, but its commit a{40} is not the working tree's/],
+  ]);
+  // The scenario files are pinned by name; a case above relies on this one being among them.
+  assert.ok('mode-7.scenarios.json' in disk.scenarioFileHashes);
+  // The same three without the checkout at hand: absent stays a failure.
+  const absent = cleanReports();
+  everyReport(absent, report => { report.pins.v1ManifestSha256 = null; });
+  assert.equal(judge(absent, { v1Manifest: null }).filter(problem => /was not found beside the engine/.test(problem)).length, 3);
+  const other = cleanReports();
+  everyReport(other, report => { report.pins.v1ManifestSha256 = 'd'.repeat(64); });
+  assert.deepEqual(judge(other, { v1Manifest: { sha256: MANIFEST } }), ['scenarios', 'controls', 'playouts'].map(name => `${name}: the combined Version 1 manifest differs from the file beside the engine`));
+  assert.deepEqual(judge(other, { v1Manifest: null }), [], 'without the checkout at hand the reports only have to carry it and agree');
+
+  // The engine of the checkout itself, at the checkout's commit, is the form a merge gate sees.
+  const own = cleanReports();
+  everyReport(own, report => { report.pins.engineCommitBasis = ENGINE_COMMIT_BASIS.here; report.pins.engineCommit = TREE_COMMIT; });
+  assert.deepEqual(judge(own, { engineCommit: TREE_COMMIT, candidateCommit: TREE_COMMIT }), []);
+
+  // A candidate commit pins the tree exactly. An unpinned tree and an unchecked engine commit are
+  // accepted only when asked for, never beside a named candidate, and nothing else is relaxed.
+  assert.ok(judge(cleanReports(), { candidateCommit: 'c'.repeat(40) }).some(problem => /not the clean candidate c{40}/.test(problem)));
+  const trial = cleanReports();
+  everyReport(trial, report => { Object.assign(report.pins, { workingTreeCommit: `${TREE_COMMIT} plus uncommitted changes`, engineCommitBasis: ENGINE_COMMIT_BASIS.stated, engineTreeClean: null }); });
+  assert.deepEqual(judge(trial, { allowUnpinnedTree: true }), []);
+  assert.ok(judge(trial).length >= 6);
+  const named = judge(trial, { allowUnpinnedTree: true, candidateCommit: TREE_COMMIT });
+  assert.ok(named.some(problem => /not the clean candidate/.test(problem)) && named.some(problem => /only stated on the command line/.test(problem)), 'a named candidate is never relaxed');
+  trial.playouts.modes[7].invariantViolations = 1;
+  assert.equal(judge(trial, { allowUnpinnedTree: true }).length, 1);
+  // What the gate is told to expect has to be exact itself.
+  assert.ok(judge(cleanReports(), { engineCommit: 'a3898b8' }).some(problem => /must be a full commit hash/.test(problem)));
+  assert.ok(judge(cleanReports(), { candidateCommit: 'HEAD' }).some(problem => /candidate commit must be a full commit hash/.test(problem)));
+  assert.ok(judge(cleanReports(), { playoutsPerMode: 0 }).some(problem => /whole number of at least 1/.test(problem)));
 });

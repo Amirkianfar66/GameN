@@ -25,7 +25,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 import { finished } from 'node:stream/promises';
 import { run } from 'node:test';
-import { spec } from 'node:test/reporters';
+import { spec, tap } from 'node:test/reporters';
 import { fileURLToPath } from 'node:url';
 import { OVERLAY_ABSENT, V1_OVERLAY_PATH } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
@@ -73,7 +73,9 @@ for (const kind of ['test:pass', 'test:fail']) {
     if (event.details?.type !== 'suite') file.ran += 1;
   });
 }
-const output = stream.compose(spec);
+// The same choice `node --test` makes: readable on a terminal, TAP when the output is captured.
+// A caller that reads the totals, as the integration gate does, finds the lines it knows.
+const output = stream.compose(process.stdout.isTTY ? spec : tap);
 output.pipe(process.stdout);
 await finished(output);
 

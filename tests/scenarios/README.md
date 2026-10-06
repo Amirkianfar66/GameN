@@ -13,7 +13,8 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `v1/files.mjs` | Reading and writing those files; the pins they carry |
 | `adapters/full-game-v1.mjs` | Binding to Backend's full-game engine API |
 | `support/stub.mjs` | A scripted stand-in used only to test the runner and the invariants |
-| `*.test.mjs` | Static checks, run on `node:test`. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. `gate.test.mjs` gives the report gate one wrong thing at a time |
+| `support/gate-reports.mjs` | Reports written from the catalogue for the tests of the report gate. Not results |
+| `*.test.mjs` | Static checks, run on `node:test`, in five files. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
 
 ## What a scenario is
 
