@@ -199,6 +199,58 @@ test('only a change this device itself showed is emphasized', () => {
   assert.deepEqual(director.onEvent(publicEvent(BASE + 2, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-4', health: 'Injured' })), []);
 });
 
+test('a view that changes only something private does not make this seat miss a public cue, or gain one', () => {
+  // A phone shows a public move, then this seat's own registration arrives as a view of its
+  // own, and only then the event for the move. A phone on which nothing private happened
+  // plays the move; so must this one, or an onlooker could tell that something private did.
+  const start = before.officer;
+  const moved = playerVariant(start, v => { v.viewRevision += 1; v.seats[2].location = 'Room B'; });
+  const registered = playerVariant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = ['own-command']; });
+  const MOVE = { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' }, privacy: 'public' };
+  const moveEvent = () => playerEvent('seat-1', moved.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' });
+
+  const quiet = createPlayerDirector();
+  quiet.onView(start);
+  quiet.onView(moved);
+  assert.deepEqual(quiet.onEvent(moveEvent()), [MOVE]);
+
+  const busy = createPlayerDirector();
+  busy.onView(start);
+  busy.onView(moved);
+  assert.deepEqual(busy.onView(registered), []);
+  const late = moveEvent();
+  assert.deepEqual(busy.onEvent(late), [MOVE], 'The same cue as on the phone where nothing private happened');
+  assert.deepEqual(busy.onEvent(late), [], 'and once only');
+  // The registration is still its own cue, judged against the view just before it.
+  assert.deepEqual(busy.onEvent(playerEvent('seat-1', registered.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), [{ cue: { kind: 'registration' }, privacy: 'private' }]);
+  // Another view that changes nothing public: the move event is still remembered, and handed over again it is still not played twice.
+  busy.onView(playerVariant(registered, v => { v.viewRevision += 1; }));
+  assert.deepEqual(busy.onEvent(late), []);
+  assert.deepEqual(busy.onEvent(structuredClone(late)), []);
+
+  // It gains nothing either. A public fact named at the revision of the private-only view
+  // belongs to no public change, and one from before the public change is history.
+  const strict = createPlayerDirector();
+  strict.onView(start);
+  strict.onView(moved);
+  strict.onView(registered);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', registered.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), []);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', start.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), []);
+  // A registration belongs to the view on screen and to no other. Named at the revision of
+  // the view before, where the command was not pending yet, it is not this view's news.
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', moved.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), []);
+  // And one view on, the command was already pending on this screen: nothing changed here,
+  // whatever stood before what is public last changed.
+  const further = playerVariant(registered, v => { v.viewRevision += 1; });
+  strict.onView(further);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', registered.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), []);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', further.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), [], 'Already pending in the view just before');
+  // And once something public does change, the earlier public fact is in the past for good.
+  const next = playerVariant(further, v => { v.viewRevision += 1; v.seats[3].health = 'Injured'; });
+  strict.onView(next);
+  assert.deepEqual(strict.onEvent(moveEvent()), []);
+});
+
 test('a public move is a cue for that token, drawn from where it was on this screen', () => {
   const moved = publicAt(1, v => { v.seats[2].location = 'Room B'; });
   const director = createPublicDirector();

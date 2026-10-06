@@ -44,6 +44,7 @@ Delivery is as the integration owner proposed for wire protocol 1 in `docs/backe
 | --- | --- |
 | An event is played only when the view it names is the one on screen. One that arrives early waits for that view | "Buffer a live event until its corresponding authorized view revision is present" |
 | An event the view has moved past is not played, whether it was waiting or arrives late, even if what it says is still true | "If a newer snapshot has overtaken an event, update facts and skip obsolete cinematic playback" |
+| **Where this is narrower than the proposal read to the letter:** a view that changes nothing public does not overtake a public event. A seat's own view also changes when only something private does, and such a view arriving between a public view and its event must not make that phone skip a cue every other screen plays | The proposal speaks of a newer snapshot overtaking an event. Read per audience revision, a private-only snapshot would do that, and what a seat did in private would show in public. The director counts a public fact as overtaken only by a view that changes something public |
 | When a feed becomes current, whatever its first view already reflects is history | "establish a replay cutoff at its revision; retained older events are history, not instructions to replay animations" |
 | An event delivered twice is played once | "Dedupe by match/audience/event ID" |
 | A registration is one cue however this device hears of it: receipt, view or event | "registration by command ID; do not count a receipt and its event as two actions" |
@@ -110,6 +111,8 @@ This is the contract a renderer consumes. It was corrected after two reviews sho
 So a frame of a recovery screen carries no cue, and a page that starts reading late finds nothing older than one lifetime. It never misses a fact: those are in the model.
 
 **Nothing private can be read from the public list.** A seat's own view also changes when only something private does, its own registration for one. Such a view leaves the public list exactly as it was: on a phone the public cues, their order and their numbers are the same whatever the seat does in private at that moment. Otherwise an onlooker could see a registration in a public animation that stopped short. The test takes two phones through the same public moments, lets one of them register a command in between, and compares the lists.
+
+The same holds for whether a public cue is issued at all, which the review's finding did not cover and which was found while fixing it. A private-only view that arrives between a public view and its event does not put that event in the past: the phone plays the cue, with the same number and at the same moment as a phone on which nothing private happened. And it does not make an old public fact new again: lateness is measured for a public fact from the view that last changed something public, and for a registration from the view that brought it. Two clocks, so that neither can be read from the other.
 
 **What a page must not assume.** That a cue it has started showing is still in the next frame (it may have left; an animation already running may simply finish), or that `seq` values of the two lists can be compared.
 
