@@ -19,6 +19,9 @@
     "dev:fixture": "tsc --build && node dev/serve.mjs",
     "dev:capture": "tsc --build && node dev/capture-evidence.mjs",
     "dev:capture:shot": "tsc --build && node dev/capture-shot-flow.mjs",
+    "dev:connected": "npm run build --prefix ../.. && vite --config dev/connected/vite.config.mjs",
+    "dev:connected:journey": "npm run build --prefix ../.. && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config ../../infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node dev/connected/journey.mjs\"",
+    "dev:emulators": "npm run build --prefix ../.. && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:start --config ../../infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions",
     "test:emulator": "npm run build --prefix ../.. && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config ../../infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node --test --test-concurrency=1 test-emulator/*.test.mjs\""
   },
   "dependencies": {
