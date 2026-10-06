@@ -42,6 +42,8 @@ const SEVEN_PLAYER_ROLES = ['Alien', 'Blue Disabler', 'Cracker', 'Hacker', 'Insi
 const PHONE = { width: 390, height: 844, scale: 2, mobile: true };
 const DESK = { width: 1280, height: 800, scale: 1, mobile: false };
 const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
+/** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
+const PAGE_LOAD_MS = 30_000;
 
 const SCENARIO = ['shot', 'roles'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
 /** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
@@ -200,7 +202,7 @@ async function device(browser, label, shape) {
     label, page, fault, calls, listened, text, exists, attribute, stop,
     open(kind, ready) {
       loadsMade += 1;
-      return page.goto(`${ORIGIN}/?as=${kind}`, ready);
+      return page.goto(`${ORIGIN}/?as=${kind}`, ready, PAGE_LOAD_MS);
     },
     /** How often this script loaded the page, and how often the page says it was loaded. A tab keeps its name across reloads. */
     loads: async () => ({ byThisScript: loadsMade, counted: await page.evaluate('Number(window.name)') }),
