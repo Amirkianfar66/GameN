@@ -35,6 +35,7 @@ const STATIC_ROOTS = [
 const STATIC_FILES = new Map([
   ['/', at('apps/game/dev/harness/index.html')],
   ['/styles/shell.css', at('apps/game/src/styles/shell.css')],
+  ['/styles/cues.css', at('apps/game/src/styles/cues.css')],
 ]);
 // The contract fixture holds server-only truth. A browser is never given the module.
 const DENIED = /(^|\/)fixtures?(\.d)?\.(js|ts|map)$|\.(d\.ts|tsbuildinfo|map|cjs|cts|md)$|(^|\/)package\.json$/i;
@@ -100,6 +101,12 @@ async function readJson(request) {
 export function createDevServer({ now = Date.now, variant = 'protected', onRequest, slowAnswerMs } = {}) {
   const scenario = createScenario({ now, variant, slowAnswerMs });
   const tokenStylesheet = shellTokenStylesheet(proposedDesignTokens);
+  // For the motion gallery alone: the duration of a treatment no shipped rule may use,
+  // because no approved fact says that an impact happened. The shell's own token
+  // stylesheet deliberately leaves it out.
+  const impactMs = proposedDesignTokens.motionMs.publicImpact;
+  if (typeof impactMs !== 'number' || !Number.isFinite(impactMs) || impactMs < 0) throw new TypeError('Design token publicImpact is not a non-negative number');
+  const galleryTokenStylesheet = `/* mothership:dev-only */\nhtml {\n  --mothership-dev-only-tokens: "mothership:dev-only";\n  --gallery-motion-impact: ${impactMs}ms;\n}\n`;
   const streams = new Set();
   let origins = new Set();
 
@@ -209,6 +216,7 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
       if (pathname === '/api/fixture/time') return sendJson(response, 200, { protocolVersion: 1, serverTimeMs: serverTimeMs() });
       if (pathname === '/api/operator/status') return sendJson(response, 200, scenario.status());
       if (pathname === '/styles/tokens.css') return send(response, 200, tokenStylesheet, TYPES['.css']);
+      if (pathname === '/styles/gallery-tokens.css') return send(response, 200, galleryTokenStylesheet, TYPES['.css']);
       const file = resolveStatic(pathname);
       const type = file ? TYPES[extname(file)] : undefined;
       if (!file || !type) return send(response, 404, 'Not found');

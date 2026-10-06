@@ -3,6 +3,7 @@ import { SHELL_IDS, shotTargetId } from '../ids.js';
 import type {
   ActionCardModel, ActionsModel, CardButtonModel, PlayerMatchModel, PlayerShellModel, PrivateAreaModel, ShotCardBody, ShotTargetModel,
 } from '../model/types.js';
+import { CUE_AT } from './cue-marks.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 import { hiddenText, renderDetails, renderMarkers, renderPhase, renderSeat, renderShell, renderZones } from './parts.js';
@@ -97,7 +98,7 @@ function renderShotCard(card: ActionCardModel): MarkupElement {
       // If the line or control that held focus is gone after a redraw, focus stays with the card.
       'data-focus-fallback': SHELL_IDS.shotTitle,
     },
-      h('p', { class: 'ms-card__status' }, card.statusLabel),
+      h('p', { class: 'ms-card__status', 'data-cue-at': CUE_AT.registration }, card.statusLabel),
       renderShotBody(card.body),
     ),
   );

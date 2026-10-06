@@ -1,0 +1,192 @@
+/* mothership:dev-only — chrome for the motion gallery, and the two treatments that are not
+   connected to anything. Not part of the game client. */
+
+html {
+  /* A declaration, not only a comment, so the label survives CSS minification. */
+  --mothership-dev-only-gallery: "mothership:dev-only";
+}
+
+.gallery-page {
+  max-width: 72rem;
+}
+
+.gallery-controls {
+  display: grid;
+  gap: var(--ms-space-3);
+}
+
+.gallery-controls fieldset {
+  margin: 0;
+  padding: var(--ms-space-2) var(--ms-space-3) var(--ms-space-3);
+  border: var(--ms-stroke-control) solid var(--ms-color-text-secondary);
+  border-radius: var(--ms-radius-control);
+}
+
+.gallery-controls legend {
+  padding: 0 var(--ms-space-2);
+  color: var(--ms-color-text-secondary);
+  font-weight: 700;
+}
+
+.gallery-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ms-space-1) var(--ms-space-4);
+}
+
+.gallery-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ms-space-2);
+  min-height: var(--ms-target-min);
+  cursor: pointer;
+}
+
+.gallery-options input {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  accent-color: var(--ms-color-accent);
+}
+
+.gallery-options input:focus-visible {
+  outline: var(--ms-stroke-focus) solid var(--ms-color-focus);
+  outline-offset: 2px;
+}
+
+.gallery-status {
+  justify-self: start;
+  padding: 0 var(--ms-space-2);
+  border: var(--ms-stroke-control) solid var(--ms-color-text);
+  border-radius: var(--ms-radius-control);
+  font-weight: 700;
+}
+
+.gallery-status[data-status="not-connected"] {
+  border-style: dashed;
+}
+
+/* The scene: the client's own screen, at the width of the window, as its stylesheet's
+   breakpoints expect. It sits outside the page chrome so that none of the chrome's rules
+   reach into the shell. The stage is what a not-connected treatment is positioned against. */
+.gallery-stage {
+  position: relative;
+  max-width: 72rem;
+  margin: 0 auto var(--ms-space-7);
+  border: var(--ms-stroke-control) dashed var(--ms-color-text-secondary);
+  border-radius: var(--ms-radius-panel);
+  overflow: hidden;
+}
+
+.gallery-page {
+  padding-block-end: var(--ms-space-4);
+}
+
+/* The shell keeps its phase strip in view against the page. Inside a stage it stays put. */
+.gallery-stage .ms-phase {
+  position: static;
+}
+
+/* Treatments with no fact behind them. They live here and nowhere in the game client: the
+   director has no cue for either, and no shipped stylesheet has a rule for them. */
+.gallery-overlay {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  /* Centered on the point the page gives it. */
+  translate: -50% -50%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.gallery-overlay__burst,
+.gallery-overlay__lettering {
+  grid-area: 1 / 1;
+}
+
+.gallery-overlay__burst {
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  background: var(--ms-color-paper);
+  border: var(--ms-stroke-illustration) solid var(--ms-color-ink);
+  animation: gallery-burst var(--gallery-motion-impact) ease-out both;
+}
+
+.gallery-overlay[data-kind="impact"] .gallery-overlay__burst {
+  clip-path: polygon(50% 0, 61% 26%, 88% 12%, 77% 39%, 100% 50%, 77% 61%, 88% 88%, 61% 74%, 50% 100%, 39% 74%, 12% 88%, 23% 61%, 0 50%, 23% 39%, 12% 12%, 39% 26%);
+}
+
+.gallery-overlay[data-kind="shield"] .gallery-overlay__burst {
+  clip-path: polygon(50% 0, 100% 16%, 92% 66%, 50% 100%, 8% 66%, 0 16%);
+}
+
+.gallery-overlay__lettering {
+  padding: 0 var(--ms-space-2);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  font-family: var(--ms-font-heading);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transform: rotate(-6deg);
+  animation: gallery-lettering var(--gallery-motion-impact) ease-out both;
+}
+
+@keyframes gallery-burst {
+  from {
+    opacity: 1;
+    transform: scale(0.2) rotate(-20deg);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.1) rotate(0deg);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes gallery-lettering {
+  from {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.6);
+  }
+
+  40% {
+    opacity: 1;
+    transform: rotate(-6deg) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: rotate(-6deg) scale(1);
+  }
+}
+
+/* The same two settings the connected cues obey. */
+.gallery-stage[data-effects="reduced"] .gallery-overlay__burst {
+  display: none;
+}
+
+.gallery-stage[data-motion="reduced"] .gallery-overlay__burst {
+  display: none;
+}
+
+.gallery-stage[data-motion="reduced"] .gallery-overlay__lettering {
+  animation: gallery-fade var(--ms-motion-reduced-fade) linear both, gallery-leave var(--ms-motion-reduced-fade) linear var(--gallery-motion-impact) both;
+}
+
+@keyframes gallery-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes gallery-leave {
+  to {
+    opacity: 0;
+  }
+}

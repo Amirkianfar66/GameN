@@ -546,6 +546,8 @@ test('a browser can load the client modules but never the contract fixture or an
     ['/', 'text/html'], ['/harness/player.html', 'text/html'], ['/harness/host.js', 'text/javascript'], ['/styles/shell.css', 'text/css'],
     ['/styles/tokens.css', 'text/css'], ['/modules/game/index.js', 'text/javascript'], ['/modules/presentation/index.js', 'text/javascript'],
     ['/modules/contracts/index.js', 'text/javascript'], ['/modules/zod/index.js', 'text/javascript'],
+    ['/styles/cues.css', 'text/css'], ['/styles/gallery-tokens.css', 'text/css'], ['/harness/gallery.html', 'text/html'],
+    ['/harness/gallery.js', 'text/javascript'], ['/harness/gallery-specimens.js', 'text/javascript'], ['/harness/gallery.css', 'text/css'],
   ]) {
     const response = await fetch(origin + path);
     assert.equal(response.status, 200, path);
@@ -567,6 +569,12 @@ test('a browser can load the client modules but never the contract fixture or an
     assert.equal((await response.text()).includes('serverOnly'), false, path);
   }
   assert.match(await (await fetch(`${origin}/styles/tokens.css`)).text(), /--ms-color-canvas: #10141C;/);
+  // The impact duration reaches the gallery's own stylesheet, labeled, and never the shell's tokens.
+  const galleryTokens = await (await fetch(`${origin}/styles/gallery-tokens.css`)).text();
+  assert.match(galleryTokens, /--gallery-motion-impact: 320ms;/);
+  assert.equal(galleryTokens.includes('mothership:dev-only'), true);
+  assert.equal((await (await fetch(`${origin}/styles/tokens.css`)).text()).includes('impact'), false);
+  assert.match(await (await fetch(`${origin}/styles/cues.css`)).text(), /PLACEHOLDER MOTION/);
 });
 
 test('the path mapping refuses traversal, odd separators and wrong case before any file is opened', () => {
@@ -588,7 +596,7 @@ test('the path mapping refuses traversal, odd separators and wrong case before a
 
 test('harness pages are served under a policy that forbids inline script and inline style', async t => {
   const { origin } = await withServer(t);
-  for (const path of ['/', '/harness/player.html', '/harness/table.html', '/harness/operator.html']) {
+  for (const path of ['/', '/harness/player.html', '/harness/table.html', '/harness/operator.html', '/harness/gallery.html']) {
     const response = await fetch(origin + path);
     const policy = response.headers.get('content-security-policy');
     const html = await response.text();

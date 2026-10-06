@@ -1,0 +1,67 @@
+<!doctype html>
+<!-- mothership:dev-only — motion gallery. Synthetic scenes, placeholder motion. Never deploy. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="mothership:dev-only" content="motion gallery; never deploy">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Mothership motion gallery</title>
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/gallery-tokens.css">
+<link rel="stylesheet" href="/styles/shell.css">
+<link rel="stylesheet" href="/styles/cues.css">
+<link rel="stylesheet" href="/harness/harness.css">
+<link rel="stylesheet" href="/harness/gallery.css">
+<script type="importmap">{"imports":{"@mothership/game":"/modules/game/index.js","@mothership/presentation":"/modules/presentation/index.js","@mothership/contracts":"/modules/contracts/index.js","zod":"/modules/zod/index.js"}}</script>
+<script type="module" src="/harness/gallery.js"></script>
+</head>
+<body class="harness-body">
+<!-- The page's one main landmark is the scene's own: the shell under test supplies it. -->
+<div class="harness-page gallery-page">
+  <h1>Motion gallery</h1>
+  <p class="harness-warning"><strong>Development only. Synthetic scenes and placeholder motion.</strong> Every scene below is authored for looking at motion: it follows no rule and is the outcome of nothing. The treatments are built from the token proposal and are not approved art. Nothing on this page is part of the game client.</p>
+
+  <form class="gallery-controls" id="gallery-controls" aria-label="Gallery controls">
+    <fieldset>
+      <legend>Cue</legend>
+      <div class="gallery-options" id="gallery-specimens"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Motion</legend>
+      <div class="gallery-options">
+        <label><input type="radio" name="motion" value="full" checked> Normal</label>
+        <label><input type="radio" name="motion" value="reduced"> Reduced motion</label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Effects</legend>
+      <div class="gallery-options">
+        <label><input type="radio" name="effects" value="full" checked> Full</label>
+        <label><input type="radio" name="effects" value="reduced"> Reduced effects</label>
+      </div>
+    </fieldset>
+    <div class="harness-row">
+      <button type="button" id="gallery-replay">Replay</button>
+    </div>
+  </form>
+
+  <section aria-labelledby="gallery-about-heading">
+    <h2 id="gallery-about-heading">This cue</h2>
+    <dl class="harness-facts" id="gallery-about"></dl>
+    <p class="harness-note" id="gallery-issued" aria-live="polite"></p>
+  </section>
+
+  <section aria-labelledby="gallery-stage-heading">
+    <h2 id="gallery-stage-heading">Scene</h2>
+    <p class="harness-note">The scene below is the real client core, fed by a script in this page. Its screen works: the countdown runs and every control can be used while a cue plays. It is laid out for the width of this window, as any page of the client would be.</p>
+  </section>
+  <p><a href="/">Harness index</a></p>
+</div>
+<!-- Outside the page chrome above, so none of its styles reach into the shell. -->
+<div class="gallery-stage" id="gallery-stage" data-effects="full" data-motion="full" data-surface="table">
+  <div id="app"></div>
+</div>
+<noscript><p class="harness-noscript">This development page needs JavaScript.</p></noscript>
+</body>
+</html>

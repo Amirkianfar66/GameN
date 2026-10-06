@@ -1,0 +1,210 @@
+/* Mothership cue treatments for the semantic DOM shells.
+
+   PLACEHOLDER MOTION, built from the Designer's token proposal and the cue library in
+   docs/design/motion-direction.md. It is not approved art and not a storyboard.
+
+   A cue is emphasis for something the page already says in words. A renderer marks an
+   element with data-cue for as long as the cue plays and takes the mark off again; nothing
+   here changes what an element says, where it sits, or whether it can be used:
+     - only transform, opacity, color and shadow are animated, never layout;
+     - layers drawn beside an element take no pointer events and hold no content;
+     - no rule starts by itself, loops, or outlasts the longest beat the tokens allow;
+     - amber is focus. No treatment here stands for an attack, a block or a result.
+
+   Load after shell.css. Durations come from the token variables only. */
+
+/* Registration: the status line of the card lands like a stamp. Private, neutral, and the
+   same for any registered command. */
+.ms-shell [data-cue="registration"] {
+  animation: ms-cue-stamp var(--ms-motion-stamp) ease-out;
+}
+
+/* A public move: the token arrives with a short slide and an ink trail that clears as it
+   settles. The slide always comes from the same side and implies no route, and it is
+   short enough to stay inside the padding of the list it arrives in. */
+.ms-shell li[data-cue="public-move"] {
+  position: relative;
+  animation: ms-cue-arrive var(--ms-motion-move) cubic-bezier(0.16, 0.84, 0.3, 1);
+}
+
+.ms-shell li[data-cue="public-move"]::before {
+  content: "";
+  position: absolute;
+  inset-block: 40%;
+  inset-inline-start: calc(var(--ms-space-3) * -1);
+  inline-size: var(--ms-space-3);
+  background: linear-gradient(to right, transparent, var(--ms-color-text));
+  transform-origin: right center;
+  pointer-events: none;
+  animation: ms-cue-trail var(--ms-motion-move) ease-out both;
+}
+
+/* A public status change: the status itself is outlined for a moment, in paper, not in
+   the amber of the focus ring. No cause is known, so there is no impact, no lettering and
+   no line to anyone else. */
+.ms-shell span[data-cue="status-change"] {
+  animation: ms-cue-mark var(--ms-motion-card) ease-out;
+}
+
+/* In the table's roster a cell cannot travel, so the changed cell is lit and settles. */
+.ms-shell td[data-cue="public-move"],
+.ms-shell td[data-cue="status-change"] {
+  animation: ms-cue-lit var(--ms-motion-card) ease-out;
+}
+
+/* A new phase: the labels settle in and a rule is drawn under them. The countdown beside
+   them is not part of the cue and stays readable throughout. */
+.ms-shell [data-cue="phase-change"],
+.ms-shell [data-cue="round-transition"] {
+  position: relative;
+}
+
+.ms-shell [data-cue="phase-change"] {
+  animation: ms-cue-fade var(--ms-motion-card) ease-out;
+}
+
+.ms-shell [data-cue="phase-change"]::after,
+.ms-shell [data-cue="round-transition"]::before,
+.ms-shell [data-cue="round-transition"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  block-size: var(--ms-stroke-illustration);
+  background: var(--ms-color-accent);
+  pointer-events: none;
+}
+
+.ms-shell [data-cue="phase-change"]::after {
+  inset-block-end: calc(var(--ms-space-1) * -1);
+  transform-origin: left center;
+  animation: ms-cue-rule var(--ms-motion-card) ease-out both;
+}
+
+/* A new round: panel rules are drawn across from both sides and the round heading is
+   struck once. The labels keep their place and their words. */
+.ms-shell [data-cue="round-transition"]::before {
+  inset-block-start: calc(var(--ms-space-1) * -1);
+  transform-origin: left center;
+  animation: ms-cue-rule var(--ms-motion-round) ease-in-out both;
+}
+
+.ms-shell [data-cue="round-transition"]::after {
+  inset-block-end: calc(var(--ms-space-1) * -1);
+  transform-origin: right center;
+  animation: ms-cue-rule var(--ms-motion-round) ease-in-out both;
+}
+
+.ms-shell [data-cue="round-transition"] .ms-phase__round {
+  transform-origin: left center;
+  animation: ms-cue-heading var(--ms-motion-round) ease-out;
+}
+
+@keyframes ms-cue-stamp {
+  from {
+    opacity: 0.2;
+    transform: rotate(-9deg) scale(1.35);
+  }
+}
+
+@keyframes ms-cue-arrive {
+  from {
+    opacity: 0.3;
+    transform: translateX(calc(var(--ms-space-3) * -1));
+  }
+}
+
+@keyframes ms-cue-trail {
+  from {
+    opacity: 0.8;
+    transform: scaleX(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ms-cue-mark {
+  from {
+    box-shadow: 0 0 0 var(--ms-space-2) var(--ms-color-text);
+    transform: scale(1.15);
+  }
+}
+
+@keyframes ms-cue-lit {
+  from {
+    background-color: color-mix(in srgb, var(--ms-color-accent) 55%, transparent);
+  }
+}
+
+@keyframes ms-cue-rule {
+  from {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes ms-cue-heading {
+  from {
+    color: var(--ms-color-accent);
+    transform: scale(1.3);
+  }
+
+  60% {
+    color: var(--ms-color-accent);
+    transform: scale(1);
+  }
+}
+
+@keyframes ms-cue-fade {
+  from {
+    opacity: 0.4;
+  }
+}
+
+/* Reduced effects: the same motion without the layers beside it. A separate setting from
+   reduced motion, which it never overrides. */
+[data-effects="reduced"] .ms-shell [data-cue]::before,
+[data-effects="reduced"] .ms-shell [data-cue]::after {
+  content: none;
+}
+
+[data-effects="reduced"] .ms-shell span[data-cue="status-change"] {
+  animation-name: ms-cue-fade;
+}
+
+/* Reduced motion: no travel, scale, trail or drawn rule. At most the short fade. The
+   device setting applies until the player chooses in the app; after that the choice wins
+   in either direction. Changing it while a cue plays replaces the cue with the fade. */
+@media (prefers-reduced-motion: reduce) {
+  .ms-shell:not([data-motion="full"]) [data-cue],
+  .ms-shell:not([data-motion="full"]) [data-cue] .ms-phase__round {
+    animation: ms-cue-fade var(--ms-motion-reduced-fade) linear;
+  }
+
+  .ms-shell:not([data-motion="full"]) [data-cue]::before,
+  .ms-shell:not([data-motion="full"]) [data-cue]::after {
+    content: none;
+  }
+}
+
+.ms-shell[data-motion="reduced"] [data-cue],
+.ms-shell[data-motion="reduced"] [data-cue] .ms-phase__round {
+  animation: ms-cue-fade var(--ms-motion-reduced-fade) linear;
+}
+
+.ms-shell[data-motion="reduced"] [data-cue]::before,
+.ms-shell[data-motion="reduced"] [data-cue]::after {
+  content: none;
+}

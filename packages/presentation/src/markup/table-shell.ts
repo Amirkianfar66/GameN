@@ -1,5 +1,6 @@
 import { en } from '../copy/en.js';
 import type { TableMatchModel, TableShellModel } from '../model/types.js';
+import { CUE_AT } from './cue-marks.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 import { renderDetails, renderPhase, renderShell, renderZones, SHELL_IDS } from './parts.js';
@@ -17,8 +18,8 @@ function renderRoster(roster: TableMatchModel['roster']): MarkupElement {
       h('tbody', null, roster.rows.map(row =>
         h('tr', { 'data-seat': row.seat.seatId, 'data-active': String(row.seat.isActive) },
           h('th', { scope: 'row' }, row.seat.label),
-          h('td', null, en.location.name(row.seat.location)),
-          h('td', null, en.marker.health(row.seat.health)),
+          h('td', { 'data-cue-at': CUE_AT.place(row.seat.seatId) }, en.location.name(row.seat.location)),
+          h('td', { 'data-cue-at': CUE_AT.health(row.seat.seatId) }, en.marker.health(row.seat.health)),
           h('td', null, row.status),
         ))),
     ),

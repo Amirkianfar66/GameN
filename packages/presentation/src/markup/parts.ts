@@ -4,6 +4,7 @@ import type {
   TimerModel, ZoneModel,
 } from '../model/types.js';
 import { SHELL_IDS } from '../ids.js';
+import { CUE_AT } from './cue-marks.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 
@@ -15,13 +16,19 @@ export function renderMarkers(seat: SeatModel): MarkupElement {
   const children: MarkupChild[] = [];
   seat.markers.forEach((marker, index) => {
     if (index > 0) children.push(hiddenText(', '));
-    children.push(h('span', { class: `ms-marker ms-marker--${marker.kind}`, 'data-variant': marker.variant }, marker.label));
+    children.push(h('span', {
+      class: `ms-marker ms-marker--${marker.kind}`, 'data-variant': marker.variant,
+      'data-cue-at': marker.kind === 'health' ? CUE_AT.health(seat.seatId) : null,
+    }, marker.label));
   });
   return h('span', { class: 'ms-markers' }, children);
 }
 
 export function renderSeat(seat: SeatModel): MarkupElement {
-  return h('li', { class: 'ms-seat', 'data-seat': seat.seatId, 'data-self': String(seat.isSelf), 'data-active': String(seat.isActive) },
+  return h('li', {
+    class: 'ms-seat', 'data-seat': seat.seatId, 'data-self': String(seat.isSelf), 'data-active': String(seat.isActive),
+    'data-cue-at': CUE_AT.place(seat.seatId),
+  },
     // The numeral repeats the visible name, so it is decoration for assistive technology.
     h('span', { class: 'ms-token', 'aria-hidden': 'true' }, String(seat.number)),
     h('span', { class: 'ms-seat__name' }, seat.label),
@@ -59,7 +66,7 @@ function renderTimer(timer: TimerModel): MarkupElement {
 
 export function renderPhase(phase: PhaseStripModel): MarkupElement {
   return h('section', { class: 'ms-phase', 'aria-labelledby': 'ms-phase-heading' },
-    h('div', { class: 'ms-phase__labels', 'data-region': 'phase' },
+    h('div', { class: 'ms-phase__labels', 'data-region': 'phase', 'data-cue-at': CUE_AT.phase },
       h('h2', { class: 'ms-phase__round', id: 'ms-phase-heading' }, phase.roundLabel),
       h('p', { class: 'ms-phase__label' }, phase.phaseLabel),
       phase.detail ? h('p', { class: 'ms-phase__detail' }, phase.detail) : null,

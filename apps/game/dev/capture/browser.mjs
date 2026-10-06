@@ -86,9 +86,13 @@ export async function connect(endpoint) {
   return { send, events, close: () => socket.close() };
 }
 
-/** One browser tab with the handful of operations this script needs. */
-export async function openPage(browser, { width, height, scale = 1, mobile = false }) {
-  const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank' });
+/**
+ * One browser tab with the handful of operations this script needs. With `ownWindow` the
+ * tab gets a window to itself, so it stays visible to its page while other tabs are used:
+ * a tab that is not frontmost in its window is hidden, and a hidden page shows no cue.
+ */
+export async function openPage(browser, { width, height, scale = 1, mobile = false, ownWindow = false }) {
+  const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank', newWindow: ownWindow });
   const { sessionId } = await browser.send('Target.attachToTarget', { targetId, flatten: true });
   const send = (method, params) => browser.send(method, params, sessionId);
   await send('Page.enable');

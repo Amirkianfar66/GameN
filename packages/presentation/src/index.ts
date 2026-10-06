@@ -20,6 +20,8 @@ export { buildTableShellModel } from './model/table-shell.js';
 export type * from './model/types.js';
 export { escapeAttribute, escapeText, h, isElement, splitRegions, textOf, toHtml } from './markup/node.js';
 export type { MarkupAttributes, MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode, MarkupTag, RegionSplit } from './markup/node.js';
+export { CUE_AT, cueMark, planCues } from './markup/cue-marks.js';
+export type { CueMark, CuePlan, NumberedCue } from './markup/cue-marks.js';
 export { planRedraw } from './markup/redraw.js';
 export type { RedrawPlan, RedrawStep } from './markup/redraw.js';
 export { SHELL_IDS, shotTargetId } from './ids.js';

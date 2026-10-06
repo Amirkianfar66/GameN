@@ -18,7 +18,8 @@
     "check:exclusion": "tsc --build && node scripts/check-production-exclusion.mjs",
     "dev:fixture": "tsc --build && node dev/serve.mjs",
     "dev:capture": "tsc --build && node dev/capture-evidence.mjs",
-    "dev:capture:shot": "tsc --build && node dev/capture-shot-flow.mjs"
+    "dev:capture:shot": "tsc --build && node dev/capture-shot-flow.mjs",
+    "dev:capture:cues": "tsc --build && node dev/capture-cues.mjs"
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0",

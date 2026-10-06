@@ -22,7 +22,10 @@ export interface ShellTokenSource {
     readonly minimumTargetCssPx: number;
     readonly breakpointsCssPx: { readonly expandedPlayerLayout: number; readonly wideTableLayout: number };
   };
-  readonly motionMs: { readonly selection: number; readonly cardTransition: number; readonly reducedMotionFade: number };
+  readonly motionMs: {
+    readonly selection: number; readonly cardTransition: number; readonly reducedMotionFade: number;
+    readonly registrationStamp: number; readonly publicMove: number; readonly roundTransition: number; readonly comicBeatMaximum: number;
+  };
 }
 
 const ROOT_FONT_PX = 16;
@@ -73,6 +76,12 @@ export function shellCssVariables(tokens: ShellTokenSource): ReadonlyMap<string,
     ['--ms-motion-selection', ms(tokens.motionMs.selection)],
     ['--ms-motion-card', ms(tokens.motionMs.cardTransition)],
     ['--ms-motion-reduced-fade', ms(tokens.motionMs.reducedMotionFade)],
+    // Cue durations. The token for a public impact is deliberately not among them: no
+    // approved fact says that an impact happened, so no shipped rule can be timed by it.
+    ['--ms-motion-stamp', ms(tokens.motionMs.registrationStamp)],
+    ['--ms-motion-move', ms(tokens.motionMs.publicMove)],
+    ['--ms-motion-round', ms(tokens.motionMs.roundTransition)],
+    ['--ms-motion-beat-max', ms(tokens.motionMs.comicBeatMaximum)],
   ]);
   tokens.spacingPx.forEach((value, index) => variables.set(`--ms-space-${index + 1}`, rem(value)));
   return variables;

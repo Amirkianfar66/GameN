@@ -4,7 +4,7 @@
 // forwards input and platform signals back. This is the interim renderer used by the
 // fixture harness. It holds no game state and makes no decision of its own.
 
-import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
+import { parseShellIntent, planCues, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A statement, not only a comment: it survives bundling and comment stripping, so the
 // production-exclusion check finds this module wherever it ends up.
@@ -42,6 +42,14 @@ export function browserPorts() {
 
 /** How long a spoken line stays in the document before it is taken out again. */
 const SPOKEN_LINE_LIFETIME_MS = 15_000;
+
+// The longest a cue may last, from the token stylesheet. A mark is taken off again after
+// this long whatever the stylesheet did with it, so nothing a cue adds can stay.
+function longestBeatMs() {
+  const value = getComputedStyle(document.documentElement).getPropertyValue('--ms-motion-beat-max').trim();
+  const ms = /^\d+(\.\d+)?ms$/.test(value) ? Number.parseFloat(value) : Number.NaN;
+  return Number.isFinite(ms) ? ms : 1_000;
+}
 
 // A log, not a single slot: two announcements in quick succession are both read, in order,
 // instead of the second overwriting the first before a screen reader reaches it.
@@ -86,6 +94,28 @@ export function mountScreen({ container, screen, render }) {
   let spokenSeq = 0;
   let focusSeq = 0;
   let privacyEpoch = 0;
+  // Cues already in the frame this host starts on are not its to play.
+  let cuesShown = Math.max(0, ...[...screen.getFrame().cues, ...screen.getFrame().privateCues].map(item => item.seq));
+  const cueTimers = new Map();
+
+  // A cue is a mark on the elements it is about, and the stylesheet does the rest. The mark
+  // changes no text, takes no focus and blocks nothing; a redraw that replaces the element
+  // simply ends it. Marking adds nothing private: the place for a private cue exists only
+  // inside the open private panel.
+  function playCue({ at, name }) {
+    for (const element of root.querySelectorAll(`[data-cue-at="${CSS.escape(at)}"]`)) {
+      window.clearTimeout(cueTimers.get(element));
+      // Taking the mark off and reading a layout value makes the browser start afresh
+      // when the same element is cued again before the last cue has finished.
+      element.removeAttribute('data-cue');
+      void element.offsetWidth;
+      element.setAttribute('data-cue', name);
+      cueTimers.set(element, window.setTimeout(() => {
+        cueTimers.delete(element);
+        element.removeAttribute('data-cue');
+      }, longestBeatMs()));
+    }
+  }
 
   function applyRootAttributes(next) {
     for (const name of Object.keys(rootAttributes)) if (!(name in next)) root.removeAttribute(name);
@@ -142,6 +172,17 @@ export function mountScreen({ container, screen, render }) {
       spokenSeq = line.seq;
       speak(container, line.politeness === 'assertive' ? assertive : polite, line.text, isPrivate);
     }
+
+    // Last, on the document as it now stands: each cue of this frame not yet shown, once.
+    const cues = planCues(cuesShown, frame.cues, frame.privateCues);
+    cuesShown = cues.shown;
+    for (const mark of cues.marks) playCue(mark);
+    // Timers of elements a redraw has since replaced have nothing left to do.
+    for (const [element, timer] of cueTimers) {
+      if (root.contains(element)) continue;
+      window.clearTimeout(timer);
+      cueTimers.delete(element);
+    }
   }
 
   // A control says what it is for and, for a target, which seat. The shared parser decides
@@ -183,6 +224,8 @@ export function mountScreen({ container, screen, render }) {
     document.removeEventListener('visibilitychange', onVisibility);
     motion.removeEventListener('change', onMotion);
     screen.dispose();
+    for (const timer of cueTimers.values()) window.clearTimeout(timer);
+    cueTimers.clear();
     container.replaceChildren();
   }
   // A page kept in the back/forward cache would otherwise hold its feed open.

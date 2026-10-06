@@ -512,10 +512,16 @@
 }
 
 /* Picked up: a little more lift and a heavier top edge. It claims nothing about what happens
-   next, and it is ink, not a ring, so it cannot be taken for keyboard focus. */
+   next, and it is ink, not a ring, so it cannot be taken for keyboard focus. The card itself
+   is not redrawn when its step changes, so the lift is a transition on it. */
+.ms-card {
+  transition: transform var(--ms-motion-selection) ease-out, box-shadow var(--ms-motion-selection) ease-out;
+}
+
 .ms-card:has(> .ms-card__state[data-selected="true"]) {
   box-shadow: 6px 6px 0 var(--ms-color-ink);
   border-top-width: calc(var(--ms-stroke-illustration) * 3);
+  transform: translate(-2px, -2px);
 }
 
 .ms-card:has(> .ms-card__state[data-status="unavailable"]) {
