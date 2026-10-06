@@ -54,6 +54,7 @@ All on 6 October 2026, macOS, Node 22.21.1, npm 10.9.4, at the head of this bran
 | Mutation check | **16 of 16** deliberate faults caught by this slice's tests: a shot opened by its list alone; one action reading another's list; an action listed that the view does not open; a shot not listed while closed; "nobody to choose" called unavailable; the player's own seat not named as theirs, or every seat called "yourself"; a Hack shown to nobody, or naming the wrong seat; every command sent as a shot; a Hack request or a showdown shot worded as an end-of-round registration |
 | Frontend emulator tests | **4 of 4** passed, 71 s, **against emulators that were already running**: the suite's own command (`node --test --test-concurrency=1 test-emulator/*.test.mjs`) with the emulator hosts in the environment, not through `firebase emulators:exec`, because the fixed ports were in use. They cover the first slice's flow. None of them exercises a role action |
 | Browser journey, `MOTHERSHIP_JOURNEY=roles` | **Passed**, 552 s. Headless Chrome 154, one browser context for each device: a host, a shared display and nine players, against the local Auth, Firestore and Functions emulators |
+| Browser journey, the default one (seven players, a move) | **Passed**, 72 s, after a correction to the journey. **It had failed on this branch until then**, and that was not noticed when the branch was first pushed, because only the roles journey was run. See below |
 
 What the journey established, in a throwaway nine-player match (its own words are in [`evidence/connected-v1/roles/`](evidence/connected-v1/roles/)):
 
@@ -65,10 +66,13 @@ What the journey established, in a throwaway nine-player match (its own words ar
 
 The journey was run twice. The first run passed too, but one of its checks (what the other phones list) would also have passed with nothing on screen. The check now requires the idle card to be on screen, and the evidence is from the second run.
 
+**The default journey, corrected.** The seven-player journey of the first connected slice expected each phone to list a move and a shot and nothing else. Since this slice a phone also lists the action its role has, so that check failed on the first phone holding one, and with it `npm run dev:connected:journey`. The check now reads the first two rows, which are the move and the shot; the roles journey checks the rest. No product code changed. Its nine steps then passed on Chrome 155, with no page loaded by anything but the script. The evidence of the first slice in `evidence/connected-v1/movement/` is from that slice's own run and was left as it is.
+
 ### Not run
 
 - What any of these registrations resolves to at the end of the round, and anything after it.
 - A showdown shot against the backend. A showdown is the end of a match and no journey plays one; it is unit-tested only.
+- The nine-player `shot` journey of the first slice, on this branch.
 - Phones, people, a screen reader, a deployed project.
 - An independent review of this slice.
 
