@@ -20,7 +20,7 @@ screen here carries the banner "Local emulator. A development backend, not a liv
 | --- | --- |
 | The Firebase web client (Auth, Firestore), anonymous identities, Security Rules | A deployed project. The transport refuses any host that is not loopback and any project but `demo-mothership` |
 | The protocol-2 service, its receipts and its 60-second phases | A designed lobby. The lobby is a plain development console in `main.js` |
-| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server permits one, an ordinary shot. Every other phase is named and timed, with no controls |
+| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server's view opens them, an ordinary shot, a Disable, Protection, a Rescue, a Hack request and a showdown shot. The voting phases are named and timed, with no controls; Scan, Supply, the Code and the result screens are not built |
 | The phone and table screens the fixture harness also shows | Phones at a table. Everything listens on loopback, so only browsers on this machine can reach it |
 
 ## Run it
@@ -79,6 +79,10 @@ MOTHERSHIP_EVIDENCE_DIR=../../docs/frontend/evidence/connected-v1 npm run dev:co
 # The nine-player scenario: the Officer registers a shot on its own turn. It waits for
 # that turn in real 60-second phases, so it can take about ten minutes.
 MOTHERSHIP_JOURNEY=shot npm run dev:connected:journey --workspace @mothership/game
+
+# A whole first round with nine players: on its own turn each role that has an action
+# naming one seat registers it, and one player requests a Hack. About eleven minutes.
+MOTHERSHIP_JOURNEY=roles npm run dev:connected:journey --workspace @mothership/game
 ```
 
 `journey.mjs` drives headless Chrome over the DevTools protocol: a host, a display and

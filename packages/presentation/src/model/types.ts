@@ -107,11 +107,17 @@ export interface TableShellInput extends ShellEnvironment {
 
 /** Where a player may move, as the server names it. */
 export type Destination = FullPlayerView['self']['movementDestinations'][number];
-export type ActionKind = 'move' | 'shot';
+/**
+ * An action that names one seat: an ordinary shot, a Disabler's attack, a grant of
+ * Protection, a Rescue, a request for a Hack, a showdown shot. Each is offered only while
+ * the player's own view lists seats for it.
+ */
+export type TargetActionKind = 'shot' | 'disable' | 'protect' | 'rescue' | 'hack' | 'showdown-shot';
+export type ActionKind = 'move' | TargetActionKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
   | { readonly kind: 'move'; readonly destination: Destination }
-  | { readonly kind: 'shot'; readonly targetSeatId: SeatId };
+  | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId };
 /**
  * Why a command is known not to have been accepted without a rejection receipt. NOT_SENT:
  * the request never left this device. PHASE_OVER: after a reload, no receipt existed once
@@ -423,6 +429,8 @@ export interface ConnectedPrivateAreaModel {
   /** Present only while open in the foreground. Closed, nothing private is in the model at all. */
   readonly content: {
     readonly role: { readonly label: string; readonly name: RoleName };
+    /** While the server says this seat is in a Hack: who with. Known to the two of them only. */
+    readonly hack: string | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
 }

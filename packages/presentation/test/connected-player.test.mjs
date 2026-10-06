@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { FullPlayerViewSchema, FullPublicViewSchema, RoleSchema } from '@mothership/contracts';
 import {
-  actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, createConnectedPlayerAnnouncer, describeAction, parseShellIntent,
-  renderConnectedPlayerShell, renderTableShell, SHELL_IDS, textOf, toHtml,
+  ACTION_KINDS, actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, createConnectedPlayerAnnouncer, describeAction, isActionKind, offeredTargets,
+  parseShellIntent, renderConnectedPlayerShell, renderTableShell, SHELL_IDS, TARGET_ACTION_COMMANDS, textOf, toHtml,
 } from '@mothership/presentation';
 import { auditMarkup, byClass, byId, byRegion, find, findAll } from './support/markup-audit.mjs';
 
@@ -56,7 +56,10 @@ test('a protocol-2 table shows seven, eight or nine seats, names every phase kin
   };
   for (const [kind, label] of Object.entries(labels)) {
     const phase = buildTableShellModel({ ...environment, view: publicView(view => { view.phase = { ...view.phase, kind }; view.activeSeatId = null; }) }).match.phase;
-    assert.deepEqual([phase.phaseLabel, phase.detail], [label, 'This preview shows this phase and its clock. It cannot take part in it yet.'], kind);
+    // The voting phases have no controls yet, and the screen says so. A Hack and a showdown
+    // offer whatever the server opens for the seat, so nothing is disclaimed there.
+    const detail = kind === 'HACK' || kind === 'SHOWDOWN' ? null : 'This preview shows this phase and its clock. It cannot take part in it yet.';
+    assert.deepEqual([phase.phaseLabel, phase.detail], [label, detail], kind);
   }
   const aborted = buildTableShellModel({ ...environment, deadline: { kind: 'none' }, view: publicView(view => { view.phase = { ...view.phase, kind: 'ABORTED', endsAt: null }; view.activeSeatId = null; }) });
   assert.deepEqual([aborted.match.phase.phaseLabel, aborted.match.phase.detail, aborted.match.phase.timer.state], ['Match ended by the host', null, 'none']);
@@ -251,4 +254,117 @@ test('what became of a command is spoken privately, once, and only in front of a
     const body = card(view, action).body;
     assert.equal(body.text, describeAction(action));
   }
+});
+
+// ---- The other actions that name one seat: Disable, Protection, Rescue, Hack, showdown shot ----
+
+/** What each of them says on the card, for a target that is another player (seat 3) and one that is the player's own seat. */
+const TARGET_ACTIONS = {
+  disable: { command: 'DISABLE', label: 'Disable', open: 'Choose a target', prompt: 'Choose a target', confirm: 'Register a Disable at Player 3?', button: 'Register Disable', accepted: 'Disable at Player 3 registered.', detail: 'This is not a result. Registered actions are resolved at the end of the round.' },
+  protect: { command: 'PROTECT', label: 'Protection', open: 'Choose a player', prompt: 'Who is the Protection for?', confirm: 'Register Protection for Player 3?', button: 'Register Protection', accepted: 'Protection for Player 3 registered.', detail: 'This is not a result. Registered actions are resolved at the end of the round.' },
+  rescue: { command: 'RESCUE', label: 'Rescue', open: 'Choose a player', prompt: 'Who is the Rescue for?', confirm: 'Register a Rescue of Player 3?', button: 'Register Rescue', accepted: 'Rescue of Player 3 registered.', detail: 'This is not a result. Registered actions are resolved at the end of the round.' },
+  hack: { command: 'REQUEST_HACK', label: 'Hack', open: 'Choose a player', prompt: 'Who do you request a Hack with?', confirm: 'Request a Hack with Player 3?', button: 'Request Hack', accepted: 'Hack request with Player 3 accepted.', detail: 'The phase shown at the top of this screen says what happens next.' },
+  'showdown-shot': { command: 'SHOWDOWN_SHOT', label: 'Showdown shot', open: 'Choose a target', prompt: 'Choose a target', confirm: 'Register a showdown shot at Player 3?', button: 'Register shot', accepted: 'Showdown shot at Player 3 registered.', detail: 'This is not a result.' },
+};
+const listing = (command, seats) => view => { view.legalTargets = { ...view.legalTargets, [command]: seats }; };
+
+test('the actions the phone can offer are a fixed list, and each one that names a seat reads its targets from the view under its own command', () => {
+  assert.deepEqual(ACTION_KINDS, ['move', 'shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-shot']);
+  assert.deepEqual(TARGET_ACTION_COMMANDS, { shot: 'REGISTER_SHOT', disable: 'DISABLE', protect: 'PROTECT', rescue: 'RESCUE', hack: 'REQUEST_HACK', 'showdown-shot': 'SHOWDOWN_SHOT' });
+  for (const kind of ACTION_KINDS) assert.equal(isActionKind(kind), true);
+  for (const other of ['vote', 'scan', 'supply', 'code', 'MOVE', '', null, undefined, 3]) assert.equal(isActionKind(other), false, String(other));
+  for (const [kind, { command }] of Object.entries(TARGET_ACTIONS)) {
+    assert.equal(offeredTargets(playerView(), kind), null, `${kind}: not opened by the view`);
+    assert.deepEqual(offeredTargets(playerView(listing(command, ['seat-5', 'seat-3'])), kind), ['seat-5', 'seat-3'], `${kind}: the view's own list, as given`);
+    assert.deepEqual(offeredTargets(playerView(listing(command, [])), kind), [], `${kind}: open with nobody to choose`);
+    // A list under another command opens nothing for this one.
+    const elsewhere = Object.values(TARGET_ACTIONS).map(action => action.command).filter(other => other !== command);
+    assert.equal(offeredTargets(playerView(view => { for (const other of elsewhere) listing(other, ['seat-3'])(view); view.self.shotAvailable = true; }), kind), null);
+  }
+  // An ordinary shot is stated twice by the view, and both must agree.
+  assert.equal(offeredTargets(playerView(listing('REGISTER_SHOT', ['seat-3'])), 'shot'), null);
+  assert.deepEqual(offeredTargets(playerView(armed), 'shot'), ['seat-5', 'seat-3']);
+});
+
+test('an action other than a move or a shot is listed only while the server opens it, and then with the server’s own targets', () => {
+  // Nothing opened: the card lists a move and a shot, and no role's action by name.
+  assert.deepEqual(card(playerView()).body.offers.map(offer => offer.kind), ['move', 'shot']);
+  // Commands this screen does not offer, and keys it does not know, list nothing either.
+  const unknown = card(playerView(view => { view.legalTargets = { VOTE: ['seat-2'], SCAN: ['seat-2'], SUPPLY: ['seat-2', 'seat-3'], RELEASE_CHOICE: ['seat-2'], SOMETHING_NEW: ['seat-4'] }; }));
+  assert.deepEqual(unknown.body.offers.map(offer => offer.kind), ['move', 'shot']);
+
+  for (const [kind, expected] of Object.entries(TARGET_ACTIONS)) {
+    const open = card(playerView(listing(expected.command, ['seat-5', 'seat-3'])));
+    assert.deepEqual(open.body.offers.map(offer => offer.kind), ['move', 'shot', kind]);
+    assert.deepEqual(open.body.offers[2], { kind, label: expected.label, statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: expected.open } }, kind);
+    // Open with nobody to choose: listed, said as it is, and no control.
+    assert.deepEqual(card(playerView(listing(expected.command, []))).body.offers[2], { kind, label: expected.label, statusLabel: 'No one you can target right now', open: null }, kind);
+    // On a view this device cannot vouch for, or without a running trusted clock: no control, and not called available.
+    for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
+      assert.deepEqual(card(playerView(listing(expected.command, ['seat-3'])), IDLE, overrides).body.offers[2], { kind, label: expected.label, statusLabel: 'Paused', open: null }, kind);
+    }
+    // Closed, none of it is in the model or the document.
+    const built = model(playerView(listing(expected.command, ['seat-3'])), IDLE, closed);
+    assert.equal(built.match.privateArea.content, null);
+    assert.equal(toHtml(renderConnectedPlayerShell(built)).includes(expected.label === 'Hack' ? 'ms-action-open-hack' : expected.label), false, kind);
+  }
+  // Several at once, in the phone's own fixed order whatever order the view lists them in.
+  const several = card(playerView(view => { view.legalTargets = { REQUEST_HACK: ['seat-3'], RESCUE: ['seat-1'], PROTECT: ['seat-3'] }; }));
+  assert.deepEqual(several.body.offers.map(offer => offer.kind), ['move', 'shot', 'protect', 'rescue', 'hack']);
+});
+
+test('each of them asks, confirms and reports in its own words, names the player’s own seat as theirs, and never names an outcome', () => {
+  for (const [kind, expected] of Object.entries(TARGET_ACTIONS)) {
+    const view = playerView(listing(expected.command, ['seat-5', 'seat-1', 'seat-3']));
+    const choosing = card(view, { step: 'choosing', kind });
+    assert.deepEqual([choosing.title, choosing.status, choosing.body.prompt], [expected.label, 'choosing', expected.prompt], kind);
+    // Sorted by seat, each named by its public number; the player's own seat is named as theirs.
+    assert.deepEqual(choosing.body.choices.map(choice => [choice.value, choice.label, choice.number]), [['seat-1', 'Player 1 (you)', 1], ['seat-3', 'Player 3', 3], ['seat-5', 'Player 5', 5]], kind);
+    assert.deepEqual(choosing.body.choices.map(choice => choice.detail), ['Healthy', 'Healthy', 'Healthy'], 'Described by public status only');
+
+    const other = { kind, targetSeatId: 'seat-3' };
+    const confirming = card(view, { step: 'confirming', choice: other, armed: true });
+    assert.deepEqual([confirming.body.prompt, confirming.body.confirm.label, confirming.body.confirm.intent], [expected.confirm, expected.button, 'action/confirm'], kind);
+    assert.match(confirming.body.consequence, /^You cannot change or withdraw it here once /);
+    assert.match(card(view, { step: 'submitting', choice: other }).body.text, /^Sending your .* to the server…$/);
+    const accepted = card(view, { step: 'accepted', choice: other, armed: true });
+    assert.deepEqual([accepted.status, accepted.body.text, accepted.body.detail], ['accepted', expected.accepted, expected.detail], kind);
+    assert.equal(describeAction({ step: 'accepted', choice: other, armed: true }, 'seat-1'), expected.accepted, 'The spoken line is the card’s line');
+
+    // The player's own seat as the target.
+    const own = { kind, targetSeatId: 'seat-1' };
+    assert.equal(card(view, { step: 'confirming', choice: own, armed: true }).body.prompt, expected.confirm.replace('Player 3', 'yourself'), kind);
+    assert.equal(card(view, { step: 'accepted', choice: own, armed: true }).body.text, expected.accepted.replace('Player 3', 'yourself'), kind);
+
+    // No step names an outcome of the game.
+    for (const action of [
+      { step: 'choosing', kind }, { step: 'confirming', choice: other, armed: true }, { step: 'submitting', choice: other }, { step: 'accepted', choice: other, armed: true },
+      { step: 'rejected', choice: other, code: 'NOT_ALLOWED', armed: true }, { step: 'unknown', choice: other, recovered: false, phaseOver: false, armed: true },
+    ]) {
+      // Judged on the words a player reads or hears, not on the names of the model's fields.
+      const words = `${textOf(find(markup(view, action), byRegion('action')))} ${describeAction(action, 'seat-1') ?? ''}`;
+      assert.doesNotMatch(words, /\b(hit|miss|injur|damag|blocked|protected|rescued|disabled|healed|killed|eliminat|succe|fail)/i, `${kind} ${action.step}`);
+      assert.deepEqual(auditMarkup(markup(view, action)), [], `${kind} ${action.step}: structure`);
+    }
+  }
+});
+
+test('while the server says this seat is in a Hack, the open panel says who with, and nothing else does', () => {
+  const inHack = playerView(view => { view.hackPartnerSeatId = 'seat-4'; view.phase = { ...view.phase, kind: 'HACK' }; });
+  const open = model(inHack);
+  assert.equal(open.match.privateArea.content.hack, 'Hack: you and Player 4.');
+  assert.equal(textOf(find(renderConnectedPlayerShell(open), byId('ms-hack-with'))), 'Hack: you and Player 4.');
+  assert.equal(model(playerView()).match.privateArea.content.hack, null);
+  assert.equal(findAll(renderConnectedPlayerShell(model(playerView())), byId('ms-hack-with')).length, 0);
+  // Closed, or on the table, nobody is told who is in it.
+  const shut = model(inHack, IDLE, closed);
+  assert.equal(shut.match.privateArea.content, null);
+  assert.doesNotMatch(toHtml(renderConnectedPlayerShell(shut)), /Player 4\.|ms-hack-with/);
+  const table = toHtml(renderTableShell(buildTableShellModel({ ...environment, view: publicView(view => { view.phase = { ...view.phase, kind: 'HACK' }; }) })));
+  assert.doesNotMatch(table, /you and Player|ms-hack-with/);
+});
+
+test('a control can ask to open any of these actions and nothing that is not one', () => {
+  for (const kind of ACTION_KINDS) assert.deepEqual(parseShellIntent('action/open', { kind }), { type: 'action/open', kind });
+  for (const kind of ['vote', 'scan', 'supply', 'REGISTER_SHOT', '', undefined]) assert.equal(parseShellIntent('action/open', { kind }), null, String(kind));
 });

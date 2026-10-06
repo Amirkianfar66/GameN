@@ -906,3 +906,85 @@ test('a wait the server named also holds the first send of the next command, whi
   assert.equal(moved.s.sent.length, 1);
   assert.equal(moved.s.host.kept, null);
 });
+
+// ---- The other actions that name one seat ----
+
+const TARGET_COMMANDS = { disable: 'DISABLE', protect: 'PROTECT', rescue: 'RESCUE', hack: 'REQUEST_HACK', 'showdown-shot': 'SHOWDOWN_SHOT' };
+/** Seat 1's view with one of them opened by the server for the seats given. Synthetic: no rule produced it. */
+const opening = (command, seats, change = () => {}) => playerView('seat-1', view => {
+  view.legalTargets = { ...view.legalTargets, [command]: seats };
+  change(view);
+});
+
+test('each action that names a seat is offered from the view’s own list under its own command, and from nowhere else', () => {
+  for (const [kind, command] of Object.entries(TARGET_COMMANDS)) {
+    assert.deepEqual(offeredChoices(playerView(), kind), [], `${kind}: the view does not open it`);
+    assert.deepEqual(offeredChoices(opening(command, ['seat-4', 'seat-1']), kind), [{ kind, targetSeatId: 'seat-4' }, { kind, targetSeatId: 'seat-1' }], kind);
+    assert.deepEqual(offeredChoices(opening(command, []), kind), [], `${kind}: open with nobody to choose`);
+    // Seats listed for any other command are not this action's.
+    for (const other of ['REGISTER_SHOT', 'VOTE', 'SCAN', ...Object.values(TARGET_COMMANDS)].filter(name => name !== command)) {
+      assert.deepEqual(offeredChoices(opening(other, ['seat-4'], view => { view.self.shotAvailable = true; }), kind), [], `${kind} is not opened by ${other}`);
+    }
+  }
+});
+
+test('each of them is the same flow: one confirmation, one schema-valid command of its own type for the seat chosen', async () => {
+  for (const [kind, command] of Object.entries(TARGET_COMMANDS)) {
+    const s = setup();
+    const view = opening(command, ['seat-4', 'seat-1']);
+    s.observe(view);
+    assert.equal(s.flow.open(kind), true, kind);
+    assert.deepEqual(s.state(), { step: 'choosing', kind });
+    // Not on the list, another kind of choice, another action's choice for a seat that is on this list.
+    assert.equal(s.flow.choose({ kind, targetSeatId: 'seat-5' }), false);
+    assert.equal(s.flow.choose({ kind: 'move', destination: 'Room B' }), false);
+    assert.equal(s.flow.choose({ kind: kind === 'disable' ? 'protect' : 'disable', targetSeatId: 'seat-4' }), false, 'A choice is for the action that was opened');
+    const choice = { kind, targetSeatId: 'seat-4' };
+    assert.equal(s.flow.choose(choice), true);
+    await s.host.advance(GUARD);
+    s.script.command.push(request => s.receipt(request));
+    assert.equal(s.flow.confirm(), true);
+    assert.equal(s.flow.confirm(), false, 'A second activation finds nothing to do');
+    await flush();
+    assert.equal(s.sent.length, 1, kind);
+    assert.deepEqual(s.sent[0].command, { type: command, targetSeatId: 'seat-4' });
+    assert.equal(FullCommandRequestSchema.safeParse(s.sent[0]).success, true);
+    assert.deepEqual([s.sent[0].matchId, s.sent[0].phaseId], [MATCH, view.phase.id]);
+    assert.deepEqual(s.state(), { step: 'accepted', choice, armed: false });
+    // Only the identifiers were ever kept, and they are gone again.
+    assert.equal(s.host.everKept.every(record => Object.keys(JSON.parse(record)).sort().join() === 'commandId,matchId,phaseId,seatId'), true);
+    assert.equal(s.host.everKept.some(record => record.includes('seat-4') || record.includes(command)), false, 'Neither the target nor the kind of command is kept');
+    assert.equal(s.host.kept, null);
+
+    // The player's own seat, where the server lists it.
+    const own = setup();
+    own.observe(view);
+    own.flow.open(kind);
+    assert.equal(own.flow.choose({ kind, targetSeatId: 'seat-1' }), true);
+    await own.host.advance(GUARD);
+    own.script.command.push(request => own.receipt(request));
+    own.flow.confirm();
+    await flush();
+    assert.deepEqual(own.sent[0].command, { type: command, targetSeatId: 'seat-1' });
+  }
+});
+
+test('an action the server withdraws is withdrawn here too: the list shrinks, the action closes, and nothing is sent for what is gone', async () => {
+  for (const [kind, command] of Object.entries(TARGET_COMMANDS)) {
+    // The chosen seat leaves the list: asked to choose again.
+    const s = setup();
+    const view = opening(command, ['seat-4', 'seat-5']);
+    s.observe(view);
+    s.flow.open(kind);
+    s.flow.choose({ kind, targetSeatId: 'seat-4' });
+    await s.host.advance(GUARD);
+    s.observe(opening(command, ['seat-5'], next => { next.viewRevision = view.viewRevision + 1; }));
+    assert.deepEqual(s.state(), { step: 'choosing', kind }, kind);
+    assert.equal(s.flow.confirm(), false);
+    // The server no longer opens the action at all: nothing is left to choose.
+    s.observe(playerView('seat-1', next => { next.viewRevision = view.viewRevision + 2; }));
+    assert.deepEqual(s.state(), { step: 'idle' }, kind);
+    assert.equal(s.flow.open(kind), false);
+    assert.deepEqual(s.sent, []);
+  }
+});

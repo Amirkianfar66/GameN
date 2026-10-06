@@ -87,6 +87,7 @@ function renderPrivateArea(area: ConnectedPrivateAreaModel): MarkupElement {
       area.content ? [
         h('h3', { class: 'ms-private__subheading', id: 'ms-role-heading' }, area.content.role.label),
         h('p', { class: 'ms-role-card' }, area.content.role.name),
+        area.content.hack ? h('p', { class: 'ms-notice', id: 'ms-hack-with' }, area.content.hack) : null,
         h('div', { class: 'ms-actions', 'data-region': 'actions' },
           h('h3', { class: 'ms-private__subheading', id: 'ms-actions-heading' }, area.content.actions.heading),
           area.content.actions.notice ? h('p', { class: 'ms-notice' }, area.content.actions.notice) : null,

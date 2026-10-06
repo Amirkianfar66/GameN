@@ -127,6 +127,39 @@ test('a move by intents alone: the server’s destination, one command, the rece
   assert.equal(s.frame().model.match.location.name, 'Room B');
 });
 
+test('a role action by intents alone: listed only when the view opens it, the server’s targets, one command, and words that name no outcome', async () => {
+  const s = setup();
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  s.screen.dispatch(TOGGLE);
+  assert.deepEqual(s.card().body.offers.map(offer => offer.kind), ['move', 'shot'], 'Nothing of any role’s action while the view opens none');
+  s.screen.dispatch({ type: 'action/open', kind: 'protect' });
+  assert.equal(s.card().status, 'idle', 'An action the view does not open cannot be opened');
+
+  // The server opens Protection for this seat, with its own seat among the targets.
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; view.legalTargets = { PROTECT: ['seat-3', 'seat-1'] }; }));
+  assert.deepEqual(s.card().body.offers.map(offer => [offer.kind, offer.statusLabel]), [['move', 'Available'], ['shot', 'Not available'], ['protect', 'Available']]);
+  s.screen.dispatch({ type: 'action/open', kind: 'protect' });
+  assert.deepEqual(s.card().body.choices.map(choice => choice.label), ['Player 1 (you)', 'Player 3']);
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-9' });
+  assert.equal(s.card().status, 'choosing', 'A seat the server does not list is not a choice');
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-1' });
+  assert.deepEqual([s.card().status, s.card().body.prompt], ['confirming', 'Register Protection for yourself?']);
+  await s.host.advance(GUARD);
+  s.fake.respond.v1Command = async request => s.receipt(request);
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  const [sent] = s.fake.callsTo('v1Command');
+  assert.equal(FullCommandRequestSchema.safeParse(sent).success, true);
+  assert.deepEqual(sent.command, { type: 'PROTECT', targetSeatId: 'seat-1' });
+  assert.deepEqual([s.card().status, s.card().body.text, s.card().body.detail], ['accepted', 'Protection for yourself registered.', 'This is not a result. Registered actions are resolved at the end of the round.']);
+  assert.equal(s.frame().privateAnnouncement.text, 'Protection for yourself registered.');
+  assert.equal(s.frame().announcement.text.includes('Protection'), false, 'Nothing of it is said on the public channel');
+  // Closed, nothing of it is in the frame or the document.
+  s.screen.dispatch(TOGGLE);
+  assert.doesNotMatch(`${JSON.stringify(s.frame())} ${s.html()}`, /Protection|PROTECT|ms-action-open-protect/);
+});
+
 test('with the panel closed nothing of the command is in the frame or the document, and action intents are ignored', async () => {
   const s = setup();
   s.screen.start();

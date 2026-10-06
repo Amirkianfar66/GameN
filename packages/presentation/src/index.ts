@@ -15,6 +15,7 @@ export interface MotionPreferences {
 
 export { en } from './copy/en.js';
 export { createConnectedPlayerAnnouncer, createPlayerAnnouncer, createTableAnnouncer } from './model/announcements.js';
+export { ACTION_KINDS, isActionKind, offeredTargets, TARGET_ACTION_COMMANDS } from './model/actions.js';
 export { actionStepFocusId, buildConnectedPlayerShellModel, describeAction } from './model/connected-player.js';
 export type { Announcer } from './model/announcements.js';
 export { displaySeconds, FINAL_SECONDS, formatClock, isCurrent, isSeatId, resolveScreen, seatNumber } from './model/common.js';

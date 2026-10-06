@@ -1,5 +1,6 @@
 import { FullCommandRequestSchema, IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { FullCommandRequest, FullPlayerView, FullReceipt, SeatId } from '@mothership/contracts';
+import { offeredTargets, TARGET_ACTION_COMMANDS } from '@mothership/presentation';
 import type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import type { ConnectedApi, ConnectedCommandResult } from './api.js';
@@ -7,7 +8,9 @@ import type { ConnectedApi, ConnectedCommandResult } from './api.js';
 export type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason };
 
 // One player's own command under wire protocol 2, from picking an action up to knowing what
-// the server did with it. One command at a time for the seat, whatever its kind: while an
+// the server did with it: a move, or any action that names one seat (an ordinary shot, a
+// Disable, a grant of Protection, a Rescue, a Hack request, a showdown shot). The flow is
+// the same for all of them. One command at a time for the seat, whatever its kind: while an
 // earlier one is unaccounted for, no new intent is offered, and the flow has no way to put
 // an unaccounted-for command aside.
 //
@@ -131,12 +134,15 @@ type Outcome = { readonly receipt: FullReceipt } | { readonly reason: NotAccepte
 /** What the server's own view offers this seat right now, for one kind of action. */
 export function offeredChoices(view: FullPlayerView, kind: ActionKind): ActionChoice[] {
   if (kind === 'move') return view.self.movementDestinations.map(destination => ({ kind, destination }));
-  // An open shot category with no legal target offers nothing to choose.
-  return view.self.shotAvailable ? (view.legalTargets['REGISTER_SHOT'] ?? []).map(targetSeatId => ({ kind, targetSeatId })) : [];
+  // The seats the view lists for this action, and nothing else. An action the view does not
+  // open, or opens with nobody to choose, offers nothing.
+  return (offeredTargets(view, kind) ?? []).map(targetSeatId => ({ kind, targetSeatId }));
 }
 
-const sameChoice = (a: ActionChoice, b: ActionChoice): boolean =>
-  (a.kind === 'move' && b.kind === 'move' && a.destination === b.destination) || (a.kind === 'shot' && b.kind === 'shot' && a.targetSeatId === b.targetSeatId);
+function sameChoice(a: ActionChoice, b: ActionChoice): boolean {
+  if (a.kind === 'move' || b.kind === 'move') return a.kind === 'move' && b.kind === 'move' && a.destination === b.destination;
+  return a.kind === b.kind && a.targetSeatId === b.targetSeatId;
+}
 
 export function createActionFlow(options: ActionFlowOptions): ActionFlow {
   const { api, ports } = options;
@@ -446,11 +452,14 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
     // a new choice with the receipt of an old one.
     if (typeof commandId !== 'string' || usedIds.has(commandId)) return null;
     usedIds.add(commandId);
-    const request: FullCommandRequest = {
-      protocolVersion: 2, matchId: options.matchId, phaseId, commandId,
-      command: choice.kind === 'move' ? { type: 'MOVE', destination: choice.destination } : { type: 'REGISTER_SHOT', targetSeatId: choice.targetSeatId },
-    };
-    return FullCommandRequestSchema.safeParse(request).success ? request : null;
+    // The compiler cannot see that each of these command names takes exactly one seat, so the
+    // shared strict schema is what vouches for the request: one that does not satisfy it is
+    // never sent.
+    const command = choice.kind === 'move'
+      ? { type: 'MOVE', destination: choice.destination }
+      : { type: TARGET_ACTION_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
+    const request = FullCommandRequestSchema.safeParse({ protocolVersion: 2, matchId: options.matchId, phaseId, commandId, command });
+    return request.success ? request.data : null;
   }
 
   // A command whose outcome was unknown when the page was last unloaded.
