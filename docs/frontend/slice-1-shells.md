@@ -30,7 +30,7 @@ transport  ──unvalidated payload──▶  snapshot store  ──view──�
 
 **The table display cannot act for a player.** Its transport type has no command or receipt method, its screen has no role or action region, and the only control it renders is the reduce-motion setting.
 
-**Presentation never adjudicates.** Nothing in either package computes eligibility, damage or an outcome. The Shot card shows the server's `shotAvailable` and nothing else. There is no target list, no command and no receipt handling in this slice; those arrive with the next one.
+**Presentation never adjudicates.** Nothing in either package computes eligibility, damage or an outcome. Inside the private panel the Shot card shows the server's `shotAvailable` and nothing else. There is no target list, no command and no receipt handling in this slice; those arrive with the next one.
 
 **The client never advances a phase.** Reaching zero on the countdown changes the display to "Waiting for phase update" and pauses the actions region. The same phase stays on screen until an authoritative view replaces it. This slice calls no endpoint except server time.
 
@@ -64,10 +64,11 @@ The estimate is capped at the phase's own length, redrawn once per displayed sec
 
 ## Privacy
 
-- The role drawer is closed by default. While it is closed the role is absent from the model and the document, not hidden by style.
-- When the page is backgrounded, the drawer closes and the actions region is withdrawn. Returning restores ordinary controls and leaves the drawer closed. This is best-effort screen privacy, not screenshot protection.
-- The drawer also closes whenever the match leaves the screen, so it never reappears by itself after a recovery screen.
-- Every phone renders the same action card whatever role it holds. Only the server-supplied status differs. Identifiers, classes and data attributes never contain a role name.
+- A phone has one private panel, holding the role and the action status, and it is closed by default. While it is closed neither is in the model or the document; they are not hidden by style.
+- Action status is treated as private as the role. Before Round 4 only one role can have a shot, so a visible "Available" would identify that role to anyone who glimpses the phone. A closed phone is the same document whatever role it holds and whatever it can do.
+- When the page is backgrounded the panel closes, and returning does not reopen it. This is best-effort screen privacy, not screenshot protection.
+- The panel also closes whenever the match leaves the screen, so it never reappears by itself after a recovery screen.
+- Every phone renders the same set of action cards. Only the server-supplied status differs. Identifiers, classes and data attributes never contain a role name.
 - Nothing is persisted. This slice writes to no storage, cache or analytics.
 - No audience payload, role or target is logged by the client or by the development server.
 
@@ -75,12 +76,12 @@ The estimate is capped at the phase's own length, redrawn once per displayed sec
 
 Built in and tested structurally; assistive-technology testing with real screen readers has **not** been run.
 
-- A complete keyboard and tap path. Focus order is skip link, role toggle, reduce-motion, match details. Nothing in this slice needs a drag or a pointer.
+- A complete keyboard and tap path. Focus order is skip link, private-panel toggle, reduce-motion, match details. Nothing in this slice needs a drag or a pointer.
 - One `main` landmark, one `h1`, heading levels that do not skip, named regions, a real table with caption and header cells for the roster, and a DOM list equivalent of the board.
 - Status is never carried by color alone. Health, Jail, Captain and turn are separate text markers with distinct border treatments. Amber marks focus of attention and nothing else.
-- The countdown is a `timer` that is not a live region. Meaningful changes are spoken through a live log: connection, phase, expiry, public seat changes, and one last-seconds notice to the player whose turn it is. Many simultaneous changes are summarized. After a reconnect the present is stated; the past is not replayed.
+- The countdown is a `timer` that is not a live region. Meaningful changes are spoken through a live log: connection, phase, expiry, public seat changes, and one last-seconds notice to the player whose turn it is. Expiry and the last-seconds notice are each given once per phase, however often the clock is re-measured. Many simultaneous changes are summarized. After a reconnect the present is stated; the past is not replayed.
 - When a recovery screen replaces the match, focus moves to its heading. Elsewhere a redraw puts focus back on the element with the same id.
-- Reduced motion follows the device setting until the player chooses, and both paths reduce transitions to the 80 ms token with no travel or scale.
+- Reduced motion follows the device setting until the player chooses, and both paths reduce transitions to the 80 ms token with no travel or scale. After that the player's own choice wins in either direction.
 - Touch targets meet the 44 px token. Type sizes follow the reader's font setting. Display lettering is capped to the viewport so one word still fits a narrow screen; body text is never capped.
 - Safe-area insets, forced-colors mode, and a two-tone focus ring that stays visible on dark panels and on paper.
 
@@ -94,7 +95,7 @@ Every screen fed by a fixture or emulator transport says so in a banner that can
 
 The scripted scenario replays the authored contract fixture for its first two steps. Its last two steps are frontend-authored variations so the shells can be seen in another turn and in round resolution; they show no outcome and are not a claim about how the server sequences a match. **None of this is emulator integration.** Authentication, Security Rules, transactions, receipts and scheduled deadlines are not exercised and are reported as *not run*.
 
-`npm run check:exclusion --workspace @mothership/game` proves the harness and the contract fixture cannot reach the client's production entry points. It was added and committed before the harness.
+`npm run check:exclusion --workspace @mothership/game` checks that the harness and the contract fixture cannot reach the client's production entry points: each package has exactly one way in, the module graph from the entries reaches nothing fixture or development, no shipped file contains a fixture-only identifier, and every development file carries its label in code so that it survives bundling. It was added and committed before the harness. It follows static references only; scanning a real bundle with `--bundle` is the backstop once a bundler exists.
 
 ## Choices made inside Frontend's ownership
 
@@ -102,8 +103,9 @@ These are interface decisions, not rules. Each can be changed in review.
 
 | Choice | Reason | Who should look |
 | --- | --- | --- |
+| Role **and** action status sit in one private panel, closed by default; the art direction's layout shows the action hand outside the role drawer | Before Round 4 only one role can have a shot, so a visible status identifies it. The cost is one tap at the start of a turn | Designer, Game Balance, game owner |
 | Every phone shows the same Shot card, with only its status differing | A phone's layout must not reveal the role dealt to it | Designer, Game Balance |
-| Announce "N seconds left" once, at ten seconds, only to the player whose turn it is | A screen-reader user gets the warning a sighted player reads off the clock | Game Balance (equal access to time) |
+| Announce "N seconds left" once per phase, at ten seconds or on first sight below that, only to the player whose turn it is | A screen-reader user gets the warning a sighted player reads off the clock | Game Balance (equal access to time) |
 | The table roster has one Status column naming turn, Jail and Captain | Fits beside the board from 960 px without breaking words; each stays a separately named fact | Designer |
 | Display lettering is capped to the viewport width | At 200% text on a 320 px phone a single display-size word overflowed | Designer |
 | A failed integrity check is permanent for the session | A feed that delivered another seat's data is not trusted again without a reload | Codex Integration |

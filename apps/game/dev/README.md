@@ -2,7 +2,7 @@
 
 <!-- mothership:dev-only -->
 
-Everything in this directory is a development tool. None of it is part of the game client, none of it is imported from `apps/game/src`, and none of it may be deployed. `npm run check:exclusion --workspace @mothership/game` enforces that; every file here carries the `mothership:dev-only` sentinel the check looks for.
+Everything in this directory is a development tool. None of it is part of the game client, none of it is imported from `apps/game/src`, and none of it may be deployed. `npm run check:exclusion --workspace @mothership/game` enforces that. Every file here carries the `mothership:dev-only` sentinel the check looks for, as a statement in modules, a `meta` element in pages and a declaration in CSS, so the label survives bundling and minification. A new file here needs it too.
 
 ## What it is
 
@@ -39,4 +39,4 @@ Each open screen holds one feed connection, and a browser allows six connections
 - **Commands are not scripted yet.** The command endpoints answer `UNAVAILABLE`. The shot flow arrives with the next slice.
 - **This is not emulator integration.** No Firebase emulator, authentication, Security Rules or Cloud Tasks behavior is exercised. Those checks are *not run* until Backend #2 provides an emulator.
 
-The browser is never served `packages/contracts/dist/fixtures.js`, so server-only fixture truth does not reach a page even in development.
+The browser is never served `packages/contracts/dist/fixtures.js`, under any spelling or letter case, so server-only fixture truth does not reach a page even in development. The operator can misdeliver one seat's view to the other seat to test the client's defence; that is refused for the public feed, which never carries anything private.

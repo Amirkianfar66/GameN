@@ -228,49 +228,72 @@ async function main(outputDirectory) {
     await playerTwo.foreground();
     await record('03-player-2-waiting', playerTwo);
 
-    // 2. Keyboard only: walk the focus order, then open and close the role drawer.
+    // 2. Keyboard only: walk the focus order, then open and close the private panel.
     await playerOne.foreground();
     const order = [];
     for (let step = 0; step < 4; step += 1) {
       await playerOne.press('Tab');
       order.push(await playerOne.evaluate('document.activeElement.id || document.activeElement.className'));
     }
-    await playerOne.tabTo('ms-role-toggle');
+    await playerOne.tabTo('ms-private-toggle');
     await playerOne.press(' ');
-    await playerOne.waitFor("document.getElementById('ms-role-panel').textContent !== ''", 'role drawer opened by keyboard');
+    await playerOne.waitFor("document.getElementById('ms-private-panel').textContent !== ''", 'private panel opened by keyboard');
     await sleep(300);
-    await playerOne.screenshot(join(out, '03-player-1-role-drawer-open.png'), { selector: '[data-region="role"]' });
-    await record('03-player-1-role-drawer-open', playerOne, { focusOrder: order, focusVisible: await playerOne.evaluate("document.activeElement.matches(':focus-visible')") });
+    await playerOne.screenshot(join(out, '03-player-1-private-panel-open.png'), { selector: '[data-region="private"]' });
+    await record('03-player-1-private-panel-open', playerOne, { focusOrder: order, focusVisible: await playerOne.evaluate("document.activeElement.matches(':focus-visible')") });
+    // Another tab comes to the front while the panel is open: this page is now really hidden.
+    await table.foreground();
+    await playerOne.waitFor("document.visibilityState === 'hidden' && document.getElementById('ms-private-panel').textContent === ''", 'private content withdrawn when the tab is backgrounded');
+    await record('03b-player-1-backgrounded-while-panel-was-open', playerOne);
+    await playerOne.foreground();
+    await record('03c-player-1-back-in-foreground', playerOne, { privatePanelExpanded: await playerOne.evaluate("document.getElementById('ms-private-toggle').getAttribute('aria-expanded')") });
+    // Opened and closed again with the keyboard alone.
+    await playerOne.tabTo('ms-private-toggle');
     await playerOne.press('Enter');
-    await playerOne.waitFor("document.getElementById('ms-role-panel').textContent === ''", 'role drawer closed by keyboard');
+    await playerOne.waitFor("document.getElementById('ms-private-panel').textContent !== ''", 'private panel reopened by keyboard');
+    await playerOne.press('Enter');
+    await playerOne.waitFor("document.getElementById('ms-private-panel').textContent === ''", 'private panel closed by keyboard');
+    await record('03d-player-1-private-panel-closed-again', playerOne);
 
-    // 3. A hidden registration: only the registering phone may change.
-    const before = { table: await table.evaluate(WITHOUT_TIMER), target: await playerTwo.evaluate(WITHOUT_TIMER) };
+    // 3. A hidden registration: only the registering phone may change, and only what is private.
+    const REGIONS = "Object.fromEntries([...document.querySelectorAll('[data-region]')].filter(node => node.dataset.region !== 'timer').map(node => [node.dataset.region, node.outerHTML]))";
+    const changedRegions = async (page, earlier) => page.evaluate(`(() => { const now = ${REGIONS}; const before = ${JSON.stringify(earlier)}; return Object.keys(now).filter(id => now[id] !== before[id]); })()`);
+    const before = { table: await table.evaluate(WITHOUT_TIMER), target: await playerTwo.evaluate(WITHOUT_TIMER), closedPhone: await playerOne.evaluate(REGIONS) };
     scenario.advance();
-    await playerOne.waitFor("document.querySelector('.ms-card').dataset.status === 'unavailable'", 'registration reflected on the registering phone');
+    await sleep(400);
+    const closedPhoneChanged = await changedRegions(playerOne, before.closedPhone);
+    await playerOne.evaluate("document.getElementById('ms-private-toggle').click()");
+    await playerOne.waitFor("document.querySelector('.ms-card')?.dataset.status === 'unavailable'", 'registration reflected inside the open private panel');
     await sleep(300);
-    await playerOne.screenshot(join(out, '04-player-1-after-registration.png'), { selector: '[data-region="actions"]' });
+    await playerOne.screenshot(join(out, '04-player-1-after-registration.png'), { selector: '[data-region="private"]' });
     await record('04-player-1-after-registration', playerOne);
     facts.hiddenRegistration = {
       step: scenario.step(),
       tableDocumentUnchanged: (await table.evaluate(WITHOUT_TIMER)) === before.table,
       targetPhoneDocumentUnchanged: (await playerTwo.evaluate(WITHOUT_TIMER)) === before.target,
+      registeringPhoneRegionsChangedWhileItsPanelWasClosed: closedPhoneChanged,
       revisions: scenario.status().revisions,
     };
+    await playerOne.evaluate("document.getElementById('ms-private-toggle').click()");
+    await playerOne.waitFor("document.getElementById('ms-private-panel').textContent === ''", 'private panel closed');
 
-    // 4. Reduced motion, from the device setting and then from the in-app control.
-    const transition = "getComputedStyle(document.getElementById('ms-role-toggle')).transitionDuration + ' / ' + getComputedStyle(document.getElementById('ms-role-toggle')).transitionProperty";
+    // 4. Reduced motion: from the device setting, then the player's own choice overriding it.
+    const transition = "getComputedStyle(document.getElementById('ms-private-toggle')).transitionDuration + ' / ' + getComputedStyle(document.getElementById('ms-private-toggle')).transitionProperty";
     const motion = { default: await playerOne.evaluate(transition) };
     await playerOne.media({ 'prefers-reduced-motion': 'reduce' });
     await playerOne.waitFor("document.querySelector('.ms-shell').dataset.motion === 'reduced'", 'device reduced-motion setting picked up');
     motion.deviceSetting = await playerOne.evaluate(transition);
     motion.deviceSettingHint = await playerOne.evaluate("document.getElementById('ms-reduce-motion-hint').textContent");
-    await playerOne.evaluate("document.getElementById('ms-role-toggle').click()");
-    await playerOne.waitFor("document.getElementById('ms-role-panel').textContent !== ''", 'drawer open under reduced motion');
-    motion.drawerAnimationUnderReducedMotion = await playerOne.evaluate("getComputedStyle(document.getElementById('ms-role-panel')).animationName + ' ' + getComputedStyle(document.getElementById('ms-role-panel')).animationDuration");
-    await playerOne.evaluate("document.getElementById('ms-role-toggle').click()");
+    await playerOne.evaluate("document.getElementById('ms-private-toggle').click()");
+    await playerOne.waitFor("document.getElementById('ms-private-panel').textContent !== ''", 'panel open under reduced motion');
+    motion.panelAnimationUnderReducedMotion = await playerOne.evaluate("getComputedStyle(document.getElementById('ms-private-panel')).animationName + ' ' + getComputedStyle(document.getElementById('ms-private-panel')).animationDuration");
+    await playerOne.evaluate("document.getElementById('ms-private-toggle').click()");
+    // The device still asks for reduced motion; the player unchecks the setting in the app.
+    await playerOne.evaluate("document.getElementById('ms-reduce-motion').click()");
+    await playerOne.waitFor("document.querySelector('.ms-shell').dataset.motion === 'full'", 'in-app choice of full motion');
+    motion.playerChoseFullWhileDeviceAsksReduced = await playerOne.evaluate(transition);
+    motion.playerChoiceHint = await playerOne.evaluate("document.getElementById('ms-reduce-motion-hint').textContent");
     await playerOne.media({ 'prefers-reduced-motion': 'no-preference' });
-    await playerOne.waitFor("document.querySelector('.ms-shell').dataset.motion === 'full'", 'device setting released');
     facts.reducedMotion = motion;
 
     // 5. Larger text on a narrow phone, and forced colors.
@@ -299,14 +322,17 @@ async function main(outputDirectory) {
     await playerOne.waitFor("document.querySelector('.ms-shell').dataset.connection === 'live'", 'automatic reconnect');
     await record('07b-player-1-reconnected', playerOne);
 
-    // 7. A payload in another protocol version, then a readable one.
+    // 7. A payload in another protocol version, then a readable one. The private panel is
+    // open beforehand, to show that it does not come back open by itself.
+    await playerOne.evaluate("document.getElementById('ms-private-toggle').click()");
+    await playerOne.waitFor("document.getElementById('ms-private-panel').textContent !== ''", 'private panel open before the interruption');
     scenario.inject('seat-1', 'incompatible-protocol');
     await playerOne.waitFor("document.querySelector('.ms-shell').dataset.screen === 'blocked'", 'update-required screen');
     await playerOne.screenshot(join(out, '08-player-1-update-required.png'), { viewport: true });
     await record('08-player-1-update-required', playerOne);
     scenario.redeliver('seat-1');
     await playerOne.waitFor("document.querySelector('.ms-shell').dataset.screen === 'match'", 'recovery from update-required');
-    await record('08b-player-1-recovered', playerOne, { roleDrawerExpanded: await playerOne.evaluate("document.getElementById('ms-role-toggle').getAttribute('aria-expanded')") });
+    await record('08b-player-1-recovered', playerOne, { privatePanelExpanded: await playerOne.evaluate("document.getElementById('ms-private-toggle').getAttribute('aria-expanded')") });
 
     // 8. The two frontend-authored steps.
     await table.foreground();

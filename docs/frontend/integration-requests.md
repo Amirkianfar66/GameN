@@ -20,7 +20,7 @@ Nothing here is installed. The versions and hashes below were read from the npm 
 
 **Run the Frontend checks in `verify`. Needed now.**
 
-`npm run verify` runs only `tests/bootstrap`. This PR adds 168 tests and a production-exclusion check in the two Frontend packages. They pass locally and **do not run in CI** until the root script includes them.
+`npm run verify` runs only `tests/bootstrap`. This PR adds 187 tests and a production-exclusion check in the two Frontend packages. They pass locally and **do not run in CI** until the root script includes them.
 
 Requested change to the root `package.json`:
 
@@ -32,7 +32,7 @@ Requested change to the root `package.json`:
 +    "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm run test:bootstrap && npm run test:frontend"
 ```
 
-The `test:frontend` command line was run exactly as written after a clean `npm ci` and passed: 54 and 114 tests, then the exclusion check. With the workspace already built it took under two seconds on the development machine. It needs no network, browser or credentials. The tests use `node:test` against built output, like the bootstrap tests.
+The `test:frontend` command line was run exactly as written after a clean `npm ci` and passed: 59 and 128 tests, then the exclusion check. With the workspace already built it took under two seconds on the development machine. It needs no network, browser or credentials. The tests use `node:test` against built output, like the bootstrap tests.
 
 `tests/bootstrap/build.test.mjs` still passes unchanged: both packages keep a single `.` export.
 

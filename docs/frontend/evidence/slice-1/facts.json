@@ -42,7 +42,7 @@
       "banners": [
         "Fixture data. A synthetic development scenario, not a live match."
       ],
-      "shot": "Available",
+      "shot": null,
       "roleInDocument": [],
       "spoken": [
         "Connected. Round 2. Your turn."
@@ -55,8 +55,8 @@
           "height": 52
         },
         {
-          "control": "ms-role-toggle",
-          "width": 142,
+          "control": "ms-private-toggle",
+          "width": 235,
           "height": 44
         },
         {
@@ -115,14 +115,14 @@
       "banners": [
         "Fixture data. A synthetic development scenario, not a live match."
       ],
-      "shot": "Not available",
+      "shot": null,
       "roleInDocument": [],
       "spoken": [
         "Connected. Round 2. Player 1’s turn."
       ],
       "focus": "BODY"
     },
-    "03-player-1-role-drawer-open": {
+    "03-player-1-private-panel-open": {
       "title": "Mothership — Player 1",
       "visibilityState": "visible",
       "screen": "match",
@@ -146,14 +146,87 @@
       "spoken": [
         "Connected. Round 2. Your turn."
       ],
-      "focus": "ms-role-toggle",
+      "focus": "ms-private-toggle",
       "focusOrder": [
         "ms-skip",
-        "ms-role-toggle",
+        "ms-private-toggle",
         "ms-reduce-motion",
         "ms-details-summary"
       ],
       "focusVisible": true
+    },
+    "03b-player-1-backgrounded-while-panel-was-open": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "hidden",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "ms-private-toggle"
+    },
+    "03c-player-1-back-in-foreground": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "ms-private-toggle",
+      "privatePanelExpanded": "false"
+    },
+    "03d-player-1-private-panel-closed-again": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "ms-private-toggle"
     },
     "04-player-1-after-registration": {
       "title": "Mothership — Player 1",
@@ -173,11 +246,13 @@
         "Fixture data. A synthetic development scenario, not a live match."
       ],
       "shot": "Not available",
-      "roleInDocument": [],
+      "roleInDocument": [
+        "Officer"
+      ],
       "spoken": [
         "Connected. Round 2. Your turn."
       ],
-      "focus": "ms-role-toggle"
+      "focus": "ms-private-toggle"
     },
     "05-player-2-narrow-200-percent-text": {
       "title": "Mothership — Player 2",
@@ -196,7 +271,7 @@
       "banners": [
         "Fixture data. A synthetic development scenario, not a live match."
       ],
-      "shot": "Not available",
+      "shot": null,
       "roleInDocument": [],
       "spoken": [
         "Connected. Round 2. Player 1’s turn."
@@ -246,13 +321,13 @@
         "Fixture data. A synthetic development scenario, not a live match.",
         "Connection lost. Showing the last known state, which may be out of date. Reconnecting…"
       ],
-      "shot": "Not available",
+      "shot": null,
       "roleInDocument": [],
       "spoken": [
         "Connected. Round 2. Your turn.",
         "Connection lost. Showing the last known state."
       ],
-      "focus": "ms-role-toggle"
+      "focus": "ms-private-toggle"
     },
     "07b-player-1-reconnected": {
       "title": "Mothership — Player 1",
@@ -271,14 +346,14 @@
       "banners": [
         "Fixture data. A synthetic development scenario, not a live match."
       ],
-      "shot": "Not available",
+      "shot": null,
       "roleInDocument": [],
       "spoken": [
         "Connected. Round 2. Your turn.",
         "Connection lost. Showing the last known state.",
         "Reconnected. Round 2. Your turn."
       ],
-      "focus": "ms-role-toggle"
+      "focus": "ms-private-toggle"
     },
     "08-player-1-update-required": {
       "title": "Mothership — Player",
@@ -324,7 +399,7 @@
       "banners": [
         "Fixture data. A synthetic development scenario, not a live match."
       ],
-      "shot": "Not available",
+      "shot": null,
       "roleInDocument": [],
       "spoken": [
         "Connected. Round 2. Your turn.",
@@ -334,7 +409,7 @@
         "Update required."
       ],
       "focus": "ms-main",
-      "roleDrawerExpanded": "false"
+      "privatePanelExpanded": "false"
     },
     "09-table-next-turn": {
       "title": "Mothership — Table display",
@@ -401,6 +476,7 @@
     },
     "tableDocumentUnchanged": true,
     "targetPhoneDocumentUnchanged": true,
+    "registeringPhoneRegionsChangedWhileItsPanelWasClosed": [],
     "revisions": {
       "public": 10,
       "seat-1": 21,
@@ -411,7 +487,9 @@
     "default": "0.12s, 0.12s / transform, box-shadow",
     "deviceSetting": "0.08s / opacity, border-color",
     "deviceSettingHint": "On because this device asks for reduced motion.",
-    "drawerAnimationUnderReducedMotion": "ms-fade 0.08s"
+    "panelAnimationUnderReducedMotion": "ms-fade 0.08s",
+    "playerChoseFullWhileDeviceAsksReduced": "0.12s, 0.12s / transform, box-shadow",
+    "playerChoiceHint": "Set on this device for this session."
   },
   "browserLog": {
     "uncaughtExceptions": 0,
