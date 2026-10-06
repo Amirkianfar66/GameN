@@ -396,8 +396,11 @@ test('the one-command engine gate fails when there is no engine, and runs nothin
   assert.match(result.stdout, /this is a trial, not a result for a merge gate/);
 
   const refusals = [
-    // Without --allow-unpinned-tree a directory that is no Git checkout cannot vouch for its engine's commit.
-    [['--engine-root', none, '--engine-commit', ENGINE_COMMIT, '--out-dir', out], {}, /This checkout has uncommitted changes|is not a Git checkout, so the commit of its engine can only be stated/],
+    // Without --allow-unpinned-tree nothing runs unless every commit can be pinned. Which refusal
+    // comes first depends on where these tests run: in an exported archive there is no commit at
+    // all, in a working tree there may be uncommitted changes, and in a clean checkout it is the
+    // engine's directory, which is no Git checkout and so cannot vouch for its engine's commit.
+    [['--engine-root', none, '--engine-commit', ENGINE_COMMIT, '--out-dir', out], {}, /This directory has no Git commit to pin the reports to|This checkout has uncommitted changes|is not a Git checkout, so the commit of its engine can only be stated/],
     [['--out-dir', out], { GIT_DIR: join(work, 'no-such-repository'), GIT_CEILING_DIRECTORIES: root }, /This directory has no Git commit to pin the reports to\./],
     [['--engine-root', none, '--allow-unpinned-tree', '--out-dir', out], {}, /The commit of the engine is not known/],
     [['--allow-unpinned-tree', '--engine-root', none, '--engine-commit'], {}, /argument missing/],
