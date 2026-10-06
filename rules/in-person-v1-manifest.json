@@ -1,0 +1,9 @@
+{
+  "ruleset_version": "in-person-v1-2026-10-06",
+  "baseline_source_manifest_sha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "owner_decision": {
+    "path": "rules/overlays/in-person-v1-owner-decisions-2026-10-06.json",
+    "sha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90"
+  },
+  "ruleset_hash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90"
+}

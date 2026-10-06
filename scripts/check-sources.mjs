@@ -23,3 +23,16 @@ const expectedPaths = [...included.map(file => file.package_path), ...manifest.g
 assert.deepEqual(filesIn('reference/design-canvas').sort(), expectedPaths, 'Canvas snapshot inventory changed');
 assert.equal(hash('packages/design-tokens/src/tokens.json'), hash('docs/design/design-tokens.json'), 'Proposed token export must match its source');
 console.log(`Source integrity: ${included.length} original Canvas files + ${manifest.generated_files.length} unbound example; ${rules.sources.length} rule sources; ${lock.files.length} pinned source files; token proposal unchanged`);
+
+const v1 = json('rules/in-person-v1-manifest.json');
+assert.equal(hash(v1.owner_decision.path), v1.owner_decision.sha256, 'Owner decision hash');
+assert.equal(v1.ruleset_hash, v1.owner_decision.sha256);
+assert.equal(v1.baseline_source_manifest_sha256, hash('rules/source-manifest.json'));
+const owner = json(v1.owner_decision.path);
+assert.equal(owner.status, 'confirmed');
+assert.equal(owner.decisions.length, 21);
+assert.deepEqual(owner.decisions.map(d => d.id), Array.from({length:21}, (_,i)=>`V1-${String(i+1).padStart(2,'0')}`));
+assert.equal(owner.optional_powers, false);
+const model = read('packages/engine/src/full-game/model.ts').toString();
+assert.ok(model.includes(v1.ruleset_hash) && model.includes(v1.ruleset_version), 'Engine ruleset pins');
+console.log('Approved V1 source integrity: 21 immutable owner decisions; historical source pin preserved');

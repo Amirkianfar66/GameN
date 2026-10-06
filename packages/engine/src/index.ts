@@ -204,3 +204,8 @@ export function resolveSlice(state: EngineState, context: SliceResolutionContext
   // is emitted here. Those later stages require their own approved contracts/semantics.
   return next;
 }
+
+export * from './full-game/model.js';
+export * from './full-game/lifecycle.js';
+export { buildRoster } from './full-game/roster.js';
+export type { FullGameSetup, FullGameState, FullGameContext } from './full-game/model.js';

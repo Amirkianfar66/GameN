@@ -26,7 +26,7 @@
     "typecheck": "tsc --project tsconfig.check.json --noEmit",
     "build": "tsc --build",
     "clean": "node scripts/clean.mjs",
-    "test:contracts": "tsc --build packages/contracts && node --test tests/bootstrap/contracts.test.mjs tests/bootstrap/fixtures.test.mjs",
+    "test:contracts": "tsc --build packages/contracts && node --test tests/bootstrap/contracts.test.mjs tests/bootstrap/fixtures.test.mjs tests/bootstrap/full-game-contract.test.mjs",
     "test:bootstrap": "npm run build && node --test tests/bootstrap/*.test.mjs",
     "test": "npm run test:bootstrap && npm run test:engine && npm run test:backend",
     "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm test",
