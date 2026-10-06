@@ -27,7 +27,8 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm install --global npm@10.9.4
       - run: npm ci
-      # verify requires both Frontend suites and the production-exclusion checker; missing suites fail.
+      # verify requires Frontend suites/exclusion and reviewed Balance static + real-engine evidence.
+      # Missing suites, unavailable engines, filtered reports and incomplete controls/playouts fail.
       - run: npm run verify
       - run: npm run check:browser-dependencies
       - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
