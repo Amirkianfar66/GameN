@@ -1,0 +1,110 @@
+// Static integrity of the scenario fixtures. These checks need no engine. They do not show
+// that any engine is correct; they show that the fixtures are well formed, traceable to rules,
+// kept apart by mode, and honest about what is undecided.
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+import { deepEqual, parseDecisionRegister, parseRulebook, validateScenario } from '@mothership/balance';
+import { buildCatalog, setupFromSeed } from './v1/catalog.mjs';
+import { GROUPS, RULEBOOK_VERSION, SCENARIO_SCHEMA, loadGroup, renderFile, scenarioFileUrl } from './v1/files.mjs';
+
+const root = new URL('../../', import.meta.url);
+const text = path => readFileSync(new URL(path, root), 'utf8');
+const rules = new Map(parseRulebook(text('docs/balance/game-rules.md')).entries.map(entry => [entry.id, entry]));
+const decisions = new Map(parseDecisionRegister(text('docs/balance/rules-audit-v1.md')).entries.map(entry => [entry.id, entry]));
+const files = Object.fromEntries(GROUPS.map(group => [group, loadGroup(group)]));
+const all = GROUPS.flatMap(group => files[group].scenarios);
+const byMode = mode => files[String(mode)].scenarios;
+
+test('the committed scenario files are exactly what the catalogue produces', () => {
+  const catalog = buildCatalog();
+  for (const group of GROUPS) assert.equal(readFileSync(scenarioFileUrl(group), 'utf8'), renderFile(group, catalog[group]), `${group}: run npm run materialize --workspace @mothership/balance`);
+});
+
+test('every scenario is well formed and identifiers are unique', () => {
+  const issues = all.flatMap(validateScenario);
+  assert.deepEqual(issues, []);
+  assert.equal(new Set(all.map(scenario => scenario.id)).size, all.length);
+});
+
+test('the 7-, 8- and 9-player cases are separate files, each with its own roles and setups', () => {
+  for (const mode of [7, 8, 9]) {
+    const file = files[String(mode)];
+    assert.equal(file.header.schema, SCENARIO_SCHEMA);
+    assert.equal(file.header.mode, mode);
+    assert.equal(file.header.rulebook, RULEBOOK_VERSION);
+    assert.equal(file.header.optionalPowers, false);
+    for (const setup of Object.values(file.setups)) assert.equal(setup.playerCount, mode);
+    for (const scenario of file.scenarios) {
+      assert.equal(scenario.mode, mode);
+      assert.ok(scenario.id.startsWith(`V1-M${mode}-`));
+      assert.equal(scenario.optionalPowers, false);
+    }
+    const counts = { total: file.scenarios.length, ready: 0, blocked: 0, manual: 0 };
+    for (const scenario of file.scenarios) counts[scenario.status] += 1;
+    assert.deepEqual(file.header.counts, counts);
+    // Role-specific cases exist only where the role exists.
+    assert.equal(file.scenarios.some(scenario => scenario.id.includes('-OFF-')), mode === 9, 'Officer cases belong to mode 9 only');
+    const text = JSON.stringify(file.scenarios);
+    assert.equal(text.includes('@Officer'), mode === 9);
+    assert.equal(text.includes('@Red Disabler'), mode !== 7);
+  }
+  assert.ok(files.unsupported.scenarios.every(scenario => scenario.mode === null && scenario.steps.length === 1 && scenario.steps[0].op === 'createRejected'));
+});
+
+test('every expectation names rules that exist, and ready cases rest only on decided rules', () => {
+  for (const scenario of all) {
+    for (const id of scenario.ruleRefs) assert.ok(rules.has(id), `${scenario.id}: unknown rule ${id}`);
+    const statuses = scenario.ruleRefs.map(id => rules.get(id).status);
+    if (scenario.status === 'blocked') {
+      assert.ok(statuses.includes('OPEN'), `${scenario.id}: a blocked case must cite the OPEN rule it waits for`);
+      for (const id of scenario.decisionIds) assert.equal(decisions.get(id)?.status, 'OPEN', `${scenario.id}: ${id} is not an open decision`);
+      const waiting = scenario.ruleRefs.flatMap(id => rules.get(id).refs.filter(ref => ref.kind === 'decision').map(ref => ref.key));
+      for (const id of waiting) assert.ok(scenario.decisionIds.includes(id), `${scenario.id}: cites a rule waiting on ${id} without naming it`);
+    } else {
+      assert.ok(!statuses.includes('OPEN'), `${scenario.id}: a ${scenario.status} case cites an undecided rule`);
+    }
+  }
+});
+
+test('every open decision has a blocked case in each mode, and no blocked case asserts an outcome', () => {
+  const open = [...decisions.values()].filter(decision => decision.status === 'OPEN').map(decision => decision.id);
+  assert.deepEqual(open, ['D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17', 'D18', 'D19', 'D20']);
+  for (const mode of [7, 8, 9]) {
+    const blocked = byMode(mode).filter(scenario => scenario.status === 'blocked');
+    for (const id of open) assert.ok(blocked.some(scenario => scenario.decisionIds.includes(id)), `mode ${mode}: no blocked case for ${id}`);
+    for (const scenario of blocked) assert.ok(!scenario.steps.some(step => step.op === 'assert'), `${scenario.id} asserts an outcome`);
+  }
+});
+
+test('each of the 35 specifications of the pinned matrix is carried into every mode it names', () => {
+  const matrix = JSON.parse(text('docs/balance/scenario-matrix.json'));
+  assert.equal(matrix.scenarios.length, 35);
+  for (const specification of matrix.scenarios) {
+    for (const mode of specification.modes) {
+      const carried = byMode(mode).filter(scenario => scenario.lineage.includes(specification.id));
+      assert.ok(carried.length > 0, `${specification.id} has no mode-${mode} scenario`);
+      // BAL-110 stays blocked (D10). The other nine blocked specifications are now decided by V1.
+      if (specification.id === 'BAL-110') assert.ok(carried.every(scenario => scenario.status === 'blocked'));
+      else assert.ok(carried.some(scenario => scenario.status !== 'blocked'), `${specification.id} has only blocked mode-${mode} scenarios`);
+    }
+  }
+});
+
+test('the assignment areas are covered by ready cases in every mode', () => {
+  for (const mode of [7, 8, 9]) {
+    for (const area of ['resources', 'phase-transitions', 'mode-setup', 'elimination', 'authorized-views']) {
+      const ready = byMode(mode).filter(scenario => scenario.status === 'ready' && scenario.areas.includes(area));
+      assert.ok(ready.length >= 5, `mode ${mode}: only ${ready.length} ready cases for ${area}`);
+    }
+  }
+});
+
+test('every recorded setup is reproduced by its seed label', () => {
+  for (const mode of [7, 8, 9]) {
+    for (const [seed, setup] of Object.entries(files[String(mode)].setups)) {
+      assert.ok(deepEqual(setupFromSeed(mode, seed), setup), `mode ${mode} setup ${seed} is not reproducible`);
+    }
+  }
+  assert.ok(Object.keys(files.unsupported.setups).every(seed => seed.startsWith('invalid-')));
+});
