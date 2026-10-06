@@ -9,11 +9,11 @@ Codex owns the engine, the shared contracts, the files under `rules/`, the root 
 | --- | --- | --- | --- |
 | [BAL-REQ-1](#bal-req-1) | Run the Balance checks in `npm run verify` | CI coverage of work already in this PR | None |
 | [BAL-REQ-2](#bal-req-2) | A private post-match research export | Complete playtest records | None |
-| [BAL-REQ-3](#bal-req-3) | Point every agent at the rulebook, and register D11 to D38 | One rule text for all four workstreams | None |
+| [BAL-REQ-3](#bal-req-3) | Point every agent at the rulebook, and carry the nine open rule edges in the current register | One rule text for all four workstreams | None |
 | [BAL-REQ-4](#bal-req-4) | A supported test surface on the engine | Scenario runs that survive engine refactoring | None |
-| [BAL-REQ-5](#bal-req-5) | A ruleset pin that covers the baseline sources | Evidence that cites the pin | None |
+| [BAL-REQ-5](#bal-req-5) | Withdrawn: a ruleset pin that covers the baseline sources | Nothing | None |
 | [BAL-REQ-6](#bal-req-6) | A decision on the three pinned Balance documents | Keeping the brief and the earlier audit current | None |
-| [BAL-REQ-7](#bal-req-7) | Two contract changes from the review | Adoption of protocol 2 | None |
+| [BAL-REQ-7](#bal-req-7) | One contract request from the review | Projection tests | None |
 
 Nothing here adds a package. `tools/balance` keeps its two workspace dependencies and its source imports nothing else, so the workspace guard passes unchanged.
 
@@ -79,7 +79,7 @@ Constraints, all from the role brief and the secrecy rules:
 
 ## BAL-REQ-3
 
-**Point every agent at the rulebook, and register D11 to D38.**
+**Point every agent at the rulebook, and carry the nine open rule edges in the current register.**
 
 The owner asked for one rules document that all agents follow. It is [game-rules.md](game-rules.md). It consolidates the pinned sources and the owner decision of 6 October and creates no rule. Agents on other worktrees do not know it exists.
 
@@ -94,7 +94,7 @@ Requested addition to `AGENTS.md`, under "Source precedence", after the numbered
 
 `CLAUDE.md` imports `AGENTS.md`, so no second edit is needed. `CODEX_START_HERE.md` could gain the same pointer in its launch prompts.
 
-Requested addition to the current decision register (`docs/backend/v1-decision-register.md` on PR #16, or wherever the register lives after integration): the rows D11 to D38 of the Balance register, or one row linking to it. Ten of them are open, and with D10, which the earlier register already carries, eleven questions are undecided. Eighteen ask the owner to confirm a working reading. PR #16 states that no Version 1 rule decision remains unapproved; that holds for V1-01 to V1-21 only.
+Requested addition to the current decision register (`docs/backend/v1-decision-register.md` on PR #16, or wherever the register lives after integration): the nine open rule edges D11, D12, D16 to D20, D34 and D35, or one row linking to their consolidated sheet in the Balance audit. V1-01 to V1-21 are approved and nothing here reopens them. The edges lie outside those decisions: no approved source answers them, and for seven of them the build already behaves one way. Recording them where implementation choices are tracked keeps a build's behaviour from being mistaken for canon. The sixteen readings in the Balance register ask for nothing and need no row.
 
 ## BAL-REQ-4
 
@@ -113,7 +113,7 @@ Either way the five functions above are the surface that every scenario and the 
 
 ## BAL-REQ-5
 
-**A ruleset pin that covers the baseline sources.** See [BAL-C03](contract-review.md#bal-c03). The value carried by a match is the hash of the owner-decision overlay alone. Requested: pin a value that also commits to the baseline source manifest, such as the SHA-256 of `rules/in-person-v1-manifest.json`. No rule changes. Until then Balance reports record both hashes.
+**Withdrawn.** It asked for one pin that covers both the owner-decision overlay and the baseline source manifest. The integration review decided to keep the two hashes as separate pins. Balance reports already record both, and will keep doing so. See [BAL-C03](contract-review.md#bal-c03).
 
 ## BAL-REQ-6
 
@@ -127,10 +127,11 @@ Requested: either state that the three files are frozen historical sources, or m
 
 ## BAL-REQ-7
 
-**Two contract changes from the review.**
+**One contract request from the review.**
 
-- [BAL-C01](contract-review.md#bal-c01): give `shotAvailable` one documented meaning, or split it into a resource field and an eligibility field.
 - [BAL-C02](contract-review.md#bal-c02): enforce the cross-field statements about Captain, Command Room, Jail, Hospital and the Final Zone, in the schemas or in a required projection test.
+
+The other item this request used to carry, [BAL-C01](contract-review.md#bal-c01) on `shotAvailable`, is closed. Backend's refinement proposal now documents the field's meaning in each protocol, Frontend gates on it together with a non-empty target list, and Balance's re-review found the engine doing what the document says. Balance asks for no versioned schema change.
 
 ## What Balance does next, and what it waits for
 
