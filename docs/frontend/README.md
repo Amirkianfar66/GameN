@@ -12,6 +12,10 @@ Frontend owns `apps/game/`, `packages/presentation/` and this directory. Shared 
 | [contract-re-review.md](contract-re-review.md) | Frontend's reading of the backend's response: the command guarantees accepted and now relied on, four follow-up requests, and a first read of draft protocol 2 for the command flow |
 | [integration-requests.md](integration-requests.md) | Wire the Frontend checks into `verify` now; then the typecheck, guard and dependency changes that React, R3F, GSAP, browser tests and a backend transport need, with exact versions |
 
+## Connected work (protocol 2)
+
+The first Firebase-connected prototype is built on its own branch, `agent/frontend-connected-v1`, from the integration candidate ([#26](https://github.com/Amirkianfar66/GameN/pull/26)) and the browser dependency proposal ([#28](https://github.com/Amirkianfar66/GameN/pull/28)). It starts with [protocol2-adoption-assessment.md](protocol2-adoption-assessment.md): what Frontend will consume from wire protocol 2 as it stands, its position on the proposed refinements, eight gaps that need an answer, and its review of the dependency proposal. **The fixture acceptance of the slices below is protocol 1 and does not carry over.**
+
 ## Slices
 
 Each stage is labeled as the brief requires: **proposed**, **fixture-tested**, **integrated** or **measured**. Nothing is integrated or measured yet.
