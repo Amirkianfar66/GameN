@@ -4,7 +4,7 @@
 **For:** Codex Astra, Backend and Integration (INT-003, issues #2 and #13).
 **Date:** 6 October 2026.
 
-**Status: reviewed, with one required change and eleven questions that only the owner can answer. This is not an adoption approval.** Nothing here changes a shared file. Every change is a request to the integration owner, and every rule question goes to the game owner. The matching requests are in [integration-requests.md](integration-requests.md).
+**Status: reviewed, with one required change, eleven questions that only the owner can answer and eighteen working readings for the owner to confirm. This is not an adoption approval.** Nothing here changes a shared file. Every change is a request to the integration owner, and every rule question goes to the game owner. The matching requests are in [integration-requests.md](integration-requests.md).
 
 Two things were reviewed, against the rulebook in [game-rules.md](game-rules.md):
 
@@ -19,7 +19,7 @@ Part B was requested by PR #16 ("Frontend and Game Balance review protocol/rule 
 
 The draft is careful about secrecy. No disclosure defect was found in either part, and every decided rule that the scenarios exercise is implemented as the rulebook states it. The evidence is in [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md).
 
-What needs attention is at the edges of what has been decided. PR #16 says that no Version 1 rule decision remains unapproved. That is true of V1-01 to V1-21. It is not true of the game: this review found eleven questions that no source answers, and the draft engine already answers several of them in code.
+What needs attention is at the edges of what has been decided. PR #16 says that no Version 1 rule decision remains unapproved. That is true of V1-01 to V1-21. It is not true of the game. Eleven questions have no answer in any source, and the draft engine already answers eight of them in code: D11, D12, D15, D16, D17, D20, D34 and D35. Eighteen further points are answered only by reading the sources closely. The engine agrees with every one of those readings that a scenario exercises, and the owner has not been asked to confirm them.
 
 | ID | Topic | Kind | Needed by |
 | --- | --- | --- | --- |
@@ -28,20 +28,22 @@ What needs attention is at the edges of what has been decided. PR #16 says that 
 | [BAL-C03](#bal-c03) | The ruleset hash does not bind the baseline rule sources | Needed | Any evidence that cites the pin |
 | [BAL-C04](#bal-c04) | The engine lets Supplier name themself | Owner decision D11 | Complete Version 1 |
 | [BAL-C05](#bal-c05) | A Supplier with one neighbour | Owner decision D12 | Complete Version 1 |
-| [BAL-C06](#bal-c06) | Captain runoffs repeat without limit | Owner decision D13 | In-person playtests |
-| [BAL-C07](#bal-c07) | A Healthy but Jailed player satisfies the Healthy-member requirement | Owner decision D14 | Complete Version 1 |
+| [BAL-C06](#bal-c06) | Captain runoffs repeat without limit | Owner confirmation D13 | In-person playtests |
+| [BAL-C07](#bal-c07) | A Healthy but Jailed player satisfies the Healthy-member requirement | Owner confirmation D14 | Complete Version 1 |
 | [BAL-C08](#bal-c08) | Nothing ends a match that can no longer be won | Owner decision D15 | Complete Version 1 |
 | [BAL-C09](#bal-c09) | Movement is accepted during a Captain election | Owner decision D16 | Complete Version 1 |
 | [BAL-C10](#bal-c10) | No window closes early, ordinary turns included | Owner decision D17 | In-person playtests |
 | [BAL-C11](#bal-c11) | The public view has no turn order | Owner decision D20 | Table display |
 | [BAL-C12](#bal-c12) | The public Hack phase names only the initiator | Question | Table display |
 | [BAL-C13](#bal-c13) | The result carries no cause; no private post-match export exists | Needed | Playtest records |
-| [BAL-C14](#bal-c14) | Nine working readings are implemented without confirmation | Owner confirmation D21 to D29 | Complete Version 1 |
+| [BAL-C14](#bal-c14) | Sixteen further working readings are implemented without confirmation | Owner confirmation D21 to D33 and D36 to D38 | Complete Version 1 |
 | [BAL-C15](#bal-c15) | The fixture expectation omits Protection consumption | Advisory | None |
 | [BAL-C16](#bal-c16) | The first election is labelled Round 2 | Advisory | Display copy |
 | [BAL-C17](#bal-c17) | Fixture provenance labels | Advisory | None |
+| [BAL-C18](#bal-c18) | A special shot cannot be aimed at the shooter | Owner decision D34 | Complete Version 1 |
+| [BAL-C19](#bal-c19) | An aborted match reveals neither roles nor the Code | Owner decision D35 | In-person sessions |
 
-"Required" means Balance will not treat the contract as adoptable until it is answered. "Needed" has a workable interim, stated under the item. An owner decision is not Backend's to make and not Balance's either.
+"Required" means Balance will not treat the contract as adoptable until it is answered. "Needed" has a workable interim, stated under the item. An owner decision is a question no source answers; it is not Backend's to make and not Balance's either. An owner confirmation is a reading of the sources that the rulebook states and the engine implements, and that the owner has not yet been asked about.
 
 ## Part A: protocol 1 and the Officer and Protection fixture
 
@@ -49,7 +51,7 @@ What needs attention is at the edges of what has been decided. PR #16 says that 
 
 Each item was checked against the rule named.
 
-- **The command is a direct shot.** `RegisterShotSchema` carries a target and nothing else; an identification, a faction guess and a damage value are refused (R-SHOT-01, R-SHOT-06).
+- **The command is a direct shot.** `RegisterShotSchema` carries a target and nothing else. It is a strict object, so a request with an identification, a faction guess or a damage value does not parse (R-SHOT-01, R-SHOT-06).
 - **The fixture is a legal nine-player deal with powers off.** Five Blue roles with Officer, three Red, one Alien (R-SETUP-04, R-SETUP-15).
 - **The Officer's Round 2 shot is legal.** Own turn, one shot, target in the same room and not in Command Room (R-ROLE-11, R-SHOT-02).
 - **The Protection is legal.** Granted by Undercover in Round 1, active from Round 2, one receipt for life (R-PROT-01, R-PROT-02, R-PROT-05).
@@ -151,13 +153,13 @@ V1-13 lists the actions that may target the actor (Scan, Protection, Rescue) and
 
 ### BAL-C06
 
-**Captain runoffs repeat without limit.** Probe `CAPT-09`: after three tied ballots the phase was still a Captain election. V1-04 says a runoff repeats. Each one is a 60-second window, and nothing ends a tie that the table will not break. This is D13. It is a real risk at a table.
+**Captain runoffs repeat without limit.** Scenario `CAPT-09` passes in all three modes: three tied ballots each led to another runoff among the tied pair, and a runoff in which nobody voted elected nobody. That is what the sources say. The baseline repeats the runoff "until one candidate has the highest vote", and V1-04 adds that "an all-abstain ballot elects nobody". Each runoff is a 60-second window, and nothing but the table ends a tie. D13 asks the owner to confirm that no limit and no tie-break is wanted. It is a real risk at a table.
 
 ### BAL-C07
 
-**A Healthy but Jailed player satisfies the Healthy-member requirement.** Probe `WIN-06`: with every Blue player Healthy and Jailed, Alien free and no Red player Healthy and free, the engine declared a Blue win at the Round 5 check. Probe `SHOW-10` gave Blue the showdown the same way. The engine's source says this is deliberate.
+**A Healthy but Jailed player satisfies the Healthy-member requirement.** Scenarios `WIN-06` and `SHOW-16` pass in all three modes. With every Blue player Healthy and Jailed, Alien free and no Red player Healthy and free, the engine gives Blue the Power win at the Round 5 check. With every Red player Eliminated and the only Healthy Blue players in Jail, it gives Blue the showdown. The engine's source says this is deliberate.
 
-The baseline says both that Jail is separate from health and that Jailed players count zero. It does not say which governs "at least one Healthy member". This is D14 and it decides matches.
+It is also what the sources say when read closely. The requirement is "at least one Healthy member of that actual team"; Jail "is separate from health"; and Jailed players are set to zero only in the Power formula. The rulebook states this as R-WIN-11. D14 asks the owner to confirm it, because the reading decides matches. No other executed scenario ends with a winner whose only Healthy players are Jailed.
 
 ### BAL-C08
 
@@ -170,6 +172,8 @@ The baseline says both that Jail is separate from health and that Jailed players
 ### BAL-C10
 
 **No window closes early, ordinary turns included.** V1-09 keeps vote windows open to the deadline. No decision covers an ordinary turn or a Hack conversation, and the engine holds both for the full minute. By the clock alone a nine-player match with nobody eliminated lasts at least 51 minutes. This is D17: a pacing question for the owner, to be informed by the first playtests.
+
+The other part of D17 was probed. `FLOW-10`: after the Captain had chosen a prisoner, the release-choice window stayed open to its deadline. No source says whether it should.
 
 ### BAL-C11
 
@@ -185,13 +189,31 @@ The baseline says both that Jail is separate from health and that Jailed players
 
 ### BAL-C14
 
-**Nine working readings are implemented without confirmation.** The engine agrees with the rulebook's readings D21 to D29: the Code extras are drawn at random; only Undercover and Officer start armed; Red players do not know each other apart from Hacker knowing Undercover; Disablers work from Round 1; Protection may be granted every round; a Round 5 Protection never activates; Jail has no time limit and continues into the Final Zone; a correct Code with no Healthy Red wins nothing and removes Blue's Power win; a cast ballot is final. Each follows from the sources and each is a choice the owner has not been asked to confirm.
+**Sixteen further working readings are implemented without confirmation.** The engine agrees with the rulebook's readings D21 to D33 and D36 to D38:
+
+- D21 to D29: the Code extras are drawn at random; only Undercover and Officer start armed; Red players do not know each other apart from Hacker knowing Undercover; Disablers work from Round 1; Protection may be granted every round; a Round 5 Protection never activates; Jail has no time limit and continues into the Final Zone; a correct Code with no Healthy Red wins nothing and removes Blue's Power win; a cast ballot is final.
+- D30 to D33: a Scan is Hacker's Main Action, so it needs Hacker's own turn and a Healthy, free Hacker; an ordinary weapon is spent when its shot is registered; a Captain inside Command Room cannot Scan, protect or Rescue themself; a Captain may leave Command Room to either room.
+- D36: a Code submission and a Hack request change no other player's view. The Captain's release choice changed no other view in any run either; that part cannot be told apart from D17.
+- D37 and D38: no window opens that nobody could use, so there is no election while nobody is an eligible candidate and no release choice without a Captain, an unused request and a prisoner; and a release takes effect when the release vote closes, so the freed player can be voted back into Jail in the same round.
+
+Each follows from the sources and each is a choice the owner has not been asked to confirm. D21 is the exception in one respect: a selection method cannot be shown by single cases, and no scenario exercises it. The scenarios that assert each reading, and the number of further scenarios that use it on the way, are in [scenario-traceability.md](scenario-traceability.md#working-readings-and-the-scenarios-that-touch-them).
 
 ### BAL-C16
 
 **The first election is labelled Round 2.** The engine advances the round before the election, so the public view reads "Round 2, Captain election" for what the baseline calls the end of Round 1. Advisory. It affects display copy and D16.
 
+### BAL-C18
+
+**A special shot cannot be aimed at the shooter.** Probe `SHOW-15`: a `SHOWDOWN_SHOT` naming the shooter was refused. V1-13 excludes self-targeting for ordinary shots, Disabler attacks and Hack, and does not mention the showdown's special shot. This is D34. It matters at the edges: a player who must not help either side has no way to waste the shot except by not shooting, which the rules already allow.
+
+### BAL-C19
+
+**An aborted match reveals neither roles nor the Code.** Probe `OPS-03`: after a host abort the public view carried no end reveal. V1-18 discloses roles and the Code "only at match end", and V1-12 calls an abort a recorded result without a winner. Whether an abort is a match end for this purpose is D35. At a table the players will simply tell each other; the question is what the app and the record show.
+
 ### Checked, no change requested
+
+- Protocol 2's commands are strict objects, like protocol 1's shot command: a `REGISTER_SHOT` that carries an identification, a faction guess or a damage value does not parse. The first version of the fixtures had a scenario for this. It was withdrawn because it tests the wire contract and not a rule; the property is recorded here instead.
+- Protocol 2's schema allows a ballot with no target and a release ballot with no answer: an explicit abstention. The rules name only the missing ballot (R-FLOW-08), so the scenarios send none. If a client offers an explicit abstention, the rulebook's reading is that it is a ballot and therefore final (R-VOTE-09). That is worth a line in the contract.
 
 - A participant eliminated during the showdown keeps an unused special-shot flag in server state after the match is finished. No audience sees it. Balance's first version of INV-EL-03 flagged it; the invariant was over-broad and was corrected, as recorded in the evidence report.
 - A Protection grant is held as a queued command until its round resolves, so Undercover's Protection list shows it from the next round. Undercover still sees their own pending registration. Consistent with V1-17.

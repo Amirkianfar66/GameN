@@ -70,7 +70,9 @@ Three files need care because their name suggests more authority than their cont
 
 ## Decision register
 
-This register continues the D numbers of the earlier audit. RESOLVED means an owner decision now covers it. OPEN means no rule exists: the rulebook states no behaviour and the scenario is blocked. CONFIRM means the rulebook carries a working reading that follows from the sources, scenarios run against it, and the owner is asked to confirm it.
+This register continues the D numbers of the earlier audit. RESOLVED means an owner decision now covers it. OPEN means no source answers the question: the rulebook states no behaviour and the scenario is blocked. CONFIRM means the sources do give an answer when read literally, the rulebook carries it as a working reading, scenarios run against it, and the owner is asked to confirm it.
+
+The owner's attention is best spent in this order. D14 decides who wins a match. D13 and D17 decide how long a match can take. D11 and D12 decide whether Blue gets its weapons. D18, D19 and D20 are things every table will ask in its first match. The rest are corners.
 
 | ID | Question | Status | Resolution or what is needed |
 | --- | --- | --- | --- |
@@ -86,11 +88,11 @@ This register continues the D numbers of the earlier audit. RESOLVED means an ow
 | D10 | How Original Powers are dealt with seven or nine players, and how they meet the showdown's special shots | OPEN | Owner, with a separate versioned suite. The base comparison keeps powers off |
 | D11 | May Supplier name themself as one of the two recipients? | OPEN | Owner. V1-13 lists who may target themself and does not mention Supplier; V1-16 does not exclude it |
 | D12 | What may Supplier do with fewer than two eligible recipients in the same location? | OPEN | Owner. The sources require two different recipients and say nothing about one |
-| D13 | Is there a limit on repeated Captain runoffs, or a tie-break? | OPEN | Owner. V1-04 says a runoff repeats; nothing ends a tie that never breaks |
-| D14 | Does a Healthy but Jailed player satisfy "at least one Healthy member"? | OPEN | Owner. Health and Jail are separate, and Jailed players count zero Power; the texts do not say which governs the requirement |
+| D13 | A tied Captain election repeats without limit | CONFIRM | Owner confirms that no limit or tie-break is wanted. The baseline says "repeat until one candidate has the highest vote" and V1-04 keeps it "as written". The only way out the rules give is a runoff in which nobody votes. Rule R-CAPT-13 |
+| D14 | A Healthy but Jailed player counts as a Healthy member for winning | CONFIRM | Owner confirms. The requirement says "Healthy", Jail is separate from health, and only the Power formula sets Jailed players to zero. This reading decides matches. Rule R-WIN-11 |
 | D15 | What ends a match in which no victory condition can still be met, or in which nobody is left? | OPEN | Owner. No source ends such a match before Round 5 |
 | D16 | May a player move while a Captain election is being voted? | OPEN | Owner. Movement is allowed "before voting begins"; the election is a vote at the start of the round |
-| D17 | May a player end their ordinary turn or a Hack conversation early? | OPEN | Owner. V1-09 keeps vote windows open to the deadline and is silent about turns |
+| D17 | Windows that might be shorter: may a player end their turn or a Hack conversation early, and does the release-choice window close when the Captain has chosen? | OPEN | Owner. V1-09 keeps vote windows open to the deadline and is silent about the rest |
 | D18 | Format of a Standard Hack conversation: who asks, how many questions, what if a player declines | OPEN | Owner. Only "Yes / No" and the truth rule are stated |
 | D19 | What may an Eliminated player say or show at the table? | OPEN | Owner. No source covers table conduct after elimination |
 | D20 | Is a round's turn order announced in advance or revealed one turn at a time? | OPEN | Owner. The order is drawn each round; its visibility is not stated |
@@ -103,6 +105,15 @@ This register continues the D numbers of the earlier audit. RESOLVED means an ow
 | D27 | Jail has no time limit and continues in the Final Zone | CONFIRM | Owner confirms. Rules R-VOTE-08, R-SHOW-10 |
 | D28 | A correct Code with no Healthy Red player wins nothing, and removes Blue's Power victory | CONFIRM | Owner confirms. Rule R-WIN-13 |
 | D29 | A cast ballot cannot be replaced | CONFIRM | Owner confirms the reading of "one final ballot". Rule R-VOTE-09 |
+| D30 | A Scan is Hacker's Main Action, so an Injured or Jailed Hacker cannot Scan | CONFIRM | Owner confirms. The baseline gives every other role action a Main Action label and gives Scan none. Rule R-ROLE-18 |
+| D31 | An ordinary weapon is spent when its shot is registered | CONFIRM | Owner confirms. V1-15 says so for Rescue, Disabler and Protection, and V1-20 for special shots; no source says it for ordinary weapons. Rule R-SHOT-05 |
+| D32 | Command Room stops a player inside from targeting themself too | CONFIRM | Owner confirms. The baseline says players inside "cannot be targeted" by actions, without an exception for their own, and V1-14 gives a Scan no access to Command targets. Rule R-CAPT-15 |
+| D33 | A Captain may leave Command Room to either room | CONFIRM | Owner confirms. V1-03 names both rooms for entering; no source names a room for leaving. Rule R-MOVE-09 |
+| D34 | May a showdown participant target themself? | OPEN | Owner. V1-13 excludes self-targeting for ordinary shots and does not mention special shots |
+| D35 | Does a match that the host aborts reveal roles and the Code? | OPEN | Owner. V1-18 reveals them "at match end"; V1-12 calls an abort a recorded result without a winner |
+| D36 | Nothing a player enters on their phone is shown to anyone else before the rules reveal it | CONFIRM | Owner confirms for the three cases no source names: a Code submission, a Hack request before its conversation opens, and the Captain's release choice before the release vote opens. Rule R-VIEW-07 |
+| D37 | A window opens only when someone can use it: no election without an eligible candidate, and no release choice without a Captain, an unused request and a prisoner | CONFIRM | Owner confirms. V1-04 says to "continue without Captain" when no eligible candidate exists, and V1-11 gives the choice window to a Captain who "may use" the request. No source says in so many words that the window stays shut. Rule R-FLOW-13 |
+| D38 | A release takes effect when the release vote closes | CONFIRM | Owner confirms. The release vote comes before the Jail vote and the end-of-round order has no release step; V1-02 gives the freed player's destination but no moment. The freed player can then be voted back into Jail in the same round. Rule R-VOTE-10 |
 
 ### Crosswalk to the integration register
 
@@ -118,32 +129,32 @@ This register continues the D numbers of the earlier audit. RESOLVED means an ow
 | RULE-008 | D07 | V1-09, V1-10, V1-11, V1-20 | Resolved |
 | RULE-009 | D08 | V1-12, V1-21 | Resolved |
 | RULE-010 | D10 | None | Open |
-| None | D11 to D20 | None | Open, found by this audit |
-| None | D21 to D29 | None | Working readings to confirm |
+| None | D11, D12, D15 to D20, D34, D35 | None | Open, found by this audit |
+| None | D13, D14, D21 to D33, D36 to D38 | None | Working readings to confirm |
 
-`docs/decisions.md` is pinned by the bootstrap lock and still lists RULE-001 to RULE-009 as unresolved. Request BAL-REQ-3 in [integration-requests.md](integration-requests.md) asks Codex Integration to add D11 to D29 to the current register.
+`docs/decisions.md` is pinned by the bootstrap lock and still lists RULE-001 to RULE-009 as unresolved. Request BAL-REQ-3 in [integration-requests.md](integration-requests.md) asks Codex Integration to add D11 to D38 to the current register.
 
 ### Every owner decision and where the rulebook carries it
 
 | Decision | Rulebook rules |
 | --- | --- |
 | V1-01 | R-SETUP-05, R-SETUP-07 |
-| V1-02 | R-STATE-07, R-STATE-08, R-VOTE-07, R-MOVE-06 |
-| V1-03 | R-MOVE-04, R-CAPT-05, R-CAPT-14, R-MOVE-06 |
+| V1-02 | R-STATE-07, R-STATE-08, R-MOVE-06, R-VOTE-07 |
+| V1-03 | R-MOVE-04, R-MOVE-06, R-CAPT-05, R-CAPT-14 |
 | V1-04 | R-CAPT-06 |
 | V1-05 | R-ROLE-04 |
 | V1-06 | R-ACT-06 |
 | V1-07 | R-RES-02 |
 | V1-08 | R-ROLE-15, R-WIN-06 |
-| V1-09 | R-FLOW-07, R-FLOW-08, R-VOTE-02, R-SHOW-04 |
-| V1-10 | R-CAPT-04, R-VOTE-02, R-VIEW-01, R-FLOW-11 |
+| V1-09 | R-FLOW-07, R-FLOW-08, R-VOTE-02, R-VOTE-06, R-SHOW-04 |
+| V1-10 | R-FLOW-11, R-CAPT-04, R-VOTE-02, R-VOTE-06, R-VIEW-01, R-VIEW-02 |
 | V1-11 | R-FLOW-07, R-VOTE-05 |
 | V1-12 | R-OPS-01, R-OPS-02 |
 | V1-13 | R-ACT-01, R-ACT-04, R-SHOT-04, R-HACK-02 |
 | V1-14 | R-ROLE-14 |
-| V1-15 | R-ACT-07, R-SHOT-05, R-PROT-05 |
-| V1-16 | R-ROLE-07, R-ROLE-08 |
-| V1-17 | R-PROT-06, R-VIEW-06 |
+| V1-15 | R-ACT-07, R-PROT-05 |
+| V1-16 | R-ROLE-07, R-ROLE-08, R-VIEW-02 |
+| V1-17 | R-ACT-08, R-PROT-06, R-VIEW-01, R-VIEW-02, R-VIEW-06 |
 | V1-18 | R-RES-05, R-VIEW-08 |
 | V1-19 | R-RES-03, R-WIN-08 |
 | V1-20 | R-SHOW-07 |
@@ -157,7 +168,9 @@ These are settled by precedence. They are listed because a table of players is l
 2. **Movement and the same-location rule.** A target who changes rooms after being targeted is still hit, and so is a target who was voted into Jail first. Players cannot dodge an attack by moving. `LOCK-01` and `LOCK-02` pin both.
 3. **"One final ballot."** V1-09 says "accept final inputs until the deadline" and V1-10 says "one final ballot per player per phase". The gap being answered was whether a ballot can be replaced, and the reading here is that it cannot (D29).
 4. **The first election.** The baseline places it at the "end of Round 1". Every later election is "at the start of the next round". They are the same boundary. A table display may label it either way; D16 asks whether movement is open during it.
-5. **Rescue and Jail.** The baseline says healing does not release from Jail, which suggests a Jailed player can be healed. Under the same-location rule and V1-05 Cracker can reach Hospital but not Jail. A Jailed and Injured player is therefore healed only by a Rescue that was registered before they were jailed in that same round. Scenario `RESC-08` shows the one path.
+5. **Open voting and private ballots.** The baseline's notes on the physical table list "public voting" among the things to emphasize. V1-10 makes each ballot private and publishes only the totals. V1-10 governs. A table used to a show of hands will notice.
+6. **A block the table may know about.** The baseline's Protection entry says a public block event "may be known". V1-17 gives no block cue to anyone but Undercover. V1-17 governs.
+7. **Rescue and Jail.** The baseline says healing does not release from Jail, which suggests a Jailed player can be healed. Under the same-location rule and V1-05 Cracker can reach Hospital but not Jail. A Jailed and Injured player is therefore healed only by a Rescue that was registered before they were jailed in that same round. Scenario `RESC-08` shows the one path.
 
 ## Structural consequences
 
@@ -219,13 +232,32 @@ Every window is 60 seconds and none closes early (R-FLOW-05 to R-FLOW-07).
 
 - **S-13. A match with nobody eliminated cannot be shorter than 41, 46 or 51 minutes, however quickly people act.** D17 asks whether a turn may end early. Teaching, setup and discussion between phases are extra. This is arithmetic, not a measured duration.
 
+## Revision 2 of the rulebook
+
+Revision 1 of the rulebook and of the scenarios was pushed to this branch earlier on 6 October, as commit `61e47a3`. Before any review was requested, three independent checks were made. One read every rulebook row against the sources it cites. One derived every ready eight-player scenario again by hand, from the rulebook alone. One then did the same, in all three modes, for the scenarios that the first two had caused to be added or changed. Revision 2, `rulebook-v1-2026-10-06-r2`, is the result. No source changed, and no rule that a source states changed. The rulebook went from 155 rows to 165.
+
+| What changed | Rows |
+| --- | --- |
+| Reworded, because the first wording contradicted another row or a source | R-WIN-09: the Code and Power conditions are checked at the Round 5 check and again after the showdown. R-STATE-03, R-STATE-04 and R-SETUP-14: "may not shoot" means an ordinary shot; the showdown's special shot is the exception. R-STATE-08: a healed player who is Jailed stays in Jail |
+| Moved from OPEN to a working reading, because the sources answer when read closely | R-CAPT-13 with D13, R-WIN-11 with D14 |
+| Lowered to DERIVED, because no source says it in those words | R-FLOW-03, and R-SHOT-05 with D31 |
+| Marked OWNER-V1 instead of CONFIRMED, because the stated rule comes from the owner decision | R-SETUP-15, R-ACT-08, R-VOTE-06, R-VIEW-02, R-POW-01 |
+| Added as working readings | R-ROLE-18 with D30, R-CAPT-15 with D32, R-MOVE-09 with D33, R-FLOW-13 with D37 and R-VOTE-10 with D38. R-VIEW-07 now names what it covers and cites D36 |
+| Added as derived statements | R-ACT-09, R-ROLE-19, R-VIEW-09 |
+| Added as open questions | R-SHOW-11 with D34 and R-VIEW-10 with D35. R-FLOW-09 with D17 now also asks whether the release-choice window closes when the Captain has chosen |
+| Said less, or said the way the source says it, because the first wording claimed more | R-SETUP-07, R-FLOW-07, R-MOVE-06, R-ROLE-13, R-SHOW-06, R-VIEW-01, R-VIEW-08, R-OPS-01 |
+| Completed from the cited source, or cross-referenced | R-FLOW-08, R-STATE-06, R-STATE-09, R-CAPT-10, R-HACK-05, R-RES-02, R-WIN-01, R-OPS-03 |
+| Citations made more exact, text unchanged | R-SETUP-05, R-STATE-02, R-STATE-07, R-ROLE-02, R-ROLE-12, R-ROLE-16 |
+
+The scenarios changed with it. Neither hand derivation found a wrong expected result or wrong arithmetic. They found expectations that no rule implies, cases that did not exercise the rule they named, working readings used without being named, and titles that claimed more than the steps show; the corrections are listed in the [evidence report](evidence/2026-10-06-baseline.md#9-corrections).
+
 ## What this audit does not establish
 
 - It does not show that any engine implements these rules. Execution evidence, with its limits, is in [evidence/](evidence/).
 - It does not show that any configuration is balanced, fair or fun. Only human playtests can, under [playtest/protocol.md](playtest/protocol.md).
-- It does not approve D10 to D20, and it does not treat D21 to D29 as settled.
+- It does not answer any OPEN decision, and it does not treat any CONFIRM reading as settled.
 - It did not review the archived PDF beyond the background use stated above.
 
 ## Test handoff
 
-Scenarios are in `tests/scenarios/v1/`, one file per mode, generated from one catalogue and checked against this register and the rulebook. A scenario is `ready` only when every rule it cites is CONFIRMED, OWNER-V1, DERIVED or CONDUCT. A scenario that depends on D10 to D20 is `blocked`: it carries no expected result, and at most a probe that records what an engine currently does. The 35 specifications of the pinned [scenario-matrix.json](scenario-matrix.json) are traced one by one in [scenario-traceability.md](scenario-traceability.md).
+Scenarios are in `tests/scenarios/v1/`, one file per mode, generated from one catalogue and checked against this register and the rulebook. A scenario is `ready` only when every rule it cites is CONFIRMED, OWNER-V1, DERIVED or CONDUCT. A scenario that depends on an OPEN decision is `blocked`: it carries no expected result, and at most a probe that records what an engine currently does. A scenario that depends on a CONFIRM reading is ready and names the rule that carries the reading, so that every such scenario can be found if the owner decides otherwise. The 35 specifications of the pinned [scenario-matrix.json](scenario-matrix.json) are traced one by one in [scenario-traceability.md](scenario-traceability.md).

@@ -59,6 +59,8 @@ The schema is the authority on names and types. The definitions below fix the me
 | `alien-solo` | R-WIN-08 | See audit S-05: not reachable with powers off |
 | `draw` | R-SHOW-08 | The showdown |
 
+A Red win on the Code at the showdown checkpoint cannot arise under the present rules: the showdown opens with a correct Code only when no Red player is Healthy (R-WIN-13), and nobody is healed during it. The record allows the combination so that it is reported if it is ever seen.
+
 `terminal` is `Finished`, `Aborted` (the host ended it, R-OPS-02) or `Abandoned` (the table stopped without an abort). Only a finished match has a result.
 
 ### Pace

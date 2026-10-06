@@ -32,7 +32,6 @@ const NOT_EXERCISED = {
   'R-HACK-04': 'Conduct rule. Manual case HACK-07.',
   'R-HACK-05': 'Conduct rule. Manual case HACK-07.',
   'R-HACK-06': 'Nothing to exercise: the protocol has no messaging command. Checked by reading.',
-  'R-RES-03': 'The only case that tells the difference ends in a state that depends on D14: blocked case SHOW-10. INV-WIN-01 checks that a result appears only when a stage closes.',
   'R-WIN-08': 'Unreachable by legal play in every mode (audit, S-05). No fixture is possible without a synthetic state, which this baseline does not use.',
   'R-OPS-01': 'Service behaviour. Manual case OPS-02; Backend owns the tests.',
   'R-OPS-03': 'Service behaviour. Manual case OPS-02; Backend owns the tests.',
@@ -86,6 +85,20 @@ for (const decision of decisions.filter(entry => entry.status === 'OPEN')) {
   const waits = scenario => scenario.status === 'blocked' && scenario.decisionIds.includes(decision.id);
   const probed = MODES.some(mode => scenarios[mode].filter(waits).some(scenario => scenario.steps.some(step => step.op === 'probe' || step.op === 'note')));
   say(`| ${decision.id} | ${decision.topic} | ${listed(waits)} | ${probed ? 'Yes' : 'None possible'} |`);
+}
+say('');
+say('## Working readings and the scenarios that touch them');
+say('');
+say('A working reading is a DERIVED rule that cites a decision the owner is asked to confirm. The third column lists the ready scenarios whose expected result is about the rule. The fourth counts the further ready scenarios, for 7, 8 and 9 players, whose lead-up relies on it; each scenario names those rules in its `dependsOn` field. If the owner answers a reading differently, both groups are derived again.');
+say('');
+say('| Decision | Rules | Scenarios that assert the reading | Further scenarios that use it on the way |');
+say('| --- | --- | --- | --- |');
+for (const decision of decisions.filter(entry => entry.status === 'CONFIRM')) {
+  const ids = rules.filter(rule => rule.refs.some(ref => ref.kind === 'decision' && ref.key === decision.id)).map(rule => rule.id);
+  if (ids.length === 0) { console.error(`${decision.id} is a working reading that no rule cites`); process.exit(1); }
+  const asserts = scenario => scenario.status === 'ready' && scenario.ruleRefs.some(id => ids.includes(id));
+  const uses = scenario => scenario.status === 'ready' && !asserts(scenario) && scenario.dependsOn.some(id => ids.includes(id));
+  say(`| ${decision.id} | ${ids.join(', ')} | ${listed(asserts) || 'None: see the next table'} | ${MODES.map(mode => scenarios[mode].filter(uses).length).join(', ')} |`);
 }
 say('');
 say('## Rules that no ready scenario exercises');

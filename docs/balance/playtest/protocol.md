@@ -1,6 +1,6 @@
 # In-person playtest protocol
 
-**Status:** protocol for the first pilot. No session has been run and no result exists. **Rulebook:** `rulebook-v1-2026-10-06` in [../game-rules.md](../game-rules.md). **Applies to:** people playing together at one table, 7, 8 or 9 players, Original Powers off.
+**Status:** protocol for the first pilot. No session has been run and no result exists. **Rulebook:** `rulebook-v1-2026-10-06-r2` in [../game-rules.md](../game-rules.md). **Applies to:** people playing together at one table, 7, 8 or 9 players, Original Powers off.
 
 ## What the pilot is for
 
@@ -22,7 +22,7 @@ These are preconditions. A session that lacks one is a rehearsal and is recorded
 
 - **A playable build with its pins written down:** ruleset version and hash, source manifest hash, engine version and commit, protocol, client build. One build for the whole pilot of a mode. A new build starts a new cohort.
 - **The owner's approval of consent wording, of who may read the records, and of how long they are kept.** See [../telemetry-spec.md](../telemetry-spec.md).
-- **A decision on each open question that the build touches, or acceptance that the pilot plays what the build does.** D10 to D20 in [the register](../rules-audit-v1.md#decision-register) are undecided. Where the build already behaves one way, the pilot plays that way, the facilitator logs every time it comes up, and nobody at the table invents a house rule.
+- **A decision on each open question that the build touches, or acceptance that the pilot plays what the build does.** Eleven questions in [the register](../rules-audit-v1.md#decision-register) are undecided: D10 to D12, D15 to D20, D34 and D35. Eighteen more are working readings that the owner has been asked to confirm. Where the build already behaves one way, the pilot plays that way, the facilitator logs every time it comes up, and nobody at the table invents a house rule.
 - **The mode order for each group, fixed in advance.** See "Groups and modes".
 - **One facilitator who has read the rulebook and this protocol, and one printed set of the three forms per match.**
 
@@ -98,7 +98,7 @@ The audit derived these from the rules by counting. They are hypotheses about wh
 | The first Officer shot: round, target faction, effect | The owner asked for it | `officer` |
 | Jail: how many players, who, and how the last vote changes the end | Up to five can be jailed by the Round 5 check (S-08) | `endgame.jailedAtRoundFiveCheck` |
 | Dead time inside 60-second windows, and time lost outside them | No window closes early (S-13, D17) | `pace`, facilitator notes |
-| A tied Captain election that repeats | Nothing ends it (D13) | `pace.phaseCounts.captainElections`, rule problem log |
+| A tied Captain election that repeats | Only a broken tie, or a runoff in which nobody votes, ends it (D13) | `pace.phaseCounts.captainElections`, rule problem log |
 | What eliminated players do | No rule covers it (D19) | Rule problem log |
 | Whether the table knows who plays next | The order is not announced (D20) | Rule problem log |
 | How a Hack conversation is actually held | Its format is undecided (D18). Record the shape, never the words | Facilitator notes |

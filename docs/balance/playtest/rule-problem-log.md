@@ -43,17 +43,24 @@ Ordinary turn, Hack conversation, Captain election, release choice, release vote
 
 When one of these comes up, write its number in the "Rule or decision" column. The answer for the pilot is whatever the build does; the entry tells the owner how often it mattered.
 
+Not decided:
+
 | Number | Question |
 | --- | --- |
 | D11 | May Supplier name themself as a recipient? |
 | D12 | What can Supplier do with fewer than two players in the room? |
-| D13 | What ends a Captain election that keeps tying? |
-| D14 | Does a Healthy but Jailed player count as a Healthy member for winning? |
 | D15 | What ends a match that nobody can still win? |
 | D16 | May a player move during a Captain election? |
-| D17 | May a player end their turn early? |
+| D17 | May a player end their turn or a Hack conversation early? Does the Captain's choice close its window at once? |
 | D18 | How is a Hack conversation held: who asks, how many questions? |
 | D19 | What may an Eliminated player say or show? |
 | D20 | Is the turn order announced? |
+| D34 | May a player aim the showdown's special shot at themself? |
+| D35 | Does an aborted match reveal roles and the Code? |
 
-Working readings that the owner has been asked to confirm are D21 to D29 in [the register](../rules-audit-v1.md#decision-register). If a table plays against one of them, log it as `rule-misunderstood` with its D number.
+Working readings that the owner has been asked to confirm. The two below are the ones a table is most likely to meet. The others are D21 to D33 and D36 to D38 in [the register](../rules-audit-v1.md#decision-register). If a table plays against a reading, or is surprised by one, log it as `rule-misunderstood` with its D number.
+
+| Number | Reading |
+| --- | --- |
+| D13 | A tied Captain election repeats until the tie is broken. A runoff in which nobody votes elects nobody |
+| D14 | A Healthy but Jailed player counts as a Healthy member when a win is judged |

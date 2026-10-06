@@ -37,9 +37,15 @@ test('the rulebook parses cleanly and covers every section', () => {
   }
 });
 
-test('every source pointer resolves in the pinned rule sources', () => {
+test('every source pointer resolves in the pinned rule sources', t => {
+  const ownerFile = existsSync(new URL(V1_OVERLAY_PATH, root)) ? JSON.parse(text(V1_OVERLAY_PATH)) : null;
+  if (ownerFile === null) t.diagnostic('Pointers of the form v1#/field were not resolved: the owner-decision file is absent at this commit.');
   for (const entry of rulebook.entries) {
     for (const ref of entry.refs.filter(item => item.kind === 'pointer')) {
+      if (ref.key === 'v1') {
+        if (ownerFile !== null) assert.ok(resolvePointer(ownerFile, ref.pointer).found, `${entry.id}: ${ref.raw} does not resolve`);
+        continue;
+      }
       assert.ok(ref.key in documents, `${entry.id}: unknown source key ${ref.key}`);
       assert.ok(resolvePointer(documents[ref.key], ref.pointer).found, `${entry.id}: ${ref.raw} does not resolve`);
     }
@@ -60,7 +66,7 @@ test('owner-decision citations name real decisions, and resolve when the overlay
 
 test('the decision register is complete and consistent with rule statuses', () => {
   assert.deepEqual(register.issues, []);
-  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 29 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
+  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 38 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
   for (const entry of rulebook.entries) {
     for (const ref of entry.refs.filter(item => item.kind === 'decision')) {
       const decision = decisions.get(ref.key);
@@ -141,7 +147,7 @@ test('the mode sheets restate the sources and the arithmetic that follows from t
   assert.deepEqual(tableRow(sheet, 'Blue, Red, Alien'), modes.map(mode => { const c = factionCounts(mode); return `${c.Blue}, ${c.Red}, ${c.Alien}`; }));
   assert.deepEqual(tableRow(sheet, 'Starting Blue Power and Red Power'), modes.map(mode => { const c = factionCounts(mode); return `${c.Blue + 1} and ${c.Red}`; }));
   assert.deepEqual(tableRow(sheet, 'Votes needed to jail with everyone voting'), modes.map(mode => `${jailThreshold(mode)} of ${mode}`));
-  assert.deepEqual(tableRow(sheet, 'Attacks available before the showdown'), modes.map(mode => String(damageBudget(mode).attacksBeforeShowdown)));
+  assert.deepEqual(tableRow(sheet, 'Attacks available before the showdown, under reading D22'), modes.map(mode => String(damageBudget(mode).attacksBeforeShowdown)));
   assert.deepEqual(tableRow(sheet, 'Players Hacker cannot rule out of the Code at the start'), modes.map(mode => String(mode - 1)));
   for (const mode of modes) {
     const listed = documents.modes.modes[String(mode)];

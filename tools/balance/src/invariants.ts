@@ -60,7 +60,7 @@ const NEXT_PHASES: Readonly<Record<string, readonly string[]>> = {
   FINISHED: [],
   ABORTED: [],
 };
-// Commands whose acceptance must stay invisible to everyone except the actor (R-VIEW-08).
+// Commands whose acceptance must stay invisible to everyone except the actor (R-VIEW-07).
 const HIDDEN_COMMANDS = [
   'REGISTER_SHOT', 'DISABLE', 'PROTECT', 'RESCUE', 'SUPPLY', 'SCAN', 'REQUEST_HACK', 'SUBMIT_CODE',
   'VOTE', 'RELEASE_VOTE', 'RELEASE_CHOICE', 'SHOWDOWN_SHOT',
@@ -114,7 +114,8 @@ function knowledgeViolations(view: PlayerFacts, role: Role, observation: Observa
   if (role === 'Hacker') {
     if (know.undercoverSeat !== seatOf('Undercover')) fail('Hacker does not know the Undercover');
   } else {
-    if (know.undercoverSeat !== null) fail('Undercover identity given to a role other than Hacker');
+    // Undercover knows their own seat; showing it to them is not a disclosure.
+    if (know.undercoverSeat !== null && !(role === 'Undercover' && know.undercoverSeat === view.seat)) fail('Undercover identity given to a role other than Hacker');
     if (know.scanResults.length !== 0) fail('Scan results given to a role other than Hacker');
   }
   if (role === 'Alien') {
@@ -272,6 +273,8 @@ export function checkTransition(
   const phaseChanged = prev.phaseId !== next.phaseId;
   const resolved = phaseChanged && (prev.phaseKind === 'JAIL_VOTE' || prev.phaseKind === 'SHOWDOWN');
   const changed = changedAudiences(prev, next);
+  const ownChoiceClosed = phaseChanged && event.kind === 'command' && event.outcome === 'REGISTERED'
+    && event.command.type === 'RELEASE_CHOICE' && prev.phaseKind === 'RELEASE_CHOICE';
 
   if (prev.terminal && (phaseChanged || canonicalJson(prev.truth) !== canonicalJson(next.truth) || changed.public || changed.players.length > 0)) {
     fail('INV-PH-06', 'state changed after the match ended');
@@ -281,8 +284,16 @@ export function checkTransition(
   if (phaseChanged) {
     const allowed = event.kind === 'abort' ? ['ABORTED'] : (NEXT_PHASES[prev.phaseKind] ?? []);
     if (!allowed.includes(next.phaseKind)) fail('INV-PH-02', `illegal phase transition ${prev.phaseKind} -> ${next.phaseKind}`);
-    if (event.kind === 'command') fail('INV-PH-02', 'a command changed the phase; phases close only at their deadline');
+    // Votes, turns and the showdown close only at their deadline. Whether the Captain's choice
+    // closes its own window at once is undecided (R-FLOW-09, D17), so that one case is left alone.
+    if (event.kind === 'command' && !ownChoiceClosed) fail('INV-PH-02', 'a command changed the phase; phases close only at their deadline');
     if (event.kind === 'advance' && next.phaseStartedAt !== event.atMs) fail('INV-PH-03', 'the next phase does not start at the actual transition time');
+    // R-FLOW-13 (reading D37): a window opens only when someone can use it.
+    if (next.phaseKind === 'CAPTAIN_ELECTION' && next.publicView.eligibleTargets.length === 0) fail('INV-PH-07', 'a Captain election opened with no eligible candidate');
+    if (next.phaseKind === 'RELEASE_CHOICE' && prev.phaseKind !== 'RELEASE_CHOICE'
+      && (next.truth.releaseUsed || !next.truth.seats.some(seat => seat.captain) || !next.truth.seats.some(seat => seat.jailed))) {
+      fail('INV-PH-07', 'a release choice opened that the Captain could not use');
+    }
     if (next.phaseKind === 'SHOWDOWN') {
       ledger.showdowns += 1;
       if (ledger.showdowns > 1 || prev.round !== 5 || prev.phaseKind !== 'JAIL_VOTE') fail('INV-PH-05', 'the showdown may follow only normal Round 5 resolution, once');
@@ -344,7 +355,7 @@ export function checkTransition(
       if (prev.terminal && event.outcome !== 'PHASE_CLOSED' && event.outcome !== 'INVALID') fail('INV-PH-06', 'a command after the match ended was not refused as closed');
     } else {
       const others = changed.players.filter(seat => seat !== event.actor);
-      if (HIDDEN_COMMANDS.includes(type) && (changed.public || others.length > 0)) {
+      if (HIDDEN_COMMANDS.includes(type) && !ownChoiceClosed && (changed.public || others.length > 0)) {
         fail('INV-VIEW-03', `accepted ${type} by ${event.actor} changed ${changed.public ? 'the public view' : ''}${others.length > 0 ? ` views of ${others.join(',')}` : ''}`);
       }
       const actor = prev.truth.seats.find(item => item.seat === event.actor);

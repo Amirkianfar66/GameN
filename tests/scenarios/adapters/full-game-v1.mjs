@@ -77,14 +77,13 @@ function playerFacts(view) {
 }
 
 function wireCommand(command) {
-  const extra = command.extra ?? {};
   switch (command.type) {
-    case 'MOVE': return { type: 'MOVE', destination: command.destination, ...extra };
-    case 'SUPPLY': return { type: 'SUPPLY', targetSeatIds: command.targets, ...extra };
-    case 'SCAN': return { type: 'SCAN', targetSeatId: command.target, guess: command.guess, ...extra };
-    case 'SUBMIT_CODE': return { type: 'SUBMIT_CODE', seatIds: command.seats, ...extra };
-    case 'RELEASE_VOTE': return { type: 'RELEASE_VOTE', approve: command.approve, ...extra };
-    default: return { type: command.type, targetSeatId: command.target, ...extra };
+    case 'MOVE': return { type: 'MOVE', destination: command.destination };
+    case 'SUPPLY': return { type: 'SUPPLY', targetSeatIds: command.targets };
+    case 'SCAN': return { type: 'SCAN', targetSeatId: command.target, guess: command.guess };
+    case 'SUBMIT_CODE': return { type: 'SUBMIT_CODE', seatIds: command.seats };
+    case 'RELEASE_VOTE': return { type: 'RELEASE_VOTE', approve: command.approve };
+    default: return { type: command.type, targetSeatId: command.target };
   }
 }
 

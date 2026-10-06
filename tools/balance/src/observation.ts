@@ -127,8 +127,6 @@ export interface NeutralCommand {
   guess?: Faction;
   seats?: SeatId[];
   approve?: boolean | null;
-  // Extra wire fields, used only to prove that archived or client-authority fields are refused.
-  extra?: Record<string, unknown>;
 }
 
 export interface EngineMatch {

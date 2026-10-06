@@ -9,7 +9,7 @@ Codex owns the engine, the shared contracts, the files under `rules/`, the root 
 | --- | --- | --- | --- |
 | [BAL-REQ-1](#bal-req-1) | Run the Balance checks in `npm run verify` | CI coverage of work already in this PR | None |
 | [BAL-REQ-2](#bal-req-2) | A private post-match research export | Complete playtest records | None |
-| [BAL-REQ-3](#bal-req-3) | Point every agent at the rulebook, and register D11 to D29 | One rule text for all four workstreams | None |
+| [BAL-REQ-3](#bal-req-3) | Point every agent at the rulebook, and register D11 to D38 | One rule text for all four workstreams | None |
 | [BAL-REQ-4](#bal-req-4) | A supported test surface on the engine | Scenario runs that survive engine refactoring | None |
 | [BAL-REQ-5](#bal-req-5) | A ruleset pin that covers the baseline sources | Evidence that cites the pin | None |
 | [BAL-REQ-6](#bal-req-6) | A decision on the three pinned Balance documents | Keeping the brief and the earlier audit current | None |
@@ -68,7 +68,7 @@ Constraints, all from the role brief and the secrecy rules:
 
 ## BAL-REQ-3
 
-**Point every agent at the rulebook, and register D11 to D29.**
+**Point every agent at the rulebook, and register D11 to D38.**
 
 The owner asked for one rules document that all agents follow. It is [game-rules.md](game-rules.md). It consolidates the pinned sources and the owner decision of 6 October and creates no rule. Agents on other worktrees do not know it exists.
 
@@ -83,7 +83,7 @@ Requested addition to `AGENTS.md`, under "Source precedence", after the numbered
 
 `CLAUDE.md` imports `AGENTS.md`, so no second edit is needed. `CODEX_START_HERE.md` could gain the same pointer in its launch prompts.
 
-Requested addition to the current decision register (`docs/backend/v1-decision-register.md` on PR #16, or wherever the register lives after integration): the rows D11 to D29 of the Balance register, or one row linking to it. Eleven are open and nine ask the owner to confirm a working reading. PR #16 states that no Version 1 rule decision remains unapproved; that holds for V1-01 to V1-21 only.
+Requested addition to the current decision register (`docs/backend/v1-decision-register.md` on PR #16, or wherever the register lives after integration): the rows D11 to D38 of the Balance register, or one row linking to it. Ten of them are open, and with D10, which the earlier register already carries, eleven questions are undecided. Eighteen ask the owner to confirm a working reading. PR #16 states that no Version 1 rule decision remains unapproved; that holds for V1-01 to V1-21 only.
 
 ## BAL-REQ-4
 

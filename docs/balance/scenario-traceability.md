@@ -10,9 +10,9 @@ The three modes are separate files and separate evidence. They are never added t
 
 | File | Mode | Ready | Blocked | Manual | Total |
 | --- | --- | --- | --- | --- | --- |
-| `tests/scenarios/v1/mode-7.scenarios.json` | 7 players | 127 | 12 | 2 | 141 |
-| `tests/scenarios/v1/mode-8.scenarios.json` | 8 players | 129 | 12 | 2 | 143 |
-| `tests/scenarios/v1/mode-9.scenarios.json` | 9 players | 134 | 12 | 2 | 148 |
+| `tests/scenarios/v1/mode-7.scenarios.json` | 7 players | 138 | 12 | 2 | 152 |
+| `tests/scenarios/v1/mode-8.scenarios.json` | 8 players | 140 | 12 | 2 | 154 |
+| `tests/scenarios/v1/mode-9.scenarios.json` | 9 players | 145 | 12 | 2 | 159 |
 | `tests/scenarios/v1/unsupported.scenarios.json` | Configurations the rules do not allow | 8 | 0 | 0 | 8 |
 
 Ready means the expected result is derived from decided rules and can be executed. Blocked means the case waits for an owner decision and asserts nothing. Manual means the evidence must come from the service, the user interface or people, not from an engine run.
@@ -25,7 +25,7 @@ Ready means the expected result is derived from decided rules and can be execute
 | --- | --- | --- | --- | --- |
 | BAL-001 | Exact supported role configurations | Ready | Ready | SETUP-01, DIS-02 (8, 9); unsupported configurations SETUP-01, SETUP-02, SETUP-03, SETUP-04, SETUP-05, SETUP-06, SETUP-07, SETUP-08 |
 | BAL-002 | Code structure and order independence | Ready | Ready | SETUP-02, CODE-01, CODE-02 |
-| BAL-003 | Direct ordinary shooting without identification | Ready | Ready | SHOT-01, SHOT-07 |
+| BAL-003 | Direct ordinary shooting without identification | Ready | Ready | SHOT-01 |
 | BAL-004 | Ordinary and Officer round windows | Ready | Ready | SHOT-02, SHOT-03, OFF-01 (9), OFF-04 (9) |
 | BAL-005 | Officer lifetime ordinary-shot cap | Ready | Ready | OFF-02 (9), OFF-03 (9), SHOW-02 (9) |
 | BAL-006 | Ordinary shooting eligibility and Command immunity | Ready | Ready | CAPT-07, SHOT-04, SHOT-05, SHOT-06, VOTE-06 |
@@ -37,19 +37,19 @@ Ready means the expected result is derived from decided rules and can be execute
 | BAL-012 | Active Protection blocks once | Ready | Ready | PROT-02 |
 | BAL-013 | Jail vote threshold and Protection bypass | Ready | Ready | PROT-04, VOTE-01, VOTE-02, VOTE-03, VOTE-04, VOTE-07 |
 | BAL-014 | Cracker self-rescue and irreversible elimination | Ready | Ready | RESC-01, RESC-03, RESC-04, RESC-05, RESC-06, RESC-07, RESC-08 |
-| BAL-015 | Hacker Scan use and information | Ready | Ready | SCAN-01, SCAN-02, SCAN-03, SCAN-04, SCAN-05 |
+| BAL-015 | Hacker Scan use and information | Ready | Ready | SCAN-01, SCAN-02, SCAN-03, SCAN-04, SCAN-05, SCAN-07 |
 | BAL-016 | One Code attempt in Round 5 | Ready | Ready | CODE-01, CODE-02, CODE-03, CODE-04, CODE-05, CODE-06, CODE-07 |
 | BAL-017 | Ordinary turn and additional Hack time | Ready | Ready | FLOW-02, HACK-01 |
 | BAL-018 | Hack caps and disclosure rule | Ready | Ready, part manual | HACK-02, HACK-03, HACK-04, HACK-07 |
-| BAL-019 | Conditional showdown trigger | Ready | Ready | FLOW-01, WIN-01, WIN-02, WIN-03, WIN-04, WIN-05, SHOW-01 |
+| BAL-019 | Conditional showdown trigger | Ready | Ready | FLOW-01, WIN-01, WIN-02, WIN-03, WIN-04, WIN-05, WIN-10, SHOW-01 |
 | BAL-020 | Showdown participants and independent ammunition | Ready | Ready | SHOW-01, SHOW-03, SHOW-14, SHOW-02 (9) |
 | BAL-021 | Showdown order and eliminated shooter | Ready | Ready | SHOW-04 |
 | BAL-022 | Showdown Protection and loss of room immunity | Ready | Ready | SHOW-05, SHOW-11 |
-| BAL-023 | Showdown terminal checkpoint | Ready | Ready | SHOW-04, SHOW-07, SHOW-08, SHOW-09, SHOW-13 |
+| BAL-023 | Showdown terminal checkpoint | Ready | Ready | SHOW-04, SHOW-07, SHOW-08, SHOW-09, SHOW-16, SHOW-10, SHOW-13 |
 | BAL-024 | Hidden actions do not leak through the table | Ready | Ready | DIS-03, PROT-06, SCAN-06, HACK-05, CODE-10, VOTE-05, SHOW-03, VIEW-01, VIEW-02 |
 | BAL-025 | Retry, replay and reconnect integrity | Ready | Ready, part manual | OPS-02 |
-| BAL-101 | Initial assignment and exit transfers | Blocked on D01 | Decided by the owner; ready | SETUP-05, RESC-01, RESC-02, REL-01, REL-02, REL-03, REL-04, REL-05 |
-| BAL-102 | Captain routes and deferred candidate failure | Blocked on D02 | Decided by the owner; ready | MOVE-03, CAPT-01, CAPT-02, CAPT-03, CAPT-04, CAPT-05, CAPT-10 |
+| BAL-101 | Initial assignment and exit transfers | Blocked on D01 | Decided by the owner; ready | SETUP-05, RESC-01, RESC-02, REL-01, REL-02, REL-03, REL-04, REL-05, REL-06 |
+| BAL-102 | Captain routes and deferred candidate failure | Blocked on D02 | Decided by the owner; ready | MOVE-03, CAPT-01, CAPT-02, CAPT-03, CAPT-04, CAPT-05, CAPT-09, CAPT-10 |
 | BAL-103 | Cracker Hospital access | Blocked on D03 | Decided by the owner; ready | RESC-02, RESC-09 |
 | BAL-104 | Location changes after valid registration | Blocked on D04 | Decided by the owner; ready | RESC-08, LOCK-01, LOCK-02, LOCK-03, LOCK-04, ORDER-05 |
 | BAL-105 | Normal-stage competing effect precedence | Blocked on D05 | Decided by the owner; ready | PROT-07, ORDER-04a, ORDER-04b, ORDER-05 |
@@ -68,14 +68,39 @@ A blocked case has no expected result. Where a probe is listed, a run records wh
 | D10 | How Original Powers are dealt with seven or nine players, and how they meet the showdown's special shots | POW-01 | None possible |
 | D11 | May Supplier name themself as one of the two recipients? | SUP-08, SUP-09 | Yes |
 | D12 | What may Supplier do with fewer than two eligible recipients in the same location? | SUP-09 | Yes |
-| D13 | Is there a limit on repeated Captain runoffs, or a tie-break? | CAPT-09 | Yes |
-| D14 | Does a Healthy but Jailed player satisfy "at least one Healthy member"? | WIN-06, SHOW-10 | Yes |
 | D15 | What ends a match in which no victory condition can still be met, or in which nobody is left? | WIN-07 | None possible |
 | D16 | May a player move while a Captain election is being voted? | MOVE-05 | Yes |
-| D17 | May a player end their ordinary turn or a Hack conversation early? | FLOW-07 | None possible |
+| D17 | Windows that might be shorter: may a player end their turn or a Hack conversation early, and does the release-choice window close when the Captain has chosen? | FLOW-07, FLOW-10 | Yes |
 | D18 | Format of a Standard Hack conversation: who asks, how many questions, what if a player declines | HACK-06 | None possible |
 | D19 | What may an Eliminated player say or show at the table? | FLOW-09 | None possible |
 | D20 | Is a round's turn order announced in advance or revealed one turn at a time? | FLOW-08 | None possible |
+| D34 | May a showdown participant target themself? | SHOW-15 | Yes |
+| D35 | Does a match that the host aborts reveal roles and the Code? | OPS-03 | Yes |
+
+## Working readings and the scenarios that touch them
+
+A working reading is a DERIVED rule that cites a decision the owner is asked to confirm. The third column lists the ready scenarios whose expected result is about the rule. The fourth counts the further ready scenarios, for 7, 8 and 9 players, whose lead-up relies on it; each scenario names those rules in its `dependsOn` field. If the owner answers a reading differently, both groups are derived again.
+
+| Decision | Rules | Scenarios that assert the reading | Further scenarios that use it on the way |
+| --- | --- | --- | --- |
+| D13 | R-CAPT-13 | CAPT-09 | 0, 0, 0 |
+| D14 | R-WIN-11 | WIN-06, SHOW-16 | 0, 0, 0 |
+| D21 | R-SETUP-16 | None: see the next table | 0, 0, 0 |
+| D22 | R-SETUP-14 | SETUP-04, DIS-02 (8, 9) | 7, 8, 9 |
+| D23 | R-SETUP-12 | SETUP-03 | 0, 0, 0 |
+| D24 | R-ROLE-17 | DIS-01 | 50, 64, 65 |
+| D25 | R-PROT-08 | PROT-03 | 0, 0, 0 |
+| D26 | R-PROT-07 | SHOW-11 | 0, 0, 0 |
+| D27 | R-VOTE-08, R-SHOW-10 | RESC-08, SHOW-01 | 40, 40, 41 |
+| D28 | R-WIN-13 | CODE-09 | 0, 0, 0 |
+| D29 | R-VOTE-09 | VOTE-05 | 0, 0, 0 |
+| D30 | R-ROLE-18 | SCAN-04, SCAN-05, SCAN-07 | 0, 0, 0 |
+| D31 | R-SHOT-05 | SHOT-01, SHOT-02, SHOT-06, SHOT-08, SUP-01, OFF-01 (9), OFF-03 (9) | 0, 0, 0 |
+| D32 | R-CAPT-15 | CAPT-11, CAPT-12, CAPT-13 | 0, 0, 0 |
+| D33 | R-MOVE-09 | MOVE-03 | 5, 5, 5 |
+| D36 | R-VIEW-07 | PROT-06, SUP-01, SCAN-06, HACK-05, CODE-10, VOTE-05, SHOW-03, VIEW-01 | 0, 0, 0 |
+| D37 | R-FLOW-13 | CAPT-10, REL-02, REL-05, REL-06, REL-07 | 2, 2, 2 |
+| D38 | R-VOTE-10 | REL-01, REL-04, REL-06 | 0, 0, 0 |
 
 ## Rules that no ready scenario exercises
 
@@ -89,7 +114,6 @@ Every other rule of the rulebook that is not OPEN is cited by at least one ready
 | R-HACK-04 | 7, 8, 9 | Conduct rule. Manual case HACK-07. |
 | R-HACK-05 | 7, 8, 9 | Conduct rule. Manual case HACK-07. |
 | R-HACK-06 | 7, 8, 9 | Nothing to exercise: the protocol has no messaging command. Checked by reading. |
-| R-RES-03 | 7, 8, 9 | The only case that tells the difference ends in a state that depends on D14: blocked case SHOW-10. INV-WIN-01 checks that a result appears only when a stage closes. |
 | R-WIN-08 | 7, 8, 9 | Unreachable by legal play in every mode (audit, S-05). No fixture is possible without a synthetic state, which this baseline does not use. |
 | R-OPS-01 | 7, 8, 9 | Service behaviour. Manual case OPS-02; Backend owns the tests. |
 | R-OPS-03 | 7, 8, 9 | Service behaviour. Manual case OPS-02; Backend owns the tests. |
@@ -97,4 +121,4 @@ Every other rule of the rulebook that is not OPEN is cited by at least one ready
 
 ## Cases with no counterpart in the earlier matrix
 
-SETUP-03, SETUP-04, SETUP-06, FLOW-05, FLOW-06, FLOW-07, FLOW-08, FLOW-09, MOVE-05, CAPT-08, CAPT-09, SHOT-08, DIS-01, DIS-04, DIS-05, PROT-05, SUP-02, SUP-03, SUP-04, SUP-06, SUP-07, SUP-08, SUP-09, HACK-06, WIN-06, WIN-08, WIN-09, WIN-07, SHOW-10, SUP-05 (8, 9).
+SETUP-03, SETUP-04, SETUP-06, FLOW-05, FLOW-06, FLOW-07, FLOW-08, FLOW-09, MOVE-05, CAPT-08, CAPT-11, CAPT-12, CAPT-13, SHOT-08, DIS-01, DIS-04, DIS-05, PROT-05, SUP-02, SUP-03, SUP-04, SUP-06, SUP-07, SUP-08, SUP-09, HACK-06, REL-07, FLOW-10, WIN-06, WIN-08, WIN-09, WIN-07, SHOW-15, VIEW-03, OPS-03, SUP-05 (8, 9).

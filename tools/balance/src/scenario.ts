@@ -13,7 +13,6 @@ export interface StepCommand {
   guess?: Faction;
   seats?: Ref[];
   approve?: boolean | null;
-  extra?: Record<string, unknown>;
 }
 
 // REFUSED is the rules-level expectation "the engine must not accept this". Whether the refusal
@@ -37,7 +36,7 @@ export type Check =
 
 export type Step =
   | { op: 'until'; round?: number; phase?: string; active?: Ref }
-  | { op: 'expire'; times?: number; lateByMs?: number }
+  | { op: 'expire'; times?: number }
   | { op: 'expireEarly'; beforeDeadlineMs: number }
   | { op: 'command'; actor: Ref; command: StepCommand; expect: Expectation; at?: 'start' | 'deadline-1' | 'deadline' }
   | { op: 'probe'; actor: Ref; command: StepCommand; label: string }
@@ -64,7 +63,10 @@ export interface Scenario {
   status: ScenarioStatus;
   kind: string;
   areas: string[];
+  // Rules the expectations are about.
   ruleRefs: string[];
+  // Further rules the lead-up steps rely on, so that every scenario touched by a rule can be found.
+  dependsOn: string[];
   lineage: string[];
   decisionIds: string[];
   optionalPowers: false;
@@ -136,6 +138,7 @@ export function validateScenario(scenario: Scenario): string[] {
   }
   const expectations = scenario.steps.filter(hasExpectation).length;
   const probes = scenario.steps.filter(step => step.op === 'probe' || step.op === 'note').length;
+  if (scenario.dependsOn.some(id => scenario.ruleRefs.includes(id))) say('dependsOn must not repeat ruleRefs');
   if (scenario.status === 'ready') {
     if (scenario.ruleRefs.length === 0) say('a ready scenario needs at least one rule reference');
     if (scenario.decisionIds.length !== 0) say('a ready scenario cannot depend on an open decision');
@@ -164,8 +167,8 @@ export function validateScenario(scenario: Scenario): string[] {
   const roles: readonly string[] = scenario.setup?.roleOrder ?? [];
   for (const ref of refs) if (!roles.includes(ref)) say(`reference @${ref} is not a role in this setup`);
 
-  const refusal = scenario.kind === 'archived_field_refusal';
-  const text = JSON.stringify(refusal ? scenario.steps.map(step => (step.op === 'command' ? { ...step, command: { ...step.command, extra: undefined } } : step)) : scenario.steps);
+  // No current fixture may carry an archived mechanic, not even to show that it is refused.
+  const text = JSON.stringify(scenario.steps);
   for (const name of ARCHIVED_FIELD_NAMES) {
     if (text.includes(`"${name}"`)) say(`archived mechanic field ${name} must not appear in a current fixture`);
   }

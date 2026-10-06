@@ -14,7 +14,7 @@ const root = new URL('../../', import.meta.url);
 const setup = deriveSetup(7, 'v1-A-1', { roles: 'canonical', rooms: 'all-a', orders: 'seeded' });
 const scenario = (status, steps, extra = {}) => ({
   id: 'V1-M7-SETUP-01', group: 'mode-7', mode: 7, title: 'tooling test', status, kind: 'rules_correctness', areas: ['mode-setup'],
-  ruleRefs: ['R-SETUP-01'], lineage: [], decisionIds: status === 'blocked' ? ['D11'] : [], optionalPowers: false, setup, steps, note: '', ...extra,
+  ruleRefs: ['R-SETUP-01'], dependsOn: [], lineage: [], decisionIds: status === 'blocked' ? ['D11'] : [], optionalPowers: false, setup, steps, note: '', ...extra,
 });
 const refused = { op: 'command', actor: '@Insider', command: { type: 'MOVE', destination: 'Room B' }, expect: 'NOT_ALLOWED' };
 const roundOne = { op: 'assert', checks: [{ match: 'round', equals: 1 }] };
@@ -111,6 +111,58 @@ test('a hidden registration that touches another view, or a refusal that changes
   assert.ok(checkTransition(setup, opening, touched, accepted, startLedger(opening)).some(item => item.invariant === 'INV-VIEW-03'));
   const refusal = { ...accepted, outcome: 'NOT_ALLOWED' };
   assert.ok(checkTransition(setup, opening, touched, refusal, startLedger(opening)).some(item => item.invariant === 'INV-VIEW-05'));
+});
+
+test('a command may close no window, and only the Captain\'s own release choice is left unjudged', () => {
+  const inPhase = (kind, id) => {
+    const observation = openingObservation(setup);
+    observation.phaseKind = kind;
+    observation.phaseId = id;
+    observation.publicView.phaseKind = kind;
+    observation.raw.public.phaseKind = kind;
+    return observation;
+  };
+  const closes = 'a command changed the phase';
+  const violations = (prev, next, event) => checkTransition(setup, prev, next, event, startLedger(prev));
+  const choice = { kind: 'command', actor: 'seat-1', command: { type: 'RELEASE_CHOICE', target: 'seat-2' }, outcome: 'REGISTERED' };
+  // D17: whether the choice closes its own window is undecided, so neither answer is a violation.
+  const closed = violations(inPhase('RELEASE_CHOICE', 'phase-7'), inPhase('RELEASE_VOTE', 'phase-8'), choice);
+  assert.ok(!closed.some(item => item.message.includes(closes) || item.invariant === 'INV-VIEW-03'));
+  // With the window still open the same choice must stay invisible to everyone else.
+  const leaked = inPhase('RELEASE_CHOICE', 'phase-7');
+  leaked.raw.public.releaseTarget = 'seat-2';
+  leaked.revisions.public += 1;
+  assert.ok(violations(inPhase('RELEASE_CHOICE', 'phase-7'), leaked, choice).some(item => item.invariant === 'INV-VIEW-03'));
+  // A ballot never closes a vote, and a refused choice never closes anything.
+  const ballot = { kind: 'command', actor: 'seat-1', command: { type: 'VOTE', target: 'seat-2' }, outcome: 'REGISTERED' };
+  assert.ok(violations(inPhase('JAIL_VOTE', 'phase-7'), inPhase('CAPTAIN_ELECTION', 'phase-8'), ballot).some(item => item.message.includes(closes)));
+  const refusedChoice = { ...choice, outcome: 'NOT_ALLOWED' };
+  assert.ok(violations(inPhase('RELEASE_CHOICE', 'phase-7'), inPhase('RELEASE_VOTE', 'phase-8'), refusedChoice).some(item => item.message.includes(closes)));
+});
+
+test('a window that nobody could use is reported (reading D37)', () => {
+  const inPhase = (kind, id) => {
+    const observation = openingObservation(setup);
+    observation.phaseKind = kind;
+    observation.phaseId = id;
+    return observation;
+  };
+  const opened = (next, event = { kind: 'advance', atMs: 0, advanced: true }) => {
+    const prev = inPhase('ORDINARY_TURN', 'phase-7');
+    return checkTransition(setup, prev, next, event, startLedger(prev)).filter(item => item.invariant === 'INV-PH-07');
+  };
+  // The stand-in opening has no Captain and nobody in Jail, and lists no candidate.
+  assert.equal(opened(inPhase('RELEASE_CHOICE', 'phase-8')).length, 1);
+  assert.equal(opened(inPhase('CAPTAIN_ELECTION', 'phase-8')).length, 1);
+  const usable = inPhase('RELEASE_CHOICE', 'phase-8');
+  usable.truth.seats[0].captain = true;
+  usable.truth.seats[1].jailed = true;
+  assert.equal(opened(usable).length, 0);
+  usable.truth.releaseUsed = true;
+  assert.equal(opened(usable).length, 1);
+  const contested = inPhase('CAPTAIN_ELECTION', 'phase-8');
+  contested.publicView.eligibleTargets = ['seat-1'];
+  assert.equal(opened(contested).length, 0);
 });
 
 test('Wilson intervals match the examples in the role brief and refuse impossible counts', () => {

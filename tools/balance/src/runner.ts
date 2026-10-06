@@ -53,7 +53,6 @@ function neutralCommand(command: StepCommand, setup: ScenarioSetup): NeutralComm
   if (command.destination !== undefined) out.destination = command.destination;
   if (command.guess !== undefined) out.guess = command.guess;
   if (command.approve !== undefined) out.approve = command.approve;
-  if (command.extra !== undefined) out.extra = command.extra;
   return out;
 }
 
@@ -66,10 +65,10 @@ function observe(session: Session, previous: Observation): void {
   session.current = next;
 }
 
-function expire(session: Session, lateByMs: number): void {
+function expire(session: Session): void {
   const before = session.current;
   if (before.phaseEndsAt === null) throw new StepError(`cannot expire the terminal phase ${before.phaseKind}`);
-  const atMs = before.phaseEndsAt + lateByMs;
+  const atMs = before.phaseEndsAt;
   const advanced = session.match.advance(atMs);
   observe(session, before);
   session.transitions += 1;
@@ -174,6 +173,7 @@ function matchValues(now: Observation): Record<string, unknown> {
     round: now.round, phase: now.phaseKind, terminal: now.terminal, active: now.activeSeat,
     winner: now.result?.winner ?? null, alienCoWinner: now.result?.alienCoWinner ?? null, hasResult: now.result !== null,
     codeSubmitted: now.truth.codeSubmitted, codeCorrect: now.truth.codeCorrect, releaseUsed: now.truth.releaseUsed,
+    endRevealPresent: now.publicView.endReveal !== null,
     windowMs: now.phaseEndsAt === null ? null : now.phaseEndsAt - now.phaseStartedAt,
   };
 }
@@ -201,6 +201,7 @@ function evaluate(check: Check, session: Session): string | null {
   if ('publicFact' in check) {
     const facts = now.publicView;
     const values: Record<string, unknown> = {
+      round: facts.round, phase: facts.phaseKind, active: facts.activeSeat,
       eligibleVoters: facts.eligibleVoters, eligibleTargets: facts.eligibleTargets, releaseTarget: facts.releaseTarget,
       endRevealPresent: facts.endReveal !== null, tallyKind: facts.lastTally?.kind ?? null, tallySelected: facts.lastTally?.selected ?? null,
       tallyEligibleVoterCount: facts.lastTally?.eligibleVoterCount ?? null, tallyReleased: facts.lastTally?.released ?? null,
@@ -264,12 +265,12 @@ function runStep(step: Step, session: Session): void {
       for (let expiries = 0; !matches(); expiries += 1) {
         if (session.current.terminal) throw new StepError(`the match ended (${session.current.phaseKind}) before reaching ${JSON.stringify(step)}`);
         if (expiries >= MAX_EXPIRIES) throw new StepError(`checkpoint ${JSON.stringify(step)} not reached within ${MAX_EXPIRIES} phases`);
-        expire(session, 0);
+        expire(session);
       }
       return;
     }
     case 'expire':
-      for (let count = 0; count < (step.times ?? 1); count += 1) expire(session, step.lateByMs ?? 0);
+      for (let count = 0; count < (step.times ?? 1); count += 1) expire(session);
       return;
     case 'expireEarly': {
       const before = session.current;

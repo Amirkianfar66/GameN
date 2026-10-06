@@ -46,13 +46,18 @@ export function parseRef(raw: string): SourceRef | null {
   if (/^#\d+$/.test(raw)) return { raw, kind: 'issue', key: raw, pointer: '' };
   const v1 = /^v1#(V1-\d{2})$/.exec(raw);
   if (v1 !== null) return { raw, kind: 'v1', key: 'v1', pointer: v1[1] as string };
-  const pointer = /^([a-z_]+)#(\/.*)?$/.exec(raw);
+  // `v1#/field` points into the owner-decision file itself, for example its optional_powers flag.
+  const pointer = /^([a-z][a-z0-9_]*)#(\/.*)?$/.exec(raw);
   if (pointer !== null) return { raw, kind: 'pointer', key: pointer[1] as string, pointer: pointer[2] ?? '' };
   return null;
 }
 
 function backticked(cell: string): string[] {
   return [...cell.matchAll(/`([^`]+)`/g)].map(match => match[1] as string);
+}
+
+function citesOwnerFileOf(entry: RuleEntry): boolean {
+  return entry.refs.some(ref => ref.kind === 'v1' || (ref.kind === 'pointer' && ref.key === 'v1'));
 }
 
 export function parseRulebook(markdown: string): ParsedTable<RuleEntry> {
@@ -81,8 +86,11 @@ export function parseRulebook(markdown: string): ParsedTable<RuleEntry> {
   for (const entry of entries) {
     const kinds = entry.refs.map(ref => ref.kind);
     const sourced = kinds.includes('pointer') || kinds.includes('v1');
-    if (entry.status === 'CONFIRMED' && !kinds.includes('pointer')) issues.push(`${entry.id}: CONFIRMED needs a pointer into a pinned rule source`);
-    if (entry.status === 'OWNER-V1' && !kinds.includes('v1')) issues.push(`${entry.id}: OWNER-V1 needs a V1 decision reference`);
+    const pinned = entry.refs.some(ref => ref.kind === 'pointer' && ref.key !== 'v1');
+    if (entry.status === 'CONFIRMED' && !pinned) issues.push(`${entry.id}: CONFIRMED needs a pointer into a pinned rule source`);
+    if (entry.status === 'CONFIRMED' && citesOwnerFileOf(entry)) issues.push(`${entry.id}: a rule that rests on the owner decision is OWNER-V1, not CONFIRMED`);
+    const citesOwnerFile = kinds.includes('v1') || entry.refs.some(ref => ref.kind === 'pointer' && ref.key === 'v1');
+    if (entry.status === 'OWNER-V1' && !citesOwnerFile) issues.push(`${entry.id}: OWNER-V1 needs a reference into the owner decision`);
     if (entry.status === 'DERIVED' && !sourced && !kinds.includes('rule')) issues.push(`${entry.id}: DERIVED needs the rules or sources it follows from`);
     if (entry.status === 'CONDUCT' && !sourced) issues.push(`${entry.id}: CONDUCT needs its source`);
     if (entry.status === 'OPEN' && !kinds.includes('decision')) issues.push(`${entry.id}: OPEN needs its decision identifier`);

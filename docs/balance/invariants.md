@@ -34,11 +34,12 @@ A setup the rules do not allow must be refused: the eight `V1-UX-SETUP` scenario
 | ID | Statement | Rules |
 | --- | --- | --- |
 | INV-PH-01 | The round is between 1 and 5. | R-FLOW-01 |
-| INV-PH-02 | The round never goes back and rises by one only at end-of-round resolution. Phases follow only the transitions in the table below. A command never changes the phase. | R-FLOW-03, R-FLOW-07 |
+| INV-PH-02 | The round never goes back and rises by one only at end-of-round resolution. Phases follow only the transitions in the table below. A command never changes the phase. One case is not judged: the Captain's own release choice closing the release-choice window, which is undecided (D17). | R-FLOW-03, R-FLOW-07, R-ACT-01 |
 | INV-PH-03 | Every live window lasts exactly 60 seconds and never closes before its deadline. The next window starts at the actual moment of the transition. A finished or aborted match has no deadline. | R-FLOW-05, R-FLOW-06, R-FLOW-07 |
 | INV-PH-04 | In every round each player who is not Eliminated takes exactly one ordinary turn, in the recorded order. | R-FLOW-02, R-FLOW-04, R-FLOW-11 |
 | INV-PH-05 | The showdown happens at most once, only after Round 5's Jail vote and resolution. | R-SHOW-01 |
 | INV-PH-06 | After a match has ended nothing changes and every command is refused as closed. | R-SHOW-08, R-OPS-02 |
+| INV-PH-07 | A window opens only when someone can use it: a Captain election has at least one eligible candidate, and a release choice opens only with a Captain, an unused request and a prisoner. | R-FLOW-13 |
 
 | From | May be followed by |
 | --- | --- |
@@ -75,11 +76,11 @@ When no player can take a turn in the next round, a Jail vote or an election may
 | --- | --- | --- |
 | INV-VIEW-01 | Before the match is finished, the public payload names no role and carries no private field: role, faction, weapon, Protection, Code, ballot, pending registration or legal-target hint. The one exception is the revealed faction of an Eliminated player. | R-VIEW-02, R-VIEW-03 |
 | INV-VIEW-02 | Each player's view shows their own true role and resources. Insider's candidates, the Undercover's identity, the Code, Scan results and Protection status appear only in the view of the role entitled to them. A failed Scan carries no membership; a correct one carries the true membership. | R-VIEW-04, R-VIEW-05, R-ROLE-13, R-ROLE-14, R-PROT-06 |
-| INV-VIEW-03 | An accepted secret registration changes no view except the actor's: shot, Disabler, Protection, Rescue, Supplier's choice, Scan, Hack request, Code submission, ballot, release choice and special shot. | R-VIEW-07, R-ACT-08 |
+| INV-VIEW-03 | An accepted secret registration changes no view except the actor's: shot, Disabler, Protection, Rescue, Supplier's choice, Scan, Hack request, Code submission, ballot, release choice and special shot. A release choice that closes its own window is not judged (D17). | R-VIEW-07, R-ACT-08 |
 | INV-VIEW-04 | An audience's revision never decreases and changes exactly when that audience's content changes. | R-VIEW-07 |
-| INV-VIEW-05 | A refused command changes no state and no view. | R-VIEW-07 |
+| INV-VIEW-05 | A refused command changes no state and no view. | R-ACT-09, R-VIEW-07 |
 | INV-VIEW-06 | The public facts inside every player's view equal the public view, and the public status of each seat equals the authoritative state. | R-VIEW-01 |
-| INV-VIEW-07 | Exact roles and the Code are not public while the match is live, and are public and correct once it is finished. | R-VIEW-08 |
+| INV-VIEW-07 | Exact roles and the Code are not public while the match is live, and are public and correct once it is finished. An aborted match is not judged either way (D35). | R-VIEW-08 |
 
 INV-VIEW-04 and INV-VIEW-06 restate the technical contract in `docs/integration-baseline.md`. They are checked here because a break in either would let a hidden action show.
 
@@ -91,7 +92,7 @@ INV-VIEW-04 and INV-VIEW-06 restate the technical contract in `docs/integration-
 | INV-WIN-02 | Blue never wins without a Healthy Blue player, and Red never without a Healthy Red player. With a Blue win the Alien co-win is recorded exactly when Alien is not Eliminated. Alien wins alone only when every Blue and Red player is Eliminated and Alien is not. | R-WIN-02, R-WIN-07, R-WIN-08 |
 | INV-WIN-03 | A Draw is recorded only after a showdown. Before the end of Round 5 the only possible results are the two elimination victories. | R-WIN-09, R-SHOW-08 |
 
-INV-WIN-02 states necessary conditions only. It does not decide who should have won: that is what the `WIN` and `SHOW` scenarios do, case by case. It is also silent on D14, since a Healthy but Jailed player is Healthy.
+INV-WIN-02 states necessary conditions only. It does not decide who should have won: that is what the `WIN` and `SHOW` scenarios do, case by case. It asks for a Healthy member, Jailed or free, so it holds under either answer to D14.
 
 ## Determinism
 
@@ -104,4 +105,17 @@ INV-WIN-02 states necessary conditions only. It does not decide who should have 
 - Whether a particular command should have been accepted. The scenarios do that.
 - Retry safety, duplicate delivery, security rules, seat recovery and scheduling. Backend owns those.
 - Anything said aloud. The Hack truth rule and embargo are conduct rules (R-HACK-04, R-HACK-05).
-- D10 to D20. No invariant encodes an answer to an open question.
+- The open questions D10 to D12, D15 to D20, D34 and D35. No invariant encodes an answer to one of them.
+
+## Invariants that rest on a working reading
+
+A working reading is a rule the owner has been asked to confirm. If one is answered differently, the invariant named beside it changes with the rule.
+
+| Invariant | Part that rests on a reading | Decision |
+| --- | --- | --- |
+| INV-SET-04, INV-RES-03 | Only Undercover and Officer start with an ordinary weapon | D22 |
+| INV-VIEW-02 | Nobody but Hacker is told who Undercover is | D23 |
+| INV-JAIL-01 | Only a release vote ends Jail, and it does so when that vote closes | D27, D38 |
+| INV-PH-07 | No window opens that nobody could use | D37 |
+| INV-RES-04 | A Scan counts as the turn's Main Action | D30 |
+| INV-VIEW-03 | A Code submission, a Hack request and a release choice are secret registrations | D36 |

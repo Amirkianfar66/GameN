@@ -62,12 +62,117 @@ const changed = (since, audiences) => ({ changed: { since, audiences } });
 const onlyActorSaw = (since, actor) => unchanged(since, { allPlayersExcept: [ref(actor)] });
 
 // ---------------------------------------------------------------------------------------------
+// Rules that a scenario uses besides the ones it is about, read mechanically from the commands it
+// expects to be accepted, the checkpoints it runs to and the weapon counts it checks. The list is
+// generous on purpose: it exists to find every scenario a rule touches, so that a changed reading
+// can be followed to the cases that must be derived again. It decides no expectation.
+const USED_BY_ACCEPTED_COMMAND = {
+  RESCUE: ['R-ROLE-02', 'R-ACT-07'], SUPPLY: ['R-ROLE-07'], SCAN: ['R-ROLE-13', 'R-ROLE-14'], REQUEST_HACK: ['R-HACK-01', 'R-HACK-02'],
+  MOVE: ['R-MOVE-01'], SUBMIT_CODE: ['R-ROLE-15'], RELEASE_CHOICE: ['R-VOTE-05'], RELEASE_VOTE: ['R-VOTE-06'],
+  SHOWDOWN_SHOT: ['R-SHOW-02', 'R-SHOW-04'], DISABLE: ['R-ACT-07'], PROTECT: ['R-PROT-01', 'R-PROT-02', 'R-ACT-07'],
+};
+const REGISTERED_ACTIONS = ['DISABLE', 'REGISTER_SHOT', 'PROTECT', 'RESCUE', 'SUPPLY'];
+
+function leadUpRules(steps) {
+  const used = new Set();
+  const use = (...ids) => { for (const id of ids) used.add(id); };
+  let round = 1; // 6 stands for "Round 5 has resolved"
+  let phase = 'ORDINARY_TURN';
+  let betweenRounds = false;
+  let jailedIn = null; // the first round with an accepted Jail ballot
+  let protections = 0;
+  let candidate = null; // who the last election ballot named
+  let captainInside = null; // a Captain who was placed in Command Room and has not left it
+  const actedIn = new Map(); // round -> players who registered an action in it
+  for (const step of steps) {
+    if (step.op === 'until') {
+      if (step.phase === 'CAPTAIN_ELECTION' && step.round === undefined && round === 1) use('R-CAPT-01');
+      if (step.phase === 'SHOWDOWN' || step.phase === 'FINISHED') round = 6;
+      else if (step.round !== undefined) round = step.round;
+      else if (step.phase !== 'CAPTAIN_ELECTION' && betweenRounds) round += 1;
+      betweenRounds = step.phase === 'CAPTAIN_ELECTION' && step.round === undefined;
+      phase = step.phase ?? 'UNKNOWN';
+      if (step.phase === 'SHOWDOWN') use('R-WIN-10', 'R-SHOW-01', 'R-WIN-01', 'R-WIN-04');
+    } else if (step.op === 'expire') {
+      if (betweenRounds) {
+        round += 1;
+        betweenRounds = false;
+        captainInside = candidate;
+      }
+      if (phase === 'SHOWDOWN' && jailedIn !== null) use('R-SHOW-10');
+      phase = 'UNKNOWN';
+    } else if (step.op === 'command' && step.expect === 'REGISTERED') {
+      const type = step.command.type;
+      use(...(USED_BY_ACCEPTED_COMMAND[type] ?? []));
+      if (REGISTERED_ACTIONS.includes(type)) actedIn.set(round, [...(actedIn.get(round) ?? []), step.actor]);
+      if (type === 'DISABLE') {
+        use(step.actor === '@Red Disabler' ? 'R-ROLE-06' : 'R-ROLE-05');
+        if (round < 4) use('R-ROLE-17');
+      }
+      if (type === 'REGISTER_SHOT') use('R-SHOT-02', step.actor === '@Officer' ? 'R-ROLE-11' : 'R-SHOT-03');
+      if (type === 'PROTECT') {
+        protections += 1;
+        if (protections > 1) use('R-PROT-08');
+      }
+      if (type === 'MOVE' && step.actor === captainInside) {
+        // The Captain leaves Command Room and keeps the title; the destination is reading D33.
+        if (step.command.destination !== 'Command Room') use('R-MOVE-05', 'R-MOVE-09', 'R-CAPT-09');
+        captainInside = null;
+      }
+      if (type === 'VOTE' && phase === 'CAPTAIN_ELECTION') {
+        use('R-CAPT-02', 'R-CAPT-04', 'R-CAPT-05');
+        candidate = step.command.target;
+      }
+      if (type === 'VOTE' && phase === 'JAIL_VOTE') {
+        use('R-VOTE-02', 'R-VOTE-03');
+        jailedIn ??= round;
+        // A player voted into Jail in the round in which they registered an action: it still resolves.
+        if ((actedIn.get(round) ?? []).includes(step.command.target)) use('R-ACT-05', 'R-RES-01');
+      }
+    }
+    if (step.op === 'assert') {
+      for (const check of step.checks) {
+        // An exact list of phases, or a count of release choices, says that no idle window opened.
+        if (check.trace !== undefined || check.count === 'releaseChoicePhases') use('R-FLOW-13');
+        // A weapon count rests on who starts with a weapon.
+        if ((check.count ?? check.field) !== 'ordinaryWeapons') continue;
+        const holder = check.truth ?? check.visible ?? null;
+        use('R-SETUP-13');
+        if (holder !== '@Undercover' && holder !== '@Officer') use('R-SETUP-14');
+      }
+    }
+    // A player sent to Jail in one round is relied on as Jailed in a later one.
+    if (jailedIn !== null && round > jailedIn) use('R-VOTE-08');
+  }
+  return used;
+}
+
+// Give each shooter one target from the list so that nobody is given themself: first fit, in order.
+function allot(shooters, targets) {
+  const left = [...targets];
+  const out = [];
+  const place = index => {
+    if (index === shooters.length) return true;
+    for (let pick = 0; pick < left.length; pick += 1) {
+      if (left[pick] === shooters[index] || left.indexOf(left[pick]) !== pick) continue;
+      const [target] = left.splice(pick, 1);
+      out.push([shooters[index], target]);
+      if (place(index + 1)) return true;
+      out.pop();
+      left.splice(pick, 0, target);
+    }
+    return false;
+  };
+  if (!place(0)) throw new Error('no allotment of targets without a self-target');
+  return out;
+}
+
+// ---------------------------------------------------------------------------------------------
 // Per-mode context
 function context(mode) {
   const roles = ROLES_BY_MODE[mode];
   const seatIds = seatIdsFor(mode);
   const A = setupFromSeed(mode, 'v1-A-1');
-  const A2 = setupFromSeed(mode, 'v1-A-2');
   const B = setupFromSeed(mode, 'v1-B-1');
   const seatOf = (setup, role) => seatIds[setup.roleOrder.indexOf(role)];
   const roleAt = (setup, seat) => setup.roleOrder[Number(seat.slice(5)) - 1];
@@ -89,16 +194,18 @@ function context(mode) {
   const scenarios = [];
   const add = (area, number, title, options) => {
     const setup = options.setup === undefined ? A : options.setup;
+    const steps = options.steps ?? [];
+    const dependsOn = [...new Set([...leadUpRules(steps), ...(options.depends ?? [])])].filter(id => !options.rules.includes(id)).sort();
     scenarios.push({
       id: `V1-M${mode}-${area}-${String(number).padStart(2, '0')}${options.suffix ?? ''}`,
       group: `mode-${mode}`, mode, title,
       status: options.status ?? 'ready', kind: options.kind ?? 'rules_correctness',
-      areas: options.areas, ruleRefs: options.rules, lineage: options.lineage ?? [],
+      areas: options.areas, ruleRefs: options.rules, dependsOn, lineage: options.lineage ?? [],
       decisionIds: options.decisions ?? [], optionalPowers: false,
-      setup, steps: options.steps ?? [], note: options.note ?? '',
+      setup, steps, note: options.note ?? '',
     });
   };
-  return { mode, roles, seatIds, A, A2, B, seatOf, orderOf, byTurn, acts, voters, T, jail, elect, code, wrongCode, has, scenarios, add };
+  return { mode, roles, seatIds, A, B, seatOf, orderOf, byTurn, acts, voters, T, jail, elect, code, wrongCode, has, scenarios, add };
 }
 
 // Two attacks on one Healthy target in the same round. With eight or nine players both Disablers
@@ -121,15 +228,17 @@ function toEqualPower(M, injureWith = 'Blue Disabler') {
 
 function build(mode) {
   const M = context(mode);
-  const { add, acts, jail, elect, A, A2, B, T } = M;
+  const { add, acts, jail, elect, A, B, T } = M;
   const N = mode;
   const all = [...M.roles];
   const first = round => M.orderOf(A, round)[0];
   const startingWeapons = M.has('Officer') ? 2 : 1;
+  // An attack by whichever role is asked to attack: a Disabler use, or an ordinary shot.
+  const attack = (role, target) => cmd(role, role === 'Blue Disabler' || role === 'Red Disabler' ? disable(target) : shot(target));
 
   // ----- Setup ---------------------------------------------------------------------------------
   add('SETUP', 1, 'The match holds exactly the roles and factions of this mode', {
-    areas: ['mode-setup'], rules: ['R-SETUP-01', `R-SETUP-0${mode - 5}`, 'R-SETUP-05', 'R-STATE-09'], lineage: ['BAL-001'],
+    areas: ['mode-setup'], rules: ['R-SETUP-01', `R-SETUP-0${mode - 5}`, 'R-SETUP-05', 'R-STATE-09', 'R-FLOW-02', 'R-CAPT-01'], lineage: ['BAL-001'],
     note: 'Every player starts in Room A in this setup: no rule limits how many players a room holds.',
     steps: [check(...all.map(role => truth(role, 'faction', factionOf(role))), count('captains', 0), count('eliminated', 0), is('round', 1), is('phase', 'ORDINARY_TURN'), is('active', ref(first(1))))],
   });
@@ -142,7 +251,8 @@ function build(mode) {
     steps: [check(
       seesSet('Insider', 'insiderCandidates', ['Undercover', 'Alien', 'Cracker']), sees('Hacker', 'undercoverSeat', ref('Undercover')),
       ...all.filter(role => role !== 'Insider').map(role => sees(role, 'insiderCandidates', [])),
-      ...all.filter(role => role !== 'Hacker').map(role => sees(role, 'undercoverSeat', null)),
+      // Undercover knows their own seat; whether their own view repeats it is not a disclosure.
+      ...all.filter(role => role !== 'Hacker' && role !== 'Undercover').map(role => sees(role, 'undercoverSeat', null)),
       ...all.filter(role => role !== 'Alien').map(role => sees(role, 'code', [])),
       ...all.map(role => sees(role, 'role', role)),
     )],
@@ -161,7 +271,7 @@ function build(mode) {
     const attempts = role => [cmd(role, disable('Cracker'), 'NOT_ALLOWED'), cmd(role, protect('Cracker'), 'NOT_ALLOWED'), cmd(role, rescue('Cracker'), 'NOT_ALLOWED'),
       cmd(role, scan('Cracker', 'Blue'), 'NOT_ALLOWED'), cmd(role, supply('Cracker', 'Hacker'), 'NOT_ALLOWED')];
     add('SETUP', 6, 'Insider and Alien have no role action, and nobody uses another role\'s action', {
-      areas: ['mode-setup', 'resources'], rules: ['R-ROLE-01', 'R-ROLE-16', 'R-ROLE-02', 'R-ROLE-05', 'R-ROLE-13'], lineage: [],
+      areas: ['mode-setup', 'resources'], rules: ['R-ROLE-01', 'R-ROLE-19', 'R-ROLE-02', 'R-ROLE-05', 'R-ROLE-13', 'R-PROT-01', 'R-ROLE-07'], lineage: [],
       steps: [...acts(1, { Insider: attempts('Insider'), Alien: attempts('Alien') }), check(sees('Insider', 'pendingCount', 0), sees('Alien', 'pendingCount', 0))],
     });
   }
@@ -176,14 +286,15 @@ function build(mode) {
       is('winner', 'Blue'), is('alienCoWinner', true), is('round', 5), count('showdownPhases', 0), count('eliminated', 0),
     )],
   });
-  add('FLOW', 2, 'Every window lasts 60 seconds, and a late close does not shorten the next one', {
+  add('FLOW', 2, 'A turn, a Jail vote and a Captain election are each one 60-second window', {
     areas: ['timing', 'phase-transitions'], rules: ['R-FLOW-05', 'R-FLOW-07'], lineage: ['BAL-017'], kind: 'timing',
-    steps: [check(is('windowMs', 60_000)), { op: 'expire', lateByMs: 90_000 }, check(is('windowMs', 60_000), is('phase', 'ORDINARY_TURN')),
+    steps: [check(is('windowMs', 60_000)), expire(), check(is('windowMs', 60_000), is('phase', 'ORDINARY_TURN')),
       phase(1, 'JAIL_VOTE'), check(is('windowMs', 60_000)), untilPhase('CAPTAIN_ELECTION'), check(is('windowMs', 60_000))],
   });
   add('FLOW', 3, 'A vote stays open until its deadline even when everyone has voted', {
-    areas: ['timing', 'voting'], rules: ['R-FLOW-07'], lineage: ['BAL-107'], kind: 'timing',
-    steps: [phase(1, 'JAIL_VOTE'), ...all.map(role => cmd(role, vote(null))), { op: 'expireEarly', beforeDeadlineMs: 1 }, check(is('phase', 'JAIL_VOTE')), expire(), check(is('phase', 'CAPTAIN_ELECTION'))],
+    areas: ['timing', 'voting'], rules: ['R-FLOW-07', 'R-CAPT-01'], lineage: ['BAL-107'], kind: 'timing',
+    note: 'Every player votes for themself, so every eligible voter has answered and nobody reaches the threshold.',
+    steps: [phase(1, 'JAIL_VOTE'), ...all.map(role => cmd(role, vote(role))), { op: 'expireEarly', beforeDeadlineMs: 1 }, check(is('phase', 'JAIL_VOTE')), expire(), check(is('phase', 'CAPTAIN_ELECTION'), count('jailed', 0))],
   });
   add('FLOW', 4, 'A ballot is accepted just before the deadline and refused at it', {
     areas: ['timing', 'voting'], rules: ['R-FLOW-08'], lineage: ['BAL-108'], kind: 'timing',
@@ -202,13 +313,16 @@ function build(mode) {
       steps: [...hit.steps, phase(next, 'JAIL_VOTE'), check(truth('Insider', 'health', 'Eliminated'), { traceTurns: { round: next, actives: M.orderOf(A, next).filter(role => role !== 'Insider').map(ref) } })],
     });
   }
-  add('FLOW', 7, 'Ending a turn or a Hack conversation early', { status: 'blocked', decisions: ['D17'], areas: ['timing'], rules: ['R-FLOW-09'], setup: null, kind: 'decision_boundary' });
+  add('FLOW', 7, 'Ending a turn or a Hack conversation early', {
+    status: 'blocked', decisions: ['D17'], areas: ['timing'], rules: ['R-FLOW-09'], setup: null, kind: 'decision_boundary',
+    note: 'No command for ending a turn exists in any source, so there is nothing to probe. FLOW-10 probes the other part of D17.',
+  });
   add('FLOW', 8, 'Announcing the whole turn order at the start of a round', { status: 'blocked', decisions: ['D20'], areas: ['authorized-views'], rules: ['R-FLOW-10'], setup: null, kind: 'decision_boundary' });
   add('FLOW', 9, 'What an Eliminated player may say or show at the table', { status: 'blocked', decisions: ['D19'], areas: ['elimination'], rules: ['R-FLOW-12'], setup: null, kind: 'decision_boundary' });
 
   // ----- Movement ------------------------------------------------------------------------------
   add('MOVE', 1, 'One move per round, and none once voting has begun', {
-    areas: ['movement'], rules: ['R-MOVE-01', 'R-MOVE-03'], lineage: ['BAL-008'],
+    areas: ['movement'], rules: ['R-MOVE-01', 'R-MOVE-03', 'R-MOVE-07'], lineage: ['BAL-008'],
     steps: [cmd('Insider', move('Room B')), cmd('Insider', move('Room A'), 'NOT_ALLOWED'), check(truth('Insider', 'location', 'Room B'), truth('Insider', 'movedThisRound', true), pub('Insider', 'location', 'Room B')),
       phase(1, 'JAIL_VOTE'), cmd('Cracker', move('Room B'), 'NOT_ALLOWED'), phase(2, 'ORDINARY_TURN'), cmd('Insider', move('Room A')), check(truth('Insider', 'location', 'Room A'))],
   });
@@ -219,7 +333,7 @@ function build(mode) {
       cmd('Insider', move('Room A'), 'NOT_ALLOWED'), cmd('Insider', move('Room B'), 'NOT_ALLOWED'), cmd('Alien', move('Room A'), 'NOT_ALLOWED')],
   });
   add('MOVE', 3, 'Only the Captain enters Command Room, from either room, with the one move of the round', {
-    areas: ['movement'], rules: ['R-MOVE-04', 'R-MOVE-05', 'R-MOVE-06', 'R-CAPT-05', 'R-CAPT-09'], lineage: ['BAL-009', 'BAL-102'],
+    areas: ['movement'], rules: ['R-MOVE-04', 'R-MOVE-05', 'R-MOVE-06', 'R-MOVE-09', 'R-CAPT-05', 'R-CAPT-09'], lineage: ['BAL-009', 'BAL-102'],
     steps: [cmd('Insider', move('Command Room'), 'NOT_ALLOWED'), ...elect('Cracker'),
       check(truth('Cracker', 'location', 'Command Room'), truth('Cracker', 'captain', true), truth('Cracker', 'movedThisRound', false)),
       cmd('Insider', move('Command Room'), 'NOT_ALLOWED'), cmd('Cracker', move('Room A')), check(truth('Cracker', 'captain', true), truth('Cracker', 'location', 'Room A')),
@@ -253,9 +367,9 @@ function build(mode) {
       check(is('phase', 'CAPTAIN_ELECTION'), factSet('eligibleTargets', ['Cracker', 'Supplier']), count('captains', 0), count('electionPhases', 2)),
       cmd('Hacker', vote('Insider'), 'NOT_ALLOWED'), cmd('Insider', vote('Cracker')), expire(), check(truth('Cracker', 'captain', true), count('captains', 1))],
   });
-  add('CAPT', 3, 'If every ballot abstains nobody becomes Captain and the election is retried next round', {
-    areas: ['voting', 'phase-transitions'], rules: ['R-CAPT-06'], lineage: ['BAL-102'],
-    steps: [untilPhase('CAPTAIN_ELECTION'), ...all.map(role => cmd(role, vote(null))), expire(), check(count('captains', 0), is('phase', 'ORDINARY_TURN'), is('round', 2)),
+  add('CAPT', 3, 'If nobody votes nobody becomes Captain and the election is retried next round', {
+    areas: ['voting', 'phase-transitions'], rules: ['R-CAPT-06', 'R-FLOW-08'], lineage: ['BAL-102'],
+    steps: [untilPhase('CAPTAIN_ELECTION'), expire(), check(count('captains', 0), is('phase', 'ORDINARY_TURN'), is('round', 2)),
       phase(2, 'JAIL_VOTE'), expire(), check(is('phase', 'CAPTAIN_ELECTION'), count('electionPhases', 2), { traceTurns: { round: 3, actives: [] } })],
   });
   add('CAPT', 4, 'Candidates must be Healthy and free, while Injured and Jailed players still vote', {
@@ -289,20 +403,43 @@ function build(mode) {
     steps: [turn(1, 'Blue Disabler'), ...elect('Blue Disabler'), turn(2, 'Blue Disabler'), check(sees('Blue Disabler', 'legal:DISABLE', []), sees('Blue Disabler', 'legal:REQUEST_HACK', [])),
       cmd('Blue Disabler', disable('Insider'), 'NOT_ALLOWED'), cmd('Blue Disabler', hack('Insider'), 'NOT_ALLOWED')],
   });
-  add('CAPT', 9, 'A Captain election that keeps tying', {
-    status: 'blocked', decisions: ['D13'], areas: ['voting', 'timing'], rules: ['R-CAPT-13'], kind: 'decision_boundary',
-    steps: [untilPhase('CAPTAIN_ELECTION'), ...[1, 2, 3].flatMap(() => [cmd('Insider', vote('Cracker')), cmd('Alien', vote('Supplier')), expire()]), note('phase after three tied ballots', 'phase')],
+  add('CAPT', 9, 'A tied election repeats for as long as it ties, and a runoff in which nobody votes elects nobody', {
+    areas: ['voting', 'timing'], rules: ['R-CAPT-13', 'R-CAPT-02', 'R-CAPT-06', 'R-FLOW-08'], lineage: ['BAL-102'],
+    steps: [untilPhase('CAPTAIN_ELECTION'),
+      ...[1, 2, 3].flatMap(() => [cmd('Insider', vote('Cracker')), cmd('Alien', vote('Supplier')), expire(),
+        check(is('phase', 'CAPTAIN_ELECTION'), factSet('eligibleTargets', ['Cracker', 'Supplier']), count('captains', 0))]),
+      check(count('electionPhases', 4)), expire(), check(count('captains', 0), is('phase', 'ORDINARY_TURN'), is('round', 2), count('electionPhases', 4))],
   });
-  add('CAPT', 10, 'With no eligible candidate the round starts without a Captain and without an election', {
-    areas: ['voting', 'phase-transitions'], rules: ['R-CAPT-06', 'R-CAPT-03'], lineage: ['BAL-102'],
-    note: 'Reachable only at the start of Round 5: four Jail votes and every remaining player injured in Round 4.',
-    steps: [...jail(1, 'Hacker'), ...jail(2, 'Alien'), turn(3, 'Supplier'), cmd('Supplier', supply('Cracker', 'Insider')), ...jail(3, 'Supplier'),
+  {
+    // Four Jail votes and every remaining player injured in Round 4 leave nobody Healthy and free.
+    const noCandidate = [...jail(1, 'Hacker'), ...jail(2, 'Alien'), turn(3, 'Supplier'), cmd('Supplier', supply('Cracker', 'Insider')), ...jail(3, 'Supplier'),
       ...acts(4, {
         Undercover: [cmd('Undercover', shot('Insider'))], Insider: [cmd('Insider', shot('Cracker'))], Cracker: [cmd('Cracker', shot('Undercover'))],
         ...(M.has('Red Disabler') ? { 'Blue Disabler': [cmd('Blue Disabler', disable('Red Disabler'))] } : {}),
         ...(M.has('Officer') ? { 'Red Disabler': [cmd('Red Disabler', disable('Officer'))] } : {}),
-      }), ...jail(4, 'Blue Disabler'), startOf(5),
-      check(is('phase', 'ORDINARY_TURN'), count('electionPhases', 3), count('captains', 0), count('jailed', 4), count('injured', N - 4), count('eliminated', 0))],
+      }), ...jail(4, 'Blue Disabler')];
+    add('CAPT', 10, 'With no eligible candidate no election is held and Round 5 is played without a Captain', {
+      areas: ['voting', 'phase-transitions'], rules: ['R-CAPT-06', 'R-CAPT-03', 'R-FLOW-13'], lineage: ['BAL-102'],
+      note: 'Reachable only at the start of Round 5. Three elections were held before it, after Rounds 1, 2 and 3; that none is held after Round 4 is reading D37.',
+      steps: [...noCandidate, phase(5, 'ORDINARY_TURN'), check(count('electionPhases', 3), count('captains', 0), count('jailed', 4), count('injured', N - 4), count('eliminated', 0))],
+    });
+  }
+  // A Captain inside Command Room and an action aimed at themself. Each case ends with the same
+  // command accepted outside the room, so that the refusal inside is the room's doing.
+  add('CAPT', 11, 'A Captain inside Command Room cannot Scan themself', {
+    areas: ['resources', 'movement'], rules: ['R-CAPT-15'], lineage: [],
+    steps: [...elect('Hacker'), turn(2, 'Hacker'), check(truth('Hacker', 'location', 'Command Room')), cmd('Hacker', scan('Hacker', 'Red'), 'NOT_ALLOWED'), check(sees('Hacker', 'scanCount', 0)),
+      cmd('Hacker', move('Room A')), cmd('Hacker', scan('Hacker', 'Red')), check(sees('Hacker', 'scanCount', 1))],
+  });
+  add('CAPT', 12, 'A Captain inside Command Room cannot protect themself', {
+    areas: ['resources', 'movement'], rules: ['R-CAPT-15', 'R-PROT-05'], lineage: [],
+    steps: [...elect('Undercover'), turn(2, 'Undercover'), check(truth('Undercover', 'location', 'Command Room')), cmd('Undercover', protect('Undercover'), 'NOT_ALLOWED'),
+      check(truth('Undercover', 'lifetimeProtectionReceived', false)), cmd('Undercover', move('Room A')), cmd('Undercover', protect('Undercover')), check(truth('Undercover', 'lifetimeProtectionReceived', true))],
+  });
+  add('CAPT', 13, 'A Captain inside Command Room cannot Rescue themself', {
+    areas: ['resources', 'movement'], rules: ['R-CAPT-15'], lineage: [],
+    steps: [...elect('Cracker'), turn(2, 'Cracker'), check(truth('Cracker', 'location', 'Command Room')), cmd('Cracker', rescue('Cracker'), 'NOT_ALLOWED'),
+      check(truth('Cracker', 'rescuesRemaining', 2)), cmd('Cracker', move('Room A')), cmd('Cracker', rescue('Cracker')), check(truth('Cracker', 'rescuesRemaining', 1))],
   });
 
   // ----- Shooting ------------------------------------------------------------------------------
@@ -312,7 +449,7 @@ function build(mode) {
       startOf(5), check(truth('Insider', 'health', 'Injured'), truth('Insider', 'location', 'Hospital'), pub('Insider', 'health', 'Injured'), sees('Undercover', 'pendingCount', 0))],
   });
   add('SHOT', 2, 'An ordinary weapon cannot be fired before Round 4', {
-    areas: ['resources', 'phase-transitions'], rules: ['R-SHOT-03'], lineage: ['BAL-004'],
+    areas: ['resources', 'phase-transitions'], rules: ['R-SHOT-03', 'R-SHOT-05'], lineage: ['BAL-004'],
     steps: [...[1, 2, 3].flatMap(round => [turn(round, 'Undercover'), cmd('Undercover', shot('Insider'), 'NOT_ALLOWED'), check(sees('Undercover', 'legalOffered:REGISTER_SHOT', false))]),
       turn(4, 'Undercover'), cmd('Undercover', shot('Insider')), check(truth('Undercover', 'ordinaryWeapons', 0))],
   });
@@ -334,23 +471,16 @@ function build(mode) {
     const round = [4, 5].find(candidate => M.orderOf(B, candidate)[0] !== 'Undercover') ?? 4;
     const earlier = M.orderOf(B, round)[0] === 'Undercover' ? null : M.orderOf(B, round)[0];
     add('SHOT', 6, 'A shot needs the own turn, the same location and another player, once per turn', {
-      areas: ['resources', 'movement'], rules: ['R-SHOT-02', 'R-SHOT-04', 'R-ACT-02', 'R-ACT-04'], lineage: ['BAL-006'], setup: B,
+      areas: ['resources', 'movement'], rules: ['R-SHOT-02', 'R-SHOT-04', 'R-SHOT-05', 'R-ACT-02', 'R-ACT-04'], lineage: ['BAL-006'], setup: B,
       steps: [...(earlier === null ? [] : [turn(round, earlier), cmd('Undercover', shot('Cracker'), 'NOT_ALLOWED')]), turn(round, 'Undercover'),
         cmd('Undercover', shot('Insider'), 'NOT_ALLOWED'), cmd('Undercover', shot('Undercover'), 'NOT_ALLOWED'), cmd('Undercover', shot('Cracker')), cmd('Undercover', shot('Supplier'), 'NOT_ALLOWED'),
         check(truth('Undercover', 'ordinaryWeapons', 0), sees('Undercover', 'pendingCount', 1))],
     });
   }
-  add('SHOT', 7, 'A shot command that carries an identification or a damage value is refused', {
-    areas: ['resources'], rules: ['R-SHOT-01', 'R-SHOT-06'], lineage: ['BAL-003'], kind: 'archived_field_refusal',
-    steps: [turn(4, 'Undercover'),
-      { op: 'command', actor: ref('Undercover'), command: { ...shot('Insider'), extra: { identifiedSeatId: 'seat-1' } }, expect: 'REFUSED' },
-      { op: 'command', actor: ref('Undercover'), command: { ...shot('Insider'), extra: { guessedFaction: 'Blue' } }, expect: 'REFUSED' },
-      { op: 'command', actor: ref('Undercover'), command: { ...shot('Insider'), extra: { damage: 2 } }, expect: 'REFUSED' },
-      check(truth('Undercover', 'ordinaryWeapons', 1)), cmd('Undercover', shot('Insider'))],
-  });
-
+  // SHOT-07 is withdrawn: refusing a command that carries an archived field is a property of the
+  // wire contract, not of a rule. The number is not reused.
   add('SHOT', 8, 'A Main Action, a Shot and a Hack request are separate opportunities in one turn', {
-    areas: ['resources'], rules: ['R-ACT-01', 'R-SHOT-04', 'R-HACK-02'], lineage: [],
+    areas: ['resources'], rules: ['R-ACT-01', 'R-SHOT-04', 'R-SHOT-05', 'R-HACK-02'], lineage: [],
     steps: [turn(4, 'Undercover'), cmd('Undercover', protect('Hacker')), cmd('Undercover', shot('Insider')), cmd('Undercover', hack('Cracker')),
       check(sees('Undercover', 'pendingCount', 2), truth('Undercover', 'hackUsed', true), truth('Undercover', 'ordinaryWeapons', 0)), cmd('Undercover', protect('Cracker'), 'NOT_ALLOWED')],
   });
@@ -358,7 +488,7 @@ function build(mode) {
   // ----- Officer (nine players only) -----------------------------------------------------------
   if (M.has('Officer')) {
     add('OFF', 1, 'Officer may fire the one shot from Round 1', {
-      areas: ['resources'], rules: ['R-ROLE-11', 'R-SHOT-01'], lineage: ['BAL-004'],
+      areas: ['resources'], rules: ['R-ROLE-11', 'R-SHOT-01', 'R-SHOT-05'], lineage: ['BAL-004'],
       steps: [turn(1, 'Officer'), cmd('Officer', shot('Insider')), check(truth('Officer', 'officerShotSpent', true), truth('Officer', 'ordinaryWeapons', 0)), startOf(2), check(truth('Insider', 'health', 'Injured'))],
     });
     add('OFF', 2, 'A spent Officer who receives Supplier\'s weapon still cannot shoot again', {
@@ -369,7 +499,7 @@ function build(mode) {
         turn(5, 'Officer'), cmd('Officer', shot('Cracker'), 'NOT_ALLOWED'), check(truth('Officer', 'ordinaryWeapons', 1))],
     });
     add('OFF', 3, 'An Officer holding two weapons still fires only once in the match', {
-      areas: ['resources'], rules: ['R-ROLE-11', 'R-ROLE-07'], lineage: ['BAL-005'],
+      areas: ['resources'], rules: ['R-ROLE-11', 'R-ROLE-07', 'R-SHOT-05'], lineage: ['BAL-005'],
       steps: [turn(3, 'Supplier'), cmd('Supplier', supply('Officer', 'Cracker')), turn(4, 'Officer'), check(truth('Officer', 'ordinaryWeapons', 2)), cmd('Officer', shot('Cracker')),
         check(truth('Officer', 'ordinaryWeapons', 1), truth('Officer', 'officerShotSpent', true)), turn(5, 'Officer'), cmd('Officer', shot('Alien'), 'NOT_ALLOWED')],
     });
@@ -420,7 +550,7 @@ function build(mode) {
   add('PROT', 1, 'Undercover may protect themself, and a new Protection blocks nothing in its own round', {
     areas: ['resources', 'resolution-order'], rules: ['R-PROT-01', 'R-PROT-02'], lineage: ['BAL-010'],
     steps: [...acts(1, { Undercover: [cmd('Undercover', protect('Undercover'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Undercover'))] }),
-      check(truth('Undercover', 'protection', 'pending')), startOf(2), check(truth('Undercover', 'health', 'Injured'), truth('Undercover', 'protection', 'active'))],
+      check(truth('Undercover', 'protection', 'pending')), phase(2, 'ORDINARY_TURN'), check(truth('Undercover', 'health', 'Injured'), truth('Undercover', 'protection', 'active'))],
   });
   {
     const later = M.has('Red Disabler') ? { round: 3, actor: 'Red Disabler', command: disable('Insider') } : { round: 4, actor: 'Undercover', command: shot('Insider') };
@@ -442,7 +572,7 @@ function build(mode) {
     areas: ['voting', 'resources'], rules: ['R-PROT-04', 'R-VOTE-04'], lineage: ['BAL-013'],
     steps: [turn(1, 'Undercover'), cmd('Undercover', protect('Insider')), ...jail(2, 'Insider'), expire(), check(truth('Insider', 'jailed', true), truth('Insider', 'health', 'Healthy'), truth('Insider', 'protection', 'active'))],
   });
-  add('PROT', 5, 'Protection needs a living target in the same location', {
+  add('PROT', 5, 'Protection needs a target in the same location, which a Hospital patient is not', {
     areas: ['resources', 'movement'], rules: ['R-PROT-01', 'R-ACT-02'], lineage: [], setup: B,
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Cracker')), turn(2, 'Undercover'), check(truth('Cracker', 'location', 'Hospital')),
       cmd('Undercover', protect('Cracker'), 'NOT_ALLOWED'), cmd('Undercover', protect('Insider'), 'NOT_ALLOWED'), cmd('Undercover', protect('Supplier'))],
@@ -471,9 +601,9 @@ function build(mode) {
 
   // ----- Rescue --------------------------------------------------------------------------------
   add('RESC', 1, 'An Injured Cracker rescues themself and returns to their last room', {
-    areas: ['resources', 'movement'], rules: ['R-ROLE-03', 'R-ROLE-02', 'R-STATE-08', 'R-ACT-07', 'R-MOVE-06'], lineage: ['BAL-014', 'BAL-101'],
+    areas: ['resources', 'movement'], rules: ['R-ROLE-03', 'R-ROLE-02', 'R-STATE-08', 'R-ACT-07'], lineage: ['BAL-014', 'BAL-101'],
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Cracker')), turn(2, 'Cracker'), check(truth('Cracker', 'location', 'Hospital')), cmd('Cracker', rescue('Cracker')), check(truth('Cracker', 'rescuesRemaining', 1)),
-      startOf(3), check(truth('Cracker', 'health', 'Healthy'), truth('Cracker', 'location', 'Room A')), phase(3, 'ORDINARY_TURN'), cmd('Cracker', move('Room B'))],
+      startOf(3), check(truth('Cracker', 'health', 'Healthy'), truth('Cracker', 'location', 'Room A'))],
   });
   add('RESC', 2, 'Cracker rescues a Hospital patient from a room, without moving', {
     areas: ['resources', 'movement'], rules: ['R-ROLE-04', 'R-STATE-08'], lineage: ['BAL-103', 'BAL-101'],
@@ -483,7 +613,7 @@ function build(mode) {
   {
     const hit = doubleAttack(M, 'Insider', { Cracker: [cmd('Cracker', rescue('Insider'))] });
     add('RESC', 3, 'A Rescue cannot bring back an Eliminated player and its use is still spent', {
-      areas: ['elimination', 'resources'], rules: ['R-ROLE-02', 'R-ACT-07', 'R-STATE-02'], lineage: ['BAL-014'],
+      areas: ['elimination', 'resources'], rules: ['R-ROLE-02', 'R-ACT-07', 'R-STATE-02', 'R-RES-01', 'R-STATE-01'], lineage: ['BAL-014'],
       steps: [...hit.steps, phase(hit.round, 'JAIL_VOTE'), expire(), check(truth('Insider', 'health', 'Eliminated'), truth('Cracker', 'rescuesRemaining', 1))],
     });
   }
@@ -511,7 +641,7 @@ function build(mode) {
     steps: [...jail(1, 'Cracker'), turn(2, 'Cracker'), cmd('Cracker', rescue('Cracker'), 'NOT_ALLOWED'), cmd('Cracker', rescue('Insider'), 'NOT_ALLOWED'), check(truth('Cracker', 'rescuesRemaining', 2))],
   });
   add('RESC', 8, 'Healing does not release from Jail', {
-    areas: ['resolution-order', 'voting'], rules: ['R-VOTE-08', 'R-RES-01', 'R-ACT-06', 'R-STATE-04'], lineage: ['BAL-014', 'BAL-104'],
+    areas: ['resolution-order', 'voting'], rules: ['R-VOTE-08', 'R-STATE-08', 'R-RES-01', 'R-ACT-06', 'R-STATE-04'], lineage: ['BAL-014', 'BAL-104'],
     steps: [...acts(1, { Cracker: [cmd('Cracker', rescue('Insider'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))] }), ...jail(1, 'Insider'), expire(),
       check(truth('Insider', 'health', 'Healthy'), truth('Insider', 'jailed', true), truth('Insider', 'location', 'Jail'))],
   });
@@ -527,8 +657,8 @@ function build(mode) {
   });
 
   // ----- Supplier ------------------------------------------------------------------------------
-  add('SUP', 1, 'Supplier arms two players in Round 3 and only they learn it', {
-    areas: ['resources', 'authorized-views'], rules: ['R-ROLE-07', 'R-ROLE-08', 'R-VIEW-02', 'R-VIEW-07'], lineage: ['BAL-109'],
+  add('SUP', 1, 'Supplier arms two players in Round 3: the registration is private and each recipient sees their own weapon', {
+    areas: ['resources', 'authorized-views'], rules: ['R-ROLE-07', 'R-ROLE-08', 'R-VIEW-02', 'R-VIEW-07', 'R-SHOT-05'], lineage: ['BAL-109'],
     steps: [turn(3, 'Supplier'), mark('before-supply'), cmd('Supplier', supply('Insider', 'Cracker')), check(onlyActorSaw('before-supply', 'Supplier'), truth('Insider', 'ordinaryWeapons', 0)),
       startOf(4), check(truth('Insider', 'ordinaryWeapons', 1), truth('Cracker', 'ordinaryWeapons', 1), sees('Insider', 'ordinaryWeapons', 1), sees('Supplier', 'ordinaryWeapons', 0), count('ordinaryWeapons', startingWeapons + 2)),
       turn(4, 'Insider'), cmd('Insider', shot('Hacker')), check(truth('Insider', 'ordinaryWeapons', 0))],
@@ -549,7 +679,7 @@ function build(mode) {
   });
   if (M.has('Red Disabler')) {
     add('SUP', 5, 'A recipient eliminated in Round 3 receives nothing', {
-      areas: ['resolution-order', 'elimination'], rules: ['R-ROLE-07', 'R-RES-01'], lineage: [],
+      areas: ['resolution-order', 'elimination'], rules: ['R-ROLE-07', 'R-RES-01', 'R-ACT-06'], lineage: [],
       steps: [...acts(3, { Supplier: [cmd('Supplier', supply('Insider', 'Cracker'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Insider'))] }), startOf(4),
         check(truth('Insider', 'health', 'Eliminated'), truth('Insider', 'ordinaryWeapons', 0), truth('Cracker', 'ordinaryWeapons', 1), count('ordinaryWeapons', startingWeapons + 1))],
     });
@@ -599,17 +729,24 @@ function build(mode) {
       cmd('Hacker', scan('Hacker', 'Red')), check(sees('Hacker', 'scanCount', 1))],
   });
   add('SCAN', 4, 'An Injured Hacker cannot Scan', {
-    areas: ['resources'], rules: ['R-STATE-03', 'R-ROLE-13'], lineage: ['BAL-015'],
+    areas: ['resources'], rules: ['R-ROLE-18', 'R-STATE-03', 'R-ROLE-13'], lineage: ['BAL-015'],
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Hacker')), turn(2, 'Hacker'), cmd('Hacker', scan('Hacker', 'Red'), 'NOT_ALLOWED'), check(sees('Hacker', 'scanCount', 0))],
   });
   add('SCAN', 5, 'A Jailed Hacker cannot Scan', {
-    areas: ['resources'], rules: ['R-STATE-04', 'R-ROLE-13'], lineage: ['BAL-015'],
+    areas: ['resources'], rules: ['R-ROLE-18', 'R-STATE-04', 'R-ROLE-13'], lineage: ['BAL-015'],
     steps: [...jail(1, 'Hacker'), turn(2, 'Hacker'), cmd('Hacker', scan('Hacker', 'Red'), 'NOT_ALLOWED'), check(sees('Hacker', 'scanCount', 0))],
   });
   add('SCAN', 6, 'A Scan result reaches Hacker at once and nobody else', {
     areas: ['authorized-views'], rules: ['R-ROLE-14', 'R-VIEW-05', 'R-VIEW-07'], lineage: ['BAL-109', 'BAL-024'], kind: 'privacy',
     steps: [turn(1, 'Hacker'), mark('before-scan'), cmd('Hacker', scan('Insider', 'Blue')), check(onlyActorSaw('before-scan', 'Hacker'), sees('Hacker', 'scanCount', 1), is('phase', 'ORDINARY_TURN'))],
   });
+  {
+    const round = [1, 2, 3, 4, 5].find(candidate => M.orderOf(A, candidate)[0] !== 'Hacker');
+    add('SCAN', 7, 'A Scan needs Hacker\'s own turn', {
+      areas: ['resources', 'phase-transitions'], rules: ['R-ROLE-18'], lineage: ['BAL-015'],
+      steps: [turn(round, first(round)), cmd('Hacker', scan('Hacker', 'Red'), 'NOT_ALLOWED'), check(sees('Hacker', 'scanCount', 0)), turn(round, 'Hacker'), cmd('Hacker', scan('Hacker', 'Red')), check(sees('Hacker', 'scanCount', 1))],
+    });
+  }
 
   // ----- Standard Hack -------------------------------------------------------------------------
   {
@@ -629,7 +766,7 @@ function build(mode) {
         phase(2, 'JAIL_VOTE'), check(count('hackPhases', 3))],
     });
     add('HACK', 5, 'A Hack request stays private until the conversation opens', {
-      areas: ['authorized-views'], rules: ['R-VIEW-07', 'R-FLOW-06'], lineage: ['BAL-024'], kind: 'privacy',
+      areas: ['authorized-views'], rules: ['R-VIEW-07', 'R-VIEW-02', 'R-FLOW-06'], lineage: ['BAL-024'], kind: 'privacy',
       steps: [turn(1, one), mark('before-request'), cmd(one, hack(partner(one))), check(onlyActorSaw('before-request', one)), expire(), check(is('phase', 'HACK'), changed('before-request', 'public'))],
     });
   }
@@ -688,7 +825,7 @@ function build(mode) {
     steps: [phase(5, 'JAIL_VOTE'), cmd('Hacker', submit(M.code)), check(is('codeCorrect', true))],
   });
   add('CODE', 8, 'A correct Code wins for Red at the Round 5 check, not at the moment of submission', {
-    areas: ['victory', 'phase-transitions'], rules: ['R-WIN-06', 'R-WIN-07', 'R-WIN-09'], lineage: ['BAL-106'],
+    areas: ['victory', 'phase-transitions'], rules: ['R-WIN-06', 'R-WIN-07', 'R-WIN-09', 'R-VIEW-08'], lineage: ['BAL-106'],
     steps: [phase(5, 'ORDINARY_TURN'), cmd('Hacker', submit(M.code)), check(is('terminal', false), is('hasResult', false), fact('endRevealPresent', false)),
       untilPhase('FINISHED'), check(is('winner', 'Red'), is('alienCoWinner', false), is('round', 5), count('showdownPhases', 0), fact('endRevealPresent', true))],
   });
@@ -754,32 +891,55 @@ function build(mode) {
   }
 
   // ----- Release -------------------------------------------------------------------------------
+  // After the Captain has chosen, the cases run to the release vote instead of closing the choice
+  // window themselves: whether that window closes at once is undecided (D17).
   const releaseSetup = [...jail(1, 'Insider'), ...elect('Cracker'), untilPhase('RELEASE_CHOICE')];
+  const releaseVote = [cmd('Cracker', choose('Insider')), untilPhase('RELEASE_VOTE')];
   add('REL', 1, 'The Captain asks for one prisoner\'s release; a passed vote frees them to their last room before the Jail vote', {
-    areas: ['voting', 'movement'], rules: ['R-VOTE-05', 'R-VOTE-06', 'R-VOTE-07', 'R-CAPT-10', 'R-FLOW-07'], lineage: ['BAL-101'],
+    areas: ['voting', 'movement'], rules: ['R-VOTE-05', 'R-VOTE-06', 'R-VOTE-07', 'R-VOTE-10', 'R-CAPT-10', 'R-FLOW-07'], lineage: ['BAL-101'],
+    note: 'That the choice stays private until the release vote opens (R-VIEW-07) is not asserted here: it cannot be told apart from D17.',
     steps: [...releaseSetup, check(is('round', 2), is('active', ref('Cracker')), factSet('eligibleTargets', ['Insider']), is('windowMs', 60_000)),
-      cmd('Hacker', choose('Insider'), 'NOT_ALLOWED'), cmd('Cracker', choose('Insider')), check(is('releaseUsed', true)), expire(),
-      check(is('phase', 'RELEASE_VOTE'), fact('releaseTarget', ref('Insider'))), ...M.voters(T).map(voter => cmd(voter, approve(true))), expire(),
-      check(is('phase', 'JAIL_VOTE'), truth('Insider', 'jailed', false), truth('Insider', 'location', 'Room A'), fact('tallyKind', 'RELEASE_VOTE'), fact('tallyReleased', true), fact('tallyYesCount', T))],
+      cmd('Hacker', choose('Insider'), 'NOT_ALLOWED'), ...releaseVote,
+      check(fact('releaseTarget', ref('Insider')), is('windowMs', 60_000)), ...M.voters(T).map(voter => cmd(voter, approve(true))), expire(),
+      check(is('phase', 'JAIL_VOTE'), truth('Insider', 'jailed', false), truth('Insider', 'location', 'Room A'), fact('tallyKind', 'RELEASE_VOTE'), fact('tallyReleased', true), fact('tallyYesCount', T), is('releaseUsed', true))],
   });
   add('REL', 2, 'A failed release vote uses up the one request of the match', {
-    areas: ['voting', 'resources'], rules: ['R-VOTE-06', 'R-VOTE-05'], lineage: ['BAL-101'],
-    steps: [...releaseSetup, cmd('Cracker', choose('Insider')), expire(), ...M.voters(T - 1).map(voter => cmd(voter, approve(true))), expire(),
+    areas: ['voting', 'resources'], rules: ['R-VOTE-06', 'R-VOTE-05', 'R-FLOW-13'], lineage: ['BAL-101'],
+    steps: [...releaseSetup, ...releaseVote, ...M.voters(T - 1).map(voter => cmd(voter, approve(true))), expire(),
       check(truth('Insider', 'jailed', true), fact('tallyReleased', false), is('releaseUsed', true)), phase(3, 'JAIL_VOTE'), check(count('releaseChoicePhases', 1))],
   });
   add('REL', 3, 'Declining, or not choosing, uses nothing and the choice returns next round', {
     areas: ['voting', 'resources'], rules: ['R-VOTE-05', 'R-FLOW-08'], lineage: ['BAL-101', 'BAL-107'],
-    steps: [...releaseSetup, cmd('Cracker', choose(null)), expire(), check(is('phase', 'JAIL_VOTE'), is('releaseUsed', false)),
+    steps: [...releaseSetup, cmd('Cracker', choose(null)), untilPhase('JAIL_VOTE'), check(is('round', 2), is('releaseUsed', false), truth('Insider', 'jailed', true)),
       phase(3, 'RELEASE_CHOICE'), expire(), check(is('phase', 'JAIL_VOTE'), is('releaseUsed', false)), phase(4, 'RELEASE_CHOICE'), check(count('releaseChoicePhases', 3))],
   });
   add('REL', 4, 'A released player who is Injured goes to Hospital', {
-    areas: ['voting', 'movement'], rules: ['R-STATE-07', 'R-VOTE-07'], lineage: ['BAL-101'],
+    areas: ['voting', 'movement'], rules: ['R-STATE-07', 'R-VOTE-07', 'R-VOTE-10'], lineage: ['BAL-101'],
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Insider')), ...releaseSetup, check(truth('Insider', 'health', 'Injured'), truth('Insider', 'location', 'Jail')),
-      cmd('Cracker', choose('Insider')), expire(), ...M.voters(T).map(voter => cmd(voter, approve(true))), expire(), check(truth('Insider', 'jailed', false), truth('Insider', 'location', 'Hospital'), truth('Insider', 'health', 'Injured'))],
+      ...releaseVote, ...M.voters(T).map(voter => cmd(voter, approve(true))), expire(), check(truth('Insider', 'jailed', false), truth('Insider', 'location', 'Hospital'), truth('Insider', 'health', 'Injured'))],
   });
   add('REL', 5, 'Without a Captain there is no release', {
-    areas: ['voting'], rules: ['R-CAPT-10', 'R-VOTE-05'], lineage: ['BAL-101'],
+    areas: ['voting'], rules: ['R-CAPT-10', 'R-VOTE-05', 'R-FLOW-13'], lineage: ['BAL-101'],
     steps: [...jail(1, 'Insider'), phase(3, 'JAIL_VOTE'), check(count('releaseChoicePhases', 0), count('captains', 0), truth('Insider', 'jailed', true))],
+  });
+  add('REL', 6, 'A released player can be voted back into Jail in the same round, and the one request is then gone', {
+    areas: ['voting'], rules: ['R-VOTE-10', 'R-VOTE-02', 'R-VOTE-05', 'R-FLOW-03', 'R-FLOW-13'], lineage: ['BAL-101'],
+    steps: [...releaseSetup, ...releaseVote, ...M.voters(T).map(voter => cmd(voter, approve(true))), expire(),
+      check(is('phase', 'JAIL_VOTE'), is('round', 2), truth('Insider', 'jailed', false), factSet('eligibleTargets', all)),
+      ...M.voters(T).map(voter => cmd(voter, vote('Insider'))), expire(),
+      check(truth('Insider', 'jailed', true), truth('Insider', 'location', 'Jail'), truth('Cracker', 'captain', true), is('releaseUsed', true)),
+      phase(3, 'JAIL_VOTE'), check(count('releaseChoicePhases', 1), truth('Insider', 'jailed', true))],
+  });
+  add('REL', 7, 'The release choice is offered only when the Captain can use it', {
+    areas: ['voting', 'phase-transitions'], rules: ['R-FLOW-13', 'R-VOTE-05'], lineage: [],
+    note: 'In Round 2 there is a Captain and nobody in Jail, so no choice is offered. In Round 3 there is a prisoner and the request is unused.',
+    steps: [...elect('Cracker'), phase(2, 'JAIL_VOTE'), check(count('releaseChoicePhases', 0), count('captains', 1), count('jailed', 0)),
+      ...M.voters(T).map(voter => cmd(voter, vote('Insider'))), phase(3, 'RELEASE_CHOICE'),
+      check(count('releaseChoicePhases', 1), is('active', ref('Cracker')), factSet('eligibleTargets', ['Insider']), is('releaseUsed', false))],
+  });
+  add('FLOW', 10, 'Whether the release-choice window closes as soon as the Captain has chosen', {
+    status: 'blocked', decisions: ['D17'], areas: ['timing', 'voting'], rules: ['R-FLOW-09'], kind: 'decision_boundary',
+    steps: [...releaseSetup, cmd('Cracker', choose('Insider')), note('phase right after the Captain chose a prisoner', 'phase')],
   });
 
   // ----- Location lock (V1-06) -----------------------------------------------------------------
@@ -804,12 +964,14 @@ function build(mode) {
 
   // ----- Registered actions and resolution order -----------------------------------------------
   {
-    const one = M.has('Red Disabler')
-      ? { round: 1, steps: acts(1, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Blue Disabler'))] }) }
-      : { round: 4, steps: acts(4, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], Undercover: [cmd('Undercover', shot('Blue Disabler'))] }) };
-    add('ORDER', 1, 'A registered action still resolves after its actor is Injured in the same round', {
-      areas: ['resolution-order'], rules: ['R-ACT-05'], lineage: ['BAL-007'],
-      steps: [...one.steps, startOf(one.round + 1), check(truth('Insider', 'health', 'Injured'), truth('Blue Disabler', 'health', 'Injured'))],
+    // Effects resolve in turn order (R-RES-02). The attacked actor is the one whose turn comes later,
+    // so that it is already Injured when its own attack resolves.
+    const round = M.has('Red Disabler') ? 1 : 4;
+    const [earlier, later] = M.byTurn(A, round, M.has('Red Disabler') ? ['Blue Disabler', 'Red Disabler'] : ['Blue Disabler', 'Undercover']);
+    add('ORDER', 1, 'A registered action still resolves after its actor was Injured earlier in the same resolution', {
+      areas: ['resolution-order'], rules: ['R-ACT-05', 'R-RES-02'], lineage: ['BAL-007'],
+      steps: [...acts(round, { [earlier]: [attack(earlier, later)], [later]: [attack(later, 'Insider')] }), startOf(round + 1),
+        check(truth(later, 'health', 'Injured'), truth('Insider', 'health', 'Injured'), count('injured', 2), count('eliminated', 0))],
     });
   }
   add('ORDER', 2, 'A registered action still resolves after its actor is voted into Jail', {
@@ -817,28 +979,42 @@ function build(mode) {
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Insider')), ...jail(1, 'Blue Disabler'), expire(), check(truth('Blue Disabler', 'jailed', true), truth('Insider', 'health', 'Injured'))],
   });
   {
-    // Two attacks on Blue Disabler in the round in which Blue Disabler attacks Insider.
-    const plan = mode === 9
-      ? { round: 1, steps: acts(1, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Blue Disabler'))], Officer: [cmd('Officer', shot('Blue Disabler'))] }) }
-      : mode === 8
-        ? { round: 4, steps: acts(4, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Blue Disabler'))], Undercover: [cmd('Undercover', shot('Blue Disabler'))] }) }
-        : { round: 4, steps: [turn(3, 'Supplier'), cmd('Supplier', supply('Cracker', 'Alien')), ...acts(4, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], Undercover: [cmd('Undercover', shot('Blue Disabler'))], Cracker: [cmd('Cracker', shot('Blue Disabler'))] })] };
-    add('ORDER', 3, 'A registered action still resolves after its actor is Eliminated in the same round', {
+    // Three attackers. The one whose turn comes last is attacked by the other two, so that it is
+    // already Eliminated when its own attack resolves.
+    const plan = mode === 9 ? { round: 1, before: [], trio: ['Blue Disabler', 'Red Disabler', 'Officer'] }
+      : mode === 8 ? { round: 4, before: [], trio: ['Blue Disabler', 'Red Disabler', 'Undercover'] }
+        : { round: 4, before: [turn(3, 'Supplier'), cmd('Supplier', supply('Cracker', 'Alien'))], trio: ['Blue Disabler', 'Undercover', 'Cracker'] };
+    const [one, two, last] = M.byTurn(A, plan.round, plan.trio);
+    add('ORDER', 3, 'A registered action still resolves after its actor was Eliminated earlier in the same resolution', {
       areas: ['resolution-order', 'elimination'], rules: ['R-ACT-05', 'R-RES-02'], lineage: ['BAL-007'],
-      steps: [...plan.steps, startOf(plan.round + 1), check(truth('Blue Disabler', 'health', 'Eliminated'), truth('Insider', 'health', 'Injured'))],
+      steps: [...plan.before, ...acts(plan.round, { [one]: [attack(one, last)], [two]: [attack(two, last)], [last]: [attack(last, 'Insider')] }), startOf(plan.round + 1),
+        check(truth(last, 'health', 'Eliminated'), truth('Insider', 'health', 'Injured'), count('eliminated', 1), count('injured', 1))],
     });
   }
-  for (const [suffix, setup] of [['a', A], ['b', A2]]) {
-    const pair = M.has('Red Disabler')
-      ? { grant: 1, round: 2, map: { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Insider'))], Cracker: [cmd('Cracker', rescue('Supplier'))] } }
-      : { grant: 3, round: 4, map: { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], Undercover: [cmd('Undercover', shot('Insider'))], Cracker: [cmd('Cracker', rescue('Supplier'))] } };
-    add('ORDER', 4, `The same registrations give the same result under a different turn order (draw ${suffix})`, {
-      areas: ['resolution-order'], rules: ['R-RES-04', 'R-RES-02'], lineage: ['BAL-105'], setup, suffix,
-      steps: [turn(pair.grant, 'Undercover'), cmd('Undercover', protect('Insider')), ...acts(pair.round, pair.map, setup), startOf(pair.round + 1),
-        check(truth('Insider', 'health', 'Injured'), truth('Insider', 'protection', 'consumed'), truth('Supplier', 'health', 'Healthy'), truth('Cracker', 'rescuesRemaining', 1), count('eliminated', 0), count('injured', 1))],
-    });
+  {
+    // Two draws of the turn order. The second is the first seed that puts the two attackers the
+    // other way round in the round of the attacks.
+    const round = M.has('Red Disabler') ? 2 : 4;
+    const grant = M.has('Red Disabler') ? 1 : 3;
+    const pair = M.has('Red Disabler') ? ['Blue Disabler', 'Red Disabler'] : ['Blue Disabler', 'Undercover'];
+    const leader = setup => M.byTurn(setup, round, pair)[0];
+    let reversed = null;
+    for (let draw = 2; reversed === null; draw += 1) {
+      if (draw > 50) throw new Error('no seed reverses the two attackers');
+      const candidate = setupFromSeed(mode, `v1-A-${draw}`);
+      if (leader(candidate) !== leader(A)) reversed = candidate;
+    }
+    for (const [suffix, setup] of [['a', A], ['b', reversed]]) {
+      add('ORDER', 4, `Two attacks on a protected player end the same way whichever attacker's turn comes first (draw ${suffix})`, {
+        areas: ['resolution-order'], rules: ['R-RES-04', 'R-RES-02', 'R-PROT-03'], lineage: ['BAL-105'], setup, suffix,
+        note: `In this draw ${leader(setup)} takes the earlier turn.`,
+        steps: [turn(grant, 'Undercover'), cmd('Undercover', protect('Insider')),
+          ...acts(round, { [pair[0]]: [attack(pair[0], 'Insider')], [pair[1]]: [attack(pair[1], 'Insider')], Cracker: [cmd('Cracker', rescue('Supplier'))] }, setup), startOf(round + 1),
+          check(truth('Insider', 'health', 'Injured'), truth('Insider', 'protection', 'consumed'), truth('Supplier', 'health', 'Healthy'), truth('Cracker', 'rescuesRemaining', 1), count('eliminated', 0), count('injured', 1))],
+      });
+    }
   }
-  add('ORDER', 5, 'Round 3 resolves in order: Jail vote, attack, Rescue, then Supplier\'s weapons', {
+  add('ORDER', 5, 'In Round 3 the attack resolves before the Rescue, and a Jail vote stops neither them nor Supplier\'s weapon', {
     areas: ['resolution-order'], rules: ['R-RES-01', 'R-ACT-06', 'R-ROLE-07'], lineage: ['BAL-104', 'BAL-105'],
     steps: [...acts(3, { Supplier: [cmd('Supplier', supply('Insider', 'Cracker'))], Cracker: [cmd('Cracker', rescue('Insider'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))] }), ...jail(3, 'Insider'), expire(),
       check(truth('Insider', 'jailed', true), truth('Insider', 'location', 'Jail'), truth('Insider', 'health', 'Healthy'), truth('Insider', 'ordinaryWeapons', 1), truth('Cracker', 'ordinaryWeapons', 1), truth('Cracker', 'rescuesRemaining', 1))],
@@ -849,7 +1025,7 @@ function build(mode) {
   const equal = mode === 8 ? ['Insider', 'Cracker'] : ['Insider', 'Cracker', 'Supplier'];
   const jailEach = list => list.flatMap((role, index) => jail(index + 1, role));
   add('WIN', 1, 'No result exists before the end of Round 5 when nobody is eliminated', {
-    areas: ['victory', 'phase-transitions'], rules: ['R-WIN-09', 'R-WIN-04', 'R-WIN-07'], lineage: ['BAL-019'],
+    areas: ['victory', 'phase-transitions'], rules: ['R-WIN-09', 'R-WIN-04', 'R-WIN-07', 'R-VIEW-08'], lineage: ['BAL-019'],
     steps: [phase(5, 'JAIL_VOTE'), check(is('hasResult', false), fact('endRevealPresent', false)), expire(), check(is('phase', 'FINISHED'), is('winner', 'Blue'), is('alienCoWinner', true), fact('endRevealPresent', true))],
   });
   add('WIN', 2, 'Equal Power is not enough for Blue, so the showdown begins', {
@@ -857,15 +1033,15 @@ function build(mode) {
     steps: [...jailEach(equal), untilPhase('SHOWDOWN'), check(is('round', 5), is('hasResult', false), count('jailed', equal.length), count('showdownPhases', 1))],
   });
   add('WIN', 3, 'One point more Power than Red wins for Blue at the end of Round 5', {
-    areas: ['victory'], rules: ['R-WIN-04', 'R-WIN-01'], lineage: ['BAL-019'],
+    areas: ['victory'], rules: ['R-WIN-04', 'R-WIN-01', 'R-WIN-07'], lineage: ['BAL-019'],
     steps: [...jailEach(equal.slice(0, -1)), untilPhase('FINISHED'), check(is('winner', 'Blue'), is('alienCoWinner', true), count('showdownPhases', 0))],
   });
   add('WIN', 4, 'A Healthy Alien adds one to Blue Power, and a Jailed Alien adds nothing', {
-    areas: ['victory'], rules: ['R-WIN-01', 'R-ROLE-16'], lineage: ['BAL-019'],
+    areas: ['victory'], rules: ['R-WIN-01', 'R-ROLE-16', 'R-WIN-10'], lineage: ['BAL-019'],
     steps: [...jailEach([...equal.slice(0, -1), 'Alien']), untilPhase('SHOWDOWN'), check(is('hasResult', false), truth('Alien', 'jailed', true), count('jailed', equal.length))],
   });
   add('WIN', 5, 'An Injured player counts zero Power', {
-    areas: ['victory'], rules: ['R-WIN-01', 'R-STATE-03'], lineage: ['BAL-019'],
+    areas: ['victory'], rules: ['R-WIN-01', 'R-STATE-03', 'R-WIN-10'], lineage: ['BAL-019'],
     steps: [...toEqualPower(M), untilPhase('SHOWDOWN'), check(is('hasResult', false), truth('Insider', 'health', 'Injured'), count('jailed', equal.length - 1), count('injured', 1))],
   });
   {
@@ -877,10 +1053,10 @@ function build(mode) {
           turn(4, 'Alien'), cmd('Alien', shot('Red Disabler')), ...jail(4, 'Supplier'), ...jail(5, 'Undercover')]
         : [...acts(1, { 'Blue Disabler': [cmd('Blue Disabler', disable('Hacker'))], Officer: [cmd('Officer', shot('Undercover'))] }), ...jail(1, 'Blue Disabler'), ...jail(2, 'Officer'),
           turn(3, 'Supplier'), cmd('Supplier', supply('Alien', 'Cracker')), ...jail(3, 'Insider'), turn(4, 'Alien'), cmd('Alien', shot('Red Disabler')), ...jail(4, 'Supplier'), ...jail(5, 'Cracker')];
-    add('WIN', 6, 'Every Blue player Healthy but Jailed while Blue Power exceeds Red Power', {
-      status: 'blocked', decisions: ['D14'], areas: ['victory'], rules: ['R-WIN-11'], kind: 'decision_boundary',
-      note: 'Blue Power is 1 from the free Alien and Red Power is 0. Whether a Healthy but Jailed Blue player satisfies R-WIN-02 decides the match.',
-      steps: [...steps, expire(), note('phase after the Round 5 check', 'phase'), note('winner after the Round 5 check', 'winner')],
+    add('WIN', 6, 'Blue wins on Power when its only Healthy players are Jailed', {
+      areas: ['victory'], rules: ['R-WIN-11', 'R-WIN-04', 'R-WIN-01', 'R-WIN-07'], lineage: [],
+      note: 'Blue Power is 1 from the free Alien and Red Power is 0. That a Healthy but Jailed Blue player satisfies R-WIN-02 is reading D14.',
+      steps: [...steps, expire(), check(is('phase', 'FINISHED'), is('winner', 'Blue'), is('alienCoWinner', true), count('showdownPhases', 0), count('jailed', 5))],
     });
   }
   {
@@ -890,9 +1066,15 @@ function build(mode) {
       steps: [...hit.steps, untilPhase('FINISHED'), check(truth('Alien', 'health', 'Eliminated'), is('winner', 'Blue'), is('alienCoWinner', false))],
     });
   }
-  add('WIN', 9, 'An Injured Alien adds no Power but still wins with Blue', {
-    areas: ['victory'], rules: ['R-WIN-07', 'R-WIN-01'], lineage: [],
+  add('WIN', 9, 'An Injured Alien still wins with Blue', {
+    areas: ['victory'], rules: ['R-WIN-07', 'R-WIN-04'], lineage: [],
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Alien')), untilPhase('FINISHED'), check(truth('Alien', 'health', 'Injured'), is('winner', 'Blue'), is('alienCoWinner', true))],
+  });
+  add('WIN', 10, 'An Injured Alien adds no Power', {
+    areas: ['victory'], rules: ['R-WIN-01', 'R-WIN-04', 'R-ROLE-16', 'R-WIN-10'], lineage: ['BAL-019'],
+    note: 'One Blue player fewer is Jailed than in WIN-02. With a Healthy Alien that is a Blue win (WIN-03); with an Injured Alien the Powers are equal.',
+    steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Alien')), ...jailEach(equal.slice(0, -1)), untilPhase('SHOWDOWN'),
+      check(is('hasResult', false), truth('Alien', 'health', 'Injured'), count('jailed', equal.length - 1), count('injured', 1))],
   });
   add('WIN', 7, 'A match in which no victory can still be reached', { status: 'blocked', decisions: ['D15'], areas: ['victory', 'phase-transitions'], rules: ['R-WIN-12'], setup: null, kind: 'decision_boundary' });
 
@@ -914,13 +1096,22 @@ function build(mode) {
     steps: [...showdown, mark('before-special'), cmd('Alien', special('Hacker')), check(onlyActorSaw('before-special', 'Alien'), truth('Alien', 'specialShotAvailable', false), truth('Hacker', 'health', 'Healthy')),
       cmd('Alien', special('Undercover'), 'NOT_ALLOWED')],
   });
-  add('SHOW', 4, 'A special shot resolves even when its shooter is eliminated first', {
-    areas: ['showdown', 'resolution-order', 'elimination'], rules: ['R-SHOW-05', 'R-SHOW-08', 'R-RES-04'], lineage: ['BAL-021', 'BAL-023'],
-    steps: [...showdown, cmd('Undercover', special('Insider')), cmd('Insider', special('Alien')), cmd('Alien', special('Undercover')), expire(),
-      check(truth('Insider', 'health', 'Eliminated'), truth('Alien', 'health', 'Injured'), truth('Undercover', 'health', 'Injured'), is('phase', 'FINISHED'), is('winner', 'Draw'), is('alienCoWinner', false))],
-  });
+  {
+    // Special shots resolve in the Round 5 turn order. The last shooter of that order is shot by
+    // the first two, so it is Eliminated before its own shot resolves.
+    const order = M.orderOf(A, 5);
+    const [one, two] = order;
+    const last = order.at(-1);
+    const bystander = all.find(role => role !== 'Insider' && ![one, two, last].includes(role));
+    add('SHOW', 4, 'A special shot resolves even when its shooter was eliminated earlier in the order', {
+      areas: ['showdown', 'resolution-order', 'elimination'], rules: ['R-SHOW-05', 'R-SHOW-08'], lineage: ['BAL-021', 'BAL-023'],
+      note: 'The winner is not asserted: who the four players are follows the recorded turn order.',
+      steps: [...showdown, cmd(one, special(last)), cmd(two, special(last)), cmd(last, special(bystander)), expire(),
+        check(truth(last, 'health', 'Eliminated'), truth(bystander, 'health', 'Injured'), count('eliminated', 1), is('phase', 'FINISHED'))],
+    });
+  }
   add('SHOW', 5, 'In the Final Zone a Captain has no room protection, and an active Protection blocks one special shot', {
-    areas: ['showdown', 'resources'], rules: ['R-SHOW-03', 'R-SHOW-06', 'R-CAPT-07', 'R-PROT-03'], lineage: ['BAL-022'],
+    areas: ['showdown', 'resources'], rules: ['R-SHOW-03', 'R-SHOW-06', 'R-SHOW-08', 'R-CAPT-07', 'R-PROT-03'], lineage: ['BAL-022'],
     steps: [...acts(1, { Undercover: [cmd('Undercover', protect('Blue Disabler'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))] }), ...jail(1, 'Cracker'), ...elect('Blue Disabler'),
       ...(mode === 8 ? [] : jail(2, 'Supplier')), untilPhase('SHOWDOWN'),
       check(truth('Blue Disabler', 'captain', true), truth('Blue Disabler', 'location', 'Final Zone'), truth('Blue Disabler', 'protection', 'active')),
@@ -953,20 +1144,42 @@ function build(mode) {
           shots: [['Insider', 'Hacker'], ['Cracker', 'Undercover'], ['Supplier', 'Undercover'], ['Officer', 'Red Disabler'], ['Alien', 'Red Disabler']] };
     const reds = all.filter(role => factionOf(role) === 'Red');
     add('SHOW', 9, 'Blue wins the showdown by eliminating every Red player', {
-      areas: ['showdown', 'victory', 'elimination'], rules: ['R-WIN-03', 'R-SHOW-08', 'R-WIN-07', 'R-VIEW-03'], lineage: ['BAL-023'],
+      areas: ['showdown', 'victory', 'elimination'], rules: ['R-WIN-03', 'R-SHOW-08', 'R-WIN-07', 'R-VIEW-03', 'R-RES-05'], lineage: ['BAL-023'],
       steps: [...plan.before, untilPhase('SHOWDOWN'), check(is('hasResult', false)), ...plan.shots.map(([shooter, target]) => cmd(shooter, special(target))), expire(),
         check(...reds.map(role => truth(role, 'health', 'Eliminated')), ...reds.map(role => pub(role, 'revealedFaction', 'Red')), truth('Blue Disabler', 'health', 'Healthy'), truth('Blue Disabler', 'jailed', false),
           is('winner', 'Blue'), is('alienCoWinner', true))],
     });
-    add('SHOW', 10, 'A Blue elimination win reached mid-showdown, then the last free Healthy Blue is shot', {
-      status: 'blocked', decisions: ['D14'], areas: ['showdown', 'victory'], rules: ['R-WIN-11', 'R-RES-03'], kind: 'decision_boundary',
-      note: 'Would show that victory is judged only after every shot (R-RES-03), but the end state leaves only Jailed Healthy Blue players, which is D14.',
+    add('SHOW', 16, 'Blue wins by elimination when its only Healthy players are Jailed', {
+      areas: ['showdown', 'victory'], rules: ['R-WIN-11', 'R-WIN-03', 'R-SHOW-05', 'R-SHOW-08', 'R-WIN-07'], lineage: ['BAL-023'],
+      note: 'The shots of SHOW-09 and one more, at the only Blue player who is Healthy and free. That the Jailed Healthy Blue players satisfy R-WIN-02 is reading D14.',
       steps: [...plan.before, untilPhase('SHOWDOWN'), ...plan.shots.map(([shooter, target]) => cmd(shooter, special(target))), cmd(reds[0], special('Blue Disabler')), expire(),
-        note('winner when no free Blue player is Healthy', 'winner')],
+        check(...reds.map(role => truth(role, 'health', 'Eliminated')), truth('Blue Disabler', 'health', 'Injured'), truth('Cracker', 'health', 'Healthy'), truth('Cracker', 'jailed', true),
+          is('winner', 'Blue'), is('alienCoWinner', true))],
+    });
+  }
+  {
+    // Every Red player is Eliminated by the shooters who come first in the Round 5 order, and the
+    // shooters after them injure every Blue player who was still Healthy. A victory check between
+    // two shots would find a Blue win. The check after the whole stage finds no Healthy Blue player.
+    const before = mode === 7 ? toEqualPower(M)
+      : [...acts(1, { 'Blue Disabler': [cmd('Blue Disabler', disable('Hacker'))], 'Red Disabler': [cmd('Red Disabler', disable('Insider'))] }),
+        ...jailEach(mode === 8 ? ['Cracker', 'Supplier'] : ['Cracker', 'Supplier', 'Officer'])];
+    const atRed = mode === 7 ? ['Undercover', 'Undercover', 'Hacker', 'Hacker'] : ['Hacker', 'Undercover', 'Undercover', 'Red Disabler', 'Red Disabler'];
+    const atBlue = ['Blue Disabler', 'Cracker', 'Supplier', ...(mode === 9 ? ['Officer'] : [])];
+    const order = M.orderOf(A, 5);
+    const shots = [...allot(order.slice(0, atRed.length), atRed), ...allot(order.slice(atRed.length), atBlue)];
+    const reds = all.filter(role => factionOf(role) === 'Red');
+    const blues = all.filter(role => factionOf(role) === 'Blue');
+    add('SHOW', 10, 'Victory is judged only after every special shot: a Blue win that exists between two shots is gone at the end', {
+      areas: ['showdown', 'victory', 'resolution-order'], rules: ['R-RES-03', 'R-SHOW-05', 'R-SHOW-08', 'R-WIN-02', 'R-WIN-03'], lineage: ['BAL-023'],
+      note: 'No Blue player is Healthy at the end, Jailed or free, so the result does not depend on reading D14.',
+      steps: [...before, untilPhase('SHOWDOWN'), check(is('hasResult', false), truth('Blue Disabler', 'health', 'Healthy')), ...shots.map(([shooter, target]) => cmd(shooter, special(target))), expire(),
+        check(...reds.map(role => truth(role, 'health', 'Eliminated')), ...blues.map(role => truth(role, 'health', 'Injured')), truth('Alien', 'health', 'Healthy'), count('eliminated', reds.length),
+          is('phase', 'FINISHED'), is('winner', 'Draw'), is('alienCoWinner', false))],
     });
   }
   add('SHOW', 11, 'A Protection granted in Round 5 does not block a special shot', {
-    areas: ['showdown', 'resources'], rules: ['R-PROT-07', 'R-PROT-02', 'R-SHOW-06'], lineage: ['BAL-022'],
+    areas: ['showdown', 'resources'], rules: ['R-PROT-07', 'R-PROT-02', 'R-SHOW-06', 'R-SHOW-08', 'R-WIN-04', 'R-WIN-01'], lineage: ['BAL-022'],
     steps: [...toEqualPower(M), turn(5, 'Undercover'), cmd('Undercover', protect('Hacker')), untilPhase('SHOWDOWN'), check(truth('Hacker', 'protection', 'pending')),
       cmd('Blue Disabler', special('Hacker')), expire(), check(truth('Hacker', 'health', 'Injured'), truth('Hacker', 'protection', 'pending'), is('winner', 'Blue'))],
   });
@@ -1002,10 +1215,14 @@ function build(mode) {
         cmd('Insider', special('Hacker'), 'NOT_ALLOWED')],
     });
   }
+  add('SHOW', 15, 'A special shot aimed at the shooter', {
+    status: 'blocked', decisions: ['D34'], areas: ['showdown', 'resources'], rules: ['R-SHOW-11'], kind: 'decision_boundary',
+    steps: [...showdown, probe('Alien', special('Alien'), 'SHOWDOWN_SHOT naming the shooter')],
+  });
 
   // ----- Authorized views ----------------------------------------------------------------------
   add('VIEW', 1, 'A refused command changes nothing that anyone can see', {
-    areas: ['authorized-views'], rules: ['R-VIEW-07'], lineage: ['BAL-024'], kind: 'privacy',
+    areas: ['authorized-views'], rules: ['R-ACT-09', 'R-VIEW-07'], lineage: ['BAL-024'], kind: 'privacy',
     steps: [turn(1, 'Undercover'), mark('before-refusals'), cmd('Undercover', shot('Insider'), 'NOT_ALLOWED'), cmd('Insider', disable('Cracker'), 'NOT_ALLOWED'), cmd('Alien', submit(M.code), 'NOT_ALLOWED'),
       cmd('Cracker', move('Command Room'), 'NOT_ALLOWED'), check(unchanged('before-refusals', 'public'), unchanged('before-refusals', 'all-players'))],
   });
@@ -1016,11 +1233,24 @@ function build(mode) {
       steps: [...hit.steps, phase(hit.round, 'JAIL_VOTE'), expire(), check(pub('Alien', 'revealedFaction', 'Alien'), ...all.filter(role => role !== 'Alien').map(role => pub(role, 'revealedFaction', null)), fact('endRevealPresent', false))],
     });
   }
+  {
+    const [one, two] = M.orderOf(A, 1);
+    add('VIEW', 3, 'The round, the phase and whose turn it is are public', {
+      areas: ['authorized-views', 'phase-transitions'], rules: ['R-VIEW-09', 'R-FLOW-02'], lineage: [],
+      steps: [check(fact('round', 1), fact('phase', 'ORDINARY_TURN'), fact('active', ref(one))), expire(), check(fact('phase', 'ORDINARY_TURN'), fact('active', ref(two))),
+        phase(1, 'JAIL_VOTE'), check(fact('round', 1), fact('phase', 'JAIL_VOTE')), untilPhase('CAPTAIN_ELECTION'), check(fact('phase', 'CAPTAIN_ELECTION')),
+        phase(2, 'ORDINARY_TURN'), check(fact('round', 2), fact('active', ref(first(2))))],
+    });
+  }
 
   // ----- Operating policy ----------------------------------------------------------------------
   add('OPS', 1, 'A host abort ends the match without a winner', {
     areas: ['operating-policy', 'phase-transitions'], rules: ['R-OPS-02'], lineage: ['BAL-108'],
     steps: [turn(1, first(1)), { op: 'abort' }, check(is('phase', 'ABORTED'), is('terminal', true), is('hasResult', false)), cmd('Insider', move('Room B'), 'PHASE_CLOSED')],
+  });
+  add('OPS', 3, 'What an aborted match reveals', {
+    status: 'blocked', decisions: ['D35'], areas: ['operating-policy', 'authorized-views'], rules: ['R-VIEW-10'], kind: 'decision_boundary',
+    steps: [turn(1, first(1)), { op: 'abort' }, note('roles and the Code public after a host abort', 'endRevealPresent')],
   });
   add('OPS', 2, 'Disconnect, reconnect, retry and seat recovery keep the same seat, role and resources', {
     status: 'manual', areas: ['operating-policy'], rules: ['R-OPS-01', 'R-OPS-03'], lineage: ['BAL-108', 'BAL-025'], setup: null, kind: 'technical_contract',
@@ -1042,7 +1272,7 @@ function unsupported() {
   const add = (number, title, rules, setup) => {
     scenarios.push({
       id: `V1-UX-SETUP-${String(number).padStart(2, '0')}`, group: 'unsupported', mode: null, title, status: 'ready', kind: 'setup_refusal',
-      areas: ['mode-setup'], ruleRefs: rules, lineage: ['BAL-001'], decisionIds: [], optionalPowers: false, setup, steps: [{ op: 'createRejected' }], note: '',
+      areas: ['mode-setup'], ruleRefs: rules, dependsOn: [], lineage: ['BAL-001'], decisionIds: [], optionalPowers: false, setup, steps: [{ op: 'createRejected' }], note: '',
     });
   };
   const seats = howMany => seatIdsFor(howMany);

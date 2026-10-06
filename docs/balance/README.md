@@ -20,9 +20,9 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | Document | What it is |
 | --- | --- |
 | [game-rules.md](game-rules.md) | The consolidated rulebook. One row per rule, each with a status and its sources. The single text all four workstreams follow |
-| [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D29, and consequences derived from the rules |
+| [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D38, and consequences derived from the rules |
 | [invariants.md](invariants.md) | Statements that must hold in every match, with the rule behind each |
-| [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, lists blocked cases and rules without a scenario |
+| [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each working reading, and the rules without a scenario |
 | [contract-review.md](contract-review.md) | Independent review of the shared contracts, the Officer and Protection fixture and Backend's draft engine |
 | [integration-requests.md](integration-requests.md) | The exact shared changes requested |
 | [telemetry-spec.md](telemetry-spec.md), [telemetry-export.schema.json](telemetry-export.schema.json) | The restricted post-match research record |
@@ -50,6 +50,7 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 | `npm run check --workspace @mothership/balance` | Static checks. Needs no engine. Verifies hashes, every rule citation, the decision register, the scenario files and the numbers quoted in the documents |
 | `npm run scenarios --workspace @mothership/balance` | Executes the scenarios against the engine of this checkout. Add `-- --engine-root <dir>` for a built copy of another commit, and `-- --out <file>` to write a report |
 | `npm run walk --workspace @mothership/balance -- --engine-root <dir>` | Seeded random playouts with the invariants checked after every transition |
+| `npm run controls --workspace @mothership/balance -- --engine-root <dir>` | Negative controls: changes one expectation at a time and requires the run to fail |
 | `npm run facts --workspace @mothership/balance` | Prints the arithmetic quoted in the audit |
 | `npm run materialize --workspace @mothership/balance` | Rewrites the scenario files from the catalogue |
 | `npm run traceability --workspace @mothership/balance` | Rewrites the traceability table |
@@ -59,6 +60,8 @@ At the bootstrap baseline the engine package has no rules in it, so `npm run sce
 ## How to read a status
 
 A scenario is **ready** when its expected result follows from decided rules. It is **blocked** when it waits for an owner decision; a blocked scenario asserts nothing. It is **manual** when the evidence has to come from the service, the screen or people.
+
+A rule is decided when a source states it or when it follows from the sources. Nineteen rules rest on one of eighteen readings that the owner has been asked to confirm. A ready scenario may rest on such a reading, and then says so: its `ruleRefs` or `dependsOn` name the rule, and the traceability page lists every scenario that touches each reading.
 
 A run reports four separate numbers: **passed**, **failed**, **blocked** and **not run**. Only an executed scenario whose every expectation held is passed. Blocked and not-run are never added to it.
 

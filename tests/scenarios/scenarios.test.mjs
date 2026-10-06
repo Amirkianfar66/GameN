@@ -56,6 +56,7 @@ test('the 7-, 8- and 9-player cases are separate files, each with its own roles 
 test('every expectation names rules that exist, and ready cases rest only on decided rules', () => {
   for (const scenario of all) {
     for (const id of scenario.ruleRefs) assert.ok(rules.has(id), `${scenario.id}: unknown rule ${id}`);
+    for (const id of scenario.dependsOn) assert.ok(rules.has(id) && rules.get(id).status !== 'OPEN', `${scenario.id}: lead-up uses the unknown or undecided rule ${id}`);
     const statuses = scenario.ruleRefs.map(id => rules.get(id).status);
     if (scenario.status === 'blocked') {
       assert.ok(statuses.includes('OPEN'), `${scenario.id}: a blocked case must cite the OPEN rule it waits for`);
@@ -70,7 +71,7 @@ test('every expectation names rules that exist, and ready cases rest only on dec
 
 test('every open decision has a blocked case in each mode, and no blocked case asserts an outcome', () => {
   const open = [...decisions.values()].filter(decision => decision.status === 'OPEN').map(decision => decision.id);
-  assert.deepEqual(open, ['D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17', 'D18', 'D19', 'D20']);
+  assert.deepEqual(open, ['D10', 'D11', 'D12', 'D15', 'D16', 'D17', 'D18', 'D19', 'D20', 'D34', 'D35']);
   for (const mode of [7, 8, 9]) {
     const blocked = byMode(mode).filter(scenario => scenario.status === 'blocked');
     for (const id of open) assert.ok(blocked.some(scenario => scenario.decisionIds.includes(id)), `mode ${mode}: no blocked case for ${id}`);

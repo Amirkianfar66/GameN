@@ -294,7 +294,7 @@
           "phase": { "type": ["string", "null"] },
           "category": { "enum": ["rule-misunderstood", "rule-missing", "rule-contradiction", "app-and-table-disagreed", "clock-confusion", "information-leak", "board-and-app-out-of-sync", "stalemate", "other"] },
           "ruleId": { "type": ["string", "null"], "description": "Rulebook identifier, when the problem concerns a stated rule." },
-          "decisionId": { "type": ["string", "null"], "description": "Decision identifier D10 to D29, when the problem concerns an open or unconfirmed question." },
+          "decisionId": { "type": ["string", "null"], "description": "Decision identifier D10 to D38, when the problem concerns an open or unconfirmed question." },
           "description": { "type": "string" },
           "tableResolution": { "type": ["string", "null"], "description": "What the table did about it." },
           "affectedOutcome": { "type": ["boolean", "null"] }
