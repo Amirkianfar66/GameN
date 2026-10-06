@@ -14,7 +14,7 @@ Active wire protocol is 2; ruleset `in-person-v1-2026-10-06` hashes to `6ca355eb
 
 ## Exact consumer and combined candidates
 
-Frontend is read-only pinned to `ba716d71b3c5a2e15acf3cd80c4bb458e657fc9f`, now committed and clean when inspected. Published PR #15 remains `e64016e6e54cf7fe63c6dab34a0b6de8bcadebcf`; earlier shot-flow context is `b97441c0ed559282c4d8948e2f1396e2a27df5b2`. Source inspection and fixture checks do not independently approve those Frontend fixes or establish protocol-2 transport acceptance.
+Frontend is read-only pinned to `ba716d71b3c5a2e15acf3cd80c4bb458e657fc9f`; its HEAD still matches that pin. The checkout was clean at initial inspection. A final read-only status check shows newer uncommitted event-director/shot/session work in progress; none of those drafts is included, reviewed or adopted in these candidates. Published PR #15 remains `e64016e6e54cf7fe63c6dab34a0b6de8bcadebcf`; earlier shot-flow context is `b97441c0ed559282c4d8948e2f1396e2a27df5b2`. Source inspection and fixture checks do not independently approve those Frontend fixes or establish protocol-2 transport acceptance.
 
 The overlay script copied exactly 112 Git-tracked Frontend-owned files with aggregate SHA-256 `f0e19b4b9a5e681db20b59794697deba10a9110860bd6f7a18a7c3f9c96ad66a`; active Frontend checkout untouched. Two **local-only** immutable candidate commits are retained for review in this repository's Git object database:
 
