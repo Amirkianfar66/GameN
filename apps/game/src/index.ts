@@ -40,6 +40,10 @@ export type {
 export { createConnectedPlayerStore, createConnectedPublicStore, readAdmission, readHostSession, readLobby, SUPPORTED_CONNECTED_VERSIONS } from './connected/readers.js';
 export type { Admission, DocumentOutcome, DocumentRejection, HostSession } from './connected/readers.js';
 export { collectionPath, documentPath } from './connected/paths.js';
+export { createActionFlow, DEFAULT_ACTION_FLOW_TIMING, offeredChoices } from './connected/action-flow.js';
+export type {
+  ActionChoice, ActionFlow, ActionFlowContext, ActionFlowOptions, ActionFlowState, ActionFlowTiming, ActionKind, Destination, NotAcceptedReason,
+} from './connected/action-flow.js';
 
 export { shellBreakpoints, shellCssVariables, shellTokenStylesheet } from './styles/tokens-css.js';
 export type { ShellTokenSource } from './styles/tokens-css.js';

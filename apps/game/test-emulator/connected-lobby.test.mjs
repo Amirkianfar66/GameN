@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {
-  createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission, readHostSession, readLobby,
-} from '@mothership/game';
-import { createRestEmulatorTransport, realPorts, until } from './support/rest-transport.mjs';
+import { createConnectedPlayerStore, createConnectedPublicStore, readAdmission, readHostSession, readLobby } from '@mothership/game';
+import { participant, requestId } from './support/match.mjs';
+import { until } from './support/rest-transport.mjs';
 
 // EMULATOR-CONNECTED. The Frontend client core against the real local Auth, Firestore and
 // Functions emulators: real identities, real Security Rules, the real protocol-2 service.
@@ -13,15 +12,6 @@ import { createRestEmulatorTransport, realPorts, until } from './support/rest-tr
 // part of `npm run verify`, which needs neither Java nor the emulators.
 
 const SEVEN_PLAYER_ROLES = ['Alien', 'Blue Disabler', 'Cracker', 'Hacker', 'Insider', 'Supplier', 'Undercover'];
-const ports = realPorts();
-const requestId = () => ports.ids.next();
-
-/** One signed-in participant: its own identity, transport and API client. */
-async function participant() {
-  const rest = createRestEmulatorTransport();
-  const uid = await rest.transport.signIn();
-  return { ...rest, uid, api: createConnectedApi(rest.transport, ports) };
-}
 /** The next value a document listener delivers for which `test` holds. */
 const document = (who, target, read, check, label) => until(
   deliver => who.transport.listenDocument(target, { onSnapshot: snapshot => deliver(read(snapshot.value)), onError: () => deliver({ kind: 'error' }) }),
