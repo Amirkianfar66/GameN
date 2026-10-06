@@ -56,16 +56,27 @@ interface Pins {
   readonly identity: string | null;
 }
 
-interface StoreConfig<View> {
+export interface SnapshotStoreConfig<View> {
   readonly matchId: string;
   readonly parse: (payload: unknown) => View | null;
   readonly identityOf: (view: View) => string | null;
+  /** Wire protocol versions this store can hold. Defaults to the protocol-1 fixture protocol. */
+  readonly supportedVersions?: readonly number[];
+}
+
+/** What every wire protocol's composed view has, and all a store needs to know about one. */
+interface ComposedView {
+  readonly matchId: string;
+  readonly viewRevision: number;
+  readonly versions: unknown;
+  readonly playerCount: number;
 }
 
 // The single place an audience view enters client state. Strict parsing means a field the
 // contract does not list, or a view built for another audience, never gets past this point.
-function createStore<View extends PublicView | PlayerView>(config: StoreConfig<View>): SnapshotStore<View> {
+export function createSnapshotStore<View extends ComposedView>(config: SnapshotStoreConfig<View>): SnapshotStore<View> {
   if (!IdentifierSchema.safeParse(config.matchId).success) throw new TypeError('A snapshot store needs a valid match id');
+  const supported = config.supportedVersions ?? SUPPORTED_PROTOCOL_VERSIONS;
   let held: { readonly view: View; readonly canonical: string } | null = null;
   let pins: Pins | null = null;
 
@@ -75,7 +86,7 @@ function createStore<View extends PublicView | PlayerView>(config: StoreConfig<V
     current: () => held?.view ?? null,
     accept(payload) {
       const version = probeProtocolVersion(payload);
-      if (version !== null && !SUPPORTED_PROTOCOL_VERSIONS.includes(version)) return reject({ kind: 'incompatible-protocol', receivedVersion: version });
+      if (version !== null && !supported.includes(version)) return reject({ kind: 'incompatible-protocol', receivedVersion: version });
       const view = config.parse(payload);
       if (view === null) return reject({ kind: 'unreadable' });
       if (view.matchId !== config.matchId) return reject({ kind: 'wrong-match' });
@@ -104,7 +115,7 @@ function createStore<View extends PublicView | PlayerView>(config: StoreConfig<V
 
 /** For the table display. A player's view fails this schema and cannot enter public state. */
 export function createPublicSnapshotStore(options: { readonly matchId: string }): SnapshotStore<PublicView> {
-  return createStore<PublicView>({
+  return createSnapshotStore<PublicView>({
     matchId: options.matchId,
     parse: payload => {
       const result = PublicViewSchema.safeParse(payload);
@@ -116,7 +127,7 @@ export function createPublicSnapshotStore(options: { readonly matchId: string })
 
 /** For one seat. The first accepted view fixes the seat and role for the life of the store. */
 export function createPlayerSnapshotStore(options: { readonly matchId: string }): SnapshotStore<PlayerView> {
-  return createStore<PlayerView>({
+  return createSnapshotStore<PlayerView>({
     matchId: options.matchId,
     parse: payload => {
       const result = PlayerViewSchema.safeParse(payload);

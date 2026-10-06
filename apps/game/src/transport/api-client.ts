@@ -49,13 +49,14 @@ export interface PlayerApiClient extends PublicApiClient {
 
 export const DEFAULT_API_TIMEOUT_MS = 8_000;
 
-type Settled =
+export type Settled =
   | { readonly kind: 'response'; readonly payload: unknown; readonly requestedAt: number; readonly receivedAt: number }
   | NoResponse;
 
 const unreadable: NoResponse = { kind: 'no-response', reason: 'unreadable-response' };
 
-function createCaller(ports: ClientPorts, timeoutMs: number) {
+/** Runs calls under one timeout policy. Shared by the clients of both wire protocols. */
+export function createCaller(ports: ClientPorts, timeoutMs: number) {
   const pending = new Set<(result: Settled) => void>();
   function call(invoke: () => Promise<unknown>): Promise<Settled> {
     return new Promise(resolve => {
