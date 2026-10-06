@@ -49,6 +49,16 @@ export const en = {
         'Reload to reconnect. The match itself is not affected.',
       ],
     },
+    // The server refused this identity the match. A seat can be moved to another device
+    // with a one-time code the host issues; the device it was moved from loses access (V1-21).
+    noAccess: {
+      heading: 'No access to this match',
+      // Why the server refused is not something this device is told, so no reason is stated as fact.
+      paragraphs: [
+        'The server did not let this device read the match, so nothing of it is shown.',
+        'This happens when a device is not in the match, or when its seat has been moved to another device. If you did not expect it, ask the host.',
+      ],
+    },
     reload: 'Reload',
   },
 

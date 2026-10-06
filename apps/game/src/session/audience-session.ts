@@ -147,6 +147,8 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
   }
 
   function onPayload(payload: unknown, confirmed: boolean): void {
+    // Refused once, this identity is shown nothing more by this session, whatever arrives.
+    if (state.problem === 'no-access') return;
     const outcome = store.accept(payload, { confirmed });
     if (outcome.kind === 'ignored-stale') return;
     // A failed integrity check is never cleared by later data: the feed is not trusted again.
@@ -176,12 +178,30 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
     update({ connection: state.view ? 'stale' : 'connecting' });
   }
 
+  // The server refused this identity the view. What was held is let go of at once, from the
+  // state and from the store, and the session shows a recovery screen until it is replaced:
+  // a seat that was moved to another device does not come back to this one.
+  function onRefused(): void {
+    store.forget();
+    cancelRetry();
+    syncGeneration += 1;
+    update({ view: null, problem: 'no-access', connection: 'connecting' });
+  }
+
   function attach(): void {
     const generation = ++feedGeneration;
     feedConnected = false;
     const stop = transport.subscribe({
       onPayload: (payload, confirmed) => {
         if (!disposed && generation === feedGeneration) onPayload(payload, confirmed === true);
+      },
+      onRefused: () => {
+        if (!disposed && generation === feedGeneration) onRefused();
+      },
+      // A view this session held, and the server now confirms there is none: it was taken
+      // away, which is the same loss of access. With no view held yet there is nothing to lose.
+      onMissing: () => {
+        if (!disposed && generation === feedGeneration && state.view !== null) onRefused();
       },
       onConnectionChange: next => {
         if (!disposed && generation === feedGeneration) onConnectionChange(next, generation);

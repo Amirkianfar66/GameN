@@ -1,11 +1,12 @@
 import {
   FullAbortMatchRequestSchema, FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullAdvanceResponseSchema, FullApproveAdmissionRequestSchema,
-  FullCommandRequestSchema, FullCommandResponseSchema, FullCreateMatchRequestSchema, FullLookupRequestSchema,
-  FullLookupResponseSchema, FullOperationResponseSchema, FullServerTimeRequestSchema, FullServerTimeResponseSchema, FullStartMatchRequestSchema,
+  FullCommandRequestSchema, FullCommandResponseSchema, FullCreateMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullLookupRequestSchema,
+  FullLookupResponseSchema, FullOperationResponseSchema, FullRedeemSeatRecoveryRequestSchema, FullServerTimeRequestSchema, FullServerTimeResponseSchema,
+  FullStartMatchRequestSchema,
 } from '@mothership/contracts';
 import type {
   FullAbortMatchRequest, FullAdmissionRequest, FullAdmitDisplayRequest, FullApproveAdmissionRequest, FullCommandRequest, FullCreateMatchRequest, FullFailure,
-  FullLookupRequest, FullOperationResponse, FullReceipt, FullStartMatchRequest, SeatId,
+  FullIssueSeatRecoveryRequest, FullLookupRequest, FullOperationResponse, FullReceipt, FullRedeemSeatRecoveryRequest, FullStartMatchRequest, SeatId,
 } from '@mothership/contracts';
 import type { ClockSample } from '../clock/server-clock.js';
 import type { ClientPorts } from '../ports.js';
@@ -50,6 +51,13 @@ export type OperationResult<Result> = ({ readonly kind: 'done'; readonly result:
 export interface CreatedMatch { readonly matchId: string; readonly roomCode: string; readonly playerCount: 7 | 8 | 9 }
 export interface RequestedAdmission { readonly matchId: string; readonly admissionId: string }
 export interface ApprovedAdmission { readonly admissionId: string; readonly seatId: SeatId }
+/**
+ * A one-time code that moves a seat to another device. recoveryToken is null when the
+ * answer is the replay of an earlier one: the service gives a code out once. expiresAt is
+ * the server's time, in milliseconds.
+ */
+export interface IssuedRecovery { readonly seatId: SeatId; readonly recoveryToken: string | null; readonly expiresAt: number }
+export interface RecoveredSeat { readonly seatId: SeatId }
 
 export interface ConnectedApi {
   serverTime(matchId: string): Promise<ConnectedTimeResult>;
@@ -63,6 +71,10 @@ export interface ConnectedApi {
   startMatch(request: FullStartMatchRequest): Promise<OperationResult<true>>;
   /** The host ends the match for everyone. It is recorded as ended by the host, without a winner. */
   abortMatch(request: FullAbortMatchRequest): Promise<OperationResult<true>>;
+  /** The host asks for a one-time code that moves an occupied seat to another device. */
+  issueSeatRecovery(request: FullIssueSeatRecoveryRequest): Promise<OperationResult<IssuedRecovery>>;
+  /** This device takes over the seat a one-time code was issued for. The device that held it loses access. */
+  redeemSeatRecovery(request: FullRedeemSeatRecoveryRequest): Promise<OperationResult<RecoveredSeat>>;
   /** Settles every pending call as cancelled and releases its timer. */
   cancelPending(): void;
 }
@@ -172,6 +184,16 @@ export function createConnectedApi(transport: Pick<ConnectedTransport, 'post'>, 
     async abortMatch(request) {
       assertRequest(FullAbortMatchRequestSchema.safeParse(request).success, 'match abort');
       return operate('v1AbortMatch', request, result => ('aborted' in result ? true : null));
+    },
+    async issueSeatRecovery(request) {
+      assertRequest(FullIssueSeatRecoveryRequestSchema.safeParse(request).success, 'seat recovery request');
+      // A code for some other seat says nothing about the one that was asked for.
+      return operate('v1IssueSeatRecovery', request, result => ('issued' in result && result.seatId === request.seatId
+        ? { seatId: result.seatId, recoveryToken: result.recoveryToken, expiresAt: result.expiresAt } : null));
+    },
+    async redeemSeatRecovery(request) {
+      assertRequest(FullRedeemSeatRecoveryRequestSchema.safeParse(request).success, 'seat recovery');
+      return operate('v1RedeemSeatRecovery', request, result => ('recovered' in result ? { seatId: result.seatId } : null));
     },
     cancelPending,
   };

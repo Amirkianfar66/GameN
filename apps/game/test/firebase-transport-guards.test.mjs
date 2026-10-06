@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createEmulatorTransport } from '../dist/browser/firebase-transport.js';
+import { createEmulatorTransport, listenerFailure } from '../dist/browser/firebase-transport.js';
 
 // What the emulator transport refuses to be built for. No connection is made here.
 
@@ -19,6 +19,16 @@ test('the emulator transport serves the demo project on loopback hosts and nothi
   })) {
     assert.throws(() => createEmulatorTransport(options), /demo project|loopback hosts only/, name);
   }
+});
+
+test('only the rules refusing a read is a refusal; every other way a listener ends is a failure', () => {
+  assert.equal(listenerFailure({ code: 'permission-denied' }), 'refused');
+  // A lost network, an expired sign-in, a cancelled or exhausted listener: none of them says this identity may not read.
+  for (const code of ['unavailable', 'unauthenticated', 'cancelled', 'resource-exhausted', 'deadline-exceeded', 'internal', 'PERMISSION-DENIED', '', undefined, 7]) {
+    assert.equal(listenerFailure({ code }), 'failed', String(code));
+  }
+  assert.equal(listenerFailure({}), 'failed');
+  assert.equal(listenerFailure(new Error('permission-denied')), 'failed', 'The code is what counts, not the message');
 });
 
 test('the transport is not part of the headless package entry', async () => {

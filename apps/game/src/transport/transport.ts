@@ -11,6 +11,16 @@ export interface FeedListener {
    */
   onPayload(payload: unknown, confirmed?: boolean): void;
   onConnectionChange(state: 'connected' | 'disconnected'): void;
+  /**
+   * The server refused this identity the view. That is not a lost connection: whatever was
+   * delivered before must no longer be shown. A transport that cannot tell never calls it.
+   */
+  onRefused?(): void;
+  /**
+   * The server confirmed that there is no view for this identity. Before one has been
+   * delivered that proves nothing. After one has, the server has taken it away.
+   */
+  onMissing?(): void;
 }
 
 export interface ViewFeed {

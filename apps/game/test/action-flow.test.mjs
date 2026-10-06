@@ -572,6 +572,78 @@ test('dispose stops everything, and a late answer after it changes nothing', asy
   for (const act of [() => s.flow.open('move'), () => s.flow.choose(MOVE), () => s.flow.back(), () => s.flow.confirm(), () => s.flow.checkAgain(), () => s.flow.dismiss()]) assert.equal(act(), false);
 });
 
+test('when the seat is no longer this device’s, everything about a command is let go at once and nothing more is asked', async () => {
+  // In every state a command can be in: being chosen, waiting for its answer, being checked on, unknown.
+  const reach = {
+    confirming: async s => { await s.toConfirm(SHOT); },
+    submitting: async s => {
+      await s.toConfirm(SHOT);
+      s.script.command.push(() => new Promise(() => {}));
+      s.flow.confirm();
+      await flush();
+    },
+    checking: async s => {
+      await s.toConfirm(SHOT);
+      s.script.command.push(s.noAnswer);
+      s.script.receipt.push(() => new Promise(() => {}));
+      s.flow.confirm();
+      await flush();
+    },
+    unknown: async s => {
+      await s.toConfirm(SHOT);
+      s.flow.confirm();
+      await flush();
+      await s.host.advance(FIRST + SECOND + THIRD + 3 * JITTER + 60_000);
+    },
+  };
+  for (const [step, arrange] of Object.entries(reach)) {
+    const s = setup();
+    s.observe(armedView());
+    await arrange(s);
+    assert.equal(s.state().step, step);
+    if (step !== 'confirming') assert.match(s.host.kept, /"commandId"/, `${step}: the identifiers are kept for a reload`);
+    const [sent, looked, notified] = [s.sent.length, s.looked.length, s.notified()];
+
+    assert.equal(s.flow.release(), true, step);
+    assert.deepEqual(s.state(), { step: 'idle' }, `${step}: nothing of the command or the choice is held`);
+    assert.equal(s.host.kept, null, `${step}: nothing is kept for a reload`);
+    assert.equal(s.host.pendingTimers(), 0, `${step}: no check is planned`);
+    assert.equal(s.notified(), notified, 'It does not notify: the caller is drawing');
+    // Time passes, the view the server refused is gone, and nothing is sent or asked.
+    s.observe(null, { current: false });
+    await s.host.advance(120_000);
+    assert.deepEqual([s.sent.length, s.looked.length], [sent, looked], `${step}: nothing more leaves the device`);
+    assert.deepEqual(s.state(), { step: 'idle' });
+    assert.equal(s.flow.release(), false, 'Releasing again changes nothing');
+  }
+
+  // An answer that was on its way when the seat was lost is not taken up.
+  const s = setup();
+  s.observe(armedView());
+  await s.toConfirm(SHOT);
+  let arrive;
+  s.script.command.push(request => new Promise(resolve => { arrive = () => resolve(s.receipt(request)); }));
+  s.flow.confirm();
+  await flush();
+  s.flow.release();
+  arrive();
+  await flush();
+  assert.deepEqual([s.state(), s.host.kept], [{ step: 'idle' }, null]);
+  // A reloaded page that was about to ask what became of a command an earlier page left: that is let go too.
+  const reloaded = setup({ kept: JSON.stringify({ matchId: MATCH, seatId: 'seat-1', phaseId: 'phase-one', commandId: 'left-by-an-earlier-page' }) });
+  assert.notEqual(reloaded.state().step, 'idle', 'It had taken the command up');
+  const asked = reloaded.looked.length;
+  assert.equal(reloaded.flow.release(), true);
+  assert.deepEqual([reloaded.state(), reloaded.host.kept], [{ step: 'idle' }, null]);
+  reloaded.observe(armedView());
+  await flush();
+  await reloaded.host.advance(120_000);
+  assert.deepEqual([reloaded.state().step, reloaded.looked.length, reloaded.sent.length], ['idle', asked, 0], 'and it is not asked about afterwards');
+  // With nothing in hand and nothing kept, there is nothing to let go.
+  const idle = setup();
+  assert.equal(idle.flow.release(), false);
+});
+
 test('a safe failure does not settle a command while another attempt at it is still on its way; that attempt’s receipt then does', async () => {
   for (const code of ['UNAUTHENTICATED', 'FORBIDDEN']) {
     const s = setup();

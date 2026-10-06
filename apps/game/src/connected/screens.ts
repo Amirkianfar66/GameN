@@ -92,6 +92,9 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     host: options.host,
     phaseOf: view => view.phase,
     buildInput(environment, view, local) {
+      // The server refused this device the match: the seat is no longer its own. Whatever it
+      // was doing with a command is dropped, and nothing more is asked about it.
+      if (environment.problem === 'no-access') flow.release();
       // The flow is told the present before its state is read, so a choice that was not sent
       // never outlives a closed panel, a view that is no longer fresh, or an ended phase.
       flow.observe({

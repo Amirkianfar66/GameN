@@ -3,7 +3,12 @@ import { browserSessionPersistence, connectAuthEmulator, initializeAuth, inMemor
 import { collection, connectFirestoreEmulator, doc, initializeFirestore, memoryLocalCache, onSnapshot } from 'firebase/firestore';
 import { collectionPath, documentPath } from '../connected/paths.js';
 import { V1_OPERATIONS } from '../connected/transport.js';
-import type { ConnectedTransport } from '../connected/transport.js';
+import type { ConnectedTransport, ListenerFailure } from '../connected/transport.js';
+
+/** Firestore says why a listener ended. Only its own "permission denied" means the rules refused the read. */
+export function listenerFailure(error: { readonly code?: unknown }): ListenerFailure {
+  return error.code === 'permission-denied' ? 'refused' : 'failed';
+}
 
 // The Firebase web client behind the connected transport boundary, for the LOCAL EMULATORS
 // only. It follows docs/backend/protocol2-client-handoff.md:
@@ -114,7 +119,7 @@ export function createEmulatorTransport(options: EmulatorTransportOptions): Emul
           value: snapshot.exists() ? snapshot.data() : null,
           fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites,
         }),
-        () => listener.onError(),
+        error => listener.onError(listenerFailure(error)),
       ));
     },
     listenCollection(target, listener) {
@@ -125,7 +130,7 @@ export function createEmulatorTransport(options: EmulatorTransportOptions): Emul
           value: snapshot.docs.map(item => ({ id: item.id, data: item.data() as unknown })),
           fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites,
         }),
-        () => listener.onError(),
+        error => listener.onError(listenerFailure(error)),
       ));
     },
     async dispose() {

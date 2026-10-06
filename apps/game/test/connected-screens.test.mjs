@@ -391,6 +391,130 @@ test('a finished match is shown with the winner and the reveal the server’s vi
   assert.equal(phone.frame().model.match.privateArea.content, null, 'The result is public; the private panel is still closed');
 });
 
+test('a phone the server refuses its view lets go of everything it was showing, at once, and shows nothing more', async () => {
+  const s = setup();
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.legalTargets = { PROTECT: ['seat-3'] }; }));
+  s.screen.dispatch(TOGGLE);
+  s.screen.dispatch({ type: 'action/open', kind: 'protect' });
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-3' });
+  await s.host.advance(GUARD);
+  s.fake.respond.v1Command = async request => s.receipt(request);
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  assert.equal(s.frame().privateAnnouncement.text, 'Protection for Player 3 registered.');
+  assert.match(JSON.stringify(s.frame()), /Cracker/);
+  const epoch = s.frame().privacyEpoch;
+
+  // A listener that merely fails is a lost connection: the last view stays, marked as such.
+  await s.fake.fail(OWN, 'failed');
+  assert.deepEqual([s.frame().model.screen, s.frame().model.connection, s.frame().model.match.privateArea.content.role.name], ['match', 'stale', 'Cracker']);
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; }));
+  assert.equal(s.frame().model.connection, 'live');
+
+  // Refused by the server's rules: this identity may not read the view any more.
+  await s.fake.fail(OWN, 'refused');
+  const { model } = s.frame();
+  assert.deepEqual([model.screen, model.match, model.blocked.heading], ['blocked', null, 'No access to this match']);
+  assert.match(model.blocked.paragraphs.join(' '), /its seat has been moved to another device/);
+  assert.deepEqual([s.frame().announcement.politeness, s.frame().announcement.text], ['assertive', 'No access to this match.']);
+  // Nothing private is left anywhere a host would draw or speak from.
+  assert.equal(s.frame().privateAnnouncement, null);
+  assert.equal(s.frame().privacyEpoch > epoch, true, 'The host is told to take private lines out of the document');
+  assert.equal(s.frame().focus.targetId, SHELL_IDS.blockedHeading);
+  assert.doesNotMatch(`${JSON.stringify(s.frame())} ${s.html()}`, /Cracker|Protection|Player 3|What you know|weapons you hold|ms-action/);
+
+  // It stays that way: nothing that arrives afterwards is shown, and nothing can be sent.
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 5; }));
+  assert.deepEqual([s.frame().model.screen, s.frame().model.match], ['blocked', null]);
+  const before = s.fake.callsTo('v1Command').length;
+  for (const intent of [TOGGLE, { type: 'session/reconnect' }, { type: 'action/open', kind: 'move' }, { type: 'action/confirm' }]) s.screen.dispatch(intent);
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 6; }));
+  await s.host.advance(120_000);
+  assert.deepEqual([s.frame().model.screen, s.frame().model.match, s.fake.callsTo('v1Command').length, s.fake.callsTo('v1Advance').length], ['blocked', null, before, 0]);
+  assert.doesNotMatch(JSON.stringify(s.frame()), /Cracker/);
+});
+
+test('a phone refused while a command of its own is unanswered drops the command, and asks nothing more about it', async () => {
+  const s = setup();
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  for (const intent of [TOGGLE, { type: 'action/open', kind: 'move' }, { type: 'action/choose', value: 'Room B' }]) s.screen.dispatch(intent);
+  await s.host.advance(GUARD);
+  // No answer comes to the command, and the server knows of none when asked.
+  s.fake.respond.v1Command = () => new Promise(() => {});
+  s.fake.respond.v1Receipt = async () => ({ protocolVersion: 2, status: 'unknown', serverTimeMs: s.host.serverNow() });
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  assert.equal(s.card().status, 'submitting');
+  assert.match(s.host.kept, /"commandId"/, 'Its identifiers are kept for a reload');
+
+  await s.fake.fail(OWN, 'refused');
+  assert.deepEqual([s.frame().model.screen, s.frame().model.match], ['blocked', null]);
+  assert.equal(s.host.kept, null, 'Nothing of the command is kept for a reload: the seat is not this device’s');
+  const [commands, lookups] = [s.fake.callsTo('v1Command').length, s.fake.callsTo('v1Receipt').length];
+  // The waits after which it would have asked what became of the command all pass.
+  await s.host.advance(180_000);
+  assert.deepEqual([s.fake.callsTo('v1Command').length, s.fake.callsTo('v1Receipt').length], [commands, lookups], 'Nothing more is sent or asked');
+  assert.equal(s.host.kept, null);
+  assert.doesNotMatch(JSON.stringify(s.frame()), /Room B|Move|submitting/);
+
+  // Only a refusal does that. An update this device cannot read, or a lost connection, is
+  // not the seat being lost: the command is still this seat's, and is still accounted for.
+  for (const trouble of [fake => fake.deliver(OWN, { protocolVersion: 2, nonsense: true }), fake => fake.fail(OWN, 'failed')]) {
+    const other = setup();
+    other.screen.start();
+    await other.fake.deliver(OWN, playerView());
+    for (const intent of [TOGGLE, { type: 'action/open', kind: 'move' }, { type: 'action/choose', value: 'Room B' }]) other.screen.dispatch(intent);
+    await other.host.advance(GUARD);
+    other.fake.respond.v1Command = () => new Promise(() => {});
+    other.fake.respond.v1Receipt = async () => ({ protocolVersion: 2, status: 'unknown', serverTimeMs: other.host.serverNow() });
+    other.screen.dispatch({ type: 'action/confirm' });
+    await flush();
+    const kept = other.host.kept;
+    assert.match(kept, /"commandId"/);
+    await trouble(other.fake);
+    assert.notEqual(other.frame().model.blocked?.heading, 'No access to this match');
+    assert.equal(other.host.kept, kept, 'The identifiers of the command are still kept');
+    assert.notEqual(other.screen.getFrame().model.screen, 'connecting');
+  }
+});
+
+test('a display the server refuses the public view shows no match either, and one that was never let in shows none to begin with', async () => {
+  const table = setup('table');
+  table.screen.start();
+  await table.fake.deliver(PUBLIC, publicView());
+  assert.equal(table.frame().model.screen, 'match');
+  await table.fake.fail(PUBLIC, 'refused');
+  assert.deepEqual([table.frame().model.screen, table.frame().model.match, table.frame().model.blocked.heading], ['blocked', null, 'No access to this match']);
+
+  const never = setup();
+  never.screen.start();
+  await never.fake.fail(OWN, 'refused');
+  assert.deepEqual([never.frame().model.screen, never.frame().model.match, never.frame().model.blocked.heading], ['blocked', null, 'No access to this match']);
+  // The server takes the view away without refusing the listener: its confirmed answer is that there is none.
+  const taken = setup();
+  taken.screen.start();
+  await taken.fake.deliver(OWN, null);
+  assert.equal(taken.frame().model.screen, 'connecting', 'No view yet: a missing one proves nothing');
+  await taken.fake.deliver(OWN, playerView());
+  taken.screen.dispatch(TOGGLE);
+  assert.equal(taken.frame().model.match.privateArea.content.role.name, 'Cracker');
+  // From a cache, "missing" is not the server's word: the view is kept, as stale.
+  await taken.fake.deliver(OWN, null, false);
+  assert.deepEqual([taken.frame().model.screen, taken.frame().model.connection], ['match', 'stale']);
+  await taken.fake.deliver(OWN, null, true);
+  assert.deepEqual([taken.frame().model.screen, taken.frame().model.match, taken.frame().model.blocked.heading], ['blocked', null, 'No access to this match']);
+  assert.doesNotMatch(JSON.stringify(taken.frame()), /Cracker/);
+  await taken.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 3; }));
+  assert.equal(taken.frame().model.screen, 'blocked', 'and it stays taken away');
+  // A transport that cannot say why a listener ended is taken to have lost its connection, as before.
+  const plain = setup();
+  plain.screen.start();
+  await plain.fake.fail(OWN);
+  assert.deepEqual([plain.frame().model.screen, plain.frame().model.connection], ['connecting', 'connecting']);
+});
+
 test('with the panel closed nothing of the command is in the frame or the document, and action intents are ignored', async () => {
   const s = setup();
   s.screen.start();

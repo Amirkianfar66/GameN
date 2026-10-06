@@ -20,7 +20,7 @@ screen here carries the banner "Local emulator. A development backend, not a liv
 | --- | --- |
 | The Firebase web client (Auth, Firestore), anonymous identities, Security Rules | A deployed project. The transport refuses any host that is not loopback and any project but `demo-mothership` |
 | The protocol-2 service, its receipts and its 60-second phases | A designed lobby. The lobby is a plain development console in `main.js` |
-| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server's view opens them, an ordinary shot, a Disable, Protection, a Rescue, a Hack request, a showdown shot, a Scan, a Supply, a Code attempt, and a ballot in a Captain election, a Jail vote, the Captain's release choice and the vote on it. Phones and the display show what is being voted on and the count the server publishes, and a phone's private panel lists what the server tells that seat alone. Every screen shows how a match ended, and the host console can end one. None of it is designed |
+| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server's view opens them, an ordinary shot, a Disable, Protection, a Rescue, a Hack request, a showdown shot, a Scan, a Supply, a Code attempt, and a ballot in a Captain election, a Jail vote, the Captain's release choice and the vote on it. Phones and the display show what is being voted on and the count the server publishes, and a phone's private panel lists what the server tells that seat alone. Every screen shows how a match ended, the host console can end one, and it can issue a one-time code that moves a seat to another device. None of it is designed |
 | The phone and table screens the fixture harness also shows | Phones at a table. Everything listens on loopback, so only browsers on this machine can reach it |
 
 ## Run it
@@ -105,6 +105,11 @@ MOTHERSHIP_JOURNEY=end npm run dev:connected:journey --workspace @mothership/gam
 # The host ends a match that is still a lobby: every device says it ended before it started,
 # and opens nothing. Under a minute.
 MOTHERSHIP_JOURNEY=lobby-end npm run dev:connected:journey --workspace @mothership/game
+
+# A seat is moved to another device with a one-time code from the host, through a lost
+# answer on the host's side and lost requests and a lost answer on the new device's: the new
+# device takes the seat over as it stands, and the old one is shown nothing more. Under a minute.
+MOTHERSHIP_JOURNEY=recovery npm run dev:connected:journey --workspace @mothership/game
 ```
 
 `journey.mjs` drives headless Chrome over the DevTools protocol: a host, a display and
@@ -123,8 +128,25 @@ phone, not a screen reader, not people.
 Session storage, per tab, ending with the tab:
 
 - the Firebase sign-in for this tab (provisional: the policy per kind of device is undecided);
-- which kind of device the tab is, the match identifier and its own admission request;
-- while a command's outcome is unknown, four identifiers for it: match, seat, phase, command.
+- which kind of device the tab is, the match identifier and its own admission request, or, for a tab that took over a seat with a recovery code, the public number of that seat (until the server has answered: only that it asked for a seat in that match);
+- while a command's outcome is unknown, four identifiers for it: match, seat, phase, command;
+- on the host tab, while a request for a recovery code is not settled, four identifiers for it: protocol version, match, request, seat.
 
-No role, location, target, view or payload is stored anywhere. Firestore runs with its
+No role, location, target, view or payload is stored anywhere, and never a recovery code:
+the host tab shows one from memory and loses it on reload, and the tab that uses one keeps
+it in memory only for as long as its request is not settled. Firestore runs with its
 in-memory cache. The journey checks this in the browser after every step that could change it.
+
+## A request whose answer is lost
+
+Every lobby operation follows one rule, which is the client core's (`src/connected/lifecycle-requests.ts`)
+and is unit-tested there: what was entered goes into a request once, and until the server
+has settled that request, pressing again sends it again as it is. While a request is kept,
+the page does not let what was entered be changed, because that is no longer what would be
+sent, and offers to give the request up. A refusal settles a request only if every earlier
+try of it was answered.
+
+Where the server's own state can settle a request, the page asks that instead of waiting
+for the answer: a device that asked to take a seat over watches whether the server lets it
+read the match, and a host console drops a kept request to start or end a match once the
+match's status says it has started or ended.

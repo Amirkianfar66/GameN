@@ -20,10 +20,11 @@ export type DataSourceMode = 'fixture' | 'emulator' | 'production';
 export type ConnectionStatus = 'connecting' | 'live' | 'stale';
 
 /**
- * incompatible-protocol and integrity replace the match with a recovery screen.
- * unreadable-update keeps the last readable view and marks it stale.
+ * incompatible-protocol, integrity and no-access replace the match with a recovery screen.
+ * no-access: the server refused this identity the view, so nothing it sent before may be
+ * shown any longer. unreadable-update keeps the last readable view and marks it stale.
  */
-export type ShellProblem = 'incompatible-protocol' | 'integrity' | 'unreadable-update';
+export type ShellProblem = 'incompatible-protocol' | 'integrity' | 'no-access' | 'unreadable-update';
 
 /** A local estimate of the trusted phase deadline. It never advances or closes a phase. */
 export type DeadlineEstimate =

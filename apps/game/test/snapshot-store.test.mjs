@@ -126,7 +126,7 @@ test('revisions only move forward; a repeat proves freshness and a conflict is r
 
 test('the store exposes views and outcomes only, with no revision arithmetic for callers to misuse', () => {
   const store = createPublicSnapshotStore({ matchId });
-  assert.deepEqual(Object.keys(store).sort(), ['accept', 'current']);
+  assert.deepEqual(Object.keys(store).sort(), ['accept', 'current', 'forget']);
   const outcome = store.accept(before.public);
   assert.deepEqual(Object.keys(outcome).sort(), ['kind', 'view']);
 });

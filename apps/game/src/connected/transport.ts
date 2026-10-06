@@ -8,6 +8,7 @@
 /** The documented JSON operations the connected flow uses. */
 export const V1_OPERATIONS = [
   'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch',
+  'v1IssueSeatRecovery', 'v1RedeemSeatRecovery',
   'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime',
 ] as const;
 export type V1Operation = (typeof V1_OPERATIONS)[number];
@@ -34,16 +35,22 @@ export interface Snapshot<Value> {
   readonly fresh: boolean;
 }
 
+/**
+ * Why a listener ended. refused: the server's rules do not let this identity read what it
+ * asked for. Anything else is a failure of the listener and says nothing about access.
+ */
+export type ListenerFailure = 'refused' | 'failed';
+
 export interface DocumentListener {
   /** The document as it is, unvalidated, or null when it does not exist. */
   onSnapshot(snapshot: Snapshot<unknown>): void;
-  /** The listener failed or was denied. Nothing delivered before it is fresh any more. */
-  onError(): void;
+  /** The listener failed or was refused. Nothing delivered before it is fresh any more. A transport that cannot tell which says nothing. */
+  onError(reason?: ListenerFailure): void;
 }
 
 export interface CollectionListener {
   onSnapshot(snapshot: Snapshot<readonly { readonly id: string; readonly data: unknown }[]>): void;
-  onError(): void;
+  onError(reason?: ListenerFailure): void;
 }
 
 export interface ConnectedTransport {

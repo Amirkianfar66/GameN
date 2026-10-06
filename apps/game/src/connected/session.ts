@@ -25,13 +25,17 @@ function viewFeed(transport: Pick<ConnectedTransport, 'listenDocument'>, target:
       };
       return transport.listenDocument(target, {
         onSnapshot(snapshot) {
+          // The server itself says the document is not there. Whether that takes a view away is the session's to judge.
+          if (snapshot.fresh && snapshot.value === null) listener.onMissing?.();
           // A missing document proves nothing about the match: there is no view to call current.
           mark(snapshot.fresh && snapshot.value !== null);
           // The store is told whether the server confirmed this payload: a confirmed revision
           // lower than the one held is not a replay to drop, it is a match gone backwards.
           if (snapshot.value !== null) listener.onPayload(snapshot.value, snapshot.fresh);
         },
-        onError() {
+        onError(reason) {
+          // Refused by the server's rules: this identity may not read the view, or no longer may.
+          if (reason === 'refused') listener.onRefused?.();
           // The transport never reported this feed up, or it did and no longer is.
           if (fresh) mark(false);
           else listener.onConnectionChange('disconnected');

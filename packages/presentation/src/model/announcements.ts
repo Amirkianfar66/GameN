@@ -122,7 +122,8 @@ function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | nu
   if (nextScreen === 'blocked') {
     const previousScreen = previous ? resolveScreen(previous.env, previous.view !== null) : 'connecting';
     if (previousScreen === 'blocked' && previous?.env.problem === next.env.problem) return { out: [], memory };
-    const heading = next.env.problem === 'integrity' ? en.blocked.integrity.heading : en.blocked.incompatible.heading;
+    const heading = next.env.problem === 'integrity' ? en.blocked.integrity.heading
+      : next.env.problem === 'no-access' ? en.blocked.noAccess.heading : en.blocked.incompatible.heading;
     return { out: [{ politeness: 'assertive', text: `${heading}.` }], memory };
   }
   if (nextScreen === 'connecting' || next.view === null) {

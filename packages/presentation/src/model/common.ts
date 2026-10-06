@@ -31,7 +31,7 @@ const ZONES: readonly { readonly name: LocationName; readonly id: string }[] = [
 export const FINAL_SECONDS = 10;
 
 export function resolveScreen(env: ShellEnvironment, hasView: boolean): 'connecting' | 'match' | 'blocked' {
-  if (env.problem === 'incompatible-protocol' || env.problem === 'integrity') return 'blocked';
+  if (env.problem === 'incompatible-protocol' || env.problem === 'integrity' || env.problem === 'no-access') return 'blocked';
   return hasView ? 'match' : 'connecting';
 }
 
@@ -159,6 +159,7 @@ export function buildBlocked(env: ShellEnvironment): BlockedModel | null {
   const action = { intent: 'app/reload', label: en.blocked.reload } as const;
   if (env.problem === 'incompatible-protocol') return { ...en.blocked.incompatible, action };
   if (env.problem === 'integrity') return { ...en.blocked.integrity, action };
+  if (env.problem === 'no-access') return { ...en.blocked.noAccess, action };
   return null;
 }
 
