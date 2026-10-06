@@ -1142,7 +1142,11 @@ async function main() {
     await host.page.click('#connected-display-uid');
     await host.page.type(uids.get(display));
     await host.page.click('#connected-admit-display');
-    await host.page.waitFor("document.getElementById('connected-status').textContent === 'Admitting the display: done.'", 'the display is admitted');
+    // The first operations after the page server or the emulators were (re)started can be slow. If this one does not
+    // come through, say what the console said instead of only that time ran out.
+    await host.page.waitFor("document.getElementById('connected-status').textContent === 'Admitting the display: done.'", 'the display is admitted', 30_000).catch(async error => {
+      throw new Error(`${error.message}. The host console said: "${await host.text('#connected-status')}"; the display field held ${JSON.stringify(await host.page.evaluate("document.getElementById('connected-display-uid').value"))}; admissions sent: ${JSON.stringify((await host.operations('v1AdmitDisplay')).map(call => call.response?.ok ?? call.response?.error?.code ?? 'no answer'))}`);
+    });
     assert.equal(await display.exists('.ms-shell'), false, 'An admitted display shows no match before one has started');
 
     await host.page.waitFor("document.getElementById('connected-start').disabled === false", 'the start control is available');

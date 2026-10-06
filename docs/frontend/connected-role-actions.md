@@ -84,7 +84,7 @@ The journey was run twice. The first run passed too, but one of its checks (what
 
 | Remaining part of the connected game | What it needs | Blocked by |
 | --- | --- | --- |
-| **Votes**: Captain election and runoff, Jail vote, release choice and release vote | A ballot card for `VOTE`, `RELEASE_CHOICE` and `RELEASE_VOTE` (a seat or an abstention; yes, no or abstain); the tally and the ballot on the shared display | Nothing. Next slice. Until then these phases are named and timed and say that the screen cannot take part yet |
+| **Votes**: Captain election and runoff, Jail vote, release choice and release vote | **Done in the next slice**: [connected-voting.md](connected-voting.md) | |
 | **Scan, Supply, Code** | Choices with more than one part: a seat and a faction guess; two seats; four seats. And the private knowledge they produce (scan results, the Code) on the phone | Nothing technical. The private knowledge display should be read by Game Balance before it ships: which hints may sit next to one another |
 | **The result**: Finished and Aborted, the end reveal | Result screens for phone and display | The Designer for the screens; nothing technical |
 | **Host abort** | `v1AbortMatch` in the lobby console | Nothing. Small |
