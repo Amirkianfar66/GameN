@@ -50,11 +50,11 @@ All on 6 October 2026, macOS, Node 22.21.1, npm 10.9.4, at the head of this bran
 
 | Check | Result |
 | --- | --- |
-| `npm run verify` | **567 passed**, 0 failed, 0 skipped, 0 todo: 25 bootstrap and contracts, 79 engine, 46 backend, 11 tooling, 111 presentation (5 new), 295 game (4 new). Typecheck, build and source integrity passed. Production exclusion: 42 modules reachable from 2 production entries, 127 files scanned, 23 development files labeled |
-| Mutation check | **16 of 16** deliberate faults caught by this slice's tests: a shot opened by its list alone; one action reading another's list; an action listed that the view does not open; a shot not listed while closed; "nobody to choose" called unavailable; the player's own seat not named as theirs, or every seat called "yourself"; a Hack shown to nobody, or naming the wrong seat; every command sent as a shot; a Hack request or a showdown shot worded as an end-of-round registration |
-| Frontend emulator tests | **4 of 4** passed, 71 s, **against emulators that were already running**: the suite's own command (`node --test --test-concurrency=1 test-emulator/*.test.mjs`) with the emulator hosts in the environment, not through `firebase emulators:exec`, because the fixed ports were in use. They cover the first slice's flow. None of them exercises a role action |
+| `npm run verify` | **568 passed**, 0 failed, 0 skipped, 0 todo: 25 bootstrap and contracts, 79 engine, 46 backend, 11 tooling, 112 presentation (6 new), 295 game (4 new). Typecheck, build and source integrity passed. Production exclusion: 42 modules reachable from 2 production entries, 127 files scanned, 23 development files labeled |
+| Mutation check | **16 of 16** deliberate faults caught by this slice's tests: a shot opened by its list alone; one action reading another's list; an action listed that the view does not open; a shot not listed while closed; "nobody to choose" called unavailable; the player's own seat not named as theirs, or every seat called "yourself"; a Hack shown to nobody, or naming the wrong seat; every command sent as a shot; a Hack request or a showdown shot worded as an end-of-round registration. And 3 of 3 for the control names added after the review below: no name at all; the control's own words first; the action's name alone |
+| Frontend emulator tests | **4 of 4** passed, 73 s at the head of this branch, **against emulators that were already running**: the suite's own command (`node --test --test-concurrency=1 test-emulator/*.test.mjs`) with the emulator hosts in the environment, not through `firebase emulators:exec`, because the fixed ports were in use. They cover the first slice's flow. None of them exercises a role action |
 | Browser journey, `MOTHERSHIP_JOURNEY=roles` | **Passed**, 552 s. Headless Chrome 154, one browser context for each device: a host, a shared display and nine players, against the local Auth, Firestore and Functions emulators |
-| Browser journey, the default one (seven players, a move) | **Passed**, 72 s, after a correction to the journey. **It had failed on this branch until then**, and that was not noticed when the branch was first pushed, because only the roles journey was run. See below |
+| Browser journey, the default one (seven players, a move) | **Passed**, 71 s at the head of this branch, after a correction to the journey. **It had failed on this branch until then**, and that was not noticed when the branch was first pushed, because only the roles journey was run. See below |
 
 What the journey established, in a throwaway nine-player match (its own words are in [`evidence/connected-v1/roles/`](evidence/connected-v1/roles/)):
 
@@ -68,13 +68,15 @@ The journey was run twice. The first run passed too, but one of its checks (what
 
 **The default journey, corrected.** The seven-player journey of the first connected slice expected each phone to list a move and a shot and nothing else. Since this slice a phone also lists the action its role has, so that check failed on the first phone holding one, and with it `npm run dev:connected:journey`. The check now reads the first two rows, which are the move and the shot; the roles journey checks the rest. No product code changed. Its nine steps then passed on Chrome 155, with no page loaded by anything but the script. The evidence of the first slice in `evidence/connected-v1/movement/` is from that slice's own run and was left as it is.
 
+**After an independent review: a control is named by its action.** A separate reviewing session with none of this work's context read the slices above this one, and with them the files this slice changed, at fixed commits. It found one defect that dates from here. Several actions can be open at once whose controls carry the same words: a shot and a Disable both say "Choose a target", and Protection, a Rescue and a Hack all say "Choose a player". Someone moving from control to control with a screen reader heard the same name twice and could not tell which action each one opens. Each control is now named by its action first and then by its own words ("Disable Choose a target"); nothing drawn changed. The structural audit used by the tests now reports controls on one screen that share an accessible name. The roles journey was not run again after this change; the whole-match journey at the top of the stack, which opens these controls, was.
+
 ### Not run
 
 - What any of these registrations resolves to at the end of the round, and anything after it.
 - A showdown shot against the backend. A showdown is the end of a match and no journey plays one; it is unit-tested only.
 - The nine-player `shot` journey of the first slice, on this branch.
 - Phones, people, a screen reader, a deployed project.
-- An independent review of this slice.
+- An independent review of this slice by itself. The one described above was of the slices built on it.
 
 ## Not in this slice, and what each part waits for
 
