@@ -161,3 +161,7 @@ Start a separate Claude Code session from verified `BASE_SHA` on `agent/game-bal
 This contract follows all four [role briefs](../agents/), [backend](backend/first-slice.md) and [frontend](frontend/first-slice.md) specifications, [production architecture](architecture/production-v1.0.md), the later [rendering direction](architecture/rendering-direction.md), current rules and [motion direction](design/motion-direction.md). Historical Canvas platform code remains reference-only.
 
 Run the commands in [development.md](development.md). Actual bootstrap evidence and checks not run are recorded in [bootstrap-verification.md](bootstrap-verification.md). The bootstrap stops at the reviewable PR; merge, baseline recording, production services and all four implementation tasks remain subsequent steps.
+
+## Backend issue #2 draft implementation
+
+The Officer/Protection backend checkpoint is described in [the implementation handoff](backend/implementation.md). Its [Frontend contract-review response](backend/contract-review-response.md) proposes explicit retry/version/event guarantees and identifies deferred view changes. Protocol 1 audience shapes remain unchanged; the version probe is additive. Connected contract adoption still requires Frontend and Game Balance review. This does not redefine the shared bootstrap `BASE_SHA`, complete V1 or authorize deployment.

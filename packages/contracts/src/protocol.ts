@@ -58,3 +58,13 @@ export const AdvanceIfExpiredResponseSchema = z.strictObject({
 export type AdvanceIfExpiredResponse = z.infer<typeof AdvanceIfExpiredResponseSchema>;
 export const ServerTimeResponseSchema = z.strictObject({ protocolVersion: z.literal(PROTOCOL_VERSION), serverTimeMs: TimestampSchema });
 export type ServerTimeResponse = z.infer<typeof ServerTimeResponseSchema>;
+
+/** Shape-only probe for a recoverable update screen; never substitutes for schema validation. */
+export function readProtocolVersion(payload: unknown): number | null {
+  if (typeof payload !== 'object' || payload === null) return null;
+  const record = payload as Record<string, unknown>;
+  const versions = record.versions;
+  const value = 'protocolVersion' in record ? record.protocolVersion
+    : typeof versions === 'object' && versions !== null && 'protocolVersion' in versions ? versions.protocolVersion : null;
+  return typeof value === 'number' && Number.isSafeInteger(value) && value > 0 ? value : null;
+}

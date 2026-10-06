@@ -12,12 +12,12 @@ assert.deepEqual(manifest.workspaces, expected, 'Explicit workspace allowlist ch
 assert.deepEqual(json('tsconfig.json').references.map(ref => ref.path), expected);
 const allowed = {
   'apps/game': ['@mothership/contracts', '@mothership/presentation', '@mothership/design-tokens'],
-  'services/game-api': ['@mothership/contracts', '@mothership/engine'],
+  'services/game-api': ['@mothership/contracts', '@mothership/engine', 'firebase-admin'],
   'packages/engine': ['@mothership/contracts'],
   'packages/contracts': ['zod'],
   'packages/presentation': ['@mothership/contracts'],
   'packages/design-tokens': [],
-  'infra/firebase': [],
+  'infra/firebase': ['@mothership/game-api', '@mothership/contracts', 'firebase-admin', 'firebase-functions'],
   'tools/balance': ['@mothership/contracts', '@mothership/engine'],
 };
 const lock = json('package-lock.json');
@@ -54,7 +54,11 @@ for (const workspace of expected) {
         const target = resolve(dirname(file), specifier);
         assert.ok(target.startsWith(resolve(root, `${workspace}/src`) + '/'), `Cross-package relative import: ${file}`);
       } else {
-        assert.ok(allowed[workspace].includes(specifier), `Unreviewed source dependency: ${workspace} -> ${specifier}`);
+        const adapterImports = {
+          'services/game-api': ['node:crypto', 'firebase-admin/firestore'],
+          'infra/firebase': ['node:buffer', 'firebase-admin/app', 'firebase-admin/auth', 'firebase-admin/app-check', 'firebase-admin/firestore', 'firebase-admin/functions', 'firebase-functions/v2/tasks', 'firebase-functions/v2/https'],
+        };
+        assert.ok(allowed[workspace].includes(specifier) || (adapterImports[workspace] ?? []).includes(specifier), `Unreviewed source dependency: ${workspace} -> ${specifier}`);
       }
     }
     function visit(node) {
