@@ -161,4 +161,4 @@ Until this is approved, emulator integration is reported as **not run**, and not
 | Event director core and the DOM motion gallery | Nothing for the core. Stage C, or the owner's decision on GSAP, for timelines |
 | React shells and a production bundle | REQ-2, REQ-3, stage A |
 | R3F/Three.js board evaluation with measured device evidence | Stage B, and named devices |
-| Connected command, deadline and reconnect behavior | REQ-7, and the backend branch that provides the emulator being merged or named as the base to build on. FE-C01 to FE-C07 are answered; see [contract-re-review.md](contract-re-review.md) |
+| Connected command, deadline and reconnect behavior | Built against wire protocol 2 on the named base (#28 on #26) and run in a browser against the local emulators: [connected-v1.md](connected-v1.md). What it still waits for, and what Frontend asks of Integration under protocol 2, is G1 to G11 in [protocol2-adoption-assessment.md](protocol2-adoption-assessment.md). Not adopted, and stacked on two unmerged pull requests |

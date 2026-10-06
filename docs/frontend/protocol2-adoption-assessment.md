@@ -4,7 +4,7 @@
 **For:** Codex Astra (Backend, Integration and the coordinating review), Game Balance, the game owner.
 **Date:** 6 October 2026.
 
-**Status: an assessment, not an adoption.** Frontend can build the first connected flow against wire protocol 2 as it stands and has started to. Nothing found requires a new or changed contract to begin. Eight gaps need an answer from Integration or the owner before adoption, and are listed with what Frontend does meanwhile. **The protocol-1 fixture acceptance recorded for slices 1 and 2 does not carry over:** it was acceptance of stated protocol-1 behavior against a scripted double. No Frontend code consumes protocol 2 yet.
+**Status: an assessment, not an adoption.** Frontend can build the first connected flow against wire protocol 2 as it stands, and has: what was built and run is in [connected-v1.md](connected-v1.md). Nothing found required a new or changed contract. Eleven gaps and findings need an answer from Integration or the owner before adoption, and are listed with what Frontend does meanwhile; G9 to G11 were added after the flow had run in a browser. **The protocol-1 fixture acceptance recorded for slices 1 and 2 does not carry over:** it was acceptance of stated protocol-1 behavior against a scripted double. No Frontend code consumes protocol 2 yet.
 
 ## What was read, and what was run
 
@@ -126,7 +126,16 @@ Receipts, events and the pending list carry identifiers only. This is CR-P2-03's
 
 **G8. The ordinal is in the document name.** Request F of the earlier re-review asked where it lives. The handoff answers: `{revision}-{ordinal}`, sorted numerically. *Accepted.* The Firebase transport parses the name; a name that does not parse is treated as an unhealthy stream, not ordered by guesswork.
 
-Smaller points, for completeness: the Functions CORS allowlist is two origins on port 5173, so the local client is served there and nowhere else; rate-limit numbers are implementation detail and the client depends only on `retryAfterMs`; `REQUEST_ID_CONFLICT` is declared and not yet emitted.
+**G9. Under the local emulators nothing runs at a phase's deadline.** *Found when the flow first ran in a browser.*
+The service enqueues `v1DeadlineTask` with `scheduleTime` at the phase's `endsAt`. Under `firebase emulators:start` and `emulators:exec` (firebase-tools 15.0.0) the task is dispatched within a second of being enqueued: nine of nine in the emulator's debug log, 0.04 to 1.0 s after "Enqueueing task". The handler finds the deadline not yet due and completes normally, so the queue does not retry it. A seven-player match with no client asking stayed on its first phase for 110 seconds after the start, until the run was stopped. *What Frontend did:* implemented the deadline catch-up the handoff describes ("an admitted display/player may POST `v1Advance`"): on a current view whose trusted countdown has ended, a display asks after half a second, a phone later and each seat at its own moment; "advanced" and "unchanged" both mean wait for the view; refusals stop it; a delay the server names is a minimum. The phase on screen changes only with the next authoritative view. *Asked of Backend:* whether deadlines are meant to fire locally, and whether client catch-up is the intended fallback in production or only a safety net. *Not checked:* what a deployed Cloud Tasks queue does. Nothing is deployed.
+
+**G10. No phone can reach the connected preview.**
+The emulators bind to `127.0.0.1`, the Functions accept `http://localhost:5173` and `http://127.0.0.1:5173` only, and Frontend's emulator transport refuses any host that is not loopback, so that an emulator ID token can never be sent to a live project. The first connected flow therefore runs in browsers on one machine. *For the owner and Integration:* what the first in-person session runs on. A deployed project needs the owner's authorization and a reviewed production configuration, of which there is none; emulators opened to a local network need Backend's configuration and origins, and a page served over plain HTTP from another host is not a secure context. Frontend has built neither and will not open anything up by itself.
+
+**G11. Three client operations exist that the first flow does not use.**
+`v1AbortMatch`, `v1IssueSeatRecovery` and `v1RedeemSeatRecovery` are exported and documented. The client's transport boundary names the nine operations of the first flow and refuses to send any other. *Consequence:* a host cannot end a match from the preview, and a device that lost its tab cannot get its seat back. Both are for a later slice; recovery depends on G4.
+
+Smaller points, for completeness: the Functions CORS allowlist is two origins on port 5173, so the local client is served there and nowhere else; rate-limit numbers are implementation detail and the client depends only on `retryAfterMs`; `REQUEST_ID_CONFLICT` is declared and not yet emitted; one browser profile holds five live tabs per host name against the Firestore emulator, because a browser opens six connections to a host and each tab keeps one (measured, and described in [connected-v1.md](connected-v1.md)); a second admission request from an identity that already has one pending is accepted, and cannot be approved once the first has been (read from the service's code, not run).
 
 ## Earlier Frontend requests, against this candidate
 
@@ -156,6 +165,8 @@ Read at `5adaf98f8412e2294f45e00f8fb7c4c515127226`. It changes two Frontend-owne
 
 ## What Frontend builds first, and in what order
 
+*All four parts now exist on this branch, with two differences from the plan as written below: the event director is not part of the connected flow (views only; the director stays on its own branch for separate review), and the lobby is a development console, not a set of designed screens. See [connected-v1.md](connected-v1.md).*
+
 Bounded to the eight steps of the connected flow, split so each part can be reviewed alone. All of it lives in `apps/game/`, `packages/presentation/` and `docs/frontend/`.
 
 1. **Protocol-2 client core, headless.** Readers for the lobby, both views and both event kinds; an API client for the documented HTTP operations with retry delays; the session with fresh-snapshot gating; the director on protocol-2 events; a command flow for `MOVE` and `REGISTER_SHOT` with the documented reload rules; lobby flows for host, player and display. Tested with scripted transports.
@@ -165,7 +176,7 @@ Bounded to the eight steps of the connected flow, split so each part can be revi
 
 ## Not established by this document
 
-- That any Frontend code works against protocol 2. None has been run against it yet.
+- That Frontend code works against protocol 2. When this assessment was first written none had been run against it. What has been run since, and what has not, is in [connected-v1.md](connected-v1.md), not here.
 - Anything about a deployed project: App Check, production origins, IAM, Tasks, retention or indexes.
 - Real phones, real networks, screen readers.
 - Game balance, or that any hint in a private view is safe to show beside another. Game Balance reviews that separately.
