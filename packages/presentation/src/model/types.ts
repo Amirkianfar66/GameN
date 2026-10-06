@@ -1,0 +1,212 @@
+import type { PlayerView, PublicView, SeatId } from '@mothership/contracts';
+
+// Derived from the audience views so this package never restates a contract enum.
+export type PublicSeat = PublicView['seats'][number];
+export type LocationName = PublicSeat['location'];
+export type HealthState = PublicSeat['health'];
+export type PhaseFacts = PublicView['phase'];
+export type RoleName = PlayerView['self']['role'];
+
+/** Which backend a client is attached to. Fixture and emulator are always labeled on screen. */
+export type DataSourceMode = 'fixture' | 'emulator' | 'production';
+
+/** connecting: no view yet. live: fed and current. stale: last known view, feed interrupted. */
+export type ConnectionStatus = 'connecting' | 'live' | 'stale';
+
+/**
+ * incompatible-protocol and integrity replace the match with a recovery screen.
+ * unreadable-update keeps the last readable view and marks it stale.
+ */
+export type ShellProblem = 'incompatible-protocol' | 'integrity' | 'unreadable-update';
+
+/** A local estimate of the trusted phase deadline. It never advances or closes a phase. */
+export type DeadlineEstimate =
+  | { readonly kind: 'none' }
+  | { readonly kind: 'unsynced' }
+  | { readonly kind: 'running'; readonly remainingMs: number }
+  | { readonly kind: 'expired' };
+
+export interface MotionSettingsInput {
+  /** Effective preference after combining the device setting and the player's own choice. */
+  readonly reducedMotion: boolean;
+  /** True while the value still follows the device setting. */
+  readonly followsDevice: boolean;
+}
+
+export interface ShellEnvironment {
+  readonly mode: DataSourceMode;
+  readonly connection: ConnectionStatus;
+  readonly problem: ShellProblem | null;
+  readonly deadline: DeadlineEstimate;
+  readonly motion: MotionSettingsInput;
+}
+
+export interface PlayerShellInput extends ShellEnvironment {
+  readonly view: PlayerView | null;
+  readonly privacy: {
+    /** The page is backgrounded: every private panel is withheld from the document. */
+    readonly concealed: boolean;
+    readonly roleDrawerOpen: boolean;
+  };
+}
+
+export interface TableShellInput extends ShellEnvironment {
+  readonly view: PublicView | null;
+}
+
+/** Actions a shell control can request. The host forwards them; it never acts on its own. */
+export type ShellIntent =
+  | { readonly type: 'role-drawer/toggle' }
+  | { readonly type: 'session/reconnect' }
+  | { readonly type: 'app/reload' }
+  | { readonly type: 'settings/reduce-motion'; readonly checked: boolean };
+export type ShellIntentType = ShellIntent['type'];
+
+export type MarkerKind = 'self' | 'turn' | 'health' | 'jail' | 'captain';
+export interface MarkerModel {
+  readonly kind: MarkerKind;
+  /** Selects a shape and border treatment. Meaning is always carried by the label. */
+  readonly variant: string;
+  readonly label: string;
+}
+
+export interface SeatModel {
+  readonly seatId: SeatId;
+  readonly number: number;
+  /** "Player 3", or "Player 3 (you)" on that player's own phone. */
+  readonly label: string;
+  readonly isSelf: boolean;
+  readonly isActive: boolean;
+  readonly location: LocationName;
+  readonly health: HealthState;
+  readonly jailed: boolean;
+  readonly captain: boolean;
+  readonly markers: readonly MarkerModel[];
+}
+
+export interface ZoneModel {
+  readonly id: string;
+  readonly name: LocationName;
+  readonly seats: readonly SeatModel[];
+  readonly emptyText: string;
+  readonly containsSelf: boolean;
+}
+
+export type TimerModel =
+  | { readonly state: 'running'; readonly display: string; readonly spoken: string; readonly finalSeconds: boolean }
+  | { readonly state: 'expired'; readonly display: string; readonly spoken: string; readonly note: string }
+  | { readonly state: 'syncing'; readonly display: string; readonly spoken: string }
+  | { readonly state: 'none'; readonly spoken: string };
+
+export interface PhaseStripModel {
+  readonly roundLabel: string;
+  readonly phaseLabel: string;
+  readonly detail: string | null;
+  readonly timer: TimerModel;
+}
+
+export interface BannerModel {
+  readonly id: string;
+  readonly kind: 'data-source' | 'connection';
+  readonly variant: 'fixture' | 'emulator' | 'stale' | 'unreadable';
+  readonly text: string;
+  readonly action: { readonly intent: ShellIntentType; readonly label: string } | null;
+}
+
+export interface BlockedModel {
+  readonly heading: string;
+  readonly paragraphs: readonly string[];
+  readonly action: { readonly intent: ShellIntentType; readonly label: string };
+}
+
+export interface SettingsModel {
+  readonly heading: string;
+  readonly reduceMotion: { readonly label: string; readonly checked: boolean; readonly hint: string };
+}
+
+export interface MatchDetailsModel {
+  readonly summary: string;
+  readonly entries: readonly { readonly term: string; readonly value: string }[];
+}
+
+export interface ActionCardModel {
+  readonly id: 'shot';
+  readonly title: string;
+  readonly status: 'available' | 'unavailable';
+  readonly statusLabel: string;
+}
+
+export interface ActionsModel {
+  readonly heading: string;
+  /** When set, no card is rendered and this text stands in for the private content. */
+  readonly concealedText: string | null;
+  readonly notice: string | null;
+  readonly cards: readonly ActionCardModel[];
+}
+
+export interface RoleDrawerModel {
+  readonly heading: string;
+  readonly open: boolean;
+  readonly toggleLabel: string;
+  readonly hint: string;
+  /** Present only while the drawer is open and the page is in the foreground. */
+  readonly role: { readonly label: string; readonly name: RoleName } | null;
+}
+
+interface ShellModelBase {
+  readonly title: string;
+  readonly screen: 'connecting' | 'match' | 'blocked';
+  readonly mode: DataSourceMode;
+  readonly connection: ConnectionStatus;
+  readonly motion: 'full' | 'reduced';
+  readonly banners: readonly BannerModel[];
+  readonly blocked: BlockedModel | null;
+  readonly connectingText: string;
+  readonly settings: SettingsModel;
+}
+
+export interface PlayerMatchModel {
+  readonly identity: { readonly seatId: SeatId; readonly number: number; readonly label: string };
+  readonly phase: PhaseStripModel;
+  readonly location: {
+    readonly heading: string;
+    readonly name: LocationName;
+    readonly statusLabel: string;
+    /** The viewer's own seat, limited to the same public facts every other player sees. */
+    readonly self: SeatModel;
+    readonly othersHeading: string;
+    readonly others: readonly SeatModel[];
+    readonly aloneText: string;
+  };
+  readonly actions: ActionsModel;
+  readonly roleDrawer: RoleDrawerModel;
+  readonly roster: { readonly heading: string; readonly zones: readonly ZoneModel[] };
+  readonly details: MatchDetailsModel;
+}
+
+export interface PlayerShellModel extends ShellModelBase {
+  readonly surface: 'player';
+  readonly match: PlayerMatchModel | null;
+}
+
+export interface TableMatchModel {
+  readonly phase: PhaseStripModel;
+  readonly board: { readonly heading: string; readonly zones: readonly ZoneModel[] };
+  readonly roster: {
+    readonly heading: string;
+    readonly caption: string;
+    readonly columns: { readonly player: string; readonly location: string; readonly health: string; readonly jail: string; readonly captain: string; readonly turn: string };
+    readonly rows: readonly { readonly seat: SeatModel; readonly jail: string; readonly captain: string; readonly turn: string }[];
+  };
+  readonly details: MatchDetailsModel;
+}
+
+export interface TableShellModel extends ShellModelBase {
+  readonly surface: 'table';
+  readonly match: TableMatchModel | null;
+}
+
+export interface LiveAnnouncement {
+  readonly politeness: 'polite' | 'assertive';
+  readonly text: string;
+}
