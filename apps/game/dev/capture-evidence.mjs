@@ -14,6 +14,10 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { createDevServer } from './serve.mjs';
 
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
+
 const CANDIDATES = [
   process.env.CHROME_PATH,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',

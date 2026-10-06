@@ -10,6 +10,10 @@
 
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
 
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
+
 export const AUDIENCES = ['public', 'seat-1', 'seat-2'];
 const AUTHORED = { public: 'public', 'seat-1': 'officer', 'seat-2': 'target' };
 
@@ -161,8 +165,14 @@ export function createScenario({ now = Date.now, variant = 'protected' } = {}) {
     redeliver(audience) {
       if (connected.get(audience)) deliver(audience, views[audience]);
     },
-    /** Sends something a correct backend never would, to exercise the client's defences. */
+    /**
+     * Sends something a correct backend never would, to exercise the client's defences.
+     * One seat's view can be misdelivered to the other seat. It is never put on the public
+     * feed, not even as a test: nothing private goes there under any control.
+     */
     inject(audience, kind) {
+      if (!AUDIENCES.includes(audience)) throw new RangeError(`Unknown fixture audience: ${audience}`);
+      if (kind === 'other-audience' && audience === 'public') throw new RangeError('A private view is never sent on the public feed');
       const payload = kind === 'incompatible-protocol' ? { ...clone(views[audience]), versions: { ...views[audience].versions, protocolVersion: 2 } }
         : kind === 'unreadable' ? { note: 'not an audience view' }
         : kind === 'other-audience' ? clone(views[audience === 'seat-1' ? 'seat-2' : 'seat-1'])

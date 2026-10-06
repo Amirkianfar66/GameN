@@ -8,13 +8,18 @@
 //   PORT=4310 node apps/game/dev/serve.mjs
 
 import { createHash } from 'node:crypto';
+import { realpathSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
-import { extname, resolve, sep } from 'node:path';
+import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { proposedDesignTokens } from '@mothership/design-tokens';
 import { shellTokenStylesheet } from '@mothership/game';
 import { AUDIENCES, createScenario } from './fixture/scenario.mjs';
+
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
 
 const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
 const at = path => resolve(repositoryRoot, path);
@@ -32,19 +37,31 @@ const STATIC_FILES = new Map([
   ['/styles/shell.css', at('apps/game/src/styles/shell.css')],
 ]);
 // The contract fixture holds server-only truth. A browser is never given the module.
-const DENIED = /(^|\/)fixtures?(\.d)?\.(js|ts|map)$|\.(d\.ts|tsbuildinfo|map|cjs|cts|md)$|(^|\/)package\.json$/;
+const DENIED = /(^|\/)fixtures?(\.d)?\.(js|ts|map)$|\.(d\.ts|tsbuildinfo|map|cjs|cts|md)$|(^|\/)package\.json$/i;
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8' };
 const INJECTIONS = new Set(['incompatible-protocol', 'unreadable', 'other-audience']);
 const MAX_BODY_BYTES = 4_096;
 
-function resolveStatic(pathname) {
+/** Maps a request path to the one file it may be answered with, or null. */
+export function resolveStatic(pathname) {
   if (STATIC_FILES.has(pathname)) return STATIC_FILES.get(pathname);
   for (const [prefix, directory] of STATIC_ROOTS) {
     if (!pathname.startsWith(prefix)) continue;
     const relative = pathname.slice(prefix.length);
-    if (relative === '' || DENIED.test(relative) || relative.split('/').some(segment => segment === '' || segment.startsWith('.'))) return null;
+    if (relative === '' || DENIED.test(relative) || /[\\:\0]/.test(relative)) return null;
+    const segments = relative.split('/');
+    if (segments.some(segment => segment === '' || segment.startsWith('.'))) return null;
     const file = resolve(directory, relative);
-    return file.startsWith(directory + sep) ? file : null;
+    if (!file.startsWith(directory + sep)) return null;
+    // A file is served only under its exact on-disk name. On a filesystem that ignores
+    // case, "Fixtures.js" would otherwise open "fixtures.js" and walk past the name check
+    // above; and a link inside an allowed directory cannot lead out of it.
+    try {
+      if (realpathSync.native(file) !== join(realpathSync.native(directory), ...segments)) return null;
+    } catch {
+      return null;
+    }
+    return file;
   }
   return null;
 }
@@ -68,7 +85,9 @@ async function readJson(request) {
     if (size > MAX_BODY_BYTES) throw new RangeError('Request body too large');
     chunks.push(chunk);
   }
-  return chunks.length === 0 ? {} : JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  const body = chunks.length === 0 ? {} : JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) throw new SyntaxError('Request body must be a JSON object');
+  return body;
 }
 
 /**
@@ -128,19 +147,21 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
     else if (action === 'advance') scenario.advance();
     else if (action === 'expire') {
       // Real server time never jumps, so a connected client has no reason to re-measure it.
-      // Bouncing every feed makes each screen reconnect and pick the new time up honestly.
+      // Bouncing each live feed makes its screen reconnect and pick the new time up honestly.
+      // A feed the operator has switched off stays off.
       scenario.skipToDeadline();
-      for (const audience of AUDIENCES) {
+      for (const audience of AUDIENCES.filter(candidate => scenario.isConnected(candidate))) {
         scenario.setConnected(audience, false);
         scenario.setConnected(audience, true);
       }
-    }
-    else if (action === 'drop') audiences.forEach(audience => scenario.setConnected(audience, false));
+    } else if (action === 'drop') audiences.forEach(audience => scenario.setConnected(audience, false));
     else if (action === 'restore') audiences.forEach(audience => scenario.setConnected(audience, true));
     else if (action === 'redeliver') audiences.forEach(audience => scenario.redeliver(audience));
     else if (action === 'inject') {
+      // A bad payload is aimed at one named feed, never broadcast.
+      if (!AUDIENCES.includes(body.audience)) throw new RangeError('Injection needs one audience');
       if (!INJECTIONS.has(body.kind)) throw new RangeError('Unknown injection');
-      audiences.forEach(audience => scenario.inject(audience, body.kind));
+      scenario.inject(body.audience, body.kind);
     } else throw new RangeError('Unknown operator action');
     return scenario.status();
   }
@@ -155,11 +176,14 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
     const { pathname } = url;
     onRequest?.({ method: request.method ?? '', path: pathname + url.search });
 
+    if (pathname === '/api/fixture/stream') {
+      // A stream has no meaningful HEAD; answering one would hold a subscriber open.
+      if (request.method !== 'GET') return send(response, 405, 'Method not allowed', undefined, { allow: 'GET' });
+      const audience = url.searchParams.get('audience');
+      return AUDIENCES.includes(audience) ? openStream(response, audience) : send(response, 400, 'Unknown audience');
+    }
+
     if (request.method === 'GET' || request.method === 'HEAD') {
-      if (pathname === '/api/fixture/stream') {
-        const audience = url.searchParams.get('audience');
-        return AUDIENCES.includes(audience) ? openStream(response, audience) : send(response, 400, 'Unknown audience');
-      }
       if (pathname === '/api/fixture/time') return sendJson(response, 200, { protocolVersion: 1, serverTimeMs: serverTimeMs() });
       if (pathname === '/api/operator/status') return sendJson(response, 200, scenario.status());
       if (pathname === '/styles/tokens.css') return send(response, 200, tokenStylesheet, TYPES['.css']);
@@ -180,8 +204,8 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
       let body;
       try {
         body = await readJson(request);
-      } catch {
-        return send(response, 400, 'Unreadable request body');
+      } catch (error) {
+        return error instanceof RangeError ? send(response, 413, 'Request body too large') : send(response, 400, 'Unreadable request body');
       }
       if (['/api/fixture/advance-if-expired', '/api/fixture/submit-command', '/api/fixture/lookup-receipt'].includes(pathname)) return sendJson(response, 200, notScripted());
       if (pathname.startsWith('/api/operator/')) {
@@ -205,6 +229,8 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
 
   return {
     scenario,
+    /** Where the server is listening, once it is. */
+    address: () => server.address(),
     /** Binds to the loopback interface only. Port 0 picks a free port. */
     listen(port = 4310) {
       return new Promise((resolveListen, rejectListen) => {

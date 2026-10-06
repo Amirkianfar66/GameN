@@ -3,6 +3,10 @@
 // Operator console for the scripted fixture. It talks only to the local development
 // server's operator endpoints and is loaded by no audience screen.
 
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
+
 const AUDIENCE_LABELS = { public: 'Table display', 'seat-1': 'Player 1 phone', 'seat-2': 'Player 2 phone' };
 const statusList = document.getElementById('operator-status');
 const feedRows = document.getElementById('operator-feeds');

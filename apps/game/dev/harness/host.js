@@ -6,6 +6,10 @@
 
 import { SHELL_IDS, splitRegions } from '@mothership/presentation';
 
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
+
 /** Ports backed by the browser. performance.now() is monotonic and ignores the wall clock. */
 export function browserPorts() {
   return {

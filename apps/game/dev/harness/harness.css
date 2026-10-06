@@ -1,6 +1,8 @@
 /* mothership:dev-only — page chrome for the fixture harness. Not part of the game client. */
 
 html {
+  /* A declaration, not only a comment, so the label survives CSS minification. */
+  --mothership-dev-only: "mothership:dev-only";
   background: var(--ms-color-canvas);
 }
 

@@ -4,6 +4,10 @@
 // "fixture", so every screen it feeds is labeled as synthetic. Naming a seat in the
 // query string selects an authored fixture view; it is not authentication.
 
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
+
 /** The only match the scripted fixture contains. */
 export const FIXTURE_MATCH_ID = 'fixture-match-a';
 

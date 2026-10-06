@@ -7,7 +7,7 @@ import { createPlayerScreen, createTableScreen } from '@mothership/game';
 import { renderPlayerShell, renderTableShell, toHtml } from '@mothership/presentation';
 import { createFixtureTransport } from '../dev/fixture/fixture-transport.mjs';
 import { AUDIENCES, createScenario, STEPS } from '../dev/fixture/scenario.mjs';
-import { createDevServer } from '../dev/serve.mjs';
+import { createDevServer, resolveStatic } from '../dev/serve.mjs';
 import { createFakeHost, flush } from './support/fakes.mjs';
 
 const roles = RoleSchema.options;
@@ -59,6 +59,12 @@ test('server-only fixture truth never leaves the scenario, whatever is asked of 
       scenario.inject(audience, 'incompatible-protocol');
       scenario.inject(audience, 'unreadable');
     }
+    // One seat's view may be misdelivered to the other seat to test the client. It is
+    // refused for the public feed: nothing private goes there under any control.
+    scenario.inject('seat-1', 'other-audience');
+    scenario.inject('seat-2', 'other-audience');
+    assert.throws(() => scenario.inject('public', 'other-audience'), /never sent on the public feed/);
+    assert.throws(() => scenario.inject('seat-3', 'unreadable'), /Unknown fixture audience/);
     const everything = JSON.stringify([emitted, scenario.status(), AUDIENCES.map(audience => scenario.viewFor(audience))]);
     for (const secret of ['serverOnly', 'protection', 'grantedBy', 'resolutionExpectation', 'officerOrdinaryShotsRemaining', 'lifetimeReceipts']) {
       assert.equal(everything.includes(secret), false, `${variant}: ${secret}`);
@@ -66,8 +72,12 @@ test('server-only fixture truth never leaves the scenario, whatever is asked of 
     // The public feed and the operator status name no role at all; a phone names only its own.
     const publicOnly = JSON.stringify([emitted.filter(([audience]) => audience === 'public'), scenario.status()]);
     for (const role of roles) assert.equal(publicOnly.includes(role), false, role);
-    const seatTwo = JSON.stringify(emitted.filter(([audience]) => audience === 'seat-2'));
-    for (const role of roles.filter(role => role !== 'Insider')) assert.equal(seatTwo.includes(role), false, role);
+    // Apart from the deliberate misdelivery above, a phone's feed names only its own role.
+    const seatTwo = emitted.filter(([audience]) => audience === 'seat-2').map(([, payload]) => payload);
+    const misdelivered = seatTwo.filter(payload => payload.self?.seatId === 'seat-1');
+    assert.equal(misdelivered.length, 1);
+    const ownFeed = JSON.stringify(seatTwo.filter(payload => payload.self?.seatId !== 'seat-1'));
+    for (const role of roles.filter(role => role !== 'Insider')) assert.equal(ownFeed.includes(role), false, role);
   }
 });
 
@@ -278,6 +288,9 @@ test('a browser can load the client modules but never the contract fixture or an
   }
   for (const path of [
     '/modules/contracts/fixtures.js', '/modules/contracts/fixtures.d.ts', '/modules/game/index.d.ts', '/modules/zod/package.json',
+    // On a filesystem that ignores case these name the same files as the allowed or denied ones.
+    '/modules/contracts/Fixtures.js', '/modules/contracts/FIXTURES.js', '/modules/contracts/fixtures.JS', '/modules/contracts/FIXTURES.JS',
+    '/modules/game/Index.js', '/modules/Game/index.js', '/harness/Player.html', '/modules/zod/Package.json', '/Styles/shell.css',
     '/modules/game/../../package.json', '/modules/game/%2e%2e/%2e%2e/package.json', '/modules/game/..%2f..%2fpackage.json',
     '/harness/../serve.mjs', '/harness/../fixture/scenario.mjs', '/harness/.hidden', '/modules/zod/index.cjs',
     '/package.json', '/rules/source-manifest.json', '/apps/game/dev/serve.mjs', '/.git/config', '/modules/game/', '/nope',
@@ -287,6 +300,23 @@ test('a browser can load the client modules but never the contract fixture or an
     assert.equal((await response.text()).includes('serverOnly'), false, path);
   }
   assert.match(await (await fetch(`${origin}/styles/tokens.css`)).text(), /--ms-color-canvas: #10141C;/);
+});
+
+test('the path mapping refuses traversal, odd separators and wrong case before any file is opened', () => {
+  // fetch normalizes dot segments away before sending, so the mapping is exercised directly.
+  for (const path of [
+    '/modules/game/../../package.json', '/modules/game/../dev/serve.mjs', '/modules/game/./index.js', '/modules/game//index.js',
+    '/modules/game/..', '/modules/game/', '/modules/game', '/harness/../serve.mjs', '/harness/.hidden', '/modules/game/.git/config',
+    '/modules/game/screens\\screen.js', '/modules/game/C:/x.js', '/modules/game/index.js\0.css',
+    '/modules/contracts/fixtures.js', '/modules/contracts/Fixtures.js', '/modules/contracts/FIXTURES.JS', '/modules/contracts/fixture.js',
+    '/modules/contracts/index.d.ts', '/modules/contracts/package.json', '/modules/game/Index.js', '/modules/game/missing.js', '/nope',
+  ]) {
+    assert.equal(resolveStatic(path), null, path);
+  }
+  assert.match(resolveStatic('/modules/game/index.js'), /apps\/game\/dist\/index\.js$/);
+  assert.match(resolveStatic('/modules/contracts/index.js'), /packages\/contracts\/dist\/index\.js$/);
+  assert.match(resolveStatic('/harness/player.html'), /apps\/game\/dev\/harness\/player\.html$/);
+  assert.match(resolveStatic('/'), /harness\/index\.html$/);
 });
 
 test('harness pages are served under a policy that forbids inline script and inline style', async t => {
@@ -307,8 +337,10 @@ test('harness pages are served under a policy that forbids inline script and inl
 });
 
 test('the server answers only on its loopback name and refuses pages from other origins', async t => {
-  const { origin } = await withServer(t);
+  const { origin, devServer } = await withServer(t);
   const port = Number(new URL(origin).port);
+  // The bind is the real control: a client that is not a browser can send any Host it likes.
+  assert.equal(devServer.address().address, '127.0.0.1');
   // fetch does not let a caller choose the Host header, so these go through node:http.
   const statusForHost = host => new Promise((resolveStatus, rejectStatus) => {
     request({ host: '127.0.0.1', port, path: '/api/fixture/time', headers: { host } }, response => {
@@ -326,11 +358,34 @@ test('the server answers only on its loopback name and refuses pages from other 
   const post = (path, init = {}) => fetch(origin + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}', ...init });
   assert.equal((await post('/api/operator/advance', { headers: { 'content-type': 'application/json', origin: 'https://attacker.example' } })).status, 403);
   assert.equal((await post('/api/operator/advance', { headers: { 'content-type': 'text/plain' } })).status, 415);
-  assert.equal((await post('/api/operator/advance', { body: 'x'.repeat(10_000) })).status, 400);
+  assert.equal((await post('/api/operator/redeliver', { body: 'not json' })).status, 400);
+  assert.equal((await post('/api/operator/redeliver', { body: '[]' })).status, 400);
+  // A well-formed body is refused for its size alone, and a small one is accepted.
+  assert.equal((await post('/api/operator/redeliver', { body: JSON.stringify({ pad: 'x'.repeat(5_000) }) })).status, 413);
+  assert.equal((await post('/api/operator/redeliver', { body: JSON.stringify({ pad: 'x'.repeat(3_000) }) })).status, 200);
   assert.equal((await post('/api/operator/made-up')).status, 400);
   assert.equal((await post('/api/operator/inject', { body: JSON.stringify({ audience: 'seat-1', kind: 'made-up' }) })).status, 400);
   assert.equal((await post('/api/operator/drop', { body: JSON.stringify({ audience: 'seat-7' }) })).status, 400);
   assert.equal((await fetch(`${origin}/api/fixture/time`, { method: 'DELETE' })).status, 405);
+  // HEAD on a stream is answered at once instead of holding a subscriber open.
+  const head = await fetch(`${origin}/api/fixture/stream?audience=public`, { method: 'HEAD', signal: AbortSignal.timeout(2_000) });
+  assert.equal(head.status, 405);
+  assert.equal(devServer.scenario.status().subscribers.public, 0);
+});
+
+test('a bad payload is aimed at one named seat and never reaches the public feed', async t => {
+  const { origin, devServer } = await withServer(t);
+  const inject = body => fetch(`${origin}/api/operator/inject`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const publicFeed = [];
+  devServer.scenario.subscribe('public', { onPayload: payload => publicFeed.push(payload), onConnectionChange: () => {} });
+  assert.equal((await inject({ kind: 'other-audience' })).status, 400, 'no audience named');
+  assert.equal((await inject({ kind: 'other-audience', audience: 'all' })).status, 400, 'broadcast refused');
+  assert.equal((await inject({ kind: 'other-audience', audience: 'public' })).status, 400, 'public refused');
+  assert.equal((await inject({ kind: 'other-audience', audience: 'seat-2' })).status, 200);
+  assert.equal((await inject({ kind: 'unreadable', audience: 'public' })).status, 200, 'a non-private bad payload may be sent to the table');
+  const sent = JSON.stringify(publicFeed);
+  for (const role of roles) assert.equal(sent.includes(role), false, role);
+  assert.equal(sent.includes('"self"'), false);
 });
 
 test('operator actions drive the script over HTTP; command endpoints stay unscripted', async t => {
@@ -347,6 +402,8 @@ test('operator actions drive the script over HTTP; command endpoints stay unscri
   assert.equal(status.serverTimeMs, status.phase.endsAt);
   status = await post('/api/operator/drop', { audience: 'public' });
   assert.deepEqual(status.connected, { public: false, 'seat-1': true, 'seat-2': true });
+  status = await post('/api/operator/expire');
+  assert.deepEqual(status.connected, { public: false, 'seat-1': true, 'seat-2': true }, 'Running the clock out leaves a dropped feed dropped');
   await assert.rejects(() => fetch(`${origin}/api/fixture/stream?audience=public`), 'A dropped feed is a failed connection, not an error page');
   status = await post('/api/operator/restore', { audience: 'all' });
   assert.equal(status.connected.public, true);

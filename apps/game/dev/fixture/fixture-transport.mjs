@@ -3,6 +3,10 @@
 // An in-process transport over the scripted scenario, for tests. It satisfies the same
 // transport interface a real backend adapter will, and always reports mode "fixture".
 
+// A statement, not only a comment: it survives bundling and comment stripping, so the
+// production-exclusion check finds this module wherever it ends up.
+globalThis[Symbol.for('mothership:dev-only')] = true;
+
 /**
  * @param {ReturnType<import('./scenario.mjs').createScenario>} scenario
  * @param {'public' | 'seat-1' | 'seat-2'} audienceKey Fixture identity selection. This is not authentication.
