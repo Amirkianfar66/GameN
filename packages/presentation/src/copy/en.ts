@@ -199,6 +199,7 @@ export const en = {
     },
     offer: {
       available: 'Available',
+      paused: 'Paused',
       unavailable: 'Not available',
       noTarget: 'No one you can target right now',
     },

@@ -30,8 +30,11 @@ function button(id: string, label: string, intent: CardButtonModel['intent'], pr
 
 function offer(input: ConnectedPlayerInput, view: FullPlayerView, kind: ActionKind): ActionOfferModel {
   const count = kind === 'move' ? view.self.movementDestinations.length : shotTargets(view).length;
-  // The category is open and nobody can be targeted: said as it is, not as "unavailable".
-  const statusLabel = count > 0 ? en.action.offer.available : kind === 'shot' && view.self.shotAvailable ? en.action.offer.noTarget : en.action.offer.unavailable;
+  // On a view the server no longer confirms, or after the countdown, "available" would be a
+  // claim about the present that this device cannot make: the offer is the last one it was sent.
+  // The category open and nobody to target is said as it is, not as "unavailable".
+  const statusLabel = count > 0 ? (mayStart(input) ? en.action.offer.available : en.action.offer.paused)
+    : kind === 'shot' && view.self.shotAvailable ? en.action.offer.noTarget : en.action.offer.unavailable;
   return {
     kind, label: en.action.kind[kind], statusLabel,
     open: count > 0 && mayStart(input) ? { id: actionOpenId(kind), label: en.action.open[kind] } : null,

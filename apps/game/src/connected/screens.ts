@@ -11,6 +11,8 @@ import type { SessionTiming } from '../session/audience-session.js';
 import { createActionFlow, offeredChoices } from './action-flow.js';
 import type { ActionFlow, ActionFlowTiming } from './action-flow.js';
 import { createConnectedApi } from './api.js';
+import { createDeadlineCatchUp } from './deadline-catch-up.js';
+import type { CatchUpTiming } from './deadline-catch-up.js';
 import { createConnectedPlayerSession, createConnectedPublicSession } from './session.js';
 import type { ConnectedTransport } from './transport.js';
 
@@ -27,22 +29,32 @@ export interface ConnectedTableScreenOptions {
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly timing?: Partial<SessionTiming>;
+  readonly catchUpTiming?: Partial<CatchUpTiming>;
 }
 
 /** The shared display. It is built from a public view, so it has no private field to show and no command it could send. */
 export function createConnectedTableScreen(options: ConnectedTableScreenOptions): ScreenController<TableShellModel> {
   const api = createConnectedApi(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const session = createConnectedPublicSession({ ...options, api });
+  const catchUp = createDeadlineCatchUp({ api, ports: options.ports, matchId: options.matchId, order: 0, timing: options.catchUpTiming });
   return createScreen<FullPublicView, TableShellInput, TableShellModel>({
     session,
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
-    buildInput: (environment, view) => ({ ...environment, view }),
+    buildInput(environment, view, local) {
+      // The display asks the server to look at a deadline it believes has passed. It changes
+      // nothing itself: the phase on screen is replaced only by the next authoritative view.
+      catchUp.observe({ phaseId: view?.phase.id ?? null, current: isCurrent(environment), expired: environment.deadline.kind === 'expired', foreground: local.pageVisible });
+      return { ...environment, view };
+    },
     buildModel: buildTableShellModel,
     announcer: createTableAnnouncer(),
     handleIntent: () => null,
-    dispose: () => api.cancelPending(),
+    dispose() {
+      catchUp.dispose();
+      api.cancelPending();
+    },
   });
 }
 
@@ -77,6 +89,8 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
   const api = createConnectedApi(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const session = createConnectedPlayerSession({ ...options, api });
   const flow = createActionFlow({ api, ports: options.ports, matchId: options.matchId, seatId: options.seatId, timing: options.actionTiming });
+  // A phone asks later than a display would, and each seat at its own moment.
+  const catchUp = createDeadlineCatchUp({ api, ports: options.ports, matchId: options.matchId, order: Number(options.seatId.slice(5)), timing: options.catchUpTiming });
   let latest: FullPlayerView | null = null;
 
   return createScreen<FullPlayerView, ConnectedPlayerInput, ConnectedPlayerShellModel>({
@@ -88,13 +102,15 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
       latest = view;
       // The flow is told the present before its state is read, so a choice that was not sent
       // never outlives a closed panel, a view that is no longer fresh, or an ended phase.
+      const expired = environment.deadline.kind === 'expired';
       flow.observe({
         view,
         current: isCurrent(environment),
-        expired: environment.deadline.kind === 'expired',
+        expired,
         panelOpen: local.pageVisible && local.privateRevealed && view !== null,
         foreground: local.pageVisible,
       });
+      catchUp.observe({ phaseId: view?.phase.id ?? null, current: isCurrent(environment), expired, foreground: local.pageVisible });
       return { ...environment, view, privacy: { concealed: !local.pageVisible, revealed: local.privateRevealed }, action: flow.getState() };
     },
     buildModel: buildConnectedPlayerShellModel,
@@ -119,6 +135,7 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     watch: onChange => flow.subscribe(onChange),
     dispose() {
       flow.dispose();
+      catchUp.dispose();
       api.cancelPending();
     },
   });

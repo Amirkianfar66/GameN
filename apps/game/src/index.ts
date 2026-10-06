@@ -44,6 +44,8 @@ export { createConnectedPlayerSession, createConnectedPublicSession } from './co
 export type { ConnectedSessionOptions } from './connected/session.js';
 export { createConnectedPlayerScreen, createConnectedTableScreen } from './connected/screens.js';
 export type { ConnectedPlayerScreenOptions, ConnectedTableScreenOptions } from './connected/screens.js';
+export { createDeadlineCatchUp, DEFAULT_CATCH_UP_TIMING } from './connected/deadline-catch-up.js';
+export type { CatchUpContext, CatchUpOptions, CatchUpTiming, DeadlineCatchUp } from './connected/deadline-catch-up.js';
 export { createActionFlow, DEFAULT_ACTION_FLOW_TIMING, offeredChoices } from './connected/action-flow.js';
 export type {
   ActionChoice, ActionFlow, ActionFlowContext, ActionFlowOptions, ActionFlowState, ActionFlowTiming, ActionKind, Destination, NotAcceptedReason,

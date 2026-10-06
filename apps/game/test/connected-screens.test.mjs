@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { FullCommandRequestSchema } from '@mothership/contracts';
-import { createConnectedPlayerScreen, createConnectedTableScreen, DEFAULT_ACTION_FLOW_TIMING } from '@mothership/game';
+import { createConnectedPlayerScreen, createConnectedTableScreen, DEFAULT_ACTION_FLOW_TIMING, DEFAULT_CATCH_UP_TIMING } from '@mothership/game';
 import { renderConnectedPlayerShell, SHELL_IDS, toHtml } from '@mothership/presentation';
 import { createFakeHost, flush } from './support/fakes.mjs';
 import { createFakeConnectedTransport, EPOCH, MATCH, playerView, publicView } from './support/connected.mjs';
@@ -199,6 +199,64 @@ test('the connected table shows public facts only, listens to the public view on
   assert.deepEqual(s.fake.callsTo('v1Receipt'), []);
 });
 
+const NEXT_PHASE = next => {
+  next.viewRevision += 1;
+  next.phase = { ...next.phase, id: 'phase-two', startedAt: EPOCH + 61_000, endsAt: EPOCH + 121_000 };
+  next.activeSeatId = 'seat-2';
+};
+
+test('when its countdown ends the display asks the server to look at the deadline; only the next view changes the phase on screen', async () => {
+  const s = setup('table');
+  s.screen.start();
+  await s.fake.deliver(PUBLIC, publicView());
+  s.fake.respond.v1Advance = async request => ({ protocolVersion: 2, matchId: request.matchId, phaseId: request.phaseId, serverTimeMs: s.host.serverNow(), result: 'advanced' });
+  const phase = () => s.frame().model.match.phase;
+  await s.host.advance(59_999);
+  assert.deepEqual(s.fake.callsTo('v1Advance'), [], 'Nothing is asked while the phase is running');
+  await s.host.advance(1 + DEFAULT_CATCH_UP_TIMING.firstDelayMs - 1);
+  assert.deepEqual(s.fake.callsTo('v1Advance'), [], 'nor at the instant the countdown reaches zero');
+  await s.host.advance(1);
+  assert.deepEqual(s.fake.callsTo('v1Advance'), [{ protocolVersion: 2, matchId: MATCH, phaseId: 'phase-one' }], 'It names the match and the phase on its screen');
+  // The server answered "advanced". That is not a view: the screen still shows the phase it was sent, ended.
+  assert.deepEqual([phase().phaseLabel, phase().timer.state], ['Player 1’s turn', 'expired']);
+  await s.fake.deliver(PUBLIC, publicView(NEXT_PHASE));
+  assert.deepEqual([phase().phaseLabel, phase().timer.state], ['Player 2’s turn', 'running']);
+  await s.host.advance(30_000);
+  assert.equal(s.fake.callsTo('v1Advance').length, 1, 'With the next phase on screen it has nothing more to ask');
+});
+
+test('a phone asks later than a display would, not at all once the next view is here, and never on a view it cannot trust', async () => {
+  const late = setup();
+  late.screen.start();
+  await late.fake.deliver(OWN, playerView());
+  await late.host.advance(60_000 + DEFAULT_CATCH_UP_TIMING.playerDelayMs - 1);
+  assert.deepEqual(late.fake.callsTo('v1Advance'), [], 'A display on the table would have asked by now');
+  await late.host.advance(1);
+  assert.deepEqual(late.fake.callsTo('v1Advance'), [{ protocolVersion: 2, matchId: MATCH, phaseId: 'phase-one' }]);
+
+  const beaten = setup();
+  beaten.screen.start();
+  await beaten.fake.deliver(OWN, playerView());
+  await beaten.host.advance(60_000 + DEFAULT_CATCH_UP_TIMING.playerDelayMs - 1);
+  await beaten.fake.deliver(OWN, playerView('seat-1', NEXT_PHASE));
+  await beaten.host.advance(30_000);
+  assert.deepEqual(beaten.fake.callsTo('v1Advance'), [], 'The next view arrived first');
+
+  const stale = setup();
+  stale.screen.start();
+  await stale.fake.deliver(OWN, playerView());
+  await stale.fake.fail(OWN);
+  await stale.host.advance(300_000);
+  assert.deepEqual(stale.fake.callsTo('v1Advance'), [], 'A countdown on a view the server no longer confirms is not a reason to ask');
+
+  const hidden = setup();
+  hidden.screen.start();
+  await hidden.fake.deliver(OWN, playerView());
+  hidden.screen.setPageVisible(false);
+  await hidden.host.advance(300_000);
+  assert.deepEqual(hidden.fake.callsTo('v1Advance'), [], 'nor does a page nobody is looking at');
+});
+
 test('dispose stops the listener, the timers and the command flow', async () => {
   const s = setup();
   s.screen.start();
@@ -209,4 +267,14 @@ test('dispose stops the listener, the timers and the command flow', async () => 
   const count = s.frames.length;
   await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; }));
   assert.equal(s.frames.length, count);
+
+  // Also with a deadline catch-up waiting to ask.
+  const ended = setup('table');
+  ended.screen.start();
+  await ended.fake.deliver(PUBLIC, publicView());
+  await ended.host.advance(60_000);
+  ended.screen.dispose();
+  assert.equal(ended.host.pendingTimers(), 0);
+  await ended.host.advance(60_000);
+  assert.deepEqual(ended.fake.callsTo('v1Advance'), []);
 });

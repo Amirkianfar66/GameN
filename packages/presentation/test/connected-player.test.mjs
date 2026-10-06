@@ -115,6 +115,10 @@ test('nothing can be started on a view that is not fresh or whose clock has run 
     const built = model(playerView(armed), IDLE, overrides);
     assert.equal(built.match.privateArea.content.actions.notice, notice);
     for (const offer of built.match.privateArea.content.actions.card.body.offers) assert.equal(offer.open, null, JSON.stringify(overrides));
+    // What the server last offered is not called "available": this device cannot vouch for the present.
+    assert.deepEqual(built.match.privateArea.content.actions.card.body.offers.map(offer => offer.statusLabel), ['Paused', 'Paused'], JSON.stringify(overrides));
+    // What it did not offer stays what it was.
+    assert.deepEqual(card(playerView(view => { view.self.movementDestinations = []; }), IDLE, overrides).body.offers.map(offer => offer.statusLabel), ['Not available', 'Not available']);
     // An unsent choice is not drawn either, whatever the flow still holds.
     assert.equal(card(playerView(armed), { step: 'confirming', choice: SHOT, armed: true }, overrides).body.step, 'idle');
   }
