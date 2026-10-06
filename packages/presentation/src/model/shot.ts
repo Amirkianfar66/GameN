@@ -40,8 +40,8 @@ export function shotTargetCandidates(view: PlayerView): SeatId[] {
     .sort((a, b) => seatNumber(a) - seatNumber(b));
 }
 
-function button(id: string, label: string, intent: CardButtonModel['intent'], primary = false): CardButtonModel {
-  return { id, label, intent, primary };
+function button(id: string, label: string, intent: CardButtonModel['intent'], primary = false, disabled = false): CardButtonModel {
+  return { id, label, intent, primary, disabled };
 }
 
 function card(status: ShotCardStatus, selected: boolean, body: ShotCardBody): ActionCardModel {
@@ -67,8 +67,13 @@ function targetingBody(view: PlayerView, seats: readonly SeatModel[]): ShotCardB
   };
 }
 
-function settled(text: string, detail: string | null): ShotCardBody {
-  return { step: 'result', outcome: 'not-registered', text, detail, action: button(SHELL_IDS.shotDismiss, en.shot.ok, 'shot/dismiss', true) };
+// The control that acknowledges a result is not active the moment the result appears: it is
+// drawn where the confirm control was, and a second tap must not make a rejection vanish unread.
+function settled(text: string, detail: string | null, armed: boolean): ShotCardBody {
+  return {
+    step: 'result', outcome: 'not-registered', text, detail,
+    action: button(SHELL_IDS.shotDismiss, en.shot.ok, 'shot/dismiss', true, !armed), secondary: null,
+  };
 }
 
 /**
@@ -79,16 +84,16 @@ export function buildShotCard(input: PlayerShellInput, view: PlayerView, seats: 
   const gate = resolveShotGate(input, view);
   // A choice that has not been sent cannot outlive the conditions it was made under.
   const choosing = input.shot.step === 'targeting' || input.shot.step === 'confirming';
-  const shot: ShotFlowInput = choosing && !gate.open ? { step: 'idle', registeredTargetSeatId: null } : input.shot;
+  const shot: ShotFlowInput = choosing && !gate.open ? { step: 'idle', registered: null } : input.shot;
 
   switch (shot.step) {
     case 'idle': {
-      const remembered = shot.registeredTargetSeatId;
       const pending = view.ownPendingCommandIds.length > 0;
-      const note = remembered !== null ? en.shot.registeredAt(seatNumber(remembered)) : pending ? en.shot.registeredEarlier : null;
+      const target = shot.registered?.targetSeatId ?? null;
+      const note = target !== null ? en.shot.registeredAt(seatNumber(target)) : shot.registered !== null || pending ? en.shot.registeredEarlier : null;
       // This device's own accepted command is newer than the view on screen. The action is
       // not offered again until the view has caught up with it.
-      const awaitingView = remembered !== null && !pending;
+      const awaitingView = shot.registered !== null && !pending;
       return card(note !== null ? 'registered' : view.self.shotAvailable ? 'available' : 'unavailable', false, {
         step: 'idle',
         open: gate.open && !awaitingView ? button(SHELL_IDS.shotOpen, en.shot.open, 'shot/open', true) : null,
@@ -105,29 +110,46 @@ export function buildShotCard(input: PlayerShellInput, view: PlayerView, seats: 
         step: 'confirming',
         prompt: en.shot.confirmPrompt(seatNumber(shot.targetSeatId)),
         consequence: en.shot.confirmConsequence,
-        confirm: button(SHELL_IDS.shotConfirm, en.shot.confirm, 'shot/confirm', true),
+        confirm: button(SHELL_IDS.shotConfirm, en.shot.confirm, 'shot/confirm', true, !shot.armed),
         back: button(SHELL_IDS.shotBack, en.shot.chooseAgain, 'shot/back'),
       });
     }
     case 'submitting':
       return card('submitting', true, { step: 'busy', text: en.shot.submitting });
     case 'checking':
-      return card('checking', true, { step: 'busy', text: en.shot.checking });
+      return card('checking', true, { step: 'busy', text: shot.recovered ? en.shot.checkingAfterReload : en.shot.checking });
     case 'unknown':
       return card('unknown', true, {
-        step: 'result', outcome: 'unknown', text: en.shot.unknown, detail: en.shot.unknownDetail,
-        action: button(SHELL_IDS.shotCheck, en.shot.checkAgain, 'shot/check-again', true),
+        step: 'result', outcome: 'unknown', text: en.shot.unknown,
+        detail: shot.phaseOver ? en.shot.unknownPhaseOver : shot.recovered ? en.shot.unknownAfterReload : en.shot.unknownDetail,
+        action: button(SHELL_IDS.shotCheck, en.shot.checkAgain, 'shot/check-again', true, !shot.armed),
+        // While the command's phase is open the card stays locked: a new choice could race
+        // the one still unaccounted for. Once it is over there is nothing left to protect.
+        secondary: shot.phaseOver ? button(SHELL_IDS.shotDismiss, en.shot.stopChecking, 'shot/dismiss', false, !shot.armed) : null,
       });
-    case 'registered':
+    case 'registered': {
+      const action = button(SHELL_IDS.shotDismiss, en.shot.done, 'shot/dismiss', true, !shot.armed);
+      // A report the player has not acknowledged stays until they do. If the view has moved
+      // on meanwhile, it is told in the past tense and no longer promises a resolution to come.
+      if (!shot.pending) {
+        return card('was-registered', false, {
+          step: 'result', outcome: 'registered',
+          text: shot.targetSeatId === null ? en.shot.wasRegisteredNoTarget : en.shot.wasRegistered(seatNumber(shot.targetSeatId)),
+          detail: en.shot.wasRegisteredDetail, action, secondary: null,
+        });
+      }
       return card('registered', false, {
-        step: 'result', outcome: 'registered', text: en.shot.registered(seatNumber(shot.targetSeatId)), detail: en.shot.registeredDetail,
-        action: button(SHELL_IDS.shotDismiss, en.shot.done, 'shot/dismiss', true),
+        step: 'result', outcome: 'registered',
+        text: shot.targetSeatId === null ? en.shot.registeredNoTarget : en.shot.registered(seatNumber(shot.targetSeatId)),
+        detail: shot.targetSeatId === null ? en.shot.registeredAfterReload : en.shot.registeredDetail,
+        action, secondary: null,
       });
+    }
     case 'rejected':
-      return card('not-registered', false, settled(en.shot.rejected[shot.code], shot.code === 'NOT_ALLOWED' ? en.shot.tryAgainHint : null));
+      return card('not-registered', false, settled(en.shot.rejected[shot.code], shot.code === 'NOT_ALLOWED' ? en.shot.tryAgainHint : null, shot.armed));
     case 'not-registered': {
       const retryable = shot.reason === 'NOT_SENT' || shot.reason === 'COMMAND_ID_CONFLICT';
-      return card('not-registered', false, settled(en.shot.notRegistered[shot.reason], retryable ? en.shot.tryAgainHint : null));
+      return card('not-registered', false, settled(en.shot.notRegistered[shot.reason], retryable ? en.shot.tryAgainHint : null, shot.armed));
     }
   }
 }

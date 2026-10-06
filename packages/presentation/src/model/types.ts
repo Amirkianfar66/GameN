@@ -45,28 +45,44 @@ export interface ShellEnvironment {
  * Where the player's own shot stands on this device, as far as this device knows. It is
  * driven by the command flow and by server answers, never by a guess: "registered" means
  * the server said so, and registration is not an outcome.
+ *
+ * armed: a control that has only just appeared does nothing yet. The second tap of a double
+ * tap lands wherever the screen has drawn the next control.
  */
 export type ShotFlowInput =
   /**
-   * Nothing in progress. registeredTargetSeatId is the target of this seat's own registered
-   * shot while this device still remembers it; it is kept in memory only and is gone after a reload.
+   * Nothing in progress. registered is set while this device knows that its own command is
+   * registered; the target is known only on the page that sent it, never after a reload.
    */
-  | { readonly step: 'idle'; readonly registeredTargetSeatId: SeatId | null }
+  | { readonly step: 'idle'; readonly registered: { readonly targetSeatId: SeatId | null } | null }
   | { readonly step: 'targeting' }
-  | { readonly step: 'confirming'; readonly targetSeatId: SeatId }
-  | { readonly step: 'submitting'; readonly targetSeatId: SeatId }
-  /** No usable answer arrived; the client is finding out what happened. */
-  | { readonly step: 'checking'; readonly targetSeatId: SeatId }
-  /** Automatic checking gave up. The player can ask again; nothing is assumed either way. */
-  | { readonly step: 'unknown'; readonly targetSeatId: SeatId }
-  | { readonly step: 'registered'; readonly targetSeatId: SeatId }
+  | { readonly step: 'confirming'; readonly targetSeatId: SeatId; readonly armed: boolean }
+  | { readonly step: 'submitting' }
+  /**
+   * No usable answer arrived; the client is finding out what happened. recovered: the page
+   * was reloaded while the command was unresolved, and only its identifier survived.
+   */
+  | { readonly step: 'checking'; readonly recovered: boolean }
+  /**
+   * Automatic checking gave up. Nothing is assumed either way. phaseOver: the phase the
+   * command was sent in has ended, so it can no longer be newly accepted.
+   */
+  | { readonly step: 'unknown'; readonly recovered: boolean; readonly phaseOver: boolean; readonly armed: boolean }
+  /**
+   * pending: the view still lists the command, or has not had the chance to yet. Once it is
+   * false the registration is in the past, and the report must not speak of it as waiting.
+   */
+  | { readonly step: 'registered'; readonly targetSeatId: SeatId | null; readonly pending: boolean; readonly armed: boolean }
   /** The server answered with a rejection receipt. */
-  | { readonly step: 'rejected'; readonly targetSeatId: SeatId; readonly code: ShotRejectionCode }
-  /** Known not to be registered, without a receipt: the one attempt made committed nothing. */
-  | { readonly step: 'not-registered'; readonly targetSeatId: SeatId; readonly reason: ShotNotRegisteredReason };
+  | { readonly step: 'rejected'; readonly code: ShotRejectionCode; readonly armed: boolean }
+  /** Known not to be registered, without a receipt saying so. */
+  | { readonly step: 'not-registered'; readonly reason: ShotNotRegisteredReason; readonly armed: boolean };
 export type ShotRejectionCode = 'PHASE_CLOSED' | 'NOT_ALLOWED';
-/** NOT_SENT: the request never left this device. The others are the server's own safe error codes. */
-export type ShotNotRegisteredReason = 'UNAUTHENTICATED' | 'FORBIDDEN' | 'INVALID_REQUEST' | 'UNSUPPORTED_PROTOCOL' | 'COMMAND_ID_CONFLICT' | 'NOT_SENT';
+/**
+ * NOT_SENT: the request never left this device. PHASE_OVER: after a reload, no receipt
+ * existed once the command's phase had ended. The others are the server's own safe errors.
+ */
+export type ShotNotRegisteredReason = 'UNAUTHENTICATED' | 'FORBIDDEN' | 'INVALID_REQUEST' | 'UNSUPPORTED_PROTOCOL' | 'COMMAND_ID_CONFLICT' | 'NOT_SENT' | 'PHASE_OVER';
 
 export interface PlayerShellInput extends ShellEnvironment {
   readonly view: PlayerView | null;
@@ -169,6 +185,8 @@ export interface CardButtonModel {
   readonly label: string;
   readonly intent: Exclude<ShellIntentType, 'shot/choose-target' | 'settings/reduce-motion'>;
   readonly primary: boolean;
+  /** Drawn, reachable and named, but not active yet. It is never removed from the tab order. */
+  readonly disabled: boolean;
 }
 
 export interface ShotTargetModel {
@@ -202,9 +220,11 @@ export type ShotCardBody =
     readonly text: string;
     readonly detail: string | null;
     readonly action: CardButtonModel;
+    /** A second way on, where there is one: leaving an unknown result once its phase is over. */
+    readonly secondary: CardButtonModel | null;
   };
 
-export type ShotCardStatus = 'available' | 'unavailable' | 'targeting' | 'confirming' | 'submitting' | 'checking' | 'unknown' | 'registered' | 'not-registered';
+export type ShotCardStatus = 'available' | 'unavailable' | 'targeting' | 'confirming' | 'submitting' | 'checking' | 'unknown' | 'registered' | 'was-registered' | 'not-registered';
 
 export interface ActionCardModel {
   readonly id: 'shot';

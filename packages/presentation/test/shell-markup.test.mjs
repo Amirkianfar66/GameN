@@ -146,14 +146,15 @@ test('opening the private panel replaces only its own region, so focus elsewhere
   assert.equal(closed.frameHtml, shown.frameHtml);
   assert.deepEqual([...closed.regions.keys()].filter(id => closed.regions.get(id) !== shown.regions.get(id)), ['private']);
   // What the open panel holds is drawn in regions of its own, listed after the panel they sit in.
-  assert.deepEqual([...shown.regions.keys()], ['banners', 'phase', 'timer', 'location', 'private', 'actions', 'shot', 'roster', 'settings', 'details']);
+  assert.deepEqual([...shown.regions.keys()], ['banners', 'phase', 'timer', 'location', 'private', 'actions', 'shot', 'shot-controls', 'roster', 'settings', 'details']);
 });
 
 test('a hidden registration touches only the Shot card of the registering phone, and only while the panel is open', () => {
   const regions = (view, overrides) => splitRegions(player(view, overrides)).regions;
   const changed = (a, b) => [...a.keys()].filter(id => a.get(id) !== b.get(id));
   assert.deepEqual(changed(regions(before.officer), regions(afterRegistration.officer)), []);
-  assert.deepEqual(changed(regions(before.officer, open), regions(afterRegistration.officer, open)), ['shot']);
+  // The card, and the row of controls inside it, which the registered card no longer has.
+  assert.deepEqual(changed(regions(before.officer, open), regions(afterRegistration.officer, open)), ['shot', 'shot-controls']);
 });
 
 test('the shell root states surface, screen, connection, data source and motion for styling and tests', () => {

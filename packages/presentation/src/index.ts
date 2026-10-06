@@ -26,6 +26,8 @@ export { buildTableShellModel } from './model/table-shell.js';
 export type * from './model/types.js';
 export { escapeAttribute, escapeText, h, isElement, splitRegions, textOf, toHtml } from './markup/node.js';
 export type { MarkupAttributes, MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode, MarkupTag, RegionSplit } from './markup/node.js';
+export { planRedraw } from './markup/redraw.js';
+export type { RedrawPlan, RedrawStep } from './markup/redraw.js';
 export { SHELL_IDS, shotTargetId } from './ids.js';
 export { renderPlayerShell } from './markup/player-shell.js';
 export { renderTableShell } from './markup/table-shell.js';

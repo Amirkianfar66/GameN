@@ -99,6 +99,9 @@ export function textOf(node: MarkupNode): string {
   return node.children.map(textOf).join('');
 }
 
+/** A region id is a plain name, so it can be found again in serialized markup without parsing it. */
+const REGION_ID = /^[a-z][a-z0-9-]*$/;
+
 export interface RegionSplit {
   /** Attributes of the shell root. A host applies them in place instead of rebuilding the page. */
   readonly rootAttrs: Readonly<Record<string, MarkupAttributeValue>>;
@@ -125,7 +128,7 @@ export function splitRegions(root: MarkupElement): RegionSplit {
     if (typeof node === 'string') return node;
     const regionId = node.attrs['data-region'];
     if (regionId === undefined) return { tag: node.tag, attrs: node.attrs, children: node.children.map(frame) };
-    if (typeof regionId !== 'string' || regions.has(regionId)) throw new TypeError('Shell region ids must be unique strings');
+    if (typeof regionId !== 'string' || !REGION_ID.test(regionId) || regions.has(regionId)) throw new TypeError('Shell region ids must be unique plain names');
     // Claim the position first: an outer region is listed before the regions inside it.
     regions.set(regionId, '');
     regions.set(regionId, toHtml({ tag: node.tag, attrs: node.attrs, children: node.children.map(frame) }));

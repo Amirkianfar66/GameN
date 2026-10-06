@@ -14,7 +14,7 @@ import { createFakeHost, flush } from './support/fakes.mjs';
 // an emulator, authentication, Security Rules or a real network.
 
 const MATCH = 'fixture-match-a';
-const GUARD = DEFAULT_SHOT_FLOW_TIMING.confirmGuardMs;
+const GUARD = DEFAULT_SHOT_FLOW_TIMING.controlGuardMs;
 const [FIRST, SECOND, THIRD] = DEFAULT_SHOT_FLOW_TIMING.recheckDelaysMs;
 const TOGGLE = { type: 'private/toggle' };
 const OPEN = { type: 'shot/open' };
@@ -87,6 +87,11 @@ async function world({ variant, wait } = {}) {
       w.officer.dispatch(CONFIRM);
       await flush();
     },
+    /** Acknowledges the result on screen, once its control has become active. */
+    async acknowledge(screen = w.officer) {
+      await host.advance(GUARD);
+      screen.dispatch(DISMISS);
+    },
     html: () => ({
       officer: toHtml(renderPlayerShell(w.officer.getFrame().model)),
       target: toHtml(renderPlayerShell(target.getFrame().model)),
@@ -117,7 +122,7 @@ test('journey: the Officer picks a numbered player in the same room, confirms an
     assert.equal(w.sent.length, 1);
     assert.deepEqual(w.scenario.viewFor('seat-1').ownPendingCommandIds, [w.sent[0].commandId]);
     assert.equal(w.scenario.viewFor('seat-2').seats[1].health, 'Healthy', 'Registration is not damage: nobody’s health moved');
-    w.officer.dispatch(DISMISS);
+    await w.acknowledge();
     assert.equal(w.card().body.note, 'Your shot at Player 2 is registered. It is resolved at the end of the round.');
     pages[variant] = w.html();
   }
@@ -157,7 +162,7 @@ test('journey: lost acknowledgment. The shot was registered but the answer never
 
   // Acknowledged before the view arrived: the stale view still says "available", and the
   // card does not offer the shot again on its word.
-  w.officer.dispatch(DISMISS);
+  await w.acknowledge();
   assert.equal(w.card().status, 'registered');
   assert.equal(w.card().body.open, null);
   w.releaseFeed();
@@ -199,7 +204,7 @@ test('journey: rejected targeting. The rejection is shown as the server gave it,
   // No reason is invented: nothing about why, and nothing about anyone's defenses.
   assert.doesNotMatch(JSON.stringify(w.card()), /because|protect|immun|defen|jail|health/i);
   assert.equal(w.scenario.viewFor('seat-1').self.shotAvailable, true);
-  w.officer.dispatch(DISMISS);
+  await w.acknowledge();
   await w.confirm('seat-2');
   assert.equal(w.card().body.text, 'Shot at Player 2 registered.');
   assert.notEqual(w.sent[1].commandId, w.sent[0].commandId);
@@ -214,14 +219,17 @@ test('journey: the command service is down. The app says the result is unknown, 
   assert.equal(w.card().status, 'checking');
   await w.host.advance(FIRST + SECOND + THIRD);
   assert.equal(w.card().statusLabel, 'Result unknown');
-  assert.equal(w.card().body.detail, 'Do not assume either way. Check again when the connection is back.');
+  // The feed is live, so the card does not blame the connection.
+  assert.equal(w.card().body.detail, 'Do not assume either way. You can check again at any time.');
   assert.equal(w.officer.getFrame().model.connection, 'live', 'The feed is fine; only the request went unanswered');
   assert.equal(w.sent.length, 1, 'Nothing was sent into the silence');
   // Still down: asking again changes nothing and still claims nothing.
+  await w.host.advance(GUARD);
   w.officer.dispatch({ type: 'shot/check-again' });
   await flush();
   assert.equal(w.card().statusLabel, 'Result unknown');
   w.scenario.setCommandService('answering');
+  await w.host.advance(GUARD);
   w.officer.dispatch({ type: 'shot/check-again' });
   await flush();
   assert.equal(w.card().body.text, 'Shot at Player 2 registered.');
@@ -242,17 +250,17 @@ test('journey: the turn ends while the outcome is unknown. The late command is r
   await flush();
   assert.equal(w.officer.getFrame().model.match.phase.phaseLabel, 'Player 2’s turn');
   assert.equal(w.card().statusLabel, 'Not registered');
-  assert.equal(w.card().body.text, 'Not registered. The turn had already ended.');
+  assert.equal(w.card().body.text, 'Not registered. It reached the server after the turn had ended.');
   assert.equal(w.sent.length, 2);
   assert.deepEqual(w.sent[1], w.sent[0]);
   assert.deepEqual(w.scenario.viewFor('seat-1').ownPendingCommandIds, []);
   assert.equal(w.scenario.viewFor('seat-1').self.shotAvailable, true, 'Nothing was spent');
   // Acknowledged, the card goes back to what the view says: a shot, but not on this turn.
-  w.officer.dispatch(DISMISS);
+  await w.acknowledge();
   assert.deepEqual(w.card().body, { step: 'idle', open: null, reason: 'You can register a shot during your own turn.', note: null });
 });
 
-test('journey: refresh during a pending registration. The reloaded phone recovers the registration from its view and restores nothing it should not', async () => {
+test('journey: refresh during a pending registration. The reloaded phone asks about its command, learns it is registered, and restores nothing it should not', async () => {
   // The server has registered the shot, but neither the answer nor the updated view has
   // reached the phone when the page is reloaded.
   const w = await world();
@@ -260,6 +268,7 @@ test('journey: refresh during a pending registration. The reloaded phone recover
   w.holdFeed();
   await w.confirm('seat-2');
   assert.equal(w.card().status, 'checking');
+  assert.deepEqual(Object.keys(JSON.parse(w.host.kept)).sort(), ['commandId', 'matchId', 'phaseId', 'seatId'], 'Identifiers only are kept for the reload');
   w.officer.dispose();
 
   const reloaded = w.officerPhone().screen;
@@ -273,15 +282,46 @@ test('journey: refresh during a pending registration. The reloaded phone recover
   assert.equal(content.role.name, 'Officer');
   const card = content.actions.cards[0];
   assert.equal(card.statusLabel, 'Registered');
-  // The device kept nothing across the reload, so it does not know the target; the view does not carry it.
-  assert.deepEqual(card.body, { step: 'idle', open: null, reason: null, note: 'A shot is registered. It is resolved at the end of the round.' });
-  assert.equal(JSON.stringify(reloaded.getFrame()).includes('Player 2 is registered'), false);
+  // The page kept the command's identifier and nothing about it, so it can say that the shot
+  // is registered and cannot say at whom.
+  assert.equal(card.body.text, 'Your shot is registered.');
+  assert.match(card.body.detail, /^This page was reloaded, so it no longer knows the target\./);
+  assert.equal(/Player 2 (is )?registered|at Player 2/.test(JSON.stringify(reloaded.getFrame())), false);
   for (const intent of [OPEN, CONFIRM]) reloaded.dispatch(intent);
   assert.equal(w.sent.length, 1, 'Reloading sent nothing and offered nothing to send');
   assert.equal(w.scenario.status().commands.receipts, 1);
+  assert.equal(w.host.kept, null, 'Nothing is kept once the outcome is known');
 });
 
-test('journey: refresh after a request that never arrived. Nothing is registered, nothing is replayed, and the player may choose again', async () => {
+test('journey: refresh while the request is still on its way. The reloaded phone offers no new target, and names the registration when it lands', async () => {
+  // The request is slow, not lost. Without a memory of it the reloaded page would offer the
+  // shot again, and a second target could be chosen while the first was about to register.
+  let arrive;
+  const w = await world({ wait: () => new Promise(resolve => { arrive = resolve; }) });
+  w.scenario.planNextCommand('slow');
+  await w.confirm('seat-3');
+  assert.equal(w.card().status, 'submitting');
+  w.officer.dispose();
+
+  const reloaded = w.officerPhone().screen;
+  reloaded.start();
+  await flush();
+  reloaded.dispatch(TOGGLE);
+  const card = () => reloaded.getFrame().model.match.privateArea.content.actions.cards[0];
+  assert.equal(card().statusLabel, 'Checking');
+  assert.equal(card().body.text, 'This page was reloaded before the server answered. Checking whether your shot was registered…');
+  for (const intent of [OPEN, choose('seat-4'), CONFIRM]) reloaded.dispatch(intent);
+  assert.equal(JSON.stringify(card()).includes('shot/open'), false, 'No new target is offered while the earlier request is unaccounted for');
+  // The earlier request lands. The view lists the command the page was asking about.
+  arrive();
+  await flush();
+  assert.equal(card().statusLabel, 'Registered');
+  assert.equal(card().body.text, 'Your shot is registered.');
+  assert.equal(w.sent.length, 1);
+  assert.equal(w.scenario.status().commands.receipts, 1);
+});
+
+test('journey: refresh after a request that never arrived. Nothing is replayed, the card stays locked for that turn, and then says the shot was not registered', async () => {
   const w = await world();
   w.scenario.setCommandService('silent');
   await w.confirm('seat-3');
@@ -294,16 +334,21 @@ test('journey: refresh after a request that never arrived. Nothing is registered
   await flush();
   reloaded.dispatch(TOGGLE);
   const card = () => reloaded.getFrame().model.match.privateArea.content.actions.cards[0];
-  assert.equal(card().statusLabel, 'Available');
-  await w.host.advance(30_000);
+  await w.host.advance(FIRST + SECOND + THIRD + GUARD);
+  // No receipt exists, and the page cannot send the shot again: it kept no target.
+  assert.equal(card().statusLabel, 'Result unknown');
+  assert.equal(card().body.detail, 'This page was reloaded before the server answered, so it cannot send the shot again. Do not assume either way.');
+  assert.equal(card().body.secondary, null, 'Locked while that turn is open: a new choice could race a request still on its way');
+  for (const intent of [OPEN, choose('seat-4'), CONFIRM, DISMISS]) reloaded.dispatch(intent);
   assert.equal(w.sent.length, 1, 'No gameplay was queued to be replayed after the reload');
-  reloaded.dispatch(OPEN);
-  reloaded.dispatch(choose('seat-4'));
-  await w.host.advance(GUARD);
-  reloaded.dispatch(CONFIRM);
+  // The turn ends. No receipt exists and the command can no longer be accepted.
+  w.scenario.endFirstTurn();
   await flush();
-  assert.equal(card().body.text, 'Shot at Player 4 registered.');
-  assert.notEqual(w.sent[1].commandId, w.sent[0].commandId);
+  assert.equal(card().statusLabel, 'Not registered');
+  assert.equal(card().body.text, 'Not registered. The turn ended before the server received your shot.');
+  assert.equal(w.scenario.viewFor('seat-1').self.shotAvailable, true, 'Nothing was spent');
+  assert.equal(w.sent.length, 1);
+  assert.equal(w.host.kept, null);
 });
 
 test('journey: background and resume across a deadline. A choice left on screen is gone, nothing was sent, and the phone shows the server’s present', async () => {
@@ -352,7 +397,7 @@ test('journey: resume with a command still unresolved. Returning to the foregrou
 test('journey: a registration is not a resolution. Stepping the script on shows no outcome on any screen', async () => {
   const w = await world();
   await w.confirm();
-  w.officer.dispatch(DISMISS);
+  await w.acknowledge();
   while (w.scenario.advance()) await flush();
   await flush();
   assert.equal(w.officer.getFrame().model.match.phase.phaseLabel, 'Round resolution');

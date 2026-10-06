@@ -39,7 +39,7 @@ function applyShotIntent(flow: ShotFlow, intent: ShellIntent): boolean | null {
 export function createPlayerScreen(options: PlayerScreenOptions): ScreenController<PlayerShellModel> {
   const session = createPlayerSession(options);
   const api = createPlayerApiClient(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
-  const flow = createShotFlow({ api, ports: options.ports, timing: options.shotTiming });
+  const flow = createShotFlow({ api, ports: options.ports, matchId: options.matchId, timing: options.shotTiming });
 
   return createScreen<PlayerView, PlayerShellInput, PlayerShellModel>({
     session,

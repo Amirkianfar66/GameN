@@ -224,9 +224,10 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
         if (result.answered === 'later') {
           // A request that is slow to arrive: the desk sees it only after the wait.
           await new Promise(resolveDelay => setTimeout(resolveDelay, result.delayMs));
-          // The page may have gone, or the server may be closing, in the meantime.
-          if (response.destroyed || response.socket?.destroyed) return undefined;
+          // The server may be closing in the meantime. A page that has gone away does not
+          // take its request back, though: it still arrives, as a real one would.
           result = result.resume();
+          if (response.destroyed || response.socket?.destroyed) return undefined;
         }
         // No answer: a gateway error with nothing in it, which the harness transport reports
         // as a failed request. The connection is deliberately not cut instead: a browser

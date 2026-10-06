@@ -163,6 +163,31 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
     return scripted ? { ...base, status: 'accepted', code: 'REGISTERED' } : reject('NOT_ALLOWED');
   }
 
+  // A command request reaching the desk.
+  function arrive(audience, payload, plan) {
+    const admitted = admit(audience, payload, RegisterShotSchema);
+    if (admitted.refused) return answer(admitted.refused);
+    if (plan === 'unavailable') return answer(failure('UNAVAILABLE'));
+    const { request } = admitted;
+    const key = `${audience} ${request.commandId}`;
+    const digest = JSON.stringify([request.protocolVersion, request.matchId, request.phaseId, request.commandId, request.command.type, request.command.targetSeatId]);
+    const stored = receipts.get(key);
+    let receipt;
+    if (stored !== undefined) {
+      // The same identifier again. Another payload conflicts and leaves the original alone;
+      // the identical command gets its original receipt, before any look at phase or time.
+      if (stored.digest !== digest) return answer(failure('COMMAND_ID_CONFLICT'));
+      receipt = stored.receipt;
+    } else {
+      receipt = decide(audience, request, plan);
+      receipts.set(key, { digest, receipt });
+      lastReceipt = { audience, status: receipt.status, code: receipt.code };
+      if (receipt.status === 'accepted') register(audience, request.commandId);
+    }
+    if (plan === 'lose-acknowledgment') return { answered: false };
+    return answer({ ok: true, serverTimeMs: Math.round(serverTimeMs()), receipt: clone(receipt) });
+  }
+
   // Applies the authored registration to the actor's own view and to no other. For the
   // Officer on the first step this yields the authored afterRegistration view, with the
   // client's command identifier in place of the authored one.
@@ -212,28 +237,10 @@ export function createScenario({ now = Date.now, variant = 'protected', slowAnsw
       commandPlan = 'scripted';
       if (plan === 'drop-request') return { answered: false };
       // Still on its way. The desk has not seen it, so nothing is decided and no view changes.
-      if (plan === 'slow') return { answered: 'later', delayMs: slowAnswerMs, resume: () => scenario.submitCommand(audience, payload) };
-      const admitted = admit(audience, payload, RegisterShotSchema);
-      if (admitted.refused) return answer(admitted.refused);
-      if (plan === 'unavailable') return answer(failure('UNAVAILABLE'));
-      const { request } = admitted;
-      const key = `${audience} ${request.commandId}`;
-      const digest = JSON.stringify([request.protocolVersion, request.matchId, request.phaseId, request.commandId, request.command.type, request.command.targetSeatId]);
-      const stored = receipts.get(key);
-      let receipt;
-      if (stored !== undefined) {
-        // The same identifier again. Another payload conflicts and leaves the original alone;
-        // the identical command gets its original receipt, before any look at phase or time.
-        if (stored.digest !== digest) return answer(failure('COMMAND_ID_CONFLICT'));
-        receipt = stored.receipt;
-      } else {
-        receipt = decide(audience, request, plan);
-        receipts.set(key, { digest, receipt });
-        lastReceipt = { audience, status: receipt.status, code: receipt.code };
-        if (receipt.status === 'accepted') register(audience, request.commandId);
-      }
-      if (plan === 'lose-acknowledgment') return { answered: false };
-      return answer({ ok: true, serverTimeMs: Math.round(serverTimeMs()), receipt: clone(receipt) });
+      // When it arrives it is answered as scripted, whatever was arranged in the meantime
+      // for a later request.
+      if (plan === 'slow') return { answered: 'later', delayMs: slowAnswerMs, resume: () => (commandService === 'silent' ? { answered: false } : arrive(audience, payload, 'scripted')) };
+      return arrive(audience, payload, plan);
     },
     /** A receipt lookup from one seat. It reads what is stored and changes nothing. */
     lookupReceipt(audience, payload) {

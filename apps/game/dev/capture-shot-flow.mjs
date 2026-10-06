@@ -41,7 +41,7 @@ const CARD = `(() => {
       status: state.dataset.status, step: state.dataset.step, selected: state.dataset.selected,
       statusLabel: state.querySelector('.ms-card__status').textContent,
       lines: [...state.querySelectorAll('p:not(.ms-card__status)')].map(node => node.textContent),
-      controls: [...state.querySelectorAll('button')].map(node => node.id + ': ' + node.textContent),
+      controls: [...state.querySelectorAll('button')].map(node => node.id + ': ' + node.textContent + (node.getAttribute('aria-disabled') === 'true' ? ' (not active yet)' : '')),
       notice: document.querySelector('.ms-actions .ms-notice')?.textContent ?? null,
     },
   };
@@ -87,6 +87,9 @@ async function main(outputDirectory) {
   const status = name => `document.querySelector('.ms-card__state')?.dataset.status === ${JSON.stringify(name)}`;
   const step = name => `document.querySelector('.ms-card__state')?.dataset.step === ${JSON.stringify(name)}`;
 
+  /** A control that has just appeared is not active for a moment. Waits until it is, as a person would have to. */
+  const untilActive = (page, id) => page.waitFor(`document.getElementById(${JSON.stringify(id)}) && document.getElementById(${JSON.stringify(id)}).getAttribute('aria-disabled') !== 'true'`, `#${id} active`);
+
   /** Opens the private panel with the keyboard alone. */
   async function openPanel(page) {
     await page.tabTo('ms-private-toggle');
@@ -108,7 +111,7 @@ async function main(outputDirectory) {
     await page.tabTo(`ms-shot-target-${seatId}`);
     await page.press('Enter');
     await page.waitFor(step('confirming'), 'confirm step');
-    await sleep(500);
+    await untilActive(page, 'ms-shot-confirm');
   }
 
   try {
@@ -181,8 +184,8 @@ async function main(outputDirectory) {
     await sleep(200);
     await record('05b-confirm-tapped-the-moment-it-appeared', playerOne, { secondTapWithinMs, commandRequestsSoFar: commandCalls(mark) });
 
-    // Then, after a moment, deliberately. The request is arranged to be slow to arrive.
-    await sleep(500);
+    // Then, once the control is active, deliberately. The request is arranged to be slow to arrive.
+    await untilActive(playerOne, 'ms-shot-confirm');
     scenario.planNextCommand('slow');
     const others = { table: await table.evaluate(WITHOUT_TIMER), target: await playerTwo.evaluate(WITHOUT_TIMER) };
     const tappedAt = Date.now();
@@ -214,6 +217,7 @@ async function main(outputDirectory) {
     await record('08b-back-in-the-foreground', playerOne, { privateLeftovers: await playerOne.evaluate(PRIVATE_LEFTOVERS) });
     await openPanel(playerOne);
     await record('08c-panel-reopened', playerOne);
+    await untilActive(playerOne, 'ms-shot-dismiss');
     await playerOne.tabTo('ms-shot-dismiss');
     await playerOne.press('Enter');
     await playerOne.waitFor(step('idle'), 'acknowledged');
@@ -244,6 +248,7 @@ async function main(outputDirectory) {
     await record('12-result-unknown', playerOne, { commandRequestsWhileSilent: commandCalls(mark), controlSizes: await playerOne.evaluate(SIZES) });
     scenario.setCommandService('answering');
     mark = requests.length;
+    await untilActive(playerOne, 'ms-shot-check');
     await playerOne.tabTo('ms-shot-check');
     await playerOne.press('Enter');
     await playerOne.waitFor(status('registered'), 'settled after checking again', 8_000);
@@ -261,6 +266,7 @@ async function main(outputDirectory) {
     await sleep(200);
     await playerOne.screenshot(join(out, '13-not-registered.png'), { selector: '[data-region="private"]' });
     await record('13-not-registered', playerOne);
+    await untilActive(playerOne, 'ms-shot-dismiss');
     await playerOne.tabTo('ms-shot-dismiss');
     await playerOne.press('Enter');
     await playerOne.waitFor(status('available'), 'back to available');
@@ -290,7 +296,63 @@ async function main(outputDirectory) {
     await playerOne.waitFor("document.querySelector('.ms-shell').dataset.connection === 'live'", 'reconnected');
     await record('15b-reconnected', playerOne);
 
-    // 10. A narrow phone with text doubled, through the whole flow by touch.
+    // 10. A double tap on "Register shot". The first tap sends; the second lands on whatever
+    // replaced the control. With a server that answers at once that is the result's own
+    // control, and the result must still be there to be read afterwards.
+    for (const [name, plan] of [['16-double-tap-on-register-accepted', 'scripted'], ['17-double-tap-on-register-rejected', 'reject-not-allowed']]) {
+      await restart(all);
+      await playerOne.foreground();
+      await openPanel(playerOne);
+      await playerOne.tap('#ms-shot-open');
+      await playerOne.waitFor(step('targeting'), 'target list');
+      await playerOne.tap('#ms-shot-target-seat-2');
+      await playerOne.waitFor(step('confirming'), 'confirm step');
+      await untilActive(playerOne, 'ms-shot-confirm');
+      scenario.planNextCommand(plan);
+      mark = requests.length;
+      const where = await playerOne.tap('#ms-shot-confirm', { times: 2, gapMs: 150 });
+      await sleep(700);
+      await record(name, playerOne, {
+        tappedTwiceAt: where,
+        elementUnderTheSecondTap: await playerOne.evaluate(`document.elementFromPoint(${where.x}, ${where.y})?.closest('button, p, li, div')?.id || null`),
+        commandRequests: commandCalls(mark),
+        receiptsStored: scenario.status().commands.receipts,
+      });
+      if (plan !== 'scripted') await playerOne.screenshot(join(out, '17-rejection-still-shown-after-a-double-tap.png'), { selector: '[data-region="private"]' });
+    }
+
+    // 11. The page is reloaded while its request is still on its way. Only the command's
+    // identifiers were kept; the reloaded page asks about it and offers no new target.
+    await restart(all);
+    await playerOne.foreground();
+    await openPanel(playerOne);
+    await keyboardToConfirm(playerOne, 'seat-3');
+    scenario.planNextCommand('slow');
+    mark = requests.length;
+    await playerOne.tabTo('ms-shot-confirm');
+    await playerOne.press('Enter');
+    await playerOne.waitFor(status('submitting'), 'submitting before the reload');
+    const KEPT = "Object.fromEntries(Object.keys(sessionStorage).map(key => [key, Object.keys(JSON.parse(sessionStorage.getItem(key))).sort()]))";
+    const keptWhileUnresolved = await playerOne.evaluate(KEPT);
+    const keptMentionsTheTarget = await playerOne.evaluate("Object.values(sessionStorage).some(value => /seat-3|REGISTER_SHOT|Officer|target/.test(value))");
+    await playerOne.reload();
+    await playerOne.foreground();
+    await record('18-reloaded-while-the-request-was-on-its-way', playerOne, { privateLeftovers: await playerOne.evaluate(PRIVATE_LEFTOVERS) });
+    await openPanel(playerOne);
+    await playerOne.screenshot(join(out, '18-reloaded-checking.png'), { selector: '[data-region="private"]' });
+    await record('18b-reloaded-panel-open', playerOne, { receiptsStoredSoFar: scenario.status().commands.receipts });
+    await playerOne.waitFor(status('registered'), 'the earlier request landed', 8_000);
+    await sleep(500);
+    await playerOne.screenshot(join(out, '19-reloaded-registered.png'), { selector: '[data-region="private"]' });
+    await record('19-reloaded-registered', playerOne, { commandRequests: commandCalls(mark), receiptsStored: scenario.status().commands.receipts });
+    facts.keptAcrossAReload = {
+      whileUnresolved: keptWhileUnresolved,
+      mentionsTargetRoleOrCommandKind: keptMentionsTheTarget,
+      afterTheOutcomeIsKnown: await playerOne.evaluate(KEPT),
+    };
+
+    // 12. A narrow phone with text doubled, through the whole flow by touch.
+    await restart(all);
     const narrow = await openPage(browser, { width: 320, height: 640, scale: 2, mobile: true });
     await narrow.goto(`${origin}/harness/player.html?seat=seat-1`);
     await narrow.foreground();
@@ -301,25 +363,25 @@ async function main(outputDirectory) {
     await narrow.tap('#ms-shot-open');
     await narrow.waitFor(step('targeting'), 'target list on the narrow phone');
     await sleep(200);
-    await narrow.screenshot(join(out, '16-narrow-200-percent-choosing.png'), { selector: '[data-region="private"]' });
-    await record('16-narrow-200-percent-choosing', narrow, { controlSizes: await narrow.evaluate(SIZES), rootFontSize: await narrow.evaluate('getComputedStyle(document.documentElement).fontSize') });
+    await narrow.screenshot(join(out, '20-narrow-200-percent-choosing.png'), { selector: '[data-region="private"]' });
+    await record('20-narrow-200-percent-choosing', narrow, { controlSizes: await narrow.evaluate(SIZES), rootFontSize: await narrow.evaluate('getComputedStyle(document.documentElement).fontSize') });
     await narrow.tap('#ms-shot-target-seat-6');
     await narrow.waitFor(step('confirming'), 'confirm step on the narrow phone');
-    await sleep(500);
-    await narrow.screenshot(join(out, '17-narrow-200-percent-confirming.png'), { selector: '[data-region="private"]' });
-    await record('17-narrow-200-percent-confirming', narrow, { controlSizes: await narrow.evaluate(SIZES) });
+    await untilActive(narrow, 'ms-shot-confirm');
+    await narrow.screenshot(join(out, '21-narrow-200-percent-confirming.png'), { selector: '[data-region="private"]' });
+    await record('21-narrow-200-percent-confirming', narrow, { controlSizes: await narrow.evaluate(SIZES) });
     await narrow.tap('#ms-shot-confirm');
     await narrow.waitFor(status('registered'), 'registered on the narrow phone', 8_000);
     await sleep(200);
-    await narrow.screenshot(join(out, '18-narrow-200-percent-registered.png'), { selector: '[data-region="private"]' });
-    await record('18-narrow-200-percent-registered', narrow, { controlSizes: await narrow.evaluate(SIZES) });
+    await narrow.screenshot(join(out, '22-narrow-200-percent-registered.png'), { selector: '[data-region="private"]' });
+    await record('22-narrow-200-percent-registered', narrow, { controlSizes: await narrow.evaluate(SIZES) });
     // The first phone, same seat, learns of it from its own view and knows no target.
     await playerOne.foreground();
     await openPanel(playerOne);
     await playerOne.waitFor(status('registered'), 'the other device of the same seat sees a registration');
-    await record('18b-same-seat-other-device', playerOne);
+    await record('22b-same-seat-other-device', playerOne);
 
-    // 11. What the pages kept, what the browser complained about, and what was asked of the server.
+    // 13. What the pages kept, what the browser complained about, and what was asked of the server.
     facts.storage = await playerOne.evaluate(`(async () => ({
       localStorageKeys: Object.keys(localStorage), sessionStorageKeys: Object.keys(sessionStorage), cookie: document.cookie,
       indexedDatabases: (await indexedDB.databases()).map(database => database.name),

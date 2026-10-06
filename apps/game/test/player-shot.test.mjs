@@ -13,7 +13,7 @@ import { createFakeHost, createFakeTransport, flush } from './support/fakes.mjs'
 const { before } = createOfficerFixture('protected');
 const matchId = before.public.matchId;
 const SERVER_EPOCH = before.public.phase.startedAt;
-const GUARD = DEFAULT_SHOT_FLOW_TIMING.confirmGuardMs;
+const GUARD = DEFAULT_SHOT_FLOW_TIMING.controlGuardMs;
 const [FIRST, SECOND, THIRD] = DEFAULT_SHOT_FLOW_TIMING.recheckDelaysMs;
 const TOGGLE = { type: 'private/toggle' };
 const OPEN = { type: 'shot/open' };
@@ -27,10 +27,10 @@ function variant(view, change) {
 }
 const listing = (view, commandId) => variant(view, v => { v.viewRevision += 1; v.self.shotAvailable = false; v.ownPendingCommandIds = [commandId]; });
 
-function setup() {
+function setup({ ports } = {}) {
   const host = createFakeHost({ serverStart: SERVER_EPOCH });
   const fake = createFakeTransport(host);
-  const screen = createPlayerScreen({ transport: fake.transport, matchId, ports: host.ports, host: { reload() {} } });
+  const screen = createPlayerScreen({ transport: fake.transport, matchId, ports: ports ? ports(host) : host.ports, host: { reload() {} } });
   const frames = [];
   screen.subscribe(() => frames.push(screen.getFrame()));
   const receipt = (command, status, code) => ({ protocolVersion: 1, matchId: command.matchId, phaseId: command.phaseId, commandId: command.commandId, status, code });
@@ -81,6 +81,7 @@ test('available to registered by keyboard or tap alone: each step is focused on 
   // Focus is on the question, never on the control that would send the answer.
   assert.deepEqual(s.frame().focus, { seq: 2, targetId: SHELL_IDS.shotStep });
   assert.equal(s.frame().announcement, connected, 'Steps the player takes are read from focus, not announced');
+  assert.equal(s.frame().privateAnnouncement, null);
   assert.equal(s.sent().length, 0);
 
   await s.host.advance(GUARD);
@@ -90,15 +91,25 @@ test('available to registered by keyboard or tap alone: each step is focused on 
   assert.deepEqual(s.card().body, { step: 'busy', text: 'Sending your shot to the server…' });
   // Focus rests on the card title, which is not redrawn while the answer is awaited.
   assert.deepEqual(s.frame().focus, { seq: 3, targetId: SHELL_IDS.shotTitle });
-  assert.deepEqual(s.frame().announcement, { seq: connected.seq + 1, politeness: 'polite', text: 'Sending your shot to the server…', private: true });
+  assert.deepEqual(s.frame().privateAnnouncement, { seq: connected.seq + 1, politeness: 'polite', text: 'Sending your shot to the server…' });
+  assert.equal(s.frame().announcement, connected, 'The public channel says nothing about a command');
   assert.equal(s.sent().length, 1);
 
   await flush();
   assert.equal(s.card().status, 'registered');
   assert.equal(s.card().body.text, 'Shot at Player 2 registered.');
-  assert.deepEqual(s.frame().announcement, { seq: connected.seq + 2, politeness: 'polite', text: 'Shot at Player 2 registered.', private: true });
+  assert.deepEqual(s.frame().privateAnnouncement, { seq: connected.seq + 2, politeness: 'polite', text: 'Shot at Player 2 registered.' });
+  assert.equal(s.frame().announcement, connected);
   assert.deepEqual(s.frame().focus, { seq: 3, targetId: SHELL_IDS.shotTitle }, 'An answer from the server does not move focus');
   assert.deepEqual(auditMarkup(renderPlayerShell(s.frame().model)), []);
+
+  // The control that acknowledges has only just appeared where the confirm control was: it
+  // is drawn as not active, a press on it does nothing, and a moment later it is active.
+  assert.equal(s.card().body.action.disabled, true);
+  s.screen.dispatch({ type: 'shot/dismiss' });
+  assert.equal(s.card().body.text, 'Shot at Player 2 registered.', 'Still there to be read');
+  await s.host.advance(GUARD);
+  assert.equal(s.card().body.action.disabled, false);
 
   // The player's own view catches up; the acknowledged card then follows it.
   await s.fake.deliver(listing(before.officer, s.sent()[0].commandId));
@@ -167,6 +178,9 @@ test('a shot intent does nothing where no shot control is on screen', async () =
   await unseen.toConfirm();
   unseen.screen.dispatch(CONFIRM);
   await flush();
+  // Its control is active by now, so only the closed panel stands between the intent and the flow.
+  await unseen.host.advance(GUARD);
+  assert.equal(unseen.card().body.action.disabled, false);
   unseen.screen.dispatch(TOGGLE);
   unseen.screen.dispatch({ type: 'shot/dismiss' });
   unseen.screen.dispatch(TOGGLE);
@@ -178,7 +192,8 @@ test('a shot intent does nothing where no shot control is on screen', async () =
   await lost.toConfirm();
   lost.screen.dispatch(CONFIRM);
   await flush();
-  await lost.host.advance(FIRST + SECOND + THIRD);
+  await lost.host.advance(FIRST + SECOND + THIRD + GUARD);
+  assert.equal(lost.card().body.action.disabled, false);
   lost.screen.dispatch(TOGGLE);
   const asked = lost.looked().length;
   lost.screen.dispatch({ type: 'shot/check-again' });
@@ -242,31 +257,32 @@ test('a command in flight survives backgrounding; its result waits unseen and un
   s.fake.respond.submitCommand = command => new Promise(resolve => { release = () => resolve(s.answers.accepted(command)); });
   await s.toConfirm();
   s.screen.dispatch(CONFIRM);
-  const submitting = s.frame().announcement;
-  assert.equal(submitting.private, true);
+  const submitting = s.frame().privateAnnouncement;
+  assert.equal(submitting.text, 'Sending your shot to the server…');
 
   s.screen.setPageVisible(false);
   // The private line that was just spoken leaves the frame with the panel.
-  assert.equal(s.frame().announcement, null);
+  assert.equal(s.frame().privateAnnouncement, null);
   release();
   await flush();
   assert.equal(s.frame().model.match.privateArea.content, null);
-  assert.equal(s.frame().announcement, null, 'Nothing is spoken while nobody may be looking at the right screen');
+  assert.equal(s.frame().privateAnnouncement, null, 'Nothing is spoken while nobody may be looking at the right screen');
   assert.equal(JSON.stringify(s.frame()).includes('egistered'), false);
   assert.equal(s.html().includes('egistered'), false);
 
   s.screen.setPageVisible(true);
   await flush();
   assert.equal(s.card(), null);
-  assert.equal(s.frame().announcement, null, 'Returning says nothing about the command either');
+  assert.equal(s.frame().privateAnnouncement, null, 'Returning says nothing about the command either');
+  assert.doesNotMatch(s.frame().announcement.text, /shot|register|sending/i);
 
   s.screen.dispatch(TOGGLE);
   assert.equal(s.card().status, 'registered');
-  assert.deepEqual(s.frame().announcement, { seq: submitting.seq + 1, politeness: 'polite', text: 'Shot at Player 2 registered.', private: true });
-  const said = s.frame().announcement;
+  assert.deepEqual([s.frame().privateAnnouncement.politeness, s.frame().privateAnnouncement.text], ['polite', 'Shot at Player 2 registered.']);
+  const said = s.frame().privateAnnouncement;
   s.screen.dispatch(TOGGLE);
   s.screen.dispatch(TOGGLE);
-  assert.equal(s.frame().announcement, null, 'Said once: reopening the panel again repeats nothing');
+  assert.equal(s.frame().privateAnnouncement, null, 'Said once: reopening the panel again repeats nothing');
   assert.equal(said.seq > submitting.seq, true, 'A sequence number is never reused, so a host cannot mistake a new line for an old one');
   assert.equal(s.sent().length, 1);
 });
@@ -278,11 +294,13 @@ test('closing the private panel withdraws private speech from the host, every ti
   await s.toConfirm();
   s.screen.dispatch(CONFIRM);
   await flush();
-  assert.equal(s.frame().announcement.private, true);
+  assert.equal(s.frame().privateAnnouncement.text, 'Shot at Player 2 registered.');
   const epoch = s.frame().privacyEpoch;
+  const publicLine = s.frame().announcement;
   s.screen.dispatch(TOGGLE);
   assert.equal(s.frame().privacyEpoch, epoch + 1);
-  assert.equal(s.frame().announcement, null);
+  assert.equal(s.frame().privateAnnouncement, null);
+  assert.equal(s.frame().announcement, publicLine, 'What anyone could be told is not withdrawn');
   assert.equal(JSON.stringify(s.frame()).includes('Player 2 registered'), false, 'Closed, the frame holds nothing private in any field');
   s.screen.dispatch(TOGGLE);
   assert.equal(s.frame().privacyEpoch, epoch + 1, 'Opening withdraws nothing');
@@ -301,6 +319,10 @@ test('a lost connection blocks new submissions and drops an unsent choice, witho
   await s.toConfirm();
   await s.fake.disconnect();
   assert.equal(s.frame().model.connection, 'stale');
+  // Said on two channels in one redraw, the public one first, and never as one sentence: a
+  // host that withdraws private speech must not take the public line with it.
+  assert.deepEqual(s.frame().announcement, { seq: 2, politeness: 'polite', text: 'Connection lost. Showing the last known state.' });
+  assert.deepEqual(s.frame().privateAnnouncement, { seq: 3, politeness: 'polite', text: 'Your choice was not sent.' });
   assert.equal(s.card().status, 'available');
   assert.deepEqual(s.card().body, { step: 'idle', open: null, reason: null, note: null });
   assert.equal(s.frame().model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
@@ -329,7 +351,7 @@ test('an unanswered command is reconciled across a reconnect instead of being re
   s.screen.dispatch(CONFIRM);
   await flush();
   assert.equal(s.card().status, 'checking');
-  assert.equal(s.frame().announcement.text, 'Checking whether your shot was registered…');
+  assert.equal(s.frame().privateAnnouncement.text, 'Checking whether your shot was registered…');
 
   await s.fake.disconnect();
   assert.equal(s.card().status, 'checking', 'An unresolved command is not abandoned because the feed dropped');
@@ -337,8 +359,10 @@ test('an unanswered command is reconciled across a reconnect instead of being re
   assert.equal(s.html().includes('shot/open'), false);
   await s.host.advance(FIRST + SECOND + THIRD);
   assert.equal(s.card().status, 'unknown');
-  assert.equal(s.frame().announcement.politeness, 'assertive');
-  assert.match(s.frame().announcement.text, /Result unknown\. The app could not confirm whether your shot was registered\./);
+  assert.equal(s.frame().privateAnnouncement.politeness, 'assertive');
+  assert.equal(s.frame().privateAnnouncement.text, 'Result unknown. The app could not confirm whether your shot was registered.');
+  // The public line of the same moments stayed on its own channel.
+  assert.equal(s.frame().announcement.text, 'Connection lost. Showing the last known state.');
   const asked = s.looked().length;
 
   // The same seat reconnects. The pending receipt is reconciled at once, by the same identifier.
@@ -363,8 +387,10 @@ test('Check again is one deliberate request; the card says plainly that the resu
   await flush();
   await s.host.advance(FIRST + SECOND + THIRD);
   assert.equal(s.card().statusLabel, 'Result unknown');
-  assert.deepEqual(s.card().body.action, { id: 'ms-shot-check', label: 'Check again', intent: 'shot/check-again', primary: true });
+  assert.deepEqual(s.card().body.action, { id: 'ms-shot-check', label: 'Check again', intent: 'shot/check-again', primary: true, disabled: true });
   assert.deepEqual(auditMarkup(renderPlayerShell(s.frame().model)), []);
+  await s.host.advance(GUARD);
+  assert.equal(s.card().body.action.disabled, false);
 
   const focusBefore = s.frame().focus.seq;
   const asked = s.looked().length;
@@ -376,10 +402,11 @@ test('Check again is one deliberate request; the card says plainly that the resu
   assert.equal(s.card().status, 'unknown');
 
   s.onLookup(request => ({ status: 'found', serverTimeMs: s.host.serverNow(), receipt: { protocolVersion: 1, matchId: request.matchId, phaseId: s.sent()[0].phaseId, commandId: request.commandId, status: 'rejected', code: 'PHASE_CLOSED' } }));
+  await s.host.advance(GUARD);
   s.screen.dispatch({ type: 'shot/check-again' });
   await flush();
   assert.equal(s.card().statusLabel, 'Not registered');
-  assert.equal(s.card().body.text, 'Not registered. The turn had already ended.');
+  assert.equal(s.card().body.text, 'Not registered. It reached the server after the turn had ended.');
   assert.equal(s.sent().length, 1);
 });
 
@@ -392,10 +419,14 @@ test('a rejection is shown and spoken at once; choosing again is a new command',
   await flush();
   assert.equal(s.card().status, 'not-registered');
   assert.equal(s.card().body.text, 'Not registered. The server did not allow this shot.');
-  assert.deepEqual([s.frame().announcement.politeness, s.frame().announcement.text, s.frame().announcement.private], ['assertive', 'Not registered. The server did not allow this shot.', true]);
+  assert.deepEqual([s.frame().privateAnnouncement.politeness, s.frame().privateAnnouncement.text], ['assertive', 'Not registered. The server did not allow this shot.']);
   assert.equal(s.html().includes('egistered.'), true);
   assert.equal(s.card().selected, false);
 
+  // A double tap on "Register shot" must not take the rejection away before it is read.
+  s.screen.dispatch({ type: 'shot/dismiss' });
+  assert.equal(s.card().status, 'not-registered');
+  await s.host.advance(GUARD);
   s.screen.dispatch({ type: 'shot/dismiss' });
   assert.equal(s.card().status, 'available');
   // Back at the start, focus returns to the control that opens the flow.
@@ -434,7 +465,7 @@ test('a confirmation made in the last moment is still the server’s to judge', 
   s.onSubmit(s.answers.rejected('PHASE_CLOSED'));
   s.screen.dispatch(CONFIRM);
   await flush();
-  assert.equal(s.card().body.text, 'Not registered. The turn had already ended.');
+  assert.equal(s.card().body.text, 'Not registered. It reached the server after the turn had ended.');
 });
 
 test('the target list follows the view while the player is choosing', async () => {
@@ -462,7 +493,111 @@ test('disposing the screen cancels what it was waiting for and leaves no timer b
   const count = s.frames.length;
   s.screen.dispose();
   assert.equal(s.host.pendingTimers(), 0);
+  // Disposal cancels the request that was out. What follows from that must be nothing: the
+  // flow may not treat the cancellation as an unanswered command and start checking.
+  await flush();
+  assert.equal(s.host.pendingTimers(), 0, 'Nothing was scheduled by the cancelled request');
   await s.host.advance(120_000);
   assert.equal(s.frames.length, count);
   assert.equal(s.looked().length, 0);
+  assert.equal(s.sent().length, 1);
+});
+
+test('a control becoming active is a redraw of its own, and says nothing', async () => {
+  const s = setup();
+  await s.ready();
+  s.screen.dispatch(OPEN);
+  s.screen.dispatch(choose('seat-2'));
+  assert.equal(s.card().body.confirm.disabled, true);
+  const said = [s.frame().announcement, s.frame().privateAnnouncement];
+  const focus = s.frame().focus;
+  const drawn = s.frames.length;
+  await s.host.advance(GUARD);
+  assert.equal(s.card().body.confirm.disabled, false);
+  assert.equal(s.frames.length > drawn, true, 'The host hears of it, or the control would stay drawn as inactive');
+  assert.deepEqual([s.frame().announcement, s.frame().privateAnnouncement], said);
+  assert.equal(s.frame().focus, focus, 'Focus is not moved again: it stays on the question');
+});
+
+test('an intent is judged against the present, not against the last frame that happened to be drawn', async () => {
+  // A host whose timers are late: the clock moves on but no tick has redrawn the screen.
+  let late = 0;
+  const s = setup({ ports: host => ({ ...host.ports, clock: { now: () => host.localNow() + late } }) });
+  await s.ready();
+  await s.toConfirm();
+  assert.equal(s.card().status, 'confirming');
+  assert.equal(s.frame().model.match.phase.timer.state, 'running');
+  // The turn's minute runs out without this page having redrawn.
+  late = 61_000;
+  assert.equal(s.card().body.confirm.intent, 'shot/confirm', 'The stale frame still shows the control');
+  s.screen.dispatch(CONFIRM);
+  assert.equal(s.sent().length, 0, 'Nothing is sent on the strength of a stale frame');
+  assert.equal(s.frame().model.match.phase.timer.state, 'expired');
+  assert.equal(s.card().body.open, null);
+});
+
+test('once private content has left the screen the frame holds nothing of the flow in any field', async () => {
+  const leftovers = frame => ['ms-shot', 'shot/', 'Player 2', 'egistered', 'Sending', 'Officer'].filter(word => JSON.stringify({ ...frame, model: { ...frame.model, match: { ...frame.model.match, roster: null, location: null } } }).includes(word));
+  // Every way of leaving: the toggle, backgrounding, a recovery screen.
+  const leave = {
+    'closing the panel': async s => { s.screen.dispatch(TOGGLE); },
+    'backgrounding the page': async s => { s.screen.setPageVisible(false); },
+  };
+  for (const [name, away] of Object.entries(leave)) {
+    const s = setup();
+    await s.ready();
+    s.onSubmit(s.answers.rejected('NOT_ALLOWED'));
+    await s.toConfirm();
+    s.screen.dispatch(CONFIRM);
+    await flush();
+    await s.host.advance(GUARD);
+    s.screen.dispatch({ type: 'shot/dismiss' });
+    // Focus was just sent to the control that opens the flow, which only a phone that can act has.
+    assert.equal(s.frame().focus.targetId, SHELL_IDS.shotOpen, name);
+    const focusSeq = s.frame().focus.seq;
+    await away(s);
+    assert.equal(s.frame().focus, null, name);
+    assert.equal(s.frame().privateAnnouncement, null, name);
+    assert.deepEqual(leftovers(s.frame()), [], name);
+    // A later request does not reuse a sequence number the host has already acted on.
+    if (name === 'backgrounding the page') s.screen.setPageVisible(true);
+    s.screen.dispatch(TOGGLE);
+    s.screen.dispatch(OPEN);
+    assert.equal(s.frame().focus.seq > focusSeq, true, name);
+  }
+  // A seat that never acted has the same empty frame fields.
+  const quiet = setup();
+  await quiet.ready();
+  quiet.screen.dispatch(TOGGLE);
+  assert.equal(quiet.frame().focus, null);
+  // The recovery screen's own focus request is public and stays.
+  const blocked = setup();
+  await blocked.ready();
+  blocked.screen.dispatch(OPEN);
+  await blocked.fake.deliver({ ...structuredClone(before.officer), versions: { ...before.officer.versions, protocolVersion: 2 } });
+  assert.equal(blocked.frame().focus.targetId, SHELL_IDS.blockedHeading);
+});
+
+test('an unknown result can be left once its turn is over, and the card then follows the view', async () => {
+  const s = setup();
+  await s.ready();
+  s.onSubmit(s.answers.lost);
+  s.onLookup(s.answers.lost);
+  await s.toConfirm();
+  s.screen.dispatch(CONFIRM);
+  await flush();
+  await s.host.advance(FIRST + SECOND + THIRD + GUARD);
+  assert.equal(s.card().body.secondary, null, 'While the turn is open there is only "Check again"');
+  // The next turn opens; the server still cannot be reached.
+  const later = variant(before.officer, v => { v.viewRevision += 3; v.phase = { id: 'phase-b', kind: 'ORDINARY_TURN', startedAt: v.phase.endsAt, endsAt: v.phase.endsAt + 60_000 }; v.activeSeatId = 'seat-2'; });
+  await s.fake.deliver(later);
+  await s.host.advance(FIRST + SECOND + THIRD + GUARD + 8_000);
+  assert.equal(s.card().statusLabel, 'Result unknown');
+  assert.equal(s.card().body.detail, 'That turn has ended, so nothing more can be registered for it. Do not assume either way.');
+  assert.deepEqual(s.card().body.secondary, { id: 'ms-shot-dismiss', label: 'Stop checking', intent: 'shot/dismiss', primary: false, disabled: false });
+  assert.deepEqual(auditMarkup(renderPlayerShell(s.frame().model)), []);
+  s.screen.dispatch({ type: 'shot/dismiss' });
+  assert.deepEqual(s.card().body, { step: 'idle', open: null, reason: 'You can register a shot during your own turn.', note: null });
+  assert.equal(s.host.kept, null);
+  assert.equal(s.sent().length, 1);
 });

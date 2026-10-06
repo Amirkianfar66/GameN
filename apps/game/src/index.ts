@@ -2,7 +2,7 @@
 // browser global, fixture or game rule lives here: a host supplies a transport and ports,
 // forwards input, and draws the model each controller produces.
 
-export type { ClientPorts, IdSource, MonotonicClock, PlayerPorts, Scheduler } from './ports.js';
+export type { ClientPorts, IdSource, MonotonicClock, PlayerPorts, Scheduler, UnresolvedCommandStore } from './ports.js';
 
 export type { FeedListener, GameTransport, PlayerTransport, PublicTransport, TransportMode, ViewFeed } from './transport/transport.js';
 export { createPlayerApiClient, createPublicApiClient, DEFAULT_API_TIMEOUT_MS } from './transport/api-client.js';
@@ -27,7 +27,7 @@ export { createPlayerScreen } from './screens/player-screen.js';
 export type { PlayerScreenOptions } from './screens/player-screen.js';
 export { createTableScreen } from './screens/table-screen.js';
 export type { TableScreenOptions } from './screens/table-screen.js';
-export type { IntentOutcome, ScreenController, ScreenFrame, ScreenHost } from './screens/screen.js';
+export type { IntentOutcome, ScreenController, ScreenFrame, ScreenHost, SpokenLine } from './screens/screen.js';
 
 export { shellBreakpoints, shellCssVariables, shellTokenStylesheet } from './styles/tokens-css.js';
 export type { ShellTokenSource } from './styles/tokens-css.js';

@@ -16,7 +16,7 @@ const environment = {
 };
 
 /** Nothing in progress on the Shot card, and nothing this device remembers registering. */
-export const IDLE_SHOT = { step: 'idle', registeredTargetSeatId: null };
+export const IDLE_SHOT = { step: 'idle', registered: null };
 
 export function playerInput(view, overrides = {}) {
   return { ...environment, view, privacy: { concealed: false, revealed: false }, shot: IDLE_SHOT, ...overrides };

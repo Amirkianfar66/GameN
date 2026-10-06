@@ -66,4 +66,8 @@ The operator console can arrange what happens to the next command request, once:
 
 “Fail every command and receipt request” keeps doing so until switched back, while the feeds carry on. “End Player 1's turn without the scripted registration” opens the next turn directly, to see what a phone does when the turn it acted in is over.
 
+## What a harness page keeps
+
+One thing, in the tab's session storage, under `mothership:unresolved-command`: the match, seat, phase and command identifiers of a command whose outcome is not yet known. The client core writes it when the command is sent and removes it as soon as the outcome is known. It never holds a target, a role or a payload. It is what lets a reloaded page ask what became of its command instead of offering the shot again. Nothing else is stored: no local storage, cookie, cache or database.
+
 A request that gets no answer fails at once with an empty `504`. A real one could also hang until the client gives up; the client's eight-second limit is covered by tests, not by this harness. The connection is deliberately not cut instead: Chrome 154 re-sent a single `fetch` six times, once per idle connection, when the server closed the connection before any response. That is worth knowing in itself — a command can be delivered more than once without any client code retrying it — and it is why the identical command must always get its original receipt back.

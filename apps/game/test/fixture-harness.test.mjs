@@ -411,6 +411,25 @@ test('the operator can arrange each kind of answer once; the desk then answers a
   const quick = createScenario({ now: () => 0, slowAnswerMs: 20 });
   quick.planNextCommand('slow');
   assert.equal(quick.submitCommand('seat-1', shot('a')).delayMs, 20);
+  // A request on its way is answered as scripted when it arrives. It neither uses up nor
+  // obeys whatever the operator arranged meanwhile for a later request.
+  const queued = fresh('slow');
+  const waiting = queued.submitCommand('seat-1', shot('a'));
+  queued.planNextCommand('slow');
+  const arrived = waiting.resume();
+  assert.deepEqual([arrived.answered, receiptOf(arrived).status], [true, 'accepted'], 'Decided on arrival, not held back a second time');
+  assert.equal(queued.status().commands.next, 'slow', 'The later arrangement is still waiting for its own request');
+  const rejectedLater = fresh('slow');
+  const first = rejectedLater.submitCommand('seat-1', shot('a'));
+  rejectedLater.planNextCommand('reject-not-allowed');
+  assert.equal(receiptOf(first.resume()).status, 'accepted');
+  assert.equal(receiptOf(rejectedLater.submitCommand('seat-1', shot('b'))).code, 'NOT_ALLOWED');
+  // If the service has gone silent by the time it arrives, it gets no answer like any other.
+  const silenced = fresh('slow');
+  const lateArrival = silenced.submitCommand('seat-1', shot('a'));
+  silenced.setCommandService('silent');
+  assert.deepEqual(lateArrival.resume(), { answered: false });
+  assert.equal(silenced.status().commands.receipts, 0);
 
   assert.throws(() => createScenario().planNextCommand('always-win'), /Unknown command plan/);
   assert.deepEqual(COMMAND_PLANS.includes('scripted') && COMMAND_PLANS.length, 7);
@@ -703,6 +722,17 @@ test('command and receipt requests work over HTTP for a named seat, and an arran
   assert.equal(response.headers.get('cache-control'), 'no-store');
   assert.deepEqual(CommandResponseSchema.parse(await response.json()).receipt, recovered.receipt);
   assert.equal(performance.now() - started >= 35, true);
+
+  // Two slow requests in a row: each is held back once and then answered in full.
+  devServer.scenario.planNextCommand('slow');
+  const firstSlow = post('/api/fixture/submit-command?audience=seat-1', shot('a'));
+  await new Promise(resolve => setTimeout(resolve, 10));
+  devServer.scenario.planNextCommand('slow');
+  const secondSlow = post('/api/fixture/submit-command?audience=seat-1', shot('a'));
+  for (const answer of [await firstSlow, await secondSlow]) {
+    assert.equal(answer.status, 200);
+    assert.deepEqual(CommandResponseSchema.parse(await answer.json()).receipt, recovered.receipt);
+  }
 
   devServer.scenario.setCommandService('silent');
   assert.equal((await post('/api/fixture/lookup-receipt?audience=seat-1', lookup('a'))).status, 504);

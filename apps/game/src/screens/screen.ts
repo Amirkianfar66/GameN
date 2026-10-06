@@ -1,18 +1,31 @@
 import { resolveScreen, SHELL_IDS } from '@mothership/presentation';
-import type { Announcer, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
+import type { Announcer, LiveAnnouncement, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
 import { estimateDeadline, millisecondsToNextSecond } from '../clock/deadline.js';
 import type { ClientPorts } from '../ports.js';
 import type { AudienceSession } from '../session/audience-session.js';
 
+/** One thing for the page's live region to say. A new seq means say it, even if the text repeats; seq only ever goes up. */
+export interface SpokenLine {
+  readonly seq: number;
+  readonly politeness: 'polite' | 'assertive';
+  readonly text: string;
+}
+
 export interface ScreenFrame<Model> {
   readonly model: Model;
+  /** What anyone at the table could be told: connection, phase, time, public status. */
+  readonly announcement: SpokenLine | null;
   /**
-   * Text for the page's live region. A new seq means it should be spoken, even if the text
-   * repeats; seq only ever goes up. A private line states something that belongs to this
-   * seat alone, and is gone from the frame once private content leaves the screen.
+   * What belongs to this seat alone, on a channel of its own so a host never mixes the two.
+   * It is set only while private content is on screen and is gone from the frame once it is
+   * not; whatever a host put into the document for it must go at the same moment.
    */
-  readonly announcement: { readonly seq: number; readonly politeness: 'polite' | 'assertive'; readonly text: string; readonly private: boolean } | null;
-  /** Set when the screen itself was replaced, or the player moved a step, and focus should follow. */
+  readonly privateAnnouncement: SpokenLine | null;
+  /**
+   * Set when the screen itself was replaced, or the player moved a step, and focus should
+   * follow. A new seq means move focus; seq only ever goes up. A request made inside the
+   * private panel is gone from the frame once private content leaves the screen.
+   */
   readonly focus: { readonly seq: number; readonly targetId: string } | null;
   /**
    * Goes up each time private content leaves the screen. Whatever private text a host put
@@ -79,9 +92,13 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
   const { session, ports } = config;
   const listeners = new Set<() => void>();
   let local: LocalState = { pageVisible: true, privateRevealed: false, deviceReducedMotion: false, motionChoice: null };
-  let announcement: ScreenFrame<Model>['announcement'] = null;
-  let announcementSeq = 0;
+  let announcement: SpokenLine | null = null;
+  let privateAnnouncement: SpokenLine | null = null;
+  let spokenSeq = 0;
   let focus: ScreenFrame<Model>['focus'] = null;
+  let focusSeq = 0;
+  /** The current focus request names an element that exists only inside the private panel. */
+  let focusIsPrivate = false;
   let privacyEpoch = 0;
   let privateWasOpen = false;
   let tick: unknown = null;
@@ -106,7 +123,7 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     return { input, model: config.buildModel(input), remainingMs: deadline.kind === 'running' ? deadline.remainingMs : null };
   }
 
-  let frame: ScreenFrame<Model> = { model: compute().model, announcement, focus, privacyEpoch };
+  let frame: ScreenFrame<Model> = { model: compute().model, announcement, privateAnnouncement, focus, privacyEpoch };
   let drawn = JSON.stringify(frame.model);
 
   function refresh(focusFor?: (model: Model) => string | null): void {
@@ -115,29 +132,40 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     tick = null;
 
     const { input, model, remainingMs } = compute();
-    const previousAnnouncement = announcement;
-    const previousFocus = focus;
     const privateOpen = local.pageVisible && local.privateRevealed;
     if (privateWasOpen && !privateOpen) {
       privacyEpoch += 1;
-      // Once private content has left the screen the frame carries no private line either.
-      if (announcement?.private === true) announcement = null;
+      // Once private content has left the screen the frame carries no private line either,
+      // and no request to focus something that only a phone able to act would have.
+      privateAnnouncement = null;
+      if (focusIsPrivate) focus = null;
+      focusIsPrivate = false;
     }
     privateWasOpen = privateOpen;
 
-    // A private line is spoken only in front of an open private panel, whatever produced it.
-    const spoken = config.announcer.next(input).filter(item => item.private !== true || privateOpen);
-    if (spoken.length > 0) {
-      announcementSeq += 1;
-      announcement = {
-        seq: announcementSeq,
-        politeness: spoken.some(item => item.politeness === 'assertive') ? 'assertive' : 'polite',
-        text: spoken.map(item => item.text).join(' '),
-        private: spoken.some(item => item.private === true),
+    const say = (lines: readonly LiveAnnouncement[]): SpokenLine => {
+      spokenSeq += 1;
+      return {
+        seq: spokenSeq,
+        politeness: lines.some(line => line.politeness === 'assertive') ? 'assertive' : 'polite',
+        text: lines.map(line => line.text).join(' '),
       };
+    };
+    const lines = config.announcer.next(input);
+    const open = lines.filter(line => line.private !== true);
+    // A private line is spoken only in front of an open private panel, whatever produced it.
+    const secret = privateOpen ? lines.filter(line => line.private === true) : [];
+    if (open.length > 0) announcement = say(open);
+    if (secret.length > 0) privateAnnouncement = say(secret);
+    const blocked = model.screen === 'blocked' && frame.model.screen !== 'blocked';
+    const requested = blocked ? SHELL_IDS.blockedHeading : focusFor?.(model) ?? null;
+    if (requested !== null) {
+      focusSeq += 1;
+      focus = { seq: focusSeq, targetId: requested };
+      // Only a surface's own intents ask for focus besides a recovery screen, and on a phone
+      // those all come from inside the private panel.
+      focusIsPrivate = !blocked;
     }
-    const requested = model.screen === 'blocked' && frame.model.screen !== 'blocked' ? SHELL_IDS.blockedHeading : focusFor?.(model) ?? null;
-    if (requested !== null) focus = { seq: (focus?.seq ?? 0) + 1, targetId: requested };
 
     // One redraw per displayed second while a match is on screen in the foreground. A timer
     // that fires a moment early finds the same second still showing and waits out the rest.
@@ -150,9 +178,9 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
 
     // Nothing to draw, say, focus or withdraw: keep the frame's identity and tell nobody.
     const serialized = JSON.stringify(model);
-    if (serialized === drawn && announcement === previousAnnouncement && focus === previousFocus && privacyEpoch === frame.privacyEpoch) return;
+    if (serialized === drawn && announcement === frame.announcement && privateAnnouncement === frame.privateAnnouncement && focus === frame.focus && privacyEpoch === frame.privacyEpoch) return;
     drawn = serialized;
-    frame = { model, announcement, focus, privacyEpoch };
+    frame = { model, announcement, privateAnnouncement, focus, privacyEpoch };
     for (const listener of [...listeners]) listener();
   }
 

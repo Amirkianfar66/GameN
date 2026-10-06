@@ -61,7 +61,7 @@ test('the Officer phone goes from connecting to its own turn with a full minute 
   assert.equal(model.title, 'Mothership — Player 1');
   assert.equal(model.match.phase.phaseLabel, 'Your turn');
   assert.deepEqual(timer(screen), { state: 'running', display: '1:00', spoken: '60 seconds remaining', finalSeconds: false });
-  assert.deepEqual(announcement, { seq: 1, politeness: 'polite', text: 'Connected. Round 2. Your turn.', private: false });
+  assert.deepEqual(announcement, { seq: 1, politeness: 'polite', text: 'Connected. Round 2. Your turn.' });
   assert.equal(model.match.privateArea.open, false);
   assert.equal(model.match.privateArea.content, null);
   assert.deepEqual(auditMarkup(renderPlayerShell(model)), []);
@@ -285,7 +285,7 @@ test('an incompatible protocol replaces the match with a recoverable screen and 
   assert.equal(frame.model.match, null);
   assert.equal(frame.model.blocked.heading, 'Update required');
   assert.deepEqual(frame.focus, { seq: 1, targetId: 'ms-blocked-heading' });
-  assert.deepEqual(frame.announcement, { seq: 2, politeness: 'assertive', text: 'Update required.', private: false });
+  assert.deepEqual(frame.announcement, { seq: 2, politeness: 'assertive', text: 'Update required.' });
   assert.equal(JSON.stringify(frame.model).includes('Officer'), false);
   assert.deepEqual(auditMarkup(renderPlayerShell(frame.model)), []);
 
@@ -453,4 +453,38 @@ test('dispose releases the feed, every timer and every listener', async () => {
   assert.equal(screen.getFrame(), frame);
   assert.equal(frames.length, count);
   assert.equal(fake.calls.subscribe, 1);
+});
+
+test('the screen itself refuses to carry a private line unless the private panel is open, whatever produced the line', async () => {
+  // The player announcer already keeps quiet while the panel is closed. This checks the
+  // screen's own refusal with an announcer that does not, reaching past the package entry
+  // for the generic controller on purpose.
+  const { createScreen } = await import('../dist/screens/screen.js');
+  const host = createFakeHost({ serverStart: SERVER_EPOCH });
+  const fake = createFakeTransport(host);
+  const { createPlayerSession } = await import('@mothership/game');
+  const session = createPlayerSession({ transport: fake.transport, matchId, ports: host.ports });
+  let line = 0;
+  const screen = createScreen({
+    session,
+    ports: host.ports,
+    host: { reload() {} },
+    phaseOf: view => view.phase,
+    buildInput: (environment, view, local) => ({ environment, view, local }),
+    buildModel: input => ({ screen: input.view === null ? 'connecting' : 'match', revealed: input.local.privateRevealed }),
+    announcer: { next: () => [{ politeness: 'polite', text: `public ${++line}` }, { politeness: 'assertive', text: `secret ${line}`, private: true }] },
+    handleIntent: (intent, { local }) => (intent.type === 'private/toggle' ? { local: { ...local, privateRevealed: !local.privateRevealed } } : null),
+  });
+  screen.start();
+  await fake.connectWith(before.officer);
+  assert.match(screen.getFrame().announcement.text, /^public \d+$/);
+  assert.equal(screen.getFrame().privateAnnouncement, null, 'Closed: the private line is dropped, not carried');
+  screen.dispatch(TOGGLE);
+  assert.match(screen.getFrame().privateAnnouncement.text, /^secret \d+$/);
+  assert.equal(screen.getFrame().privateAnnouncement.politeness, 'assertive');
+  assert.equal(screen.getFrame().announcement.politeness, 'polite', 'Each channel keeps its own urgency');
+  screen.setPageVisible(false);
+  assert.equal(screen.getFrame().privateAnnouncement, null, 'Backgrounded: nothing private is carried, though the announcer still offers it');
+  assert.match(screen.getFrame().announcement.text, /^public \d+$/);
+  screen.dispose();
 });

@@ -118,6 +118,12 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
       await send('Page.navigate', { url });
       await waitFor("document.querySelector('.ms-shell[data-screen=\"match\"]') || document.querySelector('.harness-page')", `page ready: ${url}`);
     },
+    /** Reloads the page as a person would, and waits for the match to be back on screen. */
+    async reload() {
+      await evaluate('window.__beforeReload = true');
+      await send('Page.reload');
+      await waitFor("window.__beforeReload === undefined && document.querySelector('.ms-shell[data-screen=\"match\"]')", 'page reloaded');
+    },
     media: features => send('Emulation.setEmulatedMedia', { features: Object.entries(features).map(([name, value]) => ({ name, value })) }),
     /** Only the frontmost tab is visible to its page; a background tab conceals private panels. */
     async foreground() {

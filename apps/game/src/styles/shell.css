@@ -511,11 +511,11 @@
   transform: rotate(-2deg);
 }
 
-/* Picked up: a little more lift and an amber edge. It claims nothing about what happens next. */
+/* Picked up: a little more lift and a heavier top edge. It claims nothing about what happens
+   next, and it is ink, not a ring, so it cannot be taken for keyboard focus. */
 .ms-card:has(> .ms-card__state[data-selected="true"]) {
   box-shadow: 6px 6px 0 var(--ms-color-ink);
-  outline: var(--ms-stroke-control) solid var(--ms-color-accent);
-  outline-offset: 2px;
+  border-top-width: calc(var(--ms-stroke-illustration) * 3);
 }
 
 .ms-card:has(> .ms-card__state[data-status="unavailable"]) {
@@ -603,6 +603,18 @@
 
 .ms-button:focus-visible {
   box-shadow: var(--ms-halo);
+}
+
+/* Not active yet: drawn, named and reachable, but pressing it does nothing for a moment.
+   A control that sends or acknowledges appears where the last one was pressed. */
+.ms-button[aria-disabled="true"] {
+  box-shadow: none;
+  opacity: 0.55;
+  cursor: default;
+}
+
+.ms-button[aria-disabled="true"]:active {
+  transform: none;
 }
 
 .ms-private .ms-button,

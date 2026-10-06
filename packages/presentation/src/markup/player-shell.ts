@@ -22,8 +22,19 @@ function renderLocation(location: PlayerMatchModel['location']): MarkupElement {
   );
 }
 
+// A control that is not active yet says so to assistive technology and stays focusable, so
+// focus placed on it is not thrown away when it becomes active a moment later.
 function renderButton(button: CardButtonModel): MarkupElement {
-  return h('button', { type: 'button', class: button.primary ? 'ms-button ms-button--primary' : 'ms-button', id: button.id, 'data-intent': button.intent }, button.label);
+  return h('button', {
+    type: 'button', class: button.primary ? 'ms-button ms-button--primary' : 'ms-button', id: button.id, 'data-intent': button.intent,
+    'aria-disabled': button.disabled ? 'true' : null,
+  }, button.label);
+}
+
+// The controls of a step are a region of their own: a control becoming active redraws this
+// row and leaves the line above it, which may hold focus, alone.
+function renderControls(...buttons: readonly (CardButtonModel | null)[]): MarkupElement {
+  return h('div', { class: 'ms-card__controls', 'data-region': 'shot-controls' }, buttons.map(button => (button ? renderButton(button) : null)));
 }
 
 // The line a step is focused on. It is not a control, so arriving there can never send anything.
@@ -48,7 +59,7 @@ function renderShotBody(body: ShotCardBody): MarkupChild {
       const lines = [body.note, body.reason].filter((line): line is string => line !== null);
       return [
         lines.map((line, index) => (index === 0 ? stepLine('ms-card__text', line) : h('p', { class: 'ms-card__text' }, line))),
-        body.open ? h('div', { class: 'ms-card__controls' }, renderButton(body.open)) : null,
+        body.open ? renderControls(body.open) : null,
       ];
     }
     case 'targeting':
@@ -58,13 +69,13 @@ function renderShotBody(body: ShotCardBody): MarkupChild {
         body.targets.length > 0
           ? h('ul', { class: 'ms-targets', 'aria-labelledby': SHELL_IDS.shotStep }, body.targets.map(renderTarget))
           : h('p', { class: 'ms-card__text' }, body.emptyText),
-        h('div', { class: 'ms-card__controls' }, renderButton(body.back)),
+        renderControls(body.back),
       ];
     case 'confirming':
       return [
         stepLine('ms-card__prompt', body.prompt),
         h('p', { class: 'ms-card__text' }, body.consequence),
-        h('div', { class: 'ms-card__controls' }, renderButton(body.confirm), renderButton(body.back)),
+        renderControls(body.confirm, body.back),
       ];
     case 'busy':
       return stepLine('ms-card__text ms-card__busy', body.text);
@@ -72,7 +83,7 @@ function renderShotBody(body: ShotCardBody): MarkupChild {
       return [
         stepLine('ms-card__result', body.text),
         body.detail ? h('p', { class: 'ms-card__text' }, body.detail) : null,
-        h('div', { class: 'ms-card__controls' }, renderButton(body.action)),
+        renderControls(body.action, body.secondary),
       ];
   }
 }

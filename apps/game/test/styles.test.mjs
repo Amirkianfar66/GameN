@@ -194,3 +194,21 @@ test('the stylesheet respects safe areas, user font size and forced colors', () 
   assert.equal(withoutComments.includes('font-variant-numeric: tabular-nums'), true);
   assert.equal(/user-scalable|maximum-scale/.test(css), false);
 });
+
+test('a control that is not active yet looks it, and a picked-up card cannot be taken for keyboard focus', () => {
+  const rule = selector => {
+    const start = withoutComments.indexOf(`${selector} {`);
+    assert.notEqual(start, -1, selector);
+    return withoutComments.slice(start, withoutComments.indexOf('}', start));
+  };
+  // Found in review: a control drawn where the last one was pressed swallowed the second tap
+  // of a double tap with nothing to show for it.
+  const inactive = rule('.ms-button[aria-disabled="true"]');
+  assert.match(inactive, /opacity: 0\.\d+;/);
+  assert.match(inactive, /box-shadow: none;/);
+  // Found in review: an amber outline on the selected card read as the focus ring on something not focused.
+  const selected = rule('.ms-card:has(> .ms-card__state[data-selected="true"])');
+  assert.equal(/outline/.test(selected), false);
+  assert.equal(selected.includes('--ms-color-accent'), false);
+  assert.equal(selected.includes('--ms-color-focus'), false);
+});

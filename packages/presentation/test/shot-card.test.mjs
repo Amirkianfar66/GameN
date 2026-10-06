@@ -5,7 +5,7 @@ import {
   shotTargetId, splitRegions, textOf, toHtml,
 } from '@mothership/presentation';
 import { fixture, IDLE_SHOT, openInput, playerInput, playerVariant, ROLE_NAMES } from './support/inputs.mjs';
-import { auditMarkup, byClass, byId, find, findAll } from './support/markup-audit.mjs';
+import { auditMarkup, byClass, byId, byRegion, find, findAll } from './support/markup-audit.mjs';
 
 const { before, afterRegistration } = fixture();
 const officer = before.officer;
@@ -13,19 +13,26 @@ const officer = before.officer;
 const cardOf = input => buildPlayerShellModel(input).match.privateArea.content.actions.cards[0];
 const card = (shot, view = officer, overrides) => cardOf(openInput(view, shot, overrides));
 const markup = (shot, view = officer, overrides) => renderPlayerShell(buildPlayerShellModel(openInput(view, shot, overrides)));
+const button = (id, label, intent, primary, disabled = false) => ({ id, label, intent, primary, disabled });
 
-/** One input for every step of the flow, all aimed at Player 2. */
+/** One input for every step of the flow, with its controls active. */
 const STEPS = {
   idle: IDLE_SHOT,
   targeting: { step: 'targeting' },
-  confirming: { step: 'confirming', targetSeatId: 'seat-2' },
-  submitting: { step: 'submitting', targetSeatId: 'seat-2' },
-  checking: { step: 'checking', targetSeatId: 'seat-2' },
-  unknown: { step: 'unknown', targetSeatId: 'seat-2' },
-  registered: { step: 'registered', targetSeatId: 'seat-2' },
-  'rejected (phase closed)': { step: 'rejected', targetSeatId: 'seat-2', code: 'PHASE_CLOSED' },
-  'rejected (not allowed)': { step: 'rejected', targetSeatId: 'seat-2', code: 'NOT_ALLOWED' },
-  'not registered': { step: 'not-registered', targetSeatId: 'seat-2', reason: 'FORBIDDEN' },
+  confirming: { step: 'confirming', targetSeatId: 'seat-2', armed: true },
+  submitting: { step: 'submitting' },
+  checking: { step: 'checking', recovered: false },
+  'checking after a reload': { step: 'checking', recovered: true },
+  unknown: { step: 'unknown', recovered: false, phaseOver: false, armed: true },
+  'unknown after a reload': { step: 'unknown', recovered: true, phaseOver: false, armed: true },
+  'unknown, phase over': { step: 'unknown', recovered: false, phaseOver: true, armed: true },
+  registered: { step: 'registered', targetSeatId: 'seat-2', pending: true, armed: true },
+  'registered after a reload': { step: 'registered', targetSeatId: null, pending: true, armed: true },
+  'was registered': { step: 'registered', targetSeatId: 'seat-2', pending: false, armed: true },
+  'was registered, after a reload': { step: 'registered', targetSeatId: null, pending: false, armed: true },
+  'rejected (phase closed)': { step: 'rejected', code: 'PHASE_CLOSED', armed: true },
+  'rejected (not allowed)': { step: 'rejected', code: 'NOT_ALLOWED', armed: true },
+  'not registered': { step: 'not-registered', reason: 'FORBIDDEN', armed: true },
 };
 
 test('the gate opens only on the player’s own ordinary turn, with a shot the server calls available, on current unexpired facts', () => {
@@ -39,8 +46,12 @@ test('the gate opens only on the player’s own ordinary turn, with a shot the s
   assert.deepEqual(resolveShotGate({ ...live, deadline: { kind: 'unsynced' } }, officer), { open: true });
   const othersTurn = playerVariant(officer, v => { v.activeSeatId = 'seat-2'; });
   assert.deepEqual(resolveShotGate(live, othersTurn), { open: false, why: 'not-your-turn' });
-  const resolution = playerVariant(officer, v => { v.phase = { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt: v.phase.endsAt, endsAt: null }; v.activeSeatId = null; });
-  assert.deepEqual(resolveShotGate({ ...live, deadline: { kind: 'none' } }, resolution), { open: false, why: 'not-your-turn' });
+  // Neither condition stands in for the other: a phase that is not an ordinary turn is closed
+  // even if the view names this seat as active, and so is an ordinary turn with nobody active.
+  const resolution = active => playerVariant(officer, v => { v.phase = { id: 'phase-c', kind: 'ROUND_RESOLUTION', startedAt: v.phase.endsAt, endsAt: null }; v.activeSeatId = active; });
+  assert.deepEqual(resolveShotGate({ ...live, deadline: { kind: 'none' } }, resolution(null)), { open: false, why: 'not-your-turn' });
+  assert.deepEqual(resolveShotGate({ ...live, deadline: { kind: 'none' } }, resolution('seat-1')), { open: false, why: 'not-your-turn' });
+  assert.deepEqual(resolveShotGate(live, playerVariant(officer, v => { v.activeSeatId = null; })), { open: false, why: 'not-your-turn' });
 });
 
 test('target hints are the other players in the same location and infer nothing else', () => {
@@ -58,7 +69,7 @@ test('target hints are the other players in the same location and infer nothing 
 test('idle: the card offers a start only when the gate is open, and explains only what the player may know', () => {
   assert.deepEqual(card(IDLE_SHOT), {
     id: 'shot', title: 'Shot', status: 'available', statusLabel: 'Available', selected: false,
-    body: { step: 'idle', open: { id: 'ms-shot-open', label: 'Choose a target', intent: 'shot/open', primary: true }, reason: null, note: null },
+    body: { step: 'idle', open: button('ms-shot-open', 'Choose a target', 'shot/open', true), reason: null, note: null },
   });
   const othersTurn = playerVariant(officer, v => { v.activeSeatId = 'seat-2'; });
   assert.deepEqual(card(IDLE_SHOT, othersTurn).body, { step: 'idle', open: null, reason: 'You can register a shot during your own turn.', note: null });
@@ -87,25 +98,51 @@ test('targeting lists each hinted player with the public status everyone can see
     { seatId: 'seat-4', number: 4, label: 'Player 4', detail: 'Healthy' },
     { seatId: 'seat-6', number: 6, label: 'Player 6', detail: 'Healthy' },
   ]);
-  assert.deepEqual(model.body.back, { id: 'ms-shot-back', label: 'Cancel', intent: 'shot/back', primary: false });
+  assert.deepEqual(model.body.back, button('ms-shot-back', 'Cancel', 'shot/back', false));
   const alone = playerVariant(officer, v => { v.seats[0].location = 'Hospital'; });
   assert.deepEqual(card(STEPS.targeting, alone).body.targets, []);
   assert.equal(card(STEPS.targeting, alone).body.emptyText, 'No other players are in your location.');
 });
 
-test('confirming names the target and offers exactly a send and a way back', () => {
+test('confirming names the target, says nothing has been sent, and offers exactly a send and a way back', () => {
   const model = card(STEPS.confirming);
   assert.equal(model.status, 'confirming');
+  // The chip names the step. It must not read like the control below it.
+  assert.equal(model.statusLabel, 'Not sent yet');
   assert.deepEqual(model.body, {
     step: 'confirming',
     prompt: 'Register a shot at Player 2?',
     consequence: 'You cannot change or withdraw it here once it is registered.',
-    confirm: { id: 'ms-shot-confirm', label: 'Register shot', intent: 'shot/confirm', primary: true },
-    back: { id: 'ms-shot-back', label: 'Choose someone else', intent: 'shot/back', primary: false },
+    confirm: button('ms-shot-confirm', 'Register shot', 'shot/confirm', true),
+    back: button('ms-shot-back', 'Choose someone else', 'shot/back', false),
   });
   // The chosen player left the location: the choice is asked for again instead of being sent.
   const moved = playerVariant(officer, v => { v.seats[1].location = 'Room B'; });
   assert.equal(card(STEPS.confirming, moved).body.step, 'targeting');
+});
+
+test('a control that has just appeared is drawn, named and reachable, but marked as not active yet', () => {
+  // The control that sends, and every control that acknowledges, appear where the last one was pressed.
+  const guarded = {
+    confirming: [{ ...STEPS.confirming, armed: false }, body => body.confirm],
+    registered: [{ ...STEPS.registered, armed: false }, body => body.action],
+    rejected: [{ ...STEPS['rejected (not allowed)'], armed: false }, body => body.action],
+    'not registered': [{ ...STEPS['not registered'], armed: false }, body => body.action],
+    unknown: [{ ...STEPS.unknown, armed: false }, body => body.action],
+  };
+  for (const [name, [shot, control]] of Object.entries(guarded)) {
+    assert.equal(control(card(shot).body).disabled, true, name);
+    assert.equal(control(card({ ...shot, armed: true }).body).disabled, false, name);
+    const rendered = find(markup(shot), byId(control(card(shot).body).id));
+    // aria-disabled, not the disabled attribute: it stays in the tab order and keeps focus put on it.
+    assert.equal(rendered.attrs['aria-disabled'], 'true', name);
+    assert.equal(rendered.attrs.disabled, undefined, name);
+    assert.equal(find(markup({ ...shot, armed: true }), byId(rendered.attrs.id)).attrs['aria-disabled'], undefined, name);
+    assert.deepEqual(auditMarkup(markup(shot)), [], name);
+  }
+  // The way back from the confirm step is never held back: it sends nothing.
+  assert.equal(card({ ...STEPS.confirming, armed: false }).body.back.disabled, false);
+  assert.equal(card({ ...STEPS['unknown, phase over'], armed: false }).body.secondary.disabled, true);
 });
 
 test('a choice that was not sent cannot be drawn once the gate has closed', () => {
@@ -134,16 +171,39 @@ test('a sent command locks the card until the server’s answer is known', () =>
   assert.deepEqual(unknown.body, {
     step: 'result', outcome: 'unknown',
     text: 'Result unknown. The app could not confirm whether your shot was registered.',
-    detail: 'Do not assume either way. Check again when the connection is back.',
-    action: { id: 'ms-shot-check', label: 'Check again', intent: 'shot/check-again', primary: true },
+    // It does not blame the connection: the feed may be perfectly live while a request goes unanswered.
+    detail: 'Do not assume either way. You can check again at any time.',
+    action: button('ms-shot-check', 'Check again', 'shot/check-again', true),
+    secondary: null,
   });
   // Whatever the connection or the clock does meanwhile, none of these steps offers a way to
-  // start over or to pick someone else: a changed target must be a new, deliberate command.
-  for (const step of [STEPS.submitting, STEPS.checking, STEPS.unknown]) {
+  // start over, pick someone else or walk away: a changed target must be a new, deliberate command.
+  for (const name of ['submitting', 'checking', 'checking after a reload', 'unknown', 'unknown after a reload']) {
     for (const overrides of [{}, { connection: 'stale' }, { deadline: { kind: 'expired' } }]) {
-      const text = JSON.stringify(card(step, officer, overrides));
-      for (const intent of ['shot/open', 'shot/choose-target', 'shot/confirm', 'shot/back', 'shot/dismiss']) assert.equal(text.includes(intent), false, `${step.step} ${intent}`);
+      const text = JSON.stringify(card(STEPS[name], officer, overrides));
+      for (const intent of ['shot/open', 'shot/choose-target', 'shot/confirm', 'shot/back', 'shot/dismiss']) assert.equal(text.includes(intent), false, `${name} ${intent}`);
     }
+  }
+});
+
+test('once the command’s phase is over an unknown result can be left, and says why it is still unknown', () => {
+  const over = card(STEPS['unknown, phase over']);
+  assert.equal(over.body.detail, 'That turn has ended, so nothing more can be registered for it. Do not assume either way.');
+  assert.deepEqual(over.body.action, button('ms-shot-check', 'Check again', 'shot/check-again', true));
+  assert.deepEqual(over.body.secondary, button('ms-shot-dismiss', 'Stop checking', 'shot/dismiss', false));
+  // It is still not called registered or not registered.
+  assert.equal(over.statusLabel, 'Result unknown');
+  assert.equal(over.body.outcome, 'unknown');
+});
+
+test('after a reload the card says what it cannot know: it asks about the command and never names a target', () => {
+  assert.equal(card(STEPS['checking after a reload']).body.text, 'This page was reloaded before the server answered. Checking whether your shot was registered…');
+  assert.equal(card(STEPS['unknown after a reload']).body.detail, 'This page was reloaded before the server answered, so it cannot send the shot again. Do not assume either way.');
+  const registered = card(STEPS['registered after a reload']);
+  assert.equal(registered.body.text, 'Your shot is registered.');
+  assert.match(registered.body.detail, /^This page was reloaded, so it no longer knows the target\. This is not a result\./);
+  for (const name of ['checking after a reload', 'unknown after a reload', 'registered after a reload', 'was registered, after a reload']) {
+    assert.doesNotMatch(JSON.stringify(card(STEPS[name])), /Player \d/, name);
   }
 });
 
@@ -155,7 +215,8 @@ test('registered is reported as a registration and never as an outcome', () => {
     step: 'result', outcome: 'registered',
     text: 'Shot at Player 2 registered.',
     detail: 'This is not a result. Registered shots are resolved at the end of the round.',
-    action: { id: 'ms-shot-dismiss', label: 'Done', intent: 'shot/dismiss', primary: true },
+    action: button('ms-shot-dismiss', 'Done', 'shot/dismiss', true),
+    secondary: null,
   });
   // Nothing in any step of the flow names damage, a defense or a result.
   for (const [name, step] of Object.entries(STEPS)) {
@@ -163,15 +224,34 @@ test('registered is reported as a registration and never as an outcome', () => {
   }
 });
 
-test('a rejection or a known failure says so plainly, with the server’s reason and nothing guessed', () => {
-  const text = shot => card(shot).body;
-  assert.equal(card(STEPS['rejected (phase closed)']).statusLabel, 'Not registered');
-  assert.deepEqual(text(STEPS['rejected (phase closed)']), {
-    step: 'result', outcome: 'not-registered', text: 'Not registered. The turn had already ended.', detail: null,
-    action: { id: 'ms-shot-dismiss', label: 'OK', intent: 'shot/dismiss', primary: true },
+test('a registration report the view has moved on from is told in the past tense and promises nothing still to come', () => {
+  const past = card(STEPS['was registered']);
+  // Not "Registered": the player's view no longer lists the shot as waiting.
+  assert.equal(past.status, 'was-registered');
+  assert.equal(past.statusLabel, 'Was registered');
+  assert.deepEqual(past.body, {
+    step: 'result', outcome: 'registered',
+    text: 'Your shot at Player 2 was registered.',
+    detail: 'It is no longer waiting to be resolved. This is not a result.',
+    action: button('ms-shot-dismiss', 'Done', 'shot/dismiss', true),
+    secondary: null,
   });
-  assert.equal(text(STEPS['rejected (not allowed)']).text, 'Not registered. The server did not allow this shot.');
-  assert.equal(text(STEPS['rejected (not allowed)']).detail, 'You can choose again if it is still your turn.');
+  assert.equal(card(STEPS['was registered, after a reload']).body.text, 'Your shot was registered.');
+  for (const name of ['was registered', 'was registered, after a reload']) {
+    assert.doesNotMatch(JSON.stringify(card(STEPS[name])), /resolved at the end of the round|is registered/, name);
+  }
+});
+
+test('a rejection or a known failure says so plainly, with the server’s reason and nothing guessed', () => {
+  const body = shot => card(shot).body;
+  assert.equal(card(STEPS['rejected (phase closed)']).statusLabel, 'Not registered');
+  // True whether the player was late or only a re-sent copy was: it says when the server got it.
+  assert.deepEqual(body(STEPS['rejected (phase closed)']), {
+    step: 'result', outcome: 'not-registered', text: 'Not registered. It reached the server after the turn had ended.', detail: null,
+    action: button('ms-shot-dismiss', 'OK', 'shot/dismiss', true), secondary: null,
+  });
+  assert.equal(body(STEPS['rejected (not allowed)']).text, 'Not registered. The server did not allow this shot.');
+  assert.equal(body(STEPS['rejected (not allowed)']).detail, 'You can choose again if it is still your turn.');
   const reasons = {
     UNAUTHENTICATED: ['Not registered. This device is not signed in to the match.', null],
     FORBIDDEN: ['Not registered. This device may not act for this seat.', null],
@@ -179,29 +259,34 @@ test('a rejection or a known failure says so plainly, with the server’s reason
     UNSUPPORTED_PROTOCOL: ['Not registered. This app is out of date. Reload to update.', null],
     COMMAND_ID_CONFLICT: ['Not registered. The server refused the request.', 'You can choose again if it is still your turn.'],
     NOT_SENT: ['Not registered. The request could not be sent.', 'You can choose again if it is still your turn.'],
+    PHASE_OVER: ['Not registered. The turn ended before the server received your shot.', null],
   };
   for (const [reason, [message, detail]] of Object.entries(reasons)) {
-    const body = text({ step: 'not-registered', targetSeatId: 'seat-2', reason });
-    assert.equal(body.text, message);
-    assert.equal(body.detail, detail);
-    assert.equal(body.outcome, 'not-registered');
+    const result = body({ step: 'not-registered', reason, armed: true });
+    assert.equal(result.text, message);
+    assert.equal(result.detail, detail);
+    assert.equal(result.outcome, 'not-registered');
   }
 });
 
 test('after registration the card follows the view; this device adds the target only while it remembers it', () => {
-  const remembered = { step: 'idle', registeredTargetSeatId: 'seat-2' };
+  const remembered = { step: 'idle', registered: { targetSeatId: 'seat-2' } };
   // The view lists the command: the server's facts, plus the target from this device's memory.
   const listed = card(remembered, afterRegistration.officer);
   assert.equal(listed.status, 'registered');
   assert.deepEqual(listed.body, { step: 'idle', open: null, reason: null, note: 'Your shot at Player 2 is registered. It is resolved at the end of the round.' });
   // After a reload the memory is gone; the view still says a shot is registered, not at whom.
   assert.equal(card(IDLE_SHOT, afterRegistration.officer).body.note, 'A shot is registered. It is resolved at the end of the round.');
+  // A reloaded page that learned of the registration from a receipt knows it, but not the target.
+  assert.equal(card({ step: 'idle', registered: { targetSeatId: null } }, afterRegistration.officer).body.note, 'A shot is registered. It is resolved at the end of the round.');
   // The receipt arrived before the view did. The stale view still calls the shot available,
-  // and the card must not offer it again on that basis.
-  const behind = card(remembered, officer);
-  assert.equal(behind.status, 'registered');
-  assert.equal(behind.body.open, null);
-  assert.match(behind.body.note, /^Your shot at Player 2 is registered\./);
+  // and the card must not offer it again on that basis, with or without a target to name.
+  for (const registered of [{ targetSeatId: 'seat-2' }, { targetSeatId: null }]) {
+    const behind = card({ step: 'idle', registered }, officer);
+    assert.equal(behind.status, 'registered');
+    assert.equal(behind.body.open, null);
+    assert.match(behind.body.note, /registered\. It is resolved at the end of the round\.$/);
+  }
   // Should the server ever say both "pending" and "available", its word stands.
   const both = playerVariant(afterRegistration.officer, v => { v.self.shotAvailable = true; });
   assert.equal(card(remembered, both).body.open?.intent, 'shot/open');
@@ -232,7 +317,7 @@ test('no step of the flow is in the model or the document unless the private pan
       const model = buildPlayerShellModel(playerInput(officer, { privacy, shot }));
       assert.equal(model.match.privateArea.content, null, name);
       const html = toHtml(renderPlayerShell(model));
-      for (const word of ['Shot', 'shot', 'Register', 'registered', 'target', 'Submitting', 'Checking', 'Result unknown', 'ms-card']) assert.equal(html.includes(word), false, `${name}: ${word}`);
+      for (const word of ['Shot', 'shot', 'Register', 'registered', 'target', 'Submitting', 'Sending', 'Checking', 'reloaded', 'Result unknown', 'ms-card']) assert.equal(html.includes(word), false, `${name}: ${word}`);
       // A closed phone is byte-for-byte the same whatever its command is doing.
       assert.equal(html, toHtml(renderPlayerShell(buildPlayerShellModel(playerInput(officer, { privacy })))), name);
     }
@@ -294,17 +379,23 @@ test('the card’s state is carried by text and mirrored in attributes for styli
   }
 });
 
-test('a step change redraws the Shot card alone; a pause notice redraws the actions and not the panel around them', () => {
+test('a step change redraws the Shot card alone; a control becoming active redraws only the controls', () => {
   const regions = (shot, overrides) => splitRegions(markup(shot, officer, overrides)).regions;
   const changed = (a, b) => [...new Set([...a.keys(), ...b.keys()])].filter(id => a.get(id) !== b.get(id));
-  assert.deepEqual(changed(regions(IDLE_SHOT), regions(STEPS.targeting)), ['shot']);
-  assert.deepEqual(changed(regions(STEPS.targeting), regions(STEPS.confirming)), ['shot']);
-  assert.deepEqual(changed(regions(STEPS.submitting), regions(STEPS.registered)), ['shot']);
+  assert.deepEqual(changed(regions(IDLE_SHOT), regions(STEPS.targeting)), ['shot', 'shot-controls']);
+  assert.deepEqual(changed(regions(STEPS.targeting), regions(STEPS.confirming)), ['shot', 'shot-controls']);
+  assert.deepEqual(changed(regions(STEPS.submitting), regions(STEPS.registered)), ['shot', 'shot-controls']);
+  // The line that holds focus is not touched when the control under it becomes active.
+  assert.deepEqual(changed(regions({ ...STEPS.confirming, armed: false }), regions(STEPS.confirming)), ['shot-controls']);
+  assert.deepEqual(changed(regions({ ...STEPS.registered, armed: false }), regions(STEPS.registered)), ['shot-controls']);
+  assert.equal(regions(STEPS.confirming).get('shot-controls').includes(SHELL_IDS.shotStep), false);
   // The title sits outside the redrawn part, so it can hold focus while a command is in flight.
   assert.equal(regions(STEPS.submitting).get('shot').includes(`id="${SHELL_IDS.shotTitle}"`), false);
   assert.equal(regions(STEPS.submitting).get('actions').includes(`id="${SHELL_IDS.shotTitle}"`), true);
   // Losing the connection while a command is unresolved adds the notice: the role card is not rebuilt.
   assert.deepEqual(changed(regions(STEPS.checking), regions(STEPS.checking, { connection: 'stale' })), ['banners', 'actions']);
+  // Outermost first, so a host can fill each region before the regions inside it.
+  assert.deepEqual([...regions(STEPS.confirming).keys()].filter(id => ['private', 'actions', 'shot', 'shot-controls'].includes(id)), ['private', 'actions', 'shot', 'shot-controls']);
 });
 
 test('focus after a step the player took lands on the line for that step, never on a control that sends', () => {
@@ -358,7 +449,7 @@ test('a region names where focus goes if what held it is redrawn away, and that 
     assert.deepEqual(fallbacks(root), { private: SHELL_IDS.privateToggle, shot: SHELL_IDS.shotTitle }, name);
     // The card's fallback sits outside the part that is redrawn, so it survives the redraw it is for.
     const title = find(root, byId(SHELL_IDS.shotTitle));
-    assert.equal(findAll(find(root, byClass('ms-card__state')), element => element === title).length, 0, name);
+    assert.equal(findAll(find(root, byRegion('shot')), element => element === title).length, 0, name);
     assert.equal(title.attrs.tabindex, '-1');
   }
   // Closed, the panel still names its own toggle, which is always there.
