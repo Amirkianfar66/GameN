@@ -10,6 +10,9 @@ export const SOURCE_MANIFEST_SHA256 = '34e7c08cda13dcc329f7a1d5f7656ab59db1fc834
 export const V1_RULESET_VERSION = 'in-person-v1-2026-10-06';
 export const V1_OVERLAY_SHA256 = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90';
 export const V1_OVERLAY_PATH = 'rules/overlays/in-person-v1-owner-decisions-2026-10-06.json';
+// The reason a test gives when it needs that file and the checkout has none. The static check
+// accepts a skip with exactly this reason, and only where it is told that the file is expected to be absent.
+export const OVERLAY_ABSENT = 'the owner-decision file is not in this checkout';
 
 const directory = new URL('./', import.meta.url);
 export const scenarioFileUrl = group => new URL(CATALOG_FILES[group], directory);
@@ -88,4 +91,11 @@ export const GROUPS = ['7', '8', '9', 'unsupported'];
 
 export function loadAll() {
   return GROUPS.flatMap(group => loadGroup(group).scenarios);
+}
+
+// The reviewed list of fixtures that are not ready. The report gate holds the catalogue against it.
+export const EXCEPTIONS_PATH = 'tests/scenarios/v1/exceptions.json';
+
+export function loadExceptions() {
+  return JSON.parse(readFileSync(new URL('exceptions.json', directory), 'utf8'));
 }

@@ -35,7 +35,7 @@ What needs attention is at the edges of what has been decided. V1-01 to V1-21 ar
 | [BAL-C09](#bal-c09) | Movement is accepted during a Captain election | Open rule edge D16 | The owner, when they choose |
 | [BAL-C10](#bal-c10) | No window closes early, ordinary turns included | Open rule edge D17 | The owner, when they choose |
 | [BAL-C11](#bal-c11) | The public view has no turn order | Open rule edge D20 | The owner, when they choose |
-| [BAL-C12](#bal-c12) | The public Hack phase names only the initiator | Question | Table display |
+| [BAL-C12](#bal-c12) | The public Hack phase names only the initiator | Answered: private on purpose | None |
 | [BAL-C13](#bal-c13) | The result carries no cause; no private post-match export exists | Needed | Playtest records |
 | [BAL-C14](#bal-c14) | Fifteen further readings are implemented | Readings. No decision asked | None |
 | [BAL-C15](#bal-c15) | The fixture expectation omits Protection consumption | Advisory | None |
@@ -189,6 +189,8 @@ The other part of D17 was probed. `FLOW-10`: after the Captain had chosen a pris
 ### BAL-C12
 
 **The public Hack phase names only the initiator.** The partner is visible to the two participants and to nobody else. At a table the pair is in plain sight, so a shared display that cannot name them looks broken. Either add the partner to the public facts of that phase or record that it is private on purpose, and whether that is meant to hold for remote play.
+
+*Answered on 7 October 2026.* Backend's reconciliation (PR [#39](https://github.com/Amirkianfar66/GameN/pull/39) at `e6923b3`) records it: the partner is private to the two participants on the wire, plain sight at a table does not by itself authorize a public field, and a public shape would need an approved disclosure and a protocol review. Balance asks for no change.
 
 ### BAL-C13
 

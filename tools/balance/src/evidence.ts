@@ -24,10 +24,17 @@ export interface RunPins {
   sourceManifestSha256: string;
   ruleSourceHashes: Record<string, string>;
   v1OverlaySha256: string | null;
+  // The combined Version 1 manifest of the engine's checkout, where it exists.
+  v1ManifestSha256: string | null;
   scenarioFileHashes: Record<string, string>;
   rulebookSha256: string;
   engine: EnginePins | null;
   engineCommit: string | null;
+  // How the commit is known: read from Git, here or in the engine's own checkout, or only stated.
+  engineCommitBasis: string;
+  engineTreeClean: boolean | null;
+  // One digest of the built engine and contracts modules that were loaded.
+  engineBuildSha256: string | null;
   engineOrigin: string;
   runner: string;
   node: string;

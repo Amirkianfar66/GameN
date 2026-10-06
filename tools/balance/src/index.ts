@@ -14,3 +14,4 @@ export * from './walker.js';
 export * from './telemetry.js';
 export * from './evidence.js';
 export * from './controls.js';
+export * from './gate.js';

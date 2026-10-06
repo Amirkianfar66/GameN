@@ -3,30 +3,51 @@
 //   node scripts/walk.mjs [--engine-root <dir>] [--engine-commit <sha>] [--seeds 200] [--out <file.json>] [--require-engine]
 //
 // Exit status: 1 on any invariant violation, hint mismatch, replay mismatch or unfinished playout;
-// 2 when --require-engine was given and no engine is available; otherwise 0.
+// 2 when nothing was run that could count: --require-engine was given and no engine is available,
+// the command line cannot be understood, or the engine commit it states contradicts the checkout;
+// otherwise 0.
 //
 // What this is for: legality, resource accounting, phase transitions, elimination and audience
 // boundaries over many reachable states, and whether the engine's own target hints agree with
 // what it accepts. What it is not: evidence about human play. Only whether a terminal category
 // was reached at all is reported; how often a random policy reaches it is not recorded.
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname } from 'node:path';
 import { DEFAULT_WALK, walk } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
+import { invocationPath, readArgs } from './args.mjs';
+import { buildPins, noteProvenance } from './pins.mjs';
 
-const args = process.argv.slice(2);
-const option = name => { const index = args.indexOf(name); return index < 0 ? null : args[index + 1] ?? null; };
-const engineRoot = option('--engine-root');
-const seeds = Number(option('--seeds') ?? 200);
-const out = option('--out');
+const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'seeds', 'out'], flags: ['require-engine'] }, refuse);
+const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
+const seeds = Number(values.seeds ?? 200);
+const out = values.out;
+// A run of no playouts would find no problem. It is refused, not passed.
+if (!Number.isInteger(seeds) || seeds < 1) {
+  console.error('FAILED: --seeds needs a whole number of at least 1.');
+  process.exit(1);
+}
+const write = report => {
+  if (out === null) return;
+  const target = invocationPath(out);
+  mkdirSync(dirname(target), { recursive: true });
+  writeFileSync(target, `${JSON.stringify(report, null, 1)}\n`);
+  console.log(`Summary written to ${target}`);
+};
 
-const loaded = await load(engineRoot ? resolve(engineRoot) : null);
+const loaded = await load(engineRoot);
+const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance seeded playouts' });
+if ('problem' in built) refuse(built.problem);
+const pins = built.pins;
 if (!loaded.available) {
   // Nothing ran. With --require-engine that is a failure of the gate, with its own exit status.
   console.log(`NOT RUN. No playout was run. Engine adapter unavailable: ${loaded.reason}`);
-  process.exit(args.includes('--require-engine') ? 2 : 0);
+  // The report is written all the same, so that an older report in its place cannot be taken for this run.
+  write({ schema: 'mothership.balance.walk/1', pins, verdict: 'not-run', reason: loaded.reason, seedsPerMode: seeds, node: process.version, modes: {} });
+  process.exit(flags['require-engine'] ? 2 : 0);
 }
-const summary = { schema: 'mothership.balance.walk/1', engine: loaded.adapter.pins, engineCommit: option('--engine-commit') ?? 'not stated', policy: { ...DEFAULT_WALK, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
+const summary = { schema: 'mothership.balance.walk/1', pins, engine: loaded.adapter.pins, engineCommit: pins.engineCommit, policy: { ...DEFAULT_WALK, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
 let problems = 0;
 for (const mode of [7, 8, 9]) {
   const stats = {
@@ -76,10 +97,6 @@ for (const mode of [7, 8, 9]) {
   console.log(stats.windowMinutes === null ? '  clock length not available: no playout finished' : `  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
   for (const example of stats.examples) console.log(`  example ${example.seed}: ${JSON.stringify(example)}`);
 }
-if (out !== null) {
-  const target = resolve(process.env.INIT_CWD ?? process.cwd(), out);
-  mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, `${JSON.stringify(summary, null, 1)}\n`);
-  console.log(`Summary written to ${target}`);
-}
+noteProvenance(pins);
+write(summary);
 if (problems > 0) process.exit(1);
