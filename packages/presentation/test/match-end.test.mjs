@@ -7,6 +7,8 @@ import { fixture } from './support/inputs.mjs';
 import { auditMarkup, byRegion, find } from './support/markup-audit.mjs';
 import { card, closed, environment, IDLE, input, markup, model, playerView, publicView } from './support/protocol2-views.mjs';
 
+const buildConnectedPlayerShellModelFor = view => model(view, IDLE, { connection: 'connecting', problem: 'no-access' });
+
 // The end of a match on the connected phone and the shared display: a finished match with
 // the winner the server names and its end reveal, and a match the host ended. Synthetic,
 // hand-built protocol 2 views that satisfy the shared strict schema. Nothing here decides
@@ -164,3 +166,32 @@ test('the end of the match is spoken once, when the view first carries it', () =
     assert.deepEqual(lines.filter(line => /draw/.test(line.text)).map(line => [line.text, line.private ?? false]), [['Nobody wins. The match is a draw.', false]]);
   }
 });
+
+test('a screen the server refuses the match shows a recovery screen and nothing of the match', () => {
+  for (const view of [null, playerView()]) {
+    // Even if a view were still handed over, none of it is drawn.
+    const refused = buildConnectedPlayerShellModelFor(view);
+    assert.deepEqual([refused.screen, refused.match], ['blocked', null]);
+    assert.deepEqual(refused.blocked, {
+      heading: 'No access to this match',
+      paragraphs: [
+        'The server did not let this device read the match, so nothing of it is shown.',
+        'This happens when a device is not in the match, or when its seat has been moved to another device. If you did not expect it, ask the host.',
+      ],
+      action: { intent: 'app/reload', label: 'Reload' },
+    });
+    assert.equal(refused.banners.some(banner => banner.kind === 'connection'), false, 'It is not shown as a lost connection');
+    const drawn = renderConnectedPlayerShell(refused);
+    assert.deepEqual(auditMarkup(drawn), []);
+    assert.doesNotMatch(toHtml(drawn), /Cracker|ms-private|ms-roster|Player 1/);
+  }
+  const display = buildTableShellModel({ ...environment, connection: 'connecting', problem: 'no-access', view: null });
+  assert.deepEqual([display.screen, display.match, display.blocked.heading], ['blocked', null, 'No access to this match']);
+  // Said once, and at once.
+  const announcer = createConnectedPlayerAnnouncer();
+  announcer.next(input(playerView()));
+  const said = announcer.next({ ...input(null), connection: 'connecting', problem: 'no-access' });
+  assert.deepEqual(said, [{ politeness: 'assertive', text: 'No access to this match.' }]);
+  assert.deepEqual(announcer.next({ ...input(null), connection: 'connecting', problem: 'no-access' }), []);
+});
+

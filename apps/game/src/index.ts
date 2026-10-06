@@ -35,7 +35,7 @@ export type { CollectionListener, CollectionTarget, ConnectedTransport, Document
 export { createConnectedApi } from './connected/api.js';
 export type {
   ApprovedAdmission, ConnectedAdvanceResult, ConnectedApi, ConnectedCommandResult, ConnectedFailure, ConnectedFailureCode, ConnectedLookupResult,
-  ConnectedTimeResult, CreatedMatch, OperationResult, RequestedAdmission,
+  ConnectedTimeResult, CreatedMatch, IssuedRecovery, OperationResult, RecoveredSeat, RequestedAdmission,
 } from './connected/api.js';
 export { createConnectedPlayerStore, createConnectedPublicStore, readAdmission, readHostSession, readLobby, SUPPORTED_CONNECTED_VERSIONS } from './connected/readers.js';
 export type { Admission, DocumentOutcome, DocumentRejection, HostSession } from './connected/readers.js';
@@ -44,6 +44,8 @@ export { createConnectedPlayerSession, createConnectedPublicSession } from './co
 export type { ConnectedSessionOptions } from './connected/session.js';
 export { createConnectedPlayerScreen, createConnectedTableScreen } from './connected/screens.js';
 export type { ConnectedPlayerScreenOptions, ConnectedTableScreenOptions } from './connected/screens.js';
+export { createLifecycleRequests, DURABLE_FIELDS } from './connected/lifecycle-requests.js';
+export type { LifecycleOutcome, LifecycleRequests, LifecycleRequestsOptions, LifecycleRequestStore, UnsettledRequest } from './connected/lifecycle-requests.js';
 export { createDeadlineCatchUp, DEFAULT_CATCH_UP_TIMING } from './connected/deadline-catch-up.js';
 export type { CatchUpContext, CatchUpOptions, CatchUpTiming, DeadlineCatchUp } from './connected/deadline-catch-up.js';
 export { createActionFlow, DEFAULT_ACTION_FLOW_TIMING, offeredChoices } from './connected/action-flow.js';

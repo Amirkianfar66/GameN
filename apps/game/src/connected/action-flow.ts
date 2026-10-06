@@ -91,6 +91,13 @@ export interface ActionFlow {
   confirm(): boolean;
   checkAgain(): boolean;
   dismiss(): boolean;
+  /**
+   * The seat is no longer this device's: the server refused it the match. Everything about
+   * a command is let go at once, in memory and in the host's store: the request and what
+   * was chosen, the checks still planned, and the identifiers kept for a reload. Nothing
+   * more is sent or asked about it. Returns whether the state changed. Never notifies.
+   */
+  release(): boolean;
   dispose(): void;
 }
 
@@ -624,6 +631,17 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
       if (state.step !== 'accepted' && state.step !== 'rejected' && state.step !== 'not-accepted') return false;
       // The acknowledging control is drawn where the confirm control was.
       if (!isArmed()) return false;
+      state = { step: 'idle' };
+      return true;
+    },
+    release() {
+      if (disposed) return false;
+      clearCheckTimer();
+      if (armTimer !== null) ports.scheduler.clearTimeout(armTimer);
+      armTimer = null;
+      // An answer still on its way finds the command it belonged to gone, and is ignored.
+      forget();
+      if (state.step === 'idle') return false;
       state = { step: 'idle' };
       return true;
     },

@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   FullAbortMatchRequestSchema, FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullApproveAdmissionRequestSchema, FullCommandRequestSchema,
-  FullCreateMatchRequestSchema, FullLookupRequestSchema, FullServerTimeRequestSchema, FullStartMatchRequestSchema,
+  FullCreateMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullLookupRequestSchema, FullRedeemSeatRecoveryRequestSchema, FullServerTimeRequestSchema,
+  FullStartMatchRequestSchema,
 } from '@mothership/contracts';
 import { createConnectedApi, DEFAULT_API_TIMEOUT_MS, V1_OPERATIONS } from '@mothership/game';
 import { createFakeHost, flush } from './support/fakes.mjs';
@@ -21,9 +22,14 @@ function setup() {
 const move = (overrides = {}) => ({ protocolVersion: 2, matchId: MATCH, phaseId: 'phase-one', commandId: 'command-1', command: { type: 'MOVE', destination: 'Room B' }, ...overrides });
 const receiptFor = (request, status = 'accepted', code = 'REGISTERED') => ({ protocolVersion: 2, matchId: request.matchId, phaseId: request.phaseId, commandId: request.commandId, status, code });
 const failed = (s, code, extra = {}) => ({ ok: false, serverTimeMs: s.now(), error: { code, ...extra } });
+/** A synthetic one-time code of the documented shape. It opens nothing. */
+const TOKEN = 'synthetic-recovery-code-000000000000000000A';
 
 test('the client reaches the documented operations and no other', () => {
-  assert.deepEqual([...V1_OPERATIONS], ['v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch', 'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime']);
+  assert.deepEqual([...V1_OPERATIONS], [
+    'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch', 'v1IssueSeatRecovery', 'v1RedeemSeatRecovery',
+    'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime',
+  ]);
 });
 
 test('every request the client sends satisfies the shared protocol-2 schema, and carries no actor, clock or outcome', async () => {
@@ -36,13 +42,16 @@ test('every request the client sends satisfies the shared protocol-2 schema, and
     s.api.admitDisplay({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', displayUid: 'display-uid' }),
     s.api.startMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-5' }),
     s.api.abortMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-6' }),
+    s.api.issueSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-7', seatId: 'seat-3' }),
+    s.api.redeemSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-8', recoveryToken: TOKEN }),
   ]);
   const schemas = {
     v1ServerTime: FullServerTimeRequestSchema, v1Advance: FullAdvanceRequestSchema, v1Command: FullCommandRequestSchema, v1Receipt: FullLookupRequestSchema,
     v1CreateMatch: FullCreateMatchRequestSchema, v1RequestAdmission: FullAdmissionRequestSchema, v1ApproveAdmission: FullApproveAdmissionRequestSchema,
     v1AdmitDisplay: FullAdmitDisplayRequestSchema, v1StartMatch: FullStartMatchRequestSchema, v1AbortMatch: FullAbortMatchRequestSchema,
+    v1IssueSeatRecovery: FullIssueSeatRecoveryRequestSchema, v1RedeemSeatRecovery: FullRedeemSeatRecoveryRequestSchema,
   };
-  assert.equal(s.fake.calls.length, 10);
+  assert.equal(s.fake.calls.length, 12);
   assert.deepEqual(Object.keys(schemas).sort(), [...V1_OPERATIONS].sort(), 'Every operation the client can reach is checked here');
   assert.deepEqual([...new Set(s.fake.calls.map(call => call.operation))].sort(), [...V1_OPERATIONS].sort(), 'and every one of them was sent');
   for (const { operation, body } of s.fake.calls) {
@@ -174,6 +183,8 @@ test('each lobby operation accepts only its own result, for its own request', as
     admitted: { admitted: true },
     started: { started: true, matchId: MATCH },
     aborted: { aborted: true },
+    issued: { issued: true, seatId: 'seat-3', recoveryToken: TOKEN, expiresAt: 1_900_000_600_000 },
+    recovered: { recovered: true, seatId: 'seat-3' },
   };
   const calls = {
     v1CreateMatch: [() => s.api.createMatch({ protocolVersion: 2, requestId: 'request-1', playerCount: 7 }), 'created', { matchId: MATCH, roomCode: 'A1B2C3D4E5F6', playerCount: 7 }],
@@ -182,6 +193,8 @@ test('each lobby operation accepts only its own result, for its own request', as
     v1AdmitDisplay: [() => s.api.admitDisplay({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', displayUid: 'display-uid' }), 'admitted', true],
     v1StartMatch: [() => s.api.startMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-5' }), 'started', true],
     v1AbortMatch: [() => s.api.abortMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-6' }), 'aborted', true],
+    v1IssueSeatRecovery: [() => s.api.issueSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-7', seatId: 'seat-3' }), 'issued', { seatId: 'seat-3', recoveryToken: TOKEN, expiresAt: 1_900_000_600_000 }],
+    v1RedeemSeatRecovery: [() => s.api.redeemSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-8', recoveryToken: TOKEN }), 'recovered', { seatId: 'seat-3' }],
   };
   for (const [operation, [invoke, own, expected]] of Object.entries(calls)) {
     s.answer(operation, ok(results[own]));
@@ -206,6 +219,30 @@ test('each lobby operation accepts only its own result, for its own request', as
   assert.deepEqual([(await calls.v1AbortMatch[0]()).kind, (await calls.v1AbortMatch[0]()).code], ['api-failure', 'FORBIDDEN']);
   const sentSoFar = s.fake.calls.length;
   await assert.rejects(() => s.api.abortMatch({ protocolVersion: 2, requestId: 'request-7' }), /does not satisfy the shared contract/);
+  assert.equal(s.fake.calls.length, sentSoFar);
+});
+
+test('a recovery code is believed only for the seat it was asked for, and a replayed answer carries none', async () => {
+  const s = setup();
+  const ok = result => () => ({ ok: true, serverTimeMs: s.now(), result });
+  const issue = () => s.api.issueSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-1', seatId: 'seat-3' });
+  // The service gives a code out once. The same request sent again is answered without it.
+  s.answer('v1IssueSeatRecovery', ok({ issued: true, seatId: 'seat-3', recoveryToken: null, expiresAt: 1_900_000_600_000 }));
+  const replayed = await issue();
+  assert.deepEqual([replayed.kind, replayed.result], ['done', { seatId: 'seat-3', recoveryToken: null, expiresAt: 1_900_000_600_000 }]);
+  // A code for another seat is not this request's answer.
+  s.answer('v1IssueSeatRecovery', ok({ issued: true, seatId: 'seat-4', recoveryToken: TOKEN, expiresAt: 1_900_000_600_000 }));
+  assert.deepEqual(await issue(), { kind: 'no-response', reason: 'unreadable-response' });
+  // A refusal is the server's, as given: only the host may ask, and a code is good once.
+  s.answer('v1IssueSeatRecovery', () => failed(s, 'FORBIDDEN'));
+  assert.deepEqual([(await issue()).kind, (await issue()).code], ['api-failure', 'FORBIDDEN']);
+  s.answer('v1RedeemSeatRecovery', () => failed(s, 'FORBIDDEN'));
+  const refused = await s.api.redeemSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-2', recoveryToken: TOKEN });
+  assert.deepEqual([refused.kind, refused.code], ['api-failure', 'FORBIDDEN']);
+  // Something that is not a code, or a request for a seat that cannot exist, is never sent.
+  const sentSoFar = s.fake.calls.length;
+  await assert.rejects(() => s.api.redeemSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-3', recoveryToken: 'too short' }), /does not satisfy the shared contract/);
+  await assert.rejects(() => s.api.issueSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', seatId: 'seat-10' }), /does not satisfy the shared contract/);
   assert.equal(s.fake.calls.length, sentSoFar);
 });
 

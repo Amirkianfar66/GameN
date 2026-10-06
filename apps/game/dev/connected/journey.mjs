@@ -20,7 +20,9 @@
 // it against what the other phones show, and has the Hacker scan a player on its own turn.
 // Up to about eight minutes. A sixth (MOTHERSHIP_JOURNEY=end) has the host end a
 // seven-player match: every screen then shows the match as ended by the host, without a
-// winner and with nothing revealed. Under a minute.
+// winner and with nothing revealed. Under a minute. A seventh (MOTHERSHIP_JOURNEY=recovery)
+// moves a seat to another device with a one-time code the host issues: the new device has
+// the seat as it stood, and the old one is refused and shows nothing more. About a minute.
 //
 // What this is: the real Firebase web client, real anonymous identities, real Security
 // Rules, the real protocol-2 service and its real 60-second phases, in headless Chrome.
@@ -54,9 +56,9 @@ const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
 /** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
 const PAGE_LOAD_MS = 30_000;
 
-const SCENARIO = ['shot', 'roles', 'votes', 'knowledge', 'end', 'lobby-end'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
+const SCENARIO = ['shot', 'roles', 'votes', 'knowledge', 'end', 'lobby-end', 'recovery'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
 /** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
-const PLAYERS = ['movement', 'votes', 'knowledge', 'end', 'lobby-end'].includes(SCENARIO) ? 7 : 9;
+const PLAYERS = ['movement', 'votes', 'knowledge', 'end', 'lobby-end', 'recovery'].includes(SCENARIO) ? 7 : 9;
 const WORDS = { 7: 'seven', 9: 'nine' };
 
 const evidence = process.argv[2] ?? process.env.MOTHERSHIP_EVIDENCE_DIR ?? null;
@@ -148,9 +150,20 @@ async function device(browser, label, shape) {
   const PATTERNS = [
     { urlPattern: `*${FUNCTIONS}/*/v1Command`, requestStage: 'Request' }, { urlPattern: `*${FUNCTIONS}/*/v1Command`, requestStage: 'Response' },
     { urlPattern: `*${FUNCTIONS}/*/v1Receipt`, requestStage: 'Request' },
+    ...['v1IssueSeatRecovery', 'v1RedeemSeatRecovery'].flatMap(operation => ['Request', 'Response'].map(requestStage => ({ urlPattern: `*${FUNCTIONS}/*/${operation}`, requestStage }))),
   ];
-  const faults = { dropCommandAnswer: 0, dropCommandRequest: 0, dropReceiptRequests: false, slowDownOnce: null };
-  const anyFault = () => faults.dropCommandAnswer > 0 || faults.dropCommandRequest > 0 || faults.dropReceiptRequests || faults.slowDownOnce !== null;
+  // dropAnswerOf and dropRequestOf: how many more answers to, or requests for, an operation are dropped, by its name.
+  const counted = () => new Proxy({}, {
+    set(target, name, value) {
+      target[name] = value;
+      if (anyFault()) intercept();
+      else setTimeout(intercept, 0);
+      return true;
+    },
+  });
+  const faults = { dropCommandAnswer: 0, dropCommandRequest: 0, dropReceiptRequests: false, slowDownOnce: null, dropAnswerOf: counted(), dropRequestOf: counted() };
+  const anyFault = () => faults.dropCommandAnswer > 0 || faults.dropCommandRequest > 0 || faults.dropReceiptRequests || faults.slowDownOnce !== null
+    || [...Object.values(faults.dropAnswerOf), ...Object.values(faults.dropRequestOf)].some(left => left > 0);
   let intercepting = false;
   const intercept = () => {
     const wanted = anyFault();
@@ -211,6 +224,14 @@ async function device(browser, label, shape) {
         return void fail('answer');
       }
       if (operation === 'v1Receipt' && !answer && fault.dropReceiptRequests) return void fail('request');
+      if (!answer && (fault.dropRequestOf[operation] ?? 0) > 0) {
+        fault.dropRequestOf[operation] -= 1;
+        return void fail('request');
+      }
+      if (answer && (fault.dropAnswerOf[operation] ?? 0) > 0) {
+        fault.dropAnswerOf[operation] -= 1;
+        return void fail('answer');
+      }
       return void go();
     }
     if (method === 'Network.requestWillBeSent') {
@@ -1119,6 +1140,241 @@ async function endScenario({ host, display, players, seatOf, matchId }) {
 }
 
 /**
+ * A seat is moved to another device. The host asks the server for a one-time code for the
+ * seat, a device that has never been in the match redeems it, and from then on that device
+ * is the seat and the one that was is refused.
+ */
+async function recoveryScenario({ browser, host, display, players, seatOf, matchId }) {
+  for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
+  const old = players[6];
+  const seat = seatOf.get(old);
+  const knowledgeOf = who => who.page.evaluate("[...document.querySelectorAll('[data-region=\"knowledge\"] li')].map(item => item.textContent)");
+  const boardOf = async () => JSON.stringify((await display.frame()).model.match.board);
+  await openPanel(old);
+  const role = await old.text('.ms-role-card');
+  const told = await knowledgeOf(old);
+  const others = new Map();
+  for (const player of players.slice(0, 6)) {
+    await openPanel(player);
+    others.set(player, await player.text('.ms-role-card'));
+  }
+  const board = await boardOf();
+  const oldUid = await old.uid();
+
+  const SHAPE = /^[A-Za-z0-9_-]{43}$/;
+  const UNSETTLED = 'mothership:unsettled-requests';
+  const statusOf = who => who.text('#connected-status');
+  const issueControl = () => host.page.evaluate("(() => { const issue = document.getElementById('connected-recovery-issue'); return [issue.textContent, document.getElementById('connected-recovery-seat').disabled, document.querySelector('[data-give-up=\"recovery\"]').hidden]; })()");
+  const codesShown = () => host.page.evaluate("[...document.querySelectorAll('#connected-recovery-codes .connected-code')].map(code => code.id)");
+
+  // ---------------------------------------------------------------- R1. The host asks for a one-time code, and the answer is lost
+  assert.equal(await host.page.evaluate("document.getElementById('connected-recovery-issue').hidden"), false, 'The host console offers it while the match runs');
+  assert.deepEqual(await host.page.evaluate("[...document.getElementById('connected-recovery-seat').options].map(option => option.value)"), Array.from({ length: PLAYERS }, (unused, index) => `seat-${index + 1}`), 'Every taken seat can be chosen');
+  await host.page.evaluate(`(() => { const list = document.getElementById('connected-recovery-seat'); list.value = 'seat-${seat}'; list.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+  assert.deepEqual(await issueControl(), ['Issue a one-time recovery code', false, true]);
+  // Pictures are taken where no code is on screen: a code is not recorded, even a spent one.
+  await host.shot('y1-host-console-before-a-code-is-issued.png');
+  // ARRANGED: the answer to the first request is dropped in the browser. The server has issued a code that nobody received.
+  host.fault.dropAnswerOf.v1IssueSeatRecovery = 1;
+  await host.page.tabTo('connected-recovery-issue', 60);
+  await host.page.press('Enter');
+  await host.page.waitFor("document.getElementById('connected-status').textContent.includes('no answer')", 'the host console says no answer came', 20_000);
+  assert.equal(await statusOf(host), `Issuing a recovery code for Player ${seat}: no answer. Press again to send the same request again.`);
+  // The request is kept: the seat cannot be changed, the control says what pressing it does, and it can be given up.
+  assert.deepEqual(await issueControl(), ['Send the same request again', true, false]);
+  assert.match(await host.text('#connected-recovery-note'), new RegExp(`^The request for Player ${seat} is not settled\\.`));
+  assert.deepEqual(await codesShown(), [], 'No code is on screen');
+  // What is kept for a reload: the identifiers of that request, and nothing else.
+  const keptByHost = JSON.parse((await host.stored()).session[UNSETTLED]);
+  assert.deepEqual(Object.keys(keptByHost), ['recovery']);
+  assert.deepEqual([Object.keys(keptByHost.recovery.request).sort(), keptByHost.recovery.request.seatId, keptByHost.recovery.unanswered], [['matchId', 'protocolVersion', 'requestId', 'seatId'], `seat-${seat}`, true]);
+
+  // The host console is reloaded with the request still not settled. It is still there, and still the same request.
+  await host.page.reload("document.getElementById('connected-recovery-issue') !== null && document.getElementById('connected-match-status').textContent === 'running'", 20_000);
+  assert.deepEqual(await issueControl(), ['Send the same request again', true, false]);
+  assert.equal(await host.page.evaluate("document.getElementById('connected-recovery-seat').value"), `seat-${seat}`);
+  assert.match(await host.text('#connected-recovery-note'), new RegExp(`^A request for a recovery code for Player ${seat}, made before this page was reloaded, is not settled\\.`));
+  await host.page.tabTo('connected-recovery-issue', 60);
+  await host.page.press('Enter');
+  await host.page.waitFor("document.getElementById('connected-status').textContent.endsWith(': done.')", 'the same request is answered', 20_000);
+  // The service gives a code out once: the answer to the same request says one was issued, and does not carry it.
+  assert.match(await host.text('#connected-recovery-note'), new RegExp(`^A code for Player ${seat} was issued, but the answer that carried it was lost`));
+  assert.deepEqual([await issueControl(), await codesShown()], [['Issue a one-time recovery code', false, true], []]);
+  assert.equal((await host.stored()).session[UNSETTLED], undefined, 'Settled, the request is kept nowhere');
+  // Only now is a new request made. Its code replaces the one nobody received.
+  await host.page.tabTo('connected-recovery-issue', 60);
+  await host.page.press('Enter');
+  await host.page.waitFor(`document.getElementById('connected-recovery-code-seat-${seat}') !== null`, 'the host console shows a code', 20_000);
+  const code = await host.text(`#connected-recovery-code-seat-${seat}`);
+  assert.match(code, SHAPE);
+  assert.deepEqual(await codesShown(), [`connected-recovery-code-seat-${seat}`], 'One code, labeled with its seat');
+  const issues = await host.operations('v1IssueSeatRecovery');
+  assert.equal(issues.length, 3, 'Three presses, three requests');
+  const [lost, replayed, issue] = issues;
+  assert.deepEqual([lost.dropped, lost.response], ['answer', null]);
+  assert.deepEqual(replayed.request, lost.request, 'The second press sent the very same request, with the same identifier, across the reload');
+  assert.deepEqual([replayed.response.ok, replayed.response.result.issued, replayed.response.result.seatId, replayed.response.result.recoveryToken], [true, true, `seat-${seat}`, null]);
+  assert.notEqual(issue.request.requestId, lost.request.requestId, 'The third is a new request');
+  assert.deepEqual([Object.keys(issue.request).sort(), issue.request.seatId], [['matchId', 'protocolVersion', 'requestId', 'seatId'], `seat-${seat}`]);
+  assert.deepEqual([issue.response.ok, issue.response.result.issued, issue.response.result.seatId, issue.response.result.recoveryToken], [true, true, `seat-${seat}`, code]);
+  const validForMs = issue.response.result.expiresAt - issue.response.serverTimeMs;
+  assert.equal(validForMs > 9 * 60_000 && validForMs <= 10 * 60_000, true, `The server names when the code stops working: ${validForMs} ms from its own time`);
+  // The code is on the host's screen and nowhere that outlives the page.
+  const hostKeeps = JSON.stringify(await host.stored());
+  assert.equal(hostKeeps.includes(code), false, 'The code is not in the host page’s storage');
+  assert.equal((await host.page.evaluate('window.location.href')).includes(code), false);
+  // Issuing a code changes nothing by itself: the seat's device still has the match.
+  await sleep(1_500);
+  assert.deepEqual([await old.page.evaluate("globalThis.mothershipConnected.frame().model.screen"), await old.text('.ms-role-card')], ['match', role]);
+
+  // ---------------------------------------------------------------- R2. Another device takes the seat over, through lost requests and a lost answer
+  const fresh = await device(browser, 'replacement', PHONE);
+  await fresh.open('player', "document.getElementById('connected-recover')");
+  const freshUid = await fresh.uid();
+  assert.notEqual(freshUid, oldUid, 'A device with an identity of its own');
+  const waitingText = who => who.text('#connected-waiting');
+  const NOT_GIVEN = 'The server has not given this device a seat in this match. If the request is still on its way this page will find out; otherwise ask the host for a new code and start over.';
+  const enter = async who => {
+    await who.page.tap('#connected-recover-match');
+    await who.page.type(matchId);
+    await who.page.tap('#connected-recover-code');
+    await who.page.type(code);
+  };
+  await fresh.page.tap('#connected-recover-match');
+  await fresh.page.type(matchId);
+  await fresh.shot('y2-new-device-before-the-code-is-entered.png');
+  await fresh.page.tap('#connected-recover-code');
+  await fresh.page.type(code);
+  // ARRANGED: the request itself is dropped, twice. Nothing reaches the server, so the seat stays where it is.
+  fresh.fault.dropRequestOf.v1RedeemSeatRecovery = 2;
+  await fresh.page.tap('#connected-recover');
+  await fresh.page.waitFor(`document.getElementById('connected-waiting')?.textContent === ${JSON.stringify(NOT_GIVEN)}`, 'the new device is told the server has not given it a seat', 20_000);
+  assert.equal(await statusOf(fresh), 'Taking over the seat: no answer. Press again to send the same request again.');
+  assert.equal(await fresh.exists('#connected-recover-code'), false, 'The field the code was typed into is gone');
+  // What it keeps while nothing is settled: its sign-in, and which match it asked for a seat in. Not the code.
+  const asking = await fresh.stored();
+  assert.deepEqual(JSON.parse(asking.session['mothership:connected-resume']), { device: 'player', matchId, recovering: true });
+  assert.equal(JSON.stringify(asking).includes(code), false, 'The code is in no storage while the request is unsettled');
+  assert.equal(asking.session[UNSETTLED], undefined, 'A request that carries a code is never written down');
+  assert.deepEqual([await fresh.exists('#connected-recover-again'), await fresh.exists('#connected-recover-start-over')], [true, true]);
+  // The same request again, as it is. It is dropped again.
+  await fresh.page.tap('#connected-recover-again');
+  await fresh.page.waitFor("document.getElementById('connected-status').textContent.startsWith('Taking over the seat: no answer')", 'still no answer', 20_000);
+  await fresh.quiet();
+  const [first, second, ...none] = await fresh.operations('v1RedeemSeatRecovery');
+  assert.deepEqual(none, []);
+  assert.deepEqual([first.dropped, second.dropped], ['request', 'request']);
+  assert.deepEqual(second.request, first.request, 'The very same request, with the same identifier');
+  assert.deepEqual(Object.keys(first.request).sort(), ['matchId', 'protocolVersion', 'recoveryToken', 'requestId']);
+  assert.deepEqual([await old.page.evaluate("globalThis.mothershipConnected.frame().model.screen"), await old.text('.ms-role-card')], ['match', role], 'The seat is still with its device');
+
+  // The page is reloaded. The request, and the code in it, are gone; what the tab noted is not.
+  await fresh.page.reload(`document.getElementById('connected-waiting')?.textContent === ${JSON.stringify(NOT_GIVEN)}`, 30_000);
+  assert.deepEqual([await fresh.exists('#connected-recover-again'), await fresh.exists('#connected-recover-start-over')], [false, true], 'Nothing is left to send again; starting over is');
+  assert.equal(await fresh.uid(), freshUid, 'It is the same identity');
+  await fresh.page.tap('#connected-recover-start-over');
+  await fresh.page.waitFor("document.getElementById('connected-recover') !== null", 'the form is back');
+  assert.equal((await fresh.stored()).session['mothership:connected-resume'], undefined, 'Starting over forgets the match');
+  await enter(fresh);
+  // ARRANGED: this time the request reaches the server and its answer is dropped. The server has moved the seat; the device is not told.
+  fresh.fault.dropAnswerOf.v1RedeemSeatRecovery = 1;
+  await fresh.page.tap('#connected-recover');
+  // Nothing more is pressed. The page asks the server what it can read, finds that it is in the match, and opens it.
+  await fresh.page.waitFor(MATCH, 'the new device finds out it has the seat, and shows the match', 30_000);
+  await fresh.quiet();
+  const redeems = await fresh.operations('v1RedeemSeatRecovery');
+  assert.equal(redeems.length, 3, 'Three requests in all: two that never arrived, and the one whose answer was lost');
+  const redeem = redeems[2];
+  assert.deepEqual([redeem.dropped, redeem.response], ['answer', null]);
+  assert.notEqual(redeem.request.requestId, first.request.requestId, 'A new request after starting over');
+  assert.equal(await fresh.text('#ms-title'), `You are Player ${seat}`);
+  assert.equal(await fresh.exists('.ms-role-card'), false, 'Nothing private is shown until the new device is asked to');
+  await openPanel(fresh);
+  assert.equal(await fresh.text('.ms-role-card'), role, 'The seat has the role it had: nothing is dealt again');
+  assert.deepEqual(await knowledgeOf(fresh), told, 'and it is told exactly what the seat was told before');
+  // What the new device keeps: its sign-in, which match and which seat. Not the code.
+  const freshKeeps = await fresh.stored();
+  assert.deepEqual(JSON.parse(freshKeeps.session['mothership:connected-resume']), { device: 'player', matchId, seatId: `seat-${seat}` });
+  assert.equal(JSON.stringify(freshKeeps).includes(code), false, 'The code is not in the new device’s storage');
+  assert.equal(freshKeeps.session[UNSETTLED], undefined);
+  assert.equal(await fresh.page.evaluate('window.location.search'), '?as=player', 'and was never in its address');
+  assert.equal(await fresh.exists('#connected-recover-code'), false);
+  await fresh.shot('y3-new-device-has-the-seat.png');
+
+  // ---------------------------------------------------------------- R3. The device that held the seat is shown nothing more
+  await old.page.waitFor("document.querySelector('.ms-shell')?.dataset.screen === 'blocked'", 'the old device is refused and says so', 30_000);
+  assert.equal(await old.text('#ms-blocked-heading'), 'No access to this match');
+  const oldFrame = JSON.stringify(await old.frame());
+  const oldPage = await old.page.evaluate('document.body.textContent');
+  for (const [what, text] of [['frame', oldFrame], ['page', oldPage]]) {
+    assert.equal(new RegExp(`\\b${role}\\b`).test(text), false, `The old device's ${what} no longer holds the role`);
+    for (const line of told) assert.equal(text.includes(line), false, `nor what the seat was told (${what})`);
+  }
+  assert.equal(await old.exists('.ms-private, .ms-roster, [data-action="connected"]'), false, 'No part of the match is left on it');
+  assert.equal((await everSpoken(old)).some(line => line.includes('No access to this match.')), true, 'It says so aloud');
+  await old.shot('y4-old-device-no-access.png');
+  // A reload does not bring the match back to it.
+  await old.page.reload("document.getElementById('connected-lobby') !== null", 20_000);
+  await old.page.waitFor("document.getElementById('connected-waiting')?.textContent.startsWith('The server does not let this device read the match.')", 'the reloaded old device is told it is not in the match', 20_000);
+  await sleep(2_000);
+  assert.equal(await old.exists('.ms-shell[data-screen="match"]'), false, 'The reloaded old device has no match');
+  assert.equal(new RegExp(`\\b${role}\\b`).test(await old.page.evaluate('document.body.textContent')), false);
+
+  // ---------------------------------------------------------------- R4. Nothing else changed, and the code is spent
+  assert.equal(await boardOf(), board, 'The shared display’s board is what it was before the seat moved');
+  for (const [player, theirs] of others) {
+    assert.deepEqual([await player.page.evaluate("globalThis.mothershipConnected.frame().model.connection"), await player.text('.ms-role-card')], ['live', theirs], `${player.label} is untouched`);
+  }
+  const late = await device(browser, 'latecomer', PHONE);
+  await late.open('player', "document.getElementById('connected-recover')");
+  await enter(late);
+  await late.page.tap('#connected-recover');
+  await late.page.waitFor("document.getElementById('connected-status').textContent.includes('refused by the server')", 'the used code is refused', 20_000);
+  const [again, ...noMore] = await late.operations('v1RedeemSeatRecovery');
+  assert.deepEqual([again.response.ok, again.response.error.code, noMore.length], [false, 'FORBIDDEN', 0]);
+  assert.equal(await late.exists('.ms-shell'), false, 'A device with a spent code is shown no match');
+  // An answered refusal settles it: the code left the field when the request was made, and the tab keeps nothing of the match.
+  assert.equal(await late.page.evaluate("document.getElementById('connected-recover-code').value"), '', 'The code is not left in the field');
+  assert.deepEqual(Object.keys((await late.stored()).session).filter(key => key.startsWith('mothership:')), []);
+  assert.equal(await fresh.text('#ms-title'), `You are Player ${seat}`, 'The seat stays with the device that used the code first');
+
+  // ---------------------------------------------------------------- R5. The new device plays the seat
+  let moved = null;
+  // Not across the end of a turn: a choice that is not sent is dropped when the phase changes.
+  await roomFor(fresh, 15);
+  if (await fresh.exists('#ms-action-open-move')) {
+    const destination = await chooseMove(fresh);
+    await tapWhenActive(fresh, '#ms-action-confirm');
+    await cardIs(fresh, 'accepted', 'the move is accepted', 20_000);
+    const [command] = await fresh.operations('v1Command');
+    assert.deepEqual([command.request.command, command.response.receipt.status], [{ type: 'MOVE', destination }, 'accepted']);
+    await waitShownAt(display, seat, destination, 'the display shows the seat where its new device moved it');
+    moved = destination;
+  }
+  assert.equal((await old.operations('v1Command')).length, 0);
+  facts.match = {
+    note: 'A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person. The recovery code is not recorded.',
+    playerCount: PLAYERS,
+    seatMoved: seat,
+    codeValidForMs: validForMs,
+    newDeviceMovedTo: moved,
+  };
+  established('R. A seat is moved to another device with a one-time code (seven players)', [
+    `With the keyboard, the host asked for a code for Player ${seat}. The answer was dropped in the browser (arranged). The console said no answer had come, kept the request, would not let the seat be changed, and kept the request's identifiers, and nothing else, for a reload.`,
+    'The console was reloaded. It still had the request and sent the very same one again. The service answered that a code had been issued and did not give it out a second time; the console said so, and showed no code.',
+    `Only then was a new request made: one v1IssueSeatRecovery with a new identifier, answered with a 43-character code that the server said is good for ${(validForMs / 60_000).toFixed(1)} minutes. The console showed it, labeled with its seat; it was not in the page's storage or address. Nothing changed for the seat's device.`,
+    'A device that had never been in the match entered the match identifier and the code. Its request was dropped before it reached the server, twice (arranged): the second was the very same request. The code left the field as the request was made and was in no storage; the tab noted only which match it had asked for a seat in. The server refused it the lobby, the page said the server had not given it a seat, and the seat stayed with its device.',
+    'That page was reloaded: the request and the code were gone, the note was not, and it said the same. Starting over brought the form back.',
+    `The code was entered again and the request reached the server, but its answer was dropped (arranged). Without anything more being pressed, the page found that the server now let it read the match, and opened it as Player ${seat}. With its private panel opened it showed the role and everything else the old device had been told. It keeps its sign-in, the match and the seat's number, and not the code.`,
+    'The device that had held the seat was refused its view by the server. It let go of everything at once and said so: "No access to this match", with no role, nothing it had been told and no part of the match left in its page or its model. A reload did not bring the match back to it.',
+    'Nothing public changed: the display’s board was identical, and the six other phones stayed current with their own roles.',
+    'A third device that tried the same code was refused by the server (FORBIDDEN) and shown nothing. The code was not left in its field, and its tab kept nothing of the match.',
+    moved === null ? 'The server offered the seat no move at that moment, so none was made.' : `The new device then moved the seat to ${moved}: one MOVE, accepted, and the display showed it. The old device sent nothing at any point.`,
+    'NOT RUN: a code that has expired (ten minutes); a request refused after an earlier try of it went unanswered; giving a request up; moving the host’s own identity, which the service has no operation for.',
+  ]);
+}
+
+/**
  * The nine-player scenario: a shot registered on the Officer's own turn, which is the only
  * ordinary shot the approved ruleset opens in a first round. Every turn is a real
  * 60-second phase and nothing here can shorten one, so this waits for as many of them as
@@ -1496,6 +1752,7 @@ async function main() {
     if (SCENARIO === 'votes') return await votesScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'knowledge') return await knowledgeScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'end') return await endScenario({ host, display, players, seatOf, matchId });
+    if (SCENARIO === 'recovery') return await recoveryScenario({ browser, host, display, players, seatOf, matchId });
 
     // ---------------------------------------------------------------- 4. Each player receives only their authorized private view
     for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);

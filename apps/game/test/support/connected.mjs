@@ -107,8 +107,9 @@ export function createFakeConnectedTransport(host, { uid = 'test-uid-1', mode = 
       for (const listener of [...(collections.get(keyOf(target)) ?? [])]) listener.onSnapshot({ value: structuredClone(items), fresh });
       await flush();
     },
-    async fail(target) {
-      for (const listener of [...(documents.get(keyOf(target)) ?? [])]) listener.onError();
+    /** The listener ends. With 'refused', because the server's rules do not let this identity read the document. */
+    async fail(target, reason) {
+      for (const listener of [...(documents.get(keyOf(target)) ?? [])]) listener.onError(reason);
       await flush();
     },
   };

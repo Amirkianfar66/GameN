@@ -74,10 +74,11 @@ export function createRestEmulatorTransport({ pollMs = 100, origin = 'http://loc
           // A REST read is answered by the server: there is no cache to be stale.
           listener.onSnapshot({ value, fresh: true });
         }
-      } catch {
+      } catch (error) {
         if (stopped) return;
         last = undefined;
-        if (!failed) listener.onError();
+        // HTTP 403 is the rules refusing the read. Anything else is the read failing.
+        if (!failed) listener.onError(error?.refused === true ? 'refused' : 'failed');
         failed = true;
       }
       if (!stopped) handle.timer = setTimeout(tick, pollMs);
@@ -118,7 +119,7 @@ export function createRestEmulatorTransport({ pollMs = 100, origin = 'http://loc
       return poll(async () => {
         const response = await fetch(`${documents}/${path}`, { headers: bearer() });
         if (response.status === 404) return null;
-        if (!response.ok) throw new Error(`Read refused with HTTP ${response.status}`);
+        if (!response.ok) throw Object.assign(new Error(`Read failed with HTTP ${response.status}`), { refused: response.status === 403 });
         return decodeDocument(await response.json());
       }, listener);
     },
@@ -130,7 +131,7 @@ export function createRestEmulatorTransport({ pollMs = 100, origin = 'http://loc
         const response = await fetch(`${documents}/${parent}:runQuery`, {
           method: 'POST', headers: { 'content-type': 'application/json', ...bearer() }, body: JSON.stringify({ structuredQuery: { from: [{ collectionId }] } }),
         });
-        if (!response.ok) throw new Error(`Query refused with HTTP ${response.status}`);
+        if (!response.ok) throw Object.assign(new Error(`Query failed with HTTP ${response.status}`), { refused: response.status === 403 });
         const rows = await response.json();
         return rows.filter(row => row.document !== undefined).map(row => ({ id: row.document.name.split('/').at(-1), data: decodeDocument(row.document) }))
           .sort((a, b) => a.id.localeCompare(b.id));

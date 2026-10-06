@@ -34,10 +34,12 @@ function client(t) {
 function listen(start) {
   const snapshots = [];
   let errors = 0;
+  /** Why each failure happened, as the transport said. */
+  const reasons = [];
   const waiters = new Set();
   const stop = start({
     onSnapshot(snapshot) { snapshots.push(snapshot); for (const check of [...waiters]) check(); },
-    onError() { errors += 1; for (const check of [...waiters]) check(); },
+    onError(reason) { errors += 1; reasons.push(reason); for (const check of [...waiters]) check(); },
   });
   const until = (test, label, timeoutMs = 8_000) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => { waiters.delete(check); reject(new Error(`Timed out waiting for: ${label}`)); }, timeoutMs);
@@ -57,7 +59,7 @@ function listen(start) {
     waiters.add(check);
     check();
   });
-  return { snapshots, stop, until, untilError, errors: () => errors };
+  return { snapshots, stop, until, untilError, errors: () => errors, reasons };
 }
 
 test('connected (Firebase web client): identity, operations, live listeners and snapshot freshness', async t => {
@@ -99,6 +101,7 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   const denied = listen(listener => player.transport.listenDocument({ kind: 'session', matchId }, listener));
   await denied.untilError();
   assert.deepEqual(denied.snapshots, []);
+  assert.deepEqual(denied.reasons, ['refused'], 'The transport says the rules refused it, which is not a lost connection');
 
   // A request for admission, and the requester's own document by listener.
   const requested = await player.api.requestAdmission({ protocolVersion: 2, requestId: requestId(), roomCode, initialRoom: 'Room B' });
@@ -129,6 +132,7 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   assert.deepEqual(readLobby(seen.value, matchId).value.seats, [{ seatId: 'seat-4', initialRoom: 'Room B' }]);
   const refused = listen(listener => outsider.transport.listenDocument({ kind: 'lobby', matchId }, listener));
   await refused.untilError();
+  assert.deepEqual(refused.reasons, ['refused']);
 
   // A stopped listener hears nothing more.
   own.stop();

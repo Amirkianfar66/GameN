@@ -34,6 +34,11 @@ export interface SnapshotStore<View> {
    */
   accept(payload: unknown, options?: { readonly confirmed?: boolean }): SnapshotOutcome<View>;
   current(): View | null;
+  /**
+   * Lets go of the held view. What it was pinned to (seat and role, versions, player count)
+   * is kept, so nothing that arrives later can stand in for another seat or match.
+   */
+  forget(): void;
 }
 
 /**
@@ -97,6 +102,9 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
 
   return {
     current: () => held?.view ?? null,
+    forget() {
+      held = null;
+    },
     accept(payload, options) {
       const version = probeProtocolVersion(payload);
       if (version !== null && !supported.includes(version)) return reject({ kind: 'incompatible-protocol', receivedVersion: version });

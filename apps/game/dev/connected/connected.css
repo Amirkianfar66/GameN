@@ -138,3 +138,37 @@ html {
   color: var(--ms-color-text);
   font-weight: 700;
 }
+
+/* A one-time recovery code, as the host reads it out or shows it. Wraps anywhere; an empty one takes no room. */
+.connected-lobby .connected-code {
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.connected-lobby .connected-code:empty {
+  display: none;
+}
+
+
+/* A control, and beside it the control that gives up a request that is not settled. */
+.connected-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-2);
+}
+
+.connected-lobby .connected-codes {
+  display: grid;
+  gap: var(--ms-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Whatever is hidden is hidden, whatever display its kind of element has otherwise. */
+.connected-lobby [hidden] {
+  display: none;
+}
