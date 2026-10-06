@@ -107,12 +107,36 @@ async function device(browser, label, shape) {
       }
     }, 50);
   })();` });
-  // Every interception rule is off until a step turns one on.
-  const fault = { dropCommandAnswer: 0, dropCommandRequest: 0, dropReceiptRequests: false, slowDownOnce: null };
-  await page.send('Fetch.enable', { patterns: [
+  // Every interception rule is off until a step turns one on, and so is interception itself.
+  // It used to be on for the whole run. With Chrome 155 that now and then left a request
+  // that matches none of the patterns below waiting forever: one page's sign-in, or its
+  // request to join, or a module it was loading. It was about one run in three, and none in
+  // twenty-four with interception off. So requests are intercepted only while a step has a
+  // fault arranged, and no longer than that.
+  const PATTERNS = [
     { urlPattern: `*${FUNCTIONS}/*/v1Command`, requestStage: 'Request' }, { urlPattern: `*${FUNCTIONS}/*/v1Command`, requestStage: 'Response' },
     { urlPattern: `*${FUNCTIONS}/*/v1Receipt`, requestStage: 'Request' },
-  ] });
+  ];
+  const faults = { dropCommandAnswer: 0, dropCommandRequest: 0, dropReceiptRequests: false, slowDownOnce: null };
+  const anyFault = () => faults.dropCommandAnswer > 0 || faults.dropCommandRequest > 0 || faults.dropReceiptRequests || faults.slowDownOnce !== null;
+  let intercepting = false;
+  const intercept = () => {
+    const wanted = anyFault();
+    if (wanted === intercepting) return;
+    intercepting = wanted;
+    void page.send(wanted ? 'Fetch.enable' : 'Fetch.disable', wanted ? { patterns: PATTERNS } : {}).catch(() => {});
+  };
+  // Arranging a fault turns interception on at once, ahead of whatever the step does next.
+  // It is turned off a moment after the last fault is used up, so that the request the fault
+  // was for is dealt with first.
+  const fault = new Proxy(faults, {
+    set(target, name, value) {
+      target[name] = value;
+      if (anyFault()) intercept();
+      else setTimeout(intercept, 0);
+      return true;
+    },
+  });
   const calls = [];           // Every operation this page sent to Functions, with what came back, in the order sent.
   const listened = new Set(); // Every Firestore path this page asked to listen to.
   const pending = new Map();
