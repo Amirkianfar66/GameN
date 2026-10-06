@@ -66,8 +66,10 @@ function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | nu
   } else if (!wasShown) {
     return [polite(en.announce.connected(summary(previous, next, view, selfSeatId)))];
   } else if (!wasCurrent) {
-    // Whatever happened while disconnected is obsolete: state the present, do not replay it.
-    return [polite(en.announce.reconnected(summary(previous, next, view, selfSeatId)))];
+    // Whatever happened in the meantime is obsolete: state the present, do not replay it.
+    const wasConnected = previous?.env.connection === 'live';
+    const phrase = wasConnected ? en.announce.readableAgain : en.announce.reconnected;
+    return [polite(phrase(summary(previous, next, view, selfSeatId)))];
   } else if (previous?.view) {
     if (previous.view.phase.id !== view.phase.id) out.push(polite(summary(previous, next, view, selfSeatId)));
     for (const change of seatChanges(previous.view, view)) out.push(polite(change));

@@ -95,7 +95,7 @@ test('reduced motion is honored for the device setting and for the in-app choice
 
 test('controls meet the minimum target size and keep a visible two-tone focus ring', () => {
   assert.equal(proposedDesignTokens.interaction.minimumTargetCssPx, 44);
-  for (const selector of ['.ms-button', '.ms-field', '.ms-details__summary', '.ms-seat']) {
+  for (const selector of ['.ms-button', '.ms-field__label', '.ms-details__summary', '.ms-seat']) {
     const rule = withoutComments.slice(withoutComments.indexOf(`${selector} {`));
     assert.match(rule.slice(0, rule.indexOf('}')), /min-height: var\(--ms-target-min\)/, selector);
   }
@@ -119,6 +119,25 @@ test('the token pairs the shells use meet WCAG AA contrast (tokens only; composi
   for (const [name, foreground, background] of nonText) assert.equal(contrast(foreground, background) >= 3, true, `${name}: ${contrast(foreground, background).toFixed(2)}`);
   // Why the ring needs its ink halo: amber alone does not separate from paper.
   assert.equal(contrast(color.focusRing, color.paper) < 3, true);
+});
+
+test('layout survives a narrow screen with enlarged text: found broken in a browser, kept fixed here', () => {
+  const rule = selector => {
+    const start = withoutComments.indexOf(`${selector} {`);
+    assert.notEqual(start, -1, selector);
+    return withoutComments.slice(start, withoutComments.indexOf('}', start));
+  };
+  // Display lettering follows the reader's font size but is capped so one word fits the screen.
+  assert.match(rule('.ms-shell'), /--ms-text-display-fit: min\(var\(--ms-text-display\), \d+vw\);/);
+  assert.match(rule('.ms-shell'), /--ms-text-wordmark-fit: min\(var\(--ms-text-display\), \d+vw\);/);
+  assert.deepEqual(withoutComments.match(/font-size: var\(--ms-text-display\);/g) ?? [], [], 'display size is always used through a fitted variable');
+  assert.equal(rule('.ms-shell').includes('font-size: var(--ms-text-body)'), true, 'body text is never capped');
+  // Grid children may shrink below their longest word instead of widening the page.
+  assert.match(withoutComments, /\.ms-main > \*,[\s\S]*?\.ms-card > \* \{\s*min-width: 0;/);
+  // Breaking anywhere made table columns split words mid-word; it is confined to identifiers.
+  assert.equal(rule('.ms-shell').includes('overflow-wrap: break-word'), true);
+  assert.deepEqual([...withoutComments.matchAll(/([^{}]+)\{[^{}]*overflow-wrap: anywhere/g)].map(match => match[1].trim()), ['.ms-details__list dd']);
+  assert.match(rule('.ms-shell--table .ms-roster'), /overflow-x: auto/);
 });
 
 test('the stylesheet respects safe areas, user font size and forced colors', () => {

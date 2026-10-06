@@ -93,11 +93,14 @@ export function renderSettings(settings: SettingsModel): MarkupElement {
   return h('section', { class: 'ms-settings', 'aria-labelledby': 'ms-settings-heading', 'data-region': 'settings' },
     h('h2', { class: 'ms-settings__heading', id: 'ms-settings-heading' }, settings.heading),
     h('div', { class: 'ms-field' },
-      h('input', {
-        type: 'checkbox', class: 'ms-checkbox', id: SHELL_IDS.reduceMotion, checked: settings.reduceMotion.checked,
-        'aria-describedby': hintId, 'data-intent': 'settings/reduce-motion',
-      }),
-      h('label', { class: 'ms-field__label', for: SHELL_IDS.reduceMotion }, settings.reduceMotion.label),
+      // The control sits inside its label so the whole labeled row is one touch target.
+      h('label', { class: 'ms-field__label', for: SHELL_IDS.reduceMotion },
+        h('input', {
+          type: 'checkbox', class: 'ms-checkbox', id: SHELL_IDS.reduceMotion, checked: settings.reduceMotion.checked,
+          'aria-describedby': hintId, 'data-intent': 'settings/reduce-motion',
+        }),
+        h('span', { class: 'ms-field__text' }, settings.reduceMotion.label),
+      ),
       h('p', { class: 'ms-hint', id: hintId }, settings.reduceMotion.hint),
     ),
   );
@@ -105,7 +108,7 @@ export function renderSettings(settings: SettingsModel): MarkupElement {
 
 export function renderDetails(details: MatchDetailsModel): MarkupElement {
   return h('details', { class: 'ms-details', 'data-region': 'details' },
-    h('summary', { class: 'ms-details__summary' }, details.summary),
+    h('summary', { class: 'ms-details__summary', id: 'ms-details-summary' }, details.summary),
     h('dl', { class: 'ms-details__list' }, details.entries.map(entry => [
       h('dt', null, entry.term),
       h('dd', null, entry.value),

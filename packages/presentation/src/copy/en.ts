@@ -105,9 +105,8 @@ export const en = {
     boardHeading: 'Board',
     tableHeading: 'Players',
     caption: 'Public status of all nine players',
-    column: { player: 'Player', location: 'Location', health: 'Health', jail: 'Jailed', captain: 'Captain', turn: 'Active turn' },
-    yes: 'Yes',
-    no: 'No',
+    column: { player: 'Player', location: 'Location', health: 'Health', status: 'Status' },
+    noStatus: 'None',
   },
 
   settings: {
@@ -134,6 +133,7 @@ export const en = {
   announce: {
     connected: (summary: string) => `Connected. ${summary}`,
     reconnected: (summary: string) => `Reconnected. ${summary}`,
+    readableAgain: (summary: string) => `Up to date again. ${summary}`,
     connectionLost: 'Connection lost. Showing the last known state.',
     unreadable: 'The latest update could not be read.',
     timeUp: 'Time is up. Waiting for phase update.',

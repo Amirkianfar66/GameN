@@ -195,8 +195,9 @@ export interface TableMatchModel {
   readonly roster: {
     readonly heading: string;
     readonly caption: string;
-    readonly columns: { readonly player: string; readonly location: string; readonly health: string; readonly jail: string; readonly captain: string; readonly turn: string };
-    readonly rows: readonly { readonly seat: SeatModel; readonly jail: string; readonly captain: string; readonly turn: string }[];
+    readonly columns: { readonly player: string; readonly location: string; readonly health: string; readonly status: string };
+    /** status lists the seat's turn, Jail and Captain markers by name; each stays its own fact. */
+    readonly rows: readonly { readonly seat: SeatModel; readonly status: string }[];
   };
   readonly details: MatchDetailsModel;
 }

@@ -85,6 +85,9 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     tick = null;
 
     const { input, model, remainingMs } = compute();
+    // A private panel never outlives the screen it was opened on: when the match returns
+    // after a recovery screen, the role is shown again only if the player asks again.
+    if (model.screen !== 'match' && local.roleDrawerOpen) local = { ...local, roleDrawerOpen: false };
     const spoken = config.describe(previousInput, input);
     if (spoken.length > 0) {
       announcement = {

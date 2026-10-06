@@ -180,11 +180,21 @@ test('the table roster is a real table: caption, column and row headers, one row
   const root = table(before.public);
   const roster = find(root, byTag('table'));
   assert.equal(textOf(find(roster, byTag('caption'))), 'Public status of all nine players');
-  assert.deepEqual(findAll(roster, element => element.tag === 'th' && element.attrs.scope === 'col').map(textOf), ['Player', 'Location', 'Health', 'Jailed', 'Captain', 'Active turn']);
+  assert.deepEqual(findAll(roster, element => element.tag === 'th' && element.attrs.scope === 'col').map(textOf), ['Player', 'Location', 'Health', 'Status']);
   const rows = findAll(find(roster, byTag('tbody')), byTag('tr'));
   assert.equal(rows.length, 9);
-  assert.deepEqual(rows[0].children.map(textOf), ['Player 1', 'Room A', 'Healthy', 'No', 'No', 'Yes']);
-  assert.deepEqual(rows[4].children.map(textOf), ['Player 5', 'Command Room', 'Healthy', 'No', 'Yes', 'No']);
+  assert.deepEqual(rows[0].children.map(textOf), ['Player 1', 'Room A', 'Healthy', 'Active turn']);
+  assert.deepEqual(rows[1].children.map(textOf), ['Player 2', 'Room A', 'Healthy', 'None']);
+  assert.deepEqual(rows[4].children.map(textOf), ['Player 5', 'Command Room', 'Healthy', 'Captain']);
+  // A sideways-scrollable region must be reachable and scrollable from the keyboard.
+  const region = find(root, byRegion('roster'));
+  assert.deepEqual([region.attrs.tabindex, region.attrs.id, region.attrs['aria-labelledby']], ['0', 'ms-roster', 'ms-roster-heading']);
+});
+
+test('the roster keeps Jail, Captain and turn as separately named facts beside health', () => {
+  const view = publicVariant(v => { v.seats[0].jailed = true; v.seats[0].captain = true; v.seats[0].health = 'Injured'; });
+  const row = findAll(find(table(view), byTag('tbody')), byTag('tr'))[0];
+  assert.deepEqual(row.children.map(textOf), ['Player 1', 'Room A', 'Injured', 'Active turn, Jailed, Captain']);
 });
 
 test('text supplied by the server is escaped, including free-form version strings', () => {

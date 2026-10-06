@@ -12,12 +12,11 @@ function buildMatch(input: TableShellInput, view: NonNullable<TableShellInput['v
       heading: en.roster.tableHeading,
       caption: en.roster.caption,
       columns: en.roster.column,
-      rows: seats.map(seat => ({
-        seat,
-        jail: seat.jailed ? en.roster.yes : en.roster.no,
-        captain: seat.captain ? en.roster.yes : en.roster.no,
-        turn: seat.isActive ? en.roster.yes : en.roster.no,
-      })),
+      rows: seats.map(seat => {
+        // Health has its own column, so the status cell names only the remaining markers.
+        const status = seat.markers.filter(marker => marker.kind !== 'health' && marker.kind !== 'self').map(marker => marker.label);
+        return { seat, status: status.length > 0 ? status.join(', ') : en.roster.noStatus };
+      }),
     },
     details: buildDetails(view, input.mode),
   };

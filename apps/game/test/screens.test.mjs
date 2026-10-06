@@ -252,6 +252,10 @@ test('an incompatible protocol replaces the match with a recoverable screen and 
   await fake.deliver(afterRegistration.officer);
   assert.equal(screen.getFrame().model.screen, 'match');
   assert.deepEqual(screen.getFrame().focus, { seq: 1, targetId: 'ms-blocked-heading' }, 'Focus is requested once, not on every frame');
+  assert.equal(screen.getFrame().model.match.roleDrawer.open, false, 'A drawer that was open before the interruption does not reopen by itself');
+  assert.equal(JSON.stringify(screen.getFrame().model).includes('Officer'), false);
+  screen.dispatch({ type: 'role-drawer/toggle' });
+  assert.equal(screen.getFrame().model.match.roleDrawer.role.name, 'Officer', 'It opens again when asked');
 });
 
 test('data for another seat blocks the phone for good and shows none of it', async () => {

@@ -54,8 +54,8 @@ export function auditMarkup(root) {
       if (attrs.type !== 'button') problems.push('button without type="button"');
       if (textOf(element).trim() === '') problems.push('button without an accessible name');
     }
-    if (tag === 'button' || tag === 'input' || tag === 'a') {
-      if (attrs.id === undefined && tag !== 'a') problems.push(`<${tag}> without an id; a host cannot restore focus to it`);
+    if ((tag === 'button' || tag === 'input' || tag === 'summary') && attrs.id === undefined) {
+      problems.push(`<${tag}> without an id; a host cannot restore focus to it`);
     }
     if (tag === 'input' && !labelTargets.has(attrs.id)) problems.push(`input without a label: ${attrs.id}`);
     if (tag === 'a') {

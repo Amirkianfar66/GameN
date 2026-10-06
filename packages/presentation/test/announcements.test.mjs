@@ -87,6 +87,9 @@ test('blocking problems interrupt; an unreadable update is reported without repl
   const blocked = playerInput(before.officer, { problem: 'integrity' });
   assert.deepEqual(describePlayerTransition(blocked, blocked), []);
   assert.deepEqual(texts(describeTableTransition(tableInput(before.public), tableInput(before.public, { problem: 'unreadable-update' }))), ['The latest update could not be read.']);
+  // Recovering from an unreadable update is not a reconnection, and is not described as one.
+  assert.deepEqual(texts(describeTableTransition(tableInput(before.public, { problem: 'unreadable-update' }), tableInput(before.public))), ['Up to date again. Round 2. Player 1’s turn.']);
+  assert.deepEqual(texts(describeTableTransition(tableInput(before.public, { connection: 'stale', problem: 'unreadable-update' }), tableInput(before.public))), ['Reconnected. Round 2. Player 1’s turn.']);
   assert.deepEqual(texts(describeTableTransition(tableInput(null, connecting), tableInput(null, { ...connecting, problem: 'unreadable-update' }))), ['The latest update could not be read.']);
 });
 
