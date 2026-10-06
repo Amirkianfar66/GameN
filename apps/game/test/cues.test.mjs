@@ -194,6 +194,47 @@ test('a private-only update leaves the public cues exactly as they were: the sam
   }
 });
 
+test('a private-only update between a public view and its event changes nothing about the public cue: not whether it plays, not its number, not its moment', async () => {
+  // The other way private activity could show in public: the view for a public move is on
+  // screen, this seat's own registration arrives as a view of its own, and then the event
+  // for the move. Two phones again, one of which registers in between.
+  const moved = next(before.officer, before.officer.phase.id, v => { v.seats[7].location = 'Room A'; });
+  const registered = variant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = [COMMAND]; });
+  const moveEvent = () => eventFor(moved, { type: 'PUBLIC_MOVE', seatId: 'seat-8', from: 'Room B', to: 'Room A' });
+  const run = async (privately, eventAfterMs) => {
+    const s = setup('player');
+    s.screen.start();
+    await s.fake.connectWith(before.officer);
+    await s.fake.deliver(moved);
+    await s.host.advance(eventAfterMs / 2);
+    if (privately) await s.fake.deliver(registered);
+    await s.host.advance(eventAfterMs / 2);
+    await s.fake.deliverEvent(moveEvent());
+    return s.cues();
+  };
+  // In time: both play it, as cue 1.
+  const expected = [{ seq: 1, cue: { kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' } }];
+  assert.deepEqual(await run(false, LATENESS - 100), expected);
+  assert.deepEqual(await run(true, LATENESS - 100), expected, 'The private view in between does not make this phone miss the cue');
+  // Too late: neither plays it. The private view in between does not make an old public fact new again.
+  assert.deepEqual(await run(false, LATENESS + 400), []);
+  assert.deepEqual(await run(true, LATENESS + 400), [], 'nor does it revive one');
+
+  // The other clock: a registration is as new as the view that brought it, however long ago
+  // anything public changed. It is still this seat's cue, inside its open panel.
+  const own = setup('player');
+  own.screen.start();
+  await own.fake.connectWith(before.officer);
+  own.screen.dispatch(TOGGLE);
+  await own.fake.deliver(moved);
+  await own.host.advance(LATENESS * 3);
+  await own.fake.deliver(registered);
+  await own.host.advance(LATENESS - 100);
+  await own.fake.deliverEvent({ ...registrationEvent, viewRevision: registered.viewRevision, audience: registered.audience });
+  assert.deepEqual(own.frame().privateCues.map(item => item.cue.kind), ['registration']);
+  assert.deepEqual(own.cues(), [], 'and nothing public comes of it');
+});
+
 test('the two windows are the ones agreed with the Designer: a second to start a cue, and a second for an event to be late', () => {
   // docs/design/motion-storyboards.md, "Cue freshness". Neither is a game rule and neither is measured on a device.
   assert.deepEqual(DEFAULT_CUE_TIMING, { lifetimeMs: 1_000, maxLatenessMs: 1_000 });

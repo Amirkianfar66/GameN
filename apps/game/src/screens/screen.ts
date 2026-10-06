@@ -221,9 +221,12 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
   let privateCues: readonly LiveCue[] = [];
   let publicCueSeq = 0;
   let privateCueSeq = 0;
-  /** The view the cues in the frame were issued for, and when it came on screen. */
+  /** The view on screen, and when it came on screen. */
   let cueView: View | null = null;
   let cueViewSince = 0;
+  /** What is public in that view, and when a view first showed it. A view that changes only something private leaves both. */
+  let cuePublicFacts: string | null = null;
+  let cuePublicSince = 0;
   /** What the director made of events that arrived since the last redraw. */
   let eventCues: IssuedCue[] = [];
   let tick: unknown = null;
@@ -302,6 +305,11 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
     if (view !== cueView) {
       cueView = view;
       cueViewSince = now;
+      const facts = view === null ? null : JSON.stringify([config.phaseOf(view).id, config.seatsOf(view).map(seat => [seat.seatId, seat.location, seat.health])]);
+      if (facts !== cuePublicFacts) {
+        cuePublicFacts = facts;
+        cuePublicSince = now;
+      }
     }
     if (view !== null && cues.length > 0) {
       const phaseId = config.phaseOf(view).id;
@@ -316,9 +324,12 @@ export function createScreen<View, Event, Input, Model extends { readonly screen
     if (cues.some(cue => cue.expiresAt <= now)) cues = cues.filter(cue => cue.expiresAt > now);
     if (privateCues.some(cue => cue.expiresAt <= now)) privateCues = privateCues.filter(cue => cue.expiresAt > now);
 
-    // An event that came after its view is a cue only while that view is still new on screen.
-    const late = now - cueViewSince > cueTiming.maxLatenessMs;
-    const issued = [...(late ? [] : fromEvents), ...withView, ...fromElsewhere];
+    // An event that came after its view is a cue only while what it states is still new on
+    // screen. Two clocks: a private fact is as new as the view that brought it; a public fact
+    // is as old as the view that last changed something public. A view that changes only
+    // something private must make an old public fact neither new again nor old sooner.
+    const late = (privacy: IssuedCue['privacy']): boolean => now - (privacy === 'private' ? cueViewSince : cuePublicSince) > cueTiming.maxLatenessMs;
+    const issued = [...fromEvents.filter(item => !late(item.privacy)), ...withView, ...fromElsewhere];
     // A cue is shown now or not at all: one that cannot be shown takes no number and is
     // never kept for a later frame. A private cue belongs inside the open private panel.
     const addedPublic: LiveCue[] = [];
