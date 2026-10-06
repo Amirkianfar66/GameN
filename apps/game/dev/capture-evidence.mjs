@@ -64,8 +64,14 @@ async function connect(endpoint) {
   });
   let nextId = 1;
   const pending = new Map();
+  /** Every protocol event the browser reported, e.g. console entries and uncaught exceptions. */
+  const events = [];
   socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
+    if (message.id === undefined) {
+      events.push(message);
+      return;
+    }
     const waiter = pending.get(message.id);
     if (!waiter) return;
     pending.delete(message.id);
@@ -77,7 +83,7 @@ async function connect(endpoint) {
     pending.set(id, { resolve: resolveSend, reject: rejectSend, method });
     socket.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
   });
-  return { send, close: () => socket.close() };
+  return { send, events, close: () => socket.close() };
 }
 
 /** One browser tab with the handful of operations this script needs. */
@@ -87,6 +93,7 @@ async function openPage(browser, { width, height, scale = 1, mobile = false }) {
   const send = (method, params) => browser.send(method, params, sessionId);
   await send('Page.enable');
   await send('Runtime.enable');
+  await send('Log.enable');
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: scale, mobile });
   if (mobile) await send('Emulation.setTouchEmulationEnabled', { enabled: true });
 
@@ -307,7 +314,19 @@ async function main(outputDirectory) {
     await table.screenshot(join(out, '09-table-display-resolution.png'));
     await record('09-table-display-resolution', table);
 
-    // 9. What the three pages asked the server for during the whole run, from the server's side.
+    // 9. Anything the browser complained about. The only expected entries are the failed feed
+    // requests during the deliberate connection drop in step 6.
+    const logged = browser.events.filter(event => event.method === 'Log.entryAdded').map(event => event.params.entry);
+    const expectedDrop = entry => entry.source === 'network' && /stream\?audience=seat-1/.test(entry.url ?? '');
+    facts.browserLog = {
+      uncaughtExceptions: browser.events.filter(event => event.method === 'Runtime.exceptionThrown').length,
+      consoleErrors: browser.events.filter(event => event.method === 'Runtime.consoleAPICalled' && event.params.type === 'error').length,
+      securityPolicyViolations: logged.filter(entry => entry.source === 'security' || /Content Security Policy/i.test(entry.text)).map(entry => entry.text),
+      expectedFailedFeedRequestsDuringDrop: logged.filter(expectedDrop).length,
+      otherEntries: logged.filter(entry => !expectedDrop(entry) && entry.level !== 'verbose' && entry.level !== 'info' && !/favicon\.ico/.test(entry.url ?? '')).map(entry => `${entry.level} ${entry.source}: ${entry.text}`),
+    };
+
+    // 10. What the three pages asked the server for during the whole run, from the server's side.
     const paths = requests.map(entry => `${entry.method} ${entry.path}`);
     facts.requests = {
       apiAndStyles: [...new Set(paths.filter(path => !path.includes('/modules/') && !path.includes('/harness/')))].sort(),

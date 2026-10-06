@@ -1,6 +1,6 @@
 # Frontend first slice
 
-**Status:** Implementation plan, not a built or measured release
+**Status:** Implementation plan, not a built or measured release. Progress by slice, with the stage each one has actually reached, is tracked in [README.md](README.md).
 
 ## Slice and information boundaries
 

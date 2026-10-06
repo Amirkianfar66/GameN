@@ -1,0 +1,438 @@
+{
+  "note": "Fixture evidence from a headless desktop browser. Not a device measurement and not backend integration.",
+  "captures": {
+    "00-player-1-in-background-tab": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "hidden",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "BODY"
+    },
+    "01-player-1-own-turn": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "BODY",
+      "targets": [
+        {
+          "control": "a",
+          "width": 195,
+          "height": 52
+        },
+        {
+          "control": "ms-role-toggle",
+          "width": 142,
+          "height": 44
+        },
+        {
+          "control": "ms-reduce-motion",
+          "width": 164,
+          "height": 44
+        },
+        {
+          "control": "ms-details-summary",
+          "width": 358,
+          "height": 44
+        }
+      ]
+    },
+    "02-table-display": {
+      "title": "Mothership — Table display",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        1280,
+        800
+      ],
+      "horizontalOverflow": false,
+      "phase": "Player 1’s turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn."
+      ],
+      "focus": "BODY",
+      "controls": [
+        "settings/reduce-motion"
+      ]
+    },
+    "03-player-2-waiting": {
+      "title": "Mothership — Player 2",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Player 1’s turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Not available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn."
+      ],
+      "focus": "BODY"
+    },
+    "03-player-1-role-drawer-open": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Available",
+      "roleInDocument": [
+        "Officer"
+      ],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "ms-role-toggle",
+      "focusOrder": [
+        "ms-skip",
+        "ms-role-toggle",
+        "ms-reduce-motion",
+        "ms-details-summary"
+      ],
+      "focusVisible": true
+    },
+    "04-player-1-after-registration": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Not available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "focus": "ms-role-toggle"
+    },
+    "05-player-2-narrow-200-percent-text": {
+      "title": "Mothership — Player 2",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        320,
+        640
+      ],
+      "horizontalOverflow": false,
+      "phase": "Player 1’s turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Not available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn."
+      ],
+      "focus": "BODY",
+      "rootFontSize": "32px"
+    },
+    "06-table-display-forced-colors": {
+      "title": "Mothership — Table display",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        1280,
+        800
+      ],
+      "horizontalOverflow": false,
+      "phase": "Player 1’s turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn."
+      ],
+      "focus": "BODY"
+    },
+    "07-player-1-connection-lost": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "stale",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match.",
+        "Connection lost. Showing the last known state, which may be out of date. Reconnecting…"
+      ],
+      "shot": "Not available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Connection lost. Showing the last known state."
+      ],
+      "focus": "ms-role-toggle"
+    },
+    "07b-player-1-reconnected": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Not available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Connection lost. Showing the last known state.",
+        "Reconnected. Round 2. Your turn."
+      ],
+      "focus": "ms-role-toggle"
+    },
+    "08-player-1-update-required": {
+      "title": "Mothership — Player",
+      "visibilityState": "visible",
+      "screen": "blocked",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": null,
+      "timerState": null,
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Connection lost. Showing the last known state.",
+        "Reconnected. Round 2. Your turn.",
+        "Update required."
+      ],
+      "focus": "ms-blocked-heading"
+    },
+    "08b-player-1-recovered": {
+      "title": "Mothership — Player 1",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "phase": "Your turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": "Not available",
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Connection lost. Showing the last known state.",
+        "Reconnected. Round 2. Your turn.",
+        "Connected. Round 2. Your turn.",
+        "Update required."
+      ],
+      "focus": "ms-main",
+      "roleDrawerExpanded": "false"
+    },
+    "09-table-next-turn": {
+      "title": "Mothership — Table display",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        1280,
+        800
+      ],
+      "horizontalOverflow": false,
+      "phase": "Player 2’s turn",
+      "timerState": "running",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn.",
+        "Round 2. Player 2’s turn."
+      ],
+      "focus": "BODY"
+    },
+    "09-table-display-resolution": {
+      "title": "Mothership — Table display",
+      "visibilityState": "visible",
+      "screen": "match",
+      "connection": "live",
+      "mode": "fixture",
+      "motion": "full",
+      "viewport": [
+        1280,
+        800
+      ],
+      "horizontalOverflow": false,
+      "phase": "Round resolution",
+      "timerState": "none",
+      "banners": [
+        "Fixture data. A synthetic development scenario, not a live match."
+      ],
+      "shot": null,
+      "roleInDocument": [],
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn.",
+        "Round 2. Player 2’s turn.",
+        "Round 2. Round resolution."
+      ],
+      "focus": "BODY"
+    }
+  },
+  "browser": {
+    "product": "Chrome/154.0.8037.98",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "headless": true
+  },
+  "hiddenRegistration": {
+    "step": {
+      "id": "registered",
+      "source": "authored contract fixture: afterRegistration",
+      "label": "A hidden registration (only Player 1’s own view changes)"
+    },
+    "tableDocumentUnchanged": true,
+    "targetPhoneDocumentUnchanged": true,
+    "revisions": {
+      "public": 10,
+      "seat-1": 21,
+      "seat-2": 30
+    }
+  },
+  "reducedMotion": {
+    "default": "0.12s, 0.12s / transform, box-shadow",
+    "deviceSetting": "0.08s / opacity, border-color",
+    "deviceSettingHint": "On because this device asks for reduced motion.",
+    "drawerAnimationUnderReducedMotion": "ms-fade 0.08s"
+  },
+  "browserLog": {
+    "uncaughtExceptions": 0,
+    "consoleErrors": 0,
+    "securityPolicyViolations": [],
+    "expectedFailedFeedRequestsDuringDrop": 0,
+    "otherEntries": []
+  },
+  "requests": {
+    "apiAndStyles": [
+      "GET /api/fixture/stream?audience=public",
+      "GET /api/fixture/stream?audience=seat-1",
+      "GET /api/fixture/stream?audience=seat-2",
+      "GET /api/fixture/time",
+      "GET /favicon.ico",
+      "GET /styles/shell.css",
+      "GET /styles/tokens.css"
+    ],
+    "moduleRequests": 380,
+    "fixtureModuleRequested": false,
+    "commandEndpointsCalled": [],
+    "operatorEndpointsCalledByPages": []
+  }
+}

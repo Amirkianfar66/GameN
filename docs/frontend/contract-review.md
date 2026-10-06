@@ -35,6 +35,7 @@ What is missing is mostly **stated behavior**, not shape. The schemas say what a
 | [FE-C15](#fe-c15) | Named types for enums and nested shapes | Advisory | — |
 | [FE-C16](#fe-c16) | Rate limiting has no error code | Advisory | Connected command slice |
 | [FE-C17](#fe-c17) | Turn order and own faction are absent | Question | — |
+| [FE-C18](#fe-c18) | Weight of the schema library in a client bundle | Advisory | A production bundle |
 
 "Required" means Frontend will not treat connected behavior as correct until it is answered. "Needed" means there is a workable interim, described under each item. "Decision" needs the integration owner or the game owner to choose.
 
@@ -43,7 +44,7 @@ What is missing is mostly **stated behavior**, not shape. The schemas say what a
 These were checked and need no change.
 
 - **Commands carry no client authority.** `RegisterShotSchema` is strict: no actor, clock, damage, role or archived third-player identification field survives parsing. `protocol.ts:17-21`.
-- **Registration is not damage.** The only accepted code is `REGISTERED`; a receipt has no target, defense or outcome field. `protocol.ts:25-28`. The client models "registered" and "resolved" as different states and will never render an impact from a receipt.
+- **Registration is not damage.** The only accepted code is `REGISTERED`; a receipt has no target, defense or outcome field. `protocol.ts:25-28`. Nothing in this slice renders an outcome, and the command flow will keep "registered" and "resolved" as different states: a receipt will never produce an impact.
 - **Transport failure, game rejection and unknown outcome are three different things.** `ApiFailure`, `Receipt.rejected` and `ReceiptLookupResponse.unknown` do not overlap. This is the distinction the frontend specification asks for.
 - **Receipt recovery needs only non-secret identifiers.** `ReceiptLookupRequestSchema` takes match and command IDs and nothing else, so the client can keep a reconciliation reference without storing a target or a role.
 - **Expiry catch-up cannot carry a clock.** `AdvanceIfExpiredRequestSchema` rejects `now`, `force` and a scheduler token.
@@ -66,7 +67,7 @@ This matters. Suppose the first attempt is delayed in the network and the client
 
 **Required:** state, and test in #2, that every `Receipt` — accepted or rejected — is terminal and durable for `(caller, matchId, commandId)` for the retention window, and that a same-ID, same-payload retry always returns it regardless of phase. Shape is unchanged.
 
-**Interim:** the client's command state machine treats both statuses as terminal for that command ID. If the backend decides rejections are not durable, the client design must change, so this is the first item to settle.
+**Interim:** the command flow, which is the next slice, will treat both statuses as terminal for that command ID. If the backend decides rejections are not durable, that design must change, so this is the first item to settle.
 
 ### FE-C02
 
@@ -84,7 +85,7 @@ This matters. Suppose the first attempt is delayed in the network and the client
 | `COMMAND_ID_CONFLICT` | Never; the original command is untouched | Look up the original |
 | `UNAVAILABLE` | **Unknown** | Reconcile: lookup, then same-ID retry |
 
-**Interim:** the client is conservative. Any result that is not a receipt, on any attempt after the first, leaves the command in *unknown* and triggers reconciliation. Only a first-attempt pre-transaction failure is treated as "not sent". The table lets the client be faster, not safer.
+**Interim:** the command flow will be conservative. Any result that is not a receipt, on any attempt after the first, will leave the command in *unknown* and trigger reconciliation. Only a first-attempt pre-transaction failure will be treated as "not sent". The table lets the client be faster, not safer. The API client in this PR already keeps the three cases apart: a receipt, a safe error with its code, and no usable answer.
 
 ### FE-C03
 
@@ -179,6 +180,8 @@ The client enforces the following as integrity checks. They are implied by the a
 
 The first row is the one that needs a deliberate answer. A Firestore listener does not re-emit an unchanged document after a reconnect unless metadata changes are requested, so the production transport has to arrange it. If the backend prefers another freshness signal, name it and the client will use that instead.
 
+The second row has an operational edge worth deciding now. A client that holds revision 21 refuses revision 20 for good; that is the point of the rule. It also means that if the backend ever serves an older revision for the same match — a restore from backup, or a development server restarted mid-match, which is how this was noticed — every connected client stays stale until it is reloaded. Please state whether a restore keeps revisions moving forward, or add an explicit epoch that tells clients to start over.
+
 ## Needed, with a workable interim
 
 ### FE-C08
@@ -191,7 +194,7 @@ The first row is the one that needs a deliberate answer. A Firestore listener do
 
 **Own registered action cannot be recalled after a refresh.** `ownPendingCommandIds` holds IDs only, and the client is forbidden to persist a target. After a reload the Officer sees "Registered" and cannot see whom they targeted. Either accept that, or add the actor's own registered target to their own private view. This discloses nothing to anyone else; it is a decision about what a player's own device shows, with a shoulder-surfing trade-off. **Needs the integration owner's or game owner's choice.**
 
-*Interim:* within one page session the client remembers its own target in memory and never writes it to storage.
+*Interim:* within one page session the client will remember its own target in memory and never write it to storage.
 
 ### FE-C10
 
@@ -201,7 +204,7 @@ The first row is the one that needs a deliberate answer. A Firestore listener do
 
 ### FE-C11
 
-**Event identity and ordering.** State the uniqueness scope of `eventId` (proposed: per audience per match, so the dedupe key is match + audience + event ID) and the order of events that share a `viewRevision`. `COMMAND_REGISTERED` and the accepted receipt both announce the same registration; the client dedupes the stamp by `commandId`.
+**Event identity and ordering.** State the uniqueness scope of `eventId` (proposed: per audience per match, so the dedupe key is match + audience + event ID) and the order of events that share a `viewRevision`. `COMMAND_REGISTERED` and the accepted receipt both announce the same registration; the client will dedupe the stamp by `commandId`.
 
 ### FE-C12
 
@@ -237,6 +240,12 @@ A post-resolution player view is correctly absent while RULE-003 is open.
 ### FE-C17
 
 **Two absences worth a decision.** The architecture lists turn order among the table's public facts; `PublicView` has only `activeSeatId`. And the token set defines faction accents for private use, but the view gives a role and no faction. The client will not derive either from a hard-coded table of canon. Add them to the views in a later protocol if they should be shown.
+
+### FE-C18
+
+**Weight of the schema library in a client bundle.** The client validates every payload with the shared schemas, so it ships their runtime. Measured on disk at this baseline, unminified and unbundled: Frontend's client core, presentation package and the contracts package together are 77 KiB of JavaScript in 27 files; the schema library's ESM build is 496 KiB in 80 files, of which 230 KiB is 48 locale files the client never uses. In the unbundled development harness that is 95 module requests per page.
+
+This is not a bundle measurement — no bundler exists yet — and tree-shaking may remove the locales. `import { z } from 'zod'` takes the whole namespace object, which is the import style least likely to shake. Worth checking when the first bundle is built, against the architecture's 6 MB critical-asset budget; the library's smaller entry point is an option if the locales survive.
 
 ## What Frontend changed in its own package because of this review
 
