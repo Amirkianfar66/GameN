@@ -313,6 +313,28 @@ test('an action other than a move or a shot is listed only while the server open
   assert.deepEqual(several.body.offers.map(offer => offer.kind), ['move', 'shot', 'protect', 'rescue', 'hack']);
 });
 
+test('a control that opens an action is named by its action first, so that two open at once can be told apart', () => {
+  // A shot and a Disable both say "Choose a target"; Protection, a Rescue and a Hack all say "Choose a player".
+  const tree = markup(playerView(view => {
+    armed(view);
+    view.legalTargets = { ...view.legalTargets, DISABLE: ['seat-3'], PROTECT: ['seat-1'], RESCUE: ['seat-1'], REQUEST_HACK: ['seat-3'] };
+  }));
+  const controls = findAll(tree, element => element.attrs['data-intent'] === 'action/open');
+  assert.deepEqual(controls.map(control => control.attrs['data-kind']), ['move', 'shot', 'disable', 'protect', 'rescue', 'hack']);
+  assert.deepEqual(controls.map(control => textOf(control)), ['Choose where to move', 'Choose a target', 'Choose a target', 'Choose a player', 'Choose a player', 'Choose a player']);
+  // What assistive technology calls each one: the action's name, then the words on the control.
+  const nameOf = control => String(control.attrs['aria-labelledby']).split(' ').map(id => textOf(find(tree, byId(id)))).join(' ');
+  assert.deepEqual(controls.map(nameOf), [
+    'Move Choose where to move', 'Shot Choose a target', 'Disable Choose a target', 'Protection Choose a player', 'Rescue Choose a player', 'Hack Choose a player',
+  ]);
+  // The visible words are part of the name, and the control names itself last.
+  for (const control of controls) assert.equal(String(control.attrs['aria-labelledby']).split(' ').at(-1), control.attrs.id);
+  assert.deepEqual(auditMarkup(tree), []);
+  // The audit is what notices it: the same card without those names has controls nobody could tell apart.
+  for (const control of controls) delete control.attrs['aria-labelledby'];
+  assert.deepEqual(auditMarkup(tree), ['2 controls share the accessible name "Choose a target"', '3 controls share the accessible name "Choose a player"']);
+});
+
 test('each of them asks, confirms and reports in its own words, names the player’s own seat as theirs, and never names an outcome', () => {
   for (const [kind, expected] of Object.entries(TARGET_ACTIONS)) {
     const view = playerView(listing(expected.command, ['seat-5', 'seat-1', 'seat-3']));
