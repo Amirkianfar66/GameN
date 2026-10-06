@@ -20,7 +20,7 @@ screen here carries the banner "Local emulator. A development backend, not a liv
 | --- | --- |
 | The Firebase web client (Auth, Firestore), anonymous identities, Security Rules | A deployed project. The transport refuses any host that is not loopback and any project but `demo-mothership` |
 | The protocol-2 service, its receipts and its 60-second phases | A designed lobby. The lobby is a plain development console in `main.js` |
-| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server permits one, an ordinary shot. Every other phase is named and timed, with no controls |
+| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server's view opens them, an ordinary shot, a Disable, Protection, a Rescue, a Hack request and a showdown shot. The voting phases are named and timed, with no controls; Scan, Supply, the Code and the result screens are not built |
 | The phone and table screens the fixture harness also shows | Phones at a table. Everything listens on loopback, so only browsers on this machine can reach it |
 
 ## Run it
@@ -59,6 +59,12 @@ gone, and the server refuses what it sends.
 Saving a file does not reload the tabs (hot reload is off, because every tab is a device
 in a running match). Reload a tab by hand to pick up a change.
 
+**A tab is never reloaded for you.** The development server adds a client of its own to
+every page it serves, and that client reloads the page when its connection to the server
+drops, which under load it does. In a running match that would take a player's choice
+away mid-ballot. The server is started without that connection, and the page refuses it
+as well. Reload a tab by hand to pick up a change.
+
 **More than five tabs in one browser.** A browser opens at most six connections to one
 host, and every tab keeps one open to the Firestore emulator. Open some of the tabs on
 `http://127.0.0.1:5173/` and the others on `http://localhost:5173/` (each then reaches the
@@ -79,6 +85,10 @@ MOTHERSHIP_EVIDENCE_DIR=../../docs/frontend/evidence/connected-v1 npm run dev:co
 # The nine-player scenario: the Officer registers a shot on its own turn. It waits for
 # that turn in real 60-second phases, so it can take about ten minutes.
 MOTHERSHIP_JOURNEY=shot npm run dev:connected:journey --workspace @mothership/game
+
+# A whole first round with nine players: on its own turn each role that has an action
+# naming one seat registers it, and one player requests a Hack. About eleven minutes.
+MOTHERSHIP_JOURNEY=roles npm run dev:connected:journey --workspace @mothership/game
 ```
 
 `journey.mjs` drives headless Chrome over the DevTools protocol: a host, a display and

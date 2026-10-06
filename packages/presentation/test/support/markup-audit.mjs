@@ -42,6 +42,17 @@ export function auditMarkup(root) {
   });
   for (const [id, count] of ids) if (count > 1) problems.push(`duplicate id: ${id}`);
 
+  // What assistive technology calls a control: the elements it is labelled by, in order, or
+  // else its own text. Two controls on one screen with the same name cannot be told apart
+  // by someone who moves from control to control.
+  const named = new Map();
+  for (const button of findAll(root, byTag('button'))) {
+    const labelledBy = button.attrs['aria-labelledby'];
+    const name = (labelledBy === undefined ? textOf(button) : String(labelledBy).split(/\s+/).map(ref => findAll(root, byId(ref)).map(textOf).join(' ')).join(' ')).replace(/\s+/g, ' ').trim();
+    named.set(name, (named.get(name) ?? 0) + 1);
+  }
+  for (const [name, count] of named) if (count > 1) problems.push(`${count} controls share the accessible name "${name}"`);
+
   const headings = [];
   const labelTargets = new Set(findAll(root, byTag('label')).map(label => label.attrs.for));
   walk(root, (element, ancestors) => {

@@ -1,4 +1,6 @@
-import type { DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ShotRejectionCode } from '../model/types.js';
+import type {
+  ActionKind, DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ShotRejectionCode, TargetActionKind,
+} from '../model/types.js';
 
 type NamedPhaseKind = Exclude<PhaseFacts['kind'], 'ORDINARY_TURN' | 'ROUND_RESOLUTION'>;
 
@@ -187,7 +189,9 @@ export const en = {
   // and registered shots are resolved at the end of the round (end_of_round_order).
   action: {
     title: 'Your action',
-    kind: { move: 'Move', shot: 'Shot' },
+    // The names of the actions, as the approved rules name them. "Protection" is the
+    // Undercover's grant; "Disable" is a Disabler's attack; "Hack" is the standard Hack.
+    kind: { move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot' } satisfies Record<ActionKind, string>,
     status: {
       idle: 'Nothing in progress',
       choosing: 'Choosing',
@@ -204,29 +208,77 @@ export const en = {
       unavailable: 'Not available',
       noTarget: 'No one you can target right now',
     },
-    open: { move: 'Choose where to move', shot: 'Choose a target' },
+    open: {
+      move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
+      hack: 'Choose a player', 'showdown-shot': 'Choose a target',
+    } satisfies Record<ActionKind, string>,
     queued: (count: number) => (count === 1
       ? 'One action of yours is registered and waiting to be resolved.'
       : `${count} actions of yours are registered and waiting to be resolved.`),
-    choosePrompt: { move: 'Where do you move?', shot: 'Choose a target' },
+    choosePrompt: {
+      move: 'Where do you move?', shot: 'Choose a target', disable: 'Choose a target', protect: 'Who is the Protection for?', rescue: 'Who is the Rescue for?',
+      hack: 'Who do you request a Hack with?', 'showdown-shot': 'Choose a target',
+    } satisfies Record<ActionKind, string>,
     chooseNote: 'These are the choices the server offers you now.',
     cancel: 'Cancel',
     chooseAgain: 'Choose again',
+    /** How a chosen seat is named in a sentence: by its public number, or as the player's own. */
+    who: (seat: number, isSelf: boolean) => (isSelf ? 'yourself' : `Player ${seat}`),
     confirmMove: (destination: Destination) => `Move to ${destination}?`,
-    confirmShot: (seat: number) => `Register a shot at Player ${seat}?`,
+    confirmTarget: {
+      shot: who => `Register a shot at ${who}?`,
+      disable: who => `Register a Disable at ${who}?`,
+      protect: who => `Register Protection for ${who}?`,
+      rescue: who => `Register a Rescue of ${who}?`,
+      hack: who => `Request a Hack with ${who}?`,
+      'showdown-shot': who => `Register a showdown shot at ${who}?`,
+    } satisfies Record<TargetActionKind, (who: string) => string>,
+    // About this screen, not about the game: there is no control here that takes a command back.
     consequence: {
       move: 'You cannot change or withdraw it here once the server accepts it.',
       shot: 'You cannot change or withdraw it here once it is registered.',
-    },
-    confirm: { move: 'Move', shot: 'Register shot' },
-    submitting: { move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', unknownKind: 'Sending your action to the server…' },
+      disable: 'You cannot change or withdraw it here once it is registered.',
+      protect: 'You cannot change or withdraw it here once it is registered.',
+      rescue: 'You cannot change or withdraw it here once it is registered.',
+      hack: 'You cannot change or withdraw it here once the server accepts it.',
+      'showdown-shot': 'You cannot change or withdraw it here once it is registered.',
+    } satisfies Record<ActionKind, string>,
+    confirm: {
+      move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
+      'showdown-shot': 'Register shot',
+    } satisfies Record<ActionKind, string>,
+    submitting: {
+      move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
+      protect: 'Sending your Protection to the server…', rescue: 'Sending your Rescue to the server…', hack: 'Sending your Hack request to the server…',
+      'showdown-shot': 'Sending your shot to the server…', unknownKind: 'Sending your action to the server…',
+    } satisfies Record<ActionKind | 'unknownKind', string>,
     checking: 'Checking what the server did with your action…',
     checkingAfterReload: 'This page was reloaded before the server answered. Checking what became of your action…',
     // The receipt says the server accepted the command. Where the player is, is what the view says.
     moved: (destination: Destination) => `Move to ${destination} accepted.`,
     movedDetail: 'Where you are is shown under “Your location”, as the server has it.',
-    shotRegistered: (seat: number) => `Shot at Player ${seat} registered.`,
-    shotRegisteredDetail: 'This is not a result. Registered shots are resolved at the end of the round.',
+    // What the server accepted, in the words of its receipt. Never what came of it.
+    acceptedTarget: {
+      shot: who => `Shot at ${who} registered.`,
+      disable: who => `Disable at ${who} registered.`,
+      protect: who => `Protection for ${who} registered.`,
+      rescue: who => `Rescue of ${who} registered.`,
+      hack: who => `Hack request with ${who} accepted.`,
+      'showdown-shot': who => `Showdown shot at ${who} registered.`,
+    } satisfies Record<TargetActionKind, (who: string) => string>,
+    // Registered actions are resolved at the end of the round (the approved resolution
+    // order, V1-07). A showdown is not a round, and a Hack request is not a registration:
+    // what follows either is shown by the phase the server reports.
+    acceptedDetail: {
+      shot: 'This is not a result. Registered shots are resolved at the end of the round.',
+      disable: 'This is not a result. Registered actions are resolved at the end of the round.',
+      protect: 'This is not a result. Registered actions are resolved at the end of the round.',
+      rescue: 'This is not a result. Registered actions are resolved at the end of the round.',
+      hack: 'The phase shown at the top of this screen says what happens next.',
+      'showdown-shot': 'This is not a result.',
+    } satisfies Record<TargetActionKind, string>,
+    /** Shown to the two players of a Hack while the server says they are in one. */
+    hackWith: (seat: number) => `Hack: you and Player ${seat}.`,
     acceptedAfterReload: 'The server accepted your action.',
     acceptedAfterReloadDetail: 'This page was reloaded, so it no longer knows what the action was. This is not a result.',
     rejected: {

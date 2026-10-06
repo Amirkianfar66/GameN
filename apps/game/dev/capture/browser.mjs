@@ -130,9 +130,9 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
     evaluate,
     waitFor,
     /** `ready` is what must be true of the page before it is used; by default, a match or a harness page on screen. */
-    async goto(url, ready = `${MATCH_ON_SCREEN} || document.querySelector('.harness-page')`) {
+    async goto(url, ready = `${MATCH_ON_SCREEN} || document.querySelector('.harness-page')`, timeoutMs = 10_000) {
       await send('Page.navigate', { url });
-      await waitFor(ready, `page ready: ${url}`);
+      await waitFor(ready, `page ready: ${url}`, timeoutMs);
     },
     /** Reloads the page as a person would, and waits for the match (or `ready`) to be back on screen. */
     async reload(ready = MATCH_ON_SCREEN, timeoutMs = 10_000) {

@@ -224,7 +224,7 @@ export function createConnectedPlayerAnnouncer(): Announcer<ConnectedPlayerInput
         // player: on the same phase with fresh, unexpired facts, going back was the player's own doing.
         const takenAway = !isCurrent(input) || input.deadline.kind !== 'running' || phaseId !== previousPhaseId;
         if (step === 'idle' && ACTION_CHOOSING.includes(previousStep) && takenAway) out.push(privately('polite', en.action.choiceDropped));
-        const line = describeAction(input.action);
+        const line = describeAction(input.action, input.view?.self.seatId ?? null);
         if (line !== null) out.push(privately(step === 'submitting' || step === 'checking' || step === 'accepted' ? 'polite' : 'assertive', line));
         heard = step;
       }

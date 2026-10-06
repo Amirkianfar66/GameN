@@ -119,9 +119,10 @@ export function phaseLabel(view: AudienceView, selfSeatId: SeatId | null): strin
 function phaseDetail(view: AudienceView): string | null {
   const { kind } = view.phase;
   if (kind === 'ROUND_RESOLUTION') return en.phase.resolutionDetail;
-  // This build shows these phases and their clock and cannot take part in them yet. Saying
-  // so is better than a screen that looks as if nothing could be done in the game.
-  if (kind === 'ORDINARY_TURN' || kind === 'FINISHED' || kind === 'ABORTED') return null;
+  // In an ordinary turn, a Hack and a showdown this build offers whatever the server opens
+  // for the seat. The voting phases it shows with their clock and cannot take part in yet;
+  // saying so is better than a screen that looks as if nothing could be done in the game.
+  if (kind === 'ORDINARY_TURN' || kind === 'HACK' || kind === 'SHOWDOWN' || kind === 'FINISHED' || kind === 'ABORTED') return null;
   return en.phase.notPlayableYet;
 }
 

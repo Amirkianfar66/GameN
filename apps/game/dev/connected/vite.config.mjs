@@ -16,9 +16,12 @@ export default {
   root: here,
   // Nothing is written next to the sources.
   cacheDir: fileURLToPath(new URL('../../../../node_modules/.vite-mothership-connected', import.meta.url)),
-  // No hot reload: every tab is a device in a running match, and saving a file must not
-  // reload all of them. A tab picks up a change when it is reloaded by hand.
-  server: { host: '127.0.0.1', port: 5173, strictPort: true, hmr: false, fs: { allow: [repositoryRoot] } },
+  // No hot reload and no socket for it: every tab is a device in a running match. Saving a
+  // file must not reload all of them, and the server's own client must not reload one when
+  // its socket drops (which it does, under load). A tab picks up a change when it is
+  // reloaded by hand. The page refuses that socket as well (index.html), for a server that
+  // was started before this was set.
+  server: { host: '127.0.0.1', port: 5173, strictPort: true, hmr: false, ws: false, fs: { allow: [repositoryRoot] } },
   // The page is plain modules; nothing here is a production build.
   clearScreen: false,
 };

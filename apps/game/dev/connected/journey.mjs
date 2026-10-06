@@ -9,7 +9,9 @@
 //
 // A second scenario (MOTHERSHIP_JOURNEY=shot) seats nine players and has the Officer
 // register a shot on its own turn. It waits for that turn in real 60-second phases, so it
-// can take up to about ten minutes.
+// can take up to about ten minutes. A third (MOTHERSHIP_JOURNEY=roles) follows a whole first
+// round of a nine-player match: each role that has an action naming one seat registers it
+// on its own turn, and one player requests a Hack. About eleven minutes.
 //
 // What this is: the real Firebase web client, real anonymous identities, real Security
 // Rules, the real protocol-2 service and its real 60-second phases, in headless Chrome.
@@ -40,10 +42,12 @@ const SEVEN_PLAYER_ROLES = ['Alien', 'Blue Disabler', 'Cracker', 'Hacker', 'Insi
 const PHONE = { width: 390, height: 844, scale: 2, mobile: true };
 const DESK = { width: 1280, height: 800, scale: 1, mobile: false };
 const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
+/** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
+const PAGE_LOAD_MS = 30_000;
 
-const SCENARIO = process.env.MOTHERSHIP_JOURNEY === 'shot' ? 'shot' : 'movement';
-/** Seven players is the journey that was asked for. Nine is the smallest match in which a first-round shot exists. */
-const PLAYERS = SCENARIO === 'shot' ? 9 : 7;
+const SCENARIO = ['shot', 'roles'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
+/** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
+const PLAYERS = SCENARIO === 'movement' ? 7 : 9;
 const WORDS = { 7: 'seven', 9: 'nine' };
 
 const evidence = process.argv[2] ?? process.env.MOTHERSHIP_EVIDENCE_DIR ?? null;
@@ -74,12 +78,23 @@ async function preview() {
   return { reused: false, close: () => server.close() };
 }
 
+/** Every device of this run, so that the end of the run can ask each how often it was loaded. */
+const devices = [];
+
 /** A device: one page in a browser context of its own, with its network watched. */
 async function device(browser, label, shape) {
   const page = await openPage(browser, { ...shape, ownContext: true });
   await page.send('Network.enable');
+  // How often this script loaded the page. The page counts for itself how often it was loaded.
+  let loadsMade = 0;
+  const reloadPage = page.reload.bind(page);
+  page.reload = (...parameters) => {
+    loadsMade += 1;
+    return reloadPage(...parameters);
+  };
   // Notes when the phase this page shows changes, by the machine's clock. It only reads.
   await page.send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => {
+    window.name = String((Number(window.name) || 0) + 1);
     window.__phases = [];
     let last = null;
     setInterval(() => {
@@ -92,12 +107,36 @@ async function device(browser, label, shape) {
       }
     }, 50);
   })();` });
-  // Every interception rule is off until a step turns one on.
-  const fault = { dropCommandAnswer: 0, dropCommandRequest: 0, dropReceiptRequests: false, slowDownOnce: null };
-  await page.send('Fetch.enable', { patterns: [
+  // Every interception rule is off until a step turns one on, and so is interception itself.
+  // It used to be on for the whole run. With Chrome 155 that now and then left a request
+  // that matches none of the patterns below waiting forever: one page's sign-in, or its
+  // request to join, or a module it was loading. It was about one run in three, and none in
+  // twenty-four with interception off. So requests are intercepted only while a step has a
+  // fault arranged, and no longer than that.
+  const PATTERNS = [
     { urlPattern: `*${FUNCTIONS}/*/v1Command`, requestStage: 'Request' }, { urlPattern: `*${FUNCTIONS}/*/v1Command`, requestStage: 'Response' },
     { urlPattern: `*${FUNCTIONS}/*/v1Receipt`, requestStage: 'Request' },
-  ] });
+  ];
+  const faults = { dropCommandAnswer: 0, dropCommandRequest: 0, dropReceiptRequests: false, slowDownOnce: null };
+  const anyFault = () => faults.dropCommandAnswer > 0 || faults.dropCommandRequest > 0 || faults.dropReceiptRequests || faults.slowDownOnce !== null;
+  let intercepting = false;
+  const intercept = () => {
+    const wanted = anyFault();
+    if (wanted === intercepting) return;
+    intercepting = wanted;
+    void page.send(wanted ? 'Fetch.enable' : 'Fetch.disable', wanted ? { patterns: PATTERNS } : {}).catch(() => {});
+  };
+  // Arranging a fault turns interception on at once, ahead of whatever the step does next.
+  // It is turned off a moment after the last fault is used up, so that the request the fault
+  // was for is dealt with first.
+  const fault = new Proxy(faults, {
+    set(target, name, value) {
+      target[name] = value;
+      if (anyFault()) intercept();
+      else setTimeout(intercept, 0);
+      return true;
+    },
+  });
   const calls = [];           // Every operation this page sent to Functions, with what came back, in the order sent.
   const listened = new Set(); // Every Firestore path this page asked to listen to.
   const pending = new Map();
@@ -183,9 +222,14 @@ async function device(browser, label, shape) {
   const text = selector => page.evaluate(`document.querySelector(${JSON.stringify(selector)})?.textContent ?? null`);
   const exists = selector => page.evaluate(`document.querySelector(${JSON.stringify(selector)}) !== null`);
   const attribute = (selector, name) => page.evaluate(`document.querySelector(${JSON.stringify(selector)})?.getAttribute(${JSON.stringify(name)}) ?? null`);
-  return {
+  const made = {
     label, page, fault, calls, listened, text, exists, attribute, stop,
-    open: (kind, ready) => page.goto(`${ORIGIN}/?as=${kind}`, ready),
+    open(kind, ready) {
+      loadsMade += 1;
+      return page.goto(`${ORIGIN}/?as=${kind}`, ready, PAGE_LOAD_MS);
+    },
+    /** How often this script loaded the page, and how often the page says it was loaded. A tab keeps its name across reloads. */
+    loads: async () => ({ byThisScript: loadsMade, counted: await page.evaluate('Number(window.name)') }),
     uid: () => page.evaluate('globalThis.mothershipConnected?.uid ?? null'),
     frame: () => page.evaluate('JSON.parse(JSON.stringify(globalThis.mothershipConnected.frame()))'),
     /** Everything this page keeps where it would survive the page: both storages and the names of its databases. */
@@ -218,6 +262,24 @@ async function device(browser, label, shape) {
       if (outDir !== null) await page.screenshot(join(outDir, name), options);
     },
   };
+  devices.push(made);
+  return made;
+}
+
+/**
+ * No page was loaded by anything but this script. A page that reloads itself loses whatever
+ * its player was doing, and every check made on it afterwards is made on another page.
+ */
+async function noPageReloadedItself() {
+  const loads = {};
+  for (const who of devices) {
+    const { byThisScript, counted } = await who.loads();
+    loads[who.label] = counted;
+    assert.equal(counted, byThisScript, `${who.label} was loaded ${counted} time(s), and this script loaded it ${byThisScript} time(s)`);
+    assert.equal(await who.page.evaluate('window.mothershipHotReloadRefused ?? 0') >= 1, true, `${who.label}: the development server's hot-reload connection was refused`);
+  }
+  facts.run.pageLoads = loads;
+  note('No page was loaded by anything but this script: each tab counted as many loads as the script made, and each refused the development server’s hot-reload connection.');
 }
 
 const CARD = '[data-region="action"]';
@@ -417,6 +479,155 @@ async function shotScenario({ display, players, seatOf, matchId }) {
   ]);
 }
 
+/**
+ * The nine-player scenario for the actions that name one seat. It follows the first round
+ * turn by turn, in whatever order the server set: on its own turn each of the Officer, the
+ * two Disablers, the Undercover and the Cracker registers its action, and the first player
+ * with none of those requests a Hack, which the server then runs as a phase of its own.
+ * Every turn is a real 60-second phase.
+ */
+async function rolesScenario({ display, players, seatOf, matchId }) {
+  for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
+  const roleOf = new Map();
+  for (const player of players) {
+    await openPanel(player);
+    roleOf.set(player, await player.text('.ms-role-card'));
+  }
+  assert.equal(new Set(roleOf.values()).size, PLAYERS, 'Nine players, nine different roles');
+  const bySeat = new Map(players.map(player => [seatOf.get(player), player]));
+  /** What each of these roles registers on its own turn. Nothing here says the role has it: the journey asserts that the server offers it. */
+  const PLAN = { Officer: 'shot', 'Blue Disabler': 'disable', 'Red Disabler': 'disable', Undercover: 'protect', Cracker: 'rescue' };
+  const WORDS = {
+    shot: { command: 'REGISTER_SHOT', accepted: /^Shot at (Player \d|yourself) registered\./ }, disable: { command: 'DISABLE', accepted: /^Disable at (Player \d|yourself) registered\./ },
+    protect: { command: 'PROTECT', accepted: /^Protection for (Player \d|yourself) registered\./ }, rescue: { command: 'RESCUE', accepted: /^Rescue of (Player \d|yourself) registered\./ },
+    hack: { command: 'REQUEST_HACK', accepted: /^Hack request with Player \d accepted\./ },
+  };
+  const offers = who => who.page.evaluate("[...document.querySelectorAll('.ms-offer')].map(offer => [offer.dataset.kind, offer.querySelector('.ms-offer__status').textContent, offer.querySelector('button') !== null])");
+  const boardOf = async () => JSON.stringify((await display.frame()).model.match.board);
+  const phaseOnDisplay = () => display.page.evaluate("(() => { const m = globalThis.mothershipConnected.frame().model.match; return { label: m.phase.roundLabel + ', ' + m.phase.phaseLabel, kind: m.phase.phaseLabel, active: m.board.zones.flatMap(zone => zone.seats).find(seat => seat.isActive)?.number ?? null }; })()");
+  /** One action through the card by touch: the first seat the server lists. Returns what was sent and what the card then said. */
+  async function act(who, kind) {
+    await who.page.waitFor(`document.getElementById('ms-action-open-${kind}') !== null`, `${who.label}: ${kind} is offered`);
+    await who.page.tap(`#ms-action-open-${kind}`);
+    await who.page.waitFor(`document.querySelector('${CARD}')?.dataset.step === 'choosing'`, `${who.label}: the server's choices are listed`);
+    const listed = await who.page.evaluate("[...document.querySelectorAll('button[data-intent=\"action/choose\"]')].map(choice => choice.dataset.value)");
+    assert.equal(listed.length > 0, true);
+    await who.page.tap('button[data-intent="action/choose"]');
+    await who.page.waitFor(`document.querySelector('${CARD}')?.dataset.step === 'confirming'`, `${who.label}: asked to confirm`);
+    const before = (await who.operations('v1Command')).length;
+    await tapWhenActive(who, '#ms-action-confirm');
+    await cardIs(who, 'accepted', `${kind} is accepted`);
+    const sent = (await who.operations('v1Command')).slice(before);
+    assert.equal(sent.length, 1, 'One confirmation, one command');
+    assert.deepEqual(sent[0].request.command, { type: WORDS[kind].command, targetSeatId: listed[0] });
+    assert.deepEqual(sent[0].response.receipt, { protocolVersion: 2, matchId, phaseId: sent[0].request.phaseId, commandId: sent[0].request.commandId, status: 'accepted', code: 'REGISTERED' });
+    const said = await card(who);
+    // The status mark is drawn in capitals; the words after it are the report.
+    assert.match(said.text.replace(/^accepted /i, ''), WORDS[kind].accepted, `${who.label}: ${said.text}`);
+    return { listed, target: listed[0], said: said.text };
+  }
+
+  const done = [];
+  let hack = null;
+  let hackPhaseSeen = false;
+  let lastLabel = null;
+  const turnsSeen = [];
+  // Until every planned action is registered and the Hack has been seen, or the ordinary turns run out.
+  for (let phases = 0; phases < PLAYERS + 3 && (done.length < Object.keys(PLAN).length || hack === null || !hackPhaseSeen); phases += 1) {
+    if (lastLabel !== null) {
+      await display.page.waitFor(`(() => { const p = globalThis.mothershipConnected.frame().model.match.phase; return p.roundLabel + ', ' + p.phaseLabel !== ${JSON.stringify(lastLabel)}; })()`, 'the next phase', 90_000);
+    }
+    await display.page.waitFor("globalThis.mothershipConnected.frame().model.match.phase.timer.state === 'running'", 'the display has the server’s time');
+    const phase = await phaseOnDisplay();
+    lastLabel = phase.label;
+    turnsSeen.push(phase.label);
+    if (phase.kind === 'Hack') {
+      // The server runs the Hack as a phase of its own. Its two players are told who with; nobody else is.
+      hackPhaseSeen = true;
+      const partner = bySeat.get(Number(hack.target.slice(5)));
+      for (const [who, other] of [[hack.by, partner], [partner, hack.by]]) {
+        await openPanel(who);
+        await who.page.waitFor("document.getElementById('ms-hack-with') !== null", `${who.label} is told it is in a Hack`);
+        assert.equal(await who.text('#ms-hack-with'), `Hack: you and Player ${seatOf.get(other)}.`);
+      }
+      for (const player of players.filter(candidate => candidate !== hack.by && candidate !== partner)) {
+        assert.equal(await player.exists('#ms-hack-with'), false, `${player.label} is not in the Hack and is told nothing of it`);
+      }
+      assert.equal(/you and Player/.test(await display.page.evaluate('document.body.textContent')), false, 'The shared display does not say who is in it');
+      await hack.by.shot('r3-phone-in-a-hack.png');
+      await display.shot('r4-table-display-hack-phase.png');
+      note(`The Hack phase: Player ${seatOf.get(hack.by)} and Player ${seatOf.get(partner)} are each told who with; nobody else is.`);
+      continue;
+    }
+    if (phase.active === null) break;
+    const actor = bySeat.get(phase.active);
+    const role = roleOf.get(actor);
+    await actor.page.waitFor("globalThis.mothershipConnected.frame().model.match.phase.phaseLabel === 'Your turn' && globalThis.mothershipConnected.frame().model.match.phase.timer.state === 'running'", `${actor.label} sees its own turn`);
+    await openPanel(actor);
+    await actor.page.waitFor("document.querySelector('.ms-offer') !== null", `${actor.label}: the card lists what is offered`);
+    const kind = PLAN[role] ?? null;
+    // On its own turn every seat may request a Hack, until two were requested this round.
+    const offeredNow = await offers(actor);
+    const listedNow = offeredNow.map(offer => offer[0]);
+    // No other phone is offered anything that belongs to a turn: only a move, where it still has one.
+    for (const player of players.filter(candidate => candidate !== actor)) {
+      const theirs = await offers(player);
+      // Its card is open and idle, so what follows is read from a list that is really on screen.
+      assert.deepEqual(theirs.map(offer => offer[0]).filter(name => name === 'move' || name === 'shot'), ['move', 'shot'], `${player.label}: the idle card is on screen`);
+      for (const [name, , hasControl] of theirs) assert.equal(name === 'move' || !hasControl, true, `${player.label} is offered ${name} outside its own turn`);
+      assert.deepEqual(theirs.map(offer => offer[0]).filter(name => name !== 'move' && name !== 'shot'), [], `${player.label}: no role action is listed outside its own turn`);
+    }
+    if (kind !== null) {
+      assert.equal(listedNow.includes(kind), true, `Player ${phase.active} (${role}) is offered "${kind}" on its own turn: ${JSON.stringify(listedNow)}`);
+      const board = await boardOf();
+      const result = await act(actor, kind);
+      // Registration is not damage, and nobody else is told.
+      await sleep(1_500);
+      assert.equal(await boardOf(), board, 'The shared display’s board is what it was before the registration');
+      for (const player of players.filter(candidate => candidate !== actor)) {
+        assert.equal((await spoken(player)).some(line => /registered|Disable|Protection|Rescue|Shot at/i.test(line)), false, `${player.label} was told nothing`);
+      }
+      if (done.length === 0) await actor.shot('r1-phone-role-action-registered.png', { selector: '[data-action="connected"]' });
+      await tapWhenActive(actor, '#ms-action-dismiss');
+      await cardIs(actor, 'idle', 'the card is put away');
+      assert.match((await card(actor)).text, /action(s)? of yours (is|are) registered and waiting to be resolved\./, 'The view lists it as waiting');
+      assert.equal((await offers(actor)).some(offer => offer[0] === kind && offer[2]), false, `The server offers no second ${kind} this turn`);
+      assertStored(await actor.stored(), actor.label, { unresolved: false, alsoAbsent: [...new Set(roleOf.values()), result.target, WORDS[kind].command] });
+      done.push({ seat: phase.active, role, kind, targets: result.listed.length, selfListed: result.listed.includes(`seat-${phase.active}`) });
+      note(`Player ${phase.active} (${role}) registered "${kind}" on its own turn; the server listed ${result.listed.length} seat(s)${result.listed.includes(`seat-${phase.active}`) ? ', its own among them' : ''}.`);
+    } else if (hack === null && offeredNow.some(offer => offer[0] === 'hack' && offer[2])) {
+      const result = await act(actor, 'hack');
+      await actor.shot('r2-phone-hack-requested.png', { selector: '[data-action="connected"]' });
+      await tapWhenActive(actor, '#ms-action-dismiss');
+      await cardIs(actor, 'idle', 'the card is put away');
+      assert.equal((await offers(actor)).some(offer => offer[0] === 'hack' && offer[2]), false, 'One Hack request: the server offers no second');
+      hack = { by: actor, target: result.target };
+      note(`Player ${phase.active} (${role}) requested a Hack with Player ${result.target.slice(5)}; accepted.`);
+    }
+  }
+
+  assert.deepEqual(done.map(entry => entry.role).sort(), Object.keys(PLAN).sort(), 'Each of the five roles registered its action on its own turn');
+  assert.notEqual(hack, null, 'A Hack was requested');
+  assert.equal(hackPhaseSeen, true, 'and the server ran it as a phase');
+  for (const who of [display, ...players]) assert.equal((await who.operations('v1Command')).length, who === display ? 0 : [...done.map(entry => bySeat.get(entry.seat)), hack.by].filter(actor => actor === who).length, `${who.label}: only what it confirmed was sent`);
+  await display.shot('r5-table-display-after-the-registrations.png');
+  facts.match = {
+    note: 'A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.',
+    playerCount: PLAYERS,
+    phasesFollowed: turnsSeen,
+    registered: done,
+    hack: { requestedBySeat: seatOf.get(hack.by), withSeat: Number(hack.target.slice(5)) },
+  };
+  established('6c. Each role’s action that names one seat, on its own turn (nine players, one round)', [
+    `The journey followed ${turnsSeen.length} phases of the first round in the server’s own order: ${turnsSeen.map(label => `"${label.replace('Round 1, ', '')}"`).join(', ')}.`,
+    ...done.map(entry => `Player ${entry.seat} (${entry.role}): on its own turn the phone had a control for "${entry.kind}", with ${entry.targets} seat(s) from the server${entry.selfListed ? ', its own among them' : ''}; one confirmation sent one ${WORDS[entry.kind].command}; receipt accepted, REGISTERED.`),
+    'After each registration the shared display’s board was identical to before, no other phone was told anything, and the acting phone’s card then said an action was registered and waiting, from the server’s own view.',
+    'On every ordinary turn followed, every other phone’s card was on screen and idle; it listed a move and a shot and nothing else, and had a control for nothing but a move. So a Disable, Protection or a Rescue was listed on a phone only during that phone’s own turn.',
+    `Hack: Player ${seatOf.get(hack.by)} requested one with Player ${hack.target.slice(5)} (REQUEST_HACK, accepted). When that turn ended the server opened a Hack phase; the two players’ phones each said who with, no other phone and not the display did.`,
+    'NOT RUN: what any of these registrations resolves to at the end of the round, and the voting phases after it.',
+  ]);
+}
+
 const browserErrors = [];
 async function main() {
   const hub = await fetch(HUB).then(response => response.json()).catch(() => null);
@@ -429,6 +640,7 @@ async function main() {
     if (message.method === 'Runtime.exceptionThrown') browserErrors.push(message.params.exceptionDetails.exception?.description ?? message.params.exceptionDetails.text);
   });
   try {
+    await (async () => {
     facts.run.browser = (await browser.send('Browser.getVersion')).product;
     facts.run.previewServer = served.reused ? 'already running' : 'started by this script';
     note(`Browser: ${facts.run.browser}. Preview server: ${facts.run.previewServer}.`);
@@ -523,6 +735,7 @@ async function main() {
     ]);
 
     if (SCENARIO === 'shot') return await shotScenario({ display, players, seatOf, matchId });
+    if (SCENARIO === 'roles') return await rolesScenario({ display, players, seatOf, matchId });
 
     // ---------------------------------------------------------------- 4. Each player receives only their authorized private view
     for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
@@ -546,9 +759,10 @@ async function main() {
       }
       roles.set(player, await player.text('.ms-role-card'));
       // Nothing can be started until this device has the server's time. Then: what the
-      // server offers this seat now, in words: a move, and no shot.
+      // server offers this seat now, in words: a move, and no shot. Those are the first two
+      // rows; a role's own action may be listed after them, and the roles journey checks those.
       await player.page.waitFor("document.getElementById('ms-action-open-move') !== null", `${player.label}: the clock is trusted and a move is offered`);
-      assert.deepEqual(await player.page.evaluate("[...document.querySelectorAll('.ms-offer')].map(offer => [offer.dataset.kind, offer.querySelector('.ms-offer__status').textContent, offer.querySelector('button') !== null])"),
+      assert.deepEqual(await player.page.evaluate("[...document.querySelectorAll('.ms-offer')].slice(0, 2).map(offer => [offer.dataset.kind, offer.querySelector('.ms-offer__status').textContent, offer.querySelector('button') !== null])"),
         [['move', 'Available', true], ['shot', 'Not available', false]], `${player.label}: a move is offered and no shot`);
     }
     assert.deepEqual([...roles.values()].sort(), SEVEN_PLAYER_ROLES, 'Seven players hold the seven roles of the seven-player roster, each once');
@@ -834,6 +1048,9 @@ async function main() {
       'Seven players, seven accepted moves, seven command identifiers; every seat is where its one move put it in the authoritative public view.',
       'No tab holds anything of the match but its sign-in and which match it is in. The display and the host console never sent a command.',
     ]);
+    })();
+    // Whichever scenario ran, and only if it held to its end.
+    await noPageReloadedItself();
   } finally {
     if (outDir !== null) {
       await writeFile(join(outDir, 'journey-log.txt'), `${log.join('\n')}\n`);

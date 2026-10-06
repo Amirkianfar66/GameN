@@ -26,7 +26,7 @@ export const SHELL_IDS = {
   actionDismiss: 'ms-action-dismiss',
 } as const;
 
-export function actionOpenId(kind: 'move' | 'shot'): string {
+export function actionOpenId(kind: 'move' | 'shot' | 'disable' | 'protect' | 'rescue' | 'hack' | 'showdown-shot'): string {
   return `ms-action-open-${kind}`;
 }
 /** A choice is a destination or a seat; its id is built from letters, digits and hyphens only. */

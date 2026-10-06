@@ -1,0 +1,106 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T19:19:57.613Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "roles",
+    "players": 9,
+    "browser": "Chrome/154.0.8037.98",
+    "previewServer": "already running"
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a nine-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 9 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "11 browser contexts signed in anonymously to the Auth emulator and hold 11 different identities.",
+        "9 of them asked to join with the room code (5 starting in Room A, 4 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "3. The host approves seats and starts the match",
+      "statements": [
+        "The host console listed 9 requests; each was seated with the keyboard alone (Tab, Enter), 9 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.",
+        "The display was admitted by the identifier it shows, and showed no match before the start.",
+        "One v1StartMatch; the host console then read status \"running\"."
+      ]
+    },
+    {
+      "step": "6c. Each role’s action that names one seat, on its own turn (nine players, one round)",
+      "statements": [
+        "The journey followed 10 phases of the first round in the server’s own order: \"Player 6’s turn\", \"Hack\", \"Player 9’s turn\", \"Player 2’s turn\", \"Player 7’s turn\", \"Player 1’s turn\", \"Player 8’s turn\", \"Player 4’s turn\", \"Player 3’s turn\", \"Player 5’s turn\".",
+        "Player 9 (Undercover): on its own turn the phone had a control for \"protect\", with 5 seat(s) from the server, its own among them; one confirmation sent one PROTECT; receipt accepted, REGISTERED.",
+        "Player 2 (Cracker): on its own turn the phone had a control for \"rescue\", with 4 seat(s) from the server, its own among them; one confirmation sent one RESCUE; receipt accepted, REGISTERED.",
+        "Player 1 (Blue Disabler): on its own turn the phone had a control for \"disable\", with 4 seat(s) from the server; one confirmation sent one DISABLE; receipt accepted, REGISTERED.",
+        "Player 3 (Red Disabler): on its own turn the phone had a control for \"disable\", with 4 seat(s) from the server; one confirmation sent one DISABLE; receipt accepted, REGISTERED.",
+        "Player 5 (Officer): on its own turn the phone had a control for \"shot\", with 4 seat(s) from the server; one confirmation sent one REGISTER_SHOT; receipt accepted, REGISTERED.",
+        "After each registration the shared display’s board was identical to before, no other phone was told anything, and the acting phone’s card then said an action was registered and waiting, from the server’s own view.",
+        "On every ordinary turn followed, every other phone’s card was on screen and idle; it listed a move and a shot and nothing else, and had a control for nothing but a move. So a Disable, Protection or a Rescue was listed on a phone only during that phone’s own turn.",
+        "Hack: Player 6 requested one with Player 2 (REQUEST_HACK, accepted). When that turn ended the server opened a Hack phase; the two players’ phones each said who with, no other phone and not the display did.",
+        "NOT RUN: what any of these registrations resolves to at the end of the round, and the voting phases after it."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.",
+    "playerCount": 9,
+    "phasesFollowed": [
+      "Round 1, Player 6’s turn",
+      "Round 1, Hack",
+      "Round 1, Player 9’s turn",
+      "Round 1, Player 2’s turn",
+      "Round 1, Player 7’s turn",
+      "Round 1, Player 1’s turn",
+      "Round 1, Player 8’s turn",
+      "Round 1, Player 4’s turn",
+      "Round 1, Player 3’s turn",
+      "Round 1, Player 5’s turn"
+    ],
+    "registered": [
+      {
+        "seat": 9,
+        "role": "Undercover",
+        "kind": "protect",
+        "targets": 5,
+        "selfListed": true
+      },
+      {
+        "seat": 2,
+        "role": "Cracker",
+        "kind": "rescue",
+        "targets": 4,
+        "selfListed": true
+      },
+      {
+        "seat": 1,
+        "role": "Blue Disabler",
+        "kind": "disable",
+        "targets": 4,
+        "selfListed": false
+      },
+      {
+        "seat": 3,
+        "role": "Red Disabler",
+        "kind": "disable",
+        "targets": 4,
+        "selfListed": false
+      },
+      {
+        "seat": 5,
+        "role": "Officer",
+        "kind": "shot",
+        "targets": 4,
+        "selfListed": false
+      }
+    ],
+    "hack": {
+      "requestedBySeat": 6,
+      "withSeat": 2
+    }
+  }
+}

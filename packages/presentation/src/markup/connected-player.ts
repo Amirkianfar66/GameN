@@ -19,6 +19,9 @@ function stepLine(className: string, text: string): MarkupElement {
   return h('p', { class: className, id: SHELL_IDS.actionStep, tabindex: '-1' }, text);
 }
 
+/** The element that names one listed action. Its control is named by it. */
+const offerNameId = (kind: string): string => `ms-action-offer-${kind}`;
+
 function renderChoice(choice: ActionChoiceModel): MarkupElement {
   return h('li', null,
     h('button', { type: 'button', class: 'ms-button ms-target', id: choice.id, 'data-intent': 'action/choose', 'data-value': choice.value },
@@ -34,8 +37,13 @@ function renderBody(body: ConnectedActionBody): MarkupChild {
     case 'idle':
       return [
         h('ul', { class: 'ms-offers', 'aria-labelledby': SHELL_IDS.actionTitle }, body.offers.map(offer => h('li', { class: 'ms-offer', 'data-kind': offer.kind },
-          h('span', { class: 'ms-offer__name' }, offer.label), hiddenText(': '), h('span', { class: 'ms-offer__status' }, offer.statusLabel),
-          offer.open ? h('button', { type: 'button', class: 'ms-button ms-button--primary', id: offer.open.id, 'data-intent': 'action/open', 'data-kind': offer.kind }, offer.open.label) : null,
+          h('span', { class: 'ms-offer__name', id: offerNameId(offer.kind) }, offer.label), hiddenText(': '), h('span', { class: 'ms-offer__status' }, offer.statusLabel),
+          // Several actions can be open at once with the same words on their controls. Each
+          // control is named by its action first, then by its own words.
+          offer.open ? h('button', {
+            type: 'button', class: 'ms-button ms-button--primary', id: offer.open.id, 'aria-labelledby': `${offerNameId(offer.kind)} ${offer.open.id}`,
+            'data-intent': 'action/open', 'data-kind': offer.kind,
+          }, offer.open.label) : null,
         ))),
         body.note ? h('p', { class: 'ms-card__text' }, body.note) : null,
       ];
@@ -87,6 +95,7 @@ function renderPrivateArea(area: ConnectedPrivateAreaModel): MarkupElement {
       area.content ? [
         h('h3', { class: 'ms-private__subheading', id: 'ms-role-heading' }, area.content.role.label),
         h('p', { class: 'ms-role-card' }, area.content.role.name),
+        area.content.hack ? h('p', { class: 'ms-notice', id: 'ms-hack-with' }, area.content.hack) : null,
         h('div', { class: 'ms-actions', 'data-region': 'actions' },
           h('h3', { class: 'ms-private__subheading', id: 'ms-actions-heading' }, area.content.actions.heading),
           area.content.actions.notice ? h('p', { class: 'ms-notice' }, area.content.actions.notice) : null,
