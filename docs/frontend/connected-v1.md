@@ -35,7 +35,8 @@ This document is the running handoff for the connected work: what exists, what w
 | `apps/game/src/connected/readers.ts` | Stores for the public view and for the approved seat's own view; a lobby reader; provisional strict readers for the two host documents that have no exported schema (G1) |
 | `apps/game/src/connected/paths.ts` | The documented listener paths, built from checked identifiers only |
 | `apps/game/src/connected/action-flow.ts` | One command at a time for the seat, `MOVE` or `REGISTER_SHOT`, chosen only from the server's own destinations and legal targets on a fresh view. Lookup, identical re-send, bounded checking, retry delays, and the documented rules after a reload |
-| `apps/game/test/connected-*.test.mjs`, `action-flow.test.mjs` | Unit tests against scripted transports. Part of `npm run verify` |
+| `apps/game/src/browser/firebase-transport.ts` | The Firebase web client behind that boundary, **for the local emulators only**: memory cache, listeners with metadata so that a snapshot is fresh only when the server confirmed it, anonymous sign-in, plain JSON operations with the SDK's ID token. It refuses any host that is not loopback and any project but the demo one. Not part of the headless package entry |
+| `apps/game/test/connected-*.test.mjs`, `action-flow.test.mjs`, `firebase-transport-guards.test.mjs` | Unit tests against scripted transports. Part of `npm run verify` |
 | `apps/game/test-emulator/` | Emulator-connected tests and the test-only transport. **Not** part of `verify` |
 
 Nothing outside `apps/game/`, `packages/presentation/` and `docs/frontend/` is changed. The protocol-1 fixture harness and its tests are untouched and still pass.
@@ -47,7 +48,7 @@ Node `22.21.1`, npm `10.9.4`, Temurin Java `21.0.12.1`, macOS, 6 October 2026.
 | Command | Result |
 | --- | --- |
 | `npm run verify` | Passed: 506 tests, no failure, skip or todo (25 bootstrap, 79 engine, 46 backend, 11 tooling, 95 presentation, 250 game); production exclusion passed |
-| `npm run test:emulator --workspace @mothership/game` | Passed: 3 of 3, about 76 seconds, most of it one real 60-second phase. After the last test the emulator logged one warning that the backend's own deadline task could not reach Functions, which were already shutting down |
+| `npm run test:emulator --workspace @mothership/game` | Passed: 4 of 4, about 82 seconds, most of it one real 60-second phase. After the last test the emulator logged one warning that the backend's own deadline task could not reach Functions, which were already shutting down |
 
 What the lobby journey established against the real backend, each by assertion:
 
@@ -76,6 +77,17 @@ What the command journeys established, each by assertion:
 
 "Lost" is arranged in the test's own API wrapper, and "reload" makes a new flow over the one string the old one kept. Neither is a browser.
 
+What the Firebase web client test established, with the real SDK running in Node against the emulators:
+
+- An anonymous identity, the same one when asked again, and a different one for a second client.
+- Operations carry the SDK's own ID token and no UID in any body; an operation that is not a documented one is never sent.
+- A real document listener delivers the host's session; whatever arrived before the first server-confirmed snapshot was not called fresh.
+- A listener the rules refuse fails. It is not delivered as an empty document. A document that does not exist is delivered as absent, not as a failure.
+- A collection listener delivers the host's list of requests.
+- When the host approves, the requester's listener is told by the server without asking again.
+- A seated player can listen to the lobby; someone never admitted cannot, and can once admitted as a display.
+- A stopped listener hears nothing more.
+
 ## Run it
 
 ```sh
@@ -94,7 +106,7 @@ On the machine this was written on, Java 21 is not installed system-wide; a Temu
 ## Next, in order
 
 1. ~~The command flow for protocol 2, and emulator-connected tests of an unanswered command, a reload and a phase change.~~ Done. The shot path is unit-tested only: no emulator match has reached a turn where a shot is open (G5).
-2. The Firebase web transport: memory cache, listener metadata for freshness, anonymous sign-in with per-tab persistence (provisional, G4).
+2. ~~The Firebase web transport.~~ Done for the emulators, and exercised with the real SDK from Node. Per-tab credential persistence (provisional, G4) and a network that really goes away are for the browser journeys.
 3. The existing screens on protocol-2 views: nine phase kinds, seven to nine seats, a Move action, the server's legal targets; and new lobby screens for a host, a player and a display.
 4. A Vite page on port 5173, labeled as emulator-connected, apart from fixture mode.
 5. Browser journeys with a host, seven players and a display.
@@ -115,7 +127,7 @@ Listed in full in the assessment as G1 to G8. The ones this flow runs into first
 ## Not established
 
 - Anything in a browser, on a phone, or with a screen reader.
-- Listener behavior: caching, metadata, reconnection. The test transport polls.
+- Listener behavior when the network really drops, and credential persistence across a reload. The SDK transport was run in Node, where neither exists.
 - A real listener dropping and reconnecting, and a shot registered against the backend.
 - Anything about a deployed project.
 - That the scripted fixture harness says anything about the backend. It does not, and nothing here describes it as integration.
