@@ -1,6 +1,6 @@
 import { en } from '../copy/en.js';
 import type {
-  BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, SeatModel, SettingsModel, ShellModelBase, TimerModel, ZoneModel,
+  BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, SeatModel, SettingsModel, ShellModelBase, TimerModel, VotePanelModel, ZoneModel,
 } from '../model/types.js';
 import { SHELL_IDS } from '../ids.js';
 import { h } from './node.js';
@@ -64,6 +64,30 @@ export function renderPhase(phase: PhaseStripModel): MarkupElement {
       phase.detail ? h('p', { class: 'ms-phase__detail' }, phase.detail) : null,
     ),
     renderTimer(phase.timer),
+  );
+}
+
+/**
+ * The public facts of a vote: what is open, and the last count the server published. The
+ * region is always there, empty while there is nothing to say, so a vote opening or a count
+ * arriving redraws this region and nothing around it.
+ */
+export function renderVote(vote: VotePanelModel | null): MarkupElement {
+  const block = (name: string, title: string, children: MarkupChild): MarkupElement =>
+    h('div', { class: 'ms-vote__block', 'data-vote': name }, h('h3', { class: 'ms-vote__title' }, title), children);
+  const line = (text: string): MarkupElement => h('p', { class: 'ms-vote__line' }, text);
+  return h('div', { class: 'ms-vote-region', 'data-region': 'vote' },
+    vote ? h('section', { class: 'ms-panel ms-vote', 'aria-labelledby': 'ms-vote-heading' },
+      h('h2', { class: 'ms-panel__heading', id: 'ms-vote-heading' }, vote.heading),
+      vote.current ? block('current', vote.current.title, vote.current.lines.map(line)) : null,
+      vote.lastTally ? block('tally', `${vote.lastTally.heading}: ${vote.lastTally.title}`, [
+        vote.lastTally.counts.length > 0 ? h('ul', { class: 'ms-vote__counts' }, vote.lastTally.counts.map(row =>
+          h('li', { class: 'ms-vote__count', 'data-seat': row.seatId },
+            h('span', { class: 'ms-vote__name' }, row.label), hiddenText(': '), h('span', { class: 'ms-vote__votes' }, en.vote.tally.votes(row.votes)),
+          ))) : null,
+        vote.lastTally.lines.map(line),
+      ]) : null,
+    ) : null,
   );
 }
 

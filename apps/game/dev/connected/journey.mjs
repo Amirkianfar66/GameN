@@ -11,7 +11,11 @@
 // register a shot on its own turn. It waits for that turn in real 60-second phases, so it
 // can take up to about ten minutes. A third (MOTHERSHIP_JOURNEY=roles) follows a whole first
 // round of a nine-player match: each role that has an action naming one seat registers it
-// on its own turn, and one player requests a Hack. About eleven minutes.
+// on its own turn, and one player requests a Hack. About eleven minutes. A fourth
+// (MOTHERSHIP_JOURNEY=votes) plays a seven-player match from its start to the end of its
+// second round's Jail vote: a Jail vote, a Captain election that ties and is run again, the
+// Captain's release choice and the vote on it. Nobody acts on a turn; every phase is still a
+// real 60-second window, so it takes about twenty-one minutes.
 //
 // What this is: the real Firebase web client, real anonymous identities, real Security
 // Rules, the real protocol-2 service and its real 60-second phases, in headless Chrome.
@@ -45,9 +49,9 @@ const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
 /** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
 const PAGE_LOAD_MS = 30_000;
 
-const SCENARIO = ['shot', 'roles'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
+const SCENARIO = ['shot', 'roles', 'votes'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
 /** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
-const PLAYERS = SCENARIO === 'movement' ? 7 : 9;
+const PLAYERS = SCENARIO === 'movement' || SCENARIO === 'votes' ? 7 : 9;
 const WORDS = { 7: 'seven', 9: 'nine' };
 
 const evidence = process.argv[2] ?? process.env.MOTHERSHIP_EVIDENCE_DIR ?? null;
@@ -92,10 +96,24 @@ async function device(browser, label, shape) {
     loadsMade += 1;
     return reloadPage(...parameters);
   };
-  // Notes when the phase this page shows changes, by the machine's clock. It only reads.
+  // Notes when the phase this page shows changes, by the machine's clock, and every line the
+  // page puts in a live region, as it is put there (a line leaves the page again after a
+  // few seconds). It only reads.
   await page.send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => {
     window.name = String((Number(window.name) || 0) + 1);
     window.__phases = [];
+    window.__spoken = [];
+    window.__watch = [];
+    const watch = what => { window.__watch.push({ what, at: Date.now() }); };
+    document.addEventListener('visibilitychange', () => watch('page ' + document.visibilityState));
+    window.addEventListener('blur', () => watch('window blurred'));
+    window.addEventListener('focus', () => watch('window focused'));
+    let lastState = null;
+    new MutationObserver(records => {
+      for (const record of records) for (const node of record.addedNodes) {
+        if (node.nodeType === 1 && node.matches('#ms-live-polite p, #ms-live-assertive p')) window.__spoken.push(node.textContent);
+      }
+    }).observe(document, { childList: true, subtree: true });
     let last = null;
     setInterval(() => {
       let phase = null;
@@ -104,6 +122,15 @@ async function device(browser, label, shape) {
       if (label !== null && label !== last) {
         last = label;
         window.__phases.push({ label, at: Date.now() });
+      }
+      let state = null;
+      try {
+        const model = globalThis.mothershipConnected.frame().model;
+        state = 'connection ' + model.connection + ', timer ' + (model.match?.phase.timer.state ?? 'none') + ', private panel ' + (model.match?.privateArea?.open === true ? 'open' : model.match?.privateArea ? 'closed' : 'absent');
+      } catch { return; }
+      if (state !== lastState) {
+        lastState = state;
+        watch(state);
       }
     }, 50);
   })();` });
@@ -206,7 +233,7 @@ async function device(browser, label, shape) {
       void Promise.all([call.request, answered]).then(([request, body]) => {
         let response = null;
         try { response = body === null ? null : JSON.parse(body.base64Encoded ? Buffer.from(body.body, 'base64').toString() : body.body); } catch { /* not JSON: no answer */ }
-        record({ operation: call.operation, at: call.at, request, response, ...(arranged.get(params.requestId) ?? {}) });
+        record({ operation: call.operation, at: call.at, tookMs: Date.now() - call.at, request, response, ...(arranged.get(params.requestId) ?? {}) });
         pending.delete(params.requestId);
       });
     }
@@ -312,6 +339,10 @@ const card = who => who.page.evaluate(`(() => {
 const cardIs = (who, status, label, timeoutMs = 15_000) => who.page.waitFor(`document.querySelector('${CARD}')?.dataset.status === ${JSON.stringify(status)}`, `${who.label}: ${label}`, timeoutMs);
 const focused = who => who.page.evaluate("document.activeElement?.id || document.activeElement?.tagName || null");
 const spoken = who => who.page.evaluate("[...document.querySelectorAll('#ms-live-polite p, #ms-live-assertive p')].map(line => line.textContent)");
+/** Every line the page has put in a live region since it was last loaded, including those that have left it again. */
+const everSpoken = who => who.page.evaluate('[...window.__spoken]');
+/** What the page noted about itself lately: visibility, focus, connection, clock and private panel, each when it changed. */
+const lately = async (who, count = 10) => (await who.page.evaluate('window.__watch.slice(-' + count + ')')).map(entry => `${new Date(entry.at).toISOString().slice(14, 23)} ${entry.what}`).join('; ');
 
 async function openPanel(who) {
   if (await who.attribute('#ms-private-toggle', 'aria-expanded') === 'true') return;
@@ -365,6 +396,399 @@ function assertStored(stored, label, { unresolved, alsoAbsent = [] }) {
   for (const word of [...SEVEN_PLAYER_ROLES, ...alsoAbsent, 'Room A', 'Room B', 'Command Room', 'Hospital', 'Jail', 'MOVE', 'REGISTER_SHOT', 'destination', 'target', 'role', 'legalTargets', 'knowledge', 'faction']) {
     assert.equal(everything.toLowerCase().includes(word.toLowerCase()), false, `${label}: nothing stored contains "${word}"`);
   }
+}
+
+/**
+ * The seven-player voting scenario: a match from its start to the end of its second round's
+ * Jail vote. Nobody acts on a turn. In the votes the players cast real ballots through the
+ * card, and everything said about a count is read from the server's own public view.
+ * Every phase is a real 60-second server window that ends only at its deadline.
+ */
+async function votesScenario({ display, players, seatOf, matchId }) {
+  for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
+  const [A, B, C, D, E, F, G] = players;
+  const seat = who => seatOf.get(who);
+  const name = number => `Player ${number}`;
+  const names = numbers => [...numbers].sort((a, b) => a - b).map(name).join(', ');
+  const everySeat = players.map(seat);
+  for (const player of players) await openPanel(player);
+
+  const voteOf = who => who.page.evaluate('JSON.parse(JSON.stringify(globalThis.mothershipConnected.frame().model.match.vote))');
+  // Where the display puts a seat and how it marks it. Whose turn it is has nothing to do with a vote, so that marker is left out.
+  const seatOnBoard = number => display.page.evaluate(`(() => {
+    const found = globalThis.mothershipConnected.frame().model.match.board.zones.flatMap(zone => zone.seats).find(entry => entry.number === ${number});
+    return found ? { location: found.location, markers: found.markers.filter(marker => marker.kind !== 'turn').map(marker => marker.label) } : null;
+  })()`);
+  const offers = who => who.page.evaluate("[...document.querySelectorAll('.ms-offer')].map(offer => [offer.dataset.kind, offer.querySelector('button') !== null])");
+  /** The display shows this phase, with the server's time, and (where given) this is what its voting panel says is open. */
+  const phaseOpens = (label, current = null, timeoutMs = 100_000) => display.page.waitFor(`(() => {
+    const match = globalThis.mothershipConnected.frame().model.match;
+    if (!match || match.phase.timer.state !== 'running' || match.phase.roundLabel + ', ' + match.phase.phaseLabel !== ${JSON.stringify(label)}) return false;
+    return ${current === null ? 'true' : `JSON.stringify(match.vote?.current ?? null) === ${JSON.stringify(JSON.stringify(current))}`};
+  })()`, `the display shows "${label}"`, timeoutMs);
+  /** Lines about a ballot, and the ones among them a phone says about its own. */
+  const aboutABallot = line => /vote for|voted|recorded|abstention|abstain|requested/i.test(line);
+  const itsOwn = line => /^(Your (vote|abstention|choice)|Release vote for .* requested\.|Sending your (ballot|choice))/.test(line);
+  /** How often a page has said a sentence. What a page says at one moment is one line, so the sentence is looked for inside each. */
+  const timesSaid = async (who, sentence) => (await everSpoken(who)).filter(heard => heard.includes(sentence)).length;
+
+  /** Ballots that were started a second time, each with what the page showed and noted when the first try stopped. */
+  const startedAgain = [];
+  /**
+   * One ballot through the card. By touch unless `keys` is set, in which case only Tab and
+   * Enter are used. Returns what the card listed, asked and said, and what was sent.
+   *
+   * If a try stops before anything was sent, it is started once more and that is recorded
+   * with the reason: a choice that is not sent is dropped by design when the page loses
+   * its fresh view, its clock or its open panel, and a player would simply choose again.
+   * A try that sent something is never repeated.
+   */
+  async function ballot(who, kind, value, options = {}) {
+    try {
+      return await tryBallot(who, kind, value, options);
+    } catch (error) {
+      if (error.nothingSent !== true) throw error;
+      startedAgain.push(`${who.label}, ${kind}: ${error.message}`);
+      note(`STARTED AGAIN, nothing had been sent: ${error.message}`);
+      // Put down whatever is half chosen, as a player would.
+      for (let presses = 0; presses < 3 && await who.exists('#ms-action-back'); presses += 1) await who.page.tap('#ms-action-back');
+      return tryBallot(who, kind, value, options);
+    }
+  }
+  // The phone waits 8 s for an answer and then asks the server what became of the command,
+  // so an acceptance can take longer than that to appear. A phase is 60 s.
+  const ACCEPT_WITHIN_MS = 25_000;
+  async function tryBallot(who, kind, value, { keys = false, picture = null } = {}) {
+    await openPanel(who);
+    await who.page.waitFor(`document.getElementById('ms-action-open-${kind}') !== null`, `${who.label}: ${kind} is offered`, 20_000);
+    const before = (await who.operations('v1Command')).length;
+    const activate = async id => {
+      if (keys) {
+        await who.page.tabTo(id, 60);
+        await who.page.press('Enter');
+      } else await who.page.tap(`#${id}`);
+    };
+    // If a step does not arrive, say what the page showed and what it noted about itself, instead of only that time ran out.
+    const reached = (wait, what) => wait.catch(async error => {
+      const commands = (await who.operations('v1Command')).slice(before);
+      const failure = new Error(`${error.message}. ${who.label} while waiting for ${what}: card ${JSON.stringify(await card(who).catch(() => null))}; focus on ${await focused(who).catch(() => '?')}; `
+        + `commands sent ${JSON.stringify(commands.map(call => call.response?.receipt?.status ?? call.response?.error?.code ?? call.dropped ?? 'no answer'))}; lately: ${await lately(who).catch(() => '?')}`);
+      failure.nothingSent = commands.length === 0;
+      throw failure;
+    });
+    await activate(`ms-action-open-${kind}`);
+    await reached(who.page.waitFor(`document.querySelector('${CARD}')?.dataset.step === 'choosing'`, `${who.label}: the server's choices are listed`), 'the choices');
+    const asked = await who.text('#ms-action-step');
+    const listed = await who.page.evaluate("[...document.querySelectorAll('button[data-intent=\"action/choose\"]')].map(choice => [choice.dataset.value, choice.querySelector('.ms-target__name').textContent])");
+    if (picture !== null) await who.shot(`${picture}-choices.png`, { selector: '[data-action="connected"]' });
+    await activate(`ms-action-choice-${value}`);
+    await reached(who.page.waitFor(`document.querySelector('${CARD}')?.dataset.step === 'confirming'`, `${who.label}: asked to confirm`), 'the question');
+    const confirm = (await card(who)).text;
+    await reached(whenActive(who, '#ms-action-confirm'), 'the confirm control to become active');
+    if (picture !== null) await who.shot(`${picture}-confirm.png`, { selector: '[data-action="connected"]' });
+    const confirmedAt = Date.now();
+    await activate('ms-action-confirm');
+    await reached(cardIs(who, 'accepted', `${kind} is accepted`, ACCEPT_WITHIN_MS), 'the acceptance');
+    const shownAfterMs = Date.now() - confirmedAt;
+    const said = (await card(who)).text;
+    const sent = (await who.operations('v1Command')).slice(before);
+    return { asked, listed, confirm, said, sent, shownAfterMs };
+  }
+  /** The card is put away; the phone then shows its own ballot from the server's view, or (for a release choice) nothing more. */
+  async function putAway(who, ownBallot) {
+    await tapWhenActive(who, '#ms-action-dismiss');
+    await cardIs(who, 'idle', 'the card is put away');
+    if (ownBallot === null) return;
+    await who.page.waitFor("document.getElementById('ms-own-ballot') !== null", `${who.label}: the server's view states its ballot`);
+    assert.equal(await who.text('#ms-own-ballot'), ownBallot, who.label);
+  }
+  /** Ballots whose command went out more than once, as the identical request, because no answer came within the phone's 8 seconds. */
+  const sentAgain = [];
+  /**
+   * One confirmation made one command, this one, and the server accepted it. If its answer
+   * was slower than the phone waits, the phone sends the identical request again and the
+   * server answers with the same receipt: that is still one command, and it is recorded.
+   */
+  const accepted = (result, command) => {
+    assert.equal(result.sent.length >= 1, true, 'A command was sent');
+    const [call] = result.sent;
+    assert.deepEqual(call.request.command, command);
+    for (const again of result.sent.slice(1)) assert.deepEqual(again.request, call.request, 'Sent again as the identical request, with the same identifier');
+    const receipt = { protocolVersion: 2, matchId, phaseId: call.request.phaseId, commandId: call.request.commandId, status: 'accepted', code: 'REGISTERED' };
+    const answered = result.sent.filter(each => each.response !== null);
+    assert.equal(answered.length >= 1, true, 'The server answered');
+    for (const each of answered) assert.deepEqual(each.response.receipt, receipt, 'Every answer is the one receipt');
+    if (result.sent.length > 1) sentAgain.push({ command: command.type, times: result.sent.length, answersTookMs: result.sent.map(each => each.tookMs) });
+  };
+  /** How long the server took to answer each of a set of ballots cast at the same moment, and how long each phone took to show the acceptance. */
+  const timings = results => ({
+    answersTookMs: results.flatMap(result => result.sent.map(each => each.tookMs)).sort((a, b) => a - b),
+    shownAfterMs: results.map(result => result.shownAfterMs).sort((a, b) => a - b),
+  });
+  const span = values => `${(Math.min(...values) / 1000).toFixed(1)} to ${(Math.max(...values) / 1000).toFixed(1)} s`;
+  const cast = new Map(players.map(player => [player, 0]));
+  const count = who => cast.set(who, cast.get(who) + 1);
+
+  // ---------------------------------------------------------------- V1. The first round, with nobody acting
+  await phaseOpens('Round 1, Jail vote', null, 9 * 60_000);
+  const roundOne = await display.page.evaluate('window.__phases');
+  assert.equal(roundOne.filter(phase => /^Round 1, Player \d’s turn$/.test(phase.label)).length, 7, 'Seven turns, one for each seat');
+  // How long the display showed each turn after the first, which it joined a moment late.
+  const shownFor = roundOne.slice(2).map((phase, index) => (phase.at - roundOne[index + 1].at) / 1000);
+  assert.equal(shownFor.every(seconds => seconds >= 59.5 && seconds <= 75), true, `No turn ended before its 60 seconds were up: ${shownFor.join(', ')}`);
+  assert.deepEqual((await everSpoken(display)).filter(line => /counted/.test(line)), [], 'No count has been published yet');
+  established('V1. A first round with nobody acting (seven players)', [
+    `The display followed ${roundOne.length - 1} phases to the Jail vote: ${roundOne.slice(0, -1).map(phase => `"${phase.label.replace('Round 1, ', '')}"`).join(', ')}.`,
+    `Nobody did anything, and no phase ended early: the display showed each turn after the first for between ${Math.min(...shownFor).toFixed(1)} and ${Math.max(...shownFor).toFixed(1)} seconds. (The server closes a phase at its 60-second deadline, when a client asks it to look.)`,
+    'No Captain exists in a first round, so the server opened no release choice: the Jail vote followed the last turn.',
+  ]);
+
+  // ---------------------------------------------------------------- V2. The Jail vote
+  const jailed = seat(G);
+  const own = seat(F);
+  const open = { title: 'Jail vote', lines: [`Can be voted into Jail: ${names(everySeat)}.`, '7 players may vote.'] };
+  const publicJailVote = { heading: 'Voting', current: open, lastTally: null };
+  assert.deepEqual(await voteOf(display), publicJailVote);
+  for (const player of players) {
+    await player.page.waitFor("document.getElementById('ms-action-open-vote') !== null", `${player.label}: the vote is offered`, 20_000);
+    assert.deepEqual(await voteOf(player), publicJailVote, `${player.label} shows what the display shows`);
+    assert.deepEqual(await offers(player), [['move', false], ['shot', false], ['vote', true]], `${player.label}: a vote, and nothing else, can be started`);
+  }
+  await display.shot('v1-table-display-jail-vote-open.png');
+
+  // One player uses the keyboard alone, one loses the server's answer, one abstains, one votes for itself, one does not vote.
+  const byKeys = await ballot(A, 'vote', `seat-${jailed}`, { keys: true });
+  count(A);
+  assert.equal(byKeys.asked, 'Who do you vote to send to Jail?');
+  assert.deepEqual(byKeys.listed, [...[...everySeat].sort((a, b) => a - b).map(number => [`seat-${number}`, number === seat(A) ? `${name(number)} (you)` : name(number)]), ['none', 'Abstain']], 'Every seat the server lists, its own among them, then the abstention');
+  assert.match(byKeys.confirm, new RegExp(`Vote to send ${name(jailed)} to Jail\\? This is your one ballot in this vote\\.`));
+  accepted(byKeys, { type: 'VOTE', targetSeatId: `seat-${jailed}` });
+  assert.match(byKeys.said.replace(/^accepted /i, ''), new RegExp(`^Your vote for ${name(jailed)} is recorded\\. This is not a result\\.`));
+  await A.shot('v2-phone-ballot-recorded.png', { selector: '[data-action="connected"]' });
+
+  C.fault.dropCommandAnswer = 1;
+  const [votedB, votedC, votedD, abstained, selfVote] = await Promise.all([
+    ballot(B, 'vote', `seat-${jailed}`, { picture: 'v3-phone-jail-vote' }), ballot(C, 'vote', `seat-${jailed}`), ballot(D, 'vote', `seat-${jailed}`),
+    ballot(E, 'vote', 'none'), ballot(F, 'vote', `seat-${own}`),
+  ]);
+  for (const who of [B, C, D, E, F]) count(who);
+  accepted(votedB, { type: 'VOTE', targetSeatId: `seat-${jailed}` });
+  accepted(votedD, { type: 'VOTE', targetSeatId: `seat-${jailed}` });
+  // C's answer was dropped in the browser (ARRANGED). The phone asked, and the server had the ballot.
+  assert.deepEqual(votedC.sent.map(call => [call.dropped, call.response]), [['answer', null]], 'One ballot left the page; its answer never arrived');
+  const lookups = await C.operations('v1Receipt');
+  assert.deepEqual([lookups.at(-1).request.commandId, lookups.at(-1).response.status, lookups.at(-1).response.receipt.status], [votedC.sent[0].request.commandId, 'found', 'accepted']);
+  assert.deepEqual(votedC.sent[0].request.command, { type: 'VOTE', targetSeatId: `seat-${jailed}` });
+  accepted(abstained, { type: 'VOTE', targetSeatId: null });
+  assert.match(abstained.confirm, /Abstain from this vote\? This is your one ballot in this vote\./);
+  assert.match(abstained.said.replace(/^accepted /i, ''), /^Your abstention is recorded\./);
+  accepted(selfVote, { type: 'VOTE', targetSeatId: `seat-${own}` });
+  assert.match(selfVote.confirm, /Vote to send yourself to Jail\?/);
+  assert.match(selfVote.said.replace(/^accepted /i, ''), /^Your vote for yourself is recorded\./);
+
+  for (const who of [A, B, C, D]) await putAway(who, `Your ballot in this vote: ${name(jailed)}.`);
+  await putAway(E, 'Your ballot in this vote: an abstention.');
+  await putAway(F, 'Your ballot in this vote: yourself.');
+  for (const who of [A, B, C, D, E, F]) assert.deepEqual(await offers(who), [['move', false], ['shot', false]], `${who.label}: the server offers no second ballot`);
+  await B.shot('v4-phone-own-ballot.png');
+
+  // A reload: the ballot comes back from the server's view, and from nowhere on the device.
+  await D.page.reload(MATCH, 20_000);
+  assert.equal(await D.exists('#ms-own-ballot'), false, 'A reloaded page shows nothing private until it is asked to');
+  await openPanel(D);
+  await D.page.waitFor("document.getElementById('ms-own-ballot') !== null", `${D.label}: its ballot, from the server's view`);
+  assert.equal(await D.text('#ms-own-ballot'), `Your ballot in this vote: ${name(jailed)}.`);
+  assert.equal(await D.exists('#ms-action-open-vote'), false);
+  for (const who of [A, C, D, E, F]) assertStored(await who.stored(), who.label, { unresolved: false, alsoAbsent: ['VOTE', 'ballot', 'abstain'] });
+
+  // While the vote is open nothing of any ballot is public: not on the display, not on another phone.
+  assert.deepEqual(await voteOf(display), publicJailVote, 'The display says what it said before anyone voted');
+  assert.equal(/Your ballot|recorded|abstention/i.test(await display.page.evaluate('document.body.textContent')), false);
+  assert.deepEqual((await everSpoken(display)).filter(aboutABallot), [], 'The display has said nothing of any ballot');
+  assert.equal(await G.exists('#ms-own-ballot'), false, 'The player who has not voted is shown no ballot');
+  assert.deepEqual(await voteOf(G), publicJailVote);
+  assert.deepEqual(await offers(G), [['move', false], ['shot', false], ['vote', true]], 'and may still vote until the deadline');
+  for (const who of players) assert.deepEqual((await everSpoken(who)).filter(line => aboutABallot(line) && !itsOwn(line)), [], `${who.label} heard of no ballot but its own`);
+  assert.deepEqual((await everSpoken(G)).filter(aboutABallot), [], 'and the player who has not voted heard of none at all');
+  established('V2. A Jail vote: seven voters, real ballots, and nothing of a ballot shown to anyone else', [
+    `The display and every phone said the same thing about the open vote, from the public ballot: "${open.lines.join(' ')}"`,
+    `Every phone was offered a vote and nothing else. Each listed the seats the server listed (its own among them) and "Abstain".`,
+    `${A.label} voted with Tab and Enter alone; ${B.label}, ${C.label} and ${D.label} by touch, for the same seat. ${E.label} abstained (VOTE with no seat). ${F.label} voted for its own seat, which the server lists. ${G.label} cast no ballot.`,
+    `ARRANGED: the answer to ${C.label}'s ballot was dropped in the browser. The phone asked the server, which had the ballot: one VOTE, accepted once.`,
+    'Each ballot: one confirmation, one VOTE, receipt accepted. The card then said the ballot was recorded and that this is not a result.',
+    'Afterwards each phone showed its own ballot from the server’s view, inside its open private panel, and was offered no second one. A reloaded phone showed it again after reopening the panel, and nothing of a ballot was in any page’s storage.',
+    'Until the deadline the display’s voting panel was unchanged and nothing of any ballot was on it or spoken by it; no phone heard of a ballot but its own; the player who had not voted could still vote.',
+  ]);
+
+  // ---------------------------------------------------------------- V3. The count
+  const candidates = everySeat.filter(number => number !== jailed);
+  const election = { title: 'Captain election', lines: [`Candidates: ${names(candidates)}.`, '7 players may vote.'] };
+  await phaseOpens('Round 2, Captain election', election);
+  const counted = (await voteOf(display)).lastTally;
+  const expectedCounts = [...everySeat].sort((a, b) => a - b).map(number => ({ seatId: `seat-${number}`, label: name(number), votes: number === jailed ? 4 : number === own ? 1 : 0 }));
+  assert.deepEqual(counted, { heading: 'Last vote counted', title: 'Jail vote', counts: expectedCounts, lines: ['7 players could vote.', 'Abstained or did not vote: 2.', `Sent to Jail: ${name(jailed)}.`] });
+  assert.deepEqual(await seatOnBoard(jailed), { location: 'Jail', markers: ['Healthy', 'Jailed'] });
+  assert.equal(await timesSaid(display, `Jail vote counted. Sent to Jail: ${name(jailed)}.`), 1, 'The display says the count once, in words');
+  const afterJail = await voteOf(display);
+  for (const player of players) {
+    await player.page.waitFor("document.getElementById('ms-action-open-vote') !== null", `${player.label}: the election is offered`, 20_000);
+    assert.deepEqual(await voteOf(player), afterJail, `${player.label} shows the count and the election as the display does`);
+    assert.equal(await player.exists('#ms-own-ballot'), false, 'The ballot of the vote that closed is no longer shown');
+  }
+  await display.shot('v5-table-display-jail-vote-counted.png');
+  established('V3. The count is published when the vote closes, to everyone alike', [
+    `The Jail vote ended at its deadline. The server's public view then carried the count: ${expectedCounts.filter(row => row.votes > 0).map(row => `${row.label} ${row.votes}`).join(', ')}, the other seats 0; 7 could vote; 2 abstained or did not vote; "Sent to Jail: ${name(jailed)}."`,
+    `The display and all seven phones showed that count in the same words, the display spoke it once, and its board showed ${name(jailed)} in Jail, marked "Jailed".`,
+    'Nothing shown or spoken says who voted for whom.',
+  ]);
+
+  // ---------------------------------------------------------------- V4. A Captain election that ties, and is run again
+  const first = seat(A);
+  const second = seat(D);
+  // The jailed player votes too, and is not a candidate.
+  const tied = await Promise.all([
+    ballot(A, 'vote', `seat-${first}`, { picture: 'v6-phone-election' }), ballot(B, 'vote', `seat-${first}`), ballot(C, 'vote', `seat-${first}`),
+    ballot(D, 'vote', `seat-${second}`), ballot(E, 'vote', `seat-${second}`), ballot(F, 'vote', `seat-${second}`), ballot(G, 'vote', 'none'),
+  ]);
+  for (const who of players) count(who);
+  assert.equal(tied[0].asked, 'Who do you vote for as Captain?');
+  assert.match(tied[0].confirm, /Vote for yourself as Captain\?/);
+  for (const [index, result] of tied.entries()) {
+    assert.deepEqual(result.listed.map(entry => entry[0]), [...[...candidates].sort((a, b) => a - b).map(number => `seat-${number}`), 'none'], `${players[index].label}: the six candidates the server lists, and the abstention`);
+    accepted(result, { type: 'VOTE', targetSeatId: index < 3 ? `seat-${first}` : index < 6 ? `seat-${second}` : null });
+  }
+  const together = timings(tied);
+  note(`Seven ballots cast at the same moment: the server answered in ${span(together.answersTookMs)}; the phones showed the acceptance after ${span(together.shownAfterMs)}.`);
+  for (const who of players) await tapWhenActive(who, '#ms-action-dismiss');
+  const runoff = { title: 'Captain election', lines: [`Candidates: ${names([first, second])}.`, '7 players may vote.'] };
+  await phaseOpens('Round 2, Captain election', runoff);
+  const tie = (await voteOf(display)).lastTally;
+  assert.deepEqual([tie.title, tie.lines], ['Captain election', ['7 players could vote.', 'Abstained or did not vote: 1.', 'Nobody was elected.']]);
+  assert.deepEqual(tie.counts.filter(row => row.votes > 0).map(row => [row.label, row.votes]), [first, second].sort((a, b) => a - b).map(number => [name(number), 3]));
+  assert.equal((await display.page.evaluate("globalThis.mothershipConnected.frame().model.match.board.zones.flatMap(zone => zone.seats).some(entry => entry.captain)")), false, 'Nobody is Captain');
+  await display.shot('v7-table-display-election-tied.png');
+
+  const again = await Promise.all([
+    ballot(A, 'vote', `seat-${first}`), ballot(B, 'vote', `seat-${first}`), ballot(C, 'vote', `seat-${first}`), ballot(D, 'vote', `seat-${first}`),
+    ballot(E, 'vote', `seat-${second}`), ballot(F, 'vote', 'none'),
+  ]);
+  for (const who of [A, B, C, D, E, F]) count(who);
+  for (const [index, result] of again.entries()) {
+    assert.deepEqual(result.listed.map(entry => entry[0]), [...[first, second].sort((a, b) => a - b).map(number => `seat-${number}`), 'none'], 'Only the two tied candidates, and the abstention');
+    accepted(result, { type: 'VOTE', targetSeatId: index < 4 ? `seat-${first}` : index === 4 ? `seat-${second}` : null });
+  }
+  for (const who of [A, B, C, D, E, F]) await tapWhenActive(who, '#ms-action-dismiss');
+  await display.page.waitFor(`(() => {
+    const match = globalThis.mothershipConnected.frame().model.match;
+    return match && match.phase.timer.state === 'running' && /’s turn$/.test(match.phase.phaseLabel) && (match.vote?.lastTally?.lines ?? []).includes('Elected Captain: ${name(first)}.');
+  })()`, 'the second count elects a Captain', 100_000);
+  const elected = (await voteOf(display)).lastTally;
+  assert.deepEqual(elected.counts.map(row => [row.label, row.votes]), [first, second].sort((a, b) => a - b).map(number => [name(number), number === first ? 4 : 1]));
+  assert.deepEqual(elected.lines, ['7 players could vote.', 'Abstained or did not vote: 2.', `Elected Captain: ${name(first)}.`]);
+  assert.deepEqual(await seatOnBoard(first), { location: 'Command Room', markers: ['Healthy', 'Captain'] });
+  assert.equal(await timesSaid(display, 'Captain election counted. Nobody was elected.'), 1);
+  assert.equal(await timesSaid(display, `Captain election counted. Elected Captain: ${name(first)}.`), 1);
+  await display.shot('v8-table-display-captain-elected.png');
+  established('V4. A Captain election that ties is run again among the tied candidates', [
+    `The server opened a Captain election for round 2 with six candidates (every seat but the jailed ${name(jailed)}) and seven voters. The jailed player was offered the vote and was not on the list.`,
+    `Three ballots for ${name(first)} (one of them that player's own), three for ${name(second)}, one abstention. Count: 3 and 3, "Nobody was elected."`,
+    `The server then opened a second Captain election with only ${names([first, second])} as candidates; every phone listed exactly those two and "Abstain".`,
+    `Four ballots for ${name(first)}, one for ${name(second)}, one abstention, one player silent. Count: 4 and 1, "Elected Captain: ${name(first)}." The board showed ${name(first)} in the Command Room, marked "Captain".`,
+    'Both counts were spoken once by the display.',
+    `MEASURED, on this machine's emulators: the seven ballots of the first election were confirmed at the same moment. The server answered them in ${span(together.answersTookMs)}, and the phones showed the acceptance ${span(together.shownAfterMs)} after the confirmation. A phone waits 8 s for an answer before it asks the server what became of its command.`,
+  ]);
+
+  // ---------------------------------------------------------------- V5. The Captain's release choice
+  const releaseChoice = { title: 'Release choice', lines: [`${name(first)} may ask for a vote on releasing one jailed player.`, `Jailed: ${name(jailed)}.`] };
+  await phaseOpens('Round 2, Release choice', releaseChoice, 9 * 60_000);
+  for (const player of players.filter(candidate => candidate !== A)) {
+    await player.page.waitFor("globalThis.mothershipConnected.frame().model.match.phase.phaseLabel === 'Release choice' && document.querySelector('.ms-offer') !== null", `${player.label} shows the release choice`, 20_000);
+    assert.deepEqual(await offers(player), [['move', false], ['shot', false]], `${player.label} is not the Captain and is offered nothing`);
+    assert.deepEqual((await voteOf(player)).current, releaseChoice);
+  }
+  const asked = await ballot(A, 'release-choice', `seat-${jailed}`, { picture: 'v9-phone-release-choice' });
+  count(A);
+  assert.equal(asked.asked, 'Ask for a release vote for which jailed player?');
+  assert.deepEqual(asked.listed, [[`seat-${jailed}`, name(jailed)], ['none', 'No release request']]);
+  assert.match(asked.confirm, new RegExp(`Ask for a vote on releasing ${name(jailed)} from Jail\\? The Captain has one release request in a match\\. This uses it, whatever the vote decides\\.`));
+  accepted(asked, { type: 'RELEASE_CHOICE', targetSeatId: `seat-${jailed}` });
+  assert.match(asked.said.replace(/^accepted /i, ''), new RegExp(`^Release vote for ${name(jailed)} requested\\.`));
+  await putAway(A, null);
+  assert.deepEqual(await offers(A), [['move', false], ['shot', false]], 'One choice: the server offers no second');
+  assert.deepEqual((await voteOf(display)).current, releaseChoice, 'Until the phase ends the display says what it said before the choice');
+  assert.deepEqual((await everSpoken(display)).filter(line => /requested|release vote for/i.test(line)), [], 'and has said nothing of the choice');
+  for (const player of players.filter(candidate => candidate !== A)) assert.deepEqual((await everSpoken(player)).filter(line => /requested/i.test(line)), [], `${player.label} is told nothing of the choice`);
+  established('V5. The Captain’s release choice', [
+    `After the seven turns of round 2 the server opened a release choice. The display and every phone said: "${releaseChoice.lines.join(' ')}"`,
+    `Only the Captain's phone was offered a choice: the jailed ${name(jailed)}, or "No release request". Before confirming, it said what asking uses up.`,
+    `One confirmation, one RELEASE_CHOICE naming seat ${jailed}, receipt accepted. Nothing public changed until the phase ended.`,
+  ]);
+
+  // ---------------------------------------------------------------- V6. The vote on the release
+  const releaseVote = { title: 'Release vote', lines: [`The vote is on releasing ${name(jailed)} from Jail.`, '7 players may vote.'] };
+  await phaseOpens('Round 2, Release vote', releaseVote);
+  const answers = await Promise.all([
+    ballot(A, 'release-vote', 'yes'), ballot(B, 'release-vote', 'yes'), ballot(C, 'release-vote', 'yes'), ballot(D, 'release-vote', 'yes'),
+    ballot(E, 'release-vote', 'no'), ballot(F, 'release-vote', 'none'), ballot(G, 'release-vote', 'yes', { picture: 'v10-phone-release-vote' }),
+  ]);
+  for (const who of players) count(who);
+  assert.equal(answers[0].asked, `Release ${name(jailed)} from Jail?`);
+  assert.equal(answers[6].asked, 'Release yourself from Jail?', 'The jailed player votes on their own release, and is asked in the second person');
+  for (const [index, result] of answers.entries()) {
+    assert.deepEqual(result.listed, [['yes', 'Yes, release'], ['no', 'No, do not release'], ['none', 'Abstain']]);
+    accepted(result, { type: 'RELEASE_VOTE', approve: index === 4 ? false : index === 5 ? null : true });
+  }
+  for (const who of [A, B, C, D, G]) await putAway(who, 'Your ballot in this vote: yes.');
+  await putAway(E, 'Your ballot in this vote: no.');
+  await putAway(F, 'Your ballot in this vote: an abstention.');
+  assert.deepEqual((await voteOf(display)).current, releaseVote);
+
+  const jailVoteTwo = { title: 'Jail vote', lines: [`Can be voted into Jail: ${names(everySeat)}.`, '7 players may vote.'] };
+  await phaseOpens('Round 2, Jail vote', jailVoteTwo);
+  assert.deepEqual((await voteOf(display)).lastTally, { heading: 'Last vote counted', title: 'Release vote', counts: [], lines: [`The vote was on releasing ${name(jailed)}.`, 'Yes: 5 of 7.', `${name(jailed)} was released.`] });
+  const released = await seatOnBoard(jailed);
+  assert.deepEqual([['Room A', 'Room B'].includes(released.location), released.markers], [true, ['Healthy']], 'Out of Jail, back in a room, no longer marked');
+  assert.equal(await timesSaid(display, `Release vote counted. ${name(jailed)} was released.`), 1);
+  await display.shot('v11-table-display-release-counted.png');
+  established('V6. The vote on the release', [
+    `The server opened a release vote on ${name(jailed)}; the display and the phones said so from the public ballot. All seven were offered "Yes, release", "No, do not release" and "Abstain"; the jailed player was asked "Release yourself from Jail?".`,
+    'Five voted yes (the jailed player among them), one no, one abstained: seven RELEASE_VOTE commands, each accepted once. Each phone then showed its own ballot from the server’s view.',
+    `Count, published when the vote closed: "Yes: 5 of 7. ${name(jailed)} was released." The board showed ${name(jailed)} in ${released.location}, no longer marked "Jailed", and the server opened the round's Jail vote with all seven seats.`,
+  ]);
+
+  // ---------------------------------------------------------------- V7. A vote in which nobody votes
+  for (const player of players) {
+    await player.page.waitFor("document.getElementById('ms-action-open-vote') !== null", `${player.label}: the vote is offered`, 20_000);
+    assert.deepEqual(await offers(player), [['move', false], ['shot', false], ['vote', true]], `${player.label} may vote`);
+  }
+  await display.page.waitFor(`(() => {
+    const match = globalThis.mothershipConnected.frame().model.match;
+    return match && match.phase.roundLabel === 'Round 3' && match.vote?.lastTally?.title === 'Jail vote';
+  })()`, 'the second Jail vote is counted', 100_000);
+  assert.equal(await timesSaid(display, 'Jail vote counted. Nobody was sent to Jail.'), 1);
+  const silent = (await voteOf(display)).lastTally;
+  assert.deepEqual([silent.counts.every(row => row.votes === 0), silent.lines], [true, ['7 players could vote.', 'Abstained or did not vote: 7.', 'Nobody was sent to Jail.']]);
+  for (const who of [display, ...players]) assert.equal(new Set((await who.operations('v1Command')).map(call => call.request.commandId)).size, who === display ? 0 : cast.get(who), `${who.label}: only what it confirmed was sent`);
+  const followed = await display.page.evaluate('window.__phases');
+  facts.match = {
+    note: 'A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.',
+    playerCount: PLAYERS,
+    phasesFollowed: followed.map((phase, index) => ({ label: phase.label, secondsAfterThePreviousOne: index === 0 ? null : Math.round((phase.at - followed[index - 1].at) / 100) / 10 })),
+    jailVote: { votedForSeat: jailed, selfVoteBySeat: own, counts: Object.fromEntries(expectedCounts.map(row => [row.label, row.votes])) },
+    election: { firstCount: Object.fromEntries(tie.counts.map(row => [row.label, row.votes])), secondCount: Object.fromEntries(elected.counts.map(row => [row.label, row.votes])), captainSeat: first },
+    release: { requestedForSeat: jailed, yes: 5, voters: 7, released: true },
+    ballotsSentBySeat: Object.fromEntries(players.map(player => [name(seat(player)), cast.get(player)])),
+  };
+  facts.match.ballotsStartedAgain = startedAgain;
+  facts.match.commandsSentAgainAsTheIdenticalRequest = sentAgain;
+  facts.match.sevenSimultaneousBallots = together;
+  established('V7. A vote in which nobody votes', [
+    'In the second Jail vote all seven were offered a ballot and none cast one. The server closed the vote at its deadline and published: every seat 0, "Abstained or did not vote: 7. Nobody was sent to Jail." Round 3 began.',
+    `Over the whole journey each phone sent exactly the ballots it confirmed (${players.map(player => cast.get(player)).join(', ')}) and the display sent none.`,
+    startedAgain.length === 0 ? 'No ballot had to be started a second time.' : `${startedAgain.length} ballot(s) were started a second time after the first try stopped with nothing sent. What the page showed each time is in facts.json under ballotsStartedAgain.`,
+    sentAgain.length === 0 ? 'No command had to be sent a second time.' : `${sentAgain.length} command(s) were sent a second time as the identical request because the first answer took longer than the phone waits; each was accepted once. They are listed in facts.json.`,
+    'NOT RUN: any turn action, a vote with a phone offline, an injured or eliminated voter, a second release request, and anything after the start of round 3.',
+  ]);
 }
 
 /**
@@ -718,7 +1142,11 @@ async function main() {
     await host.page.click('#connected-display-uid');
     await host.page.type(uids.get(display));
     await host.page.click('#connected-admit-display');
-    await host.page.waitFor("document.getElementById('connected-status').textContent === 'Admitting the display: done.'", 'the display is admitted');
+    // The first operations after the page server or the emulators were (re)started can be slow. If this one does not
+    // come through, say what the console said instead of only that time ran out.
+    await host.page.waitFor("document.getElementById('connected-status').textContent === 'Admitting the display: done.'", 'the display is admitted', 30_000).catch(async error => {
+      throw new Error(`${error.message}. The host console said: "${await host.text('#connected-status')}"; the display field held ${JSON.stringify(await host.page.evaluate("document.getElementById('connected-display-uid').value"))}; admissions sent: ${JSON.stringify((await host.operations('v1AdmitDisplay')).map(call => call.response?.ok ?? call.response?.error?.code ?? 'no answer'))}`);
+    });
     assert.equal(await display.exists('.ms-shell'), false, 'An admitted display shows no match before one has started');
 
     await host.page.waitFor("document.getElementById('connected-start').disabled === false", 'the start control is available');
@@ -736,6 +1164,7 @@ async function main() {
 
     if (SCENARIO === 'shot') return await shotScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'roles') return await rolesScenario({ display, players, seatOf, matchId });
+    if (SCENARIO === 'votes') return await votesScenario({ display, players, seatOf, matchId });
 
     // ---------------------------------------------------------------- 4. Each player receives only their authorized private view
     for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);

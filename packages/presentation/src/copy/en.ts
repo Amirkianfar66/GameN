@@ -1,5 +1,6 @@
 import type {
-  ActionKind, DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ShotRejectionCode, TargetActionKind,
+  ActionKind, DataSourceMode, Destination, FactionName, HealthState, LocationName, NotAcceptedReason, PhaseFacts, ReleaseVoteKind, SeatBallotKind,
+  ShotRejectionCode, TargetActionKind,
 } from '../model/types.js';
 
 type NamedPhaseKind = Exclude<PhaseFacts['kind'], 'ORDINARY_TURN' | 'ROUND_RESOLUTION'>;
@@ -69,7 +70,6 @@ export const en = {
       FINISHED: 'Match finished',
       ABORTED: 'Match ended by the host',
     } satisfies Record<NamedPhaseKind, string>,
-    notPlayableYet: 'This preview shows this phase and its clock. It cannot take part in it yet.',
   },
 
   timer: {
@@ -191,7 +191,10 @@ export const en = {
     title: 'Your action',
     // The names of the actions, as the approved rules name them. "Protection" is the
     // Undercover's grant; "Disable" is a Disabler's attack; "Hack" is the standard Hack.
-    kind: { move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot' } satisfies Record<ActionKind, string>,
+    kind: {
+      move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot',
+      vote: 'Vote', 'release-choice': 'Release request', 'release-vote': 'Release vote',
+    } satisfies Record<ActionKind, string>,
     status: {
       idle: 'Nothing in progress',
       choosing: 'Choosing',
@@ -211,6 +214,7 @@ export const en = {
     open: {
       move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
       hack: 'Choose a player', 'showdown-shot': 'Choose a target',
+      vote: 'Cast your ballot', 'release-choice': 'Choose', 'release-vote': 'Cast your ballot',
     } satisfies Record<ActionKind, string>,
     queued: (count: number) => (count === 1
       ? 'One action of yours is registered and waiting to be resolved.'
@@ -218,7 +222,9 @@ export const en = {
     choosePrompt: {
       move: 'Where do you move?', shot: 'Choose a target', disable: 'Choose a target', protect: 'Who is the Protection for?', rescue: 'Who is the Rescue for?',
       hack: 'Who do you request a Hack with?', 'showdown-shot': 'Choose a target',
-    } satisfies Record<ActionKind, string>,
+      'release-choice': 'Ask for a release vote for which jailed player?',
+      // A vote's question depends on what is being voted on, which the server's phase and ballot say: see "ballot" below.
+    } satisfies Record<Exclude<ActionKind, 'vote' | ReleaseVoteKind>, string>,
     chooseNote: 'These are the choices the server offers you now.',
     cancel: 'Cancel',
     chooseAgain: 'Choose again',
@@ -242,15 +248,22 @@ export const en = {
       rescue: 'You cannot change or withdraw it here once it is registered.',
       hack: 'You cannot change or withdraw it here once the server accepts it.',
       'showdown-shot': 'You cannot change or withdraw it here once it is registered.',
+      // One final ballot for each player in each vote (V1-10).
+      vote: 'This is your one ballot in this vote. You cannot change it once the server accepts it.',
+      'release-vote': 'This is your one ballot in this vote. You cannot change it once the server accepts it.',
+      // The Captain has one release request in a match, and a request that fails is still used up (V1-11).
+      'release-choice': 'The Captain has one release request in a match. This uses it, whatever the vote decides. You cannot change it once the server accepts it.',
     } satisfies Record<ActionKind, string>,
     confirm: {
       move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
-      'showdown-shot': 'Register shot',
+      'showdown-shot': 'Register shot', vote: 'Cast ballot', 'release-choice': 'Confirm choice', 'release-vote': 'Cast ballot',
     } satisfies Record<ActionKind, string>,
     submitting: {
       move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
       protect: 'Sending your Protection to the server…', rescue: 'Sending your Rescue to the server…', hack: 'Sending your Hack request to the server…',
-      'showdown-shot': 'Sending your shot to the server…', unknownKind: 'Sending your action to the server…',
+      'showdown-shot': 'Sending your shot to the server…', vote: 'Sending your ballot to the server…',
+      'release-choice': 'Sending your choice to the server…', 'release-vote': 'Sending your ballot to the server…',
+      unknownKind: 'Sending your action to the server…',
     } satisfies Record<ActionKind | 'unknownKind', string>,
     checking: 'Checking what the server did with your action…',
     checkingAfterReload: 'This page was reloaded before the server answered. Checking what became of your action…',
@@ -279,6 +292,50 @@ export const en = {
     } satisfies Record<TargetActionKind, string>,
     /** Shown to the two players of a Hack while the server says they are in one. */
     hackWith: (seat: number) => `Hack: you and Player ${seat}.`,
+    // Ballots. The server has one command for a vote in a Captain election and in a Jail
+    // vote; which it is, is the phase the server reports. Three statements are about the
+    // game and are taken from the approved rules: a player has one final ballot in a vote
+    // and the count is published when the vote closes (V1-09, V1-10), and the Captain's one
+    // release request is used up by asking, not by declining (V1-11).
+    ballot: {
+      votePrompt: { CAPTAIN_ELECTION: 'Who do you vote for as Captain?', JAIL_VOTE: 'Who do you vote to send to Jail?', other: 'Who do you vote for?' },
+      releaseVotePrompt: (who: string | null) => (who === null ? 'Release the jailed player this vote is on?' : `Release ${who} from Jail?`),
+      abstain: 'Abstain',
+      noRequest: 'No release request',
+      yes: 'Yes, release',
+      no: 'No, do not release',
+      confirmVote: {
+        CAPTAIN_ELECTION: (who: string) => `Vote for ${who} as Captain?`,
+        JAIL_VOTE: (who: string) => `Vote to send ${who} to Jail?`,
+        other: (who: string) => `Vote for ${who}?`,
+      },
+      confirmAbstain: 'Abstain from this vote?',
+      confirmRelease: (who: string) => `Ask for a vote on releasing ${who} from Jail?`,
+      confirmNoRequest: 'Make no release request now?',
+      confirmReleaseVote: {
+        yes: (who: string | null) => (who === null ? 'Vote yes to the release?' : `Vote yes to releasing ${who}?`),
+        no: (who: string | null) => (who === null ? 'Vote no to the release?' : `Vote no to releasing ${who}?`),
+      },
+      consequenceNoRequest: 'The release request stays unused. You cannot change this choice once the server accepts it.',
+      // What the server accepted. A ballot is not a result: the count is.
+      votedFor: (who: string) => `Your vote for ${who} is recorded.`,
+      abstained: 'Your abstention is recorded.',
+      releaseRequested: (who: string) => `Release vote for ${who} requested.`,
+      noRequestMade: 'Your choice is recorded: no release request.',
+      releaseVoted: { yes: 'Your vote is recorded: yes.', no: 'Your vote is recorded: no.' },
+      acceptedDetail: {
+        vote: 'This is not a result. The count is shown to everyone when the vote closes.',
+        'release-choice': 'The phase shown at the top of this screen says what happens next.',
+        'release-vote': 'This is not a result. The count is shown to everyone when the vote closes.',
+      } satisfies Record<SeatBallotKind | ReleaseVoteKind, string>,
+      /** The player's own ballot in the open vote, as the server's view states it. Private to that player. */
+      own: {
+        seat: (who: string) => `Your ballot in this vote: ${who}.`,
+        abstained: 'Your ballot in this vote: an abstention.',
+        yes: 'Your ballot in this vote: yes.',
+        no: 'Your ballot in this vote: no.',
+      },
+    },
     acceptedAfterReload: 'The server accepted your action.',
     acceptedAfterReloadDetail: 'This page was reloaded, so it no longer knows what the action was. This is not a result.',
     rejected: {
@@ -305,6 +362,35 @@ export const en = {
     checkAgain: 'Check again',
     done: 'Done',
     ok: 'OK',
+  },
+
+  // What every audience may know about a vote: what is being voted on, who may be voted
+  // for, and the count the server publishes when a vote closes. The four result sentences
+  // say what the server's tally names; the counting is the server's.
+  vote: {
+    heading: 'Voting',
+    voters: (count: number) => (count === 1 ? '1 player may vote.' : `${count} players may vote.`),
+    candidates: (names: string) => `Candidates: ${names}.`,
+    noCandidates: 'There are no candidates.',
+    jailTargets: (names: string) => `Can be voted into Jail: ${names}.`,
+    noJailTargets: 'Nobody can be voted into Jail.',
+    releaseChooser: (seat: number) => `Player ${seat} may ask for a vote on releasing one jailed player.`,
+    releaseCandidates: (names: string) => `Jailed: ${names}.`,
+    releaseSubject: (seat: number) => `The vote is on releasing Player ${seat} from Jail.`,
+    tally: {
+      heading: 'Last vote counted',
+      votes: (count: number) => (count === 1 ? '1 vote' : `${count} votes`),
+      voters: (count: number) => (count === 1 ? '1 player could vote.' : `${count} players could vote.`),
+      votedForNobody: (count: number) => `Abstained or did not vote: ${count}.`,
+      elected: (seat: number) => `Elected Captain: Player ${seat}.`,
+      nobodyElected: 'Nobody was elected.',
+      jailed: (seat: number) => `Sent to Jail: Player ${seat}.`,
+      nobodyJailed: 'Nobody was sent to Jail.',
+      releaseSubject: (seat: number) => `The vote was on releasing Player ${seat}.`,
+      yes: (yes: number, voters: number) => `Yes: ${yes} of ${voters}.`,
+      released: (seat: number) => `Player ${seat} was released.`,
+      notReleased: (seat: number) => `Player ${seat} was not released.`,
+    },
   },
 
   roster: {
@@ -352,5 +438,6 @@ export const en = {
     captain: (seat: number) => `Player ${seat} is now Captain.`,
     captainEnded: (seat: number) => `Player ${seat} is no longer Captain.`,
     manyChanges: 'Several players changed status. Review the player list.',
+    tally: (title: string, result: string) => `${title} counted. ${result}`,
   },
 } as const;

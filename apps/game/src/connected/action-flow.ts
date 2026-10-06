@@ -1,6 +1,6 @@
 import { FullCommandRequestSchema, IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { FullCommandRequest, FullPlayerView, FullReceipt, SeatId } from '@mothership/contracts';
-import { offeredTargets, TARGET_ACTION_COMMANDS } from '@mothership/presentation';
+import { offeredChoices as offeredByView, sameChoice, SEAT_BALLOT_COMMANDS, TARGET_ACTION_COMMANDS } from '@mothership/presentation';
 import type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import type { ConnectedApi, ConnectedCommandResult } from './api.js';
@@ -8,11 +8,12 @@ import type { ConnectedApi, ConnectedCommandResult } from './api.js';
 export type { ActionChoice, ActionFlowState, ActionKind, Destination, NotAcceptedReason };
 
 // One player's own command under wire protocol 2, from picking an action up to knowing what
-// the server did with it: a move, or any action that names one seat (an ordinary shot, a
-// Disable, a grant of Protection, a Rescue, a Hack request, a showdown shot). The flow is
-// the same for all of them. One command at a time for the seat, whatever its kind: while an
-// earlier one is unaccounted for, no new intent is offered, and the flow has no way to put
-// an unaccounted-for command aside.
+// the server did with it: a move, any action that names one seat (an ordinary shot, a
+// Disable, a grant of Protection, a Rescue, a Hack request, a showdown shot), or a ballot (a
+// vote in an election or a Jail vote, the Captain's release choice, a vote on that release).
+// The flow is the same for all of them. One command at a time for the seat, whatever its
+// kind: while an earlier one is unaccounted for, no new intent is offered, and the flow has
+// no way to put an unaccounted-for command aside.
 //
 // The flow decides nothing about the game. What may be chosen is read from the player's own
 // authoritative view (the server's destinations, the server's legal targets) and from
@@ -131,17 +132,24 @@ type State =
 
 type Outcome = { readonly receipt: FullReceipt } | { readonly reason: NotAcceptedReason } | null;
 
-/** What the server's own view offers this seat right now, for one kind of action. */
+/**
+ * What the server's own view offers this seat right now, for one kind of action, and
+ * nothing else. An action the view does not open, or opens with nobody to choose, offers
+ * nothing.
+ */
 export function offeredChoices(view: FullPlayerView, kind: ActionKind): ActionChoice[] {
-  if (kind === 'move') return view.self.movementDestinations.map(destination => ({ kind, destination }));
-  // The seats the view lists for this action, and nothing else. An action the view does not
-  // open, or opens with nobody to choose, offers nothing.
-  return (offeredTargets(view, kind) ?? []).map(targetSeatId => ({ kind, targetSeatId }));
+  return [...(offeredByView(view, kind) ?? [])];
 }
 
-function sameChoice(a: ActionChoice, b: ActionChoice): boolean {
-  if (a.kind === 'move' || b.kind === 'move') return a.kind === 'move' && b.kind === 'move' && a.destination === b.destination;
-  return a.kind === b.kind && a.targetSeatId === b.targetSeatId;
+/** The wire command a choice stands for. The shared strict schema judges it before anything is sent. */
+function commandOf(choice: ActionChoice): unknown {
+  switch (choice.kind) {
+    case 'move': return { type: 'MOVE', destination: choice.destination };
+    case 'vote':
+    case 'release-choice': return { type: SEAT_BALLOT_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
+    case 'release-vote': return { type: 'RELEASE_VOTE', approve: choice.approve };
+    default: return { type: TARGET_ACTION_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
+  }
 }
 
 export function createActionFlow(options: ActionFlowOptions): ActionFlow {
@@ -452,13 +460,9 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
     // a new choice with the receipt of an old one.
     if (typeof commandId !== 'string' || usedIds.has(commandId)) return null;
     usedIds.add(commandId);
-    // The compiler cannot see that each of these command names takes exactly one seat, so the
-    // shared strict schema is what vouches for the request: one that does not satisfy it is
-    // never sent.
-    const command = choice.kind === 'move'
-      ? { type: 'MOVE', destination: choice.destination }
-      : { type: TARGET_ACTION_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
-    const request = FullCommandRequestSchema.safeParse({ protocolVersion: 2, matchId: options.matchId, phaseId, commandId, command });
+    // The compiler cannot see which payload each command name takes, so the shared strict
+    // schema is what vouches for the request: one that does not satisfy it is never sent.
+    const request = FullCommandRequestSchema.safeParse({ protocolVersion: 2, matchId: options.matchId, phaseId, commandId, command: commandOf(choice) });
     return request.success ? request.data : null;
   }
 
@@ -526,8 +530,11 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
       // a closed panel, a view that is no longer fresh, a clock that ran out, a new phase.
       if (state.step === 'choosing' || state.step === 'confirming') {
         if (!canAct() || view === null || view.phase.id !== state.phaseId) state = { step: 'idle' };
-        else if (state.step === 'choosing' && offeredChoices(view, state.kind).length === 0) state = { step: 'idle' };
-        else if (state.step === 'confirming' && !offered(state.choice)) state = { step: 'choosing', kind: state.choice.kind, phaseId: state.phaseId };
+        else {
+          // What was picked is no longer offered: asked to choose again. Nothing is offered any more: the action closes.
+          if (state.step === 'confirming' && !offered(state.choice)) state = { step: 'choosing', kind: state.choice.kind, phaseId: state.phaseId };
+          if (state.step === 'choosing' && offeredChoices(view, state.kind).length === 0) state = { step: 'idle' };
+        }
       }
     },
 

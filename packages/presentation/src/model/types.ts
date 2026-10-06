@@ -113,11 +113,21 @@ export type Destination = FullPlayerView['self']['movementDestinations'][number]
  * the player's own view lists seats for it.
  */
 export type TargetActionKind = 'shot' | 'disable' | 'protect' | 'rescue' | 'hack' | 'showdown-shot';
-export type ActionKind = 'move' | TargetActionKind;
+/**
+ * A ballot that names one seat or nobody: a vote in a Captain election or a Jail vote, and
+ * the Captain's choice of the jailed player to ask a release vote for. Naming nobody is an
+ * abstention, or no request.
+ */
+export type SeatBallotKind = 'vote' | 'release-choice';
+/** A ballot on the release the Captain asked for: yes, no, or an abstention. */
+export type ReleaseVoteKind = 'release-vote';
+export type ActionKind = 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
   | { readonly kind: 'move'; readonly destination: Destination }
-  | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId };
+  | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId }
+  | { readonly kind: SeatBallotKind; readonly targetSeatId: SeatId | null }
+  | { readonly kind: ReleaseVoteKind; readonly approve: boolean | null };
 /**
  * Why a command is known not to have been accepted without a rejection receipt. NOT_SENT:
  * the request never left this device. PHASE_OVER: after a reload, no receipt existed once
@@ -165,7 +175,7 @@ export type ShellIntent =
   | { readonly type: 'shot/check-again' }
   | { readonly type: 'shot/dismiss' }
   | { readonly type: 'action/open'; readonly kind: ActionKind }
-  /** value names a destination or a seat, exactly as the control carried it. The screen checks it against what is offered. */
+  /** value names a destination, a seat or an answer, exactly as the control carried it. The screen checks it against what is offered. */
   | { readonly type: 'action/choose'; readonly value: string }
   | { readonly type: 'action/back' }
   | { readonly type: 'action/confirm' }
@@ -356,8 +366,28 @@ export interface PlayerShellModel extends ShellModelBase {
   readonly match: PlayerMatchModel | null;
 }
 
+/**
+ * What every audience may know about voting: what is being voted on now, and the latest
+ * count the server published. Never who voted for what: a ballot is known to its voter only.
+ */
+export interface VotePanelModel {
+  readonly heading: string;
+  /** The vote that is open, from the public ballot. Null outside a voting phase. */
+  readonly current: { readonly title: string; readonly lines: readonly string[] } | null;
+  /** The latest count the server published. It stays until the next one replaces it. */
+  readonly lastTally: {
+    readonly heading: string;
+    readonly title: string;
+    /** One row for each seat that could be voted for, in seat order. Empty for a release vote. */
+    readonly counts: readonly { readonly seatId: SeatId; readonly label: string; readonly votes: number }[];
+    readonly lines: readonly string[];
+  } | null;
+}
+
 export interface TableMatchModel {
   readonly phase: PhaseStripModel;
+  /** Null for a view that has no voting facts, and while there is nothing to say about a vote. */
+  readonly vote: VotePanelModel | null;
   readonly board: { readonly heading: string; readonly zones: readonly ZoneModel[] };
   readonly roster: {
     readonly heading: string;
@@ -374,15 +404,15 @@ export interface TableShellModel extends ShellModelBase {
   readonly match: TableMatchModel | null;
 }
 
-/** One thing a player may pick for an action: a place or a player, as the server offers it. */
+/** One thing a player may pick for an action: a place, a player or an answer, as the server offers it. */
 export interface ActionChoiceModel {
   readonly id: string;
-  /** What the control carries back: the destination or the seat identifier. */
+  /** What the control carries back: the destination, the seat identifier, or the name of an answer. */
   readonly value: string;
   readonly label: string;
-  /** A target's public status in words; nothing for a place. */
+  /** A target's public status in words; nothing for a place or an answer. */
   readonly detail: string | null;
-  /** The seat's number for its token; null for a place. */
+  /** The seat's number for its token; null for a place or an answer. */
   readonly number: number | null;
 }
 
@@ -431,12 +461,16 @@ export interface ConnectedPrivateAreaModel {
     readonly role: { readonly label: string; readonly name: RoleName };
     /** While the server says this seat is in a Hack: who with. Known to the two of them only. */
     readonly hack: string | null;
+    /** While the server's view says this seat has voted in the open vote: its own ballot, as the server recorded it. */
+    readonly ballot: string | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
 }
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
   readonly privateArea: ConnectedPrivateAreaModel;
+  /** The public facts of a vote, the same on every phone and on the shared display. */
+  readonly vote: VotePanelModel | null;
 }
 
 export interface ConnectedPlayerShellModel extends ShellModelBase {

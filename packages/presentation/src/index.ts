@@ -15,7 +15,7 @@ export interface MotionPreferences {
 
 export { en } from './copy/en.js';
 export { createConnectedPlayerAnnouncer, createPlayerAnnouncer, createTableAnnouncer } from './model/announcements.js';
-export { ACTION_KINDS, isActionKind, offeredTargets, TARGET_ACTION_COMMANDS } from './model/actions.js';
+export { ACTION_KINDS, choiceValue, isActionKind, NOBODY, offeredChoices, offeredTargets, sameChoice, SEAT_BALLOT_COMMANDS, TARGET_ACTION_COMMANDS } from './model/actions.js';
 export { actionStepFocusId, buildConnectedPlayerShellModel, describeAction } from './model/connected-player.js';
 export type { Announcer } from './model/announcements.js';
 export { displaySeconds, FINAL_SECONDS, formatClock, isCurrent, isSeatId, resolveScreen, seatNumber } from './model/common.js';
@@ -25,6 +25,7 @@ export { buildPlayerShellModel } from './model/player-shell.js';
 export { resolveShotGate, shotStepFocusId, shotTargetCandidates } from './model/shot.js';
 export type { ShotGate } from './model/shot.js';
 export { buildTableShellModel } from './model/table-shell.js';
+export { buildVotePanel, ownBallotLine, tallyResult } from './model/votes.js';
 export type * from './model/types.js';
 export { escapeAttribute, escapeText, h, isElement, splitRegions, textOf, toHtml } from './markup/node.js';
 export type { MarkupAttributes, MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode, MarkupTag, RegionSplit } from './markup/node.js';
