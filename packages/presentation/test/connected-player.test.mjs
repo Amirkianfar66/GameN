@@ -111,6 +111,8 @@ test('nothing can be started on a view that is not fresh or whose clock has run 
     [{ connection: 'stale' }, 'Actions are paused until the connection is restored.'],
     [{ problem: 'unreadable-update' }, 'Actions are paused until the connection is restored.'],
     [{ deadline: { kind: 'expired' } }, 'This phase has ended. Waiting for phase update.'],
+    // No trusted clock is not permission: without one this device cannot say the phase is still running.
+    [{ deadline: { kind: 'unsynced' } }, 'Actions are paused until this device has the server’s time.'],
   ]) {
     const built = model(playerView(armed), IDLE, overrides);
     assert.equal(built.match.privateArea.content.actions.notice, notice);
@@ -138,7 +140,7 @@ test('choosing lists the server’s own choices, each with a public description 
 
 test('confirming names the choice and what it does; the control is drawn as not yet active until its wait is over', () => {
   const move = card(playerView(), { step: 'confirming', choice: MOVE, armed: false });
-  assert.deepEqual([move.status, move.statusLabel, move.body.prompt, move.body.consequence], ['confirming', 'Not sent yet', 'Move to Room B?', 'A move takes effect as soon as the server accepts it.']);
+  assert.deepEqual([move.status, move.statusLabel, move.body.prompt, move.body.consequence], ['confirming', 'Not sent yet', 'Move to Room B?', 'You cannot change or withdraw it here once the server accepts it.']);
   assert.deepEqual(move.body.confirm, { id: SHELL_IDS.actionConfirm, label: 'Move', intent: 'action/confirm', primary: true, disabled: true });
   assert.equal(card(playerView(), { step: 'confirming', choice: MOVE, armed: true }).body.confirm.disabled, false);
   const shot = card(playerView(armed), { step: 'confirming', choice: SHOT, armed: true });
@@ -148,8 +150,11 @@ test('confirming names the choice and what it does; the control is drawn as not 
 test('what the server did is reported as given: accepted is not a result, a rejection names no invented reason, unknown assumes nothing', () => {
   assert.deepEqual(card(playerView(), { step: 'submitting', choice: MOVE }).body, { step: 'busy', text: 'Sending your move to the server…' });
   assert.equal(card(playerView(), { step: 'checking', choice: null, recovered: true }).body.text, 'This page was reloaded before the server answered. Checking what became of your action…');
+  // A receipt says the server accepted the command. It is not where the player is: that is
+  // read from the view, and the card says where to read it.
   const moved = card(playerView(), { step: 'accepted', choice: MOVE, armed: false });
-  assert.deepEqual([moved.status, moved.selected, moved.body.text, moved.body.detail, moved.body.action.disabled], ['accepted', false, 'Moved to Room B.', null, true]);
+  assert.deepEqual([moved.status, moved.selected, moved.body.text, moved.body.detail, moved.body.action.disabled],
+    ['accepted', false, 'Move to Room B accepted.', 'Where you are is shown under “Your location”, as the server has it.', true]);
   const registered = card(playerView(armed), { step: 'accepted', choice: SHOT, armed: true });
   assert.deepEqual([registered.body.text, registered.body.detail], ['Shot at Player 3 registered.', 'This is not a result. Registered shots are resolved at the end of the round.']);
   const reloaded = card(playerView(), { step: 'accepted', choice: null, armed: true });
@@ -158,11 +163,26 @@ test('what the server did is reported as given: accepted is not a result, a reje
   assert.equal(card(playerView(), { step: 'rejected', choice: MOVE, code: 'PHASE_CLOSED', armed: true }).body.text, 'Not accepted. It reached the server after that phase had ended.');
   assert.equal(card(playerView(), { step: 'not-accepted', choice: null, reason: 'PHASE_OVER', armed: true }).body.text, 'Not accepted. That phase ended before the server received it.');
   const unknown = card(playerView(), { step: 'unknown', choice: MOVE, recovered: false, phaseOver: false, armed: true });
-  assert.deepEqual([unknown.status, unknown.selected, unknown.body.secondary, unknown.body.action.intent], ['unknown', true, null, 'action/check-again']);
-  assert.equal(card(playerView(), { step: 'unknown', choice: null, recovered: true, phaseOver: true, armed: true }).body.secondary.label, 'Stop checking');
-  // No step of the card names an outcome of the game.
-  for (const action of [{ step: 'accepted', choice: SHOT, armed: true }, { step: 'rejected', choice: SHOT, code: 'NOT_ALLOWED', armed: true }, { step: 'unknown', choice: SHOT, recovered: false, phaseOver: false, armed: true }]) {
-    assert.doesNotMatch(JSON.stringify(card(playerView(armed), action)), /\b(hit|miss|injur|damag|block|protect|killed|eliminat)/i);
+  assert.deepEqual([unknown.status, unknown.selected, unknown.body.action.intent], ['unknown', true, 'action/check-again']);
+  // A command whose outcome is unknown can be asked about again and cannot be put away:
+  // whatever phase it is by now, the card has that one control and no way to dismiss.
+  for (const state of [{ recovered: false, phaseOver: false }, { recovered: false, phaseOver: true }, { recovered: true, phaseOver: true }]) {
+    const body = card(playerView(), { step: 'unknown', choice: null, armed: true, ...state }).body;
+    assert.deepEqual(Object.keys(body).sort(), ['action', 'detail', 'outcome', 'step', 'text']);
+    assert.equal(body.action.intent, 'action/check-again');
+    assert.doesNotMatch(toHtml(renderConnectedPlayerShell(model(playerView(), { step: 'unknown', choice: null, armed: true, ...state }))), /action\/dismiss|Stop checking/);
+  }
+  assert.equal(card(playerView(), { step: 'not-accepted', choice: MOVE, reason: 'NOT_RECORDED', armed: true }).body.text,
+    'Not sent. This browser would not keep the identifiers the app needs to ask about an action after a reload.');
+  // No step of the card names an outcome of the game, for either kind of action. "Moved",
+  // like "hit", would be an outcome: the card only ever says what the server accepted.
+  for (const choice of [MOVE, SHOT]) {
+    for (const action of [
+      { step: 'accepted', choice, armed: true }, { step: 'rejected', choice, code: 'NOT_ALLOWED', armed: true }, { step: 'rejected', choice, code: 'PHASE_CLOSED', armed: true },
+      { step: 'unknown', choice, recovered: false, phaseOver: false, armed: true }, { step: 'submitting', choice }, { step: 'confirming', choice, armed: true },
+    ]) {
+      assert.doesNotMatch(JSON.stringify(card(playerView(armed), action)), /\b(moved|you are now|arrived|hit|miss|injur|damag|block|protect|killed|eliminat)/i, `${choice.kind} ${action.step}`);
+    }
   }
 });
 
@@ -214,7 +234,7 @@ test('what became of a command is spoken privately, once, and only in front of a
   assert.deepEqual(said([
     input(view), input(view, { step: 'choosing', kind: 'move' }), input(view, { step: 'confirming', choice: MOVE, armed: true }),
     input(view, { step: 'submitting', choice: MOVE }), input(view, { step: 'accepted', choice: MOVE, armed: false }), input(view, { step: 'accepted', choice: MOVE, armed: true }), input(view),
-  ]), [[], [], [], ['polite: Sending your move to the server…'], ['polite: Moved to Room B.'], [], []]);
+  ]), [[], [], [], ['polite: Sending your move to the server…'], ['polite: Move to Room B accepted.'], [], []]);
   assert.deepEqual(said([input(view), input(view, { step: 'rejected', choice: SHOT, code: 'NOT_ALLOWED', armed: false })]).at(-1), ['assertive: Not accepted. The server did not allow it.']);
   assert.deepEqual(said([input(view), input(view, { step: 'unknown', choice: SHOT, recovered: false, phaseOver: false, armed: false })]).at(-1), ['assertive: Result unknown. The app could not confirm what the server did with your action.']);
   // Closed: nothing private is said. Opened later: the result is said then.

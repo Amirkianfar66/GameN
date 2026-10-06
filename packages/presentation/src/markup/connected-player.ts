@@ -51,7 +51,7 @@ function renderBody(body: ConnectedActionBody): MarkupChild {
     case 'busy':
       return stepLine('ms-card__text ms-card__busy', body.text);
     case 'result':
-      return [stepLine('ms-card__result', body.text), body.detail ? h('p', { class: 'ms-card__text' }, body.detail) : null, controls(body.action, body.secondary)];
+      return [stepLine('ms-card__result', body.text), body.detail ? h('p', { class: 'ms-card__text' }, body.detail) : null, controls(body.action)];
   }
 }
 

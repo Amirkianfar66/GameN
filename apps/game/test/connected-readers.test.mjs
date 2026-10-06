@@ -44,12 +44,22 @@ test('a player store holds only the approved seat’s own view, and that seat ke
   assert.equal(store.current().self.role, 'Cracker');
 });
 
-test('revisions only move forward: a repeat proves freshness, a lower one changes nothing, a conflict is refused', () => {
+test('revisions only move forward: a repeat proves freshness, a conflict is refused, and a lower one is dropped unless the server itself confirmed it', () => {
   const store = createConnectedPlayerStore({ matchId: MATCH, seatId: 'seat-1' });
   const first = playerView();
   store.accept(first);
   assert.deepEqual(store.accept(structuredClone(first)), { kind: 'unchanged', view: first });
-  assert.deepEqual(store.accept(playerView('seat-1', view => { view.viewRevision -= 1; })), { kind: 'ignored-stale' });
+  // A lower revision that may be a cached copy or a replay proves nothing and changes nothing.
+  const lower = playerView('seat-1', view => { view.viewRevision -= 1; });
+  assert.deepEqual(store.accept(lower), { kind: 'ignored-stale' });
+  assert.deepEqual(store.accept(lower, { confirmed: false }), { kind: 'ignored-stale' });
+  assert.deepEqual(store.current(), first);
+  // The same one confirmed by the server: the match went backwards under this client.
+  assert.deepEqual(store.accept(lower, { confirmed: true }), { kind: 'rejected', rejection: { kind: 'revision-regressed' } });
+  assert.deepEqual(store.current(), first, 'It is not taken for the current view');
+  const table = createConnectedPublicStore({ matchId: MATCH });
+  table.accept(publicView());
+  assert.deepEqual(table.accept(publicView(view => { view.viewRevision -= 1; }), { confirmed: true }), { kind: 'rejected', rejection: { kind: 'revision-regressed' } });
   assert.deepEqual(store.accept(playerView('seat-1', view => { view.round = 2; })), { kind: 'rejected', rejection: { kind: 'revision-conflict' } });
   const next = playerView('seat-1', view => { view.viewRevision += 1; view.self.movementDestinations = []; });
   assert.deepEqual(store.accept(next), { kind: 'accepted', view: next });

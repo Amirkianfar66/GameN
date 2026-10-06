@@ -15,7 +15,9 @@ export type SnapshotRejection =
   /** Versions or player count differ from those the match was pinned to. */
   | { readonly kind: 'pins-changed' }
   /** The current revision arrived again with different content. */
-  | { readonly kind: 'revision-conflict' };
+  | { readonly kind: 'revision-conflict' }
+  /** The server itself confirmed a revision lower than one it had already sent: the match was restored or replaced under this client. */
+  | { readonly kind: 'revision-regressed' };
 
 export type SnapshotOutcome<View> =
   | { readonly kind: 'accepted'; readonly view: View }
@@ -26,7 +28,11 @@ export type SnapshotOutcome<View> =
   | { readonly kind: 'rejected'; readonly rejection: SnapshotRejection };
 
 export interface SnapshotStore<View> {
-  accept(payload: unknown): SnapshotOutcome<View>;
+  /**
+   * `confirmed` says the transport knows this payload to be the server's current state, not
+   * something replayed or cached. Only a store told to care about that uses it.
+   */
+  accept(payload: unknown, options?: { readonly confirmed?: boolean }): SnapshotOutcome<View>;
   current(): View | null;
 }
 
@@ -62,6 +68,13 @@ export interface SnapshotStoreConfig<View> {
   readonly identityOf: (view: View) => string | null;
   /** Wire protocol versions this store can hold. Defaults to the protocol-1 fixture protocol. */
   readonly supportedVersions?: readonly number[];
+  /**
+   * What a lower revision means when the transport says the server confirmed it. Over a feed
+   * that may replay, nothing: it is dropped ('ignore', the default). Over a backend whose
+   * confirmed snapshot is always its latest state, it means the match went backwards under
+   * this client, which is an integrity failure ('integrity').
+   */
+  readonly confirmedRegression?: 'ignore' | 'integrity';
 }
 
 /** What every wire protocol's composed view has, and all a store needs to know about one. */
@@ -84,7 +97,7 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
 
   return {
     current: () => held?.view ?? null,
-    accept(payload) {
+    accept(payload, options) {
       const version = probeProtocolVersion(payload);
       if (version !== null && !supported.includes(version)) return reject({ kind: 'incompatible-protocol', receivedVersion: version });
       const view = config.parse(payload);
@@ -101,7 +114,9 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
       const canonical = JSON.stringify(view);
       if (held) {
         // Only the order of revisions is used. The size of a step carries no meaning here.
-        if (view.viewRevision < held.view.viewRevision) return { kind: 'ignored-stale' };
+        if (view.viewRevision < held.view.viewRevision) {
+          return config.confirmedRegression === 'integrity' && options?.confirmed === true ? reject({ kind: 'revision-regressed' }) : { kind: 'ignored-stale' };
+        }
         if (view.viewRevision === held.view.viewRevision) {
           return canonical === held.canonical ? { kind: 'unchanged', view: held.view } : reject({ kind: 'revision-conflict' });
         }

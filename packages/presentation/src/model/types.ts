@@ -117,7 +117,10 @@ export type ActionChoice =
  * the request never left this device. PHASE_OVER: after a reload, no receipt existed once
  * the command's phase had ended. The others are the server's own safe failures.
  */
-export type NotAcceptedReason = 'UNAUTHENTICATED' | 'FORBIDDEN' | 'INVALID_REQUEST' | 'UNSUPPORTED_PROTOCOL' | 'COMMAND_ID_CONFLICT' | 'REQUEST_ID_CONFLICT' | 'NOT_SENT' | 'PHASE_OVER';
+export type NotAcceptedReason =
+  | 'UNAUTHENTICATED' | 'FORBIDDEN' | 'INVALID_REQUEST' | 'UNSUPPORTED_PROTOCOL' | 'COMMAND_ID_CONFLICT' | 'REQUEST_ID_CONFLICT'
+  // Decided by this device, not by the server: nothing was sent, or nothing that the server ever looked at.
+  | 'NOT_SENT' | 'NOT_RECORDED' | 'PHASE_OVER';
 
 /**
  * Where the player's own command stands under wire protocol 2, as far as this device
@@ -396,8 +399,8 @@ export type ConnectedActionBody =
     readonly outcome: 'accepted' | 'not-accepted' | 'unknown';
     readonly text: string;
     readonly detail: string | null;
+    // One control. A command whose outcome is unknown can be asked about again and cannot be put away.
     readonly action: CardButtonModel;
-    readonly secondary: CardButtonModel | null;
   };
 
 export type ConnectedActionStatus = 'idle' | 'choosing' | 'confirming' | 'submitting' | 'checking' | 'unknown' | 'accepted' | 'not-accepted';

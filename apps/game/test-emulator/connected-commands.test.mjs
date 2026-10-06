@@ -38,7 +38,7 @@ function flowFor(player, matchId, kept, lose = {}) {
     },
   };
   const flow = createActionFlow({ api, ports: { ...ports, unresolved: kept }, matchId, seatId: player.seatId });
-  const fresh = view => flow.observe({ view, current: true, expired: false, panelOpen: true, foreground: true });
+  const fresh = view => flow.observe({ view, current: true, inTime: true, panelOpen: true, foreground: true });
   const settled = (step, timeoutMs = 12_000) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(`Timed out waiting for step ${step}; at ${flow.getState().step}`)), timeoutMs);
     const check = () => {

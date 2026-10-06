@@ -222,7 +222,7 @@ export function createConnectedPlayerAnnouncer(): Announcer<ConnectedPlayerInput
       if (open && step !== heard) {
         // Taken away by a lost connection, the clock or a new phase, not put down by the
         // player: on the same phase with fresh, unexpired facts, going back was the player's own doing.
-        const takenAway = !isCurrent(input) || input.deadline.kind === 'expired' || phaseId !== previousPhaseId;
+        const takenAway = !isCurrent(input) || input.deadline.kind !== 'running' || phaseId !== previousPhaseId;
         if (step === 'idle' && ACTION_CHOOSING.includes(previousStep) && takenAway) out.push(privately('polite', en.action.choiceDropped));
         const line = describeAction(input.action);
         if (line !== null) out.push(privately(step === 'submitting' || step === 'checking' || step === 'accepted' ? 'polite' : 'assertive', line));

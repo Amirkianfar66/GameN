@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  FullAdmissionRequestSchema, FullAdvanceRequestSchema, FullApproveAdmissionRequestSchema, FullCommandRequestSchema, FullCreateMatchRequestSchema,
-  FullLookupRequestSchema, FullServerTimeRequestSchema, FullStartMatchRequestSchema,
+  FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullApproveAdmissionRequestSchema, FullCommandRequestSchema,
+  FullCreateMatchRequestSchema, FullLookupRequestSchema, FullServerTimeRequestSchema, FullStartMatchRequestSchema,
 } from '@mothership/contracts';
 import { createConnectedApi, DEFAULT_API_TIMEOUT_MS, V1_OPERATIONS } from '@mothership/game';
 import { createFakeHost, flush } from './support/fakes.mjs';
@@ -39,11 +39,13 @@ test('every request the client sends satisfies the shared protocol-2 schema, and
   const schemas = {
     v1ServerTime: FullServerTimeRequestSchema, v1Advance: FullAdvanceRequestSchema, v1Command: FullCommandRequestSchema, v1Receipt: FullLookupRequestSchema,
     v1CreateMatch: FullCreateMatchRequestSchema, v1RequestAdmission: FullAdmissionRequestSchema, v1ApproveAdmission: FullApproveAdmissionRequestSchema,
-    v1StartMatch: FullStartMatchRequestSchema,
+    v1AdmitDisplay: FullAdmitDisplayRequestSchema, v1StartMatch: FullStartMatchRequestSchema,
   };
   assert.equal(s.fake.calls.length, 9);
+  assert.deepEqual(Object.keys(schemas).sort(), [...V1_OPERATIONS].sort(), 'Every operation the client can reach is checked here');
+  assert.deepEqual([...new Set(s.fake.calls.map(call => call.operation))].sort(), [...V1_OPERATIONS].sort(), 'and every one of them was sent');
   for (const { operation, body } of s.fake.calls) {
-    if (schemas[operation]) assert.deepEqual(schemas[operation].parse(body), body, operation);
+    assert.deepEqual(schemas[operation].parse(body), body, operation);
     assert.doesNotMatch(JSON.stringify(body), /"(uid|actor|seatId"\s*:\s*"seat-9|now|clock|serverTime|health|damage|outcome)"/, operation);
   }
   // A request that does not satisfy the contract is a defect here and is never sent.

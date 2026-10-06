@@ -116,8 +116,8 @@ test('a move by intents alone: the server’s destination, one command, the rece
   assert.equal(sent.length, 1, 'One confirmation, one command');
   assert.deepEqual(FullCommandRequestSchema.parse(sent[0]), sent[0]);
   assert.deepEqual([sent[0].phaseId, sent[0].command], ['phase-one', { type: 'MOVE', destination: 'Room B' }]);
-  assert.deepEqual([s.card().status, s.card().body.text], ['accepted', 'Moved to Room B.']);
-  assert.equal(s.frame().privateAnnouncement.text, 'Moved to Room B.');
+  assert.deepEqual([s.card().status, s.card().body.text], ['accepted', 'Move to Room B accepted.']);
+  assert.equal(s.frame().privateAnnouncement.text, 'Move to Room B accepted.');
   assert.doesNotMatch(s.frame().announcement?.text ?? '', /Moved|Room B/, 'Nothing about it on the public channel');
   // The authoritative view then shows the move; the card goes back to what the server offers.
   await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; view.seats[0].location = 'Room B'; view.self.movementDestinations = []; }));
@@ -197,6 +197,62 @@ test('the connected table shows public facts only, listens to the public view on
   await s.host.advance(120_000);
   assert.deepEqual(s.fake.callsTo('v1Command'), []);
   assert.deepEqual(s.fake.callsTo('v1Receipt'), []);
+});
+
+test('a snapshot the server confirmed with a lower revision is a match gone backwards: the screen stops, and nothing can be sent', async () => {
+  for (const surface of ['player', 'table']) {
+    const s = setup(surface);
+    const [target, make] = surface === 'player' ? [OWN, change => playerView('seat-1', change)] : [PUBLIC, change => publicView(change)];
+    s.screen.start();
+    await s.fake.deliver(target, make(view => { view.viewRevision = 9; }));
+    assert.deepEqual([s.frame().model.screen, s.frame().model.connection], ['match', 'live'], surface);
+    // From a cache, a lower revision proves nothing and is dropped.
+    await s.fake.deliver(target, make(view => { view.viewRevision = 4; }), false);
+    assert.equal(s.frame().model.screen, 'match', `${surface}: a cached older copy changes nothing`);
+    // Confirmed by the server, it is not a replay: the match was restored or replaced.
+    await s.fake.deliver(target, make(view => { view.viewRevision = 4; }));
+    assert.equal(s.frame().model.screen, 'blocked', surface);
+    assert.equal(s.frame().model.blocked.heading, 'Match data check failed');
+    assert.equal(s.frame().model.match, null, 'Nothing of the match is shown');
+    if (surface === 'player') {
+      for (const intent of [TOGGLE, { type: 'action/open', kind: 'move' }, { type: 'action/choose', value: 'Room B' }, { type: 'action/confirm' }]) s.screen.dispatch(intent);
+      await s.host.advance(GUARD);
+      s.screen.dispatch({ type: 'action/confirm' });
+      await flush();
+      assert.deepEqual(s.fake.callsTo('v1Command'), []);
+    }
+    // Later data does not clear it: the feed is not trusted again.
+    await s.fake.deliver(target, make(view => { view.viewRevision = 12; }));
+    assert.equal(s.frame().model.screen, 'blocked');
+  }
+});
+
+test('without a trusted clock nothing can be started: not knowing the time is not permission', async () => {
+  const s = setup();
+  // The server's time cannot be had: the request never gets an answer.
+  s.fake.respond.v1ServerTime = async () => { throw new Error('unreachable'); };
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  // Ten minutes into a sixty-second phase, as far as anyone can tell.
+  await s.host.advance(600_000);
+  assert.equal(s.frame().model.match.phase.timer.state, 'syncing');
+  s.screen.dispatch(TOGGLE);
+  assert.deepEqual(s.card().body.offers.map(offer => [offer.statusLabel, offer.open]), [['Paused', null], ['Not available', null]]);
+  assert.equal(s.frame().model.match.privateArea.content.actions.notice, 'Actions are paused until this device has the server’s time.');
+  for (const intent of [{ type: 'action/open', kind: 'move' }, { type: 'action/choose', value: 'Room B' }, { type: 'action/confirm' }]) s.screen.dispatch(intent);
+  await s.host.advance(GUARD);
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  assert.equal(s.card().status, 'idle');
+  assert.deepEqual(s.fake.callsTo('v1Command'), []);
+  // Nor does it ask the server to end a phase it cannot tell has ended. Neither does a display.
+  assert.deepEqual(s.fake.callsTo('v1Advance'), []);
+  const table = setup('table');
+  table.fake.respond.v1ServerTime = async () => { throw new Error('unreachable'); };
+  table.screen.start();
+  await table.fake.deliver(PUBLIC, publicView());
+  await table.host.advance(600_000);
+  assert.deepEqual(table.fake.callsTo('v1Advance'), []);
 });
 
 const NEXT_PHASE = next => {

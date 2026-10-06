@@ -11,6 +11,8 @@ import type { ConnectedTransport, DocumentTarget } from './transport.js';
 // the last readable view is kept while stale, and only a current view counts as live. What
 // "current" means here is the handoff's rule: a snapshot the server confirmed. One served
 // from a cache, a listener that failed, or a document that is gone leaves the session stale.
+// A confirmed snapshot older than the view already held is not "current" either: the store
+// reports it as an integrity failure, and the session stops trusting the feed.
 
 function viewFeed(transport: Pick<ConnectedTransport, 'listenDocument'>, target: DocumentTarget): ViewFeed {
   return {
@@ -25,7 +27,9 @@ function viewFeed(transport: Pick<ConnectedTransport, 'listenDocument'>, target:
         onSnapshot(snapshot) {
           // A missing document proves nothing about the match: there is no view to call current.
           mark(snapshot.fresh && snapshot.value !== null);
-          if (snapshot.value !== null) listener.onPayload(snapshot.value);
+          // The store is told whether the server confirmed this payload: a confirmed revision
+          // lower than the one held is not a replay to drop, it is a match gone backwards.
+          if (snapshot.value !== null) listener.onPayload(snapshot.value, snapshot.fresh);
         },
         onError() {
           // The transport never reported this feed up, or it did and no longer is.

@@ -8,6 +8,10 @@ import type { SnapshotStore } from '../snapshot/snapshot-store.js';
 // Where protocol-2 documents enter client state. Each is parsed with the shared strict
 // schema, pinned to the match this client asked for, and for a private view to the seat the
 // host approved. Nothing here interprets a document; it only decides whether to believe it.
+//
+// A revision lower than the one held is dropped when it may be a replay or a cached copy.
+// When the server itself confirmed it, the match has gone backwards under this client: the
+// handoff calls that a restoration error, and the stores report it as an integrity failure.
 
 /** Wire protocol versions the connected client can display. */
 export const SUPPORTED_CONNECTED_VERSIONS: readonly number[] = [FULL_PROTOCOL_VERSION];
@@ -17,6 +21,7 @@ export function createConnectedPublicStore(options: { readonly matchId: string }
   return createSnapshotStore<FullPublicView>({
     matchId: options.matchId,
     supportedVersions: SUPPORTED_CONNECTED_VERSIONS,
+    confirmedRegression: 'integrity',
     parse: payload => {
       const result = FullPublicViewSchema.safeParse(payload);
       return result.success ? result.data : null;
@@ -33,6 +38,7 @@ export function createConnectedPlayerStore(options: { readonly matchId: string; 
   return createSnapshotStore<FullPlayerView>({
     matchId: options.matchId,
     supportedVersions: SUPPORTED_CONNECTED_VERSIONS,
+    confirmedRegression: 'integrity',
     parse: payload => {
       const result = FullPlayerViewSchema.safeParse(payload);
       return result.success && result.data.audience.seatId === options.seatId ? result.data : null;

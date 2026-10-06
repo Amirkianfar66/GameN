@@ -16,14 +16,19 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 function client(t) {
   const hosts = emulatorHosts();
   const [firestoreHost, firestorePort] = hosts.firestore.split(':');
+  /** What the transport handed to fetch, as it handed it. */
+  const requests = [];
   const transport = createEmulatorTransport({
     projectId: PROJECT, authOrigin: `http://${hosts.auth}`, firestoreHost, firestorePort: Number(firestorePort), functionsOrigin: `http://${hosts.functions}`,
     credentialPersistence: 'memory',
     // A browser adds its page's origin by itself, and the Functions accept only the documented local ones.
-    fetch: (url, init) => fetch(url, { ...init, headers: { ...init.headers, origin: 'http://localhost:5173' } }),
+    fetch: (url, init) => {
+      requests.push({ url, init });
+      return fetch(url, { ...init, headers: { ...init.headers, origin: 'http://localhost:5173' } });
+    },
   });
   t.after(() => transport.dispose());
-  return { transport, api: createConnectedApi(transport, ports) };
+  return { transport, requests, api: createConnectedApi(transport, ports) };
 }
 /** Collects what a listener is handed, and waits for a snapshot that satisfies a test. */
 function listen(start) {
@@ -74,6 +79,14 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   assert.equal(created.kind, 'done', JSON.stringify(created));
   const { matchId, roomCode } = created.result;
   await assert.rejects(() => host.transport.post('v1Anything', {}), /Not a documented operation/);
+  // One request left, to the local Functions and nowhere else, and it may not be redirected:
+  // a redirect would carry the token and the body to another host.
+  assert.equal(host.requests.length, 1);
+  const [{ url, init }] = host.requests;
+  assert.equal(url, `http://${emulatorHosts().functions}/${PROJECT}/us-central1/v1CreateMatch`);
+  assert.deepEqual([init.method, init.redirect, init.cache], ['POST', 'error', 'no-store']);
+  assert.match(init.headers.authorization, /^Bearer \S+$/);
+  assert.doesNotMatch(init.body, new RegExp(hostUid), 'The identity travels in the token, never in a body');
 
   // The host's session document, by a real listener. Whatever comes first, what is called
   // fresh is the server's confirmed document.

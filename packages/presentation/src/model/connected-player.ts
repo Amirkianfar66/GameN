@@ -14,15 +14,19 @@ import type {
 // the player's own command, because the seat has one command in progress at a time.
 //
 // Nothing here decides what a player may do. What is offered is the server's own list of
-// destinations and legal targets, and only while the view is fresh and its clock running.
+// destinations and legal targets, and only while the view is fresh and a clock this device
+// can trust says the phase is still running.
 
 const KINDS: readonly ActionKind[] = ['move', 'shot'];
 
 /** The seats the server lists as legal targets of an ordinary shot. An open category can list none. */
 const shotTargets = (view: FullPlayerView): readonly SeatId[] => (view.self.shotAvailable ? view.legalTargets['REGISTER_SHOT'] ?? [] : []);
 
-/** The interface would let the player start something right now. Gating, not eligibility. */
-const mayStart = (input: ConnectedPlayerInput): boolean => isCurrent(input) && input.deadline.kind !== 'expired';
+/**
+ * The interface would let the player start something right now. Gating, not eligibility.
+ * A countdown that has ended closes it, and so does having no trusted clock to tell.
+ */
+const mayStart = (input: ConnectedPlayerInput): boolean => isCurrent(input) && input.deadline.kind === 'running';
 
 function button(id: string, label: string, intent: CardButtonModel['intent'], primary = false, disabled = false): CardButtonModel {
   return { id, label, intent, primary, disabled };
@@ -103,27 +107,27 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
       return { status: 'unknown', title: titled(action.choice?.kind ?? null), body: {
         step: 'result', outcome: 'unknown', text: en.action.unknown,
         detail: action.phaseOver ? en.action.unknownPhaseOver : action.recovered ? en.action.unknownAfterReload : en.action.unknownDetail,
+        // The card stays until the server has answered about the command. There is no control
+        // to put an unaccounted-for command aside, whatever phase it is by now.
         action: button(SHELL_IDS.actionCheck, en.action.checkAgain, 'action/check-again', true, !action.armed),
-        // While the command's phase is open the card stays locked: a new intent could race
-        // the one still unaccounted for. Once it is over there is nothing left to protect.
-        secondary: action.phaseOver ? button(SHELL_IDS.actionDismiss, en.action.stopChecking, 'action/dismiss', false, !action.armed) : null,
       } };
     case 'accepted': {
-      const detail = action.choice === null ? en.action.acceptedAfterReloadDetail : action.choice.kind === 'shot' ? en.action.shotRegisteredDetail : null;
+      // A receipt is not an outcome. Each wording says what was accepted and where the outcome is to be read.
+      const detail = action.choice === null ? en.action.acceptedAfterReloadDetail : action.choice.kind === 'shot' ? en.action.shotRegisteredDetail : en.action.movedDetail;
       return { status: 'accepted', title: titled(action.choice?.kind ?? null), body: {
-        step: 'result', outcome: 'accepted', text: describeAction(action) ?? '', detail, action: acknowledge(en.action.done, action.armed), secondary: null,
+        step: 'result', outcome: 'accepted', text: describeAction(action) ?? '', detail, action: acknowledge(en.action.done, action.armed),
       } };
     }
     case 'rejected':
       return { status: 'not-accepted', title: titled(action.choice?.kind ?? null), body: {
         step: 'result', outcome: 'not-accepted', text: en.action.rejected[action.code], detail: action.code === 'NOT_ALLOWED' ? en.action.tryAgainHint : null,
-        action: acknowledge(en.action.ok, action.armed), secondary: null,
+        action: acknowledge(en.action.ok, action.armed),
       } };
     case 'not-accepted': {
       const retryable = action.reason === 'NOT_SENT' || action.reason === 'COMMAND_ID_CONFLICT' || action.reason === 'REQUEST_ID_CONFLICT' || action.reason === 'PHASE_OVER';
       return { status: 'not-accepted', title: titled(action.choice?.kind ?? null), body: {
         step: 'result', outcome: 'not-accepted', text: en.action.notAccepted[action.reason], detail: retryable ? en.action.tryAgainHint : null,
-        action: acknowledge(en.action.ok, action.armed), secondary: null,
+        action: acknowledge(en.action.ok, action.armed),
       } };
     }
   }
@@ -136,7 +140,9 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 
 function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedPrivateAreaModel {
   const open = input.privacy.revealed && !input.privacy.concealed;
-  const notice = !isCurrent(input) ? en.actions.pausedStale : input.deadline.kind === 'expired' ? en.actions.pausedExpired : null;
+  const notice = !isCurrent(input) ? en.actions.pausedStale
+    : input.deadline.kind === 'expired' ? en.actions.pausedExpired
+      : input.deadline.kind === 'unsynced' ? en.actions.pausedUnsynced : null;
   return {
     heading: en.privateArea.heading,
     hint: en.privateArea.hint,

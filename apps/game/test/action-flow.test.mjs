@@ -44,7 +44,7 @@ function setup({ kept = null, seatId = 'seat-1' } = {}) {
   flow.subscribe(() => { notified += 1; });
   const sample = { requestedAt: 0, receivedAt: 0, serverTimeMs: 0 };
   const receipt = (request, status = 'accepted', code = 'REGISTERED') => ({ kind: 'receipt', sample, receipt: { protocolVersion: 2, matchId: request.matchId, phaseId: request.phaseId, commandId: request.commandId, status, code } });
-  let context = { view: null, current: true, expired: false, panelOpen: true, foreground: true };
+  let context = { view: null, current: true, inTime: true, panelOpen: true, foreground: true };
   const observe = (view, overrides = {}) => {
     context = { ...context, ...(view === undefined ? {} : { view }), ...overrides };
     flow.observe(context);
@@ -150,13 +150,13 @@ test('only the identifiers of a command are kept across a reload, from before it
 });
 
 test('nothing is offered or sent unless the view is fresh, the clock has not run out and the private panel is open', async () => {
-  for (const closed of [{ current: false }, { expired: true }, { panelOpen: false }]) {
+  for (const closed of [{ current: false }, { inTime: false }, { panelOpen: false }]) {
     const s = setup();
     s.observe(playerView(), closed);
     assert.equal(s.flow.open('move'), false, JSON.stringify(closed));
   }
   // The same conditions take an unsent choice away again, at either step.
-  for (const closed of [{ current: false }, { expired: true }, { panelOpen: false }]) {
+  for (const closed of [{ current: false }, { inTime: false }, { panelOpen: false }]) {
     for (const step of ['choosing', 'confirming']) {
       const s = setup();
       s.observe(playerView());
@@ -164,7 +164,7 @@ test('nothing is offered or sent unless the view is fresh, the clock has not run
       if (step === 'confirming') s.flow.choose(MOVE);
       assert.deepEqual(s.observe(undefined, closed), { step: 'idle' }, `${step} ${JSON.stringify(closed)}`);
       // Conditions coming back do not bring the choice back.
-      assert.deepEqual(s.observe(undefined, { current: true, expired: false, panelOpen: true }), { step: 'idle' });
+      assert.deepEqual(s.observe(undefined, { current: true, inTime: true, panelOpen: true }), { step: 'idle' });
       assert.deepEqual(s.sent, []);
     }
   }
@@ -438,11 +438,13 @@ test('after a reload, once a fresh view shows the phase closed, a lookup made af
   await flush();
   assert.equal(s.state().step, 'checking');
   assert.equal(s.state().recovered, true);
-  // Fresh again, on the later phase: asked again, after that view.
+  // Fresh again, on the later phase: asked again, after that view, and not on the heels of the last check.
   const asked = s.looked.length;
   s.script.receipt.push(s.unknown);
   s.observe(undefined, { current: true });
   await flush();
+  assert.equal(s.looked.length, asked, 'Two checks are never started within a second of each other');
+  await s.host.advance(FIRST);
   assert.equal(s.looked.length, asked + 1);
   assert.deepEqual(s.state(), { step: 'not-accepted', choice: null, reason: 'PHASE_OVER', armed: false });
   assert.equal(s.host.kept, null);
@@ -484,14 +486,27 @@ test('a kept record that is not this seat’s, not this match’s or not readabl
 });
 
 test('a host whose storage or identifier source fails cannot make the flow send something unaccountable', async () => {
-  const s = setup();
-  s.host.ports.unresolved.save = () => { throw new Error('storage full'); };
-  s.observe(playerView());
-  await s.toConfirm();
-  s.script.command.push(request => s.receipt(request));
-  assert.equal(s.flow.confirm(), true);
-  await flush();
-  assert.equal(s.state().step, 'accepted', 'It carries on without a memory across reloads');
+  // A store that refuses, and one that takes the record and does not keep it: either way the
+  // command could not be asked about after a reload, so it is not sent at all.
+  for (const [name, breakStore] of [
+    ['a store that throws', ports => { ports.unresolved.save = () => { throw new Error('storage full'); }; }],
+    ['a store that keeps nothing', ports => { ports.unresolved.save = () => {}; }],
+    ['a store that cannot be read back', ports => { ports.unresolved.load = () => { throw new Error('blocked'); }; }],
+  ]) {
+    const s = setup();
+    breakStore(s.host.ports);
+    s.observe(playerView());
+    await s.toConfirm();
+    s.script.command.push(request => s.receipt(request));
+    assert.equal(s.flow.confirm(), true, name);
+    await flush();
+    assert.deepEqual(s.state(), { step: 'not-accepted', choice: MOVE, reason: 'NOT_RECORDED', armed: false }, name);
+    assert.deepEqual(s.sent, [], `${name}: nothing left this device`);
+    // A page loaded afterwards has nothing to ask about, and rightly: nothing was sent.
+    await s.host.advance(GUARD);
+    assert.equal(s.flow.dismiss(), true);
+    assert.equal(s.flow.open('move'), true, 'The player can try again');
+  }
 
   const noIds = setup();
   noIds.host.ports.ids.next = () => { throw new Error('no randomness'); };
@@ -517,7 +532,27 @@ test('a host whose storage or identifier source fails cannot make the flow send 
   assert.equal(repeat.sent.length, 1);
 });
 
-test('a late answer about a settled or abandoned command is ignored, and dispose stops everything', async () => {
+test('an answer that arrives after the command was settled changes nothing', async () => {
+  // Settled by the player's own view, which lists the command, while the first send is still out.
+  const s = setup();
+  const view = armedView();
+  s.observe(view);
+  await s.toConfirm(SHOT);
+  let release;
+  s.script.command.push(request => new Promise(resolve => { release = () => resolve(s.receipt(request, 'rejected', 'NOT_ALLOWED')); }));
+  s.flow.confirm();
+  await flush();
+  assert.equal(s.state().step, 'submitting');
+  s.observe(armedView(next => { next.viewRevision = view.viewRevision + 1; next.ownPendingCommandIds = [s.sent[0].commandId]; }));
+  assert.equal(s.state().step, 'accepted', 'The view is authoritative');
+  release();
+  await flush();
+  await s.host.advance(60_000);
+  assert.deepEqual(s.state(), { step: 'accepted', choice: SHOT, armed: true }, 'The late answer, though it says otherwise, is about a command already accounted for');
+  assert.deepEqual([s.sent.length, s.looked.length], [1, 0]);
+});
+
+test('dispose stops everything, and a late answer after it changes nothing', async () => {
   const s = setup();
   s.observe(playerView());
   await s.toConfirm();
@@ -537,6 +572,337 @@ test('a late answer about a settled or abandoned command is ignored, and dispose
   for (const act of [() => s.flow.open('move'), () => s.flow.choose(MOVE), () => s.flow.back(), () => s.flow.confirm(), () => s.flow.checkAgain(), () => s.flow.dismiss()]) assert.equal(act(), false);
 });
 
-test('timing defaults are client-side technical values', () => {
-  assert.deepEqual(DEFAULT_ACTION_FLOW_TIMING, { controlGuardMs: 400, recheckDelaysMs: [1_000, 2_000, 4_000], retryJitterMs: 250 });
+test('a safe failure does not settle a command while another attempt at it is still on its way; that attempt’s receipt then does', async () => {
+  for (const code of ['UNAUTHENTICATED', 'FORBIDDEN']) {
+    const s = setup();
+    s.observe(playerView());
+    await s.toConfirm();
+    // Turned away before the server looked: nothing is unanswered so far.
+    s.script.command.push(s.failure('RATE_LIMITED', 0));
+    s.flow.confirm();
+    await flush();
+    // First check: no receipt, so the identical request goes again. This one hangs.
+    let release;
+    s.script.receipt.push(s.unknown);
+    s.script.command.push(request => new Promise(resolve => { release = () => resolve(s.receipt(request)); }));
+    await s.host.advance(FIRST);
+    assert.deepEqual([s.looked.length, s.sent.length], [1, 2]);
+    // The feed drops and comes back, which starts a newer check while that attempt is still out.
+    s.observe(undefined, { current: false });
+    s.observe(undefined, { current: true });
+    s.script.receipt.push(s.unknown);
+    s.script.command.push(s.failure(code));
+    await s.host.advance(FIRST);
+    assert.deepEqual([s.looked.length, s.sent.length], [2, 3]);
+    assert.notEqual(s.state().step, 'not-accepted', `${code}: the hung attempt may still be accepted`);
+    assert.notEqual(s.host.kept, null, 'Its identifiers are still kept');
+    assert.equal(s.flow.dismiss(), false);
+    assert.equal(s.flow.open('move'), false, 'and no new intent can be started');
+    // The hung attempt is answered: accepted. That is the server's decision on this command.
+    release();
+    await flush();
+    assert.deepEqual(s.state(), { step: 'accepted', choice: MOVE, armed: false }, code);
+    assert.equal(s.host.kept, null);
+  }
+});
+
+test('a receipt settles the command whichever check it answers, even one a newer check has overtaken', async () => {
+  const s = setup();
+  s.observe(playerView());
+  await s.toConfirm();
+  s.flow.confirm();
+  await flush();
+  // The first check's lookup hangs.
+  let release;
+  s.script.receipt.push(request => new Promise(resolve => { release = () => resolve(s.found({ ...s.sent[0], ...request })); }));
+  await s.host.advance(FIRST);
+  assert.equal(s.looked.length, 1);
+  // A newer check starts and gets no answer.
+  s.observe(undefined, { current: false });
+  s.observe(undefined, { current: true });
+  await s.host.advance(FIRST);
+  assert.equal(s.looked.length, 2);
+  assert.equal(s.state().step, 'checking');
+  release();
+  await flush();
+  assert.equal(s.state().step, 'accepted');
+  // Anything less than a receipt from an overtaken check is about the past and decides nothing.
+  const other = setup();
+  other.observe(playerView());
+  await other.toConfirm();
+  other.script.command.push(other.failure('RATE_LIMITED', 0));
+  other.flow.confirm();
+  await flush();
+  let answer;
+  other.script.receipt.push(() => new Promise(resolve => { answer = () => resolve(other.unknown); }));
+  await other.host.advance(FIRST);
+  other.observe(undefined, { current: false });
+  other.observe(undefined, { current: true });
+  await other.host.advance(FIRST);
+  const sent = other.sent.length;
+  answer();
+  await flush();
+  assert.equal(other.sent.length, sent, 'An overtaken check sends nothing');
+});
+
+test('a wait the server named outlasts everything that would otherwise ask at once', async () => {
+  const WAIT = 30_000;
+  const s = setup();
+  const view = playerView();
+  s.observe(view);
+  await s.toConfirm();
+  s.script.command.push(s.failure('RATE_LIMITED', WAIT));
+  s.flow.confirm();
+  await flush();
+  const toldAt = s.host.localNow();
+  // The feed flaps, the page is hidden and shown, the phase moves on. Each would start a check at once.
+  await s.host.advance(200);
+  s.observe(undefined, { current: false });
+  s.observe(undefined, { current: true });
+  await s.host.advance(200);
+  s.observe(undefined, { foreground: false, panelOpen: false });
+  s.observe(undefined, { foreground: true, panelOpen: true });
+  await s.host.advance(200);
+  s.observe(nextPhase(view));
+  await s.host.advance(WAIT + JITTER - 600 - 1);
+  assert.deepEqual([s.looked.length, s.sent.length], [0, 1], 'Nothing about this command leaves the device before the server allows');
+  assert.equal(s.host.localNow() - toldAt, WAIT + JITTER - 1);
+  s.script.receipt.push(s.unknown);
+  await s.host.advance(1);
+  assert.equal(s.looked.length, 1, 'Then it asks');
+
+  // The same when a lookup is told to wait and the player keeps pressing "Check again".
+  const again = setup();
+  again.observe(playerView());
+  await again.toConfirm();
+  again.flow.confirm();
+  await flush();
+  await again.host.advance(FIRST + SECOND + THIRD);
+  assert.equal(again.state().step, 'unknown');
+  await again.host.advance(GUARD);
+  again.script.receipt.push(again.failure('RATE_LIMITED', 10_000));
+  assert.equal(again.flow.checkAgain(), true);
+  await again.host.advance(FIRST);
+  const asked = again.looked.length;
+  assert.equal(asked, 4, 'The lookup that was told to wait');
+  assert.equal(again.state().step, 'unknown');
+  for (let press = 0; press < 5; press += 1) {
+    await again.host.advance(GUARD);
+    again.flow.checkAgain();
+    await flush();
+  }
+  assert.equal(again.looked.length, asked, 'Five presses inside the wait: no lookup');
+  assert.equal(again.state().step, 'checking', 'The check that was asked for is waiting its turn');
+  again.script.receipt.push(request => again.found({ ...again.sent[0], ...request }));
+  await again.host.advance(10_000);
+  assert.equal(again.state().step, 'accepted', 'When the wait is over it runs');
+  assert.equal(again.looked.length, asked + 1);
+});
+
+test('a feed that flaps, or a player who keeps pressing, cannot make it ask more than once a second', async () => {
+  const s = setup();
+  s.observe(playerView());
+  await s.toConfirm();
+  s.flow.confirm();
+  await flush();
+  await s.host.advance(FIRST);
+  const before = s.looked.length;
+  for (let flap = 0; flap < 20; flap += 1) {
+    s.observe(undefined, { current: false });
+    s.observe(undefined, { current: true });
+    await s.host.advance(100);
+  }
+  // Two seconds of flapping: a check at most each second.
+  assert.equal(s.looked.length - before <= 2, true, `${s.looked.length - before} lookups in two seconds`);
+  assert.equal(s.looked.length - before >= 1, true, 'and coming back does still ask');
+});
+
+test('after being told to wait, a command the server never looked at is sent only if the present still allows it', async () => {
+  const view = playerView();
+  const cases = {
+    'the countdown ran out': s => s.observe(undefined, { inTime: false }),
+    'the phase moved on': s => s.observe(nextPhase(view)),
+    'the server no longer offers the choice': s => s.observe(playerView('seat-1', next => { next.viewRevision = view.viewRevision + 1; next.self.movementDestinations = []; })),
+  };
+  for (const [name, change] of Object.entries(cases)) {
+    const s = setup();
+    s.observe(view);
+    await s.toConfirm();
+    s.script.command.push(s.failure('RATE_LIMITED', 3_000));
+    s.flow.confirm();
+    await flush();
+    change(s);
+    s.script.receipt.push(s.unknown, s.unknown);
+    await s.host.advance(3_000 + JITTER + FIRST);
+    assert.deepEqual(s.state(), { step: 'not-accepted', choice: MOVE, reason: 'NOT_SENT', armed: true }, name);
+    assert.equal(s.sent.length, 1, `${name}: the one request the server turned away, and no other`);
+    assert.equal(s.looked.length, 1, 'It asked first, and the server knew of no such command');
+    assert.equal(s.host.kept, null);
+  }
+  // Still allowed: it goes again, the identical request.
+  const allowed = setup();
+  allowed.observe(view);
+  await allowed.toConfirm();
+  allowed.script.command.push(allowed.failure('RATE_LIMITED', 3_000), request => allowed.receipt(request));
+  allowed.flow.confirm();
+  await flush();
+  allowed.script.receipt.push(allowed.unknown);
+  await allowed.host.advance(3_000 + JITTER);
+  assert.equal(allowed.state().step, 'accepted');
+  assert.deepEqual(allowed.sent[1], allowed.sent[0]);
+});
+
+test('no command leaves on a view the server has not confirmed, and one that may have been decided is taken up again when it has', async () => {
+  const s = setup();
+  s.observe(playerView());
+  await s.toConfirm();
+  s.flow.confirm();
+  await flush();
+  // The first attempt went unanswered, and the feed is stale.
+  s.observe(undefined, { current: false });
+  s.script.receipt.push(s.unknown, s.unknown, s.unknown);
+  await s.host.advance(FIRST + SECOND + THIRD);
+  assert.equal(s.looked.length, 3, 'It may ask');
+  assert.equal(s.sent.length, 1, 'It may not send');
+  assert.equal(s.state().step, 'unknown');
+  // Confirmed again: the identical request, whatever the clock says by now, because the
+  // first attempt may have been decided and only the server can say.
+  s.script.receipt.push(s.unknown);
+  s.script.command.push(request => s.receipt(request, 'rejected', 'PHASE_CLOSED'));
+  s.observe(undefined, { current: true, inTime: false });
+  await s.host.advance(FIRST);
+  assert.deepEqual(s.sent[1], s.sent[0]);
+  assert.deepEqual(s.state(), { step: 'rejected', choice: MOVE, code: 'PHASE_CLOSED', armed: false });
+});
+
+test('a command whose outcome is unknown cannot be put away, whatever phase it is by now', async () => {
+  const s = setup();
+  const view = playerView();
+  s.observe(view);
+  await s.toConfirm();
+  s.flow.confirm();
+  await flush();
+  // The phase moves on and no lookup is ever answered.
+  s.observe(nextPhase(view));
+  await flush();
+  await s.host.advance(FIRST + SECOND);
+  assert.deepEqual(s.state(), { step: 'unknown', choice: MOVE, recovered: false, phaseOver: true, armed: false });
+  await s.host.advance(GUARD);
+  assert.equal(s.flow.dismiss(), false, 'No answer, no leaving');
+  assert.equal(s.flow.open('move'), false);
+  assert.notEqual(s.host.kept, null, 'The identifiers stay kept');
+  // The same on a page that was reloaded.
+  const reloaded = setup({ kept: s.host.kept });
+  reloaded.observe(nextPhase(view));
+  await flush();
+  await reloaded.host.advance(FIRST + SECOND);
+  assert.equal(reloaded.state().step, 'unknown');
+  await reloaded.host.advance(GUARD);
+  assert.equal(reloaded.flow.dismiss(), false);
+  assert.equal(reloaded.flow.open('move'), false);
+  assert.notEqual(reloaded.host.kept, null);
+  // Asking again is the way on. Here the server knows nothing of it, after the phase was over.
+  reloaded.script.receipt.push(reloaded.unknown);
+  assert.equal(reloaded.flow.checkAgain(), true);
+  await reloaded.host.advance(FIRST);
+  assert.equal(reloaded.state().reason, 'PHASE_OVER');
+  assert.equal(reloaded.host.kept, null);
+});
+
+test('an overtaken check that comes back empty starts nothing, and one told to wait meanwhile holds the newer check’s send', async () => {
+  // Two checks out at once; the older one's lookup comes back with no answer.
+  const s = setup();
+  s.observe(playerView());
+  await s.toConfirm();
+  s.flow.confirm();
+  await flush();
+  let releaseOld;
+  s.script.receipt.push(() => new Promise(resolve => { releaseOld = () => resolve(s.noAnswer); }));
+  await s.host.advance(FIRST);
+  s.observe(undefined, { current: false });
+  s.observe(undefined, { current: true });
+  s.script.receipt.push(() => new Promise(() => {}));
+  await s.host.advance(FIRST);
+  assert.equal(s.looked.length, 2, 'The newer check is out, and hangs');
+  releaseOld();
+  await flush();
+  await s.host.advance(FIRST + SECOND + THIRD);
+  assert.equal(s.looked.length, 2, 'The older check plans nothing of its own');
+  assert.equal(s.state().step, 'checking', 'and does not call the outcome unknown over the head of the newer one');
+
+  // The older check's re-send is told to wait while the newer check is asking.
+  const told = setup();
+  told.observe(playerView());
+  await told.toConfirm();
+  told.flow.confirm();
+  await flush();
+  let answerSend;
+  told.script.receipt.push(told.unknown);
+  told.script.command.push(() => new Promise(resolve => { answerSend = () => resolve(told.failure('RATE_LIMITED', 20_000)); }));
+  await told.host.advance(FIRST);
+  assert.equal(told.sent.length, 2, 'The identical request is out, and hangs');
+  told.observe(undefined, { current: false });
+  told.observe(undefined, { current: true });
+  let answerLookup;
+  told.script.receipt.push(() => new Promise(resolve => { answerLookup = () => resolve(told.unknown); }));
+  await told.host.advance(FIRST);
+  assert.equal(told.looked.length, 2);
+  answerSend();
+  await flush();
+  answerLookup();
+  await flush();
+  assert.equal(told.sent.length, 2, 'Told to wait a moment ago: this check does not send into that wait');
+  told.script.receipt.push(told.unknown);
+  told.script.command.push(request => told.receipt(request));
+  await told.host.advance(20_000 + JITTER);
+  assert.equal(told.state().step, 'accepted');
+  assert.equal(told.sent.length, 3);
+  assert.deepEqual(told.sent[2], told.sent[0]);
+});
+
+test('a wait the server named also holds the first send of the next command, which then goes only if still allowed', async () => {
+  const WAIT = 30_000;
+  async function waitingAfterAnAcceptedShot() {
+    const s = setup();
+    const view = armedView();
+    s.observe(view);
+    await s.toConfirm(SHOT);
+    s.flow.confirm();
+    await flush();
+    // The lookup is told to wait; then the player's own view lists the shot, which settles it.
+    s.script.receipt.push(s.failure('RATE_LIMITED', WAIT));
+    await s.host.advance(FIRST);
+    const toldAt = s.host.localNow();
+    const listed = armedView(next => { next.viewRevision = view.viewRevision + 1; next.ownPendingCommandIds = [s.sent[0].commandId]; next.self.shotAvailable = false; next.legalTargets = {}; });
+    s.observe(listed);
+    assert.equal(s.state().step, 'accepted');
+    await s.host.advance(GUARD);
+    s.flow.dismiss();
+    // Two seconds into the wait the player confirms a move.
+    await s.host.advance(2_000 - GUARD);
+    await s.toConfirm(MOVE);
+    assert.equal(s.flow.confirm(), true);
+    await flush();
+    assert.deepEqual(s.state(), { step: 'submitting', choice: MOVE });
+    assert.equal(s.sent.length, 1, 'Nothing new has left the device');
+    assert.notEqual(s.host.kept, null, 'Its identifiers are kept all the same');
+    return { s, listed, remaining: WAIT + JITTER - (s.host.localNow() - toldAt) };
+  }
+
+  const held = await waitingAfterAnAcceptedShot();
+  held.s.script.command.push(request => held.s.receipt(request));
+  await held.s.host.advance(held.remaining - 1);
+  assert.equal(held.s.sent.length, 1, 'Not a moment before the server allows');
+  await held.s.host.advance(1);
+  assert.equal(held.s.sent.length, 2);
+  assert.deepEqual(held.s.sent[1].command, { type: 'MOVE', destination: 'Room B' });
+  assert.equal(held.s.state().step, 'accepted');
+
+  // The phase moves on during the wait: the move the server never saw is not sent afterwards.
+  const moved = await waitingAfterAnAcceptedShot();
+  moved.s.observe(nextPhase(moved.listed));
+  await moved.s.host.advance(moved.remaining);
+  assert.deepEqual(moved.s.state(), { step: 'not-accepted', choice: MOVE, reason: 'NOT_SENT', armed: false });
+  assert.equal(moved.s.sent.length, 1);
+  assert.equal(moved.s.host.kept, null);
 });

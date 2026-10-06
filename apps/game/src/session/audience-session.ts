@@ -146,8 +146,8 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
     update({ clockRevision: state.clockRevision + 1 });
   }
 
-  function onPayload(payload: unknown): void {
-    const outcome = store.accept(payload);
+  function onPayload(payload: unknown, confirmed: boolean): void {
+    const outcome = store.accept(payload, { confirmed });
     if (outcome.kind === 'ignored-stale') return;
     // A failed integrity check is never cleared by later data: the feed is not trusted again.
     if (state.problem === 'integrity') return;
@@ -180,8 +180,8 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
     const generation = ++feedGeneration;
     feedConnected = false;
     const stop = transport.subscribe({
-      onPayload: payload => {
-        if (!disposed && generation === feedGeneration) onPayload(payload);
+      onPayload: (payload, confirmed) => {
+        if (!disposed && generation === feedGeneration) onPayload(payload, confirmed === true);
       },
       onConnectionChange: next => {
         if (!disposed && generation === feedGeneration) onConnectionChange(next, generation);

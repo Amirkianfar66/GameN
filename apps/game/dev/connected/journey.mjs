@@ -331,8 +331,10 @@ async function shotScenario({ display, players, seatOf, matchId }) {
     note(`The Officer is Player ${seat}. It is "${(await phaseOf(display)).label}"; waiting for Player ${seat}’s own turn. Each turn is a real 60-second phase.`);
     await officer.page.waitFor(ownTurn, 'the Officer’s own turn', PLAYERS * 66_000);
   }
+  // The phone must have the server's time before its countdown means anything, or before it offers anything.
+  await officer.page.waitFor("globalThis.mothershipConnected.frame().model.match.phase.timer.state === 'running'", 'the Officer’s phone has the server’s time');
   const turn = await phaseOf(officer);
-  assert.equal(turn.running && turn.remaining >= 25, true, `The turn has just begun (${turn.remaining} s left)`);
+  assert.equal(turn.running && turn.remaining >= 25, true, `Enough of the turn is left (${turn.remaining} s)`);
   await officer.page.waitFor("document.getElementById('ms-action-open-shot') !== null", 'a shot is offered on the Officer’s own turn').catch(async error => {
     // Say what the phone showed instead, so that a failure after a long wait can be read.
     throw new Error(`${error.message}. Panel open: ${await officer.attribute('#ms-private-toggle', 'aria-expanded')}; card: ${JSON.stringify(await card(officer))}`);
@@ -543,7 +545,9 @@ async function main() {
         await openPanel(player);
       }
       roles.set(player, await player.text('.ms-role-card'));
-      // What the server offers this seat now, in words: a move, and no shot.
+      // Nothing can be started until this device has the server's time. Then: what the
+      // server offers this seat now, in words: a move, and no shot.
+      await player.page.waitFor("document.getElementById('ms-action-open-move') !== null", `${player.label}: the clock is trusted and a move is offered`);
       assert.deepEqual(await player.page.evaluate("[...document.querySelectorAll('.ms-offer')].map(offer => [offer.dataset.kind, offer.querySelector('.ms-offer__status').textContent, offer.querySelector('button') !== null])"),
         [['move', 'Available', true], ['shot', 'Not available', false]], `${player.label}: a move is offered and no shot`);
     }
@@ -596,7 +600,8 @@ async function main() {
     assert.equal(moreA.length, 0, 'One tap, one command');
     assert.deepEqual([sentA.request.protocolVersion, sentA.request.matchId, sentA.request.command], [2, matchId, { type: 'MOVE', destination: destinationA }]);
     assert.deepEqual(sentA.response.receipt, { protocolVersion: 2, matchId, phaseId: sentA.request.phaseId, commandId: sentA.request.commandId, status: 'accepted', code: 'REGISTERED' });
-    assert.match((await card(A)).text, new RegExp(`Moved to ${destinationA}\\.`));
+    // The card says what the server accepted. Where the player is, is read from the view, below.
+    assert.match((await card(A)).text, new RegExp(`Move to ${destinationA} accepted\\.`));
     await waitShownAt(display, seatOf.get(A), destinationA, 'the display shows the move');
     await A.page.waitFor(`globalThis.mothershipConnected.frame().model.match.location.name === ${JSON.stringify(destinationA)}`, 'the mover’s own screen shows the move');
     await cardShot(A, '08-phone-move-accepted.png', '#ms-action-dismiss');

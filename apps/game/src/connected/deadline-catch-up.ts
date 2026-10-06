@@ -19,7 +19,7 @@ export interface CatchUpTiming {
   readonly playerDelayMs: number;
   /** Phones wait a different time each, by seat, so that they do not all ask at once. */
   readonly seatStaggerMs: number;
-  /** Waits before asking again while the same ended phase is still on screen. The last one repeats. */
+  /** Waits before asking again while the same ended phase is still on screen. The last one repeats: at most once a minute for as long as that lasts. */
   readonly retryDelaysMs: readonly number[];
 }
 
@@ -27,7 +27,7 @@ export const DEFAULT_CATCH_UP_TIMING: CatchUpTiming = {
   firstDelayMs: 500,
   playerDelayMs: 2_500,
   seatStaggerMs: 400,
-  retryDelaysMs: [1_000, 2_000, 4_000, 8_000, 15_000],
+  retryDelaysMs: [1_000, 2_000, 4_000, 8_000, 15_000, 30_000, 60_000],
 };
 
 /** What the screen knows right now about the phase it shows. */
@@ -74,6 +74,8 @@ export function createDeadlineCatchUp(options: CatchUpOptions): DeadlineCatchUp 
   let timer: unknown = null;
   let inFlight = false;
   let disposed = false;
+  /** Nothing is asked before this moment: the server said to wait. It holds across phases; the limit is this device's, not a phase's. */
+  let notBefore = 0;
 
   const due = (): boolean => context.phaseId !== null && context.current && context.expired && context.foreground;
 
@@ -84,15 +86,16 @@ export function createDeadlineCatchUp(options: CatchUpOptions): DeadlineCatchUp 
 
   function schedule(delayMs: number): void {
     clearTimer();
+    // A delay the server named is a minimum, whatever restarts this wait in the meantime.
     timer = ports.scheduler.setTimeout(() => {
       timer = null;
       void ask();
-    }, delayMs);
+    }, Math.max(delayMs, notBefore - ports.clock.now()));
   }
 
   function retryDelay(): number {
     const delays = timing.retryDelaysMs;
-    return delays[Math.min(asked - 1, delays.length - 1)] ?? 15_000;
+    return delays[Math.min(asked - 1, delays.length - 1)] ?? 60_000;
   }
 
   // Runs only when a wait runs out. Every wait is called off the moment the phase moves on,
@@ -111,6 +114,7 @@ export function createDeadlineCatchUp(options: CatchUpOptions): DeadlineCatchUp 
     }
     inFlight = false;
     if (disposed) return;
+    if (result !== null && result.kind === 'api-failure' && result.code === 'RATE_LIMITED') notBefore = Math.max(notBefore, ports.clock.now() + (result.retryAfterMs ?? 0));
     // Another phase came on screen while the request was out: this answer is about the past.
     if (forPhase !== phaseId) return consider();
     if (result !== null && result.kind === 'api-failure' && FINAL.has(result.code)) {
@@ -121,9 +125,7 @@ export function createDeadlineCatchUp(options: CatchUpOptions): DeadlineCatchUp 
     if (!due()) return;
     // "advanced" and "unchanged" both mean: wait for the view. If none comes, ask again later;
     // an early or repeated ask is answered "unchanged" and changes nothing.
-    const told = result !== null && result.kind === 'api-failure' && result.code === 'RATE_LIMITED' ? result.retryAfterMs ?? 0 : 0;
-    // A delay the server named is a minimum. This device's own delay never shortens it.
-    schedule(Math.max(retryDelay(), told) + order * timing.seatStaggerMs);
+    schedule(retryDelay() + order * timing.seatStaggerMs);
   }
 
   function consider(): void {

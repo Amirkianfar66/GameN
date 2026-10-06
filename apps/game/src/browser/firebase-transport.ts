@@ -14,9 +14,9 @@ import type { ConnectedTransport } from '../connected/transport.js';
 //   - Operations are plain JSON POSTs with the caller's current ID token. The identity is
 //     the SDK's; no UID travels in a body.
 //
-// It refuses any host that is not loopback and any project but the demo one, so an
-// emulator ID token can never be sent to a live project. There is no production
-// configuration here: none has been reviewed, and nothing is deployed.
+// It refuses any host that is not loopback and any project but the demo one, and it does
+// not follow redirects, so that an emulator ID token is not sent to a live project. There
+// is no production configuration here: none has been reviewed, and nothing is deployed.
 
 const DEMO_PROJECT = 'demo-mothership';
 const LOOPBACK_HOST = /^(?:127\.0\.0\.1|localhost)$/;
@@ -96,8 +96,10 @@ export function createEmulatorTransport(options: EmulatorTransportOptions): Emul
       if (user === null) throw new Error('Not signed in');
       const response = await send(`${options.functionsOrigin}/${DEMO_PROJECT}/us-central1/${operation}`, {
         method: 'POST',
-        // Never cached, never replayed by the browser from a store of its own.
+        // Never cached, never replayed by the browser from a store of its own. Never followed
+        // elsewhere either: a redirect would carry the token and the body to another host.
         cache: 'no-store',
+        redirect: 'error',
         headers: { 'content-type': 'application/json', authorization: `Bearer ${await user.getIdToken()}` },
         body: JSON.stringify(body),
       });

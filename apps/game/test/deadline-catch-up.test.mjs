@@ -115,12 +115,12 @@ test('"unchanged" and "advanced" both mean: wait for the view. It asks again onl
     const s = setup();
     s.answer = async () => ({ kind });
     s.catchUp.observe(ended());
-    await s.host.advance(T.firstDelayMs + 1_000 + 2_000 + 4_000 + 8_000 + 15_000 + 15_000);
-    assert.deepEqual(s.times(), [0, 1_000, 3_000, 7_000, 15_000, 30_000, 45_000], `${kind}: the waits grow and the last one repeats`);
+    await s.host.advance(T.firstDelayMs + 1_000 + 2_000 + 4_000 + 8_000 + 15_000 + 30_000 + 60_000 + 60_000);
+    assert.deepEqual(s.times(), [0, 1_000, 3_000, 7_000, 15_000, 30_000, 60_000, 120_000, 180_000], `${kind}: the waits grow, and the last one, a minute, repeats`);
     assert.equal(s.asked.every(call => call.phaseId === 'phase-one'), true);
     s.catchUp.observe(running('phase-two'));
-    await s.host.advance(120_000);
-    assert.equal(s.asked.length, 7, 'The next phase ends the asking');
+    await s.host.advance(600_000);
+    assert.equal(s.asked.length, 9, 'The next phase ends the asking');
   }
 });
 
@@ -158,6 +158,32 @@ test('a wait the server names is a minimum, and this device’s own wait never s
   unnamed.catchUp.observe(ended());
   await unnamed.host.advance(T.firstDelayMs + 1_000);
   assert.equal(unnamed.asked.length, 2, 'With no delay named, its own bounded wait applies');
+});
+
+test('a wait the server named outlasts everything that restarts the asking: a view that blinks, a page hidden and shown, the next phase', async () => {
+  const WAIT = 30_000;
+  const s = setup();
+  s.answer = async () => ({ kind: 'api-failure', code: 'RATE_LIMITED', retryAfterMs: WAIT });
+  s.catchUp.observe(ended());
+  await s.host.advance(T.firstDelayMs);
+  assert.equal(s.asked.length, 1);
+  const toldAt = s.host.localNow();
+  // The view goes stale and comes back; the page is hidden and shown. Each restarts the wait.
+  await s.host.advance(200);
+  s.catchUp.observe(ended('phase-one', { current: false }));
+  s.catchUp.observe(ended());
+  await s.host.advance(200);
+  s.catchUp.observe(ended('phase-one', { foreground: false }));
+  s.catchUp.observe(ended());
+  // The next phase arrives and ends too. The limit is this device's, not a phase's.
+  await s.host.advance(200);
+  s.catchUp.observe(running('phase-two'));
+  s.catchUp.observe(ended('phase-two'));
+  await s.host.advance(WAIT - 600 - 1);
+  assert.equal(s.asked.length, 1, 'Nothing is asked before the server allows');
+  assert.equal(s.host.localNow() - toldAt, WAIT - 1);
+  await s.host.advance(1);
+  assert.deepEqual(s.asked.map(call => call.phaseId), ['phase-one', 'phase-two']);
 });
 
 test('refused, it stops asking about that phase, and asks about the next one when that ends', async () => {

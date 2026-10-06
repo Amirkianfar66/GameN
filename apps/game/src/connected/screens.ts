@@ -102,15 +102,16 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
       latest = view;
       // The flow is told the present before its state is read, so a choice that was not sent
       // never outlives a closed panel, a view that is no longer fresh, or an ended phase.
-      const expired = environment.deadline.kind === 'expired';
       flow.observe({
         view,
         current: isCurrent(environment),
-        expired,
+        // Only a countdown this device can trust and that is still running lets a command start.
+        inTime: environment.deadline.kind === 'running',
         panelOpen: local.pageVisible && local.privateRevealed && view !== null,
         foreground: local.pageVisible,
       });
-      catchUp.observe({ phaseId: view?.phase.id ?? null, current: isCurrent(environment), expired, foreground: local.pageVisible });
+      // Catch-up is the other way round: it needs the trusted clock to say the deadline has passed.
+      catchUp.observe({ phaseId: view?.phase.id ?? null, current: isCurrent(environment), expired: environment.deadline.kind === 'expired', foreground: local.pageVisible });
       return { ...environment, view, privacy: { concealed: !local.pageVisible, revealed: local.privateRevealed }, action: flow.getState() };
     },
     buildModel: buildConnectedPlayerShellModel,
