@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullApproveAdmissionRequestSchema, FullCommandRequestSchema,
+  FullAbortMatchRequestSchema, FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullApproveAdmissionRequestSchema, FullCommandRequestSchema,
   FullCreateMatchRequestSchema, FullLookupRequestSchema, FullServerTimeRequestSchema, FullStartMatchRequestSchema,
 } from '@mothership/contracts';
 import { createConnectedApi, DEFAULT_API_TIMEOUT_MS, V1_OPERATIONS } from '@mothership/game';
@@ -23,7 +23,7 @@ const receiptFor = (request, status = 'accepted', code = 'REGISTERED') => ({ pro
 const failed = (s, code, extra = {}) => ({ ok: false, serverTimeMs: s.now(), error: { code, ...extra } });
 
 test('the client reaches the documented operations and no other', () => {
-  assert.deepEqual([...V1_OPERATIONS], ['v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime']);
+  assert.deepEqual([...V1_OPERATIONS], ['v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch', 'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime']);
 });
 
 test('every request the client sends satisfies the shared protocol-2 schema, and carries no actor, clock or outcome', async () => {
@@ -35,13 +35,14 @@ test('every request the client sends satisfies the shared protocol-2 schema, and
     s.api.approveAdmission({ protocolVersion: 2, matchId: MATCH, requestId: 'request-3', admissionId: 'admission-1', seatId: 'seat-1' }),
     s.api.admitDisplay({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', displayUid: 'display-uid' }),
     s.api.startMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-5' }),
+    s.api.abortMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-6' }),
   ]);
   const schemas = {
     v1ServerTime: FullServerTimeRequestSchema, v1Advance: FullAdvanceRequestSchema, v1Command: FullCommandRequestSchema, v1Receipt: FullLookupRequestSchema,
     v1CreateMatch: FullCreateMatchRequestSchema, v1RequestAdmission: FullAdmissionRequestSchema, v1ApproveAdmission: FullApproveAdmissionRequestSchema,
-    v1AdmitDisplay: FullAdmitDisplayRequestSchema, v1StartMatch: FullStartMatchRequestSchema,
+    v1AdmitDisplay: FullAdmitDisplayRequestSchema, v1StartMatch: FullStartMatchRequestSchema, v1AbortMatch: FullAbortMatchRequestSchema,
   };
-  assert.equal(s.fake.calls.length, 9);
+  assert.equal(s.fake.calls.length, 10);
   assert.deepEqual(Object.keys(schemas).sort(), [...V1_OPERATIONS].sort(), 'Every operation the client can reach is checked here');
   assert.deepEqual([...new Set(s.fake.calls.map(call => call.operation))].sort(), [...V1_OPERATIONS].sort(), 'and every one of them was sent');
   for (const { operation, body } of s.fake.calls) {
@@ -172,6 +173,7 @@ test('each lobby operation accepts only its own result, for its own request', as
     approved: { admissionId: 'admission-1', seatId: 'seat-1', status: 'approved' },
     admitted: { admitted: true },
     started: { started: true, matchId: MATCH },
+    aborted: { aborted: true },
   };
   const calls = {
     v1CreateMatch: [() => s.api.createMatch({ protocolVersion: 2, requestId: 'request-1', playerCount: 7 }), 'created', { matchId: MATCH, roomCode: 'A1B2C3D4E5F6', playerCount: 7 }],
@@ -179,6 +181,7 @@ test('each lobby operation accepts only its own result, for its own request', as
     v1ApproveAdmission: [() => s.api.approveAdmission({ protocolVersion: 2, matchId: MATCH, requestId: 'request-3', admissionId: 'admission-1', seatId: 'seat-1' }), 'approved', { admissionId: 'admission-1', seatId: 'seat-1' }],
     v1AdmitDisplay: [() => s.api.admitDisplay({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', displayUid: 'display-uid' }), 'admitted', true],
     v1StartMatch: [() => s.api.startMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-5' }), 'started', true],
+    v1AbortMatch: [() => s.api.abortMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-6' }), 'aborted', true],
   };
   for (const [operation, [invoke, own, expected]] of Object.entries(calls)) {
     s.answer(operation, ok(results[own]));
@@ -198,6 +201,12 @@ test('each lobby operation accepts only its own result, for its own request', as
   assert.equal((await calls.v1CreateMatch[0]()).kind, 'no-response');
   s.answer('v1StartMatch', ok({ started: true, matchId: 'another-match' }));
   assert.equal((await calls.v1StartMatch[0]()).kind, 'no-response');
+  // Ending a match is the host's alone: a refusal is reported as the server gave it, and an abort for no match is never sent.
+  s.answer('v1AbortMatch', () => failed(s, 'FORBIDDEN'));
+  assert.deepEqual([(await calls.v1AbortMatch[0]()).kind, (await calls.v1AbortMatch[0]()).code], ['api-failure', 'FORBIDDEN']);
+  const sentSoFar = s.fake.calls.length;
+  await assert.rejects(() => s.api.abortMatch({ protocolVersion: 2, requestId: 'request-7' }), /does not satisfy the shared contract/);
+  assert.equal(s.fake.calls.length, sentSoFar);
 });
 
 test('cancelling settles every pending call as cancelled and leaves no timer behind', async () => {

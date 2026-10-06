@@ -2,6 +2,7 @@ import type { SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
 import { describeAction } from './connected-player.js';
+import { matchOutcome, matchOutcomeLines } from './result.js';
 import { resolveShotGate } from './shot.js';
 import { eligibleVoters, publishedTally, tallyResult } from './votes.js';
 import type {
@@ -55,16 +56,20 @@ function describeChange(previous: Moment | null, next: Moment, view: AudienceVie
   const wasShown = previous !== null && previousScreen === 'match' && previous.view !== null;
   const wasCurrent = wasShown && isCurrent(previous.env);
   const summary = phaseSummary(view, selfSeatId);
+  // How the match ended is part of where it stands. A screen that was not there, or not
+  // current, when it ended is told with the rest of the present, and not again afterwards.
+  const outcome = matchOutcome(view);
+  const present = outcome === null ? summary : [summary, outcome, ...matchOutcomeLines(view)].join(' ');
 
   if (!current) {
     if (becameUnreadable) return [polite(en.announce.unreadable)];
     return wasCurrent ? [polite(en.announce.connectionLost)] : [];
   }
-  if (!wasShown) return [polite(en.announce.connected(summary))];
+  if (!wasShown) return [polite(en.announce.connected(present))];
   if (!wasCurrent) {
     // Whatever happened in the meantime is obsolete: state the present, do not replay it.
     const phrase = previous?.env.connection === 'live' ? en.announce.readableAgain : en.announce.reconnected;
-    return [polite(phrase(summary))];
+    return [polite(phrase(present))];
   }
   const out: LiveAnnouncement[] = [];
   if (previous?.view) {
@@ -81,6 +86,8 @@ function describeChange(previous: Moment | null, next: Moment, view: AudienceVie
       }
     }
     for (const change of seatChanges(previous.view, view)) out.push(polite(change));
+    // The end of the match, said once when the view first carries it.
+    if (outcome !== null && matchOutcome(previous.view) === null) out.push(polite([outcome, ...matchOutcomeLines(view)].join(' ')));
   }
   return out;
 }

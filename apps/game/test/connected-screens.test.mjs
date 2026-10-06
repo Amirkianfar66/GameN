@@ -316,6 +316,81 @@ test('a Scan by intents alone: a seat, then a guess, one command, and the result
   assert.doesNotMatch(`${JSON.stringify(s.frame())} ${s.html()}`, /What you know|The Undercover is|you scanned|guessing Blue|ms-knowledge|ms-action-open-scan|Hacker/);
 });
 
+// The end of a match, as the views say it. Synthetic: no rule produced these.
+const endedByHost = view => {
+  view.viewRevision += 1;
+  view.phase = { id: 'phase-aborted', kind: 'ABORTED', startedAt: view.phase.startedAt, endsAt: null };
+  view.activeSeatId = null;
+  if ('self' in view) view.self.movementDestinations = [];
+};
+const END_ROLES = ['Cracker', 'Insider', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'];
+const finishedFor = winner => view => {
+  view.viewRevision += 1;
+  view.round = 5;
+  view.phase = { id: 'phase-finished', kind: 'FINISHED', startedAt: view.phase.startedAt, endsAt: null };
+  view.activeSeatId = null;
+  view.result = { winner, alienCoWinner: false };
+  view.endReveal = { roles: END_ROLES.map((role, index) => ({ seatId: `seat-${index + 1}`, role })), code: ['seat-7', 'seat-1', 'seat-2', 'seat-3'] };
+  if ('self' in view) view.self.movementDestinations = [];
+};
+
+test('when the host ends the match, a phone shows it ended without a winner, reveals nothing, and can start nothing', async () => {
+  const s = setup();
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.legalTargets = { PROTECT: ['seat-3'] }; }));
+  s.screen.dispatch(TOGGLE);
+  s.screen.dispatch({ type: 'action/open', kind: 'protect' });
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-3' });
+  assert.equal(s.card().status, 'confirming');
+  assert.equal(s.frame().model.match.result, null);
+
+  await s.fake.deliver(OWN, playerView('seat-1', endedByHost));
+  const { match } = s.frame().model;
+  assert.deepEqual(match.result, { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
+  assert.deepEqual([match.phase.phaseLabel, match.phase.timer.state], ['Match ended by the host', 'none']);
+  assert.match(s.frame().announcement.text, /The host ended this match\. There is no winner\./);
+  // What was being chosen is dropped, the player is told, and nothing can be started.
+  assert.deepEqual([s.card().status, match.privateArea.content.actions.notice], ['idle', 'The match is over.']);
+  assert.equal(s.frame().privateAnnouncement.text, 'Your choice was not sent.');
+  assert.equal(s.card().body.offers.every(offer => offer.open === null), true);
+  for (const intent of [{ type: 'action/open', kind: 'move' }, { type: 'action/open', kind: 'protect' }, { type: 'action/confirm' }]) s.screen.dispatch(intent);
+  await s.host.advance(GUARD);
+  assert.equal(s.card().status, 'idle');
+  assert.deepEqual(s.fake.callsTo('v1Command'), []);
+  // No countdown is left, so the phone asks the server to look at no deadline.
+  await s.host.advance(180_000);
+  assert.deepEqual(s.fake.callsTo('v1Advance'), []);
+  // The phone's own role is where it was; the public part of the screen names none.
+  assert.equal(match.privateArea.content.role.name, 'Cracker');
+  s.screen.dispatch(TOGGLE);
+  assert.doesNotMatch(s.html(), /Cracker|The Code was|wins/);
+  assert.match(s.html(), /The host ended this match\. There is no winner\./);
+});
+
+test('a finished match is shown with the winner and the reveal the server’s view carries, the same on the table and on a phone', async () => {
+  const table = setup('table');
+  table.screen.start();
+  await table.fake.deliver(PUBLIC, publicView(view => { view.round = 5; }));
+  assert.equal(table.frame().model.match.result, null);
+  assert.doesNotMatch(JSON.stringify(table.frame()), /Cracker|Undercover|Alien/, 'No role is on the display while the match is played');
+  await table.fake.deliver(PUBLIC, publicView(finishedFor('Red')));
+  const shown = table.frame().model.match.result;
+  assert.deepEqual([shown.outcome, shown.lines], ['Red wins.', []]);
+  assert.deepEqual(shown.reveal.roles.map(entry => [entry.label, entry.role]), END_ROLES.map((role, index) => [`Player ${index + 1}`, role]));
+  assert.equal(shown.reveal.code, 'The Code was: Player 1, Player 2, Player 3, Player 7.');
+  assert.match(table.frame().announcement.text, /Round 5\. Match finished\..*Red wins\./);
+  await table.host.advance(180_000);
+  assert.deepEqual([table.fake.callsTo('v1Advance'), table.fake.callsTo('v1Command')], [[], []]);
+
+  const phone = setup();
+  phone.screen.start();
+  await phone.fake.deliver(OWN, playerView('seat-1', finishedFor('Red')));
+  const own = phone.frame().model.match.result;
+  assert.deepEqual([own.outcome, own.reveal.roles.map(entry => entry.role)], ['Red wins.', END_ROLES]);
+  assert.equal(own.reveal.roles[0].label, 'Player 1 (you)');
+  assert.equal(phone.frame().model.match.privateArea.content, null, 'The result is public; the private panel is still closed');
+});
+
 test('with the panel closed nothing of the command is in the frame or the document, and action intents are ignored', async () => {
   const s = setup();
   s.screen.start();

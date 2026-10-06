@@ -163,6 +163,39 @@ function listenPersistently(target, read, onValue) {
   };
 }
 
+/**
+ * Watches the lobby and calls `open` once there is a match to show. A match the host ended
+ * before it started has none: no view was ever written for it, and the rules refuse a read
+ * of a view that is not there, as they refuse a stranger. A device that can read the lobby
+ * is in the match, so for it an ended match without a view is one that never started. The
+ * page then says so through `endedInLobby` and opens nothing.
+ */
+function openOnceStarted(matchId, viewTarget, open, endedInLobby) {
+  let asked = false;
+  return listenPersistently({ kind: 'lobby', matchId }, payload => readLobby(payload, matchId), view => {
+    if (view.status === 'lobby') return;
+    if (view.status !== 'aborted') return open();
+    if (asked) return;
+    asked = true;
+    let stop = () => {};
+    let settled = false;
+    const settle = exists => {
+      if (settled) return;
+      settled = true;
+      stop();
+      if (exists) open();
+      else endedInLobby();
+    };
+    stop = transport.listenDocument(viewTarget, {
+      onSnapshot: snapshot => {
+        if (snapshot.fresh) settle(snapshot.value !== null);
+      },
+      onError: () => settle(false),
+    });
+    if (settled) stop();
+  });
+}
+
 /** Lobby listeners of this page. They end when the match is on screen: the screen has its own. */
 const lobbyWatchers = [];
 let mounted = false;
@@ -179,6 +212,8 @@ function showMatch(screen, render) {
   settle();
   globalThis.mothershipConnected = { ...(globalThis.mothershipConnected ?? {}), frame: () => screen.getFrame() };
 }
+
+const ENDED_IN_LOBBY = 'The host ended this match before it started. There is nothing of it to show.';
 
 function chooseDevice(uid) {
   frame('Emulator-connected preview',
@@ -232,6 +267,31 @@ async function host(uid) {
   admit.addEventListener('click', () => operate('admit', requestId => ({ protocolVersion: 2, matchId, requestId, displayUid: displayUid.value.trim() }), body => api.admitDisplay(body), 'Admitting the display', 'That is not an identifier a display shows.'));
   const start = el('button', 'Start the match', { type: 'button', id: 'connected-start' });
   start.addEventListener('click', () => operate('start', requestId => ({ protocolVersion: 2, matchId, requestId }), body => api.startMatch(body), 'Starting the match'));
+  // Ending the match is the host's alone and cannot be undone, so it takes two presses, and
+  // the second control is not where the first one was. The server records the match as
+  // ended by the host, without a winner; this page decides nothing about it.
+  let askingToEnd = false;
+  const end = el('button', 'End the match for everyone…', { type: 'button', id: 'connected-end' });
+  const endNote = el('p', 'This ends the match for every player and for the display. It is recorded as ended by the host, without a winner, and cannot be undone.', { id: 'connected-end-note' });
+  const endCancel = el('button', 'No, keep the match', { type: 'button', id: 'connected-end-cancel' });
+  const endConfirm = el('button', 'Yes, end the match now', { type: 'button', id: 'connected-end-confirm' });
+  end.addEventListener('click', () => {
+    askingToEnd = true;
+    draw();
+    // Focus goes to the way back, not to the control that ends the match.
+    endCancel.focus();
+  });
+  endCancel.addEventListener('click', () => {
+    askingToEnd = false;
+    draw();
+    end.focus();
+  });
+  endConfirm.addEventListener('click', async () => {
+    const done = await operate('end', requestId => ({ protocolVersion: 2, matchId, requestId }), body => api.abortMatch(body), 'Ending the match');
+    if (done === null) return;
+    askingToEnd = false;
+    draw();
+  });
   frame('Host',
     facts([
       ['This device', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id'], ['Room code', '…', 'connected-room-code'],
@@ -240,6 +300,7 @@ async function host(uid) {
     el('h2', 'Requests to join', { id: 'connected-requests-title', tabindex: '-1' }), none, list,
     el('h2', 'Shared display'), displayLabel, admit,
     el('h2', 'Start'), start,
+    el('h2', 'End'), end, endNote, endCancel, endConfirm,
     el('p', 'Hosting gives no view of anyone’s role. To play, join from another tab with the room code.'),
   );
   const setText = (id, text) => {
@@ -294,6 +355,11 @@ async function host(uid) {
       approve.disabled = vacant.length === 0 || !open;
     }
     start.disabled = playerCount === null || seats.length !== playerCount || !open;
+    // A match that is over, either way, cannot be ended again.
+    const endable = session !== null && (session.status === 'lobby' || session.status === 'running');
+    if (!endable) askingToEnd = false;
+    end.hidden = !endable || askingToEnd;
+    for (const node of [endNote, endCancel, endConfirm]) node.hidden = !endable || !askingToEnd;
   };
   draw();
   transport.listenDocument({ kind: 'session', matchId }, {
@@ -361,10 +427,9 @@ async function player(uid) {
     draw('Seated. Waiting for the host to start the match.');
     // The private view does not exist before the start, and a listener on it is refused,
     // not empty. So the lobby is watched, and the match is opened once it is running.
-    lobbyWatchers.push(listenPersistently({ kind: 'lobby', matchId }, payload => readLobby(payload, matchId), view => {
-      if (view.status === 'lobby') return;
-      showMatch(createConnectedPlayerScreen({ transport, matchId, seatId, ports, host: { reload: () => window.location.reload() } }), renderConnectedPlayerShell);
-    }));
+    lobbyWatchers.push(openOnceStarted(matchId, { kind: 'player-view', matchId },
+      () => showMatch(createConnectedPlayerScreen({ transport, matchId, seatId, ports, host: { reload: () => window.location.reload() } }), renderConnectedPlayerShell),
+      () => draw(ENDED_IN_LOBBY)));
   }));
 }
 
@@ -386,12 +451,12 @@ async function display(uid) {
     return;
   }
   const { matchId } = state;
-  frame('Shared display', facts([['This display', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']]), el('p', 'Waiting to be admitted by the host, and for the match to start.', { id: 'connected-waiting' }));
+  const waiting = text => frame('Shared display', facts([['This display', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']]), el('p', text, { id: 'connected-waiting' }));
+  waiting('Waiting to be admitted by the host, and for the match to start.');
   // Until the host admits this identity the rules refuse the lobby, so the listener keeps asking.
-  lobbyWatchers.push(listenPersistently({ kind: 'lobby', matchId }, payload => readLobby(payload, matchId), view => {
-    if (view.status === 'lobby') return;
-    showMatch(createConnectedTableScreen({ transport, matchId, ports, host: { reload: () => window.location.reload() } }), renderTableShell);
-  }));
+  lobbyWatchers.push(openOnceStarted(matchId, { kind: 'public-view', matchId },
+    () => showMatch(createConnectedTableScreen({ transport, matchId, ports, host: { reload: () => window.location.reload() } }), renderTableShell),
+    () => waiting(ENDED_IN_LOBBY)));
 }
 
 frame('Emulator-connected preview', el('p', 'Signing in…'));

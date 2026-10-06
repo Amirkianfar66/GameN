@@ -18,7 +18,9 @@
 // real 60-second window, so it takes about twenty-one minutes. A fifth
 // (MOTHERSHIP_JOURNEY=knowledge) reads what each of seven phones is told in private, checks
 // it against what the other phones show, and has the Hacker scan a player on its own turn.
-// Up to about eight minutes.
+// Up to about eight minutes. A sixth (MOTHERSHIP_JOURNEY=end) has the host end a
+// seven-player match: every screen then shows the match as ended by the host, without a
+// winner and with nothing revealed. Under a minute.
 //
 // What this is: the real Firebase web client, real anonymous identities, real Security
 // Rules, the real protocol-2 service and its real 60-second phases, in headless Chrome.
@@ -52,9 +54,9 @@ const MATCH = "document.querySelector('.ms-shell[data-screen=\"match\"]')";
 /** How long a page gets to load and sign in. Up to ten of them load at once, on whatever else the machine is doing, and the first load after a build is the slowest. */
 const PAGE_LOAD_MS = 30_000;
 
-const SCENARIO = ['shot', 'roles', 'votes', 'knowledge'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
+const SCENARIO = ['shot', 'roles', 'votes', 'knowledge', 'end', 'lobby-end'].includes(process.env.MOTHERSHIP_JOURNEY) ? process.env.MOTHERSHIP_JOURNEY : 'movement';
 /** Seven players is the journey that was asked for. Nine is the only match with every role, and the smallest with a first-round shot. */
-const PLAYERS = ['movement', 'votes', 'knowledge'].includes(SCENARIO) ? 7 : 9;
+const PLAYERS = ['movement', 'votes', 'knowledge', 'end', 'lobby-end'].includes(SCENARIO) ? 7 : 9;
 const WORDS = { 7: 'seven', 9: 'nine' };
 
 const evidence = process.argv[2] ?? process.env.MOTHERSHIP_EVIDENCE_DIR ?? null;
@@ -958,6 +960,165 @@ async function knowledgeScenario({ display, players, seatOf, matchId }) {
 }
 
 /**
+ * The host ends a match that is still a lobby: seven players are seated and a display is
+ * admitted, and nothing has started. No role was dealt and no view was ever written, so
+ * there is no match to show. Every device says that, and opens nothing.
+ */
+async function lobbyEndScenario({ host, display, players, matchId }) {
+  const shown = selector => host.page.evaluate(`(() => { const node = document.querySelector(${JSON.stringify(selector)}); return node !== null && !node.hidden; })()`);
+  const ENDED = 'The host ended this match before it started. There is nothing of it to show.';
+  const waitingText = who => who.text('#connected-waiting');
+  for (const player of players) assert.equal(await waitingText(player), 'Seated. Waiting for the host to start the match.', player.label);
+  assert.equal(await waitingText(display), 'Waiting to be admitted by the host, and for the match to start.');
+  assert.equal(await host.text('#connected-match-status'), 'lobby');
+
+  // A lobby can be ended, with the same two presses as a match that is being played.
+  assert.deepEqual([await shown('#connected-end'), await shown('#connected-end-confirm')], [true, false]);
+  await host.page.tabTo('connected-end', 60);
+  await host.page.press('Enter');
+  await host.page.waitFor("!document.getElementById('connected-end-confirm').hidden", 'the host is asked to confirm');
+  assert.equal(await focused(host), 'connected-end-cancel');
+  assert.equal((await host.operations('v1AbortMatch')).length, 0, 'Asking sends nothing');
+  await host.page.tabTo('connected-end-confirm', 10);
+  await host.page.press('Enter');
+  await host.page.waitFor("document.getElementById('connected-match-status').textContent === 'aborted'", 'the host console reads the match as ended', 20_000);
+  const aborts = await host.operations('v1AbortMatch');
+  assert.deepEqual(aborts.map(call => [call.request.matchId, call.response.ok, call.response.result]), [[matchId, true, { aborted: true }]], 'One confirmation, one request');
+  assert.deepEqual([await shown('#connected-end'), await shown('#connected-end-confirm')], [false, false], 'It cannot be ended again');
+  assert.deepEqual([await host.page.evaluate("document.getElementById('connected-start').disabled"), (await host.operations('v1StartMatch')).length], [true, 0], 'and it cannot be started');
+
+  // Every device says what happened. None of them opens a match, waits for one, or says it lost access.
+  for (const who of [display, ...players]) {
+    await who.page.waitFor(`document.getElementById('connected-waiting')?.textContent === ${JSON.stringify(ENDED)}`, `${who.label} says the match ended before it started`, 20_000);
+  }
+  await sleep(3_000);
+  for (const who of [display, ...players]) {
+    assert.equal(await waitingText(who), ENDED, `${who.label}: still says so`);
+    assert.equal(await who.exists('.ms-shell'), false, `${who.label}: no match screen was opened`);
+    assert.doesNotMatch(await who.page.evaluate('document.body.textContent'), /No access|Connecting|Reconnecting/, who.label);
+    assert.equal((await who.operations('v1Command')).length + (await who.operations('v1Advance')).length, 0, `${who.label} sent nothing about a match`);
+  }
+  await display.shot('l1-display-ended-in-the-lobby.png');
+  await players[0].shot('l2-phone-ended-in-the-lobby.png');
+
+  // A reloaded phone and a reloaded display say the same, from what the server lets them read.
+  for (const who of [players[1], display]) {
+    await who.page.reload(`document.getElementById('connected-waiting')?.textContent === ${JSON.stringify(ENDED)}`, 20_000);
+    assert.equal(await who.exists('.ms-shell'), false, `${who.label}: nothing is opened after a reload either`);
+  }
+  for (const player of players) assertStored(await player.stored(), player.label, { unresolved: false });
+
+  facts.match = {
+    note: 'A throwaway lobby on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.',
+    playerCount: PLAYERS, endedByHost: true, everStarted: false,
+  };
+  established('L. The host ends a match that is still a lobby (seven players seated, a display admitted)', [
+    'The host console offers to end a lobby with the same two presses as a running match. One v1AbortMatch; the console then read "aborted" and offered neither to start the match nor to end it again.',
+    `The display and all seven phones then said: "${ENDED}" None of them opened a match screen, went on waiting, or said it had lost access.`,
+    'No role was ever dealt, so there was nothing private to show or to keep: nothing of a match was in any page or its storage.',
+    'A reloaded phone and a reloaded display said the same.',
+  ]);
+}
+
+/**
+ * The host ends a seven-player match that is being played. Every screen then shows what the
+ * server's view says: ended by the host, no winner, nothing revealed.
+ */
+async function endScenario({ host, display, players, seatOf, matchId }) {
+  for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);
+  const roleOf = new Map();
+  for (const player of players) {
+    await openPanel(player);
+    roleOf.set(player, await player.text('.ms-role-card'));
+    await player.page.waitFor("document.querySelector('.ms-offer') !== null", `${player.label}: the card is on screen`);
+  }
+  assert.deepEqual([...roleOf.values()].sort(), SEVEN_PLAYER_ROLES);
+  const resultOf = who => who.page.evaluate('JSON.parse(JSON.stringify(globalThis.mothershipConnected.frame().model.match?.result ?? null))');
+  for (const who of [display, ...players]) assert.equal(await resultOf(who), null, `${who.label}: no result while the match is played`);
+  const shown = selector => host.page.evaluate(`(() => { const node = document.querySelector(${JSON.stringify(selector)}); return node !== null && !node.hidden; })()`);
+
+  // ---------------------------------------------------------------- E1. Ending takes two presses, and the first sends nothing
+  assert.deepEqual([await shown('#connected-end'), await shown('#connected-end-confirm'), await shown('#connected-end-cancel')], [true, false, false]);
+  await host.page.tabTo('connected-end', 60);
+  await host.page.press('Enter');
+  await host.page.waitFor("!document.getElementById('connected-end-confirm').hidden", 'the host is asked to confirm');
+  assert.equal(await focused(host), 'connected-end-cancel', 'Focus is on the way back, not on the control that ends the match');
+  assert.match(await host.text('#connected-end-note'), /cannot be undone/);
+  assert.equal((await host.operations('v1AbortMatch')).length, 0, 'Asking sends nothing');
+  await host.page.press('Enter');
+  await host.page.waitFor("!document.getElementById('connected-end').hidden", 'the host changed their mind');
+  assert.deepEqual([await shown('#connected-end-confirm'), await focused(host)], [false, 'connected-end']);
+  await sleep(500);
+  assert.equal((await host.operations('v1AbortMatch')).length, 0);
+  for (const who of [display, ...players]) assert.equal(await resultOf(who), null, `${who.label}: the match goes on`);
+  await host.shot('e1-host-console-running.png');
+
+  // ---------------------------------------------------------------- E2. The host ends the match
+  await host.page.press('Enter');
+  await host.page.waitFor("!document.getElementById('connected-end-confirm').hidden", 'the host is asked again');
+  await host.shot('e2-host-asked-to-confirm.png');
+  await host.page.tabTo('connected-end-confirm', 10);
+  const pressedAt = Date.now();
+  await host.page.press('Enter');
+  await host.page.waitFor("document.getElementById('connected-match-status').textContent === 'aborted'", 'the host console reads the match as ended', 20_000);
+  const [abort, ...more] = await host.operations('v1AbortMatch');
+  assert.deepEqual(more, [], 'One confirmation, one request');
+  assert.deepEqual(Object.keys(abort.request).sort(), ['matchId', 'protocolVersion', 'requestId']);
+  assert.deepEqual([abort.request.matchId, abort.response.ok, abort.response.result], [matchId, true, { aborted: true }]);
+  assert.equal(await host.text('#connected-status'), 'Ending the match: done.');
+  assert.deepEqual([await shown('#connected-end'), await shown('#connected-end-confirm'), await shown('#connected-end-cancel')], [false, false, false], 'A match that is over cannot be ended again');
+  assert.equal(await host.page.evaluate("document.getElementById('connected-start').disabled"), true);
+
+  // ---------------------------------------------------------------- E3. Every screen shows what the server's view says
+  const ENDED = { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null };
+  for (const who of [display, ...players]) {
+    await who.page.waitFor("globalThis.mothershipConnected.frame().model.match?.phase.phaseLabel === 'Match ended by the host'", `${who.label} shows the match as ended`, 20_000);
+    assert.deepEqual(await resultOf(who), ENDED, who.label);
+    assert.equal(await who.page.evaluate("globalThis.mothershipConnected.frame().model.match.phase.timer.state"), 'none', 'No countdown is left');
+    assert.equal(await who.text('[data-region="result"] .ms-result__outcome'), ENDED.outcome);
+  }
+  const heardAfterMs = Date.now() - pressedAt;
+  const everyRole = new RegExp(`\\b(${SEVEN_PLAYER_ROLES.join('|')})\\b`);
+  assert.equal(everyRole.test(await display.page.evaluate('document.body.textContent')), false, 'The display names no role');
+  assert.equal(/The Code was|wins/.test(await display.page.evaluate('document.body.textContent')), false);
+  for (const player of players) {
+    assert.equal(await player.text('.ms-role-card'), roleOf.get(player), 'A phone still shows its own role, in its own private panel');
+    assert.equal(await player.page.evaluate("globalThis.mothershipConnected.frame().model.match.privateArea.content.actions.notice"), 'The match is over.');
+    assert.equal(await player.exists('[data-action="connected"] button'), false, `${player.label}: nothing can be started`);
+    // An ended match reveals nothing: a phone still names no role but its own, apart from what its own seat was told.
+    const shown = await shownApartFromWhatItIsTold(player);
+    for (const role of SEVEN_PLAYER_ROLES) assert.equal(new RegExp(`\\b${role}\\b`).test(shown), role === roleOf.get(player), `${player.label} shows its own role and no other (${role})`);
+    assert.equal((await player.operations('v1Command')).length, 0);
+  }
+  assert.equal((await everSpoken(display)).filter(line => line.includes('The host ended this match. There is no winner.')).length, 1, 'The display says it once');
+  await display.shot('e3-table-display-ended.png');
+  await players[0].shot('e4-phone-ended.png');
+
+  // ---------------------------------------------------------------- E4. It is still so after a reload
+  await players[1].page.reload(MATCH, 20_000);
+  await players[1].page.waitFor("globalThis.mothershipConnected.frame().model.match?.phase.phaseLabel === 'Match ended by the host'", 'the reloaded phone shows the match as ended', 20_000);
+  assert.deepEqual(await resultOf(players[1]), ENDED);
+  assert.equal(await players[1].exists('.ms-role-card'), false, 'A reloaded phone shows nothing private until it is asked to');
+  await display.page.reload(MATCH, 20_000);
+  await display.page.waitFor("globalThis.mothershipConnected.frame().model.match?.phase.phaseLabel === 'Match ended by the host'", 'the reloaded display shows the match as ended', 20_000);
+  assert.deepEqual(await resultOf(display), ENDED);
+  facts.match = {
+    note: 'A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.',
+    playerCount: PLAYERS,
+    endedByHost: true,
+    everyScreenShowedItWithinMs: heardAfterMs,
+  };
+  established('E. The host ends a match that is being played (seven players)', [
+    'The host console asks before ending: the first press only asks, puts focus on the way back, and sends nothing. Declining left the match running on all eight screens.',
+    'With the keyboard alone the host then confirmed: one v1AbortMatch carrying the match and a request identifier and nothing else; the answer was "aborted". The console read the match as "aborted" from its own session document and offered no way to end or start it again.',
+    `Within ${(heardAfterMs / 1000).toFixed(1)} s the display and all seven phones showed, from the server's own views: "Match ended by the host", no countdown, and "The host ended this match. There is no winner."`,
+    'Nothing was revealed: the display named no role and no Code, and each phone showed its own role in its own private panel and no other. Every phone said the match is over and had no control left; none had sent a command.',
+    'A reloaded phone and a reloaded display showed the same ended match.',
+    'NOT RUN: a finished match with a winner and its end reveal, which needs a whole match; ending a match from the lobby before it starts; a lost answer to the request.',
+  ]);
+}
+
+/**
  * The nine-player scenario: a shot registered on the Officer's own turn, which is the only
  * ordinary shot the approved ruleset opens in a first round. Every turn is a real
  * 60-second phase and nothing here can shorten one, so this waits for as many of them as
@@ -1316,6 +1477,8 @@ async function main() {
     assert.equal(await display.exists('.ms-shell'), false, 'An admitted display shows no match before one has started');
 
     await host.page.waitFor("document.getElementById('connected-start').disabled === false", 'the start control is available');
+    // One scenario ends here, before anything starts.
+    if (SCENARIO === 'lobby-end') return await lobbyEndScenario({ host, display, players, matchId });
     await host.page.tabTo('connected-start', 40);
     const pressedStartAt = Date.now();
     await host.page.press('Enter');
@@ -1332,6 +1495,7 @@ async function main() {
     if (SCENARIO === 'roles') return await rolesScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'votes') return await votesScenario({ display, players, seatOf, matchId });
     if (SCENARIO === 'knowledge') return await knowledgeScenario({ display, players, seatOf, matchId });
+    if (SCENARIO === 'end') return await endScenario({ host, display, players, seatOf, matchId });
 
     // ---------------------------------------------------------------- 4. Each player receives only their authorized private view
     for (const who of [display, ...players]) await who.page.waitFor(MATCH, `${who.label} shows the match`, 20_000);

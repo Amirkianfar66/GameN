@@ -608,6 +608,24 @@
   font-weight: 700;
 }
 
+/* How the match ended. Functional placement, not a designed screen. An empty region takes no room. */
+.ms-result-region:empty {
+  display: none;
+}
+
+.ms-result__outcome {
+  font-family: var(--ms-font-heading);
+  font-size: var(--ms-text-heading);
+  font-weight: 800;
+  line-height: var(--ms-leading-heading);
+}
+
+.ms-result__caption {
+  padding-bottom: var(--ms-space-2);
+  font-weight: 800;
+  text-align: left;
+}
+
 /* What the server tells this seat alone: one sentence to a line. Functional placement. */
 .ms-knowledge,
 .ms-knowledge__list {

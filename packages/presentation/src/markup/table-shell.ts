@@ -2,7 +2,7 @@ import { en } from '../copy/en.js';
 import type { TableMatchModel, TableShellModel } from '../model/types.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
-import { renderDetails, renderPhase, renderShell, renderVote, renderZones, SHELL_IDS } from './parts.js';
+import { renderDetails, renderPhase, renderResult, renderShell, renderVote, renderZones, SHELL_IDS } from './parts.js';
 
 function renderRoster(roster: TableMatchModel['roster']): MarkupElement {
   const column = (label: string): MarkupElement => h('th', { scope: 'col' }, label);
@@ -30,6 +30,7 @@ export function renderTableShell(model: TableShellModel): MarkupElement {
   const content: MarkupChild = match ? [
     h('h1', { class: 'ms-title', id: SHELL_IDS.title }, en.surface.table),
     renderPhase(match.phase),
+    renderResult(match.result),
     renderVote(match.vote),
     h('section', { class: 'ms-panel ms-board', 'aria-labelledby': 'ms-board-heading', 'data-region': 'board' },
       h('h2', { class: 'ms-panel__heading', id: 'ms-board-heading' }, match.board.heading),

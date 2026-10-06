@@ -20,7 +20,7 @@ screen here carries the banner "Local emulator. A development backend, not a liv
 | --- | --- |
 | The Firebase web client (Auth, Firestore), anonymous identities, Security Rules | A deployed project. The transport refuses any host that is not loopback and any project but `demo-mothership` |
 | The protocol-2 service, its receipts and its 60-second phases | A designed lobby. The lobby is a plain development console in `main.js` |
-| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server's view opens them, an ordinary shot, a Disable, Protection, a Rescue, a Hack request, a showdown shot, a Scan, a Supply, a Code attempt, and a ballot in a Captain election, a Jail vote, the Captain's release choice and the vote on it. Phones and the display show what is being voted on and the count the server publishes, and a phone's private panel lists what the server tells that seat alone. The result screens are not built |
+| The client core: validation, sessions, the command flow, deadline catch-up | The complete game. A phone offers a move and, when the server's view opens them, an ordinary shot, a Disable, Protection, a Rescue, a Hack request, a showdown shot, a Scan, a Supply, a Code attempt, and a ballot in a Captain election, a Jail vote, the Captain's release choice and the vote on it. Phones and the display show what is being voted on and the count the server publishes, and a phone's private panel lists what the server tells that seat alone. Every screen shows how a match ended, and the host console can end one. None of it is designed |
 | The phone and table screens the fixture harness also shows | Phones at a table. Everything listens on loopback, so only browsers on this machine can reach it |
 
 ## Run it
@@ -98,6 +98,13 @@ MOTHERSHIP_JOURNEY=votes npm run dev:connected:journey --workspace @mothership/g
 # Seven players: what each phone is told in private, checked against the other phones, and a
 # Scan on the Hacker's own turn. Up to about eight minutes.
 MOTHERSHIP_JOURNEY=knowledge npm run dev:connected:journey --workspace @mothership/game
+
+# The host ends a seven-player match: every screen shows it ended, without a winner. Under a minute.
+MOTHERSHIP_JOURNEY=end npm run dev:connected:journey --workspace @mothership/game
+
+# The host ends a match that is still a lobby: every device says it ended before it started,
+# and opens nothing. Under a minute.
+MOTHERSHIP_JOURNEY=lobby-end npm run dev:connected:journey --workspace @mothership/game
 ```
 
 `journey.mjs` drives headless Chrome over the DevTools protocol: a host, a display and

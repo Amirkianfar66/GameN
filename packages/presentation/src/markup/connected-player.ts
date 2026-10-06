@@ -3,7 +3,7 @@ import { SHELL_IDS } from '../ids.js';
 import type { ActionChoiceModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel } from '../model/types.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
-import { hiddenText, renderDetails, renderPhase, renderShell, renderVote, renderZones } from './parts.js';
+import { hiddenText, renderDetails, renderPhase, renderResult, renderShell, renderVote, renderZones } from './parts.js';
 import { renderButton, renderLocation } from './player-shell.js';
 
 // The connected phone. Outside the private panel it is the same markup as every other
@@ -118,6 +118,7 @@ export function renderConnectedPlayerShell(model: ConnectedPlayerShellModel): Ma
   const content: MarkupChild = match ? [
     h('h1', { class: 'ms-title', id: SHELL_IDS.title }, h('span', { class: 'ms-title__prefix' }, `${en.surface.youAre} `), match.identity.label),
     renderPhase(match.phase),
+    renderResult(match.result),
     renderLocation(match.location),
     renderPrivateArea(match.privateArea),
     renderVote(match.vote),

@@ -393,8 +393,26 @@ export interface VotePanelModel {
   } | null;
 }
 
+/**
+ * How a match ended, the same for every audience: the winner the server names, or that the
+ * host ended it. The roles and the Code are shown only when the server's view carries them.
+ */
+export interface ResultModel {
+  readonly heading: string;
+  readonly outcome: string;
+  readonly lines: readonly string[];
+  readonly reveal: {
+    readonly heading: string;
+    readonly columns: { readonly player: string; readonly role: string };
+    readonly roles: readonly { readonly seatId: SeatId; readonly label: string; readonly role: RoleName }[];
+    readonly code: string;
+  } | null;
+}
+
 export interface TableMatchModel {
   readonly phase: PhaseStripModel;
+  /** Null while the match is being played, and for a view that cannot carry an end. */
+  readonly result: ResultModel | null;
   /** Null for a view that has no voting facts, and while there is nothing to say about a vote. */
   readonly vote: VotePanelModel | null;
   readonly board: { readonly heading: string; readonly zones: readonly ZoneModel[] };
@@ -489,6 +507,8 @@ export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'priva
   readonly privateArea: ConnectedPrivateAreaModel;
   /** The public facts of a vote, the same on every phone and on the shared display. */
   readonly vote: VotePanelModel | null;
+  /** How the match ended, once it has. The same on every phone and on the shared display. */
+  readonly result: ResultModel | null;
 }
 
 export interface ConnectedPlayerShellModel extends ShellModelBase {

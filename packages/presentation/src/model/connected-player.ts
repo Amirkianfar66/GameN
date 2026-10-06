@@ -6,6 +6,7 @@ import {
   buildBanners, buildBlocked, buildDetails, buildPhaseStrip, buildSeats, buildSettings, buildZones, isCurrent, isSeatId, resolveScreen, seatNumber,
 } from './common.js';
 import { buildKnowledge } from './knowledge.js';
+import { buildResult } from './result.js';
 import type {
   ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
   ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, SeatModel,
@@ -258,9 +259,11 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 
 function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedPrivateAreaModel {
   const open = input.privacy.revealed && !input.privacy.concealed;
+  const over = view.phase.kind === 'FINISHED' || view.phase.kind === 'ABORTED';
   const notice = !isCurrent(input) ? en.actions.pausedStale
-    : input.deadline.kind === 'expired' ? en.actions.pausedExpired
-      : input.deadline.kind === 'unsynced' ? en.actions.pausedUnsynced : null;
+    : over ? en.actions.matchOver
+      : input.deadline.kind === 'expired' ? en.actions.pausedExpired
+        : input.deadline.kind === 'unsynced' ? en.actions.pausedUnsynced : null;
   return {
     heading: en.privateArea.heading,
     hint: en.privateArea.hint,
@@ -294,6 +297,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     },
     privateArea: buildPrivateArea(input, view, seats),
     vote: buildVotePanel(view),
+    result: buildResult(view, selfSeatId),
     roster: { heading: en.roster.playerHeading, zones: buildZones(seats) },
     details: buildDetails(view, input.mode),
   };

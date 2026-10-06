@@ -114,6 +114,7 @@ export const en = {
     pausedStale: 'Actions are paused until the connection is restored.',
     pausedExpired: 'This phase has ended. Waiting for phase update.',
     pausedUnsynced: 'Actions are paused until this device has the server’s time.',
+    matchOver: 'The match is over.',
   },
 
   // Interface wording for the shot flow, provisional until the copy is reviewed. "Registered"
@@ -399,6 +400,19 @@ export const en = {
     checkAgain: 'Check again',
     done: 'Done',
     ok: 'OK',
+  },
+
+  // How a match ended. The winner is the one the server's result names. A match the host
+  // ended is recorded without a winner (V1-12). Exact roles and the Code are disclosed
+  // only at the end of a match (V1-18), and are shown only when the view carries them.
+  result: {
+    heading: 'Result',
+    winner: { Blue: 'Blue wins.', Red: 'Red wins.', Alien: 'The Alien wins.', Draw: 'Nobody wins. The match is a draw.' },
+    alienCoWinner: 'The Alien wins with Blue.',
+    aborted: 'The host ended this match. There is no winner.',
+    revealHeading: 'Roles',
+    columns: { player: 'Player', role: 'Role' },
+    code: (names: string) => `The Code was: ${names}.`,
   },
 
   // What the server's view tells one seat and nobody else: what its role knows from the

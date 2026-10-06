@@ -1,5 +1,6 @@
 import { en } from '../copy/en.js';
 import { buildBanners, buildBlocked, buildDetails, buildPhaseStrip, buildSeats, buildSettings, buildZones, resolveScreen } from './common.js';
+import { buildResult } from './result.js';
 import type { TableMatchModel, TableShellInput, TableShellModel } from './types.js';
 import { buildVotePanel } from './votes.js';
 
@@ -8,6 +9,7 @@ function buildMatch(input: TableShellInput, view: NonNullable<TableShellInput['v
   const seats = buildSeats(view, null);
   return {
     phase: buildPhaseStrip(view, null, input.deadline),
+    result: buildResult(view, null),
     vote: buildVotePanel(view),
     board: { heading: en.roster.boardHeading, zones: buildZones(seats) },
     roster: {

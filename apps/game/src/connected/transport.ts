@@ -5,9 +5,9 @@
 // It is deliberately not a general database gateway. It can reach the documented
 // operations and the documented listener paths, each named here, and no other.
 
-/** The documented JSON operations the first connected flow uses. */
+/** The documented JSON operations the connected flow uses. */
 export const V1_OPERATIONS = [
-  'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch',
+  'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch',
   'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime',
 ] as const;
 export type V1Operation = (typeof V1_OPERATIONS)[number];
