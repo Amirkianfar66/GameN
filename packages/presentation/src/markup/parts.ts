@@ -1,6 +1,6 @@
 import { en } from '../copy/en.js';
 import type {
-  BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, SeatModel, SettingsModel, ShellModelBase, TimerModel, VotePanelModel, ZoneModel,
+  BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, ResultModel, SeatModel, SettingsModel, ShellModelBase, TimerModel, VotePanelModel, ZoneModel,
 } from '../model/types.js';
 import { SHELL_IDS } from '../ids.js';
 import { h } from './node.js';
@@ -87,6 +87,28 @@ export function renderVote(vote: VotePanelModel | null): MarkupElement {
           ))) : null,
         vote.lastTally.lines.map(line),
       ]) : null,
+    ) : null,
+  );
+}
+
+/**
+ * How the match ended. Like the voting region, this one is always there and empty until
+ * there is something to say, so the end of a match redraws this region and nothing around it.
+ */
+export function renderResult(result: ResultModel | null): MarkupElement {
+  return h('div', { class: 'ms-result-region', 'data-region': 'result' },
+    result ? h('section', { class: 'ms-panel ms-result', 'aria-labelledby': 'ms-result-heading' },
+      h('h2', { class: 'ms-panel__heading', id: 'ms-result-heading' }, result.heading),
+      h('p', { class: 'ms-result__outcome' }, result.outcome),
+      result.lines.map(line => h('p', { class: 'ms-result__line' }, line)),
+      result.reveal ? [
+        h('table', { class: 'ms-table ms-result__roles' },
+          h('caption', { class: 'ms-result__caption' }, result.reveal.heading),
+          h('thead', null, h('tr', null, h('th', { scope: 'col' }, result.reveal.columns.player), h('th', { scope: 'col' }, result.reveal.columns.role))),
+          h('tbody', null, result.reveal.roles.map(entry => h('tr', { 'data-seat': entry.seatId }, h('th', { scope: 'row' }, entry.label), h('td', null, entry.role)))),
+        ),
+        h('p', { class: 'ms-result__line' }, result.reveal.code),
+      ] : null,
     ) : null,
   );
 }

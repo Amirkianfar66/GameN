@@ -1,10 +1,10 @@
 import {
-  FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullAdvanceResponseSchema, FullApproveAdmissionRequestSchema,
+  FullAbortMatchRequestSchema, FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullAdvanceResponseSchema, FullApproveAdmissionRequestSchema,
   FullCommandRequestSchema, FullCommandResponseSchema, FullCreateMatchRequestSchema, FullLookupRequestSchema,
   FullLookupResponseSchema, FullOperationResponseSchema, FullServerTimeRequestSchema, FullServerTimeResponseSchema, FullStartMatchRequestSchema,
 } from '@mothership/contracts';
 import type {
-  FullAdmissionRequest, FullAdmitDisplayRequest, FullApproveAdmissionRequest, FullCommandRequest, FullCreateMatchRequest, FullFailure,
+  FullAbortMatchRequest, FullAdmissionRequest, FullAdmitDisplayRequest, FullApproveAdmissionRequest, FullCommandRequest, FullCreateMatchRequest, FullFailure,
   FullLookupRequest, FullOperationResponse, FullReceipt, FullStartMatchRequest, SeatId,
 } from '@mothership/contracts';
 import type { ClockSample } from '../clock/server-clock.js';
@@ -61,6 +61,8 @@ export interface ConnectedApi {
   approveAdmission(request: FullApproveAdmissionRequest): Promise<OperationResult<ApprovedAdmission>>;
   admitDisplay(request: FullAdmitDisplayRequest): Promise<OperationResult<true>>;
   startMatch(request: FullStartMatchRequest): Promise<OperationResult<true>>;
+  /** The host ends the match for everyone. It is recorded as ended by the host, without a winner. */
+  abortMatch(request: FullAbortMatchRequest): Promise<OperationResult<true>>;
   /** Settles every pending call as cancelled and releases its timer. */
   cancelPending(): void;
 }
@@ -166,6 +168,10 @@ export function createConnectedApi(transport: Pick<ConnectedTransport, 'post'>, 
     async startMatch(request) {
       assertRequest(FullStartMatchRequestSchema.safeParse(request).success, 'match start');
       return operate('v1StartMatch', request, result => ('started' in result && result.matchId === request.matchId ? true : null));
+    },
+    async abortMatch(request) {
+      assertRequest(FullAbortMatchRequestSchema.safeParse(request).success, 'match abort');
+      return operate('v1AbortMatch', request, result => ('aborted' in result ? true : null));
     },
     cancelPending,
   };
