@@ -117,15 +117,29 @@ test('lobby creation is idempotent; host capability is separate from player iden
 test('concurrent admissions cannot assign one seat twice or one identity to two seats', async () => {
   const h = await harness(7, { deal: false });
   const pending = await Promise.all(h.players.slice(0, 2).map(identity => h.admission(identity)));
-  const raced = await Promise.all(pending.map(entry => h.service.approveAdmission(h.host.uid, h.request({ admissionId: entry.admissionId, seatId: 'seat-1' }))));
+  const approvalRequests = pending.map(entry => h.request({ admissionId: entry.admissionId, seatId: 'seat-1' }));
+  const deliveries = await Promise.all(approvalRequests.map(payload => h.service.approveAdmission(h.host.uid, payload)));
+  const raced = await Promise.all(deliveries.map((response, i) => settleUnavailable(response, () => h.service.approveAdmission(h.host.uid, approvalRequests[i]))));
+  raced.forEach(response => FullOperationResponseSchema.parse(response));
   assert.equal(raced.filter(response => response.ok).length, 1);
-  assert.equal(raced.filter(response => response.error?.code === 'FORBIDDEN').length, 1);
+  assert.equal(raced.filter(response => response.error?.code === 'FORBIDDEN').length, 1, JSON.stringify(raced));
   const next = h.players[2];
   const alternatives = await Promise.all([h.admission(next), h.admission(next, 'Room B')]);
-  const sameIdentity = await Promise.all(alternatives.map((entry, i) => h.service.approveAdmission(h.host.uid, h.request({ admissionId: entry.admissionId, seatId: `seat-${i + 2}` }))));
+  const identityRequests = alternatives.map((entry, i) => h.request({ admissionId: entry.admissionId, seatId: `seat-${i + 2}` }));
+  const identityDeliveries = await Promise.all(identityRequests.map(payload => h.service.approveAdmission(h.host.uid, payload)));
+  const sameIdentity = await Promise.all(identityDeliveries.map((response, i) => settleUnavailable(response, () => h.service.approveAdmission(h.host.uid, identityRequests[i]))));
+  sameIdentity.forEach(response => FullOperationResponseSchema.parse(response));
   assert.equal(sameIdentity.filter(response => response.ok).length, 1);
+  assert.equal(sameIdentity.filter(response => response.error?.code === 'FORBIDDEN').length, 1, JSON.stringify(sameIdentity));
   const bindings = (await h.base.collection('seats').get()).docs;
   assert.equal(new Set(bindings.map(doc => doc.get('uid'))).size, bindings.length);
+  assert.equal(bindings.length, 2);
+  assert.deepEqual((await h.lobbyView()).seats.map(s => s.seatId).sort(), bindings.map(doc => doc.id).sort());
+  for (const binding of bindings) {
+    const member = await h.base.collection('members').doc(binding.get('uid')).get();
+    assert.equal(member.get('seatId'), binding.id);
+    assert.equal(member.get('bindingRevision'), binding.get('bindingRevision'));
+  }
   const third = await h.admission(h.players[3]);
   error(await h.service.approveAdmission(h.host.uid, h.request({ admissionId: third.admissionId, seatId: 'seat-8' })), 'FORBIDDEN');
   error(await h.service.startMatch(h.host.uid, h.request()), 'FORBIDDEN');
@@ -214,6 +228,138 @@ test('hidden Officer registration preserves public and unrelated data/updateTime
   const privateCollections = await Promise.all(['recovery', 'identityAudit', 'events', 'receipts'].map(name => h.base.collection(name).get()));
   const identityOperations = await db.collection('identityOperations').where('uid', 'in', [h.host.uid, replacement.uid]).get();
   assert.ok(!JSON.stringify([...privateCollections.flatMap(snapshot => snapshot.docs.map(doc => doc.data())), ...identityOperations.docs.map(doc => doc.data())]).includes(issued.recoveryToken));
+});
+
+// A transaction can commit and still return UNAVAILABLE, or exhaust its retry
+// budget under emulator contention. Resolve only that unknown result by sending
+// the exact same invocation again, never by inventing a new request/command ID.
+async function settleUnavailable(response, identicalRetry) {
+  for (let retry = 0; response.error?.code === 'UNAVAILABLE' && retry < 2; retry++) response = await identicalRetry();
+  return response; // The caller's strict outcome assertion fails if still unresolved.
+}
+
+// Use simultaneous real Firestore transactions, including duplicate delivery that the
+// browser/network can initiate without the application's retry loop.
+async function duplicateBurst(h, seatNumber, payload, count = 6) {
+  const invocation = () => h.service.submit(h.players[seatNumber - 1].uid, payload);
+  const deliveries = await Promise.all(Array.from({ length: count }, invocation));
+  deliveries.forEach(response => FullCommandResponseSchema.parse(response));
+  const responses = await Promise.all(deliveries.map(response => settleUnavailable(response, invocation)));
+  for (const response of responses) {
+    FullCommandResponseSchema.parse(response);
+    assert.equal(response.ok, true, JSON.stringify(response));
+    assert.deepEqual(response.receipt, responses[0].receipt);
+  }
+  return responses[0].receipt;
+}
+async function commandDecisionCount(h, commandId) {
+  const receipts = (await h.base.collection('receipts').get()).docs.filter(doc => doc.get('receipt.commandId') === commandId);
+  const journal = (await h.base.collection('events').where('kind', '==', 'COMMAND').get()).docs.filter(doc => doc.get('request.commandId') === commandId);
+  assert.equal(receipts.length, 1, 'one durable receipt');
+  assert.equal(journal.length, 1, 'one durable command decision');
+}
+async function stableDocuments(h, paths, callback) {
+  const before = await Promise.all(paths.map(path => db.doc(`${h.base.path}/${path}`).get()));
+  await callback();
+  const after = await Promise.all(paths.map(path => db.doc(`${h.base.path}/${path}`).get()));
+  before.forEach((doc, i) => {
+    assert.deepEqual(after[i].data(), doc.data(), pathLabel(paths[i]));
+    assert.ok(after[i].updateTime.isEqual(doc.updateTime), pathLabel(paths[i]));
+  });
+}
+const pathLabel = path => `duplicate delivery must not rewrite ${path}`;
+
+test('concurrent accepted Officer duplicates spend once, recover before phase checks and apply one shot effect at resolution', async () => {
+  const h = await harness(9);
+  const before = await until(h, state => state.activeSeatId === 'seat-9');
+  const payload = { protocolVersion: 2, matchId: h.base.id, phaseId: before.phase.id, commandId: randomUUID(), command: { type: 'REGISTER_SHOT', targetSeatId: 'seat-1' } };
+  const receipt = await duplicateBurst(h, 9, payload);
+  assert.equal(receipt.status, 'accepted');
+  await commandDecisionCount(h, payload.commandId);
+  const registered = await h.current();
+  assert.equal(registered.journalSequence, before.journalSequence + 1);
+  assert.equal(registered.queued.filter(q => q.commandId === payload.commandId).length, 1);
+  assert.equal(registered.seats[8].ordinaryWeapons, before.seats[8].ordinaryWeapons - 1);
+  assert.equal(registered.seats[8].officerShotSpent, true);
+  assert.equal(registered.viewRevisions.players['seat-9'], before.viewRevisions.players['seat-9'] + 1);
+  assert.equal(registered.viewRevisions.public, before.viewRevisions.public);
+  const own = FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(h.players[8].uid).get()).data());
+  assert.deepEqual(own.ownPendingCommandIds, [payload.commandId]);
+  assert.equal((await audience(h, 'p-seat-9')).filter(event => event.fact.type === 'COMMAND_REGISTERED' && event.fact.commandId === payload.commandId).length, 1);
+  const stablePaths = ['engine/current', 'views/public', ...h.players.map(identity => `playerViews/${identity.uid}`)];
+  await tick(h);
+  assert.notEqual((await h.current()).phase.id, payload.phaseId);
+  await stableDocuments(h, stablePaths, async () => assert.deepEqual(await duplicateBurst(h, 9, payload), receipt));
+  const resolved = await until(h, state => state.round === 2);
+  assert.equal(resolved.seats[0].health, 'Injured', 'one hit injures; duplicate effects would eliminate');
+  assert.equal(resolved.seats[8].ordinaryWeapons, 0);
+  assert.equal(resolved.queued.length, 0);
+  await stableDocuments(h, stablePaths, async () => assert.deepEqual(await duplicateBurst(h, 9, payload), receipt));
+  await commandDecisionCount(h, payload.commandId);
+  const healthEvents = (await audience(h, 'public')).filter(event => event.fact.type === 'PUBLIC_HEALTH_CHANGED' && event.fact.seatId === 'seat-1');
+  assert.deepEqual(healthEvents.map(event => event.fact.health), ['Injured']);
+  const lookup = FullLookupResponseSchema.parse(await h.service.lookup(h.players[8].uid, { protocolVersion: 2, matchId: h.base.id, commandId: payload.commandId }));
+  assert.deepEqual(lookup.receipt, receipt);
+});
+
+for (const code of ['NOT_ALLOWED', 'PHASE_CLOSED']) test(`concurrent rejected ${code} duplicates are terminal before and after phase advance without resource/effect changes`, async () => {
+  const h = await harness();
+  const initial = await h.current();
+  if (code === 'PHASE_CLOSED') await tick(h);
+  const before = await h.current();
+  const payload = { protocolVersion: 2, matchId: h.base.id, phaseId: initial.phase.id, commandId: randomUUID(), command: { type: 'REGISTER_SHOT', targetSeatId: 'seat-2' } };
+  const views = ['views/public', ...h.players.map(identity => `playerViews/${identity.uid}`)];
+  let receipt;
+  await stableDocuments(h, views, async () => { receipt = await duplicateBurst(h, 1, payload); });
+  assert.equal(receipt.status, 'rejected'); assert.equal(receipt.code, code);
+  await commandDecisionCount(h, payload.commandId);
+  const rejected = await h.current();
+  assert.equal(rejected.journalSequence, before.journalSequence + 1);
+  assert.deepEqual(rejected.seats, before.seats);
+  assert.deepEqual(rejected.queued, before.queued);
+  assert.deepEqual(rejected.viewRevisions, before.viewRevisions);
+  assert.ok(!(await audience(h, 'p-seat-1')).some(event => event.fact.commandId === payload.commandId));
+  await tick(h);
+  await stableDocuments(h, ['engine/current', ...views], async () => assert.deepEqual(await duplicateBurst(h, 1, payload), receipt));
+  await commandDecisionCount(h, payload.commandId);
+  const lookup = FullLookupResponseSchema.parse(await h.service.lookup(h.players[0].uid, { protocolVersion: 2, matchId: h.base.id, commandId: payload.commandId }));
+  assert.deepEqual(lookup.receipt, receipt);
+});
+
+test('lost acknowledgement remains unresolved after a later preflight error; lookup recovers the committed original receipt', async () => {
+  const h = await harness();
+  const before = await h.current();
+  const payload = { protocolVersion: 2, matchId: h.base.id, phaseId: before.phase.id, commandId: randomUUID(), command: { type: 'MOVE', destination: 'Room B' } };
+  const unavailableDb = {
+    collection: name => db.collection(name),
+    doc: path => db.doc(path),
+    runTransaction: async callback => { await db.runTransaction(callback); throw new Error('synthetic response loss after real commit'); },
+  };
+  const unavailable = createV1Service({ db: unavailableDb, clock: h.now });
+  error(await unavailable.submit(h.players[0].uid, payload), 'UNAVAILABLE');
+  error(await h.service.submit(h.players[0].uid, { ...payload, unexpected: true }), 'INVALID_REQUEST');
+  const lookup = FullLookupResponseSchema.parse(await h.service.lookup(h.players[0].uid, { protocolVersion: 2, matchId: h.base.id, commandId: payload.commandId }));
+  assert.equal(lookup.status, 'found'); assert.equal(lookup.receipt.status, 'accepted');
+  assert.equal((await h.current()).seats[0].location, 'Room B');
+  await commandDecisionCount(h, payload.commandId);
+  await stableDocuments(h, ['engine/current', 'views/public'], async () => assert.deepEqual(await duplicateBurst(h, 1, payload), lookup.receipt));
+});
+
+test('fresh closed phase plus unknown lookup prevents delayed acceptance but permits a later durable rejection', async () => {
+  const h = await harness();
+  const initial = await h.current();
+  const payload = { protocolVersion: 2, matchId: h.base.id, phaseId: initial.phase.id, commandId: randomUUID(), command: { type: 'MOVE', destination: 'Room B' } };
+  await tick(h);
+  const fresh = FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(h.players[0].uid).get()).data());
+  assert.notEqual(fresh.phase.id, payload.phaseId);
+  assert.ok(!fresh.ownPendingCommandIds.includes(payload.commandId));
+  const lookup = FullLookupResponseSchema.parse(await h.service.lookup(h.players[0].uid, { protocolVersion: 2, matchId: h.base.id, commandId: payload.commandId }));
+  assert.equal(lookup.status, 'unknown');
+  const before = await h.current();
+  const receipt = await duplicateBurst(h, 1, payload);
+  assert.equal(receipt.status, 'rejected'); assert.equal(receipt.code, 'PHASE_CLOSED');
+  assert.deepEqual((await h.current()).seats, before.seats);
+  await commandDecisionCount(h, payload.commandId);
 });
 
 test('recovery rotation, expiry and competing redemptions fail closed; a host-player transfer moves host capability', async () => {
@@ -317,7 +463,7 @@ test('outbox dispatch uses one durable lease, stable queue identity, lost-ack re
   assert.equal((await malformed.get()).get('status'), 'blocked');
 });
 
-test('recorded setup/commands/deadlines/abort plus identity audit restore the exact pinned state and active bindings into an isolated emulator match', async () => {
+test('recorded journal and binding audit reconstruct state under a fresh emulator match ID with old receipts kept in the original match', async () => {
   const h = await harness();
   const accepted = await h.command(1, { type: 'MOVE', destination: 'Room B' }); assert.equal(accepted.response.receipt.status, 'accepted');
   const rejected = await h.command(2, { type: 'REGISTER_SHOT', targetSeatId: 'seat-1' }); assert.equal(rejected.response.receipt.status, 'rejected');
@@ -357,8 +503,13 @@ test('recorded setup/commands/deadlines/abort plus identity audit restore the ex
     batch.set(restored.collection('members').doc(binding.uid), { kind: 'player', seatId, bindingRevision: binding.bindingRevision });
     batch.set(restored.collection('playerViews').doc(binding.uid), projection.players[seatId]);
   }
-  for (const receipt of (await h.base.collection('receipts').get()).docs) batch.set(restored.collection('receipts').doc(receipt.id), receipt.data());
   await batch.commit();
+  assert.notEqual(restored.id, h.base.id);
+  assert.equal((await restored.collection('receipts').get()).size, 0, 'receipts are decisions scoped to the original match identity');
+  const restoredLookup = FullLookupResponseSchema.parse(await h.service.lookup(replacement.uid, { protocolVersion: 2, matchId: restored.id, commandId: accepted.payload.commandId }));
+  assert.equal(restoredLookup.status, 'unknown');
+  const sourceLookup = FullLookupResponseSchema.parse(await h.service.lookup(replacement.uid, { protocolVersion: 2, matchId: h.base.id, commandId: accepted.payload.commandId }));
+  assert.deepEqual(sourceLookup.receipt, accepted.response.receipt);
   assert.equal((await firestoreRequest(`${restored.path}/playerViews/${replacement.uid}`, { idToken: replacement.idToken })).status, 200);
   assert.equal((await firestoreRequest(`${restored.path}/views/public`, { idToken: h.players[0].idToken })).status, 403);
   assert.deepEqual(decodeV1State((await restored.collection('engine').doc('current').get()).data()), restoredState);
