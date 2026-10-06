@@ -9,10 +9,11 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `v1/mode-7.scenarios.json`, `v1/mode-8.scenarios.json`, `v1/mode-9.scenarios.json` | One file per mode. The modes are never mixed |
 | `v1/unsupported.scenarios.json` | Setups an engine must refuse |
 | `v1/catalog.mjs` | The authoring source. The JSON files are produced from it and checked against it |
+| `v1/exceptions.json` | The reviewed list of the fixtures that are blocked or manual: case, modes, status, decisions, whether it has a probe, and why |
 | `v1/files.mjs` | Reading and writing those files; the pins they carry |
 | `adapters/full-game-v1.mjs` | Binding to Backend's full-game engine API |
 | `support/stub.mjs` | A scripted stand-in used only to test the runner and the invariants |
-| `*.test.mjs` | Static checks, run on `node:test`. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status |
+| `*.test.mjs` | Static checks, run on `node:test`. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. `gate.test.mjs` gives the report gate one wrong thing at a time |
 
 ## What a scenario is
 
@@ -54,6 +55,8 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 
 Fixtures are not results. A fixture being `ready` does not mean it has passed.
 
+Every fixture that is not `ready` must be in `v1/exceptions.json` with the same status and decisions. The static check and the report gate both fail on any difference, in either direction. This is what keeps a failing case from being quietly marked blocked: the list is a second statement that has to be changed, and reviewed, as well.
+
 ## Running
 
 ```sh
@@ -69,10 +72,19 @@ To execute against another commit, build a copy of it and pass its directory:
 npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/built/checkout --engine-commit <sha> --out report.json
 ```
 
+Where a merge depends on the result, the exit status of that command is not enough. Run the engine gate, which also runs the controls and the playouts and then holds the three reports to the catalogue, the exception list and each other:
+
+```sh
+npm run engine-gate --workspace @mothership/balance -- --out-dir /a/directory/outside/the/checkout
+```
+
+It needs a clean commit. `docs/balance/README.md` describes the gate; `docs/balance/integration-requests.md` has the lines for CI.
+
 ## Adding or changing a scenario
 
 1. Find or add the rule in the rulebook first. A scenario without a rule is an invented expectation.
 2. Edit `v1/catalog.mjs`. Write the expected result from the rule, before running anything.
 3. `npm run materialize --workspace @mothership/balance`, then `npm run traceability --workspace @mothership/balance`.
-4. `npm run check --workspace @mothership/balance`.
-5. If an engine disagrees, decide which is wrong by reading the rule again. Change the scenario only when the reading was wrong, and say so in the evidence report. Never change an expectation to make a run pass.
+4. If the scenario is blocked or manual, add it to `v1/exceptions.json` with its decision and the reason. If a decision has made it ready, remove it there.
+5. `npm run check --workspace @mothership/balance`.
+6. If an engine disagrees, decide which is wrong by reading the rule again. Change the scenario only when the reading was wrong, and say so in the evidence report. Never change an expectation to make a run pass.

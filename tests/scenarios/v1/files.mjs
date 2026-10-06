@@ -89,3 +89,10 @@ export const GROUPS = ['7', '8', '9', 'unsupported'];
 export function loadAll() {
   return GROUPS.flatMap(group => loadGroup(group).scenarios);
 }
+
+// The reviewed list of fixtures that are not ready. The report gate holds the catalogue against it.
+export const EXCEPTIONS_PATH = 'tests/scenarios/v1/exceptions.json';
+
+export function loadExceptions() {
+  return JSON.parse(readFileSync(new URL('exceptions.json', directory), 'utf8'));
+}

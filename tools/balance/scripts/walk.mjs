@@ -13,12 +13,18 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { DEFAULT_WALK, walk } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
+import { buildPins, noteProvenance, reportPath } from './pins.mjs';
 
 const args = process.argv.slice(2);
 const option = name => { const index = args.indexOf(name); return index < 0 ? null : args[index + 1] ?? null; };
 const engineRoot = option('--engine-root');
 const seeds = Number(option('--seeds') ?? 200);
 const out = option('--out');
+// A run of no playouts would find no problem. It is refused, not passed.
+if (!Number.isInteger(seeds) || seeds < 1) {
+  console.error('FAILED: --seeds needs a whole number of at least 1.');
+  process.exit(1);
+}
 
 const loaded = await load(engineRoot ? resolve(engineRoot) : null);
 if (!loaded.available) {
@@ -26,7 +32,8 @@ if (!loaded.available) {
   console.log(`NOT RUN. No playout was run. Engine adapter unavailable: ${loaded.reason}`);
   process.exit(args.includes('--require-engine') ? 2 : 0);
 }
-const summary = { schema: 'mothership.balance.walk/1', engine: loaded.adapter.pins, engineCommit: option('--engine-commit') ?? 'not stated', policy: { ...DEFAULT_WALK, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
+const pins = buildPins({ engineRoot, engineCommit: option('--engine-commit'), adapter: loaded.adapter, runner: '@mothership/balance seeded playouts' });
+const summary = { schema: 'mothership.balance.walk/1', pins, engine: loaded.adapter.pins, engineCommit: pins.engineCommit, policy: { ...DEFAULT_WALK, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
 let problems = 0;
 for (const mode of [7, 8, 9]) {
   const stats = {
@@ -76,8 +83,9 @@ for (const mode of [7, 8, 9]) {
   console.log(stats.windowMinutes === null ? '  clock length not available: no playout finished' : `  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
   for (const example of stats.examples) console.log(`  example ${example.seed}: ${JSON.stringify(example)}`);
 }
+noteProvenance(pins);
 if (out !== null) {
-  const target = resolve(process.env.INIT_CWD ?? process.cwd(), out);
+  const target = reportPath(out);
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, `${JSON.stringify(summary, null, 1)}\n`);
   console.log(`Summary written to ${target}`);

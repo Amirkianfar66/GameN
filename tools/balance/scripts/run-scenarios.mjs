@@ -11,26 +11,19 @@
 // --require-engine was given and no engine is available; otherwise 0. Without that switch a run
 // that executed nothing exits 0, which is the expected state at a commit without a full-game
 // engine and is not a pass. A gate must pass --require-engine.
-import { execFileSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 import { buildReport, runScenario, validateScenario } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
-import { CATALOG_FILES } from '../../../tests/scenarios/v1/catalog.mjs';
-import { GROUPS, V1_OVERLAY_PATH, loadGroup, scenarioFileUrl } from '../../../tests/scenarios/v1/files.mjs';
+import { GROUPS, loadGroup } from '../../../tests/scenarios/v1/files.mjs';
+import { buildPins, noteProvenance, reportPath } from './pins.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const args = process.argv.slice(2);
 const option = name => { const index = args.indexOf(name); return index < 0 ? null : args[index + 1] ?? null; };
 const engineRoot = option('--engine-root');
 const only = option('--only');
 const out = option('--out');
 const verbose = args.includes('--verbose');
-const sha256 = path => createHash('sha256').update(readFileSync(path)).digest('hex');
-const git = (...command) => { try { return execFileSync('git', command, { cwd: root, encoding: 'utf8' }).trim(); } catch { return 'unknown'; } };
-
 const loaded = await load(engineRoot ? resolve(engineRoot) : null);
 const adapter = loaded.available ? loaded.adapter : null;
 const reason = loaded.available ? '' : `engine adapter unavailable: ${loaded.reason}`;
@@ -46,26 +39,7 @@ for (const group of GROUPS) {
   }
 }
 
-const manifest = JSON.parse(readFileSync(join(root, 'rules/source-manifest.json'), 'utf8'));
-const overlayRoot = engineRoot ? resolve(engineRoot) : root;
-const overlayPath = join(overlayRoot, V1_OVERLAY_PATH);
-const report = buildReport(runs, {
-  repository: 'Amirkianfar66/GameN',
-  baseCommit: '333c9e820f362a211352bc689372663f29b73ac4',
-  branch: git('rev-parse', '--abbrev-ref', 'HEAD'),
-  workingTreeCommit: `${git('rev-parse', 'HEAD')}${git('status', '--porcelain') === '' ? '' : ' plus uncommitted changes'}`,
-  sourceManifestSha256: sha256(join(root, 'rules/source-manifest.json')),
-  ruleSourceHashes: Object.fromEntries(manifest.sources.map(source => [source.path, sha256(join(root, source.path))])),
-  v1OverlaySha256: existsSync(overlayPath) ? sha256(overlayPath) : null,
-  scenarioFileHashes: Object.fromEntries(GROUPS.map(group => [CATALOG_FILES[group], sha256(fileURLToPath(scenarioFileUrl(group)))])),
-  rulebookSha256: sha256(join(root, 'docs/balance/game-rules.md')),
-  engine: adapter === null ? null : adapter.pins,
-  engineCommit: option('--engine-commit') ?? (engineRoot ? 'not stated' : git('rev-parse', 'HEAD')),
-  engineOrigin: engineRoot ? 'built checkout outside this worktree (--engine-root)' : '@mothership/engine of this checkout',
-  runner: '@mothership/balance scenario runner',
-  node: process.version,
-  generatedAt: new Date().toISOString(),
-});
+const report = buildReport(runs, buildPins({ engineRoot, engineCommit: option('--engine-commit'), adapter, runner: '@mothership/balance scenario runner' }));
 
 const row = (label, summary) => `${label.padEnd(12)} total ${String(summary.total).padStart(3)}  passed ${String(summary.passed).padStart(3)}  failed ${String(summary.failed).padStart(3)}  blocked ${String(summary.blocked).padStart(3)}  not-run ${String(summary.notRun).padStart(3)}`;
 console.log(adapter === null ? `No scenario was executed. ${reason}` : `Engine ${adapter.pins.engineVersion}, ruleset ${adapter.pins.rulesetVersion}, protocol ${adapter.pins.protocolVersion}, commit ${report.pins.engineCommit}`);
@@ -77,8 +51,9 @@ for (const run of runs) {
   if (run.status === 'blocked' && run.reason !== null && verbose) console.log(`BLOCKED ${run.scenarioId} [${run.decisionIds.join(', ')}]: ${run.reason}`);
   if (run.status === 'not-run' && verbose) console.log(`NOT RUN ${run.scenarioId}: ${run.reason}`);
 }
+noteProvenance(report.pins);
 if (out !== null) {
-  const target = resolve(process.env.INIT_CWD ?? process.cwd(), out);
+  const target = reportPath(out);
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, `${JSON.stringify(report, null, 1)}\n`);
   console.log(`Report written to ${target}`);
