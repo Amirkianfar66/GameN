@@ -14,7 +14,7 @@ Frontend owns `apps/game/`, `packages/presentation/` and this directory. Shared 
 
 ## Connected work (protocol 2)
 
-The first Firebase-connected prototype is built on its own branch, `agent/frontend-connected-v1`, from the integration candidate ([#26](https://github.com/Amirkianfar66/GameN/pull/26)) and the browser dependency proposal ([#28](https://github.com/Amirkianfar66/GameN/pull/28)). It starts with [protocol2-adoption-assessment.md](protocol2-adoption-assessment.md): what Frontend will consume from wire protocol 2 as it stands, its position on the proposed refinements, eight gaps that need an answer, and its review of the dependency proposal. **The fixture acceptance of the slices below is protocol 1 and does not carry over.**
+The first Firebase-connected prototype is built on its own branch, `agent/frontend-connected-v1`, from the integration candidate ([#26](https://github.com/Amirkianfar66/GameN/pull/26)) and the browser dependency proposal ([#28](https://github.com/Amirkianfar66/GameN/pull/28)). Its running handoff is [connected-v1.md](connected-v1.md): what exists, what was actually run against the emulators, and what is not done. It starts with [protocol2-adoption-assessment.md](protocol2-adoption-assessment.md): what Frontend will consume from wire protocol 2 as it stands, its position on the proposed refinements, eight gaps that need an answer, and its review of the dependency proposal. **The fixture acceptance of the slices below is protocol 1 and does not carry over.**
 
 ## Slices
 
