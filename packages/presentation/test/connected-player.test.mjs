@@ -1,46 +1,17 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { FullPlayerViewSchema, FullPublicViewSchema, RoleSchema } from '@mothership/contracts';
+import { RoleSchema } from '@mothership/contracts';
 import {
   ACTION_KINDS, actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, createConnectedPlayerAnnouncer, describeAction, isActionKind, offeredTargets,
   parseShellIntent, renderConnectedPlayerShell, renderTableShell, SHELL_IDS, TARGET_ACTION_COMMANDS, textOf, toHtml,
 } from '@mothership/presentation';
 import { auditMarkup, byClass, byId, byRegion, find, findAll } from './support/markup-audit.mjs';
+import { card, closed, environment, IDLE, input, markup, model, playerView, publicView } from './support/protocol2-views.mjs';
 
 // The connected phone and table on wire protocol 2 views. Synthetic, hand-built views that
 // satisfy the shared strict schema; none is the result of an engine.
 
-const EPOCH = 1_900_000_000_000;
-const facts = (playerCount = 7) => ({
-  versions: { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: 'a'.repeat(64), engineVersion: 'full-game-1.0.0', assetManifestVersion: '0.0.0-no-assets' },
-  matchId: 'connected-test-match', viewRevision: 4, playerCount, round: 1,
-  phase: { id: 'phase-one', kind: 'ORDINARY_TURN', startedAt: EPOCH, endsAt: EPOCH + 60_000 }, activeSeatId: 'seat-1',
-  seats: Array.from({ length: playerCount }, (unused, index) => ({ seatId: `seat-${index + 1}`, health: 'Healthy', location: index % 2 === 0 ? 'Room A' : 'Room B', jailed: false, captain: false, revealedFaction: null })),
-  ballot: { eligibleVoters: [], eligibleTargets: [], releaseTargetSeatId: null }, lastTally: null, result: null, endReveal: null,
-});
-const publicView = (change = () => {}, playerCount = 7) => {
-  const view = { ...facts(playerCount), audience: { kind: 'public' } };
-  change(view);
-  return FullPublicViewSchema.parse(view);
-};
-const playerView = (change = () => {}) => {
-  const view = {
-    ...facts(), audience: { kind: 'player', seatId: 'seat-1' },
-    self: { seatId: 'seat-1', role: 'Cracker', movementDestinations: ['Room B'], releaseVoteAvailable: false, ordinaryWeapons: 0, shotAvailable: false, rescuesRemaining: 1, disablerAvailable: false, hackAvailable: false, scanAvailable: false, codeAttemptAvailable: false },
-    knowledge: { insiderCandidates: [], undercoverSeatId: null, code: [], scanResults: [], protections: [] },
-    legalTargets: {}, ownPendingCommandIds: [], ownBallot: null, hasVoted: false, hackPartnerSeatId: null,
-  };
-  change(view);
-  return FullPlayerViewSchema.parse(view);
-};
 const armed = view => { view.self.shotAvailable = true; view.self.ordinaryWeapons = 1; view.legalTargets = { REGISTER_SHOT: ['seat-5', 'seat-3'] }; };
-const environment = { mode: 'emulator', connection: 'live', problem: null, deadline: { kind: 'running', remainingMs: 42_000 }, motion: { reducedMotion: false, followsDevice: true } };
-const IDLE = { step: 'idle' };
-const input = (view, action = IDLE, overrides = {}) => ({ ...environment, view, privacy: { concealed: false, revealed: true }, action, ...overrides });
-const closed = { privacy: { concealed: false, revealed: false } };
-const model = (...args) => buildConnectedPlayerShellModel(input(...args));
-const card = (...args) => model(...args).match.privateArea.content.actions.card;
-const markup = (...args) => renderConnectedPlayerShell(model(...args));
 const MOVE = { kind: 'move', destination: 'Room B' };
 const SHOT = { kind: 'shot', targetSeatId: 'seat-3' };
 
@@ -56,10 +27,8 @@ test('a protocol-2 table shows seven, eight or nine seats, names every phase kin
   };
   for (const [kind, label] of Object.entries(labels)) {
     const phase = buildTableShellModel({ ...environment, view: publicView(view => { view.phase = { ...view.phase, kind }; view.activeSeatId = null; }) }).match.phase;
-    // The voting phases have no controls yet, and the screen says so. A Hack and a showdown
-    // offer whatever the server opens for the seat, so nothing is disclaimed there.
-    const detail = kind === 'HACK' || kind === 'SHOWDOWN' ? null : 'This preview shows this phase and its clock. It cannot take part in it yet.';
-    assert.deepEqual([phase.phaseLabel, phase.detail], [label, detail], kind);
+    // Every phase is named and nothing is disclaimed: what can be done in it is whatever the server opens for a seat.
+    assert.deepEqual([phase.phaseLabel, phase.detail], [label, null], kind);
   }
   const aborted = buildTableShellModel({ ...environment, deadline: { kind: 'none' }, view: publicView(view => { view.phase = { ...view.phase, kind: 'ABORTED', endsAt: null }; view.activeSeatId = null; }) });
   assert.deepEqual([aborted.match.phase.phaseLabel, aborted.match.phase.detail, aborted.match.phase.timer.state], ['Match ended by the host', null, 'none']);
@@ -218,7 +187,7 @@ test('every step of the open card passes the structural audit, and focus goes to
 test('the intent parser accepts the action intents and nothing a control could not carry', () => {
   assert.deepEqual(parseShellIntent('action/open', { kind: 'move' }), { type: 'action/open', kind: 'move' });
   assert.deepEqual(parseShellIntent('action/open', { kind: 'shot' }), { type: 'action/open', kind: 'shot' });
-  assert.equal(parseShellIntent('action/open', { kind: 'vote' }), null);
+  assert.equal(parseShellIntent('action/open', { kind: 'scan' }), null);
   assert.equal(parseShellIntent('action/open', {}), null);
   assert.deepEqual(parseShellIntent('action/choose', { value: 'Room B' }), { type: 'action/choose', value: 'Room B' });
   assert.equal(parseShellIntent('action/choose', {}), null);
@@ -269,10 +238,10 @@ const TARGET_ACTIONS = {
 const listing = (command, seats) => view => { view.legalTargets = { ...view.legalTargets, [command]: seats }; };
 
 test('the actions the phone can offer are a fixed list, and each one that names a seat reads its targets from the view under its own command', () => {
-  assert.deepEqual(ACTION_KINDS, ['move', 'shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-shot']);
+  assert.deepEqual(ACTION_KINDS, ['move', 'shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-shot', 'vote', 'release-choice', 'release-vote']);
   assert.deepEqual(TARGET_ACTION_COMMANDS, { shot: 'REGISTER_SHOT', disable: 'DISABLE', protect: 'PROTECT', rescue: 'RESCUE', hack: 'REQUEST_HACK', 'showdown-shot': 'SHOWDOWN_SHOT' });
   for (const kind of ACTION_KINDS) assert.equal(isActionKind(kind), true);
-  for (const other of ['vote', 'scan', 'supply', 'code', 'MOVE', '', null, undefined, 3]) assert.equal(isActionKind(other), false, String(other));
+  for (const other of ['scan', 'supply', 'code', 'VOTE', 'MOVE', '', null, undefined, 3]) assert.equal(isActionKind(other), false, String(other));
   for (const [kind, { command }] of Object.entries(TARGET_ACTIONS)) {
     assert.equal(offeredTargets(playerView(), kind), null, `${kind}: not opened by the view`);
     assert.deepEqual(offeredTargets(playerView(listing(command, ['seat-5', 'seat-3'])), kind), ['seat-5', 'seat-3'], `${kind}: the view's own list, as given`);
@@ -290,7 +259,7 @@ test('an action other than a move or a shot is listed only while the server open
   // Nothing opened: the card lists a move and a shot, and no role's action by name.
   assert.deepEqual(card(playerView()).body.offers.map(offer => offer.kind), ['move', 'shot']);
   // Commands this screen does not offer, and keys it does not know, list nothing either.
-  const unknown = card(playerView(view => { view.legalTargets = { VOTE: ['seat-2'], SCAN: ['seat-2'], SUPPLY: ['seat-2', 'seat-3'], RELEASE_CHOICE: ['seat-2'], SOMETHING_NEW: ['seat-4'] }; }));
+  const unknown = card(playerView(view => { view.legalTargets = { SCAN: ['seat-2'], SUPPLY: ['seat-2', 'seat-3'], RELEASE_VOTE: ['seat-2'], SOMETHING_NEW: ['seat-4'] }; }));
   assert.deepEqual(unknown.body.offers.map(offer => offer.kind), ['move', 'shot']);
 
   for (const [kind, expected] of Object.entries(TARGET_ACTIONS)) {
@@ -388,5 +357,5 @@ test('while the server says this seat is in a Hack, the open panel says who with
 
 test('a control can ask to open any of these actions and nothing that is not one', () => {
   for (const kind of ACTION_KINDS) assert.deepEqual(parseShellIntent('action/open', { kind }), { type: 'action/open', kind });
-  for (const kind of ['vote', 'scan', 'supply', 'REGISTER_SHOT', '', undefined]) assert.equal(parseShellIntent('action/open', { kind }), null, String(kind));
+  for (const kind of ['scan', 'supply', 'REGISTER_SHOT', 'VOTE', '', undefined]) assert.equal(parseShellIntent('action/open', { kind }), null, String(kind));
 });

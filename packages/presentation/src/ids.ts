@@ -1,4 +1,5 @@
 import type { SeatId } from '@mothership/contracts';
+import type { ActionKind } from './model/types.js';
 
 // Element ids that a host may need to address. They never vary with a role.
 export const SHELL_IDS = {
@@ -26,10 +27,10 @@ export const SHELL_IDS = {
   actionDismiss: 'ms-action-dismiss',
 } as const;
 
-export function actionOpenId(kind: 'move' | 'shot' | 'disable' | 'protect' | 'rescue' | 'hack' | 'showdown-shot'): string {
+export function actionOpenId(kind: ActionKind): string {
   return `ms-action-open-${kind}`;
 }
-/** A choice is a destination or a seat; its id is built from letters, digits and hyphens only. */
+/** A choice is a destination, a seat or an answer; its id is built from letters, digits and hyphens only. */
 export function actionChoiceId(value: string): string {
   return `ms-action-choice-${value.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 }

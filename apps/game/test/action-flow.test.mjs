@@ -988,3 +988,178 @@ test('an action the server withdraws is withdrawn here too: the list shrinks, th
     assert.deepEqual(s.sent, []);
   }
 });
+
+// ---- Ballots ----
+
+const VOTERS = ['seat-1', 'seat-2', 'seat-3', 'seat-4', 'seat-5', 'seat-6', 'seat-7'];
+/** Seat 1's view of a Jail vote the server has opened for it. Synthetic: no rule produced it. */
+const jailVote = (change = () => {}) => playerView('seat-1', view => {
+  view.phase = { ...view.phase, id: 'phase-jail-vote', kind: 'JAIL_VOTE' };
+  view.activeSeatId = null;
+  view.self.movementDestinations = [];
+  view.ballot = { eligibleVoters: [...VOTERS], eligibleTargets: ['seat-3', 'seat-5', 'seat-1'], releaseTargetSeatId: null };
+  view.legalTargets = { VOTE: ['seat-3', 'seat-5', 'seat-1'] };
+  change(view);
+});
+/** The Captain's view of the release choice, with seat 4 in Jail. */
+const releaseChoice = () => playerView('seat-1', view => {
+  view.phase = { ...view.phase, id: 'phase-release-choice', kind: 'RELEASE_CHOICE' };
+  view.self.movementDestinations = [];
+  view.seats[0] = { ...view.seats[0], captain: true, location: 'Command Room' };
+  view.seats[3] = { ...view.seats[3], jailed: true, location: 'Jail' };
+  view.ballot = { eligibleVoters: [], eligibleTargets: ['seat-4'], releaseTargetSeatId: null };
+  view.legalTargets = { RELEASE_CHOICE: ['seat-4'] };
+});
+/** A voter's view of the vote on releasing seat 4. */
+const releaseVote = (change = () => {}) => playerView('seat-1', view => {
+  view.phase = { ...view.phase, id: 'phase-release-vote', kind: 'RELEASE_VOTE' };
+  view.activeSeatId = null;
+  view.self.movementDestinations = [];
+  view.seats[3] = { ...view.seats[3], jailed: true, location: 'Jail' };
+  view.ballot = { eligibleVoters: [...VOTERS], eligibleTargets: [], releaseTargetSeatId: 'seat-4' };
+  view.self.releaseVoteAvailable = true;
+  change(view);
+});
+const BALLOTS = [
+  { name: 'a vote for a seat', view: jailVote, choice: { kind: 'vote', targetSeatId: 'seat-5' }, command: { type: 'VOTE', targetSeatId: 'seat-5' } },
+  { name: 'a vote for the player’s own seat', view: jailVote, choice: { kind: 'vote', targetSeatId: 'seat-1' }, command: { type: 'VOTE', targetSeatId: 'seat-1' } },
+  { name: 'an abstention', view: jailVote, choice: { kind: 'vote', targetSeatId: null }, command: { type: 'VOTE', targetSeatId: null } },
+  { name: 'a release request', view: releaseChoice, choice: { kind: 'release-choice', targetSeatId: 'seat-4' }, command: { type: 'RELEASE_CHOICE', targetSeatId: 'seat-4' } },
+  { name: 'no release request', view: releaseChoice, choice: { kind: 'release-choice', targetSeatId: null }, command: { type: 'RELEASE_CHOICE', targetSeatId: null } },
+  { name: 'yes to a release', view: releaseVote, choice: { kind: 'release-vote', approve: true }, command: { type: 'RELEASE_VOTE', approve: true } },
+  { name: 'no to a release', view: releaseVote, choice: { kind: 'release-vote', approve: false }, command: { type: 'RELEASE_VOTE', approve: false } },
+  { name: 'an abstention on a release', view: releaseVote, choice: { kind: 'release-vote', approve: null }, command: { type: 'RELEASE_VOTE', approve: null } },
+];
+
+test('a ballot is offered from the view’s own statement that it is open, and from nowhere else', () => {
+  for (const kind of ['vote', 'release-choice', 'release-vote']) assert.deepEqual(offeredChoices(playerView(), kind), [], `${kind}: the view does not open it`);
+  assert.deepEqual(offeredChoices(jailVote(), 'vote'), [{ kind: 'vote', targetSeatId: 'seat-3' }, { kind: 'vote', targetSeatId: 'seat-5' }, { kind: 'vote', targetSeatId: 'seat-1' }, { kind: 'vote', targetSeatId: null }]);
+  assert.deepEqual(offeredChoices(releaseChoice(), 'release-choice'), [{ kind: 'release-choice', targetSeatId: 'seat-4' }, { kind: 'release-choice', targetSeatId: null }]);
+  assert.deepEqual(offeredChoices(releaseVote(), 'release-vote'), [{ kind: 'release-vote', approve: true }, { kind: 'release-vote', approve: false }, { kind: 'release-vote', approve: null }]);
+  // A phase that is a vote opens nothing by its name: the server has not listed this seat a ballot.
+  assert.deepEqual(offeredChoices(jailVote(view => { view.legalTargets = {}; }), 'vote'), []);
+  assert.deepEqual(offeredChoices(releaseVote(view => { view.self.releaseVoteAvailable = false; }), 'release-vote'), []);
+  // One ballot's opening is not another's.
+  assert.deepEqual(offeredChoices(jailVote(), 'release-choice'), []);
+  assert.deepEqual(offeredChoices(jailVote(), 'release-vote'), []);
+  assert.deepEqual(offeredChoices(releaseChoice(), 'vote'), []);
+  assert.deepEqual(offeredChoices(releaseVote(), 'vote'), []);
+  // Nor does a vote open an action that names a seat.
+  for (const kind of ['shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-shot']) assert.deepEqual(offeredChoices(jailVote(), kind), [], kind);
+});
+
+test('each ballot is the same flow: one confirmation, one schema-valid command of its own type, and nothing of it kept', async () => {
+  for (const { name, view, choice, command } of BALLOTS) {
+    const s = setup();
+    const shown = view();
+    s.observe(shown);
+    assert.equal(s.flow.open(choice.kind), true, name);
+    assert.deepEqual(s.state(), { step: 'choosing', kind: choice.kind });
+    assert.equal(s.flow.choose(choice), true, name);
+    await s.host.advance(GUARD);
+    s.script.command.push(request => s.receipt(request));
+    assert.equal(s.flow.confirm(), true);
+    assert.equal(s.flow.confirm(), false, 'A second activation finds nothing to do');
+    await flush();
+    assert.equal(s.sent.length, 1, name);
+    assert.deepEqual(s.sent[0].command, command, name);
+    assert.equal(FullCommandRequestSchema.safeParse(s.sent[0]).success, true, name);
+    assert.deepEqual([s.sent[0].matchId, s.sent[0].phaseId], [MATCH, shown.phase.id]);
+    assert.deepEqual(s.state(), { step: 'accepted', choice, armed: false });
+    // A ballot is private: only the command's identifiers were ever kept, and they are gone again.
+    assert.equal(s.host.everKept.every(record => Object.keys(JSON.parse(record)).sort().join() === 'commandId,matchId,phaseId,seatId'), true, name);
+    assert.equal(s.host.everKept.some(record => /VOTE|RELEASE|approve|seat-[2-9]|none|yes|no\b/.test(record.replace(shown.phase.id, ''))), false, `${name}: neither the ballot nor its kind is kept`);
+    assert.equal(s.host.kept, null);
+  }
+});
+
+test('a ballot can only be an answer the server offers for the ballot that was opened', async () => {
+  const s = setup();
+  s.observe(jailVote());
+  assert.equal(s.flow.open('release-vote'), false, 'A ballot the view does not open cannot be opened');
+  assert.equal(s.flow.open('release-choice'), false);
+  assert.equal(s.flow.open('vote'), true);
+  // A seat the server did not list, and answers that belong to other ballots.
+  assert.equal(s.flow.choose({ kind: 'vote', targetSeatId: 'seat-2' }), false);
+  assert.equal(s.flow.choose({ kind: 'release-vote', approve: true }), false);
+  assert.equal(s.flow.choose({ kind: 'release-choice', targetSeatId: null }), false);
+  assert.equal(s.flow.choose({ kind: 'shot', targetSeatId: 'seat-3' }), false);
+  assert.deepEqual(s.state(), { step: 'choosing', kind: 'vote' });
+  assert.deepEqual(s.sent, []);
+
+  // The Captain may name only a seat the server lists, or nobody.
+  const captain = setup();
+  captain.observe(releaseChoice());
+  assert.equal(captain.flow.open('release-choice'), true);
+  assert.equal(captain.flow.choose({ kind: 'release-choice', targetSeatId: 'seat-5' }), false);
+  assert.equal(captain.flow.choose({ kind: 'vote', targetSeatId: 'seat-4' }), false);
+  assert.equal(captain.flow.choose({ kind: 'release-choice', targetSeatId: null }), true);
+});
+
+test('a ballot that was not sent does not outlive its vote, or the server’s offer of it', async () => {
+  // The vote closes while the player is still deciding: nothing is sent, then or later.
+  const s = setup();
+  const view = jailVote();
+  s.observe(view);
+  await s.toConfirm({ kind: 'vote', targetSeatId: 'seat-5' });
+  s.observe(nextPhase(view));
+  assert.deepEqual(s.state(), { step: 'idle' });
+  assert.equal(s.flow.confirm(), false);
+  assert.deepEqual(s.sent, []);
+
+  // The candidate leaves the server's list: asked to choose again among those that remain.
+  const shrunk = setup();
+  shrunk.observe(view);
+  await shrunk.toConfirm({ kind: 'vote', targetSeatId: 'seat-5' });
+  shrunk.observe(jailVote(next => { next.viewRevision = view.viewRevision + 1; next.legalTargets = { VOTE: ['seat-3'] }; next.ballot.eligibleTargets = ['seat-3']; }));
+  assert.deepEqual(shrunk.state(), { step: 'choosing', kind: 'vote' });
+
+  // The server stops offering the ballot altogether, in the same phase: the card closes at once, with nothing left to choose.
+  const withdrawn = setup();
+  withdrawn.observe(view);
+  await withdrawn.toConfirm({ kind: 'vote', targetSeatId: 'seat-5' });
+  withdrawn.observe(jailVote(next => { next.viewRevision = view.viewRevision + 1; next.legalTargets = {}; next.hasVoted = true; next.ownBallot = 'seat-3'; }));
+  assert.deepEqual(withdrawn.state(), { step: 'idle' });
+  assert.equal(withdrawn.flow.confirm(), false);
+  assert.equal(withdrawn.flow.open('vote'), false);
+  assert.deepEqual(withdrawn.sent, []);
+
+  // The clock runs out with the ballot unsent: it is dropped, and the confirm control does nothing.
+  const late = setup();
+  late.observe(view);
+  await late.toConfirm({ kind: 'vote', targetSeatId: null });
+  late.observe(undefined, { inTime: false });
+  assert.deepEqual(late.state(), { step: 'idle' });
+  assert.equal(late.flow.confirm(), false);
+  assert.deepEqual(late.sent, []);
+});
+
+test('a ballot whose answer is lost is asked about and sent again as the identical request, and is one ballot', async () => {
+  const s = setup();
+  const view = jailVote();
+  s.observe(view);
+  await s.toConfirm({ kind: 'vote', targetSeatId: 'seat-5' });
+  // The first answer never arrives; the lookup finds no receipt; the identical request then gets one.
+  s.script.command.push(s.noAnswer, request => s.receipt(request));
+  s.script.receipt.push(s.unknown);
+  assert.equal(s.flow.confirm(), true);
+  await flush();
+  assert.equal(s.state().step, 'checking');
+  await s.host.advance(FIRST);
+  await flush();
+  assert.equal(s.sent.length, 2);
+  assert.deepEqual(s.sent[1], s.sent[0], 'The identical request, with the same command identifier');
+  assert.deepEqual(s.looked.map(request => request.commandId), [s.sent[0].commandId]);
+  assert.deepEqual(s.state(), { step: 'accepted', choice: { kind: 'vote', targetSeatId: 'seat-5' }, armed: false });
+
+  // A reloaded page knows only the identifiers. It asks, and never sends a ballot it no longer has.
+  const kept = JSON.stringify({ matchId: MATCH, seatId: 'seat-1', phaseId: view.phase.id, commandId: 'ballot-before-reload' });
+  const reloaded = setup({ kept });
+  reloaded.script.receipt.push(request => reloaded.found({ ...request, phaseId: view.phase.id }));
+  // The server's view after the reload says the seat has voted; the receipt says the command was accepted.
+  reloaded.observe(jailVote(next => { next.legalTargets = {}; next.hasVoted = true; next.ownBallot = 'seat-5'; }));
+  await flush();
+  assert.deepEqual(reloaded.sent, []);
+  assert.deepEqual(reloaded.state(), { step: 'accepted', choice: null, armed: false });
+});
+

@@ -160,6 +160,98 @@ test('a role action by intents alone: listed only when the view opens it, the se
   assert.doesNotMatch(`${JSON.stringify(s.frame())} ${s.html()}`, /Protection|PROTECT|ms-action-open-protect/);
 });
 
+const VOTERS = ['seat-1', 'seat-2', 'seat-3', 'seat-4', 'seat-5', 'seat-6', 'seat-7'];
+/** A Jail vote as one seat's own view and as the public view. Synthetic: no rule produced it. */
+const jailVoteFacts = view => {
+  view.viewRevision += 1;
+  view.phase = { ...view.phase, id: 'phase-jail-vote', kind: 'JAIL_VOTE' };
+  view.activeSeatId = null;
+  view.ballot = { eligibleVoters: [...VOTERS], eligibleTargets: ['seat-3', 'seat-5', 'seat-1'], releaseTargetSeatId: null };
+};
+const jailVote = (change = () => {}) => playerView('seat-1', view => {
+  jailVoteFacts(view);
+  view.self.movementDestinations = [];
+  view.legalTargets = { VOTE: ['seat-3', 'seat-5', 'seat-1'] };
+  change(view);
+});
+
+test('a ballot by intents alone: offered when the view opens it, one command, and afterwards the server’s own statement of the ballot, privately', async () => {
+  const s = setup();
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  s.screen.dispatch(TOGGLE);
+  s.screen.dispatch({ type: 'action/open', kind: 'vote' });
+  assert.equal(s.card().status, 'idle', 'No vote is open, so none can be started');
+
+  await s.fake.deliver(OWN, jailVote());
+  assert.deepEqual(s.card().body.offers.map(offer => [offer.kind, offer.statusLabel]), [['move', 'Not available'], ['shot', 'Not available'], ['vote', 'Available']]);
+  // What every audience may know of the vote is outside the private panel.
+  assert.deepEqual(s.frame().model.match.vote.current, { title: 'Jail vote', lines: ['Can be voted into Jail: Player 1, Player 3, Player 5.', '7 players may vote.'] });
+  s.screen.dispatch({ type: 'action/open', kind: 'vote' });
+  assert.deepEqual(s.card().body.choices.map(choice => choice.label), ['Player 1 (you)', 'Player 3', 'Player 5', 'Abstain']);
+  for (const value of ['seat-2', 'yes', 'Room B', 'abstain']) {
+    s.screen.dispatch({ type: 'action/choose', value });
+    assert.equal(s.card().status, 'choosing', `${value} is not an answer the server offers for this vote`);
+  }
+  s.screen.dispatch({ type: 'action/choose', value: 'none' });
+  assert.deepEqual([s.card().status, s.card().body.prompt], ['confirming', 'Abstain from this vote?']);
+  s.screen.dispatch({ type: 'action/back' });
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-5' });
+  assert.deepEqual([s.card().status, s.card().body.prompt], ['confirming', 'Vote to send Player 5 to Jail?']);
+  await s.host.advance(GUARD);
+  s.fake.respond.v1Command = async request => s.receipt(request);
+  s.screen.dispatch({ type: 'action/confirm' });
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  assert.equal(s.fake.callsTo('v1Command').length, 1, 'One confirmation, one ballot');
+  const [sent] = s.fake.callsTo('v1Command');
+  assert.equal(FullCommandRequestSchema.safeParse(sent).success, true);
+  assert.deepEqual([sent.phaseId, sent.command], ['phase-jail-vote', { type: 'VOTE', targetSeatId: 'seat-5' }]);
+  assert.deepEqual([s.card().status, s.card().body.text, s.card().body.detail], ['accepted', 'Your vote for Player 5 is recorded.', 'This is not a result. The count is shown to everyone when the vote closes.']);
+  assert.equal(s.frame().privateAnnouncement.text, 'Your vote for Player 5 is recorded.');
+  assert.doesNotMatch(s.frame().announcement.text, /Player 5|vote for|recorded/, 'Nothing of the ballot is said on the public channel');
+  assert.doesNotMatch(JSON.stringify(s.frame().model.match.vote), /Player 5 is|recorded|Your/, 'Nor shown in the public voting panel');
+
+  // The server's next view says this seat has voted, and how. The card is put away; the ballot stays shown from the view.
+  await s.fake.deliver(OWN, jailVote(view => { view.viewRevision += 1; view.legalTargets = {}; view.hasVoted = true; view.ownBallot = 'seat-5'; }));
+  await s.host.advance(GUARD);
+  s.screen.dispatch({ type: 'action/dismiss' });
+  assert.deepEqual(s.card().body.offers.map(offer => offer.kind), ['move', 'shot'], 'The server offers no second ballot');
+  assert.equal(s.frame().model.match.privateArea.content.ballot, 'Your ballot in this vote: Player 5.');
+  s.screen.dispatch({ type: 'action/open', kind: 'vote' });
+  assert.equal(s.card().status, 'idle');
+  assert.equal(s.fake.callsTo('v1Command').length, 1);
+  // Nothing of the ballot was ever in what the page keeps.
+  assert.equal(s.host.everKept.some(record => /VOTE|seat-5/.test(record)), false);
+  assert.equal(s.host.kept, null);
+  // Closed, nothing of it is in the frame or the document; what is public about the vote still is.
+  s.screen.dispatch(TOGGLE);
+  assert.doesNotMatch(`${JSON.stringify(s.frame())} ${s.html()}`, /Your ballot|vote for Player 5|ms-own-ballot|ms-action-open-vote/);
+  assert.match(s.html(), /Can be voted into Jail: Player 1, Player 3, Player 5\./);
+});
+
+test('the connected table shows what is being voted on and the count the server publishes, and nothing of any ballot', async () => {
+  const s = setup('table');
+  s.screen.start();
+  await s.fake.deliver(PUBLIC, publicView(jailVoteFacts));
+  assert.deepEqual(s.frame().model.match.vote, { heading: 'Voting', current: { title: 'Jail vote', lines: ['Can be voted into Jail: Player 1, Player 3, Player 5.', '7 players may vote.'] }, lastTally: null });
+  // The vote closes: the next public view carries the count, and the display says it once.
+  await s.fake.deliver(PUBLIC, publicView(view => {
+    view.viewRevision += 2;
+    view.round = 2;
+    view.phase = { ...view.phase, id: 'phase-two', kind: 'ORDINARY_TURN' };
+    view.seats[4] = { ...view.seats[4], jailed: true, location: 'Jail' };
+    view.lastTally = { kind: 'JAIL_VOTE', counts: { 'seat-1': 0, 'seat-3': 1, 'seat-5': 4 }, eligibleVoterCount: 7, yesCount: null, selectedSeatId: 'seat-5', released: null };
+  }));
+  const { vote } = s.frame().model.match;
+  assert.equal(vote.current, null);
+  assert.deepEqual(vote.lastTally.counts.map(row => [row.label, row.votes]), [['Player 1', 0], ['Player 3', 1], ['Player 5', 4]]);
+  assert.deepEqual(vote.lastTally.lines, ['7 players could vote.', 'Abstained or did not vote: 2.', 'Sent to Jail: Player 5.']);
+  assert.match(s.frame().announcement.text, /Jail vote counted\. Sent to Jail: Player 5\./);
+  assert.doesNotMatch(JSON.stringify(s.frame()), /Your ballot|ownBallot|hasVoted|legalTargets/);
+  assert.deepEqual(s.fake.callsTo('v1Command'), []);
+});
+
 test('with the panel closed nothing of the command is in the frame or the document, and action intents are ignored', async () => {
   const s = setup();
   s.screen.start();

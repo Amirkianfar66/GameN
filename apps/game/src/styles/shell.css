@@ -577,6 +577,37 @@
   flex: 1 1 100%;
 }
 
+/* Voting: what is open and the last count the server published, in words. Functional
+   placement, not a designed panel. An empty region takes no room. */
+.ms-vote-region:empty {
+  display: none;
+}
+
+.ms-vote__block,
+.ms-vote__counts {
+  display: grid;
+  gap: var(--ms-space-2);
+}
+
+.ms-vote__title {
+  font-weight: 800;
+}
+
+.ms-vote__counts {
+  font-variant-numeric: tabular-nums;
+}
+
+.ms-vote__count {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--ms-space-1) var(--ms-space-3);
+}
+
+.ms-vote__votes {
+  font-weight: 700;
+}
+
 /* A target is a full-width control: the token, the name, then the public status in words. */
 .ms-private .ms-target {
   display: flex;

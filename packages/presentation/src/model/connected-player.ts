@@ -1,7 +1,7 @@
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { actionChoiceId, actionOpenId, SHELL_IDS } from '../ids.js';
-import { ACTION_KINDS, offeredTargets } from './actions.js';
+import { ACTION_KINDS, choiceValue, offeredChoices } from './actions.js';
 import {
   buildBanners, buildBlocked, buildDetails, buildPhaseStrip, buildSeats, buildSettings, buildZones, isCurrent, resolveScreen, seatNumber,
 } from './common.js';
@@ -9,6 +9,7 @@ import type {
   ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
   ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, SeatModel,
 } from './types.js';
+import { buildVotePanel, ownBallotLine } from './votes.js';
 
 // A player's phone connected under wire protocol 2. Everything outside the private panel is
 // built by the same functions as for every other audience. Inside it there is one card for
@@ -29,41 +30,99 @@ function button(id: string, label: string, intent: CardButtonModel['intent'], pr
 }
 
 // One line of the idle card, or null when the action is not listed at all. A move and an
-// ordinary shot are always listed, open or not. Every other action is listed only while the
-// server's view opens it: which roles have which actions is the server's knowledge, not this
-// screen's.
+// ordinary shot are always listed, open or not. Every other action, and every ballot, is
+// listed only while the server's view opens it: which roles have which actions, and who may
+// vote on what, is the server's knowledge, not this screen's.
 function offer(input: ConnectedPlayerInput, view: FullPlayerView, kind: ActionKind): ActionOfferModel | null {
-  const targets = kind === 'move' ? null : offeredTargets(view, kind);
-  if (kind !== 'move' && kind !== 'shot' && targets === null) return null;
-  const count = kind === 'move' ? view.self.movementDestinations.length : targets?.length ?? 0;
+  const offered = offeredChoices(view, kind);
+  if (offered === null && kind !== 'shot') return null;
+  const count = offered?.length ?? 0;
   // On a view the server no longer confirms, or after the countdown, "available" would be a
   // claim about the present that this device cannot make: the offer is the last one it was sent.
   // The category open and nobody to target is said as it is, not as "unavailable".
   const statusLabel = count > 0 ? (mayStart(input) ? en.action.offer.available : en.action.offer.paused)
-    : targets !== null ? en.action.offer.noTarget : en.action.offer.unavailable;
+    : offered !== null && kind !== 'move' ? en.action.offer.noTarget : en.action.offer.unavailable;
   return {
     kind, label: en.action.kind[kind], statusLabel,
     open: count > 0 && mayStart(input) ? { id: actionOpenId(kind), label: en.action.open[kind] } : null,
   };
 }
 
-function choices(view: FullPlayerView, kind: ActionKind, seats: readonly SeatModel[]): ActionChoiceModel[] {
-  if (kind === 'move') {
-    return view.self.movementDestinations.map(destination => ({ id: actionChoiceId(destination), value: destination, label: en.location.name(destination), detail: null, number: null }));
-  }
-  return [...(offeredTargets(view, kind) ?? [])].sort((a, b) => seatNumber(a) - seatNumber(b)).map(seatId => {
-    const seat = seats.find(candidate => candidate.seatId === seatId);
-    // A target is described by the same public status every other player can see, and no more.
-    const detail = (seat?.markers ?? []).filter(marker => marker.kind !== 'self' && marker.kind !== 'turn').map(marker => marker.label).join(', ');
-    // Where the server lists the player's own seat, it is named as theirs.
-    const label = seatId === view.self.seatId ? en.seat.labelSelf(seatNumber(seatId)) : en.seat.label(seatNumber(seatId));
-    return { id: actionChoiceId(seatId), value: seatId, label, detail, number: seatNumber(seatId) };
-  });
+const whoIs = (targetSeatId: SeatId, selfSeatId: SeatId | null): string => en.action.who(seatNumber(targetSeatId), targetSeatId === selfSeatId);
+/** What a vote is on, read from the phase the server reports. The wire command is the same for both. */
+const votedOn = (view: FullPlayerView): 'CAPTAIN_ELECTION' | 'JAIL_VOTE' | 'other' =>
+  (view.phase.kind === 'CAPTAIN_ELECTION' || view.phase.kind === 'JAIL_VOTE' ? view.phase.kind : 'other');
+/** The jailed player a release vote is on, as the public ballot names them. */
+const releaseSubject = (view: FullPlayerView): string | null =>
+  (view.ballot.releaseTargetSeatId === null ? null : whoIs(view.ballot.releaseTargetSeatId, view.self.seatId));
+
+function choiceModel(view: FullPlayerView, choice: ActionChoice, seats: readonly SeatModel[]): ActionChoiceModel {
+  const value = choiceValue(choice);
+  const answer = (label: string): ActionChoiceModel => ({ id: actionChoiceId(value), value, label, detail: null, number: null });
+  if (choice.kind === 'move') return answer(en.location.name(choice.destination));
+  if (choice.kind === 'release-vote') return answer(choice.approve === null ? en.action.ballot.abstain : choice.approve ? en.action.ballot.yes : en.action.ballot.no);
+  const seatId = choice.targetSeatId;
+  // The answer that names nobody: an abstention in a vote, no request from the Captain.
+  if (seatId === null) return answer(choice.kind === 'vote' ? en.action.ballot.abstain : en.action.ballot.noRequest);
+  const seat = seats.find(candidate => candidate.seatId === seatId);
+  // A seat is described by the same public status every other player can see, and no more.
+  const detail = (seat?.markers ?? []).filter(marker => marker.kind !== 'self' && marker.kind !== 'turn').map(marker => marker.label).join(', ');
+  // Where the server lists the player's own seat, it is named as theirs.
+  const label = seatId === view.self.seatId ? en.seat.labelSelf(seatNumber(seatId)) : en.seat.label(seatNumber(seatId));
+  return { id: actionChoiceId(seatId), value, label, detail, number: seatNumber(seatId) };
 }
 
-const whoIs = (targetSeatId: SeatId, selfSeatId: SeatId | null): string => en.action.who(seatNumber(targetSeatId), targetSeatId === selfSeatId);
-const confirmPrompt = (choice: ActionChoice, selfSeatId: SeatId): string =>
-  (choice.kind === 'move' ? en.action.confirmMove(choice.destination) : en.action.confirmTarget[choice.kind](whoIs(choice.targetSeatId, selfSeatId)));
+function choices(view: FullPlayerView, kind: ActionKind, seats: readonly SeatModel[]): ActionChoiceModel[] {
+  const offered = [...(offeredChoices(view, kind) ?? [])];
+  // Seats in seat order, with the answer that names nobody after them. Places and answers stay as the view gives them.
+  const rank = (choice: ActionChoice): number => ('targetSeatId' in choice ? (choice.targetSeatId === null ? Number.MAX_SAFE_INTEGER : seatNumber(choice.targetSeatId)) : 0);
+  return offered.sort((a, b) => rank(a) - rank(b)).map(choice => choiceModel(view, choice, seats));
+}
+
+function choosePrompt(view: FullPlayerView, kind: ActionKind): string {
+  if (kind === 'vote') return en.action.ballot.votePrompt[votedOn(view)];
+  if (kind === 'release-vote') return en.action.ballot.releaseVotePrompt(releaseSubject(view));
+  return en.action.choosePrompt[kind];
+}
+
+function confirmPrompt(choice: ActionChoice, view: FullPlayerView): string {
+  const who = (seatId: SeatId): string => whoIs(seatId, view.self.seatId);
+  switch (choice.kind) {
+    case 'move': return en.action.confirmMove(choice.destination);
+    case 'vote': return choice.targetSeatId === null ? en.action.ballot.confirmAbstain : en.action.ballot.confirmVote[votedOn(view)](who(choice.targetSeatId));
+    case 'release-choice': return choice.targetSeatId === null ? en.action.ballot.confirmNoRequest : en.action.ballot.confirmRelease(who(choice.targetSeatId));
+    case 'release-vote':
+      if (choice.approve === null) return en.action.ballot.confirmAbstain;
+      return en.action.ballot.confirmReleaseVote[choice.approve ? 'yes' : 'no'](releaseSubject(view));
+    default: return en.action.confirmTarget[choice.kind](who(choice.targetSeatId));
+  }
+}
+
+/** About this screen and, for a ballot, the one thing about it the approved rules make final. */
+const consequence = (choice: ActionChoice): string =>
+  (choice.kind === 'release-choice' && choice.targetSeatId === null ? en.action.ballot.consequenceNoRequest : en.action.consequence[choice.kind]);
+
+/** What the server accepted, in the words of its receipt. Never what came of it. */
+function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
+  switch (choice.kind) {
+    case 'move': return en.action.moved(choice.destination);
+    case 'vote': return choice.targetSeatId === null ? en.action.ballot.abstained : en.action.ballot.votedFor(whoIs(choice.targetSeatId, selfSeatId));
+    case 'release-choice': return choice.targetSeatId === null ? en.action.ballot.noRequestMade : en.action.ballot.releaseRequested(whoIs(choice.targetSeatId, selfSeatId));
+    case 'release-vote': return choice.approve === null ? en.action.ballot.abstained : en.action.ballot.releaseVoted[choice.approve ? 'yes' : 'no'];
+    default: return en.action.acceptedTarget[choice.kind](whoIs(choice.targetSeatId, selfSeatId));
+  }
+}
+
+/** Where the outcome of an accepted command is to be read. A receipt is not an outcome. */
+function acceptedDetail(choice: ActionChoice): string {
+  switch (choice.kind) {
+    case 'move': return en.action.movedDetail;
+    case 'vote':
+    case 'release-choice':
+    case 'release-vote': return en.action.ballot.acceptedDetail[choice.kind];
+    default: return en.action.acceptedDetail[choice.kind];
+  }
+}
 
 /**
  * What became of the player's command, in one line, or null for a step that reports nothing.
@@ -74,9 +133,7 @@ export function describeAction(action: ActionFlowState, selfSeatId: SeatId | nul
     case 'submitting': return action.choice === null ? en.action.submitting.unknownKind : en.action.submitting[action.choice.kind];
     case 'checking': return action.recovered ? en.action.checkingAfterReload : en.action.checking;
     case 'unknown': return en.action.unknown;
-    case 'accepted':
-      if (action.choice === null) return en.action.acceptedAfterReload;
-      return action.choice.kind === 'move' ? en.action.moved(action.choice.destination) : en.action.acceptedTarget[action.choice.kind](whoIs(action.choice.targetSeatId, selfSeatId));
+    case 'accepted': return action.choice === null ? en.action.acceptedAfterReload : acceptedText(action.choice, selfSeatId);
     case 'rejected': return en.action.rejected[action.code];
     case 'not-accepted': return en.action.notAccepted[action.reason];
     default: return null;
@@ -98,12 +155,12 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
     }
     case 'choosing':
       return { status: 'choosing', title: titled(action.kind), body: {
-        step: 'choosing', prompt: en.action.choosePrompt[action.kind], note: en.action.chooseNote, choices: choices(view, action.kind, seats),
+        step: 'choosing', prompt: choosePrompt(view, action.kind), note: en.action.chooseNote, choices: choices(view, action.kind, seats),
         back: button(SHELL_IDS.actionBack, en.action.cancel, 'action/back'),
       } };
     case 'confirming':
       return { status: 'confirming', title: titled(action.choice.kind), body: {
-        step: 'confirming', prompt: confirmPrompt(action.choice, view.self.seatId), consequence: en.action.consequence[action.choice.kind],
+        step: 'confirming', prompt: confirmPrompt(action.choice, view), consequence: consequence(action.choice),
         confirm: button(SHELL_IDS.actionConfirm, en.action.confirm[action.choice.kind], 'action/confirm', true, !action.armed),
         back: button(SHELL_IDS.actionBack, en.action.chooseAgain, 'action/back'),
       } };
@@ -120,7 +177,7 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
       } };
     case 'accepted': {
       // A receipt is not an outcome. Each wording says what was accepted and where the outcome is to be read.
-      const detail = action.choice === null ? en.action.acceptedAfterReloadDetail : action.choice.kind === 'move' ? en.action.movedDetail : en.action.acceptedDetail[action.choice.kind];
+      const detail = action.choice === null ? en.action.acceptedAfterReloadDetail : acceptedDetail(action.choice);
       return { status: 'accepted', title: titled(action.choice?.kind ?? null), body: {
         step: 'result', outcome: 'accepted', text: describeAction(action, view.self.seatId) ?? '', detail, action: acknowledge(en.action.done, action.armed),
       } };
@@ -161,6 +218,8 @@ function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, sea
       role: { label: en.privateArea.role, name: view.self.role },
       // The server's own statement that this seat is in a Hack, and who with.
       hack: view.hackPartnerSeatId === null ? null : en.action.hackWith(seatNumber(view.hackPartnerSeatId)),
+      // The server's own statement of this seat's ballot in the vote that is open.
+      ballot: ownBallotLine(view),
       actions: { heading: en.actions.heading, notice, card: buildCard(input, view, seats) },
     } : null,
   };
@@ -179,6 +238,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
       othersHeading: en.location.others, others: seats.filter(seat => !seat.isSelf && seat.location === self.location), aloneText: en.location.alone,
     },
     privateArea: buildPrivateArea(input, view, seats),
+    vote: buildVotePanel(view),
     roster: { heading: en.roster.playerHeading, zones: buildZones(seats) },
     details: buildDetails(view, input.mode),
   };

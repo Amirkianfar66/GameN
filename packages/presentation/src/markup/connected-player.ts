@@ -3,7 +3,7 @@ import { SHELL_IDS } from '../ids.js';
 import type { ActionChoiceModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel } from '../model/types.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
-import { hiddenText, renderDetails, renderPhase, renderShell, renderZones } from './parts.js';
+import { hiddenText, renderDetails, renderPhase, renderShell, renderVote, renderZones } from './parts.js';
 import { renderButton, renderLocation } from './player-shell.js';
 
 // The connected phone. Outside the private panel it is the same markup as every other
@@ -96,6 +96,7 @@ function renderPrivateArea(area: ConnectedPrivateAreaModel): MarkupElement {
         h('h3', { class: 'ms-private__subheading', id: 'ms-role-heading' }, area.content.role.label),
         h('p', { class: 'ms-role-card' }, area.content.role.name),
         area.content.hack ? h('p', { class: 'ms-notice', id: 'ms-hack-with' }, area.content.hack) : null,
+        area.content.ballot ? h('p', { class: 'ms-notice', id: 'ms-own-ballot' }, area.content.ballot) : null,
         h('div', { class: 'ms-actions', 'data-region': 'actions' },
           h('h3', { class: 'ms-private__subheading', id: 'ms-actions-heading' }, area.content.actions.heading),
           area.content.actions.notice ? h('p', { class: 'ms-notice' }, area.content.actions.notice) : null,
@@ -113,6 +114,7 @@ export function renderConnectedPlayerShell(model: ConnectedPlayerShellModel): Ma
     renderPhase(match.phase),
     renderLocation(match.location),
     renderPrivateArea(match.privateArea),
+    renderVote(match.vote),
     h('section', { class: 'ms-panel ms-roster', 'aria-labelledby': 'ms-roster-heading', 'data-region': 'roster' },
       h('h2', { class: 'ms-panel__heading', id: 'ms-roster-heading' }, match.roster.heading),
       renderZones(match.roster.zones, 'ms-roster-zone'),

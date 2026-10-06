@@ -1,6 +1,6 @@
 import type { FullPlayerView, FullPublicView, SeatId } from '@mothership/contracts';
 import {
-  actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
+  actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, choiceValue, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
 } from '@mothership/presentation';
 import type { ConnectedPlayerInput, ConnectedPlayerShellModel, ShellIntent, TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts, PlayerPorts } from '../ports.js';
@@ -73,7 +73,7 @@ function applyActionIntent(flow: ActionFlow, intent: ShellIntent, view: FullPlay
       const state = flow.getState();
       if (state.step !== 'choosing' || view === null) return false;
       // The control carried a name. It becomes a choice only if the server offers exactly that.
-      const choice = offeredChoices(view, state.kind).find(candidate => (candidate.kind === 'move' ? candidate.destination : candidate.targetSeatId) === intent.value);
+      const choice = offeredChoices(view, state.kind).find(candidate => choiceValue(candidate) === intent.value);
       return choice === undefined ? false : flow.choose(choice);
     }
     case 'action/back': return flow.back();

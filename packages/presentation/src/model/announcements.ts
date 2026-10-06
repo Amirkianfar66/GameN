@@ -3,6 +3,7 @@ import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
 import { describeAction } from './connected-player.js';
 import { resolveShotGate } from './shot.js';
+import { eligibleVoters, publishedTally, tallyResult } from './votes.js';
 import type {
   ActionFlowState, AudienceFacts, ConnectedPlayerInput, LiveAnnouncement, PlayerShellInput, ShellEnvironment, ShotFlowInput, TableShellInput,
 } from './types.js';
@@ -68,6 +69,16 @@ function describeChange(previous: Moment | null, next: Moment, view: AudienceVie
   const out: LiveAnnouncement[] = [];
   if (previous?.view) {
     if (previous.view.phase.id !== view.phase.id) out.push(polite(summary));
+    // A count the server has just published, said once: what was voted on and what the count
+    // names. It is new when it differs from the one before, or when the vote it counts has
+    // just closed, because two counts can be alike.
+    const tally = publishedTally(view);
+    if (tally !== null) {
+      const justClosed = previous.view.phase.id !== view.phase.id && previous.view.phase.kind === tally.kind;
+      if (justClosed || JSON.stringify(tally) !== JSON.stringify(publishedTally(previous.view))) {
+        out.push(polite(en.announce.tally(en.phase.kind[tally.kind], tallyResult(tally) ?? '').trim()));
+      }
+    }
     for (const change of seatChanges(previous.view, view)) out.push(polite(change));
   }
   return out;
@@ -85,7 +96,9 @@ function describeCountdown(next: Moment, view: AudienceView, selfSeatId: SeatId 
     out.push(polite(en.announce.timeUp));
     // Once time is up there is nothing left to warn about.
     remembered = { ...remembered, expirySpoken: true, lastSecondsSpoken: true };
-  } else if (deadline.kind === 'running' && !remembered.lastSecondsSpoken && selfSeatId !== null && view.activeSeatId === selfSeatId) {
+  } else if (deadline.kind === 'running' && !remembered.lastSecondsSpoken && selfSeatId !== null
+    // The player's own turn, or a vote the public ballot says this seat may vote in.
+    && (view.activeSeatId === selfSeatId || eligibleVoters(view).includes(selfSeatId))) {
     const seconds = displaySeconds(deadline.remainingMs);
     if (seconds <= FINAL_SECONDS) {
       // A screen-reader user gets the same warning a sighted player reads off the countdown.
