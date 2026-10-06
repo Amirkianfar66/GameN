@@ -19,8 +19,9 @@ before(async () => {
 });
 after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
-async function seed(variant = 'unprotected') {
+async function seed(variant = 'unprotected', startedAt) {
   const state = makeState(variant); state.matchId = randomUUID();
+  if (startedAt !== undefined) state.phase = { ...state.phase, startedAt, endsAt: startedAt + 60000 };
   const base = db.collection('matches').doc(state.matchId), views = project(state);
   const batch = db.batch();
   batch.set(base.collection('engine').doc('current'), state);
@@ -171,12 +172,10 @@ test('outbox enqueue failure remains durable, repair retries stable ID; reconnec
 });
 
 test('authenticated HTTP command validates token/schema/protocol and derives the seat from membership', async () => {
-  const h = await seed();
+  const h = await seed('unprotected', Date.now() - 1000);
   assert.equal((await invokeFunction('command', h.request)).body.error.code, 'UNAUTHENTICATED');
   assert.equal((await invokeFunction('command', h.request, {idToken:'invalid-token'})).body.error.code, 'UNAUTHENTICATED');
-  // HTTP uses real server time; use a current window for this distinct fixture.
-  const current = await h.current(); current.phase.startedAt = Date.now() - 1000; current.phase.endsAt = current.phase.startedAt + 60000;
-  await h.base.collection('engine').doc('current').set(current);
+  // This fixture atomically seeds engine, projections and intent with a current server-time window.
   const invalid = await invokeFunction('command', { ...h.request, actorSeatId: 'seat-1' }, { idToken: officer.idToken });
   assert.equal(invalid.body.error.code, 'INVALID_REQUEST');
   const unsupported = await invokeFunction('command', { ...h.request, protocolVersion: 2 }, { idToken: officer.idToken });
