@@ -52,12 +52,17 @@ test('a closed phone is the same model whatever role it holds and whatever it ca
 });
 
 test('opened, the private panel shows the role and the server-supplied action status, nothing inferred', () => {
-  assert.deepEqual(privateContent(before.officer), {
-    role: { label: 'Your role', name: 'Officer' },
-    actions: { heading: 'Actions', notice: null, cards: [{ id: 'shot', title: 'Shot', status: 'available', statusLabel: 'Available' }] },
-  });
+  const officer = privateContent(before.officer);
+  assert.deepEqual(officer.role, { label: 'Your role', name: 'Officer' });
+  assert.equal(officer.actions.heading, 'Actions');
+  assert.equal(officer.actions.notice, null);
+  assert.deepEqual(officer.actions.cards.map(card => [card.id, card.title, card.status, card.statusLabel]), [['shot', 'Shot', 'available', 'Available']]);
   assert.deepEqual(privateContent(before.target).role, { label: 'Your role', name: 'Insider' });
-  assert.deepEqual(privateContent(before.target).actions.cards, [{ id: 'shot', title: 'Shot', status: 'unavailable', statusLabel: 'Not available' }]);
+  // The other phone says what the server said and offers no explanation it could only have guessed.
+  assert.deepEqual(privateContent(before.target).actions.cards, [{
+    id: 'shot', title: 'Shot', status: 'unavailable', statusLabel: 'Not available', selected: false,
+    body: { step: 'idle', open: null, reason: null, note: null },
+  }]);
   assert.equal(buildPlayerShellModel(playerInput(before.officer, revealed)).match.privateArea.toggleLabel, 'Hide private information');
 });
 
@@ -212,7 +217,10 @@ test('registering a hidden shot changes nothing in the table model or the target
   // status changes while it is open.
   assert.deepEqual(buildPlayerShellModel(playerInput(afterRegistration.officer)), buildPlayerShellModel(playerInput(before.officer)));
   const open = view => buildPlayerShellModel(playerInput(view, revealed)).match;
-  assert.equal(open(afterRegistration.officer).privateArea.content.actions.cards[0].status, 'unavailable');
+  const card = open(afterRegistration.officer).privateArea.content.actions.cards[0];
+  assert.equal(card.status, 'registered');
+  // After a reload this device no longer knows the target, and the view does not carry it.
+  assert.deepEqual(card.body, { step: 'idle', open: null, reason: null, note: 'A shot is registered. It is resolved at the end of the round.' });
   const withoutActions = match => ({ ...match, privateArea: { ...match.privateArea, content: { ...match.privateArea.content, actions: null } } });
   assert.deepEqual(withoutActions(open(afterRegistration.officer)), withoutActions(open(before.officer)));
 });

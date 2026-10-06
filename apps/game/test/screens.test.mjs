@@ -61,7 +61,7 @@ test('the Officer phone goes from connecting to its own turn with a full minute 
   assert.equal(model.title, 'Mothership — Player 1');
   assert.equal(model.match.phase.phaseLabel, 'Your turn');
   assert.deepEqual(timer(screen), { state: 'running', display: '1:00', spoken: '60 seconds remaining', finalSeconds: false });
-  assert.deepEqual(announcement, { seq: 1, politeness: 'polite', text: 'Connected. Round 2. Your turn.' });
+  assert.deepEqual(announcement, { seq: 1, politeness: 'polite', text: 'Connected. Round 2. Your turn.', private: false });
   assert.equal(model.match.privateArea.open, false);
   assert.equal(model.match.privateArea.content, null);
   assert.deepEqual(auditMarkup(renderPlayerShell(model)), []);
@@ -285,7 +285,7 @@ test('an incompatible protocol replaces the match with a recoverable screen and 
   assert.equal(frame.model.match, null);
   assert.equal(frame.model.blocked.heading, 'Update required');
   assert.deepEqual(frame.focus, { seq: 1, targetId: 'ms-blocked-heading' });
-  assert.deepEqual(frame.announcement, { seq: 2, politeness: 'assertive', text: 'Update required.' });
+  assert.deepEqual(frame.announcement, { seq: 2, politeness: 'assertive', text: 'Update required.', private: false });
   assert.equal(JSON.stringify(frame.model).includes('Officer'), false);
   assert.deepEqual(auditMarkup(renderPlayerShell(frame.model)), []);
 
@@ -401,7 +401,11 @@ test('a hidden registration does not even redraw the table or the target phone',
   open.screen.dispatch(TOGGLE);
   const said = open.screen.getFrame().announcement;
   await open.fake.deliver(afterRegistration.officer);
-  assert.equal(privateArea(open.screen).content.actions.cards[0].statusLabel, 'Not available');
+  // A registration this device did not make itself, as after a reload: the view says a shot
+  // is registered and nothing more, and the card repeats exactly that.
+  const card = privateArea(open.screen).content.actions.cards[0];
+  assert.equal(card.statusLabel, 'Registered');
+  assert.deepEqual(card.body, { step: 'idle', open: null, reason: null, note: 'A shot is registered. It is resolved at the end of the round.' });
   assert.equal(open.screen.getFrame().announcement, said, 'Nothing is spoken by a snapshot alone');
 });
 

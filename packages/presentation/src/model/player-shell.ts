@@ -2,31 +2,24 @@ import { en } from '../copy/en.js';
 import {
   buildBanners, buildBlocked, buildDetails, buildPhaseStrip, buildSeats, buildSettings, buildZones, isCurrent, resolveScreen, seatNumber,
 } from './common.js';
-import type { ActionsModel, PlayerMatchModel, PlayerShellInput, PlayerShellModel, PrivateAreaModel } from './types.js';
+import { buildShotCard } from './shot.js';
+import type { ActionsModel, PlayerMatchModel, PlayerShellInput, PlayerShellModel, PrivateAreaModel, SeatModel } from './types.js';
 
-function buildActions(input: PlayerShellInput, shotAvailable: boolean): ActionsModel {
+function buildActions(input: PlayerShellInput, view: NonNullable<PlayerShellInput['view']>, seats: readonly SeatModel[]): ActionsModel {
   const notice = !isCurrent(input) ? en.actions.pausedStale : input.deadline.kind === 'expired' ? en.actions.pausedExpired : null;
-  return {
-    heading: en.actions.heading,
-    notice,
-    // Every seat gets the same card. Only the server-supplied status differs.
-    cards: [{
-      id: 'shot', title: en.actions.shot.title, status: shotAvailable ? 'available' : 'unavailable',
-      statusLabel: shotAvailable ? en.actions.shot.available : en.actions.shot.unavailable,
-    }],
-  };
+  return { heading: en.actions.heading, notice, cards: [buildShotCard(input, view, seats)] };
 }
 
-function buildPrivateArea(input: PlayerShellInput, view: NonNullable<PlayerShellInput['view']>): PrivateAreaModel {
+function buildPrivateArea(input: PlayerShellInput, view: NonNullable<PlayerShellInput['view']>, seats: readonly SeatModel[]): PrivateAreaModel {
   const open = input.privacy.revealed && !input.privacy.concealed;
   return {
     heading: en.privateArea.heading,
     hint: en.privateArea.hint,
     open,
     toggleLabel: open ? en.privateArea.hide : en.privateArea.show,
-    // Closed or backgrounded, the role and the action status are not merely hidden by
-    // style: they are not in the model, so they cannot reach the document.
-    content: open ? { role: { label: en.privateArea.role, name: view.self.role }, actions: buildActions(input, view.self.shotAvailable) } : null,
+    // Closed or backgrounded, the role, the action status and any step of an action are
+    // not merely hidden by style: they are not in the model, so they cannot reach the document.
+    content: open ? { role: { label: en.privateArea.role, name: view.self.role }, actions: buildActions(input, view, seats) } : null,
   };
 }
 
@@ -47,7 +40,7 @@ function buildMatch(input: PlayerShellInput, view: NonNullable<PlayerShellInput[
       others: seats.filter(seat => !seat.isSelf && seat.location === self.location),
       aloneText: en.location.alone,
     },
-    privateArea: buildPrivateArea(input, view),
+    privateArea: buildPrivateArea(input, view, seats),
     roster: { heading: en.roster.playerHeading, zones: buildZones(seats) },
     details: buildDetails(view, input.mode),
   };

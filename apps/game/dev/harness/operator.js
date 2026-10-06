@@ -8,7 +8,17 @@
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
 const AUDIENCE_LABELS = { public: 'Table display', 'seat-1': 'Player 1 phone', 'seat-2': 'Player 2 phone' };
+const PLAN_LABELS = {
+  scripted: 'Answered as scripted',
+  slow: 'Slow to arrive, then answered as scripted',
+  'reject-not-allowed': 'Rejected: not allowed',
+  'reject-phase-closed': 'Rejected: phase closed',
+  'lose-acknowledgment': 'Decided as scripted; the answer is lost',
+  'drop-request': 'Lost before it arrives',
+  unavailable: 'Answered “unavailable”',
+};
 const statusList = document.getElementById('operator-status');
+const commandList = document.getElementById('operator-commands');
 const feedRows = document.getElementById('operator-feeds');
 
 async function request(action, body) {
@@ -43,6 +53,21 @@ function show(status) {
     ['Variant', status.variant],
   ];
   statusList.replaceChildren(...facts.flatMap(([term, value]) => [element('dt', term), element('dd', value)]));
+
+  const { commands } = status;
+  const last = commands.last === null ? 'None yet' : `${AUDIENCE_LABELS[commands.last.audience] ?? commands.last.audience}: ${commands.last.status} (${commands.last.code})`;
+  const commandFacts = [
+    ['Requests', commands.service === 'answering' ? 'Answered' : 'All failing'],
+    ['Next command', PLAN_LABELS[commands.next] ?? commands.next],
+    ['Receipts stored', String(commands.receipts)],
+    ['Last decision', last],
+  ];
+  const commandText = JSON.stringify(commandFacts);
+  // Rewritten only on change, so the polite live region speaks a new arrangement once.
+  if (commandList.dataset.shown !== commandText) {
+    commandList.dataset.shown = commandText;
+    commandList.replaceChildren(...commandFacts.flatMap(([term, value]) => [element('dt', term), element('dd', value)]));
+  }
 
   // Rows are rebuilt only when something other than the clock changed, so focus is kept.
   if (serialized === lastStatus) return;
@@ -81,11 +106,13 @@ async function refresh() {
 document.addEventListener('click', async event => {
   const button = event.target instanceof Element ? event.target.closest('button[data-action]') : null;
   if (button === null) return;
-  const { action, audience, kind, variant } = button.dataset;
+  const { action, audience, kind, variant, plan, state } = button.dataset;
   const body = {};
   if (audience) body.audience = audience;
   if (kind) body.kind = kind;
   if (variant) body.variant = variant;
+  if (plan) body.plan = plan;
+  if (state) body.state = state;
   try {
     show(await request(action, body));
   } catch {

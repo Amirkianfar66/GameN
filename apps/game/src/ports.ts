@@ -15,3 +15,14 @@ export interface ClientPorts {
   readonly clock: MonotonicClock;
   readonly scheduler: Scheduler;
 }
+
+/** A source of command identifiers. An identifier carries no meaning and is never reused. */
+export interface IdSource {
+  /** A new identifier that satisfies the shared contract's identifier format, e.g. a random UUID. */
+  next(): string;
+}
+
+/** What a player's phone needs beyond a display: a way to name the commands it sends. */
+export interface PlayerPorts extends ClientPorts {
+  readonly ids: IdSource;
+}

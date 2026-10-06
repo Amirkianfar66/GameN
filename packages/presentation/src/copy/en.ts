@@ -96,7 +96,61 @@ export const en = {
     heading: 'Actions',
     pausedStale: 'Actions are paused until the connection is restored.',
     pausedExpired: 'This phase has ended. Waiting for phase update.',
-    shot: { title: 'Shot', available: 'Available', unavailable: 'Not available' },
+  },
+
+  // Interface wording for the shot flow, provisional until the copy is reviewed. "Registered"
+  // is never an outcome. The two statements about the game are taken from the current rule
+  // sources: an ordinary turn is the player's own minute to act (turn_timing), and registered
+  // attacks are resolved at the end of the round (end_of_round_order).
+  shot: {
+    title: 'Shot',
+    status: {
+      available: 'Available',
+      unavailable: 'Not available',
+      targeting: 'Choosing a target',
+      confirming: 'Confirm',
+      submitting: 'Submitting',
+      checking: 'Checking',
+      unknown: 'Result unknown',
+      registered: 'Registered',
+      'not-registered': 'Not registered',
+    },
+    open: 'Choose a target',
+    reasonNotYourTurn: 'You can register a shot during your own turn.',
+    registeredEarlier: 'A shot is registered. It is resolved at the end of the round.',
+    registeredAt: (seat: number) => `Your shot at Player ${seat} is registered. It is resolved at the end of the round.`,
+    targetPrompt: 'Choose a target',
+    targetNote: 'Players in your location are listed. The server decides whether a shot is allowed.',
+    targetEmpty: 'No other players are in your location.',
+    cancel: 'Cancel',
+    confirmPrompt: (seat: number) => `Register a shot at Player ${seat}?`,
+    // An interface fact, not a rule: this app has no way to change or withdraw a registered shot.
+    confirmConsequence: 'You cannot change or withdraw it here once it is registered.',
+    confirm: 'Register shot',
+    chooseAgain: 'Choose someone else',
+    submitting: 'Sending your shot to the server…',
+    checking: 'Checking whether your shot was registered…',
+    stamp: 'Registered',
+    registered: (seat: number) => `Shot at Player ${seat} registered.`,
+    registeredDetail: 'This is not a result. Registered shots are resolved at the end of the round.',
+    rejected: {
+      PHASE_CLOSED: 'Not registered. The turn had already ended.',
+      NOT_ALLOWED: 'Not registered. The server did not allow this shot.',
+    },
+    notRegistered: {
+      UNAUTHENTICATED: 'Not registered. This device is not signed in to the match.',
+      FORBIDDEN: 'Not registered. This device may not act for this seat.',
+      INVALID_REQUEST: 'Not registered. The server could not read the request.',
+      UNSUPPORTED_PROTOCOL: 'Not registered. This app is out of date. Reload to update.',
+      COMMAND_ID_CONFLICT: 'Not registered. The server refused the request.',
+      NOT_SENT: 'Not registered. The request could not be sent.',
+    },
+    tryAgainHint: 'You can choose again if it is still your turn.',
+    unknown: 'Result unknown. The app could not confirm whether your shot was registered.',
+    unknownDetail: 'Do not assume either way. Check again when the connection is back.',
+    checkAgain: 'Check again',
+    done: 'Done',
+    ok: 'OK',
   },
 
   roster: {

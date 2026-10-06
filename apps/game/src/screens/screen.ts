@@ -1,4 +1,4 @@
-import { SHELL_IDS } from '@mothership/presentation';
+import { resolveScreen, SHELL_IDS } from '@mothership/presentation';
 import type { Announcer, PhaseFacts, ShellEnvironment, ShellIntent } from '@mothership/presentation';
 import { estimateDeadline, millisecondsToNextSecond } from '../clock/deadline.js';
 import type { ClientPorts } from '../ports.js';
@@ -6,10 +6,20 @@ import type { AudienceSession } from '../session/audience-session.js';
 
 export interface ScreenFrame<Model> {
   readonly model: Model;
-  /** Text for the page's live region. A new seq means it should be spoken, even if the text repeats. */
-  readonly announcement: { readonly seq: number; readonly politeness: 'polite' | 'assertive'; readonly text: string } | null;
-  /** Set when the screen itself was replaced and focus should follow the new content. */
+  /**
+   * Text for the page's live region. A new seq means it should be spoken, even if the text
+   * repeats; seq only ever goes up. A private line states something that belongs to this
+   * seat alone, and is gone from the frame once private content leaves the screen.
+   */
+  readonly announcement: { readonly seq: number; readonly politeness: 'polite' | 'assertive'; readonly text: string; readonly private: boolean } | null;
+  /** Set when the screen itself was replaced, or the player moved a step, and focus should follow. */
   readonly focus: { readonly seq: number; readonly targetId: string } | null;
+  /**
+   * Goes up each time private content leaves the screen. Whatever private text a host put
+   * into the document outside the model's own markup, a spoken line for instance, must
+   * leave with it.
+   */
+  readonly privacyEpoch: number;
 }
 
 /** What only the embedding page can do. */
@@ -39,16 +49,28 @@ export interface LocalState {
   readonly motionChoice: boolean | null;
 }
 
+/** What handling a surface-specific intent led to. */
+export interface IntentOutcome<Model> {
+  /** New device-local state, when the intent changed it. */
+  readonly local?: LocalState;
+  /** Given the model the intent produced, names the element focus should move to. */
+  readonly focus?: (model: Model) => string | null;
+}
+
 interface ScreenConfig<View, Input, Model> {
   readonly session: AudienceSession<View>;
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly phaseOf: (view: View) => PhaseFacts;
+  /** Called for every redraw and before every intent is judged, so it may bring other state up to date. */
   readonly buildInput: (environment: ShellEnvironment, view: View | null, local: LocalState) => Input;
   readonly buildModel: (input: Input) => Model;
   readonly announcer: Announcer<Input>;
-  /** Surface-specific intents. Returns the new local state, or null when the intent is not handled. */
-  readonly reduceLocal: (local: LocalState, intent: ShellIntent, model: Model) => LocalState | null;
+  /** Surface-specific intents. Returns null when the intent is not handled or changed nothing. */
+  readonly handleIntent: (intent: ShellIntent, context: { readonly local: LocalState; readonly model: Model }) => IntentOutcome<Model> | null;
+  /** Other sources of change that should redraw the screen. Returns the function that stops watching. */
+  readonly watch?: (onChange: () => void) => () => void;
+  readonly dispose?: () => void;
 }
 
 export function createScreen<View, Input, Model extends { readonly screen: string }>(
@@ -58,9 +80,13 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
   const listeners = new Set<() => void>();
   let local: LocalState = { pageVisible: true, privateRevealed: false, deviceReducedMotion: false, motionChoice: null };
   let announcement: ScreenFrame<Model>['announcement'] = null;
+  let announcementSeq = 0;
   let focus: ScreenFrame<Model>['focus'] = null;
+  let privacyEpoch = 0;
+  let privateWasOpen = false;
   let tick: unknown = null;
   let stopSession: (() => void) | null = null;
+  let stopWatching: (() => void) | null = null;
   let disposed = false;
 
   function compute(): { input: Input; model: Model; remainingMs: number | null } {
@@ -73,36 +99,45 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
       deadline,
       motion: { reducedMotion: local.motionChoice ?? local.deviceReducedMotion, followsDevice: local.motionChoice === null },
     };
+    // A private panel never outlives the screen it was opened on: when the match returns
+    // after a recovery screen, it is shown again only if the player asks again.
+    if (local.privateRevealed && resolveScreen(environment, state.view !== null) !== 'match') local = { ...local, privateRevealed: false };
     const input = config.buildInput(environment, state.view, local);
     return { input, model: config.buildModel(input), remainingMs: deadline.kind === 'running' ? deadline.remainingMs : null };
   }
 
-  let frame: ScreenFrame<Model> = { model: compute().model, announcement, focus };
+  let frame: ScreenFrame<Model> = { model: compute().model, announcement, focus, privacyEpoch };
   let drawn = JSON.stringify(frame.model);
 
-  function refresh(): void {
+  function refresh(focusFor?: (model: Model) => string | null): void {
     if (disposed) return;
     if (tick !== null) ports.scheduler.clearTimeout(tick);
     tick = null;
 
     const { input, model, remainingMs } = compute();
-    // A private panel never outlives the screen it was opened on: when the match returns
-    // after a recovery screen, it is shown again only if the player asks again.
-    if (model.screen !== 'match' && local.privateRevealed) local = { ...local, privateRevealed: false };
-
-    const spoken = config.announcer.next(input);
     const previousAnnouncement = announcement;
     const previousFocus = focus;
+    const privateOpen = local.pageVisible && local.privateRevealed;
+    if (privateWasOpen && !privateOpen) {
+      privacyEpoch += 1;
+      // Once private content has left the screen the frame carries no private line either.
+      if (announcement?.private === true) announcement = null;
+    }
+    privateWasOpen = privateOpen;
+
+    // A private line is spoken only in front of an open private panel, whatever produced it.
+    const spoken = config.announcer.next(input).filter(item => item.private !== true || privateOpen);
     if (spoken.length > 0) {
+      announcementSeq += 1;
       announcement = {
-        seq: (announcement?.seq ?? 0) + 1,
+        seq: announcementSeq,
         politeness: spoken.some(item => item.politeness === 'assertive') ? 'assertive' : 'polite',
         text: spoken.map(item => item.text).join(' '),
+        private: spoken.some(item => item.private === true),
       };
     }
-    if (model.screen === 'blocked' && frame.model.screen !== 'blocked') {
-      focus = { seq: (focus?.seq ?? 0) + 1, targetId: SHELL_IDS.blockedHeading };
-    }
+    const requested = model.screen === 'blocked' && frame.model.screen !== 'blocked' ? SHELL_IDS.blockedHeading : focusFor?.(model) ?? null;
+    if (requested !== null) focus = { seq: (focus?.seq ?? 0) + 1, targetId: requested };
 
     // One redraw per displayed second while a match is on screen in the foreground. A timer
     // that fires a moment early finds the same second still showing and waits out the rest.
@@ -113,11 +148,11 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
       }, millisecondsToNextSecond(remainingMs));
     }
 
-    // Nothing to draw, say or focus: keep the frame's identity and tell nobody.
+    // Nothing to draw, say, focus or withdraw: keep the frame's identity and tell nobody.
     const serialized = JSON.stringify(model);
-    if (serialized === drawn && announcement === previousAnnouncement && focus === previousFocus) return;
+    if (serialized === drawn && announcement === previousAnnouncement && focus === previousFocus && privacyEpoch === frame.privacyEpoch) return;
     drawn = serialized;
-    frame = { model, announcement, focus };
+    frame = { model, announcement, focus, privacyEpoch };
     for (const listener of [...listeners]) listener();
   }
 
@@ -139,8 +174,10 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
       if (intent.type === 'session/reconnect') return session.reconnect();
       if (intent.type === 'app/reload') return config.host.reload();
       if (intent.type === 'settings/reduce-motion') return setLocal({ ...local, motionChoice: intent.checked });
-      const next = config.reduceLocal(local, intent, frame.model);
-      if (next !== null) setLocal(next);
+      // The intent is judged against the present, not against the last frame that was drawn.
+      const outcome = config.handleIntent(intent, { local, model: compute().model });
+      if (outcome?.local !== undefined) local = outcome.local;
+      refresh(outcome?.focus);
     },
     setPageVisible(visible) {
       if (disposed || visible === local.pageVisible) return;
@@ -155,7 +192,8 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     },
     start() {
       if (disposed || stopSession) return;
-      stopSession = session.subscribe(refresh);
+      stopSession = session.subscribe(() => refresh());
+      stopWatching = config.watch?.(() => refresh()) ?? null;
       session.start();
       refresh();
     },
@@ -165,7 +203,9 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
       if (tick !== null) ports.scheduler.clearTimeout(tick);
       tick = null;
       stopSession?.();
+      stopWatching?.();
       session.dispose();
+      config.dispose?.();
       listeners.clear();
     },
   };

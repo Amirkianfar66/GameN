@@ -162,7 +162,18 @@ test('layout survives a narrow screen with enlarged text: found broken in a brow
   assert.deepEqual(withoutComments.match(/font-size: var\(--ms-text-display\);/g) ?? [], [], 'display size is always used through a fitted variable');
   assert.equal(rule('.ms-shell').includes('font-size: var(--ms-text-body)'), true, 'body text is never capped');
   // Grid children may shrink below their longest word instead of widening the page.
-  assert.match(withoutComments, /\.ms-main > \*,[\s\S]*?\.ms-card > \* \{\s*min-width: 0;/);
+  const shrinkable = /\.ms-main > \*,([\s\S]*?)\{\s*min-width: 0;/.exec(withoutComments);
+  assert.notEqual(shrinkable, null);
+  for (const selector of ['.ms-card > *', '.ms-card__state > *', '.ms-actions > *', '.ms-target > *']) assert.equal(shrinkable[0].includes(selector), true, selector);
+  // Found in a browser at 320 px with text doubled: four nested boxes each took a full, doubled
+  // side padding and left 50 px for a button's label, which then broke inside every word.
+  // Side padding is capped by the screen's width wherever boxes nest.
+  assert.match(rule('.ms-shell'), /--ms-inset: min\(var\(--ms-space-4\), \d+vw\);/);
+  for (const selector of ['.ms-panel', '.ms-phase', '.ms-button']) assert.match(rule(selector), /padding: var\(--ms-space-\d\) var\(--ms-inset\);/, selector);
+  assert.match(rule('.ms-card,\n.ms-role-card'), /padding: var\(--ms-space-4\) var\(--ms-inset\);/);
+  for (const selector of ['.ms-header', '.ms-banner', '.ms-main', '.ms-footer']) assert.match(rule(selector), /max\(var\(--ms-inset\), env\(safe-area-inset-right\)\)[^;]*max\(var\(--ms-inset\), env\(safe-area-inset-left\)\)/, selector);
+  // The role is one word of up to ten letters inside a panel and a card: it takes the tighter fit.
+  assert.match(withoutComments, /\n\.ms-role-card \{[^}]*font-size: var\(--ms-text-wordmark-fit\);/);
   // Breaking anywhere made table columns split words mid-word; it is confined to identifiers.
   assert.equal(rule('.ms-shell').includes('overflow-wrap: break-word'), true);
   assert.deepEqual([...withoutComments.matchAll(/([^{}]+)\{[^{}]*overflow-wrap: anywhere/g)].map(match => match[1].trim()), ['.ms-details__list dd']);

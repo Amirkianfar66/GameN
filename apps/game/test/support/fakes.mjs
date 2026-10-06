@@ -12,9 +12,20 @@ export function createFakeHost({ localStart = 5_000, serverStart = 1_800_000_000
   let localNow = localStart;
   let serverSkewMs = 0;
   let nextHandle = 1;
+  let nextId = 1;
   const timers = new Map();
   const host = {
+    /** Every command identifier handed out, in order. */
+    issuedIds: [],
     ports: {
+      // Predictable identifiers. A real host supplies random ones; the client must not care.
+      ids: {
+        next() {
+          const id = `command-${nextId++}`;
+          host.issuedIds.push(id);
+          return id;
+        },
+      },
       clock: { now: () => localNow },
       scheduler: {
         setTimeout(callback, delayMs) {

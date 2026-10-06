@@ -30,6 +30,6 @@ export function createTableScreen(options: TableScreenOptions): ScreenController
     buildInput: (environment, view) => ({ ...environment, view }),
     buildModel: buildTableShellModel,
     announcer: createTableAnnouncer(),
-    reduceLocal: () => null,
+    handleIntent: () => null,
   });
 }

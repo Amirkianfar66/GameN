@@ -17,6 +17,8 @@ async function getJson(path) {
 }
 async function postJson(path, body) {
   const response = await fetch(path, { method: 'POST', cache: 'no-store', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  // Anything but a plain answer is a request that failed: the caller learns nothing from it.
+  if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
   return response.json();
 }
 
@@ -56,8 +58,11 @@ export function createHttpFixtureTransport(audienceKey) {
     advanceIfExpired: request => postJson('/api/fixture/advance-if-expired', request),
   };
   if (transport.audience === 'player') {
-    transport.submitCommand = command => postJson('/api/fixture/submit-command', command);
-    transport.lookupReceipt = request => postJson('/api/fixture/lookup-receipt', request);
+    const seat = `?audience=${encodeURIComponent(audienceKey)}`;
+    // A request the fixture leaves unanswered fails here, and the client core treats it as
+    // any transport treats a lost request: outcome unknown.
+    transport.submitCommand = command => postJson(`/api/fixture/submit-command${seat}`, command);
+    transport.lookupReceipt = request => postJson(`/api/fixture/lookup-receipt${seat}`, request);
   }
   return transport;
 }

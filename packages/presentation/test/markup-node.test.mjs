@@ -62,7 +62,8 @@ test('regions split from the frame so a host can replace only what changed', () 
   const first = splitRegions(page('0:42', 'steady'));
   const second = splitRegions(page('0:41', 'steady'));
   assert.deepEqual(first.rootAttrs, { class: 'ms-shell', 'data-motion': 'full' });
-  assert.equal(first.frameHtml, '<header><p>Mothership</p></header><main><div data-region-slot="timer"></div><div data-region-slot="notes"></div></main>');
+  // A slot has its region's own tag, so it is valid markup wherever the region is.
+  assert.equal(first.frameHtml, '<header><p>Mothership</p></header><main><div data-region-slot="timer"></div><section data-region-slot="notes"></section></main>');
   assert.equal(first.frameHtml, second.frameHtml, 'A tick must not rebuild the page frame');
   assert.deepEqual([...first.regions.keys()], ['timer', 'notes']);
   assert.notEqual(first.regions.get('timer'), second.regions.get('timer'));
@@ -70,8 +71,23 @@ test('regions split from the frame so a host can replace only what changed', () 
   assert.equal(first.regions.get('timer'), '<div data-region="timer">0:42</div>');
 });
 
+test('a region inside a region is redrawn on its own, and the outer one is listed first', () => {
+  const page = (status, step) => h('div', { class: 'ms-shell' },
+    h('section', { 'data-region': 'outer', 'data-open': 'true' },
+      h('p', null, 'kept'),
+      h('ul', null, h('li', { 'data-region': 'inner', 'data-status': status }, h('p', null, step))),
+    ));
+  const first = splitRegions(page('a', 'one'));
+  const second = splitRegions(page('b', 'two'));
+  assert.deepEqual([...first.regions.keys()], ['outer', 'inner'], 'A host fills an outer region before the regions inside it');
+  assert.equal(first.frameHtml, '<section data-region-slot="outer"></section>');
+  assert.equal(first.regions.get('outer'), '<section data-region="outer" data-open="true"><p>kept</p><ul><li data-region-slot="inner"></li></ul></section>');
+  assert.equal(first.regions.get('outer'), second.regions.get('outer'), 'A change inside the inner region must not redraw the outer one');
+  assert.equal(second.regions.get('inner'), '<li data-region="inner" data-status="b"><p>two</p></li>');
+});
+
 test('ambiguous region layouts are rejected instead of rendered unpredictably', () => {
-  assert.throws(() => splitRegions(h('div', null, h('div', { 'data-region': 'a' }, h('div', { 'data-region': 'b' })))), /cannot be nested/);
   assert.throws(() => splitRegions(h('div', null, h('div', { 'data-region': 'a' }), h('div', { 'data-region': 'a' }))), /unique/);
+  assert.throws(() => splitRegions(h('div', null, h('div', { 'data-region': 'a' }, h('div', { 'data-region': 'a' })))), /unique/);
   assert.throws(() => splitRegions(h('div', { 'data-region': 'root' })), /root cannot itself be a region/);
 });

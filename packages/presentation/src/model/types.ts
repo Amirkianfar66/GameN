@@ -41,6 +41,33 @@ export interface ShellEnvironment {
   readonly motion: MotionSettingsInput;
 }
 
+/**
+ * Where the player's own shot stands on this device, as far as this device knows. It is
+ * driven by the command flow and by server answers, never by a guess: "registered" means
+ * the server said so, and registration is not an outcome.
+ */
+export type ShotFlowInput =
+  /**
+   * Nothing in progress. registeredTargetSeatId is the target of this seat's own registered
+   * shot while this device still remembers it; it is kept in memory only and is gone after a reload.
+   */
+  | { readonly step: 'idle'; readonly registeredTargetSeatId: SeatId | null }
+  | { readonly step: 'targeting' }
+  | { readonly step: 'confirming'; readonly targetSeatId: SeatId }
+  | { readonly step: 'submitting'; readonly targetSeatId: SeatId }
+  /** No usable answer arrived; the client is finding out what happened. */
+  | { readonly step: 'checking'; readonly targetSeatId: SeatId }
+  /** Automatic checking gave up. The player can ask again; nothing is assumed either way. */
+  | { readonly step: 'unknown'; readonly targetSeatId: SeatId }
+  | { readonly step: 'registered'; readonly targetSeatId: SeatId }
+  /** The server answered with a rejection receipt. */
+  | { readonly step: 'rejected'; readonly targetSeatId: SeatId; readonly code: ShotRejectionCode }
+  /** Known not to be registered, without a receipt: the one attempt made committed nothing. */
+  | { readonly step: 'not-registered'; readonly targetSeatId: SeatId; readonly reason: ShotNotRegisteredReason };
+export type ShotRejectionCode = 'PHASE_CLOSED' | 'NOT_ALLOWED';
+/** NOT_SENT: the request never left this device. The others are the server's own safe error codes. */
+export type ShotNotRegisteredReason = 'UNAUTHENTICATED' | 'FORBIDDEN' | 'INVALID_REQUEST' | 'UNSUPPORTED_PROTOCOL' | 'COMMAND_ID_CONFLICT' | 'NOT_SENT';
+
 export interface PlayerShellInput extends ShellEnvironment {
   readonly view: PlayerView | null;
   readonly privacy: {
@@ -49,6 +76,7 @@ export interface PlayerShellInput extends ShellEnvironment {
     /** The player has deliberately opened the private panel. Closed is the default. */
     readonly revealed: boolean;
   };
+  readonly shot: ShotFlowInput;
 }
 
 export interface TableShellInput extends ShellEnvironment {
@@ -60,7 +88,13 @@ export type ShellIntent =
   | { readonly type: 'private/toggle' }
   | { readonly type: 'session/reconnect' }
   | { readonly type: 'app/reload' }
-  | { readonly type: 'settings/reduce-motion'; readonly checked: boolean };
+  | { readonly type: 'settings/reduce-motion'; readonly checked: boolean }
+  | { readonly type: 'shot/open' }
+  | { readonly type: 'shot/choose-target'; readonly seatId: SeatId }
+  | { readonly type: 'shot/back' }
+  | { readonly type: 'shot/confirm' }
+  | { readonly type: 'shot/check-again' }
+  | { readonly type: 'shot/dismiss' };
 export type ShellIntentType = ShellIntent['type'];
 
 export type MarkerKind = 'self' | 'turn' | 'health' | 'jail' | 'captain';
@@ -130,11 +164,57 @@ export interface MatchDetailsModel {
   readonly entries: readonly { readonly term: string; readonly value: string }[];
 }
 
+export interface CardButtonModel {
+  readonly id: string;
+  readonly label: string;
+  readonly intent: Exclude<ShellIntentType, 'shot/choose-target' | 'settings/reduce-motion'>;
+  readonly primary: boolean;
+}
+
+export interface ShotTargetModel {
+  readonly seatId: SeatId;
+  readonly number: number;
+  readonly label: string;
+  /** The target's public status in words, exactly as every other player can see it. */
+  readonly detail: string;
+}
+
+/** What the Shot card shows below its title and status. One step is on screen at a time. */
+export type ShotCardBody =
+  | {
+    readonly step: 'idle';
+    /** Present only when the interface would let the player start now. The server still decides. */
+    readonly open: CardButtonModel | null;
+    /** Why there is no way to start, in terms of facts this player may know. */
+    readonly reason: string | null;
+    /** A registration this seat already has. */
+    readonly note: string | null;
+  }
+  | {
+    readonly step: 'targeting'; readonly prompt: string; readonly note: string; readonly targets: readonly ShotTargetModel[];
+    readonly emptyText: string; readonly back: CardButtonModel;
+  }
+  | { readonly step: 'confirming'; readonly prompt: string; readonly consequence: string; readonly confirm: CardButtonModel; readonly back: CardButtonModel }
+  | { readonly step: 'busy'; readonly text: string }
+  | {
+    readonly step: 'result';
+    readonly outcome: 'registered' | 'not-registered' | 'unknown';
+    readonly text: string;
+    readonly detail: string | null;
+    readonly action: CardButtonModel;
+  };
+
+export type ShotCardStatus = 'available' | 'unavailable' | 'targeting' | 'confirming' | 'submitting' | 'checking' | 'unknown' | 'registered' | 'not-registered';
+
 export interface ActionCardModel {
   readonly id: 'shot';
   readonly title: string;
-  readonly status: 'available' | 'unavailable';
+  /** The step the card is in, by name. Never an outcome: "registered" is not "resolved". */
+  readonly status: ShotCardStatus;
   readonly statusLabel: string;
+  /** True from the moment the player picks the card up until its command is settled. */
+  readonly selected: boolean;
+  readonly body: ShotCardBody;
 }
 
 export interface ActionsModel {
@@ -216,4 +296,9 @@ export interface TableShellModel extends ShellModelBase {
 export interface LiveAnnouncement {
   readonly politeness: 'polite' | 'assertive';
   readonly text: string;
+  /**
+   * The text states something private to this seat. A host may speak it only while the
+   * private panel is open and must remove it from the document when the panel closes.
+   */
+  readonly private?: true;
 }

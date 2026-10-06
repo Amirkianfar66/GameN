@@ -1,7 +1,7 @@
 import type { AudienceView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
-import type { LiveAnnouncement, PlayerShellInput, ShellEnvironment, TableShellInput } from './types.js';
+import type { LiveAnnouncement, PlayerShellInput, ShellEnvironment, ShotFlowInput, TableShellInput } from './types.js';
 
 interface Moment {
   readonly env: ShellEnvironment;
@@ -129,8 +129,39 @@ function createAnnouncer<Input extends PlayerShellInput | TableShellInput>(selfS
   };
 }
 
+// What happened to the player's own command. Only steps the player did not bring about
+// directly are put into words: a step the player just chose is read from where focus lands.
+function describeShot(shot: ShotFlowInput): LiveAnnouncement[] {
+  const say = (politeness: LiveAnnouncement['politeness'], text: string): LiveAnnouncement[] => [{ politeness, text, private: true }];
+  switch (shot.step) {
+    case 'submitting': return say('polite', en.shot.submitting);
+    case 'checking': return say('polite', en.shot.checking);
+    case 'registered': return say('polite', en.shot.registered(seatNumber(shot.targetSeatId)));
+    // The player believes they acted. Being told otherwise should not wait its turn.
+    case 'rejected': return say('assertive', en.shot.rejected[shot.code]);
+    case 'not-registered': return say('assertive', en.shot.notRegistered[shot.reason]);
+    case 'unknown': return say('assertive', en.shot.unknown);
+    default: return [];
+  }
+}
+
 export function createPlayerAnnouncer(): Announcer<PlayerShellInput> {
-  return createAnnouncer<PlayerShellInput>(input => input.view?.self.seatId ?? null);
+  const shared = createAnnouncer<PlayerShellInput>(input => input.view?.self.seatId ?? null);
+  // The last step of the shot flow the listener was told about, or that needed no telling.
+  let heard: ShotFlowInput['step'] = 'idle';
+  return {
+    next(input) {
+      const out = shared.next(input);
+      // Nothing private is put into words unless the private panel is open in front of the
+      // player. A result that arrives while it is closed is said when it is next opened.
+      const open = input.view !== null && input.privacy.revealed && !input.privacy.concealed && resolveScreen(input, true) === 'match';
+      if (open && input.shot.step !== heard) {
+        heard = input.shot.step;
+        out.push(...describeShot(input.shot));
+      }
+      return out;
+    },
+  };
 }
 
 export function createTableAnnouncer(): Announcer<TableShellInput> {

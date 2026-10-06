@@ -249,3 +249,19 @@ test('the command exits non-zero and names the file when a bundle leaks fixture 
   const missing = spawnSync(process.execPath, [script, '--bundle', join(bundle, 'nope')], { encoding: 'utf8' });
   assert.notEqual(missing.status, 0);
 });
+
+test('the client keeps nothing between page loads and writes nothing to a log or a beacon', () => {
+  // A registered target, a role or a command identifier must not outlive the page or leave
+  // it by a side door. The build already refuses these names (no browser or Node globals
+  // are declared for the client source); this pins it against a change to that setup.
+  const listed = directory => readdirSync(directory, { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile() && extname(entry.name) === '.js')
+    .map(entry => join(entry.parentPath, entry.name));
+  const files = [...listed(join(repositoryRoot, 'apps/game/dist')), ...listed(join(repositoryRoot, 'packages/presentation/dist'))];
+  assert.equal(files.length > 20, true);
+  const forbidden = /\b(localStorage|sessionStorage|indexedDB|caches|cookie|sendBeacon|console|postMessage|BroadcastChannel|serviceWorker)\b/;
+  for (const file of files) {
+    const code = ts.transpileModule(readFileSync(file, 'utf8'), { compilerOptions: { removeComments: true, target: ts.ScriptTarget.ES2022 } }).outputText;
+    assert.equal(forbidden.exec(code)?.[0] ?? null, null, file);
+  }
+});

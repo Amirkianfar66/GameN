@@ -63,7 +63,7 @@ test('the role and the action status exist in the document only while the privat
   for (const view of [before.officer, before.target]) {
     const closed = player(view);
     const html = toHtml(closed);
-    for (const word of [...ROLE_NAMES, 'Available', 'Not available', 'Shot', 'data-status', 'ms-card']) assert.equal(html.includes(word), false, word);
+    for (const word of [...ROLE_NAMES, 'Available', 'Not available', 'Shot', 'Choose a target', 'data-status', 'data-step', 'ms-card', 'ms-shot', 'shot/']) assert.equal(html.includes(word), false, word);
     const panel = find(closed, byId(SHELL_IDS.privatePanel));
     assert.equal(panel.attrs.hidden, true);
     assert.deepEqual(panel.children, []);
@@ -74,7 +74,7 @@ test('the role and the action status exist in the document only while the privat
   }
 
   const shown = player(before.officer, open);
-  assert.equal(textOf(find(shown, byId(SHELL_IDS.privatePanel))), 'Your roleOfficerActionsShotAvailable');
+  assert.equal(textOf(find(shown, byId(SHELL_IDS.privatePanel))), 'Your roleOfficerActionsShotAvailableChoose a target');
   assert.equal(find(shown, byId(SHELL_IDS.privatePanel)).attrs.hidden, undefined);
   assert.equal(find(shown, byId(SHELL_IDS.privateToggle)).attrs['aria-expanded'], 'true');
   assert.equal(textOf(find(shown, byId(SHELL_IDS.privateToggle))), 'Hide private information');
@@ -111,7 +111,7 @@ test('status is never carried by color alone: every seat marker and action state
   assert.equal(textOf(injured), '2Player 2: Injured, Jailed');
   const shown = player(before.officer, open);
   assert.equal(textOf(find(shown, byClass('ms-card__status'))), 'Available');
-  assert.equal(find(shown, byClass('ms-card')).attrs['data-status'], 'available');
+  assert.equal(find(shown, byClass('ms-card__state')).attrs['data-status'], 'available');
   assert.equal(textOf(find(player(before.target, open), byClass('ms-card__status'))), 'Not available');
 });
 
@@ -145,13 +145,15 @@ test('opening the private panel replaces only its own region, so focus elsewhere
   const shown = splitRegions(player(before.officer, open));
   assert.equal(closed.frameHtml, shown.frameHtml);
   assert.deepEqual([...closed.regions.keys()].filter(id => closed.regions.get(id) !== shown.regions.get(id)), ['private']);
+  // What the open panel holds is drawn in regions of its own, listed after the panel they sit in.
+  assert.deepEqual([...shown.regions.keys()], ['banners', 'phase', 'timer', 'location', 'private', 'actions', 'shot', 'roster', 'settings', 'details']);
 });
 
-test('a hidden registration touches only the private region of the registering phone, and only while it is open', () => {
+test('a hidden registration touches only the Shot card of the registering phone, and only while the panel is open', () => {
   const regions = (view, overrides) => splitRegions(player(view, overrides)).regions;
   const changed = (a, b) => [...a.keys()].filter(id => a.get(id) !== b.get(id));
   assert.deepEqual(changed(regions(before.officer), regions(afterRegistration.officer)), []);
-  assert.deepEqual(changed(regions(before.officer, open), regions(afterRegistration.officer, open)), ['private']);
+  assert.deepEqual(changed(regions(before.officer, open), regions(afterRegistration.officer, open)), ['shot']);
 });
 
 test('the shell root states surface, screen, connection, data source and motion for styling and tests', () => {

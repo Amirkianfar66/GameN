@@ -25,6 +25,9 @@
      fit a narrow screen; body text is never capped. */
   --ms-text-display-fit: min(var(--ms-text-display), 14vw);
   --ms-text-wordmark-fit: min(var(--ms-text-display), 11vw);
+  /* Side padding follows the reader's font size too, until a narrow screen cannot afford it:
+     four nested boxes at full size would leave no room for a word. */
+  --ms-inset: min(var(--ms-space-4), 4vw);
   min-height: 100vh;
   min-height: 100dvh;
   margin: 0;
@@ -62,7 +65,10 @@
 .ms-panel > *,
 .ms-zone > *,
 .ms-private__panel > *,
-.ms-card > * {
+.ms-actions > *,
+.ms-card > *,
+.ms-card__state > *,
+.ms-target > * {
   min-width: 0;
 }
 
@@ -116,7 +122,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--ms-space-2) var(--ms-space-4);
-  padding: var(--ms-space-3) max(var(--ms-space-4), env(safe-area-inset-right)) var(--ms-space-3) max(var(--ms-space-4), env(safe-area-inset-left));
+  padding: var(--ms-space-3) max(var(--ms-inset), env(safe-area-inset-right)) var(--ms-space-3) max(var(--ms-inset), env(safe-area-inset-left));
   padding-top: max(var(--ms-space-3), env(safe-area-inset-top));
   background: var(--ms-color-paper);
   color: var(--ms-color-ink);
@@ -168,7 +174,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--ms-space-2) var(--ms-space-4);
-  padding: var(--ms-space-2) max(var(--ms-space-4), env(safe-area-inset-right)) var(--ms-space-2) max(var(--ms-space-4), env(safe-area-inset-left));
+  padding: var(--ms-space-2) max(var(--ms-inset), env(safe-area-inset-right)) var(--ms-space-2) max(var(--ms-inset), env(safe-area-inset-left));
   background: var(--ms-color-panel);
   border-bottom: var(--ms-stroke-control) dashed var(--ms-color-text-secondary);
   font-size: var(--ms-text-label);
@@ -189,7 +195,7 @@
   gap: var(--ms-space-5);
   max-width: 76rem;
   margin: 0 auto;
-  padding: var(--ms-space-5) max(var(--ms-space-4), env(safe-area-inset-right)) var(--ms-space-6) max(var(--ms-space-4), env(safe-area-inset-left));
+  padding: var(--ms-space-5) max(var(--ms-inset), env(safe-area-inset-right)) var(--ms-space-6) max(var(--ms-inset), env(safe-area-inset-left));
 }
 
 .ms-title {
@@ -220,7 +226,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--ms-space-2) var(--ms-space-5);
-  padding: var(--ms-space-3) var(--ms-space-4);
+  padding: var(--ms-space-3) var(--ms-inset);
   background: var(--ms-color-panel);
   border: var(--ms-stroke-illustration) solid var(--ms-color-text);
   border-radius: var(--ms-radius-panel);
@@ -281,7 +287,7 @@
 .ms-panel {
   display: grid;
   gap: var(--ms-space-3);
-  padding: var(--ms-space-4);
+  padding: var(--ms-space-4) var(--ms-inset);
   background: var(--ms-color-panel);
   border: var(--ms-stroke-control) solid color-mix(in srgb, var(--ms-color-text-secondary) 55%, transparent);
   border-radius: var(--ms-radius-panel);
@@ -448,7 +454,7 @@
 .ms-role-card {
   display: grid;
   gap: var(--ms-space-2);
-  padding: var(--ms-space-4);
+  padding: var(--ms-space-4) var(--ms-inset);
   background: var(--ms-color-paper);
   color: var(--ms-color-ink);
   border: var(--ms-stroke-illustration) solid var(--ms-color-ink);
@@ -458,12 +464,21 @@
 
 .ms-role-card {
   font-family: var(--ms-font-heading);
-  font-size: var(--ms-text-display-fit);
+  /* The longest role name is one ten-letter word, inside a panel and a card. */
+  font-size: var(--ms-text-wordmark-fit);
   font-weight: 800;
   line-height: var(--ms-leading-heading);
   text-transform: uppercase;
 }
 
+.ms-actions,
+.ms-card__state,
+.ms-targets {
+  display: grid;
+  gap: var(--ms-space-3);
+}
+
+/* The step a card is in, by name. Shape reinforces it; the word is what says it. */
 .ms-card__status {
   justify-self: start;
   padding: 0 var(--ms-space-2);
@@ -472,16 +487,79 @@
   font-weight: 700;
 }
 
-.ms-card[data-status="available"] .ms-card__status {
+.ms-card__state[data-status="available"] .ms-card__status {
   background: var(--ms-color-accent);
 }
 
-.ms-card[data-status="unavailable"] {
+.ms-card__state[data-status="unavailable"] .ms-card__status,
+.ms-card__state[data-status="unknown"] .ms-card__status {
+  border-style: dashed;
+}
+
+.ms-card__state[data-status="not-registered"] .ms-card__status {
+  border-style: double;
+  border-width: calc(var(--ms-stroke-control) * 2);
+}
+
+/* A registration is stamped, never struck: the same neutral mark for any registered action. */
+.ms-card__state[data-status="registered"] .ms-card__status {
+  padding: var(--ms-space-1) var(--ms-space-3);
+  border: var(--ms-stroke-illustration) double var(--ms-color-ink);
+  font-family: var(--ms-font-heading);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+/* Picked up: a little more lift and an amber edge. It claims nothing about what happens next. */
+.ms-card:has(> .ms-card__state[data-selected="true"]) {
+  box-shadow: 6px 6px 0 var(--ms-color-ink);
+  outline: var(--ms-stroke-control) solid var(--ms-color-accent);
+  outline-offset: 2px;
+}
+
+.ms-card:has(> .ms-card__state[data-status="unavailable"]) {
   box-shadow: none;
 }
 
-.ms-card[data-status="unavailable"] .ms-card__status {
-  border-style: dashed;
+.ms-card__prompt,
+.ms-card__result {
+  font-family: var(--ms-font-heading);
+  font-size: var(--ms-text-heading);
+  font-weight: 800;
+  line-height: var(--ms-leading-heading);
+}
+
+.ms-card__busy {
+  font-weight: 700;
+}
+
+.ms-card__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ms-space-3);
+}
+
+/* A target is a full-width control: the token, the name, then the public status in words. */
+.ms-private .ms-target {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-self: stretch;
+  gap: var(--ms-space-1) var(--ms-space-3);
+  width: 100%;
+  text-align: left;
+}
+
+.ms-target__detail {
+  font-weight: 400;
+}
+
+/* The line a step is focused on is text, not a control, so its ring sits close to the words. */
+.ms-card__state [tabindex="-1"]:focus-visible,
+.ms-card__title:focus-visible {
+  outline-offset: 4px;
+  border-radius: var(--ms-radius-control);
 }
 
 @keyframes ms-reveal {
@@ -501,7 +579,7 @@
 .ms-button {
   min-height: var(--ms-target-min);
   min-width: var(--ms-target-min);
-  padding: var(--ms-space-2) var(--ms-space-4);
+  padding: var(--ms-space-2) var(--ms-inset);
   background: var(--ms-color-paper);
   color: var(--ms-color-ink);
   border: var(--ms-stroke-control) solid var(--ms-color-ink);
@@ -561,7 +639,7 @@
   gap: var(--ms-space-4);
   max-width: 76rem;
   margin: 0 auto;
-  padding: var(--ms-space-4) max(var(--ms-space-4), env(safe-area-inset-right)) max(var(--ms-space-6), env(safe-area-inset-bottom)) max(var(--ms-space-4), env(safe-area-inset-left));
+  padding: var(--ms-space-4) max(var(--ms-inset), env(safe-area-inset-right)) max(var(--ms-space-6), env(safe-area-inset-bottom)) max(var(--ms-inset), env(safe-area-inset-left));
   border-top: var(--ms-stroke-control) solid color-mix(in srgb, var(--ms-color-text-secondary) 55%, transparent);
 }
 
@@ -708,6 +786,7 @@
 @media (forced-colors: active) {
   .ms-token,
   .ms-card,
+  .ms-card:has(> .ms-card__state[data-selected="true"]),
   .ms-role-card,
   .ms-button {
     box-shadow: none;

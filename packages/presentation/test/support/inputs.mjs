@@ -15,8 +15,15 @@ const environment = {
   motion: { reducedMotion: false, followsDevice: true },
 };
 
+/** Nothing in progress on the Shot card, and nothing this device remembers registering. */
+export const IDLE_SHOT = { step: 'idle', registeredTargetSeatId: null };
+
 export function playerInput(view, overrides = {}) {
-  return { ...environment, view, privacy: { concealed: false, revealed: false }, ...overrides };
+  return { ...environment, view, privacy: { concealed: false, revealed: false }, shot: IDLE_SHOT, ...overrides };
+}
+/** The same input with the private panel open, where the Shot card lives. */
+export function openInput(view, shot = IDLE_SHOT, overrides = {}) {
+  return playerInput(view, { privacy: { concealed: false, revealed: true }, shot, ...overrides });
 }
 export function tableInput(view, overrides = {}) {
   return { ...environment, view, ...overrides };
