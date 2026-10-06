@@ -71,10 +71,11 @@ function describeChange(previous: Moment | null, next: Moment, view: AudienceVie
     if (previous.view.phase.id !== view.phase.id) out.push(polite(summary));
     // A count the server has just published, said once: what was voted on and what the count
     // names. It is new when it differs from the one before, or when the vote it counts has
-    // just closed, because two counts can be alike.
+    // just closed, because two counts can be alike. A vote the host cut short by ending the
+    // match was never counted: the count in the view is then an older one, and is not said.
     const tally = publishedTally(view);
     if (tally !== null) {
-      const justClosed = previous.view.phase.id !== view.phase.id && previous.view.phase.kind === tally.kind;
+      const justClosed = previous.view.phase.id !== view.phase.id && previous.view.phase.kind === tally.kind && view.phase.kind !== 'ABORTED';
       if (justClosed || JSON.stringify(tally) !== JSON.stringify(publishedTally(previous.view))) {
         out.push(polite(en.announce.tally(en.phase.kind[tally.kind], tallyResult(tally) ?? '').trim()));
       }

@@ -350,6 +350,24 @@ test('a newly published count is spoken once, to the display and to every phone,
     const counted = lines.filter(line => /counted/.test(line.text));
     assert.deepEqual(counted.map(line => [line.text, line.private ?? false]), [['Jail vote counted. Sent to Jail: Player 3.', false]]);
   }
+  // The host ends the match in the middle of a vote. That vote was never counted: the count
+  // still in the view is the one from the round before, and it is not said again as if new.
+  for (const kind of ['JAIL_VOTE', 'CAPTAIN_ELECTION']) {
+    const old = kind === 'JAIL_VOTE' ? JAIL_TALLY : { kind, counts: { 'seat-2': 3, 'seat-6': 3 }, eligibleVoterCount: 7, yesCount: null, selectedSeatId: null, released: null };
+    const open = publicView(view => { voting(kind, ['seat-2', 'seat-6'])(view); view.round = 3; view.phase.id = 'phase-vote-three'; view.lastTally = old; });
+    const ended = publicView(view => { view.round = 3; view.phase = { id: 'phase-ended', kind: 'ABORTED', startedAt: view.phase.startedAt, endsAt: null }; view.activeSeatId = null; view.lastTally = old; });
+    const cut = createTableAnnouncer();
+    speak(cut, open);
+    const heard = speak(cut, ended);
+    assert.deepEqual(heard.filter(line => /counted/.test(line)), [], `${kind}: no count is said`);
+    assert.equal(heard.some(line => line.includes('Match ended by the host')), true, 'The end is announced');
+    // A count that did arrive with the end, because this screen missed the view in between, is new and is said.
+    const late = createTableAnnouncer();
+    speak(late, open);
+    const fresh = { ...old, counts: { 'seat-2': 4, 'seat-6': 1 }, selectedSeatId: 'seat-2' };
+    assert.equal(speak(late, publicView(view => { view.round = 3; view.phase = { id: 'phase-ended', kind: 'ABORTED', startedAt: view.phase.startedAt, endsAt: null }; view.activeSeatId = null; view.lastTally = fresh; })).filter(line => /counted/.test(line)).length, 1);
+  }
+
   // A release count that does not say whether it was granted is announced without a result.
   const odd = createTableAnnouncer();
   speak(odd, publicView(view => { voting('RELEASE_VOTE', [])(view); jail(4, view); view.ballot.releaseTargetSeatId = 'seat-4'; }));
