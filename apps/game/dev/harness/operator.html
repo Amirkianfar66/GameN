@@ -21,6 +21,7 @@
     <dl class="harness-facts" id="operator-status" aria-live="polite"></dl>
     <div class="harness-row">
       <button type="button" data-action="advance">Next step</button>
+      <button type="button" data-action="end-turn">End Player 1’s turn without the scripted registration</button>
       <button type="button" data-action="expire">Let the phase clock run out (reconnects every screen)</button>
     </div>
     <div class="harness-row">
@@ -28,6 +29,26 @@
       <button type="button" data-action="restart" data-variant="unprotected">Restart (unprotected variant)</button>
     </div>
     <p class="harness-note">Both variants send identical views to every audience. They differ only in truth that stays on the server side of this harness.</p>
+  </section>
+
+  <section aria-labelledby="operator-commands-heading">
+    <h2 id="operator-commands-heading">Commands</h2>
+    <p class="harness-note">The command desk follows the command contract as stated for protocol 1 and applies no game rule; it never judges a target. An arrangement below applies to the next command request only, then the desk answers as scripted again.</p>
+    <dl class="harness-facts" id="operator-commands" aria-live="polite"></dl>
+    <div class="harness-row">
+      <button type="button" data-action="plan-command" data-plan="scripted">Answer as scripted</button>
+      <button type="button" data-action="plan-command" data-plan="slow">Slow request, then as scripted</button>
+      <button type="button" data-action="plan-command" data-plan="reject-not-allowed">Reject: not allowed</button>
+      <button type="button" data-action="plan-command" data-plan="reject-phase-closed">Reject: phase closed</button>
+      <button type="button" data-action="plan-command" data-plan="lose-acknowledgment">Register, then lose the answer</button>
+      <button type="button" data-action="plan-command" data-plan="drop-request">Lose the request</button>
+      <button type="button" data-action="plan-command" data-plan="unavailable">Answer “unavailable”</button>
+    </div>
+    <div class="harness-row">
+      <button type="button" data-action="command-service" data-state="silent">Fail every command and receipt request</button>
+      <button type="button" data-action="command-service" data-state="answering">Answer them again</button>
+    </div>
+    <p class="harness-note">A request that gets “no answer” here fails at once with an empty gateway error; a real one could also hang until the client gives up. The feeds keep running, so a screen stays live while its command goes unanswered.</p>
   </section>
 
   <section aria-labelledby="operator-feeds-heading">

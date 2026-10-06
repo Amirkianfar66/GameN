@@ -99,32 +99,43 @@ export function textOf(node: MarkupNode): string {
   return node.children.map(textOf).join('');
 }
 
+/** A region id is a plain name, so it can be found again in serialized markup without parsing it. */
+const REGION_ID = /^[a-z][a-z0-9-]*$/;
+
 export interface RegionSplit {
   /** Attributes of the shell root. A host applies them in place instead of rebuilding the page. */
   readonly rootAttrs: Readonly<Record<string, MarkupAttributeValue>>;
-  /** Everything inside the root, with every region replaced by an empty slot element. */
+  /** Everything inside the root, with every outermost region replaced by an empty slot element. */
   readonly frameHtml: string;
-  /** Region id to the serialized region element, in document order. */
+  /**
+   * Region id to the serialized region element, in document order, so a region always comes
+   * before the regions inside it. A region's own serialization holds a slot where each
+   * region nested in it goes.
+   */
   readonly regions: ReadonlyMap<string, string>;
 }
 
 // A host can replace only the regions whose serialization changed, so focus and reading
-// position elsewhere on the page survive a countdown tick or a snapshot update.
+// position elsewhere on the page survive a countdown tick or a snapshot update. Regions
+// may nest: redrawing an inner one leaves the outer one, and whatever else it holds, alone.
+//
+// A region may carry data-focus-fallback, the id of an element to focus when the element
+// that held focus inside it no longer exists after a redraw. A host tries the innermost
+// region's fallback first, then each enclosing region's, before falling back to the page.
 export function splitRegions(root: MarkupElement): RegionSplit {
   const regions = new Map<string, string>();
-  function frame(node: MarkupNode, insideRegion: boolean): MarkupNode {
+  function frame(node: MarkupNode): MarkupNode {
     if (typeof node === 'string') return node;
     const regionId = node.attrs['data-region'];
-    if (regionId !== undefined) {
-      if (insideRegion) throw new TypeError('Shell regions cannot be nested');
-      if (typeof regionId !== 'string' || regions.has(regionId)) throw new TypeError('Shell region ids must be unique strings');
-      node.children.forEach(child => frame(child, true));
-      regions.set(regionId, toHtml(node));
-      return { tag: 'div', attrs: { 'data-region-slot': regionId }, children: [] };
-    }
-    return { tag: node.tag, attrs: node.attrs, children: node.children.map(child => frame(child, insideRegion)) };
+    if (regionId === undefined) return { tag: node.tag, attrs: node.attrs, children: node.children.map(frame) };
+    if (typeof regionId !== 'string' || !REGION_ID.test(regionId) || regions.has(regionId)) throw new TypeError('Shell region ids must be unique plain names');
+    // Claim the position first: an outer region is listed before the regions inside it.
+    regions.set(regionId, '');
+    regions.set(regionId, toHtml({ tag: node.tag, attrs: node.attrs, children: node.children.map(frame) }));
+    // The slot has the region's own tag, so it is valid wherever the region itself is.
+    return { tag: node.tag, attrs: { 'data-region-slot': regionId }, children: [] };
   }
   if (root.attrs['data-region'] !== undefined) throw new TypeError('The shell root cannot itself be a region');
-  const frameHtml = root.children.map(child => toHtml(frame(child, false))).join('');
+  const frameHtml = root.children.map(child => toHtml(frame(child))).join('');
   return { rootAttrs: root.attrs, frameHtml, regions };
 }

@@ -25,8 +25,11 @@ export function find(root, predicate) {
   return first;
 }
 
-const INTENTS = new Set(['private/toggle', 'session/reconnect', 'app/reload', 'settings/reduce-motion']);
-const IDREF_ATTRIBUTES = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'for'];
+const INTENTS = new Set([
+  'private/toggle', 'session/reconnect', 'app/reload', 'settings/reduce-motion',
+  'shot/open', 'shot/choose-target', 'shot/back', 'shot/confirm', 'shot/check-again', 'shot/dismiss',
+]);
+const IDREF_ATTRIBUTES = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'for', 'data-focus-fallback'];
 
 /** Returns a list of human-readable problems; an empty list means the audit passed. */
 export function auditMarkup(root) {
@@ -71,7 +74,11 @@ export function auditMarkup(root) {
     if (tag === 'dl' && element.children.some(child => !isElement(child) || !['dt', 'dd'].includes(child.tag))) problems.push('dl with a child that is not dt/dd');
     if (attrs.hidden === true && textOf(element).trim() !== '') problems.push(`hidden element still carries text: ${attrs.id ?? tag}`);
     if (attrs['data-intent'] !== undefined && !INTENTS.has(attrs['data-intent'])) problems.push(`unknown intent: ${attrs['data-intent']}`);
+    if (attrs['data-intent'] !== undefined && !['button', 'input'].includes(tag)) problems.push(`intent on <${tag}>, which is not a control`);
+    if ((attrs['data-intent'] === 'shot/choose-target') !== (attrs['data-target-seat'] !== undefined)) problems.push('a target control and its seat must come together');
+    if (tag === 'button' && findAll(element, child => child !== element && !['span', 'strong'].includes(child.tag)).length > 0) problems.push('button with non-phrasing content');
     if (attrs['aria-hidden'] === 'true' && findAll(element, child => ['button', 'input', 'a'].includes(child.tag)).length > 0) problems.push('focusable control inside aria-hidden');
+    if (attrs['data-focus-fallback'] !== undefined && attrs['data-region'] === undefined) problems.push('a focus fallback belongs on a region');
     if (attrs.tabindex !== undefined && !['0', '-1'].includes(String(attrs.tabindex))) problems.push(`positive tabindex on <${tag}>`);
   });
 

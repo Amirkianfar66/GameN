@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import { request } from 'node:http';
 import test from 'node:test';
-import { PlayerViewSchema, PublicViewSchema, RoleSchema, ServerTimeResponseSchema, ApiFailureSchema } from '@mothership/contracts';
+import {
+  ApiFailureSchema, CommandResponseSchema, PlayerViewSchema, PublicViewSchema, ReceiptLookupResponseSchema, RoleSchema, ServerTimeResponseSchema,
+} from '@mothership/contracts';
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
 import { createPlayerScreen, createTableScreen } from '@mothership/game';
 import { renderPlayerShell, renderTableShell, toHtml } from '@mothership/presentation';
 import { createFixtureTransport } from '../dev/fixture/fixture-transport.mjs';
-import { AUDIENCES, createScenario, STEPS } from '../dev/fixture/scenario.mjs';
+import { AUDIENCES, COMMAND_PLANS, createScenario, SLOW_ANSWER_MS, STEPS } from '../dev/fixture/scenario.mjs';
 import { createDevServer, resolveStatic } from '../dev/serve.mjs';
 import { createFakeHost, flush } from './support/fakes.mjs';
 
@@ -140,6 +142,25 @@ test('server time is virtual: it starts at the authored phase start and can be r
   assert.deepEqual([next.kind, next.startedAt, next.endsAt - next.startedAt], ['ORDINARY_TURN', started + 63_000, 60_000], 'The next turn gets its full minute from when it opens');
 });
 
+test('the first turn can be ended without the scripted registration, and the views stay valid', () => {
+  let now = 0;
+  const scenario = createScenario({ now: () => now });
+  now = 12_000;
+  assert.equal(scenario.endFirstTurn(), true);
+  assert.equal(scenario.step().id, 'next-turn');
+  for (const audience of AUDIENCES) {
+    const view = scenario.viewFor(audience);
+    assert.deepEqual(schemaFor(audience).parse(view), view, audience);
+    assert.deepEqual([view.phase.id, view.activeSeatId, view.phase.endsAt - view.phase.startedAt], ['phase-b', 'seat-2', 60_000]);
+  }
+  // Nobody registered anything on the way.
+  assert.deepEqual([scenario.viewFor('seat-1').self.shotAvailable, scenario.viewFor('seat-1').ownPendingCommandIds], [true, []]);
+  assert.equal(scenario.endFirstTurn(), false, 'Only the first turn can be ended this way');
+  assert.equal(scenario.advance(), true);
+  assert.equal(scenario.step().id, 'resolution');
+  assert.equal(scenario.endFirstTurn(), false);
+});
+
 test('the real player screen runs against the fixture transport, labeled as fixture throughout', async () => {
   const host = createFakeHost();
   let now = 0;
@@ -158,7 +179,7 @@ test('the real player screen runs against the fixture transport, labeled as fixt
 
   scenario.advance();
   await flush();
-  assert.equal(screen.getFrame().model.match.privateArea.content.actions.cards[0].statusLabel, 'Not available');
+  assert.equal(screen.getFrame().model.match.privateArea.content.actions.cards[0].statusLabel, 'Registered');
   now += 2_000;
   scenario.advance();
   await flush();
@@ -215,14 +236,257 @@ test('the operator’s bad payloads exercise the client’s defences end to end'
   screen.dispose();
 });
 
-test('command endpoints are not scripted in this slice and say so with the contract’s own error', async () => {
-  const scenario = createScenario({ now: () => 0 });
-  const transport = createFixtureTransport(scenario, 'seat-1');
-  for (const call of [transport.submitCommand({}), transport.lookupReceipt({}), transport.advanceIfExpired({})]) {
-    const answer = ApiFailureSchema.parse(await call);
-    assert.equal(answer.error.code, 'UNAVAILABLE');
+// --- The scripted command desk ---
+//
+// It follows the command contract as stated for protocol 1 and applies no game rule.
+// These tests pin that behavior, so a journey test that leans on it leans on something known.
+
+const MATCH = 'fixture-match-a';
+const shot = (commandId, targetSeatId = 'seat-2', phaseId = 'phase-a') => ({
+  protocolVersion: 1, matchId: MATCH, phaseId, commandId, command: { type: 'REGISTER_SHOT', targetSeatId },
+});
+const lookup = commandId => ({ protocolVersion: 1, matchId: MATCH, commandId });
+const receiptOf = result => CommandResponseSchema.parse(result.body).receipt;
+const errorOf = result => ApiFailureSchema.parse(result.body).error.code;
+const found = (scenario, audience, commandId) => ReceiptLookupResponseSchema.parse(scenario.lookupReceipt(audience, lookup(commandId)).body);
+
+test('an accepted registration changes the actor’s own view and nobody else’s, to the authored view with the client’s identifier', () => {
+  for (const variant of ['protected', 'unprotected']) {
+    const authored = createOfficerFixture(variant);
+    const scenario = createScenario({ now: () => 0, variant });
+    const feeds = Object.fromEntries(AUDIENCES.map(audience => [audience, recorder()]));
+    for (const audience of AUDIENCES) scenario.subscribe(audience, feeds[audience].listener);
+    const heard = Object.fromEntries(AUDIENCES.map(audience => [audience, feeds[audience].events.length]));
+
+    const result = scenario.submitCommand('seat-1', shot('client-id-1'));
+    assert.deepEqual(result, {
+      answered: true,
+      body: { ok: true, serverTimeMs: authored.before.public.phase.startedAt, receipt: { protocolVersion: 1, matchId: MATCH, phaseId: 'phase-a', commandId: 'client-id-1', status: 'accepted', code: 'REGISTERED' } },
+    });
+    // The authored afterRegistration views, with the client's identifier in place of the authored one.
+    assert.deepEqual(scenario.viewFor('seat-1'), { ...authored.afterRegistration.officer, ownPendingCommandIds: ['client-id-1'] });
+    assert.deepEqual(scenario.viewFor('public'), authored.afterRegistration.public);
+    assert.deepEqual(scenario.viewFor('seat-2'), authored.afterRegistration.target);
+    assert.equal(scenario.step().id, 'registered');
+    // What makes it hidden: the table and the target hear nothing at all.
+    assert.equal(feeds.public.events.length, heard.public);
+    assert.equal(feeds['seat-2'].events.length, heard['seat-2']);
+    assert.equal(feeds['seat-1'].events.length, heard['seat-1'] + 1);
+    // Nothing in the answer or the views says what will come of it.
+    assert.equal(JSON.stringify([result, scenario.viewFor('seat-1')]).includes('Injured'), false);
   }
+});
+
+test('the desk keeps to the stated command contract: one durable receipt per identifier, replayed before phase or time is looked at', () => {
+  let now = 0;
+  const scenario = createScenario({ now: () => now });
+  const first = receiptOf(scenario.submitCommand('seat-1', shot('id-1')));
+  assert.equal(first.status, 'accepted');
+  const revision = scenario.viewFor('seat-1').viewRevision;
+
+  // The identical command again: the original receipt, and nothing happens twice.
+  assert.deepEqual(receiptOf(scenario.submitCommand('seat-1', shot('id-1'))), first);
+  assert.equal(scenario.viewFor('seat-1').viewRevision, revision);
+  // The same identifier with another payload conflicts and leaves the original alone.
+  assert.equal(errorOf(scenario.submitCommand('seat-1', shot('id-1', 'seat-3'))), 'COMMAND_ID_CONFLICT');
+  assert.equal(errorOf(scenario.submitCommand('seat-1', shot('id-1', 'seat-2', 'phase-b'))), 'COMMAND_ID_CONFLICT');
+  assert.deepEqual(found(scenario, 'seat-1', 'id-1'), { status: 'found', serverTimeMs: scenario.viewFor('public').phase.startedAt, receipt: first });
+
+  // The phase moves on. The original still gets its receipt back; a new identifier for the
+  // old phase is rejected, and that rejection is stored like any other receipt.
+  now += 5_000;
+  scenario.advance();
+  assert.equal(scenario.viewFor('public').phase.id, 'phase-b');
+  assert.deepEqual(receiptOf(scenario.submitCommand('seat-1', shot('id-1'))), first);
+  const late = receiptOf(scenario.submitCommand('seat-1', shot('id-2')));
+  assert.deepEqual([late.status, late.code, late.phaseId], ['rejected', 'PHASE_CLOSED', 'phase-a']);
+  assert.deepEqual(found(scenario, 'seat-1', 'id-2').receipt, late);
+  assert.deepEqual(receiptOf(scenario.submitCommand('seat-1', shot('id-2'))), late);
+
+  // A receipt belongs to the seat that sent the command; no other seat can read it.
+  assert.equal(found(scenario, 'seat-2', 'id-1').status, 'unknown');
+  assert.equal(found(scenario, 'seat-1', 'never-sent').status, 'unknown');
+  assert.equal(scenario.status().commands.receipts, 2);
+});
+
+test('a command is for the phase that is open now: past its deadline it is rejected, however little', () => {
+  let now = 0;
+  const scenario = createScenario({ now: () => now });
+  const other = createScenario({ now: () => now });
+  now = 59_999;
+  assert.equal(receiptOf(scenario.submitCommand('seat-1', shot('in-time'))).status, 'accepted');
+  now = 60_000;
+  assert.deepEqual([receiptOf(other.submitCommand('seat-1', shot('too-late'))).code, other.viewFor('seat-1').self.shotAvailable], ['PHASE_CLOSED', true]);
+  // Round resolution has no deadline and takes no shot.
+  const resolved = createScenario({ now: () => 0 });
+  while (resolved.advance());
+  assert.equal(receiptOf(resolved.submitCommand('seat-1', shot('during-resolution', 'seat-2', 'phase-c'))).code, 'PHASE_CLOSED');
+});
+
+test('the desk is not an engine: it holds one scripted registration and never judges a target', () => {
+  // Any target is accepted for the scripted registration. That is a statement about this
+  // double, not about the game: the real server decides which targets are allowed.
+  for (const target of ['seat-2', 'seat-6', 'seat-9', 'seat-1']) {
+    const scenario = createScenario({ now: () => 0 });
+    assert.equal(receiptOf(scenario.submitCommand('seat-1', shot('any', target))).status, 'accepted', target);
+  }
+  const scenario = createScenario({ now: () => 0 });
+  // Player 2's own authored view calls no shot available, and it is not Player 2's turn.
+  assert.equal(receiptOf(scenario.submitCommand('seat-2', shot('p2'))).code, 'NOT_ALLOWED');
+  assert.equal(receiptOf(scenario.submitCommand('seat-1', shot('p1-first'))).status, 'accepted');
+  // After its registration the Officer's own view calls the shot unavailable.
+  assert.equal(receiptOf(scenario.submitCommand('seat-1', shot('p1-second', 'seat-3'))).code, 'NOT_ALLOWED');
+  assert.deepEqual(scenario.viewFor('seat-1').ownPendingCommandIds, ['p1-first']);
+});
+
+test('requests are refused before the match is read, with the contract’s own safe errors, and nothing is stored', () => {
+  const scenario = createScenario({ now: () => 0 });
+  const refusals = [
+    [{ ...shot('v2'), protocolVersion: 2 }, 'UNSUPPORTED_PROTOCOL'],
+    [{ ...shot('extra'), actorSeatId: 'seat-1' }, 'INVALID_REQUEST'],
+    [{ ...shot('clock'), now: 5 }, 'INVALID_REQUEST'],
+    [{}, 'INVALID_REQUEST'],
+    [shot('bad id!'), 'INVALID_REQUEST'],
+    [{ ...shot('elsewhere'), matchId: 'another-match' }, 'FORBIDDEN'],
+  ];
+  for (const [payload, code] of refusals) assert.equal(errorOf(scenario.submitCommand('seat-1', payload)), code, JSON.stringify(payload));
+  // The table display has no command and no receipt.
+  assert.equal(errorOf(scenario.submitCommand('public', shot('from-table'))), 'FORBIDDEN');
+  assert.equal(errorOf(scenario.lookupReceipt('public', lookup('from-table'))), 'FORBIDDEN');
+  assert.equal(errorOf(scenario.lookupReceipt('seat-1', { ...lookup('x'), protocolVersion: 2 })), 'UNSUPPORTED_PROTOCOL');
+  assert.equal(errorOf(scenario.lookupReceipt('seat-1', { ...lookup('x'), targetSeatId: 'seat-2' })), 'INVALID_REQUEST');
+  assert.equal(scenario.status().commands.receipts, 0);
+  assert.equal(scenario.viewFor('seat-1').self.shotAvailable, true);
+  assert.throws(() => scenario.submitCommand('seat-7', shot('x')), /Unknown fixture audience/);
+  assert.throws(() => scenario.lookupReceipt('seat-7', lookup('x')), /Unknown fixture audience/);
+});
+
+test('the operator can arrange each kind of answer once; the desk then answers as scripted again', () => {
+  const fresh = plan => {
+    const scenario = createScenario({ now: () => 0 });
+    scenario.planNextCommand(plan);
+    assert.equal(scenario.status().commands.next, plan);
+    return scenario;
+  };
+  for (const [plan, code] of [['reject-not-allowed', 'NOT_ALLOWED'], ['reject-phase-closed', 'PHASE_CLOSED']]) {
+    const scenario = fresh(plan);
+    const rejected = receiptOf(scenario.submitCommand('seat-1', shot('a')));
+    assert.deepEqual([rejected.status, rejected.code], ['rejected', code]);
+    assert.deepEqual(found(scenario, 'seat-1', 'a').receipt, rejected, 'A rejection is stored');
+    assert.equal(scenario.viewFor('seat-1').self.shotAvailable, true);
+    assert.equal(scenario.status().commands.next, 'scripted');
+    assert.equal(receiptOf(scenario.submitCommand('seat-1', shot('b'))).status, 'accepted');
+  }
+
+  // Decided and stored, but the answer never arrives.
+  const acknowledged = fresh('lose-acknowledgment');
+  assert.deepEqual(acknowledged.submitCommand('seat-1', shot('a')), { answered: false });
+  assert.equal(found(acknowledged, 'seat-1', 'a').receipt.status, 'accepted');
+  assert.deepEqual(acknowledged.viewFor('seat-1').ownPendingCommandIds, ['a']);
+
+  // Lost on the way: the desk never saw it.
+  const dropped = fresh('drop-request');
+  assert.deepEqual(dropped.submitCommand('seat-1', shot('a')), { answered: false });
+  assert.equal(found(dropped, 'seat-1', 'a').status, 'unknown');
+  assert.equal(dropped.viewFor('seat-1').self.shotAvailable, true);
+  assert.equal(receiptOf(dropped.submitCommand('seat-1', shot('a'))).status, 'accepted', 'The same command, sent again, is decided then');
+
+  const unavailable = fresh('unavailable');
+  assert.equal(errorOf(unavailable.submitCommand('seat-1', shot('a'))), 'UNAVAILABLE');
+  assert.equal(found(unavailable, 'seat-1', 'a').status, 'unknown');
+
+  // Slow to arrive: nothing is decided, stored or shown until the request gets there.
+  const slow = fresh('slow');
+  const onItsWay = slow.submitCommand('seat-1', shot('a'));
+  assert.deepEqual([onItsWay.answered, onItsWay.delayMs], ['later', SLOW_ANSWER_MS]);
+  assert.equal(found(slow, 'seat-1', 'a').status, 'unknown');
+  assert.equal(slow.viewFor('seat-1').self.shotAvailable, true);
+  assert.equal(receiptOf(onItsWay.resume()).status, 'accepted');
+  assert.deepEqual(slow.viewFor('seat-1').ownPendingCommandIds, ['a']);
+  // If the turn ends while it is on its way, it arrives too late like any other.
+  const late = fresh('slow');
+  const travelling = late.submitCommand('seat-1', shot('a'));
+  late.endFirstTurn();
+  assert.equal(receiptOf(travelling.resume()).code, 'PHASE_CLOSED');
+  const quick = createScenario({ now: () => 0, slowAnswerMs: 20 });
+  quick.planNextCommand('slow');
+  assert.equal(quick.submitCommand('seat-1', shot('a')).delayMs, 20);
+  // A request on its way is answered as scripted when it arrives. It neither uses up nor
+  // obeys whatever the operator arranged meanwhile for a later request.
+  const queued = fresh('slow');
+  const waiting = queued.submitCommand('seat-1', shot('a'));
+  queued.planNextCommand('slow');
+  const arrived = waiting.resume();
+  assert.deepEqual([arrived.answered, receiptOf(arrived).status], [true, 'accepted'], 'Decided on arrival, not held back a second time');
+  assert.equal(queued.status().commands.next, 'slow', 'The later arrangement is still waiting for its own request');
+  const rejectedLater = fresh('slow');
+  const first = rejectedLater.submitCommand('seat-1', shot('a'));
+  rejectedLater.planNextCommand('reject-not-allowed');
+  assert.equal(receiptOf(first.resume()).status, 'accepted');
+  assert.equal(receiptOf(rejectedLater.submitCommand('seat-1', shot('b'))).code, 'NOT_ALLOWED');
+  // If the service has gone silent by the time it arrives, it gets no answer like any other.
+  const silenced = fresh('slow');
+  const lateArrival = silenced.submitCommand('seat-1', shot('a'));
+  silenced.setCommandService('silent');
+  assert.deepEqual(lateArrival.resume(), { answered: false });
+  assert.equal(silenced.status().commands.receipts, 0);
+
+  assert.throws(() => createScenario().planNextCommand('always-win'), /Unknown command plan/);
+  assert.deepEqual(COMMAND_PLANS.includes('scripted') && COMMAND_PLANS.length, 7);
+});
+
+test('a silent command service answers nothing and stores nothing, while the feeds carry on', () => {
+  const scenario = createScenario({ now: () => 0 });
+  const feed = recorder();
+  scenario.subscribe('seat-1', feed.listener);
+  scenario.setCommandService('silent');
+  scenario.planNextCommand('reject-not-allowed');
+  assert.deepEqual(scenario.submitCommand('seat-1', shot('a')), { answered: false });
+  assert.deepEqual(scenario.lookupReceipt('seat-1', lookup('a')), { answered: false });
+  assert.deepEqual([scenario.status().commands.service, scenario.status().commands.receipts, scenario.status().commands.next], ['silent', 0, 'reject-not-allowed']);
+  assert.equal(scenario.isConnected('seat-1'), true);
+  scenario.redeliver('seat-1');
+  assert.equal(feed.events.length, 3, 'The feed still delivers');
+  scenario.setCommandService('answering');
+  assert.equal(found(scenario, 'seat-1', 'a').status, 'unknown');
+  assert.equal(receiptOf(scenario.submitCommand('seat-1', shot('a'))).code, 'NOT_ALLOWED', 'The arrangement waited for a request that reached the desk');
+  assert.throws(() => scenario.setCommandService('broken'), /Unknown command service state/);
+});
+
+test('a restart forgets receipts and arrangements, and the operator status never shows a target, an identifier or a role', () => {
+  const scenario = createScenario({ now: () => 0 });
+  scenario.submitCommand('seat-1', shot('secret-command-id', 'seat-4'));
+  scenario.planNextCommand('unavailable');
+  scenario.setCommandService('silent');
+  const status = scenario.status();
+  assert.deepEqual(status.commands, { service: 'silent', next: 'unavailable', receipts: 1, last: { audience: 'seat-1', status: 'accepted', code: 'REGISTERED' } });
+  const text = JSON.stringify(status);
+  for (const word of ['secret-command-id', 'seat-4', 'targetSeatId', ...roles]) assert.equal(text.includes(word), false, word);
+  scenario.restart();
+  assert.deepEqual(scenario.status().commands, { service: 'answering', next: 'scripted', receipts: 0, last: null });
+  assert.equal(found(scenario, 'seat-1', 'secret-command-id').status, 'unknown');
+});
+
+test('the in-process transport hands answers over unvalidated and turns "no answer" into a failed request', async () => {
+  const scenario = createScenario({ now: () => 0 });
+  const waits = [];
+  const transport = createFixtureTransport(scenario, 'seat-1', { wait: async ms => { waits.push(ms); } });
+  assert.deepEqual(Object.keys(transport).sort(), ['advanceIfExpired', 'audience', 'lookupReceipt', 'mode', 'serverTime', 'submitCommand', 'subscribe']);
+  assert.equal(ReceiptLookupResponseSchema.parse(await transport.lookupReceipt(lookup('a'))).status, 'unknown');
+  scenario.planNextCommand('drop-request');
+  await assert.rejects(transport.submitCommand(shot('a')), /no answer/);
+  scenario.planNextCommand('slow');
+  assert.equal(CommandResponseSchema.parse(await transport.submitCommand(shot('a'))).receipt.status, 'accepted');
+  assert.deepEqual(waits, [SLOW_ANSWER_MS]);
+  // Without a way to wait, a slow request simply arrives at once.
+  const other = createScenario({ now: () => 0 });
+  other.planNextCommand('slow');
+  assert.equal(CommandResponseSchema.parse(await createFixtureTransport(other, 'seat-1').submitCommand(shot('a'))).receipt.status, 'accepted');
+  // Expiry catch-up is not scripted: the client does not call it yet.
+  assert.equal(ApiFailureSchema.parse(await transport.advanceIfExpired({})).error.code, 'UNAVAILABLE');
   assert.ok(ServerTimeResponseSchema.safeParse(await transport.serverTime()).success);
+  // The table's transport still has no way to send a command or read a receipt.
+  assert.deepEqual(Object.keys(createFixtureTransport(scenario, 'public')).sort(), ['advanceIfExpired', 'audience', 'mode', 'serverTime', 'subscribe']);
 });
 
 // --- The loopback development server ---
@@ -390,7 +654,7 @@ test('a bad payload is aimed at one named seat and never reaches the public feed
   assert.equal(sent.includes('"self"'), false);
 });
 
-test('operator actions drive the script over HTTP; command endpoints stay unscripted', async t => {
+test('operator actions drive the script over HTTP', async t => {
   const { origin, devServer } = await withServer(t);
   const post = async (path, body = {}) => {
     const response = await fetch(origin + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
@@ -409,12 +673,74 @@ test('operator actions drive the script over HTTP; command endpoints stay unscri
   await assert.rejects(() => fetch(`${origin}/api/fixture/stream?audience=public`), 'A dropped feed is a failed connection, not an error page');
   status = await post('/api/operator/restore', { audience: 'all' });
   assert.equal(status.connected.public, true);
-  for (const path of ['/api/fixture/submit-command', '/api/fixture/lookup-receipt', '/api/fixture/advance-if-expired']) {
-    assert.equal(ApiFailureSchema.parse(await post(path)).error.code, 'UNAVAILABLE');
+  assert.equal(ApiFailureSchema.parse(await post('/api/fixture/advance-if-expired')).error.code, 'UNAVAILABLE');
+  status = await post('/api/operator/end-turn');
+  assert.deepEqual([status.step.id, status.phase.id], ['next-turn', 'phase-b']);
+  status = await post('/api/operator/plan-command', { plan: 'reject-not-allowed' });
+  assert.equal(status.commands.next, 'reject-not-allowed');
+  status = await post('/api/operator/command-service', { state: 'silent' });
+  assert.equal(status.commands.service, 'silent');
+  for (const [path, body] of [['/api/operator/plan-command', { plan: 'always-win' }], ['/api/operator/plan-command', {}], ['/api/operator/command-service', { state: 'broken' }]]) {
+    const refused = await fetch(origin + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    assert.equal(refused.status, 400, path);
   }
   status = await post('/api/operator/restart', { variant: 'unprotected' });
+  assert.deepEqual(status.commands, { service: 'answering', next: 'scripted', receipts: 0, last: null });
   assert.deepEqual([status.variant, status.step.id], ['unprotected', 'officer-turn']);
   assert.equal(devServer.scenario.step().id, 'officer-turn');
+});
+
+test('command and receipt requests work over HTTP for a named seat, and an arranged silence is a failed request', async t => {
+  const devServer = createDevServer({ now: () => 0, slowAnswerMs: 40 });
+  const origin = await devServer.listen(0);
+  t.after(() => devServer.close());
+  const post = (path, body) => fetch(origin + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+
+  // The seat is named in the address. Without one there is nobody to answer.
+  for (const path of ['/api/fixture/submit-command', '/api/fixture/lookup-receipt', '/api/fixture/submit-command?audience=seat-7']) {
+    assert.equal((await post(path, shot('a'))).status, 400, path);
+  }
+  assert.equal(ApiFailureSchema.parse(await (await post('/api/fixture/submit-command?audience=public', shot('a'))).json()).error.code, 'FORBIDDEN');
+  assert.equal(ReceiptLookupResponseSchema.parse(await (await post('/api/fixture/lookup-receipt?audience=seat-1', lookup('a'))).json()).status, 'unknown');
+
+  // No answer: an empty gateway error, at once. The connection is not cut, because a browser
+  // re-sends a request by itself when that happens.
+  const unanswered = async response => [response.status, await response.text()];
+  devServer.scenario.planNextCommand('drop-request');
+  assert.deepEqual(await unanswered(await post('/api/fixture/submit-command?audience=seat-1', shot('a'))), [504, '']);
+  assert.equal(devServer.scenario.status().commands.receipts, 0);
+  devServer.scenario.planNextCommand('lose-acknowledgment');
+  assert.deepEqual(await unanswered(await post('/api/fixture/submit-command?audience=seat-1', shot('a'))), [504, '']);
+  assert.equal(devServer.scenario.status().commands.receipts, 1);
+  const recovered = ReceiptLookupResponseSchema.parse(await (await post('/api/fixture/lookup-receipt?audience=seat-1', lookup('a'))).json());
+  assert.deepEqual([recovered.status, recovered.receipt.status], ['found', 'accepted']);
+
+  // The identical command again gets the original receipt; a slow request is held back, then decided.
+  devServer.scenario.planNextCommand('slow');
+  const started = performance.now();
+  const response = await post('/api/fixture/submit-command?audience=seat-1', shot('a'));
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+  assert.deepEqual(CommandResponseSchema.parse(await response.json()).receipt, recovered.receipt);
+  assert.equal(performance.now() - started >= 35, true);
+
+  // Two slow requests in a row: each is held back once and then answered in full.
+  devServer.scenario.planNextCommand('slow');
+  const firstSlow = post('/api/fixture/submit-command?audience=seat-1', shot('a'));
+  await new Promise(resolve => setTimeout(resolve, 10));
+  devServer.scenario.planNextCommand('slow');
+  const secondSlow = post('/api/fixture/submit-command?audience=seat-1', shot('a'));
+  for (const answer of [await firstSlow, await secondSlow]) {
+    assert.equal(answer.status, 200);
+    assert.deepEqual(CommandResponseSchema.parse(await answer.json()).receipt, recovered.receipt);
+  }
+
+  devServer.scenario.setCommandService('silent');
+  assert.equal((await post('/api/fixture/lookup-receipt?audience=seat-1', lookup('a'))).status, 504);
+  assert.equal((await post('/api/fixture/submit-command?audience=seat-1', shot('b'))).status, 504);
+  // The fixture server never logs or echoes a command: its status shows a count, not a choice.
+  const status = await (await fetch(`${origin}/api/operator/status`)).json();
+  assert.equal(JSON.stringify(status).includes('seat-2'), true, 'audience keys only');
+  assert.equal(JSON.stringify(status.commands).includes('seat-2'), false);
 });
 
 test('an open stream receives later views and a restart notice, and is closed when the feed is dropped', async t => {

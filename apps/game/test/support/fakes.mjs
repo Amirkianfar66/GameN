@@ -12,9 +12,34 @@ export function createFakeHost({ localStart = 5_000, serverStart = 1_800_000_000
   let localNow = localStart;
   let serverSkewMs = 0;
   let nextHandle = 1;
+  let nextId = 1;
   const timers = new Map();
   const host = {
+    /** Every command identifier handed out, in order. */
+    issuedIds: [],
+    /** What a page would keep across a reload: at most one string. Shared by every screen made from this host, as by reloads of one tab. */
+    kept: null,
+    /** Every value ever written there, to check what is and is not kept. */
+    everKept: [],
     ports: {
+      unresolved: {
+        load: () => host.kept,
+        save(value) {
+          host.kept = value;
+          host.everKept.push(value);
+        },
+        clear() {
+          host.kept = null;
+        },
+      },
+      // Predictable identifiers. A real host supplies random ones; the client must not care.
+      ids: {
+        next() {
+          const id = `command-${nextId++}`;
+          host.issuedIds.push(id);
+          return id;
+        },
+      },
       clock: { now: () => localNow },
       scheduler: {
         setTimeout(callback, delayMs) {

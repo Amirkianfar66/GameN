@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createPlayerAnnouncer, createTableAnnouncer } from '@mothership/presentation';
-import { fixture, playerInput, playerVariant, publicVariant, ROLE_PATTERN, tableInput } from './support/inputs.mjs';
+import { fixture, IDLE_SHOT, openInput, playerInput, playerVariant, publicVariant, ROLE_PATTERN, tableInput } from './support/inputs.mjs';
 
 const { before, afterRegistration } = fixture();
 const connecting = { connection: 'connecting', deadline: { kind: 'unsynced' } };
@@ -150,4 +150,194 @@ test('nothing is spoken because of a hidden registration, and no announcement ca
     assert.doesNotMatch(text, ROLE_PATTERN);
     assert.doesNotMatch(text, /shot|available|registered/i);
   }
+});
+
+// The shot flow. Everything it says is private to the seat that acted.
+const SHOT = {
+  targeting: { step: 'targeting' },
+  confirming: { step: 'confirming', targetSeatId: 'seat-2', armed: true },
+  submitting: { step: 'submitting' },
+  checking: { step: 'checking', recovered: false },
+  unknown: { step: 'unknown', recovered: false, phaseOver: false, armed: true },
+  registered: { step: 'registered', targetSeatId: 'seat-2', pending: true, armed: true },
+  rejected: code => ({ step: 'rejected', code, armed: true }),
+  notRegistered: reason => ({ step: 'not-registered', reason, armed: true }),
+  reminder: targetSeatId => ({ step: 'idle', registered: { targetSeatId } }),
+};
+const shotSteps = steps => {
+  const announcer = createPlayerAnnouncer();
+  announcer.next(openInput(before.officer));
+  return steps.map(input => announcer.next(input));
+};
+const said = (politeness, text) => ({ politeness, text, private: true });
+const closed = { privacy: { concealed: false, revealed: false } };
+
+test('what the server did with a command is spoken, privately, as it becomes known', () => {
+  const [submitting, registered, again] = shotSteps([
+    openInput(before.officer, SHOT.submitting),
+    openInput(before.officer, SHOT.registered),
+    openInput(before.officer, SHOT.registered),
+  ]);
+  assert.deepEqual(submitting, [said('polite', 'Sending your shot to the server…')]);
+  assert.deepEqual(registered, [said('polite', 'Shot at Player 2 registered.')]);
+  assert.deepEqual(again, [], 'A result is said once');
+
+  const [, checking, unknown] = shotSteps([
+    openInput(before.officer, SHOT.submitting),
+    openInput(before.officer, SHOT.checking),
+    openInput(before.officer, SHOT.unknown),
+  ]);
+  assert.deepEqual(checking, [said('polite', 'Checking whether your shot was registered…')]);
+  // The player believes they acted. Being told the outcome is not known does not wait its turn.
+  assert.deepEqual(unknown, [said('assertive', 'Result unknown. The app could not confirm whether your shot was registered.')]);
+
+  const failures = [
+    [SHOT.rejected('PHASE_CLOSED'), 'Not registered. It reached the server after the turn had ended.'],
+    [SHOT.rejected('NOT_ALLOWED'), 'Not registered. The server did not allow this shot.'],
+    [SHOT.notRegistered('NOT_SENT'), 'Not registered. The request could not be sent.'],
+    [SHOT.notRegistered('PHASE_OVER'), 'Not registered. The turn ended before the server received your shot.'],
+  ];
+  for (const [shot, text] of failures) {
+    assert.deepEqual(shotSteps([openInput(before.officer, SHOT.submitting), openInput(before.officer, shot)])[1], [said('assertive', text)]);
+  }
+});
+
+test('a control becoming active, or the same step seen again, is not spoken', () => {
+  const steps = shotSteps([
+    openInput(before.officer, { ...SHOT.confirming, armed: false }),
+    openInput(before.officer, SHOT.confirming),
+    openInput(before.officer, SHOT.submitting),
+    openInput(before.officer, { ...SHOT.registered, armed: false }),
+    openInput(before.officer, SHOT.registered),
+  ]);
+  assert.deepEqual(steps.map(lines => lines.map(line => line.text)), [[], [], ['Sending your shot to the server…'], ['Shot at Player 2 registered.'], []]);
+});
+
+test('after a reload the listener is told what the page is doing, and never a target', () => {
+  const lines = shotSteps([
+    openInput(before.officer, { step: 'checking', recovered: true }),
+    openInput(before.officer, { step: 'registered', targetSeatId: null, pending: true, armed: false }),
+  ]);
+  assert.deepEqual(lines, [
+    [said('polite', 'This page was reloaded before the server answered. Checking whether your shot was registered…')],
+    [said('polite', 'Your shot is registered.')],
+  ]);
+});
+
+test('steps the player takes are not narrated; focus reads them', () => {
+  const lines = shotSteps([
+    openInput(before.officer, SHOT.targeting),
+    openInput(before.officer, SHOT.confirming),
+    openInput(before.officer, SHOT.targeting),
+    openInput(before.officer, IDLE_SHOT),
+  ]);
+  assert.deepEqual(lines, [[], [], [], []]);
+  // Acknowledging a result the listener has already heard adds nothing.
+  assert.deepEqual(shotSteps([openInput(before.officer, SHOT.submitting), openInput(before.officer, SHOT.registered), openInput(afterRegistration.officer, SHOT.reminder('seat-2'))])[2], []);
+});
+
+test('nothing about a command is put into words unless the private panel is open in the foreground', () => {
+  const hidden = { privacy: { concealed: true, revealed: true } };
+  for (const privacy of [closed, hidden]) {
+    const lines = shotSteps([
+      openInput(before.officer, SHOT.submitting, privacy),
+      openInput(before.officer, SHOT.checking, privacy),
+      openInput(before.officer, SHOT.registered, privacy),
+      openInput(afterRegistration.officer, SHOT.registered, privacy),
+    ]);
+    assert.deepEqual(lines, [[], [], [], []]);
+  }
+  // A result that arrived while the panel was closed is said when the player opens it again, once.
+  const [, , , reopened, after] = shotSteps([
+    openInput(before.officer, SHOT.submitting),
+    openInput(before.officer, SHOT.submitting, closed),
+    openInput(before.officer, SHOT.registered, closed),
+    openInput(before.officer, SHOT.registered),
+    openInput(before.officer, SHOT.registered),
+  ]);
+  assert.deepEqual(reopened, [said('polite', 'Shot at Player 2 registered.')]);
+  assert.deepEqual(after, []);
+  // Not on a recovery screen either, where the panel is gone.
+  assert.deepEqual(shotSteps([openInput(before.officer, SHOT.registered, { problem: 'integrity' })])[0].filter(item => item.private), []);
+});
+
+test('an answer that came unseen, after which the card went back to the view, is still told on opening', () => {
+  // The player sent the command and closed the panel. The receipt came, the phase moved on,
+  // and the card now only carries the reminder. The listener last heard "sending".
+  const later = playerVariant(afterRegistration.officer, v => { v.viewRevision += 1; v.phase = { ...v.phase, id: 'phase-b' }; v.activeSeatId = 'seat-2'; });
+  const reminded = shotSteps([
+    openInput(before.officer, SHOT.submitting),
+    openInput(before.officer, SHOT.registered, closed),
+    openInput(later, SHOT.reminder('seat-2'), closed),
+    openInput(later, SHOT.reminder('seat-2')),
+    openInput(later, SHOT.reminder('seat-2')),
+  ]);
+  assert.deepEqual(reminded[3].filter(line => line.private), [said('polite', 'Shot at Player 2 registered.')]);
+  assert.deepEqual(reminded[4], []);
+  // With nothing registered behind it there is nothing to tell: the view no longer lists a command.
+  const gone = shotSteps([
+    openInput(before.officer, SHOT.submitting),
+    openInput(later, IDLE_SHOT, closed),
+    openInput(later, IDLE_SHOT),
+  ]);
+  assert.deepEqual(gone[2].filter(line => line.private), []);
+  // Opened only after the view has stopped listing the shot: it is told as something that happened.
+  const resolved = playerVariant(later, v => { v.viewRevision += 1; v.ownPendingCommandIds = []; });
+  const past = shotSteps([
+    openInput(before.officer, SHOT.submitting),
+    openInput(resolved, { ...SHOT.registered, pending: false }, closed),
+    openInput(resolved, { ...SHOT.registered, pending: false }),
+  ]);
+  assert.deepEqual(past[2].filter(line => line.private), [said('polite', 'Your shot at Player 2 was registered.')]);
+  // A reloaded page knows no target and says none.
+  const reloaded = shotSteps([openInput(before.officer, { step: 'checking', recovered: true }), openInput(later, SHOT.reminder(null), closed), openInput(later, SHOT.reminder(null))]);
+  assert.deepEqual(reloaded[2].filter(line => line.private), [said('polite', 'Your shot is registered.')]);
+});
+
+test('only the flow’s own lines are marked private, and none of them names a role or an outcome', () => {
+  const announcer = createPlayerAnnouncer();
+  const lines = [
+    openInput(null, IDLE_SHOT, connecting),
+    openInput(before.officer),
+    openInput(before.officer, SHOT.submitting),
+    openInput(before.officer, SHOT.checking, { connection: 'stale' }),
+    openInput(before.officer, SHOT.registered),
+    openInput(playerVariant(afterRegistration.officer, v => { v.seats[1].health = 'Injured'; }), IDLE_SHOT),
+  ].flatMap(input => announcer.next(input));
+  assert.deepEqual(lines.map(line => [line.text, line.private === true]), [
+    ['Connected. Round 2. Your turn.', false],
+    ['Sending your shot to the server…', true],
+    ['Connection lost. Showing the last known state.', false],
+    ['Checking whether your shot was registered…', true],
+    ['Reconnected. Round 2. Your turn.', false],
+    ['Shot at Player 2 registered.', true],
+    // A later health change is public status. It is never tied to the registration.
+    ['Player 2 is now Injured.', false],
+  ]);
+  for (const line of lines) {
+    assert.doesNotMatch(line.text, ROLE_PATTERN);
+    if (line.private) assert.doesNotMatch(line.text, /hit|injur|damag|eliminat|block|protect/i);
+  }
+  // The table display has no command and says nothing about one.
+  assert.deepEqual(table([tableInput(before.public), tableInput(afterRegistration.public)]).flat(), ['Connected. Round 2. Player 1’s turn.']);
+});
+
+test('a choice taken away by circumstances is said to be unsent; one the player put down is not', () => {
+  const choosing = openInput(before.officer, SHOT.confirming);
+  const idle = overrides => openInput(before.officer, IDLE_SHOT, overrides);
+  const dropped = said('polite', 'Your choice was not sent.');
+  // The connection is lost with the confirmation on screen.
+  assert.deepEqual(shotSteps([choosing, idle({ connection: 'stale' })])[1], [{ politeness: 'polite', text: 'Connection lost. Showing the last known state.' }, dropped]);
+  // The turn's clock runs out.
+  assert.deepEqual(shotSteps([choosing, idle({ deadline: expired })])[1], [{ politeness: 'polite', text: 'Time is up. Waiting for phase update.' }, dropped]);
+  // The next turn opens while the player is still choosing a target.
+  const othersTurn = playerVariant(before.officer, v => { v.viewRevision += 1; v.phase = { ...v.phase, id: 'phase-b' }; v.activeSeatId = 'seat-2'; });
+  assert.deepEqual(shotSteps([openInput(before.officer, SHOT.targeting), openInput(othersTurn, IDLE_SHOT)])[1].map(line => line.text), ['Round 2. Player 2’s turn.', 'Your choice was not sent.']);
+  // The player cancels: nothing to tell them.
+  assert.deepEqual(shotSteps([choosing, idle()])[1], []);
+  assert.deepEqual(shotSteps([openInput(before.officer, SHOT.targeting), idle()])[1], []);
+  // Dropped because the panel closed: nothing is said then, and nothing about it later.
+  assert.deepEqual(shotSteps([choosing, openInput(before.officer, IDLE_SHOT, closed), idle({ connection: 'stale' })]).slice(1).flat().filter(line => line.private), []);
+  // A command that was sent is never described this way.
+  assert.deepEqual(shotSteps([openInput(before.officer, SHOT.submitting), idle({ connection: 'stale' })])[1].filter(line => line.private), []);
 });

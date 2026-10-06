@@ -401,7 +401,11 @@ test('a hidden registration does not even redraw the table or the target phone',
   open.screen.dispatch(TOGGLE);
   const said = open.screen.getFrame().announcement;
   await open.fake.deliver(afterRegistration.officer);
-  assert.equal(privateArea(open.screen).content.actions.cards[0].statusLabel, 'Not available');
+  // A registration this device did not make itself, as after a reload: the view says a shot
+  // is registered and nothing more, and the card repeats exactly that.
+  const card = privateArea(open.screen).content.actions.cards[0];
+  assert.equal(card.statusLabel, 'Registered');
+  assert.deepEqual(card.body, { step: 'idle', open: null, reason: null, note: 'A shot is registered. It is resolved at the end of the round.' });
   assert.equal(open.screen.getFrame().announcement, said, 'Nothing is spoken by a snapshot alone');
 });
 
@@ -449,4 +453,38 @@ test('dispose releases the feed, every timer and every listener', async () => {
   assert.equal(screen.getFrame(), frame);
   assert.equal(frames.length, count);
   assert.equal(fake.calls.subscribe, 1);
+});
+
+test('the screen itself refuses to carry a private line unless the private panel is open, whatever produced the line', async () => {
+  // The player announcer already keeps quiet while the panel is closed. This checks the
+  // screen's own refusal with an announcer that does not, reaching past the package entry
+  // for the generic controller on purpose.
+  const { createScreen } = await import('../dist/screens/screen.js');
+  const host = createFakeHost({ serverStart: SERVER_EPOCH });
+  const fake = createFakeTransport(host);
+  const { createPlayerSession } = await import('@mothership/game');
+  const session = createPlayerSession({ transport: fake.transport, matchId, ports: host.ports });
+  let line = 0;
+  const screen = createScreen({
+    session,
+    ports: host.ports,
+    host: { reload() {} },
+    phaseOf: view => view.phase,
+    buildInput: (environment, view, local) => ({ environment, view, local }),
+    buildModel: input => ({ screen: input.view === null ? 'connecting' : 'match', revealed: input.local.privateRevealed }),
+    announcer: { next: () => [{ politeness: 'polite', text: `public ${++line}` }, { politeness: 'assertive', text: `secret ${line}`, private: true }] },
+    handleIntent: (intent, { local }) => (intent.type === 'private/toggle' ? { local: { ...local, privateRevealed: !local.privateRevealed } } : null),
+  });
+  screen.start();
+  await fake.connectWith(before.officer);
+  assert.match(screen.getFrame().announcement.text, /^public \d+$/);
+  assert.equal(screen.getFrame().privateAnnouncement, null, 'Closed: the private line is dropped, not carried');
+  screen.dispatch(TOGGLE);
+  assert.match(screen.getFrame().privateAnnouncement.text, /^secret \d+$/);
+  assert.equal(screen.getFrame().privateAnnouncement.politeness, 'assertive');
+  assert.equal(screen.getFrame().announcement.politeness, 'polite', 'Each channel keeps its own urgency');
+  screen.setPageVisible(false);
+  assert.equal(screen.getFrame().privateAnnouncement, null, 'Backgrounded: nothing private is carried, though the announcer still offers it');
+  assert.match(screen.getFrame().announcement.text, /^public \d+$/);
+  screen.dispose();
 });

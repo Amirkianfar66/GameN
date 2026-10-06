@@ -4,11 +4,28 @@
 // forwards input and platform signals back. This is the interim renderer used by the
 // fixture harness. It holds no game state and makes no decision of its own.
 
-import { SHELL_IDS, splitRegions } from '@mothership/presentation';
+import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A statement, not only a comment: it survives bundling and comment stripping, so the
 // production-exclusion check finds this module wherever it ends up.
 globalThis[Symbol.for('mothership:dev-only')] = true;
+
+// A command identifier is random and means nothing. randomUUID needs a secure context,
+// which a loopback address is; the fallback covers a browser that lacks the method.
+function randomId() {
+  if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  return [...crypto.getRandomValues(new Uint8Array(16))].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+// The one thing kept across a reload: the identifiers of a command whose outcome is not yet
+// known. Session storage is per tab and ends with it. The client core decides what goes in
+// and takes it out again as soon as the outcome is known; it never puts a target there.
+const UNRESOLVED_KEY = 'mothership:unresolved-command';
+const unresolvedCommandStore = {
+  load: () => window.sessionStorage.getItem(UNRESOLVED_KEY),
+  save: value => window.sessionStorage.setItem(UNRESOLVED_KEY, value),
+  clear: () => window.sessionStorage.removeItem(UNRESOLVED_KEY),
+};
 
 /** Ports backed by the browser. performance.now() is monotonic and ignores the wall clock. */
 export function browserPorts() {
@@ -18,10 +35,12 @@ export function browserPorts() {
       setTimeout: (callback, delayMs) => window.setTimeout(callback, delayMs),
       clearTimeout: handle => window.clearTimeout(handle),
     },
+    ids: { next: randomId },
+    unresolved: unresolvedCommandStore,
   };
 }
 
-/** How long a spoken line stays in the document before it is tidied away. */
+/** How long a spoken line stays in the document before it is taken out again. */
 const SPOKEN_LINE_LIFETIME_MS = 15_000;
 
 // A log, not a single slot: two announcements in quick succession are both read, in order,
@@ -36,15 +55,17 @@ function liveRegion(politeness) {
   return region;
 }
 
-function speak(region, text) {
-  const now = performance.now();
-  for (const line of [...region.children]) {
-    if (now - Number(line.dataset.at) > SPOKEN_LINE_LIFETIME_MS) line.remove();
-  }
+function speak(container, region, text, isPrivate) {
+  // The latest word about a command replaces the earlier ones, in either region, so someone
+  // reading the page line by line never finds "result unknown" next to "registered".
+  if (isPrivate) for (const earlier of container.querySelectorAll('[data-private="true"]')) earlier.remove();
   const line = document.createElement('p');
-  line.dataset.at = String(now);
+  // Marked so it can be taken out of the document the moment the private panel closes.
+  if (isPrivate) line.dataset.private = 'true';
   line.textContent = text;
   region.append(line);
+  // Each line leaves by itself, whether or not anything is said after it.
+  window.setTimeout(() => line.remove(), SPOKEN_LINE_LIFETIME_MS);
 }
 
 /**
@@ -61,10 +82,10 @@ export function mountScreen({ container, screen, render }) {
   container.replaceChildren(root, polite, assertive);
 
   let rootAttributes = {};
-  let frameHtml = null;
-  let regions = new Map();
+  let drawn = null;
   let spokenSeq = 0;
   let focusSeq = 0;
+  let privacyEpoch = 0;
 
   function applyRootAttributes(next) {
     for (const name of Object.keys(rootAttributes)) if (!(name in next)) root.removeAttribute(name);
@@ -80,47 +101,62 @@ export function mountScreen({ container, screen, render }) {
     applyRootAttributes(split.rootAttrs);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
-    // countdown tick. Focus inside a replaced part is put back on the element with the same id.
+    // countdown tick. The plan says what to redraw and in which order; this host carries it out.
     const active = document.activeElement;
-    const activeId = active instanceof HTMLElement && root.contains(active) ? active.id : '';
-    let focusWasReplaced = false;
-    if (split.frameHtml !== frameHtml) {
-      focusWasReplaced = active !== null && root.contains(active);
-      root.innerHTML = split.frameHtml;
-      for (const [id, html] of split.regions) root.querySelector(`[data-region-slot="${CSS.escape(id)}"]`).outerHTML = html;
-    } else {
-      for (const [id, html] of split.regions) {
-        if (regions.get(id) === html) continue;
-        const element = root.querySelector(`[data-region="${CSS.escape(id)}"]`);
-        if (active !== null && element.contains(active)) focusWasReplaced = true;
-        element.outerHTML = html;
+    const hadFocus = active instanceof HTMLElement && root.contains(active);
+    // Where focus may go if what holds it is redrawn away: the element with the same id,
+    // then whatever each region around it names, innermost first.
+    const candidates = [];
+    if (hadFocus) {
+      if (active.id !== '') candidates.push(active.id);
+      for (let region = active.closest('[data-region]'); region !== null; region = region.parentElement?.closest('[data-region]') ?? null) {
+        if (region.dataset.focusFallback) candidates.push(region.dataset.focusFallback);
       }
     }
-    frameHtml = split.frameHtml;
-    regions = split.regions;
+    const plan = planRedraw(drawn, split);
+    if (plan.frame !== null) root.innerHTML = plan.frame;
+    for (const step of plan.steps) {
+      const selector = step.into === 'slot' ? `[data-region-slot="${CSS.escape(step.id)}"]` : `[data-region="${CSS.escape(step.id)}"]`;
+      root.querySelector(selector).outerHTML = step.html;
+    }
+    drawn = split;
+    const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
 
     if (frame.focus !== null && frame.focus.seq !== focusSeq) {
       focusSeq = frame.focus.seq;
       document.getElementById(frame.focus.targetId)?.focus();
     } else if (focusWasReplaced) {
-      const target = (activeId !== '' && document.getElementById(activeId)) || document.getElementById(SHELL_IDS.main);
+      const target = candidates.map(id => document.getElementById(id)).find(element => element !== null) ?? document.getElementById(SHELL_IDS.main);
       target?.focus({ preventScroll: true });
     }
 
-    if (frame.announcement !== null && frame.announcement.seq !== spokenSeq) {
-      spokenSeq = frame.announcement.seq;
-      speak(frame.announcement.politeness === 'assertive' ? assertive : polite, frame.announcement.text);
+    // Private content left the screen: private lines that were spoken leave the document too.
+    if (frame.privacyEpoch !== privacyEpoch) {
+      privacyEpoch = frame.privacyEpoch;
+      for (const line of container.querySelectorAll('[data-private="true"]')) line.remove();
+    }
+    // Two channels, never mixed: what anyone could be told, then what is this seat's alone.
+    for (const [line, isPrivate] of [[frame.announcement, false], [frame.privateAnnouncement, true]]) {
+      if (line === null || line.seq <= spokenSeq) continue;
+      spokenSeq = line.seq;
+      speak(container, line.politeness === 'assertive' ? assertive : polite, line.text, isPrivate);
     }
   }
 
+  // A control says what it is for and, for a target, which seat. The shared parser decides
+  // whether that is an intent at all; this host assembles none of its own.
   function onClick(event) {
     const control = event.target instanceof Element ? event.target.closest('button[data-intent]') : null;
-    if (control !== null && root.contains(control)) screen.dispatch({ type: control.dataset.intent });
+    if (control === null || !root.contains(control)) return;
+    const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat });
+    if (intent !== null) screen.dispatch(intent);
   }
   function onChange(event) {
     const control = event.target;
-    if (control instanceof HTMLInputElement && control.dataset.intent) screen.dispatch({ type: control.dataset.intent, checked: control.checked });
+    if (!(control instanceof HTMLInputElement)) return;
+    const intent = parseShellIntent(control.dataset.intent, { checked: control.checked });
+    if (intent !== null) screen.dispatch(intent);
   }
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onMotion = () => screen.setDeviceReducedMotion(motion.matches);

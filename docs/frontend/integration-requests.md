@@ -13,6 +13,7 @@ Codex owns the root manifests, the lockfile, CI and the workspace guard. Fronten
 | [REQ-4](#req-4) | Dependencies, in four stages | React shells, R3F evaluation, GSAP cues, browser tests | 12 direct, 72 resolved |
 | [REQ-5](#req-5) | A browser test job in CI | Automated browser journeys | With REQ-4 stage D |
 | [REQ-6](#req-6) | A reviewed way to update the two pinned Frontend documents | Keeping the brief and the slice plan current | None |
+| [REQ-7](#req-7) | The Firebase web client, for a transport to the backend's emulator | Any emulator or backend integration | 1 direct, 84 resolved |
 
 Nothing here is installed. The versions and hashes below were read from the npm registry on 6 October 2026, and the full set was resolved in a scratch copy of the manifests with `npm install --package-lock-only --ignore-scripts` under npm 10.9.4. That run downloaded metadata only and touched no file in the repository.
 
@@ -35,6 +36,8 @@ Requested change to the root `package.json`:
 The `test:frontend` command line was run exactly as written after a clean `npm ci` and passed: 59 and 128 tests, then the exclusion check. With the workspace already built it took under two seconds on the development machine. It needs no network, browser or credentials. The tests use `node:test` against built output, like the bootstrap tests.
 
 `tests/bootstrap/build.test.mjs` still passes unchanged: both packages keep a single `.` export.
+
+*Slice 2 update.* The same command line, unchanged, now runs 95 and 210 tests. None of them runs in CI until this lands, so the gap this request closes has grown to 305 tests.
 
 ## REQ-2
 
@@ -127,12 +130,35 @@ Two lines in those files are now out of date: `agents/frontend.md` still says "b
 
 Requested: either a reviewed lock update when Frontend proposes a wording change to these two files, or a statement that they are frozen as historical sources and status lives elsewhere. Frontend will not regenerate the lock.
 
+## REQ-7
+
+**The Firebase web client. Needed before any emulator or backend integration; not needed by anything built so far.**
+
+Everything Frontend has delivered talks to a transport *interface*. The fixture harness implements it over a scripted double. The backend on `agent/backend-firebase-officer-slice` serves views as Firestore documents under Security Rules, takes commands over HTTP with a Firebase ID token, and ships an emulator suite. A transport to that needs the Firebase web client for three things: an authenticated identity, snapshot listeners that can tell a server snapshot from a cached one (the freshness answer to FE-C07), and the token for the command endpoints.
+
+| Package | Version | Kind | License | Registry integrity (sha512) |
+| --- | --- | --- | --- | --- |
+| `firebase` | 12.19.0 | runtime | Apache-2.0 | `kwXCLcI0ly2lkwygkbuRx6SsX3DSO96355YrWh9SWZ5ncsxK/y5cirn3sY6nZVSiBVE++2nL6Hchzu1EB8uohQ==` |
+
+Runtime specifiers to permit in `apps/game/src`: `firebase/app`, `firebase/auth`, `firebase/firestore`, and `firebase/app-check` for production attestation. The modular entry points are named so a bundler can drop what is unused; none of `firebase/analytics`, `firebase/messaging`, `firebase/storage` or the compat layer is requested.
+
+**Resolution evidence (dry run, 6 October 2026).** Added alone to the current manifests in a scratch copy, with `npm install --package-lock-only --ignore-scripts` under npm 10.9.4, lockfile entries under `node_modules/` grow from 12 to 96. No peer-dependency conflict or warning was reported. The added entries are licensed Apache-2.0 (53), MIT (19), BSD-3-Clause (10), ISC (5) and 0BSD (1). Two declare an install script: `@firebase/util` and `protobufjs`. Nothing was installed and no file in the repository was touched.
+
+**Things Codex should decide with it**
+
+- The version should match what the backend's emulator suite was verified against. The backend branch pins `firebase-admin` 14.5.0, `firebase-functions` 7.4.0 and `firebase-tools` 15.0.0; Frontend has not checked this client version against them.
+- The emulator needs Java 21 and fixed loopback ports. Frontend's connected tests would run in the backend's `test:emulator` arrangement, not in `verify`.
+- Client-side persistence stays off. Private views must not reach an offline cache; the transport will not enable it, and a test will pin that.
+- The production-exclusion check and the workspace guard both need the specifiers above before the import compiles.
+
+Until this is approved, emulator integration is reported as **not run**, and nothing fixture-tested is described as integrated.
+
 ## What Frontend does next, and what it waits for
 
 | Next slice | Waits for |
 | --- | --- |
-| Shot target and confirm flow in semantic DOM, with receipt, unknown-result and retry handling against the scripted fixture | Nothing. Can start now on the current dependency set |
+| Shot target and confirm flow in semantic DOM, with receipt, unknown-result and retry handling against the scripted fixture | Done, fixture-tested: [slice-2-shot-flow.md](slice-2-shot-flow.md) |
 | Event director core and the DOM motion gallery | Nothing for the core. Stage C, or the owner's decision on GSAP, for timelines |
 | React shells and a production bundle | REQ-2, REQ-3, stage A |
 | R3F/Three.js board evaluation with measured device evidence | Stage B, and named devices |
-| Connected command, deadline and reconnect behavior | Backend #2's emulator and the answers to FE-C01 to FE-C07 |
+| Connected command, deadline and reconnect behavior | REQ-7, and the backend branch that provides the emulator being merged or named as the base to build on. FE-C01 to FE-C07 are answered; see [contract-re-review.md](contract-re-review.md) |

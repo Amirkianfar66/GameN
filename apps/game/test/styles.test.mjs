@@ -162,7 +162,18 @@ test('layout survives a narrow screen with enlarged text: found broken in a brow
   assert.deepEqual(withoutComments.match(/font-size: var\(--ms-text-display\);/g) ?? [], [], 'display size is always used through a fitted variable');
   assert.equal(rule('.ms-shell').includes('font-size: var(--ms-text-body)'), true, 'body text is never capped');
   // Grid children may shrink below their longest word instead of widening the page.
-  assert.match(withoutComments, /\.ms-main > \*,[\s\S]*?\.ms-card > \* \{\s*min-width: 0;/);
+  const shrinkable = /\.ms-main > \*,([\s\S]*?)\{\s*min-width: 0;/.exec(withoutComments);
+  assert.notEqual(shrinkable, null);
+  for (const selector of ['.ms-card > *', '.ms-card__state > *', '.ms-actions > *', '.ms-target > *']) assert.equal(shrinkable[0].includes(selector), true, selector);
+  // Found in a browser at 320 px with text doubled: four nested boxes each took a full, doubled
+  // side padding and left 50 px for a button's label, which then broke inside every word.
+  // Side padding is capped by the screen's width wherever boxes nest.
+  assert.match(rule('.ms-shell'), /--ms-inset: min\(var\(--ms-space-4\), \d+vw\);/);
+  for (const selector of ['.ms-panel', '.ms-phase', '.ms-button']) assert.match(rule(selector), /padding: var\(--ms-space-\d\) var\(--ms-inset\);/, selector);
+  assert.match(rule('.ms-card,\n.ms-role-card'), /padding: var\(--ms-space-4\) var\(--ms-inset\);/);
+  for (const selector of ['.ms-header', '.ms-banner', '.ms-main', '.ms-footer']) assert.match(rule(selector), /max\(var\(--ms-inset\), env\(safe-area-inset-right\)\)[^;]*max\(var\(--ms-inset\), env\(safe-area-inset-left\)\)/, selector);
+  // The role is one word of up to ten letters inside a panel and a card: it takes the tighter fit.
+  assert.match(withoutComments, /\n\.ms-role-card \{[^}]*font-size: var\(--ms-text-wordmark-fit\);/);
   // Breaking anywhere made table columns split words mid-word; it is confined to identifiers.
   assert.equal(rule('.ms-shell').includes('overflow-wrap: break-word'), true);
   assert.deepEqual([...withoutComments.matchAll(/([^{}]+)\{[^{}]*overflow-wrap: anywhere/g)].map(match => match[1].trim()), ['.ms-details__list dd']);
@@ -182,4 +193,22 @@ test('the stylesheet respects safe areas, user font size and forced colors', () 
   assert.equal(withoutComments.includes('@media (forced-colors: active)'), true);
   assert.equal(withoutComments.includes('font-variant-numeric: tabular-nums'), true);
   assert.equal(/user-scalable|maximum-scale/.test(css), false);
+});
+
+test('a control that is not active yet looks it, and a picked-up card cannot be taken for keyboard focus', () => {
+  const rule = selector => {
+    const start = withoutComments.indexOf(`${selector} {`);
+    assert.notEqual(start, -1, selector);
+    return withoutComments.slice(start, withoutComments.indexOf('}', start));
+  };
+  // Found in review: a control drawn where the last one was pressed swallowed the second tap
+  // of a double tap with nothing to show for it.
+  const inactive = rule('.ms-button[aria-disabled="true"]');
+  assert.match(inactive, /opacity: 0\.\d+;/);
+  assert.match(inactive, /box-shadow: none;/);
+  // Found in review: an amber outline on the selected card read as the focus ring on something not focused.
+  const selected = rule('.ms-card:has(> .ms-card__state[data-selected="true"])');
+  assert.equal(/outline/.test(selected), false);
+  assert.equal(selected.includes('--ms-color-accent'), false);
+  assert.equal(selected.includes('--ms-color-focus'), false);
 });

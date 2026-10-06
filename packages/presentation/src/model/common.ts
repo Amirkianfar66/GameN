@@ -11,6 +11,9 @@ const SEAT_NUMBER: Readonly<Record<SeatId, number>> = {
 export function seatNumber(seatId: SeatId): number {
   return SEAT_NUMBER[seatId];
 }
+export function isSeatId(value: unknown): value is SeatId {
+  return typeof value === 'string' && Object.hasOwn(SEAT_NUMBER, value);
+}
 
 // Display order only. It implies no adjacency, route or capacity.
 const ZONES: readonly { readonly name: LocationName; readonly id: string }[] = [

@@ -1,7 +1,8 @@
 import type { AudienceView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
-import type { LiveAnnouncement, PlayerShellInput, ShellEnvironment, TableShellInput } from './types.js';
+import { resolveShotGate } from './shot.js';
+import type { LiveAnnouncement, PlayerShellInput, ShellEnvironment, ShotFlowInput, TableShellInput } from './types.js';
 
 interface Moment {
   readonly env: ShellEnvironment;
@@ -129,8 +130,63 @@ function createAnnouncer<Input extends PlayerShellInput | TableShellInput>(selfS
   };
 }
 
+type ShotStep = ShotFlowInput['step'];
+const UNSETTLED: readonly ShotStep[] = ['submitting', 'checking', 'unknown'];
+const CHOOSING: readonly ShotStep[] = ['targeting', 'confirming'];
+
+function privately(politeness: LiveAnnouncement['politeness'], text: string): LiveAnnouncement {
+  return { politeness, text, private: true };
+}
+
+function registeredLine(targetSeatId: SeatId | null, pending: boolean): string {
+  if (!pending) return targetSeatId === null ? en.shot.wasRegisteredNoTarget : en.shot.wasRegistered(seatNumber(targetSeatId));
+  return targetSeatId === null ? en.shot.registeredNoTarget : en.shot.registered(seatNumber(targetSeatId));
+}
+
+// What happened to the player's own command. Only steps the player did not bring about
+// directly are put into words: a step the player just chose is read from where focus lands.
+function describeShot(shot: ShotFlowInput, heard: ShotStep): LiveAnnouncement[] {
+  switch (shot.step) {
+    case 'submitting': return [privately('polite', en.shot.submitting)];
+    case 'checking': return [privately('polite', shot.recovered ? en.shot.checkingAfterReload : en.shot.checking)];
+    case 'registered': return [privately('polite', registeredLine(shot.targetSeatId, shot.pending))];
+    // The player believes they acted. Being told otherwise should not wait its turn.
+    case 'rejected': return [privately('assertive', en.shot.rejected[shot.code])];
+    case 'not-registered': return [privately('assertive', en.shot.notRegistered[shot.reason])];
+    case 'unknown': return [privately('assertive', en.shot.unknown)];
+    case 'idle':
+      // The answer came while nobody was looking, and the card has since gone back to
+      // following the view. The listener last heard that the command was on its way.
+      return UNSETTLED.includes(heard) && shot.registered !== null ? [privately('polite', registeredLine(shot.registered.targetSeatId, true))] : [];
+    default: return [];
+  }
+}
+
 export function createPlayerAnnouncer(): Announcer<PlayerShellInput> {
-  return createAnnouncer<PlayerShellInput>(input => input.view?.self.seatId ?? null);
+  const shared = createAnnouncer<PlayerShellInput>(input => input.view?.self.seatId ?? null);
+  // The last step of the shot flow the listener was told about, or that needed no telling.
+  let heard: ShotStep = 'idle';
+  let previousStep: ShotStep = 'idle';
+  return {
+    next(input) {
+      const out = shared.next(input);
+      const step = input.shot.step;
+      // Nothing private is put into words unless the private panel is open in front of the
+      // player. A result that arrives while it is closed is said when it is next opened.
+      const open = input.view !== null && input.privacy.revealed && !input.privacy.concealed && resolveScreen(input, true) === 'match';
+      if (open && input.view !== null && step !== heard) {
+        // A choice taken away by a lost connection or an ended turn, not put down by the
+        // player: with the gate still open, going back to the start was the player's own doing.
+        if (step === 'idle' && CHOOSING.includes(previousStep) && !resolveShotGate(input, input.view).open) {
+          out.push(privately('polite', en.shot.choiceDropped));
+        }
+        out.push(...describeShot(input.shot, heard));
+        heard = step;
+      }
+      previousStep = step;
+      return out;
+    },
+  };
 }
 
 export function createTableAnnouncer(): Announcer<TableShellInput> {

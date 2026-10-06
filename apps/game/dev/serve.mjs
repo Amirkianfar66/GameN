@@ -15,7 +15,7 @@ import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { proposedDesignTokens } from '@mothership/design-tokens';
 import { shellTokenStylesheet } from '@mothership/game';
-import { AUDIENCES, createScenario } from './fixture/scenario.mjs';
+import { AUDIENCES, COMMAND_PLANS, createScenario } from './fixture/scenario.mjs';
 
 // A statement, not only a comment: it survives bundling and comment stripping, so the
 // production-exclusion check finds this module wherever it ends up.
@@ -95,9 +95,10 @@ async function readJson(request) {
  * @param {() => number} [options.now]
  * @param {'protected' | 'unprotected'} [options.variant]
  * @param {(entry: { method: string, path: string }) => void} [options.onRequest] Called for every accepted request line.
+ * @param {number} [options.slowAnswerMs] How long a deliberately slow command answer is held back.
  */
-export function createDevServer({ now = Date.now, variant = 'protected', onRequest } = {}) {
-  const scenario = createScenario({ now, variant });
+export function createDevServer({ now = Date.now, variant = 'protected', onRequest, slowAnswerMs } = {}) {
+  const scenario = createScenario({ now, variant, slowAnswerMs });
   const tokenStylesheet = shellTokenStylesheet(proposedDesignTokens);
   const streams = new Set();
   let origins = new Set();
@@ -145,6 +146,7 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
     if (audiences.some(audience => !AUDIENCES.includes(audience))) throw new RangeError('Unknown audience');
     if (action === 'restart') scenario.restart(body.variant === 'unprotected' ? 'unprotected' : 'protected');
     else if (action === 'advance') scenario.advance();
+    else if (action === 'end-turn') scenario.endFirstTurn();
     else if (action === 'expire') {
       // Real server time never jumps, so a connected client has no reason to re-measure it.
       // Bouncing each live feed makes its screen reconnect and pick the new time up honestly.
@@ -157,7 +159,13 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
     } else if (action === 'drop') audiences.forEach(audience => scenario.setConnected(audience, false));
     else if (action === 'restore') audiences.forEach(audience => scenario.setConnected(audience, true));
     else if (action === 'redeliver') audiences.forEach(audience => scenario.redeliver(audience));
-    else if (action === 'inject') {
+    else if (action === 'plan-command') {
+      if (!COMMAND_PLANS.includes(body.plan)) throw new RangeError('Unknown command plan');
+      scenario.planNextCommand(body.plan);
+    } else if (action === 'command-service') {
+      if (body.state !== 'answering' && body.state !== 'silent') throw new RangeError('Unknown command service state');
+      scenario.setCommandService(body.state);
+    } else if (action === 'inject') {
       // A bad payload is aimed at one named feed, never broadcast.
       if (!AUDIENCES.includes(body.audience)) throw new RangeError('Injection needs one audience');
       if (!INJECTIONS.has(body.kind)) throw new RangeError('Unknown injection');
@@ -207,7 +215,27 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
       } catch (error) {
         return error instanceof RangeError ? send(response, 413, 'Request body too large') : send(response, 400, 'Unreadable request body');
       }
-      if (['/api/fixture/advance-if-expired', '/api/fixture/submit-command', '/api/fixture/lookup-receipt'].includes(pathname)) return sendJson(response, 200, notScripted());
+      if (pathname === '/api/fixture/advance-if-expired') return sendJson(response, 200, notScripted());
+      if (pathname === '/api/fixture/submit-command' || pathname === '/api/fixture/lookup-receipt') {
+        // The seat is named in the address, as for the feed. It selects a fixture identity; it is not authentication.
+        const audience = url.searchParams.get('audience');
+        if (!AUDIENCES.includes(audience)) return send(response, 400, 'Unknown audience');
+        let result = pathname === '/api/fixture/submit-command' ? scenario.submitCommand(audience, body) : scenario.lookupReceipt(audience, body);
+        if (result.answered === 'later') {
+          // A request that is slow to arrive: the desk sees it only after the wait.
+          await new Promise(resolveDelay => setTimeout(resolveDelay, result.delayMs));
+          // The server may be closing in the meantime. A page that has gone away does not
+          // take its request back, though: it still arrives, as a real one would.
+          result = result.resume();
+          if (response.destroyed || response.socket?.destroyed) return undefined;
+        }
+        // No answer: a gateway error with nothing in it, which the harness transport reports
+        // as a failed request. The connection is deliberately not cut instead: a browser
+        // re-sends a request by itself when its connection closes before any response
+        // (measured: one fetch, six identical POSTs), which would defeat the arrangement.
+        if (!result.answered) return send(response, 504, '');
+        return sendJson(response, 200, result.body);
+      }
       if (pathname.startsWith('/api/operator/')) {
         try {
           return sendJson(response, 200, await operate(pathname.slice('/api/operator/'.length), body));

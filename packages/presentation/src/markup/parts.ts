@@ -3,20 +3,13 @@ import type {
   BannerModel, BlockedModel, MatchDetailsModel, PhaseStripModel, PlayerShellModel, SeatModel, SettingsModel, TableShellModel,
   TimerModel, ZoneModel,
 } from '../model/types.js';
+import { SHELL_IDS } from '../ids.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 
-// Element ids that a host may need to address. They never vary with a role.
-export const SHELL_IDS = {
-  main: 'ms-main',
-  title: 'ms-title',
-  blockedHeading: 'ms-blocked-heading',
-  privateToggle: 'ms-private-toggle',
-  privatePanel: 'ms-private-panel',
-  reduceMotion: 'ms-reduce-motion',
-} as const;
+export { SHELL_IDS };
 
-const hiddenText = (text: string): MarkupElement => h('span', { class: 'ms-visually-hidden' }, text);
+export const hiddenText = (text: string): MarkupElement => h('span', { class: 'ms-visually-hidden' }, text);
 
 export function renderMarkers(seat: SeatModel): MarkupElement {
   const children: MarkupChild[] = [];
