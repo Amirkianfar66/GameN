@@ -74,12 +74,16 @@ When the game owner launches the next tasks, use `333c9e820f362a211352bc68937266
 
 Use the prompt for each role below. Replace `BASE_SHA` with the reviewed bootstrap commit. Prefer one reviewable PR per concrete deliverable. Root tooling and shared contracts remain the integration owner's responsibility.
 
+The existing bootstrap worktrees predate `docs/version-roadmap.md`. Read the current owner decision in [issue #9](https://github.com/Amirkianfar66/GameN/issues/9) when that file is absent. Bring in documentation updates through the reviewed integration handoff; do not reset a worktree or substitute a new `BASE_SHA` merely to read the release priority.
+
 ### Backend — Codex Astra
 
 ```text
 Act as Mothership Backend and Integration. Start from BASE_SHA.
 Build toward complete in-person V1; full remote online play is V2. This issue
-delivers only the first V1 checkpoint. Read docs/version-roadmap.md, AGENTS.md,
+delivers only the first V1 checkpoint. Read docs/version-roadmap.md; if absent
+at this bootstrap commit, read https://github.com/Amirkianfar66/GameN/issues/9.
+Read AGENTS.md,
 docs/agent-roster.md,
 docs/integration-baseline.md, agents/backend.md and docs/backend/first-slice.md.
 Implement the first server-authoritative Officer/Protection slice within
@@ -95,7 +99,9 @@ with the affected Claude workstreams and obtain review before adoption.
 ```text
 Act as Mothership Frontend in Claude Code. Start from BASE_SHA.
 Build toward complete in-person V1; full remote online play is V2. This issue
-delivers only the first V1 checkpoint. Read docs/version-roadmap.md, CLAUDE.md,
+delivers only the first V1 checkpoint. Read docs/version-roadmap.md; if absent
+at this bootstrap commit, read https://github.com/Amirkianfar66/GameN/issues/9.
+Read CLAUDE.md,
 AGENTS.md, docs/agent-roster.md,
 docs/integration-baseline.md, agents/frontend.md, docs/frontend/first-slice.md
 and docs/architecture/rendering-direction.md. Build the English player/table
@@ -112,7 +118,8 @@ mark unavailable real-device measurements not run. Prepare a reviewable diff/PR.
 ```text
 Act as Mothership Visual and Motion Designer in Claude Code. Start from BASE_SHA.
 Build toward complete in-person V1; full remote online play is V2. This issue
-delivers only the first V1 checkpoint. Read docs/version-roadmap.md.
+delivers only the first V1 checkpoint. Read docs/version-roadmap.md; if absent
+at this bootstrap commit, read https://github.com/Amirkianfar66/GameN/issues/9.
 Read CLAUDE.md, AGENTS.md, docs/agent-roster.md,
 docs/integration-baseline.md, agents/designer.md and docs/design/art-direction.md.
 Deliver the first comic card/board visual system and interaction states on
@@ -129,7 +136,8 @@ not approve gameplay rules. Report actual deliverables and a reviewable diff/PR.
 ```text
 Act as Mothership Game Design and Balance in Claude Code. Start from BASE_SHA.
 Build toward complete in-person V1; full remote online play is V2. This issue
-delivers only the first V1 checkpoint. Read docs/version-roadmap.md.
+delivers only the first V1 checkpoint. Read docs/version-roadmap.md; if absent
+at this bootstrap commit, read https://github.com/Amirkianfar66/GameN/issues/9.
 Read CLAUDE.md, AGENTS.md, docs/agent-roster.md,
 docs/integration-baseline.md, agents/game-balance.md, docs/balance/rules-audit.md
 and docs/balance/scenario-matrix.json. Implement the first evidence-backed
