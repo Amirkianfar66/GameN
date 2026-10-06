@@ -1,11 +1,17 @@
-import type { PlayerView, PublicView, SeatId } from '@mothership/contracts';
+import type { FullPlayerView, FullPublicView, PlayerView, PublicView, SeatId } from '@mothership/contracts';
+
+/** A composed public view of either wire protocol. The shells read what both have, and what protocol 2 adds when it is there. */
+export type PublicFacts = PublicView | FullPublicView;
+/** A composed view of either wire protocol and either audience. */
+export type AudienceFacts = PublicFacts | PlayerView | FullPlayerView;
 
 // Derived from the audience views so this package never restates a contract enum.
-export type PublicSeat = PublicView['seats'][number];
+export type PublicSeat = PublicFacts['seats'][number];
 export type LocationName = PublicSeat['location'];
 export type HealthState = PublicSeat['health'];
-export type PhaseFacts = PublicView['phase'];
-export type RoleName = PlayerView['self']['role'];
+export type PhaseFacts = PublicFacts['phase'];
+export type RoleName = (PlayerView | FullPlayerView)['self']['role'];
+export type FactionName = NonNullable<FullPublicView['seats'][number]['revealedFaction']>;
 
 /** Which backend a client is attached to. Fixture and emulator are always labeled on screen. */
 export type DataSourceMode = 'fixture' | 'emulator' | 'production';
@@ -96,7 +102,48 @@ export interface PlayerShellInput extends ShellEnvironment {
 }
 
 export interface TableShellInput extends ShellEnvironment {
-  readonly view: PublicView | null;
+  readonly view: PublicFacts | null;
+}
+
+/** Where a player may move, as the server names it. */
+export type Destination = FullPlayerView['self']['movementDestinations'][number];
+export type ActionKind = 'move' | 'shot';
+/** What a player picked for one action. It exists on the page that picked it and is never stored. */
+export type ActionChoice =
+  | { readonly kind: 'move'; readonly destination: Destination }
+  | { readonly kind: 'shot'; readonly targetSeatId: SeatId };
+/**
+ * Why a command is known not to have been accepted without a rejection receipt. NOT_SENT:
+ * the request never left this device. PHASE_OVER: after a reload, no receipt existed once
+ * the command's phase had ended. The others are the server's own safe failures.
+ */
+export type NotAcceptedReason =
+  | 'UNAUTHENTICATED' | 'FORBIDDEN' | 'INVALID_REQUEST' | 'UNSUPPORTED_PROTOCOL' | 'COMMAND_ID_CONFLICT' | 'REQUEST_ID_CONFLICT'
+  // Decided by this device, not by the server: nothing was sent, or nothing that the server ever looked at.
+  | 'NOT_SENT' | 'NOT_RECORDED' | 'PHASE_OVER';
+
+/**
+ * Where the player's own command stands under wire protocol 2, as far as this device
+ * knows. One command at a time for the seat, whatever its kind. choice is null on a
+ * reloaded page, which kept the command's identifiers and nothing about it.
+ */
+export type ActionFlowState =
+  | { readonly step: 'idle' }
+  | { readonly step: 'choosing'; readonly kind: ActionKind }
+  | { readonly step: 'confirming'; readonly choice: ActionChoice; readonly armed: boolean }
+  | { readonly step: 'submitting'; readonly choice: ActionChoice | null }
+  | { readonly step: 'checking'; readonly choice: ActionChoice | null; readonly recovered: boolean }
+  | { readonly step: 'unknown'; readonly choice: ActionChoice | null; readonly recovered: boolean; readonly phaseOver: boolean; readonly armed: boolean }
+  /** The server accepted it. For a queued command that is a registration and not an outcome; a move has already happened. */
+  | { readonly step: 'accepted'; readonly choice: ActionChoice | null; readonly armed: boolean }
+  | { readonly step: 'rejected'; readonly choice: ActionChoice | null; readonly code: ShotRejectionCode; readonly armed: boolean }
+  | { readonly step: 'not-accepted'; readonly choice: ActionChoice | null; readonly reason: NotAcceptedReason; readonly armed: boolean };
+
+/** A player's phone connected to a backend that speaks wire protocol 2. */
+export interface ConnectedPlayerInput extends ShellEnvironment {
+  readonly view: FullPlayerView | null;
+  readonly privacy: PlayerShellInput['privacy'];
+  readonly action: ActionFlowState;
 }
 
 /** Actions a shell control can request. The host forwards them; it never acts on its own. */
@@ -110,10 +157,17 @@ export type ShellIntent =
   | { readonly type: 'shot/back' }
   | { readonly type: 'shot/confirm' }
   | { readonly type: 'shot/check-again' }
-  | { readonly type: 'shot/dismiss' };
+  | { readonly type: 'shot/dismiss' }
+  | { readonly type: 'action/open'; readonly kind: ActionKind }
+  /** value names a destination or a seat, exactly as the control carried it. The screen checks it against what is offered. */
+  | { readonly type: 'action/choose'; readonly value: string }
+  | { readonly type: 'action/back' }
+  | { readonly type: 'action/confirm' }
+  | { readonly type: 'action/check-again' }
+  | { readonly type: 'action/dismiss' };
 export type ShellIntentType = ShellIntent['type'];
 
-export type MarkerKind = 'self' | 'turn' | 'health' | 'jail' | 'captain';
+export type MarkerKind = 'self' | 'turn' | 'health' | 'jail' | 'captain' | 'faction';
 export interface MarkerModel {
   readonly kind: MarkerKind;
   /** Selects a shape and border treatment. Meaning is always carried by the label. */
@@ -183,7 +237,7 @@ export interface MatchDetailsModel {
 export interface CardButtonModel {
   readonly id: string;
   readonly label: string;
-  readonly intent: Exclude<ShellIntentType, 'shot/choose-target' | 'settings/reduce-motion'>;
+  readonly intent: Exclude<ShellIntentType, 'shot/choose-target' | 'settings/reduce-motion' | 'action/open' | 'action/choose'>;
   readonly primary: boolean;
   /** Drawn, reachable and named, but not active yet. It is never removed from the tab order. */
   readonly disabled: boolean;
@@ -260,7 +314,8 @@ export interface PrivateAreaModel {
   } | null;
 }
 
-interface ShellModelBase {
+/** What every screen has, whatever the surface or the wire protocol behind it. */
+export interface ShellModelBase {
   readonly title: string;
   readonly screen: 'connecting' | 'match' | 'blocked';
   readonly mode: DataSourceMode;
@@ -311,6 +366,74 @@ export interface TableMatchModel {
 export interface TableShellModel extends ShellModelBase {
   readonly surface: 'table';
   readonly match: TableMatchModel | null;
+}
+
+/** One thing a player may pick for an action: a place or a player, as the server offers it. */
+export interface ActionChoiceModel {
+  readonly id: string;
+  /** What the control carries back: the destination or the seat identifier. */
+  readonly value: string;
+  readonly label: string;
+  /** A target's public status in words; nothing for a place. */
+  readonly detail: string | null;
+  /** The seat's number for its token; null for a place. */
+  readonly number: number | null;
+}
+
+/** One kind of action as it stands while nothing is in progress. */
+export interface ActionOfferModel {
+  readonly kind: ActionKind;
+  readonly label: string;
+  readonly statusLabel: string;
+  /** Present only when the server offers at least one choice now, on a fresh view. */
+  readonly open: { readonly id: string; readonly label: string } | null;
+}
+
+export type ConnectedActionBody =
+  | { readonly step: 'idle'; readonly offers: readonly ActionOfferModel[]; readonly note: string | null }
+  | { readonly step: 'choosing'; readonly prompt: string; readonly note: string; readonly choices: readonly ActionChoiceModel[]; readonly back: CardButtonModel }
+  | { readonly step: 'confirming'; readonly prompt: string; readonly consequence: string; readonly confirm: CardButtonModel; readonly back: CardButtonModel }
+  | { readonly step: 'busy'; readonly text: string }
+  | {
+    readonly step: 'result';
+    readonly outcome: 'accepted' | 'not-accepted' | 'unknown';
+    readonly text: string;
+    readonly detail: string | null;
+    // One control. A command whose outcome is unknown can be asked about again and cannot be put away.
+    readonly action: CardButtonModel;
+  };
+
+export type ConnectedActionStatus = 'idle' | 'choosing' | 'confirming' | 'submitting' | 'checking' | 'unknown' | 'accepted' | 'not-accepted';
+
+/** The one card for the player's own command. One command at a time, so one card. */
+export interface ConnectedActionCardModel {
+  readonly title: string;
+  readonly status: ConnectedActionStatus;
+  readonly statusLabel: string;
+  /** True from the moment the player picks an action up until its command is settled. */
+  readonly selected: boolean;
+  readonly body: ConnectedActionBody;
+}
+
+export interface ConnectedPrivateAreaModel {
+  readonly heading: string;
+  readonly hint: string;
+  readonly open: boolean;
+  readonly toggleLabel: string;
+  /** Present only while open in the foreground. Closed, nothing private is in the model at all. */
+  readonly content: {
+    readonly role: { readonly label: string; readonly name: RoleName };
+    readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
+  } | null;
+}
+
+export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
+  readonly privateArea: ConnectedPrivateAreaModel;
+}
+
+export interface ConnectedPlayerShellModel extends ShellModelBase {
+  readonly surface: 'player';
+  readonly match: ConnectedPlayerMatchModel | null;
 }
 
 export interface LiveAnnouncement {

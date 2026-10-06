@@ -496,13 +496,16 @@
   border-style: dashed;
 }
 
-.ms-card__state[data-status="not-registered"] .ms-card__status {
+.ms-card__state[data-status="not-registered"] .ms-card__status,
+.ms-card__state[data-status="not-accepted"] .ms-card__status {
   border-style: double;
   border-width: calc(var(--ms-stroke-control) * 2);
 }
 
-/* A registration is stamped, never struck: the same neutral mark for any registered action. */
-.ms-card__state[data-status="registered"] .ms-card__status {
+/* A registration is stamped, never struck: the same neutral mark for any registered or
+   accepted action. */
+.ms-card__state[data-status="registered"] .ms-card__status,
+.ms-card__state[data-status="accepted"] .ms-card__status {
   padding: var(--ms-space-1) var(--ms-space-3);
   border: var(--ms-stroke-illustration) double var(--ms-color-ink);
   font-family: var(--ms-font-heading);
@@ -538,6 +541,40 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--ms-space-3);
+}
+
+/* What the server offers this seat now: one line per action, with its name, whether it is
+   open in words, and the control on a line of its own when it is. Functional placement,
+   not a designed card. */
+.ms-offers {
+  display: grid;
+  gap: var(--ms-space-3);
+}
+
+.ms-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-2) var(--ms-space-3);
+}
+
+.ms-offer__name {
+  font-weight: 700;
+}
+
+.ms-offer__status {
+  padding: 0 var(--ms-space-2);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-control);
+}
+
+/* Not open: the same dashed edge as every other "not available" on a card. */
+.ms-offer:not(:has(.ms-button)) .ms-offer__status {
+  border-style: dashed;
+}
+
+.ms-offer > button {
+  flex: 1 1 100%;
 }
 
 /* A target is a full-width control: the token, the name, then the public status in words. */

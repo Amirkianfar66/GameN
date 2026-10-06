@@ -1,8 +1,13 @@
-import type { AudienceView, SeatId } from '@mothership/contracts';
+import type { SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
+import { describeAction } from './connected-player.js';
 import { resolveShotGate } from './shot.js';
-import type { LiveAnnouncement, PlayerShellInput, ShellEnvironment, ShotFlowInput, TableShellInput } from './types.js';
+import type {
+  ActionFlowState, AudienceFacts, ConnectedPlayerInput, LiveAnnouncement, PlayerShellInput, ShellEnvironment, ShotFlowInput, TableShellInput,
+} from './types.js';
+
+type AudienceView = AudienceFacts;
 
 interface Moment {
   readonly env: ShellEnvironment;
@@ -116,7 +121,7 @@ export interface Announcer<Input> {
   next(input: Input): LiveAnnouncement[];
 }
 
-function createAnnouncer<Input extends PlayerShellInput | TableShellInput>(selfSeatOf: (input: Input) => SeatId | null): Announcer<Input> {
+function createAnnouncer<Input extends PlayerShellInput | TableShellInput | ConnectedPlayerInput>(selfSeatOf: (input: Input) => SeatId | null): Announcer<Input> {
   let previous: Moment | null = null;
   let memory = NOTHING_SPOKEN;
   return {
@@ -191,4 +196,41 @@ export function createPlayerAnnouncer(): Announcer<PlayerShellInput> {
 
 export function createTableAnnouncer(): Announcer<TableShellInput> {
   return createAnnouncer<TableShellInput>(() => null);
+}
+
+type ActionStep = ActionFlowState['step'];
+const ACTION_CHOOSING: readonly ActionStep[] = ['choosing', 'confirming'];
+
+/**
+ * For a phone connected under wire protocol 2. The public lines are the shared ones. What
+ * became of the player's own command is said privately, and only steps the player did not
+ * bring about directly are put into words: a step just chosen is read from where focus lands.
+ */
+export function createConnectedPlayerAnnouncer(): Announcer<ConnectedPlayerInput> {
+  const shared = createAnnouncer<ConnectedPlayerInput>(input => input.view?.self.seatId ?? null);
+  let heard: ActionStep = 'idle';
+  let previousStep: ActionStep = 'idle';
+  let previousPhaseId: string | null = null;
+  return {
+    next(input) {
+      const out = shared.next(input);
+      const { step } = input.action;
+      const phaseId = input.view?.phase.id ?? null;
+      // Nothing private is put into words unless the private panel is open in front of the
+      // player. A result that arrives while it is closed is said when it is next opened.
+      const open = input.view !== null && input.privacy.revealed && !input.privacy.concealed && resolveScreen(input, true) === 'match';
+      if (open && step !== heard) {
+        // Taken away by a lost connection, the clock or a new phase, not put down by the
+        // player: on the same phase with fresh, unexpired facts, going back was the player's own doing.
+        const takenAway = !isCurrent(input) || input.deadline.kind !== 'running' || phaseId !== previousPhaseId;
+        if (step === 'idle' && ACTION_CHOOSING.includes(previousStep) && takenAway) out.push(privately('polite', en.action.choiceDropped));
+        const line = describeAction(input.action);
+        if (line !== null) out.push(privately(step === 'submitting' || step === 'checking' || step === 'accepted' ? 'polite' : 'assertive', line));
+        heard = step;
+      }
+      previousStep = step;
+      previousPhaseId = phaseId;
+      return out;
+    },
+  };
 }
