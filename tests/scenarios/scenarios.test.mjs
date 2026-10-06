@@ -140,6 +140,10 @@ test('the evidence report repeats its artifacts, and they belong to the committe
   }
   const controls = evidence('controls');
   const playouts = evidence('playouts');
+  // A controls run whose baselines failed, or in which a control was missed, is not evidence of anything.
+  assert.equal(controls.verdict, 'passed');
+  assert.deepEqual(controls.baselineFailures, []);
+  assert.deepEqual(controls.undetected, []);
   for (const mode of [7, 8, 9]) {
     const control = controls.modes[mode];
     has(`| ${mode} players | ${control.scenarios} | ${control.controls} | ${control.detected} | ${control.undetected} |`);

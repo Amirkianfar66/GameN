@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "agent/game-balance-baseline",
-  "workingTreeCommit": "0da5a9e00e374a6c5e7646dfb8336fb241c199f5",
+  "workingTreeCommit": "d3101405e1953f66ce7af95e4a6404e4189d1c56",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -17,12 +17,12 @@
   },
   "v1OverlaySha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
   "scenarioFileHashes": {
-   "mode-7.scenarios.json": "4518c3668c1184dd21fc9838f5675f088085a6d06a3f890d8e899a3c0cf3fb3c",
-   "mode-8.scenarios.json": "974c05cc0689778515a2c08a21af06418485b2fa17e59e8b31ba370d4bd14215",
-   "mode-9.scenarios.json": "f5b0426c4dbf77f5c4cff9bcff36d4f26abd79cf1a1e09e3e9178a6a11a23a89",
-   "unsupported.scenarios.json": "b277fef23c9d727479e593dc19e69fdbdb1ff564a78812a4dd5d167b8a6b0236"
+   "mode-7.scenarios.json": "228e5c994b4ee5ebe132f01ac5227edec736f0e8e6227b6128f912901ca24504",
+   "mode-8.scenarios.json": "2333cd0b562e578b732ecefad82b0a9925d9a058450426811a695f90f3cb509d",
+   "mode-9.scenarios.json": "26d1af6c9d294841c8356399082efa391c8d62fad09c5af8d6d4dfbcccfca61b",
+   "unsupported.scenarios.json": "62f2b492db28384a1c17cece2d05d44b7b2caef34bc0eefc910ef9562a8d89a8"
   },
-  "rulebookSha256": "9d678adff8bc18bb0e29c5da47ac293521a477fbef3700f88459f498ef20d4d4",
+  "rulebookSha256": "0b58e8b677b95dbc092b65f0e60b6b79802b60931849c5555da3a3dbdbffb190",
   "engine": {
    "adapter": "full-game-v1",
    "engineVersion": "full-game-1.0.0",
@@ -34,35 +34,35 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance scenario runner",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-06T16:33:50.243Z"
+  "generatedAt": "2026-10-06T18:47:22.582Z"
  },
  "totals": {
-  "total": 473,
+  "total": 470,
   "passed": 431,
   "failed": 0,
-  "blocked": 36,
+  "blocked": 33,
   "notRun": 6
  },
  "byGroup": {
   "mode-7": {
-   "total": 152,
+   "total": 151,
    "passed": 138,
    "failed": 0,
-   "blocked": 12,
+   "blocked": 11,
    "notRun": 2
   },
   "mode-8": {
-   "total": 154,
+   "total": 153,
    "passed": 140,
    "failed": 0,
-   "blocked": 12,
+   "blocked": 11,
    "notRun": 2
   },
   "mode-9": {
-   "total": 159,
+   "total": 158,
    "passed": 145,
    "failed": 0,
-   "blocked": 12,
+   "blocked": 11,
    "notRun": 2
   },
   "unsupported": {
@@ -2049,23 +2049,6 @@
    "reason": null,
    "status": "passed",
    "failure": null
-  },
-  {
-   "scenarioId": "V1-M7-WIN-07",
-   "group": "mode-7",
-   "mode": 7,
-   "decisionIds": [
-    "D15"
-   ],
-   "seed": null,
-   "failure": null,
-   "invariantViolations": [],
-   "probes": [],
-   "transitions": 0,
-   "commands": 0,
-   "finalDigest": null,
-   "status": "blocked",
-   "reason": "awaiting an owner decision; no probe is defined"
   },
   {
    "scenarioId": "V1-M7-SHOW-01",
@@ -4418,23 +4401,6 @@
    "reason": null,
    "status": "passed",
    "failure": null
-  },
-  {
-   "scenarioId": "V1-M8-WIN-07",
-   "group": "mode-8",
-   "mode": 8,
-   "decisionIds": [
-    "D15"
-   ],
-   "seed": null,
-   "failure": null,
-   "invariantViolations": [],
-   "probes": [],
-   "transitions": 0,
-   "commands": 0,
-   "finalDigest": null,
-   "status": "blocked",
-   "reason": "awaiting an owner decision; no probe is defined"
   },
   {
    "scenarioId": "V1-M8-SHOW-01",
@@ -6847,23 +6813,6 @@
    "reason": null,
    "status": "passed",
    "failure": null
-  },
-  {
-   "scenarioId": "V1-M9-WIN-07",
-   "group": "mode-9",
-   "mode": 9,
-   "decisionIds": [
-    "D15"
-   ],
-   "seed": null,
-   "failure": null,
-   "invariantViolations": [],
-   "probes": [],
-   "transitions": 0,
-   "commands": 0,
-   "finalDigest": null,
-   "status": "blocked",
-   "reason": "awaiting an owner decision; no probe is defined"
   },
   {
    "scenarioId": "V1-M9-SHOW-01",
