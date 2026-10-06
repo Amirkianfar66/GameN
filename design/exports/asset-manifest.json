@@ -1,0 +1,2650 @@
+{
+  "manifestVersion": "design-0.1.0",
+  "status": "First production-direction slice for issue #4. Not a complete V1 asset set: see docs/design/asset-inventory.md for what is not produced.",
+  "generatedBy": "design/tools/build-exports.mjs from design/source/export-recipes.json. Do not edit by hand.",
+  "tokenVersion": "0.3.0",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "protocolVersion": 1,
+  "recipesSha256": "76d15d55e61b0bd3e24c3d2a28bedcd82a2db725562a3586826f919bafde8b2e",
+  "conventions": {
+    "units": "SVG user units. One unit is one CSS pixel at the size given by width and height; every export scales freely.",
+    "coordinates": "Anchors are in the export's own viewBox: x to the right, y down, origin at the top left.",
+    "filenames": "<asset id>.<variant>.<first ten hex digits of the SHA-256 of the file>.svg. A changed file is a new name, so a file may be cached forever.",
+    "text": "No export contains text. Every word on screen is live English text supplied by the client.",
+    "loading": "What a device fetches must tell an observer nothing. A DOM client loads each bundle through its one stylesheet (bundles.<name>.stylesheet), before the first match view and whatever the seat's state: every variant is in it as a custom property named --ms-asset-<id>-<variant>, so nothing is fetched later. A client that fetches individual files (a scene loading textures) fetches all of a bundle or none of it, never a file because of something a view says.",
+    "scene": "Proposed for the Three.js evaluation, not measured: +Y up, floor on X/Z, one authored unit is one grid unit, a token's origin is its floor contact. Stack order and depth on the Room A layers are a starting point to tune.",
+    "surfaces": "table is the shared display. phone-public is a phone with its private sheet closed. phone-private is inside an open private sheet. An export may be drawn only on the surfaces it lists.",
+    "layers": "A data-layer attribute names the source layer a group came from. Ids are kept only on definitions."
+  },
+  "rights": {
+    "origin": "Original vector artwork drawn for this repository as hand-written SVG. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is included or was used as a source.",
+    "author": "Visual and Motion Designer workstream, issue #4: a Claude Code session (model claude-opus-5-5) working for the game owner.",
+    "created": "2026-10-06",
+    "license": "None granted. The repository carries no distribution license.",
+    "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06).",
+    "humanArtReview": "pending"
+  },
+  "bundles": {
+    "public-board": {
+      "audience": "public",
+      "loadPolicy": "The table display and every phone. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Contains nothing that depends on a role, a faction or a private choice.",
+      "connectedUse": true,
+      "files": [
+        "design/exports/public-board/board-room-a.full.a1c9c5d8d8.svg",
+        "design/exports/public-board/board-room-a.layer-backwall.1de4c0805a.svg",
+        "design/exports/public-board/board-room-a.layer-edges.3a78430010.svg",
+        "design/exports/public-board/board-room-a.layer-floor.7bb82045ad.svg",
+        "design/exports/public-board/board-room-a.layer-frame.28cf64ca17.svg",
+        "design/exports/public-board/board-room-a.layer-props-back.5b9f514539.svg",
+        "design/exports/public-board/board-room-a.layer-props-front.a3901834e4.svg",
+        "design/exports/public-board/board-room-a.layer-shell.fa08b66e61.svg",
+        "design/exports/public-board/board-room-a.layer-space.9955089799.svg",
+        "design/exports/public-board/fx-ink-trail.ink.cc270211d1.svg",
+        "design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg",
+        "design/exports/public-board/fx-landing-puff.ink.67c4f9cc45.svg",
+        "design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg",
+        "design/exports/public-board/fx-panel-cap.ink.5bc06a9fad.svg",
+        "design/exports/public-board/fx-panel-cap.paper.8fe4a5e908.svg",
+        "design/exports/public-board/fx-speed-lines.ink.4486b6a173.svg",
+        "design/exports/public-board/fx-speed-lines.paper.aaa186a7eb.svg",
+        "design/exports/public-board/icon-connection-stale.ink.79da5b0856.svg",
+        "design/exports/public-board/icon-connection-stale.paper.7be61bf767.svg",
+        "design/exports/public-board/marker-captain.badge.07ce7b6cf4.svg",
+        "design/exports/public-board/marker-captain.glyph.4896292e1b.svg",
+        "design/exports/public-board/marker-health.eliminated-badge.8df708e5d5.svg",
+        "design/exports/public-board/marker-health.eliminated-glyph.4680b5a3f4.svg",
+        "design/exports/public-board/marker-health.healthy-glyph.b9a4e5c607.svg",
+        "design/exports/public-board/marker-health.injured-badge.042e4898bd.svg",
+        "design/exports/public-board/marker-health.injured-glyph.c975517cd6.svg",
+        "design/exports/public-board/marker-jail.badge.ea5f3d972e.svg",
+        "design/exports/public-board/marker-jail.glyph.1b139a0d89.svg",
+        "design/exports/public-board/marker-self.badge.b884d777ca.svg",
+        "design/exports/public-board/marker-self.glyph.39c6709c33.svg",
+        "design/exports/public-board/marker-turn.float.578958a566.svg",
+        "design/exports/public-board/marker-turn.glyph.86e424f0ee.svg",
+        "design/exports/public-board/pattern-halftone.fine-ink.4e3dac4155.svg",
+        "design/exports/public-board/pattern-halftone.fine-paper.5e3ec66b5b.svg",
+        "design/exports/public-board/pattern-halftone.heavy-ink.9802d96295.svg",
+        "design/exports/public-board/pattern-halftone.medium-ink.d916a65be5.svg",
+        "design/exports/public-board/pattern-halftone.medium-paper.bbfb7ec350.svg",
+        "design/exports/public-board/pattern-hatch.ink.33b94f3d68.svg",
+        "design/exports/public-board/pattern-hatch.paper.c19c3c121e.svg",
+        "design/exports/public-board/sprite-public.0f751d4454.svg",
+        "design/exports/public-board/token-neutral.badge-blank.7770182f9d.svg",
+        "design/exports/public-board/token-neutral.badge-eliminated-blank.4001319ef7.svg",
+        "design/exports/public-board/token-neutral.badge-injured-blank.d7370f8f8c.svg",
+        "design/exports/public-board/token-neutral.badge-n1.c3cd23423e.svg",
+        "design/exports/public-board/token-neutral.badge-n2.227c768b17.svg",
+        "design/exports/public-board/token-neutral.badge-n3.59d4f3cbdc.svg",
+        "design/exports/public-board/token-neutral.badge-n4.7ec8620b9e.svg",
+        "design/exports/public-board/token-neutral.badge-n5.3371787300.svg",
+        "design/exports/public-board/token-neutral.badge-n6.d7a28bbee0.svg",
+        "design/exports/public-board/token-neutral.badge-n7.b63ae9b394.svg",
+        "design/exports/public-board/token-neutral.badge-n8.381e70534e.svg",
+        "design/exports/public-board/token-neutral.badge-n9.d80322e0ae.svg",
+        "design/exports/public-board/token-neutral.overlay-health-injured.9e8ae31da3.svg",
+        "design/exports/public-board/token-neutral.standee-blank.8c7fa2d527.svg",
+        "design/exports/public-board/token-neutral.standee-eliminated-blank.af57a73086.svg",
+        "design/exports/public-board/token-neutral.standee-injured-blank.4d1c6220ef.svg",
+        "design/exports/public-board/token-neutral.standee-n1.39d15533ca.svg",
+        "design/exports/public-board/token-neutral.standee-n2.e798d8e6ab.svg",
+        "design/exports/public-board/token-neutral.standee-n3.cd0232d876.svg",
+        "design/exports/public-board/token-neutral.standee-n4.b40f6ada87.svg",
+        "design/exports/public-board/token-neutral.standee-n5.aac1b672a9.svg",
+        "design/exports/public-board/token-neutral.standee-n6.a917a5da65.svg",
+        "design/exports/public-board/token-neutral.standee-n7.d44913397e.svg",
+        "design/exports/public-board/token-neutral.standee-n8.2c7b7f9b5e.svg",
+        "design/exports/public-board/token-neutral.standee-n9.af6a2e9ec1.svg",
+        "design/exports/public-board/token-numeral.n1.6741c909bf.svg",
+        "design/exports/public-board/token-numeral.n2.0ed36cb2d7.svg",
+        "design/exports/public-board/token-numeral.n3.09445d5abc.svg",
+        "design/exports/public-board/token-numeral.n4.26268e70af.svg",
+        "design/exports/public-board/token-numeral.n5.9ed46cb019.svg",
+        "design/exports/public-board/token-numeral.n6.635e5ed807.svg",
+        "design/exports/public-board/token-numeral.n7.f625946d92.svg",
+        "design/exports/public-board/token-numeral.n8.ea15706a07.svg",
+        "design/exports/public-board/token-numeral.n9.89b07caabb.svg"
+      ],
+      "bytes": 96899,
+      "stylesheet": {
+        "path": "design/exports/public-board/public-board.art.c5c7a0da6d.css",
+        "sha256": "c5c7a0da6d7d2918b08964d5830ef0b67fbcd4e505bb6f8a7a8da91cdd9b1884",
+        "bytes": 95672,
+        "properties": 73
+      }
+    },
+    "player-ui": {
+      "audience": "player",
+      "loadPolicy": "Every phone, identically. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing.",
+      "connectedUse": true,
+      "files": [
+        "design/exports/player-ui/icon-action-shot.ink.98e96d77fc.svg",
+        "design/exports/player-ui/icon-action-shot.paper.55188031af.svg",
+        "design/exports/player-ui/icon-private.closed-ink.04c01bae91.svg",
+        "design/exports/player-ui/icon-private.closed-paper.104f5a62ca.svg",
+        "design/exports/player-ui/icon-private.open-ink.13e950ec85.svg",
+        "design/exports/player-ui/icon-private.open-paper.aeb33ff27c.svg",
+        "design/exports/player-ui/pip-resource.available.a36c55da5e.svg",
+        "design/exports/player-ui/pip-resource.registered.2dd03c0b57.svg",
+        "design/exports/player-ui/pip-resource.spent.aa5ba23be8.svg",
+        "design/exports/player-ui/sprite-player.94faf5cf14.svg",
+        "design/exports/player-ui/token-emphasis.ring-selected.0c82861423.svg",
+        "design/exports/player-ui/token-emphasis.ring-targetable.3910a7dc5a.svg",
+        "design/exports/player-ui/token-emphasis.unavailable-blank.7de535697d.svg"
+      ],
+      "bytes": 7697,
+      "stylesheet": {
+        "path": "design/exports/player-ui/player-ui.art.d4fa64f8db.css",
+        "sha256": "d4fa64f8db927e3e81fd305965bead8f3a9f31dcb7395f3d6f7b1e751c3b1648",
+        "bytes": 6090,
+        "properties": 12
+      }
+    },
+    "roles": {
+      "audience": "player",
+      "loadPolicy": "UNIFORM. Every phone, identically, before roles are shown. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Fetching one role's art by itself can disclose that role.",
+      "connectedUse": true,
+      "expectedRoles": ["Officer", "Insider", "Cracker", "Blue Disabler", "Supplier", "Undercover", "Hacker", "Red Disabler", "Alien"],
+      "producedRoles": ["Officer"],
+      "files": ["design/exports/roles/card-officer.art.0a13a67c6b.svg"],
+      "bytes": 6907,
+      "stylesheet": {
+        "path": "design/exports/roles/roles.art.24d16d21b7.css",
+        "sha256": "24d16d21b718855d76b9bfc514fb166459c672b6f7098c4518e6d7cfe7dc21a4",
+        "bytes": 8039,
+        "properties": 1
+      }
+    }
+  },
+  "assets": [
+    {
+      "id": "board-room-a",
+      "version": "0.1.0",
+      "title": "Room A vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Shown for the location named Room A. Which seats stand in it comes from seats[].location.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/board/board-room-a.svg",
+          "sha256": "19578d9266c6a89f45d496f50eb8f8ec832fd3c57f9d480639238968e4d531fc"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "full",
+          "path": "design/exports/public-board/board-room-a.full.a1c9c5d8d8.svg",
+          "sha256": "a1c9c5d8d8a0e3f5d7481a329bf69d28608e6c3d797c7046fee7e665f1055351",
+          "bytes": 14717,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#10141C", "#151923", "#222B3A", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          }
+        },
+        {
+          "variant": "layer-space",
+          "path": "design/exports/public-board/board-room-a.layer-space.9955089799.svg",
+          "sha256": "995508979948da480c40face12efd51a4754db7bd2b44ff6a034fb07ffd34a98",
+          "bytes": 1963,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#10141C", "#151923", "#CBBBA2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 0,
+            "depth": -3
+          }
+        },
+        {
+          "variant": "layer-backwall",
+          "path": "design/exports/public-board/board-room-a.layer-backwall.1de4c0805a.svg",
+          "sha256": "1de4c0805a29bd146ea41e9e369102e5eb1f16ad1423c8a8a920e77a1e05a2ac",
+          "bytes": 5863,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#10141C", "#151923", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 1,
+            "depth": -2
+          }
+        },
+        {
+          "variant": "layer-shell",
+          "path": "design/exports/public-board/board-room-a.layer-shell.fa08b66e61.svg",
+          "sha256": "fa08b66e6178784c637c5d6e8fbdd1f0b8d7e2410287256430c0b7ff6e39048b",
+          "bytes": 1666,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#222B3A", "#34415A", "#55657E", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 2,
+            "depth": -1
+          }
+        },
+        {
+          "variant": "layer-floor",
+          "path": "design/exports/public-board/board-room-a.layer-floor.7bb82045ad.svg",
+          "sha256": "7bb82045addc1fbf21a8035de96df389cf6df71600e2550be181598e5f1d56ae",
+          "bytes": 2352,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#8696AE", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 3,
+            "depth": 0
+          }
+        },
+        {
+          "variant": "layer-edges",
+          "path": "design/exports/public-board/board-room-a.layer-edges.3a78430010.svg",
+          "sha256": "3a78430010dc400188f35dee94d239304b59d3493cc6a247181410acd9297008",
+          "bytes": 354,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 4,
+            "depth": 0
+          }
+        },
+        {
+          "variant": "layer-props-back",
+          "path": "design/exports/public-board/board-room-a.layer-props-back.5b9f514539.svg",
+          "sha256": "5b9f5145394bd372e4be40cf47a2a5393ef79b0696e7dce8ca78778caf6c467d",
+          "bytes": 2465,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 5,
+            "depth": 0
+          }
+        },
+        {
+          "variant": "layer-props-front",
+          "path": "design/exports/public-board/board-room-a.layer-props-front.a3901834e4.svg",
+          "sha256": "a3901834e4e91ead2a90829027a088a4fff61effef8ad00b14cd35709ce80b1d",
+          "bytes": 1551,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#8696AE", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 7,
+            "depth": 2,
+            "note": "Tokens are order 6 and stand between the back and front props."
+          }
+        },
+        {
+          "variant": "layer-frame",
+          "path": "design/exports/public-board/board-room-a.layer-frame.28cf64ca17.svg",
+          "sha256": "28cf64ca17028582730088f984a5dfcb3944ce7110fcf7fe2f82a463b0a8cbff",
+          "bytes": 247,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "tokenFloorQuad": {
+              "farLeft": [216, 475],
+              "farRight": [808, 475],
+              "nearRight": [808, 649],
+              "nearLeft": [216, 649]
+            },
+            "tokenLayout": {
+              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+              "centerX": 512,
+              "standeeScale": 1.45,
+              "spacing": 148,
+              "near": {
+                "y": 649
+              },
+              "far": {
+                "y": 475
+              },
+              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
+              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+            }
+          },
+          "stack": {
+            "order": 8,
+            "depth": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "token-neutral",
+      "version": "0.1.0",
+      "title": "Neutral numbered player token",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "One per seat in seats[]. The numeral is the seat number. Health variants follow seats[].health. Nothing else may change it.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/token/numerals.svg",
+          "sha256": "1049048bcd45e7dbf3ad127876f7ffd105b19cd45cc297f54a7a90317ad167d8"
+        },
+        {
+          "path": "design/source/token/token-neutral.svg",
+          "sha256": "d0bc14562d00d3bb33e252949b7a35242a962375e0ab20ef2f405e6a5a144e9f"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "badge-blank",
+          "path": "design/exports/public-board/token-neutral.badge-blank.7770182f9d.svg",
+          "sha256": "7770182f9d2fe0ae4ee569afe076e4bd7f7326749784544b633bf79664949eff",
+          "bytes": 880,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [38, 38],
+            "numeralScale": 0.72,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n1",
+          "path": "design/exports/public-board/token-neutral.badge-n1.c3cd23423e.svg",
+          "sha256": "c3cd23423e2c7920c720484484121475b6587a47c0abef6defd285c49e3c79cd",
+          "bytes": 1183,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n2",
+          "path": "design/exports/public-board/token-neutral.badge-n2.227c768b17.svg",
+          "sha256": "227c768b179b484104395bdaa47d146b3428608a171c2bb0b051e4bef054e7cc",
+          "bytes": 1157,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n3",
+          "path": "design/exports/public-board/token-neutral.badge-n3.59d4f3cbdc.svg",
+          "sha256": "59d4f3cbdc54e68c7db96499a856c7aacd6423c207fcb3921da5451031260c86",
+          "bytes": 1205,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n4",
+          "path": "design/exports/public-board/token-neutral.badge-n4.7ec8620b9e.svg",
+          "sha256": "7ec8620b9e75a67b49b0bf84e591c3875850223a5820c77ffe42f8d8aaaf03f2",
+          "bytes": 1145,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n5",
+          "path": "design/exports/public-board/token-neutral.badge-n5.3371787300.svg",
+          "sha256": "33717873006d6f4bcaa79e9a966d8447d63a42ff62cf5827df15f0f022786dba",
+          "bytes": 1176,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n6",
+          "path": "design/exports/public-board/token-neutral.badge-n6.d7a28bbee0.svg",
+          "sha256": "d7a28bbee06b9357b8c187a2c4890ae5e9a5b0006963d87fab7e7a6349d3850c",
+          "bytes": 1244,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n7",
+          "path": "design/exports/public-board/token-neutral.badge-n7.b63ae9b394.svg",
+          "sha256": "b63ae9b394082deab7aa2a8af47d388cc7ebf8a844bb5aeffc15a7a878747e5d",
+          "bytes": 1126,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n8",
+          "path": "design/exports/public-board/token-neutral.badge-n8.381e70534e.svg",
+          "sha256": "381e70534ebf54d920b8ffd6068f24b0347cf05b945c2bacc8710960ab48d621",
+          "bytes": 1180,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n9",
+          "path": "design/exports/public-board/token-neutral.badge-n9.d80322e0ae.svg",
+          "sha256": "d80322e0aee7bb1af5db88c879e785decb79aed2c09a56d7a5c3d9c117073618",
+          "bytes": 1245,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-injured-blank",
+          "path": "design/exports/public-board/token-neutral.badge-injured-blank.d7370f8f8c.svg",
+          "sha256": "d7370f8f8cc6d91ad83b62729d8aaeb65900ae70fbc9c78102ee526ed8c8bcca",
+          "bytes": 1295,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [38, 38],
+            "numeralScale": 0.72
+          }
+        },
+        {
+          "variant": "badge-eliminated-blank",
+          "path": "design/exports/public-board/token-neutral.badge-eliminated-blank.4001319ef7.svg",
+          "sha256": "4001319ef76936195d4049bd509e05ae731fdda6a250962e25fba61ac7b61323",
+          "bytes": 538,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#34415A", "#CBBBA2"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [38, 38],
+            "numeralScale": 0.72
+          }
+        },
+        {
+          "variant": "overlay-health-injured",
+          "path": "design/exports/public-board/token-neutral.overlay-health-injured.9e8ae31da3.svg",
+          "sha256": "9e8ae31da31a34b9dd57f31bf780615ddb3179b042a443f86ed9489ff69a1dfd",
+          "bytes": 505,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "alignTo": "badge-blank"
+          }
+        },
+        {
+          "variant": "standee-blank",
+          "path": "design/exports/public-board/token-neutral.standee-blank.8c7fa2d527.svg",
+          "sha256": "8c7fa2d527e6d64f593f1033d8cf7add26dc2dd80563005abda059e0d5d352de",
+          "bytes": 1370,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [48, 44],
+            "numeralScale": 0.72,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n1",
+          "path": "design/exports/public-board/token-neutral.standee-n1.39d15533ca.svg",
+          "sha256": "39d15533ca2a17f0d2509f3eee1e3236a0955a4893c34adc6c94c7f771dfc4ac",
+          "bytes": 1673,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n2",
+          "path": "design/exports/public-board/token-neutral.standee-n2.e798d8e6ab.svg",
+          "sha256": "e798d8e6abfca29dab440b77ae75419c3c3915d8f14ae0b679826be7c4eea31d",
+          "bytes": 1647,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n3",
+          "path": "design/exports/public-board/token-neutral.standee-n3.cd0232d876.svg",
+          "sha256": "cd0232d876f1d674f2e1f376c957815c0ae5683801e4bd17b7ae1c397ea82ebd",
+          "bytes": 1695,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n4",
+          "path": "design/exports/public-board/token-neutral.standee-n4.b40f6ada87.svg",
+          "sha256": "b40f6ada87343ad4d448c9404c5fdc0aeca1f9aae6690c849a6c2089eadc2da3",
+          "bytes": 1635,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n5",
+          "path": "design/exports/public-board/token-neutral.standee-n5.aac1b672a9.svg",
+          "sha256": "aac1b672a92d363abd61fd90761ea08248a84ac9b24e4d18a8a94e75d5ead5fe",
+          "bytes": 1666,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n6",
+          "path": "design/exports/public-board/token-neutral.standee-n6.a917a5da65.svg",
+          "sha256": "a917a5da65c7158405c1f966a64eaedd7901699ad8c484f416a6aa3f029f8ba3",
+          "bytes": 1734,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n7",
+          "path": "design/exports/public-board/token-neutral.standee-n7.d44913397e.svg",
+          "sha256": "d44913397e8a87ebd0a02edf539177b7d49f9eae8d280e15e35165c6149c2822",
+          "bytes": 1616,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n8",
+          "path": "design/exports/public-board/token-neutral.standee-n8.2c7b7f9b5e.svg",
+          "sha256": "2c7b7f9b5e9e8cf272767e60cf49694c402b297d52ed375142a88a3affd0cdbe",
+          "bytes": 1670,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-n9",
+          "path": "design/exports/public-board/token-neutral.standee-n9.af6a2e9ec1.svg",
+          "sha256": "af6a2e9ec18c09e457c0130bfeb1be51a8883a3cf18f7e28e1df715cc657fa74",
+          "bytes": 1735,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-injured-blank",
+          "path": "design/exports/public-board/token-neutral.standee-injured-blank.4d1c6220ef.svg",
+          "sha256": "4d1c6220ef34170f840c4663f94116abb9427950d0d7d2a0c40ec1e29a682be1",
+          "bytes": 1821,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "numeralCenter": [48, 44],
+            "numeralScale": 0.72
+          }
+        },
+        {
+          "variant": "standee-eliminated-blank",
+          "path": "design/exports/public-board/token-neutral.standee-eliminated-blank.af57a73086.svg",
+          "sha256": "af57a73086b8402a1ca15e62cdc2652d72b8785d8fa1a78a5879847eb515aa7c",
+          "bytes": 1030,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#34415A", "#55657E", "#C6CDD4", "#CBBBA2"],
+          "anchors": {
+            "origin": [48, 104],
+            "faceCenter": [48, 44],
+            "bodyDiameter": 64,
+            "numeralCenter": [48, 44],
+            "numeralScale": 0.72
+          }
+        }
+      ]
+    },
+    {
+      "id": "token-numeral",
+      "version": "0.1.0",
+      "title": "Token numerals 1 to 9",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "The seat number, 1 to 9. Never a count of anything else.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/token/numerals.svg",
+          "sha256": "1049048bcd45e7dbf3ad127876f7ffd105b19cd45cc297f54a7a90317ad167d8"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "n1",
+          "path": "design/exports/public-board/token-numeral.n1.6741c909bf.svg",
+          "sha256": "6741c909bf6a4a9f6e8ad42e7f0da34d0ce285b35155941057d57196d2a2e860",
+          "bytes": 324,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n2",
+          "path": "design/exports/public-board/token-numeral.n2.0ed36cb2d7.svg",
+          "sha256": "0ed36cb2d7ed12d6eb2dd29f178ac325df8825c81863a9ebd9417cd9199a7c10",
+          "bytes": 298,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n3",
+          "path": "design/exports/public-board/token-numeral.n3.09445d5abc.svg",
+          "sha256": "09445d5abc62b6bbd3132d2b47b4aedbba089a4ffdc1ca1a213f732cd65a6cfd",
+          "bytes": 346,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n4",
+          "path": "design/exports/public-board/token-numeral.n4.26268e70af.svg",
+          "sha256": "26268e70af680ca4b2a6ebf99908a13ff974d79d221b163198fb0193c3aba7c7",
+          "bytes": 286,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n5",
+          "path": "design/exports/public-board/token-numeral.n5.9ed46cb019.svg",
+          "sha256": "9ed46cb0194a127327142ff947789498f7de77c761afd7429d6883ee27c5bd5d",
+          "bytes": 317,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n6",
+          "path": "design/exports/public-board/token-numeral.n6.635e5ed807.svg",
+          "sha256": "635e5ed807dd5bea9b24b2f55e9e6e73ee6722ef1d0a058ec14181d108e80759",
+          "bytes": 385,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n7",
+          "path": "design/exports/public-board/token-numeral.n7.f625946d92.svg",
+          "sha256": "f625946d92db586a5b7ad7b172ad71b265ee3f9467458e25e1d29517da822693",
+          "bytes": 267,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n8",
+          "path": "design/exports/public-board/token-numeral.n8.ea15706a07.svg",
+          "sha256": "ea15706a072fdc382520a28cb0110eb687afafe9674803eda12ce57cdbfa1a5e",
+          "bytes": 321,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        },
+        {
+          "variant": "n9",
+          "path": "design/exports/public-board/token-numeral.n9.89b07caabb.svg",
+          "sha256": "89b07caabb09ab455dfe13cb716a0de4a2a5ebb5322c089d6da51df2da028a5d",
+          "bytes": 386,
+          "format": "svg",
+          "width": 40,
+          "height": 48,
+          "viewBox": "0 0 40 48",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [20, 22.5],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        }
+      ]
+    },
+    {
+      "id": "token-emphasis",
+      "version": "0.1.0",
+      "title": "Private token emphasis: rings and the dimmed token",
+      "status": "finished",
+      "bundle": "player-ui",
+      "audience": "player",
+      "dataSource": "PRIVATE, and drawn by no reference rule yet. Meant for a target list the server supplies (DSN-D03): may be chosen, chosen on this device, not offered. Protocol 1 has no such list, and a ring would claim one.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/token/token-neutral.svg",
+          "sha256": "d0bc14562d00d3bb33e252949b7a35242a962375e0ab20ef2f405e6a5a144e9f"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ring-targetable",
+          "path": "design/exports/player-ui/token-emphasis.ring-targetable.3910a7dc5a.svg",
+          "sha256": "3910a7dc5a5aea77fee159ee1296f3c3ea345646b13949c2e261b1b689c05c9e",
+          "bytes": 338,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "alignTo": "badge-blank"
+          }
+        },
+        {
+          "variant": "ring-selected",
+          "path": "design/exports/player-ui/token-emphasis.ring-selected.0c82861423.svg",
+          "sha256": "0c8286142318559fbc3200c5c8423afb7f0f92143e6ca65e50968c6db92d697c",
+          "bytes": 284,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public-with-accent",
+          "colors": ["#151923", "#F1B84B"],
+          "anchors": {
+            "alignTo": "badge-blank"
+          }
+        },
+        {
+          "variant": "unavailable-blank",
+          "path": "design/exports/player-ui/token-emphasis.unavailable-blank.7de535697d.svg",
+          "sha256": "7de535697d991887d76d338b1f7d97fd0ae074aaa648e72963020328234f07d7",
+          "bytes": 290,
+          "format": "svg",
+          "width": 80,
+          "height": 80,
+          "viewBox": "0 0 80 80",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#55657E", "#CBBBA2"],
+          "anchors": {
+            "faceCenter": [38, 38],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [38, 38],
+            "numeralScale": 0.72
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-health",
+      "version": "0.1.0",
+      "title": "Public health marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "seats[].health: Healthy, Injured or Eliminated. A separate fact from Jail and Captain.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/markers/markers.svg",
+          "sha256": "e97e7b9b92d4033756ff62fce3bf9db535dc8fd936a694bf4fca6e4c5cffae9a"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "healthy-glyph",
+          "path": "design/exports/public-board/marker-health.healthy-glyph.b9a4e5c607.svg",
+          "sha256": "b9a4e5c607d72910f67d30aaf055e750de52bbb4eed8e7a939ad563a131e8c96",
+          "bytes": 442,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "injured-glyph",
+          "path": "design/exports/public-board/marker-health.injured-glyph.c975517cd6.svg",
+          "sha256": "c975517cd61cc6392c97b67fb8c413b3211859f0e2de58948a62fd9d40e5eae2",
+          "bytes": 1358,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "eliminated-glyph",
+          "path": "design/exports/public-board/marker-health.eliminated-glyph.4680b5a3f4.svg",
+          "sha256": "4680b5a3f452a267643d8b7054dd976ec85ee7584ad862da086a08efa40a585e",
+          "bytes": 551,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "injured-badge",
+          "path": "design/exports/public-board/marker-health.injured-badge.042e4898bd.svg",
+          "sha256": "042e4898bd7323d75a8b6980e60aeb5932906dfe598f9fc04ba30afbcca6f11f",
+          "bytes": 1594,
+          "format": "svg",
+          "width": 36,
+          "height": 36,
+          "viewBox": "0 0 36 36",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [17, 17]
+          }
+        },
+        {
+          "variant": "eliminated-badge",
+          "path": "design/exports/public-board/marker-health.eliminated-badge.8df708e5d5.svg",
+          "sha256": "8df708e5d5630cfafb435eb6c2ff201884e4ef43c03f81fdef6b2e7d8c90740e",
+          "bytes": 787,
+          "format": "svg",
+          "width": 36,
+          "height": 36,
+          "viewBox": "0 0 36 36",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [17, 17]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-jail",
+      "version": "0.1.0",
+      "title": "Public Jail marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "seats[].jailed is true. Jail is not a health state; a seat's location is a separate field.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/markers/markers.svg",
+          "sha256": "e97e7b9b92d4033756ff62fce3bf9db535dc8fd936a694bf4fca6e4c5cffae9a"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "glyph",
+          "path": "design/exports/public-board/marker-jail.glyph.1b139a0d89.svg",
+          "sha256": "1b139a0d89676061831dff8c7171e46fbbe93847ce7ad823de41f3e0d86494f5",
+          "bytes": 467,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "badge",
+          "path": "design/exports/public-board/marker-jail.badge.ea5f3d972e.svg",
+          "sha256": "ea5f3d972e2975e3ada030ded0ab993884f8256b75e3354a9e97813519385813",
+          "bytes": 703,
+          "format": "svg",
+          "width": 36,
+          "height": 36,
+          "viewBox": "0 0 36 36",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [17, 17]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-captain",
+      "version": "0.1.0",
+      "title": "Public Captain marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "seats[].captain is true. It stays with the title when the Captain leaves Command Room and says nothing about immunity. A rank star, deliberately not a shield.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/markers/markers.svg",
+          "sha256": "e97e7b9b92d4033756ff62fce3bf9db535dc8fd936a694bf4fca6e4c5cffae9a"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "glyph",
+          "path": "design/exports/public-board/marker-captain.glyph.4896292e1b.svg",
+          "sha256": "4896292e1b91e41188934655750cf56a1fd4b21d14bffbb8f14305908102a38a",
+          "bytes": 497,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "badge",
+          "path": "design/exports/public-board/marker-captain.badge.07ce7b6cf4.svg",
+          "sha256": "07ce7b6cf43c6e1925d25facf397eb7ab1403bd43ebcddc7026c6451776a38be",
+          "bytes": 733,
+          "format": "svg",
+          "width": 36,
+          "height": 36,
+          "viewBox": "0 0 36 36",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [17, 17]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-turn",
+      "version": "0.1.0",
+      "title": "Public active-turn marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "activeSeatId equals this seat. Public. Never drawn inside the private sheet.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/markers/markers.svg",
+          "sha256": "e97e7b9b92d4033756ff62fce3bf9db535dc8fd936a694bf4fca6e4c5cffae9a"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "glyph",
+          "path": "design/exports/public-board/marker-turn.glyph.86e424f0ee.svg",
+          "sha256": "86e424f0ee218d1bd129e5657043da0aeb2de2e7fa12920b57f1239461c355af",
+          "bytes": 461,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public"],
+          "allowedPalette": "public-with-accent",
+          "colors": ["#151923", "#F1B84B"],
+          "anchors": {
+            "center": [16, 16],
+            "tail": [9.5, 28]
+          }
+        },
+        {
+          "variant": "float",
+          "path": "design/exports/public-board/marker-turn.float.578958a566.svg",
+          "sha256": "578958a5669b9a8dedf62f5ec91399e24a611350dad4dc2c0ba76cfb3bed3272",
+          "bytes": 729,
+          "format": "svg",
+          "width": 36,
+          "height": 36,
+          "viewBox": "0 0 36 36",
+          "surfaces": ["table", "phone-public"],
+          "allowedPalette": "public-with-accent",
+          "colors": ["#151923", "#F1B84B"],
+          "anchors": {
+            "center": [16, 16],
+            "tail": [9.5, 28]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-self",
+      "version": "0.1.0",
+      "title": "Own-seat marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "The seat equals the player view's audience.seatId. Drawn on that player's own phone only; the seat number itself is public.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/markers/markers.svg",
+          "sha256": "e97e7b9b92d4033756ff62fce3bf9db535dc8fd936a694bf4fca6e4c5cffae9a"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "glyph",
+          "path": "design/exports/public-board/marker-self.glyph.39c6709c33.svg",
+          "sha256": "39c6709c334f13990076b35f242f3940770e696643ad14354c6989bd2ed81c18",
+          "bytes": 332,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [16, 16],
+            "tip": [16, 29]
+          }
+        },
+        {
+          "variant": "badge",
+          "path": "design/exports/public-board/marker-self.badge.b884d777ca.svg",
+          "sha256": "b884d777ca980033795e9555f6027cf9519c2be8123a1c215981888c678c73c3",
+          "bytes": 568,
+          "format": "svg",
+          "width": 36,
+          "height": 36,
+          "viewBox": "0 0 36 36",
+          "surfaces": ["phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [17, 17]
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-ink-trail",
+      "version": "0.1.0",
+      "title": "Public move: ink trail",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "A public-move cue, which needs a PUBLIC_MOVE event and a view that shows the seat in its new location.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/fx.svg",
+          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/public-board/fx-ink-trail.ink.cc270211d1.svg",
+          "sha256": "cc270211d1fbd59a472a3859502475ef5d9cd5f98519d278088f34eee7ffdf12",
+          "bytes": 456,
+          "format": "svg",
+          "width": 96,
+          "height": 80,
+          "viewBox": "0 0 96 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "landing": [48, 80],
+            "alignTo": "Bottom center sits on the top center of the landing token."
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg",
+          "sha256": "fdbb7f4fce4f0fa87b59bb4a41e72730fa0d64bddbd5cb131a4f27c619edce9b",
+          "bytes": 456,
+          "format": "svg",
+          "width": 96,
+          "height": 80,
+          "viewBox": "0 0 96 80",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "landing": [48, 80],
+            "alignTo": "Bottom center sits on the top center of the landing token."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-landing-puff",
+      "version": "0.1.0",
+      "title": "Public move: landing puff",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "A public-move cue, as fx-ink-trail.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/fx.svg",
+          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/public-board/fx-landing-puff.ink.67c4f9cc45.svg",
+          "sha256": "67c4f9cc455cab006eca987039cb5d869c297d695a59893d10aa0bedb6c8d97e",
+          "bytes": 389,
+          "format": "svg",
+          "width": 120,
+          "height": 36,
+          "viewBox": "0 0 120 36",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "contact": [60, 30],
+            "alignTo": "The contact point sits on the token origin (floor contact)."
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg",
+          "sha256": "8d5f3998bda9035fb12dd963feb838bb7405c98bc32086a9a14b060a69c9af37",
+          "bytes": 389,
+          "format": "svg",
+          "width": 120,
+          "height": 36,
+          "viewBox": "0 0 120 36",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "contact": [60, 30],
+            "alignTo": "The contact point sits on the token origin (floor contact)."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-panel-cap",
+      "version": "0.1.0",
+      "title": "Round transition: panel sweep edge",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "A round-transition cue, which needs a PHASE_CHANGED event and a view whose round number went up.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/fx.svg",
+          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/public-board/fx-panel-cap.ink.5bc06a9fad.svg",
+          "sha256": "5bc06a9fadf0a867f495909c0621d3cf29a699020af4459acf7ff534815d187d",
+          "bytes": 665,
+          "format": "svg",
+          "width": 160,
+          "height": 96,
+          "viewBox": "0 0 160 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "solidUntilX": 32,
+            "slantRun": 40,
+            "alignTo": "The left edge continues a plain block of the same color."
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/fx-panel-cap.paper.8fe4a5e908.svg",
+          "sha256": "8fe4a5e90883388d2ef3ace876487b5b183f07203fec2b7e7e2e20b60891ad47",
+          "bytes": 665,
+          "format": "svg",
+          "width": 160,
+          "height": 96,
+          "viewBox": "0 0 160 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "solidUntilX": 32,
+            "slantRun": 40,
+            "alignTo": "The left edge continues a plain block of the same color."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-speed-lines",
+      "version": "0.1.0",
+      "title": "Round transition: speed lines",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "A round-transition cue, as fx-panel-cap.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/fx.svg",
+          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/public-board/fx-speed-lines.ink.4486b6a173.svg",
+          "sha256": "4486b6a1738bca43b6256faca82b06dd8579c644bde8b76b42a5f90c043b4a00",
+          "bytes": 324,
+          "format": "svg",
+          "width": 240,
+          "height": 64,
+          "viewBox": "0 0 240 64",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "leading": [0, 32]
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/fx-speed-lines.paper.aaa186a7eb.svg",
+          "sha256": "aaa186a7ebfbed2271e004280e3a5101535bc8b81352b8ab7fda5ed9cac7be4c",
+          "bytes": 324,
+          "format": "svg",
+          "width": 240,
+          "height": 64,
+          "viewBox": "0 0 240 64",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "leading": [0, 32]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pattern-halftone",
+      "version": "0.1.0",
+      "title": "Halftone tiles",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Decoration. Shading only; it states nothing.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/patterns.svg",
+          "sha256": "0c3367c64554fb29d1742dfb0179f759ba960942e9d1471d7dfad2c8beec870e"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "fine-ink",
+          "path": "design/exports/public-board/pattern-halftone.fine-ink.4e3dac4155.svg",
+          "sha256": "4e3dac4155767e8df98c7e1d9fb4b3ac619835663d0693ec72e0cb363e4c3570",
+          "bytes": 303,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        },
+        {
+          "variant": "medium-ink",
+          "path": "design/exports/public-board/pattern-halftone.medium-ink.d916a65be5.svg",
+          "sha256": "d916a65be51c0504a6a3f627ba1def740967d1b45a84da8e682a7fe90784e24b",
+          "bytes": 305,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        },
+        {
+          "variant": "heavy-ink",
+          "path": "design/exports/public-board/pattern-halftone.heavy-ink.9802d96295.svg",
+          "sha256": "9802d9629508c8dd9fbf03049b6b8787491ab0075bf53c1a7244ff2195baf531",
+          "bytes": 294,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        },
+        {
+          "variant": "fine-paper",
+          "path": "design/exports/public-board/pattern-halftone.fine-paper.5e3ec66b5b.svg",
+          "sha256": "5e3ec66b5b2fc6a87125d8b001fd10ea134590c72d77e7428c6d36adde148659",
+          "bytes": 303,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        },
+        {
+          "variant": "medium-paper",
+          "path": "design/exports/public-board/pattern-halftone.medium-paper.bbfb7ec350.svg",
+          "sha256": "bbfb7ec35056e86e1691cd855a77323a8edc109f3d525461bcb68dd18b0f48ff",
+          "bytes": 305,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pattern-hatch",
+      "version": "0.1.0",
+      "title": "Hatch tile",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "The pending band of an action card while its own command is being sent or checked, and the frame and banner edge that mark a stale view. It states nothing by itself.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/patterns.svg",
+          "sha256": "0c3367c64554fb29d1742dfb0179f759ba960942e9d1471d7dfad2c8beec870e"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/public-board/pattern-hatch.ink.33b94f3d68.svg",
+          "sha256": "33b94f3d68ae93f747a6acb37f75165ca71ebaa0c56ba3e46f89d25426a4252b",
+          "bytes": 242,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/pattern-hatch.paper.c19c3c121e.svg",
+          "sha256": "c19c3c121ea595f189006b445deef18119a18e993e22cd1b47b5059f2bf98b41",
+          "bytes": 242,
+          "format": "svg",
+          "width": 12,
+          "height": 12,
+          "viewBox": "0 0 12 12",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "tile": [12, 12]
+          }
+        }
+      ]
+    },
+    {
+      "id": "icon-action-shot",
+      "version": "0.1.0",
+      "title": "Shot action icon",
+      "status": "finished",
+      "bundle": "player-ui",
+      "audience": "player",
+      "dataSource": "The Shot action card inside the private sheet. The same for every seat shown the card.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/cards/ui-icons.svg",
+          "sha256": "7b451d92ca5f89deed742e4b3ddcab24bd61f5de5f119d0634803dcaf40a6422"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/player-ui/icon-action-shot.ink.98e96d77fc.svg",
+          "sha256": "98e96d77fc51ed9a7a2ef1f87a40da810a80c21389a4173f56ce07f1e06fea75",
+          "bytes": 352,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/player-ui/icon-action-shot.paper.55188031af.svg",
+          "sha256": "55188031afb39fa9fa5149828d66c90d4772b3d0318194f34c956d66df7a4d04",
+          "bytes": 352,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        }
+      ]
+    },
+    {
+      "id": "icon-private",
+      "version": "0.1.0",
+      "title": "Private sheet closed and open",
+      "status": "finished",
+      "bundle": "player-ui",
+      "audience": "player",
+      "dataSource": "Whether the player has opened the private sheet on this device. Local state; closed by default.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/cards/ui-icons.svg",
+          "sha256": "7b451d92ca5f89deed742e4b3ddcab24bd61f5de5f119d0634803dcaf40a6422"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "closed-ink",
+          "path": "design/exports/player-ui/icon-private.closed-ink.04c01bae91.svg",
+          "sha256": "04c01bae9186e8b9394a13ee4f5f8983c8c0bcdbb768e7629969e6a1c21ee49a",
+          "bytes": 316,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "closed-paper",
+          "path": "design/exports/player-ui/icon-private.closed-paper.104f5a62ca.svg",
+          "sha256": "104f5a62caf692c4ca18a0d56de58cfe7bf8f471de83910fc0cfa15cc974814a",
+          "bytes": 316,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "open-ink",
+          "path": "design/exports/player-ui/icon-private.open-ink.13e950ec85.svg",
+          "sha256": "13e950ec85e263f2795bf7eff1664107dec54c503f4d85aee7eb6ac139595b2c",
+          "bytes": 351,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "open-paper",
+          "path": "design/exports/player-ui/icon-private.open-paper.aeb33ff27c.svg",
+          "sha256": "aeb33ff27c572fbb49a4facf0138d78c1ffed4fd7acc8d937eb41e3391be63a0",
+          "bytes": 351,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        }
+      ]
+    },
+    {
+      "id": "icon-connection-stale",
+      "version": "0.1.0",
+      "title": "Stale connection icon",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "The client's own connection status is stale: the view shown is the last known one.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/cards/ui-icons.svg",
+          "sha256": "7b451d92ca5f89deed742e4b3ddcab24bd61f5de5f119d0634803dcaf40a6422"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "ink",
+          "path": "design/exports/public-board/icon-connection-stale.ink.79da5b0856.svg",
+          "sha256": "79da5b08564ce137cc7350749ad3578e40cbb0c0718acfea6848a7905337a4a7",
+          "bytes": 317,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        },
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/icon-connection-stale.paper.7be61bf767.svg",
+          "sha256": "7be61bf767dede434d5da26329cf3bbcf3f14d47fd23c1f6a60cd71e82aced22",
+          "bytes": 317,
+          "format": "svg",
+          "width": 32,
+          "height": 32,
+          "viewBox": "0 0 32 32",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#F4EBDD"],
+          "anchors": {
+            "center": [16, 16]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pip-resource",
+      "version": "0.1.0",
+      "title": "Resource pip",
+      "status": "finished",
+      "bundle": "player-ui",
+      "audience": "player",
+      "dataSource": "PRIVATE. Drawn only from the player's own view: available from self.shotAvailable, registered while the seat's own command is listed in ownPendingCommandIds. Spent has no field in protocol 1 (DSN-D02).",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/cards/ui-icons.svg",
+          "sha256": "7b451d92ca5f89deed742e4b3ddcab24bd61f5de5f119d0634803dcaf40a6422"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "available",
+          "path": "design/exports/player-ui/pip-resource.available.a36c55da5e.svg",
+          "sha256": "a36c55da5e7db9d8ce5842f6a29fec0408b50911b4c88273b8b40e9b647950b4",
+          "bytes": 382,
+          "format": "svg",
+          "width": 36,
+          "height": 20,
+          "viewBox": "0 0 36 20",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [18, 10]
+          }
+        },
+        {
+          "variant": "registered",
+          "path": "design/exports/player-ui/pip-resource.registered.2dd03c0b57.svg",
+          "sha256": "2dd03c0b578d7d05169da1843b39a2f8e96350516ed5cce842431ae87ee67caa",
+          "bytes": 620,
+          "format": "svg",
+          "width": 36,
+          "height": 20,
+          "viewBox": "0 0 36 20",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [18, 10]
+          }
+        },
+        {
+          "variant": "spent",
+          "path": "design/exports/player-ui/pip-resource.spent.aa5ba23be8.svg",
+          "sha256": "aa5ba23be8a720be4048311aa98d5d77d34fc6ed5aeffab8eca795451b63d3c3",
+          "bytes": 506,
+          "format": "svg",
+          "width": 36,
+          "height": 20,
+          "viewBox": "0 0 36 20",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [18, 10]
+          }
+        }
+      ]
+    },
+    {
+      "id": "card-officer",
+      "version": "0.1.0",
+      "title": "Officer role illustration",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Officer. Shown only inside that seat's open private sheet.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/cards/card-officer.svg",
+          "sha256": "46369def51feddb642ea68b58f4d8742d1ad6b389536f80de21659eaebc80c95"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "art",
+          "path": "design/exports/roles/card-officer.art.0a13a67c6b.svg",
+          "sha256": "0a13a67c6b864de73e640eea9f12a9099f0beef5457f5c8d99523f47187a3e3f",
+          "bytes": 6907,
+          "format": "svg",
+          "width": 500,
+          "height": 700,
+          "viewBox": "0 0 500 700",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-blue",
+          "colors": ["#151923", "#222B3A", "#34415A", "#55657E", "#70AFFF", "#8696AE", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "aspect": "5:7",
+            "focus": [250, 318],
+            "safeArea": [24, 24, 452, 652]
+          }
+        }
+      ]
+    }
+  ],
+  "sprites": [
+    {
+      "id": "sprite-public",
+      "version": "0.1.0",
+      "title": "Public symbol sprite",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "The same symbols as the standalone public exports, for inline use with <use>.",
+      "allowedPalette": "public-with-accent",
+      "path": "design/exports/public-board/sprite-public.0f751d4454.svg",
+      "sha256": "0f751d4454c33d12765a1c27e23cf358bd153af22df768ccfee1fe1c35f4221d",
+      "bytes": 14102,
+      "format": "svg-sprite",
+      "use": "Inline the file into the document once, then reference a symbol with <svg><use href=\"#<symbol>\"/></svg>. Tintable symbols take the CSS color of the element that uses them.",
+      "symbols": [
+        {
+          "symbol": "token-badge",
+          "from": "token-neutral:badge-blank",
+          "viewBox": "0 0 80 80",
+          "width": 80,
+          "height": 80,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "token-badge-injured",
+          "from": "token-neutral:badge-injured-blank",
+          "viewBox": "0 0 80 80",
+          "width": 80,
+          "height": 80,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "token-badge-eliminated",
+          "from": "token-neutral:badge-eliminated-blank",
+          "viewBox": "0 0 80 80",
+          "width": 80,
+          "height": 80,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "token-standee",
+          "from": "token-neutral:standee-blank",
+          "viewBox": "0 0 96 120",
+          "width": 96,
+          "height": 120,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "token-standee-injured",
+          "from": "token-neutral:standee-injured-blank",
+          "viewBox": "0 0 96 120",
+          "width": 96,
+          "height": 120,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "token-standee-eliminated",
+          "from": "token-neutral:standee-eliminated-blank",
+          "viewBox": "0 0 96 120",
+          "width": 96,
+          "height": 120,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-1",
+          "from": "token-numeral:n1",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-2",
+          "from": "token-numeral:n2",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-3",
+          "from": "token-numeral:n3",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-4",
+          "from": "token-numeral:n4",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-5",
+          "from": "token-numeral:n5",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-6",
+          "from": "token-numeral:n6",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-7",
+          "from": "token-numeral:n7",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-8",
+          "from": "token-numeral:n8",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "numeral-9",
+          "from": "token-numeral:n9",
+          "viewBox": "0 0 40 48",
+          "width": 40,
+          "height": 48,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "marker-health-healthy",
+          "from": "marker-health:healthy-glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "marker-health-injured",
+          "from": "marker-health:injured-glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "marker-health-eliminated",
+          "from": "marker-health:eliminated-glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "marker-jail",
+          "from": "marker-jail:glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "marker-captain",
+          "from": "marker-captain:glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "marker-turn",
+          "from": "marker-turn:glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["table", "phone-public"]
+        },
+        {
+          "symbol": "marker-self",
+          "from": "marker-self:glyph",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": false,
+          "surfaces": ["phone-public", "phone-private"]
+        },
+        {
+          "symbol": "fx-ink-trail",
+          "from": "fx-ink-trail:ink",
+          "viewBox": "0 0 96 80",
+          "width": 96,
+          "height": 80,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "fx-landing-puff",
+          "from": "fx-landing-puff:ink",
+          "viewBox": "0 0 120 36",
+          "width": 120,
+          "height": 36,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "fx-speed-lines",
+          "from": "fx-speed-lines:ink",
+          "viewBox": "0 0 240 64",
+          "width": 240,
+          "height": 64,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-connection-stale",
+          "from": "icon-connection-stale:ink",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        }
+      ]
+    },
+    {
+      "id": "sprite-player",
+      "version": "0.1.0",
+      "title": "Player interface symbol sprite",
+      "status": "finished",
+      "bundle": "player-ui",
+      "audience": "player",
+      "dataSource": "The same symbols as the standalone player-ui exports, for inline use with <use>. Role-neutral.",
+      "allowedPalette": "public-with-accent",
+      "path": "design/exports/player-ui/sprite-player.94faf5cf14.svg",
+      "sha256": "94faf5cf14c127d2959d2abc96aa2fff403f61121bae88193fae5a5de4115866",
+      "bytes": 3239,
+      "format": "svg-sprite",
+      "use": "Inline the file into the document once, then reference a symbol with <svg><use href=\"#<symbol>\"/></svg>. Tintable symbols take the CSS color of the element that uses them.",
+      "symbols": [
+        {
+          "symbol": "token-badge-unavailable",
+          "from": "token-emphasis:unavailable-blank",
+          "viewBox": "0 0 80 80",
+          "width": 80,
+          "height": 80,
+          "tintable": false,
+          "surfaces": ["phone-private"]
+        },
+        {
+          "symbol": "token-ring-targetable",
+          "from": "token-emphasis:ring-targetable",
+          "viewBox": "0 0 80 80",
+          "width": 80,
+          "height": 80,
+          "tintable": false,
+          "surfaces": ["phone-private"]
+        },
+        {
+          "symbol": "token-ring-selected",
+          "from": "token-emphasis:ring-selected",
+          "viewBox": "0 0 80 80",
+          "width": 80,
+          "height": 80,
+          "tintable": false,
+          "surfaces": ["phone-private"]
+        },
+        {
+          "symbol": "icon-action-shot",
+          "from": "icon-action-shot:ink",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": true,
+          "surfaces": ["phone-private"]
+        },
+        {
+          "symbol": "icon-private-closed",
+          "from": "icon-private:closed-ink",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": true,
+          "surfaces": ["phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-private-open",
+          "from": "icon-private:open-ink",
+          "viewBox": "0 0 32 32",
+          "width": 32,
+          "height": 32,
+          "tintable": true,
+          "surfaces": ["phone-public", "phone-private"]
+        },
+        {
+          "symbol": "pip-available",
+          "from": "pip-resource:available",
+          "viewBox": "0 0 36 20",
+          "width": 36,
+          "height": 20,
+          "tintable": false,
+          "surfaces": ["phone-private"]
+        },
+        {
+          "symbol": "pip-registered",
+          "from": "pip-resource:registered",
+          "viewBox": "0 0 36 20",
+          "width": 36,
+          "height": 20,
+          "tintable": false,
+          "surfaces": ["phone-private"]
+        },
+        {
+          "symbol": "pip-spent",
+          "from": "pip-resource:spent",
+          "viewBox": "0 0 36 20",
+          "width": 36,
+          "height": 20,
+          "tintable": false,
+          "surfaces": ["phone-private"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$comment": "PROPOSED English copy for what this design adds. Live text only: none of it is drawn into an illustration. Frontend owns interface wording and the game owner owns rule statements; every line that states a rule cites the rule source it paraphrases. Nothing here is approved.",
+  "status": "proposed_for_review",
+  "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "roleCard": {
+    "Officer": {
+      "name": "Officer",
+      "team": "Blue team",
+      "more": "About this role",
+      "summary": "You start with one ordinary shot. You may register it during your own turn, from Round 1.",
+      "limit": "One ordinary shot for the whole match.",
+      "sources": [
+        "rules/overlays/player-modes-officer.json#/officer/team",
+        "rules/overlays/player-modes-officer.json#/officer/starting_weapon",
+        "rules/overlays/player-modes-officer.json#/officer/timing",
+        "rules/overlays/player-modes-officer.json#/officer/shot_limit",
+        "rules/overlays/final-showdown-decision.json#/options/1/shot"
+      ],
+      "mustNotSay": "Nothing about identifying or guessing another player's faction or role: that step is archived (rules/overlays/direct-shot-decision.json). “Ordinary” is there because the final showdown gives every participant a special shot of its own (rules/overlays/final-showdown-decision.json): the card must not read as if the Officer had none left for it."
+    }
+  },
+  "resourcePip": {
+    "available": "1 shot available",
+    "registered": "1 shot registered",
+    "spent": "Shot used",
+    "note": "Accessible names for the pip. Each repeats what the card's status word already says; none is an outcome. “Shot used” is drawn by no state in protocol 1, which has no field for it (DSN-D02)."
+  },
+  "privateHandle": {
+    "closed": "Private",
+    "open": "Private",
+    "note": "The handle's visible word never changes with role, turn or availability. Frontend's Show/Hide button labels stay as they are."
+  },
+  "table": {
+    "boardSyntheticLabel": "Synthetic layout state. Not a match."
+  },
+  "syntheticStudies": {
+    "impactLettering": "BANG!",
+    "blockedLettering": "BLOCKED",
+    "note": "mothership:dev-only. Lettering for the two synthetic studies only, read by studies.html. No approved fact exists for either word; neither may appear in a connected match."
+  }
+}

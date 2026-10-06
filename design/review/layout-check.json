@@ -1,0 +1,68 @@
+{
+  "note": "Desktop Chrome on one machine laying out the Designer's hand-built copy of the shell markup. Not a phone, not Frontend's runtime, not a device measurement.",
+  "browser": "Google Chrome 155.0.8059.39",
+  "inputsSha256": "02b6a6db81bed2778bdea59a1abec7be36f64a1ccaefb14c40c04f585a557d9c",
+  "minimumTargetCssPx": 44,
+  "casesChecked": 360,
+  "casesInTheMatrix": 360,
+  "sizesCssPx": {
+    "playerWidths": [
+      320,
+      360,
+      414,
+      599,
+      600,
+      768
+    ],
+    "playerHeights": [
+      760,
+      640,
+      568
+    ],
+    "tableWidths": [
+      600,
+      960,
+      1279,
+      1280,
+      1440,
+      1920
+    ]
+  },
+  "browserDefaultTextPx": [
+    16,
+    32
+  ],
+  "shotCardPictures": [
+    "available",
+    "available-waiting",
+    "available-paused",
+    "targeting",
+    "confirming",
+    "submitting",
+    "checking",
+    "unknown",
+    "registered",
+    "registered-idle",
+    "was-registered",
+    "unavailable",
+    "not-registered"
+  ],
+  "leastFreeScreenHeight": {
+    "share": 0.62,
+    "where": "surface=player at 320 x 568, default text 32 px"
+  },
+  "assertions": [
+    "no sideways scrolling, and nothing drawn past either side of the screen",
+    "no token, name, marker, status word, caption, card line, roster cell or control cut off by a clipping box or by its own box",
+    "the table roster never wider than its panel",
+    "every control at least 44 x 44 CSS px",
+    "with art, every seat token is a numeral picture over a body picture; without art, every token shows its numeral as text and no name or marker is hidden",
+    "with the sheet closed on a docked phone layout, at least half of the screen height is left free by the phase caption and the dock",
+    "on a docked phone layout the control that opens and closes the sheet is inside the screen and on top, closed, open, and open with the cards scrolled to their end",
+    "outside the private panel: no private hook, no role or team word, no role or team style, whatever the sheet holds",
+    "nothing in the private panel while the sheet is closed",
+    "no private sheet, command control, private hook or role word on the table display",
+    "no page error, failed request or refused request"
+  ],
+  "failures": []
+}

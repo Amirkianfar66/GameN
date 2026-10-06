@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design review (synthetic, development only)</title>
+<link rel="stylesheet" href="css/review.css">
+<style>
+  ul { padding-inline-start: 1.2rem; line-height: 1.9; }
+  a { color: #FFD36D; }
+  a:focus-visible { outline: 3px solid var(--review-ink); outline-offset: 2px; }
+  h2 { margin: 28px 0 6px; font-size: 17px; }
+</style>
+</head>
+<body class="review">
+<main class="review-page">
+  <header class="review-head">
+    <h1>Mothership design review</h1>
+    <span class="review-synthetic">Synthetic · development only · not the game</span>
+  </header>
+  <p class="review-note">The Visual and Motion Designer’s review pages for issue #4. Every state shown is authored for looking at layout and motion. Nothing here is a match, an engine result or a device measurement, and none of it is shipped. Start it with <code>npm run dev:review --workspace @mothership/design-tokens</code>.</p>
+
+  <h2>Layouts</h2>
+  <ul>
+    <li><a href="layouts.html?board=phone-public">Phone · public layer</a> · <a href="layouts.html?board=phone-public-full">whole page</a></li>
+    <li><a href="layouts.html?board=phone-private">Phone · private sheet open</a></li>
+    <li><a href="layouts.html?board=phone-narrow-large-text">Phone · 320 px at 200% text</a></li>
+    <li><a href="layouts.html?board=player-wide">Player tablet</a></li>
+    <li><a href="layouts.html?board=phone-short-large-text">Phone · 320 × 568 at 200% text</a></li>
+    <li><a href="layouts.html?board=table-wide">Table display</a> · <a href="layouts.html?board=table-varied">every public health state</a> · <a href="layouts.html?board=table-narrow">narrow</a></li>
+    <li><a href="layouts.html?board=reconnect">Connection lost</a> · <a href="layouts.html?board=missing-assets">Without art</a></li>
+  </ul>
+
+  <h2>States</h2>
+  <ul>
+    <li><a href="states.html?sheet=cards">Shot action card · every status</a></li>
+    <li><a href="states.html?sheet=tokens">Token, markers and resource pips</a></li>
+    <li><a href="states.html?sheet=controls">Controls, captions and the private dock</a></li>
+  </ul>
+
+  <h2>Motion</h2>
+  <ul>
+    <li><a href="motion.html">Motion prototypes</a> (plays; with reduced motion and reduced effects)</li>
+    <li><a href="storyboards.html">Storyboards · every authorized cue</a> · <a href="storyboards.html?art=none">without art</a></li>
+  </ul>
+
+  <h2>Assets</h2>
+  <ul>
+    <li><a href="assets.html?sheet=room">Room A vignette, anchors and layers</a></li>
+    <li><a href="assets.html?sheet=officer">Officer role illustration</a></li>
+    <li><a href="assets.html?sheet=kit">Cue layers, icons, tiles and palette</a></li>
+    <li><a href="assets.html?sheet=all">Every export · contact sheet</a></li>
+  </ul>
+
+  <h2>Synthetic studies</h2>
+  <ul>
+    <li><a href="studies.html">The two disclosure studies</a> (no approved fact; never connected; the only page that loads them)</li>
+  </ul>
+
+  <h2>One shell</h2>
+  <ul>
+    <li><a href="shell.html?surface=player">Player phone</a> · <a href="shell.html?surface=player&amp;open=1&amp;status=targeting">private sheet open</a> · <a href="shell.html?surface=player&amp;art=none">without art</a> · <a href="shell.html?surface=table&amp;state=B">Table display</a></li>
+  </ul>
+</main>
+<script>window.__designReady = true;</script>
+</body>
+</html>

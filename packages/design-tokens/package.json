@@ -13,6 +13,15 @@
     }
   },
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "test": "node --test test/*.test.mjs",
+    "build:assets": "node ../../design/tools/build-exports.mjs",
+    "build:docs": "node ../../design/tools/write-docs.mjs",
+    "check:assets": "node ../../design/tools/check-assets.mjs",
+    "check:layout": "node ../../design/tools/check-layout.mjs",
+    "check:shell": "node ../../design/tools/check-shell.mjs",
+    "prove:checks": "node ../../design/tools/prove-checks.mjs",
+    "render:review": "node ../../design/tools/render-review.mjs",
+    "dev:review": "node ../../design/tools/serve.mjs"
   }
 }

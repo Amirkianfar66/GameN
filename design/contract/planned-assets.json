@@ -1,0 +1,65 @@
+{
+  "$comment": "What a complete in-person V1 needs from Designer that this slice does not contain. Nothing listed here exists as an asset. An entry names the fact it would be drawn from; where the audience views at the base commit do not carry that fact, `needs` says so. docs/design/asset-inventory.md is generated from this file and from the asset manifest.",
+  "status": "planned_not_produced",
+  "groups": [
+    {
+      "group": "Board vignettes",
+      "items": [
+        { "id": "board-room-b", "title": "Room B vignette", "needs": "Nothing new: seats[].location = Room B. A different silhouette from Room A (a wide slit window, angular ribs), the same palette.", "until": "The plain inked panel (board-panel-fallback)." },
+        { "id": "board-command-room", "title": "Command Room vignette", "needs": "Nothing new for the panel. Any immunity mark needs an approved way to show it from current location data.", "until": "The plain inked panel." },
+        { "id": "board-hospital", "title": "Hospital vignette", "needs": "Nothing new.", "until": "The plain inked panel." },
+        { "id": "board-jail", "title": "Jail vignette", "needs": "Nothing new.", "until": "The plain inked panel." },
+        { "id": "board-final-zone", "title": "Final Zone vignette", "needs": "The showdown phase in the audience views. Protocol 1 has no such phase; the panel must not be drawn before it.", "until": "Not drawn." }
+      ]
+    },
+    {
+      "group": "Role illustrations (the uniform role bundle)",
+      "items": [
+        { "id": "card-insider", "title": "Insider", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-cracker", "title": "Cracker", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-blue-disabler", "title": "Blue Disabler", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-supplier", "title": "Supplier", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-undercover", "title": "Undercover", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-hacker", "title": "Hacker", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-red-disabler", "title": "Red Disabler", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
+        { "id": "card-alien", "title": "Alien", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." }
+      ]
+    },
+    {
+      "group": "Action cards and icons",
+      "items": [
+        { "id": "icon-action-move", "title": "Move", "needs": "The server's own list of destinations for the seat. Protocol 1 carries none.", "until": "Frontend's functional placement in its connected prototype." },
+        { "id": "icon-action-role", "title": "Role actions (protect, rescue, disable, supply, scan)", "needs": "Per-action availability and the server's own target lists. Protocol 1 carries none.", "until": "Not drawn." },
+        { "id": "icon-action-hack", "title": "Standard Hack request and conversation", "needs": "The Hack phase and the seat's own Hack availability. Two separate states; no ordinary private chat.", "until": "Not drawn." },
+        { "id": "icon-action-code", "title": "Code entry", "needs": "The seat's own Code attempt availability. Private.", "until": "Not drawn." },
+        { "id": "card-ballot", "title": "Vote and release ballot", "needs": "The voting phases, the eligible sets and what a ballot discloses, none of which protocol 1 carries.", "until": "Not drawn." }
+      ]
+    },
+    {
+      "group": "Public markers and results",
+      "items": [
+        { "id": "marker-revealed-faction", "title": "Revealed faction marker", "needs": "A public revealed-faction fact per seat at its permitted reveal step. This is the one place a faction color may appear publicly, and it still needs its word.", "until": "Not drawn. No faction color on any public surface." },
+        { "id": "panel-vote-tally", "title": "Vote tally", "needs": "A public tally fact.", "until": "Not drawn." },
+        { "id": "cover-match-result", "title": "Match result cover", "needs": "A terminal public result, and the permitted end-of-match reveals.", "until": "Not drawn." }
+      ]
+    },
+    {
+      "group": "Setup and host",
+      "items": [
+        { "id": "layout-lobby", "title": "Lobby and seating", "needs": "The lobby flow and its contracts. Not part of protocol 1.", "until": "Frontend's development console." },
+        { "id": "layout-host", "title": "Host session controls", "needs": "The host's approved controls. Being host grants no extra visibility.", "until": "Frontend's development console." }
+      ]
+    },
+    {
+      "group": "Lettering, sound, print and scene",
+      "items": [
+        { "id": "lettering-masthead", "title": "Masthead wordmark", "needs": "Original vector lettering. Today the wordmark is live text in the system heading stack.", "until": "Live text." },
+        { "id": "font-lettering", "title": "Lettering typeface", "needs": "The game owner's choice of a typeface and its license (DSN-D05). No font file is included.", "until": "The system condensed stack in the tokens." },
+        { "id": "audio-table-move", "title": "Table display: token lands", "needs": "A sound source with rights, and a listening review. Public facts only; phones stay silent for secret actions.", "until": "Silence." },
+        { "id": "audio-table-round", "title": "Table display: page turn at a new round", "needs": "As above.", "until": "Silence." },
+        { "id": "print-token-sheet", "title": "Printable token, marker and board sheet", "needs": "A decision on the physical board option and its paper sizes. The sources are vector and print as they are.", "until": "The earlier A3 prototype under reference/." },
+        { "id": "scene-geometry", "title": "GLB geometry for the Three.js evaluation", "needs": "Frontend's renderer evaluation and its measured budgets. The Room A layers carry a stack order and proposed depths meanwhile.", "until": "Layered 2D planes." }
+      ]
+    }
+  ]
+}

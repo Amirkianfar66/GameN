@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — asset sheets (synthetic, development only)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/review.css">
+<style>
+  .hero { display: grid; grid-auto-flow: column; grid-auto-columns: max-content; gap: 26px; align-items: start; }
+  .layers { grid-template-columns: repeat(4, 300px); }
+  .layers img { display: block; inline-size: 100%; }
+  .row { display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+  .anchors { position: relative; inline-size: 768px; }
+  .anchors > img { display: block; inline-size: 100%; }
+  .anchors svg { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; }
+  .swatches { display: grid; grid-template-columns: repeat(7, 132px); gap: 14px; }
+  .swatch { margin: 0; font-size: 12px; color: var(--review-muted); }
+  .swatch div { block-size: 64px; box-shadow: 0 0 0 1px #6B6B78; }
+  .swatch strong { display: block; margin-block-start: 6px; color: var(--review-text); font-size: 13px; }
+  .tiles { display: flex; gap: 18px; }
+  .tile { inline-size: 120px; block-size: 72px; box-shadow: 0 0 0 1px #6B6B78; }
+  .contact { display: flex; flex-wrap: wrap; gap: 16px 14px; align-items: flex-end; max-inline-size: 1500px; }
+  .contact figure { margin: 0; }
+  .contact .review-stage { padding: 10px; }
+  .contact img, .contact svg { display: block; }
+  .contact figcaption { max-inline-size: 150px; margin-block-start: 6px; color: var(--review-muted); font: 11px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+</style>
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // Asset sheets: ?sheet=room | officer | kit | all
+  // What is drawn here is the exported file itself, loaded by its manifest entry. A review
+  // page may ask for single files; a shell never does (see js/bundles.js).
+  // The synthetic studies are not on this page. They have studies.html to themselves.
+  import { ASSET_MANIFEST_VERSION, ASSETS } from './js/asset-index.js';
+  import { h, settle } from './js/kit.js';
+  import { PALETTE, TOKEN_VERSION } from './js/token-index.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const sheet = new URLSearchParams(location.search).get('sheet') ?? 'room';
+  const manifest = await (await fetch('/exports/asset-manifest.json')).json();
+  const entry = id => manifest.assets.find(item => item.id === id);
+  const variant = (id, name) => entry(id).variants.find(item => item.variant === name);
+  const asset = key => {
+    if (!ASSETS[key]) throw new Error(`No export named ${key}`);
+    return ASSETS[key];
+  };
+
+  const head = (title, note, tag = 'Finished asset') => page.append(
+    h('header', { class: 'review-head' },
+      h('h1', null, title),
+      h('span', { class: 'review-synthetic' }, tag),
+      h('p', { class: 'review-meta' }, `Asset manifest ${ASSET_MANIFEST_VERSION} · design tokens 0.3.0 (proposal) · desktop Chrome render of the exported SVG`),
+    ),
+    h('p', { class: 'review-note' }, note),
+  );
+  const section = (title, small) => h('h2', { class: 'review-section' }, title, small ? h('small', null, small) : null);
+  const cell = (stage, title, detail) => h('figure', { class: 'review-cell' }, stage, h('figcaption', null, h('strong', null, title), detail));
+  const stage = (kind, ...children) => h('div', { class: `review-stage${kind ? ` review-stage--${kind}` : ''}` }, children);
+  const img = (key, width) => h('img', { alt: '', src: asset(key), width, style: 'display:block' });
+
+  if (sheet === 'room') {
+    const room = entry('board-room-a');
+    const full = variant('board-room-a', 'full');
+    head('board-room-a · Room A vignette',
+      'One comic panel per location. No door, corridor or arrow is drawn, so the picture says nothing about which rooms connect. No text is drawn: the room name is live text in a caption box. The palette is the one public palette every location shares.');
+    page.append(section('Composite', `${full.width} x ${full.height} units · ${full.bytes} bytes · ${room.version}`));
+    page.append(h('div', { class: 'hero' },
+      cell(stage('paper', img('board-room-a:full', 768)), 'On paper', 'As on the table display’s board page.'),
+    ));
+
+    page.append(section('Anchors', 'in the export’s own units; a layout suggestion, not a capacity'));
+    const a = full.anchors;
+    const layout = a.tokenLayout;
+    const rows = n => {
+      if (n <= 5) return [[], Array.from({ length: n })];
+      const far = Math.floor(n / 2);
+      return [Array.from({ length: far }), Array.from({ length: n - far })];
+    };
+    const [far, near] = rows(9);
+    const spots = [
+      ...far.map((unused, index) => [layout.centerX + (index - (far.length - 1) / 2) * layout.spacing, layout.far.y]),
+      ...near.map((unused, index) => [layout.centerX + (index - (near.length - 1) / 2) * layout.spacing, layout.near.y]),
+    ];
+    const ns = 'http://www.w3.org/2000/svg';
+    const overlay = document.createElementNS(ns, 'svg');
+    overlay.setAttribute('viewBox', full.viewBox);
+    const draw = (name, attrs) => {
+      const node = document.createElementNS(ns, name);
+      for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+      overlay.append(node);
+      return node;
+    };
+    const [px, py, pw, ph] = a.panelBox;
+    draw('rect', { x: px, y: py, width: pw, height: ph, fill: 'none', stroke: '#FF5FD2', 'stroke-width': 3, 'stroke-dasharray': '10 8' });
+    draw('rect', { x: a.captionTopLeft[0], y: a.captionTopLeft[1], width: a.captionMaxWidth, height: 44, fill: 'none', stroke: '#FF5FD2', 'stroke-width': 3 });
+    const q = a.tokenFloorQuad;
+    draw('polygon', { points: [q.farLeft, q.farRight, q.nearRight, q.nearLeft].map(point => point.join(',')).join(' '), fill: 'rgb(255 95 210 / 0.12)', stroke: '#FF5FD2', 'stroke-width': 3 });
+    for (const [x, y] of spots) {
+      draw('circle', { cx: x, cy: y, r: 9, fill: '#FF5FD2' });
+      draw('path', { d: `M${x - 22} ${y} H${x + 22} M${x} ${y - 22} V${y + 22}`, stroke: '#FF5FD2', 'stroke-width': 3 });
+    }
+    page.append(h('div', { class: 'hero' },
+      cell(stage('', h('div', { class: 'anchors' }, img('board-room-a:full', 768), overlay)), 'Panel box, caption corner, token floor and nine suggested origins',
+        `Dashed: panelBox ${a.panelBox.join(', ')}. Box: caption at ${a.captionTopLeft.join(', ')}, at most ${a.captionMaxWidth} wide. Crosses: standee origins for nine tokens (${layout.rows})`),
+    ));
+
+    page.append(section('Layers', 'each export has the full 1024 x 768 box, so they stack exactly'));
+    const layers = h('div', { class: 'review-grid layers' });
+    for (const item of room.variants.filter(item => item.stack).sort((x, y) => x.stack.order - y.stack.order)) {
+      layers.append(cell(stage('paper', h('img', { alt: '', src: item.path.replace(/^design/, '') })), `${item.stack.order} · ${item.variant}`, `depth ${item.stack.depth} · ${item.bytes} bytes${item.stack.note ? ` · ${item.stack.note}` : ''}`));
+    }
+    page.append(layers);
+  }
+
+  if (sheet === 'officer') {
+    const art = variant('card-officer', 'art');
+    head('card-officer · Officer role illustration',
+      'PRIVATE artwork: shown only inside a player’s own open private sheet. One shot: a sidearm at rest with a single charge cell. It is not firing, because holding the card is not an outcome. The insignia is a chevron roundel, not a shield: nothing on the card suggests protection. No text is drawn. The blue is the Blue faction accent, allowed here because this is an authorized private view of the player’s own role.',
+      'Finished asset · private');
+    page.append(section('5:7 illustration', `${art.width} x ${art.height} units · ${art.bytes} bytes`));
+    page.append(h('div', { class: 'hero' },
+      cell(stage('panel', img('card-officer:art', 400)), 'At 400 px wide', 'The expanded role card.'),
+      cell(stage('panel', h('div', { class: 'row' }, img('card-officer:art', 160), img('card-officer:art', 96), img('card-officer:art', 56))), 'At 160, 96 and 56 px wide', 'The compact role card uses the 56 px thumbnail.'),
+    ));
+  }
+
+  if (sheet === 'kit') {
+    head('Cue layers, icons, tiles and palette',
+      'The small parts. Single-color layers are exported in ink and in paper and as tintable sprite symbols.');
+    page.append(section('Cue layers', 'authorized'));
+    const fx = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(4, max-content)' });
+    fx.append(
+      cell(stage('paper', img('fx-ink-trail:ink', 144)), 'fx-ink-trail', 'A public move: above a landing token.'),
+      cell(stage('paper', img('fx-landing-puff:ink', 180)), 'fx-landing-puff', 'A public move: at the floor contact.'),
+      cell(stage('paper', img('fx-panel-cap:ink', 240)), 'fx-panel-cap', 'A round transition: the leading edge of the ink panel.'),
+      cell(stage('paper', img('fx-speed-lines:ink', 300)), 'fx-speed-lines', 'A round transition: behind the heading.'),
+      cell(stage('', img('fx-ink-trail:paper', 144)), 'paper variant', 'On dark panels.'),
+      cell(stage('', img('fx-landing-puff:paper', 180)), 'paper variant', ''),
+      cell(stage('', img('fx-panel-cap:paper', 240)), 'paper variant', ''),
+      cell(stage('', img('fx-speed-lines:paper', 300)), 'paper variant', ''),
+    );
+    page.append(fx);
+
+    page.append(section('Interface icons', 'role-neutral; each sits beside its English label'));
+    const icons = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(4, max-content)' });
+    for (const [key, title, note] of [
+      ['icon-action-shot:ink', 'icon-action-shot', 'The Shot action card.'],
+      ['icon-private:closed-ink', 'icon-private · closed', 'The private sheet is closed.'],
+      ['icon-private:open-ink', 'icon-private · open', 'The private sheet is open.'],
+      ['icon-connection-stale:ink', 'icon-connection-stale', 'The view may be out of date.'],
+    ]) icons.append(cell(stage('paper', h('div', { class: 'row' }, img(key, 72), img(key, 32), img(key, 20))), title, note));
+    page.append(icons);
+
+    page.append(section('Tiles', '12 x 12, seamless; shading and “waiting”, never behind small text'));
+    const tiles = h('div', { class: 'tiles' });
+    for (const [key, ground] of [['pattern-halftone:fine-ink', '#F4EBDD'], ['pattern-halftone:medium-ink', '#F4EBDD'], ['pattern-halftone:heavy-ink', '#F4EBDD'], ['pattern-halftone:fine-paper', '#34415A'], ['pattern-halftone:medium-paper', '#34415A'], ['pattern-hatch:ink', '#F4EBDD'], ['pattern-hatch:paper', '#202837']]) {
+      tiles.append(h('figure', { class: 'review-cell' }, h('div', { class: 'tile', style: `background: url(${asset(key)}) 0 0 / 9px 9px, ${ground}` }), h('figcaption', null, key.replace(':', ' · '))));
+    }
+    page.append(tiles);
+
+    page.append(section('Palette', `design tokens ${TOKEN_VERSION} (proposal) · every color token, whether or not a stylesheet reads it`));
+    const swatches = h('div', { class: 'swatches' });
+    const USE = {
+      canvas: 'Page ground', panel: 'Dark panels', ink: 'Lines, text on paper', paper: 'Cards, captions, text on dark',
+      textPrimary: 'Text on dark', textSecondary: 'Quieter text on dark', publicToken: 'Token body',
+      interactiveAccent: 'Interaction focus, active turn', focusRing: 'Keyboard focus',
+      paperShade: 'New in 0.3.0 · target rows', paperDeep: 'New in 0.3.0 · flat cards, not-active controls',
+    };
+    for (const [name, value] of Object.entries(PALETTE)) {
+      const use = USE[name] ?? (name.startsWith('steel.') ? 'New in 0.3.0 · the one public palette of every location' : name.startsWith('factionPrivateOrRevealed.') ? 'PRIVATE or revealed only · never on a public asset' : '');
+      swatches.append(h('figure', { class: 'swatch' }, h('div', { style: `background:${value}` }), h('strong', null, name.replace('factionPrivateOrRevealed.', 'faction.')), `${value} · ${use}`));
+    }
+    page.append(swatches);
+  }
+
+  if (sheet === 'all') {
+    head('Every export · contact sheet',
+      'Each file in the manifest, drawn once from the file itself, and each sprite symbol drawn from the sprite. This sheet is what “rendered and looked at” means for the exports: a file that is not here was not looked at.',
+      'Finished assets');
+    const paperOnly = item => item.colors.length > 0 && item.colors.every(color => color === '#F4EBDD');
+    for (const item of manifest.assets) {
+      page.append(section(`${item.id} ${item.version}`, `${item.bundle} · ${item.variants.length} files · ${item.title}`));
+      const row = h('div', { class: 'contact' });
+      for (const each of item.variants) {
+        const width = each.width >= 500 ? 220 : Math.min(120, Math.max(48, each.width));
+        row.append(h('figure', null,
+          h('div', { class: `review-stage${paperOnly(each) ? '' : ' review-stage--paper'}` }, h('img', { alt: '', src: each.path.replace(/^design/, ''), width })),
+          h('figcaption', null, `${each.variant} · ${each.width}×${each.height}`)));
+      }
+      page.append(row);
+    }
+    for (const sprite of manifest.sprites) {
+      page.append(section(`${sprite.id} ${sprite.version}`, `${sprite.bundle} · ${sprite.symbols.length} symbols, drawn through <use> from the inlined sprite`));
+      const text = await (await fetch(sprite.path.replace(/^design/, ''))).text();
+      const holder = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+      holder.setAttribute('width', '0');
+      holder.setAttribute('height', '0');
+      holder.style.position = 'absolute';
+      // Two sprites may define a pattern with the same id: each is inlined under its own prefix.
+      for (const node of holder.querySelectorAll('[id]')) node.id = `${sprite.id}--${node.id}`;
+      for (const node of holder.querySelectorAll('*')) {
+        for (const name of ['fill', 'stroke', 'clip-path']) {
+          const value = node.getAttribute(name);
+          if (value?.startsWith('url(#')) node.setAttribute(name, value.replace('url(#', `url(#${sprite.id}--`));
+        }
+      }
+      document.body.append(document.importNode(holder, true));
+      const row = h('div', { class: 'contact' });
+      const ns = 'http://www.w3.org/2000/svg';
+      for (const symbol of sprite.symbols) {
+        const picture = document.createElementNS(ns, 'svg');
+        const width = symbol.width >= 500 ? 220 : Math.min(120, Math.max(48, symbol.width));
+        picture.setAttribute('viewBox', symbol.viewBox);
+        picture.setAttribute('width', width);
+        picture.setAttribute('height', Math.round(width * symbol.height / symbol.width));
+        const use = document.createElementNS(ns, 'use');
+        use.setAttribute('href', `#${sprite.id}--${symbol.symbol}`);
+        picture.append(use);
+        row.append(h('figure', null,
+          h('div', { class: 'review-stage review-stage--paper', style: 'color: #151923' }, picture),
+          h('figcaption', null, `${symbol.symbol}${symbol.tintable ? ' · tintable' : ''}`)));
+      }
+      page.append(row);
+    }
+  }
+
+  await settle();
+  window.__designReady = true;
+</script>
+</body>
+</html>
