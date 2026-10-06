@@ -252,6 +252,70 @@ test('the connected table shows what is being voted on and the count the server 
   assert.deepEqual(s.fake.callsTo('v1Command'), []);
 });
 
+test('a Scan by intents alone: a seat, then a guess, one command, and the result read from the server’s view in the private panel', async () => {
+  const s = setup();
+  s.screen.start();
+  // A seat that may scan: the server lists who. (The role is the one the schema lets hold scan results.)
+  const scanner = (change = () => {}) => playerView('seat-1', view => {
+    view.self.role = 'Hacker';
+    view.self.rescuesRemaining = 0;
+    view.knowledge.undercoverSeatId = 'seat-4';
+    view.legalTargets = { SCAN: ['seat-3', 'seat-1'] };
+    change(view);
+  });
+  await s.fake.deliver(OWN, scanner());
+  s.screen.dispatch(TOGGLE);
+  assert.deepEqual(s.frame().model.match.privateArea.content.knowledge.items, ['The Undercover is Player 4.', 'Ordinary weapons you hold: 0.']);
+  assert.deepEqual(s.card().body.offers.map(offer => [offer.kind, offer.statusLabel]), [['move', 'Available'], ['shot', 'Not available'], ['scan', 'Available']]);
+  s.screen.dispatch({ type: 'action/open', kind: 'scan' });
+  assert.deepEqual([s.card().status, s.card().body.prompt, s.card().body.choices.map(choice => choice.label)], ['choosing', 'Who do you scan?', ['Player 1 (you)', 'Player 3']]);
+  for (const value of ['seat-2', 'Red', 'none']) {
+    s.screen.dispatch({ type: 'action/choose', value });
+    assert.equal(s.card().body.prompt, 'Who do you scan?', `${value} is not offered as the first part`);
+  }
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-3' });
+  assert.deepEqual([s.card().status, s.card().body.prompt, s.card().body.progress, s.card().body.choices.map(choice => choice.label)], ['choosing', 'Guess a faction for Player 3.', 'Chosen so far: Player 3.', ['Blue', 'Red', 'Alien']]);
+  assert.equal(s.frame().focus.targetId, SHELL_IDS.actionStep, 'Focus goes to the new question, not to a control');
+  // Undo, and pick again.
+  s.screen.dispatch({ type: 'action/back' });
+  assert.equal(s.card().body.prompt, 'Who do you scan?');
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-3' });
+  s.screen.dispatch({ type: 'action/choose', value: 'seat-1' });
+  assert.equal(s.card().status, 'choosing', 'A second seat is not a guess');
+  s.screen.dispatch({ type: 'action/choose', value: 'Blue' });
+  assert.deepEqual([s.card().status, s.card().body.prompt], ['confirming', 'Scan Player 3, guessing Blue?']);
+  assert.equal(s.fake.callsTo('v1Command').length, 0, 'Nothing is sent by choosing');
+  await s.host.advance(GUARD);
+  s.fake.respond.v1Command = async request => s.receipt(request);
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  const [sent] = s.fake.callsTo('v1Command');
+  assert.equal(FullCommandRequestSchema.safeParse(sent).success, true);
+  assert.deepEqual(sent.command, { type: 'SCAN', targetSeatId: 'seat-3', guess: 'Blue' });
+  assert.deepEqual([s.card().status, s.card().body.text, s.card().body.detail], ['accepted', 'Scan of Player 3, guessing Blue, accepted.', 'The result is listed under “What you know”, as the server gives it.']);
+  assert.equal(s.frame().privateAnnouncement.text, 'Scan of Player 3, guessing Blue, accepted.');
+  assert.doesNotMatch(s.frame().announcement.text, /Scan|Player 3|Blue/, 'Nothing of it is said on the public channel');
+
+  // The result is whatever the server's next view carries, and is shown as that view states it.
+  await s.fake.deliver(OWN, scanner(view => {
+    view.viewRevision += 1;
+    view.legalTargets = {};
+    view.knowledge.scanResults = [{ round: 1, targetSeatId: 'seat-3', guess: 'Blue', matched: true, inCode: false }];
+  }));
+  assert.deepEqual(s.frame().model.match.privateArea.content.knowledge.items, [
+    'The Undercover is Player 4.', 'Round 1: you scanned Player 3 and guessed Blue. The guess was right, and that player is not in the Code.', 'Ordinary weapons you hold: 0.',
+  ]);
+  await s.host.advance(GUARD);
+  s.screen.dispatch({ type: 'action/dismiss' });
+  assert.deepEqual(s.card().body.offers.map(offer => offer.kind), ['move', 'shot'], 'The server offers no second Scan');
+  assert.equal(s.fake.callsTo('v1Command').length, 1);
+  // Nothing of the Scan or of what is known was ever in what the page keeps.
+  assert.equal(s.host.everKept.some(record => /SCAN|seat-3|Blue|Undercover/.test(record)), false);
+  // Closed, none of it is in the frame or the document.
+  s.screen.dispatch(TOGGLE);
+  assert.doesNotMatch(`${JSON.stringify(s.frame())} ${s.html()}`, /What you know|The Undercover is|you scanned|guessing Blue|ms-knowledge|ms-action-open-scan|Hacker/);
+});
+
 test('with the panel closed nothing of the command is in the frame or the document, and action intents are ignored', async () => {
   const s = setup();
   s.screen.start();

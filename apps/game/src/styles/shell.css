@@ -608,6 +608,18 @@
   font-weight: 700;
 }
 
+/* What the server tells this seat alone: one sentence to a line. Functional placement. */
+.ms-knowledge,
+.ms-knowledge__list {
+  display: grid;
+  gap: var(--ms-space-2);
+}
+
+.ms-knowledge__item {
+  padding-left: var(--ms-space-3);
+  border-left: var(--ms-stroke-control) solid var(--ms-color-text-secondary);
+}
+
 /* A target is a full-width control: the token, the name, then the public status in words. */
 .ms-private .ms-target {
   display: flex;

@@ -121,13 +121,21 @@ export type TargetActionKind = 'shot' | 'disable' | 'protect' | 'rescue' | 'hack
 export type SeatBallotKind = 'vote' | 'release-choice';
 /** A ballot on the release the Captain asked for: yes, no, or an abstention. */
 export type ReleaseVoteKind = 'release-vote';
-export type ActionKind = 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind;
+/**
+ * An action whose choice has more than one part, picked one after another: a Scan names a
+ * seat and a guessed faction, a Supply names two seats, a Code attempt names four.
+ */
+export type CompoundActionKind = 'scan' | 'supply' | 'code';
+export type ActionKind = 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
   | { readonly kind: 'move'; readonly destination: Destination }
   | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId }
   | { readonly kind: SeatBallotKind; readonly targetSeatId: SeatId | null }
-  | { readonly kind: ReleaseVoteKind; readonly approve: boolean | null };
+  | { readonly kind: ReleaseVoteKind; readonly approve: boolean | null }
+  | { readonly kind: 'scan'; readonly targetSeatId: SeatId; readonly guess: FactionName }
+  | { readonly kind: 'supply'; readonly targetSeatIds: readonly [SeatId, SeatId] }
+  | { readonly kind: 'code'; readonly seatIds: readonly [SeatId, SeatId, SeatId, SeatId] };
 /**
  * Why a command is known not to have been accepted without a rejection receipt. NOT_SENT:
  * the request never left this device. PHASE_OVER: after a reload, no receipt existed once
@@ -145,7 +153,8 @@ export type NotAcceptedReason =
  */
 export type ActionFlowState =
   | { readonly step: 'idle' }
-  | { readonly step: 'choosing'; readonly kind: ActionKind }
+  /** picked: the parts already chosen of a choice that has several, in the order they were picked. Absent when there are none. */
+  | { readonly step: 'choosing'; readonly kind: ActionKind; readonly picked?: readonly string[] }
   | { readonly step: 'confirming'; readonly choice: ActionChoice; readonly armed: boolean }
   | { readonly step: 'submitting'; readonly choice: ActionChoice | null }
   | { readonly step: 'checking'; readonly choice: ActionChoice | null; readonly recovered: boolean }
@@ -427,7 +436,11 @@ export interface ActionOfferModel {
 
 export type ConnectedActionBody =
   | { readonly step: 'idle'; readonly offers: readonly ActionOfferModel[]; readonly note: string | null }
-  | { readonly step: 'choosing'; readonly prompt: string; readonly note: string; readonly choices: readonly ActionChoiceModel[]; readonly back: CardButtonModel }
+  | {
+    readonly step: 'choosing'; readonly prompt: string; readonly note: string; readonly choices: readonly ActionChoiceModel[]; readonly back: CardButtonModel;
+    /** What has been picked so far of a choice that has several parts, in words; null when nothing has. */
+    readonly progress: string | null;
+  }
   | { readonly step: 'confirming'; readonly prompt: string; readonly consequence: string; readonly confirm: CardButtonModel; readonly back: CardButtonModel }
   | { readonly step: 'busy'; readonly text: string }
   | {
@@ -463,6 +476,11 @@ export interface ConnectedPrivateAreaModel {
     readonly hack: string | null;
     /** While the server's view says this seat has voted in the open vote: its own ballot, as the server recorded it. */
     readonly ballot: string | null;
+    /**
+     * What the server's view tells this seat and nobody else: what its role knows, the
+     * results it has been given, and what it holds. Null when the view says none of it.
+     */
+    readonly knowledge: { readonly heading: string; readonly items: readonly string[] } | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
 }

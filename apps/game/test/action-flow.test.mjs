@@ -1163,3 +1163,175 @@ test('a ballot whose answer is lost is asked about and sent again as the identic
   assert.deepEqual(reloaded.state(), { step: 'accepted', choice: null, armed: false });
 });
 
+// ---- Actions whose choice has several parts ----
+
+/** Seat 1's views with a Scan, a Supply or a Code attempt opened by the server. Synthetic: no rule produced them. */
+const scanView = (seats = ['seat-3', 'seat-5', 'seat-1'], change = () => {}) => playerView('seat-1', view => { view.legalTargets = { SCAN: seats }; change(view); });
+const supplyView = (seats = ['seat-3', 'seat-5', 'seat-1'], change = () => {}) => playerView('seat-1', view => { view.round = 3; view.legalTargets = { SUPPLY: seats }; change(view); });
+const codeView = (change = () => {}) => playerView('seat-1', view => { view.round = 5; view.self.codeAttemptAvailable = true; change(view); });
+const SCAN = { kind: 'scan', targetSeatId: 'seat-3', guess: 'Red' };
+const SUPPLY = { kind: 'supply', targetSeatIds: ['seat-5', 'seat-3'] };
+const CODE = { kind: 'code', seatIds: ['seat-7', 'seat-2', 'seat-5', 'seat-3'] };
+
+test('a choice with several parts is picked one part at a time, only from what the view offers next, and becomes one command', async () => {
+  const cases = [
+    { name: 'a Scan', view: scanView(), kind: 'scan', refused: [['seat-2', 'Red'], ['seat-3', 'seat-5', 'Green']], picks: ['seat-3', 'Red'], choice: SCAN, command: { type: 'SCAN', targetSeatId: 'seat-3', guess: 'Red' } },
+    { name: 'a Supply', view: supplyView(), kind: 'supply', refused: [['seat-2', 'Blue'], ['seat-5', 'seat-5', 'seat-2']], picks: ['seat-5', 'seat-3'], choice: SUPPLY, command: { type: 'SUPPLY', targetSeatIds: ['seat-5', 'seat-3'] } },
+    { name: 'a Code attempt', view: codeView(), kind: 'code', refused: [['seat-8', 'Red'], ['seat-7', 'seat-7'], ['seat-2', 'seat-9'], ['seat-5', 'seat-2']], picks: ['seat-7', 'seat-2', 'seat-5', 'seat-3'], choice: CODE, command: { type: 'SUBMIT_CODE', seatIds: ['seat-7', 'seat-2', 'seat-5', 'seat-3'] } },
+  ];
+  for (const { name, view, kind, refused, picks, choice, command } of cases) {
+    const s = setup();
+    assert.equal(s.flow.pick(picks[0]), false, 'Nothing can be picked before the action is opened');
+    s.observe(view);
+    assert.equal(s.flow.open(kind), true, name);
+    assert.deepEqual(s.state(), { step: 'choosing', kind });
+    // Before each part: names the view does not offer next are not picked. The first of each list is tried, then the right part.
+    const taken = [];
+    for (const [index, part] of picks.entries()) {
+      for (const wrong of refused[index] ?? []) assert.equal(s.flow.pick(wrong), false, `${name}: ${wrong} is not offered after ${taken.join()}`);
+      assert.deepEqual(s.state(), taken.length > 0 ? { step: 'choosing', kind, picked: taken } : { step: 'choosing', kind });
+      assert.equal(s.flow.pick(part), true, `${name}: ${part}`);
+      taken.push(part);
+    }
+    // The last part makes the choice whole. It is not sent: it is asked about.
+    assert.deepEqual(s.state(), { step: 'confirming', choice, armed: false }, name);
+    assert.equal(s.flow.pick('seat-1'), false, 'A whole choice takes no more parts');
+    assert.deepEqual(s.sent, []);
+    await s.host.advance(GUARD);
+    s.script.command.push(request => s.receipt(request));
+    assert.equal(s.flow.confirm(), true);
+    assert.equal(s.flow.confirm(), false, 'A second activation finds nothing to do');
+    await flush();
+    assert.equal(s.sent.length, 1, name);
+    assert.deepEqual(s.sent[0].command, command, name);
+    assert.equal(FullCommandRequestSchema.safeParse(s.sent[0]).success, true, name);
+    assert.deepEqual(s.state(), { step: 'accepted', choice, armed: false });
+    // Only the command's identifiers were ever kept: no seat it named, no guess, no kind.
+    assert.equal(s.host.everKept.every(record => Object.keys(JSON.parse(record)).sort().join() === 'commandId,matchId,phaseId,seatId'), true, name);
+    assert.equal(s.host.everKept.some(record => /seat-[2-9]|Red|SCAN|SUPPLY|CODE/.test(record)), false, `${name}: nothing of the choice is kept`);
+    assert.equal(s.host.kept, null);
+  }
+  // Listed choice by choice, an action with several parts lists nothing: its parts are asked for one at a time.
+  for (const [view, kind] of [[scanView(), 'scan'], [supplyView(), 'supply'], [codeView(), 'code']]) assert.deepEqual(offeredChoices(view, kind), []);
+});
+
+test('a whole choice can also be given at once, and is held to the same view', async () => {
+  for (const [view, choice, wrong] of [
+    [scanView(), SCAN, [{ ...SCAN, targetSeatId: 'seat-2' }, { ...SCAN, guess: 'Green' }, SUPPLY]],
+    [supplyView(), SUPPLY, [{ kind: 'supply', targetSeatIds: ['seat-5', 'seat-5'] }, { kind: 'supply', targetSeatIds: ['seat-5', 'seat-2'] }, SCAN]],
+    [codeView(), CODE, [{ kind: 'code', seatIds: ['seat-7', 'seat-7', 'seat-5', 'seat-3'] }, { kind: 'code', seatIds: ['seat-8', 'seat-2', 'seat-5', 'seat-3'] }, SCAN]],
+  ]) {
+    const s = setup();
+    s.observe(view);
+    assert.equal(s.flow.open(choice.kind), true);
+    for (const other of wrong) assert.equal(s.flow.choose(other), false, JSON.stringify(other));
+    assert.equal(s.flow.choose(choice), true);
+    assert.deepEqual(s.state(), { step: 'confirming', choice, armed: false });
+  }
+  // An action the view does not open, or opens with too few seats for a whole choice, cannot be opened.
+  const s = setup();
+  s.observe(playerView());
+  for (const kind of ['scan', 'supply', 'code']) assert.equal(s.flow.open(kind), false, kind);
+  s.observe(supplyView(['seat-3']));
+  assert.equal(s.flow.open('supply'), false, 'Fewer seats than a Supply names');
+  s.observe(scanView([]));
+  assert.equal(s.flow.open('scan'), false);
+});
+
+test('the last pick can be undone, and choosing again starts from nothing', async () => {
+  const s = setup();
+  s.observe(codeView());
+  s.flow.open('code');
+  for (const part of ['seat-7', 'seat-2', 'seat-5']) s.flow.pick(part);
+  assert.deepEqual(s.state(), { step: 'choosing', kind: 'code', picked: ['seat-7', 'seat-2', 'seat-5'] });
+  assert.equal(s.flow.back(), true);
+  assert.deepEqual(s.state(), { step: 'choosing', kind: 'code', picked: ['seat-7', 'seat-2'] });
+  assert.equal(s.flow.pick('seat-5'), true, 'What was undone can be picked again');
+  assert.equal(s.flow.pick('seat-3'), true);
+  assert.equal(s.state().step, 'confirming');
+  // From the question, back means choosing again from the start.
+  assert.equal(s.flow.back(), true);
+  assert.deepEqual(s.state(), { step: 'choosing', kind: 'code' });
+  assert.equal(s.flow.back(), true);
+  assert.deepEqual(s.state(), { step: 'idle' });
+  assert.equal(s.flow.back(), false);
+  assert.deepEqual(s.sent, []);
+});
+
+test('a selection does not outlive the view it was made from', async () => {
+  // The seat picked for a Scan leaves the server's list: the picks are dropped and the player chooses again.
+  const scan = setup();
+  const before = scanView();
+  scan.observe(before);
+  scan.flow.open('scan');
+  scan.flow.pick('seat-3');
+  scan.observe(scanView(['seat-5', 'seat-1'], view => { view.viewRevision = before.viewRevision + 1; }));
+  assert.deepEqual(scan.state(), { step: 'choosing', kind: 'scan' });
+  assert.equal(scan.flow.pick('Red'), false, 'A guess without a seat is not a part');
+  // The server stops offering the Scan: the action closes.
+  scan.observe(playerView('seat-1', view => { view.viewRevision = before.viewRevision + 2; }));
+  assert.deepEqual(scan.state(), { step: 'idle' });
+
+  // A Supply needs two seats. With one left on the list no whole choice can be made, so the action closes.
+  const supply = setup();
+  const two = supplyView();
+  supply.observe(two);
+  supply.flow.open('supply');
+  supply.flow.pick('seat-5');
+  supply.observe(supplyView(['seat-5'], view => { view.viewRevision = two.viewRevision + 1; }));
+  assert.deepEqual(supply.state(), { step: 'idle' });
+
+  // A whole Code attempt, waiting to be confirmed, when the view stops opening it: closed, and nothing is sent.
+  const code = setup();
+  const open = codeView();
+  code.observe(open);
+  code.flow.open('code');
+  for (const part of CODE.seatIds) code.flow.pick(part);
+  await code.host.advance(GUARD);
+  code.observe(codeView(view => { view.viewRevision = open.viewRevision + 1; view.self.codeAttemptAvailable = false; }));
+  assert.deepEqual(code.state(), { step: 'idle' });
+  assert.equal(code.flow.confirm(), false);
+
+  // A new phase, a closed panel, a clock that ran out: picks made so far are dropped.
+  for (const leave of [s => s.observe(nextPhase(open)), s => s.observe(undefined, { panelOpen: false }), s => s.observe(undefined, { inTime: false }), s => s.observe(undefined, { current: false })]) {
+    const s = setup();
+    s.observe(open);
+    s.flow.open('code');
+    s.flow.pick('seat-7');
+    s.flow.pick('seat-2');
+    leave(s);
+    assert.deepEqual(s.state(), { step: 'idle' });
+    assert.equal(s.flow.pick('seat-5'), false);
+    assert.deepEqual(s.sent, []);
+  }
+  assert.deepEqual([scan.sent, supply.sent, code.sent], [[], [], []]);
+});
+
+test('the one Code attempt whose answer is lost is asked about and sent again as the identical request', async () => {
+  const s = setup();
+  s.observe(codeView());
+  s.flow.open('code');
+  for (const part of CODE.seatIds) s.flow.pick(part);
+  await s.host.advance(GUARD);
+  s.script.command.push(s.noAnswer, request => s.receipt(request));
+  s.script.receipt.push(s.unknown);
+  assert.equal(s.flow.confirm(), true);
+  await flush();
+  assert.equal(s.state().step, 'checking');
+  await s.host.advance(FIRST);
+  await flush();
+  assert.equal(s.sent.length, 2);
+  assert.deepEqual(s.sent[1], s.sent[0], 'The identical request, with the same command identifier');
+  assert.deepEqual(s.sent[0].command, { type: 'SUBMIT_CODE', seatIds: CODE.seatIds });
+  assert.deepEqual(s.state(), { step: 'accepted', choice: CODE, armed: false });
+
+  // After a reload the attempt itself is gone from the device. The page asks about it and can send nothing.
+  const kept = JSON.stringify({ matchId: MATCH, seatId: 'seat-1', phaseId: 'phase-one', commandId: 'code-before-reload' });
+  const reloaded = setup({ kept });
+  reloaded.script.receipt.push(request => reloaded.found({ ...request, phaseId: 'phase-one' }));
+  reloaded.observe(codeView(view => { view.self.codeAttemptAvailable = false; }));
+  await flush();
+  assert.deepEqual(reloaded.sent, []);
+  assert.deepEqual(reloaded.state(), { step: 'accepted', choice: null, armed: false });
+});
+

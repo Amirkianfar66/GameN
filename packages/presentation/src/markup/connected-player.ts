@@ -50,6 +50,7 @@ function renderBody(body: ConnectedActionBody): MarkupChild {
     case 'choosing':
       return [
         stepLine('ms-card__prompt', body.prompt),
+        body.progress ? h('p', { class: 'ms-card__text', id: 'ms-action-progress' }, body.progress) : null,
         h('p', { class: 'ms-card__text' }, body.note),
         h('ul', { class: 'ms-targets', 'aria-labelledby': SHELL_IDS.actionStep }, body.choices.map(renderChoice)),
         controls(body.back),
@@ -97,6 +98,11 @@ function renderPrivateArea(area: ConnectedPrivateAreaModel): MarkupElement {
         h('p', { class: 'ms-role-card' }, area.content.role.name),
         area.content.hack ? h('p', { class: 'ms-notice', id: 'ms-hack-with' }, area.content.hack) : null,
         area.content.ballot ? h('p', { class: 'ms-notice', id: 'ms-own-ballot' }, area.content.ballot) : null,
+        // What the server tells this seat alone. No id or class here varies with what is known.
+        area.content.knowledge ? h('div', { class: 'ms-knowledge', 'data-region': 'knowledge' },
+          h('h3', { class: 'ms-private__subheading', id: 'ms-knowledge-heading' }, area.content.knowledge.heading),
+          h('ul', { class: 'ms-knowledge__list', 'aria-labelledby': 'ms-knowledge-heading' }, area.content.knowledge.items.map(item => h('li', { class: 'ms-knowledge__item' }, item))),
+        ) : null,
         h('div', { class: 'ms-actions', 'data-region': 'actions' },
           h('h3', { class: 'ms-private__subheading', id: 'ms-actions-heading' }, area.content.actions.heading),
           area.content.actions.notice ? h('p', { class: 'ms-notice' }, area.content.actions.notice) : null,

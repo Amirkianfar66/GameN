@@ -15,7 +15,11 @@ export interface MotionPreferences {
 
 export { en } from './copy/en.js';
 export { createConnectedPlayerAnnouncer, createPlayerAnnouncer, createTableAnnouncer } from './model/announcements.js';
-export { ACTION_KINDS, choiceValue, isActionKind, NOBODY, offeredChoices, offeredTargets, sameChoice, SEAT_BALLOT_COMMANDS, TARGET_ACTION_COMMANDS } from './model/actions.js';
+export {
+  ACTION_KINDS, choiceValue, completeChoice, COMPOUND_ACTION_COMMANDS, FACTIONS, isActionKind, isCompoundKind, isOffered, nextOptions, NOBODY, offeredChoices,
+  offeredTargets, openness, sameChoice, SEAT_BALLOT_COMMANDS, TARGET_ACTION_COMMANDS,
+} from './model/actions.js';
+export { buildKnowledge } from './model/knowledge.js';
 export { actionStepFocusId, buildConnectedPlayerShellModel, describeAction } from './model/connected-player.js';
 export type { Announcer } from './model/announcements.js';
 export { displaySeconds, FINAL_SECONDS, formatClock, isCurrent, isSeatId, resolveScreen, seatNumber } from './model/common.js';

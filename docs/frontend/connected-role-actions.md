@@ -85,7 +85,7 @@ The journey was run twice. The first run passed too, but one of its checks (what
 | Remaining part of the connected game | What it needs | Blocked by |
 | --- | --- | --- |
 | **Votes**: Captain election and runoff, Jail vote, release choice and release vote | **Done in the next slice**: [connected-voting.md](connected-voting.md) | |
-| **Scan, Supply, Code** | Choices with more than one part: a seat and a faction guess; two seats; four seats. And the private knowledge they produce (scan results, the Code) on the phone | Nothing technical. The private knowledge display should be read by Game Balance before it ships: which hints may sit next to one another |
+| **Scan, Supply, Code** | **Done in a later slice**: [connected-knowledge-actions.md](connected-knowledge-actions.md) | Game Balance's read of the sentences that say what a seat is told |
 | **The result**: Finished and Aborted, the end reveal | Result screens for phone and display | The Designer for the screens; nothing technical |
 | **Host abort** | `v1AbortMatch` in the lobby console | Nothing. Small |
 | **Seat recovery** | `v1IssueSeatRecovery` and `v1RedeemSeatRecovery`: a one-time token shown by the host, entered on the replacement device, kept in memory only | Nothing technical. The policy to follow is the host-supervised one Integration proposes in draft [#41](https://github.com/Amirkianfar66/GameN/pull/41), which is not adopted yet |
