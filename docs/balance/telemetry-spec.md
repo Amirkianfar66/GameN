@@ -11,7 +11,7 @@ This is the one record kept per playtest match. It joins what the server knows w
 3. **No spoken Hack content.** What two players say in a Hack is never recorded, by the app or by the facilitator. `information.hackContentRecorded` is fixed to `false`.
 4. **No direct identifiers.** No name, account identifier, device identifier, address or contact detail. Participants appear as pseudonyms of the form `P-7K2Q`.
 5. **Not routine analytics.** No field of this record goes to operational logs, dashboards or error reports.
-6. **Consent, access and retention are the owner's to approve before the first recorded session.** A record without `consentRecorded: true` for every participant is invalid.
+6. **Consent, access and retention are the owner's to approve before the first recorded session.** A record without `consentRecorded: true` for every participant is invalid. That holds for an incomplete record as much as for a complete one: nobody is kept in a record of any status without a pseudonym and recorded consent.
 
 A pseudonym lowers exposure. It does not make a small group of friends anonymous to each other or to the facilitator. Treat every record as personal data.
 
@@ -36,7 +36,7 @@ A shareable summary may be derived from records. It contains counts and rates pe
 | `ruleProblems` | None | Problems observed, as they happen | None |
 | `exclusion` | None | Whether and why the match is left out of rates | None |
 
-Until Backend supplies the export (request BAL-REQ-2 in [integration-requests.md](integration-requests.md)), the server columns stay `null` and the record is marked `incomplete`. An incomplete record still counts as a session and still carries its rule problems; it is excluded from any measure it cannot support.
+Until Backend supplies the export (request BAL-REQ-2 in [integration-requests.md](integration-requests.md)), the server columns stay `null` and the record is marked `incomplete`. An incomplete record still counts as a session and still carries its rule problems; it is excluded from any measure it cannot support. Incompleteness excuses missing server facts and a table that is not fully accounted for. It excuses nothing about a person: every participant an incomplete record holds needs a pseudonym and recorded consent, and what it says about seats, roles and factions must be possible in its mode. A `template` record is blank and holds no participant.
 
 ## Fields and what they mean
 
@@ -99,7 +99,7 @@ An excluded match is left out of outcome rates and kept in every count of sessio
 
 ## Validation
 
-`validateMatchRecord` in `tools/balance/src/telemetry.ts` checks a record before it is used: the schema identifier and classification; one mode per record; exactly that mode's seats and roles; pseudonyms and recorded consent; a result that agrees with its cause and checkpoint; exclusion of every aborted or abandoned match; the Officer section only with nine players; and the absence of every forbidden field anywhere in the record. `npm run check --workspace @mothership/balance` runs it against the blank template and against deliberately broken records.
+`validateMatchRecord` in `tools/balance/src/telemetry.ts` checks a record before it is used: the schema identifier and classification; one mode per record; a pseudonym and recorded consent for every participant in any record that is not a blank template; seats, roles and factions that are possible in the mode, and exactly that mode's seats and roles once the record is complete; a result that agrees with its cause and checkpoint; exclusion of every aborted or abandoned match; the Officer section only with nine players; and the absence of every forbidden field anywhere in the record. `npm run check --workspace @mothership/balance` runs it against the blank template and against deliberately broken records.
 
 ## Not collected
 

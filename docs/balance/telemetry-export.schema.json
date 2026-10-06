@@ -79,7 +79,7 @@
           "priorMatches": { "type": "integer", "minimum": 0 },
           "priorMatchesThisRuleset": { "type": ["integer", "null"], "minimum": 0 },
           "socialDeductionExperience": { "enum": ["none", "some", "frequent", null] },
-          "consentRecorded": { "type": "boolean" },
+          "consentRecorded": { "const": true, "description": "Consent is recorded before any data about the participant is kept. A record that holds a participant without it is invalid, whatever its status." },
           "leftEarly": { "type": ["boolean", "null"] }
         }
       }

@@ -40,9 +40,30 @@ const CAUSE_RESULT: Readonly<Record<string, string>> = {
   'blue-elimination': 'Blue', 'blue-power': 'Blue', 'red-elimination': 'Red', 'red-code': 'Red', 'alien-solo': 'Alien', draw: 'Draw',
 };
 
+const PSEUDONYM = /^P-[A-Z0-9]{4,12}$/;
+
 /**
- * Returns every problem found. A record marked "template" is checked for shape only.
- * An excluded session must keep its facts: exclusion never deletes a result.
+ * The checks that protect a person, applied to everyone a record holds. They do not depend on how
+ * much else the record contains: an incomplete record may lack server facts, but it may not keep
+ * a participant without a pseudonym or without recorded consent.
+ */
+function participantIssues(participants: readonly unknown[], say: (message: string) => void): void {
+  const ids = new Set<string>();
+  participants.forEach((item, index) => {
+    if (!isObject(item)) { say(`participant ${index + 1} must be an object`); return; }
+    const id = item['participantId'];
+    const label = typeof id === 'string' && PSEUDONYM.test(id) ? id : `number ${index + 1}`;
+    if (typeof id !== 'string' || !PSEUDONYM.test(id)) say(`participant ${label}: participantId must be a pseudonym such as P-7K2Q`);
+    else if (ids.has(id)) say(`participantId ${id} appears twice`);
+    else ids.add(id);
+    if (item['consentRecorded'] !== true) say(`participant ${label}: consent must be recorded before data is kept`);
+  });
+}
+
+/**
+ * Returns every problem found. A record marked "template" is blank: it is checked for shape and
+ * must hold no participant. An excluded session must keep its facts: exclusion never deletes a
+ * result.
  */
 export function validateMatchRecord(record: unknown): string[] {
   const issues: string[] = [];
@@ -55,45 +76,57 @@ export function validateMatchRecord(record: unknown): string[] {
   if (status !== 'template' && status !== 'complete' && status !== 'incomplete') say('recordStatus must be template, complete or incomplete');
   const complete = status === 'complete';
 
+  const blank = status === 'template';
+
+  // Whoever appears in a record is a person whose data is being kept, so these checks come first
+  // and apply to every status. Only a blank template is exempt, and a template holds nobody.
+  const participants = record['participants'];
+  if (!Array.isArray(participants)) say('participants must be a list');
+  else if (blank) {
+    if (participants.length > 0) say('a template holds no participants: a record that keeps a participant is complete or incomplete');
+  } else participantIssues(participants, say);
+
   const provenance = record['provenance'];
-  if (!isObject(provenance)) { say('provenance is required'); return issues; }
-  const mode = provenance['mode'];
+  if (!isObject(provenance)) say('provenance is required');
+  const mode = isObject(provenance) ? provenance['mode'] : undefined;
   // A blank template has no mode yet. Every other record belongs to exactly one mode.
-  if (!isMode(mode)) {
-    if (!(status === 'template' && mode === null)) say('provenance.mode must be 7, 8 or 9');
-    if (!isObject(record['information']) || record['information']['hackContentRecorded'] !== false) say('information.hackContentRecorded must be false: spoken Hack content is not collected by default');
-    return issues;
-  }
-  if (provenance['optionalPowers'] !== false) say('the base comparison records optionalPowers: false; a powers-on match belongs to another cohort');
-  if (complete) {
-    for (const key of ['matchId', 'playedOn', 'rulesetVersion', 'engineVersion', 'engineCommit', 'groupId', 'facilitatorId', 'cohort']) {
-      if (typeof provenance[key] !== 'string' || (provenance[key] as string).length === 0) say(`provenance.${key} is required`);
+  if (isObject(provenance) && !isMode(mode) && !(blank && mode === null)) say('provenance.mode must be 7, 8 or 9');
+  if (isObject(provenance) && isMode(mode)) {
+    if (provenance['optionalPowers'] !== false) say('the base comparison records optionalPowers: false; a powers-on match belongs to another cohort');
+    if (complete) {
+      for (const key of ['matchId', 'playedOn', 'rulesetVersion', 'engineVersion', 'engineCommit', 'groupId', 'facilitatorId', 'cohort']) {
+        if (typeof provenance[key] !== 'string' || (provenance[key] as string).length === 0) say(`provenance.${key} is required`);
+      }
+      for (const key of ['sourceManifestSha256', 'rulesetHash']) {
+        if (typeof provenance[key] !== 'string' || !/^[a-f0-9]{64}$/.test(provenance[key] as string)) say(`provenance.${key} must be a SHA-256 hex digest`);
+      }
+      if (!Number.isInteger(provenance['protocolVersion'])) say('provenance.protocolVersion is required');
     }
-    for (const key of ['sourceManifestSha256', 'rulesetHash']) {
-      if (typeof provenance[key] !== 'string' || !/^[a-f0-9]{64}$/.test(provenance[key] as string)) say(`provenance.${key} must be a SHA-256 hex digest`);
-    }
-    if (!Number.isInteger(provenance['protocolVersion'])) say('provenance.protocolVersion is required');
   }
 
-  const participants = record['participants'];
-  if (!Array.isArray(participants)) { say('participants must be a list'); return issues; }
-  if (complete) {
-    if (participants.length !== mode) say(`a mode-${mode} match needs exactly ${mode} participants`);
-    const seats = participants.map(item => (isObject(item) ? item['seat'] : null));
-    if (!sameSet(seats.filter((seat): seat is string => typeof seat === 'string'), seatIdsFor(mode))) say('participants must occupy each seat exactly once');
+  if (Array.isArray(participants) && !blank && isMode(mode)) {
+    // What a record says about a participant must be possible in its mode, complete or not.
+    const seatIds: readonly string[] = seatIdsFor(mode);
+    const modeRoles: readonly string[] = ROLES_BY_MODE[mode];
+    if (participants.length > mode) say(`a mode-${mode} match has at most ${mode} participants`);
+    const seats = participants.map(item => (isObject(item) ? item['seat'] : null)).filter((seat): seat is string => typeof seat === 'string');
     const roles = participants.map(item => (isObject(item) ? item['role'] : null)).filter((role): role is string => typeof role === 'string');
-    if (!sameSet(roles, ROLES_BY_MODE[mode])) say(`roles must be exactly the mode-${mode} roles`);
-    const ids = new Set<string>();
+    if (seats.some(seat => !seatIds.includes(seat)) || new Set(seats).size !== seats.length) say(`participants must occupy different seats of a mode-${mode} match`);
+    if (roles.some(role => !modeRoles.includes(role)) || new Set(roles).size !== roles.length) say(`participants must hold different roles of the mode-${mode} game`);
     for (const item of participants) {
-      if (!isObject(item)) { say('each participant must be an object'); continue; }
-      const id = item['participantId'];
-      if (typeof id !== 'string' || !/^P-[A-Z0-9]{4,12}$/.test(id)) say('participantId must be a pseudonym such as P-7K2Q');
-      else if (ids.has(id)) say(`participantId ${id} appears twice`);
-      else ids.add(id);
+      if (!isObject(item)) continue;
+      const id = String(item['participantId']);
       const role = item['role'];
-      if (typeof role === 'string' && (ROLES_BY_MODE[9] as readonly string[]).includes(role) && item['faction'] !== factionOf(role as Role)) say(`participant ${String(id)}: faction does not follow the role`);
-      if (!Number.isInteger(item['priorMatches']) || (item['priorMatches'] as number) < 0) say(`participant ${String(id)}: priorMatches is required`);
-      if (item['consentRecorded'] !== true) say(`participant ${String(id)}: consent must be recorded before data is kept`);
+      if (typeof role === 'string' && (ROLES_BY_MODE[9] as readonly string[]).includes(role) && item['faction'] !== factionOf(role as Role)) say(`participant ${id}: faction does not follow the role`);
+      const prior = item['priorMatches'];
+      const priorKnown = Number.isInteger(prior) && (prior as number) >= 0;
+      if (complete ? !priorKnown : prior !== null && prior !== undefined && !priorKnown) say(`participant ${id}: priorMatches ${complete ? 'is required' : 'must be a whole number when it is given'}`);
+    }
+    // Only a complete record has to account for the whole table.
+    if (complete) {
+      if (participants.length !== mode) say(`a mode-${mode} match needs exactly ${mode} participants`);
+      if (!sameSet(seats, seatIdsFor(mode))) say('participants must occupy each seat exactly once');
+      if (!sameSet(roles, ROLES_BY_MODE[mode])) say(`roles must be exactly the mode-${mode} roles`);
     }
   }
 
@@ -125,7 +158,7 @@ export function validateMatchRecord(record: unknown): string[] {
   }
 
   const officer = record['officer'];
-  if (mode !== 9 && officer !== null && officer !== undefined) say('the Officer section exists only in mode 9');
+  if (isMode(mode) && mode !== 9 && officer !== null && officer !== undefined) say('the Officer section exists only in mode 9');
   if (mode === 9 && complete && !isObject(officer)) say('a mode-9 record needs the Officer section');
 
   const information = record['information'];

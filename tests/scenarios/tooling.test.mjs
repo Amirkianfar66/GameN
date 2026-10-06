@@ -243,6 +243,64 @@ test('the blank match record is valid as a template and names every section', ()
   assert.deepEqual(problems, []);
 });
 
+test('consent and a pseudonym are required for every kept participant, whatever the record status', () => {
+  const template = JSON.parse(readFileSync(new URL('docs/balance/playtest/match-record.template.json', root), 'utf8'));
+  // The integration review's probe (R1): the blank record, one mode, marked incomplete and
+  // excluded, holding fictional participants. Incomplete records are the normal case until the
+  // server export exists, so nothing about a person may be waived for them.
+  const incomplete = (...participants) => {
+    const record = structuredClone(template);
+    record.recordStatus = 'incomplete';
+    record.provenance.mode = 7;
+    record.exclusion = { ...record.exclusion, excluded: true, reasons: ['incomplete-record'] };
+    record.participants = participants;
+    return validateMatchRecord(record).join(' | ');
+  };
+  const person = { participantId: 'P-TEST1', seat: 'seat-1', role: 'Insider', faction: 'Blue', consentRecorded: true };
+  const other = { participantId: 'P-TEST2', seat: 'seat-2', role: 'Cracker', faction: 'Blue', consentRecorded: true };
+  assert.equal(incomplete(person), '');
+  assert.equal(incomplete(person, other), '');
+  assert.match(incomplete({ ...person, consentRecorded: false }), /participant P-TEST1: consent must be recorded/);
+  const { consentRecorded: omitted, ...withoutConsent } = person;
+  assert.equal(omitted, true);
+  assert.match(incomplete(withoutConsent), /consent must be recorded/);
+  assert.match(incomplete({ ...person, consentRecorded: 'yes' }), /consent must be recorded/);
+  assert.match(incomplete(person, { ...other, consentRecorded: false }), /participant P-TEST2: consent must be recorded/);
+  assert.match(incomplete({ ...person, participantId: 'Amir' }), /must be a pseudonym/);
+  assert.match(incomplete({ ...person, participantId: 'P-1' }), /must be a pseudonym/);
+  const { participantId: dropped, ...unnamed } = person;
+  assert.equal(dropped, 'P-TEST1');
+  assert.match(incomplete(unnamed), /must be a pseudonym/);
+  assert.match(incomplete(person, { ...other, participantId: 'P-TEST1' }), /appears twice/);
+  assert.match(incomplete('P-TEST1'), /participant 1 must be an object/);
+  // What an incomplete record does say must still be possible in its mode.
+  assert.match(incomplete(person, { ...other, seat: 'seat-1' }), /must occupy different seats/);
+  assert.match(incomplete({ ...person, seat: 'seat-8' }), /must occupy different seats/);
+  assert.match(incomplete({ ...person, role: 'Officer' }), /must hold different roles of the mode-7 game/);
+  assert.match(incomplete({ ...person, faction: 'Red' }), /faction does not follow the role/);
+  assert.match(incomplete({ ...person, priorMatches: -1 }), /priorMatches must be a whole number/);
+  // Incompleteness relaxes what the table could not know yet, and nothing else.
+  assert.equal(incomplete({ participantId: 'P-TEST3', seat: null, role: null, faction: null, priorMatches: null, consentRecorded: true }), '');
+  // A template is blank. It cannot be used to keep a participant unchecked, with or without a mode.
+  const smuggled = structuredClone(template);
+  smuggled.participants = [{ ...person, consentRecorded: false }];
+  assert.match(validateMatchRecord(smuggled).join(' | '), /a template holds no participants/);
+  smuggled.provenance.mode = 7;
+  assert.match(validateMatchRecord(smuggled).join(' | '), /a template holds no participants/);
+  // A record of an unknown mode is refused, and its participants are still checked.
+  const noMode = structuredClone(template);
+  noMode.recordStatus = 'incomplete';
+  noMode.participants = [{ ...person, consentRecorded: false }];
+  assert.match(validateMatchRecord(noMode).join(' | '), /consent must be recorded.*provenance\.mode must be 7, 8 or 9/);
+  // Calling a record a template does not excuse its shape: every section is still required.
+  const hollow = { schema: template.schema, classification: template.classification, recordStatus: 'template', provenance: { mode: null }, information: { hackContentRecorded: false } };
+  const missing = validateMatchRecord(hollow).join(' | ');
+  for (const part of ['participants must be a list', 'outcome is required', 'exclusion.excluded and exclusion.reasons are required', 'experience must be a list', 'ruleProblems must be a list', 'rulesDeviations must be a list']) {
+    assert.ok(missing.includes(part), `a hollow template should report: ${part}`);
+  }
+  assert.match(validateMatchRecord({ ...template, provenance: null }).join(' | '), /provenance is required/);
+});
+
 test('the record validator enforces separation by mode, consent, exclusions and the collection limits', () => {
   // A synthetic record for the validator only. It is not a played match.
   const roles = setup.roleOrder;
