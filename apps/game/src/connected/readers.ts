@@ -1,7 +1,7 @@
 import {
-  FULL_PROTOCOL_VERSION, FullLobbyViewSchema, FullPlayerViewSchema, FullPublicViewSchema, SeatIdSchema, TimestampSchema,
+  FULL_PROTOCOL_VERSION, FullAdmissionDocumentSchema, FullHostSessionSchema, FullLobbyViewSchema, FullPlayerViewSchema, FullPublicViewSchema,
 } from '@mothership/contracts';
-import type { FullLobbyView, FullPlayerView, FullPublicView, SeatId } from '@mothership/contracts';
+import type { FullAdmissionDocument, FullHostSession, FullLobbyView, FullPlayerView, FullPublicView, SeatId } from '@mothership/contracts';
 import { createSnapshotStore } from '../snapshot/snapshot-store.js';
 import type { SnapshotStore } from '../snapshot/snapshot-store.js';
 
@@ -75,53 +75,36 @@ function topLevelVersion(payload: object | null): number | null {
   return typeof version === 'number' && Number.isInteger(version) && version >= 0 ? version : null;
 }
 
-// PROVISIONAL. The two documents below are readable by the host and have no exported
-// schema at the integration candidate this was written against (gap G1 in
-// docs/frontend/protocol2-adoption-assessment.md). Each reader accepts exactly the fields
-// the service writes there and nothing else, so a drift shows as an unreadable document
-// instead of being displayed. An exported schema replaces both.
+// The two documents below are readable by the host, and an admission by its requester too.
+// Each is judged by the shared strict schema for the body the service stores, so a drift
+// shows as an unreadable document instead of being displayed. The schema knows nothing of
+// a missing document or of another protocol version; those two outcomes are decided here.
+// Neither body carries the identifiers of its path: the listener asked for that path, and
+// the Security Rules decide who may read it.
 
-const ROOMS = ['Room A', 'Room B'] as const;
-const UID = /^[A-Za-z0-9_-]{1,128}$/;
-const ROOM_CODE = /^[A-F0-9]{12}$/;
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
-const hasOnly = (value: Record<string, unknown>, keys: readonly string[]): boolean => Object.keys(value).every(key => keys.includes(key));
-const isRoom = (value: unknown): value is (typeof ROOMS)[number] => ROOMS.some(room => room === value);
-
-/** One request to be seated, as the host and the requester may read it. */
-export type Admission =
-  | { readonly uid: string; readonly initialRoom: 'Room A' | 'Room B'; readonly requestedAt: number; readonly status: 'pending' }
-  | { readonly uid: string; readonly initialRoom: 'Room A' | 'Room B'; readonly requestedAt: number; readonly status: 'approved'; readonly seatId: SeatId };
+/** One request to be seated, as the host and the requester may read it: the stored document, whole. */
+export type Admission = FullAdmissionDocument;
 
 export function readAdmission(payload: unknown): DocumentOutcome<Admission> {
   if (payload === null) return { kind: 'missing' };
-  if (!isRecord(payload) || !hasOnly(payload, ['uid', 'initialRoom', 'requestedAt', 'status', 'seatId'])) return rejected({ kind: 'unreadable' });
-  const { uid, initialRoom, requestedAt, status, seatId } = payload;
-  if (typeof uid !== 'string' || !UID.test(uid) || !isRoom(initialRoom) || !TimestampSchema.safeParse(requestedAt).success) return rejected({ kind: 'unreadable' });
-  const base = { uid, initialRoom, requestedAt: requestedAt as number };
-  if (status === 'pending' && seatId === undefined) return { kind: 'accepted', value: { ...base, status } };
-  const seat = SeatIdSchema.safeParse(seatId);
-  if (status === 'approved' && seat.success) return { kind: 'accepted', value: { ...base, status, seatId: seat.data } };
-  return rejected({ kind: 'unreadable' });
+  const parsed = FullAdmissionDocumentSchema.safeParse(payload);
+  return parsed.success ? { kind: 'accepted', value: parsed.data } : rejected({ kind: 'unreadable' });
 }
 
-/** What a host may read about its own match. It holds no engine state. */
-export interface HostSession {
-  readonly hostUid: string;
-  readonly playerCount: 7 | 8 | 9;
-  readonly status: 'lobby' | 'running' | 'complete' | 'aborted';
-  readonly roomCode: string;
-}
+/**
+ * What a host's screen needs of its own match. The stored document also carries its
+ * protocol version and when it was created; both are checked and neither is passed on.
+ * It holds no engine state.
+ */
+export type HostSession = Pick<FullHostSession, 'hostUid' | 'playerCount' | 'status' | 'roomCode'>;
 
 export function readHostSession(payload: unknown): DocumentOutcome<HostSession> {
   if (payload === null) return { kind: 'missing' };
-  if (!isRecord(payload) || !hasOnly(payload, ['protocolVersion', 'hostUid', 'playerCount', 'status', 'roomCode', 'createdAt'])) return rejected({ kind: 'unreadable' });
-  const version = topLevelVersion(payload);
+  // A document of another protocol version is said to be that, whatever else it holds.
+  const version = typeof payload === 'object' ? topLevelVersion(payload) : null;
   if (version !== null && !SUPPORTED_CONNECTED_VERSIONS.includes(version)) return rejected({ kind: 'incompatible-protocol', receivedVersion: version });
-  const { hostUid, playerCount, status, roomCode, createdAt } = payload;
-  const statuses = ['lobby', 'running', 'complete', 'aborted'] as const;
-  const known = statuses.find(candidate => candidate === status);
-  if (version === null || typeof hostUid !== 'string' || !UID.test(hostUid) || (playerCount !== 7 && playerCount !== 8 && playerCount !== 9)
-    || known === undefined || typeof roomCode !== 'string' || !ROOM_CODE.test(roomCode) || !TimestampSchema.safeParse(createdAt).success) return rejected({ kind: 'unreadable' });
-  return { kind: 'accepted', value: { hostUid, playerCount, status: known, roomCode } };
+  const parsed = FullHostSessionSchema.safeParse(payload);
+  if (!parsed.success) return rejected({ kind: 'unreadable' });
+  const { hostUid, playerCount, status, roomCode } = parsed.data;
+  return { kind: 'accepted', value: { hostUid, playerCount, status, roomCode } };
 }

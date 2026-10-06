@@ -4,6 +4,7 @@ import {
   collectionPath, createConnectedPlayerStore, createConnectedPublicStore, documentPath, readAdmission, readHostSession, readLobby,
   SUPPORTED_CONNECTED_VERSIONS,
 } from '@mothership/game';
+import { FullAdmissionDocumentSchema, FullHostSessionSchema } from '@mothership/contracts';
 import { createOfficerFixture } from '@mothership/contracts/fixtures';
 import { lobbyView, MATCH, playerView, publicView } from './support/connected.mjs';
 
@@ -85,28 +86,48 @@ test('the lobby is read strictly and pinned to the match asked for', () => {
   for (const garbage of [undefined, 0, 'lobby', []]) assert.deepEqual(readLobby(garbage, MATCH), unreadable);
 });
 
-test('an admission is read as exactly the fields the service writes, and nothing more', () => {
+test('an admission is read as exactly the body the shared schema defines, and nothing more', () => {
   const pending = { uid: 'uid-A', initialRoom: 'Room A', requestedAt: 1_900_000_000_000, status: 'pending' };
   const approved = { ...pending, status: 'approved', seatId: 'seat-3' };
   assert.deepEqual(readAdmission(pending), { kind: 'accepted', value: pending });
   assert.deepEqual(readAdmission(approved), { kind: 'accepted', value: approved });
   assert.deepEqual(readAdmission(null), { kind: 'missing' });
-  for (const bad of [
+  const bad = [
     { ...pending, seatId: 'seat-3' }, { ...approved, seatId: undefined }, { ...approved, seatId: 'seat-10' }, { ...pending, status: 'rejected' },
     { ...pending, initialRoom: 'Command Room' }, { ...pending, uid: 'has spaces' }, { ...pending, requestedAt: -1 }, { ...pending, role: 'Officer' },
-    { uid: 'uid-A' }, [], 'admission', 7,
-  ]) assert.deepEqual(readAdmission(bad), unreadable, JSON.stringify(bad));
+    // A stored pending request has no seat field at all. One that has the field, even with no value, is not that document.
+    { ...pending, seatId: undefined },
+    // The body does not carry the identifiers of its path, or a protocol version.
+    { ...pending, matchId: 'connected-test-match' }, { ...pending, admissionId: 'a'.repeat(64) }, { ...pending, protocolVersion: 2 },
+    { uid: 'uid-A' }, [], 'admission', 7, undefined,
+  ];
+  for (const document of bad) assert.deepEqual(readAdmission(document), unreadable, JSON.stringify(document));
+  // The reader and the shared schema agree on every one of these: the reader adds only "missing".
+  for (const document of [pending, approved, ...bad]) {
+    assert.equal(readAdmission(document).kind === 'accepted', FullAdmissionDocumentSchema.safeParse(document).success, JSON.stringify(document));
+  }
 });
 
-test('a host’s session document is read as exactly the fields the service writes, and shows no engine state', () => {
+test('a host’s session document is read by the shared schema, and the screen is given four of its fields and no engine state', () => {
   const session = { protocolVersion: 2, hostUid: 'host-uid', playerCount: 7, status: 'lobby', roomCode: 'A1B2C3D4E5F6', createdAt: 1_900_000_000_000 };
   assert.deepEqual(readHostSession(session), { kind: 'accepted', value: { hostUid: 'host-uid', playerCount: 7, status: 'lobby', roomCode: 'A1B2C3D4E5F6' } });
   assert.deepEqual(readHostSession(null), { kind: 'missing' });
-  assert.deepEqual(readHostSession({ ...session, protocolVersion: 3 }), { kind: 'rejected', rejection: { kind: 'incompatible-protocol', receivedVersion: 3 } });
-  for (const bad of [
+  for (const status of ['lobby', 'running', 'complete', 'aborted']) assert.equal(readHostSession({ ...session, status }).value.status, status);
+  for (const playerCount of [7, 8, 9]) assert.equal(readHostSession({ ...session, playerCount }).value.playerCount, playerCount);
+  // Another protocol version is said to be that, whatever else the document holds; the schema alone would only call it invalid.
+  const incompatible = { kind: 'rejected', rejection: { kind: 'incompatible-protocol', receivedVersion: 3 } };
+  assert.deepEqual(readHostSession({ ...session, protocolVersion: 3 }), incompatible);
+  assert.deepEqual(readHostSession({ ...session, protocolVersion: 3, somethingNew: true }), incompatible);
+  assert.deepEqual(readHostSession({ protocolVersion: 3 }), incompatible);
+  const bad = [
     { ...session, playerCount: 6 }, { ...session, status: 'paused' }, { ...session, roomCode: 'short' }, { ...session, roomCode: 'a1b2c3d4e5f6' },
-    { ...session, roles: {} }, { ...session, hostUid: '' }, { hostUid: 'host-uid' }, [], 'session',
-  ]) assert.deepEqual(readHostSession(bad), unreadable, JSON.stringify(bad));
+    { ...session, roles: {} }, { ...session, hostUid: '' }, { ...session, createdAt: -1 }, { ...session, matchId: 'connected-test-match' },
+    { ...session, protocolVersion: '2' }, { ...session, protocolVersion: undefined }, { hostUid: 'host-uid' }, [], 'session', undefined,
+  ];
+  for (const document of bad) assert.deepEqual(readHostSession(document), unreadable, JSON.stringify(document));
+  for (const document of [session, ...bad]) {
+    assert.equal(readHostSession(document).kind === 'accepted', FullHostSessionSchema.safeParse(document).success, JSON.stringify(document));
+  }
 });
 
 test('listener paths are the documented ones, built from checked identifiers only', () => {
