@@ -7,10 +7,12 @@ import {
   FullPracticeBotsDocumentSchema, FullSetPracticeBotsResponseSchema,
   FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityResponseSchema,
   FullOperationResponseSchema, FullFailureSchema, FullPublicViewSchema, FullPlayerViewSchema,
+  FullBeginSetupResponseSchema,
 } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { createV1Service } from '../../../services/game-api/dist/index.js';
 import { decodeV1State, decodeV1Setup } from '../../../services/game-api/dist/full-game.js';
+import { startStagedMatch, beginStagedSetup, confirmStagedChoices, completeStagedSetup } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
 import { createV1DeadlineHandler } from '../dist/v1.js';
 import { encodeFirestoreValue } from '../test/helpers.mjs';
 
@@ -90,10 +92,6 @@ async function roster(h) {
 
 for (const playerCount of [7, 8, 9]) test(`${playerCount}-seat bot capacity preserves human bindings and their chosen public identities`, async () => {
   const h = await harness({ playerCount, humanSeats: ['seat-1', 'seat-' + playerCount] });
-  for (let i = 0; i < 2; i++) {
-    const selected = await h.service.setLobbyIdentity(h.humans[i].uid, { schemaVersion: 1, ...h.request({ displayName: 'Human ' + (i + 1), characterId: i === 0 ? 'c1' : 'c9' }) });
-    FullSetLobbyIdentityResponseSchema.parse(selected); assert.equal(selected.ok, true);
-  }
   const humanBindings = await h.bindings(), humanIdentities = (await h.identities()).seats;
   const result = await h.set(playerCount - 2), before = await roster(h);
   assert.equal(result.botSeatIds.length, playerCount - 2); assert.equal(before.practice.revision, result.revision);
@@ -107,11 +105,45 @@ for (const playerCount of [7, 8, 9]) test(`${playerCount}-seat bot capacity pres
     assert.deepEqual(Object.keys(before.bindings[seatId]).sort(), ['bindingRevision', 'controller', 'initialRoom']);
     assert.ok(before.bindings[seatId].bindingRevision >= 1);
   }
-  assert.equal(new Set(before.identities.seats.map(seat => seat.characterId)).size, playerCount);
-  assert.equal(new Set(before.identities.seats.map(seat => seat.displayName)).size, playerCount);
-  assert.ok(before.identities.seats.every(seat => seat.characterId !== null && seat.displayName !== null));
+  const botIdentities = before.identities.seats.filter(seat => before.bots.includes(seat.seatId));
+  assert.equal(new Set(botIdentities.map(seat => seat.characterId)).size, playerCount - 2);
+  assert.equal(new Set(botIdentities.map(seat => seat.displayName)).size, playerCount - 2);
+  assert.ok(botIdentities.every(seat => seat.characterId !== null && seat.displayName !== null));
+  assert.ok(before.identities.seats.filter(seat => h.humanSeats.includes(seat.seatId)).every(seat => seat.characterId === null && seat.displayName === null));
   configureError(await h.service.setPracticeBots(h.host.uid, h.configuration(playerCount - 1)), 'CAPACITY_EXCEEDED');
   assert.deepEqual(await roster(h), before);
+  const premature = await h.service.setLobbyIdentity(h.humans[0].uid, { schemaVersion: 1, ...h.request({ displayName: 'Human 1', characterId: 'c9' }) });
+  FullSetLobbyIdentityResponseSchema.parse(premature); assert.equal(premature.error?.code, 'IDENTITY_LOCKED');
+  assert.deepEqual(await roster(h), before);
+  await beginStagedSetup(h);
+  const occupiedCharacters = new Set(botIdentities.map(seat => seat.characterId));
+  const availableCharacters = Array.from({ length: 9 }, (_, index) => `c${index + 1}`).filter(characterId => !occupiedCharacters.has(characterId));
+  assert.ok(availableCharacters.length >= 2);
+  for (let i = 0; i < 2; i++) {
+    const selected = await h.service.setLobbyIdentity(h.humans[i].uid, { schemaVersion: 1, ...h.request({ displayName: 'Human ' + (i + 1), characterId: availableCharacters[i] }) });
+    FullSetLobbyIdentityResponseSchema.parse(selected); assert.equal(selected.ok, true);
+  }
+  const chosenIdentities = (await h.identities()).seats;
+  const confirmed = await confirmStagedChoices(h);
+  assert.equal(confirmed.stage, 'awaiting-ready');
+  assert.equal((await h.identities()).locked, true);
+  assert.deepEqual((await h.identities()).seats, chosenIdentities, 'Confirmation must freeze the explicitly selected human identities');
+  assert.equal((await h.base.collection('engine').doc('current').get()).exists, false, 'The prepared deal must not begin gameplay before Ready');
+  await completeStagedSetup(h);
+  const started = await roster(h);
+  for (const seatId of h.humanSeats) {
+    assert.deepEqual(started.bindings[seatId], humanBindings[seatId]);
+    assert.deepEqual(started.identities.seats.find(seat => seat.seatId === seatId), chosenIdentities.find(seat => seat.seatId === seatId));
+  }
+  for (const seatId of before.bots) {
+    assert.deepEqual(started.bindings[seatId], before.bindings[seatId]);
+    assert.deepEqual(started.identities.seats.find(seat => seat.seatId === seatId), before.identities.seats.find(seat => seat.seatId === seatId));
+  }
+  assert.equal(new Set(started.identities.seats.map(seat => seat.characterId)).size, playerCount);
+  assert.equal(new Set(started.identities.seats.map(seat => seat.displayName)).size, playerCount);
+  assert.ok(started.identities.seats.every(seat => seat.characterId !== null && seat.displayName !== null));
+  assert.equal(started.identities.locked, true);
+  configureError(await h.service.setPracticeBots(h.host.uid, h.configuration(0)), 'LOBBY_LOCKED');
 });
 
 test('new public practice record starts empty; old missing record is a readable legacy fallback', async () => {
@@ -152,16 +184,36 @@ test('increase/decrease preserves retained bot identities and removes the highes
   assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
 });
 
-test('bot allocation avoids a human claiming a previously generated bot name and character', async () => {
+test('staged human choice rejects a removed bot character now owned by a retained bot and preserves a free choice', async () => {
   const h = await harness(); await h.set(1);
   const previous = (await h.identities()).seats[0]; await h.set(0);
   const human = await auth(); op(await h.approve(human, previous.seatId));
-  const selected = await h.service.setLobbyIdentity(human.uid, { schemaVersion: 1, ...h.request({ displayName: previous.displayName, characterId: previous.characterId }) });
+  const requestedChoice = { schemaVersion: 1, ...h.request({ displayName: previous.displayName, characterId: previous.characterId }) };
+  const premature = await h.service.setLobbyIdentity(human.uid, requestedChoice);
+  FullSetLobbyIdentityResponseSchema.parse(premature); assert.equal(premature.error?.code, 'IDENTITY_LOCKED');
+  await h.set(6); const allocated = await roster(h);
+  assert.ok(allocated.identities.seats.some(seat => allocated.bots.includes(seat.seatId) && seat.characterId === previous.characterId));
+  await beginStagedSetup(h);
+  const blocked = await h.service.setLobbyIdentity(human.uid, { ...requestedChoice, requestId: randomUUID() });
+  FullSetLobbyIdentityResponseSchema.parse(blocked); assert.equal(blocked.error?.code, 'CHARACTER_TAKEN');
+  assert.deepEqual(await roster(h), allocated, 'A refused human draft cannot replace an existing bot identity');
+  const usedCharacters = new Set(allocated.identities.seats.map(seat => seat.characterId));
+  const characterId = Array.from({ length: 9 }, (_, index) => `c${index + 1}`).find(candidate => !usedCharacters.has(candidate));
+  assert.ok(characterId);
+  const selected = await h.service.setLobbyIdentity(human.uid, { schemaVersion: 1, ...h.request({ displayName: previous.displayName, characterId }) });
   FullSetLobbyIdentityResponseSchema.parse(selected); assert.equal(selected.ok, true);
-  await h.set(1); const current = await roster(h);
-  assert.equal(new Set(current.identities.seats.map(seat => seat.characterId)).size, 2);
-  assert.equal(new Set(current.identities.seats.map(seat => seat.displayName)).size, 2);
-  assert.deepEqual(current.identities.seats.find(seat => seat.seatId === previous.seatId), previous);
+  const confirmed = await confirmStagedChoices(h);
+  assert.equal(confirmed.stage, 'awaiting-ready');
+  assert.deepEqual((await h.identities()).seats.find(seat => seat.seatId === previous.seatId), { ...previous, characterId });
+  await completeStagedSetup(h);
+  const current = await roster(h);
+  assert.equal(new Set(current.identities.seats.map(seat => seat.characterId)).size, 7);
+  assert.equal(new Set(current.identities.seats.map(seat => seat.displayName)).size, 7);
+  assert.deepEqual(current.identities.seats.find(seat => seat.seatId === previous.seatId), { ...previous, characterId });
+  for (const seatId of allocated.bots) {
+    assert.deepEqual(current.bindings[seatId], allocated.bindings[seatId]);
+    assert.deepEqual(current.identities.seats.find(seat => seat.seatId === seatId), allocated.identities.seats.find(seat => seat.seatId === seatId));
+  }
 });
 
 test('configuration replay checks fresh host authority and payload digest, including after start and service restart', async () => {
@@ -170,7 +222,7 @@ test('configuration replay checks fresh host authority and payload digest, inclu
   assert.deepEqual(configured(await h.service.setPracticeBots(h.host.uid, body), body), first);
   configureError(await h.service.setPracticeBots(h.host.uid, { ...body, botCount: 6 }), 'REQUEST_ID_CONFLICT');
   assert.deepEqual(await roster(h), before);
-  op(await h.service.startMatch(h.host.uid, h.request()));
+  await startStagedMatch(h);
   const stateBefore = await h.state(), frozen = await roster(h);
   const restarted = createV1Service({ db, clock: () => h.now() });
   assert.deepEqual(configured(await restarted.setPracticeBots(h.host.uid, body), body), first);
@@ -210,27 +262,27 @@ test('racing full bot allocation and human admission commits one coherent capaci
   }
 });
 
-test('racing bot removal and match start serializes the frozen complete roster or the empty lobby', async () => {
+test('racing bot removal and Begin serializes the frozen complete roster or the empty lobby', async () => {
   for (let attempt = 0; attempt < 3; attempt++) {
-    const h = await harness(); await h.set(7); const body = h.configuration(0), start = h.request();
-    let [removed, started] = await Promise.all([h.service.setPracticeBots(h.host.uid, body), h.service.startMatch(h.host.uid, start)]);
-    FullSetPracticeBotsResponseSchema.parse(removed); FullOperationResponseSchema.parse(started);
-    assert.ok(!(removed.ok && started.ok), 'Start cannot commit a removed roster');
+    const h = await harness(); await h.set(7); const body = h.configuration(0), start = { schemaVersion: 1, ...h.request() };
+    let [removed, started] = await Promise.all([h.service.setPracticeBots(h.host.uid, body), h.service.beginSetup(h.host.uid, start)]);
+    FullSetPracticeBotsResponseSchema.parse(removed); FullBeginSetupResponseSchema.parse(started);
+    assert.ok(!(removed.ok && started.ok), 'Begin cannot commit a removed roster');
     const raced = await roster(h), acknowledgedWinner = removed.ok || started.ok;
     removed = await settleUnavailable(removed, () => h.service.setPracticeBots(h.host.uid, body));
-    started = await settleUnavailable(started, () => h.service.startMatch(h.host.uid, start));
-    FullSetPracticeBotsResponseSchema.parse(removed); FullOperationResponseSchema.parse(started);
+    started = await settleUnavailable(started, () => h.service.beginSetup(h.host.uid, start));
+    FullSetPracticeBotsResponseSchema.parse(removed); FullBeginSetupResponseSchema.parse(started);
     assert.equal([removed.ok, started.ok].filter(Boolean).length, 1);
     if (acknowledgedWinner) assert.deepEqual(await roster(h), raced, 'Reconciliation cannot rewrite the frozen roster');
     const control = (await h.base.collection('control').doc('session').get()).data(), current = await roster(h);
     if (started.ok) { configureError(removed, 'LOBBY_LOCKED'); assert.equal(control.status, 'running'); assert.equal(current.bots.length, 7); assert.equal((await h.state()).seats.length, 7); }
-    else { fail(started, 'FORBIDDEN'); assert.equal(control.status, 'lobby'); assert.deepEqual(current.bots, []); assert.equal((await h.base.collection('engine').doc('current').get()).exists, false); }
+    else { assert.equal(started.error?.code, 'ROSTER_INCOMPLETE'); assert.equal(control.status, 'lobby'); assert.deepEqual(current.bots, []); assert.equal((await h.base.collection('engine').doc('current').get()).exists, false); }
   }
 });
 
 for (const playerCount of [7, 8, 9]) test(`${playerCount}-seat practice starts with no bot UID or private bot client document`, async () => {
   const h = await harness({ playerCount, humanSeats: ['seat-' + playerCount] }); await h.set(playerCount - 1);
-  op(await h.service.startMatch(h.host.uid, h.request()));
+  await startStagedMatch(h);
   FullPublicViewSchema.parse((await h.base.collection('views').doc('public').get()).data());
   FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(h.humans[0].uid).get()).data());
   const value = await roster(h);
@@ -263,7 +315,7 @@ test('no display, admission, human command or forged recovery can turn a server 
   assert.equal((await h.base.collection('recovery').doc(botSeatId).get()).exists, false);
   assert.deepEqual((await h.bindings())[botSeatId], before);
   assert.equal((await h.base.collection('members').doc(h.display.uid).get()).get('kind'), 'display');
-  op(await h.service.startMatch(h.host.uid, h.request()));
+  await startStagedMatch(h);
   const state = await h.state(), body = { protocolVersion: 2, matchId: h.base.id, phaseId: state.phase.id, commandId: randomUUID(), command: { type: 'MOVE', destination: 'Room B' } };
   fail(await h.service.submit(h.display.uid, body), 'FORBIDDEN');
   fail(await h.service.submit(h.host.uid, body), 'FORBIDDEN');
@@ -282,7 +334,7 @@ test('no display, admission, human command or forged recovery can turn a server 
 
 test('forged reverse membership and UID cannot read any bot private projection, own result, session or event stream', async () => {
   const h = await harness({ humanSeats: ['seat-7'] }); await h.set(6);
-  op(await h.service.startMatch(h.host.uid, h.request()));
+  await startStagedMatch(h);
   const botSeatId = (await h.practice()).botSeatIds[0], binding = (await h.bindings())[botSeatId], state = await h.state(), forged = h.humans[0];
   await h.base.collection('seats').doc(botSeatId).update({ uid: forged.uid });
   await h.base.collection('members').doc(forged.uid).set({ kind: 'player', seatId: botSeatId, bindingRevision: binding.bindingRevision });
@@ -307,7 +359,7 @@ test('forged reverse membership and UID cannot read any bot private projection, 
 });
 
 test('bounded internal runner journals real engine commands once; retries and concurrent workers cannot duplicate spending or close the deadline early', async () => {
-  const h = await harness(); await h.set(7); op(await h.service.startMatch(h.host.uid, h.request()));
+  const h = await harness(); await h.set(7); await startStagedMatch(h);
   const initial = await h.state();
   const first = await h.service.runPracticeBots(h.base.id, { limit: 1 });
   assert.deepEqual(first, { status: 'advanced', processed: 1 });
@@ -349,7 +401,7 @@ test('runner refuses unsafe bounds and never acts before phase start, at deadlin
   for (const limit of [0, 19, 1.5]) assert.deepEqual(await h.service.runPracticeBots(h.base.id, { limit }), { status: 'blocked', processed: 0 });
   assert.deepEqual(await h.service.runPracticeBots('../unsafe', { limit: 18 }), { status: 'blocked', processed: 0 });
   assert.deepEqual(await h.service.runPracticeBots(h.base.id, { limit: 18 }), { status: 'unchanged', processed: 0 });
-  op(await h.service.startMatch(h.host.uid, h.request())); const state = await h.state();
+  await startStagedMatch(h); const state = await h.state();
   h.setTime(state.phase.startedAt - 1);
   assert.deepEqual(await h.service.runPracticeBots(h.base.id, { limit: 18 }), { status: 'unchanged', processed: 0 });
   h.setTime(state.phase.endsAt);
@@ -361,7 +413,7 @@ test('runner refuses unsafe bounds and never acts before phase start, at deadlin
 });
 
 test('storage failure is surfaced for trigger retry and cannot consume a command before a successful worker retry', async () => {
-  const h = await harness(); await h.set(7); op(await h.service.startMatch(h.host.uid, h.request())); const before = await h.state();
+  const h = await harness(); await h.set(7); await startStagedMatch(h); const before = await h.state();
   const failingDb = new Proxy(db, { get(target, key) {
     if (key === 'runTransaction') return async () => { throw new Error('synthetic storage unavailability'); };
     const value = Reflect.get(target, key, target); return typeof value === 'function' ? value.bind(target) : value;
@@ -387,7 +439,7 @@ test('configuration rate refusal carries bounded retry delay and creates no dura
 });
 
 test('the canonical deadline handler repairs a dropped engine-write bot event and stale task retries do not duplicate commands', async () => {
-  const h = await harness(); await h.set(7); op(await h.service.startMatch(h.host.uid, h.request()));
+  const h = await harness(); await h.set(7); await startStagedMatch(h);
   const missed = await h.state();
   assert.equal((await h.base.collection('receipts').get()).size, 0, 'No worker or engine-write handler was invoked for the first phase');
   const payload = { matchId: h.base.id, phaseId: missed.phase.id, deadlineToken: missed.deadlineToken };
@@ -407,7 +459,7 @@ test('the canonical deadline handler repairs a dropped engine-write bot event an
 });
 
 test('a human Hack with a bot keeps the private partner and full canonical minute without a fabricated bot conversation', async () => {
-  const h = await harness({ humanSeats: ['seat-1'] }); await h.set(6); op(await h.service.startMatch(h.host.uid, h.request()));
+  const h = await harness({ humanSeats: ['seat-1'] }); await h.set(6); await startStagedMatch(h);
   const turn = await h.state(), human = h.humans[0];
   assert.equal(turn.activeSeatId, 'seat-1');
   const request = { protocolVersion: 2, matchId: h.base.id, phaseId: turn.phase.id, commandId: randomUUID(), command: { type: 'REQUEST_HACK', targetSeatId: 'seat-3' } };
@@ -450,7 +502,7 @@ async function assertPersistedReplay(h) {
 }
 
 for (const playerCount of [7, 8, 9]) test(`${playerCount}-seat all-bot practice finishes through persisted commands and canonical deadlines with exact replay`, async () => {
-  const h = await harness({ playerCount }); await h.set(playerCount); op(await h.service.startMatch(h.host.uid, h.request()));
+  const h = await harness({ playerCount }); await h.set(playerCount); await startStagedMatch(h);
   let state = await h.state(), phases = 0;
   // Synthetic server time advances only to canonical deadlines. No direct state edit,
   // policy stand-in, hidden role override or automatic phase closure is used.

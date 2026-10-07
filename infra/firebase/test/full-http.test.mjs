@@ -6,13 +6,19 @@ import { createV1HttpHandler, V1_OPERATIONS, createV1Enqueuer, createV1DeadlineH
 import { deadlineTaskId } from '@mothership/game-api';
 
 const production = { GCLOUD_PROJECT: 'production-project', MOTHERSHIP_ASSET_MANIFEST_VERSION: 'test-assets-v1' };
+const setupOperations = ['beginSetup', 'confirmSetupChoice', 'readyForMatch'];
 const local = { GCLOUD_PROJECT: 'demo-mothership', FUNCTIONS_EMULATOR: 'true', FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9199', FIRESTORE_EMULATOR_HOST: 'localhost:8180', MOTHERSHIP_FUNCTIONS_EMULATOR_HOST: '127.0.0.1:5101' };
 function dependencies(configuration = assertRuntimeEnvironment(local)) {
   const calls = [];
   const service = Object.fromEntries(V1_OPERATIONS.map(operation => [operation, async (uid, payload) => {
     calls.push({ operation, uid, payload }); return operation === 'setPracticeBots'
       ? { schemaVersion: 1, protocolVersion: 2, ok: true, serverTimeMs: 123, matchId: payload.matchId, requestId: payload.requestId, revision: 1, botSeatIds: ['seat-2'] }
-      : { ok: true, protocolVersion: 2 };
+      : setupOperations.includes(operation)
+        ? { schemaVersion: 1, protocolVersion: 2, ok: true, serverTimeMs: 123, matchId: payload.matchId, requestId: payload.requestId, revision: 1,
+          ...(operation === 'beginSetup' ? { stage: 'choosing', dealId: null }
+            : operation === 'confirmSetupChoice' ? { stage: 'choosing', dealId: null, seatId: 'seat-1', bindingRevision: payload.bindingRevision }
+              : { stage: 'awaiting-ready', dealId: payload.dealId, seatId: 'seat-1', bindingRevision: payload.bindingRevision }) }
+        : { ok: true, protocolVersion: 2 };
   }]));
   return { calls, service, configuration, clock: () => 123,
     verifyIdToken: async token => { if (token !== 'valid-token') throw new Error('Private token details'); return { uid: 'actor-uid' }; },
@@ -22,7 +28,10 @@ function dependencies(configuration = assertRuntimeEnvironment(local)) {
 async function invoke(deps, overrides = {}, operation = 'submit') {
   const capture = { status: undefined, headers: {}, body: undefined };
   const response = { set(name, value) { capture.headers[name] = value; return this; }, status(value) { capture.status = value; return this; }, json(value) { capture.body = value; return this; } };
-  await createV1HttpHandler(operation, deps)({ method: 'POST', body: operation === 'setPracticeBots' ? { schemaVersion: 1, protocolVersion: 2, requestId: 'practice-request', matchId: 'match-a', botCount: 1 } : { protocolVersion: 2, matchId: 'match-a' }, headers: { 'content-type': 'application/json', authorization: 'Bearer valid-token' }, ...overrides }, response);
+  await createV1HttpHandler(operation, deps)({ method: 'POST', body: operation === 'setPracticeBots' ? { schemaVersion: 1, protocolVersion: 2, requestId: 'practice-request', matchId: 'match-a', botCount: 1 }
+    : setupOperations.includes(operation) ? { schemaVersion: 1, protocolVersion: 2, requestId: 'setup-request', matchId: 'match-a',
+      ...(operation === 'beginSetup' ? {} : operation === 'confirmSetupChoice' ? { bindingRevision: 1, displayName: 'Crew', characterId: 'c1' }
+        : { bindingRevision: 1, dealId: 'deal-a' }) } : { protocolVersion: 2, matchId: 'match-a' }, headers: { 'content-type': 'application/json', authorization: 'Bearer valid-token' }, ...overrides }, response);
   return capture;
 }
 
@@ -129,7 +138,7 @@ test('Firebase export discovery does not initialize Admin SDK; first invocation 
       assert.equal(getApps().length,0);
       const functions=await import(${JSON.stringify(entrypoint)});
       assert.equal(getApps().length,0);
-      for (const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1SetPracticeBots','v1RunPracticeBots','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
+      for (const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1SetPracticeBots','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1RunPracticeBots','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
       const response={set(){return this;},status(){return this;},json(){return this;}};
       await assert.rejects(()=>functions.v1ServerTime({method:'POST',headers:{},body:{}},response));
       assert.equal(getApps().length,0);

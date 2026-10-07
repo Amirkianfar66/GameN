@@ -7,13 +7,18 @@ import { getFunctions } from 'firebase-admin/functions';
 import { onRequest } from 'firebase-functions/v2/https';
 import { onTaskDispatched } from 'firebase-functions/v2/tasks';
 import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
-import { FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema } from '@mothership/contracts';
+import {
+  FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema,
+  FullBeginSetupRequestSchema, FullBeginSetupResponseSchema,
+  FullConfirmSetupChoiceRequestSchema, FullConfirmSetupChoiceResponseSchema,
+  FullReadyForMatchRequestSchema, FullReadyForMatchResponseSchema,
+} from '@mothership/contracts';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type { RuntimeConfiguration } from './runtime.js';
 export interface V1HttpRequest { method: string; body: unknown; headers: Record<string, string | string[] | undefined>; rawBody?: Uint8Array }
 export interface V1HttpResponse { set(field: string, value: string): unknown; status(code: number): V1HttpResponse; json(body: unknown): unknown }
 
-export const V1_OPERATIONS = ['createMatch', 'requestAdmission', 'approveAdmission', 'admitDisplay', 'startMatch', 'submit', 'lookup', 'advance', 'serverTime', 'abortMatch', 'issueSeatRecovery', 'redeemSeatRecovery', 'setLobbyIdentity', 'setPracticeBots'] as const;
+export const V1_OPERATIONS = ['createMatch', 'requestAdmission', 'approveAdmission', 'admitDisplay', 'startMatch', 'submit', 'lookup', 'advance', 'serverTime', 'abortMatch', 'issueSeatRecovery', 'redeemSeatRecovery', 'setLobbyIdentity', 'setPracticeBots', 'beginSetup', 'confirmSetupChoice', 'readyForMatch'] as const;
 export type V1Operation = typeof V1_OPERATIONS[number];
 export type V1Deadline = { matchId: string; phaseId: string; deadlineToken: string };
 export type V1DeadlineIntent = V1Deadline & { taskId: string; endsAt: number };
@@ -34,6 +39,12 @@ export interface V1HttpDependencies {
   clock?: () => number;
 }
 const deadlineTaskId = (matchId: string, phaseId: string, deadlineToken: string): string => createHash('sha256').update(JSON.stringify([matchId, phaseId, deadlineToken])).digest('hex');
+const strictOperations = {
+  setPracticeBots: { request: FullSetPracticeBotsRequestSchema, response: FullSetPracticeBotsResponseSchema },
+  beginSetup: { request: FullBeginSetupRequestSchema, response: FullBeginSetupResponseSchema },
+  confirmSetupChoice: { request: FullConfirmSetupChoiceRequestSchema, response: FullConfirmSetupChoiceResponseSchema },
+  readyForMatch: { request: FullReadyForMatchRequestSchema, response: FullReadyForMatchResponseSchema },
+} as const;
 const allowedHeaders = ['authorization', 'content-type', 'x-firebase-appcheck'];
 const identity = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
 function header(request: V1HttpRequest, name: string): string | undefined {
@@ -46,7 +57,7 @@ function length(request: V1HttpRequest): number {
 }
 const statusFor = (code: unknown): number => code === 'UNAUTHENTICATED' ? 401 : code === 'FORBIDDEN' ? 403
   : code === 'UNAVAILABLE' ? 503 : code === 'COMMAND_ID_CONFLICT' || code === 'REQUEST_ID_CONFLICT' ? 409
-  : code === 'CHARACTER_TAKEN' || code === 'IDENTITY_LOCKED' || code === 'LOBBY_LOCKED' || code === 'CAPACITY_EXCEEDED' ? 409
+  : ['CHARACTER_TAKEN', 'IDENTITY_LOCKED', 'LOBBY_LOCKED', 'CAPACITY_EXCEEDED', 'ROSTER_INCOMPLETE', 'NAME_TAKEN', 'SETUP_LOCKED', 'STALE_DEAL', 'STALE_BINDING'].includes(code as string) ? 409
   : code === 'RATE_LIMITED' ? 429 : code === 'INVALID_REQUEST' || code === 'UNSUPPORTED_PROTOCOL' || code === 'UNSUPPORTED_SCHEMA' ? 400 : 200;
 
 export function createV1HttpHandler(operation: V1Operation, dependencies: V1HttpDependencies) {
@@ -56,7 +67,7 @@ export function createV1HttpHandler(operation: V1Operation, dependencies: V1Http
     response.set('Pragma', 'no-cache');
     response.set('X-Content-Type-Options', 'nosniff');
     response.set('Vary', 'Origin');
-    const fail = (status: number, code: string) => { response.status(status).json({ ...(['setLobbyIdentity', 'setPracticeBots'].includes(operation) ? { schemaVersion: 1, protocolVersion: 2 } : {}), ok: false, serverTimeMs: clock(), error: { code } }); };
+    const fail = (status: number, code: string) => { response.status(status).json({ ...((operation === 'setLobbyIdentity' || operation in strictOperations) ? { schemaVersion: 1, protocolVersion: 2 } : {}), ok: false, serverTimeMs: clock(), error: { code } }); };
     const origin = header(request, 'origin');
     if (request.headers['origin'] !== undefined && (origin === undefined || !dependencies.configuration.allowedOrigins.includes(origin))) {
       fail(403, 'FORBIDDEN'); return;
@@ -91,17 +102,26 @@ export function createV1HttpHandler(operation: V1Operation, dependencies: V1Http
     }
     try {
       let payload = request.body;
-      if (operation === 'setPracticeBots') {
+      const schemas = operation in strictOperations ? strictOperations[operation as keyof typeof strictOperations] : undefined;
+      if (schemas !== undefined) {
         if (payload !== null && typeof payload === 'object') {
           if ('protocolVersion' in payload && typeof payload.protocolVersion === 'number' && payload.protocolVersion !== 2) { fail(400, 'UNSUPPORTED_PROTOCOL'); return; }
           if ('schemaVersion' in payload && typeof payload.schemaVersion === 'number' && payload.schemaVersion !== 1) { fail(400, 'UNSUPPORTED_SCHEMA'); return; }
         }
-        const parsed = FullSetPracticeBotsRequestSchema.safeParse(payload);
+        const parsed = schemas.request.safeParse(payload);
         if (!parsed.success) { fail(400, 'INVALID_REQUEST'); return; }
         payload = parsed.data;
       }
       const given = await dependencies.service[operation](uid, payload);
-      const result = operation === 'setPracticeBots' ? FullSetPracticeBotsResponseSchema.parse(given) : given;
+      let result = given;
+      if (schemas !== undefined) {
+        const parsed = schemas.response.parse(given);
+        if (operation !== 'setPracticeBots' && parsed.ok) {
+          const expected = payload as { matchId: string; requestId: string };
+          if (parsed.matchId !== expected.matchId || parsed.requestId !== expected.requestId) throw new Error('Setup response context does not match');
+        }
+        result = parsed;
+      }
       const code = result !== null && typeof result === 'object' && 'ok' in result && result.ok === false
         && 'error' in result && result.error !== null && typeof result.error === 'object' && 'code' in result.error ? result.error.code : undefined;
       response.status(statusFor(code)).json(result);
@@ -152,7 +172,7 @@ export interface V1RuntimeContext { app: App; service: V1Service; configuration:
 /** Register without SDK initialization; resolve only after the runtime's guarded onInit callback. */
 export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
   const endpoints = Object.fromEntries(V1_OPERATIONS.map(operation => [operation, onRequest({ region: 'us-central1', timeoutSeconds: 30, cors: false,
-    ...(operation === 'setPracticeBots' ? { maxInstances: 12, minInstances: 0 } : {}),
+    ...(['setPracticeBots', 'beginSetup', 'confirmSetupChoice', 'readyForMatch'].includes(operation) ? { maxInstances: 12, minInstances: 0 } : {}),
   }, async (request, response) => {
     const { app, service, configuration } = resolveContext();
     await createV1HttpHandler(operation, {
