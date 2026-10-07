@@ -1,0 +1,33 @@
+[   7.6 s] Browser: Chrome/155.0.8059.39. Preview server: already running.
+[   9.8 s] ESTABLISHED 1. The host creates a seven-player lobby
+[   9.8 s]   - One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.
+[   9.8 s]   - The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status "lobby".
+[  12.2 s] ESTABLISHED 2. Players authenticate and request admission
+[  12.2 s]   - 9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.
+[  12.2 s]   - 7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match.
+[  13.9 s] ESTABLISHED 3. The host approves seats and starts the match
+[  13.9 s]   - The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.
+[  13.9 s]   - The display was admitted by the identifier it shows, and showed no match before the start.
+[  13.9 s]   - One v1StartMatch; the host console then read status "running".
+[2683.0 s] ESTABLISHED M. One whole match, from its first turn to its result (seven players)
+[2683.0 s]   - The display followed 45 phases, in this order: five rounds, each with one turn for each of the seven players and then a Jail vote; a Captain election before each of rounds 2 to 5; no showdown; and the end. The script met each of them. As the display saw them, each of the 43 phases after the first lasted more than 58.5 seconds: the shortest 60.3 s and the longest 61.5 s. The first, counted from when the display first showed it, lasted 59.5 s.
+[2683.0 s]   - In the Captain elections before rounds 2, 3, 4, 5 the script cast no ballot, and each count said so: no vote for anybody, and "Nobody was elected."
+[2683.0 s]   - Round 1: on its own turn the Hacker scanned Player 1 guessing Blue, that player’s real faction. The phone then listed: "you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code."
+[2683.0 s]   - Round 1, Jail vote: the script cast no ballot. The count the server published: 7 could vote, 7 abstained or did not vote, "Nobody was sent to Jail."
+[2683.0 s]   - Round 2: on its own turn the Hacker scanned Player 1 guessing Red, which is not that player’s faction. The phone then listed: "you scanned Player 1 and guessed Red. The guess was wrong."
+[2683.0 s]   - Round 2, Jail vote: the script cast no ballot. The count the server published: 7 could vote, 7 abstained or did not vote, "Nobody was sent to Jail."
+[2683.0 s]   - Round 3: on its own turn the Supplier registered a Supply for Player 1 and Player 2: each time the first player the card listed. A second and a half later the board had not changed and no phone listed a weapon more.
+[2683.0 s]   - Round 3: on its own turn the Hacker scanned Player 1 guessing Blue, that player’s real faction. The phone then listed: "you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code."
+[2683.0 s]   - Round 3, Jail vote: the script cast no ballot. The count the server published: 7 could vote, 7 abstained or did not vote, "Nobody was sent to Jail."
+[2683.0 s]   - Round 4: the two players named in the Supply (Player 1 and Player 2) each hold one weapon more than before, and the other five hold what they held: each by the count on its own phone, read once that phone showed round 4. The display's text has nothing of weapons at any phase before the end.
+[2683.0 s]   - Round 4: on its own turn the Hacker scanned Player 1 guessing Red, which is not that player’s faction. The phone then listed: "you scanned Player 1 and guessed Red. The guess was wrong."
+[2683.0 s]   - Round 4, Jail vote: the script cast no ballot. The count the server published: 7 could vote, 7 abstained or did not vote, "Nobody was sent to Jail."
+[2683.0 s]   - Round 5, during Player 4's turn: the Hacker (Player 4) submitted its one Code attempt: the four seats the Alien’s phone lists as the Code. Accepted; the phone said it is recorded and did not write it out again. Afterwards no Code attempt was offered, while a move still was, and straight after it the phone listed nothing new.
+[2683.0 s]   - Round 5: on its own turn the Hacker scanned Player 1 guessing Blue, that player’s real faction. The phone then listed: "you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code."
+[2683.0 s]   - The result, on the display and on all seven phones in the same words: "Red wins." Nobody was shown Injured, Eliminated or revealed. The display said the result once.
+[2683.0 s]   - The end reveal names a role for each of the seven seats, on the display and on every phone. Each one is the role that seat’s own phone showed its player in private at the start and still showed at the end, and the Code it lists is the one the Alien’s phone had listed. At each of the 44 phases before the end, the display’s text named no role and had nothing of weapons, the Code or a winner, and each phone named its own role and no other, apart from what its own seat is told.
+[2683.0 s]   - Every phone said the match is over, and its action card had no control left; the host console read the match as "complete". The display sent no command in the whole match.
+[2683.0 s]   - The commands the seven phones sent in the whole match, by type, each counted once: SCAN 5, SUBMIT_CODE 1, SUPPLY 1.
+[2683.0 s]   - At the end, what each device kept outside its page: each of the seven phones its sign-in, which match the tab is in and the Firebase SDK's own heartbeat record, and nothing else; in session storage the display kept mothership:connected-resume, the sign-in and the host console mothership:connected-resume, the sign-in. No role, Code, command type or target was in any of it.
+[2683.0 s]   - NOT RUN in this match: any command of a type not listed above (a move, an ordinary shot, a Disable, Protection, a Rescue, a Hack request; their registration is in the other journeys), a Captain and a release, an injured player healing, a jailing, a showdown, a draw, a player being eliminated.
+[2683.0 s] No page was loaded by anything but this script: each tab counted as many loads as the script made, and each refused the development server’s hot-reload connection.

@@ -106,7 +106,7 @@ Three things a reader of the screenshots will meet:
 ### Not run
 
 - In this match: any command of a type not listed above (a move, an ordinary shot, a Disable, Protection, a Rescue, a Hack request; their registration is in the other journeys and their resolution in none), a Captain and a release, an injured player healing, a Code attempt that is the Code, a draw.
-- What a Disable, Protection, a Rescue, a Hack or an ordinary shot resolves to. They are registered in the roles journey and followed no further anywhere.
+- What a Disable, Protection, a Rescue, a Hack or an ordinary shot resolves to: not in this slice. The slice on top of this one follows them, and a match that ends by the Code and one that ends in a draw ([connected-outcomes.md](connected-outcomes.md)).
 - A match that takes any other course: this is one match, steered.
 - Phones, people, a screen reader, a deployed project.
 
