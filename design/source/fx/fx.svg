@@ -7,9 +7,11 @@
   emphasis only. No layer here carries a word: lettering is live text.
 
   AUTHORIZED (each follows a fact the audience's own view states):
-    fx-ink-trail      a public move. Streaks above a token as it lands. It falls straight down,
-                      so it draws no route between two rooms.
-    fx-landing-puff   a public move. Dust at the floor contact as the token settles.
+    fx-ink-trail      a public move. Streaks above a piece as it comes down. They follow the
+                      piece and are no path: no route between two rooms is drawn.
+    fx-landing-puff   a public move. Dust at the floor contact as the piece settles.
+    fx-landing-burst  a public move. Paper spikes with an ink edge behind the piece as it lands,
+                      so that the landing reads on a dark wall and on a light floor alike.
     fx-panel-cap      a round transition. The leading edge of an ink panel sweep.
     fx-speed-lines    a round transition. Lines behind the round heading as it is struck.
 
@@ -18,10 +20,11 @@
 
   Each layer group carries its own paint and no transform. The wrappers lay the sheet out.
   Single-color layers are drawn in ink and exported in ink, in paper and as a tintable symbol.
+  The landing burst has two colors and is exported as it is.
 
   Palette (design tokens 0.3.0): ink #151923 · paper #F4EBDD
 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 120" width="720" height="120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 830 120" width="830" height="120">
   <defs>
     <pattern id="halftone-ink-fx-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
       <circle cx="4.5" cy="4.5" r="1.6" fill="#151923"/>
@@ -73,6 +76,23 @@
         <path d="M60 28 L240 30 L60 32 Z"/>
         <path d="M12 39 L180 42 L12 45 Z"/>
         <path d="M80 52.5 L228 54 L80 55.5 Z"/>
+      </g>
+    </g>
+    <!-- 100 x 100. The piece lands at its center. -->
+    <g transform="translate(710 0)">
+      <g id="fx-landing-burst" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round">
+        <polygon points="74.9,47.5 97.0,50.0 74.9,52.5"/>
+        <polygon points="76.4,61.9 82.9,69.0 73.5,66.9"/>
+        <polygon points="64.6,70.3 73.5,90.7 60.3,72.8"/>
+        <polygon points="52.9,78.9 50.0,88.0 47.1,78.9"/>
+        <polygon points="39.7,72.8 26.5,90.7 35.4,70.3"/>
+        <polygon points="26.5,66.9 17.1,69.0 23.6,61.9"/>
+        <polygon points="25.1,52.5 3.0,50.0 25.1,47.5"/>
+        <polygon points="23.6,38.1 17.1,31.0 26.5,33.1"/>
+        <polygon points="35.4,29.7 26.5,9.3 39.7,27.2"/>
+        <polygon points="47.1,21.1 50.0,12.0 52.9,21.1"/>
+        <polygon points="60.3,27.2 73.5,9.3 64.6,29.7"/>
+        <polygon points="73.5,33.1 82.9,31.0 76.4,38.1"/>
       </g>
     </g>
   </g>

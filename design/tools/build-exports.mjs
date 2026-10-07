@@ -21,7 +21,7 @@ const assets = await planExports({ designRoot });
 const studies = await planStudies({ designRoot });
 await rm(resolve(designRoot, 'exports'), { recursive: true, force: true });
 await rm(resolve(designRoot, 'studies'), { recursive: true, force: true });
-const tokens = JSON.parse(await readFile(resolve(repoRoot, 'packages/design-tokens/src/tokens-0.3.0.json'), 'utf8'));
+const tokens = JSON.parse(await readFile(resolve(repoRoot, 'packages/design-tokens/src/tokens-0.4.0.json'), 'utf8'));
 const generated = new Map([
   ...assets.files,
   ...studies.files,

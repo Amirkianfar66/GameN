@@ -23,7 +23,7 @@ import { reviewInputsSha256 } from './lib/inputs.mjs';
 import { startStaticServer } from './lib/static-server.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
-const tokens = JSON.parse(await readFile(resolve(repoRoot, 'packages/design-tokens/src/tokens-0.3.0.json'), 'utf8'));
+const tokens = JSON.parse(await readFile(resolve(repoRoot, 'packages/design-tokens/src/tokens-0.4.0.json'), 'utf8'));
 const modes = JSON.parse(await readFile(resolve(repoRoot, 'rules/overlays/player-modes-officer.json'), 'utf8'));
 const kit = await import(pathToFileURL(resolve(repoRoot, 'design/prototypes/js/kit.js')).href);
 const minimumTarget = tokens.interaction.minimumTargetCssPx;
@@ -38,17 +38,23 @@ const cases = [];
 for (const defaultFontPx of TEXT_SIZES) {
   const add = (width, height, query) => cases.push({ defaultFontPx, width, height, query });
   for (const width of PLAYER_WIDTHS) {
-    // The public layer: the usual seating, a jailed seat, the stress seating, a stale view, no art.
+    // The public layer: the usual seating, a jailed seat, the stress seating, nine in one room,
+    // a stale view, no art, and no seat with a name or a character yet.
     add(width, 760, 'surface=player');
     add(width, 760, 'surface=player&state=C&viewer=8');
     add(width, 760, 'surface=player&state=D&viewer=9');
+    add(width, 760, 'surface=player&state=E&viewer=3');
     add(width, 760, 'surface=player&connection=stale');
     add(width, 760, 'surface=player&art=none');
+    add(width, 760, 'surface=player&identity=none');
+    add(width, 760, 'surface=player&identity=none&art=none');
     // The open sheet in every picture of the Shot card, then the edges.
     for (const specimen of SPECIMENS) add(width, 760, `surface=player&open=1&status=${specimen}`);
     add(width, 760, 'surface=player&open=1&status=available&about=open');
     add(width, 760, 'surface=player&open=1&status=targeting&state=D&viewer=1');
     add(width, 760, 'surface=player&open=1&status=available&role=Red%20Disabler');
+    add(width, 760, 'surface=player&open=1&status=available&role=Undercover&about=open');
+    add(width, 760, 'surface=player&open=1&status=targeting&identity=none');
     add(width, 760, 'surface=player&open=1&status=registered&art=none');
   }
   // Short phones: the first screenful has to stay usable.
@@ -58,16 +64,19 @@ for (const defaultFontPx of TEXT_SIZES) {
     add(width, height, 'surface=player&open=1&status=targeting');
   }
   for (const width of TABLE_WIDTHS) {
-    for (const state of ['A', 'B', 'C', 'D']) add(width, 760, `surface=table&state=${state}`);
+    for (const state of ['A', 'B', 'C', 'D', 'E']) add(width, 760, `surface=table&state=${state}`);
     add(width, 760, 'surface=table&state=B&connection=stale');
     add(width, 760, 'surface=table&state=B&art=none');
     add(width, 760, 'surface=table&state=D&art=none');
+    add(width, 760, 'surface=table&state=C&identity=none');
+    add(width, 760, 'surface=table&state=D&identity=none');
   }
 }
 
 const measure = `(() => {
   const minimum = ${minimumTarget};
-  const roleWords = new RegExp(${JSON.stringify(`\\b(${ROLE_NAMES.join('|')}|Blue team|Red team)\\b`)}, 'i');
+  const roleWords = new RegExp(${JSON.stringify(`\\b(${ROLE_NAMES.join('|')}|Blue team|Red team|Independent)\\b`)}, 'i');
+  const smallestPiece = ${tokens.component.piece.minWidthPx};
   const viewport = document.documentElement.clientWidth;
   const height = window.innerHeight;
   const shell = document.querySelector('.ms-shell');
@@ -85,7 +94,7 @@ const measure = `(() => {
   // Nothing a person has to read or press may be cut off: not by a box that clips, and not
   // by its own box being too small for its words.
   const clipped = [];
-  const READ = '.ms-marker, .ms-seat__name, .ms-button, .ms-token, .ms-card__status, .ms-card__text, .ms-card__prompt, .ms-card__result, .ms-zone__name, .ms-zone__empty, .ms-timer__value, .ms-timer__note, .ms-phase__round, .ms-phase__label, .ms-phase__detail, .ms-banner__text, .ms-notice, .ms-role-card, .ms-role-card__name, .ms-role-card__team, .ms-target__name, .ms-target__detail, .ms-location__name, .ms-table th, .ms-table td';
+  const READ = '.ms-marker, .ms-seat__name, .ms-seat__number, .ms-button, .ms-token, .ms-card__status, .ms-card__text, .ms-card__prompt, .ms-card__result, .ms-zone__name, .ms-zone__empty, .ms-timer__value, .ms-timer__note, .ms-phase__round, .ms-phase__label, .ms-phase__detail, .ms-banner__text, .ms-notice, .ms-role-card, .ms-role-card__name, .ms-role-card__team, .ms-target__name, .ms-target__detail, .ms-location__name, .ms-table th, .ms-table td';
   for (const node of shell.querySelectorAll(READ)) {
     if (!shown(node)) continue;
     const box = node.getBoundingClientRect();
@@ -97,6 +106,10 @@ const measure = `(() => {
       if (box.bottom > frame.bottom + 1 || box.top < frame.top - 1 || box.right > frame.right + 1 || box.left < frame.left - 1) clipped.push(describe(node) + ' in ' + describe(parent));
       break;
     }
+  }
+  // A roster cell holds its own words: a name that runs into the next column covers what is there.
+  for (const cell of shell.querySelectorAll('.ms-table th, .ms-table td')) {
+    if (cell.scrollWidth > cell.clientWidth + 1) clipped.push(describe(cell) + ' "' + cell.textContent.trim().slice(0, 24) + '" holds something wider than its cell');
   }
   // A roster that has to be scrolled sideways hides status words.
   const roster = shell.querySelector('.ms-roster');
@@ -113,13 +126,22 @@ const measure = `(() => {
     if (box.width < minimum - 0.5 || box.height < minimum - 0.5) small.push(describe(node) + ' ' + Math.round(box.width) + 'x' + Math.round(box.height));
   }
 
-  // Tokens: with art, the numeral and the body are two pictures; without it, the numeral is
-  // live text that can be seen.
+  // A name that is not on a board panel is never shortened: it wraps instead.
+  for (const node of shell.querySelectorAll('.ms-seat__player')) {
+    if (!shown(node) || node.closest('.ms-board')) continue;
+    if (node.scrollWidth > node.clientWidth + 1 && getComputedStyle(node).overflowX !== 'visible') clipped.push(describe(node) + ' "' + node.textContent + '" is shortened outside the board');
+  }
+
+  // Pieces: with art, a seat with a character is one picture, its character; a seat without
+  // one is a numeral picture over a body. Without art, the numeral is live text that can be seen.
   const tokens = [];
   for (const node of shell.querySelectorAll('[data-seat] > .ms-token, [data-target-seat] > .ms-token')) {
     const style = getComputedStyle(node);
     if (art.includes('public-board')) {
-      if ((style.backgroundImage.match(/url\\("data:image/g) ?? []).length !== 2) tokens.push(describe(node.parentElement) + ' token is not a numeral over a body');
+      const pictures = (style.backgroundImage.match(/url\\("data:image/g) ?? []).length;
+      if (node.parentElement.hasAttribute('data-character')) {
+        if (pictures !== 1) tokens.push(describe(node.parentElement) + ' piece is not one picture of its character');
+      } else if (pictures !== 2) tokens.push(describe(node.parentElement) + ' token is not a numeral over a body');
     } else {
       const visible = style.color !== 'rgba(0, 0, 0, 0)' && parseFloat(style.fontSize) >= 12 && node.textContent.trim() !== '';
       if (!visible) tokens.push(describe(node.parentElement) + ' token shows no numeral');
@@ -131,6 +153,39 @@ const measure = `(() => {
     for (const node of shell.querySelectorAll('.ms-seat__name, .ms-marker')) {
       if (!shown(node) || parseFloat(getComputedStyle(node).fontSize) < 12) hiddenWords.push(describe(node) + ' "' + node.textContent + '"');
     }
+  }
+
+  // On a board panel: every piece and every tag is inside its room, no piece is under the
+  // smallest size a face can be told at, no two tags lie on each other, every tag shows its
+  // seat number whole, and a name the tag shortens is whole in the roster beside the board.
+  const board = [];
+  const touching = (a, b) => a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5;
+  for (const zone of art.includes('public-board') ? shell.querySelectorAll('.ms-board .ms-zone') : []) {
+    const room = zone.getBoundingClientRect();
+    const inside = box => box.left >= room.left - 1 && box.right <= room.right + 1 && box.top >= room.top - 1 && box.bottom <= room.bottom + 1;
+    const tags = [];
+    for (const seat of zone.querySelectorAll('.ms-seat[data-character]')) {
+      const who = describe(zone) + '[' + zone.dataset.zone + '] ' + seat.dataset.seat;
+      const piece = seat.querySelector('.ms-token').getBoundingClientRect();
+      const tag = seat.querySelector('.ms-seat__name');
+      const number = seat.querySelector('.ms-seat__number');
+      const name = seat.querySelector('.ms-seat__player');
+      if (!tag || !number || !name) { board.push(who + ' has a character and no tag'); continue; }
+      if (zone.dataset.zone === 'final-zone') continue;
+      if (piece.width < smallestPiece - 0.5) board.push(who + ' piece is ' + piece.width.toFixed(1) + ' px wide');
+      if (piece.left < room.left - 1 || piece.right > room.right + 1 || piece.bottom > room.bottom + 1) board.push(who + ' piece stands outside its room');
+      const box = tag.getBoundingClientRect();
+      if (!inside(box)) board.push(who + ' tag is outside its room');
+      const digits = number.getBoundingClientRect();
+      if (digits.width < 4 || digits.height < 8 || digits.left < box.left - 1 || digits.right > box.right + 1) board.push(who + ' tag does not show its seat number whole');
+      if (parseFloat(getComputedStyle(tag).fontSize) < 9.5) board.push(who + ' tag is set in ' + getComputedStyle(tag).fontSize);
+      if (name.scrollWidth > name.clientWidth + 1) {
+        const whole = shell.querySelector('.ms-roster tr[data-seat="' + seat.dataset.seat + '"] .ms-seat__player');
+        if (!whole || !shown(whole) || whole.textContent !== name.textContent || whole.scrollWidth > whole.clientWidth + 1) board.push(who + ' name is shortened in its tag and is not whole in the roster');
+      }
+      tags.push([who, box]);
+    }
+    for (let i = 0; i < tags.length; i += 1) for (let j = i + 1; j < tags.length; j += 1) if (touching(tags[i][1], tags[j][1])) board.push(tags[i][0] + ' tag lies on the tag of ' + tags[j][0].split(' ').at(-1));
   }
 
   // How much of the first screenful the parts that hold an edge leave to the page.
@@ -169,6 +224,8 @@ const measure = `(() => {
     clipped: clipped.slice(0, 6),
     small: small.slice(0, 6),
     tokens: tokens.slice(0, 4),
+    board: board.slice(0, 6),
+    characters: shell.querySelectorAll('[data-character]').length,
     hiddenWords: hiddenWords.slice(0, 4),
     free,
     toggleInView,
@@ -178,7 +235,7 @@ const measure = `(() => {
     privateContent: privatePanel ? privatePanel.children.length : 0,
     // Everything outside the private panel: its words, its attributes and its inline styles.
     privateHooksOutside: outside.querySelectorAll('[data-status], [data-step], [data-selected], [data-pip], [data-action], [data-target-seat], .ms-card, .ms-role-card, .ms-pip, .ms-notice').length,
-    roleWordsOutside: roleWords.test(outside.outerHTML) || /--ms-role-art|--ms-team-accent|faction/.test(outside.outerHTML),
+    roleWordsOutside: roleWords.test(outside.outerHTML) || /--ms-role-|--ms-team-accent|faction|device-/.test(outside.outerHTML),
     commandControls: shell.querySelectorAll('[data-intent^="shot/"], [data-intent="private/toggle"]').length,
   };
 })()`;
@@ -186,12 +243,14 @@ const measure = `(() => {
 const ASSERTIONS = [
   'no sideways scrolling, and nothing drawn past either side of the screen',
   'no token, name, marker, status word, caption, card line, roster cell or control cut off by a clipping box or by its own box',
-  'the table roster never wider than its panel',
+  'the table roster never wider than its panel, and no roster cell holding anything wider than itself',
   `every control at least ${minimumTarget} x ${minimumTarget} CSS px`,
-  'with art, every seat token is a numeral picture over a body picture; without art, every token shows its numeral as text and no name or marker is hidden',
+  'with art, every seat with a character is drawn as one picture of that character and every seat without one as a numeral picture over a body picture; without art, every token shows its numeral as text and no name or marker is hidden',
+  'on a board panel every piece and every tag is inside its room, no piece is under the smallest size in the tokens, no two tags lie on each other, every tag shows its seat number whole, and a name a tag shortens is whole in the roster; nowhere else is a name shortened',
+  'a page asked for without names and characters draws none, and every other page draws one for every seat',
   'with the sheet closed on a docked phone layout, at least half of the screen height is left free by the phase caption and the dock',
   'on a docked phone layout the control that opens and closes the sheet is inside the screen and on top, closed, open, and open with the cards scrolled to their end',
-  'outside the private panel: no private hook, no role or team word, no role or team style, whatever the sheet holds',
+  'outside the private panel: no private hook, no role or team word, no role or team style and no device, whatever the sheet holds',
   'nothing in the private panel while the sheet is closed',
   'no private sheet, command control, private hook or role word on the table display',
   'no page error, failed request or refused request',
@@ -228,6 +287,8 @@ try {
         if (result.clipped.length > 0) fail(`cut off: ${result.clipped.join('; ')}`);
         if (result.small.length > 0) fail(`controls under ${minimumTarget} px: ${result.small.join('; ')}`);
         if (result.tokens.length > 0) fail(`tokens: ${result.tokens.join('; ')}`);
+        if (result.board.length > 0) fail(`on the board: ${result.board.join('; ')}`);
+        if (item.query.includes('identity=none') ? result.characters > 0 : result.characters === 0) fail(`${result.characters} seats are drawn with a character, which is not what the case asked for`);
         if (result.hiddenWords.length > 0) fail(`words hidden without art: ${result.hiddenWords.join('; ')}`);
         if (result.free !== null) {
           if (result.free < leastFree.free) leastFree = { free: result.free, label };

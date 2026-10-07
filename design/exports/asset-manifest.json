@@ -1,29 +1,29 @@
 {
-  "manifestVersion": "design-0.1.0",
-  "status": "First production-direction slice for issue #4. Not a complete V1 asset set: see docs/design/asset-inventory.md for what is not produced.",
+  "manifestVersion": "design-0.2.0",
+  "status": "Second slice for issue #4: the comic board the game owner approved on 7 October 2026 (five rooms in color, nine characters, nine role devices), on top of the first slice. Not a complete V1 asset set: see docs/design/asset-inventory.md for what is not produced.",
   "generatedBy": "design/tools/build-exports.mjs from design/source/export-recipes.json. Do not edit by hand.",
-  "tokenVersion": "0.3.0",
+  "tokenVersion": "0.4.0",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "protocolVersion": 1,
-  "recipesSha256": "76d15d55e61b0bd3e24c3d2a28bedcd82a2db725562a3586826f919bafde8b2e",
+  "recipesSha256": "94a3670ff5d4373eacf73a9320798a7eace315b488c713baec0e34a44ec07412",
   "conventions": {
     "units": "SVG user units. One unit is one CSS pixel at the size given by width and height; every export scales freely.",
     "coordinates": "Anchors are in the export's own viewBox: x to the right, y down, origin at the top left.",
     "filenames": "<asset id>.<variant>.<first ten hex digits of the SHA-256 of the file>.svg. A changed file is a new name, so a file may be cached forever.",
     "text": "No export contains text. Every word on screen is live English text supplied by the client.",
     "loading": "What a device fetches must tell an observer nothing. A DOM client loads each bundle through its one stylesheet (bundles.<name>.stylesheet), before the first match view and whatever the seat's state: every variant is in it as a custom property named --ms-asset-<id>-<variant>, so nothing is fetched later. A client that fetches individual files (a scene loading textures) fetches all of a bundle or none of it, never a file because of something a view says.",
-    "scene": "Proposed for the Three.js evaluation, not measured: +Y up, floor on X/Z, one authored unit is one grid unit, a token's origin is its floor contact. Stack order and depth on the Room A layers are a starting point to tune.",
+    "scene": "Proposed for the Three.js evaluation, not measured: +Y up, floor on X/Z, one authored unit is one grid unit, a piece's origin is its floor contact. Stack order and depth on the Room A layers are a starting point to tune; the other four rooms are exported whole, and their layers can be lifted from the sources the same way.",
     "surfaces": "table is the shared display. phone-public is a phone with its private sheet closed. phone-private is inside an open private sheet. An export may be drawn only on the surfaces it lists.",
     "layers": "A data-layer attribute names the source layer a group came from. Ids are kept only on definitions."
   },
   "rights": {
     "origin": "Original vector artwork drawn for this repository as hand-written SVG. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is included or was used as a source.",
     "author": "Visual and Motion Designer workstream, issue #4: a Claude Code session (model claude-opus-5-5) working for the game owner.",
-    "created": "2026-10-06",
+    "created": "2026-10-06 and 2026-10-07",
     "license": "None granted. The repository carries no distribution license.",
     "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06).",
-    "humanArtReview": "pending"
+    "humanArtReview": "The game owner looked at the five rooms, the nine characters and the nine role devices on a working page and approved the direction on 7 October 2026 (docs/design/owner-decisions.md). No illustrator or art director has reviewed any of it, and nothing has been seen on a phone or a shared display."
   },
   "bundles": {
     "public-board": {
@@ -31,17 +31,22 @@
       "loadPolicy": "The table display and every phone. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Contains nothing that depends on a role, a faction or a private choice.",
       "connectedUse": true,
       "files": [
-        "design/exports/public-board/board-room-a.full.a1c9c5d8d8.svg",
-        "design/exports/public-board/board-room-a.layer-backwall.1de4c0805a.svg",
+        "design/exports/public-board/board-command-room.full.7c76d1a21e.svg",
+        "design/exports/public-board/board-hospital.full.aa3890aebe.svg",
+        "design/exports/public-board/board-jail.full.45001028d9.svg",
+        "design/exports/public-board/board-room-a.full.a48238d790.svg",
+        "design/exports/public-board/board-room-a.layer-backwall.4b06652f2e.svg",
         "design/exports/public-board/board-room-a.layer-edges.3a78430010.svg",
-        "design/exports/public-board/board-room-a.layer-floor.7bb82045ad.svg",
+        "design/exports/public-board/board-room-a.layer-floor.c9aadfaf28.svg",
         "design/exports/public-board/board-room-a.layer-frame.28cf64ca17.svg",
-        "design/exports/public-board/board-room-a.layer-props-back.5b9f514539.svg",
-        "design/exports/public-board/board-room-a.layer-props-front.a3901834e4.svg",
-        "design/exports/public-board/board-room-a.layer-shell.fa08b66e61.svg",
+        "design/exports/public-board/board-room-a.layer-props-back.9db4a0bab6.svg",
+        "design/exports/public-board/board-room-a.layer-props-front.f37c958e5a.svg",
+        "design/exports/public-board/board-room-a.layer-shell.730156c39a.svg",
         "design/exports/public-board/board-room-a.layer-space.9955089799.svg",
+        "design/exports/public-board/board-room-b.full.e0acb1fb24.svg",
         "design/exports/public-board/fx-ink-trail.ink.cc270211d1.svg",
         "design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg",
+        "design/exports/public-board/fx-landing-burst.paper.2d35561614.svg",
         "design/exports/public-board/fx-landing-puff.ink.67c4f9cc45.svg",
         "design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg",
         "design/exports/public-board/fx-panel-cap.ink.5bc06a9fad.svg",
@@ -50,6 +55,11 @@
         "design/exports/public-board/fx-speed-lines.paper.aaa186a7eb.svg",
         "design/exports/public-board/icon-connection-stale.ink.79da5b0856.svg",
         "design/exports/public-board/icon-connection-stale.paper.7be61bf767.svg",
+        "design/exports/public-board/icon-location.command-room.6f98a710f1.svg",
+        "design/exports/public-board/icon-location.hospital.d2cedd472a.svg",
+        "design/exports/public-board/icon-location.jail.40a7b5bf69.svg",
+        "design/exports/public-board/icon-location.room-a.144b3023ce.svg",
+        "design/exports/public-board/icon-location.room-b.45ae3fa5ba.svg",
         "design/exports/public-board/marker-captain.badge.07ce7b6cf4.svg",
         "design/exports/public-board/marker-captain.glyph.4896292e1b.svg",
         "design/exports/public-board/marker-health.eliminated-badge.8df708e5d5.svg",
@@ -70,7 +80,25 @@
         "design/exports/public-board/pattern-halftone.medium-paper.bbfb7ec350.svg",
         "design/exports/public-board/pattern-hatch.ink.33b94f3d68.svg",
         "design/exports/public-board/pattern-hatch.paper.c19c3c121e.svg",
-        "design/exports/public-board/sprite-public.0f751d4454.svg",
+        "design/exports/public-board/piece-crew.card-c1.b8ee37c22e.svg",
+        "design/exports/public-board/piece-crew.card-c2.fa486c89e9.svg",
+        "design/exports/public-board/piece-crew.card-c3.73339084a9.svg",
+        "design/exports/public-board/piece-crew.card-c4.e4067febcb.svg",
+        "design/exports/public-board/piece-crew.card-c5.0c33e38fd5.svg",
+        "design/exports/public-board/piece-crew.card-c6.1a5d90c548.svg",
+        "design/exports/public-board/piece-crew.card-c7.7ac4db8356.svg",
+        "design/exports/public-board/piece-crew.card-c8.130c29c947.svg",
+        "design/exports/public-board/piece-crew.card-c9.56a0fdbe4a.svg",
+        "design/exports/public-board/piece-crew.standee-c1.a219a3b9b3.svg",
+        "design/exports/public-board/piece-crew.standee-c2.e0362aae3f.svg",
+        "design/exports/public-board/piece-crew.standee-c3.a4554e6f59.svg",
+        "design/exports/public-board/piece-crew.standee-c4.144fa8cfcc.svg",
+        "design/exports/public-board/piece-crew.standee-c5.5c0acdaa35.svg",
+        "design/exports/public-board/piece-crew.standee-c6.530e199f02.svg",
+        "design/exports/public-board/piece-crew.standee-c7.79d878b274.svg",
+        "design/exports/public-board/piece-crew.standee-c8.b427bfe90f.svg",
+        "design/exports/public-board/piece-crew.standee-c9.4dd0ba9a76.svg",
+        "design/exports/public-board/sprite-public.ee34e6ea9c.svg",
         "design/exports/public-board/token-neutral.badge-blank.7770182f9d.svg",
         "design/exports/public-board/token-neutral.badge-eliminated-blank.4001319ef7.svg",
         "design/exports/public-board/token-neutral.badge-injured-blank.d7370f8f8c.svg",
@@ -106,12 +134,12 @@
         "design/exports/public-board/token-numeral.n8.ea15706a07.svg",
         "design/exports/public-board/token-numeral.n9.89b07caabb.svg"
       ],
-      "bytes": 96899,
+      "bytes": 226871,
       "stylesheet": {
-        "path": "design/exports/public-board/public-board.art.c5c7a0da6d.css",
-        "sha256": "c5c7a0da6d7d2918b08964d5830ef0b67fbcd4e505bb6f8a7a8da91cdd9b1884",
-        "bytes": 95672,
-        "properties": 73
+        "path": "design/exports/public-board/public-board.art.1f47b9f920.css",
+        "sha256": "1f47b9f920c4b7090891bc23c27223c56762f43508b731ae1c6a0142ace06996",
+        "bytes": 236171,
+        "properties": 101
       }
     },
     "player-ui": {
@@ -135,8 +163,8 @@
       ],
       "bytes": 7697,
       "stylesheet": {
-        "path": "design/exports/player-ui/player-ui.art.d4fa64f8db.css",
-        "sha256": "d4fa64f8db927e3e81fd305965bead8f3a9f31dcb7395f3d6f7b1e751c3b1648",
+        "path": "design/exports/player-ui/player-ui.art.fc4830756c.css",
+        "sha256": "fc4830756cfe0119d98e2a06c207aa5178bdec96d0ed8d8b98f263c1a47cdc67",
         "bytes": 6090,
         "properties": 12
       }
@@ -146,21 +174,31 @@
       "loadPolicy": "UNIFORM. Every phone, identically, before roles are shown. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Fetching one role's art by itself can disclose that role.",
       "connectedUse": true,
       "expectedRoles": ["Officer", "Insider", "Cracker", "Blue Disabler", "Supplier", "Undercover", "Hacker", "Red Disabler", "Alien"],
-      "producedRoles": ["Officer"],
-      "files": ["design/exports/roles/card-officer.art.0a13a67c6b.svg"],
-      "bytes": 6907,
+      "producedRoles": ["Officer", "Insider", "Cracker", "Blue Disabler", "Supplier", "Undercover", "Hacker", "Red Disabler", "Alien"],
+      "files": [
+        "design/exports/roles/device-alien.held.63a0609fbd.svg",
+        "design/exports/roles/device-blue-disabler.held.d31e0ca8b7.svg",
+        "design/exports/roles/device-cracker.held.bbb6dc87a8.svg",
+        "design/exports/roles/device-hacker.held.de106a4fc3.svg",
+        "design/exports/roles/device-insider.held.a1ee17deeb.svg",
+        "design/exports/roles/device-officer.held.b2050837cc.svg",
+        "design/exports/roles/device-red-disabler.held.c72bccd5e5.svg",
+        "design/exports/roles/device-supplier.held.d3b15d7502.svg",
+        "design/exports/roles/device-undercover.held.7e6afbf356.svg"
+      ],
+      "bytes": 22301,
       "stylesheet": {
-        "path": "design/exports/roles/roles.art.24d16d21b7.css",
-        "sha256": "24d16d21b718855d76b9bfc514fb166459c672b6f7098c4518e6d7cfe7dc21a4",
-        "bytes": 8039,
-        "properties": 1
+        "path": "design/exports/roles/roles.art.14e56b5e3e.css",
+        "sha256": "14e56b5e3eaa713c6003dbe1092b40585b1ced17d658bcc7ccfd0587cf43a995",
+        "bytes": 25212,
+        "properties": 9
       }
     }
   },
   "assets": [
     {
       "id": "board-room-a",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "title": "Room A vignette",
       "status": "finished",
       "bundle": "public-board",
@@ -170,22 +208,22 @@
       "sources": [
         {
           "path": "design/source/board/board-room-a.svg",
-          "sha256": "19578d9266c6a89f45d496f50eb8f8ec832fd3c57f9d480639238968e4d531fc"
+          "sha256": "4aefa9a06bf1045a7cce5ad509df72f2b0c89b42d46dd0d1cfee3f2ee9b4de47"
         }
       ],
       "variants": [
         {
           "variant": "full",
-          "path": "design/exports/public-board/board-room-a.full.a1c9c5d8d8.svg",
-          "sha256": "a1c9c5d8d8a0e3f5d7481a329bf69d28608e6c3d797c7046fee7e665f1055351",
+          "path": "design/exports/public-board/board-room-a.full.a48238d790.svg",
+          "sha256": "a48238d7904986792b1120af1d97537f7f89fa0601d3dadb669dd754ae6775fb",
           "bytes": 14717,
           "format": "svg",
           "width": 1024,
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
-          "colors": ["#10141C", "#151923", "#222B3A", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "allowedPalette": "location-room-a",
+          "colors": ["#10141C", "#14243F", "#151923", "#1D3D6B", "#2D609E", "#5C92CC", "#A9CAEB", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
             "captionTopLeft": [34, 32],
@@ -196,19 +234,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           }
         },
@@ -222,7 +253,7 @@
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
+          "allowedPalette": "location-room-a",
           "colors": ["#10141C", "#151923", "#CBBBA2", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
@@ -234,19 +265,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -256,16 +280,16 @@
         },
         {
           "variant": "layer-backwall",
-          "path": "design/exports/public-board/board-room-a.layer-backwall.1de4c0805a.svg",
-          "sha256": "1de4c0805a29bd146ea41e9e369102e5eb1f16ad1423c8a8a920e77a1e05a2ac",
+          "path": "design/exports/public-board/board-room-a.layer-backwall.4b06652f2e.svg",
+          "sha256": "4b06652f2ea44e00dae72d1c5b63512ed13009272b7bea91de456ef0ac9534bf",
           "bytes": 5863,
           "format": "svg",
           "width": 1024,
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
-          "colors": ["#10141C", "#151923", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#F4EBDD"],
+          "allowedPalette": "location-room-a",
+          "colors": ["#10141C", "#151923", "#1D3D6B", "#2D609E", "#5C92CC", "#A9CAEB", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
             "captionTopLeft": [34, 32],
@@ -276,19 +300,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -298,16 +315,16 @@
         },
         {
           "variant": "layer-shell",
-          "path": "design/exports/public-board/board-room-a.layer-shell.fa08b66e61.svg",
-          "sha256": "fa08b66e6178784c637c5d6e8fbdd1f0b8d7e2410287256430c0b7ff6e39048b",
+          "path": "design/exports/public-board/board-room-a.layer-shell.730156c39a.svg",
+          "sha256": "730156c39ab3a924db3510586e60d5b5cb3378054ab988a6b5290f0922226b79",
           "bytes": 1666,
           "format": "svg",
           "width": 1024,
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
-          "colors": ["#151923", "#222B3A", "#34415A", "#55657E", "#E3D6C2", "#F4EBDD"],
+          "allowedPalette": "location-room-a",
+          "colors": ["#14243F", "#151923", "#1D3D6B", "#2D609E", "#E3D6C2", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
             "captionTopLeft": [34, 32],
@@ -318,19 +335,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -340,16 +350,16 @@
         },
         {
           "variant": "layer-floor",
-          "path": "design/exports/public-board/board-room-a.layer-floor.7bb82045ad.svg",
-          "sha256": "7bb82045addc1fbf21a8035de96df389cf6df71600e2550be181598e5f1d56ae",
+          "path": "design/exports/public-board/board-room-a.layer-floor.c9aadfaf28.svg",
+          "sha256": "c9aadfaf28b89ef34986f6e04ffd1ad94ebe87152b8b9449d8078bf59fb0c10e",
           "bytes": 2352,
           "format": "svg",
           "width": 1024,
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
-          "colors": ["#151923", "#55657E", "#8696AE", "#E3D6C2", "#F4EBDD"],
+          "allowedPalette": "location-room-a",
+          "colors": ["#151923", "#2D609E", "#5C92CC", "#E3D6C2", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
             "captionTopLeft": [34, 32],
@@ -360,19 +370,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -390,7 +393,7 @@
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
+          "allowedPalette": "location-room-a",
           "colors": ["#151923"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
@@ -402,19 +405,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -424,16 +420,16 @@
         },
         {
           "variant": "layer-props-back",
-          "path": "design/exports/public-board/board-room-a.layer-props-back.5b9f514539.svg",
-          "sha256": "5b9f5145394bd372e4be40cf47a2a5393ef79b0696e7dce8ca78778caf6c467d",
+          "path": "design/exports/public-board/board-room-a.layer-props-back.9db4a0bab6.svg",
+          "sha256": "9db4a0bab6ab6f616ae434f933b2645b19e893525b9ffc3b88abca6e80bfdc56",
           "bytes": 2465,
           "format": "svg",
           "width": 1024,
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
-          "colors": ["#151923", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "allowedPalette": "location-room-a",
+          "colors": ["#151923", "#A9CAEB", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
             "captionTopLeft": [34, 32],
@@ -444,19 +440,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -466,16 +455,16 @@
         },
         {
           "variant": "layer-props-front",
-          "path": "design/exports/public-board/board-room-a.layer-props-front.a3901834e4.svg",
-          "sha256": "a3901834e4e91ead2a90829027a088a4fff61effef8ad00b14cd35709ce80b1d",
+          "path": "design/exports/public-board/board-room-a.layer-props-front.f37c958e5a.svg",
+          "sha256": "f37c958e5a1557b631f73726ea2a2c042a14cc811eac187ae551cfc6d1079b3a",
           "bytes": 1551,
           "format": "svg",
           "width": 1024,
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
-          "colors": ["#151923", "#8696AE", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "allowedPalette": "location-room-a",
+          "colors": ["#151923", "#5C92CC", "#A9CAEB", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
             "captionTopLeft": [34, 32],
@@ -486,19 +475,12 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
@@ -517,7 +499,7 @@
           "height": 768,
           "viewBox": "0 0 1024 768",
           "surfaces": ["table", "phone-public", "phone-private"],
-          "allowedPalette": "public",
+          "allowedPalette": "location-room-a",
           "colors": ["#151923"],
           "anchors": {
             "panelBox": [20, 20, 984, 728],
@@ -529,24 +511,189 @@
               "nearRight": [808, 649],
               "nearLeft": [216, 649]
             },
-            "tokenLayout": {
-              "note": "A suggested reflow for one to nine tokens. It is not a capacity and no slot is drawn. A position is the standee's origin (its floor contact).",
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
               "centerX": 512,
-              "standeeScale": 1.45,
-              "spacing": 148,
-              "near": {
-                "y": 649
-              },
-              "far": {
-                "y": 475
-              },
-              "rows": "Up to five tokens stand in the near row. Six stand 3 and 3, seven 4 near and 3 far, eight 4 and 4, nine 5 near and 4 far.",
-              "perspective": "The reference page draws both rows at one size. A scene with a camera may draw the far row smaller; that is the renderer's choice."
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
             }
           },
           "stack": {
             "order": 8,
             "depth": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "board-room-b",
+      "version": "0.1.0",
+      "title": "Room B vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Shown for the location named Room B. Which seats stand in it comes from seats[].location.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/board/board-room-b.svg",
+          "sha256": "3b1a326ad2aa43ae4836b061bd848b3c334b4d80fff05d35014761a9cc773779"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "full",
+          "path": "design/exports/public-board/board-room-b.full.e0acb1fb24.svg",
+          "sha256": "e0acb1fb244cee4ba588aa56edbb280dcdcd308d28003a53172c734136d7e1ef",
+          "bytes": 14722,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "location-room-b",
+          "colors": ["#10141C", "#151923", "#2A1446", "#4B2079", "#7A3CAD", "#AE6CD3", "#DCB6EE", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+              "centerX": 512,
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "board-command-room",
+      "version": "0.1.0",
+      "title": "Command Room vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Shown for the location named Command Room. Which seats stand in it comes from seats[].location.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/board/board-command-room.svg",
+          "sha256": "2dcc4f78fd0726507db62d8a7df18a4da7cb15e26630af4ef483217d94c08eb2"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "full",
+          "path": "design/exports/public-board/board-command-room.full.7c76d1a21e.svg",
+          "sha256": "7c76d1a21ea852545d4ed080cce64002011237de1392ec7c12809f76d872560a",
+          "bytes": 13247,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "location-command-room",
+          "colors": ["#10141C", "#151923", "#40300A", "#7A5A0C", "#C4950F", "#CBBBA2", "#E3D6C2", "#EFC62F", "#F4EBDD", "#F9E48C"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+              "centerX": 512,
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "board-hospital",
+      "version": "0.1.0",
+      "title": "Hospital vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Shown for the location named Hospital. Which seats stand in it comes from seats[].location.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/board/board-hospital.svg",
+          "sha256": "5a9923f6ad1459acb7e96a454d686cf9a7fb6211639d5c4dd40e288300966657"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "full",
+          "path": "design/exports/public-board/board-hospital.full.aa3890aebe.svg",
+          "sha256": "aa3890aebe47f644d5aa1d6e99cbef5d0657de551305fbb6b580fb15cbfafd47",
+          "bytes": 13026,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "location-hospital",
+          "colors": ["#0E3A3A", "#10141C", "#151923", "#155B58", "#1F8A80", "#57BBA8", "#A6DFD0", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+              "centerX": 512,
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "board-jail",
+      "version": "0.1.0",
+      "title": "Jail vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Shown for the location named Jail. Which seats stand in it comes from seats[].location.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/board/board-jail.svg",
+          "sha256": "89469cc13f2b9b144e67c7b429da962eafcf4c10d3588d1d841faa697436dc5f"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "full",
+          "path": "design/exports/public-board/board-jail.full.45001028d9.svg",
+          "sha256": "45001028d979d6ea5981e733f0ce0f35a9ada7d8488737dfc796d80ae7423cc7",
+          "bytes": 10984,
+          "format": "svg",
+          "width": 1024,
+          "height": 768,
+          "viewBox": "0 0 1024 768",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "location-jail",
+          "colors": ["#10141C", "#151923", "#45100F", "#7E1B19", "#BE2D26", "#E3D6C2", "#E85C44", "#F4EBDD", "#F6A78F"],
+          "anchors": {
+            "panelBox": [20, 20, 984, 728],
+            "captionTopLeft": [34, 32],
+            "captionMaxWidth": 240,
+            "pieceRow": {
+              "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+              "centerX": 512,
+              "pieceWidthMaxShare": 0.2,
+              "stepMaxPieceWidths": 1.9,
+              "tagRowsWhenFourOrMore": 2
+            }
           }
         }
       ]
@@ -1285,6 +1432,465 @@
       ]
     },
     {
+      "id": "piece-crew",
+      "version": "0.1.0",
+      "title": "Crew character playing piece",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "PROPOSED FACT, not in any contract yet (DSN-REQ-6): the character a seat's player chose before roles were dealt. Public, and the same on every screen. Never a role, a team, a health state or anything private. A seat with no character is drawn as token-neutral.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/crew/crew-1.svg",
+          "sha256": "433488505425dad9c1727c1f5a19d4db71bc7ad424b183a332cfb47b6b098685"
+        },
+        {
+          "path": "design/source/crew/crew-2.svg",
+          "sha256": "2416060f39636370f9dacea291f6f0815af7044efa8a62fdb55d7898ec089315"
+        },
+        {
+          "path": "design/source/crew/crew-3.svg",
+          "sha256": "dcd1a277375fd509b206be2c04e360be061f935a61a74301ba12632088ae719e"
+        },
+        {
+          "path": "design/source/crew/crew-4.svg",
+          "sha256": "46613bc35dc86ab5862cd80232af56ef427fba937cfe3352905831f38e94f31e"
+        },
+        {
+          "path": "design/source/crew/crew-5.svg",
+          "sha256": "c9a59569c0acdfdf8f1edc4a7852830c689bf44acd97173de11771ac02e7e6bd"
+        },
+        {
+          "path": "design/source/crew/crew-6.svg",
+          "sha256": "67880bbd25cd6678298abe09a9f5897f546274d72cbf321ae62ec6ff044cf201"
+        },
+        {
+          "path": "design/source/crew/crew-7.svg",
+          "sha256": "efe43fe20ea3e5f7bc4f8cfac2364260d7025f7dece4ba229323cb01b0512dbd"
+        },
+        {
+          "path": "design/source/crew/crew-8.svg",
+          "sha256": "7a683660d4b757e3c5b7b52272ea62a881af46a1d9e75786d50bff84fae69e14"
+        },
+        {
+          "path": "design/source/crew/crew-9.svg",
+          "sha256": "d6f4201c4f6c90eb100027041be612626ad561100ba3b1bedd74c390ebd818bf"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "standee-c1",
+          "path": "design/exports/public-board/piece-crew.standee-c1.a219a3b9b3.svg",
+          "sha256": "a219a3b9b3a919b86e6a416c5478f5b631a9615f7662c3b6a8a713c6e9e7ca86",
+          "bytes": 4812,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#34415A", "#55657E", "#7A4B2E", "#8696AE", "#B45A16", "#B9C4D3", "#C6CDD4", "#EE8B3A", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c2",
+          "path": "design/exports/public-board/piece-crew.standee-c2.e0362aae3f.svg",
+          "sha256": "e0362aae3f0d6c5d85a5b6dc4ed7fe76459d78df958b6b6839ae09ab063ea351",
+          "bytes": 4386,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": [
+            "#151923",
+            "#34415A",
+            "#55657E",
+            "#8696AE",
+            "#B98F12",
+            "#B9C4D3",
+            "#C4622D",
+            "#C6CDD4",
+            "#F2CDB0",
+            "#F3CB3F",
+            "#F4EBDD"
+          ],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c3",
+          "path": "design/exports/public-board/piece-crew.standee-c3.a4554e6f59.svg",
+          "sha256": "a4554e6f596aceaf6c11e2e2e90877996dcc74e86cbbda6f8cc784bc2dd9aa13",
+          "bytes": 4520,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": [
+            "#151923",
+            "#34415A",
+            "#3B2A22",
+            "#55657E",
+            "#6F8E22",
+            "#8696AE",
+            "#AFCF4E",
+            "#B97A52",
+            "#B9C4D3",
+            "#C6CDD4",
+            "#F4EBDD"
+          ],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c4",
+          "path": "design/exports/public-board/piece-crew.standee-c4.144fa8cfcc.svg",
+          "sha256": "144fa8cfcc9feec830ae5cfd331bc771c8b58539095d9f1078f1de9c741ea290",
+          "bytes": 4293,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#256F40", "#34415A", "#45A866", "#55657E", "#8696AE", "#B9C4D3", "#C6CDD4", "#C99468", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c5",
+          "path": "design/exports/public-board/piece-crew.standee-c5.5c0acdaa35.svg",
+          "sha256": "5c0acdaa35e5b13a2a58f5a03922e88b8d64f599843b59e0b92d8884d0f81aa0",
+          "bytes": 4811,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": [
+            "#151923",
+            "#177168",
+            "#33ADA2",
+            "#34415A",
+            "#55657E",
+            "#8696AE",
+            "#B9C4D3",
+            "#C6CDD4",
+            "#CBBBA2",
+            "#F4D9C6",
+            "#F4EBDD"
+          ],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c6",
+          "path": "design/exports/public-board/piece-crew.standee-c6.530e199f02.svg",
+          "sha256": "530e199f02bc3025e5f31e2c31b9d312705a4bbfdf3cab282ef8e65ebfdd057d",
+          "bytes": 4328,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#34415A", "#55657E", "#8696AE", "#B5447A", "#B9C4D3", "#C6CDD4", "#EBC49F", "#EE7FAE", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c7",
+          "path": "design/exports/public-board/piece-crew.standee-c7.79d878b274.svg",
+          "sha256": "79d878b2741cd44725dbdec63a07f3fe05d94dc06e7fac717f421de11245e05b",
+          "bytes": 4733,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": [
+            "#151923",
+            "#222B3A",
+            "#34415A",
+            "#55657E",
+            "#5E3B22",
+            "#6B4A32",
+            "#8696AE",
+            "#9A6A47",
+            "#B9C4D3",
+            "#C6CDD4",
+            "#D9A679",
+            "#F4EBDD"
+          ],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c8",
+          "path": "design/exports/public-board/piece-crew.standee-c8.b427bfe90f.svg",
+          "sha256": "b427bfe90fd2edd65fb9e07a5adafccbf78e0b56fc101a19ec958b142f673101",
+          "bytes": 4167,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#34415A", "#55657E", "#8696AE", "#8E7B5E", "#B9C4D3", "#C6CDD4", "#C98E63", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "standee-c9",
+          "path": "design/exports/public-board/piece-crew.standee-c9.4dd0ba9a76.svg",
+          "sha256": "4dd0ba9a767cec119a889ba093af252d1be57825cde408e08cd0f62e30f34160",
+          "bytes": 4503,
+          "format": "svg",
+          "width": 96,
+          "height": 120,
+          "viewBox": "0 0 96 120",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#1C212B", "#34415A", "#39404E", "#55657E", "#5E3A24", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "origin": [48, 104],
+            "tagTop": [48, 116],
+            "markerSlots": {
+              "turn": [48, -2],
+              "captain": [78, 18],
+              "health": [78, 70],
+              "jail": [18, 70]
+            }
+          }
+        },
+        {
+          "variant": "card-c1",
+          "path": "design/exports/public-board/piece-crew.card-c1.b8ee37c22e.svg",
+          "sha256": "b8ee37c22e0c7a6dd91a29c9bd020fc9722cd250451cc3e6088bb186061d4acd",
+          "bytes": 4068,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#55657E", "#7A4B2E", "#B45A16", "#C6CDD4", "#EE8B3A", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c2",
+          "path": "design/exports/public-board/piece-crew.card-c2.fa486c89e9.svg",
+          "sha256": "fa486c89e988a380cf187559e37d6737e32fd05eb4e3936345587584086b9c09",
+          "bytes": 3642,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#B98F12", "#C4622D", "#C6CDD4", "#F2CDB0", "#F3CB3F", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c3",
+          "path": "design/exports/public-board/piece-crew.card-c3.73339084a9.svg",
+          "sha256": "73339084a9ea5138b757e6be8af7e50a4957c53cc35a7d6b370730c1bffe12ef",
+          "bytes": 3776,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#3B2A22", "#6F8E22", "#8696AE", "#AFCF4E", "#B97A52", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c4",
+          "path": "design/exports/public-board/piece-crew.card-c4.e4067febcb.svg",
+          "sha256": "e4067febcb9f71d1bac5444674293d4be53eb96167412e144c9d8877c7afb35e",
+          "bytes": 3549,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#256F40", "#45A866", "#8696AE", "#C6CDD4", "#C99468", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c5",
+          "path": "design/exports/public-board/piece-crew.card-c5.0c33e38fd5.svg",
+          "sha256": "0c33e38fd5ff564277910c8d6a6d8fd6a248a6aa29f2313a777ad62b28e2b36b",
+          "bytes": 4067,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#177168", "#33ADA2", "#C6CDD4", "#CBBBA2", "#F4D9C6", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c6",
+          "path": "design/exports/public-board/piece-crew.card-c6.1a5d90c548.svg",
+          "sha256": "1a5d90c548d78d2cacbf1f2a03e62e9f0d648774c31f338ec40f163a32306148",
+          "bytes": 3584,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#55657E", "#8696AE", "#B5447A", "#C6CDD4", "#EBC49F", "#EE7FAE", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c7",
+          "path": "design/exports/public-board/piece-crew.card-c7.7ac4db8356.svg",
+          "sha256": "7ac4db8356585bb39820c73d7f6fc1f71eab0c9e4b45896bea56ac62c37ee275",
+          "bytes": 3989,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#222B3A", "#5E3B22", "#6B4A32", "#9A6A47", "#B9C4D3", "#C6CDD4", "#D9A679", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c8",
+          "path": "design/exports/public-board/piece-crew.card-c8.130c29c947.svg",
+          "sha256": "130c29c947e54d398669f3c216138e3440d347bec2583537314ba814411b68fb",
+          "bytes": 3423,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#55657E", "#8E7B5E", "#B9C4D3", "#C6CDD4", "#C98E63", "#E3D6C2", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        },
+        {
+          "variant": "card-c9",
+          "path": "design/exports/public-board/piece-crew.card-c9.56a0fdbe4a.svg",
+          "sha256": "56a0fdbe4a8df22b3f9530112398ece8946f9515d53343440b2cb7da39b2f27d",
+          "bytes": 3759,
+          "format": "svg",
+          "width": 84,
+          "height": 96,
+          "viewBox": "8 0 84 96",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "crew",
+          "colors": ["#151923", "#1C212B", "#39404E", "#55657E", "#5E3A24", "#8696AE", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [48, 38]
+          }
+        }
+      ]
+    },
+    {
       "id": "token-emphasis",
       "version": "0.1.0",
       "title": "Private token emphasis: rings and the dimmed token",
@@ -1667,7 +2273,7 @@
       "sources": [
         {
           "path": "design/source/fx/fx.svg",
-          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+          "sha256": "09c4ff51a645c16f384fadf588b26586758436711f33898a7f5660f0d369d79e"
         }
       ],
       "variants": [
@@ -1719,7 +2325,7 @@
       "sources": [
         {
           "path": "design/source/fx/fx.svg",
-          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+          "sha256": "09c4ff51a645c16f384fadf588b26586758436711f33898a7f5660f0d369d79e"
         }
       ],
       "variants": [
@@ -1760,6 +2366,41 @@
       ]
     },
     {
+      "id": "fx-landing-burst",
+      "version": "0.1.0",
+      "title": "Public move: landing burst",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "A public-move cue, as fx-ink-trail.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/fx/fx.svg",
+          "sha256": "09c4ff51a645c16f384fadf588b26586758436711f33898a7f5660f0d369d79e"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "paper",
+          "path": "design/exports/public-board/fx-landing-burst.paper.2d35561614.svg",
+          "sha256": "2d35561614b57af63bf3ded0a79ac57650322c05014fcf41d02d36c701c0acc3",
+          "bytes": 791,
+          "format": "svg",
+          "width": 100,
+          "height": 100,
+          "viewBox": "0 0 100 100",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923", "#F4EBDD"],
+          "anchors": {
+            "center": [50, 50],
+            "alignTo": "Its center sits a little above the piece's floor contact, behind the piece."
+          }
+        }
+      ]
+    },
+    {
       "id": "fx-panel-cap",
       "version": "0.1.0",
       "title": "Round transition: panel sweep edge",
@@ -1771,7 +2412,7 @@
       "sources": [
         {
           "path": "design/source/fx/fx.svg",
-          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+          "sha256": "09c4ff51a645c16f384fadf588b26586758436711f33898a7f5660f0d369d79e"
         }
       ],
       "variants": [
@@ -1825,7 +2466,7 @@
       "sources": [
         {
           "path": "design/source/fx/fx.svg",
-          "sha256": "bc2b069fcdb4587b7b8684931dca26e11bb9ff61c7a0b8576c91c9e97de90017"
+          "sha256": "09c4ff51a645c16f384fadf588b26586758436711f33898a7f5660f0d369d79e"
         }
       ],
       "variants": [
@@ -2194,6 +2835,104 @@
       ]
     },
     {
+      "id": "icon-location",
+      "version": "0.1.0",
+      "title": "Room caption icon",
+      "status": "finished",
+      "bundle": "public-board",
+      "audience": "public",
+      "dataSource": "Beside a location's name in its caption. One per location; decoration, because the name is always there as live text.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/board/room-icons.svg",
+          "sha256": "7dba618065bf3734de47fbaea163d51eebaf3693a12bd15dd84a80351180acbd"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "room-a",
+          "path": "design/exports/public-board/icon-location.room-a.144b3023ce.svg",
+          "sha256": "144b3023ce1aef4d7d4e0e2f5501845fb2bace6791cd450f103588ed47bfd837",
+          "bytes": 324,
+          "format": "svg",
+          "width": 24,
+          "height": 24,
+          "viewBox": "0 0 24 24",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [12, 12]
+          }
+        },
+        {
+          "variant": "room-b",
+          "path": "design/exports/public-board/icon-location.room-b.45ae3fa5ba.svg",
+          "sha256": "45ae3fa5ba9d7e7b5bc7ea4de0745c28929eec80856848b8a889b8b2f9fcd576",
+          "bytes": 361,
+          "format": "svg",
+          "width": 24,
+          "height": 24,
+          "viewBox": "0 0 24 24",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [12, 12]
+          }
+        },
+        {
+          "variant": "command-room",
+          "path": "design/exports/public-board/icon-location.command-room.6f98a710f1.svg",
+          "sha256": "6f98a710f1b76cf10e4aadbb1360bd76cec649794da1c44708645647c0fbe655",
+          "bytes": 297,
+          "format": "svg",
+          "width": 24,
+          "height": 24,
+          "viewBox": "0 0 24 24",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [12, 12]
+          }
+        },
+        {
+          "variant": "hospital",
+          "path": "design/exports/public-board/icon-location.hospital.d2cedd472a.svg",
+          "sha256": "d2cedd472aaeaa7d1571f665b4c78b38b6bd161f703865516c907d2c47115181",
+          "bytes": 180,
+          "format": "svg",
+          "width": 24,
+          "height": 24,
+          "viewBox": "0 0 24 24",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [12, 12]
+          }
+        },
+        {
+          "variant": "jail",
+          "path": "design/exports/public-board/icon-location.jail.40a7b5bf69.svg",
+          "sha256": "40a7b5bf691e134348ccddecea77c40dc305058c49775d0fbe8bed6905317125",
+          "bytes": 276,
+          "format": "svg",
+          "width": 24,
+          "height": 24,
+          "viewBox": "0 0 24 24",
+          "surfaces": ["table", "phone-public", "phone-private"],
+          "allowedPalette": "public",
+          "colors": ["#151923"],
+          "anchors": {
+            "center": [12, 12]
+          }
+        }
+      ]
+    },
+    {
       "id": "pip-resource",
       "version": "0.1.0",
       "title": "Resource pip",
@@ -2260,37 +2999,316 @@
       ]
     },
     {
-      "id": "card-officer",
+      "id": "device-officer",
       "version": "0.1.0",
-      "title": "Officer role illustration",
+      "title": "Officer role device",
       "status": "finished",
       "bundle": "roles",
       "audience": "player",
-      "dataSource": "PRIVATE. The player view's self.role is Officer. Shown only inside that seat's open private sheet.",
+      "dataSource": "PRIVATE. The player view's self.role is Officer. Drawn over the player's own character, only inside that seat's open private sheet. One ordinary shot: a sidearm with one cell.",
       "containsText": false,
       "sources": [
         {
-          "path": "design/source/cards/card-officer.svg",
-          "sha256": "46369def51feddb642ea68b58f4d8742d1ad6b389536f80de21659eaebc80c95"
+          "path": "design/source/devices/device-officer.svg",
+          "sha256": "40bcc751d9df99d9e298fc16b80608a75f594762f45ab41ada8906516cbc6351"
         }
       ],
       "variants": [
         {
-          "variant": "art",
-          "path": "design/exports/roles/card-officer.art.0a13a67c6b.svg",
-          "sha256": "0a13a67c6b864de73e640eea9f12a9099f0beef5457f5c8d99523f47187a3e3f",
-          "bytes": 6907,
+          "variant": "held",
+          "path": "design/exports/roles/device-officer.held.b2050837cc.svg",
+          "sha256": "b2050837ccec420372b87296680436a0b6491d3acee1101df63643f4157def09",
+          "bytes": 2736,
           "format": "svg",
-          "width": 500,
-          "height": 700,
-          "viewBox": "0 0 500 700",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
           "surfaces": ["phone-private"],
           "allowedPalette": "private-blue",
-          "colors": ["#151923", "#222B3A", "#34415A", "#55657E", "#70AFFF", "#8696AE", "#B9C4D3", "#CBBBA2", "#E3D6C2", "#F4EBDD"],
+          "colors": ["#151923", "#34415A", "#55657E", "#70AFFF", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD"],
           "anchors": {
-            "aspect": "5:7",
-            "focus": [250, 318],
-            "safeArea": [24, 24, 452, 652]
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-insider",
+      "version": "0.1.0",
+      "title": "Insider role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Insider. Drawn over the player's own character, only inside that seat's open private sheet. Knows three roles as a set: a slate with three marks that are alike.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-insider.svg",
+          "sha256": "9521c1d98d3504474082a2ba8e3b877b55f660dc0cf7ff75ddf26cf5d87f203c"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-insider.held.a1ee17deeb.svg",
+          "sha256": "a1ee17deebd88c3ff7dda59ed28c180e10a53d34bc901b114640bde822be1de8",
+          "bytes": 2375,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-blue",
+          "colors": ["#151923", "#222B3A", "#34415A", "#70AFFF", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-cracker",
+      "version": "0.1.0",
+      "title": "Cracker role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Cracker. Drawn over the player's own character, only inside that seat's open private sheet. Two rescues: an injector with two vials.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-cracker.svg",
+          "sha256": "51c41641c5dd0cfb2f4b617210f84e02cf43eff0d5db51e2901674477e1cefb0"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-cracker.held.bbb6dc87a8.svg",
+          "sha256": "bbb6dc87a8edef4d659ee414d348dd267ef3dc6e0ebd3cfed26eeb5113dbafde",
+          "bytes": 2977,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-blue",
+          "colors": ["#151923", "#222B3A", "#34415A", "#55657E", "#70AFFF", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-blue-disabler",
+      "version": "0.1.0",
+      "title": "Blue Disabler role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Blue Disabler. Drawn over the player's own character, only inside that seat's open private sheet. One Disable: a prod with one charge ring.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-blue-disabler.svg",
+          "sha256": "ca553cd84068b263738240ea277e44c0aaf543f22d4525ebb3bb51e32591071b"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-blue-disabler.held.d31e0ca8b7.svg",
+          "sha256": "d31e0ca8b753ca8d721cc39eee98eeabcc25bd8235b15293d39f1107d789bf64",
+          "bytes": 2350,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-blue",
+          "colors": ["#151923", "#34415A", "#70AFFF", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-supplier",
+      "version": "0.1.0",
+      "title": "Supplier role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Supplier. Drawn over the player's own character, only inside that seat's open private sheet. Two recipients: a carrier with two cells.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-supplier.svg",
+          "sha256": "a67dced1958a4107894ea0c5acfea9a7c16a0a3fa4496eeaeeaf767f1cb64e5d"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-supplier.held.d3b15d7502.svg",
+          "sha256": "d3b15d7502ed5593c3bc69e00cf70f3789fabf2af8881fb4c4a9ebce51763c92",
+          "bytes": 2459,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-blue",
+          "colors": ["#151923", "#34415A", "#55657E", "#70AFFF", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-undercover",
+      "version": "0.1.0",
+      "title": "Undercover role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Undercover. Drawn over the player's own character, only inside that seat's open private sheet. Protection: an emitter under a dome.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-undercover.svg",
+          "sha256": "4b51ae51a3d2ed4cd00d39e2dd553c42b60f353ff96d389afb18b571db241751"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-undercover.held.7e6afbf356.svg",
+          "sha256": "7e6afbf356e6ceeca5976cb527e2f8d99367e5de0938e0d3ea2640afe874a168",
+          "bytes": 2349,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-red",
+          "colors": ["#151923", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD", "#FF8C8C"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-hacker",
+      "version": "0.1.0",
+      "title": "Hacker role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Hacker. Drawn over the player's own character, only inside that seat's open private sheet. Scanning for four: a scanner with four slots.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-hacker.svg",
+          "sha256": "afa223ef3d61205ea654bc0aa8128d1c20e6856a621b5ed28b8eb2b18dea3f0d"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-hacker.held.de106a4fc3.svg",
+          "sha256": "de106a4fc34ecdbe453746c1ced4bf790f812e055f47fb462ab8ff9d88d8ec59",
+          "bytes": 2648,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-red",
+          "colors": ["#151923", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD", "#FF8C8C"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-red-disabler",
+      "version": "0.1.0",
+      "title": "Red Disabler role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Red Disabler. Drawn over the player's own character, only inside that seat's open private sheet. One Disable: a prod with one charge ring.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-red-disabler.svg",
+          "sha256": "a510effc7c2a2f0edb8e9c3092ca47d2d34677525d768b64a923481e4c173662"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-red-disabler.held.c72bccd5e5.svg",
+          "sha256": "c72bccd5e560ca797f759db3ce46a3f8c8c5cb9e992ddd7666fea7c3c51e3306",
+          "bytes": 2342,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-red",
+          "colors": ["#151923", "#34415A", "#8696AE", "#B9C4D3", "#C6CDD4", "#F4EBDD", "#FF8C8C"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-alien",
+      "version": "0.1.0",
+      "title": "Alien role device",
+      "status": "finished",
+      "bundle": "roles",
+      "audience": "player",
+      "dataSource": "PRIVATE. The player view's self.role is Alien. Drawn over the player's own character, only inside that seat's open private sheet. Holds the Code: a stone with four nodes.",
+      "containsText": false,
+      "sources": [
+        {
+          "path": "design/source/devices/device-alien.svg",
+          "sha256": "6dbd30092df5c3b01af4270537d6787d170f4a87387bb46e0e610089c134ee6c"
+        }
+      ],
+      "variants": [
+        {
+          "variant": "held",
+          "path": "design/exports/roles/device-alien.held.63a0609fbd.svg",
+          "sha256": "63a0609fbd15f09b3847ac1c987fe4b42ee3396240800d867c9faf2fdadd3342",
+          "bytes": 2065,
+          "format": "svg",
+          "width": 120,
+          "height": 140,
+          "viewBox": "0 0 120 140",
+          "surfaces": ["phone-private"],
+          "allowedPalette": "private-alien",
+          "colors": ["#151923", "#B9C4D3", "#C4A4FF", "#C6CDD4", "#F4EBDD"],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [78, 104]
           }
         }
       ]
@@ -2299,16 +3317,16 @@
   "sprites": [
     {
       "id": "sprite-public",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "title": "Public symbol sprite",
       "status": "finished",
       "bundle": "public-board",
       "audience": "public",
       "dataSource": "The same symbols as the standalone public exports, for inline use with <use>.",
       "allowedPalette": "public-with-accent",
-      "path": "design/exports/public-board/sprite-public.0f751d4454.svg",
-      "sha256": "0f751d4454c33d12765a1c27e23cf358bd153af22df768ccfee1fe1c35f4221d",
-      "bytes": 14102,
+      "path": "design/exports/public-board/sprite-public.ee34e6ea9c.svg",
+      "sha256": "ee34e6ea9cf755ade3bec87aa27411b3e03c7e3ffe6a80ff628dbf160d61c60b",
+      "bytes": 15456,
       "format": "svg-sprite",
       "use": "Inline the file into the document once, then reference a symbol with <svg><use href=\"#<symbol>\"/></svg>. Tintable symbols take the CSS color of the element that uses them.",
       "symbols": [
@@ -2543,6 +3561,51 @@
           "viewBox": "0 0 32 32",
           "width": 32,
           "height": 32,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-location-room-a",
+          "from": "icon-location:room-a",
+          "viewBox": "0 0 24 24",
+          "width": 24,
+          "height": 24,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-location-room-b",
+          "from": "icon-location:room-b",
+          "viewBox": "0 0 24 24",
+          "width": 24,
+          "height": 24,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-location-command-room",
+          "from": "icon-location:command-room",
+          "viewBox": "0 0 24 24",
+          "width": 24,
+          "height": 24,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-location-hospital",
+          "from": "icon-location:hospital",
+          "viewBox": "0 0 24 24",
+          "width": 24,
+          "height": 24,
+          "tintable": true,
+          "surfaces": ["table", "phone-public", "phone-private"]
+        },
+        {
+          "symbol": "icon-location-jail",
+          "from": "icon-location:jail",
+          "viewBox": "0 0 24 24",
+          "width": 24,
+          "height": 24,
           "tintable": true,
           "surfaces": ["table", "phone-public", "phone-private"]
         }

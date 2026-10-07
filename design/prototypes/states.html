@@ -30,11 +30,11 @@
 <body class="review">
 <main class="review-page" id="page"></main>
 <script type="module">
-  // State sheets: ?sheet=cards | tokens | controls     (&art=none: the same sheet without art)
+  // State sheets: ?sheet=cards | tokens | roles | controls     (&art=none: the same sheet without art)
   import { ASSET_MANIFEST_VERSION, ASSETS } from './js/asset-index.js';
   import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
   import { roomPanel } from './js/cue-stages.js';
-  import { h, loadProposedCopy, markersEl, phaseEl, privateAreaEl, seatEl, settle, shotCardEl, SHOT_SPECIMENS, SHOT_SPECIMEN_NOTES, STATE_OPENING, STATE_VARIED } from './js/kit.js';
+  import { h, loadProposedCopy, markersEl, phaseEl, privateAreaEl, roleCardEl, seatEl, settle, shotCardEl, SHOT_SPECIMENS, SHOT_SPECIMEN_NOTES, STATE_OPENING, STATE_VARIED } from './js/kit.js';
   import { en } from './js/copy.js';
 
   window.__designReady = false;
@@ -52,7 +52,7 @@
     h('header', { class: 'review-head' },
       h('h1', null, title),
       h('span', { class: 'review-synthetic' }, 'Synthetic · not a match'),
-      h('p', { class: 'review-meta' }, `Design tokens 0.3.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · desktop Chrome render, not a device measurement`),
+      h('p', { class: 'review-meta' }, `Design tokens 0.4.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · desktop Chrome render, not a device measurement`),
     ),
     h('p', { class: 'review-note' }, note),
   );
@@ -83,41 +83,57 @@
   }
 
   if (sheet === 'tokens') {
-    head('Token, markers and resource pips',
-      'The public token is one shape for every seat and role. Health changes its outline as well as its labeled marker. The rows marked “as drawn” are the reference stylesheet at work; the rest are the exported files themselves.');
+    head('Playing pieces, tags, markers and resource pips',
+      'A piece is the character its player chose, with a tag that carries the seat number and the player’s name: two PROPOSED public facts, in no contract yet (DSN-REQ-6). A seat without them keeps the numbered token of the first slice, shown beside each. A piece is the same for every role. The rows marked “as drawn” are the reference stylesheet at work; the rest are the exported files themselves. The names and the pairing of seat and character are synthetic.');
     const img = (key, width) => h('img', { class: 'token-art', alt: '', src: asset(key), width });
     const sizes = (key, list) => h('div', { class: 'stage-row' }, list.map(width => img(key, width)));
     const person = (n, health, extra = {}) => ({ n, location: 'Room A', health, jailed: false, captain: false, ...extra });
-    const list = (seats, state = { activeSeat: 0 }) => h('ul', { class: 'ms-seats stage-list' }, seats.map(seat => seatEl(seat, state, null)));
+    const NAMED = { activeSeat: 0 };
+    const UNNAMED = { activeSeat: 0, identity: false };
+    const list = (seats, state = NAMED) => h('ul', { class: 'ms-seats stage-list' }, seats.map(seat => seatEl(seat, state, null)));
 
-    page.append(section('Public token · badge, as drawn', 'lists and controls'));
+    page.append(section('In a row, as drawn · a seat with a character and a name', 'lists and controls · PROPOSED facts'));
     const drawn = h('div', { class: 'review-grid sheet-tokens' });
     drawn.append(
-      cell(stage('panel', shell('player', {}, list([person(3, 'Healthy')]))), 'Idle', 'seats[].health = Healthy.', 'public'),
-      cell(stage('panel', shell('player', {}, list([person(7, 'Injured')]))), 'Injured', 'seats[].health = Injured. Cracked rim and a patch; never red.', 'public'),
-      cell(stage('panel', shell('player', {}, list([person(9, 'Eliminated')]))), 'Eliminated', 'seats[].health = Eliminated. Flat, hollow, dashed, no shadow.', 'public'),
-      cell(stage('panel', shell('player', {}, list([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy'))))), 'Numerals 1 to 9', 'One numeral picture laid over one body. 6 and 9 carry a baseline bar.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(3, 'Healthy')]))), 'Healthy', 'The character’s card, then the tag: the seat number in a chip and the name.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(7, 'Injured')]))), 'Injured', 'seats[].health = Injured. The marker says so. A character is not given a wound.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(9, 'Eliminated')]))), 'Eliminated', 'seats[].health = Eliminated. The character loses its color; the marker says the word.', 'public'),
+      cell(stage('panel', shell('player', {}, list([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy'))))), 'Nine seats, nine characters', 'Which seat has which character is the players’ own choice. Here it is synthetic.', 'public'),
     );
     page.append(drawn);
 
-    page.append(section('Public token · standee, as drawn', 'the board'));
+    page.append(section('In a row, as drawn · a seat with neither', 'what every seat is today'));
+    const plain = h('div', { class: 'review-grid sheet-tokens' });
+    plain.append(
+      cell(stage('panel', shell('player', {}, list([person(3, 'Healthy')], UNNAMED))), 'Idle', 'seats[].health = Healthy.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(7, 'Injured')], UNNAMED))), 'Injured', 'Cracked rim and a patch; never red.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(9, 'Eliminated')], UNNAMED))), 'Eliminated', 'Flat, hollow, dashed, no shadow.', 'public'),
+      cell(stage('panel', shell('player', {}, list([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy')), UNNAMED))), 'Numerals 1 to 9', 'One numeral picture laid over one body. 6 and 9 carry a baseline bar.', 'public'),
+    );
+    page.append(plain);
+
+    page.append(section('On the board, as drawn', 'a room panel of the table display'));
     const room = h('div', { class: 'review-grid sheet-tokens' });
-    const roomOf = seats => {
-      const { root } = roomPanel({}, seats, { activeSeat: 4 });
+    const roomOf = (seats, state = { activeSeat: 4 }, zone = ['Room A', 'room-a']) => {
+      const { root } = roomPanel({}, seats, state, zone);
       root.classList.add('stage-room');
       root.style.minBlockSize = '0';
       return root;
     };
     room.append(
       cell(stage('', roomOf(STATE_VARIED.seats.filter(seat => seat.location === 'Room A'))), 'Healthy, Injured, Eliminated, and the active Captain',
-        'Each standee is the same numeral over the body its public health calls for. Badges ride on it: turn above, Captain top right, health lower right, Jail lower left.', 'public'),
-      cell(stage('', roomOf([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy')))), 'Nine in one room', 'Five near, four far. No slot is drawn on the floor.', 'public'),
+        'Each piece is its seat’s character with its tag under it. Badges ride on the piece: turn above, Captain top right, health lower right, Jail lower left.', 'public'),
+      cell(stage('', roomOf([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy')), { activeSeat: 4 }, ['Room B', 'room-b'])), 'Nine in one room', 'All nine stand side by side, smaller, and every second tag hangs a line lower. No slot is drawn on the floor.', 'public'),
+      cell(stage('', roomOf([2, 5].map(n => person(n, 'Healthy')), { activeSeat: 0, names: ['', 'Maximiliane', '', '', 'Wwwwwwwwwwww'] }, ['Hospital', 'hospital'])), 'The longest names', 'Twelve characters. A name wider than its tag is shortened here, and only here; the number never is. The roster beside the board carries it whole.', 'public'),
+      cell(stage('', roomOf(STATE_VARIED.seats.filter(seat => seat.location === 'Room A'), { activeSeat: 4, identity: false })), 'Seats with neither a character nor a name', 'The numbered standee: the same numeral over the body its public health calls for. Their words are in the roster.', 'public'),
     );
     page.append(room);
 
-    page.append(section('Public token · the exported files', 'one texture each, for a renderer that wants one'));
+    page.append(section('The exported files', 'one texture each, for a renderer that wants one'));
     const badges = h('div', { class: 'review-grid sheet-tokens' });
     badges.append(
+      cell(stage('paper', sizes('piece-crew:standee-c4', [120, 72, 48, 24])), 'Character standee', 'Origin at the floor contact. Nine, one per character.', 'public'),
+      cell(stage('', sizes('piece-crew:card-c4', [96, 56, 40])), 'Character card', 'The piece without its stand, for a row.', 'public'),
       cell(stage('', sizes('token-neutral:badge-n3', [100, 56, 45, 35])), 'Badge', '80, 45, 36 and 28 px body.', 'public'),
       cell(stage('paper', sizes('token-neutral:badge-n3', [100, 56, 45, 35])), 'Badge on paper', 'The same file inside a paper card.', 'public'),
       cell(stage('paper', sizes('token-neutral:standee-n4', [120, 72, 48])), 'Standee', 'Origin at the floor contact.', 'public'),
@@ -164,6 +180,27 @@
       ['spent', 'Spent · drawn by no state yet', 'No field says “spent” in protocol 1 (DSN-D02), so no status of the card draws this pip.'],
     ]) pips.append(cell(stage('paper', h('img', { alt: '', src: asset(`pip-resource:${pip}`), width: 108 })), title, source, 'private'));
     page.append(pips);
+  }
+
+  if (sheet === 'roles') {
+    head('Role card · all nine roles',
+      'PRIVATE: inside a player’s own open private sheet only. A role is a device added to the player’s own character. The card is compact, so that the actions stay in reach and a device in its team’s color is not large on screen every time the sheet is opened; “About this role” shows the picture large with the proposed lines. Every line that states a rule cites its rule source in design/contract/copy.en.proposed.json, and all of it is PROPOSED, for Frontend and the game owner to review. The character differs from card to card only to show that any of the nine may hold any device.');
+    page.append(section('Compact · as the sheet opens', 'private'));
+    const compact = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, 300px)' });
+    const ROLES = Object.keys(copy.roleCard);
+    ROLES.forEach((role, index) => compact.append(cell(stage('panel', privately({}, roleCardEl({ role, copy, person: `c${index + 1}` }))), role, copy.roleCard[role].team, 'private')));
+    page.append(compact);
+    page.append(section('Opened · “About this role”', 'private · the proposed lines'));
+    const opened = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, 300px)' });
+    ROLES.forEach((role, index) => opened.append(cell(stage('panel', privately({}, roleCardEl({ role, copy, person: `c${index + 1}`, expanded: true }))), role, `${copy.roleCard[role].sources.length} rule sources cited`, 'private')));
+    page.append(opened);
+    page.append(section('Without a character, and before the role bundle has arrived', 'private'));
+    const edges = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, 300px)' });
+    edges.append(
+      cell(stage('panel', privately({}, roleCardEl({ role: 'Supplier', copy, person: null }))), 'A seat with no character', 'The device alone on the card’s ground.', 'private'),
+      cell(stage('panel', privately({}, roleCardEl({ role: 'Supplier', copy: null }))), 'Name only', 'As Frontend draws the card today.', 'private'),
+    );
+    page.append(edges);
   }
 
   if (sheet === 'controls') {

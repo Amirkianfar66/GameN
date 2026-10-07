@@ -18,7 +18,7 @@ import { planDocs } from './lib/docs.mjs';
 import { BUNDLE_SURFACES, DEV_ONLY_SENTINEL, dataUri, planExports, planStudies, reviewPageIndex } from './lib/exports.mjs';
 import { reviewInputsSha256 } from './lib/inputs.mjs';
 import { attr, colors, parseSvg, problemsIn, walk } from './lib/svg.mjs';
-import { tokenPaletteModule, tokenStylesheet, tokenVariables } from './lib/token-css.mjs';
+import { MOTION_VARIABLES, ROOM_ZONES, tokenPaletteModule, tokenStylesheet, tokenVariables } from './lib/token-css.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const designRoot = resolve(repoRoot, 'design');
@@ -37,7 +37,8 @@ async function filesUnder(path) {
   return entries.filter(entry => entry.isFile()).map(entry => `${entry.parentPath ?? entry.path}/${entry.name}`.replace(`${repoRoot}/`, '')).sort();
 }
 
-const tokens = await json('packages/design-tokens/src/tokens-0.3.0.json');
+const tokens = await json('packages/design-tokens/src/tokens-0.4.0.json');
+const previousTokens = await json('packages/design-tokens/src/tokens-0.3.0.json');
 const pinnedTokens = await json('packages/design-tokens/src/tokens.json');
 const { files: planned, manifest, recipes } = await planExports({ designRoot });
 const { files: plannedStudies, manifest: studyPlan } = await planStudies({ designRoot });
@@ -49,6 +50,7 @@ const studyContract = await json('design/contract/synthetic-studies.json');
 const callouts = await json('design/contract/layout-callouts.json');
 const plannedAssets = await json('design/contract/planned-assets.json');
 const copy = await json('design/contract/copy.en.proposed.json');
+const crewCatalog = await json('design/contract/crew-catalog.json');
 const ruleManifestSha = sha256(await readFile(resolve(repoRoot, 'rules/source-manifest.json')));
 const modes = await json('rules/overlays/player-modes-officer.json');
 const kit = await import(pathToFileURL(resolve(designRoot, 'prototypes/js/kit.js')).href);
@@ -174,13 +176,21 @@ const hasPublicSurface = variant => variant.surfaces.some(isPublicSurface);
 // ---------- Palette: public art uses the public palette and nothing else ----------
 const palette = (() => {
   const upper = value => value.toUpperCase();
-  const publicColors = [tokens.color.canvas, tokens.color.panel, tokens.color.paper, tokens.color.ink, tokens.color.publicToken, tokens.color.paperShade, tokens.color.paperDeep, ...Object.values(tokens.color.steel)].map(upper);
+  // Ink, paper and the dark of space: what every public picture shares, whatever its room.
+  const shared = [tokens.color.canvas, tokens.color.panel, tokens.color.paper, tokens.color.ink, tokens.color.publicToken, tokens.color.paperShade, tokens.color.paperDeep].map(upper);
+  const publicColors = [...shared, ...Object.values(tokens.color.steel).map(upper)];
   const accent = [tokens.color.interactiveAccent, tokens.color.focusRing].map(upper);
   const faction = Object.fromEntries(Object.entries(tokens.color.factionPrivateOrRevealed).map(([name, value]) => [name, upper(value)]));
+  const crew = [...Object.values(tokens.color.crew).flatMap(parts => Object.values(parts)), ...Object.values(tokens.color.crewHair)].map(upper);
   return {
     public: new Set(publicColors),
     'public-with-accent': new Set([...publicColors, ...accent]),
-    'private-blue': new Set([...publicColors, faction.blue]),
+    // A room is printed in its own family and holds no steel and no other room's color.
+    ...Object.fromEntries(Object.entries(ROOM_ZONES).map(([key, zone]) => [`location-${zone}`, new Set([...shared, ...Object.values(tokens.color.room[key]).map(upper)])])),
+    // A character: the public tones, its own field, accent and skin, and the hair colors.
+    crew: new Set([...publicColors, ...crew]),
+    // A role's device: the public tones and its own team's accent, never another team's.
+    ...Object.fromEntries(Object.entries(faction).map(([name, value]) => [`private-${name}`, new Set([...publicColors, value])])),
     faction: new Set(Object.values(faction)),
     accent: new Set(accent),
   };
@@ -208,6 +218,32 @@ const palette = (() => {
   }
   for (const study of studiesOnDisk.studies) for (const variant of study.variants) {
     for (const color of colors(parseSvg(await text(variant.path), variant.path))) if (!palette.public.has(color)) problems.push(`${study.id}: ${color} is not in the public palette`);
+  }
+  // A room is drawn in steel and printed in its family by its recipe. The swap is the
+  // token family, tone for tone, and nothing else: so the tokens are the one place a
+  // room's colors are decided, and a room cannot be given another room's.
+  for (const [key, zone] of Object.entries(ROOM_ZONES)) {
+    const recipe = recipes.assets.find(asset => asset.id === `board-${zone}`);
+    if (!recipe) {
+      problems.push(`board-${zone}: no vignette for a location the tokens give a color family`);
+      continue;
+    }
+    const expected = Object.fromEntries(Object.keys(tokens.color.steel).map(tone => [tokens.color.steel[tone], tokens.color.room[key][tone]]));
+    if (JSON.stringify(recipe.common?.recolor) !== JSON.stringify(expected)) problems.push(`board-${zone}: its recipe does not print it in color.room.${key}, tone for tone`);
+    if (recipe.allowedPalette !== `location-${zone}`) problems.push(`board-${zone}: its palette is ${recipe.allowedPalette}, not location-${zone}`);
+    if (recipe.variants.some(variant => variant.recolor)) problems.push(`board-${zone}: a variant printed in colors of its own`);
+  }
+  // A character's picture holds its own three colors and none of another character's.
+  for (const asset of onDisk.assets.filter(candidate => candidate.id === 'piece-crew')) {
+    for (const variant of asset.variants) {
+      const id = variant.variant.split('-').at(-1);
+      const own = new Set(Object.values(tokens.color.crew[id] ?? {}).map(value => value.toUpperCase()));
+      const others = new Set(Object.entries(tokens.color.crew).filter(([name]) => name !== id).flatMap(([, parts]) => Object.values(parts)).map(value => value.toUpperCase()));
+      if (own.size === 0) problems.push(`piece-crew:${variant.variant}: no character ${id} in color.crew`);
+      // The cream of c8 is also the paper shade; a shared public tone is not another character's color.
+      for (const color of variant.colors) if (others.has(color) && !own.has(color) && !palette.public.has(color)) problems.push(`piece-crew:${variant.variant}: ${color} is another character's color`);
+      for (const color of own) if (!variant.colors.includes(color)) problems.push(`piece-crew:${variant.variant}: does not use ${color}, which color.crew.${id} lists`);
+    }
   }
   check('every color is in the palette its asset is allowed', problems);
 }
@@ -352,7 +388,9 @@ const PRIVATE_HOOK = /\.ms-(?:cards|card|pip|role-card|targets|target|actions|no
 const PRIVATE_ELEMENT = PRIVATE_HOOK;
 const NAMED_COLOR = /\b(black|white|red|green|blue|yellow|orange|purple|violet|pink|brown|gray|grey|silver|gold|navy|teal|cyan|magenta|maroon|olive|lime|aqua|fuchsia|beige|ivory|khaki|coral|crimson|indigo|tan|salmon)\b/i;
 const SYSTEM_COLOR = /\b(Canvas|CanvasText|Highlight|HighlightText|ButtonFace|ButtonText|LinkText|GrayText|Field|FieldText)\b/;
-const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team-accent', '--cue-at', '--cue-play']);
+// What the client sets itself: the room an open sheet leaves above it, the three pictures and
+// the swatch of the role card (inside the sheet), a cue's clock, and where a carried piece stood.
+const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-person', '--ms-role-device', '--ms-team-accent', '--cue-at', '--cue-play', '--cue-from-x', '--cue-from-y']);
 {
   const problems = [];
   const sheets = {};
@@ -441,6 +479,7 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
 // ---------- The motion contract ----------
 {
   const problems = [];
+  const cueSheet = parseStylesheet(await text('design/prototypes/css/cues.css'), 'cues.css');
   for (const cue of cues.cues) {
     const total = tokens.motionMs[cue.durationToken];
     if (total === undefined) problems.push(`${cue.id}: no motion token "${cue.durationToken}"`);
@@ -450,9 +489,17 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
     const beats = tokens.motionBeatsMs[cue.durationToken];
     if (!beats || JSON.stringify(beats) !== JSON.stringify(cue.beatsMs)) problems.push(`${cue.id}: beats differ from the token file`);
     if (cue.durationMs > tokens.motionMs.comicBeatMaximum) problems.push(`${cue.id}: longer than the longest beat the tokens allow`);
-    const [a, b, c] = cue.storyboardFramesMs;
-    if (!(a >= 0 && a <= b && b <= c && c === cue.durationMs)) problems.push(`${cue.id}: storyboard frames must rise to the full duration`);
+    const frames = cue.storyboardFramesMs;
+    if (!(Array.isArray(frames) && frames.length >= 3 && frames[0] >= 0 && frames.every((at, index) => index === 0 || at >= frames[index - 1]) && frames.at(-1) === cue.durationMs)) problems.push(`${cue.id}: storyboard frames must be three or more, rising to the full duration`);
     for (const name of Object.values(cue.easing)) if (!tokens.motionEasing[name]) problems.push(`${cue.id}: no easing token "${name}"`);
+    // The stylesheet plays the cue for the time the contract states: some rule that answers
+    // to this cue's data-cue value lasts exactly its own duration token.
+    if (!cue.dataCue || (cue.frontendCue !== null && cue.dataCue !== cue.frontendCue)) problems.push(`${cue.id}: dataCue must be the value the stylesheet answers to, and the director's own kind where there is one`);
+    else {
+      const variable = MOTION_VARIABLES[cue.durationToken];
+      const played = cueSheet.rules.some(rule => rule.selectors.some(selector => selector.includes(`[data-cue="${cue.dataCue}"]`)) && rule.declarations.some(([property, value]) => property === 'animation-duration' && value === `var(${variable})`));
+      if (!variable || !played) problems.push(`${cue.id}: no rule in cues.css plays [data-cue="${cue.dataCue}"] for motionMs.${cue.durationToken}`);
+    }
     for (const field of ['title', 'audience', 'authorizedBy', 'belongsTo', 'says', 'reducedMotion', 'reducedEffects', 'audio', 'fallback']) if (!cue[field]) problems.push(`${cue.id}: no ${field}`);
     if (cue.frontendCue !== null && !cues.directorVocabulary.includes(cue.frontendCue)) problems.push(`${cue.id}: "${cue.frontendCue}" is not a cue the director issues`);
     else if (cue.frontendCue === null && cue.audienceTag !== 'local') problems.push(`${cue.id}: a cue with no director kind must be local input`);
@@ -464,14 +511,14 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
   if (tokens.motionBeatsMs.publicImpact) problems.push('motionBeatsMs.publicImpact would give the synthetic studies a token of their own');
   // Cue freshness: when a cue may start and what may withdraw it. The numbers are proposals;
   // what is held here is that they exist, that they are not looser than Frontend's own
-  // provisional values, and that the contract does not let a view as a whole own a cue.
+  // values, and that the contract does not let a view as a whole own a cue.
   const fresh = cues.freshness;
   if (!fresh) problems.push('the motion contract says nothing about cue freshness');
   else {
     for (const field of ['status', 'answers', 'belonging', 'starting', 'lateness', 'preference', 'together', 'cap', 'kinds', 'accepted', 'notMeasured']) if (typeof fresh[field] !== 'string' || fresh[field].trim() === '') problems.push(`freshness: no ${field}`);
     for (const field of ['leaves', 'neverLeavesBecause']) if (!Array.isArray(fresh[field]) || fresh[field].length === 0) problems.push(`freshness: no ${field}`);
-    if (!(fresh.startWithinMs > 0 && fresh.startWithinMs <= fresh.frontendProvisional?.lifetimeMs)) problems.push('freshness.startWithinMs must be positive and no longer than the frame lifetime Frontend holds a cue for');
-    if (!(fresh.eventLatenessMs > 0 && fresh.eventLatenessMs <= fresh.frontendProvisional?.maxLatenessMs)) problems.push('freshness.eventLatenessMs must be positive and no looser than Frontend\'s provisional lateness');
+    if (!(fresh.startWithinMs > 0 && fresh.startWithinMs <= fresh.frontend?.lifetimeMs)) problems.push('freshness.startWithinMs must be positive and no longer than the frame lifetime Frontend holds a cue for');
+    if (!(fresh.eventLatenessMs > 0 && fresh.eventLatenessMs <= fresh.frontend?.maxLatenessMs)) problems.push('freshness.eventLatenessMs must be positive and no looser than the lateness Frontend\'s director uses');
     if (!(Number.isInteger(fresh.maxSeatDropsPerView) && fresh.maxSeatDropsPerView >= 1 && fresh.maxSeatDropsPerView <= 9)) problems.push('freshness.maxSeatDropsPerView must be a whole number of seats from 1 to 9');
     if (!/no public fact/i.test((fresh.neverLeavesBecause ?? []).join(' '))) problems.push('freshness.neverLeavesBecause must say that an update which changes no public fact withdraws no public cue');
   }
@@ -558,6 +605,36 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
   check('component, state and layout contracts are complete and agree with the review kit', problems);
 }
 
+// ---------- The crew catalog ----------
+// What Integration's identity record can refer to. It names nine characters the public
+// bundle really holds, in the tokens' own colors, and says nothing of a role.
+{
+  const problems = [];
+  const piece = onDisk.assets.find(asset => asset.id === 'piece-crew');
+  const ids = crewCatalog.characters.map(character => character.id);
+  if (JSON.stringify(ids) !== JSON.stringify(Object.keys(tokens.color.crew))) problems.push('its characters are not the nine of color.crew, in order');
+  if (new Set(ids).size !== ids.length || ids.some(id => !new RegExp(crewCatalog.idPattern).test(id))) problems.push('a character id is repeated or does not match idPattern');
+  if (crewCatalog.assetManifestVersion !== onDisk.manifestVersion || crewCatalog.tokenVersion !== tokens.version) problems.push('it pins another asset manifest or token version');
+  if (crewCatalog.nameMaxLength !== tokens.component.seatTag.nameMaxLength) problems.push('nameMaxLength differs from component.seatTag.nameMaxLength in the tokens');
+  if (!piece || piece.bundle !== 'public-board') problems.push('piece-crew is not an asset of the public bundle');
+  for (const character of crewCatalog.characters) {
+    for (const [field, expected] of [['standee', `piece-crew:standee-${character.id}`], ['card', `piece-crew:card-${character.id}`], ['colors', `color.crew.${character.id}`]]) {
+      if (character[field] !== expected) problems.push(`${character.id}: ${field} is ${character[field]}, not ${expected}`);
+    }
+    for (const variant of [`standee-${character.id}`, `card-${character.id}`]) {
+      const found = piece?.variants.find(candidate => candidate.variant === variant);
+      if (!found) problems.push(`${character.id}: the manifest holds no piece-crew:${variant}`);
+      else if (!found.surfaces.includes('table') || !found.surfaces.includes('phone-public')) problems.push(`${character.id}: piece-crew:${variant} may not be drawn publicly`);
+    }
+    if (copy.character?.callSigns?.[character.id] !== character.callSign) problems.push(`${character.id}: its call sign differs from the proposed copy`);
+  }
+  // Nothing in it may name a role or a team as a property of a character.
+  const said = JSON.stringify({ ...crewCatalog, rules: undefined, dependencies: undefined, $comment: undefined });
+  for (const role of ROLE_NAMES) if (new RegExp(`\\b${role}\\b`, 'i').test(said)) problems.push(`it names the role ${role}`);
+  if (/"(role|team|faction)"\s*:/i.test(said)) problems.push('a character is given a role, a team or a faction');
+  check('the crew catalog names the nine characters the public bundle holds, and nothing of a role', problems);
+}
+
 // ---------- Proposed copy cites real rule sources ----------
 {
   const problems = [];
@@ -571,8 +648,23 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
       for (const part of pointer.split('/').filter(Boolean)) value = value?.[part];
       if (value === undefined) problems.push(`${role}: ${reference} does not resolve`);
     }
-    if (/identif|guess/i.test(`${words.summary} ${words.limit}`)) problems.push(`${role}: the copy mentions the archived identification step`);
+    const lines = `${words.summary} ${words.limit} ${words.also ?? ''}`;
+    // Identifying a player for a shot is archived. The one guess the rule sources keep is the
+    // Hacker's Scan, and a card may name it only where it cites that source.
+    const citesScanGuess = words.sources.includes('rules/sources/v2.1-decisions.json#/roles/Hacker/scan/input/1');
+    if (/identif/i.test(lines) || (/guess/i.test(lines) && !citesScanGuess)) problems.push(`${role}: the copy mentions the archived identification step`);
+    for (const field of ['name', 'team', 'more', 'summary', 'limit']) if (typeof words[field] !== 'string' || words[field].trim() === '') problems.push(`${role}: no ${field}`);
+    if (words.name !== role) problems.push(`${role}: the card is named "${words.name}"`);
+    // A card says what a role has and may do. It never says how something turned out.
+    if (/\b(you (hit|killed|blocked)|was blocked|succeeded|failed)\b/i.test(lines)) problems.push(`${role}: the copy states an outcome`);
   }
+  for (const role of ROLE_NAMES) if (!copy.roleCard[role]) problems.push(`${role}: no proposed card`);
+  // The team on a card is the role's own, from the rule source.
+  const teamOf = role => (modes.modes['9'].blue_roles.includes(role) ? 'Blue team' : modes.modes['9'].red_roles.includes(role) ? 'Red team' : 'Independent');
+  for (const [role, words] of Object.entries(copy.roleCard)) if (ROLE_NAMES.includes(role) && words.team !== teamOf(role)) problems.push(`${role}: the card says "${words.team}", and the rule source puts the role on ${teamOf(role)}`);
+  // The review kit draws a tag with the words the proposed copy gives it, and a call sign names no role.
+  if (copy.seatTag?.numberPrefix !== kit.SEAT_TAG.numberPrefix || copy.seatTag?.separator !== kit.SEAT_TAG.separator) problems.push('seatTag differs from what the review kit draws a tag with');
+  for (const [id, sign] of Object.entries(copy.character?.callSigns ?? {})) if (roleWords.test(sign)) problems.push(`the call sign of ${id} names a role`);
   for (const [key, value] of Object.entries(copy.resourcePip)) if (key !== 'note' && roleWords.test(value)) problems.push(`resourcePip.${key} names a role`);
   for (const value of Object.values(copy.privateHandle)) if (roleWords.test(value)) problems.push('the private handle names a role');
   check('proposed copy cites rule sources that exist', problems);
@@ -592,12 +684,35 @@ const CLIENT_SET = new Set(['--ms-phase-block-size', '--ms-role-art', '--ms-team
     } else if (path !== 'tokens.version' && before !== after) problems.push(`${path}: ${JSON.stringify(before)} became ${JSON.stringify(after)}`);
   })(pinnedTokens, tokens, 'tokens');
   if (sha256(await readFile(resolve(repoRoot, 'packages/design-tokens/src/tokens.json'))) !== sha256(await readFile(resolve(repoRoot, 'docs/design/design-tokens.json')))) problems.push('the pinned 0.2.0 token export no longer matches its source');
+  // Over 0.3.0, which was a proposal and never the pinned file, 0.4.0 may also change an
+  // entry: but only one it lists in revisedFrom030, with what it was and why. An entry
+  // changed and not listed, or listed with the wrong old value, is refused.
+  const revised = new Map((tokens.revisedFrom030 ?? []).map(entry => [`tokens.${entry.path}`, entry]));
+  const seen = new Set();
+  (function compare(before, after, path) {
+    const listed = revised.get(path);
+    if (listed) {
+      seen.add(path);
+      if (JSON.stringify(listed.was) !== JSON.stringify(before)) problems.push(`${path}: revisedFrom030 says it was something 0.3.0 does not hold`);
+      if (JSON.stringify(before) === JSON.stringify(after)) problems.push(`${path}: listed as revised and not changed`);
+      if (!listed.because) problems.push(`${path}: revised without a reason`);
+      return;
+    }
+    if (Array.isArray(before)) before.forEach((item, index) => compare(item, after?.[index], `${path}[${index}]`));
+    else if (before !== null && typeof before === 'object') {
+      for (const [key, value] of Object.entries(before)) {
+        if (after?.[key] === undefined) problems.push(`${path}.${key}: in 0.3.0 and removed from 0.4.0`);
+        else compare(value, after[key], `${path}.${key}`);
+      }
+    } else if (!['tokens.version', 'tokens.supersedes', 'tokens.compatibility'].includes(path) && before !== after) problems.push(`${path}: ${JSON.stringify(before)} in 0.3.0 became ${JSON.stringify(after)} and is not listed in revisedFrom030`);
+  })(previousTokens, tokens, 'tokens');
+  for (const path of revised.keys()) if (!seen.has(path)) problems.push(`${path}: listed in revisedFrom030 and not an entry of 0.3.0`);
   // The lock update is requested by hash, so the hash written in the request must be the file's.
   const request = await text('docs/design/integration-requests.md').catch(() => '');
-  for (const path of ['packages/design-tokens/src/tokens-0.3.0.json', 'docs/design/design-tokens.json']) {
+  for (const path of ['packages/design-tokens/src/tokens-0.4.0.json', 'docs/design/design-tokens.json']) {
     if (!request.includes(sha256(await readFile(resolve(repoRoot, path))))) problems.push(`docs/design/integration-requests.md does not quote the current SHA-256 of ${path}`);
   }
-  check('tokens 0.3.0 only add to the pinned 0.2.0', problems);
+  check('tokens 0.4.0 only add to the pinned 0.2.0, and change in 0.3.0 only what they list', problems);
 }
 
 // ---------- Generated documents, review images and browser reports ----------

@@ -21,10 +21,10 @@ Frames: First screenful, 360 CSS px wide.
 | 3 | Seat identity | `identity-title` | audience.seatId. A seat number is public. |
 | 4 | Phase caption | `phase-strip` | round, phase.kind, activeSeatId. Cue anchor: phase. |
 | 5 | Countdown | `phase-timer` | phase.endsAt with server time. A local estimate; never a cue anchor. |
-| 6 | Room vignette strip (PROPOSED) | `location-art` | The viewer's own seats[].location, a public fact. Decoration: hidden from assistive technology; the caption says the name. |
-| 7 | Room name caption | `location-caption` | The viewer's own seats[].location, as live text. |
+| 6 | Room vignette strip (PROPOSED) | `location-art` | The viewer's own seats[].location, a public fact, in the room's own colors. Decoration: hidden from assistive technology; the caption says the name. |
+| 7 | Room name caption | `location-caption` | The viewer's own seats[].location, as live text, with the room's icon. |
 | 8 | Own public status | `marker-health` | The viewer's own seats[] entry: health, jailed, captain; activeSeatId. |
-| 9 | Also here | `seat-row` | seats[] with the same location. Cue anchors: seat-N/place, seat-N/health. |
+| 9 | Also here | `seat-row` | seats[] with the same location. Each piece is that seat's character and each tag its number and name: two PROPOSED public facts (DSN-REQ-6). Cue anchors: seat-N/place, seat-N/health. |
 | 10 | Private dock (PROPOSED position) | `private-dock` | None. Identical on every phone: no count, badge or highlight. |
 
 ## Phone · public layer · whole page
@@ -54,7 +54,7 @@ Frames: Confirming a shot, 360 CSS px wide.
 | --- | --- | --- | --- |
 | 1 | Phase caption stays visible | `phase-strip` | As on the public layer. The open sheet stops below it. |
 | 2 | Hide control | `private-dock` | Local: the sheet is open on this device. |
-| 3 | Role card (PROPOSED structure) | `role-card` | self.role. The picture is in the role bundle every phone loads whole. Name no larger than the heading size. |
+| 3 | Role card (PROPOSED structure) | `role-card` | self.role. The player's own character with the role's device added; the device is in the role bundle every phone loads whole. Name no larger than the heading size. |
 | 4 | Action card head | `action-card` | The card exists for every seat shown it. Icon and title never vary by role. |
 | 5 | Resource pip (PROPOSED) | `resource-pip` | self.shotAvailable and ownPendingCommandIds, and nothing else. Not drawn while a command is unaccounted for. |
 | 6 | Status word | `action-status` | The client's own command flow step. Cue anchor: registration. |
@@ -98,15 +98,16 @@ Frames: Synthetic layout state B, 1280 CSS px wide.
 | 1 | Phase caption | `phase-strip` | round, phase.kind, activeSeatId. Cue anchor: phase. |
 | 2 | Countdown | `phase-timer` | phase.endsAt with server time. |
 | 3 | Board page | `board-page` | One panel per location in seats[].location. Gutters are paper; no route is drawn. |
-| 4 | Location panel with vignette | `board-panel` | board-room-a. Caption is live text. |
-| 5 | Standee tokens | `seat-token` | seats[] in this location. Identical for every role. |
-| 6 | Marker badge on a standee | `marker-captain` | seats[].captain. Its word is in the roster and in the document. |
-| 7 | Panel without a vignette | `board-panel-fallback` | No vignette exists for this location yet: an inked panel, badge tokens and labeled chips. Every panel looks like this until the art has arrived. |
-| 8 | Roster | `roster-table` | seats[] and activeSeatId, in words. Cue anchors: seat-N/place, seat-N/health. |
+| 4 | Room panel with vignette | `board-panel` | board-room-a, printed in Room A's color family. Caption is live text. |
+| 5 | Playing pieces | `seat-token` | seats[] in this location, each drawn as its player's character (PROPOSED fact). Identical for every role. |
+| 6 | Marker badge on a piece | `marker-captain` | seats[].captain. Its word is in the roster and in the document. |
+| 7 | Seat tag | `seat-tag` | The seat number and the player's name (PROPOSED fact), as live text. |
+| 8 | Each room in its own colors | `board-panel` | seats[].location = Jail. A room's color goes with its name and is never a team, a role or a state. |
+| 9 | Roster | `roster-table` | seats[] and activeSeatId, in words. Cue anchors: seat-N/place, seat-N/health. |
 
 ## Table display · every public health state
 
-Healthy, Injured and Eliminated standing in Room A, with the active Captain among them. A standee's body follows the seat's public health; its badges repeat what the roster says in words.
+Healthy, Injured and Eliminated standing in Room A, with the active Captain among them. A character is not given a wound: its badges repeat what the roster says in words, and an eliminated seat's character loses its color.
 
 ![Table display · every public health state](../../design/review/layout-table-varied.png)
 
@@ -120,6 +121,22 @@ Below 1280 CSS px the roster sits under the board: its four columns do not fit b
 
 Frames: Roster below the board, 960 CSS px wide.
 
+## Table display · nine in one room
+
+The most a room ever holds. The pieces are smaller so that all nine stand side by side, and every second tag hangs a line lower. The other four rooms are empty and say so.
+
+![Table display · nine in one room](../../design/review/layout-table-crowd.png)
+
+Frames: Synthetic layout state E, 1280 CSS px wide.
+
+## Before a seat has a name or a character
+
+What the same design draws today, while no contract carries a name or a character (DSN-REQ-6): numbered tokens and “Player N”. The five rooms and their colors need nothing new.
+
+![Before a seat has a name or a character](../../design/review/layout-table-without-names.png)
+
+Frames: Phone, 360 CSS px wide; Table display, 1280 CSS px wide.
+
 ## Connection lost · last known state
 
 The view is kept and marked stale by words, a taped banner and a hatched frame. Actions are paused; nothing is greyed out.
@@ -130,7 +147,7 @@ Frames: Phone, 360 CSS px wide; Table display, 1280 CSS px wide.
 
 ## Without art
 
-What every device shows until its art has arrived, and for good if it never does: disc tokens with live numerals, chips with their words, plain panels. Nothing is hidden waiting for a picture.
+What every device shows until its art has arrived, and for good if it never does: disc tokens with live numerals, names and chips with their words, plain panels on each room's own ground color. Nothing is hidden waiting for a picture.
 
 ![Without art](../../design/review/layout-missing-assets.png)
 

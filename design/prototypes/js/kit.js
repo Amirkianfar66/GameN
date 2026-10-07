@@ -9,6 +9,11 @@
 // before relying on a detail. Additions the design proposes are made only when `proposals`
 // is on, and each carries data-design-proposal.
 //
+// TWO PUBLIC FACTS ARE PROPOSED AND IN NO CONTRACT YET (DSN-REQ-6): a seat's display name and
+// the character its player chose. The pages draw them from a synthetic table below, on a
+// PROPOSED data-character attribute and PROPOSED name parts. `?identity=none` draws every page
+// as it is without them: numbered tokens and "Player N".
+//
 // EVERYTHING DRAWN IS SYNTHETIC. The states below are authored for looking at layout. They
 // follow no rule and are the outcome of nothing. No engine, transport or contract fixture
 // is involved, and none of this is shipped.
@@ -37,6 +42,36 @@ const ZONES = [['Room A', 'room-a'], ['Room B', 'room-b'], ['Command Room', 'com
 const zoneIdOf = name => ZONES.find(([zone]) => zone === name)[1];
 
 const seat = (n, location, health = 'Healthy', extra = {}) => ({ n, location, health, jailed: false, captain: false, ...extra });
+
+// Synthetic identity. The character is deliberately not the seat's own number: a player picks
+// any of the nine, before roles are dealt, and nothing ties a character to a seat or a role.
+const SYNTHETIC_NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
+const SYNTHETIC_CHARACTERS = [4, 7, 1, 9, 2, 6, 3, 8, 5];
+/** The longest name a player may type: twelve of the widest letter. For measuring only. */
+const WIDEST_NAME = 'W'.repeat(12);
+
+/** A seat's PROPOSED public identity, or null where the page is drawn without one. */
+export function identityOf(state, n) {
+  if (state.identity === false) return null;
+  return { character: `c${SYNTHETIC_CHARACTERS[n - 1]}`, name: state.names?.[n - 1] ?? SYNTHETIC_NAMES[n - 1] };
+}
+
+/** What a tag is read aloud with. The same two strings as seatTag in the proposed copy: a check holds that. */
+export const SEAT_TAG = { numberPrefix: 'Player ', separator: ', ' };
+
+/**
+ * A seat's name. Without an identity: "Player N", as Frontend writes it today. With one,
+ * PROPOSED: the seat number and the player's name as two parts, read aloud as "Player N, Name".
+ * A name is text a player typed: it is only ever set as text, never as markup.
+ */
+function seatNameEl(className, n, who, plain) {
+  if (!who) return h('span', { class: className }, plain);
+  return h('span', { class: className, 'data-design-proposal': 'seat-tag' },
+    h('span', { class: 'ms-seat__number' }, hidden(SEAT_TAG.numberPrefix), n),
+    hidden(SEAT_TAG.separator),
+    h('span', { class: 'ms-seat__player' }, who.name),
+  );
+}
 
 /** A phone's first view of a round: the seating Frontend's own fixture harness uses. */
 export const STATE_OPENING = {
@@ -80,9 +115,18 @@ export const STATE_STRESS = {
   activeSeat: 9,
   seats: [1, 2, 3, 4, 5, 6, 7, 8].map(n => seat(n, 'Room A', n % 2 ? 'Eliminated' : 'Injured', { jailed: true, captain: true }))
     .concat([seat(9, 'Command Room', 'Eliminated', { jailed: true, captain: true })]),
+  names: Array.from({ length: 9 }, () => WIDEST_NAME),
 };
 
-export const STATES = { A: STATE_OPENING, B: STATE_BUSY, C: STATE_VARIED, D: STATE_STRESS };
+/** Nine in one room: the most a panel ever holds. */
+export const STATE_CROWD = {
+  label: 'Synthetic layout state E: nine in one room',
+  round: 1,
+  activeSeat: 3,
+  seats: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => seat(n, 'Room B', n === 6 ? 'Injured' : 'Healthy', { captain: n === 2 })),
+};
+
+export const STATES = { A: STATE_OPENING, B: STATE_BUSY, C: STATE_VARIED, D: STATE_STRESS, E: STATE_CROWD };
 
 // Variants as Frontend names them: self, active, the health word in lower case, jailed, captain.
 function markersOf(seatModel, state, viewer) {
@@ -109,12 +153,15 @@ export function markersEl(seatModel, state, viewer, { withoutSelf = false } = {}
 }
 
 export function seatEl(seatModel, state, viewer) {
+  const who = identityOf(state, seatModel.n);
   return h('li', {
     class: 'ms-seat', 'data-seat': seatId(seatModel.n), 'data-self': String(viewer === seatModel.n), 'data-active': String(state.activeSeat === seatModel.n),
     'data-cue-at': `${seatId(seatModel.n)}/place`,
+    // PROPOSED. Public: the same on every screen, and never a function of the role.
+    'data-character': who?.character ?? null,
   },
     h('span', { class: 'ms-token', 'aria-hidden': 'true' }, seatModel.n),
-    h('span', { class: 'ms-seat__name' }, viewer === seatModel.n ? en.seat.labelSelf(seatModel.n) : en.seat.label(seatModel.n)),
+    seatNameEl('ms-seat__name', seatModel.n, who, viewer === seatModel.n ? en.seat.labelSelf(seatModel.n) : en.seat.label(seatModel.n)),
     hidden(': '),
     markersEl(seatModel, state, viewer),
   );
@@ -284,9 +331,9 @@ function shotBody(id, target, state, viewer) {
         h('p', { class: 'ms-card__text' }, en.shot.targetNote),
         candidates.length > 0
           ? h('ul', { class: 'ms-targets', 'aria-labelledby': 'ms-shot-step' }, candidates.map(candidate => h('li', null,
-            h('button', { type: 'button', class: 'ms-button ms-target', id: `ms-shot-target-seat-${candidate.n}`, 'data-intent': 'shot/choose-target', 'data-target-seat': seatId(candidate.n) },
+            h('button', { type: 'button', class: 'ms-button ms-target', id: `ms-shot-target-seat-${candidate.n}`, 'data-intent': 'shot/choose-target', 'data-target-seat': seatId(candidate.n), 'data-character': identityOf(state, candidate.n)?.character ?? null },
               h('span', { class: 'ms-token', 'aria-hidden': 'true' }, candidate.n),
-              h('span', { class: 'ms-target__name' }, en.seat.label(candidate.n)),
+              seatNameEl('ms-target__name', candidate.n, identityOf(state, candidate.n), en.seat.label(candidate.n)),
               hidden(', '),
               h('span', { class: 'ms-target__detail' }, markersOf(candidate, state, viewer).filter(marker => marker.kind !== 'self' && marker.kind !== 'turn').map(marker => marker.label).join(', ')),
             ))))
@@ -335,19 +382,39 @@ export function shotCardEl({ specimen = 'available', target = 2, state = STATE_O
   );
 }
 
-// Which picture a role has, and the token its team word's swatch takes. The client sets
-// both as custom properties on the card, inside the private sheet. A role with no entry
-// has no picture yet and is drawn as its name, exactly as Frontend draws it today.
-const ROLE_LOOK = { Officer: { art: '--ms-asset-card-officer-art', accent: '--ms-color-faction-blue' } };
+// Which device a role has, and the token its team word's swatch takes. PRIVATE: the client
+// sets them as custom properties on the role card, inside the private sheet and nowhere
+// else, together with the picture of the player's own character, which is public. All nine
+// devices are in the one role bundle every phone has already loaded whole.
+const BLUE = '--ms-color-faction-blue';
+const RED = '--ms-color-faction-red';
+const ALIEN = '--ms-color-faction-alien';
+const ROLE_LOOK = {
+  Officer: { device: '--ms-asset-device-officer-held', accent: BLUE },
+  Insider: { device: '--ms-asset-device-insider-held', accent: BLUE },
+  Cracker: { device: '--ms-asset-device-cracker-held', accent: BLUE },
+  'Blue Disabler': { device: '--ms-asset-device-blue-disabler-held', accent: BLUE },
+  Supplier: { device: '--ms-asset-device-supplier-held', accent: BLUE },
+  Undercover: { device: '--ms-asset-device-undercover-held', accent: RED },
+  Hacker: { device: '--ms-asset-device-hacker-held', accent: RED },
+  'Red Disabler': { device: '--ms-asset-device-red-disabler-held', accent: RED },
+  Alien: { device: '--ms-asset-device-alien-held', accent: ALIEN },
+};
 
-export function roleCardEl({ role = 'Officer', proposals = true, copy = null, expanded = false } = {}) {
+/**
+ * `person` is the player's own character (c1 to c9), or null where the seat has none: the
+ * card then shows the device alone. `turnedUp` marks the card with the local cue a client
+ * gives it when the player opens the sheet.
+ */
+export function roleCardEl({ role = 'Officer', proposals = true, copy = null, expanded = false, person = null, turnedUp = false } = {}) {
   const words = proposals ? copy?.roleCard?.[role] : null;
   if (!words) return h('p', { class: 'ms-role-card' }, role);
   const look = ROLE_LOOK[role] ?? null;
   const art = () => (look ? h('span', { class: 'ms-role-card__art', 'aria-hidden': 'true' }) : null);
+  const picture = look ? [person ? `--ms-role-person: var(--ms-asset-piece-crew-card-${person})` : null, `--ms-role-device: var(${look.device})`, `--ms-team-accent: var(${look.accent})`].filter(Boolean).join('; ') : null;
   return h('div', {
-    class: 'ms-role-card', 'data-design-proposal': 'role-card-structure',
-    style: look ? `--ms-role-art: var(${look.art}); --ms-team-accent: var(${look.accent})` : null,
+    class: 'ms-role-card', 'data-design-proposal': 'role-card-structure', 'data-cue': turnedUp ? 'role-card-turn' : null,
+    style: picture,
   },
     art(),
     h('div', { class: 'ms-role-card__text' },
@@ -359,11 +426,13 @@ export function roleCardEl({ role = 'Officer', proposals = true, copy = null, ex
       expanded ? art() : null,
       h('p', { class: 'ms-role-card__summary' }, words.summary),
       h('p', { class: 'ms-role-card__summary' }, words.limit),
+      words.also ? h('p', { class: 'ms-role-card__summary' }, words.also) : null,
     ),
   );
 }
 
 export function privateAreaEl({ open = false, specimen = 'available', target = 2, state = STATE_OPENING, viewer = 1, role = 'Officer', connection = 'live', proposals = true, docked = true, copy = null, roleExpanded = false } = {}) {
+  const person = identityOf(state, viewer)?.character ?? null;
   return h('section', {
     class: `ms-panel ms-private${proposals && docked ? ' ms-private--docked' : ''}`, 'aria-labelledby': 'ms-private-heading', 'data-region': 'private', 'data-open': String(open),
     'data-focus-fallback': 'ms-private-toggle', 'data-design-proposal': proposals && docked ? 'private-dock' : null,
@@ -378,7 +447,7 @@ export function privateAreaEl({ open = false, specimen = 'available', target = 2
     h('div', { class: 'ms-private__panel', id: 'ms-private-panel', hidden: !open },
       open ? [
         h('h3', { class: 'ms-private__subheading', id: 'ms-role-heading' }, en.privateArea.role),
-        roleCardEl({ role, proposals, copy, expanded: roleExpanded }),
+        roleCardEl({ role, proposals, copy, expanded: roleExpanded, person }),
         h('div', { class: 'ms-actions', 'data-region': 'actions' },
           h('h3', { class: 'ms-private__subheading', id: 'ms-actions-heading' }, en.actions.heading),
           connection === 'stale' ? h('p', { class: 'ms-notice' }, en.actions.pausedStale) : null,
@@ -407,7 +476,9 @@ export function publicStateFor({ specimen, state, viewer, turn = 'auto', connect
   return { state: { ...state, activeSeat }, connection: wantedConnection };
 }
 
-export function playerShell({ state = STATE_OPENING, viewer = 1, role = 'Officer', open = false, specimen = 'available', target = 2, turn = 'auto', connection = 'auto', motion = 'full', proposals = true, copy = null, roleExpanded = false } = {}) {
+export function playerShell({ state: given = STATE_OPENING, viewer = 1, role = 'Officer', open = false, specimen = 'available', target = 2, turn = 'auto', connection = 'auto', motion = 'full', proposals = true, copy = null, roleExpanded = false, identity = true } = {}) {
+  // The two proposed facts are part of the proposals: without them the page is today's.
+  const state = identity && proposals ? given : { ...given, identity: false };
   const shown = publicStateFor({ specimen, state, viewer, turn, connection });
   const own = shown.state.seats.find(candidate => candidate.n === viewer);
   if (!own) throw new Error(`No seat ${viewer} in this state`);
@@ -439,7 +510,8 @@ export function playerShell({ state = STATE_OPENING, viewer = 1, role = 'Officer
   return shellEl({ surface: 'player', connection: shown.connection, motion }, h('p', { class: 'ms-surface' }, en.surface.player), content);
 }
 
-export function tableShell({ state = STATE_BUSY, connection = 'live', motion = 'full' } = {}) {
+export function tableShell({ state: given = STATE_BUSY, connection = 'live', motion = 'full', identity = true } = {}) {
+  const state = identity ? given : { ...given, identity: false };
   const column = label => h('th', { scope: 'col' }, label);
   const roster = h('section', { class: 'ms-panel ms-roster', id: 'ms-roster', 'aria-labelledby': 'ms-roster-heading', 'data-region': 'roster', tabindex: '0' },
     h('h2', { class: 'ms-panel__heading', id: 'ms-roster-heading' }, en.roster.tableHeading),
@@ -448,8 +520,11 @@ export function tableShell({ state = STATE_BUSY, connection = 'live', motion = '
       h('thead', null, h('tr', null, column(en.roster.column.player), column(en.roster.column.location), column(en.roster.column.health), column(en.roster.column.status))),
       h('tbody', null, state.seats.map(seatModel => {
         const status = markersOf(seatModel, state, null).filter(marker => marker.kind !== 'health').map(marker => marker.label).join(', ') || en.roster.noStatus;
+        const who = identityOf(state, seatModel.n);
         return h('tr', { 'data-seat': seatId(seatModel.n), 'data-active': String(state.activeSeat === seatModel.n) },
-          h('th', { scope: 'row' }, en.seat.label(seatModel.n)),
+          // PROPOSED with an identity: the number and the name, the same two parts as a tag on the board.
+          who ? h('th', { scope: 'row', 'data-design-proposal': 'seat-tag' }, h('span', { class: 'ms-seat__number' }, hidden(SEAT_TAG.numberPrefix), seatModel.n), hidden(SEAT_TAG.separator), h('span', { class: 'ms-seat__player' }, who.name))
+            : h('th', { scope: 'row' }, en.seat.label(seatModel.n)),
           h('td', { 'data-cue-at': `${seatId(seatModel.n)}/place` }, seatModel.location),
           h('td', { 'data-cue-at': `${seatId(seatModel.n)}/health` }, seatModel.health),
           h('td', null, status),

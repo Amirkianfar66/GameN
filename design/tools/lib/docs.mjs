@@ -81,9 +81,9 @@ export async function planDocs({ repoRoot, manifest, studyManifest }) {
       '',
       'A storyboard frame here is not a drawing. It is the reference stylesheet ([`design/prototypes/css/cues.css`](../../design/prototypes/css/cues.css)) started at a negative delay and paused, so each frame is exactly what a browser shows at that moment of the cue. The same stylesheet plays on the motion page (`design/prototypes/motion.html`).',
       '',
-      'Durations are the existing token values. They are cosmetic targets, never deadlines, and none is measured on a device. The split into opening, accent and settle is this design\'s proposal.',
+      'Durations are token values. They are cosmetic targets, never deadlines, and none is measured on a device. The split into opening, accent and settle is this design\'s proposal. The public move and the role-card turn are the two the game owner approved on 7 October 2026 ([owner-decisions.md](owner-decisions.md)); their times are new tokens in 0.4.0 and no 0.2.0 total changed.',
       '',
-      'Every cue works without art. The layers that are pictures (the ink trail, the dust, the panel\'s halftone edge, the speed lines) exist only once the public bundle has loaded; `storyboards.html?art=none` shows each cue without them.',
+      'Every cue works without art. The layers that are pictures (the ink trail, the burst, the dust, the panel\'s halftone edge, the speed lines) exist only once the public bundle has loaded; `storyboards.html?art=none` shows each cue without them.',
       '',
       '## What a cue is',
       '',
@@ -93,17 +93,17 @@ export async function planDocs({ repoRoot, manifest, studyManifest }) {
       '',
       '## Cue freshness',
       '',
-      `**Proposed, for agreement with Frontend.** ${cues.freshness.answers}`,
+      `**Agreed with Frontend for the windows and for what withdraws a cue; the carried move is new since.** ${cues.freshness.answers}`,
       '',
       `${cues.freshness.belonging}`,
       '',
       table(['', 'Proposed', 'Meaning'], [
         ['Start window', `${cues.freshness.startWithinMs} ms`, cues.freshness.starting],
         ['Event lateness', `${cues.freshness.eventLatenessMs} ms`, cues.freshness.lateness],
-        ['Token drops for one view', `at most ${cues.freshness.maxSeatDropsPerView}`, cues.freshness.cap],
+        ['Carried pieces for one view', `at most ${cues.freshness.maxSeatDropsPerView}`, cues.freshness.cap],
       ]),
       '',
-      `Frontend's provisional values are a frame lifetime of ${cues.freshness.frontendProvisional.lifetimeMs} ms and a lateness of ${cues.freshness.frontendProvisional.maxLatenessMs} ms. Either the frame lifetime becomes the start window, or the renderer applies the window itself: the drawing needs only that no treatment starts later than the window and that one which has started finishes.`,
+      `Frontend's director uses a frame lifetime of ${cues.freshness.frontend.lifetimeMs} ms and a lateness of ${cues.freshness.frontend.maxLatenessMs} ms (${cues.freshness.frontend.status}). ${cues.freshness.frontend.source} The drawing needs only that no treatment starts later than the window and that one which has started finishes.`,
       '',
       'A cue is withdrawn when, and only when:',
       '',
@@ -136,23 +136,24 @@ export async function planDocs({ repoRoot, manifest, studyManifest }) {
     ];
     for (const cue of cues.cues) {
       out.push(`<a id="${cue.id}"></a>`, '', `## ${cue.title}`, '');
-      out.push(`![${cue.title}: opening, accent and settled frames, then reduced motion and reduced effects](../../design/review/storyboard-${cue.id}.png)`, '');
-      const [opening, accent, settled] = cue.storyboardFramesMs;
+      out.push(`![${cue.title}: frames from the opening to the settled state, then reduced motion and reduced effects](../../design/review/storyboard-${cue.id}.png)`, '');
       out.push(table(['', ''], [
         ['Cue', `${code(cue.id)}${cue.frontendCue ? ` · director kind ${code(cue.frontendCue)}` : ''} · ${cue.level.replaceAll('_', ' ')}`],
         ['Authorized by', cue.authorizedBy],
         ['Audience', cue.audience],
         ['Lands on', code(cue.anchor)],
+        ...(cue.clientSets ? [['The client sets', cue.clientSets]] : []),
         ['Belongs to', cue.belongsTo],
         ['Duration', `${cue.durationMs} ms: ${cue.beatsMs.opening} opening, ${cue.beatsMs.accent} accent, ${cue.beatsMs.settle} settle`],
         ['Easing', Object.entries(cue.easing).map(([beat, name]) => `${beat}: ${code(`motionEasing.${name}`)}`).join(' · ')],
-        ['Frames shown', `opening at ${opening} ms, accent at ${accent} ms, settled at ${settled} ms`],
+        ['Frames shown', `${cue.storyboardFramesMs.join(', ')} ms`],
         ['Layers', cue.layers.join(' ')],
         ['It says', cue.says],
         ['Reduced motion', cue.reducedMotion],
         ['Reduced effects', cue.reducedEffects],
         ['Sound', cue.audio],
         ['Without the cue', cue.fallback],
+        ...(cue.renderer ? [['A renderer may', cue.renderer]] : []),
       ]), '');
       if (cue.mustNot) out.push('Must not show:', '', ...cue.mustNot.map(item => `- ${item}`), '');
     }
@@ -228,7 +229,7 @@ export async function planDocs({ repoRoot, manifest, studyManifest }) {
       '- **Finished**: an exported file exists, is listed in the manifest with its size, anchors and hash, and is drawn on the contact sheet below.',
       '- **Not produced**: nothing exists. The entry says what it would be drawn from and what stands in for it today.',
       '',
-      'Finished means the artwork is complete for this slice. It does not mean approved: human art review is pending, and nothing here has been seen on a phone or a shared display.',
+      'Finished means the artwork is complete for this slice. What has been looked at, and by whom, is the `humanArtReview` line below: the game owner approved the comic board, its characters and its devices as a direction; no illustrator or art director has reviewed anything, and nothing here has been seen on a phone or a shared display.',
       '',
       'The two synthetic disclosure studies are neither. They are not assets, are in no bundle and are not in this manifest: see [the end of this page](#synthetic-studies-not-assets).',
       '',
@@ -251,6 +252,8 @@ export async function planDocs({ repoRoot, manifest, studyManifest }) {
       ])),
       '',
       `The role bundle is expected to hold ${manifest.bundles.roles.expectedRoles.length} roles and holds ${manifest.bundles.roles.producedRoles.length}: ${manifest.bundles.roles.producedRoles.join(', ')}.`,
+      '',
+      `The manifest's status: ${manifest.status}`,
       '',
       '## Produced',
       '',

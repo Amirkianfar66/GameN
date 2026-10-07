@@ -15,9 +15,9 @@
 <body>
 <script type="module">
   // One player or table shell in one synthetic state, for a review page to frame.
-  //   ?surface=player|table  &state=A|B|C|D  &viewer=1..9  &role=<role name>  &open=1
+  //   ?surface=player|table  &state=A|B|C|D|E  &viewer=1..9  &role=<role name>  &open=1
   //   &status=<shot specimen from kit.js>  &turn=own|other  &connection=stale
-  //   &motion=reduced  &art=none  &proposals=0  &about=open
+  //   &motion=reduced  &art=none  &proposals=0  &about=open  &identity=none
   import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
   import { loadProposedCopy, playerShell, privateAreaEl, publicStateFor, settle, STATES, tableShell } from './js/kit.js';
 
@@ -44,6 +44,8 @@
     motion: query.get('motion') ?? 'full',
     proposals: query.get('proposals') !== '0',
     roleExpanded: query.get('about') === 'open',
+    // ?identity=none: no seat has a name or a character yet. Both are PROPOSED facts (DSN-REQ-6).
+    identity: query.get('identity') !== 'none',
   };
   if (!fromQuery.state) throw new Error(`No state named ${query.get('state')}`);
 

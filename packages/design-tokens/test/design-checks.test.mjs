@@ -71,7 +71,7 @@ const TRAIL = '<g id="fx-ink-trail" fill="#151923">';
 test('the design files as committed pass every check', async () => {
   const result = await run(scratchCopy(), 'check-assets.mjs');
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Design checks: 14 passed, 0 failures/);
+  assert.match(result.output, /Design checks: 15 passed, 0 failures/);
 });
 
 describe('mistakes the export build and the design checks refuse', { concurrency: 6 }, () => {
@@ -99,17 +99,17 @@ describe('mistakes the export build and the design checks refuse', { concurrency
   test('a bundle stylesheet edited by hand, and one that would fetch a file', async () => {
     const root = scratchCopy();
     const sheet = `design/exports/roles/${readdirSync(join(root, 'design/exports/roles')).find(name => name.endsWith('.css'))}`;
-    append(root, sheet, ':root { --ms-asset-card-hacker-art: url("/exports/roles/card-hacker.svg"); }');
+    append(root, sheet, ':root { --ms-asset-device-hacker-spare: url("/exports/roles/device-hacker.spare.svg"); }');
     refuses(await run(root, 'check-assets.mjs'),
       /roles\.art\.\w+\.css differs from what the sources produce/,
-      /roles: the stylesheet holds --ms-asset-card-hacker-art, which is not a variant of this bundle/,
+      /roles: the stylesheet holds --ms-asset-device-hacker-spare, which is not a variant of this bundle/,
       /roles: the stylesheet would make a request of its own/);
   });
 
   test('a contract that pins another rule-source manifest, or another asset manifest version', async () => {
     const root = scratchCopy();
     editJson(root, 'design/contract/copy.en.proposed.json', copy => { copy.ruleSourceManifestSha256 = '0'.repeat(64); });
-    edit(root, STATES, text => text.replace('"assetManifestVersion": "design-0.1.0"', '"assetManifestVersion": "design-0.0.9"'));
+    edit(root, STATES, text => text.replace('"assetManifestVersion": "design-0.2.0"', '"assetManifestVersion": "design-0.0.9"'));
     refuses(await run(root, 'check-assets.mjs'), /a contract file or the study manifest pins a different rule-source manifest/, /component-states\.json names a different asset manifest version/);
   });
 
@@ -166,7 +166,34 @@ describe('mistakes the export build and the design checks refuse', { concurrency
   test('amber in a room vignette: amber is interaction focus', async () => {
     const root = scratchCopy();
     edit(root, 'design/source/board/board-room-a.svg', text => text.replace('<rect x="172" y="204" width="22" height="16" rx="2" fill="#F4EBDD"', '<rect x="172" y="204" width="22" height="16" rx="2" fill="#F1B84B"'));
-    refuses(await rebuildAndCheck(root), /board-room-a:full: #F1B84B is not in the public palette/);
+    refuses(await rebuildAndCheck(root), /board-room-a:full: #F1B84B is not in the location-room-a palette/);
+  });
+
+  test('a room printed in colors that are not its own token family, and one left in steel', async () => {
+    const other = scratchCopy();
+    editJson(other, RECIPES, recipes => {
+      const jail = recipes.assets.find(asset => asset.id === 'board-jail');
+      jail.common.recolor = recipes.assets.find(asset => asset.id === 'board-hospital').common.recolor;
+    });
+    refuses(await rebuildAndCheck(other, { docs: false }), /board-jail: its recipe does not print it in color\.room\.jail, tone for tone/, /board-jail:full: #1F8A80 is not in the location-jail palette/);
+    const steel = scratchCopy();
+    editJson(steel, RECIPES, recipes => { delete recipes.assets.find(asset => asset.id === 'board-room-b').common.recolor; });
+    refuses(await rebuildAndCheck(steel, { docs: false }), /board-room-b: its recipe does not print it in color\.room\.roomB/, /board-room-b:full: #55657E is not in the location-room-b palette/);
+  });
+
+  test('a character drawn in another character\'s color, or in a team accent', async () => {
+    const borrowed = scratchCopy();
+    edit(borrowed, 'design/source/crew/crew-3.svg', text => text.replaceAll('#AFCF4E', '#45A866'));
+    refuses(await rebuildAndCheck(borrowed, { docs: false }), /piece-crew:standee-c3: #45A866 is another character's color/, /piece-crew:standee-c3: does not use #AFCF4E, which color\.crew\.c3 lists/);
+    const team = scratchCopy();
+    edit(team, 'design/source/crew/crew-1.svg', text => text.replaceAll('#B45A16', '#70AFFF'));
+    refuses(await rebuildAndCheck(team, { docs: false }), /piece-crew:standee-c1: #70AFFF is not in the crew palette/, /piece-crew:standee-c1: a faction color on an asset that may be drawn publicly/);
+  });
+
+  test('a role\'s device in another team\'s accent', async () => {
+    const root = scratchCopy();
+    edit(root, 'design/source/devices/device-hacker.svg', text => text.replaceAll('#FF8C8C', '#70AFFF'));
+    refuses(await rebuildAndCheck(root, { docs: false }), /device-hacker:held: #70AFFF is not in the private-red palette/);
   });
 
   test('a color from outside the tokens', async () => {
@@ -195,8 +222,17 @@ describe('mistakes the export build and the design checks refuse', { concurrency
 
   test('private role art allowed on a public surface', async () => {
     const root = scratchCopy();
-    editJson(root, RECIPES, recipes => { recipes.assets.find(asset => asset.id === 'card-officer').surfaces = ['table', 'phone-private']; });
-    refuses(await rebuildAndCheck(root), /card-officer:art: may be drawn on table, which its bundle roles does not reach/, /role art may be drawn only inside the private sheet/);
+    editJson(root, RECIPES, recipes => { recipes.assets.find(asset => asset.id === 'device-officer').surfaces = ['table', 'phone-private']; });
+    refuses(await rebuildAndCheck(root), /device-officer:held: may be drawn on table, which its bundle roles does not reach/, /role art may be drawn only inside the private sheet/);
+  });
+
+  test('a role\'s device moved into the bundle the table loads', async () => {
+    const root = scratchCopy();
+    editJson(root, RECIPES, recipes => { recipes.assets.find(asset => asset.id === 'device-alien').bundle = 'public-board'; });
+    refuses(await rebuildAndCheck(root, { docs: false }),
+      /device-alien:held: a faction color on an asset that may be drawn publicly/,
+      /"device-alien" \(asset id\) carries the private word "alien" outside the role bundle/,
+      /the role bundle says Alien is produced and holds no such asset/);
   });
 
   test('private-only art moved into the bundle the table loads', async () => {
@@ -251,7 +287,7 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     editJson(cue, 'design/contract/motion-cues.json', contract => { contract.cues.push({ ...contract.cues[2], id: 'study-resolved-shot', status: 'synthetic-study', frontendCue: null, audienceTag: 'local' }); });
     refuses(await run(cue, 'check-assets.mjs'), /motion-cues\.json holds something that is not an authorized cue/);
     const token = scratchCopy();
-    editJson(token, 'packages/design-tokens/src/tokens-0.3.0.json', tokens => { tokens.motionBeatsMs.publicImpact = { opening: 60, accent: 120, settle: 140 }; });
+    editJson(token, 'packages/design-tokens/src/tokens-0.4.0.json', tokens => { tokens.motionBeatsMs.publicImpact = { opening: 60, accent: 120, settle: 140 }; });
     refuses(await run(token, 'check-assets.mjs'), /motionBeatsMs\.publicImpact would give the synthetic studies a token of their own/);
   });
 
@@ -268,9 +304,10 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     edit(unmarked, 'design/explorations/comic-board/board.css', text => text.replace('mothership:dev-only', 'mothership dev only'));
     refuses(await run(unmarked, 'check-assets.mjs'), /explorations are fenced off[^\n]*comic-board\/board\.css: an exploration file without the development-only mark/);
 
+    // The approved drawings are sources now. A drawing tried in an exploration is still held to the vocabulary.
     const lettered = scratchCopy();
-    edit(lettered, 'design/explorations/comic-board/crew/crew-1.svg', text => text.replace('</svg>', '<text x="4" y="12">Vega</text></svg>'));
-    refuses(await run(lettered, 'check-assets.mjs'), /explorations are fenced off[^\n]*crew-1\.svg: <text> is not part of the drawing vocabulary/);
+    writeFileSync(join(lettered, 'design/explorations/comic-board/sketch.svg'), '<!-- mothership:dev-only -->\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><text x="4" y="12">Vega</text></svg>\n');
+    refuses(await run(lettered, 'check-assets.mjs'), /explorations are fenced off[^\n]*sketch\.svg: <text> is not part of the drawing vocabulary/);
 
     const nameless = scratchCopy();
     rmSync(join(nameless, 'design/explorations/comic-board/README.md'));
@@ -283,8 +320,8 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     refuses(await run(page, 'check-assets.mjs'), /design\/prototypes\/index\.html: reaches into design\/explorations\//);
 
     const recipe = scratchCopy();
-    edit(recipe, RECIPES, text => text.replace('"source": "cards/card-officer.svg"', '"source": "../explorations/comic-board/devices/device-officer.svg"'));
-    refuses(await run(recipe, 'build-exports.mjs'), /A recipe reads only drawings under design\/source\/: \.\.\/explorations\/comic-board\/devices\/device-officer\.svg/);
+    edit(recipe, RECIPES, text => text.replace('"source": "devices/device-officer.svg"', '"source": "../explorations/comic-board/device-officer.svg"'));
+    refuses(await run(recipe, 'build-exports.mjs'), /A recipe reads only drawings under design\/source\/: \.\.\/explorations\/comic-board\/device-officer\.svg/);
 
     const contract = scratchCopy();
     editJson(contract, 'design/contract/planned-assets.json', planned => { planned.groups[0].items[0].until = 'See explorations/comic-board/art/board-room-b.svg.'; });
@@ -309,6 +346,12 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     const table = scratchCopy();
     append(table, COMIC, '@media (forced-colors: none) { [data-art~="public-board"] .ms-shell--table .ms-zone__name { background-image: var(--ms-asset-marker-self-glyph); } }');
     refuses(await run(table, 'check-assets.mjs'), /--ms-asset-marker-self-glyph may not be drawn on the table display/);
+  });
+
+  test('a role\'s device drawn on a playing piece, outside the private sheet', async () => {
+    const root = scratchCopy();
+    append(root, COMIC, '@media (forced-colors: none) { [data-art~="roles"] .ms-shell .ms-seat > .ms-token::after { content: ""; background-image: var(--ms-asset-device-supplier-held); } }');
+    refuses(await run(root, 'check-assets.mjs'), /--ms-asset-device-supplier-held is private and ".+" is not inside \.ms-private__panel/);
   });
 
   test('the public layer styled by what the private sheet holds, and a selector that knows a role', async () => {
@@ -354,7 +397,16 @@ describe('mistakes the export build and the design checks refuse', { concurrency
       contract.cues.find(cue => cue.id === 'cue-public-move').durationMs = 600;
       contract.cues.find(cue => cue.id === 'cue-registration').audienceTag = 'public';
     });
-    refuses(await run(root, 'check-assets.mjs'), /cue-public-move: 600 ms is not the token value 450/, /the registration cue must be private/);
+    refuses(await run(root, 'check-assets.mjs'), /cue-public-move: 600 ms is not the token value 900/, /the registration cue must be private/);
+  });
+
+  test('a stylesheet that plays a cue for another time than its contract, and a storyboard of two frames', async () => {
+    const sheet = scratchCopy();
+    edit(sheet, CUES, text => text.replaceAll('animation-duration: var(--ms-motion-piece-move);', 'animation-duration: var(--ms-motion-move);'));
+    refuses(await run(sheet, 'check-assets.mjs'), /cue-public-move: no rule in cues\.css plays \[data-cue="public-move"\] for motionMs\.pieceMove/);
+    const frames = scratchCopy();
+    editJson(frames, 'design/contract/motion-cues.json', contract => { contract.cues.find(cue => cue.id === 'cue-role-card-turn').storyboardFramesMs = [120, 900]; });
+    refuses(await run(frames, 'check-assets.mjs'), /cue-role-card-turn: storyboard frames must be three or more, rising to the full duration/);
   });
 
   test('a cue that belongs to nothing, a contract that lets any newer view replace a cue, and freshness looser than Frontend\'s', async () => {
@@ -367,7 +419,7 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     refuses(await run(root, 'check-assets.mjs'),
       /cue-public-move: no belongsTo/,
       /a rule lets any newer view replace a cue/,
-      /freshness\.eventLatenessMs must be positive and no looser than Frontend's provisional lateness/,
+      /freshness\.eventLatenessMs must be positive and no looser than the lateness Frontend's director uses/,
       /freshness\.neverLeavesBecause must say that an update which changes no public fact withdraws no public cue/);
   });
 
@@ -433,18 +485,54 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     refuses(await run(root, 'check-assets.mjs'), /Officer: rules\/overlays\/player-modes-officer\.json#\/officer\/second_shot does not resolve/, /Officer: the copy mentions the archived identification step/);
   });
 
+  test('a role card on the wrong team, one that states an outcome, a guess that is not the Scan\'s, and a role with no card', async () => {
+    const root = scratchCopy();
+    editJson(root, 'design/contract/copy.en.proposed.json', copy => {
+      copy.roleCard.Alien.team = 'Red team';
+      copy.roleCard.Supplier.limit += ' The weapon was blocked.';
+      copy.roleCard.Cracker.summary += ' Guess who needs it.';
+      delete copy.roleCard.Insider;
+    });
+    refuses(await run(root, 'check-assets.mjs'),
+      /Alien: the card says "Red team", and the rule source puts the role on Independent/,
+      /Supplier: the copy states an outcome/,
+      /Cracker: the copy mentions the archived identification step/,
+      /Insider: no proposed card/);
+  });
+
+  test('a crew catalog that gives a character a role, lists a tenth, or names a picture that does not exist', async () => {
+    const role = scratchCopy();
+    editJson(role, 'design/contract/crew-catalog.json', catalog => { catalog.characters[2].team = 'Blue'; catalog.characters[4].callSign = 'Hacker'; });
+    refuses(await run(role, 'check-assets.mjs'), /the crew catalog[^\n]*: a character is given a role, a team or a faction/, /the crew catalog[^\n]*: it names the role Hacker/, /c5: its call sign differs from the proposed copy/);
+    const tenth = scratchCopy();
+    editJson(tenth, 'design/contract/crew-catalog.json', catalog => {
+      catalog.characters.push({ id: 'c10', callSign: 'Zed', standee: 'piece-crew:standee-c10', card: 'piece-crew:card-c10', colors: 'color.crew.c10' });
+      catalog.characters[0].standee = 'piece-crew:standee-c2';
+    });
+    refuses(await run(tenth, 'check-assets.mjs'), /its characters are not the nine of color\.crew, in order/, /a character id is repeated or does not match idPattern/, /c1: standee is piece-crew:standee-c2, not piece-crew:standee-c1/, /c10: the manifest holds no piece-crew:standee-c10/);
+  });
+
   // ---------- tokens ----------
 
-  test('a 0.2.0 token value changed in 0.3.0', async () => {
+  test('a 0.2.0 token value changed in 0.4.0', async () => {
     const root = scratchCopy();
-    editJson(root, 'packages/design-tokens/src/tokens-0.3.0.json', tokens => { tokens.motionMs.publicMove = 600; tokens.color.ink = '#000000'; });
+    editJson(root, 'packages/design-tokens/src/tokens-0.4.0.json', tokens => { tokens.motionMs.publicMove = 600; tokens.color.ink = '#000000'; });
     refuses(await run(root, 'check-assets.mjs'), /tokens\.motionMs\.publicMove: 450 became 600/, /tokens\.color\.ink/);
+  });
+
+  test('a 0.3.0 entry changed in 0.4.0 without being listed, and a listed revision that misquotes 0.3.0', async () => {
+    const unlisted = scratchCopy();
+    editJson(unlisted, 'packages/design-tokens/src/tokens-0.4.0.json', tokens => { tokens.usageConstraints[8] = `${tokens.usageConstraints[8]} Unless it looks better.`; delete tokens.comic.halftone; });
+    refuses(await run(unlisted, 'check-assets.mjs'), /tokens\.usageConstraints\[8\]: .* in 0\.3\.0 became .* and is not listed in revisedFrom030/, /tokens\.comic\.halftone: in 0\.3\.0 and removed from 0\.4\.0/);
+    const misquoted = scratchCopy();
+    editJson(misquoted, 'packages/design-tokens/src/tokens-0.4.0.json', tokens => { tokens.revisedFrom030[0].was = 'Every location shares one palette.'; tokens.revisedFrom030.push({ path: 'color.nothing', was: '#000000', because: 'It never existed.' }); });
+    refuses(await run(misquoted, 'check-assets.mjs'), /tokens\.usageConstraints\[7\]: revisedFrom030 says it was something 0\.3\.0 does not hold/, /tokens\.color\.nothing: listed in revisedFrom030 and not an entry of 0\.3\.0/);
   });
 
   test('a token edit that leaves a stale hash in the lock-update request', async () => {
     const root = scratchCopy();
-    editJson(root, 'packages/design-tokens/src/tokens-0.3.0.json', tokens => { tokens.comic.selectionLiftPx = 4; });
-    refuses(await rebuildAndCheck(root), /integration-requests\.md does not quote the current SHA-256 of packages\/design-tokens\/src\/tokens-0\.3\.0\.json/);
+    editJson(root, 'packages/design-tokens/src/tokens-0.4.0.json', tokens => { tokens.comic.selectionLiftPx = 4; });
+    refuses(await rebuildAndCheck(root), /integration-requests\.md does not quote the current SHA-256 of packages\/design-tokens\/src\/tokens-0\.4\.0\.json/);
   });
 
   // ---------- documents, review images and browser reports ----------

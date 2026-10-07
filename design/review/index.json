@@ -2,47 +2,54 @@
   "note": "Review renders of the pages under design/prototypes/. Each is a picture of a synthetic page in desktop Chrome on one machine. None is a device measurement, a match or an engine result.",
   "renderedWith": "Google Chrome 155.0.8059.39",
   "command": "node design/tools/render-review.mjs",
-  "inputsSha256": "02b6a6db81bed2778bdea59a1abec7be36f64a1ccaefb14c40c04f585a557d9c",
+  "inputsSha256": "0494a84468b1e3cd01d292bdd9deafee916a6046e8220af6a680d49274052245",
   "images": [
     {
       "file": "design/review/asset-all.png",
       "page": "design/prototypes/assets.html?sheet=all",
       "width": 1564,
-      "height": 5345,
+      "height": 9176,
       "scale": 1
     },
     {
-      "file": "design/review/asset-board-room-a.png",
-      "page": "design/prototypes/assets.html?sheet=room",
-      "width": 1336,
-      "height": 2405,
+      "file": "design/review/asset-crew.png",
+      "page": "design/prototypes/assets.html?sheet=crew",
+      "width": 2004,
+      "height": 1150,
       "scale": 1
     },
     {
-      "file": "design/review/asset-card-officer.png",
-      "page": "design/prototypes/assets.html?sheet=officer",
-      "width": 1184,
-      "height": 901,
+      "file": "design/review/asset-devices.png",
+      "page": "design/prototypes/assets.html?sheet=devices",
+      "width": 1356,
+      "height": 1244,
       "scale": 1
     },
     {
       "file": "design/review/asset-kit.png",
       "page": "design/prototypes/assets.html?sheet=kit",
-      "width": 1306,
-      "height": 1645,
+      "width": 1437,
+      "height": 3423,
+      "scale": 1
+    },
+    {
+      "file": "design/review/asset-rooms.png",
+      "page": "design/prototypes/assets.html?sheet=rooms",
+      "width": 1540,
+      "height": 2645,
       "scale": 1
     },
     {
       "file": "design/review/layout-missing-assets.png",
       "page": "design/prototypes/layouts.html?board=missing-assets",
       "width": 1740,
-      "height": 1168,
+      "height": 1183,
       "scale": 1
     },
     {
       "file": "design/review/layout-phone-narrow-large-text.png",
       "page": "design/prototypes/layouts.html?board=phone-narrow-large-text",
-      "width": 2666,
+      "width": 2671,
       "height": 1865,
       "scale": 2,
       "browserDefaultFontPx": 32
@@ -58,7 +65,7 @@
       "file": "design/review/layout-phone-public-full.png",
       "page": "design/prototypes/layouts.html?board=phone-public-full",
       "width": 2368,
-      "height": 4619,
+      "height": 4627,
       "scale": 2
     },
     {
@@ -87,28 +94,42 @@
       "file": "design/review/layout-reconnect.png",
       "page": "design/prototypes/layouts.html?board=reconnect",
       "width": 1740,
-      "height": 1237,
+      "height": 1252,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-table-crowd.png",
+      "page": "design/prototypes/layouts.html?board=table-crowd",
+      "width": 1344,
+      "height": 1206,
       "scale": 1
     },
     {
       "file": "design/review/layout-table-narrow.png",
       "page": "design/prototypes/layouts.html?board=table-narrow",
       "width": 1184,
-      "height": 1725,
+      "height": 1784,
       "scale": 1
     },
     {
       "file": "design/review/layout-table-varied.png",
       "page": "design/prototypes/layouts.html?board=table-varied",
       "width": 1344,
-      "height": 1299,
+      "height": 1309,
       "scale": 1
     },
     {
       "file": "design/review/layout-table-wide.png",
       "page": "design/prototypes/layouts.html?board=table-wide",
       "width": 1860,
-      "height": 1169,
+      "height": 1184,
+      "scale": 1
+    },
+    {
+      "file": "design/review/layout-table-without-names.png",
+      "page": "design/prototypes/layouts.html?board=table-without-names",
+      "width": 1740,
+      "height": 1191,
       "scale": 1
     },
     {
@@ -119,17 +140,24 @@
       "scale": 1
     },
     {
+      "file": "design/review/states-role-cards.png",
+      "page": "design/prototypes/states.html?sheet=roles",
+      "width": 1184,
+      "height": 3763,
+      "scale": 1
+    },
+    {
       "file": "design/review/states-shot-card.png",
       "page": "design/prototypes/states.html?sheet=cards",
       "width": 1800,
-      "height": 1785,
+      "height": 1786,
       "scale": 1
     },
     {
       "file": "design/review/states-token-markers.png",
       "page": "design/prototypes/states.html?sheet=tokens",
-      "width": 1681,
-      "height": 2522,
+      "width": 1984,
+      "height": 3454,
       "scale": 1
     },
     {
@@ -142,8 +170,8 @@
     {
       "file": "design/review/storyboard-cue-public-move.png",
       "page": "design/prototypes/storyboards.html?cue=cue-public-move",
-      "width": 1626,
-      "height": 1249,
+      "width": 2256,
+      "height": 1465,
       "scale": 1
     },
     {
@@ -151,6 +179,13 @@
       "page": "design/prototypes/storyboards.html?cue=cue-registration",
       "width": 1305,
       "height": 1045,
+      "scale": 1
+    },
+    {
+      "file": "design/review/storyboard-cue-role-card-turn.png",
+      "page": "design/prototypes/storyboards.html?cue=cue-role-card-turn",
+      "width": 1371,
+      "height": 1161,
       "scale": 1
     },
     {
@@ -164,21 +199,21 @@
       "file": "design/review/storyboard-cue-selection.png",
       "page": "design/prototypes/storyboards.html?cue=cue-selection",
       "width": 1239,
-      "height": 1231,
+      "height": 1232,
       "scale": 1
     },
     {
       "file": "design/review/storyboard-cue-status-change.png",
       "page": "design/prototypes/storyboards.html?cue=cue-status-change",
       "width": 1293,
-      "height": 705,
+      "height": 706,
       "scale": 1
     },
     {
       "file": "design/review/storyboards-without-art.png",
       "page": "design/prototypes/storyboards.html?art=none",
-      "width": 1896,
-      "height": 5349,
+      "width": 2256,
+      "height": 6718,
       "scale": 1
     },
     {

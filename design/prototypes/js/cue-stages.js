@@ -9,7 +9,7 @@
 // The two synthetic studies are not here. They have a module of their own, which only the
 // studies page imports.
 
-import { h, phaseEl, seatEl, shotCardEl, STATE_OPENING } from './kit.js';
+import { h, phaseEl, roleCardEl, seatEl, shotCardEl, STATE_OPENING } from './kit.js';
 
 // No data-screen: a scene is one part on a stage, so the page-level layout rules stay out of it.
 export const sceneShell = (surface, { motion = 'full' } = {}, ...children) => h('div', {
@@ -18,18 +18,52 @@ export const sceneShell = (surface, { motion = 'full' } = {}, ...children) => h(
 
 const privately = (options, ...children) => sceneShell('player', options, h('div', { class: 'ms-private', 'data-open': 'true' }, h('div', { class: 'ms-private__panel' }, children)));
 
-/** A Room A panel as the table display draws it, with the given seats standing in it. */
-export function roomPanel(options, seats, state) {
-  const zone = h('li', { class: 'ms-zone', 'data-zone': 'room-a', 'data-current': 'false' },
-    h('h3', { class: 'ms-zone__name' }, 'Room A'),
-    h('ul', { class: 'ms-seats' }, seats.map(seat => seatEl(seat, state, null))),
-  );
-  const board = h('section', { class: 'ms-panel ms-board', 'data-region': 'board' }, h('ul', { class: 'ms-zones', style: 'grid-template-columns: 1fr' }, zone));
-  zone.style.gridColumn = 'auto';
-  return { root: sceneShell('table', options, board), zone };
+/**
+ * Room panels as the table display draws them, side by side, each with the given seats
+ * standing in it. `rooms` is a list of [name, zone id, seats].
+ */
+export function boardRow(options, rooms, state) {
+  const zones = {};
+  for (const [name, id, seats] of rooms) {
+    zones[id] = h('li', { class: 'ms-zone', 'data-zone': id, 'data-current': 'false' },
+      h('h3', { class: 'ms-zone__name' }, name),
+      seats.length > 0 ? h('ul', { class: 'ms-seats' }, seats.map(seat => seatEl(seat, state, null))) : h('ul', { class: 'ms-seats' }),
+    );
+    zones[id].style.gridColumn = 'auto';
+  }
+  const board = h('section', { class: 'ms-panel ms-board', 'data-region': 'board' },
+    h('ul', { class: 'ms-zones', style: `grid-template-columns: repeat(${rooms.length}, minmax(0, 1fr))` }, Object.values(zones)));
+  return { root: sceneShell('table', options, board), zones };
+}
+
+/** One room panel. */
+export function roomPanel(options, seats, state, [name, id] = ['Room A', 'room-a']) {
+  const { root, zones } = boardRow(options, [[name, id, seats]], state);
+  return { root, zone: zones[id] };
 }
 
 export const healthy = n => ({ n, location: 'Room A', health: 'Healthy', jailed: false, captain: false });
+
+/**
+ * What a client does for a carried piece: First, Last, Invert. It reads where the piece
+ * stood (here: among the seats of the room it left), where it stands now, and gives the
+ * difference to the cue as --cue-from-x and --cue-from-y. The cue is taken off while the two
+ * places are read, so that a running or frozen animation does not move what is measured.
+ */
+function carriedFrom(mover, formerSeats) {
+  const cue = mover.getAttribute('data-cue');
+  mover.removeAttribute('data-cue');
+  const home = mover.parentElement;
+  const next = mover.nextSibling;
+  const place = () => mover.querySelector('.ms-token').getBoundingClientRect();
+  formerSeats.append(mover);
+  const before = place();
+  home.insertBefore(mover, next);
+  const after = place();
+  mover.style.setProperty('--cue-from-x', `${(before.left - after.left).toFixed(1)}px`);
+  mover.style.setProperty('--cue-from-y', `${(before.top - after.top).toFixed(1)}px`);
+  if (cue !== null) mover.setAttribute('data-cue', cue);
+}
 
 export const CUE_STAGES = {
   'cue-selection': {
@@ -50,12 +84,16 @@ export const CUE_STAGES = {
     },
   },
   'cue-public-move': {
-    width: 470,
+    width: 680,
     ground: '',
     build(options) {
+      // The view that states the fact: seat 7 stands in Room A, where the view before had it in Room B.
       const state = { activeSeat: 0 };
-      const { root, zone } = roomPanel(options, [healthy(2), healthy(7), healthy(4)], state);
-      return { root, marks: [[zone.querySelector('[data-cue-at="seat-7/place"]'), 'public-move']] };
+      const { root, zones } = boardRow(options, [['Room A', 'room-a', [healthy(2), healthy(4), healthy(7)]], ['Room B', 'room-b', [healthy(5), healthy(9)]]], state);
+      const mover = zones['room-a'].querySelector('[data-cue-at="seat-7/place"]');
+      // Measured once the scene is on the page, before anything is drawn.
+      requestAnimationFrame(() => carriedFrom(mover, zones['room-b'].querySelector('.ms-seats')));
+      return { root, marks: [[mover, 'public-move']] };
     },
   },
   'cue-status-change': {
@@ -83,6 +121,15 @@ export const CUE_STAGES = {
     build(options) {
       const phase = phaseEl({ ...STATE_OPENING, round: 3, activeSeat: 6 }, null, { seconds: 59 });
       return { root: sceneShell('table', options, phase), marks: [[phase.querySelector('[data-cue-at="phase"]'), 'round-transition']] };
+    },
+  },
+  'cue-role-card-turn': {
+    width: 330,
+    ground: 'panel',
+    build(options, copy) {
+      // One role stands for all nine: the cue is the same whatever the card holds.
+      const card = roleCardEl({ role: 'Officer', copy, person: 'c4' });
+      return { root: privately(options, card), marks: [[card, 'role-card-turn']] };
     },
   },
 };

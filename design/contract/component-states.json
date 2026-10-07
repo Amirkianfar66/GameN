@@ -1,8 +1,8 @@
 {
-  "$comment": "The component and state contract between Designer and Frontend. For every state: `when` is the fact it may be drawn from, in the audience views of wire protocol 1 at the base commit, or `local` for the device's own input; `shape` is how it differs from its neighbors without color; `words` is the live English text that says it. The hooks and the conditions for the Shot card are the ones Frontend's model produces; where a state is exported but drawn by no reference rule, its `note` says so. Nothing here is a rule: a state that would need a fact the views do not carry says so and points at an open decision. docs/design/component-states.md is generated from this file.",
-  "contractVersion": "0.1.0",
-  "tokenVersion": "0.3.0",
-  "assetManifestVersion": "design-0.1.0",
+  "$comment": "The component and state contract between Designer and Frontend. For every state: `when` is the fact it may be drawn from, in the audience views of wire protocol 1 at the base commit, or `local` for the device's own input; `shape` is how it differs from its neighbors without color; `words` is the live English text that says it. The hooks and the conditions for the Shot card are the ones Frontend's model produces; where a state is exported but drawn by no reference rule, its `note` says so. Nothing here is a rule: a state that would need a fact the views do not carry says so and points at an open decision. Two facts are PROPOSED and in no contract yet: a seat's display name and the character its player chose (docs/design/integration-requests.md, DSN-REQ-6); every state drawn from one says so, and every component that uses one also says what is drawn without it. docs/design/component-states.md is generated from this file.",
+  "contractVersion": "0.2.0",
+  "tokenVersion": "0.4.0",
+  "assetManifestVersion": "design-0.2.0",
   "protocolVersion": 1,
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
@@ -17,7 +17,7 @@
     "phone-private": "Inside one seat's open private sheet."
   },
   "requiredStates": {
-    "idle": ["action-card:available", "action-card:available-waiting", "seat-token:idle", "button:idle", "private-dock:closed"],
+    "idle": ["action-card:available", "action-card:available-waiting", "seat-token:character", "seat-token:numbered", "button:idle", "private-dock:closed"],
     "selection": ["action-card:targeting", "button:pressed"],
     "targeting": ["action-card:targeting", "action-card:confirming", "target-row:offered"],
     "pending": ["action-card:submitting", "action-card:checking", "action-card:unknown"],
@@ -149,13 +149,13 @@
       "surfaces": ["phone-public"],
       "audience": "public",
       "hook": "PROPOSED span.ms-location__art[data-location] inside .ms-location",
-      "assets": ["board-room-a"],
+      "assets": ["board-room-a", "board-room-b", "board-command-room", "board-hospital", "board-jail"],
       "states": [
-        { "state": "present", "when": "The viewer's own seats[].location has a vignette in the manifest and the public bundle has loaded.", "shape": "The room's upper half as a 16:7 strip with an ink edge and a paper keyline.", "words": "None: it is decoration, hidden from assistive technology. The room name is the caption." },
-        { "state": "missing", "when": "No vignette exists for that location, or the public bundle has not loaded.", "shape": "Not drawn. The panel is the caption and the list, as today.", "words": "The room name caption." }
+        { "state": "present", "when": "The viewer's own seats[].location is one of the five rooms and the public bundle has loaded.", "shape": "The room's upper half as a 16:7 strip in the room's own colors, with an ink edge and a paper keyline. Each room has its own silhouette: a round viewport, a flask, a long window, a monitor, a striped door.", "words": "None: it is decoration, hidden from assistive technology. The room name is the caption." },
+        { "state": "missing", "when": "The location is the Final Zone, which has no vignette, or the public bundle has not loaded.", "shape": "Not drawn. The panel is the caption and the list, as today.", "words": "The room name caption." }
       ],
-      "mustNot": ["Carry text.", "Be the only way the location is told."],
-      "note": "Where a seat is, is a public fact, so the element is the same on every phone. The picture is in the public bundle, already loaded: nothing is fetched when a seat moves."
+      "mustNot": ["Carry text.", "Be the only way the location is told.", "Let the room's color stand for a team, a role, a player or a state."],
+      "note": "Where a seat is, is a public fact, so the element is the same on every phone. All five pictures are in the public bundle, already loaded: nothing is fetched when a seat moves."
     },
     {
       "id": "location-caption",
@@ -163,27 +163,45 @@
       "surfaces": ["table", "phone-public"],
       "audience": "public",
       "hook": ".ms-location__name, and .ms-zone__name on the table",
-      "assets": [],
+      "assets": ["icon-location"],
       "states": [
-        { "state": "named", "when": "A seats[].location value.", "shape": "A paper caption box with an ink edge, over the art's quiet top-left corner when art is present.", "words": "The location's name as live text." }
-      ]
+        { "state": "named", "when": "A seats[].location value.", "shape": "A caption box in the page's yellow with an ink edge, cut on a slant and turned a little, over the art's quiet top-left corner when art is present. The room's icon stands before its name once the public bundle has loaded.", "words": "The location's name as live text." }
+      ],
+      "note": "The yellow and the slant are how every caption looks. Neither is a state, and neither says that a room may be chosen. The yellow is close to the amber of interaction (16 apart in CIE76): where a room is ever offered for a move, that has to be said by something else.",
+      "mustNot": ["Rename a room: the names are the rules' own (Room A, Room B, Command Room, Hospital, Jail).", "Use the icon as the only way a room is told."]
     },
     {
       "id": "seat-token",
-      "title": "Player token",
+      "title": "Playing piece",
       "surfaces": ["table", "phone-public", "phone-private"],
       "audience": "public",
-      "hook": ".ms-token inside [data-seat] or [data-target-seat]",
-      "assets": ["token-neutral", "token-numeral"],
+      "hook": ".ms-token inside [data-seat] or [data-target-seat]; PROPOSED data-character=\"c1\" to \"c9\" on that element",
+      "assets": ["piece-crew", "token-neutral", "token-numeral"],
       "states": [
-        { "state": "idle", "when": "A seat in seats[] whose health is Healthy.", "shape": "A ringed disc with a paper face and an ink numeral; a stand on the board. One numeral picture laid over one body.", "words": "“Player N” beside it. The numeral repeats the name and is hidden from assistive technology." },
-        { "state": "injured", "when": "seats[].health is Injured.", "shape": "A cracked rim and a patch across the ring, on the badge and on the standee.", "words": "The health marker reads “Injured”." },
-        { "state": "eliminated", "when": "seats[].health is Eliminated.", "shape": "Flat and hollow: a dashed ring, a duller face, no shadow, on the badge and on the standee.", "words": "The health marker reads “Eliminated”." }
+        { "state": "character", "when": "PROPOSED FACT (DSN-REQ-6): the seat has a character, chosen by its player before roles were dealt.", "shape": "The character: a cardboard standee in a plastic stand on the board, and the same card without its stand in a row. All nine wear the same crew suit; they differ by face, hair and the color of the card's field.", "words": "The tag beside or under it: the seat number and the player's name." },
+        { "state": "numbered", "when": "A seat in seats[] that has no character: every seat, until the identity record exists.", "shape": "A ringed disc with a paper face and an ink numeral; a stand on the board. One numeral picture laid over one body.", "words": "“Player N” beside it. The numeral repeats the name and is hidden from assistive technology." },
+        { "state": "injured", "when": "seats[].health is Injured.", "shape": "A numbered token has a cracked rim and a patch across the ring. A character is not given a wound: on the board the injured badge rides on the piece, lower right.", "words": "The health marker reads “Injured”." },
+        { "state": "eliminated", "when": "seats[].health is Eliminated.", "shape": "A numbered token is flat and hollow: a dashed ring, a duller face, no shadow. A character loses its color, and on the board the eliminated badge rides on the piece.", "words": "The health marker reads “Eliminated”." }
       ],
       "cues": ["cue-public-move"],
-      "fallback": "A plain disc with the live numeral; a doubled ring for Injured, a dashed ring on duller paper for Eliminated. This is what is drawn until the public bundle has loaded.",
-      "note": "In a target row the token is the idle badge whatever the seat's health: the row's words carry the public status.",
-      "mustNot": ["Differ by role, faction, weapon, Code, Protection or any private fact.", "Carry a ring, a dim or any other emphasis on the table or outside the private sheet.", "Be the only way a health state is told."]
+      "fallback": "A plain disc with the live numeral; a doubled ring for Injured, a dashed ring on duller paper for Eliminated. This is what is drawn until the public bundle has loaded, with or without a character.",
+      "note": "In a target row the piece is the seat's character, or the idle badge, whatever the seat's health: the row's words carry the public status. A character is public and the same on every screen.",
+      "mustNot": ["Differ by role, faction, weapon, Code, Protection or any private fact.", "Let a role, a team or a deal choose or change a character.", "Carry a device, a tool, a rank or a weapon: a role's device is drawn only inside the private sheet.", "Carry a ring, a dim or any other emphasis on the table or outside the private sheet.", "Be the only way a health state is told."]
+    },
+    {
+      "id": "seat-tag",
+      "title": "Seat tag: number and name",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-seat__name, .ms-target__name and the roster's th[scope=row]; PROPOSED children .ms-seat__number and .ms-seat__player",
+      "assets": [],
+      "states": [
+        { "state": "named", "when": "PROPOSED FACT (DSN-REQ-6): the seat has a display name.", "shape": "The seat number in a chip, then the name. Under a piece on the board it is a small paper tag with the number in ink. Where four or more stand in one room every second tag hangs a line lower.", "words": "The number and the name; read aloud as “Player N, name”." },
+        { "state": "shortened", "when": "On a board panel only: the name is wider than its tag.", "shape": "The name ends in an ellipsis. The number is never shortened.", "words": "The roster beside the board carries the same name whole.", "surfaces": ["table"] },
+        { "state": "unnamed", "when": "A seat with no display name: every seat, until the identity record exists.", "shape": "Plain words in a row; on a board panel they are in the roster, and hidden from sight only on the panel.", "words": "“Player N”, as today." }
+      ],
+      "note": "A name is text its player typed. It is set as text, never as markup, is at most 12 characters, and is always with the seat number: the number is what the rules and the server mean by a seat. Beside a token that has no art the number is already on the disc, so the tag keeps its own for assistive technology only.",
+      "mustNot": ["Show a name without its seat number.", "Style, color or check a name by what it says: a name that reads like a role is still only a name.", "Shorten a name anywhere but on a board panel that has a roster beside it."]
     },
     {
       "id": "token-emphasis",
@@ -205,10 +223,10 @@
       "title": "Seat row",
       "surfaces": ["phone-public", "table"],
       "audience": "public",
-      "hook": "li.ms-seat[data-seat][data-self][data-active][data-cue-at=\"seat-N/place\"]",
-      "assets": ["token-neutral"],
+      "hook": "li.ms-seat[data-seat][data-self][data-active][data-cue-at=\"seat-N/place\"]; PROPOSED data-character",
+      "assets": ["piece-crew", "token-neutral"],
       "states": [
-        { "state": "listed", "when": "A seat in seats[] with the location the list is for.", "shape": "Token, name, then its markers.", "words": "“Player N” and each marker's word." }
+        { "state": "listed", "when": "A seat in seats[] with the location the list is for.", "shape": "The piece, the tag, then its markers.", "words": "The seat's number and name, or “Player N”, and each marker's word." }
       ],
       "cues": ["cue-public-move"]
     },
@@ -286,12 +304,12 @@
       "hook": ".ms-roster .ms-zones > li.ms-zone[data-zone][data-current]",
       "assets": [],
       "states": [
-        { "state": "occupied", "when": "One or more seats have this location.", "shape": "A bordered group with the seat rows.", "words": "The location name and each seat." },
+        { "state": "occupied", "when": "One or more seats have this location.", "shape": "A bordered group with the seat rows, and a bar in the room's own color down its leading edge.", "words": "The location name and each seat." },
         { "state": "empty", "when": "No seat has this location.", "shape": "The same group.", "words": "“No players here.”" },
         { "state": "current", "when": "The viewer's own seat has this location.", "shape": "A heavier paper keyline. Not a color.", "words": "The “You” marker on the viewer's own row." }
       ],
-      "note": "The complete tap and read path for the board on a phone. The Final Zone is listed only when a seat is in it.",
-      "mustNot": ["Draw a route, an arrow or an adjacency."]
+      "note": "The complete tap and read path for the board on a phone, at any text size. The Final Zone is listed only when a seat is in it. The approved comic page on a phone, with rooms that can be pressed, is not drawn here yet: it needs the movement markup of protocol 2 and a reading path that survives large text.",
+      "mustNot": ["Draw a route, an arrow or an adjacency.", "Let the bar's color be the only way a room is told: its name is beside it."]
     },
     {
       "id": "board-page",
@@ -301,51 +319,52 @@
       "hook": ".ms-shell--table .ms-board > .ms-zones",
       "assets": [],
       "states": [
-        { "state": "page", "when": "Always on the table display.", "shape": "A paper page with one inked panel per location and paper gutters between them. The two rooms share the top row.", "words": "Each panel's caption." }
+        { "state": "page", "when": "Always on the table display.", "shape": "A paper page with one inked panel per location and paper gutters between them. The two rooms share the top row; the Command Room, the Hospital and the Jail the bottom row.", "words": "Each panel's caption." }
       ],
-      "mustNot": ["Draw a door, corridor, arrow or line between panels.", "Tint a panel to tell it apart: every location shares one palette."]
+      "mustNot": ["Draw a door, corridor, arrow or line between panels.", "Let a room's color stand for a team, a role, a player or a state: three of the approved families share a hue with the three team accents (open decision DSN-D13)."]
     },
     {
       "id": "board-panel",
-      "title": "Location panel with vignette",
+      "title": "Room panel with vignette",
       "surfaces": ["table"],
       "audience": "public",
-      "hook": ".ms-shell--table .ms-zone[data-zone=\"room-a\"]",
-      "assets": ["board-room-a", "token-neutral", "marker-health", "marker-jail", "marker-captain", "marker-turn"],
+      "hook": ".ms-shell--table .ms-zone[data-zone] for room-a, room-b, command-room, hospital and jail",
+      "assets": ["board-room-a", "board-room-b", "board-command-room", "board-hospital", "board-jail", "piece-crew", "token-neutral", "marker-health", "marker-jail", "marker-captain", "marker-turn"],
       "states": [
-        { "state": "occupied", "when": "One or more seats have this location.", "shape": "The vignette with standees on its deck in one or two even rows. Each standee's body follows the seat's public health, and marker badges ride on it.", "words": "The caption; each seat's name and status are in the roster and, hidden from sight only, in the panel." },
+        { "state": "occupied", "when": "One or more seats have this location.", "shape": "The room's vignette in its own color family, with the pieces standing in one row along its lower edge and a tag under each. Marker badges ride on the piece: turn above, Captain top right, health lower right, Jail lower left.", "words": "The caption and each tag; each seat's status is in the roster and, hidden from sight only, in the panel." },
+        { "state": "crowded", "when": "Four or more seats have this location, up to all nine.", "shape": "The pieces are smaller, so that all stand side by side, and every second tag hangs a line lower. No piece is under the smallest size a face can be told at.", "words": "As occupied. A long name may be shortened in its tag; the roster carries it whole." },
         { "state": "empty", "when": "No seat has this location.", "shape": "The vignette alone.", "words": "The caption and “No players here.” in a caption box of its own, at body size." }
       ],
       "cues": ["cue-public-move"],
-      "note": "Standee positions are the suggested reflow in the manifest. No slot is drawn and none is a capacity.",
-      "mustNot": ["Show a targeting highlight, an aim line or a camera move.", "React to a registration."]
+      "note": "The row is a suggested reflow in the manifest (pieceRow). No slot is drawn and none is a capacity. The panel clips nothing, so a piece carried in from another room is drawn over the gutter on its way.",
+      "mustNot": ["Show a targeting highlight, an aim line or a camera move.", "React to a registration.", "Show a role's device, or anything else of a role, on a piece."]
     },
     {
       "id": "board-panel-fallback",
       "title": "Location panel without a vignette",
       "surfaces": ["table"],
       "audience": "public",
-      "hook": ".ms-shell--table .ms-zone (any zone with no vignette rule)",
+      "hook": ".ms-shell--table .ms-zone (the Final Zone, and every zone before the art has arrived)",
       "assets": ["pattern-halftone", "token-neutral"],
       "states": [
-        { "state": "occupied", "when": "One or more seats have this location and no vignette is drawn for it.", "shape": "A plain inked panel in steel; badge tokens with their names and chips. No halftone lies behind them.", "words": "The caption, each seat's name and each marker's word." },
+        { "state": "occupied", "when": "One or more seats have this location and no vignette is drawn for it.", "shape": "A plain inked panel on the room's own ground color (steel for the Final Zone); disc tokens with their names and chips. No halftone lies behind them.", "words": "The caption, each seat's name and each marker's word." },
         { "state": "empty", "when": "No seat has this location.", "shape": "The same panel, with halftone gathered in its far corner.", "words": "The caption and “No players here.”" }
       ],
-      "note": "Every location is drawn this way until the public bundle has loaded, Room A included. The panel grows with what it holds; nothing is clipped to keep a shape."
+      "note": "Every location is drawn this way until the public bundle has loaded. The panel grows with what it holds; nothing is clipped to keep a shape."
     },
     {
       "id": "roster-table",
       "title": "Roster",
       "surfaces": ["table"],
       "audience": "public",
-      "hook": ".ms-roster .ms-table tr[data-seat][data-active] with td[data-cue-at]",
+      "hook": ".ms-roster .ms-table tr[data-seat][data-active] with td[data-cue-at]; PROPOSED .ms-seat__number and .ms-seat__player in the row header",
       "assets": [],
       "states": [
-        { "state": "row", "when": "A seat in seats[].", "shape": "A row.", "words": "Player, location, health and status, each in words." },
+        { "state": "row", "when": "A seat in seats[].", "shape": "A row. With a name, its header is the same two parts as a tag on the board: the number in a chip, then the name, whole.", "words": "Player, location, health and status, each in words." },
         { "state": "active-row", "when": "activeSeatId equals the seat.", "shape": "An amber bar at the start of the row.", "words": "“Active turn” in the status cell." }
       ],
       "cues": ["cue-public-move", "cue-status-change"],
-      "note": "Beside the board from 1280 CSS px; under it below that. A long word wraps inside its cell: the table never scrolls sideways and no status word is out of sight."
+      "note": "Beside the board from 1280 CSS px; under it below that. A long word wraps inside its cell: the table never scrolls sideways and no status word is out of sight. It is where a name shortened on the board is read whole."
     },
     {
       "id": "private-dock",
@@ -366,15 +385,17 @@
       "title": "Role card",
       "surfaces": ["phone-private"],
       "audience": "private",
-      "hook": ".ms-role-card; PROPOSED children span.__art, __text, __name, __team, details.__more, __summary; PROPOSED custom properties --ms-role-art and --ms-team-accent set on the card by the client",
-      "assets": ["card-officer"],
+      "hook": ".ms-role-card; PROPOSED children span.__art, __text, __name, __team, details.__more, __summary; PROPOSED custom properties --ms-role-person, --ms-role-device and --ms-team-accent set on the card by the client",
+      "assets": ["device-officer", "device-insider", "device-cracker", "device-blue-disabler", "device-supplier", "device-undercover", "device-hacker", "device-red-disabler", "device-alien", "piece-crew"],
       "states": [
-        { "state": "compact", "when": "PRIVATE. self.role of the player's own view, inside the open sheet, for a role that has a proposed card (the Officer only, in this slice).", "shape": "A paper card: a 56 px thumbnail of the role illustration, the role name and the team.", "words": "The role name, the team in words, and “About this role”." },
-        { "state": "expanded", "when": "Local: the player opened “About this role”.", "shape": "The illustration whole at 5:7 and the summary under it.", "words": "The proposed summary and limit lines (design/contract/copy.en.proposed.json)." },
-        { "state": "name-only", "when": "PRIVATE. self.role for a role with no proposed card yet (eight of the nine), or before the role bundle has loaded.", "shape": "A paper card holding the role name, as Frontend draws it today. No thumbnail, no team line.", "words": "The role name." }
+        { "state": "compact", "when": "PRIVATE. self.role of the player's own view, inside the open sheet.", "shape": "A paper card: a thumbnail of the player's own character with the role's device added, held in the character's glove; the role name and the team.", "words": "The role name, the team in words, and “About this role”." },
+        { "state": "expanded", "when": "Local: the player opened “About this role”.", "shape": "The same picture large, and the summary under it.", "words": "The proposed lines for that role (design/contract/copy.en.proposed.json), for all nine roles." },
+        { "state": "device-alone", "when": "PRIVATE. The seat has no character yet, or the public bundle has not loaded.", "shape": "The device on the card's dotted ground, without a character.", "words": "As compact." },
+        { "state": "name-only", "when": "PRIVATE. self.role before the role bundle has loaded, or where the proposed structure is not used.", "shape": "A paper card holding the role name, as Frontend draws it today. No picture.", "words": "The role name." }
       ],
-      "note": "The role name is never larger than the heading size, so it cannot be read across a table. The team is a fact of the role taken from the rule source (rules/overlays/player-modes-officer.json); no view field carries it. Its color swatch is decoration beside its word and exists only inside the sheet.",
-      "mustNot": ["Fetch the dealt role's picture: every phone loads the whole role bundle as one stylesheet, whatever its role.", "Key a selector on the role: the client sets the picture and the swatch as custom properties on the card, inside the sheet.", "Appear, or leave any trace, outside the open sheet.", "Mention identifying another player: that step is archived."]
+      "cues": ["cue-role-card-turn"],
+      "note": "The role name is never larger than the heading size, so it cannot be read across a table. The picture is compact by default, so that a device in its team's color is not large on screen every time the sheet is opened, and the actions stay in reach. The team is a fact of the role taken from the rule source; no view field carries it. Its color swatch is decoration beside its word and exists only inside the sheet. The character on the card is the player's own public piece: nothing about it is private, and it is drawn here only as the wearer of the device.",
+      "mustNot": ["Fetch the dealt role's device: every phone loads the whole role bundle as one stylesheet, whatever its role.", "Key a selector on the role: the client sets the pictures and the swatch as custom properties on the card, inside the sheet.", "Appear, or leave any trace, outside the open sheet: no piece, cue, location or shared display shows a device.", "Show another player's device, ever.", "Mention identifying another player for a shot: that step is archived."]
     },
     {
       "id": "action-card",
@@ -446,13 +467,13 @@
       "title": "Target row",
       "surfaces": ["phone-private"],
       "audience": "private",
-      "hook": "button.ms-target[data-target-seat]",
-      "assets": ["token-neutral"],
+      "hook": "button.ms-target[data-target-seat]; PROPOSED data-character",
+      "assets": ["piece-crew", "token-neutral"],
       "states": [
-        { "state": "offered", "when": "PRIVATE. The seat is offered as a target. In protocol 1 that is a provisional hint (same location), not the server's list (DSN-D03).", "shape": "A full-width row: the token, the name, and the seat's public status in words.", "words": "“Player N” and its public status." },
+        { "state": "offered", "when": "PRIVATE. The seat is offered as a target. In protocol 1 that is a provisional hint (same location), not the server's list (DSN-D03).", "shape": "A full-width row: the piece, the tag, and the seat's public status in words.", "words": "The seat's number and name, or “Player N”, and its public status." },
         { "state": "none", "when": "No seat is offered.", "shape": "No rows.", "words": "“No other players are in your location.”" }
       ],
-      "note": "The complete tap path. Dragging is never required. The token is the idle badge whatever the seat's health; the public status is in the row's words.",
+      "note": "The complete tap path. Dragging is never required. The piece is the seat's character or the idle badge whatever the seat's health; the public status is in the row's words.",
       "mustNot": ["Describe a target by anything but its public status.", "Show why a seat is not offered unless the view supplies the reason."]
     },
     {
@@ -492,6 +513,21 @@
         { "state": "reduce-motion", "when": "The device preference, then the player's own choice.", "shape": "A labeled checkbox.", "words": "“Reduce motion” and where the value comes from." }
       ],
       "note": "Reduced motion, reduced effects and mute are three separate settings. Only the first is in the shells today."
+    },
+    {
+      "id": "character-choice",
+      "title": "Choosing a character",
+      "surfaces": ["phone-public"],
+      "audience": "public",
+      "hook": "None yet. PROPOSED: the lobby step that sets a seat's name and character, before the starting-room choice and before roles are dealt (DSN-REQ-6, DSN-D15)",
+      "assets": ["piece-crew"],
+      "states": [
+        { "state": "offered", "when": "PROPOSED FACT: the character is held by no seat of this match.", "shape": "The character's card on a paper tile with its call sign.", "words": "The call sign, as the accessible name of the choice.", "note": "Specified here and drawn by no reference rule: no lobby markup exists to style. It is drawn and playable in the approved exploration." },
+        { "state": "taken", "when": "PROPOSED FACT: another seat of this match holds the character.", "shape": "Still drawn and still named, without its color, on a dashed tile, with the seat number and name of whoever holds it. Not offered.", "words": "The call sign and who holds it.", "note": "Drawn by no reference rule yet." },
+        { "state": "mine", "when": "Local, then the PROPOSED FACT once the server accepts it: this seat's own choice.", "shape": "A heavier ink edge and an offset shadow.", "words": "The call sign and the player's own name.", "note": "Drawn by no reference rule yet." }
+      ],
+      "note": "Nine characters; at most nine players in Version 1. A character is chosen before any role exists and is never offered, withheld or changed because of one.",
+      "mustNot": ["Come after the deal, or be shaped by it in any way.", "Offer a character another seat holds.", "Accept a name as markup: it is text, at most 12 characters."]
     }
   ]
 }

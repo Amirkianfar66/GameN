@@ -4,7 +4,7 @@
 
 **Approved by the game owner as the design direction on 7 October 2026.** The owner's words, and exactly what they cover, are in [docs/design/owner-decisions.md](../../../docs/design/owner-decisions.md).
 
-**Built as an exploration.** It is a page to look at and play with, on a synthetic fixture. It is not an asset, a contract, a reference stylesheet or a shell, and it is not the game: no token, recipe, manifest entry or contract file was changed for it. Adopting it into those is the next piece of work, listed under [What adopting it takes](#what-adopting-it-takes).
+**Built as an exploration, and since adopted in part.** It is a page to look at and play with, on a synthetic fixture. It is not an asset, a contract, a reference stylesheet or a shell, and it is not the game. Its drawings, its colors, its tags, its role card and its move are now in the design system: the drawings are sources under `design/source/`, which this page reads, and it holds none of its own any more. What the page still shows that the design system does not is listed under [What is adopted, and what is not](#what-is-adopted-and-what-is-not).
 
 | A player's phone | The role card, private | The shared display |
 | --- | --- | --- |
@@ -58,7 +58,7 @@ Motion while nothing happens: stars drift behind the glass, lamps blink, the Hos
 
 - A character is chosen by the player before any role is dealt. Nothing in the page, the drawings or the data ties a character to a role or a team.
 - All nine wear the same crew suit. None has a rank, a badge, a tool or a weapon.
-- Their field colors are orange, yellow, lime, green, teal, pink, brown, cream and charcoal: kept away from blue, red and violet, the three team accents, so that a piece is not read as a team and does not clash with a faction revealed later.
+- Their field colors are orange, yellow, lime, green, teal, pink, brown, cream and charcoal. None is blue, red or violet, the hues of the three team accents. How near each comes to an accent was measured after the approval and is in the tokens: the pink is the nearest, 26 away from the Red accent in CIE76.
 - Health, the Jail and the Captain are the existing badges, on the piece.
 - The call signs (Vega, Rigel, Lyra, Atlas, Orion, Nova, Juno, Mira, Echo) are proposed, only to tell the nine apart while choosing.
 
@@ -71,31 +71,40 @@ Motion while nothing happens: stars drift behind the glass, lamps blink, the Hos
 - **Nothing of it is public.** No piece, no cue and no shared display shows a device or is shaped by one. The page holds one role, the viewer's own; it never knows anybody else's.
 - **Nothing is fetched because of the role.** All nine devices and all nine characters are asked for at the start, whatever is dealt. Seen in desktop Chrome: 9 device files and 9 character files at load, 0 requests when the card is turned up, 0 after a different role is dealt.
 - The page going to the background turns the card face down. That is best-effort privacy, not screenshot protection.
-- Only the Officer has summary lines: the ones already proposed in `design/contract/copy.en.proposed.json`, with their rule sources. The other eight show a name and a team and wait for copy.
+- On this page only the Officer has summary lines. Lines for all nine are now proposed in `design/contract/copy.en.proposed.json`, with their rule sources, and are drawn on the review page `prototypes/states.html?sheet=roles`.
 
 ## The rooms
 
 ![The five rooms](review/rooms.png)
 
-Four new drawings (`art/`): Command Room, Hospital, Jail and Room B. Room A is `design/source/board/board-room-a.svg`, unchanged. All five are drawn in the neutral steel palette; the page swaps the five steel values for a room's color family (`rooms.js`).
+Five drawings, all sources now: `design/source/board/board-room-a.svg` and, drawn for this page, `board-room-b.svg`, `board-command-room.svg`, `board-hospital.svg` and `board-jail.svg`. All five are drawn in the neutral steel palette; the page swaps the five steel values for a room's color family (`rooms.js`), as an export recipe now does.
 
-Two sets of families are in the page. `picture` follows the owner's reference and is what was approved. `apart` (terracotta, olive, gold, teal, iron) stays away from the three team hues:
+Two sets of families are in the page. `picture` follows the owner's reference, is what was approved, and is `color.room` in design tokens 0.4.0. `apart` (terracotta, olive, gold, teal, iron) stays away from the three team hues and is not a token; it is kept here for open decision DSN-D13:
 
 ![The second color set](review/shared-display-other-colors.png)
 
-## What adopting it takes
+## What is adopted, and what is not
 
-None of this is done here. Each is a reviewed change of its own.
-
-| What | Whose |
+| Of this page | Where it is now |
 | --- | --- |
-| A player's name and chosen character as public facts of a seat, and the lobby step that sets them before roles are dealt. No contract carries either today | Codex, with Frontend ([DSN-REQ-6](../../../docs/design/integration-requests.md#dsn-req-6)) |
-| The starting-room choice of approved decision V1-01, between the character and the role deal. This page skips it: the fixture puts the viewer in Room A | Designer, then Frontend |
-| A token revision: the room color families, the nine character fields, skin and hair, the caption yellow. 29 colors in the characters, the 25 of the approved room families and the caption yellow are not tokens | Designer proposes; Codex updates the lock ([DSN-REQ-2](../../../docs/design/integration-requests.md#dsn-req-2)) |
-| The drawings as sources with recipes: five rooms and nine characters in the public bundle, nine devices in the role bundle, each bundle still one stylesheet loaded whole | Designer |
-| The contract: the piece, the tag, the hand, the role card and their states; the move and card cues with their storyboards; copy for the eight roles that have none | Designer, with Frontend for wording |
-| A rule for motion that repeats. The reference stylesheets refuse it today; this page has some, all of it off under reduced motion | Designer, with Frontend |
-| The runtime | Frontend. This page is plain script written to be looked at, not a component to take |
+| The four new rooms, the nine characters, the nine devices | Sources under `design/source/board/`, `crew/` and `devices/`, each the approved drawing byte for byte apart from its header and, in the Command Room, its layer names. Exported in `design-0.2.0`: rooms and characters in the public bundle, devices in the role bundle |
+| The room color families, the characters' colors, the caption yellow | Design tokens 0.4.0 |
+| Captions on a slant with an icon; pieces in one row with a tag of number and name | The reference stylesheet, on the table display |
+| The move: lifted, carried, set down, 900 ms | The motion contract and `cues.css`, as the `public-move` cue |
+| The role card turned up on the player's own character | The motion contract and `cues.css`, as a local cue; the card itself is compact inside the private sheet |
+| Lines for the role cards | Proposed for all nine, with their rule sources, in `design/contract/copy.en.proposed.json` |
+
+| Still only here | It waits for |
+| --- | --- |
+| The whole board on one phone screen, above a hand of cards | The movement markup of protocol 2 on Frontend's side, and a reading path at large text (DSN-D18) |
+| Pressing a room to move | The same |
+| A card dealt face down, and a large card when it is turned up | A hand in the markup; the owner's word on the large card (DSN-D19) |
+| Choosing a character and typing a name | The lobby step and a seat's public identity ([DSN-REQ-6](../../../docs/design/integration-requests.md#dsn-req-6)) |
+| The starting-room choice of approved decision V1-01, which this page skips | The same lobby flow |
+| Motion while nothing happens | A decision on `motionPolicy.loops`, which is `false` in the pinned tokens (DSN-D16) |
+| The second set of room colors | DSN-D13 |
+
+The runtime is Frontend's. This page is plain script written to be looked at, not a component to take.
 
 ## Cautions that stand
 
@@ -108,13 +117,13 @@ The owner approved the look as shown. These are the Designer's cautions about it
 
 ## Provenance and rights
 
-Original vector artwork: 4 rooms, 9 characters and 9 devices, drawn for this repository as hand-laid SVG by the Visual and Motion Designer workstream (a Claude Code session, model `claude-opus-5-5`, working for the game owner) on 7 October 2026. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is in it. The owner's reference picture was looked at for its direction (a comic page of rooms in color, slanted yellow captions) and is not in the repository; nothing was traced or copied from it, and every room was drawn from scratch in the frame of `board-room-a.svg`. The shapes were laid out with throwaway scripts; the SVG files are the editable sources.
+Original vector artwork: 4 rooms, 9 characters and 9 devices, drawn for this repository as hand-laid SVG by the Visual and Motion Designer workstream (a Claude Code session, model `claude-opus-5-5`, working for the game owner) on 7 October 2026. They were drawn in this directory and are now under `design/source/`, where the asset manifest records their rights. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is in them. The owner's reference picture was looked at for its direction (a comic page of rooms in color, slanted yellow captions) and is not in the repository; nothing was traced or copied from it, and every room was drawn from scratch in the frame of `board-room-a.svg`. The shapes were laid out with throwaway scripts; the SVG files are the editable sources.
 
 No license is granted. The repository carries none; any use outside the Mothership project needs the owner's decision (DSN-D06).
 
 ## What was checked, and what was not
 
-- `check:assets` holds this directory apart: every file carries the development-only mark, every drawing uses only the drawing vocabulary, and nothing reviewed reaches into it. Six mutations in two tests show those refusals.
+- `check:assets` holds this directory apart: every file carries the development-only mark, a drawing tried here uses only the drawing vocabulary, and nothing reviewed reaches into it. Six mutations in two tests show those refusals. The page reads its drawings from `design/source/`; that direction is allowed.
 - `node design/explorations/comic-board/try.mjs` walks the page in a browser: choosing, the deal, a move, a refused move, a lost connection, the Captain's choices, other players' moves, every role card, reduced motion and the shared display. In Google Chrome 155: 43 things looked for, 0 not found. It looks for a role in the public markup and for requests made when the card is turned up, and it was shown able to fail on both. [verification.md](../../../docs/design/verification.md#the-comic-board-exploration) lists what it looks for.
 - The storyboard frames above are the page itself, held at those moments.
 - **Not checked:** any phone or shared display, any other browser, a screen reader, motion comfort, frame time, how the pieces read from across a table, and whether people can tell the nine apart or mistake a room's color for a team. The walk is run by hand. The review pictures in `review/` come from `render.mjs`; no check reads them.

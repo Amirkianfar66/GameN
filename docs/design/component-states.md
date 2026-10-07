@@ -2,7 +2,7 @@
 
 # Component and state contract
 
-Contract `0.1.0` · design tokens `0.3.0` (proposal) · asset manifest `design-0.1.0` · wire protocol 1 at base commit `333c9e8`.
+Contract `0.2.0` · design tokens `0.4.0` (proposal) · asset manifest `design-0.2.0` · wire protocol 1 at base commit `333c9e8`.
 
 For every state of every component: the fact it may be drawn from, how it looks, and the live English words that say it. No state is told apart by color alone: every one has words, and most have an outline of their own as well. The hooks are the classes, ids and data attributes Frontend already produces
 (`agent/frontend-motion-gallery` at `fccadf7`, as read by the Designer); a hook marked PROPOSED does not exist there yet and is listed in [frontend-handoff.md](frontend-handoff.md).
@@ -15,7 +15,7 @@ Where each state the brief asks for appears. Each entry is a component and one o
 
 | State | Drawn as | What is not drawn, and why |
 | --- | --- | --- |
-| **idle** | `action-card:available`, `action-card:available-waiting`, `seat-token:idle`, `button:idle`, `private-dock:closed` |  |
+| **idle** | `action-card:available`, `action-card:available-waiting`, `seat-token:character`, `seat-token:numbered`, `button:idle`, `private-dock:closed` |  |
 | **selection** | `action-card:targeting`, `button:pressed` | A ring around a chosen token is exported (token-emphasis:selected) and drawn by no reference rule yet: Frontend's confirmation step names the seat in words and shows no token. |
 | **targeting** | `action-card:targeting`, `action-card:confirming`, `target-row:offered` | A ring for “may be chosen” is exported (token-emphasis:targetable) and drawn by no reference rule: protocol 1 has no server target list, and a ring would claim one (DSN-D03). |
 | **pending** | `action-card:submitting`, `action-card:checking`, `action-card:unknown` |  |
@@ -171,19 +171,20 @@ Must not:
 
 Hook: `PROPOSED span.ms-location__art[data-location] inside .ms-location`
 
-Assets: `board-room-a`
+Assets: `board-room-a`, `board-room-b`, `board-command-room`, `board-hospital`, `board-jail`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `present` | The viewer's own seats[].location has a vignette in the manifest and the public bundle has loaded. | The room's upper half as a 16:7 strip with an ink edge and a paper keyline. | None: it is decoration, hidden from assistive technology. The room name is the caption. |
-| `missing` | No vignette exists for that location, or the public bundle has not loaded. | Not drawn. The panel is the caption and the list, as today. | The room name caption. |
+| `present` | The viewer's own seats[].location is one of the five rooms and the public bundle has loaded. | The room's upper half as a 16:7 strip in the room's own colors, with an ink edge and a paper keyline. Each room has its own silhouette: a round viewport, a flask, a long window, a monitor, a striped door. | None: it is decoration, hidden from assistive technology. The room name is the caption. |
+| `missing` | The location is the Final Zone, which has no vignette, or the public bundle has not loaded. | Not drawn. The panel is the caption and the list, as today. | The room name caption. |
 
-Where a seat is, is a public fact, so the element is the same on every phone. The picture is in the public bundle, already loaded: nothing is fetched when a seat moves.
+Where a seat is, is a public fact, so the element is the same on every phone. All five pictures are in the public bundle, already loaded: nothing is fetched when a seat moves.
 
 Must not:
 
 - Carry text.
 - Be the only way the location is told.
+- Let the room's color stand for a team, a role, a player or a state.
 
 ### Room name caption
 
@@ -191,35 +192,67 @@ Must not:
 
 Hook: `.ms-location__name, and .ms-zone__name on the table`
 
+Assets: `icon-location`
+
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `named` | A seats[].location value. | A paper caption box with an ink edge, over the art's quiet top-left corner when art is present. | The location's name as live text. |
+| `named` | A seats[].location value. | A caption box in the page's yellow with an ink edge, cut on a slant and turned a little, over the art's quiet top-left corner when art is present. The room's icon stands before its name once the public bundle has loaded. | The location's name as live text. |
 
-### Player token
+The yellow and the slant are how every caption looks. Neither is a state, and neither says that a room may be chosen. The yellow is close to the amber of interaction (16 apart in CIE76): where a room is ever offered for a move, that has to be said by something else.
+
+Must not:
+
+- Rename a room: the names are the rules' own (Room A, Room B, Command Room, Hospital, Jail).
+- Use the icon as the only way a room is told.
+
+### Playing piece
 
 `seat-token` · public · Table; Phone, public layer; Phone, private sheet
 
-Hook: `.ms-token inside [data-seat] or [data-target-seat]`
+Hook: `.ms-token inside [data-seat] or [data-target-seat]; PROPOSED data-character="c1" to "c9" on that element`
 
-Assets: `token-neutral`, `token-numeral`
+Assets: `piece-crew`, `token-neutral`, `token-numeral`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `idle` | A seat in seats[] whose health is Healthy. | A ringed disc with a paper face and an ink numeral; a stand on the board. One numeral picture laid over one body. | “Player N” beside it. The numeral repeats the name and is hidden from assistive technology. |
-| `injured` | seats[].health is Injured. | A cracked rim and a patch across the ring, on the badge and on the standee. | The health marker reads “Injured”. |
-| `eliminated` | seats[].health is Eliminated. | Flat and hollow: a dashed ring, a duller face, no shadow, on the badge and on the standee. | The health marker reads “Eliminated”. |
+| `character` | PROPOSED FACT (DSN-REQ-6): the seat has a character, chosen by its player before roles were dealt. | The character: a cardboard standee in a plastic stand on the board, and the same card without its stand in a row. All nine wear the same crew suit; they differ by face, hair and the color of the card's field. | The tag beside or under it: the seat number and the player's name. |
+| `numbered` | A seat in seats[] that has no character: every seat, until the identity record exists. | A ringed disc with a paper face and an ink numeral; a stand on the board. One numeral picture laid over one body. | “Player N” beside it. The numeral repeats the name and is hidden from assistive technology. |
+| `injured` | seats[].health is Injured. | A numbered token has a cracked rim and a patch across the ring. A character is not given a wound: on the board the injured badge rides on the piece, lower right. | The health marker reads “Injured”. |
+| `eliminated` | seats[].health is Eliminated. | A numbered token is flat and hollow: a dashed ring, a duller face, no shadow. A character loses its color, and on the board the eliminated badge rides on the piece. | The health marker reads “Eliminated”. |
 
 Cues: [`cue-public-move`](motion-storyboards.md#cue-public-move)
 
-Missing-asset fallback: A plain disc with the live numeral; a doubled ring for Injured, a dashed ring on duller paper for Eliminated. This is what is drawn until the public bundle has loaded.
+Missing-asset fallback: A plain disc with the live numeral; a doubled ring for Injured, a dashed ring on duller paper for Eliminated. This is what is drawn until the public bundle has loaded, with or without a character.
 
-In a target row the token is the idle badge whatever the seat's health: the row's words carry the public status.
+In a target row the piece is the seat's character, or the idle badge, whatever the seat's health: the row's words carry the public status. A character is public and the same on every screen.
 
 Must not:
 
 - Differ by role, faction, weapon, Code, Protection or any private fact.
+- Let a role, a team or a deal choose or change a character.
+- Carry a device, a tool, a rank or a weapon: a role's device is drawn only inside the private sheet.
 - Carry a ring, a dim or any other emphasis on the table or outside the private sheet.
 - Be the only way a health state is told.
+
+### Seat tag: number and name
+
+`seat-tag` · public · Table; Phone, public layer; Phone, private sheet
+
+Hook: `.ms-seat__name, .ms-target__name and the roster's th[scope=row]; PROPOSED children .ms-seat__number and .ms-seat__player`
+
+| State | Drawn when | Told apart by | Words |
+| --- | --- | --- | --- |
+| `named` | PROPOSED FACT (DSN-REQ-6): the seat has a display name. | The seat number in a chip, then the name. Under a piece on the board it is a small paper tag with the number in ink. Where four or more stand in one room every second tag hangs a line lower. | The number and the name; read aloud as “Player N, name”. |
+| `shortened` · Table only | On a board panel only: the name is wider than its tag. | The name ends in an ellipsis. The number is never shortened. | The roster beside the board carries the same name whole. |
+| `unnamed` | A seat with no display name: every seat, until the identity record exists. | Plain words in a row; on a board panel they are in the roster, and hidden from sight only on the panel. | “Player N”, as today. |
+
+A name is text its player typed. It is set as text, never as markup, is at most 12 characters, and is always with the seat number: the number is what the rules and the server mean by a seat. Beside a token that has no art the number is already on the disc, so the tag keeps its own for assistive technology only.
+
+Must not:
+
+- Show a name without its seat number.
+- Style, color or check a name by what it says: a name that reads like a role is still only a name.
+- Shorten a name anywhere but on a board panel that has a roster beside it.
 
 ### Private token emphasis
 
@@ -246,13 +279,13 @@ Must not:
 
 `seat-row` · public · Phone, public layer; Table
 
-Hook: `li.ms-seat[data-seat][data-self][data-active][data-cue-at="seat-N/place"]`
+Hook: `li.ms-seat[data-seat][data-self][data-active][data-cue-at="seat-N/place"]; PROPOSED data-character`
 
-Assets: `token-neutral`
+Assets: `piece-crew`, `token-neutral`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `listed` | A seat in seats[] with the location the list is for. | Token, name, then its markers. | “Player N” and each marker's word. |
+| `listed` | A seat in seats[] with the location the list is for. | The piece, the tag, then its markers. | The seat's number and name, or “Player N”, and each marker's word. |
 
 Cues: [`cue-public-move`](motion-storyboards.md#cue-public-move)
 
@@ -353,15 +386,16 @@ Hook: `.ms-roster .ms-zones > li.ms-zone[data-zone][data-current]`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `occupied` | One or more seats have this location. | A bordered group with the seat rows. | The location name and each seat. |
+| `occupied` | One or more seats have this location. | A bordered group with the seat rows, and a bar in the room's own color down its leading edge. | The location name and each seat. |
 | `empty` | No seat has this location. | The same group. | “No players here.” |
 | `current` | The viewer's own seat has this location. | A heavier paper keyline. Not a color. | The “You” marker on the viewer's own row. |
 
-The complete tap and read path for the board on a phone. The Final Zone is listed only when a seat is in it.
+The complete tap and read path for the board on a phone, at any text size. The Final Zone is listed only when a seat is in it. The approved comic page on a phone, with rooms that can be pressed, is not drawn here yet: it needs the movement markup of protocol 2 and a reading path that survives large text.
 
 Must not:
 
 - Draw a route, an arrow or an adjacency.
+- Let the bar's color be the only way a room is told: its name is beside it.
 
 ### Board page
 
@@ -371,64 +405,66 @@ Hook: `.ms-shell--table .ms-board > .ms-zones`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `page` | Always on the table display. | A paper page with one inked panel per location and paper gutters between them. The two rooms share the top row. | Each panel's caption. |
+| `page` | Always on the table display. | A paper page with one inked panel per location and paper gutters between them. The two rooms share the top row; the Command Room, the Hospital and the Jail the bottom row. | Each panel's caption. |
 
 Must not:
 
 - Draw a door, corridor, arrow or line between panels.
-- Tint a panel to tell it apart: every location shares one palette.
+- Let a room's color stand for a team, a role, a player or a state: three of the approved families share a hue with the three team accents (open decision DSN-D13).
 
-### Location panel with vignette
+### Room panel with vignette
 
 `board-panel` · public · Table
 
-Hook: `.ms-shell--table .ms-zone[data-zone="room-a"]`
+Hook: `.ms-shell--table .ms-zone[data-zone] for room-a, room-b, command-room, hospital and jail`
 
-Assets: `board-room-a`, `token-neutral`, `marker-health`, `marker-jail`, `marker-captain`, `marker-turn`
+Assets: `board-room-a`, `board-room-b`, `board-command-room`, `board-hospital`, `board-jail`, `piece-crew`, `token-neutral`, `marker-health`, `marker-jail`, `marker-captain`, `marker-turn`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `occupied` | One or more seats have this location. | The vignette with standees on its deck in one or two even rows. Each standee's body follows the seat's public health, and marker badges ride on it. | The caption; each seat's name and status are in the roster and, hidden from sight only, in the panel. |
+| `occupied` | One or more seats have this location. | The room's vignette in its own color family, with the pieces standing in one row along its lower edge and a tag under each. Marker badges ride on the piece: turn above, Captain top right, health lower right, Jail lower left. | The caption and each tag; each seat's status is in the roster and, hidden from sight only, in the panel. |
+| `crowded` | Four or more seats have this location, up to all nine. | The pieces are smaller, so that all stand side by side, and every second tag hangs a line lower. No piece is under the smallest size a face can be told at. | As occupied. A long name may be shortened in its tag; the roster carries it whole. |
 | `empty` | No seat has this location. | The vignette alone. | The caption and “No players here.” in a caption box of its own, at body size. |
 
 Cues: [`cue-public-move`](motion-storyboards.md#cue-public-move)
 
-Standee positions are the suggested reflow in the manifest. No slot is drawn and none is a capacity.
+The row is a suggested reflow in the manifest (pieceRow). No slot is drawn and none is a capacity. The panel clips nothing, so a piece carried in from another room is drawn over the gutter on its way.
 
 Must not:
 
 - Show a targeting highlight, an aim line or a camera move.
 - React to a registration.
+- Show a role's device, or anything else of a role, on a piece.
 
 ### Location panel without a vignette
 
 `board-panel-fallback` · public · Table
 
-Hook: `.ms-shell--table .ms-zone (any zone with no vignette rule)`
+Hook: `.ms-shell--table .ms-zone (the Final Zone, and every zone before the art has arrived)`
 
 Assets: `pattern-halftone`, `token-neutral`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `occupied` | One or more seats have this location and no vignette is drawn for it. | A plain inked panel in steel; badge tokens with their names and chips. No halftone lies behind them. | The caption, each seat's name and each marker's word. |
+| `occupied` | One or more seats have this location and no vignette is drawn for it. | A plain inked panel on the room's own ground color (steel for the Final Zone); disc tokens with their names and chips. No halftone lies behind them. | The caption, each seat's name and each marker's word. |
 | `empty` | No seat has this location. | The same panel, with halftone gathered in its far corner. | The caption and “No players here.” |
 
-Every location is drawn this way until the public bundle has loaded, Room A included. The panel grows with what it holds; nothing is clipped to keep a shape.
+Every location is drawn this way until the public bundle has loaded. The panel grows with what it holds; nothing is clipped to keep a shape.
 
 ### Roster
 
 `roster-table` · public · Table
 
-Hook: `.ms-roster .ms-table tr[data-seat][data-active] with td[data-cue-at]`
+Hook: `.ms-roster .ms-table tr[data-seat][data-active] with td[data-cue-at]; PROPOSED .ms-seat__number and .ms-seat__player in the row header`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `row` | A seat in seats[]. | A row. | Player, location, health and status, each in words. |
+| `row` | A seat in seats[]. | A row. With a name, its header is the same two parts as a tag on the board: the number in a chip, then the name, whole. | Player, location, health and status, each in words. |
 | `active-row` | activeSeatId equals the seat. | An amber bar at the start of the row. | “Active turn” in the status cell. |
 
 Cues: [`cue-public-move`](motion-storyboards.md#cue-public-move), [`cue-status-change`](motion-storyboards.md#cue-status-change)
 
-Beside the board from 1280 CSS px; under it below that. A long word wraps inside its cell: the table never scrolls sideways and no status word is out of sight.
+Beside the board from 1280 CSS px; under it below that. A long word wraps inside its cell: the table never scrolls sideways and no status word is out of sight. It is where a name shortened on the board is read whole.
 
 ### Private dock and sheet
 
@@ -454,24 +490,28 @@ Must not:
 
 `role-card` · private · Phone, private sheet
 
-Hook: `.ms-role-card; PROPOSED children span.__art, __text, __name, __team, details.__more, __summary; PROPOSED custom properties --ms-role-art and --ms-team-accent set on the card by the client`
+Hook: `.ms-role-card; PROPOSED children span.__art, __text, __name, __team, details.__more, __summary; PROPOSED custom properties --ms-role-person, --ms-role-device and --ms-team-accent set on the card by the client`
 
-Assets: `card-officer`
+Assets: `device-officer`, `device-insider`, `device-cracker`, `device-blue-disabler`, `device-supplier`, `device-undercover`, `device-hacker`, `device-red-disabler`, `device-alien`, `piece-crew`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `compact` | PRIVATE. self.role of the player's own view, inside the open sheet, for a role that has a proposed card (the Officer only, in this slice). | A paper card: a 56 px thumbnail of the role illustration, the role name and the team. | The role name, the team in words, and “About this role”. |
-| `expanded` | Local: the player opened “About this role”. | The illustration whole at 5:7 and the summary under it. | The proposed summary and limit lines (design/contract/copy.en.proposed.json). |
-| `name-only` | PRIVATE. self.role for a role with no proposed card yet (eight of the nine), or before the role bundle has loaded. | A paper card holding the role name, as Frontend draws it today. No thumbnail, no team line. | The role name. |
+| `compact` | PRIVATE. self.role of the player's own view, inside the open sheet. | A paper card: a thumbnail of the player's own character with the role's device added, held in the character's glove; the role name and the team. | The role name, the team in words, and “About this role”. |
+| `expanded` | Local: the player opened “About this role”. | The same picture large, and the summary under it. | The proposed lines for that role (design/contract/copy.en.proposed.json), for all nine roles. |
+| `device-alone` | PRIVATE. The seat has no character yet, or the public bundle has not loaded. | The device on the card's dotted ground, without a character. | As compact. |
+| `name-only` | PRIVATE. self.role before the role bundle has loaded, or where the proposed structure is not used. | A paper card holding the role name, as Frontend draws it today. No picture. | The role name. |
 
-The role name is never larger than the heading size, so it cannot be read across a table. The team is a fact of the role taken from the rule source (rules/overlays/player-modes-officer.json); no view field carries it. Its color swatch is decoration beside its word and exists only inside the sheet.
+Cues: [`cue-role-card-turn`](motion-storyboards.md#cue-role-card-turn)
+
+The role name is never larger than the heading size, so it cannot be read across a table. The picture is compact by default, so that a device in its team's color is not large on screen every time the sheet is opened, and the actions stay in reach. The team is a fact of the role taken from the rule source; no view field carries it. Its color swatch is decoration beside its word and exists only inside the sheet. The character on the card is the player's own public piece: nothing about it is private, and it is drawn here only as the wearer of the device.
 
 Must not:
 
-- Fetch the dealt role's picture: every phone loads the whole role bundle as one stylesheet, whatever its role.
-- Key a selector on the role: the client sets the picture and the swatch as custom properties on the card, inside the sheet.
-- Appear, or leave any trace, outside the open sheet.
-- Mention identifying another player: that step is archived.
+- Fetch the dealt role's device: every phone loads the whole role bundle as one stylesheet, whatever its role.
+- Key a selector on the role: the client sets the pictures and the swatch as custom properties on the card, inside the sheet.
+- Appear, or leave any trace, outside the open sheet: no piece, cue, location or shared display shows a device.
+- Show another player's device, ever.
+- Mention identifying another player for a shot: that step is archived.
 
 ### Action card (Shot)
 
@@ -559,16 +599,16 @@ Must not:
 
 `target-row` · private · Phone, private sheet
 
-Hook: `button.ms-target[data-target-seat]`
+Hook: `button.ms-target[data-target-seat]; PROPOSED data-character`
 
-Assets: `token-neutral`
+Assets: `piece-crew`, `token-neutral`
 
 | State | Drawn when | Told apart by | Words |
 | --- | --- | --- | --- |
-| `offered` | PRIVATE. The seat is offered as a target. In protocol 1 that is a provisional hint (same location), not the server's list (DSN-D03). | A full-width row: the token, the name, and the seat's public status in words. | “Player N” and its public status. |
+| `offered` | PRIVATE. The seat is offered as a target. In protocol 1 that is a provisional hint (same location), not the server's list (DSN-D03). | A full-width row: the piece, the tag, and the seat's public status in words. | The seat's number and name, or “Player N”, and its public status. |
 | `none` | No seat is offered. | No rows. | “No other players are in your location.” |
 
-The complete tap path. Dragging is never required. The token is the idle badge whatever the seat's health; the public status is in the row's words.
+The complete tap path. Dragging is never required. The piece is the seat's character or the idle badge whatever the seat's health; the public status is in the row's words.
 
 Must not:
 
@@ -610,3 +650,25 @@ Hook: `.ms-settings`
 | `reduce-motion` | The device preference, then the player's own choice. | A labeled checkbox. | “Reduce motion” and where the value comes from. |
 
 Reduced motion, reduced effects and mute are three separate settings. Only the first is in the shells today.
+
+### Choosing a character
+
+`character-choice` · public · Phone, public layer
+
+Hook: `None yet. PROPOSED: the lobby step that sets a seat's name and character, before the starting-room choice and before roles are dealt (DSN-REQ-6, DSN-D15)`
+
+Assets: `piece-crew`
+
+| State | Drawn when | Told apart by | Words |
+| --- | --- | --- | --- |
+| `offered` | PROPOSED FACT: the character is held by no seat of this match. _Specified here and drawn by no reference rule: no lobby markup exists to style. It is drawn and playable in the approved exploration._ | The character's card on a paper tile with its call sign. | The call sign, as the accessible name of the choice. |
+| `taken` | PROPOSED FACT: another seat of this match holds the character. _Drawn by no reference rule yet._ | Still drawn and still named, without its color, on a dashed tile, with the seat number and name of whoever holds it. Not offered. | The call sign and who holds it. |
+| `mine` | Local, then the PROPOSED FACT once the server accepts it: this seat's own choice. _Drawn by no reference rule yet._ | A heavier ink edge and an offset shadow. | The call sign and the player's own name. |
+
+Nine characters; at most nine players in Version 1. A character is chosen before any role exists and is never offered, withheld or changed because of one.
+
+Must not:
+
+- Come after the deal, or be shaped by it in any way.
+- Offer a character another seat holds.
+- Accept a name as markup: it is text, at most 12 characters.

@@ -24,6 +24,8 @@ import { startStaticServer } from './lib/static-server.mjs';
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const manifest = JSON.parse(await readFile(resolve(repoRoot, 'design/exports/asset-manifest.json'), 'utf8'));
 const modes = JSON.parse(await readFile(resolve(repoRoot, 'rules/overlays/player-modes-officer.json'), 'utf8'));
+const cueContract = JSON.parse(await readFile(resolve(repoRoot, 'design/contract/motion-cues.json'), 'utf8'));
+const designTokens = JSON.parse(await readFile(resolve(repoRoot, 'packages/design-tokens/src/tokens-0.4.0.json'), 'utf8'));
 const kit = await import(pathToFileURL(resolve(repoRoot, 'design/prototypes/js/kit.js')).href);
 
 const ROLES = [...modes.modes['9'].blue_roles, ...modes.modes['9'].red_roles, 'Alien'];
@@ -36,7 +38,7 @@ const TABLE_BUNDLES = [sheetOf('public-board')];
 const PICTURES = manifest.assets.flatMap(asset => asset.variants.map(variant => ({ property: `--ms-asset-${asset.id}-${variant.variant}`, surfaces: variant.surfaces })));
 
 const failures = [];
-const counts = { pageLoads: 0, redraws: 0, publicLayerComparisons: 0, picturesPlaced: 0, privateUpdatesUnderRunningCues: 0, publicCueAnimationsHeld: 0 };
+const counts = { pageLoads: 0, redraws: 0, publicLayerComparisons: 0, picturesPlaced: 0, privateUpdatesUnderRunningCues: 0, publicCueAnimationsHeld: 0, cuesPlayed: 0 };
 const pathsOf = (requests, origin) => requests.map(url => url.replace(origin, '').replace(/\?.*$/, ''));
 
 // Runs in the page. Which pictures are drawn where: each drawn picture is matched to the
@@ -233,7 +235,9 @@ try {
       return { marked, names: [...new Set(window.__held.map(animation => animation.animationName))].sort(), state: window.__heldState() };
     })()`);
     counts.publicCueAnimationsHeld = held.state.length;
-    const kinds = ['ms-cue-drop', 'ms-cue-ring', 'ms-cue-sweep'];
+    // On a phone a seat is a row in a list: its piece hops and is not carried.
+    const kinds = ['ms-cue-lift', 'ms-cue-ring', 'ms-cue-sweep'];
+    if (held.names.includes('ms-cue-carry')) failures.push('a row in a phone\'s list is carried across the list: only a piece on a board panel is');
     if (held.marked < 3 || !kinds.every(name => held.names.includes(name))) failures.push(`the running-cue case did not start a move, a status change and a round transition (marked ${held.marked}; running ${held.names.join(', ') || 'nothing'}), so it tests nothing`);
     const paintBefore = await page.evaluate(publicLayer);
     const ownTurn = SPECIMENS.filter(([, spec]) => spec.needs === null || spec.needs === 'own-turn').map(([id]) => id);
@@ -263,6 +267,63 @@ try {
     if (repainted.length > 0) failures.push(`after a round of private-only updates the public layer with its held cues is painted differently: ${repainted.join(' | ')}`);
     await check(page, 'private-only updates under running public cues');
     await page.close();
+  }
+
+  // ---- 3c. Every cue lasts what the contract says, and reduced motion is honored ----
+  // The motion page plays every cue of the contract from the reference stylesheet. With the
+  // player's settings as they are, each cue must run an animation of exactly its own
+  // duration. With motion reduced, nothing may run but the short fade, and no layer may be
+  // drawn beside the element. With effects reduced, the layers are gone and the motion stays.
+  {
+    const playing = `(() => {
+      document.querySelector('.controls button').click();
+      return [...document.querySelectorAll('.specimen[data-cue-id]')].map(section => ({
+        cue: section.dataset.cueId,
+        animations: document.getAnimations().filter(animation => animation.animationName && section.contains(animation.effect.target)).map(animation => ({
+          name: animation.animationName,
+          ms: animation.effect.getComputedTiming().duration,
+          layer: animation.effect.pseudoElement !== null && (animation.effect.target.hasAttribute('data-cue') || animation.effect.target.matches('.ms-token')),
+        })),
+      }));
+    })()`;
+    const fade = designTokens.motionMs.reducedMotionFade;
+    for (const [setting, query] of [['as set', ''], ['reduced motion', '?motion=reduced'], ['reduced effects', '?effects=reduced']]) {
+      const page = await openPage(browser, { width: 1400, height: 1000 });
+      await page.goto(`${server.origin}/prototypes/motion.html${query}`);
+      counts.pageLoads += 1;
+      const specimens = await page.evaluate(playing);
+      if (specimens.length !== cueContract.cues.length) failures.push(`the motion page plays ${specimens.length} cues and the contract holds ${cueContract.cues.length}`);
+      for (const specimen of specimens) {
+        const cue = cueContract.cues.find(candidate => candidate.id === specimen.cue);
+        const label = `${specimen.cue} with ${setting}`;
+        counts.cuesPlayed += 1;
+        if (!cue) {
+          failures.push(`${label}: not a cue of the contract`);
+          continue;
+        }
+        if (specimen.animations.length === 0) {
+          // With a setting reduced a cue may run nothing at all: a card that was already on
+          // screen does not fade, and a cue that is only a layer has lost its layer. With the
+          // settings as they are every cue must be seen to run, or nothing here is tested.
+          if (setting === 'as set') failures.push(`${label}: nothing is animated, so the case tests nothing`);
+          continue;
+        }
+        if (setting === 'reduced motion') {
+          const moving = specimen.animations.filter(animation => animation.name !== 'ms-cue-fade' || animation.ms > fade);
+          if (moving.length > 0) failures.push(`${label}: still runs ${[...new Set(moving.map(animation => `${animation.name} for ${animation.ms} ms`))].join(', ')}`);
+        } else {
+          // Every part of a cue lasts the cue's own time: its element, its layers and whatever
+          // moves inside it. Asking it of only one part let a role card turn for 700 ms pass,
+          // because its back and its device still lasted 900.
+          const off = specimen.animations.filter(animation => animation.ms !== cue.durationMs);
+          if (off.length > 0) failures.push(`${label}: ${[...new Set(off.map(animation => `${animation.name} lasts ${animation.ms} ms`))].join(', ')}, and the contract says ${cue.durationMs} ms`);
+        }
+        if (setting !== 'as set' && specimen.animations.some(animation => animation.layer)) failures.push(`${label}: a layer beside the element is still animated`);
+      }
+      if (setting === 'as set' && !specimens.some(specimen => specimen.animations.some(animation => animation.layer))) failures.push('no cue draws a layer beside its element with the settings as they are, so the reduced cases test nothing');
+      for (const problem of page.problems()) failures.push(`motion page with ${setting}: page problem: ${problem}`);
+      await page.close();
+    }
   }
 
   // ---- 4. A device whose art never arrives ----
@@ -299,8 +360,8 @@ try {
   // ---- 6. The watcher can see what it is watching for ----
   {
     const page = await openPage(browser, { width: 1200, height: 900 });
-    await page.goto(`${server.origin}/prototypes/assets.html?sheet=officer`);
-    if (!pathsOf(page.requests(), server.origin).some(path => /^\/exports\/roles\/card-officer\.art\..+\.svg$/.test(path))) failures.push('a review page that fetches one role file did so unseen: the request watcher is not working');
+    await page.goto(`${server.origin}/prototypes/assets.html?sheet=devices`);
+    if (!pathsOf(page.requests(), server.origin).some(path => /^\/exports\/roles\/device-officer\.held\..+\.svg$/.test(path))) failures.push('a review page that fetches one role file did so unseen: the request watcher is not working');
     await page.close();
     const studies = await openPage(browser, { width: 1200, height: 900 });
     await studies.goto(`${server.origin}/prototypes/studies.html`);
@@ -322,6 +383,7 @@ const ASSERTIONS = [
   'one phone redrawn in place through every role, every picture of the Shot card and the open and closed sheet makes no request at all',
   'everything outside the private panel is painted identically for every role and every picture of the Shot card that can occur in the same public state, with the sheet open and with it closed',
   'with a public move, a status change and a round transition each held halfway, redrawing only the private section through every picture of the Shot card, two roles and the sheet closing cancels, restarts, shifts or adds no animation outside it, and the public layer is painted as before',
+  'every cue of the motion contract, played from the reference stylesheet, runs, and every animation it runs lasts exactly its contract duration; with motion reduced nothing runs but the short fade; with motion or effects reduced no layer beside the element is animated',
   'every picture that is drawn is drawn on a surface its manifest entry allows: nothing private outside the private panel, nothing phone-only on the table',
   'with every art request refused the page marks no bundle as arrived, every token shows its numeral and no name or marker is hidden',
   'with only the role bundle refused the public art is still drawn and the role card makes no room for a picture',
@@ -342,5 +404,5 @@ const report = {
 await writeFile(resolve(repoRoot, 'design/review/shell-check.json'), `${JSON.stringify(report, null, 2)}\n`);
 for (const failure of failures.slice(0, 40)) console.error(`FAIL ${failure}`);
 if (failures.length > 40) console.error(`… and ${failures.length - 40} more`);
-console.log(`Shell check: ${counts.pageLoads} page loads, ${counts.redraws} redraws, ${counts.publicLayerComparisons} public-layer comparisons, ${counts.picturesPlaced} drawn pictures placed, ${counts.privateUpdatesUnderRunningCues} private-only updates under ${counts.publicCueAnimationsHeld} held public cue animations, in ${chrome.version}; ${failures.length} failures`);
+console.log(`Shell check: ${counts.pageLoads} page loads, ${counts.redraws} redraws, ${counts.publicLayerComparisons} public-layer comparisons, ${counts.picturesPlaced} drawn pictures placed, ${counts.privateUpdatesUnderRunningCues} private-only updates under ${counts.publicCueAnimationsHeld} held public cue animations, ${counts.cuesPlayed} cue plays timed, in ${chrome.version}; ${failures.length} failures`);
 if (failures.length > 0) process.exitCode = 1;

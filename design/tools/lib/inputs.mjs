@@ -11,7 +11,7 @@ import { resolve } from 'node:path';
 const sha256 = content => createHash('sha256').update(content).digest('hex');
 
 const TREES = ['design/prototypes', 'design/exports', 'design/studies', 'design/contract'];
-const FILES = ['packages/design-tokens/src/tokens-0.3.0.json'];
+const FILES = ['packages/design-tokens/src/tokens-0.4.0.json'];
 
 export async function reviewInputsSha256(repoRoot) {
   const paths = [...FILES];

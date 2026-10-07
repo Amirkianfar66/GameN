@@ -1,7 +1,7 @@
 {
   "note": "Desktop Chrome on one machine loading the Designer's hand-built copy of the shell markup with the Designer's reference stylesheets and loader. It shows that this design can be drawn without a request or a public pixel depending on private state. It is not a statement about Frontend's runtime, which has to be watched the same way.",
   "browser": "Google Chrome 155.0.8059.39",
-  "inputsSha256": "02b6a6db81bed2778bdea59a1abec7be36f64a1ccaefb14c40c04f585a557d9c",
+  "inputsSha256": "0494a84468b1e3cd01d292bdd9deafee916a6046e8220af6a680d49274052245",
   "roles": [
     "Insider",
     "Cracker",
@@ -28,12 +28,13 @@
     "unavailable",
     "not-registered"
   ],
-  "pageLoads": 51,
+  "pageLoads": 54,
   "redraws": 468,
   "publicLayerComparisons": 1368,
-  "picturesPlaced": 1832,
+  "picturesPlaced": 1460,
   "privateUpdatesUnderRunningCues": 26,
-  "publicCueAnimationsHeld": 11,
+  "publicCueAnimationsHeld": 13,
+  "cuesPlayed": 21,
   "assertions": [
     "a phone asks for its three bundle stylesheets and for no other art, in every picture of the Shot card, open or closed, and for every role",
     "every phone makes the same requests, whatever its private state",
@@ -42,6 +43,7 @@
     "one phone redrawn in place through every role, every picture of the Shot card and the open and closed sheet makes no request at all",
     "everything outside the private panel is painted identically for every role and every picture of the Shot card that can occur in the same public state, with the sheet open and with it closed",
     "with a public move, a status change and a round transition each held halfway, redrawing only the private section through every picture of the Shot card, two roles and the sheet closing cancels, restarts, shifts or adds no animation outside it, and the public layer is painted as before",
+    "every cue of the motion contract, played from the reference stylesheet, runs, and every animation it runs lasts exactly its contract duration; with motion reduced nothing runs but the short fade; with motion or effects reduced no layer beside the element is animated",
     "every picture that is drawn is drawn on a surface its manifest entry allows: nothing private outside the private panel, nothing phone-only on the table",
     "with every art request refused the page marks no bundle as arrived, every token shows its numeral and no name or marker is hidden",
     "with only the role bundle refused the public art is still drawn and the role card makes no room for a picture",
