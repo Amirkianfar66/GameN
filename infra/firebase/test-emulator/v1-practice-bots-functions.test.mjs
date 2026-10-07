@@ -61,7 +61,12 @@ test('actual private Firestore engine trigger runs bots after real HTTP Begin an
     assert.equal(initial.phase.endsAt - initial.phase.startedAt, 60_000);
     assert.equal(setup.now, initial.phase.startedAt);
     assert.ok(setup.now >= reading.readingEndsAt, 'All bots Ready cannot shorten reading');
-    assert.equal((await base.collection('outbox').where('phaseId', '==', initial.phase.id).get()).size, 1);
+    const initialOutbox = (await base.collection('outbox').where('phaseId', '==', initial.phase.id).get()).docs;
+    assert.equal(initialOutbox.length, 1);
+    assert.equal(initialOutbox[0].get('matchId'), matchId);
+    assert.equal(initialOutbox[0].get('deadlineToken'), setup.deadlineToken);
+    assert.equal(initialOutbox[0].get('deadlineToken'), initial.deadlineToken);
+    assert.equal(initialOutbox[0].get('endsAt'), initial.phase.endsAt);
 
     const expires = Math.min(Date.now() + 45_000, initial.phase.endsAt);
     let commands = [];

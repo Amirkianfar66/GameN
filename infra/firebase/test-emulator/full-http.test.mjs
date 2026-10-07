@@ -99,7 +99,12 @@ test('real V1 Functions authenticate seven players, wait both setup windows, reg
   assert.equal(setupEvents.length,1,'Automatic setup must launch once');
   assert.equal(setupEvents[0].get('phaseId'),publicView.phase.id);
   assert.equal(setupEvents[0].get('now'),publicView.phase.startedAt);
-  assert.equal((await h.base.collection('outbox').where('phaseId','==',publicView.phase.id).get()).size,1);
+  const initialOutbox=(await h.base.collection('outbox').where('phaseId','==',publicView.phase.id).get()).docs;
+  assert.equal(initialOutbox.length,1);
+  assert.equal(initialOutbox[0].get('matchId'),matchId);
+  assert.equal(initialOutbox[0].get('deadlineToken'),setupEvents[0].get('deadlineToken'));
+  assert.equal(initialOutbox[0].get('endsAt'),publicView.phase.endsAt);
+  assert.equal((await h.base.collection('engine').doc('current').get()).get('deadlineToken'),setupEvents[0].get('deadlineToken'));
 
   const earlyAdvance=await invoke('v1Advance',{protocolVersion:2,matchId,phaseId:publicView.phase.id},display);
   assert.equal(earlyAdvance.status,200);assert.equal(earlyAdvance.body.result,'unchanged');

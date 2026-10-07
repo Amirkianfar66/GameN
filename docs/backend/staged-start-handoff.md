@@ -259,10 +259,13 @@ The strengthened HTTP and all-bot smoke tests now observe automatic local
 Firestore dispatch and Tasks progression, with a bounded 60-second wait per
 stage and a 180-second test timeout. They retain exact 30-second selection and
 reading windows, no early engine, one SETUP journal event and matching initial
-outbox, and a fresh 60-second gameplay phase. The all-bot smoke still requires
+outbox bound to the match, phase, token and deadline, and a fresh 60-second
+gameplay phase. The all-bot smoke still requires
 an accepted command from the actual private engine trigger, with no manual
 setup/bot worker or client gameplay invocation, and host abort cleanup. These
-observation-only versions have not yet run; CI must validate their exact pin.
+observation-only versions have passed JavaScript syntax, workspace boundary and
+source integrity checks, but have not run against Functions; CI must validate
+their exact pin.
 They cannot prove deployed Cloud Tasks delivery, IAM, Scheduler or device
 acceptance.
 
