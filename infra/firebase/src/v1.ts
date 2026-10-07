@@ -12,7 +12,7 @@ import type { RuntimeConfiguration } from './runtime.js';
 export interface V1HttpRequest { method: string; body: unknown; headers: Record<string, string | string[] | undefined>; rawBody?: Uint8Array }
 export interface V1HttpResponse { set(field: string, value: string): unknown; status(code: number): V1HttpResponse; json(body: unknown): unknown }
 
-export const V1_OPERATIONS = ['createMatch', 'requestAdmission', 'approveAdmission', 'admitDisplay', 'startMatch', 'submit', 'lookup', 'advance', 'serverTime', 'abortMatch', 'issueSeatRecovery', 'redeemSeatRecovery'] as const;
+export const V1_OPERATIONS = ['createMatch', 'requestAdmission', 'approveAdmission', 'admitDisplay', 'startMatch', 'submit', 'lookup', 'advance', 'serverTime', 'abortMatch', 'issueSeatRecovery', 'redeemSeatRecovery', 'setLobbyIdentity'] as const;
 export type V1Operation = typeof V1_OPERATIONS[number];
 export type V1Deadline = { matchId: string; phaseId: string; deadlineToken: string };
 export type V1DeadlineIntent = V1Deadline & { taskId: string; endsAt: number };
@@ -43,7 +43,8 @@ function length(request: V1HttpRequest): number {
 }
 const statusFor = (code: unknown): number => code === 'UNAUTHENTICATED' ? 401 : code === 'FORBIDDEN' ? 403
   : code === 'UNAVAILABLE' ? 503 : code === 'COMMAND_ID_CONFLICT' || code === 'REQUEST_ID_CONFLICT' ? 409
-  : code === 'RATE_LIMITED' ? 429 : code === 'INVALID_REQUEST' || code === 'UNSUPPORTED_PROTOCOL' ? 400 : 200;
+  : code === 'CHARACTER_TAKEN' || code === 'IDENTITY_LOCKED' ? 409
+  : code === 'RATE_LIMITED' ? 429 : code === 'INVALID_REQUEST' || code === 'UNSUPPORTED_PROTOCOL' || code === 'UNSUPPORTED_SCHEMA' ? 400 : 200;
 
 export function createV1HttpHandler(operation: V1Operation, dependencies: V1HttpDependencies) {
   const clock = dependencies.clock ?? Date.now;
@@ -52,7 +53,7 @@ export function createV1HttpHandler(operation: V1Operation, dependencies: V1Http
     response.set('Pragma', 'no-cache');
     response.set('X-Content-Type-Options', 'nosniff');
     response.set('Vary', 'Origin');
-    const fail = (status: number, code: string) => { response.status(status).json({ ok: false, serverTimeMs: clock(), error: { code } }); };
+    const fail = (status: number, code: string) => { response.status(status).json({ ...(operation === 'setLobbyIdentity' ? { schemaVersion: 1, protocolVersion: 2 } : {}), ok: false, serverTimeMs: clock(), error: { code } }); };
     const origin = header(request, 'origin');
     if (request.headers['origin'] !== undefined && (origin === undefined || !dependencies.configuration.allowedOrigins.includes(origin))) {
       fail(403, 'FORBIDDEN'); return;

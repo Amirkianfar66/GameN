@@ -123,7 +123,7 @@ try {
       assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.resolveFixtureAfterVote,undefined);
       const functions=await import(${JSON.stringify('./' + manifest.main)});
       for(const name of ['command','receipt','advance','serverTime','deadlineTask']) assert.equal(functions[name],undefined);
-      for(const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
+      for(const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
     `], { cwd: install, env: environment, stdio: 'pipe' });
     const evidence = JSON.parse(readFileSync(join(output, 'backend-artifact.json'), 'utf8'));
     evidence.verifiedStandaloneInstall = true;

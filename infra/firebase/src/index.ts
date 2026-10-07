@@ -54,6 +54,7 @@ export const v1ServerTime=v1.serverTime;
 export const v1AbortMatch=v1.abortMatch;
 export const v1IssueSeatRecovery=v1.issueSeatRecovery;
 export const v1RedeemSeatRecovery=v1.redeemSeatRecovery;
+export const v1SetLobbyIdentity=v1.setLobbyIdentity;
 export const v1DeadlineTask=v1.deadlineTask;
 export const v1DispatchDeadline=v1.dispatchDeadline;
 export const v1RepairDeadlines=v1.repairDeadlines;
