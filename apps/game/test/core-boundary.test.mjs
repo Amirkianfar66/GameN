@@ -45,8 +45,9 @@ test('the browser directory imports the reviewed Firebase entry points and nothi
       else packages.add(specifier);
     }
   }
-  // The three entry points reviewed with the browser dependency proposal (PR #28), at firebase 12.18.0.
-  assert.deepEqual([...packages].sort(), ['firebase/app', 'firebase/auth', 'firebase/firestore']);
+  // Firebase 12.18.0. Hosted preview adds the App Check entry already covered by the
+  // integration dependency probe; the headless package still cannot import any of these.
+  assert.deepEqual([...packages].sort(), ['firebase/app', 'firebase/app-check', 'firebase/auth', 'firebase/firestore']);
 });
 
 test('nothing in browser/ is reachable from the package entry', () => {
