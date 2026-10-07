@@ -129,7 +129,7 @@ test('a file reached by URL instead of by import is followed too', t => {
   assert.deepEqual(problemsOf(t, startModule("export const start = new URL('/api/time', 'https://example.test');")), []);
 });
 
-test('only reviewed production dependencies may be imported, and never by a deep path', t => {
+test('reviewed package roots do not grant deep-path imports', t => {
   const unknown = problemsOf(t, startModule("import pad from 'left-pad';\nexport const start = pad;"));
   assert.equal(unknown.some(problem => problem.includes('imports "left-pad", which is not a reviewed production dependency')), true);
   const deep = problemsOf(t, startModule("import x from 'zod/v4/core/index.js';\nexport const start = x;"));
@@ -265,5 +265,15 @@ test('the client core touches no storage, log or beacon itself', () => {
   for (const file of files) {
     const code = ts.transpileModule(readFileSync(file, 'utf8'), { compilerOptions: { removeComments: true, target: ts.ScriptTarget.ES2022 } }).outputText;
     assert.equal(forbidden.exec(code)?.[0] ?? null, null, file);
+  }
+});
+
+
+test('an explicitly reviewed external subpath does not permit its package root or siblings', t => {
+  for (const specifier of ['@noble/hashes/sha2.js', '@noble/hashes', '@noble/hashes/legacy.js', '@noble/hashes/utils.js', '@noble/hashes/webcrypto.js']) {
+    const { options } = sandbox(t, startModule(`import '${specifier}';`));
+    const result = checkProductionExclusion({ ...options, external: ['zod', '@noble/hashes/sha2.js'] });
+    if (specifier === '@noble/hashes/sha2.js') assert.deepEqual(result.problems, []);
+    else assert.ok(result.problems.some(problem => problem.includes('not a reviewed production dependency')), specifier);
   }
 });

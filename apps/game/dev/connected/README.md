@@ -110,6 +110,10 @@ MOTHERSHIP_JOURNEY=lobby-end npm run dev:connected:journey --workspace @mothersh
 # answer on the host's side and lost requests and a lost answer on the new device's: the new
 # device takes the seat over as it stands, and the old one is shown nothing more. Under a minute.
 MOTHERSHIP_JOURNEY=recovery npm run dev:connected:journey --workspace @mothership/game
+
+# One whole seven-player match, from its lobby to its result: five rounds, a Scan in each, a
+# Supply, a Code attempt, Jail votes, a showdown and the end reveal. About 47 minutes.
+MOTHERSHIP_JOURNEY=match npm run dev:connected:journey --workspace @mothership/game
 ```
 
 `journey.mjs` drives headless Chrome over the DevTools protocol: a host, a display and

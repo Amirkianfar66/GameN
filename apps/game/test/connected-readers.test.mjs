@@ -195,3 +195,35 @@ test('listener paths are the documented ones, built from checked identifiers onl
   // Server-only collections have no target kind at all.
   for (const kind of ['engine', 'receipts', 'seats', 'members', 'recovery', 'events', 'outbox']) assert.throws(() => documentPath({ kind, matchId: MATCH }, uid), /Not a documented listener path/);
 });
+
+
+test('authorization quarantine retains same-revision integrity without holding a private view', () => {
+  const store = createConnectedPlayerStore({ matchId: MATCH, seatId: 'seat-1' });
+  const original = playerView();
+  assert.equal(store.accept(original, { confirmed: true }).kind, 'accepted');
+  store.forget({ preserveRevision: true });
+  store.forget({ preserveRevision: true });
+  assert.equal(store.current(), null);
+  for (const conflict of [
+    playerView('seat-1', view => { view.self.ordinaryWeapons = 1; }),
+    playerView('seat-1', view => { view.ownPendingCommandIds = ['pending-command']; }),
+  ]) {
+    assert.deepEqual(store.accept(conflict, { confirmed: true }), { kind: 'rejected', rejection: { kind: 'revision-conflict' } });
+    assert.equal(store.current(), null, 'A conflict cannot restore quarantined content');
+  }
+  const reordered = Object.fromEntries(Object.entries(original).reverse());
+  assert.deepEqual(store.accept(reordered, { confirmed: true }), { kind: 'accepted', view: original });
+  assert.equal(store.accept(original, { confirmed: true }).kind, 'unchanged');
+});
+
+test('a later revision replaces the quarantined comparison, while ordinary forget resets it', () => {
+  const store = createConnectedPlayerStore({ matchId: MATCH, seatId: 'seat-1' });
+  store.accept(playerView(), { confirmed: true });
+  store.forget({ preserveRevision: true });
+  const later = playerView('seat-1', view => { view.viewRevision += 1; view.self.ordinaryWeapons = 1; });
+  assert.equal(store.accept(later, { confirmed: true }).kind, 'accepted');
+  store.forget({ preserveRevision: true });
+  assert.deepEqual(store.accept({ ...later, ownPendingCommandIds: ['pending-command'] }, { confirmed: true }).rejection, { kind: 'revision-conflict' });
+  store.forget();
+  assert.equal(store.accept(playerView('seat-1', view => { view.viewRevision = 1; }), { confirmed: true }).kind, 'accepted');
+});

@@ -1,0 +1,31 @@
+[   0.4 s] Browser: Chrome/155.0.8059.39. Preview server: already running.
+[   2.1 s] ESTABLISHED 1. The host creates a seven-player lobby
+[   2.1 s]   - One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.
+[   2.1 s]   - The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status "lobby".
+[   3.9 s] ESTABLISHED 2. Players authenticate and request admission
+[   3.9 s]   - 9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.
+[   3.9 s]   - 7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match.
+[   5.1 s] ESTABLISHED 3. The host approves seats and starts the match
+[   5.1 s]   - The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.
+[   5.1 s]   - The display was admitted by the identifier it shows, and showed no match before the start.
+[   5.1 s]   - One v1StartMatch; the host console then read status "running".
+[2736.6 s] ESTABLISHED M. One whole match, from its first turn to its result (seven players)
+[2736.6 s]   - The display followed 46 phases in the server's order, each a real 60-second window: five rounds of seven turns, a Captain election before rounds 2 to 5 in which nobody voted ("Nobody was elected", 4 times), a Jail vote in every round, a showdown, and the end.
+[2736.6 s]   - Round 1: on its own turn the Hacker scanned Player 1 guessing Red, that player’s real faction. The phone then listed: "you scanned Player 1 and guessed Red. The guess was right, and that player is not in the Code."
+[2736.6 s]   - Round 1, Jail vote: four players voted to send Player 3 (Insider) to Jail; three did not vote.
+[2736.6 s]   - Round 2: on its own turn the Hacker scanned Player 1 guessing Blue, which is not that player’s faction. The phone then listed: "you scanned Player 1 and guessed Blue. The guess was wrong."
+[2736.6 s]   - Round 2, Jail vote: four players voted to send Player 2 (Cracker) to Jail; three did not vote.
+[2736.6 s]   - Round 3: on its own turn the Supplier registered a Supply for Player 1 and Player 5, the first two the server listed. Nothing public changed and nobody held anything more yet.
+[2736.6 s]   - Round 3: on its own turn the Hacker scanned Player 1 guessing Red, that player’s real faction. The phone then listed: "you scanned Player 1 and guessed Red. The guess was right, and that player is not in the Code."
+[2736.6 s]   - Round 3, Jail vote: four players voted to send Player 4 (Blue Disabler) to Jail; three did not vote.
+[2736.6 s]   - Round 4: the two players named in the Supply (Player 1 and Player 5) each hold one weapon more than before; the other five hold what they held. Only their own phones say so.
+[2736.6 s]   - Round 4: on its own turn the Hacker scanned Player 1 guessing Blue, which is not that player’s faction. The phone then listed: "you scanned Player 1 and guessed Blue. The guess was wrong."
+[2736.6 s]   - Round 5, during Player 3's turn: the Hacker (Player 5) submitted its one Code attempt, four seats with the Undercover's among them, so it cannot be right. Accepted; the phone said it is recorded, did not write it out again, and learned nothing about whether it was right.
+[2736.6 s]   - Round 5: on its own turn the Hacker scanned Player 1 guessing Red, that player’s real faction. The phone then listed: "you scanned Player 1 and guessed Red. The guess was right, and that player is not in the Code."
+[2736.6 s]   - Showdown: the server put all seven players in the Final Zone and offered each a showdown shot at any other player. Four Blue players registered one each, two at each Red player (Player 1 and Player 5). Nothing public changed until the showdown was resolved.
+[2736.6 s]   - After round 5 neither side was stronger and no Code had been right, and the server opened a showdown: three of the four Blue players were in Jail by then (Player 3, Player 2, Player 4).
+[2736.6 s]   - The result, from the server's public view, on the display and on all seven phones in the same words: "Blue wins. The Alien wins with Blue." Both Red players were shown Eliminated and revealed as Red; nobody else was marked.
+[2736.6 s]   - The end reveal names a role for each of the seven seats. Each one is the role that seat’s own phone had shown its player in private since the first turn, and the Code it lists is the one the Alien’s phone had listed. Before the end, no screen but a phone’s own open private panel had named a role.
+[2736.6 s]   - Every phone said the match is over and had no control left; the host console read the match as "complete".
+[2736.6 s]   - NOT RUN in this match: a Disable, Protection, a Rescue, a Hack and an ordinary shot (they are in the roles journey), a Captain and a release, an injured player healing, a Code attempt that is right, a draw.
+[2736.6 s] No page was loaded by anything but this script: each tab counted as many loads as the script made, and each refused the development server’s hot-reload connection.

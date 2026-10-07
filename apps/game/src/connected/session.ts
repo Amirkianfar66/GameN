@@ -36,6 +36,7 @@ function viewFeed(transport: Pick<ConnectedTransport, 'listenDocument'>, target:
         onError(reason) {
           // Refused by the server's rules: this identity may not read the view, or no longer may.
           if (reason === 'refused') listener.onRefused?.();
+          if (reason === 'authorization-uncertain') listener.onAuthorizationUncertain?.();
           // The transport never reported this feed up, or it did and no longer is.
           if (fresh) mark(false);
           else listener.onConnectionChange('disconnected');

@@ -141,3 +141,13 @@ test('source reference directives cannot inject ambient browser types or bypass 
   // Ordinary comments do not activate TypeScript reference directives.
   assert.doesNotThrow(() => check('packages/engine', '// ambient libraries belong in compiler config\nexport const value = 1;', 'ts'));
 });
+
+
+test('the portable snapshot digest permits only the exact reviewed SHA-2 entry', () => {
+  assert.doesNotThrow(() => checkDependency('apps/game', 'dependencies', '@noble/hashes', '2.4.0'));
+  assert.doesNotThrow(() => check('apps/game', "import { sha256 } from '@noble/hashes/sha2.js';"));
+  for (const name of ['@noble/hashes', '@noble/hashes/legacy.js', '@noble/hashes/utils.js', '@noble/hashes/webcrypto.js']) {
+    assert.throws(() => check('apps/game', `import '${name}';`), /Unreviewed source dependency/);
+  }
+  assert.throws(() => check('packages/presentation', "import '@noble/hashes/sha2.js';"), /Unreviewed source dependency/);
+});

@@ -82,6 +82,7 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
   let disposed = false;
   let unsubscribe: (() => void) | null = null;
   let feedConnected = false;
+  let authorizationUncertain = false;
   // Callbacks from a feed that was replaced, and samples from a superseded sync, are ignored.
   let feedGeneration = 0;
   let syncGeneration = 0;
@@ -148,7 +149,7 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
 
   function onPayload(payload: unknown, confirmed: boolean): void {
     // Refused once, this identity is shown nothing more by this session, whatever arrives.
-    if (state.problem === 'no-access') return;
+    if (state.problem === 'no-access' || (authorizationUncertain && !confirmed)) return;
     const outcome = store.accept(payload, { confirmed });
     if (outcome.kind === 'ignored-stale') return;
     // A failed integrity check is never cleared by later data: the feed is not trusted again.
@@ -157,6 +158,7 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
       update({ problem: toProblem(outcome.rejection) });
       return;
     }
+    authorizationUncertain = false;
     // A view that arrives while the feed reports itself down is kept but not called current.
     update({ view: outcome.view, problem: null, connection: feedConnected ? 'live' : 'stale' });
   }
@@ -188,6 +190,18 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
     update({ view: null, problem: 'no-access', connection: 'connecting' });
   }
 
+  function onAuthorizationUncertain(): void {
+    if (state.problem === 'no-access') return;
+    authorizationUncertain = true;
+    feedConnected = false;
+    store.forget({ preserveRevision: true });
+    cancelRetry();
+    syncGeneration += 1;
+    // This removes private facts and announcements without declaring the seat revoked.
+    // The action flow keeps only its nonsecret recovery identifiers across a reload.
+    update({ view: null, connection: 'connecting' });
+  }
+
   function attach(): void {
     const generation = ++feedGeneration;
     feedConnected = false;
@@ -197,6 +211,9 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
       },
       onRefused: () => {
         if (!disposed && generation === feedGeneration) onRefused();
+      },
+      onAuthorizationUncertain: () => {
+        if (!disposed && generation === feedGeneration) onAuthorizationUncertain();
       },
       // A view this session held, and the server now confirms there is none: it was taken
       // away, which is the same loss of access. With no view held yet there is nothing to lose.

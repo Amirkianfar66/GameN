@@ -1,5 +1,6 @@
 import { IdentifierSchema, PlayerViewSchema, PROTOCOL_VERSION, PublicViewSchema } from '@mothership/contracts';
 import type { PlayerView, PublicView } from '@mothership/contracts';
+import { sha256 } from '@noble/hashes/sha2.js';
 
 /** Wire protocol versions this build can display. */
 export const SUPPORTED_PROTOCOL_VERSIONS: readonly number[] = [PROTOCOL_VERSION];
@@ -37,8 +38,10 @@ export interface SnapshotStore<View> {
   /**
    * Lets go of the held view. What it was pinned to (seat and role, versions, player count)
    * is kept, so nothing that arrives later can stand in for another seat or match.
+   * Authorization quarantine preserves the revision floor and a memory-only comparison digest,
+   * without retaining the serialized private view.
    */
-  forget(): void;
+  forget(options?: { readonly preserveRevision?: boolean }): void;
 }
 
 /**
@@ -59,6 +62,12 @@ function deepFreeze<T>(value: T): T {
     Object.freeze(value);
   }
   return value;
+}
+
+// Keep only a comparison digest during authorization quarantine. The digest is never
+// exposed or persisted, and a rejected recovery must not replace it.
+function comparisonDigest(canonical: string): string {
+  return Array.from(sha256(new TextEncoder().encode(canonical)), byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
 interface Pins {
@@ -97,12 +106,20 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
   const supported = config.supportedVersions ?? SUPPORTED_PROTOCOL_VERSIONS;
   let held: { readonly view: View; readonly canonical: string } | null = null;
   let pins: Pins | null = null;
+  let highestRevision = -1;
+  let quarantinedDigest: string | null = null;
 
   const reject = (rejection: SnapshotRejection): SnapshotOutcome<View> => ({ kind: 'rejected', rejection });
 
   return {
     current: () => held?.view ?? null,
-    forget() {
+    forget(options) {
+      if (options?.preserveRevision === true) {
+        if (held !== null) quarantinedDigest = comparisonDigest(held.canonical);
+      } else {
+        highestRevision = -1;
+        quarantinedDigest = null;
+      }
       held = null;
     },
     accept(payload, options) {
@@ -120,6 +137,13 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
 
       // Parsing rebuilds the object in schema order, so equal views serialize identically.
       const canonical = JSON.stringify(view);
+      // Quarantine can discard private bytes while retaining this nonsecret revision floor.
+      if (held === null && view.viewRevision < highestRevision) {
+        return config.confirmedRegression === 'integrity' && options?.confirmed === true
+          ? reject({ kind: 'revision-regressed' }) : { kind: 'ignored-stale' };
+      }
+      if (held === null && view.viewRevision === highestRevision && quarantinedDigest !== null
+        && comparisonDigest(canonical) !== quarantinedDigest) return reject({ kind: 'revision-conflict' });
       if (held) {
         // Only the order of revisions is used. The size of a step carries no meaning here.
         if (view.viewRevision < held.view.viewRevision) {
@@ -130,7 +154,9 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
         }
       }
       pins ??= seen;
+      highestRevision = Math.max(highestRevision, view.viewRevision);
       held = { view: deepFreeze(view), canonical };
+      quarantinedDigest = null;
       return { kind: 'accepted', view: held.view };
     },
   };
