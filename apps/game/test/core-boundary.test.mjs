@@ -22,7 +22,7 @@ const name = file => relative(dist, file).split(sep).join('/');
 const inBrowser = file => name(file).startsWith('browser/');
 const all = modules(dist);
 
-test('the client core imports no browser-only module and no package but the workspace’s own', () => {
+test('the client core imports only workspace modules and the reviewed portable digest', () => {
   const core = all.filter(file => !inBrowser(file));
   assert.equal(core.length >= 20, true, 'The compiled core is where this test looks for it');
   const packages = new Set();
@@ -32,7 +32,7 @@ test('the client core imports no browser-only module and no package but the work
       else packages.add(specifier);
     }
   }
-  assert.deepEqual([...packages].sort(), ['@mothership/contracts', '@mothership/presentation'], 'No Firebase, no rendering library, no bundler, no schema library of its own');
+  assert.deepEqual([...packages].sort(), ['@mothership/contracts', '@mothership/presentation', '@noble/hashes/sha2.js'], 'No Firebase, no rendering library, no bundler, no schema library of its own');
 });
 
 test('the browser directory imports the reviewed Firebase entry points and nothing else from outside', () => {

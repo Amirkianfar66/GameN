@@ -805,3 +805,27 @@ test('authorization quarantine preserves the revision floor after discarding pri
   assert.equal(s.frame().model.match, null, 'A confirmed regression remains an integrity failure');
   s.screen.dispose();
 });
+
+
+test('a conflicting same-revision recovery cannot settle an unanswered command after authorization quarantine', async () => {
+  const s = setup('player', { mode: 'production' });
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  for (const intent of [TOGGLE, { type: 'action/open', kind: 'move' }, { type: 'action/choose', value: 'Room B' }]) s.screen.dispatch(intent);
+  await s.host.advance(GUARD);
+  s.fake.respond.v1Command = () => new Promise(() => {});
+  s.screen.dispatch({ type: 'action/confirm' });
+  await flush();
+  const request = s.fake.callsTo('v1Command')[0];
+  const kept = s.host.kept;
+  assert.ok(request.commandId);
+  assert.match(kept, /commandId/u);
+  await s.fake.fail(OWN, 'authorization-uncertain');
+  s.screen.dispatch({ type: 'session/reconnect' });
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.ownPendingCommandIds = [request.commandId]; }));
+  assert.equal(s.frame().model.screen, 'blocked');
+  assert.equal(s.frame().model.match, null);
+  assert.equal(s.host.kept, kept, 'A conflicting pending-ID list proves nothing about the unresolved command');
+  assert.equal(s.fake.callsTo('v1Command').length, 1, 'The command is never replaced or resent');
+  s.screen.dispose();
+});

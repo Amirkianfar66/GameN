@@ -163,7 +163,7 @@ function checkManifest(name, directory, { entry }, problems) {
  * @param {string} options.root Directory that reported paths are shown relative to.
  * @param {Record<string, string>} options.packages Workspace package name to its directory.
  * @param {string[]} options.entries Names of the packages whose "." entry ships to players.
- * @param {string[]} [options.external] Third-party packages production code may import. Not followed.
+ * @param {string[]} [options.external] Exact third-party package roots or subpaths production code may import. Not followed.
  * @param {string[]} [options.scanDirectories] Directories whose every file ships (build or bundler output).
  * @param {string[]} [options.sourceDirectories] Production source trees, scanned for markers too.
  * @param {string[]} [options.devDirectories] Development-only trees; every file must carry the sentinel in code.
@@ -236,9 +236,9 @@ export function checkProductionExclusion(options) {
         // above all, is refused rather than resolved.
         if (subpath !== '') problems.push(`${label}: imports the subpath "${specifier}"; only package main entries are allowed in production`);
         else enter(name, false);
-      } else if (!external.has(name)) {
+      } else if (!external.has(name) && !external.has(specifier)) {
         problems.push(`${label}: imports "${specifier}", which is not a reviewed production dependency`);
-      } else if (subpath !== '') {
+      } else if (subpath !== '' && !external.has(specifier)) {
         problems.push(`${label}: imports the subpath "${specifier}" of an external package`);
       }
     }
@@ -285,7 +285,7 @@ export function workspaceOptions(repositoryRoot, bundleDirectories = []) {
       '@mothership/design-tokens': at('packages/design-tokens'),
     },
     entries: ['@mothership/game', '@mothership/presentation'],
-    external: ['zod'],
+    external: ['zod', '@noble/hashes/sha2.js'],
     scanDirectories: [at('apps/game/dist'), at('packages/presentation/dist'), ...bundleDirectories.map(directory => resolve(directory))],
     sourceDirectories: [at('apps/game/src'), at('packages/presentation/src')],
     devDirectories: [at('apps/game/dev')],

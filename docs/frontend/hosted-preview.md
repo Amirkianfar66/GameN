@@ -30,7 +30,11 @@ cannot restore them, and nonsecret unresolved command identifiers survive reconn
 reload. A reconnect refreshes Auth and App Check credentials before opening listeners.
 Only a fresh authorized server view restores the screen. Definitive refusal still clears
 the command and permanently denies the old session. Quarantine preserves the revision
-floor while discarding held private view bytes.
+floor and a memory-only SHA-256 comparison digest while discarding held private view
+bytes. A changed payload at the same revision remains an integrity failure, including a
+conflicting pending-command list; an identical fresh payload can restore the screen.
+The portable digest uses pinned `@noble/hashes` 2.4.0 through the exact reviewed
+`@noble/hashes/sha2.js` entry. Neither the digest nor private content is persisted.
 
 The generated CSP now permits the installed SDK's actual App Check exchange host,
 `content-firebaseappcheck.googleapis.com`. Permanent tests compare the generated policy
@@ -83,29 +87,26 @@ clean source before deployment; the manifest records the commit and dirty state.
 
 ## Verification performed on 7 October
 
-- Clean pinned installation: 886 packages.
-- Typechecks and build passed. `npm run verify`: **635 tests passed**, no failures,
-  skips or todos. Five new checks cover hosted configuration, credentialed requests,
-  current tokens, redirect/cache policy and failures without manufactured success.
-- A synthetic public configuration built 151 modules into five hashed static files plus
-  a release manifest. The main
-  JavaScript chunk is about 205 kB gzipped; Vite reports its normal 500 kB raw-chunk
-  warning. Real-phone loading and performance are not measured.
-- The bundle passed production exclusion and contains no local emulator configuration
-  or fixture marker. A local browser loaded it and showed the expected failure message
-  because the local origin was not its configured hosted origin. This is a startup and
-  origin-guard check, not a successful cloud session.
+- Clean Node 22.21.1/npm 10.9.4 installation: 887 packages.
+- Typechecks and build passed. `npm run verify`: **648 tests passed**, no failures,
+  skips or todos (25 bootstrap/contracts, 79 engine, 46 Backend, 13 tooling,
+  140 presentation and 345 game). Three new quarantine regressions failed before
+  the digest correction and pass afterward. Dependency-boundary tests admit only
+  the reviewed SHA-2 entry and continue to reject sibling imports.
+- The actual public staging configuration builds the hosted entry and passes production
+  exclusion. The generated manifest records the source commit, dirty state and hashed
+  static files; regenerate from clean committed source before deployment. Vite reports
+  its normal 500 kB raw-chunk warning. Real-phone loading and performance are unmeasured.
+- A previous synthetic local-origin browser check showed the expected origin-guard
+  failure. It did not establish a successful cloud session. No cloud sign-in, browser
+  App Check attestation, private task delivery, live match or physical-device behavior
+  has been verified. The original 45-minute full-match browser evidence belongs to the
+  local emulator client at the pinned Frontend commit.
 - The standalone Backend artifact passed isolated installation/import and forbidden
   source checks. Artifact SHA-256:
   `ddce0f22c7b9c9dbd620f384a7e9ebd6cddb3b19c364f86c9d84fea16a4da4ba`.
   Runtime/source SHA-256:
   `d24c051049a212376239603a4286c360c176125475c3927239e65b6b4553592c`.
-
-The local build uses a clearly synthetic project and keys solely to check bundling.
-That configuration is not a deployment destination and must be replaced with verified
-project metadata. No cloud sign-in, Rules, App Check, task delivery, live match or physical
-device behavior has been verified by these checks. The original 45-minute full-match
-browser evidence belongs to the local emulator client at the pinned Frontend commit.
 
 ## Remaining publication inputs and checks
 
@@ -125,15 +126,12 @@ Cloud setup verified on 7 October 2026:
   the web app with 3,600-second token TTL and the default 0.5 risk threshold.
 - Firestore App Check enforcement is `ENFORCED`. This is configuration readback, not a
   successful browser attestation or authorization test.
+- Packaged Firestore Rules are deployed. The live source matches SHA-256
+  `08785716d97164ee6c76070c99efbe08894c1279a6e3285d7fcf8cc5b9ae6e3d`.
+  The required outbox collection-group index is `READY`, confirmed after creation.
 - Billing linkage awaits the owner's choice between two existing active billing accounts.
   Auth initialization returned `BILLING_NOT_ENABLED`; anonymous Auth and Auth App Check
   enforcement remain pending. No billing account has been linked or game deployed.
-
-After the hosted fixes, pinned `npm run verify` passed **643 tests** with no failures,
-skips or todos (25 bootstrap/contracts, 79 engine, 46 Backend, 12 tooling, 140 presentation,
-341 game). A build with the actual public web configuration transformed 152 modules and
-passed production exclusion; main JavaScript is about 205 kB gzipped. These results do
-not establish live Auth, private task delivery, real-device performance or human acceptance.
 
 Use explicit project and account flags for cloud operations; preserve the emulator
 default. The existing standalone Backend configuration at `dist/backend/firebase.json`
