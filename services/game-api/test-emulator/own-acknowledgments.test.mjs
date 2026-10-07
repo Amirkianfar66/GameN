@@ -11,6 +11,7 @@ import {
 } from '@mothership/contracts';
 import { createV1Service } from '../dist/index.js';
 import { decodeV1State } from '../dist/full-game.js';
+import { startStagedMatch } from './staged-start-helper.mjs';
 import { assertLocalEmulators, projectId, createEmulatorIdentity, firestoreRequest } from '../../../infra/firebase/test/helpers.mjs';
 
 let app, db, serial = 0;
@@ -28,7 +29,7 @@ before(() => {
 after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
 async function harness({ hostPlays = false } = {}) {
-  let now = 2_100_000_000_000 + ++serial * 100_000_000;
+  let now = 1_610_000_000_000 + ++serial * 100_000_000;
   const options = { db, clock: () => now, shuffle: items => [...items] };
   const service = createV1Service(options), host = await createEmulatorIdentity();
   const players = await Promise.all(Array.from({ length: 7 }, (_, index) => hostPlays && index === 0 ? host : createEmulatorIdentity()));
@@ -41,9 +42,10 @@ async function harness({ hostPlays = false } = {}) {
     }));
     success(await service.approveAdmission(host.uid, request({ admissionId: admission.admissionId, seatId: `seat-${index + 1}` })));
   }
-  success(await service.startMatch(host.uid, request()));
-  return { service, options, host, players, base, request, now: () => now, setTime: value => { now = value; },
+  const h = { service, options, host, players, base, request, now: () => now, setTime: value => { now = value; },
     current: async () => decodeV1State((await base.collection('engine').doc('current').get()).data()) };
+  await startStagedMatch(h);
+  return h;
 }
 async function tick(h) {
   const state = await h.current();
@@ -242,7 +244,7 @@ test('legacy engine 1.0.0 refuses state and binding mutations while receipt/time
 
   const snapshot = async () => {
     const entries = new Map();
-    const collections = ['engine', 'control', 'lobby', 'views', 'playerViews', 'ownAcknowledgments', 'seatSessions',
+    const collections = ['engine', 'control', 'lobby', 'setup', 'setupOutbox', 'setupPlayerViews', 'views', 'playerViews', 'ownAcknowledgments', 'seatSessions',
       'seats', 'members', 'receipts', 'outbox', 'events', 'recovery', 'identityAudit'];
     const queries = [
       ...collections.map(name => h.base.collection(name).get()),

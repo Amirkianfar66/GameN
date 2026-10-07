@@ -14,6 +14,56 @@ service cloud.firestore {
       return exists(/databases/$(database)/documents/matches/$(matchId)/control/session)
         && get(/databases/$(database)/documents/matches/$(matchId)/control/session).data.protocolVersion == 2;
     }
+    function gameplayAvailable(matchId) {
+      return legacyMatch(matchId)
+        || (fullMatch(matchId)
+          && (!('lifecycleVersion' in get(/databases/$(database)/documents/matches/$(matchId)/control/session).data)
+            || (get(/databases/$(database)/documents/matches/$(matchId)/control/session).data.lifecycleVersion == 'staged-start-1'
+              && get(/databases/$(database)/documents/matches/$(matchId)/control/session).data.gameStarted == true)));
+    }
+    function setupAwaitingReady(matchId) {
+      let control = get(/databases/$(database)/documents/matches/$(matchId)/control/session).data;
+      let setup = get(/databases/$(database)/documents/matches/$(matchId)/setup/public).data;
+      return fullMatch(matchId) && control.lifecycleVersion == 'staged-start-1'
+        && control.gameStarted == false && control.status == 'awaiting-ready'
+        && setup.schemaVersion == 1 && setup.protocolVersion == 2
+        && setup.lifecycleVersion == 'staged-start-1' && setup.matchId == matchId
+        && setup.stage == 'awaiting-ready' && setup.playerCount == control.playerCount
+        && setup.setupId is string && setup.setupId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$')
+        && setup.dealId is string && setup.dealId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$')
+        && setup.choosingStartedAt is int && setup.choosingStartedAt >= 0
+        && setup.choosingEndsAt is int && setup.choosingEndsAt == setup.choosingStartedAt + 30000
+        && setup.readingStartedAt is int && setup.readingStartedAt >= setup.choosingEndsAt
+        && setup.readingEndsAt is int && setup.readingEndsAt == setup.readingStartedAt + 30000
+        && exists(/databases/$(database)/documents/matches/$(matchId)/setup/deal)
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.schemaVersion == 1
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.protocolVersion == 2
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.lifecycleVersion == 'staged-start-1'
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.dealId == setup.dealId;
+    }
+    function setupPlayerDocument(matchId) {
+      let setup = get(/databases/$(database)/documents/matches/$(matchId)/setup/public).data;
+      let value = resource.data;
+      return value.keys().hasOnly(['schemaVersion', 'protocolVersion', 'lifecycleVersion', 'versions', 'matchId', 'playerCount', 'dealId', 'bindingRevision', 'audience', 'self'])
+        && value.schemaVersion == 1 && value.protocolVersion == 2
+        && value.lifecycleVersion == 'staged-start-1' && value.matchId == matchId
+        && value.playerCount in [7, 8, 9] && value.playerCount == setup.playerCount && value.dealId == setup.dealId
+        && value.bindingRevision is int && value.bindingRevision >= 1
+        && value.bindingRevision == member(matchId).bindingRevision
+        && value.audience.keys().hasOnly(['kind', 'seatId'])
+        && value.audience.kind == 'player' && value.audience.seatId == member(matchId).seatId
+        && value.self.keys().hasOnly(['seatId', 'role']) && value.self.seatId == member(matchId).seatId
+        && value.self.role in ['Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien', 'Red Disabler', 'Officer']
+        && (value.self.role != 'Officer' || value.playerCount == 9)
+        && (value.self.role != 'Red Disabler' || value.playerCount >= 8)
+        && value.versions.keys().hasOnly(['protocolVersion', 'rulesetVersion', 'rulesetHash', 'engineVersion', 'assetManifestVersion'])
+        && value.versions == get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.versions
+        && value.versions.protocolVersion == 2
+        && value.versions.rulesetVersion is string && value.versions.rulesetVersion.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$')
+        && value.versions.rulesetHash is string && value.versions.rulesetHash.matches('^[a-f0-9]{64}$')
+        && value.versions.engineVersion is string && value.versions.engineVersion.size() >= 1 && value.versions.engineVersion.size() <= 128
+        && value.versions.assetManifestVersion is string && value.versions.assetManifestVersion.matches('^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$');
+    }
     function activePlayer(matchId) {
       return member(matchId).kind == 'player'
         && isSeat(member(matchId).seatId)
@@ -60,19 +110,37 @@ service cloud.firestore {
           || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2 && resource.data.matchId == matchId));
       allow list, write: if false;
     }
+    match /matches/{matchId}/setup/public {
+      allow get: if admitted(matchId) && fullMatch(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/setup/public)
+          || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2
+            && resource.data.lifecycleVersion == 'staged-start-1' && resource.data.matchId == matchId));
+      allow list, write: if false;
+    }
+    match /matches/{matchId}/setupPlayerViews/{uid} {
+      // The server publishes roles only after the choosing deadline. An active
+      // human may observe their own absent/deleted preview without exposing a role.
+      // Existing previews still require the current prepared reading stage.
+      allow get: if request.auth != null && request.auth.uid == uid && fullMatch(matchId)
+        && activePlayer(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/setupPlayerViews/$(uid))
+          || (setupAwaitingReady(matchId) && setupPlayerDocument(matchId)));
+      allow list, write: if false;
+    }
     match /matches/{matchId}/views/public {
-      allow get: if admitted(matchId) && resource.data.matchId == matchId && resource.data.audience.kind == 'public';
+      allow get: if admitted(matchId) && gameplayAvailable(matchId)
+        && resource.data.matchId == matchId && resource.data.audience.kind == 'public';
       allow list, write: if false;
     }
     match /matches/{matchId}/playerViews/{uid} {
-      allow get: if admitted(matchId) && request.auth.uid == uid && member(matchId).kind == 'player'
+      allow get: if admitted(matchId) && gameplayAvailable(matchId) && request.auth.uid == uid && member(matchId).kind == 'player'
         && isSeat(member(matchId).seatId) && resource.data.matchId == matchId
         && resource.data.audience.kind == 'player' && resource.data.audience.seatId == member(matchId).seatId
         && resource.data.self.seatId == member(matchId).seatId;
       allow list, write: if false;
     }
     match /matches/{matchId}/ownAcknowledgments/{uid} {
-      allow get: if request.auth != null && request.auth.uid == uid && fullMatch(matchId) && activePlayer(matchId)
+      allow get: if request.auth != null && request.auth.uid == uid && fullMatch(matchId) && activePlayer(matchId) && gameplayAvailable(matchId)
         && (!exists(/databases/$(database)/documents/matches/$(matchId)/ownAcknowledgments/$(uid))
           || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2
             && resource.data.matchId == matchId && resource.data.seatId == member(matchId).seatId
@@ -88,7 +156,7 @@ service cloud.firestore {
       allow list, write: if false;
     }
     match /matches/{matchId}/audienceEvents/{audienceKey}/items/{eventId} {
-      allow get, list: if admitted(matchId)
+      allow get, list: if admitted(matchId) && gameplayAvailable(matchId)
         && ((audienceKey == 'public' && resource.data.audience.kind == 'public')
           || (member(matchId).kind == 'player' && resource.data.audience.kind == 'player'
             && resource.data.audience.seatId == member(matchId).seatId

@@ -6,9 +6,10 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import {
   FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityResponseSchema, FullOperationResponseSchema,
-  FullPublicViewSchema, FullPlayerViewSchema,
+  FullPublicViewSchema, FullPlayerViewSchema, FullConfirmSetupChoiceResponseSchema,
 } from '@mothership/contracts';
 import { createV1Service } from '../dist/index.js';
+import { beginStagedSetup, confirmStagedChoices, completeStagedSetup, startStagedMatch, setupRequest } from './staged-start-helper.mjs';
 import { decodeV1State } from '../dist/full-game.js';
 import { createV1HttpHandler } from '../../../infra/firebase/dist/v1.js';
 import { encodeFirestoreValue } from '../../../infra/firebase/test/helpers.mjs';
@@ -44,7 +45,7 @@ async function read(h, identity, suffix = 'identities/public', { method = 'GET',
   });
 }
 async function harness({ seats = 7 } = {}) {
-  const now = 2_000_000_000_000 + ++serial * 100_000_000;
+  let now = 1_600_000_000_000 + ++serial * 100_000_000;
   const service = createV1Service({ db, clock: () => now, shuffle: items => [...items] });
   const [host, display, outsider, ...players] = await Promise.all(Array.from({ length: 10 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: 7 }));
@@ -59,7 +60,9 @@ async function harness({ seats = 7 } = {}) {
     ({ schemaVersion: 1, protocolVersion: 2, matchId: base.id, requestId, displayName, characterId });
   const document = async () => FullLobbyIdentityDocumentSchema.parse((await base.collection('identities').doc('public').get()).data());
   const state = async () => decodeV1State((await base.collection('engine').doc('current').get()).data());
-  return { service, base, host, display, outsider, players, request, identity, document, state, now };
+  const h = { service, base, host, display, outsider, players, request, identity, document, state, get now() { return now; }, setTime: value => { now = value; } };
+  if (seats === 7) await beginStagedSetup(h);
+  return h;
 }
 
 test('new admitted seats have null identity; public reads require admitted reverse binding; direct writes/lists denied', async () => {
@@ -108,20 +111,27 @@ test('concurrent claims serialize; durable refusal/replay/conflict and released-
   assert.equal((await h.document()).revision, revision, 'same public identity does not increment revision');
 });
 
-test('start locks selected/unselected identities; replay succeeds after freeze without touching engine or public game view', async () => {
+test('the prepared deal locks explicitly confirmed identities; draft replay leaves engine and public views untouched', async () => {
   const h = await harness(), body = h.identity('Officer', 'c9');
   const selected = ack(await h.service.setLobbyIdentity(h.players[0].uid, body));
+  for (let index = 1; index < 7; index++) ack(await h.service.setLobbyIdentity(h.players[index].uid,
+    h.identity(`Crew ${index + 1}`, `c${index}`)));
   const before = await h.document();
-  op(await h.service.startMatch(h.host.uid, h.request()));
+  await confirmStagedChoices(h);
   const locked = await h.document();
   assert.equal(locked.locked, true); assert.equal(locked.revision, before.revision + 1);
-  assert.equal(locked.seats[1].displayName, null, 'unselected seats retain numbered fallback');
-  const engineBefore = (await h.base.collection('engine').doc('current').get()).data();
-  const publicBefore = (await h.base.collection('views').doc('public').get()).data();
-  assert.deepEqual(ack(await h.service.setLobbyIdentity(h.players[0].uid, body)), selected);
+  assert.ok(locked.seats.every(seat => seat.displayName !== null && seat.characterId !== null), 'Every human has explicitly confirmed a complete identity');
+  assert.equal((await h.base.collection('engine').doc('current').get()).exists, false, 'Role readiness has not opened gameplay');
+  assert.equal((await h.base.collection('views').doc('public').get()).exists, false);
+  const { serverTimeMs: replayTime, ...replayedAcknowledgment } = ack(await h.service.setLobbyIdentity(h.players[0].uid, body));
+  const { serverTimeMs: selectedTime, ...originalAcknowledgment } = selected;
+  assert.deepEqual(replayedAcknowledgment, originalAcknowledgment, 'Draft replay retains the original acknowledgment fields');
+  assert.equal(replayTime, h.now, 'Draft replay reports the fresh injected server clock');
+  assert.ok(replayTime > selectedTime, 'The selection window elapsed after the original acknowledgment');
   error(await h.service.setLobbyIdentity(h.players[0].uid, h.identity('Other', 'c8')), 'IDENTITY_LOCKED');
-  assert.deepEqual((await h.base.collection('engine').doc('current').get()).data(), engineBefore);
-  assert.deepEqual((await h.base.collection('views').doc('public').get()).data(), publicBefore);
+  assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
+  assert.equal((await h.base.collection('views').doc('public').get()).exists, false);
+  await completeStagedSetup(h);
   const state = await h.state();
   assert.deepEqual(state.setup.roleOrder, ['Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien']);
   assert.equal(Object.hasOwn(state.setup, 'characterId'), false);
@@ -142,7 +152,7 @@ test('seat recovery preserves identity, removes old read/replay authority and le
   assert.equal((await read(h, h.players[0])).status, 403); assert.equal((await read(h, replacement)).status, 200);
   error(await h.service.setLobbyIdentity(h.players[0].uid, body), 'FORBIDDEN');
   ack(await h.service.setLobbyIdentity(replacement.uid, h.identity('Recovered', 'c3')));
-  op(await h.service.startMatch(h.host.uid, h.request()));
+  await startStagedMatch(h);
   const locked = await h.document(), second = await auth();
   const nextGrant = op(await h.service.issueSeatRecovery(h.host.uid, h.request({ seatId: 'seat-1' })));
   op(await h.service.redeemSeatRecovery(second.uid, h.request({ recoveryToken: nextGrant.recoveryToken })));
@@ -151,19 +161,21 @@ test('seat recovery preserves identity, removes old read/replay authority and le
   assert.equal((await h.state()).seats[0].role, 'Insider');
 });
 
-test('old missing document is readable as absence; running matches remain missing; old lobby can create the separate record', async () => {
+test('missing legacy identities are readable as absence and choosing explicitly reconstructs them before the deal', async () => {
   const h = await harness();
   await h.base.collection('identities').doc('public').delete();
   assert.equal((await read(h, h.players[0])).status, 404);
-  op(await h.service.startMatch(h.host.uid, h.request()));
-  assert.equal((await h.base.collection('identities').doc('public').get()).exists, false);
+  ack(await h.service.setLobbyIdentity(h.players[0].uid, h.identity()));
+  const value = await h.document(); assert.equal(value.revision, 1); assert.equal(value.seats.length, 7);
+  assert.equal(value.seats[1].displayName, null);
+  await startStagedMatch(h);
+  assert.equal((await h.document()).locked, true);
+  // A historical running match may still lack this additive public record. A read
+  // is absence, and a locked fresh edit cannot recreate it after the role deal.
+  await h.base.collection('identities').doc('public').delete();
+  assert.equal((await read(h, h.players[0])).status, 404);
   error(await h.service.setLobbyIdentity(h.players[0].uid, h.identity()), 'IDENTITY_LOCKED');
   assert.equal((await h.base.collection('identities').doc('public').get()).exists, false);
-  const lobby = await harness();
-  await lobby.base.collection('identities').doc('public').delete();
-  ack(await lobby.service.setLobbyIdentity(lobby.players[0].uid, lobby.identity()));
-  const value = await lobby.document(); assert.equal(value.revision, 1); assert.equal(value.seats.length, 7);
-  assert.equal(value.seats[1].displayName, null);
 });
 
 test('lobby abort locks the record without a deal; persisted acknowledgments survive service restart', async () => {
@@ -201,17 +213,39 @@ test('real emulator Auth passes through the normal HTTP adapter to the persisted
   const response = await invoke(h.players[0]); assert.equal(response.status, 200); ack(response.body);
 });
 
-test('concurrent start and selection freeze one serializable outcome before roles become visible', async () => {
+test('concurrent final confirmation and draft editing remain editable until the selection deadline freezes the identity', async () => {
+  async function settled(schema, initial, replay) {
+    let value = schema.parse(initial);
+    // Once both competitors settle, reconcile only transient transaction failure
+    // with the exact original frozen request. Persistent refusals stay refusals.
+    for (let retry = 0; value.error?.code === 'UNAVAILABLE' && retry < 2; retry++) value = schema.parse(await replay());
+    return value;
+  }
   for (let attempt = 0; attempt < 3; attempt++) {
-    const h = await harness(), body = h.identity('BeforeDeal', 'c4');
-    const [selected, started] = await Promise.all([
-      h.service.setLobbyIdentity(h.players[0].uid, body), h.service.startMatch(h.host.uid, h.request()),
+    const h = await harness(), body = Object.freeze(h.identity('BeforeDeal', 'c4'));
+    const otherCharacters = ['c1', 'c2', 'c3', 'c5', 'c6', 'c7'];
+    for (let index = 1; index < 7; index++) {
+      const confirmed = FullConfirmSetupChoiceResponseSchema.parse(await h.service.confirmSetupChoice(h.players[index].uid,
+        setupRequest(h, { bindingRevision: 1, displayName: `Crew ${index + 1}`, characterId: otherCharacters[index - 1] })));
+      assert.equal(confirmed.ok, true); assert.equal(confirmed.stage, 'choosing');
+    }
+    const confirm = Object.freeze(setupRequest(h, { bindingRevision: 1, displayName: body.displayName, characterId: body.characterId }));
+    let [selected, confirmed] = await Promise.all([
+      h.service.setLobbyIdentity(h.players[0].uid, body), h.service.confirmSetupChoice(h.players[0].uid, confirm),
     ]);
-    op(started); FullSetLobbyIdentityResponseSchema.parse(selected);
+    FullSetLobbyIdentityResponseSchema.parse(selected); FullConfirmSetupChoiceResponseSchema.parse(confirmed);
+    selected = await settled(FullSetLobbyIdentityResponseSchema, selected, () => h.service.setLobbyIdentity(h.players[0].uid, body));
+    confirmed = await settled(FullConfirmSetupChoiceResponseSchema, confirmed, () => h.service.confirmSetupChoice(h.players[0].uid, confirm));
+    assert.equal(confirmed.ok, true, 'Concurrent confirmation refused: ' + (confirmed.error?.code ?? 'unknown')); assert.equal(confirmed.stage, 'choosing');
+    assert.equal(selected.ok, true, 'Concurrent draft refused: ' + (selected.error?.code ?? 'unknown'));
+    assert.equal((await h.document()).locked, false, 'Confirmation does not end the timed choice window');
+    assert.equal((await h.base.collection('setup').doc('deal').get()).exists, false);
+    await confirmStagedChoices(h);
     const value = await h.document(); assert.equal(value.locked, true);
-    if (selected.ok) assert.deepEqual(value.seats[0], { seatId: 'seat-1', displayName: 'BeforeDeal', characterId: 'c4' });
-    else { error(selected, 'IDENTITY_LOCKED'); assert.equal(value.seats[0].characterId, null); }
-    error(await h.service.setLobbyIdentity(h.players[0].uid, h.identity('AfterDeal', 'c5')), 'IDENTITY_LOCKED');
+    assert.deepEqual(value.seats[0], { seatId: 'seat-1', displayName: 'BeforeDeal', characterId: 'c4' });
+    error(await h.service.setLobbyIdentity(h.players[0].uid, h.identity('AfterDeal', 'c8')), 'IDENTITY_LOCKED');
+    assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
+    await completeStagedSetup(h);
     assert.equal((await h.state()).seats[0].role, 'Insider');
   }
 });

@@ -6,10 +6,11 @@ import { getFirestore } from 'firebase-admin/firestore';
 import {
   FullPublicViewSchema, FullPlayerViewSchema, FullReceiptSchema, FullEventSchema, FullFailureSchema,
   FullOperationResponseSchema, FullCommandResponseSchema, FullLookupResponseSchema, FullAdvanceResponseSchema,
-  FullServerTimeResponseSchema, FullLobbyViewSchema,
+  FullServerTimeResponseSchema, FullLobbyViewSchema, FullBeginSetupResponseSchema,
 } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
+import { beginStagedSetup, completeStagedSetup, startStagedMatch, setupRequest } from './staged-start-helper.mjs';
 import { encodeV1State, decodeV1State, decodeV1Setup } from '../dist/full-game.js';
 import { createDeadlineEnqueuer } from '../../../infra/firebase/dist/tasks.js';
 import { assertLocalEmulators, createEmulatorIdentity, firestoreRequest, firestoreEventQuery } from '../../../infra/firebase/test/helpers.mjs';
@@ -26,7 +27,7 @@ before(async () => {
 after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
 async function harness(playerCount = 7, { deal = true, hostPlays = false, assetManifestVersion = '0.0.0-no-assets' } = {}) {
-  let now = 2_000_000_000_000 + ++serial * 100_000_000;
+  let now = 1_600_000_000_000 + ++serial * 100_000_000;
   const service = createV1Service({ db, clock: () => now, shuffle: items => [...items], assetManifestVersion });
   const host = await createEmulatorIdentity();
   const players = await Promise.all(Array.from({ length: playerCount }, (_, i) => hostPlays && i === 0 ? host : createEmulatorIdentity()));
@@ -59,8 +60,11 @@ async function harness(playerCount = 7, { deal = true, hostPlays = false, assetM
   };
   if (deal) {
     for (let i = 0; i < playerCount; i++) success(await approve(players[i], `seat-${i + 1}`));
-    success(await service.startMatch(host.uid, request()));
+    await startStagedMatch(h);
     assert.equal((await lobbyView()).status, 'running');
+    const initial = await current();
+    assert.equal(initial.phase.startedAt, now, 'The reading deadline starts the first window at the current injected clock');
+    assert.equal(initial.phase.endsAt, now + 60_000);
   }
   return h;
 }
@@ -89,10 +93,15 @@ test('lobby creation is idempotent; host capability is separate from player iden
   assert.match(h.created.roomCode, /^[A-F0-9]{12}$/);
   assert.equal((await read(h, 'control/session', h.host)).status, 200);
   assert.equal((await read(h, 'control/session', h.players[0])).status, 403);
-  error(await h.service.startMatch(h.host.uid, h.request()), 'FORBIDDEN');
+  const incomplete = FullBeginSetupResponseSchema.parse(await h.service.beginSetup(h.host.uid, setupRequest(h)));
+  assert.equal(incomplete.error?.code, 'ROSTER_INCOMPLETE');
   for (let i = 0; i < 7; i++) success(await h.approve(h.players[i], `seat-${i + 1}`));
-  error(await h.service.startMatch(h.players[0].uid, h.request()), 'FORBIDDEN');
-  success(await h.service.startMatch(h.host.uid, h.request()));
+  const forbidden = FullBeginSetupResponseSchema.parse(await h.service.beginSetup(h.players[0].uid, setupRequest(h)));
+  assert.equal(forbidden.error?.code, 'FORBIDDEN');
+  const beginBody = setupRequest(h), began = await beginStagedSetup(h, beginBody);
+  assert.deepEqual(await beginStagedSetup(h, beginBody), began, 'An identical Begin request replays without restarting setup');
+  assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
+  await completeStagedSetup(h);
   FullServerTimeResponseSchema.parse(await h.service.serverTime(h.host.uid, { protocolVersion: 2, matchId: h.base.id }));
   const earlyAdvance = FullAdvanceResponseSchema.parse(await h.service.advance(h.host.uid, { protocolVersion: 2, matchId: h.base.id, phaseId: (await h.current()).phase.id }));
   assert.equal(earlyAdvance.result, 'unchanged');
@@ -142,7 +151,8 @@ test('concurrent admissions cannot assign one seat twice or one identity to two 
   }
   const third = await h.admission(h.players[3]);
   error(await h.service.approveAdmission(h.host.uid, h.request({ admissionId: third.admissionId, seatId: 'seat-8' })), 'FORBIDDEN');
-  error(await h.service.startMatch(h.host.uid, h.request()), 'FORBIDDEN');
+  const incomplete = FullBeginSetupResponseSchema.parse(await h.service.beginSetup(h.host.uid, setupRequest(h)));
+  assert.equal(incomplete.error?.code, 'ROSTER_INCOMPLETE');
 });
 
 test('configured asset manifest is pinned identically in setup journal, engine and both audience projections', async () => {
