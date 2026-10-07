@@ -37,7 +37,13 @@ export function runEmulatorTests(root = repositoryRoot, modes = ['data', 'functi
     // Real-time Tasks/Functions must never observe a fixture whose service clock is injected.
     // A fresh suite retains actual HTTP, private trigger and task dispatch acceptance.
     const only = mode === 'data' ? 'auth,firestore' : 'auth,firestore,functions';
-    const command = `node --test --test-concurrency=1 ${groups[mode].join(' ')}`;
+    const invoke = files => `node --test --test-concurrency=1 ${files.join(' ')}`;
+    const legacy = 'services/game-api/test-emulator/service.test.mjs';
+    // The legacy suite repairs its whole fixture outbox. Finish it before creating
+    // V1 matches; separate commands make this order explicit to Node's test runner.
+    const command = mode === 'functions'
+      ? `${invoke([legacy])} && ${invoke(groups.functions.filter(path => path !== legacy))}`
+      : invoke(groups.data);
     const environment = { ...process.env, MOTHERSHIP_FUNCTIONS_EMULATOR_HOST: '127.0.0.1:5101' };
     delete environment.NODE_TEST_CONTEXT;
     console.log(`Emulator group ${mode}: ${groups[mode].length} files; ${only}; demo-mothership`);
