@@ -104,7 +104,7 @@ clean source before deployment; the manifest records the commit and dirty state.
   local emulator client at the pinned Frontend commit.
 - The standalone Backend artifact passed isolated installation/import and forbidden
   source checks. Artifact SHA-256:
-  `ddce0f22c7b9c9dbd620f384a7e9ebd6cddb3b19c364f86c9d84fea16a4da4ba`.
+  `9de6404368c0556367559767f16f7d52ba18964517f53b90746f42b78b15ea24`.
   Runtime/source SHA-256:
   `d24c051049a212376239603a4286c360c176125475c3927239e65b6b4553592c`.
 
