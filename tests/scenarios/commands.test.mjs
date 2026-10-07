@@ -31,7 +31,7 @@ writeFileSync(join(refusing, 'packages/engine/package.json'), '{ "type": "module
 writeFileSync(join(refusing, 'packages/engine/dist/index.js'), [
   "export const FULL_ENGINE_VERSION = 'stand-in';",
   "export function createFullGame() { throw new Error('stand-in engine refuses every setup'); }",
-  ...['executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame'].map(name => `export function ${name}() { throw new Error('unreachable'); }`),
+  ...['executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame', 'projectOwnAcknowledgments'].map(name => `export function ${name}() { throw new Error('unreachable'); }`),
   '',
 ].join('\n'));
 // A directory with no engine in it. Passing it keeps these tests independent of whichever engine
@@ -41,6 +41,21 @@ mkdirSync(absent);
 
 const ready = loadAll().filter(scenario => scenario.status === 'ready');
 const readyInModes = ready.filter(scenario => scenario.mode !== null).length;
+
+test('an engine missing only the own acknowledgment export is unavailable to every required-engine command', () => {
+  const incomplete = join(work, 'without-own-acknowledgments');
+  mkdirSync(join(incomplete, 'packages/engine/dist'), { recursive: true });
+  writeFileSync(join(incomplete, 'packages/engine/package.json'), '{ "type": "module" }\n');
+  const completeModule = readFileSync(join(refusing, 'packages/engine/dist/index.js'), 'utf8');
+  const incompleteModule = completeModule.replace("export function projectOwnAcknowledgments() { throw new Error('unreachable'); }\n", '');
+  assert.notEqual(incompleteModule, completeModule, 'The regression must remove exactly the new required capability');
+  writeFileSync(join(incomplete, 'packages/engine/dist/index.js'), incompleteModule);
+  for (const name of ['run-scenarios.mjs', 'controls.mjs', 'walk.mjs']) {
+    const result = run(name, '--engine-root', incomplete, '--require-engine');
+    assert.equal(result.status, 2, `${name}: ${result.stdout}${result.stderr}`);
+    assert.match(result.stdout, /projectOwnAcknowledgments missing/);
+  }
+});
 
 test('the controls command fails when its baselines do not pass', () => {
   const out = join(work, 'controls.json');

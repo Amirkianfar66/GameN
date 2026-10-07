@@ -9,7 +9,7 @@
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const REQUIRED = ['createFullGame', 'executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame'];
+const REQUIRED = ['createFullGame', 'executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame', 'projectOwnAcknowledgments'];
 // The name every report of a run through this binding carries. The report gate accepts no other.
 export const ADAPTER_NAME = 'full-game-v1';
 const FIXTURE_START = 1_800_000_000_000;
@@ -59,7 +59,7 @@ function publicFacts(view) {
   };
 }
 
-function playerFacts(view) {
+function playerFacts(view, acknowledgments) {
   return {
     seat: view.self.seatId, publicFacts: publicFacts(view), role: view.self.role,
     ordinaryWeapons: view.self.ordinaryWeapons, rescuesRemaining: view.self.rescuesRemaining,
@@ -74,11 +74,10 @@ function playerFacts(view) {
         round: item.round, target: item.targetSeatId, guess: item.guess, matched: item.matched, inCode: item.inCode,
       })),
       protections: view.knowledge.protections.map(item => ({ seat: item.seatId, activeFromRound: item.activeFromRound, consumed: item.consumed })),
-      // Whom Supplier armed (V1-16). The protocol-2 view has no field for it, and no engine
-      // exports another read that carries it: finding G17 of the integration review. So the
-      // binding reports that the engine tells the player nothing, which is what it does. When
-      // Backend defines that read, this line and `raw.also` in observe() are where it is bound.
-      armedBySupply: null,
+      // Only the real own-seat read supplies this fact. No server truth, queue or
+      // ammunition comparison is used to manufacture disclosure.
+      armedBySupply: acknowledgments.historyAvailable
+        ? acknowledgments.supplierResults.flatMap(result => [...result.successfulRecipientSeatIds]) : null,
     },
   };
 }
@@ -111,7 +110,9 @@ function createAdapter(engine) {
       // both would then differ between the runs for a reason that is the harness's own, and the
       // phase identifier is in every view.
       let phases = 0;
-      let commands = 0;
+      // Command identifiers belong to the caller. Another seat's hidden input cannot
+      // renumber this caller's own acknowledgment and fabricate a privacy difference.
+      const commands = new Map();
       const context = now => ({ now, nextPhaseId: `phase-${phases + 1}`, nextDeadlineToken: `deadline-${phases + 1}` });
       // The offered identifier was used if the engine opened a phase with it.
       const settle = () => { if (state.phase.id === `phase-${phases + 1}`) phases += 1; };
@@ -126,6 +127,8 @@ function createAdapter(engine) {
       return {
         observe() {
           const views = engine.projectFullGame(state);
+          const acknowledgments = Object.fromEntries(Object.keys(views.players).map(seat =>
+            [seat, engine.projectOwnAcknowledgments(state, seat)]));
           const terminal = state.phase.endsAt === null;
           return {
             round: state.round, phaseKind: state.phase.kind, phaseId: state.phase.id,
@@ -146,14 +149,16 @@ function createAdapter(engine) {
               })),
             },
             publicView: publicFacts(views.public),
-            playerViews: Object.fromEntries(Object.entries(views.players).map(([seat, view]) => [seat, playerFacts(view)])),
-            raw: { public: views.public, players: views.players },
+            playerViews: Object.fromEntries(Object.entries(views.players).map(([seat, view]) => [seat, playerFacts(view, acknowledgments[seat])])),
+            raw: { public: views.public, players: views.players, also: { players: acknowledgments } },
             revisions: { public: state.viewRevisions.public, players: { ...state.viewRevisions.players } },
           };
         },
         command(actor, command, atMs) {
+          const ordinal = (commands.get(actor) ?? 0) + 1;
+          commands.set(actor, ordinal);
           const request = {
-            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${++commands}`,
+            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${actor}-${ordinal}`,
             command: wireCommand(command),
           };
           let result;
