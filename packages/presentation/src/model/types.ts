@@ -20,11 +20,15 @@ export type DataSourceMode = 'fixture' | 'emulator' | 'production';
 export type ConnectionStatus = 'connecting' | 'live' | 'stale';
 
 /**
- * incompatible-protocol, integrity and no-access replace the match with a recovery screen.
- * no-access: the server refused this identity the view, so nothing it sent before may be
- * shown any longer. unreadable-update keeps the last readable view and marks it stale.
+ * incompatible-protocol, integrity, no-access and access-unconfirmed replace the match with
+ * a recovery screen. no-access: the server refused this identity the view, so nothing it
+ * sent before may be shown any longer. access-unconfirmed: the server did not let this
+ * device read, and that answer alone does not say why: on a deployed project it is also
+ * what a sign-in or attestation that could not be confirmed looks like. Nothing is shown,
+ * nothing is said to be lost, and the device may ask again. unreadable-update keeps the
+ * last readable view and marks it stale.
  */
-export type ShellProblem = 'incompatible-protocol' | 'integrity' | 'no-access' | 'unreadable-update';
+export type ShellProblem = 'incompatible-protocol' | 'integrity' | 'no-access' | 'access-unconfirmed' | 'unreadable-update';
 
 /** A local estimate of the trusted phase deadline. It never advances or closes a phase. */
 export type DeadlineEstimate =

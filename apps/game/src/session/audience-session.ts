@@ -199,7 +199,11 @@ export function createSessionFrom<View>(config: SessionSource<View>): AudienceSe
     syncGeneration += 1;
     // This removes private facts and announcements without declaring the seat revoked.
     // The action flow keeps only its nonsecret recovery identifiers across a reload.
-    update({ view: null, connection: 'connecting' });
+    // The screen is told what this is, so that it is not drawn as a connection still being
+    // made: it has words of its own and a control to ask again. A check that already
+    // failed for good is not replaced by it.
+    const final = state.problem === 'integrity' || state.problem === 'incompatible-protocol';
+    update({ view: null, connection: 'connecting', problem: final ? state.problem : 'access-unconfirmed' });
   }
 
   function attach(): void {
