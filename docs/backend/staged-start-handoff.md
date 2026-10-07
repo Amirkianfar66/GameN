@@ -2,9 +2,9 @@
 
 Issue: [#73](https://github.com/Amirkianfar66/GameN/issues/73).
 Backend draft PR: [#74](https://github.com/Amirkianfar66/GameN/pull/74).
-Timed runtime checkpoint prepared for local integration; the complete emulator
-rerun and combined acceptance remain pending. The verified SHA is recorded below
-in a follow-up evidence update after commitment.
+Timed runtime checkpoint: `f44562d3575c6a23cba105b85e90b694badfce63`.
+Final emulator test checkpoint: `6cca76710a276cba3a008d05b8e33d5049c177cf`
+(test-only synthetic name correction; runtime unchanged).
 Timed contracts checkpoint: `c185c157ae25404c0e8e0ae44aaa3d5b6e99ffbc`.
 Deployed base: `af797838dee531d7874da2145e99a50c67d32b45` (practice-bot release).
 Prior untimed checkpoints `297de42609ff575aa914e0f852aba80482957622` and
@@ -169,17 +169,36 @@ setup intents and server operation receipts remain inaccessible to clients.
 
 ## Verification and integration status
 
-The timed candidate build passed. All 138 focused backend/HTTP and timed
-contract tests passed (118 backend/HTTP plus 20 contracts). The first isolated
-Auth/Firestore run passed 94 of 97 cases; two replay expectations omitted fresh
-server time after advancing the fake clock, and a synthetic historical-name
-case attempted to confirm a name already claimed by another seat. These three
-test expectations are corrected; the full 97-case rerun is in progress.
-Actual Functions smoke, full CI and combined Frontend acceptance remain pending.
-Saved tests cover 7/8/9 seats, no early deal/engine, exact windows, automatic
+At clean runtime checkpoint `f44562d3575c6a23cba105b85e90b694badfce63`,
+`npm run verify` passed all 890 workspace tests, 70 static checks, 483 catalogue
+scenarios (33 reviewed blocked and 6 explicit manual), 4,388 detected controls,
+and 30 completed 7/8/9-seat playouts with zero invariant/replay mismatches.
+The 118 backend/HTTP and 20 timed contracts tests are included in that evidence.
+Browser dependency/exclusion smoke and standalone backend package installation
+also passed. The package-install script still checks the original 18 endpoint
+names; the coordinator owns its update to cover all 24. Runtime export metadata
+coverage includes the six staged-start HTTP/private setup Functions.
+
+At test checkpoint `6cca76710a276cba3a008d05b8e33d5049c177cf`, the pinned Firebase
+CLI `15.0.0`, Java 21, Node `22.21.1` and current Rules/index copies passed all
+97 isolated Auth/Firestore cases: 33 focused staged-start/Rules/setup-outbox
+cases and 64 existing service, identity, acknowledgment, Rules and practice-bot
+regressions. The suite used demo-mothership, Auth 39199, Firestore 38180 and
+private hub/logging/temp paths. Those processes stopped after acceptance;
+other agents' guarded 9199/8180/5101 runtime was not changed.
+
+The initial broad run passed 94/97 before correcting two fake-clock replay
+expectations and a synthetic historical-name confirmation. An intermediate
+focused rerun passed 32/33; the replacement synthetic name exceeded the existing
+12-code-point limit. The final name is valid and all 97 cases pass. No runtime
+change was made to satisfy those assertions.
+
+Coverage includes 7/8/9 seats, no early deal/engine, exact windows, automatic
 unique choices, retained previews, late Ready, delayed/duplicate/stale timers,
-recovery/abort races and all-bot waiting; source presence does not establish a
-passing run.
+recovery/abort races, durable lost-task repair and all-bot waiting. The tests
+verify REST Rules reads and persisted service state, not Web SDK realtime
+listener lifecycle. Combined browser/emulator acceptance and GitHub CI remain
+pending with the coordinator's integration changes.
 
 Historical untimed evidence at `297de42609ff575aa914e0f852aba80482957622`:
 `npm run verify` passed 876 workspace tests, 70 static checks, 483 catalogue
