@@ -6,19 +6,22 @@ import { getAppCheck } from 'firebase-admin/app-check';
 import { getFunctions } from 'firebase-admin/functions';
 import { onRequest } from 'firebase-functions/v2/https';
 import { onTaskDispatched } from 'firebase-functions/v2/tasks';
-import { onDocumentCreated } from 'firebase-functions/v2/firestore';
+import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
+import { FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema } from '@mothership/contracts';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type { RuntimeConfiguration } from './runtime.js';
 export interface V1HttpRequest { method: string; body: unknown; headers: Record<string, string | string[] | undefined>; rawBody?: Uint8Array }
 export interface V1HttpResponse { set(field: string, value: string): unknown; status(code: number): V1HttpResponse; json(body: unknown): unknown }
 
-export const V1_OPERATIONS = ['createMatch', 'requestAdmission', 'approveAdmission', 'admitDisplay', 'startMatch', 'submit', 'lookup', 'advance', 'serverTime', 'abortMatch', 'issueSeatRecovery', 'redeemSeatRecovery', 'setLobbyIdentity'] as const;
+export const V1_OPERATIONS = ['createMatch', 'requestAdmission', 'approveAdmission', 'admitDisplay', 'startMatch', 'submit', 'lookup', 'advance', 'serverTime', 'abortMatch', 'issueSeatRecovery', 'redeemSeatRecovery', 'setLobbyIdentity', 'setPracticeBots'] as const;
 export type V1Operation = typeof V1_OPERATIONS[number];
 export type V1Deadline = { matchId: string; phaseId: string; deadlineToken: string };
 export type V1DeadlineIntent = V1Deadline & { taskId: string; endsAt: number };
 export type V1Enqueue = (intent: V1DeadlineIntent) => Promise<void>;
 export type V1HttpService = { [Operation in V1Operation]: (uid: string, payload: unknown) => Promise<unknown> };
+export type V1PracticeBotsResult = { status: 'advanced' | 'unchanged' | 'failed' | 'blocked'; processed: number };
 export type V1Service = V1HttpService & {
+  runPracticeBots(matchId: string, options: { limit: number }): Promise<V1PracticeBotsResult>;
   runDeadline(payload: V1Deadline): Promise<unknown>;
   dispatchDeadlineIntent(path: string, enqueue: V1Enqueue): Promise<unknown>;
   repairOutbox(enqueue: V1Enqueue, options: { limit: number; cursor?: string }): Promise<unknown>;
@@ -43,7 +46,7 @@ function length(request: V1HttpRequest): number {
 }
 const statusFor = (code: unknown): number => code === 'UNAUTHENTICATED' ? 401 : code === 'FORBIDDEN' ? 403
   : code === 'UNAVAILABLE' ? 503 : code === 'COMMAND_ID_CONFLICT' || code === 'REQUEST_ID_CONFLICT' ? 409
-  : code === 'CHARACTER_TAKEN' || code === 'IDENTITY_LOCKED' ? 409
+  : code === 'CHARACTER_TAKEN' || code === 'IDENTITY_LOCKED' || code === 'LOBBY_LOCKED' || code === 'CAPACITY_EXCEEDED' ? 409
   : code === 'RATE_LIMITED' ? 429 : code === 'INVALID_REQUEST' || code === 'UNSUPPORTED_PROTOCOL' || code === 'UNSUPPORTED_SCHEMA' ? 400 : 200;
 
 export function createV1HttpHandler(operation: V1Operation, dependencies: V1HttpDependencies) {
@@ -53,7 +56,7 @@ export function createV1HttpHandler(operation: V1Operation, dependencies: V1Http
     response.set('Pragma', 'no-cache');
     response.set('X-Content-Type-Options', 'nosniff');
     response.set('Vary', 'Origin');
-    const fail = (status: number, code: string) => { response.status(status).json({ ...(operation === 'setLobbyIdentity' ? { schemaVersion: 1, protocolVersion: 2 } : {}), ok: false, serverTimeMs: clock(), error: { code } }); };
+    const fail = (status: number, code: string) => { response.status(status).json({ ...(['setLobbyIdentity', 'setPracticeBots'].includes(operation) ? { schemaVersion: 1, protocolVersion: 2 } : {}), ok: false, serverTimeMs: clock(), error: { code } }); };
     const origin = header(request, 'origin');
     if (request.headers['origin'] !== undefined && (origin === undefined || !dependencies.configuration.allowedOrigins.includes(origin))) {
       fail(403, 'FORBIDDEN'); return;
@@ -87,7 +90,18 @@ export function createV1HttpHandler(operation: V1Operation, dependencies: V1Http
       try { await dependencies.verifyAppCheckToken(appToken); } catch { fail(403, 'FORBIDDEN'); return; }
     }
     try {
-      const result = await dependencies.service[operation](uid, request.body);
+      let payload = request.body;
+      if (operation === 'setPracticeBots') {
+        if (payload !== null && typeof payload === 'object') {
+          if ('protocolVersion' in payload && typeof payload.protocolVersion === 'number' && payload.protocolVersion !== 2) { fail(400, 'UNSUPPORTED_PROTOCOL'); return; }
+          if ('schemaVersion' in payload && typeof payload.schemaVersion === 'number' && payload.schemaVersion !== 1) { fail(400, 'UNSUPPORTED_SCHEMA'); return; }
+        }
+        const parsed = FullSetPracticeBotsRequestSchema.safeParse(payload);
+        if (!parsed.success) { fail(400, 'INVALID_REQUEST'); return; }
+        payload = parsed.data;
+      }
+      const given = await dependencies.service[operation](uid, payload);
+      const result = operation === 'setPracticeBots' ? FullSetPracticeBotsResponseSchema.parse(given) : given;
       const code = result !== null && typeof result === 'object' && 'ok' in result && result.ok === false
         && 'error' in result && result.error !== null && typeof result.error === 'object' && 'code' in result.error ? result.error.code : undefined;
       response.status(statusFor(code)).json(result);
@@ -108,7 +122,20 @@ export function createV1Enqueuer(queue: { enqueue(payload: V1Deadline, options: 
     catch (error) { if (!taskExists(error)) throw error; }
   };
 }
-export function createV1DeadlineHandler(service: Pick<V1Service, 'runDeadline'>) {
+export function createV1PracticeBotsHandler(service: Pick<V1Service, 'runPracticeBots'>) {
+  return async (matchId: unknown): Promise<void> => {
+    if (typeof matchId !== 'string' || !identity.test(matchId)) throw new Error('Invalid practice bot match');
+    let result: V1PracticeBotsResult;
+    try { result = await service.runPracticeBots(matchId, { limit: 18 }); }
+    catch { throw new Error('Practice bot evaluation unavailable'); }
+    if (result === null || typeof result !== 'object'
+      || !['advanced', 'unchanged', 'blocked'].includes(result.status)
+      || !Number.isSafeInteger(result.processed) || result.processed < 0 || result.processed > 18) {
+      throw new Error('Practice bot evaluation unavailable');
+    }
+  };
+}
+export function createV1DeadlineHandler(service: Pick<V1Service, 'runDeadline' | 'runPracticeBots'>) {
   return async (payload: unknown): Promise<void> => {
     if (payload === null || typeof payload !== 'object' || Array.isArray(payload) || Object.keys(payload).length !== 3
       || !Object.keys(payload).every(key => ['matchId', 'phaseId', 'deadlineToken'].includes(key))
@@ -116,6 +143,7 @@ export function createV1DeadlineHandler(service: Pick<V1Service, 'runDeadline'>)
     let result: unknown;
     try { result = await service.runDeadline(payload as V1Deadline); } catch { throw new Error('Deadline evaluation unavailable'); }
     if (result !== null && typeof result === 'object' && 'ok' in result && result.ok === false) throw new Error('Deadline evaluation unavailable');
+    await createV1PracticeBotsHandler(service)((payload as V1Deadline).matchId);
   };
 }
 
@@ -123,7 +151,9 @@ export interface V1RuntimeContext { app: App; service: V1Service; configuration:
 
 /** Register without SDK initialization; resolve only after the runtime's guarded onInit callback. */
 export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
-  const endpoints = Object.fromEntries(V1_OPERATIONS.map(operation => [operation, onRequest({ region: 'us-central1', timeoutSeconds: 30, cors: false }, async (request, response) => {
+  const endpoints = Object.fromEntries(V1_OPERATIONS.map(operation => [operation, onRequest({ region: 'us-central1', timeoutSeconds: 30, cors: false,
+    ...(operation === 'setPracticeBots' ? { maxInstances: 12, minInstances: 0 } : {}),
+  }, async (request, response) => {
     const { app, service, configuration } = resolveContext();
     await createV1HttpHandler(operation, {
       service, configuration,
@@ -144,9 +174,14 @@ export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
     const result = await resolveContext().service.dispatchDeadlineIntent(event.data.ref.path, enqueue);
     if (result !== null && typeof result === 'object' && 'status' in result && result.status === 'failed') throw new Error('Deadline dispatch unavailable');
   });
+  const runPracticeBots = onDocumentWritten({ document: 'matches/{matchId}/engine/current', region: 'us-central1', retry: true, timeoutSeconds: 60, maxInstances: 12, minInstances: 0 }, async event => {
+    const after = event.data?.after;
+    if (after?.exists !== true || after.get('versions.protocolVersion') !== 2) return;
+    await createV1PracticeBotsHandler(resolveContext().service)(event.params.matchId);
+  });
   // One bounded page per invocation; pending intents outside the page remain eligible next minute.
   const repairDeadlines = onSchedule({ schedule: 'every 1 minutes', region: 'us-central1', timeoutSeconds: 60 }, async () => {
     await resolveContext().service.repairOutbox(enqueue, { limit: 100 });
   });
-  return { ...endpoints, deadlineTask, dispatchDeadline, repairDeadlines };
+  return { ...endpoints, deadlineTask, dispatchDeadline, repairDeadlines, runPracticeBots };
 }
