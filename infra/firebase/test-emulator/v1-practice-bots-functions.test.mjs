@@ -5,9 +5,13 @@ import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { FullOperationResponseSchema, FullBeginSetupResponseSchema, FullSetupDocumentSchema, FullSetPracticeBotsResponseSchema, FullPracticeBotsDocumentSchema, FullPublicViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity } from '../test/helpers.mjs';
+import { createV1Service } from '../../../services/game-api/dist/index.js';
+import { deliverSetupDeadline } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
 import { decodeV1State } from '../../../services/game-api/dist/full-game.js';
 
-// Full guarded Auth/Firestore/Functions suite only. No skip or manual worker fallback.
+// Full guarded Auth/Firestore/Functions suite only. No skip or manual bot worker fallback.
+// Setup task delivery uses the real persisted intent after each real 30-second
+// window; this does not claim emulator Cloud Tasks delivery or IAM acceptance.
 const operations = new Set(['v1CreateMatch', 'v1SetPracticeBots', 'v1BeginSetup', 'v1AbortMatch']);
 async function invoke(name, payload, identity) {
   const { functionsHost } = assertLocalEmulators(); assert.ok(operations.has(name));
@@ -21,7 +25,7 @@ async function invoke(name, payload, identity) {
 }
 const op = value => { FullOperationResponseSchema.parse(value); assert.equal(value.ok, true); return value.result; };
 
-test('actual private Firestore engine trigger runs configured bots after real HTTP staged begin with no worker or client gameplay invocation', async () => {
+test('actual private Firestore engine trigger runs bots after real HTTP Begin and both timed windows without a manual bot or client gameplay invocation', { timeout: 180_000 }, async () => {
   assertLocalEmulators();
   const app = initializeApp({ projectId }, 'practice-functions-' + randomUUID()), db = getFirestore(app), host = await createEmulatorIdentity();
   let matchId;
@@ -38,14 +42,22 @@ test('actual private Firestore engine trigger runs configured bots after real HT
     const begunBody = { schemaVersion: 1, ...request() };
     const begun = FullBeginSetupResponseSchema.parse(await invoke('v1BeginSetup', begunBody, host));
     assert.equal(begun.ok, true); assert.equal(begun.matchId, matchId); assert.equal(begun.requestId, begunBody.requestId);
-    assert.equal(begun.stage, 'running'); assert.ok(begun.dealId);
+    assert.equal(begun.stage, 'choosing'); assert.equal(begun.dealId, null);
     const progress = FullSetupDocumentSchema.parse((await base.collection('setup').doc('public').get()).data());
-    assert.equal(progress.stage, 'running'); assert.equal(progress.dealId, begun.dealId);
+    assert.equal(progress.stage, 'choosing'); assert.equal(progress.dealId, null);
+    assert.equal(progress.choosingEndsAt - progress.choosingStartedAt, 30_000);
+    assert.equal((await base.collection('engine').doc('current').get()).exists, false);
+    const h = { base, service: createV1Service({ db, clock: Date.now }) };
+    const reading = await deliverSetupDeadline(h, 'choosing');
+    assert.ok(reading.seats.every(seat => seat.confirmed && seat.ready), 'Bots acknowledge roles without shortening the real reading window');
+    assert.equal((await base.collection('engine').doc('current').get()).exists, false);
+    await deliverSetupDeadline(h, 'awaiting-ready');
 
     // Observe the real emulator's onDocumentWritten delivery; never call runPracticeBots.
     const initial = decodeV1State((await base.collection('engine').doc('current').get()).data());
     const setup = (await base.collection('events').get()).docs.map(doc => doc.data()).find(record => record.kind === 'SETUP');
     assert.ok(setup); assert.equal(initial.phase.id, setup.phaseId); assert.ok(initial.phase.endsAt > Date.now());
+    assert.equal(initial.phase.endsAt - initial.phase.startedAt, 60_000);
     const expires = Math.min(Date.now() + 45_000, initial.phase.endsAt);
     let commands = [];
     do {

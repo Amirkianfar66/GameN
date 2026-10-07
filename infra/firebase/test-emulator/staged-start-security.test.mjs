@@ -13,7 +13,9 @@ async function harness() {
   const [host, player, peer, display, outsider, replacement] = await Promise.all(Array.from({ length: 6 }, () => createEmulatorIdentity()));
   const matchId = `setup-security-${randomUUID()}`, root = `matches/${matchId}`, dealId = 'synthetic-current-deal';
   const control = { protocolVersion: 2, hostUid: host.uid, playerCount: 7, status: 'awaiting-ready', lifecycleVersion: 'staged-start-1', gameStarted: false };
-  const setup = FullSetupDocumentSchema.parse({ schemaVersion: 1, protocolVersion: 2, lifecycleVersion: 'staged-start-1', matchId, playerCount: 7, revision: 1, stage: 'awaiting-ready', dealId,
+  const readingStartedAt = Date.now() - 1000;
+  const setup = FullSetupDocumentSchema.parse({ schemaVersion: 1, protocolVersion: 2, lifecycleVersion: 'staged-start-1', matchId, playerCount: 7, revision: 1, stage: 'awaiting-ready', dealId, setupId: 'synthetic-setup',
+    choosingStartedAt: readingStartedAt - 30_000, choosingEndsAt: readingStartedAt, readingStartedAt, readingEndsAt: readingStartedAt + 30_000,
     seats: Array.from({ length: 7 }, (_, index) => ({ seatId: `seat-${index + 1}`, confirmed: true, ready: false })) });
   const preview = (seatId, bindingRevision = 1) => FullSetupPlayerViewSchema.parse({ schemaVersion: 1, protocolVersion: 2, lifecycleVersion: 'staged-start-1',
     versions: { protocolVersion: 2, rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH, engineVersion: FULL_ENGINE_VERSION, assetManifestVersion: 'synthetic-assets' },
@@ -21,6 +23,7 @@ async function harness() {
   const batch = db.batch();
   for (const [suffix, value] of [
     ['control/session', control], ['setup/public', setup],
+    ['setup/deal', { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: 'staged-start-1', dealId, versions: preview('seat-1').versions }],
     [`members/${host.uid}`, { kind: 'display' }], [`members/${display.uid}`, { kind: 'display' }],
     [`members/${player.uid}`, { kind: 'player', seatId: 'seat-1', bindingRevision: 1 }],
     [`members/${peer.uid}`, { kind: 'player', seatId: 'seat-2', bindingRevision: 1 }],
@@ -86,7 +89,7 @@ test('staged role Rules enforce a strict own-role envelope, current deal and lif
   } finally { await h.close(); }
 });
 
-test('staged role recovery Rules revoke old identities and forged bot memberships while allowing authorized preview deletion', async () => {
+test('staged role recovery Rules revoke old identities and forged bot memberships while allowing an authorized missing read', async () => {
   const h = await harness();
   try {
     const old = `setupPlayerViews/${h.player.uid}`, replacement = `setupPlayerViews/${h.replacement.uid}`;
@@ -101,7 +104,7 @@ test('staged role recovery Rules revoke old identities and forged bot membership
     await h.db.doc(`${h.root}/${old}`).delete();
     assert.equal((await h.read(old, h.player)).status, 403, 'Revocation must not turn into an authorized missing read');
     await h.db.doc(`${h.root}/${replacement}`).delete();
-    assert.equal((await h.read(replacement, h.replacement)).status, 404, 'Ready deletes own preview without denying current seat membership');
+    assert.equal((await h.read(replacement, h.replacement)).status, 404, 'Missing own preview does not deny current seat membership');
     await h.set('seats/seat-4', { controller: 'bot', bindingRevision: 1 });
     await h.set(`members/${h.outsider.uid}`, { kind: 'player', seatId: 'seat-4', bindingRevision: 1 });
     await h.set(`setupPlayerViews/${h.outsider.uid}`, h.preview('seat-4'));
@@ -152,5 +155,47 @@ test('new staged lifecycle gates all gameplay reads through launch and setup abo
     await h.db.doc(`${h.root}/control/session`).delete();
     assert.equal((await h.read('views/public', h.player)).status, 200);
     assert.equal((await h.read(`playerViews/${h.player.uid}`, h.player)).status, 200);
+  } finally { await h.close(); }
+});
+
+
+test('timed role Rules refuse premature previews and stale prepared deals while preserving early-Ready reading access', async () => {
+  const h = await harness();
+  try {
+    const suffix = `setupPlayerViews/${h.player.uid}`;
+    const prepared = { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: 'staged-start-1', dealId: h.setup.dealId, versions: h.preview('seat-1').versions };
+    // Admin fixtures simulate invalid server publications; the client cannot create them.
+    for (const patch of [
+      { readingStartedAt: null }, { readingEndsAt: h.setup.readingStartedAt + 29_999 },
+      { choosingEndsAt: h.setup.choosingStartedAt + 29_999 }, { readingStartedAt: h.setup.choosingEndsAt - 1 },
+      { setupId: null },
+    ]) {
+      await h.set('setup/public', { ...h.setup, ...patch });
+      assert.equal((await h.read(suffix, h.player)).status, 403);
+    }
+    const futureReading = Date.now() + 60_000;
+    await h.set('setup/public', { ...h.setup, choosingStartedAt: futureReading - 30_000, choosingEndsAt: futureReading,
+      readingStartedAt: futureReading, readingEndsAt: futureReading + 30_000 });
+    assert.equal((await h.read(suffix, h.player)).status, 403, 'Trusted request time must reach the published reading start');
+    await h.set('setup/public', h.setup);
+    await h.db.doc(`${h.root}/setup/deal`).delete();
+    assert.equal((await h.read(suffix, h.player)).status, 403, 'A visible preview requires the current durable prepared deal');
+    for (const patch of [
+      { dealId: 'another-deal' }, { schemaVersion: 2 }, { protocolVersion: 1 }, { lifecycleVersion: 'future-setup' },
+      { versions: { ...prepared.versions, assetManifestVersion: 'another-manifest' } },
+    ]) {
+      await h.set('setup/deal', { ...prepared, ...patch });
+      assert.equal((await h.read(suffix, h.player)).status, 403);
+    }
+    await h.set('setup/deal', prepared);
+    await h.set('setup/public', { ...h.setup, seats: h.setup.seats.map(seat => seat.seatId === 'seat-1' ? { ...seat, ready: true } : seat) });
+    assert.equal((await h.read(suffix, h.player)).status, 200, 'Early Ready does not discard private role access during the reading window');
+    const elapsedReading = Date.now() - 31_000;
+    await h.set('setup/public', { ...h.setup, choosingStartedAt: elapsedReading - 30_000, choosingEndsAt: elapsedReading,
+      readingStartedAt: elapsedReading, readingEndsAt: elapsedReading + 30_000 });
+    assert.equal((await h.read(suffix, h.player)).status, 200, 'Reading remains available while waiting for the final human Ready');
+    for (const path of ['setup/deal', `setupOutbox/${'a'.repeat(64)}`]) {
+      for (const identity of [h.host, h.player, h.display]) assert.equal((await h.read(path, identity)).status, 403);
+    }
   } finally { await h.close(); }
 });

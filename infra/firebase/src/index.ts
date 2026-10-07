@@ -63,5 +63,8 @@ export const v1RunPracticeBots=v1.runPracticeBots;
 export const v1DeadlineTask=v1.deadlineTask;
 export const v1DispatchDeadline=v1.dispatchDeadline;
 export const v1RepairDeadlines=v1.repairDeadlines;
+export const v1SetupDeadlineTask=v1.setupDeadlineTask;
+export const v1DispatchSetupDeadline=v1.dispatchSetupDeadline;
+export const v1RepairSetupDeadlines=v1.repairSetupDeadlines;
 export const firebaseDirection={status:'in-person-v1-pending-review',authentication:'Firebase Auth',
   commands:'Cloud Functions for Firebase, second generation',persistence:'Firestore',deadlines:'Cloud Tasks with a durable outbox',productionDeliveryVerified:false} as const;

@@ -2,9 +2,13 @@
 
 Issue: [#73](https://github.com/Amirkianfar66/GameN/issues/73).
 Backend draft PR: [#74](https://github.com/Amirkianfar66/GameN/pull/74).
-Runtime checkpoint: `297de42609ff575aa914e0f852aba80482957622`.
-Base: `af797838dee531d7874da2145e99a50c67d32b45` (deployed practice-bot release).
-Contracts checkpoint: `74ea5f190e151645f5c20fa8c647d3c955e58ee3`.
+Timed runtime checkpoint prepared for local integration; the complete emulator
+rerun and combined acceptance remain pending. The verified SHA is recorded below
+in a follow-up evidence update after commitment.
+Timed contracts checkpoint: `c185c157ae25404c0e8e0ae44aaa3d5b6e99ffbc`.
+Deployed base: `af797838dee531d7874da2145e99a50c67d32b45` (practice-bot release).
+Prior untimed checkpoints `297de42609ff575aa914e0f852aba80482957622` and
+`d5339adc13a6fcbaf0b32cdd5b7f942a00c44717` are historical evidence only.
 
 Protocol remains `2`; lifecycle is `staged-start-1`. Engine remains
 `full-game-1.0.1`; ruleset remains `in-person-v1-2026-10-06` with hash
@@ -13,40 +17,69 @@ Original Powers remain disabled. Initial rooms are selected at admission,
 before the private deal, and preserved through all stages and recovery.
 Gameplay canon and engine code are unchanged.
 
-## Lifecycle and projections
+## Timed lifecycle and projections
 
 `lobby -> choosing -> awaiting-ready -> running`, with host abort available
-at every stage. Host Begin requires the complete 7/8/9-seat roster. It freezes
-admissions and bot capacity. Every human explicitly confirms a unique character
-and name; historical lobby suggestions require confirmation again. Draft edits
-are permitted only while choosing and reset that human's confirmation.
-Character IDs are unique. Name claims compare NFKC-normalized, trimmed,
-lowercase values. Cached acknowledgments do not reconfirm an edited draft.
+at every stage. Host Begin requires the complete 7/8/9-seat roster and freezes
+admissions and bot capacity. Begin always opens a full 30-second choosing window;
+even an all-bot roster or every human's confirmation cannot prepare the deal
+early. Bots begin confirmed and not Ready. Humans may confirm unique characters
+and names before `choosingEndsAt`. Draft edits are permitted only during that
+window and reset that human's confirmation. Character IDs are unique. Name
+claims compare NFKC-normalized, trimmed, lowercase values. Cached acknowledgments
+do not reconfirm an edited draft.
 
-The last choice confirmation persists one private random deal, independent of
-names and characters. The stored deal includes role order, Code extras, round
-orders, original admission rooms, version pins and its asset manifest pin.
-Transactions reuse the invocation's random candidate across retries. Clients
-cannot read `matches/{matchId}/setup/deal`.
+At or after the choosing deadline, the server setup worker preserves confirmed
+choices and fills each unconfirmed choice with an available unique character
+and name. A historical suggestion can be reused if available, but is not an
+explicit confirmation. Conflicting or missing suggestions receive deterministic
+available choices. The worker locks identities and persists one private random
+deal, independent of names and characters. It records role order, Code extras,
+round orders, original admission rooms, version pins and the asset manifest pin.
+Transactions reuse the invocation's random candidate across retries; duplicate
+delivery does not replace the committed deal. Clients cannot read
+`matches/{matchId}/setup/deal`.
 
-`matches/{matchId}/setup/public` contains strict `FullSetupDocument`: versions,
-match ID, count, revision, stage, opaque deal ID and neutral seat confirmation /
-readiness flags. It contains no roles, Code, knowledge, phase or resources.
+The deal transaction opens a full 30-second reading window from its actual
+server evaluation time: `readingStartedAt >= choosingEndsAt` and
+`readingEndsAt = readingStartedAt + 30000`. Delayed choosing-task delivery
+therefore preserves a complete reading window. It marks every seat confirmed,
+sets bots Ready automatically, and creates human role previews.
+
+`matches/{matchId}/setup/public` contains strict `FullSetupDocument`: schema,
+protocol and lifecycle versions, match ID, count, revision, stage, nullable
+opaque deal ID, and neutral seat
+confirmation/readiness flags. Five additional fields are required even when
+null: `setupId`, `choosingStartedAt`, `choosingEndsAt`, `readingStartedAt`, and
+`readingEndsAt`. Lobby has all five null; choosing has an opaque `setupId` and
+the exact 30-second choosing interval, with reading fields null. Awaiting-ready
+and running retain both exact intervals and the same setup/deal IDs. Abort
+retains the coherent timing subset already reached. These fields contain no
+roles, Code, knowledge, gameplay phase or resources. Consumers must adopt the
+strict timed schema at the pinned checkpoint.
 
 `matches/{matchId}/setupPlayerViews/{uid}` contains strict
 `FullSetupPlayerView`: lifecycle, version pins, match/count/deal ID, binding
-revision, own audience seat and own role. This is a partial pregame view.
-Insider/Hacker/Alien starting knowledge becomes available in `FullPlayerView`
-when actual gameplay starts. Only the active human binding can read its preview;
-host and display have no private-view shortcut. Each Ready deletes that human's
-preview. Authorized missing-preview reads support neutral waiting UI.
+revision, own audience seat and own role. Insider/Hacker/Alien starting knowledge
+arrives in `FullPlayerView` only when gameplay starts. Only the current human
+binding can read its own preview; host and display have no private-view shortcut.
+Rules also require the current matching reading stage, coherent exact windows
+and trusted `request.time.toMillis() >= readingStartedAt`. A future-dated public
+window cannot authorize an early private read. Authorized missing-preview reads
+are supported only within that current reading-stage authority.
 
-No engine state, gameplay projection, own acknowledgments, event journal,
-deadline outbox or bot gameplay exists before all current humans are Ready.
-Bots confirm and Ready automatically. All-bot rosters therefore launch in one
-Begin transaction. Final human Ready creates the engine once and starts a fresh
-full 60-second turn using server time. The immutable prepared deal supplies the
-same role and room assignments. Gameplay triggers observe that engine write.
+A human can press Ready early and continue reading the same preview. Ready does
+not delete it or shorten the reading window. Gameplay requires both
+`serverNow >= readingEndsAt` and every current human binding Ready. If any human
+is missing when the reading timer expires, setup remains awaiting-ready with its
+previews intact; a later Ready can launch once all humans are Ready. All-bot
+rosters likewise wait both windows, at least 60 seconds after Begin; delivery
+delay can extend that wait. Actual launch deletes all human previews and creates
+the engine, gameplay projections, own acknowledgments, SETUP journal and gameplay
+deadline outbox once. No such gameplay state or bot gameplay exists before both
+gates. The first ordinary turn receives a fresh full 60 seconds from actual
+launch time, including launch after late Ready. The prepared deal supplies the
+same role and room assignments, and the engine write activates gameplay triggers.
 
 The internal `control/session` uses `lifecycleVersion: staged-start-1`,
 `gameStarted: false` with `lobby`, `choosing`, `awaiting-ready`, and
@@ -58,7 +91,7 @@ meaning setup has finished; gameplay/lobby projections carry the terminal result
 Unknown lifecycle markers fail closed. Existing engine state is never replaced
 by a staged-start request.
 
-## Browser operations
+## Browser operations and server timers
 
 All three HTTP bodies require `schemaVersion: 1`, `protocolVersion: 2`,
 `matchId`, `requestId`. Auth supplies UID; no body UID or seat claim is accepted.
@@ -66,66 +99,118 @@ Lifecycle version belongs to documents, not these request/response bodies.
 
 | Endpoint / service method | Additional request fields | Success stage |
 | --- | --- | --- |
-| `v1BeginSetup` / `beginSetup` | none; current host only | `choosing`, or all-bot `running` |
-| `v1ConfirmSetupChoice` / `confirmSetupChoice` | `bindingRevision`, `displayName`, `characterId` | `choosing` or `awaiting-ready` |
+| `v1BeginSetup` / `beginSetup` | none; current host only | always `choosing`, deal ID null |
+| `v1ConfirmSetupChoice` / `confirmSetupChoice` | `bindingRevision`, `displayName`, `characterId` | runtime confirmation stays `choosing`; schema also accepts `awaiting-ready` |
 | `v1ReadyForMatch` / `readyForMatch` | `bindingRevision`, `dealId` | `awaiting-ready` or `running` |
 
 Success binds `matchId`, `requestId`, revision, stage, deal ID and server time;
 player successes also bind seat ID and current binding revision. Refusals use
 the dedicated strict operation schemas. A request ID binds the operation and
-complete parsed payload. Retrying the same intent is safe; reuse for another
-payload returns `REQUEST_ID_CONFLICT`. Current binding/deal authority is checked
-before cached success. The endpoints retain Auth, App Check, configured-origin,
+complete parsed payload. Retry the same immutable intent after transient
+`UNAVAILABLE`, or after the supplied `retryAfterMs` for `RATE_LIMITED`; a changed
+payload requires a new request ID. Reuse for another payload returns
+`REQUEST_ID_CONFLICT`. Current binding/deal authority is checked before cached
+success. A cached response describes that operation's result; listeners supply
+current stage and timing. The endpoints retain Auth, App Check, configured-origin,
 JSON/4 KiB guards and typed 409 refusals. New endpoints have min 0 / max 12
 instances; existing caps are unchanged.
 
+Setup deadlines use a separate strict internal four-key payload:
+`{ matchId, setupId, stage, deadlineToken }`, where stage is `choosing` or
+`awaiting-ready`. It carries no browser request ID, UID, gameplay phase ID or
+protocol field. Only the server generates the opaque deadline token. Its task
+ID is the lowercase SHA256 of
+`JSON.stringify(['setup', matchId, setupId, stage, deadlineToken])`; the token
+itself is an opaque ID, not the hash. The private
+`matches/{matchId}/setupOutbox/{taskId}` intent records the same payload,
+`protocolVersion: 2`, `kind: SETUP_DEADLINE`, `dueAt`, task ID, status, attempts,
+retry time and lease fields. Clients cannot read or write it. It is separate
+from the gameplay deadline outbox.
+
+`runSetupDeadline` validates the persisted intent and current setup epoch,
+stage, roster and authority before transitioning. It returns `advanced`,
+`unchanged`, `too-early`, `failed` or `blocked`; only `too-early` carries the
+positive remaining `retryAfterMs`. Duplicate completed delivery is unchanged.
+Early delivery cannot complete the intent. The task adapter throws for early
+or failed evaluation so delivery can retry. The reading timer can complete
+safely while waiting for missing human Ready; subsequent Ready retains the
+time gate and can launch.
+
+The production module now exports 24 V1 functions, including
+`v1SetupDeadlineTask`, `v1DispatchSetupDeadline`, and `v1RepairSetupDeadlines`.
+The task function is private in `us-central1`. The Firestore creation trigger
+dispatches setupOutbox intents with their hashed task IDs and scheduled due time.
+The scheduled repair runs every minute with a maximum 100-intent page per
+invocation, handling pending, expired leased and dispatched intents. At due
+time it evaluates the durable intent directly, including already-dispatched
+but lost tasks; Cloud Tasks task-ID tombstones do not suppress that recovery.
+The service exposes pagination for additional pages. The schedule and bounded
+page size are not a promise that every backlog completes within one minute.
+
 ## Recovery and compatibility
 
-Seat recovery preserves chosen identity, initial room and the same prepared
-deal. In awaiting-ready it deletes the displaced UID's preview, increments the
-binding revision, resets that seat's Ready flag and creates the replacement's
-own preview. The replacement must Ready explicitly. The displaced UID loses
-reads and cached operation replay. Choosing recovery preserves confirmation;
-the replacement still needs the role-stage Ready. Running recovery preserves
-existing gameplay behavior and does not restart or pause the engine.
+Seat recovery preserves chosen identity, initial room, setup ID, original
+windows and the same prepared deal. In awaiting-ready it deletes the displaced
+UID's preview, increments the binding revision, resets that seat's Ready flag
+and creates the replacement's own preview. The replacement must Ready explicitly,
+including recovery after the reading deadline while gameplay is still waiting.
+The displaced UID loses reads and cached operation replay. Choosing recovery
+preserves confirmation; the replacement still needs the role-stage Ready.
+Running recovery preserves existing gameplay behavior and does not restart or
+pause the engine. Abort deletes previews and prevents stale setup timers from
+launching gameplay.
 
 Fresh `v1StartMatch` requests are refused and cannot bypass the lifecycle.
 An authorized exact historical start receipt remains replayable. Existing
 running protocol-2 matches without lifecycle markers retain gameplay Rules and
 service behavior; protocol-1 compatibility remains. New lifecycle markers gate
-all gameplay projection reads until actual launch. Private prepared deals and
-server operation receipts remain inaccessible to clients.
+all gameplay projection reads until actual launch. Private prepared deals,
+setup intents and server operation receipts remain inaccessible to clients.
 
-## Validation and integration
+## Verification and integration status
 
-At clean runtime checkpoint `297de42609ff575aa914e0f852aba80482957622`,
-`npm run verify` passed: 876 workspace tests, 70 static checks, 483 catalogue
+The timed candidate build passed. All 138 focused backend/HTTP and timed
+contract tests passed (118 backend/HTTP plus 20 contracts). The first isolated
+Auth/Firestore run passed 94 of 97 cases; two replay expectations omitted fresh
+server time after advancing the fake clock, and a synthetic historical-name
+case attempted to confirm a name already claimed by another seat. These three
+test expectations are corrected; the full 97-case rerun is in progress.
+Actual Functions smoke, full CI and combined Frontend acceptance remain pending.
+Saved tests cover 7/8/9 seats, no early deal/engine, exact windows, automatic
+unique choices, retained previews, late Ready, delayed/duplicate/stale timers,
+recovery/abort races and all-bot waiting; source presence does not establish a
+passing run.
+
+Historical untimed evidence at `297de42609ff575aa914e0f852aba80482957622`:
+`npm run verify` passed 876 workspace tests, 70 static checks, 483 catalogue
 scenarios (33 reviewed blocked and 6 explicit manual), 4,388 detected controls,
 and 30 completed 7/8/9-seat playouts with zero invariant/replay mismatches.
-The 107 backend/HTTP and 17 focused contracts tests are included in those counts.
-Browser dependency/exclusion smoke and standalone backend package installation
-also passed. These checks do not connect a browser or deploy a runtime.
+The 107 backend/HTTP and 17 focused contracts tests were included. Browser
+dependency/exclusion smoke and standalone backend package installation passed.
+Historical isolated Auth/Firestore evidence was 67 existing regression/Rules
+cases plus the corrected 19-case untimed staged-start module. The initial broad
+run was 85/86 before its pregame deadline assertion was aligned with the safe
+unchanged result. Those results, and the later prior untimed `d5339ad` checkpoint,
+do not verify this timed implementation.
 
-Isolated local Auth/Firestore runs passed 67 existing regression/Rules cases
-and all 19 focused staged-start cases. The first broad run passed 85/86: a new
-assertion incorrectly expected a pregame internal deadline refusal rather than
-the existing safe unchanged result. After correcting that assertion, the entire
-19-case staged-start module passed. No gameplay or deadline behavior changed to
-satisfy it. Tests used demo-mothership, Auth 39199 and Firestore 38180, with a
-private hub/logging/temp directory and an exact copy of current Rules. Other
-agents' emulators and cloud resources were untouched.
+The saved actual HTTP/Functions-trigger smoke uses guarded local demo Auth,
+Firestore and Functions. It creates/configures bots and calls HTTP Begin, waits
+each real full 30-second window, and delivers only the corresponding real stored
+setup intent through the local Admin service callback. No Tasks emulator is
+used. It then observes the actual private Firestore engine trigger committing a
+bot command, with no manual bot worker or client gameplay call, and aborts via
+the authenticated host for cleanup. This timed smoke is pending execution and
+cannot prove deployed Cloud Tasks delivery, IAM, Scheduler or device acceptance.
 
-Actual HTTP/Functions-trigger smoke is migrated and included in CI, with no
-manual bot-worker fallback. It was not run in the isolated local suite because
-the existing guarded Functions runtime pins ports owned by another workstream.
-Full CI and combined Frontend emulator acceptance remain pending. Backend-only
-Frontend emulator flows still require the coordinator's new adapters, host
-control reader and staged setup harness before they can pass. Do not deploy the
-backend independently of that integration. No cloud deployment, IAM or
-configuration changes have been made from this workstream.
+Frontend strict timed-schema adoption, countdown/preview/Ready controls,
+consumer emulator migration and combined candidate verification require the
+coordinator's integration branch before publication. No cloud deployment or
+changes to cloud IAM/configuration were performed by this workstream; no merge
+or independent backend deployment is claimed.
 
-Frontend controls, preview waiting UI, the owner decision record, Frontend
-emulator migrations and the root standalone-export assertion update are owned
-by the coordinator's integration branch. Bring those changes into the combined
-candidate before publication. Backend PR targets `codex/v1-practice-bots`; no
-merge is performed from this workstream.
+Source references: [timed schemas](../../packages/contracts/src/staged-start.ts),
+[service transitions and durable intents](../../services/game-api/src/full-game.ts),
+[Functions adapters](../../infra/firebase/src/v1.ts),
+[production exports](../../infra/firebase/src/production.ts),
+[Rules](../../infra/firebase/firestore.rules), and
+[actual Functions smoke](../../infra/firebase/test-emulator/v1-practice-bots-functions.test.mjs).

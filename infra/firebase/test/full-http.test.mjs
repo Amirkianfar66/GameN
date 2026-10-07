@@ -138,7 +138,7 @@ test('Firebase export discovery does not initialize Admin SDK; first invocation 
       assert.equal(getApps().length,0);
       const functions=await import(${JSON.stringify(entrypoint)});
       assert.equal(getApps().length,0);
-      for (const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1SetPracticeBots','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1RunPracticeBots','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
+      for (const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1SetPracticeBots','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1RunPracticeBots','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines','v1SetupDeadlineTask','v1DispatchSetupDeadline','v1RepairSetupDeadlines']) assert.ok(functions[name].__endpoint);
       const response={set(){return this;},status(){return this;},json(){return this;}};
       await assert.rejects(()=>functions.v1ServerTime({method:'POST',headers:{},body:{}},response));
       assert.equal(getApps().length,0);

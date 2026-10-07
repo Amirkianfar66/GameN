@@ -39,6 +39,15 @@ export interface V1DeadlineIntent {
   endsAt: number; taskId: string; status: 'pending';
 }
 export type EnqueueV1Deadline = (intent: V1DeadlineIntent) => Promise<void>;
+export type V1SetupDeadline = { matchId: string; setupId: string; stage: 'choosing' | 'awaiting-ready'; deadlineToken: string };
+export type V1SetupDeadlineIntent = V1SetupDeadline & { protocolVersion: 2; kind: 'SETUP_DEADLINE'; dueAt: number; taskId: string; status: 'pending' };
+export type EnqueueV1SetupDeadline = (intent: V1SetupDeadlineIntent) => Promise<void>;
+type SetupOutboxRecord = Omit<V1SetupDeadlineIntent, 'status'> & {
+  status: 'pending' | 'leased' | 'dispatched' | 'completed' | 'blocked'; attempts: number;
+  nextAttemptAt: number; leaseUntil: number | null; leaseToken: string | null;
+};
+type SetupDeadlineResult = { status: 'advanced' | 'unchanged' | 'too-early' | 'failed' | 'blocked'; retryAfterMs?: number };
+
 export type StoredV1Setup = Omit<FullGameSetup, 'roundOrders'> & { storageCodecVersion: 1; roundOrders: Array<{ seatIds: SeatId[] }> };
 export type StoredV1State = Omit<FullGameState, 'setup'> & { storageCodecVersion: 1; setup: StoredV1Setup };
 
@@ -85,6 +94,8 @@ const memberPlayer = (value: unknown): value is { kind: 'player'; seatId: SeatId
 const supported = (state: FullGameState) => state.versions.protocolVersion === 2 && state.versions.engineVersion === FULL_ENGINE_VERSION
   && state.versions.rulesetVersion === FULL_RULESET_VERSION && state.versions.rulesetHash === FULL_RULESET_HASH;
 const taskIdFor = (matchId: string, phaseId: string, token: string) => hash([matchId, phaseId, token]);
+const setupTaskIdFor = (payload: V1SetupDeadline) => hash(['setup', payload.matchId, payload.setupId, payload.stage, payload.deadlineToken]);
+const validSetupOutboxPath = (path: string) => /^matches\/[A-Za-z0-9][A-Za-z0-9_-]{0,127}\/setupOutbox\/[a-f0-9]{64}$/.test(path);
 const validOutboxPath = (path: string) => /^matches\/[A-Za-z0-9][A-Za-z0-9_-]{0,127}\/outbox\/[a-f0-9]{64}$/.test(path);
 
 function secureShuffle<T>(items: readonly T[]): T[] {
@@ -319,18 +330,66 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
   type SetupOperation = 'beginSetup' | 'confirmSetupChoice' | 'readyForMatch';
   type SetupResponse = FullBeginSetupResponse | FullConfirmSetupChoiceResponse | FullReadyForMatchResponse;
   type PreparedDeal = { schemaVersion: 1; protocolVersion: 2; lifecycleVersion: typeof SETUP_LIFECYCLE_VERSION;
-    dealId: string; versions: FullVersions; preparedAt: number; setup: StoredV1Setup };
+    dealId: string; setupId: string; readingStartedAt: number; readingEndsAt: number; readingDeadlineToken: string;
+    versions: FullVersions; preparedAt: number; setup: StoredV1Setup };
   const normalizedName = (name: string) => name.normalize('NFKC').trim().toLowerCase();
   function setupDocument(matchId: string, playerCount: 7 | 8 | 9, bindings: QueryDocumentSnapshot[] = [], revision = 0): FullSetupDocument {
     return FullSetupDocumentSchema.parse({ schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION,
-      matchId, playerCount, revision, stage: 'lobby', dealId: null,
+      matchId, playerCount, revision, stage: 'lobby', dealId: null, setupId: null,
+      choosingStartedAt: null, choosingEndsAt: null, readingStartedAt: null, readingEndsAt: null,
       seats: bindings.map(binding => ({ seatId: binding.id, confirmed: false, ready: false })).sort((a, b) => a.seatId.localeCompare(b.seatId)) });
+  }
+  function setupWindowEnd(startedAt: number): number {
+    const end = startedAt + 30_000;
+    if (!Number.isSafeInteger(startedAt) || startedAt < 0 || !Number.isSafeInteger(end)
+      || !Number.isFinite(new Date(end).getTime())) throw new Error('Invalid setup clock');
+    return end;
+  }
+  function setupIntent(payload: V1SetupDeadline, dueAt: number, now: number): SetupOutboxRecord {
+    return { ...payload, protocolVersion: 2, kind: 'SETUP_DEADLINE', taskId: setupTaskIdFor(payload), dueAt,
+      status: 'pending', attempts: 0, nextAttemptAt: now, leaseToken: null, leaseUntil: null };
+  }
+  function validSetupIntent(value: SetupOutboxRecord, path: string): boolean {
+    return value?.protocolVersion === 2 && value.kind === 'SETUP_DEADLINE'
+      && [value.matchId, value.setupId, value.deadlineToken].every(id) && ['choosing', 'awaiting-ready'].includes(value.stage)
+      && value.matchId === path.split('/')[1] && value.taskId === path.split('/')[3] && value.taskId === setupTaskIdFor(value)
+      && Number.isSafeInteger(value.dueAt) && value.dueAt >= 0 && Number.isFinite(new Date(value.dueAt).getTime())
+      && Number.isSafeInteger(value.attempts) && value.attempts >= 0 && Number.isSafeInteger(value.nextAttemptAt)
+      && ['pending', 'leased', 'dispatched', 'completed', 'blocked'].includes(value.status)
+      && (value.leaseUntil === null || Number.isSafeInteger(value.leaseUntil)) && (value.leaseToken === null || id(value.leaseToken));
+  }
+  function automaticIdentities(current: FullLobbyIdentityDocument, progress: FullSetupDocument): FullLobbyIdentityDocument {
+    const usedCharacters = new Set<string>(), usedNames = new Set<string>();
+    const confirmed = progress.seats.filter(seat => seat.confirmed);
+    for (const seat of confirmed) {
+      const identity = current.seats.find(identity => identity.seatId === seat.seatId);
+      if (identity?.characterId == null || identity.displayName === null || usedCharacters.has(identity.characterId)
+        || usedNames.has(normalizedName(identity.displayName))) throw new Error('Invalid confirmed identity');
+      usedCharacters.add(identity.characterId); usedNames.add(normalizedName(identity.displayName));
+    }
+    const seats = current.seats.map(identity => {
+      if (confirmed.some(seat => seat.seatId === identity.seatId)) return identity;
+      const chosen = identity.characterId !== null && !usedCharacters.has(identity.characterId) ? identity.characterId
+        : Array.from({ length: 9 }, (_, index) => `c${index + 1}`).find(character => !usedCharacters.has(character));
+      const characterId = CrewCharacterIdSchema.parse(chosen);
+      let displayName = identity.displayName;
+      if (displayName === null || usedNames.has(normalizedName(displayName))) {
+        const baseName = `Player ${identity.seatId.slice(5)}`;
+        displayName = baseName;
+        for (let suffix = 1; usedNames.has(normalizedName(displayName)); suffix++) displayName = `${baseName}-${suffix}`;
+      }
+      usedCharacters.add(characterId); usedNames.add(normalizedName(displayName));
+      return { seatId: identity.seatId, characterId, displayName };
+    });
+    return FullLobbyIdentityDocumentSchema.parse({ ...current, locked: true, revision: current.revision + 1, seats });
   }
   function parseDeal(value: unknown, match: FullSetupDocument): PreparedDeal {
     if (value === null || typeof value !== 'object') throw new Error('Missing prepared deal');
     const deal = value as PreparedDeal;
     if (deal.schemaVersion !== 1 || deal.protocolVersion !== 2 || deal.lifecycleVersion !== SETUP_LIFECYCLE_VERSION
-      || deal.dealId !== match.dealId || !id(deal.dealId) || !Number.isSafeInteger(deal.preparedAt) || deal.preparedAt < 0) throw new Error('Invalid prepared deal');
+      || deal.dealId !== match.dealId || !id(deal.dealId) || deal.setupId !== match.setupId || !id(deal.setupId)
+      || deal.readingStartedAt !== match.readingStartedAt || deal.readingEndsAt !== match.readingEndsAt
+      || deal.preparedAt !== deal.readingStartedAt || !id(deal.readingDeadlineToken)) throw new Error('Invalid prepared deal');
     FullVersionsSchema.parse(deal.versions);
     if (deal.versions.engineVersion !== FULL_ENGINE_VERSION || deal.versions.rulesetVersion !== FULL_RULESET_VERSION
       || deal.versions.rulesetHash !== FULL_RULESET_HASH) throw new Error('Unsupported prepared deal');
@@ -348,8 +407,11 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
   }
   function launchPrepared(tx: Transaction, base: DocumentReference, control: Control, progress: FullSetupDocument,
     deal: PreparedDeal, bindings: QueryDocumentSnapshot[], now: number, context: { eventId: string; phaseId: string; token: string }) {
+    if (now < deal.readingEndsAt || !progress.seats.every(seat => seat.ready)) throw new Error('Setup minimum and readiness required');
     const state = { ...createFullGame({ matchId: base.id, setup: decodeV1Setup(deal.setup), now,
       phaseId: context.phaseId, deadlineToken: context.token, assetManifestVersion: deal.versions.assetManifestVersion }), journalSequence: 1 };
+    tx.update(base.collection('setupOutbox').doc(setupTaskIdFor({ matchId: base.id, setupId: deal.setupId, stage: 'awaiting-ready', deadlineToken: deal.readingDeadlineToken })),
+      { status: 'completed', leaseToken: null, leaseUntil: null });
     tx.update(base.collection('control').doc('session'), { status: 'running', lifecycleVersion: SETUP_LIFECYCLE_VERSION, gameStarted: true });
     tx.set(base.collection('setup').doc('public'), FullSetupDocumentSchema.parse({ ...progress, stage: 'running' }));
     tx.set(base.collection('lobby').doc('public'), lobby(base, { ...control, status: 'running' }, bindings));
@@ -374,8 +436,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     if (!parsed.success) return fail('INVALID_REQUEST');
     const body = parsed.data as Body, base = db.collection('matches').doc(body['matchId'] as string);
     const receiptRef = db.collection('setupOperations').doc(hash([uid, body['requestId']])), fingerprint = digest([name, body]);
-    const context = { eventId: newId(), phaseId: newId(), token: newId() }, candidateDealId = newId();
-    let candidate: PreparedDeal | undefined;
+    const context = { eventId: newId(), phaseId: newId(), token: newId() }, setupId = newId(), selectionToken = newId();
     try {
       return await db.runTransaction(async tx => {
         const controlRef = base.collection('control').doc('session'), control = (await tx.get(controlRef)).data() as Control | undefined;
@@ -391,7 +452,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         // Fresh identity/binding/deal authority always precedes replay, including after recovery.
         const receipt = await tx.get(receiptRef);
         if (receipt.exists) return receipt.get('digest') === fingerprint ? responseSchema.parse({ ...receipt.get('response'), serverTimeMs: clock() }) : fail('REQUEST_ID_CONFLICT');
-        const now = clock(), budget = await limit(tx, uid, name, now);
+        const budget = await limit(tx, uid, name, clock());
         if (!budget.allowed) return fail('RATE_LIMITED', budget.retryAfterMs);
         const bindings = (await tx.get(base.collection('seats'))).docs;
         const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
@@ -401,19 +462,14 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const practiceSnapshot = await tx.get(base.collection('practice').doc('public'));
         const practice = practiceSnapshot.exists ? FullPracticeBotsDocumentSchema.parse(practiceSnapshot.data()) : practiceDocument(base.id);
         const humans = bindings.filter(binding => humanBinding(binding.data())), bots = bindings.filter(botBinding);
+        let now = clock();
         let response: SetupResponse, mutate: (() => void) | undefined;
         const acknowledge = (progress: FullSetupDocument): SetupResponse => responseSchema.parse({ schemaVersion: 1, protocolVersion: 2,
           ok: true, serverTimeMs: now, matchId: base.id, requestId: body['requestId'], revision: progress.revision, stage: progress.stage, dealId: progress.dealId,
           ...(actor === null ? {} : { seatId: actor.seatId, bindingRevision: actor.binding.bindingRevision }) });
-        const prepare = (): PreparedDeal => {
-          candidate ??= { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION, dealId: candidateDealId,
-            versions: { protocolVersion: 2, engineVersion: FULL_ENGINE_VERSION, rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH, assetManifestVersion },
-            preparedAt: now, setup: encodeV1Setup({ ...randomSetup(control.playerCount, shuffle),
-              initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) }) };
-          buildRoster(decodeV1Setup(candidate.setup)); return candidate;
-        };
         if (name === 'beginSetup') {
           const memberships = humans.length === 0 ? [] : await tx.getAll(...humans.map(binding => base.collection('members').doc(binding.get('uid') as string)));
+          now = clock();
           const validRoster = bindings.length === control.playerCount && humans.length + bots.length === bindings.length
             && new Set(humans.map(binding => binding.get('uid'))).size === humans.length
             && bindings.every(binding => seat(binding.id) && Number(binding.id.slice(5)) <= control.playerCount)
@@ -427,25 +483,19 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             || practice.matchId !== base.id || digest(practice.botSeatIds) !== digest(bots.map(binding => binding.id).sort())
             || bots.some(binding => { const identity = identities.seats.find(identity => identity.seatId === binding.id); return identity?.displayName == null || identity.characterId === null; })) response = fail('UNAVAILABLE');
           else {
-            const choosing = FullSetupDocumentSchema.parse({ ...current, stage: 'choosing', revision: current.revision + 1,
+            const progress = FullSetupDocumentSchema.parse({ ...current, stage: 'choosing', revision: current.revision + 1,
+              setupId, choosingStartedAt: now, choosingEndsAt: setupWindowEnd(now), readingStartedAt: null, readingEndsAt: null,
               seats: bindings.map(binding => ({ seatId: binding.id, confirmed: botBinding(binding), ready: false })).sort((a, b) => a.seatId.localeCompare(b.seatId)) });
-            const deal = humans.length === 0 ? prepare() : null;
-            const progress = deal === null ? choosing : FullSetupDocumentSchema.parse({ ...choosing, stage: 'running', revision: choosing.revision + 2,
-              dealId: deal.dealId, seats: choosing.seats.map(seat => ({ ...seat, ready: true })) });
+            const intent = setupIntent({ matchId: base.id, setupId, stage: 'choosing', deadlineToken: selectionToken }, progress.choosingEndsAt!, now);
             response = acknowledge(progress);
             mutate = () => {
               tx.update(controlRef, { status: 'choosing', lifecycleVersion: SETUP_LIFECYCLE_VERSION, gameStarted: false });
-              tx.set(publicRef, progress);
+              tx.set(publicRef, progress); tx.create(base.collection('setupOutbox').doc(intent.taskId), intent);
               if (!identitySnapshot.exists) tx.set(identityRef, identities);
-              if (deal !== null) {
-                tx.create(dealRef, deal);
-                tx.set(identityRef, FullLobbyIdentityDocumentSchema.parse({ ...identities, locked: true, revision: identities.revision + 1 }));
-                launchPrepared(tx, base, control, progress, deal, bindings, now, context);
-              }
             };
           }
         } else if (name === 'confirmSetupChoice') {
-          if (control.status !== 'choosing' || control.lifecycleVersion !== SETUP_LIFECYCLE_VERSION || current.stage !== 'choosing' || identities.locked) response = fail('SETUP_LOCKED');
+          if (control.status !== 'choosing' || control.lifecycleVersion !== SETUP_LIFECYCLE_VERSION || current.stage !== 'choosing' || identities.locked || now >= current.choosingEndsAt!) response = fail('SETUP_LOCKED');
           else if (control.gameStarted !== false || engineSnapshot.exists) response = fail('UNAVAILABLE');
           else if (identities.seats.some(identity => identity.seatId !== actor!.seatId && identity.characterId === body['characterId'])) response = fail('CHARACTER_TAKEN');
           else if (identities.seats.some(identity => identity.seatId !== actor!.seatId && identity.displayName !== null
@@ -459,20 +509,12 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
               seats: identities.seats.map(identity => identity.seatId === actor!.seatId ? { seatId: identity.seatId,
                 displayName: body['displayName'], characterId: body['characterId'] } : identity) });
             const changedProgress = changed || !current.seats.find(seat => seat.seatId === actor!.seatId)!.confirmed;
-            let progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + (changedProgress ? 1 : 0),
+            const progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + (changedProgress ? 1 : 0),
               seats: current.seats.map(seat => seat.seatId === actor!.seatId ? { ...seat, confirmed: true } : seat) });
-            const deal = progress.seats.every(seat => seat.confirmed) ? prepare() : null;
-            if (deal !== null) progress = FullSetupDocumentSchema.parse({ ...progress, stage: 'awaiting-ready', dealId: deal.dealId,
-              seats: progress.seats.map(seat => ({ ...seat, ready: bots.some(binding => binding.id === seat.seatId) })) });
             response = acknowledge(progress);
             mutate = () => {
-              if (changed || deal !== null) tx.set(identityRef, FullLobbyIdentityDocumentSchema.parse({ ...nextIdentities,
-                locked: deal !== null, revision: nextIdentities.revision + (deal === null ? 0 : 1) }));
-              if (changedProgress || deal !== null) tx.set(publicRef, progress);
-              if (deal !== null) {
-                tx.create(dealRef, deal); tx.update(controlRef, { status: 'awaiting-ready' });
-                for (const binding of humans) tx.set(base.collection('setupPlayerViews').doc(binding.get('uid') as string), setupPreview(base.id, deal, binding));
-              }
+              if (changed) tx.set(identityRef, nextIdentities);
+              if (changedProgress) tx.set(publicRef, progress);
             };
           }
         } else {
@@ -488,11 +530,11 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             else {
               let progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + (own.ready ? 0 : 1),
                 seats: current.seats.map(seat => seat.seatId === actor!.seatId ? { ...seat, ready: true } : seat) });
-              const launch = progress.seats.every(seat => seat.ready);
+              const launch = progress.seats.every(seat => seat.ready) && now >= progress.readingEndsAt!;
               if (launch) progress = FullSetupDocumentSchema.parse({ ...progress, stage: 'running' });
               response = acknowledge(progress);
               mutate = () => {
-                if (!own.ready) { tx.set(publicRef, progress); tx.delete(base.collection('setupPlayerViews').doc(uid)); }
+                if (!own.ready) tx.set(publicRef, progress);
                 if (launch) launchPrepared(tx, base, control, progress, deal, bindings, now, context);
               };
             }
@@ -508,6 +550,81 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
   const beginSetup = (uid: string, payload: unknown) => setupOperation(uid, payload, 'beginSetup') as Promise<FullBeginSetupResponse>;
   const confirmSetupChoice = (uid: string, payload: unknown) => setupOperation(uid, payload, 'confirmSetupChoice') as Promise<FullConfirmSetupChoiceResponse>;
   const readyForMatch = (uid: string, payload: unknown) => setupOperation(uid, payload, 'readyForMatch') as Promise<FullReadyForMatchResponse>;
+
+  /** Private setup timer only. Its timestamps never create a gameplay phase early. */
+  async function runSetupDeadline(payload: V1SetupDeadline): Promise<SetupDeadlineResult> {
+    if (!safeBody(payload, ['matchId', 'setupId', 'stage', 'deadlineToken'])
+      || ![payload.matchId, payload.setupId, payload.deadlineToken].every(id)
+      || !['choosing', 'awaiting-ready'].includes(payload.stage)) return { status: 'blocked' };
+    const base = db.collection('matches').doc(payload.matchId), intentRef = base.collection('setupOutbox').doc(setupTaskIdFor(payload));
+    const context = { eventId: newId(), phaseId: newId(), token: newId() }, dealId = newId(), readingToken = newId();
+    let recordedSetup: StoredV1Setup | undefined;
+    try {
+      return await db.runTransaction(async tx => {
+        const controlRef = base.collection('control').doc('session'), control = (await tx.get(controlRef)).data() as Control | undefined;
+        const publicRef = base.collection('setup').doc('public'), publicSnapshot = await tx.get(publicRef), intentSnapshot = await tx.get(intentRef);
+        if (control?.protocolVersion !== 2 || control.lifecycleVersion !== SETUP_LIFECYCLE_VERSION || !publicSnapshot.exists) return { status: 'blocked' as const };
+        const current = FullSetupDocumentSchema.parse(publicSnapshot.data()), intent = intentSnapshot.data() as SetupOutboxRecord | undefined;
+        if (intent === undefined || !validSetupIntent(intent, intentRef.path)) return { status: 'blocked' as const };
+        if (intent.status === 'blocked') return { status: 'blocked' as const };
+        if (intent.status === 'completed') return { status: 'unchanged' as const };
+        if (current.setupId !== payload.setupId || current.stage !== payload.stage || ['running', 'complete', 'aborted'].includes(control.status)) {
+          tx.update(intentRef, { status: 'completed', leaseToken: null, leaseUntil: null }); return { status: 'unchanged' as const };
+        }
+        if (current.matchId !== base.id || current.playerCount !== control.playerCount || control.status !== current.stage || control.gameStarted !== false
+          || intent.dueAt !== (payload.stage === 'choosing' ? current.choosingEndsAt : current.readingEndsAt)) return { status: 'blocked' as const };
+        const checkedAt = clock();
+        if (checkedAt < intent.dueAt) return { status: 'too-early' as const, retryAfterMs: intent.dueAt - checkedAt };
+        const engineSnapshot = await tx.get(base.collection('engine').doc('current'));
+        if (engineSnapshot.exists) return { status: 'blocked' as const };
+        const bindings = (await tx.get(base.collection('seats'))).docs;
+        const humans = bindings.filter(binding => humanBinding(binding.data())), bots = bindings.filter(botBinding);
+        const memberships = humans.length === 0 ? [] : await tx.getAll(...humans.map(binding => base.collection('members').doc(binding.get('uid') as string)));
+        if (bindings.length !== control.playerCount || humans.length + bots.length !== bindings.length
+          || new Set(humans.map(binding => binding.get('uid'))).size !== humans.length
+          || digest(bindings.map(binding => binding.id).sort()) !== digest(current.seats.map(seat => seat.seatId))
+          || !memberships.every((membership, index) => { const member = membership.data(), binding = humans[index]!;
+            return memberPlayer(member) && member.seatId === binding.id && member.bindingRevision === binding.get('bindingRevision'); })) return { status: 'blocked' as const };
+        const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
+        const identities = FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data());
+        const dealRef = base.collection('setup').doc('deal'), dealSnapshot = await tx.get(dealRef);
+        if (identities.matchId !== base.id || digest(identities.seats.map(seat => seat.seatId)) !== digest(current.seats.map(seat => seat.seatId))) return { status: 'blocked' as const };
+        // Start the next full window after loading its transactional inputs.
+        const now = clock();
+        if (payload.stage === 'choosing') {
+          if (identities.locked || dealSnapshot.exists) return { status: 'blocked' as const };
+          const nextIdentities = automaticIdentities(identities, current), readingEndsAt = setupWindowEnd(now);
+          recordedSetup ??= encodeV1Setup({ ...randomSetup(control.playerCount, shuffle),
+            initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) });
+          buildRoster(decodeV1Setup(recordedSetup));
+          const deal: PreparedDeal = { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION, dealId,
+            setupId: payload.setupId, readingStartedAt: now, readingEndsAt, readingDeadlineToken: readingToken, preparedAt: now,
+            versions: { protocolVersion: 2, engineVersion: FULL_ENGINE_VERSION, rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH, assetManifestVersion },
+            setup: recordedSetup };
+          const progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + 1,
+            stage: 'awaiting-ready', dealId, readingStartedAt: now, readingEndsAt,
+            seats: current.seats.map(seat => ({ ...seat, confirmed: true, ready: bots.some(binding => binding.id === seat.seatId) })) });
+          const readingIntent = setupIntent({ matchId: base.id, setupId: payload.setupId, stage: 'awaiting-ready', deadlineToken: readingToken }, readingEndsAt, now);
+          tx.set(identityRef, nextIdentities); tx.create(dealRef, deal); tx.set(publicRef, progress);
+          tx.update(controlRef, { status: 'awaiting-ready' });
+          for (const binding of humans) tx.set(base.collection('setupPlayerViews').doc(binding.get('uid') as string), setupPreview(base.id, deal, binding));
+          tx.create(base.collection('setupOutbox').doc(readingIntent.taskId), readingIntent);
+          tx.update(intentRef, { status: 'completed', leaseToken: null, leaseUntil: null });
+          return { status: 'advanced' as const };
+        }
+        const deal = parseDeal(dealSnapshot.data(), current);
+        if (!identities.locked || deal.readingDeadlineToken !== payload.deadlineToken) return { status: 'blocked' as const };
+        if (current.seats.every(seat => seat.ready)) {
+          const progress = FullSetupDocumentSchema.parse({ ...current, stage: 'running', revision: current.revision + 1 });
+          launchPrepared(tx, base, control, progress, deal, bindings, now, context);
+          return { status: 'advanced' as const };
+        }
+        // Minimum elapsed; missing human Ready remains the only gate. A later Ready can launch.
+        tx.update(intentRef, { status: 'completed', leaseToken: null, leaseUntil: null });
+        return { status: 'unchanged' as const };
+      });
+    } catch { return { status: 'failed' }; }
+  }
 
   async function setPracticeBots(uid: string, payload: unknown): Promise<FullSetPracticeBotsResponse> {
     const fail = (code: Extract<FullSetPracticeBotsResponse, { ok: false }>['error']['code'], retryAfterMs?: number): FullSetPracticeBotsResponse =>
@@ -692,7 +809,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         if (identity === undefined || current.seats.length !== bindings.size) throw new Error('Invalid identity roster');
         let response: FullSetLobbyIdentityResponse;
         let next: FullLobbyIdentityDocument | undefined;
-        if (control.status !== 'choosing' || control.lifecycleVersion !== SETUP_LIFECYCLE_VERSION || progress?.stage !== 'choosing' || current.locked) response = fail('IDENTITY_LOCKED');
+        if (control.status !== 'choosing' || control.lifecycleVersion !== SETUP_LIFECYCLE_VERSION || progress?.stage !== 'choosing' || current.locked || now >= progress.choosingEndsAt!) response = fail('IDENTITY_LOCKED');
         else if (current.seats.some(entry => entry.seatId !== actor.seatId && entry.characterId === body.characterId)) response = fail('CHARACTER_TAKEN');
         else {
           const changed = identity.displayName !== body.displayName || identity.characterId !== body.characterId;
@@ -927,6 +1044,79 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     });
   }
 
+  async function dispatchSetupDeadlineIntent(path: string, enqueue: EnqueueV1SetupDeadline): Promise<{ status: 'dispatched' | 'unchanged' | 'failed' | 'blocked' }> {
+    if (!validSetupOutboxPath(path)) return { status: 'blocked' };
+    const ref = db.doc(path), leaseToken = newId();
+    let claimed: SetupOutboxRecord | 'blocked' | null;
+    try {
+      claimed = await db.runTransaction(async tx => {
+        const snapshot = await tx.get(ref);
+        if (!snapshot.exists) return null;
+        const value = snapshot.data() as SetupOutboxRecord, now = clock();
+        if (!validSetupIntent(value, path)) {
+          tx.update(ref, { status: 'blocked', leaseToken: null, leaseUntil: null }); return 'blocked' as const;
+        }
+        if (!['pending', 'leased'].includes(value.status) || value.nextAttemptAt > now
+          || (value.status === 'leased' && (value.leaseUntil ?? 0) > now)) return null;
+        const next: SetupOutboxRecord = { ...value, status: 'leased', attempts: value.attempts + 1,
+          nextAttemptAt: now + 30_000, leaseUntil: now + 30_000, leaseToken };
+        tx.set(ref, next); return next;
+      });
+    } catch { return { status: 'failed' }; }
+    if (claimed === 'blocked') return { status: 'blocked' };
+    if (claimed === null) return { status: 'unchanged' };
+    try {
+      await enqueue({ protocolVersion: 2, kind: 'SETUP_DEADLINE', matchId: claimed.matchId, setupId: claimed.setupId,
+        stage: claimed.stage, deadlineToken: claimed.deadlineToken, dueAt: claimed.dueAt, taskId: claimed.taskId, status: 'pending' });
+      const acknowledged = await db.runTransaction(async tx => {
+        const current = await tx.get(ref);
+        if (current.get('status') !== 'leased' || current.get('leaseToken') !== leaseToken) return false;
+        tx.update(ref, { status: 'dispatched', nextAttemptAt: claimed!.dueAt, leaseToken: null, leaseUntil: null }); return true;
+      });
+      return { status: acknowledged ? 'dispatched' : 'unchanged' };
+    } catch {
+      try {
+        await db.runTransaction(async tx => {
+          const current = await tx.get(ref);
+          if (current.get('status') === 'leased' && current.get('leaseToken') === leaseToken) tx.update(ref,
+            { status: 'pending', leaseToken: null, leaseUntil: null,
+              nextAttemptAt: clock() + Math.min(60_000, 1_000 * 2 ** Math.min(claimed!.attempts, 6)) });
+        });
+      } catch { /* The durable lease expires and remains eligible for bounded repair. */ }
+      return { status: 'failed' };
+    }
+  }
+  async function repairSetupOutbox(enqueue: EnqueueV1SetupDeadline, options: { limit: number; cursor?: string }) {
+    if (!Number.isSafeInteger(options.limit) || options.limit < 1 || options.limit > 100) throw new Error('Repair page limit must be 1..100');
+    let query = db.collectionGroup('setupOutbox').where('protocolVersion', '==', 2).where('status', 'in', ['pending', 'leased', 'dispatched'])
+      .where('nextAttemptAt', '<=', clock()).orderBy('nextAttemptAt').orderBy(FieldPath.documentId()).limit(options.limit);
+    if (options.cursor !== undefined) {
+      let cursor: { time: number; path: string };
+      try { cursor = JSON.parse(Buffer.from(options.cursor, 'base64url').toString('utf8')) as { time: number; path: string }; }
+      catch { throw new Error('Invalid setup repair cursor'); }
+      if (!Number.isSafeInteger(cursor.time) || !validSetupOutboxPath(cursor.path)) throw new Error('Invalid setup repair cursor');
+      query = query.startAfter(cursor.time, db.doc(cursor.path));
+    }
+    const pending = await query.get(), counts = { dispatched: 0, failed: 0, unchanged: 0, blocked: 0 };
+    for (const entry of pending.docs) {
+      const value = entry.data() as SetupOutboxRecord;
+      if (validSetupIntent(value, entry.ref.path) && value.dueAt <= clock()) {
+        // Repair already-dispatched-but-lost tasks too; queue tombstones cannot suppress a due transition.
+        const result = await runSetupDeadline({ matchId: value.matchId, setupId: value.setupId, stage: value.stage, deadlineToken: value.deadlineToken });
+        if (result.status === 'failed') counts.failed++;
+        else if (result.status === 'blocked') {
+          await db.runTransaction(async tx => {
+            const latest = await tx.get(entry.ref);
+            if (['pending', 'leased', 'dispatched'].includes(latest.get('status'))) tx.update(entry.ref, { status: 'blocked', leaseToken: null, leaseUntil: null });
+          }); counts.blocked++;
+        } else counts.unchanged++;
+      } else counts[(await dispatchSetupDeadlineIntent(entry.ref.path, enqueue)).status]++;
+    }
+    const last = pending.docs.at(-1);
+    return { ...counts, nextCursor: pending.size === options.limit && last !== undefined
+      ? Buffer.from(JSON.stringify({ time: last.get('nextAttemptAt'), path: last.ref.path })).toString('base64url') : null };
+  }
+
   async function dispatchDeadlineIntent(path: string, enqueue: EnqueueV1Deadline): Promise<{ status: 'dispatched' | 'unchanged' | 'failed' | 'blocked' }> {
     if (!validOutboxPath(path)) return { status: 'blocked' };
     const ref = db.doc(path), leaseToken = newId();
@@ -990,5 +1180,5 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       ? Buffer.from(JSON.stringify({ time: last.get('nextAttemptAt'), path: last.ref.path })).toString('base64url') : null };
   }
   return { createMatch, requestAdmission, approveAdmission, admitDisplay, startMatch, submit, lookup, advance, serverTime,
-    abortMatch, issueSeatRecovery, redeemSeatRecovery, beginSetup, confirmSetupChoice, readyForMatch, setLobbyIdentity, setPracticeBots, runPracticeBots, runDeadline, dispatchDeadlineIntent, repairOutbox };
+    abortMatch, issueSeatRecovery, redeemSeatRecovery, beginSetup, confirmSetupChoice, readyForMatch, runSetupDeadline, dispatchSetupDeadlineIntent, repairSetupOutbox, setLobbyIdentity, setPracticeBots, runPracticeBots, runDeadline, dispatchDeadlineIntent, repairOutbox };
 }

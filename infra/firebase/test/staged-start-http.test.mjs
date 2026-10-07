@@ -11,7 +11,7 @@ const headers = { 'content-type': 'application/json', authorization: 'Bearer val
 const cases = [
   { operation: 'beginSetup', request: common, schema: FullBeginSetupResponseSchema,
     success: { ...common, ok: true, serverTimeMs: 123, revision: 1, stage: 'choosing', dealId: null },
-    next: { stage: 'running', dealId: 'synthetic-deal' } },
+    next: { stage: 'choosing', dealId: null } },
   { operation: 'confirmSetupChoice', request: { ...common, bindingRevision: 2, displayName: 'Crew member', characterId: 'c1' }, schema: FullConfirmSetupChoiceResponseSchema,
     success: { ...common, ok: true, serverTimeMs: 123, revision: 2, seatId: 'seat-1', bindingRevision: 2, stage: 'choosing', dealId: null },
     next: { stage: 'awaiting-ready', dealId: 'synthetic-deal' } },
@@ -121,6 +121,7 @@ for (const entry of cases) {
       null, { ...entry.success, matchId: 'another-match' }, { ...entry.success, requestId: 'another-request' },
       { ...entry.success, self: { role: 'Alien' } }, { ...entry.success, schemaVersion: 2 },
       { ...entry.success, stage: 'aborted' },
+      ...(entry.operation === 'beginSetup' ? [{ ...entry.success, stage: 'running', dealId: 'synthetic-deal' }] : []),
       { schemaVersion: 1, protocolVersion: 2, ok: false, serverTimeMs: 123, error: { code: 'FORBIDDEN', privateRole: 'Alien' } },
     ]) {
       deps.service[entry.operation] = async () => body;

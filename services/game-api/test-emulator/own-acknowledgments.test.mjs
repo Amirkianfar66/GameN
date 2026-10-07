@@ -29,7 +29,7 @@ before(() => {
 after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
 async function harness({ hostPlays = false } = {}) {
-  let now = 2_100_000_000_000 + ++serial * 100_000_000;
+  let now = 1_610_000_000_000 + ++serial * 100_000_000;
   const options = { db, clock: () => now, shuffle: items => [...items] };
   const service = createV1Service(options), host = await createEmulatorIdentity();
   const players = await Promise.all(Array.from({ length: 7 }, (_, index) => hostPlays && index === 0 ? host : createEmulatorIdentity()));
@@ -244,7 +244,7 @@ test('legacy engine 1.0.0 refuses state and binding mutations while receipt/time
 
   const snapshot = async () => {
     const entries = new Map();
-    const collections = ['engine', 'control', 'lobby', 'setup', 'setupPlayerViews', 'views', 'playerViews', 'ownAcknowledgments', 'seatSessions',
+    const collections = ['engine', 'control', 'lobby', 'setup', 'setupOutbox', 'setupPlayerViews', 'views', 'playerViews', 'ownAcknowledgments', 'seatSessions',
       'seats', 'members', 'receipts', 'outbox', 'events', 'recovery', 'identityAudit'];
     const queries = [
       ...collections.map(name => h.base.collection(name).get()),

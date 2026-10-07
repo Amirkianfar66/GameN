@@ -58,7 +58,7 @@ async function read(h, identity, suffix, { method = 'GET', data } = {}) {
   });
 }
 async function harness({ playerCount = 7, humanSeats = [] } = {}) {
-  let now = 2_000_000_000_000 + ++serial * 100_000_000;
+  let now = 1_620_000_000_000 + ++serial * 100_000_000;
   const service = createV1Service({ db, clock: () => now, shuffle: items => [...items] });
   const [host, display, outsider, ...humans] = await Promise.all(Array.from({ length: humanSeats.length + 3 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount }));
@@ -225,7 +225,11 @@ test('configuration replay checks fresh host authority and payload digest, inclu
   await startStagedMatch(h);
   const stateBefore = await h.state(), frozen = await roster(h);
   const restarted = createV1Service({ db, clock: () => h.now() });
-  assert.deepEqual(configured(await restarted.setPracticeBots(h.host.uid, body), body), first);
+  const { serverTimeMs: replayTime, ...replayedResult } = configured(await restarted.setPracticeBots(h.host.uid, body), body);
+  const { serverTimeMs: firstTime, ...firstResult } = first;
+  assert.deepEqual(replayedResult, firstResult, 'A cached configuration retains its original result after startup');
+  assert.equal(replayTime, h.now(), 'Receipt replay reports the fresh injected server clock');
+  assert.ok(replayTime > firstTime, 'Both setup windows elapsed after the original acknowledgment');
   configureError(await restarted.setPracticeBots(h.host.uid, h.configuration(0)), 'LOBBY_LOCKED');
   assert.deepEqual(await h.state(), stateBefore); assert.deepEqual(await roster(h), frozen);
   await h.base.collection('control').doc('session').update({ hostUid: h.outsider.uid });
@@ -275,7 +279,13 @@ test('racing bot removal and Begin serializes the frozen complete roster or the 
     assert.equal([removed.ok, started.ok].filter(Boolean).length, 1);
     if (acknowledgedWinner) assert.deepEqual(await roster(h), raced, 'Reconciliation cannot rewrite the frozen roster');
     const control = (await h.base.collection('control').doc('session').get()).data(), current = await roster(h);
-    if (started.ok) { configureError(removed, 'LOBBY_LOCKED'); assert.equal(control.status, 'running'); assert.equal(current.bots.length, 7); assert.equal((await h.state()).seats.length, 7); }
+    if (started.ok) {
+      configureError(removed, 'LOBBY_LOCKED'); assert.equal(control.status, 'choosing'); assert.equal(current.bots.length, 7);
+      assert.equal(started.stage, 'choosing'); assert.equal(started.dealId, null);
+      assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
+      await completeStagedSetup(h);
+      assert.equal((await h.state()).seats.length, 7);
+    }
     else { assert.equal(started.error?.code, 'ROSTER_INCOMPLETE'); assert.equal(control.status, 'lobby'); assert.deepEqual(current.bots, []); assert.equal((await h.base.collection('engine').doc('current').get()).exists, false); }
   }
 });
