@@ -15,8 +15,11 @@ const versions = { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06'
 const seats = (count, confirmed = false, ready = false) => Array.from({ length: count }, (_, index) => ({
   seatId: `seat-${index + 1}`, confirmed, ready,
 }));
+const noTiming = { setupId: null, choosingStartedAt: null, choosingEndsAt: null, readingStartedAt: null, readingEndsAt: null };
+const choosingTiming = { ...noTiming, setupId: 'setup-epoch', choosingStartedAt: 1_000, choosingEndsAt: 31_000 };
+const readingTiming = { ...choosingTiming, readingStartedAt: 31_000, readingEndsAt: 61_000 };
 const setup = (playerCount = 7, stage = 'choosing') => ({ ...wire, lifecycleVersion: SETUP_LIFECYCLE_VERSION,
-  matchId: request.matchId, playerCount, revision: 1, stage, dealId: null, seats: seats(playerCount) });
+  matchId: request.matchId, playerCount, revision: 1, stage, dealId: null, ...choosingTiming, seats: seats(playerCount) });
 const preview = (playerCount = 7, role = 'Insider', seatId = 'seat-1') => ({
   ...wire, lifecycleVersion: SETUP_LIFECYCLE_VERSION, versions, matchId: request.matchId, playerCount,
   dealId: 'prepared-deal', bindingRevision: 1, audience: { kind: 'player', seatId }, self: { seatId, role },
@@ -32,11 +35,11 @@ const valid = (schema, value) => assert.deepEqual(schema.parse(value), value);
 for (const count of [7, 8, 9]) {
   test(`neutral setup supports the ${count}-seat lifecycle without role or gameplay facts`, () => {
     const choosing = setup(count);
-    valid(FullSetupDocumentSchema, { ...choosing, stage: 'lobby', seats: [] });
-    valid(FullSetupDocumentSchema, { ...choosing, stage: 'lobby', seats: [choosing.seats[0], choosing.seats[count - 1]] });
+    valid(FullSetupDocumentSchema, { ...choosing, ...noTiming, stage: 'lobby', seats: [] });
+    valid(FullSetupDocumentSchema, { ...choosing, ...noTiming, stage: 'lobby', seats: [choosing.seats[0], choosing.seats[count - 1]] });
     valid(FullSetupDocumentSchema, choosing);
     valid(FullSetupDocumentSchema, { ...choosing, seats: seats(count, true) });
-    const awaiting = { ...choosing, stage: 'awaiting-ready', dealId: 'prepared-deal', seats: seats(count, true) };
+    const awaiting = { ...choosing, ...readingTiming, stage: 'awaiting-ready', dealId: 'prepared-deal', seats: seats(count, true) };
     valid(FullSetupDocumentSchema, awaiting);
     valid(FullSetupDocumentSchema, { ...awaiting, seats: seats(count, true, true) });
     valid(FullSetupDocumentSchema, { ...awaiting, stage: 'running', seats: seats(count, true, true) });
@@ -58,10 +61,10 @@ test('setup roster rejects duplicate, unsorted, out-of-mode and non-neutral seat
 });
 
 test('setup stages reject premature dealing, readiness and incomplete confirmation', () => {
-  const choosing = setup(), awaiting = { ...choosing, stage: 'awaiting-ready', dealId: 'prepared-deal', seats: seats(7, true) };
+  const choosing = setup(), awaiting = { ...choosing, ...readingTiming, stage: 'awaiting-ready', dealId: 'prepared-deal', seats: seats(7, true) };
   for (const value of [
-    { ...choosing, stage: 'lobby', seats: seats(7, true) },
-    { ...choosing, stage: 'lobby', dealId: 'premature-deal' },
+    { ...choosing, ...noTiming, stage: 'lobby', seats: seats(7, true) },
+    { ...choosing, ...noTiming, stage: 'lobby', dealId: 'premature-deal' },
     { ...choosing, dealId: 'premature-deal' },
     { ...choosing, seats: seats(7, true, true) },
     { ...awaiting, dealId: null }, { ...awaiting, seats: seats(6, true) },
@@ -69,6 +72,57 @@ test('setup stages reject premature dealing, readiness and incomplete confirmati
     { ...awaiting, stage: 'running', dealId: null, seats: seats(7, true, true) },
     { ...choosing, stage: 'complete' },
   ]) invalid(FullSetupDocumentSchema, value);
+});
+
+
+test('timed setup requires an epoch and both complete exact 30-second windows', () => {
+  const choosing = setup(), awaiting = { ...choosing, ...readingTiming, stage: 'awaiting-ready', dealId: 'prepared-deal', seats: seats(7, true) };
+  // Confirmation does not shorten the choice window, including an all-bot roster.
+  valid(FullSetupDocumentSchema, { ...choosing, seats: seats(7, true) });
+  valid(FullSetupDocumentSchema, { ...awaiting, readingStartedAt: 32_000, readingEndsAt: 62_000 });
+  valid(FullSetupDocumentSchema, { ...choosing, choosingStartedAt: 0, choosingEndsAt: 30_000 });
+  for (const patch of [{ setupId: null }, { setupId: '' }, { choosingStartedAt: null }, { choosingEndsAt: null },
+    { choosingEndsAt: 30_999 }, { choosingEndsAt: 31_001 }, { readingStartedAt: 31_000 }, { readingEndsAt: 61_000 }]) {
+    invalid(FullSetupDocumentSchema, { ...choosing, ...patch });
+  }
+  for (const patch of [{ setupId: null }, { choosingStartedAt: null }, { choosingEndsAt: null },
+    { readingStartedAt: null }, { readingEndsAt: null }, { readingStartedAt: 30_999, readingEndsAt: 60_999 },
+    { readingEndsAt: 60_999 }, { readingEndsAt: 61_001 }, { choosingEndsAt: 31_001 }]) {
+    invalid(FullSetupDocumentSchema, { ...awaiting, ...patch });
+  }
+  for (const key of Object.keys(noTiming)) {
+    const missing = { ...awaiting }; delete missing[key]; invalid(FullSetupDocumentSchema, missing);
+  }
+});
+
+test('setup timestamps reject negative, nonsafe and overflowing windows at every position', () => {
+  const awaiting = { ...setup(), ...readingTiming, stage: 'awaiting-ready', dealId: 'prepared-deal', seats: seats(7, true) };
+  for (const key of ['choosingStartedAt', 'choosingEndsAt', 'readingStartedAt', 'readingEndsAt']) {
+    for (const value of [-1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
+      invalid(FullSetupDocumentSchema, { ...awaiting, [key]: value });
+    }
+  }
+  const latest = Number.MAX_SAFE_INTEGER;
+  valid(FullSetupDocumentSchema, { ...awaiting, choosingStartedAt: latest - 60_000,
+    choosingEndsAt: latest - 30_000, readingStartedAt: latest - 30_000, readingEndsAt: latest });
+  invalid(FullSetupDocumentSchema, { ...awaiting, choosingStartedAt: latest - 59_999,
+    choosingEndsAt: latest - 29_999, readingStartedAt: latest - 29_999, readingEndsAt: latest + 1 });
+  invalid(FullSetupDocumentSchema, { ...setup(), choosingStartedAt: latest - 29_999, choosingEndsAt: latest + 1 });
+});
+
+test('aborted setup retains only coherent unstarted, choosing or reading timing subsets', () => {
+  const aborted = { ...setup(), stage: 'aborted', seats: [] };
+  valid(FullSetupDocumentSchema, { ...aborted, ...noTiming });
+  valid(FullSetupDocumentSchema, { ...aborted, seats: seats(3, true) });
+  valid(FullSetupDocumentSchema, { ...aborted, ...readingTiming, dealId: 'prepared-deal', seats: seats(3, true, true) });
+  for (const patch of [{ setupId: null }, { choosingStartedAt: null }, { choosingEndsAt: null },
+    { readingStartedAt: 31_000 }, { readingEndsAt: 61_000 }, { dealId: 'prepared-deal' },
+    { choosingEndsAt: 31_001 }, { seats: seats(1, true, true) }]) {
+    invalid(FullSetupDocumentSchema, { ...aborted, ...patch });
+  }
+  invalid(FullSetupDocumentSchema, { ...aborted, ...noTiming, dealId: 'prepared-deal' });
+  invalid(FullSetupDocumentSchema, { ...aborted, ...readingTiming, dealId: null });
+  invalid(FullSetupDocumentSchema, { ...aborted, ...readingTiming, dealId: 'prepared-deal', readingStartedAt: 30_000, readingEndsAt: 60_000 });
 });
 
 test('public setup strictly rejects role truth, authority and unreviewed versions', () => {
@@ -132,11 +186,12 @@ test('startup requests are strict explicit intent and bind readiness to its prep
   const noDeal = { ...readiness }; delete noDeal.dealId; invalid(FullReadyForMatchRequestSchema, noDeal);
 });
 
-test('Begin supports choosing and immediate all-bot running, with matching deal availability', () => {
-  for (const value of [{ ...response, stage: 'choosing', dealId: null },
-    { ...response, stage: 'running', dealId: 'prepared-deal' }]) valid(FullBeginSetupResponseSchema, value);
+test('Begin always acknowledges choosing and rejects immediate all-bot running', () => {
+  valid(FullBeginSetupResponseSchema, { ...response, stage: 'choosing', dealId: null });
   for (const patch of [{ stage: 'awaiting-ready', dealId: 'prepared-deal' }, { stage: 'choosing', dealId: 'prepared-deal' },
-    { stage: 'running', dealId: null }]) invalid(FullBeginSetupResponseSchema, { ...response, ...patch });
+    { stage: 'running', dealId: null }, { stage: 'running', dealId: 'prepared-deal' }]) {
+    invalid(FullBeginSetupResponseSchema, { ...response, ...patch });
+  }
 });
 
 test('Confirm and Ready successes identify their own binding and distinct startup stages', () => {
@@ -159,7 +214,8 @@ test('startup success envelopes require request binding and reject extra authori
       const missing = { ...value }; delete missing[key]; invalid(schema, missing);
     }
     for (const patch of [{ schemaVersion: 2 }, { protocolVersion: 1 }, { revision: -1 }, { role: 'Alien' },
-      { code: ['seat-1'] }, { verifiedUid: 'private-user' }, { lifecycleVersion: SETUP_LIFECYCLE_VERSION }]) {
+      { code: ['seat-1'] }, { verifiedUid: 'private-user' }, { lifecycleVersion: SETUP_LIFECYCLE_VERSION },
+      { setupId: 'setup-epoch' }, { choosingStartedAt: 1_000 }, { readingEndsAt: 61_000 }]) {
       invalid(schema, { ...value, ...patch });
     }
     if (index !== 0) for (const patch of [{ seatId: 'seat-0' }, { bindingRevision: 0 }]) invalid(schema, { ...value, ...patch });
