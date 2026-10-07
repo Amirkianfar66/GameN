@@ -117,7 +117,7 @@ test('every rule, decision, invariant and scenario named in a balance document e
   const paths = [
     'docs/balance/README.md', 'docs/balance/game-rules.md', 'docs/balance/rules-audit-v1.md', 'docs/balance/invariants.md',
     'docs/balance/contract-review.md', 'docs/balance/integration-requests.md', 'docs/balance/telemetry-spec.md',
-    'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/evidence/2026-10-07-supplier-disclosure.md', 'docs/balance/playtest/protocol.md',
+    'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/evidence/2026-10-07-supplier-disclosure.md', 'docs/balance/evidence/2026-10-07-supplier-fix.md', 'docs/balance/playtest/protocol.md',
     'docs/balance/playtest/analysis-plan.md', 'docs/balance/playtest/rule-problem-log.md', 'docs/balance/playtest/facilitator-session-form.md',
     'docs/balance/playtest/participant-questionnaire.md', 'tests/scenarios/README.md',
   ];

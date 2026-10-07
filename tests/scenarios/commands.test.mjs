@@ -588,3 +588,55 @@ test('the record of the defect says that exactly the fixtures about what Supplie
   }
   for (const pin of [pins.workingTreeCommit, pins.engineCommit, pins.rulebookSha256, pins.engineBuildSha256]) has(`\`${pin}\``);
 });
+
+const CURRENT = {
+  report: 'docs/balance/evidence/2026-10-07-supplier-fix.md',
+  file: name => `docs/balance/evidence/2026-10-07-fix-${name}-engine-096bfa0.json`,
+  engineCommit: '096bfa08ea6808977639e21fbdb93353c8b3d6cf',
+  v1ManifestSha256: '451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2',
+  playoutsPerMode: 200,
+  stale: 'a scenario file, the exception list, the rulebook, a rule source or the list of deliberate leaks changed after this evidence was produced: run the engine gate again and commit a new dated report',
+};
+
+test('the current evidence passes the gate against the committed fixtures: the engine with the fix tells Supplier, and nobody else', () => {
+  const names = ['scenarios', 'controls', 'playouts'];
+  const reports = Object.fromEntries(names.map(name => [name, readJson(CURRENT.file(name))]));
+  // Not a trial: a clean tooling commit, and an engine commit that was read from Git.
+  const problems = judge(reports, { engineCommit: CURRENT.engineCommit, playoutsPerMode: CURRENT.playoutsPerMode, v1Manifest: { sha256: CURRENT.v1ManifestSha256 } });
+  assert.deepEqual(problems, [], CURRENT.stale);
+  // The same through the command, as the report tells a reader to do it.
+  const gate = script('gate.mjs', [...names.flatMap(name => [`--${name}`, join(root, CURRENT.file(name))]), '--engine-commit', CURRENT.engineCommit, '--playouts-per-mode', String(CURRENT.playoutsPerMode)]);
+  assert.equal(gate.status, 0, gate.stderr);
+  assert.match(gate.stdout, /^Balance report gate: PASSED\.\n/);
+
+  // The fixtures that failed before the fix pass, through the engine's own read and nothing else.
+  assert.equal(reports.scenarios.pins.engine.adapter, ADAPTER);
+  const asking = catalogue.filter(scenario => ASK_WHAT_SUPPLIER_IS_TOLD.includes(codeOf(scenario.id)));
+  assert.ok(asking.length > 0);
+  for (const scenario of asking) assert.equal(runOf(reports, scenario.id).status, 'passed', scenario.id);
+  // Every deliberate leak was caught over that read, and every paired fixture that claims sameness failed for one.
+  const paired = catalogue.filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
+  assert.deepEqual(reports.controls.leaks.map(item => item.leak), Object.keys(LEAKS));
+  assert.equal(reports.controls.pairedCases, paired.length);
+  assert.deepEqual(reports.controls.unexercised, []);
+  for (const item of reports.controls.leaks) {
+    assert.equal(item.meaning, LEAKS[item.leak]);
+    assert.deepEqual(item.modes, leakModes(item.leak), item.leak);
+  }
+
+  // The prose repeats the artifacts exactly: no number in it is typed by hand.
+  const report = readFileSync(join(root, CURRENT.report), 'utf8');
+  const has = row => assert.ok(report.includes(row), `the evidence report lacks: ${row}`);
+  for (const row of [...scenarioRows(reports.scenarios), ...controlRows(reports.controls), ...playoutRows(reports.playouts), ...leakRows(reports.controls, catalogue)]) has(row);
+  for (const mode of [7, 8, 9]) {
+    assert.equal('terminal' in reports.playouts.modes[mode], false);
+    assert.equal('alienCoWin' in reports.playouts.modes[mode], false);
+  }
+  const pins = reports.scenarios.pins;
+  for (const pin of [pins.workingTreeCommit, pins.engineCommit, pins.sourceManifestSha256, pins.v1OverlaySha256, pins.v1ManifestSha256, pins.rulebookSha256, pins.engineBuildSha256, ...Object.values(pins.scenarioFileHashes)]) has(`\`${pin}\``);
+  assert.equal(pins.engineCommit, CURRENT.engineCommit);
+  assert.equal(pins.v1ManifestSha256, CURRENT.v1ManifestSha256);
+  // The gate's own words in the report are the ones it prints for these files, apart from the lines
+  // that depend on whether the engine's checkout was at hand.
+  for (const line of gate.stdout.trim().split('\n').filter(line => !/combined Version 1 manifest|no candidate commit was named/.test(line))) has(line);
+});
