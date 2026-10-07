@@ -772,6 +772,63 @@ for (const recovery of ['reconnect', 'reload']) {
   });
 }
 
+test('a hosted device the server does not let read says so, keeps what it must, and comes back when the server lets it', async () => {
+  for (const surface of ['player', 'table']) {
+    const s = setup(surface, { mode: 'production' });
+    const target = surface === 'player' ? OWN : PUBLIC;
+    const view = surface === 'player' ? playerView() : publicView();
+    s.screen.start();
+    await s.fake.deliver(target, view);
+    assert.equal(s.frame().model.screen, 'match', surface);
+    await s.fake.fail(target, 'authorization-uncertain');
+    const { model } = s.frame();
+    // Not "Connecting": a screen of its own, with one control, and nothing of the match.
+    assert.deepEqual([model.screen, model.match, model.blocked.heading, model.blocked.action.intent], ['blocked', null, 'This device cannot read the match right now', 'session/reconnect'], surface);
+    assert.deepEqual([s.frame().announcement.politeness, s.frame().announcement.text], ['assertive', 'This device cannot read the match right now.'], surface);
+    assert.equal(s.frame().focus.targetId, SHELL_IDS.blockedHeading, surface);
+    assert.doesNotMatch(JSON.stringify(s.frame()), /No access to this match/, 'It is not said to be a seat that was lost');
+    // Asking again and being refused again changes nothing and says nothing twice.
+    const announced = s.frames.filter(frame => frame.announcement?.text === 'This device cannot read the match right now.').length;
+    s.screen.dispatch({ type: 'session/reconnect' });
+    await s.fake.fail(target, 'authorization-uncertain');
+    assert.deepEqual([s.frame().model.screen, s.frame().model.blocked.heading], ['blocked', 'This device cannot read the match right now'], surface);
+    assert.equal(s.frames.filter(frame => frame.announcement?.text === 'This device cannot read the match right now.').length, announced, surface);
+    // Asking again and being let in: the match is back, from the server's own view and nothing else.
+    s.screen.dispatch({ type: 'session/reconnect' });
+    await s.fake.deliver(target, view, false);
+    assert.equal(s.frame().model.screen, 'blocked', 'A view the server has not confirmed does not bring it back');
+    await s.fake.deliver(target, view);
+    assert.deepEqual([s.frame().model.screen, s.frame().model.blocked], ['match', null], surface);
+    s.screen.dispose();
+  }
+});
+
+test('a refusal that is final still replaces it, and is not replaced by it', async () => {
+  const s = setup('player', { mode: 'production' });
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  await s.fake.fail(OWN, 'authorization-uncertain');
+  s.screen.dispatch({ type: 'session/reconnect' });
+  await s.fake.fail(OWN, 'refused');
+  assert.equal(s.frame().model.blocked.heading, 'No access to this match');
+  s.screen.dispatch({ type: 'session/reconnect' });
+  await s.fake.fail(OWN, 'authorization-uncertain');
+  assert.equal(s.frame().model.blocked.heading, 'No access to this match', 'Once refused for good, nothing brings the other screen back');
+  s.screen.dispose();
+});
+
+test('a failed check of the match data is not replaced by it either', async () => {
+  const s = setup('player', { mode: 'production' });
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision = 9; }));
+  // The server confirms a lower revision: the match went backwards, and the feed is not trusted again.
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision = 4; }));
+  assert.equal(s.frame().model.blocked.heading, 'Match data check failed');
+  await s.fake.fail(OWN, 'authorization-uncertain');
+  assert.deepEqual([s.frame().model.screen, s.frame().model.match, s.frame().model.blocked.heading], ['blocked', null, 'Match data check failed']);
+  s.screen.dispose();
+});
+
 test('a revoked hosted identity remains hidden through retries and cached snapshots', async () => {
   const s = setup('player', { mode: 'production' });
   s.screen.start();

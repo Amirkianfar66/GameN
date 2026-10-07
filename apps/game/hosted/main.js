@@ -85,7 +85,8 @@ function frame(title, ...content) {
     statusLine,
     ...(resume.load() === null ? [] : [forget]),
   );
-  if (!lobby.contains(page)) lobby.append(page);
+  // The page takes the place of whatever the document came with: its first line, shown while this script loads.
+  if (!lobby.contains(page)) lobby.replaceChildren(page);
 }
 
 // The lifecycle operations. The rule for them is the client core's (lifecycle-requests.ts):
@@ -164,6 +165,13 @@ function keeping(key, button, inputs = [], onGivenUp = () => {}) {
   return group;
 }
 
+// How long a listener the server refused waits before it is opened again: a second and a
+// half at first, then half as long again each time, up to this many seconds. A display
+// waits like this until the host admits it, so the longest wait is also the longest time
+// between the host admitting it and its page showing so.
+const RETRY_FIRST_MS = 1_500;
+const RETRY_LONGEST_MS = 6_000;
+
 /**
  * Listens to a document and keeps trying while the rules refuse it, as they do until this
  * identity is admitted. `onRefused` is told each time the server refuses, for a page that
@@ -173,18 +181,23 @@ function listenPersistently(target, read, onValue, onRefused = () => {}) {
   let stop = () => {};
   let stopped = false;
   let timer = null;
+  let wait = RETRY_FIRST_MS;
   const start = () => {
     stop = transport.listenDocument(target, {
       onSnapshot: snapshot => {
         if (!snapshot.fresh) return;
+        wait = RETRY_FIRST_MS;
         const outcome = read(snapshot.value);
         if (outcome.kind === 'accepted') onValue(outcome.value);
       },
       // A refused listener is dead. It is started again; it is not an empty document.
       onError: reason => {
         if (stopped) return;
-        if (reason === 'refused') onRefused();
-        timer = window.setTimeout(start, 1_500);
+        // This transport cannot tell a refusal from a sign-in it could not confirm, and the
+        // page is told of either: what it then says states neither as fact.
+        if (reason === 'refused' || reason === 'authorization-uncertain') onRefused();
+        timer = window.setTimeout(start, wait);
+        wait = Math.min(RETRY_LONGEST_MS, Math.round(wait * 1.5));
       },
     });
   };
@@ -214,6 +227,8 @@ function openOnceStarted(matchId, viewTarget, open, endedInLobby, lobbyRefused =
     asked = true;
     let stop = () => {};
     let settled = false;
+    let unconfirmed = 0;
+    let wait = RETRY_FIRST_MS;
     const settle = exists => {
       if (settled) return;
       settled = true;
@@ -227,9 +242,15 @@ function openOnceStarted(matchId, viewTarget, open, endedInLobby, lobbyRefused =
           if (snapshot.fresh) settle(snapshot.value !== null);
         },
         // Refused: there is no view. A read that merely failed says nothing, and is tried again.
+        // This transport reports a refusal as a sign-in it could not confirm. The lobby has
+        // just been read and says the match ended, so the second such answer is taken as
+        // the refusal it is on the emulators: by then the credentials were renewed within
+        // the last few minutes.
         onError: reason => {
-          if (reason === 'refused') settle(false);
-          else if (!settled) window.setTimeout(read, 1_500);
+          if (reason === 'refused' || (reason === 'authorization-uncertain' && (unconfirmed += 1) >= 2)) return settle(false);
+          if (settled) return;
+          window.setTimeout(read, wait);
+          wait = Math.min(RETRY_LONGEST_MS, Math.round(wait * 1.5));
         },
       });
       if (settled) stop();

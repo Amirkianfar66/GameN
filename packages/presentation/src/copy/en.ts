@@ -59,6 +59,18 @@ export const en = {
         'This happens when a device is not in the match, or when its seat has been moved to another device. If you did not expect it, ask the host.',
       ],
     },
+    // The server did not let this device read the match, and that answer does not say why.
+    // On a deployed project it is what a sign-in or attestation that could not be confirmed
+    // looks like, and also what a seat moved to another device looks like. Neither is
+    // stated as fact, and nothing of the match is shown until the server lets it read again.
+    accessUnconfirmed: {
+      heading: 'This device cannot read the match right now',
+      paragraphs: [
+        'The server is not letting this device read the match, so nothing of it is shown.',
+        'This can pass, so try again. It also happens when a seat has been moved to another device: the device it was moved from is then no longer in the match. If you did not expect it, ask the host.',
+      ],
+    },
+    tryAgain: 'Try again',
     reload: 'Reload',
   },
 
