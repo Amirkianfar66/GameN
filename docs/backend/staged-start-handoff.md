@@ -7,7 +7,7 @@ Prior timed emulator test checkpoint: `6cca76710a276cba3a008d05b8e33d5049c177cf`
 (test-only synthetic name correction; runtime unchanged).
 Rules listener compatibility checkpoint: `14fb2ed8a7f9d2b388771085d54a7361f5f441fc`.
 Immutable-request reconciliation checkpoint: `f058028cfd6e90513a6479e0e4bb6c4372259703`.
-The subsequent smoke-test follow-up observes automatic local Tasks delivery; it
+The subsequent smoke-test follow-up observes automatic local startup; it
 does not change the timed service runtime or Rules from those pins.
 Timed contracts checkpoint: `c185c157ae25404c0e8e0ae44aaa3d5b6e99ffbc`.
 Deployed base: `af797838dee531d7874da2145e99a50c67d32b45` (practice-bot release).
@@ -272,8 +272,7 @@ acceptance.
 
 The coordinator owns the planned root orchestration correction: 98 injected-clock
 and Rules cases will run under Auth/Firestore only; a fresh Functions suite will
-run all 14
-legacy service cases before the two V1 smoke cases, retaining all 114 cases and
+run all 14 legacy service cases before the two V1 smoke cases, retaining all 114 cases and
 all 7 Frontend cases. Explicit ordering keeps the legacy broad outbox repair
 away from V1 intents. Starting Functions must not reuse the fake-clock database.
 
