@@ -1,5 +1,7 @@
 # Evidence report: the report gate, 7 October 2026
 
+> **A record, not the current evidence.** This report describes runs against the catalogue of commit `e0239bf`: 470 fixtures. The catalogue has since grown, so the static check no longer holds these three reports to the gate against the committed fixtures, and the command in section 3 now reports that the scenario files have changed. The check still verifies that this prose repeats its artifacts. The current evidence is the newest report in this directory.
+
 **Author:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)), Claude Code desktop app, model `claude-opus-5-5`.
 **Everything below was actually run on 7 October 2026, local time.** The reports carry their own times in UTC, which read 2026-10-06 23:26 to 2026-10-06 23:28. Nothing here is a human playtest, and nothing here is a balance result.
 

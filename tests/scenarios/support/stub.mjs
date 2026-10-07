@@ -26,7 +26,7 @@ export function openingObservation(setup) {
     legal: {}, moveDestinations: [], releaseVoteAvailable: false, codeAttemptAvailable: false, pendingCount: 0, ownBallot: null, hasVoted: false, hackPartner: null,
     knowledge: {
       insiderCandidates: seat.role === 'Insider' ? [seatOf('Undercover'), seatOf('Alien'), seatOf('Cracker')] : [],
-      undercoverSeat: seat.role === 'Hacker' ? seatOf('Undercover') : null, code: seat.role === 'Alien' ? [...code] : [], scanResults: [], protections: [],
+      undercoverSeat: seat.role === 'Hacker' ? seatOf('Undercover') : null, code: seat.role === 'Alien' ? [...code] : [], scanResults: [], protections: [], armedBySupply: null,
     },
   }]));
   return {
@@ -42,25 +42,57 @@ export function openingObservation(setup) {
 /**
  * @param outcomes command outcomes returned in order; after the list ends every command is NOT_ALLOWED
  * @param mutate optional function applied to the observation after each accepted command
+ * @param turns when true, a phase can be closed: the turn passes to the next player of Round 1, and
+ *   after the last of them nothing closes any more. Without it no phase ever closes.
+ * @param onTurn optional function applied to the observation after each such change of turn
+ * @param receipt optional function that says what the sender of a command gets back for it
  */
-export function stubAdapter({ outcomes = [], mutate = null, refuseSetup = false } = {}) {
+export function stubAdapter({ outcomes = [], mutate = null, refuseSetup = false, turns = false, onTurn = null, receipt = null } = {}) {
   return {
     pins: { adapter: 'stub', engineVersion: 'stub', rulesetVersion: 'stub', rulesetHash: 'stub', protocolVersion: 0 },
     createMatch(setup) {
       if (refuseSetup) throw new Error('stub refuses this setup');
       let observation = openingObservation(setup);
       let index = 0;
+      let phase = 1;
+      const receipts = {};
       return {
-        observe: () => structuredClone(observation),
+        observe: () => ({ ...structuredClone(observation), raw: { ...structuredClone(observation.raw), receipts: structuredClone(receipts) } }),
         command(actor, command) {
           const outcome = outcomes[index] ?? 'NOT_ALLOWED';
           index += 1;
+          (receipts[actor] ??= []).push(receipt === null ? { outcome } : receipt(actor, command, outcome, structuredClone(observation)));
           if (outcome === 'REGISTERED' && mutate !== null) observation = mutate(structuredClone(observation), actor, command);
           return outcome;
         },
-        advance: () => false,
+        advance(atMs) {
+          const order = setup.roundOrders[0];
+          const next = turns ? order[order.indexOf(observation.activeSeat) + 1] : undefined;
+          if (next === undefined) return false;
+          phase += 1;
+          observation = passTurn(structuredClone(observation), next, phase, atMs);
+          if (onTurn !== null) observation = onTurn(observation, phase);
+          return true;
+        },
         abort() {},
       };
     },
   };
+}
+
+// The next player's turn, written into every copy of the public facts as an engine would write it.
+function passTurn(observation, seat, phase, atMs) {
+  observation.activeSeat = seat;
+  observation.phaseId = `phase-${phase}`;
+  observation.phaseStartedAt = atMs;
+  observation.phaseEndsAt = atMs + 60_000;
+  observation.publicView.activeSeat = seat;
+  observation.raw.public.activeSeat = seat;
+  observation.revisions.public += 1;
+  for (const [player, view] of Object.entries(observation.playerViews)) {
+    view.publicFacts.activeSeat = seat;
+    observation.raw.players[player].public.activeSeat = seat;
+    observation.revisions.players[player] += 1;
+  }
+  return observation;
 }

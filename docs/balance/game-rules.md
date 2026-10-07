@@ -1,13 +1,13 @@
 # Mothership rulebook: in-person Version 1 base game
 
-**Rulebook version:** `rulebook-v1-2026-10-06-r3`. **Scope:** people playing together in person, 7, 8 or 9 players, optional Original Powers off.
+**Rulebook version:** `rulebook-v1-2026-10-07-r4`. **Scope:** people playing together in person, 7, 8 or 9 players, optional Original Powers off.
 **Maintainer:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)). **Canon is decided by the game owner.**
 
 This is the one document every agent reads to learn how the game plays. It consolidates the rule sources into a single ordered text so that Backend, Frontend, Designer and Balance implement, draw, test and explain the same game. It does not create rules. Each row cites the source that makes it true, and `npm run check --workspace @mothership/balance` verifies that every citation resolves in the pinned source files.
 
 If this document and a rule source disagree, the source wins and this document has a defect: report it on issue #5. Do not edit a rule here to make a test pass or a screen simpler.
 
-This is revision 3. Revision 2 followed independent checks of revision 1 against the sources. Revision 3 follows the integration review of 6 October 2026: the decision register was triaged against the approved decisions, so that nothing already approved is asked again, and three rows changed status. No source changed and no rule that a source states changed. Both lists of changes are in [rules-audit-v1.md](rules-audit-v1.md#revisions-of-the-rulebook).
+This is revision 4. Revision 2 followed independent checks of revision 1 against the sources. Revision 3 followed the integration review of 6 October 2026: the decision register was triaged against the approved decisions, so that nothing already approved is asked again, and three rows changed status. Revision 4 follows the integration review of 7 October 2026. Its finding G17 showed that the rule on who is told about Supplier's weapons was stated too briefly to be tested in full, so two rows are added that spell it out, and a third that does the same for what Hacker is told about a Code attempt. No source changed, no rule that a source states changed, and no existing rule row changed; in the table of who may see what, one line was reworded and one was added to match. The lists of changes are in [rules-audit-v1.md](rules-audit-v1.md#revisions-of-the-rulebook).
 
 ## 1. Authority, pins and how to read a rule
 
@@ -172,6 +172,9 @@ Health, Jail and location are three separate things. A player can be Injured and
 | R-ROLE-17 | A Disabler may be used in any round, from Round 1. Only ordinary weapons wait for Round 4. | DERIVED | `R-ROLE-05`, `R-SHOT-03`, `D24` |
 | R-ROLE-18 | A Scan is Hacker's role Main Action: it is used on Hacker's own turn, and an Injured or Jailed Hacker cannot Scan. | DERIVED | `R-ACT-01`, `R-STATE-03`, `R-STATE-04`, `D30` |
 | R-ROLE-19 | Alien has starting knowledge and no Main Action. | DERIVED | `R-SETUP-11`, `baseline#/roles/Alien/knows_full_code_from_start` |
+| R-ROLE-20 | When the Supplier stage of Round 3 has resolved, the app tells Supplier which of the two players they named were given a weapon there. Until then nothing has been given and Supplier is told of nobody; what Supplier sees of their own registered choice is a separate matter (R-VIEW-04). A player who was already Eliminated at that stage was given nothing (R-ACT-06) and is not among those Supplier is told of. Supplier is told this whether they are by then Healthy, Injured, Jailed or Eliminated. | DERIVED | `R-ROLE-08`, `R-ROLE-07`, `R-ACT-05`, `R-ACT-06`, `R-STATE-01`, `D39` |
+| R-ROLE-21 | The app tells a recipient that they hold a weapon and nothing more: not which player armed them, and not who else was armed. It tells Supplier that a player was armed and nothing about that player. It tells nobody else anything: not that weapons were given, not how many, and not to whom. | DERIVED | `R-ROLE-08`, `R-ROLE-07`, `R-SETUP-05`, `R-VIEW-08`, `D40` |
+| R-ROLE-22 | The app records Hacker's Code attempt and does not say whether it was right: not to Hacker and not to anyone else, until the match ends. A verdict would hand Hacker the Code, or a part of what it is not, before the Code is disclosed (R-VIEW-08), and the attempt is judged at the Round 5 check and not when it is entered (R-WIN-06). Until the match ends nobody but Hacker is told what was entered, or that anything was (R-VIEW-07). | DERIVED | `R-VIEW-08`, `R-WIN-06`, `R-ROLE-15`, `R-VIEW-07` |
 
 ## 10. Shooting
 
@@ -294,13 +297,14 @@ The same rules as a table, for whoever builds or draws a screen. "Not stated" me
 | A player's role | No | Their own | No | Yes, everyone's |
 | The faction of a player who is not Eliminated | No | Their own | No | Yes, through the roles |
 | The faction of an Eliminated player | Yes, from the next public phase | Yes | Yes | Yes |
-| A weapon held | No | The holder. Supplier knows whom they armed | No | Not stated |
+| A weapon held | No | The holder. Supplier is told whom the Supplier stage armed (R-ROLE-20), which is not a list of who holds a weapon now. A recipient is not told who armed them or who else was armed (R-ROLE-21) | No | Not stated |
 | A Protection | No | Undercover only. Never the recipient | No | Not stated |
 | The Code | No | Alien | No | Yes |
 | Insider's three candidates | No | Insider | No | Not stated |
 | Who Undercover is | No | Undercover and Hacker | No | Yes, through the roles |
 | A Scan and its result | No | Hacker | No | Not stated |
 | A registered action or shot and its target | No | The actor | No | Not stated |
+| A Code attempt: that it was made, what was entered, and whether it was right | No | Hacker, for the first two. Whether it was right: nobody, Hacker included (R-ROLE-22) | No | The Code is disclosed, and a win on it is in the result. What was entered: not stated |
 | Why an attack had no effect | No | Never the attacker. Undercover sees when a Protection was used up | No | Not stated |
 | An individual ballot | No | The voter | No | Not stated |
 | Who may vote, who may be voted for, and the totals | Yes; totals when the vote closes | Yes | Yes | Yes |

@@ -1,3 +1,4 @@
+import { canonicalJson } from './model.js';
 import type { EnginePins, Faction, Health, Role, ScenarioSetup, SeatId } from './model.js';
 
 // The neutral test adapter boundary. An engine binding maps its own state and audience
@@ -90,6 +91,10 @@ export interface PlayerFacts {
     code: SeatId[];
     scanResults: ScanResultFacts[];
     protections: { seat: SeatId; activeFromRound: number; consumed: boolean }[];
+    // Whom this player's own Supply gave a weapon to, as the engine tells this player (V1-16).
+    // Only Supplier's view may name anyone. `null` means the engine offers this player no such
+    // fact at all, which is not the same as an empty list.
+    armedBySupply: SeatId[] | null;
   };
 }
 
@@ -113,7 +118,13 @@ export interface Observation {
   publicView: PublicFacts;
   playerViews: Record<SeatId, PlayerFacts>;
   // Unmodified audience payloads, kept for structural equality and forbidden-content scans.
-  raw: { public: unknown; players: Record<SeatId, unknown> };
+  // `also` holds whatever else an audience can read besides its view, such as a read of its own
+  // acknowledgments. An engine with no such read leaves it out. Every comparison of what an
+  // audience can see covers both, so that a new read is watched from the day it is bound.
+  // `receipts` holds, for each player, the receipts of the commands that player has sent, in
+  // order, as the engine returned them. They are an answer to the sender and not part of anyone's
+  // view, so the view invariants leave them alone; a comparison of two runs includes them.
+  raw: { public: unknown; players: Record<SeatId, unknown>; also?: { public?: unknown; players?: Record<SeatId, unknown> }; receipts?: Record<SeatId, unknown[]> };
   revisions: { public: number; players: Record<SeatId, number> };
 }
 
@@ -143,6 +154,24 @@ export interface EngineAdapter {
   readonly pins: EnginePins;
   /** Throws when the engine refuses the setup. */
   createMatch(setup: ScenarioSetup, matchId: string): EngineMatch;
+}
+
+/** What one audience can read of the match, as one comparable text: its view and any further read. */
+export function payloadOf(observation: Observation, audience: 'public' | SeatId): string {
+  const view = audience === 'public' ? observation.raw.public : observation.raw.players[audience];
+  const also = audience === 'public' ? observation.raw.also?.public : observation.raw.also?.players?.[audience];
+  return canonicalJson(also === undefined ? view : { view, also });
+}
+
+/**
+ * Everything one audience has been given, as one comparable text: what `payloadOf` covers, and
+ * for a player the receipts of their own commands. Two runs are compared by this, so that a
+ * receipt which says more than "registered" is noticed like anything else.
+ */
+export function readableOf(observation: Observation, audience: 'public' | SeatId): string {
+  const state = payloadOf(observation, audience);
+  const receipts = audience === 'public' ? undefined : observation.raw.receipts?.[audience];
+  return receipts === undefined || receipts.length === 0 ? state : canonicalJson({ state, receipts });
 }
 
 export function truthSeat(observation: Observation, seat: SeatId): TruthSeat {

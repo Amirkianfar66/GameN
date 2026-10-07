@@ -12,7 +12,8 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `v1/exceptions.json` | The reviewed list of the fixtures that are blocked or manual: case, modes, status, decisions, whether it has a probe, and why |
 | `v1/files.mjs` | Reading and writing those files; the pins they carry |
 | `adapters/full-game-v1.mjs` | Binding to Backend's full-game engine API |
-| `support/stub.mjs` | A scripted stand-in used only to test the runner and the invariants |
+| `support/stub.mjs` | A scripted stand-in for an engine, used only to test the runner and the invariants |
+| `support/leaks.mjs` | The deliberate leaks: a wrapper that makes a binding tell somebody one thing it may not, so that the paired cases can be seen to notice |
 | `support/gate-reports.mjs` | Reports written from the catalogue for the tests of the report gate. Not results |
 | `*.test.mjs` | Static checks, run on `node:test`, in five files. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
 
@@ -41,14 +42,39 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | Step | Meaning |
 | --- | --- |
 | `until` | Let phases expire, with no input, until the round, phase and active player match |
+| `watch` | In a paired case: as `until`, comparing the two runs in the phase it starts in and in every phase on the way, the checkpoint included |
 | `expire` | Close the current phase at its deadline |
 | `expireEarly` | Ask to close a vote before its deadline; the engine must refuse |
-| `command` | One player sends one command; `expect` is `REGISTERED`, `NOT_ALLOWED`, `PHASE_CLOSED` or `REFUSED` |
-| `assert` | Checks on server truth, on the public view, or on what one player can see |
+| `command` | One player sends one command; `expect` is `REGISTERED`, `NOT_ALLOWED`, `PHASE_CLOSED` or `REFUSED`. With `twin`, the command sent in its place in the twin run of a paired case |
+| `assert` | Checks on server truth, on the public view, or on what one player can see. In a paired case also `sameAsTwin` and `differsFromTwin` |
 | `mark` | Remember every audience's view, to prove later that it did or did not change |
 | `abort` | The host aborts |
 | `createRejected` | The setup itself must be refused |
 | `probe`, `note` | Blocked scenarios only: record what the engine does. Never an expectation |
+
+## Paired cases and the deliberate leaks
+
+A paired case is run twice. The second run, its twin, differs in one declared respect: a `command` step has a `twin` command, or `"twin": null` so that the twin run sends nothing there, or the scenario has a twin setup: `"twin": { "swapRoles": [roleA, roleB] }`, in which the two players change roles, or `"twin": { "codeExtras": [seat, seat, seat] }`, in which the Code has those three numbers beside Alien's. At an `assert` step the case then says to whom the two runs must look the same (`sameAsTwin`) and to whom they must look different (`differsFromTwin`).
+
+"Look the same" covers everything an audience has been given: its view, its revision number, any further read the binding carries beside the view, and for a player the receipts of their own commands. So a paired case checks a secret without knowing where an engine keeps it. If two matches that differ only in whom Supplier armed look the same to a player, that player cannot learn it; if they look the same to Supplier, Supplier has been told nothing.
+
+An `assert` compares at one moment and a `watch` at every phase of a span. Prefer the watch: a comparison at the start of each round finds what is told by then and still shown, and steps over what is shown during one vote or from one player's turn.
+
+Three things keep a comparison honest, and the runner or the check enforces each:
+
+- **Who is left out.** The players who change roles in a twin setup are different people in the two runs and must be left out. With a twin Code, Alien knows the difference and must be left out of every claim that the two runs look the same. A player to whom the rules give knowledge of a swapped role has to be left out by the author: the check cannot know the rules.
+- **The same moment.** The two runs are compared only where both are in the same phase. A step that waits for the turn of a player who sits elsewhere in the twin run leaves them at different turns, and a comparison there fails and says so; run on to a moment that does not depend on the swap first.
+- **A comparison that could fail.** The check refuses one that names nobody, names a seat that is not in the match, stands before the two runs differ, or follows a twin command that is the command itself.
+
+**The deliberate leaks.** A case that says two runs look the same has shown little until it has also been seen to fail. `support/leaks.mjs` wraps the engine binding and makes it tell somebody one thing that a disclosure rule does not allow: beside the player's own read, in a read that everyone has, or in the receipt of a command. There are twenty-seven such leaks. The controls command tries each one after its other controls:
+
+```sh
+npm run controls --workspace @mothership/balance -- --engine-root /path/to/built/checkout
+```
+
+Three rules make the result mean something. A leak counts as caught only where a comparison of two runs fails and names who could tell them apart; a case that fails in any other way is a fault of the control. A leak has to be caught with every number of players for which it tells anybody anything. And every paired case that says two runs look the same has to have failed for at least one leak. The report gate requires all of it of a controls report. A run through a leaking binding says nothing about the engine: its pins name the leak, and the gate accepts no report that carries such a name.
+
+A leak holds no rule. It reads server truth and the commands that were sent, and adds one fact to what an audience is given; what the engine itself lets that audience read stays whole beside it.
 
 ## Statuses
 

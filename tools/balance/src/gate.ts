@@ -1,5 +1,7 @@
-import { controlsFor } from './controls.js';
+import { controlsFor, unexercised } from './controls.js';
 import { deepEqual, sameSet } from './model.js';
+import type { Mode } from './model.js';
+import { hasTwin } from './scenario.js';
 import type { Scenario } from './scenario.js';
 
 // The report gate. Each of the three engine commands ends with an exit status, and an exit status
@@ -41,6 +43,12 @@ export interface GateExpectations {
   // commit was only stated. For trying the gate. Never for a merge gate, and without effect when a
   // candidate commit is named.
   allowUnpinnedTree: boolean;
+  // The engine binding the reports must have been made through. A run through a binding that was
+  // made to leak names the leak in this place, and is not evidence about an engine.
+  adapter: string;
+  // The deliberate leaks the controls run has to have tried, each with the player counts in which
+  // a paired scenario has to have caught it.
+  leaks: readonly { name: string; modes: readonly Mode[] }[];
   rulesetVersion: string;
   // The approved owner decision and the pinned rule-source manifest. Two separate pins.
   overlaySha256: string;
@@ -128,6 +136,7 @@ function pinProblems(label: string, report: Json, expected: GateExpectations): s
   const engine = pins['engine'];
   if (!isObject(engine)) say('no engine was available when the report was made');
   else {
+    if (engine['adapter'] !== expected.adapter) say(`the run was made through "${String(engine['adapter'])}", not through the engine binding ${expected.adapter} alone`);
     if (engine['rulesetVersion'] !== expected.rulesetVersion) say(`the engine reports ruleset ${String(engine['rulesetVersion'])}, not ${expected.rulesetVersion}`);
     if (engine['rulesetHash'] !== expected.overlaySha256) say('the engine reports a ruleset hash that is not the approved owner decision');
   }
@@ -207,7 +216,7 @@ function scenarioReportProblems(report: Json, catalogue: readonly Scenario[]): s
   return problems;
 }
 
-function controlsReportProblems(report: Json, catalogue: readonly Scenario[]): string[] {
+function controlsReportProblems(report: Json, catalogue: readonly Scenario[], leaks: GateExpectations['leaks']): string[] {
   const problems: string[] = [];
   const say = (message: string) => { problems.push(`controls: ${message}`); };
   if (report['schema'] !== 'mothership.balance.controls/1') say(`unexpected schema ${String(report['schema'])}`);
@@ -232,6 +241,29 @@ function controlsReportProblems(report: Json, catalogue: readonly Scenario[]): s
     if (stats['detected'] !== stats['controls']) say(`${mode} players: ${String(stats['detected'])} of ${String(stats['controls'])} controls detected`);
     if (stats['undetected'] !== 0) say(`${mode} players: controls not detected: ${String(stats['undetected'])}`);
   }
+  // The deliberate leaks. Every one this tooling knows has to have been tried and caught by a
+  // paired scenario of the catalogue, with every number of players it names. And every paired
+  // scenario that says two runs look the same has to have caught at least one.
+  const paired = catalogue.filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
+  const reported = Array.isArray(report['leaks']) ? report['leaks'].filter(isObject) : null;
+  if (reported === null) { say('the deliberate leaks were not tried'); return problems; }
+  if (reported.map(item => String(item['leak'])).join() !== leaks.map(leak => leak.name).join()) say(`the deliberate leaks tried are not the ${leaks.length} that this tooling knows`);
+  const caughtSomething = new Set<string>();
+  for (const leak of leaks) {
+    const item = reported.find(entry => entry['leak'] === leak.name);
+    const list: unknown[] = item !== undefined && Array.isArray(item['caughtBy']) ? item['caughtBy'] : [];
+    const caught = list.filter(isObject).map(entry => String(entry['scenario']));
+    for (const id of caught) {
+      if (paired.some(scenario => scenario.id === id)) caughtSomething.add(id);
+      else say(`the leak "${leak.name}" is said to be caught by ${id}, which is not a paired ready scenario`);
+    }
+    for (const mode of leak.modes) {
+      if (!caught.some(id => paired.find(scenario => scenario.id === id)?.mode === mode)) say(`the leak "${leak.name}" was caught by no paired scenario with ${mode} players`);
+    }
+  }
+  if (report['pairedCases'] !== paired.length) say(`${String(report['pairedCases'])} paired scenarios reported, ${paired.length} in the catalogue`);
+  for (const id of unexercised(paired, [{ caughtBy: [...caughtSomething].map(scenario => ({ scenario, couldTell: [] })), problems: [] }])) say(`no deliberate leak made ${id} fail, so it has not been shown to watch anything`);
+  if (!Array.isArray(report['unexercised']) || report['unexercised'].length > 0) say('the list of paired scenarios that failed for no leak is missing or not empty');
   return problems;
 }
 
@@ -282,7 +314,7 @@ export function gateProblems(reports: GateReports, catalogue: readonly Scenario[
     if (pins['workingTreeCommit'] !== first['workingTreeCommit']) problems.push(`${label}: not the same working tree as the scenario report`);
   }
   // The scenario report comes last: it can name one problem for every case.
-  if (isObject(reports.controls)) problems.push(...controlsReportProblems(reports.controls, catalogue));
+  if (isObject(reports.controls)) problems.push(...controlsReportProblems(reports.controls, catalogue, expected.leaks));
   if (isObject(reports.playouts)) problems.push(...playoutReportProblems(reports.playouts, expected.playoutsPerMode));
   if (isObject(reports.scenarios)) problems.push(...scenarioReportProblems(reports.scenarios, catalogue));
   return problems;

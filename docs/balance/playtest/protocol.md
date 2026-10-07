@@ -1,6 +1,6 @@
 # In-person playtest protocol
 
-**Status:** protocol for the first pilot. No session has been run and no result exists. **Rulebook:** `rulebook-v1-2026-10-06-r3` in [../game-rules.md](../game-rules.md). **Applies to:** people playing together at one table, 7, 8 or 9 players, Original Powers off.
+**Status:** protocol for the first pilot. No session has been run and no result exists. **Rulebook:** `rulebook-v1-2026-10-07-r4` in [../game-rules.md](../game-rules.md). **Applies to:** people playing together at one table, 7, 8 or 9 players, Original Powers off.
 
 ## What the pilot is for
 
@@ -23,8 +23,27 @@ These are preconditions. A session that lacks one is a rehearsal and is recorded
 - **A playable build with its pins written down:** ruleset version and hash, source manifest hash, engine version and commit, protocol, client build. One build for the whole pilot of a mode. A new build starts a new cohort.
 - **The owner's approval of consent wording, of who may read the records, and of how long they are kept.** See [../telemetry-spec.md](../telemetry-spec.md).
 - **A decision on each open question that the build touches, or acceptance that the pilot plays what the build does.** Nine rule edges are open: D11, D12, D16 to D20, D34 and D35. They are set out on one sheet in [the audit](../rules-audit-v1.md#open-rule-edges-consolidated). Where the build already behaves one way, the pilot plays that way, the facilitator logs every time it comes up, and nobody at the table invents a house rule.
+- **The build's known gaps, read by the facilitator before the session.** See "The hosted preview". A known gap is not a reason to stop a match.
 - **The mode order for each group, fixed in advance.** See "Groups and modes".
 - **One facilitator who has read the rulebook and this protocol, and one printed set of the three forms per match.**
+
+## The hosted preview
+
+Since 7 October there is a hosted preview that a supervised group can play on. The integration review of that day gives its pins: application source `89f4a881733096a320b8365973e4540b82392ae4`, ruleset `in-person-v1-2026-10-06`, protocol 2. Write the pins of the build that is actually used on the session form; a preview is redeployed without notice.
+
+The review is plain about what the preview is not: it has not been played through by people, on real phones, or as a whole hosted match in any of the three modes. **So the first sessions on it are rehearsals.** Record them as practice matches. They find broken flows and confusing screens, which is useful, and they count toward nothing. A session counts as a pilot match when every precondition above is met.
+
+Gaps the reviews have recorded, and what the facilitator does about each. Write the number in the "Rule or decision" column of the [rule problem log](rule-problem-log.md) each time one touches play.
+
+| Gap | What a player meets | The facilitator |
+| --- | --- | --- |
+| G17 | Supplier is not told whether the weapons were given. V1-16 says Supplier is told. A defect. A fix exists since 7 October, in draft PR #65, and is in no deployed build: the preview named above predates it | Checks which build is played. On a build without the fix: does not tell Supplier, logs it when Supplier asks or plays in doubt, and marks whether it affected the outcome |
+| G18, G14 | After a Code attempt, and after the Captain's release choice, the phone no longer says what was entered | Logs it if a player is unsure what they did. Does not look at the phone |
+| G15 | The last vote count stays on screen in later rounds without saying which round it is from | Logs it if the table reads an old count as a new one |
+| G20, G22 | Moving a seat to another device needs a long code read out by the host. A host who loses their own device cannot hand the match on | Plans for it: one spare charged device, and the host's device on power. If the host's device is lost the match is aborted and recorded |
+| Named in the review, without a number | A device whose seat was moved to another one goes on saying that it is connecting, and the lobby can show a connecting line that is out of date | Has the player put the old device away. Logs it only if somebody at the table took it for a fault of the match |
+
+The approved look of the game, the comic board with character pieces, is not connected to this build. A session on the preview says nothing about it.
 
 ## Groups and modes
 
@@ -45,7 +64,7 @@ Write these on the session form before the first match. They are not controlled;
 | Condition | What to write |
 | --- | --- |
 | Venue | Home, workplace, public venue, lab or other |
-| Seating | One table or not; whether everyone can see everyone |
+| Seating | One table or not; whether everyone can see everyone; whether anyone could see another player's screen from where they sat |
 | Public board | Physical board and tokens, shared display, both or none. Who moves the tokens |
 | Devices | Phone models and browsers; the display, if any |
 | Connection | Stable, interrupted or unusable |
@@ -103,6 +122,10 @@ The audit derived these from the rules by counting. They are hypotheses about wh
 | Whether the table knows who plays next | The order is not announced (D20) | Rule problem log |
 | How a Hack conversation is actually held | Its format is undecided (D18). Record the shape, never the words | Facilitator notes |
 | The board and the app out of step | Tokens are moved by hand | Rule problem log |
+| Supplier unsure whether the weapons were given | A build without the fix does not tell them (G17) | Rule problem log, with G17 and the build played |
+| A screen seen by a neighbour | Secrets live on the phone, and the approved role card is large and carries the team's color | Rule problem log, `information-leak`; seating on the session form |
+| A name that reads like a role, or that a player uses to claim one | Once names are in the lobby a player may type anything of up to twelve characters, and the decision record allows it. It is talk, and no rule forbids talk | Rule problem log, `rule-missing` if the table disputes it; otherwise facilitator notes |
+| A room's color taken for a team | On the approved comic board the rooms include a red, a blue and a violet, which are also the teams' colors. Only once that board is connected | Rule problem log, `rule-misunderstood`; questionnaire |
 
 ## Reporting
 

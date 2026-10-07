@@ -73,7 +73,7 @@ test('every owner decision the rulebook cites is in the owner-decision file', t 
 
 test('the decision register is complete and consistent with rule statuses', () => {
   assert.deepEqual(register.issues, []);
-  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 38 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
+  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 40 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
   for (const entry of rulebook.entries) {
     for (const ref of entry.refs.filter(item => item.kind === 'decision')) {
       const decision = decisions.get(ref.key);
@@ -117,7 +117,7 @@ test('every rule, decision, invariant and scenario named in a balance document e
   const paths = [
     'docs/balance/README.md', 'docs/balance/game-rules.md', 'docs/balance/rules-audit-v1.md', 'docs/balance/invariants.md',
     'docs/balance/contract-review.md', 'docs/balance/integration-requests.md', 'docs/balance/telemetry-spec.md',
-    'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/playtest/protocol.md',
+    'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/evidence/2026-10-07-supplier-disclosure.md', 'docs/balance/evidence/2026-10-07-supplier-fix.md', 'docs/balance/playtest/protocol.md',
     'docs/balance/playtest/analysis-plan.md', 'docs/balance/playtest/rule-problem-log.md', 'docs/balance/playtest/facilitator-session-form.md',
     'docs/balance/playtest/participant-questionnaire.md', 'tests/scenarios/README.md',
   ];

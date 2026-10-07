@@ -103,4 +103,4 @@ An excluded match is left out of outcome rates and kept in every count of sessio
 
 ## Not collected
 
-Spoken Hack content. Audio or video. Names, accounts, devices, network addresses. Individual ballots beyond the per-player counts of votes cast and missed. Anything from a match that is still running.
+Spoken Hack content. Audio or video. Names, accounts, devices, network addresses. The name a player types in the lobby is a name: it is shown at the table and is never part of a record. Individual ballots beyond the per-player counts of votes cast and missed. Anything from a match that is still running.

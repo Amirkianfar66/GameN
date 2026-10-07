@@ -2,7 +2,6 @@
 // that any engine is correct; they show that the fixtures are well formed, traceable to rules,
 // kept apart by mode, and honest about what is undecided.
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { deepEqual, parseDecisionRegister, parseRulebook, validateScenario } from '@mothership/balance';
@@ -78,7 +77,7 @@ test('every open decision has a blocked case in each mode, and no blocked case a
   for (const mode of [7, 8, 9]) {
     const blocked = byMode(mode).filter(scenario => scenario.status === 'blocked');
     for (const id of [...open, 'D10']) assert.ok(blocked.some(scenario => scenario.decisionIds.includes(id)), `mode ${mode}: no blocked case for ${id}`);
-    for (const scenario of blocked) assert.ok(!scenario.steps.some(step => step.op === 'assert'), `${scenario.id} asserts an outcome`);
+    for (const scenario of blocked) assert.ok(!scenario.steps.some(step => step.op === 'assert' || step.op === 'watch'), `${scenario.id} asserts an outcome`);
   }
 });
 
@@ -114,30 +113,22 @@ test('every recorded setup is reproduced by its seed label', () => {
   assert.ok(Object.keys(files.unsupported.setups).every(seed => seed.startsWith('invalid-')));
 });
 
-// The evidence report is prose around three machine-written artifacts. It must repeat their
-// numbers exactly, and the artifacts must belong to the fixtures that are committed now.
-test('the evidence report repeats its artifacts, and they belong to the committed fixtures', () => {
+// The evidence report of 6 October is prose around three machine-written artifacts. It is a record
+// of what was run against the catalogue of that day, which has since grown: it is no longer held
+// against the committed fixtures, and says so at its head. What is still checked is that the prose
+// repeats its artifacts exactly. The evidence that describes the committed fixtures is the newest
+// report, and commands.test.mjs holds that one to the fixtures.
+test('the evidence report of 6 October is kept as a record, and its prose repeats its artifacts', () => {
   const evidence = name => JSON.parse(text(`docs/balance/evidence/2026-10-06-${name}-engine-8d4a2e5.json`));
   const report = text('docs/balance/evidence/2026-10-06-baseline.md');
   const has = row => assert.ok(report.includes(row), `the evidence report lacks the row: ${row}`);
+  assert.match(report, /^> \*\*A record, not the current evidence\.\*\*/m);
   const run = evidence('scenarios');
-  for (const group of GROUPS) {
-    const file = scenarioFileUrl(group);
-    const name = file.pathname.split('/').pop();
-    assert.equal(run.pins.scenarioFileHashes[name], createHash('sha256').update(readFileSync(file)).digest('hex'),
-      `${name} changed after the evidence was produced: run the scenarios again and write a new report`);
-  }
-  assert.equal(run.runs.length, all.length);
+  assert.equal(run.runs.length, run.totals.total);
+  assert.ok(Object.values(run.pins.scenarioFileHashes).every(hash => /^[0-9a-f]{64}$/.test(hash)));
   const label = { 'mode-7': '7 players', 'mode-8': '8 players', 'mode-9': '9 players', unsupported: 'Unsupported configurations' };
   for (const [group, summary] of Object.entries(run.byGroup)) has(`| ${label[group]} | ${summary.total} | ${summary.passed} | ${summary.failed} | ${summary.blocked} | ${summary.notRun} |`);
   has(`| All | ${run.totals.total} | ${run.totals.passed} | ${run.totals.failed} | ${run.totals.blocked} | ${run.totals.notRun} |`);
-  // No executed result may exist for a blocked or manual fixture, and none may be missing for a ready one.
-  for (const result of run.runs) {
-    const scenario = all.find(item => item.id === result.scenarioId);
-    assert.ok(scenario, `evidence for unknown scenario ${result.scenarioId}`);
-    if (scenario.status === 'ready') assert.ok(['passed', 'failed'].includes(result.status), `${scenario.id} is ready but was not executed`);
-    else assert.equal(result.status, scenario.status === 'blocked' ? 'blocked' : 'not-run', `${scenario.id} is ${scenario.status} but was reported ${result.status}`);
-  }
   const controls = evidence('controls');
   const playouts = evidence('playouts');
   // A controls run whose baselines failed, or in which a control was missed, is not evidence of anything.

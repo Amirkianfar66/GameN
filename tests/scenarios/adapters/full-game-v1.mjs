@@ -9,7 +9,12 @@
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const REQUIRED = ['createFullGame', 'executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame'];
+// `projectOwnAcknowledgments` is the read of a seat's own acknowledgments that Backend added for
+// finding G17 of the integration review of 7 October. An engine without it cannot tell Supplier
+// whom they armed, and is not an engine this binding runs.
+const REQUIRED = ['createFullGame', 'executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame', 'projectOwnAcknowledgments'];
+// The name every report of a run through this binding carries. The report gate accepts no other.
+export const ADAPTER_NAME = 'full-game-v1';
 const FIXTURE_START = 1_800_000_000_000;
 
 /** @returns {Promise<{available: true, adapter: object, origin: string} | {available: false, reason: string, origin: string}>} */
@@ -57,7 +62,7 @@ function publicFacts(view) {
   };
 }
 
-function playerFacts(view) {
+function playerFacts(view, acknowledgments) {
   return {
     seat: view.self.seatId, publicFacts: publicFacts(view), role: view.self.role,
     ordinaryWeapons: view.self.ordinaryWeapons, rescuesRemaining: view.self.rescuesRemaining,
@@ -72,6 +77,12 @@ function playerFacts(view) {
         round: item.round, target: item.targetSeatId, guess: item.guess, matched: item.matched, inCode: item.inCode,
       })),
       protections: view.knowledge.protections.map(item => ({ seat: item.seatId, activeFromRound: item.activeFromRound, consumed: item.consumed })),
+      // Whom Supplier armed (V1-16). The protocol-2 view has no field for it; the seat's own
+      // acknowledgments carry it. Only that real read supplies the fact: nothing is made up from
+      // server truth, the action queue or a count of weapons. A state that predates the read has
+      // no history, and then the engine tells the player nothing.
+      armedBySupply: acknowledgments.historyAvailable
+        ? acknowledgments.supplierResults.flatMap(result => [...result.successfulRecipientSeatIds]) : null,
     },
   };
 }
@@ -89,7 +100,7 @@ function wireCommand(command) {
 
 function createAdapter(engine) {
   const pins = {
-    adapter: 'full-game-v1',
+    adapter: ADAPTER_NAME,
     engineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
     rulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
     rulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
@@ -98,8 +109,18 @@ function createAdapter(engine) {
   return {
     pins,
     createMatch(setup, matchId) {
-      let serial = 0;
-      const context = now => ({ now, nextPhaseId: `phase-${++serial}`, nextDeadlineToken: `deadline-${++serial}` });
+      // Identifiers count what they name and nothing else: a phase identifier counts phases, and a
+      // command identifier counts the commands of the player who sent it. In a paired case the two
+      // runs may send different numbers of commands, or the same commands at different moments. An
+      // identifier that counted more would then differ between the runs for a reason that is the
+      // harness's own: the phase identifier is in every view, and a player's own view lists the
+      // identifiers of their pending commands.
+      let phases = 0;
+      const sent = new Map();   // seat -> how many commands that player has sent
+      const receipts = {};      // seat -> the receipts of those commands, as the engine returned them
+      const context = now => ({ now, nextPhaseId: `phase-${phases + 1}`, nextDeadlineToken: `deadline-${phases + 1}` });
+      // The offered identifier was used if the engine opened a phase with it.
+      const settle = () => { if (state.phase.id === `phase-${phases + 1}`) phases += 1; };
       let state = engine.createFullGame({
         matchId,
         setup: {
@@ -111,6 +132,8 @@ function createAdapter(engine) {
       return {
         observe() {
           const views = engine.projectFullGame(state);
+          // What each seat can read beside its view, whole and as the engine returns it.
+          const acknowledgments = Object.fromEntries(Object.keys(views.players).map(seat => [seat, engine.projectOwnAcknowledgments(state, seat)]));
           const terminal = state.phase.endsAt === null;
           return {
             round: state.round, phaseKind: state.phase.kind, phaseId: state.phase.id,
@@ -131,14 +154,16 @@ function createAdapter(engine) {
               })),
             },
             publicView: publicFacts(views.public),
-            playerViews: Object.fromEntries(Object.entries(views.players).map(([seat, view]) => [seat, playerFacts(view)])),
-            raw: { public: views.public, players: views.players },
+            playerViews: Object.fromEntries(Object.entries(views.players).map(([seat, view]) => [seat, playerFacts(view, acknowledgments[seat])])),
+            // A receipt is read by the player who sent the command and by nobody else.
+            raw: { public: views.public, players: views.players, also: { players: acknowledgments }, receipts: structuredClone(receipts) },
             revisions: { public: state.viewRevisions.public, players: { ...state.viewRevisions.players } },
           };
         },
         command(actor, command, atMs) {
+          sent.set(actor, (sent.get(actor) ?? 0) + 1);
           const request = {
-            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${++serial}`,
+            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${actor}-${sent.get(actor)}`,
             command: wireCommand(command),
           };
           let result;
@@ -150,15 +175,19 @@ function createAdapter(engine) {
             throw error;
           }
           state = result.state;
+          settle();
+          (receipts[actor] ??= []).push(result.receipt);
           return result.receipt.status === 'accepted' ? 'REGISTERED' : result.receipt.code;
         },
         advance(atMs) {
           const result = engine.advanceFullGame(state, { ...context(atMs), phaseId: state.phase.id, deadlineToken: state.deadlineToken ?? 'no-deadline' });
           state = result.state;
+          settle();
           return result.advanced;
         },
         abort(atMs) {
           state = engine.abortFullGame(state, context(atMs));
+          settle();
         },
       };
     },

@@ -65,4 +65,13 @@ Decided rules that a table may not expect. They are rules, not questions. If a t
 | D14 | A Healthy but Jailed player counts as a Healthy member when a win is judged (R-WIN-11) |
 | D38 | A released player is free at once and can be voted back into Jail in the same round (R-VOTE-10) |
 
-The other readings are D21 to D28, D30 to D33, D36 and D37 in [the register](../rules-audit-v1.md#decision-register).
+The other readings are D21 to D28, D30 to D33, D36, D37, D39 and D40 in [the register](../rules-audit-v1.md#decision-register).
+
+Known gaps of the build. They are not questions about the rules. When one touches play, log it as `app-and-table-disagreed` with its number, and say whether it affected the outcome. The [protocol](protocol.md#the-hosted-preview) says what each one looks like at a table.
+
+| Number | Gap |
+| --- | --- |
+| G17 | Supplier is not told whether the weapons were given |
+| G18, G14 | The phone no longer says what was entered after a Code attempt or a release choice |
+| G15 | An old vote count stays on screen without its round |
+| G20, G22 | Moving a seat needs a long code; the host's own device cannot be replaced |

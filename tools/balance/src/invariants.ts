@@ -1,6 +1,7 @@
 import { ROLES_BY_MODE, canonicalJson, deepEqual, factionOf, isMode, sameSet, seatIdsFor } from './model.js';
 import type { Faction, Role, ScenarioSetup, SeatId } from './model.js';
 import { expectedCode } from './prng.js';
+import { payloadOf } from './observation.js';
 import type { CommandOutcome, NeutralCommand, Observation, PlayerFacts } from './observation.js';
 
 // Invariants derived from docs/balance/game-rules.md. They are independent assertions about
@@ -122,6 +123,7 @@ function knowledgeViolations(view: PlayerFacts, role: Role, observation: Observa
     if (!sameSet(know.code, observation.truth.code)) fail('Alien does not hold the exact Code');
   } else if (know.code.length !== 0) fail('Code given to a role other than Alien');
   if (role !== 'Undercover' && know.protections.length !== 0) fail('Protection knowledge given to a role other than Undercover');
+  if (role !== 'Supplier' && know.armedBySupply !== null && know.armedBySupply.length !== 0) fail('whom Supplier armed is given to a role other than Supplier');
   for (const scan of know.scanResults) {
     if (scan.matched !== (scan.inCode !== null)) fail('a failed Scan must carry no membership and a correct one must carry it');
     if (scan.inCode !== null && scan.inCode !== observation.truth.code.includes(scan.target)) fail('Scan membership disagrees with the Code');
@@ -178,6 +180,8 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
   // Authorized views.
   const facts = observation.publicView;
   scanPublicPayload(observation.raw.public, 'public', finished, out);
+  // Whatever else everyone can read beside the public view is public too.
+  if (observation.raw.also?.public !== undefined) scanPublicPayload(observation.raw.also.public, 'public read', finished, out);
   for (const seat of seats) {
     const shown = facts.seats.find(item => item.seat === seat.seat);
     if (shown === undefined) { fail('INV-VIEW-06', `${seat.seat} is missing from the public view`); continue; }
@@ -258,10 +262,10 @@ export function checkSetup(setup: ScenarioSetup, observation: Observation): Viol
   return out;
 }
 
+// What changed for each audience: its view, or anything else it can read beside the view.
 function changedAudiences(prev: Observation, next: Observation): { public: boolean; players: SeatId[] } {
-  const players = Object.keys(next.raw.players).filter(seat =>
-    canonicalJson(prev.raw.players[seat]) !== canonicalJson(next.raw.players[seat]));
-  return { public: canonicalJson(prev.raw.public) !== canonicalJson(next.raw.public), players };
+  const players = Object.keys(next.raw.players).filter(seat => payloadOf(prev, seat) !== payloadOf(next, seat));
+  return { public: payloadOf(prev, 'public') !== payloadOf(next, 'public'), players };
 }
 
 /** Transition invariants. Updates the ledger with what the event did. */
