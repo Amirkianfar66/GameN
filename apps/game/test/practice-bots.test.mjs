@@ -76,3 +76,18 @@ test('a lost setup answer keeps the original bot count/request and meaningful ca
   }
   feed.dispose();
 });
+
+test('bot setup binds its validated snapshot even when the caller mutates the input while awaiting a reply', async () => {
+  const { host, fake, api, feed } = setup();
+  let finish;
+  fake.respond.v1SetPracticeBots = () => new Promise(resolve => { finish = resolve; });
+  const body = request('mutable-input'), original = structuredClone(body);
+  const pending = api.setPracticeBots(body);
+  await Promise.resolve();
+  body.matchId = 'different-match'; body.requestId = 'different-request'; body.botCount = 0;
+  finish(success(host, original));
+  const result = await pending;
+  assert.equal(result.kind, 'done', 'A response for the actual sent request remains a successful acknowledgment');
+  assert.deepEqual(fake.calls[0].body, original);
+  feed.dispose();
+});

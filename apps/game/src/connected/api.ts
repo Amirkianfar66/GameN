@@ -120,15 +120,18 @@ export function createConnectedApi(transport: Pick<ConnectedTransport, 'post'>, 
 
   return {
     async setPracticeBots(request) {
-      assertRequest(FullSetPracticeBotsRequestSchema.safeParse(request).success, 'practice bot setup');
-      const response = await call(() => transport.post('v1SetPracticeBots', request));
+      const outgoing = FullSetPracticeBotsRequestSchema.safeParse(request);
+      if (!outgoing.success) throw new TypeError('Refusing to send a practice bot setup that does not satisfy the shared contract');
+      // Keep the validated snapshot independent of a caller-owned mutable object.
+      const pinned = outgoing.data;
+      const response = await call(() => transport.post('v1SetPracticeBots', pinned));
       if (response.kind !== 'response') return response;
       const parsed = FullSetPracticeBotsResponseSchema.safeParse(response.payload);
       if (!parsed.success) return unreadable;
       const sample = sampleOf(response, parsed.data.serverTimeMs);
       if (!parsed.data.ok) return { kind: 'api-failure', code: parsed.data.error.code, retryAfterMs: parsed.data.error.retryAfterMs ?? null, sample };
-      if (parsed.data.matchId !== request.matchId || parsed.data.requestId !== request.requestId
-        || parsed.data.botSeatIds.length !== request.botCount) return unreadable;
+      if (parsed.data.matchId !== pinned.matchId || parsed.data.requestId !== pinned.requestId
+        || parsed.data.botSeatIds.length !== pinned.botCount) return unreadable;
       return { kind: 'done', result: { revision: parsed.data.revision, botSeatIds: parsed.data.botSeatIds }, sample };
     },
     async setLobbyIdentity(request) {
