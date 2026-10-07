@@ -13,7 +13,16 @@
     }
   },
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "materialize": "tsc --build && node scripts/materialize.mjs",
+    "traceability": "tsc --build && node scripts/traceability.mjs",
+    "check": "tsc --build && node scripts/materialize.mjs --check && node scripts/traceability.mjs --check && node scripts/static-tests.mjs",
+    "scenarios": "tsc --build && node scripts/run-scenarios.mjs",
+    "walk": "tsc --build && node scripts/walk.mjs",
+    "facts": "tsc --build && node scripts/facts.mjs",
+    "controls": "tsc --build && node scripts/controls.mjs",
+    "gate": "tsc --build && node scripts/gate.mjs",
+    "engine-gate": "tsc --build && node scripts/engine-gate.mjs"
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0",
