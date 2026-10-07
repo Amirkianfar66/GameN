@@ -3,7 +3,7 @@ import test from 'node:test';
 import {
   FullAbortMatchRequestSchema, FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullApproveAdmissionRequestSchema, FullCommandRequestSchema,
   FullCreateMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullLookupRequestSchema, FullRedeemSeatRecoveryRequestSchema, FullServerTimeRequestSchema,
-  FullStartMatchRequestSchema, FullSetLobbyIdentityRequestSchema,
+  FullStartMatchRequestSchema, FullSetLobbyIdentityRequestSchema, FullSetPracticeBotsRequestSchema,
 } from '@mothership/contracts';
 import { createConnectedApi, DEFAULT_API_TIMEOUT_MS, V1_OPERATIONS } from '@mothership/game';
 import { createFakeHost, flush } from './support/fakes.mjs';
@@ -28,13 +28,14 @@ const TOKEN = 'synthetic-recovery-code-000000000000000000A';
 test('the client reaches the documented operations and no other', () => {
   assert.deepEqual([...V1_OPERATIONS], [
     'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch', 'v1IssueSeatRecovery', 'v1RedeemSeatRecovery',
-    'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime', 'v1SetLobbyIdentity',
+    'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime', 'v1SetLobbyIdentity', 'v1SetPracticeBots',
   ]);
 });
 
 test('every request the client sends satisfies the shared protocol-2 schema, and carries no actor, clock or outcome', async () => {
   const s = setup();
   await Promise.all([
+    s.api.setPracticeBots({ schemaVersion: 1, protocolVersion: 2, matchId: MATCH, requestId: 'bots-1', botCount: 6 }),
     s.api.setLobbyIdentity({ schemaVersion: 1, protocolVersion: 2, matchId: MATCH, requestId: 'identity-1', displayName: 'Ada', characterId: 'c8' }),
     s.api.serverTime(MATCH), s.api.advance(MATCH, 'phase-one'), s.api.command(move()), s.api.receipt({ protocolVersion: 2, matchId: MATCH, commandId: 'command-1' }),
     s.api.createMatch({ protocolVersion: 2, requestId: 'request-1', playerCount: 7 }),
@@ -47,13 +48,13 @@ test('every request the client sends satisfies the shared protocol-2 schema, and
     s.api.redeemSeatRecovery({ protocolVersion: 2, matchId: MATCH, requestId: 'request-8', recoveryToken: TOKEN }),
   ]);
   const schemas = {
-    v1SetLobbyIdentity: FullSetLobbyIdentityRequestSchema,
+    v1SetLobbyIdentity: FullSetLobbyIdentityRequestSchema, v1SetPracticeBots: FullSetPracticeBotsRequestSchema,
     v1ServerTime: FullServerTimeRequestSchema, v1Advance: FullAdvanceRequestSchema, v1Command: FullCommandRequestSchema, v1Receipt: FullLookupRequestSchema,
     v1CreateMatch: FullCreateMatchRequestSchema, v1RequestAdmission: FullAdmissionRequestSchema, v1ApproveAdmission: FullApproveAdmissionRequestSchema,
     v1AdmitDisplay: FullAdmitDisplayRequestSchema, v1StartMatch: FullStartMatchRequestSchema, v1AbortMatch: FullAbortMatchRequestSchema,
     v1IssueSeatRecovery: FullIssueSeatRecoveryRequestSchema, v1RedeemSeatRecovery: FullRedeemSeatRecoveryRequestSchema,
   };
-  assert.equal(s.fake.calls.length, 13);
+  assert.equal(s.fake.calls.length, 14);
   assert.deepEqual(Object.keys(schemas).sort(), [...V1_OPERATIONS].sort(), 'Every operation the client can reach is checked here');
   assert.deepEqual([...new Set(s.fake.calls.map(call => call.operation))].sort(), [...V1_OPERATIONS].sort(), 'and every one of them was sent');
   for (const { operation, body } of s.fake.calls) {

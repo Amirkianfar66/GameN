@@ -16,6 +16,7 @@ import './comic-tokens.css';
 import './comic.css';
 import './comic-layout.css';
 import { loadArt } from './art.mjs';
+import { createPracticeControls } from './practice-controls.js';
 
 // What this page keeps across a reload, per tab: which kind of device it is and the
 // identifiers of its match and its own admission request, or, for a device that took over
@@ -271,6 +272,7 @@ function showMatch(screen, render, matchId, seatId) {
   const feeds = createComicFeeds({ transport, ports, matchId, ...(seatId ? { seatId } : {}) });
   mountScreen({ container: app, screen, render: model => render(model, {
     identities: feeds.identities()?.seats ?? [],
+    practice: model.connection === 'live' ? feeds.practice() : null,
     acknowledgments: model.connection === 'live' ? feeds.acknowledgments() : null,
   }), subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => feeds.dispose() });
   let accessWasCurrent = false;
@@ -330,6 +332,8 @@ async function host(uid) {
   let session = null;
   let seats = [];
   let requests = [];
+  const practiceFeed = createComicFeeds({ transport, ports, matchId });
+  const practiceControls = createPracticeControls({ matchId, api, lifecycle, operate, feed: practiceFeed, el, onChange: () => draw() });
   // Built once and updated in place, so a request that arrives while the host is typing or
   // choosing takes nothing away from under their hands.
   const list = el('ul', undefined, { id: 'connected-requests' });
@@ -457,6 +461,7 @@ async function host(uid) {
       ['Players', '…', 'connected-seated'], ['Status', '…', 'connected-match-status'],
     ]),
     el('h2', 'Requests to join', { id: 'connected-requests-title', tabindex: '-1' }), none, list,
+    practiceControls.node,
     el('h2', 'Shared display'), displayLabel, admitControl,
     el('h2', 'Start'), startControl,
     el('h2', 'End'), end, endNote, endCancel, endControl,
@@ -520,7 +525,8 @@ async function host(uid) {
       }
       approve.disabled = (vacant.length === 0 && lifecycle.unsettled(`approve ${request.id}`) === null) || !open;
     }
-    start.disabled = playerCount === null || seats.length !== playerCount || !open;
+    practiceControls.update({ playerCount, status: session?.status ?? null, seats });
+    start.disabled = playerCount === null || seats.length !== playerCount || !open || !practiceControls.readyToStart();
     // What the server's own record says settles a request that was still kept: a match that
     // has started needs no start, and one that is over needs no end.
     if (session !== null && session.status !== 'lobby') lifecycle.abandon('start');
@@ -531,7 +537,7 @@ async function host(uid) {
     end.hidden = !endable || askingToEnd;
     for (const node of [endNote, endCancel, endControl]) node.hidden = !endable || !askingToEnd;
     // Only a seat that is taken can be moved, and only in a match that is not over.
-    const movable = endable ? seats.map(seat => seat.seatId) : [];
+    const movable = endable ? seats.map(seat => seat.seatId).filter(seatId => practiceControls.canRecover(seatId)) : [];
     const asked = seatAskedFor();
     const listed = asked === null || movable.includes(asked) ? movable : [...movable, asked];
     const chosenSeat = asked ?? (movable.includes(recoverySeat.value) ? recoverySeat.value : movable[0]);
@@ -545,6 +551,8 @@ async function host(uid) {
     for (const refresh of keptControls) refresh();
   };
   draw();
+  practiceFeed.start();
+  window.addEventListener('pagehide', () => { practiceControls.dispose(); practiceFeed.dispose(); }, { once: true });
   transport.listenDocument({ kind: 'session', matchId }, {
     onSnapshot: snapshot => {
       const read = readHostSession(snapshot.value);
@@ -587,6 +595,7 @@ function identityPicker(matchId, seatId) {
   const status = el('p', 'Choose a character and a name before the host starts.', { id: 'crew-status', role: 'status' });
   const save = el('button', 'Save name and character', { type: 'button', id: 'crew-save' });
   const abandon = el('button', 'Give this request up', { type: 'button', class: 'connected-quiet' });
+  const practiceNote = el('p', '', { class: 'connected-practice-notice', id: 'crew-practice-notice' });
   const key = `identity ${matchId}`;
   let selected = null;
   let edited = false;
@@ -606,6 +615,9 @@ function identityPicker(matchId, seatId) {
   function draw() {
     if (closed) return;
     const document = feed.identities();
+    const bots = feed.practice()?.botSeatIds.length ?? 0;
+    practiceNote.hidden = bots === 0;
+    practiceNote.textContent = bots ? `Practice match with ${bots} ${bots === 1 ? 'bot' : 'bots'}. Bots make simple legal choices; they do not chat or bluff.` : '';
     const own = document?.seats.find(seat => seat.seatId === seatId);
     if (!initialized && own && !edited) {
       initialized = true; name.value = own.displayName ?? ''; selected = own.characterId;
@@ -640,7 +652,7 @@ function identityPicker(matchId, seatId) {
     say('The earlier choice may still be saved if its request arrives. Check the saved name and character after trying again.', 'problem');
     draw();
   });
-  node.append(el('h2', 'Choose your character', { id: 'crew-heading' }), label, grid, status, save, abandon);
+  node.append(practiceNote, el('h2', 'Choose your character', { id: 'crew-heading' }), label, grid, status, save, abandon);
   const stop = feed.subscribe(draw);
   lobbyWatchers.push(() => { closed = true; stop(); feed.dispose(); });
   feed.start(); draw();

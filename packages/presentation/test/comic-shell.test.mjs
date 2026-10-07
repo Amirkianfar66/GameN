@@ -60,3 +60,19 @@ test('Supply results appear only in the open own private area and preserve expli
   const pub=buildTableShellModel({...environment,view:publicView()});
   assert.doesNotMatch(toHtml(renderComicTableShell(pub,{acknowledgments:own})),/Supply results|No players received/);
 });
+
+test('practice mode and bot seats are labeled on live phone/table surfaces without private hooks', () => {
+  const practice = { schemaVersion:1, protocolVersion:2, matchId:playerView().matchId, revision:1, policyVersion:'practice-1', botSeatIds:['seat-2'] };
+  const phone = model(playerView(), undefined, closed);
+  const table = buildTableShellModel({ ...environment, view: publicView() });
+  for (const [render, screen] of [[renderComicPlayerShell, phone], [renderComicTableShell, table]]) {
+    const markup = render(screen, { identities, practice }); auditMarkup(markup);
+    const html = toHtml(markup);
+    assert.match(html, /Practice match · 1 bot/);
+    assert.match(html, /ms-seat__bot/);
+    assert.match(html, /do not chat or bluff/);
+    assert.doesNotMatch(html, /data-device|data-team|ms-role-card__art/);
+    assert.doesNotMatch(toHtml(render(screen, { identities, practice: { ...practice, botSeatIds: [] } })), /Practice match|ms-seat__bot/);
+    assert.doesNotMatch(toHtml(render({ ...screen, connection: 'stale' }, { identities, practice })), /Practice match|ms-seat__bot/);
+  }
+});

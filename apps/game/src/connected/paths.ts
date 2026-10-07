@@ -17,6 +17,7 @@ export function documentPath(target: DocumentTarget, uid: string): readonly stri
   const root = ['matches', segment(target.matchId, 'match identifier')];
   switch (target.kind) {
     case 'identities': return [...root, 'identities', 'public'];
+    case 'practice-bots': return [...root, 'practice', 'public'];
     case 'seat-session':
     case 'own-acknowledgments':
       if (!UID.test(uid)) throw new TypeError('Not a valid identity');

@@ -6,11 +6,13 @@ import {
   FullCreateMatchRequestSchema, FullAdmissionRequestSchema, FullApproveAdmissionRequestSchema, FullAdmitDisplayRequestSchema,
   FullStartMatchRequestSchema, FullAbortMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullRedeemSeatRecoveryRequestSchema,
   FullLookupRequestSchema, FullAdvanceRequestSchema, FullServerTimeRequestSchema, FullOperationResponseSchema, FullLobbyViewSchema,
+  CrewCharacterIdSchema, FullPracticeBotsDocumentSchema, FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema, PRACTICE_BOT_POLICY_VERSION,
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
-import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse } from '@mothership/contracts';
+import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH } from '@mothership/engine';
 
+import { choosePracticeBotActions } from './practice-bot-policy.js';
 import type { FullGameSetup, FullGameState } from '@mothership/engine';
 
 type FailureCode = FullFailure['error']['code'];
@@ -21,7 +23,11 @@ type EnvelopeSchema = { safeParse(value: unknown): { success: true; data: Body }
 type Role = FullPlayerView['self']['role'];
 type Room = 'Room A' | 'Room B';
 type Control = { protocolVersion: 2; hostUid: string; playerCount: 7 | 8 | 9; status: 'lobby' | 'running' | 'complete' | 'aborted'; roomCode: string; createdAt: number };
-type SeatBinding = { uid: string; bindingRevision: number; initialRoom: Room };
+type SeatBinding = { uid: string; bindingRevision: number; initialRoom: Room; controller?: 'human' };
+const humanBinding = (value: unknown): value is SeatBinding => value !== null && typeof value === 'object'
+  && (!('controller' in value) || value.controller === 'human') && 'uid' in value && uidSafe(value.uid);
+const botBinding = (entry: QueryDocumentSnapshot): boolean => entry.get('controller') === 'bot' && !Object.hasOwn(entry.data(), 'uid')
+  && Number.isSafeInteger(entry.get('bindingRevision')) && entry.get('bindingRevision') >= 1;
 type ActivePlayer = { seatId: SeatId; binding: SeatBinding };
 type Shuffler = <T>(items: readonly T[]) => T[];
 export interface V1DeadlineIntent {
@@ -129,7 +135,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     if (!memberPlayer(data)) return null;
     const binding = await tx.get(base.collection('seats').doc(data.seatId));
     const value = binding.data() as SeatBinding | undefined;
-    return value?.uid === uid && value.bindingRevision === data.bindingRevision ? { seatId: data.seatId, binding: value } : null;
+    return humanBinding(value) && value.uid === uid && value.bindingRevision === data.bindingRevision ? { seatId: data.seatId, binding: value } : null;
   }
   async function admitted(tx: Transaction, base: DocumentReference, uid: string): Promise<boolean> {
     const membership = await tx.get(base.collection('members').doc(uid));
@@ -137,7 +143,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     if (data?.kind === 'display') return true;
     if (!memberPlayer(data)) return false;
     const binding = await tx.get(base.collection('seats').doc(data.seatId));
-    return binding.get('uid') === uid && binding.get('bindingRevision') === data.bindingRevision;
+    return humanBinding(binding.data()) && binding.get('uid') === uid && binding.get('bindingRevision') === data.bindingRevision;
   }
   async function operation(uid: string, body: Body, name: string,
     prepare: (tx: Transaction, now: number) => Promise<Plan | FullFailure>): Promise<OperationResult> {
@@ -187,7 +193,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     ];
     for (const binding of bindings) {
       const viewer = next.players[binding.id as SeatId], uid = binding.get('uid') as unknown;
-      if (viewer !== undefined && uidSafe(uid)) {
+      if (viewer !== undefined && humanBinding(binding.data()) && uidSafe(uid)) {
         audiences.push({ path: `playerViews/${uid}`, key: `p-${binding.id}`, old: prev?.players[binding.id as SeatId], view: viewer });
         const bindingRevision = binding.get('bindingRevision') as number;
         const acknowledgment = OwnAcknowledgmentsSchema.parse(projectOwnAcknowledgments(after, binding.id as SeatId, bindingRevision));
@@ -242,6 +248,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         tx.create(base.collection('members').doc(uid), { kind: 'display' });
         tx.create(base.collection('lobby').doc('public'), lobby(base, control, []));
         tx.create(base.collection('identities').doc('public'), identityDocument(base.id));
+        tx.create(base.collection('practice').doc('public'), practiceDocument(base.id));
       } };
     });
   }
@@ -293,6 +300,150 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       } };
     });
   }
+
+  function practiceDocument(matchId: string): FullPracticeBotsDocument {
+    return FullPracticeBotsDocumentSchema.parse({ schemaVersion: 1, protocolVersion: 2, matchId,
+      revision: 0, policyVersion: PRACTICE_BOT_POLICY_VERSION, botSeatIds: [] });
+  }
+  async function setPracticeBots(uid: string, payload: unknown): Promise<FullSetPracticeBotsResponse> {
+    const fail = (code: Extract<FullSetPracticeBotsResponse, { ok: false }>['error']['code'], retryAfterMs?: number): FullSetPracticeBotsResponse =>
+      FullSetPracticeBotsResponseSchema.parse({ schemaVersion: 1, protocolVersion: 2, ok: false, serverTimeMs: clock(),
+        error: { code, ...(retryAfterMs === undefined ? {} : { retryAfterMs }) } });
+    if (!uidSafe(uid)) return fail('UNAUTHENTICATED');
+    if (payload !== null && typeof payload === 'object') {
+      if ('protocolVersion' in payload && typeof payload.protocolVersion === 'number' && payload.protocolVersion !== 2) return fail('UNSUPPORTED_PROTOCOL');
+      if ('schemaVersion' in payload && typeof payload.schemaVersion === 'number' && payload.schemaVersion !== 1) return fail('UNSUPPORTED_SCHEMA');
+    }
+    const parsed = FullSetPracticeBotsRequestSchema.safeParse(payload);
+    if (!parsed.success) return fail('INVALID_REQUEST');
+    const body = parsed.data, base = db.collection('matches').doc(body.matchId);
+    const receiptRef = db.collection('practiceBotOperations').doc(hash([uid, body.requestId])), fingerprint = digest(body);
+    try {
+      return await db.runTransaction(async tx => {
+        // Recheck the current host before any cached acknowledgment, including after start.
+        const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
+        if (control?.protocolVersion !== 2 || control.hostUid !== uid) return fail('FORBIDDEN');
+        const receipt = await tx.get(receiptRef);
+        if (receipt.exists) return receipt.get('digest') === fingerprint
+          ? FullSetPracticeBotsResponseSchema.parse({ ...receipt.get('response'), serverTimeMs: clock() }) : fail('REQUEST_ID_CONFLICT');
+        const now = clock(), budget = await limit(tx, uid, 'setPracticeBots', now);
+        if (!budget.allowed) return fail('RATE_LIMITED', budget.retryAfterMs);
+        const bindings = await tx.get(base.collection('seats'));
+        const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
+        const practiceRef = base.collection('practice').doc('public'), practiceSnapshot = await tx.get(practiceRef);
+        const epochRef = base.collection('practice').doc('bindingEpochs'), epochSnapshot = await tx.get(epochRef);
+        const current = practiceSnapshot.exists ? FullPracticeBotsDocumentSchema.parse(practiceSnapshot.data()) : practiceDocument(base.id);
+        const identities = identitySnapshot.exists ? FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data()) : identityDocument(base.id, bindings.docs);
+        const oldBots = bindings.docs.filter(botBinding).sort((a, b) => a.id.localeCompare(b.id));
+        const humans = bindings.docs.filter(doc => humanBinding(doc.data()));
+        if (current.matchId !== base.id || identities.matchId !== base.id || oldBots.length + humans.length !== bindings.size
+          || digest(current.botSeatIds) !== digest(oldBots.map(doc => doc.id)) || identities.seats.length !== bindings.size
+          || !bindings.docs.every(doc => identities.seats.some(entry => entry.seatId === doc.id))) throw new Error('Invalid practice roster');
+        let response: FullSetPracticeBotsResponse;
+        let mutate: (() => void) | undefined;
+        if (control.status !== 'lobby' || identities.locked) response = fail('LOBBY_LOCKED');
+        else if (body.botCount + humans.length > control.playerCount) response = fail('CAPACITY_EXCEEDED');
+        else {
+          const kept = oldBots.slice(0, body.botCount), removed = oldBots.slice(body.botCount);
+          const occupied = new Set([...humans, ...kept].map(doc => doc.id));
+          const added: Array<{ seatId: SeatId; bindingRevision: number; initialRoom: Room }> = [];
+          const epochs = { ...(epochSnapshot.get('revisions') as Record<string, number> | undefined ?? {}) };
+          for (let n = 1; kept.length + added.length < body.botCount && n <= control.playerCount; n++) {
+            const seatId = `seat-${n}` as SeatId;
+            if (occupied.has(seatId)) continue;
+            const previous = epochs[seatId] ?? 0;
+            if (!Number.isSafeInteger(previous) || previous < 0 || previous >= Number.MAX_SAFE_INTEGER) throw new Error('Invalid binding epoch');
+            epochs[seatId] = previous + 1;
+            added.push({ seatId, bindingRevision: previous + 1, initialRoom: n % 2 === 1 ? 'Room A' : 'Room B' });
+          }
+          const botSeatIds = [...kept.map(doc => doc.id as SeatId), ...added.map(entry => entry.seatId)].sort();
+          const changed = digest(botSeatIds) !== digest(current.botSeatIds);
+          const next = FullPracticeBotsDocumentSchema.parse({ ...current, revision: current.revision + (changed ? 1 : 0), botSeatIds });
+          const removedIds = new Set(removed.map(doc => doc.id));
+          const identitySeats = identities.seats.filter(entry => !removedIds.has(entry.seatId));
+          const usedCharacters = new Set(identitySeats.map(entry => entry.characterId));
+          const usedNames = new Set(identitySeats.map(entry => entry.displayName));
+          for (const entry of added) {
+            const characterId = Array.from({ length: 9 }, (_, i) => `c${i + 1}`).find(candidate => !usedCharacters.has(CrewCharacterIdSchema.parse(candidate)));
+            if (characterId === undefined) throw new Error('No free public character');
+            let displayName = `Bot ${entry.seatId.slice(5)}`, suffix = 1;
+            while (usedNames.has(displayName)) displayName = `Bot ${entry.seatId.slice(5)}-${++suffix}`;
+            usedNames.add(displayName); usedCharacters.add(CrewCharacterIdSchema.parse(characterId));
+            identitySeats.push({ seatId: entry.seatId, displayName, characterId: CrewCharacterIdSchema.parse(characterId) });
+          }
+          const nextIdentity = FullLobbyIdentityDocumentSchema.parse({ ...identities, revision: identities.revision + (changed ? 1 : 0),
+            seats: identitySeats.sort((a, b) => a.seatId.localeCompare(b.seatId)) });
+          const nextLobby = FullLobbyViewSchema.parse({ ...lobby(base, control, [...humans, ...kept]),
+            seats: [...humans, ...kept].map(doc => ({ seatId: doc.id, initialRoom: doc.get('initialRoom') }))
+              .concat(added.map(entry => ({ seatId: entry.seatId, initialRoom: entry.initialRoom }))).sort((a, b) => a.seatId.localeCompare(b.seatId)) });
+          response = FullSetPracticeBotsResponseSchema.parse({ schemaVersion: 1, protocolVersion: 2, ok: true,
+            serverTimeMs: now, matchId: body.matchId, requestId: body.requestId, revision: next.revision, botSeatIds });
+          mutate = () => {
+            for (const doc of removed) { tx.delete(doc.ref); tx.delete(base.collection('recovery').doc(doc.id)); }
+            for (const entry of added) tx.create(base.collection('seats').doc(entry.seatId), {
+              controller: 'bot', bindingRevision: entry.bindingRevision, initialRoom: entry.initialRoom });
+            if (changed || !practiceSnapshot.exists) tx.set(practiceRef, next);
+            if (changed || !identitySnapshot.exists) tx.set(identityRef, nextIdentity);
+            if (changed) { tx.set(epochRef, { revisions: epochs }); tx.set(base.collection('lobby').doc('public'), nextLobby); }
+          };
+        }
+        tx.set(budget.ref, budget.data); mutate?.();
+        tx.create(receiptRef, { verifiedUid: uid, matchId: body.matchId, digest: fingerprint, response, evaluatedAt: now });
+        return response;
+      });
+    } catch { return fail('UNAVAILABLE'); }
+  }
+  /** Bounded, durable commands. Policy receives one strict authorized player projection only. */
+  async function runPracticeBots(matchId: string, options: { limit: number }): Promise<{ status: 'advanced' | 'unchanged' | 'failed' | 'blocked'; processed: number }> {
+    if (!id(matchId) || !Number.isSafeInteger(options.limit) || options.limit < 1 || options.limit > 18) return { status: 'blocked', processed: 0 };
+    let processed = 0;
+    for (; processed < options.limit; processed++) {
+      const base = db.collection('matches').doc(matchId), eventId = newId(), nextPhaseId = newId(), nextDeadlineToken = newId();
+      try {
+        const result = await db.runTransaction(async tx => {
+          const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
+          if (control?.protocolVersion !== 2 || control.status !== 'running') return 'unchanged' as const;
+          const practiceSnapshot = await tx.get(base.collection('practice').doc('public'));
+          if (!practiceSnapshot.exists) return 'unchanged' as const;
+          const practice = FullPracticeBotsDocumentSchema.parse(practiceSnapshot.data());
+          if (practice.matchId !== matchId) return 'blocked' as const;
+          if (practice.botSeatIds.length === 0) return 'unchanged' as const;
+          const snapshot = await tx.get(base.collection('engine').doc('current'));
+          if (!snapshot.exists) return 'blocked' as const;
+          const state = decodeV1State(snapshot.data());
+          if (!supported(state)) return 'blocked' as const;
+          const now = clock();
+          if (state.phase.endsAt === null || now < state.phase.startedAt || now >= state.phase.endsAt) return 'unchanged' as const;
+          const bindings = await tx.get(base.collection('seats'));
+          const bots = bindings.docs.filter(botBinding).sort((a, b) => a.id.localeCompare(b.id));
+          if (digest(practice.botSeatIds) !== digest(bots.map(doc => doc.id))) return 'blocked' as const;
+          for (const binding of bots) {
+            const actorSeatId = binding.id as SeatId;
+            const view = FullPlayerViewSchema.parse(projectFullGame(state).players[actorSeatId]);
+            for (const command of choosePracticeBotActions(view)) {
+              // One deterministic slot per command type and phase; changing observations cannot create a retry with new intent.
+              const commandId = hash([PRACTICE_BOT_POLICY_VERSION, matchId, state.phase.id, actorSeatId, command.type]);
+              const receiptRef = base.collection('receipts').doc(hash([actorSeatId, commandId]));
+              if ((await tx.get(receiptRef)).exists) continue;
+              const request = FullCommandRequestSchema.parse({ protocolVersion: 2, matchId, phaseId: state.phase.id, commandId, command });
+              const evaluated = executeFullGame(state, actorSeatId, request, { now, nextPhaseId, nextDeadlineToken });
+              const receipt = FullReceiptSchema.parse(evaluated.receipt), after = { ...evaluated.state, journalSequence: state.journalSequence + 1 };
+              tx.create(receiptRef, { actorSeatId, controller: 'bot', policyVersion: PRACTICE_BOT_POLICY_VERSION, digest: digest(request), receipt, evaluatedAt: now });
+              tx.create(base.collection('events').doc(eventId), { journalVersion: 1, sequence: after.journalSequence, kind: 'COMMAND', request,
+                actorSeatId, controller: 'bot', policyVersion: PRACTICE_BOT_POLICY_VERSION, now, nextPhaseId, nextDeadlineToken, receipt });
+              if (receipt.status === 'accepted') writeGame(tx, state, after, bindings.docs, eventId, { actorSeatId, commandId });
+              else tx.set(base.collection('engine').doc('current'), encodeV1State(after));
+              return 'advanced' as const;
+            }
+          }
+          return 'unchanged' as const;
+        });
+        if (result !== 'advanced') return { status: result === 'unchanged' && processed > 0 ? 'advanced' : result, processed };
+      } catch { return { status: 'failed', processed }; }
+    }
+    return { status: 'advanced', processed };
+  }
+
   async function setLobbyIdentity(uid: string, payload: unknown): Promise<FullSetLobbyIdentityResponse> {
     const fail = (code: Extract<FullSetLobbyIdentityResponse, { ok: false }>['error']['code'], retryAfterMs?: number): FullSetLobbyIdentityResponse =>
       FullSetLobbyIdentityResponseSchema.parse({ schemaVersion: 1, protocolVersion: 2, ok: false, serverTimeMs: clock(),
@@ -372,13 +523,19 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const controlRef = base.collection('control').doc('session'), control = (await tx.get(controlRef)).data() as Control | undefined;
       if (control?.hostUid !== uid || control.status !== 'lobby' || control.playerCount !== setupFacts.playerCount) return failure('FORBIDDEN');
       const bindings = await tx.get(base.collection('seats'));
-      if (bindings.size !== control.playerCount || new Set(bindings.docs.map(doc => doc.get('uid'))).size !== control.playerCount) return failure('FORBIDDEN');
-      if (bindings.docs.some(doc => !seat(doc.id) || Number(doc.id.slice(5)) > control.playerCount || !uidSafe(doc.get('uid')))) return failure('FORBIDDEN');
-      const memberships = await tx.getAll(...bindings.docs.map(doc => base.collection('members').doc(doc.get('uid') as string)));
+      const humans = bindings.docs.filter(doc => humanBinding(doc.data()));
+      const bots = bindings.docs.filter(botBinding);
+      if (bindings.size !== control.playerCount || humans.length + bots.length !== bindings.size
+        || new Set(humans.map(doc => doc.get('uid'))).size !== humans.length
+        || bindings.docs.some(doc => !seat(doc.id) || Number(doc.id.slice(5)) > control.playerCount)) return failure('FORBIDDEN');
+      const memberships = humans.length === 0 ? [] : await tx.getAll(...humans.map(doc => base.collection('members').doc(doc.get('uid') as string)));
       if (memberships.some((entry, index) => {
-        const member = entry.data(), binding = bindings.docs[index]!;
+        const member = entry.data(), binding = humans[index]!;
         return !memberPlayer(member) || member.seatId !== binding.id || member.bindingRevision !== binding.get('bindingRevision');
       })) return failure('FORBIDDEN');
+      const practiceSnapshot = await tx.get(base.collection('practice').doc('public'));
+      const practice = practiceSnapshot.exists ? FullPracticeBotsDocumentSchema.parse(practiceSnapshot.data()) : practiceDocument(base.id);
+      if (practice.matchId !== base.id || digest(practice.botSeatIds) !== digest(bots.map(doc => doc.id).sort())) return failure('UNAVAILABLE');
       const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
       const currentIdentity = identitySnapshot.exists ? FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data()) : null;
       if (currentIdentity !== null && (currentIdentity.matchId !== base.id || currentIdentity.locked
@@ -527,7 +684,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     return operation(uid, body, 'issueSeatRecovery', async (tx, now) => {
       const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
       const binding = await tx.get(base.collection('seats').doc(seatId));
-      if (control?.hostUid !== uid || !binding.exists || control.status === 'aborted') return failure('FORBIDDEN');
+      if (control?.hostUid !== uid || !binding.exists || !humanBinding(binding.data()) || control.status === 'aborted') return failure('FORBIDDEN');
       const expiresAt = now + 600_000, safeResult = { issued: true as const, seatId, recoveryToken: null, expiresAt };
       return { response: success(now, { ...safeResult, recoveryToken }), replayResponse: success(now, safeResult), write: () => {
         tx.set(base.collection('recovery').doc(seatId), { tokenDigest: hash([base.id, seatId, recoveryToken]), expiresAt,
@@ -548,7 +705,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       if (control?.protocolVersion !== 2 || control.status === 'aborted' || existing.get('kind') === 'player' || grant === undefined
         || grant.get('consumed') !== false || now >= (grant.get('expiresAt') as number) || !seat(grant.id)) return failure('FORBIDDEN');
       const bindingRef = base.collection('seats').doc(grant.id), binding = await tx.get(bindingRef), oldUid = binding.get('uid') as unknown;
-      if (!uidSafe(oldUid) || binding.get('bindingRevision') !== grant.get('bindingRevision') || oldUid === uid) return failure('FORBIDDEN');
+      if (!humanBinding(binding.data()) || !uidSafe(oldUid) || binding.get('bindingRevision') !== grant.get('bindingRevision') || oldUid === uid) return failure('FORBIDDEN');
       const snapshot = await tx.get(base.collection('engine').doc('current'));
       const state = snapshot.exists ? decodeV1State(snapshot.data()) : null;
       if (state !== null && !supported(state)) return failure('UNSUPPORTED_PROTOCOL');
@@ -632,5 +789,5 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       ? Buffer.from(JSON.stringify({ time: last.get('nextAttemptAt'), path: last.ref.path })).toString('base64url') : null };
   }
   return { createMatch, requestAdmission, approveAdmission, admitDisplay, startMatch, submit, lookup, advance, serverTime,
-    abortMatch, issueSeatRecovery, redeemSeatRecovery, setLobbyIdentity, runDeadline, dispatchDeadlineIntent, repairOutbox };
+    abortMatch, issueSeatRecovery, redeemSeatRecovery, setLobbyIdentity, setPracticeBots, runPracticeBots, runDeadline, dispatchDeadlineIntent, repairOutbox };
 }

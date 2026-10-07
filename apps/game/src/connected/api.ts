@@ -3,10 +3,12 @@ import {
   FullCommandRequestSchema, FullCommandResponseSchema, FullCreateMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullLookupRequestSchema,
   FullLookupResponseSchema, FullOperationResponseSchema, FullRedeemSeatRecoveryRequestSchema, FullServerTimeRequestSchema, FullServerTimeResponseSchema,
   FullStartMatchRequestSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema,
+  FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema,
 } from '@mothership/contracts';
 import type {
   FullAbortMatchRequest, FullAdmissionRequest, FullAdmitDisplayRequest, FullApproveAdmissionRequest, FullCommandRequest, FullCreateMatchRequest, FullFailure,
   FullIssueSeatRecoveryRequest, FullLookupRequest, FullOperationResponse, FullReceipt, FullRedeemSeatRecoveryRequest, FullStartMatchRequest, SeatId, FullSetLobbyIdentityRequest, FullSetLobbyIdentityResponse,
+  FullSetPracticeBotsRequest, FullSetPracticeBotsResponse,
 } from '@mothership/contracts';
 import type { ClockSample } from '../clock/server-clock.js';
 import type { ClientPorts } from '../ports.js';
@@ -20,6 +22,7 @@ import type { ConnectedTransport, V1Operation } from './transport.js';
 
 export type ConnectedFailureCode = FullFailure['error']['code'];
 export type LobbyIdentityFailureCode = Extract<FullSetLobbyIdentityResponse, { ok: false }>['error']['code'];
+export type PracticeBotsFailureCode = Extract<FullSetPracticeBotsResponse, { ok: false }>['error']['code'];
 
 /** Every answer from the server carries its time, usable to calibrate the countdown. */
 interface Answered {
@@ -61,6 +64,7 @@ export interface IssuedRecovery { readonly seatId: SeatId; readonly recoveryToke
 export interface RecoveredSeat { readonly seatId: SeatId }
 
 export interface ConnectedApi {
+  setPracticeBots(request: FullSetPracticeBotsRequest): Promise<OperationResult<{ readonly revision: number; readonly botSeatIds: readonly SeatId[] }, PracticeBotsFailureCode>>;
   setLobbyIdentity(request: FullSetLobbyIdentityRequest): Promise<OperationResult<{ readonly revision: number }, LobbyIdentityFailureCode>>;
   serverTime(matchId: string): Promise<ConnectedTimeResult>;
   advance(matchId: string, phaseId: string): Promise<ConnectedAdvanceResult>;
@@ -115,6 +119,21 @@ export function createConnectedApi(transport: Pick<ConnectedTransport, 'post'>, 
   }
 
   return {
+    async setPracticeBots(request) {
+      const outgoing = FullSetPracticeBotsRequestSchema.safeParse(request);
+      if (!outgoing.success) throw new TypeError('Refusing to send a practice bot setup that does not satisfy the shared contract');
+      // Keep the validated snapshot independent of a caller-owned mutable object.
+      const pinned = outgoing.data;
+      const response = await call(() => transport.post('v1SetPracticeBots', pinned));
+      if (response.kind !== 'response') return response;
+      const parsed = FullSetPracticeBotsResponseSchema.safeParse(response.payload);
+      if (!parsed.success) return unreadable;
+      const sample = sampleOf(response, parsed.data.serverTimeMs);
+      if (!parsed.data.ok) return { kind: 'api-failure', code: parsed.data.error.code, retryAfterMs: parsed.data.error.retryAfterMs ?? null, sample };
+      if (parsed.data.matchId !== pinned.matchId || parsed.data.requestId !== pinned.requestId
+        || parsed.data.botSeatIds.length !== pinned.botCount) return unreadable;
+      return { kind: 'done', result: { revision: parsed.data.revision, botSeatIds: parsed.data.botSeatIds }, sample };
+    },
     async setLobbyIdentity(request) {
       assertRequest(FullSetLobbyIdentityRequestSchema.safeParse(request).success, 'lobby identity');
       const response = await call(() => transport.post('v1SetLobbyIdentity', request));

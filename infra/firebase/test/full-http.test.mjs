@@ -10,7 +10,9 @@ const local = { GCLOUD_PROJECT: 'demo-mothership', FUNCTIONS_EMULATOR: 'true', F
 function dependencies(configuration = assertRuntimeEnvironment(local)) {
   const calls = [];
   const service = Object.fromEntries(V1_OPERATIONS.map(operation => [operation, async (uid, payload) => {
-    calls.push({ operation, uid, payload }); return { ok: true, protocolVersion: 2 };
+    calls.push({ operation, uid, payload }); return operation === 'setPracticeBots'
+      ? { schemaVersion: 1, protocolVersion: 2, ok: true, serverTimeMs: 123, matchId: payload.matchId, requestId: payload.requestId, revision: 1, botSeatIds: ['seat-2'] }
+      : { ok: true, protocolVersion: 2 };
   }]));
   return { calls, service, configuration, clock: () => 123,
     verifyIdToken: async token => { if (token !== 'valid-token') throw new Error('Private token details'); return { uid: 'actor-uid' }; },
@@ -20,7 +22,7 @@ function dependencies(configuration = assertRuntimeEnvironment(local)) {
 async function invoke(deps, overrides = {}, operation = 'submit') {
   const capture = { status: undefined, headers: {}, body: undefined };
   const response = { set(name, value) { capture.headers[name] = value; return this; }, status(value) { capture.status = value; return this; }, json(value) { capture.body = value; return this; } };
-  await createV1HttpHandler(operation, deps)({ method: 'POST', body: { protocolVersion: 2, matchId: 'match-a' }, headers: { 'content-type': 'application/json', authorization: 'Bearer valid-token' }, ...overrides }, response);
+  await createV1HttpHandler(operation, deps)({ method: 'POST', body: operation === 'setPracticeBots' ? { schemaVersion: 1, protocolVersion: 2, requestId: 'practice-request', matchId: 'match-a', botCount: 1 } : { protocolVersion: 2, matchId: 'match-a' }, headers: { 'content-type': 'application/json', authorization: 'Bearer valid-token' }, ...overrides }, response);
   return capture;
 }
 
@@ -108,11 +110,11 @@ test('V1 task enqueue validates stable IDs and repairs already-created acknowled
 
 test('V1 task route rejects extra fields and fails retryably on backend failure', async () => {
   let calls = 0;
-  const handler = createV1DeadlineHandler({ runDeadline: async () => { calls++; return { result: 'unchanged' }; } });
+  const handler = createV1DeadlineHandler({ runPracticeBots: async () => ({ status: 'unchanged', processed: 0 }), runDeadline: async () => { calls++; return { result: 'unchanged' }; } });
   const payload = { matchId: 'match-a', phaseId: 'phase-a', deadlineToken: 'deadline-a' };
   await handler(payload); assert.equal(calls, 1);
   await assert.rejects(handler({ ...payload, force: true })); assert.equal(calls, 1);
-  await assert.rejects(createV1DeadlineHandler({ runDeadline: async () => ({ ok: false, error: { code: 'UNAVAILABLE' } }) })(payload));
+  await assert.rejects(createV1DeadlineHandler({ runPracticeBots: async () => ({ status: 'unchanged', processed: 0 }), runDeadline: async () => ({ ok: false, error: { code: 'UNAVAILABLE' } }) })(payload));
 });
 
 
@@ -127,7 +129,7 @@ test('Firebase export discovery does not initialize Admin SDK; first invocation 
       assert.equal(getApps().length,0);
       const functions=await import(${JSON.stringify(entrypoint)});
       assert.equal(getApps().length,0);
-      for (const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
+      for (const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1SetPracticeBots','v1RunPracticeBots','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
       const response={set(){return this;},status(){return this;},json(){return this;}};
       await assert.rejects(()=>functions.v1ServerTime({method:'POST',headers:{},body:{}},response));
       assert.equal(getApps().length,0);
