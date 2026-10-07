@@ -9,7 +9,7 @@ import { createV1HttpHandler } from '../../../../infra/firebase/dist/v1.js';
 if (process.env.FIRESTORE_EMULATOR_HOST !== '127.0.0.1:8590' || process.env.FIREBASE_AUTH_EMULATOR_HOST !== '127.0.0.1:9599' || process.env.GCLOUD_PROJECT !== 'demo-mothership') throw new Error('Isolated loopback emulators required');
 const app=initializeApp({projectId:'demo-mothership'}), db=getFirestore(app);
 const service=createV1Service({db,assetManifestVersion:'design-0.2.0'});
-const names={v1CreateMatch:'createMatch',v1RequestAdmission:'requestAdmission',v1ApproveAdmission:'approveAdmission',v1AdmitDisplay:'admitDisplay',v1StartMatch:'startMatch',v1AbortMatch:'abortMatch',v1IssueSeatRecovery:'issueSeatRecovery',v1RedeemSeatRecovery:'redeemSeatRecovery',v1Command:'submit',v1Receipt:'lookup',v1Advance:'advance',v1ServerTime:'serverTime',v1SetLobbyIdentity:'setLobbyIdentity',v1SetPracticeBots:'setPracticeBots'};
+const names={v1CreateMatch:'createMatch',v1RequestAdmission:'requestAdmission',v1ApproveAdmission:'approveAdmission',v1AdmitDisplay:'admitDisplay',v1StartMatch:'startMatch',v1AbortMatch:'abortMatch',v1IssueSeatRecovery:'issueSeatRecovery',v1RedeemSeatRecovery:'redeemSeatRecovery',v1Command:'submit',v1Receipt:'lookup',v1Advance:'advance',v1ServerTime:'serverTime',v1BeginSetup:'beginSetup',v1ConfirmSetupChoice:'confirmSetupChoice',v1ReadyForMatch:'readyForMatch',v1SetLobbyIdentity:'setLobbyIdentity',v1SetPracticeBots:'setPracticeBots'};
 const configuration={projectId:'demo-mothership',emulator:true,assetManifestVersion:'design-0.2.0',allowedOrigins:['http://127.0.0.1:5176','http://localhost:5176']};
 const server=createServer(async(req,res)=>{
   const name=req.url?.split('/').at(-1); const operation=names[name];
@@ -29,6 +29,16 @@ const timer = setInterval(async () => {
   if (ticking) return;
   ticking = true;
   try {
+    const setupIntents = await db.collectionGroup('setupOutbox')
+      .where('protocolVersion', '==', 2).where('status', 'in', ['pending', 'leased', 'dispatched'])
+      .where('dueAt', '<=', Date.now()).orderBy('dueAt').limit(100).get();
+    for (const intent of setupIntents.docs) {
+      const value = intent.data();
+      if (value.kind !== 'SETUP_DEADLINE') continue;
+      const result = await service.runSetupDeadline({ matchId: value.matchId, setupId: value.setupId,
+        stage: value.stage, deadlineToken: value.deadlineToken });
+      if (result.status === 'failed') throw new Error('Setup deadline unavailable');
+    }
     const controls = await db.collectionGroup('control').where('status', '==', 'running').get();
     for (const control of controls.docs) {
       if (control.id !== 'session' || control.get('protocolVersion') !== 2) continue;

@@ -115,12 +115,21 @@ export interface HostSession {
 
 export function readHostSession(payload: unknown): DocumentOutcome<HostSession> {
   if (payload === null) return { kind: 'missing' };
-  if (!isRecord(payload) || !hasOnly(payload, ['protocolVersion', 'hostUid', 'playerCount', 'status', 'roomCode', 'createdAt'])) return rejected({ kind: 'unreadable' });
+  if (!isRecord(payload) || !hasOnly(payload, ['protocolVersion', 'hostUid', 'playerCount', 'status', 'roomCode', 'createdAt', 'lifecycleVersion', 'gameStarted'])) return rejected({ kind: 'unreadable' });
   const version = topLevelVersion(payload);
   if (version !== null && !SUPPORTED_CONNECTED_VERSIONS.includes(version)) return rejected({ kind: 'incompatible-protocol', receivedVersion: version });
-  const { hostUid, playerCount, status, roomCode, createdAt } = payload;
+  const { hostUid, playerCount, status, roomCode, createdAt, lifecycleVersion, gameStarted } = payload;
+  const staged = lifecycleVersion === 'staged-start-1';
+  if ('lifecycleVersion' in payload || 'gameStarted' in payload) {
+    if (!staged || typeof gameStarted !== 'boolean'
+      || (['lobby', 'choosing', 'awaiting-ready'].includes(String(status)) && gameStarted)
+      || (['running', 'complete'].includes(String(status)) && !gameStarted)) return rejected({ kind: 'unreadable' });
+  }
+  // Control tracks the server's pregame stages; the separately versioned public
+  // setup sidecar supplies their UI. Preserve the existing host lifecycle model.
+  const clientStatus = staged && (status === 'choosing' || status === 'awaiting-ready') ? 'lobby' : status;
   const statuses = ['lobby', 'running', 'complete', 'aborted'] as const;
-  const known = statuses.find(candidate => candidate === status);
+  const known = statuses.find(candidate => candidate === clientStatus);
   if (version === null || typeof hostUid !== 'string' || !UID.test(hostUid) || (playerCount !== 7 && playerCount !== 8 && playerCount !== 9)
     || known === undefined || typeof roomCode !== 'string' || !ROOM_CODE.test(roomCode) || !TimestampSchema.safeParse(createdAt).success) return rejected({ kind: 'unreadable' });
   return { kind: 'accepted', value: { hostUid, playerCount, status: known, roomCode } };

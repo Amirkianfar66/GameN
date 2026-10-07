@@ -106,7 +106,7 @@ test('connected: an answer that is lost, a request that is lost, and a reload wi
   assert.equal(moved.phase.id, first.view.phase.id, 'All within the first phase');
 });
 
-test('connected: the phase changes only when the server says so; a command lost before it is then known not to have been accepted', { timeout: 120_000 }, async t => {
+test('connected: the phase changes only when the server says so; a command lost before it is then known not to have been accepted', { timeout: 180_000 }, async t => {
   const { players, matchId, display, publicView } = await startedMatch(t);
   const mover = players.find(player => player.view.self.movementDestinations.length > 0);
   const firstPhase = publicView.phase.id;

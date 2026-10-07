@@ -24,7 +24,7 @@ export function createPracticeControls({ matchId, api, lifecycle, operate, feed,
     if (waitingRevision !== null && doc !== null && doc.revision >= waitingRevision) waitingRevision = null;
     const humanCount = lobby.seats.filter(seat => !bots.includes(seat.seatId)).length;
     const maximum = lobby.playerCount === null ? 0 : Math.max(0, lobby.playerCount - humanCount);
-    const open = lobby.status === 'lobby';
+    const open = lobby.status === 'lobby' && lobby.setupOpen !== false;
     const kept = lifecycle.unsettled(key);
     const frozen = !known() || !open || pending();
     let chosen = Number(count.value || 0);
@@ -47,7 +47,7 @@ export function createPracticeControls({ matchId, api, lifecycle, operate, feed,
     label.hidden = !open; save.hidden = !open && kept === null;
     const description = !known() ? 'Bot settings are unavailable. Waiting for a fresh server update.'
       : bots.length === 0 ? 'No bots in this match.'
-      : `Practice match · ${bots.length} ${bots.length === 1 ? 'bot' : 'bots'}. ${open ? 'Bots join when you start the match.' : lobby.status === 'running' ? 'Bots keep playing if the host tab closes.' : ['complete', 'aborted'].includes(lobby.status) ? 'Bot play has ended.' : 'Waiting for match status.'}`;
+      : `Practice match · ${bots.length} ${bots.length === 1 ? 'bot' : 'bots'}. ${open ? 'Bots choose and confirm automatically after you start setup.' : lobby.status === 'running' ? 'Bots keep playing if the host tab closes.' : lobby.status === 'lobby' ? 'Waiting for players to finish setup.' : ['complete', 'aborted'].includes(lobby.status) ? 'Bot play has ended.' : 'Waiting for match status.'}`;
     summary.textContent = `${description}${waitingRevision !== null ? ' Waiting for the updated roster.' : ''}${notice ? ` ${notice}` : ''}`;
     roster.replaceChildren(...bots.map(seatId => {
       const name = feed.identities()?.seats.find(seat => seat.seatId === seatId)?.displayName;

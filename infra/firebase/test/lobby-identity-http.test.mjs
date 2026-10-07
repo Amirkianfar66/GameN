@@ -25,7 +25,7 @@ async function invoke(deps, overrides = {}) {
   return result;
 }
 test('new HTTP operation preserves existing operation order and verifies current Auth plus App Check', async () => {
-  assert.deepEqual(V1_OPERATIONS, ['createMatch','requestAdmission','approveAdmission','admitDisplay','startMatch','submit','lookup','advance','serverTime','abortMatch','issueSeatRecovery','redeemSeatRecovery','setLobbyIdentity','setPracticeBots']);
+  assert.deepEqual(V1_OPERATIONS, ['createMatch','requestAdmission','approveAdmission','admitDisplay','startMatch','submit','lookup','advance','serverTime','abortMatch','issueSeatRecovery','redeemSeatRecovery','setLobbyIdentity','setPracticeBots','beginSetup','confirmSetupChoice','readyForMatch']);
   const deps = dependencies(), result = await invoke(deps);
   assert.equal(result.status, 200); assert.equal(deps.calls[0].uid, 'verified-player');
   assert.equal(result.headers['Cache-Control'], 'no-store, private');

@@ -4,11 +4,13 @@ import {
   FullLookupResponseSchema, FullOperationResponseSchema, FullRedeemSeatRecoveryRequestSchema, FullServerTimeRequestSchema, FullServerTimeResponseSchema,
   FullStartMatchRequestSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema,
   FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema,
+  FullBeginSetupRequestSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceRequestSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchRequestSchema, FullReadyForMatchResponseSchema,
 } from '@mothership/contracts';
 import type {
   FullAbortMatchRequest, FullAdmissionRequest, FullAdmitDisplayRequest, FullApproveAdmissionRequest, FullCommandRequest, FullCreateMatchRequest, FullFailure,
   FullIssueSeatRecoveryRequest, FullLookupRequest, FullOperationResponse, FullReceipt, FullRedeemSeatRecoveryRequest, FullStartMatchRequest, SeatId, FullSetLobbyIdentityRequest, FullSetLobbyIdentityResponse,
   FullSetPracticeBotsRequest, FullSetPracticeBotsResponse,
+  FullBeginSetupRequest, FullBeginSetupResponse, FullConfirmSetupChoiceRequest, FullConfirmSetupChoiceResponse, FullReadyForMatchRequest, FullReadyForMatchResponse, FullSetupErrorCode,
 } from '@mothership/contracts';
 import type { ClockSample } from '../clock/server-clock.js';
 import type { ClientPorts } from '../ports.js';
@@ -20,6 +22,7 @@ import type { ConnectedTransport, V1Operation } from './transport.js';
 // parsed with the shared strict schema before anything is concluded from it, whatever the
 // HTTP status was, and an answer is believed only about the request it names.
 
+export type SetupFailureCode = FullSetupErrorCode;
 export type ConnectedFailureCode = FullFailure['error']['code'];
 export type LobbyIdentityFailureCode = Extract<FullSetLobbyIdentityResponse, { ok: false }>['error']['code'];
 export type PracticeBotsFailureCode = Extract<FullSetPracticeBotsResponse, { ok: false }>['error']['code'];
@@ -64,6 +67,9 @@ export interface IssuedRecovery { readonly seatId: SeatId; readonly recoveryToke
 export interface RecoveredSeat { readonly seatId: SeatId }
 
 export interface ConnectedApi {
+  beginSetup(request: FullBeginSetupRequest): Promise<OperationResult<Extract<FullBeginSetupResponse, { ok: true }>, SetupFailureCode>>;
+  confirmSetupChoice(request: FullConfirmSetupChoiceRequest): Promise<OperationResult<Extract<FullConfirmSetupChoiceResponse, { ok: true }>, SetupFailureCode>>;
+  readyForMatch(request: FullReadyForMatchRequest): Promise<OperationResult<Extract<FullReadyForMatchResponse, { ok: true }>, SetupFailureCode>>;
   setPracticeBots(request: FullSetPracticeBotsRequest): Promise<OperationResult<{ readonly revision: number; readonly botSeatIds: readonly SeatId[] }, PracticeBotsFailureCode>>;
   setLobbyIdentity(request: FullSetLobbyIdentityRequest): Promise<OperationResult<{ readonly revision: number }, LobbyIdentityFailureCode>>;
   serverTime(matchId: string): Promise<ConnectedTimeResult>;
@@ -119,6 +125,47 @@ export function createConnectedApi(transport: Pick<ConnectedTransport, 'post'>, 
   }
 
   return {
+    async beginSetup(request) {
+      const outgoing = FullBeginSetupRequestSchema.safeParse(request);
+      if (!outgoing.success) throw new TypeError('Refusing to send a setup request that does not satisfy the shared contract');
+      const pinned = outgoing.data;
+      const response = await call(() => transport.post('v1BeginSetup', pinned));
+      if (response.kind !== 'response') return response;
+      const parsed = FullBeginSetupResponseSchema.safeParse(response.payload);
+      if (!parsed.success) return unreadable;
+      const sample = sampleOf(response, parsed.data.serverTimeMs);
+      if (!parsed.data.ok) return { kind: 'api-failure', code: parsed.data.error.code, retryAfterMs: parsed.data.error.retryAfterMs ?? null, sample };
+      if (parsed.data.matchId !== pinned.matchId || parsed.data.requestId !== pinned.requestId) return unreadable;
+      return { kind: 'done', result: parsed.data, sample };
+    },
+    async confirmSetupChoice(request) {
+      const outgoing = FullConfirmSetupChoiceRequestSchema.safeParse(request);
+      if (!outgoing.success) throw new TypeError('Refusing to send a setup request that does not satisfy the shared contract');
+      const pinned = outgoing.data;
+      const response = await call(() => transport.post('v1ConfirmSetupChoice', pinned));
+      if (response.kind !== 'response') return response;
+      const parsed = FullConfirmSetupChoiceResponseSchema.safeParse(response.payload);
+      if (!parsed.success) return unreadable;
+      const sample = sampleOf(response, parsed.data.serverTimeMs);
+      if (!parsed.data.ok) return { kind: 'api-failure', code: parsed.data.error.code, retryAfterMs: parsed.data.error.retryAfterMs ?? null, sample };
+      if (parsed.data.matchId !== pinned.matchId || parsed.data.requestId !== pinned.requestId
+        || parsed.data.bindingRevision !== pinned.bindingRevision) return unreadable;
+      return { kind: 'done', result: parsed.data, sample };
+    },
+    async readyForMatch(request) {
+      const outgoing = FullReadyForMatchRequestSchema.safeParse(request);
+      if (!outgoing.success) throw new TypeError('Refusing to send a setup request that does not satisfy the shared contract');
+      const pinned = outgoing.data;
+      const response = await call(() => transport.post('v1ReadyForMatch', pinned));
+      if (response.kind !== 'response') return response;
+      const parsed = FullReadyForMatchResponseSchema.safeParse(response.payload);
+      if (!parsed.success) return unreadable;
+      const sample = sampleOf(response, parsed.data.serverTimeMs);
+      if (!parsed.data.ok) return { kind: 'api-failure', code: parsed.data.error.code, retryAfterMs: parsed.data.error.retryAfterMs ?? null, sample };
+      if (parsed.data.matchId !== pinned.matchId || parsed.data.requestId !== pinned.requestId
+        || parsed.data.bindingRevision !== pinned.bindingRevision || parsed.data.dealId !== pinned.dealId) return unreadable;
+      return { kind: 'done', result: parsed.data, sample };
+    },
     async setPracticeBots(request) {
       const outgoing = FullSetPracticeBotsRequestSchema.safeParse(request);
       if (!outgoing.success) throw new TypeError('Refusing to send a practice bot setup that does not satisfy the shared contract');

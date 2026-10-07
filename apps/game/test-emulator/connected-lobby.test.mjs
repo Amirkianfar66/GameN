@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createConnectedPlayerStore, createConnectedPublicStore, readAdmission, readHostSession, readLobby } from '@mothership/game';
-import { participant, requestId } from './support/match.mjs';
+import { participant, requestId, finishSetup } from './support/match.mjs';
 import { until } from './support/rest-transport.mjs';
 
 // EMULATOR-CONNECTED. The Frontend client core against the real local Auth, Firestore and
@@ -82,9 +82,7 @@ test('connected: a host creates a seven-player lobby, seats seven players, admit
   const lobby = await document(players[3], { kind: 'lobby', matchId }, payload => readLobby(payload, matchId), value => value.seats.length === 7, 'a full lobby');
   assert.deepEqual([lobby.value.status, lobby.value.playerCount, lobby.value.seats.map(seat => seat.seatId)], ['lobby', 7, [1, 2, 3, 4, 5, 6, 7].map(n => `seat-${n}`)]);
 
-  const start = { protocolVersion: 2, matchId, requestId: requestId() };
-  assert.equal((await host.api.startMatch(start)).kind, 'done');
-  assert.equal((await host.api.startMatch(start)).kind, 'done', 'Starting again with the same request deals nothing new');
+  await finishSetup(host, players, matchId);
 
   // 4. The shared display receives public information only.
   const publicStore = createConnectedPublicStore({ matchId });

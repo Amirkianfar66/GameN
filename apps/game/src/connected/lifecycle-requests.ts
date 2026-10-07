@@ -1,7 +1,7 @@
 import type { IdSource, MonotonicClock } from '../ports.js';
-import type { ConnectedFailureCode, LobbyIdentityFailureCode, PracticeBotsFailureCode, OperationResult } from './api.js';
+import type { ConnectedFailureCode, LobbyIdentityFailureCode, SetupFailureCode, PracticeBotsFailureCode, OperationResult } from './api.js';
 
-type LifecycleFailureCode = ConnectedFailureCode | LobbyIdentityFailureCode | PracticeBotsFailureCode;
+type LifecycleFailureCode = ConnectedFailureCode | LobbyIdentityFailureCode | PracticeBotsFailureCode | SetupFailureCode;
 
 // The lifecycle operations (create a lobby, ask to join, seat a player, admit a display,
 // start, end, issue a recovery code, take a seat over) are asked for by a person pressing a

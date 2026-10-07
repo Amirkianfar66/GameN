@@ -1,15 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { FullPublicViewSchema, FullPlayerViewSchema } from '@mothership/contracts';
+import { initializeApp, deleteApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import { observeSetupDeadline, setupDocument } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
+import { FullPublicViewSchema, FullPlayerViewSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema, FullSetupPlayerViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity, refreshEmulatorIdentity, firestoreRequest } from '../test/helpers.mjs';
 
-const operations = new Set(['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch']);
+const operations = new Set(['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch']);
 async function invoke(name, payload, identity, origin = 'http://localhost:5173') {
   const { functionsHost } = assertLocalEmulators();
   if (!operations.has(name)) throw new Error('Unknown local V1 smoke endpoint');
   const response = await fetch(`http://${functionsHost}/${projectId}/us-central1/${name}`, {
-    method:'POST',headers:{'content-type':'application/json',origin,...(identity?{authorization:`Bearer ${identity.idToken}`}:{})},body:JSON.stringify(payload),
+    signal:AbortSignal.timeout(30_000),method:'POST',headers:{'content-type':'application/json',origin,...(identity?{authorization:`Bearer ${identity.idToken}`}:{})},body:JSON.stringify(payload),
   });
   const raw=await response.text();
   let body; try {body=JSON.parse(raw);} catch {body=raw;}
@@ -32,8 +35,10 @@ async function readView(path,identity,schema) {
 }
 const requestId=()=>randomUUID();
 
-test('real V1 Functions authenticate seven players, start, register/retry MOVE and keep display commands forbidden', async () => {
+test('real V1 Functions authenticate seven players, wait both setup windows, register/retry MOVE and keep display commands forbidden', { timeout: 180_000 }, async () => {
   assertLocalEmulators();
+  const app=initializeApp({projectId},'timed-http-'+randomUUID()),db=getFirestore(app);
+  try {
   const [host,display,...players]=await Promise.all(Array.from({length:9},()=>createEmulatorIdentity()));
   const create={protocolVersion:2,requestId:requestId(),playerCount:7};
   assert.equal((await invoke('v1CreateMatch',create)).status,401);
@@ -43,6 +48,7 @@ test('real V1 Functions authenticate seven players, start, register/retry MOVE a
   assert.equal(created.headers.get('access-control-allow-origin'),'http://localhost:5173');
   assert.equal(created.headers.get('cache-control'),'no-store, private');
   const {matchId,roomCode}=created.body.result,root=`matches/${matchId}`;
+  const h={base:db.collection('matches').doc(matchId)};
   const again=await invoke('v1CreateMatch',create,host);
   assert.deepEqual(again.body.result,created.body.result);
   const admissions=await Promise.all(players.map((identity,index)=>invoke('v1RequestAdmission',{
@@ -55,10 +61,46 @@ test('real V1 Functions authenticate seven players, start, register/retry MOVE a
   }
   const admitted=await invoke('v1AdmitDisplay',{protocolVersion:2,matchId,requestId:requestId(),displayUid:display.uid},host);
   assert.equal(admitted.status,200);assert.equal(admitted.body.ok,true);
-  const started=await invoke('v1StartMatch',{protocolVersion:2,matchId,requestId:requestId()},host);
-  assert.equal(started.status,200,JSON.stringify(started.body));assert.equal(started.body.ok,true);
+  const legacy=await invoke('v1StartMatch',{protocolVersion:2,matchId,requestId:requestId()},host);
+  assert.equal(legacy.status,403); assert.equal(legacy.body.error.code,'FORBIDDEN');
+  const setupRequest=fields=>({schemaVersion:1,protocolVersion:2,matchId,requestId:requestId(),...fields});
+  const begun=await invoke('v1BeginSetup',setupRequest(),host);
+  assert.equal(begun.status,200,JSON.stringify(begun.body));
+  assert.equal(FullBeginSetupResponseSchema.parse(begun.body).stage,'choosing');
+  for (let index=0;index<players.length;index++) {
+    const confirmed=await invoke('v1ConfirmSetupChoice',setupRequest({bindingRevision:1,displayName:`Player ${index+1}`,characterId:`c${index+1}`}),players[index]);
+    assert.equal(confirmed.status,200,JSON.stringify(confirmed.body));
+    assert.equal(FullConfirmSetupChoiceResponseSchema.parse(confirmed.body).stage,'choosing');
+  }
+  assert.equal((await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status,403);
+  const choosing=await setupDocument(h);
+  assert.equal(choosing.stage,'choosing'); assert.equal(choosing.choosingEndsAt-choosing.choosingStartedAt,30_000);
+  assert.equal((await h.base.collection('engine').doc('current').get()).exists,false);
+  // Observe actual local Firestore dispatch and Tasks delivery after the real
+  // deadline. No direct setup worker or browser advancement supplies progress.
+  const reading=await observeSetupDeadline(h,choosing);
+  assert.equal(reading.readingEndsAt-reading.readingStartedAt,30_000);
+  for (let index=0;index<players.length;index++) {
+    const own=await readView(`${root}/setupPlayerViews/${players[index].uid}`,players[index],FullSetupPlayerViewSchema);
+    assert.equal((await firestoreRequest(`${root}/setupPlayerViews/${players[index].uid}`,{idToken:host.idToken})).status,403);
+    const ready=await invoke('v1ReadyForMatch',setupRequest({bindingRevision:own.bindingRevision,dealId:own.dealId}),players[index]);
+    assert.equal(ready.status,200,JSON.stringify(ready.body));
+    assert.equal(FullReadyForMatchResponseSchema.parse(ready.body).stage,'awaiting-ready');
+    assert.equal((await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status,403);
+  }
+  assert.equal((await setupDocument(h)).stage,'awaiting-ready');
+  assert.equal((await h.base.collection('engine').doc('current').get()).exists,false);
+  await observeSetupDeadline(h,reading);
   const publicView=await readView(`${root}/views/public`,display,FullPublicViewSchema);
   assert.equal(publicView.playerCount,7);assert.equal(publicView.phase.kind,'ORDINARY_TURN');
+  assert.equal(publicView.phase.endsAt-publicView.phase.startedAt,60_000);
+  assert.ok(publicView.phase.startedAt>=reading.readingEndsAt);
+  const setupEvents=(await h.base.collection('events').where('kind','==','SETUP').get()).docs;
+  assert.equal(setupEvents.length,1,'Automatic setup must launch once');
+  assert.equal(setupEvents[0].get('phaseId'),publicView.phase.id);
+  assert.equal(setupEvents[0].get('now'),publicView.phase.startedAt);
+  assert.equal((await h.base.collection('outbox').where('phaseId','==',publicView.phase.id).get()).size,1);
+
   const earlyAdvance=await invoke('v1Advance',{protocolVersion:2,matchId,phaseId:publicView.phase.id},display);
   assert.equal(earlyAdvance.status,200);assert.equal(earlyAdvance.body.result,'unchanged');
   const override=await invoke('v1Advance',{protocolVersion:2,matchId,phaseId:publicView.phase.id,now:publicView.phase.endsAt},display);
@@ -86,4 +128,5 @@ test('real V1 Functions authenticate seven players, start, register/retry MOVE a
   assert.equal(aborted.status,200,JSON.stringify(aborted.body));assert.equal(aborted.body.ok,true);
   const terminal=await readView(`${root}/views/public`,display,FullPublicViewSchema);
   assert.equal(terminal.phase.kind,'ABORTED');assert.equal(terminal.phase.endsAt,null);assert.equal(terminal.result,null);
+  } finally { await db.terminate(); await deleteApp(app); }
 });

@@ -49,7 +49,8 @@ function decoratePublic(node: MarkupNode, context: ComicContext, seat: string | 
   return { ...node, attrs, children };
 }
 
-function roleCard(name: string, ownCharacter: string | null): MarkupElement {
+/** Render only inside an explicitly revealed, currently authorized private panel. */
+export function renderComicRoleCard(name: string, ownCharacter: string | null): MarkupElement {
   const look = ROLES[name];
   if (!look) return h('p', { class: 'ms-role-card' }, name);
   // These hooks exist only inside the open private panel. All nine device pictures were
@@ -83,7 +84,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     renderZones(match.roster.zones, 'ms-comic-zone'));
   function visit(node: MarkupNode): MarkupNode {
     if (!isElement(node)) return node;
-    if (classHas(node, 'ms-role-card') && privateContent) return roleCard(privateContent.role.name, ownCharacter);
+    if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     let children = node.children.map(visit);
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
       const own = context.acknowledgments;

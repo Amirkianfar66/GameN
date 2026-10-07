@@ -1,6 +1,7 @@
 // Brings a real match up on the local emulators through the client core, for tests that
 // need one already running. Test-only.
 import assert from 'node:assert/strict';
+import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema } from '@mothership/contracts';
 import { createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission } from '@mothership/game';
 import { createRestEmulatorTransport, realPorts, until } from './rest-transport.mjs';
 
@@ -21,6 +22,48 @@ export function nextView(who, target, store, check = () => true, label = 'a view
     outcome => (outcome.kind === 'accepted' || outcome.kind === 'unchanged') && check(outcome.view),
     label, timeoutMs,
   ).then(outcome => outcome.view);
+}
+
+
+/** Start through the same staged protocol as the hosted player, with real Rules reads. */
+export async function finishSetup(host, players, matchId) {
+  const begin = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId() };
+  assert.equal((await host.api.beginSetup(begin)).kind, 'done');
+  assert.equal((await host.api.beginSetup(begin)).kind, 'done', 'A repeated Begin must not redeal');
+  const read = async (who, kind, schema, check = () => true, timeoutMs = 8_000) => until(deliver => who.transport.listenDocument({ kind, matchId }, {
+    onSnapshot: snapshot => deliver(schema.safeParse(snapshot.value)), onError: () => deliver({ success: false }),
+  }), result => result.success && check(result.data), kind, timeoutMs).then(result => result.data);
+  for (const [index, player] of players.entries()) {
+    const binding = await read(player, 'seat-session', SeatSessionSchema);
+    player.setupBinding = binding.bindingRevision;
+    const result = await player.api.confirmSetupChoice({ schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(),
+      bindingRevision: binding.bindingRevision, displayName: `Player ${index + 1}`, characterId: `c${index + 1}` });
+    assert.equal(result.kind, 'done', JSON.stringify(result));
+  }
+  const progress = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'awaiting-ready', 45_000);
+  assert.equal(progress.choosingEndsAt - progress.choosingStartedAt, 30_000);
+  assert.equal(progress.readingEndsAt - progress.readingStartedAt, 30_000);
+  assert.ok(progress.readingStartedAt >= progress.choosingEndsAt);
+  assert.equal(progress.stage, 'awaiting-ready');
+  assert.equal(progress.seats.every(seat => !seat.ready), true);
+  assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'No gameplay view exists while people confirm roles');
+  for (const [index, player] of players.entries()) {
+    const own = await read(player, 'setup-player-view', FullSetupPlayerViewSchema);
+    assert.equal(own.bindingRevision, player.setupBinding);
+    assert.equal(own.dealId, progress.dealId);
+    assert.equal(await host.rawStatus(`matches/${matchId}/setupPlayerViews/${player.uid}`), 403, 'Host cannot read private role preview');
+    const body = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(), dealId: own.dealId, bindingRevision: own.bindingRevision };
+    const result = await player.api.readyForMatch(body);
+    assert.equal(result.kind, 'done', JSON.stringify(result));
+    // Early Ready may be acknowledged during reading, but only the server deadline
+    // can release the minimum reading window. The last Ready can also arrive later.
+    assert.ok(['awaiting-ready', 'running'].includes(result.result.stage));
+    if (index < players.length - 1) assert.equal(result.result.stage, 'awaiting-ready');
+    assert.equal((await player.api.readyForMatch(body)).kind, 'done', 'Repeating Ready preserves the original transition');
+    if (index < players.length - 1) assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'One missing Ready still gates gameplay');
+  }
+  const launched = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'running', 45_000);
+  assert.equal(launched.dealId, progress.dealId);
 }
 
 /**
@@ -51,7 +94,7 @@ export async function startedMatch(t, playerCount = 7) {
     assert.equal(approved.kind, 'done', JSON.stringify(approved));
   }
   assert.equal((await host.api.admitDisplay({ protocolVersion: 2, matchId, requestId: requestId(), displayUid: display.uid })).kind, 'done');
-  assert.equal((await host.api.startMatch({ protocolVersion: 2, matchId, requestId: requestId() })).kind, 'done');
+  await finishSetup(host, players, matchId);
 
   display.store = createConnectedPublicStore({ matchId });
   const publicView = await nextView(display, { kind: 'public-view', matchId }, display.store, () => true, 'the public view');
