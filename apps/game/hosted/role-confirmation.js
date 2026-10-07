@@ -1,4 +1,5 @@
 import { renderComicRoleCard, toHtml } from '@mothership/presentation';
+import { ROLE_GUIDE } from './role-guide.js';
 
 // Receives only a currently authorized own role from the setup feed. Public setup
 // screens never construct this control. No role is stored outside this instance.
@@ -29,7 +30,10 @@ export function createRoleConfirmation({ el, onReady }) {
     const next = visible && value !== null && !value.ready ? toHtml(renderComicRoleCard(value.role, value.characterId)) : '';
     if (next !== drawnCard) {
       if (next === '') card.replaceChildren();
-      else card.innerHTML = next; // Shared renderer escapes all text and attributes.
+      else {
+        card.innerHTML = next; // Shared renderer escapes all text and attributes.
+        if (ROLE_GUIDE[value.role]) card.append(el('p', ROLE_GUIDE[value.role], { class: 'setup-role-guide' }));
+      }
       drawnCard = next;
     }
     card.hidden = next === '';

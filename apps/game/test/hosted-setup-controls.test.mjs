@@ -49,7 +49,7 @@ test('Ready names the current deal/binding, hides role content and waits for oth
   await s.nodes.get('setup-role-toggle').press();assert.match(s.nodes.get('setup-role-card').innerHTML,/Hacker/);
   await s.nodes.get('setup-role-ready').press();assert.equal(s.calls.length,1);assert.equal(s.calls[0].dealId,'deal-1');
   assert.equal(s.nodes.get('setup-role-card').innerHTML,'');assert.equal(s.nodes.get('setup-ready-waiting').hidden,false);
-  assert.match(s.nodes.get('setup-ready-waiting').textContent,/Waiting for everyone/);
+  assert.match(s.nodes.get('setup-ready-waiting').textContent,/reading timer and everyone/);
   s.role(null);assert.equal(s.nodes.get('setup-role-card').innerHTML,'');s.control.dispose();
 });
 test('shared setup progress contains only neutral seat confirmation and readiness',()=>{

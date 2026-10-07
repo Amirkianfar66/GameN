@@ -17,6 +17,7 @@ import './comic.css';
 import './comic-layout.css';
 import './setup.css';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
+import { createSetupClock } from './setup-clock.js';
 import { loadArt } from './art.mjs';
 import { createPracticeControls } from './practice-controls.js';
 
@@ -337,6 +338,7 @@ async function host(uid) {
   const practiceFeed = createComicFeeds({ transport, ports, matchId });
   const setupFeed = createSetupFeed({ transport, ports, matchId });
   const setupProgress = createSetupProgress({ el });
+  const setupClock = createSetupClock({ api, ports, matchId, onTick: () => draw() });
   const practiceControls = createPracticeControls({ matchId, api, lifecycle, operate, feed: practiceFeed, el, onChange: () => draw() });
   // Built once and updated in place, so a request that arrives while the host is typing or
   // choosing takes nothing away from under their hands.
@@ -500,7 +502,8 @@ async function host(uid) {
     const playerCount = session?.playerCount ?? null;
     const setup = setupFeed.public();
     const open = session?.status === 'lobby' && (setup?.stage === 'lobby' || setupFeed.status() === 'absent');
-    setupProgress.update(setup);
+    setupClock.setActive(['choosing', 'awaiting-ready'].includes(setup?.stage));
+    setupProgress.update(setup, setupClock.read());
     const taken = new Set(seats.map(seat => seat.seatId));
     const vacant = playerCount === null ? [] : Array.from({ length: playerCount }, (unused, index) => `seat-${index + 1}`).filter(seatId => !taken.has(seatId));
     setText('connected-room-code', session?.roomCode ?? '…');
@@ -562,7 +565,7 @@ async function host(uid) {
   draw();
   const stopSetup = setupFeed.subscribe(draw);
   practiceFeed.start(); setupFeed.start();
-  window.addEventListener('pagehide', () => { stopSetup(); setupFeed.dispose(); practiceControls.dispose(); practiceFeed.dispose(); }, { once: true });
+  window.addEventListener('pagehide', () => { stopSetup(); setupClock.dispose(); setupFeed.dispose(); practiceControls.dispose(); practiceFeed.dispose(); }, { once: true });
   transport.listenDocument({ kind: 'session', matchId }, {
     onSnapshot: snapshot => {
       const read = readHostSession(snapshot.value);
@@ -599,16 +602,17 @@ const MATCH_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
 function identityPicker(matchId, seatId) {
   const feed = createSetupFeed({ transport, ports, matchId, seatId });
   const identities = createComicFeeds({ transport, ports, matchId });
-  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el });
+  const clock = createSetupClock({ api, ports, matchId, onTick: () => control.refresh() });
+  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock });
   const visibility = () => {
     control.conceal();
-    if (document.visibilityState === 'hidden') { feed.quarantine(); identities.quarantine(); }
+    if (document.visibilityState === 'hidden') { feed.quarantine(); identities.quarantine(); clock.suspend(); }
     else { feed.start(); identities.start(); control.refresh(); }
   };
   const blur = () => control.conceal();
   const stop = () => {
     document.removeEventListener('visibilitychange', visibility); window.removeEventListener('blur', blur);
-    window.removeEventListener('pagehide', stop); control.dispose(); feed.dispose(); identities.dispose();
+    window.removeEventListener('pagehide', stop); control.dispose(); clock.dispose(); feed.dispose(); identities.dispose();
   };
   document.addEventListener('visibilitychange', visibility); window.addEventListener('blur', blur);
   window.addEventListener('pagehide', stop, { once: true });
@@ -846,8 +850,14 @@ async function display(uid) {
   const { matchId } = state;
   const setupFeed = createSetupFeed({ transport, ports, matchId });
   const setupProgress = createSetupProgress({ el });
-  const stopProgress = setupFeed.subscribe(() => setupProgress.update(setupFeed.public()));
-  lobbyWatchers.push(() => { stopProgress(); setupFeed.dispose(); });
+  const setupClock = createSetupClock({ api, ports, matchId, onTick: () => updateProgress() });
+  const updateProgress = () => {
+    const setup = setupFeed.public();
+    setupClock.setActive(['choosing', 'awaiting-ready'].includes(setup?.stage));
+    setupProgress.update(setup, setupClock.read());
+  };
+  const stopProgress = setupFeed.subscribe(updateProgress);
+  lobbyWatchers.push(() => { stopProgress(); setupClock.dispose(); setupFeed.dispose(); });
   setupFeed.start(); setupProgress.update(setupFeed.public());
   const waiting = text => frame('Shared display', facts([['This display', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']]), el('p', text, { id: 'connected-waiting' }), setupProgress.node);
   waiting('Waiting to be admitted by the host, and for the match to start.');

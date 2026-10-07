@@ -29,6 +29,16 @@ const timer = setInterval(async () => {
   if (ticking) return;
   ticking = true;
   try {
+    const setupIntents = await db.collectionGroup('setupOutbox')
+      .where('protocolVersion', '==', 2).where('status', 'in', ['pending', 'leased', 'dispatched'])
+      .where('dueAt', '<=', Date.now()).orderBy('dueAt').limit(100).get();
+    for (const intent of setupIntents.docs) {
+      const value = intent.data();
+      if (value.kind !== 'SETUP_DEADLINE') continue;
+      const result = await service.runSetupDeadline({ matchId: value.matchId, setupId: value.setupId,
+        stage: value.stage, deadlineToken: value.deadlineToken });
+      if (result.status === 'failed') throw new Error('Setup deadline unavailable');
+    }
     const controls = await db.collectionGroup('control').where('status', '==', 'running').get();
     for (const control of controls.docs) {
       if (control.id !== 'session' || control.get('protocolVersion') !== 2) continue;

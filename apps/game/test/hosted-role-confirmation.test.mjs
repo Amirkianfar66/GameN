@@ -58,3 +58,14 @@ test('a pending Ready cannot be double sent and private content stays absent thr
   s.controls.update(role({ canConfirm: false })); assert.equal(s.node('ready').disabled, true);
   s.controls.dispose();
 });
+
+
+test('role reminders exist only inside the explicit private reveal and are erased on concealment', async () => {
+  const s = setup(); s.controls.update(role());
+  assert.equal(s.node('card').children.length, 0);
+  await s.node('toggle').press();
+  assert.ok(s.node('card').children.some(node => /Scan once per round/.test(node.textContent)));
+  await s.node('toggle').press();assert.equal(s.node('card').children.length, 0);
+  await s.node('toggle').press();s.controls.update(null);assert.equal(s.node('card').children.length, 0);
+  s.controls.dispose();
+});

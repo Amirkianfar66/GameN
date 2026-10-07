@@ -30,9 +30,9 @@ export async function finishSetup(host, players, matchId) {
   const begin = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId() };
   assert.equal((await host.api.beginSetup(begin)).kind, 'done');
   assert.equal((await host.api.beginSetup(begin)).kind, 'done', 'A repeated Begin must not redeal');
-  const read = async (who, kind, schema) => until(deliver => who.transport.listenDocument({ kind, matchId }, {
+  const read = async (who, kind, schema, check = () => true, timeoutMs = 8_000) => until(deliver => who.transport.listenDocument({ kind, matchId }, {
     onSnapshot: snapshot => deliver(schema.safeParse(snapshot.value)), onError: () => deliver({ success: false }),
-  }), result => result.success, kind).then(result => result.data);
+  }), result => result.success && check(result.data), kind, timeoutMs).then(result => result.data);
   for (const [index, player] of players.entries()) {
     const binding = await read(player, 'seat-session', SeatSessionSchema);
     player.setupBinding = binding.bindingRevision;
@@ -40,7 +40,10 @@ export async function finishSetup(host, players, matchId) {
       bindingRevision: binding.bindingRevision, displayName: `Player ${index + 1}`, characterId: `c${index + 1}` });
     assert.equal(result.kind, 'done', JSON.stringify(result));
   }
-  const progress = await read(host, 'setup', FullSetupDocumentSchema);
+  const progress = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'awaiting-ready', 45_000);
+  assert.equal(progress.choosingEndsAt - progress.choosingStartedAt, 30_000);
+  assert.equal(progress.readingEndsAt - progress.readingStartedAt, 30_000);
+  assert.ok(progress.readingStartedAt >= progress.choosingEndsAt);
   assert.equal(progress.stage, 'awaiting-ready');
   assert.equal(progress.seats.every(seat => !seat.ready), true);
   assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'No gameplay view exists while people confirm roles');
@@ -52,10 +55,15 @@ export async function finishSetup(host, players, matchId) {
     const body = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(), dealId: own.dealId, bindingRevision: own.bindingRevision };
     const result = await player.api.readyForMatch(body);
     assert.equal(result.kind, 'done', JSON.stringify(result));
-    assert.equal(result.result.stage, index === players.length - 1 ? 'running' : 'awaiting-ready');
+    // Early Ready may be acknowledged during reading, but only the server deadline
+    // can release the minimum reading window. The last Ready can also arrive later.
+    assert.ok(['awaiting-ready', 'running'].includes(result.result.stage));
+    if (index < players.length - 1) assert.equal(result.result.stage, 'awaiting-ready');
     assert.equal((await player.api.readyForMatch(body)).kind, 'done', 'Repeating Ready preserves the original transition');
     if (index < players.length - 1) assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'One missing Ready still gates gameplay');
   }
+  const launched = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'running', 45_000);
+  assert.equal(launched.dealId, progress.dealId);
 }
 
 /**

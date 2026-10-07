@@ -13,11 +13,15 @@ this plan is not evidence of a completed release.
 - Each human chooses an available character, enters their public name and confirms
   the choice. The original comic character catalog and names remain public. A
   taken-character refusal keeps the player on selection with their name retained.
-- The host and shared display show who has confirmed a character. Roles are dealt
-  only after every required choice is confirmed.
+- The host and shared display show who has confirmed a character. The server deals roles
+  after the full 30-second selection window, automatically filling any missing
+  choices from the available characters.
 - Every player then has a private Reveal role control. Its closed state contains
   no role name, faction, private art hooks or role-specific announcements. The open
-  state reuses the approved comic role device on their chosen character.
+  state reuses the approved comic role device on their chosen character, with a
+  concise reminder sourced from the existing role rules and confirmed overlays.
+  Private starting knowledge arrives only with the gameplay view; the reminder
+  explains this and never invents a target or reveals another player’s role.
 - Ready requires a current authorized own role. Acknowledgment hides the private
   card and shows neutral readiness progress. Repeated or lost replies retain the
   same operation identity; the server's current setup document is authoritative.
@@ -41,13 +45,17 @@ never subscribe to pregame private role documents.
 4. Lost/retried character and Ready operations; final selection/Ready races;
    refresh and recovery while choosing and while reading a dealt role; host abort.
 5. Real service and browser path with two humans plus bots: one human Ready must
-   leave the timer unstarted; the final Ready starts exactly one full window.
+   leave the timer unstarted; gameplay starts once both the reading deadline and every Ready are satisfied,
+   with one fresh full gameplay window.
 6. All-bot start, existing running-match continuity, private concealment and normal
    cleanup. Physical phones and human balance are separate acceptance work.
 
 
-The owner subsequently requested two full server-timed startup windows: 30 seconds
-for character selection and 30 seconds for private role reading. The current
-frontend checkpoint implements the earlier untimed stages; timer integration and
-the owner's timeout-policy answers are pending. This checkpoint must not be
-published as the completed timed flow.
+## Countdown implementation
+
+The interface reads the choosing/reading deadlines from the strict public setup
+document. A server-time sample calibrates its monotonic countdown; it invalidates
+the estimate on suspension or a failed sample. Reaching zero only changes the
+waiting text. Server transactions and tasks alone may deal roles or begin play.
+The timed runtime and autonomous delivery still require integrated verification
+before this can be published as the completed flow.

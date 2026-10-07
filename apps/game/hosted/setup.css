@@ -20,3 +20,6 @@
 .connected-setup-progress li { display: flex; flex-wrap: wrap; gap: var(--ms-space-2); }
 .connected-setup-progress .setup-seat-state { margin-inline-start: auto; font-weight: 700; }
 .connected-lobby [hidden] { display: none !important; }
+
+.setup-countdown { font-family: var(--ms-font-heading); font-size: var(--ms-text-lg); font-weight: 800; font-variant-numeric: tabular-nums; margin: 0; }
+.setup-role-guide { max-inline-size: 44rem; font-size: var(--ms-text-md); line-height: 1.6; }

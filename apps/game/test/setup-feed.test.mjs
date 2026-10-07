@@ -9,6 +9,10 @@ const session = (bindingRevision = 1) => ({ schemaVersion: 1, protocolVersion: 2
 const setupDoc = (stage = 'awaiting-ready', revision = 2) => FullSetupDocumentSchema.parse({
   schemaVersion: 1, protocolVersion: 2, lifecycleVersion: 'staged-start-1', matchId: MATCH, playerCount: 7, revision, stage,
   dealId: ['awaiting-ready','running'].includes(stage) ? 'deal-one' : null,
+  setupId: stage === 'lobby' ? null : 'setup-one',
+  choosingStartedAt: stage === 'lobby' ? null : 1000, choosingEndsAt: stage === 'lobby' ? null : 31_000,
+  readingStartedAt: ['awaiting-ready','running'].includes(stage) ? 31_000 : null,
+  readingEndsAt: ['awaiting-ready','running'].includes(stage) ? 61_000 : null,
   seats: Array.from({ length: 7 }, (_, i) => ({ seatId: `seat-${i + 1}`, confirmed: ['awaiting-ready','running'].includes(stage), ready: stage === 'running' })),
 });
 const preview = (bindingRevision = 1) => FullSetupPlayerViewSchema.parse({

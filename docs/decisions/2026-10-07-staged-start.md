@@ -16,28 +16,32 @@ read the private role card**. Both windows use server time. Characters and roles
 must not be dealt or gameplay started early just because players or bots confirm
 quickly. The initial gameplay turn still receives its normal full duration.
 
-Two timeout details are awaiting the owner's answer: whether an unconfirmed
-character is assigned automatically at the selection deadline, and whether the
-previous all-human Ready requirement remains after the reading window. Do not
-infer either answer from elapsed time or deploy the earlier untimed flow while
-these decisions are pending. The sequence below records the preceding approved
-Ready behavior and is subject to these explicit timing additions.
+The owner explicitly approved both timeout policies: automatically assign an
+available character when selection expires, and keep the all-human Ready
+requirement after the minimum 30-second reading window. Humans may acknowledge
+during that window; gameplay starts only when both requirements are satisfied.
+An all-bot match still waits both full windows. Delayed task delivery starts the
+reading window from the actual committed deal, preserving its full duration.
 
 ## Approved sequence
 
 1. The host creates a seven-, eight- or nine-seat lobby. Humans choose their initial
    Room A/B when requesting admission, as required by V1-01. The host seats humans
    and may configure practice bots until every seat is filled.
-2. The host starts setup. This freezes the roster and bot count and opens public
-   character selection. No gameplay timer or bot gameplay runs during setup.
+2. The host starts setup. This freezes the roster and bot count and opens a full 30-second public
+   character selection window. No gameplay timer or bot gameplay runs during setup.
 3. Every human confirms a public name and an available character. Claims are
    unique and authoritative. Characters are visual identities and never select a
-   role, faction or ability. All choices must be confirmed before the role deal.
+   role, faction or ability. At the deadline, the server fills any unconfirmed
+   choice with an available character and safe unique name. Confirmed choices
+   are preserved; neither early confirmations nor bots shorten this window.
 4. The server deals the normal mode-specific roles randomly, independently of
    names, characters and initial rooms. It persists this one deal. Each human can
-   reveal and conceal only their own private role and then press Ready.
-5. When every required human is ready, the server starts gameplay exactly once,
-   with a fresh full first turn window. An all-bot match completes setup
+   reveal and conceal only their own private role and then press Ready. This
+   reading stage lasts at least 30 seconds from the actual deal.
+5. When the reading deadline has passed and every required human is ready, the
+   server starts gameplay exactly once,
+   with a fresh full first turn window. An all-bot match completes both timed stages
    automatically. The host and display show neutral selection/readiness progress,
    never private roles or factions.
 
