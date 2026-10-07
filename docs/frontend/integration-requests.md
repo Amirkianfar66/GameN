@@ -39,6 +39,8 @@ The `test:frontend` command line was run exactly as written after a clean `npm c
 
 *Slice 2 update.* The same command line, unchanged, now runs 95 and 210 tests. None of them runs in CI until this lands, so the gap this request closes has grown to 305 tests.
 
+*Slice 3a update.* 120 and 262 tests: 382 that CI does not run.
+
 ## REQ-2
 
 **A browser typecheck that keeps DOM types away from the engine. Needed before any browser code is written under `src/`.**
@@ -151,6 +153,8 @@ Runtime specifiers to permit in `apps/game/src`: `firebase/app`, `firebase/auth`
 - Client-side persistence stays off. Private views must not reach an offline cache; the transport will not enable it, and a test will pin that.
 - The production-exclusion check and the workspace guard both need the specifiers above before the import compiles.
 
+*Slice 3a update.* The transport interface now carries the audience's presentation events on the same subscription as its views (`FeedListener.onEventPayload`). A Firebase transport therefore also listens to the caller's own event collection as the backend's response describes it, orders what it is handed by revision and then ordinal, and passes each event on untouched. It does not match events to views, drop repeats or decide what is old; the client core does. The ordinal is not part of the event payload today, which is request F in [contract-re-review.md](contract-re-review.md#requests).
+
 Until this is approved, emulator integration is reported as **not run**, and nothing fixture-tested is described as integrated.
 
 ## What Frontend does next, and what it waits for
@@ -158,7 +162,8 @@ Until this is approved, emulator integration is reported as **not run**, and not
 | Next slice | Waits for |
 | --- | --- |
 | Shot target and confirm flow in semantic DOM, with receipt, unknown-result and retry handling against the scripted fixture | Done, fixture-tested: [slice-2-shot-flow.md](slice-2-shot-flow.md) |
-| Event director core and the DOM motion gallery | Nothing for the core. Stage C, or the owner's decision on GSAP, for timelines |
+| Event director core | Done, fixture-tested: [slice-3-event-director.md](slice-3-event-director.md) |
+| Drawing the cues in the DOM, and the development-only motion gallery | Nothing for CSS cues. Stage C, or the owner's decision on GSAP, for coordinated timelines |
 | React shells and a production bundle | REQ-2, REQ-3, stage A |
 | R3F/Three.js board evaluation with measured device evidence | Stage B, and named devices |
 | Connected command, deadline and reconnect behavior | REQ-7, and the backend branch that provides the emulator being merged or named as the base to build on. FE-C01 to FE-C07 are answered; see [contract-re-review.md](contract-re-review.md) |

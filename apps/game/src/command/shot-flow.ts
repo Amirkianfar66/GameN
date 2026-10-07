@@ -12,8 +12,9 @@ import type { PlayerApiClient, SubmitResult } from '../transport/api-client.js';
 // those, and it is not an outcome.
 //
 // Reliability rests on the command contract as the integration owner has stated it for
-// wire protocol 1 (docs/backend/contract-review-response.md on the backend branch, items
-// FE-C01 to FE-C03; a proposal still awaiting affected-role adoption):
+// wire protocol 1 (docs/backend/contract-review-response.md, a file of the backend branch
+// that is not in this tree; items FE-C01 to FE-C03; a proposal still awaiting adoption by
+// the affected roles):
 //   - a receipt, accepted or rejected, is durable and terminal for its command ID;
 //   - sending the identical command again returns that receipt, or evaluates the command
 //     now, and a command for a phase that is no longer open is rejected durably;
@@ -57,6 +58,14 @@ export interface ShotFlowContext {
 
 export interface ShotFlow {
   getState(): ShotFlowInput;
+  /**
+   * The identifier of a command whose registration this page has just learned of: it sent
+   * the command itself, and heard while the phase it was sent in was on screen. Null for a
+   * registration learned any later (a lookup in a later phase, a reloaded page): the report
+   * is still shown, but its moment is over. The identifier tells one registration from
+   * another and is never put on screen.
+   */
+  registeredCommandId(): string | null;
   /** Told only about changes the flow makes on its own time: an answer, a check, a control becoming active. */
   subscribe(listener: () => void): () => void;
   /** Never notifies; the caller reads the state afterwards. */
@@ -98,7 +107,13 @@ interface Pending {
 }
 
 type Settled =
-  | { readonly step: 'registered'; readonly ids: CommandIds; readonly targetSeatId: SeatId | null }
+  /**
+   * `prompt`: this page sent the command itself and learned of the registration while the
+   * phase it was sent in was on screen. Only then is the moment still the present; a
+   * registration learned later than that is history. (Whether the feed is current at that
+   * moment is the screen's rule: it shows no cue on one that is not.)
+   */
+  | { readonly step: 'registered'; readonly ids: CommandIds; readonly targetSeatId: SeatId | null; readonly prompt: boolean }
   | { readonly step: 'rejected'; readonly ids: CommandIds; readonly targetSeatId: SeatId | null; readonly code: ShotRejectionCode }
   /** ids is null when nothing was ever sent. */
   | { readonly step: 'not-registered'; readonly ids: CommandIds | null; readonly targetSeatId: SeatId | null; readonly reason: ShotNotRegisteredReason };
@@ -204,11 +219,16 @@ export function createShotFlow(options: ShotFlowOptions): ShotFlow {
   /** The phase the command was sent in has ended, so it can no longer be newly accepted. */
   const phaseIsOver = (ids: CommandIds): boolean => context.view !== null && context.view.phase.id !== ids.phaseId;
 
+  /** The registration is being learned in the phase the command was sent in, by the page that sent it. */
+  const isPrompt = (ids: CommandIds, targetSeatId: SeatId | null): boolean =>
+    // A reloaded page has the command's identifiers and nothing else: no target means it did not send it.
+    targetSeatId !== null && context.view !== null && context.view.phase.id === ids.phaseId;
+
   function toRegistered(ids: CommandIds, targetSeatId: SeatId | null): void {
     clearCheckTimer();
     forget();
     remembered = { commandId: ids.commandId, phaseId: ids.phaseId, targetSeatId, seenInView: listed(ids.commandId) };
-    state = { step: 'registered', ids, targetSeatId };
+    state = { step: 'registered', ids, targetSeatId, prompt: isPrompt(ids, targetSeatId) };
     arm();
     followView();
   }
@@ -237,7 +257,7 @@ export function createShotFlow(options: ShotFlowOptions): ShotFlow {
     // A command the view lists is registered, whatever this device concluded about it earlier.
     if ((state.step === 'rejected' || state.step === 'not-registered') && state.ids !== null && view.ownPendingCommandIds.includes(state.ids.commandId)) {
       remembered = { commandId: state.ids.commandId, phaseId: state.ids.phaseId, targetSeatId: state.targetSeatId, seenInView: true };
-      state = { step: 'registered', ids: state.ids, targetSeatId: state.targetSeatId };
+      state = { step: 'registered', ids: state.ids, targetSeatId: state.targetSeatId, prompt: isPrompt(state.ids, state.targetSeatId) };
       arm();
     }
     // The target is remembered while the view still lists the command, and before that only
@@ -385,6 +405,7 @@ export function createShotFlow(options: ShotFlowOptions): ShotFlow {
         case 'not-registered': return { step: 'not-registered', reason: state.reason, armed: isArmed() };
       }
     },
+    registeredCommandId: () => (state.step === 'registered' && state.prompt ? state.ids.commandId : null),
     subscribe(listener) {
       listeners.add(listener);
       return () => {

@@ -83,7 +83,8 @@ export function mountScreen({ container, screen, render }) {
 
   let rootAttributes = {};
   let drawn = null;
-  let spokenSeq = 0;
+  // One mark per channel: public and private lines are numbered apart.
+  const spoken = { public: 0, private: 0 };
   let focusSeq = 0;
   let privacyEpoch = 0;
 
@@ -138,8 +139,9 @@ export function mountScreen({ container, screen, render }) {
     }
     // Two channels, never mixed: what anyone could be told, then what is this seat's alone.
     for (const [line, isPrivate] of [[frame.announcement, false], [frame.privateAnnouncement, true]]) {
-      if (line === null || line.seq <= spokenSeq) continue;
-      spokenSeq = line.seq;
+      const channel = isPrivate ? 'private' : 'public';
+      if (line === null || line.seq <= spoken[channel]) continue;
+      spoken[channel] = line.seq;
       speak(container, line.politeness === 'assertive' ? assertive : polite, line.text, isPrivate);
     }
   }

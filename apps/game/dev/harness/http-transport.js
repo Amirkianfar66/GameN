@@ -34,16 +34,17 @@ export function createHttpFixtureTransport(audienceKey) {
         open = true;
         listener.onConnectionChange('connected');
       });
-      source.addEventListener('payload', event => {
-        let payload;
+      const parsed = event => {
         try {
-          payload = JSON.parse(event.data);
+          return JSON.parse(event.data);
         } catch {
-          payload = event.data;
+          return event.data;
         }
-        // Handed over unvalidated: the client core decides whether it is a readable view.
-        listener.onPayload(payload);
-      });
+      };
+      // Handed over unvalidated: the client core decides whether it is a readable view.
+      source.addEventListener('payload', event => listener.onPayload(parsed(event)));
+      // The same for a presentation event, in the order the server sent it and no other.
+      source.addEventListener('presentation-event', event => listener.onEventPayload(parsed(event)));
       // The operator restarted the script as a new match session.
       source.addEventListener('restart', () => window.location.reload());
       source.addEventListener('error', () => {

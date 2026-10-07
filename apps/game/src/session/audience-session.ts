@@ -1,7 +1,9 @@
-import type { PlayerView, PublicView } from '@mothership/contracts';
+import type { PlayerPresentationEvent, PlayerView, PublicPresentationEvent, PublicView } from '@mothership/contracts';
 import type { ConnectionStatus, ShellProblem } from '@mothership/presentation';
 import { createServerClock } from '../clock/server-clock.js';
 import type { ClockReading } from '../clock/server-clock.js';
+import { readPlayerEvent, readPublicEvent } from '../events/event-reader.js';
+import type { EventOutcome } from '../events/event-reader.js';
 import type { ClientPorts } from '../ports.js';
 import { createPlayerSnapshotStore, createPublicSnapshotStore } from '../snapshot/snapshot-store.js';
 import type { SnapshotRejection, SnapshotStore } from '../snapshot/snapshot-store.js';
@@ -17,11 +19,18 @@ export interface SessionState<View> {
   readonly clockRevision: number;
 }
 
-export interface AudienceSession<View> {
+export interface AudienceSession<View, Event> {
   readonly mode: TransportMode;
   getState(): SessionState<View>;
   readClock(): ClockReading;
   subscribe(listener: () => void): () => void;
+  /**
+   * This audience's presentation events, each one checked, in the order the feed delivered
+   * them and in step with the state: a listener told of an event has already been told of
+   * every state change before it. An event that fails a check is dropped and nothing else
+   * happens; the screen takes its facts from views alone.
+   */
+  subscribeEvents(listener: (event: Event) => void): () => void;
   start(): void;
   /** Drops the feed and subscribes again. The seat, role and version pins are kept. */
   reconnect(): void;
@@ -54,19 +63,21 @@ function toProblem(rejection: SnapshotRejection): ShellProblem {
   return 'integrity';
 }
 
-interface SessionConfig<View> {
+interface SessionConfig<View, Event> {
   readonly transport: PublicTransport | PlayerTransport;
   readonly store: SnapshotStore<View>;
+  readonly readEvent: (payload: unknown) => EventOutcome<Event>;
   readonly ports: ClientPorts;
   readonly timing?: Partial<SessionTiming> | undefined;
 }
 
-function createSession<View>(config: SessionConfig<View>): AudienceSession<View> {
+function createSession<View, Event>(config: SessionConfig<View, Event>): AudienceSession<View, Event> {
   const { transport, store, ports } = config;
   const timing: SessionTiming = { ...DEFAULT_SESSION_TIMING, ...config.timing };
   const api = createPublicApiClient(transport, ports, timing.apiTimeoutMs);
   const serverClock = createServerClock(ports.clock);
   const listeners = new Set<() => void>();
+  const eventListeners = new Set<(event: Event) => void>();
 
   let state: SessionState<View> = { connection: 'connecting', view: null, problem: null, clockRevision: 0 };
   let started = false;
@@ -150,6 +161,14 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
     update({ view: outcome.view, problem: null, connection: feedConnected ? 'live' : 'stale' });
   }
 
+  function onEventPayload(payload: unknown): void {
+    // A feed that failed an integrity check is not trusted again, for events either.
+    if (state.problem === 'integrity') return;
+    const outcome = config.readEvent(payload);
+    if (outcome.kind !== 'accepted') return;
+    for (const listener of [...eventListeners]) listener(outcome.event);
+  }
+
   function onConnectionChange(next: 'connected' | 'disconnected', generation: number): void {
     if (next === 'connected') {
       if (feedConnected) return;
@@ -173,6 +192,9 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
     const stop = transport.subscribe({
       onPayload: payload => {
         if (!disposed && generation === feedGeneration) onPayload(payload);
+      },
+      onEventPayload: payload => {
+        if (!disposed && generation === feedGeneration) onEventPayload(payload);
       },
       onConnectionChange: next => {
         if (!disposed && generation === feedGeneration) onConnectionChange(next, generation);
@@ -200,6 +222,12 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
       listeners.add(listener);
       return () => {
         listeners.delete(listener);
+      };
+    },
+    subscribeEvents(listener) {
+      eventListeners.add(listener);
+      return () => {
+        eventListeners.delete(listener);
       };
     },
     start() {
@@ -231,6 +259,7 @@ function createSession<View>(config: SessionConfig<View>): AudienceSession<View>
       syncGeneration += 1;
       api.cancelPending();
       listeners.clear();
+      eventListeners.clear();
     },
   };
 }
@@ -243,10 +272,16 @@ export interface SessionOptions<Transport> {
   readonly timing?: Partial<SessionTiming>;
 }
 
-export function createPublicSession(options: SessionOptions<PublicTransport>): AudienceSession<PublicView> {
-  return createSession({ transport: options.transport, store: createPublicSnapshotStore({ matchId: options.matchId }), ports: options.ports, timing: options.timing });
+export function createPublicSession(options: SessionOptions<PublicTransport>): AudienceSession<PublicView, PublicPresentationEvent> {
+  return createSession({
+    transport: options.transport, store: createPublicSnapshotStore({ matchId: options.matchId }),
+    readEvent: payload => readPublicEvent(payload, options.matchId), ports: options.ports, timing: options.timing,
+  });
 }
 
-export function createPlayerSession(options: SessionOptions<PlayerTransport>): AudienceSession<PlayerView> {
-  return createSession({ transport: options.transport, store: createPlayerSnapshotStore({ matchId: options.matchId }), ports: options.ports, timing: options.timing });
+export function createPlayerSession(options: SessionOptions<PlayerTransport>): AudienceSession<PlayerView, PlayerPresentationEvent> {
+  return createSession({
+    transport: options.transport, store: createPlayerSnapshotStore({ matchId: options.matchId }),
+    readEvent: payload => readPlayerEvent(payload, options.matchId), ports: options.ports, timing: options.timing,
+  });
 }

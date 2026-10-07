@@ -470,9 +470,11 @@ test('the screen itself refuses to carry a private line unless the private panel
     ports: host.ports,
     host: { reload() {} },
     phaseOf: view => view.phase,
+    seatsOf: view => view.seats,
     buildInput: (environment, view, local) => ({ environment, view, local }),
     buildModel: input => ({ screen: input.view === null ? 'connecting' : 'match', revealed: input.local.privateRevealed }),
     announcer: { next: () => [{ politeness: 'polite', text: `public ${++line}` }, { politeness: 'assertive', text: `secret ${line}`, private: true }] },
+    director: { onView: () => [], onEvent: () => [], suspend() {} },
     handleIntent: (intent, { local }) => (intent.type === 'private/toggle' ? { local: { ...local, privateRevealed: !local.privateRevealed } } : null),
   });
   screen.start();

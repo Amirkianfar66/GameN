@@ -1,6 +1,6 @@
-import type { PlayerView } from '@mothership/contracts';
+import type { PlayerPresentationEvent, PlayerView } from '@mothership/contracts';
 import {
-  buildPlayerShellModel, createPlayerAnnouncer, isCurrent, resolveShotGate, shotStepFocusId, shotTargetCandidates,
+  buildPlayerShellModel, createPlayerAnnouncer, createPlayerDirector, isCurrent, resolveShotGate, shotStepFocusId, shotTargetCandidates,
 } from '@mothership/presentation';
 import type { PlayerShellInput, PlayerShellModel, ShellIntent } from '@mothership/presentation';
 import { createShotFlow } from '../command/shot-flow.js';
@@ -11,7 +11,7 @@ import type { SessionTiming } from '../session/audience-session.js';
 import { createPlayerApiClient } from '../transport/api-client.js';
 import type { PlayerTransport } from '../transport/transport.js';
 import { createScreen } from './screen.js';
-import type { ScreenController, ScreenHost } from './screen.js';
+import type { CueTiming, ScreenController, ScreenHost } from './screen.js';
 
 export interface PlayerScreenOptions {
   readonly transport: PlayerTransport;
@@ -20,6 +20,7 @@ export interface PlayerScreenOptions {
   readonly host: ScreenHost;
   readonly timing?: Partial<SessionTiming>;
   readonly shotTiming?: Partial<ShotFlowTiming>;
+  readonly cueTiming?: Partial<CueTiming>;
 }
 
 // Returns whether the flow changed, or null when the intent is not one of its own.
@@ -40,12 +41,14 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
   const session = createPlayerSession(options);
   const api = createPlayerApiClient(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const flow = createShotFlow({ api, ports: options.ports, matchId: options.matchId, timing: options.shotTiming });
+  const director = createPlayerDirector();
 
-  return createScreen<PlayerView, PlayerShellInput, PlayerShellModel>({
+  return createScreen<PlayerView, PlayerPresentationEvent, PlayerShellInput, PlayerShellModel>({
     session,
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
+    seatsOf: view => view.seats,
     buildInput(environment, view, local) {
       const panelOpen = local.pageVisible && local.privateRevealed && view !== null;
       // The flow is told the present before its state is read, so a choice that was not
@@ -62,6 +65,16 @@ export function createPlayerScreen(options: PlayerScreenOptions): ScreenControll
     },
     buildModel: buildPlayerShellModel,
     announcer: createPlayerAnnouncer(),
+    director,
+    cueTiming: options.cueTiming,
+    // The flow's own word that the server registered its command just now: a receipt, or the
+    // view listing it, learned while the phase it was sent in is still on screen. The
+    // director makes one cue of it however often it is asked. A registration learned later
+    // than that is history here, as it is when an event reports it late.
+    moreCues() {
+      const commandId = flow.registeredCommandId();
+      return commandId === null ? [] : director.onRegistered(commandId);
+    },
     handleIntent(intent, { local, model }) {
       if (intent.type === 'private/toggle') {
         // There is nothing to reveal unless a match is on screen in the foreground.

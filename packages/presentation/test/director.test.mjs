@@ -1,0 +1,608 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { PlayerPresentationEventSchema, PublicPresentationEventSchema } from '@mothership/contracts';
+import { createPlayerDirector, createPublicDirector } from '@mothership/presentation';
+import { fixture, playerVariant, publicVariant } from './support/inputs.mjs';
+
+// Synthetic views and events built on the authored contract fixture. Each still satisfies
+// the contract schema; none of them is the result of an engine transition.
+const { before, afterRegistration } = fixture();
+const MATCH = before.public.matchId;
+const BASE = before.public.viewRevision;
+
+let eventNumber = 0;
+const envelope = (viewRevision, fact) => ({ protocolVersion: 1, matchId: MATCH, eventId: `test-event-${++eventNumber}`, viewRevision, fact });
+const publicEvent = (viewRevision, fact, overrides = {}) =>
+  PublicPresentationEventSchema.parse({ ...envelope(viewRevision, fact), audience: { kind: 'public' }, ...overrides });
+const playerEvent = (seatId, viewRevision, fact, overrides = {}) =>
+  PlayerPresentationEventSchema.parse({ ...envelope(viewRevision, fact), audience: { kind: 'player', seatId }, ...overrides });
+
+/** The public view some revisions on, with whatever else a test changes. */
+const publicAt = (step, change = () => {}) => publicVariant(view => {
+  view.viewRevision = BASE + step;
+  change(view);
+});
+const nextPhase = (step, phaseId = `phase-${step}`, change = () => {}) => publicAt(step, view => {
+  view.phase = { ...view.phase, id: phaseId };
+  change(view);
+});
+const phaseChanged = (step, phaseId = `phase-${step}`) => publicEvent(BASE + step, { type: 'PHASE_CHANGED', phaseId });
+const PHASE_CUE = { cue: { kind: 'phase-change' }, privacy: 'public' };
+
+test('the first current view is where things stand: nothing it already reflects is played', () => {
+  const director = createPublicDirector();
+  assert.deepEqual(director.onEvent(phaseChanged(1)), []);
+  assert.deepEqual(director.onView(nextPhase(1)), []);
+  assert.deepEqual(director.onEvent(phaseChanged(1)), []);
+  assert.deepEqual(director.onEvent(phaseChanged(0, before.public.phase.id)), []);
+});
+
+test('an event is played when the view it names is on screen, whichever of the two arrives first', () => {
+  const eventLast = createPublicDirector();
+  eventLast.onView(before.public);
+  assert.deepEqual(eventLast.onView(nextPhase(1)), []);
+  assert.deepEqual(eventLast.onEvent(phaseChanged(1)), [PHASE_CUE]);
+
+  const eventFirst = createPublicDirector();
+  eventFirst.onView(before.public);
+  assert.deepEqual(eventFirst.onEvent(phaseChanged(1)), []);
+  assert.deepEqual(eventFirst.onView(nextPhase(1)), [PHASE_CUE]);
+});
+
+test('an event delivered twice is played once', () => {
+  const event = phaseChanged(1);
+  const afterItsView = createPublicDirector();
+  afterItsView.onView(before.public);
+  afterItsView.onView(nextPhase(1));
+  assert.equal(afterItsView.onEvent(event).length, 1);
+  assert.deepEqual(afterItsView.onEvent(event), []);
+  assert.deepEqual(afterItsView.onEvent(structuredClone(event)), []);
+
+  const beforeItsView = createPublicDirector();
+  beforeItsView.onView(before.public);
+  beforeItsView.onEvent(event);
+  beforeItsView.onEvent(event);
+  assert.equal(beforeItsView.onView(nextPhase(1)).length, 1);
+  assert.deepEqual(beforeItsView.onEvent(event), []);
+});
+
+test('the same view told again changes nothing', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.onEvent(phaseChanged(1));
+  const view = nextPhase(1, 'phase-1', v => { v.seats[2].location = 'Room B'; });
+  assert.equal(director.onView(view).length, 1);
+  assert.deepEqual(director.onView(view), []);
+  assert.deepEqual(director.onView(structuredClone(view)), []);
+  // It is still judged against the view that came before it, not against itself.
+  assert.equal(director.onEvent(publicEvent(BASE + 1, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })).length, 1);
+  // An older view never takes the screen back.
+  assert.deepEqual(director.onView(before.public), []);
+  assert.deepEqual(director.onEvent(phaseChanged(2)), []);
+  assert.deepEqual(director.onView(nextPhase(2)), [PHASE_CUE]);
+});
+
+test('an event the view has moved past is never played', () => {
+  const late = createPublicDirector();
+  late.onView(before.public);
+  late.onView(nextPhase(1));
+  late.onView(nextPhase(2));
+  assert.deepEqual(late.onEvent(phaseChanged(1)), []);
+
+  // The view skipped a revision: what was waiting for the skipped one is dropped with it.
+  const skipped = createPublicDirector();
+  skipped.onView(before.public);
+  skipped.onEvent(phaseChanged(1));
+  assert.deepEqual(skipped.onView(nextPhase(2)), []);
+  assert.deepEqual(skipped.onEvent(phaseChanged(2)), [PHASE_CUE]);
+
+  // A fact this screen showed and then moved on from is in the past for good, even while it is still true.
+  const stillTrue = step => publicAt(step, view => { view.seats[2].location = 'Room B'; });
+  const move = step => publicEvent(BASE + step, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' });
+  const shownBefore = createPublicDirector();
+  shownBefore.onView(before.public);
+  shownBefore.onView(stillTrue(1));
+  shownBefore.onView(publicAt(2, view => { view.seats[2].location = 'Room B'; view.seats[3].health = 'Injured'; }));
+  assert.deepEqual(shownBefore.onEvent(move(1)), [], 'The move was on screen one public change ago');
+});
+
+test('a view this screen skipped is not a reason to miss a cue: its fact is new here when it is first shown', () => {
+  // Views are skipped: a screen can go from one revision to the one after next. The fact of
+  // the skipped one is then first shown by the view that came instead, and its event is
+  // played with that view, whichever of the two arrives first.
+  const stillTrue = step => publicAt(step, view => { view.seats[2].location = 'Room B'; });
+  const move = step => publicEvent(BASE + step, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' });
+  const MOVE = { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' }, privacy: 'public' };
+  const waited = createPublicDirector();
+  waited.onView(before.public);
+  waited.onEvent(move(1));
+  assert.deepEqual(waited.onView(stillTrue(2)), [MOVE]);
+  const arrivedLate = createPublicDirector();
+  arrivedLate.onView(before.public);
+  arrivedLate.onView(stillTrue(2));
+  assert.deepEqual(arrivedLate.onEvent(move(1)), [MOVE]);
+  // One fact is one cue for as long as it stands, however many events state it.
+  assert.deepEqual(arrivedLate.onEvent(move(2)), [], 'A second event for the same fact is not a second cue');
+  assert.deepEqual(waited.onEvent(move(2)), []);
+  // But a fact that changed away and came back is a change again, and is cued again.
+  const there = publicAt(3);
+  const backThere = publicAt(4, view => { view.seats[2].location = 'Room B'; });
+  arrivedLate.onView(there);
+  assert.deepEqual(arrivedLate.onEvent(publicEvent(BASE + 3, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room B', to: 'Room A' })), [{ cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room B', to: 'Room A' }, privacy: 'public' }]);
+  arrivedLate.onView(backThere);
+  assert.deepEqual(arrivedLate.onEvent(move(4)), [MOVE], 'The same place as before, and a new move to it');
+  // A fact the skipped view stated that is not what the screen shows is still nothing.
+  const elsewhere = createPublicDirector();
+  elsewhere.onView(before.public);
+  elsewhere.onEvent(publicEvent(BASE + 1, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Hospital' }));
+  assert.deepEqual(elsewhere.onView(stillTrue(2)), []);
+  // And a fact that came and went in views this screen never showed changed nothing here.
+  const backAgain = createPublicDirector();
+  backAgain.onView(before.public);
+  backAgain.onEvent(move(1));
+  backAgain.onEvent(publicEvent(BASE + 2, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room B', to: 'Room A' }));
+  assert.deepEqual(backAgain.onView(publicAt(2)), []);
+});
+
+test('a phone that skipped the view of a public change because of its own registration plays the same public cue as one that did not', () => {
+  // The public change is revision n+1 and this seat's own registration n+2. A phone that
+  // registered may be handed only n+2; one that did not is handed n+1. Both must play the move.
+  const start = before.officer;
+  const moved = playerVariant(start, v => { v.viewRevision += 1; v.seats[2].location = 'Room B'; });
+  const both = playerVariant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = ['own-command']; });
+  const MOVE = { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' }, privacy: 'public' };
+  const REGISTRATION = { cue: { kind: 'registration' }, privacy: 'private' };
+  const moveEvent = () => playerEvent('seat-1', moved.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' });
+  const registrationEvent = () => playerEvent('seat-1', both.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' });
+
+  const quiet = createPlayerDirector();
+  quiet.onView(start);
+  quiet.onView(moved);
+  assert.deepEqual(quiet.onEvent(moveEvent()), [MOVE]);
+
+  // Events after the view.
+  const viewFirst = createPlayerDirector();
+  viewFirst.onView(start);
+  assert.deepEqual(viewFirst.onView(both), []);
+  assert.deepEqual(viewFirst.onEvent(moveEvent()), [MOVE]);
+  assert.deepEqual(viewFirst.onEvent(registrationEvent()), [REGISTRATION]);
+  // Events before the view: both wait and are played with it.
+  const eventsFirst = createPlayerDirector();
+  eventsFirst.onView(start);
+  assert.deepEqual(eventsFirst.onEvent(moveEvent()), []);
+  assert.deepEqual(eventsFirst.onEvent(registrationEvent()), []);
+  assert.deepEqual(eventsFirst.onView(both), [MOVE, REGISTRATION]);
+  // A registration this screen skipped the view of is still this seat's one cue, and only one.
+  const skippedRegistration = createPlayerDirector();
+  skippedRegistration.onView(start);
+  const later = playerVariant(both, v => { v.viewRevision += 1; });
+  skippedRegistration.onView(moved);
+  assert.deepEqual(skippedRegistration.onView(later), []);
+  assert.deepEqual(skippedRegistration.onEvent(registrationEvent()), [REGISTRATION]);
+  assert.deepEqual(skippedRegistration.onEvent(playerEvent('seat-1', later.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), []);
+});
+
+test('while a feed is not current nothing is played, not even for the view still on screen', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.onView(nextPhase(1));
+  director.suspend();
+  assert.deepEqual(director.onEvent(phaseChanged(1)), []);
+  // The feed resumes on that same view: it is where things stand, and the event stays unplayed.
+  assert.deepEqual(director.onView(nextPhase(1)), []);
+  assert.deepEqual(director.onEvent(phaseChanged(1)), []);
+});
+
+test('when a feed becomes current again, what its first view reflects is history', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.suspend();
+  // Arrives while the feed is not current: held, not played.
+  const missed = phaseChanged(1);
+  assert.deepEqual(director.onEvent(missed), []);
+  assert.deepEqual(director.onView(nextPhase(1)), []);
+  assert.deepEqual(director.onEvent(missed), []);
+  assert.deepEqual(director.onEvent(phaseChanged(1)), []);
+  // From here on the feed is current and plays as before.
+  assert.deepEqual(director.onEvent(phaseChanged(2)), []);
+  assert.deepEqual(director.onView(nextPhase(2)), [PHASE_CUE]);
+});
+
+test('an event ahead of the view the feed resumes on still waits for its own view', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.suspend();
+  director.onEvent(phaseChanged(1));
+  director.onEvent(phaseChanged(2));
+  assert.deepEqual(director.onView(nextPhase(1)), []);
+  assert.deepEqual(director.onView(nextPhase(2)), [PHASE_CUE]);
+});
+
+test('suspending twice, or with nothing on screen, is harmless', () => {
+  const director = createPublicDirector();
+  director.suspend();
+  director.suspend();
+  assert.deepEqual(director.onView(before.public), []);
+  director.onEvent(phaseChanged(1));
+  assert.deepEqual(director.onView(nextPhase(1)), [PHASE_CUE]);
+});
+
+test('a cue shows only what the screen states', () => {
+  const view = publicAt(1, v => {
+    v.phase = { ...v.phase, id: 'phase-b' };
+    v.seats[2].location = 'Room B';
+    v.seats[3].health = 'Injured';
+  });
+  const disagreeing = [
+    publicEvent(BASE + 1, { type: 'PHASE_CHANGED', phaseId: 'phase-z' }),
+    publicEvent(BASE + 1, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Hospital' }),
+    publicEvent(BASE + 1, { type: 'PUBLIC_MOVE', seatId: 'seat-2', from: 'Room A', to: 'Room B' }),
+    publicEvent(BASE + 1, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-4', health: 'Eliminated' }),
+    publicEvent(BASE + 1, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-3', health: 'Injured' }),
+  ];
+  const eventsFirst = createPublicDirector();
+  eventsFirst.onView(before.public);
+  for (const event of disagreeing) eventsFirst.onEvent(event);
+  assert.deepEqual(eventsFirst.onView(view), []);
+
+  const viewFirst = createPublicDirector();
+  viewFirst.onView(before.public);
+  viewFirst.onView(view);
+  for (const event of disagreeing) assert.deepEqual(viewFirst.onEvent(structuredClone({ ...event, eventId: `${event.eventId}-again` })), []);
+});
+
+test('only a change this device itself showed is emphasized', () => {
+  // The screen already showed these facts one revision earlier; an event that calls them new finds nothing to point at.
+  const already = publicAt(1, v => {
+    v.seats[2].location = 'Room B';
+    v.seats[3].health = 'Injured';
+  });
+  const same = publicAt(2, v => {
+    v.seats[2].location = 'Room B';
+    v.seats[3].health = 'Injured';
+  });
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.onView(already);
+  director.onView(same);
+  assert.deepEqual(director.onEvent(publicEvent(BASE + 2, { type: 'PHASE_CHANGED', phaseId: before.public.phase.id })), []);
+  assert.deepEqual(director.onEvent(publicEvent(BASE + 2, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), []);
+  assert.deepEqual(director.onEvent(publicEvent(BASE + 2, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-4', health: 'Injured' })), []);
+});
+
+test('a view that changes only something private does not make this seat miss a public cue, or gain one', () => {
+  // A phone shows a public move, then this seat's own registration arrives as a view of its
+  // own, and only then the event for the move. A phone on which nothing private happened
+  // plays the move; so must this one, or an onlooker could tell that something private did.
+  const start = before.officer;
+  const moved = playerVariant(start, v => { v.viewRevision += 1; v.seats[2].location = 'Room B'; });
+  const registered = playerVariant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = ['own-command']; });
+  const MOVE = { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' }, privacy: 'public' };
+  const moveEvent = () => playerEvent('seat-1', moved.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' });
+
+  const quiet = createPlayerDirector();
+  quiet.onView(start);
+  quiet.onView(moved);
+  assert.deepEqual(quiet.onEvent(moveEvent()), [MOVE]);
+
+  const busy = createPlayerDirector();
+  busy.onView(start);
+  busy.onView(moved);
+  assert.deepEqual(busy.onView(registered), []);
+  const late = moveEvent();
+  assert.deepEqual(busy.onEvent(late), [MOVE], 'The same cue as on the phone where nothing private happened');
+  assert.deepEqual(busy.onEvent(late), [], 'and once only');
+  // The registration is still its own cue, judged against the view just before it.
+  assert.deepEqual(busy.onEvent(playerEvent('seat-1', registered.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), [{ cue: { kind: 'registration' }, privacy: 'private' }]);
+  // Another view that changes nothing public: the move event is still remembered, and handed over again it is still not played twice.
+  busy.onView(playerVariant(registered, v => { v.viewRevision += 1; }));
+  assert.deepEqual(busy.onEvent(late), []);
+  assert.deepEqual(busy.onEvent(structuredClone(late)), []);
+
+  // It gains nothing either. A public fact named at the revision of the private-only view
+  // belongs to no public change, and one from before the public change is history.
+  const strict = createPlayerDirector();
+  strict.onView(start);
+  strict.onView(moved);
+  strict.onView(registered);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', registered.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), []);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', start.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), []);
+  // A registration belongs to the view on screen and to no other. Named at the revision of
+  // the view before, where the command was not pending yet, it is not this view's news.
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', moved.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), []);
+  // And one view on, the command was already pending on this screen: nothing changed here,
+  // whatever stood before what is public last changed.
+  const further = playerVariant(registered, v => { v.viewRevision += 1; });
+  strict.onView(further);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', registered.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), []);
+  assert.deepEqual(strict.onEvent(playerEvent('seat-1', further.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'own-command' })), [], 'Already pending in the view just before');
+  // And once something public does change, the earlier public fact is in the past for good.
+  const next = playerVariant(further, v => { v.viewRevision += 1; v.seats[3].health = 'Injured'; });
+  strict.onView(next);
+  assert.deepEqual(strict.onEvent(moveEvent()), []);
+});
+
+test('a public move is a cue for that token, drawn from where it was on this screen', () => {
+  const moved = publicAt(1, v => { v.seats[2].location = 'Room B'; });
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.onView(moved);
+  assert.deepEqual(director.onEvent(publicEvent(BASE + 1, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), [
+    { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' }, privacy: 'public' },
+  ]);
+
+  // This screen went from Room A straight to the Hospital. The event speaks of a stop in
+  // between that was never shown here, and the cue does not show it either.
+  const skipped = createPublicDirector();
+  skipped.onView(before.public);
+  skipped.onView(publicAt(2, v => { v.seats[2].location = 'Hospital'; }));
+  assert.deepEqual(skipped.onEvent(publicEvent(BASE + 2, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room B', to: 'Hospital' })), [
+    { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Hospital' }, privacy: 'public' },
+  ]);
+});
+
+test('a health change is a status change and nothing more', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.onView(publicAt(1, v => { v.seats[1].health = 'Injured'; }));
+  const cues = director.onEvent(publicEvent(BASE + 1, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-2', health: 'Injured' }));
+  assert.deepEqual(cues, [{ cue: { kind: 'status-change', seatId: 'seat-2', health: 'Injured' }, privacy: 'public' }]);
+  assert.deepEqual(Object.keys(cues[0].cue).sort(), ['health', 'kind', 'seatId']);
+});
+
+test('a phase change that raises the round number is a round transition', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.onEvent(phaseChanged(1));
+  assert.deepEqual(director.onView(nextPhase(1)), [PHASE_CUE]);
+  director.onEvent(phaseChanged(2));
+  const newRound = publicAt(2, v => {
+    v.phase = { ...v.phase, id: 'phase-2' };
+    v.round = before.public.round + 1;
+  });
+  assert.deepEqual(director.onView(newRound), [{ cue: { kind: 'round-transition', round: before.public.round + 1 }, privacy: 'public' }]);
+});
+
+test('a round that changed while the feed was away is not turned into a transition afterwards', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  director.suspend();
+  const newRound = publicAt(4, v => {
+    v.phase = { ...v.phase, id: 'phase-4' };
+    v.round = before.public.round + 1;
+  });
+  director.onEvent(phaseChanged(4));
+  assert.deepEqual(director.onView(newRound), []);
+  // The next phase of that round is an ordinary phase change.
+  director.onEvent(phaseChanged(5));
+  assert.deepEqual(director.onView(publicAt(5, v => {
+    v.phase = { ...v.phase, id: 'phase-5' };
+    v.round = before.public.round + 1;
+  })), [PHASE_CUE]);
+});
+
+test('several events for one view come out in the order their stream delivered them', () => {
+  const view = publicAt(1, v => {
+    v.phase = { ...v.phase, id: 'phase-b' };
+    v.seats[6].location = 'Hospital';
+    v.seats[7].health = 'Injured';
+  });
+  const events = [
+    publicEvent(BASE + 1, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-8', health: 'Injured' }),
+    publicEvent(BASE + 1, { type: 'PHASE_CHANGED', phaseId: 'phase-b' }),
+    publicEvent(BASE + 1, { type: 'PUBLIC_MOVE', seatId: 'seat-7', from: 'Room B', to: 'Hospital' }),
+  ];
+  const director = createPublicDirector();
+  director.onView(before.public);
+  for (const event of events) director.onEvent(event);
+  assert.deepEqual(director.onView(view).map(issued => issued.cue.kind), ['status-change', 'phase-change', 'public-move']);
+});
+
+const registrationEvent = afterRegistration.officerEvents[0];
+const COMMAND = registrationEvent.fact.commandId;
+const stamp = { cue: { kind: 'registration' }, privacy: 'private' };
+
+test('the authored registration event is one private cue, once the seat’s own view lists the command', () => {
+  assert.ok(PlayerPresentationEventSchema.safeParse(registrationEvent).success);
+  const eventFirst = createPlayerDirector();
+  eventFirst.onView(before.officer);
+  assert.deepEqual(eventFirst.onEvent(registrationEvent), []);
+  assert.deepEqual(eventFirst.onView(afterRegistration.officer), [stamp]);
+
+  const viewFirst = createPlayerDirector();
+  viewFirst.onView(before.officer);
+  assert.deepEqual(viewFirst.onView(afterRegistration.officer), []);
+  assert.deepEqual(viewFirst.onEvent(registrationEvent), [stamp]);
+});
+
+test('a receipt and the event for the same command are one cue, in either order', () => {
+  const receiptFirst = createPlayerDirector();
+  receiptFirst.onView(before.officer);
+  assert.deepEqual(receiptFirst.onRegistered(COMMAND), [stamp]);
+  assert.deepEqual(receiptFirst.onRegistered(COMMAND), []);
+  receiptFirst.onEvent(registrationEvent);
+  assert.deepEqual(receiptFirst.onView(afterRegistration.officer), []);
+
+  const eventFirst = createPlayerDirector();
+  eventFirst.onView(before.officer);
+  eventFirst.onView(afterRegistration.officer);
+  assert.deepEqual(eventFirst.onEvent(registrationEvent), [stamp]);
+  assert.deepEqual(eventFirst.onRegistered(COMMAND), []);
+  // Another command is another registration.
+  assert.deepEqual(eventFirst.onRegistered('another-command'), [stamp]);
+  assert.deepEqual(eventFirst.onRegistered('another-command'), []);
+});
+
+test('a registration this page did not see happen is history', () => {
+  const director = createPlayerDirector();
+  assert.deepEqual(director.onView(afterRegistration.officer), []);
+  assert.deepEqual(director.onEvent(registrationEvent), []);
+  // Still listed in a later view: it did not become pending on this screen.
+  const later = playerVariant(afterRegistration.officer, v => { v.viewRevision += 1; });
+  director.onEvent(playerEvent('seat-1', later.viewRevision, { type: 'COMMAND_REGISTERED', commandId: COMMAND }));
+  assert.deepEqual(director.onView(later), []);
+});
+
+test('a registration event is never a cue unless the seat’s own view lists that command', () => {
+  const director = createPlayerDirector();
+  director.onView(before.officer);
+  director.onView(afterRegistration.officer);
+  assert.deepEqual(director.onEvent(playerEvent('seat-1', afterRegistration.officer.viewRevision, { type: 'COMMAND_REGISTERED', commandId: 'not-this-seats' })), []);
+});
+
+test('an event for another seat or another match is ignored, whatever it says', () => {
+  // Seat 2's phone is handed seat 1's registration event, at a revision of its own.
+  const target = createPlayerDirector();
+  target.onView(before.target);
+  const targetNext = playerVariant(before.target, v => {
+    v.viewRevision += 1;
+    v.ownPendingCommandIds = [COMMAND];
+    v.phase = { ...v.phase, id: 'phase-b' };
+  });
+  target.onView(targetNext);
+  const misdelivered = [
+    { ...registrationEvent, viewRevision: targetNext.viewRevision },
+    playerEvent('seat-1', targetNext.viewRevision, { type: 'PHASE_CHANGED', phaseId: 'phase-b' }),
+    playerEvent('seat-2', targetNext.viewRevision, { type: 'PHASE_CHANGED', phaseId: 'phase-b' }, { matchId: 'another-match' }),
+  ];
+  for (const event of misdelivered) assert.deepEqual(target.onEvent(event), []);
+  // The same fact addressed to this seat in this match is played.
+  assert.equal(target.onEvent(playerEvent('seat-2', targetNext.viewRevision, { type: 'PHASE_CHANGED', phaseId: 'phase-b' })).length, 1);
+
+  // A public event on a seat's stream is not that seat's either.
+  assert.deepEqual(target.onEvent(publicEvent(targetNext.viewRevision, { type: 'PHASE_CHANGED', phaseId: 'phase-b' })), []);
+
+  const table = createPublicDirector();
+  table.onView(before.public);
+  table.onView(nextPhase(1));
+  assert.deepEqual(table.onEvent(publicEvent(BASE + 1, { type: 'PHASE_CHANGED', phaseId: 'phase-1' }, { matchId: 'another-match' })), []);
+  // Nor is a seat's event the table's, even when the fact itself is public.
+  assert.deepEqual(table.onEvent(playerEvent('seat-2', BASE + 1, { type: 'PHASE_CHANGED', phaseId: 'phase-1' })), []);
+  assert.equal(table.onEvent(publicEvent(BASE + 1, { type: 'PHASE_CHANGED', phaseId: 'phase-1' })).length, 1);
+});
+
+test('the table’s director has no private cue to give', () => {
+  const table = createPublicDirector();
+  assert.deepEqual(Object.keys(table).sort(), ['onEvent', 'onView', 'suspend']);
+  table.onView(before.public);
+  table.onView(nextPhase(1));
+  // Not a public event at all; a public view lists no pending command, so nothing can come of it.
+  assert.deepEqual(table.onEvent({ ...registrationEvent, audience: { kind: 'public' }, viewRevision: BASE + 1 }), []);
+});
+
+test('a player’s director plays the public facts of its own stream like the table’s', () => {
+  const next = playerVariant(before.target, v => {
+    v.viewRevision += 1;
+    v.seats[2].location = 'Room B';
+  });
+  const director = createPlayerDirector();
+  director.onView(before.target);
+  director.onView(next);
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', next.viewRevision, { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Room B' })), [
+    { cue: { kind: 'public-move', seatId: 'seat-3', from: 'Room A', to: 'Room B' }, privacy: 'public' },
+  ]);
+});
+
+test('the vocabulary has no attack, block, shooter or cause', () => {
+  const director = createPlayerDirector();
+  director.onView(before.officer);
+  const next = playerVariant(afterRegistration.officer, v => {
+    v.phase = { ...v.phase, id: 'phase-b' };
+    v.seats[2].location = 'Hospital';
+    v.seats[1].health = 'Injured';
+    v.seats[3].health = 'Eliminated';
+  });
+  const facts = [
+    { type: 'COMMAND_REGISTERED', commandId: COMMAND },
+    { type: 'PHASE_CHANGED', phaseId: 'phase-b' },
+    { type: 'PUBLIC_MOVE', seatId: 'seat-3', from: 'Room A', to: 'Hospital' },
+    { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-2', health: 'Injured' },
+    { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-4', health: 'Eliminated' },
+  ];
+  for (const fact of facts) director.onEvent(playerEvent('seat-1', next.viewRevision, fact));
+  const cues = director.onView(next);
+  assert.deepEqual(cues.map(issued => issued.cue.kind), ['registration', 'phase-change', 'public-move', 'status-change', 'status-change']);
+  assert.deepEqual(cues.map(issued => issued.privacy), ['private', 'public', 'public', 'public', 'public']);
+  assert.doesNotMatch(JSON.stringify(cues), /shot|shoot|bang|block|protect|attack|damage|target|cause|role|officer/i);
+  // No identifier either, apart from the public seat a token belongs to: not the command's,
+  // the phase's, the event's or the match's.
+  assert.doesNotMatch(JSON.stringify(cues), /commandId|eventId|phaseId|matchId|fixture-command|fixture-match|phase-b|test-event/);
+  assert.deepEqual(cues[0].cue, { kind: 'registration' });
+  assert.deepEqual(cues[1].cue, { kind: 'phase-change' });
+});
+
+test('an identifier is this audience’s own: an event misdelivered from another audience never makes its own event look like a repeat', () => {
+  // The backend promises identifiers unique within one match and audience, and no more.
+  const director = createPlayerDirector();
+  const own = playerVariant(before.target, view => { view.viewRevision += 1; view.phase = { ...view.phase, id: 'phase-b' }; });
+  director.onView(before.target);
+  director.onView(own);
+  const fact = { type: 'PHASE_CHANGED', phaseId: 'phase-b' };
+  const shared = { eventId: 'stream-event-1' };
+  // Seat 1's event, then the table's, each with the identifier seat 2's own event has.
+  assert.deepEqual(director.onEvent(playerEvent('seat-1', own.viewRevision, fact, shared)), []);
+  assert.deepEqual(director.onEvent(publicEvent(own.viewRevision, fact, shared)), []);
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', own.viewRevision, fact, { ...shared, matchId: 'another-match' })), []);
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', own.viewRevision, fact, shared)), [PHASE_CUE], 'Its own event is still played');
+  assert.deepEqual(director.onEvent(playerEvent('seat-2', own.viewRevision, fact, shared)), [], 'and only once');
+});
+
+test('a stream handed over again in full replays nothing, however long it is', () => {
+  for (const length of [10, 256, 257, 1_000]) {
+    const director = createPublicDirector();
+    director.onView(before.public);
+    // A long match: one event a revision, each played as it happens.
+    const stream = [];
+    for (let step = 1; step <= length; step += 1) {
+      const event = phaseChanged(step);
+      stream.push(event);
+      director.onView(nextPhase(step));
+      assert.equal(director.onEvent(event).length, 1);
+    }
+    // The feed stays current and delivers everything it holds once more, twice over.
+    for (let round = 0; round < 2; round += 1) {
+      for (const event of stream) assert.deepEqual(director.onEvent(event), [], `${length} events: a repeat is never taken for something new`);
+    }
+    // What happens next is still played, once.
+    director.onView(nextPhase(length + 1));
+    const next = phaseChanged(length + 1);
+    assert.equal(director.onEvent(next).length, 1);
+    assert.deepEqual(director.onEvent(next), []);
+  }
+});
+
+test('events waiting for a view still to come survive a feed that goes away and comes back', () => {
+  const director = createPublicDirector();
+  director.onView(before.public);
+  // Ahead of the screen by two revisions when the feed stops being current.
+  assert.deepEqual(director.onEvent(phaseChanged(2)), []);
+  director.suspend();
+  // It resumes on the revision in between: history, as every first view is.
+  assert.deepEqual(director.onView(nextPhase(1)), []);
+  // The view the waiting event belongs to then arrives, and the event is played with it.
+  assert.deepEqual(director.onView(nextPhase(2)), [PHASE_CUE]);
+});
+
+test('memory stays bounded: a feed that floods loses emphasis, never plays a cue twice, and recovers when the screen moves on', () => {
+  // A hundred events, each for a revision still to come. Only the most recent are kept.
+  const ahead = createPublicDirector();
+  ahead.onView(before.public);
+  for (let step = 1; step <= 100; step += 1) ahead.onEvent(phaseChanged(step));
+  assert.deepEqual(ahead.onView(nextPhase(1)), []);
+  assert.deepEqual(ahead.onView(nextPhase(100)), [PHASE_CUE]);
+
+  // Hundreds of distinct events for the view on screen: a feed no correct backend produces.
+  const current = createPublicDirector();
+  current.onView(before.public);
+  current.onView(nextPhase(1));
+  const first = phaseChanged(1);
+  assert.equal(current.onEvent(first).length, 1);
+  for (let count = 0; count < 300; count += 1) current.onEvent(phaseChanged(1, 'phase-elsewhere'));
+  assert.deepEqual(current.onEvent(first), [], 'What was played is remembered through the flood: it is not played again');
+  // Past the bound nothing more is taken in for this view, so a true event arriving now costs its emphasis.
+  assert.deepEqual(current.onEvent(phaseChanged(1)), []);
+  // The screen moves on, and the next view is served as usual.
+  current.onView(nextPhase(2));
+  assert.deepEqual(current.onEvent(phaseChanged(2)), [PHASE_CUE]);
+  assert.deepEqual(current.onEvent(first), []);
+});

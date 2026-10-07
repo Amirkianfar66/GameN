@@ -15,7 +15,7 @@ import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { proposedDesignTokens } from '@mothership/design-tokens';
 import { shellTokenStylesheet } from '@mothership/game';
-import { AUDIENCES, COMMAND_PLANS, createScenario } from './fixture/scenario.mjs';
+import { AUDIENCES, COMMAND_PLANS, createScenario, EVENT_INJECTIONS, EVENT_ORDERS, SYNTHETIC_FACTS } from './fixture/scenario.mjs';
 
 // A statement, not only a comment: it survives bundling and comment stripping, so the
 // production-exclusion check finds this module wherever it ends up.
@@ -132,6 +132,9 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
     });
     stop = scenario.subscribe(audience, {
       onPayload: payload => write('payload', payload),
+      // The audience's presentation events travel on the same connection as its views, so a
+      // screen still holds one connection. They stay two kinds of message.
+      onEventPayload: payload => write('presentation-event', payload),
       // A dropped feed is a closed connection; the browser's reconnect attempts then fail
       // until the operator switches the feed back on.
       onConnectionChange: next => {
@@ -170,6 +173,17 @@ export function createDevServer({ now = Date.now, variant = 'protected', onReque
       if (!AUDIENCES.includes(body.audience)) throw new RangeError('Injection needs one audience');
       if (!INJECTIONS.has(body.kind)) throw new RangeError('Unknown injection');
       scenario.inject(body.audience, body.kind);
+    } else if (action === 'synthetic') {
+      if (!SYNTHETIC_FACTS.includes(body.fact)) throw new RangeError('Unknown synthetic fact');
+      scenario.synthetic(body.fact);
+    } else if (action === 'event-order') {
+      if (!EVENT_ORDERS.includes(body.order)) throw new RangeError('Unknown event order');
+      scenario.setEventOrder(body.order);
+    } else if (action === 'redeliver-events') audiences.forEach(audience => scenario.redeliverEvents(audience));
+    else if (action === 'inject-event') {
+      if (!AUDIENCES.includes(body.audience)) throw new RangeError('Injection needs one audience');
+      if (!EVENT_INJECTIONS.includes(body.kind)) throw new RangeError('Unknown event injection');
+      scenario.injectEvent(body.audience, body.kind);
     } else throw new RangeError('Unknown operator action');
     return scenario.status();
   }

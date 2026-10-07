@@ -91,14 +91,15 @@ test('available to registered by keyboard or tap alone: each step is focused on 
   assert.deepEqual(s.card().body, { step: 'busy', text: 'Sending your shot to the server…' });
   // Focus rests on the card title, which is not redrawn while the answer is awaited.
   assert.deepEqual(s.frame().focus, { seq: 3, targetId: SHELL_IDS.shotTitle });
-  assert.deepEqual(s.frame().privateAnnouncement, { seq: connected.seq + 1, politeness: 'polite', text: 'Sending your shot to the server…' });
+  // The private line has numbers of its own: the first one is 1, whatever was said publicly before it.
+  assert.deepEqual(s.frame().privateAnnouncement, { seq: 1, politeness: 'polite', text: 'Sending your shot to the server…' });
   assert.equal(s.frame().announcement, connected, 'The public channel says nothing about a command');
   assert.equal(s.sent().length, 1);
 
   await flush();
   assert.equal(s.card().status, 'registered');
   assert.equal(s.card().body.text, 'Shot at Player 2 registered.');
-  assert.deepEqual(s.frame().privateAnnouncement, { seq: connected.seq + 2, politeness: 'polite', text: 'Shot at Player 2 registered.' });
+  assert.deepEqual(s.frame().privateAnnouncement, { seq: 2, politeness: 'polite', text: 'Shot at Player 2 registered.' });
   assert.equal(s.frame().announcement, connected);
   assert.deepEqual(s.frame().focus, { seq: 3, targetId: SHELL_IDS.shotTitle }, 'An answer from the server does not move focus');
   assert.deepEqual(auditMarkup(renderPlayerShell(s.frame().model)), []);
@@ -322,7 +323,7 @@ test('a lost connection blocks new submissions and drops an unsent choice, witho
   // Said on two channels in one redraw, the public one first, and never as one sentence: a
   // host that withdraws private speech must not take the public line with it.
   assert.deepEqual(s.frame().announcement, { seq: 2, politeness: 'polite', text: 'Connection lost. Showing the last known state.' });
-  assert.deepEqual(s.frame().privateAnnouncement, { seq: 3, politeness: 'polite', text: 'Your choice was not sent.' });
+  assert.deepEqual(s.frame().privateAnnouncement, { seq: 1, politeness: 'polite', text: 'Your choice was not sent.' });
   assert.equal(s.card().status, 'available');
   assert.deepEqual(s.card().body, { step: 'idle', open: null, reason: null, note: null });
   assert.equal(s.frame().model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');

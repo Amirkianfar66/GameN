@@ -430,6 +430,132 @@ test('dispose stops the feed, cancels timers and ignores anything still in fligh
   assert.deepEqual(session.readClock(), { status: 'unsynced' });
 });
 
+// Frontend-authored synthetic events, apart from the one authored registration event.
+const registrationEvent = afterRegistration.officerEvents[0];
+const phaseEvent = (audience, viewRevision, eventId = `event-${viewRevision}`) =>
+  ({ protocolVersion: 1, matchId, eventId, audience, viewRevision, fact: { type: 'PHASE_CHANGED', phaseId: 'phase-b' } });
+const SEAT_1 = { kind: 'player', seatId: 'seat-1' };
+
+/** Records state changes and events as one sequence, in the order a listener hears them. */
+function heard(session) {
+  const log = [];
+  session.subscribe(() => log.push(`state ${session.getState().connection} ${session.getState().view?.viewRevision ?? '-'}`));
+  session.subscribeEvents(event => log.push(`event ${event.eventId}`));
+  return log;
+}
+
+test('events are handed on checked, in feed order, and in step with the state', async () => {
+  const { fake, session } = setup();
+  const log = heard(session);
+  session.start();
+  await fake.connectWith(before.officer);
+  log.length = 0;
+  // The event for the next view arrives first; nothing is reordered or held back here.
+  await fake.deliverEvent(registrationEvent);
+  await fake.deliver(afterRegistration.officer);
+  await fake.deliverEvent(phaseEvent(SEAT_1, 21));
+  assert.deepEqual(log, ['event player-event-a', 'state live 21', 'event event-21']);
+});
+
+test('the event handed on is the checked one, not the object the feed supplied', async () => {
+  const { fake, session } = setup();
+  const received = [];
+  session.subscribeEvents(event => received.push(event));
+  session.start();
+  await fake.connectWith(before.officer);
+  // The feed hands over the very object it holds, and goes on holding it.
+  const supplied = structuredClone(registrationEvent);
+  await fake.deliverEvent(supplied, { asIs: true });
+  assert.deepEqual(received, [registrationEvent]);
+  assert.notEqual(received[0], supplied, 'What is handed on is the checked copy');
+  assert.notEqual(received[0].fact, supplied.fact, 'all the way down');
+  supplied.fact.commandId = 'changed-by-the-feed-afterwards';
+  assert.deepEqual(received, [registrationEvent], 'so nothing the feed does to its own object later reaches a listener');
+});
+
+test('an event that fails a check is dropped, tells nobody and changes nothing', async () => {
+  const { fake, session, notifications } = setup();
+  const events = [];
+  session.subscribeEvents(event => events.push(event));
+  session.start();
+  await fake.connectWith(before.officer);
+  const state = session.getState();
+  const count = notifications.length;
+  for (const bad of [
+    null, 'event', {}, { note: 'not an event' },
+    { ...registrationEvent, protocolVersion: 2 },
+    { ...registrationEvent, matchId: 'another-match' },
+    { ...registrationEvent, fact: { type: 'SHOT_RESOLVED', seatId: 'seat-2' } },
+    { ...registrationEvent, fact: { ...registrationEvent.fact, targetSeatId: 'seat-2' } },
+    phaseEvent({ kind: 'public' }, 21),
+  ]) await fake.deliverEvent(bad);
+  assert.deepEqual(events, []);
+  assert.equal(session.getState(), state, 'No problem is raised: the screen takes its facts from views alone');
+  assert.equal(notifications.length, count);
+  await fake.deliverEvent(registrationEvent);
+  assert.equal(events.length, 1, 'A readable event still gets through afterwards');
+});
+
+test('the table session never hands on a player’s event, whatever the feed sends', async () => {
+  const { fake, session } = setup('public');
+  const events = [];
+  session.subscribeEvents(event => events.push(event));
+  session.start();
+  await fake.connectWith(before.public);
+  await fake.deliverEvent(registrationEvent);
+  await fake.deliverEvent({ ...registrationEvent, audience: { kind: 'public' } });
+  await fake.deliverEvent(phaseEvent(SEAT_1, 11));
+  assert.deepEqual(events, []);
+  await fake.deliverEvent(phaseEvent({ kind: 'public' }, 11));
+  assert.deepEqual(events.map(event => event.eventId), ['event-11']);
+  assert.equal(JSON.stringify(events).includes('COMMAND_REGISTERED'), false);
+});
+
+test('after an integrity failure the feed’s events are not trusted either', async () => {
+  const { fake, session } = setup();
+  const events = [];
+  session.subscribeEvents(event => events.push(event));
+  session.start();
+  await fake.connectWith(before.officer);
+  await fake.deliver(before.target);
+  assert.equal(session.getState().problem, 'integrity');
+  await fake.deliverEvent(registrationEvent);
+  session.reconnect();
+  await fake.connectWith(afterRegistration.officer);
+  await fake.deliverEvent(phaseEvent(SEAT_1, 21));
+  assert.deepEqual(events, []);
+});
+
+test('events from a replaced feed or after dispose go nowhere, and a listener can stop listening', async () => {
+  const { fake, session } = setup();
+  const captured = [];
+  const subscribe = fake.transport.subscribe.bind(fake.transport);
+  fake.transport.subscribe = listener => {
+    captured.push(listener);
+    return subscribe(listener);
+  };
+  const events = [];
+  const stop = session.subscribeEvents(event => events.push(event.eventId));
+  session.start();
+  await fake.connectWith(before.officer);
+  session.reconnect();
+  // A transport that wrongly keeps calling the old listener.
+  captured[0].onEventPayload(structuredClone(registrationEvent));
+  assert.deepEqual(events, []);
+  captured[1].onEventPayload(structuredClone(registrationEvent));
+  assert.deepEqual(events, ['player-event-a'], 'An event on the new feed is handed on even before that feed has delivered its view');
+
+  stop();
+  await fake.deliverEvent(phaseEvent(SEAT_1, 21));
+  assert.deepEqual(events, ['player-event-a']);
+
+  const late = [];
+  session.subscribeEvents(event => late.push(event.eventId));
+  session.dispose();
+  captured[1].onEventPayload(structuredClone(phaseEvent(SEAT_1, 21, 'after-dispose')));
+  assert.deepEqual(late, []);
+});
+
 test('timing defaults are client-side technical values, overridable per session', () => {
   assert.deepEqual(DEFAULT_SESSION_TIMING, { apiTimeoutMs: 8_000, clockSamples: 3, clockGoodEnoughMs: 100, clockRetryMs: 2_000, clockRetryMaxMs: 30_000 });
 });

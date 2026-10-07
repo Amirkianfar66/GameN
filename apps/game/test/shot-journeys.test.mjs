@@ -31,6 +31,8 @@ function lagging(transport) {
       subscribe: listener => transport.subscribe({
         onConnectionChange: state => listener.onConnectionChange(state),
         onPayload: payload => (held === null ? listener.onPayload(payload) : held.push(payload)),
+        // Only views are held back. An event then arrives ahead of the view it belongs to.
+        onEventPayload: payload => listener.onEventPayload(payload),
       }),
     },
     hold() { held = []; },

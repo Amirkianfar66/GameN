@@ -1,12 +1,12 @@
-import type { PublicView } from '@mothership/contracts';
-import { buildTableShellModel, createTableAnnouncer } from '@mothership/presentation';
+import type { PublicPresentationEvent, PublicView } from '@mothership/contracts';
+import { buildTableShellModel, createPublicDirector, createTableAnnouncer } from '@mothership/presentation';
 import type { TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts } from '../ports.js';
 import { createPublicSession } from '../session/audience-session.js';
 import type { SessionTiming } from '../session/audience-session.js';
 import type { PublicTransport } from '../transport/transport.js';
 import { createScreen } from './screen.js';
-import type { ScreenController, ScreenHost } from './screen.js';
+import type { CueTiming, ScreenController, ScreenHost } from './screen.js';
 
 export interface TableScreenOptions {
   readonly transport: PublicTransport;
@@ -14,6 +14,7 @@ export interface TableScreenOptions {
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly timing?: Partial<SessionTiming>;
+  readonly cueTiming?: Partial<CueTiming>;
 }
 
 /**
@@ -22,14 +23,17 @@ export interface TableScreenOptions {
  */
 export function createTableScreen(options: TableScreenOptions): ScreenController<TableShellModel> {
   const session = createPublicSession(options);
-  return createScreen<PublicView, TableShellInput, TableShellModel>({
+  return createScreen<PublicView, PublicPresentationEvent, TableShellInput, TableShellModel>({
     session,
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
+    seatsOf: view => view.seats,
     buildInput: (environment, view) => ({ ...environment, view }),
     buildModel: buildTableShellModel,
     announcer: createTableAnnouncer(),
+    director: createPublicDirector(),
+    cueTiming: options.cueTiming,
     handleIntent: () => null,
   });
 }
