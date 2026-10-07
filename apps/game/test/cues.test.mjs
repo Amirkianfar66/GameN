@@ -147,30 +147,39 @@ test('every cue of the view on screen is in the latest frame, in whichever order
   assert.deepEqual(viewFirst.cues().map(item => item.seq), [3, 4, 5], 'Player 3 moved again: only the cue about Player 3 is gone');
   await viewFirst.fake.deliver(variant(third, v => { v.viewRevision += 3; v.seats[2].location = 'Command Room'; v.seats[3].health = 'Healthy'; }));
   assert.deepEqual(viewFirst.cues().map(item => item.seq), [4, 5], 'Player 4 is Healthy again: the cue that said Injured is gone');
+  // A newer phase takes out the cue for the round that began, as it does one for a phase.
+  const fourth = next(variant(third, v => { v.viewRevision += 3; v.seats[2].location = 'Command Room'; v.seats[3].health = 'Healthy'; }), 'phase-d');
+  await viewFirst.fake.deliver(fourth);
+  await viewFirst.fake.deliverEvent(phaseChanged(fourth));
+  assert.deepEqual(viewFirst.cues().map(item => [item.seq, item.cue.kind]), [[4, 'public-move'], [6, 'phase-change']], 'The round cue is gone; the newer phase has its own');
   // And every one of them still leaves when its window is over.
   await viewFirst.host.advance(LIFETIME);
   assert.deepEqual(viewFirst.cues(), []);
 });
 
-test('a private-only update leaves the public cues exactly as they were: the same cues, the same numbers, the same frame list', async () => {
-  // Review finding R6. A public cue is live on a phone; then this seat's own view changes in
-  // nothing but something private. Two phones are taken through the same public moments, and
-  // one of them also registers a command in between. Nothing an onlooker could see of the
-  // public cues may differ between the two.
-  const moved = next(before.officer, before.officer.phase.id, v => { v.seats[7].location = 'Room A'; });
+test('a private-only update leaves the public cues exactly as they were: the same cues, the same numbers, the same order, the same frame list, the same moment to leave', async () => {
+  // Review finding R6. Two public cues are live on a phone, issued 200 ms apart; then,
+  // 300 ms later, this seat's own view changes in nothing but something private. Two phones
+  // are taken through the same public moments, and one of them also registers a command.
+  // Nothing an onlooker could see of the public cues may differ between the two.
+  const changed = next(before.officer, before.officer.phase.id, v => { v.seats[7].location = 'Room A'; v.seats[8].health = 'Injured'; });
+  const MOVE = { seq: 1, cue: { kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' } };
+  const STATUS = { seq: 2, cue: { kind: 'status-change', seatId: 'seat-9', health: 'Injured' } };
   const run = async privately => {
     const s = setup('player');
     s.screen.start();
     await s.fake.connectWith(before.officer);
     s.screen.dispatch(TOGGLE);
-    await s.fake.deliver(moved);
-    await s.fake.deliverEvent(eventFor(moved, { type: 'PUBLIC_MOVE', seatId: 'seat-8', from: 'Room B', to: 'Room A' }));
-    assert.deepEqual(s.cues(), [{ seq: 1, cue: { kind: 'public-move', seatId: 'seat-8', from: 'Room B', to: 'Room A' } }]);
+    await s.fake.deliver(changed);
+    await s.fake.deliverEvent(eventFor(changed, { type: 'PUBLIC_MOVE', seatId: 'seat-8', from: 'Room B', to: 'Room A' }));
+    await s.host.advance(200);
+    await s.fake.deliverEvent(eventFor(changed, { type: 'PUBLIC_HEALTH_CHANGED', seatId: 'seat-9', health: 'Injured' }));
+    assert.deepEqual(s.cues(), [MOVE, STATUS]);
     const list = s.cues();
+    await s.host.advance(300);
     if (privately) {
       // The same public facts, one revision on, with a command of this seat's now pending.
-      const registered = variant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = [COMMAND]; });
-      assert.deepEqual([registered.seats, registered.phase, registered.round], [moved.seats, moved.phase, moved.round], 'Nothing public differs');
+      const registered = variant(changed, v => { v.viewRevision += 1; v.ownPendingCommandIds = [COMMAND]; });
       await s.fake.deliver(registered);
       await s.fake.deliverEvent({ ...registrationEvent, viewRevision: registered.viewRevision, audience: registered.audience });
       assert.deepEqual(s.frame().privateCues.map(item => item.cue.kind), ['registration'], 'The private cue is there, in its own list');
@@ -180,17 +189,19 @@ test('a private-only update leaves the public cues exactly as they were: the sam
   const quiet = await run(false);
   const busy = await run(true);
   assert.equal(busy.s.cues(), busy.list, 'The public list is the very same object after the private update');
+  assert.deepEqual(busy.s.cues(), [MOVE, STATUS], 'The same cues in the same order with the same numbers');
   assert.deepEqual(busy.s.cues(), quiet.s.cues(), 'and it is what a phone that did nothing in private shows');
-  // Later public cues take the same numbers on both, and time takes the first cue out of both at the same moment.
-  for (const { s } of [quiet, busy]) {
-    await s.host.advance(LIFETIME - 1);
-    assert.deepEqual(s.cues().map(item => item.seq), [1]);
-    const turn = next(s.frame().model.match === null ? moved : variant(moved, v => { v.viewRevision += 1; v.ownPendingCommandIds = s === busy.s ? [COMMAND] : []; }), 'phase-next');
-    await s.fake.deliver(turn);
-    await s.fake.deliverEvent(phaseChanged(turn));
-    assert.deepEqual(s.cues().map(item => [item.seq, item.cue.kind]), [[1, 'public-move'], [2, 'phase-change']]);
+  // Each cue leaves a lifetime after it was issued, on both phones alike: the private update,
+  // 500 ms after the first cue, gave neither of them more time or less.
+  for (const [name, { s }] of [['quiet', quiet], ['busy', busy]]) {
+    await s.host.advance(LIFETIME - 500 - 1);
+    assert.deepEqual(s.cues().map(item => item.seq), [1, 2], `${name}: both still due one millisecond before the first one's time`);
     await s.host.advance(1);
-    assert.deepEqual(s.cues().map(item => [item.seq, item.cue.kind]), [[2, 'phase-change']]);
+    assert.deepEqual(s.cues().map(item => item.seq), [2], `${name}: the first leaves a lifetime after it was issued`);
+    await s.host.advance(200 - 1);
+    assert.deepEqual(s.cues().map(item => item.seq), [2], name);
+    await s.host.advance(1);
+    assert.deepEqual(s.cues(), [], `${name}: and the second 200 ms after it`);
   }
 });
 
