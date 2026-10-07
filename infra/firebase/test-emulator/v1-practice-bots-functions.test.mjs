@@ -5,13 +5,12 @@ import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { FullOperationResponseSchema, FullBeginSetupResponseSchema, FullSetupDocumentSchema, FullSetPracticeBotsResponseSchema, FullPracticeBotsDocumentSchema, FullPublicViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity } from '../test/helpers.mjs';
-import { createV1Service } from '../../../services/game-api/dist/index.js';
-import { deliverSetupDeadline } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
+import { observeSetupDeadline } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
 import { decodeV1State } from '../../../services/game-api/dist/full-game.js';
 
 // Full guarded Auth/Firestore/Functions suite only. No skip or manual bot worker fallback.
-// Setup task delivery uses the real persisted intent after each real 30-second
-// window; this does not claim emulator Cloud Tasks delivery or IAM acceptance.
+// Observe automatic local Firestore dispatch and Tasks delivery after both real
+// 30-second windows. This does not establish deployed Tasks/IAM acceptance.
 const operations = new Set(['v1CreateMatch', 'v1SetPracticeBots', 'v1BeginSetup', 'v1AbortMatch']);
 async function invoke(name, payload, identity) {
   const { functionsHost } = assertLocalEmulators(); assert.ok(operations.has(name));
@@ -47,17 +46,23 @@ test('actual private Firestore engine trigger runs bots after real HTTP Begin an
     assert.equal(progress.stage, 'choosing'); assert.equal(progress.dealId, null);
     assert.equal(progress.choosingEndsAt - progress.choosingStartedAt, 30_000);
     assert.equal((await base.collection('engine').doc('current').get()).exists, false);
-    const h = { base, service: createV1Service({ db, clock: Date.now }) };
-    const reading = await deliverSetupDeadline(h, 'choosing');
+    const h = { base };
+    const reading = await observeSetupDeadline(h, progress);
     assert.ok(reading.seats.every(seat => seat.confirmed && seat.ready), 'Bots acknowledge roles without shortening the real reading window');
     assert.equal((await base.collection('engine').doc('current').get()).exists, false);
-    await deliverSetupDeadline(h, 'awaiting-ready');
+    await observeSetupDeadline(h, reading);
 
     // Observe the real emulator's onDocumentWritten delivery; never call runPracticeBots.
     const initial = decodeV1State((await base.collection('engine').doc('current').get()).data());
-    const setup = (await base.collection('events').get()).docs.map(doc => doc.data()).find(record => record.kind === 'SETUP');
+    const setups = (await base.collection('events').where('kind', '==', 'SETUP').get()).docs;
+    assert.equal(setups.length, 1, 'Automatic setup must launch once');
+    const setup = setups[0].data();
     assert.ok(setup); assert.equal(initial.phase.id, setup.phaseId); assert.ok(initial.phase.endsAt > Date.now());
     assert.equal(initial.phase.endsAt - initial.phase.startedAt, 60_000);
+    assert.equal(setup.now, initial.phase.startedAt);
+    assert.ok(setup.now >= reading.readingEndsAt, 'All bots Ready cannot shorten reading');
+    assert.equal((await base.collection('outbox').where('phaseId', '==', initial.phase.id).get()).size, 1);
+
     const expires = Math.min(Date.now() + 45_000, initial.phase.endsAt);
     let commands = [];
     do {

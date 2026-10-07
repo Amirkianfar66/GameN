@@ -3,10 +3,11 @@
 Issue: [#73](https://github.com/Amirkianfar66/GameN/issues/73).
 Backend draft PR: [#74](https://github.com/Amirkianfar66/GameN/pull/74).
 Timed service runtime checkpoint: `f44562d3575c6a23cba105b85e90b694badfce63`.
-Final emulator test checkpoint: `6cca76710a276cba3a008d05b8e33d5049c177cf`
+Prior timed emulator test checkpoint: `6cca76710a276cba3a008d05b8e33d5049c177cf`
 (test-only synthetic name correction; runtime unchanged).
 Rules listener compatibility checkpoint: `14fb2ed8a7f9d2b388771085d54a7361f5f441fc`.
-The final follow-up adds bounded immutable-request reconciliation coverage; it
+Immutable-request reconciliation checkpoint: `f058028cfd6e90513a6479e0e4bb6c4372259703`.
+The subsequent smoke-test follow-up observes automatic local Tasks delivery; it
 does not change the timed service runtime or Rules from those pins.
 Timed contracts checkpoint: `c185c157ae25404c0e8e0ae44aaa3d5b6e99ffbc`.
 Deployed base: `af797838dee531d7874da2145e99a50c67d32b45` (practice-bot release).
@@ -228,8 +229,9 @@ The coordinator's integration commit
 30+30-second windows, two humans/five bots, early and late Ready, no reload and
 zero listener errors. This backend branch does not adopt or execute that
 Frontend-owned test. The coordinator also reported host-away browser and
-all-bot acceptance. Combined GitHub CI and actual Functions smoke remain
-integration gates; local adapters do not prove cloud Tasks/IAM delivery.
+all-bot acceptance. Passing combined GitHub CI and the strengthened automatic
+Functions smoke remain integration gates; local adapters do not prove cloud
+Tasks/IAM delivery.
 
 Historical untimed evidence at `297de42609ff575aa914e0f852aba80482957622`:
 `npm run verify` passed 876 workspace tests, 70 static checks, 483 catalogue
@@ -243,14 +245,32 @@ run was 85/86 before its pregame deadline assertion was aligned with the safe
 unchanged result. Those results, and the later prior untimed `d5339ad` checkpoint,
 do not verify this timed implementation.
 
-The saved actual HTTP/Functions-trigger smoke uses guarded local demo Auth,
-Firestore and Functions. It creates/configures bots and calls HTTP Begin, waits
-each real full 30-second window, and delivers only the corresponding real stored
-setup intent through the local Admin service callback. No Tasks emulator is
-used. It then observes the actual private Firestore engine trigger committing a
-bot command, with no manual bot worker or client gameplay call, and aborts via
-the authenticated host for cleanup. This timed smoke is pending execution and
-cannot prove deployed Cloud Tasks delivery, IAM, Scheduler or device acceptance.
+The earlier combined CI run [37698800982](https://github.com/Amirkianfar66/GameN/actions/runs/37698800982)
+at integration commit `c0f5a1a6fffafac959dc02cff17889ea8180637b` passed 59/114
+Backend emulator cases and failed 55. Its two real HTTP/Functions smoke tests
+passed, but still manually delivered persisted setup intents. Firebase CLI
+15.0.0 automatically started the Tasks emulator with Functions, contrary to the
+previous handoff description. Real-clock V1 triggers consumed injected-clock
+fixtures, producing current timestamps where those tests required their own
+historical clock. This is a test-boundary failure; the source review found no
+production timing defect from that evidence.
+
+The strengthened HTTP and all-bot smoke tests now observe automatic local
+Firestore dispatch and Tasks progression, with a bounded 60-second wait per
+stage and a 180-second test timeout. They retain exact 30-second selection and
+reading windows, no early engine, one SETUP journal event and matching initial
+outbox, and a fresh 60-second gameplay phase. The all-bot smoke still requires
+an accepted command from the actual private engine trigger, with no manual
+setup/bot worker or client gameplay invocation, and host abort cleanup. These
+observation-only versions have not yet run; CI must validate their exact pin.
+They cannot prove deployed Cloud Tasks delivery, IAM, Scheduler or device
+acceptance.
+
+The coordinator owns the root orchestration correction: 98 injected-clock and
+Rules cases run under Auth/Firestore only; a fresh Functions suite runs all 14
+legacy service cases before the two V1 smoke cases, retaining all 114 cases and
+all 7 Frontend cases. Explicit ordering keeps the legacy broad outbox repair
+away from V1 intents. Starting Functions must not reuse the fake-clock database.
 
 Frontend strict timed-schema adoption, countdown/preview/Ready controls,
 consumer emulator migration and combined candidate verification require the

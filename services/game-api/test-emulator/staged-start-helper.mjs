@@ -4,8 +4,8 @@ import {
   FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema,
 } from '@mothership/contracts';
 
-// Test-only real service calls. Timed fixtures advance their injected service clock;
-// Functions smoke fixtures wait real time and deliver only the stored setup intent.
+// Test-only setup fixtures. Direct delivery belongs to isolated service tests;
+// real Functions smoke observes automatic deadline delivery without invoking workers.
 export const setupRequest = (h, fields = {}) => ({ schemaVersion: 1, ...h.request(fields) });
 export const setupDocument = async h => FullSetupDocumentSchema.parse((await h.base.collection('setup').doc('public').get()).data());
 function accepted(schema, response, body) {
@@ -20,6 +20,49 @@ export async function beginStagedSetup(h, body = setupRequest(h)) {
   assert.equal(value.stage, 'choosing'); assert.equal(value.dealId, null);
   return value;
 }
+// Observe real Functions/Tasks progression. Admin is used only for local reads;
+// this path never enqueues, advances a clock or invokes a setup/gameplay worker.
+export async function observeSetupDeadline(h, initial) {
+  const previous = FullSetupDocumentSchema.parse(initial);
+  assert.equal(previous.matchId, h.base.id);
+  assert.ok(['choosing', 'awaiting-ready'].includes(previous.stage));
+  const expected = previous.stage === 'choosing' ? 'awaiting-ready' : 'running';
+  const expires = performance.now() + 60_000;
+  do {
+    const setup = await setupDocument(h);
+    assert.equal(setup.setupId, previous.setupId, 'Automatic delivery preserves the setup epoch');
+    assert.equal(setup.choosingStartedAt, previous.choosingStartedAt);
+    assert.equal(setup.choosingEndsAt, previous.choosingEndsAt);
+    assert.ok([previous.stage, expected].includes(setup.stage), 'Automatic setup follows the next persisted stage');
+    const engine = await h.base.collection('engine').doc('current').get();
+    if (previous.stage === 'choosing') {
+      assert.equal(engine.exists, false, 'Selection and role dealing cannot create gameplay');
+      if (setup.stage === expected) {
+        assert.ok(setup.readingStartedAt >= previous.choosingEndsAt, 'Roles cannot be dealt before selection expires');
+        assert.equal(setup.readingEndsAt - setup.readingStartedAt, 30_000);
+        return setup;
+      }
+    } else {
+      assert.equal(setup.dealId, previous.dealId);
+      assert.equal(setup.readingStartedAt, previous.readingStartedAt);
+      assert.equal(setup.readingEndsAt, previous.readingEndsAt);
+      if (setup.stage === expected) {
+        assert.equal(engine.exists, true, 'Automatic reading expiry creates actual gameplay');
+        const phase = engine.get('phase');
+        assert.ok(phase.startedAt >= previous.readingEndsAt, 'Gameplay cannot begin before the full reading window');
+        assert.ok(phase.startedAt <= Date.now(), 'The first phase uses actual server time');
+        assert.equal(phase.endsAt - phase.startedAt, 60_000, 'The first ordinary phase keeps its full minute');
+        return setup;
+      }
+      // The engine read can race a legitimate commit at the deadline; before
+      // that boundary its absence is mandatory on every observation.
+      if (Date.now() < previous.readingEndsAt) assert.equal(engine.exists, false, 'Early Ready cannot create gameplay');
+    }
+    await new Promise(resolve => setTimeout(resolve, 200));
+  } while (performance.now() < expires);
+  assert.fail('Automatic ' + previous.stage + ' deadline must reach ' + expected + ' within 60 seconds');
+}
+
 const currentTime = h => typeof h.now === 'function' ? h.now() : typeof h.now === 'number' ? h.now : Date.now();
 export async function deliverSetupDeadline(h, stage) {
   assert.ok(['choosing', 'awaiting-ready'].includes(stage));
