@@ -32,7 +32,7 @@ const responseSchemas = { beginSetup: FullBeginSetupResponseSchema, confirmSetup
 const op = value => { FullOperationResponseSchema.parse(value); assert.equal(value.ok, true); return value.result; };
 const fail = (value, code) => { FullFailureSchema.parse(value); assert.equal(value.error?.code, code); };
 const ack = (operation, value, body) => {
-  responseSchemas[operation].parse(value); assert.equal(value.ok, true);
+  responseSchemas[operation].parse(value); assert.equal(value.ok, true, value.error?.code ?? 'Expected setup success');
   if (body) { assert.equal(value.matchId, body.matchId); assert.equal(value.requestId, body.requestId); if (body.bindingRevision !== undefined) assert.equal(value.bindingRevision, body.bindingRevision); }
   return value;
 };
@@ -498,10 +498,10 @@ test('choosing deadline fills missing legacy choices uniquely while preserving e
   await h.base.collection('identities').doc('public').set(FullLobbyIdentityDocumentSchema.parse({ ...current, revision: current.revision + 1,
     seats: current.seats.map((seat, index) => ({ ...seat, displayName: suggestions[index][0], characterId: suggestions[index][1] })) }));
   const rooms = (await h.base.collection('lobby').doc('public').get()).get('seats');
-  await h.begin(); await h.confirm(0, h.choice(0, { displayName: 'Confirmed One', characterId: 'c9' }));
+  await h.begin(); await h.confirm(0, h.choice(0, { displayName: 'Fixed One', characterId: 'c9' }));
   assert.equal((await h.document()).seats.filter(seat => seat.confirmed).length, 1); await noGameplay(h);
   await closeChoosing(h); const identities = await h.identities(), progress = await h.document();
-  assert.deepEqual(identities.seats[0], { seatId: 'seat-1', displayName: 'Confirmed One', characterId: 'c9' });
+  assert.deepEqual(identities.seats[0], { seatId: 'seat-1', displayName: 'Fixed One', characterId: 'c9' });
   assert.equal(new Set(identities.seats.map(seat => seat.characterId)).size, 7);
   assert.equal(new Set(identities.seats.map(seat => seat.displayName.normalize('NFKC').trim().toLowerCase())).size, 7);
   assert.ok(progress.seats.every(seat => seat.confirmed && !seat.ready));
