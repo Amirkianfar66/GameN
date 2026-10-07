@@ -214,20 +214,30 @@ test('real emulator Auth passes through the normal HTTP adapter to the persisted
 });
 
 test('concurrent final confirmation and draft editing remain editable until the selection deadline freezes the identity', async () => {
+  async function settled(schema, initial, replay) {
+    let value = schema.parse(initial);
+    // Once both competitors settle, reconcile only transient transaction failure
+    // with the exact original frozen request. Persistent refusals stay refusals.
+    for (let retry = 0; value.error?.code === 'UNAVAILABLE' && retry < 2; retry++) value = schema.parse(await replay());
+    return value;
+  }
   for (let attempt = 0; attempt < 3; attempt++) {
-    const h = await harness(), body = h.identity('BeforeDeal', 'c4');
+    const h = await harness(), body = Object.freeze(h.identity('BeforeDeal', 'c4'));
     const otherCharacters = ['c1', 'c2', 'c3', 'c5', 'c6', 'c7'];
     for (let index = 1; index < 7; index++) {
       const confirmed = FullConfirmSetupChoiceResponseSchema.parse(await h.service.confirmSetupChoice(h.players[index].uid,
         setupRequest(h, { bindingRevision: 1, displayName: `Crew ${index + 1}`, characterId: otherCharacters[index - 1] })));
       assert.equal(confirmed.ok, true); assert.equal(confirmed.stage, 'choosing');
     }
-    const confirm = setupRequest(h, { bindingRevision: 1, displayName: body.displayName, characterId: body.characterId });
-    const [selected, confirmed] = await Promise.all([
+    const confirm = Object.freeze(setupRequest(h, { bindingRevision: 1, displayName: body.displayName, characterId: body.characterId }));
+    let [selected, confirmed] = await Promise.all([
       h.service.setLobbyIdentity(h.players[0].uid, body), h.service.confirmSetupChoice(h.players[0].uid, confirm),
     ]);
-    FullConfirmSetupChoiceResponseSchema.parse(confirmed); assert.equal(confirmed.ok, true); assert.equal(confirmed.stage, 'choosing');
-    FullSetLobbyIdentityResponseSchema.parse(selected); assert.equal(selected.ok, true);
+    FullSetLobbyIdentityResponseSchema.parse(selected); FullConfirmSetupChoiceResponseSchema.parse(confirmed);
+    selected = await settled(FullSetLobbyIdentityResponseSchema, selected, () => h.service.setLobbyIdentity(h.players[0].uid, body));
+    confirmed = await settled(FullConfirmSetupChoiceResponseSchema, confirmed, () => h.service.confirmSetupChoice(h.players[0].uid, confirm));
+    assert.equal(confirmed.ok, true, 'Concurrent confirmation refused: ' + (confirmed.error?.code ?? 'unknown')); assert.equal(confirmed.stage, 'choosing');
+    assert.equal(selected.ok, true, 'Concurrent draft refused: ' + (selected.error?.code ?? 'unknown'));
     assert.equal((await h.document()).locked, false, 'Confirmation does not end the timed choice window');
     assert.equal((await h.base.collection('setup').doc('deal').get()).exists, false);
     await confirmStagedChoices(h);

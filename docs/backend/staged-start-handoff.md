@@ -5,6 +5,9 @@ Backend draft PR: [#74](https://github.com/Amirkianfar66/GameN/pull/74).
 Timed service runtime checkpoint: `f44562d3575c6a23cba105b85e90b694badfce63`.
 Final emulator test checkpoint: `6cca76710a276cba3a008d05b8e33d5049c177cf`
 (test-only synthetic name correction; runtime unchanged).
+Rules listener compatibility checkpoint: `14fb2ed8a7f9d2b388771085d54a7361f5f441fc`.
+The final follow-up adds bounded immutable-request reconciliation coverage; it
+does not change the timed service runtime or Rules from those pins.
 Timed contracts checkpoint: `c185c157ae25404c0e8e0ae44aaa3d5b6e99ffbc`.
 Deployed base: `af797838dee531d7874da2145e99a50c67d32b45` (practice-bot release).
 Prior untimed checkpoints `297de42609ff575aa914e0f852aba80482957622` and
@@ -204,15 +207,29 @@ change was made to satisfy those assertions.
 
 Coverage includes 7/8/9 seats, no early deal/engine, exact windows, automatic
 unique choices, retained previews, late Ready, delayed/duplicate/stale timers,
-recovery/abort races, durable lost-task repair and all-bot waiting. These backend tests
-verify REST Rules reads and persisted service state. The coordinator has added
-a separate real modular SDK regression for both setup-to-role and
-role-to-gameplay live transitions without reload; that consumer test belongs
-to the integration branch. Combined GitHub CI and actual Functions smoke remain pending with the
-coordinator's integration changes. The follow-up Rules correction and expanded
-missing-preview denial coverage passed all 34 focused setup/Rules/outbox cases.
-The remaining 64 regressions are still running. Standalone package installation
-and production exclusion passed again with the corrected Rules.
+recovery/abort races, durable lost-task repair and all-bot waiting. These backend
+tests verify REST Rules reads and persisted service state.
+
+At Rules checkpoint `14fb2ed8a7f9d2b388771085d54a7361f5f441fc`, all 34 focused
+setup/Rules/outbox cases passed. The subsequent 64-case regression run passed
+63/64: one concurrent draft/confirmation test required the documented bounded
+reconciliation of a transient transaction refusal with its original immutable
+requests. Its test-only correction retries only `UNAVAILABLE`, at most twice,
+validates every response and retains all identity/lock/gameplay assertions.
+The full affected identity module then passed 11/11. Thus all 98 distinct local
+cases have passing coverage across these reruns; a clean one-pass 98-case run
+is not claimed. Standalone installation and production exclusion passed again
+with the corrected Rules. All isolated processes stopped afterward.
+
+The coordinator's integration commit
+`fc97ecb568f5ca6746a37ed77fba4e356a191c45` adds
+`apps/game/test-emulator/connected-setup-listeners.test.mjs`. Its reported local
+1/1 pass uses real modular SDK listeners across both transitions with full
+30+30-second windows, two humans/five bots, early and late Ready, no reload and
+zero listener errors. This backend branch does not adopt or execute that
+Frontend-owned test. The coordinator also reported host-away browser and
+all-bot acceptance. Combined GitHub CI and actual Functions smoke remain
+integration gates; local adapters do not prove cloud Tasks/IAM delivery.
 
 Historical untimed evidence at `297de42609ff575aa914e0f852aba80482957622`:
 `npm run verify` passed 876 workspace tests, 70 static checks, 483 catalogue
