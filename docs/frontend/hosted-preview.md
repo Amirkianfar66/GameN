@@ -6,8 +6,9 @@ separate integration proposal: the existing worktrees, local emulator entry, rul
 contracts and historical Canvas are unchanged. Firebase project
 `gamen-mothership-staging` was created on 7 October 2026 for this preview. The
 [hosted preview](https://gamen-mothership-staging.web.app) is published and its host
-screen signs in successfully. Match creation and full live play are not accepted yet;
-the remaining staging IAM changes await owner approval.
+screen signs in successfully. The owner-approved staging IAM plan is applied and a
+seven-player cloud smoke test passed. This is a functional preview for supervised
+testing; complete hosted games, phones and human balance remain unverified.
 
 ## Hosted client
 
@@ -162,21 +163,80 @@ missing Auth on server-time/command operations returned 401, an unapproved origi
 403, and all three private background endpoints returned 403 to unauthenticated callers.
 No private game state or credential was recorded in the public evidence.
 
-## Remaining access configuration and acceptance
+## Approved IAM and live smoke test
 
-The exact staging IAM plan is prepared for owner approval. Three browser-facing services
-(`v1CreateMatch`, `v1Advance`, `v1RedeemSeatRecovery`) still lack the platform invocation
-binding that lets requests reach their application Auth/App Check checks. Background
-service invocation, queue enqueue/OIDC, build storage/repository access and replacement
-of automatic Editor grants with scoped roles also remain pending. No changes from the
-blocked IAM command were applied. See [Backend's staging review](https://github.com/Amirkianfar66/GameN/pull/55).
+The owner approved the exact staging IAM plan on 7 October. All twelve resource policies
+were read before changing them, unrelated bindings were preserved, and returned etags
+were supplied as write concurrency preconditions. Updated policies and their new etags
+were read back. Local before/after evidence is retained privately.
+The approved changes are now applied:
 
-Before describing this link as playable, complete and read back the approved IAM plan,
-then verify host creation, player admission, display isolation, an accepted command,
-reload/reconciliation, recovery denial and a real unattended deadline delivered to the
-private task handler. No hosted match, complete hosted game, phone session or human
-playtest has been accepted. The existing 45-minute full-match evidence belongs to the
-local emulator client at the pinned Frontend commit, not this cloud deployment.
+- The three missing browser-facing services (`v1CreateMatch`, `v1Advance`,
+  `v1RedeemSeatRecovery`) have platform invocation access, with the existing application
+  Auth/App Check boundary still enforced. The other nine HTTP services retain theirs.
+- Deadline, Eventarc and repair services grant invocation to the deployed runtime identity
+  and remain private. The task queue grants enqueue access; the runtime account permits
+  the approved runtime/Tasks identities to select it for authenticated delivery.
+- The actual runtime/build identity has project-scoped Firestore, Auth-user-read and
+  Logging roles, its existing Eventarc receiver grant, repository-scoped Artifact Registry
+  writer and object-viewer access on the two build-source buckets. Automatic Editor grants
+  to the runtime and unused App Engine identities were removed, as was the runtime's
+  project-wide Run invoker grant after service-level access was verified.
+
+The application is still exactly the published `89f4a88` build; no runtime source, rule,
+contract, App Check enforcement or service-account key changed for this setup. See
+[Backend's staging review](https://github.com/Amirkianfar66/GameN/pull/55) for role rationale.
+
+A real seven-player match was created through the hosted UI with separate anonymous
+browser sessions, seven approved seats and an admitted public display. These checks passed:
+
+1. Host creation, admission and start reached live Firestore-backed screens. Before host
+   admission the display remained at its waiting screen; afterward it showed public board,
+   phase and status information without private role controls.
+2. Player 1 submitted an ordinary move from Room A to Room B. The client showed ACCEPTED,
+   the player's authoritative location changed and the public display received that move.
+3. All nine game pages were navigated away at **08:56:19 UTC** (10:56:19 Europe/Rome), before
+   the 08:56:26.340 deadline. Cloud Tasks invoked the private handler at 08:56:26.417730;
+   it returned 204 and the next phase began at 08:56:29.235. Further private deliveries at
+   08:57:29 and 08:58:29 also returned 204 while every game page remained closed.
+   Eventarc returned 204 and the one-minute repair scheduler returned 200. No successful
+   browser `v1Advance` call was needed for this observation.
+4. Actual task metadata used the deployed runtime OIDC identity and regional
+   `cloudfunctions.net/v1DeadlineTask` URL as both target and audience. Successful private
+   delivery resolves the previously unverified Admin SDK URL/audience assumption for
+   this deployment. Each observed outbox record was dispatched on its first enqueue attempt.
+5. Reopening the same player tab restored Player 1 in Room B and the current phase, with
+   private details hidden initially. The host and display also reconnected. A new device
+   redeemed a host-issued recovery code and received the same seat/location. At the next browser check the old
+   device had cleared its displayed view and showed the connecting state. Readback found
+   its old membership and private projection absent, and the replacement membership and
+   seat binding agreed at revision 2. No recovery code or private role was saved in public
+   evidence. The old device's indefinite connecting message remains a UX limitation;
+   this observation proves withheld state, not a clear seat-revoked message.
+6. Eight post-IAM denial checks passed: four browser handlers rejected missing Auth with
+   401, an unapproved origin returned 403 without an allow-origin header, and all three
+   private background endpoints rejected unauthenticated calls with 403. Anonymous Auth
+   without App Check returned 401 with an invalid-App-Check error. The legitimate browser
+   sessions above used the enforced provider successfully.
+7. The synthetic match progressed into Round 2 and was then ended through the host UI.
+   Host and public display confirmed an ended match with no winner. A previously queued
+   task then returned 204 after the abort; final readback stayed ABORTED at revision 10
+   with zero queued tasks and all outbox rows dispatched. Test records remain for review;
+   this is not a complete-game, winner, load or social-balance acceptance run.
+
+The scoped IAM configuration and these limited live flows are verified. A fresh source
+build after removal of Editor, deliberate lost-event/repair injection, recovery-code reuse,
+8/9-player hosted games, full-game outcome paths, physical phones, real network loss and
+human playtests have not been rerun in this cloud project. Their existing unit/emulator
+coverage must not be presented as fresh cloud evidence. The prior 45-minute full-match
+browser evidence belongs to the pinned local emulator client.
+
+A separate read-only Backend review checked the local IAM and acceptance evidence.
+It identified an etag wording correction, now applied, and no other blocker within this
+synthetic smoke-test scope. Browser actions remain coordinator observations rather than
+an independently repeated device test.
+
+## Remaining product acceptance
 
 The hosted lobby still leaves its initial "Connecting to the playtest…" line above the
 signed-in controls; this is a presentation issue, not evidence of failed sign-in. Keep
