@@ -5,6 +5,7 @@
 import {
   createComicFeeds, createConnectedApi, createConnectedPlayerScreen, createConnectedTableScreen, createLifecycleRequests, readAdmission, readHostSession, readLobby, shellTokenStylesheet,
 } from '@mothership/game';
+import { SeatSessionSchema } from '@mothership/contracts';
 import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
 import { nextDesignTokens } from '@mothership/design-tokens';
 import { createTransport } from './transport-provider.js';
@@ -188,7 +189,7 @@ function listenPersistently(target, read, onValue, onRefused = () => {}) {
   const start = () => {
     stop = transport.listenDocument(target, {
       onSnapshot: snapshot => {
-        if (!snapshot.fresh) return;
+        if (stopped || !snapshot.fresh) return;
         wait = RETRY_FIRST_MS;
         const outcome = read(snapshot.value);
         if (outcome.kind === 'accepted') onValue(outcome.value);
@@ -736,6 +737,9 @@ async function player(uid) {
     const startOver = el('button', 'Start over with another code', { type: 'button', id: 'connected-recover-start-over', class: 'connected-quiet' });
     const controls = () => (lifecycle.unsettled('recover') === null ? [startOver] : [resend, startOver]);
     let inTheMatch = false;
+    let waitingInLobby = false;
+    let stopSeatSession = () => {};
+    lobbyWatchers.push(() => { waitingInLobby = false; stopSeatSession(); });
     resend.addEventListener('click', async () => {
       // Only a request that is kept can be sent again: after a reload there is none, and the code is gone with it.
       const kept = lifecycle.unsettled('recover')?.request ?? null;
@@ -791,20 +795,42 @@ async function player(uid) {
     let learning = false;
     lobbyWatchers.push(openOnceStarted(matchId, { kind: 'player-view', matchId },
       () => {
+        waitingInLobby = false;
+        stopSeatSession();
         settledByTheServer();
         if (learning) return;
         learning = true;
         draw('This device has taken over a seat. Opening the match…');
         learnSeatAndOpen();
       },
-      () => draw(ENDED_IN_LOBBY),
-      () => draw(inTheMatch
-        ? 'The server does not let this device read the match. If its seat was moved to another device, this one is no longer in it.'
-        : 'The server has not given this device a seat in this match. If the request is still on its way this page will find out; otherwise ask the host for a new code and start over.', ...controls()),
+      () => { waitingInLobby = false; stopSeatSession(); draw(ENDED_IN_LOBBY); },
       () => {
-        // Which seat it is, the seat's own view will say once the match has started.
+        waitingInLobby = false;
+        stopSeatSession();
+        draw(inTheMatch
+          ? 'The server does not let this device read the match. If its seat was moved to another device, this one is no longer in it.'
+          : 'The server has not given this device a seat in this match. If the request is still on its way this page will find out; otherwise ask the host for a new code and start over.', ...controls());
+      },
+      () => {
+        waitingInLobby = true;
         settledByTheServer();
-        draw('This device has taken over a seat. Waiting for the host to start the match.');
+        const waiting = 'This device has taken over a seat. Waiting for the host to start the match.';
+        draw(waiting);
+        if (seatId !== null) return;
+        // Recovery writes this own-UID metadata even before a player view exists. A
+        // missing legacy document keeps the waiting/view-after-start fallback above.
+        stopSeatSession();
+        stopSeatSession = listenPersistently({ kind: 'seat-session', matchId }, payload => {
+          const parsed = SeatSessionSchema.safeParse(payload);
+          return parsed.success && parsed.data.matchId === matchId
+            ? { kind: 'accepted', value: parsed.data } : { kind: 'missing' };
+        }, session => {
+          if (!waitingInLobby || seatId !== null || transport.currentUid() !== uid) return;
+          seatId = session.seatId;
+          resume.save({ device: 'player', matchId, seatId });
+          identityPanel = identityPicker(matchId, seatId);
+          draw(waiting);
+        });
       }));
     return;
   }
