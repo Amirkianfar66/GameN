@@ -83,7 +83,10 @@ test('lost bot setup answer keeps its exact count and ID across later human admi
   s.controls.dispose();
 });
 test('unknown practice metadata disables changes and human recovery, and disposal removes the listener', () => {
-  const s = setup(); s.lobby(7, ['seat-1'], ['seat-2']); s.publish(['seat-2']);
+  const s = setup(); s.publish(['seat-2']);
+  assert.match(s.node('bots-summary').textContent, /Waiting for match status/);
+  assert.doesNotMatch(s.node('bots-summary').textContent, /has ended|keep playing/);
+  s.lobby(7, ['seat-1'], ['seat-2']);
   s.unavailable();
   assert.equal(s.node('bots-save').disabled, true);
   assert.equal(s.controls.readyToStart(), false);
