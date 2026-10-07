@@ -97,11 +97,12 @@ Host, display, peers, displaced identities, collection reads and writes remain
 refused. Server time checks still enforce when roles may be published and when
 play may launch; no client timer becomes authoritative.
 
-Firebase's local Functions suite does not supply Cloud Tasks delivery. The test-only
-setup adapter waits each real deadline and delivers the stored intent through the
-real service. SDK/REST observations still use each participant's own identity and
-Rules. The interactive local preview has a separate, clearly labeled server tick
-for the same purpose. Neither mechanism proves deployed queue delivery or IAM.
+The pinned Firebase CLI automatically starts its Tasks emulator with Functions.
+SDK/REST acceptance observes those real local transitions through each participant's
+own identity and Rules. Injected-clock service fixtures run in a separate fresh
+Auth/Firestore suite, so real-time handlers cannot advance their simulated clocks.
+The interactive local preview has a separate, clearly labeled server tick. Local
+Tasks/preview behavior does not prove deployed scheduling accuracy or queue IAM.
 
 GitHub CI, source-bound staging publication and hosted task delivery are separate
 release checks. No merge is implied. Physical phones, real network loss, complete
@@ -109,3 +110,9 @@ hosted games and human social-deduction balance remain separate acceptance work.
 There are no unresolved owner decisions for this startup sequence. Affected-role
 contract review remains a merge gate. The historical connected development lobby
 still uses its earlier start workflow; use the hosted/practice entry for this flow.
+
+The initial combined CI run at `c0f5a1a` passed workspace checks but failed 55 of
+114 backend emulator cases: live Tasks handlers advanced injected-clock fixtures.
+The follow-up separates those fixtures from real Functions acceptance, retains
+every suite, and checks that required HTTP suites cannot disappear. The rerun is
+required before publication; the earlier failure is not reported as passing CI.

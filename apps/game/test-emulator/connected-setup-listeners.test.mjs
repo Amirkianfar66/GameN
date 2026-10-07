@@ -3,11 +3,9 @@ import test from 'node:test';
 import { createConnectedApi, createSetupFeed, readLobby } from '@mothership/game';
 import { createEmulatorTransport } from '../dist/browser/firebase-transport.js';
 import { emulatorHosts, PROJECT, realPorts } from './support/rest-transport.mjs';
-import { deliverSetupDeadlineForTest } from './support/setup-deadline.mjs';
 
-// Real SDK listeners across the two setup transactions. The test-only server adapter
-// supplies missing emulator Tasks delivery using the persisted intent and real time.
-// Role/lobby observations use only the SDK; no injected roles, shortened deadlines,
+// Real SDK listeners across the two setup transactions, with actual local Functions
+// and Tasks delivery in CI. No Admin reads, injected roles, shortened deadlines,
 // browser reloads or browser-driven setup advancement.
 const ports = realPorts();
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -58,7 +56,6 @@ test('live SDK setup listeners receive the dealt role and final-Ready launch wit
     await eventually(() => feed.binding() && feed.public()?.stage === 'lobby', 'current setup binding');
   }
   done(await host.api.beginSetup(request({ schemaVersion: 1, matchId })));
-  await deliverSetupDeadlineForTest(matchId, 'choosing');
   const reading = await eventually(() => feeds[0].public()?.stage === 'awaiting-ready' && feeds[0].public(), 'automatic role dealing', 45_000);
   assert.equal(reading.choosingEndsAt - reading.choosingStartedAt, 30_000);
   assert.equal(reading.readingEndsAt - reading.readingStartedAt, 30_000);

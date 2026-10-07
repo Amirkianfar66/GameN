@@ -32,7 +32,7 @@
     "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm test && npm run test:balance && npm run test:scenarios",
     "test:engine": "npm run build && node --test packages/engine/test/*.test.mjs",
     "test:backend": "npm run build && node --test services/game-api/test/*.test.mjs infra/firebase/test/*.test.mjs",
-    "test:emulator": "npm run build && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node --test --test-concurrency=1 services/game-api/test-emulator/*.test.mjs infra/firebase/test-emulator/*.test.mjs\"",
+    "test:emulator": "npm run build && node scripts/test-emulator.mjs",
     "package:backend": "npm run build && node scripts/package-backend.mjs",
     "typecheck:pure": "tsc --project tsconfig.check.json --noEmit",
     "typecheck:browser": "tsc --project tsconfig.check.browser.json --noEmit",

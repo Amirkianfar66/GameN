@@ -84,3 +84,12 @@ Implementation references: [TypeScript project references](https://www.typescrip
 ## Backend emulator checkpoint
 
 Backend issue #2 adds engine/API/HTTP guard tests to `npm run verify`. `npm run test:emulator` additionally requires Java 21 and runs local Auth, Firestore, Functions and Rules evidence against `demo-mothership`. Its CLI is pinned in the root lockfile. See [the backend handoff](backend/implementation.md); emulator tests fail rather than silently skip when their prerequisites are absent. No cloud login or deployment is required.
+
+
+The backend emulator runner discovers every service/Firebase emulator test and runs
+two fresh suites. Injected-clock service fixtures and Rules tests use Auth/Firestore
+only. Actual HTTP/trigger tests then use Auth/Firestore/Functions, which also starts
+the pinned CLI's Tasks emulator. Real-time triggers must not observe fixtures using
+a different injected clock. Both suites are required; none are skipped. Frontend
+emulator tests use the complete runtime and wait real setup deadlines. This local
+Tasks behavior does not establish production scheduling accuracy or cloud IAM.
