@@ -58,3 +58,29 @@ endpoint is included in the exhaustive operation/request-schema coverage.
 
 These are client and markup checks. They do not establish deployed bot execution,
 background delivery, physical phone behavior or completed hosted games.
+
+## Reproduce local browser acceptance
+
+This separate harness uses the real hosted client, strict service operations and Firestore
+Rules against isolated Auth/Firestore emulators. Its loopback timer calls the same bot and
+deadline service methods. It is not an emulator of production Eventarc or Cloud Tasks and
+must not be used as proof of cloud background delivery. Existing comic-harness ports are
+left available to other review work.
+
+With pinned Node/npm and Java 21 on PATH, run these in three terminals at this checkout:
+
+```sh
+npm run build
+npx --no-install firebase emulators:start --config firebase.practice-emulators.json --project demo-mothership --only auth,firestore
+```
+
+```sh
+FIRESTORE_EMULATOR_HOST=127.0.0.1:8590 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9599 GCLOUD_PROJECT=demo-mothership node apps/game/dev/practice/server.mjs
+```
+
+```sh
+npx --no-install vite --config apps/game/dev/practice/vite.config.mjs
+```
+
+Open `http://127.0.0.1:5176/?as=host`, `?as=player` and `?as=display` in separate tabs.
+These development modules reject cloud configuration and are excluded from publication.
