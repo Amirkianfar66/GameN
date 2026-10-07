@@ -102,5 +102,8 @@ test('a pending bot update cannot offer new bot seats for recovery before metada
   s.publish(bots, 4);
   assert.equal(s.controls.canRecover('seat-1'), false);
   assert.equal(s.controls.canRecover('seat-7'), true);
+  s.lobby(7, ['seat-7'], bots, 'aborted');
+  assert.match(s.node('bots-summary').textContent, /Bot play has ended/);
+  assert.doesNotMatch(s.node('bots-summary').textContent, /keep playing/);
   s.controls.dispose();
 });

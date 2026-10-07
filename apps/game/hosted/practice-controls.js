@@ -47,7 +47,7 @@ export function createPracticeControls({ matchId, api, lifecycle, operate, feed,
     label.hidden = !open; save.hidden = !open && kept === null;
     const description = !known() ? 'Bot settings are unavailable. Waiting for a fresh server update.'
       : bots.length === 0 ? 'No bots in this match.'
-      : `Practice match · ${bots.length} ${bots.length === 1 ? 'bot' : 'bots'}. Bots keep playing if the host tab closes.`;
+      : `Practice match · ${bots.length} ${bots.length === 1 ? 'bot' : 'bots'}. ${open ? 'Bots join when you start the match.' : lobby.status === 'running' ? 'Bots keep playing if the host tab closes.' : 'Bot play has ended.'}`;
     summary.textContent = `${description}${waitingRevision !== null ? ' Waiting for the updated roster.' : ''}${notice ? ` ${notice}` : ''}`;
     roster.replaceChildren(...bots.map(seatId => {
       const name = feed.identities()?.seats.find(seat => seat.seatId === seatId)?.displayName;
