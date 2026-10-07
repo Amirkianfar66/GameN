@@ -18,6 +18,8 @@ service cloud.firestore {
       return member(matchId).kind == 'player'
         && isSeat(member(matchId).seatId)
         && exists(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId))
+        && (!('controller' in get(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId)).data)
+          || get(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId)).data.controller == 'human')
         && get(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId)).data.uid == request.auth.uid
         && get(/databases/$(database)/documents/matches/$(matchId)/seats/$(member(matchId).seatId)).data.bindingRevision == member(matchId).bindingRevision;
     }
@@ -44,6 +46,12 @@ service cloud.firestore {
     match /matches/{matchId}/lobby/public {
       allow get: if admitted(matchId) && fullMatch(matchId)
         && resource.data.protocolVersion == 2 && resource.data.matchId == matchId;
+      allow list, write: if false;
+    }
+    match /matches/{matchId}/practice/public {
+      allow get: if admitted(matchId) && fullMatch(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/practice/public)
+          || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2 && resource.data.matchId == matchId));
       allow list, write: if false;
     }
     match /matches/{matchId}/identities/public {
