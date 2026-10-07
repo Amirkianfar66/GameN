@@ -27,7 +27,7 @@ before(async () => {
 after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
 async function harness(playerCount = 7, { deal = true, hostPlays = false, assetManifestVersion = '0.0.0-no-assets' } = {}) {
-  let now = 2_000_000_000_000 + ++serial * 100_000_000;
+  let now = 1_600_000_000_000 + ++serial * 100_000_000;
   const service = createV1Service({ db, clock: () => now, shuffle: items => [...items], assetManifestVersion });
   const host = await createEmulatorIdentity();
   const players = await Promise.all(Array.from({ length: playerCount }, (_, i) => hostPlays && i === 0 ? host : createEmulatorIdentity()));
@@ -63,7 +63,7 @@ async function harness(playerCount = 7, { deal = true, hostPlays = false, assetM
     await startStagedMatch(h);
     assert.equal((await lobbyView()).status, 'running');
     const initial = await current();
-    assert.equal(initial.phase.startedAt, now, 'The final Ready starts the first window at the current injected clock');
+    assert.equal(initial.phase.startedAt, now, 'The reading deadline starts the first window at the current injected clock');
     assert.equal(initial.phase.endsAt, now + 60_000);
   }
   return h;

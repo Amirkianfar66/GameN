@@ -23,11 +23,18 @@ export type V1Operation = typeof V1_OPERATIONS[number];
 export type V1Deadline = { matchId: string; phaseId: string; deadlineToken: string };
 export type V1DeadlineIntent = V1Deadline & { taskId: string; endsAt: number };
 export type V1Enqueue = (intent: V1DeadlineIntent) => Promise<void>;
+export type V1SetupDeadline = { matchId: string; setupId: string; stage: 'choosing' | 'awaiting-ready'; deadlineToken: string };
+export type V1SetupDeadlineIntent = V1SetupDeadline & { taskId: string; dueAt: number };
+export type V1SetupEnqueue = (intent: V1SetupDeadlineIntent) => Promise<void>;
+export type V1SetupDeadlineResult = { status: 'advanced' | 'unchanged' | 'too-early' | 'failed' | 'blocked'; retryAfterMs?: number };
 export type V1HttpService = { [Operation in V1Operation]: (uid: string, payload: unknown) => Promise<unknown> };
 export type V1PracticeBotsResult = { status: 'advanced' | 'unchanged' | 'failed' | 'blocked'; processed: number };
 export type V1Service = V1HttpService & {
   runPracticeBots(matchId: string, options: { limit: number }): Promise<V1PracticeBotsResult>;
   runDeadline(payload: V1Deadline): Promise<unknown>;
+  runSetupDeadline(payload: V1SetupDeadline): Promise<V1SetupDeadlineResult>;
+  dispatchSetupDeadlineIntent(path: string, enqueue: V1SetupEnqueue): Promise<unknown>;
+  repairSetupOutbox(enqueue: V1SetupEnqueue, options: { limit: number; cursor?: string }): Promise<unknown>;
   dispatchDeadlineIntent(path: string, enqueue: V1Enqueue): Promise<unknown>;
   repairOutbox(enqueue: V1Enqueue, options: { limit: number; cursor?: string }): Promise<unknown>;
 };
@@ -39,6 +46,7 @@ export interface V1HttpDependencies {
   clock?: () => number;
 }
 const deadlineTaskId = (matchId: string, phaseId: string, deadlineToken: string): string => createHash('sha256').update(JSON.stringify([matchId, phaseId, deadlineToken])).digest('hex');
+const setupDeadlineTaskId = (intent: V1SetupDeadline): string => createHash('sha256').update(JSON.stringify(['setup', intent.matchId, intent.setupId, intent.stage, intent.deadlineToken])).digest('hex');
 const strictOperations = {
   setPracticeBots: { request: FullSetPracticeBotsRequestSchema, response: FullSetPracticeBotsResponseSchema },
   beginSetup: { request: FullBeginSetupRequestSchema, response: FullBeginSetupResponseSchema },
@@ -142,6 +150,49 @@ export function createV1Enqueuer(queue: { enqueue(payload: V1Deadline, options: 
     catch (error) { if (!taskExists(error)) throw error; }
   };
 }
+function validSetupDeadline(payload: unknown): payload is V1SetupDeadline {
+  return payload !== null && typeof payload === 'object' && !Array.isArray(payload)
+    && Object.keys(payload).length === 4 && Object.keys(payload).every(key => ['matchId', 'setupId', 'stage', 'deadlineToken'].includes(key))
+    && ['matchId', 'setupId', 'deadlineToken'].every(key => typeof (payload as Record<string, unknown>)[key] === 'string' && identity.test((payload as Record<string, string>)[key]!))
+    && 'stage' in payload && (payload.stage === 'choosing' || payload.stage === 'awaiting-ready');
+}
+export function createV1SetupEnqueuer(queue: { enqueue(payload: V1SetupDeadline, options: { id: string; scheduleTime: Date }): Promise<void> }): V1SetupEnqueue {
+  return async intent => {
+    const payload: V1SetupDeadline = { matchId: intent.matchId, setupId: intent.setupId, stage: intent.stage, deadlineToken: intent.deadlineToken };
+    if (!validSetupDeadline(payload) || intent.taskId !== setupDeadlineTaskId(payload)
+      || !Number.isSafeInteger(intent.dueAt) || intent.dueAt < 0 || !Number.isFinite(new Date(intent.dueAt).getTime())) throw new Error('Invalid setup deadline intent');
+    try { await queue.enqueue(payload, { id: intent.taskId, scheduleTime: new Date(intent.dueAt) }); }
+    catch (error) { if (!taskExists(error)) throw error; }
+  };
+}
+export function createV1SetupDeadlineHandler(service: Pick<V1Service, 'runSetupDeadline'>) {
+  return async (payload: unknown): Promise<void> => {
+    if (!validSetupDeadline(payload)) throw new Error('Invalid setup deadline task');
+    let result: V1SetupDeadlineResult;
+    try { result = await service.runSetupDeadline(payload); }
+    catch { throw new Error('Setup deadline evaluation unavailable'); }
+    if (result === null || typeof result !== 'object'
+      || !Object.keys(result).every(key => ['status', 'retryAfterMs'].includes(key))
+      || !['advanced', 'unchanged', 'too-early', 'failed', 'blocked'].includes(result.status)
+      || (result.status === 'too-early'
+        ? !Number.isSafeInteger(result.retryAfterMs) || result.retryAfterMs! <= 0
+        : result.retryAfterMs !== undefined)) throw new Error('Setup deadline evaluation unavailable');
+    // An early delivery is not completion. Cloud Tasks must retain and retry it.
+    if (result.status === 'too-early') throw new Error('Setup deadline has not elapsed');
+    if (result.status === 'failed') throw new Error('Setup deadline evaluation unavailable');
+    // The engine write at actual launch owns gameplay timers and the bot trigger.
+  };
+}
+export function createV1SetupRepairHandler(service: Pick<V1Service, 'repairSetupOutbox'>, enqueue: V1SetupEnqueue) {
+  return async (): Promise<void> => {
+    let result: unknown;
+    try { result = await service.repairSetupOutbox(enqueue, { limit: 100 }); }
+    catch { throw new Error('Setup deadline repair unavailable'); }
+    if (result === null || typeof result !== 'object'
+      || !['dispatched', 'unchanged', 'failed', 'blocked'].every(key => key in result && Number.isSafeInteger((result as Record<string, unknown>)[key]) && ((result as Record<string, number>)[key] ?? -1) >= 0)
+      || !('failed' in result) || result.failed !== 0) throw new Error('Setup deadline repair unavailable');
+  };
+}
 export function createV1PracticeBotsHandler(service: Pick<V1Service, 'runPracticeBots'>) {
   return async (matchId: unknown): Promise<void> => {
     if (typeof matchId !== 'string' || !identity.test(matchId)) throw new Error('Invalid practice bot match');
@@ -187,6 +238,24 @@ export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
     const queue = getFunctions(app).taskQueue<V1Deadline>('locations/us-central1/functions/v1DeadlineTask');
     await createV1Enqueuer(queue)(intent);
   };
+  const enqueueSetup: V1SetupEnqueue = async intent => {
+    const { app, configuration } = resolveContext();
+    if (configuration.emulator && configuration.tasksEmulatorHost === undefined) throw new Error('The local Cloud Tasks emulator is required for setup enqueue');
+    const queue = getFunctions(app).taskQueue<V1SetupDeadline>('locations/us-central1/functions/v1SetupDeadlineTask');
+    await createV1SetupEnqueuer(queue)(intent);
+  };
+  const setupDeadlineTask = onTaskDispatched({ region: 'us-central1', invoker: 'private', timeoutSeconds: 30, maxInstances: 12, minInstances: 0,
+    retryConfig: { maxAttempts: 10, minBackoffSeconds: 1, maxBackoffSeconds: 60 }, rateLimits: { maxConcurrentDispatches: 10 } }, request => createV1SetupDeadlineHandler(resolveContext().service)(request.data));
+  const dispatchSetupDeadline = onDocumentCreated({ document: 'matches/{matchId}/setupOutbox/{intentId}', region: 'us-central1', retry: true, timeoutSeconds: 30, maxInstances: 12, minInstances: 0 }, async event => {
+    if (event.data === undefined || event.data.get('protocolVersion') !== 2) return;
+    let result: unknown;
+    try { result = await resolveContext().service.dispatchSetupDeadlineIntent(event.data.ref.path, enqueueSetup); }
+    catch { throw new Error('Setup deadline dispatch unavailable'); }
+    if (result === null || typeof result !== 'object' || !('status' in result)
+      || !['dispatched', 'unchanged', 'blocked'].includes(result.status as string)) throw new Error('Setup deadline dispatch unavailable');
+  });
+  const repairSetupDeadlines = onSchedule({ schedule: 'every 1 minutes', region: 'us-central1', timeoutSeconds: 60, maxInstances: 12, minInstances: 0 },
+    () => createV1SetupRepairHandler(resolveContext().service, enqueueSetup)());
   const deadlineTask = onTaskDispatched({ region: 'us-central1', invoker: 'private', timeoutSeconds: 30,
     retryConfig: { maxAttempts: 10, minBackoffSeconds: 1, maxBackoffSeconds: 60 }, rateLimits: { maxConcurrentDispatches: 10 } }, request => createV1DeadlineHandler(resolveContext().service)(request.data));
   const dispatchDeadline = onDocumentCreated({ document: 'matches/{matchId}/outbox/{intentId}', region: 'us-central1', retry: true }, async event => {
@@ -203,5 +272,5 @@ export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
   const repairDeadlines = onSchedule({ schedule: 'every 1 minutes', region: 'us-central1', timeoutSeconds: 60 }, async () => {
     await resolveContext().service.repairOutbox(enqueue, { limit: 100 });
   });
-  return { ...endpoints, deadlineTask, dispatchDeadline, repairDeadlines, runPracticeBots };
+  return { ...endpoints, deadlineTask, dispatchDeadline, repairDeadlines, runPracticeBots, setupDeadlineTask, dispatchSetupDeadline, repairSetupDeadlines };
 }

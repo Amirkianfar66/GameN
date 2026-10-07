@@ -58,7 +58,7 @@ async function read(h, identity, suffix, { method = 'GET', data } = {}) {
   });
 }
 async function harness({ playerCount = 7, humanCount = playerCount, admittedCount = humanCount, shuffle = items => [...items] } = {}) {
-  let now = 2_000_000_000_000 + ++serial * 100_000_000;
+  let now = 1_600_000_000_000 + ++serial * 100_000_000;
   const service = createV1Service({ db, clock: () => now, shuffle });
   const [host, display, outsider, ...players] = await Promise.all(Array.from({ length: humanCount + 3 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount }));
@@ -86,13 +86,52 @@ async function harness({ playerCount = 7, humanCount = playerCount, admittedCoun
   const confirm = async (index, body = choice(index)) => { const response = ack('confirmSetupChoice', await service.confirmSetupChoice(players[index].uid, body), body); assert.equal(response.seatId, 'seat-' + (index + 1)); return response; };
   const readyBody = async (fields = {}) => setupRequest({ bindingRevision: 1, dealId: (await document()).dealId, ...fields });
   const ready = async (index, body) => { body ??= await readyBody(); const response = ack('readyForMatch', await service.readyForMatch(players[index].uid, body), body); assert.equal(response.seatId, 'seat-' + (index + 1)); assert.equal(response.dealId, body.dealId); return response; };
-  const prepare = async () => { await begin(); for (let i = 0; i < humanCount; i++) await confirm(i); };
-  return { service, base, host, display, outsider, players, request, setupRequest, document, identities, state, choice, begin, confirm, readyBody, ready, prepare, now: () => now, setTime: value => { now = value; } };
+  const prepare = async () => { await begin(); for (let i = 0; i < humanCount; i++) await confirm(i); await closeChoosing(h); };
+  const h = { service, base, host, display, outsider, players, request, setupRequest, document, identities, state, choice, begin, confirm, readyBody, ready, prepare, now: () => now, setTime: value => { now = value; } };
+  return h;
 }
 async function noGameplay(h) {
   assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
   assert.equal((await h.base.collection('views').doc('public').get()).exists, false);
-  for (const name of ['playerViews', 'ownAcknowledgments', 'outbox', 'events', 'receipts']) assert.equal((await h.base.collection(name).get()).size, 0, name + ' must not contain gameplay before final Ready');
+  for (const name of ['playerViews', 'ownAcknowledgments', 'outbox', 'events', 'receipts']) assert.equal((await h.base.collection(name).get()).size, 0, name + ' must not contain gameplay before reading expiry and every current human Ready');
+}
+const withoutTime = ({ serverTimeMs: _time, ...value }) => value;
+function timerResult(value) {
+  assert.ok(value && typeof value === 'object');
+  assert.ok(['advanced', 'unchanged', 'too-early', 'failed', 'blocked'].includes(value.status));
+  assert.ok(Object.keys(value).every(key => ['status', 'retryAfterMs'].includes(key)));
+  if (value.retryAfterMs !== undefined) assert.ok(Number.isSafeInteger(value.retryAfterMs) && value.retryAfterMs >= 0);
+  return value;
+}
+async function setupIntent(h, stage) {
+  const progress = await h.document();
+  const intents = (await h.base.collection('setupOutbox').get()).docs.filter(entry => entry.get('setupId') === progress.setupId && entry.get('stage') === stage);
+  assert.equal(intents.length, 1, 'Each actual setup stage must have one durable private deadline intent');
+  const intent = intents[0].data();
+  assert.equal(intent.matchId, h.base.id); assert.equal(intent.taskId, intents[0].id);
+  assert.equal(intent.dueAt, stage === 'choosing' ? progress.choosingEndsAt : progress.readingEndsAt);
+  assert.equal(typeof intent.deadlineToken, 'string'); assert.ok(intent.deadlineToken.length > 0);
+  return { dueAt: intent.dueAt, payload: { matchId: intent.matchId, setupId: intent.setupId, stage: intent.stage, deadlineToken: intent.deadlineToken } };
+}
+async function settleTimer(invoke, initial) {
+  let value = timerResult(initial ?? await invoke());
+  for (let retry = 0; value.status === 'failed' && retry < 2; retry++) value = timerResult(await invoke());
+  assert.notEqual(value.status, 'failed', 'The same persisted timer must reconcile after contention');
+  return value;
+}
+async function closeChoosing(h, { delayMs = 0, service = h.service } = {}) {
+  const intent = await setupIntent(h, 'choosing'); h.setTime(intent.dueAt + delayMs);
+  assert.ok(['advanced', 'unchanged'].includes((await settleTimer(() => service.runSetupDeadline(intent.payload))).status));
+  const progress = await h.document(); assert.equal(progress.stage, 'awaiting-ready');
+  assert.equal(progress.readingStartedAt, h.now()); assert.equal(progress.readingEndsAt - progress.readingStartedAt, 30_000);
+  return intent;
+}
+async function expireReading(h, { service = h.service, expect = 'advanced' } = {}) {
+  const intent = await setupIntent(h, 'awaiting-ready'); h.setTime(Math.max(h.now(), intent.dueAt));
+  const result = await settleTimer(() => service.runSetupDeadline(intent.payload));
+  if (expect === 'advanced') { assert.ok(['advanced', 'unchanged'].includes(result.status)); assert.equal((await h.document()).stage, 'running'); }
+  else { assert.equal(result.status, expect); assert.equal((await h.document()).stage, 'awaiting-ready'); }
+  return intent;
 }
 async function snapshot(ref) {
   const value = await ref.get(); return { exists: value.exists, data: value.data() ?? null, updateTime: value.updateTime?.toMillis() ?? null };
@@ -110,33 +149,44 @@ async function launchEvidence(h) {
   return current;
 }
 
-for (const playerCount of [7, 8, 9]) test(`${playerCount} humans reconfirm choices, receive one private deal, and launch only at final Ready`, async () => {
+for (const playerCount of [7, 8, 9]) test(`${playerCount} humans get full choosing and reading windows before one fresh gameplay minute`, async () => {
   const h = await harness({ playerCount });
-  const beforeRooms = (await h.base.collection('lobby').doc('public').get()).get('seats');
-  await h.begin(); let document = await h.document();
-  assert.equal(document.stage, 'choosing'); assert.equal(document.dealId, null);
-  assert.ok(document.seats.every(seat => !seat.confirmed && !seat.ready)); await noGameplay(h);
+  const beforeRooms = (await h.base.collection('lobby').doc('public').get()).get('seats'), lobby = await h.document();
+  assert.equal(lobby.stage, 'lobby');
+  for (const key of ['setupId', 'dealId', 'choosingStartedAt', 'choosingEndsAt', 'readingStartedAt', 'readingEndsAt']) assert.equal(lobby[key], null);
+  await h.begin(); const choosing = await h.document();
+  assert.equal(choosing.stage, 'choosing'); assert.equal(choosing.dealId, null);
+  assert.equal(choosing.choosingStartedAt, h.now()); assert.equal(choosing.choosingEndsAt - choosing.choosingStartedAt, 30_000);
+  assert.equal(choosing.readingStartedAt, null); assert.equal(choosing.readingEndsAt, null);
+  assert.ok(choosing.seats.every(seat => !seat.confirmed && !seat.ready)); await noGameplay(h);
   for (let i = 0; i < playerCount; i++) { await h.confirm(i); await noGameplay(h); }
-  document = await h.document(); assert.equal(document.stage, 'awaiting-ready'); assert.ok(document.dealId);
-  const deal = await snapshot(h.base.collection('setup').doc('deal'));
+  assert.equal((await h.document()).stage, 'choosing', 'Everyone confirming cannot shorten the choosing window');
+  assert.equal((await h.base.collection('setup').doc('deal').get()).exists, false);
+  assert.equal((await h.base.collection('setupPlayerViews').get()).size, 0);
+  const choosingIntent = await setupIntent(h, 'choosing'); h.setTime(choosingIntent.dueAt - 1);
+  assert.deepEqual(timerResult(await h.service.runSetupDeadline(choosingIntent.payload)), { status: 'too-early', retryAfterMs: 1 });
+  assert.equal((await h.document()).dealId, null);
+  assert.equal((await read(h, h.players[0], 'setupPlayerViews/' + h.players[0].uid)).status, 403, 'Choosing never exposes a future role card');
+  await noGameplay(h);
+  await closeChoosing(h); const reading = await h.document(), deal = await snapshot(h.base.collection('setup').doc('deal'));
+  assert.equal(reading.readingStartedAt, choosing.choosingEndsAt); assert.ok(reading.dealId);
   for (let i = 0; i < playerCount; i++) {
     const own = await privateView(h, h.players[i].uid);
-    assert.equal(own.self.seatId, 'seat-' + (i + 1)); assert.equal(own.dealId, document.dealId); assert.equal(own.bindingRevision, 1);
-    assert.deepEqual(Object.keys(own.self).sort(), ['role', 'seatId']);
+    assert.equal(own.self.seatId, 'seat-' + (i + 1)); assert.equal(own.dealId, reading.dealId); assert.equal(own.bindingRevision, 1);
+    assert.deepEqual(Object.keys(own.self).sort(), ['role', 'seatId']); await h.ready(i);
+    assert.deepEqual(await privateView(h, h.players[i].uid), own, 'An early Ready retains the private reading card');
+    await noGameplay(h);
   }
-  h.setTime(h.now() + 180_000);
-  for (let i = 0; i < playerCount - 1; i++) {
-    await h.ready(i); await noGameplay(h);
-    assert.equal((await h.base.collection('setupPlayerViews').doc(h.players[i].uid).get()).exists, false);
-  }
-  const finalBody = await h.readyBody(); await h.ready(playerCount - 1, finalBody);
-  const state = await launchEvidence(h); assert.equal(state.phase.startedAt, h.now());
+  const readingIntent = await setupIntent(h, 'awaiting-ready'); h.setTime(readingIntent.dueAt - 1);
+  assert.deepEqual(timerResult(await h.service.runSetupDeadline(readingIntent.payload)), { status: 'too-early', retryAfterMs: 1 });
+  await noGameplay(h); await expireReading(h);
+  const state = await launchEvidence(h); assert.equal(state.phase.startedAt, reading.readingEndsAt);
+  assert.equal(state.phase.startedAt - choosing.choosingStartedAt, 60_000);
   assert.deepEqual(await snapshot(h.base.collection('setup').doc('deal')), deal);
   assert.deepEqual(state.setup.initialRooms, Object.fromEntries(beforeRooms.map(seat => [seat.seatId, seat.initialRoom])));
   const projections = projectFullGame(state);
   for (let i = 0; i < playerCount; i++) {
-    const own = FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(h.players[i].uid).get()).data());
-    assert.deepEqual(own, projections.players['seat-' + (i + 1)]);
+    assert.deepEqual(FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(h.players[i].uid).get()).data()), projections.players['seat-' + (i + 1)]);
     OwnAcknowledgmentsSchema.parse((await h.base.collection('ownAcknowledgments').doc(h.players[i].uid).get()).data());
   }
 });
@@ -208,10 +258,11 @@ test('setup requests enforce strict versions, current binding, stage and immutab
   refused('confirmSetupChoice', await h.service.confirmSetupChoice(h.players[0].uid, { ...choice, displayName: 'Changed' }), 'REQUEST_ID_CONFLICT');
   refused('confirmSetupChoice', await h.service.confirmSetupChoice(h.players[1].uid, h.choice(1, { bindingRevision: 2 })), 'STALE_BINDING');
   for (let i = 1; i < h.players.length; i++) await h.confirm(i);
+  await closeChoosing(h);
   const document = await h.document(), deal = await snapshot(h.base.collection('setup').doc('deal'));
   refused('readyForMatch', await h.service.readyForMatch(h.players[0].uid, h.setupRequest({ dealId: document.dealId, bindingRevision: 1, uid: h.players[1].uid })), 'INVALID_REQUEST');
   const restarted = createV1Service({ db, clock: h.now, shuffle: items => [...items].reverse() });
-  assert.deepEqual(ack('confirmSetupChoice', await restarted.confirmSetupChoice(h.players[0].uid, choice)), confirmed);
+  assert.deepEqual(withoutTime(ack('confirmSetupChoice', await restarted.confirmSetupChoice(h.players[0].uid, choice))), withoutTime(confirmed));
   assert.deepEqual(await snapshot(h.base.collection('setup').doc('deal')), deal);
   refused('readyForMatch', await h.service.readyForMatch(h.players[0].uid, h.setupRequest({ dealId: randomUUID(), bindingRevision: 1 })), 'STALE_DEAL');
   refused('readyForMatch', await h.service.readyForMatch(h.players[0].uid, h.setupRequest({ dealId: document.dealId, bindingRevision: 2 })), 'STALE_BINDING');
@@ -229,7 +280,7 @@ test('setup refuses unknown lifecycle markers and never overwrites an existing e
   await engine.delete(); await h.begin(); await engine.set({ syntheticExistingEngine: true });
   refused('confirmSetupChoice', await h.service.confirmSetupChoice(h.players[0].uid, h.choice(0)), 'UNAVAILABLE');
   assert.equal((await h.document()).seats[0].confirmed, false);
-  await engine.delete(); await h.confirm(0); await engine.set({ syntheticExistingEngine: true });
+  await engine.delete(); await h.confirm(0); await closeChoosing(h); await engine.set({ syntheticExistingEngine: true });
   const prepared = await snapshot(h.base.collection('setup').doc('deal')), readyBefore = await snapshot(h.base.collection('setup').doc('public')), engineBefore = await snapshot(engine);
   refused('readyForMatch', await h.service.readyForMatch(h.players[0].uid, await h.readyBody()), 'UNAVAILABLE');
   assert.deepEqual(await snapshot(engine), engineBefore); assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), readyBefore);
@@ -239,7 +290,7 @@ test('setup refuses unknown lifecycle markers and never overwrites an existing e
   refused('readyForMatch', await h.service.readyForMatch(h.players[0].uid, await h.readyBody()), 'UNAVAILABLE');
   await control.update({ gameStarted: false, status: 'running' });
   refused('readyForMatch', await h.service.readyForMatch(h.players[0].uid, await h.readyBody()), 'UNAVAILABLE');
-  await control.update({ status: 'awaiting-ready' }); await h.ready(0); await launchEvidence(h);
+  await control.update({ status: 'awaiting-ready' }); h.setTime((await h.document()).readingEndsAt); await h.ready(0); await launchEvidence(h);
 });
 
 test('setup role previews are own-only and role reads do not touch public or unrelated snapshots', async () => {
@@ -254,6 +305,7 @@ test('setup role previews are own-only and role reads do not touch public or unr
   for (const identity of [h.host, h.display, h.players[0]]) {
     assert.equal((await read(h, identity, 'setup/public', { method: 'PATCH', data: value })).status, 403);
     assert.equal((await read(h, identity, 'setup/deal')).status, 403);
+    assert.equal((await read(h, identity, 'setupOutbox')).status, 403);
     assert.equal((await read(h, identity, 'setupPlayerViews')).status, 403);
     assert.equal((await read(h, identity, 'setupPlayerViews/' + h.players[0].uid, { method: 'PATCH', data: await privateView(h, h.players[0].uid) })).status, 403);
   }
@@ -265,7 +317,8 @@ test('setup role previews are own-only and role reads do not touch public or unr
 test('different secret role deals leave the same neutral public setup progress', async () => {
   const first = await harness({ humanCount: 1 }), second = await harness({ humanCount: 1, shuffle: items => [...items].reverse() });
   await first.prepare(); await second.prepare();
-  const normalize = value => ({ ...value, matchId: 'synthetic-match', dealId: 'synthetic-deal' });
+  const normalize = value => ({ ...value, matchId: 'synthetic-match', setupId: 'synthetic-setup', dealId: 'synthetic-deal',
+    choosingStartedAt: 0, choosingEndsAt: 30_000, readingStartedAt: value.readingStartedAt - value.choosingStartedAt, readingEndsAt: value.readingEndsAt - value.choosingStartedAt });
   assert.deepEqual(normalize(await first.document()), normalize(await second.document()));
   assert.notEqual((await privateView(first, first.players[0].uid)).self.role, (await privateView(second, second.players[0].uid)).self.role);
   await noGameplay(first); await noGameplay(second);
@@ -289,8 +342,10 @@ test('recovery preserves choices and deal, resets waiting Ready, and revokes old
     const h = await harness(); await h.begin(); let oldReady;
     if (stage !== 'choosing') {
       for (let i = 0; i < h.players.length; i++) await h.confirm(i);
+      await closeChoosing(h);
       oldReady = await h.readyBody(); await h.ready(0, oldReady);
-      if (stage === 'running') for (let i = 1; i < h.players.length; i++) await h.ready(i);
+      if (stage === 'awaiting-ready') await expireReading(h, { expect: 'unchanged' });
+      if (stage === 'running') { for (let i = 1; i < h.players.length; i++) await h.ready(i); await expireReading(h); }
     }
     const old = h.players[0], replacement = await auth(), identities = await h.identities();
     const deal = await snapshot(h.base.collection('setup').doc('deal'));
@@ -318,7 +373,7 @@ test('duplicate final Ready launches exactly once at server time and survives se
   const h = await harness({ humanCount: 1 }); await h.begin();
   const choosing = await h.document(); assert.equal(choosing.stage, 'choosing');
   assert.ok(choosing.seats.filter(seat => seat.seatId !== 'seat-1').every(seat => seat.confirmed && !seat.ready));
-  await noGameplay(h); await h.confirm(0);
+  await noGameplay(h); await h.confirm(0); await closeChoosing(h);
   assert.ok((await h.document()).seats.filter(seat => seat.seatId !== 'seat-1').every(seat => seat.confirmed && seat.ready));
   h.setTime(h.now() + 240_000);
   const body = await h.readyBody(), invoke = () => h.service.readyForMatch(h.players[0].uid, body);
@@ -343,9 +398,15 @@ test('neither direct gameplay nor internal bots/deadlines can consume the privat
   assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), before); await noGameplay(h);
 });
 
-test('all-bot 7/8/9 rosters begin and launch atomically with no bot private client documents', async () => {
+test('all-bot 7/8/9 rosters wait both full windows and launch without client calls or bot private documents', async () => {
   for (const playerCount of [7, 8, 9]) {
-    const h = await harness({ playerCount, humanCount: 0 }); await h.begin(); await launchEvidence(h);
+    const h = await harness({ playerCount, humanCount: 0 }); await h.begin(); const choosing = await h.document();
+    assert.equal(choosing.stage, 'choosing'); await noGameplay(h);
+    await closeChoosing(h); assert.equal((await h.document()).stage, 'awaiting-ready'); await noGameplay(h);
+    const intent = await setupIntent(h, 'awaiting-ready'); h.setTime(intent.dueAt - 1);
+    assert.deepEqual(timerResult(await h.service.runSetupDeadline(intent.payload)), { status: 'too-early', retryAfterMs: 1 });
+    await noGameplay(h); await expireReading(h); const state = await launchEvidence(h);
+    assert.equal(state.phase.startedAt - choosing.choosingStartedAt, 60_000);
     assert.ok((await h.document()).seats.every(seat => seat.confirmed && seat.ready));
     for (const collection of ['setupPlayerViews', 'playerViews', 'ownAcknowledgments', 'seatSessions']) assert.equal((await h.base.collection(collection).get()).size, 0);
     const bindings = (await h.base.collection('seats').get()).docs;
@@ -357,8 +418,9 @@ test('host abort works from lobby, choosing, awaiting-ready and running without 
   for (const stage of ['lobby', 'choosing', 'awaiting-ready', 'running']) {
     const h = await harness({ humanCount: 1 });
     if (stage !== 'lobby') await h.begin();
-    if (['awaiting-ready', 'running'].includes(stage)) await h.confirm(0);
-    if (stage === 'running') await h.ready(0);
+    if (['awaiting-ready', 'running'].includes(stage)) { await h.confirm(0); await closeChoosing(h); }
+    if (stage === 'running') { await h.ready(0); await expireReading(h); }
+    const oldIntent = stage === 'lobby' ? null : await setupIntent(h, stage === 'choosing' ? 'choosing' : 'awaiting-ready');
     const body = h.request(); op(await h.service.abortMatch(h.host.uid, body));
     assert.equal((await h.document()).stage, 'aborted'); assert.equal((await h.base.collection('setupPlayerViews').get()).size, 0);
     assert.equal((await h.base.collection('control').doc('session').get()).get('status'), 'aborted');
@@ -367,14 +429,19 @@ test('host abort works from lobby, choosing, awaiting-ready and running without 
     else await noGameplay(h);
     refused('beginSetup', await h.service.beginSetup(h.host.uid, h.setupRequest()), 'SETUP_LOCKED');
     op(await h.service.abortMatch(h.host.uid, body));
+    const aborted = await snapshot(h.base.collection('setup').doc('public')), abortedEngine = await snapshot(h.base.collection('engine').doc('current'));
+    if (oldIntent) { h.setTime(Math.max(h.now(), oldIntent.dueAt)); assert.equal(timerResult(await h.service.runSetupDeadline(oldIntent.payload)).status, 'unchanged'); }
+    assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), aborted);
+    assert.deepEqual(await snapshot(h.base.collection('engine').doc('current')), abortedEngine);
     assert.deepEqual(await h.service.runPracticeBots(h.base.id, { limit: 18 }), { status: 'unchanged', processed: 0 });
   }
 });
 
 test('abort versus final Ready serializes an aborted session and never leaves live gameplay', async () => {
   const h = await harness({ humanCount: 1 }); await h.prepare();
-  const body = await h.readyBody(), abort = h.request();
-  const [ready, aborted] = await Promise.all([h.service.readyForMatch(h.players[0].uid, body), h.service.abortMatch(h.host.uid, abort)]);
+  const body = await h.readyBody(), abort = h.request(), intent = await setupIntent(h, 'awaiting-ready'); h.setTime(intent.dueAt);
+  const [ready, aborted, timer] = await Promise.all([h.service.readyForMatch(h.players[0].uid, body), h.service.abortMatch(h.host.uid, abort), h.service.runSetupDeadline(intent.payload)]);
+  await settleTimer(() => h.service.runSetupDeadline(intent.payload), timer);
   FullReadyForMatchResponseSchema.parse(ready); op(await settled('abortMatch', () => h.service.abortMatch(h.host.uid, abort), aborted));
   const settledReady = await settled('readyForMatch', () => h.service.readyForMatch(h.players[0].uid, body), ready);
   if (!settledReady.ok) refused('readyForMatch', settledReady, 'SETUP_LOCKED');
@@ -387,8 +454,9 @@ test('seat recovery racing final Ready preserves the single deal and rejects dis
   const h = await harness({ humanCount: 1 }); await h.prepare();
   const old = h.players[0], replacement = await auth(), deal = await snapshot(h.base.collection('setup').doc('deal'));
   const grant = op(await h.service.issueSeatRecovery(h.host.uid, h.request({ seatId: 'seat-1' })));
-  const body = await h.readyBody(), redemption = h.request({ recoveryToken: grant.recoveryToken });
-  const [ready, redeemed] = await Promise.all([h.service.readyForMatch(old.uid, body), h.service.redeemSeatRecovery(replacement.uid, redemption)]);
+  const body = await h.readyBody(), redemption = h.request({ recoveryToken: grant.recoveryToken }), intent = await setupIntent(h, 'awaiting-ready'); h.setTime(intent.dueAt);
+  const [ready, redeemed, timer] = await Promise.all([h.service.readyForMatch(old.uid, body), h.service.redeemSeatRecovery(replacement.uid, redemption), h.service.runSetupDeadline(intent.payload)]);
+  await settleTimer(() => h.service.runSetupDeadline(intent.payload), timer);
   FullReadyForMatchResponseSchema.parse(ready);
   op(await settled('redeemSeatRecovery', () => h.service.redeemSeatRecovery(replacement.uid, redemption), redeemed));
   refused('readyForMatch', await h.service.readyForMatch(old.uid, body), 'FORBIDDEN');
@@ -403,6 +471,104 @@ test('seat recovery racing final Ready preserves the single deal and rejects dis
   assert.deepEqual(state.setup, decodeV1Setup(deal.data.setup));
   FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(replacement.uid).get()).data());
   assert.equal((await h.base.collection('playerViews').doc(old.uid).get()).exists, false);
+});
+
+test('setup deadline authority is strict, rejects forged epochs and tokens, and cannot advance early', async () => {
+  const h = await harness({ humanCount: 1 }); await h.begin();
+  const intent = await setupIntent(h, 'choosing'), before = await snapshot(h.base.collection('setup').doc('public'));
+  assert.deepEqual(timerResult(await h.service.runSetupDeadline(intent.payload)), { status: 'too-early', retryAfterMs: 30_000 });
+  for (const payload of [
+    {}, { ...intent.payload, stage: 'running' }, { ...intent.payload, uid: h.host.uid },
+    { ...intent.payload, matchId: '../unsafe' }, { ...intent.payload, deadlineToken: '' },
+  ]) assert.equal(timerResult(await h.service.runSetupDeadline(payload)).status, 'blocked');
+  h.setTime(intent.dueAt);
+  for (const payload of [{ ...intent.payload, setupId: randomUUID() }, { ...intent.payload, deadlineToken: randomUUID() }]) {
+    assert.ok(['blocked', 'unchanged'].includes(timerResult(await h.service.runSetupDeadline(payload)).status));
+  }
+  assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), before); await noGameplay(h);
+  assert.equal((await h.base.collection('setup').doc('deal').get()).exists, false);
+});
+
+test('choosing deadline fills missing legacy choices uniquely while preserving explicitly confirmed choices', async () => {
+  const h = await harness(), current = await h.identities();
+  // Historical names could duplicate; this valid synthetic old identity document is the only draft seed.
+  const suggestions = [
+    ['Hacker', 'c9'], ['hacker', 'c1'], [null, null], ['Same', 'c2'], ['same', 'c3'], ['Legacy Six', 'c4'], ['Legacy Seven', 'c5'],
+  ];
+  await h.base.collection('identities').doc('public').set(FullLobbyIdentityDocumentSchema.parse({ ...current, revision: current.revision + 1,
+    seats: current.seats.map((seat, index) => ({ ...seat, displayName: suggestions[index][0], characterId: suggestions[index][1] })) }));
+  const rooms = (await h.base.collection('lobby').doc('public').get()).get('seats');
+  await h.begin(); await h.confirm(0, h.choice(0, { displayName: 'Confirmed One', characterId: 'c9' }));
+  assert.equal((await h.document()).seats.filter(seat => seat.confirmed).length, 1); await noGameplay(h);
+  await closeChoosing(h); const identities = await h.identities(), progress = await h.document();
+  assert.deepEqual(identities.seats[0], { seatId: 'seat-1', displayName: 'Confirmed One', characterId: 'c9' });
+  assert.equal(new Set(identities.seats.map(seat => seat.characterId)).size, 7);
+  assert.equal(new Set(identities.seats.map(seat => seat.displayName.normalize('NFKC').trim().toLowerCase())).size, 7);
+  assert.ok(progress.seats.every(seat => seat.confirmed && !seat.ready));
+  assert.equal(identities.locked, true);
+  assert.deepEqual(decodeV1Setup((await h.base.collection('setup').doc('deal').get()).get('setup')).initialRooms,
+    Object.fromEntries(rooms.map(seat => [seat.seatId, seat.initialRoom])));
+  await noGameplay(h);
+});
+
+test('delayed choosing delivery opens a full new reading window from the actual commit time', async () => {
+  const h = await harness({ humanCount: 1 }); await h.begin(); await h.confirm(0);
+  const choosing = await h.document(); await closeChoosing(h, { delayMs: 120_000 });
+  const reading = await h.document(); assert.equal(reading.readingStartedAt, choosing.choosingEndsAt + 120_000);
+  assert.equal(reading.readingEndsAt, reading.readingStartedAt + 30_000); await h.ready(0); await noGameplay(h);
+  const intent = await setupIntent(h, 'awaiting-ready'); h.setTime(intent.dueAt - 1);
+  assert.deepEqual(timerResult(await h.service.runSetupDeadline(intent.payload)), { status: 'too-early', retryAfterMs: 1 });
+  await noGameplay(h); await expireReading(h);
+  const state = await launchEvidence(h); assert.equal(state.phase.startedAt, reading.readingEndsAt);
+  assert.equal(state.phase.endsAt, reading.readingEndsAt + 60_000);
+});
+
+test('expired reading waits for missing Ready and late readiness starts a fresh full gameplay minute', async () => {
+  const h = await harness({ humanCount: 1 }); await h.prepare();
+  const progress = await snapshot(h.base.collection('setup').doc('public')), preview = await snapshot(h.base.collection('setupPlayerViews').doc(h.players[0].uid));
+  const intent = await expireReading(h, { expect: 'unchanged' });
+  assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), progress);
+  assert.deepEqual(await snapshot(h.base.collection('setupPlayerViews').doc(h.players[0].uid)), preview); await noGameplay(h);
+  h.setTime(intent.dueAt + 90_000);
+  assert.equal(timerResult(await h.service.runSetupDeadline(intent.payload)).status, 'unchanged'); await noGameplay(h);
+  await h.ready(0); const state = await launchEvidence(h);
+  assert.equal(state.phase.startedAt, h.now()); assert.equal(state.phase.endsAt, h.now() + 60_000);
+  assert.equal((await h.document()).readingEndsAt, intent.dueAt, 'Waiting cannot manufacture a second reading window');
+});
+
+test('concurrent and restarted setup deadline deliveries create one immutable deal and one launch', async () => {
+  const h = await harness({ humanCount: 1 }); await h.begin(); await h.confirm(0);
+  const choosing = await setupIntent(h, 'choosing'); h.setTime(choosing.dueAt);
+  const calls = await Promise.all([h.service.runSetupDeadline(choosing.payload), h.service.runSetupDeadline(choosing.payload)]);
+  const results = [];
+  for (const value of calls) results.push(await settleTimer(() => h.service.runSetupDeadline(choosing.payload), value));
+  assert.ok(results.every(value => ['advanced', 'unchanged'].includes(value.status)));
+  assert.ok(results.filter(value => value.status === 'advanced').length <= 1);
+  const deal = await snapshot(h.base.collection('setup').doc('deal')), progress = await snapshot(h.base.collection('setup').doc('public'));
+  const restarted = createV1Service({ db, clock: h.now, shuffle: items => [...items].reverse() });
+  assert.equal(timerResult(await restarted.runSetupDeadline(choosing.payload)).status, 'unchanged');
+  assert.deepEqual(await snapshot(h.base.collection('setup').doc('deal')), deal);
+  assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), progress); await noGameplay(h);
+  const earlyBody = await h.readyBody(); await h.ready(0, earlyBody);
+  const reading = await setupIntent(h, 'awaiting-ready'); h.setTime(reading.dueAt);
+  const raced = await Promise.all([restarted.runSetupDeadline(reading.payload), restarted.runSetupDeadline(reading.payload), h.service.readyForMatch(h.players[0].uid, earlyBody)]);
+  for (const value of raced.slice(0, 2)) assert.ok(['advanced', 'unchanged'].includes((await settleTimer(() => restarted.runSetupDeadline(reading.payload), value)).status));
+  ack('readyForMatch', await settled('readyForMatch', () => h.service.readyForMatch(h.players[0].uid, earlyBody), raced[2]));
+  const state = await launchEvidence(h), launched = await snapshot(h.base.collection('setup').doc('public'));
+  assert.equal(timerResult(await restarted.runSetupDeadline(reading.payload)).status, 'unchanged');
+  assert.deepEqual(await h.state(), state); assert.deepEqual(await snapshot(h.base.collection('setup').doc('public')), launched);
+  assert.deepEqual(await snapshot(h.base.collection('setup').doc('deal')), deal);
+});
+
+test('choosing timeout racing a late confirmation cannot accept a choice outside the window', async () => {
+  const h = await harness({ humanCount: 1 }); await h.begin();
+  const intent = await setupIntent(h, 'choosing'); h.setTime(intent.dueAt);
+  const body = h.choice(0, { displayName: 'Too Late' });
+  const [confirmed, timed] = await Promise.all([h.service.confirmSetupChoice(h.players[0].uid, body), h.service.runSetupDeadline(intent.payload)]);
+  refused('confirmSetupChoice', await settled('confirmSetupChoice', () => h.service.confirmSetupChoice(h.players[0].uid, body), confirmed), 'SETUP_LOCKED');
+  assert.ok(['advanced', 'unchanged'].includes((await settleTimer(() => h.service.runSetupDeadline(intent.payload), timed)).status));
+  assert.notEqual((await h.identities()).seats[0].displayName, 'Too Late');
+  assert.equal((await h.document()).stage, 'awaiting-ready'); await noGameplay(h);
 });
 
 test('legacy running state without setup documents retains strict gameplay projections and canonical behavior', async () => {

@@ -29,7 +29,18 @@ service cloud.firestore {
         && setup.schemaVersion == 1 && setup.protocolVersion == 2
         && setup.lifecycleVersion == 'staged-start-1' && setup.matchId == matchId
         && setup.stage == 'awaiting-ready' && setup.playerCount == control.playerCount
-        && setup.dealId is string && setup.dealId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$');
+        && setup.setupId is string && setup.setupId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$')
+        && setup.dealId is string && setup.dealId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$')
+        && setup.choosingStartedAt is int && setup.choosingStartedAt >= 0
+        && setup.choosingEndsAt is int && setup.choosingEndsAt == setup.choosingStartedAt + 30000
+        && setup.readingStartedAt is int && setup.readingStartedAt >= setup.choosingEndsAt
+        && setup.readingEndsAt is int && setup.readingEndsAt == setup.readingStartedAt + 30000
+        && request.time.toMillis() >= setup.readingStartedAt
+        && exists(/databases/$(database)/documents/matches/$(matchId)/setup/deal)
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.schemaVersion == 1
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.protocolVersion == 2
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.lifecycleVersion == 'staged-start-1'
+        && get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.dealId == setup.dealId;
     }
     function setupPlayerDocument(matchId) {
       let setup = get(/databases/$(database)/documents/matches/$(matchId)/setup/public).data;
@@ -47,6 +58,7 @@ service cloud.firestore {
         && (value.self.role != 'Officer' || value.playerCount == 9)
         && (value.self.role != 'Red Disabler' || value.playerCount >= 8)
         && value.versions.keys().hasOnly(['protocolVersion', 'rulesetVersion', 'rulesetHash', 'engineVersion', 'assetManifestVersion'])
+        && value.versions == get(/databases/$(database)/documents/matches/$(matchId)/setup/deal).data.versions
         && value.versions.protocolVersion == 2
         && value.versions.rulesetVersion is string && value.versions.rulesetVersion.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$')
         && value.versions.rulesetHash is string && value.versions.rulesetHash.matches('^[a-f0-9]{64}$')
@@ -107,8 +119,8 @@ service cloud.firestore {
       allow list, write: if false;
     }
     match /matches/{matchId}/setupPlayerViews/{uid} {
-      // Awaiting-ready is emitted only after every seat has confirmed. A preview
-      // is deleted on own Ready; an authorized missing GET lets that client clear it.
+      // Previews stay available after early Ready until actual launch. Only the
+      // current timed reading stage and human binding authorize this private role.
       allow get: if request.auth != null && request.auth.uid == uid && fullMatch(matchId)
         && activePlayer(matchId) && setupAwaitingReady(matchId)
         && (!exists(/databases/$(database)/documents/matches/$(matchId)/setupPlayerViews/$(uid))

@@ -37,3 +37,6 @@ export const v1RunPracticeBots=v1.runPracticeBots;
 export const v1DeadlineTask=v1.deadlineTask;
 export const v1DispatchDeadline=v1.dispatchDeadline;
 export const v1RepairDeadlines=v1.repairDeadlines;
+export const v1SetupDeadlineTask=v1.setupDeadlineTask;
+export const v1DispatchSetupDeadline=v1.dispatchSetupDeadline;
+export const v1RepairSetupDeadlines=v1.repairSetupDeadlines;
