@@ -39,7 +39,9 @@ export interface Snapshot<Value> {
  * Why a listener ended. refused: the server's rules do not let this identity read what it
  * asked for. Anything else is a failure of the listener and says nothing about access.
  */
-export type ListenerFailure = 'refused' | 'failed';
+// A hosted permission denial can be an Auth/App Check failure, not a revoked seat.
+// Hide held views immediately, but do not discard unresolved command identifiers.
+export type ListenerFailure = 'refused' | 'authorization-uncertain' | 'failed';
 
 export interface DocumentListener {
   /** The document as it is, unvalidated, or null when it does not exist. */

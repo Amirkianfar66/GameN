@@ -16,6 +16,9 @@ export interface FeedListener {
    * delivered before must no longer be shown. A transport that cannot tell never calls it.
    */
   onRefused?(): void;
+  /** Authorization could not be verified. Hide held views until a fresh server snapshot,
+   * preserving nonsecret reconciliation identifiers because revocation is not proven. */
+  onAuthorizationUncertain?(): void;
   /**
    * The server confirmed that there is no view for this identity. Before one has been
    * delivered that proves nothing. After one has, the server has taken it away.

@@ -4,6 +4,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { build } from 'vite';
+import { createHostedPreviewCsp } from './hosted-preview-policy.mjs';
 import { readHostedConfiguration } from '../apps/game/dist/browser/hosted-config.js';
 import { checkProductionExclusion, workspaceOptions } from '../apps/game/scripts/check-production-exclusion.mjs';
 
@@ -35,14 +36,7 @@ const sourceDirty = execFileSync('git', ['status', '--porcelain'], { cwd: root, 
 const release = { kind: 'hosted-playtest-preview', sourceCommit, sourceDirty, projectId: config.projectId,
   assetManifestVersion: `v1-preview-${digest.slice(0,16)}`, bundleSha256: digest, files };
 await writeFile(join(output, 'preview-release.json'), JSON.stringify(release, null, 2) + '\n');
-const functionsOrigin = `https://us-central1-${config.projectId}.cloudfunctions.net`;
-const csp = [
-  "default-src 'none'", "base-uri 'none'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'none'",
-  "script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
-  "style-src 'self' 'unsafe-inline'", "img-src 'self' data:", "font-src 'self'",
-  `connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com ${functionsOrigin}`,
-  'frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/',
-].join('; ');
+const csp = createHostedPreviewCsp(config.projectId);
 const hosting = { hosting: { site: config.projectId, public: 'hosted-preview',
   ignore: ['firebase.json', '**/.*', '**/node_modules/**'],
   headers: [{ source: '**', headers: [

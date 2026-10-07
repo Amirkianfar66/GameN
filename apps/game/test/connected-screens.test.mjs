@@ -15,10 +15,10 @@ const TOGGLE = { type: 'private/toggle' };
 const OWN = { kind: 'player-view', matchId: MATCH };
 const PUBLIC = { kind: 'public-view', matchId: MATCH };
 
-function setup(surface = 'player', { kept = null } = {}) {
+function setup(surface = 'player', { kept = null, mode = 'emulator' } = {}) {
   const host = createFakeHost({ serverStart: EPOCH });
   host.kept = kept;
-  const fake = createFakeConnectedTransport(host);
+  const fake = createFakeConnectedTransport(host, { mode });
   fake.respond.v1ServerTime = async () => ({ protocolVersion: 2, serverTimeMs: host.serverNow() });
   const options = { transport: fake.transport, matchId: MATCH, ports: host.ports, host: { reload() {} } };
   const screen = surface === 'player' ? createConnectedPlayerScreen({ ...options, seatId: 'seat-1' }) : createConnectedTableScreen(options);
@@ -721,4 +721,87 @@ test('dispose stops the listener, the timers and the command flow', async () => 
   assert.equal(ended.host.pendingTimers(), 0);
   await ended.host.advance(60_000);
   assert.deepEqual(ended.fake.callsTo('v1Advance'), []);
+});
+
+
+for (const recovery of ['reconnect', 'reload']) {
+  test(`hosted ambiguous denial hides secrets and reconciles an unanswered command after ${recovery}`, async () => {
+    const original = setup('player', { mode: 'production' });
+    original.screen.start();
+    await original.fake.deliver(OWN, playerView());
+    for (const intent of [TOGGLE, { type: 'action/open', kind: 'move' }, { type: 'action/choose', value: 'Room B' }]) original.screen.dispatch(intent);
+    await original.host.advance(GUARD);
+    // The backend accepted this invocation but its HTTP response never arrived.
+    let accepted;
+    original.fake.respond.v1Command = request => {
+      accepted = original.receipt(request).receipt;
+      return new Promise(() => {});
+    };
+    original.screen.dispatch({ type: 'action/confirm' });
+    await flush();
+    const kept = original.host.kept;
+    assert.ok(accepted);
+    assert.match(kept, /commandId/u);
+    await original.fake.fail(OWN, 'authorization-uncertain');
+    assert.equal(original.host.kept, kept);
+    assert.equal(original.frame().model.match, null);
+    assert.equal(original.frame().privateAnnouncement, null);
+    assert.doesNotMatch(`${JSON.stringify(original.frame())} ${original.html()}`, /Cracker|Room B|What you know/u);
+    await original.fake.deliver(OWN, playerView(), false);
+    assert.equal(original.frame().model.match, null, 'Cached facts cannot undo the authorization quarantine');
+
+    let recovered = original;
+    if (recovery === 'reload') {
+      original.screen.dispose();
+      recovered = setup('player', { kept, mode: 'production' });
+      recovered.screen.start();
+    } else {
+      recovered.screen.dispatch({ type: 'session/reconnect' });
+      await recovered.fake.deliver(OWN, playerView(), false);
+      assert.equal(recovered.frame().model.match, null);
+      await recovered.host.advance(15_000);
+    }
+    recovered.fake.respond.v1Receipt = async () => ({ status: 'found', serverTimeMs: recovered.host.serverNow(), receipt: accepted });
+    await recovered.fake.deliver(OWN, playerView());
+    await recovered.host.advance(2_000);
+    assert.equal(recovered.fake.callsTo('v1Receipt').some(request => request.commandId === accepted.commandId), true);
+    assert.equal(recovered.host.kept, null, 'Only the matching authoritative receipt settles the command');
+    assert.equal(original.fake.callsTo('v1Command').length, 1);
+    if (recovery === 'reload') assert.deepEqual(recovered.fake.callsTo('v1Command'), []);
+    recovered.screen.dispose();
+  });
+}
+
+test('a revoked hosted identity remains hidden through retries and cached snapshots', async () => {
+  const s = setup('player', { mode: 'production' });
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  s.screen.dispatch(TOGGLE);
+  await s.fake.fail(OWN, 'authorization-uncertain');
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    s.screen.dispatch({ type: 'session/reconnect' });
+    await s.fake.deliver(OWN, playerView(), false);
+    await s.fake.fail(OWN, 'authorization-uncertain');
+    for (const intent of [TOGGLE, { type: 'action/open', kind: 'move' }, { type: 'action/confirm' }]) s.screen.dispatch(intent);
+    assert.equal(s.frame().model.match, null);
+    assert.equal(s.frame().privateAnnouncement, null);
+  }
+  await s.host.advance(120_000);
+  assert.deepEqual(s.fake.callsTo('v1Command'), []);
+  assert.doesNotMatch(JSON.stringify(s.frame()), /Cracker/u);
+  s.screen.dispose();
+});
+
+
+test('authorization quarantine preserves the revision floor after discarding private view bytes', async () => {
+  const s = setup('player', { mode: 'production' });
+  s.screen.start();
+  await s.fake.deliver(OWN, playerView());
+  await s.fake.fail(OWN, 'authorization-uncertain');
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision -= 1; }));
+  assert.equal(s.frame().model.match, null);
+  assert.equal(s.frame().model.screen, 'blocked');
+  await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; }));
+  assert.equal(s.frame().model.match, null, 'A confirmed regression remains an integrity failure');
+  s.screen.dispose();
 });

@@ -6,6 +6,7 @@ import { collectionPath, documentPath } from '../connected/paths.js';
 import type { ConnectedTransport } from '../connected/transport.js';
 import { readHostedConfiguration } from './hosted-config.js';
 import { postHostedOperation } from './hosted-request.js';
+import { createListenerVerification, listenWithVerification } from './listener-verification.js';
 
 export interface HostedTransport extends ConnectedTransport {
   readonly mode: 'production';
@@ -27,6 +28,10 @@ export function createHostedTransport(input: unknown): HostedTransport {
   const appCheck = initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(config.recaptchaEnterpriseSiteKey), isTokenAutoRefreshEnabled: true });
   const auth = initializeAuth(app, { persistence: browserSessionPersistence });
   const database = initializeFirestore(app, { localCache: memoryLocalCache() });
+  const verification = createListenerVerification(async () => {
+    if (auth.currentUser === null) throw new Error('Not signed in');
+    await Promise.all([auth.currentUser.getIdToken(true), getToken(appCheck, true)]);
+  });
   const stops = new Set<() => void>();
   const track = (stop: () => void): (() => void) => {
     const tracked = (): void => { stops.delete(tracked); stop(); };
@@ -57,18 +62,18 @@ export function createHostedTransport(input: unknown): HostedTransport {
     listenDocument(target, listener) {
       const [first, ...rest] = documentPath(target, uid());
       if (first === undefined) throw new TypeError('Not a documented listener path');
-      return track(onSnapshot(doc(database, first, ...rest), { includeMetadataChanges: true },
-        snapshot => listener.onSnapshot({ value: snapshot.exists() ? snapshot.data() : null,
-          fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites }),
-        error => listener.onError(error.code === 'permission-denied' ? 'refused' : 'failed')));
+      return track(listenWithVerification(verification, (deliver, fail) =>
+        onSnapshot(doc(database, first, ...rest), { includeMetadataChanges: true },
+          snapshot => deliver({ value: snapshot.exists() ? snapshot.data() : null,
+            fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites }), fail), listener));
     },
     listenCollection(target, listener) {
       const [first, ...rest] = collectionPath(target);
       if (first === undefined) throw new TypeError('Not a documented listener path');
-      return track(onSnapshot(collection(database, first, ...rest), { includeMetadataChanges: true },
-        snapshot => listener.onSnapshot({ value: snapshot.docs.map(item => ({ id: item.id, data: item.data() as unknown })),
-          fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites }),
-        error => listener.onError(error.code === 'permission-denied' ? 'refused' : 'failed')));
+      return track(listenWithVerification(verification, (deliver, fail) =>
+        onSnapshot(collection(database, first, ...rest), { includeMetadataChanges: true },
+          snapshot => deliver({ value: snapshot.docs.map(item => ({ id: item.id, data: item.data() as unknown })),
+            fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites }), fail), listener));
     },
     async dispose() {
       for (const stop of [...stops]) stop();

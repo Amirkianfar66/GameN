@@ -37,8 +37,9 @@ export interface SnapshotStore<View> {
   /**
    * Lets go of the held view. What it was pinned to (seat and role, versions, player count)
    * is kept, so nothing that arrives later can stand in for another seat or match.
+   * Authorization quarantine also preserves the nonsecret revision floor.
    */
-  forget(): void;
+  forget(options?: { readonly preserveRevision?: boolean }): void;
 }
 
 /**
@@ -97,13 +98,15 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
   const supported = config.supportedVersions ?? SUPPORTED_PROTOCOL_VERSIONS;
   let held: { readonly view: View; readonly canonical: string } | null = null;
   let pins: Pins | null = null;
+  let highestRevision = -1;
 
   const reject = (rejection: SnapshotRejection): SnapshotOutcome<View> => ({ kind: 'rejected', rejection });
 
   return {
     current: () => held?.view ?? null,
-    forget() {
+    forget(options) {
       held = null;
+      if (options?.preserveRevision !== true) highestRevision = -1;
     },
     accept(payload, options) {
       const version = probeProtocolVersion(payload);
@@ -120,6 +123,11 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
 
       // Parsing rebuilds the object in schema order, so equal views serialize identically.
       const canonical = JSON.stringify(view);
+      // Quarantine can discard private bytes while retaining this nonsecret revision floor.
+      if (held === null && view.viewRevision < highestRevision) {
+        return config.confirmedRegression === 'integrity' && options?.confirmed === true
+          ? reject({ kind: 'revision-regressed' }) : { kind: 'ignored-stale' };
+      }
       if (held) {
         // Only the order of revisions is used. The size of a step carries no meaning here.
         if (view.viewRevision < held.view.viewRevision) {
@@ -130,6 +138,7 @@ export function createSnapshotStore<View extends ComposedView>(config: SnapshotS
         }
       }
       pins ??= seen;
+      highestRevision = Math.max(highestRevision, view.viewRevision);
       held = { view: deepFreeze(view), canonical };
       return { kind: 'accepted', view: held.view };
     },

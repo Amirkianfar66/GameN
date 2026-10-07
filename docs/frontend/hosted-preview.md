@@ -24,14 +24,21 @@ emulator targets, mixed-project configuration and debug attestation are rejected
 The SDK manages credentials; custom persistence remains limited to nonsecret context and
 reconciliation identifiers. No role, target, view or recovery token is added to storage.
 
-The existing client treats a Firestore permission denial as refused access. On a hosted
-project that answer can also indicate App Check failure (Frontend G23). The refusal path
-clears unresolved command identifiers, so reloading alone is not a sufficient recovery
-guarantee. Before publication, ambiguous denial must hide private data while preserving
-nonsecret reconciliation identifiers; confirmed seat revocation must remain denied.
-Backend review in [PR #55](https://github.com/Amirkianfar66/GameN/pull/55) also found that
-the generated CSP omits the SDK App Check exchange host,
-`content-firebaseappcheck.googleapis.com`. Both findings remain publication blockers.
+Hosted Firestore permission/identity errors now suspend authorization instead of declaring
+seat revocation. Held views and announcements disappear immediately, cached snapshots
+cannot restore them, and nonsecret unresolved command identifiers survive reconnect or
+reload. A reconnect refreshes Auth and App Check credentials before opening listeners.
+Only a fresh authorized server view restores the screen. Definitive refusal still clears
+the command and permanently denies the old session. Quarantine preserves the revision
+floor while discarding held private view bytes.
+
+The generated CSP now permits the installed SDK's actual App Check exchange host,
+`content-firebaseappcheck.googleapis.com`. Permanent tests compare the generated policy
+with the installed SDK and exercise unanswered accepted commands, ambiguous denial,
+reconnect/reload reconciliation, repeated denial, late callbacks, refresh failure and
+revision integrity. These changes address the two findings in
+[PR #55](https://github.com/Amirkianfar66/GameN/pull/55); independent review and live cloud
+acceptance remain required.
 
 `scripts/prepare-hosted-preview.mjs` creates the static bundle, public configuration,
 hash manifest and exact-site Hosting configuration. Its source boundary rejects the
@@ -103,12 +110,36 @@ browser evidence belongs to the local emulator client at the pinned Frontend com
 ## Remaining publication inputs and checks
 
 The emulator default remains `demo-mothership`. The owner selected a separate personal
-account and authorized creation of **Mothership V1 Staging**, project ID
+account and authorized creation and configuration of **Mothership V1 Staging**, project ID
 `gamen-mothership-staging`, project number `742846764120`. Fresh Firebase and IAM
-readbacks on 7 October 2026 confirmed the project is `ACTIVE` and the selected account
-has `roles/owner`. Cloud Billing returned `billingEnabled: false`. No billing account
-has been linked and no application deployment has occurred. Use explicit project flags
-for subsequent cloud operations; do not replace the emulator default.
+readbacks confirmed the project is `ACTIVE` and the selected account has `roles/owner`.
+
+Cloud setup verified on 7 October 2026:
+
+- Web app `1:742846764120:web:318965fbc3aa7adcb4e62d` is active. Hosting's default site
+  is `gamen-mothership-staging`, origin `https://gamen-mothership-staging.web.app`.
+- Standard/Native `(default)` Firestore exists in `us-central1`, matching the runtime.
+  Delete protection is enabled; point-in-time recovery is disabled.
+- Firestore, Firebase App Check and reCAPTCHA Enterprise APIs are enabled. A real SCORE
+  key is limited to the project's `web.app` and `firebaseapp.com` domains, registered for
+  the web app with 3,600-second token TTL and the default 0.5 risk threshold.
+- Firestore App Check enforcement is `ENFORCED`. This is configuration readback, not a
+  successful browser attestation or authorization test.
+- Billing linkage awaits the owner's choice between two existing active billing accounts.
+  Auth initialization returned `BILLING_NOT_ENABLED`; anonymous Auth and Auth App Check
+  enforcement remain pending. No billing account has been linked or game deployed.
+
+After the hosted fixes, pinned `npm run verify` passed **643 tests** with no failures,
+skips or todos (25 bootstrap/contracts, 79 engine, 46 Backend, 12 tooling, 140 presentation,
+341 game). A build with the actual public web configuration transformed 152 modules and
+passed production exclusion; main JavaScript is about 205 kB gzipped. These results do
+not establish live Auth, private task delivery, real-device performance or human acceptance.
+
+Use explicit project and account flags for cloud operations; preserve the emulator
+default. The existing standalone Backend configuration at `dist/backend/firebase.json`
+owns its Functions and copied Rules/indexes; `dist/firebase-hosting.json` owns the static
+site. Both must come from the reviewed clean source, and the Backend environment must
+pin the exact browser asset manifest as described above.
 
 [Open the staging Firebase project](https://console.firebase.google.com/project/gamen-mothership-staging/overview).
 
