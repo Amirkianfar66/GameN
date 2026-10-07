@@ -1,0 +1,39 @@
+# Server-controlled practice bots
+
+Issue #70. Base commit `ba91910e29d6a6d6c2f225186e721df58c206f1b`; protocol 2, engine `full-game-1.0.1`, ruleset `in-person-v1-2026-10-06`, hash `6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90`. Original Powers remain off. Practice policy `practice-1` adds no rule, phase override or engine behavior.
+
+## Host configuration and public metadata
+
+`v1SetPracticeBots` derives the host identity from verified Auth, requires production App Check and the configured origin, and accepts the strict `FullSetPracticeBotsRequestSchema`: schema version 1, protocol version 2, `matchId`, `requestId`, and desired total `botCount` (0–9). Match capacity remains 7/8/9. Add/remove only before start; existing humans and retained bot identities remain in their seats. An occupied human or bot seat cannot be overwritten by admission. Bots receive public names and unused crew characters independently of randomized roles.
+
+Success uses the dedicated versioned response with `ok`, `serverTimeMs`, exact `matchId`/`requestId`, `revision` and sorted unique `botSeatIds`. Failures use typed errors: `UNAUTHENTICATED`, `FORBIDDEN`, `INVALID_REQUEST`, `UNSUPPORTED_PROTOCOL`, `UNSUPPORTED_SCHEMA`, `REQUEST_ID_CONFLICT`, `LOBBY_LOCKED`, `CAPACITY_EXCEEDED`, `UNAVAILABLE`, or `RATE_LIMITED`. Retries reuse the immutable request ID and payload; current host authorization is checked before cached responses. Repeating an acknowledged request after start returns its recorded result without changing the roster. A new post-start intent is locked.
+
+Every new match creates `matches/{matchId}/practice/public`, the strict independent `FullPracticeBotsDocumentSchema`: schema/protocol versions, `matchId`, `revision`, `policyVersion: "practice-1"`, and `botSeatIds`. An empty list is human-only. A fresh authorized absent document is the legacy human-only fallback. Existing game, player and lobby projections remain unchanged. Admitted viewers may read this public metadata; clients cannot list or write it. Frontend owns explicit practice and bot labels.
+
+## Authority and privacy
+
+Bot seat bindings have `controller: "bot"`, a binding revision and initial room, with no Auth UID, account, token or reverse player membership. Re-added bot bindings use a retained monotonic binding epoch. No browser-readable bot player view, acknowledgment, session or private audience event is persisted. Human API commands, lookup, identity choice and recovery reject bot bindings even if a forged player membership names that seat. Rules enforce the same human-controller boundary; historical human bindings without a controller remain compatible.
+
+`choosePracticeBotActions` accepts exactly one strict `FullPlayerView`; it has no engine-state, Balance, network, clock, shared-memory or pooled-knowledge input. It uses the bot's own role/resources/authorized Scan results and public facts/legal target hints. The service alone reads authority, projects that one audience, then applies a selected ordinary command through `executeFullGame`. Humans and bots use the same rules and trusted phase time.
+
+Each attempt has a deterministic command ID for policy, match, phase, seat and command type. Receipts and replayable `COMMAND` journal records are committed atomically with resulting state. The journal identifies the bot controller and policy version, retaining the ordinary command, trusted time and next-phase inputs required for replay. Duplicate workers reconcile current authority and prior receipts before spending resources. Policy observations cannot rewrite an already attempted slot.
+
+## Durable bounded execution
+
+The private `v1RunPracticeBots` Eventarc trigger watches writes to `matches/{matchId}/engine/current` with retries. It ignores deleted/protocol-1 state and processes at most 18 commands per invocation. Every accepted or rejected new bot command writes current engine state, creating durable follow-up trigger work. An exhausted bound cannot silently discard remaining work; duplicate/out-of-order events operate on freshly read state. Storage failures throw sanitized retry errors. Unsupported or inconsistent state is blocked without making up a rule or roster.
+
+Existing `v1DeadlineTask` evaluates the trusted deadline first, then runs the same bounded worker against the current phase, including after a stale/duplicate deadline delivery. This provides a fallback after a lost engine event and an idempotent retry after a deadline committed but its worker failed. Existing outbox repair restores failed task enqueue. Bots never advance early, act before phase start or after expiry, and never extend or shorten a canonical window. The worker uses the existing private runtime service identity and adds no public background endpoint or new Auth identity. Both new functions declare a maximum of 12 instances and minimum of zero; existing function limits are unchanged.
+
+For a development-only harness, call `service.runPracticeBots(matchId, { limit: 18 })`; it returns `{ status: "advanced" | "unchanged" | "failed" | "blocked", processed }`. Here `advanced` means commands were processed, not that a phase deadline was forced. Retry `failed`; reread current state for every invocation. Deadline integration should use the actual `createV1DeadlineHandler` so it includes the bot fallback.
+
+## Heuristic limits and release checks
+
+The heuristic does not converse, bluff, read other seats' secrets, or establish human social balance. It makes at most one attempt per command type per phase, prefers deterministic targets, and guesses Code from its own authorized observations. It never initiates `REQUEST_HACK`; a human Hack involving a bot still closes at the canonical 60-second deadline without a fabricated spoken answer. Optional powers remain disabled. Bot replacement, takeover and removal after start are outside this version.
+
+The standalone backend contains 18 V1 functions: 14 HTTP operations and four background functions (deadline task, outbox dispatcher, repair scheduler, bot engine worker). Publication belongs to the coordinator and is not performed by this change. After every Firebase deployment, verify the actual runtime enqueue grant on `v1DeadlineTask`, the private task-service delivery invoker, and private Eventarc/scheduler endpoints including the new bot worker. The existing `invoker: "private"` task declaration and CLI 15 can reset out-of-band queue/task IAM grants during deployment. Verify instance limits, source/artifact parity, App Check and active-match compatibility before hosted acceptance.
+
+Required acceptance includes mixed human/bot and all-bot matches with clients closed, recovered human privacy, phase/deadline retry, a human Hack with a bot, and explicit practice labels on the actual hosted UI. Local synthetic/emulator checks are reported separately from hosted and physical-device evidence in the PR. Cloud deployment, actual devices and human balance are not established by source compilation or simulations.
+
+## Runtime checkpoint verification
+
+The runtime checkpoint compiles with Node 22.21.1/npm 10.9.4. All backend/infra pure tests pass; the standalone package's forbidden-source scan and isolated offline install/export verification pass. The package includes both new functions and 18 total exports. Auth/Firestore concurrency, complete all-bot games, exact journal replay, private Functions trigger, full workspace verification and hosted/browser acceptance are pending at this checkpoint. Follow-up evidence must replace these pending items before integration acceptance.

@@ -199,3 +199,5 @@ export function createGameService({ db, clock = Date.now, newId = randomUUID }: 
 
 export { createV1Service, encodeV1Setup, decodeV1Setup, encodeV1State, decodeV1State } from './full-game.js';
 export type { V1DeadlineIntent, EnqueueV1Deadline, StoredV1State, StoredV1Setup } from './full-game.js';
+
+export { choosePracticeBotActions } from './practice-bot-policy.js';
