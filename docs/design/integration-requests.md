@@ -12,6 +12,8 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-3](#dsn-req-3) | Say how the four pinned Designer files are kept current | Keeping the brief and both directions current | None |
 | [DSN-REQ-4](#dsn-req-4) | Contract facts the design is waiting for | Three finished pictures that nothing draws, and two planned markers | None |
 | [DSN-REQ-5](#dsn-req-5) | Say how `apps/game` reaches `design/exports/`, and hold the loading rule there | Frontend loading any asset | None |
+| [DSN-REQ-6](#dsn-req-6) | A player's name and chosen character as public facts of a seat, set before roles are dealt | Adopting the direction the owner approved on 7 October 2026 | None |
+| [DSN-REQ-7](#dsn-req-7) | Enter the owner's approval of 7 October 2026 in the decision register | The register and the design agreeing on what is approved | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -19,7 +21,7 @@ Nothing here installs anything. Every script Designer added uses Node built-ins 
 
 **Run the Designer checks in `verify`. Needed now.**
 
-`npm run verify` runs `tests/bootstrap` only. This PR adds 52 tests and a 13-part check in Designer's own package and directory. They pass locally and **do not run in CI** until the root script includes them.
+`npm run verify` runs `tests/bootstrap` only. Designer's own package and directory now hold 54 tests and a 14-part check (52 and 13 in PR #45; two tests and one check came with the exploration's fence). They pass locally and **do not run in CI** until the root script includes them.
 
 Requested change to the root `package.json`:
 
@@ -114,12 +116,40 @@ Either way three things have to hold in the connected client. Designer holds the
 2. **`design/studies/` is in no production bundle.** Every file there carries `mothership:dev-only`, the mark Frontend's production-exclusion check already looks for, so that check covers it once it runs over the built output.
 3. **Nothing under `design/prototypes/` is shipped.** It is review tooling. Its modules carry the same mark. Its two reference stylesheets, `comic.css` and `cues.css`, do not: they are there for Frontend to take rules from.
 
+## DSN-REQ-6
+
+**A name and a character for each seat. Needed to adopt the approved direction; nothing in protocol 1 or in the reviewed PRs changes for it today.**
+
+On 7 October 2026 the owner approved playing pieces that are characters, nine to choose from, shown with the seat number and the player's name ([owner-decisions.md](owner-decisions.md)). Designer read every branch on the remote at that date and found no contract field for either: no display name, no nickname, no character or avatar, in the views, the host and admission documents or the lobby. The exploration invents both in a fixture.
+
+What the design needs, stated as facts and not as a schema:
+
+| Fact | Audience | Set when | Notes |
+| --- | --- | --- | --- |
+| The name a seat is shown with | Public | In the lobby, by that seat's player | Live text, bounded in length (the exploration cuts at 12 characters) and treated as untrusted input wherever it is drawn. The seat number stays beside it: it is what the rules, the votes and the target lists call a player |
+| The character a seat chose, one of nine | Public | In the lobby, by that seat's player, **before roles are dealt** | One per seat in a match: the owner's V1 has at most nine players, and a character someone has taken is not offered. The choice must be independent of the role deal in both directions |
+
+Three things the design depends on, whoever implements it:
+
+1. **The character is never a function of the role, and the role is never a function of the character.** If a seat could choose after learning its role, a character could be used to signal one.
+2. **Where it falls in the order.** Approved decision V1-01 has each player choose Room A or Room B before roles are dealt. The owner's order for this is character, then the role deal. Designer assumes character and name, then the starting room, then roles, and has built only the first and the last.
+3. **Nothing of a role reaches a public fact.** The role's device is drawn only inside the seat's own private card. All nine devices travel in the role bundle to every phone, whatever its role; all nine characters travel in the public bundle to every device.
+
+## DSN-REQ-7
+
+**Enter the approval in the decision register.**
+
+`docs/decisions.md` is Codex's, and source precedence starts from the owner's decisions recorded in the repository. Designer has recorded the owner's words of 7 October 2026 in [owner-decisions.md](owner-decisions.md), with what the approval covers and what it leaves open, and asks that the register carry an entry pointing at it. If the register should hold the text itself, move it and leave a pointer here.
+
+The approval changes no rule and no contract. It supersedes, for the look of the board and of the pieces, two sentences of the art direction that Designer cannot edit because the file is pinned ([DSN-REQ-3](#dsn-req-3)): that the public palette is charcoal, paper and muted steel, and that the public pieces are neutral numbered tokens. It leaves standing that no public piece, cue or location shows a role, a faction or a private choice.
+
 ## What Designer does next, and what it waits for
 
 | Next | Waits for |
 | --- | --- |
-| Room B, Command Room, Hospital and Jail vignettes | Nothing. Each is its own reviewable PR |
-| The other eight role illustrations, with proposed copy for each | Nothing for the art. The bundle stays one stylesheet throughout |
+| Adopting the comic-board direction: a token revision, the rooms, characters and devices as sources with recipes, the contract and the cues ([the list](../../design/explorations/comic-board/README.md#what-adopting-it-takes)) | Nothing for the drawings and the tokens. DSN-REQ-6 for names and characters in a connected match |
+| The Room B, Command Room, Hospital and Jail vignettes are drawn, in the exploration. Bringing them in as sources | Nothing. Each is its own reviewable PR |
+| The eight role cards that have no copy. The art for all nine is drawn, as devices, in the exploration | Wording, with Frontend and the owner |
 | Device review of the layouts with Frontend | Frontend's harness with the reference stylesheets, and named devices |
 | Vote, Hack, Code, showdown, lobby and result | Their phases and facts in an adopted protocol, and an issue each |
 | Sound | The owner's decision on DSN-D09 |

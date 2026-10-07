@@ -10,6 +10,7 @@ The Visual and Motion Designer's working directory for Mothership. Start with [d
 | `contract/` | Components and states, motion cues, the studies, layout callouts, planned assets, proposed copy | Yes. The generated pages under `docs/design/` follow |
 | `prototypes/` | Reference stylesheets (`css/comic.css`, `css/cues.css`), the loader (`js/bundles.js`) and the review pages | Yes, except `css/tokens.css` and `js/*-index.js`, which are generated |
 | `review/` | Renders of the review pages, and the reports of the two browser checks | No. Written by `tools/render-review.mjs`, `tools/check-layout.mjs` and `tools/check-shell.mjs` |
+| `explorations/` | Looks tried with the game owner. `comic-board/` is the direction the owner approved on 7 October 2026: start with its README. Development only: not assets, not contract, not shells | Yes. Every file carries `mothership:dev-only`, and nothing in the directories above may reach into it |
 | `tools/` | Build, check, document and render scripts. Node built-ins only | Yes |
 
 ## Drawing rules for a source
@@ -35,7 +36,7 @@ node design/tools/write-docs.mjs        # the generated pages under docs/design/
 node design/tools/render-review.mjs     # review images; needs a Chromium-based browser
 node design/tools/check-layout.mjs      # the layout matrix; needs a browser
 node design/tools/check-shell.mjs       # requests and the public layer across private states; needs a browser
-node design/tools/check-assets.mjs      # thirteen checks, no browser; refuses renders and reports made before the edit
+node design/tools/check-assets.mjs      # fourteen checks, no browser; refuses renders and reports made before the edit
 ```
 
 `node design/tools/prove-checks.mjs` shows that the two browser checks refuse known mistakes. Run it after changing either of them.

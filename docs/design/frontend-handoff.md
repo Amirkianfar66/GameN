@@ -168,6 +168,24 @@ What is checked on my side is only the stylesheet's part: `check:shell` starts a
 
 None of the three numbers is measured. They are judgments from storyboards in desktop Chrome.
 
+## The direction approved on 7 October 2026
+
+The owner approved a new look for the board and the pieces ([owner-decisions.md](owner-decisions.md)). It is built as an exploration, [design/explorations/comic-board/](../../design/explorations/comic-board/README.md), on a fixture. **Nothing in the sections above has been changed for it yet**, and nothing in it asks you to change your branch today. This is what it will ask of you when it is adopted, so that you can say now what would not work.
+
+| It shows | What is yours in it |
+| --- | --- |
+| The board as a page of five panels. On a phone the page takes the height the hand leaves, so the whole board is on one screen | The layout is CSS grid with rows in `fr` and no fixed sizes. A panel shows the part of its drawing that fits its shape: the wall first, then as much floor as there is room for |
+| Pieces that are characters, with a tag: seat number and name | The name is a new public fact ([DSN-REQ-6](integration-requests.md#dsn-req-6)) and untrusted text. Pieces stand in one row and shrink as a room fills; every second tag drops a line where they stand close |
+| A move chosen on the board | The same states as your action card: choosing, confirming, submitting, accepted, not accepted, paused. A room is pressable exactly when its name is among the card's choices; pressing it is pressing that choice. The card keeps its list, so the board is a second path and never the only one |
+| The move as motion: 900 ms in all, 450 ms in the air | It starts on the public fact, not on the receipt, and it is the same on every screen. Under reduced motion nothing travels. The room the piece leaves closes up after lift-off; the room it lands in makes space at once |
+| A role card dealt face down, and turned up on the player's own character with the role's device added | Private. The back is one picture for every role. All nine devices load before anything is dealt. The card turns face down when the page goes to the background |
+
+What it keeps from the sections above: a bundle is one stylesheet loaded whole; nothing is fetched because of a view; private pictures are addressed only inside the private sheet; a public cue belongs to a public fact and a private update never touches one.
+
+Two things in it that the reference stylesheets refuse today, which adoption has to settle with you: motion that repeats while nothing happens ([DSN-D16](README.md#open-decisions)), and transitions on layout (pieces moving aside).
+
+It is plain script written to be looked at. Please do not take its code; take its states, its order and its timings.
+
 ## What was and was not checked
 
 Checked, in desktop Chrome 155 on one Mac, on the hand-built copy of your markup: the layout matrix and the request watch described in [verification.md](verification.md#checks-that-need-a-browser).
