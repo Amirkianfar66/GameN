@@ -90,3 +90,17 @@ test('unknown practice metadata disables changes and human recovery, and disposa
   assert.equal(s.controls.canRecover('seat-1'), false);
   s.controls.dispose(); assert.equal(s.listeners.size, 0);
 });
+
+test('a pending bot update cannot offer new bot seats for recovery before metadata catches up', async () => {
+  const s = setup(); s.lobby(7, ['seat-7']); s.publish([], 1);
+  await s.node('bots-save').press();
+  const bots = Array.from({ length: 6 }, (_, index) => `seat-${index + 1}`);
+  // Independent Firestore documents may be delivered in either order.
+  s.lobby(7, ['seat-7'], bots);
+  assert.equal(s.controls.canRecover('seat-1'), false, 'lobby-first delivery must not turn a new bot into a recovery choice');
+  assert.equal(s.controls.canRecover('seat-7'), false, 'recovery choices wait for this roster update');
+  s.publish(bots, 4);
+  assert.equal(s.controls.canRecover('seat-1'), false);
+  assert.equal(s.controls.canRecover('seat-7'), true);
+  s.controls.dispose();
+});

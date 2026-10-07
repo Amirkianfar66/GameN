@@ -81,8 +81,8 @@ export function createPracticeControls({ matchId, api, lifecycle, operate, feed,
     update(value) { lobby = value; draw(); },
     pending,
     readyToStart() { return known() && !pending(); },
-    // Unknown metadata must not offer a server-controlled seat for human recovery.
-    canRecover(seatId) { return known() && !botSeats().includes(seatId); },
+    // Unknown or still-updating metadata must not offer a bot seat for human recovery.
+    canRecover(seatId) { return known() && !pending() && !botSeats().includes(seatId); },
     dispose() { disposed = true; stop(); },
   };
 }

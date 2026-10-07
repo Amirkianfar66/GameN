@@ -38,7 +38,9 @@ to bot-private projections. Practice metadata is a separate public document at
 The public metadata feed rejects malformed, cross-match, stale, regressed and conflicting
 same-revision documents. Authorization uncertainty clears its held value. A fresh missing
 legacy document means no bots; an unavailable read does not. Unknown metadata blocks bot
-configuration, start and new seat-recovery choices until a fresh read arrives. A successful
+configuration, start and new seat-recovery choices until a fresh read arrives. Recovery
+choices also wait while a bot change is unsettled, since lobby and practice documents can
+arrive in either order. A successful
 count request waits for the corresponding metadata revision before enabling start.
 
 The ordinary lifecycle policy still applies: giving up an uncertain request does not
