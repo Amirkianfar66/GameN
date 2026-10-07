@@ -55,3 +55,5 @@ export type {
 
 export { shellBreakpoints, shellCssVariables, shellTokenStylesheet } from './styles/tokens-css.js';
 export type { ShellTokenSource } from './styles/tokens-css.js';
+
+export { createComicFeeds } from './connected/comic-feeds.js';

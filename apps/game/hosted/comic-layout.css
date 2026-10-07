@@ -1,0 +1,102 @@
+/* Connected adoption of the owner-approved comic page. No prototype runtime is shipped. */
+.ms-shell--player .ms-main { max-width: 78rem; }
+.ms-shell--player .ms-board { grid-column: 1; grid-row: 3; }
+.ms-shell--player .ms-private { grid-column: 1; grid-row: auto; }
+.ms-shell--player .ms-readable-board { grid-column: 1; min-width: 0; }
+.ms-readable-board > summary { cursor: pointer; min-height: 2.75rem; padding: .5rem 0; font-weight: 700; }
+.ms-readable-board[open] { display: grid; gap: 1rem; }
+.ms-shell--player .ms-board .ms-zones { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+.ms-shell--player .ms-board .ms-zone { grid-column: span 1; min-width: 0; }
+.ms-shell--player .ms-board .ms-zone[data-zone="command-room"] { grid-column: 1 / -1; order: -3; }
+.ms-shell--player .ms-board .ms-zone[data-zone="room-a"] { grid-column: 1 / -1; order: -2; }
+.ms-shell--player .ms-board .ms-zone[data-zone="room-b"] { grid-column: 1 / -1; order: -1; }
+.ms-shell--player .ms-board .ms-zone[data-zone="command-room"] { aspect-ratio: 3.6; }
+.ms-shell--player .ms-board .ms-zone[data-zone="room-a"],
+.ms-shell--player .ms-board .ms-zone[data-zone="room-b"] { aspect-ratio: 2.3; }
+.ms-shell--player .ms-board .ms-zone[data-zone="hospital"],
+.ms-shell--player .ms-board .ms-zone[data-zone="jail"] { aspect-ratio: 1.55; }
+.ms-shell--player .ms-board .ms-zone__name { font-size: clamp(.875rem, 3.8cqw, 1.6rem); }
+.ms-shell--player .ms-board .ms-zone[data-current="true"] { outline: 3px solid var(--ms-color-paper); outline-offset: -6px; }
+.ms-shell--player .ms-board .ms-zone[data-current="true"] > .ms-zone__name::after { content: ' · You'; }
+.ms-shell--player .ms-board .ms-zone[data-zone="command-room"] .ms-seats { --ms-piece-w: 13%; }
+
+/* Keep a large, deliberate private card as the owner approved. It exists only while the
+   private panel is open; the neutral closed button never carries a role hook. */
+.ms-shell .ms-private__panel .ms-role-card--full {
+  display: grid; grid-template-columns: minmax(0,1fr); padding: 0;
+  width: min(100%, 21rem); margin: 0 auto 1rem; overflow: hidden;
+}
+[data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card--full > .ms-role-card__art {
+  display: block; width: 100%; inline-size: 100%; aspect-ratio: 50 / 45;
+  border: none; border-bottom: 3px solid var(--ms-color-ink); border-radius: 0;
+}
+.ms-role-card--full .ms-role-card__text { padding: .75rem 1rem; }
+.ms-shell[data-motion="full"] .ms-private__panel .ms-role-card--full { animation: ms-comic-turn 900ms both; }
+@keyframes ms-comic-turn { from { transform: perspective(700px) rotateY(-75deg) translateY(10px); opacity: .1; } 45% { opacity: 1; } to { transform: none; } }
+.ms-shell[data-motion="reduced"] .ms-role-card--full { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ms-shell .ms-private__panel .ms-role-card--full { animation: none; } }
+.ms-private__panel [data-team="blue"] { --ms-team-accent: var(--ms-color-faction-blue); }
+.ms-private__panel [data-team="red"] { --ms-team-accent: var(--ms-color-faction-red); }
+.ms-private__panel [data-team="alien"] { --ms-team-accent: var(--ms-color-faction-alien); }
+
+@media (min-width: 48em) {
+  .ms-shell--player[data-screen="match"] .ms-main { grid-template-columns: minmax(0,1.1fr) minmax(18rem,1fr); }
+  .ms-shell--player[data-screen="match"] .ms-private { grid-column: 2; grid-row: 3 / span 3; }
+  .ms-shell--player .ms-readable-board { grid-column: 1; }
+  .ms-shell--player .ms-board { grid-row: 3; }
+}
+@media (max-width: 47.999em) {
+  .ms-shell--player[data-screen="match"] .ms-main { grid-template-columns: minmax(0,1fr); }
+  .ms-shell--player[data-screen="match"] .ms-private { grid-column: 1; grid-row: auto; position: static; max-block-size: none; }
+  .ms-shell--player .ms-board { grid-row: auto; }
+}
+/* Readable text fallback is always available. At narrow/zoomed sizes, no label may
+   depend on a clipped picture: room panels flow and keep their live words. */
+@media (max-width: 22em) {
+  .ms-shell--player .ms-board .ms-zones { grid-template-columns: minmax(0,1fr); }
+  .ms-shell--player .ms-board .ms-zone { grid-column: 1 / -1; }
+}
+.connected-lobby { background: var(--ms-color-panel); border: 3px solid var(--ms-color-ink); box-shadow: 7px 7px 0 var(--ms-color-steel-shadow); margin-block: 1rem; }
+.connected-lobby h1 { color: var(--ms-color-caption); letter-spacing: -.025em; }
+.connected-lobby button { box-shadow: 3px 3px 0 var(--ms-color-ink); }
+.connected-lobby .crew-picker { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; }
+.connected-lobby .crew-option { position: relative; display: grid; justify-items: center; gap: .25rem; padding: .4rem; font-size: .85rem; }
+.crew-option::before { content: ''; display: block; width: min(100%, 5rem); aspect-ratio: 84/96; background: var(--ms-role-person,none) center / contain no-repeat; }
+.crew-option[aria-pressed="true"] { outline: 4px solid var(--ms-color-accent); outline-offset: 1px; }
+.crew-option[aria-disabled="true"] { opacity: .6; }
+.ms-acknowledgments { padding: .75rem; border: 2px solid var(--ms-color-text-secondary); }
+
+.ms-private__panel [data-character="c1"], .crew-option[data-character="c1"] { --ms-role-person: var(--ms-asset-piece-crew-card-c1); }
+.ms-private__panel [data-character="c2"], .crew-option[data-character="c2"] { --ms-role-person: var(--ms-asset-piece-crew-card-c2); }
+.ms-private__panel [data-character="c3"], .crew-option[data-character="c3"] { --ms-role-person: var(--ms-asset-piece-crew-card-c3); }
+.ms-private__panel [data-character="c4"], .crew-option[data-character="c4"] { --ms-role-person: var(--ms-asset-piece-crew-card-c4); }
+.ms-private__panel [data-character="c5"], .crew-option[data-character="c5"] { --ms-role-person: var(--ms-asset-piece-crew-card-c5); }
+.ms-private__panel [data-character="c6"], .crew-option[data-character="c6"] { --ms-role-person: var(--ms-asset-piece-crew-card-c6); }
+.ms-private__panel [data-character="c7"], .crew-option[data-character="c7"] { --ms-role-person: var(--ms-asset-piece-crew-card-c7); }
+.ms-private__panel [data-character="c8"], .crew-option[data-character="c8"] { --ms-role-person: var(--ms-asset-piece-crew-card-c8); }
+.ms-private__panel [data-character="c9"], .crew-option[data-character="c9"] { --ms-role-person: var(--ms-asset-piece-crew-card-c9); }
+.ms-private__panel [data-device="officer"] { --ms-role-device: var(--ms-asset-device-officer-held); }
+.ms-private__panel [data-device="insider"] { --ms-role-device: var(--ms-asset-device-insider-held); }
+.ms-private__panel [data-device="cracker"] { --ms-role-device: var(--ms-asset-device-cracker-held); }
+.ms-private__panel [data-device="blue-disabler"] { --ms-role-device: var(--ms-asset-device-blue-disabler-held); }
+.ms-private__panel [data-device="supplier"] { --ms-role-device: var(--ms-asset-device-supplier-held); }
+.ms-private__panel [data-device="undercover"] { --ms-role-device: var(--ms-asset-device-undercover-held); }
+.ms-private__panel [data-device="hacker"] { --ms-role-device: var(--ms-asset-device-hacker-held); }
+.ms-private__panel [data-device="red-disabler"] { --ms-role-device: var(--ms-asset-device-red-disabler-held); }
+.ms-private__panel [data-device="alien"] { --ms-role-device: var(--ms-asset-device-alien-held); }
+
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) { min-block-size: 0; inline-size: 100%; }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="command-room"] { aspect-ratio: 3.6; }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="room-a"],
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="room-b"] { aspect-ratio: 2.3; }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="hospital"],
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="jail"] { aspect-ratio: 1.55; }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone__empty { max-inline-size: 90%; font-size: .75rem; }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="command-room"] .ms-seats { --ms-piece-w: 13%; }
+
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) { background-size: cover; background-position: 50% 50%; }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats { --ms-piece: max(var(--ms-piece-min), min(calc((100cqw - 10px) / max(var(--ms-seats), 3) / 1.25), 15cqw, 4.4rem)); }
+[data-art~="public-board"] .ms-shell--player .ms-board .ms-zone[data-zone="command-room"] .ms-seats { --ms-piece: min(10cqw, 3rem); }
+
+/* Player names are untrusted public text; isolate their writing direction. */
+.ms-seat__player, .ms-target__name, .ms-roster__name { unicode-bidi: isolate; }

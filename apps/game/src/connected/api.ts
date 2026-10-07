@@ -2,11 +2,11 @@ import {
   FullAbortMatchRequestSchema, FullAdmissionRequestSchema, FullAdmitDisplayRequestSchema, FullAdvanceRequestSchema, FullAdvanceResponseSchema, FullApproveAdmissionRequestSchema,
   FullCommandRequestSchema, FullCommandResponseSchema, FullCreateMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullLookupRequestSchema,
   FullLookupResponseSchema, FullOperationResponseSchema, FullRedeemSeatRecoveryRequestSchema, FullServerTimeRequestSchema, FullServerTimeResponseSchema,
-  FullStartMatchRequestSchema,
+  FullStartMatchRequestSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema,
 } from '@mothership/contracts';
 import type {
   FullAbortMatchRequest, FullAdmissionRequest, FullAdmitDisplayRequest, FullApproveAdmissionRequest, FullCommandRequest, FullCreateMatchRequest, FullFailure,
-  FullIssueSeatRecoveryRequest, FullLookupRequest, FullOperationResponse, FullReceipt, FullRedeemSeatRecoveryRequest, FullStartMatchRequest, SeatId,
+  FullIssueSeatRecoveryRequest, FullLookupRequest, FullOperationResponse, FullReceipt, FullRedeemSeatRecoveryRequest, FullStartMatchRequest, SeatId, FullSetLobbyIdentityRequest, FullSetLobbyIdentityResponse,
 } from '@mothership/contracts';
 import type { ClockSample } from '../clock/server-clock.js';
 import type { ClientPorts } from '../ports.js';
@@ -19,6 +19,7 @@ import type { ConnectedTransport, V1Operation } from './transport.js';
 // HTTP status was, and an answer is believed only about the request it names.
 
 export type ConnectedFailureCode = FullFailure['error']['code'];
+export type LobbyIdentityFailureCode = Extract<FullSetLobbyIdentityResponse, { ok: false }>['error']['code'];
 
 /** Every answer from the server carries its time, usable to calibrate the countdown. */
 interface Answered {
@@ -46,7 +47,7 @@ export type ConnectedLookupResult =
   | ({ readonly kind: 'unknown' } & Answered)
   | ConnectedFailure
   | NoResponse;
-export type OperationResult<Result> = ({ readonly kind: 'done'; readonly result: Result } & Answered) | ConnectedFailure | NoResponse;
+export type OperationResult<Result, Code extends string = ConnectedFailureCode> = ({ readonly kind: 'done'; readonly result: Result } & Answered) | (Omit<ConnectedFailure, 'code'> & { readonly code: Code }) | NoResponse;
 
 export interface CreatedMatch { readonly matchId: string; readonly roomCode: string; readonly playerCount: 7 | 8 | 9 }
 export interface RequestedAdmission { readonly matchId: string; readonly admissionId: string }
@@ -60,6 +61,7 @@ export interface IssuedRecovery { readonly seatId: SeatId; readonly recoveryToke
 export interface RecoveredSeat { readonly seatId: SeatId }
 
 export interface ConnectedApi {
+  setLobbyIdentity(request: FullSetLobbyIdentityRequest): Promise<OperationResult<{ readonly revision: number }, LobbyIdentityFailureCode>>;
   serverTime(matchId: string): Promise<ConnectedTimeResult>;
   advance(matchId: string, phaseId: string): Promise<ConnectedAdvanceResult>;
   command(request: FullCommandRequest): Promise<ConnectedCommandResult>;
@@ -113,6 +115,16 @@ export function createConnectedApi(transport: Pick<ConnectedTransport, 'post'>, 
   }
 
   return {
+    async setLobbyIdentity(request) {
+      assertRequest(FullSetLobbyIdentityRequestSchema.safeParse(request).success, 'lobby identity');
+      const response = await call(() => transport.post('v1SetLobbyIdentity', request));
+      if (response.kind !== 'response') return response;
+      const parsed = FullSetLobbyIdentityResponseSchema.safeParse(response.payload);
+      if (!parsed.success) return unreadable;
+      const sample = sampleOf(response, parsed.data.serverTimeMs);
+      return parsed.data.ok ? { kind: 'done', result: { revision: parsed.data.revision }, sample }
+        : { kind: 'api-failure', code: parsed.data.error.code, retryAfterMs: parsed.data.error.retryAfterMs ?? null, sample };
+    },
     async serverTime(matchId) {
       const request = { protocolVersion: 2 as const, matchId };
       assertRequest(FullServerTimeRequestSchema.safeParse(request).success, 'server-time request');

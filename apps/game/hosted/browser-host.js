@@ -1,4 +1,5 @@
 // Browser mounting for the hosted playtest. No fixture state or operator controls.
+import { createComicMotion } from './comic-motion.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A command identifier is random and means nothing. randomUUID needs a secure context,
@@ -66,12 +67,13 @@ function speak(container, region, text, isPrivate) {
  * @param {(model: any) => import('@mothership/presentation').MarkupElement} options.render
  * @returns {() => void} Unmount: removes every listener and disposes the screen.
  */
-export function mountScreen({ container, screen, render }) {
+export function mountScreen({ container, screen, render, subscribeExtra = () => () => {}, onDispose = () => {} }) {
   const root = document.createElement('div');
   const polite = liveRegion('polite');
   const assertive = liveRegion('assertive');
   container.replaceChildren(root, polite, assertive);
 
+  const comicMotion = createComicMotion(root);
   let rootAttributes = {};
   let drawn = null;
   let spokenSeq = 0;
@@ -87,6 +89,7 @@ export function mountScreen({ container, screen, render }) {
   }
 
   function draw() {
+    const beforeMotion = comicMotion.before();
     const frame = screen.getFrame();
     const split = splitRegions(render(frame.model));
     applyRootAttributes(split.rootAttrs);
@@ -111,6 +114,7 @@ export function mountScreen({ container, screen, render }) {
       root.querySelector(selector).outerHTML = step.html;
     }
     drawn = split;
+    comicMotion.after(frame.model, beforeMotion);
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
 
@@ -154,6 +158,7 @@ export function mountScreen({ container, screen, render }) {
   const onVisibility = () => screen.setPageVisible(document.visibilityState === 'visible');
 
   const stopFrames = screen.subscribe(draw);
+  const stopExtra = subscribeExtra(draw);
   root.addEventListener('click', onClick);
   root.addEventListener('change', onChange);
   document.addEventListener('visibilitychange', onVisibility);
@@ -169,6 +174,9 @@ export function mountScreen({ container, screen, render }) {
     if (!mounted) return;
     mounted = false;
     stopFrames();
+    stopExtra();
+    onDispose();
+    comicMotion.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);

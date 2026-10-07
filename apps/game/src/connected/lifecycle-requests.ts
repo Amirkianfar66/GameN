@@ -1,5 +1,7 @@
 import type { IdSource, MonotonicClock } from '../ports.js';
-import type { ConnectedFailureCode, OperationResult } from './api.js';
+import type { ConnectedFailureCode, LobbyIdentityFailureCode, OperationResult } from './api.js';
+
+type LifecycleFailureCode = ConnectedFailureCode | LobbyIdentityFailureCode;
 
 // The lifecycle operations (create a lobby, ask to join, seat a player, admit a display,
 // start, end, issue a recovery code, take a seat over) are asked for by a person pressing a
@@ -26,7 +28,7 @@ export type LifecycleOutcome<Request, Result> =
   /** The server answered this request. It is settled, and forgotten. */
   | { readonly kind: 'done'; readonly request: Request; readonly result: Result }
   /** The server refused this request and no earlier attempt of it is unaccounted for. Settled, and forgotten: a new press makes a new request. */
-  | { readonly kind: 'refused'; readonly request: Request; readonly code: ConnectedFailureCode }
+  | { readonly kind: 'refused'; readonly request: Request; readonly code: LifecycleFailureCode }
   /** Not settled. The same request is what the next press sends. */
   | {
     readonly kind: 'unsettled';
@@ -37,7 +39,7 @@ export type LifecycleOutcome<Request, Result> =
      * refused-after-no-answer: this attempt was refused, but an earlier attempt of the same request got no answer.
      */
     readonly why: 'no-answer' | 'not-now' | 'refused-after-no-answer';
-    readonly code: ConnectedFailureCode | null;
+    readonly code: LifecycleFailureCode | null;
     /** How long from now nothing will be sent, when the server named a wait. */
     readonly retryAfterMs: number | null;
   };
@@ -74,7 +76,7 @@ export interface LifecycleRequests {
   send<Request extends object, Result>(
     key: string,
     build: (requestId: string) => Request,
-    call: (request: Request) => Promise<OperationResult<Result>>,
+    call: (request: Request) => Promise<OperationResult<Result, LifecycleFailureCode>>,
     options?: { readonly durable?: boolean },
   ): Promise<LifecycleOutcome<Request, Result>>;
   /**
@@ -143,7 +145,7 @@ export function createLifecycleRequests(options: LifecycleRequestsOptions): Life
     async send<Request extends object, Result>(
       key: string,
       build: (requestId: string) => Request,
-      call: (request: Request) => Promise<OperationResult<Result>>,
+      call: (request: Request) => Promise<OperationResult<Result, LifecycleFailureCode>>,
       sendOptions: { readonly durable?: boolean } = {},
     ): Promise<LifecycleOutcome<Request, Result>> {
       // A second press while the first is still on its way sends nothing.
@@ -163,7 +165,7 @@ export function createLifecycleRequests(options: LifecycleRequestsOptions): Life
       if (wait > 0) return { kind: 'unsettled', request, why: 'not-now', code: null, retryAfterMs: wait };
 
       inFlight.add(key);
-      let result: OperationResult<Result>;
+      let result: OperationResult<Result, LifecycleFailureCode>;
       try {
         result = await call(request);
       } catch {
