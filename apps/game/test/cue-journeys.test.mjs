@@ -201,6 +201,9 @@ test('journey: nothing waits for a cue. The turn clock keeps its seconds and a s
   assert.equal(w.sent.length, 1);
   assert.equal(w.frame('officer').model.match.privateArea.content.actions.cards[0].status, 'registered');
   assert.deepEqual(w.privateCues('officer').map(cue => cue.kind), ['registration']);
+  // The registration changed this seat's own view and nothing public: the public cue is still there, as on every other screen.
+  assert.deepEqual(w.cues('officer').map(cue => cue.kind), ['public-move'], 'A private registration takes no public cue away');
+  assert.deepEqual(w.frame('officer').cues, w.frame('target').cues, 'The Officer’s public list is what a phone that registered nothing shows');
   // And the clock went on counting through all of it: a second per second, whatever was cued.
   await w.host.advance(2_000 - GUARD);
   assert.equal(w.frame('table').model.match.phase.timer.display, '0:55');

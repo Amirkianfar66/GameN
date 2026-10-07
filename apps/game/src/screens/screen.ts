@@ -39,8 +39,8 @@ export interface CueTiming {
   /**
    * The start window. A cue leaves the frame this long after it was issued, if nothing took
    * it out sooner, so a renderer that first reads the frame later than that does not start
-   * it. A treatment that has started is the renderer's to finish: leaving the frame does
-   * not cut it.
+   * it. Finishing a treatment that has started is the renderer's part: a cue leaving the
+   * frame is not a reason to cut it, and nothing here enforces that.
    */
   readonly lifetimeMs: number;
   /**
@@ -134,8 +134,9 @@ export interface ScreenFrame<Model> {
   /**
    * Cues that belong to this seat alone. They are in the list only while private content is
    * on screen, and gone the moment it is not. A private cue is about the seat's own command,
-   * not about a view, so a new view does not take it out; its lifetime does, and so does
-   * everything that takes a public cue out except a new view.
+   * not about a view or a public fact, so neither a new view nor a changed public fact
+   * takes it out. Its lifetime does, and so does the match no longer being on screen in the
+   * foreground on a current feed.
    */
   readonly privateCues: readonly FrameCue[];
 }

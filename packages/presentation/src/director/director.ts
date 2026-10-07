@@ -14,12 +14,16 @@ import type { HealthState, LocationName } from '../model/types.js';
 // FE-C04, FE-C10 and FE-C11 in docs/backend/contract-review-response.md, a file of the
 // backend branch that is not in this tree): events come on a stream of their own, in
 // order, with no promise about whether an event or the view it belongs to arrives first. So:
-//   - an event is played only when what it states is what the screen shows: the view it
-//     names is on screen, or a later view that changed nothing public is;
-//   - an event the screen has moved past is not played. The screen moves past a public
-//     fact only with a view that changes something public: a seat's own view also changes
-//     when only something private does, and such a view must not make this phone miss a
-//     public cue that every other screen plays;
+//   - an event is played when the fact it states first appears on this screen with the
+//     view on screen, or appeared with an earlier view since which nothing public has
+//     changed. Which revision the event names decides only whether it is too old or too
+//     new: a screen need not have shown that very revision, because views are skipped;
+//   - an event for a fact this screen showed before what is public last changed is not
+//     played. Only a view that changes something public moves a public fact into the past:
+//     a seat's own view also changes when only something private does, and neither such a
+//     view nor a view skipped because of one may make this phone miss a public cue that
+//     every other screen plays;
+//   - one public fact is one cue for as long as it stands, however many events state it;
 //   - when a feed becomes current, whatever its first view already reflects is history;
 //   - an event delivered twice is played once, and a registration is one cue however many
 //     ways this device hears of it;
@@ -120,6 +124,8 @@ function createCore() {
    */
   const seen = new Map<string, number>();
   const registered = new Set<string>();
+  /** The public facts already cued for what is public on the screen now. Emptied when something public changes. */
+  let cued = new Set<string>();
 
   const keyOf = (event: AnyEvent): string =>
     `${event.matchId}\u0000${event.audience.kind}\u0000${event.audience.kind === 'player' ? event.audience.seatId : ''}\u0000${event.eventId}`;
@@ -132,38 +138,47 @@ function createCore() {
   }
 
   /**
-   * What an event comes to on the screen as it stands. A public fact is judged against the
-   * view before what is public last changed, and belongs to the view that changed it: the
-   * view on screen may be a later one that changed only something private. A registration
-   * is judged against the view just before the one on screen, and belongs to that one.
+   * What an event comes to on the screen as it stands.
+   *
+   * A public fact is judged against the view shown before what is public last changed. It
+   * belongs to the view that changed it here, or to a view this screen skipped on the way
+   * to that one; the view on screen may be a later one that changed only something private.
+   * A registration is judged against the view shown just before the one on screen, and
+   * belongs to the view on screen or to one skipped on the way to it.
    */
   function present(event: AnyEvent, at: NonNullable<typeof screen>): IssuedCue[] {
     const view = at.shown;
     if (!belongsTo(event, view)) return [];
-    const publicly = (cue: Cue): IssuedCue[] => [{ cue, privacy: 'public' }];
     const fact = event.fact;
     if (fact.type === 'COMMAND_REGISTERED') {
+      if (event.viewRevision <= at.previous.viewRevision || event.viewRevision > view.viewRevision) return [];
       // Only a player's own view lists pending commands; a public view never can.
-      if (event.viewRevision !== view.viewRevision || !pendingIn(view, fact.commandId) || pendingIn(at.previous, fact.commandId)) return [];
+      if (!pendingIn(view, fact.commandId) || pendingIn(at.previous, fact.commandId)) return [];
       return registration(fact.commandId);
     }
-    if (event.viewRevision !== at.publicSince) return [];
+    // Named later than the view that changed what is public, it belongs to a view that changed nothing public.
+    if (event.viewRevision <= at.publicBefore.viewRevision || event.viewRevision > at.publicSince) return [];
     const previous = at.publicBefore;
+    const publicly = (stated: string, cue: Cue): IssuedCue[] => {
+      if (cued.has(stated)) return [];
+      cued.add(stated);
+      return [{ cue, privacy: 'public' }];
+    };
     switch (fact.type) {
       case 'PHASE_CHANGED':
         if (view.phase.id !== fact.phaseId || previous.phase.id === fact.phaseId) return [];
-        return publicly(view.round > previous.round ? { kind: 'round-transition', round: view.round } : { kind: 'phase-change' });
+        return publicly(`phase\u0000${fact.phaseId}`, view.round > previous.round ? { kind: 'round-transition', round: view.round } : { kind: 'phase-change' });
       case 'PUBLIC_MOVE': {
         const [now, then] = [seatIn(view, fact.seatId), seatIn(previous, fact.seatId)];
         if (now === undefined || then === undefined || now.location !== fact.to || then.location === fact.to) return [];
         // Where the token was on this screen, which after a skipped revision need not be
         // where the event says it came from.
-        return publicly({ kind: 'public-move', seatId: fact.seatId, from: then.location, to: fact.to });
+        return publicly(`move\u0000${fact.seatId}\u0000${fact.to}`, { kind: 'public-move', seatId: fact.seatId, from: then.location, to: fact.to });
       }
       case 'PUBLIC_HEALTH_CHANGED': {
         const [now, then] = [seatIn(view, fact.seatId), seatIn(previous, fact.seatId)];
         if (now === undefined || then === undefined || now.health !== fact.health || then.health === fact.health) return [];
-        return publicly({ kind: 'status-change', seatId: fact.seatId, health: fact.health });
+        return publicly(`health\u0000${fact.seatId}\u0000${fact.health}`, { kind: 'status-change', seatId: fact.seatId, health: fact.health });
       }
     }
   }
@@ -182,21 +197,26 @@ function createCore() {
       // move what is public into the past: an event for the view before it can still be
       // played, exactly as on a screen where nothing private happened.
       const before = previous?.shown ?? view;
-      const at = previous !== null && publicFacts(previous.shown) === publicFacts(view)
+      const unchanged = previous !== null && publicFacts(previous.shown) === publicFacts(view);
+      const at = unchanged
         ? { shown: view, previous: before, publicBefore: previous.publicBefore, publicSince: previous.publicSince }
         : { shown: view, previous: before, publicBefore: before, publicSince: view.viewRevision };
       screen = at;
-      const due = waiting.filter(event => event.viewRevision === view.viewRevision);
+      if (!unchanged) cued = new Set();
+      // Everything that was waiting for this view, or for one this screen skipped on the way
+      // to it: a skipped view's facts are first shown here, and are as new here as its own.
+      const due = waiting.filter(event => event.viewRevision <= view.viewRevision);
       waiting = waiting.filter(event => event.viewRevision > view.viewRevision);
       // What the screen has moved past can no longer be played, so it need not be remembered:
       // delivered again, it is recognized as history by its revision alone.
-      for (const [key, revision] of seen) if (revision < at.publicSince) seen.delete(key);
+      for (const [key, revision] of seen) if (revision <= at.publicBefore.viewRevision) seen.delete(key);
       return due.flatMap(event => present(event, at));
     },
     onEvent(event: AnyEvent): IssuedCue[] {
-      // The screen has moved past it. Its facts are on screen; the moment for it is over.
-      // Known by its revision alone, however often it is delivered, so it is not remembered.
-      if (live && screen !== null && event.viewRevision < screen.publicSince) return [];
+      // The screen has moved past it. Its facts were on screen before what is public last
+      // changed; the moment for it is over. Known by its revision alone, however often it
+      // is delivered, so it is not remembered.
+      if (live && screen !== null && event.viewRevision <= screen.publicBefore.viewRevision) return [];
       const key = keyOf(event);
       if (seen.has(key)) return [];
       // A feed that floods: past the bound nothing more is taken in until the screen moves
