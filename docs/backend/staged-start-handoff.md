@@ -1,6 +1,8 @@
 # Staged match start backend handoff
 
 Issue: [#73](https://github.com/Amirkianfar66/GameN/issues/73).
+Backend draft PR: [#74](https://github.com/Amirkianfar66/GameN/pull/74).
+Runtime checkpoint: `297de42609ff575aa914e0f852aba80482957622`.
 Base: `af797838dee531d7874da2145e99a50c67d32b45` (deployed practice-bot release).
 Contracts checkpoint: `74ea5f190e151645f5c20fa8c647d3c955e58ee3`.
 
@@ -96,12 +98,31 @@ server operation receipts remain inaccessible to clients.
 
 ## Validation and integration
 
-At the runtime checkpoint, pinned-toolchain build and all 107 backend/HTTP tests
-pass; the contracts checkpoint's 17 focused tests also pass. Auth/Firestore
-transaction and Rules suites, full workspace checks and CI remain pending until
-recorded below. Actual Functions-trigger smoke is included in CI and has no
-manual worker fallback. No cloud deployment, IAM or configuration changes have
-been made from this workstream.
+At clean runtime checkpoint `297de42609ff575aa914e0f852aba80482957622`,
+`npm run verify` passed: 876 workspace tests, 70 static checks, 483 catalogue
+scenarios (33 reviewed blocked and 6 explicit manual), 4,388 detected controls,
+and 30 completed 7/8/9-seat playouts with zero invariant/replay mismatches.
+The 107 backend/HTTP and 17 focused contracts tests are included in those counts.
+Browser dependency/exclusion smoke and standalone backend package installation
+also passed. These checks do not connect a browser or deploy a runtime.
+
+Isolated local Auth/Firestore runs passed 67 existing regression/Rules cases
+and all 19 focused staged-start cases. The first broad run passed 85/86: a new
+assertion incorrectly expected a pregame internal deadline refusal rather than
+the existing safe unchanged result. After correcting that assertion, the entire
+19-case staged-start module passed. No gameplay or deadline behavior changed to
+satisfy it. Tests used demo-mothership, Auth 39199 and Firestore 38180, with a
+private hub/logging/temp directory and an exact copy of current Rules. Other
+agents' emulators and cloud resources were untouched.
+
+Actual HTTP/Functions-trigger smoke is migrated and included in CI, with no
+manual bot-worker fallback. It was not run in the isolated local suite because
+the existing guarded Functions runtime pins ports owned by another workstream.
+Full CI and combined Frontend emulator acceptance remain pending. Backend-only
+Frontend emulator flows still require the coordinator's new adapters, host
+control reader and staged setup harness before they can pass. Do not deploy the
+backend independently of that integration. No cloud deployment, IAM or
+configuration changes have been made from this workstream.
 
 Frontend controls, preview waiting UI, the owner decision record, Frontend
 emulator migrations and the root standalone-export assertion update are owned
