@@ -5,3 +5,4 @@ export * from './full-game.js';
 export * from './v1-service.js';
 export * from './lobby-identity.js';
 export * from './own-acknowledgments.js';
+export * from './practice-bots.js';
