@@ -16,17 +16,23 @@ Firestore and Functions emulators (firebase-tools 15.0.0) started by that comman
 | [`lobby-end/`](lobby-end/) | The same devices, with the match still a lobby: the host ends it, and every device says it ended before it started and opens nothing | The same two files, and screenshots `01` to `03`, `l1` and `l2`. Run the same way on the same branch |
 | [`recovery/`](recovery/) | A host, a shared display, seven players and two more devices: a seat is moved to another device with a one-time code, through a lost answer on the host's side and lost requests and a lost answer on the new device's | The same two files, and screenshots `01` to `04` and `y1` to `y4`. Run on the branch `agent/frontend-connected-seat-recovery`, the same way. **No recovery code is in any of it**: the pictures were taken before one was on screen and after it was used |
 | [`match/`](match/) | A host, a shared display and seven players: one whole match from its lobby to its result, with a Scan in every round, a Supply, a Code attempt, a Jail vote in every round, a showdown and the end reveal | The same two files, and screenshots `01` to `04` and `m1` to `m9`. Run on the branch `agent/frontend-connected-full-match`, the same way; it takes about three quarters of an hour. **The facts file and the log record what was private in this throwaway match**: the role of every seat and the Code, which the server reveals at the end of a finished match, what the Hacker's phone listed after each Scan, and what the script chose and sent through the phones: whom the Hacker scanned, whom the Supply named, the seats of the Code attempt, and who shot at whom in the showdown. No identifier of a match, a device or a sign-in is in either |
+| [`outcomes/`](outcomes/) | A host, a shared display and nine players, through two rounds: a shot, a Disable and a Rescue registered at one player in the same round, Protection and the Disable registered at its player a round later, a Rescue of a player in Hospital, and a Hack. Read at the first phase after each round's Jail vote: every seat on every screen, the display's list of players on its page, what the display put in its live region, and what the phones concerned list in private | The same two files, and screenshots `01` to `04` and `o1` to `o6`. Run on the branch `agent/frontend-connected-outcomes`, the same way; about 23 minutes. The log and facts file record each player's role as its own phone showed it and whom each action named |
+| [`match-code/`](match-code/) | The whole match of `match/`, steered to another end: nobody is voted into Jail and the Hacker submits the Code the Alien's phone lists | The same two files and screenshots as `match/`, without those of a showdown. Same branch; about 45 minutes. It records what `match/` records |
+| [`match-draw/`](match-draw/) | The whole match of `match/`, steered to a third end: three players in Jail, a Code attempt that is not the Code, and a showdown in which the script has nobody shoot | The same two files and screenshots as `match/`, without `m6`. Same branch; about 46 minutes. It records what `match/` records |
 
 A log or a facts file is written only after every assertion before it held: had one not
 held, the run would have stopped there and written nothing after it. Each sentence is meant
 to be something the script required, or something it read from a page and reports as read.
 
-**That has been checked for `match/` only.** A separate reviewing session went through that
-scenario clause by clause and found that its first log said more than the script had
-checked; the scenario was corrected and the match played again
-([connected-full-match.md](../../connected-full-match.md)). The scenarios behind the other
-folders have not had that review. A sentence in their logs may say more than its script
-required, and should be read with the script beside it.
+**That has been checked for `match/` and `outcomes/`.** A separate reviewing session went
+through each of those two scenarios clause by clause. `match-code/` and `match-draw/` come
+from the `match/` scenario with a parameter; the lines that differ between the three have
+not had a second review. For `match/` it found that the first log said more than
+the script had checked; the scenario was corrected and the match played again
+([connected-full-match.md](../../connected-full-match.md)). For `outcomes/` the review came
+before the run that is kept ([connected-outcomes.md](../../connected-outcomes.md)). The
+scenarios behind the other folders have not had that review. A sentence in their logs may
+say more than its script required, and should be read with the script beside it.
 
 ## What these are, and are not
 
