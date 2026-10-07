@@ -6,6 +6,9 @@ const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contra
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),
   publicDir: false,
+  // All Firebase services must register with the client SDK's one app factory.
+  // Admin dependencies can otherwise contribute another hoisted @firebase/app.
+  resolve: { dedupe: ['@firebase/app'] },
   plugins: [{
     name: 'hosted-preview-source-boundary',
     transform(_code, id) {
@@ -18,6 +21,13 @@ export default {
         || local.endsWith('/browser/firebase-transport.js')) {
         throw new Error(`Non-hosted source entered the preview bundle: ${local}`);
       }
+    },
+  }, {
+    name: 'hosted-firebase-app-registry',
+    generateBundle(_options, bundle) {
+      const modules = new Set(Object.values(bundle).filter(item => item.type === 'chunk').flatMap(chunk => Object.keys(chunk.modules)));
+      const registries = [...modules].filter(id => /\/node_modules\/@firebase\/app\/dist\/esm\/index\.esm\.js$/u.test(id));
+      if (registries.length !== 1) throw new Error(`Hosted preview requires exactly one Firebase app registry; found ${registries.length}`);
     },
   }],
   build: {
