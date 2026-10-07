@@ -3,7 +3,7 @@
 // The local emulator entry and fixture harness remain separate and excluded from this build.
 
 import {
-  createComicFeeds, createConnectedApi, createConnectedPlayerScreen, createConnectedTableScreen, createLifecycleRequests, readAdmission, readHostSession, readLobby, shellTokenStylesheet,
+  createComicFeeds, createSetupFeed, createConnectedApi, createConnectedPlayerScreen, createConnectedTableScreen, createLifecycleRequests, readAdmission, readHostSession, readLobby, shellTokenStylesheet,
 } from '@mothership/game';
 import { SeatSessionSchema } from '@mothership/contracts';
 import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
@@ -15,6 +15,8 @@ import './preview.css';
 import './comic-tokens.css';
 import './comic.css';
 import './comic-layout.css';
+import './setup.css';
+import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { loadArt } from './art.mjs';
 import { createPracticeControls } from './practice-controls.js';
 
@@ -333,6 +335,8 @@ async function host(uid) {
   let seats = [];
   let requests = [];
   const practiceFeed = createComicFeeds({ transport, ports, matchId });
+  const setupFeed = createSetupFeed({ transport, ports, matchId });
+  const setupProgress = createSetupProgress({ el });
   const practiceControls = createPracticeControls({ matchId, api, lifecycle, operate, feed: practiceFeed, el, onChange: () => draw() });
   // Built once and updated in place, so a request that arrives while the host is typing or
   // choosing takes nothing away from under their hands.
@@ -345,8 +349,11 @@ async function host(uid) {
   const admit = el('button', 'Admit the display', { type: 'button', id: 'connected-admit-display' });
   admit.addEventListener('click', () => operate('admit', requestId => ({ protocolVersion: 2, matchId, requestId, displayUid: displayUid.value.trim() }), body => api.admitDisplay(body), 'Admitting the display', { invalid: 'That is not an identifier a display shows.' }));
   const admitControl = keeping('admit', admit, [displayUid]);
-  const start = el('button', 'Start the match', { type: 'button', id: 'connected-start' });
-  start.addEventListener('click', () => operate('start', requestId => ({ protocolVersion: 2, matchId, requestId }), body => api.startMatch(body), 'Starting the match'));
+  const start = el('button', 'Start setup', { type: 'button', id: 'connected-start' });
+  start.addEventListener('click', () => {
+    if (start.disabled) return;
+    return operate('start', requestId => ({ schemaVersion: 1, protocolVersion: 2, matchId, requestId }), body => api.beginSetup(body), 'Starting character selection');
+  });
   const startControl = keeping('start', start);
   // Ending the match is the host's alone and cannot be undone, so it takes two presses, and
   // the second control is not where the first one was. The server records the match as
@@ -463,7 +470,7 @@ async function host(uid) {
     el('h2', 'Requests to join', { id: 'connected-requests-title', tabindex: '-1' }), none, list,
     practiceControls.node,
     el('h2', 'Shared display'), displayLabel, admitControl,
-    el('h2', 'Start'), startControl,
+    el('h2', 'Start'), startControl, setupProgress.node,
     el('h2', 'End'), end, endNote, endCancel, endControl,
     el('h2', 'Move a seat to another device', { id: 'connected-recovery-title' }), recoverySeatLabel, recoveryControl, recoveryCodes, recoveryNote,
     el('p', 'Hosting gives no view of anyone’s role. To play, join from another tab with the room code.'),
@@ -491,12 +498,14 @@ async function host(uid) {
 
   const draw = () => {
     const playerCount = session?.playerCount ?? null;
-    const open = session?.status === 'lobby';
+    const setup = setupFeed.public();
+    const open = session?.status === 'lobby' && (setup?.stage === 'lobby' || setupFeed.status() === 'absent');
+    setupProgress.update(setup);
     const taken = new Set(seats.map(seat => seat.seatId));
     const vacant = playerCount === null ? [] : Array.from({ length: playerCount }, (unused, index) => `seat-${index + 1}`).filter(seatId => !taken.has(seatId));
     setText('connected-room-code', session?.roomCode ?? '…');
     setText('connected-seated', playerCount === null ? '…' : `${seats.length} of ${playerCount} seated`);
-    setText('connected-match-status', session?.status ?? '…');
+    setText('connected-match-status', session?.status === 'lobby' ? setup?.stage ?? 'lobby' : session?.status ?? '…');
     none.hidden = requests.length > 0;
 
     for (const request of requests) {
@@ -525,11 +534,11 @@ async function host(uid) {
       }
       approve.disabled = (vacant.length === 0 && lifecycle.unsettled(`approve ${request.id}`) === null) || !open;
     }
-    practiceControls.update({ playerCount, status: session?.status ?? null, seats });
+    practiceControls.update({ playerCount, status: session?.status ?? null, seats, setupOpen: open });
     start.disabled = playerCount === null || seats.length !== playerCount || !open || !practiceControls.readyToStart();
     // What the server's own record says settles a request that was still kept: a match that
     // has started needs no start, and one that is over needs no end.
-    if (session !== null && session.status !== 'lobby') lifecycle.abandon('start');
+    if (session !== null && session.status !== 'lobby' || setup !== null && setup.stage !== 'lobby') lifecycle.abandon('start');
     // A match that is over, either way, cannot be ended again.
     const endable = session !== null && (session.status === 'lobby' || session.status === 'running');
     if (session !== null && !endable) lifecycle.abandon('end');
@@ -551,8 +560,9 @@ async function host(uid) {
     for (const refresh of keptControls) refresh();
   };
   draw();
-  practiceFeed.start();
-  window.addEventListener('pagehide', () => { practiceControls.dispose(); practiceFeed.dispose(); }, { once: true });
+  const stopSetup = setupFeed.subscribe(draw);
+  practiceFeed.start(); setupFeed.start();
+  window.addEventListener('pagehide', () => { stopSetup(); setupFeed.dispose(); practiceControls.dispose(); practiceFeed.dispose(); }, { once: true });
   transport.listenDocument({ kind: 'session', matchId }, {
     onSnapshot: snapshot => {
       const read = readHostSession(snapshot.value);
@@ -585,78 +595,26 @@ async function host(uid) {
 
 const MATCH_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
 
-/** A public choice, made by the admitted seat before the host deals roles. */
+/** Startup stays separate from the gameplay screen and never persists private roles. */
 function identityPicker(matchId, seatId) {
-  const feed = createComicFeeds({ transport, ports, matchId });
-  const node = el('section', undefined, { class: 'connected-identity', 'aria-labelledby': 'crew-heading' });
-  const name = el('input', undefined, { type: 'text', id: 'crew-name', maxlength: '24', autocomplete: 'off', spellcheck: 'false' });
-  const label = el('label', 'Your public name'); label.append(name);
-  const grid = el('div', undefined, { class: 'crew-picker', role: 'group', 'aria-label': 'Choose your character' });
-  const status = el('p', 'Choose a character and a name before the host starts.', { id: 'crew-status', role: 'status' });
-  const save = el('button', 'Save name and character', { type: 'button', id: 'crew-save' });
-  const abandon = el('button', 'Give this request up', { type: 'button', class: 'connected-quiet' });
-  const practiceNote = el('p', '', { class: 'connected-practice-notice', id: 'crew-practice-notice' });
-  const key = `identity ${matchId}`;
-  let selected = null;
-  let edited = false;
-  let busy = false;
-  let initialized = false;
-  let closed = false;
-  const buttons = ['Vega', 'Rigel', 'Lyra', 'Atlas', 'Orion', 'Nova', 'Juno', 'Mira', 'Echo'].map((callSign, index) => {
-    const id = `c${index + 1}`;
-    const button = el('button', callSign, { type: 'button', class: 'crew-option', 'data-character': id, 'aria-pressed': 'false' });
-    button.addEventListener('click', () => {
-      if (button.disabled || button.getAttribute('aria-disabled') === 'true') return;
-      selected = id; edited = true; draw();
-    });
-    grid.append(button);
-    return { id, callSign, button };
-  });
-  function draw() {
-    if (closed) return;
-    const document = feed.identities();
-    const bots = feed.practice()?.botSeatIds.length ?? 0;
-    practiceNote.hidden = bots === 0;
-    practiceNote.textContent = bots ? `Practice match with ${bots} ${bots === 1 ? 'bot' : 'bots'}. Bots make simple legal choices; they do not chat or bluff.` : '';
-    const own = document?.seats.find(seat => seat.seatId === seatId);
-    if (!initialized && own && !edited) {
-      initialized = true; name.value = own.displayName ?? ''; selected = own.characterId;
-    }
-    const kept = lifecycle.unsettled(key);
-    const frozen = busy || kept !== null || document?.locked === true;
-    name.disabled = frozen;
-    for (const entry of buttons) {
-      const holder = document?.seats.find(seat => seat.characterId === entry.id && seat.seatId !== seatId);
-      entry.button.disabled = frozen;
-      entry.button.setAttribute('aria-disabled', String(frozen || holder !== undefined));
-      entry.button.setAttribute('aria-pressed', String(selected === entry.id));
-      entry.button.textContent = holder ? `${entry.callSign} · Player ${holder.seatId.slice(5)}` : entry.callSign;
-    }
-    save.disabled = busy || (document?.locked === true && kept === null) || (kept === null && (selected === null || name.value.trim().length === 0 || [...name.value].length > 12));
-    save.textContent = kept ? 'Send the same choice again' : 'Save name and character';
-    abandon.hidden = kept === null; abandon.disabled = busy;
-    if (document?.locked) status.textContent = 'Names and characters are fixed for this match.';
-    else if (own?.characterId === selected && own?.displayName === name.value && !kept) status.textContent = 'Saved. Your character is public; your role will be dealt separately.';
-    else status.textContent = 'Choose a character and a public name, up to 12 characters. Save before the host starts.';
-  }
-  name.addEventListener('input', () => { edited = true; draw(); });
-  save.addEventListener('click', async () => {
-    if (save.disabled) return;
-    busy = true; draw();
-    await operate(key, requestId => ({ schemaVersion: 1, protocolVersion: 2, requestId, matchId, displayName: name.value, characterId: selected }),
-      request => api.setLobbyIdentity(request), 'Saving your character', { invalid: 'Use a name of 1 to 12 characters and select one character.' });
-    busy = false; draw();
-  });
-  abandon.addEventListener('click', () => {
-    if (busy || !lifecycle.abandon(key)) return;
-    say('The earlier choice may still be saved if its request arrives. Check the saved name and character after trying again.', 'problem');
-    draw();
-  });
-  node.append(practiceNote, el('h2', 'Choose your character', { id: 'crew-heading' }), label, grid, status, save, abandon);
-  const stop = feed.subscribe(draw);
-  lobbyWatchers.push(() => { closed = true; stop(); feed.dispose(); });
-  feed.start(); draw();
-  return node;
+  const feed = createSetupFeed({ transport, ports, matchId, seatId });
+  const identities = createComicFeeds({ transport, ports, matchId });
+  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el });
+  const visibility = () => {
+    control.conceal();
+    if (document.visibilityState === 'hidden') { feed.quarantine(); identities.quarantine(); }
+    else { feed.start(); identities.start(); control.refresh(); }
+  };
+  const blur = () => control.conceal();
+  const stop = () => {
+    document.removeEventListener('visibilitychange', visibility); window.removeEventListener('blur', blur);
+    window.removeEventListener('pagehide', stop); control.dispose(); feed.dispose(); identities.dispose();
+  };
+  document.addEventListener('visibilitychange', visibility); window.addEventListener('blur', blur);
+  window.addEventListener('pagehide', stop, { once: true });
+  lobbyWatchers.push(stop);
+  feed.start(); identities.start();
+  return control.node;
 }
 
 async function player(uid) {
@@ -826,7 +784,7 @@ async function player(uid) {
       () => {
         waitingInLobby = true;
         settledByTheServer();
-        const waiting = 'This device has taken over a seat. Waiting for the host to start the match.';
+        const waiting = 'This device has taken over a seat. Follow the setup steps below.';
         draw(waiting);
         if (seatId !== null) return;
         // Recovery writes this own-UID metadata even before a player view exists. A
@@ -861,7 +819,7 @@ async function player(uid) {
     watchingLobby = true;
     seatId = admission.seatId;
     identityPanel = identityPicker(matchId, seatId);
-    draw('Seated. Waiting for the host to start the match.');
+    draw('Seated. Follow the setup steps below.');
     // The private view does not exist before the start, and a listener on it is refused,
     // not empty. So the lobby is watched, and the match is opened once it is running.
     lobbyWatchers.push(openWhenRunning());
@@ -886,7 +844,12 @@ async function display(uid) {
     return;
   }
   const { matchId } = state;
-  const waiting = text => frame('Shared display', facts([['This display', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']]), el('p', text, { id: 'connected-waiting' }));
+  const setupFeed = createSetupFeed({ transport, ports, matchId });
+  const setupProgress = createSetupProgress({ el });
+  const stopProgress = setupFeed.subscribe(() => setupProgress.update(setupFeed.public()));
+  lobbyWatchers.push(() => { stopProgress(); setupFeed.dispose(); });
+  setupFeed.start(); setupProgress.update(setupFeed.public());
+  const waiting = text => frame('Shared display', facts([['This display', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']]), el('p', text, { id: 'connected-waiting' }), setupProgress.node);
   waiting('Waiting to be admitted by the host, and for the match to start.');
   // Until the host admits this identity the rules refuse the lobby, so the listener keeps asking.
   lobbyWatchers.push(openOnceStarted(matchId, { kind: 'public-view', matchId },

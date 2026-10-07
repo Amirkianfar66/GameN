@@ -9,7 +9,7 @@ import { createV1HttpHandler } from '../../../../infra/firebase/dist/v1.js';
 if (process.env.FIRESTORE_EMULATOR_HOST !== '127.0.0.1:8380' || process.env.FIREBASE_AUTH_EMULATOR_HOST !== '127.0.0.1:9399' || process.env.GCLOUD_PROJECT !== 'demo-mothership') throw new Error('Isolated loopback emulators required');
 const app=initializeApp({projectId:'demo-mothership'}), db=getFirestore(app);
 const service=createV1Service({db,assetManifestVersion:'design-0.2.0'});
-const names={v1CreateMatch:'createMatch',v1RequestAdmission:'requestAdmission',v1ApproveAdmission:'approveAdmission',v1AdmitDisplay:'admitDisplay',v1StartMatch:'startMatch',v1AbortMatch:'abortMatch',v1IssueSeatRecovery:'issueSeatRecovery',v1RedeemSeatRecovery:'redeemSeatRecovery',v1Command:'submit',v1Receipt:'lookup',v1Advance:'advance',v1ServerTime:'serverTime',v1SetLobbyIdentity:'setLobbyIdentity'};
+const names={v1CreateMatch:'createMatch',v1RequestAdmission:'requestAdmission',v1ApproveAdmission:'approveAdmission',v1AdmitDisplay:'admitDisplay',v1StartMatch:'startMatch',v1AbortMatch:'abortMatch',v1IssueSeatRecovery:'issueSeatRecovery',v1RedeemSeatRecovery:'redeemSeatRecovery',v1Command:'submit',v1Receipt:'lookup',v1Advance:'advance',v1ServerTime:'serverTime',v1BeginSetup:'beginSetup',v1ConfirmSetupChoice:'confirmSetupChoice',v1ReadyForMatch:'readyForMatch',v1SetLobbyIdentity:'setLobbyIdentity'};
 const configuration={projectId:'demo-mothership',emulator:true,assetManifestVersion:'design-0.2.0',allowedOrigins:['http://127.0.0.1:5174','http://localhost:5174']};
 const server=createServer(async(req,res)=>{
   const name=req.url?.split('/').at(-1); const operation=names[name];

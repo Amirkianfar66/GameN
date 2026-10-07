@@ -9,7 +9,7 @@
 export const V1_OPERATIONS = [
   'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch',
   'v1IssueSeatRecovery', 'v1RedeemSeatRecovery',
-  'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime', 'v1SetLobbyIdentity', 'v1SetPracticeBots',
+  'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime', 'v1SetLobbyIdentity', 'v1SetPracticeBots', 'v1BeginSetup', 'v1ConfirmSetupChoice', 'v1ReadyForMatch',
 ] as const;
 export type V1Operation = (typeof V1_OPERATIONS)[number];
 
@@ -18,6 +18,8 @@ export type DocumentTarget =
   | { readonly kind: 'lobby'; readonly matchId: string }
   | { readonly kind: 'identities'; readonly matchId: string }
   | { readonly kind: 'practice-bots'; readonly matchId: string }
+  | { readonly kind: 'setup'; readonly matchId: string }
+  | { readonly kind: 'setup-player-view'; readonly matchId: string }
   | { readonly kind: 'seat-session'; readonly matchId: string }
   | { readonly kind: 'own-acknowledgments'; readonly matchId: string }
   | { readonly kind: 'public-view'; readonly matchId: string }

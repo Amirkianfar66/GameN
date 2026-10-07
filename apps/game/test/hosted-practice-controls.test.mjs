@@ -110,3 +110,12 @@ test('a pending bot update cannot offer new bot seats for recovery before metada
   assert.doesNotMatch(s.node('bots-summary').textContent, /keep playing/);
   s.controls.dispose();
 });
+
+
+test('opening staged setup freezes bot editing while human recovery remains available', () => {
+  const s = setup(); s.lobby(7, ['seat-1'], ['seat-2']); s.publish(['seat-2']);
+  s.controls.update({ playerCount: 7, status: 'lobby', setupOpen: false, seats: [{seatId:'seat-1',initialRoom:'Room A'},{seatId:'seat-2',initialRoom:'Room B'}] });
+  assert.equal(s.node('bots-save').disabled, true); assert.equal(s.node('bot-count').disabled, true);
+  assert.equal(s.controls.canRecover('seat-1'), true); assert.equal(s.controls.canRecover('seat-2'), false);
+  assert.match(s.node('bots-summary').textContent, /finish setup/); s.controls.dispose();
+});

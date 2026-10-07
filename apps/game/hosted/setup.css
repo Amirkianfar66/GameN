@@ -1,0 +1,22 @@
+/* Pregame steps reuse the approved public crew art and private comic role card. */
+.connected-role-confirmation.ms-shell {
+  min-height: 0;
+  min-block-size: 0;
+  display: grid;
+  gap: var(--ms-space-3);
+  background: transparent;
+}
+.connected-role-confirmation .ms-private__panel {
+  margin: 0;
+  min-width: 0;
+}
+.connected-setup-progress {
+  display: grid;
+  gap: var(--ms-space-3);
+  padding: var(--ms-space-3);
+  border: var(--ms-stroke-control) solid var(--ms-color-steel-mid);
+  border-radius: var(--ms-radius-control);
+}
+.connected-setup-progress li { display: flex; flex-wrap: wrap; gap: var(--ms-space-2); }
+.connected-setup-progress .setup-seat-state { margin-inline-start: auto; font-weight: 700; }
+.connected-lobby [hidden] { display: none !important; }

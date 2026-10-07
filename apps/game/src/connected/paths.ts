@@ -18,6 +18,10 @@ export function documentPath(target: DocumentTarget, uid: string): readonly stri
   switch (target.kind) {
     case 'identities': return [...root, 'identities', 'public'];
     case 'practice-bots': return [...root, 'practice', 'public'];
+    case 'setup': return [...root, 'setup', 'public'];
+    case 'setup-player-view':
+      if (!UID.test(uid)) throw new TypeError('Not a valid identity');
+      return [...root, 'setupPlayerViews', uid];
     case 'seat-session':
     case 'own-acknowledgments':
       if (!UID.test(uid)) throw new TypeError('Not a valid identity');

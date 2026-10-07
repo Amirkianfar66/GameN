@@ -41,5 +41,5 @@ export { renderConnectedPlayerShell } from './markup/connected-player.js';
 export { renderPlayerShell } from './markup/player-shell.js';
 export { renderTableShell } from './markup/table-shell.js';
 
-export { renderComicPlayerShell, renderComicTableShell } from './markup/comic-shell.js';
+export { renderComicPlayerShell, renderComicTableShell, renderComicRoleCard } from './markup/comic-shell.js';
 export type { ComicContext, ComicIdentity } from './markup/comic-shell.js';
