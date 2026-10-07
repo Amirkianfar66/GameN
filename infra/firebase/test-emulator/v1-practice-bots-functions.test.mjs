@@ -3,12 +3,12 @@ import { randomUUID } from 'node:crypto';
 import { test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullPracticeBotsDocumentSchema, FullPublicViewSchema } from '@mothership/contracts';
+import { FullOperationResponseSchema, FullBeginSetupResponseSchema, FullSetupDocumentSchema, FullSetPracticeBotsResponseSchema, FullPracticeBotsDocumentSchema, FullPublicViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity } from '../test/helpers.mjs';
 import { decodeV1State } from '../../../services/game-api/dist/full-game.js';
 
 // Full guarded Auth/Firestore/Functions suite only. No skip or manual worker fallback.
-const operations = new Set(['v1CreateMatch', 'v1SetPracticeBots', 'v1StartMatch', 'v1AbortMatch']);
+const operations = new Set(['v1CreateMatch', 'v1SetPracticeBots', 'v1BeginSetup', 'v1AbortMatch']);
 async function invoke(name, payload, identity) {
   const { functionsHost } = assertLocalEmulators(); assert.ok(operations.has(name));
   const response = await fetch(`http://${functionsHost}/${projectId}/us-central1/${name}`, {
@@ -21,7 +21,7 @@ async function invoke(name, payload, identity) {
 }
 const op = value => { FullOperationResponseSchema.parse(value); assert.equal(value.ok, true); return value.result; };
 
-test('actual private Firestore engine trigger runs configured bots after real HTTP start with no worker or client gameplay invocation', async () => {
+test('actual private Firestore engine trigger runs configured bots after real HTTP staged begin with no worker or client gameplay invocation', async () => {
   assertLocalEmulators();
   const app = initializeApp({ projectId }, 'practice-functions-' + randomUUID()), db = getFirestore(app), host = await createEmulatorIdentity();
   let matchId;
@@ -33,7 +33,14 @@ test('actual private Firestore engine trigger runs configured bots after real HT
     const configured = FullSetPracticeBotsResponseSchema.parse(await invoke('v1SetPracticeBots', body, host));
     assert.equal(configured.ok, true); assert.equal(configured.matchId, matchId); assert.equal(configured.requestId, body.requestId);
     assert.equal(configured.botSeatIds.length, 7);
-    op(await invoke('v1StartMatch', request(), host));
+    assert.equal((await base.collection('engine').doc('current').get()).exists, false);
+    for (const collection of ['events', 'receipts', 'outbox']) assert.equal((await base.collection(collection).get()).size, 0);
+    const begunBody = { schemaVersion: 1, ...request() };
+    const begun = FullBeginSetupResponseSchema.parse(await invoke('v1BeginSetup', begunBody, host));
+    assert.equal(begun.ok, true); assert.equal(begun.matchId, matchId); assert.equal(begun.requestId, begunBody.requestId);
+    assert.equal(begun.stage, 'running'); assert.ok(begun.dealId);
+    const progress = FullSetupDocumentSchema.parse((await base.collection('setup').doc('public').get()).data());
+    assert.equal(progress.stage, 'running'); assert.equal(progress.dealId, begun.dealId);
 
     // Observe the real emulator's onDocumentWritten delivery; never call runPracticeBots.
     const initial = decodeV1State((await base.collection('engine').doc('current').get()).data());
@@ -54,7 +61,7 @@ test('actual private Firestore engine trigger runs configured bots after real HT
     const practice = FullPracticeBotsDocumentSchema.parse((await base.collection('practice').doc('public').get()).data());
     assert.deepEqual(practice.botSeatIds, configured.botSeatIds);
     FullPublicViewSchema.parse((await base.collection('views').doc('public').get()).data());
-    for (const collection of ['playerViews', 'ownAcknowledgments', 'seatSessions']) assert.equal((await base.collection(collection).get()).size, 0);
+    for (const collection of ['setupPlayerViews', 'playerViews', 'ownAcknowledgments', 'seatSessions']) assert.equal((await base.collection(collection).get()).size, 0);
     assert.deepEqual((await base.collection('members').get()).docs.map(doc => doc.id), [host.uid]);
     const bindings = (await base.collection('seats').get()).docs;
     assert.equal(bindings.length, 7); assert.ok(bindings.every(doc => doc.get('controller') === 'bot' && !Object.hasOwn(doc.data(), 'uid')));

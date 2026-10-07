@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { FullPublicViewSchema, FullPlayerViewSchema } from '@mothership/contracts';
+import { FullPublicViewSchema, FullPlayerViewSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema, FullSetupPlayerViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity, refreshEmulatorIdentity, firestoreRequest } from '../test/helpers.mjs';
 
-const operations = new Set(['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch']);
+const operations = new Set(['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch']);
 async function invoke(name, payload, identity, origin = 'http://localhost:5173') {
   const { functionsHost } = assertLocalEmulators();
   if (!operations.has(name)) throw new Error('Unknown local V1 smoke endpoint');
@@ -55,8 +55,26 @@ test('real V1 Functions authenticate seven players, start, register/retry MOVE a
   }
   const admitted=await invoke('v1AdmitDisplay',{protocolVersion:2,matchId,requestId:requestId(),displayUid:display.uid},host);
   assert.equal(admitted.status,200);assert.equal(admitted.body.ok,true);
-  const started=await invoke('v1StartMatch',{protocolVersion:2,matchId,requestId:requestId()},host);
-  assert.equal(started.status,200,JSON.stringify(started.body));assert.equal(started.body.ok,true);
+  const legacy=await invoke('v1StartMatch',{protocolVersion:2,matchId,requestId:requestId()},host);
+  assert.equal(legacy.status,403); assert.equal(legacy.body.error.code,'FORBIDDEN');
+  const setupRequest=fields=>({schemaVersion:1,protocolVersion:2,matchId,requestId:requestId(),...fields});
+  const begun=await invoke('v1BeginSetup',setupRequest(),host);
+  assert.equal(begun.status,200,JSON.stringify(begun.body));
+  assert.equal(FullBeginSetupResponseSchema.parse(begun.body).stage,'choosing');
+  for (let index=0;index<players.length;index++) {
+    const confirmed=await invoke('v1ConfirmSetupChoice',setupRequest({bindingRevision:1,displayName:`Player ${index+1}`,characterId:`c${index+1}`}),players[index]);
+    assert.equal(confirmed.status,200,JSON.stringify(confirmed.body));
+    assert.equal(FullConfirmSetupChoiceResponseSchema.parse(confirmed.body).stage,index===players.length-1?'awaiting-ready':'choosing');
+  }
+  assert.equal((await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status,403);
+  for (let index=0;index<players.length;index++) {
+    const own=await readView(`${root}/setupPlayerViews/${players[index].uid}`,players[index],FullSetupPlayerViewSchema);
+    assert.equal((await firestoreRequest(`${root}/setupPlayerViews/${players[index].uid}`,{idToken:host.idToken})).status,403);
+    const ready=await invoke('v1ReadyForMatch',setupRequest({bindingRevision:own.bindingRevision,dealId:own.dealId}),players[index]);
+    assert.equal(ready.status,200,JSON.stringify(ready.body));
+    assert.equal(FullReadyForMatchResponseSchema.parse(ready.body).stage,index===players.length-1?'running':'awaiting-ready');
+    if (index<players.length-1) assert.equal((await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status,403);
+  }
   const publicView=await readView(`${root}/views/public`,display,FullPublicViewSchema);
   assert.equal(publicView.playerCount,7);assert.equal(publicView.phase.kind,'ORDINARY_TURN');
   const earlyAdvance=await invoke('v1Advance',{protocolVersion:2,matchId,phaseId:publicView.phase.id},display);

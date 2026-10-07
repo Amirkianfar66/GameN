@@ -26,7 +26,7 @@ async function invoke(deps, overrides = {}) {
 }
 
 test('practice HTTP uses verified identity, exact versioned schemas and private no-store responses', async () => {
-  assert.equal(V1_OPERATIONS.at(-1), 'setPracticeBots');
+  assert.equal(V1_OPERATIONS.includes('setPracticeBots'), true);
   const deps = dependencies(), result = await invoke(deps);
   assert.equal(result.status, 200); assert.deepEqual(result.body, success);
   assert.deepEqual(deps.calls, [{ uid: 'verified-host', payload: request }]);
@@ -126,12 +126,12 @@ test('practice engine trigger is retrying Eventarc-only metadata without a publi
   assert.equal(V1_OPERATIONS.includes('runPracticeBots'), false);
 });
 
-test('only the new practice HTTP operation declares the explicit instance caps', () => {
+test('practice and staged setup HTTP operations declare caps while existing endpoints retain theirs', () => {
   const { endpoints, resolutions } = entrypoints(async () => ({ status: 'unchanged', processed: 0 }));
   assert.equal(resolutions(), 0);
   assert.equal(endpoints.setPracticeBots.__endpoint.maxInstances, 12);
   assert.equal(endpoints.setPracticeBots.__endpoint.minInstances, 0);
-  for (const operation of V1_OPERATIONS.filter(value => value !== 'setPracticeBots')) {
+  for (const operation of V1_OPERATIONS.filter(value => !['setPracticeBots', 'beginSetup', 'confirmSetupChoice', 'readyForMatch'].includes(value))) {
     assert.notEqual(endpoints[operation].__endpoint.maxInstances, 12);
     assert.notEqual(endpoints[operation].__endpoint.minInstances, 0);
   }
