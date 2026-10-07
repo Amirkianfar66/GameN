@@ -36,6 +36,13 @@ const configured = (value, body) => {
   assert.equal(value.matchId, body.matchId); assert.equal(value.requestId, body.requestId); return value;
 };
 const configureError = (value, code) => { FullSetPracticeBotsResponseSchema.parse(value); assert.equal(value.error?.code, code); };
+async function settleUnavailable(response, repeatSameIntent) {
+  // Real Firestore contention may exhaust one transaction's retries. Reconcile the
+  // unchanged request after both competitors settle; never replace its request ID.
+  for (let retry = 0; response.error?.code === 'UNAVAILABLE' && retry < 2; retry++) response = await repeatSameIntent();
+  assert.notEqual(response.error?.code, 'UNAVAILABLE', 'The unchanged intent must settle once contention is over');
+  return response;
+}
 async function auth() {
   const response = await fetch('http://' + process.env.FIREBASE_AUTH_EMULATOR_HOST + '/identitytoolkit.googleapis.com/v1/accounts:signUp?key=emulator-only', {
     method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ returnSecureToken: true }),
@@ -184,14 +191,20 @@ test('lobby abort locks bot configuration without a role deal', async () => {
 test('racing full bot allocation and human admission commits one coherent capacity outcome', async () => {
   for (let attempt = 0; attempt < 3; attempt++) {
     const h = await harness(), human = await auth(), pending = await h.admission(human);
-    const body = h.configuration(7);
-    const [bots, admitted] = await Promise.all([
+    const body = h.configuration(7), admission = h.request({ admissionId: pending.admissionId, seatId: 'seat-1' });
+    let [bots, admitted] = await Promise.all([
       h.service.setPracticeBots(h.host.uid, body),
-      h.service.approveAdmission(h.host.uid, h.request({ admissionId: pending.admissionId, seatId: 'seat-1' })),
+      h.service.approveAdmission(h.host.uid, admission),
     ]);
+    FullSetPracticeBotsResponseSchema.parse(bots); FullOperationResponseSchema.parse(admitted);
+    assert.ok(!(bots.ok && admitted.ok), 'Competing capacity claims cannot both commit');
+    const raced = await roster(h), acknowledgedWinner = bots.ok || admitted.ok;
+    bots = await settleUnavailable(bots, () => h.service.setPracticeBots(h.host.uid, body));
+    admitted = await settleUnavailable(admitted, () => h.service.approveAdmission(h.host.uid, admission));
     FullSetPracticeBotsResponseSchema.parse(bots); FullOperationResponseSchema.parse(admitted);
     assert.equal([bots.ok, admitted.ok].filter(Boolean).length, 1);
     const current = await roster(h);
+    if (acknowledgedWinner) assert.deepEqual(current, raced, 'Reconciliation cannot rewrite the winning roster');
     if (bots.ok) { assert.equal(current.bots.length, 7); fail(admitted, 'FORBIDDEN'); }
     else { configureError(bots, 'CAPACITY_EXCEEDED'); assert.equal(current.bots.length, 0); assert.equal(current.bindings['seat-1'].uid, human.uid); }
   }
@@ -199,10 +212,16 @@ test('racing full bot allocation and human admission commits one coherent capaci
 
 test('racing bot removal and match start serializes the frozen complete roster or the empty lobby', async () => {
   for (let attempt = 0; attempt < 3; attempt++) {
-    const h = await harness(); await h.set(7); const body = h.configuration(0);
-    const [removed, started] = await Promise.all([h.service.setPracticeBots(h.host.uid, body), h.service.startMatch(h.host.uid, h.request())]);
+    const h = await harness(); await h.set(7); const body = h.configuration(0), start = h.request();
+    let [removed, started] = await Promise.all([h.service.setPracticeBots(h.host.uid, body), h.service.startMatch(h.host.uid, start)]);
+    FullSetPracticeBotsResponseSchema.parse(removed); FullOperationResponseSchema.parse(started);
+    assert.ok(!(removed.ok && started.ok), 'Start cannot commit a removed roster');
+    const raced = await roster(h), acknowledgedWinner = removed.ok || started.ok;
+    removed = await settleUnavailable(removed, () => h.service.setPracticeBots(h.host.uid, body));
+    started = await settleUnavailable(started, () => h.service.startMatch(h.host.uid, start));
     FullSetPracticeBotsResponseSchema.parse(removed); FullOperationResponseSchema.parse(started);
     assert.equal([removed.ok, started.ok].filter(Boolean).length, 1);
+    if (acknowledgedWinner) assert.deepEqual(await roster(h), raced, 'Reconciliation cannot rewrite the frozen roster');
     const control = (await h.base.collection('control').doc('session').get()).data(), current = await roster(h);
     if (started.ok) { configureError(removed, 'LOBBY_LOCKED'); assert.equal(control.status, 'running'); assert.equal(current.bots.length, 7); assert.equal((await h.state()).seats.length, 7); }
     else { fail(started, 'FORBIDDEN'); assert.equal(control.status, 'lobby'); assert.deepEqual(current.bots, []); assert.equal((await h.base.collection('engine').doc('current').get()).exists, false); }
