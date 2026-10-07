@@ -310,6 +310,38 @@ const STUDY_MARKS = ['study-index', 'study-stages', 'synthetic.css', '--ms-study
   check('the synthetic studies are fenced off from assets, bundles and shell pages', problems);
 }
 
+// ---------- Explorations are fenced ----------
+// design/explorations/ holds looks being tried with the game owner. Nothing in it is an asset,
+// a contract or a shell, whatever the owner has said of the look. Three things keep it apart:
+// every file carries the development-only mark, so a production-exclusion check can find it;
+// nothing that is reviewed reaches into it; and its drawings stay inside the drawing
+// vocabulary, so that one can become a source without being redrawn. Its colors are not
+// checked: trying colors that are not tokens yet is what an exploration is for.
+{
+  const problems = [];
+  const files = await filesUnder('design/explorations').catch(() => []);
+  for (const path of files) {
+    // A review picture of the exploration itself is the one thing that cannot carry the mark.
+    if (path.endsWith('.png')) continue;
+    if (!/\.(html|css|js|mjs|json|svg|md)$/.test(path)) {
+      problems.push(`${path}: an exploration holds pages, styles, scripts, drawings, notes and review pictures, and nothing else`);
+      continue;
+    }
+    const content = await text(path);
+    if (!content.includes(DEV_ONLY_SENTINEL)) problems.push(`${path}: an exploration file without the development-only mark`);
+    if (path.endsWith('.svg')) for (const problem of problemsIn(parseSvg(content, path))) problems.push(`${path}: ${problem}`);
+  }
+  for (const directory of new Set(files.map(path => path.split('/').slice(0, 3).join('/')))) {
+    if (!files.includes(`${directory}/README.md`)) problems.push(`${directory}: an exploration says what it is, and what it is not, in a README.md`);
+  }
+  for (const tree of ['design/source', 'design/exports', 'design/studies', 'design/contract', 'design/prototypes', 'packages/design-tokens/src']) {
+    for (const path of await filesUnder(tree)) {
+      if (!path.endsWith('.png') && (await text(path)).includes('explorations/')) problems.push(`${path}: reaches into design/explorations/`);
+    }
+  }
+  check('explorations are fenced off from assets, the contract and the shells', problems);
+}
+
 // ---------- The reference stylesheets ----------
 // What exists only inside an open private sheet. A selector that mentions any of these is
 // about private state.

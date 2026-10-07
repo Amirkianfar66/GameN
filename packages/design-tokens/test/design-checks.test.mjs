@@ -19,7 +19,7 @@ after(() => { for (const path of scratchRoots) rmSync(path, { recursive: true, f
 function scratchCopy() {
   const root = mkdtempSync(join(tmpdir(), 'mothership-design-checks-'));
   scratchRoots.push(root);
-  for (const path of ['design/source', 'design/exports', 'design/studies', 'design/contract', 'design/tools', 'design/prototypes', 'packages/design-tokens/src', 'docs/design', 'rules']) {
+  for (const path of ['design/source', 'design/exports', 'design/studies', 'design/contract', 'design/tools', 'design/prototypes', 'design/explorations', 'packages/design-tokens/src', 'docs/design', 'rules']) {
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
   }
   // Review images are checked for being listed and existing: empty stand-ins keep the copy small.
@@ -71,7 +71,7 @@ const TRAIL = '<g id="fx-ink-trail" fill="#151923">';
 test('the design files as committed pass every check', async () => {
   const result = await run(scratchCopy(), 'check-assets.mjs');
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Design checks: 13 passed, 0 failures/);
+  assert.match(result.output, /Design checks: 14 passed, 0 failures/);
 });
 
 describe('mistakes the export build and the design checks refuse', { concurrency: 6 }, () => {
@@ -259,6 +259,36 @@ describe('mistakes the export build and the design checks refuse', { concurrency
     const root = scratchCopy();
     edit(root, 'design/prototypes/js/study-stages.js', text => text.replace('// mothership:dev-only\n', '//\n'));
     refuses(await run(root, 'check-assets.mjs'), /study-stages\.js: a study file without the development-only mark/);
+  });
+
+  // ---------- the fence around explorations ----------
+
+  test('an exploration file without the development-only mark, or a drawing outside the vocabulary', async () => {
+    const unmarked = scratchCopy();
+    edit(unmarked, 'design/explorations/comic-board/board.css', text => text.replace('mothership:dev-only', 'mothership dev only'));
+    refuses(await run(unmarked, 'check-assets.mjs'), /explorations are fenced off[^\n]*comic-board\/board\.css: an exploration file without the development-only mark/);
+
+    const lettered = scratchCopy();
+    edit(lettered, 'design/explorations/comic-board/crew/crew-1.svg', text => text.replace('</svg>', '<text x="4" y="12">Vega</text></svg>'));
+    refuses(await run(lettered, 'check-assets.mjs'), /explorations are fenced off[^\n]*crew-1\.svg: <text> is not part of the drawing vocabulary/);
+
+    const nameless = scratchCopy();
+    rmSync(join(nameless, 'design/explorations/comic-board/README.md'));
+    refuses(await run(nameless, 'check-assets.mjs'), /design\/explorations\/comic-board: an exploration says what it is, and what it is not, in a README\.md/);
+  });
+
+  test('a review page, a contract file or a recipe that reaches into an exploration', async () => {
+    const page = scratchCopy();
+    edit(page, 'design/prototypes/index.html', text => text.replace('</body>', '<a href="../explorations/comic-board/">Comic board</a>\n</body>'));
+    refuses(await run(page, 'check-assets.mjs'), /design\/prototypes\/index\.html: reaches into design\/explorations\//);
+
+    const recipe = scratchCopy();
+    edit(recipe, RECIPES, text => text.replace('"source": "cards/card-officer.svg"', '"source": "../explorations/comic-board/devices/device-officer.svg"'));
+    refuses(await run(recipe, 'build-exports.mjs'), /A recipe reads only drawings under design\/source\/: \.\.\/explorations\/comic-board\/devices\/device-officer\.svg/);
+
+    const contract = scratchCopy();
+    editJson(contract, 'design/contract/planned-assets.json', planned => { planned.groups[0].items[0].until = 'See explorations/comic-board/art/board-room-b.svg.'; });
+    refuses(await run(contract, 'check-assets.mjs'), /design\/contract\/planned-assets\.json: reaches into design\/explorations\//);
   });
 
   // ---------- the reference stylesheets ----------

@@ -3,7 +3,7 @@
 Issue [#4](https://github.com/Amirkianfar66/GameN/issues/4) · branch `agent/designer-art-direction` · base `333c9e820f362a211352bc689372663f29b73ac4`.
 Date: 6 October 2026. Environment: macOS 26.7.1 (arm64), Node `22.21.1`, npm `10.9.4`, Google Chrome `155.0.8059.39` for the scripts that need a browser.
 
-Everything in the tables below was run on the tree this document is committed with, after `npm ci` and `npm run clean`. The commit it was run at is in the pull request description.
+Everything in the tables below was run on the tree this document was first committed with, after `npm ci` and `npm run clean`. The commit it was run at is in the pull request description. [The comic-board exploration](#the-comic-board-exploration), dated 7 October 2026, was added by a later change on a branch of its own, and says which of these were run again for it and which were not.
 
 This page says what was run, what each check asserts, and what it does not. An earlier draft of it claimed more than its checks held; [the independent review](#independent-review) found that, and the tables here were rewritten from the code.
 
@@ -13,15 +13,15 @@ This page says what was run, what each check asserts, and what it does not. An e
 | --- | --- |
 | `npm ci` | Passed: 12 packages, toolchain hook passed. No dependency was added by this work |
 | `npm run verify` | Passed, unchanged from the base: toolchain; 8 workspaces within their boundaries; source integrity (119 Canvas files and 1 example, 7 rule sources, 24 pinned files, 0.2.0 token proposal unchanged); typecheck; build; **16 tests**, 0 failed, skipped or todo |
-| `npm run test --workspace @mothership/design-tokens` | Passed: **52 tests**, 0 failed, skipped or todo. 10 on the tokens, 1 that the design files pass every check, 41 that the checks refuse a named mistake |
-| `npm run check:assets --workspace @mothership/design-tokens` | Passed: **13 of 13 checks**, over 20 assets, 88 exported files, 3 bundle stylesheets, 33 components, 6 cues and 2 fenced studies |
+| `npm run test --workspace @mothership/design-tokens` | Passed: **54 tests**, 0 failed, skipped or todo. 10 on the tokens, 1 that the design files pass every check, 43 that the checks refuse a named mistake |
+| `npm run check:assets --workspace @mothership/design-tokens` | Passed: **14 of 14 checks**, over 20 assets, 88 exported files, 3 bundle stylesheets, 33 components, 6 cues and 2 fenced studies |
 | The command line asked for in [DSN-REQ-1](integration-requests.md#dsn-req-1): build, then those two | Passed in 5 to 6 seconds on this machine, over three runs |
 | `git diff --cached --check` against the base, with every new file staged | Clean |
 | The four pinned Designer files and `packages/design-tokens/src/tokens.json` against the base | Unchanged, byte for byte: `check:sources` passes |
 
 `verify` does not run the Designer tests or checks. They pass locally and are **not run in CI** until [DSN-REQ-1](integration-requests.md#dsn-req-1) lands.
 
-### What the thirteen checks assert
+### What the fourteen checks assert
 
 Each is a statement about files in the repository. None says anything about a phone, a display or how the art looks.
 
@@ -34,6 +34,7 @@ Each is a statement about files in the repository. None says anything about a ph
 | Every color is in its palette | A color that is not a token value in the palette the asset is allowed; a faction color on anything that may be drawn publicly, or in the public sprite; amber on a public asset other than the active-turn marker | Contrast in compositing |
 | Bundles, surfaces and names disclose nothing | A variant drawn where its bundle does not reach; private-only art in the bundle the table loads; role art allowed outside the private sheet; a sprite symbol taken from another bundle; outside the role bundle, an asset id, variant name, file name, sprite symbol, layer label or definition id that contains, as a whole name part, a role name, `blue`, `red`, `faction…`, `protect…`, `shield…`, `immun…`, `weapon…` or `code…`; a role bundle that does not expect the nine roles in `rules/overlays/player-modes-officer.json` | Whether a picture's *shape* suggests something private. The Captain marker was a shield until a reviewer saw it; a name check cannot see that |
 | The synthetic studies are fenced | A study in the asset manifest, in a bundle or among the exports; an asset drawn from `source/studies/`; a study file without the development-only mark; a study with a surface, without a gate, or for connected use; anything in the cue list that is not an authorized cue; any file of the review kit other than the four study files that names the study stylesheet, module, index, properties, directory or contract; a study duration that is not `motionMs.publicImpact` | Whether someone copies a study into a shell on purpose. It is a fence against accident |
+| Explorations are fenced | Under `design/explorations/`: a file without the development-only mark; a drawing outside the drawing vocabulary; an exploration with no README; a file that is not a page, a stylesheet, a script, a drawing, a note or a review picture. Anywhere under sources, exports, studies, the contract, the review pages or the token package: a file that reaches into `explorations/` | Whether an exploration is good, or what the owner made of it. Its colors are not checked: trying colors that are not tokens is what it is for |
 | Reference stylesheets | In `comic.css` and `cues.css`: a picture drawn without waiting for its own bundle, outside `@media (forced-colors: none)`, on the table when its manifest entry does not allow the table, or outside `.ms-private__panel` when it is private-only; a picture asked for by address; a rule that styles something outside the private sheet by what is inside it; a private hook on the table; a selector keyed on a role, a team or a private word; a literal, named or functional color; a system color outside forced colors; the `animation` shorthand; a repeating animation; an animation in `comic.css`; a duration that is not a motion token; a director cue with no treatment; a variable read and defined nowhere; a proposed token variable that nothing reads; the retired `data-assets` hook; generated review files that are out of date | Anything about a stylesheet other than these two. It reads selectors as text: a rule written in a way it does not anticipate could pass, which is why `check:shell` asks the same questions of a running page |
 | Motion contract | A duration that is not its token value; beats that do not add up or differ from the tokens; a cue the director does not issue; a public registration cue; a split of `publicImpact` in the tokens; a cue that does not say what it belongs to; a rule that lets any newer view replace a cue; freshness windows that are missing or looser than Frontend's provisional ones; a freshness rule that no longer says a private-only update withdraws no public cue | Whether a cue feels right, whether the proposed windows are good, and whether Frontend's director follows any of it |
 | Component, state and layout contracts | A state with no source, no description of its look or no words; a private component on a public surface; a component drawn where its asset may not be drawn; private-only art listed by a public component; a required state that does not exist or that nothing draws; a Shot card contract whose states are not exactly the pictures the review kit draws, or a kit that does not draw exactly Frontend's ten statuses; a Shot card picture that draws the spent pip; a layout board that asks for a picture that does not exist; a callout naming an unknown component | **Whether a state really differs from its neighbors other than by color.** It requires the three fields to be filled in. Whether the look they describe is real was judged by eye on the state sheets, and two pairs of statuses do share an outline |
@@ -43,7 +44,7 @@ Each is a statement about files in the repository. None says anything about a ph
 
 ### The checks can fail
 
-A check that has only ever passed proves little. 41 tests each copy the design files to a scratch directory, make one or more mistakes the way a person would, and expect the export build or the check to refuse each by name. They cover every row of the table above: a hand-edited export, manifest and stylesheet; a contract that pins another rule-source manifest; text, a title, a named color, `rgb()`, eight-digit hex, a `style` attribute, an unfilled shape, an image and an outside link in a source; a faction color on the token; amber in the room; a role word in an asset id, a variant name and a layer label; role art allowed on the table; private-only art in the public bundle; a sprite reaching into another bundle; a study read by an export recipe, linked from a shell page, imported by the review kit, drawn by a cue stylesheet, put back among the cues or given a token; art drawn without waiting for its bundle, for the wrong bundle, outside the private sheet, or on the table; the public layer styled by private state; a role-keyed selector; a picture asked for by address; literal, named and functional colors; a looping animation; a cue that belongs to nothing and a rule that lets any newer view replace a cue; a contract that does not match the review kit; a spent pip; stale renders and stale reports. The repository is not touched: the copies are made in the system temporary directory and removed.
+A check that has only ever passed proves little. 43 tests each copy the design files to a scratch directory, make one or more mistakes the way a person would, and expect the export build or the check to refuse each by name. They cover every row of the table above: a hand-edited export, manifest and stylesheet; a contract that pins another rule-source manifest; text, a title, a named color, `rgb()`, eight-digit hex, a `style` attribute, an unfilled shape, an image and an outside link in a source; a faction color on the token; amber in the room; a role word in an asset id, a variant name and a layer label; role art allowed on the table; private-only art in the public bundle; a sprite reaching into another bundle; a study read by an export recipe, linked from a shell page, imported by the review kit, drawn by a cue stylesheet, put back among the cues or given a token; art drawn without waiting for its bundle, for the wrong bundle, outside the private sheet, or on the table; the public layer styled by private state; a role-keyed selector; a picture asked for by address; literal, named and functional colors; a looping animation; a cue that belongs to nothing and a rule that lets any newer view replace a cue; a contract that does not match the review kit; a spent pip; stale renders and stale reports. The repository is not touched: the copies are made in the system temporary directory and removed.
 
 ### Token tests
 
@@ -173,6 +174,42 @@ The follow-up integration review of 6 October 2026, relayed by the game owner as
 Its one new finding, R6, is Frontend's: the frame contract clears every public cue whenever a seat's view object changes, so a private registration can stop public emphasis. Reading it showed the same mistake in one sentence of this work. The motion contract said of a cue that “a newer view replaces it”, and on a phone a newer view can be a private-only one. That sentence is corrected. The contract now says what each cue belongs to and what may withdraw it ([cue freshness](motion-storyboards.md#cue-freshness)), which also answers the cue-timing questions Frontend's slice 3 document left for the Designer. A check refuses the old wording, and the shell check gained assertion 7 above.
 
 The freshness windows and the cap on token drops are proposals for Frontend to agree or change. Nothing here shows that Frontend's director follows them, and R6 is fixed only when it does.
+
+## The comic-board exploration
+
+On 7 October 2026 the owner approved a new direction ([owner-decisions.md](owner-decisions.md)), built as an exploration in `design/explorations/comic-board/`. This section says what was run for it. `npm ci`, `npm run verify`, the package tests and `check:assets` were run again on the tree with it in, and the first table above carries their numbers: 54 tests and 14 checks where PR #45 had 52 and 13.
+
+**What changed outside the exploration.** A fourteenth check and two tests that fence the directory; a refusal in the export build of any recipe that reads outside `design/source/`, found while proving the fence (a recipe could climb out with `../` and lift an export from anywhere); and documents. No source, recipe, export, contract file, token, reference stylesheet or review page changed, so the review images and the two browser reports are the ones committed with PR #45: `check:assets` works their inputs' hash out again and finds them current. The layout check, the shell check and `prove:checks` were therefore not run again for this change.
+
+| Run | Actual result |
+| --- | --- |
+| `npm run verify` | Passed: **16 tests**, 0 failed, skipped or todo |
+| `npm run test --workspace @mothership/design-tokens` | Passed: **54 tests** |
+| `npm run check:assets --workspace @mothership/design-tokens` | Passed: **14 of 14** |
+| The drawings against the drawing vocabulary: 4 rooms, 9 characters, 9 devices | 0 problems, held by the fourteenth check. The rooms and the devices use token colors only; the characters use 29 that are not tokens, on purpose |
+| `node design/explorations/comic-board/try.mjs`: a scripted walk through the page in Google Chrome 155.0.8059.39, on a phone, on the Captain's phone, under reduced motion and on the shared display | **43 things looked for, 0 not found**, and no page problem. The rows below are what it looks for |
+| Choosing | Nine characters, four taken and not choosable; Join waits for a choice; every seat ends with a different character; the tag carries the seat number and the name as text, with markup in a typed name left as text |
+| Moving | From Room A, not Captain, only Room B is offered; the Hospital cannot be chosen; pressing a room asks before anything is sent and moves nothing; after the move the piece is in Room B, nothing more is offered that round, every piece stands inside its room, no name tag touches another and the cue has left nothing on the page; a refused move moves nothing; with the connection lost nothing can be chosen. The Captain is offered Room A and Room B from the Command Room, and the Command Room again the next round |
+| The role, in public | No role word or role key anywhere in the markup of the page, the caption, the hand or the banner, and no device drawing outside the private sheet: checked after the deal and again with each of the nine roles turned up. The shared display is never dealt a role and has no hand |
+| Requests | All nine devices and all nine characters are asked for at load; **0** requests when the card is turned up; **0** across dealing and turning up all nine roles |
+| The role card | Shows the viewer's own character without its stand and the device of the role dealt; turns face down when the page goes to the background |
+| Reduced motion | Nothing is animating, with the role card up; after a move the piece is simply in the room |
+| The walk can fail | Two deliberate mistakes, each restored afterwards. With the devices not loaded up front it reported the three request findings. With the role written into an attribute of the viewer's own piece it reported the leak for the card dealt and for each of the nine |
+| All nine role cards, each on a different character | Rendered and looked at |
+| The move and the card being turned up, held at six and at five moments | Rendered from the page itself (`?still`, `&peekstill`) and looked at: `storyboard-move.png`, `storyboard-role-card.png` |
+
+Looking found these while it was being built, and each was corrected before the pictures that are kept:
+
+| Seen | Fixed by |
+| --- | --- |
+| The landing star flew in from the corner of the page | It was placed with a transform and then scaled; it is placed by its left and top |
+| Neighbours shuffled sideways before the piece had left the room | The room it leaves closes up after lift-off; the room it lands in makes space at once |
+| On a dark room the star and the puff could not be seen | Paper with an inked edge |
+| The bottom row of rooms was hidden under the hand | The page takes the height the card at rest leaves, and does not resize when the card is picked up |
+| Pieces slid in from the corner of the page at load | The first placement is made without a transition |
+| The role card would have fetched its device when turned up | Every device and every character is asked for at the start, whatever is dealt |
+
+The walk is run by hand and is in no check. Not established: anything on a phone or a shared display; any browser but desktop Chrome; a screen reader; whether the nine characters can be told apart, or a room's color mistaken for a team's, by people at a table; motion comfort and frame time. The page is an exploration on a fixture: nothing in it was run against the engine or the backend.
 
 ## Not run, not measured, not produced
 

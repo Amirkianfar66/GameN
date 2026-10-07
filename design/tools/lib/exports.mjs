@@ -54,6 +54,9 @@ function composer(designRoot, { sourceRule }) {
   const read = path => readFile(resolve(designRoot, path), 'utf8');
   const sources = new Map();
   async function source(path) {
+    // A recipe reads drawings under design/source/ and nowhere else. A path that climbs out of
+    // it could lift an export out of an exploration, a review page or anything on the machine.
+    if (path.startsWith('/') || path.split('/').includes('..')) throw new Error(`A recipe reads only drawings under design/source/: ${path}`);
     sourceRule(path);
     if (!sources.has(path)) {
       const text = await read(`source/${path}`);
