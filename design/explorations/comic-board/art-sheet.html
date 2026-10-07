@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- mothership:dev-only -->
+<title>Mothership design — comic board exploration, room drawings (development only)</title>
+<style>
+  html, body { margin: 0; background: #10141C; color: #F4EBDD; font: 14px/1.4 system-ui, sans-serif; }
+  main { padding: 20px; display: grid; gap: 18px; }
+  h1 { font-size: 18px; margin: 0; }
+  .row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  figure { margin: 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { margin-top: 4px; color: #B9C4D3; font-size: 12px; }
+  .one figure svg { width: 100%; }
+  .one { grid-template-columns: minmax(0, 1fr); max-width: 1024px; }
+</style>
+</head>
+<body>
+<main id="page"></main>
+<script type="module">
+  // ?room=<key> draws one room large, in ?set=picture|apart|steel. Without it: all five, in all three sets.
+  import { FAMILIES, ROOMS, drawing, printIn } from './rooms.js';
+  window.__designReady = false;
+  const query = new URLSearchParams(location.search);
+  const page = document.getElementById('page');
+  const only = query.get('room');
+  const sets = query.get('set') ? [query.get('set')] : ['steel', 'picture', 'apart'];
+  let count = 0;
+  for (const set of sets) {
+    const title = document.createElement('h1');
+    title.textContent = { steel: 'As drawn: the neutral steel palette', picture: 'Printed in the hues of the reference picture', apart: 'Printed in hues kept away from the three team accents' }[set];
+    const row = document.createElement('div');
+    row.className = only ? 'row one' : 'row';
+    for (const room of ROOMS.filter(candidate => !only || candidate.key === only)) {
+      const figure = document.createElement('figure');
+      figure.innerHTML = printIn(await drawing(room), FAMILIES[set][room.name], `s${count++}-`);
+      const caption = document.createElement('figcaption');
+      caption.textContent = room.name;
+      figure.append(caption);
+      row.append(figure);
+    }
+    page.append(title, row);
+  }
+  window.__designReady = true;
+</script>
+</body>
+</html>

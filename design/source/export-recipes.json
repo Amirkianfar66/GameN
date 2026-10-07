@@ -1,0 +1,2060 @@
+{
+  "$comment": "How every runtime export is lifted out of the editable sources. design/tools/build-exports.mjs reads this file and writes design/exports/ and its asset-manifest.json. Edit here and in the sources; never edit an export by hand. The synthetic disclosure studies are not here: they have their own recipes (study-recipes.json) and their own output directory, and a recipe in this file may not read from source/studies/.",
+  "manifestVersion": "design-0.2.0",
+  "tokenVersion": "0.4.0",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "protocolVersion": 1,
+  "rights": {
+    "origin": "Original vector artwork drawn for this repository as hand-written SVG. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is included or was used as a source.",
+    "author": "Visual and Motion Designer workstream, issue #4: a Claude Code session (model claude-opus-5-5) working for the game owner.",
+    "created": "2026-10-06 and 2026-10-07",
+    "license": "None granted. The repository carries no distribution license.",
+    "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06).",
+    "humanArtReview": "The game owner looked at the five rooms, the nine characters and the nine role devices on a working page and approved the direction on 7 October 2026 (docs/design/owner-decisions.md). No illustrator or art director has reviewed any of it, and nothing has been seen on a phone or a shared display."
+  },
+  "bundles": {
+    "public-board": {
+      "audience": "public",
+      "loadPolicy": "The table display and every phone. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Contains nothing that depends on a role, a faction or a private choice.",
+      "connectedUse": true
+    },
+    "player-ui": {
+      "audience": "player",
+      "loadPolicy": "Every phone, identically. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing.",
+      "connectedUse": true
+    },
+    "roles": {
+      "audience": "player",
+      "loadPolicy": "UNIFORM. Every phone, identically, before roles are shown. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Fetching one role's art by itself can disclose that role.",
+      "connectedUse": true,
+      "expectedRoles": [
+        "Officer",
+        "Insider",
+        "Cracker",
+        "Blue Disabler",
+        "Supplier",
+        "Undercover",
+        "Hacker",
+        "Red Disabler",
+        "Alien"
+      ],
+      "producedRoles": [
+        "Officer",
+        "Insider",
+        "Cracker",
+        "Blue Disabler",
+        "Supplier",
+        "Undercover",
+        "Hacker",
+        "Red Disabler",
+        "Alien"
+      ]
+    }
+  },
+  "assets": [
+    {
+      "id": "board-room-a",
+      "version": "0.2.0",
+      "title": "Room A vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "board/board-room-a.svg",
+      "dataSource": "Shown for the location named Room A. Which seats stand in it comes from seats[].location.",
+      "allowedPalette": "location-room-a",
+      "common": {
+        "viewBox": "0 0 1024 768",
+        "recolor": {
+          "#222B3A": "#14243F",
+          "#34415A": "#1D3D6B",
+          "#55657E": "#2D609E",
+          "#8696AE": "#5C92CC",
+          "#B9C4D3": "#A9CAEB"
+        },
+        "anchors": {
+          "panelBox": [
+            20,
+            20,
+            984,
+            728
+          ],
+          "captionTopLeft": [
+            34,
+            32
+          ],
+          "captionMaxWidth": 240,
+          "tokenFloorQuad": {
+            "farLeft": [
+              216,
+              475
+            ],
+            "farRight": [
+              808,
+              475
+            ],
+            "nearRight": [
+              808,
+              649
+            ],
+            "nearLeft": [
+              216,
+              649
+            ]
+          },
+          "pieceRow": {
+            "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+            "centerX": 512,
+            "pieceWidthMaxShare": 0.2,
+            "stepMaxPieceWidths": 1.9,
+            "tagRowsWhenFourOrMore": 2
+          }
+        }
+      },
+      "variants": [
+        {
+          "variant": "full",
+          "layers": [
+            "#room-a-space",
+            "#room-a-backwall",
+            "#room-a-shell",
+            "#room-a-floor",
+            "#room-a-edges",
+            "#room-a-props-back",
+            "#room-a-props-front",
+            "#room-a-frame"
+          ]
+        },
+        {
+          "variant": "layer-space",
+          "layers": [
+            "#room-a-space"
+          ],
+          "stack": {
+            "order": 0,
+            "depth": -3
+          }
+        },
+        {
+          "variant": "layer-backwall",
+          "layers": [
+            "#room-a-backwall"
+          ],
+          "stack": {
+            "order": 1,
+            "depth": -2
+          }
+        },
+        {
+          "variant": "layer-shell",
+          "layers": [
+            "#room-a-shell"
+          ],
+          "stack": {
+            "order": 2,
+            "depth": -1
+          }
+        },
+        {
+          "variant": "layer-floor",
+          "layers": [
+            "#room-a-floor"
+          ],
+          "stack": {
+            "order": 3,
+            "depth": 0
+          }
+        },
+        {
+          "variant": "layer-edges",
+          "layers": [
+            "#room-a-edges"
+          ],
+          "stack": {
+            "order": 4,
+            "depth": 0
+          }
+        },
+        {
+          "variant": "layer-props-back",
+          "layers": [
+            "#room-a-props-back"
+          ],
+          "stack": {
+            "order": 5,
+            "depth": 0
+          }
+        },
+        {
+          "variant": "layer-props-front",
+          "layers": [
+            "#room-a-props-front"
+          ],
+          "stack": {
+            "order": 7,
+            "depth": 2,
+            "note": "Tokens are order 6 and stand between the back and front props."
+          }
+        },
+        {
+          "variant": "layer-frame",
+          "layers": [
+            "#room-a-frame"
+          ],
+          "stack": {
+            "order": 8,
+            "depth": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "board-room-b",
+      "version": "0.1.0",
+      "title": "Room B vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "board/board-room-b.svg",
+      "dataSource": "Shown for the location named Room B. Which seats stand in it comes from seats[].location.",
+      "allowedPalette": "location-room-b",
+      "common": {
+        "viewBox": "0 0 1024 768",
+        "recolor": {
+          "#222B3A": "#2A1446",
+          "#34415A": "#4B2079",
+          "#55657E": "#7A3CAD",
+          "#8696AE": "#AE6CD3",
+          "#B9C4D3": "#DCB6EE"
+        },
+        "anchors": {
+          "panelBox": [
+            20,
+            20,
+            984,
+            728
+          ],
+          "captionTopLeft": [
+            34,
+            32
+          ],
+          "captionMaxWidth": 240,
+          "pieceRow": {
+            "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+            "centerX": 512,
+            "pieceWidthMaxShare": 0.2,
+            "stepMaxPieceWidths": 1.9,
+            "tagRowsWhenFourOrMore": 2
+          }
+        }
+      },
+      "variants": [
+        {
+          "variant": "full",
+          "layers": [
+            "#room-b-space",
+            "#room-b-backwall",
+            "#room-b-shell",
+            "#room-b-floor",
+            "#room-b-edges",
+            "#room-b-props-back",
+            "#room-b-props-front",
+            "#room-b-frame"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "board-command-room",
+      "version": "0.1.0",
+      "title": "Command Room vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "board/board-command-room.svg",
+      "dataSource": "Shown for the location named Command Room. Which seats stand in it comes from seats[].location.",
+      "allowedPalette": "location-command-room",
+      "common": {
+        "viewBox": "0 0 1024 768",
+        "recolor": {
+          "#222B3A": "#40300A",
+          "#34415A": "#7A5A0C",
+          "#55657E": "#C4950F",
+          "#8696AE": "#EFC62F",
+          "#B9C4D3": "#F9E48C"
+        },
+        "anchors": {
+          "panelBox": [
+            20,
+            20,
+            984,
+            728
+          ],
+          "captionTopLeft": [
+            34,
+            32
+          ],
+          "captionMaxWidth": 240,
+          "pieceRow": {
+            "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+            "centerX": 512,
+            "pieceWidthMaxShare": 0.2,
+            "stepMaxPieceWidths": 1.9,
+            "tagRowsWhenFourOrMore": 2
+          }
+        }
+      },
+      "variants": [
+        {
+          "variant": "full",
+          "layers": [
+            "#command-room-space",
+            "#command-room-backwall",
+            "#command-room-shell",
+            "#command-room-floor",
+            "#command-room-edges",
+            "#command-room-props-back",
+            "#command-room-frame"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "board-hospital",
+      "version": "0.1.0",
+      "title": "Hospital vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "board/board-hospital.svg",
+      "dataSource": "Shown for the location named Hospital. Which seats stand in it comes from seats[].location.",
+      "allowedPalette": "location-hospital",
+      "common": {
+        "viewBox": "0 0 1024 768",
+        "recolor": {
+          "#222B3A": "#0E3A3A",
+          "#34415A": "#155B58",
+          "#55657E": "#1F8A80",
+          "#8696AE": "#57BBA8",
+          "#B9C4D3": "#A6DFD0"
+        },
+        "anchors": {
+          "panelBox": [
+            20,
+            20,
+            984,
+            728
+          ],
+          "captionTopLeft": [
+            34,
+            32
+          ],
+          "captionMaxWidth": 240,
+          "pieceRow": {
+            "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+            "centerX": 512,
+            "pieceWidthMaxShare": 0.2,
+            "stepMaxPieceWidths": 1.9,
+            "tagRowsWhenFourOrMore": 2
+          }
+        }
+      },
+      "variants": [
+        {
+          "variant": "full",
+          "layers": [
+            "#hospital-space",
+            "#hospital-backwall",
+            "#hospital-shell",
+            "#hospital-floor",
+            "#hospital-edges",
+            "#hospital-props-back",
+            "#hospital-frame"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "board-jail",
+      "version": "0.1.0",
+      "title": "Jail vignette",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "board/board-jail.svg",
+      "dataSource": "Shown for the location named Jail. Which seats stand in it comes from seats[].location.",
+      "allowedPalette": "location-jail",
+      "common": {
+        "viewBox": "0 0 1024 768",
+        "recolor": {
+          "#222B3A": "#45100F",
+          "#34415A": "#7E1B19",
+          "#55657E": "#BE2D26",
+          "#8696AE": "#E85C44",
+          "#B9C4D3": "#F6A78F"
+        },
+        "anchors": {
+          "panelBox": [
+            20,
+            20,
+            984,
+            728
+          ],
+          "captionTopLeft": [
+            34,
+            32
+          ],
+          "captionMaxWidth": 240,
+          "pieceRow": {
+            "note": "A suggested reflow, not a capacity, and no slot is drawn. Pieces stand in one row along the lower edge, centered, each on its floor contact, with its tag under it. Where four or more stand in a room every second tag hangs one line lower.",
+            "centerX": 512,
+            "pieceWidthMaxShare": 0.2,
+            "stepMaxPieceWidths": 1.9,
+            "tagRowsWhenFourOrMore": 2
+          }
+        }
+      },
+      "variants": [
+        {
+          "variant": "full",
+          "layers": [
+            "#jail-backwall",
+            "#jail-shell",
+            "#jail-floor",
+            "#jail-edges",
+            "#jail-props-back",
+            "#jail-frame"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-neutral",
+      "version": "0.1.0",
+      "title": "Neutral numbered player token",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "token/token-neutral.svg",
+      "dataSource": "One per seat in seats[]. The numeral is the seat number. Health variants follow seats[].health. Nothing else may change it.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "badge-blank",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#badge-shadow",
+            "#badge-body",
+            "#badge-shade",
+            "#badge-highlight",
+            "#badge-face"
+          ],
+          "anchors": {
+            "faceCenter": [
+              38,
+              38
+            ],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              38,
+              38
+            ],
+            "numeralScale": 0.72,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-n{n}",
+          "each": {
+            "n": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9"
+            ]
+          },
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#badge-shadow",
+            "#badge-body",
+            "#badge-shade",
+            "#badge-highlight",
+            "#badge-face",
+            {
+              "ref": "token/numerals.svg#numeral-{n}",
+              "transform": "translate(38 38) scale(0.72) translate(-20 -22.5)"
+            }
+          ],
+          "anchors": {
+            "faceCenter": [
+              38,
+              38
+            ],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "ringRadius": 35.5
+          }
+        },
+        {
+          "variant": "badge-injured-blank",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#badge-shadow",
+            "#badge-body",
+            "#badge-shade",
+            "#badge-highlight",
+            "#badge-face",
+            "#health-injured"
+          ],
+          "anchors": {
+            "faceCenter": [
+              38,
+              38
+            ],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              38,
+              38
+            ],
+            "numeralScale": 0.72
+          }
+        },
+        {
+          "variant": "badge-eliminated-blank",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#eliminated-body",
+            "#eliminated-face"
+          ],
+          "anchors": {
+            "faceCenter": [
+              38,
+              38
+            ],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              38,
+              38
+            ],
+            "numeralScale": 0.72
+          }
+        },
+        {
+          "variant": "overlay-health-injured",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#health-injured"
+          ],
+          "anchors": {
+            "alignTo": "badge-blank"
+          }
+        },
+        {
+          "variant": "standee-blank",
+          "viewBox": "0 0 96 120",
+          "layers": [
+            "#standee-floor-shadow",
+            "#standee-base",
+            "#standee-neck",
+            "#standee-badge"
+          ],
+          "anchors": {
+            "origin": [
+              48,
+              104
+            ],
+            "faceCenter": [
+              48,
+              44
+            ],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              48,
+              44
+            ],
+            "numeralScale": 0.72,
+            "markerSlots": {
+              "turn": [
+                48,
+                -2
+              ],
+              "captain": [
+                78,
+                18
+              ],
+              "health": [
+                78,
+                70
+              ],
+              "jail": [
+                18,
+                70
+              ]
+            }
+          }
+        },
+        {
+          "variant": "standee-n{n}",
+          "each": {
+            "n": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9"
+            ]
+          },
+          "viewBox": "0 0 96 120",
+          "layers": [
+            "#standee-floor-shadow",
+            "#standee-base",
+            "#standee-neck",
+            "#standee-badge",
+            {
+              "ref": "token/numerals.svg#numeral-{n}",
+              "transform": "translate(48 44) scale(0.72) translate(-20 -22.5)"
+            }
+          ],
+          "anchors": {
+            "origin": [
+              48,
+              104
+            ],
+            "faceCenter": [
+              48,
+              44
+            ],
+            "bodyDiameter": 64,
+            "markerSlots": {
+              "turn": [
+                48,
+                -2
+              ],
+              "captain": [
+                78,
+                18
+              ],
+              "health": [
+                78,
+                70
+              ],
+              "jail": [
+                18,
+                70
+              ]
+            }
+          }
+        },
+        {
+          "variant": "standee-injured-blank",
+          "viewBox": "0 0 96 120",
+          "layers": [
+            "#standee-floor-shadow",
+            "#standee-base",
+            "#standee-neck",
+            "#standee-badge",
+            "#standee-health-injured"
+          ],
+          "anchors": {
+            "origin": [
+              48,
+              104
+            ],
+            "faceCenter": [
+              48,
+              44
+            ],
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              48,
+              44
+            ],
+            "numeralScale": 0.72
+          }
+        },
+        {
+          "variant": "standee-eliminated-blank",
+          "viewBox": "0 0 96 120",
+          "layers": [
+            "#standee-base",
+            "#standee-neck",
+            "#standee-eliminated-badge"
+          ],
+          "anchors": {
+            "origin": [
+              48,
+              104
+            ],
+            "faceCenter": [
+              48,
+              44
+            ],
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              48,
+              44
+            ],
+            "numeralScale": 0.72
+          }
+        }
+      ]
+    },
+    {
+      "id": "token-numeral",
+      "version": "0.1.0",
+      "title": "Token numerals 1 to 9",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "token/numerals.svg",
+      "dataSource": "The seat number, 1 to 9. Never a count of anything else.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "n{n}",
+          "each": {
+            "n": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9"
+            ]
+          },
+          "viewBox": "0 0 40 48",
+          "layers": [
+            "#numeral-{n}"
+          ],
+          "anchors": {
+            "center": [
+              20,
+              22.5
+            ],
+            "bodyTop": 4,
+            "bodyBottom": 41
+          }
+        }
+      ]
+    },
+    {
+      "id": "piece-crew",
+      "version": "0.1.0",
+      "title": "Crew character playing piece",
+      "status": "finished",
+      "bundle": "public-board",
+      "dataSource": "PROPOSED FACT, not in any contract yet (DSN-REQ-6): the character a seat's player chose before roles were dealt. Public, and the same on every screen. Never a role, a team, a health state or anything private. A seat with no character is drawn as token-neutral.",
+      "allowedPalette": "crew",
+      "variants": [
+        {
+          "variant": "standee-c{n}",
+          "each": {
+            "n": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9"
+            ]
+          },
+          "viewBox": "0 0 96 120",
+          "layers": [
+            "crew/crew-{n}.svg#crew-{n}-stand",
+            "crew/crew-{n}.svg#crew-{n}-card",
+            "crew/crew-{n}.svg#crew-{n}-figure",
+            "crew/crew-{n}.svg#crew-{n}-clamp"
+          ],
+          "anchors": {
+            "origin": [
+              48,
+              104
+            ],
+            "tagTop": [
+              48,
+              116
+            ],
+            "markerSlots": {
+              "turn": [
+                48,
+                -2
+              ],
+              "captain": [
+                78,
+                18
+              ],
+              "health": [
+                78,
+                70
+              ],
+              "jail": [
+                18,
+                70
+              ]
+            }
+          }
+        },
+        {
+          "variant": "card-c{n}",
+          "each": {
+            "n": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9"
+            ]
+          },
+          "viewBox": "8 0 84 96",
+          "layers": [
+            "crew/crew-{n}.svg#crew-{n}-card",
+            "crew/crew-{n}.svg#crew-{n}-figure"
+          ],
+          "anchors": {
+            "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+            "faceCenter": [
+              48,
+              38
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "token-emphasis",
+      "version": "0.1.0",
+      "title": "Private token emphasis: rings and the dimmed token",
+      "status": "finished",
+      "bundle": "player-ui",
+      "source": "token/token-neutral.svg",
+      "dataSource": "PRIVATE, and drawn by no reference rule yet. Meant for a target list the server supplies (DSN-D03): may be chosen, chosen on this device, not offered. Protocol 1 has no such list, and a ring would claim one.",
+      "allowedPalette": "public",
+      "surfaces": [
+        "phone-private"
+      ],
+      "variants": [
+        {
+          "variant": "ring-targetable",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#ring-targetable"
+          ],
+          "anchors": {
+            "alignTo": "badge-blank"
+          }
+        },
+        {
+          "variant": "ring-selected",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#ring-selected"
+          ],
+          "anchors": {
+            "alignTo": "badge-blank"
+          },
+          "allowedPalette": "public-with-accent"
+        },
+        {
+          "variant": "unavailable-blank",
+          "viewBox": "0 0 80 80",
+          "layers": [
+            "#dim-unavailable"
+          ],
+          "anchors": {
+            "faceCenter": [
+              38,
+              38
+            ],
+            "faceRadius": 21,
+            "bodyDiameter": 64,
+            "numeralCenter": [
+              38,
+              38
+            ],
+            "numeralScale": 0.72
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-health",
+      "version": "0.1.0",
+      "title": "Public health marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "markers/markers.svg",
+      "dataSource": "seats[].health: Healthy, Injured or Eliminated. A separate fact from Jail and Captain.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "healthy-glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-health-healthy"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "variant": "injured-glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-health-injured"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "variant": "eliminated-glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-health-eliminated"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "variant": "injured-badge",
+          "viewBox": "0 0 36 36",
+          "layers": [
+            "#badge-disc",
+            {
+              "ref": "#glyph-health-injured",
+              "transform": "translate(17 17) scale(0.66) translate(-16 -16)"
+            }
+          ],
+          "anchors": {
+            "center": [
+              17,
+              17
+            ]
+          }
+        },
+        {
+          "variant": "eliminated-badge",
+          "viewBox": "0 0 36 36",
+          "layers": [
+            "#badge-disc",
+            {
+              "ref": "#glyph-health-eliminated",
+              "transform": "translate(17 17) scale(0.66) translate(-16 -16)"
+            }
+          ],
+          "anchors": {
+            "center": [
+              17,
+              17
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-jail",
+      "version": "0.1.0",
+      "title": "Public Jail marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "markers/markers.svg",
+      "dataSource": "seats[].jailed is true. Jail is not a health state; a seat's location is a separate field.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-jail"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "variant": "badge",
+          "viewBox": "0 0 36 36",
+          "layers": [
+            "#badge-disc",
+            {
+              "ref": "#glyph-jail",
+              "transform": "translate(17 17) scale(0.66) translate(-16 -16)"
+            }
+          ],
+          "anchors": {
+            "center": [
+              17,
+              17
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-captain",
+      "version": "0.1.0",
+      "title": "Public Captain marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "markers/markers.svg",
+      "dataSource": "seats[].captain is true. It stays with the title when the Captain leaves Command Room and says nothing about immunity. A rank star, deliberately not a shield.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-captain"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "variant": "badge",
+          "viewBox": "0 0 36 36",
+          "layers": [
+            "#badge-disc",
+            {
+              "ref": "#glyph-captain",
+              "transform": "translate(17 17) scale(0.66) translate(-16 -16)"
+            }
+          ],
+          "anchors": {
+            "center": [
+              17,
+              17
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "marker-turn",
+      "version": "0.1.0",
+      "title": "Public active-turn marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "markers/markers.svg",
+      "dataSource": "activeSeatId equals this seat. Public. Never drawn inside the private sheet.",
+      "allowedPalette": "public-with-accent",
+      "variants": [
+        {
+          "variant": "glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-turn"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ],
+            "tail": [
+              9.5,
+              28
+            ]
+          }
+        },
+        {
+          "variant": "float",
+          "viewBox": "0 0 36 36",
+          "layers": [
+            "#glyph-turn-shadow",
+            "#glyph-turn"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ],
+            "tail": [
+              9.5,
+              28
+            ]
+          }
+        }
+      ],
+      "surfaces": [
+        "table",
+        "phone-public"
+      ]
+    },
+    {
+      "id": "marker-self",
+      "version": "0.1.0",
+      "title": "Own-seat marker",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "markers/markers.svg",
+      "dataSource": "The seat equals the player view's audience.seatId. Drawn on that player's own phone only; the seat number itself is public.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "glyph",
+          "viewBox": "0 0 32 32",
+          "layers": [
+            "#glyph-self"
+          ],
+          "anchors": {
+            "center": [
+              16,
+              16
+            ],
+            "tip": [
+              16,
+              29
+            ]
+          }
+        },
+        {
+          "variant": "badge",
+          "viewBox": "0 0 36 36",
+          "layers": [
+            "#badge-disc",
+            {
+              "ref": "#glyph-self",
+              "transform": "translate(17 17) scale(0.66) translate(-16 -16)"
+            }
+          ],
+          "anchors": {
+            "center": [
+              17,
+              17
+            ]
+          }
+        }
+      ],
+      "surfaces": [
+        "phone-public",
+        "phone-private"
+      ]
+    },
+    {
+      "id": "fx-ink-trail",
+      "version": "0.1.0",
+      "title": "Public move: ink trail",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/fx.svg",
+      "dataSource": "A public-move cue, which needs a PUBLIC_MOVE event and a view that shows the seat in its new location.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 96 80",
+        "anchors": {
+          "landing": [
+            48,
+            80
+          ],
+          "alignTo": "Bottom center sits on the top center of the landing token."
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#fx-ink-trail"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#fx-ink-trail"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-landing-puff",
+      "version": "0.1.0",
+      "title": "Public move: landing puff",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/fx.svg",
+      "dataSource": "A public-move cue, as fx-ink-trail.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 120 36",
+        "anchors": {
+          "contact": [
+            60,
+            30
+          ],
+          "alignTo": "The contact point sits on the token origin (floor contact)."
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#fx-landing-puff"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#fx-landing-puff"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-landing-burst",
+      "version": "0.1.0",
+      "title": "Public move: landing burst",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/fx.svg",
+      "dataSource": "A public-move cue, as fx-ink-trail.",
+      "allowedPalette": "public",
+      "variants": [
+        {
+          "variant": "paper",
+          "viewBox": "0 0 100 100",
+          "layers": [
+            "#fx-landing-burst"
+          ],
+          "anchors": {
+            "center": [
+              50,
+              50
+            ],
+            "alignTo": "Its center sits a little above the piece's floor contact, behind the piece."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-panel-cap",
+      "version": "0.1.0",
+      "title": "Round transition: panel sweep edge",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/fx.svg",
+      "dataSource": "A round-transition cue, which needs a PHASE_CHANGED event and a view whose round number went up.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 160 96",
+        "anchors": {
+          "solidUntilX": 32,
+          "slantRun": 40,
+          "alignTo": "The left edge continues a plain block of the same color."
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#fx-panel-cap"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#fx-panel-cap"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fx-speed-lines",
+      "version": "0.1.0",
+      "title": "Round transition: speed lines",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/fx.svg",
+      "dataSource": "A round-transition cue, as fx-panel-cap.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 240 64",
+        "anchors": {
+          "leading": [
+            0,
+            32
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#fx-speed-lines"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#fx-speed-lines"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pattern-halftone",
+      "version": "0.1.0",
+      "title": "Halftone tiles",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/patterns.svg",
+      "dataSource": "Decoration. Shading only; it states nothing.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 12 12",
+        "anchors": {
+          "tile": [
+            12,
+            12
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "fine-ink",
+          "layers": [
+            "#tile-halftone-fine"
+          ]
+        },
+        {
+          "variant": "medium-ink",
+          "layers": [
+            "#tile-halftone-medium"
+          ]
+        },
+        {
+          "variant": "heavy-ink",
+          "layers": [
+            "#tile-halftone-heavy"
+          ]
+        },
+        {
+          "variant": "fine-paper",
+          "layers": [
+            "#tile-halftone-fine"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        },
+        {
+          "variant": "medium-paper",
+          "layers": [
+            "#tile-halftone-medium"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pattern-hatch",
+      "version": "0.1.0",
+      "title": "Hatch tile",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "fx/patterns.svg",
+      "dataSource": "The pending band of an action card while its own command is being sent or checked, and the frame and banner edge that mark a stale view. It states nothing by itself.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 12 12",
+        "anchors": {
+          "tile": [
+            12,
+            12
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#tile-hatch"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#tile-hatch"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "icon-action-shot",
+      "version": "0.1.0",
+      "title": "Shot action icon",
+      "status": "finished",
+      "bundle": "player-ui",
+      "source": "cards/ui-icons.svg",
+      "dataSource": "The Shot action card inside the private sheet. The same for every seat shown the card.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 32 32",
+        "anchors": {
+          "center": [
+            16,
+            16
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#icon-action-shot"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#icon-action-shot"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ],
+      "surfaces": [
+        "phone-private"
+      ]
+    },
+    {
+      "id": "icon-private",
+      "version": "0.1.0",
+      "title": "Private sheet closed and open",
+      "status": "finished",
+      "bundle": "player-ui",
+      "source": "cards/ui-icons.svg",
+      "dataSource": "Whether the player has opened the private sheet on this device. Local state; closed by default.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 32 32",
+        "anchors": {
+          "center": [
+            16,
+            16
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "closed-ink",
+          "layers": [
+            "#icon-private-closed"
+          ]
+        },
+        {
+          "variant": "closed-paper",
+          "layers": [
+            "#icon-private-closed"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        },
+        {
+          "variant": "open-ink",
+          "layers": [
+            "#icon-private-open"
+          ]
+        },
+        {
+          "variant": "open-paper",
+          "layers": [
+            "#icon-private-open"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "icon-connection-stale",
+      "version": "0.1.0",
+      "title": "Stale connection icon",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "cards/ui-icons.svg",
+      "dataSource": "The client's own connection status is stale: the view shown is the last known one.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 32 32",
+        "anchors": {
+          "center": [
+            16,
+            16
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "ink",
+          "layers": [
+            "#icon-connection-stale"
+          ]
+        },
+        {
+          "variant": "paper",
+          "layers": [
+            "#icon-connection-stale"
+          ],
+          "recolor": {
+            "#151923": "#F4EBDD"
+          }
+        }
+      ]
+    },
+    {
+      "id": "icon-location",
+      "version": "0.1.0",
+      "title": "Room caption icon",
+      "status": "finished",
+      "bundle": "public-board",
+      "source": "board/room-icons.svg",
+      "dataSource": "Beside a location's name in its caption. One per location; decoration, because the name is always there as live text.",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 24 24",
+        "anchors": {
+          "center": [
+            12,
+            12
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "room-a",
+          "layers": [
+            "#icon-room-a"
+          ]
+        },
+        {
+          "variant": "room-b",
+          "layers": [
+            "#icon-room-b"
+          ]
+        },
+        {
+          "variant": "command-room",
+          "layers": [
+            "#icon-command-room"
+          ]
+        },
+        {
+          "variant": "hospital",
+          "layers": [
+            "#icon-hospital"
+          ]
+        },
+        {
+          "variant": "jail",
+          "layers": [
+            "#icon-jail"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pip-resource",
+      "version": "0.1.0",
+      "title": "Resource pip",
+      "status": "finished",
+      "bundle": "player-ui",
+      "source": "cards/ui-icons.svg",
+      "dataSource": "PRIVATE. Drawn only from the player's own view: available from self.shotAvailable, registered while the seat's own command is listed in ownPendingCommandIds. Spent has no field in protocol 1 (DSN-D02).",
+      "allowedPalette": "public",
+      "common": {
+        "viewBox": "0 0 36 20",
+        "anchors": {
+          "center": [
+            18,
+            10
+          ]
+        }
+      },
+      "variants": [
+        {
+          "variant": "available",
+          "layers": [
+            "#pip-available"
+          ]
+        },
+        {
+          "variant": "registered",
+          "layers": [
+            "#pip-registered"
+          ]
+        },
+        {
+          "variant": "spent",
+          "layers": [
+            "#pip-spent"
+          ]
+        }
+      ],
+      "surfaces": [
+        "phone-private"
+      ]
+    },
+    {
+      "id": "device-officer",
+      "version": "0.1.0",
+      "title": "Officer role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-officer.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Officer. Drawn over the player's own character, only inside that seat's open private sheet. One ordinary shot: a sidearm with one cell.",
+      "allowedPalette": "private-blue",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-officer-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-insider",
+      "version": "0.1.0",
+      "title": "Insider role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-insider.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Insider. Drawn over the player's own character, only inside that seat's open private sheet. Knows three roles as a set: a slate with three marks that are alike.",
+      "allowedPalette": "private-blue",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-insider-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-cracker",
+      "version": "0.1.0",
+      "title": "Cracker role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-cracker.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Cracker. Drawn over the player's own character, only inside that seat's open private sheet. Two rescues: an injector with two vials.",
+      "allowedPalette": "private-blue",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-cracker-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-blue-disabler",
+      "version": "0.1.0",
+      "title": "Blue Disabler role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-blue-disabler.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Blue Disabler. Drawn over the player's own character, only inside that seat's open private sheet. One Disable: a prod with one charge ring.",
+      "allowedPalette": "private-blue",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-blue-disabler-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-supplier",
+      "version": "0.1.0",
+      "title": "Supplier role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-supplier.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Supplier. Drawn over the player's own character, only inside that seat's open private sheet. Two recipients: a carrier with two cells.",
+      "allowedPalette": "private-blue",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-supplier-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-undercover",
+      "version": "0.1.0",
+      "title": "Undercover role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-undercover.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Undercover. Drawn over the player's own character, only inside that seat's open private sheet. Protection: an emitter under a dome.",
+      "allowedPalette": "private-red",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-undercover-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-hacker",
+      "version": "0.1.0",
+      "title": "Hacker role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-hacker.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Hacker. Drawn over the player's own character, only inside that seat's open private sheet. Scanning for four: a scanner with four slots.",
+      "allowedPalette": "private-red",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-hacker-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-red-disabler",
+      "version": "0.1.0",
+      "title": "Red Disabler role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-red-disabler.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Red Disabler. Drawn over the player's own character, only inside that seat's open private sheet. One Disable: a prod with one charge ring.",
+      "allowedPalette": "private-red",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-red-disabler-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "device-alien",
+      "version": "0.1.0",
+      "title": "Alien role device",
+      "status": "finished",
+      "bundle": "roles",
+      "source": "devices/device-alien.svg",
+      "dataSource": "PRIVATE. The player view's self.role is Alien. Drawn over the player's own character, only inside that seat's open private sheet. Holds the Code: a stone with four nodes.",
+      "allowedPalette": "private-alien",
+      "variants": [
+        {
+          "variant": "held",
+          "viewBox": "0 0 120 140",
+          "layers": [
+            "#device-alien-all"
+          ],
+          "anchors": {
+            "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+            "grip": [
+              78,
+              104
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "sprites": [
+    {
+      "id": "sprite-public",
+      "version": "0.2.0",
+      "title": "Public symbol sprite",
+      "status": "finished",
+      "bundle": "public-board",
+      "dataSource": "The same symbols as the standalone public exports, for inline use with <use>.",
+      "allowedPalette": "public-with-accent",
+      "symbols": [
+        {
+          "symbol": "token-badge",
+          "from": "token-neutral:badge-blank"
+        },
+        {
+          "symbol": "token-badge-injured",
+          "from": "token-neutral:badge-injured-blank"
+        },
+        {
+          "symbol": "token-badge-eliminated",
+          "from": "token-neutral:badge-eliminated-blank"
+        },
+        {
+          "symbol": "token-standee",
+          "from": "token-neutral:standee-blank"
+        },
+        {
+          "symbol": "token-standee-injured",
+          "from": "token-neutral:standee-injured-blank"
+        },
+        {
+          "symbol": "token-standee-eliminated",
+          "from": "token-neutral:standee-eliminated-blank"
+        },
+        {
+          "symbol": "numeral-{n}",
+          "each": {
+            "n": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9"
+            ]
+          },
+          "from": "token-numeral:n{n}"
+        },
+        {
+          "symbol": "marker-health-healthy",
+          "from": "marker-health:healthy-glyph"
+        },
+        {
+          "symbol": "marker-health-injured",
+          "from": "marker-health:injured-glyph"
+        },
+        {
+          "symbol": "marker-health-eliminated",
+          "from": "marker-health:eliminated-glyph"
+        },
+        {
+          "symbol": "marker-jail",
+          "from": "marker-jail:glyph"
+        },
+        {
+          "symbol": "marker-captain",
+          "from": "marker-captain:glyph"
+        },
+        {
+          "symbol": "marker-turn",
+          "from": "marker-turn:glyph"
+        },
+        {
+          "symbol": "marker-self",
+          "from": "marker-self:glyph"
+        },
+        {
+          "symbol": "fx-ink-trail",
+          "from": "fx-ink-trail:ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "fx-landing-puff",
+          "from": "fx-landing-puff:ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "fx-speed-lines",
+          "from": "fx-speed-lines:ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-connection-stale",
+          "from": "icon-connection-stale:ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-location-room-a",
+          "from": "icon-location:room-a",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-location-room-b",
+          "from": "icon-location:room-b",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-location-command-room",
+          "from": "icon-location:command-room",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-location-hospital",
+          "from": "icon-location:hospital",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-location-jail",
+          "from": "icon-location:jail",
+          "tint": "#151923"
+        }
+      ]
+    },
+    {
+      "id": "sprite-player",
+      "version": "0.1.0",
+      "title": "Player interface symbol sprite",
+      "status": "finished",
+      "bundle": "player-ui",
+      "dataSource": "The same symbols as the standalone player-ui exports, for inline use with <use>. Role-neutral.",
+      "allowedPalette": "public-with-accent",
+      "symbols": [
+        {
+          "symbol": "token-badge-unavailable",
+          "from": "token-emphasis:unavailable-blank"
+        },
+        {
+          "symbol": "token-ring-targetable",
+          "from": "token-emphasis:ring-targetable"
+        },
+        {
+          "symbol": "token-ring-selected",
+          "from": "token-emphasis:ring-selected"
+        },
+        {
+          "symbol": "icon-action-shot",
+          "from": "icon-action-shot:ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-private-closed",
+          "from": "icon-private:closed-ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "icon-private-open",
+          "from": "icon-private:open-ink",
+          "tint": "#151923"
+        },
+        {
+          "symbol": "pip-available",
+          "from": "pip-resource:available"
+        },
+        {
+          "symbol": "pip-registered",
+          "from": "pip-resource:registered"
+        },
+        {
+          "symbol": "pip-spent",
+          "from": "pip-resource:spent"
+        }
+      ]
+    }
+  ]
+}

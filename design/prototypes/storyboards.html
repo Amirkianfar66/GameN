@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — motion storyboards (synthetic, development only)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/comic.css">
+<link rel="stylesheet" href="css/cues.css">
+<link rel="stylesheet" href="css/review.css">
+<style>
+  .board { display: grid; grid-template-columns: repeat(3, max-content); gap: 22px; align-items: start; }
+  .board + .board { margin-block-start: 26px; }
+  .board-label { margin: 0 0 10px; color: var(--review-muted); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .spec { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; max-inline-size: 70rem; margin: 0 0 22px; font-size: 13px; }
+  .spec dt { color: var(--review-muted); }
+  .spec dd { margin: 0; }
+</style>
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // Storyboards of the authorized cues: ?cue=<id from /contract/motion-cues.json>
+  //
+  // A frame is not a drawing. It is the reference stylesheet's own animation, started at a
+  // negative delay and paused, so every frame is exactly what a browser shows at that
+  // moment of the cue. Timings and frame times come from the motion contract.
+  // ?art=none shows the same cues on a device whose art never arrived.
+  import { ASSET_MANIFEST_VERSION } from './js/asset-index.js';
+  import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
+  import { buildCueScene } from './js/cue-stages.js';
+  import { h, loadProposedCopy, settle } from './js/kit.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const query = new URLSearchParams(location.search);
+  const wanted = query.get('cue');
+  if (query.get('art') !== 'none') await loadBundles(SURFACE_BUNDLES.player);
+  const copy = await loadProposedCopy();
+  const contract = await (await fetch('/contract/motion-cues.json')).json();
+  const cues = contract.cues.filter(cue => !wanted || cue.id === wanted);
+  if (cues.length === 0) throw new Error(`No cue named ${wanted}`);
+
+  const cell = (scene, title, detail) => h('figure', { class: 'review-cell' },
+    h('div', { class: `review-stage${scene.ground ? ` review-stage--${scene.ground}` : ''}` }, scene.frame),
+    h('figcaption', null, h('strong', null, title), detail));
+
+  for (const cue of cues) {
+    // Three frames or more, rising to the cue's full duration. Each is named by the beat it falls in.
+    const frames = cue.storyboardFramesMs;
+    const middle = frames[Math.floor(frames.length / 2)];
+    const beatOf = at => (at >= cue.durationMs ? 'Settled' : at <= cue.beatsMs.opening ? 'Opening' : at <= cue.beatsMs.opening + cue.beatsMs.accent ? 'Accent' : 'Settle');
+    const noteOf = (at, index) => (index === 0 ? 'The first moment the cue is visible.' : at >= cue.durationMs ? 'At rest. This is also what the screen shows with no cue at all.' : at === middle ? 'The emphasized instant.' : '');
+    page.append(
+      h('header', { class: 'review-head' },
+        h('h1', null, `${cue.title}`),
+        h('span', { class: `review-tag review-tag--${cue.audienceTag}` }, cue.audienceTag),
+        h('span', { class: 'review-synthetic' }, 'Synthetic scene · not a match'),
+        h('p', { class: 'review-meta' }, `Design tokens 0.4.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · frames are the reference stylesheet paused at the stated time · desktop Chrome, not a device measurement`),
+      ),
+      h('dl', { class: 'spec' },
+        h('dt', null, 'Cue'), h('dd', null, h('code', null, cue.id), cue.frontendCue ? [' · director kind ', h('code', null, cue.frontendCue)] : null),
+        h('dt', null, 'Duration'), h('dd', null, `${cue.durationMs} ms (token motionMs.${cue.durationToken}) = ${cue.beatsMs.opening} opening + ${cue.beatsMs.accent} accent + ${cue.beatsMs.settle} settle. A cosmetic target, never a deadline.`),
+        h('dt', null, 'Authorized by'), h('dd', null, cue.authorizedBy),
+        h('dt', null, 'Audience'), h('dd', null, cue.audience),
+        h('dt', null, 'It says'), h('dd', null, cue.says),
+      ),
+    );
+
+    page.append(h('p', { class: 'board-label' }, 'Normal motion'));
+    page.append(h('div', { class: 'board' }, frames.map((at, index) => cell(buildCueScene(cue.id, { at, copy }), `${beatOf(at)} · ${at} ms`, noteOf(at, index)))));
+
+    page.append(h('p', { class: 'board-label', style: 'margin-block-start: 26px' }, 'Alternatives'));
+    page.append(h('div', { class: 'board' },
+      cell(buildCueScene(cue.id, { motion: 'reduced', at: 0, copy }), 'Reduced motion · 0 ms', cue.reducedMotion),
+      cell(buildCueScene(cue.id, { motion: 'reduced', at: 80, copy }), 'Reduced motion · 80 ms', 'Settled. The same facts and the same controls as with full motion.'),
+      cell(buildCueScene(cue.id, { effects: 'reduced', at: middle, copy }), `Reduced effects · ${beatOf(middle).toLowerCase()}, ${middle} ms`, cue.reducedEffects),
+    ));
+    if (cues.length > 1) page.append(h('hr', { style: 'margin: 40px 0; border: 0; border-top: 1px solid #55555F' }));
+  }
+
+  await settle();
+  window.__designReady = true;
+</script>
+</body>
+</html>

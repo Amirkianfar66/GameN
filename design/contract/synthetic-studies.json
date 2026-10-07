@@ -1,0 +1,50 @@
+{
+  "$comment": "mothership:dev-only. The two SYNTHETIC disclosure studies. They are not cues: no director kind exists for them, no approved fact is behind them (RULE-003 / D09), and nothing here may be connected to a match. They are kept out of motion-cues.json so that nothing which walks the cue list can reach them. Only design/prototypes/studies.html shows them. docs/design/motion-storyboards.md ends with a fenced section generated from this file.",
+  "devOnly": "mothership:dev-only",
+  "status": "synthetic_studies_never_connected",
+  "tokenVersion": "0.4.0",
+  "studyManifestVersion": "studies-0.1.0",
+  "durationNote": "320 ms is motionMs.publicImpact in the pinned 0.2.0 tokens. The split into beats is this design's proposal and exists nowhere in the token file.",
+  "studies": [
+    {
+      "id": "study-resolved-shot",
+      "title": "Public resolved shot",
+      "status": "synthetic-study",
+      "connectedUse": false,
+      "authorizedBy": "NOTHING. No contract fact says that a shot was resolved, who shot, or what kind of attack it was.",
+      "gate": "RULE-003 / D09, and an approved public attack-type fact",
+      "placement": "Over the room as a whole, above the standees. Beside no token: no fact says who shot or who was shot.",
+      "durationMs": 320,
+      "beatsMs": { "opening": 60, "accent": 120, "settle": 140 },
+      "storyboardFramesMs": [40, 180, 320],
+      "easing": { "opening": "impact", "accent": "snap", "settle": "settle" },
+      "layers": [
+        "An ink burst over the room (the study file study-resolved-shot).",
+        "Brief lettering as live text over the burst."
+      ],
+      "says": "Nothing: no fact is behind it. It is drawn here so the treatment can be judged on paper.",
+      "ifEverApproved": "The lettering as a static label under reduced motion; no burst or mark under reduced effects. Not designed further while synthetic.",
+      "mustNot": ["Being connected to a match", "A trajectory", "A shooter", "A target reveal beyond a public health fact"]
+    },
+    {
+      "id": "study-blocked-outcome",
+      "title": "Disclosed blocked outcome",
+      "status": "synthetic-study",
+      "connectedUse": false,
+      "authorizedBy": "NOTHING. Whether anyone is told that an attack was blocked, and who, is undecided.",
+      "gate": "RULE-003 / D09",
+      "placement": "Over the room as a whole, above the standees. Beside no token: no fact says who was protected.",
+      "durationMs": 320,
+      "beatsMs": { "opening": 60, "accent": 120, "settle": 140 },
+      "storyboardFramesMs": [40, 180, 320],
+      "easing": { "opening": "impact", "accent": "snap", "settle": "settle" },
+      "layers": [
+        "A barrier mark over the room (the study file study-blocked-outcome).",
+        "A label as live text."
+      ],
+      "says": "Nothing: no fact is behind it.",
+      "ifEverApproved": "The lettering as a static label under reduced motion; no burst or mark under reduced effects. Not designed further while synthetic.",
+      "mustNot": ["Being connected to a match", "Naming who was protected, who protected them or who attacked"]
+    }
+  ]
+}

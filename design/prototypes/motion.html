@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — motion prototypes (synthetic, development only)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/comic.css">
+<link rel="stylesheet" href="css/cues.css">
+<link rel="stylesheet" href="css/review.css">
+<style>
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin: 0 0 26px; padding: 12px 14px; border: 1px solid #55555F; }
+  .controls label { display: inline-flex; gap: 8px; align-items: center; min-block-size: 44px; }
+  .controls button, .play { min-block-size: 44px; padding: 0 16px; background: #F2F2F2; color: #1B1B1F; border: 0; border-radius: 6px; font: inherit; font-weight: 700; cursor: pointer; }
+  .controls button:focus-visible, .play:focus-visible, .controls input:focus-visible { outline: 3px solid var(--review-ink); outline-offset: 2px; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, max-content)); gap: 34px 28px; align-items: start; }
+  .specimen { margin: 0; }
+  .specimen h2 { margin: 0 0 4px; font-size: 16px; }
+  .specimen p { max-inline-size: 30rem; margin: 0 0 10px; color: var(--review-muted); font-size: 13px; }
+  .specimen .play { margin-block-start: 12px; }
+</style>
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // The Designer's isolated motion prototypes: every authorized cue in the motion contract,
+  // playing from the reference stylesheet, with the settings a player has. Frontend's own
+  // development gallery is the runtime; this page is what it should look like.
+  import { ASSET_MANIFEST_VERSION } from './js/asset-index.js';
+  import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
+  import { buildCueScene } from './js/cue-stages.js';
+  import { h, loadProposedCopy, settle } from './js/kit.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  await loadBundles(SURFACE_BUNDLES.player);
+  const copy = await loadProposedCopy();
+  const contract = await (await fetch('/contract/motion-cues.json')).json();
+  const query = new URLSearchParams(location.search);
+  const settings = { motion: query.get('motion') === 'reduced' ? 'reduced' : 'full', effects: query.get('effects') === 'reduced' ? 'reduced' : 'full' };
+
+  page.append(
+    h('header', { class: 'review-head' },
+      h('h1', null, 'Motion prototypes'),
+      h('span', { class: 'review-synthetic' }, 'Synthetic · not a match'),
+      h('p', { class: 'review-meta' }, `Design tokens 0.4.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · plays the reference stylesheet`),
+    ),
+    h('p', { class: 'review-note' }, 'Each scene plays one cue once. Nothing here loops, queues or waits. Durations are the token values and are cosmetic targets; nothing on this page is a device measurement.'),
+  );
+
+  const motionBox = h('input', { type: 'checkbox', id: 'set-motion', checked: settings.motion === 'reduced' });
+  const effectsBox = h('input', { type: 'checkbox', id: 'set-effects', checked: settings.effects === 'reduced' });
+  const playAll = h('button', { type: 'button' }, 'Play all');
+  page.append(h('div', { class: 'controls' },
+    h('label', { for: 'set-motion' }, motionBox, 'Reduce motion'),
+    h('label', { for: 'set-effects' }, effectsBox, 'Reduce effects'),
+    playAll,
+    h('span', { class: 'review-meta' }, 'The two settings are separate: reducing effects never overrides the motion setting.'),
+  ));
+
+  const gallery = h('div', { class: 'gallery' });
+  page.append(gallery);
+  const players = [];
+  function draw() {
+    gallery.replaceChildren();
+    players.length = 0;
+    for (const cue of contract.cues) {
+      const scene = buildCueScene(cue.id, { ...settings, copy });
+      const button = h('button', { type: 'button', class: 'play' }, `Play · ${cue.durationMs} ms`);
+      button.addEventListener('click', scene.play);
+      players.push(scene.play);
+      gallery.append(h('section', { class: 'specimen', 'data-cue-id': cue.id },
+        h('h2', null, h('span', { class: `review-tag review-tag--${cue.audienceTag}` }, cue.audienceTag), cue.title),
+        h('p', null, cue.authorizedBy),
+        h('div', { class: `review-stage${scene.ground ? ` review-stage--${scene.ground}` : ''}`, style: 'inline-size: fit-content' }, scene.frame),
+        button,
+      ));
+    }
+  }
+  draw();
+  motionBox.addEventListener('change', () => { settings.motion = motionBox.checked ? 'reduced' : 'full'; draw(); });
+  effectsBox.addEventListener('change', () => { settings.effects = effectsBox.checked ? 'reduced' : 'full'; draw(); });
+  playAll.addEventListener('click', () => players.forEach(play => play()));
+
+  await settle();
+  window.__designReady = true;
+</script>
+</body>
+</html>

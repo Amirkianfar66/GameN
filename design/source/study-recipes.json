@@ -1,0 +1,71 @@
+{
+  "$comment": "Recipes for the two synthetic disclosure studies. design/tools/build-exports.mjs writes them to design/studies/ with a manifest of their own. They are not assets and are in no bundle: no approved fact exists for what they draw (RULE-003 / D09). A recipe here may read only from source/studies/.",
+  "manifestVersion": "studies-0.1.0",
+  "tokenVersion": "0.4.0",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "protocolVersion": 1,
+  "rights": {
+    "origin": "Original vector artwork drawn for this repository as hand-written SVG. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is included or was used as a source.",
+    "author": "Visual and Motion Designer workstream, issue #4: a Claude Code session (model claude-opus-5-5) working for the game owner.",
+    "created": "2026-10-06",
+    "license": "None granted. The repository carries no distribution license.",
+    "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06).",
+    "humanArtReview": "pending"
+  },
+  "gate": "RULE-003 / D09",
+  "studies": [
+    {
+      "id": "study-resolved-shot",
+      "version": "0.1.0",
+      "title": "SYNTHETIC study: public resolved shot",
+      "source": "studies/studies.svg",
+      "dataSource": "NONE. No contract fact says that a shot was resolved, who shot, or what kind of attack it was.",
+      "gate": "RULE-003 / D09, and an approved public attack-type fact",
+      "variants": [
+        {
+          "variant": "study",
+          "viewBox": "0 0 220 220",
+          "layers": [
+            "#study-resolved-shot"
+          ],
+          "anchors": {
+            "center": [
+              110,
+              110
+            ],
+            "letteringBox": [
+              44,
+              84,
+              132,
+              52
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "study-blocked-outcome",
+      "version": "0.1.0",
+      "title": "SYNTHETIC study: disclosed blocked outcome",
+      "source": "studies/studies.svg",
+      "dataSource": "NONE. Whether anyone is told that an attack was blocked, and who, is undecided.",
+      "gate": "RULE-003 / D09",
+      "variants": [
+        {
+          "variant": "study",
+          "viewBox": "0 0 180 206",
+          "layers": [
+            "#study-blocked-outcome"
+          ],
+          "anchors": {
+            "center": [
+              90,
+              100
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — SYNTHETIC STUDIES (development only, never connected)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/comic.css">
+<link rel="stylesheet" href="css/cues.css">
+<link rel="stylesheet" href="css/synthetic.css">
+<link rel="stylesheet" href="css/review.css">
+<style>
+  .board { display: grid; grid-auto-flow: column; grid-auto-columns: max-content; gap: 22px; align-items: start; }
+  .board-label { margin: 0 0 10px; color: var(--review-muted); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .spec { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; max-inline-size: 70rem; margin: 0 0 22px; font-size: 13px; }
+  .spec dt { color: var(--review-muted); }
+  .spec dd { margin: 0; }
+  .study-frame { outline: 2px dashed var(--review-ink); outline-offset: 6px; }
+  .play { min-block-size: 44px; margin-block-start: 12px; padding: 0 16px; background: #F2F2F2; color: #1B1B1F; border: 0; border-radius: 6px; font: inherit; font-weight: 700; cursor: pointer; }
+  .play:focus-visible { outline: 3px solid var(--review-ink); outline-offset: 2px; }
+</style>
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // mothership:dev-only
+  //
+  // SYNTHETIC STUDIES: ?study=<id from /contract/synthetic-studies.json>, or all of them.
+  //
+  // This is the only page that loads the studies, their stylesheet or their scenes. No
+  // approved fact exists for what they draw (RULE-003 / D09). They are not assets, they are
+  // in no bundle, and no shell page may reach them.
+  import { h, loadProposedCopy, settle } from './js/kit.js';
+  import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
+  import { STUDIES, STUDY_MANIFEST_VERSION, STUDY_STYLESHEET } from './js/study-index.js';
+  import { buildStudyScene } from './js/study-stages.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const wanted = new URLSearchParams(location.search).get('study');
+  await loadBundles(SURFACE_BUNDLES.table);
+  await new Promise((done, fail) => {
+    const link = h('link', { rel: 'stylesheet', href: STUDY_STYLESHEET });
+    link.addEventListener('load', done, { once: true });
+    link.addEventListener('error', () => fail(new Error('Could not load the study stylesheet')), { once: true });
+    document.head.append(link);
+  });
+  const copy = await loadProposedCopy();
+  const contract = await (await fetch('/contract/synthetic-studies.json')).json();
+  const studies = contract.studies.filter(study => !wanted || study.id === wanted);
+  if (studies.length === 0) throw new Error(`No study named ${wanted}`);
+
+  const cell = (scene, title, detail, play = false) => {
+    const button = play ? h('button', { type: 'button', class: 'play' }, 'Play once') : null;
+    // The playing scene rests at its settled frame until asked, so a render of this page is
+    // the same picture every time.
+    button?.addEventListener('click', () => {
+      scene.frame.style.removeProperty('--cue-at');
+      scene.frame.style.removeProperty('--cue-play');
+      scene.play();
+    });
+    return h('figure', { class: 'review-cell' },
+      h('div', { class: 'review-stage study-frame' }, scene.frame),
+      h('figcaption', null, h('strong', null, title), detail),
+      button);
+  };
+
+  for (const study of studies) {
+    const [opening, accent, settled] = study.storyboardFramesMs;
+    page.append(
+      h('header', { class: 'review-head' },
+        h('h1', null, study.title),
+        h('span', { class: 'review-tag review-tag--synthetic' }, 'synthetic'),
+        h('span', { class: 'review-synthetic' }, 'Synthetic study · no approved fact · never connected'),
+        h('p', { class: 'review-meta' }, `Study manifest ${STUDY_MANIFEST_VERSION} · design tokens 0.4.0 (proposal) · desktop Chrome, not a device measurement`),
+      ),
+      h('dl', { class: 'spec' },
+        h('dt', null, 'Study'), h('dd', null, h('code', null, study.id), ' · no director cue exists for it'),
+        h('dt', null, 'Authorized by'), h('dd', null, study.authorizedBy),
+        h('dt', null, 'Blocked by'), h('dd', null, study.gate),
+        h('dt', null, 'It says'), h('dd', null, study.says),
+        h('dt', null, 'Placement'), h('dd', null, study.placement),
+        h('dt', null, 'Duration'), h('dd', null, `${study.durationMs} ms = ${study.beatsMs.opening} opening + ${study.beatsMs.accent} accent + ${study.beatsMs.settle} settle.`),
+      ),
+      h('p', { class: 'board-label' }, 'The drawing'),
+      h('div', { class: 'board', style: 'margin-block-end: 26px' },
+        h('figure', { class: 'review-cell' },
+          h('div', { class: 'review-stage review-stage--paper study-frame' }, h('img', { alt: '', src: STUDIES[`${study.id}:study`], width: study.id === 'study-resolved-shot' ? 220 : 180, style: 'display:block' })),
+          h('figcaption', null, h('strong', null, study.id), 'The study file itself. It carries no word: the lettering in the frames is live text.')),
+      ),
+      h('p', { class: 'board-label' }, 'Frames'),
+      h('div', { class: 'board' },
+        cell(buildStudyScene(study.id, { at: opening, copy }), `Opening · ${opening} ms`, 'The first moment it is visible.'),
+        cell(buildStudyScene(study.id, { at: accent, copy }), `Accent · ${accent} ms`, 'The emphasized instant.'),
+        cell(buildStudyScene(study.id, { at: settled, copy }), `Settled · ${settled} ms`, 'At rest. A real overlay would then be removed.'),
+        cell(buildStudyScene(study.id, { at: settled, copy }), 'Plays', 'At rest until pressed; then it runs once from the study stylesheet.', true),
+      ),
+    );
+    if (studies.length > 1) page.append(h('hr', { style: 'margin: 40px 0; border: 0; border-top: 1px solid #55555F' }));
+  }
+
+  await settle();
+  window.__designReady = true;
+</script>
+</body>
+</html>

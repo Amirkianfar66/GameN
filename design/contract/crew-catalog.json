@@ -1,0 +1,90 @@
+{
+  "$comment": "The Designer's catalog of the nine crew characters, for the public identity record of a seat that Integration is preparing (docs/design/integration-requests.md, DSN-REQ-6). It says which ids exist and which exports draw each. It is a proposal, it is not a shared contract, and nothing reads it at run time: a contract that carries a character id would validate against the same nine ids. check-assets.mjs holds it to the manifest and the tokens.",
+  "catalogVersion": "crew-0.1.0",
+  "status": "proposed_for_integration_review",
+  "assetManifestVersion": "design-0.2.0",
+  "tokenVersion": "0.4.0",
+  "idPattern": "^c[1-9]$",
+  "rules": [
+    "A character is chosen by its player, before roles are dealt. It is a public fact of a seat and the same on every screen.",
+    "Nothing ties a character to a role, a team, a seat number or a starting room. No deal, rule or renderer may read a character to decide anything.",
+    "Two seats of one match do not hold the same character. The server decides that: a character someone holds is refused by the server, not merely hidden by a client. It is still drawn and named, and is not offered.",
+    "A name and a character are set in the lobby and are fixed when the match starts: a piece does not change its face or its tag during a match.",
+    "They stay with the seat, not with the device: a seat moved to another device keeps both.",
+    "A character never changes with health, Jail, the Captain or anything private. Those are markers on the piece.",
+    "A seat with neither is drawn as a numbered token and “Player N”. That is also how a match started before the record exists is drawn, and how a client draws a character id it has no picture for.",
+    "A display name is text its player typed: untrusted, set as text and never as markup, at most nameMaxLength characters, always shown with the seat number. Spoken lines keep “Player N”, so that two players with one name can be told apart. A name that reads like a role is still only a name; no check or style may treat it as one."
+  ],
+  "nameMaxLength": 12,
+  "characters": [
+    {
+      "id": "c1",
+      "callSign": "Vega",
+      "standee": "piece-crew:standee-c1",
+      "card": "piece-crew:card-c1",
+      "colors": "color.crew.c1"
+    },
+    {
+      "id": "c2",
+      "callSign": "Rigel",
+      "standee": "piece-crew:standee-c2",
+      "card": "piece-crew:card-c2",
+      "colors": "color.crew.c2"
+    },
+    {
+      "id": "c3",
+      "callSign": "Lyra",
+      "standee": "piece-crew:standee-c3",
+      "card": "piece-crew:card-c3",
+      "colors": "color.crew.c3"
+    },
+    {
+      "id": "c4",
+      "callSign": "Atlas",
+      "standee": "piece-crew:standee-c4",
+      "card": "piece-crew:card-c4",
+      "colors": "color.crew.c4"
+    },
+    {
+      "id": "c5",
+      "callSign": "Orion",
+      "standee": "piece-crew:standee-c5",
+      "card": "piece-crew:card-c5",
+      "colors": "color.crew.c5"
+    },
+    {
+      "id": "c6",
+      "callSign": "Nova",
+      "standee": "piece-crew:standee-c6",
+      "card": "piece-crew:card-c6",
+      "colors": "color.crew.c6"
+    },
+    {
+      "id": "c7",
+      "callSign": "Juno",
+      "standee": "piece-crew:standee-c7",
+      "card": "piece-crew:card-c7",
+      "colors": "color.crew.c7"
+    },
+    {
+      "id": "c8",
+      "callSign": "Mira",
+      "standee": "piece-crew:standee-c8",
+      "card": "piece-crew:card-c8",
+      "colors": "color.crew.c8"
+    },
+    {
+      "id": "c9",
+      "callSign": "Echo",
+      "standee": "piece-crew:standee-c9",
+      "card": "piece-crew:card-c9",
+      "colors": "color.crew.c9"
+    }
+  ],
+  "dependencies": {
+    "wire": "Existing strict protocol-2 readers reject added fields. Names and characters need either a reviewed new wire version with active-match routing, or a separately versioned identity record beside the match views (review of 7 October 2026). Either is Integration's to choose, with Frontend and Game Balance as consumers. Frontend said on PR #57 that a listened public document per match would be the simplest for its client.",
+    "catalogVersion": "The record should name the catalog version it was written against, so that a client can tell a character id it has no picture for.",
+    "order": "Name and character are set in the lobby, before the starting-room choice of approved decision V1-01 and before roles are dealt (open decision DSN-D15).",
+    "frontend": "What Frontend's client needs from the record is listed in its comment on PR #57 of 7 October 2026. The rules above say the same things from the drawing's side."
+  }
+}

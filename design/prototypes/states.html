@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — state sheets (synthetic, development only)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/comic.css">
+<link rel="stylesheet" href="css/cues.css">
+<link rel="stylesheet" href="css/review.css">
+<style>
+  .ms-shell { min-block-size: 0; background: transparent; }
+  .sheet-cards { grid-template-columns: repeat(5, 328px); }
+  .sheet-tokens { grid-template-columns: repeat(5, max-content); align-items: end; }
+  .sheet-markers { grid-template-columns: repeat(4, max-content); }
+  .sheet-controls { grid-template-columns: repeat(4, max-content); align-items: start; }
+  .sheet-strips { grid-template-columns: repeat(3, 360px); }
+  .sheet-strips .ms-shell { inline-size: 324px; }
+  .token-art { display: block; }
+  .stage-row { display: flex; align-items: flex-end; gap: 18px; }
+  .stage-list { inline-size: 250px; }
+  .stage-room { inline-size: 420px; }
+  .ms-button.is-pressed { translate: 2px 2px; box-shadow: 2px 2px 0 var(--ms-shadow-color); }
+  .ms-button.is-focused { outline: var(--ms-stroke-focus) solid var(--ms-color-ink); outline-offset: 3px; box-shadow: 0 0 0 calc(var(--ms-stroke-focus) + 3px) var(--ms-color-focus); }
+  .ms-button.is-focused-dark { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 3px; }
+  .ms-phase { position: static; }
+</style>
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // State sheets: ?sheet=cards | tokens | roles | controls     (&art=none: the same sheet without art)
+  import { ASSET_MANIFEST_VERSION, ASSETS } from './js/asset-index.js';
+  import { loadBundles, SURFACE_BUNDLES } from './js/bundles.js';
+  import { roomPanel } from './js/cue-stages.js';
+  import { h, loadProposedCopy, markersEl, phaseEl, privateAreaEl, roleCardEl, seatEl, settle, shotCardEl, SHOT_SPECIMENS, SHOT_SPECIMEN_NOTES, STATE_OPENING, STATE_VARIED } from './js/kit.js';
+  import { en } from './js/copy.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const query = new URLSearchParams(location.search);
+  const sheet = query.get('sheet') ?? 'cards';
+  if (query.get('art') !== 'none') await loadBundles(SURFACE_BUNDLES.player);
+  const copy = await loadProposedCopy();
+  const asset = key => {
+    if (!ASSETS[key]) throw new Error(`No export named ${key}`);
+    return ASSETS[key];
+  };
+
+  const head = (title, note) => page.append(
+    h('header', { class: 'review-head' },
+      h('h1', null, title),
+      h('span', { class: 'review-synthetic' }, 'Synthetic · not a match'),
+      h('p', { class: 'review-meta' }, `Design tokens 0.4.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · desktop Chrome render, not a device measurement`),
+    ),
+    h('p', { class: 'review-note' }, note),
+  );
+  const section = (title, small) => h('h2', { class: 'review-section' }, title, small ? h('small', null, small) : null);
+  const cell = (stage, title, detail, tag = null) => h('figure', { class: 'review-cell' }, stage,
+    h('figcaption', null, h('strong', null, tag ? h('span', { class: `review-tag review-tag--${tag}` }, tag) : null, title), detail));
+  // No data-screen: a specimen is one part on a stage, so the page-level layout rules stay out of it.
+  const shell = (surface, attrs, ...children) => h('div', { class: `ms-shell ms-shell--${surface}`, 'data-surface': surface, 'data-connection': 'live', 'data-motion': 'full', ...attrs }, children);
+  const privately = (attrs, ...children) => shell('player', attrs, h('div', { class: 'ms-private', 'data-open': 'true' }, h('div', { class: 'ms-private__panel' }, children)));
+  const stage = (kind, ...children) => h('div', { class: `review-stage${kind ? ` review-stage--${kind}` : ''}` }, children);
+
+  if (sheet === 'cards') {
+    head('Shot action card · every status',
+      'The ten statuses Frontend’s command flow can put the card in, and the three things its idle step can say while the status word stays the same. Each is shown with the design state it is and the fact it is drawn from. Every status has its own word, and most an outline of their own (targeting and confirming share one, as do submitting and checking); color is never the only difference. The card is the same for every seat that is shown it.');
+    page.append(section('Private · inside the open private sheet only'));
+    const grid = h('div', { class: 'review-grid sheet-cards' });
+    for (const id of Object.keys(SHOT_SPECIMENS)) {
+      const [designState, source] = SHOT_SPECIMEN_NOTES[id];
+      const spec = SHOT_SPECIMENS[id];
+      const stale = spec.needs === 'stale';
+      grid.append(cell(
+        stage('panel', privately(stale ? { 'data-connection': 'stale' } : {},
+          stale ? h('p', { class: 'ms-notice' }, en.actions.pausedStale) : null,
+          h('ul', { class: 'ms-cards' }, shotCardEl({ specimen: id, copy })))),
+        `${designState}`, h('span', null, h('code', null, `data-status="${spec.status}" data-step="${spec.step}"`), ` · ${source}`), 'private'));
+    }
+    page.append(grid);
+  }
+
+  if (sheet === 'tokens') {
+    head('Playing pieces, tags, markers and resource pips',
+      'A piece is the character its player chose, with a tag that carries the seat number and the player’s name: two PROPOSED public facts, in no contract yet (DSN-REQ-6). A seat without them keeps the numbered token of the first slice, shown beside each. A piece is the same for every role. The rows marked “as drawn” are the reference stylesheet at work; the rest are the exported files themselves. The names and the pairing of seat and character are synthetic.');
+    const img = (key, width) => h('img', { class: 'token-art', alt: '', src: asset(key), width });
+    const sizes = (key, list) => h('div', { class: 'stage-row' }, list.map(width => img(key, width)));
+    const person = (n, health, extra = {}) => ({ n, location: 'Room A', health, jailed: false, captain: false, ...extra });
+    const NAMED = { activeSeat: 0 };
+    const UNNAMED = { activeSeat: 0, identity: false };
+    const list = (seats, state = NAMED) => h('ul', { class: 'ms-seats stage-list' }, seats.map(seat => seatEl(seat, state, null)));
+
+    page.append(section('In a row, as drawn · a seat with a character and a name', 'lists and controls · PROPOSED facts'));
+    const drawn = h('div', { class: 'review-grid sheet-tokens' });
+    drawn.append(
+      cell(stage('panel', shell('player', {}, list([person(3, 'Healthy')]))), 'Healthy', 'The character’s card, then the tag: the seat number in a chip and the name.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(7, 'Injured')]))), 'Injured', 'seats[].health = Injured. The marker says so. A character is not given a wound.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(9, 'Eliminated')]))), 'Eliminated', 'seats[].health = Eliminated. The character loses its color; the marker says the word.', 'public'),
+      cell(stage('panel', shell('player', {}, list([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy'))))), 'Nine seats, nine characters', 'Which seat has which character is the players’ own choice. Here it is synthetic.', 'public'),
+    );
+    page.append(drawn);
+
+    page.append(section('In a row, as drawn · a seat with neither', 'what every seat is today'));
+    const plain = h('div', { class: 'review-grid sheet-tokens' });
+    plain.append(
+      cell(stage('panel', shell('player', {}, list([person(3, 'Healthy')], UNNAMED))), 'Idle', 'seats[].health = Healthy.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(7, 'Injured')], UNNAMED))), 'Injured', 'Cracked rim and a patch; never red.', 'public'),
+      cell(stage('panel', shell('player', {}, list([person(9, 'Eliminated')], UNNAMED))), 'Eliminated', 'Flat, hollow, dashed, no shadow.', 'public'),
+      cell(stage('panel', shell('player', {}, list([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy')), UNNAMED))), 'Numerals 1 to 9', 'One numeral picture laid over one body. 6 and 9 carry a baseline bar.', 'public'),
+    );
+    page.append(plain);
+
+    page.append(section('On the board, as drawn', 'a room panel of the table display'));
+    const room = h('div', { class: 'review-grid sheet-tokens' });
+    const roomOf = (seats, state = { activeSeat: 4 }, zone = ['Room A', 'room-a']) => {
+      const { root } = roomPanel({}, seats, state, zone);
+      root.classList.add('stage-room');
+      root.style.minBlockSize = '0';
+      return root;
+    };
+    room.append(
+      cell(stage('', roomOf(STATE_VARIED.seats.filter(seat => seat.location === 'Room A'))), 'Healthy, Injured, Eliminated, and the active Captain',
+        'Each piece is its seat’s character with its tag under it. Badges ride on the piece: turn above, Captain top right, health lower right, Jail lower left.', 'public'),
+      cell(stage('', roomOf([1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => person(n, 'Healthy')), { activeSeat: 4 }, ['Room B', 'room-b'])), 'Nine in one room', 'All nine stand side by side, smaller, and every second tag hangs a line lower. No slot is drawn on the floor.', 'public'),
+      cell(stage('', roomOf([2, 5].map(n => person(n, 'Healthy')), { activeSeat: 0, names: ['', 'Maximiliane', '', '', 'Wwwwwwwwwwww'] }, ['Hospital', 'hospital'])), 'The longest names', 'Twelve characters. A name wider than its tag is shortened here, and only here; the number never is. The roster beside the board carries it whole.', 'public'),
+      cell(stage('', roomOf(STATE_VARIED.seats.filter(seat => seat.location === 'Room A'), { activeSeat: 4, identity: false })), 'Seats with neither a character nor a name', 'The numbered standee: the same numeral over the body its public health calls for. Their words are in the roster.', 'public'),
+    );
+    page.append(room);
+
+    page.append(section('The exported files', 'one texture each, for a renderer that wants one'));
+    const badges = h('div', { class: 'review-grid sheet-tokens' });
+    badges.append(
+      cell(stage('paper', sizes('piece-crew:standee-c4', [120, 72, 48, 24])), 'Character standee', 'Origin at the floor contact. Nine, one per character.', 'public'),
+      cell(stage('', sizes('piece-crew:card-c4', [96, 56, 40])), 'Character card', 'The piece without its stand, for a row.', 'public'),
+      cell(stage('', sizes('token-neutral:badge-n3', [100, 56, 45, 35])), 'Badge', '80, 45, 36 and 28 px body.', 'public'),
+      cell(stage('paper', sizes('token-neutral:badge-n3', [100, 56, 45, 35])), 'Badge on paper', 'The same file inside a paper card.', 'public'),
+      cell(stage('paper', sizes('token-neutral:standee-n4', [120, 72, 48])), 'Standee', 'Origin at the floor contact.', 'public'),
+      cell(stage('paper', h('div', { class: 'stage-row' }, img('token-neutral:standee-injured-blank', 96), img('token-neutral:standee-eliminated-blank', 96))), 'Standee bodies', 'Injured and Eliminated, before a numeral is laid on.', 'public'),
+    );
+    page.append(badges);
+
+    page.append(section('Private emphasis · exported, drawn by no rule yet', 'for a target list the server supplies (DSN-D03); only ever inside the private sheet'));
+    const emphasis = h('div', { class: 'review-grid sheet-tokens' });
+    const stack = (base, overlay, numeral = null) => h('div', { style: 'position:relative' }, img(base, 100),
+      numeral ? h('img', { alt: '', src: asset(numeral), width: 36, style: 'position:absolute;left:29.5px;top:27px' }) : null,
+      overlay ? h('img', { alt: '', src: asset(overlay), width: 100, style: 'position:absolute;inset:0' }) : null);
+    emphasis.append(
+      cell(stage('paper', stack('token-neutral:badge-n2', 'token-emphasis:ring-targetable')), 'Targeting · can be chosen', 'Would mean: in the server’s own target list. Protocol 1 has none, so no rule draws it.', 'private'),
+      cell(stage('paper', stack('token-neutral:badge-n2', 'token-emphasis:ring-selected')), 'Selection · chosen', 'A local choice, before anything is sent.', 'private'),
+      cell(stage('paper', stack('token-emphasis:unavailable-blank', null, 'token-numeral:n2')), 'Unavailable', 'Would mean: not in the server’s target list.', 'private'),
+    );
+    page.append(emphasis);
+
+    page.append(section('Markers', 'one public fact each, always with its word'));
+    const markers = h('div', { class: 'review-grid sheet-markers' });
+    const seats = [
+      [person(1, 'Healthy'), 'Healthy', 'seats[].health'],
+      [person(2, 'Injured'), 'Injured', 'seats[].health'],
+      [person(3, 'Eliminated'), 'Eliminated', 'seats[].health'],
+      [person(4, 'Healthy', { jailed: true }), 'Jailed, with health', 'seats[].jailed. A separate fact from health.'],
+      [person(5, 'Healthy', { captain: true }), 'Captain', 'seats[].captain. A rank star: not a shield, which would read as protection.'],
+    ];
+    for (const [seat, title, source] of seats) {
+      markers.append(cell(stage('panel', shell('player', {}, markersEl(seat, { activeSeat: 0 }, null))), title, source, 'public'));
+    }
+    markers.append(
+      cell(stage('panel', shell('player', {}, markersEl(person(6, 'Healthy'), { activeSeat: 6 }, null))), 'Active turn', 'activeSeatId. The one public use of amber, always with its words.', 'public'),
+      cell(stage('panel', shell('player', {}, markersEl(person(7, 'Healthy'), { activeSeat: 0 }, 7))), 'You', 'audience.seatId, on that player’s own phone.', 'public'),
+      cell(stage('paper', h('div', { class: 'stage-row' }, ['marker-health:injured-badge', 'marker-health:eliminated-badge', 'marker-jail:badge', 'marker-captain:badge', 'marker-self:badge', 'marker-turn:float'].map(key => h('img', { alt: '', src: asset(key), width: 54 })))), 'Board badges', 'The same glyphs on a disc, to ride on a standee.', 'public'),
+    );
+    page.append(markers);
+
+    page.append(section('Resource pip', 'private · solid, dotted, struck out'));
+    const pips = h('div', { class: 'review-grid sheet-markers' });
+    for (const [pip, title, source] of [
+      ['available', 'Available', 'self.shotAvailable is true.'],
+      ['registered', 'Registered', 'The seat’s own command is in ownPendingCommandIds. Reserved, not resolved.'],
+      ['spent', 'Spent · drawn by no state yet', 'No field says “spent” in protocol 1 (DSN-D02), so no status of the card draws this pip.'],
+    ]) pips.append(cell(stage('paper', h('img', { alt: '', src: asset(`pip-resource:${pip}`), width: 108 })), title, source, 'private'));
+    page.append(pips);
+  }
+
+  if (sheet === 'roles') {
+    head('Role card · all nine roles',
+      'PRIVATE: inside a player’s own open private sheet only. A role is a device added to the player’s own character. The card is compact, so that the actions stay in reach and a device in its team’s color is not large on screen every time the sheet is opened; “About this role” shows the picture large with the proposed lines. Every line that states a rule cites its rule source in design/contract/copy.en.proposed.json, and all of it is PROPOSED, for Frontend and the game owner to review. The character differs from card to card only to show that any of the nine may hold any device.');
+    page.append(section('Compact · as the sheet opens', 'private'));
+    const compact = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, 300px)' });
+    const ROLES = Object.keys(copy.roleCard);
+    ROLES.forEach((role, index) => compact.append(cell(stage('panel', privately({}, roleCardEl({ role, copy, person: `c${index + 1}` }))), role, copy.roleCard[role].team, 'private')));
+    page.append(compact);
+    page.append(section('Opened · “About this role”', 'private · the proposed lines'));
+    const opened = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, 300px)' });
+    ROLES.forEach((role, index) => opened.append(cell(stage('panel', privately({}, roleCardEl({ role, copy, person: `c${index + 1}`, expanded: true }))), role, `${copy.roleCard[role].sources.length} rule sources cited`, 'private')));
+    page.append(opened);
+    page.append(section('Without a character, and before the role bundle has arrived', 'private'));
+    const edges = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, 300px)' });
+    edges.append(
+      cell(stage('panel', privately({}, roleCardEl({ role: 'Supplier', copy, person: null }))), 'A seat with no character', 'The device alone on the card’s ground.', 'private'),
+      cell(stage('panel', privately({}, roleCardEl({ role: 'Supplier', copy: null }))), 'Name only', 'As Frontend draws the card today.', 'private'),
+    );
+    page.append(edges);
+  }
+
+  if (sheet === 'controls') {
+    head('Controls, captions and the private dock',
+      'Buttons sit on an offset shadow and go down onto it when pressed. A control that is not active yet stays drawn, named and reachable. Focus is one ring above everything: the focus color on dark ground, ink with the focus color around it on paper.');
+    page.append(section('Buttons'));
+    const buttons = h('div', { class: 'review-grid sheet-controls' });
+    const button = (label, className = '', disabled = false) => h('button', { type: 'button', class: `ms-button ${className}`, 'aria-disabled': disabled ? 'true' : null }, label);
+    buttons.append(
+      cell(stage('paper', privately({}, button('Choose someone else'))), 'Idle', 'On paper the shadow is ink.', 'local'),
+      cell(stage('paper', privately({}, button('Register shot', 'ms-button--primary'))), 'Primary', 'One per step. A heavier edge as well as amber.', 'local'),
+      cell(stage('paper', privately({}, button('Register shot', 'ms-button--primary is-pressed'))), 'Pressed', '120 ms down onto the shadow. Reduced motion: no travel.', 'local'),
+      cell(stage('paper', privately({}, button('Register shot', 'ms-button--primary', true))), 'Not active yet', 'aria-disabled. Flat, dashed; still focusable and named.', 'local'),
+      cell(stage('paper', privately({}, button('Register shot', 'ms-button--primary is-focused'))), 'Keyboard focus on paper', 'Ink ring, focus color around it.', 'local'),
+      cell(stage('panel', shell('player', {}, button('Reconnect now'))), 'On a dark panel', 'The shadow is steel.', 'local'),
+      cell(stage('panel', shell('player', {}, button('Reconnect now', 'is-focused-dark'))), 'Keyboard focus on dark', 'The focus color.', 'local'),
+    );
+    page.append(buttons);
+
+    page.append(section('Phase caption and countdown', 'public'));
+    const strips = h('div', { class: 'review-grid sheet-strips' });
+    const strip = (state, viewer, options) => stage('', shell('player', {}, phaseEl(state, viewer, options)));
+    strips.append(
+      cell(strip(STATE_OPENING, 1, { seconds: 42 }), 'Running · own turn', 'phase.endsAt with server time; activeSeatId is this seat.', 'public'),
+      cell(strip(STATE_OPENING, 3, { seconds: 42 }), 'Running · another seat’s turn', 'activeSeatId is another seat.', 'public'),
+      cell(strip(STATE_OPENING, 1, { seconds: 7 }), 'Final seconds', 'An outline, not a flash or a color change.', 'public'),
+      cell(strip(STATE_OPENING, 1, { timerState: 'expired' }), 'Expired', 'The local estimate reached zero. Only the server advances the phase.', 'public'),
+      cell(strip(STATE_OPENING, 1, { timerState: 'syncing' }), 'Syncing', 'No trusted server time yet.', 'public'),
+      cell(strip({ ...STATE_OPENING, activeSeat: null }, 1, { seconds: 42 }), 'Turn in progress', 'activeSeatId is null during an ordinary turn.', 'public'),
+      cell(strip({ ...STATE_OPENING, phaseKind: 'ROUND_RESOLUTION' }, 1, { timerState: 'none' }), 'Round resolution', 'phase.kind is ROUND_RESOLUTION. Nothing about what is being resolved.', 'public'),
+    );
+    page.append(strips);
+
+    page.append(section('Private dock', 'identical on every phone, whatever the role and whoever’s turn it is'));
+    const docks = h('div', { class: 'review-grid sheet-strips' });
+    const dock = open => stage('', h('div', { class: 'ms-shell ms-shell--player', 'data-surface': 'player', 'data-motion': 'full', style: 'padding-block-start: 4px' }, (() => {
+      const area = privateAreaEl({ open: false, copy });
+      area.style.position = 'static';
+      area.style.margin = '0';
+      if (open) {
+        area.dataset.open = 'true';
+        area.querySelector('#ms-private-toggle').textContent = en.privateArea.hide;
+      }
+      return area;
+    })()));
+    docks.append(
+      cell(dock(false), 'Closed (default)', 'No count, badge or highlight: whether a seat has something to do is private.', 'public'),
+      cell(dock(true), 'Open', 'The control stays in the same place. The sheet’s content follows below it.', 'public'),
+    );
+    page.append(docks);
+  }
+
+  await settle();
+  window.__designReady = true;
+</script>
+</body>
+</html>
