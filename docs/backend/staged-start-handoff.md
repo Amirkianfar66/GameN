@@ -256,12 +256,13 @@ historical clock. This is a test-boundary failure; the source review found no
 production timing defect from that evidence.
 
 The strengthened HTTP and all-bot smoke tests now observe automatic local
-Firestore dispatch and Tasks progression, with a bounded 60-second wait per
+startup progression through the configured Functions runtime, with a bounded 60-second wait per
 stage and a 180-second test timeout. They retain exact 30-second selection and
 reading windows, no early engine, one SETUP journal event and matching initial
 outbox bound to the match, phase, token and deadline, and a fresh 60-second
-gameplay phase. The all-bot smoke still requires
-an accepted command from the actual private engine trigger, with no manual
+gameplay phase. A final Ready may legitimately reach the server after reading
+expires; early-Ready and missing-human gates remain strict. The all-bot smoke
+still requires an accepted command from the actual private engine trigger, with no manual
 setup/bot worker or client gameplay invocation, and host abort cleanup. These
 observation-only versions have passed JavaScript syntax, workspace boundary and
 source integrity checks, but have not run against Functions; CI must validate
@@ -269,8 +270,9 @@ their exact pin.
 They cannot prove deployed Cloud Tasks delivery, IAM, Scheduler or device
 acceptance.
 
-The coordinator owns the root orchestration correction: 98 injected-clock and
-Rules cases run under Auth/Firestore only; a fresh Functions suite runs all 14
+The coordinator owns the planned root orchestration correction: 98 injected-clock
+and Rules cases will run under Auth/Firestore only; a fresh Functions suite will
+run all 14
 legacy service cases before the two V1 smoke cases, retaining all 114 cases and
 all 7 Frontend cases. Explicit ordering keeps the legacy broad outbox repair
 away from V1 intents. Starting Functions must not reuse the fake-clock database.

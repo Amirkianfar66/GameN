@@ -9,7 +9,7 @@ import { observeSetupDeadline } from '../../../services/game-api/test-emulator/s
 import { decodeV1State } from '../../../services/game-api/dist/full-game.js';
 
 // Full guarded Auth/Firestore/Functions suite only. No skip or manual bot worker fallback.
-// Observe automatic local Firestore dispatch and Tasks delivery after both real
+// Observe automatic local startup in the configured Functions suite after both real
 // 30-second windows. This does not establish deployed Tasks/IAM acceptance.
 const operations = new Set(['v1CreateMatch', 'v1SetPracticeBots', 'v1BeginSetup', 'v1AbortMatch']);
 async function invoke(name, payload, identity) {
@@ -49,7 +49,8 @@ test('actual private Firestore engine trigger runs bots after real HTTP Begin an
     const h = { base };
     const reading = await observeSetupDeadline(h, progress);
     assert.ok(reading.seats.every(seat => seat.confirmed && seat.ready), 'Bots acknowledge roles without shortening the real reading window');
-    assert.equal((await base.collection('engine').doc('current').get()).exists, false);
+    const readingEngine = await base.collection('engine').doc('current').get();
+    if (Date.now() < reading.readingEndsAt) assert.equal(readingEngine.exists, false);
     await observeSetupDeadline(h, reading);
 
     // Observe the real emulator's onDocumentWritten delivery; never call runPracticeBots.

@@ -76,7 +76,7 @@ test('real V1 Functions authenticate seven players, wait both setup windows, reg
   const choosing=await setupDocument(h);
   assert.equal(choosing.stage,'choosing'); assert.equal(choosing.choosingEndsAt-choosing.choosingStartedAt,30_000);
   assert.equal((await h.base.collection('engine').doc('current').get()).exists,false);
-  // Observe actual local Firestore dispatch and Tasks delivery after the real
+  // Observe automatic local startup in the configured Functions suite after the real
   // deadline. No direct setup worker or browser advancement supplies progress.
   const reading=await observeSetupDeadline(h,choosing);
   assert.equal(reading.readingEndsAt-reading.readingStartedAt,30_000);
@@ -85,11 +85,20 @@ test('real V1 Functions authenticate seven players, wait both setup windows, reg
     assert.equal((await firestoreRequest(`${root}/setupPlayerViews/${players[index].uid}`,{idToken:host.idToken})).status,403);
     const ready=await invoke('v1ReadyForMatch',setupRequest({bindingRevision:own.bindingRevision,dealId:own.dealId}),players[index]);
     assert.equal(ready.status,200,JSON.stringify(ready.body));
-    assert.equal(FullReadyForMatchResponseSchema.parse(ready.body).stage,'awaiting-ready');
-    assert.equal((await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status,403);
+    const acknowledged=FullReadyForMatchResponseSchema.parse(ready.body);
+    const missingHuman=index<players.length-1;
+    if (missingHuman || acknowledged.serverTimeMs<reading.readingEndsAt) assert.equal(acknowledged.stage,'awaiting-ready');
+    else assert.ok(['awaiting-ready','running'].includes(acknowledged.stage));
+    const publicStatus=(await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status;
+    if (missingHuman || Date.now()<reading.readingEndsAt) assert.equal(publicStatus,403);
+    else assert.ok([403,200].includes(publicStatus),'Final Ready may race legitimate automatic launch');
+    if (missingHuman) assert.equal((await h.base.collection('engine').doc('current').get()).exists,false);
   }
-  assert.equal((await setupDocument(h)).stage,'awaiting-ready');
-  assert.equal((await h.base.collection('engine').doc('current').get()).exists,false);
+  const afterReady=await setupDocument(h);
+  const afterReadyEngine=await h.base.collection('engine').doc('current').get();
+  if (Date.now()<reading.readingEndsAt) {
+    assert.equal(afterReady.stage,'awaiting-ready'); assert.equal(afterReadyEngine.exists,false);
+  } else assert.ok(['awaiting-ready','running'].includes(afterReady.stage));
   await observeSetupDeadline(h,reading);
   const publicView=await readView(`${root}/views/public`,display,FullPublicViewSchema);
   assert.equal(publicView.playerCount,7);assert.equal(publicView.phase.kind,'ORDINARY_TURN');
