@@ -21,7 +21,7 @@ Part B was requested by PR #16 ("Frontend and Game Balance review protocol/rule 
 
 The draft is careful about secrecy. No disclosure defect was found in either part, and every decided rule that the scenarios exercise is implemented as the rulebook states it. The evidence is in [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md).
 
-What needs attention is at the edges of what has been decided. V1-01 to V1-21 are approved and are not reopened here. Nine questions lie outside them: no approved source answers them. For seven the build already behaves one way (D11, D12, D16, D17, D20, D34 and D35); the other two are conduct at the table (D18 and D19). They are open rule edges for the owner, consolidated in [the audit](rules-audit-v1.md#open-rule-edges-consolidated). Sixteen further points are readings of the approved sources that the rulebook states and the engine implements. No decision is asked for those. A seventeenth reading, D39, was added on 7 October with the finding that the engine tells Supplier nothing about the weapons they gave: Part D.
+What needs attention is at the edges of what has been decided. V1-01 to V1-21 are approved and are not reopened here. Nine questions lie outside them: no approved source answers them. For seven the build already behaves one way (D11, D12, D16, D17, D20, D34 and D35); the other two are conduct at the table (D18 and D19). They are open rule edges for the owner, consolidated in [the audit](rules-audit-v1.md#open-rule-edges-consolidated). Sixteen further points are readings of the approved sources that the rulebook states and the engine implements. No decision is asked for those. A seventeenth reading, D39, was added on 7 October with the finding that the engine tells Supplier nothing about the weapons they gave: it says when Supplier is told, and Part D has the rest.
 
 | ID | Topic | Kind | Needed by |
 | --- | --- | --- | --- |
@@ -293,28 +293,29 @@ The integration review of 7 October names two shared contracts that are still to
 
 ### Supplier's result (G17)
 
-V1-16 says that Supplier's successful grants "are disclosed only to each recipient and Supplier". The engine gives the weapons and tells Supplier nothing, at any time. Balance confirms the finding: twelve new cases fail for that reason and no other. It also records its own part in it. The catalogue cited the rule and tested half of it; [the audit](rules-audit-v1.md#revision-4) says how, and checks the other disclosure rules for the same fault.
+V1-16 says that Supplier's successful grants "are disclosed only to each recipient and Supplier". The engine gives the weapons and tells Supplier nothing, at any time. Balance confirms the finding: seventeen new fixtures fail for that reason and no other. It also records its own part in it. The catalogue cited the rule and tested half of it; [the audit](rules-audit-v1.md#revision-4) says how, and checks the other disclosure rules for the same fault.
 
 Backend proposes a durable record of the successful grants, made when Round 3 resolves, and a new read of a seat's own acknowledgments beside the protocol-2 view, which strict readers would otherwise reject. Balance supports it. No rule decision is needed for it. What the rules require of it:
 
 | # | Required of the contract | Rule | Checked by |
 | --- | --- | --- | --- |
-| 1 | Supplier is shown exactly the recipients who were given a weapon: nobody before the Supplier stage, and not a recipient who was already Eliminated at that stage | R-ROLE-20, R-ACT-06 | `SUP-11`, `SUP-12`, `SUP-13`, `SUP-14` |
-| 2 | Supplier goes on being shown it for the rest of the match | R-VIEW-11, reading D39 | `SUP-11` |
-| 3 | What a recipient is told is that they hold a weapon, and nothing more. **It must not carry the seat that armed them**: that would tell another player who Supplier is. It must not carry the other recipient | R-ROLE-21, R-SETUP-05 | `SUP-17`, `SUP-15` |
-| 4 | Whom Supplier armed changes nothing that the table or any other player can read, when the choice is registered or when it resolves. That includes revision numbers | R-ROLE-08, R-VIEW-07 | `SUP-15`; INV-VIEW-03 on every accepted command |
-| 5 | An Officer who has fired is still given the weapon, and Supplier is shown the Officer as armed. The weapon gives no second shot | R-ROLE-11, R-ROLE-20 | `SUP-14`, `OFF-02` |
-| 6 | The weapons are given although Supplier is Injured, Jailed or Eliminated later in Round 3 | R-ACT-05 | `SUP-10`, `SUP-18` |
+| 1 | When the Supplier stage has resolved, Supplier is told exactly which of the players they named were given a weapon: nobody before that stage, and not a player who was already Eliminated at it | R-ROLE-20, R-ACT-06; the moment is reading D39 | `SUP-11`, `SUP-12`, `SUP-14` |
+| 2 | Supplier is told whatever has happened to them since they registered: Injured, Jailed or Eliminated. V1-16 makes no exception, and the weapons are given all the same | R-ROLE-20, R-ACT-05 | `SUP-13`, `SUP-19`, `SUP-18`; for the weapons also `SUP-10` |
+| 3 | What a recipient is told is that they hold a weapon, and nothing more. **It must not carry the seat that armed them**, at once or later: that tells another player who Supplier is. It must not carry the other recipient, whichever of the two was named first | R-ROLE-21, R-SETUP-05 | `SUP-17`; `SUP-15`, `SUP-20` |
+| 4 | Supplier is told that a player was armed and nothing about that player: not their team, and not whether the weapon is of use to them, which would give away an Officer who has fired | R-ROLE-21, R-ROLE-07 | `SUP-22`, `SUP-23` |
+| 5 | Nothing that the table or any other player can read changes with whom Supplier armed, or with whether Supplier armed anyone: no marker, no count, no flag, no revision number. That holds when the choice is registered and when it resolves | R-ROLE-08, R-ROLE-21, R-VIEW-07 | `SUP-15`, `SUP-20`, `SUP-21`; INV-VIEW-03 on every accepted command |
+| 6 | An Officer who has fired is still given the weapon, and Supplier is told of the Officer like anyone else. The weapon gives no second shot | R-ROLE-11, R-ROLE-20 | `SUP-14`, `OFF-02` |
 
-Condition 3 is the one a natural design gets wrong. A receipt that reads "you were armed by seat 4" is the obvious thing to write, and it reveals a role. `SUP-17` is there for it: the same two players are armed in two runs in which Supplier sits in different seats, and each recipient must see the same thing in both.
+Condition 3 is the one a natural design gets wrong. A receipt that reads "you were armed by seat 4" is the obvious thing to write, and it reveals a role. `SUP-17` is there for it: the same two players are armed in two runs in which Supplier sits in different seats, and each recipient must be told the same in both, at the Supplier stage and on their own later turns. Condition 4 is the same mistake from the other side.
 
-Three things the cases do not cover, and why:
+**A requirement the review makes that is not a rule: the result must last.** The integration review asks for "a durable private result", and Backend proposes a record that survives reload and recovery. Balance agrees that it should. But no source says how long a disclosure is kept, so no rule row states it and no case here asserts it. A first draft of the rulebook revision had such a row as a reading; an independent reading judged it a new requirement, and it was withdrawn. Backend's tests for reload, replay and recovery are where it is shown.
+
+Two more things the cases do not cover, and why:
 
 - **Events.** The binding reads what each audience can read as views, and any further read beside them once it is bound. It does not read the event stream. That no event carries a grant has to be shown by Backend's own tests.
-- **Reload, seat recovery and a device that has lost its seat.** These are service behaviour. Backend lists them in its acceptance for G17, and they are its to test.
-- **A Supplier who is Eliminated in Round 3.** No source says whether a player who is Eliminated goes on being told anything. `SUP-18` checks that the weapons are given and asserts nothing about what that Supplier is shown.
+- **Seat recovery and a device that has lost its seat.** These are service behaviour. Backend lists them in its acceptance for G17, and they are its to test.
 
-If the owner decides that Supplier may name themself (open rule edge D11), condition 1 covers it without a change: Supplier was given a weapon and is shown themself among the armed.
+If the owner decides that Supplier may name themself (open rule edge D11), condition 1 covers it without a change: Supplier was given a weapon and is told of themself among the armed.
 
 ### Names and characters in the lobby
 
@@ -322,14 +323,14 @@ The owner approved the comic-board direction on 7 October: the playing pieces ar
 
 | # | Required of the contract | Rule or decision | Checked by |
 | --- | --- | --- | --- |
-| 1 | A seat's name and character are public facts of the seat, like its number. They are fixed before roles are dealt and never change with the role | R-SETUP-05; the owner's decisions 2 and 5 in Designer's record | `VIEW-04`: two players change roles, and nothing the table or a third player can read may change |
-| 2 | Nothing about a role may ride on them: no character kept for or from a role or a team, and no order, default or refusal that depends on a role, a team or the Code | R-VIEW-02, R-SETUP-05 | `VIEW-04` |
-| 3 | The role device is in the player's own view and nowhere else | R-VIEW-02, R-VIEW-04; the owner's decision 6 | `VIEW-04`; INV-VIEW-01 on every state |
+| 1 | A seat's name and character are public facts of the seat, like its number. They are fixed before roles are dealt and never change with the role | R-SETUP-05; the owner's decisions 2 and 5 in Designer's record | `VIEW-04`, `VIEW-05`, `VIEW-06`: two players change roles, and nothing the table or a third player can read may change |
+| 2 | Nothing about a role may ride on them: no character kept for or from a role or a team, and no order, default or refusal that depends on a role, a team or the Code | R-VIEW-02, R-SETUP-05 | `VIEW-05` and `VIEW-06`, in which the two players are on opposite teams; `VIEW-07`, in which the Code is another |
+| 3 | The role device is in the player's own view and nowhere else | R-VIEW-02, R-VIEW-04; the owner's decision 6 | `VIEW-04` to `VIEW-06`; INV-VIEW-01 on every state |
 | 4 | The seat number stays. Votes, targets and the Code name players by number | R-SETUP-06, R-SETUP-08; the owner's decision 3 | By reading the contract when it exists |
 | 5 | The choice of a starting room still comes before the deal. The approved order is character, then role; V1-01 puts the room choice before the deal too | R-SETUP-07 | `SETUP-05` |
 | 6 | A name is free text typed by a person. It must not reach a research record. The record validator now refuses `displayName`, `playerName` and `nickname` | The collection limits in [telemetry-spec.md](telemetry-spec.md) | The static check |
 
-`VIEW-04` passes today, and it will go on watching: the comparison covers everything the binding reads for the table and for each player, so names and characters are covered from the day they are in a view or in a further read that the binding carries. If they arrive in a separate read, the binding has to be told of it, which is one of the two requests below.
+The four cases pass today, and they will go on watching: the comparison covers everything the binding reads for the table and for each player, so names and characters are covered from the day they are in a view or in a further read that the binding carries. A mark on each seat that follows the player's team, and one that follows the Code, are among the twelve deliberate leaks; `VIEW-05` and `VIEW-06` catch the first and `VIEW-07` the second. What the cases cannot reach is a role swap that involves Undercover, Alien or Cracker, since each of those is known to somebody by rule. If they arrive in a separate read, the binding has to be told of it, which is one of the two requests below.
 
 Two cautions that Designer put on record for a reviewer and for Balance to weigh. Neither reopens the approval.
 
@@ -340,7 +341,7 @@ The rulebook has no row for names and characters yet. It says that each player h
 
 ### Three related gaps, for the record
 
-Frontend's G14 and G18 and the review's G15 are the same kind of thing as G17 and are not rule defects. After a Captain's release choice, and after a Code attempt, the player's own view carries nothing that says what was entered; the last vote count stays in the public view without saying which round it is from. No approved source says that a player must be shown again what they entered, or that a count must name its round, so no case asserts either. Backend treats them as follow-ups inside decisions already made, and Balance agrees. One caution, if the read built for G17 later carries a Code attempt as well. It should say that the attempt was recorded, and not whether it was right. V1-08 has the Code evaluated with the other victory conditions after Round 5's effects, so there is no verdict to show before then, and Backend's own paired check found that no view tells a right attempt from a wrong one at the time. `CODE-08` holds the timing of the win and `CODE-10` holds that nobody but Hacker sees the submission. No case yet asserts that Hacker's own view cannot tell the two apart: with a read that repeats what was entered, that needs a pair of runs that differ in the Code and not in the entry, which the catalogue cannot write today.
+Frontend's G14 and G18 and the review's G15 are the same kind of thing as G17 and are not rule defects. After a Captain's release choice, and after a Code attempt, the player's own view carries nothing that says what was entered; the last vote count stays in the public view without saying which round it is from. No approved source says that a player must be shown again what they entered, or that a count must name its round, so no case asserts either. Backend treats them as follow-ups inside decisions already made, and Balance agrees. One caution, if the read built for G17 later carries a Code attempt as well. It should say that the attempt was recorded, and not whether it was right. V1-08 has the Code evaluated with the other victory conditions after Round 5's effects, so there is no verdict to show before then, and Backend's own paired check found that no view tells a right attempt from a wrong one at the time. `CODE-08` holds the timing of the win and `CODE-10` holds that nobody but Hacker sees the submission. `CODE-11` is new and holds the rest: Hacker enters the same four numbers in two matches that differ only in the Code, so the attempt is right in one and wrong in the other, and nobody but Alien, Hacker included, may be able to tell the two apart before the Round 5 check. It passes today. A read that repeated what was entered would still pass; one that said whether it was right would not, and that is one of the deliberate leaks the case is shown to catch.
 
 ## What this review did not cover
 

@@ -180,6 +180,8 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
   // Authorized views.
   const facts = observation.publicView;
   scanPublicPayload(observation.raw.public, 'public', finished, out);
+  // Whatever else everyone can read beside the public view is public too.
+  if (observation.raw.also?.public !== undefined) scanPublicPayload(observation.raw.also.public, 'public read', finished, out);
   for (const seat of seats) {
     const shown = facts.seats.find(item => item.seat === seat.seat);
     if (shown === undefined) { fail('INV-VIEW-06', `${seat.seat} is missing from the public view`); continue; }

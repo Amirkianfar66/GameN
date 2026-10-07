@@ -22,9 +22,9 @@
 //      the command line cannot be understood, or the engine commit it states contradicts the checkout.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { controlVerdict, hasTwin, runControls, runScenario } from '@mothership/balance';
+import { controlVerdict, hasTwin, judgeLeak, runControls, runScenario } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
-import { LEAKS, SUPPLY_DISCLOSURE_STAND_IN, withSupplyDisclosure } from '../../../tests/scenarios/support/disclosing.mjs';
+import { LEAKS, SUPPLY_DISCLOSURE_STAND_IN, leakModes, withSupplyDisclosure } from '../../../tests/scenarios/support/disclosing.mjs';
 import { loadGroup } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
@@ -75,17 +75,19 @@ for (const mode of [7, 8, 9]) {
 }
 const verdict = controlVerdict(runs);
 // With the stand-in, one more kind of control: the stand-in is made to leak, in each of the ways a
-// disclosure to Supplier could go wrong, and the paired cases have to catch every one. A changed
-// expectation tests a case's own checks; a leak tests whether the cases together watch the right things.
+// disclosure to Supplier could go wrong, and the paired cases have to catch every one, in every
+// player count in which the leak tells anybody anything. A changed expectation tests a case's own
+// checks; a leak tests whether the cases together watch the right things.
 if (standIn !== null) {
   summary.leaks = [];
   const paired = [7, 8, 9].flatMap(mode => loadGroup(String(mode)).scenarios).filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
   for (const [leak, meaning] of Object.entries(LEAKS)) {
     const leaking = withSupplyDisclosure(binding, leak);
-    const caughtBy = paired.filter(scenario => runScenario(scenario, leaking, '').status === 'failed').map(scenario => scenario.id);
-    summary.leaks.push({ leak, meaning, caughtBy });
-    console.log(`leak ${leak}: ${caughtBy.length === 0 ? 'NOT CAUGHT' : `caught by ${caughtBy.join(', ')}`}`);
-    if (caughtBy.length === 0) { verdict.passed = false; verdict.problems.push(`the leak "${leak}" (${meaning}) was caught by no paired case`); }
+    const modes = leakModes(leak);
+    const outcome = judgeLeak(leak, meaning, modes, paired.map(scenario => ({ scenario, run: runScenario(scenario, leaking, '') })));
+    summary.leaks.push({ leak, meaning, modes, caughtBy: outcome.caughtBy });
+    console.log(`leak ${leak}: ${outcome.caughtBy.length === 0 ? 'NOT CAUGHT' : `caught by ${outcome.caughtBy.map(item => item.scenario).join(', ')}`}`);
+    if (outcome.problems.length > 0) { verdict.passed = false; verdict.problems.push(...outcome.problems); }
   }
 }
 summary.verdict = verdict.passed ? 'passed' : 'failed';

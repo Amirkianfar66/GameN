@@ -7,7 +7,7 @@ This is the one document every agent reads to learn how the game plays. It conso
 
 If this document and a rule source disagree, the source wins and this document has a defect: report it on issue #5. Do not edit a rule here to make a test pass or a screen simpler.
 
-This is revision 4. Revision 2 followed independent checks of revision 1 against the sources. Revision 3 followed the integration review of 6 October 2026: the decision register was triaged against the approved decisions, so that nothing already approved is asked again, and three rows changed status. Revision 4 follows the integration review of 7 October 2026. Its finding G17 showed that the rule on who is told about Supplier's weapons was stated too briefly to be tested in full, so three rows are added that spell it out. No source changed, no rule that a source states changed, and no existing row changed. The lists of changes are in [rules-audit-v1.md](rules-audit-v1.md#revisions-of-the-rulebook).
+This is revision 4. Revision 2 followed independent checks of revision 1 against the sources. Revision 3 followed the integration review of 6 October 2026: the decision register was triaged against the approved decisions, so that nothing already approved is asked again, and three rows changed status. Revision 4 follows the integration review of 7 October 2026. Its finding G17 showed that the rule on who is told about Supplier's weapons was stated too briefly to be tested in full, so two rows are added that spell it out. No source changed, no rule that a source states changed, and no existing rule row changed; one line of the table of who may see what was reworded to match. The lists of changes are in [rules-audit-v1.md](rules-audit-v1.md#revisions-of-the-rulebook).
 
 ## 1. Authority, pins and how to read a rule
 
@@ -172,8 +172,8 @@ Health, Jail and location are three separate things. A player can be Injured and
 | R-ROLE-17 | A Disabler may be used in any round, from Round 1. Only ordinary weapons wait for Round 4. | DERIVED | `R-ROLE-05`, `R-SHOT-03`, `D24` |
 | R-ROLE-18 | A Scan is Hacker's role Main Action: it is used on Hacker's own turn, and an Injured or Jailed Hacker cannot Scan. | DERIVED | `R-ACT-01`, `R-STATE-03`, `R-STATE-04`, `D30` |
 | R-ROLE-19 | Alien has starting knowledge and no Main Action. | DERIVED | `R-SETUP-11`, `baseline#/roles/Alien/knows_full_code_from_start` |
-| R-ROLE-20 | At the Supplier stage of Round 3, Supplier is shown each recipient who was given a weapon there, and only those. Nobody is shown before that stage. A recipient who was given nothing because they were already Eliminated is not shown (R-ACT-06). | DERIVED | `R-ROLE-08`, `R-ROLE-07`, `R-ACT-06` |
-| R-ROLE-21 | A recipient learns of their own weapon and of nothing more: not who Supplier is, and not who the other recipient is. Nobody else learns anything. | DERIVED | `R-ROLE-08`, `R-SETUP-05`, `R-VIEW-02` |
+| R-ROLE-20 | When the Supplier stage of Round 3 has resolved, the app tells Supplier which of the two players they named were given a weapon there. Until then nothing has been given and Supplier is told of nobody; what Supplier sees of their own registered choice is a separate matter (R-VIEW-04). A player who was already Eliminated at that stage was given nothing (R-ACT-06) and is not among those Supplier is told of. Supplier is told this whether they are by then Healthy, Injured, Jailed or Eliminated. | DERIVED | `R-ROLE-08`, `R-ROLE-07`, `R-ACT-05`, `R-ACT-06`, `R-STATE-01`, `D39` |
+| R-ROLE-21 | The app tells a recipient that they hold a weapon and nothing more: not which player armed them, and not who else was armed. It tells Supplier that a player was armed and nothing about that player. It tells nobody else anything: not that weapons were given, not how many, and not to whom. | DERIVED | `R-ROLE-08`, `R-ROLE-07`, `R-SETUP-05`, `R-VIEW-08` |
 
 ## 10. Shooting
 
@@ -286,7 +286,6 @@ The phone app resolves a round in a fixed order. Nothing in it depends on which 
 | R-VIEW-08 | Exact roles and the Code become public when the match ends. | OWNER-V1 | `v1#V1-18`, `baseline#/player_setup/elimination_reveal` |
 | R-VIEW-09 | The round, the current phase and whose turn it is are public: turns are taken by speaking at the table. | DERIVED | `R-FLOW-05`, `baseline#/round_structure/player_turn/sequence` |
 | R-VIEW-10 | Whether a match that the host aborts reveals roles and the Code is not decided. | OPEN | `D35` |
-| R-VIEW-11 | What the rules make known to one player stays in that player's own view for the rest of the match: Insider's candidates, who Undercover is for Hacker, the Code for Alien, every Scan result, every Protection for Undercover, and whom Supplier armed. | DERIVED | `R-VIEW-05`, `R-ROLE-08`, `D39` |
 
 The same rules as a table, for whoever builds or draws a screen. "Not stated" means no source says the fact is ever revealed, so it stays hidden.
 
@@ -297,7 +296,7 @@ The same rules as a table, for whoever builds or draws a screen. "Not stated" me
 | A player's role | No | Their own | No | Yes, everyone's |
 | The faction of a player who is not Eliminated | No | Their own | No | Yes, through the roles |
 | The faction of an Eliminated player | Yes, from the next public phase | Yes | Yes | Yes |
-| A weapon held | No | The holder. Supplier knows whom they armed, from the Supplier stage on. A recipient does not learn who Supplier is or who else was armed | No | Not stated |
+| A weapon held | No | The holder. Supplier is told whom the Supplier stage armed (R-ROLE-20), which is not a list of who holds a weapon now. A recipient is not told who armed them or who else was armed (R-ROLE-21) | No | Not stated |
 | A Protection | No | Undercover only. Never the recipient | No | Not stated |
 | The Code | No | Alien | No | Yes |
 | Insider's three candidates | No | Insider | No | Not stated |

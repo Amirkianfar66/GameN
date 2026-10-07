@@ -116,6 +116,9 @@ function changedSince(session: Session, since: string, audiences: Audiences): st
 }
 
 // The audiences to whom two observations do not look the same: what they can read, or its revision.
+/** How a failed comparison begins. The audiences that could tell the two runs apart follow, separated by commas. */
+export const TOLD_APART = 'the twin run does not look the same to: ';
+
 function differing(one: Observation, other: Observation, audiences: Audiences, session: Session): string[] {
   const { includePublic, players } = audienceSeats(audiences, session);
   const out: string[] = [];
@@ -258,7 +261,7 @@ function evaluate(check: Check, session: Session): string | null {
   }
   if ('sameAsTwin' in check) {
     const apart = differing(twinObservation(session), now, check.sameAsTwin.audiences, session);
-    return apart.length === 0 ? null : `the twin run does not look the same to: ${apart.join(', ')}`;
+    return apart.length === 0 ? null : `${TOLD_APART}${apart.join(', ')}`;
   }
   if ('differsFromTwin' in check) {
     const { includePublic, players } = audienceSeats(check.differsFromTwin.audiences, session);
@@ -424,7 +427,11 @@ export function runScenario(scenario: Scenario, adapter: EngineAdapter | null, u
   const pairing: Pairing = {};
   if (hasTwin(scenario)) {
     const recording = new Map<number, Observation>();
-    const steps = scenario.steps.map(step => (step.op === 'command' && step.twin !== undefined ? { ...step, command: step.twin } : step));
+    // The twin's steps keep their places, so that a comparison finds its counterpart by position.
+    const steps = scenario.steps.map((step): Step => {
+      if (step.op !== 'command' || step.twin === undefined) return step;
+      return step.twin === null ? { op: 'mark', name: 'the twin run sends nothing here' } : { ...step, command: step.twin };
+    });
     const twin = execute(scenario, twinSetup(scenario, scenario.setup), adapter, { steps, recording });
     if (twin.status !== 'passed') {
       const failure = { stepIndex: twin.failure?.stepIndex ?? -1, op: 'twin', message: `the twin run could not be completed: ${twin.failure?.message ?? twin.status}` };

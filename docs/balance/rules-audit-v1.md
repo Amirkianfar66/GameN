@@ -120,7 +120,7 @@ This register continues the D numbers of the earlier audit. After the integratio
 | D36 | Nothing a player enters on their phone is shown to anyone else before the rules reveal it | READING | V1-17 and the baseline keep registrations secret. Three cases are not named in so many words: a Code submission, a Hack request before its conversation opens, and the Captain's release choice before the release vote opens. Rule R-VIEW-07 |
 | D37 | A window opens only when someone can use it: no election without an eligible candidate, and no release choice without a Captain, an unused request and a prisoner | READING | V1-04 says to "continue without Captain" when no eligible candidate exists, and V1-11 gives the choice window to a Captain who "may use" the request. Backend's handoff describes the same: "a Captain with an unused release opportunity can select one prisoner". Rule R-FLOW-13 |
 | D38 | A release takes effect when the release vote closes | READING | The release vote comes before the Jail vote and the end-of-round order has no release step; V1-02 gives the freed player's destination but no moment. The freed player can then be voted back into Jail in the same round. Rule R-VOTE-10 |
-| D39 | Knowledge that the rules give a player stays in that player's view for the rest of the match | READING | No source gives private knowledge an end. The baseline and V1-16 say who knows a fact, and a player at a table who has been told something goes on knowing it; a view that showed a disclosure once and then dropped it would tell the player less than the rules do. The current engine keeps Insider's candidates, the Undercover's identity, the Code, Scan results and Protections this way. For whom Supplier armed it shows nothing at any time, which is finding G17 of the integration review of 7 October and is a defect against V1-16, not a different reading. Rule R-VIEW-11 |
+| D39 | Supplier is told when the weapons are given, not later | READING | V1-16 says who is told and does not say when. The grant succeeds at the Supplier stage, the recipient holds the weapon from that stage, and V1-16 speaks of both audiences in one sentence; no source delays it for one of them. Elsewhere the owner fixed such a moment in so many words, for a Scan in V1-14 and for a faction in V1-18, so this is a reading and is listed as one. Rule R-ROLE-20 |
 
 ### Open rule edges, consolidated
 
@@ -318,13 +318,13 @@ The integration review of 6 October read revision 2 at commit `dedfe69` and aske
 
 ### Revision 4
 
-The integration review of 7 October found that the engine never tells Supplier which of their weapons were given (its finding G17), and that the scenario catalogue, which otherwise passed, did not cover it. Revision 4, `rulebook-v1-2026-10-07-r4`, adds three rows and changes none. No source changed. The rulebook has 168 rows.
+The integration review of 7 October found that the engine never tells Supplier which of their weapons were given (its finding G17), and that the scenario catalogue, which otherwise passed, did not cover it. Revision 4, `rulebook-v1-2026-10-07-r4`, adds two rows and changes no rule row. No source changed. The rulebook has 167 rows.
 
 | What changed | Rows and decisions |
 | --- | --- |
-| Spelled out from R-ROLE-08, which is unchanged | R-ROLE-20: whom Supplier is shown as armed, and from when. R-ROLE-21: what a recipient does not learn |
-| Added as a reading | R-VIEW-11 with D39: what the rules make known to a player stays in that player's view |
-| The table of who may see what | Its row on a weapon held now says both things |
+| Spelled out from R-ROLE-08, which is unchanged | R-ROLE-20: which players Supplier is told of, and from when. R-ROLE-21: what a recipient, Supplier and everyone else are not told |
+| Registered as a reading | D39: Supplier is told when the weapons are given, not later. V1-16 says who is told and not when. R-ROLE-20 carries it |
+| The table of who may see what | Its line on a weapon held was reworded to say both things. It is not a rule row |
 
 The seventeen readings now carry eighteen rules.
 
@@ -336,21 +336,36 @@ That question is asked here for the rulebook's table of who may see what, row by
 | --- | --- | --- | --- | --- |
 | Number, location, health, Jail, Captain marker | Everyone | `SETUP-05`, `SHOT-01`, and INV-VIEW-06 on every state | Nothing to withhold | Nothing |
 | Round, phase, whose turn it is | Everyone | `VIEW-03` | Nothing to withhold | Nothing |
-| A player's role | That player | `SETUP-03` | The table: INV-VIEW-01 on every state. Other players: `VIEW-04`, new, a paired case | Nothing |
+| A player's role and team | That player | `SETUP-03` | The table: INV-VIEW-01 on every state. Other players and the table, by comparing two runs: `VIEW-04` for two Blue roles, `VIEW-05` for a Blue and a Red role, `VIEW-06` for the two Disablers. All three are new | A swap that involves Undercover, Alien or Cracker. Each is known to somebody by rule: to Insider as one of three, Undercover to Hacker as well, and Alien's number is in the Code. Two such runs differ for a reason the rules give, and a plain comparison cannot be used |
 | The faction of an Eliminated player | Everyone, from the next public phase | `VIEW-02` | `VIEW-02`, for everyone who is not Eliminated | Nothing |
-| A weapon held | The holder | `SETUP-04`, `SUP-01`, `OFF-02` | `SUP-15`, new, a paired case | Nothing |
-| Whom Supplier armed | Supplier | New: `SUP-11`, `SUP-13` and `SUP-16` in every mode, `SUP-12` with eight and nine players, `SUP-14` with nine. **Not asserted before revision 4.** All of them fail against the current engine: that is G17 | New, paired cases: `SUP-15`, nobody else and not the other recipient; `SUP-17`, a recipient cannot tell who Supplier is | Whether a Supplier who is Eliminated in Round 3 is still shown the list. No source says what an Eliminated player goes on being told. `SUP-18` checks only that the weapons are given |
+| A weapon held | The holder | `SETUP-04`, `SUP-01`, `OFF-02` | New, by comparing two runs: `SUP-15` and `SUP-20` for who was armed, `SUP-21` for whether anybody was | Nothing |
+| Whom the Supplier stage armed | Supplier | New, and **not asserted before revision 4**: `SUP-11`, `SUP-13`, `SUP-16` and `SUP-19` in every mode, `SUP-12` and `SUP-18` with eight and nine players, `SUP-14` with nine. Between them: exactly the players who were given a weapon, nobody before the stage, and a Supplier who is by then Injured, Jailed or Eliminated. All of them fail against the current engine: that is G17 | New, by comparing two runs: `SUP-15`, `SUP-20` and `SUP-21`, nobody else and not the other recipient; `SUP-17`, a recipient is not told who armed them, then or later; `SUP-22` and `SUP-23`, Supplier is told nothing about the player they armed | How long Supplier goes on being told. No source says. The integration review requires a durable result of Backend's fix, and that is a requirement on the contract, not a rule; see below |
 | A Protection | Undercover | `PROT-06` | `PROT-06` for the recipient and a third player, and INV-VIEW-02 on every state | Nothing |
-| The Code | Alien; everyone when the match ends with a result | `SETUP-02`, `SETUP-03`; `WIN-01` at the end | `SETUP-03`, INV-VIEW-02 and INV-VIEW-07 on every state | Nothing |
+| The Code | Alien; everyone when the match ends with a result | `SETUP-02`, `SETUP-03`; `WIN-01` at the end | `SETUP-03`, INV-VIEW-02 and INV-VIEW-07 on every state. New, by comparing two runs that differ only in the Code: `VIEW-07` for everything the table and the other players can read, and `CODE-11` for a right attempt against a wrong one, which Hacker may not be able to tell apart either | Nothing |
 | Insider's three candidates | Insider | `SETUP-03` | `SETUP-03`, INV-VIEW-02 on every state | Nothing |
 | Who Undercover is | Hacker | `SETUP-03` | `SETUP-03`, INV-VIEW-02 on every state | Nothing |
 | A Scan and its result | Hacker | `SCAN-01`, `SCAN-02`, `SCAN-06` | `SCAN-06`, INV-VIEW-02 on every state | Nothing |
 | What a player entered: an action, a shot, a ballot, a Code attempt | That player | That it is registered and later completed: `SHOT-01`, `PROT-06`, through a count of pending registrations. Their own ballot: `VOTE-05` | `SUP-01`, `PROT-06`, `SCAN-06`, `VOTE-05`, `HACK-05`, `CODE-10`, and INV-VIEW-03 on every accepted command | That the player is shown again whom they named. The view carries a count and not the target, and after a Code attempt or a release choice it carries nothing. No approved source asks for more, so no case asserts it. Frontend records the same matter as its G14 and G18; it is a product choice, not a rule edge |
 | Why an attack had no effect | Nobody. Undercover sees a Protection used up | `PROT-06` | `PROT-06`, for the attacker | Nothing |
 
-One row had a missing half, and it is the one the review found. The last column names two things that no source settles and that are therefore not asserted.
+One row had a missing half, and it is the one the review found.
 
-**Paired cases.** Six of the new cases are run twice. The second run, the twin, differs from the first in one declared respect: one command names another player, or two players have changed roles. The case then says to whom the two runs must look the same and to whom they must look different. This is the comparison the integration review and Backend each made by hand for G17, kept as fixtures. It has two uses that a check on a named field does not have. It needs no knowledge of where an engine keeps a fact, so `SUP-16` finds that Supplier is told nothing without naming any field. And it watches everything an audience can read, so a disclosure built wrongly is found wherever it is put: a field of the view, or a separate read beside the view once the binding carries one. The controls command proves that with three deliberate leaks; the evidence report has the run.
+**What is a requirement and not a rule.** A first draft of this revision had a third row: that what the rules make known to a player stays in that player's view for the rest of the match. An independent reading of the draft judged it a new requirement and not a reading, and it was right. V1-16 says the grants "are disclosed", which is an event; no source says for how long, and this audit calls the sibling question, whether a player is shown again what they entered, a product choice. The row was withdrawn. The integration review does ask for it of the fix for G17, "a durable private result", and Backend proposes exactly that. So it stands as a condition on the contract in [contract-review.md](contract-review.md#part-d-the-two-contracts-now-being-prepared), where Backend's own tests for reload and recovery cover it, and no case in this catalogue asserts it.
+
+**Paired cases.** Twelve of the new case codes are run twice: `SUP-15`, `SUP-16`, `SUP-17`, `SUP-20` to `SUP-23`, `VIEW-04` to `VIEW-07`, and `CODE-11`. The second run, the twin, differs from the first in one declared respect: a command names another player, or is not sent at all, or two players have changed roles, or the Code has another number. The case then says to whom the two runs must look the same and to whom they must look different. This is the comparison the integration review and Backend each made by hand for G17, kept as fixtures. It has two uses that a check on a named field does not have. It needs no knowledge of where an engine keeps a fact, so `SUP-16` finds that Supplier is told nothing without naming any field. And it watches everything an audience can read, so a disclosure built wrongly is found wherever it is put: a field of the view, or a separate read beside the view once the binding carries one.
+
+That second claim is tested. The controls command makes a stand-in leak in twelve ways, and every one must be caught by a comparison, with every number of players for which the leak tells anybody anything:
+
+- a recipient told who armed them, at once or only from their next turn;
+- a recipient told who else was armed, or only the second-named told who was named first;
+- the table shown the list of those armed, or only how many weapons were given;
+- Supplier told the team of a player they armed, or whether the weapon can be used;
+- a mark on every seat that follows the player's team, and Red players shown each other;
+- a mark on every seat that follows whether its number is in the Code, and Hacker told at once whether a Code attempt was right.
+
+The evidence report has the run and which case caught which. The first set of paired cases, as first committed on this branch, caught three of the twelve; that was checked by running it. Seven of the other nine were pointed out by an independent reading of that first set, and two came from going through the conditions for the two contracts one at a time. Each has a case now.
+
+A comparison of two runs can show that a difference is not visible. It cannot show that a fact is absent altogether: something told to everybody alike in both runs is invisible to it. The invariants on every state are what look for that, and only for the words and fields they know.
 
 ## What this audit does not establish
 

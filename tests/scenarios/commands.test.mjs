@@ -211,6 +211,8 @@ test('the three engine commands refuse a command line they do not understand', (
     ['controls.mjs', ['--engine-root', none, '--engine-root', none], /--engine-root was given more than once/],
     ['walk.mjs', ['--engine-root', none, '--seed', '10'], /Unknown option '--seed'/],
     ['walk.mjs', ['--engine-root', none, 'ten'], /Unexpected argument 'ten'/],
+    // A selection that selects nothing is not a run in which nothing failed.
+    ['run-scenarios.mjs', ['--engine-root', none, '--only', 'SUP-11'], /--only SUP-11 is the beginning of no scenario identifier/],
   ];
   for (const [name, args, pattern] of cases) {
     const result = script(name, args);

@@ -52,6 +52,8 @@ for (const group of GROUPS) {
     runs.push(runScenario(scenario, adapter, reason));
   }
 }
+// A prefix that names no scenario would otherwise end as a run of nothing with no failure.
+if (only !== null && runs.length === 0 && invalid === 0) refuse(`--only ${only} is the beginning of no scenario identifier.`);
 
 const report = buildReport(runs, built.pins);
 

@@ -1,5 +1,7 @@
+import type { Mode } from './model.js';
 import type { EngineAdapter } from './observation.js';
-import { runScenario } from './runner.js';
+import { TOLD_APART, runScenario } from './runner.js';
+import type { ScenarioRun } from './runner.js';
 import type { Scenario } from './scenario.js';
 
 // Negative controls for the scenario harness. A control is a copy of a ready scenario with exactly
@@ -122,4 +124,39 @@ export function controlVerdict(runs: readonly ControlRun[]): ControlVerdict {
   if (total('undetected') > 0) problems.push(`${total('undetected')} of ${total('controls')} controls were not detected`);
   if (total('controls') === 0) problems.push('no control was executed');
   return { passed: problems.length === 0, problems };
+}
+
+// A second kind of control. A changed expectation tests a case's own checks. A deliberate leak
+// tests whether the paired cases together watch the right things: the engine binding is made to
+// tell somebody something the rules do not allow, and a comparison of two runs has to notice.
+
+export interface LeakOutcome {
+  /** The paired cases whose comparison failed, each with the audiences that could tell the two runs apart. */
+  caughtBy: { scenario: string; couldTell: string[] }[];
+  problems: string[];
+}
+
+/**
+ * Judges one deliberate leak from the runs of the paired cases through a binding that makes it.
+ * The leak is caught where a comparison fails and names who could tell the two runs apart, and it
+ * has to be caught with every number of players in `modes`. A case that does not pass for any
+ * other reason has caught nothing: that is a fault of the control, and it is reported as one.
+ */
+export function judgeLeak(leak: string, meaning: string, modes: readonly Mode[], runs: readonly { scenario: Scenario; run: ScenarioRun }[]): LeakOutcome {
+  const caughtBy: LeakOutcome['caughtBy'] = [];
+  const problems: string[] = [];
+  const caughtIn = new Set<Mode>();
+  for (const { scenario, run } of runs) {
+    if (run.status === 'passed') continue;
+    const message = run.failure?.message ?? '';
+    if (run.status === 'failed' && run.failure?.op === 'assert' && message.startsWith(TOLD_APART)) {
+      caughtBy.push({ scenario: scenario.id, couldTell: message.slice(TOLD_APART.length).split(', ') });
+      if (scenario.mode !== null) caughtIn.add(scenario.mode);
+    } else problems.push(`with the leak "${leak}", ${scenario.id} did not pass for a reason that is not a comparison: ${message === '' ? run.status : message}`);
+  }
+  for (const mode of modes) {
+    if (!caughtIn.has(mode)) problems.push(`the leak "${leak}" (${meaning}) was caught by no paired case with ${mode} players`);
+  }
+  if (runs.length === 0) problems.push(`the leak "${leak}" was tried on no paired case`);
+  return { caughtBy, problems };
 }

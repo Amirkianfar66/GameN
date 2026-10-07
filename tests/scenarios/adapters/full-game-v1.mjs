@@ -105,12 +105,16 @@ function createAdapter(engine) {
   return {
     pins,
     createMatch(setup, matchId) {
-      let serial = 0;
-      // Command identifiers count commands and nothing else. In a paired case the two runs may send
-      // the same commands at different moments; an identifier that also counted the phases closed
-      // before it would then differ between the runs for a reason that is the harness's own.
+      // Identifiers count what they name and nothing else: a phase identifier counts phases, a
+      // command identifier counts commands. In a paired case the two runs may send different
+      // numbers of commands, or the same commands at different moments. An identifier that counted
+      // both would then differ between the runs for a reason that is the harness's own, and the
+      // phase identifier is in every view.
+      let phases = 0;
       let commands = 0;
-      const context = now => ({ now, nextPhaseId: `phase-${++serial}`, nextDeadlineToken: `deadline-${++serial}` });
+      const context = now => ({ now, nextPhaseId: `phase-${phases + 1}`, nextDeadlineToken: `deadline-${phases + 1}` });
+      // The offered identifier was used if the engine opened a phase with it.
+      const settle = () => { if (state.phase.id === `phase-${phases + 1}`) phases += 1; };
       let state = engine.createFullGame({
         matchId,
         setup: {
@@ -161,15 +165,18 @@ function createAdapter(engine) {
             throw error;
           }
           state = result.state;
+          settle();
           return result.receipt.status === 'accepted' ? 'REGISTERED' : result.receipt.code;
         },
         advance(atMs) {
           const result = engine.advanceFullGame(state, { ...context(atMs), phaseId: state.phase.id, deadlineToken: state.deadlineToken ?? 'no-deadline' });
           state = result.state;
+          settle();
           return result.advanced;
         },
         abort(atMs) {
           state = engine.abortFullGame(state, context(atMs));
+          settle();
         },
       };
     },
