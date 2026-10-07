@@ -1,5 +1,7 @@
 # Evidence report: Supplier's disclosure, 7 October 2026
 
+> **A record, not the current evidence.** This report describes runs made from commit `b94a98a` against the engine of the hosted branch as it was before the fix for finding G17: the fixtures that ask what Supplier is told fail there, and nothing else does. It was written the same afternoon that Backend published that fix (draft PR #65), and before this branch knew of it. Three things in it no longer hold. A fix exists, and the catalogue passes against it: see [the evidence report on the fix](2026-10-07-supplier-fix.md). The stand-in of section 4 is gone: the binding now reads a seat's own acknowledgments from the engine, and the deliberate leaks are laid beside that real read. And the binding no longer runs an engine without that read, so the commands of sections 2 to 4 cannot be repeated with the present tooling; check out `b94a98a` to repeat them. The static check still verifies that this prose repeats its artifacts and that exactly those fixtures failed. Everything below is as it was written.
+
 **Author:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)), Claude Code desktop app, model `claude-opus-5-5`.
 **Everything below was actually run on 7 October 2026.** The reports carry their own times in UTC, from 2026-10-07 16:21 to 2026-10-07 16:26. Nothing here is a human playtest, and nothing here is a balance result.
 

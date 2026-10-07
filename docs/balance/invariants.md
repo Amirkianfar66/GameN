@@ -84,9 +84,9 @@ When no player can take a turn in the next round, a Jail vote or an election may
 
 INV-VIEW-04 and INV-VIEW-06 restate the technical contract in `docs/integration-baseline.md`. They are checked here because a break in either would let a hidden action show.
 
-"What an audience can see" means its view and anything else the engine binding lets it read beside the view. No engine has such a further read today. Backend proposes one for a seat's own acknowledgments; when the binding carries it, INV-VIEW-03, INV-VIEW-04 and INV-VIEW-05 cover it without a change, and so does every case that compares audiences. INV-VIEW-01 looks through a further public read as it looks through the public view. The receipt of a command is an answer to its sender and not part of a view, so these invariants leave it alone; a comparison of two runs includes it.
+"What an audience can see" means its view and anything else the engine binding lets it read beside the view. Since Backend's fix for finding G17 (draft PR #65) there is such a further read, of a seat's own acknowledgments, and the binding carries it whole. INV-VIEW-03, INV-VIEW-04 and INV-VIEW-05 cover it without a change, and so does every case that compares audiences. INV-VIEW-01 looks through a further public read as it looks through the public view. The receipt of a command is an answer to its sender and not part of a view, so these invariants leave it alone; a comparison of two runs includes it.
 
-The invariants hold for every state a match passes through. They cannot say that something a rule requires is missing: an engine that tells Supplier nothing breaks none of them. A scenario has to ask for that, which is the lesson of the integration review's finding G17; the audit has the check that followed.
+The invariants hold for every state a match passes through. They cannot say that something a rule requires is missing: an engine that told Supplier nothing broke none of them. A scenario has to ask for that, which is the lesson of the integration review's finding G17; the audit has the check that followed.
 
 ## Result
 

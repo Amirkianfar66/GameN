@@ -279,9 +279,11 @@ Nothing in the handoff, in the refinement proposal or in Frontend's three docume
 
 Backend's `v1-decision-register.md` records RULE-001 to RULE-009 as confirmed by V1-01 to V1-21 and leaves RULE-010, Original Powers, for a later audit. Balance's register agrees row for row: D01 to D09 are resolved by the same decisions and D10 is deferred as outside Version 1. The crosswalk is in [the audit](rules-audit-v1.md#crosswalk-to-the-integration-register). Backend's register has no row for the nine open rule edges; request BAL-REQ-3 asks for them to be carried there or linked.
 
-## Part D: the two contracts now being prepared
+## Part D: the two contracts of 7 October
 
-The integration review of 7 October names two shared contracts that are still to be written, each "with Frontend and Balance review": a private result for Supplier, which its finding G17 requires, and public names and characters for the lobby, which the comic-board direction approved by the owner needs. Neither exists yet. This part states, before they are designed, what the rules require of each and which case checks it, so that the conditions are known in advance and not found in review. It asks for no particular shape: the shape is Integration's.
+The integration review of 7 October names two shared contracts to be written, each "with Frontend and Balance review": a private result for Supplier, which its finding G17 requires, and public names and characters for the lobby, which the comic-board direction approved by the owner needs. This part was first written before either existed. It states what the rules require of each and which case checks it, so that the conditions were known in advance and not found in review.
+
+Both contracts were published as drafts later the same day: the read of a seat's own acknowledgments in PR [#65](https://github.com/Amirkianfar66/GameN/pull/65), and the lobby identities in PR [#64](https://github.com/Amirkianfar66/GameN/pull/64). Each asks for Balance's review. The conditions below are unchanged from before the drafts; under each table is what the draft does with them. **The first holds every condition, by reading and by running. The second holds every condition by reading, and no case here can run against it.** It asks for no particular shape: the shape is Integration's.
 
 ### What was read and run
 
@@ -290,13 +292,16 @@ The integration review of 7 October names two shared contracts that are still to
 - Frontend's records of the gaps it met, `docs/frontend/connected-knowledge-actions.md` and `connected-voting.md` at `c8856242caea349b620345349f6b59c7a87b6d7f` (PR [#53](https://github.com/Amirkianfar66/GameN/pull/53)).
 - Designer's record of the owner's decisions, `docs/design/owner-decisions.md` at `4fa2ff3db5edff97feefa7bc12b7f2b627275c34` (PR [#57](https://github.com/Amirkianfar66/GameN/pull/57)).
 - Designer's adoption of the approved direction, opened while this part was being written: the proposed crew catalog `design/contract/crew-catalog.json` and the proposed role-card text `design/contract/copy.en.proposed.json` at `ecbc0d703fa5e8b6b576e0b9eff6dc972761d3ea` (PR [#59](https://github.com/Amirkianfar66/GameN/pull/59), a draft). Read, not run.
-- The engine of the hosted branch at `c8856242`, against the scenario catalogue with its new cases. The evidence report of 7 October on Supplier's disclosure has the runs.
+- The engine of the hosted branch at `c8856242`, before the fix, against the scenario catalogue with its new cases. [The record of that run](evidence/2026-10-07-supplier-disclosure.md) has it.
+- Backend's fix for G17 at `096bfa08ea6808977639e21fbdb93353c8b3d6cf` (draft PR #65): the contract `packages/contracts/src/own-acknowledgments.ts`, the projector `packages/engine/src/full-game/own-acknowledgments.ts` and the handoff `docs/backend/own-acknowledgments.md`. Read, and its built engine run against the whole catalogue: [the evidence report on the fix](evidence/2026-10-07-supplier-fix.md).
+- Integration's adoption of the Balance gates for that fix at `f28d3e4ed5e9a582f70f52391b5449d2f89bb02e` (draft PR [#67](https://github.com/Amirkianfar66/GameN/pull/67)). It took the Balance directories as they stood at commit `7d63089` and patched the engine binding to the real read; that patch is taken over here.
+- The lobby identities at `d9f49d9693f871ed3db26082be80e1d1879bf78e` (draft PR #64): the contract `packages/contracts/src/lobby-identity.ts`, the decision record `docs/decisions/2026-10-07-crew-identity.md`, and the places in `services/game-api/src/full-game.ts` where the identity document is written. Read, not run.
 
 ### Supplier's result (G17)
 
-V1-16 says that Supplier's successful grants "are disclosed only to each recipient and Supplier". The engine gives the weapons and tells Supplier nothing, at any time. Balance confirms the finding: seventeen new fixtures fail for that reason and no other. It also records its own part in it. The catalogue cited the rule and tested half of it; [the audit](rules-audit-v1.md#revision-4) says how, and checks the other disclosure rules for the same fault.
+V1-16 says that Supplier's successful grants "are disclosed only to each recipient and Supplier". The engine of the hosted branch gave the weapons and told Supplier nothing, at any time. Balance confirmed the finding: seventeen new fixtures failed for that reason and no other. It also records its own part in it. The catalogue cited the rule and tested half of it; [the audit](rules-audit-v1.md#revision-4) says how, and checks the other disclosure rules for the same fault.
 
-Backend proposes a durable record of the successful grants, made when Round 3 resolves, and a new read of a seat's own acknowledgments beside the protocol-2 view, which strict readers would otherwise reject. Balance supports it. No rule decision is needed for it. What the rules require of it:
+Backend proposed, and has now built, a durable record of the successful grants, made when Round 3 resolves, and a new read of a seat's own acknowledgments beside the protocol-2 view, which strict readers would otherwise reject. No rule decision is needed for it. What the rules require of it:
 
 | # | Required of the contract | Rule | Checked by |
 | --- | --- | --- | --- |
@@ -307,9 +312,22 @@ Backend proposes a durable record of the successful grants, made when Round 3 re
 | 5 | Nothing that the table or any other player can read changes with whom Supplier armed, or with whether Supplier armed anyone: no marker, no count, no flag, no revision number, at any moment up to the last vote of Round 5, and not when an armed player is hurt or sent to Jail | R-ROLE-08, R-ROLE-21, R-VIEW-07 | `SUP-15`, `SUP-20`, `SUP-21`, `SUP-28`; INV-VIEW-03 on every accepted command |
 | 6 | An Officer who has fired is still given the weapon, and Supplier is told of the Officer like anyone else. The weapon gives no second shot | R-ROLE-11, R-ROLE-20 | `SUP-14`, `OFF-02` |
 
+**Held against the draft of PR #65.** The read gives Supplier one entry, `supplierResults`, with the seats that were armed and the identifier of Supplier's own command; it gives a recipient one entry, `receivedSupply`, that says a weapon was received in Round 3 and nothing else; it gives everyone else two empty lists. The binding now takes whom Supplier armed from that read and from nowhere else, and every comparison includes the whole read.
+
+| # | In the contract | By running the catalogue against its engine |
+| --- | --- | --- |
+| 1 | The list is there and empty before the Supplier stage, and holds exactly the armed seats after it. A result with an empty list is kept apart from no result yet | `SUP-11`, `SUP-12`, `SUP-14` pass |
+| 2 | The projector asks nothing about Supplier's health or Jail | `SUP-13`, `SUP-24`, `SUP-25` pass |
+| 3 | A recipient's entry has no seat and no command identifier in it | `SUP-17`, `SUP-26`, `SUP-15`, `SUP-20` pass in every phase compared |
+| 4 | Supplier's entry has seats and nothing about them. The handoff says so of failure reasons, timestamps and echoes of the request | `SUP-22`, `SUP-23`, `SUP-27`, `SUP-29` pass, receipts included |
+| 5 | Another seat's read does not change, its own revision number included, and the handoff says an unchanged document is not rewritten | `SUP-15`, `SUP-20`, `SUP-21`, `SUP-28` pass |
+| 6 | Nothing in the read says whether a weapon is of use | `SUP-14`, `SUP-23`, `OFF-02` pass |
+
+All 516 ready fixtures pass against that engine, and each of the twenty-seven deliberate leaks, laid beside this real read, is caught. Balance has no objection to the contract and asks for no change to it. What Balance did not run is everything the service adds: who may read the document, its survival of reload, retry and seat recovery, and the refusal of an old or another identity. Backend reports its own emulator tests for those, and they are its evidence.
+
 Condition 3 is the one a natural design gets wrong. A receipt that reads "you were armed by seat 4" is the obvious thing to write, and it reveals a role. `SUP-17` is there for it: the same two players are armed in two runs in which Supplier sits in different seats, and each recipient must be told the same in both, at the Supplier stage and on their own later turns. Condition 4 is the same mistake from the other side.
 
-**A requirement the review makes that is not a rule: the result must last.** The integration review asks for "a durable private result", and Backend proposes a record that survives reload and recovery. Balance agrees that it should. But no source says how long a disclosure is kept, so no rule row states it and no case here asserts it. A first draft of the rulebook revision had such a row as a reading; an independent reading judged it a new requirement, and it was withdrawn. Backend's tests for reload, replay and recovery are where it is shown.
+**A requirement the review makes that is not a rule: the result must last.** The integration review asks for "a durable private result", and Backend has built a record that it reports to survive reload and recovery. Balance agrees that it should. But no source says how long a disclosure is kept, so no rule row states it and no case here asserts it. A first draft of the rulebook revision had such a row as a reading; an independent reading judged it a new requirement, and it was withdrawn. Backend's tests for reload, replay and recovery are where it is shown.
 
 What the cases reach, and what they do not:
 
@@ -333,14 +351,27 @@ The owner approved the comic-board direction on 7 October: the playing pieces ar
 | 5 | The choice of a starting room still comes before the deal. The approved order is character, then role; V1-01 puts the room choice before the deal too | R-SETUP-07 | `SETUP-05` |
 | 6 | A name is free text typed by a person. It must not reach a research record. The record validator now refuses `displayName`, `playerName` and `nickname` | The collection limits in [telemetry-spec.md](telemetry-spec.md) | The static check |
 
-The seven cases pass today, and they will go on watching: the comparison covers everything the binding reads for the table and for each player, so names and characters are covered from the day they are in a view or in a further read that the binding carries. A mark on each seat that follows the player's team, a mark that follows the Code, and a mark that always sits on one role's seat are among the deliberate leaks the cases are shown to catch. In the swaps with Alien or Undercover, the players to whom the rules give knowledge of them are left out of the comparison; `VIEW-10` keeps Insider in, and so holds that Insider is not shown which of the three players is which. If they arrive in a separate read, the binding has to be told of it, which is one of the two requests below.
+The seven cases pass, and they watch everything the engine projects for the table and for each player. A mark on each seat that follows the player's team, a mark that follows the Code, and a mark that always sits on one role's seat are among the deliberate leaks the cases are shown to catch. In the swaps with Alien or Undercover, the players to whom the rules give knowledge of them are left out of the comparison; `VIEW-10` keeps Insider in, and so holds that Insider is not shown which of the three players is which.
+
+**Held against the draft of PR #64, by reading only.** The identities are a document of their own, `matches/{matchId}/identities/public`, written by the service and not projected by the engine. So the engine binding cannot read it, and **no paired case watches names or characters**: an earlier version of this part said they would, and that was wrong for the shape Integration chose.
+
+| # | In the draft |
+| --- | --- |
+| 1 | The document holds, for each seat, its number, a name and a character, or neither. It may change in the lobby and is locked in the transaction that starts the match |
+| 2 | A character is refused only because another seat holds it, and claims are taken in the order they arrive. The start passes the engine the setup and the starting rooms and nothing of this document, so the deal cannot read it; and it is locked before any role exists to follow |
+| 3 | The document has no role, team or device in it |
+| 4 | Seats are named by their number in it, and the game's commands are unchanged |
+| 5 | The room choice of V1-01 is unchanged. Which comes first on a screen, the room or the character, is left to the consumer |
+| 6 | The name is public free text of one to twelve characters, under the field name `displayName`. The record validator of the research export refuses that name |
+
+Balance has no objection to it. Two things for whoever adopts it. A name may read like a role, as the decision record says; that is talk and no rule forbids it, and the playtest protocol now has the facilitator note it. And since no case can watch this document, that nothing in it follows a role rests on its construction and on Backend's own tests, which Balance read about and did not run.
 
 Two cautions that Designer put on record for a reviewer and for Balance to weigh. Neither reopens the approval.
 
 - **The rooms' colors include a red, a blue and a violet, which are also the teams' colors.** No rule is touched: a room's color is the same in every match and depends on nothing hidden, so it cannot disclose anything. What it can do is mislead, if a player takes the blue room for Blue's room. That is a question for people at a table, and the playtest protocol now asks it.
 - **A private card can be seen over a shoulder, and the role device is large and carries the team color.** The rules already put secrets on the player's own phone. The risk is physical, and the protocol now has the facilitator record how the table sat and any time a screen was seen.
 
-The rulebook has no row for names and characters yet. It says that each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06), which the approved direction replaces with a character piece. Balance will add the row when Integration has entered the owner's decision in a decision record that the rulebook can cite; the review says how that record is to be made, and it is not Balance's to make.
+The rulebook has no row for names and characters yet. It says that each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06), which the approved direction replaces with a character piece. Integration has now written the decision record that such a row can cite, `docs/decisions/2026-10-07-crew-identity.md` in PR #64. Balance will add the row when that record is on a branch the rulebook's sources are read from; until then a row would cite a file its own checks cannot find.
 
 Designer's proposed catalog, `crew-0.1.0` in PR #59, states the same conditions from its side: a character is chosen before roles are dealt, is tied to no role, team, seat number or starting room, and is fixed when the match starts; a name is text a person typed. Balance read it and found nothing in it that a condition above forbids. One of its rules is new to this list and touches condition 2: a character that another seat holds is refused by the server. That is before any role exists, so it cannot follow one, and the cases will show it if a later change makes it do so.
 

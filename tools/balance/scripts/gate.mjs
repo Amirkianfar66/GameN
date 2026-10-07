@@ -25,6 +25,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ENGINE_COMMIT_BASIS, gateProblems } from '@mothership/balance';
 import { ADAPTER_NAME } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
+import { LEAKS, leakModes } from '../../../tests/scenarios/support/leaks.mjs';
 import { EXCEPTIONS_PATH, SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, V1_RULESET_VERSION, loadAll, loadExceptions } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { V1_MANIFEST_PATH, root, sourceHashes } from './pins.mjs';
@@ -80,6 +81,7 @@ if (catalogue !== null && onDisk !== null) {
     candidateCommit: values['candidate-commit'],
     allowUnpinnedTree: flags['allow-unpinned-tree'],
     adapter: ADAPTER_NAME,
+    leaks: Object.keys(LEAKS).map(name => ({ name, modes: leakModes(name) })),
     rulesetVersion: V1_RULESET_VERSION,
     overlaySha256: V1_OVERLAY_SHA256,
     sourceManifestSha256: SOURCE_MANIFEST_SHA256,
@@ -111,6 +113,7 @@ console.log(`  engine commit: ${pins.engineCommitBasis === ENGINE_COMMIT_BASIS.s
 console.log(`  working tree ${pins.workingTreeCommit}`);
 console.log(`  scenarios: ${catalogue.length} in the catalogue, each reported once; ${count('ready')} ready and passed; ${count('blocked')} blocked and ${count('manual')} manual, as in ${EXCEPTIONS_PATH}`);
 console.log(`  controls: ${controls.join(' + ')} = ${controls.reduce((sum, value) => sum + value, 0)} executed, all detected`);
+console.log(`  deliberate leaks: ${reports.controls.leaks.length} tried, each caught by a comparison with every number of players it names; each of the paired scenarios that claim sameness failed for at least one`);
 console.log(`  playouts: ${reports.playouts.seedsPerMode} per mode, all finished, no invariant violation, hint mismatch or replay mismatch`);
 console.log(manifestAtHand ? '  combined Version 1 manifest: the same in the reports and beside the engine' : '  combined Version 1 manifest: the reports carry it and agree; the engine checkout is not at hand to compare');
 console.log('  A pass says the checks ran completely and found nothing. It says nothing about balance or human play.');

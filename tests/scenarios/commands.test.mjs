@@ -9,9 +9,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { ENGINE_COMMIT_BASIS, controlsFor, hasTwin } from '@mothership/balance';
+import { ENGINE_COMMIT_BASIS, hasTwin } from '@mothership/balance';
 import { engineBuildDigest, engineProvenance, treeState } from '../../tools/balance/scripts/pins.mjs';
-import { LEAKS, leakModes } from './support/disclosing.mjs';
+import { LEAKS, leakModes } from './support/leaks.mjs';
 import { ADAPTER, ENGINE_COMMIT, TREE_COMMIT, catalogue, cleanReports, disk, first, judge, runOf, script, writeReports } from './support/gate-reports.mjs';
 import { OVERLAY_ABSENT, V1_OVERLAY_PATH, loadAll } from './v1/files.mjs';
 
@@ -32,7 +32,7 @@ writeFileSync(join(refusing, 'packages/engine/package.json'), '{ "type": "module
 writeFileSync(join(refusing, 'packages/engine/dist/index.js'), [
   "export const FULL_ENGINE_VERSION = 'stand-in';",
   "export function createFullGame() { throw new Error('stand-in engine refuses every setup'); }",
-  ...['executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame'].map(name => `export function ${name}() { throw new Error('unreachable'); }`),
+  ...['executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame', 'projectOwnAcknowledgments'].map(name => `export function ${name}() { throw new Error('unreachable'); }`),
   '',
 ].join('\n'));
 // A directory with no engine in it. Passing it keeps these tests independent of whichever engine
@@ -42,6 +42,21 @@ mkdirSync(absent);
 
 const ready = loadAll().filter(scenario => scenario.status === 'ready');
 const readyInModes = ready.filter(scenario => scenario.mode !== null).length;
+
+test('an engine missing only the own acknowledgment export is unavailable to every required-engine command', () => {
+  const incomplete = join(work, 'without-own-acknowledgments');
+  mkdirSync(join(incomplete, 'packages/engine/dist'), { recursive: true });
+  writeFileSync(join(incomplete, 'packages/engine/package.json'), '{ "type": "module" }\n');
+  const completeModule = readFileSync(join(refusing, 'packages/engine/dist/index.js'), 'utf8');
+  const incompleteModule = completeModule.replace("export function projectOwnAcknowledgments() { throw new Error('unreachable'); }\n", '');
+  assert.notEqual(incompleteModule, completeModule, 'The regression must remove exactly the new required capability');
+  writeFileSync(join(incomplete, 'packages/engine/dist/index.js'), incompleteModule);
+  for (const name of ['run-scenarios.mjs', 'controls.mjs', 'walk.mjs']) {
+    const result = run(name, '--engine-root', incomplete, '--require-engine');
+    assert.equal(result.status, 2, `${name}: ${result.stdout}${result.stderr}`);
+    assert.match(result.stdout, /projectOwnAcknowledgments missing/);
+  }
+});
 
 test('the controls command fails when its baselines do not pass', () => {
   const out = join(work, 'controls.json');
@@ -485,26 +500,23 @@ test('the evidence of 7 October on the report gate is kept as a record, and its 
   }
 });
 
-// The current evidence: the committed catalogue against the engine of the hosted branch, as the
-// integration review of 7 October read it. That engine does not tell Supplier whom they armed
-// (the review's finding G17), so the fixtures that ask for it fail and the gate is red. These
-// tests require exactly that and nothing else. When an engine makes the disclosure, the reports
-// are produced again and the first test is changed to require a clean pass.
-const CURRENT = {
-  report: 'docs/balance/evidence/2026-10-07-supplier-disclosure.md',
-  real: name => `docs/balance/evidence/2026-10-07-g17-${name}-engine-c885624.json`,
-  standIn: name => `docs/balance/evidence/2026-10-07-g17-${name}-stand-in.json`,
-  engineCommit: 'c8856242caea349b620345349f6b59c7a87b6d7f',
-  v1ManifestSha256: '451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2',
-  playoutsPerMode: 200,
-  // The cases that ask what Supplier is told. Every other ready case passes.
-  needTheDisclosure: ['SUP-11', 'SUP-12', 'SUP-13', 'SUP-14', 'SUP-16', 'SUP-24', 'SUP-25'],
-  stale: 'a scenario file, the exception list, the rulebook or a rule source changed after this evidence was produced, or what the engine tells Supplier did: run the engine gate again and commit a new dated report',
-};
+// Two sets of reports about finding G17 of the integration review of 7 October: that the engine
+// did not tell Supplier whom they armed.
+//
+// The record of the defect: the catalogue against the engine of the hosted branch before the fix,
+// where the fixtures that ask what Supplier is told fail and nothing else does, and the same
+// fixtures through a stand-in that was used until an engine made the disclosure. That stand-in
+// and the binding that could run an engine without the read are gone, so these reports are no
+// longer held to the gate; what is still checked is that they say what the record says they say.
+//
+// The current evidence: the same catalogue against the engine with the fix, through the real read
+// of a seat's own acknowledgments. The gate has to pass, by the same rules as for any candidate.
 const readJson = path => JSON.parse(readFileSync(join(root, path), 'utf8'));
 const codeOf = id => id.replace(/^V1-M\d-/, '');
 const GROUP_LABEL = { 'mode-7': '7 players', 'mode-8': '8 players', 'mode-9': '9 players', unsupported: 'Unsupported configurations' };
-// "`SUP-11` (7, 8, 9)" for a list of fixture identifiers, Supplier's cases first, as the report writes it.
+// The cases that ask what Supplier is told.
+const ASK_WHAT_SUPPLIER_IS_TOLD = ['SUP-11', 'SUP-12', 'SUP-13', 'SUP-14', 'SUP-16', 'SUP-24', 'SUP-25'];
+// "`SUP-11` (7, 8, 9)" for a list of fixture identifiers, Supplier's cases first, as the reports write it.
 const byCode = ids => {
   const modes = new Map();
   for (const id of ids) modes.set(codeOf(id), [...(modes.get(codeOf(id)) ?? []), id.slice(4, 5)]);
@@ -516,138 +528,63 @@ const scenarioRows = report => [
   `| All | ${report.totals.total} | ${report.totals.passed} | ${report.totals.failed} | ${report.totals.blocked} | ${report.totals.notRun} |`,
 ];
 const controlRows = report => [7, 8, 9].map(mode => `| ${mode} players | ${report.modes[mode].scenarios} | ${report.modes[mode].controls} | ${report.modes[mode].detected} | ${report.modes[mode].undetected} |`);
+const playoutRows = report => [7, 8, 9].map(mode => {
+  const walk = report.modes[mode];
+  return `| ${mode} players | ${walk.playouts} | ${walk.completed} | ${walk.phases} | ${walk.commandsAccepted} | ${walk.commandsRejected} | ${walk.invariantViolations} | ${walk.hintMismatches} | ${walk.replayMismatches} |`;
+});
+// One row of the table of leaks: what was told, which cases caught it, and who could tell in the first of them.
+const leakRows = (controls, scenarios) => controls.leaks.map(item => {
+  const who = (id, audience) => (audience === 'public' ? 'the table' : scenarios.find(scenario => scenario.id === id).setup.roleOrder[Number(audience.slice(5)) - 1]);
+  const by = byCode(item.caughtBy.map(caught => caught.scenario)).map(([code, modes]) => `\`${code}\` (${modes.join(', ')})`).join('; ');
+  const first = [...item.caughtBy].sort((one, other) => (one.scenario < other.scenario ? -1 : 1))[0];
+  return `| ${item.meaning} | ${by} | In \`${first.scenario}\`: ${[...new Set(first.couldTell.map(audience => who(first.scenario, audience)))].join(', ')} |`;
+});
 
-test('the current evidence is red for finding G17 and for nothing else, and its report repeats it', () => {
+const DEFECT_RECORD = {
+  report: 'docs/balance/evidence/2026-10-07-supplier-disclosure.md',
+  real: name => `docs/balance/evidence/2026-10-07-g17-${name}-engine-c885624.json`,
+  standIn: name => `docs/balance/evidence/2026-10-07-g17-${name}-stand-in.json`,
+  engineCommit: 'c8856242caea349b620345349f6b59c7a87b6d7f',
+};
+
+test('the record of the defect says that exactly the fixtures about what Supplier is told failed, and its prose repeats its artifacts', () => {
   const names = ['scenarios', 'controls', 'playouts'];
-  const reports = Object.fromEntries(names.map(name => [name, readJson(CURRENT.real(name))]));
-  const waiting = catalogue.filter(scenario => CURRENT.needTheDisclosure.includes(codeOf(scenario.id)));
-  assert.ok(waiting.length > 0 && waiting.every(scenario => scenario.status === 'ready'));
-  // Not a trial: a clean tooling commit, and an engine commit that was read from Git.
-  const problems = judge(reports, { engineCommit: CURRENT.engineCommit, playoutsPerMode: CURRENT.playoutsPerMode, v1Manifest: { sha256: CURRENT.v1ManifestSha256 } });
-
-  // Of the scenarios: exactly the fixtures that ask what Supplier is told, each failing because nothing is.
-  const ofScenarios = problems.filter(problem => problem.startsWith('scenarios: '));
-  assert.deepEqual(ofScenarios.map(problem => problem.match(/^scenarios: (\S+) is ready and was failed: /)?.[1]).sort(), waiting.map(scenario => scenario.id).sort(), CURRENT.stale);
+  const reports = Object.fromEntries(names.map(name => [name, readJson(DEFECT_RECORD.real(name))]));
+  const report = readFileSync(join(root, DEFECT_RECORD.report), 'utf8');
+  const has = row => assert.ok(report.includes(row), `the record lacks: ${row}`);
+  assert.match(report, /^> \*\*A record, not the current evidence\.\*\*/m);
+  // Against the engine before the fix: those fixtures failed because Supplier was told nothing, and no other did.
+  const failed = reports.scenarios.runs.filter(run => run.status === 'failed');
+  assert.deepEqual([...new Set(failed.map(run => codeOf(run.scenarioId)))].sort(), [...ASK_WHAT_SUPPLIER_IS_TOLD].sort());
   const said = message => {
     if (/^view of @Supplier: armedBySupply: expected the set \[.*\], observed "nothing: this engine tells the player nothing about it"$/.test(message)) return 'Whom Supplier armed: "this engine tells the player nothing about it"';
     if (/^the twin run looks exactly the same to: seat-\d$/.test(message)) return 'The twin run looks exactly the same to Supplier';
     return assert.fail(`a failure that is not finding G17: ${message}`);
   };
-  for (const scenario of waiting) {
-    const run = runOf(reports, scenario.id);
-    assert.equal(run.status, 'failed', scenario.id);
-    assert.deepEqual(run.invariantViolations, [], scenario.id);
-    // The one comparison among them names Supplier's own seat, and no other.
-    if (said(run.failure.message).startsWith('The twin run')) assert.equal(run.failure.message.split(': ')[1], `seat-${scenario.setup.roleOrder.indexOf('Supplier') + 1}`, scenario.id);
+  for (const [code, modes] of byCode(failed.map(run => run.scenarioId))) {
+    const one = failed.find(run => codeOf(run.scenarioId) === code);
+    const title = catalogue.find(scenario => scenario.id === one.scenarioId)?.title;
+    // The titles are those of the catalogue of that commit; where a case still has its title, the row is checked whole.
+    if (title !== undefined && report.includes(`| \`${code}\` | ${modes.join(', ')} | ${title} |`)) has(`| \`${code}\` | ${modes.join(', ')} | ${title} | ${said(one.failure.message)} |`);
+    else assert.ok(report.includes(`| \`${code}\` | ${modes.join(', ')} | `), `the record lacks a row for ${code}`);
   }
-  // Of the controls: those fixtures have no controls to try, and nothing else is wrong.
-  const generated = mode => catalogue.filter(scenario => scenario.mode === mode && scenario.status === 'ready').reduce((sum, scenario) => sum + controlsFor(scenario).length, 0);
-  const untried = mode => waiting.filter(scenario => scenario.mode === mode).reduce((sum, scenario) => sum + controlsFor(scenario).length, 0);
-  const ofControls = [
-    "controls: the run's own verdict is failed",
-    `controls: the list of baselines that did not pass has ${waiting.length} entries`,
-    ...[7, 8, 9].flatMap(mode => [
-      `controls: ${mode} players: baselines that did not pass: ${waiting.filter(scenario => scenario.mode === mode).length}`,
-      `controls: ${mode} players: ${generated(mode) - untried(mode)} controls executed, ${generated(mode)} generated from the catalogue`,
-    ]),
-  ];
-  assert.deepEqual(problems.filter(problem => problem.startsWith('controls: ')).sort(), [...ofControls].sort(), CURRENT.stale);
-  assert.deepEqual(problems.filter(problem => !problem.startsWith('controls: ') && !problem.startsWith('scenarios: ')), [], 'a problem of another kind');
-  assert.deepEqual(reports.controls.baselineFailures.map(line => line.split(':')[0]).sort(), waiting.map(scenario => scenario.id).sort());
-  assert.deepEqual(reports.controls.undetected, []);
-  for (const mode of [7, 8, 9]) assert.equal(reports.controls.modes[mode].detected, reports.controls.modes[mode].controls, `${mode} players`);
-  // The playouts do not depend on the catalogue, and found nothing.
-  for (const mode of [7, 8, 9]) {
-    const walk = reports.playouts.modes[mode];
-    assert.deepEqual([walk.playouts, walk.completed, walk.invariantViolations, walk.hintMismatches, walk.replayMismatches], [CURRENT.playoutsPerMode, CURRENT.playoutsPerMode, 0, 0, 0], `${mode} players`);
-    assert.equal('terminal' in walk, false);
-  }
-
-  // The same through the command, as the report tells a reader to do it.
-  const gate = script('gate.mjs', [...names.flatMap(name => [`--${name}`, join(root, CURRENT.real(name))]), '--engine-commit', CURRENT.engineCommit, '--playouts-per-mode', String(CURRENT.playoutsPerMode)]);
-  assert.equal(gate.status, 1, gate.stdout);
-  assert.match(gate.stderr, new RegExp(`^Balance report gate: FAILED, ${problems.length} problems\\.\\n`));
-
-  // The prose repeats the artifacts exactly: no number in it is typed by hand.
-  const report = readFileSync(join(root, CURRENT.report), 'utf8');
-  const has = row => assert.ok(report.includes(row), `the evidence report lacks: ${row}`);
-  for (const line of gate.stderr.trimEnd().split('\n')) has(line);
-  for (const row of [...scenarioRows(reports.scenarios), ...controlRows(reports.controls)]) has(row);
-  for (const mode of [7, 8, 9]) {
-    const walk = reports.playouts.modes[mode];
-    has(`| ${mode} players | ${walk.playouts} | ${walk.completed} | ${walk.phases} | ${walk.commandsAccepted} | ${walk.commandsRejected} | ${walk.invariantViolations} | ${walk.hintMismatches} | ${walk.replayMismatches} |`);
-  }
-  for (const [code, modes] of byCode(waiting.map(scenario => scenario.id))) {
-    const one = waiting.find(scenario => codeOf(scenario.id) === code);
-    has(`| \`${code}\` | ${modes.join(', ')} | ${one.title} | ${said(runOf(reports, one.id).failure.message)} |`);
-  }
+  assert.deepEqual(reports.controls.baselineFailures.map(line => line.split(':')[0]).sort(), failed.map(run => run.scenarioId).sort());
+  assert.equal(reports.controls.verdict, 'failed');
+  for (const row of [...scenarioRows(reports.scenarios), ...controlRows(reports.controls), ...playoutRows(reports.playouts)]) has(row);
+  // Through the stand-in of that commit: every ready fixture passed and every leak was caught.
+  const standIn = { scenarios: readJson(DEFECT_RECORD.standIn('scenarios')), controls: readJson(DEFECT_RECORD.standIn('controls')) };
+  assert.equal(standIn.scenarios.totals.failed, 0);
+  assert.equal(standIn.controls.verdict, 'passed');
+  assert.deepEqual(standIn.controls.unexercised, []);
+  for (const row of [...scenarioRows(standIn.scenarios), ...controlRows(standIn.controls)]) has(row);
+  for (const item of standIn.controls.leaks) for (const mode of item.modes) assert.ok(item.caughtBy.some(caught => caught.scenario.startsWith(`V1-M${mode}-`)), `${item.leak} with ${mode} players`);
+  // All five reports are about one engine, one build and one clean tooling commit, and say which.
   const pins = reports.scenarios.pins;
-  for (const pin of [pins.workingTreeCommit, pins.engineCommit, pins.sourceManifestSha256, pins.v1OverlaySha256, pins.v1ManifestSha256, pins.rulebookSha256, pins.engineBuildSha256, ...Object.values(pins.scenarioFileHashes)]) has(`\`${pin}\``);
-  assert.equal(pins.engineCommit, CURRENT.engineCommit);
-  assert.equal(pins.v1ManifestSha256, CURRENT.v1ManifestSha256);
-});
-
-test('through the stand-in every ready fixture passes and every deliberate leak is caught, and the gate refuses those reports', () => {
-  const real = readJson(CURRENT.real('scenarios'));
-  const scenarios = readJson(CURRENT.standIn('scenarios'));
-  const controls = readJson(CURRENT.standIn('controls'));
-  // The same fixtures, the same tooling commit and the same engine build as the run without the stand-in.
-  for (const report of [scenarios, controls]) {
-    for (const key of ['workingTreeCommit', 'engineCommit', 'engineBuildSha256', 'rulebookSha256', 'scenarioFileHashes', 'ruleSourceHashes']) assert.deepEqual(report.pins[key], real.pins[key], key);
-    assert.equal(report.pins.engine.adapter, `${ADAPTER} with the stand-in supply-disclosure`);
+  for (const one of [...Object.values(reports), ...Object.values(standIn)]) {
+    assert.equal(one.pins.engineCommit, DEFECT_RECORD.engineCommit);
+    assert.equal(one.pins.engineBuildSha256, pins.engineBuildSha256);
+    assert.equal(one.pins.workingTreeCommit, pins.workingTreeCommit);
+    assert.match(one.pins.workingTreeCommit, /^[0-9a-f]{40}$/);
   }
-  assert.deepEqual(scenarios.pins.scenarioFileHashes, disk.scenarioFileHashes, CURRENT.stale);
-  assert.equal(scenarios.pins.rulebookSha256, disk.rulebookSha256, CURRENT.stale);
-
-  // Every ready fixture passes, so the ones that fail against the engine can pass; nothing else moves.
-  for (const scenario of catalogue) {
-    const run = runOf({ scenarios }, scenario.id);
-    assert.equal(run.status, { ready: 'passed', blocked: 'blocked', manual: 'not-run' }[scenario.status], scenario.id);
-    if (!CURRENT.needTheDisclosure.includes(codeOf(scenario.id))) assert.equal(run.status, runOf({ scenarios: real }, scenario.id).status, scenario.id);
-  }
-  assert.equal(scenarios.runs.length, catalogue.length);
-  // Every single-expectation change of every ready fixture is detected.
-  assert.equal(controls.verdict, 'passed');
-  for (const mode of [7, 8, 9]) {
-    const ready = catalogue.filter(scenario => scenario.mode === mode && scenario.status === 'ready');
-    const generated = ready.reduce((sum, scenario) => sum + controlsFor(scenario).length, 0);
-    assert.deepEqual(controls.modes[mode], { scenarios: ready.length, controls: generated, detected: generated, undetected: 0, baselineNotPassing: 0 }, `${mode} players`);
-  }
-  // Every deliberate leak is caught by a comparison, with every number of players it has to be.
-  assert.deepEqual(controls.leaks.map(item => item.leak), Object.keys(LEAKS));
-  for (const item of controls.leaks) {
-    assert.equal(item.meaning, LEAKS[item.leak]);
-    assert.deepEqual(item.modes, leakModes(item.leak), item.leak);
-    for (const mode of item.modes) assert.ok(item.caughtBy.some(caught => caught.scenario.startsWith(`V1-M${mode}-`)), `${item.leak} with ${mode} players`);
-    for (const caught of item.caughtBy) {
-      const scenario = catalogue.find(candidate => candidate.id === caught.scenario);
-      assert.ok(scenario !== undefined && scenario.status === 'ready' && hasTwin(scenario), `${item.leak}: ${caught.scenario}`);
-      assert.ok(caught.couldTell.length > 0 && caught.couldTell.every(audience => audience === 'public' || /^seat-\d$/.test(audience)), `${item.leak}: ${caught.scenario}`);
-    }
-  }
-
-  // And the other way round: every paired fixture that says two runs look the same failed for at least one leak.
-  const paired = catalogue.filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
-  assert.equal(controls.pairedCases, paired.length);
-  assert.deepEqual(controls.unexercised, []);
-  const caughtSomething = new Set(controls.leaks.flatMap(item => item.caughtBy.map(caught => caught.scenario)));
-  const claimsSame = scenario => scenario.steps.some(step => (step.op === 'watch' && 'sameAsTwin' in step) || (step.op === 'assert' && step.checks.some(check => 'sameAsTwin' in check)));
-  for (const scenario of paired.filter(claimsSame)) assert.ok(caughtSomething.has(scenario.id), `${scenario.id} failed for no leak`);
-
-  // None of it is evidence about an engine, and the gate says so.
-  const refused = judge({ scenarios, controls, playouts: readJson(CURRENT.real('playouts')) }, { engineCommit: CURRENT.engineCommit, playoutsPerMode: CURRENT.playoutsPerMode, v1Manifest: { sha256: CURRENT.v1ManifestSha256 } });
-  for (const name of ['scenarios', 'controls']) {
-    assert.ok(refused.includes(`${name}: the run was made through "${ADAPTER} with the stand-in supply-disclosure", not through the engine binding ${ADAPTER} alone`), JSON.stringify(refused.slice(0, 4)));
-  }
-
-  // The prose repeats the artifacts.
-  const report = readFileSync(join(root, CURRENT.report), 'utf8');
-  const has = row => assert.ok(report.includes(row), `the evidence report lacks: ${row}`);
-  for (const row of [...scenarioRows(scenarios), ...controlRows(controls)]) has(row);
-  const who = (id, audience) => (audience === 'public' ? 'the table' : catalogue.find(scenario => scenario.id === id).setup.roleOrder[Number(audience.slice(5)) - 1]);
-  for (const item of controls.leaks) {
-    const by = byCode(item.caughtBy.map(caught => caught.scenario)).map(([code, modes]) => `\`${code}\` (${modes.join(', ')})`).join('; ');
-    const firstCaught = [...item.caughtBy].sort((one, other) => (one.scenario < other.scenario ? -1 : 1))[0];
-    has(`| ${item.meaning} | ${by} | In \`${firstCaught.scenario}\`: ${[...new Set(firstCaught.couldTell.map(audience => who(firstCaught.scenario, audience)))].join(', ')} |`);
-  }
+  for (const pin of [pins.workingTreeCommit, pins.engineCommit, pins.rulebookSha256, pins.engineBuildSha256]) has(`\`${pin}\``);
 });

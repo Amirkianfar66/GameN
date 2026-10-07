@@ -9,7 +9,7 @@ import {
   runScenario, scanInformationBound, startLedger, summarize, summarizeOutcomes, toEvidence, validateMatchRecord, walk, wilson,
 } from '@mothership/balance';
 import { ENGINE_COMMIT_BASIS, audiencesToldApart, exceptionProblems, expectedCode, factionOf, hasTwin, judgeLeak, twinSetup, unexercised, validateScenario } from '@mothership/balance';
-import { LEAKS, leakModes, withSupplyDisclosure } from './support/disclosing.mjs';
+import { LEAKS, leakModes, withLeak } from './support/leaks.mjs';
 import {
   MANIFEST, TREE_COMMIT, allowlist, catalogue, cleanReports, copy, disk, eachIsNamed, everyReport, first, judge, probed, runOf, unprobed,
 } from './support/gate-reports.mjs';
@@ -495,7 +495,7 @@ test('a paired case with a twin Code shows that a fact does not give away the Co
   // Against a binding in which nobody is told the Code, the claim that Alien sees a difference fails.
   assert.equal(runScenario(paired, stubAdapter(), '').failure.message, `the twin run looks exactly the same to: ${seatOf('Alien')}`);
   // A mark on the seats that follows the Code, in a read that everyone has: the table can tell the two runs apart.
-  assert.equal(runScenario(paired, withSupplyDisclosure(knowing(), 'code-mark-to-table'), '').failure.message, 'the twin run does not look the same to: public');
+  assert.equal(runScenario(paired, withLeak(knowing(), 'code-mark-to-table'), '').failure.message, 'the twin run does not look the same to: public');
 
   const issues = (checks, extra = other) => validateScenario(scenario('ready', [compare(...checks)], extra)).join('\n');
   // Alien may be told the two runs apart. Nobody may be asked to see the same who knows the Code.
@@ -625,16 +625,13 @@ test('a paired case is refused unless its difference and its comparison are both
 
 test('whom Supplier armed is read from the engine, and an engine that says nothing is not one that names nobody', () => {
   const armed = [{ op: 'assert', checks: [{ visible: '@Supplier', field: 'armedBySupply', sameSet: [] }] }];
-  // The plain stand-in tells nobody anything about it, like the engine of finding G17.
+  // The scripted engine tells nobody anything about it, like the engine of finding G17.
   const untold = runScenario(scenario('ready', armed), stubAdapter(), '');
   assert.equal(untold.status, 'failed');
   assert.match(untold.failure.message, /armedBySupply: expected the set \[\], observed "nothing: this engine tells the player nothing about it"/);
-  // Through the disclosure stand-in the fact exists: nobody is armed before the Supplier stage.
-  const disclosing = withSupplyDisclosure(stubAdapter());
-  assert.equal(runScenario(scenario('ready', armed), disclosing, '').status, 'passed');
-  assert.match(disclosing.pins.adapter, /^stub with the stand-in supply-disclosure$/);
-  assert.match(withSupplyDisclosure(stubAdapter(), 'armed-list-to-table').pins.adapter, /leaking: armed-list-to-table$/);
-  assert.throws(() => withSupplyDisclosure(stubAdapter(), 'no-such-leak'), /unknown leak/);
+  // Where an engine has the fact, an empty list says that nobody has been armed yet.
+  const telling = { ...stubAdapter(), createMatch(given, id) { const match = stubAdapter().createMatch(given, id); return { ...match, observe() { const seen = match.observe(); for (const view of Object.values(seen.playerViews)) view.knowledge.armedBySupply = []; return seen; } }; } };
+  assert.equal(runScenario(scenario('ready', armed), telling, '').status, 'passed');
   // Only Supplier's own view may name anyone.
   const observation = openingObservation(setup);
   const insider = observation.playerViews[`seat-${setup.roleOrder.indexOf('Insider') + 1}`];
@@ -642,11 +639,12 @@ test('whom Supplier armed is read from the engine, and an engine that says nothi
   assert.ok(checkState(setup, observation, startLedger(observation)).some(item => item.invariant === 'INV-VIEW-02' && /whom Supplier armed is given to a role other than Supplier/.test(item.message)));
 });
 
-test('the disclosure stand-in tells Supplier exactly who gained a weapon when Round 3 resolved, and each leak adds what it says', () => {
+test('each deliberate leak adds what it says beside what the engine lets an audience read, and nothing else', () => {
   // A scripted engine: Round 3, then Round 4 with a weapon more for two players, and after that
   // phases that only pass. It accepts Supplier's choice, a shot and a Code attempt without acting
-  // on them, keeps a receipt for each command, and a test may say whose turn it is, which round
-  // it is, whether a Code attempt has been made, and who has been hurt.
+  // on them, keeps a receipt for each command, has a read of its own beside each view, and a test
+  // may say whose turn it is, which round it is, whether a Code attempt has been made, who has
+  // been hurt and who has been given a Protection.
   const seats = Object.fromEntries(setup.roleOrder.map((role, index) => [role, `seat-${index + 1}`]));
   const scripted = (armedRoles = ['Insider', 'Cracker']) => {
     const turn = { of: null, attempt: null, round: null, hurt: null, shield: null };
@@ -663,7 +661,7 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
             if (turn.attempt !== null) seen.truth = { ...seen.truth, codeSubmitted: true, codeCorrect: turn.attempt };
             if (turn.hurt !== null) seen.truth.seats.find(seat => seat.seat === turn.hurt).health = 'Injured';
             if (turn.shield !== null) seen.truth.seats.find(seat => seat.seat === turn.shield).protection = 'pending';
-            seen.raw = { ...seen.raw, receipts: structuredClone(receipts) };
+            seen.raw = { ...seen.raw, receipts: structuredClone(receipts), also: { players: Object.fromEntries(Object.values(seats).map(seat => [seat, { own: seat }])) } };
             return seen;
           },
           command(actor, command) {
@@ -686,25 +684,17 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
   };
   const read = (leak, named = null, armedRoles = undefined) => {
     const engine = scripted(armedRoles);
-    const match = withSupplyDisclosure(engine, leak).createMatch(setup, 'match');
+    const match = withLeak(engine, leak).createMatch(setup, 'match');
     if (named !== null) assert.equal(match.command(seats.Supplier, { type: 'SUPPLY', targets: named }, 0), 'REGISTERED');
     const before = match.observe();
     assert.equal(match.advance(0), true);
     return { before, after: match.observe(), match, engine };
   };
-  const also = (leak, role, named) => read(leak, named).after.raw.also.players[seats[role]];
-  const { before, after } = read(null);
+  // What a leak tells one player, or the table, in an observation. Undefined where it tells nothing.
+  const toldTo = (seen, role) => seen.raw.also.players[seats[role]].told;
+  const toldAll = seen => seen.raw.also.public?.told;
+  const told = (leak, role, named) => toldTo(read(leak, named).after, role);
   const armed = [seats.Insider, seats.Cracker].sort();
-  for (const seat of Object.values(seats)) {
-    assert.deepEqual(before.playerViews[seat].knowledge.armedBySupply, []);
-    assert.deepEqual([...after.playerViews[seat].knowledge.armedBySupply].sort(), seat === seats.Supplier ? armed : []);
-  }
-  assert.deepEqual([...after.raw.also.players[seats.Supplier].armed].sort(), armed);
-  assert.deepEqual(after.raw.also.players[seats.Insider], { armed: [], received: true });
-  assert.deepEqual(after.raw.also.players[seats.Hacker], { armed: [], received: false });
-  assert.equal(after.raw.also.public, undefined);
-  // The list keeps the order in which Supplier named them, so that a fault which depends on the order can be made.
-  assert.deepEqual(also(null, 'Supplier', [seats.Cracker, seats.Insider]).armed, [seats.Cracker, seats.Insider]);
 
   assert.deepEqual(Object.keys(LEAKS), [
     'supplier-seat-to-recipient', 'supplier-seat-to-recipient-on-their-turn', 'other-recipient-to-recipient', 'first-recipient-to-second',
@@ -714,88 +704,98 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
     'armed-mark-when-hurt-to-table', 'registered-count-at-vote-to-table', 'alien-seat-mark-to-table', 'supplier-seat-mark-to-table', 'code-verdict-to-alien-next-phase', 'code-attempted-to-table-next-phase',
     'code-verdict-in-receipt', 'recipient-teams-in-receipt', 'protected-to-recipient-next-phase', 'scanned-to-target-next-phase',
   ]);
+  // A leak has to be named, and a run through it says so where the binding is named.
+  assert.throws(() => withLeak(stubAdapter(), 'no-such-leak'), /unknown leak/);
+  assert.throws(() => withLeak(stubAdapter(), null), /unknown leak/);
+  assert.equal(withLeak(stubAdapter(), 'armed-list-to-table').pins.adapter, 'stub, leaking: armed-list-to-table');
+
+  // What the engine lets a player read stays whole: beside it for a player who is told, untouched for one who is not.
+  const whole = read('supplier-seat-to-recipient').after.raw.also;
+  assert.deepEqual(whole.players[seats.Insider], { read: { own: seats.Insider }, told: { from: seats.Supplier } });
+  assert.deepEqual(whole.players[seats.Hacker], { own: seats.Hacker });
+  assert.equal(whole.public, undefined);
+  assert.deepEqual(read('supplier-seat-to-recipient').before.raw.also.players[seats.Insider], { own: seats.Insider }, 'nothing before the weapons are given');
+
   // A recipient told who armed them: at once, or only once their own turn has come.
-  assert.equal(also('supplier-seat-to-recipient', 'Insider').from, seats.Supplier);
+  assert.equal(told('supplier-seat-to-recipient', 'Insider').from, seats.Supplier);
   const delayed = read('supplier-seat-to-recipient-on-their-turn');
-  assert.deepEqual(delayed.after.raw.also.players[seats.Insider], { armed: [], received: true });
+  assert.equal(toldTo(delayed.after, 'Insider'), undefined);
   delayed.engine.turn.of = seats.Insider;
-  const onTheirTurn = delayed.match.observe().raw.also.players;
-  assert.equal(onTheirTurn[seats.Insider].from, seats.Supplier);
-  assert.deepEqual(onTheirTurn[seats.Cracker], { armed: [], received: true }, 'the other recipient has not had a turn yet');
+  assert.equal(toldTo(delayed.match.observe(), 'Insider').from, seats.Supplier);
+  assert.equal(toldTo(delayed.match.observe(), 'Cracker'), undefined, 'the other recipient has not had a turn yet');
   // A recipient told about the other one: both of them, or only the one named second.
-  assert.deepEqual(also('other-recipient-to-recipient', 'Insider').alsoArmed, [seats.Cracker]);
-  assert.equal(also('first-recipient-to-second', 'Insider', [seats.Cracker, seats.Insider]).before, seats.Cracker);
-  assert.deepEqual(also('first-recipient-to-second', 'Cracker', [seats.Cracker, seats.Insider]), { armed: [], received: true });
+  assert.deepEqual(told('other-recipient-to-recipient', 'Insider').alsoArmed, [seats.Cracker]);
+  assert.equal(told('first-recipient-to-second', 'Insider', [seats.Cracker, seats.Insider]).before, seats.Cracker);
+  assert.equal(told('first-recipient-to-second', 'Cracker', [seats.Cracker, seats.Insider]), undefined);
   // The table shown the list, or only how many.
-  assert.deepEqual([...read('armed-list-to-table').after.raw.also.public.armed].sort(), armed);
-  assert.deepEqual(read('weapons-given-count-to-table').after.raw.also.public, { given: 2 });
-  assert.deepEqual(read('weapons-given-count-to-table').before.raw.also.public, { given: 0 });
+  assert.deepEqual([...toldAll(read('armed-list-to-table').after).armed].sort(), armed);
+  assert.deepEqual(read('weapons-given-count-to-table').after.raw.also.public, { read: null, told: { given: 2 } });
+  assert.deepEqual(toldAll(read('weapons-given-count-to-table').before), { given: 0 });
   // Supplier told about the players they armed. Both are Blue here and neither is an Officer.
-  assert.deepEqual(also('recipient-team-to-supplier', 'Supplier').marks, ['a', 'a']);
-  assert.deepEqual(also('usable-to-supplier', 'Supplier').usable, [true, true]);
+  assert.deepEqual(told('recipient-team-to-supplier', 'Supplier').marks, ['a', 'a']);
+  assert.deepEqual(told('usable-to-supplier', 'Supplier').usable, [true, true]);
   // A mark that follows the team: on every seat for the table, or the other Red players for a Red player.
   const marks = Object.fromEntries(setup.roleOrder.map(role => [seats[role], { Blue: 'a', Red: 'b', Alien: 'c' }[factionOf(role)]]));
-  assert.deepEqual(read('team-to-table').after.raw.also.public, { marks });
-  assert.deepEqual(also('red-team-mates-to-red', 'Hacker').allies, [seats.Undercover]);
-  assert.deepEqual(also('red-team-mates-to-red', 'Undercover').allies, [seats.Hacker]);
+  assert.deepEqual(toldAll(read('team-to-table').after), { marks });
+  assert.deepEqual(told('red-team-mates-to-red', 'Hacker').allies, [seats.Undercover]);
+  assert.deepEqual(told('red-team-mates-to-red', 'Undercover').allies, [seats.Hacker]);
   // A mark that follows the Code, for the table. A verdict on a Code attempt, for Hacker and only once there is an attempt.
   const code = expectedCode(setup);
-  assert.deepEqual(read('code-mark-to-table').after.raw.also.public, { marks: Object.fromEntries(Object.values(seats).map(seat => [seat, code.includes(seat) ? 'a' : 'b'])) });
+  assert.deepEqual(toldAll(read('code-mark-to-table').after), { marks: Object.fromEntries(Object.values(seats).map(seat => [seat, code.includes(seat) ? 'a' : 'b'])) });
   const attempt = read('code-verdict-to-hacker');
-  assert.deepEqual(attempt.after.raw.also.players[seats.Hacker], { armed: [], received: false });
+  assert.equal(toldTo(attempt.after, 'Hacker'), undefined);
   attempt.engine.turn.attempt = true;
-  assert.equal(attempt.match.observe().raw.also.players[seats.Hacker].attempt, 'a');
+  assert.equal(toldTo(attempt.match.observe(), 'Hacker').attempt, 'a');
   attempt.engine.turn.attempt = false;
-  assert.equal(attempt.match.observe().raw.also.players[seats.Hacker].attempt, 'b');
-  assert.deepEqual(attempt.match.observe().raw.also.players[seats.Undercover], { armed: [], received: false });
-  // The further leaks, each of which passed every paired case as the cases first stood.
+  assert.equal(toldTo(attempt.match.observe(), 'Hacker').attempt, 'b');
+  assert.equal(toldTo(attempt.match.observe(), 'Undercover'), undefined);
   // Supplier told about the players they armed: what they then held, and who has fired, a phase after the shot.
-  assert.deepEqual(also('weapons-held-to-supplier', 'Supplier').held, [1, 1]);
+  assert.deepEqual(told('weapons-held-to-supplier', 'Supplier').held, [1, 1]);
   const shot = read('fired-to-supplier');
   assert.equal(shot.match.command(seats.Insider, { type: 'REGISTER_SHOT', target: seats.Hacker }, 0), 'REGISTERED');
-  assert.deepEqual(shot.match.observe().raw.also.players[seats.Supplier].fired, [], 'not in the phase of the shot');
+  assert.deepEqual(toldTo(shot.match.observe(), 'Supplier').fired, [], 'not in the phase of the shot');
   assert.equal(shot.match.advance(0), true);
-  assert.deepEqual(shot.match.observe().raw.also.players[seats.Supplier].fired, [seats.Insider]);
+  assert.deepEqual(toldTo(shot.match.observe(), 'Supplier').fired, [seats.Insider]);
   // A recipient told who armed them at other moments, or only when not Blue.
   const onFiring = read('supplier-seat-to-recipient-when-they-fire');
-  assert.deepEqual(onFiring.after.raw.also.players[seats.Insider], { armed: [], received: true });
+  assert.equal(toldTo(onFiring.after, 'Insider'), undefined);
   onFiring.match.command(seats.Insider, { type: 'REGISTER_SHOT', target: seats.Hacker }, 0);
-  assert.equal(onFiring.match.observe().raw.also.players[seats.Insider].from, seats.Supplier);
-  assert.equal(onFiring.match.observe().raw.also.players[seats.Cracker].from, undefined);
+  assert.equal(toldTo(onFiring.match.observe(), 'Insider').from, seats.Supplier);
+  assert.equal(toldTo(onFiring.match.observe(), 'Cracker'), undefined);
   const inRound5 = read('supplier-seat-to-recipient-in-round-5');
   inRound5.engine.turn.of = seats.Insider;
-  assert.equal(inRound5.match.observe().raw.also.players[seats.Insider].from, undefined, 'a Round 4 turn is not yet it');
+  assert.equal(toldTo(inRound5.match.observe(), 'Insider'), undefined, 'a Round 4 turn is not yet it');
   inRound5.engine.turn.round = 5;
-  assert.equal(inRound5.match.observe().raw.also.players[seats.Insider].from, seats.Supplier);
-  assert.deepEqual(also('supplier-seat-to-recipient-not-blue', 'Insider'), { armed: [], received: true });
-  assert.equal(read('supplier-seat-to-recipient-not-blue', null, ['Hacker', 'Cracker']).after.raw.also.players[seats.Hacker].from, seats.Supplier);
-  // The table shown something: a mark on an armed player who is hurt, a count of actions during a vote, a mark on Alien's seat.
+  assert.equal(toldTo(inRound5.match.observe(), 'Insider').from, seats.Supplier);
+  assert.equal(told('supplier-seat-to-recipient-not-blue', 'Insider'), undefined);
+  assert.equal(toldTo(read('supplier-seat-to-recipient-not-blue', null, ['Hacker', 'Cracker']).after, 'Hacker').from, seats.Supplier);
+  // The table shown something: a mark on an armed player who is hurt, a count of actions during a vote, a mark on one role's seat.
   const hurt = read('armed-mark-when-hurt-to-table');
-  assert.deepEqual(hurt.after.raw.also.public, { marked: [] });
+  assert.deepEqual(toldAll(hurt.after), { marked: [] });
   hurt.engine.turn.hurt = seats.Cracker;
-  assert.deepEqual(hurt.match.observe().raw.also.public, { marked: [seats.Cracker] });
+  assert.deepEqual(toldAll(hurt.match.observe()), { marked: [seats.Cracker] });
   hurt.engine.turn.hurt = seats.Hacker;
-  assert.deepEqual(hurt.match.observe().raw.also.public, { marked: [] }, 'a player who was not armed is not marked');
+  assert.deepEqual(toldAll(hurt.match.observe()), { marked: [] }, 'a player who was not armed is not marked');
   const counted = read('registered-count-at-vote-to-table', [seats.Insider, seats.Cracker]);
-  assert.deepEqual(counted.before.raw.also.public, { registered: null }, 'not outside a vote');
-  assert.deepEqual(counted.after.raw.also.public, { registered: 0 }, 'the count is of the round, and Round 4 has had none');
+  assert.deepEqual(toldAll(counted.before), { registered: null }, 'not outside a vote');
+  assert.deepEqual(toldAll(counted.after), { registered: 0 }, 'the count is of the round, and Round 4 has had none');
   counted.match.command(seats.Insider, { type: 'REGISTER_SHOT', target: seats.Hacker }, 0);
-  assert.deepEqual(counted.match.observe().raw.also.public, { registered: 1 });
-  assert.deepEqual(read('alien-seat-mark-to-table').after.raw.also.public, { marked: seats.Alien });
-  assert.deepEqual(read('supplier-seat-mark-to-table').after.raw.also.public, { marked: seats.Supplier });
+  assert.deepEqual(toldAll(counted.match.observe()), { registered: 1 });
+  assert.deepEqual(toldAll(read('alien-seat-mark-to-table').after), { marked: seats.Alien });
+  assert.deepEqual(toldAll(read('supplier-seat-mark-to-table').after), { marked: seats.Supplier });
   // A Scan or a Protection shown to the player it concerns, from the phase after it.
   const looked = read('scanned-to-target-next-phase');
   assert.equal(looked.match.command(seats.Hacker, { type: 'SCAN', target: seats.Insider, guess: 'Blue' }, 0), 'NOT_ALLOWED');
   assert.equal(looked.match.advance(0), true);
-  assert.equal(looked.match.observe().raw.also.players[seats.Insider].looked, undefined, 'a refused Scan scans nobody');
+  assert.equal(toldTo(looked.match.observe(), 'Insider'), undefined, 'a refused Scan scans nobody');
   const shielded = read('protected-to-recipient-next-phase');
   shielded.engine.turn.shield = seats.Cracker;
-  assert.equal(shielded.match.observe().raw.also.players[seats.Cracker].shielded, undefined, 'not in the phase of the grant');
+  assert.equal(toldTo(shielded.match.observe(), 'Cracker'), undefined, 'not in the phase of the grant');
   assert.equal(shielded.match.advance(0), true);
-  assert.equal(shielded.match.observe().raw.also.players[seats.Cracker].shielded, true);
-  assert.equal(shielded.match.observe().raw.also.players[seats.Insider].shielded, undefined);
+  assert.deepEqual(toldTo(shielded.match.observe(), 'Cracker'), { shielded: true });
+  assert.equal(toldTo(shielded.match.observe(), 'Insider'), undefined);
   // A Code attempt shown a phase later: its verdict to Alien, and that it was made to the table.
-  for (const [leak, where, shown] of [['code-verdict-to-alien-next-phase', after => after.raw.also.players[seats.Alien].attempt, 'b'], ['code-attempted-to-table-next-phase', after => after.raw.also.public.attempted, true]]) {
+  for (const [leak, where, shown] of [['code-verdict-to-alien-next-phase', seen => toldTo(seen, 'Alien')?.attempt, 'b'], ['code-attempted-to-table-next-phase', seen => toldAll(seen).attempted, true]]) {
     const later = read(leak);
     later.engine.turn.attempt = false;
     assert.ok([undefined, false].includes(where(later.match.observe())), `${leak}: not in the phase of the attempt`);
@@ -808,12 +808,12 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
   verdict.match.command(seats.Hacker, { type: 'SUBMIT_CODE', seats: code }, 0);
   assert.deepEqual(verdict.match.observe().raw.receipts[seats.Hacker], [{ outcome: 'REGISTERED', mark: 'a' }]);
   assert.deepEqual(read('recipient-teams-in-receipt', [seats.Hacker, seats.Cracker]).after.raw.receipts[seats.Supplier], [{ outcome: 'REGISTERED', marks: ['b', 'a'] }]);
-  // Without a leak a receipt is what the engine returned, and a refused command has one too.
-  const plain = read(null, [seats.Insider, seats.Cracker]);
+  // Under any other leak a receipt is what the engine returned, and a refused command has one too.
+  const plain = read('armed-list-to-table', [seats.Insider, seats.Cracker]);
   assert.equal(plain.match.command(seats.Insider, { type: 'MOVE', destination: 'Room B' }, 0), 'NOT_ALLOWED');
   assert.deepEqual(plain.match.observe().raw.receipts, { [seats.Supplier]: [{ outcome: 'REGISTERED' }], [seats.Insider]: [{ outcome: 'NOT_ALLOWED' }] });
   // No leak tells anything to a Blue player who was not armed and is not Supplier.
-  for (const leak of Object.keys(LEAKS)) assert.deepEqual(also(leak, 'Blue Disabler'), { armed: [], received: false }, leak);
+  for (const leak of Object.keys(LEAKS)) assert.deepEqual(read(leak).after.raw.also.players[seats['Blue Disabler']], { own: seats['Blue Disabler'] }, leak);
   // Every leak has to be caught with every number of players, except the one that needs an Officer.
   for (const leak of Object.keys(LEAKS)) assert.deepEqual(leakModes(leak), leak === 'usable-to-supplier' ? [9] : [7, 8, 9], leak);
 });
@@ -967,6 +967,14 @@ test('one wrong thing in the controls or playout report fails the gate and is na
     ['something else where a list belongs', reports => { reports.controls.undetected = { 0: 'V1-M7-SETUP-01 step 1' }; }, /the list of controls that were not detected is missing/],
     ['no list of failing baselines', reports => { reports.controls.baselineFailures = 'none'; }, /the list of baselines that did not pass is missing/],
     ['a mode without controls', reports => { delete reports.controls.modes[9]; }, /controls: no result for 9 players/],
+    // The deliberate leaks: all of them tried, each caught with every number of players, and no paired scenario left unexercised.
+    ['a controls run without the deliberate leaks', reports => { delete reports.controls.leaks; }, /controls: the deliberate leaks were not tried/],
+    ['a leak that was not tried', reports => { reports.controls.leaks.pop(); }, /controls: the deliberate leaks tried are not the \d+ that this tooling knows/],
+    ['a leak nobody caught with eight players', reports => { const leak = reports.controls.leaks[0]; leak.caughtBy = leak.caughtBy.filter(item => !item.scenario.startsWith('V1-M8-')); }, /controls: the leak "supplier-seat-to-recipient" was caught by no paired scenario with 8 players/],
+    ['a leak caught by something that is no paired scenario', reports => { reports.controls.leaks[0].caughtBy.push({ scenario: 'V1-M7-SETUP-01', couldTell: ['public'] }); }, /is said to be caught by V1-M7-SETUP-01, which is not a paired ready scenario/],
+    ['a paired scenario that failed for no leak', reports => { for (const leak of reports.controls.leaks) leak.caughtBy = leak.caughtBy.filter(item => item.scenario !== 'V1-M7-SUP-21'); }, /controls: no deliberate leak made V1-M7-SUP-21 fail/],
+    ['a run that lists an unexercised scenario', reports => { reports.controls.unexercised = ['V1-M7-SUP-21']; }, /the list of paired scenarios that failed for no leak is missing or not empty/],
+    ['another number of paired scenarios', reports => { reports.controls.pairedCases -= 1; }, /controls: \d+ paired scenarios reported, \d+ in the catalogue/],
     ['another number of playouts asked for', reports => { reports.playouts.seedsPerMode = 5; }, /5 playouts per mode were asked for, 10 are required/],
     ['fewer playouts than required', reports => { reports.playouts.modes[7].playouts = 9; reports.playouts.modes[7].completed = 9; }, /7 players: 9 playouts executed, 10 required/],
     ['a playout that did not finish', reports => { reports.playouts.modes[8].completed = 9; }, /8 players: 9 of 10 playouts finished/],
@@ -996,8 +1004,8 @@ test('reports about another engine, other files or an unpinned tree fail the gat
     ['no Git provenance', reports => { everyReport(reports, report => { report.pins.workingTreeCommit = 'unknown'; }); }, /the working tree is not a clean commit \(unknown\)/],
     ['reports from two trees', reports => { reports.playouts.pins.workingTreeCommit = 'c'.repeat(40); }, /playouts: not the same working tree as the scenario report/],
     ['reports about two engines', reports => { reports.controls.pins.engine.engineVersion = 'another'; }, /controls: not the same engine as the scenario report/],
-    // A run through a stand-in says so where the adapter is named, and is not evidence about an engine.
-    ['a run made through a stand-in', reports => { everyReport(reports, report => { report.pins.engine.adapter = withSupplyDisclosure(stubAdapter()).pins.adapter.replace('stub', 'full-game-v1'); }); }, /the run was made through "full-game-v1 with the stand-in supply-disclosure", not through the engine binding full-game-v1 alone/],
+    // A run through a leaking binding says so where the binding is named, and is not evidence about an engine.
+    ['a run made through a leaking binding', reports => { everyReport(reports, report => { report.pins.engine.adapter = withLeak(stubAdapter(), 'armed-list-to-table').pins.adapter.replace('stub', 'full-game-v1'); }); }, /the run was made through "full-game-v1, leaking: armed-list-to-table", not through the engine binding full-game-v1 alone/],
     ['reports about two builds of the engine', reports => { reports.playouts.pins.engineBuildSha256 = 'f'.repeat(64); }, /playouts: not the same engine build as the scenario report/],
     ['a report that does not say which build it ran', reports => { everyReport(reports, report => { report.pins.engineBuildSha256 = null; }); }, /the built engine modules were not found/],
     ['a report without pins', reports => { delete reports.playouts.pins; }, /playouts: the report carries no pins/],
