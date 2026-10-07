@@ -3,8 +3,9 @@
 The owner requested publication on 7 October 2026. This branch prepares a hosted client
 from Frontend's full-match commit `4b6dc327104f099051a71bb9e71adbf71390a2a5`. It is a
 separate integration proposal: the existing worktrees, local emulator entry, rules,
-contracts and historical Canvas are unchanged. No project or cloud resource has been
-created and nothing has been deployed.
+contracts and historical Canvas are unchanged. Firebase project
+`gamen-mothership-staging` was created on 7 October 2026 for this preview. The
+application has not been deployed.
 
 ## What is ready locally
 
@@ -24,9 +25,13 @@ The SDK manages credentials; custom persistence remains limited to nonsecret con
 reconciliation identifiers. No role, target, view or recovery token is added to storage.
 
 The existing client treats a Firestore permission denial as refused access. On a hosted
-project that answer can also indicate App Check failure (Frontend G23). This preview
-fails closed, but a session may require reload after transient attestation failure.
-Actual attestation and refusal/recovery behavior must be checked on the chosen project.
+project that answer can also indicate App Check failure (Frontend G23). The refusal path
+clears unresolved command identifiers, so reloading alone is not a sufficient recovery
+guarantee. Before publication, ambiguous denial must hide private data while preserving
+nonsecret reconciliation identifiers; confirmed seat revocation must remain denied.
+Backend review in [PR #55](https://github.com/Amirkianfar66/GameN/pull/55) also found that
+the generated CSP omits the SDK App Check exchange host,
+`content-firebaseappcheck.googleapis.com`. Both findings remain publication blockers.
 
 `scripts/prepare-hosted-preview.mjs` creates the static bundle, public configuration,
 hash manifest and exact-site Hosting configuration. Its source boundary rejects the
@@ -97,9 +102,15 @@ browser evidence belongs to the local emulator client at the pinned Frontend com
 
 ## Remaining publication inputs and checks
 
-The configured repository target is `demo-mothership`, which is emulator-only. The
-three already signed-in Firebase accounts have no GameN/Mothership project. The owner's
-choice of project/account is pending; do not substitute a Limenet or Project A project.
+The emulator default remains `demo-mothership`. The owner selected a separate personal
+account and authorized creation of **Mothership V1 Staging**, project ID
+`gamen-mothership-staging`, project number `742846764120`. Fresh Firebase and IAM
+readbacks on 7 October 2026 confirmed the project is `ACTIVE` and the selected account
+has `roles/owner`. Cloud Billing returned `billingEnabled: false`. No billing account
+has been linked and no application deployment has occurred. Use explicit project flags
+for subsequent cloud operations; do not replace the emulator default.
+
+[Open the staging Firebase project](https://console.firebase.google.com/project/gamen-mothership-staging/overview).
 
 A real preview needs the selected Firebase project, its web app, anonymous Auth,
 Firestore Rules/indexes, App Check registration, and the packaged Functions/Tasks setup.
