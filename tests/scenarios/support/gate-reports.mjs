@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ENGINE_COMMIT_BASIS, controlsFor, gateProblems } from '@mothership/balance';
 import { sourceHashes } from '../../../tools/balance/scripts/pins.mjs';
+import { ADAPTER_NAME } from '../adapters/full-game-v1.mjs';
 import { SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, V1_RULESET_VERSION, loadAll, loadExceptions } from '../v1/files.mjs';
 
 export const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -15,6 +16,8 @@ export const catalogue = loadAll();
 export const allowlist = loadExceptions();
 export const disk = sourceHashes();
 export const ENGINE_COMMIT = 'a'.repeat(40);
+// The reports written here say they came through the real binding, as a real run's do.
+export const ADAPTER = ADAPTER_NAME;
 export const TREE_COMMIT = 'b'.repeat(40);
 // The combined manifest belongs to the engine. Where this checkout has none, the reports written
 // here name one of their own, as reports made against an engine elsewhere would.
@@ -27,7 +30,7 @@ export function cleanReports(playouts = 10) {
   const pins = () => copy({
     ...disk, v1OverlaySha256: V1_OVERLAY_SHA256, v1ManifestSha256: MANIFEST, workingTreeCommit: TREE_COMMIT,
     engineCommit: ENGINE_COMMIT, engineCommitBasis: ENGINE_COMMIT_BASIS.there, engineTreeClean: true, engineBuildSha256: 'e'.repeat(64),
-    engine: { adapter: 'written-by-the-test', engineVersion: 'none', rulesetVersion: V1_RULESET_VERSION, rulesetHash: V1_OVERLAY_SHA256, protocolVersion: 2 },
+    engine: { adapter: ADAPTER, engineVersion: 'none', rulesetVersion: V1_RULESET_VERSION, rulesetHash: V1_OVERLAY_SHA256, protocolVersion: 2 },
   });
   const runs = catalogue.map(scenario => {
     const head = { scenarioId: scenario.id, group: scenario.group, mode: scenario.mode, decisionIds: scenario.decisionIds, failure: null, invariantViolations: [], probes: [] };
@@ -59,7 +62,7 @@ export function cleanReports(playouts = 10) {
 
 export const expectations = (changes = {}) => ({
   engineCommit: ENGINE_COMMIT, playoutsPerMode: 10, candidateCommit: null, allowUnpinnedTree: false,
-  rulesetVersion: V1_RULESET_VERSION, overlaySha256: V1_OVERLAY_SHA256, sourceManifestSha256: SOURCE_MANIFEST_SHA256,
+  adapter: ADAPTER, rulesetVersion: V1_RULESET_VERSION, overlaySha256: V1_OVERLAY_SHA256, sourceManifestSha256: SOURCE_MANIFEST_SHA256,
   // As the command does it: the manifest is compared with the file where this checkout has one.
   v1Manifest: disk.v1ManifestSha256 === null ? null : { sha256: disk.v1ManifestSha256 }, scenarioFileHashes: disk.scenarioFileHashes,
   ruleSourceHashes: disk.ruleSourceHashes, rulebookSha256: disk.rulebookSha256, ...changes,

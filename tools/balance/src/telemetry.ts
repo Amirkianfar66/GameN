@@ -19,6 +19,8 @@ export const VICTORY_CAUSES = ['blue-elimination', 'blue-power', 'red-eliminatio
 export const FORBIDDEN_KEYS = [
   'hackContent', 'hackQuestion', 'hackAnswer', 'hackTranscript', 'transcript', 'audio', 'video',
   'realName', 'fullName', 'email', 'phone', 'address', 'uid', 'authUid', 'ipAddress', 'deviceId',
+  // The name a player types in the lobby is free text from a person, whatever a contract calls it.
+  'displayName', 'playerName', 'nickname',
 ] as const;
 
 type Json = Record<string, unknown>;

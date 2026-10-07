@@ -2,7 +2,7 @@
 
 **Reviewer:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)), Claude Code, model `claude-opus-5-5`.
 **For:** Codex Astra, Backend and Integration (INT-003, issues #2 and #13).
-**Date:** 6 October 2026. Re-reviewed the same day, after the integration review, against the newer Backend and Frontend documents (Part C).
+**Date:** 6 October 2026. Re-reviewed the same day, after the integration review, against the newer Backend and Frontend documents (Part C). Extended on 7 October 2026, after the next integration review, with the conditions for two contracts that are still to be written (Part D).
 
 **Status: reviewed and re-reviewed. Balance requires no change to a shared contract. From the rules and disclosure side it has no objection to protocol 2 as it stands and as its handoff documents it. This is not an adoption approval: adoption is the integration owner's decision.** Two requests stay with Integration (BAL-C02 and BAL-C13). Nine open rule edges are the owner's, and none of them is an engine defect. Everything else is recorded for information. Nothing here changes a shared file. The matching requests are in [integration-requests.md](integration-requests.md).
 
@@ -13,6 +13,7 @@ Three things were reviewed, against the rulebook in [game-rules.md](game-rules.m
 | A | `packages/contracts/src/{protocol,views,presentation,fixtures}.ts`: wire protocol 1 and the Officer and Protection fixture | `BASE_SHA` `333c9e820f362a211352bc689372663f29b73ac4` |
 | B | `packages/contracts/src/full-game.ts` (wire protocol 2) and `packages/engine/src/full-game/` | Draft PR [#16](https://github.com/Amirkianfar66/GameN/pull/16), commit `8d4a2e5dc47eb827dbcbfd8382755db2fa3b0bde`, unmerged |
 | C | Backend's `contract-refinements-proposal.md`, `protocol2-client-handoff.md`, `contract-review-response.md`, `v1-decision-register.md`, `v1-rule-decisions-proposal.md` and `v1-implementation.md`; Frontend's `contract-re-review.md`, `protocol2-adoption-assessment.md` and `connected-v1.md` | The candidates of the integration review: `5adaf98f8412e2294f45e00f8fb7c4c515127226` (PR [#28](https://github.com/Amirkianfar66/GameN/pull/28)) and `8b97180038a37b798fbef345272a32e42c0d0853` (PR [#29](https://github.com/Amirkianfar66/GameN/pull/29)). The engine source, the contracts and the rule files are identical to `8d4a2e5` in both |
+| D | The two contracts the integration review of 7 October asks for: Supplier's private result, and names and characters in the lobby | Backend's handoff at `a265c39` (PR [#55](https://github.com/Amirkianfar66/GameN/pull/55)), the hosted branch at `c8856242` (PR [#53](https://github.com/Amirkianfar66/GameN/pull/53)) and Designer's record at `4fa2ff3` (PR [#57](https://github.com/Amirkianfar66/GameN/pull/57)) |
 
 Part B was requested by PR #16 ("Frontend and Game Balance review protocol/rule adoption"). It was reviewed in a throwaway copy of that commit made with `git archive`; no worktree or branch was touched. Findings about a draft may be out of date once the draft changes.
 
@@ -20,7 +21,7 @@ Part B was requested by PR #16 ("Frontend and Game Balance review protocol/rule 
 
 The draft is careful about secrecy. No disclosure defect was found in either part, and every decided rule that the scenarios exercise is implemented as the rulebook states it. The evidence is in [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md).
 
-What needs attention is at the edges of what has been decided. V1-01 to V1-21 are approved and are not reopened here. Nine questions lie outside them: no approved source answers them. For seven the build already behaves one way (D11, D12, D16, D17, D20, D34 and D35); the other two are conduct at the table (D18 and D19). They are open rule edges for the owner, consolidated in [the audit](rules-audit-v1.md#open-rule-edges-consolidated). Sixteen further points are readings of the approved sources that the rulebook states and the engine implements. No decision is asked for those.
+What needs attention is at the edges of what has been decided. V1-01 to V1-21 are approved and are not reopened here. Nine questions lie outside them: no approved source answers them. For seven the build already behaves one way (D11, D12, D16, D17, D20, D34 and D35); the other two are conduct at the table (D18 and D19). They are open rule edges for the owner, consolidated in [the audit](rules-audit-v1.md#open-rule-edges-consolidated). Sixteen further points are readings of the approved sources that the rulebook states and the engine implements. No decision is asked for those. A seventeenth reading, D39, was added on 7 October with the finding that the engine tells Supplier nothing about the weapons they gave: Part D.
 
 | ID | Topic | Kind | Needed by |
 | --- | --- | --- | --- |
@@ -277,6 +278,69 @@ Nothing in the handoff, in the refinement proposal or in Frontend's three docume
 ### The two registers
 
 Backend's `v1-decision-register.md` records RULE-001 to RULE-009 as confirmed by V1-01 to V1-21 and leaves RULE-010, Original Powers, for a later audit. Balance's register agrees row for row: D01 to D09 are resolved by the same decisions and D10 is deferred as outside Version 1. The crosswalk is in [the audit](rules-audit-v1.md#crosswalk-to-the-integration-register). Backend's register has no row for the nine open rule edges; request BAL-REQ-3 asks for them to be carried there or linked.
+
+## Part D: the two contracts now being prepared
+
+The integration review of 7 October names two shared contracts that are still to be written, each "with Frontend and Balance review": a private result for Supplier, which its finding G17 requires, and public names and characters for the lobby, which the comic-board direction approved by the owner needs. Neither exists yet. This part states, before they are designed, what the rules require of each and which case checks it, so that the conditions are known in advance and not found in review. It asks for no particular shape: the shape is Integration's.
+
+### What was read and run
+
+- The review itself, `docs/reviews/2026-10-07-all-agents.md` in the coordinator's checkout.
+- Backend's handoff of 7 October, `docs/backend/v1-adoption-and-acceptance-2026-10-07.md` at `a265c39ba81be4805900e5c66c0f5c8e39ee5c64` (PR [#55](https://github.com/Amirkianfar66/GameN/pull/55)), which proposes the fix for G17.
+- Frontend's records of the gaps it met, `docs/frontend/connected-knowledge-actions.md` and `connected-voting.md` at `c8856242caea349b620345349f6b59c7a87b6d7f` (PR [#53](https://github.com/Amirkianfar66/GameN/pull/53)).
+- Designer's record of the owner's decisions, `docs/design/owner-decisions.md` at `4fa2ff3db5edff97feefa7bc12b7f2b627275c34` (PR [#57](https://github.com/Amirkianfar66/GameN/pull/57)).
+- The engine of the hosted branch at `c8856242`, against the scenario catalogue with its new cases. The evidence report of 7 October on Supplier's disclosure has the runs.
+
+### Supplier's result (G17)
+
+V1-16 says that Supplier's successful grants "are disclosed only to each recipient and Supplier". The engine gives the weapons and tells Supplier nothing, at any time. Balance confirms the finding: twelve new cases fail for that reason and no other. It also records its own part in it. The catalogue cited the rule and tested half of it; [the audit](rules-audit-v1.md#revision-4) says how, and checks the other disclosure rules for the same fault.
+
+Backend proposes a durable record of the successful grants, made when Round 3 resolves, and a new read of a seat's own acknowledgments beside the protocol-2 view, which strict readers would otherwise reject. Balance supports it. No rule decision is needed for it. What the rules require of it:
+
+| # | Required of the contract | Rule | Checked by |
+| --- | --- | --- | --- |
+| 1 | Supplier is shown exactly the recipients who were given a weapon: nobody before the Supplier stage, and not a recipient who was already Eliminated at that stage | R-ROLE-20, R-ACT-06 | `SUP-11`, `SUP-12`, `SUP-13`, `SUP-14` |
+| 2 | Supplier goes on being shown it for the rest of the match | R-VIEW-11, reading D39 | `SUP-11` |
+| 3 | What a recipient is told is that they hold a weapon, and nothing more. **It must not carry the seat that armed them**: that would tell another player who Supplier is. It must not carry the other recipient | R-ROLE-21, R-SETUP-05 | `SUP-17`, `SUP-15` |
+| 4 | Whom Supplier armed changes nothing that the table or any other player can read, when the choice is registered or when it resolves. That includes revision numbers | R-ROLE-08, R-VIEW-07 | `SUP-15`; INV-VIEW-03 on every accepted command |
+| 5 | An Officer who has fired is still given the weapon, and Supplier is shown the Officer as armed. The weapon gives no second shot | R-ROLE-11, R-ROLE-20 | `SUP-14`, `OFF-02` |
+| 6 | The weapons are given although Supplier is Injured, Jailed or Eliminated later in Round 3 | R-ACT-05 | `SUP-10`, `SUP-18` |
+
+Condition 3 is the one a natural design gets wrong. A receipt that reads "you were armed by seat 4" is the obvious thing to write, and it reveals a role. `SUP-17` is there for it: the same two players are armed in two runs in which Supplier sits in different seats, and each recipient must see the same thing in both.
+
+Three things the cases do not cover, and why:
+
+- **Events.** The binding reads what each audience can read as views, and any further read beside them once it is bound. It does not read the event stream. That no event carries a grant has to be shown by Backend's own tests.
+- **Reload, seat recovery and a device that has lost its seat.** These are service behaviour. Backend lists them in its acceptance for G17, and they are its to test.
+- **A Supplier who is Eliminated in Round 3.** No source says whether a player who is Eliminated goes on being told anything. `SUP-18` checks that the weapons are given and asserts nothing about what that Supplier is shown.
+
+If the owner decides that Supplier may name themself (open rule edge D11), condition 1 covers it without a change: Supplier was given a weapon and is shown themself among the armed.
+
+### Names and characters in the lobby
+
+The owner approved the comic-board direction on 7 October: the playing pieces are nine characters, each shown with its seat number and the player's name; a character "not related to role"; and the role as a device on the player's own character, "visible for that person alone". No contract carries a name or a character yet. The rules bear on one in these ways:
+
+| # | Required of the contract | Rule or decision | Checked by |
+| --- | --- | --- | --- |
+| 1 | A seat's name and character are public facts of the seat, like its number. They are fixed before roles are dealt and never change with the role | R-SETUP-05; the owner's decisions 2 and 5 in Designer's record | `VIEW-04`: two players change roles, and nothing the table or a third player can read may change |
+| 2 | Nothing about a role may ride on them: no character kept for or from a role or a team, and no order, default or refusal that depends on a role, a team or the Code | R-VIEW-02, R-SETUP-05 | `VIEW-04` |
+| 3 | The role device is in the player's own view and nowhere else | R-VIEW-02, R-VIEW-04; the owner's decision 6 | `VIEW-04`; INV-VIEW-01 on every state |
+| 4 | The seat number stays. Votes, targets and the Code name players by number | R-SETUP-06, R-SETUP-08; the owner's decision 3 | By reading the contract when it exists |
+| 5 | The choice of a starting room still comes before the deal. The approved order is character, then role; V1-01 puts the room choice before the deal too | R-SETUP-07 | `SETUP-05` |
+| 6 | A name is free text typed by a person. It must not reach a research record. The record validator now refuses `displayName`, `playerName` and `nickname` | The collection limits in [telemetry-spec.md](telemetry-spec.md) | The static check |
+
+`VIEW-04` passes today, and it will go on watching: the comparison covers everything the binding reads for the table and for each player, so names and characters are covered from the day they are in a view or in a further read that the binding carries. If they arrive in a separate read, the binding has to be told of it, which is one of the two requests below.
+
+Two cautions that Designer put on record for a reviewer and for Balance to weigh. Neither reopens the approval.
+
+- **The rooms' colors include a red, a blue and a violet, which are also the teams' colors.** No rule is touched: a room's color is the same in every match and depends on nothing hidden, so it cannot disclose anything. What it can do is mislead, if a player takes the blue room for Blue's room. That is a question for people at a table, and the playtest protocol now asks it.
+- **A private card can be seen over a shoulder, and the role device is large and carries the team color.** The rules already put secrets on the player's own phone. The risk is physical, and the protocol now has the facilitator record how the table sat and any time a screen was seen.
+
+The rulebook has no row for names and characters yet. It says that each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06), which the approved direction replaces with a character piece. Balance will add the row when Integration has entered the owner's decision in a decision record that the rulebook can cite; the review says how that record is to be made, and it is not Balance's to make.
+
+### Three related gaps, for the record
+
+Frontend's G14 and G18 and the review's G15 are the same kind of thing as G17 and are not rule defects. After a Captain's release choice, and after a Code attempt, the player's own view carries nothing that says what was entered; the last vote count stays in the public view without saying which round it is from. No approved source says that a player must be shown again what they entered, or that a count must name its round, so no case asserts either. Backend treats them as follow-ups inside decisions already made, and Balance agrees. One caution, if the read built for G17 later carries a Code attempt as well. It should say that the attempt was recorded, and not whether it was right. V1-08 has the Code evaluated with the other victory conditions after Round 5's effects, so there is no verdict to show before then, and Backend's own paired check found that no view tells a right attempt from a wrong one at the time. `CODE-08` holds the timing of the win and `CODE-10` holds that nobody but Hacker sees the submission. No case yet asserts that Hacker's own view cannot tell the two apart: with a read that repeats what was entered, that needs a pair of runs that differ in the Code and not in the entry, which the catalogue cannot write today.
 
 ## What this review did not cover
 

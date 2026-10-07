@@ -120,6 +120,7 @@ This register continues the D numbers of the earlier audit. After the integratio
 | D36 | Nothing a player enters on their phone is shown to anyone else before the rules reveal it | READING | V1-17 and the baseline keep registrations secret. Three cases are not named in so many words: a Code submission, a Hack request before its conversation opens, and the Captain's release choice before the release vote opens. Rule R-VIEW-07 |
 | D37 | A window opens only when someone can use it: no election without an eligible candidate, and no release choice without a Captain, an unused request and a prisoner | READING | V1-04 says to "continue without Captain" when no eligible candidate exists, and V1-11 gives the choice window to a Captain who "may use" the request. Backend's handoff describes the same: "a Captain with an unused release opportunity can select one prisoner". Rule R-FLOW-13 |
 | D38 | A release takes effect when the release vote closes | READING | The release vote comes before the Jail vote and the end-of-round order has no release step; V1-02 gives the freed player's destination but no moment. The freed player can then be voted back into Jail in the same round. Rule R-VOTE-10 |
+| D39 | Knowledge that the rules give a player stays in that player's view for the rest of the match | READING | No source gives private knowledge an end. The baseline and V1-16 say who knows a fact, and a player at a table who has been told something goes on knowing it; a view that showed a disclosure once and then dropped it would tell the player less than the rules do. The current engine keeps Insider's candidates, the Undercover's identity, the Code, Scan results and Protections this way. For whom Supplier armed it shows nothing at any time, which is finding G17 of the integration review of 7 October and is a defect against V1-16, not a different reading. Rule R-VIEW-11 |
 
 ### Open rule edges, consolidated
 
@@ -139,6 +140,26 @@ None of these is an engine defect. Until the owner decides one, it is not a rule
 
 A first table will meet D17 (pace), D18 and D19 (what people may say), D20 (who plays next) and, in Round 3, D11 and D12 (whether Blue gets its weapons). D16, D34 and D35 are corners.
 
+#### Triage of 7 October: a proposal for each edge
+
+The integration review of 7 October asks Balance to triage the open edges before people play. Below is one proposal for each, so that the owner can take them in one reading and answer with a list of numbers. **They are proposals. None is a rule until the owner says so**, and an accepted one becomes a rule only when Integration has entered it in a decision record under a new ruleset version; Balance then adds the row and turns the blocked case into a ready one. The proposals ask for no code: for seven of the nine the proposal is what the build already does, and the other two are a sentence each in the players' instructions.
+
+| Edge | Proposal | Why | What accepting it changes | Needed before people play |
+| --- | --- | --- | --- | --- |
+| D11: may Supplier name themself | Yes, as the build allows | V1-16 asks for two different recipients in Supplier's location who are not Eliminated, and refuses nobody for their role. Supplier is such a player. It also softens the worst case of Round 3, in which a Supplier with one neighbour can give nothing and Blue has no ordinary weapon (S-07). Against it: V1-13 lists the actions that may target the actor, and Supply is not on the list | No code. `SUP-08` becomes a ready case | Yes. It decides whether Blue gets its weapons |
+| D12: fewer than two recipients | No special rule. Supplier needs two eligible recipients and cannot act with fewer | A weapon for one player, or for a player in another room, would be a new rule. With D11 accepted, one neighbour is enough | No code. `SUP-09` becomes a ready case | Yes, with D11 |
+| D16: moving during a Captain election | Yes, as the build allows. It uses the one move of the round that is starting | "Before voting begins" speaks of the round's Jail vote. The election stands between two rounds, and the engine at `c8856242` already counts the move against the new round | No code. `MOVE-05` becomes a ready case | No. A corner |
+| D17: windows that close early | Keep every window at its full length for the pilot, and decide afterwards | V1-09 already keeps votes and the showdown open to the deadline. Whether a turn or a Hack may end early is a question of pace, and pace is what a pilot measures (S-13) | Nothing now | No. Decide with the pilot's numbers |
+| D18: how a Hack is held | For the pilot: the player who asked for the Hack puts the questions, as many as fit in the minute. The other answers Yes or No, or stays silent, and silence is not an answer | Only Yes, No and the truth rule are stated. A table has to be told something before its first Hack. Offered as an instruction for the pilot, to be kept or changed after it | A sentence in the players' instructions. No software | Yes. Every match has Hacks |
+| D19: an Eliminated player | They stay at the table and take no further part: they say nothing about the match and keep their phone to themselves | Their exact role stays secret until the match ends (R-VIEW-03), so they cannot be free to say it. Silence after elimination is the common rule in games of this kind | A sentence in the players' instructions. No software | Yes. People will ask as soon as somebody is out |
+| D20: announcing the turn order | Leave it as the build has it: the table sees only whose turn it is | Announcing the order needs a new public fact, which Backend has deferred to a later contract. Whether a table misses it is something a pilot can see | Nothing now | No. Decide with what the pilot sees |
+| D34: a special shot at oneself | No, as the build refuses | V1-13 rules it out for ordinary shots, and nothing suggests that the showdown differs | No code. `SHOW-15` becomes a ready case | No. A corner |
+| D35: what an aborted match shows | Nothing, as the build shows nothing | V1-18 reveals roles and the Code "only at match end", and V1-12 calls an abort a result without a winner. The cautious reading keeps the secrets | No code. `OPS-03` becomes a ready case | No, though a pilot will abort matches |
+
+Five of these should be settled before a first table: D11 and D12 because they decide a team's weapons, and D18 and D19 because players will ask and a facilitator must not improvise. D35 is worth settling with them, since early sessions are the ones that get aborted. The pilot can run on the build's behaviour for the other four, as the protocol already says, and its log will show how often each one mattered.
+
+Two matters from the review sit beside the edges and are not rule edges. A host who loses their device cannot hand the match on, which needs an operating decision and is Backend's to frame. And the approved comic board gives rooms the hues of the teams, which is a question of how people read a table and is now in the playtest protocol.
+
 ### Crosswalk to the integration register
 
 | Integration ID (`docs/decisions.md`) | This register | Owner decisions | State |
@@ -156,7 +177,7 @@ A first table will meet D17 (pace), D18 and D19 (what people may say), D20 (who 
 | None | D13, D29 | V1-04, V1-10 | Resolved |
 | None | D15 | None | Resolved by the existing five-round and showdown structure |
 | None | D11, D12, D16 to D20, D34, D35 | None | Open rule edges |
-| None | D14, D21 to D28, D30 to D33, D36 to D38 | None | Readings of approved sources; no decision asked |
+| None | D14, D21 to D28, D30 to D33, D36 to D39 | None | Readings of approved sources; no decision asked |
 
 `docs/decisions.md` is pinned by the bootstrap lock and still lists RULE-001 to RULE-009 as unresolved. Backend's current register, `docs/backend/v1-decision-register.md` on PR #16, supersedes it for V1-01 to V1-21 and points here for the audit. Request BAL-REQ-3 in [integration-requests.md](integration-requests.md) asks Codex Integration to carry the nine open rule edges in that register, or to link this one.
 
@@ -294,6 +315,42 @@ The integration review of 6 October read revision 2 at commit `dedfe69` and aske
 | Readings no longer ask for approval | D14, D21 to D28, D30 to D33 and D36 to D38 are READING. The sixteen readings carry seventeen rules, whose text is unchanged |
 | The approval of V1-01 to V1-21 is no longer asked again | Section 1 of the rulebook and the provenance section of this audit |
 | Open rule edges consolidated | D11, D12, D16 to D20, D34 and D35, in one sheet under the register |
+
+### Revision 4
+
+The integration review of 7 October found that the engine never tells Supplier which of their weapons were given (its finding G17), and that the scenario catalogue, which otherwise passed, did not cover it. Revision 4, `rulebook-v1-2026-10-07-r4`, adds three rows and changes none. No source changed. The rulebook has 168 rows.
+
+| What changed | Rows and decisions |
+| --- | --- |
+| Spelled out from R-ROLE-08, which is unchanged | R-ROLE-20: whom Supplier is shown as armed, and from when. R-ROLE-21: what a recipient does not learn |
+| Added as a reading | R-VIEW-11 with D39: what the rules make known to a player stays in that player's view |
+| The table of who may see what | Its row on a weapon held now says both things |
+
+The seventeen readings now carry eighteen rules.
+
+**Why the catalogue did not catch it.** The rule was there. R-ROLE-08 has said since revision 1 that a weapon from Supplier is known to the recipient and to Supplier, which is what V1-16 says. The case `SUP-01` cited that row and checked half of it: that the registration is private and that each recipient sees their own weapon. It checked nothing about Supplier, because the player's view had no fact to check, and it did not say so. A case that cites a rule and tests part of it reads as coverage of the whole. The three independent readings of the fixtures looked for wrong expected results and for expectations that no rule implies. None of them asked the opposite question: for each rule a case cites, is every clause of it asserted?
+
+That question is asked here for the rulebook's table of who may see what, row by row. "Asserted for them" is the half that was missing for Supplier.
+
+| Fact | Who may know it | Asserted for them by | Asserted against everyone else by | Not asserted, and why |
+| --- | --- | --- | --- | --- |
+| Number, location, health, Jail, Captain marker | Everyone | `SETUP-05`, `SHOT-01`, and INV-VIEW-06 on every state | Nothing to withhold | Nothing |
+| Round, phase, whose turn it is | Everyone | `VIEW-03` | Nothing to withhold | Nothing |
+| A player's role | That player | `SETUP-03` | The table: INV-VIEW-01 on every state. Other players: `VIEW-04`, new, a paired case | Nothing |
+| The faction of an Eliminated player | Everyone, from the next public phase | `VIEW-02` | `VIEW-02`, for everyone who is not Eliminated | Nothing |
+| A weapon held | The holder | `SETUP-04`, `SUP-01`, `OFF-02` | `SUP-15`, new, a paired case | Nothing |
+| Whom Supplier armed | Supplier | New: `SUP-11`, `SUP-13` and `SUP-16` in every mode, `SUP-12` with eight and nine players, `SUP-14` with nine. **Not asserted before revision 4.** All of them fail against the current engine: that is G17 | New, paired cases: `SUP-15`, nobody else and not the other recipient; `SUP-17`, a recipient cannot tell who Supplier is | Whether a Supplier who is Eliminated in Round 3 is still shown the list. No source says what an Eliminated player goes on being told. `SUP-18` checks only that the weapons are given |
+| A Protection | Undercover | `PROT-06` | `PROT-06` for the recipient and a third player, and INV-VIEW-02 on every state | Nothing |
+| The Code | Alien; everyone when the match ends with a result | `SETUP-02`, `SETUP-03`; `WIN-01` at the end | `SETUP-03`, INV-VIEW-02 and INV-VIEW-07 on every state | Nothing |
+| Insider's three candidates | Insider | `SETUP-03` | `SETUP-03`, INV-VIEW-02 on every state | Nothing |
+| Who Undercover is | Hacker | `SETUP-03` | `SETUP-03`, INV-VIEW-02 on every state | Nothing |
+| A Scan and its result | Hacker | `SCAN-01`, `SCAN-02`, `SCAN-06` | `SCAN-06`, INV-VIEW-02 on every state | Nothing |
+| What a player entered: an action, a shot, a ballot, a Code attempt | That player | That it is registered and later completed: `SHOT-01`, `PROT-06`, through a count of pending registrations. Their own ballot: `VOTE-05` | `SUP-01`, `PROT-06`, `SCAN-06`, `VOTE-05`, `HACK-05`, `CODE-10`, and INV-VIEW-03 on every accepted command | That the player is shown again whom they named. The view carries a count and not the target, and after a Code attempt or a release choice it carries nothing. No approved source asks for more, so no case asserts it. Frontend records the same matter as its G14 and G18; it is a product choice, not a rule edge |
+| Why an attack had no effect | Nobody. Undercover sees a Protection used up | `PROT-06` | `PROT-06`, for the attacker | Nothing |
+
+One row had a missing half, and it is the one the review found. The last column names two things that no source settles and that are therefore not asserted.
+
+**Paired cases.** Six of the new cases are run twice. The second run, the twin, differs from the first in one declared respect: one command names another player, or two players have changed roles. The case then says to whom the two runs must look the same and to whom they must look different. This is the comparison the integration review and Backend each made by hand for G17, kept as fixtures. It has two uses that a check on a named field does not have. It needs no knowledge of where an engine keeps a fact, so `SUP-16` finds that Supplier is told nothing without naming any field. And it watches everything an audience can read, so a disclosure built wrongly is found wherever it is put: a field of the view, or a separate read beside the view once the binding carries one. The controls command proves that with three deliberate leaks; the evidence report has the run.
 
 ## What this audit does not establish
 

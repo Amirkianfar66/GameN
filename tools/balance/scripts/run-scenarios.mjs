@@ -3,6 +3,12 @@
 //   node scripts/run-scenarios.mjs                       engine of this checkout
 //   node scripts/run-scenarios.mjs --engine-root <dir>   a built checkout of another commit
 //     [--engine-commit <sha>] [--out <report.json>] [--only <id-prefix>] [--verbose] [--require-engine]
+//     [--stand-in supply-disclosure]
+//
+// --stand-in runs through a stand-in that adds to the engine the disclosure finding G17 says it
+// lacks (tests/scenarios/support/disclosing.mjs). It shows that the cases about that disclosure
+// can pass. It is not evidence about the engine: the report names the stand-in as its adapter, and
+// the report gate refuses it.
 //
 // Nothing is reported as passed unless it was executed. Without an engine every ready
 // scenario is "not-run". Blocked scenarios stay blocked whatever an engine does.
@@ -16,18 +22,22 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { buildReport, runScenario, validateScenario } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
+import { SUPPLY_DISCLOSURE_STAND_IN, withSupplyDisclosure } from '../../../tests/scenarios/support/disclosing.mjs';
 import { GROUPS, loadGroup } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
 
 const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out', 'only'], flags: ['verbose', 'require-engine'] }, refuse);
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out', 'only', 'stand-in'], flags: ['verbose', 'require-engine'] }, refuse);
 const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
 const only = values.only;
 const out = values.out;
 const verbose = flags.verbose;
+const standIn = values['stand-in'];
+if (standIn !== null && standIn !== SUPPLY_DISCLOSURE_STAND_IN) refuse(`--stand-in knows only ${SUPPLY_DISCLOSURE_STAND_IN}.`);
+const STAND_IN_NOTICE = `STAND-IN ${SUPPLY_DISCLOSURE_STAND_IN}: Supplier is told whom the Supplier stage armed by the stand-in, not by the engine. This run shows that the cases can pass. It is not evidence about the engine.`;
 const loaded = await load(engineRoot);
-const adapter = loaded.available ? loaded.adapter : null;
+const adapter = loaded.available ? (standIn === null ? loaded.adapter : withSupplyDisclosure(loaded.adapter)) : null;
 const reason = loaded.available ? '' : `engine adapter unavailable: ${loaded.reason}`;
 const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter, runner: '@mothership/balance scenario runner' });
 if ('problem' in built) refuse(built.problem);
@@ -47,6 +57,7 @@ const report = buildReport(runs, built.pins);
 
 const row = (label, summary) => `${label.padEnd(12)} total ${String(summary.total).padStart(3)}  passed ${String(summary.passed).padStart(3)}  failed ${String(summary.failed).padStart(3)}  blocked ${String(summary.blocked).padStart(3)}  not-run ${String(summary.notRun).padStart(3)}`;
 console.log(adapter === null ? `No scenario was executed. ${reason}` : `Engine ${adapter.pins.engineVersion}, ruleset ${adapter.pins.rulesetVersion}, protocol ${adapter.pins.protocolVersion}, commit ${report.pins.engineCommit}`);
+if (standIn !== null && adapter !== null) console.log(STAND_IN_NOTICE);
 for (const group of ['mode-7', 'mode-8', 'mode-9', 'unsupported']) console.log(row(group, report.byGroup[group]));
 console.log(row('all', report.totals));
 for (const run of runs) {

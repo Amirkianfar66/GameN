@@ -8,7 +8,8 @@ import {
   MATCH_RECORD_SCHEMA, buildReport, checkSetup, checkState, checkTransition, controlVerdict, controlsFor, damageBudget, deriveSetup, runControls,
   runScenario, scanInformationBound, startLedger, summarize, summarizeOutcomes, toEvidence, validateMatchRecord, walk, wilson,
 } from '@mothership/balance';
-import { ENGINE_COMMIT_BASIS, exceptionProblems } from '@mothership/balance';
+import { ENGINE_COMMIT_BASIS, exceptionProblems, hasTwin, twinSetup, validateScenario } from '@mothership/balance';
+import { LEAKS, withSupplyDisclosure } from './support/disclosing.mjs';
 import {
   MANIFEST, TREE_COMMIT, allowlist, catalogue, cleanReports, copy, disk, eachIsNamed, everyReport, first, judge, probed, runOf, unprobed,
 } from './support/gate-reports.mjs';
@@ -375,10 +376,162 @@ test('the record validator enforces separation by mode, consent, exclusions and 
   assert.match(broken(r => { r.outcome.terminal = 'Aborted'; r.outcome.result = null; }), /must be excluded from outcome rates and stay visible/);
   assert.match(broken(r => { r.exclusion.excluded = true; }), /needs at least one reason/);
   assert.match(broken(r => { r.information.hackContentRecorded = true; }), /not collected by default/);
+  // The name a player types in the lobby is a name, whatever a contract calls the field.
+  for (const key of ['displayName', 'playerName', 'nickname']) assert.match(broken(r => { r.participants[0][key] = 'Ada'; }), new RegExp(`participants\\[0\\]\\.${key}: this field must not be collected`), key);
   assert.match(broken(r => { r.information.hackAnswer = 'yes'; }), /must not be collected/);
   assert.match(broken(r => { r.participants[0].email = 'someone@example.com'; }), /must not be collected/);
   assert.match(broken(r => { r.officer = {}; }), /Officer section exists only in mode 9/);
   assert.match(broken(r => { r.experience = [{ clarity: 6 }]; }), /must be 1\.\.5/);
+});
+
+// Paired cases. A stand-in engine with one made-up command, TELL: the player it names is told so
+// in their own view, and nobody else is told anything. Two runs that name different players must
+// then look different to those two players and the same to everyone else.
+const telling = ({ refuse = null, where = 'view' } = {}) => stubAdapter({
+  outcomes: Array(8).fill('REGISTERED'),
+  mutate(observation, actor, command) {
+    if (command.target === refuse) throw new Error('the stand-in refuses to name this player');
+    if (where === 'view') observation.raw.players[command.target] = { ...observation.raw.players[command.target], told: true };
+    else observation.raw.also = { players: { ...(observation.raw.also?.players ?? {}), [command.target]: { told: true } } };
+    observation.revisions.players[command.target] += 1;
+    return observation;
+  },
+});
+const tell = (target, twin) => ({ op: 'command', actor: '@Supplier', command: { type: 'TELL', target }, expect: 'REGISTERED', ...(twin === undefined ? {} : { twin: { type: 'TELL', target: twin } }) });
+const compare = (...checks) => ({ op: 'assert', checks });
+const same = audiences => ({ sameAsTwin: { audiences } });
+const differs = audiences => ({ differsFromTwin: { audiences } });
+
+test('a paired case compares what each audience can read in two runs that differ in one command', () => {
+  const pair = [tell('@Insider', '@Cracker'), compare(same('public'), same({ allPlayersExcept: ['@Insider', '@Cracker'] }), differs({ players: ['@Insider', '@Cracker'] }))];
+  const passed = runScenario(scenario('ready', pair), telling(), '');
+  assert.equal(passed.status, 'passed', passed.failure?.message);
+
+  // Told to look the same where the two runs differ: the audience that can tell is named.
+  const insider = setup.roleOrder.indexOf('Insider') + 1;
+  const leak = runScenario(scenario('ready', [tell('@Insider', '@Cracker'), compare(same({ players: ['@Insider', '@Hacker'] }))]), telling(), '');
+  assert.equal(leak.status, 'failed');
+  assert.equal(leak.failure.message, `the twin run does not look the same to: seat-${insider}`);
+  // Told to differ where nothing depends on the difference: the audience that learns nothing is named.
+  const silent = runScenario(scenario('ready', [tell('@Insider', '@Cracker'), compare(differs('public'), differs({ players: ['@Insider'] }))]), telling(), '');
+  assert.equal(silent.status, 'failed');
+  assert.equal(silent.failure.message, 'the twin run looks exactly the same to: public');
+
+  // What an audience can read beside its view is compared as well: a further read cannot hide a difference.
+  assert.equal(runScenario(scenario('ready', pair), telling({ where: 'beside the view' }), '').status, 'passed');
+  const beside = runScenario(scenario('ready', [tell('@Insider', '@Cracker'), compare(same({ players: ['@Insider'] }))]), telling({ where: 'beside the view' }), '');
+  assert.equal(beside.failure.message, `the twin run does not look the same to: seat-${insider}`);
+
+  // The twin run is a run of its own: if it cannot be completed there is nothing sound to compare with.
+  const broken = runScenario(scenario('ready', pair), telling({ refuse: `seat-${setup.roleOrder.indexOf('Cracker') + 1}` }), '');
+  assert.equal(broken.status, 'failed');
+  assert.match(broken.failure.message, /^the twin run could not be completed: adapter or engine error: the stand-in refuses to name this player/);
+
+  // Each comparison has its control: the opposite claim must fail.
+  const controls = controlsFor(scenario('ready', pair));
+  assert.deepEqual(controls.map(control => control.kind), ['command expectation', 'asserted fact', 'asserted fact', 'asserted fact']);
+  assert.ok('differsFromTwin' in controls[1].scenario.steps[1].checks[0] && 'sameAsTwin' in controls[3].scenario.steps[1].checks[2]);
+  const run = runControls([scenario('ready', pair)], telling());
+  assert.deepEqual(run.stats, { scenarios: 1, controls: 4, detected: 4, undetected: 0, baselineNotPassing: 0 });
+});
+
+test('a paired case with a twin setup shows that a fact does not give away who holds a role', () => {
+  const swapped = scenario('ready', [compare(same({ allPlayersExcept: ['@Supplier', '@Blue Disabler'] }))], { twin: { swapRoles: ['Supplier', 'Blue Disabler'] } });
+  assert.ok(hasTwin(swapped));
+  const twin = twinSetup(swapped, setup);
+  assert.equal(twin.roleOrder.indexOf('Supplier'), setup.roleOrder.indexOf('Blue Disabler'));
+  assert.equal(twin.roleOrder.indexOf('Blue Disabler'), setup.roleOrder.indexOf('Supplier'));
+  assert.deepEqual(twin.roleOrder.filter(role => role !== 'Supplier' && role !== 'Blue Disabler'), setup.roleOrder.filter(role => role !== 'Supplier' && role !== 'Blue Disabler'));
+  assert.deepEqual(validateScenario(swapped), []);
+  // The stand-in's views hold each player's own role and nothing about anyone else's.
+  assert.equal(runScenario(swapped, stubAdapter(), '').status, 'passed');
+  // The two players who changed roles do see a difference, which is why they are left out.
+  const themselves = runScenario(scenario('ready', [compare(same({ players: ['@Insider', '@Supplier'] }))], { twin: { swapRoles: ['Supplier', 'Blue Disabler'] } }), stubAdapter(), '');
+  assert.equal(themselves.status, 'failed');
+  assert.match(themselves.failure.message, /^the twin run does not look the same to: seat-\d$/);
+});
+
+test('a paired case is refused unless its difference and its comparison are both declared', () => {
+  const issues = (steps, extra) => validateScenario(scenario('ready', steps, extra)).join('\n');
+  const pair = [tell('@Insider', '@Cracker'), compare(same('public'))];
+  assert.equal(issues(pair), '');
+  assert.match(issues([tell('@Insider', '@Cracker'), roundOne]), /a twin run is declared and nothing is compared with it/);
+  assert.match(issues([tell('@Insider'), compare(same('public'))]), /a comparison with a twin run needs a twin command or a twin setup/);
+  assert.match(validateScenario(scenario('blocked', [tell('@Insider', '@Cracker')])).join('\n'), /only a ready scenario may have a twin run/);
+  const swap = { twin: { swapRoles: ['Supplier', 'Blue Disabler'] } };
+  assert.equal(issues([compare(same({ allPlayersExcept: ['@Supplier', '@Blue Disabler'] }))], swap), '');
+  for (const audiences of ['all-players', { players: ['@Insider', '@Supplier'] }, { allPlayersExcept: ['@Supplier'] }]) {
+    assert.match(issues([compare(same(audiences))], swap), /must leave out the two players who change roles/, JSON.stringify(audiences));
+  }
+  assert.match(issues([compare(same('public'))], { twin: { swapRoles: ['Supplier', 'Supplier'] } }), /swaps two different roles of this setup/);
+  assert.match(issues([compare(same('public'))], { twin: { swapRoles: ['Supplier', 'Officer'] } }), /swaps two different roles of this setup/);
+  // Undercover may not sit on a number of the Code: a swap that puts them there is not a legal setup.
+  const inCode = setup.roleOrder[Number(setup.codeExtraSeatIds[0].slice(5)) - 1];
+  assert.match(issues([compare(same('public'))], { twin: { swapRoles: ['Undercover', inCode] } }), /the twin setup is not a legal setup/);
+});
+
+test('whom Supplier armed is read from the engine, and an engine that says nothing is not one that names nobody', () => {
+  const armed = [{ op: 'assert', checks: [{ visible: '@Supplier', field: 'armedBySupply', sameSet: [] }] }];
+  // The plain stand-in tells nobody anything about it, like the engine of finding G17.
+  const untold = runScenario(scenario('ready', armed), stubAdapter(), '');
+  assert.equal(untold.status, 'failed');
+  assert.match(untold.failure.message, /armedBySupply: expected the set \[\], observed "nothing: this engine tells the player nothing about it"/);
+  // Through the disclosure stand-in the fact exists: nobody is armed before the Supplier stage.
+  const disclosing = withSupplyDisclosure(stubAdapter());
+  assert.equal(runScenario(scenario('ready', armed), disclosing, '').status, 'passed');
+  assert.match(disclosing.pins.adapter, /^stub with the stand-in supply-disclosure$/);
+  assert.match(withSupplyDisclosure(stubAdapter(), 'armed-list-to-table').pins.adapter, /leaking: armed-list-to-table$/);
+  assert.throws(() => withSupplyDisclosure(stubAdapter(), 'no-such-leak'), /unknown leak/);
+  // Only Supplier's own view may name anyone.
+  const observation = openingObservation(setup);
+  const insider = observation.playerViews[`seat-${setup.roleOrder.indexOf('Insider') + 1}`];
+  insider.knowledge.armedBySupply = ['seat-1'];
+  assert.ok(checkState(setup, observation, startLedger(observation)).some(item => item.invariant === 'INV-VIEW-02' && /whom Supplier armed is given to a role other than Supplier/.test(item.message)));
+});
+
+test('the disclosure stand-in tells Supplier exactly who gained a weapon when Round 3 resolved, and each leak adds what it says', () => {
+  // A two-step engine: Round 3, then Round 4 with a weapon more for two players.
+  const seats = Object.fromEntries(setup.roleOrder.map((role, index) => [role, `seat-${index + 1}`]));
+  const scripted = () => ({
+    pins: { adapter: 'scripted', engineVersion: 'none', rulesetVersion: 'none', rulesetHash: 'none', protocolVersion: 0 },
+    createMatch() {
+      const observation = openingObservation(setup);
+      observation.round = 3;
+      return {
+        observe: () => structuredClone(observation),
+        command: () => 'NOT_ALLOWED',
+        advance() {
+          if (observation.round !== 3) return false;
+          observation.round = 4;
+          for (const role of ['Insider', 'Cracker']) observation.truth.seats.find(seat => seat.seat === seats[role]).ordinaryWeapons += 1;
+          return true;
+        },
+        abort() {},
+      };
+    },
+  });
+  const read = leak => {
+    const match = withSupplyDisclosure(scripted(), leak).createMatch(setup, 'match');
+    const before = match.observe();
+    assert.equal(match.advance(0), true);
+    return { before, after: match.observe() };
+  };
+  const { before, after } = read(null);
+  const armed = [seats.Insider, seats.Cracker].sort();
+  for (const seat of Object.values(seats)) {
+    assert.deepEqual(before.playerViews[seat].knowledge.armedBySupply, []);
+    assert.deepEqual([...after.playerViews[seat].knowledge.armedBySupply].sort(), seat === seats.Supplier ? armed : []);
+  }
+  assert.deepEqual([...after.raw.also.players[seats.Supplier].armed].sort(), armed);
+  assert.deepEqual(after.raw.also.players[seats.Insider], { armed: [], received: true });
+  assert.deepEqual(after.raw.also.players[seats.Hacker], { armed: [], received: false });
+  assert.equal(after.raw.also.public, undefined);
+  assert.deepEqual(Object.keys(LEAKS), ['supplier-seat-to-recipient', 'other-recipient-to-recipient', 'armed-list-to-table']);
+  assert.equal(read('supplier-seat-to-recipient').after.raw.also.players[seats.Insider].from, seats.Supplier);
+  assert.deepEqual(read('other-recipient-to-recipient').after.raw.also.players[seats.Insider].alsoArmed, [seats.Cracker]);
+  assert.deepEqual([...read('armed-list-to-table').after.raw.also.public.armed].sort(), armed);
+  // A leak changes nothing for a player who was not armed.
+  for (const leak of Object.keys(LEAKS)) assert.deepEqual(read(leak).after.raw.also.players[seats.Hacker], { armed: [], received: false }, leak);
 });
 
 // The report gate and the reviewed exception list. The gate is given reports written from the
@@ -507,6 +660,8 @@ test('reports about another engine, other files or an unpinned tree fail the gat
     ['no Git provenance', reports => { everyReport(reports, report => { report.pins.workingTreeCommit = 'unknown'; }); }, /the working tree is not a clean commit \(unknown\)/],
     ['reports from two trees', reports => { reports.playouts.pins.workingTreeCommit = 'c'.repeat(40); }, /playouts: not the same working tree as the scenario report/],
     ['reports about two engines', reports => { reports.controls.pins.engine.engineVersion = 'another'; }, /controls: not the same engine as the scenario report/],
+    // A run through a stand-in says so where the adapter is named, and is not evidence about an engine.
+    ['a run made through a stand-in', reports => { everyReport(reports, report => { report.pins.engine.adapter = withSupplyDisclosure(stubAdapter()).pins.adapter.replace('stub', 'full-game-v1'); }); }, /the run was made through "full-game-v1 with the stand-in supply-disclosure", not through the engine binding full-game-v1 alone/],
     ['reports about two builds of the engine', reports => { reports.playouts.pins.engineBuildSha256 = 'f'.repeat(64); }, /playouts: not the same engine build as the scenario report/],
     ['a report that does not say which build it ran', reports => { everyReport(reports, report => { report.pins.engineBuildSha256 = null; }); }, /the built engine modules were not found/],
     ['a report without pins', reports => { delete reports.playouts.pins; }, /playouts: the report carries no pins/],

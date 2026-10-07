@@ -24,6 +24,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ENGINE_COMMIT_BASIS, gateProblems } from '@mothership/balance';
+import { ADAPTER_NAME } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
 import { EXCEPTIONS_PATH, SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, V1_RULESET_VERSION, loadAll, loadExceptions } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { V1_MANIFEST_PATH, root, sourceHashes } from './pins.mjs';
@@ -78,6 +79,7 @@ if (catalogue !== null && onDisk !== null) {
     playoutsPerMode: Number(values['playouts-per-mode']),
     candidateCommit: values['candidate-commit'],
     allowUnpinnedTree: flags['allow-unpinned-tree'],
+    adapter: ADAPTER_NAME,
     rulesetVersion: V1_RULESET_VERSION,
     overlaySha256: V1_OVERLAY_SHA256,
     sourceManifestSha256: SOURCE_MANIFEST_SHA256,

@@ -2,8 +2,9 @@ import { canonicalJson, deepEqual, sameSet } from './model.js';
 import type { Mode, ScenarioSetup, SeatId } from './model.js';
 import { checkSetup, checkState, checkTransition, startLedger } from './invariants.js';
 import type { Ledger, Violation } from './invariants.js';
+import { payloadOf } from './observation.js';
 import type { CommandOutcome, EngineAdapter, EngineMatch, NeutralCommand, Observation } from './observation.js';
-import { resolveRef, resolveValue } from './scenario.js';
+import { hasTwin, resolveRef, resolveValue, twinSetup } from './scenario.js';
 import type { Audiences, Check, Ref, Scenario, Step, StepCommand } from './scenario.js';
 
 // Executes a declarative scenario through an engine adapter and compares what the engine did
@@ -43,6 +44,11 @@ interface Session {
   commandsInPhase: number;
   transitions: number;
   commands: number;
+  // Paired runs. In the twin run every assert step records what was observable there and judges
+  // nothing; in the main run `twinAt` holds those records, by step index, to compare with.
+  stepIndex: number;
+  recording: Map<number, Observation> | null;
+  twinAt: Map<number, Observation> | null;
 }
 
 function neutralCommand(command: StepCommand, setup: ScenarioSetup): NeutralCommand {
@@ -106,13 +112,24 @@ function audienceSeats(audiences: Audiences, session: Session): { includePublic:
 function changedSince(session: Session, since: string, audiences: Audiences): string[] {
   const mark = session.marks[since];
   if (mark === undefined) throw new StepError(`unknown mark ${since}`);
+  return differing(mark, session.current, audiences, session);
+}
+
+// The audiences to whom two observations do not look the same: what they can read, or its revision.
+function differing(one: Observation, other: Observation, audiences: Audiences, session: Session): string[] {
   const { includePublic, players } = audienceSeats(audiences, session);
-  const changed: string[] = [];
-  if (includePublic && (canonicalJson(mark.raw.public) !== canonicalJson(session.current.raw.public) || mark.revisions.public !== session.current.revisions.public)) changed.push('public');
+  const out: string[] = [];
+  if (includePublic && (payloadOf(one, 'public') !== payloadOf(other, 'public') || one.revisions.public !== other.revisions.public)) out.push('public');
   for (const seat of players) {
-    if (canonicalJson(mark.raw.players[seat]) !== canonicalJson(session.current.raw.players[seat]) || mark.revisions.players[seat] !== session.current.revisions.players[seat]) changed.push(seat);
+    if (payloadOf(one, seat) !== payloadOf(other, seat) || one.revisions.players[seat] !== other.revisions.players[seat]) out.push(seat);
   }
-  return changed;
+  return out;
+}
+
+function twinObservation(session: Session): Observation {
+  const twin = session.twinAt?.get(session.stepIndex);
+  if (twin === undefined) throw new StepError('this step has no twin run to compare with');
+  return twin;
 }
 
 function compare(label: string, actual: unknown, check: { equals?: unknown; sameSet?: Ref[]; includes?: Ref; excludes?: Ref }, setup: ScenarioSetup): string | null {
@@ -156,6 +173,8 @@ function visibleField(session: Session, seat: SeatId, field: string): unknown {
     case 'lastScanMatched': return lastScan?.matched ?? null;
     case 'lastScanInCode': return lastScan?.inCode ?? null;
     case 'protectionSeats': return know.protections.map(item => item.seat);
+    // An engine that offers this player no such fact is not the same as one that names nobody.
+    case 'armedBySupply': return know.armedBySupply ?? 'nothing: this engine tells the player nothing about it';
     case 'protectionState': {
       const entry = know.protections.find(item => item.seat === resolveRef(argument ?? '', session.setup));
       if (entry === undefined) return 'none';
@@ -237,6 +256,16 @@ function evaluate(check: Check, session: Session): string | null {
     const expected = check.traceTurns.actives.map(ref => resolveRef(ref, setup));
     return deepEqual(turns, expected) ? null : `Round ${check.traceTurns.round} turns: expected ${expected.join(',')}, observed ${turns.join(',')}`;
   }
+  if ('sameAsTwin' in check) {
+    const apart = differing(twinObservation(session), now, check.sameAsTwin.audiences, session);
+    return apart.length === 0 ? null : `the twin run does not look the same to: ${apart.join(', ')}`;
+  }
+  if ('differsFromTwin' in check) {
+    const { includePublic, players } = audienceSeats(check.differsFromTwin.audiences, session);
+    const apart = differing(twinObservation(session), now, check.differsFromTwin.audiences, session);
+    const alike = [...(includePublic ? ['public'] : []), ...players].filter(item => !apart.includes(item));
+    return alike.length === 0 ? null : `the twin run looks exactly the same to: ${alike.join(', ')}`;
+  }
   const seats = now.truth.seats;
   const counts: Record<string, number> = {
     eliminated: seats.filter(seat => seat.health === 'Eliminated').length,
@@ -305,6 +334,8 @@ function runStep(step: Step, session: Session): void {
       return;
     }
     case 'assert': {
+      // The twin run judges nothing. It keeps what was observable here for the main run to compare with.
+      if (session.recording !== null) { session.recording.set(session.stepIndex, session.current); return; }
       const failures = step.checks.map(check => evaluate(check, session)).filter((message): message is string => message !== null);
       if (failures.length > 0) throw new StepError(failures.join('; '));
       return;
@@ -314,7 +345,15 @@ function runStep(step: Step, session: Session): void {
   }
 }
 
-function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapter): Omit<ScenarioRun, 'scenarioId' | 'group' | 'mode' | 'decisionIds' | 'seed'> {
+interface Pairing {
+  // The steps to execute, when they are not the scenario's own: the twin run's.
+  steps?: Step[];
+  recording?: Map<number, Observation>;
+  twinAt?: Map<number, Observation>;
+}
+
+function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapter, pairing: Pairing = {}): Omit<ScenarioRun, 'scenarioId' | 'group' | 'mode' | 'decisionIds' | 'seed'> {
+  const steps = pairing.steps ?? scenario.steps;
   const base = { reason: null, invariantViolations: [] as Violation[], probes: [] as { label: string; outcome: string }[], transitions: 0, commands: 0, finalDigest: null as string | null };
   if (scenario.steps.some(step => step.op === 'createRejected')) {
     try {
@@ -339,11 +378,13 @@ function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapte
     setup, match, ledger: startLedger(first), current: first, marks: {},
     trace: [{ round: first.round, phaseKind: first.phaseKind, activeSeat: first.activeSeat }],
     violations: [...checkSetup(setup, first)], probes: [], commandsInPhase: 0, transitions: 0, commands: 0,
+    stepIndex: 0, recording: pairing.recording ?? null, twinAt: pairing.twinAt ?? null,
   };
   session.violations.push(...checkState(setup, first, session.ledger));
   let failure: ScenarioRun['failure'] = null;
-  for (let index = 0; index < scenario.steps.length && failure === null; index += 1) {
-    const step = scenario.steps[index] as Step;
+  for (let index = 0; index < steps.length && failure === null; index += 1) {
+    const step = steps[index] as Step;
+    session.stepIndex = index;
     try {
       runStep(step, session);
     } catch (error) {
@@ -378,9 +419,22 @@ export function runScenario(scenario: Scenario, adapter: EngineAdapter | null, u
       ? { ...head, ...idle, status: 'blocked', reason: scenario.setup === null ? 'awaiting an owner decision; no probe is defined' : `awaiting an owner decision; probes not run: ${unavailableReason}` }
       : { ...head, ...idle, status: 'not-run', reason: unavailableReason };
   }
-  const first = execute(scenario, scenario.setup, adapter);
+  // A paired scenario is run as its twin first: the same steps with the declared difference. The
+  // twin must itself be a clean run, or there is nothing sound to compare with.
+  const pairing: Pairing = {};
+  if (hasTwin(scenario)) {
+    const recording = new Map<number, Observation>();
+    const steps = scenario.steps.map(step => (step.op === 'command' && step.twin !== undefined ? { ...step, command: step.twin } : step));
+    const twin = execute(scenario, twinSetup(scenario, scenario.setup), adapter, { steps, recording });
+    if (twin.status !== 'passed') {
+      const failure = { stepIndex: twin.failure?.stepIndex ?? -1, op: 'twin', message: `the twin run could not be completed: ${twin.failure?.message ?? twin.status}` };
+      return { ...head, ...twin, status: 'failed', failure, finalDigest: null };
+    }
+    pairing.twinAt = recording;
+  }
+  const first = execute(scenario, scenario.setup, adapter, pairing);
   if (scenario.status === 'ready' && first.status === 'passed' && first.finalDigest !== null) {
-    const second = execute(scenario, scenario.setup, adapter);
+    const second = execute(scenario, scenario.setup, adapter, pairing);
     if (second.finalDigest !== first.finalDigest || second.status !== 'passed') {
       return { ...head, ...first, status: 'failed', failure: { stepIndex: -1, op: 'replay', message: 'INV-DET-01: replaying the same recorded inputs produced a different end state' } };
     }

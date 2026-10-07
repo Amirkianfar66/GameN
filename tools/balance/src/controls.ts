@@ -45,11 +45,13 @@ export function controlsFor(scenario: Scenario): Control[] {
         const changed = wrongValue(check['equals']);
         if (changed === undefined) return;
         target['equals'] = changed;
-      } else if ('sameSet' in check && Array.isArray(check['sameSet']) && check['sameSet'].length > 0) target['sameSet'] = (check['sameSet'] as unknown[]).slice(1);
+      } else if ('sameSet' in check && Array.isArray(check['sameSet'])) target['sameSet'] = check['sameSet'].length > 0 ? (check['sameSet'] as unknown[]).slice(1) : ['seat-1'];
       else if ('includes' in check) { target['excludes'] = check['includes']; delete target['includes']; }
       else if ('excludes' in check) { target['includes'] = check['excludes']; delete target['excludes']; }
       else if ('unchanged' in check) { target['changed'] = check['unchanged']; delete target['unchanged']; }
       else if ('changed' in check) { target['unchanged'] = check['changed']; delete target['changed']; }
+      else if ('sameAsTwin' in check) { target['differsFromTwin'] = check['sameAsTwin']; delete target['sameAsTwin']; }
+      else if ('differsFromTwin' in check) { target['sameAsTwin'] = check['differsFromTwin']; delete target['differsFromTwin']; }
       else if ('trace' in check) target['trace'] = { kinds: (check['trace'] as { kinds: string[] }).kinds.slice(1) };
       else if ('traceTurns' in check) {
         const turns = check['traceTurns'] as { round: number; actives: string[] };

@@ -26,7 +26,7 @@ export function openingObservation(setup) {
     legal: {}, moveDestinations: [], releaseVoteAvailable: false, codeAttemptAvailable: false, pendingCount: 0, ownBallot: null, hasVoted: false, hackPartner: null,
     knowledge: {
       insiderCandidates: seat.role === 'Insider' ? [seatOf('Undercover'), seatOf('Alien'), seatOf('Cracker')] : [],
-      undercoverSeat: seat.role === 'Hacker' ? seatOf('Undercover') : null, code: seat.role === 'Alien' ? [...code] : [], scanResults: [], protections: [],
+      undercoverSeat: seat.role === 'Hacker' ? seatOf('Undercover') : null, code: seat.role === 'Alien' ? [...code] : [], scanResults: [], protections: [], armedBySupply: null,
     },
   }]));
   return {

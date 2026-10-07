@@ -43,12 +43,27 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `until` | Let phases expire, with no input, until the round, phase and active player match |
 | `expire` | Close the current phase at its deadline |
 | `expireEarly` | Ask to close a vote before its deadline; the engine must refuse |
-| `command` | One player sends one command; `expect` is `REGISTERED`, `NOT_ALLOWED`, `PHASE_CLOSED` or `REFUSED` |
-| `assert` | Checks on server truth, on the public view, or on what one player can see |
+| `command` | One player sends one command; `expect` is `REGISTERED`, `NOT_ALLOWED`, `PHASE_CLOSED` or `REFUSED`. With `twin`, the command sent in its place in the twin run of a paired case |
+| `assert` | Checks on server truth, on the public view, or on what one player can see. In a paired case also `sameAsTwin` and `differsFromTwin` |
 | `mark` | Remember every audience's view, to prove later that it did or did not change |
 | `abort` | The host aborts |
 | `createRejected` | The setup itself must be refused |
 | `probe`, `note` | Blocked scenarios only: record what the engine does. Never an expectation |
+
+## Paired cases and the stand-in
+
+A paired case is run twice. The second run, its twin, differs in one declared respect: a `command` step has a `twin` command, or the scenario has `"twin": { "swapRoles": [roleA, roleB] }` and the two players change roles. At an `assert` step the case then says to whom the two runs must look the same (`sameAsTwin`) and to whom they must look different (`differsFromTwin`).
+
+"Look the same" covers everything an audience can read: its view, its revision number, and any further read the binding carries beside the view. So a paired case checks a secret without knowing where an engine keeps it. If two matches that differ only in whom Supplier armed look the same to a player, that player cannot learn it; if they look the same to Supplier, Supplier has been told nothing. The players who change roles in a twin setup are different people in the two runs and must be left out of the comparison; the check refuses a case that forgets.
+
+**The stand-in.** Twelve cases ask that Supplier is shown whom they armed. No engine does that yet (finding G17 of the integration review of 7 October), so those cases fail everywhere, and a case that fails has no negative controls. `support/disclosing.mjs` is a stand-in that adds the missing disclosure on top of a real engine, read from the engine's own truth. It holds no rule.
+
+```sh
+npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/built/checkout --stand-in supply-disclosure
+npm run controls --workspace @mothership/balance -- --engine-root /path/to/built/checkout --stand-in supply-disclosure
+```
+
+The first shows that every ready case can pass. The second shows that every expectation of those cases is detected when it is made wrong, and then makes the stand-in leak in three ways that a real disclosure could go wrong, and requires a paired case to catch each. Neither is evidence about an engine: each run says so, its report names the stand-in as its adapter, and the report gate refuses it.
 
 ## Statuses
 

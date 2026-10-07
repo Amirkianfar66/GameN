@@ -2,12 +2,12 @@
   "schema": "mothership.balance.scenarios/1",
   "group": "8",
   "mode": 8,
-  "rulebook": "rulebook-v1-2026-10-06-r3",
+  "rulebook": "rulebook-v1-2026-10-07-r4",
   "pins": {"sourceManifestSha256":"34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc","rulesetVersion":"in-person-v1-2026-10-06","v1OverlaySha256":"6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90"},
   "optionalPowers": false,
   "generatedFrom": "tests/scenarios/v1/catalog.mjs",
   "execution": "Declarative fixtures. Results of actual runs are in docs/balance/evidence/. A fixture is not a result.",
-  "counts": {"total":153,"ready":140,"blocked":11,"manual":2},
+  "counts": {"total":161,"ready":148,"blocked":11,"manual":2},
   "setups": {
     "v1-A-1": {
       "seed": "v1-A-1",
@@ -449,7 +449,9 @@
       "note": "",
       "steps": [
         {"op":"until","phase":"CAPTAIN_ELECTION"},
-        {"op":"probe","actor":"@Insider","command":{"type":"MOVE","destination":"Room B"},"label":"MOVE during a Captain election"}
+        {"op":"probe","actor":"@Insider","command":{"type":"MOVE","destination":"Room B"},"label":"MOVE during a Captain election"},
+        {"op":"until","round":2,"phase":"ORDINARY_TURN"},
+        {"op":"probe","actor":"@Insider","command":{"type":"MOVE","destination":"Room A"},"label":"a second MOVE by the same player in the turns of the round that follows"}
       ]
     },
     {
@@ -1712,6 +1714,156 @@
         {"op":"command","actor":"@Blue Disabler","command":{"type":"DISABLE","target":"@Supplier"},"expect":"REGISTERED"},
         {"op":"until","round":4},
         {"op":"assert","checks":[{"truth":"@Supplier","field":"health","equals":"Injured"},{"truth":"@Insider","field":"ordinaryWeapons","equals":1},{"truth":"@Cracker","field":"ordinaryWeapons","equals":1}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-11",
+      "title": "After the Supplier stage Supplier is shown whom they armed, and goes on being shown",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views","resources"],
+      "ruleRefs": ["R-ROLE-08","R-ROLE-20","R-VIEW-11"],
+      "dependsOn": ["R-ROLE-07"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED"},
+        {"op":"assert","checks":[{"visible":"@Supplier","field":"armedBySupply","sameSet":[]}]},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"visible":"@Supplier","field":"armedBySupply","sameSet":["@Insider","@Cracker"]},{"visible":"@Insider","field":"armedBySupply","sameSet":[]},{"visible":"@Cracker","field":"armedBySupply","sameSet":[]},{"visible":"@Blue Disabler","field":"armedBySupply","sameSet":[]},{"visible":"@Undercover","field":"armedBySupply","sameSet":[]},{"visible":"@Hacker","field":"armedBySupply","sameSet":[]},{"visible":"@Red Disabler","field":"armedBySupply","sameSet":[]},{"visible":"@Alien","field":"armedBySupply","sameSet":[]}]},
+        {"op":"until","round":5,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"assert","checks":[{"visible":"@Supplier","field":"armedBySupply","sameSet":["@Insider","@Cracker"]}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-12",
+      "title": "A recipient eliminated in Round 3 was given nothing, and Supplier is not shown them as armed",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views","resolution-order","elimination"],
+      "ruleRefs": ["R-ROLE-20","R-ACT-06"],
+      "dependsOn": ["R-ACT-07","R-ROLE-05","R-ROLE-06","R-ROLE-07","R-ROLE-17","R-SETUP-13","R-SETUP-14"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Red Disabler"},
+        {"op":"command","actor":"@Red Disabler","command":{"type":"DISABLE","target":"@Insider"},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Blue Disabler"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"DISABLE","target":"@Insider"},"expect":"REGISTERED"},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"truth":"@Insider","field":"health","equals":"Eliminated"},{"truth":"@Insider","field":"ordinaryWeapons","equals":0},{"visible":"@Supplier","field":"armedBySupply","sameSet":["@Cracker"]}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-13",
+      "title": "A Supplier injured in Round 3 after registering is still shown whom they armed",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views","resolution-order"],
+      "ruleRefs": ["R-ROLE-20","R-ACT-05"],
+      "dependsOn": ["R-ACT-07","R-ROLE-05","R-ROLE-07","R-ROLE-17"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Blue Disabler"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"DISABLE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"truth":"@Supplier","field":"health","equals":"Injured"},{"visible":"@Supplier","field":"armedBySupply","sameSet":["@Insider","@Cracker"]}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-15",
+      "title": "Nobody but Supplier and the player concerned can tell whom Supplier armed",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views"],
+      "ruleRefs": ["R-ROLE-08","R-ROLE-21","R-VIEW-02","R-VIEW-07"],
+      "dependsOn": ["R-ROLE-07"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "A paired case. In the twin run Supplier arms Insider and Hacker in place of Insider and Cracker. Insider is armed in both, and must not be able to tell who the other recipient was.",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED","twin":{"type":"SUPPLY","targets":["@Insider","@Hacker"]}},
+        {"op":"assert","checks":[{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier"]}}}]},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier","@Cracker","@Hacker"]}}},{"differsFromTwin":{"audiences":{"players":["@Cracker","@Hacker"]}}}]},
+        {"op":"until","round":5},
+        {"op":"assert","checks":[{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier","@Cracker","@Hacker"]}}}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-16",
+      "title": "What Supplier is shown after the Supplier stage depends on whom they armed",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views"],
+      "ruleRefs": ["R-ROLE-08","R-ROLE-20"],
+      "dependsOn": ["R-ROLE-07"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "A paired case, and the one that does not need to know where an engine keeps the fact. In the twin run Supplier arms Insider and Hacker in place of Insider and Cracker. If the two runs look the same to Supplier afterwards, Supplier has been told nothing.",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED","twin":{"type":"SUPPLY","targets":["@Insider","@Hacker"]}},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"differsFromTwin":{"audiences":{"players":["@Supplier"]}}}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-17",
+      "title": "A recipient cannot tell who Supplier is",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views"],
+      "ruleRefs": ["R-ROLE-21","R-VIEW-02"],
+      "dependsOn": ["R-ROLE-07","R-SETUP-13","R-SETUP-14"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "twin": {"swapRoles":["Supplier","Blue Disabler"]},
+      "note": "A paired case. In the twin run Supplier and Blue Disabler have changed seats, and the same two players are armed.",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED"},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"truth":"@Insider","field":"ordinaryWeapons","equals":1},{"truth":"@Cracker","field":"ordinaryWeapons","equals":1},{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier","@Blue Disabler"]}}}]}
+      ]
+    },
+    {
+      "id": "V1-M8-SUP-18",
+      "title": "A Supplier eliminated in Round 3 after registering still arms both recipients",
+      "status": "ready",
+      "kind": "rules_correctness",
+      "areas": ["resolution-order","elimination","resources"],
+      "ruleRefs": ["R-ACT-05","R-ROLE-07","R-RES-01"],
+      "dependsOn": ["R-ACT-07","R-ROLE-05","R-ROLE-06","R-ROLE-17","R-SETUP-13","R-SETUP-14"],
+      "lineage": ["BAL-007"],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Red Disabler"},
+        {"op":"command","actor":"@Red Disabler","command":{"type":"DISABLE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Blue Disabler"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"DISABLE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"truth":"@Supplier","field":"health","equals":"Eliminated"},{"truth":"@Insider","field":"ordinaryWeapons","equals":1},{"truth":"@Cracker","field":"ordinaryWeapons","equals":1},{"count":"ordinaryWeapons","equals":3}]}
       ]
     },
     {
@@ -3636,6 +3788,27 @@
         {"op":"assert","checks":[{"publicFact":"phase","equals":"CAPTAIN_ELECTION"}]},
         {"op":"until","round":2,"phase":"ORDINARY_TURN"},
         {"op":"assert","checks":[{"publicFact":"round","equals":2},{"publicFact":"active","equals":"@Cracker"}]}
+      ]
+    },
+    {
+      "id": "V1-M8-VIEW-04",
+      "title": "Who holds which role changes nothing that the table or another player can see",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views","mode-setup"],
+      "ruleRefs": ["R-SETUP-05","R-SETUP-12","R-VIEW-02"],
+      "dependsOn": [],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "twin": {"swapRoles":["Supplier","Blue Disabler"]},
+      "note": "A paired case. In the twin run Supplier and Blue Disabler have changed seats. Neither role starts with knowledge or a weapon, so no other player and no display is entitled to notice.",
+      "steps": [
+        {"op":"assert","checks":[{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier","@Blue Disabler"]}}}]},
+        {"op":"until","round":1,"phase":"JAIL_VOTE"},
+        {"op":"assert","checks":[{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier","@Blue Disabler"]}}}]},
+        {"op":"until","round":2},
+        {"op":"assert","checks":[{"sameAsTwin":{"audiences":{"allPlayersExcept":["@Supplier","@Blue Disabler"]}}}]}
       ]
     },
     {

@@ -32,13 +32,21 @@ export type Check =
   | { changed: { since: string; audiences: Audiences } }
   | { trace: { kinds: string[] } }
   | { traceTurns: { round: number; actives: Ref[] } }
-  | { count: string; equals: number };
+  | { count: string; equals: number }
+  // Paired runs. The scenario is run a second time, its twin, with one declared difference, and
+  // what an audience can read at this point is compared between the two runs. "Same" is how a
+  // secret is checked without knowing where an engine keeps it: if two matches that differ only in
+  // the secret look the same to an audience, that audience cannot learn it. "Differs" is the
+  // opposite: this audience is told something that depends on the difference.
+  | { sameAsTwin: { audiences: Audiences } }
+  | { differsFromTwin: { audiences: Audiences } };
 
 export type Step =
   | { op: 'until'; round?: number; phase?: string; active?: Ref }
   | { op: 'expire'; times?: number }
   | { op: 'expireEarly'; beforeDeadlineMs: number }
-  | { op: 'command'; actor: Ref; command: StepCommand; expect: Expectation; at?: 'start' | 'deadline-1' | 'deadline' }
+  // `twin` is the command sent in its place in the twin run, with the same expected outcome.
+  | { op: 'command'; actor: Ref; command: StepCommand; expect: Expectation; at?: 'start' | 'deadline-1' | 'deadline'; twin?: StepCommand }
   | { op: 'probe'; actor: Ref; command: StepCommand; label: string }
   | { op: 'note'; label: string; match: string }
   | { op: 'mark'; name: string }
@@ -73,6 +81,33 @@ export interface Scenario {
   setup: ScenarioSetup | null;
   steps: Step[];
   note: string;
+  // A twin run that differs in who holds two roles: the two players change roles and nothing else
+  // changes. Used to show that a fact does not give away who holds a role.
+  twin?: { swapRoles: [Role, Role] };
+}
+
+/** Whether the scenario is run twice and compared: a command with a twin, or a twin setup. */
+export function hasTwin(scenario: Scenario): boolean {
+  return scenario.twin !== undefined || scenario.steps.some(step => step.op === 'command' && step.twin !== undefined);
+}
+
+/** The setup of the twin run: the same setup, or the same with two roles changing places. */
+export function twinSetup(scenario: Scenario, setup: ScenarioSetup): ScenarioSetup {
+  if (scenario.twin === undefined) return setup;
+  const [first, second] = scenario.twin.swapRoles;
+  return { ...setup, roleOrder: setup.roleOrder.map(role => (role === first ? second : role === second ? first : role)) };
+}
+
+function twinChecks(scenario: Scenario): Audiences[] {
+  const out: Audiences[] = [];
+  for (const step of scenario.steps) {
+    if (step.op !== 'assert') continue;
+    for (const check of step.checks) {
+      if ('sameAsTwin' in check) out.push(check.sameAsTwin.audiences);
+      else if ('differsFromTwin' in check) out.push(check.differsFromTwin.audiences);
+    }
+  }
+  return out;
 }
 
 export const ARCHIVED_FIELD_NAMES = [
@@ -153,6 +188,26 @@ export function validateScenario(scenario: Scenario): string[] {
     if (scenario.steps.length !== 0) say('a manual scenario has no executable steps');
     if (scenario.ruleRefs.length === 0) say('a manual scenario needs a rule reference');
   } else say('unknown status');
+
+  // Paired runs: a comparison needs a declared difference, and a declared difference needs a comparison.
+  const compared = twinChecks(scenario);
+  if (hasTwin(scenario) !== compared.length > 0) say(hasTwin(scenario) ? 'a twin run is declared and nothing is compared with it' : 'a comparison with a twin run needs a twin command or a twin setup');
+  if (hasTwin(scenario) && scenario.status !== 'ready') say('only a ready scenario may have a twin run');
+  if (scenario.twin !== undefined) {
+    const [first, second] = scenario.twin.swapRoles;
+    const roles: readonly string[] = scenario.setup?.roleOrder ?? [];
+    if (first === second || !roles.includes(first) || !roles.includes(second)) say('a twin setup swaps two different roles of this setup');
+    else if (scenario.setup !== null && scenario.mode !== null && validateSetup(twinSetup(scenario, scenario.setup), scenario.mode).length > 0) say('the twin setup is not a legal setup');
+    // The two players who change roles are different people in the two runs: comparing them says nothing.
+    const swapped = [`@${first}`, `@${second}`];
+    for (const audiences of compared) {
+      const named = typeof audiences === 'string' ? null : 'players' in audiences ? audiences.players : null;
+      const excluded = typeof audiences === 'string' ? null : 'allPlayersExcept' in audiences ? audiences.allPlayersExcept : null;
+      if (audiences === 'all-players' || (named !== null && swapped.some(ref => named.includes(ref))) || (excluded !== null && swapped.some(ref => !excluded.includes(ref)))) {
+        say('a comparison with a twin setup must leave out the two players who change roles');
+      }
+    }
+  }
 
   const createsRejected = scenario.steps.some(step => step.op === 'createRejected');
   if (scenario.setup === null) {

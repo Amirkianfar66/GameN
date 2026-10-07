@@ -10,6 +10,8 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const REQUIRED = ['createFullGame', 'executeFullGame', 'advanceFullGame', 'abortFullGame', 'projectFullGame'];
+// The name every report of a run through this binding carries. The report gate accepts no other.
+export const ADAPTER_NAME = 'full-game-v1';
 const FIXTURE_START = 1_800_000_000_000;
 
 /** @returns {Promise<{available: true, adapter: object, origin: string} | {available: false, reason: string, origin: string}>} */
@@ -72,6 +74,11 @@ function playerFacts(view) {
         round: item.round, target: item.targetSeatId, guess: item.guess, matched: item.matched, inCode: item.inCode,
       })),
       protections: view.knowledge.protections.map(item => ({ seat: item.seatId, activeFromRound: item.activeFromRound, consumed: item.consumed })),
+      // Whom Supplier armed (V1-16). The protocol-2 view has no field for it, and no engine
+      // exports another read that carries it: finding G17 of the integration review. So the
+      // binding reports that the engine tells the player nothing, which is what it does. When
+      // Backend defines that read, this line and `raw.also` in observe() are where it is bound.
+      armedBySupply: null,
     },
   };
 }
@@ -89,7 +96,7 @@ function wireCommand(command) {
 
 function createAdapter(engine) {
   const pins = {
-    adapter: 'full-game-v1',
+    adapter: ADAPTER_NAME,
     engineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
     rulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
     rulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
@@ -99,6 +106,10 @@ function createAdapter(engine) {
     pins,
     createMatch(setup, matchId) {
       let serial = 0;
+      // Command identifiers count commands and nothing else. In a paired case the two runs may send
+      // the same commands at different moments; an identifier that also counted the phases closed
+      // before it would then differ between the runs for a reason that is the harness's own.
+      let commands = 0;
       const context = now => ({ now, nextPhaseId: `phase-${++serial}`, nextDeadlineToken: `deadline-${++serial}` });
       let state = engine.createFullGame({
         matchId,
@@ -138,7 +149,7 @@ function createAdapter(engine) {
         },
         command(actor, command, atMs) {
           const request = {
-            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${++serial}`,
+            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${++commands}`,
             command: wireCommand(command),
           };
           let result;

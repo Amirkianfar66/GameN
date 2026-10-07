@@ -1,6 +1,12 @@
 // Negative controls for the scenario harness.
 //
 //   node scripts/controls.mjs --engine-root <dir> [--engine-commit <sha>] [--out <file.json>] [--require-engine]
+//     [--stand-in supply-disclosure]
+//
+// --stand-in runs through the stand-in of tests/scenarios/support/disclosing.mjs, as for the
+// scenario command. A scenario that does not pass has no controls, so this is the only way to try
+// the controls of the Supplier disclosure cases before an engine makes that disclosure itself. The
+// report names the stand-in as its adapter and the report gate refuses it.
 //
 // Each control copies a ready scenario and makes exactly one of its expectations wrong: a
 // command expected to be accepted is expected to be refused, or an asserted value is changed.
@@ -16,14 +22,17 @@
 //      the command line cannot be understood, or the engine commit it states contradicts the checkout.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { controlVerdict, runControls } from '@mothership/balance';
+import { controlVerdict, hasTwin, runControls, runScenario } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
+import { LEAKS, SUPPLY_DISCLOSURE_STAND_IN, withSupplyDisclosure } from '../../../tests/scenarios/support/disclosing.mjs';
 import { loadGroup } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
 
 const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out'], flags: ['require-engine'] }, refuse);
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out', 'stand-in'], flags: ['require-engine'] }, refuse);
+const standIn = values['stand-in'];
+if (standIn !== null && standIn !== SUPPLY_DISCLOSURE_STAND_IN) refuse(`--stand-in knows only ${SUPPLY_DISCLOSURE_STAND_IN}.`);
 const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
 const out = values.out;
 const requireEngine = flags['require-engine'];
@@ -36,6 +45,12 @@ const write = summary => {
 };
 
 const loaded = await load(engineRoot);
+// The binding itself, kept for the leaking variants of the stand-in below.
+const binding = loaded.available ? loaded.adapter : null;
+if (loaded.available && standIn !== null) {
+  loaded.adapter = withSupplyDisclosure(loaded.adapter);
+  console.log(`STAND-IN ${SUPPLY_DISCLOSURE_STAND_IN}: Supplier is told whom the Supplier stage armed by the stand-in, not by the engine. This run shows that the controls of those cases are detected. It is not evidence about the engine.`);
+}
 const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance negative controls' });
 if ('problem' in built) refuse(built.problem);
 const pins = built.pins;
@@ -59,6 +74,20 @@ for (const mode of [7, 8, 9]) {
   console.log(`mode ${mode}: ${stats.scenarios} ready scenarios, ${stats.controls} controls, ${stats.detected} detected, ${stats.undetected} undetected${stats.baselineNotPassing > 0 ? `, ${stats.baselineNotPassing} scenarios do not pass unmodified` : ''}`);
 }
 const verdict = controlVerdict(runs);
+// With the stand-in, one more kind of control: the stand-in is made to leak, in each of the ways a
+// disclosure to Supplier could go wrong, and the paired cases have to catch every one. A changed
+// expectation tests a case's own checks; a leak tests whether the cases together watch the right things.
+if (standIn !== null) {
+  summary.leaks = [];
+  const paired = [7, 8, 9].flatMap(mode => loadGroup(String(mode)).scenarios).filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
+  for (const [leak, meaning] of Object.entries(LEAKS)) {
+    const leaking = withSupplyDisclosure(binding, leak);
+    const caughtBy = paired.filter(scenario => runScenario(scenario, leaking, '').status === 'failed').map(scenario => scenario.id);
+    summary.leaks.push({ leak, meaning, caughtBy });
+    console.log(`leak ${leak}: ${caughtBy.length === 0 ? 'NOT CAUGHT' : `caught by ${caughtBy.join(', ')}`}`);
+    if (caughtBy.length === 0) { verdict.passed = false; verdict.problems.push(`the leak "${leak}" (${meaning}) was caught by no paired case`); }
+  }
+}
 summary.verdict = verdict.passed ? 'passed' : 'failed';
 for (const line of summary.baselineFailures.slice(0, 40)) console.log(`BASELINE NOT PASSING ${line}`);
 if (summary.baselineFailures.length > 40) console.log(`... and ${summary.baselineFailures.length - 40} more`);

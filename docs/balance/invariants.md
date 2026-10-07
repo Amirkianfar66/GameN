@@ -75,7 +75,7 @@ When no player can take a turn in the next round, a Jail vote or an election may
 | ID | Statement | Rules |
 | --- | --- | --- |
 | INV-VIEW-01 | Before the match is finished, the public payload names no role and carries no private field: role, faction, weapon, Protection, Code, ballot, pending registration or legal-target hint. The one exception is the revealed faction of an Eliminated player. | R-VIEW-02, R-VIEW-03 |
-| INV-VIEW-02 | Each player's view shows their own true role and resources. Insider's candidates, the Undercover's identity, the Code, Scan results and Protection status appear only in the view of the role entitled to them. A failed Scan carries no membership; a correct one carries the true membership. | R-VIEW-04, R-VIEW-05, R-ROLE-13, R-ROLE-14, R-PROT-06 |
+| INV-VIEW-02 | Each player's view shows their own true role and resources. Insider's candidates, the Undercover's identity, the Code, Scan results, Protection status and whom Supplier armed appear only in the view of the role entitled to them. A failed Scan carries no membership; a correct one carries the true membership. | R-VIEW-04, R-VIEW-05, R-ROLE-13, R-ROLE-14, R-PROT-06, R-ROLE-20 |
 | INV-VIEW-03 | An accepted secret registration changes no view except the actor's: shot, Disabler, Protection, Rescue, Supplier's choice, Scan, Hack request, Code submission, ballot, release choice and special shot. A release choice that closes its own window is not judged (D17). | R-VIEW-07, R-ACT-08 |
 | INV-VIEW-04 | An audience's revision never decreases and changes exactly when that audience's content changes. | R-VIEW-07 |
 | INV-VIEW-05 | A refused command changes no state and no view. | R-ACT-09, R-VIEW-07 |
@@ -83,6 +83,10 @@ When no player can take a turn in the next round, a Jail vote or an election may
 | INV-VIEW-07 | Exact roles and the Code are not public while the match is live, and are public and correct once it is finished. An aborted match is not judged either way (D35). | R-VIEW-08 |
 
 INV-VIEW-04 and INV-VIEW-06 restate the technical contract in `docs/integration-baseline.md`. They are checked here because a break in either would let a hidden action show.
+
+"What an audience can see" means its view and anything else the engine binding lets it read beside the view. No engine has such a further read today. Backend proposes one for a seat's own acknowledgments; when the binding carries it, INV-VIEW-03, INV-VIEW-04 and INV-VIEW-05 cover it without a change, and so does every case that compares audiences.
+
+The invariants hold for every state a match passes through. They cannot say that something a rule requires is missing: an engine that tells Supplier nothing breaks none of them. A scenario has to ask for that, which is the lesson of the integration review's finding G17; the audit has the check that followed.
 
 ## Result
 

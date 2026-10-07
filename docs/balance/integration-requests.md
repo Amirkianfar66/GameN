@@ -1,7 +1,7 @@
 # Game Balance requests to Codex Integration
 
 **From:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)). **For:** Codex Astra, Backend and Integration.
-**Base:** `BASE_SHA` `333c9e820f362a211352bc689372663f29b73ac4`. **Date:** 6 October 2026. BAL-REQ-1 was rewritten on 7 October 2026, after the follow-up review, Backend's reconciliation and Integration's draft adoption in PR #47, and [where each request stands](#where-each-request-stands) was added.
+**Base:** `BASE_SHA` `333c9e820f362a211352bc689372663f29b73ac4`. **Date:** 6 October 2026. BAL-REQ-1 was rewritten on 7 October 2026, after the follow-up review, Backend's reconciliation and Integration's draft adoption in PR #47, and [where each request stands](#where-each-request-stands) was added. BAL-REQ-8 and BAL-REQ-9 were added the same day, after the integration review of 7 October.
 
 Codex owns the engine, the shared contracts, the files under `rules/`, the root manifests, the lockfile and CI. Balance has changed none of them. This document lists the exact changes Balance asks for. Contract findings are in [contract-review.md](contract-review.md). Rule questions go to the game owner, not to Codex; they are in the decision register in [rules-audit-v1.md](rules-audit-v1.md#decision-register).
 
@@ -14,6 +14,8 @@ Codex owns the engine, the shared contracts, the files under `rules/`, the root 
 | [BAL-REQ-5](#bal-req-5) | Withdrawn: a ruleset pin that covers the baseline sources | Nothing | None |
 | [BAL-REQ-6](#bal-req-6) | A decision on the three pinned Balance documents | Keeping the brief and the earlier audit current | None |
 | [BAL-REQ-7](#bal-req-7) | One contract request from the review | Projection tests | None |
+| [BAL-REQ-8](#bal-req-8) | For the fix of G17: tell Balance the read that carries Supplier's result, and adopt the new catalogue together with the fix | Twelve cases that fail until Supplier is told | None |
+| [BAL-REQ-9](#bal-req-9) | For names and characters: a decision record the rulebook can cite, and the read that carries them | One rulebook row; watching the new facts | None |
 
 Nothing here adds a package. `tools/balance` keeps its two workspace dependencies and its source imports nothing else, so the workspace guard passes unchanged.
 
@@ -89,7 +91,7 @@ Requested addition to `AGENTS.md`, under "Source precedence", after the numbered
 
 `CLAUDE.md` imports `AGENTS.md`, so no second edit is needed. `CODEX_START_HERE.md` could gain the same pointer in its launch prompts.
 
-Requested addition to the current decision register (`docs/backend/v1-decision-register.md` on PR #16, or wherever the register lives after integration): the nine open rule edges D11, D12, D16 to D20, D34 and D35, or one row linking to their consolidated sheet in the Balance audit. V1-01 to V1-21 are approved and nothing here reopens them. The edges lie outside those decisions: no approved source answers them, and for seven of them the build already behaves one way. Recording them where implementation choices are tracked keeps a build's behaviour from being mistaken for canon. The sixteen readings in the Balance register ask for nothing and need no row.
+Requested addition to the current decision register (`docs/backend/v1-decision-register.md` on PR #16, or wherever the register lives after integration): the nine open rule edges D11, D12, D16 to D20, D34 and D35, or one row linking to their consolidated sheet in the Balance audit. V1-01 to V1-21 are approved and nothing here reopens them. The edges lie outside those decisions: no approved source answers them, and for seven of them the build already behaves one way. Recording them where implementation choices are tracked keeps a build's behaviour from being mistaken for canon. The seventeen readings in the Balance register ask for nothing and need no row.
 
 ## BAL-REQ-4
 
@@ -128,6 +130,29 @@ Requested: either state that the three files are frozen historical sources, or m
 
 The other item this request used to carry, [BAL-C01](contract-review.md#bal-c01) on `shotAvailable`, is closed. Backend's refinement proposal now documents the field's meaning in each protocol, Frontend gates on it together with a non-empty target list, and Balance's re-review found the engine doing what the document says. Balance asks for no versioned schema change.
 
+## BAL-REQ-8
+
+**For the fix of G17: tell Balance the read that carries Supplier's result, and adopt the new catalogue together with the fix.**
+
+The integration review of 7 October asks Balance to cover Supplier's result and the adoption of the contract that will carry it. The coverage is written: [contract-review.md](contract-review.md#part-d-the-two-contracts-now-being-prepared) lists what the rules require, and the catalogue has the cases. Twelve of them fail against every current engine, because the engine tells Supplier nothing. That is the finding, shown by the catalogue. They will pass when the fix is in and the binding reads it.
+
+Two things are asked, and neither is a contract design.
+
+1. **The name and shape of the read, when Backend has chosen them.** Backend proposes a read of a seat's own acknowledgments beside the protocol-2 view. Balance's binding to the engine, `tests/scenarios/adapters/full-game-v1.mjs`, is where it is taken up, in two places that are marked there: the list of players Supplier is shown as armed, and the whole of what a seat can read beside its view, which every comparison of audiences then covers. Until then the binding reports, truthfully, that the engine tells the player nothing. If the result is put into the view itself under a new wire version, the paired cases need no binding at all.
+2. **Adopt this catalogue in the change that fixes G17, not before.** The catalogue has 23 more fixtures and the rulebook three more rows, so every hash and count that PR #47 pins has to move: the four scenario files, the catalogue source, the rulebook, the totals of each group and the numbers of baselines and controls. That is the intended order, and the pins are Integration's to move after review. The evidence report gives the new values. Adopted before the fix, the guard would be red for a defect that is already known; adopted with it, a green guard means Supplier is told.
+
+Until the fix exists, the cases were validated another way, so that Backend is not handed tests that cannot pass. A stand-in adds the missing disclosure on top of the real engine, from the engine's own truth, and through it every ready case passes and every control is detected; made to leak in three ways, it is caught each time. It is described in [tests/scenarios/README.md](../../tests/scenarios/README.md#paired-cases-and-the-stand-in), its runs are labelled, and the report gate refuses them as evidence about an engine.
+
+## BAL-REQ-9
+
+**For names and characters in the lobby: a decision record the rulebook can cite, and the read that carries them.**
+
+The owner approved the comic-board direction on 7 October, with nine characters as the playing pieces, shown with the seat number and the player's name. Designer recorded the decisions in `docs/design/owner-decisions.md` (PR #57) and asks Integration to enter them in the decision register (DSN-REQ-7). The integration review says how: the original register is locked, so a newer decision record is added, or a reviewed lock update is made.
+
+1. **When that record exists, tell Balance its path.** The rulebook says each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06). The approved direction replaces the token with a character and a name. Balance will add the row then, citing the record, and not before: the rulebook cites sources and does not make them.
+2. **When the contract exists, tell Balance where a seat's name and character are read.** The conditions the rules put on them are in [contract-review.md](contract-review.md#names-and-characters-in-the-lobby). The case that watches them, `VIEW-04`, compares everything the binding reads for the table and for every player, so it needs the binding to carry any new read.
+3. **Keep the typed name out of every research record.** It is free text from a person. The record validator now refuses it under three likely field names; the export of BAL-REQ-2 should not carry it under any.
+
 ## Where each request stands
 
 Backend answered every request in its reconciliation (PR [#39](https://github.com/Amirkianfar66/GameN/pull/39) at `e6923b3ffd6f47beb3b7a5963ce5f423c7b08e8e`, a draft, unmerged). The middle column is that document's disposition in short; its own wording is the authority.
@@ -144,11 +169,14 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | BAL-REQ-7, BAL-C02 | A proposal for focused schema and projection hardening. No defect in a connected projection was demonstrated | Agreed that none was demonstrated. It stays a proposal |
 | BAL-C12 | The Hack partner is private to the two participants on the wire. A public field would need an approved disclosure and a protocol review | Answered: private on purpose. No change is asked |
 | BAL-C15, BAL-C16, BAL-C17 | Advisory follow-ups. No new canon follows from them | Agreed |
+| BAL-REQ-8, BAL-REQ-9 | Not yet answered: added on 7 October, after the integration review of that day | Open |
 
 ## What Balance does next, and what it waits for
 
 | Next | Waits for |
 | --- | --- |
+| Bind the read that carries Supplier's result, and run the catalogue against the fix | Backend's fix for G17 and BAL-REQ-8 |
+| Add the rulebook row for names and characters, and bind their read | The decision record and the contract of BAL-REQ-9 |
 | Re-run the engine gate against the engine as merged, and commit the report | The landing candidate on the default branch |
 | Turn a blocked scenario into a ready one, with a new rulebook version | An owner decision on that D number |
 | First in-person pilot sessions under [playtest/protocol.md](playtest/protocol.md) | A playable build, the owner's approval of consent, access and retention, and people |

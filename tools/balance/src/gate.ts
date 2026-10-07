@@ -41,6 +41,9 @@ export interface GateExpectations {
   // commit was only stated. For trying the gate. Never for a merge gate, and without effect when a
   // candidate commit is named.
   allowUnpinnedTree: boolean;
+  // The engine binding the reports must have been made through. A run through a stand-in names
+  // itself in this place, and is not evidence about an engine.
+  adapter: string;
   rulesetVersion: string;
   // The approved owner decision and the pinned rule-source manifest. Two separate pins.
   overlaySha256: string;
@@ -128,6 +131,7 @@ function pinProblems(label: string, report: Json, expected: GateExpectations): s
   const engine = pins['engine'];
   if (!isObject(engine)) say('no engine was available when the report was made');
   else {
+    if (engine['adapter'] !== expected.adapter) say(`the run was made through "${String(engine['adapter'])}", not through the engine binding ${expected.adapter} alone`);
     if (engine['rulesetVersion'] !== expected.rulesetVersion) say(`the engine reports ruleset ${String(engine['rulesetVersion'])}, not ${expected.rulesetVersion}`);
     if (engine['rulesetHash'] !== expected.overlaySha256) say('the engine reports a ruleset hash that is not the approved owner decision');
   }
