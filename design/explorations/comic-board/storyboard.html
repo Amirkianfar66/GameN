@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- mothership:dev-only -->
+<title>Mothership design — comic board exploration, storyboards (development only)</title>
+<style>
+  html, body { margin: 0; background: #10141C; color: #F4EBDD; font: 14px/1.4 system-ui, sans-serif; }
+  main { padding: 20px; display: grid; gap: 14px; }
+  h1 { font-size: 18px; margin: 0; }
+  p { margin: 0; color: #B9C4D3; max-width: 64em; }
+  .frames { display: flex; gap: 10px; align-items: flex-start; }
+  figure { margin: 0; }
+  .window { position: relative; overflow: hidden; inline-size: 195px; border: 2px solid #55657E; }
+  .window iframe { display: block; inline-size: 390px; block-size: 844px; border: 0; transform: scale(0.5); transform-origin: 0 0; }
+  figcaption { margin-block-start: 6px; font-size: 12px; color: #B9C4D3; max-inline-size: 195px; }
+  figcaption strong { display: block; color: #F4EBDD; font-size: 13px; }
+</style>
+</head>
+<body>
+<main id="page"></main>
+<script type="module">
+  // ?kind=move  a player's own move from Room A to Room B, held at six moments.
+  // ?kind=card  the private role card being turned up, held at five.
+  // Each frame is the exploration itself, with ?still or ?peekstill: nothing is redrawn here.
+  window.__designReady = false;
+  const kind = new URLSearchParams(location.search).get('kind') === 'card' ? 'card' : 'move';
+  const boards = {
+    move: {
+      title: 'A move, lifted off the page and set down: 900 ms',
+      note: 'The public move cue as this exploration plays it, on the mover’s own phone. Opening: a crouch and the lift. Accent: carried over the gutter on an ink trail, set down, the room takes the knock. Settled: the piece stands in the room and the tag is stamped on. Under reduced motion none of this plays: the piece is simply there after a short fade.',
+      url: ms => `index.html?still=${ms}`,
+      crop: [112, 600],
+      frames: [[0, 'At rest'], [90, 'A crouch'], [300, 'Lifted, the neighbours close up'], [480, 'Carried over the gutter'], [640, 'Set down: the knock, the star'], [900, 'Settled']],
+    },
+    card: {
+      title: 'The role card, turned up: 900 ms',
+      note: 'PRIVATE, on the player’s own phone only. Opening: the sheet comes up from the hand with the card face down. Accent: the card turns over on the player’s own character, and the device is added. Settled: the device is held and its lights are on. Under reduced motion the card is simply face up.',
+      url: ms => `index.html?skip&peek=hacker&crew=6&peekstill=${ms}`,
+      crop: [268, 576],
+      frames: [[120, 'Up from the hand, face down'], [320, 'Turned over'], [560, 'The device is added'], [700, 'Held'], [900, 'Its lights are on']],
+    },
+  };
+  const board = boards[kind];
+  const page = document.getElementById('page');
+  const add = (tag, text, parent = page) => { const node = document.createElement(tag); if (text) node.textContent = text; parent.append(node); return node; };
+  add('h1', board.title);
+  add('p', board.note);
+  const row = add('div'); row.className = 'frames';
+  const ready = [];
+  for (const [ms, label] of board.frames) {
+    const figure = add('figure', null, row);
+    const frame = add('div', null, figure); frame.className = 'window'; frame.style.blockSize = `${board.crop[1] / 2}px`;
+    const inner = add('iframe', null, frame); inner.title = `${ms} ms`; inner.style.marginBlockStart = `${-board.crop[0] / 2}px`; inner.src = board.url(ms);
+    const caption = add('figcaption', null, figure); add('strong', `${ms} ms`, caption); caption.append(label);
+    ready.push(new Promise(resolve => { const poll = () => (inner.contentWindow?.__designReady ? resolve() : setTimeout(poll, 50)); poll(); }));
+  }
+  await Promise.all(ready);
+  window.__designReady = true;
+</script>
+</body>
+</html>

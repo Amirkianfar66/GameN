@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · exploration drawing · role device: Alien (Alien)
+  mothership:dev-only. Not an asset, in no bundle, never connected. Drawn for the comic-board
+  exploration (design/explorations/comic-board/).
+
+  PRIVATE. A role is shown as a device added to the player's own character, and only on that
+  player's own screen, inside the private card. It is never drawn on a piece on the board,
+  on the shared display or in a public cue. Every phone would load all nine, whatever its role.
+
+  It says: the whole Code, held from the start. A stone with four nodes round it.
+
+  The hand and sleeve are the crew suit every character wears, so one drawing serves all nine
+  characters. The accent is the team color, allowed here because the view is private.
+  No text is drawn. 120 x 140; laid over the lower right of the character.
+  Parts the page may move: device-alien-glow (its lights), device-alien-head (the device), device-alien-arm (hand and sleeve).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" width="120" height="140">
+  <defs>
+    <pattern id="device-alien-dots" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="2" cy="2" r="0.85" fill="#151923"/>
+    </pattern>
+  </defs>
+  <g id="device-alien-all">
+    <g id="device-alien-arm">
+      <polygon points="64,103 92,97 126,150 80,150" fill="#C6CDD4" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+      <polygon points="84,118 98,107 126,150 100,150" fill="url(#device-alien-dots)" opacity="0.6"/>
+      <polygon points="64.5,104 92,98 96.5,105.5 69,112" fill="#C4A4FF" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/>
+    </g>
+    <g id="device-alien-head">
+      <ellipse cx="72" cy="36" rx="34" ry="11" fill="none" stroke="#B9C4D3" stroke-width="1.8" stroke-dasharray="3 4" transform="rotate(-14 72 36)"/>
+      <polygon id="device-alien-glow" points="72,2 88,26 81,74 63,74 56,26" fill="#C4A4FF" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+      <polygon points="72,2 72,74 63,74 56,26" fill="#F4EBDD" opacity="0.38"/>
+      <path d="M56 26 L72 34 L88 26 M72 34 V74" fill="none" stroke="#151923" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M62.5 24 L70 11" fill="none" stroke="#F4EBDD" stroke-width="2.2" stroke-linecap="round"/>
+      <g id="device-alien-nodes" fill="#F4EBDD" stroke="#151923" stroke-width="2"><circle cx="40" cy="43" r="3.8"/><circle cx="57" cy="51.5" r="3.8"/><circle cx="89" cy="21" r="3.8"/><circle cx="104" cy="28" r="3.8"/></g>
+    </g>
+    <g id="device-alien-fist">
+      <path d="M55 84 Q55 75 64 75 H81 Q90 75 90 85 V98 Q90 107 81 107 H64 Q55 107 55 98 Z" fill="#C6CDD4" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M78 76 H82 Q90 76 90 85 V98 Q90 107 82 107 H76 Q82 92 78 76 Z" fill="url(#device-alien-dots)" opacity="0.55"/>
+      <path d="M59 84.5 H78 M59 91.5 H78 M59 98.5 H78" fill="none" stroke="#151923" stroke-width="1.9" stroke-linecap="round"/>
+      <rect x="52" y="69" width="26" height="11" rx="5.5" fill="#C6CDD4" stroke="#151923" stroke-width="2.8" transform="rotate(-10 65 74.5)"/>
+    </g>
+  </g>
+</svg>
