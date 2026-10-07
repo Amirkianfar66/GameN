@@ -1,10 +1,10 @@
 # Staged character and role setup
 
-Work in progress for [#73](https://github.com/Amirkianfar66/GameN/issues/73), based on
+Combined implementation for [#73](https://github.com/Amirkianfar66/GameN/issues/73), based on
 `af797838dee531d7874da2145e99a50c67d32b45`. The
 [owner decision](../decisions/2026-10-07-staged-start.md) defines the sequence.
 Implementation, executed checks and publication are reported separately below;
-this plan is not evidence of a completed release.
+source implementation is not evidence of cloud publication.
 
 ## Player and host flow
 
@@ -57,5 +57,55 @@ The interface reads the choosing/reading deadlines from the strict public setup
 document. A server-time sample calibrates its monotonic countdown; it invalidates
 the estimate on suspension or a failed sample. Reaching zero only changes the
 waiting text. Server transactions and tasks alone may deal roles or begin play.
-The timed runtime and autonomous delivery still require integrated verification
-before this can be published as the completed flow.
+The server owns both transitions, including when the host page is closed. Local
+acceptance below does not establish Cloud Tasks or Scheduler delivery.
+
+
+## Integrated verification on 8 October 2026
+
+The combined branch is `codex/v1-start-sequence`, based on the deployed practice-bot
+commit `af797838dee531d7874da2145e99a50c67d32b45`. It adopts the backend timed runtime
+`f44562d3575c6a23cba105b85e90b694badfce63`, Rules correction
+`14fb2ed8a7f9d2b388771085d54a7361f5f441fc`, and test/handoff follow-up
+`f058028cfd6e90513a6479e0e4bb6c4372259703`. The lifecycle is `staged-start-1`;
+protocol 2, engine/ruleset pins, initial room policy, Original Powers off and the
+approved comic assets are unchanged.
+
+Executed integration evidence:
+
+- `npm run verify` passed 912 workspace tests: 50 bootstrap/contracts, 97 engine,
+  118 backend, 96 tooling, 151 presentation and 400 frontend. Both typechecks,
+  builds, workspace/source integrity and production exclusion passed.
+- Balance gates passed 70 static checks and 483 catalogue cases, with 33 reviewed
+  blocked and 6 explicit manual entries. All 4,388 negative controls were detected;
+  30 seven/eight/nine-seat playouts completed with no invariant/replay mismatches.
+- The real Firebase web SDK regression uses two humans and five bots, both full
+  30-second windows, automatic character assignment, an early Ready and a final
+  Ready after expiry. Both active clients receive the deal and launch without
+  reload or listener errors; roles clear on launch. This catches a real listener
+  failure found during browser acceptance that REST-only checks did not expose.
+- A fresh browser test with one human and six bots passed through auto-assignment,
+  private Reveal, waiting after the reading deadline, and final Ready opening the
+  approved comic board immediately with a fresh 60-second turn. A host-away
+  all-bot test preserved exact 30-second selection and reading intervals and a
+  fresh 60-second first turn. Disposable matches were aborted afterward.
+
+The Firestore fix removes a clock predicate from read authorization and lets a
+current human binding observe only its own missing/deleted preview. Existing
+preview data still requires the current matching deal, stage, windows and binding.
+Host, display, peers, displaced identities, collection reads and writes remain
+refused. Server time checks still enforce when roles may be published and when
+play may launch; no client timer becomes authoritative.
+
+Firebase's local Functions suite does not supply Cloud Tasks delivery. The test-only
+setup adapter waits each real deadline and delivers the stored intent through the
+real service. SDK/REST observations still use each participant's own identity and
+Rules. The interactive local preview has a separate, clearly labeled server tick
+for the same purpose. Neither mechanism proves deployed queue delivery or IAM.
+
+GitHub CI, source-bound staging publication and hosted task delivery are separate
+release checks. No merge is implied. Physical phones, real network loss, complete
+hosted games and human social-deduction balance remain separate acceptance work.
+There are no unresolved owner decisions for this startup sequence. Affected-role
+contract review remains a merge gate. The historical connected development lobby
+still uses its earlier start workflow; use the hosted/practice entry for this flow.

@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema } from '@mothership/contracts';
 import { createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission } from '@mothership/game';
 import { createRestEmulatorTransport, realPorts, until } from './rest-transport.mjs';
+import { deliverSetupDeadlineForTest } from './setup-deadline.mjs';
 
 export const ports = realPorts();
 export const requestId = () => ports.ids.next();
@@ -40,6 +41,7 @@ export async function finishSetup(host, players, matchId) {
       bindingRevision: binding.bindingRevision, displayName: `Player ${index + 1}`, characterId: `c${index + 1}` });
     assert.equal(result.kind, 'done', JSON.stringify(result));
   }
+  await deliverSetupDeadlineForTest(matchId, 'choosing');
   const progress = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'awaiting-ready', 45_000);
   assert.equal(progress.choosingEndsAt - progress.choosingStartedAt, 30_000);
   assert.equal(progress.readingEndsAt - progress.readingStartedAt, 30_000);
@@ -62,6 +64,7 @@ export async function finishSetup(host, players, matchId) {
     assert.equal((await player.api.readyForMatch(body)).kind, 'done', 'Repeating Ready preserves the original transition');
     if (index < players.length - 1) assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'One missing Ready still gates gameplay');
   }
+  await deliverSetupDeadlineForTest(matchId, 'awaiting-ready');
   const launched = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'running', 45_000);
   assert.equal(launched.dealId, progress.dealId);
 }
