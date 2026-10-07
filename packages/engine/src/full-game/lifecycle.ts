@@ -91,8 +91,17 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
         if (target.health==='Injured') target.health='Healthy';
       }
     }
-    if (state.round===3) for (const q of state.queued) if (q.command.type==='SUPPLY') {
-      for (const id of q.command.targetSeatIds) { const target=find(state,id)!; if (alive(target)) target.ordinaryWeapons++; }
+    if (state.round===3) {
+      // The stage records actual grants, including accepted actions with no surviving
+      // recipients. A legacy save before this checkpoint can start complete history;
+      // a legacy save past it never infers an outcome from ammunition or an empty queue.
+      state.supplierGrantResults ??= [];
+      for (const q of state.queued) if (q.command.type==='SUPPLY') {
+        const successfulRecipientSeatIds = q.command.targetSeatIds.filter(id => alive(find(state,id)!));
+        for (const id of successfulRecipientSeatIds) find(state,id)!.ordinaryWeapons++;
+        state.supplierGrantResults.push({ round:3, commandId:q.commandId, supplierSeatId:q.actorSeatId,
+          successfulRecipientSeatIds:[...successfulRecipientSeatIds].sort() });
+      }
     }
     for (const s of state.seats) placement(s);
   }
@@ -120,7 +129,7 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
   const state:FullGameState={matchId,setup:clone(setup),versions:{protocolVersion:2,rulesetVersion:FULL_RULESET_VERSION,rulesetHash:FULL_RULESET_HASH,engineVersion:FULL_ENGINE_VERSION,assetManifestVersion},
     playerCount:setup.playerCount,round:1,seats,code,phase:{id:phaseId,kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60_000},deadlineToken,activeSeatId:null,
     turnIndex:0,turnOrder:[],queued:[],ballots:[],eligibleVoters:[],eligibleTargets:[],releaseTargetSeatId:null,releaseUsed:false,releaseChoiceMade:false,
-    hacksThisRound:0,pendingHack:null,activeHack:null,codeSubmitted:false,correctCode:false,lastTally:null,result:null,electionForNextRound:false,journalSequence:0,
+    hacksThisRound:0,pendingHack:null,activeHack:null,codeSubmitted:false,correctCode:false,lastTally:null,result:null,electionForNextRound:false,supplierGrantResults:[],journalSequence:0,
     viewRevisions:{public:0,players:Object.fromEntries(seatIds.map(id=>[id,0]))}};
   beginRound(state,context); return state;
 }

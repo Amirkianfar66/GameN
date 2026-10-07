@@ -1,6 +1,6 @@
 import type { FullCommand, FullPhase, FullPublicView, SeatId } from '@mothership/contracts';
 import type { GameSeat, Role, Room } from './roster.js';
-export const FULL_ENGINE_VERSION = 'full-game-1.0.0' as const;
+export const FULL_ENGINE_VERSION = 'full-game-1.0.1' as const;
 export const FULL_RULESET_VERSION = 'in-person-v1-2026-10-06' as const;
 export const FULL_RULESET_HASH = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' as const;
 export interface FullGameSetup {
@@ -11,6 +11,13 @@ export interface FullGameSetup {
   roundOrders: SeatId[][];
 }
 export interface FullGameContext { now: number; nextPhaseId: string; nextDeadlineToken: string }
+// Private authoritative evidence, never a public or normal player-view field.
+export interface FullSupplierGrantResult {
+  round: 3;
+  commandId: string;
+  supplierSeatId: SeatId;
+  successfulRecipientSeatIds: SeatId[];
+}
 export interface FullGameState {
   matchId: string; versions: FullPublicView['versions']; playerCount: 7 | 8 | 9;
   setup: FullGameSetup; round: number; seats: GameSeat[]; code: SeatId[];
@@ -24,5 +31,7 @@ export interface FullGameState {
   codeSubmitted:boolean; correctCode:boolean;
   lastTally: FullPublicView['lastTally']; result:FullPublicView['result'];
   electionForNextRound:boolean;
+  // Absence identifies a legacy save with no recorded Supply acknowledgment history.
+  supplierGrantResults?: FullSupplierGrantResult[];
   journalSequence:number; viewRevisions:{public:number;players:Partial<Record<SeatId,number>>};
 }

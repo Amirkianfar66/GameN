@@ -6,10 +6,10 @@ import {
   FullCreateMatchRequestSchema, FullAdmissionRequestSchema, FullApproveAdmissionRequestSchema, FullAdmitDisplayRequestSchema,
   FullStartMatchRequestSchema, FullAbortMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullRedeemSeatRecoveryRequestSchema,
   FullLookupRequestSchema, FullAdvanceRequestSchema, FullServerTimeRequestSchema, FullOperationResponseSchema, FullLobbyViewSchema,
-  FullAssetManifestVersionSchema,
+  FullAssetManifestVersionSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH } from '@mothership/engine';
 import type { FullGameSetup, FullGameState } from '@mothership/engine';
 
 type FailureCode = FullFailure['error']['code'];
@@ -181,7 +181,16 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     ];
     for (const binding of bindings) {
       const viewer = next.players[binding.id as SeatId], uid = binding.get('uid') as unknown;
-      if (viewer !== undefined && uidSafe(uid)) audiences.push({ path: `playerViews/${uid}`, key: `p-${binding.id}`, old: prev?.players[binding.id as SeatId], view: viewer });
+      if (viewer !== undefined && uidSafe(uid)) {
+        audiences.push({ path: `playerViews/${uid}`, key: `p-${binding.id}`, old: prev?.players[binding.id as SeatId], view: viewer });
+        const bindingRevision = binding.get('bindingRevision') as number;
+        const acknowledgment = OwnAcknowledgmentsSchema.parse(projectOwnAcknowledgments(after, binding.id as SeatId, bindingRevision));
+        const previousAcknowledgment = before === null ? null : projectOwnAcknowledgments(before, binding.id as SeatId, bindingRevision);
+        // No timestamps/global revisions: another seat's private fact cannot update this document.
+        if (digest(previousAcknowledgment) !== digest(acknowledgment)) {
+          tx.set(base.collection('ownAcknowledgments').doc(uid), acknowledgment);
+        }
+      }
     }
     for (const audience of audiences) {
       if (digest(audience.old ?? null) === digest(audience.view)) continue;
@@ -264,6 +273,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       FullLobbyViewSchema.parse(nextLobby);
       return { response: success(now, { admissionId: admission.id, seatId, status: 'approved' }), write: () => {
         tx.create(bindingRef, { uid: targetUid, bindingRevision: 1, initialRoom });
+        tx.create(base.collection('seatSessions').doc(targetUid), SeatSessionSchema.parse({ schemaVersion: 1, protocolVersion: 2, matchId: base.id, seatId, bindingRevision: 1 }));
         tx.set(memberRef, { kind: 'player', seatId, bindingRevision: 1 });
         tx.update(admissionRef, { status: 'approved', seatId });
         tx.set(base.collection('lobby').doc('public'), nextLobby);
@@ -472,6 +482,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         tx.update(bindingRef, { uid, bindingRevision });
         tx.set(membershipRef, { kind: 'player', seatId: grant.id, bindingRevision });
         tx.delete(base.collection('members').doc(oldUid)); tx.delete(base.collection('playerViews').doc(oldUid));
+        tx.delete(base.collection('ownAcknowledgments').doc(oldUid)); tx.delete(base.collection('seatSessions').doc(oldUid));
+        tx.set(base.collection('seatSessions').doc(uid), SeatSessionSchema.parse({ schemaVersion: 1, protocolVersion: 2, matchId: base.id, seatId: grant.id, bindingRevision }));
+        if (state !== null) tx.set(base.collection('ownAcknowledgments').doc(uid), OwnAcknowledgmentsSchema.parse(projectOwnAcknowledgments(state, grant.id as SeatId, bindingRevision)));
         if (view !== null && view !== undefined) { FullPlayerViewSchema.parse(view); tx.set(base.collection('playerViews').doc(uid), view); }
         tx.update(grant.ref, { consumed: true, redeemedByUid: uid, redeemedAt: now });
         tx.create(base.collection('identityAudit').doc(auditId), { kind: 'SEAT_RECOVERY', seatId: grant.id, previousUid: oldUid, currentUid: uid, bindingRevision, evaluatedAt: now });

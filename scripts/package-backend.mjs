@@ -59,8 +59,8 @@ const packages = ['packages/contracts', 'packages/engine', 'services/game-api'];
 const vendor = {}, packedMetadata = {}, fingerprints = [];
 const indexes = {
   'packages/engine': {
-    js: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { buildRoster } from './full-game/roster.js';\n",
-    dts: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { buildRoster } from './full-game/roster.js';\n",
+    js: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';\nexport { buildRoster } from './full-game/roster.js';\n",
+    dts: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';\nexport { buildRoster } from './full-game/roster.js';\n",
   },
   'services/game-api': {
     js: "export { createV1Service, encodeV1Setup, decodeV1Setup, encodeV1State, decodeV1State } from './full-game.js';\n",
@@ -118,9 +118,9 @@ try {
     delete environment.FIREBASE_CONFIG;
     for (const key of Object.keys(environment)) if (key.includes('EMULATOR')) delete environment[key];
     execFileSync(process.execPath, ['--input-type=module', '-e', `import assert from 'node:assert/strict';
-      await import('@mothership/contracts');
+      const contracts=await import('@mothership/contracts');assert.equal(typeof contracts.parseOwnAcknowledgments,'function');assert.ok(contracts.OwnAcknowledgmentsSchema);assert.ok(contracts.SeatSessionSchema);
       const engine=await import('@mothership/engine'),api=await import('@mothership/game-api');
-      assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.resolveFixtureAfterVote,undefined);
+      assert.equal(typeof engine.projectOwnAcknowledgments,'function');assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.resolveFixtureAfterVote,undefined);
       const functions=await import(${JSON.stringify('./' + manifest.main)});
       for(const name of ['command','receipt','advance','serverTime','deadlineTask']) assert.equal(functions[name],undefined);
       for(const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines']) assert.ok(functions[name].__endpoint);
