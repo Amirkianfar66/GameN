@@ -11,6 +11,8 @@ Issue [#60](https://github.com/Amirkianfar66/GameN/issues/60). This is an isolat
 | Visual and Motion Designer | [#59](https://github.com/Amirkianfar66/GameN/pull/59), `ecbc0d703fa5e8b6b576e0b9eff6dc972761d3ea` | Approved room/crew/device drawings, three complete hashed bundles, tokens 0.4.0 and catalog crew-0.1.0. Integration adapts the reference CSS to the actual protocol-2 phone/table markup. Designer's prototype JavaScript is excluded. |
 | Game Design and Balance | Committed `7d63089497ec4b7cb84881ea3a8cd58febdb2fdf`, with the real projector adoption in [#67](https://github.com/Amirkianfar66/GameN/pull/67), `f28d3e4ed5e9a582f70f52391b5449d2f89bb02e` | Current catalogue has 522 cases. Required gate must run the actual engine, including all 17 Supplier result cases. The 33 blocked and six manual cases remain explicit; synthetic playouts establish no human social balance. Active uncommitted Balance research is excluded. |
 
+Frontend also committed its expanded action-outcome evidence at `11c21557693895a9473558b187b35f3e67f7ac53`; it is a follow-up review input, not this candidate's browser run. Balance's later committed `32d6dbb1e68a5009632097a73543e4286030b22d` strengthens multi-phase/receipt privacy coverage; its active adapter follow-up is still uncommitted and excluded here. The #67 gate intentionally identifies the earlier immutable catalogue it verified. These newer reports must not be presented as acceptance of the comic candidate.
+
 All implementation PRs remain independently reviewable and unmerged. The candidate records their ancestry; it does not rewrite another agent's branch. Shared contract review by the affected Claude roles remains a merge gate. The initial repository instructions/roster describe historical bootstrap status and should not be read as today's completion report.
 
 ## Actual comic consumer
@@ -50,7 +52,7 @@ At this candidate's repository root, use Node 22.21.1/npm 10.9.4 and Java 21 on 
 ```sh
 npm ci
 npm run build
-npx --no-install firebase emulators:start --config apps/game/dev/comic/firebase.json --project demo-mothership --only auth,firestore
+npx --no-install firebase emulators:start --config firebase.comic-emulators.json --project demo-mothership --only auth,firestore
 ```
 
 In a second terminal at the same root:

@@ -1,8 +1,8 @@
 {
   "//": "mothership:dev-only — isolated local comic acceptance, not a cloud deployment configuration",
   "firestore": {
-    "rules": "../../../../infra/firebase/firestore.rules",
-    "indexes": "../../../../infra/firebase/firestore.indexes.json"
+    "rules": "infra/firebase/firestore.rules",
+    "indexes": "infra/firebase/firestore.indexes.json"
   },
   "emulators": {
     "auth": { "host": "127.0.0.1", "port": 9399 },

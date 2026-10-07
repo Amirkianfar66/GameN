@@ -1,3 +1,4 @@
+globalThis[Symbol.for('mothership:dev-only')] = true;
 // mothership:dev-only — production UI with an explicit local transport substitution.
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';

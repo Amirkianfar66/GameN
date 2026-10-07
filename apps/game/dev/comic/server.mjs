@@ -1,3 +1,4 @@
+globalThis[Symbol.for('mothership:dev-only')] = true;
 // mothership:dev-only — same service and HTTP boundary, isolated demo Auth/Firestore.
 import { createServer } from 'node:http';
 import { initializeApp } from 'firebase-admin/app';

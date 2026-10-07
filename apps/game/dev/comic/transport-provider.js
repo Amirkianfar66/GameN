@@ -1,3 +1,4 @@
+globalThis[Symbol.for('mothership:dev-only')] = true;
 // mothership:dev-only — isolated local integration verification, never a hosted dependency.
 import { createEmulatorTransport } from '../../dist/browser/firebase-transport.js';
 export async function createTransport() {
