@@ -2,7 +2,7 @@
 
 Issue: [#73](https://github.com/Amirkianfar66/GameN/issues/73).
 Backend draft PR: [#74](https://github.com/Amirkianfar66/GameN/pull/74).
-Timed runtime checkpoint: `f44562d3575c6a23cba105b85e90b694badfce63`.
+Timed service runtime checkpoint: `f44562d3575c6a23cba105b85e90b694badfce63`.
 Final emulator test checkpoint: `6cca76710a276cba3a008d05b8e33d5049c177cf`
 (test-only synthetic name correction; runtime unchanged).
 Timed contracts checkpoint: `c185c157ae25404c0e8e0ae44aaa3d5b6e99ffbc`.
@@ -63,10 +63,19 @@ strict timed schema at the pinned checkpoint.
 revision, own audience seat and own role. Insider/Hacker/Alien starting knowledge
 arrives in `FullPlayerView` only when gameplay starts. Only the current human
 binding can read its own preview; host and display have no private-view shortcut.
-Rules also require the current matching reading stage, coherent exact windows
-and trusted `request.time.toMillis() >= readingStartedAt`. A future-dated public
-window cannot authorize an early private read. Authorized missing-preview reads
-are supported only within that current reading-stage authority.
+Existing preview documents require the current matching reading stage,
+coherent exact windows, current durable deal/version pins and active binding.
+The server-only publication owns the time gate. Read Rules do not compare
+`request.time` to the reading start: Firebase defines that value as the time the
+request was received, and integration observed an older open watch stream
+refusing an otherwise authorized newly published role. See the
+[Firebase Rules request reference](https://firebase.google.com/docs/reference/rules/rules.firestore.Request).
+
+An active human can read their own missing preview at any stage. This returns
+no role data and lets a live SDK listener receive deletion at launch or abort
+without losing its public streams. Existing preview data remains strictly gated;
+anonymous, host/display-only, other-seat, bot and displaced bindings remain
+denied. This is an own missing GET allowance, not a list or write permission.
 
 A human can press Ready early and continue reading the same preview. Ready does
 not delete it or shorten the reading window. Gameplay requires both
@@ -195,10 +204,15 @@ change was made to satisfy those assertions.
 
 Coverage includes 7/8/9 seats, no early deal/engine, exact windows, automatic
 unique choices, retained previews, late Ready, delayed/duplicate/stale timers,
-recovery/abort races, durable lost-task repair and all-bot waiting. The tests
-verify REST Rules reads and persisted service state, not Web SDK realtime
-listener lifecycle. Combined browser/emulator acceptance and GitHub CI remain
-pending with the coordinator's integration changes.
+recovery/abort races, durable lost-task repair and all-bot waiting. These backend tests
+verify REST Rules reads and persisted service state. The coordinator has added
+a separate real modular SDK regression for both setup-to-role and
+role-to-gameplay live transitions without reload; that consumer test belongs
+to the integration branch. Combined GitHub CI and actual Functions smoke remain pending with the
+coordinator's integration changes. The follow-up Rules correction and expanded
+missing-preview denial coverage passed all 34 focused setup/Rules/outbox cases.
+The remaining 64 regressions are still running. Standalone package installation
+and production exclusion passed again with the corrected Rules.
 
 Historical untimed evidence at `297de42609ff575aa914e0f852aba80482957622`:
 `npm run verify` passed 876 workspace tests, 70 static checks, 483 catalogue

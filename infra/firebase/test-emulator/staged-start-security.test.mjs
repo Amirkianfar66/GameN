@@ -159,7 +159,7 @@ test('new staged lifecycle gates all gameplay reads through launch and setup abo
 });
 
 
-test('timed role Rules refuse premature previews and stale prepared deals while preserving early-Ready reading access', async () => {
+test('timed role Rules refuse incoherent publications and stale prepared deals while preserving early-Ready reading access', async () => {
   const h = await harness();
   try {
     const suffix = `setupPlayerViews/${h.player.uid}`;
@@ -176,7 +176,7 @@ test('timed role Rules refuse premature previews and stale prepared deals while 
     const futureReading = Date.now() + 60_000;
     await h.set('setup/public', { ...h.setup, choosingStartedAt: futureReading - 30_000, choosingEndsAt: futureReading,
       readingStartedAt: futureReading, readingEndsAt: futureReading + 30_000 });
-    assert.equal((await h.read(suffix, h.player)).status, 403, 'Trusted request time must reach the published reading start');
+    assert.equal((await h.read(suffix, h.player)).status, 200, 'Read authority follows the trusted server publication, not an older watch-stream request time');
     await h.set('setup/public', h.setup);
     await h.db.doc(`${h.root}/setup/deal`).delete();
     assert.equal((await h.read(suffix, h.player)).status, 403, 'A visible preview requires the current durable prepared deal');
@@ -197,5 +197,32 @@ test('timed role Rules refuse premature previews and stale prepared deals while 
     for (const path of ['setup/deal', `setupOutbox/${'a'.repeat(64)}`]) {
       for (const identity of [h.host, h.player, h.display]) assert.equal((await h.read(path, identity)).status, 403);
     }
+  } finally { await h.close(); }
+});
+
+
+test('only a current human may observe their own missing preview across setup, launch and abort', async () => {
+  const h = await harness();
+  try {
+    const suffix = `setupPlayerViews/${h.player.uid}`;
+    for (const status of ['lobby', 'choosing', 'awaiting-ready', 'running', 'aborted']) {
+      await h.set('control/session', { ...h.control, status, gameStarted: status === 'running' });
+      await h.set('setup/public', { ...h.setup, stage: status });
+      await h.db.doc(`${h.root}/${suffix}`).delete();
+      assert.equal((await h.read(suffix, h.player)).status, 404, 'Current own missing read returns no role data');
+      for (const identity of [h.host, h.display, h.peer, h.outsider, undefined]) assert.equal((await h.read(suffix, identity)).status, 403);
+      assert.equal((await h.read('setupPlayerViews', h.player)).status, 403);
+      assert.equal((await h.read(suffix, h.player, { method: 'PATCH', data: h.preview('seat-1') })).status, 403);
+      await h.set(suffix, h.preview('seat-1'));
+      assert.equal((await h.read(suffix, h.player)).status, status === 'awaiting-ready' ? 200 : 403, 'Existing role data keeps its strict reading-stage gate');
+    }
+    await h.db.doc(`${h.root}/${suffix}`).delete();
+    await h.set('seats/seat-1', { controller: 'human', uid: h.replacement.uid, bindingRevision: 2 });
+    await h.set(`members/${h.replacement.uid}`, { kind: 'player', seatId: 'seat-1', bindingRevision: 2 });
+    assert.equal((await h.read(suffix, h.player)).status, 403, 'A displaced binding cannot observe its old missing preview');
+    assert.equal((await h.read(`setupPlayerViews/${h.replacement.uid}`, h.replacement)).status, 404);
+    await h.set('seats/seat-4', { controller: 'bot', uid: h.outsider.uid, bindingRevision: 1 });
+    await h.set(`members/${h.outsider.uid}`, { kind: 'player', seatId: 'seat-4', bindingRevision: 1 });
+    assert.equal((await h.read(`setupPlayerViews/${h.outsider.uid}`, h.outsider)).status, 403, 'Forged bot membership cannot authorize even a missing private read');
   } finally { await h.close(); }
 });
