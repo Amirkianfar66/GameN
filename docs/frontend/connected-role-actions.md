@@ -75,7 +75,7 @@ The journey was run twice. The first run passed too, but one of its checks (what
 ### Not run
 
 - What any of these registrations resolves to at the end of the round, and anything after it.
-- A showdown shot against the backend. A showdown is the end of a match and no journey plays one; it is unit-tested only.
+- **A showdown shot against the backend, in this slice.** A showdown is the end of a match; here it is unit-tested. The whole-match journey at the top of this stack registers four against the emulators ([connected-full-match.md](connected-full-match.md)).
 - The nine-player `shot` journey of the first slice, on this branch.
 - Phones, people, a screen reader, a deployed project.
 - An independent review of this slice by itself. The one described above was of the slices built on it.
