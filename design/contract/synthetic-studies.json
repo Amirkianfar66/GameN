@@ -2,7 +2,7 @@
   "$comment": "mothership:dev-only. The two SYNTHETIC disclosure studies. They are not cues: no director kind exists for them, no approved fact is behind them (RULE-003 / D09), and nothing here may be connected to a match. They are kept out of motion-cues.json so that nothing which walks the cue list can reach them. Only design/prototypes/studies.html shows them. docs/design/motion-storyboards.md ends with a fenced section generated from this file.",
   "devOnly": "mothership:dev-only",
   "status": "synthetic_studies_never_connected",
-  "tokenVersion": "0.3.0",
+  "tokenVersion": "0.4.0",
   "studyManifestVersion": "studies-0.1.0",
   "durationNote": "320 ms is motionMs.publicImpact in the pinned 0.2.0 tokens. The split into beats is this design's proposal and exists nowhere in the token file.",
   "studies": [

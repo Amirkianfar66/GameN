@@ -2,14 +2,14 @@
 
 # Asset inventory
 
-Asset manifest `design-0.1.0` · design tokens `0.3.0` (proposal) · base commit `333c9e8` · rule-source manifest `34e7c08cda13`…
+Asset manifest `design-0.2.0` · design tokens `0.4.0` (proposal) · base commit `333c9e8` · rule-source manifest `34e7c08cda13`…
 
 Two kinds of thing are listed here and they are kept apart:
 
 - **Finished**: an exported file exists, is listed in the manifest with its size, anchors and hash, and is drawn on the contact sheet below.
 - **Not produced**: nothing exists. The entry says what it would be drawn from and what stands in for it today.
 
-Finished means the artwork is complete for this slice. It does not mean approved: human art review is pending, and nothing here has been seen on a phone or a shared display.
+Finished means the artwork is complete for this slice. What has been looked at, and by whom, is the `humanArtReview` line below: the game owner approved the comic board, its characters and its devices as a direction; no illustrator or art director has reviewed anything, and nothing here has been seen on a phone or a shared display.
 
 The two synthetic disclosure studies are neither. They are not assets, are in no bundle and are not in this manifest: see [the end of this page](#synthetic-studies-not-assets).
 
@@ -21,10 +21,10 @@ The two synthetic disclosure studies are neither. They are not assets, are in no
 | --- | --- |
 | origin | Original vector artwork drawn for this repository as hand-written SVG. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is included or was used as a source. |
 | author | Visual and Motion Designer workstream, issue #4: a Claude Code session (model claude-opus-5-5) working for the game owner. |
-| created | 2026-10-06 |
+| created | 2026-10-06 and 2026-10-07 |
 | license | None granted. The repository carries no distribution license. |
 | reuse | Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06). |
-| humanArtReview | pending |
+| humanArtReview | The game owner looked at the five rooms, the nine characters and the nine role devices on a working page and approved the direction on 7 October 2026 (docs/design/owner-decisions.md). No illustrator or art director has reviewed any of it, and nothing has been seen on a phone or a shared display. |
 
 The editable source of every export is the layered SVG named in its row. Exports are lifted out of the sources by `design/tools/build-exports.mjs`; no export is edited by hand.
 
@@ -34,19 +34,26 @@ A bundle is loaded as **one stylesheet**. Every picture in it is a custom proper
 
 | Bundle | Audience | Its stylesheet | Files | Load policy |
 | --- | --- | --- | --- | --- |
-| `public-board` | public | `public-board.art.c5c7a0da6d.css`<br>93.4 KB, 73 pictures | 74, 94.6 KB | The table display and every phone. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Contains nothing that depends on a role, a faction or a private choice. |
-| `player-ui` | player | `player-ui.art.d4fa64f8db.css`<br>5.9 KB, 12 pictures | 13, 7.5 KB | Every phone, identically. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. |
-| `roles` | player | `roles.art.24d16d21b7.css`<br>7.9 KB, 1 pictures | 1, 6.7 KB | UNIFORM. Every phone, identically, before roles are shown. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Fetching one role's art by itself can disclose that role. |
+| `public-board` | public | `public-board.art.1f47b9f920.css`<br>230.6 KB, 101 pictures | 102, 221.6 KB | The table display and every phone. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Contains nothing that depends on a role, a faction or a private choice. |
+| `player-ui` | player | `player-ui.art.fc4830756c.css`<br>5.9 KB, 12 pictures | 13, 7.5 KB | Every phone, identically. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. |
+| `roles` | player | `roles.art.14e56b5e3e.css`<br>24.6 KB, 9 pictures | 9, 21.8 KB | UNIFORM. Every phone, identically, before roles are shown. Every device of this audience fetches this bundle's one stylesheet before the first match view, whatever the seat's role, state or turn. An individual file is never fetched because of something a view says: which files a device asks for must tell an observer nothing. Fetching one role's art by itself can disclose that role. |
 
-The role bundle is expected to hold 9 roles and holds 1: Officer.
+The role bundle is expected to hold 9 roles and holds 9: Officer, Insider, Cracker, Blue Disabler, Supplier, Undercover, Hacker, Red Disabler, Alien.
+
+The manifest's status: Second slice for issue #4: the comic board the game owner approved on 7 October 2026 (five rooms in color, nine characters, nine role devices), on top of the first slice. Not a complete V1 asset set: see docs/design/asset-inventory.md for what is not produced.
 
 ## Produced
 
 | Asset | Status | Bundle | Variants | Size | Drawn from | Editable source |
 | --- | --- | --- | --- | --- | --- | --- |
-| `board-room-a` 0.1.0<br>Room A vignette | Finished | `public-board` | 9 | 30.4 KB | Shown for the location named Room A. Which seats stand in it comes from seats[].location. | `design/source/board/board-room-a.svg` |
+| `board-room-a` 0.2.0<br>Room A vignette | Finished | `public-board` | 9 | 30.4 KB | Shown for the location named Room A. Which seats stand in it comes from seats[].location. | `design/source/board/board-room-a.svg` |
+| `board-room-b` 0.1.0<br>Room B vignette | Finished | `public-board` | 1 | 14.4 KB | Shown for the location named Room B. Which seats stand in it comes from seats[].location. | `design/source/board/board-room-b.svg` |
+| `board-command-room` 0.1.0<br>Command Room vignette | Finished | `public-board` | 1 | 12.9 KB | Shown for the location named Command Room. Which seats stand in it comes from seats[].location. | `design/source/board/board-command-room.svg` |
+| `board-hospital` 0.1.0<br>Hospital vignette | Finished | `public-board` | 1 | 12.7 KB | Shown for the location named Hospital. Which seats stand in it comes from seats[].location. | `design/source/board/board-hospital.svg` |
+| `board-jail` 0.1.0<br>Jail vignette | Finished | `public-board` | 1 | 10.7 KB | Shown for the location named Jail. Which seats stand in it comes from seats[].location. | `design/source/board/board-jail.svg` |
 | `token-neutral` 0.1.0<br>Neutral numbered player token | Finished | `public-board` | 25 | 32.4 KB | One per seat in seats[]. The numeral is the seat number. Health variants follow seats[].health. Nothing else may change it. | `design/source/token/numerals.svg`<br>`design/source/token/token-neutral.svg` |
 | `token-numeral` 0.1.0<br>Token numerals 1 to 9 | Finished | `public-board` | 9 | 2.9 KB | The seat number, 1 to 9. Never a count of anything else. | `design/source/token/numerals.svg` |
+| `piece-crew` 0.1.0<br>Crew character playing piece | Finished | `public-board` | 18 | 72.7 KB | PROPOSED FACT, not in any contract yet (DSN-REQ-6): the character a seat's player chose before roles were dealt. Public, and the same on every screen. Never a role, a team, a health state or anything private. A seat with no character is drawn as token-neutral. | `design/source/crew/crew-1.svg`<br>`design/source/crew/crew-2.svg`<br>`design/source/crew/crew-3.svg`<br>`design/source/crew/crew-4.svg`<br>`design/source/crew/crew-5.svg`<br>`design/source/crew/crew-6.svg`<br>`design/source/crew/crew-7.svg`<br>`design/source/crew/crew-8.svg`<br>`design/source/crew/crew-9.svg` |
 | `token-emphasis` 0.1.0<br>Private token emphasis: rings and the dimmed token | Finished | `player-ui` | 3 | 912 B | PRIVATE, and drawn by no reference rule yet. Meant for a target list the server supplies (DSN-D03): may be chosen, chosen on this device, not offered. Protocol 1 has no such list, and a ring would claim one. | `design/source/token/token-neutral.svg` |
 | `marker-health` 0.1.0<br>Public health marker | Finished | `public-board` | 5 | 4.6 KB | seats[].health: Healthy, Injured or Eliminated. A separate fact from Jail and Captain. | `design/source/markers/markers.svg` |
 | `marker-jail` 0.1.0<br>Public Jail marker | Finished | `public-board` | 2 | 1.1 KB | seats[].jailed is true. Jail is not a health state; a seat's location is a separate field. | `design/source/markers/markers.svg` |
@@ -55,6 +62,7 @@ The role bundle is expected to hold 9 roles and holds 1: Officer.
 | `marker-self` 0.1.0<br>Own-seat marker | Finished | `public-board` | 2 | 900 B | The seat equals the player view's audience.seatId. Drawn on that player's own phone only; the seat number itself is public. | `design/source/markers/markers.svg` |
 | `fx-ink-trail` 0.1.0<br>Public move: ink trail | Finished | `public-board` | 2 | 912 B | A public-move cue, which needs a PUBLIC_MOVE event and a view that shows the seat in its new location. | `design/source/fx/fx.svg` |
 | `fx-landing-puff` 0.1.0<br>Public move: landing puff | Finished | `public-board` | 2 | 778 B | A public-move cue, as fx-ink-trail. | `design/source/fx/fx.svg` |
+| `fx-landing-burst` 0.1.0<br>Public move: landing burst | Finished | `public-board` | 1 | 791 B | A public-move cue, as fx-ink-trail. | `design/source/fx/fx.svg` |
 | `fx-panel-cap` 0.1.0<br>Round transition: panel sweep edge | Finished | `public-board` | 2 | 1.3 KB | A round-transition cue, which needs a PHASE_CHANGED event and a view whose round number went up. | `design/source/fx/fx.svg` |
 | `fx-speed-lines` 0.1.0<br>Round transition: speed lines | Finished | `public-board` | 2 | 648 B | A round-transition cue, as fx-panel-cap. | `design/source/fx/fx.svg` |
 | `pattern-halftone` 0.1.0<br>Halftone tiles | Finished | `public-board` | 5 | 1.5 KB | Decoration. Shading only; it states nothing. | `design/source/fx/patterns.svg` |
@@ -62,14 +70,23 @@ The role bundle is expected to hold 9 roles and holds 1: Officer.
 | `icon-action-shot` 0.1.0<br>Shot action icon | Finished | `player-ui` | 2 | 704 B | The Shot action card inside the private sheet. The same for every seat shown the card. | `design/source/cards/ui-icons.svg` |
 | `icon-private` 0.1.0<br>Private sheet closed and open | Finished | `player-ui` | 4 | 1.3 KB | Whether the player has opened the private sheet on this device. Local state; closed by default. | `design/source/cards/ui-icons.svg` |
 | `icon-connection-stale` 0.1.0<br>Stale connection icon | Finished | `public-board` | 2 | 634 B | The client's own connection status is stale: the view shown is the last known one. | `design/source/cards/ui-icons.svg` |
+| `icon-location` 0.1.0<br>Room caption icon | Finished | `public-board` | 5 | 1.4 KB | Beside a location's name in its caption. One per location; decoration, because the name is always there as live text. | `design/source/board/room-icons.svg` |
 | `pip-resource` 0.1.0<br>Resource pip | Finished | `player-ui` | 3 | 1.5 KB | PRIVATE. Drawn only from the player's own view: available from self.shotAvailable, registered while the seat's own command is listed in ownPendingCommandIds. Spent has no field in protocol 1 (DSN-D02). | `design/source/cards/ui-icons.svg` |
-| `card-officer` 0.1.0<br>Officer role illustration | Finished | `roles` | 1 | 6.7 KB | PRIVATE. The player view's self.role is Officer. Shown only inside that seat's open private sheet. | `design/source/cards/card-officer.svg` |
+| `device-officer` 0.1.0<br>Officer role device | Finished | `roles` | 1 | 2.7 KB | PRIVATE. The player view's self.role is Officer. Drawn over the player's own character, only inside that seat's open private sheet. One ordinary shot: a sidearm with one cell. | `design/source/devices/device-officer.svg` |
+| `device-insider` 0.1.0<br>Insider role device | Finished | `roles` | 1 | 2.3 KB | PRIVATE. The player view's self.role is Insider. Drawn over the player's own character, only inside that seat's open private sheet. Knows three roles as a set: a slate with three marks that are alike. | `design/source/devices/device-insider.svg` |
+| `device-cracker` 0.1.0<br>Cracker role device | Finished | `roles` | 1 | 2.9 KB | PRIVATE. The player view's self.role is Cracker. Drawn over the player's own character, only inside that seat's open private sheet. Two rescues: an injector with two vials. | `design/source/devices/device-cracker.svg` |
+| `device-blue-disabler` 0.1.0<br>Blue Disabler role device | Finished | `roles` | 1 | 2.3 KB | PRIVATE. The player view's self.role is Blue Disabler. Drawn over the player's own character, only inside that seat's open private sheet. One Disable: a prod with one charge ring. | `design/source/devices/device-blue-disabler.svg` |
+| `device-supplier` 0.1.0<br>Supplier role device | Finished | `roles` | 1 | 2.4 KB | PRIVATE. The player view's self.role is Supplier. Drawn over the player's own character, only inside that seat's open private sheet. Two recipients: a carrier with two cells. | `design/source/devices/device-supplier.svg` |
+| `device-undercover` 0.1.0<br>Undercover role device | Finished | `roles` | 1 | 2.3 KB | PRIVATE. The player view's self.role is Undercover. Drawn over the player's own character, only inside that seat's open private sheet. Protection: an emitter under a dome. | `design/source/devices/device-undercover.svg` |
+| `device-hacker` 0.1.0<br>Hacker role device | Finished | `roles` | 1 | 2.6 KB | PRIVATE. The player view's self.role is Hacker. Drawn over the player's own character, only inside that seat's open private sheet. Scanning for four: a scanner with four slots. | `design/source/devices/device-hacker.svg` |
+| `device-red-disabler` 0.1.0<br>Red Disabler role device | Finished | `roles` | 1 | 2.3 KB | PRIVATE. The player view's self.role is Red Disabler. Drawn over the player's own character, only inside that seat's open private sheet. One Disable: a prod with one charge ring. | `design/source/devices/device-red-disabler.svg` |
+| `device-alien` 0.1.0<br>Alien role device | Finished | `roles` | 1 | 2.0 KB | PRIVATE. The player view's self.role is Alien. Drawn over the player's own character, only inside that seat's open private sheet. Holds the Code: a stone with four nodes. | `design/source/devices/device-alien.svg` |
 
 ### Sprites
 
 | Sprite | Bundle | Symbols | Size |
 | --- | --- | --- | --- |
-| `sprite-public` 0.1.0 | `public-board` | token-badge, token-badge-injured, token-badge-eliminated, token-standee, token-standee-injured, token-standee-eliminated, numeral-1, numeral-2, numeral-3, numeral-4, numeral-5, numeral-6, numeral-7, numeral-8, numeral-9, marker-health-healthy, marker-health-injured, marker-health-eliminated, marker-jail, marker-captain, marker-turn, marker-self, fx-ink-trail (tintable), fx-landing-puff (tintable), fx-speed-lines (tintable), icon-connection-stale (tintable) | 13.8 KB |
+| `sprite-public` 0.2.0 | `public-board` | token-badge, token-badge-injured, token-badge-eliminated, token-standee, token-standee-injured, token-standee-eliminated, numeral-1, numeral-2, numeral-3, numeral-4, numeral-5, numeral-6, numeral-7, numeral-8, numeral-9, marker-health-healthy, marker-health-injured, marker-health-eliminated, marker-jail, marker-captain, marker-turn, marker-self, fx-ink-trail (tintable), fx-landing-puff (tintable), fx-speed-lines (tintable), icon-connection-stale (tintable), icon-location-room-a (tintable), icon-location-room-b (tintable), icon-location-command-room (tintable), icon-location-hospital (tintable), icon-location-jail (tintable) | 15.1 KB |
 | `sprite-player` 0.1.0 | `player-ui` | token-badge-unavailable, token-ring-targetable, token-ring-selected, icon-action-shot (tintable), icon-private-closed (tintable), icon-private-open (tintable), pip-available, pip-registered, pip-spent | 3.2 KB |
 
 ### Variants, sizes and anchors
@@ -89,6 +106,30 @@ Sizes are in the export's own units; every export is vector and scales freely. A
 | `layer-props-back` | 1024 × 768 | 2465 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
 | `layer-props-front` | 1024 × 768 | 1551 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
 | `layer-frame` | 1024 × 768 | 247 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
+
+**`board-room-b`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `full` | 1024 × 768 | 14722 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
+
+**`board-command-room`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `full` | 1024 × 768 | 13247 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
+
+**`board-hospital`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `full` | 1024 × 768 | 13026 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
+
+**`board-jail`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `full` | 1024 × 768 | 10984 | Table; Phone, public layer; Phone, private sheet | panelBox [20, 20, 984, 728] · captionTopLeft [34, 32] · captionMaxWidth 240 |
 
 **`token-neutral`**
 
@@ -133,6 +174,29 @@ Sizes are in the export's own units; every export is vector and scales freely. A
 | `n7` | 40 × 48 | 267 | Table; Phone, public layer; Phone, private sheet | center [20, 22.5] · bodyTop 4 · bodyBottom 41 |
 | `n8` | 40 × 48 | 321 | Table; Phone, public layer; Phone, private sheet | center [20, 22.5] · bodyTop 4 · bodyBottom 41 |
 | `n9` | 40 × 48 | 386 | Table; Phone, public layer; Phone, private sheet | center [20, 22.5] · bodyTop 4 · bodyBottom 41 |
+
+**`piece-crew`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `standee-c1` | 96 × 120 | 4812 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c2` | 96 × 120 | 4386 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c3` | 96 × 120 | 4520 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c4` | 96 × 120 | 4293 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c5` | 96 × 120 | 4811 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c6` | 96 × 120 | 4328 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c7` | 96 × 120 | 4733 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c8` | 96 × 120 | 4167 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `standee-c9` | 96 × 120 | 4503 | Table; Phone, public layer; Phone, private sheet | origin [48, 104] · tagTop [48, 116] |
+| `card-c1` | 84 × 96 | 4068 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c2` | 84 × 96 | 3642 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c3` | 84 × 96 | 3776 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c4` | 84 × 96 | 3549 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c5` | 84 × 96 | 4067 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c6` | 84 × 96 | 3584 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c7` | 84 × 96 | 3989 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c8` | 84 × 96 | 3423 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
+| `card-c9` | 84 × 96 | 3759 | Table; Phone, public layer; Phone, private sheet | note The piece without its stand: for a list row, a target row, the character chooser and the player's own role card. · faceCenter [48, 38] |
 
 **`token-emphasis`**
 
@@ -194,6 +258,12 @@ Sizes are in the export's own units; every export is vector and scales freely. A
 | `ink` | 120 × 36 | 389 | Table; Phone, public layer; Phone, private sheet | contact [60, 30] · alignTo The contact point sits on the token origin (floor contact). |
 | `paper` | 120 × 36 | 389 | Table; Phone, public layer; Phone, private sheet | contact [60, 30] · alignTo The contact point sits on the token origin (floor contact). |
 
+**`fx-landing-burst`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `paper` | 100 × 100 | 791 | Table; Phone, public layer; Phone, private sheet | center [50, 50] · alignTo Its center sits a little above the piece's floor contact, behind the piece. |
+
 **`fx-panel-cap`**
 
 | Variant | Size | Bytes | May be drawn on | Anchors |
@@ -248,6 +318,16 @@ Sizes are in the export's own units; every export is vector and scales freely. A
 | `ink` | 32 × 32 | 317 | Table; Phone, public layer; Phone, private sheet | center [16, 16] |
 | `paper` | 32 × 32 | 317 | Table; Phone, public layer; Phone, private sheet | center [16, 16] |
 
+**`icon-location`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `room-a` | 24 × 24 | 324 | Table; Phone, public layer; Phone, private sheet | center [12, 12] |
+| `room-b` | 24 × 24 | 361 | Table; Phone, public layer; Phone, private sheet | center [12, 12] |
+| `command-room` | 24 × 24 | 297 | Table; Phone, public layer; Phone, private sheet | center [12, 12] |
+| `hospital` | 24 × 24 | 180 | Table; Phone, public layer; Phone, private sheet | center [12, 12] |
+| `jail` | 24 × 24 | 276 | Table; Phone, public layer; Phone, private sheet | center [12, 12] |
+
 **`pip-resource`**
 
 | Variant | Size | Bytes | May be drawn on | Anchors |
@@ -256,11 +336,59 @@ Sizes are in the export's own units; every export is vector and scales freely. A
 | `registered` | 36 × 20 | 620 | Phone, private sheet | center [18, 10] |
 | `spent` | 36 × 20 | 506 | Phone, private sheet | center [18, 10] |
 
-**`card-officer`**
+**`device-officer`**
 
 | Variant | Size | Bytes | May be drawn on | Anchors |
 | --- | --- | --- | --- | --- |
-| `art` | 500 × 700 | 6907 | Phone, private sheet | aspect 5:7 · focus [250, 318] · safeArea [24, 24, 452, 652] |
+| `held` | 120 × 140 | 2736 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-insider`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2375 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-cracker`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2977 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-blue-disabler`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2350 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-supplier`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2459 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-undercover`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2349 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-hacker`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2648 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-red-disabler`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2342 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
+
+**`device-alien`**
+
+| Variant | Size | Bytes | May be drawn on | Anchors |
+| --- | --- | --- | --- | --- |
+| `held` | 120 × 140 | 2065 | Phone, private sheet | placement Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge. · grip [78, 104] |
 
 ## Not produced
 
@@ -270,29 +398,14 @@ What a complete in-person V1 still needs from Designer. None of it exists as an 
 
 | Planned id | What | Needs | Until then |
 | --- | --- | --- | --- |
-| `board-room-b` | Room B vignette | Nothing new: seats[].location = Room B. A different silhouette from Room A (a wide slit window, angular ribs), the same palette. | The plain inked panel (board-panel-fallback). |
-| `board-command-room` | Command Room vignette | Nothing new for the panel. Any immunity mark needs an approved way to show it from current location data. | The plain inked panel. |
-| `board-hospital` | Hospital vignette | Nothing new. | The plain inked panel. |
-| `board-jail` | Jail vignette | Nothing new. | The plain inked panel. |
-| `board-final-zone` | Final Zone vignette | The showdown phase in the audience views. Protocol 1 has no such phase; the panel must not be drawn before it. | Not drawn. |
-
-### Role illustrations (the uniform role bundle)
-
-| Planned id | What | Needs | Until then |
-| --- | --- | --- | --- |
-| `card-insider` | Insider | self.role. Private. | The role name on a paper card, as today. |
-| `card-cracker` | Cracker | self.role. Private. | The role name on a paper card, as today. |
-| `card-blue-disabler` | Blue Disabler | self.role. Private. | The role name on a paper card, as today. |
-| `card-supplier` | Supplier | self.role. Private. | The role name on a paper card, as today. |
-| `card-undercover` | Undercover | self.role. Private. | The role name on a paper card, as today. |
-| `card-hacker` | Hacker | self.role. Private. | The role name on a paper card, as today. |
-| `card-red-disabler` | Red Disabler | self.role. Private. | The role name on a paper card, as today. |
-| `card-alien` | Alien | self.role. Private. | The role name on a paper card, as today. |
+| `board-final-zone` | Final Zone vignette | The showdown phase in the audience views. Protocol 1 has no such phase; the panel must not be drawn before it. It will need a color family of its own in the tokens. | Not drawn. |
+| `board-room-layers` | Layer exports of Room B, the Command Room, the Hospital and the Jail | Frontend's renderer evaluation. The four are exported whole; their layers are groups in the sources and lift the way Room A's do. | The whole picture of each room. |
 
 ### Action cards and icons
 
 | Planned id | What | Needs | Until then |
 | --- | --- | --- | --- |
+| `card-role-back` | Role card back and the hand | A place in the markup for a card that is dealt face down, the same whatever its face. Drawn in the approved exploration. Today the closed private dock stands for it. | The private dock, closed. |
 | `icon-action-move` | Move | The server's own list of destinations for the seat. Protocol 1 carries none. | Frontend's functional placement in its connected prototype. |
 | `icon-action-role` | Role actions (protect, rescue, disable, supply, scan) | Per-action availability and the server's own target lists. Protocol 1 carries none. | Not drawn. |
 | `icon-action-hack` | Standard Hack request and conversation | The Hack phase and the seat's own Hack availability. Two separate states; no ordinary private chat. | Not drawn. |
@@ -311,6 +424,7 @@ What a complete in-person V1 still needs from Designer. None of it exists as an 
 
 | Planned id | What | Needs | Until then |
 | --- | --- | --- | --- |
+| `layout-character-choice` | Choosing a character and typing a name | The lobby step and the public identity record of a seat (DSN-REQ-6). Drawn and playable in the approved exploration; no markup exists to style. The nine pictures are produced. | Frontend's development console. |
 | `layout-lobby` | Lobby and seating | The lobby flow and its contracts. Not part of protocol 1. | Frontend's development console. |
 | `layout-host` | Host session controls | The host's approved controls. Being host grants no extra visibility. | Frontend's development console. |
 

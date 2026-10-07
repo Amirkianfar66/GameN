@@ -139,7 +139,7 @@ const CONVENTIONS = {
   filenames: '<asset id>.<variant>.<first ten hex digits of the SHA-256 of the file>.svg. A changed file is a new name, so a file may be cached forever.',
   text: 'No export contains text. Every word on screen is live English text supplied by the client.',
   loading: 'What a device fetches must tell an observer nothing. A DOM client loads each bundle through its one stylesheet (bundles.<name>.stylesheet), before the first match view and whatever the seat\'s state: every variant is in it as a custom property named --ms-asset-<id>-<variant>, so nothing is fetched later. A client that fetches individual files (a scene loading textures) fetches all of a bundle or none of it, never a file because of something a view says.',
-  scene: 'Proposed for the Three.js evaluation, not measured: +Y up, floor on X/Z, one authored unit is one grid unit, a token\'s origin is its floor contact. Stack order and depth on the Room A layers are a starting point to tune.',
+  scene: 'Proposed for the Three.js evaluation, not measured: +Y up, floor on X/Z, one authored unit is one grid unit, a piece\'s origin is its floor contact. Stack order and depth on the Room A layers are a starting point to tune; the other four rooms are exported whole, and their layers can be lifted from the sources the same way.',
   surfaces: 'table is the shared display. phone-public is a phone with its private sheet closed. phone-private is inside an open private sheet. An export may be drawn only on the surfaces it lists.',
   layers: 'A data-layer attribute names the source layer a group came from. Ids are kept only on definitions.',
 };
@@ -270,7 +270,7 @@ export async function planExports({ designRoot }) {
 
   const manifest = {
     manifestVersion: recipes.manifestVersion,
-    status: 'First production-direction slice for issue #4. Not a complete V1 asset set: see docs/design/asset-inventory.md for what is not produced.',
+    status: 'Second slice for issue #4: the comic board the game owner approved on 7 October 2026 (five rooms in color, nine characters, nine role devices), on top of the first slice. Not a complete V1 asset set: see docs/design/asset-inventory.md for what is not produced.',
     generatedBy: 'design/tools/build-exports.mjs from design/source/export-recipes.json. Do not edit by hand.',
     tokenVersion: recipes.tokenVersion,
     baseCommit: recipes.baseCommit,

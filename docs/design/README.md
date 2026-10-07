@@ -4,9 +4,11 @@ Issue [#4](https://github.com/Amirkianfar66/GameN/issues/4) · brief [agents/des
 
 Designer owns `design/`, `packages/design-tokens/` and this directory. Frontend owns the runtime in React, Three.js and GSAP. Codex owns shared contracts, rules, root manifests, the lockfile, CI and the integrity guards; nothing of theirs is changed here, and what Designer needs from them is in [integration-requests.md](integration-requests.md).
 
-**This is the first V1 milestone, not V1.** The owner's goal for Version 1 is a complete game for people playing together in person, on private phones with a physical or shared board ([#9](https://github.com/Amirkianfar66/GameN/issues/9)). What is here is the visual and interaction contract for that phone-and-table experience, and the first finished pieces of it: one room, the token, the public markers, one private role card and the cues the contracts authorize. A finished Officer card does not make a complete game; what is still missing is listed in [asset-inventory.md](asset-inventory.md#not-produced).
+**This is a milestone on the way to V1, not V1.** The owner's goal for Version 1 is a complete game for people playing together in person, on private phones with a physical or shared board ([#9](https://github.com/Amirkianfar66/GameN/issues/9)). What is here is the visual and interaction contract for that phone-and-table experience, and the finished pieces of it so far: five rooms, nine characters, the public markers, nine private role devices and the cues the contracts authorize. Art for nine roles does not make a complete game; what is still missing is listed in [asset-inventory.md](asset-inventory.md#not-produced).
 
-**A new direction was approved by the owner on 7 October 2026**: the board as a page of a comic book with rooms in color, nine crew characters as the playing pieces, and the role as a private card on which a device is added to the player's own character. It is recorded in [owner-decisions.md](owner-decisions.md) and built as an exploration in [design/explorations/comic-board/](../../design/explorations/comic-board/README.md). Everything else in this directory still describes the design of PR #45, which that direction will replace part by part as it is adopted; nothing here has been rewritten ahead of that.
+**The look is the one the owner approved on 7 October 2026**: the board as a page of a comic book with rooms in color, nine crew characters as the playing pieces, and the role as a private card on which a device is added to the player's own character ([owner-decisions.md](owner-decisions.md)). It was approved as a working page, [design/explorations/comic-board/](../../design/explorations/comic-board/README.md), and has since been brought into the sources, the tokens, the exports, the contract and the reference stylesheets. Four parts of that page are not here yet, and each says what it waits for: [frontend-handoff.md](frontend-handoff.md#what-of-the-approved-direction-is-not-here-yet). **The owner has not looked at the adopted result**; what was approved and what was built from it are told apart in [owner-decisions.md](owner-decisions.md#adopted-since-and-what-the-owner-has-not-seen).
+
+**Two facts the approved pieces need are in no contract**: a seat's display name and the character its player chose ([integration-requests.md](integration-requests.md#dsn-req-6)). Until they are, every seat is drawn as a numbered token and “Player N”, and the same stylesheet draws both.
 
 ## Provenance
 
@@ -20,7 +22,9 @@ Designer owns `design/`, `packages/design-tokens/` and this directory. Frontend 
 | Frontend reference | `agent/frontend-motion-gallery` at `fccadf7`, read only, for the hooks its markup has and the states its Shot card model produces. Unmerged. The review pages rebuild that markup by hand; they do not run Frontend's code |
 | `docs/version-roadmap.md` | Not in this baseline, as expected. Read from issue #9 and from the unmerged `docs/v1-in-person-priority` (PR #10) |
 | Date | 6 October 2026 |
-| Stacked on it | `agent/designer-comic-board`, on top of PR #45 at `6017c61`, 7 October 2026: the comic-board direction the owner approved, as an exploration, with its fence. Same runner and model |
+| Stacked on it | `agent/designer-comic-board` (PR #57), on top of PR #45 at `6017c61`, 7 October 2026: the comic-board direction the owner approved, as an exploration, with its fence. Same runner and model |
+| Stacked on that | `agent/designer-comic-adoption`, on top of PR #57 at `4fa2ff3`, 7 October 2026: the approved direction brought into the sources, tokens 0.4.0, the exports (`design-0.2.0`), the contract and the reference stylesheets, after the all-agents review of that date. Same runner and model |
+| Read for it, and not in this base | `codex/v1-connected-merge-candidate` at `71dfd02`: the approved in-person V1 decisions V1-01 to V1-21, for the notes on the role-card copy. Nothing was built on it |
 
 Nothing here changes a rule, a contract, a lockfile or CI. The four pinned Designer files (`art-direction.md`, `motion-direction.md`, `design-tokens.json`, `agents/designer.md`) are untouched byte for byte; this work applies and extends them in new files.
 
@@ -31,12 +35,12 @@ Nothing here changes a rule, a contract, a lockfile or CI. The four pinned Desig
 | [visual-interaction-contract.md](visual-interaction-contract.md) | The contract: surfaces, the phone's two layers, the table's comic page, what may be shown where, how art is loaded, and the token revision |
 | [layouts.md](layouts.md) | Annotated phone and table layouts, each number tied to a component and the fact it is drawn from. *Generated* |
 | [component-states.md](component-states.md) | Every component and state: its source, how it looks, its words. *Generated* |
-| [motion-storyboards.md](motion-storyboards.md) | Opening, accent and settled frames for every authorized cue, with reduced-motion and reduced-effects alternatives; then, fenced, the two synthetic studies. *Generated* |
+| [motion-storyboards.md](motion-storyboards.md) | Frames from the opening to the settled state for every authorized cue, with reduced-motion and reduced-effects alternatives; then, fenced, the two synthetic studies. *Generated* |
 | [asset-inventory.md](asset-inventory.md) | What is finished and what is not produced; sizes, anchors, rights; a contact sheet of every export. *Generated* |
 | [frontend-handoff.md](frontend-handoff.md) | For Frontend: how art is loaded, formats, coordinates, hooks, token and asset adoption, structure requests and review questions |
 | [integration-requests.md](integration-requests.md) | For Codex: check wiring, the token revision and its lock update, contract fields the design is waiting for |
 | [verification.md](verification.md) | The checks that were actually run, what each asserts and does not, what an independent review found, and what was not run |
-| [owner-decisions.md](owner-decisions.md) | What the game owner decided with Designer, in the owner's words: on 7 October 2026, the comic-board direction, approved |
+| [owner-decisions.md](owner-decisions.md) | What the game owner decided with Designer, in the owner's words: on 7 October 2026, the comic-board direction, approved. And what was built from it since, which the owner has not seen |
 
 The generated pages are written by `design/tools/write-docs.mjs` from the JSON under `design/contract/` and from the two manifests. Change the source, not the page.
 
@@ -45,41 +49,46 @@ The generated pages are written by `design/tools/write-docs.mjs` from the JSON u
 | `design/source/` | The editable artwork: layered SVG, drawn by hand, no text in it. `export-recipes.json` says how each export is lifted out. `source/studies/` holds the two study drawings and nothing an export may read |
 | `design/exports/` | The assets: one stylesheet per bundle holding every picture in it, the same pictures as content-hashed files, two sprites, and `asset-manifest.json`. Never edited by hand |
 | `design/studies/` | The two synthetic disclosure studies and their own manifest. Not assets, in no bundle |
-| `design/contract/` | The machine-readable contract: components and states, cues, the studies, layout callouts, planned assets, proposed copy |
+| `design/contract/` | The machine-readable contract: components and states, cues, the studies, layout callouts, planned assets, proposed copy, and the catalog of the nine characters |
 | `design/prototypes/` | Reference stylesheets on Frontend's own hooks, the loader, and the review pages. Development only; not shipped |
 | `design/review/` | Review renders of those pages, and the reports of the two browser checks |
-| `design/explorations/` | Looks tried with the owner, kept apart from everything above: `comic-board/` is the direction approved on 7 October 2026. Development only; not assets, not contract, not shells |
+| `design/explorations/` | Looks tried with the owner, kept apart from everything above: `comic-board/` is the working page approved on 7 October 2026, which still shows the parts of that direction that are not adopted yet. It draws from the sources; nothing reviewed draws from it. Development only; not assets, not contract, not shells |
 | `design/tools/` | Build, check, document and render scripts. Node built-ins only |
-| `packages/design-tokens/` | The pinned 0.2.0 proposal, unchanged, and the additive 0.3.0 revision beside it |
+| `packages/design-tokens/` | The pinned 0.2.0 proposal, unchanged; the 0.4.0 revision beside it, additive over 0.2.0; and 0.3.0, kept so that a test can hold 0.4.0 to it |
 
 ## Status
 
 Three words are used throughout and they are not interchangeable.
 
-- **Finished** is artwork that is complete for this slice: drawn, exported, listed in the manifest, and drawn on the contact sheet where it was looked at. It is not approved. Human art review is pending and none of it has been seen on a phone or a shared display.
-- **Proposal** is a specification or a value offered for review: the 0.3.0 tokens, the layouts, the reference stylesheets, the loading rule, the beat splits, the copy for the Officer card, every hook marked PROPOSED.
+- **Finished** is artwork that is complete for this slice: drawn, exported, listed in the manifest, and drawn on the contact sheet where it was looked at. The owner approved the rooms, the characters and the devices as a direction, on a working page. No illustrator or art director has reviewed any of it, and none of it has been seen on a phone or a shared display.
+- **Proposal** is a specification or a value offered for review: the 0.4.0 tokens, the layouts, the reference stylesheets, the loading rule, the beat splits, the copy for the nine role cards, the crew catalog, every hook marked PROPOSED, and the two facts no contract carries yet.
 - **Measured** is a number read from something that ran. The only measurements here are from desktop Chrome on one Mac laying out the Designer's own hand-built copy of the shell markup. **No device measurement exists.**
 
 | Deliverable | State |
 | --- | --- |
-| Room A vignette, layered, with anchors | Finished |
-| Neutral token: badge and standee, numerals 1 to 9, Injured and Eliminated bodies | Finished |
+| Five room vignettes, each printed in its own color family: Room A (layered), Room B, Command Room, Hospital, Jail | Finished. Approved by the owner as a direction |
+| Nine crew characters, each as a standee and as a card | Finished. Approved by the owner as a direction. **Drawn in a connected match only once a seat's character is a fact** (DSN-REQ-6) |
+| Nine private role devices | Finished. Approved by the owner as a direction |
+| Neutral token: badge and standee, numerals 1 to 9, Injured and Eliminated bodies | Finished. It is the piece of every seat that has no character |
 | Captain, health, Jail, active-turn and own-seat markers, as chips and as board badges | Finished |
-| Private Officer role illustration | Finished |
-| Cue layers, interface icons, resource pips, halftone and hatch tiles | Finished |
+| Cue layers (now with a landing burst), room caption icons, interface icons, resource pips, halftone and hatch tiles | Finished |
+| The Officer role illustration of PR #45 (a sidearm on a card) | **Removed.** Superseded by the Officer's device: the owner dropped a separate picture per role |
 | Private token emphasis (two rings and a dimmed token); the struck-out pip | Finished as pictures, and **drawn by no rule**: no field authorizes them yet (DSN-D02, DSN-D03) |
 | Two disclosure studies (resolved shot, blocked outcome) | Synthetic study. Not assets. No approved fact; never connected |
-| Design tokens 0.3.0 | Proposal, additive over the pinned 0.2.0 |
-| Phone and table layouts, component and state contract | Proposal, on Frontend's existing hooks |
+| Design tokens 0.4.0 | Proposal, additive over the pinned 0.2.0; one listed revision of 0.3.0 |
+| Phone and table layouts, component and state contract | Proposal, on Frontend's existing hooks and four PROPOSED ones for names, characters and the role card |
+| Role-card copy for all nine roles | Proposal, for Frontend and the owner. Each rule statement cites a rule source in this branch |
+| The crew catalog for Integration's identity record | Proposal. No shared contract |
 | How art is loaded: one stylesheet per bundle, drawn only once it has arrived | Proposal. Shown to work in the review pages; Frontend's runtime is unchanged and unmeasured |
-| Cue timing, easing, storyboards, reduced-motion and reduced-effects alternatives | Proposal. Durations are the 0.2.0 token values, unmeasured |
+| Cue timing, easing, storyboards, reduced-motion and reduced-effects alternatives, for seven cues | Proposal. Unmeasured. The carried move and the role-card turn are the owner-approved ones, at 900 ms each; the other five keep their 0.2.0 durations |
 | Reference stylesheets and review pages | Proposal. Frontend owns the runtime |
 | Layout check and shell check ([verification.md](verification.md#checks-that-need-a-browser)) | Measured, in desktop Chrome only |
 | Text contrast of the color pairs the design uses | Computed from token values. Not measured in compositing |
 | Readability, touch accuracy, motion comfort, load and memory on phones and a shared display | **Not run** |
 | Sound | Specified. **No audio asset exists** |
 | Everything in [asset-inventory.md](asset-inventory.md#not-produced) | **Not produced** |
-| The comic-board direction: five rooms in color, nine character pieces with number and name, the move and role-card motion, nine private role devices | **Approved by the owner** as the direction, 7 October 2026. Built as an exploration and seen in desktop Chrome only. **Not adopted**: no token, source, recipe, contract file or reference stylesheet has changed for it |
+| The comic-board direction: five rooms in color, nine character pieces with number and name, the move and role-card motion, nine private role devices | **Approved by the owner** as the direction, 7 October 2026, on a working page. **Adopted** into sources, tokens, exports, contract and reference stylesheets, and seen in desktop Chrome only. The owner has not seen the adopted result |
+| Of that direction: the comic page on a phone, moving by pressing a room, a card dealt into a hand, motion while nothing happens | **Not adopted.** Each waits for something named in [frontend-handoff.md](frontend-handoff.md#what-of-the-approved-direction-is-not-here-yet) |
 
 ## Open decisions
 
@@ -94,16 +103,18 @@ None of these is decided here. Each says who decides and what the design does me
 | DSN-D05 | Which lettering typeface, under which license? | Game owner | System condensed stack from the tokens. No font file is included |
 | DSN-D06 | What rights statement and license apply to this artwork? It is original SVG drawn by a Claude Code session; the repository has no license | Game owner | The manifest says so plainly and grants nothing. Human art review is pending |
 | DSN-D07 | How is the shared board shown in the room: an upright screen, or a device lying on the table, at what size and distance? | Game owner, with Frontend's device evidence | Designed for an upright screen at 1280 CSS px and up. 6 and 9 carry a bar so a token read from the far side is not mistaken. Token size at distance is unmeasured, and small: see [frontend-handoff.md](frontend-handoff.md#questions-for-your-review) |
-| DSN-D08 | Amber marks both interaction focus and the public active turn. Does that confuse, or give anyone an edge? | Game Balance and Frontend review | The active-turn marker always carries its words and is not drawn inside the private sheet. The two can still be on one phone screen at once: an amber control in an open sheet, above an amber “Active turn” chip in the list behind it. That is why this is a question |
+| DSN-D08 | Amber marks both interaction focus and the public active turn. Does that confuse, or give anyone an edge? And now: the approved caption yellow, the Command Room's gold and one character's yellow are close to it | Game Balance and Frontend review | The active-turn marker always carries its words and is not drawn inside the private sheet. The two can still be on one phone screen at once: an amber control in an open sheet, above an amber “Active turn” chip in the list behind it. The caption yellow is 16 from amber in CIE76, the Command Room's gold 15, the yellow of character `c2` 14; none of the three means “press this” or “active turn”. That is why this is a question |
 | DSN-D09 | Is there any sound, and from which device? | Game owner | None produced. Two table-display sounds are proposed; phones stay silent for anything secret |
 | DSN-D10 | How is Captain immunity shown, if at all? | Game owner; Backend supplies the fact | The Captain marker is a rank star and the word “Captain”. It says nothing about immunity and is deliberately not a shield |
 | DSN-D11 | Where does an eliminated player's token go? | Game owner | It is drawn where the view says the seat is, flat and hollow. No extra zone is invented |
-| DSN-D12 | When may a cue start, and what may take it away? | Frontend, with Designer | Proposed in the motion contract ([cue freshness](motion-storyboards.md#cue-freshness)): start within 1000 ms, an event at most 1000 ms late, a public cue belongs to a public fact and never to a view, so nothing private can cut one. Frontend's provisional values are 2000 and 5000 ms, and its frame contract still clears public cues on a private-only update (review finding R6, theirs to fix) |
-| DSN-D13 | The approved comic board prints rooms in red, blue and violet, which are also the three team colors. Is a room then read as a team's? | Game owner approved the look as shown; Game Balance and the reviewer may weigh it | The approved set is the default. A second set that avoids those hues is in the exploration, one control away |
+| DSN-D12 | When may a cue start, and what may take it away? | Frontend, with Designer | **Agreed** ([cue freshness](motion-storyboards.md#cue-freshness)): start within 1000 ms, an event at most 1000 ms late, a public cue belongs to a public fact and never to a view, so nothing private can cut one. Frontend reports both windows and the fix for review finding R6 in PR #30 at `24a5237`; Designer has not run that code. The cap of four carried pieces for one view lives in the director, as Frontend proposed; it is not implemented. New since the agreement: the carried move uses the cue's origin, which the earlier answer said it would not |
+| DSN-D13 | The approved comic board prints rooms in red, blue and violet, which are also the three team colors. Is a room then read as a team's? And one character's pink is the nearest of the nine to the Red accent | Game owner approved the look as shown; Game Balance and the reviewer may weigh it | The approved set is what the tokens and the exports hold. Measured in CIE76: Room A is 16 from the Blue accent, Room B 20 from the Alien accent, the Jail 18 from the Red accent, and the pink of `c6` 26 from the Red accent. A room's color is one recipe line and five token values; a second set that avoids those hues is in the exploration, one control away. A test fails if any of these numbers moves |
 | DSN-D14 | Do the rooms keep the rules' names, or take the names of the owner's reference (Medical Room, Lockdown Room, Laboratory, Crew Meeting Room)? | Game owner; a rename is a rules and contract change | The rules' names: Hospital, Jail, Room A, Room B. Captions are live text |
-| DSN-D15 | A player's name and chosen character are public facts no contract carries. Where are they set, and in which order with the starting room (V1-01) and the role deal? | Codex, with Frontend ([DSN-REQ-6](integration-requests.md#dsn-req-6)) | The exploration's fixture: character and name first, then the role. It skips the starting room |
-| DSN-D16 | May anything move while nothing happens? The reference stylesheets refuse an animation that repeats; the approved direction has stars, lamps and a blink | Designer, with Frontend | Only in the exploration, and all of it off under reduced motion |
-| DSN-D17 | Copy for the eight role cards that have none, and the words the exploration adds | Frontend for interface wording, the owner for rule statements | A name and a team only. The Officer keeps its proposed lines |
+| DSN-D15 | A player's name and chosen character are public facts no contract carries. How do they travel, where are they set, and in which order with the starting room (V1-01) and the role deal? | Codex, with Frontend and Game Balance ([DSN-REQ-6](integration-requests.md#dsn-req-6)) | A catalog of the nine characters is proposed. The reference draws a seat with them and a seat without them; the review pages use synthetic names. Assumed order: character and name, then the starting room, then roles |
+| DSN-D16 | May anything move while nothing happens? The approved page has stars, lamps and a blink. `motionPolicy.loops` is `false` in the pinned 0.2.0 tokens, and the pinned motion direction allows only that “ambient light may breathe gently on the shared display” | Game owner, then Codex for the pinned value, then Designer with Frontend | None in the tokens, the contract or the reference stylesheets, which refuse an animation that repeats. Only in the exploration, and off there under reduced motion |
+| DSN-D17 | The lines on the nine role cards, the call signs, and the words a tag is read aloud with | Frontend for interface wording, the owner for rule statements | Designer's draft for all nine, each rule statement citing its rule source; a check holds each card to its role's team and refuses a line that states an outcome. Frontend said on PR #57 that it will draft the eight new cards itself: these are offered to that draft, and Frontend's wording stands where the two differ. Where an approved V1 decision that is not in this base bears on a line, the line's note names it |
+| DSN-D18 | The comic page on a phone, with rooms to press and a hand of cards, as the approved page has it. How is it read at 200% text, where a picture cannot grow, and what is the list then? | Frontend, with Designer; needs the movement markup of protocol 2 | A phone keeps its list of rooms, complete at any text size, with each room's strip, caption and color. The comic page is on the shared display |
+| DSN-D19 | On a phone, is the role's picture a thumbnail in the private sheet that opens large, or the large card of the approved page whenever the card is turned up? | Game owner | A thumbnail, large behind “About this role”: the sheet holds the actions too, and a device in its team's color is then not large on screen every time the sheet is opened. This is Designer's choice in adoption, not what the owner looked at |
 
 The gameplay and disclosure questions in [decisions.md](../decisions.md) and [integration-baseline.md](../integration-baseline.md#decisions-and-adoption-gates) stay open exactly as recorded. No layout here settles one by drawing it: no route, exit, adjacency, capacity or default is implied by any picture.
 

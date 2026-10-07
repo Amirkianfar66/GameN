@@ -13,10 +13,10 @@
         { "n": 3, "selector": ".ms-title", "component": "identity-title", "label": "Seat identity", "source": "audience.seatId. A seat number is public." },
         { "n": 4, "selector": ".ms-phase__labels", "component": "phase-strip", "label": "Phase caption", "source": "round, phase.kind, activeSeatId. Cue anchor: phase." },
         { "n": 5, "selector": ".ms-timer", "component": "phase-timer", "label": "Countdown", "source": "phase.endsAt with server time. A local estimate; never a cue anchor.", "corner": "tr" },
-        { "n": 6, "selector": ".ms-location__art", "component": "location-art", "label": "Room vignette strip (PROPOSED)", "source": "The viewer's own seats[].location, a public fact. Decoration: hidden from assistive technology; the caption says the name.", "corner": "tr" },
-        { "n": 7, "selector": ".ms-location__name", "component": "location-caption", "label": "Room name caption", "source": "The viewer's own seats[].location, as live text." },
+        { "n": 6, "selector": ".ms-location__art", "component": "location-art", "label": "Room vignette strip (PROPOSED)", "source": "The viewer's own seats[].location, a public fact, in the room's own colors. Decoration: hidden from assistive technology; the caption says the name.", "corner": "tr" },
+        { "n": 7, "selector": ".ms-location__name", "component": "location-caption", "label": "Room name caption", "source": "The viewer's own seats[].location, as live text, with the room's icon." },
         { "n": 8, "selector": ".ms-location__status", "component": "marker-health", "label": "Own public status", "source": "The viewer's own seats[] entry: health, jailed, captain; activeSeatId.", "corner": "tr" },
-        { "n": 9, "selector": ".ms-location .ms-seats", "component": "seat-row", "label": "Also here", "source": "seats[] with the same location. Cue anchors: seat-N/place, seat-N/health." },
+        { "n": 9, "selector": ".ms-location .ms-seats", "component": "seat-row", "label": "Also here", "source": "seats[] with the same location. Each piece is that seat's character and each tag its number and name: two PROPOSED public facts (DSN-REQ-6). Cue anchors: seat-N/place, seat-N/health." },
         { "n": 10, "selector": ".ms-private", "component": "private-dock", "label": "Private dock (PROPOSED position)", "source": "None. Identical on every phone: no count, badge or highlight.", "corner": "tr" }
       ]
     },
@@ -42,7 +42,7 @@
       "callouts": [
         { "n": 1, "selector": ".ms-phase", "component": "phase-strip", "label": "Phase caption stays visible", "source": "As on the public layer. The open sheet stops below it." },
         { "n": 2, "selector": "#ms-private-toggle", "component": "private-dock", "label": "Hide control", "source": "Local: the sheet is open on this device.", "corner": "tr" },
-        { "n": 3, "selector": ".ms-role-card", "component": "role-card", "label": "Role card (PROPOSED structure)", "source": "self.role. The picture is in the role bundle every phone loads whole. Name no larger than the heading size." },
+        { "n": 3, "selector": ".ms-role-card", "component": "role-card", "label": "Role card (PROPOSED structure)", "source": "self.role. The player's own character with the role's device added; the device is in the role bundle every phone loads whole. Name no larger than the heading size." },
         { "n": 4, "selector": ".ms-card__title", "component": "action-card", "label": "Action card head", "source": "The card exists for every seat shown it. Icon and title never vary by role." },
         { "n": 5, "selector": ".ms-card__pips", "component": "resource-pip", "label": "Resource pip (PROPOSED)", "source": "self.shotAvailable and ownPendingCommandIds, and nothing else. Not drawn while a command is unaccounted for.", "corner": "tr" },
         { "n": 6, "selector": ".ms-card__status", "component": "action-status", "label": "Status word", "source": "The client's own command flow step. Cue anchor: registration." },
@@ -88,16 +88,17 @@
         { "n": 1, "selector": ".ms-phase__labels", "component": "phase-strip", "label": "Phase caption", "source": "round, phase.kind, activeSeatId. Cue anchor: phase." },
         { "n": 2, "selector": ".ms-timer", "component": "phase-timer", "label": "Countdown", "source": "phase.endsAt with server time.", "corner": "tr" },
         { "n": 3, "selector": ".ms-board", "component": "board-page", "label": "Board page", "source": "One panel per location in seats[].location. Gutters are paper; no route is drawn.", "corner": "bl" },
-        { "n": 4, "selector": ".ms-zone[data-zone='room-a']", "component": "board-panel", "label": "Location panel with vignette", "source": "board-room-a. Caption is live text." },
-        { "n": 5, "selector": ".ms-zone[data-zone='room-a'] .ms-seats", "component": "seat-token", "label": "Standee tokens", "source": "seats[] in this location. Identical for every role.", "corner": "br" },
-        { "n": 6, "selector": ".ms-zone[data-zone='room-a'] [data-seat='seat-5'] .ms-marker--captain", "component": "marker-captain", "label": "Marker badge on a standee", "source": "seats[].captain. Its word is in the roster and in the document.", "corner": "tr" },
-        { "n": 7, "selector": ".ms-zone[data-zone='jail']", "component": "board-panel-fallback", "label": "Panel without a vignette", "source": "No vignette exists for this location yet: an inked panel, badge tokens and labeled chips. Every panel looks like this until the art has arrived." },
-        { "n": 8, "selector": ".ms-roster", "component": "roster-table", "label": "Roster", "source": "seats[] and activeSeatId, in words. Cue anchors: seat-N/place, seat-N/health.", "corner": "tr" }
+        { "n": 4, "selector": ".ms-zone[data-zone='room-a']", "component": "board-panel", "label": "Room panel with vignette", "source": "board-room-a, printed in Room A's color family. Caption is live text." },
+        { "n": 5, "selector": ".ms-zone[data-zone='room-a'] .ms-seats", "component": "seat-token", "label": "Playing pieces", "source": "seats[] in this location, each drawn as its player's character (PROPOSED fact). Identical for every role.", "corner": "br" },
+        { "n": 6, "selector": ".ms-zone[data-zone='room-a'] [data-seat='seat-5'] .ms-marker--captain", "component": "marker-captain", "label": "Marker badge on a piece", "source": "seats[].captain. Its word is in the roster and in the document.", "corner": "tr" },
+        { "n": 7, "selector": ".ms-zone[data-zone='room-a'] [data-seat='seat-1'] .ms-seat__name", "component": "seat-tag", "label": "Seat tag", "source": "The seat number and the player's name (PROPOSED fact), as live text.", "corner": "bl" },
+        { "n": 8, "selector": ".ms-zone[data-zone='jail']", "component": "board-panel", "label": "Each room in its own colors", "source": "seats[].location = Jail. A room's color goes with its name and is never a team, a role or a state.", "corner": "tr" },
+        { "n": 9, "selector": ".ms-roster", "component": "roster-table", "label": "Roster", "source": "seats[] and activeSeatId, in words. Cue anchors: seat-N/place, seat-N/health.", "corner": "tr" }
       ]
     },
     "table-varied": {
       "title": "Table display · every public health state",
-      "note": "Healthy, Injured and Eliminated standing in Room A, with the active Captain among them. A standee's body follows the seat's public health; its badges repeat what the roster says in words.",
+      "note": "Healthy, Injured and Eliminated standing in Room A, with the active Captain among them. A character is not given a wound: its badges repeat what the roster says in words, and an eliminated seat's character loses its color.",
       "frames": [
         { "src": "shell.html?surface=table&state=C", "width": 1280, "height": 720, "fit": true, "caption": "Synthetic layout state C" }
       ],
@@ -108,6 +109,23 @@
       "note": "Below 1280 CSS px the roster sits under the board: its four columns do not fit beside a board still worth looking at.",
       "frames": [
         { "src": "shell.html?surface=table&state=B", "width": 960, "height": 900, "fit": true, "caption": "Roster below the board" }
+      ],
+      "callouts": []
+    },
+    "table-crowd": {
+      "title": "Table display · nine in one room",
+      "note": "The most a room ever holds. The pieces are smaller so that all nine stand side by side, and every second tag hangs a line lower. The other four rooms are empty and say so.",
+      "frames": [
+        { "src": "shell.html?surface=table&state=E", "width": 1280, "height": 720, "fit": true, "caption": "Synthetic layout state E" }
+      ],
+      "callouts": []
+    },
+    "table-without-names": {
+      "title": "Before a seat has a name or a character",
+      "note": "What the same design draws today, while no contract carries a name or a character (DSN-REQ-6): numbered tokens and “Player N”. The five rooms and their colors need nothing new.",
+      "frames": [
+        { "src": "shell.html?surface=player&identity=none", "width": 360, "height": 760, "caption": "Phone" },
+        { "src": "shell.html?surface=table&state=B&identity=none", "width": 1280, "height": 720, "fit": true, "caption": "Table display" }
       ],
       "callouts": []
     },
@@ -122,7 +140,7 @@
     },
     "missing-assets": {
       "title": "Without art",
-      "note": "What every device shows until its art has arrived, and for good if it never does: disc tokens with live numerals, chips with their words, plain panels. Nothing is hidden waiting for a picture.",
+      "note": "What every device shows until its art has arrived, and for good if it never does: disc tokens with live numerals, names and chips with their words, plain panels on each room's own ground color. Nothing is hidden waiting for a picture.",
       "frames": [
         { "src": "shell.html?surface=player&art=none", "width": 360, "height": 760, "caption": "Phone" },
         { "src": "shell.html?surface=table&state=B&art=none", "width": 1280, "height": 720, "fit": true, "caption": "Table display" }

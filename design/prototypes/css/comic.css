@@ -1,5 +1,5 @@
 /* Mothership · comic skin for the player and table shells · REFERENCE STYLESHEET
-   Design tokens 0.3.0 (proposal) · asset manifest design-0.1.0
+   Design tokens 0.4.0 (proposal) · asset manifest design-0.2.0
 
    This is the Designer's reference for how the shells look. It is not shipped. Frontend
    owns the runtime stylesheet and may take rules from here as they are.
@@ -27,6 +27,15 @@
      - a color never stands alone: every state also has its own outline and its own words;
      - amber is interaction focus and the public active turn, and nothing else;
      - halftone and hatch never sit behind text smaller than the heading size.
+
+   The comic board the game owner approved on 7 October 2026 (docs/design/owner-decisions.md):
+     - each location is printed in its own color family, and its caption is the page's
+       yellow, cut on a slant. A room's color goes with its name: it is never a team, a
+       role, a player or a state;
+     - a playing piece is the character its player chose (PROPOSED data-character), with a
+       tag that carries the seat number and the player's name. A seat without one keeps
+       its numbered token. A character never depends on a role;
+     - a role is a device added to the player's own character, drawn only inside the sheet.
 
    Needs css/tokens.css first. Every color comes from a token. */
 
@@ -370,14 +379,52 @@
   display: none;
 }
 
-/* The room name is a caption box. */
+/* A color family for each room (design tokens color.room). Two tones are read here: the
+   ground of a panel whose picture has not arrived, and the bar beside a room's name in a
+   list. The color goes with the name beside it and never says anything by itself. */
+.ms-zone[data-zone="room-a"],
+.ms-location:has(> .ms-location__art[data-location="room-a"]) {
+  --ms-zone-ground: var(--ms-color-location-room-a-shadow);
+  --ms-zone-edge: var(--ms-color-location-room-a-mid);
+}
+
+.ms-zone[data-zone="room-b"],
+.ms-location:has(> .ms-location__art[data-location="room-b"]) {
+  --ms-zone-ground: var(--ms-color-location-room-b-shadow);
+  --ms-zone-edge: var(--ms-color-location-room-b-mid);
+}
+
+.ms-zone[data-zone="command-room"],
+.ms-location:has(> .ms-location__art[data-location="command-room"]) {
+  --ms-zone-ground: var(--ms-color-location-command-room-shadow);
+  --ms-zone-edge: var(--ms-color-location-command-room-mid);
+}
+
+.ms-zone[data-zone="hospital"],
+.ms-location:has(> .ms-location__art[data-location="hospital"]) {
+  --ms-zone-ground: var(--ms-color-location-hospital-shadow);
+  --ms-zone-edge: var(--ms-color-location-hospital-mid);
+}
+
+.ms-zone[data-zone="jail"],
+.ms-location:has(> .ms-location__art[data-location="jail"]) {
+  --ms-zone-ground: var(--ms-color-location-jail-shadow);
+  --ms-zone-edge: var(--ms-color-location-jail-mid);
+}
+
+/* The room name is a caption box: the yellow of the comic page, cut on a slant. It is
+   live text and it is how every caption looks: neither the color nor the slant is a state.
+   The slant turns about the box's far top corner, so a caption that has grown tall with the
+   reader's text leans into the panel's own margin and never past the edge of the screen. */
 .ms-location__name {
   justify-self: start;
   padding: 2px var(--ms-space-2);
-  background: var(--ms-color-paper);
+  background: var(--ms-color-caption);
   color: var(--ms-color-ink);
   border: var(--ms-stroke-ink-fine) solid var(--ms-color-ink);
   font-size: var(--ms-text-heading);
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt));
+  transform-origin: 100% 0;
 }
 
 .ms-location__status {
@@ -444,6 +491,42 @@
 .ms-seat__name,
 .ms-target__name {
   font-weight: 700;
+}
+
+/* PROPOSED: where a seat has a name, its name element holds .ms-seat__number and
+   .ms-seat__player, in a row, a target row and the table's roster. The number is a chip. */
+.ms-seat__number {
+  display: inline-block;
+  min-inline-size: 1.5em;
+  margin-inline-end: 0.4em;
+  padding: 0 0.3em;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border-radius: 3px;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.ms-seat__player {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* Beside a token without art the number is already on the disc, so the tag keeps its own
+   for assistive technology only. Part two shows it, where the token becomes a face. */
+.ms-token + .ms-seat__name > .ms-seat__number,
+.ms-token + .ms-target__name > .ms-seat__number {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  min-inline-size: 0;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .ms-markers {
@@ -531,6 +614,12 @@
   border: var(--ms-stroke-illustration) solid var(--ms-color-text);
 }
 
+/* In the list of all players each room carries a bar in its own color beside its name. */
+.ms-roster .ms-zone {
+  padding-inline-start: calc(var(--ms-space-3) + 6px);
+  box-shadow: inset 6px 0 0 var(--ms-zone-edge, transparent);
+}
+
 /* ---------- The private sheet ---------- */
 
 /* The handle looks the same on every phone at every moment. It never shows a count, a
@@ -606,8 +695,15 @@
   cursor: pointer;
 }
 
+/* The longest role name is one word of ten letters. On the narrowest phone at large text
+   it is set a little smaller rather than run out of its card, and breaks only as a last resort. */
 .ms-role-card__name {
-  font-size: var(--ms-text-role-name);
+  font-size: min(var(--ms-text-role-name), 10vw);
+  overflow-wrap: anywhere;
+}
+
+.ms-role-card__summary + .ms-role-card__summary {
+  margin-block-start: var(--ms-space-2);
 }
 
 .ms-role-card__team,
@@ -926,15 +1022,16 @@
   gap: var(--ms-gutter);
 }
 
-/* A location with no vignette, or before the art has arrived: a plain inked panel. It grows
-   with what it holds: a status word is never cut off to keep a shape. */
+/* A location before its art has arrived, or one that has none: a plain inked panel on the
+   room's own ground color (steel where a location has no family). It grows with what it
+   holds: a status word is never cut off to keep a shape. */
 .ms-shell--table .ms-zone {
   --ms-token-size: clamp(2.5rem, 7.2cqw, 5rem);
   position: relative;
   align-content: start;
   min-block-size: 9rem;
   padding: var(--ms-space-3);
-  background: var(--ms-color-steel-shadow);
+  background: var(--ms-zone-ground, var(--ms-color-steel-shadow));
   color: var(--ms-color-text);
   border: var(--ms-stroke-panel) solid var(--ms-color-ink);
   border-radius: 0;
@@ -961,11 +1058,13 @@
   z-index: 1;
   justify-self: start;
   padding: 2px var(--ms-space-2);
-  background: var(--ms-color-paper);
+  background: var(--ms-color-caption);
   color: var(--ms-color-ink);
   border: var(--ms-stroke-ink-fine) solid var(--ms-color-ink);
   box-shadow: 3px 3px 0 var(--ms-color-ink);
   font-size: clamp(1rem, 2.4cqw, 1.5rem);
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt));
+  transform-origin: 100% 0;
 }
 
 .ms-shell--table .ms-zone__empty {
@@ -1037,6 +1136,25 @@
   white-space: nowrap;
 }
 
+/* A row header that carries a name: the number and the name stay on one line. The name is
+   a player's own text and may be twelve letters long, so it is given a box of its own that
+   may break inside itself rather than push the table out of its panel. The box never gets
+   narrower than about eight letters, so a short name is never broken to save room; and it
+   is never wider than what the number leaves of the cell, so it cannot run into the next
+   column (a box in a line is sized by its cell and does not see what stands before it). */
+.ms-table th[scope="row"] > .ms-seat__number,
+.ms-table th[scope="row"] > .ms-seat__player {
+  vertical-align: middle;
+}
+
+.ms-table th[scope="row"] > .ms-seat__player {
+  display: inline-block;
+  min-inline-size: 4.4em;
+  max-inline-size: calc(100% - 2em);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 /* Where even whole words no longer fit side by side (a narrow display, or very large
    text), a word may break inside its cell. Nothing is clipped and nothing scrolls. */
 @media (max-width: 34em) {
@@ -1047,6 +1165,10 @@
 
   .ms-table th[scope="row"] {
     white-space: normal;
+  }
+
+  .ms-table th[scope="row"] > .ms-seat__player {
+    min-inline-size: 0;
   }
 }
 
@@ -1363,6 +1485,85 @@
     --ms-token-body: var(--ms-asset-token-neutral-badge-eliminated-blank);
   }
 
+  /* ---------- public-board: characters ---------- */
+
+  /* PROPOSED data-character="c1" to "c9" on a seat row or a target row: the character that
+     seat's player chose before roles were dealt. A public fact, the same on every screen,
+     and never a function of a role. Each of the nine sets two pictures: the piece without
+     its stand, for a row, and the standee, for the board. A seat without the attribute
+     keeps its numbered token. */
+  [data-art~="public-board"] .ms-shell [data-character="c1"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c1);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c1);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c2"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c2);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c2);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c3"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c3);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c3);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c4"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c4);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c4);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c5"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c5);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c5);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c6"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c6);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c6);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c7"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c7);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c7);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c8"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c8);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c8);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c9"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c9);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c9);
+  }
+
+  /* In a row the token is the character's card, one picture, and the seat number moves
+     into the tag beside it. */
+  [data-art~="public-board"] .ms-shell [data-character] > .ms-token {
+    inline-size: calc(var(--ms-token-size) * 1.1);
+    block-size: auto;
+    aspect-ratio: 84 / 96;
+    background: var(--ms-piece-card, none) 50% 50% / contain no-repeat;
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character] > .ms-token + .ms-seat__name > .ms-seat__number,
+  [data-art~="public-board"] .ms-shell [data-character] > .ms-token + .ms-target__name > .ms-seat__number {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    min-inline-size: 1.5em;
+    margin: 0 0.4em 0 0;
+    padding: 0 0.3em;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  /* An eliminated seat's character loses its color. Its marker still says the word, and
+     an injured seat is told by its marker alone: a face is not given a wound. */
+  [data-art~="public-board"] .ms-shell .ms-seat[data-character]:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
+    filter: grayscale(1);
+  }
+
   /* ---------- public-board: marker icons ---------- */
 
   [data-art~="public-board"] .ms-shell .ms-marker {
@@ -1430,23 +1631,71 @@
     background: var(--ms-asset-icon-connection-stale-ink) center / contain no-repeat;
   }
 
+  /* ---------- public-board: a picture and an icon for each room ---------- */
+
+  /* Set on the room's panel and on a phone's own-location panel, and read below. The
+     pictures are in the public bundle, already loaded whole: nothing is fetched when a
+     seat changes room. The Final Zone has neither yet. */
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="room-a"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="room-a"]) {
+    --ms-zone-art: var(--ms-asset-board-room-a-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-room-a);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="room-b"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="room-b"]) {
+    --ms-zone-art: var(--ms-asset-board-room-b-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-room-b);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="command-room"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="command-room"]) {
+    --ms-zone-art: var(--ms-asset-board-command-room-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-command-room);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="hospital"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="hospital"]) {
+    --ms-zone-art: var(--ms-asset-board-hospital-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-hospital);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="jail"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="jail"]) {
+    --ms-zone-art: var(--ms-asset-board-jail-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-jail);
+  }
+
+  /* The icon sits before the room's name in its caption. Decoration: the name is the caption. */
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art:not([data-location="final-zone"])) > .ms-location__name::before,
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) > .ms-zone__name::before {
+    content: "";
+    display: inline-block;
+    inline-size: 1.05em;
+    block-size: 1.05em;
+    margin-inline-end: 0.35em;
+    vertical-align: -0.16em;
+    background: var(--ms-zone-icon, none) center / contain no-repeat;
+  }
+
   /* ---------- public-board: the room strip on a phone ---------- */
 
-  /* The room's upper half as a strip: its silhouette names the room at a glance. Where a
-     seat is, is a public fact. Decoration only: the caption says the name. */
-  [data-art~="public-board"] .ms-shell .ms-location__art[data-location="room-a"] {
+  /* The room's upper half as a strip, in the room's own colors: its silhouette names the
+     room at a glance. Where a seat is, is a public fact. Decoration only: the caption says
+     the name. */
+  [data-art~="public-board"] .ms-shell .ms-location__art:not([data-location="final-zone"]) {
     display: block;
     grid-row: 2;
     grid-column: 1;
     inline-size: 100%;
     aspect-ratio: 16 / 7;
-    background: var(--ms-asset-board-room-a-full) 50% 12% / cover no-repeat, var(--ms-color-steel-shadow);
+    background: var(--ms-zone-art, none) 50% 12% / cover no-repeat, var(--ms-zone-ground, var(--ms-color-steel-shadow));
     border: var(--ms-stroke-panel) solid var(--ms-color-ink);
     outline: var(--ms-stroke-control) solid var(--ms-color-paper);
   }
 
   /* With the strip present the caption sits over its quiet top-left corner. */
-  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="room-a"]) > .ms-location__name {
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art:not([data-location="final-zone"])) > .ms-location__name {
     grid-row: 2;
     grid-column: 1;
     position: relative;
@@ -1456,31 +1705,34 @@
     box-shadow: 3px 3px 0 var(--ms-color-ink);
   }
 
-  /* ---------- public-board: Room A on the table display ---------- */
+  /* ---------- public-board: the five rooms on the table display ---------- */
 
-  /* Room A has its vignette. Tokens stand on its deck as standees; nothing marks a slot. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] {
+  /* Every room has its vignette, printed in its own color family, on the ground color the
+     panel had before the picture arrived. Pieces stand in it in one row; nothing marks a
+     slot and no row is a capacity. Nothing is clipped: a piece that is carried in from
+     another room is drawn over the gutter on its way. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) {
     container-type: inline-size;
     aspect-ratio: 4 / 3;
-    overflow: hidden;
     padding: 0;
-    background: var(--ms-asset-board-room-a-full) 50% 50% / 100% 100% no-repeat, var(--ms-color-steel-shadow);
+    background: var(--ms-zone-art, none) 50% 50% / 100% 100% no-repeat, var(--ms-zone-ground, var(--ms-color-steel-shadow));
     border: 0;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"]::after {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"])::after {
     content: none;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-zone__name {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-zone__name {
     position: absolute;
     inset-block-start: 4.2%;
     inset-inline-start: 3.3%;
+    z-index: 2;
   }
 
   /* An empty room says so in a caption box of its own, at body size: never small text
      straight onto the picture. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-zone__empty {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-zone__empty {
     position: absolute;
     inset-block-end: 24%;
     inset-inline-start: 50%;
@@ -1494,43 +1746,78 @@
     white-space: nowrap;
   }
 
-  /* The deck, in the room's own 1024 units (1cqw is 10.24 of them): a standee is 139 wide
-     and stands every 148, so five fit side by side. Rows fill from the near one. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seats {
-    --ms-standee-step: 14.45cqw;
+  /* One row along the lower edge, centered. A piece is as wide as the room allows for the
+     number standing in it: at most a fifth of the room, never under the smallest size a
+     face can be told at, and all of them fit side by side. 1cqw is a hundredth of the
+     room's width. Under the row there is room for the tags: one line, or two where four or
+     more stand together and every second tag hangs a line lower. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats {
+    --ms-seats: 1;
+    --ms-tag-rows: 1;
+    --ms-piece: max(var(--ms-piece-min), min(calc((100cqw - 10px) / max(var(--ms-seats), 3) / 1.25), 25.5cqw, max(20cqw, 4.5rem), var(--ms-piece-max)));
+    --ms-step: min(calc(var(--ms-piece) * 1.9), calc((100cqw - 10px) / var(--ms-seats)));
+    --ms-tag-text: clamp(var(--ms-tag-text-min), calc(var(--ms-piece) * 0.3), var(--ms-tag-text-max));
     position: absolute;
-    inset-block-end: 12.5%;
-    inset-inline-start: 50%;
-    inline-size: calc(var(--ms-standee-step) * var(--ms-standee-row, 5));
-    translate: -50% 0;
+    inset-inline: 0;
+    inset-block-end: calc(var(--ms-tag-text) * 1.5 * var(--ms-tag-rows) + 3%);
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: flex-end;
     gap: 0;
   }
 
-  /* From six tokens the two rows are kept even: 3+3, 4+3, 4+4, 5+4. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seats:has(> :nth-child(6):last-child) {
-    --ms-standee-row: 3;
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(2):last-child) {
+    --ms-seats: 2;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seats:has(> :nth-child(7):last-child),
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seats:has(> :nth-child(8):last-child) {
-    --ms-standee-row: 4;
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(3):last-child) {
+    --ms-seats: 3;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seat {
-    flex: 0 0 var(--ms-standee-step);
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4):last-child) {
+    --ms-seats: 4;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(5):last-child) {
+    --ms-seats: 5;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(6):last-child) {
+    --ms-seats: 6;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(7):last-child) {
+    --ms-seats: 7;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(8):last-child) {
+    --ms-seats: 8;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(9):last-child) {
+    --ms-seats: 9;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat {
+    flex: 0 0 var(--ms-step);
     display: grid;
     justify-items: center;
     min-block-size: 0;
+    max-inline-size: none;
   }
 
-  /* The standee: the same numeral over the body the seat's public health calls for. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] [data-seat] > .ms-token {
+  /* A seat with no character yet: the numbered standee, the same numeral over the body
+     the seat's public health calls for. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) [data-seat] > .ms-token {
     --ms-token-body: var(--ms-asset-token-neutral-standee-blank);
-    inline-size: 13.6cqw;
+    inline-size: var(--ms-piece);
     block-size: auto;
     aspect-ratio: 96 / 120;
     background:
@@ -1539,21 +1826,27 @@
     font-size: 0;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token {
     --ms-token-body: var(--ms-asset-token-neutral-standee-injured-blank);
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
     --ms-token-body: var(--ms-asset-token-neutral-standee-eliminated-blank);
   }
 
-  /* On the vignette the words move to the roster beside it. They stay in the document:
-     hidden from sight only, never from assistive technology. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-seat__name,
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker--health[data-variant="healthy"] {
+  /* A seat with a character: its standee, one picture. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) [data-seat][data-character] > .ms-token {
+    background: var(--ms-piece-standee, none) 0 0 / 100% 100% no-repeat;
+  }
+
+  /* Without a name the words move to the roster beside the board. They stay in the
+     document: hidden from sight only, never from assistive technology. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat:not([data-character]) .ms-seat__name,
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="healthy"] {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
+    min-inline-size: 0;
     min-block-size: 0;
     margin: -1px;
     padding: 0;
@@ -1563,15 +1856,86 @@
     white-space: nowrap;
   }
 
-  /* Markers ride on the standee as badges. Their words are in the roster and in the document. */
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-markers {
+  /* With one, the tag hangs under the piece: the seat number in an ink chip, then the name.
+     A name too long for its tag is shortened here with an ellipsis; the number never is,
+     and the roster beside the board carries the name whole. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__name {
     position: absolute;
-    inset: 0;
+    inset-block-start: 100%;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    display: inline-flex;
+    max-inline-size: calc(var(--ms-step) * var(--ms-tag-rows) - 4px);
+    background: var(--ms-color-paper);
+    color: var(--ms-color-ink);
+    border: 1.5px solid var(--ms-color-ink);
+    border-radius: 3px;
+    box-shadow: 1.5px 1.5px 0 var(--ms-color-ink);
+    font-family: var(--ms-font-lettering);
+    font-size: var(--ms-tag-text);
+    font-weight: var(--ms-weight-lettering);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__number {
+    flex: none;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0 0.3em;
+    background: var(--ms-color-ink);
+    color: var(--ms-color-paper);
+    border-radius: 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__player {
+    min-inline-size: 0;
+    padding: 0 0.35em;
+    overflow: hidden;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+    font-weight: inherit;
+  }
+
+  /* Four or more: every second tag hangs a line lower, so a tag may be as wide as two
+     columns. The first and the last tag are held inside the room: they start and end with
+     their own column, and are no wider than one and a half. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:first-child .ms-seat__name {
+    inset-inline-start: 0;
+    max-inline-size: calc(var(--ms-step) * 1.5 - 4px);
+    translate: 0 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:last-child .ms-seat__name {
+    inset-inline: auto 0;
+    max-inline-size: calc(var(--ms-step) * 1.5 - 4px);
+    translate: 0 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even) .ms-seat__name {
+    translate: -50% calc(100% + 2px);
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even):last-child .ms-seat__name {
+    translate: 0 calc(100% + 2px);
+  }
+
+  /* Markers ride on the piece as badges, placed on the piece and not on its column. Their
+     words are in the roster and in the document. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-markers {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    inline-size: var(--ms-piece);
+    block-size: calc(var(--ms-piece) * 1.25);
+    max-inline-size: none;
+    translate: -50% 0;
     display: block;
     pointer-events: none;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker:not(.ms-marker--health[data-variant="healthy"]) {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker:not(.ms-marker--health[data-variant="healthy"]) {
     position: absolute;
     inline-size: 34%;
     min-block-size: 0;
@@ -1585,7 +1949,7 @@
     font-size: 0;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker:not(.ms-marker--health[data-variant="healthy"])::before {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker:not(.ms-marker--health[data-variant="healthy"])::before {
     inline-size: 100%;
     block-size: 100%;
     background: var(--ms-marker-badge, none) center / contain no-repeat;
@@ -1593,31 +1957,31 @@
     mask: none;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker--health[data-variant="injured"] {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="injured"] {
     --ms-marker-badge: var(--ms-asset-marker-health-injured-badge);
     inset-block-end: 26%;
     inset-inline-end: -2%;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker--health[data-variant="eliminated"] {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="eliminated"] {
     --ms-marker-badge: var(--ms-asset-marker-health-eliminated-badge);
     inset-block-end: 26%;
     inset-inline-end: -2%;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker--jail {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--jail {
     --ms-marker-badge: var(--ms-asset-marker-jail-badge);
     inset-block-end: 26%;
     inset-inline-start: -2%;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker--captain {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--captain {
     --ms-marker-badge: var(--ms-asset-marker-captain-badge);
     inset-block-start: 0;
     inset-inline-end: -2%;
   }
 
-  [data-art~="public-board"] .ms-shell--table .ms-zone[data-zone="room-a"] .ms-marker--turn {
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--turn {
     --ms-marker-badge: var(--ms-asset-marker-turn-float);
     inset-block-start: -26%;
     inset-inline-start: 33%;
@@ -1678,23 +2042,57 @@
 
   /* ---------- roles: inside the private sheet ---------- */
 
-  /* The picture is whichever --ms-role-art the client set on the card, inside the sheet,
-     from the role bundle every phone has already loaded whole. No selector here names a
-     role. The thumbnail is decoration and keeps its size when the reader's text grows. */
+  /* The picture is the player's own character with the role's device added. The client sets
+     --ms-role-person (public: the seat's own character) and --ms-role-device (private: from
+     the role bundle every phone has already loaded whole) on the card, inside the sheet. No
+     selector here names a role, and nothing outside the sheet reads either property.
+     Compact, it is a thumbnail beside the role's name, so that the actions stay in reach
+     and a large device is not on screen every time the sheet is opened. It is decoration
+     and keeps its size when the reader's text grows. */
   [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__art {
-    flex: 0 0 56px;
+    position: relative;
+    flex: 0 0 5.5rem;
     display: block;
-    inline-size: 56px;
-    aspect-ratio: 5 / 7;
-    background: var(--ms-role-art, none) center / cover no-repeat, var(--ms-color-paper-shade);
-    border-radius: 4px;
+    inline-size: 5.5rem;
+    aspect-ratio: 50 / 53;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 2px 2px, var(--ms-color-paper-deep) 1.3px, transparent 1.6px) 0 0 / 7px 7px,
+      var(--ms-color-paper-shade);
+    border: var(--ms-stroke-control) solid var(--ms-color-ink);
+    border-radius: 6px;
   }
 
-  /* Opened, the illustration is shown whole, at the card's 5:7. */
+  /* The character, as on the board without its stand. */
+  [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__art::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 6%;
+    inset-inline-start: 11.3%;
+    inline-size: 66.5%;
+    aspect-ratio: 84 / 96;
+    rotate: -2.5deg;
+    background: var(--ms-role-person, none) center / contain no-repeat;
+  }
+
+  /* The device, added: held in the crew suit's own glove, so one drawing serves all nine. */
+  [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__art::after {
+    content: "";
+    position: absolute;
+    inset-block-end: -10%;
+    inset-inline-end: -9%;
+    inline-size: 74%;
+    aspect-ratio: 120 / 140;
+    transform-origin: 80% 90%;
+    background: var(--ms-role-device, none) center / contain no-repeat;
+  }
+
+  /* Opened, the picture is shown large, with the summary under it. */
   [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__more > .ms-role-card__art {
     flex: none;
     inline-size: min(100%, 15rem);
     margin-block: var(--ms-space-2);
+    border-width: var(--ms-stroke-illustration);
     border-radius: 8px;
   }
 

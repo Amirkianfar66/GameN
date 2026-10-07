@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const manifest = JSON.parse(await readFile(resolve(repoRoot, 'design/exports/asset-manifest.json'), 'utf8'));
-const officerFile = manifest.assets.find(asset => asset.id === 'card-officer').variants[0].path.replace(/^design/, '');
+const officerFile = manifest.assets.find(asset => asset.id === 'device-officer').variants[0].path.replace(/^design/, '');
 
 const replace = (file, find, put) => async root => {
   const path = join(root, file);
@@ -71,6 +71,18 @@ const mistakes = [
     expect: [/a shell asked for \/prototypes\/css\/synthetic\.css/],
   },
   {
+    name: 'a cue keeps travelling when the player has asked for reduced motion',
+    check: 'check-shell.mjs',
+    make: append('design/prototypes/css/cues.css', '.ms-shell[data-motion] .ms-board .ms-zones .ms-zone .ms-seats li[data-cue="public-move"] { animation-name: ms-cue-carry; animation-duration: var(--ms-motion-piece-move); }'),
+    expect: [/cue-public-move with reduced motion: still runs ms-cue-carry for 900 ms/],
+  },
+  {
+    name: 'the role card turns for a different time than the contract states',
+    check: 'check-shell.mjs',
+    make: replace('design/prototypes/css/cues.css', '  animation-name: ms-cue-card-turn;\n  animation-duration: var(--ms-motion-role-card-turn);', '  animation-name: ms-cue-card-turn;\n  animation-duration: var(--ms-motion-round);'),
+    expect: [/cue-role-card-turn with as set: ms-cue-card-turn lasts 700 ms, and the contract says 900 ms/],
+  },
+  {
     name: 'a public cue is cut short when the seat registers something privately',
     check: 'check-shell.mjs',
     make: append('design/prototypes/css/cues.css', '.ms-shell:has(.ms-card__state[data-status="registered"]) li[data-cue="public-move"] > .ms-token { animation-name: none; }'),
@@ -82,6 +94,13 @@ const mistakes = [
     args: ['--match=surface=table&state=D at 1280'],
     make: append(COMIC, '.ms-table th, .ms-table td { white-space: nowrap; overflow-wrap: normal; }'),
     expect: [/the roster (is wider than|table runs past) its panel/],
+  },
+  {
+    name: 'a long name runs out of its roster cell into the next column',
+    check: 'check-layout.mjs',
+    args: ['--match=surface=table&state=D at 1280 x 760, default text 16'],
+    make: append(COMIC, '.ms-table th[scope="row"] > .ms-seat__player { max-inline-size: none; }'),
+    expect: [/holds something wider than its cell/],
   },
   {
     name: 'seat names are hidden on the board before the art has arrived',
@@ -123,6 +142,27 @@ const mistakes = [
     check: 'check-layout.mjs',
     args: ['--match=surface=player&open=1&status=available at 360 x 760, default text 16'],
     make: replace(KIT, 'h(\'span\', { class: \'ms-title__prefix\' }, `${en.surface.youAre} `), en.seat.label(viewer));', 'h(\'span\', { class: \'ms-title__prefix\' }, `${en.surface.youAre} `), `${en.seat.label(viewer)}, ${role}`);'),
+    expect: [/a role, a team or a role style is outside the private panel/],
+  },
+  {
+    name: 'a tag on the board loses its seat number',
+    check: 'check-layout.mjs',
+    args: ['--match=surface=table&state=B at 1280 x 760, default text 16'],
+    make: append(COMIC, '@media (forced-colors: none) { [data-art~="public-board"] .ms-shell--table .ms-board .ms-zone .ms-seats .ms-seat[data-character] .ms-seat__name .ms-seat__number { display: none; } }'),
+    expect: [/tag does not show its seat number whole/],
+  },
+  {
+    name: 'tags on the board no longer hang on two lines where a room is crowded',
+    check: 'check-layout.mjs',
+    args: ['--match=surface=table&state=D at 1280 x 760, default text 16'],
+    make: append(COMIC, '@media (forced-colors: none) { [data-art~="public-board"] .ms-shell--table .ms-board .ms-zone .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even) .ms-seat__name { translate: -50% 0; } }'),
+    expect: [/tag lies on the tag of seat-/],
+  },
+  {
+    name: 'a device is written into the public layer of a phone',
+    check: 'check-layout.mjs',
+    args: ['--match=surface=player&open=1&status=available at 360 x 760, default text 16'],
+    make: replace(KIT, "    'data-character': who?.character ?? null,\n  },\n    h('span', { class: 'ms-token', 'aria-hidden': 'true' }, seatModel.n),", "    'data-character': who?.character ?? null,\n    style: viewer === seatModel.n ? '--ms-role-device: var(--ms-asset-device-officer-held)' : null,\n  },\n    h('span', { class: 'ms-token', 'aria-hidden': 'true' }, seatModel.n),"),
     expect: [/a role, a team or a role style is outside the private panel/],
   },
   {

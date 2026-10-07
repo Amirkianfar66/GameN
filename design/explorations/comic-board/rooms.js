@@ -3,10 +3,12 @@
 // The five rooms of the comic-board exploration: where each drawing is, its caption, and the
 // color families the page can print it in.
 //
-// Every drawing is made in the neutral steel palette (design tokens 0.3.0). A family swaps
+// Every drawing is a source under design/source/, made in the neutral steel palette (design
+// tokens 0.4.0, where the families below are now color.room). A family swaps
 // the five steel values for five values of one hue; ink, the dark of space and the paper
 // tones stay as they are, so the planet, the pool of light and the tokens look the same in
-// every room. These families are NOT tokens. They are what this exploration is asking about.
+// every room. `picture` is the approved set and is color.room in the tokens. `apart` is not a
+// token: it is kept here for open decision DSN-D13.
 
 /** The five steel values a drawing is made in, dark to light. */
 export const STEEL = ['#222B3A', '#34415A', '#55657E', '#8696AE', '#B9C4D3'];
@@ -40,10 +42,10 @@ export const FAMILIES = {
  */
 export const ROOMS = [
   { name: 'Room A', key: 'room-a', art: '/source/board/board-room-a.svg', icon: 'crate', size: 'large' },
-  { name: 'Room B', key: 'room-b', art: '/explorations/comic-board/art/board-room-b.svg', icon: 'flask', size: 'large' },
-  { name: 'Command Room', key: 'command', art: '/explorations/comic-board/art/board-command.svg', icon: 'planet', size: 'small' },
-  { name: 'Hospital', key: 'hospital', art: '/explorations/comic-board/art/board-hospital.svg', icon: 'cross', size: 'small' },
-  { name: 'Jail', key: 'jail', art: '/explorations/comic-board/art/board-jail.svg', icon: 'lock', size: 'small' },
+  { name: 'Room B', key: 'room-b', art: '/source/board/board-room-b.svg', icon: 'flask', size: 'large' },
+  { name: 'Command Room', key: 'command', art: '/source/board/board-command-room.svg', icon: 'planet', size: 'small' },
+  { name: 'Hospital', key: 'hospital', art: '/source/board/board-hospital.svg', icon: 'cross', size: 'small' },
+  { name: 'Jail', key: 'jail', art: '/source/board/board-jail.svg', icon: 'lock', size: 'small' },
 ];
 
 /**
@@ -54,7 +56,7 @@ export const CREW = [
   { id: 1, sign: 'Vega' }, { id: 2, sign: 'Rigel' }, { id: 3, sign: 'Lyra' },
   { id: 4, sign: 'Atlas' }, { id: 5, sign: 'Orion' }, { id: 6, sign: 'Nova' },
   { id: 7, sign: 'Juno' }, { id: 8, sign: 'Mira' }, { id: 9, sign: 'Echo' },
-].map(each => ({ ...each, art: `/explorations/comic-board/crew/crew-${each.id}.svg` }));
+].map(each => ({ ...each, art: `/source/crew/crew-${each.id}.svg` }));
 
 /**
  * The nine roles of the nine-player mode (RoleSchema), the team each belongs to (a fact of the
@@ -71,7 +73,7 @@ export const ROLES = [
   { role: 'Hacker', key: 'hacker', team: 'Red' },
   { role: 'Red Disabler', key: 'red-disabler', team: 'Red' },
   { role: 'Alien', key: 'alien', team: 'Alien' },
-].map(each => ({ ...each, art: `/explorations/comic-board/devices/device-${each.key}.svg` }));
+].map(each => ({ ...each, art: `/source/devices/device-${each.key}.svg` }));
 
 /** The same drawing with the steel values swapped for a family. Ids get a prefix so five drawings can share one page. */
 export function printIn(svgText, family, prefix) {

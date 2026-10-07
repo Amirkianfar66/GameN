@@ -1,33 +1,18 @@
 {
-  "$comment": "What a complete in-person V1 needs from Designer that this slice does not contain. Nothing listed here exists as an asset. An entry names the fact it would be drawn from; where the audience views at the base commit do not carry that fact, `needs` says so. docs/design/asset-inventory.md is generated from this file and from the asset manifest.",
+  "$comment": "What a complete in-person V1 needs from Designer that the slices so far do not contain. Nothing listed here exists as an asset. An entry names the fact it would be drawn from; where the audience views at the base commit do not carry that fact, `needs` says so. docs/design/asset-inventory.md is generated from this file and from the asset manifest.",
   "status": "planned_not_produced",
   "groups": [
     {
       "group": "Board vignettes",
       "items": [
-        { "id": "board-room-b", "title": "Room B vignette", "needs": "Nothing new: seats[].location = Room B. A different silhouette from Room A (a wide slit window, angular ribs), the same palette.", "until": "The plain inked panel (board-panel-fallback)." },
-        { "id": "board-command-room", "title": "Command Room vignette", "needs": "Nothing new for the panel. Any immunity mark needs an approved way to show it from current location data.", "until": "The plain inked panel." },
-        { "id": "board-hospital", "title": "Hospital vignette", "needs": "Nothing new.", "until": "The plain inked panel." },
-        { "id": "board-jail", "title": "Jail vignette", "needs": "Nothing new.", "until": "The plain inked panel." },
-        { "id": "board-final-zone", "title": "Final Zone vignette", "needs": "The showdown phase in the audience views. Protocol 1 has no such phase; the panel must not be drawn before it.", "until": "Not drawn." }
-      ]
-    },
-    {
-      "group": "Role illustrations (the uniform role bundle)",
-      "items": [
-        { "id": "card-insider", "title": "Insider", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-cracker", "title": "Cracker", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-blue-disabler", "title": "Blue Disabler", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-supplier", "title": "Supplier", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-undercover", "title": "Undercover", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-hacker", "title": "Hacker", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-red-disabler", "title": "Red Disabler", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." },
-        { "id": "card-alien", "title": "Alien", "needs": "self.role. Private.", "until": "The role name on a paper card, as today." }
+        { "id": "board-final-zone", "title": "Final Zone vignette", "needs": "The showdown phase in the audience views. Protocol 1 has no such phase; the panel must not be drawn before it. It will need a color family of its own in the tokens.", "until": "Not drawn." },
+        { "id": "board-room-layers", "title": "Layer exports of Room B, the Command Room, the Hospital and the Jail", "needs": "Frontend's renderer evaluation. The four are exported whole; their layers are groups in the sources and lift the way Room A's do.", "until": "The whole picture of each room." }
       ]
     },
     {
       "group": "Action cards and icons",
       "items": [
+        { "id": "card-role-back", "title": "Role card back and the hand", "needs": "A place in the markup for a card that is dealt face down, the same whatever its face. Drawn in the approved exploration. Today the closed private dock stands for it.", "until": "The private dock, closed." },
         { "id": "icon-action-move", "title": "Move", "needs": "The server's own list of destinations for the seat. Protocol 1 carries none.", "until": "Frontend's functional placement in its connected prototype." },
         { "id": "icon-action-role", "title": "Role actions (protect, rescue, disable, supply, scan)", "needs": "Per-action availability and the server's own target lists. Protocol 1 carries none.", "until": "Not drawn." },
         { "id": "icon-action-hack", "title": "Standard Hack request and conversation", "needs": "The Hack phase and the seat's own Hack availability. Two separate states; no ordinary private chat.", "until": "Not drawn." },
@@ -46,6 +31,7 @@
     {
       "group": "Setup and host",
       "items": [
+        { "id": "layout-character-choice", "title": "Choosing a character and typing a name", "needs": "The lobby step and the public identity record of a seat (DSN-REQ-6). Drawn and playable in the approved exploration; no markup exists to style. The nine pictures are produced.", "until": "Frontend's development console." },
         { "id": "layout-lobby", "title": "Lobby and seating", "needs": "The lobby flow and its contracts. Not part of protocol 1.", "until": "Frontend's development console." },
         { "id": "layout-host", "title": "Host session controls", "needs": "The host's approved controls. Being host grants no extra visibility.", "until": "Frontend's development console." }
       ]

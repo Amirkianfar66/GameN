@@ -1,11 +1,17 @@
 /* Mothership · cue treatments · REFERENCE STYLESHEET
-   Design tokens 0.3.0 (proposal) · asset manifest design-0.1.0
+   Design tokens 0.4.0 (proposal) · asset manifest design-0.2.0
 
    The Designer's timing, easing and layers for every cue the event director issues today
    (packages/presentation/src/director/director.ts at fccadf7): registration, public-move,
-   status-change, phase-change, round-transition. Frontend owns the runtime; these rules use
-   its own hooks (data-cue, data-cue-at, data-motion, data-effects) and may be taken as is.
-   They replace the placeholder motion in apps/game/src/styles/cues.css.
+   status-change, phase-change, round-transition; and for two things a player does on their
+   own device, picking a card up and turning the role card up. Frontend owns the runtime;
+   these rules use its own hooks (data-cue, data-cue-at, data-motion, data-effects) and may
+   be taken as is. They replace the placeholder motion in apps/game/src/styles/cues.css.
+
+   The public move is the one the game owner approved on 7 October 2026: a piece is picked
+   up, carried and set down. To carry it from where it stood the client gives the cue two
+   PROPOSED custom properties, --cue-from-x and --cue-from-y: where the piece was, measured
+   from where it is now. Without them the piece hops where it stands.
 
    What a cue is, and is not:
      - emphasis for something the page already says in words, and nothing else;
@@ -18,8 +24,8 @@
    value and pauses the animation, which freezes the cue at that moment: the storyboard
    frames are this stylesheet, not a second drawing.
 
-   A cue works without art. The layers that are pictures (trail, dust, panel cap, speed
-   lines) are behind :where([data-art~="public-board"]), which the client sets once that
+   A cue works without art. The layers that are pictures (trail, dust, burst, panel cap,
+   speed lines) are behind :where([data-art~="public-board"]), which the client sets once that
    bundle's stylesheet has loaded; :where() keeps those rules at the weight of the ones
    around them, so reduced motion and reduced effects still switch them off.
 
@@ -28,7 +34,11 @@
 .ms-shell [data-cue],
 .ms-shell [data-cue]::before,
 .ms-shell [data-cue]::after,
-.ms-shell [data-cue] * {
+.ms-shell [data-cue] *,
+.ms-shell [data-cue] *::before,
+.ms-shell [data-cue] *::after,
+.ms-shell--table .ms-zone:has(li[data-cue="public-move"]),
+.ms-shell--table .ms-zone:has(li[data-cue="public-move"]) > .ms-zone__name {
   animation-delay: var(--cue-at, 0s);
   animation-play-state: var(--cue-play, running);
   animation-fill-mode: both;
@@ -82,95 +92,217 @@
   100% { opacity: 0; scale: 1.12; }
 }
 
-/* ---------- public-move · public · 450 ms (110 opening, 220 accent, 120 settle) ----------
-   The token drops into its new place from straight above and settles. It never slides
-   in from a side, so the picture draws no route and names no neighboring room. The
-   place it left is simply redrawn without it. */
+/* ---------- public-move · public · 900 ms (120 opening, 450 accent, 330 settle) ----------
+   The piece is picked up, carried and set down, the way a hand moves a piece on a board.
+   Opening: it crouches and leaves the page. Accent: it is in the air for the 450 ms of a
+   public move, over the gutters, while its shadow crosses the page under it. Settle: it
+   lands, the room takes the knock, and it comes to rest.
+
+   It is carried over the page, never along it: no door, corridor, arrow or line is drawn,
+   so the picture says nothing about which rooms connect. Where it stood and where it stands
+   are both public facts of the seat.
+
+   The client measures where the piece stood from where it stands now and sets that on the
+   seat as --cue-from-x and --cue-from-y (PROPOSED). The row is carried along the ground from
+   there; the token on it does the leaving and the landing.
+
+   A seat is carried only where it is a piece: on a room panel of the table display whose
+   picture has arrived, where the row is the piece with its tag and its badges. In a list,
+   and on a panel that is still plain, a row is a name and status words beside a token, and
+   carrying it would drag those words across other seats' words. There the piece hops where
+   it stands, whatever the two properties say, and so it does where they are not set.
+
+   Which of the two it is, is one custom property read by one light rule, so that the rule
+   which stops all travel under reduced motion still outweighs it. */
 
 .ms-shell li[data-cue="public-move"] {
   position: relative;
-}
-
-.ms-shell li[data-cue="public-move"] > .ms-token {
-  transform-origin: 50% 100%;
-  animation-name: ms-cue-drop;
-  animation-duration: var(--ms-motion-move);
+  z-index: 1;
+  animation-name: var(--ms-cue-row, none);
+  animation-duration: var(--ms-motion-piece-move);
   animation-timing-function: linear;
 }
 
-/* Ink trail above the token while it falls, and dust where it lands. Both are pictures,
-   so neither exists until the public bundle has loaded: without them the token still drops. */
 @media (forced-colors: none) {
-  :where([data-art~="public-board"]) .ms-shell li[data-cue="public-move"]::before {
+  :where([data-art~="public-board"]) .ms-shell--table .ms-zone:not([data-zone="final-zone"]) {
+    --ms-cue-row: ms-cue-carry;
+  }
+}
+
+.ms-shell li[data-cue="public-move"] > .ms-token {
+  position: relative;
+  transform-origin: 50% 87%;
+  animation-name: ms-cue-lift;
+  animation-duration: var(--ms-motion-piece-move);
+  animation-timing-function: linear;
+}
+
+/* Its shadow stays on the page while the piece is off it: that is what says "lifted".
+   Drawn from tokens, so it is there without art. It lies under the token's own foot, which
+   is measured from the top of the row: a row may hold a name and status words under or
+   beside its token, and the shadow must not fall on them. --ms-cue-foot is how tall the
+   token is drawn: a disc without art, a quarter taller once it is a picture. */
+.ms-shell li[data-cue="public-move"] {
+  --ms-cue-foot: var(--ms-token-size, var(--ms-token-phone));
+}
+
+.ms-shell li[data-cue="public-move"]::before {
+  content: "";
+  position: absolute;
+  /* Behind everything else in the row: a word it lies behind is still read through it. */
+  z-index: -1;
+  inset-block-start: calc(var(--ms-cue-foot) * 0.9);
+  inset-inline-start: calc(var(--ms-token-size, var(--ms-token-phone)) * 0.1);
+  inline-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 0.9);
+  block-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 0.22);
+  background: var(--ms-color-ink);
+  border-radius: 50%;
+  pointer-events: none;
+  animation-name: ms-cue-shadow;
+  animation-duration: var(--ms-motion-piece-move);
+  animation-timing-function: linear;
+}
+
+/* The room it lands in takes the knock, and the piece is drawn over every other room on
+   its way. Only where a room is a panel: the table display. */
+.ms-shell--table .ms-zone:has(li[data-cue="public-move"]) {
+  z-index: 3;
+  animation-name: ms-cue-knock;
+  animation-duration: var(--ms-motion-piece-move);
+  animation-timing-function: linear;
+}
+
+.ms-shell--table .ms-zone:has(li[data-cue="public-move"]) > .ms-zone__name {
+  animation-name: ms-cue-nod;
+  animation-duration: var(--ms-motion-piece-move);
+  animation-timing-function: linear;
+}
+
+/* Streaks above the piece as it comes down, and a burst and dust where it lands. All three
+   are pictures, so none exists until the public bundle has loaded: without them the piece
+   is still picked up, carried and set down. They are paper with an ink edge, so that they
+   read on a dark wall and on a light floor alike. */
+@media (forced-colors: none) {
+  :where([data-art~="public-board"]) .ms-shell li[data-cue="public-move"] {
+    --ms-cue-foot: calc(var(--ms-token-size, var(--ms-token-phone)) * 1.25);
+  }
+
+  :where([data-art~="public-board"]) .ms-shell li[data-cue="public-move"] > .ms-token::before {
     content: "";
     position: absolute;
-    inset-block-end: 100%;
-    inset-inline-start: 0;
-    inline-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 1.25);
-    block-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 1.05);
-    margin-block-end: calc(var(--ms-token-size, var(--ms-token-phone)) * -0.35);
+    inset-block-end: 88%;
+    inset-inline: 6%;
+    block-size: 72%;
     background: var(--ms-asset-fx-ink-trail-paper) 50% 100% / contain no-repeat;
+    filter: drop-shadow(1px 0 0 var(--ms-color-ink)) drop-shadow(-1px 0 0 var(--ms-color-ink));
     transform-origin: 50% 100%;
     pointer-events: none;
     animation-name: ms-cue-trail;
-    animation-duration: var(--ms-motion-move);
+    animation-duration: var(--ms-motion-piece-move);
     animation-timing-function: linear;
   }
 
   :where([data-art~="public-board"]) .ms-shell li[data-cue="public-move"]::after {
     content: "";
     position: absolute;
-    inset-block-end: 0;
-    inset-inline-start: calc(var(--ms-token-size, var(--ms-token-phone)) * -0.2);
-    inline-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 1.65);
-    block-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 0.5);
-    background: var(--ms-asset-fx-landing-puff-paper) 50% 100% / contain no-repeat;
-    transform-origin: 50% 100%;
+    z-index: -1;
+    inset-block-start: calc(var(--ms-cue-foot) * 0.5 - var(--ms-token-size, var(--ms-token-phone)) * 1.5);
+    inset-inline-start: calc(var(--ms-token-size, var(--ms-token-phone)) * -0.95);
+    inline-size: calc(var(--ms-token-size, var(--ms-token-phone)) * 3);
+    aspect-ratio: 1;
+    background:
+      var(--ms-asset-fx-landing-puff-paper) 50% 70% / 62% auto no-repeat,
+      var(--ms-asset-fx-landing-burst-paper) 50% 50% / contain no-repeat;
+    filter: drop-shadow(1px 0 0 var(--ms-color-ink)) drop-shadow(-1px 0 0 var(--ms-color-ink)) drop-shadow(0 1px 0 var(--ms-color-ink)) drop-shadow(0 -1px 0 var(--ms-color-ink));
     pointer-events: none;
-    animation-name: ms-cue-puff;
-    animation-duration: var(--ms-motion-move);
+    animation-name: ms-cue-land;
+    animation-duration: var(--ms-motion-piece-move);
     animation-timing-function: linear;
-  }
-
-  /* On the lit deck of the vignette the trail and the dust are ink. */
-  :where([data-art~="public-board"]) .ms-shell--table .ms-zone[data-zone="room-a"] li[data-cue="public-move"]::before {
-    inline-size: 84.5%;
-    inset-inline-start: 7.75%;
-    block-size: 60%;
-    margin-block-end: -18%;
-    background-image: var(--ms-asset-fx-ink-trail-ink);
-  }
-
-  :where([data-art~="public-board"]) .ms-shell--table .ms-zone[data-zone="room-a"] li[data-cue="public-move"]::after {
-    inline-size: 110%;
-    inset-inline-start: -5%;
-    block-size: 26%;
-    inset-block-end: 4%;
-    background-image: var(--ms-asset-fx-landing-puff-ink);
   }
 }
 
-@keyframes ms-cue-drop {
-  /* opening: not here yet */
-  0%, 24.4% { opacity: 0; translate: 0 -70%; scale: 0.94 1.08; animation-timing-function: var(--ms-ease-impact); }
-  /* accent: it falls and lands */
-  33% { opacity: 1; translate: 0 -62%; scale: 0.94 1.08; animation-timing-function: var(--ms-ease-impact); }
-  73.3% { opacity: 1; translate: 0 0; scale: 1.1 0.86; animation-timing-function: var(--ms-ease-settle); }
-  /* settle */
-  100% { opacity: 1; translate: 0 0; scale: 1 1; }
+/* On a panel of the table display that is still plain, a row is a column with its token
+   centered at the top: the shadow is centered under it. */
+.ms-shell--table .ms-zone li[data-cue="public-move"]::before {
+  inset-inline-start: 50%;
+  margin-inline-start: calc(var(--ms-token-size, var(--ms-token-phone)) * -0.45);
+}
+
+/* On a room panel whose picture has arrived the row is the standee alone, centered in its
+   column, with its tag hung under it: the shadow and the landing are centered under the
+   standee, measured from its foot and sized by it. */
+@media (forced-colors: none) {
+  :where([data-art~="public-board"]) .ms-shell--table .ms-zone:not([data-zone="final-zone"]) li[data-cue="public-move"]::before {
+    inset-block: auto 6%;
+    inset-inline-start: 50%;
+    inline-size: calc(var(--ms-piece, var(--ms-token-size)) * 0.84);
+    block-size: calc(var(--ms-piece, var(--ms-token-size)) * 0.26);
+    margin-inline-start: calc(var(--ms-piece, var(--ms-token-size)) * -0.42);
+  }
+
+  :where([data-art~="public-board"]) .ms-shell--table .ms-zone:not([data-zone="final-zone"]) li[data-cue="public-move"]::after {
+    inset-block: auto calc(var(--ms-piece, var(--ms-token-size)) * -1.05);
+    inset-inline-start: 50%;
+    inline-size: calc(var(--ms-piece, var(--ms-token-size)) * 3.2);
+    margin-inline-start: calc(var(--ms-piece, var(--ms-token-size)) * -1.6);
+  }
+}
+
+/* Named by --ms-cue-row above. */
+@keyframes ms-cue-carry {
+  /* opening: it has not left yet */
+  0%, 13.3% { translate: var(--cue-from-x, 0px) var(--cue-from-y, 0px); animation-timing-function: var(--ms-ease-sweep); }
+  /* accent: across the page, in a straight line on the ground */
+  63.3%, 100% { translate: 0 0; }
+}
+
+@keyframes ms-cue-lift {
+  /* opening: a crouch, then it leaves the page */
+  0% { translate: 0 0; scale: 1 1; animation-timing-function: var(--ms-ease-settle); }
+  8.9% { translate: 0 0; scale: 1.16 0.8; animation-timing-function: var(--ms-ease-impact); }
+  13.3% { translate: 0 0; scale: 0.9 1.14; animation-timing-function: var(--ms-ease-settle); }
+  /* accent: up, larger because it is nearer, and down again */
+  38.3% { translate: 0 -110%; scale: 1.42 1.42; animation-timing-function: var(--ms-ease-impact); }
+  63.3% { translate: 0 0; scale: 0.94 1.1; animation-timing-function: var(--ms-ease-settle); }
+  /* settle: a squash, and it comes to rest */
+  70% { translate: 0 0; scale: 1.22 0.76; animation-timing-function: var(--ms-ease-settle); }
+  82.2% { translate: 0 0; scale: 0.95 1.07; animation-timing-function: var(--ms-ease-standard); }
+  100% { translate: 0 0; scale: 1 1; }
+}
+
+@keyframes ms-cue-shadow {
+  0% { opacity: 0; scale: 1; }
+  13.3% { opacity: 0.5; scale: 1; }
+  38.3% { opacity: 0.22; scale: 0.55; }
+  63.3% { opacity: 0.5; scale: 1; }
+  76.7%, 100% { opacity: 0; scale: 1.1; }
 }
 
 @keyframes ms-cue-trail {
-  0%, 24.4% { opacity: 0; scale: 1 0.2; }
-  40% { opacity: 0.9; scale: 1 1; }
-  73.3% { opacity: 0.7; scale: 1 0.7; animation-timing-function: var(--ms-ease-settle); }
-  100% { opacity: 0; scale: 1 0; }
+  0%, 40% { opacity: 0; scale: 1 0.2; }
+  52% { opacity: 0.95; scale: 1 1; }
+  63.3% { opacity: 0.7; scale: 1 0.6; animation-timing-function: var(--ms-ease-settle); }
+  70%, 100% { opacity: 0; scale: 1 0; }
 }
 
-@keyframes ms-cue-puff {
-  0%, 70% { opacity: 0; scale: 0.5 0.6; animation-timing-function: var(--ms-ease-settle); }
-  80% { opacity: 0.9; scale: 0.9 1; }
-  100% { opacity: 0; scale: 1.25 0.8; }
+@keyframes ms-cue-land {
+  0%, 63.3% { opacity: 0; scale: 0.3; rotate: -8deg; animation-timing-function: var(--ms-ease-settle); }
+  73.4% { opacity: 1; scale: 0.85; rotate: 0deg; }
+  92.2%, 100% { opacity: 0; scale: 1.15; rotate: 6deg; }
+}
+
+@keyframes ms-cue-knock {
+  0%, 63.3% { scale: 1; translate: 0 0; animation-timing-function: var(--ms-ease-settle); }
+  72.7% { scale: 1.022; translate: 0 2px; }
+  83.6% { scale: 0.996; translate: 0 0; }
+  94.4%, 100% { scale: 1; translate: 0 0; }
+}
+
+@keyframes ms-cue-nod {
+  0%, 63.3% { rotate: 0deg; animation-timing-function: var(--ms-ease-settle); }
+  75% { rotate: -3.5deg; }
+  86.7% { rotate: 1.5deg; }
+  96.7%, 100% { rotate: 0deg; }
 }
 
 /* In the table's roster a cell cannot travel: the changed cell is underlined and settles. */
@@ -362,13 +494,82 @@
   }
 }
 
+/* ---------- role-card-turn · local, private · 900 ms (220 opening, 520 accent, 160 settle) ----------
+   The player turned their own role card up. Inside the open private sheet only, on this
+   device only, and exactly the same for all nine roles: the same times, the same motion,
+   no sound and no vibration. Opening: the card comes up, face down. Accent: it turns over,
+   and the device is put into the character's hand. Settle: the device's color comes on.
+   It says nothing new: the role and the team are the words on the card. */
+
+.ms-shell .ms-private__panel .ms-role-card[data-cue="role-card-turn"] {
+  position: relative;
+  animation-name: ms-cue-card-turn;
+  animation-duration: var(--ms-motion-role-card-turn);
+  animation-timing-function: linear;
+}
+
+/* Its back: the same for every role. It covers the card for the first half of the turn. */
+.ms-shell .ms-private__panel .ms-role-card[data-cue="role-card-turn"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(135deg, var(--ms-color-steel-shadow) 0 3px, transparent 3px 11px), var(--ms-color-ink);
+  pointer-events: none;
+  animation-name: ms-cue-card-back;
+  animation-duration: var(--ms-motion-role-card-turn);
+  animation-timing-function: linear;
+}
+
+.ms-shell .ms-private__panel .ms-role-card[data-cue="role-card-turn"] .ms-role-card__art::after {
+  animation-name: ms-cue-equip;
+  animation-duration: var(--ms-motion-role-card-turn);
+  animation-timing-function: linear;
+}
+
+@keyframes ms-cue-card-turn {
+  /* opening: up from the edge, face down */
+  0% { opacity: 0; translate: 0 40%; rotate: y 180deg; animation-timing-function: var(--ms-ease-settle); }
+  18.9% { opacity: 1; translate: 0 0; rotate: y 180deg; animation-timing-function: var(--ms-ease-sweep); }
+  /* accent: it turns over */
+  50%, 100% { opacity: 1; translate: 0 0; rotate: y 0deg; }
+}
+
+@keyframes ms-cue-card-back {
+  0%, 34.4% { opacity: 1; }
+  34.5%, 100% { opacity: 0; }
+}
+
+@keyframes ms-cue-equip {
+  /* accent: the device is put into the hand, still dark */
+  0%, 51.1% { opacity: 0; translate: 34% 30%; rotate: 16deg; filter: saturate(0); animation-timing-function: var(--ms-ease-snap); }
+  82.2% { opacity: 1; translate: 0 0; rotate: 0deg; filter: saturate(0); animation-timing-function: var(--ms-ease-standard); }
+  /* settle: its color comes on */
+  100% { opacity: 1; translate: 0 0; rotate: 0deg; filter: saturate(1); }
+}
+
 /* ---------- Reduced effects ----------
    A separate setting from reduced motion, which it never overrides. The same motion,
    without the layers drawn beside the element. */
 
 [data-effects="reduced"] .ms-shell [data-cue]::before,
-[data-effects="reduced"] .ms-shell [data-cue]::after {
+[data-effects="reduced"] .ms-shell [data-cue]::after,
+[data-effects="reduced"] .ms-shell li[data-cue="public-move"] > .ms-token::before {
   content: none;
+}
+
+/* The role card comes up without turning over: its back is a layer, and the layer is gone. */
+[data-effects="reduced"] .ms-shell .ms-private__panel .ms-role-card[data-cue="role-card-turn"] {
+  animation-name: ms-cue-card-rise;
+}
+
+[data-effects="reduced"] .ms-shell .ms-private__panel .ms-role-card[data-cue="role-card-turn"]::after {
+  content: none;
+}
+
+@keyframes ms-cue-card-rise {
+  0% { opacity: 0; translate: 0 40%; animation-timing-function: var(--ms-ease-settle); }
+  24.4%, 100% { opacity: 1; translate: 0 0; }
 }
 
 [data-effects="reduced"] .ms-shell [data-cue="round-transition"] .ms-phase__round,
@@ -401,7 +602,27 @@
   }
 
   .ms-shell:not([data-motion="full"]) [data-cue]::before,
-  .ms-shell:not([data-motion="full"]) [data-cue]::after {
+  .ms-shell:not([data-motion="full"]) [data-cue]::after,
+  .ms-shell:not([data-motion="full"]) [data-cue] > .ms-token::before {
+    content: none;
+  }
+
+  /* Nothing travels, turns or is knocked: the room and its caption stay still, the role
+     card is simply face up, and the device is simply in the hand. These name the parts
+     outright, because the rules that move them weigh more than the general ones above. */
+  .ms-shell--table:not([data-motion="full"]) .ms-zone:has(li[data-cue="public-move"]),
+  .ms-shell--table:not([data-motion="full"]) .ms-zone:has(li[data-cue="public-move"]) > .ms-zone__name,
+  .ms-shell:not([data-motion="full"]) .ms-private__panel .ms-role-card[data-cue="role-card-turn"] .ms-role-card__art::after {
+    animation-name: none;
+  }
+
+  .ms-shell:not([data-motion="full"]) .ms-private__panel .ms-role-card[data-cue="role-card-turn"] {
+    animation-name: ms-cue-fade;
+    animation-duration: var(--ms-motion-reduced-fade);
+    animation-timing-function: linear;
+  }
+
+  .ms-shell:not([data-motion="full"]) .ms-private__panel .ms-role-card[data-cue="role-card-turn"]::after {
     content: none;
   }
 
@@ -421,7 +642,24 @@
 }
 
 .ms-shell[data-motion="reduced"] [data-cue]::before,
-.ms-shell[data-motion="reduced"] [data-cue]::after {
+.ms-shell[data-motion="reduced"] [data-cue]::after,
+.ms-shell[data-motion="reduced"] [data-cue] > .ms-token::before {
+  content: none;
+}
+
+.ms-shell--table[data-motion="reduced"] .ms-zone:has(li[data-cue="public-move"]),
+.ms-shell--table[data-motion="reduced"] .ms-zone:has(li[data-cue="public-move"]) > .ms-zone__name,
+.ms-shell[data-motion="reduced"] .ms-private__panel .ms-role-card[data-cue="role-card-turn"] .ms-role-card__art::after {
+  animation-name: none;
+}
+
+.ms-shell[data-motion="reduced"] .ms-private__panel .ms-role-card[data-cue="role-card-turn"] {
+  animation-name: ms-cue-fade;
+  animation-duration: var(--ms-motion-reduced-fade);
+  animation-timing-function: linear;
+}
+
+.ms-shell[data-motion="reduced"] .ms-private__panel .ms-role-card[data-cue="role-card-turn"]::after {
   content: none;
 }
 

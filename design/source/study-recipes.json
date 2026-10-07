@@ -1,7 +1,7 @@
 {
   "$comment": "Recipes for the two synthetic disclosure studies. design/tools/build-exports.mjs writes them to design/studies/ with a manifest of their own. They are not assets and are in no bundle: no approved fact exists for what they draw (RULE-003 / D09). A recipe here may read only from source/studies/.",
   "manifestVersion": "studies-0.1.0",
-  "tokenVersion": "0.3.0",
+  "tokenVersion": "0.4.0",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "protocolVersion": 1,

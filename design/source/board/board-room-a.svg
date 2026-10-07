@@ -12,20 +12,22 @@
   top-left corner (see the caption anchor in the manifest). The floor has no marked slots:
   token positions are a layout suggestion, not a capacity.
 
-  The palette is the public one and is shared by every location: charcoal, paper and muted
-  steel. There is no amber here (amber is interaction focus) and no faction color.
+  It is drawn in the neutral steel palette, as every room is: charcoal, paper and five steel
+  values. Its export recipe swaps those five for Room A's own color family (color.room.roomA
+  in the design tokens), so the room can be printed in another family without being redrawn.
+  There is no amber here (amber is interaction focus) and no faction color.
 
   Layers, back to front (ids are picked in design/source/export-recipes.json):
     room-a-space        what is seen through the viewport
     room-a-backwall     back wall, viewport frame, console, pipes, locker (a hole is cut for the glass)
     room-a-shell        ceiling with its two light bars, left and right walls
-    room-a-floor        deck plates and the pool of light the tokens stand in
+    room-a-floor        deck plates and the pool of light the pieces stand in
     room-a-edges        the inked edges of the box
     room-a-props-back   crates and canister against the back wall
     room-a-props-front  cable coil and toolbox in the near corners, outside the token area
     room-a-frame        the panel border
 
-  Palette (design tokens 0.3.0): ink #151923 · canvas #10141C · paper #F4EBDD ·
+  Palette as drawn (design tokens 0.3.0 and later): ink #151923 · canvas #10141C · paper #F4EBDD ·
   paperShade #E3D6C2 · paperDeep #CBBBA2 · steelDeep #222B3A · steelShadow #34415A ·
   steelMid #55657E · steelLight #8696AE · steelPale #B9C4D3
 -->

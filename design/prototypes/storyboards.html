@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/cues.css">
 <link rel="stylesheet" href="css/review.css">
 <style>
-  .board { display: grid; grid-auto-flow: column; grid-auto-columns: max-content; gap: 22px; align-items: start; }
+  .board { display: grid; grid-template-columns: repeat(3, max-content); gap: 22px; align-items: start; }
   .board + .board { margin-block-start: 26px; }
   .board-label { margin: 0 0 10px; color: var(--review-muted); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .spec { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; max-inline-size: 70rem; margin: 0 0 22px; font-size: 13px; }
@@ -47,13 +47,17 @@
     h('figcaption', null, h('strong', null, title), detail));
 
   for (const cue of cues) {
-    const [opening, accent, settled] = cue.storyboardFramesMs;
+    // Three frames or more, rising to the cue's full duration. Each is named by the beat it falls in.
+    const frames = cue.storyboardFramesMs;
+    const middle = frames[Math.floor(frames.length / 2)];
+    const beatOf = at => (at >= cue.durationMs ? 'Settled' : at <= cue.beatsMs.opening ? 'Opening' : at <= cue.beatsMs.opening + cue.beatsMs.accent ? 'Accent' : 'Settle');
+    const noteOf = (at, index) => (index === 0 ? 'The first moment the cue is visible.' : at >= cue.durationMs ? 'At rest. This is also what the screen shows with no cue at all.' : at === middle ? 'The emphasized instant.' : '');
     page.append(
       h('header', { class: 'review-head' },
         h('h1', null, `${cue.title}`),
         h('span', { class: `review-tag review-tag--${cue.audienceTag}` }, cue.audienceTag),
         h('span', { class: 'review-synthetic' }, 'Synthetic scene · not a match'),
-        h('p', { class: 'review-meta' }, `Design tokens 0.3.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · frames are the reference stylesheet paused at the stated time · desktop Chrome, not a device measurement`),
+        h('p', { class: 'review-meta' }, `Design tokens 0.4.0 (proposal) · asset manifest ${ASSET_MANIFEST_VERSION} · frames are the reference stylesheet paused at the stated time · desktop Chrome, not a device measurement`),
       ),
       h('dl', { class: 'spec' },
         h('dt', null, 'Cue'), h('dd', null, h('code', null, cue.id), cue.frontendCue ? [' · director kind ', h('code', null, cue.frontendCue)] : null),
@@ -65,17 +69,13 @@
     );
 
     page.append(h('p', { class: 'board-label' }, 'Normal motion'));
-    page.append(h('div', { class: 'board' },
-      cell(buildCueScene(cue.id, { at: opening, copy }), `Opening · ${opening} ms`, 'The first moment the cue is visible.'),
-      cell(buildCueScene(cue.id, { at: accent, copy }), `Accent · ${accent} ms`, 'The emphasized instant.'),
-      cell(buildCueScene(cue.id, { at: settled, copy }), `Settled · ${settled} ms`, 'At rest. This is also what the screen shows with no cue at all.'),
-    ));
+    page.append(h('div', { class: 'board' }, frames.map((at, index) => cell(buildCueScene(cue.id, { at, copy }), `${beatOf(at)} · ${at} ms`, noteOf(at, index)))));
 
     page.append(h('p', { class: 'board-label', style: 'margin-block-start: 26px' }, 'Alternatives'));
     page.append(h('div', { class: 'board' },
       cell(buildCueScene(cue.id, { motion: 'reduced', at: 0, copy }), 'Reduced motion · 0 ms', cue.reducedMotion),
       cell(buildCueScene(cue.id, { motion: 'reduced', at: 80, copy }), 'Reduced motion · 80 ms', 'Settled. The same facts and the same controls as with full motion.'),
-      cell(buildCueScene(cue.id, { effects: 'reduced', at: accent, copy }), `Reduced effects · accent, ${accent} ms`, cue.reducedEffects),
+      cell(buildCueScene(cue.id, { effects: 'reduced', at: middle, copy }), `Reduced effects · ${beatOf(middle).toLowerCase()}, ${middle} ms`, cue.reducedEffects),
     ));
     if (cues.length > 1) page.append(h('hr', { style: 'margin: 40px 0; border: 0; border-top: 1px solid #55555F' }));
   }
