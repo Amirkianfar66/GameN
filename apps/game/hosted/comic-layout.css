@@ -100,3 +100,18 @@
 
 /* Player names are untrusted public text; isolate their writing direction. */
 .ms-seat__player, .ms-target__name, .ms-roster__name { unicode-bidi: isolate; }
+
+/* Practice labels are public metadata, independent of crew art or secret roles. */
+.ms-practice-notice {
+  grid-column: 1 / -1;
+  padding: var(--ms-space-3, 12px);
+  border: 2px solid var(--ms-color-ink, #10131a);
+  background: #f2e6c9;
+  color: #10131a;
+}
+.ms-practice-notice h2 { margin: 0 0 4px; font-size: 1rem; }
+.ms-practice-notice p { margin: 0; }
+.ms-seat__bot { display: inline-block; margin-inline-start: 4px; font-size: .7em; font-weight: 800; text-transform: uppercase; }
+.connected-practice { margin-block: 24px; padding: 16px; border: 2px solid currentColor; }
+.connected-practice a { display: inline-block; margin-block-end: 12px; }
+.connected-practice-notice { font-weight: 700; }

@@ -1,4 +1,4 @@
-import type { OwnAcknowledgments } from '@mothership/contracts';
+import type { OwnAcknowledgments, FullPracticeBotsDocument } from '@mothership/contracts';
 import type { ConnectedPlayerShellModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupElement, MarkupNode } from './node.js';
@@ -12,7 +12,7 @@ export interface ComicIdentity {
   readonly displayName: string | null;
   readonly characterId: string | null;
 }
-export interface ComicContext { readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null }
+export interface ComicContext { readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
   Officer: { device: 'officer', team: 'Blue' }, Insider: { device: 'insider', team: 'Blue' },
@@ -45,6 +45,7 @@ function decoratePublic(node: MarkupNode, context: ComicContext, seat: string | 
   let children = node.children.map(child => decoratePublic(child, context, current));
   const named = classHas(node, 'ms-seat__name') || classHas(node, 'ms-target__name') || (node.tag === 'th' && node.attrs.scope === 'row');
   if (named && current && identity?.displayName) children = [...nameParts(current, identity.displayName)];
+  if (named && current && context.practice?.botSeatIds.some(seatId => seatId === current)) children.push(h('span', { class: 'ms-seat__bot' }, 'Bot'));
   return { ...node, attrs, children };
 }
 
@@ -57,6 +58,17 @@ function roleCard(name: string, ownCharacter: string | null): MarkupElement {
     h('span', { class: 'ms-role-card__art', 'aria-hidden': 'true' }),
     h('div', { class: 'ms-role-card__text' }, h('p', { class: 'ms-role-card__name' }, name), h('p', { class: 'ms-role-card__team' }, `${look.team} team`)),
   );
+}
+
+/** Public, opt-in practice status; it never exposes a bot's role or decision inputs. */
+function withPracticeNotice(node: MarkupNode, context: ComicContext): MarkupNode {
+  if (!isElement(node)) return node;
+  const children = node.children.map(child => withPracticeNotice(child, context));
+  const bots = context.practice?.botSeatIds.length ?? 0;
+  if (classHas(node, 'ms-main') && bots > 0) children.unshift(h('section', { class: 'ms-practice-notice', 'aria-labelledby': 'ms-practice-heading' },
+    h('h2', { id: 'ms-practice-heading' }, `Practice match · ${bots} ${bots === 1 ? 'bot' : 'bots'}`),
+    h('p', null, 'Bots make simple legal choices. They do not chat or bluff.')));
+  return { ...node, children };
 }
 
 /** Add the approved artwork without changing action availability, targets or authority. */
@@ -99,9 +111,11 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     }
     return { ...node, children };
   }
-  return decoratePublic(visit(source), context) as MarkupElement;
+  const current = { ...context, practice: model.connection === 'live' ? context.practice ?? null : null };
+  return decoratePublic(withPracticeNotice(visit(source), current), current) as MarkupElement;
 }
 
 export function renderComicTableShell(model: TableShellModel, context: ComicContext = {}): MarkupElement {
-  return decoratePublic(renderTableShell(model), context) as MarkupElement;
+  const current = { ...context, practice: model.match && model.connection === 'live' ? context.practice ?? null : null };
+  return decoratePublic(withPracticeNotice(renderTableShell(model), current), current) as MarkupElement;
 }
