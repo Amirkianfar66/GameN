@@ -14,20 +14,31 @@ export const FullSetupStageSchema = z.enum(['lobby', 'choosing', 'awaiting-ready
 /** Neutral startup progress only. Role previews are separate, own-UID documents. */
 export const FullSetupDocumentSchema = z.strictObject({
   ...documentVersion, matchId: IdentifierSchema, playerCount, revision: RevisionSchema,
-  stage: FullSetupStageSchema, dealId: IdentifierSchema.nullable(),
+  stage: FullSetupStageSchema, dealId: IdentifierSchema.nullable(), setupId: IdentifierSchema.nullable(),
+  choosingStartedAt: TimestampSchema.nullable(), choosingEndsAt: TimestampSchema.nullable(),
+  readingStartedAt: TimestampSchema.nullable(), readingEndsAt: TimestampSchema.nullable(),
   seats: z.array(z.strictObject({ seatId: SeatIdSchema, confirmed: z.boolean(), ready: z.boolean() })).max(9),
 }).refine(value => {
   const ids = value.seats.map(seat => seat.seatId);
   if (ids.length > value.playerCount || !ids.every((id, index) => Number(id.slice(5)) <= value.playerCount
     && (index === 0 || ids[index - 1]! < id)) || value.seats.some(seat => seat.ready && !seat.confirmed)) return false;
   const full = ids.length === value.playerCount;
-  if (value.stage === 'lobby') return value.dealId === null && value.seats.every(seat => !seat.confirmed && !seat.ready);
-  if (value.stage === 'choosing') return full && value.dealId === null && value.seats.every(seat => !seat.ready);
-  if (value.stage === 'awaiting-ready') return full && value.dealId !== null && value.seats.every(seat => seat.confirmed);
-  if (value.stage === 'running') return full && value.dealId !== null && value.seats.every(seat => seat.confirmed && seat.ready);
-  // Aborting preserves the last neutral progress, including a deal that was already prepared.
-  return true;
-}, 'Sorted in-bounds seats and progress consistent with the startup stage required');
+  const unstarted = value.setupId === null && value.choosingStartedAt === null && value.choosingEndsAt === null
+    && value.readingStartedAt === null && value.readingEndsAt === null;
+  const choosingWindow = value.setupId !== null && value.choosingStartedAt !== null && value.choosingEndsAt !== null
+    && value.choosingEndsAt - value.choosingStartedAt === 30_000;
+  const choosingOnly = choosingWindow && value.readingStartedAt === null && value.readingEndsAt === null;
+  const readingWindow = choosingWindow && value.readingStartedAt !== null && value.readingEndsAt !== null
+    && value.readingStartedAt >= value.choosingEndsAt! && value.readingEndsAt - value.readingStartedAt === 30_000;
+  if (value.stage === 'lobby') return unstarted && value.dealId === null && value.seats.every(seat => !seat.confirmed && !seat.ready);
+  if (value.stage === 'choosing') return full && choosingOnly && value.dealId === null && value.seats.every(seat => !seat.ready);
+  if (value.stage === 'awaiting-ready') return full && readingWindow && value.dealId !== null && value.seats.every(seat => seat.confirmed);
+  if (value.stage === 'running') return full && readingWindow && value.dealId !== null && value.seats.every(seat => seat.confirmed && seat.ready);
+  // An aborted setup retains one coherent timing subset rather than manufacturing a new deadline.
+  return (unstarted && value.dealId === null && value.seats.every(seat => !seat.confirmed && !seat.ready))
+    || (choosingOnly && value.dealId === null && value.seats.every(seat => !seat.ready))
+    || (readingWindow && value.dealId !== null);
+}, 'Sorted in-bounds seats, fixed 30-second setup windows and progress consistent with the stage required');
 
 /** Partial pregame preview only; initial private knowledge arrives with live gameplay views. */
 export const FullSetupPlayerViewSchema = z.strictObject({
@@ -57,8 +68,7 @@ const failure = z.strictObject({ ...version, ok: z.literal(false), serverTimeMs:
   error: z.strictObject({ code: FullSetupErrorCodeSchema, retryAfterMs: TimestampSchema.optional() }) });
 const success = { ...request, ok: z.literal(true), serverTimeMs: TimestampSchema, revision: RevisionSchema };
 export const FullBeginSetupResponseSchema = z.discriminatedUnion('ok', [
-  z.strictObject({ ...success, stage: z.enum(['choosing', 'running']), dealId: IdentifierSchema.nullable() })
-    .refine(value => (value.stage === 'choosing') === (value.dealId === null), 'Deal availability must match the begun stage'),
+  z.strictObject({ ...success, stage: z.literal('choosing'), dealId: z.null() }),
   failure,
 ]);
 export const FullConfirmSetupChoiceResponseSchema = z.discriminatedUnion('ok', [
