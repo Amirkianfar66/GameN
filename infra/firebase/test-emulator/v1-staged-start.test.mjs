@@ -166,7 +166,7 @@ for (const playerCount of [7, 8, 9]) test(`${playerCount} humans get full choosi
   const choosingIntent = await setupIntent(h, 'choosing'); h.setTime(choosingIntent.dueAt - 1);
   assert.deepEqual(timerResult(await h.service.runSetupDeadline(choosingIntent.payload)), { status: 'too-early', retryAfterMs: 1 });
   assert.equal((await h.document()).dealId, null);
-  assert.equal((await read(h, h.players[0], 'setupPlayerViews/' + h.players[0].uid)).status, 403, 'Choosing never exposes a future role card');
+  assert.equal((await read(h, h.players[0], 'setupPlayerViews/' + h.players[0].uid)).status, 404, 'An authorized own missing read exposes no future role card');
   await noGameplay(h);
   await closeChoosing(h); const reading = await h.document(), deal = await snapshot(h.base.collection('setup').doc('deal'));
   assert.equal(reading.readingStartedAt, choosing.choosingEndsAt); assert.ok(reading.dealId);
