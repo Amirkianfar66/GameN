@@ -46,6 +46,12 @@ service cloud.firestore {
         && resource.data.protocolVersion == 2 && resource.data.matchId == matchId;
       allow list, write: if false;
     }
+    match /matches/{matchId}/identities/public {
+      allow get: if admitted(matchId) && fullMatch(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/identities/public)
+          || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2 && resource.data.matchId == matchId));
+      allow list, write: if false;
+    }
     match /matches/{matchId}/views/public {
       allow get: if admitted(matchId) && resource.data.matchId == matchId && resource.data.audience.kind == 'public';
       allow list, write: if false;
@@ -55,6 +61,22 @@ service cloud.firestore {
         && isSeat(member(matchId).seatId) && resource.data.matchId == matchId
         && resource.data.audience.kind == 'player' && resource.data.audience.seatId == member(matchId).seatId
         && resource.data.self.seatId == member(matchId).seatId;
+      allow list, write: if false;
+    }
+    match /matches/{matchId}/ownAcknowledgments/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid && fullMatch(matchId) && activePlayer(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/ownAcknowledgments/$(uid))
+          || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2
+            && resource.data.matchId == matchId && resource.data.seatId == member(matchId).seatId
+            && resource.data.bindingRevision == member(matchId).bindingRevision));
+      allow list, write: if false;
+    }
+    match /matches/{matchId}/seatSessions/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid && fullMatch(matchId) && activePlayer(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/seatSessions/$(uid))
+          || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2
+            && resource.data.matchId == matchId && resource.data.seatId == member(matchId).seatId
+            && resource.data.bindingRevision == member(matchId).bindingRevision));
       allow list, write: if false;
     }
     match /matches/{matchId}/audienceEvents/{audienceKey}/items/{eventId} {

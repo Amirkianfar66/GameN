@@ -1,0 +1,193 @@
+{
+  "$comment": "PROPOSED English copy for what this design adds. Live text only: none of it is drawn into an illustration. Frontend owns interface wording and the game owner owns rule statements; every line that states a rule cites the rule source it paraphrases, and every cited source is a file in this branch. Nothing here is approved. The nine role cards are Designer's draft (open decision DSN-D17). Frontend said on PR #57, on 7 October 2026, that it will draft the eight cards that had none, from the approved rule sources and from what the connected client already says of each action: these lines are offered to that draft and do not replace it. Where the two differ, Frontend's wording stands. The names of actions and of what a seat knows follow the connected client's copy as read on agent/frontend-hosted-feedback at b31e957 (Rescue, Disable, Supply, Protection, Scan, Code attempt). Where an approved in-person V1 decision on the landing candidate bears on a line, its `note` says so, because that overlay is not in this branch's base and cannot be cited here.",
+  "status": "proposed_for_review",
+  "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "roleCard": {
+    "Officer": {
+      "name": "Officer",
+      "team": "Blue team",
+      "more": "About this role",
+      "summary": "You start with one ordinary shot. You may register it during your own turn, from Round 1.",
+      "limit": "One ordinary shot for the whole match.",
+      "sources": [
+        "rules/overlays/player-modes-officer.json#/officer/team",
+        "rules/overlays/player-modes-officer.json#/officer/starting_weapon",
+        "rules/overlays/player-modes-officer.json#/officer/timing",
+        "rules/overlays/player-modes-officer.json#/officer/shot_limit",
+        "rules/overlays/final-showdown-decision.json#/options/1/shot"
+      ],
+      "mustNotSay": "Nothing about identifying or guessing another player's faction or role: that step is archived (rules/overlays/direct-shot-decision.json). “Ordinary” is there because the final showdown gives every participant a special shot of its own (rules/overlays/final-showdown-decision.json): the card must not read as if the Officer had none left for it.",
+      "note": "Unchanged from the first slice."
+    },
+    "Insider": {
+      "name": "Insider",
+      "team": "Blue team",
+      "more": "About this role",
+      "summary": "At the start you are shown three players. One of them is the Undercover, one the Alien and one the Cracker.",
+      "limit": "You are not told which of them holds which.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Insider/team",
+        "rules/sources/v2.1-decisions.json#/roles/Insider/ability"
+      ],
+      "note": "The three players themselves are private data of the seat's own view, not copy."
+    },
+    "Cracker": {
+      "name": "Cracker",
+      "team": "Blue team",
+      "more": "About this role",
+      "summary": "Rescue: choose one player. At the end of the round, if that player is Injured, they become Healthy.",
+      "limit": "Two rescues for the whole match. A rescue cannot bring back an Eliminated player.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Cracker/team",
+        "rules/sources/v2.1-decisions.json#/roles/Cracker/main_action",
+        "rules/sources/v2.1-decisions.json#/roles/Cracker/rescues_per_match",
+        "rules/sources/v2.1-decisions.json#/roles/Cracker/cannot_revive_eliminated"
+      ],
+      "note": "The card does not say where the player to rescue must be: the server's own target list does. The base sources require the same location and give the Cracker access to the Hospital; approved decision V1-05 makes rescuing a player in the Hospital from Room A or Room B an explicit exception, and V1-15 says a rescue that heals nobody is still used up. Both are on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    },
+    "Blue Disabler": {
+      "name": "Blue Disabler",
+      "team": "Blue team",
+      "more": "About this role",
+      "summary": "Disable: choose a player in your location. If it takes effect, a Healthy player becomes Injured and an Injured player is Eliminated.",
+      "limit": "One use for the whole match.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Blue_Disabler/team",
+        "rules/sources/v2.1-decisions.json#/roles/Blue_Disabler/same_location_required",
+        "rules/sources/v2.1-decisions.json#/roles/Blue_Disabler/effect/Healthy_target",
+        "rules/sources/v2.1-decisions.json#/roles/Blue_Disabler/effect/Injured_target",
+        "rules/sources/v2.1-decisions.json#/roles/Blue_Disabler/uses_per_match",
+        "rules/sources/v2.1-decisions.json#/protection/applicable_to/2"
+      ],
+      "note": "“If it takes effect” is there because Protection can cancel a Disable; the card must not promise an outcome. Approved decision V1-13 adds that the target is another player, and V1-15 that the use is reserved when the action is accepted: both are on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    },
+    "Supplier": {
+      "name": "Supplier",
+      "team": "Blue team",
+      "more": "About this role",
+      "summary": "In Round 3, choose two different players in your location. Each receives one ordinary weapon, usable in Round 4 or 5.",
+      "limit": "Round 3 only.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Supplier/team",
+        "rules/sources/v2.1-decisions.json#/roles/Supplier/round",
+        "rules/sources/v2.1-decisions.json#/roles/Supplier/main_action",
+        "rules/sources/v2.1-decisions.json#/roles/Supplier/same_location_required_for_distribution"
+      ],
+      "note": "The card does not say whether fewer than two may be chosen, or whether the Supplier may be one of them: the rule source says “two distinct recipients” and Game Balance has both questions open (D11, D12). Approved decision V1-16 adds who learns of a grant (each recipient and the Supplier, and nobody else) and that an Officer may receive a weapon they cannot use. It is on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    },
+    "Undercover": {
+      "name": "Undercover",
+      "team": "Red team",
+      "more": "About this role",
+      "summary": "Protection: choose a Healthy or Injured player in your location. You may choose yourself. It becomes active at the start of the next normal round.",
+      "limit": "A player can receive Protection only once in a match. You also hold one ordinary weapon, usable in Round 4 or 5.",
+      "also": "In a Standard Hack you may lie.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Undercover/team",
+        "rules/sources/v2.1-decisions.json#/roles/Undercover/protection/main_action",
+        "rules/sources/v2.1-decisions.json#/roles/Undercover/protection/same_location_required_when_granted",
+        "rules/overlays/consolidated-decisions-2026-09-26.json#/undercover_protection/may_target_self",
+        "rules/sources/v2.1-decisions.json#/roles/Undercover/protection/activation",
+        "rules/overlays/consolidated-decisions-2026-09-26.json#/undercover_protection/maximum_receipts_per_player_per_match",
+        "rules/sources/v2.1-decisions.json#/roles/Undercover/weapon/ordinary_weapon_count",
+        "rules/overlays/direct-shot-decision.json#/current/unchanged_requirements",
+        "rules/sources/v2.1-decisions.json#/standard_hack/truth_rule/Undercover"
+      ],
+      "note": "The card says nothing about how often Protection may be given: the rule sources limit how often a player may receive it, not how often the Undercover may give it. It says nothing about what a Protection blocked or whether it was used up. Approved decision V1-17 makes that known to the Undercover alone, as facts of the seat's own view, and to nobody else: it is on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    },
+    "Hacker": {
+      "name": "Hacker",
+      "team": "Red team",
+      "more": "About this role",
+      "summary": "You know who the Undercover is. Scan: choose a player in your location, or yourself, and guess the faction. If the guess is right, you learn whether that player's number is in the Code.",
+      "limit": "One Scan each round, and a wrong guess tells you nothing. In Round 5 you have one Code attempt: four players, in any order.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/team",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/starting_knowledge",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/scan/same_location_required_for_other_player_target",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/scan/can_target_self",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/scan/input/1",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/scan/correct_faction_guess",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/scan/uses_per_round",
+        "rules/sources/v2.1-decisions.json#/roles/Hacker/scan/wrong_faction_guess",
+        "rules/overlays/consolidated-decisions-2026-09-26.json#/hacker_round_5_code/submission_window",
+        "rules/overlays/consolidated-decisions-2026-09-26.json#/hacker_round_5_code/attempts_total",
+        "rules/sources/v2.1-decisions.json#/code/size",
+        "rules/sources/v2.1-decisions.json#/code/order_matters"
+      ],
+      "note": "The guess here is the Scan's own, which the rule sources keep; it is not the identification step of a shot, which is archived. Approved decision V1-14 adds that a Scan is used up when it is accepted and answers at once: it is on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    },
+    "Red Disabler": {
+      "name": "Red Disabler",
+      "team": "Red team",
+      "more": "About this role",
+      "summary": "Disable: choose a player in your location. If it takes effect, a Healthy player becomes Injured and an Injured player is Eliminated.",
+      "limit": "One use for the whole match. You hold no ordinary weapon.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Red_Disabler/team",
+        "rules/sources/v2.1-decisions.json#/roles/Red_Disabler/same_location_required",
+        "rules/sources/v2.1-decisions.json#/roles/Red_Disabler/effect/Healthy_target",
+        "rules/sources/v2.1-decisions.json#/roles/Red_Disabler/effect/Injured_target",
+        "rules/sources/v2.1-decisions.json#/roles/Red_Disabler/uses_per_match",
+        "rules/sources/v2.1-decisions.json#/roles/Red_Disabler/ordinary_weapon",
+        "rules/sources/v2.1-decisions.json#/protection/applicable_to/2"
+      ],
+      "note": "As for the Blue Disabler. Approved decisions V1-13 and V1-15 are on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    },
+    "Alien": {
+      "name": "Alien",
+      "team": "Independent",
+      "more": "About this role",
+      "summary": "You know the whole Code from the start. If the Blue team wins and you are not Eliminated, you win too.",
+      "limit": "If the Red team wins, you do not. If both teams are eliminated at the same time and you are not, you win alone.",
+      "also": "In a Standard Hack you may lie.",
+      "sources": [
+        "rules/sources/v2.1-decisions.json#/roles/Alien/team",
+        "rules/sources/v2.1-decisions.json#/roles/Alien/knows_full_code_from_start",
+        "rules/sources/v2.1-decisions.json#/victory/Alien/0",
+        "rules/sources/v2.1-decisions.json#/victory/Alien/2",
+        "rules/sources/v2.1-decisions.json#/victory/Alien/1",
+        "rules/sources/v2.1-decisions.json#/standard_hack/truth_rule/Alien"
+      ],
+      "note": "The Code itself is private data of the seat's own view, not copy. Approved decision V1-19 says what “at the same time” means: it is on codex/v1-connected-merge-candidate at 71dfd02 (rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), which is not in this branch's base."
+    }
+  },
+  "resourcePip": {
+    "available": "1 shot available",
+    "registered": "1 shot registered",
+    "spent": "Shot used",
+    "note": "Accessible names for the pip. Each repeats what the card's status word already says; none is an outcome. “Shot used” is drawn by no state in protocol 1, which has no field for it (DSN-D02)."
+  },
+  "privateHandle": {
+    "closed": "Private",
+    "open": "Private",
+    "note": "The handle's visible word never changes with role, turn or availability. Frontend's Show/Hide button labels stay as they are."
+  },
+  "table": {
+    "boardSyntheticLabel": "Synthetic layout state. Not a match."
+  },
+  "syntheticStudies": {
+    "impactLettering": "BANG!",
+    "blockedLettering": "BLOCKED",
+    "note": "mothership:dev-only. Lettering for the two synthetic studies only, read by studies.html. No approved fact exists for either word; neither may appear in a connected match."
+  },
+  "seatTag": {
+    "numberPrefix": "Player ",
+    "separator": ", ",
+    "note": "PROPOSED, for the two public facts of DSN-REQ-6. Where a seat has a name, its tag is the seat number and the name as two parts. The prefix and the separator are for assistive technology only: a tag is read aloud as “Player 7, Ada” and looks like the number in a chip followed by the name. Sentences that name a seat (“Register a shot at Player 2?”) are Frontend's to reword once names exist."
+  },
+  "character": {
+    "callSigns": {
+      "c1": "Vega",
+      "c2": "Rigel",
+      "c3": "Lyra",
+      "c4": "Atlas",
+      "c5": "Orion",
+      "c6": "Nova",
+      "c7": "Juno",
+      "c8": "Mira",
+      "c9": "Echo"
+    },
+    "note": "PROPOSED call signs, used only to tell the nine characters apart while one is being chosen, and as the accessible name of each choice. A call sign is not a player's name and is never shown on the board."
+  }
+}

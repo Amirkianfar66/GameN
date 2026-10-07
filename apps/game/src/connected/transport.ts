@@ -9,13 +9,16 @@
 export const V1_OPERATIONS = [
   'v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission', 'v1AdmitDisplay', 'v1StartMatch', 'v1AbortMatch',
   'v1IssueSeatRecovery', 'v1RedeemSeatRecovery',
-  'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime',
+  'v1Command', 'v1Receipt', 'v1Advance', 'v1ServerTime', 'v1SetLobbyIdentity',
 ] as const;
 export type V1Operation = (typeof V1_OPERATIONS)[number];
 
 /** A document the caller may listen to. The transport supplies its own verified UID where a path needs one. */
 export type DocumentTarget =
   | { readonly kind: 'lobby'; readonly matchId: string }
+  | { readonly kind: 'identities'; readonly matchId: string }
+  | { readonly kind: 'seat-session'; readonly matchId: string }
+  | { readonly kind: 'own-acknowledgments'; readonly matchId: string }
   | { readonly kind: 'public-view'; readonly matchId: string }
   /** The caller's own private view. It cannot name another player's. */
   | { readonly kind: 'player-view'; readonly matchId: string }

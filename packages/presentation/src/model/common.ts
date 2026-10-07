@@ -31,7 +31,7 @@ const ZONES: readonly { readonly name: LocationName; readonly id: string }[] = [
 export const FINAL_SECONDS = 10;
 
 export function resolveScreen(env: ShellEnvironment, hasView: boolean): 'connecting' | 'match' | 'blocked' {
-  if (env.problem === 'incompatible-protocol' || env.problem === 'integrity' || env.problem === 'no-access') return 'blocked';
+  if (env.problem === 'incompatible-protocol' || env.problem === 'integrity' || env.problem === 'no-access' || env.problem === 'access-unconfirmed') return 'blocked';
   return hasView ? 'match' : 'connecting';
 }
 
@@ -160,6 +160,8 @@ export function buildBlocked(env: ShellEnvironment): BlockedModel | null {
   if (env.problem === 'incompatible-protocol') return { ...en.blocked.incompatible, action };
   if (env.problem === 'integrity') return { ...en.blocked.integrity, action };
   if (env.problem === 'no-access') return { ...en.blocked.noAccess, action };
+  // Not final: the one control asks the server again, and a view it then sends brings the match back.
+  if (env.problem === 'access-unconfirmed') return { ...en.blocked.accessUnconfirmed, action: { intent: 'session/reconnect', label: en.blocked.tryAgain } };
   return null;
 }
 

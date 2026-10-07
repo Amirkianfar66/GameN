@@ -1,0 +1,255 @@
+{
+  "schema": "mothership.balance.scenarios/1",
+  "group": "unsupported",
+  "mode": null,
+  "rulebook": "rulebook-v1-2026-10-07-r4",
+  "pins": {"sourceManifestSha256":"34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc","rulesetVersion":"in-person-v1-2026-10-06","v1OverlaySha256":"6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90"},
+  "optionalPowers": false,
+  "generatedFrom": "tests/scenarios/v1/catalog.mjs",
+  "execution": "Declarative fixtures. Results of actual runs are in docs/balance/evidence/. A fixture is not a result.",
+  "counts": {"total":8,"ready":8,"blocked":0,"manual":0},
+  "setups": {
+    "invalid-six-players": {
+      "seed": "invalid-six-players",
+      "playerCount": 6,
+      "roleOrder": ["Hacker","Supplier","Alien","Undercover","Insider","Cracker"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A"},
+      "codeExtraSeatIds": ["seat-1","seat-2","seat-5"],
+      "roundOrders": [
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6"]
+      ]
+    },
+    "invalid-ten-players": {
+      "seed": "invalid-ten-players",
+      "playerCount": 10,
+      "roleOrder": ["Insider","Cracker","Blue Disabler","Supplier","Officer","Undercover","Hacker","Red Disabler","Alien","Insider"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A","seat-8":"Room A","seat-9":"Room A","seat-10":"Room A"},
+      "codeExtraSeatIds": ["seat-1","seat-2","seat-3"],
+      "roundOrders": [
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6","seat-7","seat-8","seat-9","seat-10"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6","seat-7","seat-8","seat-9","seat-10"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6","seat-7","seat-8","seat-9","seat-10"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6","seat-7","seat-8","seat-9","seat-10"],
+        ["seat-1","seat-2","seat-3","seat-4","seat-5","seat-6","seat-7","seat-8","seat-9","seat-10"]
+      ]
+    },
+    "invalid-officer-at-seven": {
+      "seed": "invalid-officer-at-seven",
+      "playerCount": 7,
+      "roleOrder": ["Hacker","Officer","Alien","Undercover","Insider","Cracker","Blue Disabler"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A"},
+      "codeExtraSeatIds": ["seat-1","seat-5","seat-6"],
+      "roundOrders": [
+        ["seat-5","seat-3","seat-2","seat-6","seat-4","seat-1","seat-7"],
+        ["seat-7","seat-2","seat-3","seat-1","seat-4","seat-5","seat-6"],
+        ["seat-6","seat-4","seat-1","seat-5","seat-3","seat-7","seat-2"],
+        ["seat-2","seat-1","seat-6","seat-5","seat-4","seat-3","seat-7"],
+        ["seat-7","seat-5","seat-6","seat-4","seat-1","seat-3","seat-2"]
+      ]
+    },
+    "invalid-duplicate-role": {
+      "seed": "invalid-duplicate-role",
+      "playerCount": 8,
+      "roleOrder": ["Hacker","Supplier","Alien","Undercover","Insider","Insider","Cracker","Blue Disabler"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A","seat-8":"Room A"},
+      "codeExtraSeatIds": ["seat-5","seat-6","seat-8"],
+      "roundOrders": [
+        ["seat-4","seat-6","seat-5","seat-7","seat-8","seat-3","seat-2","seat-1"],
+        ["seat-7","seat-3","seat-1","seat-2","seat-4","seat-6","seat-8","seat-5"],
+        ["seat-3","seat-5","seat-2","seat-6","seat-1","seat-4","seat-7","seat-8"],
+        ["seat-8","seat-2","seat-5","seat-3","seat-6","seat-1","seat-7","seat-4"],
+        ["seat-3","seat-1","seat-6","seat-5","seat-7","seat-8","seat-4","seat-2"]
+      ]
+    },
+    "invalid-code-with-undercover": {
+      "seed": "invalid-code-with-undercover",
+      "playerCount": 7,
+      "roleOrder": ["Hacker","Supplier","Alien","Undercover","Insider","Cracker","Blue Disabler"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A"},
+      "codeExtraSeatIds": ["seat-4","seat-1","seat-2"],
+      "roundOrders": [
+        ["seat-5","seat-3","seat-2","seat-6","seat-4","seat-1","seat-7"],
+        ["seat-7","seat-2","seat-3","seat-1","seat-4","seat-5","seat-6"],
+        ["seat-6","seat-4","seat-1","seat-5","seat-3","seat-7","seat-2"],
+        ["seat-2","seat-1","seat-6","seat-5","seat-4","seat-3","seat-7"],
+        ["seat-7","seat-5","seat-6","seat-4","seat-1","seat-3","seat-2"]
+      ]
+    },
+    "invalid-code-duplicate": {
+      "seed": "invalid-code-duplicate",
+      "playerCount": 7,
+      "roleOrder": ["Hacker","Supplier","Alien","Undercover","Insider","Cracker","Blue Disabler"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A"},
+      "codeExtraSeatIds": ["seat-3","seat-1","seat-2"],
+      "roundOrders": [
+        ["seat-5","seat-3","seat-2","seat-6","seat-4","seat-1","seat-7"],
+        ["seat-7","seat-2","seat-3","seat-1","seat-4","seat-5","seat-6"],
+        ["seat-6","seat-4","seat-1","seat-5","seat-3","seat-7","seat-2"],
+        ["seat-2","seat-1","seat-6","seat-5","seat-4","seat-3","seat-7"],
+        ["seat-7","seat-5","seat-6","seat-4","seat-1","seat-3","seat-2"]
+      ]
+    },
+    "invalid-starting-room": {
+      "seed": "invalid-starting-room",
+      "playerCount": 7,
+      "roleOrder": ["Hacker","Supplier","Alien","Undercover","Insider","Cracker","Blue Disabler"],
+      "initialRooms": {"seat-1":"Hospital","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A"},
+      "codeExtraSeatIds": ["seat-1","seat-5","seat-6"],
+      "roundOrders": [
+        ["seat-5","seat-3","seat-2","seat-6","seat-4","seat-1","seat-7"],
+        ["seat-7","seat-2","seat-3","seat-1","seat-4","seat-5","seat-6"],
+        ["seat-6","seat-4","seat-1","seat-5","seat-3","seat-7","seat-2"],
+        ["seat-2","seat-1","seat-6","seat-5","seat-4","seat-3","seat-7"],
+        ["seat-7","seat-5","seat-6","seat-4","seat-1","seat-3","seat-2"]
+      ]
+    },
+    "invalid-turn-order": {
+      "seed": "invalid-turn-order",
+      "playerCount": 7,
+      "roleOrder": ["Hacker","Supplier","Alien","Undercover","Insider","Cracker","Blue Disabler"],
+      "initialRooms": {"seat-1":"Room A","seat-2":"Room A","seat-3":"Room A","seat-4":"Room A","seat-5":"Room A","seat-6":"Room A","seat-7":"Room A"},
+      "codeExtraSeatIds": ["seat-1","seat-5","seat-6"],
+      "roundOrders": [
+        ["seat-5","seat-3","seat-2","seat-6","seat-4","seat-1","seat-7"],
+        ["seat-7","seat-2","seat-3","seat-1","seat-4","seat-5","seat-6"],
+        ["seat-4","seat-1","seat-5","seat-3","seat-7","seat-2"],
+        ["seat-2","seat-1","seat-6","seat-5","seat-4","seat-3","seat-7"],
+        ["seat-7","seat-5","seat-6","seat-4","seat-1","seat-3","seat-2"]
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "id": "V1-UX-SETUP-01",
+      "title": "A six-player match cannot be created",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-01"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-six-players",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-02",
+      "title": "A ten-player match cannot be created",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-01"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-ten-players",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-03",
+      "title": "Officer cannot be dealt in a seven-player match",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-04","R-SETUP-02"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-officer-at-seven",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-04",
+      "title": "An eight-player match cannot be dealt without Red Disabler",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-03","R-SETUP-05"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-duplicate-role",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-05",
+      "title": "A Code that contains Undercover cannot be dealt",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-08"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-code-with-undercover",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-06",
+      "title": "A Code with fewer than four different numbers cannot be dealt",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-08"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-code-duplicate",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-07",
+      "title": "A player cannot start outside Room A and Room B",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-SETUP-07"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-starting-room",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    },
+    {
+      "id": "V1-UX-SETUP-08",
+      "title": "A turn order that leaves a player out cannot be recorded",
+      "status": "ready",
+      "kind": "setup_refusal",
+      "areas": ["mode-setup"],
+      "ruleRefs": ["R-FLOW-02","R-FLOW-04"],
+      "dependsOn": [],
+      "lineage": ["BAL-001"],
+      "decisionIds": [],
+      "setup": "invalid-turn-order",
+      "note": "",
+      "steps": [
+        {"op":"createRejected"}
+      ]
+    }
+  ]
+}

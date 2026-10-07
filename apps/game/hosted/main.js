@@ -3,14 +3,19 @@
 // The local emulator entry and fixture harness remain separate and excluded from this build.
 
 import {
-  createConnectedApi, createConnectedPlayerScreen, createConnectedTableScreen, createLifecycleRequests, readAdmission, readHostSession, readLobby, shellTokenStylesheet,
+  createComicFeeds, createConnectedApi, createConnectedPlayerScreen, createConnectedTableScreen, createLifecycleRequests, readAdmission, readHostSession, readLobby, shellTokenStylesheet,
 } from '@mothership/game';
-import { renderConnectedPlayerShell, renderTableShell } from '@mothership/presentation';
-import { proposedDesignTokens } from '@mothership/design-tokens';
-import { createHostedTransport } from '../dist/browser/hosted-transport.js';
+import { SeatSessionSchema } from '@mothership/contracts';
+import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
+import { nextDesignTokens } from '@mothership/design-tokens';
+import { createTransport } from './transport-provider.js';
 import { browserPorts, mountScreen } from './browser-host.js';
 import '../src/styles/shell.css';
 import './preview.css';
+import './comic-tokens.css';
+import './comic.css';
+import './comic-layout.css';
+import { loadArt } from './art.mjs';
 
 // What this page keeps across a reload, per tab: which kind of device it is and the
 // identifiers of its match and its own admission request, or, for a device that took over
@@ -35,17 +40,16 @@ const resume = {
 };
 
 const tokenStyle = document.createElement('style');
-tokenStyle.textContent = shellTokenStylesheet(proposedDesignTokens);
+tokenStyle.textContent = shellTokenStylesheet(nextDesignTokens);
 document.head.append(tokenStyle);
 
 const lobby = document.getElementById('lobby');
 const app = document.getElementById('app');
 const ports = browserPorts();
-const configResponse = await fetch('/preview-config.json', { cache: 'no-store', redirect: 'error', credentials: 'omit' });
-if (!configResponse.ok) throw new Error('Hosted preview configuration is unavailable');
-const transport = createHostedTransport(await configResponse.json());
+const transport = await createTransport();
 const api = createConnectedApi(transport, ports);
 const deviceKind = new URLSearchParams(window.location.search).get('as');
+void loadArt(deviceKind);
 
 function el(tag, text, attributes = {}) {
   const node = document.createElement(tag);
@@ -85,7 +89,8 @@ function frame(title, ...content) {
     statusLine,
     ...(resume.load() === null ? [] : [forget]),
   );
-  if (!lobby.contains(page)) lobby.append(page);
+  // The page takes the place of whatever the document came with: its first line, shown while this script loads.
+  if (!lobby.contains(page)) lobby.replaceChildren(page);
 }
 
 // The lifecycle operations. The rule for them is the client core's (lifecycle-requests.ts):
@@ -164,6 +169,13 @@ function keeping(key, button, inputs = [], onGivenUp = () => {}) {
   return group;
 }
 
+// How long a listener the server refused waits before it is opened again: a second and a
+// half at first, then half as long again each time, up to this many seconds. A display
+// waits like this until the host admits it, so the longest wait is also the longest time
+// between the host admitting it and its page showing so.
+const RETRY_FIRST_MS = 1_500;
+const RETRY_LONGEST_MS = 6_000;
+
 /**
  * Listens to a document and keeps trying while the rules refuse it, as they do until this
  * identity is admitted. `onRefused` is told each time the server refuses, for a page that
@@ -173,18 +185,23 @@ function listenPersistently(target, read, onValue, onRefused = () => {}) {
   let stop = () => {};
   let stopped = false;
   let timer = null;
+  let wait = RETRY_FIRST_MS;
   const start = () => {
     stop = transport.listenDocument(target, {
       onSnapshot: snapshot => {
-        if (!snapshot.fresh) return;
+        if (stopped || !snapshot.fresh) return;
+        wait = RETRY_FIRST_MS;
         const outcome = read(snapshot.value);
         if (outcome.kind === 'accepted') onValue(outcome.value);
       },
       // A refused listener is dead. It is started again; it is not an empty document.
       onError: reason => {
         if (stopped) return;
-        if (reason === 'refused') onRefused();
-        timer = window.setTimeout(start, 1_500);
+        // This transport cannot tell a refusal from a sign-in it could not confirm, and the
+        // page is told of either: what it then says states neither as fact.
+        if (reason === 'refused' || reason === 'authorization-uncertain') onRefused();
+        timer = window.setTimeout(start, wait);
+        wait = Math.min(RETRY_LONGEST_MS, Math.round(wait * 1.5));
       },
     });
   };
@@ -214,6 +231,8 @@ function openOnceStarted(matchId, viewTarget, open, endedInLobby, lobbyRefused =
     asked = true;
     let stop = () => {};
     let settled = false;
+
+    let wait = RETRY_FIRST_MS;
     const settle = exists => {
       if (settled) return;
       settled = true;
@@ -226,10 +245,14 @@ function openOnceStarted(matchId, viewTarget, open, endedInLobby, lobbyRefused =
         onSnapshot: snapshot => {
           if (snapshot.fresh) settle(snapshot.value !== null);
         },
-        // Refused: there is no view. A read that merely failed says nothing, and is tried again.
+        // A transient Auth/App Check denial cannot establish whether this ended match
+        // ever started. Open the normal quarantined screen so it can offer recovery.
         onError: reason => {
-          if (reason === 'refused') settle(false);
-          else if (!settled) window.setTimeout(read, 1_500);
+          if (reason === 'refused') return settle(false);
+          if (reason === 'authorization-uncertain') return settle(true);
+          if (settled) return;
+          window.setTimeout(read, wait);
+          wait = Math.min(RETRY_LONGEST_MS, Math.round(wait * 1.5));
         },
       });
       if (settled) stop();
@@ -241,14 +264,24 @@ function openOnceStarted(matchId, viewTarget, open, endedInLobby, lobbyRefused =
 /** Lobby listeners of this page. They end when the match is on screen: the screen has its own. */
 const lobbyWatchers = [];
 let mounted = false;
-function showMatch(screen, render) {
+function showMatch(screen, render, matchId, seatId) {
   if (mounted) return;
   mounted = true;
   for (const stop of lobbyWatchers.splice(0)) stop();
-  mountScreen({ container: app, screen, render });
+  const feeds = createComicFeeds({ transport, ports, matchId, ...(seatId ? { seatId } : {}) });
+  mountScreen({ container: app, screen, render: model => render(model, {
+    identities: feeds.identities()?.seats ?? [],
+    acknowledgments: model.connection === 'live' ? feeds.acknowledgments() : null,
+  }), subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => feeds.dispose() });
+  let accessWasCurrent = false;
   // The console steps aside once the match itself is on screen.
   const settle = () => {
-    if (screen.getFrame().model.screen !== 'connecting') lobby.hidden = true;
+    const model = screen.getFrame().model;
+    const current = model.screen === 'match' && model.connection === 'live';
+    if (!current && accessWasCurrent) feeds.quarantine();
+    if (current && !accessWasCurrent) feeds.start();
+    accessWasCurrent = current;
+    if (model.screen !== 'connecting') lobby.hidden = true;
   };
   screen.subscribe(settle);
   settle();
@@ -544,6 +577,76 @@ async function host(uid) {
 
 const MATCH_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
 
+/** A public choice, made by the admitted seat before the host deals roles. */
+function identityPicker(matchId, seatId) {
+  const feed = createComicFeeds({ transport, ports, matchId });
+  const node = el('section', undefined, { class: 'connected-identity', 'aria-labelledby': 'crew-heading' });
+  const name = el('input', undefined, { type: 'text', id: 'crew-name', maxlength: '24', autocomplete: 'off', spellcheck: 'false' });
+  const label = el('label', 'Your public name'); label.append(name);
+  const grid = el('div', undefined, { class: 'crew-picker', role: 'group', 'aria-label': 'Choose your character' });
+  const status = el('p', 'Choose a character and a name before the host starts.', { id: 'crew-status', role: 'status' });
+  const save = el('button', 'Save name and character', { type: 'button', id: 'crew-save' });
+  const abandon = el('button', 'Give this request up', { type: 'button', class: 'connected-quiet' });
+  const key = `identity ${matchId}`;
+  let selected = null;
+  let edited = false;
+  let busy = false;
+  let initialized = false;
+  let closed = false;
+  const buttons = ['Vega', 'Rigel', 'Lyra', 'Atlas', 'Orion', 'Nova', 'Juno', 'Mira', 'Echo'].map((callSign, index) => {
+    const id = `c${index + 1}`;
+    const button = el('button', callSign, { type: 'button', class: 'crew-option', 'data-character': id, 'aria-pressed': 'false' });
+    button.addEventListener('click', () => {
+      if (button.disabled || button.getAttribute('aria-disabled') === 'true') return;
+      selected = id; edited = true; draw();
+    });
+    grid.append(button);
+    return { id, callSign, button };
+  });
+  function draw() {
+    if (closed) return;
+    const document = feed.identities();
+    const own = document?.seats.find(seat => seat.seatId === seatId);
+    if (!initialized && own && !edited) {
+      initialized = true; name.value = own.displayName ?? ''; selected = own.characterId;
+    }
+    const kept = lifecycle.unsettled(key);
+    const frozen = busy || kept !== null || document?.locked === true;
+    name.disabled = frozen;
+    for (const entry of buttons) {
+      const holder = document?.seats.find(seat => seat.characterId === entry.id && seat.seatId !== seatId);
+      entry.button.disabled = frozen;
+      entry.button.setAttribute('aria-disabled', String(frozen || holder !== undefined));
+      entry.button.setAttribute('aria-pressed', String(selected === entry.id));
+      entry.button.textContent = holder ? `${entry.callSign} · Player ${holder.seatId.slice(5)}` : entry.callSign;
+    }
+    save.disabled = busy || (document?.locked === true && kept === null) || (kept === null && (selected === null || name.value.trim().length === 0 || [...name.value].length > 12));
+    save.textContent = kept ? 'Send the same choice again' : 'Save name and character';
+    abandon.hidden = kept === null; abandon.disabled = busy;
+    if (document?.locked) status.textContent = 'Names and characters are fixed for this match.';
+    else if (own?.characterId === selected && own?.displayName === name.value && !kept) status.textContent = 'Saved. Your character is public; your role will be dealt separately.';
+    else status.textContent = 'Choose a character and a public name, up to 12 characters. Save before the host starts.';
+  }
+  name.addEventListener('input', () => { edited = true; draw(); });
+  save.addEventListener('click', async () => {
+    if (save.disabled) return;
+    busy = true; draw();
+    await operate(key, requestId => ({ schemaVersion: 1, protocolVersion: 2, requestId, matchId, displayName: name.value, characterId: selected }),
+      request => api.setLobbyIdentity(request), 'Saving your character', { invalid: 'Use a name of 1 to 12 characters and select one character.' });
+    busy = false; draw();
+  });
+  abandon.addEventListener('click', () => {
+    if (busy || !lifecycle.abandon(key)) return;
+    say('The earlier choice may still be saved if its request arrives. Check the saved name and character after trying again.', 'problem');
+    draw();
+  });
+  node.append(el('h2', 'Choose your character', { id: 'crew-heading' }), label, grid, status, save, abandon);
+  const stop = feed.subscribe(draw);
+  lobbyWatchers.push(() => { closed = true; stop(); feed.dispose(); });
+  feed.start(); draw();
+  return node;
+}
+
 async function player(uid) {
   let state = resume.load();
   if (state?.device !== 'player' || typeof state.matchId !== 'string' || !MATCH_ID.test(state.matchId)) state = null;
@@ -612,15 +715,16 @@ async function player(uid) {
   const { matchId, admissionId } = state;
   let seatId = null;
   let shown = null;
+  let identityPanel = null;
   /** Draws the waiting page. It is redrawn only when what it says has changed, so a control on it keeps the keyboard. */
   const draw = (text, ...controls) => {
     const says = `${seatId}/${text}/${controls.length}`;
     if (says === shown) return;
     shown = says;
     frame('Player', facts([['This device', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id'], ['Seat', seatId === null ? 'Not seated yet' : `Player ${seatId.slice(5)}`, 'connected-seat']]),
-      el('p', text, { id: 'connected-waiting' }), ...controls);
+      el('p', text, { id: 'connected-waiting' }), ...(identityPanel ? [identityPanel] : []), ...controls);
   };
-  const open = () => showMatch(createConnectedPlayerScreen({ transport, matchId, seatId, ports, host: { reload: () => window.location.reload() } }), renderConnectedPlayerShell);
+  const open = () => showMatch(createConnectedPlayerScreen({ transport, matchId, seatId, ports, host: { reload: () => window.location.reload() } }), renderComicPlayerShell, matchId, seatId);
   // A seated player may read the lobby. If the server refuses that, this device is not in the match (any more).
   const openWhenRunning = () => openOnceStarted(matchId, { kind: 'player-view', matchId }, open, () => draw(ENDED_IN_LOBBY),
     () => draw('The server does not let this device read the match. If its seat was moved to another device, this one is no longer in it.'));
@@ -633,6 +737,9 @@ async function player(uid) {
     const startOver = el('button', 'Start over with another code', { type: 'button', id: 'connected-recover-start-over', class: 'connected-quiet' });
     const controls = () => (lifecycle.unsettled('recover') === null ? [startOver] : [resend, startOver]);
     let inTheMatch = false;
+    let waitingInLobby = false;
+    let stopSeatSession = () => {};
+    lobbyWatchers.push(() => { waitingInLobby = false; stopSeatSession(); });
     resend.addEventListener('click', async () => {
       // Only a request that is kept can be sent again: after a reload there is none, and the code is gone with it.
       const kept = lifecycle.unsettled('recover')?.request ?? null;
@@ -688,26 +795,49 @@ async function player(uid) {
     let learning = false;
     lobbyWatchers.push(openOnceStarted(matchId, { kind: 'player-view', matchId },
       () => {
+        waitingInLobby = false;
+        stopSeatSession();
         settledByTheServer();
         if (learning) return;
         learning = true;
         draw('This device has taken over a seat. Opening the match…');
         learnSeatAndOpen();
       },
-      () => draw(ENDED_IN_LOBBY),
-      () => draw(inTheMatch
-        ? 'The server does not let this device read the match. If its seat was moved to another device, this one is no longer in it.'
-        : 'The server has not given this device a seat in this match. If the request is still on its way this page will find out; otherwise ask the host for a new code and start over.', ...controls()),
+      () => { waitingInLobby = false; stopSeatSession(); draw(ENDED_IN_LOBBY); },
       () => {
-        // Which seat it is, the seat's own view will say once the match has started.
+        waitingInLobby = false;
+        stopSeatSession();
+        draw(inTheMatch
+          ? 'The server does not let this device read the match. If its seat was moved to another device, this one is no longer in it.'
+          : 'The server has not given this device a seat in this match. If the request is still on its way this page will find out; otherwise ask the host for a new code and start over.', ...controls());
+      },
+      () => {
+        waitingInLobby = true;
         settledByTheServer();
-        draw('This device has taken over a seat. Waiting for the host to start the match.');
+        const waiting = 'This device has taken over a seat. Waiting for the host to start the match.';
+        draw(waiting);
+        if (seatId !== null) return;
+        // Recovery writes this own-UID metadata even before a player view exists. A
+        // missing legacy document keeps the waiting/view-after-start fallback above.
+        stopSeatSession();
+        stopSeatSession = listenPersistently({ kind: 'seat-session', matchId }, payload => {
+          const parsed = SeatSessionSchema.safeParse(payload);
+          return parsed.success && parsed.data.matchId === matchId
+            ? { kind: 'accepted', value: parsed.data } : { kind: 'missing' };
+        }, session => {
+          if (!waitingInLobby || seatId !== null || transport.currentUid() !== uid) return;
+          seatId = session.seatId;
+          resume.save({ device: 'player', matchId, seatId });
+          identityPanel = identityPicker(matchId, seatId);
+          draw(waiting);
+        });
       }));
     return;
   }
   if (admissionId === undefined && /^seat-[1-9]$/.test(state.seatId ?? '')) {
     // This device took over a seat with a recovery code. It has no request of its own to watch.
     seatId = state.seatId;
+    identityPanel = identityPicker(matchId, seatId);
     draw('This device has taken over the seat. Waiting for the match.');
     lobbyWatchers.push(openWhenRunning());
     return;
@@ -718,6 +848,7 @@ async function player(uid) {
     if (admission.status !== 'approved' || watchingLobby) return;
     watchingLobby = true;
     seatId = admission.seatId;
+    identityPanel = identityPicker(matchId, seatId);
     draw('Seated. Waiting for the host to start the match.');
     // The private view does not exist before the start, and a listener on it is refused,
     // not empty. So the lobby is watched, and the match is opened once it is running.
@@ -747,7 +878,7 @@ async function display(uid) {
   waiting('Waiting to be admitted by the host, and for the match to start.');
   // Until the host admits this identity the rules refuse the lobby, so the listener keeps asking.
   lobbyWatchers.push(openOnceStarted(matchId, { kind: 'public-view', matchId },
-    () => showMatch(createConnectedTableScreen({ transport, matchId, ports, host: { reload: () => window.location.reload() } }), renderTableShell),
+    () => showMatch(createConnectedTableScreen({ transport, matchId, ports, host: { reload: () => window.location.reload() } }), renderComicTableShell, matchId),
     () => waiting(ENDED_IN_LOBBY)));
 }
 

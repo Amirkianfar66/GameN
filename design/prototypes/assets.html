@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — asset sheets (synthetic, development only)</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/review.css">
+<style>
+  .hero { display: grid; grid-auto-flow: column; grid-auto-columns: max-content; gap: 26px; align-items: start; }
+  .layers { grid-template-columns: repeat(4, 300px); }
+  .layers img { display: block; inline-size: 100%; }
+  .row { display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+  .anchors { position: relative; inline-size: 768px; }
+  .anchors > img { display: block; inline-size: 100%; }
+  .anchors svg { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; }
+  .swatches { display: grid; grid-template-columns: repeat(7, 132px); gap: 14px; }
+  .swatch { margin: 0; font-size: 12px; color: var(--review-muted); }
+  .swatch div { block-size: 64px; box-shadow: 0 0 0 1px #6B6B78; }
+  .swatch strong { display: block; margin-block-start: 6px; color: var(--review-text); font-size: 13px; }
+  .tiles { display: flex; gap: 18px; }
+  .tile { inline-size: 120px; block-size: 72px; box-shadow: 0 0 0 1px #6B6B78; }
+  .contact { display: flex; flex-wrap: wrap; gap: 16px 14px; align-items: flex-end; max-inline-size: 1500px; }
+  .contact figure { margin: 0; }
+  .contact .review-stage { padding: 10px; }
+  .contact img, .contact svg { display: block; }
+  .contact figcaption { max-inline-size: 150px; margin-block-start: 6px; color: var(--review-muted); font: 11px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+</style>
+</head>
+<body class="review">
+<main class="review-page" id="page"></main>
+<script type="module">
+  // Asset sheets: ?sheet=rooms | crew | devices | kit | all
+  // What is drawn here is the exported file itself, loaded by its manifest entry. A review
+  // page may ask for single files; a shell never does (see js/bundles.js).
+  // The synthetic studies are not on this page. They have studies.html to themselves.
+  import { ASSET_MANIFEST_VERSION, ASSETS } from './js/asset-index.js';
+  import { h, settle } from './js/kit.js';
+  import { PALETTE, TOKEN_VERSION } from './js/token-index.js';
+
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const sheet = new URLSearchParams(location.search).get('sheet') ?? 'rooms';
+  const manifest = await (await fetch('/exports/asset-manifest.json')).json();
+  const entry = id => manifest.assets.find(item => item.id === id);
+  const variant = (id, name) => entry(id).variants.find(item => item.variant === name);
+  const asset = key => {
+    if (!ASSETS[key]) throw new Error(`No export named ${key}`);
+    return ASSETS[key];
+  };
+
+  const head = (title, note, tag = 'Finished asset') => page.append(
+    h('header', { class: 'review-head' },
+      h('h1', null, title),
+      h('span', { class: 'review-synthetic' }, tag),
+      h('p', { class: 'review-meta' }, `Asset manifest ${ASSET_MANIFEST_VERSION} · design tokens 0.4.0 (proposal) · desktop Chrome render of the exported SVG`),
+    ),
+    h('p', { class: 'review-note' }, note),
+  );
+  const section = (title, small) => h('h2', { class: 'review-section' }, title, small ? h('small', null, small) : null);
+  const cell = (stage, title, detail) => h('figure', { class: 'review-cell' }, stage, h('figcaption', null, h('strong', null, title), detail));
+  const stage = (kind, ...children) => h('div', { class: `review-stage${kind ? ` review-stage--${kind}` : ''}` }, children);
+  const img = (key, width) => h('img', { alt: '', src: asset(key), width, style: 'display:block' });
+
+  const ROOMS = [['board-room-a', 'Room A', 'a crew bay: a round viewport'], ['board-room-b', 'Room B', 'a laboratory: a flask on a bench'], ['board-command-room', 'Command Room', 'a bridge: one long window'], ['board-hospital', 'Hospital', 'a ward: a monitor and a bed'], ['board-jail', 'Jail', 'a cell: a striped door that is shut']];
+
+  if (sheet === 'rooms') {
+    head('The five rooms · one comic panel each',
+      'Each room is drawn in the neutral steel palette and printed in its own color family by its recipe (design tokens color.room), so a room can be printed in another family without being redrawn. No door, corridor or arrow is drawn, so no picture says which rooms connect. No text is drawn: a room’s name is live text in a caption. A room’s color goes with its name; it is never a team, a role, a player or a state. Three of the approved families share a hue with the three team accents: that is open decision DSN-D13.',
+      'Finished assets · approved by the game owner as a direction');
+    page.append(section('Composites', '1024 x 768 units each'));
+    const grid = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, max-content)' });
+    for (const [id, name, what] of ROOMS) {
+      const full = variant(id, 'full');
+      grid.append(cell(stage('paper', img(`${id}:full`, 440)), `${name} · ${id} ${entry(id).version}`, `${what}. ${full.bytes} bytes.`));
+    }
+    page.append(grid);
+
+    const room = entry('board-room-a');
+    const full = variant('board-room-a', 'full');
+    page.append(section('Anchors', 'the same in all five; in the export’s own units; a layout suggestion, not a capacity'));
+    const a = full.anchors;
+    const ns = 'http://www.w3.org/2000/svg';
+    const overlay = document.createElementNS(ns, 'svg');
+    overlay.setAttribute('viewBox', full.viewBox);
+    const draw = (name, attrs) => {
+      const node = document.createElementNS(ns, name);
+      for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+      overlay.append(node);
+      return node;
+    };
+    const [px, py, pw, ph] = a.panelBox;
+    draw('rect', { x: px, y: py, width: pw, height: ph, fill: 'none', stroke: '#FF5FD2', 'stroke-width': 3, 'stroke-dasharray': '10 8' });
+    draw('rect', { x: a.captionTopLeft[0], y: a.captionTopLeft[1], width: a.captionMaxWidth, height: 44, fill: 'none', stroke: '#FF5FD2', 'stroke-width': 3 });
+    const q = a.tokenFloorQuad;
+    draw('polygon', { points: [q.farLeft, q.farRight, q.nearRight, q.nearLeft].map(point => point.join(',')).join(' '), fill: 'rgb(255 95 210 / 0.12)', stroke: '#FF5FD2', 'stroke-width': 3 });
+    page.append(h('div', { class: 'hero' },
+      cell(stage('', h('div', { class: 'anchors' }, img('board-room-a:full', 768), overlay)), 'Panel box, caption corner, and Room A’s drawn floor',
+        `Dashed: panelBox ${a.panelBox.join(', ')}. Box: caption at ${a.captionTopLeft.join(', ')}, at most ${a.captionMaxWidth} wide. ${a.pieceRow.note}`),
+    ));
+
+    page.append(section('Room A · layers', 'each export has the full 1024 x 768 box, so they stack exactly; the other four rooms are exported whole'));
+    const layers = h('div', { class: 'review-grid layers' });
+    for (const item of room.variants.filter(item => item.stack).sort((x, y) => x.stack.order - y.stack.order)) {
+      layers.append(cell(stage('paper', h('img', { alt: '', src: item.path.replace(/^design/, '') })), `${item.stack.order} · ${item.variant}`, `depth ${item.stack.depth} · ${item.bytes} bytes${item.stack.note ? ` · ${item.stack.note}` : ''}`));
+    }
+    page.append(layers);
+  }
+
+  const NINE = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  if (sheet === 'crew') {
+    const catalog = await (await fetch('/contract/crew-catalog.json')).json();
+    head('piece-crew · the nine crew characters',
+      'PUBLIC playing pieces. A player picks one of nine before roles are dealt; it says whose piece this is and nothing else. All nine wear the same crew suit, and none has a rank, a badge, a tool or a weapon. No text is drawn: the seat number and the player’s name are live text in a tag. The call signs are proposed, only to tell the nine apart while one is chosen. Nothing ties a character to a role, a team or a seat.',
+      'Finished assets · approved by the game owner as a direction');
+    page.append(section('Standee', '96 x 120 units · floor contact at 48, 104 · for the board'));
+    const standees = h('div', { class: 'contact' });
+    for (const n of NINE) {
+      const item = variant('piece-crew', `standee-c${n}`);
+      standees.append(h('figure', null, h('div', { class: 'review-stage review-stage--paper' }, img(`piece-crew:standee-c${n}`, 132)), h('figcaption', null, `c${n} · ${catalog.characters[n - 1].callSign} · ${item.bytes} B`)));
+    }
+    page.append(standees);
+    page.append(section('Card', '84 x 96 units · the piece without its stand · for a row, a target row, the chooser and the player’s own role card'));
+    const cards = h('div', { class: 'contact' });
+    for (const n of NINE) {
+      const item = variant('piece-crew', `card-c${n}`);
+      cards.append(h('figure', null, h('div', { class: 'review-stage' }, h('div', { class: 'row' }, img(`piece-crew:card-c${n}`, 84), img(`piece-crew:card-c${n}`, 40))), h('figcaption', null, `card-c${n} · ${item.bytes} B`)));
+    }
+    page.append(cards);
+    page.append(section('At board sizes', '110, 64, 40 and 20 CSS px wide: the largest a piece is drawn, and the smallest'));
+    const sizes = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(2, max-content)' });
+    for (const [ground, title] of [['paper', 'On paper'], ['', 'On the dark ground of a phone']]) {
+      sizes.append(cell(stage(ground, h('div', { class: 'row' }, [110, 64, 40, 20].flatMap(width => [2, 6, 9].map(n => img(`piece-crew:standee-c${n}`, width))))), title, 'Characters c2, c6 and c9. At 20 px a face is a color and a silhouette: the tag carries the number and the name.'));
+    }
+    page.append(sizes);
+  }
+
+  if (sheet === 'devices') {
+    const DEVICES = [['officer', 'Officer', 'Blue', 'One ordinary shot: a sidearm with one cell.'], ['insider', 'Insider', 'Blue', 'Three players known as a set: a slate with three marks that are alike.'], ['cracker', 'Cracker', 'Blue', 'Two rescues: an injector with two vials.'], ['blue-disabler', 'Blue Disabler', 'Blue', 'One Disable: a prod with one charge ring.'], ['supplier', 'Supplier', 'Blue', 'Two recipients: a carrier with two cells.'], ['undercover', 'Undercover', 'Red', 'Protection: an emitter under a dome.'], ['hacker', 'Hacker', 'Red', 'Scanning for four: a scanner with four slots.'], ['red-disabler', 'Red Disabler', 'Red', 'One Disable: a prod with one charge ring.'], ['alien', 'Alien', 'Independent', 'Holds the Code: a stone with four nodes.']];
+    head('The nine role devices',
+      'PRIVATE artwork: drawn only inside a player’s own open private sheet, over that player’s own character. A role is a device added to the character; it is never on a piece on the board, on the shared display or in a public cue. Each is held in the gloved hand of the crew suit, so one drawing serves all nine characters. The accent is the team color, allowed here because the view is private. Each says what the role has and nothing about an outcome. No text is drawn. Every phone loads all nine in one stylesheet, whatever its role.',
+      'Finished assets · private · approved by the game owner as a direction');
+    page.append(section('Each device, and on a character', '120 x 140 units · the character changes from one to the next to show that any of the nine may hold any device'));
+    const grid = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(3, max-content)' });
+    DEVICES.forEach(([key, role, team, says], index) => {
+      const item = variant(`device-${key}`, 'held');
+      const person = `piece-crew:card-c${index + 1}`;
+      const composed = h('div', { style: 'position: relative; inline-size: 200px; aspect-ratio: 50 / 53; overflow: hidden; background: #E3D6C2; box-shadow: 0 0 0 3px #151923' },
+        h('img', { alt: '', src: asset(person), style: 'position: absolute; top: 6%; left: 11.3%; width: 66.5%; rotate: -2.5deg' }),
+        h('img', { alt: '', src: asset(`device-${key}:held`), style: 'position: absolute; right: -9%; bottom: -10%; width: 74%' }));
+      grid.append(cell(stage('panel', h('div', { class: 'row' }, img(`device-${key}:held`, 150), composed)), `${role} · ${team === 'Independent' ? 'Independent' : `${team} team`}`, `${says} ${item.bytes} bytes.`));
+    });
+    page.append(grid);
+  }
+
+  if (sheet === 'kit') {
+    head('Cue layers, icons, tiles and palette',
+      'The small parts. Single-color layers are exported in ink and in paper and as tintable sprite symbols.');
+    page.append(section('Cue layers', 'authorized'));
+    const fx = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(4, max-content)' });
+    fx.append(
+      cell(stage('paper', img('fx-ink-trail:ink', 144)), 'fx-ink-trail', 'A public move: above a piece as it comes down.'),
+      cell(stage('paper', img('fx-landing-puff:ink', 180)), 'fx-landing-puff', 'A public move: at the floor contact.'),
+      cell(stage('paper', img('fx-panel-cap:ink', 240)), 'fx-panel-cap', 'A round transition: the leading edge of the ink panel.'),
+      cell(stage('paper', img('fx-speed-lines:ink', 300)), 'fx-speed-lines', 'A round transition: behind the heading.'),
+      cell(stage('', img('fx-ink-trail:paper', 144)), 'paper variant', 'On dark panels.'),
+      cell(stage('', img('fx-landing-puff:paper', 180)), 'paper variant', ''),
+      cell(stage('', img('fx-panel-cap:paper', 240)), 'paper variant', ''),
+      cell(stage('', img('fx-speed-lines:paper', 300)), 'paper variant', ''),
+      cell(stage('', img('fx-landing-burst:paper', 150)), 'fx-landing-burst', 'A public move: behind the piece as it lands. Paper with an ink edge, so it reads on any room.'),
+      cell(stage('paper', img('fx-landing-burst:paper', 150)), 'on paper', ''),
+    );
+    page.append(fx);
+
+    page.append(section('Room caption icons', 'one per location; each stands before the room’s name, which is live text'));
+    const roomIcons = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(5, max-content)' });
+    for (const [key, title] of [['room-a', 'Room A'], ['room-b', 'Room B'], ['command-room', 'Command Room'], ['hospital', 'Hospital'], ['jail', 'Jail']]) {
+      roomIcons.append(cell(h('div', { class: 'review-stage', style: `background: ${PALETTE.caption}` }, h('div', { class: 'row' }, img(`icon-location:${key}`, 56), img(`icon-location:${key}`, 28), img(`icon-location:${key}`, 18))), `icon-location · ${key}`, title));
+    }
+    page.append(roomIcons);
+
+    page.append(section('Interface icons', 'role-neutral; each sits beside its English label'));
+    const icons = h('div', { class: 'review-grid', style: 'grid-template-columns: repeat(4, max-content)' });
+    for (const [key, title, note] of [
+      ['icon-action-shot:ink', 'icon-action-shot', 'The Shot action card.'],
+      ['icon-private:closed-ink', 'icon-private · closed', 'The private sheet is closed.'],
+      ['icon-private:open-ink', 'icon-private · open', 'The private sheet is open.'],
+      ['icon-connection-stale:ink', 'icon-connection-stale', 'The view may be out of date.'],
+    ]) icons.append(cell(stage('paper', h('div', { class: 'row' }, img(key, 72), img(key, 32), img(key, 20))), title, note));
+    page.append(icons);
+
+    page.append(section('Tiles', '12 x 12, seamless; shading and “waiting”, never behind small text'));
+    const tiles = h('div', { class: 'tiles' });
+    for (const [key, ground] of [['pattern-halftone:fine-ink', '#F4EBDD'], ['pattern-halftone:medium-ink', '#F4EBDD'], ['pattern-halftone:heavy-ink', '#F4EBDD'], ['pattern-halftone:fine-paper', '#34415A'], ['pattern-halftone:medium-paper', '#34415A'], ['pattern-hatch:ink', '#F4EBDD'], ['pattern-hatch:paper', '#202837']]) {
+      tiles.append(h('figure', { class: 'review-cell' }, h('div', { class: 'tile', style: `background: url(${asset(key)}) 0 0 / 9px 9px, ${ground}` }), h('figcaption', null, key.replace(':', ' · '))));
+    }
+    page.append(tiles);
+
+    page.append(section('Palette', `design tokens ${TOKEN_VERSION} (proposal) · every color token, whether or not a stylesheet reads it`));
+    const swatches = h('div', { class: 'swatches' });
+    const USE = {
+      canvas: 'Page ground', panel: 'Dark panels', ink: 'Lines, text on paper', paper: 'Cards, captions, text on dark',
+      textPrimary: 'Text on dark', textSecondary: 'Quieter text on dark', publicToken: 'Token body',
+      interactiveAccent: 'Interaction focus, active turn', focusRing: 'Keyboard focus',
+      paperShade: 'New in 0.3.0 · target rows', paperDeep: 'New in 0.3.0 · flat cards, not-active controls',
+      caption: 'New in 0.4.0 · room captions',
+    };
+    for (const [name, value] of Object.entries(PALETTE)) {
+      const use = USE[name] ?? (name.startsWith('steel.') ? 'New in 0.3.0 · what a room is drawn in, before it is printed in its family; the crew suit'
+        : name.startsWith('factionPrivateOrRevealed.') ? 'PRIVATE or revealed only · never on a public asset'
+        : name.startsWith('room.') ? 'New in 0.4.0 · this room’s own family; never a team'
+        : name.startsWith('crew.') ? 'New in 0.4.0 · this character only'
+        : name.startsWith('crewHair.') ? 'New in 0.4.0 · hair' : '');
+      swatches.append(h('figure', { class: 'swatch' }, h('div', { style: `background:${value}` }), h('strong', null, name.replace('factionPrivateOrRevealed.', 'faction.')), `${value} · ${use}`));
+    }
+    page.append(swatches);
+  }
+
+  if (sheet === 'all') {
+    head('Every export · contact sheet',
+      'Each file in the manifest, drawn once from the file itself, and each sprite symbol drawn from the sprite. This sheet is what “rendered and looked at” means for the exports: a file that is not here was not looked at.',
+      'Finished assets');
+    const paperOnly = item => item.colors.length > 0 && item.colors.every(color => color === '#F4EBDD');
+    for (const item of manifest.assets) {
+      page.append(section(`${item.id} ${item.version}`, `${item.bundle} · ${item.variants.length} files · ${item.title}`));
+      const row = h('div', { class: 'contact' });
+      for (const each of item.variants) {
+        const width = each.width >= 500 ? 220 : Math.min(120, Math.max(48, each.width));
+        row.append(h('figure', null,
+          h('div', { class: `review-stage${paperOnly(each) ? '' : ' review-stage--paper'}` }, h('img', { alt: '', src: each.path.replace(/^design/, ''), width })),
+          h('figcaption', null, `${each.variant} · ${each.width}×${each.height}`)));
+      }
+      page.append(row);
+    }
+    for (const sprite of manifest.sprites) {
+      page.append(section(`${sprite.id} ${sprite.version}`, `${sprite.bundle} · ${sprite.symbols.length} symbols, drawn through <use> from the inlined sprite`));
+      const text = await (await fetch(sprite.path.replace(/^design/, ''))).text();
+      const holder = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+      holder.setAttribute('width', '0');
+      holder.setAttribute('height', '0');
+      holder.style.position = 'absolute';
+      // Two sprites may define a pattern with the same id: each is inlined under its own prefix.
+      for (const node of holder.querySelectorAll('[id]')) node.id = `${sprite.id}--${node.id}`;
+      for (const node of holder.querySelectorAll('*')) {
+        for (const name of ['fill', 'stroke', 'clip-path']) {
+          const value = node.getAttribute(name);
+          if (value?.startsWith('url(#')) node.setAttribute(name, value.replace('url(#', `url(#${sprite.id}--`));
+        }
+      }
+      document.body.append(document.importNode(holder, true));
+      const row = h('div', { class: 'contact' });
+      const ns = 'http://www.w3.org/2000/svg';
+      for (const symbol of sprite.symbols) {
+        const picture = document.createElementNS(ns, 'svg');
+        const width = symbol.width >= 500 ? 220 : Math.min(120, Math.max(48, symbol.width));
+        picture.setAttribute('viewBox', symbol.viewBox);
+        picture.setAttribute('width', width);
+        picture.setAttribute('height', Math.round(width * symbol.height / symbol.width));
+        const use = document.createElementNS(ns, 'use');
+        use.setAttribute('href', `#${sprite.id}--${symbol.symbol}`);
+        picture.append(use);
+        row.append(h('figure', null,
+          h('div', { class: 'review-stage review-stage--paper', style: 'color: #151923' }, picture),
+          h('figcaption', null, `${symbol.symbol}${symbol.tintable ? ' · tintable' : ''}`)));
+      }
+      page.append(row);
+    }
+  }
+
+  await settle();
+  window.__designReady = true;
+</script>
+</body>
+</html>

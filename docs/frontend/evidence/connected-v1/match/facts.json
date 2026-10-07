@@ -1,6 +1,6 @@
 {
   "run": {
-    "startedAt": "2026-10-06T23:16:34.536Z",
+    "startedAt": "2026-10-07T00:44:16.473Z",
     "origin": "http://127.0.0.1:5173",
     "scenario": "match",
     "players": 7,
@@ -44,162 +44,168 @@
     {
       "step": "M. One whole match, from its first turn to its result (seven players)",
       "statements": [
-        "The display followed 46 phases in the server's order, each a real 60-second window: five rounds of seven turns, a Captain election before rounds 2 to 5 in which nobody voted (\"Nobody was elected\", 4 times), a Jail vote in every round, a showdown, and the end.",
-        "Round 1: on its own turn the Hacker scanned Player 1 guessing Red, that player’s real faction. The phone then listed: \"you scanned Player 1 and guessed Red. The guess was right, and that player is not in the Code.\"",
-        "Round 1, Jail vote: four players voted to send Player 3 (Insider) to Jail; three did not vote.",
-        "Round 2: on its own turn the Hacker scanned Player 1 guessing Blue, which is not that player’s faction. The phone then listed: \"you scanned Player 1 and guessed Blue. The guess was wrong.\"",
-        "Round 2, Jail vote: four players voted to send Player 2 (Cracker) to Jail; three did not vote.",
-        "Round 3: on its own turn the Supplier registered a Supply for Player 1 and Player 5, the first two the server listed. Nothing public changed and nobody held anything more yet.",
-        "Round 3: on its own turn the Hacker scanned Player 1 guessing Red, that player’s real faction. The phone then listed: \"you scanned Player 1 and guessed Red. The guess was right, and that player is not in the Code.\"",
-        "Round 3, Jail vote: four players voted to send Player 4 (Blue Disabler) to Jail; three did not vote.",
-        "Round 4: the two players named in the Supply (Player 1 and Player 5) each hold one weapon more than before; the other five hold what they held. Only their own phones say so.",
-        "Round 4: on its own turn the Hacker scanned Player 1 guessing Blue, which is not that player’s faction. The phone then listed: \"you scanned Player 1 and guessed Blue. The guess was wrong.\"",
-        "Round 5, during Player 3's turn: the Hacker (Player 5) submitted its one Code attempt, four seats with the Undercover's among them, so it cannot be right. Accepted; the phone said it is recorded, did not write it out again, and learned nothing about whether it was right.",
-        "Round 5: on its own turn the Hacker scanned Player 1 guessing Red, that player’s real faction. The phone then listed: \"you scanned Player 1 and guessed Red. The guess was right, and that player is not in the Code.\"",
-        "Showdown: the server put all seven players in the Final Zone and offered each a showdown shot at any other player. Four Blue players registered one each, two at each Red player (Player 1 and Player 5). Nothing public changed until the showdown was resolved.",
-        "After round 5 neither side was stronger and no Code had been right, and the server opened a showdown: three of the four Blue players were in Jail by then (Player 3, Player 2, Player 4).",
-        "The result, from the server's public view, on the display and on all seven phones in the same words: \"Blue wins. The Alien wins with Blue.\" Both Red players were shown Eliminated and revealed as Red; nobody else was marked.",
-        "The end reveal names a role for each of the seven seats. Each one is the role that seat’s own phone had shown its player in private since the first turn, and the Code it lists is the one the Alien’s phone had listed. Before the end, no screen but a phone’s own open private panel had named a role.",
-        "Every phone said the match is over and had no control left; the host console read the match as \"complete\".",
-        "NOT RUN in this match: a Disable, Protection, a Rescue, a Hack and an ordinary shot (they are in the roles journey), a Captain and a release, an injured player healing, a Code attempt that is right, a draw."
+        "The display followed 46 phases, in this order: five rounds, each with one turn for each of the seven players and then a Jail vote; a Captain election before each of rounds 2 to 5; a showdown after round 5's Jail vote; and the end. The script met each of them. As the display saw them, each of the 44 phases after the first lasted more than 58.5 seconds: the shortest 60.5 s and the longest 60.7 s. The first, counted from when the display first showed it, lasted 59.4 s.",
+        "In the Captain elections before rounds 2, 3, 4, 5 the script cast no ballot, and each count said so: no vote for anybody, and \"Nobody was elected.\"",
+        "Round 1: on its own turn the Hacker scanned Player 2 guessing Alien, that player’s real faction. The phone then listed: \"you scanned Player 2 and guessed Alien. The guess was right, and that player is in the Code.\"",
+        "Round 1, Jail vote: four players voted through their cards to send Player 6 (Insider) to Jail, and the script cast no other ballot. The count the server published: Player 6 4 votes and nobody else any, 7 could vote, 3 abstained or did not vote, \"Sent to Jail: Player 6.\" The display then showed Player 6 in Jail, marked Jailed.",
+        "Round 2: on its own turn the Hacker scanned Player 2 guessing Blue, which is not that player’s faction. The phone then listed: \"you scanned Player 2 and guessed Blue. The guess was wrong.\"",
+        "Round 2, Jail vote: four players voted through their cards to send Player 5 (Cracker) to Jail, and the script cast no other ballot. The count the server published: Player 5 4 votes and nobody else any, 7 could vote, 3 abstained or did not vote, \"Sent to Jail: Player 5.\" The display then showed Player 5 in Jail, marked Jailed.",
+        "Round 3: on its own turn the Supplier registered a Supply for Player 1 and Player 4: each time the first player the card listed. A second and a half later the board had not changed and no phone listed a weapon more.",
+        "Round 3: on its own turn the Hacker scanned Player 2 guessing Alien, that player’s real faction. The phone then listed: \"you scanned Player 2 and guessed Alien. The guess was right, and that player is in the Code.\"",
+        "Round 3, Jail vote: four players voted through their cards to send Player 1 (Blue Disabler) to Jail, and the script cast no other ballot. The count the server published: Player 1 4 votes and nobody else any, 7 could vote, 3 abstained or did not vote, \"Sent to Jail: Player 1.\" The display then showed Player 1 in Jail, marked Jailed.",
+        "Round 4: the two players named in the Supply (Player 1 and Player 4) each hold one weapon more than before, and the other five hold what they held: each by the count on its own phone, read once that phone showed round 4. The display's text has nothing of weapons at any phase before the end.",
+        "Round 4: on its own turn the Hacker scanned Player 2 guessing Blue, which is not that player’s faction. The phone then listed: \"you scanned Player 2 and guessed Blue. The guess was wrong.\"",
+        "Round 4, Jail vote: the script cast no ballot. The count the server published: 7 could vote, 7 abstained or did not vote, \"Nobody was sent to Jail.\"",
+        "Round 5, during Player 5's turn: the Hacker (Player 3) submitted its one Code attempt: four seats with the Undercover's among them, which is not in the Code the Alien's phone lists, so the attempt is not that Code. Accepted; the phone said it is recorded and did not write it out again. Afterwards no Code attempt was offered, while a move still was, and straight after it the phone listed nothing new.",
+        "Round 5: on its own turn the Hacker scanned Player 2 guessing Alien, that player’s real faction. The phone then listed: \"you scanned Player 2 and guessed Alien. The guess was right, and that player is in the Code.\"",
+        "Round 5, Jail vote: the script cast no ballot. The count the server published: 7 could vote, 7 abstained or did not vote, \"Nobody was sent to Jail.\"",
+        "The server opened a showdown after round 5's Jail vote. By then the Insider, the Cracker and the Blue Disabler (Player 6, Player 5, Player 1) were in Jail, as the display still marked them, and the one Code attempt was not the Code.",
+        "At the showdown, with round 5 resolved, the Hacker's phone listed what it had listed before the attempt, apart from its Scans: nothing about the attempt.",
+        "Showdown: the display showed all seven players in the Final Zone, the three jailed players among them and still marked Jailed. A showdown shot was offered on all seven phones. The Insider, the Cracker, the Blue Disabler and the Supplier registered one each, each from a list of the six other players: two at the Undercover (Player 4) and two at the Hacker (Player 3). A second and a half after the last was registered the board had not changed.",
+        "The result, on the display and on all seven phones in the same words: \"Blue wins. The Alien wins with Blue.\" The Undercover and the Hacker (Player 4 and Player 3) were shown Eliminated and revealed as Red; nobody else was shown Injured, Eliminated or revealed. The display said the result once.",
+        "The end reveal names a role for each of the seven seats, on the display and on every phone. Each one is the role that seat’s own phone showed its player in private at the start and still showed at the end, and the Code it lists is the one the Alien’s phone had listed. At each of the 45 phases before the end, the display’s text named no role and had nothing of weapons, the Code or a winner, and each phone named its own role and no other, apart from what its own seat is told.",
+        "Every phone said the match is over, and its action card had no control left; the host console read the match as \"complete\". The display sent no command in the whole match.",
+        "The commands the seven phones sent in the whole match, by type, each counted once: SCAN 5, SHOWDOWN_SHOT 4, SUBMIT_CODE 1, SUPPLY 1, VOTE 12.",
+        "At the end, what each device kept outside its page: each of the seven phones its sign-in, which match the tab is in and the Firebase SDK's own heartbeat record, and nothing else; in session storage the display kept mothership:connected-resume, the sign-in and the host console mothership:connected-resume, the sign-in. No role, Code, command type or target was in any of it.",
+        "NOT RUN in this match: any command of a type not listed above (a move, an ordinary shot, a Disable, Protection, a Rescue, a Hack request; their registration is in the other journeys and their resolution in none), a Captain and a release, an injured player healing, a Code attempt that is the Code, a draw."
       ]
     }
   ],
   "match": {
-    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person. Roles are recorded because the server reveals them at the end of a finished match.",
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person. Roles and the Code are recorded because the server reveals them at the end of a finished match. The Scans, the Supply, the Code attempt and the showdown shots are recorded as the script chose them and sent them through the phones; what a Scan came to is what the Hacker’s phone then listed.",
     "playerCount": 7,
     "phases": [
       {
-        "label": "Round 1, Player 7’s turn",
+        "label": "Round 1, Player 5’s turn",
         "secondsAfterThePreviousOne": null
       },
       {
-        "label": "Round 1, Player 5’s turn",
-        "secondsAfterThePreviousOne": 59.2
+        "label": "Round 1, Player 4’s turn",
+        "secondsAfterThePreviousOne": 59.4
       },
       {
         "label": "Round 1, Player 3’s turn",
         "secondsAfterThePreviousOne": 60.6
       },
       {
-        "label": "Round 1, Player 1’s turn",
-        "secondsAfterThePreviousOne": 61
-      },
-      {
-        "label": "Round 1, Player 2’s turn",
-        "secondsAfterThePreviousOne": 60.5
-      },
-      {
-        "label": "Round 1, Player 4’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
         "label": "Round 1, Player 6’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 1, Jail vote",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 2, Captain election",
-        "secondsAfterThePreviousOne": 60.8
-      },
-      {
-        "label": "Round 2, Player 1’s turn",
         "secondsAfterThePreviousOne": 60.6
       },
       {
-        "label": "Round 2, Player 4’s turn",
-        "secondsAfterThePreviousOne": 60.8
+        "label": "Round 1, Player 1’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 1, Player 7’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 1, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 1, Jail vote",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Captain election",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Player 3’s turn",
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 2, Player 7’s turn",
         "secondsAfterThePreviousOne": 60.6
       },
       {
-        "label": "Round 2, Player 2’s turn",
-        "secondsAfterThePreviousOne": 60.7
+        "label": "Round 2, Player 5’s turn",
+        "secondsAfterThePreviousOne": 60.6
       },
       {
-        "label": "Round 2, Player 5’s turn",
-        "secondsAfterThePreviousOne": 60.7
+        "label": "Round 2, Player 4’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Player 1’s turn",
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 2, Player 6’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 2, Player 3’s turn",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 2, Jail vote",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 3, Captain election",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 3, Player 7’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 3, Player 3’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 3, Player 1’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 3, Player 2’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 3, Player 5’s turn",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 3, Player 4’s turn",
-        "secondsAfterThePreviousOne": 60.8
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 3, Player 1’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 3, Player 5’s turn",
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 3, Player 6’s turn",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 3, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 3, Player 7’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 3, Player 3’s turn",
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 3, Jail vote",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 4, Captain election",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 4, Player 6’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 4, Player 2’s turn",
-        "secondsAfterThePreviousOne": 60.8
-      },
-      {
-        "label": "Round 4, Player 3’s turn",
         "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 4, Player 5’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 4, Player 7’s turn",
-        "secondsAfterThePreviousOne": 60.8
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 4, Player 4’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 4, Player 7’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 4, Player 6’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 4, Player 3’s turn",
         "secondsAfterThePreviousOne": 60.7
+      },
+      {
+        "label": "Round 4, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 4, Player 1’s turn",
@@ -207,144 +213,145 @@
       },
       {
         "label": "Round 4, Jail vote",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 5, Captain election",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 5, Player 3’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 5, Player 7’s turn",
         "secondsAfterThePreviousOne": 60.6
       },
       {
-        "label": "Round 5, Player 1’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 5, Player 2’s turn",
-        "secondsAfterThePreviousOne": 60.8
-      },
-      {
-        "label": "Round 5, Player 4’s turn",
-        "secondsAfterThePreviousOne": 60.7
-      },
-      {
-        "label": "Round 5, Player 6’s turn",
-        "secondsAfterThePreviousOne": 60.7
+        "label": "Round 5, Captain election",
+        "secondsAfterThePreviousOne": 60.5
       },
       {
         "label": "Round 5, Player 5’s turn",
         "secondsAfterThePreviousOne": 60.7
       },
       {
+        "label": "Round 5, Player 6’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 5, Player 1’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 5, Player 7’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 5, Player 3’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 5, Player 4’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 5, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
         "label": "Round 5, Jail vote",
-        "secondsAfterThePreviousOne": 60.8
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 5, Showdown",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.6
       },
       {
         "label": "Round 5, Match finished",
-        "secondsAfterThePreviousOne": 60.7
+        "secondsAfterThePreviousOne": 60.5
       }
     ],
     "rolesRevealedAtTheEnd": {
-      "Player 1": "Undercover",
-      "Player 2": "Cracker",
-      "Player 3": "Insider",
-      "Player 4": "Blue Disabler",
-      "Player 5": "Hacker",
-      "Player 6": "Alien",
+      "Player 1": "Blue Disabler",
+      "Player 2": "Alien",
+      "Player 3": "Hacker",
+      "Player 4": "Undercover",
+      "Player 5": "Cracker",
+      "Player 6": "Insider",
       "Player 7": "Supplier"
     },
     "code": [
-      3,
-      4,
-      6,
-      7
+      1,
+      2,
+      5,
+      6
     ],
     "scans": [
       {
         "round": 1,
-        "ofSeat": 1,
-        "guess": "Red",
+        "ofSeat": 2,
+        "guess": "Alien",
         "guessWasRight": true,
-        "inCode": false
+        "inCode": true
       },
       {
         "round": 2,
-        "ofSeat": 1,
+        "ofSeat": 2,
         "guess": "Blue",
         "guessWasRight": false,
         "inCode": null
       },
       {
         "round": 3,
-        "ofSeat": 1,
-        "guess": "Red",
+        "ofSeat": 2,
+        "guess": "Alien",
         "guessWasRight": true,
-        "inCode": false
+        "inCode": true
       },
       {
         "round": 4,
-        "ofSeat": 1,
+        "ofSeat": 2,
         "guess": "Blue",
         "guessWasRight": false,
         "inCode": null
       },
       {
         "round": 5,
-        "ofSeat": 1,
-        "guess": "Red",
+        "ofSeat": 2,
+        "guess": "Alien",
         "guessWasRight": true,
-        "inCode": false
+        "inCode": true
       }
     ],
     "supply": {
       "round": 3,
       "recipients": [
         1,
-        5
+        4
       ],
       "movedFirst": null
     },
     "codeAttempt": {
       "round": 5,
-      "duringTurnOfSeat": 3,
+      "begunDuringTurnOfSeat": 5,
       "seats": [
+        4,
         1,
         2,
-        3,
-        4
+        3
       ],
-      "includesTheUndercover": true
+      "includesTheUndercover": true,
+      "notTheCodeTheAlienLists": true
     },
     "jailVotes": [
       {
         "round": 1,
-        "sentToJail": 3,
+        "sentToJail": 6,
         "votes": {
-          "Player 3": 4
+          "Player 6": 4
         }
       },
       {
         "round": 2,
-        "sentToJail": 2,
+        "sentToJail": 5,
         "votes": {
-          "Player 2": 4
+          "Player 5": 4
         }
       },
       {
         "round": 3,
-        "sentToJail": 4,
+        "sentToJail": 1,
         "votes": {
-          "Player 4": 4
+          "Player 1": 4
         }
       },
       {
@@ -367,49 +374,63 @@
     "showdown": {
       "shots": [
         {
-          "bySeat": 3,
-          "atSeat": 1
+          "bySeat": 6,
+          "atSeat": 4
         },
         {
-          "bySeat": 2,
-          "atSeat": 1
+          "bySeat": 5,
+          "atSeat": 4
         },
         {
-          "bySeat": 4,
-          "atSeat": 5
+          "bySeat": 1,
+          "atSeat": 3
         },
         {
           "bySeat": 7,
-          "atSeat": 5
+          "atSeat": 3
         }
       ]
     },
-    "result": {
-      "winner": "Blue",
-      "alienCoWinner": true
+    "resultAsTheDisplayWordedIt": [
+      "Blue wins.",
+      "The Alien wins with Blue."
+    ],
+    "showdownShotOfferedOn": [
+      "Player 1",
+      "Player 2",
+      "Player 4",
+      "Player 3",
+      "Player 6",
+      "Player 5",
+      "Player 7"
+    ],
+    "sessionStorageKeysAtTheEnd": {
+      "display": [
+        "mothership:connected-resume",
+        "the sign-in"
+      ],
+      "host": [
+        "mothership:connected-resume",
+        "the sign-in"
+      ]
     },
     "commandsByDevice": {
-      "Player 1 (Undercover)": [
+      "Player 1 (Blue Disabler)": [
+        "VOTE",
+        "VOTE",
+        "SHOWDOWN_SHOT"
+      ],
+      "Player 2 (Alien)": [
         "VOTE",
         "VOTE",
         "VOTE"
       ],
-      "Player 2 (Cracker)": [
+      "Player 4 (Undercover)": [
         "VOTE",
         "VOTE",
-        "SHOWDOWN_SHOT"
+        "VOTE"
       ],
-      "Player 3 (Insider)": [
-        "VOTE",
-        "VOTE",
-        "SHOWDOWN_SHOT"
-      ],
-      "Player 4 (Blue Disabler)": [
-        "VOTE",
-        "VOTE",
-        "SHOWDOWN_SHOT"
-      ],
-      "Player 5 (Hacker)": [
+      "Player 3 (Hacker)": [
         "SCAN",
         "VOTE",
         "SCAN",
@@ -420,11 +441,18 @@
         "SUBMIT_CODE",
         "SCAN"
       ],
-      "Player 6 (Alien)": [],
+      "Player 6 (Insider)": [
+        "VOTE",
+        "SHOWDOWN_SHOT"
+      ],
+      "Player 5 (Cracker)": [
+        "SHOWDOWN_SHOT"
+      ],
       "Player 7 (Supplier)": [
         "SUPPLY",
         "SHOWDOWN_SHOT"
       ]
-    }
+    },
+    "howToReadThis": "phases: when the display’s page first showed each phase after the one before, by that page’s clock; it is not the server’s window, and the last entry, the end, has no window. commandsByDevice: the type of each command a phone sent, each counted once however often its request was sent again. scans, supply, codeAttempt and showdown: what the script chose and sent through the phones, each checked against the request the phone made."
   }
 }

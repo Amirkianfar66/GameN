@@ -16,6 +16,11 @@ function segment(value: string, what: string): string {
 export function documentPath(target: DocumentTarget, uid: string): readonly string[] {
   const root = ['matches', segment(target.matchId, 'match identifier')];
   switch (target.kind) {
+    case 'identities': return [...root, 'identities', 'public'];
+    case 'seat-session':
+    case 'own-acknowledgments':
+      if (!UID.test(uid)) throw new TypeError('Not a valid identity');
+      return [...root, target.kind === 'seat-session' ? 'seatSessions' : 'ownAcknowledgments', uid];
     case 'lobby': return [...root, 'lobby', 'public'];
     case 'public-view': return [...root, 'views', 'public'];
     case 'player-view':

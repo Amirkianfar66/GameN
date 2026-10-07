@@ -209,3 +209,5 @@ export * from './full-game/model.js';
 export * from './full-game/lifecycle.js';
 export { buildRoster } from './full-game/roster.js';
 export type { FullGameSetup, FullGameState, FullGameContext } from './full-game/model.js';
+
+export { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';

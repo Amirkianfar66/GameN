@@ -29,7 +29,7 @@
     "test:contracts": "tsc --build packages/contracts && node --test tests/bootstrap/contracts.test.mjs tests/bootstrap/fixtures.test.mjs tests/bootstrap/full-game-contract.test.mjs",
     "test:bootstrap": "npm run build && node --test tests/bootstrap/*.test.mjs",
     "test": "npm run test:bootstrap && npm run test:engine && npm run test:backend && npm run test:tooling && npm run test:frontend",
-    "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm test",
+    "verify": "npm run check:toolchain && npm run check:workspace && npm run check:sources && npm run typecheck && npm test && npm run test:balance && npm run test:scenarios",
     "test:engine": "npm run build && node --test packages/engine/test/*.test.mjs",
     "test:backend": "npm run build && node --test services/game-api/test/*.test.mjs infra/firebase/test/*.test.mjs",
     "test:emulator": "npm run build && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node --test --test-concurrency=1 services/game-api/test-emulator/*.test.mjs infra/firebase/test-emulator/*.test.mjs\"",
@@ -39,7 +39,9 @@
     "test:tooling": "node --test tests/tooling/*.test.mjs",
     "test:frontend": "npm run build && node scripts/test-frontend.mjs",
     "check:browser-dependencies": "node scripts/check-browser-dependencies.mjs",
-    "test:frontend:emulator": "npm run test:emulator --workspace @mothership/game"
+    "test:frontend:emulator": "npm run test:emulator --workspace @mothership/game",
+    "test:balance": "node scripts/test-balance.mjs static",
+    "test:scenarios": "node scripts/test-balance.mjs engine"
   },
   "devDependencies": {
     "@types/node": "22.19.19",
