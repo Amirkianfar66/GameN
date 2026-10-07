@@ -23,7 +23,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | Document | What it is |
 | --- | --- |
 | [game-rules.md](game-rules.md) | The consolidated rulebook. One row per rule, each with a status and its sources. The single text all four workstreams follow |
-| [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D39, and consequences derived from the rules |
+| [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D40, and consequences derived from the rules |
 | [invariants.md](invariants.md) | Statements that must hold in every match, with the rule behind each |
 | [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each reading, and the rules without a scenario |
 | [contract-review.md](contract-review.md) | Independent review of the shared contracts, the Officer and Protection fixture and Backend's draft engine |
@@ -54,7 +54,7 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 | `npm run check --workspace @mothership/balance` | Static checks. Needs no engine. Verifies hashes, every rule citation, the decision register, the scenario files, the exception list and the numbers quoted in the documents. Fails unless every test file ran a test, every started test finished, and nothing failed, was cancelled, was skipped or was marked todo. **On a branch without the engine add `-- --allow-missing-overlay`**: see below |
 | `npm run scenarios --workspace @mothership/balance` | Executes the scenarios against the engine of this checkout. Add `-- --engine-root <dir>` for a built copy of another commit, and `-- --out <file>` to write a report. `-- --stand-in supply-disclosure` runs through a stand-in that adds the disclosure G17 says is missing: it shows that the cases can pass and is not evidence about an engine |
 | `npm run walk --workspace @mothership/balance -- --engine-root <dir>` | Seeded random playouts with the invariants checked after every transition |
-| `npm run controls --workspace @mothership/balance -- --engine-root <dir>` | Negative controls: changes one expectation at a time and requires the run to fail. The command itself fails if any ready scenario does not pass unmodified, if a control is missed, or if no control ran. With `--stand-in supply-disclosure` it also makes the stand-in leak in twelve ways and requires a paired case to catch each |
+| `npm run controls --workspace @mothership/balance -- --engine-root <dir>` | Negative controls: changes one expectation at a time and requires the run to fail. The command itself fails if any ready scenario does not pass unmodified, if a control is missed, or if no control ran. With `--stand-in supply-disclosure` it also makes the stand-in leak in twenty-four ways and requires a paired case to catch each |
 | `npm run gate --workspace @mothership/balance -- --scenarios <file> --controls <file> --playouts <file> --engine-commit <sha> --playouts-per-mode <n>` | The report gate. Executes nothing. Decides whether three reports are a complete and clean run against that engine: every fixture once, every ready case passed, the exceptions exactly the reviewed ones, every control and playout run, and the same engine, fixtures and rule sources in all three |
 | `npm run engine-gate --workspace @mothership/balance` | The three engine commands and then the gate, as one command. Needs a clean commit, and the engine in this checkout or, with `-- --engine-root <checkout>`, in a clean checkout of another commit |
 | `npm run facts --workspace @mothership/balance` | Prints the arithmetic quoted in the audit |
@@ -83,11 +83,11 @@ The gate holds the reports against the catalogue of the same commit. It cannot t
 
 A scenario is **ready** when its expected result follows from decided rules. It is **blocked** when it waits for an owner decision; a blocked scenario asserts nothing. It is **manual** when the evidence has to come from the service, the screen or people.
 
-A rule is decided when an approved source states it or when it follows from the approved sources. Eighteen rules rest on one of seventeen readings: what the sources say when read closely, although no one sentence says it. No approval is asked for a reading. A ready scenario may rest on one, and then says so: its `ruleRefs` or `dependsOn` name the rule, and the traceability page lists every scenario that touches each reading.
+A rule is decided when an approved source states it or when it follows from the approved sources. Nineteen rules rest on one of eighteen readings: what the sources say when read closely, although no one sentence says it. No approval is asked for a reading. A ready scenario may rest on one, and then says so: its `ruleRefs` or `dependsOn` name the rule, and the traceability page lists every scenario that touches each reading.
 
 A run reports four separate numbers: **passed**, **failed**, **blocked** and **not run**. Only an executed scenario whose every expectation held is passed. Blocked and not-run are never added to it.
 
-Some cases are **paired**: they are run twice with one declared difference, and say to whom the two runs must look the same and to whom they must look different. That is how a secret is checked without knowing where an engine keeps it. [tests/scenarios/README.md](../../tests/scenarios/README.md#paired-cases-and-the-stand-in) explains them.
+Some cases are **paired**: they are run twice with one declared difference, and say to whom the two runs must look the same and to whom they must look different, at one moment or in every phase of a span. That is how a secret is checked without knowing where an engine keeps it. [tests/scenarios/README.md](../../tests/scenarios/README.md#paired-cases-and-the-stand-in) explains them.
 
 ## Changing the rules
 

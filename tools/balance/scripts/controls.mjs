@@ -22,7 +22,7 @@
 //      the command line cannot be understood, or the engine commit it states contradicts the checkout.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { controlVerdict, hasTwin, judgeLeak, runControls, runScenario } from '@mothership/balance';
+import { controlVerdict, hasTwin, judgeLeak, runControls, runScenario, unexercised } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
 import { LEAKS, SUPPLY_DISCLOSURE_STAND_IN, leakModes, withSupplyDisclosure } from '../../../tests/scenarios/support/disclosing.mjs';
 import { loadGroup } from '../../../tests/scenarios/v1/files.mjs';
@@ -81,14 +81,22 @@ const verdict = controlVerdict(runs);
 if (standIn !== null) {
   summary.leaks = [];
   const paired = [7, 8, 9].flatMap(mode => loadGroup(String(mode)).scenarios).filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
+  // The paired cases that pass through the stand-in when it does not leak. Only those can show a leak.
+  const passing = new Set(paired.filter(scenario => runScenario(scenario, adapter, '').status === 'passed').map(scenario => scenario.id));
+  const outcomes = [];
   for (const [leak, meaning] of Object.entries(LEAKS)) {
     const leaking = withSupplyDisclosure(binding, leak);
     const modes = leakModes(leak);
-    const outcome = judgeLeak(leak, meaning, modes, paired.map(scenario => ({ scenario, run: runScenario(scenario, leaking, '') })));
+    const outcome = judgeLeak(leak, meaning, modes, paired.map(scenario => ({ scenario, run: runScenario(scenario, leaking, '') })), passing);
+    outcomes.push(outcome);
     summary.leaks.push({ leak, meaning, modes, caughtBy: outcome.caughtBy });
     console.log(`leak ${leak}: ${outcome.caughtBy.length === 0 ? 'NOT CAUGHT' : `caught by ${outcome.caughtBy.map(item => item.scenario).join(', ')}`}`);
     if (outcome.problems.length > 0) { verdict.passed = false; verdict.problems.push(...outcome.problems); }
   }
+  // The other way round: every paired case that says two runs look the same has to have failed for some leak.
+  summary.pairedCases = paired.length;
+  summary.unexercised = unexercised(paired, outcomes);
+  for (const id of summary.unexercised) { verdict.passed = false; verdict.problems.push(`no deliberate leak makes ${id} fail, so it has not been shown to watch anything`); }
 }
 summary.verdict = verdict.passed ? 'passed' : 'failed';
 for (const line of summary.baselineFailures.slice(0, 40)) console.log(`BASELINE NOT PASSING ${line}`);

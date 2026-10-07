@@ -8,7 +8,7 @@ import {
   MATCH_RECORD_SCHEMA, buildReport, checkSetup, checkState, checkTransition, controlVerdict, controlsFor, damageBudget, deriveSetup, runControls,
   runScenario, scanInformationBound, startLedger, summarize, summarizeOutcomes, toEvidence, validateMatchRecord, walk, wilson,
 } from '@mothership/balance';
-import { ENGINE_COMMIT_BASIS, exceptionProblems, expectedCode, factionOf, hasTwin, judgeLeak, twinSetup, validateScenario } from '@mothership/balance';
+import { ENGINE_COMMIT_BASIS, audiencesToldApart, exceptionProblems, expectedCode, factionOf, hasTwin, judgeLeak, twinSetup, unexercised, validateScenario } from '@mothership/balance';
 import { LEAKS, leakModes, withSupplyDisclosure } from './support/disclosing.mjs';
 import {
   MANIFEST, TREE_COMMIT, allowlist, catalogue, cleanReports, copy, disk, eachIsNamed, everyReport, first, judge, probed, runOf, unprobed,
@@ -387,8 +387,8 @@ test('the record validator enforces separation by mode, consent, exclusions and 
 // Paired cases. A stand-in engine with one made-up command, TELL: the player it names is told so
 // in their own view, and nobody else is told anything. Two runs that name different players must
 // then look different to those two players and the same to everyone else.
-const telling = ({ refuse = null, where = 'view' } = {}) => stubAdapter({
-  outcomes: Array(8).fill('REGISTERED'),
+const telling = ({ refuse = null, where = 'view', turns = false } = {}) => stubAdapter({
+  outcomes: Array(8).fill('REGISTERED'), turns,
   mutate(observation, actor, command) {
     if (command.target === refuse) throw new Error('the stand-in refuses to name this player');
     if (where === 'view') observation.raw.players[command.target] = { ...observation.raw.players[command.target], told: true };
@@ -426,10 +426,13 @@ test('a paired case compares what each audience can read in two runs that differ
   // whether anybody was told, which is what the named player may see and nobody else.
   const once = { ...tell('@Insider'), twin: null };
   assert.ok(hasTwin(scenario('ready', [once])));
-  const whether = runScenario(scenario('ready', [once, compare(differs({ players: ['@Insider'] }), same({ allPlayersExcept: ['@Insider'] }))]), telling(), '');
+  const whether = runScenario(scenario('ready', [once, compare(differs({ players: ['@Insider'] }), same({ allPlayersExcept: ['@Insider', '@Supplier'] }))]), telling(), '');
   assert.equal(whether.status, 'passed', whether.failure?.message);
+  // The sender can tell as well as the player named: a receipt came back in one run and none in the other.
+  const supplier = setup.roleOrder.indexOf('Supplier') + 1;
   const everyone = runScenario(scenario('ready', [once, compare(same('all-players'))]), telling(), '');
-  assert.equal(everyone.failure.message, `the twin run does not look the same to: seat-${insider}`);
+  assert.deepEqual(audiencesToldApart(everyone.failure.message).sort(), [`seat-${insider}`, `seat-${supplier}`].sort());
+  assert.equal(audiencesToldApart('view of @Supplier: something else'), null);
   // The step keeps its place in the twin run, so a later comparison is made at the same moment.
   const later = runScenario(scenario('ready', [roundOne, once, roundOne, compare(same('public'), differs({ players: ['@Insider'] }))]), telling(), '');
   assert.equal(later.status, 'passed', later.failure?.message);
@@ -509,6 +512,83 @@ test('a paired case with a twin Code shows that a fact does not give away the Co
   }
 });
 
+test('a watch compares the two runs in every phase on its way, and finds what a comparison at chosen moments steps over', () => {
+  // A stand-in whose turns pass, and in which a TELL is shown to the table two turns later and for one turn only.
+  const phaseOf = observation => Number(observation.phaseId.split('-')[1]);
+  const briefly = () => stubAdapter({
+    outcomes: Array(8).fill('REGISTERED'), turns: true,
+    mutate(observation, actor, command) {
+      observation.raw.players[command.target] = { ...observation.raw.players[command.target], told: true };
+      observation.revisions.players[command.target] += 1;
+      observation.toldAt = { target: command.target, phase: phaseOf(observation) };
+      return observation;
+    },
+    onTurn(observation, phase) {
+      delete observation.raw.public.heard;
+      if (observation.toldAt !== undefined && phase === observation.toldAt.phase + 2) observation.raw.public.heard = observation.toldAt.target;
+      return observation;
+    },
+  });
+  const order = setup.roundOrders[0];
+  const others = { allPlayersExcept: ['@Insider', '@Cracker'] };
+  const tellNow = tell('@Insider', '@Cracker');
+  // Compared at once and three turns later, the two runs look the same: the table was told in between.
+  const sampled = [tellNow, compare(same(others)), { op: 'until', active: order[3] }, compare(same(others))];
+  assert.equal(runScenario(scenario('ready', sampled), briefly(), '').status, 'passed');
+  // Watched over the same three turns, it is found, with the turn in which it first showed.
+  const watched = scenario('ready', [tellNow, { op: 'watch', active: order[3], sameAsTwin: { audiences: others } }]);
+  assert.deepEqual(validateScenario(watched), []);
+  const found = runScenario(watched, briefly(), '');
+  assert.equal(found.status, 'failed');
+  assert.equal(found.failure.op, 'watch');
+  assert.equal(found.failure.message, `the twin run does not look the same to: public (first at Round 1, ORDINARY_TURN of ${order[2]})`);
+  assert.deepEqual(audiencesToldApart(found.failure.message), ['public']);
+  // Where nothing is told in between, the watch passes, and it has compared four phases.
+  const quiet = () => telling({ turns: true });
+  assert.equal(runScenario(watched, quiet(), '').status, 'passed', runScenario(watched, quiet(), '').failure?.message);
+  // Its control is the opposite claim about the same span, and it fails in the first phase.
+  const controls = controlsFor(watched);
+  assert.deepEqual(controls.map(control => [control.kind, control.where]), [['command expectation', 'step 0'], ['asserted fact', 'step 1']]);
+  assert.ok('differsFromTwin' in controls[1].scenario.steps[1] && !('sameAsTwin' in controls[1].scenario.steps[1]));
+  assert.equal(runScenario(controls[1].scenario, quiet(), '').failure.message, `the twin run looks exactly the same to: ${['public', ...Object.keys(setup.initialRooms).filter(seat => seat !== `seat-${setup.roleOrder.indexOf('Insider') + 1}` && seat !== `seat-${setup.roleOrder.indexOf('Cracker') + 1}`)].join(', ')} (first at Round 1, ORDINARY_TURN of ${order[0]})`);
+  assert.deepEqual(runControls([watched], quiet()).stats, { scenarios: 1, controls: 2, detected: 2, undetected: 0, baselineNotPassing: 0 });
+  // A leak found by a watch counts as caught, with the audience it names.
+  assert.deepEqual(judgeLeak('a-leak', 'x', [7], [{ scenario: watched, run: found }], new Set([watched.id])), { caughtBy: [{ scenario: watched.id, couldTell: ['public'] }], problems: [] });
+  // A blocked case may not watch, as it may not assert.
+  assert.match(validateScenario(scenario('blocked', [{ op: 'watch', active: order[1], sameAsTwin: { audiences: 'public' } }])).join('\n'), /a blocked scenario must not assert an outcome/);
+});
+
+test('two runs are compared only at the same moment, and by everything a player was given, receipts included', () => {
+  const order = setup.roundOrders[0];
+  const seatOf = role => `seat-${setup.roleOrder.indexOf(role) + 1}`;
+  // In the twin run Supplier and Blue Disabler have changed seats, so "Supplier's turn" is another turn there.
+  const swap = { twin: { swapRoles: ['Supplier', 'Blue Disabler'] } };
+  const others = { allPlayersExcept: ['@Supplier', '@Blue Disabler'] };
+  const elsewhere = runScenario(scenario('ready', [{ op: 'until', active: '@Supplier' }, compare(same(others))], swap), stubAdapter({ turns: true }), '');
+  assert.equal(elsewhere.status, 'failed');
+  assert.equal(elsewhere.failure.message, `the two runs are not at the same moment here: this run is at Round 1, ORDINARY_TURN of ${seatOf('Supplier')}, its twin at Round 1, ORDINARY_TURN of ${seatOf('Blue Disabler')}`);
+  // A claim that the two runs differ fails there as well: a difference of moments is not one of knowledge.
+  const differing = runScenario(scenario('ready', [{ op: 'until', active: '@Supplier' }, compare(differs({ players: ['@Insider'] }))], swap), stubAdapter({ turns: true }), '');
+  assert.match(differing.failure.message, /^the two runs are not at the same moment here/);
+  // At a turn that is the same player's in both runs the comparison is sound.
+  const third = setup.roleOrder.find(role => role !== 'Supplier' && role !== 'Blue Disabler' && seatOf(role) !== order[0]);
+  assert.equal(runScenario(scenario('ready', [{ op: 'until', active: `@${third}` }, compare(same(others))], swap), stubAdapter({ turns: true }), '').status, 'passed');
+
+  // Receipts. Supplier names the same seat in both runs; in the twin run that seat is held by a player of another team.
+  const named = seatOf('Insider');
+  const teams = { twin: { swapRoles: ['Insider', 'Hacker'] } };
+  const names = { op: 'command', actor: '@Supplier', command: { type: 'TELL', target: named }, expect: 'REGISTERED' };
+  const toSupplier = [names, compare(same({ allPlayersExcept: ['@Insider', '@Hacker'] }))];
+  const plain = () => stubAdapter({ outcomes: Array(4).fill('REGISTERED') });
+  assert.equal(runScenario(scenario('ready', toSupplier, teams), plain(), '').status, 'passed');
+  // A receipt that says which team the named player is on tells Supplier the two runs apart, although no view changed.
+  const saying = () => stubAdapter({ outcomes: Array(4).fill('REGISTERED'), receipt: (actor, command, outcome, observation) => ({ outcome, team: observation.truth.seats.find(seat => seat.seat === command.target).faction }) });
+  assert.equal(runScenario(scenario('ready', toSupplier, teams), saying(), '').failure.message, `the twin run does not look the same to: ${seatOf('Supplier')}`);
+  // Within one run a receipt is not part of anybody's view: what a mark holds is compared without it.
+  const within = [{ op: 'mark', name: 'before' }, names, compare({ unchanged: { since: 'before', audiences: 'all-players' } })];
+  assert.equal(runScenario(scenario('ready', within), saying(), '').status, 'passed');
+});
+
 test('a paired case is refused unless its difference and its comparison are both declared', () => {
   const issues = (steps, extra) => validateScenario(scenario('ready', steps, extra)).join('\n');
   const pair = [tell('@Insider', '@Cracker'), compare(same('public'))];
@@ -516,6 +596,16 @@ test('a paired case is refused unless its difference and its comparison are both
   assert.match(issues([tell('@Insider', '@Cracker'), roundOne]), /a twin run is declared and nothing is compared with it/);
   assert.match(issues([{ ...tell('@Insider'), twin: null }, roundOne]), /a twin run is declared and nothing is compared with it/);
   assert.equal(issues([{ ...tell('@Insider'), twin: null }, compare(same('public'))]), '');
+  // Four ways to write a comparison that could not fail, each refused.
+  assert.match(issues([tell('@Insider', '@Cracker'), compare(same({ players: [] }))]), /a comparison with the twin run names nobody/);
+  assert.match(issues([tell('@Insider', '@Cracker'), { op: 'watch', round: 2, sameAsTwin: { audiences: { players: [] } } }]), /a comparison with the twin run names nobody/);
+  assert.match(issues([tell('@Insider', '@Cracker'), compare(same({ players: ['seat-9'] }))]), /names a seat that is not in this match/);
+  assert.match(issues([tell('@Insider', '@Cracker'), compare(same({ allPlayersExcept: ['seat-0'] }))]), /names a seat that is not in this match/);
+  assert.match(issues([tell('@Insider', '@Insider'), compare(same('public'))]), /a twin command is the command itself, so the two runs would not differ/);
+  assert.match(issues([compare(same('public')), tell('@Insider', '@Cracker'), compare(same('public'))]), /a comparison stands before the first twin command, where the two runs do not differ yet/);
+  assert.match(issues([{ op: 'watch', round: 2, sameAsTwin: { audiences: 'public' } }, tell('@Insider', '@Cracker')]), /a comparison stands before the first twin command/);
+  // With a twin setup the two runs differ from the start, and a comparison may stand anywhere.
+  assert.equal(issues([compare(same({ allPlayersExcept: ['@Supplier', '@Blue Disabler'] })), tell('@Insider', '@Cracker')], { twin: { swapRoles: ['Supplier', 'Blue Disabler'] } }), '');
   assert.match(issues([tell('@Insider'), compare(same('public'))]), /a comparison with a twin run needs a twin command or a twin setup/);
   assert.match(validateScenario(scenario('blocked', [tell('@Insider', '@Cracker')])).join('\n'), /only a ready scenario may have a twin run/);
   const swap = { twin: { swapRoles: ['Supplier', 'Blue Disabler'] } };
@@ -553,30 +643,40 @@ test('whom Supplier armed is read from the engine, and an engine that says nothi
 });
 
 test('the disclosure stand-in tells Supplier exactly who gained a weapon when Round 3 resolved, and each leak adds what it says', () => {
-  // A two-step engine: Round 3, then Round 4 with a weapon more for two players. It accepts a
-  // Supplier's choice without acting on it, and a test may say whose turn it is afterwards.
+  // A scripted engine: Round 3, then Round 4 with a weapon more for two players, and after that
+  // phases that only pass. It accepts Supplier's choice, a shot and a Code attempt without acting
+  // on them, keeps a receipt for each command, and a test may say whose turn it is, which round
+  // it is, whether a Code attempt has been made, and who has been hurt.
   const seats = Object.fromEntries(setup.roleOrder.map((role, index) => [role, `seat-${index + 1}`]));
-  const scripted = () => {
-    const turn = { of: null, attempt: null };
+  const scripted = (armedRoles = ['Insider', 'Cracker']) => {
+    const turn = { of: null, attempt: null, round: null, hurt: null, shield: null };
     return {
       turn,
       pins: { adapter: 'scripted', engineVersion: 'none', rulesetVersion: 'none', rulesetHash: 'none', protocolVersion: 0 },
       createMatch() {
         const observation = openingObservation(setup);
         observation.round = 3;
+        const receipts = {};
         return {
           observe() {
-            const seen = { ...structuredClone(observation), ...(turn.of === null ? {} : { phaseKind: 'ORDINARY_TURN', activeSeat: turn.of }) };
+            const seen = { ...structuredClone(observation), ...(turn.of === null ? {} : { phaseKind: 'ORDINARY_TURN', activeSeat: turn.of }), ...(turn.round === null ? {} : { round: turn.round }) };
             if (turn.attempt !== null) seen.truth = { ...seen.truth, codeSubmitted: true, codeCorrect: turn.attempt };
+            if (turn.hurt !== null) seen.truth.seats.find(seat => seat.seat === turn.hurt).health = 'Injured';
+            if (turn.shield !== null) seen.truth.seats.find(seat => seat.seat === turn.shield).protection = 'pending';
+            seen.raw = { ...seen.raw, receipts: structuredClone(receipts) };
             return seen;
           },
-          command: (actor, command) => (command.type === 'SUPPLY' ? 'REGISTERED' : 'NOT_ALLOWED'),
+          command(actor, command) {
+            const outcome = ['SUPPLY', 'REGISTER_SHOT', 'SUBMIT_CODE'].includes(command.type) ? 'REGISTERED' : 'NOT_ALLOWED';
+            (receipts[actor] ??= []).push({ outcome });
+            return outcome;
+          },
           advance() {
-            if (observation.round !== 3) return false;
+            if (observation.round !== 3) return true;
             observation.round = 4;
             observation.phaseKind = 'JAIL_VOTE';
             observation.activeSeat = null;
-            for (const role of ['Insider', 'Cracker']) observation.truth.seats.find(seat => seat.seat === seats[role]).ordinaryWeapons += 1;
+            for (const role of armedRoles) observation.truth.seats.find(seat => seat.seat === seats[role]).ordinaryWeapons += 1;
             return true;
           },
           abort() {},
@@ -584,8 +684,8 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
       },
     };
   };
-  const read = (leak, named = null) => {
-    const engine = scripted();
+  const read = (leak, named = null, armedRoles = undefined) => {
+    const engine = scripted(armedRoles);
     const match = withSupplyDisclosure(engine, leak).createMatch(setup, 'match');
     if (named !== null) assert.equal(match.command(seats.Supplier, { type: 'SUPPLY', targets: named }, 0), 'REGISTERED');
     const before = match.observe();
@@ -610,6 +710,9 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
     'supplier-seat-to-recipient', 'supplier-seat-to-recipient-on-their-turn', 'other-recipient-to-recipient', 'first-recipient-to-second',
     'armed-list-to-table', 'weapons-given-count-to-table', 'recipient-team-to-supplier', 'usable-to-supplier', 'team-to-table', 'red-team-mates-to-red',
     'code-mark-to-table', 'code-verdict-to-hacker',
+    'weapons-held-to-supplier', 'fired-to-supplier', 'supplier-seat-to-recipient-when-they-fire', 'supplier-seat-to-recipient-in-round-5', 'supplier-seat-to-recipient-not-blue',
+    'armed-mark-when-hurt-to-table', 'registered-count-at-vote-to-table', 'alien-seat-mark-to-table', 'supplier-seat-mark-to-table', 'code-verdict-to-alien-next-phase', 'code-attempted-to-table-next-phase',
+    'code-verdict-in-receipt', 'recipient-teams-in-receipt', 'protected-to-recipient-next-phase', 'scanned-to-target-next-phase',
   ]);
   // A recipient told who armed them: at once, or only once their own turn has come.
   assert.equal(also('supplier-seat-to-recipient', 'Insider').from, seats.Supplier);
@@ -645,6 +748,70 @@ test('the disclosure stand-in tells Supplier exactly who gained a weapon when Ro
   attempt.engine.turn.attempt = false;
   assert.equal(attempt.match.observe().raw.also.players[seats.Hacker].attempt, 'b');
   assert.deepEqual(attempt.match.observe().raw.also.players[seats.Undercover], { armed: [], received: false });
+  // The further leaks, each of which passed every paired case as the cases first stood.
+  // Supplier told about the players they armed: what they then held, and who has fired, a phase after the shot.
+  assert.deepEqual(also('weapons-held-to-supplier', 'Supplier').held, [1, 1]);
+  const shot = read('fired-to-supplier');
+  assert.equal(shot.match.command(seats.Insider, { type: 'REGISTER_SHOT', target: seats.Hacker }, 0), 'REGISTERED');
+  assert.deepEqual(shot.match.observe().raw.also.players[seats.Supplier].fired, [], 'not in the phase of the shot');
+  assert.equal(shot.match.advance(0), true);
+  assert.deepEqual(shot.match.observe().raw.also.players[seats.Supplier].fired, [seats.Insider]);
+  // A recipient told who armed them at other moments, or only when not Blue.
+  const onFiring = read('supplier-seat-to-recipient-when-they-fire');
+  assert.deepEqual(onFiring.after.raw.also.players[seats.Insider], { armed: [], received: true });
+  onFiring.match.command(seats.Insider, { type: 'REGISTER_SHOT', target: seats.Hacker }, 0);
+  assert.equal(onFiring.match.observe().raw.also.players[seats.Insider].from, seats.Supplier);
+  assert.equal(onFiring.match.observe().raw.also.players[seats.Cracker].from, undefined);
+  const inRound5 = read('supplier-seat-to-recipient-in-round-5');
+  inRound5.engine.turn.of = seats.Insider;
+  assert.equal(inRound5.match.observe().raw.also.players[seats.Insider].from, undefined, 'a Round 4 turn is not yet it');
+  inRound5.engine.turn.round = 5;
+  assert.equal(inRound5.match.observe().raw.also.players[seats.Insider].from, seats.Supplier);
+  assert.deepEqual(also('supplier-seat-to-recipient-not-blue', 'Insider'), { armed: [], received: true });
+  assert.equal(read('supplier-seat-to-recipient-not-blue', null, ['Hacker', 'Cracker']).after.raw.also.players[seats.Hacker].from, seats.Supplier);
+  // The table shown something: a mark on an armed player who is hurt, a count of actions during a vote, a mark on Alien's seat.
+  const hurt = read('armed-mark-when-hurt-to-table');
+  assert.deepEqual(hurt.after.raw.also.public, { marked: [] });
+  hurt.engine.turn.hurt = seats.Cracker;
+  assert.deepEqual(hurt.match.observe().raw.also.public, { marked: [seats.Cracker] });
+  hurt.engine.turn.hurt = seats.Hacker;
+  assert.deepEqual(hurt.match.observe().raw.also.public, { marked: [] }, 'a player who was not armed is not marked');
+  const counted = read('registered-count-at-vote-to-table', [seats.Insider, seats.Cracker]);
+  assert.deepEqual(counted.before.raw.also.public, { registered: null }, 'not outside a vote');
+  assert.deepEqual(counted.after.raw.also.public, { registered: 0 }, 'the count is of the round, and Round 4 has had none');
+  counted.match.command(seats.Insider, { type: 'REGISTER_SHOT', target: seats.Hacker }, 0);
+  assert.deepEqual(counted.match.observe().raw.also.public, { registered: 1 });
+  assert.deepEqual(read('alien-seat-mark-to-table').after.raw.also.public, { marked: seats.Alien });
+  assert.deepEqual(read('supplier-seat-mark-to-table').after.raw.also.public, { marked: seats.Supplier });
+  // A Scan or a Protection shown to the player it concerns, from the phase after it.
+  const looked = read('scanned-to-target-next-phase');
+  assert.equal(looked.match.command(seats.Hacker, { type: 'SCAN', target: seats.Insider, guess: 'Blue' }, 0), 'NOT_ALLOWED');
+  assert.equal(looked.match.advance(0), true);
+  assert.equal(looked.match.observe().raw.also.players[seats.Insider].looked, undefined, 'a refused Scan scans nobody');
+  const shielded = read('protected-to-recipient-next-phase');
+  shielded.engine.turn.shield = seats.Cracker;
+  assert.equal(shielded.match.observe().raw.also.players[seats.Cracker].shielded, undefined, 'not in the phase of the grant');
+  assert.equal(shielded.match.advance(0), true);
+  assert.equal(shielded.match.observe().raw.also.players[seats.Cracker].shielded, true);
+  assert.equal(shielded.match.observe().raw.also.players[seats.Insider].shielded, undefined);
+  // A Code attempt shown a phase later: its verdict to Alien, and that it was made to the table.
+  for (const [leak, where, shown] of [['code-verdict-to-alien-next-phase', after => after.raw.also.players[seats.Alien].attempt, 'b'], ['code-attempted-to-table-next-phase', after => after.raw.also.public.attempted, true]]) {
+    const later = read(leak);
+    later.engine.turn.attempt = false;
+    assert.ok([undefined, false].includes(where(later.match.observe())), `${leak}: not in the phase of the attempt`);
+    assert.equal(later.match.advance(0), true);
+    assert.equal(where(later.match.observe()), shown, leak);
+  }
+  // A receipt that says more than that the command was registered.
+  const verdict = read('code-verdict-in-receipt');
+  verdict.engine.turn.attempt = true;
+  verdict.match.command(seats.Hacker, { type: 'SUBMIT_CODE', seats: code }, 0);
+  assert.deepEqual(verdict.match.observe().raw.receipts[seats.Hacker], [{ outcome: 'REGISTERED', mark: 'a' }]);
+  assert.deepEqual(read('recipient-teams-in-receipt', [seats.Hacker, seats.Cracker]).after.raw.receipts[seats.Supplier], [{ outcome: 'REGISTERED', marks: ['b', 'a'] }]);
+  // Without a leak a receipt is what the engine returned, and a refused command has one too.
+  const plain = read(null, [seats.Insider, seats.Cracker]);
+  assert.equal(plain.match.command(seats.Insider, { type: 'MOVE', destination: 'Room B' }, 0), 'NOT_ALLOWED');
+  assert.deepEqual(plain.match.observe().raw.receipts, { [seats.Supplier]: [{ outcome: 'REGISTERED' }], [seats.Insider]: [{ outcome: 'NOT_ALLOWED' }] });
   // No leak tells anything to a Blue player who was not armed and is not Supplier.
   for (const leak of Object.keys(LEAKS)) assert.deepEqual(also(leak, 'Blue Disabler'), { armed: [], received: false }, leak);
   // Every leak has to be caught with every number of players, except the one that needs an Officer.
@@ -662,23 +829,45 @@ test('a deliberate leak counts as caught only where a comparison names who could
   assert.equal(told.run.status, 'failed');
   assert.equal(quiet.run.status, 'passed');
 
-  const caught = judgeLeak('a-leak', 'somebody is told something', [7], [told, quiet]);
+  // The cases that pass when nothing leaks. Here every one is taken to.
+  const sound = new Set(['V1-M7-SUP-15', 'V1-M8-SUP-15', 'V1-M7-SUP-16']);
+  const caught = judgeLeak('a-leak', 'somebody is told something', [7], [told, quiet], sound);
   assert.deepEqual(caught, { caughtBy: [{ scenario: 'V1-M7-SUP-15', couldTell: [`seat-${insider}`] }], problems: [] });
   // Asked for with eight players as well, where every case passed: not caught there.
-  assert.deepEqual(judgeLeak('a-leak', 'somebody is told something', [7, 8], [told, quiet]).problems, ['the leak "a-leak" (somebody is told something) was caught by no paired case with 8 players']);
+  assert.deepEqual(judgeLeak('a-leak', 'somebody is told something', [7, 8], [told, quiet], sound).problems, ['the leak "a-leak" (somebody is told something) was caught by no paired case with 8 players']);
+  // A case that does not pass without the leak either says nothing about it, whatever it does with it.
+  const unsound = judgeLeak('a-leak', 'somebody is told something', [7], [told, quiet], new Set(['V1-M8-SUP-15']));
+  assert.deepEqual(unsound.caughtBy, []);
+  assert.deepEqual(unsound.problems, ['with the leak "a-leak", V1-M7-SUP-15 was tried although it does not pass without the leak', 'the leak "a-leak" (somebody is told something) was caught by no paired case with 7 players']);
   // A case that fails for another reason has caught nothing, and says so.
   const thrown = { scenario: told.scenario, run: runScenario(told.scenario, telling({ refuse: `seat-${setup.roleOrder.indexOf('Cracker') + 1}` }), '') };
   assert.match(thrown.run.failure.message, /^the twin run could not be completed/);
-  const other = judgeLeak('a-leak', 'somebody is told something', [7], [thrown]);
+  const other = judgeLeak('a-leak', 'somebody is told something', [7], [thrown], sound);
   assert.deepEqual(other.caughtBy, []);
   assert.equal(other.problems.length, 2);
   assert.match(other.problems[0], /^with the leak "a-leak", V1-M7-SUP-15 did not pass for a reason that is not a comparison: the twin run could not be completed/);
   assert.equal(other.problems[1], 'the leak "a-leak" (somebody is told something) was caught by no paired case with 7 players');
+  // A step in which a comparison and something else fail together has not failed for the leak alone.
+  const mixed = run(at('V1-M7-SUP-15', 7, [tell('@Insider', '@Cracker'), compare(same({ players: ['@Insider'] }), { match: 'round', equals: 2 })]));
+  assert.match(mixed.run.failure.message, /^the twin run does not look the same to: seat-\d; match round: expected 2, observed 1$/);
+  const beside = judgeLeak('a-leak', 'x', [7], [mixed], sound);
+  assert.deepEqual(beside.caughtBy, []);
+  assert.match(beside.problems[0], /did not pass for a reason that is not a comparison/);
+  // Two comparisons failing in one step are one catch, and each audience is named once.
+  const twice = run(at('V1-M7-SUP-15', 7, [tell('@Insider', '@Cracker'), compare(same({ players: ['@Insider'] }), same({ players: ['@Insider', '@Cracker'] }))]));
+  assert.deepEqual(judgeLeak('a-leak', 'x', [7], [twice], sound), { caughtBy: [{ scenario: 'V1-M7-SUP-15', couldTell: [`seat-${insider}`, `seat-${setup.roleOrder.indexOf('Cracker') + 1}`] }], problems: [] });
   // An opposite claim that fails ("looks exactly the same") is a failed case and not a catch.
   const silent = run(at('V1-M7-SUP-16', 7, [tell('@Insider', '@Cracker'), compare(differs('public'))]));
-  assert.match(judgeLeak('a-leak', 'x', [], [silent]).problems[0], /not a comparison: the twin run looks exactly the same to: public$/);
+  assert.match(judgeLeak('a-leak', 'x', [], [silent], sound).problems[0], /not a comparison: the twin run looks exactly the same to: public$/);
   // Tried on nothing, it has shown nothing.
-  assert.deepEqual(judgeLeak('a-leak', 'x', [], []).problems, ['the leak "a-leak" was tried on no paired case']);
+  assert.deepEqual(judgeLeak('a-leak', 'x', [], [], sound).problems, ['the leak "a-leak" was tried on no paired case']);
+
+  // The other way round. A paired case that says two runs look the same has to have failed for some
+  // leak, or it has not been shown to watch anything. A case that only says they differ is not asked.
+  const watching = at('V1-M7-SUP-21', 7, [tell('@Insider', '@Cracker'), { op: 'watch', round: 1, sameAsTwin: { audiences: 'public' } }]);
+  const outcomes = [caught, judgeLeak('another', 'x', [], [quiet], sound)];
+  assert.deepEqual(unexercised([told.scenario, quiet.scenario, silent.scenario, watching], outcomes), ['V1-M8-SUP-15', 'V1-M7-SUP-21']);
+  assert.deepEqual(unexercised([told.scenario, silent.scenario], outcomes), []);
 });
 
 // The report gate and the reviewed exception list. The gate is given reports written from the

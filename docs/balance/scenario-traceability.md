@@ -10,9 +10,9 @@ The three modes are separate files and separate evidence. They are never added t
 
 | File | Mode | Ready | Blocked | Manual | Total |
 | --- | --- | --- | --- | --- | --- |
-| `tests/scenarios/v1/mode-7.scenarios.json` | 7 players | 152 | 11 | 2 | 165 |
-| `tests/scenarios/v1/mode-8.scenarios.json` | 8 players | 158 | 11 | 2 | 171 |
-| `tests/scenarios/v1/mode-9.scenarios.json` | 9 players | 165 | 11 | 2 | 178 |
+| `tests/scenarios/v1/mode-7.scenarios.json` | 7 players | 163 | 11 | 2 | 176 |
+| `tests/scenarios/v1/mode-8.scenarios.json` | 8 players | 169 | 11 | 2 | 182 |
+| `tests/scenarios/v1/mode-9.scenarios.json` | 9 players | 176 | 11 | 2 | 189 |
 | `tests/scenarios/v1/unsupported.scenarios.json` | Configurations the rules do not allow | 8 | 0 | 0 | 8 |
 
 Ready means the expected result is derived from decided rules and can be executed. Blocked means the case waits for an owner decision and asserts nothing. Manual means the evidence must come from the service, the user interface or people, not from an engine run.
@@ -84,21 +84,22 @@ A reading is a DERIVED rule that follows from the approved sources when they are
 | --- | --- | --- | --- |
 | D14 | R-WIN-11 | WIN-06, SHOW-16 | 0, 0, 0 |
 | D21 | R-SETUP-16 | None: see the next table | 0, 0, 0 |
-| D22 | R-SETUP-14 | SETUP-04, DIS-02 (8, 9) | 10, 13, 15 |
-| D23 | R-SETUP-12 | SETUP-03, VIEW-04, VIEW-05, VIEW-06 (8, 9) | 0, 0, 0 |
+| D22 | R-SETUP-14 | SETUP-04, DIS-02 (8, 9) | 13, 16, 18 |
+| D23 | R-SETUP-12 | SETUP-03, VIEW-04, VIEW-05, VIEW-08, VIEW-09, VIEW-06 (8, 9) | 6, 6, 7 |
 | D24 | R-ROLE-17 | DIS-01 | 51, 68, 69 |
 | D25 | R-PROT-08 | PROT-03 | 0, 0, 0 |
 | D26 | R-PROT-07 | SHOW-11 | 0, 0, 0 |
-| D27 | R-VOTE-08, R-SHOW-10 | RESC-08, SHOW-01 | 42, 42, 43 |
+| D27 | R-VOTE-08, R-SHOW-10 | RESC-08, SHOW-01 | 43, 43, 44 |
 | D28 | R-WIN-13 | CODE-09 | 0, 0, 0 |
 | D30 | R-ROLE-18 | SCAN-04, SCAN-05, SCAN-07 | 0, 0, 0 |
 | D31 | R-SHOT-05 | SHOT-01, SHOT-02, SHOT-06, SHOT-08, SUP-01, OFF-01 (9), OFF-03 (9) | 0, 0, 0 |
 | D32 | R-CAPT-15 | CAPT-11, CAPT-12, CAPT-13 | 0, 0, 0 |
 | D33 | R-MOVE-09 | MOVE-03 | 5, 5, 5 |
-| D36 | R-VIEW-07 | PROT-06, SUP-01, SUP-15, SUP-20, SUP-21, SCAN-06, HACK-05, CODE-10, VOTE-05, SHOW-03, VIEW-01 | 0, 0, 0 |
+| D36 | R-VIEW-07 | PROT-09, PROT-06, SUP-01, SUP-15, SUP-20, SUP-21, SUP-29, SCAN-08, SCAN-06, HACK-05, CODE-10, CODE-12, CODE-13, VOTE-05, SHOW-03, VIEW-01 | 0, 0, 0 |
 | D37 | R-FLOW-13 | CAPT-10, REL-02, REL-05, REL-06, REL-07 | 2, 2, 2 |
 | D38 | R-VOTE-10 | REL-01, REL-04, REL-06 | 0, 0, 0 |
 | D39 | R-ROLE-20 | SUP-11, SUP-13, SUP-16, SUP-25, SUP-12 (8, 9), SUP-24 (8, 9), SUP-14 (9) | 0, 0, 0 |
+| D40 | R-ROLE-21 | SUP-15, SUP-20, SUP-17, SUP-26, SUP-21, SUP-28, SUP-22, SUP-27, SUP-29, SUP-23 (9) | 0, 0, 0 |
 
 ## Rules that no ready scenario exercises
 
@@ -120,4 +121,4 @@ Every other rule of the rulebook that is not OPEN is cited by at least one ready
 
 ## Cases with no counterpart in the earlier matrix
 
-SETUP-03, SETUP-04, SETUP-06, FLOW-05, FLOW-06, FLOW-07, FLOW-08, FLOW-09, MOVE-05, CAPT-08, CAPT-11, CAPT-12, CAPT-13, SHOT-08, DIS-01, DIS-04, DIS-05, PROT-05, SUP-02, SUP-03, SUP-04, SUP-06, SUP-07, SUP-08, SUP-09, SUP-11, SUP-13, SUP-15, SUP-20, SUP-16, SUP-17, SUP-25, SUP-21, SUP-22, HACK-06, CODE-11, REL-07, FLOW-10, WIN-06, WIN-08, WIN-09, SHOW-15, VIEW-03, VIEW-04, VIEW-05, VIEW-07, OPS-03, SUP-05 (8, 9), SUP-12 (8, 9), SUP-24 (8, 9), VIEW-06 (8, 9).
+SETUP-03, SETUP-04, SETUP-06, FLOW-05, FLOW-06, FLOW-07, FLOW-08, FLOW-09, MOVE-05, CAPT-08, CAPT-11, CAPT-12, CAPT-13, SHOT-08, DIS-01, DIS-04, DIS-05, PROT-05, PROT-09, SUP-02, SUP-03, SUP-04, SUP-06, SUP-07, SUP-08, SUP-09, SUP-11, SUP-13, SUP-15, SUP-20, SUP-16, SUP-17, SUP-26, SUP-25, SUP-21, SUP-28, SUP-22, SUP-27, SUP-29, SCAN-08, HACK-06, CODE-11, CODE-12, CODE-13, REL-07, FLOW-10, WIN-06, WIN-08, WIN-09, SHOW-15, VIEW-03, VIEW-04, VIEW-05, VIEW-08, VIEW-09, VIEW-10, VIEW-07, OPS-03, SUP-05 (8, 9), SUP-12 (8, 9), SUP-24 (8, 9), VIEW-06 (8, 9).

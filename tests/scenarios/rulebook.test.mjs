@@ -73,7 +73,7 @@ test('every owner decision the rulebook cites is in the owner-decision file', t 
 
 test('the decision register is complete and consistent with rule statuses', () => {
   assert.deepEqual(register.issues, []);
-  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 39 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
+  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 40 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
   for (const entry of rulebook.entries) {
     for (const ref of entry.refs.filter(item => item.kind === 'decision')) {
       const decision = decisions.get(ref.key);

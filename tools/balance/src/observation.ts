@@ -121,7 +121,10 @@ export interface Observation {
   // `also` holds whatever else an audience can read besides its view, such as a read of its own
   // acknowledgments. An engine with no such read leaves it out. Every comparison of what an
   // audience can see covers both, so that a new read is watched from the day it is bound.
-  raw: { public: unknown; players: Record<SeatId, unknown>; also?: { public?: unknown; players?: Record<SeatId, unknown> } };
+  // `receipts` holds, for each player, the receipts of the commands that player has sent, in
+  // order, as the engine returned them. They are an answer to the sender and not part of anyone's
+  // view, so the view invariants leave them alone; a comparison of two runs includes them.
+  raw: { public: unknown; players: Record<SeatId, unknown>; also?: { public?: unknown; players?: Record<SeatId, unknown> }; receipts?: Record<SeatId, unknown[]> };
   revisions: { public: number; players: Record<SeatId, number> };
 }
 
@@ -153,11 +156,22 @@ export interface EngineAdapter {
   createMatch(setup: ScenarioSetup, matchId: string): EngineMatch;
 }
 
-/** Everything one audience can read, as one comparable text: its view and any further read. */
+/** What one audience can read of the match, as one comparable text: its view and any further read. */
 export function payloadOf(observation: Observation, audience: 'public' | SeatId): string {
   const view = audience === 'public' ? observation.raw.public : observation.raw.players[audience];
   const also = audience === 'public' ? observation.raw.also?.public : observation.raw.also?.players?.[audience];
   return canonicalJson(also === undefined ? view : { view, also });
+}
+
+/**
+ * Everything one audience has been given, as one comparable text: what `payloadOf` covers, and
+ * for a player the receipts of their own commands. Two runs are compared by this, so that a
+ * receipt which says more than "registered" is noticed like anything else.
+ */
+export function readableOf(observation: Observation, audience: 'public' | SeatId): string {
+  const state = payloadOf(observation, audience);
+  const receipts = audience === 'public' ? undefined : observation.raw.receipts?.[audience];
+  return receipts === undefined || receipts.length === 0 ? state : canonicalJson({ state, receipts });
 }
 
 export function truthSeat(observation: Observation, seat: SeatId): TruthSeat {

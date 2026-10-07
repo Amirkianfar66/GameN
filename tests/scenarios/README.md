@@ -41,6 +41,7 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | Step | Meaning |
 | --- | --- |
 | `until` | Let phases expire, with no input, until the round, phase and active player match |
+| `watch` | In a paired case: as `until`, comparing the two runs in the phase it starts in and in every phase on the way, the checkpoint included |
 | `expire` | Close the current phase at its deadline |
 | `expireEarly` | Ask to close a vote before its deadline; the engine must refuse |
 | `command` | One player sends one command; `expect` is `REGISTERED`, `NOT_ALLOWED`, `PHASE_CLOSED` or `REFUSED`. With `twin`, the command sent in its place in the twin run of a paired case |
@@ -54,7 +55,15 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 
 A paired case is run twice. The second run, its twin, differs in one declared respect: a `command` step has a `twin` command, or `"twin": null` so that the twin run sends nothing there, or the scenario has a twin setup: `"twin": { "swapRoles": [roleA, roleB] }`, in which the two players change roles, or `"twin": { "codeExtras": [seat, seat, seat] }`, in which the Code has those three numbers beside Alien's. At an `assert` step the case then says to whom the two runs must look the same (`sameAsTwin`) and to whom they must look different (`differsFromTwin`).
 
-"Look the same" covers everything an audience can read: its view, its revision number, and any further read the binding carries beside the view. So a paired case checks a secret without knowing where an engine keeps it. If two matches that differ only in whom Supplier armed look the same to a player, that player cannot learn it; if they look the same to Supplier, Supplier has been told nothing. The players who change roles in a twin setup are different people in the two runs and must be left out of the comparison. With a twin Code, Alien knows the difference and must be left out of every claim that the two runs look the same. The check refuses a case that forgets either.
+"Look the same" covers everything an audience has been given: its view, its revision number, any further read the binding carries beside the view, and for a player the receipts of their own commands. So a paired case checks a secret without knowing where an engine keeps it. If two matches that differ only in whom Supplier armed look the same to a player, that player cannot learn it; if they look the same to Supplier, Supplier has been told nothing.
+
+An `assert` compares at one moment and a `watch` at every phase of a span. Prefer the watch: a comparison at the start of each round finds what is told by then and still shown, and steps over what is shown during one vote or from one player's turn.
+
+Three things keep a comparison honest, and the runner or the check enforces each:
+
+- **Who is left out.** The players who change roles in a twin setup are different people in the two runs and must be left out. With a twin Code, Alien knows the difference and must be left out of every claim that the two runs look the same. A player to whom the rules give knowledge of a swapped role has to be left out by the author: the check cannot know the rules.
+- **The same moment.** The two runs are compared only where both are in the same phase. A step that waits for the turn of a player who sits elsewhere in the twin run leaves them at different turns, and a comparison there fails and says so; run on to a moment that does not depend on the swap first.
+- **A comparison that could fail.** The check refuses one that names nobody, names a seat that is not in the match, stands before the two runs differ, or follows a twin command that is the command itself.
 
 **The stand-in.** Seventeen fixtures ask that Supplier is told whom they armed. No engine does that yet (finding G17 of the integration review of 7 October), so those cases fail everywhere, and a case that fails has no negative controls. `support/disclosing.mjs` is a stand-in that adds the missing disclosure on top of a real engine, read from the engine's own truth. It holds no rule.
 
@@ -63,7 +72,7 @@ npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/buil
 npm run controls --workspace @mothership/balance -- --engine-root /path/to/built/checkout --stand-in supply-disclosure
 ```
 
-The first shows that every ready case can pass. The second shows that every expectation of those cases is detected when it is made wrong, and then makes the stand-in leak in twelve ways that a private read could go wrong, and requires a paired case to catch each, with every number of players for which the leak tells anybody anything. Neither is evidence about an engine: each run says so, its report names the stand-in as its adapter, and the report gate refuses it.
+The first shows that every ready case can pass. The second shows that every expectation of those cases is detected when it is made wrong, and then makes the stand-in leak in twenty-seven ways that a private read or a receipt could go wrong, and requires a comparison to catch each, with every number of players for which the leak tells anybody anything. A leak counts as caught only where a comparison names who could tell; and every paired case that says two runs look the same must have failed for at least one leak. Neither is evidence about an engine: each run says so, its report names the stand-in as its adapter, and the report gate refuses it.
 
 ## Statuses
 

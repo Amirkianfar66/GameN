@@ -105,13 +105,15 @@ function createAdapter(engine) {
   return {
     pins,
     createMatch(setup, matchId) {
-      // Identifiers count what they name and nothing else: a phase identifier counts phases, a
-      // command identifier counts commands. In a paired case the two runs may send different
-      // numbers of commands, or the same commands at different moments. An identifier that counted
-      // both would then differ between the runs for a reason that is the harness's own, and the
-      // phase identifier is in every view.
+      // Identifiers count what they name and nothing else: a phase identifier counts phases, and a
+      // command identifier counts the commands of the player who sent it. In a paired case the two
+      // runs may send different numbers of commands, or the same commands at different moments. An
+      // identifier that counted more would then differ between the runs for a reason that is the
+      // harness's own: the phase identifier is in every view, and a player's own view lists the
+      // identifiers of their pending commands.
       let phases = 0;
-      let commands = 0;
+      const sent = new Map();   // seat -> how many commands that player has sent
+      const receipts = {};      // seat -> the receipts of those commands, as the engine returned them
       const context = now => ({ now, nextPhaseId: `phase-${phases + 1}`, nextDeadlineToken: `deadline-${phases + 1}` });
       // The offered identifier was used if the engine opened a phase with it.
       const settle = () => { if (state.phase.id === `phase-${phases + 1}`) phases += 1; };
@@ -147,13 +149,15 @@ function createAdapter(engine) {
             },
             publicView: publicFacts(views.public),
             playerViews: Object.fromEntries(Object.entries(views.players).map(([seat, view]) => [seat, playerFacts(view)])),
-            raw: { public: views.public, players: views.players },
+            // A receipt is read by the player who sent the command and by nobody else.
+            raw: { public: views.public, players: views.players, receipts: structuredClone(receipts) },
             revisions: { public: state.viewRevisions.public, players: { ...state.viewRevisions.players } },
           };
         },
         command(actor, command, atMs) {
+          sent.set(actor, (sent.get(actor) ?? 0) + 1);
           const request = {
-            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${++commands}`,
+            protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, commandId: `command-${actor}-${sent.get(actor)}`,
             command: wireCommand(command),
           };
           let result;
@@ -166,6 +170,7 @@ function createAdapter(engine) {
           }
           state = result.state;
           settle();
+          (receipts[actor] ??= []).push(result.receipt);
           return result.receipt.status === 'accepted' ? 'REGISTERED' : result.receipt.code;
         },
         advance(atMs) {
