@@ -289,6 +289,7 @@ The integration review of 7 October names two shared contracts that are still to
 - Backend's handoff of 7 October, `docs/backend/v1-adoption-and-acceptance-2026-10-07.md` at `a265c39ba81be4805900e5c66c0f5c8e39ee5c64` (PR [#55](https://github.com/Amirkianfar66/GameN/pull/55)), which proposes the fix for G17.
 - Frontend's records of the gaps it met, `docs/frontend/connected-knowledge-actions.md` and `connected-voting.md` at `c8856242caea349b620345349f6b59c7a87b6d7f` (PR [#53](https://github.com/Amirkianfar66/GameN/pull/53)).
 - Designer's record of the owner's decisions, `docs/design/owner-decisions.md` at `4fa2ff3db5edff97feefa7bc12b7f2b627275c34` (PR [#57](https://github.com/Amirkianfar66/GameN/pull/57)).
+- Designer's adoption of the approved direction, opened while this part was being written: the proposed crew catalog `design/contract/crew-catalog.json` and the proposed role-card text `design/contract/copy.en.proposed.json` at `ecbc0d703fa5e8b6b576e0b9eff6dc972761d3ea` (PR [#59](https://github.com/Amirkianfar66/GameN/pull/59), a draft). Read, not run.
 - The engine of the hosted branch at `c8856242`, against the scenario catalogue with its new cases. The evidence report of 7 October on Supplier's disclosure has the runs.
 
 ### Supplier's result (G17)
@@ -300,7 +301,7 @@ Backend proposes a durable record of the successful grants, made when Round 3 re
 | # | Required of the contract | Rule | Checked by |
 | --- | --- | --- | --- |
 | 1 | When the Supplier stage has resolved, Supplier is told exactly which of the players they named were given a weapon: nobody before that stage, and not a player who was already Eliminated at it | R-ROLE-20, R-ACT-06; the moment is reading D39 | `SUP-11`, `SUP-12`, `SUP-14` |
-| 2 | Supplier is told whatever has happened to them since they registered: Injured, Jailed or Eliminated. V1-16 makes no exception, and the weapons are given all the same | R-ROLE-20, R-ACT-05 | `SUP-13`, `SUP-19`, `SUP-18`; for the weapons also `SUP-10` |
+| 2 | Supplier is told whatever has happened to them since they registered: Injured, Jailed or Eliminated. V1-16 makes no exception, and the weapons are given all the same | R-ROLE-20, R-ACT-05 | `SUP-13`, `SUP-25`, `SUP-24`. That the weapons are given all the same is held apart, by cases that pass today: `SUP-10`, `SUP-19`, `SUP-18` |
 | 3 | What a recipient is told is that they hold a weapon, and nothing more. **It must not carry the seat that armed them**, at once or later: that tells another player who Supplier is. It must not carry the other recipient, whichever of the two was named first | R-ROLE-21, R-SETUP-05 | `SUP-17`; `SUP-15`, `SUP-20` |
 | 4 | Supplier is told that a player was armed and nothing about that player: not their team, and not whether the weapon is of use to them, which would give away an Officer who has fired | R-ROLE-21, R-ROLE-07 | `SUP-22`, `SUP-23` |
 | 5 | Nothing that the table or any other player can read changes with whom Supplier armed, or with whether Supplier armed anyone: no marker, no count, no flag, no revision number. That holds when the choice is registered and when it resolves | R-ROLE-08, R-ROLE-21, R-VIEW-07 | `SUP-15`, `SUP-20`, `SUP-21`; INV-VIEW-03 on every accepted command |
@@ -338,6 +339,27 @@ Two cautions that Designer put on record for a reviewer and for Balance to weigh
 - **A private card can be seen over a shoulder, and the role device is large and carries the team color.** The rules already put secrets on the player's own phone. The risk is physical, and the protocol now has the facilitator record how the table sat and any time a screen was seen.
 
 The rulebook has no row for names and characters yet. It says that each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06), which the approved direction replaces with a character piece. Balance will add the row when Integration has entered the owner's decision in a decision record that the rulebook can cite; the review says how that record is to be made, and it is not Balance's to make.
+
+Designer's proposed catalog, `crew-0.1.0` in PR #59, states the same conditions from its side: a character is chosen before roles are dealt, is tied to no role, team, seat number or starting room, and is fixed when the match starts; a name is text a person typed. Balance read it and found nothing in it that a condition above forbids. One of its rules is new to this list and touches condition 2: a character that another seat holds is refused by the server. That is before any role exists, so it cannot follow one, and the cases will show it if a later change makes it do so.
+
+### The role cards of the approved direction
+
+The same PR proposes the text of all nine role cards and says that only a reader of the rules can tell whether they state the rules correctly. Balance read them against the rulebook at revision 4. This is a reading of nine short texts and not an approval, and the cards are Designer's and Frontend's to word.
+
+**No card states something that a rule contradicts.** The team, the resources and the limits are right on all nine. Three remarks on what is there:
+
+| Card | Its text | Against the rules |
+| --- | --- | --- |
+| Blue Disabler, Red Disabler | "choose a player in your location" | A Disabler names another player (R-ACT-04, from V1-13). The sentence can be read as allowing oneself; "another player" would settle it. The card's own note knows the decision, and its branch does not hold that file yet |
+| Supplier | "Each receives one ordinary weapon, usable in Round 4 or 5" | True of every recipient who is still in the match when Round 3 resolves, and of use to every one of them except an Officer who has fired (R-ACT-06, R-ROLE-11). Fair as a summary. When the fix for G17 exists the card can add what Supplier is then told, and should promise no more than R-ROLE-20 does |
+| Hacker | "In Round 5 you have one Code attempt: four players, in any order" | Right. The card promises no word on whether the attempt was right, and should not come to promise one (R-WIN-06, `CODE-11`) |
+
+Left out, and worth a line where there is room, because each changes how the role is played:
+
+- A Disabler may be used from Round 1; only ordinary weapons wait for Round 4 (R-ROLE-17, which rests on reading D24).
+- Hacker's Code attempt may be made at any moment of Round 5, also when Injured or in Jail (R-ROLE-15).
+- An Injured Cracker may still Rescue themself (R-ROLE-03).
+- Alien adds one to Blue's Power while Healthy (R-ROLE-16).
 
 ### Three related gaps, for the record
 

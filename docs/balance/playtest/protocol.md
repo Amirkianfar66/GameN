@@ -41,6 +41,7 @@ Gaps the reviews have recorded, and what the facilitator does about each. Write 
 | G18, G14 | After a Code attempt, and after the Captain's release choice, the phone no longer says what was entered | Logs it if a player is unsure what they did. Does not look at the phone |
 | G15 | The last vote count stays on screen in later rounds without saying which round it is from | Logs it if the table reads an old count as a new one |
 | G20, G22 | Moving a seat to another device needs a long code read out by the host. A host who loses their own device cannot hand the match on | Plans for it: one spare charged device, and the host's device on power. If the host's device is lost the match is aborted and recorded |
+| Named in the review, without a number | A device whose seat was moved to another one goes on saying that it is connecting, and the lobby can show a connecting line that is out of date | Has the player put the old device away. Logs it only if somebody at the table took it for a fault of the match |
 
 The approved look of the game, the comic board with character pieces, is not connected to this build. A session on the preview says nothing about it.
 

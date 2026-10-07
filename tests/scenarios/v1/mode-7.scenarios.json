@@ -7,7 +7,7 @@
   "optionalPowers": false,
   "generatedFrom": "tests/scenarios/v1/catalog.mjs",
   "execution": "Declarative fixtures. Results of actual runs are in docs/balance/evidence/. A fixture is not a result.",
-  "counts": {"total":164,"ready":151,"blocked":11,"manual":2},
+  "counts": {"total":165,"ready":152,"blocked":11,"manual":2},
   "setups": {
     "v1-A-1": {
       "seed": "v1-A-1",
@@ -1800,12 +1800,12 @@
     },
     {
       "id": "V1-M7-SUP-19",
-      "title": "A Supplier voted into Jail in Round 3 after registering still arms both recipients, and is still shown them",
+      "title": "A Supplier voted into Jail in Round 3 after registering still arms both recipients",
       "status": "ready",
       "kind": "rules_correctness",
-      "areas": ["resolution-order","voting","authorized-views"],
-      "ruleRefs": ["R-ACT-05","R-ROLE-20","R-RES-01"],
-      "dependsOn": ["R-ROLE-07","R-SETUP-13","R-SETUP-14","R-VOTE-02","R-VOTE-03","R-VOTE-08"],
+      "areas": ["resolution-order","voting","resources"],
+      "ruleRefs": ["R-ACT-05","R-ROLE-07","R-RES-01"],
+      "dependsOn": ["R-SETUP-13","R-SETUP-14","R-VOTE-02","R-VOTE-03","R-VOTE-08"],
       "lineage": ["BAL-007"],
       "decisionIds": [],
       "setup": "v1-A-1",
@@ -1819,7 +1819,31 @@
         {"op":"command","actor":"@Blue Disabler","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
         {"op":"command","actor":"@Supplier","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
         {"op":"until","round":4},
-        {"op":"assert","checks":[{"truth":"@Supplier","field":"jailed","equals":true},{"truth":"@Insider","field":"ordinaryWeapons","equals":1},{"truth":"@Cracker","field":"ordinaryWeapons","equals":1},{"visible":"@Supplier","field":"armedBySupply","sameSet":["@Insider","@Cracker"]}]}
+        {"op":"assert","checks":[{"truth":"@Supplier","field":"jailed","equals":true},{"truth":"@Insider","field":"ordinaryWeapons","equals":1},{"truth":"@Cracker","field":"ordinaryWeapons","equals":1},{"count":"ordinaryWeapons","equals":3}]}
+      ]
+    },
+    {
+      "id": "V1-M7-SUP-25",
+      "title": "A Supplier voted into Jail in Round 3 after registering is still shown whom they armed",
+      "status": "ready",
+      "kind": "privacy",
+      "areas": ["authorized-views","resolution-order","voting"],
+      "ruleRefs": ["R-ROLE-20","R-ACT-05"],
+      "dependsOn": ["R-RES-01","R-ROLE-07","R-VOTE-02","R-VOTE-03","R-VOTE-08"],
+      "lineage": [],
+      "decisionIds": [],
+      "setup": "v1-A-1",
+      "note": "",
+      "steps": [
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Supplier"},
+        {"op":"command","actor":"@Supplier","command":{"type":"SUPPLY","targets":["@Insider","@Cracker"]},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"JAIL_VOTE"},
+        {"op":"command","actor":"@Insider","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Cracker","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Supplier","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":4},
+        {"op":"assert","checks":[{"truth":"@Supplier","field":"jailed","equals":true},{"visible":"@Supplier","field":"armedBySupply","sameSet":["@Insider","@Cracker"]}]}
       ]
     },
     {

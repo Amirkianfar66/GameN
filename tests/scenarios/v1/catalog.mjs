@@ -774,18 +774,29 @@ function build(mode) {
       ...M.byTurn(A, 4, ['Insider', 'Cracker']).flatMap(role => [turn(4, role), check(sameAsTwin(everyoneBut('Supplier', 'Blue Disabler')))]),
       startOf(5), check(sameAsTwin(everyoneBut('Supplier', 'Blue Disabler')))],
   });
+  // What happens to Supplier after registering changes neither the weapons nor what Supplier is
+  // told. The two are separate cases: the weapons are given by every current engine, and a case
+  // that also asked for the disclosure would fail for G17 and hide a fault in the other half.
+  const eliminated = { Supplier: [cmd('Supplier', supply('Insider', 'Cracker'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Supplier'))], 'Red Disabler': [cmd('Red Disabler', disable('Supplier'))] };
+  const jailed = [turn(3, 'Supplier'), cmd('Supplier', supply('Insider', 'Cracker')), ...jail(3, 'Supplier'), startOf(4)];
+  const bothArmed = [truth('Insider', 'ordinaryWeapons', 1), truth('Cracker', 'ordinaryWeapons', 1), count('ordinaryWeapons', startingWeapons + 2)];
   if (M.has('Red Disabler')) {
-    add('SUP', 18, 'A Supplier eliminated in Round 3 after registering still arms both recipients, and is still shown them', {
-      areas: ['resolution-order', 'elimination', 'resources', 'authorized-views'], rules: ['R-ACT-05', 'R-ROLE-07', 'R-ROLE-20', 'R-RES-01'], lineage: ['BAL-007'],
-      steps: [...acts(3, { Supplier: [cmd('Supplier', supply('Insider', 'Cracker'))], 'Blue Disabler': [cmd('Blue Disabler', disable('Supplier'))], 'Red Disabler': [cmd('Red Disabler', disable('Supplier'))] }), startOf(4),
-        check(truth('Supplier', 'health', 'Eliminated'), truth('Insider', 'ordinaryWeapons', 1), truth('Cracker', 'ordinaryWeapons', 1), count('ordinaryWeapons', startingWeapons + 2),
-          seesSet('Supplier', 'armedBySupply', ['Insider', 'Cracker']))],
+    add('SUP', 18, 'A Supplier eliminated in Round 3 after registering still arms both recipients', {
+      areas: ['resolution-order', 'elimination', 'resources'], rules: ['R-ACT-05', 'R-ROLE-07', 'R-RES-01'], lineage: ['BAL-007'],
+      steps: [...acts(3, eliminated), startOf(4), check(truth('Supplier', 'health', 'Eliminated'), ...bothArmed)],
+    });
+    add('SUP', 24, 'A Supplier eliminated in Round 3 after registering is still shown whom they armed', {
+      areas: ['authorized-views', 'resolution-order', 'elimination'], rules: ['R-ROLE-20', 'R-ACT-05'], lineage: [], kind: 'privacy',
+      steps: [...acts(3, eliminated), startOf(4), check(truth('Supplier', 'health', 'Eliminated'), seesSet('Supplier', 'armedBySupply', ['Insider', 'Cracker']))],
     });
   }
-  add('SUP', 19, 'A Supplier voted into Jail in Round 3 after registering still arms both recipients, and is still shown them', {
-    areas: ['resolution-order', 'voting', 'authorized-views'], rules: ['R-ACT-05', 'R-ROLE-20', 'R-RES-01'], lineage: ['BAL-007'],
-    steps: [turn(3, 'Supplier'), cmd('Supplier', supply('Insider', 'Cracker')), ...jail(3, 'Supplier'), startOf(4),
-      check(truth('Supplier', 'jailed', true), truth('Insider', 'ordinaryWeapons', 1), truth('Cracker', 'ordinaryWeapons', 1), seesSet('Supplier', 'armedBySupply', ['Insider', 'Cracker']))],
+  add('SUP', 19, 'A Supplier voted into Jail in Round 3 after registering still arms both recipients', {
+    areas: ['resolution-order', 'voting', 'resources'], rules: ['R-ACT-05', 'R-ROLE-07', 'R-RES-01'], lineage: ['BAL-007'],
+    steps: [...jailed, check(truth('Supplier', 'jailed', true), ...bothArmed)],
+  });
+  add('SUP', 25, 'A Supplier voted into Jail in Round 3 after registering is still shown whom they armed', {
+    areas: ['authorized-views', 'resolution-order', 'voting'], rules: ['R-ROLE-20', 'R-ACT-05'], lineage: [], kind: 'privacy',
+    steps: [...jailed, check(truth('Supplier', 'jailed', true), seesSet('Supplier', 'armedBySupply', ['Insider', 'Cracker']))],
   });
   add('SUP', 21, 'Nobody but Supplier and the two recipients can tell that weapons were given at all', {
     areas: ['authorized-views'], rules: ['R-ROLE-08', 'R-ROLE-21', 'R-VIEW-07'], lineage: [], kind: 'privacy',
