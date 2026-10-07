@@ -6,9 +6,9 @@ import {
   FullCreateMatchRequestSchema, FullAdmissionRequestSchema, FullApproveAdmissionRequestSchema, FullAdmitDisplayRequestSchema,
   FullStartMatchRequestSchema, FullAbortMatchRequestSchema, FullIssueSeatRecoveryRequestSchema, FullRedeemSeatRecoveryRequestSchema,
   FullLookupRequestSchema, FullAdvanceRequestSchema, FullServerTimeRequestSchema, FullOperationResponseSchema, FullLobbyViewSchema,
-  FullAssetManifestVersionSchema,
+  FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema,
 } from '@mothership/contracts';
-import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId } from '@mothership/contracts';
+import type { FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH } from '@mothership/engine';
 import type { FullGameSetup, FullGameState } from '@mothership/engine';
 
@@ -166,6 +166,11 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     return FullLobbyViewSchema.parse({ protocolVersion: 2, matchId: base.id, playerCount: control.playerCount, status: control.status,
       seats: bindings.map(doc => ({ seatId: doc.id, initialRoom: doc.get('initialRoom') as Room })).sort((a, b) => a.seatId.localeCompare(b.seatId)) });
   }
+  function identityDocument(matchId: string, bindings: QueryDocumentSnapshot[] = []): FullLobbyIdentityDocument {
+    return FullLobbyIdentityDocumentSchema.parse({ schemaVersion: 1, protocolVersion: 2, catalogVersion: 'crew-0.1.0',
+      matchId, revision: 0, locked: false,
+      seats: bindings.map(binding => ({ seatId: binding.id, displayName: null, characterId: null })).sort((a, b) => a.seatId.localeCompare(b.seatId)) });
+  }
   function deadline(state: FullGameState): OutboxRecord | null {
     if (state.phase.endsAt === null || state.deadlineToken === null) return null;
     return { protocolVersion: 2, matchId: state.matchId, phaseId: state.phase.id, deadlineToken: state.deadlineToken,
@@ -226,6 +231,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         tx.create(codeRef, { matchId }); tx.create(base.collection('control').doc('session'), control);
         tx.create(base.collection('members').doc(uid), { kind: 'display' });
         tx.create(base.collection('lobby').doc('public'), lobby(base, control, []));
+        tx.create(base.collection('identities').doc('public'), identityDocument(base.id));
       } };
     });
   }
@@ -259,6 +265,11 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const bindingRef = base.collection('seats').doc(seatId), binding = await tx.get(bindingRef);
       const bindings = await tx.get(base.collection('seats'));
       if (binding.exists || existing.get('kind') === 'player') return failure('FORBIDDEN');
+      const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
+      const currentIdentity = identitySnapshot.exists ? FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data()) : identityDocument(base.id, bindings.docs);
+      if (currentIdentity.matchId !== base.id || currentIdentity.locked || currentIdentity.seats.length !== bindings.size) return failure('UNAVAILABLE');
+      const nextIdentity = FullLobbyIdentityDocumentSchema.parse({ ...currentIdentity, revision: currentIdentity.revision + 1,
+        seats: [...currentIdentity.seats, { seatId, displayName: null, characterId: null }].sort((a, b) => a.seatId.localeCompare(b.seatId)) });
       const initialRoom = admission.get('initialRoom') as Room;
       const nextLobby = lobby(base, control, bindings.docs); nextLobby.seats.push({ seatId, initialRoom });
       FullLobbyViewSchema.parse(nextLobby);
@@ -267,9 +278,64 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         tx.set(memberRef, { kind: 'player', seatId, bindingRevision: 1 });
         tx.update(admissionRef, { status: 'approved', seatId });
         tx.set(base.collection('lobby').doc('public'), nextLobby);
+        tx.set(identityRef, nextIdentity);
       } };
     });
   }
+  async function setLobbyIdentity(uid: string, payload: unknown): Promise<FullSetLobbyIdentityResponse> {
+    const fail = (code: Extract<FullSetLobbyIdentityResponse, { ok: false }>['error']['code'], retryAfterMs?: number): FullSetLobbyIdentityResponse =>
+      FullSetLobbyIdentityResponseSchema.parse({ schemaVersion: 1, protocolVersion: 2, ok: false, serverTimeMs: clock(),
+        error: { code, ...(retryAfterMs === undefined ? {} : { retryAfterMs }) } });
+    if (!uidSafe(uid)) return fail('UNAUTHENTICATED');
+    if (payload !== null && typeof payload === 'object') {
+      if ('protocolVersion' in payload && typeof payload.protocolVersion === 'number' && payload.protocolVersion !== 2) return fail('UNSUPPORTED_PROTOCOL');
+      if ('schemaVersion' in payload && typeof payload.schemaVersion === 'number' && payload.schemaVersion !== 1) return fail('UNSUPPORTED_SCHEMA');
+    }
+    const parsed = FullSetLobbyIdentityRequestSchema.safeParse(payload);
+    if (!parsed.success) return fail('INVALID_REQUEST');
+    const body = parsed.data, base = db.collection('matches').doc(body.matchId);
+    const receiptRef = db.collection('lobbyIdentityOperations').doc(hash([uid, body.requestId]));
+    const fingerprint = digest(body);
+    try {
+      return await db.runTransaction(async tx => {
+        // Authorization precedes receipt replay: a displaced identity cannot recover an old acknowledgment.
+        const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
+        const actor = await activePlayer(tx, base, uid);
+        if (control?.protocolVersion !== 2 || actor === null) return fail('FORBIDDEN');
+        const receipt = await tx.get(receiptRef);
+        if (receipt.exists) {
+          if (receipt.get('digest') !== fingerprint || receipt.get('seatId') !== actor.seatId) return fail('REQUEST_ID_CONFLICT');
+          return FullSetLobbyIdentityResponseSchema.parse({ ...receipt.get('response'), serverTimeMs: clock() });
+        }
+        const now = clock(), budget = await limit(tx, uid, 'setLobbyIdentity', now);
+        if (!budget.allowed) return fail('RATE_LIMITED', budget.retryAfterMs);
+        const identityRef = base.collection('identities').doc('public');
+        const snapshot = await tx.get(identityRef);
+        const bindings = await tx.get(base.collection('seats'));
+        const current = snapshot.exists ? FullLobbyIdentityDocumentSchema.parse(snapshot.data())
+          : identityDocument(base.id, bindings.docs);
+        if (current.matchId !== base.id) throw new Error('Invalid identity context');
+        const identity = current.seats.find(entry => entry.seatId === actor.seatId);
+        if (identity === undefined || current.seats.length !== bindings.size) throw new Error('Invalid identity roster');
+        let response: FullSetLobbyIdentityResponse;
+        let next: FullLobbyIdentityDocument | undefined;
+        if (control.status !== 'lobby' || current.locked) response = fail('IDENTITY_LOCKED');
+        else if (current.seats.some(entry => entry.seatId !== actor.seatId && entry.characterId === body.characterId)) response = fail('CHARACTER_TAKEN');
+        else {
+          const changed = identity.displayName !== body.displayName || identity.characterId !== body.characterId;
+          next = changed ? FullLobbyIdentityDocumentSchema.parse({ ...current, revision: current.revision + 1,
+            seats: current.seats.map(entry => entry.seatId === actor.seatId ? { seatId: entry.seatId, displayName: body.displayName, characterId: body.characterId } : entry) }) : current;
+          response = FullSetLobbyIdentityResponseSchema.parse({ schemaVersion: 1, protocolVersion: 2, ok: true, serverTimeMs: now, revision: next.revision });
+        }
+        tx.set(budget.ref, budget.data);
+        if (next !== undefined && (!snapshot.exists || next !== current)) tx.set(identityRef, next);
+        // Authorized taken/locked outcomes are durable, too. A new intent needs a new request ID.
+        tx.create(receiptRef, { verifiedUid: uid, seatId: actor.seatId, matchId: base.id, digest: fingerprint, response, evaluatedAt: now });
+        return response;
+      });
+    } catch { return fail('UNAVAILABLE'); }
+  }
+
   async function admitDisplay(uid: string, payload: unknown): Promise<OperationResult> {
     const body = envelope(uid, payload, FullAdmitDisplayRequestSchema);
     if (isFailure(body)) return body;
@@ -302,11 +368,16 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const member = entry.data(), binding = bindings.docs[index]!;
         return !memberPlayer(member) || member.seatId !== binding.id || member.bindingRevision !== binding.get('bindingRevision');
       })) return failure('FORBIDDEN');
+      const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
+      const currentIdentity = identitySnapshot.exists ? FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data()) : null;
+      if (currentIdentity !== null && (currentIdentity.matchId !== base.id || currentIdentity.locked
+        || currentIdentity.seats.length !== bindings.size || !bindings.docs.every(binding => currentIdentity.seats.some(entry => entry.seatId === binding.id)))) return failure('UNAVAILABLE');
       const initialRooms: Record<string, Room> = Object.fromEntries(bindings.docs.map(doc => [doc.id, doc.get('initialRoom') as Room]));
       const setup: FullGameSetup = { ...setupFacts, initialRooms };
       const state = { ...createFullGame({ matchId: base.id, setup, now, phaseId, deadlineToken: token, assetManifestVersion }), journalSequence: 1 };
       return { response: success(now, { started: true, matchId: base.id }), write: () => {
         tx.update(controlRef, { status: 'running' });
+        if (currentIdentity !== null) tx.set(identityRef, FullLobbyIdentityDocumentSchema.parse({ ...currentIdentity, revision: currentIdentity.revision + 1, locked: true }));
         tx.set(base.collection('lobby').doc('public'), lobby(base, { ...control, status: 'running' }, bindings.docs));
         writeGame(tx, null, state, bindings.docs, eventId);
         tx.create(base.collection('events').doc(eventId), { journalVersion: 1, sequence: 1, kind: 'SETUP', now, phaseId, deadlineToken: token,
@@ -420,11 +491,15 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const controlRef = base.collection('control').doc('session'), control = (await tx.get(controlRef)).data() as Control | undefined;
       if (control?.hostUid !== uid || ['complete', 'aborted'].includes(control.status)) return failure('FORBIDDEN');
       const snapshot = await tx.get(base.collection('engine').doc('current')), bindings = await tx.get(base.collection('seats'));
+      const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
+      const currentIdentity = identitySnapshot.exists ? FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data()) : null;
+      if (currentIdentity !== null && currentIdentity.matchId !== base.id) return failure('UNAVAILABLE');
       const before = snapshot.exists ? decodeV1State(snapshot.data()) : null;
       if (before !== null && !supported(before)) return failure('UNSUPPORTED_PROTOCOL');
       const after = before === null ? null : { ...abortFullGame(before, { now, nextPhaseId, nextDeadlineToken }), journalSequence: before.journalSequence + 1 };
       return { response: success(now, { aborted: true }), write: () => {
         tx.update(controlRef, { status: 'aborted' });
+        if (currentIdentity !== null && !currentIdentity.locked) tx.set(identityRef, FullLobbyIdentityDocumentSchema.parse({ ...currentIdentity, locked: true, revision: currentIdentity.revision + 1 }));
         tx.set(base.collection('lobby').doc('public'), lobby(base, { ...control, status: 'aborted' }, bindings.docs));
         if (after !== null) {
           writeGame(tx, before, after, bindings.docs, eventId);
@@ -543,5 +618,5 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       ? Buffer.from(JSON.stringify({ time: last.get('nextAttemptAt'), path: last.ref.path })).toString('base64url') : null };
   }
   return { createMatch, requestAdmission, approveAdmission, admitDisplay, startMatch, submit, lookup, advance, serverTime,
-    abortMatch, issueSeatRecovery, redeemSeatRecovery, runDeadline, dispatchDeadlineIntent, repairOutbox };
+    abortMatch, issueSeatRecovery, redeemSeatRecovery, setLobbyIdentity, runDeadline, dispatchDeadlineIntent, repairOutbox };
 }

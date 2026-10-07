@@ -46,6 +46,12 @@ service cloud.firestore {
         && resource.data.protocolVersion == 2 && resource.data.matchId == matchId;
       allow list, write: if false;
     }
+    match /matches/{matchId}/identities/public {
+      allow get: if admitted(matchId) && fullMatch(matchId)
+        && (!exists(/databases/$(database)/documents/matches/$(matchId)/identities/public)
+          || (resource.data.schemaVersion == 1 && resource.data.protocolVersion == 2 && resource.data.matchId == matchId));
+      allow list, write: if false;
+    }
     match /matches/{matchId}/views/public {
       allow get: if admitted(matchId) && resource.data.matchId == matchId && resource.data.audience.kind == 'public';
       allow list, write: if false;
