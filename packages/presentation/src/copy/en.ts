@@ -215,7 +215,7 @@ export const en = {
     // The names of the actions, as the approved rules name them. "Protection" is the
     // Undercover's grant; "Disable" is a Disabler's attack; "Hack" is the standard Hack.
     kind: {
-      move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot',
+      pass: 'Pass', move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot',
       vote: 'Vote', 'release-choice': 'Release request', 'release-vote': 'Release vote',
       scan: 'Scan', supply: 'Supply', code: 'Code attempt',
     } satisfies Record<ActionKind, string>,
@@ -237,7 +237,7 @@ export const en = {
       tooFew: 'Too few players to choose right now',
     },
     open: {
-      move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
+      pass: 'Pass turn', move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
       hack: 'Choose a player', 'showdown-shot': 'Choose a target',
       vote: 'Cast your ballot', 'release-choice': 'Choose', 'release-vote': 'Cast your ballot',
       scan: 'Choose a player', supply: 'Choose two players', code: 'Enter a Code',
@@ -246,7 +246,7 @@ export const en = {
       ? 'One action of yours is registered and waiting to be resolved.'
       : `${count} actions of yours are registered and waiting to be resolved.`),
     choosePrompt: {
-      move: 'Where do you move?', shot: 'Choose a target', disable: 'Choose a target', protect: 'Who is the Protection for?', rescue: 'Who is the Rescue for?',
+      pass: 'End your turn now?', move: 'Where do you move?', shot: 'Choose a target', disable: 'Choose a target', protect: 'Who is the Protection for?', rescue: 'Who is the Rescue for?',
       hack: 'Who do you request a Hack with?', 'showdown-shot': 'Choose a target',
       'release-choice': 'Ask for a release vote for which jailed player?',
       // A vote's question depends on what is being voted on, which the server's phase and ballot say: see "ballot" below.
@@ -268,6 +268,7 @@ export const en = {
     } satisfies Record<TargetActionKind, (who: string) => string>,
     // About this screen, not about the game: there is no control here that takes a command back.
     consequence: {
+      pass: 'Your turn ends when the server accepts Pass.',
       move: 'You cannot change or withdraw it here once the server accepts it.',
       shot: 'You cannot change or withdraw it here once it is registered.',
       disable: 'You cannot change or withdraw it here once it is registered.',
@@ -287,12 +288,12 @@ export const en = {
       code: 'This is your one Code attempt in this match. You cannot change it once the server accepts it.',
     } satisfies Record<ActionKind, string>,
     confirm: {
-      move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
+      pass: 'Pass', move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
       'showdown-shot': 'Register shot', vote: 'Cast ballot', 'release-choice': 'Confirm choice', 'release-vote': 'Cast ballot',
       scan: 'Scan', supply: 'Register Supply', code: 'Submit Code attempt',
     } satisfies Record<ActionKind, string>,
     submitting: {
-      move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
+      pass: 'Passing your turn…', move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
       protect: 'Sending your Protection to the server…', rescue: 'Sending your Rescue to the server…', hack: 'Sending your Hack request to the server…',
       'showdown-shot': 'Sending your shot to the server…', vote: 'Sending your ballot to the server…',
       'release-choice': 'Sending your choice to the server…', 'release-vote': 'Sending your ballot to the server…',

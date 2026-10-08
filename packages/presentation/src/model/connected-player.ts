@@ -71,6 +71,7 @@ function seatChoice(view: FullPlayerView, seatId: SeatId, seats: readonly SeatMo
 
 function choiceModel(view: FullPlayerView, choice: Exclude<ActionChoice, { kind: 'scan' | 'supply' | 'code' }>, seats: readonly SeatModel[]): ActionChoiceModel {
   const value = choiceValue(choice);
+  if (choice.kind === 'pass') return answerChoice(value, 'Pass');
   if (choice.kind === 'move') return answerChoice(value, en.location.name(choice.destination));
   if (choice.kind === 'release-vote') return answerChoice(value, choice.approve === null ? en.action.ballot.abstain : choice.approve ? en.action.ballot.yes : en.action.ballot.no);
   // The answer that names nobody: an abstention in a vote, no request from the Captain.
@@ -129,6 +130,7 @@ function undoLabel(view: FullPlayerView, picked: readonly string[]): string {
 function confirmPrompt(choice: ActionChoice, view: FullPlayerView): string {
   const who = (seatId: SeatId): string => whoIs(seatId, view.self.seatId);
   switch (choice.kind) {
+    case 'pass': return 'End your turn now?';
     case 'move': return en.action.confirmMove(choice.destination);
     case 'vote': return choice.targetSeatId === null ? en.action.ballot.confirmAbstain : en.action.ballot.confirmVote[votedOn(view)](who(choice.targetSeatId));
     case 'release-choice': return choice.targetSeatId === null ? en.action.ballot.confirmNoRequest : en.action.ballot.confirmRelease(who(choice.targetSeatId));
@@ -149,6 +151,7 @@ const consequence = (choice: ActionChoice): string =>
 /** What the server accepted, in the words of its receipt. Never what came of it. */
 function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
   switch (choice.kind) {
+    case 'pass': return 'Turn passed.';
     case 'move': return en.action.moved(choice.destination);
     case 'vote': return choice.targetSeatId === null ? en.action.ballot.abstained : en.action.ballot.votedFor(whoIs(choice.targetSeatId, selfSeatId));
     case 'release-choice': return choice.targetSeatId === null ? en.action.ballot.noRequestMade : en.action.ballot.releaseRequested(whoIs(choice.targetSeatId, selfSeatId));
@@ -164,6 +167,7 @@ function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
 /** Where the outcome of an accepted command is to be read. A receipt is not an outcome. */
 function acceptedDetail(choice: ActionChoice): string {
   switch (choice.kind) {
+    case 'pass': return 'The next phase is shown at the top of the board.';
     case 'move': return en.action.movedDetail;
     case 'vote':
     case 'release-choice':
@@ -201,14 +205,14 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
   switch (action.step) {
     case 'idle': {
       const queued = view.ownPendingCommandIds.length;
-      const offers = ACTION_KINDS.map(kind => offer(input, view, kind)).filter(listed => listed !== null);
+      const offers = ACTION_KINDS.filter(kind => kind !== 'pass').map(kind => offer(input, view, kind)).filter(listed => listed !== null);
       return { status: 'idle', title: en.action.title, body: { step: 'idle', offers, note: queued > 0 ? en.action.queued(queued) : null } };
     }
     case 'choosing': {
       const picked = action.picked ?? [];
       return { status: 'choosing', title: titled(action.kind), body: {
         step: 'choosing', prompt: choosePrompt(view, action.kind, picked), note: en.action.chooseNote, choices: choices(view, action.kind, picked, seats),
-        progress: progress(view, picked),
+        progress: progress(view, picked), pickedSeatIds: picked.filter(isSeatId),
         // With something picked, going back takes the last pick away; with nothing, it puts the action down.
         back: button(SHELL_IDS.actionBack, picked.length > 0 ? undoLabel(view, picked) : en.action.cancel, 'action/back'),
       } };
@@ -294,6 +298,11 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     location: {
       heading: en.location.heading, name: self.location, statusLabel: en.location.status, self,
       othersHeading: en.location.others, others: seats.filter(seat => !seat.isSelf && seat.location === self.location), aloneText: en.location.alone,
+    },
+    passTurn: {
+      available: !input.privacy.concealed && mayStart(input) && openness(view, 'pass') === 'open'
+        && (input.action.step === 'idle' || (['accepted', 'rejected', 'not-accepted'].includes(input.action.step) && 'armed' in input.action && input.action.armed)),
+      card: !input.privacy.concealed && 'choice' in input.action && input.action.choice?.kind === 'pass' ? buildCard(input, view, seats) : null,
     },
     privateArea: buildPrivateArea(input, view, seats),
     vote: buildVotePanel(view),

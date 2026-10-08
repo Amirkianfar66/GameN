@@ -148,3 +148,61 @@ test('Actions, Card and Menu remain panels over the same board', () => {
     assert.doesNotMatch(toHtml(view), /aria-current="page"/);
   }
 });
+
+
+test('choosing an action targets only offered characters on the board, with no duplicate player list', () => {
+  const view = playerView(v => { v.self.shotAvailable = true; v.legalTargets.REGISTER_SHOT = ['seat-3','seat-5']; });
+  const markup = renderComicPlayerShell(model(view, {step:'choosing',kind:'shot'}), {phoneView:'actions', identities});
+  auditMarkup(markup);
+  const board = toHtml(find(markup, byRegion('comic-board')));
+  const panel = toHtml(find(markup, byRegion('private')));
+  for (const id of ['seat-3','seat-5']) assert.match(board, new RegExp(`data-value="${id}"`));
+  assert.equal((board.match(/data-intent="action\/choose"/g) ?? []).length, 2);
+  assert.doesNotMatch(panel, /data-value="seat-|data-device|data-team/);
+  assert.match(panel, /Shot · Tap a character/);
+  assert.match(panel, /action\/back/);
+  assert.equal(markup.attrs['data-action-dock'], 'true');
+});
+test('ordered compound picks stay on the board; answers and abstention stay in the compact strip', () => {
+  const view = playerView(v => { v.legalTargets.SUPPLY = ['seat-1','seat-2','seat-3']; v.legalTargets.SCAN = ['seat-2']; });
+  const supply = renderComicPlayerShell(model(view,{step:'choosing',kind:'supply',picked:['seat-2']}), {phoneView:'actions'});
+  auditMarkup(supply);
+  const board = toHtml(find(supply,byRegion('comic-board')));
+  assert.match(board,/data-board-target="picked"/);
+  assert.match(board,/aria-label="Selected 1"/);
+  assert.doesNotMatch(board,/data-value="seat-2"/);
+  for (const id of ['seat-1','seat-3']) assert.match(board,new RegExp(`data-value="${id}"`));
+  const scan = renderComicPlayerShell(model(view,{step:'choosing',kind:'scan',picked:['seat-2']}),{phoneView:'actions'});
+  auditMarkup(scan);
+  const panel = toHtml(find(scan,byRegion('private')));
+  for (const faction of ['Blue','Red','Alien']) assert.match(panel,new RegExp(`data-value="${faction}"`));
+  assert.doesNotMatch(panel,/data-value="seat-/);
+  const ballot = playerView(v => { v.legalTargets.VOTE = ['seat-1','seat-2']; });
+  const vote = renderComicPlayerShell(model(ballot,{step:'choosing',kind:'vote'}),{phoneView:'actions'});
+  auditMarkup(vote);
+  assert.match(toHtml(find(vote,byRegion('private'))),/data-value="none"/);
+  assert.doesNotMatch(toHtml(find(vote,byRegion('private'))),/data-value="seat-/);
+});
+test('target hints clear on close, concealment, stale data, expired time, and other phone views', () => {
+  const view = playerView(v => {v.legalTargets.PROTECT = ['seat-2'];});
+  const action = {step:'choosing',kind:'protect'};
+  for (const [overrides, phoneView] of [[closed,'board'],[{privacy:{revealed:true,concealed:true}},'actions'],[{connection:'stale'},'actions'],[{deadline:{kind:'expired'}},'actions'],[{},'role'],[{},'more']]) {
+    const markup = renderComicPlayerShell(model(view,action,overrides),{phoneView});
+    assert.doesNotMatch(toHtml(find(markup,byRegion('comic-board'))),/data-board-target|phone-character-target|data-value="seat-/);
+  }
+});
+test('Pass is the central control, server-gated, and its receipt reveals no private card', () => {
+  const view = playerView(v => {v.legalTargets.PASS_TURN = ['seat-1'];});
+  const markup = renderComicPlayerShell(model(view,undefined,closed),{phoneView:'board'});
+  auditMarkup(markup);
+  const nav = find(markup,byRegion('phone-navigation'));
+  assert.equal(nav.children[2].attrs.id,'ms-phone-pass');
+  assert.equal(nav.children[2].attrs.disabled,undefined);
+  for (const [v,action,overrides] of [[playerView(),undefined,closed],[view,{step:'checking',choice:{kind:'move',destination:'Room B'},recovered:false},closed],[view,undefined,{...closed,connection:'stale'}],[view,undefined,{...closed,deadline:{kind:'expired'}}]]) {
+    assert.equal(find(renderComicPlayerShell(model(v,action,overrides)),byId('ms-phone-pass')).attrs.disabled,true);
+  }
+  const accepted=renderComicPlayerShell(model(view,{step:'accepted',choice:{kind:'pass'},armed:true},closed),{phoneView:'board'});
+  auditMarkup(accepted);
+  assert.match(toHtml(accepted),/Turn passed/);
+  assert.doesNotMatch(toHtml(accepted),/data-device|data-team|Cracker|ms-role-card__art/);
+});

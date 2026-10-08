@@ -28,7 +28,10 @@ const ADAPTER_HASH = '381d6cfcd3f57cc94a300887740da8ed1df15142522bb98fa4e0fc76ef
 const EXCEPTIONS_HASH = '8687477328a57b37ade88e6cf35c010f9599e695c8f11846bf17dea10cf96148';
 const V1_MANIFEST_HASH = '451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2';
 const SOURCE_MANIFEST_HASH = '34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc';
-export const ENGINE_PINS = { adapter: 'full-game-v1', engineVersion: 'full-game-1.0.1', rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: OVERLAY_HASH, protocolVersion: 2 };
+// The reviewed catalogue and parent overlay stay immutable. Runtime additions are pinned
+// separately, so the current engine must pass the entire original catalogue as well.
+export const ADDITIONAL_OWNER_OVERLAYS = { 'rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json': 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' };
+export const ENGINE_PINS = { adapter: 'full-game-v1', engineVersion: 'full-game-1.1.0', rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'], protocolVersion: 2 };
 const BLOCKED = {
   'FLOW-07': ['D17'], 'FLOW-08': ['D20'], 'FLOW-09': ['D19'], 'MOVE-05': ['D16'],
   'SUP-08': ['D11'], 'SUP-09': ['D12', 'D11'], 'HACK-06': ['D18'], 'FLOW-10': ['D17'],
@@ -54,6 +57,7 @@ export function loadBalanceContract(root, provenance) {
   requireBalance(provenance.node === 'v22.21.1', 'pinned Node version required');
   same(hash(join(root, 'rules/source-manifest.json')), SOURCE_MANIFEST_HASH, 'historical source manifest changed');
   same(hash(join(root, OVERLAY_PATH)), OVERLAY_HASH, 'approved V1 overlay changed');
+  for (const [path, expected] of Object.entries(ADDITIONAL_OWNER_OVERLAYS)) same(hash(join(root, path)), expected, 'approved runtime owner overlay changed');
   const manifest = JSON.parse(readFileSync(join(root, 'rules/source-manifest.json'), 'utf8'));
   same(hash(join(root, 'docs/balance/game-rules.md')), RULEBOOK_HASH, 'reviewed rulebook changed');
   same(hash(join(root, 'tests/scenarios/v1/catalog.mjs')), CATALOGUE_HASH, 'reviewed catalogue authoring source changed');
@@ -89,7 +93,7 @@ export function loadBalanceContract(root, provenance) {
   same(scenarios.size, BALANCE_TOTALS.total, 'reviewed catalogue count changed');
   return { ...provenance, scenarios, engine: ENGINE_PINS, sourceManifestSha256: SOURCE_MANIFEST_HASH,
     ruleSourceHashes,
-    v1OverlaySha256: OVERLAY_HASH, scenarioFileHashes: FILE_HASHES, rulebookSha256: RULEBOOK_HASH };
+    v1OverlaySha256: OVERLAY_HASH, additionalOwnerOverlayHashes: ADDITIONAL_OWNER_OVERLAYS, scenarioFileHashes: FILE_HASHES, rulebookSha256: RULEBOOK_HASH };
 }
 function engine(report, contract) {
   requireBalance(report !== null && typeof report === 'object', 'required report unavailable');
@@ -107,7 +111,7 @@ export function assertScenarioReport(report, contract, window) {
   const pins = report.pins;
   for (const [field, expected] of Object.entries({ repository: 'Amirkianfar66/GameN', baseCommit: '333c9e820f362a211352bc689372663f29b73ac4',
     branch: contract.branch, workingTreeCommit: contract.head, sourceManifestSha256: contract.sourceManifestSha256,
-    ruleSourceHashes: contract.ruleSourceHashes, v1OverlaySha256: contract.v1OverlaySha256, scenarioFileHashes: contract.scenarioFileHashes,
+    ruleSourceHashes: contract.ruleSourceHashes, v1OverlaySha256: contract.v1OverlaySha256, additionalOwnerOverlayHashes: contract.additionalOwnerOverlayHashes, scenarioFileHashes: contract.scenarioFileHashes,
     rulebookSha256: contract.rulebookSha256, engineOrigin: '@mothership/engine of this checkout', runner: '@mothership/balance scenario runner' })) {
     same(pins[field], expected, `scenario provenance mismatch: ${field}`);
   }

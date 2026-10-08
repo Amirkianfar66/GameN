@@ -10,6 +10,7 @@ import { ENGINE_COMMIT_BASIS } from '@mothership/balance';
 import { CATALOG_FILES } from '../../../tests/scenarios/v1/catalog.mjs';
 import { GROUPS, V1_OVERLAY_PATH, scenarioFileUrl } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath } from './args.mjs';
+import { ADDITIONAL_OWNER_OVERLAYS } from '../../../scripts/test-balance-reports.mjs';
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 export const V1_MANIFEST_PATH = 'rules/in-person-v1-manifest.json';
@@ -68,6 +69,7 @@ export function sourceHashes(engineCheckout = root) {
     sourceManifestSha256: sha256(join(root, 'rules/source-manifest.json')),
     ruleSourceHashes: Object.fromEntries(manifest.sources.map(source => [source.path, sha256(join(root, source.path))])),
     v1OverlaySha256: existsSync(overlay) ? sha256(overlay) : null,
+    additionalOwnerOverlayHashes: Object.fromEntries(Object.keys(ADDITIONAL_OWNER_OVERLAYS).map(path => [path, existsSync(join(engineCheckout, path)) ? sha256(join(engineCheckout, path)) : null])),
     v1ManifestSha256: existsSync(combined) ? sha256(combined) : null,
     scenarioFileHashes: Object.fromEntries(GROUPS.map(group => [CATALOG_FILES[group], sha256(fileURLToPath(scenarioFileUrl(group)))])),
     rulebookSha256: sha256(join(root, 'docs/balance/game-rules.md')),

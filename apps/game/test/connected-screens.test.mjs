@@ -886,3 +886,22 @@ test('a conflicting same-revision recovery cannot settle an unanswered command a
   assert.equal(s.fake.callsTo('v1Command').length, 1, 'The command is never replaced or resent');
   s.screen.dispose();
 });
+
+
+test('the neutral Pass intent works with the private card closed and leaves private content concealed', async () => {
+  const s=setup();s.screen.start();
+  const view=playerView('seat-1',v=>{v.legalTargets.PASS_TURN=['seat-1'];});
+  await s.fake.deliver(OWN,view);
+  s.fake.respond.v1Command=request=>s.receipt(request);
+  assert.equal(s.frame().model.match.passTurn.available,true);
+  s.screen.dispatch({type:'action/pass'});s.screen.dispatch({type:'action/pass'});await flush();
+  assert.equal(s.fake.callsTo('v1Command').length,1);
+  assert.deepEqual(s.fake.callsTo('v1Command')[0].command,{type:'PASS_TURN'});
+  assert.equal(s.frame().model.match.privateArea.content,null);
+  assert.equal(s.frame().model.match.passTurn.card.status,'accepted');
+  await s.host.advance(GUARD);
+  s.screen.dispatch({type:'action/dismiss'});
+  assert.equal(s.frame().model.match.passTurn.card,null);
+  assert.equal(s.frame().model.match.privateArea.content,null);
+  s.screen.dispose();
+});
