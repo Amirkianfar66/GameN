@@ -1,0 +1,164 @@
+/* Owner feedback, 8 October: one screen, top status bar, bottom navigation.
+   Board and setup fit the viewport. Optional details scroll inside their own view. */
+body:has(.connected-player-setup:is([data-stage=choosing],[data-stage=awaiting-ready])) { height:100dvh; overflow:hidden; }
+.connected-lobby:has(.connected-player-setup:is([data-stage=choosing],[data-stage=awaiting-ready])) {
+  height:100dvh; min-height:0; padding:env(safe-area-inset-top) .75rem env(safe-area-inset-bottom); display:block;
+}
+.connected-lobby:has(.connected-player-setup:is([data-stage=choosing],[data-stage=awaiting-ready])) > :not(.connected-player-setup) { display:none; }
+.connected-player-setup:is([data-stage=choosing],[data-stage=awaiting-ready]) { height:100%; min-height:0; display:grid; grid-template-rows:52px minmax(0,1fr); gap:.5rem; }
+.phone-setup-compact { display:contents; }
+.phone-setup-compact .phone-setup-head { position:static; min-height:0; border:0; box-shadow:none; background:transparent; color:var(--ms-color-text); padding:0 .25rem; flex-wrap:nowrap; }
+.phone-setup-compact .phone-setup-head h2 { font-family:var(--ms-font-body); font-size:.9rem; text-transform:none; }
+.phone-setup-compact .setup-countdown { font-size:1.1rem; background:var(--ms-color-paper); color:var(--ms-color-ink); padding:.25rem .6rem; border-radius:8px; }
+.connected-player-setup .connected-identity { display:flex; flex-direction:column; justify-content:center; min-height:0; gap:.5rem; padding:0 0 1rem; }
+.connected-lobby .crew-picker { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(3,minmax(0,1fr)); gap:.65rem; height:min(100%,31rem); min-height:0; }
+.connected-lobby .crew-option { min-height:44px; min-width:0; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:.25rem; padding:.35rem; font-size:.8rem; border:2px solid var(--ms-color-steel-mid); border-radius:12px; background:var(--ms-color-panel); color:var(--ms-color-text); box-shadow:none; }
+.connected-lobby .crew-option::before { flex:1 1 auto; min-height:0; height:calc(100% - 1.5rem); width:100%; max-width:6rem; aspect-ratio:auto; background-size:contain; }
+.connected-lobby .crew-option:disabled { border-style:solid; color:var(--ms-color-text); background:var(--ms-color-panel); }
+.connected-lobby .crew-option[aria-pressed=true] { transform:none; background:var(--ms-color-panel); border:3px solid var(--ms-color-caption); box-shadow:0 0 0 2px var(--ms-color-caption); }
+.connected-lobby .crew-option[data-confirmed=true]::after { content:'✓'; position:absolute; right:.3rem; top:.2rem; padding:0 .25rem; color:var(--ms-color-ink); background:var(--ms-color-caption); border-radius:50%; }
+.connected-lobby .crew-option[aria-disabled=true]::before { filter:none; opacity:1; }
+.connected-lobby .crew-option[data-taken=true] { border-style:dashed; }
+.connected-lobby .crew-option[data-taken=true]::before { filter:grayscale(1); opacity:.35; }
+.connected-lobby #crew-status { font-size:.8rem; }
+.connected-role-confirmation.ms-shell { min-height:0; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 0 1rem; gap:1rem; }
+.connected-lobby .phone-role-toggle { min-height:0; width:min(100%,18rem); height:min(70dvh,28rem); flex:0 1 auto; display:grid; padding:0; border:0; background:transparent; box-shadow:none; border-radius:16px; color:inherit; }
+.connected-lobby .phone-role-toggle:disabled { background:transparent; border:0; }
+.phone-role-toggle .phone-role-back { min-height:0; height:100%; width:100%; margin:0; border-radius:16px; font-size:.8rem; letter-spacing:.06em; }
+.phone-role-toggle #setup-role-card { min-height:0; height:100%; width:100%; margin:0; }
+.connected-role-confirmation .ms-private__panel .ms-role-card--full { width:100%; max-width:none; height:100%; margin:0; border-radius:16px; display:grid; grid-template-rows:minmax(0,1fr) auto; animation:none; }
+.connected-role-confirmation .ms-private__panel .ms-role-card--full > .ms-role-card__art { width:100%; height:100%; min-height:0; aspect-ratio:auto; }
+.connected-role-confirmation .ms-role-card__text { padding:.8rem; }
+.connected-role-confirmation .ms-role-card__name { font-size:1.3rem; }
+.connected-role-confirmation .ms-role-card__team { font-size:.85rem; }
+.connected-lobby #setup-role-ready { flex:none; width:min(100%,18rem); border:0; border-radius:12px; background:var(--ms-color-caption); }
+.connected-lobby #setup-ready-waiting { align-self:center; justify-self:center; width:min(100%,18rem); height:min(70dvh,28rem); padding:1rem; font-size:3rem; }
+.connected-lobby #setup-ready-waiting::before { display:none; }
+
+/* Full-height app frame. No off-screen content is clipped to fake a passing fit. */
+body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hidden; }
+#app .ms-shell--player[data-screen=match] { height:100dvh; min-height:0; min-block-size:0; overflow:hidden; }
+#app .ms-shell--player[data-screen=match] .ms-main { height:100%; min-height:0; width:100%; max-width:30rem; margin:0 auto; padding:env(safe-area-inset-top) .6rem 0; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; gap:.5rem; }
+#app .ms-shell--player[data-screen=match] .ms-title { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+#app .ms-shell--player[data-screen=match] .ms-phase { grid-row:1; grid-column:1; position:static; min-height:54px; padding:.3rem .5rem; border:0; border-radius:10px; box-shadow:none; transform:none; }
+#app .ms-shell--player .ms-phase__round { font-family:var(--ms-font-body); font-size:.65rem; }
+#app .ms-shell--player .ms-phase__label { font-family:var(--ms-font-body); font-size:.85rem; text-transform:none; }
+#app .ms-shell--player .ms-phase__detail { font-size:.7rem; }
+#app .ms-shell--player .ms-timer { min-width:3.2rem; padding:.2rem; border:0; box-shadow:none; outline:0; border-radius:6px; }
+#app .ms-shell--player .ms-timer__digits { font-size:1.4rem; }
+#app .ms-shell--player .ms-timer__note { font-size:.65rem; max-width:7rem; }
+#app .ms-shell--player .ms-board { grid-column:1; grid-row:2; height:100%; min-height:0; }
+#app .ms-shell--player .ms-board .ms-zones { height:100%; min-height:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:minmax(0,.8fr) repeat(2,minmax(0,1fr)) minmax(0,.85fr); padding:6px; gap:8px 6px; border:0; border-radius:10px; box-shadow:none; }
+#app .ms-shell--player .ms-board .ms-zone { container-type:size; height:100%; min-height:0; min-block-size:0; max-height:100%; grid-column:auto; aspect-ratio:auto; padding:1.4rem .2rem 1.1rem; border-width:2px; display:flex; justify-content:center; align-items:center; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=command-room] { grid-row:1; grid-column:1/-1; min-height:0; min-block-size:0; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=room-a] { grid-row:2; grid-column:1/-1; min-height:0; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=room-b] { grid-row:3; grid-column:1/-1; min-height:0; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=hospital], #app .ms-shell--player .ms-board .ms-zone[data-zone=jail] { grid-row:4; grid-column:span 1; min-height:0; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=final-zone] { grid-column:1/-1; grid-row:1/-1; min-height:0; min-block-size:0; }
+#app .ms-shell--player .ms-board .ms-zones:has([data-zone=final-zone]) { grid-template-rows:minmax(0,1fr); }
+#app .ms-shell--player .ms-board .ms-zone__name { position:absolute; inset:.15rem auto auto .15rem; margin:0; transform:none; translate:none; font-size:.7rem; max-width:calc(100% - .3rem); padding:.15rem .3rem; line-height:1.1; }
+#app .ms-shell--player .ms-board .ms-zone__empty { display:none; }
+#app .ms-shell--player .ms-board .ms-seats { --ms-piece:min(3rem,calc((100cqi - 12px) / min(var(--ms-seats),5) / 1.25),calc(100cqh / var(--phone-rows,1) / 1.6)); display:grid; grid-template-columns:repeat(min(var(--ms-seats),5),minmax(0,1fr)); align-items:center; justify-items:center; width:100%; gap:1.1rem .2rem; padding:0; }
+#app .ms-shell--player .ms-board .ms-seat { width:var(--ms-piece); max-width:100%; min-width:0; flex:none; }
+#app .ms-shell--player .ms-board .ms-seat__name { font-size:.6rem; line-height:1.15; max-inline-size:calc(100% + .5rem); }
+#app .ms-shell--player .ms-board .ms-seat__player { max-width:100%; }
+.phone-nav { grid-column:1; grid-row:3; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; padding:.2rem 0 max(.3rem,env(safe-area-inset-bottom)); min-height:60px; border-top:1px solid var(--ms-color-steel-mid); background:var(--ms-color-canvas); }
+.phone-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; min-height:48px; min-width:44px; padding:.25rem; border:0; background:transparent; color:var(--ms-color-text-secondary); font:inherit; font-size:.65rem; box-shadow:none; border-radius:8px; }
+.phone-nav button[aria-pressed=true] { color:var(--ms-color-caption); background:var(--ms-color-panel); }
+.phone-nav button:disabled { opacity:.4; }
+.phone-nav__icon { display:block; position:relative; width:21px; height:21px; }
+.phone-nav__icon--board { border:2px solid currentColor; border-radius:5px; background:linear-gradient(currentColor,currentColor) center/2px 100% no-repeat,linear-gradient(currentColor,currentColor) center/100% 2px no-repeat; }
+.phone-nav__icon--actions { background:currentColor; clip-path:polygon(55% 0,12% 57%,45% 57%,35% 100%,90% 38%,56% 38%,68% 0); }
+.phone-nav__icon--role { width:17px; border:2px solid currentColor; border-radius:4px; transform:rotate(-8deg); }
+.phone-nav__icon--role::after { content:''; position:absolute; width:6px; height:6px; border:2px solid currentColor; border-radius:50%; inset:4px 3px; }
+.phone-nav__icon--more { background:radial-gradient(circle,currentColor 0 2px,transparent 3px) center/7px 100% repeat-x; }
+#app .ms-shell--player .ms-private[data-open=true] { position:static; inset:auto; grid-column:1; grid-row:2; height:100%; min-height:0; max-height:none; max-block-size:none; width:100%; display:block; margin:0; padding:.5rem .25rem; border:0; border-radius:0; box-shadow:none; overflow:auto; animation:none; }
+#app .ms-shell--player .ms-private__panel { min-height:0; margin:0; padding:0; }
+#app .ms-shell--player[data-phone-view=actions] .ms-private__panel > :not(.ms-actions):not(.ms-notice):not(.ms-acknowledgments-region) { display:none; }
+#app .ms-shell--player[data-phone-view=role] .ms-private__panel > :is(.ms-actions,.ms-private__subheading,.ms-notice,.ms-acknowledgments-region) { display:none; }
+#app .ms-shell--player[data-phone-view=role] .ms-role-card--full { display:grid; grid-template-columns:minmax(0,1fr); width:min(100%,18rem); margin:1rem auto; padding:0; border-radius:14px; }
+#app .ms-shell--player[data-phone-view=role] .ms-role-card__art { width:100%; inline-size:100%; height:min(40dvh,18rem); aspect-ratio:auto; border:0; }
+#app .ms-shell--player[data-phone-view=role] .ms-role-card__text { padding:.75rem; }
+#app .ms-shell--player .phone-knowledge { margin:.5rem 0; }
+#app .ms-shell--player .ms-actions > h3, #app .ms-shell--player .ms-card__title { font-size:1rem; }
+#app .ms-shell--player .ms-offers { gap:.4rem; }
+#app .ms-shell--player .ms-offer { padding:.5rem; }
+#app .ms-shell--player .ms-card { padding:.5rem; }
+#app .ms-shell--player .ms-card__status { font-size:.65rem; }
+#app .ms-shell--player .ms-targets { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.4rem; }
+#app .ms-shell--player .ms-target { padding:.45rem; min-height:48px; }
+#app .ms-shell--player .phone-menu { grid-column:1; grid-row:2; overflow:auto; min-height:0; padding:.5rem; }
+#app .ms-shell--player .phone-menu > * { margin-bottom:1rem; }
+#app .ms-shell--player .phone-menu h2 { font-size:1rem; }
+#app .ms-shell--player .phone-menu .ms-practice-notice { border:0; border-radius:8px; }
+#app .ms-shell--player .ms-result-region:empty { display:none; }
+#app .ms-shell--player .ms-result-region:not(:empty) { grid-column:1; grid-row:2; z-index:2; background:var(--ms-color-canvas); overflow:auto; padding-bottom:4rem; }
+#app .ms-shell--player .ms-main:has(.ms-result) > .ms-board { display:none; }
+#app .ms-shell--player .ms-banners:not(:empty) { position:absolute; top:4rem; inset-inline:.5rem; z-index:90; max-width:29rem; margin:auto; }
+#app .ms-shell--player .ms-banners .ms-banner { padding:.5rem; font-size:.8rem; }
+@media (max-height:560px) { .connected-lobby .crew-picker { gap:.4rem; } .connected-lobby .crew-option { font-size:.7rem; } #app .ms-shell--player .ms-phase { min-height:48px; } .phone-nav { min-height:54px; } }
+@media (prefers-reduced-motion:reduce) { .phone-role-toggle * { animation:none !important; } }
+
+.phone-role-surface { position:relative; width:min(100%,18rem); height:min(70dvh,28rem); min-height:0; flex:0 1 auto; }
+.connected-lobby .phone-role-surface .phone-role-toggle { position:absolute; inset:0; height:100%; width:100%; z-index:1; background:transparent; }
+.phone-role-surface .phone-role-back, .phone-role-surface #setup-role-card { height:100%; width:100%; min-height:0; margin:0; }
+#app .ms-shell--player .ms-board .ms-seats:has(> :nth-child(6)) { --phone-rows:2; }
+
+#app .ms-shell--player .ms-offer:not(:has(button)) { display:none; }
+#app .ms-shell--player .ms-offer > span { display:none; }
+#app .ms-shell--player .ms-offer { padding:0; border:0; background:transparent; }
+#app .ms-shell--player .ms-offer button { width:100%; min-height:54px; border-radius:10px; }
+#app .ms-shell--player .ms-actions:has([data-step=idle]) .ms-card__title,
+#app .ms-shell--player .ms-actions:has([data-step=idle]) .ms-card__status { display:none; }
+#app .ms-shell--player .ms-card__state[data-step=choosing] > .ms-card__text { display:none; }
+
+/* Secondary host/join tools share one menu instead of a stack of disclosures. */
+.connected-lobby { gap:.8rem; }
+.connected-lobby .phone-caption { background:transparent; color:var(--ms-color-text); padding:0; border:0; box-shadow:none; transform:none; font-family:var(--ms-font-body); font-size:1.25rem; text-transform:none; }
+.phone-options { border:0; }
+.phone-options > summary { text-align:center; border:1px solid var(--ms-color-steel-mid); border-radius:10px; list-style:none; }
+.phone-options[open] { position:relative; z-index:20; background:var(--ms-color-canvas); padding-bottom:1rem; }
+.phone-options > .phone-more { padding:.25rem 0; }
+.connected-lobby .phone-slots { grid-template-columns:repeat(3,minmax(0,1fr)); gap:.4rem; }
+.phone-slot { flex-direction:column; justify-content:center; gap:.1rem; text-align:center; padding:.35rem .15rem; border-radius:8px; }
+.phone-slot__face { width:1.7rem; height:2rem; }
+.phone-slot strong { font-size:.7rem; }
+.phone-slot small { font-size:.6rem; }
+.phone-room-code { grid-template-columns:minmax(0,1fr) auto; gap:.2rem .5rem; padding:.75rem; border:0; border-radius:12px; box-shadow:none; }
+.phone-room-code h2 { grid-column:1; font-size:.65rem; }
+#connected-room-code { grid-column:1; font-size:1.15rem; }
+.phone-room-code button { grid-column:2; grid-row:1/span 2; align-self:center; }
+.phone-room-code > p:last-child { font-size:1.15rem; }
+.connected-lobby .phone-dock { padding:.5rem 0; border:0; }
+.connected-lobby .phone-dock button { border-radius:10px; box-shadow:none; }
+.phone-requests:has(#connected-requests:empty) { display:none; }
+.phone-requests h2 { font-size:.85rem; }
+#connected-seated { font-size:.75rem; }
+.phone-waiting { border-radius:14px; box-shadow:none; }
+/* Give a crowded room more of the same viewport, using public occupancy only. */
+#app .ms-shell--player .ms-board .ms-zones:has([data-zone=room-a] .ms-seat:nth-child(6)) { grid-template-rows:minmax(0,.55fr) minmax(0,1.8fr) repeat(2,minmax(0,.65fr)); }
+#app .ms-shell--player .ms-board .ms-zones:has([data-zone=room-b] .ms-seat:nth-child(6)) { grid-template-rows:repeat(2,minmax(0,.65fr)) minmax(0,1.8fr) minmax(0,.55fr); }
+#app .ms-shell--player .ms-board .ms-zones:has(:is([data-zone=hospital],[data-zone=jail]) .ms-seat:nth-child(6)) { grid-template-rows:minmax(0,.55fr) repeat(2,minmax(0,.65fr)) minmax(0,1.8fr); }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats { grid-template-columns:repeat(min(var(--ms-seats),3),minmax(0,1fr)); --ms-piece:min(3rem,calc((100cqi - 12px) / min(var(--ms-seats),3) / 1.25),calc(100cqh / var(--phone-rows,1) / 1.6)); }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(4)) { --phone-rows:2; }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(7)) { --phone-rows:3; }
+
+/* A finished result and Menu share one view; the next-game action stays above navigation. */
+#app:has(.ms-shell--player[data-screen=match]) > .phone-next { bottom:calc(76px + env(safe-area-inset-bottom)); }
+#app:has(.ms-shell--player[data-phone-view=more]) > .phone-next { display:none; }
+
+/* Owner follow-up: room tags move; controls open over the same board. */
+#app .ms-shell--player .ms-private[data-open=true], #app .ms-shell--player .phone-menu {
+  position:relative; align-self:end; height:auto; max-height:82%; min-height:0; z-index:5;
+  padding:0 .8rem .8rem; border:1px solid var(--ms-color-steel-mid); border-radius:16px;
+  background:var(--ms-color-panel); box-shadow:0 -8px 30px #0008; overscroll-behavior:contain;
+}
+.phone-panel-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; position:sticky; top:0; z-index:2; background:var(--ms-color-panel); min-height:52px; }
+#app .ms-shell--player .phone-panel-head h2 { font-family:var(--ms-font-body); font-size:1rem; margin:0; text-transform:none; }
+.phone-panel-close { width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; color:var(--ms-color-text); font-size:1.8rem; cursor:pointer; }
+.phone-panel-notice { margin:.4rem 0; font-size:.85rem; }
+#app .ms-shell--player .ms-actions > h3 { display:none; }
+#app .ms-shell--player .ms-board .ms-zone__name:has(.phone-room-move) { padding:0 .25rem; }
+.phone-room-move { min-height:44px; min-width:88px; padding:0 .25rem; border:0; background:transparent; color:inherit; font:inherit; text-transform:inherit; cursor:pointer; }
+.phone-room-move:focus-visible, .phone-panel-close:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:2px; }
+#app .ms-shell--player .ms-board .ms-zone:has(.phone-room-move) { padding-top:3.2rem; }

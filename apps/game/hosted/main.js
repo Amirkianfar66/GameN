@@ -16,6 +16,9 @@ import './comic-tokens.css';
 import './comic.css';
 import './comic-layout.css';
 import './setup.css';
+import './phone.css';
+import './compact-phone.css';
+import { disclosure, dock, copyControl, choiceTiles, publicSlots } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';
 import { loadArt } from './art.mjs';
@@ -53,6 +56,7 @@ const ports = browserPorts();
 const transport = await createTransport();
 const api = createConnectedApi(transport, ports);
 const deviceKind = new URLSearchParams(window.location.search).get('as');
+document.body.dataset.device = ['host', 'player', 'display'].includes(deviceKind) ? deviceKind : 'entry';
 void loadArt(deviceKind);
 
 function el(tag, text, attributes = {}) {
@@ -74,7 +78,7 @@ function say(text, kind = 'info') {
 }
 // Forgets which match this tab was in. The identity stays; the match itself is not touched.
 const forget = el('button', 'Forget this match on this tab', { type: 'button', id: 'connected-forget', class: 'connected-quiet' });
-forget.addEventListener('click', () => {
+function forgetMatch() {
   resume.clear();
   // And what was kept about it: a request that was not settled, and the identifiers of a command.
   window.sessionStorage.removeItem(UNSETTLED_KEY);
@@ -84,15 +88,15 @@ forget.addEventListener('click', () => {
     // Storage that cannot be cleared holds identifiers only.
   }
   window.location.reload();
-});
+}
+forget.addEventListener('click', forgetMatch);
 function frame(title, ...content) {
-  page.replaceChildren(
-    el('h1', title),
-    el('p', 'V1 playtest preview. Use test matches only. Keep this tab open to retain your session.', { class: 'connected-banner' }),
-    ...content,
-    statusLine,
-    ...(resume.load() === null ? [] : [forget]),
-  );
+  const extra = content.filter(node => node.tagName === 'DETAILS');
+  const primary = content.filter(node => node.tagName !== 'DETAILS');
+  const menu = disclosure(el, 'Menu', ...extra, ...(resume.load() === null ? [] : [forget]));
+  menu.classList.add('phone-options');
+  page.replaceChildren(el('h1', title, { class: 'phone-caption', tabindex: '-1' }),
+    ...primary, statusLine, ...(extra.length || resume.load() !== null ? [menu] : []));
   // The page takes the place of whatever the document came with: its first line, shown while this script loads.
   if (!lobby.contains(page)) lobby.replaceChildren(page);
 }
@@ -273,7 +277,8 @@ function showMatch(screen, render, matchId, seatId) {
   mounted = true;
   for (const stop of lobbyWatchers.splice(0)) stop();
   const feeds = createComicFeeds({ transport, ports, matchId, ...(seatId ? { seatId } : {}) });
-  mountScreen({ container: app, screen, render: model => render(model, {
+  mountScreen({ container: app, screen, render: (model, phone) => render(model, {
+    ...phone,
     identities: feeds.identities()?.seats ?? [],
     practice: model.connection === 'live' ? feeds.practice() : null,
     acknowledgments: model.connection === 'live' ? feeds.acknowledgments() : null,
@@ -290,25 +295,35 @@ function showMatch(screen, render, matchId, seatId) {
   };
   screen.subscribe(settle);
   settle();
+  const nextGame = el('button', seatId ? 'Join a new game' : 'Show another match', { type: 'button', id: 'connected-next-game', class: 'phone-next' });
+  nextGame.addEventListener('click', forgetMatch);
+  app.append(nextGame);
+  const updateNext = () => {
+    const model = screen.getFrame().model;
+    const ended = model.match?.result != null;
+    nextGame.hidden = !ended && model.screen !== 'blocked';
+    if (ended && model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+  };
+  screen.subscribe(updateNext); updateNext();
   globalThis.mothershipConnected = { ...(globalThis.mothershipConnected ?? {}), frame: () => screen.getFrame() };
 }
 
 const ENDED_IN_LOBBY = 'The host ended this match before it started. There is nothing of it to show.';
 
 function chooseDevice(uid) {
-  frame('Mothership playtest',
-    facts([['This device', uid, 'connected-uid']]),
-    el('h2', 'Open this page as'),
+  frame('Welcome aboard',
+    el('p', 'A table game for 7 to 9 players. Everyone plays on their own phone.'),
     (() => {
-      const list = el('ul');
-      for (const [name, label] of [['host', 'Host: create a lobby, seat players, start the match'], ['player', 'Player: ask to join with a room code'], ['display', 'Shared display: public information only']]) {
+      const list = el('ul', undefined, { class: 'phone-doors' });
+      for (const [name, label] of [['player', 'Join a game'], ['host', 'Host a game'], ['display', 'Shared display']]) {
         const item = el('li');
         item.append(el('a', label, { href: `?as=${name}`, id: `connected-as-${name}` }));
         list.append(item);
       }
       return list;
     })(),
-    el('p', 'Each tab is its own device with its own identity. Open one tab per player.'),
+    el('p', 'Play together, in the same room. Keep each player’s private card on their own screen.'),
+    disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']]), el('p', 'Each tab is its own device with its own identity. Open one tab per player.')),
   );
 }
 
@@ -319,9 +334,9 @@ async function host(uid) {
     const count = el('select', undefined, { id: 'connected-player-count' });
     for (const value of [7, 8, 9]) count.append(el('option', `${value} players`, { value: String(value) }));
     const create = el('button', 'Create lobby', { type: 'button', id: 'connected-create' });
-    const label = el('label', 'Players');
-    label.append(count);
-    frame('Host', facts([['This device', uid, 'connected-uid']]), label, keeping('create', create, [count]));
+    const label = choiceTiles(el, count, 'How many players?', 'count');
+    frame('Host a game', label,
+      dock(el, keeping('create', create, [count])), disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']])));
     create.addEventListener('click', async () => {
       const outcome = await operate('create', requestId => ({ protocolVersion: 2, requestId, playerCount: Number(count.value) }), request => api.createMatch(request), 'Creating the lobby');
       if (outcome.kind !== 'done') return;
@@ -335,6 +350,7 @@ async function host(uid) {
   let session = null;
   let seats = [];
   let requests = [];
+  let hostScreen = null, stopHostScreen = () => {};
   const practiceFeed = createComicFeeds({ transport, ports, matchId });
   const setupFeed = createSetupFeed({ transport, ports, matchId });
   const setupProgress = createSetupProgress({ el });
@@ -343,7 +359,7 @@ async function host(uid) {
   // Built once and updated in place, so a request that arrives while the host is typing or
   // choosing takes nothing away from under their hands.
   const list = el('ul', undefined, { id: 'connected-requests' });
-  const none = el('p', 'None yet. Give the players the room code.', { id: 'connected-no-requests' });
+  const none = el('p', 'Waiting for players', { id: 'connected-no-requests' });
   const rows = new Map();
   const displayUid = el('input', undefined, { type: 'text', id: 'connected-display-uid', autocomplete: 'off', spellcheck: 'false' });
   const displayLabel = el('label', 'Identifier shown on the shared display');
@@ -383,6 +399,9 @@ async function host(uid) {
     draw();
   });
   const endControl = keeping('end', endConfirm);
+  const endDialog = el('dialog', undefined, { class: 'phone-confirm', role: 'alertdialog', 'aria-labelledby': 'connected-end-title', 'aria-describedby': 'connected-end-note' });
+  endDialog.append(el('h2', 'End this match?', { id: 'connected-end-title' }), endNote, endCancel, endControl);
+  endDialog.addEventListener('cancel', event => { event.preventDefault(); askingToEnd = false; draw(); end.focus(); });
   // A seat can be moved to another device with a one-time code that only the host can ask
   // for. A code is shown here from this page's memory only, and is good until the time the
   // server names. Nothing changes for the seat until the other device uses it.
@@ -417,7 +436,7 @@ async function host(uid) {
         el('span', `Player ${seatId.slice(5)}:`),
         el('span', issued.code, { class: 'connected-code', id: `connected-recovery-code-${seatId}` }),
         el('span', `Works once, until ${new Date(issued.expiresAt).toLocaleTimeString()}.`),
-        remove,
+        copyControl(el, 'Copy recovery code', () => issued.code, say), remove,
       );
       return item;
     }));
@@ -464,18 +483,26 @@ async function host(uid) {
   if (seatAskedFor() !== null) {
     recoveryNote.textContent = `A request for a recovery code for Player ${seatAskedFor().slice(5)}, made before this page was reloaded, is not settled. Send the same request again: the answer will say whether a code was issued.`;
   }
-  frame('Host',
-    facts([
-      ['This device', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id'], ['Room code', '…', 'connected-room-code'],
-      ['Players', '…', 'connected-seated'], ['Status', '…', 'connected-match-status'],
-    ]),
-    el('h2', 'Requests to join', { id: 'connected-requests-title', tabindex: '-1' }), none, list,
-    practiceControls.node,
-    el('h2', 'Shared display'), displayLabel, admitControl,
-    el('h2', 'Start'), startControl, setupProgress.node,
-    el('h2', 'End'), end, endNote, endCancel, endControl,
-    el('h2', 'Move a seat to another device', { id: 'connected-recovery-title' }), recoverySeatLabel, recoveryControl, recoveryCodes, recoveryNote,
-    el('p', 'Hosting gives no view of anyone’s role. To play, join from another tab with the room code.'),
+  const roomCard = el('section', undefined, { class: 'phone-room-code', 'aria-labelledby': 'connected-code-title' });
+  roomCard.append(el('h2', 'Room code', { id: 'connected-code-title' }), el('p', '…', { id: 'connected-room-code' }),
+    copyControl(el, 'Copy', () => session?.roomCode, say));
+  const slots = el('ol', undefined, { class: 'phone-slots', id: 'connected-roster', 'aria-label': 'Lobby seats' });
+  let slotsKey = '';
+  const startHelp = el('p', '', { id: 'connected-start-help' });
+  start.setAttribute('aria-describedby', 'connected-start-help');
+  const hostProgress = el('p', '', { class: 'phone-host-status', id: 'connected-host-progress', role: 'status' });
+  const hostNext = el('button', 'Start a new game', { type: 'button', id: 'connected-host-next' });
+  hostNext.addEventListener('click', forgetMatch);
+  const requestsBlock = el('section', undefined, { class: 'phone-requests' });
+  requestsBlock.append(el('h2', 'Requests to join', { id: 'connected-requests-title', tabindex: '-1' }), none, list);
+  const botFold = disclosure(el, 'Practice bots', practiceControls.node);
+  frame('Your lobby', roomCard, el('p', '…', { id: 'connected-seated' }), slots, requestsBlock, botFold,
+    setupProgress.node, hostProgress, dock(el, startControl, startHelp, hostNext),
+    disclosure(el, 'Move a seat to another device', el('h2', 'Seat recovery', { id: 'connected-recovery-title' }), recoverySeatLabel, recoveryControl, recoveryCodes, recoveryNote),
+    disclosure(el, 'Shared display', displayLabel, admitControl),
+    disclosure(el, 'Match details', facts([['This device', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id'], ['Status', '…', 'connected-match-status']]),
+      copyControl(el, 'Copy match identifier', () => matchId, say), el('p', 'Hosting gives no view of anyone’s role. To play, join from another tab with the room code.')),
+    disclosure(el, 'End match', end), endDialog,
   );
   const setText = (id, text) => {
     const node = document.getElementById(id);
@@ -510,6 +537,39 @@ async function host(uid) {
     setText('connected-seated', playerCount === null ? '…' : `${seats.length} of ${playerCount} seated`);
     setText('connected-match-status', session?.status === 'lobby' ? setup?.stage ?? 'lobby' : session?.status ?? '…');
     none.hidden = requests.length > 0;
+    const publicIdentities = practiceFeed.identities()?.seats ?? [], botSeats = practiceFeed.practice()?.botSeatIds ?? [];
+    const nextSlots = JSON.stringify([playerCount, seats, publicIdentities, botSeats]);
+    if (nextSlots !== slotsKey) { slotsKey = nextSlots; slots.replaceChildren(...publicSlots(el, playerCount ?? 0, seats, publicIdentities, botSeats)); }
+    const ended = ['complete', 'aborted'].includes(session?.status);
+    page.querySelector('h1').textContent = open ? 'Your lobby' : ended ? 'Match ended' : session?.status === 'running' ? 'Match running' : setup?.stage === 'awaiting-ready' ? 'Reading roles' : 'Choosing characters';
+    setupProgress.node.hidden = session?.status === 'running' || ended;
+    roomCard.hidden = !open;
+    requestsBlock.hidden = !open;
+    startControl.hidden = !open;
+    botFold.hidden = !open;
+    hostNext.hidden = !ended;
+    hostProgress.hidden = open;
+    hostProgress.textContent = session?.status === 'running' ? 'Match running. Players act on their own phones.'
+      : ended ? session.status === 'aborted' ? 'Match ended by the host. No winner.' : 'Match finished. The result is on the players’ screens.'
+      : setup?.stage === 'awaiting-ready' ? 'Reading roles. Play begins after the 30-second minimum and everyone is Ready.' : 'Choosing characters. Everyone gets the full 30 seconds.';
+    if (session?.status === 'running' && hostScreen === null) {
+      hostScreen = createConnectedTableScreen({ transport, matchId, ports, host: { reload: () => window.location.reload() } });
+      const syncHostProgress = () => {
+        const model = hostScreen.getFrame().model;
+        if (session?.status !== 'running') return;
+        hostProgress.textContent = model.connection === 'live' && model.match
+          ? `${model.match.phase.roundLabel} · ${model.match.phase.phaseLabel}${model.match.phase.detail ? ` · ${model.match.phase.detail}` : ''}`
+          : 'Match running. Connecting to public progress…';
+      };
+      stopHostScreen = hostScreen.subscribe(syncHostProgress);
+      hostScreen.start(); syncHostProgress();
+      const visibility = () => hostScreen.setPageVisible(document.visibilityState === 'visible');
+      document.addEventListener('visibilitychange', visibility);
+      window.addEventListener('pagehide', () => { document.removeEventListener('visibilitychange', visibility); stopHostScreen(); hostScreen.dispose(); }, { once: true });
+    }
+    startHelp.hidden = !open;
+    startHelp.textContent = !practiceControls.readyToStart() ? 'Waiting for the bot settings to settle…'
+      : vacant.length > 0 ? `Fill all ${playerCount} seats to start: ${vacant.length} open.` : 'Locks the seats. Everyone gets 30 seconds to choose a character.';
 
     for (const request of requests) {
       const { item, text, seat, approve, control } = row(request);
@@ -548,6 +608,8 @@ async function host(uid) {
     if (!endable) askingToEnd = false;
     end.hidden = !endable || askingToEnd;
     for (const node of [endNote, endCancel, endControl]) node.hidden = !endable || !askingToEnd;
+    if (askingToEnd && !endDialog.open) endDialog.showModal();
+    else if (!askingToEnd && endDialog.open) endDialog.close();
     // Only a seat that is taken can be moved, and only in a match that is not over.
     const movable = endable ? seats.map(seat => seat.seatId).filter(seatId => practiceControls.canRecover(seatId)) : [];
     const asked = seatAskedFor();
@@ -603,7 +665,7 @@ function identityPicker(matchId, seatId) {
   const feed = createSetupFeed({ transport, ports, matchId, seatId });
   const identities = createComicFeeds({ transport, ports, matchId });
   const clock = createSetupClock({ api, ports, matchId, onTick: () => control.refresh() });
-  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock });
+  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock, onStageChange: () => say('') });
   const visibility = () => {
     control.conceal();
     if (document.visibilityState === 'hidden') { feed.quarantine(); identities.quarantine(); clock.suspend(); }
@@ -625,13 +687,12 @@ async function player(uid) {
   let state = resume.load();
   if (state?.device !== 'player' || typeof state.matchId !== 'string' || !MATCH_ID.test(state.matchId)) state = null;
   if (state === null) {
-    const code = el('input', undefined, { type: 'text', id: 'connected-room-code-input', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', maxlength: '12' });
+    const code = el('input', undefined, { type: 'text', id: 'connected-room-code-input', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', maxlength: '32', inputmode: 'text', enterkeyhint: 'go' });
     const codeLabel = el('label', 'Room code');
     codeLabel.append(code);
     const room = el('select', undefined, { id: 'connected-initial-room' });
     for (const name of ['Room A', 'Room B']) room.append(el('option', name, { value: name }));
-    const roomLabel = el('label', 'Where you start');
-    roomLabel.append(room);
+    const roomLabel = choiceTiles(el, room, 'Where you start', 'rooms');
     const join = el('button', 'Ask to join', { type: 'button', id: 'connected-join' });
     // Taking over a seat that another device held, with a one-time code from the host. The
     // code goes from the field into the request and nowhere else: not into the address, not
@@ -674,11 +735,20 @@ async function player(uid) {
       // whether it has in fact given this device a seat, which settles it either way.
       void player(uid);
     });
-    frame('Player', facts([['This device', uid, 'connected-uid']]), codeLabel, roomLabel, keeping('join', join, [code, room]),
-      el('h2', 'Or take over a seat from another device'), recoverMatchLabel, recoverCodeLabel, keeping('recover', recover, [recoverMatch, recoverCode]));
+    const joinForm = el('form', undefined, { class: 'phone-join-form' });
+    const codeHelp = el('p', '12 characters: 0–9 and A–F.', { id: 'connected-code-help', class: 'ms-visually-hidden' });
+    code.setAttribute('aria-describedby', 'connected-code-help');
+    code.addEventListener('input', () => { code.value = code.value.toUpperCase(); });
+    joinForm.append(codeLabel, codeHelp, roomLabel,
+      dock(el, keeping('join', join, [code, room])));
+    joinForm.addEventListener('submit', event => { event.preventDefault(); if (!join.disabled) join.click(); });
+    frame('Join a game', joinForm,
+      disclosure(el, 'Moving to a new phone? Take over your seat', recoverMatchLabel, recoverCodeLabel, keeping('recover', recover, [recoverMatch, recoverCode])),
+      disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']])));
     join.addEventListener('click', async () => {
-      const outcome = await operate('join', requestId => ({ protocolVersion: 2, requestId, roomCode: code.value.trim().toUpperCase(), initialRoom: room.value }), request => api.requestAdmission(request), 'Asking to join',
+      const outcome = await operate('join', requestId => ({ protocolVersion: 2, requestId, roomCode: code.value.replace(/\s+/g, '').toUpperCase(), initialRoom: room.value }), request => api.requestAdmission(request), 'Asking to join',
         { invalid: 'A room code is twelve characters, 0 to 9 and A to F.' });
+      if (outcome.kind === 'refused' && outcome.code === 'FORBIDDEN') say('This room cannot take this request. Check the code with the host, or whether this device already has a seat.', 'problem');
       if (outcome.kind !== 'done') return;
       resume.save({ device: 'player', matchId: outcome.result.matchId, admissionId: outcome.result.admissionId });
       void player(uid);
@@ -695,8 +765,13 @@ async function player(uid) {
     const says = `${seatId}/${text}/${controls.length}`;
     if (says === shown) return;
     shown = says;
-    frame('Player', facts([['This device', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id'], ['Seat', seatId === null ? 'Not seated yet' : `Player ${seatId.slice(5)}`, 'connected-seat']]),
-      el('p', text, { id: 'connected-waiting' }), ...(identityPanel ? [identityPanel] : []), ...controls);
+    const waitingCard = el('section', undefined, { class: 'phone-waiting' });
+    waitingCard.append(el('span', seatId === null ? '?' : seatId.slice(5), { class: 'phone-seat-number', 'aria-hidden': 'true' }),
+      el('h2', seatId === null ? 'Request sent' : `Player ${seatId.slice(5)}`, { id: 'connected-seat' }),
+      el('p', text, { id: 'connected-waiting' }));
+    frame(seatId === null ? 'Waiting to be seated' : 'You are seated', waitingCard,
+      ...(identityPanel ? [identityPanel] : []), ...controls,
+      disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']])));
   };
   const open = () => showMatch(createConnectedPlayerScreen({ transport, matchId, seatId, ports, host: { reload: () => window.location.reload() } }), renderComicPlayerShell, matchId, seatId);
   // A seated player may read the lobby. If the server refuses that, this device is not in the match (any more).

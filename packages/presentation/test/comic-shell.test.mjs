@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildTableShellModel, renderComicPlayerShell, renderComicTableShell, splitRegions, toHtml } from '@mothership/presentation';
 import { model, playerView, publicView, environment, closed } from './support/protocol2-views.mjs';
-import { auditMarkup } from './support/markup-audit.mjs';
+import { auditMarkup, find, byRegion, byClass, byId } from './support/markup-audit.mjs';
 
 const identities = [{ seatId: 'seat-1', displayName: '<Hacker>', characterId: 'c8' }, { seatId: 'seat-2', displayName: 'Ada', characterId: 'c1' }];
 test('comic names are escaped text with seat numbers, character selection never derives from a role', () => {
@@ -30,7 +30,7 @@ test('paired private states produce identical public comic regions', () => {
   const b = playerView(view => { view.self.role = 'Supplier'; view.legalTargets.SUPPLY = ['seat-2','seat-3']; });
   const first = splitRegions(renderComicPlayerShell(model(a), { identities }));
   const other = splitRegions(renderComicPlayerShell(model(b), { identities }));
-  for (const key of ['comic-board','roster','location','phase','timer','vote','result']) assert.equal(first.regions.get(key), other.regions.get(key), key);
+  for (const key of ['comic-board','phone-self','roster','location','phase','timer','vote','result']) assert.equal(first.regions.get(key), other.regions.get(key), key);
 });
 test('table gets public identities and no private card; missing and unknown characters keep numbered tokens', () => {
   const table = buildTableShellModel({ ...environment, view: publicView() });
@@ -74,5 +74,77 @@ test('practice mode and bot seats are labeled on live phone/table surfaces witho
     assert.doesNotMatch(html, /data-device|data-team|ms-role-card__art/);
     assert.doesNotMatch(toHtml(render(screen, { identities, practice: { ...practice, botSeatIds: [] } })), /Practice match|ms-seat__bot/);
     assert.doesNotMatch(toHtml(render({ ...screen, connection: 'stale' }, { identities, practice })), /Practice match|ms-seat__bot/);
+  }
+});
+
+
+test('the bottom navigation is role-neutral and only explicit private views include the own card', () => {
+  const first=playerView(), other=playerView(view=>{view.self.role='Supplier';view.legalTargets.SUPPLY=['seat-2','seat-3'];});
+  const a=renderComicPlayerShell(model(first,undefined,closed),{identities});
+  const b=renderComicPlayerShell(model(other,undefined,closed),{identities});
+  assert.equal(splitRegions(a).regions.get('private'),splitRegions(b).regions.get('private'));
+  assert.doesNotMatch(toHtml(a),/aria-modal|role="dialog"|data-device|data-team/);
+  const opened=renderComicPlayerShell(model(first),{identities});auditMarkup(opened);
+  assert.doesNotMatch(toHtml(opened),/aria-modal/);
+  assert.match(toHtml(opened),/aria-label="Private card"/);
+  assert.match(toHtml(opened),/role="navigation"/);
+});
+
+
+test('an ended phone never keeps its private sheet or action prompt in the result screen', () => {
+  const ended=playerView(view=>{
+    view.phase={id:'phase-aborted',kind:'ABORTED',startedAt:view.phase.startedAt,endsAt:null};
+    view.activeSeatId=null;view.self.movementDestinations=[];
+  });
+  const markup=renderComicPlayerShell(model(ended,undefined,{deadline:{kind:'none'}}),{identities});
+  auditMarkup(markup);
+  const html=toHtml(markup);
+  assert.match(html,/The host ended this match/);
+  assert.doesNotMatch(html,/role="dialog"|data-device|data-team|private\/toggle|Open your private card to act/);
+});
+
+test('finished and aborted phones can switch between their result and an unobstructed Menu', () => {
+  for (const kind of ['FINISHED', 'ABORTED']) {
+    const ended = playerView(view => {
+      view.phase = { id: 'phase-ended', kind, startedAt: view.phase.startedAt, endsAt: null };
+      view.activeSeatId = null; view.self.movementDestinations = [];
+      if (kind === 'FINISHED') {
+        view.result = { winner: 'Blue', alienCoWinner: false };
+        view.endReveal = { roles: ['Cracker', 'Insider', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'].map((role, index) => ({ seatId: `seat-${index + 1}`, role })), code: ['seat-1', 'seat-2', 'seat-3', 'seat-7'] };
+      }
+    });
+    const screen = model(ended, undefined, { deadline: { kind: 'none' } });
+    for (const phoneView of ['board', 'more', 'board']) {
+      const markup = renderComicPlayerShell(screen, { identities, phoneView });
+      assert.equal(find(markup, byRegion('result')).attrs.hidden, phoneView === 'more', kind);
+      assert.equal(Boolean(find(markup, byClass('phone-menu')).attrs.hidden), phoneView !== 'more', kind);
+      assert.equal(find(markup, byId('ms-phone-more')).attrs.disabled, undefined);
+      assert.equal(find(markup, byId('ms-phone-board')).attrs.disabled, undefined);
+      assert.equal(find(markup, byId('ms-phone-actions')).attrs.disabled, true);
+      assert.deepEqual(find(markup, byRegion('private')).children, []);
+    }
+  }
+});
+
+test('room labels are uniform public controls, and Move is absent from the action menu', () => {
+  const normal = playerView(), restricted = playerView(view => { view.self.movementDestinations = []; });
+  const first = renderComicPlayerShell(model(normal, undefined, closed), { phoneView: 'board' });
+  const second = renderComicPlayerShell(model(restricted, undefined, closed), { phoneView: 'board' });
+  const board = splitRegions(first).regions.get('comic-board');
+  assert.equal(board, splitRegions(second).regions.get('comic-board'));
+  for (const room of ['Room A', 'Room B', 'Command Room']) assert.ok(board.includes(`data-move-room="${room}"`));
+  assert.doesNotMatch(board, /data-move-room="(?:Hospital|Jail)"/);
+  const opened = renderComicPlayerShell(model(normal), { phoneView: 'actions' });
+  assert.doesNotMatch(toHtml(opened), /id="ms-action-open-move"/);
+  assert.notEqual(find(opened, byRegion('comic-board')).attrs.hidden, true);
+  assert.match(toHtml(opened), /phone-private-close/);
+  const choosing = model(normal, { step: 'choosing', kind: 'move' });
+  assert.match(toHtml(renderComicPlayerShell(choosing, { phoneView: 'actions' })), /data-value="Room B"/);
+});
+test('Actions, Card and Menu remain panels over the same board', () => {
+  for (const phoneView of ['board', 'actions', 'role', 'more']) {
+    const view = renderComicPlayerShell(model(playerView(), undefined, phoneView === 'actions' || phoneView === 'role' ? {} : closed), { phoneView });
+    assert.notEqual(find(view, byRegion('comic-board')).attrs.hidden, true);
+    assert.doesNotMatch(toHtml(view), /aria-current="page"/);
   }
 });

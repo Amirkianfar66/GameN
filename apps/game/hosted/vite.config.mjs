@@ -33,6 +33,8 @@ export default {
   }],
   build: {
     target: 'es2022',
+    // Runtime art is loaded as unprocessed CSS; preserve individual transform resets.
+    cssMinify: false,
     outDir: fileURLToPath(new URL('../../../dist/hosted-preview', import.meta.url)),
     emptyOutDir: true,
     sourcemap: false,

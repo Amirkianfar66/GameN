@@ -1,4 +1,5 @@
 // Browser mounting for the hosted playtest. No fixture state or operator controls.
+import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
@@ -79,6 +80,12 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let spokenSeq = 0;
   let focusSeq = 0;
   let privacyEpoch = 0;
+  let privateWasOpen = false;
+  let phoneView = 'board';
+  let phoneFocus = null;
+  let phoneNotice = null;
+  let phoneOpener = '#ms-phone-actions';
+  const inertNodes = new Set();
 
   function applyRootAttributes(next) {
     for (const name of Object.keys(rootAttributes)) if (!(name in next)) root.removeAttribute(name);
@@ -91,7 +98,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   function draw() {
     const beforeMotion = comicMotion.before();
     const frame = screen.getFrame();
-    const split = splitRegions(render(frame.model));
+    if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
+    if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
+    if (!frame.model.match?.privateArea?.open) phoneNotice = null;
+    const split = splitRegions(render(frame.model, { phoneView, phoneNotice }));
     applyRootAttributes(split.rootAttrs);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
@@ -114,6 +124,20 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       root.querySelector(selector).outerHTML = step.html;
     }
     drawn = split;
+    const sheet = root.querySelector('.ms-private[data-open="true"]');
+    for (const node of inertNodes) node.inert = false;
+    inertNodes.clear();
+    const compact = root.querySelector('.phone-nav') !== null;
+    if (sheet && !compact) {
+      const phaseBottom = root.querySelector('.ms-phase')?.getBoundingClientRect().bottom ?? 0;
+      sheet.style.setProperty('--phone-sheet-top', `${Math.max(0, phaseBottom) + 8}px`);
+      for (const node of root.querySelectorAll('.ms-main > *, .ms-header, .ms-footer')) {
+        if (node === sheet || node.contains(sheet)) continue;
+        node.inert = true; inertNodes.add(node);
+      }
+    }
+    const opened = Boolean(sheet) && !privateWasOpen;
+    privateWasOpen = Boolean(sheet);
     comicMotion.after(frame.model, beforeMotion);
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
@@ -125,6 +149,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       const target = candidates.map(id => document.getElementById(id)).find(element => element !== null) ?? document.getElementById(SHELL_IDS.main);
       target?.focus({ preventScroll: true });
     }
+
+    if (phoneFocus) { root.querySelector(phoneFocus)?.focus({ preventScroll: true }); phoneFocus = null; }
+    else if (opened) root.querySelector('#ms-private-heading')?.focus({ preventScroll: true });
 
     // Private content left the screen: private lines that were spoken leave the document too.
     if (frame.privacyEpoch !== privacyEpoch) {
@@ -142,10 +169,31 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   // A control says what it is for and, where it stands for one, which seat, action or choice. The shared parser decides
   // whether that is an intent at all; this host assembles none of its own.
   function onClick(event) {
+    const room = event.target instanceof Element ? event.target.closest('button[data-move-room]') : null;
+    if (room && root.contains(room)) {
+      phoneOpener = `#${room.id}`;
+      phoneView = 'actions'; phoneNotice = null;
+      phoneNotice = openRoomMovement(screen, room.dataset.moveRoom);
+      phoneFocus = phoneNotice ? '#ms-private-heading' : null; draw(); return;
+    }
+    const tab = event.target instanceof Element ? event.target.closest('button[data-phone-view]') : null;
+    if (tab && root.contains(tab)) {
+      if (tab.disabled) return;
+      let view = tab.dataset.phoneView;
+      if (!['board', 'actions', 'role', 'more'].includes(view)) return;
+      if (view === phoneView && view !== 'board') view = 'board';
+      if (view !== 'board') phoneOpener = `#${tab.id}`;
+      phoneView = view; phoneNotice = null;
+      phoneFocus = view === 'more' ? '#phone-menu-heading' : ['actions', 'role'].includes(view) ? '#ms-private-heading' : phoneOpener;
+      const needsPrivate = view === 'actions' || view === 'role';
+      if (needsPrivate !== Boolean(screen.getFrame().model.match?.privateArea?.open)) screen.dispatch({ type: 'private/toggle' });
+      else draw();
+      return;
+    }
     const control = event.target instanceof Element ? event.target.closest('button[data-intent]') : null;
     if (control === null || !root.contains(control)) return;
     const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat, kind: control.dataset.kind, value: control.dataset.value });
-    if (intent !== null) screen.dispatch(intent);
+    if (intent !== null) { phoneNotice = null; screen.dispatch(intent); }
   }
   function onChange(event) {
     const control = event.target;
@@ -156,12 +204,36 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onMotion = () => screen.setDeviceReducedMotion(motion.matches);
   const onVisibility = () => screen.setPageVisible(document.visibilityState === 'visible');
+  const onBlur = () => { if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
+  function onKeyDown(event) {
+    const sheet = root.querySelector('.ms-private[data-open="true"]');
+    if (event.key === 'Escape' && phoneView !== 'board') {
+      event.preventDefault(); phoneView = 'board'; phoneNotice = null; phoneFocus = phoneOpener;
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      else draw();
+      return;
+    }
+    if (!sheet) return;
+    if (root.querySelector('.phone-nav') || event.key !== 'Tab') return;
+    const controls = [...sheet.querySelectorAll('button:not([disabled]), input:not([disabled]), summary, [tabindex="0"]')]
+      .filter(node => !node.hidden && node.getClientRects().length > 0);
+    const first = controls[0], last = controls.at(-1);
+    if (!first) return;
+    if (event.shiftKey && (document.activeElement === first || !controls.includes(document.activeElement))) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || !controls.includes(document.activeElement))) {
+      event.preventDefault(); first.focus();
+    }
+  };
+
 
   const stopFrames = screen.subscribe(draw);
   const stopExtra = subscribeExtra(draw);
   root.addEventListener('click', onClick);
   root.addEventListener('change', onChange);
   document.addEventListener('visibilitychange', onVisibility);
+  window.addEventListener('blur', onBlur);
+  root.addEventListener('keydown', onKeyDown);
   motion.addEventListener('change', onMotion);
 
   screen.setDeviceReducedMotion(motion.matches);
@@ -180,6 +252,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('blur', onBlur);
+    root.removeEventListener('keydown', onKeyDown);
+    for (const node of inertNodes) node.inert = false;
+    inertNodes.clear();
     motion.removeEventListener('change', onMotion);
     screen.dispose();
     container.replaceChildren();
