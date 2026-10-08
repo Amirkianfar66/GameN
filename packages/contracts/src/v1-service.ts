@@ -10,7 +10,9 @@ const playerCount=z.union([z.literal(7),z.literal(8),z.literal(9)]);
 const roomCode=z.string().regex(/^[A-F0-9]{12}$/);
 const recoveryToken=z.string().regex(/^[A-Za-z0-9_-]{43}$/);
 export const FullCreateMatchRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,playerCount});
-export const FullAdmissionRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,roomCode,initialRoom:room});
+// Compatibility only: deployed older clients may send initialRoom. The server ignores it;
+// new clients omit it and the server assigns Room A/B independently of role and character.
+export const FullAdmissionRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,roomCode,initialRoom:room.optional()});
 export const FullApproveAdmissionRequestSchema=z.strictObject({...operation,admissionId:IdentifierSchema,seatId:SeatIdSchema});
 export const FullAdmitDisplayRequestSchema=z.strictObject({...operation,displayUid:uid});
 export const FullStartMatchRequestSchema=z.strictObject(operation);
