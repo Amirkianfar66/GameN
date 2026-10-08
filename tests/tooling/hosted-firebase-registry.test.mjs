@@ -58,3 +58,16 @@ export async function probe() {
     assert.equal(networkCalls, 0);
   } finally { rmSync(temporary, { recursive: true, force: true }); }
 });
+
+// Art stylesheets are injected unchanged at runtime, outside Vite's CSS pipeline.
+// Rewriting a translate reset to transform leaves the art's translate active.
+test('the shipped phone CSS clears the runtime art individual translation', async () => {
+  const result = await build({ ...hosted, configFile: false, logLevel: 'silent', build: { ...hosted.build, write: false } });
+  const css = result.output.filter(item => item.type === 'asset' && item.fileName.endsWith('.css'))
+    .map(item => String(item.source)).join('\n');
+  const selector = '#app .ms-shell--player .ms-board .ms-zone__empty';
+  const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/gu)]
+    .filter(([, selectors]) => selectors.trim().split(/,\s*/u).includes(selector));
+  assert.ok(rules.some(([, , declarations]) => /(?:^|;)\s*translate\s*:\s*none\s*;/u.test(declarations)),
+    'The shipped caption reset must clear translate itself, not only transform');
+});
