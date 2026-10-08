@@ -135,3 +135,10 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 .phone-requests h2 { font-size:.85rem; }
 #connected-seated { font-size:.75rem; }
 .phone-waiting { border-radius:14px; box-shadow:none; }
+/* Give a crowded room more of the same viewport, using public occupancy only. */
+#app .ms-shell--player .ms-board .ms-zones:has([data-zone=room-a] .ms-seat:nth-child(6)) { grid-template-rows:minmax(0,.55fr) minmax(0,1.8fr) repeat(2,minmax(0,.65fr)); }
+#app .ms-shell--player .ms-board .ms-zones:has([data-zone=room-b] .ms-seat:nth-child(6)) { grid-template-rows:repeat(2,minmax(0,.65fr)) minmax(0,1.8fr) minmax(0,.55fr); }
+#app .ms-shell--player .ms-board .ms-zones:has(:is([data-zone=hospital],[data-zone=jail]) .ms-seat:nth-child(6)) { grid-template-rows:minmax(0,.55fr) repeat(2,minmax(0,.65fr)) minmax(0,1.8fr); }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats { grid-template-columns:repeat(min(var(--ms-seats),3),minmax(0,1fr)); --ms-piece:min(3rem,calc((100cqi - 12px) / min(var(--ms-seats),3) / 1.25),calc(100cqh / var(--phone-rows,1) / 1.6)); }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(4)) { --phone-rows:2; }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(7)) { --phone-rows:3; }
