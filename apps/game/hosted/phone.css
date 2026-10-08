@@ -1,0 +1,231 @@
+/* Playable adoption of the #76 phone journey. No prototype scripts or fixtures.
+   Public layout uses public facts; private styling stays inside the opened panel. */
+:root { --phone-column: 30rem; --phone-game: 64rem; }
+.connected-body { overflow-x: clip; padding-inline: env(safe-area-inset-left) env(safe-area-inset-right); }
+.connected-body *, .connected-body *::before, .connected-body *::after { box-sizing: border-box; }
+.connected-body [hidden] { display: none !important; }
+.phone-mast { display:flex; justify-content:space-between; align-items:center; gap:1rem; min-height:44px; padding:0 1rem; background:var(--ms-color-paper); color:var(--ms-color-ink); border-bottom:3px solid var(--ms-color-ink); }
+.phone-mast a { display:flex; align-items:center; min-height:44px; font-family:var(--ms-font-lettering); font-weight:800; color:inherit; text-transform:uppercase; text-decoration:none; }
+.phone-mast span { font-size:.75rem; font-weight:700; text-transform:uppercase; background:var(--ms-color-ink); color:var(--ms-color-paper); padding:2px 8px; }
+body:has(#lobby[hidden]) > .phone-mast { display:none; }
+.connected-lobby { max-width:var(--phone-column); min-height:calc(100dvh - 44px); padding:1rem 1rem max(1.5rem, env(safe-area-inset-bottom)); margin:0 auto; align-content:start; gap:1rem; border:0; box-shadow:none; background:transparent; }
+.connected-lobby .phone-caption { font-size:1.375rem; background:var(--ms-color-caption); color:var(--ms-color-ink); border:3px solid var(--ms-color-ink); padding:.25rem .65rem; box-shadow:3px 3px var(--ms-color-steel-shadow); transform:skewX(-4deg); line-height:1.2; overflow-wrap:anywhere; }
+.connected-lobby h2 { font-size:1rem; line-height:1.25; }
+.connected-lobby :is(button, input, select), .phone-next { min-height:48px; min-width:44px; max-width:100%; border-radius:3px; }
+.connected-lobby :is(button,a,summary):focus-visible, .phone-next:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:3px; }
+.connected-lobby button { border:3px solid var(--ms-color-ink); }
+.connected-lobby button:disabled { opacity:1; color:var(--ms-color-ink); background:var(--ms-color-paper-deep); border-style:dashed; box-shadow:none; cursor:default; }
+.connected-lobby .connected-quiet { min-height:44px; color:var(--ms-color-text); border:2px dashed var(--ms-color-steel-mid); font-size:.875rem; box-shadow:none; }
+.connected-lobby input { min-width:0; width:100%; }
+.connected-lobby input[aria-invalid=true] { border:4px dashed var(--ms-color-accent); }
+.connected-lobby .connected-status:empty { display:none; }
+.connected-status:not(:empty), .phone-notice { padding:.65rem .75rem; border:2px solid var(--ms-color-steel-mid); border-inline-start:4px solid var(--ms-color-paper); color:var(--ms-color-text); font-size:.875rem; overflow-wrap:anywhere; }
+.connected-status[data-kind=problem] { border:3px dashed var(--ms-color-paper); }
+.phone-more { min-width:0; border-top:2px solid var(--ms-color-steel-mid); }
+.phone-more > summary, .ms-readable-board > summary { display:list-item; cursor:pointer; min-height:48px; padding:.75rem .25rem; font-weight:700; }
+.phone-more[open] > :not(summary) { margin-block:.5rem 1rem; }
+.phone-more .connected-facts { font-size:.8rem; grid-template-columns:minmax(5rem,auto) minmax(0,1fr); gap:.5rem; }
+.phone-dock { position:sticky; bottom:0; z-index:8; display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; padding:.75rem 0 max(.75rem,env(safe-area-inset-bottom)); background:var(--ms-color-canvas); border-top:3px solid var(--ms-color-steel-mid); }
+.phone-dock > :is(button,.connected-control) { flex:1 1 9rem; }
+.phone-dock .connected-control > button:first-child, .phone-dock > button:last-child { background:var(--ms-color-accent); color:var(--ms-color-ink); }
+.phone-dock .connected-control > button { flex:1; }
+.phone-dock > p { flex-basis:100%; font-size:.8rem; }
+.connected-lobby:has(input:focus,select:focus) .phone-dock { position:static; }
+.phone-doors a { display:flex; align-items:center; min-height:5.5rem; padding:1rem 1rem 1rem 40%; color:var(--ms-color-ink); background:var(--ms-color-paper); border:3px solid var(--ms-color-ink); box-shadow:4px 4px var(--ms-color-steel-shadow); text-decoration:none; font-size:1.25rem; font-family:var(--ms-font-lettering); text-transform:uppercase; }
+.phone-doors li:first-child a { background-color:var(--ms-color-caption); }
+[data-art~="public-board"] .phone-doors a { background-image:var(--ms-asset-board-room-a-full); background-position:left center; background-size:34% 100%; background-repeat:no-repeat; }
+[data-art~="public-board"] #connected-as-host { background-image:var(--ms-asset-board-command-room-full); }
+[data-art~="public-board"] #connected-as-display { background-image:var(--ms-asset-board-room-b-full); }
+.phone-tiles { display:grid; gap:.65rem; border:0; padding:0; margin:0; min-width:0; }
+.phone-tiles legend { font-weight:700; margin-bottom:.65rem; }
+.phone-tiles--count { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.phone-tiles--rooms { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.connected-lobby .phone-tile { position:relative; display:flex; flex-direction:column; justify-content:end; text-align:center; min-height:5.5rem; padding:.5rem; background:var(--ms-color-paper); color:var(--ms-color-ink); border:3px solid var(--ms-color-ink); cursor:pointer; }
+.phone-tile input { position:absolute; opacity:0; inset:0; margin:0; width:100%; height:100%; cursor:pointer; }
+.phone-tile:has(input:checked) { outline:3px solid var(--ms-color-caption); outline-offset:2px; background-color:var(--ms-color-caption); box-shadow:3px 4px var(--ms-color-ink); }
+.phone-tile:has(input:focus-visible) { outline:3px solid var(--ms-color-focus); outline-offset:3px; }
+.phone-tile:has(input:disabled) { border-style:dashed; cursor:default; }
+.phone-tiles--count .phone-tile { font-size:1.1rem; justify-content:center; }
+.phone-tiles--rooms .phone-tile { min-height:8rem; background-size:cover; background-position:center; }
+.phone-tiles--rooms .phone-tile span { background:var(--ms-color-paper); border:2px solid var(--ms-color-ink); padding:.25rem; }
+.phone-tiles--rooms .phone-tile:has(input:checked) span::before { content:'✓ '; }
+[data-art~="public-board"] .phone-tile[data-value="Room A"] { background-image:var(--ms-asset-board-room-a-full); }
+[data-art~="public-board"] .phone-tile[data-value="Room B"] { background-image:var(--ms-asset-board-room-b-full); }
+.phone-join-form { display:grid; gap:1rem; }
+#connected-room-code-input { font-family:ui-monospace,monospace; font-size:1.25rem; text-transform:uppercase; }
+.phone-room-code, .phone-waiting { display:grid; gap:.75rem; padding:1rem; color:var(--ms-color-ink); background:var(--ms-color-paper); border:3px solid var(--ms-color-ink); box-shadow:4px 4px var(--ms-color-steel-shadow); }
+.phone-room-code h2 { font-size:.85rem; }
+#connected-room-code { font-family:ui-monospace,monospace; font-size:clamp(1rem,6vw,1.65rem); letter-spacing:.06em; font-weight:800; overflow-wrap:anywhere; }
+.phone-room-code .connected-quiet { color:var(--ms-color-ink); border-color:var(--ms-color-ink); justify-self:start; }
+.phone-room-code > p:last-child { font-size:.85rem; }
+.connected-lobby .phone-slots { padding:0; margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; list-style:none; }
+.phone-slot { display:flex; align-items:center; gap:.5rem; min-width:0; border:2px solid var(--ms-color-steel-mid); padding:.4rem; }
+.phone-slot[data-filled=false] { border-style:dashed; color:var(--ms-color-text-secondary); }
+.phone-slot > span:last-child { min-width:0; }
+.phone-slot strong, .phone-slot small { display:block; overflow-wrap:anywhere; font-size:.8rem; }
+.phone-slot small { font-size:.7rem; color:var(--ms-color-text-secondary); }
+.phone-slot__face { flex:none; display:grid; place-items:center; width:2.1rem; height:2.5rem; background:var(--ms-color-paper); color:var(--ms-color-ink); font-weight:800; border:2px solid var(--ms-color-ink); }
+#connected-seated { font-weight:700; }
+.phone-requests { display:grid; gap:.65rem; }
+.connected-lobby #connected-requests .connected-row { padding:.75rem; border:3px solid var(--ms-color-ink); background:var(--ms-color-paper); color:var(--ms-color-ink); }
+#connected-requests .connected-row > span { flex-basis:100%; font-weight:700; }
+#connected-requests .connected-control { flex:1; }
+#connected-requests button[data-approve] { background:var(--ms-color-accent); }
+#connected-requests [data-status=approved] { display:none; }
+.connected-practice { border:0; margin:0; padding:0; display:grid; gap:.65rem; }
+.connected-practice a { min-height:44px; display:flex; align-items:center; margin:0; }
+#connected-bots-roster { display:none; } /* Same public seats remain in the host roster. */
+.phone-host-status { padding:1rem; border:2px solid var(--ms-color-steel-mid); }
+.phone-confirm { max-width:min(30rem,calc(100vw - 1.5rem)); padding:1.25rem; border:4px solid var(--ms-color-ink); background:var(--ms-color-panel); color:var(--ms-color-text); box-shadow:5px 5px var(--ms-color-steel-shadow); }
+.phone-confirm[open] { display:grid; gap:1.25rem; }
+.phone-confirm::backdrop { background:rgb(0 0 0 / .8); }
+#connected-end-confirm { margin-top:.75rem; border-style:dashed; }
+.phone-waiting { text-align:center; justify-items:center; }
+.phone-seat-number { display:grid; place-items:center; width:3.5rem; height:3.5rem; background:var(--ms-color-ink); color:var(--ms-color-paper); font-weight:800; font-size:2rem; border:3px solid var(--ms-color-steel-mid); border-radius:50%; }
+body:has(.connected-player-setup[data-stage=choosing], .connected-player-setup[data-stage=awaiting-ready]) .phone-mast,
+.connected-lobby:has(.connected-player-setup[data-stage=choosing], .connected-player-setup[data-stage=awaiting-ready]) > :is(.phone-caption,.phone-waiting) { display:none; }
+.connected-player-setup { display:grid; gap:1rem; }
+.connected-setup-progress { border:0; padding:0; gap:.65rem; }
+.connected-setup-progress[data-stage=lobby] .phone-setup-head { display:none; }
+.phone-setup-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.5rem; background:var(--ms-color-caption); color:var(--ms-color-ink); border:3px solid var(--ms-color-ink); padding:.5rem; box-shadow:3px 3px var(--ms-color-steel-shadow); }
+.phone-setup-head h2 { flex:1 1 9rem; }
+.setup-countdown { font-size:.9rem; max-width:100%; }
+.setup-countdown[data-state=final] { background:var(--ms-color-ink); color:var(--ms-color-paper); padding:.25rem; }
+#setup-progress-status { font-size:.85rem; }
+#setup-progress-seats { padding:.5rem; gap:.5rem; }
+#setup-progress-seats li { padding:.5rem; border:1px solid var(--ms-color-steel-mid); font-size:.8rem; }
+.connected-player-setup .connected-identity { display:grid; gap:.75rem; }
+#crew-heading { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+.connected-lobby .crew-picker { gap:.6rem; }
+.connected-lobby .crew-option { min-height:6rem; padding:.25rem; font-size:.75rem; line-height:1.25; border:3px solid var(--ms-color-ink); color:var(--ms-color-ink); }
+.crew-option::before { width:min(100%,4.25rem); }
+.connected-lobby .crew-option[aria-pressed=true] { background:var(--ms-color-caption); outline:0; transform:translateY(-3px); box-shadow:0 4px var(--ms-color-steel-mid); }
+.connected-lobby .crew-option[aria-disabled=true] { opacity:1; border-style:dashed; background:var(--ms-color-paper-deep); }
+.crew-option[aria-disabled=true]::before { filter:grayscale(1); opacity:.6; }
+.phone-field-help, #crew-status { font-size:.85rem; }
+.phone-crew-confirmed { display:grid; justify-items:center; padding:1rem; background:var(--ms-color-paper); color:var(--ms-color-ink); border:3px solid var(--ms-color-ink); text-align:center; font-weight:800; }
+.phone-crew-confirmed::before { content:''; display:block; width:7rem; aspect-ratio:84/96; background:var(--phone-crew,none) center/contain no-repeat; }
+.phone-role-back { display:grid; align-content:center; justify-items:center; gap:1rem; min-height:17rem; width:min(100%,17.5rem); margin:0 auto; padding:1rem; background:repeating-linear-gradient(135deg,var(--ms-color-panel) 0 3px,var(--ms-color-steel-shadow) 3px 6px); border:4px solid var(--ms-color-ink); outline:2px solid var(--ms-color-paper); outline-offset:-12px; border-radius:6px; color:var(--ms-color-paper); font-weight:800; letter-spacing:.15em; }
+[data-art~="player-ui"] .phone-role-back::before { content:''; width:3rem; height:3rem; background:var(--ms-asset-icon-private-closed-paper) center/contain no-repeat; }
+.connected-role-confirmation > h2 { display:none; }
+.connected-role-confirmation .ms-private__panel { padding:0; border:0; }
+.connected-role-confirmation .ms-private__panel .ms-role-card--full { max-width:17.5rem; }
+.setup-role-guide { border-inline-start:4px solid var(--ms-color-paper); padding-inline-start:.75rem; font-size:1rem; line-height:1.55; }
+#setup-ready-waiting { padding:2rem 1rem; border:3px solid var(--ms-color-steel-mid); text-align:center; }
+#setup-ready-waiting::before { content:'✓ READY'; display:block; font-size:2rem; font-weight:800; margin-bottom:1rem; }
+.connected-practice-notice { font-size:.8rem; font-weight:400; }
+/* The game keeps its public phase in view and puts actions inside a neutral private dock. */
+#app .ms-shell--player .ms-main { display:flex; flex-direction:column; max-width:var(--phone-game); padding:.5rem .75rem 7rem; gap:.65rem; }
+#app .ms-shell--player .ms-header { display:none; }
+#app .ms-shell--player .ms-title { font-size:.9rem; margin:0; }
+#app .ms-shell--player .ms-title__prefix { font-size:inherit; }
+#app .ms-shell--player .ms-phase { position:sticky; top:0; z-index:24; padding:.4rem .6rem; gap:.5rem; min-height:0; }
+#app .ms-shell--player .ms-phase__labels { gap:0; min-width:0; }
+#app .ms-shell--player .ms-phase__round { font-size:.75rem; }
+#app .ms-shell--player .ms-phase__label { font-size:1.125rem; line-height:1.15; overflow-wrap:normal; word-break:normal; }
+#app .ms-shell--player .ms-phase__detail { font-size:.8rem; }
+#app .ms-shell--player .ms-timer { padding:.2rem .4rem; min-width:4rem; }
+#app .ms-shell--player .ms-timer__digits { font-size:1.5rem; }
+#app .ms-shell--player .ms-practice-notice { padding:.35rem .5rem; font-size:.75rem; order:9; }
+#app .ms-shell--player .ms-practice-notice h2 { font-size:.85rem; }
+#app .ms-shell--player .ms-board { padding:0; border:0; box-shadow:none; }
+#app .ms-shell--player .ms-board > h2 { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+#app .ms-shell--player .ms-board .ms-zones { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 8px; background:var(--ms-color-paper); padding:14px 7px 8px; border:4px solid var(--ms-color-ink); box-shadow:4px 5px var(--ms-color-steel-shadow); }
+#app .ms-shell--player .ms-board .ms-zone { grid-column:auto; order:0; aspect-ratio:auto; min-block-size:6.4rem; padding:1.5rem 4px 1.1rem; inline-size:100%; display:grid; align-content:end; background-size:cover; background-position:center 72%; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=command-room] { grid-column:1/-1; order:-3; min-block-size:5.5rem; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=room-a] { grid-column:1/-1; order:-2; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=room-b] { grid-column:1/-1; order:-1; }
+#app .ms-shell--player .ms-board .ms-zone[data-zone=final-zone] { grid-column:1/-1; order:-4; min-block-size:8rem; }
+#app .ms-shell--player .ms-board .ms-zone__name { font-size:.85rem; line-height:1.15; max-width:calc(100% + 4px); white-space:normal; }
+#app .ms-shell--player .ms-board .ms-zone__empty { position:static; margin:0; font-size:.7rem; }
+#app .ms-shell--player .ms-board .ms-seats { --ms-piece:clamp(1.65rem,calc((100cqi - 24px) / min(var(--ms-seats),5) / 1.3),3.1rem); position:relative; inset:auto; display:flex; flex-wrap:wrap; justify-content:center; align-items:end; gap:1.75rem .3rem; padding:0 0 .4rem; }
+#app .ms-shell--player .ms-board .ms-seat { flex:0 0 calc((100% - 1.2rem)/5); max-width:4rem; min-width:0; }
+#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seat { flex-basis:calc((100% - .6rem)/3); }
+#app .ms-shell--player .ms-board .ms-seat__name { font-size:.65rem; max-inline-size:calc(100% + .45rem); translate:-50% 0; inset-inline-start:50%; inset-block-start:100%; }
+#app .ms-shell--player .ms-board .ms-seat:nth-child(even) .ms-seat__name { inset-block-start:100%; }
+#app .ms-shell--player .ms-board .ms-seat[data-self=true] .ms-seat__name { background:var(--ms-color-caption); }
+#app .ms-shell--player .ms-board .ms-seat__bot { display:none; }
+.phone-self { display:flex; flex-wrap:wrap; gap:.25rem .75rem; padding:.45rem .6rem; background:var(--ms-color-panel); border:2px solid var(--ms-color-steel-mid); font-size:.8rem; }
+.phone-self strong { flex-basis:100%; overflow-wrap:anywhere; }
+#app .ms-shell--player .ms-private { position:fixed; inset:auto 0 0; z-index:23; margin:0 auto; max-width:var(--phone-game); max-height:none; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.5rem; padding:.65rem .75rem max(.65rem,env(safe-area-inset-bottom)); background:var(--ms-color-panel); border:3px solid var(--ms-color-steel-mid); border-radius:0; box-shadow:0 -3px var(--ms-color-ink); }
+.phone-turn { display:grid; gap:.2rem; margin:0; align-content:center; }
+.phone-turn strong { font-family:var(--ms-font-lettering); text-transform:uppercase; font-size:.875rem; }
+.phone-turn span { font-size:.7rem; }
+#app .ms-private[data-open=false] > :is(h2,.ms-hint) { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+#app .ms-private > .ms-button { min-height:48px; padding:.5rem .7rem .5rem 2rem; font-size:.875rem; }
+#app .ms-shell--player .ms-private[data-open=true] { display:block; max-height:calc(100dvh - 6rem); overflow-y:auto; overscroll-behavior:contain; border-radius:10px 10px 0 0; padding:1rem; box-shadow:0 0 0 200vmax rgb(0 0 0 / .78); }
+#app .ms-private[data-open=true] .phone-turn { display:none; }
+#app .ms-private[data-open=true] > h2 { display:inline-block; font-size:1.1rem; max-width:calc(100% - 7rem); }
+#app .ms-private[data-open=true] > .ms-hint { margin:.5rem 0; font-size:.85rem; }
+#app .ms-private[data-open=true] > .ms-button { float:right; position:sticky; top:0; z-index:3; margin-top:-4.5rem; max-width:10rem; }
+#app .ms-shell--player .ms-private__panel { clear:both; margin:.5rem 0 0; padding:0; border:0; background:transparent; }
+#app .ms-shell--player .ms-private__panel .ms-role-card--full { display:flex; align-items:center; width:100%; max-width:none; padding:.4rem; gap:.75rem; animation:none; margin:0 0 1rem; }
+#app .ms-shell--player .ms-private__panel .ms-role-card__art { width:4rem; inline-size:4rem; flex:none; aspect-ratio:1; border:2px solid var(--ms-color-ink); border-radius:3px; }
+#app .ms-shell--player .ms-role-card__text { padding:0; }
+#app .ms-shell--player .ms-role-card__name { font-size:1.1rem; }
+#app .ms-shell--player .ms-role-card__team { font-size:.85rem; }
+#app .ms-shell--player .ms-private__subheading { font-size:.9rem; }
+#app .ms-shell--player .ms-private .ms-button { min-height:48px; }
+#app .ms-shell--player .ms-card__status { display:inline-block; max-width:100%; white-space:normal; overflow-wrap:normal; word-break:normal; }
+#app .ms-shell--player .ms-card__title { font-size:1.125rem; }
+#app .ms-shell--player .ms-offer { padding:.6rem; }
+#app .ms-readable-board { margin-top:.5rem; }
+#app .ms-readable-board .ms-seat__player { white-space:normal; overflow:visible; overflow-wrap:anywhere; text-overflow:clip; }
+#app .ms-shell--player .ms-result { border:4px solid var(--ms-color-ink); padding:1rem; }
+.phone-next { display:block; margin:1rem auto 7rem; padding:.75rem 1.5rem; font:inherit; font-weight:700; background:var(--ms-color-accent); color:var(--ms-color-ink); border:3px solid var(--ms-color-ink); }
+#app .ms-settings label { min-height:44px; padding:.5rem; }
+#app .ms-settings input { min-width:24px; min-height:24px; }
+@media (min-width:60em) {
+  #app .ms-shell--player .ms-board .ms-zones { grid-template-columns:repeat(6,minmax(0,1fr)); }
+  #app .ms-shell--player .ms-board .ms-zone[data-zone=room-a] { grid-column:1/span 3; order:-4; min-height:14rem; }
+  #app .ms-shell--player .ms-board .ms-zone[data-zone=room-b] { grid-column:4/span 3; order:-3; min-height:14rem; }
+  #app .ms-shell--player .ms-board .ms-zone:is([data-zone=command-room],[data-zone=hospital],[data-zone=jail]) { grid-column:span 2; order:0; min-height:10rem; }
+  #app .ms-shell--player .ms-private[data-open=true] { inset:5rem 1rem 1rem auto; width:26rem; margin:0; border-radius:10px; max-height:none; }
+  #app .ms-shell--player .ms-board .ms-seats { --ms-piece:clamp(2rem,calc((100cqi - 24px) / min(var(--ms-seats),5) / 1.3),4rem); }
+}
+@media (max-width:22.5em) { .connected-lobby { padding-inline:.75rem; } .connected-lobby .phone-caption { font-size:1.1875rem; } }
+@media (max-width:19.5em) {
+  .connected-lobby .crew-picker { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .connected-lobby .phone-slots, .phone-tiles--rooms { grid-template-columns:minmax(0,1fr); }
+  .phone-dock { position:static; }
+  #app .ms-shell--player .ms-private { position:sticky; inset:auto; width:100%; }
+  #app .ms-shell--player .ms-private[data-open=true] { position:static; max-height:none; box-shadow:none; }
+  #app .ms-private[data-open=true] > .ms-button { float:none; position:static; margin:0; max-width:100%; }
+  #app .ms-private[data-open=true] > h2 { max-width:100%; }
+  #app .ms-shell--player .ms-board .ms-zones { grid-template-columns:minmax(0,1fr); }
+  #app .ms-shell--player .ms-board .ms-zone { grid-column:1/-1; }
+  #app .ms-shell--player .ms-board .ms-zone__name { position:static; transform:none; width:fit-content; margin-bottom:.5rem; }
+  #app .ms-shell--player .ms-board .ms-seats { gap:2rem .3rem; }
+  #app .ms-shell--player .ms-board .ms-seat { flex-basis:calc((100% - .6rem)/3); }
+}
+@media (prefers-reduced-motion:reduce) { .connected-body *, .connected-body *::before, .connected-body *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+@media (forced-colors:active) { .phone-role-back, .phone-caption, .phone-tile, .phone-slot { border-color:CanvasText; } .phone-tile:has(input:checked) { outline-color:Highlight; } }
+
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c1"], [data-art~="public-board"] .phone-slot__face[data-character="c1"] { --phone-crew:var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c2"], [data-art~="public-board"] .phone-slot__face[data-character="c2"] { --phone-crew:var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c3"], [data-art~="public-board"] .phone-slot__face[data-character="c3"] { --phone-crew:var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c4"], [data-art~="public-board"] .phone-slot__face[data-character="c4"] { --phone-crew:var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c5"], [data-art~="public-board"] .phone-slot__face[data-character="c5"] { --phone-crew:var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c6"], [data-art~="public-board"] .phone-slot__face[data-character="c6"] { --phone-crew:var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c7"], [data-art~="public-board"] .phone-slot__face[data-character="c7"] { --phone-crew:var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c8"], [data-art~="public-board"] .phone-slot__face[data-character="c8"] { --phone-crew:var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .phone-crew-confirmed[data-character="c9"], [data-art~="public-board"] .phone-slot__face[data-character="c9"] { --phone-crew:var(--ms-asset-piece-crew-card-c9); }
+[data-art~="public-board"] .phone-slot__face[data-character] { background:var(--phone-crew) center/contain no-repeat; font-size:0; border:0; }
+
+/* Keep the full timing header visible while a long setup screen scrolls. */
+.connected-player-setup .connected-setup-progress { display:contents; }
+.connected-player-setup .phone-setup-head { position:sticky; top:0; z-index:12; }
+#app .ms-shell--player .ms-board .ms-zone__empty { position:static; transform:none; translate:none; inset:auto; inline-size:fit-content; max-inline-size:100%; white-space:normal; padding:.1rem .25rem; }
+#app .ms-shell--player .ms-private[data-open=true] { display:grid; grid-template-columns:minmax(0,1fr) auto; align-content:start; align-items:start; gap:.5rem; max-height:calc(100dvh - var(--phone-sheet-top, 6rem)); }
+#app .ms-private[data-open=true] > h2 { grid-column:1; grid-row:1; max-width:100%; margin:0; align-self:center; }
+#app .ms-private[data-open=true] > .ms-button { grid-column:2; grid-row:1; float:none; position:static; margin:0; min-width:4rem; }
+#app .ms-private[data-open=true] > :is(.ms-hint,.ms-private__panel) { grid-column:1/-1; }
+#app .ms-private[data-open=true] > .ms-hint { grid-row:2; margin:0; }
+#app .ms-private .phone-knowledge { margin-block:1rem; border-top:2px solid var(--ms-color-steel-mid); }
+#app .ms-private .phone-knowledge > summary { cursor:pointer; font-weight:700; min-height:48px; padding:.75rem 0; }
+@media (min-width:60em) { #app .ms-shell--player .ms-private[data-open=true] { inset-block-start:var(--phone-sheet-top,5rem); } }
+@media (max-width:19.5em) { .connected-player-setup .phone-setup-head { position:static; } #app .ms-shell--player .ms-private[data-open=true] { max-height:none; } }
+
+#app .ms-shell[data-motion=full] .ms-private[data-open=true] { animation:phone-sheet-in 220ms ease-out backwards; }
+@keyframes phone-sheet-in { from { transform:translateY(24px); opacity:.4; } to { transform:none; opacity:1; } }
+#app .ms-shell[data-motion=reduced] .ms-private { animation:none; }

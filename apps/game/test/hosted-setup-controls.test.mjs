@@ -26,7 +26,7 @@ function make() {
       return outcome==='taken'?{kind:'refused',code:'CHARACTER_TAKEN'}:{kind:'done',result:{revision:setup.revision+1}};},
   });
   const publish=(stage,confirmed=false,ready=false)=>{setup=stage?{stage,dealId:stage==='awaiting-ready'?'deal-1':null,playerCount:7,revision:2,seats:[{seatId:'seat-1',confirmed,ready}]}:null; for(const listener of listeners)listener();};
-  return{control,nodes,calls,publish,el,outcome:value=>{outcome=value;},role(value){own=value;for(const listener of listeners)listener();},binding(value){binding=value;for(const listener of listeners)listener();}};
+  return{control,nodes,calls,publish,el,takeCharacter(id){doc.seats[1].characterId=id;for(const listener of listeners)listener();},outcome:value=>{outcome=value;},role(value){own=value;for(const listener of listeners)listener();},binding(value){binding=value;for(const listener of listeners)listener();}};
 }
 const role={dealId:'deal-1',bindingRevision:1,self:{role:'Hacker'}};
 test('choices stay gated until host Begin and previous choices still need explicit confirmation',async()=>{
@@ -58,4 +58,28 @@ test('shared setup progress contains only neutral seat confirmation and readines
   const text=node=>[node.textContent,...node.children.map(text)].join(' ');
   assert.match(text(progress.node),/1 of 7 ready/);assert.doesNotMatch(text(progress.node),/Hacker|Alien|device-|team-|role-card/);
   progress.update(null);assert.doesNotMatch(text(progress.node),/Player 1/);s.control.dispose();
+});
+
+
+test('name length and newly taken selections explain why confirmation cannot be sent', async () => {
+  const s=make();s.publish('choosing');
+  await s.nodes.get('crew-name').enter('ThirteenChars');
+  assert.equal(s.nodes.get('crew-save').disabled,true);
+  assert.match(s.nodes.get('crew-name-help').textContent,/Shorten your name/);
+  await s.nodes.get('crew-name').enter('Phone');
+  s.takeCharacter('c1');
+  assert.equal(s.nodes.get('crew-save').disabled,true);
+  assert.match(s.nodes.get('crew-status').textContent,/taken/);
+  await s.nodes.get('crew-save').press();assert.equal(s.calls.length,0);
+  await s.nodes.get('c3').press();assert.equal(s.nodes.get('crew-save').disabled,false);
+  await s.nodes.get('crew-save').press();assert.equal(s.calls[0].characterId,'c3');s.control.dispose();
+});
+
+test('a missed confirmation uses neutral assignment copy and never claims a lost reply proves auto-selection', async () => {
+  const s=make();s.publish('choosing');s.outcome('unsettled');await s.nodes.get('crew-save').press();
+  s.publish('awaiting-ready',true);
+  const line=s.nodes.get('crew-assignment');assert.equal(line.hidden,false);
+  assert.match(line.textContent,/Your confirmed character and name/);
+  assert.doesNotMatch(line.textContent,/server chose|you did not confirm|automatically selected/);
+  s.control.dispose();
 });

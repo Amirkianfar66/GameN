@@ -79,14 +79,36 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   if (!match) return source;
   const ownCharacter = character(identityFor(context, match.identity.seatId)?.characterId);
   const privateContent = match.privateArea.content;
+  const active = match.roster.zones.flatMap(zone => zone.seats).find(seat => seat.isActive);
+  const activeName = active ? identityFor(context, active.seatId)?.displayName : null;
+  const turnLine = active ? active.isSelf ? 'Your turn' : `${activeName ?? active.label}’s turn` : match.phase.phaseLabel;
+  const ownName = identityFor(context, match.identity.seatId)?.displayName;
+  const selfStatus = h('section', { class: 'phone-self', 'data-region': 'phone-self', 'aria-label': 'Your public status' },
+    h('strong', null, `Player ${match.identity.number}${ownName ? ` · ${ownName}` : ''}`),
+    h('span', null, match.location.name), h('span', null, match.location.self.markers.map(marker => marker.label).join(' · ')));
+
   const board = h('section', { class: 'ms-panel ms-board', 'aria-labelledby': 'ms-comic-board-heading', 'data-region': 'comic-board' },
     h('h2', { class: 'ms-panel__heading', id: 'ms-comic-board-heading' }, 'The ship'),
     renderZones(match.roster.zones, 'ms-comic-zone'));
   function visit(node: MarkupNode): MarkupNode {
     if (!isElement(node)) return node;
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
+    if (classHas(node, 'ms-private')) {
+      const attrs = { ...node.attrs, ...(match!.privateArea.open ? { role: 'dialog', 'aria-modal': 'true' } : {}) };
+      return { ...node, attrs, children: [
+        h('p', { class: 'phone-turn' }, h('strong', null, turnLine), h('span', null, 'Open your private card to act.')),
+        ...node.children.map(visit),
+      ] };
+    }
+    if (node.attrs.id === 'ms-private-toggle') return { ...node, attrs: { ...node.attrs, 'aria-label': match!.privateArea.open ? 'Hide private card' : 'Show private card' }, children: [match!.privateArea.open ? 'Hide' : 'Private card'] };
+    if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1' } };
     let children = node.children.map(visit);
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
+      const knowledge = children.find(child => isElement(child) && child.attrs['data-region'] === 'knowledge');
+      if (knowledge) {
+        children = children.filter(child => child !== knowledge);
+        children.push(h('details', { class: 'phone-knowledge' }, h('summary', null, 'What you know'), knowledge));
+      }
       const own = context.acknowledgments;
       const lines: string[] = [];
       if (own && own.seatId === match!.identity.seatId) {
@@ -105,7 +127,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       const roster = children.find(child => isElement(child) && child.attrs['data-region'] === 'roster');
       children = children.filter(child => child !== location && child !== roster);
       const privateIndex = children.findIndex(child => isElement(child) && child.attrs['data-region'] === 'private');
-      children.splice(privateIndex, 0, board);
+      children.splice(privateIndex, 0, board, selfStatus);
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
       children.push(h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster));

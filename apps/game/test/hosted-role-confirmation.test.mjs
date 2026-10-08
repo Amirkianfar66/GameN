@@ -69,3 +69,16 @@ test('role reminders exist only inside the explicit private reveal and are erase
   await s.node('toggle').press();s.controls.update(null);assert.equal(s.node('card').children.length, 0);
   s.controls.dispose();
 });
+
+
+test('seven and eight player Supplier reminders do not imply an Officer is present', async () => {
+  const s=setup();
+  for(const count of [7,8,9]) {
+    s.controls.update(role({key:`supplier-${count}`,role:'Supplier',playerCount:count}));
+    await s.node('toggle').press();
+    const guide=s.node('card').children.map(node=>node.textContent).join(' ');
+    assert.match(guide,/In Round 3/);
+    if(count<9)assert.doesNotMatch(guide,/Officer/);else assert.match(guide,/Officer/);
+  }
+  s.controls.dispose();
+});

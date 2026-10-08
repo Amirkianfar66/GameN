@@ -30,7 +30,7 @@ test('paired private states produce identical public comic regions', () => {
   const b = playerView(view => { view.self.role = 'Supplier'; view.legalTargets.SUPPLY = ['seat-2','seat-3']; });
   const first = splitRegions(renderComicPlayerShell(model(a), { identities }));
   const other = splitRegions(renderComicPlayerShell(model(b), { identities }));
-  for (const key of ['comic-board','roster','location','phase','timer','vote','result']) assert.equal(first.regions.get(key), other.regions.get(key), key);
+  for (const key of ['comic-board','phone-self','roster','location','phase','timer','vote','result']) assert.equal(first.regions.get(key), other.regions.get(key), key);
 });
 test('table gets public identities and no private card; missing and unknown characters keep numbered tokens', () => {
   const table = buildTableShellModel({ ...environment, view: publicView() });
@@ -75,4 +75,16 @@ test('practice mode and bot seats are labeled on live phone/table surfaces witho
     assert.doesNotMatch(toHtml(render(screen, { identities, practice: { ...practice, botSeatIds: [] } })), /Practice match|ms-seat__bot/);
     assert.doesNotMatch(toHtml(render({ ...screen, connection: 'stale' }, { identities, practice })), /Practice match|ms-seat__bot/);
   }
+});
+
+
+test('the phone dock is role-neutral when closed and becomes a named modal only on explicit reveal', () => {
+  const first=playerView(), other=playerView(view=>{view.self.role='Supplier';view.legalTargets.SUPPLY=['seat-2','seat-3'];});
+  const a=renderComicPlayerShell(model(first,undefined,closed),{identities});
+  const b=renderComicPlayerShell(model(other,undefined,closed),{identities});
+  assert.equal(splitRegions(a).regions.get('private'),splitRegions(b).regions.get('private'));
+  assert.doesNotMatch(toHtml(a),/aria-modal|role="dialog"|data-device|data-team/);
+  const opened=renderComicPlayerShell(model(first),{identities});auditMarkup(opened);
+  assert.match(toHtml(opened),/role="dialog" aria-modal="true"/);
+  assert.match(toHtml(opened),/aria-label="Hide private card"/);
 });

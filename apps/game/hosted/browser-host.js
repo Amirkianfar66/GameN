@@ -79,6 +79,8 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let spokenSeq = 0;
   let focusSeq = 0;
   let privacyEpoch = 0;
+  let privateWasOpen = false;
+  const inertNodes = new Set();
 
   function applyRootAttributes(next) {
     for (const name of Object.keys(rootAttributes)) if (!(name in next)) root.removeAttribute(name);
@@ -114,6 +116,19 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       root.querySelector(selector).outerHTML = step.html;
     }
     drawn = split;
+    const sheet = root.querySelector('.ms-private[data-open="true"]');
+    for (const node of inertNodes) node.inert = false;
+    inertNodes.clear();
+    if (sheet) {
+      const phaseBottom = root.querySelector('.ms-phase')?.getBoundingClientRect().bottom ?? 0;
+      sheet.style.setProperty('--phone-sheet-top', `${Math.max(0, phaseBottom) + 8}px`);
+      for (const node of root.querySelectorAll('.ms-main > *, .ms-header, .ms-footer')) {
+        if (node === sheet || node.contains(sheet)) continue;
+        node.inert = true; inertNodes.add(node);
+      }
+    }
+    const opened = Boolean(sheet) && !privateWasOpen;
+    privateWasOpen = Boolean(sheet);
     comicMotion.after(frame.model, beforeMotion);
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
@@ -125,6 +140,8 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       const target = candidates.map(id => document.getElementById(id)).find(element => element !== null) ?? document.getElementById(SHELL_IDS.main);
       target?.focus({ preventScroll: true });
     }
+
+    if (opened) root.querySelector('#ms-private-heading')?.focus({ preventScroll: true });
 
     // Private content left the screen: private lines that were spoken leave the document too.
     if (frame.privacyEpoch !== privacyEpoch) {
@@ -156,12 +173,31 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onMotion = () => screen.setDeviceReducedMotion(motion.matches);
   const onVisibility = () => screen.setPageVisible(document.visibilityState === 'visible');
+  const onBlur = () => { if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' }); };
+  function onKeyDown(event) {
+    const sheet = root.querySelector('.ms-private[data-open="true"]');
+    if (!sheet) return;
+    if (event.key === 'Escape') { event.preventDefault(); screen.dispatch({ type: 'private/toggle' }); return; }
+    if (event.key !== 'Tab') return;
+    const controls = [...sheet.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex="0"]')]
+      .filter(node => !node.hidden && node.getClientRects().length > 0);
+    const first = controls[0], last = controls.at(-1);
+    if (!first) return;
+    if (event.shiftKey && (document.activeElement === first || !controls.includes(document.activeElement))) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || !controls.includes(document.activeElement))) {
+      event.preventDefault(); first.focus();
+    }
+  };
+
 
   const stopFrames = screen.subscribe(draw);
   const stopExtra = subscribeExtra(draw);
   root.addEventListener('click', onClick);
   root.addEventListener('change', onChange);
   document.addEventListener('visibilitychange', onVisibility);
+  window.addEventListener('blur', onBlur);
+  root.addEventListener('keydown', onKeyDown);
   motion.addEventListener('change', onMotion);
 
   screen.setDeviceReducedMotion(motion.matches);
@@ -180,6 +216,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('blur', onBlur);
+    root.removeEventListener('keydown', onKeyDown);
+    for (const node of inertNodes) node.inert = false;
+    inertNodes.clear();
     motion.removeEventListener('change', onMotion);
     screen.dispose();
     container.replaceChildren();
