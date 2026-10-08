@@ -177,9 +177,16 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   function onKeyDown(event) {
     const sheet = root.querySelector('.ms-private[data-open="true"]');
     if (!sheet) return;
-    if (event.key === 'Escape') { event.preventDefault(); screen.dispatch({ type: 'private/toggle' }); return; }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      screen.dispatch({ type: 'private/toggle' });
+      // The closed-state heading survives a redraw but is visually concealed.
+      // Foreground dismissal returns to the control that opened this sheet.
+      root.querySelector('#ms-private-toggle')?.focus({ preventScroll: true });
+      return;
+    }
     if (event.key !== 'Tab') return;
-    const controls = [...sheet.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex="0"]')]
+    const controls = [...sheet.querySelectorAll('button:not([disabled]), input:not([disabled]), summary, [tabindex="0"]')]
       .filter(node => !node.hidden && node.getClientRects().length > 0);
     const first = controls[0], last = controls.at(-1);
     if (!first) return;
