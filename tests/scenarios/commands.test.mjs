@@ -10,9 +10,18 @@ import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { ENGINE_COMMIT_BASIS } from '@mothership/balance';
+import { ENGINE_PINS } from '../../scripts/test-balance-reports.mjs';
 import { engineBuildDigest, engineProvenance, treeState } from '../../tools/balance/scripts/pins.mjs';
 import { ENGINE_COMMIT, TREE_COMMIT, catalogue, cleanReports, disk, first, judge, runOf, script, writeReports } from './support/gate-reports.mjs';
 import { OVERLAY_ABSENT, V1_OVERLAY_PATH, loadAll } from './v1/files.mjs';
+
+// The CLI validates this checkout's current runtime. The shared historical gate
+// fixtures keep the original catalogue tuple for the pure gate regression suite.
+const currentReports = () => {
+  const reports = cleanReports();
+  for (const report of Object.values(reports)) report.pins.engine = { ...ENGINE_PINS };
+  return reports;
+};
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const work = mkdtempSync(join(tmpdir(), 'mothership-balance-commands-'));
@@ -122,7 +131,7 @@ test('an engine that refuses every setup fails the scenario and playout commands
 // The report gate, the one-command engine gate and the strict runner of these static tests, as commands.
 test('the gate command exits 0 only for a complete and clean set of reports', () => {
   const needed = ['--engine-commit', ENGINE_COMMIT, '--playouts-per-mode', '10'];
-  const named = writeReports(join(work, 'clean'), cleanReports());
+  const named = writeReports(join(work, 'clean'), currentReports());
   const clean = script('gate.mjs', [...named, ...needed]);
   assert.equal(clean.status, 0, clean.stdout + clean.stderr);
   assert.match(clean.stdout, /^Balance report gate: PASSED\.\n {2}every report came from one clean commit; no candidate commit was named/);
@@ -142,7 +151,7 @@ test('the gate command exits 0 only for a complete and clean set of reports', ()
   assert.equal(trial.status, 0, trial.stdout + trial.stderr);
   assert.match(trial.stdout, /^Balance report gate: PASSED AS A TRIAL\.\n.*This is not a result for a merge gate\./);
 
-  const failing = cleanReports();
+  const failing = currentReports();
   const ready = first('ready');
   runOf(failing, ready.id).status = 'failed';
   const failed = script('gate.mjs', [...writeReports(join(work, 'failing'), failing), ...needed]);
@@ -197,7 +206,7 @@ test('reports of commands that executed nothing never pass the gate', () => {
   const out = join(work, 'not-run');
   // The directory already holds a clean set, as it would when an earlier run is repeated in place.
   // Every command writes its report even when it ran nothing, so none of the three survives.
-  const named = writeReports(out, cleanReports());
+  const named = writeReports(out, currentReports());
   const engine = ['--engine-root', none, '--engine-commit', ENGINE_COMMIT];
   assert.equal(script('run-scenarios.mjs', [...engine, '--out', join(out, 'scenarios.json')]).status, 0);
   assert.equal(script('controls.mjs', [...engine, '--out', join(out, 'controls.json')]).status, 0);
@@ -209,7 +218,7 @@ test('reports of commands that executed nothing never pass the gate', () => {
   assert.match(gate.stderr, /playouts: no result for 7 players/);
   assert.match(gate.stderr, /V1-M7-SETUP-01 is ready and was not-run/);
   // With --require-engine each command also fails by itself, and still leaves its report behind.
-  writeReports(out, cleanReports());
+  writeReports(out, currentReports());
   for (const [name, file, extra] of [['run-scenarios.mjs', 'scenarios.json', []], ['controls.mjs', 'controls.json', []], ['walk.mjs', 'playouts.json', ['--seeds', '10']]]) {
     assert.equal(script(name, [...engine, ...extra, '--require-engine', '--out', join(out, file)]).status, 2, name);
     assert.equal(JSON.parse(readFileSync(join(out, file), 'utf8')).pins.engine, null, `${file} still holds the earlier run`);
@@ -242,7 +251,7 @@ test('the one-command engine gate fails when there is no engine, and runs nothin
   mkdirSync(none);
   const out = join(work, 'engine-gate');
   // Clean reports of an earlier run are already in the directory. They must not be what is judged.
-  writeReports(out, cleanReports());
+  writeReports(out, currentReports());
   const result = script('engine-gate.mjs', ['--engine-root', none, '--engine-commit', ENGINE_COMMIT, '--out-dir', out, '--allow-unpinned-tree']);
   assert.equal(result.status, 1, result.stdout + result.stderr);
   // Each command refuses to count a run without an engine, and the gate still runs and still fails.
