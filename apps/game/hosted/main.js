@@ -316,7 +316,7 @@ function chooseDevice(uid) {
       return list;
     })(),
     el('p', 'Play together, in the same room. Keep each player’s private card on their own screen.'),
-    disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']])),
+    disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']]), el('p', 'Each tab is its own device with its own identity. Open one tab per player.')),
   );
 }
 
@@ -494,7 +494,7 @@ async function host(uid) {
     disclosure(el, 'Move a seat to another device', el('h2', 'Seat recovery', { id: 'connected-recovery-title' }), recoverySeatLabel, recoveryControl, recoveryCodes, recoveryNote),
     disclosure(el, 'Shared display', displayLabel, admitControl),
     disclosure(el, 'Match details', facts([['This device', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id'], ['Status', '…', 'connected-match-status']]),
-      copyControl(el, 'Copy match identifier', () => matchId, say), el('p', 'Hosting shows public information only. Join from a Player tab to play.')),
+      copyControl(el, 'Copy match identifier', () => matchId, say), el('p', 'Hosting gives no view of anyone’s role. To play, join from another tab with the room code.')),
     disclosure(el, 'End match', end), endDialog,
   );
   const setText = (id, text) => {
