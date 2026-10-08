@@ -1,0 +1,81 @@
+{
+  "devOnly": "mothership:dev-only",
+  "manifestVersion": "board-motion-0.1.0",
+  "status": "proposal",
+  "baseManifest": "design-0.2.0",
+  "note": "Derived public layers for the board-motion prototype. The reviewed manifest and bundles are unchanged; these are proposed for a later export revision and are adopted only through Integration.",
+  "rights": {
+    "origin": "Copied element for element from the repository's original vector sources under design/source/board/, recolored by the reviewed export recipes. No new drawing, no third-party artwork, font, photograph, traced image or generated raster image.",
+    "author": "Visual and Motion Designer workstream, issue #87: a Claude Code session working for the game owner.",
+    "license": "None granted. The repository carries no distribution license.",
+    "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06)."
+  },
+  "stylesheet": {
+    "file": "design/board-motion/assets/board-motion.art.css",
+    "sha256": "93fb54dd927ef196c8e832852271e2be111e666da4b4f0422446bf97ca41a0d8",
+    "bytes": 18250,
+    "loadPolicy": "Every device, with the public-board bundle, before the first match view. Contains public art only."
+  },
+  "assets": [
+    {
+      "id": "command-room.prop-table",
+      "file": "design/board-motion/assets/command-room.prop-table.svg",
+      "purpose": "The round chart table, in front of the station behind it (the Command Room's first station).",
+      "source": "design/source/board/board-command-room.svg",
+      "sourceSha256": "2dcc4f78fd0726507db62d8a7df18a4da7cb15e26630af4ef483217d94c08eb2",
+      "group": "command-room-props-back",
+      "selection": {
+        "first": "<ellipse cx=\"522\" cy=\"600\"",
+        "last": "<g clip-path=\"url(#clip-command-room-table)\"",
+        "elements": 8
+      },
+      "recolor": "design/source/export-recipes.json#board-command-room",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3463,
+      "sha256": "71fc7d2b4ecf02a3e2b27065ee569834b47f78ab7bf960a82667d14364787df1",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "board-command-room.layer-prop-table"
+    },
+    {
+      "id": "room-b.prop-counter",
+      "file": "design/board-motion/assets/room-b.prop-counter.svg",
+      "purpose": "The laboratory counter with everything standing on it, in front of the station behind it (Room B's first station).",
+      "source": "design/source/board/board-room-b.svg",
+      "sourceSha256": "3b1a326ad2aa43ae4836b061bd848b3c334b4d80fff05d35014761a9cc773779",
+      "group": "room-b-props-back",
+      "selection": {
+        "first": "<polygon points=\"176,482 852,482 868,496 176,496\"",
+        "last": "<path d=\"M708 326 V372 H756 V326\" fill=\"none\"",
+        "elements": 28
+      },
+      "recolor": "design/source/export-recipes.json#board-room-b",
+      "viewBox": "0 0 1024 768",
+      "bytes": 5864,
+      "sha256": "93fda6a9977d43264f6ea78bf3ff810593171fcb93898736483df82e084663e5",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "board-room-b.layer-prop-counter"
+    },
+    {
+      "id": "hospital.prop-bed",
+      "file": "design/board-motion/assets/hospital.prop-bed.svg",
+      "purpose": "The blanket, side and feet of the left bed, in front of the station lying in it (the Hospital's first station).",
+      "source": "design/source/board/board-hospital.svg",
+      "sourceSha256": "5a9923f6ad1459acb7e96a454d686cf9a7fb6211639d5c4dd40e288300966657",
+      "group": "hospital-props-back",
+      "selection": {
+        "first": "<polygon points=\"160,392 306,392 300,498 118,498\"",
+        "last": "<circle cx=\"284\" cy=\"556\"",
+        "elements": 8
+      },
+      "recolor": "design/source/export-recipes.json#board-hospital",
+      "viewBox": "0 0 1024 768",
+      "bytes": 2928,
+      "sha256": "a1d9b27d5735b75cfb947264c438b56b4d81cb4145d08222b952f15157e56e1c",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "board-hospital.layer-prop-bed"
+    }
+  ]
+}

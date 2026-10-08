@@ -1,0 +1,538 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "board-motion-0.1.0",
+  "status": "proposal",
+  "about": "Where each character stands in each room on the phone board. A station is a place in the picture, not a seat, a slot or a capacity: the rules impose none (rules/overlays/location-board-layout-v1.json, capacity_note). Which station a character takes depends only on public facts: who is in the room, ordered by seat number. Nothing private, and no arrival order the contract does not carry, chooses a station.",
+  "units": "A standing station is [x, row]: x a fraction of the panel's width (three in a row stand at 1/6, 1/2 and 5/6, so that three 44 px targets fit side by side in a 320 px phone's half-width panel), row 0 the front row on the floor, 1 the back row, 2 the far back. Rows are stacked at least one 44 px target apart, and characters in one row at least one target apart, so no two targets overlap. A prop station stands behind a prop lifted from the room's own picture: the character's lower edge sinks behind the prop's edge by the given share of its height. depth scales the drawing (1 = front).",
+  "anchor": "Each room picture is pinned so that its anchor line (edge, in the picture's own units) sits at a fixed share of the piece area (at), and scaled to cover the panel: the prop line therefore stays in the same place whatever the panel's size.",
+  "rowsFor": "Rows of characters a room needs: none when empty; one for the first two (one, if the room has a prop station); two up to five; three for six to nine. The board gives each band of panels the larger need of its two rooms, and shares what is left of the screen by weight.",
+  "weights": {
+    "command-room": 0.8,
+    "middle": 1.25,
+    "lower": 1.0
+  },
+  "crowd": {
+    "about": "Six to nine characters in one room: three rows of three, everyone standing, so that every character is reachable with a 44 px target that overlaps no other. A prop station is not used.",
+    "slots": [
+      [
+        0.167,
+        0,
+        1
+      ],
+      [
+        0.5,
+        0,
+        1
+      ],
+      [
+        0.833,
+        0,
+        1
+      ],
+      [
+        0.167,
+        1,
+        0.9
+      ],
+      [
+        0.5,
+        1,
+        0.9
+      ],
+      [
+        0.833,
+        1,
+        0.9
+      ],
+      [
+        0.167,
+        2,
+        0.82
+      ],
+      [
+        0.5,
+        2,
+        0.82
+      ],
+      [
+        0.833,
+        2,
+        0.82
+      ]
+    ]
+  },
+  "rooms": {
+    "command-room": {
+      "location": "Command Room",
+      "art": "--ms-asset-board-command-room-full",
+      "prop": "--bm-asset-command-room-prop-table",
+      "view": {
+        "cx": 512,
+        "cw": 1024,
+        "edge": 424,
+        "at": 0.62
+      },
+      "stations": {
+        "C1": {
+          "kind": "prop",
+          "art": 512,
+          "sink": 0.28,
+          "depth": 1,
+          "about": "Behind the chart table, leaning over it, as in the owner's reference"
+        },
+        "C2": {
+          "kind": "stand",
+          "at": [
+            0.1,
+            0
+          ],
+          "depth": 1,
+          "about": "Front left, by the side console"
+        },
+        "C3": {
+          "kind": "stand",
+          "at": [
+            0.9,
+            0
+          ],
+          "depth": 1,
+          "about": "Front right, by the side console"
+        },
+        "C4": {
+          "kind": "stand",
+          "at": [
+            0.26,
+            0
+          ],
+          "depth": 0.94,
+          "about": "Front, left of the table"
+        },
+        "C5": {
+          "kind": "stand",
+          "at": [
+            0.74,
+            0
+          ],
+          "depth": 0.94,
+          "about": "Front, right of the table"
+        }
+      },
+      "formations": {
+        "1": [
+          "C1"
+        ],
+        "2": [
+          "C1",
+          "C2"
+        ],
+        "3": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "4": [
+          "C1",
+          "C2",
+          "C3",
+          "C4"
+        ],
+        "5": [
+          "C1",
+          "C2",
+          "C4",
+          "C5",
+          "C3"
+        ]
+      }
+    },
+    "room-a": {
+      "location": "Room A",
+      "art": "--ms-asset-board-room-a-full",
+      "prop": null,
+      "view": {
+        "cx": 512,
+        "cw": 600,
+        "edge": 600,
+        "at": 0.78
+      },
+      "stations": {
+        "A1": {
+          "kind": "stand",
+          "at": [
+            0.5,
+            0
+          ],
+          "depth": 1,
+          "about": "On the floor ring, in front of the viewport"
+        },
+        "A2": {
+          "kind": "stand",
+          "at": [
+            0.3,
+            0
+          ],
+          "depth": 1,
+          "about": "Front left, on the floor ring"
+        },
+        "A3": {
+          "kind": "stand",
+          "at": [
+            0.7,
+            0
+          ],
+          "depth": 1,
+          "about": "Front right, on the floor ring"
+        },
+        "A4": {
+          "kind": "stand",
+          "at": [
+            0.167,
+            0
+          ],
+          "depth": 1,
+          "about": "Front left, nearer the crates"
+        },
+        "A5": {
+          "kind": "stand",
+          "at": [
+            0.833,
+            0
+          ],
+          "depth": 1,
+          "about": "Front right, nearer the canister"
+        },
+        "A6": {
+          "kind": "stand",
+          "at": [
+            0.5,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Under the round viewport, at the back"
+        },
+        "A7": {
+          "kind": "stand",
+          "at": [
+            0.26,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Back left, by the crates"
+        },
+        "A8": {
+          "kind": "stand",
+          "at": [
+            0.74,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Back right, by the canister"
+        }
+      },
+      "formations": {
+        "1": [
+          "A1"
+        ],
+        "2": [
+          "A2",
+          "A3"
+        ],
+        "3": [
+          "A4",
+          "A5",
+          "A6"
+        ],
+        "4": [
+          "A4",
+          "A5",
+          "A7",
+          "A8"
+        ],
+        "5": [
+          "A4",
+          "A1",
+          "A5",
+          "A7",
+          "A8"
+        ]
+      }
+    },
+    "room-b": {
+      "location": "Room B",
+      "art": "--ms-asset-board-room-b-full",
+      "prop": "--bm-asset-room-b-prop-counter",
+      "view": {
+        "cx": 540,
+        "cw": 600,
+        "edge": 372,
+        "at": 0.5
+      },
+      "stations": {
+        "B1": {
+          "kind": "prop",
+          "art": 560,
+          "sink": 0.4,
+          "depth": 1,
+          "about": "Behind the laboratory counter, at work"
+        },
+        "B2": {
+          "kind": "stand",
+          "at": [
+            0.18,
+            0
+          ],
+          "depth": 1,
+          "about": "Front left"
+        },
+        "B3": {
+          "kind": "stand",
+          "at": [
+            0.82,
+            0
+          ],
+          "depth": 1,
+          "about": "Front right"
+        },
+        "B4": {
+          "kind": "stand",
+          "at": [
+            0.16,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Back left, by the stool"
+        },
+        "B5": {
+          "kind": "stand",
+          "at": [
+            0.84,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Back right, by the beaker"
+        }
+      },
+      "formations": {
+        "1": [
+          "B1"
+        ],
+        "2": [
+          "B1",
+          "B2"
+        ],
+        "3": [
+          "B1",
+          "B2",
+          "B3"
+        ],
+        "4": [
+          "B1",
+          "B2",
+          "B3",
+          "B4"
+        ],
+        "5": [
+          "B1",
+          "B2",
+          "B3",
+          "B4",
+          "B5"
+        ]
+      }
+    },
+    "hospital": {
+      "location": "Hospital",
+      "art": "--ms-asset-board-hospital-full",
+      "prop": "--bm-asset-hospital-prop-bed",
+      "view": {
+        "cx": 380,
+        "cw": 560,
+        "edge": 392,
+        "at": 0.5
+      },
+      "stations": {
+        "H1": {
+          "kind": "prop",
+          "art": 232,
+          "sink": 0.5,
+          "depth": 1,
+          "about": "Sitting up in the left bed"
+        },
+        "H2": {
+          "kind": "stand",
+          "at": [
+            0.833,
+            0
+          ],
+          "depth": 1,
+          "about": "Front right"
+        },
+        "H3": {
+          "kind": "stand",
+          "at": [
+            0.5,
+            0
+          ],
+          "depth": 1,
+          "about": "Front, at the foot of the bed"
+        },
+        "H4": {
+          "kind": "stand",
+          "at": [
+            0.84,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Back right, by the cabinet"
+        },
+        "H5": {
+          "kind": "stand",
+          "at": [
+            0.167,
+            0
+          ],
+          "depth": 1,
+          "about": "Front left"
+        }
+      },
+      "formations": {
+        "1": [
+          "H1"
+        ],
+        "2": [
+          "H1",
+          "H2"
+        ],
+        "3": [
+          "H1",
+          "H3",
+          "H2"
+        ],
+        "4": [
+          "H1",
+          "H3",
+          "H2",
+          "H4"
+        ],
+        "5": [
+          "H1",
+          "H5",
+          "H3",
+          "H2",
+          "H4"
+        ]
+      }
+    },
+    "jail": {
+      "location": "Jail",
+      "art": "--ms-asset-board-jail-full",
+      "prop": null,
+      "view": {
+        "cx": 400,
+        "cw": 620,
+        "edge": 600,
+        "at": 0.8
+      },
+      "stations": {
+        "J1": {
+          "kind": "stand",
+          "at": [
+            0.3,
+            0
+          ],
+          "depth": 1,
+          "about": "In front of the bench"
+        },
+        "J2": {
+          "kind": "stand",
+          "at": [
+            0.72,
+            0
+          ],
+          "depth": 1,
+          "about": "By the striped door"
+        },
+        "J3": {
+          "kind": "stand",
+          "at": [
+            0.167,
+            0
+          ],
+          "depth": 1,
+          "about": "Front left"
+        },
+        "J4": {
+          "kind": "stand",
+          "at": [
+            0.833,
+            0
+          ],
+          "depth": 1,
+          "about": "Front right"
+        },
+        "J5": {
+          "kind": "stand",
+          "at": [
+            0.5,
+            0
+          ],
+          "depth": 1,
+          "about": "Front, in the middle of the cell"
+        },
+        "J6": {
+          "kind": "stand",
+          "at": [
+            0.26,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Against the back wall, by the bench"
+        },
+        "J7": {
+          "kind": "stand",
+          "at": [
+            0.74,
+            1
+          ],
+          "depth": 0.86,
+          "about": "Against the back wall, by the call panel"
+        }
+      },
+      "formations": {
+        "1": [
+          "J1"
+        ],
+        "2": [
+          "J1",
+          "J2"
+        ],
+        "3": [
+          "J3",
+          "J4",
+          "J6"
+        ],
+        "4": [
+          "J3",
+          "J4",
+          "J6",
+          "J7"
+        ],
+        "5": [
+          "J3",
+          "J5",
+          "J4",
+          "J6",
+          "J7"
+        ]
+      }
+    },
+    "final-zone": {
+      "location": "Final Zone",
+      "art": null,
+      "prop": null,
+      "about": "No room picture exists for the Final Zone, and none is drawn here: the panel is the paper-and-halftone ground of the approved page, with speed lines. Everyone still in the match stands in two rows.",
+      "stations": {},
+      "formations": {}
+    }
+  }
+}

@@ -40,11 +40,14 @@ Nothing here changes a rule, a contract, a lockfile or CI. The four pinned Desig
 | [frontend-handoff.md](frontend-handoff.md) | For Frontend: how art is loaded, formats, coordinates, hooks, token and asset adoption, structure requests and review questions |
 | [integration-requests.md](integration-requests.md) | For Codex: check wiring, the token revision and its lock update, contract fields the design is waiting for |
 | [verification.md](verification.md) | The checks that were actually run, what each asserts and does not, what an independent review found, and what was not run |
-| [owner-decisions.md](owner-decisions.md) | What the game owner decided with Designer, in the owner's words: on 7 October 2026, the comic-board direction, approved; on 8 October 2026, phones first for V1. And what was built from them since, which the owner has not seen |
+| [owner-decisions.md](owner-decisions.md) | What the game owner decided with Designer, in the owner's words: on 7 October 2026, the comic-board direction, approved; on 8 October 2026, phones first for V1, and the board as the game (issue #87). And what was built from them since, which the owner has not seen |
 | [v1-phone-journey.md](v1-phone-journey.md) | **Issue #76.** The phone-first V1 journey: the journey map, the five priority screens and every supporting state, on the release candidate `87715a46` (PR #75). A proposal |
 | [v1-phone-inventory.md](v1-phone-inventory.md) | Every state of that journey: the authorized data it is drawn from, what the release already does, and the gap. *Generated* from `design/v1-phone/contract/journey.json` |
 | [v1-phone-handoff.md](v1-phone-handoff.md) | For Frontend: the components reused and new, assets, tokens, layout rules, state mappings, motion, copy, dependencies, and what goes to Integration (DSN-REQ-8 to 11) |
 | [v1-phone-verification.md](v1-phone-verification.md) | The checks run for issue #76, with their results, and what was not run |
+| [board-motion-handoff.md](board-motion-handoff.md) | **Issue #87.** The board as the game: every action chosen from a compact tray and played by tapping characters in their rooms, moving by room tags, Pass in the middle. For Frontend: components and release hooks, controller, layout, strip, motion, secrets, assets, tests, gaps. On the release candidate `94a49ce0` (PR #86). A proposal |
+| [board-motion-coverage.md](board-motion-coverage.md) | Every action, every action with every character, every cue, the eleven states of all nine characters, the facts and their sources, the components and the gaps. *Generated* from `design/board-motion/contract/` |
+| [board-motion-verification.md](board-motion-verification.md) | The checks run for issue #87, with their results, and what was not run |
 
 The generated pages are written by `design/tools/write-docs.mjs` from the JSON under `design/contract/` and from the two manifests. Change the source, not the page.
 
@@ -57,6 +60,7 @@ The generated pages are written by `design/tools/write-docs.mjs` from the JSON u
 | `design/prototypes/` | Reference stylesheets on Frontend's own hooks, the loader, and the review pages. Development only; not shipped |
 | `design/review/` | Review renders of those pages, and the reports of the two browser checks |
 | `design/v1-phone/` | **Issue #76.** The working, navigable prototype of the phone-first V1 journey: 109 states from labeled synthetic fixtures, drawn with the reviewed tokens, bundles and loader, which it reads and does not change; its contract (`contract/journey.json`), screenshots, viewport matrix, storyboards and contact sheets (`review/`). Development only; not assets, not shells, and outside the review kit's inputs |
+| `design/board-motion/` | **Issue #87.** The working prototype of the board as the game: 65 scenarios from labeled synthetic fixtures, every action played on the comic board, an observer pane drawing what every other screen sees; its contracts (`contract/`: stations, cues, coverage), three proposed prop layers lifted from the approved sources (`assets/`, `board-motion-0.1.0`, outside the reviewed manifest), and its screenshots, viewport matrix, storyboards, secrecy pairs, character sheet and contact sheets (`review/`). Development only, except the prop layers, which are art proposed for a later export revision |
 | `design/explorations/` | Looks tried with the owner, kept apart from everything above: `comic-board/` is the working page approved on 7 October 2026, which still shows the parts of that direction that are not adopted yet. It draws from the sources; nothing reviewed draws from it. Development only; not assets, not contract, not shells |
 | `design/tools/` | Build, check, document and render scripts. Node built-ins only |
 | `packages/design-tokens/` | The pinned 0.2.0 proposal, unchanged; the 0.4.0 revision beside it, additive over 0.2.0; and 0.3.0, kept so that a test can hold 0.4.0 to it |
@@ -128,6 +132,11 @@ None of these is decided here. Each says who decides and what the design does me
 | DSN-D24 | Does a visible “What changed since the last phase” panel, from public facts only, help the table, or change its social game? | Game Balance, then the owner | A Frontend proposal; the release already speaks the same sentences for screen readers |
 | DSN-D25 | After Ready, should a player be able to turn the card up again until play starts? | Game owner | The release hides it after Ready; the design follows the release |
 | DSN-D26 | Seven new cues: stage change, role deal, private card opening, request arriving, choice taken, result cover, and the room pick on the board | Game owner for the look; Frontend for cost | In the V1 prototype only, with reduced-motion alternatives; none added to the reviewed kit's cue contract |
+| DSN-D27 | The owner's reference asks for at most five players in a room. The rules have no room capacity. Is five a rule, or only how a room is drawn? | Game owner with Game Balance; a capacity is a rule change | Five comic positions per room; six to nine in one room stand in a 3 x 3 crowd, everyone reachable ([board-motion-handoff.md](board-motion-handoff.md#12-gaps-and-open-decisions), GAP-2) |
+| DSN-D28 | The reference draws arrows and lights along a corridor between rooms. The rules give no adjacency | Game owner | A steel spine with four lamps between the columns; no arrow, door or path (GAP-3) |
+| DSN-D29 | Room subtitles from the reference: Captain, Engineering, Laboratory | Game owner | Shown, `aria-hidden`; the room's name is what is read and pressed (GAP-4) |
+| DSN-D30 | Adopting the three prop layers (chart table, laboratory counter, Hospital bed) into a reviewed export revision | Integration | Proposals beside the kit (`design/board-motion/assets/`); without them, characters behind a prop stand in front of it (GAP-5) |
+| DSN-D31 | Fourteen proposed board cues: the tray, the strip, eligible and picked characters, sending, not accepted, unknown, the room press, the tentative move, the sheet, the turn accent, the tally, the ballot subject, and the co-occupants' reflow | Game owner for the look; Frontend for cost | In the board-motion prototype only, each with its reduced-motion form; the six reviewed cues are unchanged |
 
 The gameplay and disclosure questions in [decisions.md](../decisions.md) and [integration-baseline.md](../integration-baseline.md#decisions-and-adoption-gates) stay open exactly as recorded. No layout here settles one by drawing it: no route, exit, adjacency, capacity or default is implied by any picture.
 
@@ -166,3 +175,16 @@ npm run flows:v1-phone --workspace @mothership/design-tokens      # presses the 
 ```
 
 `npm run test --workspace @mothership/design-tokens` includes the tests that show `check:v1-phone` refusing named mistakes. What was run, and what was not, is in [v1-phone-verification.md](v1-phone-verification.md).
+
+The board-motion prototype (issue #87) has its own commands too. It changes none of the reviewed kit's inputs either:
+
+```sh
+npm run dev:review --workspace @mothership/design-tokens              # then http://127.0.0.1:4320/board-motion/
+npm run assets:board-motion --workspace @mothership/design-tokens     # the prop layers, from the approved sources (--check to compare)
+npm run capture:board-motion --workspace @mothership/design-tokens    # screenshots, matrix, storyboards, secrecy pairs, contact sheets; needs a browser
+npm run docs:board-motion --workspace @mothership/design-tokens       # writes docs/design/board-motion-coverage.md
+npm run check:board-motion --workspace @mothership/design-tokens      # no browser; needs npm run build; refuses captures and docs made before an edit
+npm run flows:board-motion --workspace @mothership/design-tokens      # presses the prototype's own controls; needs a browser
+```
+
+What was run, and what was not, is in [board-motion-verification.md](board-motion-verification.md).

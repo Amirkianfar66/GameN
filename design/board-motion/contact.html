@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- mothership:dev-only · Contact sheets of the board-motion captures (issue #87). Synthetic; desktop Chromium renders, not device measurements. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mothership · board motion · contact sheet</title>
+  <link rel="stylesheet" href="../prototypes/css/tokens.css">
+  <style>
+    body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); font-family: var(--ms-font-body); }
+    main { padding: 24px 28px 40px; display: grid; gap: 22px; }
+    h1 { margin: 0; font-family: var(--ms-font-lettering); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; font-size: 26px; }
+    .meta { margin: 0; color: var(--ms-color-text-secondary); font-size: 13px; line-height: 1.45; max-width: 130ch; }
+    .flag { display: inline-block; padding: 0 6px; border: 2px dashed currentColor; border-radius: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px; vertical-align: 2px; }
+    section { display: grid; gap: 10px; }
+    h2 { margin: 0; font-family: var(--ms-font-lettering); font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid var(--ms-color-steel-mid); padding-bottom: 4px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 14px 12px; align-items: flex-start; }
+    figure { margin: 0; display: grid; gap: 4px; width: var(--w, 150px); }
+    img { display: block; width: 100%; height: auto; border: 2px solid var(--ms-color-steel-mid); border-radius: 4px; background: var(--ms-color-ink); }
+    figcaption { font-size: 11px; line-height: 1.3; color: var(--ms-color-text-secondary); }
+    figcaption b { display: block; color: var(--ms-color-text); font-size: 12px; }
+    .rt { font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <main id="sheet"></main>
+  <script type="module">
+    const set = new URLSearchParams(location.search).get('set') ?? 'key';
+    const index = await fetch('./review/index.json').then(r => r.json());
+    const sheet = document.getElementById('sheet');
+    const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); n.append(...kids.filter(k => k !== null)); return n; };
+    const fig = (image, label, sub, width) => el('figure', { style: `--w:${width}px` }, el('img', { src: '/' + image.file.replace(/^design\//, ''), alt: label }), el('figcaption', {}, el('b', {}, label), sub));
+    const titles = { key: 'The board, every action on it', all: 'Every state', matrix: 'Phone sizes, text size, names, safe areas', motion: 'Motion: frames of the real CSS and timelines', secrecy: 'What everyone else sees at the same moment' };
+    sheet.append(el('h1', {}, titles[set], el('span', { class: 'flag' }, 'Synthetic · not a match')),
+      el('p', { class: 'meta' }, `Mothership board motion, issue #87. Design base ${index.base.slice(0, 12)} (codex/v1-pass-board-targets, PR #86). Tokens 0.4.0, assets design-0.2.0 plus the board-motion 0.1.0 prop layers. ${index.browser}, this machine's fonts: simulated viewports, not device measurements. A proposal; not owner-approved.`));
+    if (set === 'motion') {
+      for (const board of index.storyboard) {
+        const frames = index.images.filter(i => i.frame && i.frame.row === board.row);
+        sheet.append(el('section', {}, el('h2', {}, board.title, board.proposal ? el('span', { class: 'flag' }, 'Proposal') : null),
+          el('p', { class: 'meta' }, `${[board.cue, ...(board.also ?? [])].join(' + ')} · ${board.token} · ${board.audience}. Trigger: ${board.trigger} Reduced motion: the last frame, reached directly or with the 80 ms fade.`),
+          el('div', { class: 'grid' }, ...frames.map(i => fig(i, i.frame.at === 'reduced' ? 'Reduced motion' : `${i.frame.at} ms`, el('span', { class: 'rt' }, i.frame.at === 'reduced' ? 'same facts, no travel' : ''), board.crop ? 300 : 150)))));
+      }
+    } else if (set === 'matrix') {
+      const about = new Map(index.matrix.map(m => [m.id, m.about]));
+      sheet.append(el('section', {}, el('div', { class: 'grid' }, ...index.images.filter(i => i.matrix).map(i => fig(i, about.get(i.id), el('span', { class: 'rt' }, `${i.viewport}${i.fontPx ? ' · font ' + i.fontPx + 'px' : ''}`), i.viewport.startsWith('1280') ? 300 : 170)))));
+    } else if (set === 'secrecy') {
+      sheet.append(el('section', {}, el('p', { class: 'meta' }, 'Left: the acting player\'s phone, with their own open action. Right: the same moment on every other screen, drawn from public facts only. Measured on each pair: the right-hand board holds no private mark.'),
+        el('div', { class: 'grid' }, ...index.images.filter(i => i.secrecy).map(i => fig(i, i.title, el('span', { class: 'rt' }, i.state), 520)))));
+    } else {
+      const groups = [...new Set(index.scenarios.map(s => s.group))];
+      for (const group of groups) {
+        const shown = index.scenarios.filter(s => s.group === group && (set === 'all' || s.key));
+        if (!shown.length) continue;
+        const imgs = shown.map(s => [s, index.images.find(i => i.state === s.id && !i.matrix && !i.frame && !i.contact && !i.secrecy)]).filter(([, i]) => i);
+        sheet.append(el('section', {}, el('h2', {}, group), el('div', { class: 'grid' }, ...imgs.map(([s, i]) => fig(i, s.title, el('span', { class: 'rt' }, s.id), set === 'all' ? 128 : 165)))));
+      }
+    }
+    window.__designReady = true;
+  </script>
+</body>
+</html>

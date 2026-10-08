@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · board-motion proposal 0.1.0 · room-b.prop-counter · generated, do not edit
+  The laboratory counter with everything standing on it, in front of the station behind it (Room B's first station).
+  Lifted from design/source/board/board-room-b.svg (group room-b-props-back, 28 elements) by design/tools/board-motion-assets.mjs
+  and printed in the room's colors by the recolor map of the reviewed export recipe board-room-b.
+  Nothing is drawn here that the approved source does not draw. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <pattern id="halftone-ink-s-room-b" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-m-room-b" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-l-room-b" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-paper-s-room-b" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/>
+    </pattern>
+    <pattern id="halftone-paper-m-room-b" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/>
+    </pattern>
+    <clipPath id="clip-room-b-floor">
+      <polygon points="120,372 904,372 1004,748 20,748"/>
+    </clipPath>
+    <clipPath id="clip-room-b-glass">
+      <path d="M742 126 H872 V172 H742 Z"/>
+    </clipPath>
+    <clipPath id="clip-room-b-flask">
+      <path d="M612 300 V322 L586 372 H664 L638 322 V300 Z"/>
+    </clipPath>
+  </defs>
+  <g id="room-b-prop-counter">
+    <polygon points="176,482 852,482 868,496 176,496" fill="#151923"/>
+    <polygon points="196,404 828,404 828,482 196,482" fill="#4B2079" stroke="#151923" stroke-width="5" stroke-linejoin="round"/>
+    <polygon points="214,372 810,372 836,404 188,404" fill="#DCB6EE" stroke="#151923" stroke-width="5" stroke-linejoin="round"/>
+    <polygon points="640,372 810,372 836,404 660,404" fill="url(#halftone-ink-s-room-b)"/>
+    <path d="M354 404 V482 M512 404 V482 M670 404 V482" fill="none" stroke="#151923" stroke-width="3.5"/>
+    <g fill="#DCB6EE" stroke="#151923" stroke-width="2.5"><rect x="258" y="424" width="34" height="10" rx="3"/><rect x="416" y="424" width="34" height="10" rx="3"/><rect x="574" y="424" width="34" height="10" rx="3"/><rect x="732" y="424" width="34" height="10" rx="3"/></g>
+    <polygon points="700,404 828,404 828,482 720,482" fill="url(#halftone-ink-m-room-b)"/>
+    <path d="M214 372 H300 L270 404 H188 Z" fill="#F4EBDD" opacity="0.5"/>
+    <path d="M286 384 H372 L380 396 H294 Z" fill="#151923" opacity="0.85"/>
+    <rect x="286" y="368" width="86" height="16" rx="4" fill="#4B2079" stroke="#151923" stroke-width="4"/>
+    <path d="M350 368 C376 330 372 286 338 268" fill="none" stroke="#151923" stroke-width="16" stroke-linecap="round"/>
+    <path d="M350 368 C376 330 372 286 338 268" fill="none" stroke="#AE6CD3" stroke-width="8" stroke-linecap="round"/>
+    <rect x="296" y="344" width="52" height="8" rx="2" fill="#DCB6EE" stroke="#151923" stroke-width="3"/>
+    <g transform="rotate(-28 322 300)"><rect x="308" y="252" width="28" height="84" rx="6" fill="#DCB6EE" stroke="#151923" stroke-width="4"/><rect x="312" y="236" width="20" height="20" rx="3" fill="#4B2079" stroke="#151923" stroke-width="4"/><rect x="314" y="334" width="16" height="12" rx="2" fill="#4B2079" stroke="#151923" stroke-width="3.5"/><path d="M316 262 V322" fill="none" stroke="#F4EBDD" stroke-width="3" stroke-linecap="round"/></g>
+    <g fill="#F4EBDD" stroke="#151923" stroke-width="3.5"><rect x="444" y="318" width="14" height="54" rx="7"/><rect x="468" y="318" width="14" height="54" rx="7"/><rect x="492" y="318" width="14" height="54" rx="7"/><rect x="516" y="318" width="14" height="54" rx="7"/></g>
+    <g id="room-b-tubes" fill="#7A3CAD"><rect x="447" y="344" width="8" height="24" rx="4"/><rect x="471" y="336" width="8" height="32" rx="4"/><rect x="495" y="350" width="8" height="18" rx="4"/><rect x="519" y="340" width="8" height="28" rx="4"/></g>
+    <rect x="434" y="340" width="106" height="12" rx="3" fill="#4B2079" stroke="#151923" stroke-width="4"/>
+    <rect x="434" y="368" width="106" height="12" rx="3" fill="#4B2079" stroke="#151923" stroke-width="4"/>
+    <ellipse cx="630" cy="378" rx="46" ry="8" fill="#151923" opacity="0.85"/>
+    <path d="M612 300 V322 L586 372 H664 L638 322 V300 Z" fill="#F4EBDD" stroke="#151923" stroke-width="4" stroke-linejoin="round"/>
+    <g clip-path="url(#clip-room-b-flask)"><rect id="room-b-liquid" x="580" y="344" width="90" height="32" fill="#7A3CAD"/><path d="M640 300 H670 V376 H650 Z" fill="url(#halftone-ink-s-room-b)"/></g>
+    <path d="M612 300 V322 L586 372 H664 L638 322 V300 Z" fill="none" stroke="#151923" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="606" y="292" width="38" height="10" rx="3" fill="#DCB6EE" stroke="#151923" stroke-width="3.5"/>
+    <path d="M600 344 H650" fill="none" stroke="#151923" stroke-width="2.5"/>
+    <path d="M708 326 V372 H756 V326" fill="#F4EBDD" stroke="#151923" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="710" y="350" width="44" height="20" fill="#AE6CD3"/>
+    <path d="M716 338 H730 M716 348 H726" fill="none" stroke="#151923" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M708 326 V372 H756 V326" fill="none" stroke="#151923" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+</svg>
