@@ -1,0 +1,2953 @@
+{
+  "devOnly": "mothership:dev-only",
+  "tool": "design/tools/v1-phone-capture.mjs",
+  "inputsSha256": "bf69093f7c9ce76b415c805c45c38a62c062e48806cee2a5b6ca11ef5c17c624",
+  "browser": "Chromium 141.0.7390.37",
+  "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Not a device measurement.",
+  "matrix": [
+    {
+      "id": "w320-game-crowded",
+      "about": "320 CSS px: nine seats, seven in one room"
+    },
+    {
+      "id": "w320-select-open",
+      "about": "320 CSS px: character selection"
+    },
+    {
+      "id": "w320-host-requests",
+      "about": "320 CSS px: host with two requests"
+    },
+    {
+      "id": "w320-reveal-revealed",
+      "about": "320 CSS px: role card face up"
+    },
+    {
+      "id": "w360-game-waiting",
+      "about": "360 CSS px: someone else’s turn"
+    },
+    {
+      "id": "w360-host-full",
+      "about": "360 CSS px: full roster, Start setup"
+    },
+    {
+      "id": "w430-game-private",
+      "about": "430 CSS px: private card open"
+    },
+    {
+      "id": "w430-select-picked",
+      "about": "430 CSS px: character picked"
+    },
+    {
+      "id": "short-game-own-turn",
+      "about": "Short viewport 390 x 600: your turn"
+    },
+    {
+      "id": "short-reveal-concealed",
+      "about": "Short viewport 390 x 600: role card face down"
+    },
+    {
+      "id": "text200-game-waiting",
+      "about": "200% text (default font 32 px): game"
+    },
+    {
+      "id": "text200-select-open",
+      "about": "200% text: character selection"
+    },
+    {
+      "id": "text200-host-lobby",
+      "about": "200% text: host lobby"
+    },
+    {
+      "id": "text200-reveal",
+      "about": "200% text: role card face up"
+    },
+    {
+      "id": "text200-game-readable",
+      "about": "200% text: the readable list, whole page"
+    },
+    {
+      "id": "long-names-game",
+      "about": "Twelve-character names, nine seats"
+    },
+    {
+      "id": "long-names-select",
+      "about": "Twelve-character names, crew progress"
+    },
+    {
+      "id": "long-names-end",
+      "about": "Twelve-character names, final reveal"
+    },
+    {
+      "id": "keyboard-join",
+      "about": "Keyboard up (390 x 450 left): room code field focused"
+    },
+    {
+      "id": "keyboard-name",
+      "about": "Keyboard up (390 x 450 left): name field focused"
+    },
+    {
+      "id": "reduced-motion-reveal",
+      "about": "Reduced motion: the card is shown without the turn"
+    },
+    {
+      "id": "desktop-host",
+      "about": "Desktop 1280: host, same hierarchy, comfortable width"
+    },
+    {
+      "id": "desktop-select",
+      "about": "Desktop 1280: character selection"
+    },
+    {
+      "id": "desktop-game",
+      "about": "Desktop 1280: game with the private card"
+    },
+    {
+      "id": "display-board",
+      "about": "Shared display 1280: public board"
+    },
+    {
+      "id": "display-setup",
+      "about": "Shared display 1280: neutral setup progress"
+    },
+    {
+      "id": "display-result",
+      "about": "Shared display 1280: result and permitted reveal"
+    }
+  ],
+  "storyboard": [
+    {
+      "row": "01-cue-stage-change",
+      "cue": "cue-stage-change",
+      "title": "A new setup stage: the caption lands",
+      "state": "select.open",
+      "selector": ".j-head",
+      "only": ".j-cap",
+      "frames": [
+        0,
+        70,
+        140,
+        220
+      ],
+      "token": "motion.cardTransition 220 ms",
+      "trigger": "The setup document reports a new stage (choosing, awaiting-ready, running).",
+      "proposal": true
+    },
+    {
+      "row": "02-cue-role-deal",
+      "cue": "cue-role-deal",
+      "title": "The role card is dealt, face down",
+      "state": "reveal.concealed",
+      "selector": ".j-cardslot",
+      "only": ".j-rolecard",
+      "frames": [
+        0,
+        140,
+        280,
+        420
+      ],
+      "token": "motionMs.roleDeal 420 ms",
+      "trigger": "This seat’s own setup preview first arrives for the current deal. Not after a reload or a recovery.",
+      "proposal": true
+    },
+    {
+      "row": "03-cue-role-card-turn",
+      "cue": "cue-role-card-turn",
+      "title": "The card is turned up and the device added (private)",
+      "state": "reveal.revealed",
+      "selector": ".j-main > .j-cardslot",
+      "only": ".j-rolecard, .j-rolecard__art",
+      "frames": [
+        0,
+        225,
+        450,
+        675,
+        900
+      ],
+      "token": "motionMs.roleCardTurn 900 ms",
+      "trigger": "The player presses Reveal my role. Local; inside the private container only."
+    },
+    {
+      "row": "04-cue-registration",
+      "cue": "cue-registration",
+      "title": "Ready is stamped on the card back",
+      "state": "reveal.ready-early",
+      "selector": ".j-cardslot",
+      "only": ".j-rolecard__stamp",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "token": "motion.registrationStamp 120 ms",
+      "trigger": "The server accepts this seat’s Ready (the answer to its own request)."
+    },
+    {
+      "row": "05-cue-registration",
+      "cue": "cue-registration",
+      "title": "A command is registered: stamp in the private card",
+      "state": "game.registered",
+      "selector": ".j-card",
+      "only": ".j-card__status",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "token": "motion.registrationStamp 120 ms",
+      "trigger": "The server’s receipt accepts this seat’s command. Never a public cue."
+    },
+    {
+      "row": "06-cue-sheet-open",
+      "cue": "cue-sheet-open",
+      "title": "The private card opens",
+      "state": "game.private-open",
+      "selector": null,
+      "only": ".j-sheet",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "token": "motion.cardTransition 220 ms",
+      "trigger": "The player presses Private card.",
+      "proposal": true
+    },
+    {
+      "row": "07-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "A piece is carried to its new room",
+      "state": "game.move-accepted",
+      "selector": ".j-board",
+      "only": ".j-piece",
+      "frames": [
+        0,
+        225,
+        450,
+        780,
+        900
+      ],
+      "token": "motionMs.pieceMove 900 ms",
+      "trigger": "A public location change in the view (PUBLIC_MOVE); the same on every screen."
+    },
+    {
+      "row": "08-cue-phase-change",
+      "cue": "cue-phase-change",
+      "title": "A new phase: the words slide in",
+      "state": "phase.jail-vote",
+      "selector": ".j-strip",
+      "only": ".j-strip__what",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "token": "motion.cardTransition 220 ms",
+      "trigger": "The view reports a new phase (PHASE_CHANGED)."
+    },
+    {
+      "row": "09-cue-round-transition",
+      "cue": "cue-round-transition",
+      "title": "A new round: the ink band sweeps under the strip",
+      "state": "phase.resolution",
+      "selector": ".j-strip",
+      "only": ".j-strip__box",
+      "frames": [
+        0,
+        230,
+        470,
+        700
+      ],
+      "token": "motion.roundTransition 700 ms",
+      "trigger": "The view reports a new round."
+    },
+    {
+      "row": "10-cue-request-arrives",
+      "cue": "cue-request-arrives",
+      "title": "Host: a request to join drops in",
+      "state": "host.requests",
+      "selector": ".j-requests",
+      "only": ".j-request",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "token": "motion.cardTransition 220 ms",
+      "trigger": "A new pending admission appears in the host’s list.",
+      "proposal": true
+    },
+    {
+      "row": "11-cue-choice-taken",
+      "cue": "cue-choice-taken",
+      "title": "Selection: the character was just taken",
+      "state": "select.conflict",
+      "selector": ".j-crew",
+      "only": ".j-crewtile",
+      "frames": [
+        0,
+        70,
+        140,
+        220
+      ],
+      "token": "motion.cardTransition 220 ms",
+      "trigger": "The server refuses the choice (CHARACTER_TAKEN) and the identity document shows the holder.",
+      "proposal": true
+    },
+    {
+      "row": "12-cue-result-cover",
+      "cue": "cue-result-cover",
+      "title": "The result arrives as a comic cover",
+      "state": "end.winner",
+      "selector": ".j-result",
+      "only": ".j-result",
+      "frames": [
+        0,
+        300,
+        600,
+        900
+      ],
+      "token": "motion.comicBeatMaximum 900 ms",
+      "trigger": "The view first carries a finished or aborted match.",
+      "proposal": true
+    }
+  ],
+  "images": [
+    {
+      "id": "entry.choose",
+      "state": "entry.choose",
+      "file": "design/v1-phone/review/states/entry.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "entry.signing-in",
+      "state": "entry.signing-in",
+      "file": "design/v1-phone/review/states/entry.signing-in.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "entry.signin-failed",
+      "state": "entry.signin-failed",
+      "file": "design/v1-phone/review/states/entry.signin-failed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.create",
+      "state": "host.create",
+      "file": "design/v1-phone/review/states/host.create.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.lobby-empty",
+      "state": "host.lobby-empty",
+      "file": "design/v1-phone/review/states/host.lobby-empty.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.share",
+      "state": "host.share",
+      "file": "design/v1-phone/review/states/host.share.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.requests",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/states/host.requests.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.request-unsettled",
+      "state": "host.request-unsettled",
+      "file": "design/v1-phone/review/states/host.request-unsettled.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.no-free-seat",
+      "state": "host.no-free-seat",
+      "file": "design/v1-phone/review/states/host.no-free-seat.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.bots",
+      "state": "host.bots",
+      "file": "design/v1-phone/review/states/host.bots.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.full",
+      "state": "host.full",
+      "file": "design/v1-phone/review/states/host.full.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.choosing",
+      "state": "host.choosing",
+      "file": "design/v1-phone/review/states/host.choosing.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.choosing-expired",
+      "state": "host.choosing-expired",
+      "file": "design/v1-phone/review/states/host.choosing-expired.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.reading",
+      "state": "host.reading",
+      "file": "design/v1-phone/review/states/host.reading.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.waiting-ready",
+      "state": "host.waiting-ready",
+      "file": "design/v1-phone/review/states/host.waiting-ready.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.running",
+      "state": "host.running",
+      "file": "design/v1-phone/review/states/host.running.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.recovery",
+      "state": "host.recovery",
+      "file": "design/v1-phone/review/states/host.recovery.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.recovery-unsettled",
+      "state": "host.recovery-unsettled",
+      "file": "design/v1-phone/review/states/host.recovery-unsettled.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.display",
+      "state": "host.display",
+      "file": "design/v1-phone/review/states/host.display.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.end-confirm",
+      "state": "host.end-confirm",
+      "file": "design/v1-phone/review/states/host.end-confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "host.ended",
+      "state": "host.ended",
+      "file": "design/v1-phone/review/states/host.ended.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.code",
+      "state": "join.code",
+      "file": "design/v1-phone/review/states/join.code.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.code-invalid",
+      "state": "join.code-invalid",
+      "file": "design/v1-phone/review/states/join.code-invalid.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.sending",
+      "state": "join.sending",
+      "file": "design/v1-phone/review/states/join.sending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.no-answer",
+      "state": "join.no-answer",
+      "file": "design/v1-phone/review/states/join.no-answer.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.refused",
+      "state": "join.refused",
+      "file": "design/v1-phone/review/states/join.refused.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.busy",
+      "state": "join.busy",
+      "file": "design/v1-phone/review/states/join.busy.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.waiting-host",
+      "state": "join.waiting-host",
+      "file": "design/v1-phone/review/states/join.waiting-host.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.seated",
+      "state": "join.seated",
+      "file": "design/v1-phone/review/states/join.seated.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.ended-in-lobby",
+      "state": "join.ended-in-lobby",
+      "file": "design/v1-phone/review/states/join.ended-in-lobby.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.recover",
+      "state": "join.recover",
+      "file": "design/v1-phone/review/states/join.recover.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.recover-checking",
+      "state": "join.recover-checking",
+      "file": "design/v1-phone/review/states/join.recover-checking.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "join.recover-refused",
+      "state": "join.recover-refused",
+      "file": "design/v1-phone/review/states/join.recover-refused.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.open",
+      "state": "select.open",
+      "file": "design/v1-phone/review/states/select.open.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.picked",
+      "state": "select.picked",
+      "file": "design/v1-phone/review/states/select.picked.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.taken",
+      "state": "select.taken",
+      "file": "design/v1-phone/review/states/select.taken.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.submitting",
+      "state": "select.submitting",
+      "file": "design/v1-phone/review/states/select.submitting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.confirmed",
+      "state": "select.confirmed",
+      "file": "design/v1-phone/review/states/select.confirmed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.conflict",
+      "state": "select.conflict",
+      "file": "design/v1-phone/review/states/select.conflict.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.name-taken",
+      "state": "select.name-taken",
+      "file": "design/v1-phone/review/states/select.name-taken.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.retry",
+      "state": "select.retry",
+      "file": "design/v1-phone/review/states/select.retry.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.expired",
+      "state": "select.expired",
+      "file": "design/v1-phone/review/states/select.expired.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.assigned",
+      "state": "select.assigned",
+      "file": "design/v1-phone/review/states/select.assigned.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "select.unsynced",
+      "state": "select.unsynced",
+      "file": "design/v1-phone/review/states/select.unsynced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.dealing",
+      "state": "reveal.dealing",
+      "file": "design/v1-phone/review/states/reveal.dealing.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.concealed",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/states/reveal.concealed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.revealed",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/states/reveal.revealed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.ready-sending",
+      "state": "reveal.ready-sending",
+      "file": "design/v1-phone/review/states/reveal.ready-sending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.ready-early",
+      "state": "reveal.ready-early",
+      "file": "design/v1-phone/review/states/reveal.ready-early.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.ready-retry",
+      "state": "reveal.ready-retry",
+      "file": "design/v1-phone/review/states/reveal.ready-retry.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.waiting-others",
+      "state": "reveal.waiting-others",
+      "file": "design/v1-phone/review/states/reveal.waiting-others.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.everyone-ready",
+      "state": "reveal.everyone-ready",
+      "file": "design/v1-phone/review/states/reveal.everyone-ready.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.reconnecting",
+      "state": "reveal.reconnecting",
+      "file": "design/v1-phone/review/states/reveal.reconnecting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.recovered",
+      "state": "reveal.recovered",
+      "file": "design/v1-phone/review/states/reveal.recovered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.backgrounded",
+      "state": "reveal.backgrounded",
+      "file": "design/v1-phone/review/states/reveal.backgrounded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "reveal.devices",
+      "state": "reveal.devices",
+      "file": "design/v1-phone/review/states/reveal.devices.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.waiting",
+      "state": "game.waiting",
+      "file": "design/v1-phone/review/states/game.waiting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.own-turn",
+      "state": "game.own-turn",
+      "file": "design/v1-phone/review/states/game.own-turn.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.private-open",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/states/game.private-open.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.choose-room",
+      "state": "game.choose-room",
+      "file": "design/v1-phone/review/states/game.choose-room.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.choose-target",
+      "state": "game.choose-target",
+      "file": "design/v1-phone/review/states/game.choose-target.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.confirm",
+      "state": "game.confirm",
+      "file": "design/v1-phone/review/states/game.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.submitting",
+      "state": "game.submitting",
+      "file": "design/v1-phone/review/states/game.submitting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.registered",
+      "state": "game.registered",
+      "file": "design/v1-phone/review/states/game.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.move-accepted",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/states/game.move-accepted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.rejected",
+      "state": "game.rejected",
+      "file": "design/v1-phone/review/states/game.rejected.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.not-available",
+      "state": "game.not-available",
+      "file": "design/v1-phone/review/states/game.not-available.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.checking",
+      "state": "game.checking",
+      "file": "design/v1-phone/review/states/game.checking.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.unknown",
+      "state": "game.unknown",
+      "file": "design/v1-phone/review/states/game.unknown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.withdrawn",
+      "state": "game.withdrawn",
+      "file": "design/v1-phone/review/states/game.withdrawn.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.knowledge",
+      "state": "game.knowledge",
+      "file": "design/v1-phone/review/states/game.knowledge.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.supply",
+      "state": "game.supply",
+      "file": "design/v1-phone/review/states/game.supply.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.supply-received",
+      "state": "game.supply-received",
+      "file": "design/v1-phone/review/states/game.supply-received.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.board-7",
+      "state": "game.board-7",
+      "file": "design/v1-phone/review/states/game.board-7.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.board-8",
+      "state": "game.board-8",
+      "file": "design/v1-phone/review/states/game.board-8.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.crowded",
+      "state": "game.crowded",
+      "file": "design/v1-phone/review/states/game.crowded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "game.readable",
+      "state": "game.readable",
+      "file": "design/v1-phone/review/states/game.readable.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.election",
+      "state": "phase.election",
+      "file": "design/v1-phone/review/states/phase.election.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.election-again",
+      "state": "phase.election-again",
+      "file": "design/v1-phone/review/states/phase.election-again.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.jail-vote",
+      "state": "phase.jail-vote",
+      "file": "design/v1-phone/review/states/phase.jail-vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.ballot-recorded",
+      "state": "phase.ballot-recorded",
+      "file": "design/v1-phone/review/states/phase.ballot-recorded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.tally",
+      "state": "phase.tally",
+      "file": "design/v1-phone/review/states/phase.tally.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.release-choice",
+      "state": "phase.release-choice",
+      "file": "design/v1-phone/review/states/phase.release-choice.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.release-vote",
+      "state": "phase.release-vote",
+      "file": "design/v1-phone/review/states/phase.release-vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.hack",
+      "state": "phase.hack",
+      "file": "design/v1-phone/review/states/phase.hack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.resolution",
+      "state": "phase.resolution",
+      "file": "design/v1-phone/review/states/phase.resolution.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "phase.showdown",
+      "state": "phase.showdown",
+      "file": "design/v1-phone/review/states/phase.showdown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "status.injured",
+      "state": "status.injured",
+      "file": "design/v1-phone/review/states/status.injured.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "status.hospital",
+      "state": "status.hospital",
+      "file": "design/v1-phone/review/states/status.hospital.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "status.jailed",
+      "state": "status.jailed",
+      "file": "design/v1-phone/review/states/status.jailed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "status.captain",
+      "state": "status.captain",
+      "file": "design/v1-phone/review/states/status.captain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "status.eliminated",
+      "state": "status.eliminated",
+      "file": "design/v1-phone/review/states/status.eliminated.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "status.watching",
+      "state": "status.watching",
+      "file": "design/v1-phone/review/states/status.watching.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.loading",
+      "state": "system.loading",
+      "file": "design/v1-phone/review/states/system.loading.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.reconnecting",
+      "state": "system.reconnecting",
+      "file": "design/v1-phone/review/states/system.reconnecting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.clock",
+      "state": "system.clock",
+      "file": "design/v1-phone/review/states/system.clock.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.unresolved",
+      "state": "system.unresolved",
+      "file": "design/v1-phone/review/states/system.unresolved.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.access-unconfirmed",
+      "state": "system.access-unconfirmed",
+      "file": "design/v1-phone/review/states/system.access-unconfirmed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.no-access",
+      "state": "system.no-access",
+      "file": "design/v1-phone/review/states/system.no-access.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.incompatible",
+      "state": "system.incompatible",
+      "file": "design/v1-phone/review/states/system.incompatible.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "system.seat-moved-in",
+      "state": "system.seat-moved-in",
+      "file": "design/v1-phone/review/states/system.seat-moved-in.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "end.winner",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/states/end.winner.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "end.draw",
+      "state": "end.draw",
+      "file": "design/v1-phone/review/states/end.draw.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "end.aborted",
+      "state": "end.aborted",
+      "file": "design/v1-phone/review/states/end.aborted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "end.next",
+      "state": "end.next",
+      "file": "design/v1-phone/review/states/end.next.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "display.admit",
+      "state": "display.admit",
+      "file": "design/v1-phone/review/states/display.admit.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "display.setup",
+      "state": "display.setup",
+      "file": "design/v1-phone/review/states/display.setup.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "display.board",
+      "state": "display.board",
+      "file": "design/v1-phone/review/states/display.board.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "display.result",
+      "state": "display.result",
+      "file": "design/v1-phone/review/states/display.result.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false
+    },
+    {
+      "id": "w320-game-crowded",
+      "state": "game.crowded",
+      "file": "design/v1-phone/review/matrix/w320-game-crowded.png",
+      "width": 320,
+      "height": 640,
+      "viewport": "320x640",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w320-select-open",
+      "state": "select.open",
+      "file": "design/v1-phone/review/matrix/w320-select-open.png",
+      "width": 320,
+      "height": 640,
+      "viewport": "320x640",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w320-host-requests",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/matrix/w320-host-requests.png",
+      "width": 320,
+      "height": 640,
+      "viewport": "320x640",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w320-reveal-revealed",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/matrix/w320-reveal-revealed.png",
+      "width": 320,
+      "height": 640,
+      "viewport": "320x640",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w360-game-waiting",
+      "state": "game.waiting",
+      "file": "design/v1-phone/review/matrix/w360-game-waiting.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w360-host-full",
+      "state": "host.full",
+      "file": "design/v1-phone/review/matrix/w360-host-full.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w430-game-private",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/matrix/w430-game-private.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "w430-select-picked",
+      "state": "select.picked",
+      "file": "design/v1-phone/review/matrix/w430-select-picked.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "short-game-own-turn",
+      "state": "game.own-turn",
+      "file": "design/v1-phone/review/matrix/short-game-own-turn.png",
+      "width": 390,
+      "height": 600,
+      "viewport": "390x600",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "short-reveal-concealed",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/matrix/short-reveal-concealed.png",
+      "width": 390,
+      "height": 600,
+      "viewport": "390x600",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "text200-game-waiting",
+      "state": "game.waiting",
+      "file": "design/v1-phone/review/matrix/text200-game-waiting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "text200-select-open",
+      "state": "select.open",
+      "file": "design/v1-phone/review/matrix/text200-select-open.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "text200-host-lobby",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/matrix/text200-host-lobby.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "text200-reveal",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/matrix/text200-reveal.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "text200-game-readable",
+      "state": "game.readable",
+      "file": "design/v1-phone/review/matrix/text200-game-readable.png",
+      "width": 390,
+      "height": 3695,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "long-names-game",
+      "state": "game.crowded",
+      "file": "design/v1-phone/review/matrix/long-names-game.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": "long",
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "long-names-select",
+      "state": "select.confirmed",
+      "file": "design/v1-phone/review/matrix/long-names-select.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": "long",
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "long-names-end",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/matrix/long-names-end.png",
+      "width": 390,
+      "height": 975,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": "long",
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "keyboard-join",
+      "state": "join.code",
+      "file": "design/v1-phone/review/matrix/keyboard-join.png",
+      "width": 390,
+      "height": 450,
+      "viewport": "390x450",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "keyboard-name",
+      "state": "select.picked",
+      "file": "design/v1-phone/review/matrix/keyboard-name.png",
+      "width": 390,
+      "height": 450,
+      "viewport": "390x450",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "reduced-motion-reveal",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/matrix/reduced-motion-reveal.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": true
+    },
+    {
+      "id": "desktop-host",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/matrix/desktop-host.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "desktop-select",
+      "state": "select.picked",
+      "file": "design/v1-phone/review/matrix/desktop-select.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "desktop-game",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/matrix/desktop-game.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "display-board",
+      "state": "display.board",
+      "file": "design/v1-phone/review/matrix/display-board.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "display-setup",
+      "state": "display.setup",
+      "file": "design/v1-phone/review/matrix/display-setup.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "display-result",
+      "state": "display.result",
+      "file": "design/v1-phone/review/matrix/display-result.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": true
+    },
+    {
+      "id": "01-cue-stage-change-0",
+      "state": "select.open",
+      "file": "design/v1-phone/review/motion/01-cue-stage-change-0ms.png",
+      "width": 410,
+      "height": 146,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "01-cue-stage-change",
+        "cue": "cue-stage-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "01-cue-stage-change-70",
+      "state": "select.open",
+      "file": "design/v1-phone/review/motion/01-cue-stage-change-70ms.png",
+      "width": 410,
+      "height": 146,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "01-cue-stage-change",
+        "cue": "cue-stage-change",
+        "at": 70
+      }
+    },
+    {
+      "id": "01-cue-stage-change-140",
+      "state": "select.open",
+      "file": "design/v1-phone/review/motion/01-cue-stage-change-140ms.png",
+      "width": 410,
+      "height": 146,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "01-cue-stage-change",
+        "cue": "cue-stage-change",
+        "at": 140
+      }
+    },
+    {
+      "id": "01-cue-stage-change-220",
+      "state": "select.open",
+      "file": "design/v1-phone/review/motion/01-cue-stage-change-220ms.png",
+      "width": 410,
+      "height": 146,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "01-cue-stage-change",
+        "cue": "cue-stage-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "01-cue-stage-change-reduced",
+      "state": "select.open",
+      "file": "design/v1-phone/review/motion/01-cue-stage-change-reduced.png",
+      "width": 410,
+      "height": 146,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "01-cue-stage-change",
+        "cue": "cue-stage-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "02-cue-role-deal-0",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/motion/02-cue-role-deal-0ms.png",
+      "width": 378,
+      "height": 390,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "02-cue-role-deal",
+        "cue": "cue-role-deal",
+        "at": 0
+      }
+    },
+    {
+      "id": "02-cue-role-deal-140",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/motion/02-cue-role-deal-140ms.png",
+      "width": 378,
+      "height": 390,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "02-cue-role-deal",
+        "cue": "cue-role-deal",
+        "at": 140
+      }
+    },
+    {
+      "id": "02-cue-role-deal-280",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/motion/02-cue-role-deal-280ms.png",
+      "width": 378,
+      "height": 390,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "02-cue-role-deal",
+        "cue": "cue-role-deal",
+        "at": 280
+      }
+    },
+    {
+      "id": "02-cue-role-deal-420",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/motion/02-cue-role-deal-420ms.png",
+      "width": 378,
+      "height": 390,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "02-cue-role-deal",
+        "cue": "cue-role-deal",
+        "at": 420
+      }
+    },
+    {
+      "id": "02-cue-role-deal-reduced",
+      "state": "reveal.concealed",
+      "file": "design/v1-phone/review/motion/02-cue-role-deal-reduced.png",
+      "width": 378,
+      "height": 390,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "02-cue-role-deal",
+        "cue": "cue-role-deal",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-0",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/motion/03-cue-role-card-turn-0ms.png",
+      "width": 378,
+      "height": 539,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "03-cue-role-card-turn",
+        "cue": "cue-role-card-turn",
+        "at": 0
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-225",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/motion/03-cue-role-card-turn-225ms.png",
+      "width": 378,
+      "height": 539,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "03-cue-role-card-turn",
+        "cue": "cue-role-card-turn",
+        "at": 225
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-450",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/motion/03-cue-role-card-turn-450ms.png",
+      "width": 378,
+      "height": 539,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "03-cue-role-card-turn",
+        "cue": "cue-role-card-turn",
+        "at": 450
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-675",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/motion/03-cue-role-card-turn-675ms.png",
+      "width": 378,
+      "height": 539,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "03-cue-role-card-turn",
+        "cue": "cue-role-card-turn",
+        "at": 675
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-900",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/motion/03-cue-role-card-turn-900ms.png",
+      "width": 378,
+      "height": 539,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "03-cue-role-card-turn",
+        "cue": "cue-role-card-turn",
+        "at": 900
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-reduced",
+      "state": "reveal.revealed",
+      "file": "design/v1-phone/review/motion/03-cue-role-card-turn-reduced.png",
+      "width": 378,
+      "height": 539,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "03-cue-role-card-turn",
+        "cue": "cue-role-card-turn",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "04-cue-registration-0",
+      "state": "reveal.ready-early",
+      "file": "design/v1-phone/review/motion/04-cue-registration-0ms.png",
+      "width": 378,
+      "height": 210,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "04-cue-registration",
+        "cue": "cue-registration",
+        "at": 0
+      }
+    },
+    {
+      "id": "04-cue-registration-60",
+      "state": "reveal.ready-early",
+      "file": "design/v1-phone/review/motion/04-cue-registration-60ms.png",
+      "width": 378,
+      "height": 210,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "04-cue-registration",
+        "cue": "cue-registration",
+        "at": 60
+      }
+    },
+    {
+      "id": "04-cue-registration-120",
+      "state": "reveal.ready-early",
+      "file": "design/v1-phone/review/motion/04-cue-registration-120ms.png",
+      "width": 378,
+      "height": 210,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "04-cue-registration",
+        "cue": "cue-registration",
+        "at": 120
+      }
+    },
+    {
+      "id": "04-cue-registration-reduced",
+      "state": "reveal.ready-early",
+      "file": "design/v1-phone/review/motion/04-cue-registration-reduced.png",
+      "width": 378,
+      "height": 210,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "04-cue-registration",
+        "cue": "cue-registration",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "05-cue-registration-0",
+      "state": "game.registered",
+      "file": "design/v1-phone/review/motion/05-cue-registration-0ms.png",
+      "width": 370,
+      "height": 224,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "05-cue-registration",
+        "cue": "cue-registration",
+        "at": 0
+      }
+    },
+    {
+      "id": "05-cue-registration-60",
+      "state": "game.registered",
+      "file": "design/v1-phone/review/motion/05-cue-registration-60ms.png",
+      "width": 370,
+      "height": 224,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "05-cue-registration",
+        "cue": "cue-registration",
+        "at": 60
+      }
+    },
+    {
+      "id": "05-cue-registration-120",
+      "state": "game.registered",
+      "file": "design/v1-phone/review/motion/05-cue-registration-120ms.png",
+      "width": 370,
+      "height": 224,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "05-cue-registration",
+        "cue": "cue-registration",
+        "at": 120
+      }
+    },
+    {
+      "id": "05-cue-registration-reduced",
+      "state": "game.registered",
+      "file": "design/v1-phone/review/motion/05-cue-registration-reduced.png",
+      "width": 370,
+      "height": 224,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "05-cue-registration",
+        "cue": "cue-registration",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-0",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/motion/06-cue-sheet-open-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "06-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": 0
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-110",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/motion/06-cue-sheet-open-110ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "06-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": 110
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-220",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/motion/06-cue-sheet-open-220ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "06-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": 220
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-reduced",
+      "state": "game.private-open",
+      "file": "design/v1-phone/review/motion/06-cue-sheet-open-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "06-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "07-cue-public-move-0",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/motion/07-cue-public-move-0ms.png",
+      "width": 378,
+      "height": 569,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "07-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 0
+      }
+    },
+    {
+      "id": "07-cue-public-move-225",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/motion/07-cue-public-move-225ms.png",
+      "width": 378,
+      "height": 569,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "07-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 225
+      }
+    },
+    {
+      "id": "07-cue-public-move-450",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/motion/07-cue-public-move-450ms.png",
+      "width": 378,
+      "height": 569,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "07-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 450
+      }
+    },
+    {
+      "id": "07-cue-public-move-780",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/motion/07-cue-public-move-780ms.png",
+      "width": 378,
+      "height": 569,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "07-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 780
+      }
+    },
+    {
+      "id": "07-cue-public-move-900",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/motion/07-cue-public-move-900ms.png",
+      "width": 378,
+      "height": 569,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "07-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "07-cue-public-move-reduced",
+      "state": "game.move-accepted",
+      "file": "design/v1-phone/review/motion/07-cue-public-move-reduced.png",
+      "width": 378,
+      "height": 569,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "07-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "08-cue-phase-change-0",
+      "state": "phase.jail-vote",
+      "file": "design/v1-phone/review/motion/08-cue-phase-change-0ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "08-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "08-cue-phase-change-110",
+      "state": "phase.jail-vote",
+      "file": "design/v1-phone/review/motion/08-cue-phase-change-110ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "08-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "08-cue-phase-change-220",
+      "state": "phase.jail-vote",
+      "file": "design/v1-phone/review/motion/08-cue-phase-change-220ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "08-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "08-cue-phase-change-reduced",
+      "state": "phase.jail-vote",
+      "file": "design/v1-phone/review/motion/08-cue-phase-change-reduced.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "08-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "09-cue-round-transition-0",
+      "state": "phase.resolution",
+      "file": "design/v1-phone/review/motion/09-cue-round-transition-0ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "09-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 0
+      }
+    },
+    {
+      "id": "09-cue-round-transition-230",
+      "state": "phase.resolution",
+      "file": "design/v1-phone/review/motion/09-cue-round-transition-230ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "09-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 230
+      }
+    },
+    {
+      "id": "09-cue-round-transition-470",
+      "state": "phase.resolution",
+      "file": "design/v1-phone/review/motion/09-cue-round-transition-470ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "09-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 470
+      }
+    },
+    {
+      "id": "09-cue-round-transition-700",
+      "state": "phase.resolution",
+      "file": "design/v1-phone/review/motion/09-cue-round-transition-700ms.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "09-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 700
+      }
+    },
+    {
+      "id": "09-cue-round-transition-reduced",
+      "state": "phase.resolution",
+      "file": "design/v1-phone/review/motion/09-cue-round-transition-reduced.png",
+      "width": 410,
+      "height": 90,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "09-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-0",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/motion/10-cue-request-arrives-0ms.png",
+      "width": 378,
+      "height": 313,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "10-cue-request-arrives",
+        "cue": "cue-request-arrives",
+        "at": 0
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-110",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/motion/10-cue-request-arrives-110ms.png",
+      "width": 378,
+      "height": 313,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "10-cue-request-arrives",
+        "cue": "cue-request-arrives",
+        "at": 110
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-220",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/motion/10-cue-request-arrives-220ms.png",
+      "width": 378,
+      "height": 313,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "10-cue-request-arrives",
+        "cue": "cue-request-arrives",
+        "at": 220
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-reduced",
+      "state": "host.requests",
+      "file": "design/v1-phone/review/motion/10-cue-request-arrives-reduced.png",
+      "width": 378,
+      "height": 313,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "10-cue-request-arrives",
+        "cue": "cue-request-arrives",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-0",
+      "state": "select.conflict",
+      "file": "design/v1-phone/review/motion/11-cue-choice-taken-0ms.png",
+      "width": 378,
+      "height": 391,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "11-cue-choice-taken",
+        "cue": "cue-choice-taken",
+        "at": 0
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-70",
+      "state": "select.conflict",
+      "file": "design/v1-phone/review/motion/11-cue-choice-taken-70ms.png",
+      "width": 378,
+      "height": 391,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "11-cue-choice-taken",
+        "cue": "cue-choice-taken",
+        "at": 70
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-140",
+      "state": "select.conflict",
+      "file": "design/v1-phone/review/motion/11-cue-choice-taken-140ms.png",
+      "width": 378,
+      "height": 391,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "11-cue-choice-taken",
+        "cue": "cue-choice-taken",
+        "at": 140
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-220",
+      "state": "select.conflict",
+      "file": "design/v1-phone/review/motion/11-cue-choice-taken-220ms.png",
+      "width": 378,
+      "height": 391,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "11-cue-choice-taken",
+        "cue": "cue-choice-taken",
+        "at": 220
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-reduced",
+      "state": "select.conflict",
+      "file": "design/v1-phone/review/motion/11-cue-choice-taken-reduced.png",
+      "width": 378,
+      "height": 391,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "11-cue-choice-taken",
+        "cue": "cue-choice-taken",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "12-cue-result-cover-0",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/motion/12-cue-result-cover-0ms.png",
+      "width": 359,
+      "height": 144,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "12-cue-result-cover",
+        "cue": "cue-result-cover",
+        "at": 0
+      }
+    },
+    {
+      "id": "12-cue-result-cover-300",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/motion/12-cue-result-cover-300ms.png",
+      "width": 375,
+      "height": 145,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "12-cue-result-cover",
+        "cue": "cue-result-cover",
+        "at": 300
+      }
+    },
+    {
+      "id": "12-cue-result-cover-600",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/motion/12-cue-result-cover-600ms.png",
+      "width": 378,
+      "height": 145,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "12-cue-result-cover",
+        "cue": "cue-result-cover",
+        "at": 600
+      }
+    },
+    {
+      "id": "12-cue-result-cover-900",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/motion/12-cue-result-cover-900ms.png",
+      "width": 378,
+      "height": 145,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "matrix": false,
+      "frame": {
+        "row": "12-cue-result-cover",
+        "cue": "cue-result-cover",
+        "at": 900
+      }
+    },
+    {
+      "id": "12-cue-result-cover-reduced",
+      "state": "end.winner",
+      "file": "design/v1-phone/review/motion/12-cue-result-cover-reduced.png",
+      "width": 378,
+      "height": 145,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "matrix": false,
+      "frame": {
+        "row": "12-cue-result-cover",
+        "cue": "cue-result-cover",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "contact-priority",
+      "state": null,
+      "file": "design/v1-phone/review/contact-priority.png",
+      "width": 1600,
+      "height": 5396,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-all",
+      "state": null,
+      "file": "design/v1-phone/review/contact-all.png",
+      "width": 1600,
+      "height": 6180,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-matrix",
+      "state": null,
+      "file": "design/v1-phone/review/contact-matrix.png",
+      "width": 1600,
+      "height": 3323,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-motion",
+      "state": null,
+      "file": "design/v1-phone/review/contact-motion.png",
+      "width": 1600,
+      "height": 4107,
+      "viewport": "1600",
+      "contact": true
+    }
+  ]
+}

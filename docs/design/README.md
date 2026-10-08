@@ -40,7 +40,11 @@ Nothing here changes a rule, a contract, a lockfile or CI. The four pinned Desig
 | [frontend-handoff.md](frontend-handoff.md) | For Frontend: how art is loaded, formats, coordinates, hooks, token and asset adoption, structure requests and review questions |
 | [integration-requests.md](integration-requests.md) | For Codex: check wiring, the token revision and its lock update, contract fields the design is waiting for |
 | [verification.md](verification.md) | The checks that were actually run, what each asserts and does not, what an independent review found, and what was not run |
-| [owner-decisions.md](owner-decisions.md) | What the game owner decided with Designer, in the owner's words: on 7 October 2026, the comic-board direction, approved. And what was built from it since, which the owner has not seen |
+| [owner-decisions.md](owner-decisions.md) | What the game owner decided with Designer, in the owner's words: on 7 October 2026, the comic-board direction, approved; on 8 October 2026, phones first for V1. And what was built from them since, which the owner has not seen |
+| [v1-phone-journey.md](v1-phone-journey.md) | **Issue #76.** The phone-first V1 journey: the journey map, the five priority screens and every supporting state, on the release candidate `87715a46` (PR #75). A proposal |
+| [v1-phone-inventory.md](v1-phone-inventory.md) | Every state of that journey: the authorized data it is drawn from, what the release already does, and the gap. *Generated* from `design/v1-phone/contract/journey.json` |
+| [v1-phone-handoff.md](v1-phone-handoff.md) | For Frontend: the components reused and new, assets, tokens, layout rules, state mappings, motion, copy, dependencies, and what goes to Integration (DSN-REQ-8 to 11) |
+| [v1-phone-verification.md](v1-phone-verification.md) | The checks run for issue #76, with their results, and what was not run |
 
 The generated pages are written by `design/tools/write-docs.mjs` from the JSON under `design/contract/` and from the two manifests. Change the source, not the page.
 
@@ -52,6 +56,7 @@ The generated pages are written by `design/tools/write-docs.mjs` from the JSON u
 | `design/contract/` | The machine-readable contract: components and states, cues, the studies, layout callouts, planned assets, proposed copy, and the catalog of the nine characters |
 | `design/prototypes/` | Reference stylesheets on Frontend's own hooks, the loader, and the review pages. Development only; not shipped |
 | `design/review/` | Review renders of those pages, and the reports of the two browser checks |
+| `design/v1-phone/` | **Issue #76.** The working, navigable prototype of the phone-first V1 journey: 109 states from labeled synthetic fixtures, drawn with the reviewed tokens, bundles and loader, which it reads and does not change; its contract (`contract/journey.json`), screenshots, viewport matrix, storyboards and contact sheets (`review/`). Development only; not assets, not shells, and outside the review kit's inputs |
 | `design/explorations/` | Looks tried with the owner, kept apart from everything above: `comic-board/` is the working page approved on 7 October 2026, which still shows the parts of that direction that are not adopted yet. It draws from the sources; nothing reviewed draws from it. Development only; not assets, not contract, not shells |
 | `design/tools/` | Build, check, document and render scripts. Node built-ins only |
 | `packages/design-tokens/` | The pinned 0.2.0 proposal, unchanged; the 0.4.0 revision beside it, additive over 0.2.0; and 0.3.0, kept so that a test can hold 0.4.0 to it |
@@ -88,7 +93,8 @@ Three words are used throughout and they are not interchangeable.
 | Sound | Specified. **No audio asset exists** |
 | Everything in [asset-inventory.md](asset-inventory.md#not-produced) | **Not produced** |
 | The comic-board direction: five rooms in color, nine character pieces with number and name, the move and role-card motion, nine private role devices | **Approved by the owner** as the direction, 7 October 2026, on a working page. **Adopted** into sources, tokens, exports, contract and reference stylesheets, and seen in desktop Chrome only. The owner has not seen the adopted result |
-| Of that direction: the comic page on a phone, moving by pressing a room, a card dealt into a hand, motion while nothing happens | **Not adopted.** Each waits for something named in [frontend-handoff.md](frontend-handoff.md#what-of-the-approved-direction-is-not-here-yet) |
+| Of that direction: the comic page on a phone, moving by pressing a room, a card dealt into a hand, motion while nothing happens | **Not adopted** in the reviewed kit. The V1 journey below now designs the first three as proposals (DSN-D20, DSN-D26); motion while nothing happens stays out (DSN-D16) |
+| The phone-first V1 journey (issue #76): host, joining, character selection, role reveal and Ready, the game, and every supporting state | **Proposal**, designed on the release candidate `87715a46`: a working prototype of 109 states; 136 screenshots and matrix captures; 12 storyboards from the real CSS; a generated inventory; a Frontend handoff. Measured in desktop Chromium only. **The owner has not seen it** |
 
 ## Open decisions
 
@@ -115,6 +121,13 @@ None of these is decided here. Each says who decides and what the design does me
 | DSN-D17 | The lines on the nine role cards, the call signs, and the words a tag is read aloud with | Frontend for interface wording, the owner for rule statements | Designer's draft for all nine, each rule statement citing its rule source; a check holds each card to its role's team and refuses a line that states an outcome. Frontend said on PR #57 that it will draft the eight new cards itself: these are offered to that draft, and Frontend's wording stands where the two differ. Where an approved V1 decision that is not in this base bears on a line, the line's note names it |
 | DSN-D18 | The comic page on a phone, with rooms to press and a hand of cards, as the approved page has it. How is it read at 200% text, where a picture cannot grow, and what is the list then? | Frontend, with Designer; needs the movement markup of protocol 2 | A phone keeps its list of rooms, complete at any text size, with each room's strip, caption and color. The comic page is on the shared display |
 | DSN-D19 | On a phone, is the role's picture a thumbnail in the private sheet that opens large, or the large card of the approved page whenever the card is turned up? | Game owner | A thumbnail, large behind “About this role”: the sheet holds the actions too, and a device in its team's color is then not large on screen every time the sheet is opened. This is Designer's choice in adoption, not what the owner looked at |
+| DSN-D20 | Is the comic page a phone's primary game view, with offered rooms pressed on the board and the readable list as the complete path at large text? | Game owner for the look; Frontend for devices | Proposed in the V1 journey ([v1-phone-journey.md](v1-phone-journey.md#5-the-game-on-a-phone)). If accepted it answers DSN-D18. The release's board-plus-list layout stands meanwhile |
+| DSN-D21 | The role card large during setup, where there are no actions, and compact in the game's private sheet? | Game owner | Designed that way; the release already shows the large card in setup |
+| DSN-D22 | On a phone, is the private card a bottom sheet under the sticky phase strip (low while a room is picked), and on a wide screen a drawer beside the board? | Frontend, after device review | Proposed; relates to DSN-D04 |
+| DSN-D23 | May a join link or QR code carry the room code? | Integration ([DSN-REQ-9](integration-requests.md#dsn-req-9)) | Drawn as a labeled PROPOSAL; Copy code only |
+| DSN-D24 | Does a visible “What changed since the last phase” panel, from public facts only, help the table, or change its social game? | Game Balance, then the owner | A Frontend proposal; the release already speaks the same sentences for screen readers |
+| DSN-D25 | After Ready, should a player be able to turn the card up again until play starts? | Game owner | The release hides it after Ready; the design follows the release |
+| DSN-D26 | Seven new cues: stage change, role deal, private card opening, request arriving, choice taken, result cover, and the room pick on the board | Game owner for the look; Frontend for cost | In the V1 prototype only, with reduced-motion alternatives; none added to the reviewed kit's cue contract |
 
 The gameplay and disclosure questions in [decisions.md](../decisions.md) and [integration-baseline.md](../integration-baseline.md#decisions-and-adoption-gates) stay open exactly as recorded. No layout here settles one by drawing it: no route, exit, adjacency, capacity or default is implied by any picture.
 
@@ -141,3 +154,15 @@ npm run check:assets --workspace @mothership/design-tokens    # refuses renders 
 The middle three need a Chromium-based browser on the machine (`CHROME_PATH` overrides the search) and are not part of `verify`. So does `npm run prove:checks`, which shows that the two browser checks refuse known mistakes, and `npm run dev:review`, which serves the review pages at `http://127.0.0.1:4320/prototypes/`.
 
 Everything the review pages show is synthetic: authored for looking at layout and motion, the outcome of no rule and no match. None of it is shipped.
+
+The V1 phone journey (issue #76) has its own commands. It changes none of the reviewed kit's inputs, so the commands above are not affected:
+
+```sh
+npm run dev:review --workspace @mothership/design-tokens          # then http://127.0.0.1:4320/v1-phone/
+npm run capture:v1-phone --workspace @mothership/design-tokens    # screenshots, matrix, storyboards, contact sheets; needs a browser
+npm run docs:v1-phone --workspace @mothership/design-tokens       # writes docs/design/v1-phone-inventory.md
+npm run check:v1-phone --workspace @mothership/design-tokens      # no browser; refuses captures and docs made before an edit
+npm run flows:v1-phone --workspace @mothership/design-tokens      # presses the prototype's own buttons; needs a browser
+```
+
+`npm run test --workspace @mothership/design-tokens` includes the tests that show `check:v1-phone` refusing named mistakes. What was run, and what was not, is in [v1-phone-verification.md](v1-phone-verification.md).
