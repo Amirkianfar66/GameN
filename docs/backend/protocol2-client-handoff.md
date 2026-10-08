@@ -48,7 +48,10 @@ Requests are at most 4,096 UTF-8 bytes; token headers at most 8,192 characters. 
 ## Admission and identity recovery
 
 1. Create the lobby as the host and retain its server-returned match ID and room code. A room code invites an admission request; it does not grant a seat or read access.
-2. Each player authenticates, requests admission with Room A/B, and receives `matchId`, `admissionId`, `status:"pending"`. Listen to that admission document or query admissions with `where('uid', '==', currentUid)`. A requester cannot list other players' admissions.
+2. Each player authenticates and requests admission with the room code, omitting `initialRoom`; the server assigns and persists Room A/B. The player receives `matchId`, `admissionId`, `status:"pending"`. Listen to that admission document or query admissions with `where('uid', '==', currentUid)`. A requester cannot list other players' admissions.
+
+   A legacy client may still send optional Room A/B input, which is ignored for assignment. Preserve the original body on retry: changing or removing that field under the same request ID remains `COMMAND_ID_CONFLICT`. Existing admissions and seats retain their recorded room. See [the owner-approved override](../decisions/2026-10-08-random-starting-rooms.md).
+
 3. The host assigns each pending admission to a vacant `seat-N`. A successful approval atomically creates seat binding and player membership and publishes the roster. The approved admission includes `seatId`; that is the client's seat context. The client cannot read server-only membership/binding documents to discover it.
 4. Admit the physical display by its Auth UID. A created host has display membership, but host capability and player authority are independent. The host uses admission to occupy a player seat. Host administration does not expose engine state, other private views, receipts or role/Code assignments.
 5. Start only after all 7/8/9 seats are bound. Roles, Code and recorded turn orders are generated server-side. Reload never starts a new deal.

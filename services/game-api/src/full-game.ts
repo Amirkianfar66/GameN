@@ -34,6 +34,7 @@ const botBinding = (entry: QueryDocumentSnapshot): boolean => entry.get('control
   && Number.isSafeInteger(entry.get('bindingRevision')) && entry.get('bindingRevision') >= 1;
 type ActivePlayer = { seatId: SeatId; binding: SeatBinding };
 type Shuffler = <T>(items: readonly T[]) => T[];
+type RoomRandomizer = () => Room;
 export interface V1DeadlineIntent {
   protocolVersion: 2; matchId: string; phaseId: string; deadlineToken: string;
   endsAt: number; taskId: string; status: 'pending';
@@ -104,6 +105,9 @@ function secureShuffle<T>(items: readonly T[]): T[] {
   return result;
 }
 
+// A separate cryptographic draw: no role shuffling, seat parity or room quota.
+function secureInitialRoom(): Room { return randomInt(2) === 0 ? 'Room A' : 'Room B'; }
+
 function randomSetup(playerCount: 7 | 8 | 9, shuffle: Shuffler): Omit<FullGameSetup, 'initialRooms'> {
   const roles: Role[] = ['Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'];
   if (playerCount >= 8) roles.push('Red Disabler');
@@ -115,10 +119,15 @@ function randomSetup(playerCount: 7 | 8 | 9, shuffle: Shuffler): Omit<FullGameSe
     roundOrders: Array.from({ length: 5 }, () => shuffle(ids)) };
 }
 
-export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuffle = secureShuffle, assetManifestVersion = '0.0.0-no-assets' }: {
-  db: Firestore; clock?: () => number; newId?: () => string; shuffle?: Shuffler; assetManifestVersion?: string;
+export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuffle = secureShuffle, randomInitialRoom = secureInitialRoom, assetManifestVersion = '0.0.0-no-assets' }: {
+  db: Firestore; clock?: () => number; newId?: () => string; shuffle?: Shuffler; randomInitialRoom?: RoomRandomizer; assetManifestVersion?: string;
 }) {
   if (!FullAssetManifestVersionSchema.safeParse(assetManifestVersion).success) throw new Error('Invalid asset manifest version');
+  function drawInitialRoom(): Room {
+    const room = randomInitialRoom();
+    if (room !== 'Room A' && room !== 'Room B') throw new Error('Invalid initial room draw');
+    return room;
+  }
   const failure = (code: FailureCode, retryAfterMs?: number): FullFailure => ({ ok: false, serverTimeMs: clock(), error: {
     code, ...(retryAfterMs === undefined ? {} : { retryAfterMs }),
   } });
@@ -272,6 +281,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const body = envelope(uid, payload, FullAdmissionRequestSchema);
     if (isFailure(body)) return body;
     const admissionId = hash([uid, body['requestId']]);
+    // Draw only for a new admission, and reuse the candidate across transaction retries.
+    // Keep the original body (including deprecated initialRoom) in receipt fingerprints.
+    let initialRoom: Room | undefined;
     return operation(uid, body, 'requestAdmission', async (tx, now) => {
       const code = await tx.get(db.collection('roomCodes').doc(body['roomCode'] as string));
       if (!code.exists || !id(code.get('matchId'))) return failure('FORBIDDEN');
@@ -279,8 +291,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
       const member = await tx.get(base.collection('members').doc(uid));
       if (control?.protocolVersion !== 2 || control.status !== 'lobby' || member.get('kind') === 'player') return failure('FORBIDDEN');
+      initialRoom ??= drawInitialRoom();
       return { response: success(now, { matchId: base.id, admissionId, status: 'pending' }), write: () => {
-        tx.create(base.collection('admissions').doc(admissionId), { uid, initialRoom: body['initialRoom'], requestedAt: now, status: 'pending' });
+        tx.create(base.collection('admissions').doc(admissionId), { uid, initialRoom, requestedAt: now, status: 'pending' });
       } };
     });
   }
@@ -639,6 +652,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     if (!parsed.success) return fail('INVALID_REQUEST');
     const body = parsed.data, base = db.collection('matches').doc(body.matchId);
     const receiptRef = db.collection('practiceBotOperations').doc(hash([uid, body.requestId])), fingerprint = digest(body);
+    // Memoize each new binding's draw for this invocation, even if Firestore retries.
+    // Retained bots are read from storage and never use the randomizer.
+    const newBotRooms = new Map<string, Room>();
     try {
       return await db.runTransaction(async tx => {
         // Recheck the current host before any cached acknowledgment, including after start.
@@ -677,7 +693,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             const previous = epochs[seatId] ?? 0;
             if (!Number.isSafeInteger(previous) || previous < 0 || previous >= Number.MAX_SAFE_INTEGER) throw new Error('Invalid binding epoch');
             epochs[seatId] = previous + 1;
-            added.push({ seatId, bindingRevision: previous + 1, initialRoom: n % 2 === 1 ? 'Room A' : 'Room B' });
+            const bindingRevision = previous + 1, roomKey = `${seatId}:${bindingRevision}`;
+            if (!newBotRooms.has(roomKey)) newBotRooms.set(roomKey, drawInitialRoom());
+            added.push({ seatId, bindingRevision, initialRoom: newBotRooms.get(roomKey)! });
           }
           const botSeatIds = [...kept.map(doc => doc.id as SeatId), ...added.map(entry => entry.seatId)].sort();
           const changed = digest(botSeatIds) !== digest(current.botSeatIds);

@@ -43,7 +43,7 @@ npm run dev:connected --workspace @mothership/game
 Then open <http://127.0.0.1:5173/>. Each **tab** is one device with its own identity:
 
 1. One tab as **Host**: create a lobby (7, 8 or 9 players). It shows a room code.
-2. One tab per **Player**: enter the room code, choose a starting room, ask to join.
+2. One tab per **Player**: enter the room code and ask to join. The server randomly assigns Room A or Room B.
 3. Back on the host tab: seat each request. Hosting shows nobody's role.
 4. Optionally one tab as **Shared display**: it shows an identifier; paste it into the
    host tab and admit it, and give the display the match identifier from the host tab.

@@ -32,7 +32,7 @@ test('receipts and public events exclude blocked causes and secret command IDs',
 test('V1 lobby, admission and recovery requests expose no caller authority',()=>{
   const cases=[
     [FullCreateMatchRequestSchema,{protocolVersion:2,requestId:'create-1',playerCount:7}],
-    [FullAdmissionRequestSchema,{protocolVersion:2,requestId:'admit-1',roomCode:'0123456789AB',initialRoom:'Room A'}],
+    [FullAdmissionRequestSchema,{protocolVersion:2,requestId:'admit-1',roomCode:'0123456789AB'}],
     [FullApproveAdmissionRequestSchema,{protocolVersion:2,matchId:'m1',requestId:'approve-1',admissionId:'a1',seatId:'seat-1'}],
     [FullIssueSeatRecoveryRequestSchema,{protocolVersion:2,matchId:'m1',requestId:'recover-1',seatId:'seat-1'}],
     [FullRedeemSeatRecoveryRequestSchema,{protocolVersion:2,matchId:'m1',requestId:'redeem-1',recoveryToken:'A'.repeat(43)}],
@@ -75,4 +75,13 @@ test('terminal reveals require the canonical role permutation and Alien-in, Unde
   const broken=structuredClone(view);broken.endReveal.roles.forEach(s=>s.role='Officer');assert.equal(FullPublicViewSchema.safeParse(broken).success,false);
   assert.equal(FullPublicViewSchema.safeParse({...view,endReveal:{...view.endReveal,code:['seat-1','seat-2','seat-3','seat-5']}}).success,false);
   const wrongFaction=structuredClone(view);wrongFaction.seats[4].health='Eliminated';wrongFaction.seats[4].revealedFaction='Blue';assert.equal(FullPublicViewSchema.safeParse(wrongFaction).success,false);
+});
+
+
+test('admission omits room selection while accepting only the deprecated A/B compatibility field',()=>{
+  const request={protocolVersion:2,requestId:'admit-random',roomCode:'0123456789AB'};
+  assert.deepEqual(FullAdmissionRequestSchema.parse(request),request);
+  for(const initialRoom of ['Room A','Room B']) assert.equal(FullAdmissionRequestSchema.safeParse({...request,initialRoom}).success,true);
+  for(const initialRoom of ['Command Room','Hospital','Jail',null,0]) assert.equal(FullAdmissionRequestSchema.safeParse({...request,initialRoom}).success,false);
+  for(const extra of [{randomSeed:1},{assignedRoom:'Room A'},{role:'Officer'}]) assert.equal(FullAdmissionRequestSchema.safeParse({...request,...extra}).success,false);
 });

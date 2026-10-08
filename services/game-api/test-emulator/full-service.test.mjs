@@ -28,7 +28,8 @@ after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
 async function harness(playerCount = 7, { deal = true, hostPlays = false, assetManifestVersion = '0.0.0-no-assets' } = {}) {
   let now = 1_600_000_000_000 + ++serial * 100_000_000;
-  const service = createV1Service({ db, clock: () => now, shuffle: items => [...items], assetManifestVersion });
+  // Fixed gameplay scenarios use a server-assigned room, independent of the legacy admission field.
+  const service = createV1Service({ db, clock: () => now, shuffle: items => [...items], randomInitialRoom: () => 'Room A', assetManifestVersion });
   const host = await createEmulatorIdentity();
   const players = await Promise.all(Array.from({ length: playerCount }, (_, i) => hostPlays && i === 0 ? host : createEmulatorIdentity()));
   const createPayload = { protocolVersion: 2, requestId: randomUUID(), playerCount };

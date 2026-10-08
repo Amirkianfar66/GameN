@@ -39,7 +39,7 @@ test('live SDK setup listeners receive the dealt role and final-Ready launch wit
   const created = done(await host.api.createMatch(request({ playerCount: 7 }))); matchId = created.matchId;
   done(await host.api.setPracticeBots(request({ schemaVersion: 1, matchId, botCount: 5 })));
   for (const [index, player] of players.entries()) {
-    const admission = done(await player.api.requestAdmission(request({ roomCode: created.roomCode, initialRoom: 'Room A' })));
+    const admission = done(await player.api.requestAdmission(request({ roomCode: created.roomCode })));
     const seatId = `seat-${index + 6}`;
     done(await host.api.approveAdmission(request({ matchId, admissionId: admission.admissionId, seatId })));
     const monitored = { ...player.transport, listenDocument(target, listener) {

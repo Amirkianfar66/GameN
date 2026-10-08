@@ -79,8 +79,8 @@ export async function startedMatch(t, playerCount = 7) {
   const created = await host.api.createMatch({ protocolVersion: 2, requestId: requestId(), playerCount });
   assert.equal(created.kind, 'done', JSON.stringify(created));
   const { matchId, roomCode } = created.result;
-  const requested = await Promise.all(players.map((player, index) => player.api.requestAdmission({
-    protocolVersion: 2, requestId: requestId(), roomCode, initialRoom: index % 2 === 0 ? 'Room A' : 'Room B',
+  const requested = await Promise.all(players.map(player => player.api.requestAdmission({
+    protocolVersion: 2, requestId: requestId(), roomCode,
   })));
   const admissions = await until(
     deliver => host.transport.listenCollection({ kind: 'admissions', matchId }, { onSnapshot: snapshot => deliver(snapshot.value), onError: () => deliver([]) }),

@@ -690,9 +690,6 @@ async function player(uid) {
     const code = el('input', undefined, { type: 'text', id: 'connected-room-code-input', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', maxlength: '32', inputmode: 'text', enterkeyhint: 'go' });
     const codeLabel = el('label', 'Room code');
     codeLabel.append(code);
-    const room = el('select', undefined, { id: 'connected-initial-room' });
-    for (const name of ['Room A', 'Room B']) room.append(el('option', name, { value: name }));
-    const roomLabel = choiceTiles(el, room, 'Where you start', 'rooms');
     const join = el('button', 'Ask to join', { type: 'button', id: 'connected-join' });
     // Taking over a seat that another device held, with a one-time code from the host. The
     // code goes from the field into the request and nowhere else: not into the address, not
@@ -739,14 +736,14 @@ async function player(uid) {
     const codeHelp = el('p', '12 characters: 0–9 and A–F.', { id: 'connected-code-help', class: 'ms-visually-hidden' });
     code.setAttribute('aria-describedby', 'connected-code-help');
     code.addEventListener('input', () => { code.value = code.value.toUpperCase(); });
-    joinForm.append(codeLabel, codeHelp, roomLabel,
-      dock(el, keeping('join', join, [code, room])));
+    joinForm.append(codeLabel, codeHelp,
+      dock(el, keeping('join', join, [code])));
     joinForm.addEventListener('submit', event => { event.preventDefault(); if (!join.disabled) join.click(); });
     frame('Join a game', joinForm,
       disclosure(el, 'Moving to a new phone? Take over your seat', recoverMatchLabel, recoverCodeLabel, keeping('recover', recover, [recoverMatch, recoverCode])),
       disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']])));
     join.addEventListener('click', async () => {
-      const outcome = await operate('join', requestId => ({ protocolVersion: 2, requestId, roomCode: code.value.replace(/\s+/g, '').toUpperCase(), initialRoom: room.value }), request => api.requestAdmission(request), 'Asking to join',
+      const outcome = await operate('join', requestId => ({ protocolVersion: 2, requestId, roomCode: code.value.replace(/\s+/g, '').toUpperCase() }), request => api.requestAdmission(request), 'Asking to join',
         { invalid: 'A room code is twelve characters, 0 to 9 and A to F.' });
       if (outcome.kind === 'refused' && outcome.code === 'FORBIDDEN') say('This room cannot take this request. Check the code with the host, or whether this device already has a seat.', 'problem');
       if (outcome.kind !== 'done') return;

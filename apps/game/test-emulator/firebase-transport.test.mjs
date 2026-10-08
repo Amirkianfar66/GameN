@@ -104,11 +104,16 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   assert.deepEqual(denied.reasons, ['refused'], 'The transport says the rules refused it, which is not a lost connection');
 
   // A request for admission, and the requester's own document by listener.
-  const requested = await player.api.requestAdmission({ protocolVersion: 2, requestId: requestId(), roomCode, initialRoom: 'Room B' });
+  const admissionRequest = { protocolVersion: 2, requestId: requestId(), roomCode };
+  const requested = await player.api.requestAdmission(admissionRequest);
+  assert.deepEqual(JSON.parse(player.requests[0].init.body), admissionRequest, 'The client does not choose or generate a room');
   assert.equal(requested.kind, 'done', JSON.stringify(requested));
   const own = listen(listener => player.transport.listenDocument({ kind: 'admission', matchId, admissionId: requested.result.admissionId }, listener));
   const pending = await own.until(snapshot => snapshot.fresh && snapshot.value !== null, 'own admission');
+  const assignedRoom = readAdmission(pending.value).value.initialRoom;
+  assert.ok(['Room A', 'Room B'].includes(assignedRoom));
   assert.deepEqual(readAdmission(pending.value).value.status, 'pending');
+  assert.equal((await player.api.requestAdmission(admissionRequest)).kind, 'done');
   // A document that does not exist is delivered as null, not as an error.
   const missing = listen(listener => player.transport.listenDocument({ kind: 'admission', matchId, admissionId: 'no-such-admission' }, listener));
   await assert.rejects(() => missing.until(snapshot => snapshot.value !== null, 'nothing', 600), /Timed out/);
@@ -124,12 +129,13 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   assert.equal(approved.kind, 'done', JSON.stringify(approved));
   const pushed = await own.until(snapshot => snapshot.fresh && readAdmission(snapshot.value).value?.status === 'approved', 'the approval, pushed to the requester');
   assert.equal(readAdmission(pushed.value).value.seatId, 'seat-4');
+  assert.equal(readAdmission(pushed.value).value.initialRoom, assignedRoom, 'Retry and approval preserve the server assignment');
   assert.equal(own.snapshots.length > before, true);
 
   // Now seated, the player can listen to the lobby; someone never admitted cannot.
   const lobby = listen(listener => player.transport.listenDocument({ kind: 'lobby', matchId }, listener));
   const seen = await lobby.until(snapshot => snapshot.fresh && snapshot.value !== null, 'the lobby');
-  assert.deepEqual(readLobby(seen.value, matchId).value.seats, [{ seatId: 'seat-4', initialRoom: 'Room B' }]);
+  assert.deepEqual(readLobby(seen.value, matchId).value.seats, [{ seatId: 'seat-4', initialRoom: assignedRoom }]);
   const refused = listen(listener => outsider.transport.listenDocument({ kind: 'lobby', matchId }, listener));
   await refused.untilError();
   assert.deepEqual(refused.reasons, ['refused']);
