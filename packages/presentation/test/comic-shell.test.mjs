@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildTableShellModel, renderComicPlayerShell, renderComicTableShell, splitRegions, toHtml } from '@mothership/presentation';
 import { model, playerView, publicView, environment, closed } from './support/protocol2-views.mjs';
-import { auditMarkup } from './support/markup-audit.mjs';
+import { auditMarkup, find, byRegion, byClass, byId } from './support/markup-audit.mjs';
 
 const identities = [{ seatId: 'seat-1', displayName: '<Hacker>', characterId: 'c8' }, { seatId: 'seat-2', displayName: 'Ada', characterId: 'c1' }];
 test('comic names are escaped text with seat numbers, character selection never derives from a role', () => {
@@ -101,4 +101,27 @@ test('an ended phone never keeps its private sheet or action prompt in the resul
   const html=toHtml(markup);
   assert.match(html,/The host ended this match/);
   assert.doesNotMatch(html,/role="dialog"|data-device|data-team|private\/toggle|Open your private card to act/);
+});
+
+test('finished and aborted phones can switch between their result and an unobstructed Menu', () => {
+  for (const kind of ['FINISHED', 'ABORTED']) {
+    const ended = playerView(view => {
+      view.phase = { id: 'phase-ended', kind, startedAt: view.phase.startedAt, endsAt: null };
+      view.activeSeatId = null; view.self.movementDestinations = [];
+      if (kind === 'FINISHED') {
+        view.result = { winner: 'Blue', alienCoWinner: false };
+        view.endReveal = { roles: ['Cracker', 'Insider', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'].map((role, index) => ({ seatId: `seat-${index + 1}`, role })), code: ['seat-1', 'seat-2', 'seat-3', 'seat-7'] };
+      }
+    });
+    const screen = model(ended, undefined, { deadline: { kind: 'none' } });
+    for (const phoneView of ['board', 'more', 'board']) {
+      const markup = renderComicPlayerShell(screen, { identities, phoneView });
+      assert.equal(find(markup, byRegion('result')).attrs.hidden, phoneView === 'more', kind);
+      assert.equal(Boolean(find(markup, byClass('phone-menu')).attrs.hidden), phoneView !== 'more', kind);
+      assert.equal(find(markup, byId('ms-phone-more')).attrs.disabled, undefined);
+      assert.equal(find(markup, byId('ms-phone-board')).attrs.disabled, undefined);
+      assert.equal(find(markup, byId('ms-phone-actions')).attrs.disabled, true);
+      assert.deepEqual(find(markup, byRegion('private')).children, []);
+    }
+  }
 });

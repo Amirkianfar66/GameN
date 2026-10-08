@@ -142,3 +142,7 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats { grid-template-columns:repeat(min(var(--ms-seats),3),minmax(0,1fr)); --ms-piece:min(3rem,calc((100cqi - 12px) / min(var(--ms-seats),3) / 1.25),calc(100cqh / var(--phone-rows,1) / 1.6)); }
 #app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(4)) { --phone-rows:2; }
 #app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(7)) { --phone-rows:3; }
+
+/* A finished result and Menu share one view; the next-game action stays above navigation. */
+#app:has(.ms-shell--player[data-screen=match]) > .phone-next { bottom:calc(76px + env(safe-area-inset-bottom)); }
+#app:has(.ms-shell--player[data-phone-view=more]) > .phone-next { display:none; }

@@ -61,7 +61,9 @@ scroll. Optional Menu/details and longer private content can scroll inside their
 own view; the top bar and navigation remain visible. Desktop uses the same
 phone hierarchy for now. Public comic assets, names, movement/phase cues and
 reduced-motion behavior are retained. Ended/blocked tabs can join a new game;
-this clears local resume state, never the server match.
+this clears local resume state, never the server match. Ended matches keep Menu
+accessible: it replaces the result, and the next-game button stays above the
+navigation on the result view. Finished and aborted navigation have regressions.
 
 The host's progress summary uses the existing public screen controller only
 after gameplay starts. Setup uses the neutral setup feed. Host/display never
@@ -89,7 +91,7 @@ wording is not used. Screen redesign is not an approval for these proposals.
 
 The initial deployed baseline was `57174b93e2b4abba1b05a79c908593de618e5ca5`.
 Its release evidence is retained in PR #80. The subsequent compact-UI revision
-passed local typecheck and the Frontend suites (153 presentation, 402 app tests),
+passed local typecheck and the Frontend suites (154 presentation, 402 app tests),
 including one-tap selection, immutable retries, conflicts, readiness and privacy.
 
 Browser review used the real hosted source with isolated local Auth/Firestore

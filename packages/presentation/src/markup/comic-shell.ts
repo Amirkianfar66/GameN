@@ -116,6 +116,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: node.children.filter(child => !isElement(child) || child.attrs.id !== 'ms-private-toggle' && child.attrs.id !== 'ms-private-hint').map(visit) };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
+    if (node.attrs['data-region'] === 'result') return { ...node, attrs: { ...node.attrs, hidden: phoneView === 'more' } };
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
