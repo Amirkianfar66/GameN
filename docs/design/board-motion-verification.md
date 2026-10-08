@@ -12,7 +12,7 @@ This page says what was run for issue #87, what each check asserts, and what it 
 
 | Command | Actual result |
 | --- | --- |
-| `npm ci` | See [Repository verification](#repository-verification) |
+| `npm ci` | Passed; see [Repository verification](#repository-verification) |
 | `npm run build` | Passed (`tsc --build`, up to date) |
 | `npm run verify` | See [Repository verification](#repository-verification) |
 | `npm run check:board-motion --workspace @mothership/design-tokens` | Passed: **12 of 12 checks**, over 14 actions, 20 cues and 65 scenarios |
@@ -122,7 +122,14 @@ Each of these was found by a capture, the check or the flows, fixed in the desig
 
 ## Repository verification
 
-`npm ci` and `npm run verify` need a clean committed checkout (the Balance gate refuses any other): they are run on the commit that adds this page, and their results are recorded by the commit after it.
+`npm ci` and `npm run verify` need a clean committed checkout (the Balance gate refuses any other), so they were run on `2f435d6218a7dfb2a0a28c6901102aac20a17bc7`, the commit that adds this work; the commit after it changes only this page, to record them.
+
+| Command | Actual result |
+| --- | --- |
+| `npm ci` | Passed: **888 packages** in 22 s; the toolchain hook passed (Node 22.21.1, npm 10.9.4). No dependency was added and the lockfile is unchanged. npm printed its existing deprecation warning for `glob@10.5.0` |
+| `npm run verify` | **Passed**, exit 0, in 8 min 11 s, with the working tree clean before and after `npm ci`: toolchain; workspace boundaries (8 explicit packages); source integrity (119 original Canvas files plus 1 unbound example, 7 rule sources, 24 pinned source files, token proposal unchanged); both typechecks; tests: bootstrap **53**, engine **148**, backend **130**, tooling **102**, presentation **160**, game **409**, every one passed, none cancelled, skipped or todo; production exclusion (53 modules reachable from 2 production entries, 164 files scanned, 30 development files labeled, no fixture, test or development module found); Balance static **71 of 71**; the Balance engine gate at this commit: 522 scenario IDs (483 passed, 33 reviewed blocked, 6 explicit manual, zero errors), 475 baselines, 4,388 controls executed and detected with zero misses, 10 playouts in each of modes 7, 8 and 9 with zero mismatches; engine source `2f435d6`, protocol 2, Original Powers off |
+
+`verify` does not reach `design/`: its production-exclusion check follows the game's own entries, and the board-motion prototype, its tools and its tests are outside every workspace program.
 
 ## Not run, and untested
 
