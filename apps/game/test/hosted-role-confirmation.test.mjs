@@ -54,31 +54,17 @@ test('a pending Ready cannot be double sent and private content stays absent thr
   assert.equal(s.node('ready').disabled, true); assert.equal(s.node('card').innerHTML, '');
   await s.node('ready').press(); assert.equal(s.calls.length, 1);
   s.controls.update(role({ retry: true })); complete(); await pending;
-  assert.match(s.node('ready').textContent, /same Ready/); assert.equal(s.node('card').innerHTML, '');
+  assert.match(s.node('ready').textContent, /Retry Ready/); assert.equal(s.node('card').innerHTML, '');
   s.controls.update(role({ canConfirm: false })); assert.equal(s.node('ready').disabled, true);
   s.controls.dispose();
 });
 
 
-test('role reminders exist only inside the explicit private reveal and are erased on concealment', async () => {
-  const s = setup(); s.controls.update(role());
+test('the reveal contains the role card without a separate instruction or rules paragraph', async () => {
+  const s = setup(); s.controls.update(role()); await s.node('toggle').press();
+  assert.match(s.node('card').innerHTML, /Hacker/);
   assert.equal(s.node('card').children.length, 0);
-  await s.node('toggle').press();
-  assert.ok(s.node('card').children.some(node => /Scan once per round/.test(node.textContent)));
-  await s.node('toggle').press();assert.equal(s.node('card').children.length, 0);
-  await s.node('toggle').press();s.controls.update(null);assert.equal(s.node('card').children.length, 0);
-  s.controls.dispose();
-});
-
-
-test('seven and eight player Supplier reminders do not imply an Officer is present', async () => {
-  const s=setup();
-  for(const count of [7,8,9]) {
-    s.controls.update(role({key:`supplier-${count}`,role:'Supplier',playerCount:count}));
-    await s.node('toggle').press();
-    const guide=s.node('card').children.map(node=>node.textContent).join(' ');
-    assert.match(guide,/In Round 3/);
-    if(count<9)assert.doesNotMatch(guide,/Officer/);else assert.match(guide,/Officer/);
-  }
+  assert.equal(s.node('ready').hidden, false);
+  await s.node('toggle').press(); assert.equal(s.node('card').innerHTML, '');
   s.controls.dispose();
 });

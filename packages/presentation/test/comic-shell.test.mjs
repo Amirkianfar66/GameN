@@ -78,15 +78,16 @@ test('practice mode and bot seats are labeled on live phone/table surfaces witho
 });
 
 
-test('the phone dock is role-neutral when closed and becomes a named modal only on explicit reveal', () => {
+test('the bottom navigation is role-neutral and only explicit private views include the own card', () => {
   const first=playerView(), other=playerView(view=>{view.self.role='Supplier';view.legalTargets.SUPPLY=['seat-2','seat-3'];});
   const a=renderComicPlayerShell(model(first,undefined,closed),{identities});
   const b=renderComicPlayerShell(model(other,undefined,closed),{identities});
   assert.equal(splitRegions(a).regions.get('private'),splitRegions(b).regions.get('private'));
   assert.doesNotMatch(toHtml(a),/aria-modal|role="dialog"|data-device|data-team/);
   const opened=renderComicPlayerShell(model(first),{identities});auditMarkup(opened);
-  assert.match(toHtml(opened),/role="dialog" aria-modal="true"/);
-  assert.match(toHtml(opened),/aria-label="Hide private card"/);
+  assert.doesNotMatch(toHtml(opened),/aria-modal/);
+  assert.match(toHtml(opened),/aria-label="Private card"/);
+  assert.match(toHtml(opened),/role="navigation"/);
 });
 
 

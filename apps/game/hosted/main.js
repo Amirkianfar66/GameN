@@ -17,6 +17,7 @@ import './comic.css';
 import './comic-layout.css';
 import './setup.css';
 import './phone.css';
+import './compact-phone.css';
 import { disclosure, dock, copyControl, choiceTiles, publicSlots } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';
@@ -90,12 +91,12 @@ function forgetMatch() {
 }
 forget.addEventListener('click', forgetMatch);
 function frame(title, ...content) {
-  page.replaceChildren(
-    el('h1', title, { class: 'phone-caption', tabindex: '-1' }),
-    ...content,
-    statusLine,
-    ...(resume.load() === null ? [] : [forget]),
-  );
+  const extra = content.filter(node => node.tagName === 'DETAILS');
+  const primary = content.filter(node => node.tagName !== 'DETAILS');
+  const menu = disclosure(el, 'Menu', ...extra, ...(resume.load() === null ? [] : [forget]));
+  menu.classList.add('phone-options');
+  page.replaceChildren(el('h1', title, { class: 'phone-caption', tabindex: '-1' }),
+    ...primary, statusLine, ...(extra.length || resume.load() !== null ? [menu] : []));
   // The page takes the place of whatever the document came with: its first line, shown while this script loads.
   if (!lobby.contains(page)) lobby.replaceChildren(page);
 }
@@ -276,7 +277,8 @@ function showMatch(screen, render, matchId, seatId) {
   mounted = true;
   for (const stop of lobbyWatchers.splice(0)) stop();
   const feeds = createComicFeeds({ transport, ports, matchId, ...(seatId ? { seatId } : {}) });
-  mountScreen({ container: app, screen, render: model => render(model, {
+  mountScreen({ container: app, screen, render: (model, phone) => render(model, {
+    ...phone,
     identities: feeds.identities()?.seats ?? [],
     practice: model.connection === 'live' ? feeds.practice() : null,
     acknowledgments: model.connection === 'live' ? feeds.acknowledgments() : null,
@@ -333,7 +335,7 @@ async function host(uid) {
     for (const value of [7, 8, 9]) count.append(el('option', `${value} players`, { value: String(value) }));
     const create = el('button', 'Create lobby', { type: 'button', id: 'connected-create' });
     const label = choiceTiles(el, count, 'How many players?', 'count');
-    frame('Host a game', el('p', 'Make a lobby. Share the room code. Seat everyone before you start.'), label,
+    frame('Host a game', label,
       dock(el, keeping('create', create, [count])), disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']])));
     create.addEventListener('click', async () => {
       const outcome = await operate('create', requestId => ({ protocolVersion: 2, requestId, playerCount: Number(count.value) }), request => api.createMatch(request), 'Creating the lobby');
@@ -357,7 +359,7 @@ async function host(uid) {
   // Built once and updated in place, so a request that arrives while the host is typing or
   // choosing takes nothing away from under their hands.
   const list = el('ul', undefined, { id: 'connected-requests' });
-  const none = el('p', 'None yet. Give the players the room code.', { id: 'connected-no-requests' });
+  const none = el('p', 'Waiting for players', { id: 'connected-no-requests' });
   const rows = new Map();
   const displayUid = el('input', undefined, { type: 'text', id: 'connected-display-uid', autocomplete: 'off', spellcheck: 'false' });
   const displayLabel = el('label', 'Identifier shown on the shared display');
@@ -483,7 +485,7 @@ async function host(uid) {
   }
   const roomCard = el('section', undefined, { class: 'phone-room-code', 'aria-labelledby': 'connected-code-title' });
   roomCard.append(el('h2', 'Room code', { id: 'connected-code-title' }), el('p', '…', { id: 'connected-room-code' }),
-    copyControl(el, 'Copy room code', () => session?.roomCode, say), el('p', 'Players open Join a game and type this code.'));
+    copyControl(el, 'Copy', () => session?.roomCode, say));
   const slots = el('ol', undefined, { class: 'phone-slots', id: 'connected-roster', 'aria-label': 'Lobby seats' });
   let slotsKey = '';
   const startHelp = el('p', '', { id: 'connected-start-help' });
@@ -734,13 +736,13 @@ async function player(uid) {
       void player(uid);
     });
     const joinForm = el('form', undefined, { class: 'phone-join-form' });
-    const codeHelp = el('p', '12 characters: 0–9 and A–F.', { id: 'connected-code-help' });
+    const codeHelp = el('p', '12 characters: 0–9 and A–F.', { id: 'connected-code-help', class: 'ms-visually-hidden' });
     code.setAttribute('aria-describedby', 'connected-code-help');
     code.addEventListener('input', () => { code.value = code.value.toUpperCase(); });
     joinForm.append(codeLabel, codeHelp, roomLabel,
-      el('p', 'Your starting room has nothing to do with your role. Roles are dealt later, at random.'), dock(el, keeping('join', join, [code, room])));
+      dock(el, keeping('join', join, [code, room])));
     joinForm.addEventListener('submit', event => { event.preventDefault(); if (!join.disabled) join.click(); });
-    frame('Join a game', el('p', 'Type the room code from the host.'), joinForm,
+    frame('Join a game', joinForm,
       disclosure(el, 'Moving to a new phone? Take over your seat', recoverMatchLabel, recoverCodeLabel, keeping('recover', recover, [recoverMatch, recoverCode])),
       disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid']])));
     join.addEventListener('click', async () => {
@@ -766,7 +768,7 @@ async function player(uid) {
     const waitingCard = el('section', undefined, { class: 'phone-waiting' });
     waitingCard.append(el('span', seatId === null ? '?' : seatId.slice(5), { class: 'phone-seat-number', 'aria-hidden': 'true' }),
       el('h2', seatId === null ? 'Request sent' : `Player ${seatId.slice(5)}`, { id: 'connected-seat' }),
-      el('p', text, { id: 'connected-waiting' }), el('p', `Device ${uid.slice(0, 6)}`));
+      el('p', text, { id: 'connected-waiting' }));
     frame(seatId === null ? 'Waiting to be seated' : 'You are seated', waitingCard,
       ...(identityPanel ? [identityPanel] : []), ...controls,
       disclosure(el, 'This device', facts([['Identifier', uid, 'connected-uid'], ['Match', matchId, 'connected-match-id']])));

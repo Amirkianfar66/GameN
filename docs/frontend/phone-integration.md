@@ -35,24 +35,33 @@ folds. Start explains unfilled seats or unsettled bot settings. Ending the match
 uses a native alert dialog focused on Cancel. Clipboard controls are deliberate
 user actions; no QR or secret-bearing URL is generated.
 
-Character selection shows all nine public characters, a public-name counter,
-conflict feedback, confirmed crew artwork and neutral progress. A character
-claimed by another player cannot be sent as a fresh confirmation. Late selection
-copy states the actual confirmed identity without claiming device memory proves
-an automatic choice. Role reveal keeps the large private card; Ready removes
-private content and focuses its waiting message. The Supplier reminder omits
-its Officer exception at seven/eight seats, where that role does not exist.
+The owner's 8 October simplification replaces the earlier scrolling setup with
+a full-height 3×3 character matrix. Tapping one available tile submits the
+existing confirmation request immediately. Existing public names are retained;
+a seat without a name uses its chosen character call sign. There is no separate
+name form. An uncertain reply freezes the same choice and exposes an explicit
+retry; a server conflict permits another choice. Confirmed tiles stay in place.
 
-The phone game has a compact comic board, sticky public phase, own public status
-and a neutral Private card dock. Its opened sheet has a compact role card,
-current action controls, a knowledge fold and private acknowledgments. Escape
-closes it, focus returns to its toggle, background controls become inert, and
-blur/backgrounding conceals it. Character names remain escaped text. Desktop
-uses the same hierarchy with a wider board and private drawer. Existing public
-movement/phase cues and reduced motion remain; the sheet entrance is 220 ms and
-is disabled under reduced motion. The readable list retains full player names.
-Players can leave an ended/blocked tab locally and join a fresh match; this does
-not reset or delete the server match.
+Role reveal shows the approved illustrated card, a top-bar countdown and one
+Ready button. The card itself toggles disclosure. Extra instructions and the
+separate rules paragraph are removed; accessibility labels remain. Ready erases
+private content and leaves a neutral checked card while the server waits.
+
+The board now occupies the space between its top status/timer bar and a four-item
+bottom navigation: Board, Actions, Card and Menu. These are page views, not a
+modal drawer. Actions and Card still use the same explicit private controller;
+Board, Menu, Escape and backgrounding conceal the private payload. Controls and
+server-provided targets keep their existing command identities and confirmation
+semantics. Role information and actions are separated visually. Public status,
+the readable roster, vote information, practice explanation, settings and match
+details remain available in Menu. Host/join secondary tools share one Menu.
+
+The standard portrait board fits at 320×568, 390×844 and 430×932 without page
+scroll. Optional Menu/details and longer private content can scroll inside their
+own view; the top bar and navigation remain visible. Desktop uses the same
+phone hierarchy for now. Public comic assets, names, movement/phase cues and
+reduced-motion behavior are retained. Ended/blocked tabs can join a new game;
+this clears local resume state, never the server match.
 
 The host's progress summary uses the existing public screen controller only
 after gameplay starts. Setup uses the neutral setup feed. Host/display never
@@ -78,23 +87,23 @@ wording is not used. Screen redesign is not an approval for these proposals.
 
 ## Verification and release record
 
-Local typecheck and Frontend suites passed after integration: 403 app tests plus
-the presentation suite, including new character-conflict/name-length,
-uncertain-confirmation copy, Supplier reminder and private-dock tests.
+The initial deployed baseline was `57174b93e2b4abba1b05a79c908593de618e5ca5`.
+Its release evidence is retained in PR #80. The subsequent compact-UI revision
+passed local typecheck and the Frontend suites (153 presentation, 402 app tests),
+including one-tap selection, immutable retries, conflicts, readiness and privacy.
 
-Browser review used the actual hosted source against isolated local Auth and
-Firestore emulators with the existing development HTTP service. It exercised
-join with a grouped code, host admission, six bots, character confirmation,
-private reveal/Ready, the authoritative reading gate, gameplay, private action
-selection/confirmation and accepted movement. The local practice runner invokes
-real service handlers but is a stand-in for cloud trigger delivery.
+Browser review used the real hosted source with isolated local Auth/Firestore
+and the existing development HTTP service: nine seats/eight bots, one-tap
+selection, private reveal/Ready, timed launch, accepted movement, Card/Menu/Board
+navigation and zero private DOM markers after concealment. Actual document and
+main content dimensions matched each of the three portrait viewports; navigation
+buttons were at least 48px tall. Selection and role/Ready also fit at 320×568.
+The local runner invokes real handlers but does not prove cloud trigger delivery.
 
-The first whole-workspace attempt passed its workspace/tests and Balance static
-checks, then correctly stopped because the scenario gate requires a clean
-committed checkout. The release PR must record the subsequent committed
-verification, immutable source/bundle pins, cloud checks and actual deployment
-results. Real iOS/Android, mobile keyboards and human table balance remain
-unmeasured; desktop browser viewports are not real-device evidence.
+Whole-workspace verification, immutable release pins and live readback belong in
+the PR release record after the clean commit. Real iOS/Android, mobile keyboards,
+enlarged accessibility text and human table balance remain unmeasured. A normal
+portrait viewport check is not a real-device or accessibility-zoom certification.
 
 Do not merge this integration or its stacked dependencies until review. No
 claim of deployment is made by this document; see the release PR's readback.

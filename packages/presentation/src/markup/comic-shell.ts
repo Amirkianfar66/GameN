@@ -12,7 +12,7 @@ export interface ComicIdentity {
   readonly displayName: string | null;
   readonly characterId: string | null;
 }
-export interface ComicContext { readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
+export interface ComicContext { readonly phoneView?: 'board' | 'actions' | 'role' | 'more'; readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
   Officer: { device: 'officer', team: 'Blue' }, Insider: { device: 'insider', team: 'Blue' },
@@ -66,7 +66,7 @@ function withPracticeNotice(node: MarkupNode, context: ComicContext): MarkupNode
   if (!isElement(node)) return node;
   const children = node.children.map(child => withPracticeNotice(child, context));
   const bots = context.practice?.botSeatIds.length ?? 0;
-  if (classHas(node, 'ms-main') && bots > 0) children.unshift(h('section', { class: 'ms-practice-notice', 'aria-labelledby': 'ms-practice-heading' },
+  if ((classHas(node, 'phone-menu') || classHas(node, 'ms-main') && !context.phoneView) && bots > 0) children.unshift(h('section', { class: 'ms-practice-notice', 'aria-labelledby': 'ms-practice-heading' },
     h('h2', { id: 'ms-practice-heading' }, `Practice match · ${bots} ${bots === 1 ? 'bot' : 'bots'}`),
     h('p', null, 'Bots make simple legal choices. They do not chat or bluff.')));
   return { ...node, children };
@@ -77,6 +77,18 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   const match = model.match;
   const source = renderConnectedPlayerShell(model);
   if (!match) return source;
+  const phoneView = context.phoneView ?? (match.privateArea.open ? 'actions' : 'board');
+  const footer = source.children.find(child => isElement(child) && classHas(child, 'ms-footer')) as MarkupElement;
+  const sourceBanners = (source.children.find(child => isElement(child) && classHas(child, 'ms-banners')) as MarkupElement).children.filter(child => isElement(child) && classHas(child, 'ms-banner--data-source'));
+  const nav = h('div', { role: 'navigation', class: 'phone-nav', 'aria-label': 'Game navigation', 'data-region': 'phone-navigation' },
+    (['board', 'actions', 'role', 'more'] as const).map(view => h('button', {
+      type: 'button', id: view === 'role' ? 'ms-private-toggle' : `ms-phone-${view}`,
+      'data-phone-view': view, 'aria-current': phoneView === view ? 'page' : null,
+      'aria-label': view === 'role' ? 'Private card' : view === 'more' ? 'Menu' : view === 'actions' ? 'Actions' : 'Board',
+      disabled: match.result && (view === 'role' || view === 'actions') ? true : null,
+      ...(view === 'role' ? { 'aria-controls': 'ms-private-panel', 'aria-expanded': String(match.privateArea.open && phoneView === 'role') } : {}),
+    }, h('span', { class: `phone-nav__icon phone-nav__icon--${view}`, 'aria-hidden': 'true' }),
+    h('span', null, view === 'more' ? 'Menu' : view === 'role' ? 'Card' : view === 'actions' ? 'Actions' : 'Board'))));
   const ownCharacter = character(identityFor(context, match.identity.seatId)?.characterId);
   const privateContent = match.privateArea.content;
   const active = match.roster.zones.flatMap(zone => zone.seats).find(seat => seat.isActive);
@@ -92,17 +104,20 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     renderZones(match.roster.zones, 'ms-comic-zone'));
   function visit(node: MarkupNode): MarkupNode {
     if (!isElement(node)) return node;
+    if (classHas(node, 'ms-banners')) return { ...node, children: node.children.filter(child => !sourceBanners.includes(child)) };
+    if (node.attrs['data-intent'] === 'action/open') {
+      const offer = match!.privateArea.content?.actions.card.body;
+      const label = offer?.step === 'idle' ? offer.offers.find(item => item.kind === node.attrs['data-kind'])?.label : undefined;
+      if (label) return { ...node, children: [label] };
+    }
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     if (classHas(node, 'ms-private')) {
       if (match!.result) return h('div', { 'data-region': 'private' });
-      const attrs = { ...node.attrs, ...(match!.privateArea.open ? { role: 'dialog', 'aria-modal': 'true' } : {}) };
-      return { ...node, attrs, children: [
-        h('p', { class: 'phone-turn' }, h('strong', null, turnLine), h('span', null, 'Open your private card to act.')),
-        ...node.children.map(visit),
-      ] };
+      return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: node.children.filter(child => !isElement(child) || child.attrs.id !== 'ms-private-toggle' && child.attrs.id !== 'ms-private-hint').map(visit) };
     }
-    if (node.attrs.id === 'ms-private-toggle') return { ...node, attrs: { ...node.attrs, 'aria-label': match!.privateArea.open ? 'Hide private card' : 'Show private card' }, children: [match!.privateArea.open ? 'Hide' : 'Private card'] };
-    if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1' } };
+    if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
+    if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
+    if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
       const knowledge = children.find(child => isElement(child) && child.attrs['data-region'] === 'knowledge');
@@ -125,18 +140,22 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     }
     if (classHas(node, 'ms-main')) {
       const location = children.find(child => isElement(child) && child.attrs['data-region'] === 'location');
+      const vote = children.find(child => isElement(child) && child.attrs['data-region'] === 'vote');
       const roster = children.find(child => isElement(child) && child.attrs['data-region'] === 'roster');
-      children = children.filter(child => child !== location && child !== roster);
+      children = children.filter(child => child !== location && child !== roster && child !== vote);
       const privateIndex = children.findIndex(child => isElement(child) && child.attrs['data-region'] === 'private');
-      children.splice(privateIndex, 0, board, selfStatus);
+      children.splice(privateIndex, 0, { ...board, attrs: { ...board.attrs, hidden: phoneView !== 'board' } });
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
-      children.push(h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster));
+      children.push(h('section', { class: 'phone-menu', hidden: phoneView !== 'more', 'aria-labelledby': 'phone-menu-heading' },
+        h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), ...sourceBanners, selfStatus, vote,
+        h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
     return { ...node, children };
   }
-  const current = { ...context, practice: model.connection === 'live' ? context.practice ?? null : null };
-  return decoratePublic(withPracticeNotice(visit(source), current), current) as MarkupElement;
+  const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };
+  const rendered = decoratePublic(withPracticeNotice(visit(source), current), current) as MarkupElement;
+  return { ...rendered, attrs: { ...rendered.attrs, 'data-phone-view': phoneView } };
 }
 
 export function renderComicTableShell(model: TableShellModel, context: ComicContext = {}): MarkupElement {
