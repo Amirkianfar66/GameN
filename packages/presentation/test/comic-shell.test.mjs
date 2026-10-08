@@ -88,3 +88,16 @@ test('the phone dock is role-neutral when closed and becomes a named modal only 
   assert.match(toHtml(opened),/role="dialog" aria-modal="true"/);
   assert.match(toHtml(opened),/aria-label="Hide private card"/);
 });
+
+
+test('an ended phone never keeps its private sheet or action prompt in the result screen', () => {
+  const ended=playerView(view=>{
+    view.phase={id:'phase-aborted',kind:'ABORTED',startedAt:view.phase.startedAt,endsAt:null};
+    view.activeSeatId=null;view.self.movementDestinations=[];
+  });
+  const markup=renderComicPlayerShell(model(ended,undefined,{deadline:{kind:'none'}}),{identities});
+  auditMarkup(markup);
+  const html=toHtml(markup);
+  assert.match(html,/The host ended this match/);
+  assert.doesNotMatch(html,/role="dialog"|data-device|data-team|private\/toggle|Open your private card to act/);
+});

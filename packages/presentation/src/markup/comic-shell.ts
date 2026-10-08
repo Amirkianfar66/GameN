@@ -94,6 +94,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (!isElement(node)) return node;
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     if (classHas(node, 'ms-private')) {
+      if (match!.result) return h('div', { 'data-region': 'private' });
       const attrs = { ...node.attrs, ...(match!.privateArea.open ? { role: 'dialog', 'aria-modal': 'true' } : {}) };
       return { ...node, attrs, children: [
         h('p', { class: 'phone-turn' }, h('strong', null, turnLine), h('span', null, 'Open your private card to act.')),

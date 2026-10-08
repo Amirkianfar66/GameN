@@ -296,7 +296,12 @@ function showMatch(screen, render, matchId, seatId) {
   const nextGame = el('button', seatId ? 'Join a new game' : 'Show another match', { type: 'button', id: 'connected-next-game', class: 'phone-next' });
   nextGame.addEventListener('click', forgetMatch);
   app.append(nextGame);
-  const updateNext = () => { const model = screen.getFrame().model; nextGame.hidden = model.match?.result == null && model.screen !== 'blocked'; };
+  const updateNext = () => {
+    const model = screen.getFrame().model;
+    const ended = model.match?.result != null;
+    nextGame.hidden = !ended && model.screen !== 'blocked';
+    if (ended && model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+  };
   screen.subscribe(updateNext); updateNext();
   globalThis.mothershipConnected = { ...(globalThis.mothershipConnected ?? {}), frame: () => screen.getFrame() };
 }
@@ -534,6 +539,8 @@ async function host(uid) {
     const nextSlots = JSON.stringify([playerCount, seats, publicIdentities, botSeats]);
     if (nextSlots !== slotsKey) { slotsKey = nextSlots; slots.replaceChildren(...publicSlots(el, playerCount ?? 0, seats, publicIdentities, botSeats)); }
     const ended = ['complete', 'aborted'].includes(session?.status);
+    page.querySelector('h1').textContent = open ? 'Your lobby' : ended ? 'Match ended' : session?.status === 'running' ? 'Match running' : setup?.stage === 'awaiting-ready' ? 'Reading roles' : 'Choosing characters';
+    setupProgress.node.hidden = session?.status === 'running' || ended;
     roomCard.hidden = !open;
     requestsBlock.hidden = !open;
     startControl.hidden = !open;
@@ -656,7 +663,7 @@ function identityPicker(matchId, seatId) {
   const feed = createSetupFeed({ transport, ports, matchId, seatId });
   const identities = createComicFeeds({ transport, ports, matchId });
   const clock = createSetupClock({ api, ports, matchId, onTick: () => control.refresh() });
-  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock });
+  const control = createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock, onStageChange: () => say('') });
   const visibility = () => {
     control.conceal();
     if (document.visibilityState === 'hidden') { feed.quarantine(); identities.quarantine(); clock.suspend(); }

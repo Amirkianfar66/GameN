@@ -47,7 +47,7 @@ export function createSetupProgress({ el }) {
 }
 
 /** Uses public progress plus this binding's private preview; never deals or starts locally. */
-export function createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock }) {
+export function createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock, onStageChange = () => {} }) {
   const node = el('section', undefined, { class: 'connected-player-setup' });
   const progress = createSetupProgress({ el });
   const picker = el('section', undefined, { class: 'connected-identity', 'aria-labelledby': 'crew-heading' });
@@ -96,6 +96,7 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
     if (setup?.stage === 'choosing') { sawChoosing = true; if (ownSeat?.confirmed) confirmedBeforeReading = true; }
     const changedStage = previousStage !== setup?.stage;
     previousStage = setup?.stage;
+    if (changedStage) onStageChange();
     assignment.hidden = setup?.stage !== 'awaiting-ready' || !sawChoosing || confirmedBeforeReading || ownConfirmSucceeded;
     assignment.textContent = assignment.hidden ? '' : `Character selection ended. Your confirmed character and name are ${identity?.characterId ? buttons.find(item => item.id === identity.characterId)?.callSign ?? 'assigned by the server' : 'being assigned'}, ${identity?.displayName ?? 'waiting for the server'}.`;
     if (changedStage && setup?.stage === 'awaiting-ready') { role.conceal(); }

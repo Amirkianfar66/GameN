@@ -229,3 +229,5 @@ body:has(.connected-player-setup[data-stage=choosing], .connected-player-setup[d
 #app .ms-shell[data-motion=full] .ms-private[data-open=true] { animation:phone-sheet-in 220ms ease-out backwards; }
 @keyframes phone-sheet-in { from { transform:translateY(24px); opacity:.4; } to { transform:none; opacity:1; } }
 #app .ms-shell[data-motion=reduced] .ms-private { animation:none; }
+
+.phone-next { position:fixed; inset:auto .75rem max(.75rem,env(safe-area-inset-bottom)); z-index:22; width:calc(100% - 1.5rem); max-width:30rem; margin:0 auto; box-shadow:0 0 0 .75rem var(--ms-color-canvas); }
