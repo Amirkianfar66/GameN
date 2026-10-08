@@ -1,0 +1,2335 @@
+{
+  "devOnly": "mothership:dev-only",
+  "tool": "design/tools/v1-phone-capture.mjs",
+  "inputsSha256": "bf69093f7c9ce76b415c805c45c38a62c062e48806cee2a5b6ca11ef5c17c624",
+  "browser": "Chromium 141.0.7390.37",
+  "captures": 193,
+  "failures": [],
+  "results": [
+    {
+      "id": "entry.choose",
+      "state": "entry.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "entry.signing-in",
+      "state": "entry.signing-in",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "entry.signin-failed",
+      "state": "entry.signin-failed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.create",
+      "state": "host.create",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.lobby-empty",
+      "state": "host.lobby-empty",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 975,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.share",
+      "state": "host.share",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 975,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.requests",
+      "state": "host.requests",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1251,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.request-unsettled",
+      "state": "host.request-unsettled",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1388,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.no-free-seat",
+      "state": "host.no-free-seat",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.bots",
+      "state": "host.bots",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.full",
+      "state": "host.full",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 967,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.choosing",
+      "state": "host.choosing",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.choosing-expired",
+      "state": "host.choosing-expired",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.reading",
+      "state": "host.reading",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.waiting-ready",
+      "state": "host.waiting-ready",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 907,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.running",
+      "state": "host.running",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.recovery",
+      "state": "host.recovery",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.recovery-unsettled",
+      "state": "host.recovery-unsettled",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.display",
+      "state": "host.display",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1164,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "host.end-confirm",
+      "state": "host.end-confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": {
+          "tag": "BUTTON",
+          "inView": true
+        }
+      }
+    },
+    {
+      "id": "host.ended",
+      "state": "host.ended",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.code",
+      "state": "join.code",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.code-invalid",
+      "state": "join.code-invalid",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.sending",
+      "state": "join.sending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.no-answer",
+      "state": "join.no-answer",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.refused",
+      "state": "join.refused",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.busy",
+      "state": "join.busy",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.waiting-host",
+      "state": "join.waiting-host",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.seated",
+      "state": "join.seated",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.ended-in-lobby",
+      "state": "join.ended-in-lobby",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.recover",
+      "state": "join.recover",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.recover-checking",
+      "state": "join.recover-checking",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "join.recover-refused",
+      "state": "join.recover-refused",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.open",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.picked",
+      "state": "select.picked",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 874,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.taken",
+      "state": "select.taken",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.submitting",
+      "state": "select.submitting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 874,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.confirmed",
+      "state": "select.confirmed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.conflict",
+      "state": "select.conflict",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 957,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.name-taken",
+      "state": "select.name-taken",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 937,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.retry",
+      "state": "select.retry",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 959,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.expired",
+      "state": "select.expired",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 955,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.assigned",
+      "state": "select.assigned",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1037,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "select.unsynced",
+      "state": "select.unsynced",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 931,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.dealing",
+      "state": "reveal.dealing",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.concealed",
+      "state": "reveal.concealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.revealed",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.ready-sending",
+      "state": "reveal.ready-sending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.ready-early",
+      "state": "reveal.ready-early",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.ready-retry",
+      "state": "reveal.ready-retry",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.waiting-others",
+      "state": "reveal.waiting-others",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 890,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.everyone-ready",
+      "state": "reveal.everyone-ready",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.reconnecting",
+      "state": "reveal.reconnecting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.recovered",
+      "state": "reveal.recovered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.backgrounded",
+      "state": "reveal.backgrounded",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "reveal.devices",
+      "state": "reveal.devices",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 5041,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.waiting",
+      "state": "game.waiting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.own-turn",
+      "state": "game.own-turn",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.private-open",
+      "state": "game.private-open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.choose-room",
+      "state": "game.choose-room",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.choose-target",
+      "state": "game.choose-target",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.confirm",
+      "state": "game.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.submitting",
+      "state": "game.submitting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.registered",
+      "state": "game.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.move-accepted",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.rejected",
+      "state": "game.rejected",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.not-available",
+      "state": "game.not-available",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.checking",
+      "state": "game.checking",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.unknown",
+      "state": "game.unknown",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.withdrawn",
+      "state": "game.withdrawn",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.knowledge",
+      "state": "game.knowledge",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.supply",
+      "state": "game.supply",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.supply-received",
+      "state": "game.supply-received",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.board-7",
+      "state": "game.board-7",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.board-8",
+      "state": "game.board-8",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.crowded",
+      "state": "game.crowded",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 928,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "game.readable",
+      "state": "game.readable",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1268,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.election",
+      "state": "phase.election",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1095,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.election-again",
+      "state": "phase.election-again",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1281,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.jail-vote",
+      "state": "phase.jail-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.ballot-recorded",
+      "state": "phase.ballot-recorded",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.tally",
+      "state": "phase.tally",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1337,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.release-choice",
+      "state": "phase.release-choice",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1087,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.release-vote",
+      "state": "phase.release-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1088,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.hack",
+      "state": "phase.hack",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.resolution",
+      "state": "phase.resolution",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1401,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "phase.showdown",
+      "state": "phase.showdown",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "status.injured",
+      "state": "status.injured",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "status.hospital",
+      "state": "status.hospital",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "status.jailed",
+      "state": "status.jailed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "status.captain",
+      "state": "status.captain",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 910,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "status.eliminated",
+      "state": "status.eliminated",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 850,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "status.watching",
+      "state": "status.watching",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1090,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.loading",
+      "state": "system.loading",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.reconnecting",
+      "state": "system.reconnecting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 985,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.clock",
+      "state": "system.clock",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.unresolved",
+      "state": "system.unresolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.access-unconfirmed",
+      "state": "system.access-unconfirmed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.no-access",
+      "state": "system.no-access",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.incompatible",
+      "state": "system.incompatible",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "system.seat-moved-in",
+      "state": "system.seat-moved-in",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "end.winner",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "end.draw",
+      "state": "end.draw",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 915,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "end.aborted",
+      "state": "end.aborted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "end.next",
+      "state": "end.next",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "display.admit",
+      "state": "display.admit",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "display.setup",
+      "state": "display.setup",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "display.board",
+      "state": "display.board",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1383,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "display.result",
+      "state": "display.result",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "w320-game-crowded",
+      "state": "game.crowded",
+      "viewport": "320x640",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 960,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "w320-select-open",
+      "state": "select.open",
+      "viewport": "320x640",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 927,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "w320-host-requests",
+      "state": "host.requests",
+      "viewport": "320x640",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1632,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "w320-reveal-revealed",
+      "state": "reveal.revealed",
+      "viewport": "320x640",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1606,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "w360-game-waiting",
+      "state": "game.waiting",
+      "viewport": "360x740",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 916,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "w360-host-full",
+      "state": "host.full",
+      "viewport": "360x740",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "w430-game-private",
+      "state": "game.private-open",
+      "viewport": "430x932",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 932,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "w430-select-picked",
+      "state": "select.picked",
+      "viewport": "430x932",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 932,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "short-game-own-turn",
+      "state": "game.own-turn",
+      "viewport": "390x600",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "short-reveal-concealed",
+      "state": "reveal.concealed",
+      "viewport": "390x600",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "text200-game-waiting",
+      "state": "game.waiting",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "problems": [],
+      "measured": {
+        "height": 2024,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "text200-select-open",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "problems": [],
+      "measured": {
+        "height": 2438,
+        "primaryInView": false,
+        "focus": null
+      }
+    },
+    {
+      "id": "text200-host-lobby",
+      "state": "host.requests",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "problems": [],
+      "measured": {
+        "height": 4174,
+        "primaryInView": false,
+        "focus": null
+      }
+    },
+    {
+      "id": "text200-reveal",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "problems": [],
+      "measured": {
+        "height": 3556,
+        "primaryInView": false,
+        "focus": null
+      }
+    },
+    {
+      "id": "text200-game-readable",
+      "state": "game.readable",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "problems": [],
+      "measured": {
+        "height": 3695,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "long-names-game",
+      "state": "game.crowded",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 971,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "long-names-select",
+      "state": "select.confirmed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "long-names-end",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 975,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "keyboard-join",
+      "state": "join.code",
+      "viewport": "390x450",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 642,
+        "primaryInView": false,
+        "focus": {
+          "tag": "INPUT",
+          "inView": true
+        }
+      }
+    },
+    {
+      "id": "keyboard-name",
+      "state": "select.picked",
+      "viewport": "390x450",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 874,
+        "primaryInView": true,
+        "focus": {
+          "tag": "INPUT",
+          "inView": true
+        }
+      }
+    },
+    {
+      "id": "reduced-motion-reveal",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "desktop-host",
+      "state": "host.requests",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1221,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "desktop-select",
+      "state": "select.picked",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 805,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "desktop-game",
+      "state": "game.private-open",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 800,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "display-board",
+      "state": "display.board",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 800,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "display-setup",
+      "state": "display.setup",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 800,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "display-result",
+      "state": "display.result",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 800,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "01-cue-stage-change-0",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "01-cue-stage-change-70",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "01-cue-stage-change-140",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "01-cue-stage-change-220",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "01-cue-stage-change-reduced",
+      "state": "select.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 872,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "02-cue-role-deal-0",
+      "state": "reveal.concealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "02-cue-role-deal-140",
+      "state": "reveal.concealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "02-cue-role-deal-280",
+      "state": "reveal.concealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "02-cue-role-deal-420",
+      "state": "reveal.concealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "02-cue-role-deal-reduced",
+      "state": "reveal.concealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1116,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-0",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-225",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-450",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-675",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-900",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "03-cue-role-card-turn-reduced",
+      "state": "reveal.revealed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1223,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "04-cue-registration-0",
+      "state": "reveal.ready-early",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "04-cue-registration-60",
+      "state": "reveal.ready-early",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "04-cue-registration-120",
+      "state": "reveal.ready-early",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "04-cue-registration-reduced",
+      "state": "reveal.ready-early",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "05-cue-registration-0",
+      "state": "game.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "05-cue-registration-60",
+      "state": "game.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "05-cue-registration-120",
+      "state": "game.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "05-cue-registration-reduced",
+      "state": "game.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-0",
+      "state": "game.private-open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-110",
+      "state": "game.private-open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-220",
+      "state": "game.private-open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "06-cue-sheet-open-reduced",
+      "state": "game.private-open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 878,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "07-cue-public-move-0",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "07-cue-public-move-225",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "07-cue-public-move-450",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "07-cue-public-move-780",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "07-cue-public-move-900",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "07-cue-public-move-reduced",
+      "state": "game.move-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 936,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "08-cue-phase-change-0",
+      "state": "phase.jail-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "08-cue-phase-change-110",
+      "state": "phase.jail-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "08-cue-phase-change-220",
+      "state": "phase.jail-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "08-cue-phase-change-reduced",
+      "state": "phase.jail-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1118,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "09-cue-round-transition-0",
+      "state": "phase.resolution",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1401,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "09-cue-round-transition-230",
+      "state": "phase.resolution",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1401,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "09-cue-round-transition-470",
+      "state": "phase.resolution",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1401,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "09-cue-round-transition-700",
+      "state": "phase.resolution",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1401,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "09-cue-round-transition-reduced",
+      "state": "phase.resolution",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1401,
+        "primaryInView": null,
+        "focus": null
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-0",
+      "state": "host.requests",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1251,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-110",
+      "state": "host.requests",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1251,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-220",
+      "state": "host.requests",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1251,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "10-cue-request-arrives-reduced",
+      "state": "host.requests",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 1251,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-0",
+      "state": "select.conflict",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 957,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-70",
+      "state": "select.conflict",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 957,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-140",
+      "state": "select.conflict",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 957,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-220",
+      "state": "select.conflict",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 957,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "11-cue-choice-taken-reduced",
+      "state": "select.conflict",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 957,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "12-cue-result-cover-0",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "12-cue-result-cover-300",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "12-cue-result-cover-600",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "12-cue-result-cover-900",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    },
+    {
+      "id": "12-cue-result-cover-reduced",
+      "state": "end.winner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "problems": [],
+      "measured": {
+        "height": 844,
+        "primaryInView": true,
+        "focus": null
+      }
+    }
+  ]
+}

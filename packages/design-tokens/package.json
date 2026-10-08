@@ -22,6 +22,10 @@
     "check:shell": "node ../../design/tools/check-shell.mjs",
     "prove:checks": "node ../../design/tools/prove-checks.mjs",
     "render:review": "node ../../design/tools/render-review.mjs",
-    "dev:review": "node ../../design/tools/serve.mjs"
+    "dev:review": "node ../../design/tools/serve.mjs",
+    "capture:v1-phone": "node ../../design/tools/v1-phone-capture.mjs",
+    "docs:v1-phone": "node ../../design/tools/v1-phone-docs.mjs",
+    "check:v1-phone": "node ../../design/tools/v1-phone-check.mjs",
+    "flows:v1-phone": "node ../../design/tools/v1-phone-flows.mjs"
   }
 }

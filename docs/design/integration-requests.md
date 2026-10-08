@@ -14,6 +14,10 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-5](#dsn-req-5) | Say how `apps/game` reaches `design/exports/`, and hold the loading rule there | Frontend loading any asset | None |
 | [DSN-REQ-6](#dsn-req-6) | A player's name and chosen character as public facts of a seat, set before roles are dealt, carried by a new wire version or by a separately versioned identity record | Characters and names in a connected match. The rooms, their colors and the role devices wait for nothing | None |
 | [DSN-REQ-7](#dsn-req-7) | A newer decision record that points at the owner's approval of 7 October 2026. The source-locked register is not to be edited for it | The current register and the design agreeing on what is approved | None |
+| [DSN-REQ-8](#dsn-req-8) | Close a pending admission when setup starts, so a waiting phone learns it was not seated (issue #76) | `join.waiting-host` telling the truth after the host starts without that device | None |
+| [DSN-REQ-9](#dsn-req-9) | Decide whether a join link or QR code may carry the room code (issue #76) | The share sheet's link and QR, which are drawn as a PROPOSAL | None |
+| [DSN-REQ-10](#dsn-req-10) | A shorter, supervised way to hand a seat to another device than 43 characters plus a match identifier (finding G20; issue #76) | Seat recovery read aloud or typed at a table | None |
+| [DSN-REQ-11](#dsn-req-11) | Say in the view that an election is a second one among tied candidates (G13), and which vote a published count belongs to (G15) (issue #76) | Wording the runoff and the “last count” without inference | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -168,6 +172,33 @@ Requested instead: a newer decision record, in whatever form Integration keeps c
 | For the look of the board and of the pieces it supersedes two sentences of the pinned art direction, which Designer cannot edit ([DSN-REQ-3](#dsn-req-3)): that the public palette is charcoal, paper and muted steel, and that the public pieces are neutral numbered tokens. It leaves standing that no public piece, cue or location shows a role, a faction or a private choice | [visual-interaction-contract.md](visual-interaction-contract.md#9-where-this-refines-the-art-direction) |
 
 The alternative the review allows, a reviewed lock update of the register itself, is Integration's choice and not Designer's request.
+
+## DSN-REQ-8
+
+**Close a pending admission when setup starts.** Added 8 October 2026 for issue [#76](https://github.com/Amirkianfar66/GameN/issues/76), on the design base `87715a46dbd6a107e417bb6024d81c3fcb679049`.
+
+A phone that asked to join watches its own admission document. If the host fills every seat and starts setup without it, that document stays `pending` for good: the phone keeps saying “Waiting for the host to seat you.” and cannot read the lobby to learn otherwise. Requested: when `beginSetup` freezes the roster, mark every still-pending admission of the match with a terminal status (for example `closed`), which the requester may read, and let the phone say “This room started without you. Ask the host, or join another game.” This adds a value to the admission status: a contract change, for Integration to version and for Frontend and Balance to review. Until then the design draws only what is true today (`join.waiting-host`) and records the gap in the inventory.
+
+## DSN-REQ-9
+
+**Decide whether a join link or QR code may carry the room code.** Added 8 October 2026 for issue #76.
+
+The share sheet (`host.share`) proposes Copy code (Frontend only), the platform share sheet, and a link or QR that opens Join with the code filled in, never submitted on its own. The room code is a joining credential while the lobby is open: in an address it is kept by browser history, logs, link previews and screenshots. Draft #41 already rules a recovery code out of links; the room code is weaker but not nothing. Requested: a decision, yes or no, and if yes, the form (a fragment such as `#room=…`, which is not sent to the server, rather than a query parameter). The prototype draws a labeled stand-in and no code.
+
+## DSN-REQ-10
+
+**A shorter, supervised seat hand-over.** Added 8 October 2026 for issue #76; this is Frontend's finding G20.
+
+A recovery code is 43 characters and the new device also needs the match identifier. The design groups the code by four for reading aloud (`host.recovery`), which helps and does not solve it. Requested: a hand-over that works across a table, for example a short code of six to eight characters that expires within two minutes and that the host confirms on their own phone, or a code the new device shows and the host types. The property to keep is V1-21's: the old device loses the seat at the moment the new one takes it, and nothing is dealt again.
+
+## DSN-REQ-11
+
+**Say in the view what the screens now have to infer.** Added 8 October 2026 for issue #76; these are Frontend's findings G13 and G15.
+
+- A Captain election held again among tied candidates has the same phase kind as the first. The design does not use the word “runoff” (`phase.election-again`) and shows the last count, “Nobody was elected.”, beside the new candidates. A field such as `ballot.round: 2` would let every screen say it plainly.
+- The last published count stays in the view through later phases with nothing saying which vote it was. The design labels it “Last vote counted · Jail vote”. An identifier of the vote it counts, or its round, would let a screen say whether it is this round's.
+
+Both are additive public facts. Neither changes a rule.
 
 ## What Designer does next, and what it waits for
 
