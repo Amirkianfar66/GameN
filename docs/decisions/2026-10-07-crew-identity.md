@@ -1,5 +1,7 @@
 # Public crew identity adoption
 
+**Initial-room update, 8 October:** [Random starting rooms](2026-10-08-random-starting-rooms.md) supersedes the player-choice clause below. The server now assigns new admissions; this older record remains as history.
+
 Recorded 7 October 2026 by Backend/Integration on `codex/v1-lobby-identities`, base `c8856242caea349b620345349f6b59c7a87b6d7f`. This is a new decision record beside the frozen bootstrap register; no locked historical source is rewritten.
 
 The game owner approved the comic board, nine public characters with player name and seat-number tags, character selection before a random role deal, and private role devices. The immutable [Designer owner record](https://github.com/Amirkianfar66/GameN/blob/4fa2ff3db5edff97feefa7bc12b7f2b627275c34/docs/design/owner-decisions.md) records that approval. This records DSN-REQ-7's approval pointer without rewriting the historical bootstrap register. This does not request another approval of that look.

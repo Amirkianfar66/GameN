@@ -36,8 +36,8 @@ test('connected: a host creates a seven-player lobby, seats seven players, admit
   assert.deepEqual(session.value, { hostUid: host.uid, playerCount: 7, status: 'lobby', roomCode });
 
   // 2. Seven players authenticate and ask to be admitted. Asking grants nothing yet.
-  const requested = await Promise.all(players.map((player, index) => player.api.requestAdmission({
-    protocolVersion: 2, requestId: requestId(), roomCode, initialRoom: index % 2 === 0 ? 'Room A' : 'Room B',
+  const requested = await Promise.all(players.map(player => player.api.requestAdmission({
+    protocolVersion: 2, requestId: requestId(), roomCode,
   })));
   for (const [index, request] of requested.entries()) {
     assert.equal(request.kind, 'done', JSON.stringify(request));
@@ -49,7 +49,7 @@ test('connected: a host creates a seven-player lobby, seats seven players, admit
   // A wrong room code admits nobody and says nothing about why.
   const stranger = await participant();
   everyone.push(stranger);
-  const refused = await stranger.api.requestAdmission({ protocolVersion: 2, requestId: requestId(), roomCode: '0'.repeat(12), initialRoom: 'Room A' });
+  const refused = await stranger.api.requestAdmission({ protocolVersion: 2, requestId: requestId(), roomCode: '0'.repeat(12) });
   assert.deepEqual([refused.kind, refused.code], ['api-failure', 'FORBIDDEN']);
 
   // 3. The host sees every request, approves each to a seat, admits the display, and starts.

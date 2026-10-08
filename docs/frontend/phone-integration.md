@@ -28,8 +28,9 @@ disclosure or contract changes.
 
 ## Runtime changes
 
-Entry and join use the comic page, touch-sized route/room tiles and grouped-code
-paste handling. The host sees the room code, seat roster and incoming requests
+Entry uses the comic page and touch-sized route tiles. Join asks only for the room
+code, with grouped-code paste handling. The server assigns initial Room A/B, as
+recorded in [the later owner decision](../decisions/2026-10-08-random-starting-rooms.md). The host sees the room code, seat roster and incoming requests
 first; practice bots, recovery, display admission and match details use native
 folds. Start explains unfilled seats or unsettled bot settings. Ending the match
 uses a native alert dialog focused on Cancel. Clipboard controls are deliberate
