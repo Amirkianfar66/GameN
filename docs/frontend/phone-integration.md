@@ -48,8 +48,8 @@ separate rules paragraph are removed; accessibility labels remain. Ready erases
 private content and leaves a neutral checked card while the server waits.
 
 The board now occupies the space between its top status/timer bar and a four-item
-bottom navigation: Board, Actions, Card and Menu. These are page views, not a
-modal drawer. Actions and Card still use the same explicit private controller;
+bottom navigation: Board, Actions, Card and Menu. These now open dismissible panels over the same board. Repeating the selected
+bottom control, Close or Escape dismisses its panel. Actions and Card still use the same explicit private controller;
 Board, Menu, Escape and backgrounding conceal the private payload. Controls and
 server-provided targets keep their existing command identities and confirmation
 semantics. Role information and actions are separated visually. Public status,
@@ -76,13 +76,16 @@ Protocol 2, `staged-start-1`, `full-game-1.0.1` and ruleset
 fallback; role reading gets a full 30-second minimum and all humans must be
 Ready. First turn receives a fresh 60 seconds. Initial rooms, unique identities,
 retry reconciliation, legal actions/targets, resources and private disclosure
-remain server-authoritative. Ready still hides the role card. All action choices
-stay inside the open private panel, including movement; no private legal-offer
-markers are painted onto the public board.
+remain server-authoritative. Ready still hides the role card. Room A, Room B and Command room-name tags now open the existing private
+movement confirmation. Their appearance does not depend on private eligibility;
+the controller checks only server-listed destinations after a tap. Move is removed
+from the Actions menu. A pending or uncertain command cannot be replaced by a room
+tap. Other actions keep their server-provided targets and confirmation in the
+same overlay; no private legal-offer marker is painted on the public board.
 
 Deferred: DSN-REQ-8–11 (pending-admission closure, join links/QR, shorter recovery,
-runoff/tally metadata), the proposed public history panel and board-based room
-picking. No client inference substitutes for missing server facts. An aborted
+runoff/tally metadata), the proposed public history panel. Board-based room picking was explicitly
+approved in the owner’s follow-up and is included here. No client inference substitutes for missing server facts. An aborted
 match has no final role/Code reveal; this does not retract already public
 eliminated factions. The design prototype's broader “Nothing was revealed”
 wording is not used. Screen redesign is not an approval for these proposals.

@@ -17,3 +17,15 @@ only constructed after an explicit authorized private-view action.
 This is presentation scope. It does not change protocol, ruleset, powers,
 timing authority, resource costs or disclosure recipients. Integration is a
 follow-up to issue #79 / PR #80 from source `57174b93e2b4abba1b05a79c908593de618e5ca5`.
+
+
+The owner's next mobile test requested movement by tapping the room-name tag,
+removal of Move from the Actions menu, and controls displayed over the current
+game board rather than switching views. This explicitly approves board-based
+room picking previously deferred by the design handoff. Room A, Room B and
+Command labels are uniform public buttons; the existing private controller
+checks the server's destinations after the tap and shows the normal guarded
+confirmation. Other actions, Card and Menu are dismissible panels over the board.
+No role-specific eligibility marker is drawn on the public board. In-flight and
+uncertain requests cannot be replaced by a room tap. Movement costs, phase
+limits, hospital/jail restrictions and Captain access remain unchanged.

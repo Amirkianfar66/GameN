@@ -1,4 +1,5 @@
 // Browser mounting for the hosted playtest. No fixture state or operator controls.
+import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
@@ -82,6 +83,8 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let privateWasOpen = false;
   let phoneView = 'board';
   let phoneFocus = null;
+  let phoneNotice = null;
+  let phoneOpener = '#ms-phone-actions';
   const inertNodes = new Set();
 
   function applyRootAttributes(next) {
@@ -97,7 +100,8 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const frame = screen.getFrame();
     if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
-    const split = splitRegions(render(frame.model, { phoneView }));
+    if (!frame.model.match?.privateArea?.open) phoneNotice = null;
+    const split = splitRegions(render(frame.model, { phoneView, phoneNotice }));
     applyRootAttributes(split.rootAttrs);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
@@ -165,13 +169,22 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   // A control says what it is for and, where it stands for one, which seat, action or choice. The shared parser decides
   // whether that is an intent at all; this host assembles none of its own.
   function onClick(event) {
+    const room = event.target instanceof Element ? event.target.closest('button[data-move-room]') : null;
+    if (room && root.contains(room)) {
+      phoneOpener = `#${room.id}`;
+      phoneView = 'actions'; phoneNotice = null;
+      phoneNotice = openRoomMovement(screen, room.dataset.moveRoom);
+      phoneFocus = phoneNotice ? '#ms-private-heading' : null; draw(); return;
+    }
     const tab = event.target instanceof Element ? event.target.closest('button[data-phone-view]') : null;
     if (tab && root.contains(tab)) {
       if (tab.disabled) return;
-      const view = tab.dataset.phoneView;
+      let view = tab.dataset.phoneView;
       if (!['board', 'actions', 'role', 'more'].includes(view)) return;
-      phoneView = view;
-      phoneFocus = view === 'more' ? '#phone-menu-heading' : ['actions', 'role'].includes(view) ? '#ms-private-heading' : '#ms-main';
+      if (view === phoneView && view !== 'board') view = 'board';
+      if (view !== 'board') phoneOpener = `#${tab.id}`;
+      phoneView = view; phoneNotice = null;
+      phoneFocus = view === 'more' ? '#phone-menu-heading' : ['actions', 'role'].includes(view) ? '#ms-private-heading' : phoneOpener;
       const needsPrivate = view === 'actions' || view === 'role';
       if (needsPrivate !== Boolean(screen.getFrame().model.match?.privateArea?.open)) screen.dispatch({ type: 'private/toggle' });
       else draw();
@@ -180,7 +193,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const control = event.target instanceof Element ? event.target.closest('button[data-intent]') : null;
     if (control === null || !root.contains(control)) return;
     const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat, kind: control.dataset.kind, value: control.dataset.value });
-    if (intent !== null) screen.dispatch(intent);
+    if (intent !== null) { phoneNotice = null; screen.dispatch(intent); }
   }
   function onChange(event) {
     const control = event.target;
@@ -194,15 +207,13 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const onBlur = () => { if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
   function onKeyDown(event) {
     const sheet = root.querySelector('.ms-private[data-open="true"]');
-    if (!sheet) return;
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      screen.dispatch({ type: 'private/toggle' });
-      // The closed-state heading survives a redraw but is visually concealed.
-      // Foreground dismissal returns to the control that opened this sheet.
-      root.querySelector('#ms-private-toggle')?.focus({ preventScroll: true });
+    if (event.key === 'Escape' && phoneView !== 'board') {
+      event.preventDefault(); phoneView = 'board'; phoneNotice = null; phoneFocus = phoneOpener;
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      else draw();
       return;
     }
+    if (!sheet) return;
     if (root.querySelector('.phone-nav') || event.key !== 'Tab') return;
     const controls = [...sheet.querySelectorAll('button:not([disabled]), input:not([disabled]), summary, [tabindex="0"]')]
       .filter(node => !node.hidden && node.getClientRects().length > 0);

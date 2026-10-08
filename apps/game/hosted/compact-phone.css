@@ -64,7 +64,7 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .ms-board .ms-seat__player { max-width:100%; }
 .phone-nav { grid-column:1; grid-row:3; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; padding:.2rem 0 max(.3rem,env(safe-area-inset-bottom)); min-height:60px; border-top:1px solid var(--ms-color-steel-mid); background:var(--ms-color-canvas); }
 .phone-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; min-height:48px; min-width:44px; padding:.25rem; border:0; background:transparent; color:var(--ms-color-text-secondary); font:inherit; font-size:.65rem; box-shadow:none; border-radius:8px; }
-.phone-nav button[aria-current=page] { color:var(--ms-color-caption); background:var(--ms-color-panel); }
+.phone-nav button[aria-pressed=true] { color:var(--ms-color-caption); background:var(--ms-color-panel); }
 .phone-nav button:disabled { opacity:.4; }
 .phone-nav__icon { display:block; position:relative; width:21px; height:21px; }
 .phone-nav__icon--board { border:2px solid currentColor; border-radius:5px; background:linear-gradient(currentColor,currentColor) center/2px 100% no-repeat,linear-gradient(currentColor,currentColor) center/100% 2px no-repeat; }
@@ -146,3 +146,19 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 /* A finished result and Menu share one view; the next-game action stays above navigation. */
 #app:has(.ms-shell--player[data-screen=match]) > .phone-next { bottom:calc(76px + env(safe-area-inset-bottom)); }
 #app:has(.ms-shell--player[data-phone-view=more]) > .phone-next { display:none; }
+
+/* Owner follow-up: room tags move; controls open over the same board. */
+#app .ms-shell--player .ms-private[data-open=true], #app .ms-shell--player .phone-menu {
+  position:relative; align-self:end; height:auto; max-height:82%; min-height:0; z-index:5;
+  padding:0 .8rem .8rem; border:1px solid var(--ms-color-steel-mid); border-radius:16px;
+  background:var(--ms-color-panel); box-shadow:0 -8px 30px #0008; overscroll-behavior:contain;
+}
+.phone-panel-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; position:sticky; top:0; z-index:2; background:var(--ms-color-panel); min-height:52px; }
+#app .ms-shell--player .phone-panel-head h2 { font-family:var(--ms-font-body); font-size:1rem; margin:0; text-transform:none; }
+.phone-panel-close { width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; color:var(--ms-color-text); font-size:1.8rem; cursor:pointer; }
+.phone-panel-notice { margin:.4rem 0; font-size:.85rem; }
+#app .ms-shell--player .ms-actions > h3 { display:none; }
+#app .ms-shell--player .ms-board .ms-zone__name:has(.phone-room-move) { padding:0 .25rem; }
+.phone-room-move { min-height:44px; min-width:88px; padding:0 .25rem; border:0; background:transparent; color:inherit; font:inherit; text-transform:inherit; cursor:pointer; }
+.phone-room-move:focus-visible, .phone-panel-close:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:2px; }
+#app .ms-shell--player .ms-board .ms-zone:has(.phone-room-move) { padding-top:3.2rem; }

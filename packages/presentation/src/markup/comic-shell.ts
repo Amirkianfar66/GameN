@@ -12,7 +12,7 @@ export interface ComicIdentity {
   readonly displayName: string | null;
   readonly characterId: string | null;
 }
-export interface ComicContext { readonly phoneView?: 'board' | 'actions' | 'role' | 'more'; readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
+export interface ComicContext { readonly phoneNotice?: string | null; readonly phoneView?: 'board' | 'actions' | 'role' | 'more'; readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
   Officer: { device: 'officer', team: 'Blue' }, Insider: { device: 'insider', team: 'Blue' },
@@ -83,10 +83,11 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   const nav = h('div', { role: 'navigation', class: 'phone-nav', 'aria-label': 'Game navigation', 'data-region': 'phone-navigation' },
     (['board', 'actions', 'role', 'more'] as const).map(view => h('button', {
       type: 'button', id: view === 'role' ? 'ms-private-toggle' : `ms-phone-${view}`,
-      'data-phone-view': view, 'aria-current': phoneView === view ? 'page' : null,
+      'data-phone-view': view, 'aria-pressed': String(phoneView === view),
       'aria-label': view === 'role' ? 'Private card' : view === 'more' ? 'Menu' : view === 'actions' ? 'Actions' : 'Board',
       disabled: match.result && (view === 'role' || view === 'actions') ? true : null,
-      ...(view === 'role' ? { 'aria-controls': 'ms-private-panel', 'aria-expanded': String(match.privateArea.open && phoneView === 'role') } : {}),
+      'aria-controls': view === 'more' ? 'phone-menu-panel' : view === 'board' ? 'ms-comic-board-heading' : 'ms-private-panel',
+      'aria-expanded': view === 'board' ? null : String(phoneView === view),
     }, h('span', { class: `phone-nav__icon phone-nav__icon--${view}`, 'aria-hidden': 'true' }),
     h('span', null, view === 'more' ? 'Menu' : view === 'role' ? 'Card' : view === 'actions' ? 'Actions' : 'Board'))));
   const ownCharacter = character(identityFor(context, match.identity.seatId)?.characterId);
@@ -99,21 +100,33 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     h('strong', null, `Player ${match.identity.number}${ownName ? ` · ${ownName}` : ''}`),
     h('span', null, match.location.name), h('span', null, match.location.self.markers.map(marker => marker.label).join(' · ')));
 
+  const closePanel = (id: string): MarkupElement => h('button', { type: 'button', id, class: 'phone-panel-close', 'data-phone-view': 'board', 'aria-label': 'Close panel' }, '×');
+  function roomLabels(node: MarkupNode): MarkupNode {
+    if (!isElement(node)) return node;
+    const room = ({ 'ms-comic-zone-room-a': 'Room A', 'ms-comic-zone-room-b': 'Room B', 'ms-comic-zone-command-room': 'Command Room' } as Record<string, string>)[String(node.attrs.id)];
+    if (room) return { ...node, children: [h('button', { type: 'button', id: `phone-move-${room.toLowerCase().replaceAll(' ', '-')}`, class: 'phone-room-move', 'data-move-room': room, 'aria-label': `Move to ${room}` }, ...node.children, h('span', { 'aria-hidden': 'true' }, ' ↗'))] };
+    return { ...node, children: node.children.map(roomLabels) };
+  }
   const board = h('section', { class: 'ms-panel ms-board', 'aria-labelledby': 'ms-comic-board-heading', 'data-region': 'comic-board' },
     h('h2', { class: 'ms-panel__heading', id: 'ms-comic-board-heading' }, 'The ship'),
-    renderZones(match.roster.zones, 'ms-comic-zone'));
+    roomLabels(renderZones(match.roster.zones, 'ms-comic-zone')));
   function visit(node: MarkupNode): MarkupNode {
     if (!isElement(node)) return node;
+    if (classHas(node, 'ms-offers')) {
+      const body = privateContent?.actions.card.body;
+      const available = body?.step === 'idle' && body.offers.some(offer => offer.kind !== 'move' && offer.open !== null);
+      return { ...node, children: available ? node.children.filter(child => !isElement(child) || child.attrs['data-kind'] !== 'move').map(visit) : [h('li', { class: 'phone-empty-actions' }, 'No actions available right now.')] };
+    }
     if (classHas(node, 'ms-banners')) return { ...node, children: node.children.filter(child => !sourceBanners.includes(child)) };
     if (node.attrs['data-intent'] === 'action/open') {
       const offer = match!.privateArea.content?.actions.card.body;
       const label = offer?.step === 'idle' ? offer.offers.find(item => item.kind === node.attrs['data-kind'])?.label : undefined;
-      if (label) return { ...node, children: [label] };
+      if (label) return { ...node, attrs: { ...node.attrs, 'aria-labelledby': String(node.attrs.id) }, children: [label] };
     }
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     if (classHas(node, 'ms-private')) {
       if (match!.result) return h('div', { 'data-region': 'private' });
-      return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: node.children.filter(child => !isElement(child) || child.attrs.id !== 'ms-private-toggle' && child.attrs.id !== 'ms-private-hint').map(visit) };
+      return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
     if (node.attrs['data-region'] === 'result') return { ...node, attrs: { ...node.attrs, hidden: phoneView === 'more' } };
@@ -145,11 +158,11 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       const roster = children.find(child => isElement(child) && child.attrs['data-region'] === 'roster');
       children = children.filter(child => child !== location && child !== roster && child !== vote);
       const privateIndex = children.findIndex(child => isElement(child) && child.attrs['data-region'] === 'private');
-      children.splice(privateIndex, 0, { ...board, attrs: { ...board.attrs, hidden: phoneView !== 'board' } });
+      children.splice(privateIndex, 0, board);
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
-      children.push(h('section', { class: 'phone-menu', hidden: phoneView !== 'more', 'aria-labelledby': 'phone-menu-heading' },
-        h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), ...sourceBanners, selfStatus, vote,
+      children.push(h('section', { id: 'phone-menu-panel', class: 'phone-menu', hidden: phoneView !== 'more', 'aria-labelledby': 'phone-menu-heading' },
+        h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
         h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
     return { ...node, children };
