@@ -18,7 +18,7 @@ Protocol 1 remains the Officer development fixture. Existing consumers keep thei
 
 ## Complete game behavior
 
-`packages/engine/src/full-game/` supplies deterministic setup, vote arithmetic, victory predicates, lifecycle and audience projection. It reads no network, ambient clock or random source. Server-created role permutations, Code extras and five independently randomized turn permutations are recorded once outside transaction retries. Each player picks an A/B room before the deal; roles are independent of that choice.
+`packages/engine/src/full-game/` supplies deterministic setup, vote arithmetic, victory predicates, lifecycle and audience projection. It reads no network, ambient clock or random source. Server-created role permutations, Code extras and five independently randomized turn permutations are recorded once outside transaction retries. The server independently assigns each new human admission or bot to A/B before the deal; roles are independent of that recorded assignment. The [8 October owner decision](../decisions/2026-10-08-random-starting-rooms.md) supersedes the original player-choice clause of V1-01 without changing the engine pins.
 
 The lifecycle begins with Round 1 ordinary turns. Each non-eliminated seat retains a 60-second turn for speaking, including Injured/Jailed players. An accepted Standard Hack opens a separate 60-second phase immediately afterwards. Voluntary movement is independent of whose turn it is and consumes one movement before voting. Code submission is likewise independent of the active player, limited to the surviving Hacker's one Round 5 attempt.
 

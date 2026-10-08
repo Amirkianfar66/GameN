@@ -12,7 +12,7 @@ import {
 
 const methods = {
   createMatch: { requestId: 'request-a', playerCount: 7 },
-  requestAdmission: { requestId: 'request-a', roomCode: 'ABCDEF123456', initialRoom: 'Room A' },
+  requestAdmission: { requestId: 'request-a', roomCode: 'ABCDEF123456' },
   approveAdmission: { matchId: 'match-a', requestId: 'request-a', admissionId: 'admission-a', seatId: 'seat-1' },
   admitDisplay: { matchId: 'match-a', requestId: 'request-a', displayUid: 'display-a' },
   startMatch: { matchId: 'match-a', requestId: 'request-a' },
@@ -64,9 +64,16 @@ for (const [method, fields] of Object.entries(methods)) test(`${method} rejects 
 
 test('creation and admission reject incomplete/unsupported lobby configuration', async () => {
   for (const playerCount of [6, 10, '7', null]) assert.equal((await service.createMatch('identity-a', { protocolVersion: 2, requestId: 'request-a', playerCount })).error.code, 'INVALID_REQUEST');
-  for (const initialRoom of ['Command Room', 'Hospital', 'Jail']) assert.equal((await service.requestAdmission('identity-a', { protocolVersion: 2, requestId: 'request-a', roomCode: 'ABCDEF123456', initialRoom })).error.code, 'INVALID_REQUEST');
+  for (const initialRoom of ['Command Room', 'Hospital', 'Jail', null, 0]) assert.equal((await service.requestAdmission('identity-a', { protocolVersion: 2, requestId: 'request-a', roomCode: 'ABCDEF123456', initialRoom })).error.code, 'INVALID_REQUEST');
   assert.equal((await service.requestAdmission('identity-a', { protocolVersion: 2, requestId: 'request-a', roomCode: 'guess', initialRoom: 'Room A' })).error.code, 'INVALID_REQUEST');
   assert.equal((await service.issueSeatRecovery('identity-a', { protocolVersion: 2, matchId: 'match-a', requestId: 'request-a', seatId: 'seat-10' })).error.code, 'INVALID_REQUEST');
+});
+
+test('admission allows omitted or deprecated A/B rooms but rejects client random seeds', async () => {
+  const payload = { protocolVersion: 2, ...methods.requestAdmission };
+  assert.deepEqual(FullAdmissionRequestSchema.parse(payload), payload);
+  for (const initialRoom of ['Room A', 'Room B']) assert.deepEqual(FullAdmissionRequestSchema.parse({ ...payload, initialRoom }), { ...payload, initialRoom });
+  assert.equal((await service.requestAdmission('identity-a', { ...payload, randomSeed: 1 })).error.code, 'INVALID_REQUEST');
 });
 
 test('trusted deadline and bounded repair reject malformed inputs before Firestore', async () => {

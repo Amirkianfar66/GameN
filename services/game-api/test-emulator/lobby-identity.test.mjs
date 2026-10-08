@@ -46,7 +46,8 @@ async function read(h, identity, suffix = 'identities/public', { method = 'GET',
 }
 async function harness({ seats = 7 } = {}) {
   let now = 1_600_000_000_000 + ++serial * 100_000_000;
-  const service = createV1Service({ db, clock: () => now, shuffle: items => [...items] });
+  // Keep movement/privacy comparisons deterministic through the server room sampler.
+  const service = createV1Service({ db, clock: () => now, shuffle: items => [...items], randomInitialRoom: () => 'Room A' });
   const [host, display, outsider, ...players] = await Promise.all(Array.from({ length: 10 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: 7 }));
   const base = db.collection('matches').doc(created.matchId);

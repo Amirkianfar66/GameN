@@ -59,7 +59,10 @@ async function read(h, identity, suffix, { method = 'GET', data } = {}) {
 }
 async function harness({ playerCount = 7, humanSeats = [] } = {}) {
   let now = 1_620_000_000_000 + ++serial * 100_000_000;
-  const service = createV1Service({ db, clock: () => now, shuffle: items => [...items] });
+  // Preserve both-room gameplay coverage independently of human request hints or bot seat parity.
+  let roomAssignments = 0;
+  const service = createV1Service({ db, clock: () => now, shuffle: items => [...items],
+    randomInitialRoom: () => roomAssignments++ % 2 === 0 ? 'Room A' : 'Room B' });
   const [host, display, outsider, ...humans] = await Promise.all(Array.from({ length: humanSeats.length + 3 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount }));
   const base = db.collection('matches').doc(created.matchId);

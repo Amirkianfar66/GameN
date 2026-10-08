@@ -30,7 +30,8 @@ after(async () => { await db?.terminate(); if (app) await deleteApp(app); });
 
 async function harness({ hostPlays = false } = {}) {
   let now = 1_610_000_000_000 + ++serial * 100_000_000;
-  const options = { db, clock: () => now, shuffle: items => [...items] };
+  // Supplier and recipient scenarios require the same recorded starting room.
+  const options = { db, clock: () => now, shuffle: items => [...items], randomInitialRoom: () => 'Room A' };
   const service = createV1Service(options), host = await createEmulatorIdentity();
   const players = await Promise.all(Array.from({ length: 7 }, (_, index) => hostPlays && index === 0 ? host : createEmulatorIdentity()));
   const created = success(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: 7 }));

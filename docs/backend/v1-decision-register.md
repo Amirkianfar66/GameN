@@ -18,10 +18,11 @@ This register separates implementation choices from game-rule approval. The game
 | RULE-007 | Code victory evaluation checkpoint | Confirmed: V1-08 in the [owner-approved V1 sheet](v1-rule-decisions-proposal.md) | Implement; affected-role review of shared contracts remains required |
 | RULE-008 | Vote/showdown response deadlines and missing input | Confirmed: V1-09–11, V1-20 in the [owner-approved V1 sheet](v1-rule-decisions-proposal.md) | Implement; affected-role review of shared contracts remains required |
 | RULE-009 | Disconnect, pause and abort policy | Confirmed: V1-12, V1-21 in the [owner-approved V1 sheet](v1-rule-decisions-proposal.md) | Implement; affected-role review of shared contracts remains required |
+| SETUP-001 | Initial Room A/B assignment | Confirmed owner override on 8 October: server assigns each new human admission/bot independently, preserving stored rooms and engine compatibility; see [decision](../decisions/2026-10-08-random-starting-rooms.md) | Implement issue #83; backend-first rollout and affected-role review |
 | RULE-010 | Original Power distribution across 7/8/9 modes and special-shot interactions | Requires audit; initial comparative baseline uses powers off | Game owner with Game Balance |
 
 Confirmed ordinary turns and Standard Hack conversations each last 60 seconds. The owner-approved V1 profile also gives votes, release choice and showdown registration 60-second windows; its full decision overlay is pinned separately from historical sources.
 
-The expanded source audit and scenario expectations live in `docs/balance/`. Link decisions there when resolved and release a new immutable ruleset version when behavior changes.
+The expanded source audit and scenario expectations live in `docs/balance/`. Link decisions there when resolved and release a new immutable ruleset version when engine behavior changes. SETUP-001 is an explicit admission/setup policy override: its later owner decision and service commit identify the change while the engine retains its historical pins for active-game compatibility.
 
 This current register supersedes the immutable bootstrap copy of `docs/decisions.md` for V1-01–V1-21. The bootstrap source lock and original rules manifest remain unchanged.

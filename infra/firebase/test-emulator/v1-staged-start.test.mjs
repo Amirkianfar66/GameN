@@ -59,7 +59,8 @@ async function read(h, identity, suffix, { method = 'GET', data } = {}) {
 }
 async function harness({ playerCount = 7, humanCount = playerCount, admittedCount = humanCount, shuffle = items => [...items] } = {}) {
   let now = 1_600_000_000_000 + ++serial * 100_000_000;
-  const service = createV1Service({ db, clock: () => now, shuffle });
+  // Prepared deals must preserve these server-assigned rooms, regardless of legacy request hints.
+  const service = createV1Service({ db, clock: () => now, shuffle, randomInitialRoom: () => 'Room A' });
   const [host, display, outsider, ...players] = await Promise.all(Array.from({ length: humanCount + 3 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount }));
   const base = db.collection('matches').doc(created.matchId);

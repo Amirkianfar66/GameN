@@ -9,8 +9,7 @@
     "v1RequestAdmission": {
       "protocolVersion": 2,
       "requestId": "synthetic-admission-request",
-      "roomCode": "0123456789AB",
-      "initialRoom": "Room A"
+      "roomCode": "0123456789AB"
     },
     "v1ApproveAdmission": {
       "protocolVersion": 2,
