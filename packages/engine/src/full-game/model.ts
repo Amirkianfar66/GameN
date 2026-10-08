@@ -1,8 +1,21 @@
 import type { FullCommand, FullPhase, FullPublicView, SeatId } from '@mothership/contracts';
 import type { GameSeat, Role, Room } from './roster.js';
-export const FULL_ENGINE_VERSION = 'full-game-1.0.1' as const;
-export const FULL_RULESET_VERSION = 'in-person-v1-2026-10-06' as const;
-export const FULL_RULESET_HASH = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' as const;
+export const FULL_ENGINE_VERSION = 'full-game-1.1.0' as const;
+export const FULL_RULESET_VERSION = 'in-person-v1-pass-2026-10-08' as const;
+export const FULL_RULESET_HASH = 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' as const;
+
+export type FullGameplayVersions = Pick<FullPublicView['versions'], 'protocolVersion' | 'engineVersion' | 'rulesetVersion' | 'rulesetHash'>;
+export const FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const, engineVersion: FULL_ENGINE_VERSION,
+  rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH });
+export const LEGACY_FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const, engineVersion: 'full-game-1.0.1',
+  rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' });
+const sameGameplayVersions = (versions: FullGameplayVersions, pins: FullGameplayVersions): boolean =>
+  versions.protocolVersion === pins.protocolVersion && versions.engineVersion === pins.engineVersion
+  && versions.rulesetVersion === pins.rulesetVersion && versions.rulesetHash === pins.rulesetHash;
+// Support exact reviewed tuples; mixing a new engine with an old ruleset is invalid.
+export const isSupportedFullGameVersions = (versions: FullGameplayVersions): boolean =>
+  sameGameplayVersions(versions, FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, LEGACY_FULL_GAME_VERSION_PINS);
+export const passTurnEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, FULL_GAME_VERSION_PINS);
 export interface FullGameSetup {
   playerCount: 7 | 8 | 9;
   roleOrder: Role[];

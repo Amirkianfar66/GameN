@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {FullCommandRequestSchema,FullReceiptSchema,FullPhaseSchema,FullEventSchema,FULL_PROTOCOL_VERSION,PROTOCOL_VERSION,FullAssetManifestVersionSchema,FullCreateMatchRequestSchema,FullAdmissionRequestSchema,FullApproveAdmissionRequestSchema,FullIssueSeatRecoveryRequestSchema,FullRedeemSeatRecoveryRequestSchema,FullOperationResponseSchema,FullLobbyViewSchema,FullLookupResponseSchema,FullAdvanceResponseSchema,FullPublicViewSchema} from '../../packages/contracts/dist/index.js';
+import {FullCommandSchema,FullCommandRequestSchema,FullReceiptSchema,FullPhaseSchema,FullEventSchema,FULL_PROTOCOL_VERSION,PROTOCOL_VERSION,FullAssetManifestVersionSchema,FullCreateMatchRequestSchema,FullAdmissionRequestSchema,FullApproveAdmissionRequestSchema,FullIssueSeatRecoveryRequestSchema,FullRedeemSeatRecoveryRequestSchema,FullOperationResponseSchema,FullLobbyViewSchema,FullLookupResponseSchema,FullAdvanceResponseSchema,FullPublicViewSchema} from '../../packages/contracts/dist/index.js';
 const base={protocolVersion:2,matchId:'match-v1',phaseId:'neutral-phase-1',commandId:'cmd-1'};
 test('full-game commands use strict protocol 2 envelopes and reject forged authority',()=>{
   assert.equal(PROTOCOL_VERSION,1);assert.equal(FULL_PROTOCOL_VERSION,2);
@@ -8,6 +8,21 @@ test('full-game commands use strict protocol 2 envelopes and reject forged autho
   assert.equal(FullCommandRequestSchema.safeParse(payload).success,true);
   for(const extra of [{actorSeatId:'seat-2'},{now:1},{winner:'Red'},{protocolVersion:1}])assert.equal(FullCommandRequestSchema.safeParse({...payload,...extra}).success,false);
   assert.equal(FullCommandRequestSchema.safeParse({...payload,command:{...payload.command,damage:2}}).success,false);
+});
+test('PASS_TURN is a targetless protocol 2 command with the existing request context',()=>{
+  const command={type:'PASS_TURN'},request={...base,command};
+  assert.deepEqual(FullCommandSchema.parse(command),command);
+  assert.deepEqual(FullCommandRequestSchema.parse(request),request);
+  assert.equal(FullCommandRequestSchema.safeParse({...request,protocolVersion:1}).success,false);
+  for(const type of ['PASS','pass_turn','PASS_TURN ',null])assert.equal(FullCommandSchema.safeParse({type}).success,false);
+});
+test('PASS_TURN rejects target, movement and caller-authority fields rather than stripping them',()=>{
+  const command={type:'PASS_TURN'},request={...base,command};
+  for(const extra of [{targetSeatId:'seat-1'},{targetSeatIds:['seat-1','seat-2']},{destination:'Room A'},{uid:'forged-uid'},{actorSeatId:'seat-1'},{now:10},{force:true}]){
+    assert.equal(FullCommandSchema.safeParse({...command,...extra}).success,false);
+    assert.equal(FullCommandRequestSchema.safeParse({...request,command:{...command,...extra}}).success,false);
+  }
+  for(const extra of [{uid:'forged-uid'},{actorSeatId:'seat-1'},{now:10},{engineVersion:'full-game-1.1.0'}])assert.equal(FullCommandRequestSchema.safeParse({...request,...extra}).success,false);
 });
 test('full-game Code and Supplier payloads require distinct fixed sets',()=>{
   assert.equal(FullCommandRequestSchema.safeParse({...base,command:{type:'SUPPLY',targetSeatIds:['seat-1','seat-1']}}).success,false);

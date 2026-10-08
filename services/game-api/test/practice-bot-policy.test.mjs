@@ -5,7 +5,7 @@ import {
   PRACTICE_BOT_POLICY_VERSION, FullPracticeBotsDocumentSchema, FullSetPracticeBotsRequestSchema,
   FullSetPracticeBotsResponseSchema, FullPracticeBotsErrorCodeSchema,
 } from '../../../packages/contracts/dist/practice-bots.js';
-import { createFullGame, projectFullGame, executeFullGame } from '@mothership/engine';
+import { createFullGame, projectFullGame, executeFullGame, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { choosePracticeBotActions, PRACTICE_BOT_RULESET_VERSION, PRACTICE_BOT_RULESET_HASH } from '../dist/practice-bot-policy.js';
 
 const seats = count => Array.from({ length: count }, (_, index) => `seat-${index + 1}`);
@@ -235,4 +235,35 @@ test('strict policy boundary rejects authoritative state, extra facts, wrong aud
   assert.deepEqual(choosePracticeBotActions(unknown), choosePracticeBotActions(view));
   assert.equal(PRACTICE_BOT_RULESET_VERSION, state.versions.rulesetVersion);
   assert.equal(PRACTICE_BOT_RULESET_HASH, state.versions.rulesetHash);
+});
+
+for (const [label, pins] of [['current', FULL_GAME_VERSION_PINS], ['legacy', LEGACY_FULL_GAME_VERSION_PINS]]) {
+  test(`practice policy supports exact ${label} pins without automatically passing a turn`, () => {
+    for (const count of [7, 8, 9]) for (const kind of ['ORDINARY_TURN', 'HACK', 'CAPTAIN_ELECTION', 'JAIL_VOTE', 'RELEASE_CHOICE', 'RELEASE_VOTE', 'SHOWDOWN', 'FINISHED', 'ABORTED']) {
+      const state = stateFor(count, kind);
+      state.versions = { ...pins, assetManifestVersion: state.versions.assetManifestVersion };
+      state.eligibleVoters = seats(count); state.eligibleTargets = ['seat-2'];
+      const view = own(state);
+      const before = structuredClone(view), actions = choosePracticeBotActions(view);
+      assert.deepEqual(actions, choosePracticeBotActions(view)); assert.deepEqual(view, before);
+      assert.equal(actions.some(command => command.type === 'PASS_TURN'), false, `${count}/${kind}/${label}`);
+      actions.forEach(command => FullCommandSchema.parse(command));
+      if (kind === 'ORDINARY_TURN') {
+        assert.deepEqual(view.legalTargets.PASS_TURN, label === 'current' ? ['seat-1'] : undefined);
+        assert.ok(type(actions, 'MOVE'), 'Existing practice actions remain available');
+        execute(state, 'seat-1', type(actions, 'MOVE'));
+        const noWork = structuredClone(view); noWork.legalTargets = {}; noWork.self.movementDestinations = [];
+        assert.deepEqual(choosePracticeBotActions(noWork), [], 'An idle bot waits for its deadline');
+      }
+    }
+  });
+}
+
+test('practice policy rejects mixed supported tuples rather than silently promoting legacy rules', () => {
+  const view = own(stateFor());
+  for (const patch of [{ engineVersion: LEGACY_FULL_GAME_VERSION_PINS.engineVersion },
+    { rulesetVersion: LEGACY_FULL_GAME_VERSION_PINS.rulesetVersion, rulesetHash: LEGACY_FULL_GAME_VERSION_PINS.rulesetHash },
+    { engineVersion: 'full-game-1.0.0' }]) {
+    assert.throws(() => choosePracticeBotActions({ ...view, versions: { ...view.versions, ...patch } }), /Unsupported practice ruleset/);
+  }
 });
