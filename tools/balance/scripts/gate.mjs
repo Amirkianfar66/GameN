@@ -25,9 +25,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ENGINE_COMMIT_BASIS, gateProblems } from '@mothership/balance';
 import { ADAPTER_NAME } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
-import { EXCEPTIONS_PATH, SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, V1_RULESET_VERSION, loadAll, loadExceptions } from '../../../tests/scenarios/v1/files.mjs';
+import { EXCEPTIONS_PATH, SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, loadAll, loadExceptions } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { V1_MANIFEST_PATH, root, sourceHashes } from './pins.mjs';
+import { ENGINE_PINS, ADDITIONAL_OWNER_OVERLAYS } from '../../../scripts/test-balance-reports.mjs';
 
 const usage = message => {
   console.error(`Balance report gate: NOT CHECKED. ${message}`);
@@ -80,7 +81,9 @@ if (catalogue !== null && onDisk !== null) {
     candidateCommit: values['candidate-commit'],
     allowUnpinnedTree: flags['allow-unpinned-tree'],
     adapter: ADAPTER_NAME,
-    rulesetVersion: V1_RULESET_VERSION,
+    rulesetVersion: ENGINE_PINS.rulesetVersion,
+    engineRulesetHash: ENGINE_PINS.rulesetHash,
+    additionalOwnerOverlayHashes: ADDITIONAL_OWNER_OVERLAYS,
     overlaySha256: V1_OVERLAY_SHA256,
     sourceManifestSha256: SOURCE_MANIFEST_SHA256,
     v1Manifest: manifestAtHand ? { sha256: onDisk.v1ManifestSha256 } : null,

@@ -45,6 +45,10 @@ export interface GateExpectations {
   // itself in this place, and is not evidence about an engine.
   adapter: string;
   rulesetVersion: string;
+  // Defaults preserve validation of historical reports. Current runtime gates name both
+  // the current ruleset and every required additive owner overlay explicitly.
+  engineRulesetHash?: string;
+  additionalOwnerOverlayHashes?: Record<string, string>;
   // The approved owner decision and the pinned rule-source manifest. Two separate pins.
   overlaySha256: string;
   sourceManifestSha256: string;
@@ -133,9 +137,10 @@ function pinProblems(label: string, report: Json, expected: GateExpectations): s
   else {
     if (engine['adapter'] !== expected.adapter) say(`the run was made through "${String(engine['adapter'])}", not through the engine binding ${expected.adapter} alone`);
     if (engine['rulesetVersion'] !== expected.rulesetVersion) say(`the engine reports ruleset ${String(engine['rulesetVersion'])}, not ${expected.rulesetVersion}`);
-    if (engine['rulesetHash'] !== expected.overlaySha256) say('the engine reports a ruleset hash that is not the approved owner decision');
+    if (engine['rulesetHash'] !== (expected.engineRulesetHash ?? expected.overlaySha256)) say('the engine reports a ruleset hash that is not the approved owner decision');
   }
   if (pins['engineCommit'] !== expected.engineCommit) say(`the engine commit is ${String(pins['engineCommit'])}, not ${expected.engineCommit}`);
+  if (expected.additionalOwnerOverlayHashes !== undefined && !deepEqual(pins['additionalOwnerOverlayHashes'], expected.additionalOwnerOverlayHashes)) say('the additional owner decisions are missing or differ from the approved hashes');
   if (pins['v1OverlaySha256'] !== expected.overlaySha256) say('the owner-decision file beside the engine is missing or is not the approved one');
   // An absent pin is a failure, not an agreement: three reports without the manifest prove nothing about it.
   if (!isHash(pins['v1ManifestSha256'])) say('the combined Version 1 manifest was not found beside the engine');

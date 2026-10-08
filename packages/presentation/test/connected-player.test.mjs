@@ -238,7 +238,7 @@ const TARGET_ACTIONS = {
 const listing = (command, seats) => view => { view.legalTargets = { ...view.legalTargets, [command]: seats }; };
 
 test('the actions the phone can offer are a fixed list, and each one that names a seat reads its targets from the view under its own command', () => {
-  assert.deepEqual(ACTION_KINDS, ['move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote']);
+  assert.deepEqual(ACTION_KINDS, ['pass', 'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote']);
   assert.deepEqual(TARGET_ACTION_COMMANDS, { shot: 'REGISTER_SHOT', disable: 'DISABLE', protect: 'PROTECT', rescue: 'RESCUE', hack: 'REQUEST_HACK', 'showdown-shot': 'SHOWDOWN_SHOT' });
   for (const kind of ACTION_KINDS) assert.equal(isActionKind(kind), true);
   for (const other of ['jump', 'SCAN', 'VOTE', 'MOVE', '', null, undefined, 3]) assert.equal(isActionKind(other), false, String(other));

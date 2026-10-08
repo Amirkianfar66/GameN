@@ -9,7 +9,7 @@ import {
   FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityResponseSchema, FullSetPracticeBotsResponseSchema,
   FullPublicViewSchema, FullPlayerViewSchema, FullReceiptSchema, OwnAcknowledgmentsSchema, FullAdvanceResponseSchema,
 } from '@mothership/contracts';
-import { createFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
+import { createFullGame, projectFullGame, projectOwnAcknowledgments, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { createV1Service } from '../../../services/game-api/dist/index.js';
 import { decodeV1State, decodeV1Setup, encodeV1State } from '../../../services/game-api/dist/full-game.js';
 import { encodeFirestoreValue } from '../test/helpers.mjs';
@@ -575,7 +575,10 @@ test('choosing timeout racing a late confirmation cannot accept a choice outside
 test('legacy running state without setup documents retains strict gameplay projections and canonical behavior', async () => {
   const h = await harness(); const seatIds = h.players.map((_, i) => 'seat-' + (i + 1));
   const setup = { playerCount: 7, roleOrder: ['Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'], codeExtraSeatIds: ['seat-1', 'seat-2', 'seat-3'], initialRooms: Object.fromEntries(seatIds.map((id, i) => [id, i % 2 ? 'Room B' : 'Room A'])), roundOrders: Array.from({ length: 5 }, () => [...seatIds]) };
-  const state = createFullGame({ matchId: h.base.id, setup, now: h.now(), phaseId: randomUUID(), deadlineToken: randomUUID(), assetManifestVersion: 'legacy-test' }), views = projectFullGame(state);
+  const versions = { ...LEGACY_FULL_GAME_VERSION_PINS, assetManifestVersion: 'legacy-test' };
+  const state = createFullGame({ matchId: h.base.id, setup, now: h.now(), phaseId: randomUUID(), deadlineToken: randomUUID(), assetManifestVersion: 'legacy-test', versions }), views = projectFullGame(state);
+  assert.deepEqual(state.versions, versions);
+  for (const view of Object.values(views.players)) assert.equal(Object.hasOwn(view.legalTargets, 'PASS_TURN'), false);
   const { lifecycleVersion: _lifecycle, gameStarted: _started, ...legacyControl } = (await h.base.collection('control').doc('session').get()).data();
   const batch = db.batch(); batch.delete(h.base.collection('setup').doc('public')); batch.delete(h.base.collection('setup').doc('deal'));
   batch.set(h.base.collection('engine').doc('current'), encodeV1State(state)); batch.set(h.base.collection('control').doc('session'), { ...legacyControl, status: 'running' });
@@ -588,5 +591,8 @@ test('legacy running state without setup documents retains strict gameplay proje
   assert.equal((await read(h, h.players[1], 'playerViews/' + h.players[0].uid)).status, 403);
   const response = await h.service.submit(h.players[0].uid, { protocolVersion: 2, matchId: h.base.id, phaseId: state.phase.id, commandId: randomUUID(), command: { type: 'MOVE', destination: 'Room B' } });
   assert.equal(response.ok, true); FullReceiptSchema.parse(response.receipt); assert.equal(response.receipt.status, 'accepted');
-  assert.equal((await h.state()).seats[0].location, 'Room B'); assert.equal((await h.base.collection('setup').doc('public').get()).exists, false);
+  const after = await h.state();
+  assert.deepEqual(after.versions, versions);
+  for (const view of Object.values(projectFullGame(after).players)) assert.equal(Object.hasOwn(view.legalTargets, 'PASS_TURN'), false);
+  assert.equal(after.seats[0].location, 'Room B'); assert.equal((await h.base.collection('setup').doc('public').get()).exists, false);
 });

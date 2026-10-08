@@ -4,6 +4,7 @@ import { before, after, test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { createV1Service } from '../dist/index.js';
+import { FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { decodeV1Setup, decodeV1State } from '../dist/full-game.js';
 import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullLobbyViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, createEmulatorIdentity } from '../../../infra/firebase/test/helpers.mjs';
@@ -81,8 +82,7 @@ test('server room draws ignore legacy choices and persist through approval, stag
   assert.deepEqual(state.setup.initialRooms, expected);
   assert.deepEqual(Object.fromEntries(state.seats.map(seat => [seat.seatId, seat.location])), expected);
   assert.equal(state.phase.endsAt - state.phase.startedAt, 60_000);
-  assert.equal(state.versions.protocolVersion, 2); assert.equal(state.versions.engineVersion, 'full-game-1.0.1');
-  assert.equal(state.versions.rulesetVersion, 'in-person-v1-2026-10-06');
+  for (const [key, value] of Object.entries(FULL_GAME_VERSION_PINS)) assert.equal(state.versions[key], value);
   await recover(h, 'seat-3');
   assert.deepEqual(decodeV1State((await h.base.collection('engine').doc('current').get()).data()), state, 'Running recovery cannot re-roll rooms or gameplay');
   assert.equal(h.draws(), 7); assert.ok(h.shuffles() > 0);

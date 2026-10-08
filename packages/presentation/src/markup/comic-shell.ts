@@ -2,7 +2,7 @@ import type { OwnAcknowledgments, FullPracticeBotsDocument } from '@mothership/c
 import type { ConnectedPlayerShellModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupElement, MarkupNode } from './node.js';
-import { renderConnectedPlayerShell } from './connected-player.js';
+import { renderConnectedActionCard, renderConnectedPlayerShell } from './connected-player.js';
 import { renderTableShell } from './table-shell.js';
 import { hiddenText, renderZones } from './parts.js';
 
@@ -81,7 +81,10 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   const footer = source.children.find(child => isElement(child) && classHas(child, 'ms-footer')) as MarkupElement;
   const sourceBanners = (source.children.find(child => isElement(child) && classHas(child, 'ms-banners')) as MarkupElement).children.filter(child => isElement(child) && classHas(child, 'ms-banner--data-source'));
   const nav = h('div', { role: 'navigation', class: 'phone-nav', 'aria-label': 'Game navigation', 'data-region': 'phone-navigation' },
-    (['board', 'actions', 'role', 'more'] as const).map(view => h('button', {
+    (['board', 'actions', 'pass', 'role', 'more'] as const).map(view => view === 'pass' ? h('button', {
+      type: 'button', id: 'ms-phone-pass', 'data-intent': 'action/pass', class: 'phone-pass',
+      'aria-label': 'Pass — end your turn', disabled: !match.passTurn.available,
+    }, h('span', { class: 'phone-nav__icon phone-nav__icon--pass', 'aria-hidden': 'true' }), h('span', null, 'Pass')) : h('button', {
       type: 'button', id: view === 'role' ? 'ms-private-toggle' : `ms-phone-${view}`,
       'data-phone-view': view, 'aria-pressed': String(phoneView === view),
       'aria-label': view === 'role' ? 'Private card' : view === 'more' ? 'Menu' : view === 'actions' ? 'Actions' : 'Board',
@@ -92,6 +95,43 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     h('span', null, view === 'more' ? 'Menu' : view === 'role' ? 'Card' : view === 'actions' ? 'Actions' : 'Board'))));
   const ownCharacter = character(identityFor(context, match.identity.seatId)?.characterId);
   const privateContent = match.privateArea.content;
+  const card = phoneView === 'actions' && !match.result ? privateContent?.actions.card : undefined;
+  const dockedAction = card !== undefined && card.body.step !== 'idle';
+  const choosing = card?.body.step === 'choosing' ? card.body : null;
+  const targetChoices = choosing?.choices.filter(choice => choice.number !== null) ?? [];
+  const pickedSeats = choosing?.pickedSeatIds ?? [];
+  const passCard = phoneView === 'board' && !match.privateArea.open && !match.result ? match.passTurn.card : null;
+  // Selection cues live only on this player's explicitly open action surface. The shared
+  // display and the ordinary public board never receive legal targets or picks.
+  function boardControls(node: MarkupNode): MarkupNode {
+    if (!isElement(node)) return node;
+    const seatId = String(node.attrs['data-seat'] ?? '');
+    if (classHas(node, 'ms-seat') && choosing) {
+      const choice = targetChoices.find(item => item.value === seatId);
+      const picked = pickedSeats.indexOf(seatId as typeof pickedSeats[number]);
+      if (choice) return { ...node, attrs: { ...node.attrs, 'data-board-target': 'eligible' }, children: [
+        ...node.children, h('button', { type: 'button', class: 'phone-character-target', id: choice.id,
+          'data-intent': 'action/choose', 'data-value': choice.value, 'aria-describedby': 'ms-action-step',
+          'aria-label': `Select ${choice.label}${identityFor(context, seatId)?.displayName ? `, ${identityFor(context, seatId)!.displayName}` : ''}`,
+        }, hiddenText('Select')),
+      ] };
+      if (picked >= 0) return { ...node, attrs: { ...node.attrs, 'data-board-target': 'picked' }, children: [
+        ...node.children, h('span', { class: 'phone-pick-order', 'aria-label': `Selected ${picked + 1}` }, String(picked + 1)),
+      ] };
+    }
+    return { ...node, children: node.children.map(boardControls) };
+  }
+  function compactCard(node: MarkupNode): MarkupNode {
+    if (!isElement(node)) return node;
+    // Seat buttons are the illustrated characters on the board. Faction/yes/no/abstain
+    // answers still belong in this compact strip, as do Back and explicit confirmation.
+    if (classHas(node, 'ms-targets')) return { ...node, children: node.children.filter(child =>
+      !isElement(child) || !child.children.some(button => isElement(button) && /^seat-[1-9]$/u.test(String(button.attrs['data-value'])))) };
+    if (node.attrs.id === 'ms-action-step' && targetChoices.length > 0) {
+      return { ...node, children: [`${card!.title} · Tap a character${pickedSeats.length ? ` (${pickedSeats.length} selected)` : ''}`] };
+    }
+    return { ...node, children: node.children.map(compactCard) };
+  }
   const active = match.roster.zones.flatMap(zone => zone.seats).find(seat => seat.isActive);
   const activeName = active ? identityFor(context, active.seatId)?.displayName : null;
   const turnLine = active ? active.isSelf ? 'Your turn' : `${activeName ?? active.label}’s turn` : match.phase.phaseLabel;
@@ -109,7 +149,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   }
   const board = h('section', { class: 'ms-panel ms-board', 'aria-labelledby': 'ms-comic-board-heading', 'data-region': 'comic-board' },
     h('h2', { class: 'ms-panel__heading', id: 'ms-comic-board-heading' }, 'The ship'),
-    roomLabels(renderZones(match.roster.zones, 'ms-comic-zone')));
+    boardControls(roomLabels(renderZones(match.roster.zones, 'ms-comic-zone'))));
   function visit(node: MarkupNode): MarkupNode {
     if (!isElement(node)) return node;
     if (classHas(node, 'ms-offers')) {
@@ -126,6 +166,10 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     if (classHas(node, 'ms-private')) {
       if (match!.result) return h('div', { 'data-region': 'private' });
+      if (dockedAction && card) return h('section', { class: 'ms-private phone-action-dock',
+        'data-region': 'private', 'data-open': 'true', 'aria-labelledby': 'ms-private-heading', 'data-focus-fallback': 'ms-phone-actions',
+      }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
+      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null, h('div', { class: 'ms-actions' }, compactCard(renderConnectedActionCard(card)))));
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
@@ -159,6 +203,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       children = children.filter(child => child !== location && child !== roster && child !== vote);
       const privateIndex = children.findIndex(child => isElement(child) && child.attrs['data-region'] === 'private');
       children.splice(privateIndex, 0, board);
+      if (passCard) children.push(h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderConnectedActionCard(passCard)));
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
       children.push(h('section', { id: 'phone-menu-panel', class: 'phone-menu', hidden: phoneView !== 'more', 'aria-labelledby': 'phone-menu-heading' },
@@ -169,7 +214,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };
   const rendered = decoratePublic(withPracticeNotice(visit(source), current), current) as MarkupElement;
-  return { ...rendered, attrs: { ...rendered.attrs, 'data-phone-view': phoneView } };
+  return { ...rendered, attrs: { ...rendered.attrs, 'data-phone-view': phoneView, 'data-action-dock': String(dockedAction || passCard !== null) } };
 }
 
 export function renderComicTableShell(model: TableShellModel, context: ComicContext = {}): MarkupElement {

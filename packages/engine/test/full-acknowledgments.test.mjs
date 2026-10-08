@@ -52,7 +52,7 @@ for (const playerCount of [7, 8, 9]) {
   test(`${playerCount}-player Supply result is durable, private and separate from existing views`, () => {
     const d = driver(playerCount);
     const before = structuredClone(d.initial);
-    assert.equal(FULL_ENGINE_VERSION, 'full-game-1.0.1');
+    assert.equal(FULL_ENGINE_VERSION, 'full-game-1.1.0');
     assert.equal(d.initial.versions.engineVersion, FULL_ENGINE_VERSION);
     assert.deepEqual(d.initial.supplierGrantResults, []);
     const submitted = registered(d);

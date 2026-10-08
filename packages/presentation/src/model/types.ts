@@ -131,9 +131,10 @@ export type ReleaseVoteKind = 'release-vote';
  * seat and a guessed faction, a Supply names two seats, a Code attempt names four.
  */
 export type CompoundActionKind = 'scan' | 'supply' | 'code';
-export type ActionKind = 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
+export type ActionKind = 'pass' | 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
+  | { readonly kind: 'pass' }
   | { readonly kind: 'move'; readonly destination: Destination }
   | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId }
   | { readonly kind: SeatBallotKind; readonly targetSeatId: SeatId | null }
@@ -188,6 +189,7 @@ export type ShellIntent =
   | { readonly type: 'shot/confirm' }
   | { readonly type: 'shot/check-again' }
   | { readonly type: 'shot/dismiss' }
+  | { readonly type: 'action/pass' }
   | { readonly type: 'action/open'; readonly kind: ActionKind }
   /** value names a destination, a seat or an answer, exactly as the control carried it. The screen checks it against what is offered. */
   | { readonly type: 'action/choose'; readonly value: string }
@@ -463,6 +465,8 @@ export type ConnectedActionBody =
     readonly step: 'choosing'; readonly prompt: string; readonly note: string; readonly choices: readonly ActionChoiceModel[]; readonly back: CardButtonModel;
     /** What has been picked so far of a choice that has several parts, in words; null when nothing has. */
     readonly progress: string | null;
+    /** Private picks, used only while the player is explicitly choosing on their own board. */
+    readonly pickedSeatIds: readonly SeatId[];
   }
   | { readonly step: 'confirming'; readonly prompt: string; readonly consequence: string; readonly confirm: CardButtonModel; readonly back: CardButtonModel }
   | { readonly step: 'busy'; readonly text: string }
@@ -509,6 +513,8 @@ export interface ConnectedPrivateAreaModel {
 }
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
+  /** Ending your own turn is role-neutral; it does not require revealing the private card. */
+  readonly passTurn: { readonly available: boolean; readonly card: ConnectedActionCardModel | null };
   readonly privateArea: ConnectedPrivateAreaModel;
   /** The public facts of a vote, the same on every phone and on the shared display. */
   readonly vote: VotePanelModel | null;

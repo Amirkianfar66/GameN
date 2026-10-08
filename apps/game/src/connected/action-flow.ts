@@ -83,6 +83,8 @@ export interface ActionFlow {
   observe(context: ActionFlowContext): void;
   // Each returns whether it changed anything. None of them notifies.
   open(kind: ActionKind): boolean;
+  /** End the active ordinary turn without opening private information. */
+  pass(): boolean;
   /** One part of a choice, by the name its control carries. When the choice is whole the flow moves on to confirming it. */
   pick(value: string): boolean;
   /** A whole choice at once. */
@@ -158,6 +160,7 @@ export function offeredChoices(view: FullPlayerView, kind: ActionKind): ActionCh
 /** The wire command a choice stands for. The shared strict schema judges it before anything is sent. */
 function commandOf(choice: ActionChoice): unknown {
   switch (choice.kind) {
+    case 'pass': return { type: 'PASS_TURN' };
     case 'move': return { type: 'MOVE', destination: choice.destination };
     case 'vote':
     case 'release-choice': return { type: SEAT_BALLOT_COMMANDS[choice.kind], targetSeatId: choice.targetSeatId };
@@ -483,6 +486,29 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
     return request.success ? request.data : null;
   }
 
+  /** Persist identifiers before sending; a direct Pass has the same receipt/reload guarantees. */
+  function submit(choice: ActionChoice, phaseId: string): boolean {
+    const request = buildRequest(phaseId, choice);
+    if (request === null) {
+      state = { step: 'not-accepted', ids: null, choice, reason: 'NOT_SENT' };
+      arm();
+      return true;
+    }
+    const pending: Pending = { ids: { matchId: options.matchId, seatId: options.seatId, phaseId, commandId: request.commandId }, request, choice, round: 0, unanswered: false, out: 0 };
+    // Before sending, and only if it really is kept: a command this device could not ask
+    // about after a reload is not sent at all.
+    if (!keep(pending.ids)) {
+      forget();
+      state = { step: 'not-accepted', ids: null, choice, reason: 'NOT_RECORDED' };
+      arm();
+      return true;
+    }
+    state = { step: 'submitting', pending };
+    if (ports.clock.now() < notBefore) holdFirst(pending, request);
+    else void sendFirst(pending, request);
+    return true;
+  }
+
   // A command whose outcome was unknown when the page was last unloaded.
   const kept = recall();
   if (kept === null) {
@@ -559,7 +585,14 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
       }
     },
 
+    pass() {
+      const settled = (state.step === 'accepted' || state.step === 'rejected' || state.step === 'not-accepted') && isArmed();
+      if (disposed || (state.step !== 'idle' && !settled) || !context.foreground || !context.current || !context.inTime
+        || context.view === null || !offered({ kind: 'pass' })) return false;
+      return submit({ kind: 'pass' }, context.view.phase.id);
+    },
     open(kind) {
+      if (kind === 'pass') return false;
       if (disposed || state.step !== 'idle' || !canAct() || context.view === null) return false;
       if (openness(context.view, kind) !== 'open') return false;
       state = { step: 'choosing', kind, picked: [], phaseId: context.view.phase.id };
@@ -599,25 +632,7 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
       // is sent later is that same request again, to find out what became of it.
       if (disposed || state.step !== 'confirming' || !isArmed() || !canAct() || !offered(state.choice)) return false;
       const { choice, phaseId } = state;
-      const request = buildRequest(phaseId, choice);
-      if (request === null) {
-        state = { step: 'not-accepted', ids: null, choice, reason: 'NOT_SENT' };
-        arm();
-        return true;
-      }
-      const pending: Pending = { ids: { matchId: options.matchId, seatId: options.seatId, phaseId, commandId: request.commandId }, request, choice, round: 0, unanswered: false, out: 0 };
-      // Before sending, and only if it really is kept: a command this device could not ask
-      // about after a reload is not sent at all.
-      if (!keep(pending.ids)) {
-        forget();
-        state = { step: 'not-accepted', ids: null, choice, reason: 'NOT_RECORDED' };
-        arm();
-        return true;
-      }
-      state = { step: 'submitting', pending };
-      if (ports.clock.now() < notBefore) holdFirst(pending, request);
-      else void sendFirst(pending, request);
-      return true;
+      return submit(choice, phaseId);
     },
     checkAgain() {
       if (disposed || state.step !== 'unknown' || !isArmed()) return false;

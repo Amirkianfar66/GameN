@@ -854,3 +854,16 @@ test('reports about another engine, other files or an unpinned tree fail the gat
   assert.ok(judge(cleanReports(), { candidateCommit: 'HEAD' }).some(problem => /candidate commit must be a full commit hash/.test(problem)));
   assert.ok(judge(cleanReports(), { playoutsPerMode: 0 }).some(problem => /whole number of at least 1/.test(problem)));
 });
+
+
+test('a current runtime gate requires its additive owner decisions while retaining the catalogue overlay', () => {
+  const reports=cleanReports();
+  const additions={'rules/overlays/example-runtime-owner-decision.json':'f'.repeat(64)};
+  const expected={rulesetVersion:'runtime-with-addition',engineRulesetHash:'e'.repeat(64),additionalOwnerOverlayHashes:additions};
+  everyReport(reports, report=>{report.pins.engine.rulesetVersion=expected.rulesetVersion;report.pins.engine.rulesetHash=expected.engineRulesetHash;report.pins.additionalOwnerOverlayHashes=additions;});
+  assert.deepEqual(judge(reports,expected),[]);
+  delete reports.controls.pins.additionalOwnerOverlayHashes;
+  assert.ok(judge(reports,expected).some(problem=>/additional owner decisions/.test(problem)));
+  reports.controls.pins.additionalOwnerOverlayHashes={'rules/overlays/example-runtime-owner-decision.json':'a'.repeat(64)};
+  assert.ok(judge(reports,expected).some(problem=>/additional owner decisions/.test(problem)));
+});

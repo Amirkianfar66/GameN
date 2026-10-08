@@ -191,7 +191,16 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       return;
     }
     const control = event.target instanceof Element ? event.target.closest('button[data-intent]') : null;
-    if (control === null || !root.contains(control)) return;
+    if (control === null || !root.contains(control) || control.disabled) return;
+    if (control.dataset.intent === 'action/pass') {
+      if (!screen.getFrame().model.match?.passTurn.available) return;
+      phoneView = 'board'; phoneNotice = null;
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      phoneFocus = '#ms-action-step';
+      screen.dispatch({ type: 'action/pass' });
+      draw();
+      return;
+    }
     const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat, kind: control.dataset.kind, value: control.dataset.value });
     if (intent !== null) { phoneNotice = null; screen.dispatch(intent); }
   }

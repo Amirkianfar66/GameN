@@ -117,6 +117,11 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
         if (model.match === null || !local.pageVisible) return null;
         return { local: { ...local, privateRevealed: !local.privateRevealed } };
       }
+      if (intent.type === 'action/pass') return local.pageVisible && model.match?.passTurn.available && flow.pass() ? {} : null;
+      // The neutral Pass receipt can be checked or dismissed with the private card closed.
+      if (local.pageVisible && model.match?.passTurn.card && (intent.type === 'action/check-again' || intent.type === 'action/dismiss')) {
+        return applyActionIntent(flow, intent) === true ? {} : null;
+      }
       // An action control exists only inside the open private panel. An intent that names one
       // while the panel is closed did not come from the screen as it stands.
       if (model.match?.privateArea.content == null) return null;

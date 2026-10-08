@@ -76,6 +76,15 @@
       "protocolVersion": 2,
       "matchId": "synthetic-match",
       "phaseId": "synthetic-phase",
+      "commandId": "synthetic-command-pass",
+      "command": {
+        "type": "PASS_TURN"
+      }
+    },
+    {
+      "protocolVersion": 2,
+      "matchId": "synthetic-match",
+      "phaseId": "synthetic-phase",
       "commandId": "synthetic-command-1",
       "command": {
         "type": "MOVE",

@@ -62,7 +62,7 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .ms-board .ms-seat { width:var(--ms-piece); max-width:100%; min-width:0; flex:none; }
 #app .ms-shell--player .ms-board .ms-seat__name { font-size:.6rem; line-height:1.15; max-inline-size:calc(100% + .5rem); }
 #app .ms-shell--player .ms-board .ms-seat__player { max-width:100%; }
-.phone-nav { grid-column:1; grid-row:3; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; padding:.2rem 0 max(.3rem,env(safe-area-inset-bottom)); min-height:60px; border-top:1px solid var(--ms-color-steel-mid); background:var(--ms-color-canvas); }
+.phone-nav { grid-column:1; grid-row:3; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; padding:.2rem 0 max(.3rem,env(safe-area-inset-bottom)); min-height:60px; border-top:1px solid var(--ms-color-steel-mid); background:var(--ms-color-canvas); }
 .phone-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; min-height:48px; min-width:44px; padding:.25rem; border:0; background:transparent; color:var(--ms-color-text-secondary); font:inherit; font-size:.65rem; box-shadow:none; border-radius:8px; }
 .phone-nav button[aria-pressed=true] { color:var(--ms-color-caption); background:var(--ms-color-panel); }
 .phone-nav button:disabled { opacity:.4; }
@@ -162,3 +162,67 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 .phone-room-move { min-height:44px; min-width:88px; padding:0 .25rem; border:0; background:transparent; color:inherit; font:inherit; text-transform:inherit; cursor:pointer; }
 .phone-room-move:focus-visible, .phone-panel-close:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:2px; }
 #app .ms-shell--player .ms-board .ms-zone:has(.phone-room-move) { padding-top:3.2rem; }
+
+
+/* Actions use the board itself. The compact strip gets its own row, so it never covers
+   characters in Hospital/Jail or moves a player to a separate target list. */
+#app .ms-shell--player[data-action-dock=true] .ms-main { grid-template-rows:auto minmax(0,1fr) auto auto; }
+#app .ms-shell--player[data-action-dock=true] .phone-nav { grid-row:4; }
+#app .ms-shell--player .phone-action-dock,
+#app .ms-shell--player .ms-private.phone-action-dock[data-open=true] {
+  grid-column:1; grid-row:3; align-self:stretch; min-height:0; height:auto; max-height:34dvh;
+  overflow:auto; padding:.45rem .6rem; border:1px solid var(--ms-color-steel-mid);
+  border-radius:12px; background:var(--ms-color-panel); box-shadow:none;
+}
+#app .ms-shell--player .phone-action-dock .ms-card { padding:0; margin:0; border:0; background:transparent; }
+#app .ms-shell--player .phone-action-dock :is(.ms-card__title,.ms-card__status,.ms-card__state > .ms-card__text:not(.ms-card__busy)) {
+  position:absolute; width:1px; height:1px; padding:0; margin:0; overflow:hidden; clip-path:inset(50%);
+}
+#app .ms-shell--player .phone-action-dock :is(.ms-card__prompt,.ms-card__result,.ms-card__busy) { margin:0; font-size:.85rem; line-height:1.3; }
+#app .ms-shell--player .phone-action-dock .ms-card__controls { display:flex; gap:.5rem; margin:.4rem 0 0; }
+#app .ms-shell--player .phone-action-dock .ms-card__controls .ms-button { flex:1; min-height:44px; padding:.35rem .5rem; font-size:.8rem; }
+#app .ms-shell--player .phone-action-dock .ms-targets { display:flex; gap:.4rem; margin:.4rem 0 0; }
+#app .ms-shell--player .phone-action-dock .ms-targets:empty { display:none; }
+#app .ms-shell--player .phone-action-dock .ms-targets > li { flex:1; }
+#app .ms-shell--player .phone-action-dock .ms-target { width:100%; min-height:44px; font-size:.8rem; }
+#app .ms-shell--player .ms-board .ms-seat[data-board-target] { position:relative; }
+.phone-character-target {
+  display:block; position:absolute; inset:0; width:100%; height:100%; min-width:44px; min-height:44px;
+  aspect-ratio:1; margin:0; padding:0; border:0; border-radius:10px; background:transparent;
+  color:inherit; font:inherit; cursor:pointer; outline:2px solid var(--ms-color-caption); outline-offset:3px;
+}
+.phone-character-target:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:4px; }
+.phone-pick-order { position:absolute; top:-.35rem; right:-.3rem; z-index:2; min-width:1.15rem; padding:.1rem; border-radius:50%; background:var(--ms-color-caption); color:var(--ms-color-ink); font-size:.7rem; font-weight:bold; text-align:center; }
+#app .ms-shell--player .ms-seat[data-board-target=picked] { outline:2px solid var(--ms-color-caption); outline-offset:3px; border-radius:10px; }
+.phone-nav .phone-pass:not(:disabled) { background:var(--ms-color-caption); color:var(--ms-color-ink); }
+.phone-nav__icon--pass { background:currentColor; clip-path:polygon(12% 10%,65% 50%,12% 90%,12% 10%,76% 10%,90% 10%,90% 90%,76% 90%,76% 10%); }
+
+#app .ms-shell--player .phone-action-dock .ms-card { color:var(--ms-color-text); box-shadow:none; outline:0; transform:none; gap:0; }
+#app .ms-shell--player .phone-action-dock .ms-card__state { display:flex; flex-wrap:wrap; gap:0 .4rem; }
+#app .ms-shell--player .phone-action-dock :is(.ms-card__prompt,.ms-card__result,.ms-card__busy) { flex-basis:100%; }
+#app .ms-shell--player .phone-action-dock .ms-targets { flex:3; }
+#app .ms-shell--player .phone-action-dock .ms-card__controls { flex:1; }
+#app .ms-shell--player .ms-board .ms-zone:not(:has(.ms-seats)) { padding:.2rem; }
+#app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone { padding-bottom:.7rem; }
+.phone-character-target { left:50%; right:auto; width:max(44px,100%); transform:translateX(-50%); }
+@media (max-height:650px) {
+  /* On short phones the room tag and crew share a row. This keeps 44px targets
+     inside the illustrated room without shrinking their hit areas or adding scroll. */
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones { gap:6px; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) { display:grid; grid-template-columns:88px minmax(0,1fr); gap:.3rem; padding:.25rem .2rem .7rem; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone__name:has(.phone-room-move) { position:static; grid-column:1; max-width:100%; padding:0; justify-self:start; align-self:center; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .phone-room-move { min-width:80px; width:80px; font-size:.65rem; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) .ms-seats { grid-column:2; grid-template-columns:repeat(min(var(--ms-seats),3),minmax(0,1fr)); --ms-piece:2.2rem; gap:14px .2rem; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats { --ms-piece:2.2rem; gap:10px .2rem; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones:has(:is([data-zone=hospital],[data-zone=jail]) .ms-seat:nth-child(7)) { grid-template-rows:44px 44px 44px minmax(0,1fr); }
+}
+#app .ms-shell--player .phone-action-dock, #app .ms-shell--player .phone-action-dock .ms-private__panel { animation:none; }
+@media (max-height:650px) {
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) { grid-template-rows:minmax(0,1fr); padding-top:4px; padding-bottom:8px; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone__name:has(.phone-room-move) { display:flex; align-items:center; border:0; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone__name:has(.phone-room-move)::after { display:none; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .phone-room-move { display:block; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) .ms-seats { grid-template-columns:repeat(min(var(--ms-seats),4),minmax(0,1fr)); }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones:has([data-zone=room-a] .ms-seat:nth-child(9)) { grid-template-rows:44px minmax(0,1fr) 44px 44px; }
+  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones:has([data-zone=room-b] .ms-seat:nth-child(9)) { grid-template-rows:44px 44px minmax(0,1fr) 44px; }
+}

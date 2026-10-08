@@ -18,6 +18,7 @@ This register separates implementation choices from game-rule approval. The game
 | RULE-007 | Code victory evaluation checkpoint | Confirmed: V1-08 in the [owner-approved V1 sheet](v1-rule-decisions-proposal.md) | Implement; affected-role review of shared contracts remains required |
 | RULE-008 | Vote/showdown response deadlines and missing input | Confirmed: V1-09–11, V1-20 in the [owner-approved V1 sheet](v1-rule-decisions-proposal.md) | Implement; affected-role review of shared contracts remains required |
 | RULE-009 | Disconnect, pause and abort policy | Confirmed: V1-12, V1-21 in the [owner-approved V1 sheet](v1-rule-decisions-proposal.md) | Implement; affected-role review of shared contracts remains required |
+| TURN-001 | Explicit ordinary-turn Pass | Confirmed owner request on 8 October: active non-eliminated speaker can pass; preserve queued resolution and following Hack, exact new tuple and legacy compatibility; see [decision](../decisions/2026-10-08-pass-turn.md) | Implement issue #85; integrate Frontend and Balance pins |
 | SETUP-001 | Initial Room A/B assignment | Confirmed owner override on 8 October: server assigns each new human admission/bot independently, preserving stored rooms and engine compatibility; see [decision](../decisions/2026-10-08-random-starting-rooms.md) | Implement issue #83; backend-first rollout and affected-role review |
 | RULE-010 | Original Power distribution across 7/8/9 modes and special-shot interactions | Requires audit; initial comparative baseline uses powers off | Game owner with Game Balance |
 

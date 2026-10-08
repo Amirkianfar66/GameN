@@ -20,7 +20,7 @@ function scenarioReport() {
   return { schema: 'mothership.balance.scenario-run/1', pins: {
     repository: 'Amirkianfar66/GameN', baseCommit: '333c9e820f362a211352bc689372663f29b73ac4', branch: provenance.branch,
     workingTreeCommit: provenance.head, sourceManifestSha256: contract.sourceManifestSha256, ruleSourceHashes: contract.ruleSourceHashes,
-    v1OverlaySha256: contract.v1OverlaySha256, scenarioFileHashes: contract.scenarioFileHashes, rulebookSha256: contract.rulebookSha256,
+    v1OverlaySha256: contract.v1OverlaySha256, additionalOwnerOverlayHashes: contract.additionalOwnerOverlayHashes, scenarioFileHashes: contract.scenarioFileHashes, rulebookSha256: contract.rulebookSha256,
     engine: contract.engine, engineCommit: provenance.head, engineOrigin: '@mothership/engine of this checkout',
     runner: '@mothership/balance scenario runner', node: provenance.node, generatedAt: '2026-10-06T12:00:00.500Z',
   }, totals: { ...BALANCE_TOTALS }, byGroup: structuredClone(grouped), runs: [...contract.scenarios].map(([scenarioId, expected]) => ({
@@ -96,6 +96,8 @@ for (const [name, mutate] of [
   ['wrong source digest', r => r.pins.ruleSourceHashes['rules/sources/v2.1-decisions.json'] = 'a'.repeat(64)],
   ['wrong catalogue digest', r => r.pins.scenarioFileHashes['mode-7.scenarios.json'] = 'a'.repeat(64)],
   ['wrong rulebook digest', r => r.pins.rulebookSha256 = 'a'.repeat(64)],
+  ['missing Pass owner decision evidence', r => delete r.pins.additionalOwnerOverlayHashes],
+  ['changed Pass owner decision evidence', r => r.pins.additionalOwnerOverlayHashes = {}],
   ['wrong overlay digest', r => r.pins.v1OverlaySha256 = 'a'.repeat(64)],
   ['wrong protocol', r => r.pins.engine.protocolVersion = 1],
   ['wrong runtime', r => r.pins.node = 'v24.0.0'],
@@ -153,7 +155,7 @@ test('disk source pins fail before accepting a changed reviewed artifact', () =>
   const temporary = mkdtempSync(join(tmpdir(), 'balance-guard-sources-'));
   try {
     for (const path of ['rules', 'docs/balance', 'tests/scenarios']) cpSync(join(root, path), join(temporary, path), { recursive: true });
-    for (const path of ['docs/balance/game-rules.md', 'tests/scenarios/v1/catalog.mjs', 'tests/scenarios/v1/exceptions.json', 'tests/scenarios/adapters/full-game-v1.mjs', 'rules/in-person-v1-manifest.json', 'rules/sources/v2.1-decisions.json', 'tests/scenarios/v1/mode-7.scenarios.json']) {
+    for (const path of ['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json', 'docs/balance/game-rules.md', 'tests/scenarios/v1/catalog.mjs', 'tests/scenarios/v1/exceptions.json', 'tests/scenarios/adapters/full-game-v1.mjs', 'rules/in-person-v1-manifest.json', 'rules/sources/v2.1-decisions.json', 'tests/scenarios/v1/mode-7.scenarios.json']) {
       const target = join(temporary, path); const original = readFileSync(target);
       writeFileSync(target, Buffer.concat([original, Buffer.from('\n')]));
       assert.throws(() => loadBalanceContract(temporary, provenance), /Balance gate:/, path);

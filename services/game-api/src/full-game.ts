@@ -13,10 +13,10 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
-import type { FullGameSetup, FullGameState } from '@mothership/engine';
+import type { FullGameSetup, FullGameState, FullGameplayVersions } from '@mothership/engine';
 
 type FailureCode = FullFailure['error']['code'];
 type Success = Extract<FullOperationResponse, { ok: true }>;
@@ -92,8 +92,7 @@ const seat = (value: unknown): value is SeatId => SeatIdSchema.safeParse(value).
 const memberPlayer = (value: unknown): value is { kind: 'player'; seatId: SeatId; bindingRevision: number } => value !== null && typeof value === 'object'
   && 'kind' in value && value.kind === 'player' && 'seatId' in value && seat(value.seatId)
   && 'bindingRevision' in value && Number.isSafeInteger(value.bindingRevision);
-const supported = (state: FullGameState) => state.versions.protocolVersion === 2 && state.versions.engineVersion === FULL_ENGINE_VERSION
-  && state.versions.rulesetVersion === FULL_RULESET_VERSION && state.versions.rulesetHash === FULL_RULESET_HASH;
+const supported = (state: FullGameState) => isSupportedFullGameVersions(state.versions);
 const taskIdFor = (matchId: string, phaseId: string, token: string) => hash([matchId, phaseId, token]);
 const setupTaskIdFor = (payload: V1SetupDeadline) => hash(['setup', payload.matchId, payload.setupId, payload.stage, payload.deadlineToken]);
 const validSetupOutboxPath = (path: string) => /^matches\/[A-Za-z0-9][A-Za-z0-9_-]{0,127}\/setupOutbox\/[a-f0-9]{64}$/.test(path);
@@ -269,6 +268,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const control: Control = { protocolVersion: 2, hostUid: uid, playerCount: body['playerCount'] as 7 | 8 | 9, status: 'lobby', lifecycleVersion: SETUP_LIFECYCLE_VERSION, gameStarted: false, roomCode, createdAt: now };
       return { response: success(now, { matchId, roomCode, playerCount: control.playerCount, status: 'lobby' }), write: () => {
         tx.create(codeRef, { matchId }); tx.create(base.collection('control').doc('session'), control);
+        tx.create(base.collection('engine').doc('gameplayPins'), FULL_GAME_VERSION_PINS);
         tx.create(base.collection('members').doc(uid), { kind: 'display' });
         tx.create(base.collection('lobby').doc('public'), lobby(base, control, []));
         tx.create(base.collection('identities').doc('public'), identityDocument(base.id));
@@ -404,8 +404,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       || deal.readingStartedAt !== match.readingStartedAt || deal.readingEndsAt !== match.readingEndsAt
       || deal.preparedAt !== deal.readingStartedAt || !id(deal.readingDeadlineToken)) throw new Error('Invalid prepared deal');
     FullVersionsSchema.parse(deal.versions);
-    if (deal.versions.engineVersion !== FULL_ENGINE_VERSION || deal.versions.rulesetVersion !== FULL_RULESET_VERSION
-      || deal.versions.rulesetHash !== FULL_RULESET_HASH) throw new Error('Unsupported prepared deal');
+    if (!isSupportedFullGameVersions(deal.versions)) throw new Error('Unsupported prepared deal');
     const decoded = decodeV1Setup(deal.setup);
     if (decoded.playerCount !== match.playerCount) throw new Error('Invalid prepared roster');
     buildRoster(decoded);
@@ -422,7 +421,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     deal: PreparedDeal, bindings: QueryDocumentSnapshot[], now: number, context: { eventId: string; phaseId: string; token: string }) {
     if (now < deal.readingEndsAt || !progress.seats.every(seat => seat.ready)) throw new Error('Setup minimum and readiness required');
     const state = { ...createFullGame({ matchId: base.id, setup: decodeV1Setup(deal.setup), now,
-      phaseId: context.phaseId, deadlineToken: context.token, assetManifestVersion: deal.versions.assetManifestVersion }), journalSequence: 1 };
+      phaseId: context.phaseId, deadlineToken: context.token, assetManifestVersion: deal.versions.assetManifestVersion, versions: deal.versions }), journalSequence: 1 };
     tx.update(base.collection('setupOutbox').doc(setupTaskIdFor({ matchId: base.id, setupId: deal.setupId, stage: 'awaiting-ready', deadlineToken: deal.readingDeadlineToken })),
       { status: 'completed', leaseToken: null, leaseUntil: null });
     tx.update(base.collection('control').doc('session'), { status: 'running', lifecycleVersion: SETUP_LIFECYCLE_VERSION, gameStarted: true });
@@ -601,18 +600,23 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
         const identities = FullLobbyIdentityDocumentSchema.parse(identitySnapshot.data());
         const dealRef = base.collection('setup').doc('deal'), dealSnapshot = await tx.get(dealRef);
+        const creationPins = payload.stage === 'choosing'
+          ? (await tx.get(base.collection('engine').doc('gameplayPins'))).data() as FullGameplayVersions | undefined : undefined;
         if (identities.matchId !== base.id || digest(identities.seats.map(seat => seat.seatId)) !== digest(current.seats.map(seat => seat.seatId))) return { status: 'blocked' as const };
         // Start the next full window after loading its transactional inputs.
         const now = clock();
         if (payload.stage === 'choosing') {
           if (identities.locked || dealSnapshot.exists) return { status: 'blocked' as const };
+          // Missing pins identify a lobby created by the deployed legacy service.
+          const gameplayVersions = creationPins ?? LEGACY_FULL_GAME_VERSION_PINS;
+          if (!isSupportedFullGameVersions(gameplayVersions)) throw new Error('Unsupported match gameplay pins');
           const nextIdentities = automaticIdentities(identities, current), readingEndsAt = setupWindowEnd(now);
           recordedSetup ??= encodeV1Setup({ ...randomSetup(control.playerCount, shuffle),
             initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) });
           buildRoster(decodeV1Setup(recordedSetup));
           const deal: PreparedDeal = { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION, dealId,
             setupId: payload.setupId, readingStartedAt: now, readingEndsAt, readingDeadlineToken: readingToken, preparedAt: now,
-            versions: { protocolVersion: 2, engineVersion: FULL_ENGINE_VERSION, rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH, assetManifestVersion },
+            versions: { ...gameplayVersions, assetManifestVersion },
             setup: recordedSetup };
           const progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + 1,
             stage: 'awaiting-ready', dealId, readingStartedAt: now, readingEndsAt,

@@ -24,6 +24,8 @@ export interface RunPins {
   sourceManifestSha256: string;
   ruleSourceHashes: Record<string, string>;
   v1OverlaySha256: string | null;
+  // Later owner decisions supplement, rather than replace, the historical catalogue overlay.
+  additionalOwnerOverlayHashes?: Record<string, string | null>;
   // The combined Version 1 manifest of the engine's checkout, where it exists.
   v1ManifestSha256: string | null;
   scenarioFileHashes: Record<string, string>;
