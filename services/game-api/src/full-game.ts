@@ -73,7 +73,7 @@ export function decodeV1State(value: unknown): FullGameState {
   return { ...state, setup: decodeV1Setup(state.setup) };
 }
 type OutboxRecord = Omit<V1DeadlineIntent, 'status'> & {
-  status: 'pending' | 'leased' | 'dispatched' | 'blocked'; attempts: number;
+  status: 'pending' | 'leased' | 'dispatched' | 'completed' | 'blocked'; attempts: number;
   nextAttemptAt: number; leaseUntil: number | null; leaseToken: string | null;
 };
 type Plan = { response: Success; replayResponse?: Success; write: () => void };
@@ -97,6 +97,19 @@ const taskIdFor = (matchId: string, phaseId: string, token: string) => hash([mat
 const setupTaskIdFor = (payload: V1SetupDeadline) => hash(['setup', payload.matchId, payload.setupId, payload.stage, payload.deadlineToken]);
 const validSetupOutboxPath = (path: string) => /^matches\/[A-Za-z0-9][A-Za-z0-9_-]{0,127}\/setupOutbox\/[a-f0-9]{64}$/.test(path);
 const validOutboxPath = (path: string) => /^matches\/[A-Za-z0-9][A-Za-z0-9_-]{0,127}\/outbox\/[a-f0-9]{64}$/.test(path);
+
+// Queue acknowledgment is not proof of delivery. Completed is private outbox
+// bookkeeping; gameplay outcomes still come exclusively from the pure engine.
+const validDeadlineIntent = (value: OutboxRecord, path: string): boolean => validOutboxPath(path)
+  && value.protocolVersion === 2 && [value.matchId, value.phaseId, value.deadlineToken].every(id)
+  && value.matchId === path.split('/')[1]
+  && value.taskId === taskIdFor(value.matchId, value.phaseId, value.deadlineToken) && path.split('/')[3] === value.taskId
+  && Number.isSafeInteger(value.endsAt) && value.endsAt >= 0 && Number.isFinite(new Date(value.endsAt).getTime())
+  && Number.isSafeInteger(value.attempts) && value.attempts >= 0 && value.attempts < Number.MAX_SAFE_INTEGER
+  && Number.isSafeInteger(value.nextAttemptAt) && value.nextAttemptAt >= 0
+  && (value.leaseToken === null || id(value.leaseToken))
+  && (value.leaseUntil === null || (Number.isSafeInteger(value.leaseUntil) && value.leaseUntil >= 0))
+  && (value.status !== 'leased' || (value.leaseToken !== null && value.leaseUntil !== null));
 
 function secureShuffle<T>(items: readonly T[]): T[] {
   const result = [...items];
@@ -1149,11 +1162,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         if (!snapshot.exists) return null;
         const value = snapshot.data() as OutboxRecord;
         const now = clock();
-        if (value.protocolVersion !== 2 || ![value.matchId, value.phaseId, value.deadlineToken].every(id)
-          || value.matchId !== path.split('/')[1]
-          || value.taskId !== taskIdFor(value.matchId, value.phaseId, value.deadlineToken) || ref.id !== value.taskId
-          || !Number.isSafeInteger(value.endsAt) || value.endsAt < 0 || !Number.isFinite(new Date(value.endsAt).getTime())
-          || !Number.isSafeInteger(value.attempts) || value.attempts < 0 || !Number.isSafeInteger(value.nextAttemptAt)) {
+        if (!validDeadlineIntent(value, path)) {
           tx.update(ref, { status: 'blocked', leaseToken: null, leaseUntil: null }); return 'blocked' as const;
         }
         if (!['pending', 'leased'].includes(value.status) || value.nextAttemptAt > now || (value.status === 'leased' && (value.leaseUntil ?? 0) > now)) return null;
@@ -1170,7 +1179,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const acknowledged = await db.runTransaction(async tx => {
         const current = await tx.get(ref);
         if (current.get('status') !== 'leased' || current.get('leaseToken') !== leaseToken) return false;
-        tx.update(ref, { status: 'dispatched', leaseToken: null, leaseUntil: null }); return true;
+        tx.update(ref, { status: 'dispatched', nextAttemptAt: claimed!.endsAt, leaseToken: null, leaseUntil: null }); return true;
       });
       return { status: acknowledged ? 'dispatched' : 'unchanged' };
     } catch {
@@ -1184,9 +1193,87 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       return { status: 'failed' };
     }
   }
+  async function repairDispatchedDeadline(path: string): Promise<{ status: 'unchanged' | 'failed' | 'blocked' }> {
+    const ref = db.doc(path);
+    // Failed bot work must retain the old intent even after its deadline committed.
+    // A later stale evaluation can then reconcile the current phase's bot receipts.
+    async function defer(status: 'failed' | 'blocked') {
+      try {
+        await db.runTransaction(async tx => {
+          const latest = await tx.get(ref);
+          if (latest.get('status') !== 'dispatched') return;
+          if (status === 'blocked') tx.update(ref, { status: 'blocked', leaseToken: null, leaseUntil: null });
+          else {
+            const recorded = latest.get('attempts') as unknown;
+            const attempts = typeof recorded === 'number' && Number.isSafeInteger(recorded) && recorded >= 0 && recorded < Number.MAX_SAFE_INTEGER
+              ? recorded + 1 : 1;
+            tx.update(ref, { attempts, nextAttemptAt: clock() + Math.min(60_000, 1_000 * 2 ** Math.min(attempts, 6)) });
+          }
+        });
+      } catch { /* An unacknowledged repair remains eligible for the next bounded page. */ }
+      return { status };
+    }
+    try {
+      const candidate = await db.runTransaction(async tx => {
+        const snapshot = await tx.get(ref);
+        if (!snapshot.exists || snapshot.get('status') !== 'dispatched') return null;
+        const value = snapshot.data() as OutboxRecord, now = clock();
+        if (!validDeadlineIntent(value, path)) {
+          tx.update(ref, { status: 'blocked', leaseToken: null, leaseUntil: null }); return 'blocked' as const;
+        }
+        if (value.nextAttemptAt > now) return null;
+        const engine = await tx.get(db.collection('matches').doc(value.matchId).collection('engine').doc('current'));
+        if (engine.exists) {
+          const state = decodeV1State(engine.data());
+          if (state.matchId !== value.matchId || !supported(state)
+            || (state.phase.id === value.phaseId && state.deadlineToken === value.deadlineToken && state.phase.endsAt !== value.endsAt)) {
+            tx.update(ref, { status: 'blocked', leaseToken: null, leaseUntil: null }); return 'blocked' as const;
+          }
+        }
+        // Saved pre-fix dispatcher acknowledgments used the lease timestamp.
+        // Move those early records out of first pages without advancing or bots.
+        if (now < value.endsAt) { tx.update(ref, { nextAttemptAt: value.endsAt }); return null; }
+        return value;
+      });
+      if (candidate === 'blocked') return { status: 'blocked' };
+      if (candidate === null) return { status: 'unchanged' };
+      const result = await runDeadline({ matchId: candidate.matchId, phaseId: candidate.phaseId, deadlineToken: candidate.deadlineToken });
+      if (isFailure(result)) return defer(result.error.code === 'UNAVAILABLE' ? 'failed' : 'blocked');
+      // A nine-bot election can have 19 real slots (movement, votes and Code).
+      // Drain at most two bounded batches, retaining a durable continuation if
+      // concurrency exposes more work. No engine-write trigger is assumed here.
+      let saturated = true;
+      for (let batch = 0; batch < 2; batch++) {
+        const bots = await runPracticeBots(candidate.matchId, { limit: 18 });
+        if (bots.status === 'failed') return defer('failed');
+        if (bots.status === 'blocked') return defer('blocked');
+        if (bots.processed < 18) { saturated = false; break; }
+      }
+      if (saturated) return defer('failed');
+      const retired = await db.runTransaction(async tx => {
+        const latest = await tx.get(ref);
+        if (latest.get('status') !== 'dispatched') return 'unchanged' as const;
+        const value = latest.data() as OutboxRecord;
+        const engine = await tx.get(db.collection('matches').doc(candidate.matchId).collection('engine').doc('current'));
+        const state = engine.exists ? decodeV1State(engine.data()) : null;
+        if (!validDeadlineIntent(value, path) || (state !== null && (state.matchId !== candidate.matchId || !supported(state)))) {
+          tx.update(ref, { status: 'blocked', leaseToken: null, leaseUntil: null }); return 'blocked' as const;
+        }
+        // A duplicate/PASS/task winner may already have installed a fresh phase.
+        // Never complete a still-current deadline (for example a regressed clock).
+        if (state !== null && state.phase.id === value.phaseId && state.deadlineToken === value.deadlineToken) {
+          tx.update(ref, { nextAttemptAt: state.phase.endsAt ?? clock() + 60_000 }); return 'unchanged' as const;
+        }
+        tx.update(ref, { status: 'completed', leaseToken: null, leaseUntil: null }); return 'unchanged' as const;
+      });
+      // Existing repair counters describe enqueue attempts; direct evaluation
+      // does not enqueue a task and preserves that result shape.
+      return { status: retired };
+    } catch { return defer('failed'); }
+  }
   async function repairOutbox(enqueue: EnqueueV1Deadline, options: { limit: number; cursor?: string }) {
     if (!Number.isSafeInteger(options.limit) || options.limit < 1 || options.limit > 100) throw new Error('Repair page limit must be 1..100');
-    let query = db.collectionGroup('outbox').where('protocolVersion', '==', 2).where('status', 'in', ['pending', 'leased'])
+    let query = db.collectionGroup('outbox').where('protocolVersion', '==', 2).where('status', 'in', ['pending', 'leased', 'dispatched'])
       .where('nextAttemptAt', '<=', clock()).orderBy('nextAttemptAt').orderBy(FieldPath.documentId()).limit(options.limit);
     if (options.cursor !== undefined) {
       let cursor: { time: number; path: string };
@@ -1196,7 +1283,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       query = query.startAfter(cursor.time, db.doc(cursor.path));
     }
     const pending = await query.get(), counts = { dispatched: 0, failed: 0, unchanged: 0, blocked: 0 };
-    for (const entry of pending.docs) counts[(await dispatchDeadlineIntent(entry.ref.path, enqueue)).status]++;
+    for (const entry of pending.docs) counts[(await (entry.get('status') === 'dispatched'
+      ? repairDispatchedDeadline(entry.ref.path) : dispatchDeadlineIntent(entry.ref.path, enqueue))).status]++;
     const last = pending.docs.at(-1);
     return { ...counts, nextCursor: pending.size === options.limit && last !== undefined
       ? Buffer.from(JSON.stringify({ time: last.get('nextAttemptAt'), path: last.ref.path })).toString('base64url') : null };
