@@ -1,0 +1,245 @@
+02:47:22 320x568-board 320x568 clean
+02:47:23 320x568-tray 320x568 clean
+02:47:24 320x568-move-confirm 320x568 clean | MOVE NOT SENT YET MOVE : Move to Room B? You cannot change or withdraw it here once the se
+02:47:24 320x568-move-pending 320x568 clean | MOVE SUBMITTING MOVE : Sending your move to the server…
+02:47:25 320x568-move-flight 320x568 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:47:26 320x568-move-landed 320x568 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:47:28 320x568-pass-receipt 320x568 clean | PASS ACCEPTED PASS : Turn passed. The next phase is shown at the top of the board. Done
+02:47:30 320x568-tray-many 320x568 clean
+02:47:31 320x568-tray-empty 320x568 clean
+02:47:33 320x568-shot-choose 320x568 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:47:34 320x568-shot-confirm 320x568 clean | SHOT NOT SENT YET SHOT : Register a shot at Player 5? You cannot change or withdraw it her
+02:47:34 320x568-shot-pending 320x568 clean | SHOT SUBMITTING SHOT : Sending your shot to the server…
+02:47:35 320x568-shot-registered 320x568 clean | SHOT ACCEPTED SHOT : Shot at Player 5 registered. This is not a result. Registered shots a
+02:47:37 320x568-disable-choose 320x568 clean | DISABLE CHOOSING DISABLE : Choose a target Disable · Tap a character These are the choices
+02:47:37 320x568-disable-confirm 320x568 clean | DISABLE NOT SENT YET DISABLE : Register a Disable at Player 8? You cannot change or withdr
+02:47:39 320x568-protect-choose 320x568 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:47:40 320x568-protect-confirm-self 320x568 clean | PROTECTION NOT SENT YET PROTECTION : Register Protection for yourself? You cannot change o
+02:47:42 320x568-rescue-choose 320x568 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:47:42 320x568-rescue-confirm 320x568 clean | RESCUE NOT SENT YET RESCUE : Register a Rescue of Player 6? You cannot change or withdraw
+02:47:44 320x568-hack-choose 320x568 clean | HACK CHOOSING HACK : Who do you request a Hack with? Hack · Tap a character These are the
+02:47:45 320x568-hack-confirm 320x568 clean | HACK NOT SENT YET HACK : Request a Hack with Player 1? You cannot change or withdraw it he
+02:47:47 320x568-scan-choose 320x568 clean | SCAN CHOOSING SCAN : Who do you scan? Scan · Tap a character These are the choices the ser
+02:47:47 320x568-scan-faction 320x568 clean | SCAN CHOOSING SCAN : Guess a faction for Player 8. These are the choices the server offers
+02:47:48 320x568-scan-confirm 320x568 clean | SCAN NOT SENT YET SCAN : Scan Player 8, guessing Red? This uses your Scan for this round,
+02:47:49 320x568-supply-first 320x568 clean | SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a c
+02:47:50 320x568-supply-second 320x568 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 1. These are th
+02:47:50 320x568-supply-confirm 320x568 clean | SUPPLY NOT SENT YET SUPPLY : Register a weapon each for Player 1 and Player 8? You cannot
+02:47:52 320x568-supply-registered 320x568 clean | SUPPLY ACCEPTED SUPPLY : Supply for Player 1 and Player 8 registered. This is not a result
+02:47:54 320x568-code-two 320x568 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose 2 more players. 1 2 Chosen so far: Player 6, P
+02:47:55 320x568-code-confirm 320x568 clean | CODE ATTEMPT NOT SENT YET CODE ATTEMPT : Submit this Code attempt: Player 2, Player 6, Pla
+02:47:55 320x568-code-choose-again 320x568 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:47:57 320x568-showdown-choose 320x568 clean | SHOWDOWN SHOT CHOOSING SHOWDOWN SHOT : Choose a target Showdown shot · Tap a character The
+02:47:57 320x568-showdown-confirm 320x568 clean | SHOWDOWN SHOT NOT SENT YET SHOWDOWN SHOT : Register a showdown shot at Player 2? You canno
+02:47:59 320x568-election-choose 320x568 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:48:00 320x568-election-abstain 320x568 clean | VOTE NOT SENT YET VOTE : Abstain from this vote? This is your one ballot in this vote. You
+02:48:01 320x568-election-recorded 320x568 clean | VOTE ACCEPTED VOTE : Your vote for Player 7 is recorded. This is not a result. The count i
+02:48:03 320x568-jail-choose 320x568 clean | VOTE CHOOSING VOTE : Who do you vote to send to Jail? Vote · Tap a character These are the
+02:48:04 320x568-jail-confirm 320x568 clean | VOTE NOT SENT YET VOTE : Vote to send Player 4 to Jail? This is your one ballot in this vo
+02:48:06 320x568-release-choice 320x568 clean | RELEASE REQUEST CHOOSING RELEASE REQUEST : Ask for a release vote for which jailed player?
+02:48:06 320x568-release-choice-confirm 320x568 clean | RELEASE REQUEST NOT SENT YET RELEASE REQUEST : Ask for a vote on releasing Player 9 from J
+02:48:08 320x568-release-vote 320x568 clean | RELEASE VOTE CHOOSING RELEASE VOTE : Release Player 9 from Jail? These are the choices the
+02:48:08 320x568-release-vote-confirm 320x568 clean | RELEASE VOTE NOT SENT YET RELEASE VOTE : Vote yes to releasing Player 9? This is your one
+02:48:10 320x568-crowd-shot 320x568 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:48:12 320x568-crowd-protect 320x568 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:48:14 320x568-crowd-vote 320x568 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:48:16 320x568-crowd-command 320x568 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:48:18 320x568-crowd-jail 320x568 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:48:20 320x568-crowd-hospital 320x568 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:48:22 320x568-crowd-room-b-supply 320x568 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 2. These are th
+02:48:23 320x568-crowd-hospital-6 320x568 clean
+02:48:25 320x568-long-names 320x568 clean
+02:48:27 320x568-seven 320x568 clean
+02:48:28 320x568-other-turn 320x568 clean
+02:48:30 320x568-legacy 320x568 clean
+02:48:32 320x568-background-drops-choice 320x568 clean
+02:48:34 320x568-stale-pauses 320x568 clean
+02:48:36 320x568-card 320x568 clean
+02:48:37 320x568-menu 320x568 clean
+02:48:38 360x740-board 360x740 clean
+02:48:39 360x740-tray 360x740 clean
+02:48:39 360x740-move-confirm 360x740 clean | MOVE NOT SENT YET MOVE : Move to Room B? You cannot change or withdraw it here once the se
+02:48:40 360x740-move-pending 360x740 clean | MOVE SUBMITTING MOVE : Sending your move to the server…
+02:48:40 360x740-move-flight 360x740 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:48:42 360x740-move-landed 360x740 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:48:43 360x740-pass-receipt 360x740 clean | PASS ACCEPTED PASS : Turn passed. The next phase is shown at the top of the board. Done
+02:48:45 360x740-tray-many 360x740 clean
+02:48:47 360x740-tray-empty 360x740 clean
+02:48:49 360x740-shot-choose 360x740 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:48:49 360x740-shot-confirm 360x740 clean | SHOT NOT SENT YET SHOT : Register a shot at Player 5? You cannot change or withdraw it her
+02:48:50 360x740-shot-pending 360x740 clean | SHOT SUBMITTING SHOT : Sending your shot to the server…
+02:48:51 360x740-shot-registered 360x740 clean | SHOT ACCEPTED SHOT : Shot at Player 5 registered. This is not a result. Registered shots a
+02:48:53 360x740-disable-choose 360x740 clean | DISABLE CHOOSING DISABLE : Choose a target Disable · Tap a character These are the choices
+02:48:53 360x740-disable-confirm 360x740 clean | DISABLE NOT SENT YET DISABLE : Register a Disable at Player 8? You cannot change or withdr
+02:48:55 360x740-protect-choose 360x740 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:48:56 360x740-protect-confirm-self 360x740 clean | PROTECTION NOT SENT YET PROTECTION : Register Protection for yourself? You cannot change o
+02:48:58 360x740-rescue-choose 360x740 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:48:58 360x740-rescue-confirm 360x740 clean | RESCUE NOT SENT YET RESCUE : Register a Rescue of Player 6? You cannot change or withdraw
+02:49:00 360x740-hack-choose 360x740 clean | HACK CHOOSING HACK : Who do you request a Hack with? Hack · Tap a character These are the
+02:49:00 360x740-hack-confirm 360x740 clean | HACK NOT SENT YET HACK : Request a Hack with Player 1? You cannot change or withdraw it he
+02:49:02 360x740-scan-choose 360x740 clean | SCAN CHOOSING SCAN : Who do you scan? Scan · Tap a character These are the choices the ser
+02:49:03 360x740-scan-faction 360x740 clean | SCAN CHOOSING SCAN : Guess a faction for Player 8. These are the choices the server offers
+02:49:03 360x740-scan-confirm 360x740 clean | SCAN NOT SENT YET SCAN : Scan Player 8, guessing Red? This uses your Scan for this round,
+02:49:05 360x740-supply-first 360x740 clean | SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a c
+02:49:06 360x740-supply-second 360x740 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 1. These are th
+02:49:06 360x740-supply-confirm 360x740 clean | SUPPLY NOT SENT YET SUPPLY : Register a weapon each for Player 1 and Player 8? You cannot
+02:49:08 360x740-supply-registered 360x740 clean | SUPPLY ACCEPTED SUPPLY : Supply for Player 1 and Player 8 registered. This is not a result
+02:49:10 360x740-code-two 360x740 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose 2 more players. 1 2 Chosen so far: Player 6, P
+02:49:10 360x740-code-confirm 360x740 clean | CODE ATTEMPT NOT SENT YET CODE ATTEMPT : Submit this Code attempt: Player 2, Player 6, Pla
+02:49:11 360x740-code-choose-again 360x740 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:49:13 360x740-showdown-choose 360x740 clean | SHOWDOWN SHOT CHOOSING SHOWDOWN SHOT : Choose a target Showdown shot · Tap a character The
+02:49:13 360x740-showdown-confirm 360x740 clean | SHOWDOWN SHOT NOT SENT YET SHOWDOWN SHOT : Register a showdown shot at Player 2? You canno
+02:49:15 360x740-election-choose 360x740 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:49:15 360x740-election-abstain 360x740 clean | VOTE NOT SENT YET VOTE : Abstain from this vote? This is your one ballot in this vote. You
+02:49:17 360x740-election-recorded 360x740 clean | VOTE ACCEPTED VOTE : Your vote for Player 7 is recorded. This is not a result. The count i
+02:49:19 360x740-jail-choose 360x740 clean | VOTE CHOOSING VOTE : Who do you vote to send to Jail? Vote · Tap a character These are the
+02:49:19 360x740-jail-confirm 360x740 clean | VOTE NOT SENT YET VOTE : Vote to send Player 4 to Jail? This is your one ballot in this vo
+02:49:21 360x740-release-choice 360x740 clean | RELEASE REQUEST CHOOSING RELEASE REQUEST : Ask for a release vote for which jailed player?
+02:49:22 360x740-release-choice-confirm 360x740 clean | RELEASE REQUEST NOT SENT YET RELEASE REQUEST : Ask for a vote on releasing Player 9 from J
+02:49:24 360x740-release-vote 360x740 clean | RELEASE VOTE CHOOSING RELEASE VOTE : Release Player 9 from Jail? These are the choices the
+02:49:24 360x740-release-vote-confirm 360x740 clean | RELEASE VOTE NOT SENT YET RELEASE VOTE : Vote yes to releasing Player 9? This is your one
+02:49:26 360x740-crowd-shot 360x740 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:49:28 360x740-crowd-protect 360x740 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:49:30 360x740-crowd-vote 360x740 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:49:32 360x740-crowd-command 360x740 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:49:34 360x740-crowd-jail 360x740 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:49:36 360x740-crowd-hospital 360x740 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:49:38 360x740-crowd-room-b-supply 360x740 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 2. These are th
+02:49:39 360x740-crowd-hospital-6 360x740 clean
+02:49:41 360x740-long-names 360x740 clean
+02:49:43 360x740-seven 360x740 clean
+02:49:45 360x740-other-turn 360x740 clean
+02:49:46 360x740-legacy 360x740 clean
+02:49:48 360x740-background-drops-choice 360x740 clean
+02:49:50 360x740-stale-pauses 360x740 clean
+02:49:52 360x740-card 360x740 clean
+02:49:53 360x740-menu 360x740 clean
+02:49:54 390x844-board 390x844 clean
+02:49:55 390x844-tray 390x844 clean
+02:49:56 390x844-move-confirm 390x844 clean | MOVE NOT SENT YET MOVE : Move to Room B? You cannot change or withdraw it here once the se
+02:49:56 390x844-move-pending 390x844 clean | MOVE SUBMITTING MOVE : Sending your move to the server…
+02:49:57 390x844-move-flight 390x844 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:49:58 390x844-move-landed 390x844 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:50:00 390x844-pass-receipt 390x844 clean | PASS ACCEPTED PASS : Turn passed. The next phase is shown at the top of the board. Done
+02:50:02 390x844-tray-many 390x844 clean
+02:50:03 390x844-tray-empty 390x844 clean
+02:50:05 390x844-shot-choose 390x844 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:50:06 390x844-shot-confirm 390x844 clean | SHOT NOT SENT YET SHOT : Register a shot at Player 5? You cannot change or withdraw it her
+02:50:06 390x844-shot-pending 390x844 clean | SHOT SUBMITTING SHOT : Sending your shot to the server…
+02:50:07 390x844-shot-registered 390x844 clean | SHOT ACCEPTED SHOT : Shot at Player 5 registered. This is not a result. Registered shots a
+02:50:09 390x844-disable-choose 390x844 clean | DISABLE CHOOSING DISABLE : Choose a target Disable · Tap a character These are the choices
+02:50:10 390x844-disable-confirm 390x844 clean | DISABLE NOT SENT YET DISABLE : Register a Disable at Player 8? You cannot change or withdr
+02:50:12 390x844-protect-choose 390x844 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:50:12 390x844-protect-confirm-self 390x844 clean | PROTECTION NOT SENT YET PROTECTION : Register Protection for yourself? You cannot change o
+02:50:14 390x844-rescue-choose 390x844 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:50:15 390x844-rescue-confirm 390x844 clean | RESCUE NOT SENT YET RESCUE : Register a Rescue of Player 6? You cannot change or withdraw
+02:50:16 390x844-hack-choose 390x844 clean | HACK CHOOSING HACK : Who do you request a Hack with? Hack · Tap a character These are the
+02:50:17 390x844-hack-confirm 390x844 clean | HACK NOT SENT YET HACK : Request a Hack with Player 1? You cannot change or withdraw it he
+02:50:19 390x844-scan-choose 390x844 clean | SCAN CHOOSING SCAN : Who do you scan? Scan · Tap a character These are the choices the ser
+02:50:19 390x844-scan-faction 390x844 clean | SCAN CHOOSING SCAN : Guess a faction for Player 8. These are the choices the server offers
+02:50:20 390x844-scan-confirm 390x844 clean | SCAN NOT SENT YET SCAN : Scan Player 8, guessing Red? This uses your Scan for this round,
+02:50:22 390x844-supply-first 390x844 clean | SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a c
+02:50:22 390x844-supply-second 390x844 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 1. These are th
+02:50:23 390x844-supply-confirm 390x844 clean | SUPPLY NOT SENT YET SUPPLY : Register a weapon each for Player 1 and Player 8? You cannot
+02:50:24 390x844-supply-registered 390x844 clean | SUPPLY ACCEPTED SUPPLY : Supply for Player 1 and Player 8 registered. This is not a result
+02:50:26 390x844-code-two 390x844 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose 2 more players. 1 2 Chosen so far: Player 6, P
+02:50:27 390x844-code-confirm 390x844 clean | CODE ATTEMPT NOT SENT YET CODE ATTEMPT : Submit this Code attempt: Player 2, Player 6, Pla
+02:50:27 390x844-code-choose-again 390x844 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:50:29 390x844-showdown-choose 390x844 clean | SHOWDOWN SHOT CHOOSING SHOWDOWN SHOT : Choose a target Showdown shot · Tap a character The
+02:50:29 390x844-showdown-confirm 390x844 clean | SHOWDOWN SHOT NOT SENT YET SHOWDOWN SHOT : Register a showdown shot at Player 2? You canno
+02:50:31 390x844-election-choose 390x844 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:50:32 390x844-election-abstain 390x844 clean | VOTE NOT SENT YET VOTE : Abstain from this vote? This is your one ballot in this vote. You
+02:50:33 390x844-election-recorded 390x844 clean | VOTE ACCEPTED VOTE : Your vote for Player 7 is recorded. This is not a result. The count i
+02:50:35 390x844-jail-choose 390x844 clean | VOTE CHOOSING VOTE : Who do you vote to send to Jail? Vote · Tap a character These are the
+02:50:36 390x844-jail-confirm 390x844 clean | VOTE NOT SENT YET VOTE : Vote to send Player 4 to Jail? This is your one ballot in this vo
+02:50:38 390x844-release-choice 390x844 clean | RELEASE REQUEST CHOOSING RELEASE REQUEST : Ask for a release vote for which jailed player?
+02:50:38 390x844-release-choice-confirm 390x844 clean | RELEASE REQUEST NOT SENT YET RELEASE REQUEST : Ask for a vote on releasing Player 9 from J
+02:50:40 390x844-release-vote 390x844 clean | RELEASE VOTE CHOOSING RELEASE VOTE : Release Player 9 from Jail? These are the choices the
+02:50:41 390x844-release-vote-confirm 390x844 clean | RELEASE VOTE NOT SENT YET RELEASE VOTE : Vote yes to releasing Player 9? This is your one
+02:50:43 390x844-crowd-shot 390x844 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:50:44 390x844-crowd-protect 390x844 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:50:46 390x844-crowd-vote 390x844 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:50:48 390x844-crowd-command 390x844 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:50:50 390x844-crowd-jail 390x844 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:50:52 390x844-crowd-hospital 390x844 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:50:54 390x844-crowd-room-b-supply 390x844 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 2. These are th
+02:50:56 390x844-crowd-hospital-6 390x844 clean
+02:50:57 390x844-long-names 390x844 clean
+02:50:59 390x844-seven 390x844 clean
+02:51:01 390x844-other-turn 390x844 clean
+02:51:03 390x844-legacy 390x844 clean
+02:51:05 390x844-background-drops-choice 390x844 clean
+02:51:06 390x844-stale-pauses 390x844 clean
+02:51:08 390x844-card 390x844 clean
+02:51:09 390x844-menu 390x844 clean
+02:51:11 430x932-board 430x932 clean
+02:51:11 430x932-tray 430x932 clean
+02:51:12 430x932-move-confirm 430x932 clean | MOVE NOT SENT YET MOVE : Move to Room B? You cannot change or withdraw it here once the se
+02:51:12 430x932-move-pending 430x932 clean | MOVE SUBMITTING MOVE : Sending your move to the server…
+02:51:13 430x932-move-flight 430x932 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:51:14 430x932-move-landed 430x932 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:51:16 430x932-pass-receipt 430x932 clean | PASS ACCEPTED PASS : Turn passed. The next phase is shown at the top of the board. Done
+02:51:18 430x932-tray-many 430x932 clean
+02:51:20 430x932-tray-empty 430x932 clean
+02:51:21 430x932-shot-choose 430x932 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:51:22 430x932-shot-confirm 430x932 clean | SHOT NOT SENT YET SHOT : Register a shot at Player 5? You cannot change or withdraw it her
+02:51:23 430x932-shot-pending 430x932 clean | SHOT SUBMITTING SHOT : Sending your shot to the server…
+02:51:23 430x932-shot-registered 430x932 clean | SHOT ACCEPTED SHOT : Shot at Player 5 registered. This is not a result. Registered shots a
+02:51:25 430x932-disable-choose 430x932 clean | DISABLE CHOOSING DISABLE : Choose a target Disable · Tap a character These are the choices
+02:51:26 430x932-disable-confirm 430x932 clean | DISABLE NOT SENT YET DISABLE : Register a Disable at Player 8? You cannot change or withdr
+02:51:28 430x932-protect-choose 430x932 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:51:28 430x932-protect-confirm-self 430x932 clean | PROTECTION NOT SENT YET PROTECTION : Register Protection for yourself? You cannot change o
+02:51:30 430x932-rescue-choose 430x932 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:51:31 430x932-rescue-confirm 430x932 clean | RESCUE NOT SENT YET RESCUE : Register a Rescue of Player 6? You cannot change or withdraw
+02:51:33 430x932-hack-choose 430x932 clean | HACK CHOOSING HACK : Who do you request a Hack with? Hack · Tap a character These are the
+02:51:33 430x932-hack-confirm 430x932 clean | HACK NOT SENT YET HACK : Request a Hack with Player 1? You cannot change or withdraw it he
+02:51:35 430x932-scan-choose 430x932 clean | SCAN CHOOSING SCAN : Who do you scan? Scan · Tap a character These are the choices the ser
+02:51:36 430x932-scan-faction 430x932 clean | SCAN CHOOSING SCAN : Guess a faction for Player 8. These are the choices the server offers
+02:51:36 430x932-scan-confirm 430x932 clean | SCAN NOT SENT YET SCAN : Scan Player 8, guessing Red? This uses your Scan for this round,
+02:51:38 430x932-supply-first 430x932 clean | SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a c
+02:51:38 430x932-supply-second 430x932 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 1. These are th
+02:51:39 430x932-supply-confirm 430x932 clean | SUPPLY NOT SENT YET SUPPLY : Register a weapon each for Player 1 and Player 8? You cannot
+02:51:41 430x932-supply-registered 430x932 clean | SUPPLY ACCEPTED SUPPLY : Supply for Player 1 and Player 8 registered. This is not a result
+02:51:43 430x932-code-two 430x932 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose 2 more players. 1 2 Chosen so far: Player 6, P
+02:51:43 430x932-code-confirm 430x932 clean | CODE ATTEMPT NOT SENT YET CODE ATTEMPT : Submit this Code attempt: Player 2, Player 6, Pla
+02:51:44 430x932-code-choose-again 430x932 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:51:46 430x932-showdown-choose 430x932 clean | SHOWDOWN SHOT CHOOSING SHOWDOWN SHOT : Choose a target Showdown shot · Tap a character The
+02:51:46 430x932-showdown-confirm 430x932 clean | SHOWDOWN SHOT NOT SENT YET SHOWDOWN SHOT : Register a showdown shot at Player 2? You canno
+02:51:48 430x932-election-choose 430x932 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:51:48 430x932-election-abstain 430x932 clean | VOTE NOT SENT YET VOTE : Abstain from this vote? This is your one ballot in this vote. You
+02:51:50 430x932-election-recorded 430x932 clean | VOTE ACCEPTED VOTE : Your vote for Player 7 is recorded. This is not a result. The count i
+02:51:52 430x932-jail-choose 430x932 clean | VOTE CHOOSING VOTE : Who do you vote to send to Jail? Vote · Tap a character These are the
+02:51:53 430x932-jail-confirm 430x932 clean | VOTE NOT SENT YET VOTE : Vote to send Player 4 to Jail? This is your one ballot in this vo
+02:51:54 430x932-release-choice 430x932 clean | RELEASE REQUEST CHOOSING RELEASE REQUEST : Ask for a release vote for which jailed player?
+02:51:55 430x932-release-choice-confirm 430x932 clean | RELEASE REQUEST NOT SENT YET RELEASE REQUEST : Ask for a vote on releasing Player 9 from J
+02:51:57 430x932-release-vote 430x932 clean | RELEASE VOTE CHOOSING RELEASE VOTE : Release Player 9 from Jail? These are the choices the
+02:51:57 430x932-release-vote-confirm 430x932 clean | RELEASE VOTE NOT SENT YET RELEASE VOTE : Vote yes to releasing Player 9? This is your one
+02:51:59 430x932-crowd-shot 430x932 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:52:01 430x932-crowd-protect 430x932 clean | PROTECTION CHOOSING PROTECTION : Who is the Protection for? Protection · Tap a character T
+02:52:03 430x932-crowd-vote 430x932 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:52:04 430x932-crowd-command 430x932 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:52:06 430x932-crowd-jail 430x932 clean | CODE ATTEMPT CHOOSING CODE ATTEMPT : Choose the four players of your Code attempt. Code at
+02:52:08 430x932-crowd-hospital 430x932 clean | RESCUE CHOOSING RESCUE : Who is the Rescue for? Rescue · Tap a character These are the cho
+02:52:10 430x932-crowd-room-b-supply 430x932 clean | SUPPLY CHOOSING SUPPLY : Choose the second player. 1 Chosen so far: Player 2. These are th
+02:52:12 430x932-crowd-hospital-6 430x932 clean
+02:52:14 430x932-long-names 430x932 clean
+02:52:15 430x932-seven 430x932 clean
+02:52:17 430x932-other-turn 430x932 clean
+02:52:19 430x932-legacy 430x932 clean
+02:52:21 430x932-background-drops-choice 430x932 clean
+02:52:23 430x932-stale-pauses 430x932 clean
+02:52:25 430x932-card 430x932 clean
+02:52:25 430x932-menu 430x932 clean
+02:52:27 keyboard-focus-target 390x844 clean | SHOT CHOOSING SHOT : Choose a target Shot · Tap a character These are the choices the serv
+02:52:27 keyboard {"tabPressesToFirstTarget":3,"focusAfterEnter":"ms-action-step","stepAfterEscape":"choosing"}
+02:52:30 reduced-motion-move 390x844 clean | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”
+02:52:32 390x844-safe-areas 390x844 clean | SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a c
+02:52:32 safe areas 390x844: {"statusTop":49,"navButtonsBottom":810,"viewport":844} clear of the notch and the home indicator
+02:52:34 320x568-safe-areas 320x568 clean | SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a c
+02:52:34 safe areas 320x568: {"statusTop":49,"navButtonsBottom":534,"viewport":568} clear of the notch and the home indicator | the board scrolls inside itself
+02:52:35 390x844-enlarged-text 390x844 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:52:35 enlarged text 390x844: the board fits | every character reachable | Pass fits its button
+02:52:37 320x568-enlarged-text 320x568 clean | VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the
+02:52:37 enlarged text 320x568: the board scrolls inside itself; 3 of 9 characters scrolled out of view | every character reachable | Pass fits its button
+02:52:39 display-public 1280x720 clean
+02:52:40 display-move-flight 1280x720 clean

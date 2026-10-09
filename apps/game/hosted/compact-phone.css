@@ -48,20 +48,6 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .ms-timer__digits { font-size:1.4rem; }
 #app .ms-shell--player .ms-timer__note { font-size:.65rem; max-width:7rem; }
 #app .ms-shell--player .ms-board { grid-column:1; grid-row:2; height:100%; min-height:0; }
-#app .ms-shell--player .ms-board .ms-zones { height:100%; min-height:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:minmax(0,.8fr) repeat(2,minmax(0,1fr)) minmax(0,.85fr); padding:6px; gap:8px 6px; border:0; border-radius:10px; box-shadow:none; }
-#app .ms-shell--player .ms-board .ms-zone { container-type:size; height:100%; min-height:0; min-block-size:0; max-height:100%; grid-column:auto; aspect-ratio:auto; padding:1.4rem .2rem 1.1rem; border-width:2px; display:flex; justify-content:center; align-items:center; }
-#app .ms-shell--player .ms-board .ms-zone[data-zone=command-room] { grid-row:1; grid-column:1/-1; min-height:0; min-block-size:0; }
-#app .ms-shell--player .ms-board .ms-zone[data-zone=room-a] { grid-row:2; grid-column:1/-1; min-height:0; }
-#app .ms-shell--player .ms-board .ms-zone[data-zone=room-b] { grid-row:3; grid-column:1/-1; min-height:0; }
-#app .ms-shell--player .ms-board .ms-zone[data-zone=hospital], #app .ms-shell--player .ms-board .ms-zone[data-zone=jail] { grid-row:4; grid-column:span 1; min-height:0; }
-#app .ms-shell--player .ms-board .ms-zone[data-zone=final-zone] { grid-column:1/-1; grid-row:1/-1; min-height:0; min-block-size:0; }
-#app .ms-shell--player .ms-board .ms-zones:has([data-zone=final-zone]) { grid-template-rows:minmax(0,1fr); }
-#app .ms-shell--player .ms-board .ms-zone__name { position:absolute; inset:.15rem auto auto .15rem; margin:0; transform:none; translate:none; font-size:.7rem; max-width:calc(100% - .3rem); padding:.15rem .3rem; line-height:1.1; }
-#app .ms-shell--player .ms-board .ms-zone__empty { display:none; }
-#app .ms-shell--player .ms-board .ms-seats { --ms-piece:min(3rem,calc((100cqi - 12px) / min(var(--ms-seats),5) / 1.25),calc(100cqh / var(--phone-rows,1) / 1.6)); display:grid; grid-template-columns:repeat(min(var(--ms-seats),5),minmax(0,1fr)); align-items:center; justify-items:center; width:100%; gap:1.1rem .2rem; padding:0; }
-#app .ms-shell--player .ms-board .ms-seat { width:var(--ms-piece); max-width:100%; min-width:0; flex:none; }
-#app .ms-shell--player .ms-board .ms-seat__name { font-size:.6rem; line-height:1.15; max-inline-size:calc(100% + .5rem); }
-#app .ms-shell--player .ms-board .ms-seat__player { max-width:100%; }
 .phone-nav { grid-column:1; grid-row:3; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; padding:.2rem 0 max(.3rem,env(safe-area-inset-bottom)); min-height:60px; border-top:1px solid var(--ms-color-steel-mid); background:var(--ms-color-canvas); }
 .phone-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; min-height:48px; min-width:44px; padding:.25rem; border:0; background:transparent; color:var(--ms-color-text-secondary); font:inherit; font-size:.65rem; box-shadow:none; border-radius:8px; }
 .phone-nav button[aria-pressed=true] { color:var(--ms-color-caption); background:var(--ms-color-panel); }
@@ -102,7 +88,6 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 .phone-role-surface { position:relative; width:min(100%,18rem); height:min(70dvh,28rem); min-height:0; flex:0 1 auto; }
 .connected-lobby .phone-role-surface .phone-role-toggle { position:absolute; inset:0; height:100%; width:100%; z-index:1; background:transparent; }
 .phone-role-surface .phone-role-back, .phone-role-surface #setup-role-card { height:100%; width:100%; min-height:0; margin:0; }
-#app .ms-shell--player .ms-board .ms-seats:has(> :nth-child(6)) { --phone-rows:2; }
 
 #app .ms-shell--player .ms-offer:not(:has(button)) { display:none; }
 #app .ms-shell--player .ms-offer > span { display:none; }
@@ -136,12 +121,6 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #connected-seated { font-size:.75rem; }
 .phone-waiting { border-radius:14px; box-shadow:none; }
 /* Give a crowded room more of the same viewport, using public occupancy only. */
-#app .ms-shell--player .ms-board .ms-zones:has([data-zone=room-a] .ms-seat:nth-child(6)) { grid-template-rows:minmax(0,.55fr) minmax(0,1.8fr) repeat(2,minmax(0,.65fr)); }
-#app .ms-shell--player .ms-board .ms-zones:has([data-zone=room-b] .ms-seat:nth-child(6)) { grid-template-rows:repeat(2,minmax(0,.65fr)) minmax(0,1.8fr) minmax(0,.55fr); }
-#app .ms-shell--player .ms-board .ms-zones:has(:is([data-zone=hospital],[data-zone=jail]) .ms-seat:nth-child(6)) { grid-template-rows:minmax(0,.55fr) repeat(2,minmax(0,.65fr)) minmax(0,1.8fr); }
-#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats { grid-template-columns:repeat(min(var(--ms-seats),3),minmax(0,1fr)); --ms-piece:min(3rem,calc((100cqi - 12px) / min(var(--ms-seats),3) / 1.25),calc(100cqh / var(--phone-rows,1) / 1.6)); }
-#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(4)) { --phone-rows:2; }
-#app .ms-shell--player .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats:has(> :nth-child(7)) { --phone-rows:3; }
 
 /* A finished result and Menu share one view; the next-game action stays above navigation. */
 #app:has(.ms-shell--player[data-screen=match]) > .phone-next { bottom:calc(76px + env(safe-area-inset-bottom)); }
@@ -158,10 +137,7 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 .phone-panel-close { width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; color:var(--ms-color-text); font-size:1.8rem; cursor:pointer; }
 .phone-panel-notice { margin:.4rem 0; font-size:.85rem; }
 #app .ms-shell--player .ms-actions > h3 { display:none; }
-#app .ms-shell--player .ms-board .ms-zone__name:has(.phone-room-move) { padding:0 .25rem; }
-.phone-room-move { min-height:44px; min-width:88px; padding:0 .25rem; border:0; background:transparent; color:inherit; font:inherit; text-transform:inherit; cursor:pointer; }
-.phone-room-move:focus-visible, .phone-panel-close:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:2px; }
-#app .ms-shell--player .ms-board .ms-zone:has(.phone-room-move) { padding-top:3.2rem; }
+.phone-panel-close:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:2px; }
 
 
 /* Actions use the board itself. The compact strip gets its own row, so it never covers
@@ -185,16 +161,6 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .phone-action-dock .ms-targets:empty { display:none; }
 #app .ms-shell--player .phone-action-dock .ms-targets > li { flex:1; }
 #app .ms-shell--player .phone-action-dock .ms-target { width:100%; min-height:44px; font-size:.8rem; }
-#app .ms-shell--player .ms-board .ms-seat[data-board-target] { position:relative; }
-.phone-character-target {
-  display:block; position:absolute; inset:0; width:100%; height:100%; min-width:44px; min-height:44px;
-  aspect-ratio:1; margin:0; padding:0; border:0; border-radius:10px; background:transparent;
-  color:inherit; font:inherit; cursor:pointer; outline:2px solid var(--ms-color-caption); outline-offset:3px;
-}
-.phone-character-target:focus-visible { outline:3px solid var(--ms-color-focus); outline-offset:4px; }
-.phone-pick-order { position:absolute; top:-.35rem; right:-.3rem; z-index:2; min-width:1.15rem; padding:.1rem; border-radius:50%; background:var(--ms-color-caption); color:var(--ms-color-ink); font-size:.7rem; font-weight:bold; text-align:center; }
-#app .ms-shell--player .ms-seat[data-board-target=picked] { outline:2px solid var(--ms-color-caption); outline-offset:3px; border-radius:10px; }
-.phone-nav .phone-pass:not(:disabled) { background:var(--ms-color-caption); color:var(--ms-color-ink); }
 .phone-nav__icon--pass { background:currentColor; clip-path:polygon(12% 10%,65% 50%,12% 90%,12% 10%,76% 10%,90% 10%,90% 90%,76% 90%,76% 10%); }
 
 #app .ms-shell--player .phone-action-dock .ms-card { color:var(--ms-color-text); box-shadow:none; outline:0; transform:none; gap:0; }
@@ -202,27 +168,4 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .phone-action-dock :is(.ms-card__prompt,.ms-card__result,.ms-card__busy) { flex-basis:100%; }
 #app .ms-shell--player .phone-action-dock .ms-targets { flex:3; }
 #app .ms-shell--player .phone-action-dock .ms-card__controls { flex:1; }
-#app .ms-shell--player .ms-board .ms-zone:not(:has(.ms-seats)) { padding:.2rem; }
-#app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone { padding-bottom:.7rem; }
-.phone-character-target { left:50%; right:auto; width:max(44px,100%); transform:translateX(-50%); }
-@media (max-height:650px) {
-  /* On short phones the room tag and crew share a row. This keeps 44px targets
-     inside the illustrated room without shrinking their hit areas or adding scroll. */
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones { gap:6px; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) { display:grid; grid-template-columns:88px minmax(0,1fr); gap:.3rem; padding:.25rem .2rem .7rem; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone__name:has(.phone-room-move) { position:static; grid-column:1; max-width:100%; padding:0; justify-self:start; align-self:center; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .phone-room-move { min-width:80px; width:80px; font-size:.65rem; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) .ms-seats { grid-column:2; grid-template-columns:repeat(min(var(--ms-seats),3),minmax(0,1fr)); --ms-piece:2.2rem; gap:14px .2rem; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:is([data-zone=hospital],[data-zone=jail]) .ms-seats { --ms-piece:2.2rem; gap:10px .2rem; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones:has(:is([data-zone=hospital],[data-zone=jail]) .ms-seat:nth-child(7)) { grid-template-rows:44px 44px 44px minmax(0,1fr); }
-}
 #app .ms-shell--player .phone-action-dock, #app .ms-shell--player .phone-action-dock .ms-private__panel { animation:none; }
-@media (max-height:650px) {
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) { grid-template-rows:minmax(0,1fr); padding-top:4px; padding-bottom:8px; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone__name:has(.phone-room-move) { display:flex; align-items:center; border:0; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone__name:has(.phone-room-move)::after { display:none; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .phone-room-move { display:block; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zone:has(.phone-room-move) .ms-seats { grid-template-columns:repeat(min(var(--ms-seats),4),minmax(0,1fr)); }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones:has([data-zone=room-a] .ms-seat:nth-child(9)) { grid-template-rows:44px minmax(0,1fr) 44px 44px; }
-  #app .ms-shell--player[data-action-dock=true] .ms-board .ms-zones:has([data-zone=room-b] .ms-seat:nth-child(9)) { grid-template-rows:44px 44px minmax(0,1fr) 44px; }
-}

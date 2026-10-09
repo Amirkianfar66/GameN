@@ -1,0 +1,3545 @@
+{
+  "devOnly": "mothership:dev-only",
+  "tool": "design/tools/board-motion-capture.mjs",
+  "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
+  "inputsSha256": "23c20777430790026d96d7458ba75dc15a544efbe32b7c4481b31066bc03f655",
+  "browser": "Google Chrome 155.0.8059.39",
+  "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
+  "scenarios": [
+    {
+      "id": "board.idle",
+      "group": "Board",
+      "title": "Your turn: the board, nothing open",
+      "key": true
+    },
+    {
+      "id": "board.other-turn",
+      "group": "Board",
+      "title": "Someone else’s turn: Pass is unavailable",
+      "key": false
+    },
+    {
+      "id": "board.seven",
+      "group": "Board",
+      "title": "Seven players",
+      "key": false
+    },
+    {
+      "id": "board.eight",
+      "group": "Board",
+      "title": "Eight players",
+      "key": false
+    },
+    {
+      "id": "board.crowded",
+      "group": "Board",
+      "title": "Layout stress: Seven in Room A, everyone reachable",
+      "key": true
+    },
+    {
+      "id": "board.all-one-room",
+      "group": "Board",
+      "title": "Layout stress: All nine in Room A",
+      "key": false
+    },
+    {
+      "id": "board.crowded-hospital",
+      "group": "Board",
+      "title": "Layout stress: Six in the Hospital",
+      "key": false
+    },
+    {
+      "id": "board.final-zone",
+      "group": "Board",
+      "title": "Final Zone: the showdown",
+      "key": true
+    },
+    {
+      "id": "board.long-names",
+      "group": "Board",
+      "title": "Twelve-character names",
+      "key": false
+    },
+    {
+      "id": "board.tightest",
+      "group": "Board",
+      "title": "Layout stress: The tallest board: six in Room A, the Captain, two in the Hospital",
+      "key": false
+    },
+    {
+      "id": "tray.open",
+      "group": "Actions tray",
+      "title": "Actions tray: what the view opens, over the board",
+      "key": true
+    },
+    {
+      "id": "tray.empty",
+      "group": "Actions tray",
+      "title": "Actions tray: nothing open",
+      "key": false
+    },
+    {
+      "id": "shot.choose",
+      "group": "One target",
+      "title": "Shot: eligible characters on the board",
+      "key": true
+    },
+    {
+      "id": "shot.confirm",
+      "group": "One target",
+      "title": "Shot: one character chosen, confirm in the strip",
+      "key": true
+    },
+    {
+      "id": "shot.pending",
+      "group": "One target",
+      "title": "Shot: sending",
+      "key": false
+    },
+    {
+      "id": "shot.registered",
+      "group": "One target",
+      "title": "Shot: registered (not a result)",
+      "key": true
+    },
+    {
+      "id": "shot.rejected",
+      "group": "One target",
+      "title": "Shot: not accepted",
+      "key": true
+    },
+    {
+      "id": "shot.unknown",
+      "group": "One target",
+      "title": "Shot: result unknown",
+      "key": true
+    },
+    {
+      "id": "disable.choose",
+      "group": "One target",
+      "title": "Disable: eligible characters",
+      "key": false
+    },
+    {
+      "id": "protect.choose",
+      "group": "One target",
+      "title": "Protection: yourself included",
+      "key": true
+    },
+    {
+      "id": "rescue.choose",
+      "group": "One target",
+      "title": "Rescue: a character in the Hospital",
+      "key": true
+    },
+    {
+      "id": "rescue.self",
+      "group": "One target",
+      "title": "Rescue: yourself, injured",
+      "key": false
+    },
+    {
+      "id": "hack.choose",
+      "group": "One target",
+      "title": "Hack request: eligible characters",
+      "key": false
+    },
+    {
+      "id": "hack.phase",
+      "group": "One target",
+      "title": "Hack phase: its own full minute",
+      "key": true
+    },
+    {
+      "id": "showdown.choose",
+      "group": "One target",
+      "title": "Showdown shot in the Final Zone",
+      "key": true
+    },
+    {
+      "id": "crowd.shot",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Shot at any of eight",
+      "key": false
+    },
+    {
+      "id": "crowd.disable",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Disable at any of eight",
+      "key": false
+    },
+    {
+      "id": "crowd.protect",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: Protection for any of nine",
+      "key": false
+    },
+    {
+      "id": "crowd.rescue",
+      "group": "Crowded rooms",
+      "title": "Layout stress: Eight in the Hospital: a Rescue for any of them",
+      "key": true
+    },
+    {
+      "id": "crowd.hack",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Hack request with any of eight",
+      "key": false
+    },
+    {
+      "id": "crowd.scan",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Scan of any of nine",
+      "key": false
+    },
+    {
+      "id": "crowd.supply",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: Supply, one chosen",
+      "key": false
+    },
+    {
+      "id": "crowd.vote",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: nine candidates, all reachable",
+      "key": true
+    },
+    {
+      "id": "scan.choose",
+      "group": "Several parts",
+      "title": "Scan: choose a character",
+      "key": false
+    },
+    {
+      "id": "scan.faction",
+      "group": "Several parts",
+      "title": "Scan: guess a faction inline",
+      "key": true
+    },
+    {
+      "id": "scan.result",
+      "group": "Several parts",
+      "title": "Scan: accepted; the result is private, in the card",
+      "key": false
+    },
+    {
+      "id": "supply.first",
+      "group": "Several parts",
+      "title": "Supply: choose the first of two",
+      "key": false
+    },
+    {
+      "id": "supply.second",
+      "group": "Several parts",
+      "title": "Supply: one chosen, choose the second",
+      "key": true
+    },
+    {
+      "id": "supply.confirm",
+      "group": "Several parts",
+      "title": "Supply: two chosen, confirm",
+      "key": false
+    },
+    {
+      "id": "supply.ack",
+      "group": "Several parts",
+      "title": "Supply: the acknowledgment, private, in the card",
+      "key": false
+    },
+    {
+      "id": "code.two",
+      "group": "Several parts",
+      "title": "Code attempt: two of four chosen",
+      "key": true
+    },
+    {
+      "id": "code.four",
+      "group": "Several parts",
+      "title": "Code attempt: four chosen, confirm",
+      "key": false
+    },
+    {
+      "id": "vote.election",
+      "group": "Ballots",
+      "title": "Captain election: tap a candidate, or abstain",
+      "key": true
+    },
+    {
+      "id": "vote.runoff",
+      "group": "Ballots",
+      "title": "Captain election again, among the tied",
+      "key": false
+    },
+    {
+      "id": "vote.jail",
+      "group": "Ballots",
+      "title": "Jail vote: tap a player, or abstain",
+      "key": false
+    },
+    {
+      "id": "vote.recorded",
+      "group": "Ballots",
+      "title": "Ballot recorded (not a result)",
+      "key": false
+    },
+    {
+      "id": "vote.tally",
+      "group": "Ballots",
+      "title": "The count, published when the vote closes",
+      "key": true
+    },
+    {
+      "id": "release.choice",
+      "group": "Ballots",
+      "title": "Captain’s release request: a jailed character",
+      "key": true
+    },
+    {
+      "id": "release.vote",
+      "group": "Ballots",
+      "title": "Release vote: Yes, No or Abstain inline",
+      "key": true
+    },
+    {
+      "id": "move.tags",
+      "group": "Movement",
+      "title": "Room name tags are the move controls",
+      "key": false
+    },
+    {
+      "id": "move.confirm",
+      "group": "Movement",
+      "title": "Room B pressed: a tentative place, then confirm",
+      "key": true
+    },
+    {
+      "id": "move.pending",
+      "group": "Movement",
+      "title": "Move: sending",
+      "key": false
+    },
+    {
+      "id": "move.accepted",
+      "group": "Movement",
+      "title": "Move accepted; the piece moves with the public update",
+      "key": true
+    },
+    {
+      "id": "move.refused",
+      "group": "Movement",
+      "title": "A room you cannot move to",
+      "key": false
+    },
+    {
+      "id": "pass.confirm",
+      "group": "Pass",
+      "title": "Pass: confirm on the board",
+      "key": true
+    },
+    {
+      "id": "pass.passed",
+      "group": "Pass",
+      "title": "Pass accepted: neutral receipt",
+      "key": true
+    },
+    {
+      "id": "pass.legacy",
+      "group": "Pass",
+      "title": "A match on the legacy rules: no Pass",
+      "key": false
+    },
+    {
+      "id": "public.injured",
+      "group": "Public changes",
+      "title": "A player is now Injured",
+      "key": false
+    },
+    {
+      "id": "public.eliminated",
+      "group": "Public changes",
+      "title": "A player is now Eliminated; the faction the rules reveal",
+      "key": false
+    },
+    {
+      "id": "public.jailed",
+      "group": "Public changes",
+      "title": "A player is now in Jail",
+      "key": false
+    },
+    {
+      "id": "public.captain",
+      "group": "Public changes",
+      "title": "A new Captain",
+      "key": false
+    },
+    {
+      "id": "robust.stale",
+      "group": "Robustness",
+      "title": "Connection lost: actions paused, private cues gone",
+      "key": false
+    },
+    {
+      "id": "robust.dropped",
+      "group": "Robustness",
+      "title": "Backgrounded while choosing: the choice was not sent",
+      "key": false
+    },
+    {
+      "id": "robust.withdrawn",
+      "group": "Robustness",
+      "title": "A fresh view no longer offers a chosen character",
+      "key": false
+    },
+    {
+      "id": "robust.queued",
+      "group": "Robustness",
+      "title": "One command at a time: an earlier one is still registered",
+      "key": false
+    }
+  ],
+  "matrix": [
+    {
+      "id": "w320-idle",
+      "about": "320 x 568: the board, nine players"
+    },
+    {
+      "id": "w320-shot",
+      "about": "320 x 568: a Shot, eligible characters"
+    },
+    {
+      "id": "w320-code",
+      "about": "320 x 568: a Code attempt, two of four"
+    },
+    {
+      "id": "w320-vote",
+      "about": "320 x 568: seven Healthy, unjailed candidates on the board"
+    },
+    {
+      "id": "w320-crowded",
+      "about": "320 x 568: seven in Room A"
+    },
+    {
+      "id": "w320-all",
+      "about": "320 x 568: all nine in Room A"
+    },
+    {
+      "id": "w320-tightest",
+      "about": "320 x 568: the tallest board, with a Shot open"
+    },
+    {
+      "id": "w320-tray",
+      "about": "320 x 568: the actions tray"
+    },
+    {
+      "id": "w320-release",
+      "about": "320 x 568: a release vote"
+    },
+    {
+      "id": "w320-move",
+      "about": "320 x 568: a tentative move"
+    },
+    {
+      "id": "w320-showdown",
+      "about": "320 x 568: the Final Zone"
+    },
+    {
+      "id": "w320-hospital",
+      "about": "320 x 568: six in the Hospital"
+    },
+    {
+      "id": "w320-crowd-vote",
+      "about": "320 x 568: all nine in Room A, all nine candidates"
+    },
+    {
+      "id": "w320-crowd-shot",
+      "about": "320 x 568: all nine in Room A, a Shot at any of eight"
+    },
+    {
+      "id": "w320-crowd-rescue",
+      "about": "320 x 568: eight in the Hospital, a Rescue for any"
+    },
+    {
+      "id": "w320-crowd-supply",
+      "about": "320 x 568: all nine in Room A, a Supply under way"
+    },
+    {
+      "id": "w360-idle",
+      "about": "360 x 740: the board"
+    },
+    {
+      "id": "w360-shot",
+      "about": "360 x 740: a Shot"
+    },
+    {
+      "id": "w360-crowded",
+      "about": "360 x 740: seven in Room A"
+    },
+    {
+      "id": "w360-crowd-vote",
+      "about": "360 x 740: all nine candidates in Room A"
+    },
+    {
+      "id": "w430-crowd-vote",
+      "about": "430 x 932: all nine candidates in Room A"
+    },
+    {
+      "id": "text200-crowd",
+      "about": "200% text: all nine candidates in Room A"
+    },
+    {
+      "id": "w430-idle",
+      "about": "430 x 932: the board"
+    },
+    {
+      "id": "w430-code",
+      "about": "430 x 932: a Code attempt, confirm"
+    },
+    {
+      "id": "w390-crowded",
+      "about": "390 x 844: all nine in Room A"
+    },
+    {
+      "id": "w390-seven",
+      "about": "390 x 844: seven players"
+    },
+    {
+      "id": "w390-eight",
+      "about": "390 x 844: eight players"
+    },
+    {
+      "id": "long-names",
+      "about": "Twelve-character names"
+    },
+    {
+      "id": "long-names-vote",
+      "about": "Twelve-character names, seven eligible candidates"
+    },
+    {
+      "id": "long-names-320",
+      "about": "320 x 568, twelve-character names"
+    },
+    {
+      "id": "text150-shot",
+      "about": "150% text (default font 24 px): a Shot"
+    },
+    {
+      "id": "text200-idle",
+      "about": "200% text (default font 32 px): the board"
+    },
+    {
+      "id": "text200-shot",
+      "about": "200% text: a Shot"
+    },
+    {
+      "id": "text200-release",
+      "about": "200% text: a release vote"
+    },
+    {
+      "id": "text200-320",
+      "about": "320 x 568 at 200% text: a Shot"
+    },
+    {
+      "id": "safe-idle",
+      "about": "Simulated safe areas (47 px top, 34 px bottom): the board"
+    },
+    {
+      "id": "safe-shot",
+      "about": "Simulated safe areas: a Shot"
+    },
+    {
+      "id": "reduced-move",
+      "about": "Reduced motion: a public move, settled with the 80 ms fade"
+    },
+    {
+      "id": "reduced-registered",
+      "about": "Reduced motion: registered"
+    },
+    {
+      "id": "desktop-idle",
+      "about": "Desktop 1280 x 800: the same design, one centered column"
+    },
+    {
+      "id": "desktop-shot",
+      "about": "Desktop 1280 x 800: a Shot"
+    }
+  ],
+  "storyboard": [
+    {
+      "row": "01-cue-tray-open",
+      "cue": "cue-tray-open",
+      "title": "The actions tray rises over the board",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "tray",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "local",
+      "trigger": "Actions pressed.",
+      "proposal": true
+    },
+    {
+      "row": "02-cue-strip-enter",
+      "cue": "cue-strip-enter",
+      "title": "Shot chosen: the strip rises above navigation",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "strip",
+      "crop": ".bm-app",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "local",
+      "trigger": "An action is chosen in the tray.",
+      "proposal": true
+    },
+    {
+      "row": "03-cue-target-eligible",
+      "cue": "cue-target-eligible",
+      "title": "Eligible characters for a Shot",
+      "scenario": "shot.choose",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-board",
+      "token": "state, no motion",
+      "audience": "local (own open action)",
+      "trigger": "Shot chosen in the tray.",
+      "proposal": true
+    },
+    {
+      "row": "04-cue-selection",
+      "cue": "cue-selection",
+      "title": "A character is chosen: lift and stamp",
+      "scenario": "shot.choose",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "pick",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.selection 120 ms",
+      "audience": "local",
+      "trigger": "Tap on an eligible character."
+    },
+    {
+      "row": "05-cue-target-pick",
+      "cue": "cue-target-pick",
+      "title": "Supply: the first pick is numbered",
+      "scenario": "supply.first",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "pick",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.registrationStamp 120 ms",
+      "audience": "local",
+      "trigger": "Tap on an eligible character, several to pick.",
+      "proposal": true
+    },
+    {
+      "row": "06-cue-pending",
+      "cue": "cue-pending",
+      "title": "Sending: dotted ring, nothing moves",
+      "scenario": "shot.pending",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-app",
+      "token": "state, no motion",
+      "audience": "local",
+      "trigger": "Confirm pressed.",
+      "proposal": true
+    },
+    {
+      "row": "07-cue-registration",
+      "cue": "cue-registration",
+      "title": "Registered: the same neutral stamp for every action",
+      "scenario": "shot.confirm",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "register",
+      "crop": ".bm-strip",
+      "token": "motionMs.registrationStamp 120 ms",
+      "audience": "private (own receipt)",
+      "trigger": "Accepted receipt."
+    },
+    {
+      "row": "08-cue-not-accepted",
+      "cue": "cue-not-accepted",
+      "title": "Not accepted: a short nudge of the strip",
+      "scenario": "shot.confirm",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "reject",
+      "crop": ".bm-strip",
+      "token": "motionMs.selection 120 ms",
+      "audience": "private (own receipt)",
+      "trigger": "Rejected receipt.",
+      "proposal": true
+    },
+    {
+      "row": "09-cue-room-press",
+      "cue": "cue-room-press",
+      "title": "A room tag is pressed; a tentative place appears",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "tag",
+      "also": [
+        "cue-move-tentative"
+      ],
+      "crop": ".bm-room[data-room=\"room-b\"]",
+      "token": "motionMs.selection 120 ms; motionMs.cardTransition 220 ms",
+      "audience": "local",
+      "trigger": "Room B tag pressed.",
+      "proposal": true
+    },
+    {
+      "row": "10-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "A public move: carried between stations",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        225,
+        450,
+        675,
+        900
+      ],
+      "play": "move",
+      "crop": ".bm-board",
+      "token": "motionMs.pieceMove 900 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 2 in Room A."
+    },
+    {
+      "row": "11-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "Your own move, when the public update arrives",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        300,
+        600,
+        900
+      ],
+      "play": "self",
+      "crop": ".bm-board",
+      "token": "motionMs.pieceMove 900 ms",
+      "audience": "public: every screen",
+      "trigger": "The accepted move, then a view that shows Player 3 in Room B."
+    },
+    {
+      "row": "12-cue-status-change",
+      "cue": "cue-status-change",
+      "title": "Now Injured: the marker is stamped on",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "injure",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 5 Injured."
+    },
+    {
+      "row": "13-cue-status-change",
+      "cue": "cue-status-change",
+      "title": "Now Eliminated: grey, and the faction the rules reveal",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "eliminate",
+      "crop": ".bm-room[data-room=\"room-b\"]",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 4 Eliminated."
+    },
+    {
+      "row": "14-cue-status-change",
+      "cue": "cue-status-change",
+      "title": "A new Captain",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "captain",
+      "crop": ".bm-board",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 1 as Captain."
+    },
+    {
+      "row": "15-cue-phase-change",
+      "cue": "cue-phase-change",
+      "title": "The next turn: the status words and the turn marker",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "phase",
+      "also": [
+        "cue-turn-accent"
+      ],
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "PHASE_CHANGED to the next player."
+    },
+    {
+      "row": "16-cue-round-transition",
+      "cue": "cue-round-transition",
+      "title": "A new round",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        230,
+        470,
+        700
+      ],
+      "play": "round",
+      "crop": ".bm-status",
+      "token": "motionMs.roundTransition 700 ms",
+      "audience": "public: every screen",
+      "trigger": "PHASE_CHANGED with a higher round."
+    },
+    {
+      "row": "17-cue-sheet-open",
+      "cue": "cue-sheet-open",
+      "title": "The private card opens over the board",
+      "scenario": "hack.phase",
+      "frames": [
+        0
+      ],
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "private",
+      "trigger": "Card pressed.",
+      "proposal": true
+    },
+    {
+      "row": "18-cue-tally",
+      "cue": "cue-tally",
+      "title": "The published count of a closed vote",
+      "scenario": "vote.tally",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-board",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "The view carries lastTally.",
+      "proposal": true
+    },
+    {
+      "row": "19-cue-ballot-subject",
+      "cue": "cue-ballot-subject",
+      "title": "The subject of a release vote",
+      "scenario": "release.vote",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-board",
+      "token": "state, no motion",
+      "audience": "public: every screen",
+      "trigger": "A release vote opens.",
+      "proposal": true
+    }
+  ],
+  "images": [
+    {
+      "id": "board.idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/states/board.idle.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.other-turn",
+      "state": "board.other-turn",
+      "file": "design/board-motion/review/states/board.other-turn.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.seven",
+      "state": "board.seven",
+      "file": "design/board-motion/review/states/board.seven.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.eight",
+      "state": "board.eight",
+      "file": "design/board-motion/review/states/board.eight.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.crowded",
+      "state": "board.crowded",
+      "file": "design/board-motion/review/states/board.crowded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.all-one-room",
+      "state": "board.all-one-room",
+      "file": "design/board-motion/review/states/board.all-one-room.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.crowded-hospital",
+      "state": "board.crowded-hospital",
+      "file": "design/board-motion/review/states/board.crowded-hospital.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.final-zone",
+      "state": "board.final-zone",
+      "file": "design/board-motion/review/states/board.final-zone.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.long-names",
+      "state": "board.long-names",
+      "file": "design/board-motion/review/states/board.long-names.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.tightest",
+      "state": "board.tightest",
+      "file": "design/board-motion/review/states/board.tightest.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.open",
+      "state": "tray.open",
+      "file": "design/board-motion/review/states/tray.open.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.empty",
+      "state": "tray.empty",
+      "file": "design/board-motion/review/states/tray.empty.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.choose",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/states/shot.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.confirm",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/states/shot.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.pending",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/states/shot.pending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.registered",
+      "state": "shot.registered",
+      "file": "design/board-motion/review/states/shot.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.rejected",
+      "state": "shot.rejected",
+      "file": "design/board-motion/review/states/shot.rejected.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.unknown",
+      "state": "shot.unknown",
+      "file": "design/board-motion/review/states/shot.unknown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.choose",
+      "state": "disable.choose",
+      "file": "design/board-motion/review/states/disable.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "protect.choose",
+      "state": "protect.choose",
+      "file": "design/board-motion/review/states/protect.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.choose",
+      "state": "rescue.choose",
+      "file": "design/board-motion/review/states/rescue.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.self",
+      "state": "rescue.self",
+      "file": "design/board-motion/review/states/rescue.self.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.choose",
+      "state": "hack.choose",
+      "file": "design/board-motion/review/states/hack.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.phase",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/states/hack.phase.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.choose",
+      "state": "showdown.choose",
+      "file": "design/board-motion/review/states/showdown.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.shot",
+      "state": "crowd.shot",
+      "file": "design/board-motion/review/states/crowd.shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.disable",
+      "state": "crowd.disable",
+      "file": "design/board-motion/review/states/crowd.disable.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.protect",
+      "state": "crowd.protect",
+      "file": "design/board-motion/review/states/crowd.protect.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.rescue",
+      "state": "crowd.rescue",
+      "file": "design/board-motion/review/states/crowd.rescue.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.hack",
+      "state": "crowd.hack",
+      "file": "design/board-motion/review/states/crowd.hack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.scan",
+      "state": "crowd.scan",
+      "file": "design/board-motion/review/states/crowd.scan.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.supply",
+      "state": "crowd.supply",
+      "file": "design/board-motion/review/states/crowd.supply.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/states/crowd.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.choose",
+      "state": "scan.choose",
+      "file": "design/board-motion/review/states/scan.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.faction",
+      "state": "scan.faction",
+      "file": "design/board-motion/review/states/scan.faction.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.result",
+      "state": "scan.result",
+      "file": "design/board-motion/review/states/scan.result.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.first",
+      "state": "supply.first",
+      "file": "design/board-motion/review/states/supply.first.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.second",
+      "state": "supply.second",
+      "file": "design/board-motion/review/states/supply.second.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.confirm",
+      "state": "supply.confirm",
+      "file": "design/board-motion/review/states/supply.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.ack",
+      "state": "supply.ack",
+      "file": "design/board-motion/review/states/supply.ack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "code.two",
+      "state": "code.two",
+      "file": "design/board-motion/review/states/code.two.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "code.four",
+      "state": "code.four",
+      "file": "design/board-motion/review/states/code.four.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.election",
+      "state": "vote.election",
+      "file": "design/board-motion/review/states/vote.election.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.runoff",
+      "state": "vote.runoff",
+      "file": "design/board-motion/review/states/vote.runoff.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.jail",
+      "state": "vote.jail",
+      "file": "design/board-motion/review/states/vote.jail.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.recorded",
+      "state": "vote.recorded",
+      "file": "design/board-motion/review/states/vote.recorded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.tally",
+      "state": "vote.tally",
+      "file": "design/board-motion/review/states/vote.tally.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.choice",
+      "state": "release.choice",
+      "file": "design/board-motion/review/states/release.choice.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.vote",
+      "state": "release.vote",
+      "file": "design/board-motion/review/states/release.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.tags",
+      "state": "move.tags",
+      "file": "design/board-motion/review/states/move.tags.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.confirm",
+      "state": "move.confirm",
+      "file": "design/board-motion/review/states/move.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.pending",
+      "state": "move.pending",
+      "file": "design/board-motion/review/states/move.pending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.accepted",
+      "state": "move.accepted",
+      "file": "design/board-motion/review/states/move.accepted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.refused",
+      "state": "move.refused",
+      "file": "design/board-motion/review/states/move.refused.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "pass.confirm",
+      "state": "pass.confirm",
+      "file": "design/board-motion/review/states/pass.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "pass.passed",
+      "state": "pass.passed",
+      "file": "design/board-motion/review/states/pass.passed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "pass.legacy",
+      "state": "pass.legacy",
+      "file": "design/board-motion/review/states/pass.legacy.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.injured",
+      "state": "public.injured",
+      "file": "design/board-motion/review/states/public.injured.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.eliminated",
+      "state": "public.eliminated",
+      "file": "design/board-motion/review/states/public.eliminated.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.jailed",
+      "state": "public.jailed",
+      "file": "design/board-motion/review/states/public.jailed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.captain",
+      "state": "public.captain",
+      "file": "design/board-motion/review/states/public.captain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.stale",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/states/robust.stale.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.dropped",
+      "state": "robust.dropped",
+      "file": "design/board-motion/review/states/robust.dropped.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.withdrawn",
+      "state": "robust.withdrawn",
+      "file": "design/board-motion/review/states/robust.withdrawn.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.queued",
+      "state": "robust.queued",
+      "file": "design/board-motion/review/states/robust.queued.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "w320-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/w320-idle.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/w320-shot.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-code",
+      "state": "code.two",
+      "file": "design/board-motion/review/matrix/w320-code.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-vote",
+      "state": "vote.election",
+      "file": "design/board-motion/review/matrix/w320-vote.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowded",
+      "state": "board.crowded",
+      "file": "design/board-motion/review/matrix/w320-crowded.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-all",
+      "state": "board.all-one-room",
+      "file": "design/board-motion/review/matrix/w320-all.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-tightest",
+      "state": "board.tightest",
+      "file": "design/board-motion/review/matrix/w320-tightest.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-tray",
+      "state": "tray.open",
+      "file": "design/board-motion/review/matrix/w320-tray.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-release",
+      "state": "release.vote",
+      "file": "design/board-motion/review/matrix/w320-release.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-move",
+      "state": "move.confirm",
+      "file": "design/board-motion/review/matrix/w320-move.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-showdown",
+      "state": "showdown.choose",
+      "file": "design/board-motion/review/matrix/w320-showdown.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-hospital",
+      "state": "board.crowded-hospital",
+      "file": "design/board-motion/review/matrix/w320-hospital.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/w320-crowd-vote.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-shot",
+      "state": "crowd.shot",
+      "file": "design/board-motion/review/matrix/w320-crowd-shot.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-rescue",
+      "state": "crowd.rescue",
+      "file": "design/board-motion/review/matrix/w320-crowd-rescue.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-supply",
+      "state": "crowd.supply",
+      "file": "design/board-motion/review/matrix/w320-crowd-supply.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/w360-idle.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/w360-shot.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-crowded",
+      "state": "board.crowded",
+      "file": "design/board-motion/review/matrix/w360-crowded.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-crowd-vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/w360-crowd-vote.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w430-crowd-vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/w430-crowd-vote.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-crowd",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/text200-crowd.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w430-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/w430-idle.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w430-code",
+      "state": "code.four",
+      "file": "design/board-motion/review/matrix/w430-code.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w390-crowded",
+      "state": "board.all-one-room",
+      "file": "design/board-motion/review/matrix/w390-crowded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w390-seven",
+      "state": "board.seven",
+      "file": "design/board-motion/review/matrix/w390-seven.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w390-eight",
+      "state": "board.eight",
+      "file": "design/board-motion/review/matrix/w390-eight.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "long-names",
+      "state": "board.long-names",
+      "file": "design/board-motion/review/matrix/long-names.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "long-names-vote",
+      "state": "vote.election",
+      "file": "design/board-motion/review/matrix/long-names-vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": "long",
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "long-names-320",
+      "state": "board.long-names",
+      "file": "design/board-motion/review/matrix/long-names-320.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text150-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/text150-shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 24,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/text200-idle.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/text200-shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-release",
+      "state": "release.vote",
+      "file": "design/board-motion/review/matrix/text200-release.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-320",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/text200-320.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "safe-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/safe-idle.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "safe-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/safe-shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "reduced-move",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/reduced-move.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "reduced-registered",
+      "state": "shot.registered",
+      "file": "design/board-motion/review/matrix/reduced-registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "desktop-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/desktop-idle.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "desktop-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/desktop-shot.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "01-cue-tray-open-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": 0
+      }
+    },
+    {
+      "id": "01-cue-tray-open-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-110ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": 110
+      }
+    },
+    {
+      "id": "01-cue-tray-open-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-220ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": 220
+      }
+    },
+    {
+      "id": "01-cue-tray-open-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": 0
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-110ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": 110
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-220ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": 220
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "03-cue-target-eligible-0",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/03-cue-target-eligible-0ms.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "03-cue-target-eligible",
+        "cue": "cue-target-eligible",
+        "at": 0
+      }
+    },
+    {
+      "id": "03-cue-target-eligible-reduced",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/03-cue-target-eligible-reduced.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "03-cue-target-eligible",
+        "cue": "cue-target-eligible",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "04-cue-selection-0",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-0ms.png",
+      "width": 190,
+      "height": 290,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": 0
+      }
+    },
+    {
+      "id": "04-cue-selection-60",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-60ms.png",
+      "width": 190,
+      "height": 290,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": 60
+      }
+    },
+    {
+      "id": "04-cue-selection-120",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-120ms.png",
+      "width": 190,
+      "height": 290,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": 120
+      }
+    },
+    {
+      "id": "04-cue-selection-reduced",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-reduced.png",
+      "width": 190,
+      "height": 290,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "05-cue-target-pick-0",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-0ms.png",
+      "width": 190,
+      "height": 288,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": 0
+      }
+    },
+    {
+      "id": "05-cue-target-pick-60",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-60ms.png",
+      "width": 190,
+      "height": 288,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": 60
+      }
+    },
+    {
+      "id": "05-cue-target-pick-120",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-120ms.png",
+      "width": 190,
+      "height": 288,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": 120
+      }
+    },
+    {
+      "id": "05-cue-target-pick-reduced",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-reduced.png",
+      "width": 190,
+      "height": 288,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "06-cue-pending-0",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/motion/06-cue-pending-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "06-cue-pending",
+        "cue": "cue-pending",
+        "at": 0
+      }
+    },
+    {
+      "id": "06-cue-pending-reduced",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/motion/06-cue-pending-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "06-cue-pending",
+        "cue": "cue-pending",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "07-cue-registration-0",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-0ms.png",
+      "width": 390,
+      "height": 84,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": 0
+      }
+    },
+    {
+      "id": "07-cue-registration-60",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-60ms.png",
+      "width": 390,
+      "height": 84,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": 60
+      }
+    },
+    {
+      "id": "07-cue-registration-120",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-120ms.png",
+      "width": 390,
+      "height": 84,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": 120
+      }
+    },
+    {
+      "id": "07-cue-registration-reduced",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-reduced.png",
+      "width": 390,
+      "height": 84,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-0",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-0ms.png",
+      "width": 390,
+      "height": 54,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": 0
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-60",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-60ms.png",
+      "width": 390,
+      "height": 54,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": 60
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-120",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-120ms.png",
+      "width": 390,
+      "height": 54,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": 120
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-reduced",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-reduced.png",
+      "width": 390,
+      "height": 84,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "09-cue-room-press-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-0ms.png",
+      "width": 190,
+      "height": 284,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": 0
+      }
+    },
+    {
+      "id": "09-cue-room-press-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-110ms.png",
+      "width": 190,
+      "height": 284,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": 110
+      }
+    },
+    {
+      "id": "09-cue-room-press-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-220ms.png",
+      "width": 190,
+      "height": 284,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": 220
+      }
+    },
+    {
+      "id": "09-cue-room-press-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-reduced.png",
+      "width": 190,
+      "height": 284,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "10-cue-public-move-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 0
+      }
+    },
+    {
+      "id": "10-cue-public-move-225",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-225ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 225
+      }
+    },
+    {
+      "id": "10-cue-public-move-450",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-450ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 450
+      }
+    },
+    {
+      "id": "10-cue-public-move-675",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-675ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 675
+      }
+    },
+    {
+      "id": "10-cue-public-move-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-900ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "10-cue-public-move-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "11-cue-public-move-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-0ms.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 0
+      }
+    },
+    {
+      "id": "11-cue-public-move-300",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-300ms.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 300
+      }
+    },
+    {
+      "id": "11-cue-public-move-600",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-600ms.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 600
+      }
+    },
+    {
+      "id": "11-cue-public-move-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-900ms.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "11-cue-public-move-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-reduced.png",
+      "width": 402,
+      "height": 672,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "12-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-status-change-0ms.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "12-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-status-change-110ms.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "12-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-status-change-220ms.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "12-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-status-change-reduced.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "13-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-status-change-0ms.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "13-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-status-change-110ms.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "13-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-status-change-220ms.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "13-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-status-change-reduced.png",
+      "width": 190,
+      "height": 336,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "14-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-status-change-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "14-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-status-change-110ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "14-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-status-change-220ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "14-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-status-change-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "15-cue-phase-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-phase-change-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "15-cue-phase-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-phase-change-110ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "15-cue-phase-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-phase-change-220ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "15-cue-phase-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-phase-change-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "16-cue-round-transition-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-round-transition-0ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 0
+      }
+    },
+    {
+      "id": "16-cue-round-transition-230",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-round-transition-230ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 230
+      }
+    },
+    {
+      "id": "16-cue-round-transition-470",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-round-transition-470ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 470
+      }
+    },
+    {
+      "id": "16-cue-round-transition-700",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-round-transition-700ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 700
+      }
+    },
+    {
+      "id": "16-cue-round-transition-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-round-transition-reduced.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "17-cue-sheet-open-0",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/motion/17-cue-sheet-open-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": 0
+      }
+    },
+    {
+      "id": "17-cue-sheet-open-reduced",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/motion/17-cue-sheet-open-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "18-cue-tally-0",
+      "state": "vote.tally",
+      "file": "design/board-motion/review/motion/18-cue-tally-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "18-cue-tally",
+        "cue": "cue-tally",
+        "at": 0
+      }
+    },
+    {
+      "id": "18-cue-tally-reduced",
+      "state": "vote.tally",
+      "file": "design/board-motion/review/motion/18-cue-tally-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "18-cue-tally",
+        "cue": "cue-tally",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "19-cue-ballot-subject-0",
+      "state": "release.vote",
+      "file": "design/board-motion/review/motion/19-cue-ballot-subject-0ms.png",
+      "width": 402,
+      "height": 622,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-ballot-subject",
+        "cue": "cue-ballot-subject",
+        "at": 0
+      }
+    },
+    {
+      "id": "19-cue-ballot-subject-reduced",
+      "state": "release.vote",
+      "file": "design/board-motion/review/motion/19-cue-ballot-subject-reduced.png",
+      "width": 402,
+      "height": 622,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-ballot-subject",
+        "cue": "cue-ballot-subject",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "secrecy-shot.pending",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/secrecy/shot.pending.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Shot: sending"
+    },
+    {
+      "id": "secrecy-supply.second",
+      "state": "supply.second",
+      "file": "design/board-motion/review/secrecy/supply.second.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Supply: one chosen, choose the second"
+    },
+    {
+      "id": "secrecy-code.four",
+      "state": "code.four",
+      "file": "design/board-motion/review/secrecy/code.four.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Code attempt: four chosen, confirm"
+    },
+    {
+      "id": "secrecy-scan.faction",
+      "state": "scan.faction",
+      "file": "design/board-motion/review/secrecy/scan.faction.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Scan: guess a faction inline"
+    },
+    {
+      "id": "secrecy-protect.choose",
+      "state": "protect.choose",
+      "file": "design/board-motion/review/secrecy/protect.choose.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Protection: yourself included"
+    },
+    {
+      "id": "secrecy-vote.recorded",
+      "state": "vote.recorded",
+      "file": "design/board-motion/review/secrecy/vote.recorded.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Ballot recorded (not a result)"
+    },
+    {
+      "id": "secrecy-move.confirm",
+      "state": "move.confirm",
+      "file": "design/board-motion/review/secrecy/move.confirm.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Room B pressed: a tentative place, then confirm"
+    },
+    {
+      "id": "secrecy-hack.phase",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/secrecy/hack.phase.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Hack phase: its own full minute"
+    },
+    {
+      "id": "vocabulary",
+      "state": null,
+      "file": "design/board-motion/review/vocabulary.png",
+      "width": 1420,
+      "height": 1300,
+      "viewport": "1420",
+      "kind": "vocabulary"
+    },
+    {
+      "id": "contact-key",
+      "state": null,
+      "file": "design/board-motion/review/contact-key.png",
+      "width": 1600,
+      "height": 4389,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-all",
+      "state": null,
+      "file": "design/board-motion/review/contact-all.png",
+      "width": 1600,
+      "height": 4570,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-matrix",
+      "state": null,
+      "file": "design/board-motion/review/contact-matrix.png",
+      "width": 1600,
+      "height": 2493,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-motion",
+      "state": null,
+      "file": "design/board-motion/review/contact-motion.png",
+      "width": 1600,
+      "height": 11894,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-secrecy",
+      "state": null,
+      "file": "design/board-motion/review/contact-secrecy.png",
+      "width": 1600,
+      "height": 2867,
+      "viewport": "1600",
+      "contact": true
+    }
+  ]
+}

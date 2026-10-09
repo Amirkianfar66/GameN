@@ -1,0 +1,553 @@
+/* mothership:dev-only
+   The board-motion prototype (issue #87): the comic board on a phone with every action on it.
+   Tokens only (design/prototypes/css/tokens.css, 0.4.0); pictures only behind the bundle marks;
+   private cue hooks only on the viewer's own board ([data-board="own"]); nothing repeats. */
+
+/* Reopening a concealed receipt/card restores its facts without replaying a cue. */
+.bm-app[data-private-quiet="true"] :is(.bm-strip, .bm-sheet, .bm-tray),
+.bm-app[data-private-quiet="true"] :is(.bm-strip, .bm-sheet, .bm-tray) * {
+  animation: none !important;
+  transition: none !important;
+}
+
+:root {
+  --bm-status: 52px;
+  --bm-nav: 64px;
+  --bm-gutter: 6px;
+  --bm-spine: 10px;
+  --bm-cap: 30px;
+  --bm-pad: 8px;
+  --bm-motion-tray: var(--ms-motion-card);
+  --bm-motion-pick: var(--ms-motion-selection);
+  --bm-motion-stamp: var(--ms-motion-stamp);
+  --bm-motion-status: var(--ms-motion-card);
+  --bm-motion-move: var(--ms-motion-piece-move);
+  --bm-motion-ghost: var(--ms-motion-card);
+  --bm-motion-tag: var(--ms-motion-selection);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); font-family: var(--ms-font-body); }
+.bm-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 2px; }
+
+/* ---------- the phone ---------- */
+.bm-app {
+  position: relative; height: 100dvh; width: 100%; overflow: hidden;
+  display: grid; grid-template-rows: var(--bm-status) minmax(0, 1fr) auto var(--bm-nav);
+  padding-top: var(--bm-safe-top, env(safe-area-inset-top, 0px)); background: var(--ms-color-canvas);
+}
+.bm-app[data-frame="phone"] { height: 100%; }
+/* Each part keeps its own row, so a hidden strip never moves navigation off the bottom edge. */
+.bm-status { grid-row: 1; }
+.bm-board { grid-row: 2; }
+.bm-strip { grid-row: 3; }
+.bm-nav { grid-row: 4; }
+.bm-synthetic {
+  position: absolute; z-index: 90; right: 6px; top: calc(var(--bm-safe-top, 0px) + var(--bm-status) + 2px); margin: 0; padding: 1px 6px;
+  font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ms-color-ink);
+  background: var(--ms-color-paper); border: 1px solid var(--ms-color-ink); border-radius: 3px; pointer-events: none; opacity: 0.86;
+}
+
+/* ---------- the status bar: round, phase, timer. Its size never changes. ---------- */
+.bm-status {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px;
+  padding: 6px 10px; background: var(--ms-color-panel); border-bottom: 2px solid var(--ms-color-ink); overflow: hidden;
+}
+.bm-status__round {
+  padding: 3px 7px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); transform: skewX(var(--ms-caption-skew)); border: 2px solid var(--ms-color-ink);
+}
+.bm-status__phase { min-width: 0; display: grid; }
+.bm-status__line { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bm-status__detail { margin: 0; font-size: 11px; color: var(--ms-color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bm-timer { min-width: 64px; padding: 4px 8px; text-align: center; font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 800; background: var(--ms-color-ink); color: var(--ms-color-paper); border-radius: 6px; }
+.bm-timer[data-final="true"] { background: var(--ms-color-accent); color: var(--ms-color-ink); }
+.bm-status[data-cue="phase"] .bm-status__line { animation: bm-line-in var(--bm-motion-status) var(--ms-ease-snap) backwards; }
+.bm-status[data-cue="round"] .bm-status__round { animation: bm-stamp var(--ms-motion-round) var(--ms-ease-snap) backwards; }
+.bm-status[data-cue="round"]::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; background: var(--ms-color-caption);
+  transform-origin: left center; animation: bm-sweep var(--ms-motion-round) var(--ms-ease-sweep) both; opacity: 0;
+}
+.bm-status { position: relative; }
+
+/* ---------- the board: one comic page ---------- */
+.bm-board {
+  position: relative; min-height: 0; display: grid; gap: var(--bm-gutter); padding: var(--bm-gutter);
+  grid-template-columns: minmax(0, 1fr) var(--bm-spine) minmax(0, 1fr);
+  grid-template-rows: var(--band-top, 1fr) var(--band-middle, 1.25fr) var(--band-lower, 1fr);
+  grid-template-areas: "top top top" "a spine b" "h spine j";
+  background: var(--ms-color-ink);
+  /* The bands are sized so that this never scrolls at the default text size (the captures
+     measure it). If it ever must, it scrolls inside itself: the strip never covers a room. */
+  overflow: hidden auto;
+}
+.bm-board[data-final="true"] { grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); grid-template-areas: "f"; }
+.bm-board[data-final="true"] .bm-spine { display: none; }
+.bm-room[data-room="command-room"] { grid-area: top; }
+.bm-room[data-room="room-a"] { grid-area: a; }
+.bm-room[data-room="room-b"] { grid-area: b; }
+.bm-room[data-room="hospital"] { grid-area: h; }
+.bm-room[data-room="jail"] { grid-area: j; }
+.bm-room[data-room="final-zone"] { grid-area: f; }
+.bm-room[hidden] { display: none; }
+
+/* The gutter between the two columns: a steel spine with four lamps. No arrow, door or path:
+   the picture says nothing about which rooms connect. */
+.bm-spine { grid-area: 2 / 2 / 4 / 3; display: grid; align-content: space-evenly; justify-items: center; background: var(--ms-color-steel-shadow); border: 2px solid var(--ms-color-ink); border-radius: 3px; }
+.bm-spine > span { width: 4px; height: 18%; max-height: 40px; border-radius: 2px; background: var(--ms-color-caption); opacity: 0.85; }
+
+.bm-room {
+  /* The picture is pinned by its anchor line (edge, in its own units) at a share (at) of the piece
+     area, and scaled to cover the panel: a prop line stays put whatever the panel's size. On a
+     short panel the line rises until the rows in front of it fit below it, so the press area
+     of a character behind the prop ends where the front rows' begin. */
+  --area-h: calc(100cqh - var(--bm-cap) - var(--bm-pad));
+  /* With standing characters in front of a used prop, the prop line clears the press areas of the front
+     row's upper bodies (data-prop-front, set by board.js). Elsewhere the picture stays where at puts it. */
+  --prop-clear: 0px;
+  --anchor-y: calc(var(--bm-cap) + min(var(--at) * var(--area-h), var(--area-h) - var(--prop-clear)));
+  --k: max(calc(100cqw / var(--cw)), calc(var(--anchor-y) / var(--edge)), calc((100cqh - var(--anchor-y)) / (768 - var(--edge))));
+  /* A standing figure in the front row: its box is 120 x 248, so it is about twice as tall as it is wide. */
+  --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.74), 60px);
+  --fig-h: calc(var(--piece-w) * 2.0667);
+  /* On the smallest phones the panel's lower edge crops the front row at the knees, as a comic panel does
+     (fitBoard counts the same): nothing on the smallest unit, up to two fifths of a figure at 44 px. */
+  --crop: clamp(0px, calc((60px - var(--row-unit, 64px)) * 1.7), calc(var(--fig-h) * 0.4));
+  /* Rows of characters are stacked at least one target apart: the row pitch is the board's row unit (at least 44 px). */
+  --row-gap: max(var(--row-unit, 50px), min(calc((var(--area-h) - var(--fig-h)) / max(var(--room-rows, 1) - 1, 1)), calc(var(--area-h) * 0.46)));
+  position: relative; min-height: 0; overflow: hidden; container-type: size;
+  border: 3px solid var(--ms-color-ink); border-radius: 3px; background: var(--ms-color-steel-shadow);
+  box-shadow: inset 0 0 0 2px var(--ms-color-paper);
+}
+.bm-room[data-crowd="true"] { --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.66), 52px); }
+.bm-room[data-prop-front="true"] { --prop-clear: calc(var(--fig-h) * 0.92 + 6px); }
+/* A room whose name is a move control keeps a full 44 px band for it; the others a caption band. */
+.bm-room:is([data-room="command-room"], [data-room="room-a"], [data-room="room-b"]) { --bm-cap: 44px; }
+.bm-room:is([data-room="hospital"], [data-room="jail"], [data-room="final-zone"]) { --bm-cap: 32px; }
+.bm-stage, .bm-prop {
+  position: absolute; pointer-events: none; width: calc(1024 * var(--k)); height: calc(768 * var(--k));
+  left: calc(50cqw - var(--cx) * var(--k)); top: calc(var(--anchor-y) - var(--edge) * var(--k));
+}
+.bm-prop { z-index: 5; }
+[data-art~="public-board"] .bm-room[data-room="command-room"] .bm-stage { background: var(--ms-asset-board-command-room-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .bm-room[data-room="room-a"] .bm-stage { background: var(--ms-asset-board-room-a-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .bm-room[data-room="room-b"] .bm-stage { background: var(--ms-asset-board-room-b-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .bm-room[data-room="hospital"] .bm-stage { background: var(--ms-asset-board-hospital-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .bm-room[data-room="jail"] .bm-stage { background: var(--ms-asset-board-jail-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="board-motion"] .bm-room[data-room="command-room"] .bm-prop { background: var(--bm-asset-command-room-prop-table) 0 0 / 100% 100% no-repeat; }
+[data-art~="board-motion"] .bm-room[data-room="room-b"] .bm-prop { background: var(--bm-asset-room-b-prop-counter) 0 0 / 100% 100% no-repeat; }
+[data-art~="board-motion"] .bm-room[data-room="hospital"] .bm-prop { background: var(--bm-asset-hospital-prop-bed) 0 0 / 100% 100% no-repeat; }
+/* The Final Zone has no picture: the page's paper ground, halftone and speed lines. */
+.bm-room[data-room="final-zone"] { --piece-w: clamp(40px, 14cqw, 70px); --row-gap: clamp(60px, calc(var(--area-h) * 0.3), 130px); background: var(--ms-color-paper-deep); }
+.bm-room[data-room="final-zone"] .bm-stage { inset: 0; width: auto; height: auto; }
+[data-art~="public-board"] .bm-room[data-room="final-zone"] .bm-stage { background: var(--ms-asset-fx-speed-lines-ink) center 62% / 160% auto no-repeat, var(--ms-asset-pattern-halftone-fine-ink) 0 0 / 14px 14px; opacity: 0.28; }
+.bm-room[data-room="final-zone"] .bm-piece { top: calc(100cqh - var(--bm-pad) - 24cqh - var(--row, 0) * var(--row-gap) - var(--h)); }
+
+/* ---------- room name tags: the slanted caption of the approved page ---------- */
+.bm-tag { position: absolute; z-index: 60; top: 0; left: 0; margin: 0; max-width: 100%; font-size: 12px; }
+.bm-tag__face, .bm-tag--fixed {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 26px; max-width: 100%; padding: 2px 8px;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); letter-spacing: 0.04em; text-transform: uppercase; line-height: 1;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 2px;
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt)); box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+  white-space: nowrap; overflow: hidden;
+}
+.bm-tag--fixed { margin: 3px; max-width: calc(100% - 6px); }
+/* A move tag's button is its press area: at least 44 x 44 around the drawn caption, and no
+   wider than its panel. The caption keeps the 3 px inset of the fixed tags. */
+.bm-tag__move { display: block; box-sizing: border-box; min-width: 44px; min-height: 44px; max-width: 100%; margin: 0; padding: 3px 3px 12px; border: 0; background: none; color: inherit; font: inherit; text-align: left; }
+.bm-tag__move .bm-tag__face { display: flex; width: max-content; }
+button.bm-tag__move { cursor: pointer; }
+button.bm-tag__move:focus-visible { outline: none; }
+button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 2px; }
+.bm-tag__name { overflow: hidden; text-overflow: ellipsis; }
+.bm-tag__sub { font-size: 9px; letter-spacing: 0.06em; opacity: 0.8; }
+.bm-tag__go { font-size: 11px; }
+.bm-tag__icon { width: 12px; height: 12px; flex: none; background: var(--ms-color-ink); }
+.bm-tag__icon[data-icon="hospital"] { clip-path: polygon(35% 0, 65% 0, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0 65%, 0 35%, 35% 35%); }
+.bm-tag__icon[data-icon="jail"] { clip-path: polygon(20% 45%, 20% 30%, 30% 10%, 50% 4%, 70% 10%, 80% 30%, 80% 45%, 92% 45%, 92% 100%, 8% 100%, 8% 45%, 32% 45%, 32% 30%, 50% 20%, 68% 30%, 68% 45%); }
+.bm-tag[data-pressed] .bm-tag__face { animation: bm-tag-press var(--bm-motion-tag) var(--ms-ease-snap); }
+.bm-board[data-final="true"] .bm-tag__sub { display: none; }
+/* A narrow panel keeps the room's name whole: its subtitle goes first. */
+@container (max-width: 190px) { .bm-tag__sub { display: none; } }
+@container (max-width: 120px) { .bm-tag__go { display: none; } }
+
+/* ---------- characters: full-body comic figures (owner's decision of 9 October 2026) ---------- */
+/* A piece's box is its figure's box (figures/geometry.mjs): --fa its height over its width, --fx and --fy
+   the anchor (the feet, the seat, or the line a prop hides it below), --hx, --hy and --ht the head, --pl
+   the plate's line, all as shares of the box, mirrored for a figure facing left. board.js sets them. */
+.bm-pieces { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.bm-piece {
+  --w: calc(var(--piece-w) * var(--depth, 1));
+  --h: calc(var(--w) * var(--fa, 2.0667));
+  position: absolute; width: var(--w); height: var(--h);
+  left: calc(var(--x, 0.5) * 100cqw - var(--w) * var(--fx, 0.5));
+  top: calc(100cqh - var(--bm-pad) + var(--crop, 0px) - var(--row, 0) * var(--row-gap) - var(--h) * var(--fy, 1));
+  /* How far the panel's lower edge is below this piece's anchor: the plate and the ring stay above it. */
+  --to-edge: calc(var(--bm-pad) - var(--crop, 0px) + var(--row, 0) * var(--row-gap));
+}
+/* A picture station: the figure's anchor at a point of the room's picture (--ax, --ay), drawn at the picture's scale. */
+.bm-piece:is([data-kind="prop"], [data-kind="seat"]) {
+  --to-edge: 100cqh;
+  --w: calc(var(--fw) * var(--fs) * var(--k));
+  --at-picture: calc(var(--anchor-y) + (var(--ay) - var(--edge)) * var(--k) - var(--h) * var(--fy));
+  --top: var(--at-picture);
+  left: calc(50cqw + (var(--ax) - var(--cx)) * var(--k) - var(--w) * var(--fx));
+  top: var(--top);
+}
+/* The bed and the bench are under their room's caption: on a short panel the figure sinks into the bed
+   or onto the bench rather than put its head under the caption. */
+.bm-piece[data-clear] { --top: max(calc(var(--bm-cap) + 2px - var(--h) * var(--ht)), var(--at-picture)); }
+.bm-piece__body { position: absolute; inset: 0; z-index: calc(30 - var(--row, 0) * 8); }
+.bm-piece[data-kind="prop"] .bm-piece__body { z-index: 2; }
+.bm-piece[data-kind="seat"] .bm-piece__body { z-index: 7; }
+/* The hands on the chart table and the counter, the arms on the blanket: over the prop (5), under the standing (14 and up). */
+.bm-piece__front { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+.bm-piece__art { position: absolute; inset: 0; border-radius: 40% 40% 12% 12%; background: var(--ms-color-steel-mid); }
+.bm-piece__art, .bm-piece__front { background-position: 0 0; background-size: 100% 100%; background-repeat: no-repeat; }
+[data-art~="board-motion-figures"] .bm-piece__art { border-radius: 0; background-color: transparent; background-image: var(--fig); }
+[data-art~="board-motion-figures"] .bm-piece__front { background-image: var(--fig-front); }
+:is(.bm-piece, .bm-flyer)[data-mirror="true"] :is(.bm-piece__art, .bm-piece__front) { scale: -1 1; }
+
+/* The tag: seat number and name, a plate on the floor at the figure's feet, or on the prop's edge. */
+.bm-piece__tag {
+  position: absolute; z-index: 50; left: calc(var(--fx, 0.5) * 100%); top: min(calc(var(--h) * var(--pl, 1) - 8px), calc(var(--h) * var(--fy, 1) + var(--to-edge, 100cqh) - 19px)); transform: translateX(-50%);
+  display: flex; align-items: stretch; max-width: calc(var(--w) + 18px); height: 15px; font-size: 10px; line-height: 13px; font-weight: 700;
+  border: 1.5px solid var(--ms-color-ink); border-radius: 2px; background: var(--ms-color-paper); color: var(--ms-color-ink); white-space: nowrap;
+}
+.bm-piece__num { padding: 0 3px; background: var(--ms-color-caption); border-right: 1.5px solid var(--ms-color-ink); }
+.bm-piece__name { padding: 0 3px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.bm-piece:is([data-kind="prop"], [data-kind="seat"]) .bm-piece__tag { max-width: calc(var(--w) + 30px); }
+
+/* Public markers at the head: captain, health, jail, the faction the rules reveal at elimination, the active turn. */
+.bm-piece__badges { position: absolute; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--hy, 0.15) * 100%); width: 0; height: 0; pointer-events: none; }
+.bm-badge { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--ms-color-paper) center / 100% 100% no-repeat; border: 1.5px solid var(--ms-color-ink); }
+.bm-badge[data-badge="captain"] { top: calc(var(--w) * -0.17 - 12px); left: calc(var(--w) * 0.08); }
+.bm-badge[data-badge="injured"], .bm-badge[data-badge="eliminated"] { top: calc(var(--w) * -0.17 - 12px); left: calc(var(--w) * -0.08 - 16px); }
+.bm-badge[data-badge="jailed"] { top: calc(var(--w) * 0.02 - 4px); left: calc(var(--w) * 0.16); }
+[data-art~="public-board"] .bm-badge[data-badge="captain"] { background-image: var(--ms-asset-marker-captain-badge); border: 0; }
+[data-art~="public-board"] .bm-badge[data-badge="injured"] { background-image: var(--ms-asset-marker-health-injured-badge); border: 0; }
+[data-art~="public-board"] .bm-badge[data-badge="eliminated"] { background-image: var(--ms-asset-marker-health-eliminated-badge); border: 0; }
+[data-art~="public-board"] .bm-badge[data-badge="jailed"] { background-image: var(--ms-asset-marker-jail-badge); border: 0; }
+.bm-reveal {
+  position: absolute; top: calc(var(--w) * 0.24); left: 0; transform: translateX(-50%) rotate(var(--ms-stamp-rotation)); padding: 0 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--ms-color-paper); background: var(--ms-color-ink); border: 1.5px solid var(--ms-color-paper);
+}
+.bm-piece[data-revealed="Blue"] .bm-reveal { background: var(--ms-color-faction-blue); color: var(--ms-color-ink); }
+.bm-piece[data-revealed="Red"] .bm-reveal { background: var(--ms-color-faction-red); color: var(--ms-color-ink); }
+.bm-piece[data-revealed="Alien"] .bm-reveal { background: var(--ms-color-faction-alien); color: var(--ms-color-ink); }
+/* Eliminated: the figure sits on the floor (its pose), greyed. Injured: the marker, and in the Hospital the bed. */
+.bm-piece[data-health="Eliminated"] :is(.bm-piece__art, .bm-piece__front) { filter: grayscale(1) contrast(0.7); opacity: 0.6; }
+.bm-piece__turn { position: absolute; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--h) * var(--ht, 0) - 14px); width: 18px; height: 12px; margin-left: -9px; display: none; background: var(--ms-color-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.bm-piece[data-active] .bm-piece__turn { display: block; }
+[data-art~="public-board"] .bm-piece[data-active] .bm-piece__turn { clip-path: none; background: var(--ms-asset-marker-turn-float) center / contain no-repeat; width: 22px; height: 16px; margin-left: -11px; top: calc(var(--h) * var(--ht, 0) - 18px); }
+.bm-piece[data-self] .bm-piece__tag { box-shadow: 0 0 0 2px var(--ms-color-caption); }
+
+/* Public: the subject of a release vote, and the published count of a closed vote, over the head. */
+.bm-piece__subject, .bm-piece__tally {
+  position: absolute; z-index: 52; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--h) * var(--ht, 0) - 20px); transform: translateX(-50%); padding: 0 4px; white-space: nowrap;
+  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; border: 1.5px solid var(--ms-color-ink); background: var(--ms-color-paper); color: var(--ms-color-ink);
+}
+.bm-piece__tally[data-selected="true"] { background: var(--ms-color-caption); }
+/* A ring on the floor around the feet: the subject of a release vote (public), and the private cues below. */
+.bm-piece__ring { position: absolute; display: none; pointer-events: none; left: calc(var(--fx, 0.5) * 100% - var(--w) * 0.62); width: calc(var(--w) * 1.24); top: min(calc(var(--h) * var(--fy, 1) - var(--w) * 0.2), calc(var(--h) * var(--fy, 1) + var(--to-edge, 100cqh) - var(--w) * 0.4 - 3px)); height: calc(var(--w) * 0.4); border-radius: 50%; }
+.bm-piece[data-subject] .bm-piece__ring { display: block; border: 3px double var(--ms-color-paper); }
+/* Behind a prop or on the bench the feet are hidden: an outline round the figure says it instead. */
+.bm-piece[data-subject]:is([data-kind="prop"], [data-kind="seat"]) .bm-piece__ring { display: none; }
+.bm-piece[data-subject]:is([data-kind="prop"], [data-kind="seat"]) :is(.bm-piece__art, .bm-piece__front) { filter: drop-shadow(2px 0 0 var(--ms-color-paper)) drop-shadow(-2px 0 0 var(--ms-color-paper)) drop-shadow(0 -2px 0 var(--ms-color-paper)); }
+
+/* ---------- private cues: the viewer's own open action, on their own board only ---------- */
+[data-board="own"] .bm-piece[data-target] .bm-piece__ring { display: block; }
+[data-board="own"] .bm-piece[data-target="eligible"] .bm-piece__ring { border: 2.5px dashed var(--ms-color-caption); }
+[data-board="own"] .bm-piece[data-target="selected"] .bm-piece__ring,
+[data-board="own"] .bm-piece[data-target="picked"] .bm-piece__ring { border: 3.5px solid var(--ms-color-caption); }
+[data-board="own"] .bm-piece[data-target="pending"] .bm-piece__ring { border: 2px dotted var(--ms-color-paper); }
+[data-board="own"] .bm-piece:is([data-kind="prop"], [data-kind="seat"])[data-target] .bm-piece__ring { display: none; }
+/* The chosen figure is outlined in the caption color; behind a prop an eligible one is too, thinly. */
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__art, .bm-piece__front) {
+  filter: drop-shadow(2.5px 0 0 var(--ms-color-caption)) drop-shadow(-2.5px 0 0 var(--ms-color-caption)) drop-shadow(0 2.5px 0 var(--ms-color-caption)) drop-shadow(0 -2.5px 0 var(--ms-color-caption));
+}
+[data-board="own"] .bm-piece:is([data-kind="prop"], [data-kind="seat"])[data-target="eligible"] :is(.bm-piece__art, .bm-piece__front) {
+  filter: drop-shadow(1.5px 0 0 var(--ms-color-caption)) drop-shadow(-1.5px 0 0 var(--ms-color-caption)) drop-shadow(0 -1.5px 0 var(--ms-color-caption));
+}
+[data-board="own"] .bm-piece[data-target="other"] :is(.bm-piece__art, .bm-piece__front) { opacity: 0.42; filter: grayscale(0.6); }
+[data-board="own"] .bm-piece[data-target="other"] .bm-piece__ring { display: none; }
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__body, .bm-piece__front) { translate: 0 calc(-1 * var(--ms-lift)); }
+[data-board="own"] .bm-piece[data-target="selected"] :is(.bm-piece__body, .bm-piece__front) { animation: bm-pick var(--bm-motion-pick) var(--ms-ease-snap) backwards; }
+[data-board="own"] .bm-piece__pick, [data-board="own"] .bm-piece[data-target="selected"]::after, [data-board="own"] .bm-piece[data-target="pending"]::after {
+  position: absolute; z-index: 52; left: calc(var(--hx, 0.5) * 100% + var(--w) * 0.14); top: calc(var(--h) * var(--ht, 0)); width: 20px; height: 20px; display: grid; place-items: center;
+  font-size: 12px; font-weight: 900; color: var(--ms-color-ink); background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 50%;
+  transform: rotate(var(--ms-stamp-rotation));
+}
+[data-board="own"] .bm-piece__pick { animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
+[data-board="own"] .bm-piece[data-target="selected"]::after { content: '✓'; animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
+[data-board="own"] .bm-piece[data-target="pending"]::after { content: '…'; background: var(--ms-color-paper); }
+/* The target button: the character's upper body, from the head down, at least 44 x 44, never overlapping
+   another. A standing character's band hangs at the same height above its row's floor line in every row,
+   so rows a row unit apart never overlap, whatever the figures' depth. */
+[data-board="own"] .bm-piece__target {
+  position: absolute; z-index: 55; left: calc(var(--fx, 0.5) * 100%); top: calc(var(--h) * var(--fy, 1) - var(--fig-h) * 0.916); transform: translateX(-50%);
+  width: max(44px, min(calc(var(--w) * 0.8), calc(var(--gap, 1) * 100cqw - 2px))); height: clamp(44px, calc(var(--fig-h) * 0.55), var(--row-gap, 44px));
+  margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 10px;
+}
+/* Behind a prop, the press area is the figure down to 6 px below the prop line (the room's, or the figure's
+   own if that is higher), at least 44 px tall, and never reaching up under the room's tag. On the bench,
+   the figure itself. */
+[data-board="own"] .bm-piece[data-kind="prop"] .bm-piece__target {
+  --line: calc(min(var(--h) * var(--fy), var(--anchor-y) - var(--top)) + 6px);
+  --from: max(min(calc(var(--h) * var(--ht)), calc(var(--line) - 44px)), calc(var(--bm-cap) - var(--top)));
+  top: var(--from); height: max(44px, calc(var(--line) - var(--from))); width: max(44px, calc(var(--w) * 0.7));
+}
+[data-board="own"] .bm-piece[data-kind="seat"] .bm-piece__target { top: calc(var(--h) * var(--ht)); height: max(44px, calc(var(--h) * (1 - var(--ht)))); width: max(44px, calc(var(--w) * 0.9)); }
+[data-board="own"] .bm-piece__target::after {
+  content: '+'; position: absolute; right: -2px; top: -2px; width: 16px; height: 16px; display: grid; place-items: center; font-size: 13px; font-weight: 900; line-height: 1;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px solid var(--ms-color-ink); border-radius: 50%;
+}
+[data-board="own"] .bm-piece__target:active { background: color-mix(in srgb, var(--ms-color-caption) 22%, transparent); }
+[data-board="own"] .bm-piece__target:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
+
+/* A tentative place for a move: the viewer's own figure, dashed, in the room pressed, until the public update says where the piece is. */
+[data-board="own"] .bm-ghost {
+  position: absolute; z-index: 25; width: var(--piece-w); height: var(--fig-h); left: calc(50% - var(--piece-w) / 2); bottom: calc(var(--bm-pad) + 4px);
+  border: 2.5px dashed var(--ms-color-caption); border-radius: 40% 40% 14% 14%; pointer-events: none;
+  animation: bm-fade var(--bm-motion-ghost) var(--ms-ease-standard) backwards;
+}
+[data-board="own"] .bm-ghost__art { position: absolute; inset: 4px; opacity: 0.4; background: transparent center bottom / contain no-repeat; }
+[data-art~="board-motion-figures"] [data-board="own"] .bm-ghost__art { background-image: var(--fig); }
+[data-board="own"] .bm-ghost__tag { position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%); padding: 0 4px; font-size: 10px; font-weight: 800; color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px solid var(--ms-color-ink); }
+[data-board="own"] .bm-ghost[data-state="pending"] { border-style: dotted; }
+
+/* ---------- motion of public facts: the same on every screen ---------- */
+.bm-piece[data-moving] .bm-piece__body { z-index: 80; }
+.bm-piece[data-cue="status"] .bm-badge, .bm-piece[data-cue="status"] .bm-reveal { animation: bm-stamp var(--bm-motion-status) var(--ms-ease-snap) backwards; }
+.bm-piece[data-cue="status"] :is(.bm-piece__art, .bm-piece__front) { animation: bm-status-ink var(--bm-motion-status) var(--ms-ease-standard); }
+.bm-piece[data-cue="turn"] .bm-piece__turn { animation: bm-drop var(--bm-motion-status) var(--ms-ease-snap) backwards; }
+.bm-fx { position: absolute; inset: 0; z-index: 85; pointer-events: none; overflow: hidden; }
+.bm-flyer { position: absolute; z-index: 2; }
+.bm-flyer .bm-piece__art { position: absolute; inset: 0; }
+.bm-trail { position: absolute; height: 10px; transform-origin: 0 50%; border-radius: 5px; background: var(--ms-color-ink); opacity: 0; animation: bm-trail var(--bm-motion-move) var(--ms-ease-standard) forwards; }
+[data-art~="public-board"] .bm-trail { background: var(--ms-asset-fx-ink-trail-paper) center / 100% 100% no-repeat; height: 14px; }
+.bm-puff { position: absolute; width: 46px; height: 22px; margin: -14px 0 0 -23px; border-radius: 50%; border: 2px solid var(--ms-color-paper); opacity: 0; animation: bm-puff calc(var(--bm-motion-move) * 0.37) var(--ms-ease-settle) calc(var(--bm-motion-move) * 0.63) forwards; }
+[data-art~="public-board"] .bm-puff { border: 0; background: var(--ms-asset-fx-landing-puff-paper) center / contain no-repeat; }
+
+/* ---------- the strip: selection, progress, confirmation and the receipt, above navigation ---------- */
+.bm-strip {
+  position: relative; z-index: 70; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 8px; align-items: center;
+  margin: 0 6px 4px; padding: 8px 10px; border: 2px solid var(--ms-color-ink); border-radius: 10px; background: var(--ms-color-paper); color: var(--ms-color-ink);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+}
+.bm-strip[hidden] { display: none; }
+.bm-strip__kind {
+  float: left; margin: 0 8px 2px 0; padding: 2px 6px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase;
+  background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); transform: skewX(var(--ms-caption-skew));
+}
+.bm-strip__text { min-width: 0; }
+.bm-strip__line { margin: 0; font-size: 14px; font-weight: 700; line-height: 1.25; }
+.bm-strip__line:focus { outline: none; }
+.bm-strip__line:focus-visible { outline: 2px solid var(--ms-color-focus); }
+.bm-strip__detail { clear: left; margin: 2px 0 0; font-size: 11.5px; line-height: 1.3; color: var(--ms-color-ink); opacity: 0.85; }
+.bm-strip__progress { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -5px; }
+.bm-strip__progress > span { width: 18px; height: 18px; display: grid; place-items: center; font-size: 10px; font-weight: 900; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+.bm-strip__progress > span[data-done="true"] { background: var(--ms-color-caption); }
+.bm-strip__text { grid-column: 1; grid-row: 1; }
+/* One control at the side of the words: back, Done, OK or Check again. Its words may take two lines. */
+.bm-strip__side { grid-column: 2; grid-row: 1; align-self: start; display: flex; }
+.bm-strip__side .bm-btn { flex: none; min-width: 64px; max-width: 8.5em; padding: 4px 10px; line-height: 1.1; }
+/* Answers and the confirmation: one row, each answer as wide as the others. */
+.bm-strip__controls { grid-column: 1 / -1; display: flex; gap: 6px; }
+.bm-btn {
+  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 6px 10px; font-size: 13px; font-weight: 800; cursor: pointer;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 8px;
+}
+.bm-btn--primary { background: var(--ms-color-caption); box-shadow: 0 3px 0 var(--ms-color-ink); }
+.bm-btn--choice { flex: 1 1 0; padding: 4px 6px; line-height: 1.1; }
+.bm-btn[aria-disabled="true"] { opacity: 0.45; cursor: default; box-shadow: none; }
+.bm-stamp {
+  position: absolute; right: 10px; top: -12px; padding: 1px 8px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2.5px solid var(--ms-color-ink); transform: rotate(var(--ms-stamp-rotation));
+}
+.bm-stamp[data-kind="registered"] { background: var(--ms-color-caption); animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
+.bm-stamp[data-kind="pending"] { border-style: dashed; }
+.bm-stamp[data-kind="not-accepted"] { background: var(--ms-color-paper); background-image: repeating-linear-gradient(45deg, var(--ms-color-paper) 0 4px, var(--ms-color-paper-deep) 4px 7px); }
+.bm-stamp[data-kind="unknown"] { border-style: dotted; }
+.bm-strip[data-step="not-accepted"] { animation: bm-nope var(--bm-motion-pick) var(--ms-ease-standard); }
+.bm-strip[data-enter] { animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards; }
+
+/* ---------- the actions tray: compact, over the lower edge of the board ---------- */
+.bm-tray {
+  position: absolute; z-index: 75; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 46%; overflow: auto;
+  padding: 0 10px 10px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-panel);
+  box-shadow: 0 -6px 0 color-mix(in srgb, var(--ms-color-ink) 60%, transparent); animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards;
+}
+.bm-tray[hidden] { display: none; }
+.bm-sheet__head { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; min-height: 44px; background: inherit; }
+.bm-sheet__head h2 { margin: 0; font-size: 15px; }
+.bm-close { width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; font-size: 24px; cursor: pointer; }
+.bm-tray__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.bm-chip {
+  width: 100%; min-height: 52px; display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 2px 8px; padding: 6px 8px; text-align: left; cursor: pointer;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 10px; box-shadow: 0 3px 0 var(--ms-color-ink);
+}
+.bm-chip__icon { grid-row: 1 / 3; width: 26px; height: 26px; border-radius: 50%; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); display: grid; place-items: center; font-weight: 900; font-size: 13px; }
+.bm-chip__name { font-weight: 800; font-size: 14px; }
+.bm-chip__hint { font-size: 11px; opacity: 0.8; }
+.bm-tray__empty { margin: 4px 0 10px; font-size: 14px; }
+
+/* ---------- the private card and the menu: sheets over the board, never a separate page ---------- */
+/* The role's device is drawn on the player's own character, inside the open private card only. */
+[data-art~="public-board"] .bm-private .bm-card__art { background-color: var(--ms-color-paper-deep); }
+[data-art~="public-board"] .bm-private[data-character="c1"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .bm-private[data-character="c2"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .bm-private[data-character="c3"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .bm-private[data-character="c4"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .bm-private[data-character="c5"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .bm-private[data-character="c6"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .bm-private[data-character="c7"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .bm-private[data-character="c8"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .bm-private[data-character="c9"] .bm-card__art { background-image: var(--ms-asset-piece-crew-card-c9); }
+[data-art~="roles"] .bm-private[data-device="officer"] .bm-card__art::after { background-image: var(--ms-asset-device-officer-held); }
+[data-art~="roles"] .bm-private[data-device="insider"] .bm-card__art::after { background-image: var(--ms-asset-device-insider-held); }
+[data-art~="roles"] .bm-private[data-device="cracker"] .bm-card__art::after { background-image: var(--ms-asset-device-cracker-held); }
+[data-art~="roles"] .bm-private[data-device="blue-disabler"] .bm-card__art::after { background-image: var(--ms-asset-device-blue-disabler-held); }
+[data-art~="roles"] .bm-private[data-device="supplier"] .bm-card__art::after { background-image: var(--ms-asset-device-supplier-held); }
+[data-art~="roles"] .bm-private[data-device="undercover"] .bm-card__art::after { background-image: var(--ms-asset-device-undercover-held); }
+[data-art~="roles"] .bm-private[data-device="hacker"] .bm-card__art::after { background-image: var(--ms-asset-device-hacker-held); }
+[data-art~="roles"] .bm-private[data-device="red-disabler"] .bm-card__art::after { background-image: var(--ms-asset-device-red-disabler-held); }
+[data-art~="roles"] .bm-private[data-device="alien"] .bm-card__art::after { background-image: var(--ms-asset-device-alien-held); }
+.bm-sheet {
+  position: absolute; z-index: 76; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 62%; overflow: auto;
+  padding: 0 12px 12px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-panel);
+  animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards;
+}
+.bm-sheet[hidden] { display: none; }
+.bm-card { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; align-items: center; padding: 10px; border-radius: 10px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); }
+.bm-card__art { width: 76px; height: 87px; border-radius: 8px; background: var(--ms-color-steel-mid) center / contain no-repeat; position: relative; }
+.bm-card__art::after { content: ''; position: absolute; inset: 0; background: transparent center / contain no-repeat; }
+.bm-card__name { margin: 0; font-size: 20px; font-weight: 900; }
+.bm-card__team { margin: 2px 0 0; font-size: 12px; }
+.bm-know { margin: 10px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.35; }
+.bm-hint { font-size: 12px; color: var(--ms-color-text-secondary); }
+.bm-list { width: 100%; border-collapse: collapse; font-size: 13px; }
+.bm-list th, .bm-list td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--ms-color-steel-mid); }
+.bm-notice { position: absolute; z-index: 78; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; font-weight: 700; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 8px; animation: bm-fade var(--ms-motion-card) var(--ms-ease-standard) backwards; }
+.bm-banner { position: absolute; z-index: 79; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px dashed var(--ms-color-ink); border-radius: 8px; }
+
+/* ---------- navigation: Board, Actions, Pass in the middle, Card, Menu ---------- */
+.bm-nav {
+  position: relative; z-index: 80; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end;
+  padding: 2px 4px calc(4px + var(--bm-safe-bottom, env(safe-area-inset-bottom, 0px))); background: var(--ms-color-canvas); border-top: 2px solid var(--ms-color-ink);
+}
+.bm-nav button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 44px; min-height: 52px; padding: 2px; cursor: pointer;
+  font-size: 11px; color: var(--ms-color-text-secondary); background: transparent; border: 0; border-radius: 8px;
+}
+.bm-nav button[aria-pressed="true"] { color: var(--ms-color-caption); background: var(--ms-color-panel); }
+.bm-nav__icon { width: 22px; height: 22px; display: block; background: currentColor; }
+.bm-nav__icon[data-icon="board"] { clip-path: polygon(0 0, 46% 0, 46% 46%, 0 46%, 0 0, 54% 0, 100% 0, 100% 46%, 54% 46%, 54% 0, 54% 54%, 100% 54%, 100% 100%, 54% 100%, 54% 54%, 0 54%, 46% 54%, 46% 100%, 0 100%, 0 54%); }
+.bm-nav__icon[data-icon="actions"] { clip-path: polygon(55% 0, 12% 57%, 45% 57%, 35% 100%, 90% 38%, 56% 38%, 68% 0); }
+.bm-nav__icon[data-icon="card"] { clip-path: polygon(15% 5%, 85% 5%, 85% 95%, 15% 95%, 15% 5%, 25% 15%, 25% 85%, 75% 85%, 75% 15%, 25% 15%); }
+.bm-nav__icon[data-icon="menu"] { clip-path: polygon(0 20%, 100% 20%, 100% 32%, 0 32%, 0 44%, 100% 44%, 100% 56%, 0 56%, 0 68%, 100% 68%, 100% 80%, 0 80%); }
+.bm-nav .bm-pass {
+  align-self: start; justify-self: center; width: 62px; height: 62px; min-height: 62px; margin-top: -18px; border-radius: 50%;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); border: 3px solid var(--ms-color-ink); box-shadow: 0 4px 0 var(--ms-color-ink); font-weight: 900; font-size: 12px;
+}
+.bm-nav .bm-pass[aria-disabled="true"] { color: var(--ms-color-text-secondary); background: var(--ms-color-panel); border: 3px dashed var(--ms-color-steel-mid); box-shadow: none; cursor: default; }
+.bm-nav__icon[data-icon="pass"] { width: 20px; height: 20px; clip-path: polygon(10% 8%, 62% 50%, 10% 92%, 10% 8%, 74% 8%, 90% 8%, 90% 92%, 74% 92%, 74% 8%); }
+
+/* ---------- keyframes: finite, decorative, never in the way ---------- */
+@keyframes bm-stamp { from { transform: rotate(var(--ms-stamp-rotation)) scale(1.6); opacity: 0; } 60% { transform: rotate(var(--ms-stamp-rotation)) scale(0.94); opacity: 1; } to { transform: rotate(var(--ms-stamp-rotation)) scale(1); } }
+@keyframes bm-pick { from { translate: 0 0; } 60% { translate: 0 calc(-1.6 * var(--ms-lift)); } to { translate: 0 calc(-1 * var(--ms-lift)); } }
+@keyframes bm-rise { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes bm-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bm-line-in { from { transform: translateX(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes bm-sweep { 0% { transform: scaleX(0); opacity: 0.9; } 55% { transform: scaleX(1); opacity: 0.9; } 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes bm-drop { from { transform: translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes bm-status-ink { 0% { filter: none; } 40% { filter: brightness(1.5) contrast(1.2); } 100% { filter: none; } }
+@keyframes bm-tag-press { from { transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt)) translateY(2px) scale(0.96); } to { transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt)); } }
+@keyframes bm-nope { 0%, 100% { transform: none; } 30% { transform: translateX(-4px); } 70% { transform: translateX(4px); } }
+@keyframes bm-trail { 0% { opacity: 0; } 15% { opacity: 0.85; } 70% { opacity: 0.6; } 100% { opacity: 0; } }
+@keyframes bm-puff { 0% { opacity: 0.9; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.3); } }
+
+/* ---------- reduced motion: the same facts and controls; nothing travels, shakes or zooms ---------- */
+[data-motion="reduced"] *, [data-motion="reduced"] *::before, [data-motion="reduced"] *::after { animation: none !important; transition: none !important; }
+[data-motion="reduced"] :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice),
+[data-motion="reduced"] .bm-piece[data-cue="status"] :is(.bm-badge, .bm-reveal),
+[data-motion="reduced"] .bm-piece[data-arrived] :is(.bm-piece__body, .bm-piece__front) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
+[data-motion="reduced"] .bm-board .bm-piece[data-target] :is(.bm-piece__body, .bm-piece__front) { translate: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
+}
+
+/* ---------- a short phone (568 px tall and the like): the same parts, tighter ---------- */
+.bm-app[data-short="true"] { --bm-status: 44px; --bm-nav: 56px; --bm-gutter: 4px; }
+.bm-app[data-short="true"] .bm-status { padding: 3px 8px; gap: 6px; }
+.bm-app[data-short="true"] .bm-status__line { font-size: 14px; }
+.bm-app[data-short="true"] .bm-timer { min-width: 56px; padding: 2px 6px; font-size: 19px; }
+.bm-app[data-short="true"] .bm-nav button { min-height: 48px; }
+.bm-app[data-short="true"] .bm-nav .bm-pass { width: 56px; height: 56px; min-height: 56px; margin-top: -14px; }
+.bm-app[data-short="true"] .bm-strip { gap: 4px 6px; margin-bottom: 2px; padding: 6px 8px; }
+.bm-app[data-short="true"] .bm-strip__kind { margin-right: 6px; padding: 0 5px; font-size: 10px; line-height: 14px; }
+.bm-app[data-short="true"] .bm-strip__line { font-size: 13px; line-height: 1.2; }
+.bm-app[data-short="true"] .bm-strip__detail { font-size: 11px; line-height: 1.25; }
+
+/* ---------- wider screens follow the same design: one phone-width column, centered ---------- */
+@media (min-width: 40em) {
+  .bm-app[data-frame="full"] { max-width: 30rem; margin: 0 auto; border-left: 2px solid var(--ms-color-ink); border-right: 2px solid var(--ms-color-ink); }
+}
+
+/* ---------- large text: the same board, numbers on the plates, nothing cut off ---------- */
+@media (max-width: 18em) {
+  .bm-app { grid-template-rows: auto minmax(0, 1fr) auto auto; }
+  .bm-status { grid-template-columns: minmax(0, 1fr) auto; }
+  .bm-status__round { display: none; }
+  .bm-status__line, .bm-status__detail { white-space: normal; }
+  .bm-timer { font-size: 1.1rem; }
+  .bm-board { overflow-y: auto; }
+  .bm-piece__name { display: none; }
+  .bm-piece__tag { height: auto; font-size: 0.7rem; line-height: 1.2; }
+  .bm-tag { font-size: 0.65rem; }
+  .bm-tag__sub, .bm-tag__go { display: none; }
+  .bm-nav { min-height: auto; }
+  .bm-nav button > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .bm-strip__line { font-size: 0.85rem; }
+  .bm-strip__controls { flex-wrap: wrap; }
+  .bm-strip__side .bm-btn { max-width: 12em; }
+}
+
+@media (forced-colors: active) {
+  .bm-tag__face, .bm-tag--fixed, .bm-piece__tag, .bm-strip, .bm-btn, .bm-chip { forced-color-adjust: none; border-color: CanvasText; }
+  [data-board="own"] .bm-piece[data-target] .bm-piece__ring { border-color: Highlight; }
+}
+
+/* ---------- the character vocabulary sheet (vocabulary.html) ---------- */
+.bm-vocab__head { padding: 16px 16px 0; max-width: 1200px; }
+.bm-vocab__head h1 { margin: 0 0 4px; font-size: 20px; }
+.bm-vocab__head p { margin: 0; font-size: 13px; color: var(--ms-color-text-secondary); }
+.bm-vocab { border-collapse: separate; border-spacing: 6px; margin: 8px; }
+.bm-vocab th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ms-color-text-secondary); text-align: left; padding: 0 4px; }
+.bm-vocab td { position: relative; padding: 0; }
+.bm-vocab__room { width: 104px; height: 118px; --bm-cap: 14px; }
+.bm-vocab__stamp { position: absolute; top: auto; bottom: -6px; right: 4px; font-size: 9px; padding: 0 4px; }
+.bm-vocab__focus { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
+.bm-piece[data-demo="flight"] :is(.bm-piece__body, .bm-piece__front) { transform: translate(-6px, -18px) scale(1.12) rotate(calc(var(--settle) * -2)); }
+.bm-vocab__trail { left: 4px; top: 78px; width: 40px; opacity: 0.8; animation: none; transform: rotate(-24deg); }
+
+/* ---------- prototype chrome: the frame, the observer and the fixture controls (not part of the design) ---------- */
+.bm-proto { display: grid; grid-template-columns: auto auto minmax(260px, 1fr); gap: 20px; align-items: start; padding: 16px; min-height: 100vh; }
+.bm-frame { position: relative; width: var(--frame-w, 390px); height: var(--frame-h, 844px); border: 10px solid var(--ms-color-ink); border-radius: 36px; overflow: hidden; background: var(--ms-color-canvas); box-shadow: 0 0 0 2px var(--ms-color-steel-mid); }
+.bm-frame > .bm-app { height: 100%; }
+.bm-proto[data-pair] { grid-template-columns: auto auto; width: max-content; min-height: 0; }
+.bm-observer { width: 300px; }
+.bm-observer h2, .bm-panel h2 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-color-text-secondary); }
+.bm-observer .bm-frame { --frame-w: 300px; --frame-h: 560px; border-width: 6px; border-radius: 20px; }
+.bm-observer .bm-app { grid-template-rows: var(--bm-status) minmax(0, 1fr); pointer-events: none; }
+.bm-panel { display: grid; gap: 12px; font-size: 13px; max-width: 420px; }
+.bm-panel fieldset { border: 1px solid var(--ms-color-steel-mid); border-radius: 8px; padding: 8px 10px; display: grid; gap: 6px; }
+.bm-panel legend { font-weight: 700; }
+.bm-panel select, .bm-panel button { font: inherit; min-height: 32px; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 1px solid var(--ms-color-ink); border-radius: 6px; padding: 2px 8px; }
+.bm-panel .bm-events { display: flex; flex-wrap: wrap; gap: 6px; }
+.bm-panel p { margin: 0; color: var(--ms-color-text-secondary); }
+@media (max-width: 900px) { .bm-proto { grid-template-columns: 1fr; } .bm-observer { display: none; } }

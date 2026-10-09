@@ -1,0 +1,749 @@
+[
+  {
+    "name": "emulator-01-board",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Bot 3’s turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-02-display",
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": null,
+    "rowUnit": null,
+    "phase": "Player 3’s turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": null,
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "display-privacy-start",
+    "hooks": [],
+    "roles": []
+  },
+  {
+    "name": "emulator-04-your-turn",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-05-tray",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": true,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-device",
+      "data-team"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "offers",
+    "offers": [
+      "disable",
+      "hack"
+    ],
+    "tray": true
+  },
+  {
+    "name": "emulator-06-hack-choose",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "HACK CHOOSING HACK : Who do you request a Hack with? Hack · Tap a character These are the choices the server offers you now. Cancel",
+    "stripStep": "choosing",
+    "stamp": null,
+    "tray": false,
+    "targets": [
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 33.2,
+        "y": 576,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      }
+    ],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [
+        "seat-5"
+      ],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": [
+        "seat-7",
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4",
+        "seat-6"
+      ]
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-character-target",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "display-privacy-hack-choosing",
+    "hooks": [],
+    "roles": []
+  },
+  {
+    "name": "emulator-07-hack-picked",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "HACK NOT SENT YET HACK : Request a Hack with Player 5? You cannot change or withdraw it here once the server accepts it. Request Hack Choose again",
+    "stripStep": "confirming",
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [
+        "seat-5"
+      ],
+      "picked": [],
+      "pending": [],
+      "other": [
+        "seat-7",
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4",
+        "seat-6"
+      ]
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-09-move-confirm",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE NOT SENT YET MOVE : Move to Room B? You cannot change or withdraw it here once the server accepts it. Move Choose again",
+    "stripStep": "confirming",
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "tentative",
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "keyboard-move",
+    "tabPressesToRoomTag": 2,
+    "focus": "ms-action-step",
+    "ghost": "tentative"
+  },
+  {
+    "name": "emulator-12-move-accepted",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "display-privacy-after-move",
+    "hooks": [],
+    "roles": []
+  },
+  {
+    "name": "emulator-13-pass-receipt",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Bot 5’s turn",
+    "strip": "PASS ACCEPTED PASS : Turn passed. The next phase is shown at the top of the board. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-14-jail-vote-board",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Jail vote",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-main",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-15-jail-vote-choose",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Jail vote",
+    "strip": "VOTE CHOOSING VOTE : Who do you vote to send to Jail? Vote · Tap a character These are the choices the server offers you now. Abstain Cancel",
+    "stripStep": "choosing",
+    "stamp": null,
+    "tray": false,
+    "targets": [
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 67.6,
+        "y": 538,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 213.3,
+        "y": 544.8,
+        "w": 48.8,
+        "h": 56.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-2",
+        "seat": "seat-2",
+        "x": 270.6,
+        "y": 544.8,
+        "w": 48.8,
+        "h": 56.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 327.8,
+        "y": 544.8,
+        "w": 48.8,
+        "h": 56.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-4",
+        "seat": "seat-4",
+        "x": 215.7,
+        "y": 352.6,
+        "w": 44,
+        "h": 50.5,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 273,
+        "y": 352.6,
+        "w": 44,
+        "h": 50.5,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 330.3,
+        "y": 352.6,
+        "w": 44,
+        "h": 50.5,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      }
+    ],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [
+        "seat-5",
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4",
+        "seat-6",
+        "seat-7"
+      ],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-character-target",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "display-privacy-vote-choosing",
+    "hooks": [],
+    "roles": []
+  },
+  {
+    "name": "emulator-16-jail-vote-confirm",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Jail vote",
+    "strip": "VOTE NOT SENT YET VOTE : Vote to send Player 5 to Jail? This is your one ballot in this vote. You cannot change it once the server accepts it. Cast ballot Choose again",
+    "stripStep": "confirming",
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [
+        "seat-5"
+      ],
+      "picked": [],
+      "pending": [],
+      "other": [
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4",
+        "seat-6",
+        "seat-7"
+      ]
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-17-jail-vote-recorded",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Jail vote",
+    "strip": "VOTE ACCEPTED VOTE : Your vote for Player 5 is recorded. This is not a result. The count is shown to everyone when the vote closes. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "display-privacy-vote-recorded",
+    "hooks": [],
+    "roles": []
+  },
+  {
+    "name": "emulator-18-display-during-vote",
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": null,
+    "rowUnit": null,
+    "phase": "Jail vote",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": null,
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "emulator-20-after-vote",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Captain election",
+    "strip": "VOTE ACCEPTED VOTE : Your vote for Player 5 is recorded. This is not a result. The count is shown to everyone when the vote closes. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 9,
+    "moving": [
+      "seat-3",
+      "seat-6",
+      "seat-5"
+    ],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  }
+]

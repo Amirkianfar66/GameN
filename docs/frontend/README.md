@@ -20,6 +20,19 @@ The first Firebase-connected prototype is built on its own branch, `agent/fronte
 
 [phone-first-v1-handoff.md](phone-first-v1-handoff.md) reviews the staged start of [#75](https://github.com/Amirkianfar66/GameN/pull/75) for the Designer's phone-first journey ([#76](https://github.com/Amirkianfar66/GameN/issues/76)): existing components, screen states, accessibility and privacy rules, implementation constraints and the missing states found early. The current phone journey is captured under [evidence/phone-first-v1-current/](evidence/phone-first-v1-current/README.md) with `apps/game/dev/capture-setup-flow.mjs`.
 
+[board-play.md](board-play.md) is the runtime of the Designer's board-as-game proposal ([#87](https://github.com/Amirkianfar66/GameN/issues/87), [PR #88](https://github.com/Amirkianfar66/GameN/pull/88)):
+
+- every action played by tapping characters in their rooms;
+- the strip above navigation;
+- room-tag movement and the centred Pass;
+- the characters' public motion.
+
+It also records what differs from the proposal, and why. Its browser-simulation and emulator evidence is under [evidence/board-play/](evidence/board-play/README.md).
+
+[board-recovery.md](board-recovery.md) is the Codex Frontend follow-up to draft PR #92: stale/deadline concealment of sent-command board marks, immediate mid-flight reduced-motion cancellation, and fresh current-runtime evidence. The historical screenshots and earlier outcomes work remain separate from that verification.
+
+[motion-os-preference.md](motion-os-preference.md) fixes the remaining explicit-full → OS-reduced wiring case without a screen frame, with native cancellation and owned-listener teardown evidence.
+
 ## Slices
 
 Each stage is labeled as the brief requires: **proposed**, **fixture-tested**, **integrated** or **measured**. Nothing is integrated or measured yet.

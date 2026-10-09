@@ -1,0 +1,782 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "board-motion-0.2.0",
+  "status": "proposal",
+  "source": "ACTION_KINDS of packages/presentation/src/model/actions.ts and FullCommandSchema of packages/contracts/src/full-game.ts at 94a49ce0c5220b814ec56333b028fbe6180b257e. The check refuses a kind or command that is missing here.",
+  "actions": [
+    {
+      "kind": "shot",
+      "command": "REGISTER_SHOT",
+      "offers": "legalTargets.REGISTER_SHOT, with self.shotAvailable",
+      "board": "Tray → Shot; eligible characters on the board (same room) get the target ring; tap one; confirm in the strip.",
+      "inline": [],
+      "self": "Not offered: ordinary shots target another player.",
+      "hospitalJail": "Only where the view offers it.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration",
+        "cue-not-accepted",
+        "cue-unknown"
+      ],
+      "public": "None. A later health or location change is drawn by cue-status-change and cue-public-move, without a cause.",
+      "scenarios": [
+        "shot.choose",
+        "shot.confirm",
+        "shot.pending",
+        "shot.registered",
+        "shot.rejected",
+        "shot.unknown",
+        "crowd.shot"
+      ]
+    },
+    {
+      "kind": "disable",
+      "command": "DISABLE",
+      "offers": "legalTargets.DISABLE",
+      "board": "As Shot.",
+      "inline": [],
+      "self": "Not offered: Disabler attacks target another player.",
+      "hospitalJail": "Only where the view offers it.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration"
+      ],
+      "public": "None.",
+      "scenarios": [
+        "disable.choose",
+        "crowd.disable"
+      ]
+    },
+    {
+      "kind": "protect",
+      "command": "PROTECT",
+      "offers": "legalTargets.PROTECT",
+      "board": "As Shot; the player's own character is eligible when the view lists it.",
+      "inline": [],
+      "self": "Offered when the view lists the player's own seat (Protection's self-target exception).",
+      "hospitalJail": "Only where the view offers it.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration"
+      ],
+      "public": "None. Protection stays the Undercover's private fact, including to its recipient.",
+      "scenarios": [
+        "protect.choose",
+        "crowd.protect"
+      ]
+    },
+    {
+      "kind": "rescue",
+      "command": "RESCUE",
+      "offers": "legalTargets.RESCUE",
+      "board": "As Shot; a character in the Hospital bed is a target when the view lists it (the Cracker's explicit Hospital exception).",
+      "inline": [],
+      "self": "Offered when the view lists it (injured self-Rescue).",
+      "hospitalJail": "Hospital characters when offered.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration"
+      ],
+      "public": "None. A later health change is drawn without a giver.",
+      "scenarios": [
+        "rescue.choose",
+        "rescue.self",
+        "crowd.rescue"
+      ]
+    },
+    {
+      "kind": "hack",
+      "command": "REQUEST_HACK",
+      "offers": "legalTargets.REQUEST_HACK",
+      "board": "As Shot. After the turn, the Hack phase has its own full minute. The requester remains the public active seat; only the partner association is in Card.",
+      "inline": [],
+      "self": "Not offered.",
+      "hospitalJail": "Only where the view offers it.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration",
+        "cue-phase-change"
+      ],
+      "public": "The HACK phase and requester (activeSeatId) are public. The partner association is private to the participating players.",
+      "scenarios": [
+        "hack.choose",
+        "hack.phase",
+        "crowd.hack"
+      ]
+    },
+    {
+      "kind": "showdown-shot",
+      "command": "SHOWDOWN_SHOT",
+      "offers": "legalTargets.SHOWDOWN_SHOT",
+      "board": "In the Final Zone panel: eligible characters get the target ring; tap one; confirm.",
+      "inline": [],
+      "self": "Not offered.",
+      "hospitalJail": "Not applicable: everyone still in the match is in the Final Zone.",
+      "cues": [
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration"
+      ],
+      "public": "None.",
+      "scenarios": [
+        "showdown.choose",
+        "board.final-zone"
+      ]
+    },
+    {
+      "kind": "scan",
+      "command": "SCAN",
+      "offers": "legalTargets.SCAN",
+      "board": "Tap a character; then guess Blue, Red or Alien inline in the strip; confirm.",
+      "inline": [
+        "Blue",
+        "Red",
+        "Alien"
+      ],
+      "self": "Offered when the view lists it.",
+      "hospitalJail": "Only where the view offers it.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration",
+        "cue-sheet-open"
+      ],
+      "public": "None. The result is listed in the Card, privately, as the server gives it.",
+      "scenarios": [
+        "scan.choose",
+        "scan.faction",
+        "scan.result",
+        "crowd.scan"
+      ]
+    },
+    {
+      "kind": "supply",
+      "command": "SUPPLY",
+      "offers": "legalTargets.SUPPLY",
+      "board": "Tap two distinct characters; numbered stamps 1 and 2; Take back removes the last; confirm.",
+      "inline": [],
+      "self": "Only if the view lists it.",
+      "hospitalJail": "Only where the view offers it.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-target-pick",
+        "cue-pending",
+        "cue-registration",
+        "cue-sheet-open"
+      ],
+      "public": "None. Supplier and recipient acknowledgments appear only in their own Card.",
+      "scenarios": [
+        "supply.first",
+        "supply.second",
+        "supply.confirm",
+        "supply.ack",
+        "crowd.supply"
+      ]
+    },
+    {
+      "kind": "code",
+      "command": "SUBMIT_CODE",
+      "offers": "self.codeAttemptAvailable; every seat of the match",
+      "board": "Tap four distinct characters in any rooms; numbered stamps 1 to 4 (a visual aid, not an ordered Code); Take back removes the last; confirm.",
+      "inline": [],
+      "self": "The player's own seat may be one of the four.",
+      "hospitalJail": "Any room, as every seat may be named.",
+      "cues": [
+        "cue-tray-open",
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-target-pick",
+        "cue-pending",
+        "cue-registration"
+      ],
+      "public": "None. The attempt is not even repeated in the receipt.",
+      "scenarios": [
+        "code.two",
+        "code.four"
+      ]
+    },
+    {
+      "kind": "vote",
+      "command": "VOTE",
+      "offers": "legalTargets.VOTE (Captain election, runoff, Jail vote)",
+      "board": "Tap an eligible character anywhere on the board; Abstain is inline; confirm.",
+      "inline": [
+        "Abstain"
+      ],
+      "self": "Only if the view lists it.",
+      "hospitalJail": "Wherever the eligible character is.",
+      "cues": [
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration",
+        "cue-tally"
+      ],
+      "public": "Only the published count when the vote closes (lastTally). Individual ballots stay private.",
+      "scenarios": [
+        "vote.election",
+        "vote.runoff",
+        "vote.jail",
+        "vote.recorded",
+        "vote.tally",
+        "crowd.vote"
+      ]
+    },
+    {
+      "kind": "release-choice",
+      "command": "RELEASE_CHOICE",
+      "offers": "legalTargets.RELEASE_CHOICE (the Captain)",
+      "board": "Tap an eligible jailed character in the Jail; No release request is inline; confirm.",
+      "inline": [
+        "No release request"
+      ],
+      "self": "Not applicable.",
+      "hospitalJail": "Jail characters only, as offered.",
+      "cues": [
+        "cue-strip-enter",
+        "cue-target-eligible",
+        "cue-selection",
+        "cue-pending",
+        "cue-registration",
+        "cue-phase-change"
+      ],
+      "public": "The next phase (a release vote and its subject) is public.",
+      "scenarios": [
+        "release.choice"
+      ]
+    },
+    {
+      "kind": "release-vote",
+      "command": "RELEASE_VOTE",
+      "offers": "self.releaseVoteAvailable; the subject is ballot.releaseTargetSeatId",
+      "board": "No character is picked: the subject is marked On the ballot on the board (public); Yes, No and Abstain are inline; confirm.",
+      "inline": [
+        "Yes, release",
+        "No, do not release",
+        "Abstain"
+      ],
+      "self": "Not applicable.",
+      "hospitalJail": "The subject is in the Jail.",
+      "cues": [
+        "cue-ballot-subject",
+        "cue-strip-enter",
+        "cue-pending",
+        "cue-registration",
+        "cue-tally"
+      ],
+      "public": "The subject and, when it closes, the count.",
+      "scenarios": [
+        "release.vote"
+      ]
+    },
+    {
+      "kind": "move",
+      "command": "MOVE",
+      "offers": "self.movementDestinations",
+      "board": "Not in the tray. Press a room's name tag; a dashed You? marks the place tentatively; confirm; the piece moves with the public update.",
+      "inline": [],
+      "self": "The player's own piece.",
+      "hospitalJail": "Hospital and Jail are not destinations: their tags are captions, not buttons.",
+      "cues": [
+        "cue-room-press",
+        "cue-move-tentative",
+        "cue-strip-enter",
+        "cue-pending",
+        "cue-registration",
+        "cue-public-move",
+        "layout-reflow"
+      ],
+      "public": "The move itself, on every screen, from the public update.",
+      "scenarios": [
+        "move.tags",
+        "move.confirm",
+        "move.pending",
+        "move.accepted",
+        "move.refused"
+      ]
+    },
+    {
+      "kind": "pass",
+      "command": "PASS_TURN",
+      "offers": "legalTargets.PASS_TURN = [own seat], on the player's own ordinary turn; absent in legacy matches",
+      "board": "The center of the bottom bar; no target; confirm in the strip; a neutral receipt; the next phase in the status bar.",
+      "inline": [],
+      "self": "Not applicable.",
+      "hospitalJail": "Not applicable; injured and jailed players keep their turn.",
+      "cues": [
+        "cue-strip-enter",
+        "cue-pending",
+        "cue-registration",
+        "cue-phase-change",
+        "cue-turn-accent"
+      ],
+      "public": "The next phase and active turn.",
+      "scenarios": [
+        "pass.confirm",
+        "pass.passed",
+        "pass.legacy",
+        "board.other-turn"
+      ]
+    }
+  ],
+  "vocabulary": {
+    "about": "The states every one of the nine characters has. They are drawn by the same rules for all nine: a character's picture never selects a rule, and nothing about a role or a faction changes any of them. What differs per character is public: its picture, and in a move its lift height and settle angle.",
+    "states": [
+      {
+        "id": "idle",
+        "drawn": "The figure at its station, in its pose (a stance by seat number, or the station's: at the chart table, at the counter, in the bed, on the bench), number and name on a plate at its feet or on the prop's edge.",
+        "cue": null
+      },
+      {
+        "id": "pressed-focused",
+        "drawn": "A focus outline on the 44 px press area; a light press tint while pressed.",
+        "cue": null
+      },
+      {
+        "id": "eligible",
+        "drawn": "Dashed caption-yellow ring at the base and a + tab; the others faint.",
+        "cue": "cue-target-eligible"
+      },
+      {
+        "id": "selected",
+        "drawn": "Lifted, solid ring, check stamp.",
+        "cue": "cue-selection"
+      },
+      {
+        "id": "multi-selected",
+        "drawn": "Solid ring and the pick's number.",
+        "cue": "cue-target-pick"
+      },
+      {
+        "id": "pending",
+        "drawn": "Dotted ring, ellipsis stamp; the strip's Sending stamp.",
+        "cue": "cue-pending"
+      },
+      {
+        "id": "accepted-registration",
+        "drawn": "The private marks are gone; the strip carries the Registered stamp. Nothing is drawn on the character.",
+        "cue": "cue-registration"
+      },
+      {
+        "id": "rejected-unavailable",
+        "drawn": "Faint, without a ring (not offered); a rejection is said in the strip with a hatched stamp, never on the character.",
+        "cue": "cue-not-accepted"
+      },
+      {
+        "id": "authoritative-movement",
+        "drawn": "Carried in an arc to its new station with an ink trail and a landing puff; its own lift and settle.",
+        "cue": "cue-public-move"
+      },
+      {
+        "id": "public-status-change",
+        "drawn": "A marker stamped on: Injured (leaning), Eliminated (grey, the revealed faction), Captain, Jailed.",
+        "cue": "cue-status-change"
+      },
+      {
+        "id": "active-turn",
+        "drawn": "The turn marker above the head.",
+        "cue": "cue-turn-accent"
+      }
+    ]
+  },
+  "facts": {
+    "about": "Every fact the board draws, the authorized source it is read from at the pinned tuple, who may see it and the cues that draw it. Nothing is drawn from anything else. A station (where in a room a character stands) is not a game fact: every device works it out the same way from public occupancy and seat order (design/board-motion/js/layout.js).",
+    "list": [
+      {
+        "id": "seat-identity",
+        "drawn": "Each character's picture, seat number and name on its stand.",
+        "source": "Lobby identity: seats[].characterId and seats[].displayName (packages/contracts/src/lobby-identity.ts), as the release's comic shell already reads them; seat numbers from seatId.",
+        "audience": "public",
+        "cues": [],
+        "status": "authorized"
+      },
+      {
+        "id": "location",
+        "drawn": "The room a character stands in, and its station there.",
+        "source": "seats[].location in the public and player views (packages/contracts/src/full-game.ts); PUBLIC_MOVE events.",
+        "audience": "public",
+        "cues": [
+          "cue-public-move",
+          "layout-reflow"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "health",
+        "drawn": "Injured (leaning, marker) and Eliminated (grey, marker).",
+        "source": "seats[].health; PUBLIC_HEALTH_CHANGED events (new health only, no cause).",
+        "audience": "public",
+        "cues": [
+          "cue-status-change"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "jailed",
+        "drawn": "The Jailed marker.",
+        "source": "seats[].jailed (views only: no event of its own; a change is seen as the difference between two views).",
+        "audience": "public",
+        "cues": [
+          "cue-status-change"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "captain",
+        "drawn": "The Captain marker.",
+        "source": "seats[].captain (views only).",
+        "audience": "public",
+        "cues": [
+          "cue-status-change"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "revealed-faction",
+        "drawn": "The faction label on an Eliminated character.",
+        "source": "seats[].revealedFaction, which the contract sets only for Eliminated seats before the end.",
+        "audience": "public",
+        "cues": [
+          "cue-status-change"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "active-seat",
+        "drawn": "The turn marker over the active character; the status bar's words.",
+        "source": "activeSeatId.",
+        "audience": "public",
+        "cues": [
+          "cue-turn-accent",
+          "cue-phase-change"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "phase",
+        "drawn": "The status bar's phase words and timer.",
+        "source": "phase.kind, phase.endsAt; PHASE_CHANGED events.",
+        "audience": "public",
+        "cues": [
+          "cue-phase-change"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "round",
+        "drawn": "The round chip.",
+        "source": "round.",
+        "audience": "public",
+        "cues": [
+          "cue-round-transition"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "release-subject",
+        "drawn": "On the ballot, over the jailed character a release vote is on.",
+        "source": "ballot.releaseTargetSeatId.",
+        "audience": "public",
+        "cues": [
+          "cue-ballot-subject"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "tally",
+        "drawn": "The published count over each counted character, the selected one in caption yellow.",
+        "source": "lastTally (counts, selectedSeatId, yesCount, released).",
+        "audience": "public",
+        "cues": [
+          "cue-tally"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "offers",
+        "drawn": "The tray's actions, the eligible characters, the room tags a move may use (after a press), Pass's availability.",
+        "source": "The player's own view: legalTargets, self.*Available flags, self.movementDestinations, self.releaseVoteAvailable, legalTargets.PASS_TURN; the release's pending-command gate (ownPendingCommandIds and the controller's own request).",
+        "audience": "private",
+        "cues": [
+          "cue-tray-open",
+          "cue-target-eligible",
+          "cue-move-tentative"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "own-choice",
+        "drawn": "Selected and numbered characters, the tentative place of a move, the strip's question and confirmation.",
+        "source": "The player's own taps on their own device, before anything is sent.",
+        "audience": "local",
+        "cues": [
+          "cue-selection",
+          "cue-target-pick",
+          "cue-strip-enter",
+          "cue-room-press"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "receipt",
+        "drawn": "Sending, Registered, Not accepted, Unknown, in the strip.",
+        "source": "The command receipt (accepted REGISTERED; rejected PHASE_CLOSED or NOT_ALLOWED), safe failures, and the player's own COMMAND_REGISTERED event.",
+        "audience": "private",
+        "cues": [
+          "cue-pending",
+          "cue-registration",
+          "cue-not-accepted",
+          "cue-unknown"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "card",
+        "drawn": "Role, held device, knowledge, own ballot, Hack partner, inside the Card only.",
+        "source": "self.role, knowledge, ownBallot, hackPartnerSeatId of the player's own view.",
+        "audience": "private",
+        "cues": [
+          "cue-sheet-open"
+        ],
+        "status": "authorized"
+      },
+      {
+        "id": "own-acknowledgments",
+        "drawn": "Supplier granted-recipient results and each recipient’s own Supply receipt, inside Card only. No public cue.",
+        "source": "Existing OwnAcknowledgmentsSchema and SeatSessionSchema in packages/contracts/src/own-acknowledgments.ts, paired to the authorized seat session by comic-feeds.ts. historyAvailable=false renders the existing history-unavailable fallback; knowledge prose in this synthetic prototype is not the typed acknowledgment feed.",
+        "audience": "private",
+        "cues": []
+      }
+    ]
+  },
+  "gaps": {
+    "about": "What this design needs that the pinned tuple does not provide, and what it deliberately does not draw. None is a contract change made here: Integration owns the contracts.",
+    "list": [
+      {
+        "id": "GAP-1",
+        "kind": "none needed",
+        "what": "Jailed, Captain and revealed-faction changes have no event of their own.",
+        "decision": "Draw them from the difference between two drawn views, as the release's director does for health and location. No contract change is proposed."
+      },
+      {
+        "id": "GAP-2",
+        "kind": "owner decision",
+        "what": "The owner's reference asks for at most five players in a room. The rules have no room capacity: rules/overlays/location-board-layout-v1.json says \"Unnumbered token areas avoid imposing an artificial room-capacity rule\", docs/design/art-direction.md asks for room for all nine without implying capacity, and docs/balance/rules-audit.md finds no capacity rule.",
+        "decision": "A hand-placed formation for each count from one to five in every room, and a 3 x 3 crowd formation when six to nine are in one room. A capacity would be a rule change for the game owner and Balance; the design works either way."
+      },
+      {
+        "id": "GAP-3",
+        "kind": "owner decision",
+        "what": "The reference draws arrows and lights along a corridor between rooms. The rules give no adjacency: rules/overlays/location-board-layout-v1.json says its dotted paths \"illustrate possible Captain access, not a finalized adjacency decision\".",
+        "decision": "A steel spine with four lamps between the columns, no arrow, door or path."
+      },
+      {
+        "id": "GAP-4",
+        "kind": "owner decision",
+        "what": "Room subtitles (Captain, Engineering, Laboratory) come from the reference, not from the rules or the release.",
+        "decision": "Proposed words, aria-hidden; the room's name is what is read and pressed."
+      },
+      {
+        "id": "GAP-5",
+        "kind": "asset",
+        "what": "The three prop layers (Command Room table, Room B counter, Hospital bed) are not in the reviewed manifest design-0.2.0.",
+        "decision": "Generated from the approved sources as a versioned proposal (board-motion-0.2.0); adopted only through an Integration review of a later manifest revision."
+      },
+      {
+        "id": "GAP-6",
+        "kind": "asset",
+        "what": "The Final Zone has no picture of its own in the reviewed kit.",
+        "decision": "The page's paper ground with the approved halftone and speed lines. A picture is a later asset decision."
+      },
+      {
+        "id": "GAP-7",
+        "kind": "asset",
+        "what": "The full-body figures (nine characters in every pose, owner's decision of 9 October 2026) are not in the reviewed manifest design-0.2.0, and the runtime still draws the approved bust standees.",
+        "decision": "Drawn by one rig in design/board-motion/figures/ after the approved standees, in their own colors, as a versioned proposal (board-motion-0.2.0, one public stylesheet loaded before the first match view). Adopting them is an Integration step and drawing them in the game Frontend's (DSN-D32)."
+      },
+      {
+        "id": "GAP-8",
+        "kind": "owner decision",
+        "what": "design/contract/crew-catalog.json says a character never changes with health, Jail, the Captain or anything private, and that those are markers on the piece. A figure's pose follows public facts: the Captain at the chart table, Injured in the bed, Jailed on the bench, Eliminated on the floor.",
+        "decision": "The character (face, skin, hair, colors, suit) never changes; only the pose does, from public facts only, and every marker is still drawn. Whether a pose may say what a marker says is for the game owner, with Integration for the catalog (DSN-D33)."
+      }
+    ]
+  },
+  "components": {
+    "about": "What the prototype draws, and the hook of the pinned release (packages/presentation/src/markup/comic-shell.ts, parts.ts and apps/game/hosted/ at 94a49ce) it maps onto. reuse: the hook exists and keeps its meaning; extend: the hook exists and the design adds to it; proposed: nothing in the release draws it yet.",
+    "list": [
+      {
+        "id": "board",
+        "prototype": ".bm-board[data-board=own|observer]",
+        "runtime": "section.ms-panel.ms-board[data-region=comic-board], heading #ms-comic-board-heading (The ship)",
+        "status": "extend",
+        "audience": "public",
+        "about": "One comic page: Command Room across the top, Room A and Room B, Hospital and Jail, a spine between the columns. Band heights follow public occupancy (--band-top, --band-middle, --band-lower)."
+      },
+      {
+        "id": "room-panel",
+        "prototype": ".bm-room[data-room] > .bm-stage, .bm-prop",
+        "runtime": "li.ms-zone[data-zone] (renderZones, ids ms-comic-zone-*)",
+        "status": "extend",
+        "audience": "public",
+        "about": "A room as a panel: the approved room picture pinned by its anchor line, and, for the Command Room, Room B and the Hospital, the prop layer drawn in front of the station behind it."
+      },
+      {
+        "id": "room-tag-move",
+        "prototype": "button.bm-tag__move[data-move-room] > .bm-tag__face",
+        "runtime": "button.phone-room-move[data-move-room] (#phone-move-room-a, -room-b, -command-room)",
+        "status": "extend",
+        "audience": "public",
+        "about": "The room's name as its move control. The button is the press area, at least 44 x 44; the slanted caption is drawn inside it. The same neutral button on every phone."
+      },
+      {
+        "id": "room-tag-fixed",
+        "prototype": "h3.bm-tag.bm-tag--fixed",
+        "runtime": "h3.ms-zone__name (Hospital, Jail)",
+        "status": "reuse",
+        "audience": "public",
+        "about": "A caption, not a control: Hospital and Jail are never movement destinations."
+      },
+      {
+        "id": "piece",
+        "prototype": "li.bm-piece[data-seat][data-character][data-station][data-kind=stand|prop|seat][data-pose][data-mirror] > .bm-piece__body (.bm-piece__art), .bm-piece__front, .bm-piece__tag",
+        "runtime": ".ms-seat[data-seat] with .ms-token, .ms-seat__number, .ms-seat__player",
+        "status": "extend",
+        "audience": "public",
+        "about": "A character at a station in its room, as a full-body comic figure (owner's decision of 9 October 2026) posed by public facts only: standing in one of three stances by seat number and facing into the room, leaning over the chart table or the counter, sitting up in the Hospital bed, on the Jail bench, or Eliminated on the floor. Over a prop, a second layer (the hands, the arms on the blanket) is drawn in front of it. Seat number and name on a plate at the feet, or on the prop's edge."
+      },
+      {
+        "id": "piece-target",
+        "prototype": "button.bm-piece__target[data-intent=action/choose][data-value=seat-N]",
+        "runtime": "button.phone-character-target[data-intent=action/choose][data-value][aria-describedby=ms-action-step]",
+        "status": "extend",
+        "audience": "private",
+        "about": "The press area on an eligible character: its upper body from the head down, at least 44 x 44, never overlapping another or a room tag, never reaching under a tag. A standing character's band hangs at the same height above its row's floor line in every row; behind a prop it ends 6 px below the prop line; on the bench it is the figure."
+      },
+      {
+        "id": "piece-cue",
+        "prototype": ".bm-piece[data-target=eligible|selected|picked|pending|other] > .bm-piece__ring",
+        "runtime": ".ms-seat[data-board-target=eligible|picked]",
+        "status": "extend",
+        "audience": "private",
+        "about": "The viewer's own open action drawn on the characters: eligible (dashed ring at the feet, + tab; behind a prop or on the bench, a thin outline), selected (lifted, outlined, check), picked (outlined, numbered), pending (dotted), other (faint). Own board only."
+      },
+      {
+        "id": "pick-stamp",
+        "prototype": ".bm-piece__pick",
+        "runtime": "span.phone-pick-order",
+        "status": "reuse",
+        "audience": "private",
+        "about": "The number of a pick in a Supply or a Code attempt: a visual aid, not an order."
+      },
+      {
+        "id": "move-ghost",
+        "prototype": ".bm-ghost[data-state=tentative|pending]",
+        "runtime": "none",
+        "status": "proposed",
+        "audience": "private",
+        "about": "The tentative place of the viewer's own move: the viewer's own figure, faint and dashed, labeled You?, in the room pressed. The real piece moves only with the public update."
+      },
+      {
+        "id": "public-markers",
+        "prototype": ".bm-badge[data-badge], .bm-reveal, .bm-piece[data-active] > .bm-piece__turn",
+        "runtime": "marker labels inside .ms-seat",
+        "status": "extend",
+        "audience": "public",
+        "about": "Captain, Injured, Eliminated with the revealed faction, Jailed, the active turn: pictures of the approved markers, and the same words in the readable list."
+      },
+      {
+        "id": "ballot-marks",
+        "prototype": ".bm-piece[data-subject] > .bm-piece__subject, .bm-piece__tally[data-selected]",
+        "runtime": "the vote section's words (en.vote)",
+        "status": "proposed",
+        "audience": "public",
+        "about": "On the ballot over the subject of a release vote; the published count over each counted character when a vote closes."
+      },
+      {
+        "id": "strip",
+        "prototype": "section.bm-strip[data-step] > .bm-strip__kind, .bm-strip__text (#bm-strip-line), .bm-strip__side, .bm-strip__controls",
+        "runtime": "section.ms-private.phone-action-dock (compact action card, #ms-action-step); section.phone-pass-status",
+        "status": "extend",
+        "audience": "private",
+        "about": "Above navigation: the action's name set into the question, one control at the side, answers and the confirmation in one row. Selection, progress, confirmation and the receipt all stay here, on the board's screen."
+      },
+      {
+        "id": "strip-stamp",
+        "prototype": ".bm-stamp[data-kind=pending|registered|not-accepted|unknown]",
+        "runtime": "the card's status words (en.action.status)",
+        "status": "proposed",
+        "audience": "private",
+        "about": "A stamp on the strip's edge: Sending, Registered, Not accepted (hatched, no red), Unknown (dotted). The same Registered stamp for every action."
+      },
+      {
+        "id": "tray",
+        "prototype": "section.bm-tray > button.bm-chip[data-act=open:<kind>]",
+        "runtime": "the Actions view: [data-intent=action/open][data-kind] in .ms-offers (data-phone-view=actions)",
+        "status": "extend",
+        "audience": "private",
+        "about": "A compact two-column tray over the lower board with only the actions the viewer's view opens; Move is not in it."
+      },
+      {
+        "id": "nav",
+        "prototype": "nav.bm-nav > button#bm-pass.bm-pass[data-act=pass]",
+        "runtime": ".phone-nav[data-region=phone-navigation] > button#ms-phone-pass.phone-pass[data-intent=action/pass]",
+        "status": "reuse",
+        "audience": "public",
+        "about": "Board, Actions, Pass in the middle, Card, Menu. Pass is drawn the same on every phone; it is available only on the viewer's own ordinary turn and absent in legacy matches."
+      },
+      {
+        "id": "status",
+        "prototype": "header.bm-status > .bm-status__round, .bm-status__line, .bm-timer[role=timer]",
+        "runtime": ".ms-phase__labels[data-region=phase], .ms-timer[data-region=timer]",
+        "status": "reuse",
+        "audience": "public",
+        "about": "Round, phase or whose turn, and the timer. Its size never changes."
+      },
+      {
+        "id": "fx-layer",
+        "prototype": ".bm-fx > .bm-flyer, .bm-trail, .bm-puff",
+        "runtime": "apps/game/hosted/comic-motion.mjs (createComicMotion, movedPublicSeats) animating .ms-token",
+        "status": "extend",
+        "audience": "public",
+        "about": "A layer over the board that takes no pointer events: a moving character is carried in it from its old station to its new one, with an ink trail and a landing puff."
+      },
+      {
+        "id": "card-sheet",
+        "prototype": "section.bm-sheet#bm-card > .bm-private",
+        "runtime": ".ms-private (Card view) with .ms-role-card",
+        "status": "reuse",
+        "audience": "private",
+        "about": "The private Card over the lower board: the role with its held device, knowledge, own ballot. Built only while open."
+      }
+    ]
+  }
+}

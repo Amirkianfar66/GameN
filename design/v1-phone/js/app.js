@@ -2,7 +2,7 @@
 //
 // The phone-first V1 journey prototype (issue #76): a router over the synthetic fixtures,
 // a navigator for reviewers, countdowns that only change words at zero, and small local
-// flows (pick, confirm, sending, result) so the screens can be clicked through.
+// flows (tap-to-confirm selection; action choice, sending, result) for review.
 //
 // Parameters: ?state=<id from contract/journey.json>; chrome=0 hides the navigator (used
 // for captures); motion=reduced; names=long; freeze=1 stops the countdowns; sheet=open.
@@ -12,7 +12,7 @@
 
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { render, surfaceOf } from './screens.js';
-import { FIXTURES, say, SYNTHETIC_IDS } from './fixtures.js';
+import { FIXTURES, CREW, say, SYNTHETIC_IDS } from './fixtures.js';
 import { h } from './h.js';
 
 const params = new URLSearchParams(location.search);
@@ -56,7 +56,7 @@ if (!stateId || !FIXTURES[stateId]) {
   app.replaceChildren(h('main', { class: 'j-index' },
     h('p', { class: 'j-synthetic' }, 'Development only · synthetic fixtures · not the game · not owner-approved'),
     h('h1', null, 'Mothership · the phone-first V1 journey'),
-    h('p', { class: 'j-lede' }, `Design prototype for issue #76, on the release candidate ${journey.designBase.commit.slice(0, 8)} (${journey.designBase.branch}). ${ORDER.length} states across ${journey.screens.length} screens. Every state is a labeled synthetic fixture drawn with the real tokens (${journey.pins.tokenVersion}) and the approved art (${journey.pins.assetManifestVersion}).`),
+    h('p', { class: 'j-lede' }, `Design prototype for issue #76, originally based on ${journey.designBase.commit.slice(0, 8)}; setup and join examples refreshed from ${journey.copyRefresh.sourceCommit.slice(0, 8)} and the later owner decisions. ${ORDER.length} states across ${journey.screens.length} screens. Every state is a labeled synthetic fixture drawn with the real tokens (${journey.pins.tokenVersion}) and the approved art (${journey.pins.assetManifestVersion}).`),
     h('p', { class: 'j-quiet' }, 'Open a state, then use ◀ ▶ to walk the journey and Notes for its data source, what the release already does, and the gap. Add ?motion=reduced or ?names=long to any state.'),
     h('div', { class: 'j-index__screens' }, journey.screens.map(screen => h('section', { class: 'j-index__screen', id: screen.id },
       h('h2', { class: 'j-h2' }, screen.priority ? `${screen.priority}. ${screen.title}` : screen.title, ' ', h('small', null, screen.route)),
@@ -70,6 +70,12 @@ if (!stateId || !FIXTURES[stateId]) {
   // the host and the display load the public bundle only (apps/game/hosted/art.mjs).
   await loadBundles(surface === 'player' ? ['public-board', 'player-ui', 'roles'] : ['public-board']);
   const ctx = { names: params.get('names'), sheet: params.get('sheet') === 'open' ? true : undefined, override: {}, card: null, pickedRoom: null };
+  let selectionSends = 0;
+  // Public synthetic input diagnostics for the local flow checks; never a server receipt.
+  window.__v1Selection = () => {
+    const current = { ...FIXTURES[stateId].data, ...ctx.override };
+    return { selected: current.selected, name: current.name, phase: current.phase, sends: selectionSends };
+  };
   let started = performance.now();
 
   function draw({ focus = null } = {}) {
@@ -168,16 +174,21 @@ if (!stateId || !FIXTURES[stateId]) {
       target.textContent = 'Copied';
       return;
     }
-    if (act === 'pick-crew') {
-      if (target.getAttribute('aria-disabled') === 'true') return;
-      ctx.override = { ...ctx.override, selected: target.dataset.character, phase: 'picked' };
-      return draw({ focus: `[data-character="${target.dataset.character}"]` });
-    }
-    if (act === 'confirm-crew') {
-      if (frozen) return;
-      ctx.override = { ...ctx.override, phase: 'submitting' };
-      draw();
-      return setTimeout(() => go('select.confirmed'), 1200);
+    if (act === 'pick-crew' || act === 'retry-crew') {
+      if (target.getAttribute('aria-disabled') === 'true' || frozen) return;
+      const current = { ...FIXTURES[stateId].data, ...ctx.override };
+      if (['submitting', 'confirmed', 'expired'].includes(current.phase) || current.timer.syncing) return;
+      const selected = act === 'pick-crew' ? target.dataset.character : current.selected;
+      if (!selected || current.taken[selected]) return;
+      const name = current.name || CREW.find(entry => entry.id === selected).sign;
+      selectionSends++;
+      ctx.override = { ...ctx.override, selected, name, phase: 'submitting' };
+      draw({ focus: `[data-character="${selected}"]` });
+      // Labeled stand-in acknowledgment: confirmation never deals roles or advances time.
+      return setTimeout(() => {
+        ctx.override = { ...ctx.override, phase: 'confirmed' };
+        draw({ focus: `[data-character="${selected}"]` });
+      }, 1200);
     }
     if (act === 'pick-room') {
       ctx.pickedRoom = target.dataset.room;
@@ -212,19 +223,6 @@ if (!stateId || !FIXTURES[stateId]) {
     event.preventDefault();
     const form = event.target;
     if (form.dataset.submitTo) return go(form.dataset.submitTo);
-    if (form.dataset.submitAct === 'confirm-crew') app.querySelector('[data-act="confirm-crew"]:not([aria-disabled="true"])')?.click();
-  });
-
-  app.addEventListener('input', event => {
-    if (event.target.id !== 'j-name') return;
-    const value = event.target.value;
-    const count = [...value].length;
-    ctx.override = { ...ctx.override, name: value };
-    const counter = event.target.closest('.j-field')?.querySelector('.j-field__count');
-    if (counter) counter.textContent = `${count}/12`;
-    const confirm = app.querySelector('[data-act="confirm-crew"]');
-    const selected = ctx.override.selected ?? FIXTURES[stateId].data.selected;
-    if (confirm) confirm.setAttribute('aria-disabled', String(!(selected && count > 0 && count <= 12 && value.trim().length > 0)));
   });
 
   // As in the release: leaving the page turns a private card face down.
