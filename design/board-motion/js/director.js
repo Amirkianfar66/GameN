@@ -19,6 +19,8 @@
 
 import { h } from './h.js';
 import { CREW } from './fixtures.js';
+import { setFigure } from './board.js';
+import { shares } from '../figures/geometry.mjs';
 
 const MOVE = { duration: 900, easing: 'cubic-bezier(.2,.7,.2,1)' };
 const STATUS_MS = 220;
@@ -36,7 +38,7 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
     for (const timer of entry.timers) clearTimeout(timer);
     for (const node of entry.nodes) node.remove();
     const piece = board.pieces.get(seat);
-    if (piece) { piece.querySelector('.bm-piece__body').style.visibility = ''; delete piece.dataset.moving; delete piece.dataset.cue; delete piece.dataset.arrived; }
+    if (piece) { for (const layer of piece.querySelectorAll('.bm-piece__body, .bm-piece__front')) layer.style.visibility = ''; delete piece.dataset.moving; delete piece.dataset.cue; delete piece.dataset.arrived; }
     running.delete(seat);
   }
   function cancelAll() { for (const seat of [...running.keys()]) cancelSeat(seat); clearTimeout(statusTimer); delete status.dataset.cue; }
@@ -57,35 +59,39 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
     if (!piece || !body || !from || !to || typeof body.animate !== 'function') return;
     const box = fx.getBoundingClientRect();
     const crew = CREW.find(entry => entry.id === piece.dataset.character);
-    const art = piece.querySelector('.bm-piece__art');
-    const flyer = h('span', { class: 'bm-flyer', 'data-character': piece.dataset.character, 'data-piece': piece.dataset.piece, 'aria-hidden': 'true' },
-      h('span', { class: 'bm-piece__art', style: { transform: getComputedStyle(art).transform === 'none' ? '' : getComputedStyle(art).transform } }));
-    Object.assign(flyer.style, { left: `${to.left - box.left}px`, top: `${to.top - box.top}px`, width: `${to.width}px`, height: `${to.height}px` });
+    // The character walks across, mid-stride and facing the way it goes, from its feet where it
+    // was to its feet where it is now: as wide as a standing figure of the piece it becomes.
+    const dx = from.ax - to.ax, dy = from.ay - to.ay;
+    const flyer = h('span', { class: 'bm-flyer', 'data-character': piece.dataset.character, 'aria-hidden': 'true' }, h('span', { class: 'bm-piece__art' }));
+    setFigure(flyer, piece.dataset.character, 'walking', { mirror: dx > 0 });
+    const walk = shares('walking', dx > 0);
+    const width = Math.min(to.width, to.height / walk.aspect), height = width * walk.aspect;
+    Object.assign(flyer.style, { left: `${to.ax - width * walk.fx - box.left}px`, top: `${to.ay - height * walk.fy - box.top}px`, width: `${width}px`, height: `${height}px` });
     fx.append(flyer);
-    const dx = from.left - to.left, dy = from.top - to.top;
     const lift = 22 + (crew?.hop ?? 5);
     const animation = flyer.animate([
-      { transform: `translate(${dx}px, ${dy}px) scale(${from.width / Math.max(1, to.width)})`, offset: 0 },
+      { transform: `translate(${dx}px, ${dy}px)`, offset: 0 },
       { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - lift}px) scale(1.12) rotate(${(crew?.settle ?? 0) * -2}deg)`, offset: 0.5 },
       { transform: `translate(0, 0) scale(1.05) rotate(${crew?.settle ?? 0}deg)`, offset: 0.86 },
       { transform: 'none', offset: 1 },
     ], MOVE);
     // The ink trail: from where the piece was drawn to where it is now. Decorative: it says
     // nothing about a path, a door or which rooms connect.
-    const x1 = from.left + from.width / 2 - box.left, y1 = from.top + from.height * 0.8 - box.top;
-    const x2 = to.left + to.width / 2 - box.left, y2 = to.top + to.height * 0.8 - box.top;
+    const x1 = from.ax - box.left, y1 = from.ay - box.top;
+    const x2 = to.ax - box.left, y2 = to.ay - box.top;
     const trail = h('span', { class: 'bm-trail', 'aria-hidden': 'true' });
     Object.assign(trail.style, { left: `${x1}px`, top: `${y1}px`, width: `${Math.hypot(x2 - x1, y2 - y1)}px`, transform: `rotate(${Math.atan2(y2 - y1, x2 - x1)}rad)` });
     const puff = h('span', { class: 'bm-puff', 'aria-hidden': 'true' });
-    Object.assign(puff.style, { left: `${x2}px`, top: `${y2 + to.height * 0.18}px` });
+    Object.assign(puff.style, { left: `${x2}px`, top: `${y2}px` });
     fx.append(trail, puff);
-    body.style.visibility = 'hidden';
+    const layers = [...piece.querySelectorAll('.bm-piece__body, .bm-piece__front')];
+    for (const layer of layers) layer.style.visibility = 'hidden';
     piece.dataset.moving = '';
     const entry = entryFor(seat);
     entry.animations.push(animation);
     entry.nodes.push(flyer, trail, puff);
     animation.finished.then(() => {
-      body.style.visibility = '';
+      for (const layer of layers) layer.style.visibility = '';
       delete piece.dataset.moving;
       flyer.remove();
       later(seat, 340, () => { trail.remove(); puff.remove(); });
@@ -132,11 +138,13 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
         const from = before.get(seat.n), to = after.get(seat.n);
         const dx = from.left - to.left, dy = from.top - to.top;
         if (Math.abs(dx) < 1 && Math.abs(dy) < 1) continue;
-        const body = board.pieces.get(seat.n)?.querySelector('.bm-piece__body');
-        if (!body || typeof body.animate !== 'function') continue;
+        const layers = [...(board.pieces.get(seat.n)?.querySelectorAll('.bm-piece__body, .bm-piece__front') ?? [])];
+        if (!layers.length || typeof layers[0].animate !== 'function') continue;
         cancelSeat(seat.n);
-        const animation = body.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: STATUS_MS, easing: 'cubic-bezier(0.2, 0, 0, 1)' });
-        entryFor(seat.n).animations.push(animation);
+        // A character whose station gives it another pose (it now takes the counter) fades in where it
+        // is; one keeping its pose slides there.
+        const keyframes = from.pose === to.pose ? [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }] : [{ opacity: 0 }, { opacity: 1 }];
+        for (const layer of layers) entryFor(seat.n).animations.push(layer.animate(keyframes, { duration: STATUS_MS, easing: 'cubic-bezier(0.2, 0, 0, 1)' }));
         played.push({ cue: 'layout-reflow', seat: seat.n });
       }
     }

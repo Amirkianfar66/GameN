@@ -4,7 +4,7 @@
 // every public state, every character's press area is at least 44 x 44 px and overlaps no
 // other, a move is at least 44 px, and the phone does not scroll. Run by hand, with a
 // Chromium-based browser on the machine:
-//   node design/explorations/comic-figures/build.mjs
+//   node design/tools/board-motion-assets.mjs        (the figures, now the board-motion figures)
 //   node design/explorations/comic-figures/render.mjs
 //
 // These are pictures of an exploration in desktop Chrome. They are not the review images of

@@ -7,6 +7,7 @@
 import { h } from './h.js';
 import { CREW, SYNTHETIC_LABEL } from './fixtures.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
+import { setFigure } from './board.js';
 
 const coverage = await (await fetch(new URL('../contract/coverage.json', import.meta.url))).json();
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
@@ -14,9 +15,12 @@ const STATES = coverage.vocabulary.states;
 
 function cell(character, index, state) {
   const n = index + 1;
-  const piece = h('li', { class: 'bm-piece', 'data-seat': n, 'data-character': character.id, 'data-kind': 'stand', 'data-piece': 'standee', 'data-health': 'Healthy', style: { '--x': 0.5, '--row': 0, '--depth': 1 } },
+  const piece = h('li', { class: 'bm-piece', 'data-seat': n, 'data-character': character.id, 'data-kind': 'stand', 'data-health': 'Healthy', style: { '--x': 0.5, '--row': 0, '--depth': 1 } },
     h('span', { class: 'bm-piece__body' }, h('span', { class: 'bm-piece__ring' }), h('span', { class: 'bm-piece__art' }), h('span', { class: 'bm-piece__turn' }), h('span', { class: 'bm-piece__badges' })),
+    h('span', { class: 'bm-piece__front' }),
     h('span', { class: 'bm-piece__tag' }, h('span', { class: 'bm-piece__num' }, String(n)), h('span', { class: 'bm-piece__name' }, NAMES[index])));
+  // Each character in its own stance, as on the board; Eliminated sits on the floor.
+  setFigure(piece, character.id, ['standing', 'standingFolded', 'standingBack'][index % 3]);
   const badges = piece.querySelector('.bm-piece__badges');
   let note = null;
   switch (state.id) {
@@ -37,7 +41,7 @@ function cell(character, index, state) {
     case 'public-status-change': {
       const kind = ['injured', 'captain', 'jailed', 'eliminated'][index % 4];
       if (kind === 'injured') piece.dataset.health = 'Injured';
-      if (kind === 'eliminated') { piece.dataset.health = 'Eliminated'; piece.dataset.revealed = ['Blue', 'Red', 'Alien'][index % 3]; badges.append(h('span', { class: 'bm-reveal' }, piece.dataset.revealed)); }
+      if (kind === 'eliminated') { piece.dataset.health = 'Eliminated'; piece.dataset.revealed = ['Blue', 'Red', 'Alien'][index % 3]; badges.append(h('span', { class: 'bm-reveal' }, piece.dataset.revealed)); setFigure(piece, character.id, 'out'); }
       if (kind === 'captain') piece.dataset.captain = '';
       if (kind === 'jailed') piece.dataset.jailed = '';
       badges.prepend(h('span', { class: 'bm-badge', 'data-badge': kind }));
@@ -55,10 +59,16 @@ function cell(character, index, state) {
 }
 
 await loadBundles(['public-board', 'player-ui', 'roles']);
+await new Promise(resolve => {
+  const link = h('link', { rel: 'stylesheet', href: new URL('../assets/board-motion.figures.css', import.meta.url).href });
+  link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} board-motion-figures`.trim(); resolve(); }, { once: true });
+  link.addEventListener('error', resolve, { once: true });
+  document.head.append(link);
+});
 document.getElementById('app').append(
   h('header', { class: 'bm-vocab__head' },
     h('h1', null, 'Nine characters, eleven states'),
-    h('p', null, `${SYNTHETIC_LABEL}. Every state is drawn by the same rules for all nine characters; only the picture, and in a move each one's lift and settle, differ. Issue #87, board-motion 0.1.0, a proposal.`)),
+    h('p', null, `${SYNTHETIC_LABEL}. Every state is drawn by the same rules for all nine characters; only the picture, and in a move each one's lift and settle, differ. Full-body figures (owner's decision of 9 October 2026). Issue #87, board-motion 0.2.0, a proposal.`)),
   h('table', { class: 'bm-vocab', 'data-board': 'own' },
     h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Character'), STATES.map(state => h('th', { scope: 'col' }, state.id.replace(/-/g, ' '))))),
     h('tbody', null, CREW.map((character, index) => h('tr', null, h('th', { scope: 'row' }, `${character.id} · ${character.sign}`), STATES.map(state => cell(character, index, state)))))));

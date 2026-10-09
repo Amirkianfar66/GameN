@@ -4,7 +4,9 @@
 
 **A pilot for the game owner's question of 9 October 2026:** *"is it possible to make character in game like this image something more feel comicbook?"*, asked with a reference page: the Captain leaning over a round chart table, people at work in two rooms, a patient sitting up in a Hospital bed, a prisoner on the Jail bench.
 
-**The answer is yes, and this is a working pilot of it**: the nine approved characters as full-body comic figures, posed by the room they are in, on the approved rooms, on a phone. It is an exploration. It is not an asset, a contract, a token, a shell or the game, and nothing reviewed reads it. The approved standees (7 October) are unchanged; whether to replace them is the owner's decision.
+**The answer was yes, and this is the working pilot of it**: the nine approved characters as full-body comic figures, posed by the room they are in, on the approved rooms, on a phone. It is an exploration. It is not an asset, a contract, a token, a shell or the game, and nothing reviewed reads it.
+
+**The owner then said "lets try full body comic"** ([owner-decisions.md](../../../docs/design/owner-decisions.md#9-october-2026-full-body-comic-characters)). The figures are now the board-motion prototype's: its drawing rig and figure files are in `design/board-motion/figures/` and `design/board-motion/assets/figures/`, every piece of that prototype is a posed figure, and this page reads its figures from there. The approved standees (7 October) are unchanged in the reviewed kit and the runtime; adopting the figures is DSN-D32.
 
 | The board on a phone | Five in one room | A character picked |
 | --- | --- | --- |
@@ -20,17 +22,15 @@ Tap a character to pick them: an outline, the plate and the tray say who, and Co
 
 | File | What it holds |
 | --- | --- |
-| `rig.mjs` | The comic drawing rig: every shape inked; a cel shadow on the side away from the light (upper left), with halftone dots and diagonal hatching inside the shadow only; a limb drawn as one outline from joint to joint, so a bent arm reads as one arm; a second layer for what lies over a prop |
-| `crew.mjs` | The nine approved characters redrawn at comic proportions: skin, hair, glasses, beard, headset, goggles, hijab, locs, and the color of the patches, as on the approved standees. All wear the same crew suit. Nothing of a role or a team is drawn on anyone, and no field color is a team hue |
-| `poses.mjs` | Seven poses: three standing stances (a hand on the hip, arms folded, hands behind the back), leaning over a table or counter, sitting up in a bed, sitting hunched on a bench, seated at a console. Leaning and in bed have a front layer (the hands, the arms on the blanket) laid over the room's prop |
-| `build.mjs` | Writes `figures/`: 63 figures and 18 front layers, 81 SVG files, every one inside the repository's drawing vocabulary, so any of them could become a source without being redrawn |
-| `scene.js` | Where each character stands in each room, and which pose it takes, from public facts only (below) |
+| `design/board-motion/figures/` (no longer here) | The comic drawing rig, moved when the owner said to try it: every shape inked; a cel shadow on the side away from the light (upper left), in the palette's next darker tone or an ink tint, with halftone dots and diagonal hatching inside the shadow only; a limb drawn as one outline from joint to joint; a second layer for what lies over a prop. The nine approved characters in their own colors (`color.crew`), all in the same crew suit, nothing of a role or a team on anyone. Nine poses: three standing stances, walking, leaning over a table or counter, sitting up in a bed, sitting hunched on a bench, seated at a console, and sitting on the floor (Eliminated) |
+| `design/board-motion/assets/figures/` | The figures this page draws: 81 figures and 18 layers over a prop, written by `design/tools/board-motion-assets.mjs`, every one inside the drawing vocabulary and the crew palette |
+| `scene.js` | Where each character stands in each room of this page, and which pose it takes, from public facts only (below); the boxes and anchors are the figures' own geometry |
 | `index.html`, `pilot.css`, `pilot.js` | The phone page. Tokens only, room art only from the public bundle and the board-motion prop layers |
 | `render.mjs` | The review pictures in `review/`, and the pilot's own check (below) |
 
-A pose is a skeleton and a drawing order; a character is a head, a skin, hair and two patch colors. So 7 poses of 9 characters are 63 drawings made from 16 pieces, and an eighth pose is one more skeleton, not nine more drawings.
+A pose is a skeleton and a drawing order; a character is a head, a skin, hair and two patch colors. So 9 poses of 9 characters are 81 drawings made from 18 pieces, and a tenth pose is one more skeleton, not nine more drawings.
 
-![Seven poses of the nine characters](review/poses.png)
+![Nine poses of the nine characters](review/poses.png)
 
 ![Today's standee and the pilot](review/today-and-pilot.png)
 
@@ -73,12 +73,11 @@ Result: 0 problems in all eight checks (`review/audit.json`). The check was show
 
 **Not checked:** any real phone, a phone narrower than 390 px, any other browser, a screen reader beyond the labels, large text, frame time with nine animated figures, and whether people can tell the nine apart at this size. At 390 px a standing figure's face is about 10 to 12 px high: the plates, the hair and the patch colors carry who is who, more than the face. Nothing here shows that multiplayer behavior is correct or that the game is balanced.
 
-## What adopting it would take
+## What has been done since, and what adoption still takes
 
-1. **The owner's decision**: full-body figures on the board in place of the approved bust standees, or not. The bust card could stay for the private role card.
-2. **Design**: the figures become sources with export recipes and a public bundle, all of it loaded before the first match view whatever happens, as today; a new asset manifest revision through Integration, since the manifest, bundles and exports are shared. More poses are wanted: Eliminated, walking (for the move), a few expressions; the same rig draws them.
-3. **Frontend**: pieces become figure layers (a body under the room's prop, a front layer over it), placed by station as here, with these press areas and this plate layout. The station rules here would become a revision of the board-motion `stations.json`, and the board-motion prototype would be re-run against it.
-4. **Measured on phones**: the size of nine SVG figures with clip paths and patterns, and their frame time, before choosing between vector at runtime and pre-rendered sprites.
+1. **The owner's decision** was given: "lets try full body comic". The bust card stays the private role card's picture.
+2. **Done on the board-motion prototype**: walking and Eliminated poses added; the stations of `stations.json` say who takes the chart table, the counter, the bed and the bench, and the pose; every piece is a posed figure; all eight board poses of all nine characters are one stylesheet loaded before anything is drawn; the prototype's check, captures and flows were run again ([board-motion-verification.md](../../../docs/design/board-motion-verification.md)).
+3. **Still to do**: Integration brings the figures into a reviewed export revision (DSN-D32), and settles with the owner whether a pose may say what a marker says (DSN-D33); Frontend draws them in the game ([board-motion-handoff.md](../../../docs/design/board-motion-handoff.md)) and measures nine figures' size and frame time on phones before choosing between vector at runtime and pre-rendered sprites.
 
 ## The other route: painted like the reference
 
@@ -86,4 +85,4 @@ The reference page is painted: soft light, texture, many small details. Matching
 
 ## Provenance and rights
 
-Original vector drawings, generated from `rig.mjs`, `crew.mjs` and `poses.mjs` by the Visual and Motion Designer workstream (a Claude Code session working for the game owner) on 9 October 2026, after the approved standees in `design/source/crew/`. The rooms and props are the approved ones, read from the public bundle and the board-motion proposal layers. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is used. The owner's reference picture was looked at for its direction and is not in the repository; nothing was traced or copied from it. No license is granted; any use outside the Mothership project needs the owner's decision (DSN-D06).
+Original vector drawings, generated from the rig now in `design/board-motion/figures/` by the Visual and Motion Designer workstream (a Claude Code session working for the game owner) on 9 October 2026, after the approved standees in `design/source/crew/`. The rooms and props are the approved ones, read from the public bundle and the board-motion proposal layers. No third-party artwork, font, stock asset, photograph, traced image or generated raster image is used. The owner's reference picture was looked at for its direction and is not in the repository; nothing was traced or copied from it. No license is granted; any use outside the Mothership project needs the owner's decision (DSN-D06).

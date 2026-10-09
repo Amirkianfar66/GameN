@@ -100,7 +100,7 @@ export async function planCoverage(repo = repoRoot) {
   lines.push('## Rooms and stations', '',
     `Every room has a hand-placed formation for each count from one to five occupants, in the places the reference page puts people (behind the chart table, at a console, in the bed, on the bench); six to nine in one room stand in a 3 x 3 crowd. A station is worked out on every device from public occupancy and seat order (${code('design/board-motion/js/layout.js')}), so every screen draws the same. No capacity is implied: see GAP-2.`, '',
     ...table(['Room', 'Stations', 'Formations, by count', 'Picture crop'], Object.entries(stations.rooms).filter(([, spec]) => Object.keys(spec.stations).length).map(([room, spec]) => [`${spec.location} (${code(room)})`,
-      Object.entries(spec.stations).map(([id, station]) => `${id}: ${station.about}${station.kind === 'prop' ? ' (a bust behind the prop)' : ''}`).join('; '),
+      Object.entries(spec.stations).map(([id, station]) => `${id}: ${station.about}${station.kind === 'prop' ? ` (behind the prop, ${station.pose})` : station.kind === 'seat' ? ` (seated in the picture, ${station.pose})` : ''}`).join('; '),
       Object.entries(spec.formations).map(([count, ids]) => `${count}: ${ids.join(' ')}`).join(' · '),
       spec.view ? `center ${spec.view.cx}, width ${spec.view.cw}, anchor line ${spec.view.edge} at ${spec.view.at}` : '—'])), '');
 

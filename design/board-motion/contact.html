@@ -33,7 +33,7 @@
     const fig = (image, label, sub, width) => el('figure', { style: `--w:${width}px` }, el('img', { src: '/' + image.file.replace(/^design\//, ''), alt: label }), el('figcaption', {}, el('b', {}, label), sub));
     const titles = { key: 'The board, every action on it', all: 'Every state', matrix: 'Phone sizes, text size, names, safe areas', motion: 'Motion: frames of the real CSS and timelines', secrecy: 'What everyone else sees at the same moment' };
     sheet.append(el('h1', {}, titles[set], el('span', { class: 'flag' }, 'Synthetic · not a match')),
-      el('p', { class: 'meta' }, `Mothership board motion, issue #87. Design base ${index.base.slice(0, 12)} (codex/v1-pass-board-targets, PR #86). Tokens 0.4.0, assets design-0.2.0 plus the board-motion 0.1.0 prop layers. ${index.browser}, this machine's fonts: simulated viewports, not device measurements. A proposal; not owner-approved.`));
+      el('p', { class: 'meta' }, `Mothership board motion, issue #87. Design base ${index.base.slice(0, 12)} (codex/v1-pass-board-targets, PR #86). Tokens 0.4.0, assets design-0.2.0 plus the board-motion 0.2.0 prop layers and full-body figures. ${index.browser}, this machine's fonts: simulated viewports, not device measurements. A proposal; not owner-approved.`));
     if (set === 'motion') {
       for (const board of index.storyboard) {
         const frames = index.images.filter(i => i.frame && i.frame.row === board.row);

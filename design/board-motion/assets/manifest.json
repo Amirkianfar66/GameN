@@ -1,11 +1,11 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-motion-0.1.0",
+  "manifestVersion": "board-motion-0.2.0",
   "status": "proposal",
   "baseManifest": "design-0.2.0",
-  "note": "Derived public layers for the board-motion prototype. The reviewed manifest and bundles are unchanged; these are proposed for a later export revision and are adopted only through Integration.",
+  "note": "Public art for the board-motion prototype: prop layers derived from the approved rooms, and the nine characters as full-body figures (owner's decision of 9 October 2026). The reviewed manifest and bundles are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
-    "origin": "Copied element for element from the repository's original vector sources under design/source/board/, recolored by the reviewed export recipes. No new drawing, no third-party artwork, font, photograph, traced image or generated raster image.",
+    "origin": "Prop layers: copied element for element from the repository's original vector sources under design/source/board/, recolored by the reviewed export recipes. Figures: original vector drawings generated for this repository by design/board-motion/figures/, after the approved standees under design/source/crew/ and in their colors (design tokens 0.4.0). No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream, issue #87: a Claude Code session working for the game owner.",
     "license": "None granted. The repository carries no distribution license.",
     "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06)."
@@ -15,6 +15,12 @@
     "sha256": "93fb54dd927ef196c8e832852271e2be111e666da4b4f0422446bf97ca41a0d8",
     "bytes": 18250,
     "loadPolicy": "Every device, with the public-board bundle, before the first match view. Contains public art only."
+  },
+  "figureStylesheet": {
+    "file": "design/board-motion/assets/board-motion.figures.css",
+    "sha256": "8ce004019b346c1455176ebf22ebaf591b0913c150369cd1e74084dc07893451",
+    "bytes": 1521326,
+    "loadPolicy": "Every device, with the public-board bundle, before the first match view, whatever the seat's role, state or turn: every pose of every character. Contains public art only."
   },
   "assets": [
     {
@@ -76,6 +82,3282 @@
       "intendedBundle": "public-board",
       "audience": "public",
       "proposedExportVariant": "board-hospital.layer-prop-bed"
+    }
+  ],
+  "figures": [
+    {
+      "id": "figure.c1-standing",
+      "file": "design/board-motion/assets/figures/c1-standing.svg",
+      "character": "c1",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 23418,
+      "sha256": "119a4a8333a09c4069e8950417535c946a620ad5a0b00263c2ec91c6555c97fb",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c1"
+    },
+    {
+      "id": "figure.c1-standingFolded",
+      "file": "design/board-motion/assets/figures/c1-standingFolded.svg",
+      "character": "c1",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 24312,
+      "sha256": "872e899021eb45424eafe961d233cb608475854c053844e203f310184d2fa41e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c1"
+    },
+    {
+      "id": "figure.c1-standingBack",
+      "file": "design/board-motion/assets/figures/c1-standingBack.svg",
+      "character": "c1",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 21432,
+      "sha256": "05f0cbd66830732e31dc2adb228b768fb358f2a2244a0690b82e07524c6db097",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c1"
+    },
+    {
+      "id": "figure.c1-walking",
+      "file": "design/board-motion/assets/figures/c1-walking.svg",
+      "character": "c1",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 23093,
+      "sha256": "399f7f1251e9c371fa08642c835fa5c4d0e9c301859b806b8a798e210bc76edc",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c1"
+    },
+    {
+      "id": "figure.c1-leaning",
+      "file": "design/board-motion/assets/figures/c1-leaning.svg",
+      "character": "c1",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 14732,
+      "sha256": "61e97ba77eaa05b7b50b1b4a6d664dc0fb749ac2f7ddfd4179909bcd98ee6aed",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c1"
+    },
+    {
+      "id": "figure.c1-leaning.front",
+      "file": "design/board-motion/assets/figures/c1-leaning.front.svg",
+      "character": "c1",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#7A4B2E"
+      ],
+      "bytes": 5247,
+      "sha256": "8e9785da98307217dd673696bcec35155d0cb8b6002a08b3952a33738dc346cf",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c1"
+    },
+    {
+      "id": "figure.c1-inBed",
+      "file": "design/board-motion/assets/figures/c1-inBed.svg",
+      "character": "c1",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 13586,
+      "sha256": "5c742172e33edb38dc3925416b8c876351782b4f13982933f64b47125f6db33e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c1"
+    },
+    {
+      "id": "figure.c1-inBed.front",
+      "file": "design/board-motion/assets/figures/c1-inBed.front.svg",
+      "character": "c1",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#7A4B2E",
+        "#8696AE",
+        "#C6CDD4"
+      ],
+      "bytes": 7423,
+      "sha256": "648b37f25e760ce5a25a9e2f0cfa1492aaa7c52ba25cb24a7e89147a031c53ef",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c1"
+    },
+    {
+      "id": "figure.c1-onBench",
+      "file": "design/board-motion/assets/figures/c1-onBench.svg",
+      "character": "c1",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 20709,
+      "sha256": "da8cd2c0b8de79dd8cb36d7dc9200a94dc9d70a3277fbae4ee03dda91caf3285",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c1"
+    },
+    {
+      "id": "figure.c1-atConsole",
+      "file": "design/board-motion/assets/figures/c1-atConsole.svg",
+      "character": "c1",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 21194,
+      "sha256": "b4a86148e14943807e4208999e4abe2963321a7361d9e52c271418744dde5009",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c1"
+    },
+    {
+      "id": "figure.c1-out",
+      "file": "design/board-motion/assets/figures/c1-out.svg",
+      "character": "c1",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#7A4B2E",
+        "#8696AE",
+        "#B45A16",
+        "#C6CDD4",
+        "#EE8B3A",
+        "#F4EBDD"
+      ],
+      "bytes": 23520,
+      "sha256": "c2b786f414c661b50720dbf521316fdcf14271670aaa407ef7e96c861c2bff95",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c1"
+    },
+    {
+      "id": "figure.c2-standing",
+      "file": "design/board-motion/assets/figures/c2-standing.svg",
+      "character": "c2",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 22366,
+      "sha256": "edc8766967023116c9507080fb5fea39d33ecc831a61b7844afb5968c765e979",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c2"
+    },
+    {
+      "id": "figure.c2-standingFolded",
+      "file": "design/board-motion/assets/figures/c2-standingFolded.svg",
+      "character": "c2",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 23266,
+      "sha256": "1d0567ebaf5c0e7e3d5a1bd8daa31d9be7d37cc64ea8884566bb94bfc01c94cb",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c2"
+    },
+    {
+      "id": "figure.c2-standingBack",
+      "file": "design/board-motion/assets/figures/c2-standingBack.svg",
+      "character": "c2",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 20384,
+      "sha256": "b65f4f100213e5a53cfadc66d051d8387137559d5c5052c91cd87e43cb04dca6",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c2"
+    },
+    {
+      "id": "figure.c2-walking",
+      "file": "design/board-motion/assets/figures/c2-walking.svg",
+      "character": "c2",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 22040,
+      "sha256": "ff4105ee742f7a05b7eb2c10ceec9c51e3b155ac771e1d4b36f19493dac56394",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c2"
+    },
+    {
+      "id": "figure.c2-leaning",
+      "file": "design/board-motion/assets/figures/c2-leaning.svg",
+      "character": "c2",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 13681,
+      "sha256": "9fb5dc9a5b38b674c7bb383080c759019b6211a3f8cba6053978f075ffa12552",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c2"
+    },
+    {
+      "id": "figure.c2-leaning.front",
+      "file": "design/board-motion/assets/figures/c2-leaning.front.svg",
+      "character": "c2",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#F2CDB0"
+      ],
+      "bytes": 5464,
+      "sha256": "0d644796ed976a7a33e844ca6dc91f234696a65928cfb7a2a37d66ec144adb85",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c2"
+    },
+    {
+      "id": "figure.c2-inBed",
+      "file": "design/board-motion/assets/figures/c2-inBed.svg",
+      "character": "c2",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 12531,
+      "sha256": "ec54a48d2d5beaeaabfff4e83b921c7c4a846666db72d547454e65783e3c16b1",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c2"
+    },
+    {
+      "id": "figure.c2-inBed.front",
+      "file": "design/board-motion/assets/figures/c2-inBed.front.svg",
+      "character": "c2",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#C6CDD4",
+        "#F2CDB0"
+      ],
+      "bytes": 7638,
+      "sha256": "cfd9ea02a7771511c649ae4c5fa5e90725328ff7afe081ddb37741a37cd6d326",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c2"
+    },
+    {
+      "id": "figure.c2-onBench",
+      "file": "design/board-motion/assets/figures/c2-onBench.svg",
+      "character": "c2",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 19658,
+      "sha256": "11791bc74d00a19bcb2fbe04864c13cf9611174d31923f633d854311aed78c38",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c2"
+    },
+    {
+      "id": "figure.c2-atConsole",
+      "file": "design/board-motion/assets/figures/c2-atConsole.svg",
+      "character": "c2",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 20143,
+      "sha256": "bd85ad840a14f2ea2916b445dc0e23d1182ca278da2d618be6d0312e4064667a",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c2"
+    },
+    {
+      "id": "figure.c2-out",
+      "file": "design/board-motion/assets/figures/c2-out.svg",
+      "character": "c2",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B98F12",
+        "#C4622D",
+        "#C6CDD4",
+        "#E3D6C2",
+        "#F2CDB0",
+        "#F3CB3F",
+        "#F4EBDD"
+      ],
+      "bytes": 22465,
+      "sha256": "e239c5d294327f0482e400ffc2801b532686c77dc17e1aed38afa25b028c15ad",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c2"
+    },
+    {
+      "id": "figure.c3-standing",
+      "file": "design/board-motion/assets/figures/c3-standing.svg",
+      "character": "c3",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 22093,
+      "sha256": "8c3e3714356e395c774cd3b4a0373f7a6c3441c1a46d16aa562cade32ee46759",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c3"
+    },
+    {
+      "id": "figure.c3-standingFolded",
+      "file": "design/board-motion/assets/figures/c3-standingFolded.svg",
+      "character": "c3",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 22993,
+      "sha256": "f95d77154b834363b1526e9f22cd18d86bf17e4a4cc2c6ab611a63b14776750a",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c3"
+    },
+    {
+      "id": "figure.c3-standingBack",
+      "file": "design/board-motion/assets/figures/c3-standingBack.svg",
+      "character": "c3",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 20111,
+      "sha256": "5ad1998e0d0288110ea49ddc3eeb980cdb39a10d2344c7dddc141a7c1479b03e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c3"
+    },
+    {
+      "id": "figure.c3-walking",
+      "file": "design/board-motion/assets/figures/c3-walking.svg",
+      "character": "c3",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 21767,
+      "sha256": "c296ae27b36a294373aab3bb96c77352a2bb2d06ce526333c4bbc7250765a562",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c3"
+    },
+    {
+      "id": "figure.c3-leaning",
+      "file": "design/board-motion/assets/figures/c3-leaning.svg",
+      "character": "c3",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#3B2A22",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 13402,
+      "sha256": "36db1852ad8f6d4df90ac1eadd44fa3e0037b17a91ae9c40d19d631f90d0746e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c3"
+    },
+    {
+      "id": "figure.c3-leaning.front",
+      "file": "design/board-motion/assets/figures/c3-leaning.front.svg",
+      "character": "c3",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#B97A52"
+      ],
+      "bytes": 5398,
+      "sha256": "be2670fff640c62c5772a2dc92c0f51224d8df761d6893bbb52b35fb26feebf3",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c3"
+    },
+    {
+      "id": "figure.c3-inBed",
+      "file": "design/board-motion/assets/figures/c3-inBed.svg",
+      "character": "c3",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#3B2A22",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 12258,
+      "sha256": "6b4b969a6092ac2f26b8929f1ed828245f065056dcca34ad372ee24aa03ca1c0",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c3"
+    },
+    {
+      "id": "figure.c3-inBed.front",
+      "file": "design/board-motion/assets/figures/c3-inBed.front.svg",
+      "character": "c3",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#B97A52",
+        "#C6CDD4"
+      ],
+      "bytes": 7572,
+      "sha256": "f2a43b7349614344d1776a0be8ea4f20b37e5fbe49f05f9d4f33b80eff5138c2",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c3"
+    },
+    {
+      "id": "figure.c3-onBench",
+      "file": "design/board-motion/assets/figures/c3-onBench.svg",
+      "character": "c3",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 19379,
+      "sha256": "070c8ee06b070c59c742347b4650bf633f9a5888ada29521e1cc370696a20e92",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c3"
+    },
+    {
+      "id": "figure.c3-atConsole",
+      "file": "design/board-motion/assets/figures/c3-atConsole.svg",
+      "character": "c3",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 19870,
+      "sha256": "d7a1b03e4d8c037410f4ac5f5e5de0bba6dc342a5c3f6fdf7f720f1a6a1a6f18",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c3"
+    },
+    {
+      "id": "figure.c3-out",
+      "file": "design/board-motion/assets/figures/c3-out.svg",
+      "character": "c3",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#3B2A22",
+        "#55657E",
+        "#6B4A32",
+        "#6F8E22",
+        "#8696AE",
+        "#AFCF4E",
+        "#B97A52",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 22186,
+      "sha256": "a60395bef287e1a26cb76c608f78981508a2769ed39df47da4385b40d0432051",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c3"
+    },
+    {
+      "id": "figure.c4-standing",
+      "file": "design/board-motion/assets/figures/c4-standing.svg",
+      "character": "c4",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 21176,
+      "sha256": "9d5b60955ee823934ccc7dce7e618a4e7a0c953af5788c9e4fd38efc4d6ef7b6",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c4"
+    },
+    {
+      "id": "figure.c4-standingFolded",
+      "file": "design/board-motion/assets/figures/c4-standingFolded.svg",
+      "character": "c4",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 22064,
+      "sha256": "829e8aa2774468db9b19e5df52912ced1bf26d5e21bd8c969801476157c2786c",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c4"
+    },
+    {
+      "id": "figure.c4-standingBack",
+      "file": "design/board-motion/assets/figures/c4-standingBack.svg",
+      "character": "c4",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 19186,
+      "sha256": "c24e4a656e51a09dc7eeefd5db1c79200b4d2ccb82abff06b55adbe071d8b902",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c4"
+    },
+    {
+      "id": "figure.c4-walking",
+      "file": "design/board-motion/assets/figures/c4-walking.svg",
+      "character": "c4",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 20852,
+      "sha256": "f86cefd2f67452b9359369a0c41024c71bab8954cd9f603e653fa7cb941131e6",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c4"
+    },
+    {
+      "id": "figure.c4-leaning",
+      "file": "design/board-motion/assets/figures/c4-leaning.svg",
+      "character": "c4",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#256F40",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 12487,
+      "sha256": "1c5b12305f5e47266eac0b96fd0516df21456230fbb935508ea00ac50f94f32d",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c4"
+    },
+    {
+      "id": "figure.c4-leaning.front",
+      "file": "design/board-motion/assets/figures/c4-leaning.front.svg",
+      "character": "c4",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#C99468"
+      ],
+      "bytes": 5163,
+      "sha256": "d8fe457e1f8e30eceed4b1c563b33a688f30b5017cc6b7a40c9191f11f311926",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c4"
+    },
+    {
+      "id": "figure.c4-inBed",
+      "file": "design/board-motion/assets/figures/c4-inBed.svg",
+      "character": "c4",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#256F40",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 11347,
+      "sha256": "54e9a56374da3fce64be9d338a57847079e815405a8ed4049e1f26f39e50d783",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c4"
+    },
+    {
+      "id": "figure.c4-inBed.front",
+      "file": "design/board-motion/assets/figures/c4-inBed.front.svg",
+      "character": "c4",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468"
+      ],
+      "bytes": 7339,
+      "sha256": "201aa1914f76036a7035484e3fe992b320ae8b07cd6eef1af26fd73e0589378b",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c4"
+    },
+    {
+      "id": "figure.c4-onBench",
+      "file": "design/board-motion/assets/figures/c4-onBench.svg",
+      "character": "c4",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 18464,
+      "sha256": "087e49615f6e85ce85b9aeca7496e24393a6a446167816ddeefa7580fbe939cc",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c4"
+    },
+    {
+      "id": "figure.c4-atConsole",
+      "file": "design/board-motion/assets/figures/c4-atConsole.svg",
+      "character": "c4",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 18951,
+      "sha256": "04cba265ecf69da716e31550ff5e376bca1918386e9eb7c6e64dd63b50042e2c",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c4"
+    },
+    {
+      "id": "figure.c4-out",
+      "file": "design/board-motion/assets/figures/c4-out.svg",
+      "character": "c4",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#256F40",
+        "#34415A",
+        "#45A866",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#C99468",
+        "#F4EBDD"
+      ],
+      "bytes": 21279,
+      "sha256": "c15efedc32411b0a6557f8ade7b329d3d84ccc4e9cc99e9b70752c3687187896",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c4"
+    },
+    {
+      "id": "figure.c5-standing",
+      "file": "design/board-motion/assets/figures/c5-standing.svg",
+      "character": "c5",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 20626,
+      "sha256": "c960dae650c83e9c32dce6c907ba27db7916dced70d568065a44e4a95b31ed66",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c5"
+    },
+    {
+      "id": "figure.c5-standingFolded",
+      "file": "design/board-motion/assets/figures/c5-standingFolded.svg",
+      "character": "c5",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 21502,
+      "sha256": "cd19b3b843e081f074ffa7ab1b8b0afc033f182e7d0de0746fd1f480125763f3",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c5"
+    },
+    {
+      "id": "figure.c5-standingBack",
+      "file": "design/board-motion/assets/figures/c5-standingBack.svg",
+      "character": "c5",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 18628,
+      "sha256": "637cbcc28d8c8ef16298eb45a24061f7fa52079983f204b213f6958353fe5df9",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c5"
+    },
+    {
+      "id": "figure.c5-walking",
+      "file": "design/board-motion/assets/figures/c5-walking.svg",
+      "character": "c5",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 20304,
+      "sha256": "c7ede3957c3d203ad7d0870e78d3cc75c483f9f23ec8ed12770aecdd3b3914e8",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c5"
+    },
+    {
+      "id": "figure.c5-leaning",
+      "file": "design/board-motion/assets/figures/c5-leaning.svg",
+      "character": "c5",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#33ADA2",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 11941,
+      "sha256": "88d92bc7de927f3319fe738d6ff38312a210166e84709de1f6c2335972f3b44c",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c5"
+    },
+    {
+      "id": "figure.c5-leaning.front",
+      "file": "design/board-motion/assets/figures/c5-leaning.front.svg",
+      "character": "c5",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#F4D9C6"
+      ],
+      "bytes": 4836,
+      "sha256": "dfab09bddf232956b230a265d9d2b270466383e5f1f2d0901d84af7c1065537e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c5"
+    },
+    {
+      "id": "figure.c5-inBed",
+      "file": "design/board-motion/assets/figures/c5-inBed.svg",
+      "character": "c5",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#33ADA2",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 10803,
+      "sha256": "8ba77f3f955fb0e9a26c0a9dc625371ac3d19fe3839a848163c739b9e56ab43e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c5"
+    },
+    {
+      "id": "figure.c5-inBed.front",
+      "file": "design/board-motion/assets/figures/c5-inBed.front.svg",
+      "character": "c5",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4D9C6"
+      ],
+      "bytes": 7013,
+      "sha256": "8206eb03d89f3f0f629e548efa1fb13aa69d92b01fed05a858695cf56af17c9a",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c5"
+    },
+    {
+      "id": "figure.c5-onBench",
+      "file": "design/board-motion/assets/figures/c5-onBench.svg",
+      "character": "c5",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 17916,
+      "sha256": "ecaf81e170d01878701cf71b699f1f374bee361189402cd10a976323a0ab2666",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c5"
+    },
+    {
+      "id": "figure.c5-atConsole",
+      "file": "design/board-motion/assets/figures/c5-atConsole.svg",
+      "character": "c5",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 18399,
+      "sha256": "d0e2bd11ed4a5a6adc74b2b6e942128989720a592f2a6e4081307c1927a78525",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c5"
+    },
+    {
+      "id": "figure.c5-out",
+      "file": "design/board-motion/assets/figures/c5-out.svg",
+      "character": "c5",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#177168",
+        "#222B3A",
+        "#33ADA2",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#F4D9C6",
+        "#F4EBDD"
+      ],
+      "bytes": 20739,
+      "sha256": "26892d1d2618d9fa5e2562ba3d5698a62205f143e4b90712148ceafad197f029",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c5"
+    },
+    {
+      "id": "figure.c6-standing",
+      "file": "design/board-motion/assets/figures/c6-standing.svg",
+      "character": "c6",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 22496,
+      "sha256": "f28d118bf82cb05e61fd70af03f2e1af3e55b14aa770d1910dc3361df99777ff",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c6"
+    },
+    {
+      "id": "figure.c6-standingFolded",
+      "file": "design/board-motion/assets/figures/c6-standingFolded.svg",
+      "character": "c6",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 23390,
+      "sha256": "9bf390197e344b29ca12516106b6801b26750caf8c9209fac28549411c17b271",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c6"
+    },
+    {
+      "id": "figure.c6-standingBack",
+      "file": "design/board-motion/assets/figures/c6-standingBack.svg",
+      "character": "c6",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 20510,
+      "sha256": "a49abf35699d51045491a8ef295745711fc39d01e68e804840f0d9fa84d66cea",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c6"
+    },
+    {
+      "id": "figure.c6-walking",
+      "file": "design/board-motion/assets/figures/c6-walking.svg",
+      "character": "c6",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 22171,
+      "sha256": "a4b5e5e22058b216331041faf4945eba3bba8cddf6b51c5b1a3152bb7c6d974d",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c6"
+    },
+    {
+      "id": "figure.c6-leaning",
+      "file": "design/board-motion/assets/figures/c6-leaning.svg",
+      "character": "c6",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 13806,
+      "sha256": "1038423221a5b1384d0439d2cb60ca2f3940b0f1776f72ad1cf7b8f1cd6ee918",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c6"
+    },
+    {
+      "id": "figure.c6-leaning.front",
+      "file": "design/board-motion/assets/figures/c6-leaning.front.svg",
+      "character": "c6",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#EBC49F"
+      ],
+      "bytes": 5160,
+      "sha256": "981802e963aa8b4a10c20ce5d8c4b27667b24524856a5cdb52e50e62d94644eb",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c6"
+    },
+    {
+      "id": "figure.c6-inBed",
+      "file": "design/board-motion/assets/figures/c6-inBed.svg",
+      "character": "c6",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 12664,
+      "sha256": "9aa5987d714b0bf236a9e67ba00dbf4b7e67af83add3b5690eb14ad827001e4f",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c6"
+    },
+    {
+      "id": "figure.c6-inBed.front",
+      "file": "design/board-motion/assets/figures/c6-inBed.front.svg",
+      "character": "c6",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#C6CDD4",
+        "#EBC49F"
+      ],
+      "bytes": 7336,
+      "sha256": "3720f94441755d052f2da794db66aaeff1f39779a4f484d20080644aff2ab090",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c6"
+    },
+    {
+      "id": "figure.c6-onBench",
+      "file": "design/board-motion/assets/figures/c6-onBench.svg",
+      "character": "c6",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 19783,
+      "sha256": "4e0210618c4d42bf027cb8af2f18f49b44dd2b817ea9ae8bed9e365282d8eb93",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c6"
+    },
+    {
+      "id": "figure.c6-atConsole",
+      "file": "design/board-motion/assets/figures/c6-atConsole.svg",
+      "character": "c6",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 20272,
+      "sha256": "5b90806a58c9c34688c056ad6079e1769899609eb822f2bdf02571bec863c27d",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c6"
+    },
+    {
+      "id": "figure.c6-out",
+      "file": "design/board-motion/assets/figures/c6-out.svg",
+      "character": "c6",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#B5447A",
+        "#C6CDD4",
+        "#EBC49F",
+        "#EE7FAE",
+        "#F4EBDD"
+      ],
+      "bytes": 22594,
+      "sha256": "bce8120da4cf886ee80c8c7f237f48220b9692fa2a0ce060db199c1922846176",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c6"
+    },
+    {
+      "id": "figure.c7-standing",
+      "file": "design/board-motion/assets/figures/c7-standing.svg",
+      "character": "c7",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 21802,
+      "sha256": "2ac0d183f7ece6a46e34b4f0a977ef0efad0a883239855dc687dbcfb988aca89",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c7"
+    },
+    {
+      "id": "figure.c7-standingFolded",
+      "file": "design/board-motion/assets/figures/c7-standingFolded.svg",
+      "character": "c7",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 22690,
+      "sha256": "e9b6f4e4b91e663263a092cc0edf560f593c4f9b344750d777657c4af97050cf",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c7"
+    },
+    {
+      "id": "figure.c7-standingBack",
+      "file": "design/board-motion/assets/figures/c7-standingBack.svg",
+      "character": "c7",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 19812,
+      "sha256": "891b6c737d33f4110ee16718c8e32513242c79f26996c09d7c5395bb61bcea66",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c7"
+    },
+    {
+      "id": "figure.c7-walking",
+      "file": "design/board-motion/assets/figures/c7-walking.svg",
+      "character": "c7",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 21478,
+      "sha256": "ee63b8bc8b2c2934318e9e7e518eb7366456b82a174430a3c725b92aa7e37cc9",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c7"
+    },
+    {
+      "id": "figure.c7-leaning",
+      "file": "design/board-motion/assets/figures/c7-leaning.svg",
+      "character": "c7",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 13113,
+      "sha256": "67e1a9c6ea4c9f6de7add7be13e62df28707d3dacb8d0416593e24b566f7b3f8",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c7"
+    },
+    {
+      "id": "figure.c7-leaning.front",
+      "file": "design/board-motion/assets/figures/c7-leaning.front.svg",
+      "character": "c7",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#D9A679"
+      ],
+      "bytes": 5162,
+      "sha256": "ace6de99b90149cebea96293696766c1f70c64777220c7335f7a75db8f65d4d6",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c7"
+    },
+    {
+      "id": "figure.c7-inBed",
+      "file": "design/board-motion/assets/figures/c7-inBed.svg",
+      "character": "c7",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#D9A679",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 11973,
+      "sha256": "48e906c2e04042b6646afe9c878b1bf27b789ba22024b215cd54121cc06a4500",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c7"
+    },
+    {
+      "id": "figure.c7-inBed.front",
+      "file": "design/board-motion/assets/figures/c7-inBed.front.svg",
+      "character": "c7",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#C6CDD4",
+        "#D9A679"
+      ],
+      "bytes": 7338,
+      "sha256": "69ae421a2f2d1ffd826f051078f04f4f8bbbdf31b99931b4b1f3333687bc8d30",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c7"
+    },
+    {
+      "id": "figure.c7-onBench",
+      "file": "design/board-motion/assets/figures/c7-onBench.svg",
+      "character": "c7",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 19090,
+      "sha256": "19951222dbadd3b5656e910520ce3db570fc0dbbff65fa5063e6f0dc6c68f686",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c7"
+    },
+    {
+      "id": "figure.c7-atConsole",
+      "file": "design/board-motion/assets/figures/c7-atConsole.svg",
+      "character": "c7",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 19577,
+      "sha256": "eed31ec7400cee7f34285477f7af4d129fe7d18bbc12fa26d6001ef90954087a",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c7"
+    },
+    {
+      "id": "figure.c7-out",
+      "file": "design/board-motion/assets/figures/c7-out.svg",
+      "character": "c7",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#5E3B22",
+        "#6B4A32",
+        "#8696AE",
+        "#9A6A47",
+        "#B9C4D3",
+        "#C6CDD4",
+        "#D9A679",
+        "#F4EBDD"
+      ],
+      "bytes": 21905,
+      "sha256": "81ed3a735def17f79c651fac2164b93477a81c720f0298374047d9b5d028d6e1",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c7"
+    },
+    {
+      "id": "figure.c8-standing",
+      "file": "design/board-motion/assets/figures/c8-standing.svg",
+      "character": "c8",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 22216,
+      "sha256": "99a6034f72550ea2a522ac779ae268bb814c1ad0da5bc609bcc6d2af9b35a4e5",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c8"
+    },
+    {
+      "id": "figure.c8-standingFolded",
+      "file": "design/board-motion/assets/figures/c8-standingFolded.svg",
+      "character": "c8",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 23122,
+      "sha256": "60320620c4a140b45b8b0edfa09e7919f8c879d0704c9dfcbfb321a82b94edcb",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c8"
+    },
+    {
+      "id": "figure.c8-standingBack",
+      "file": "design/board-motion/assets/figures/c8-standingBack.svg",
+      "character": "c8",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 20238,
+      "sha256": "fef46c7a24de656de5bf701aa31fa3b793de5e03ad6612fd5d038e28e682af47",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c8"
+    },
+    {
+      "id": "figure.c8-walking",
+      "file": "design/board-motion/assets/figures/c8-walking.svg",
+      "character": "c8",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 21889,
+      "sha256": "c01b7f6aabaee28f3b595977f33460f70c25227377c9f66bd82812a1ca592a38",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c8"
+    },
+    {
+      "id": "figure.c8-leaning",
+      "file": "design/board-motion/assets/figures/c8-leaning.svg",
+      "character": "c8",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 13524,
+      "sha256": "26ec2d737e80eefa9ecfce718ac8c568bd2842d60a2d913570b01ee820b533e0",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c8"
+    },
+    {
+      "id": "figure.c8-leaning.front",
+      "file": "design/board-motion/assets/figures/c8-leaning.front.svg",
+      "character": "c8",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#C98E63"
+      ],
+      "bytes": 5295,
+      "sha256": "8aa4eabc48e06ee45d1ab3ee89808bf2f02da3b7e8d411fa87c10930621aae83",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c8"
+    },
+    {
+      "id": "figure.c8-inBed",
+      "file": "design/board-motion/assets/figures/c8-inBed.svg",
+      "character": "c8",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 12378,
+      "sha256": "79816b698cb357455d848678521ffad96110a3fbc318299ab64e00cdaebd71c7",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c8"
+    },
+    {
+      "id": "figure.c8-inBed.front",
+      "file": "design/board-motion/assets/figures/c8-inBed.front.svg",
+      "character": "c8",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#C6CDD4",
+        "#C98E63"
+      ],
+      "bytes": 7469,
+      "sha256": "ece205ab33c7e7456f9c18f80131a61f5776963798116a4b40a93f4466d9efe7",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c8"
+    },
+    {
+      "id": "figure.c8-onBench",
+      "file": "design/board-motion/assets/figures/c8-onBench.svg",
+      "character": "c8",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 19501,
+      "sha256": "3e7c59febd1989f7114bdbbe072b0ef71ea501290e0454fbfaed377919f8c478",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c8"
+    },
+    {
+      "id": "figure.c8-atConsole",
+      "file": "design/board-motion/assets/figures/c8-atConsole.svg",
+      "character": "c8",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 19994,
+      "sha256": "aed7f95ec31230b355a9f7023111a24a55778c021374dd87efaa0a074a673a89",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c8"
+    },
+    {
+      "id": "figure.c8-out",
+      "file": "design/board-motion/assets/figures/c8-out.svg",
+      "character": "c8",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#222B3A",
+        "#34415A",
+        "#55657E",
+        "#8696AE",
+        "#8E7B5E",
+        "#C6CDD4",
+        "#C98E63",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 22304,
+      "sha256": "bf8df1700adb6475d4c8a52385261a8f3002e3ebad3a459edd098647a612283e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c8"
+    },
+    {
+      "id": "figure.c9-standing",
+      "file": "design/board-motion/assets/figures/c9-standing.svg",
+      "character": "c9",
+      "pose": "standing",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 23580,
+      "sha256": "3ab764fd40bde3b3efa966919bdf2a1002496199f0ba811d6bf689f11253f86e",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standing-c9"
+    },
+    {
+      "id": "figure.c9-standingFolded",
+      "file": "design/board-motion/assets/figures/c9-standingFolded.svg",
+      "character": "c9",
+      "pose": "standingFolded",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 24456,
+      "sha256": "3b7785ad489d2654b8e136671f150f5476a1b5e31cde735175c994b2f1bd1101",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingFolded-c9"
+    },
+    {
+      "id": "figure.c9-standingBack",
+      "file": "design/board-motion/assets/figures/c9-standingBack.svg",
+      "character": "c9",
+      "pose": "standingBack",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 21582,
+      "sha256": "b5fd60a0776aab21d02f70cbfb9272f6f377e388b579780e0eddc1f570bee869",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-standingBack-c9"
+    },
+    {
+      "id": "figure.c9-walking",
+      "file": "design/board-motion/assets/figures/c9-walking.svg",
+      "character": "c9",
+      "pose": "walking",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -8 120 248",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        58,
+        36
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 23258,
+      "sha256": "1036ee7fc493e002b5511853ac57817eba3347a1816345f0e3f3e5da530e2bdc",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-walking-c9"
+    },
+    {
+      "id": "figure.c9-leaning",
+      "file": "design/board-motion/assets/figures/c9-leaning.svg",
+      "character": "c9",
+      "pose": "leaning",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#39404E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 14879,
+      "sha256": "d93fac7a5bc9d56e9a02bdfa38995a4534617015fd57e38bf7e87623be7d9d48",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-c9"
+    },
+    {
+      "id": "figure.c9-leaning.front",
+      "file": "design/board-motion/assets/figures/c9-leaning.front.svg",
+      "character": "c9",
+      "pose": "leaning",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 -2 140 152",
+      "anchor": [
+        70,
+        136
+      ],
+      "head": [
+        70,
+        41
+      ],
+      "colors": [
+        "#151923",
+        "#5E3A24"
+      ],
+      "bytes": 4835,
+      "sha256": "9e7352940ec1d856c17a76f3d6bb6d8841c447aed47ce58a08a3aa2351e4f0c1",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-leaning-front-c9"
+    },
+    {
+      "id": "figure.c9-inBed",
+      "file": "design/board-motion/assets/figures/c9-inBed.svg",
+      "character": "c9",
+      "pose": "inBed",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#39404E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 13757,
+      "sha256": "b155bf9b81ae4469fff0350e26119e2c33ae57a6215184cfbec423abad70fcf1",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-c9"
+    },
+    {
+      "id": "figure.c9-inBed.front",
+      "file": "design/board-motion/assets/figures/c9-inBed.front.svg",
+      "character": "c9",
+      "pose": "inBed",
+      "layer": "front",
+      "bundled": true,
+      "viewBox": "0 0 140 150",
+      "anchor": [
+        70,
+        128
+      ],
+      "head": [
+        64,
+        45
+      ],
+      "colors": [
+        "#151923",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4"
+      ],
+      "bytes": 7012,
+      "sha256": "7d9068c6b7471090f2e5b5731637217af020d70662a084c40c55f90e102c556c",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-inBed-front-c9"
+    },
+    {
+      "id": "figure.c9-onBench",
+      "file": "design/board-motion/assets/figures/c9-onBench.svg",
+      "character": "c9",
+      "pose": "onBench",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "10 22 112 180",
+      "anchor": [
+        86,
+        140
+      ],
+      "head": [
+        58,
+        64
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 20854,
+      "sha256": "b7803a7d8251b9c6ae09d118fee04a23a2d959816afd92ef54b97186d8fe83c4",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-onBench-c9"
+    },
+    {
+      "id": "figure.c9-atConsole",
+      "file": "design/board-motion/assets/figures/c9-atConsole.svg",
+      "character": "c9",
+      "pose": "atConsole",
+      "layer": "body",
+      "bundled": false,
+      "viewBox": "10 8 112 194",
+      "anchor": [
+        74,
+        197
+      ],
+      "head": [
+        78,
+        50
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 21353,
+      "sha256": "2d2f1200bc212aff4a3880067c9f6460307e685301d3b2af0b77ed7d3273b776",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-atConsole-c9"
+    },
+    {
+      "id": "figure.c9-out",
+      "file": "design/board-motion/assets/figures/c9-out.svg",
+      "character": "c9",
+      "pose": "out",
+      "layer": "body",
+      "bundled": true,
+      "viewBox": "0 92 124 150",
+      "anchor": [
+        62,
+        233
+      ],
+      "head": [
+        62,
+        140
+      ],
+      "colors": [
+        "#151923",
+        "#1C212B",
+        "#222B3A",
+        "#34415A",
+        "#39404E",
+        "#55657E",
+        "#5E3A24",
+        "#8696AE",
+        "#C6CDD4",
+        "#F4EBDD"
+      ],
+      "bytes": 23677,
+      "sha256": "6019368b523d888380ca520a7782cb6edf23620f71a96a2cba4380752ce06972",
+      "intendedBundle": "public-board",
+      "audience": "public",
+      "proposedExportVariant": "piece-crew.figure-out-c9"
     }
   ]
 }

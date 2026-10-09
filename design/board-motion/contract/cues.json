@@ -188,9 +188,9 @@
       "token": "motionMs.cardTransition",
       "easing": "--ms-ease-standard",
       "cancellation": "Choose again; not accepted; the authoritative move arriving.",
-      "settled": "A dashed outline of the player's own character with You?, in the pressed room. The real piece stays where the server has it.",
+      "settled": "A dashed outline of the player's own figure with You?, in the pressed room. The real piece stays where the server has it.",
       "reduced": "80 ms fade.",
-      "asset": "piece-crew standee (public)."
+      "asset": "The player's own figure, standing, from the figure bundle (public art)."
     },
     {
       "id": "cue-sheet-open",
@@ -216,14 +216,14 @@
       "audience": "public",
       "trigger": "A drawn public state shows a seat in another location than the state before (PUBLIC_MOVE), four or fewer in one update.",
       "facts": "seats[].location before and after. Nothing about why: a move, a transfer to Hospital or Jail, a release and the Final Zone transfer look the same.",
-      "anchor": ".bm-flyer in the board's .bm-fx layer, from the old station to the new",
+      "anchor": ".bm-flyer in the board's .bm-fx layer, walking from its feet at the old station to its feet at the new",
       "durationMs": 900,
       "token": "motionMs.pieceMove",
       "easing": "cubic-bezier(.2,.7,.2,1), as apps/game/hosted/comic-motion.mjs",
       "cancellation": "A newer change to the same seat; a reconnect; the page going to the background.",
       "settled": "The piece at its new station; an ink trail and a landing puff fade out by 900 ms. Each character's lift and settle angle is its own public flourish (fixtures CREW: hop, settle).",
       "reduced": "No flight: the piece appears at its new station with an 80 ms fade.",
-      "asset": "piece-crew standee or card picture; fx-ink-trail.paper; fx-landing-puff.paper."
+      "asset": "The figure bundle: the character in the walking pose, facing the way it goes; fx-ink-trail.paper; fx-landing-puff.paper."
     },
     {
       "id": "layout-reflow",

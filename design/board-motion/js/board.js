@@ -2,7 +2,8 @@
 //
 // The comic board: five rooms as panels of one page, as in the owner's reference (Command
 // Room across the top, Room A and Room B, then Hospital and Jail, a gutter between them),
-// drawn with the approved room pictures and the nine approved characters at stations.
+// drawn with the approved room pictures and the nine characters as full-body comic figures
+// (owner's decision of 9 October 2026), each posed by its station and public facts.
 //
 // Everything outside a piece's private cue attributes is built from public facts only, the
 // same on every phone and on the shared display. Private cues (eligible, picked, pending, the
@@ -13,6 +14,7 @@ import { h, vh } from './h.js';
 import { LOCATION_OF, MOVE_ROOMS, ROOMS, bandRows, placements } from './layout.js';
 import { COPY, PROPOSED, SHELL } from './copy.js';
 import { CREW } from './fixtures.js';
+import { shares } from '../figures/geometry.mjs';
 
 const crewOf = id => CREW.find(entry => entry.id === id);
 
@@ -46,6 +48,21 @@ function roomPanel(room, stations, { interactive }) {
   h('div', { class: 'bm-room__fx', 'aria-hidden': 'true' }));
 }
 
+/**
+ * Draws a pose on a piece, a flyer or a ghost: which picture of the figure bundle, mirrored or
+ * not, and the shares of its box the stylesheet places it by (geometry.mjs). The picture is a
+ * custom property of the bundle, so drawing a pose never fetches one.
+ */
+export function setFigure(element, character, pose, { mirror = false } = {}) {
+  const g = shares(pose, mirror);
+  element.dataset.pose = pose;
+  element.dataset.mirror = String(mirror);
+  element.style.setProperty('--fig', `var(--bm-figure-${character}-${pose})`);
+  element.style.setProperty('--fig-front', g.front ? `var(--bm-figure-${character}-${pose}-front)` : 'none');
+  const values = { '--fa': g.aspect, '--fx': g.fx, '--fy': g.fy, '--hx': g.hx, '--hy': g.hy, '--ht': g.ht, '--pl': g.pl, '--fw': g.width };
+  for (const [name, value] of Object.entries(values)) element.style.setProperty(name, String(Number(value.toFixed(4))));
+}
+
 function pieceElement(seat) {
   return h('li', { class: 'bm-piece', 'data-seat': seat.n, 'data-character': seat.character },
     h('span', { class: 'bm-piece__body' },
@@ -53,6 +70,8 @@ function pieceElement(seat) {
       h('span', { class: 'bm-piece__art', 'aria-hidden': 'true' }),
       h('span', { class: 'bm-piece__turn', 'aria-hidden': 'true' }),
       h('span', { class: 'bm-piece__badges' })),
+    // The hands on the table, the arms on the blanket: over the room's prop.
+    h('span', { class: 'bm-piece__front', 'aria-hidden': 'true' }),
     h('span', { class: 'bm-piece__tag' }, h('span', { class: 'bm-piece__num' }, vh('Player '), String(seat.n)), vh(', '), h('span', { class: 'bm-piece__name' }, seat.name)),
     h('span', { class: 'bm-piece__status' }));
 }
@@ -92,6 +111,7 @@ export function createBoard(root, { stations, interactive = true, viewer = null,
     board.style.setProperty('--rows-middle', rows.middle ?? 0);
     board.style.setProperty('--rows-lower', rows.lower ?? 0);
     board.style.setProperty('--rows-final', rows.final ?? 0);
+    for (const band of ['top', 'middle', 'lower']) board.style.setProperty(`--stand-${band}`, rows.stand?.[band] ?? 0);
     const byRoom = new Map([...panels.keys()].map(room => [room, []]));
     for (const seat of [...seats].sort((a, b) => a.n - b.n)) {
       let element = pieces.get(seat.n);
@@ -102,13 +122,21 @@ export function createBoard(root, { stations, interactive = true, viewer = null,
       element.dataset.character = seat.character;
       element.dataset.station = place.station;
       element.dataset.kind = place.kind;
-      element.dataset.piece = place.kind === 'prop' ? 'bust' : 'standee';
       element.dataset.health = seat.health;
       element.style.setProperty('--depth', place.depth);
       element.style.setProperty('--settle', `${crewOf(seat.character)?.settle ?? 0}deg`);
       element.style.setProperty('--hop', `${crewOf(seat.character)?.hop ?? 5}px`);
-      if (place.kind === 'prop') { element.style.setProperty('--ax', place.art); element.style.setProperty('--sink', place.sink); element.style.removeProperty('--x'); element.style.removeProperty('--row'); }
-      else { element.style.setProperty('--x', place.at[0]); element.style.setProperty('--row', place.at[1]); element.style.removeProperty('--ax'); element.style.removeProperty('--sink'); }
+      setFigure(element, seat.character, place.pose, { mirror: place.mirror });
+      if (place.kind === 'stand') {
+        delete element.dataset.clear;
+        element.style.setProperty('--x', place.at[0]); element.style.setProperty('--row', place.at[1]);
+        for (const name of ['--ax', '--ay', '--fs']) element.style.removeProperty(name);
+      } else {
+        // A picture station: the figure's anchor at a point of the room's picture, at the picture's scale.
+        element.style.setProperty('--ax', place.art[0]); element.style.setProperty('--ay', place.art[1]); element.style.setProperty('--fs', place.figure);
+        if (place.clear) element.dataset.clear = ''; else delete element.dataset.clear;
+        for (const name of ['--x', '--row']) element.style.removeProperty(name);
+      }
       for (const [flag, on] of [['self', seat.n === viewer], ['active', seat.n === active], ['captain', seat.captain], ['jailed', seat.jailed]]) {
         if (on) element.dataset[flag] = ''; else delete element.dataset[flag];
       }
@@ -145,6 +173,8 @@ export function createBoard(root, { stations, interactive = true, viewer = null,
       wanted.forEach((element, index) => { if (ol.children[index] !== element) ol.insertBefore(element, ol.children[index] ?? null); });
       panel.dataset.count = String(list.length);
       panel.dataset.crowd = String(list.length > 5);
+      // A used prop with characters standing in front of it: its line must clear their press areas.
+      panel.dataset.propFront = String(list.some(([, , place]) => place.kind === 'prop') && list.some(([, , place]) => place.kind === 'stand'));
       panel.style.setProperty('--room-rows', room === 'final-zone' ? (rows.final ?? 2) : (rows.room?.[room] ?? 0));
       panel.hidden = finalZone ? room !== 'final-zone' : room === 'final-zone';
     }
@@ -153,7 +183,11 @@ export function createBoard(root, { stations, interactive = true, viewer = null,
     if (cues.ghost) {
       const room = Object.keys(LOCATION_OF).find(key => LOCATION_OF[key] === cues.ghost.location);
       const self = seats.find(seat => seat.n === viewer);
-      if (room && self) panels.get(room).querySelector('.bm-pieces').after(h('div', { class: 'bm-ghost', 'data-character': self.character, 'data-state': cues.ghost.state, 'aria-hidden': 'true' }, h('span', { class: 'bm-ghost__art' }), h('span', { class: 'bm-ghost__tag' }, PROPOSED.moveTentative)));
+      if (room && self) {
+        const ghost = h('div', { class: 'bm-ghost', 'data-character': self.character, 'data-state': cues.ghost.state, 'aria-hidden': 'true' }, h('span', { class: 'bm-ghost__art' }), h('span', { class: 'bm-ghost__tag' }, PROPOSED.moveTentative));
+        setFigure(ghost, self.character, 'standing');
+        panels.get(room).querySelector('.bm-pieces').after(ghost);
+      }
     }
   }
 
@@ -173,9 +207,13 @@ export function createBoard(root, { stations, interactive = true, viewer = null,
     } else existing?.remove();
   }
 
-  /** Where each piece's body is drawn now, for the motion director. */
+  /** Where each piece's body is drawn now, and where its feet (its anchor) are, for the motion director. */
   function rects() {
-    return new Map([...pieces].map(([n, element]) => [n, element.querySelector('.bm-piece__body').getBoundingClientRect()]));
+    return new Map([...pieces].map(([n, element]) => {
+      const r = element.querySelector('.bm-piece__body').getBoundingClientRect();
+      const fx = Number(element.style.getPropertyValue('--fx')) || 0.5, fy = Number(element.style.getPropertyValue('--fy')) || 1;
+      return [n, { left: r.left, top: r.top, width: r.width, height: r.height, ax: r.left + r.width * fx, ay: r.top + r.height * fy, pose: element.dataset.pose ?? null }];
+    }));
   }
 
   return { element: board, update, rects, pieces, panels };

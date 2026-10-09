@@ -1,11 +1,11 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "board-motion-0.1.0",
+  "version": "board-motion-0.2.0",
   "status": "proposal",
-  "about": "Where each character stands in each room on the phone board. A station is a place in the picture, not a seat, a slot or a capacity: the rules impose none (rules/overlays/location-board-layout-v1.json, capacity_note). Which station a character takes depends only on public facts: who is in the room, ordered by seat number. Nothing private, and no arrival order the contract does not carry, chooses a station.",
-  "units": "A standing station is [x, row]: x a fraction of the panel's width (three in a row stand at 1/6, 1/2 and 5/6, so that three 44 px targets fit side by side in a 320 px phone's half-width panel), row 0 the front row on the floor, 1 the back row, 2 the far back. Rows are stacked at least one 44 px target apart, and characters in one row at least one target apart, so no two targets overlap. A prop station stands behind a prop lifted from the room's own picture: the character's lower edge sinks behind the prop's edge by the given share of its height. depth scales the drawing (1 = front).",
+  "about": "Where each character stands in each room on the phone board. A station is a place in the picture, not a seat, a slot or a capacity: the rules impose none (rules/overlays/location-board-layout-v1.json, capacity_note). Which station a character takes depends only on public facts: who is in the room, ordered by seat number. Nothing private, and no arrival order the contract does not carry, chooses a station. Since the owner's decision of 9 October 2026 (“lets try full body comic”) the characters are full-body figures, and a station also says the pose taken there. A picture station (behind the chart table or the laboratory counter, in the Hospital bed, on the Jail bench) is taken by a public fact (takes): the Captain at the chart table if the Captain is in the room, the first Injured character in the bed, otherwise the lowest seat; an Eliminated character takes none, and if nobody qualifies everyone stands. Everyone else stands in one of three stances, chosen by seat number, facing into the room; an Eliminated character sits on the floor.",
+  "units": "A standing station is [x, row]: x a fraction of the panel's width (three in a row stand at 1/6, 1/2 and 5/6, so that three 44 px targets fit side by side in a 320 px phone's half-width panel), row 0 the front row on the floor, 1 the back row, 2 the far back. Rows are stacked at least one 44 px target apart, and characters in one row at least one target apart, so no two targets overlap. A picture station (kind prop or seat) is a point of the room's picture, art [x, y] in its own 1024 x 768 units, where the figure's anchor goes: the line below which a prop lifted from the picture hides it, or the seat of the bench; figure is the figure's scale there, in picture units per figure unit, so that it is drawn at the room's scale; pose is the figure's pose; clear keeps the figure's head below the room's caption band, sinking it into the bed or onto the bench on a short panel. depth scales a standing figure (1 = front).",
   "anchor": "Each room picture is pinned so that its anchor line (edge, in the picture's own units) sits at a fixed share of the piece area (at), and scaled to cover the panel: the prop line therefore stays in the same place whatever the panel's size.",
-  "rowsFor": "Rows of characters a room needs: none when empty; one for the first two (one, if the room has a prop station); two up to five; three for six to nine. The board gives each band of panels the larger need of its two rooms, and shares what is left of the screen by weight.",
+  "rowsFor": "Rows of characters a room needs: none when empty; one for the first two (one, if the room has a picture station); two up to five; three for six to nine. The board gives each band of panels the larger need of its two rooms, and shares what is left of the screen by weight.",
   "weights": {
     "command-room": 0.8,
     "middle": 1.25,
@@ -75,10 +75,15 @@
       "stations": {
         "C1": {
           "kind": "prop",
-          "art": 512,
-          "sink": 0.28,
+          "art": [
+            512,
+            446
+          ],
+          "figure": 1.45,
+          "pose": "leaning",
+          "takes": "captain",
           "depth": 1,
-          "about": "Behind the chart table, leaning over it, as in the owner's reference"
+          "about": "Behind the chart table, leaning over it, as in the owner's reference: the Captain, if the Captain is in the room"
         },
         "C2": {
           "kind": "stand",
@@ -270,8 +275,13 @@
       "stations": {
         "B1": {
           "kind": "prop",
-          "art": 560,
-          "sink": 0.4,
+          "art": [
+            560,
+            394
+          ],
+          "figure": 1.3,
+          "pose": "leaning",
+          "takes": "first",
           "depth": 1,
           "about": "Behind the laboratory counter, at work"
         },
@@ -353,10 +363,16 @@
       "stations": {
         "H1": {
           "kind": "prop",
-          "art": 232,
-          "sink": 0.5,
+          "art": [
+            232,
+            414
+          ],
+          "figure": 1.5,
+          "pose": "inBed",
+          "takes": "injured",
           "depth": 1,
-          "about": "Sitting up in the left bed"
+          "about": "Sitting up in the left bed: the first Injured character in the room",
+          "clear": true
         },
         "H2": {
           "kind": "stand",
@@ -435,13 +451,17 @@
       },
       "stations": {
         "J1": {
-          "kind": "stand",
-          "at": [
-            0.3,
-            0
+          "kind": "seat",
+          "art": [
+            250,
+            342
           ],
+          "figure": 1.3,
+          "pose": "onBench",
+          "takes": "first",
           "depth": 1,
-          "about": "In front of the bench"
+          "about": "On the bench at the back wall, hunched",
+          "clear": true
         },
         "J2": {
           "kind": "stand",

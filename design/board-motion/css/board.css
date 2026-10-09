@@ -97,16 +97,25 @@ button { font: inherit; color: inherit; }
      short panel the line rises until the rows in front of it fit below it, so the press area
      of a character behind the prop ends where the front rows' begin. */
   --area-h: calc(100cqh - var(--bm-cap) - var(--bm-pad));
-  --anchor-y: calc(var(--bm-cap) + min(var(--at) * var(--area-h), var(--area-h) - (var(--room-rows, 1) - 1) * var(--row-gap) - 6px));
+  /* With standing characters in front of a used prop, the prop line clears the press areas of the front
+     row's upper bodies (data-prop-front, set by board.js). Elsewhere the picture stays where at puts it. */
+  --prop-clear: 0px;
+  --anchor-y: calc(var(--bm-cap) + min(var(--at) * var(--area-h), var(--area-h) - var(--prop-clear)));
   --k: max(calc(100cqw / var(--cw)), calc(var(--anchor-y) / var(--edge)), calc((100cqh - var(--anchor-y)) / (768 - var(--edge))));
+  /* A standing figure in the front row: its box is 120 x 248, so it is about twice as tall as it is wide. */
   --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.74), 60px);
+  --fig-h: calc(var(--piece-w) * 2.0667);
+  /* On the smallest phones the panel's lower edge crops the front row at the knees, as a comic panel does
+     (fitBoard counts the same): nothing on the smallest unit, up to two fifths of a figure at 44 px. */
+  --crop: clamp(0px, calc((60px - var(--row-unit, 64px)) * 1.7), calc(var(--fig-h) * 0.4));
   /* Rows of characters are stacked at least one target apart: the row pitch is the board's row unit (at least 44 px). */
-  --row-gap: max(var(--row-unit, 50px), min(calc((var(--area-h) - var(--piece-w) * 1.25) / max(var(--room-rows, 1) - 1, 1)), calc(var(--area-h) * 0.46)));
+  --row-gap: max(var(--row-unit, 50px), min(calc((var(--area-h) - var(--fig-h)) / max(var(--room-rows, 1) - 1, 1)), calc(var(--area-h) * 0.46)));
   position: relative; min-height: 0; overflow: hidden; container-type: size;
   border: 3px solid var(--ms-color-ink); border-radius: 3px; background: var(--ms-color-steel-shadow);
   box-shadow: inset 0 0 0 2px var(--ms-color-paper);
 }
 .bm-room[data-crowd="true"] { --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.66), 52px); }
+.bm-room[data-prop-front="true"] { --prop-clear: calc(var(--fig-h) * 0.92 + 6px); }
 /* A room whose name is a move control keeps a full 44 px band for it; the others a caption band. */
 .bm-room:is([data-room="command-room"], [data-room="room-a"], [data-room="room-b"]) { --bm-cap: 44px; }
 .bm-room:is([data-room="hospital"], [data-room="jail"], [data-room="final-zone"]) { --bm-cap: 32px; }
@@ -158,118 +167,133 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 @container (max-width: 190px) { .bm-tag__sub { display: none; } }
 @container (max-width: 120px) { .bm-tag__go { display: none; } }
 
-/* ---------- characters ---------- */
+/* ---------- characters: full-body comic figures (owner's decision of 9 October 2026) ---------- */
+/* A piece's box is its figure's box (figures/geometry.mjs): --fa its height over its width, --fx and --fy
+   the anchor (the feet, the seat, or the line a prop hides it below), --hx, --hy and --ht the head, --pl
+   the plate's line, all as shares of the box, mirrored for a figure facing left. board.js sets them. */
 .bm-pieces { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
 .bm-piece {
   --w: calc(var(--piece-w) * var(--depth, 1));
-  --h: calc(var(--w) * 1.25);
+  --h: calc(var(--w) * var(--fa, 2.0667));
   position: absolute; width: var(--w); height: var(--h);
-  left: calc(var(--x, 0.5) * 100cqw - var(--w) / 2);
-  top: calc(100cqh - var(--bm-pad) - var(--row, 0) * var(--row-gap) - var(--h));
+  left: calc(var(--x, 0.5) * 100cqw - var(--w) * var(--fx, 0.5));
+  top: calc(100cqh - var(--bm-pad) + var(--crop, 0px) - var(--row, 0) * var(--row-gap) - var(--h) * var(--fy, 1));
+  /* How far the panel's lower edge is below this piece's anchor: the plate and the ring stay above it. */
+  --to-edge: calc(var(--bm-pad) - var(--crop, 0px) + var(--row, 0) * var(--row-gap));
 }
-.bm-piece[data-kind="prop"] {
-  --h: calc(var(--w) * 1.14);
-  --top: calc(var(--anchor-y) - var(--h) * (1 - var(--sink, 0)));
-  left: calc(50cqw + (var(--ax) - var(--cx)) * var(--k) - var(--w) / 2);
+/* A picture station: the figure's anchor at a point of the room's picture (--ax, --ay), drawn at the picture's scale. */
+.bm-piece:is([data-kind="prop"], [data-kind="seat"]) {
+  --to-edge: 100cqh;
+  --w: calc(var(--fw) * var(--fs) * var(--k));
+  --at-picture: calc(var(--anchor-y) + (var(--ay) - var(--edge)) * var(--k) - var(--h) * var(--fy));
+  --top: var(--at-picture);
+  left: calc(50cqw + (var(--ax) - var(--cx)) * var(--k) - var(--w) * var(--fx));
   top: var(--top);
 }
+/* The bed and the bench are under their room's caption: on a short panel the figure sinks into the bed
+   or onto the bench rather than put its head under the caption. */
+.bm-piece[data-clear] { --top: max(calc(var(--bm-cap) + 2px - var(--h) * var(--ht)), var(--at-picture)); }
 .bm-piece__body { position: absolute; inset: 0; z-index: calc(30 - var(--row, 0) * 8); }
 .bm-piece[data-kind="prop"] .bm-piece__body { z-index: 2; }
+.bm-piece[data-kind="seat"] .bm-piece__body { z-index: 7; }
+/* The hands on the chart table and the counter, the arms on the blanket: over the prop (5), under the standing (14 and up). */
+.bm-piece__front { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
 .bm-piece__art { position: absolute; inset: 0; border-radius: 40% 40% 12% 12%; background: var(--ms-color-steel-mid); }
-[data-art~="public-board"] .bm-piece__art { border-radius: 0; background: transparent center bottom / contain no-repeat; }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c1"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c1); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c2"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c2); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c3"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c3); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c4"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c4); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c5"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c5); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c6"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c6); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c7"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c7); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c8"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c8); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-character="c9"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-standee-c9); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c1"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c1); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c2"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c2); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c3"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c3); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c4"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c4); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c5"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c5); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c6"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c6); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c7"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c7); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c8"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c8); }
-[data-art~="public-board"] :is(.bm-piece, .bm-flyer)[data-piece="bust"][data-character="c9"] .bm-piece__art { background-image: var(--ms-asset-piece-crew-card-c9); }
+.bm-piece__art, .bm-piece__front { background-position: 0 0; background-size: 100% 100%; background-repeat: no-repeat; }
+[data-art~="board-motion-figures"] .bm-piece__art { border-radius: 0; background-color: transparent; background-image: var(--fig); }
+[data-art~="board-motion-figures"] .bm-piece__front { background-image: var(--fig-front); }
+:is(.bm-piece, .bm-flyer)[data-mirror="true"] :is(.bm-piece__art, .bm-piece__front) { scale: -1 1; }
 
-/* The tag: seat number and name on the character's own stand, as a name plate. */
+/* The tag: seat number and name, a plate on the floor at the figure's feet, or on the prop's edge. */
 .bm-piece__tag {
-  position: absolute; z-index: 50; left: 50%; bottom: -3px; transform: translateX(-50%);
+  position: absolute; z-index: 50; left: calc(var(--fx, 0.5) * 100%); top: min(calc(var(--h) * var(--pl, 1) - 8px), calc(var(--h) * var(--fy, 1) + var(--to-edge, 100cqh) - 19px)); transform: translateX(-50%);
   display: flex; align-items: stretch; max-width: calc(var(--w) + 18px); height: 15px; font-size: 10px; line-height: 13px; font-weight: 700;
   border: 1.5px solid var(--ms-color-ink); border-radius: 2px; background: var(--ms-color-paper); color: var(--ms-color-ink); white-space: nowrap;
 }
 .bm-piece__num { padding: 0 3px; background: var(--ms-color-caption); border-right: 1.5px solid var(--ms-color-ink); }
 .bm-piece__name { padding: 0 3px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.bm-piece[data-kind="prop"] .bm-piece__tag { bottom: 6%; }
+.bm-piece:is([data-kind="prop"], [data-kind="seat"]) .bm-piece__tag { max-width: calc(var(--w) + 30px); }
 
-/* Public markers: captain, health, jail, the faction the rules reveal at elimination, the active turn. */
-.bm-piece__badges { position: absolute; inset: 0; pointer-events: none; }
+/* Public markers at the head: captain, health, jail, the faction the rules reveal at elimination, the active turn. */
+.bm-piece__badges { position: absolute; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--hy, 0.15) * 100%); width: 0; height: 0; pointer-events: none; }
 .bm-badge { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--ms-color-paper) center / 100% 100% no-repeat; border: 1.5px solid var(--ms-color-ink); }
-.bm-badge[data-badge="captain"] { top: -4px; right: -6px; }
-.bm-badge[data-badge="injured"], .bm-badge[data-badge="eliminated"] { top: -4px; left: -6px; }
-.bm-badge[data-badge="jailed"] { top: 14px; right: -6px; }
+.bm-badge[data-badge="captain"] { top: calc(var(--w) * -0.17 - 12px); left: calc(var(--w) * 0.08); }
+.bm-badge[data-badge="injured"], .bm-badge[data-badge="eliminated"] { top: calc(var(--w) * -0.17 - 12px); left: calc(var(--w) * -0.08 - 16px); }
+.bm-badge[data-badge="jailed"] { top: calc(var(--w) * 0.02 - 4px); left: calc(var(--w) * 0.16); }
 [data-art~="public-board"] .bm-badge[data-badge="captain"] { background-image: var(--ms-asset-marker-captain-badge); border: 0; }
 [data-art~="public-board"] .bm-badge[data-badge="injured"] { background-image: var(--ms-asset-marker-health-injured-badge); border: 0; }
 [data-art~="public-board"] .bm-badge[data-badge="eliminated"] { background-image: var(--ms-asset-marker-health-eliminated-badge); border: 0; }
 [data-art~="public-board"] .bm-badge[data-badge="jailed"] { background-image: var(--ms-asset-marker-jail-badge); border: 0; }
 .bm-reveal {
-  position: absolute; top: 30%; left: 50%; transform: translateX(-50%) rotate(var(--ms-stamp-rotation)); padding: 0 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
+  position: absolute; top: calc(var(--w) * 0.24); left: 0; transform: translateX(-50%) rotate(var(--ms-stamp-rotation)); padding: 0 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--ms-color-paper); background: var(--ms-color-ink); border: 1.5px solid var(--ms-color-paper);
 }
 .bm-piece[data-revealed="Blue"] .bm-reveal { background: var(--ms-color-faction-blue); color: var(--ms-color-ink); }
 .bm-piece[data-revealed="Red"] .bm-reveal { background: var(--ms-color-faction-red); color: var(--ms-color-ink); }
 .bm-piece[data-revealed="Alien"] .bm-reveal { background: var(--ms-color-faction-alien); color: var(--ms-color-ink); }
-.bm-piece[data-health="Eliminated"] .bm-piece__art { filter: grayscale(1) contrast(0.7); opacity: 0.6; }
-.bm-piece[data-health="Injured"] .bm-piece__art { transform-origin: 50% 100%; rotate: -4deg; }
-.bm-piece__turn { position: absolute; left: 50%; top: -12px; width: 18px; height: 12px; margin-left: -9px; display: none; background: var(--ms-color-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+/* Eliminated: the figure sits on the floor (its pose), greyed. Injured: the marker, and in the Hospital the bed. */
+.bm-piece[data-health="Eliminated"] :is(.bm-piece__art, .bm-piece__front) { filter: grayscale(1) contrast(0.7); opacity: 0.6; }
+.bm-piece__turn { position: absolute; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--h) * var(--ht, 0) - 14px); width: 18px; height: 12px; margin-left: -9px; display: none; background: var(--ms-color-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
 .bm-piece[data-active] .bm-piece__turn { display: block; }
-[data-art~="public-board"] .bm-piece[data-active] .bm-piece__turn { clip-path: none; background: var(--ms-asset-marker-turn-float) center / contain no-repeat; width: 22px; height: 16px; margin-left: -11px; top: -15px; }
+[data-art~="public-board"] .bm-piece[data-active] .bm-piece__turn { clip-path: none; background: var(--ms-asset-marker-turn-float) center / contain no-repeat; width: 22px; height: 16px; margin-left: -11px; top: calc(var(--h) * var(--ht, 0) - 18px); }
 .bm-piece[data-self] .bm-piece__tag { box-shadow: 0 0 0 2px var(--ms-color-caption); }
 
-/* Public: the subject of a release vote, and the published count of a closed vote. */
+/* Public: the subject of a release vote, and the published count of a closed vote, over the head. */
 .bm-piece__subject, .bm-piece__tally {
-  position: absolute; z-index: 52; left: 50%; top: -18px; transform: translateX(-50%); padding: 0 4px; white-space: nowrap;
+  position: absolute; z-index: 52; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--h) * var(--ht, 0) - 20px); transform: translateX(-50%); padding: 0 4px; white-space: nowrap;
   font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; border: 1.5px solid var(--ms-color-ink); background: var(--ms-color-paper); color: var(--ms-color-ink);
 }
 .bm-piece__tally[data-selected="true"] { background: var(--ms-color-caption); }
-.bm-piece[data-subject] .bm-piece__ring { display: block; inset: auto -12% -6% -12%; height: 34%; border: 3px double var(--ms-color-paper); border-radius: 50%; }
+/* A ring on the floor around the feet: the subject of a release vote (public), and the private cues below. */
+.bm-piece__ring { position: absolute; display: none; pointer-events: none; left: calc(var(--fx, 0.5) * 100% - var(--w) * 0.62); width: calc(var(--w) * 1.24); top: min(calc(var(--h) * var(--fy, 1) - var(--w) * 0.2), calc(var(--h) * var(--fy, 1) + var(--to-edge, 100cqh) - var(--w) * 0.4 - 3px)); height: calc(var(--w) * 0.4); border-radius: 50%; }
+.bm-piece[data-subject] .bm-piece__ring { display: block; border: 3px double var(--ms-color-paper); }
+/* Behind a prop or on the bench the feet are hidden: an outline round the figure says it instead. */
+.bm-piece[data-subject]:is([data-kind="prop"], [data-kind="seat"]) .bm-piece__ring { display: none; }
+.bm-piece[data-subject]:is([data-kind="prop"], [data-kind="seat"]) :is(.bm-piece__art, .bm-piece__front) { filter: drop-shadow(2px 0 0 var(--ms-color-paper)) drop-shadow(-2px 0 0 var(--ms-color-paper)) drop-shadow(0 -2px 0 var(--ms-color-paper)); }
 
 /* ---------- private cues: the viewer's own open action, on their own board only ---------- */
-.bm-piece__ring { position: absolute; display: none; pointer-events: none; }
-[data-board="own"] .bm-piece[data-target] .bm-piece__ring { display: block; inset: auto -14% -8% -14%; height: 36%; border-radius: 50%; }
+[data-board="own"] .bm-piece[data-target] .bm-piece__ring { display: block; }
 [data-board="own"] .bm-piece[data-target="eligible"] .bm-piece__ring { border: 2.5px dashed var(--ms-color-caption); }
 [data-board="own"] .bm-piece[data-target="selected"] .bm-piece__ring,
 [data-board="own"] .bm-piece[data-target="picked"] .bm-piece__ring { border: 3.5px solid var(--ms-color-caption); }
 [data-board="own"] .bm-piece[data-target="pending"] .bm-piece__ring { border: 2px dotted var(--ms-color-paper); }
-[data-board="own"] .bm-piece[data-target="other"] .bm-piece__art { opacity: 0.42; filter: grayscale(0.6); }
+[data-board="own"] .bm-piece:is([data-kind="prop"], [data-kind="seat"])[data-target] .bm-piece__ring { display: none; }
+/* The chosen figure is outlined in the caption color; behind a prop an eligible one is too, thinly. */
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__art, .bm-piece__front) {
+  filter: drop-shadow(2.5px 0 0 var(--ms-color-caption)) drop-shadow(-2.5px 0 0 var(--ms-color-caption)) drop-shadow(0 2.5px 0 var(--ms-color-caption)) drop-shadow(0 -2.5px 0 var(--ms-color-caption));
+}
+[data-board="own"] .bm-piece:is([data-kind="prop"], [data-kind="seat"])[data-target="eligible"] :is(.bm-piece__art, .bm-piece__front) {
+  filter: drop-shadow(1.5px 0 0 var(--ms-color-caption)) drop-shadow(-1.5px 0 0 var(--ms-color-caption)) drop-shadow(0 -1.5px 0 var(--ms-color-caption));
+}
+[data-board="own"] .bm-piece[data-target="other"] :is(.bm-piece__art, .bm-piece__front) { opacity: 0.42; filter: grayscale(0.6); }
 [data-board="own"] .bm-piece[data-target="other"] .bm-piece__ring { display: none; }
-[data-board="own"] .bm-piece[data-target="selected"] .bm-piece__body,
-[data-board="own"] .bm-piece[data-target="picked"] .bm-piece__body { translate: 0 calc(-1 * var(--ms-lift)); }
-[data-board="own"] .bm-piece[data-target="selected"] .bm-piece__body { animation: bm-pick var(--bm-motion-pick) var(--ms-ease-snap) backwards; }
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__body, .bm-piece__front) { translate: 0 calc(-1 * var(--ms-lift)); }
+[data-board="own"] .bm-piece[data-target="selected"] :is(.bm-piece__body, .bm-piece__front) { animation: bm-pick var(--bm-motion-pick) var(--ms-ease-snap) backwards; }
 [data-board="own"] .bm-piece__pick, [data-board="own"] .bm-piece[data-target="selected"]::after, [data-board="own"] .bm-piece[data-target="pending"]::after {
-  position: absolute; z-index: 52; right: -8px; top: 8px; width: 20px; height: 20px; display: grid; place-items: center;
+  position: absolute; z-index: 52; left: calc(var(--hx, 0.5) * 100% + var(--w) * 0.14); top: calc(var(--h) * var(--ht, 0)); width: 20px; height: 20px; display: grid; place-items: center;
   font-size: 12px; font-weight: 900; color: var(--ms-color-ink); background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 50%;
   transform: rotate(var(--ms-stamp-rotation));
 }
 [data-board="own"] .bm-piece__pick { animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
 [data-board="own"] .bm-piece[data-target="selected"]::after { content: '✓'; animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
 [data-board="own"] .bm-piece[data-target="pending"]::after { content: '…'; background: var(--ms-color-paper); }
-/* The target button: the character itself, at least 44 x 44, never overlapping its neighbors. */
+/* The target button: the character's upper body, from the head down, at least 44 x 44, never overlapping
+   another. A standing character's band hangs at the same height above its row's floor line in every row,
+   so rows a row unit apart never overlap, whatever the figures' depth. */
 [data-board="own"] .bm-piece__target {
-  position: absolute; z-index: 55; left: 50%; bottom: 0; width: max(44px, min(var(--w), calc(var(--gap, 1) * 100cqw - 2px))); height: clamp(44px, calc(var(--h) * 0.92), var(--row-gap, 44px));
-  transform: translateX(-50%); margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 10px;
+  position: absolute; z-index: 55; left: calc(var(--fx, 0.5) * 100%); top: calc(var(--h) * var(--fy, 1) - var(--fig-h) * 0.916); transform: translateX(-50%);
+  width: max(44px, min(calc(var(--w) * 0.8), calc(var(--gap, 1) * 100cqw - 2px))); height: clamp(44px, calc(var(--fig-h) * 0.55), var(--row-gap, 44px));
+  margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 10px;
 }
-/* Behind a prop, the press area is the bust down to 6 px below the prop line, at least 44 px
-   tall, and never reaching up under the room's tag. */
+/* Behind a prop, the press area is the figure down to 6 px below the prop line (the room's, or the figure's
+   own if that is higher), at least 44 px tall, and never reaching up under the room's tag. On the bench,
+   the figure itself. */
 [data-board="own"] .bm-piece[data-kind="prop"] .bm-piece__target {
-  --line: calc(var(--h) * (1 - var(--sink, 0)) + 6px);
-  --from: max(min(0px, calc(var(--line) - 44px)), calc(var(--bm-cap) - var(--top)));
-  top: var(--from); bottom: auto; height: max(44px, calc(var(--line) - var(--from)));
+  --line: calc(min(var(--h) * var(--fy), var(--anchor-y) - var(--top)) + 6px);
+  --from: max(min(calc(var(--h) * var(--ht)), calc(var(--line) - 44px)), calc(var(--bm-cap) - var(--top)));
+  top: var(--from); height: max(44px, calc(var(--line) - var(--from))); width: max(44px, calc(var(--w) * 0.7));
 }
+[data-board="own"] .bm-piece[data-kind="seat"] .bm-piece__target { top: calc(var(--h) * var(--ht)); height: max(44px, calc(var(--h) * (1 - var(--ht)))); width: max(44px, calc(var(--w) * 0.9)); }
 [data-board="own"] .bm-piece__target::after {
   content: '+'; position: absolute; right: -2px; top: -2px; width: 16px; height: 16px; display: grid; place-items: center; font-size: 13px; font-weight: 900; line-height: 1;
   color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px solid var(--ms-color-ink); border-radius: 50%;
@@ -277,29 +301,21 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 [data-board="own"] .bm-piece__target:active { background: color-mix(in srgb, var(--ms-color-caption) 22%, transparent); }
 [data-board="own"] .bm-piece__target:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
 
-/* A tentative place for a move: dashed, in the room pressed, until the public update says where the piece is. */
+/* A tentative place for a move: the viewer's own figure, dashed, in the room pressed, until the public update says where the piece is. */
 [data-board="own"] .bm-ghost {
-  position: absolute; z-index: 25; width: var(--piece-w); height: calc(var(--piece-w) * 1.25); left: calc(50% - var(--piece-w) / 2); bottom: calc(var(--bm-pad) + 4px);
+  position: absolute; z-index: 25; width: var(--piece-w); height: var(--fig-h); left: calc(50% - var(--piece-w) / 2); bottom: calc(var(--bm-pad) + 4px);
   border: 2.5px dashed var(--ms-color-caption); border-radius: 40% 40% 14% 14%; pointer-events: none;
   animation: bm-fade var(--bm-motion-ghost) var(--ms-ease-standard) backwards;
 }
 [data-board="own"] .bm-ghost__art { position: absolute; inset: 4px; opacity: 0.4; background: transparent center bottom / contain no-repeat; }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c1"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c1); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c2"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c2); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c3"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c3); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c4"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c4); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c5"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c5); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c6"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c6); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c7"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c7); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c8"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c8); }
-[data-art~="public-board"] [data-board="own"] .bm-ghost[data-character="c9"] .bm-ghost__art { background-image: var(--ms-asset-piece-crew-standee-c9); }
+[data-art~="board-motion-figures"] [data-board="own"] .bm-ghost__art { background-image: var(--fig); }
 [data-board="own"] .bm-ghost__tag { position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%); padding: 0 4px; font-size: 10px; font-weight: 800; color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px solid var(--ms-color-ink); }
 [data-board="own"] .bm-ghost[data-state="pending"] { border-style: dotted; }
 
 /* ---------- motion of public facts: the same on every screen ---------- */
 .bm-piece[data-moving] .bm-piece__body { z-index: 80; }
 .bm-piece[data-cue="status"] .bm-badge, .bm-piece[data-cue="status"] .bm-reveal { animation: bm-stamp var(--bm-motion-status) var(--ms-ease-snap) backwards; }
-.bm-piece[data-cue="status"] .bm-piece__art { animation: bm-status-ink var(--bm-motion-status) var(--ms-ease-standard); }
+.bm-piece[data-cue="status"] :is(.bm-piece__art, .bm-piece__front) { animation: bm-status-ink var(--bm-motion-status) var(--ms-ease-standard); }
 .bm-piece[data-cue="turn"] .bm-piece__turn { animation: bm-drop var(--bm-motion-status) var(--ms-ease-snap) backwards; }
 .bm-fx { position: absolute; inset: 0; z-index: 85; pointer-events: none; overflow: hidden; }
 .bm-flyer { position: absolute; z-index: 2; }
@@ -451,8 +467,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 [data-motion="reduced"] *, [data-motion="reduced"] *::before, [data-motion="reduced"] *::after { animation: none !important; transition: none !important; }
 [data-motion="reduced"] :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice),
 [data-motion="reduced"] .bm-piece[data-cue="status"] :is(.bm-badge, .bm-reveal),
-[data-motion="reduced"] .bm-piece[data-arrived] .bm-piece__body { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
-[data-motion="reduced"] .bm-board .bm-piece[data-target] .bm-piece__body { translate: none; }
+[data-motion="reduced"] .bm-piece[data-arrived] :is(.bm-piece__body, .bm-piece__front) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
+[data-motion="reduced"] .bm-board .bm-piece[data-target] :is(.bm-piece__body, .bm-piece__front) { translate: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
@@ -509,7 +525,7 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-vocab__room { width: 104px; height: 118px; --bm-cap: 14px; }
 .bm-vocab__stamp { position: absolute; top: auto; bottom: -6px; right: 4px; font-size: 9px; padding: 0 4px; }
 .bm-vocab__focus { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
-.bm-piece[data-demo="flight"] .bm-piece__body { transform: translate(-6px, -18px) scale(1.12) rotate(calc(var(--settle) * -2)); }
+.bm-piece[data-demo="flight"] :is(.bm-piece__body, .bm-piece__front) { transform: translate(-6px, -18px) scale(1.12) rotate(calc(var(--settle) * -2)); }
 .bm-vocab__trail { left: 4px; top: 78px; width: 40px; opacity: 0.8; animation: none; transform: rotate(-24deg); }
 
 /* ---------- prototype chrome: the frame, the observer and the fixture controls (not part of the design) ---------- */

@@ -56,8 +56,8 @@ const scenarioIds = new Set(fixtures?.SCENARIOS.map(entry => entry.id) ?? []);
       continue;
     }
     const content = await text(path);
-    // The prop layers are art for a later export revision: generated, checked below, not development code.
-    if (!/^design\/board-motion\/assets\/[\w.-]+\.svg$/.test(path) && !content.includes('mothership:dev-only')) problems.push(`${path}: no development-only mark`);
+    // The prop layers and figures are art for a later export revision: generated, checked below, not development code.
+    if (!/^design\/board-motion\/assets\/(?:figures\/)?[\w.-]+\.svg$/.test(path) && !content.includes('mothership:dev-only')) problems.push(`${path}: no development-only mark`);
     if (content.includes('explorations/')) problems.push(`${path}: reaches into design/explorations/`);
     if (/\b(?:fetch|import)\s*\(?\s*['"`]https?:|url\(\s*['"]?https?:|(?:src|href)=["']https?:/.test(content)) problems.push(`${path}: loads something from the network`);
     if (/(?:from|import\()\s*['"][^'"]*\/(?:apps|packages)\//.test(content)) problems.push(`${path}: imports production code`);
@@ -96,6 +96,52 @@ if (loadError) {
     if (reviewed.assets?.some(entry => entry.id === asset.proposedExportVariant || entry.file === asset.file)) problems.push(`${asset.id}: already in the reviewed manifest`);
   }
   check('the prop layers are made from the approved sources, and the reviewed kit is the one the runtime loads', problems);
+}
+
+// ---------- The figures: the approved characters, their own colors, every pose for everyone ----------
+{
+  const problems = [];
+  const manifest = await json('design/board-motion/assets/manifest.json');
+  const reviewed = await json('design/exports/asset-manifest.json');
+  const tokens = await json('packages/design-tokens/src/tokens-0.4.0.json');
+  const { CREW } = await load('design/board-motion/figures/crew.mjs');
+  const { BOARD_POSES } = await load('design/board-motion/figures/plan.mjs');
+  const { GEOMETRY } = await load('design/board-motion/figures/geometry.mjs');
+  const upper = value => value.toUpperCase();
+  const c = tokens.color;
+  // The crew palette of check-assets.mjs: the public tones, every character's own colors and the hair colors.
+  const publicTones = new Set([c.canvas, c.panel, c.paper, c.ink, c.publicToken, c.paperShade, c.paperDeep, ...Object.values(c.steel)].map(upper));
+  const crewTones = new Set([...Object.values(c.crew).flatMap(parts => Object.values(parts)), ...Object.values(c.crewHair)].map(upper));
+  const figures = manifest.figures ?? [];
+  if (figures.length === 0) problems.push('the manifest lists no figures');
+  for (const [id, character] of Object.entries(CREW)) {
+    const own = c.crew[id];
+    if (!own) { problems.push(`${id}: no character ${id} in color.crew`); continue; }
+    if (upper(character.skin) !== upper(own.skin) || upper(character.field) !== upper(own.field) || upper(character.accent) !== upper(own.accent)) problems.push(`${id}: its skin, field or accent is not color.crew.${id}`);
+    for (const pose of BOARD_POSES) {
+      const entry = figures.find(figure => figure.character === id && figure.pose === pose && figure.layer === 'body');
+      if (!entry?.bundled) problems.push(`${id}: the board pose ${pose} is not in the figure bundle`);
+      if (GEOMETRY[pose]?.front && !figures.some(figure => figure.character === id && figure.pose === pose && figure.layer === 'front' && figure.bundled)) problems.push(`${id}: the layer of ${pose} over the prop is not in the bundle`);
+    }
+  }
+  const others = id => new Set(Object.entries(c.crew).filter(([name]) => name !== id).flatMap(([, parts]) => Object.values(parts)).map(upper));
+  for (const figure of figures) {
+    if (figure.audience !== 'public') problems.push(`${figure.id}: a figure that is not public art`);
+    if (reviewed.assets?.some(entry => entry.id === figure.proposedExportVariant || entry.file === figure.file)) problems.push(`${figure.id}: already in the reviewed manifest`);
+    const svg = await text(figure.file);
+    const used = [...new Set([...svg.matchAll(/(?:fill|stroke)="(#[0-9A-Fa-f]{6})"/g)].map(match => upper(match[1])))];
+    for (const color of used) if (!publicTones.has(color) && !crewTones.has(color)) problems.push(`${figure.id}: ${color} is not in the crew palette`);
+    for (const color of used) if (others(figure.character).has(color) && !Object.values(c.crew[figure.character]).map(upper).includes(color) && !publicTones.has(color)) problems.push(`${figure.id}: ${color} is another character's color`);
+    if (figure.layer === 'body') for (const color of Object.values(c.crew[figure.character])) if (!used.includes(upper(color))) problems.push(`${figure.id}: does not use ${color}, which color.crew.${figure.character} lists`);
+    if (/<text\b|<image\b|<script\b|<foreignObject\b|href=/i.test(svg)) problems.push(`${figure.id}: outside the drawing vocabulary`);
+  }
+  // The whole bundle is loaded at once, before the first match view: no pose is ever fetched later.
+  const css = await text('design/board-motion/assets/board-motion.figures.css');
+  for (const figure of figures.filter(entry => entry.bundled)) if (!css.includes(`--bm-figure-${figure.character}-${figure.pose}${figure.layer === 'front' ? '-front' : ''}:`)) problems.push(`${figure.id}: bundled but not in board-motion.figures.css`);
+  if (!/whatever the seat's role/.test(manifest.figureStylesheet?.loadPolicy ?? '')) problems.push('the figure bundle does not say it is loaded whatever the seat\'s role');
+  const app = await text('design/board-motion/js/app.js');
+  if (!app.includes('board-motion.figures.css')) problems.push('the prototype does not load the figure bundle with the others');
+  check('the figures are the approved characters in their own colors, every board pose bundled for everyone', problems);
 }
 
 // ---------- Every action and every command of the release is covered ----------
@@ -214,6 +260,18 @@ if (loadError) {
       if (layout.rowsFor(stations, room, count) > 3) problems.push(`${room}: more than three rows for ${count}`);
     }
   }
+  // Who takes a picture station, and the pose, are public facts; nobody Eliminated takes one.
+  const placeAll = seats => layout.placements(stations, seats);
+  const ward = placeAll([{ n: 1, location: 'Hospital', health: 'Healthy' }, { n: 2, location: 'Hospital', health: 'Injured' }]);
+  if (ward.get(2)?.pose !== 'inBed' || ward.get(1)?.pose === 'inBed') problems.push('the Hospital bed is not the first Injured character\'s');
+  if (placeAll([{ n: 1, location: 'Hospital', health: 'Healthy' }]).get(1)?.kind !== 'stand') problems.push('a healed character in the Hospital is put in the bed');
+  const bridge = placeAll([{ n: 1, location: 'Command Room', health: 'Healthy' }, { n: 4, location: 'Command Room', health: 'Healthy', captain: true }]);
+  if (bridge.get(4)?.pose !== 'leaning' || bridge.get(1)?.pose === 'leaning') problems.push('the Captain does not take the chart table');
+  const lab = placeAll([{ n: 1, location: 'Room B', health: 'Eliminated' }, { n: 2, location: 'Room B', health: 'Healthy' }]);
+  if (lab.get(1)?.pose !== 'out' || lab.get(1)?.kind !== 'stand' || lab.get(2)?.pose !== 'leaning') problems.push('an Eliminated character takes the counter, or does not sit on the floor');
+  if (placeAll([{ n: 3, location: 'Jail', health: 'Healthy', jailed: true }]).get(3)?.pose !== 'onBench') problems.push('a Jailed character alone in the Jail is not on the bench');
+  const code = (await text('design/board-motion/js/layout.js')).replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  if (/\b(?:role|team|device|faction|legalTargets|knowledge|ballot|receipt)\b/i.test(code)) problems.push('layout.js reads something private to place or pose a character');
   check('every room seats one to nine with no capacity, each at its own place', problems);
 }
 
@@ -292,6 +350,17 @@ if (loadError) {
   const css = (await text('design/board-motion/css/board.css')).replace(/\/\*[\s\S]*?\*\//g, '');
   const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(match => ({ selector: match[1].trim(), body: match[2] }));
   const PRIVATE = /\[data-target|\.bm-piece__target|\.bm-piece__pick|\.bm-ghost/;
+  // The selectors of a rule: split at its top-level commas, not those inside :is() or :not().
+  const selectorsOf = selector => {
+    const parts = [];
+    let depth = 0, current = '';
+    for (const char of selector) {
+      if (char === '(') depth += 1;
+      if (char === ')') depth -= 1;
+      if (char === ',' && depth === 0) { parts.push(current); current = ''; } else current += char;
+    }
+    return [...parts, current];
+  };
   for (const { selector, body } of rules) {
     if (selector.startsWith('@') || /^(from|to|\d+%)/.test(selector)) continue;
     const declarations = body.replace(/var\([^)]*\)/g, 'var()');
@@ -300,13 +369,14 @@ if (loadError) {
     if (/(?:color|background|border|outline|fill|stroke|shadow)[^;]*:\s*[^;]*\b(?:black|white|red|green|blue|yellow|orange|purple|violet|pink|gray|grey|gold|teal)\b/i.test(declarations)) problems.push(`${selector}: a named color`);
     if (/--ms-asset-/.test(body) && !/\[data-art~="[\w-]+"\]/.test(selector)) problems.push(`${selector}: draws art without waiting for its bundle`);
     if (/--bm-asset-/.test(body) && !/\[data-art~="board-motion"\]/.test(selector)) problems.push(`${selector}: draws a prop layer without waiting for it`);
+    if (/var\(--fig(?:-front)?\)/.test(body) && !/\[data-art~="board-motion-figures"\]/.test(selector)) problems.push(`${selector}: draws a figure without waiting for the figure bundle`);
     if (/--ms-asset-device-/.test(body) && !(/\.bm-private/.test(selector) && /\[data-art~="roles"\]/.test(selector))) problems.push(`${selector}: a role's device outside the private card`);
-    if (/\[data-(?:device|team)/.test(selector) && !selector.split(',').every(part => /\.bm-private/.test(part))) problems.push(`${selector}: a role or team hook outside the private card`);
+    if (/\[data-(?:device|team)/.test(selector) && !selectorsOf(selector).every(part => /\.bm-private/.test(part))) problems.push(`${selector}: a role or team hook outside the private card`);
     if (/\binfinite\b|animation-iteration-count/.test(body)) problems.push(`${selector}: an animation that repeats`);
     if (/\b\d+(?:\.\d+)?m?s\b/.test(body.replace(/var\([^)]*\)/g, '')) && /animation|transition/.test(body)) problems.push(`${selector}: a duration that is not a token`);
     // A private cue is drawn only on the viewer's own board, whatever else the page holds.
     const drawsSomething = body.split(';').map(part => part.split(':')[0].trim()).filter(Boolean).some(property => !['animation', 'transition', 'translate'].includes(property));
-    if (drawsSomething) for (const part of selector.split(',')) if (PRIVATE.test(part) && !/\[data-board="own"\]/.test(part)) problems.push(`${part.trim()}: a private cue drawn outside the viewer's own board`);
+    if (drawsSomething) for (const part of selectorsOf(selector)) if (PRIVATE.test(part) && !/\[data-board="own"\]/.test(part)) problems.push(`${part.trim()}: a private cue drawn outside the viewer's own board`);
     // A rule keyed by a character sets only its picture: no character gets a rule of its own.
     if (/\[data-character=/.test(selector) && body.split(';').map(part => part.split(':')[0].trim()).filter(Boolean).some(property => property !== 'background-image')) problems.push(`${selector}: a character with a rule of its own`);
   }

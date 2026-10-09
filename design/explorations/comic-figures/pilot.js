@@ -15,7 +15,7 @@
 
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { ART, ART_H, CAST, MOVE_ROOMS, POSE_BOX, ROOMS, ROOM_ORDER, SCENARIOS, figureBox, layout, pressBoxes } from './scene.js';
-import { POSES } from './poses.mjs';
+import { POSES } from '../../board-motion/figures/poses.mjs';
 
 window.__designReady = false;
 const params = new URLSearchParams(location.search);
@@ -46,7 +46,8 @@ function h(tag, attrs = {}, ...children) {
   return node;
 }
 const pct = value => `${(value * 100).toFixed(3)}%`;
-const figureUrl = (character, pose, layer = '') => new URL(`./figures/${character}-${pose}${layer}.svg`, import.meta.url).href;
+// The figures are the board-motion figures' files: one rig, one set of drawings.
+const figureUrl = (character, pose, layer = '') => new URL(`../../board-motion/assets/figures/${character}-${pose}${layer}.svg`, import.meta.url).href;
 
 // ---------- the phone ----------
 const rooms = new Map();
@@ -352,7 +353,7 @@ function controls() {
 }
 
 function sheet() {
-  const grid = h('div', { class: 'cf-grid', role: 'table', 'aria-label': 'Seven poses of the nine characters' },
+  const grid = h('div', { class: 'cf-grid', role: 'table', 'aria-label': 'Nine poses of the nine characters' },
     h('span', { class: 'cf-grid__head', role: 'columnheader' }, 'Pose'),
     CAST.map(who => h('span', { class: 'cf-grid__head', role: 'columnheader' }, `${who.seat} ${who.name}`)));
   for (const [pose, spec] of Object.entries(POSES)) {
@@ -364,8 +365,8 @@ function sheet() {
     }
   }
   return h('section', { class: 'cf-sheet', id: 'cf-sheet' },
-    h('h2', {}, 'Seven poses, nine characters'),
-    h('p', {}, 'One drawing rig: a pose is a skeleton and a drawing order, a character is a head, a skin, hair and the colors of the patches. So 7 poses of 9 characters are 63 drawings made from 16 pieces, and an eighth pose is one more skeleton, not nine more drawings.'),
+    h('h2', {}, 'Nine poses, nine characters'),
+    h('p', {}, 'One drawing rig (design/board-motion/figures/): a pose is a skeleton and a drawing order, a character is a head, a skin, hair and the colors of the patches. So 9 poses of 9 characters are 81 drawings made from 18 pieces, and a tenth pose is one more skeleton, not nine more drawings.'),
     grid);
 }
 

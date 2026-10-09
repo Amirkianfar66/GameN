@@ -9,19 +9,17 @@
 // the drawing; a figure's anchor (its feet, its seat, or the line where a prop hides it) is
 // pinned to a point of the drawing, so a figure stays on the floor whatever the panel's size.
 
+import { GEOMETRY } from '../../board-motion/figures/geometry.mjs';
+
 export const ART = 1024;
 export const ART_H = 768;
 
-/** The pilot's figures: viewBox and anchor, as build.mjs writes them (poses.mjs). */
-export const POSE_BOX = {
-  standing: { box: [0, -8, 120, 248], anchor: [62, 233], torso: 51 },
-  standingFolded: { box: [0, -8, 120, 248], anchor: [62, 233], torso: 51 },
-  standingBack: { box: [0, -8, 120, 248], anchor: [62, 233], torso: 51 },
-  leaning: { box: [0, -2, 140, 152], anchor: [70, 136], torso: 60, front: true },
-  inBed: { box: [0, 0, 140, 150], anchor: [70, 128], torso: 53, front: true },
-  onBench: { box: [10, 22, 112, 180], anchor: [86, 140], torso: 46 },
-  atConsole: { box: [10, 8, 112, 194], anchor: [74, 197], torso: 46 },
-};
+/**
+ * The figures' boxes and anchors: the board-motion figures' own geometry (the rig now lives in
+ * design/board-motion/figures/), with the width of each pose's torso for its press area.
+ */
+const TORSO = { standing: 51, standingFolded: 51, standingBack: 51, walking: 51, leaning: 60, inBed: 53, onBench: 46, atConsole: 46, out: 51 };
+export const POSE_BOX = Object.fromEntries(Object.entries(GEOMETRY).map(([pose, g]) => [pose, { box: g.box, anchor: g.anchor, torso: TORSO[pose], front: Boolean(g.front) }]));
 
 /** A standing character's three stances, one per seat number, so that a full room is not nine clones. */
 export const STANCES = ['standing', 'standingFolded', 'standingBack'];

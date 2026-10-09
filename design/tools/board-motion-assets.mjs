@@ -1,23 +1,27 @@
 // mothership:dev-only
 //
-// Builds the board-motion proposal's derived art (issue #87): front-prop layers lifted out of
-// the approved room sources, so that a character can stand behind the Command Room's chart
-// table, behind the laboratory counter or lie in a Hospital bed. Nothing is drawn here: each
-// layer is a run of elements copied from an approved editable source, printed in its room's
-// colors by the same recolor map the reviewed export recipe uses, in the room's own
-// 1024 x 768 box so that it stacks exactly over the room picture.
+// Builds the board-motion proposal's art (issue #87):
+// - front-prop layers lifted out of the approved room sources, so that a character can stand
+//   behind the Command Room's chart table, behind the laboratory counter or lie in a Hospital
+//   bed. Nothing is drawn for them: each layer is a run of elements copied from an approved
+//   editable source, printed in its room's colors by the same recolor map the reviewed export
+//   recipe uses, in the room's own 1024 x 768 box so that it stacks exactly over the picture;
+// - the nine characters as full-body comic figures in every pose (owner's decision of
+//   9 October 2026), drawn by the rig in design/board-motion/figures/ after the approved
+//   standees and in their own colors, and the poses the board draws as one stylesheet.
 //
 //   node design/tools/board-motion-assets.mjs           writes design/board-motion/assets/
 //   node design/tools/board-motion-assets.mjs --check   exits 1 if what is on disk differs
 //
-// The reviewed manifest (design-0.2.0) and its bundles are not touched. These layers are a
-// versioned proposal (board-motion-0.1.0) for a later export revision; adopting them is an
+// The reviewed manifest (design-0.2.0) and its bundles are not touched. This art is a
+// versioned proposal (board-motion-0.2.0) for a later export revision; adopting it is an
 // Integration step (see docs/design/board-motion-handoff.md).
 
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { FIGURE_VERSION, planFigures } from '../board-motion/figures/plan.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-motion/assets';
@@ -126,20 +130,24 @@ ${[...files.entries()].map(([file, svg]) => `  --bm-asset-${file.split('/').pop(
 }
 `;
   files.set(`${OUT}/board-motion.art.css`, css);
+  const figures = planFigures();
+  for (const [path, content] of figures.files) files.set(path, content);
   const manifest = {
     devOnly: 'mothership:dev-only',
-    manifestVersion: 'board-motion-0.1.0',
+    manifestVersion: FIGURE_VERSION,
     status: 'proposal',
     baseManifest: 'design-0.2.0',
-    note: 'Derived public layers for the board-motion prototype. The reviewed manifest and bundles are unchanged; these are proposed for a later export revision and are adopted only through Integration.',
+    note: 'Public art for the board-motion prototype: prop layers derived from the approved rooms, and the nine characters as full-body figures (owner\'s decision of 9 October 2026). The reviewed manifest and bundles are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
-      origin: 'Copied element for element from the repository\'s original vector sources under design/source/board/, recolored by the reviewed export recipes. No new drawing, no third-party artwork, font, photograph, traced image or generated raster image.',
+      origin: 'Prop layers: copied element for element from the repository\'s original vector sources under design/source/board/, recolored by the reviewed export recipes. Figures: original vector drawings generated for this repository by design/board-motion/figures/, after the approved standees under design/source/crew/ and in their colors (design tokens 0.4.0). No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream, issue #87: a Claude Code session working for the game owner.',
       license: recipes.rights.license,
       reuse: recipes.rights.reuse,
     },
     stylesheet: { file: `${OUT}/board-motion.art.css`, sha256: sha(css), bytes: Buffer.byteLength(css), loadPolicy: 'Every device, with the public-board bundle, before the first match view. Contains public art only.' },
+    figureStylesheet: { file: `${OUT}/board-motion.figures.css`, sha256: figures.sha, bytes: figures.bytes, loadPolicy: 'Every device, with the public-board bundle, before the first match view, whatever the seat\'s role, state or turn: every pose of every character. Contains public art only.' },
     assets: entries,
+    figures: figures.entries,
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
   return files;
@@ -156,8 +164,10 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     console.log(stale ? `Board-motion assets: ${stale} stale` : `Board-motion assets: ${files.size} files current`);
     if (stale) process.exitCode = 1;
   } else {
-    await mkdir(resolve(repoRoot, OUT), { recursive: true });
-    for (const [path, content] of files) await writeFile(resolve(repoRoot, path), content);
+    for (const [path, content] of files) {
+      await mkdir(dirname(resolve(repoRoot, path)), { recursive: true });
+      await writeFile(resolve(repoRoot, path), content);
+    }
     console.log(`Board-motion assets: wrote ${files.size} files to ${OUT}`);
   }
 }

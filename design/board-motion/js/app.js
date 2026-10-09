@@ -489,10 +489,22 @@ function fitBoard(element) {
     return parseFloat(css.borderTopWidth) + parseFloat(css.borderBottomWidth) + cap + parseFloat(css.getPropertyValue('--bm-pad'));
   })));
   const rows = Object.keys(BANDS).map(band => Number(style.getPropertyValue(`--rows-${band}`)) || 0);
-  const total = rows.reduce((sum, value) => sum + value, 0);
-  const spare = height - outer - base.reduce((a, b) => a + b, 0);
-  const unit = Math.max(minUnit, Math.min(74, spare / Math.max(1, total)));
-  const need = base.map((value, index) => value + rows[index] * unit);
+  const standing = Object.keys(BANDS).map(band => Number(style.getPropertyValue(`--stand-${band}`)) || 0);
+  // A band needs a row unit for each row behind the front one, and the front row's figure: twice as
+  // tall as it is wide (board.css --fig-h), less what the panel's lower edge crops of it on the
+  // smallest phones (--crop). A band of picture stations only (the chart table, a bed, the bench)
+  // holds figures drawn at the picture's scale: about a unit and a tenth. The unit is the largest that fits.
+  const figH = u => 2.0667 * Math.min(60, Math.max(30, u * 0.74));
+  const crop = u => Math.min(Math.max(0, (60 - u) * 1.7), figH(u) * 0.4);
+  const bandNeed = (index, u) => {
+    if (!rows[index]) return base[index];
+    if (!standing[index]) return base[index] + 1.1 * u;
+    return base[index] + (rows[index] - 1) * u + figH(u) - crop(u);
+  };
+  const room = height - outer;
+  let unit = minUnit;
+  for (let u = 74; u >= minUnit; u -= 0.5) if (base.reduce((sum, _, index) => sum + bandNeed(index, u), 0) <= room) { unit = u; break; }
+  const need = base.map((_, index) => bandNeed(index, unit));
   const weights = [0.8, 1.25, 1].map((w, index) => (rows[index] === 0 ? 0 : w));
   const left = Math.max(0, height - outer - need.reduce((a, b) => a + b, 0));
   const share = weights.reduce((a, b) => a + b, 0) || 1;
@@ -549,12 +561,14 @@ new ResizeObserver(markShort).observe(phone);
 // ---------- the page around the phone: frame, observer and fixture controls ----------
 async function loadArt() {
   await loadBundles(['public-board', 'player-ui', 'roles']);
-  await new Promise(resolve => {
-    const link = h('link', { rel: 'stylesheet', href: new URL('../assets/board-motion.art.css', import.meta.url).href });
-    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} board-motion`.trim(); resolve(); }, { once: true });
+  // The prop layers and the figures: every pose of every character, before the first match view,
+  // whatever the seat's role, state or turn. Each is marked on the root once it has arrived.
+  await Promise.all([['board-motion.art.css', 'board-motion'], ['board-motion.figures.css', 'board-motion-figures']].map(([file, mark]) => new Promise(resolve => {
+    const link = h('link', { rel: 'stylesheet', href: new URL(`../assets/${file}`, import.meta.url).href });
+    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} ${mark}`.trim(); resolve(); }, { once: true });
     link.addEventListener('error', resolve, { once: true });
     document.head.append(link);
-  });
+  })));
 }
 
 function fixturePanel() {

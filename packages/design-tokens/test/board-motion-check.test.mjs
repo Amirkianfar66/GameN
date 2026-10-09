@@ -74,7 +74,7 @@ const STATIONS = 'design/board-motion/contract/stations.json';
 test('the board-motion prototype as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Board-motion checks: 12 passed, 0 failures/);
+  assert.match(result.output, /Board-motion checks: 13 passed, 0 failures/);
 });
 
 test('a prototype module that no longer loads is refused by name, not a crash', async () => {
@@ -206,6 +206,28 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
   });
 
   // ---------- assets ----------
+
+  // ---------- the figures ----------
+
+  test('a figure in a color outside the crew palette, another character\'s color, a board pose left out of the bundle, and a figure drawn before its bundle', async () => {
+    const root = scratchCopy();
+    edit(root, 'design/board-motion/assets/figures/c2-standing.svg', text => text.replaceAll('#C6CDD4', '#ABCDEF'));
+    edit(root, 'design/board-motion/assets/figures/c3-standing.svg', text => text.replaceAll('#AFCF4E', '#45A866'));
+    editJson(root, 'design/board-motion/assets/manifest.json', manifest => { manifest.figures.find(figure => figure.id === 'figure.c5-walking').bundled = false; });
+    append(root, CSS, '.bm-flyer .bm-piece__art { background-image: var(--fig); }');
+    refuses(await check(root), /figure\.c2-standing: #ABCDEF is not in the crew palette/, /figure\.c3-standing: #45A866 is another character's color/,
+      /figure\.c3-standing: does not use #AFCF4E/, /c5: the board pose walking is not in the figure bundle/, /\.bm-flyer \.bm-piece__art: draws a figure without waiting for the figure bundle/);
+  });
+
+  test('the bed given to a healed character, an Eliminated character at the counter, and a pose that reads something private', async () => {
+    const root = scratchCopy();
+    const LAYOUT = 'design/board-motion/js/layout.js';
+    edit(root, LAYOUT, text => text.replace("return living.find(seat => seat.health === 'Injured') ?? null;", "return living.find(seat => seat.health === 'Injured') ?? living[0] ?? null;")
+      .replace("const living = occupants.filter(seat => seat.health !== 'Eliminated');", 'const living = occupants;'));
+    append(root, LAYOUT, 'export const stanceByRole = seat => seat.role;');
+    refuses(await check(root), /a healed character in the Hospital is put in the bed/, /an Eliminated character takes the counter, or does not sit on the floor/,
+      /layout\.js reads something private to place or pose a character/);
+  });
 
   test('a prop layer edited by hand, and layers proposed against another manifest', async () => {
     const root = scratchCopy();

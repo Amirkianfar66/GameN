@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "board-motion-0.1.0",
+  "version": "board-motion-0.2.0",
   "status": "proposal",
   "source": "ACTION_KINDS of packages/presentation/src/model/actions.ts and FullCommandSchema of packages/contracts/src/full-game.ts at 94a49ce0c5220b814ec56333b028fbe6180b257e. The check refuses a kind or command that is missing here.",
   "actions": [
@@ -352,7 +352,7 @@
     "states": [
       {
         "id": "idle",
-        "drawn": "The standee (or the bust behind a prop) at its station, number and name on its stand.",
+        "drawn": "The figure at its station, in its pose (a stance by seat number, or the station's: at the chart table, at the counter, in the bed, on the bench), number and name on a plate at its feet or on the prop's edge.",
         "cue": null
       },
       {
@@ -601,13 +601,25 @@
         "id": "GAP-5",
         "kind": "asset",
         "what": "The three prop layers (Command Room table, Room B counter, Hospital bed) are not in the reviewed manifest design-0.2.0.",
-        "decision": "Generated from the approved sources as a versioned proposal (board-motion-0.1.0); adopted only through an Integration review of a later manifest revision."
+        "decision": "Generated from the approved sources as a versioned proposal (board-motion-0.2.0); adopted only through an Integration review of a later manifest revision."
       },
       {
         "id": "GAP-6",
         "kind": "asset",
         "what": "The Final Zone has no picture of its own in the reviewed kit.",
         "decision": "The page's paper ground with the approved halftone and speed lines. A picture is a later asset decision."
+      },
+      {
+        "id": "GAP-7",
+        "kind": "asset",
+        "what": "The full-body figures (nine characters in every pose, owner's decision of 9 October 2026) are not in the reviewed manifest design-0.2.0, and the runtime still draws the approved bust standees.",
+        "decision": "Drawn by one rig in design/board-motion/figures/ after the approved standees, in their own colors, as a versioned proposal (board-motion-0.2.0, one public stylesheet loaded before the first match view). Adopting them is an Integration step and drawing them in the game Frontend's (DSN-D32)."
+      },
+      {
+        "id": "GAP-8",
+        "kind": "owner decision",
+        "what": "design/contract/crew-catalog.json says a character never changes with health, Jail, the Captain or anything private, and that those are markers on the piece. A figure's pose follows public facts: the Captain at the chart table, Injured in the bed, Jailed on the bench, Eliminated on the floor.",
+        "decision": "The character (face, skin, hair, colors, suit) never changes; only the pose does, from public facts only, and every marker is still drawn. Whether a pose may say what a marker says is for the game owner, with Integration for the catalog (DSN-D33)."
       }
     ]
   },
@@ -648,11 +660,11 @@
       },
       {
         "id": "piece",
-        "prototype": "li.bm-piece[data-seat][data-character][data-station][data-kind=stand|prop][data-piece=standee|bust] > .bm-piece__tag",
+        "prototype": "li.bm-piece[data-seat][data-character][data-station][data-kind=stand|prop|seat][data-pose][data-mirror] > .bm-piece__body (.bm-piece__art), .bm-piece__front, .bm-piece__tag",
         "runtime": ".ms-seat[data-seat] with .ms-token, .ms-seat__number, .ms-seat__player",
         "status": "extend",
         "audience": "public",
-        "about": "A character at a station in its room: a standee, or a bust behind a prop. Seat number and name on its stand."
+        "about": "A character at a station in its room, as a full-body comic figure (owner's decision of 9 October 2026) posed by public facts only: standing in one of three stances by seat number and facing into the room, leaning over the chart table or the counter, sitting up in the Hospital bed, on the Jail bench, or Eliminated on the floor. Over a prop, a second layer (the hands, the arms on the blanket) is drawn in front of it. Seat number and name on a plate at the feet, or on the prop's edge."
       },
       {
         "id": "piece-target",
@@ -660,7 +672,7 @@
         "runtime": "button.phone-character-target[data-intent=action/choose][data-value][aria-describedby=ms-action-step]",
         "status": "extend",
         "audience": "private",
-        "about": "The press area on an eligible character: at least 44 x 44, never overlapping another or a room tag, never reaching under a tag."
+        "about": "The press area on an eligible character: its upper body from the head down, at least 44 x 44, never overlapping another or a room tag, never reaching under a tag. A standing character's band hangs at the same height above its row's floor line in every row; behind a prop it ends 6 px below the prop line; on the bench it is the figure."
       },
       {
         "id": "piece-cue",
@@ -668,7 +680,7 @@
         "runtime": ".ms-seat[data-board-target=eligible|picked]",
         "status": "extend",
         "audience": "private",
-        "about": "The viewer's own open action drawn on the characters: eligible (dashed ring, + tab), selected (lifted, check), picked (numbered), pending (dotted), other (faint). Own board only."
+        "about": "The viewer's own open action drawn on the characters: eligible (dashed ring at the feet, + tab; behind a prop or on the bench, a thin outline), selected (lifted, outlined, check), picked (outlined, numbered), pending (dotted), other (faint). Own board only."
       },
       {
         "id": "pick-stamp",
@@ -684,7 +696,7 @@
         "runtime": "none",
         "status": "proposed",
         "audience": "private",
-        "about": "The tentative place of the viewer's own move, dashed, labeled You?, in the room pressed. The real piece moves only with the public update."
+        "about": "The tentative place of the viewer's own move: the viewer's own figure, faint and dashed, labeled You?, in the room pressed. The real piece moves only with the public update."
       },
       {
         "id": "public-markers",
