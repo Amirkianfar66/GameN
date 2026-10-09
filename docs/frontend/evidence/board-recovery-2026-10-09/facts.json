@@ -1,0 +1,3020 @@
+[
+  {
+    "name": "320x568-in-app-settled",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "phone-menu-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-in-app-lifecycle",
+    "during": {
+      "starts": 5,
+      "cancellations": 0,
+      "fx": 3
+    },
+    "landed": {
+      "starts": 5,
+      "cancellations": 5,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false
+  },
+  {
+    "name": "320x568-system-settled",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-system-lifecycle",
+    "during": {
+      "starts": 5,
+      "cancellations": 0,
+      "fx": 3
+    },
+    "landed": {
+      "starts": 5,
+      "cancellations": 5,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false
+  },
+  {
+    "name": "390x844-in-app-settled",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "phone-menu-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-in-app-lifecycle",
+    "during": {
+      "starts": 5,
+      "cancellations": 0,
+      "fx": 3
+    },
+    "landed": {
+      "starts": 5,
+      "cancellations": 5,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false
+  },
+  {
+    "name": "390x844-system-settled",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-system-lifecycle",
+    "during": {
+      "starts": 5,
+      "cancellations": 0,
+      "fx": 3
+    },
+    "landed": {
+      "starts": 5,
+      "cancellations": 5,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false
+  },
+  {
+    "name": "1280x720-in-app-settled",
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": null,
+    "rowUnit": null,
+    "phase": "Player 3’s turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": null,
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "1280x720-in-app-lifecycle",
+    "during": {
+      "starts": 6,
+      "cancellations": 0,
+      "fx": 3
+    },
+    "landed": {
+      "starts": 6,
+      "cancellations": 6,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false
+  },
+  {
+    "name": "1280x720-system-settled",
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": null,
+    "rowUnit": null,
+    "phase": "Player 3’s turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": null,
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "1280x720-system-lifecycle",
+    "during": {
+      "starts": 6,
+      "cancellations": 0,
+      "fx": 3
+    },
+    "landed": {
+      "starts": 6,
+      "cancellations": 6,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false
+  },
+  {
+    "name": "320x568-stale-rescue-submitting-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-rescue-submitting-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-rescue-checking-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-rescue-checking-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-rescue-checking-receipt",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "RESCUE ACCEPTED RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions are resolved at the end of the round. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-submitting-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-submitting-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-checking-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-checking-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-checking-receipt",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-accepted-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale-move-accepted-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-rescue-submitting-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-rescue-submitting-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-rescue-checking-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-rescue-checking-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-rescue-checking-receipt",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "RESCUE ACCEPTED RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions are resolved at the end of the round. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-submitting-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-submitting-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-checking-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-checking-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "58.75px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-checking-receipt",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-accepted-current",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-move-accepted-paused",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "53.75px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-rescue-submitting-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-rescue-submitting-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-rescue-checking-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-rescue-checking-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-rescue-checking-receipt",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE ACCEPTED RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions are resolved at the end of the round. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-submitting-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-submitting-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-checking-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-checking-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-checking-receipt",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-accepted-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale-move-accepted-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-rescue-submitting-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-rescue-submitting-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-rescue-checking-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [
+        "seat-6"
+      ],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-pick-order",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-rescue-checking-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE CHECKING RESCUE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-rescue-checking-receipt",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE ACCEPTED RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions are resolved at the end of the round. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-submitting-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-submitting-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE SUBMITTING MOVE : Sending your move to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-checking-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-checking-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE CHECKING MOVE : Checking what the server did with your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-checking-receipt",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-accepted-current",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": "pending",
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-move-ghost",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-expired-move-accepted-paused",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the server has it. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "MOVE",
+        "destination": "Room B"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-unknown",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "46.5px",
+    "phase": "Your turn",
+    "strip": "RESCUE RESULT UNKNOWN RESCUE : Result unknown. The app could not confirm what the server did with your action. Do not assume either way. You can check again at any time. Check again",
+    "stripStep": "result",
+    "stamp": "Result unknown",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-reloaded-checking",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "54.75px",
+    "phase": "Your turn",
+    "strip": "YOUR ACTION CHECKING YOUR ACTION : This page was reloaded before the server answered. Checking what became of your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-reloaded-accepted",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "47px",
+    "phase": "Your turn",
+    "strip": "YOUR ACTION ACCEPTED YOUR ACTION : The server accepted your action. This page was reloaded, so it no longer knows what the action was. This is not a result. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-identifier-recovery",
+    "commandSendsBeforeReload": 1,
+    "commandSendsAfterReload": 0,
+    "sameCommandId": true
+  },
+  {
+    "name": "320x568-hidden-submitting",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-phone-actions",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-foreground-expired",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "61.5px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-unknown",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE RESULT UNKNOWN RESCUE : Result unknown. The app could not confirm what the server did with your action. Do not assume either way. You can check again at any time. Check again",
+    "stripStep": "result",
+    "stamp": "Result unknown",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-title",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-reloaded-checking",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "YOUR ACTION CHECKING YOUR ACTION : This page was reloaded before the server answered. Checking what became of your action…",
+    "stripStep": "busy",
+    "stamp": "Checking",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-reloaded-accepted",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "YOUR ACTION ACCEPTED YOUR ACTION : The server accepted your action. This page was reloaded, so it no longer knows what the action was. This is not a result. Done",
+    "stripStep": "result",
+    "stamp": "Accepted",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-identifier-recovery",
+    "commandSendsBeforeReload": 1,
+    "commandSendsAfterReload": 0,
+    "sameCommandId": true
+  },
+  {
+    "name": "390x844-hidden-submitting",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-phone-actions",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "390x844-foreground-expired",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "RESCUE SUBMITTING RESCUE : Sending your Rescue to the server…",
+    "stripStep": "busy",
+    "stamp": "Submitting",
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-private-heading",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": [
+      {
+        "type": "RESCUE",
+        "targetSeatId": "seat-6"
+      }
+    ],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-rescue-status",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-election-status",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Captain election",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-jail-status",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Jail vote",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-release-vote-status",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Release vote",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-expired-enlarged-text",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "38px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  }
+]

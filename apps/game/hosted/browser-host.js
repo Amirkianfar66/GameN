@@ -1,6 +1,8 @@
 // Browser mounting for the hosted playtest. No fixture state or operator controls.
 import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
+import { fitBoard } from './board-layout.mjs';
+import { createStripCues } from './strip-cues.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A command identifier is random and means nothing. randomUUID needs a secure context,
@@ -72,9 +74,15 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const root = document.createElement('div');
   const polite = liveRegion('polite');
   const assertive = liveRegion('assertive');
-  container.replaceChildren(root, polite, assertive);
+  // The layer a moving character is carried in. Outside the redrawn shell, so a redraw never
+  // cuts a flight short, and over every room, so a flight is never clipped by a panel.
+  const fx = document.createElement('div');
+  fx.className = 'phone-fx';
+  fx.setAttribute('aria-hidden', 'true');
+  container.replaceChildren(root, polite, assertive, fx);
 
-  const comicMotion = createComicMotion(root);
+  const comicMotion = createComicMotion(root, { fx });
+  const stripCues = createStripCues(root);
   let rootAttributes = {};
   let drawn = null;
   let spokenSeq = 0;
@@ -138,7 +146,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     }
     const opened = Boolean(sheet) && !privateWasOpen;
     privateWasOpen = Boolean(sheet);
+    // Stations and bands first, so motion measures where every character finally stands.
+    fitBoard(root);
     comicMotion.after(frame.model, beforeMotion);
+    stripCues.after();
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
 
@@ -216,6 +227,14 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const onBlur = () => { if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
   function onKeyDown(event) {
     const sheet = root.querySelector('.ms-private[data-open="true"]');
+    // Escape steps back like the strip's own Back control while a choice is being made or
+    // confirmed; with nothing chosen, Back puts the action down and the tray is shown again.
+    const unsent = root.querySelector('.phone-action-dock .phone-strip > .ms-card__state:is([data-step="choosing"], [data-step="confirming"])');
+    if (event.key === 'Escape' && unsent && phoneView === 'actions') {
+      event.preventDefault(); phoneNotice = null;
+      screen.dispatch({ type: 'action/back' });
+      return;
+    }
     if (event.key === 'Escape' && phoneView !== 'board') {
       event.preventDefault(); phoneView = 'board'; phoneNotice = null; phoneFocus = phoneOpener;
       if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
@@ -238,6 +257,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
 
   const stopFrames = screen.subscribe(draw);
   const stopExtra = subscribeExtra(draw);
+  // A rotation, a resized window or a keyboard opening refits the board; nothing else is redrawn.
+  const resized = typeof ResizeObserver === 'function' ? new ResizeObserver(() => fitBoard(root)) : null;
+  resized?.observe(root);
   root.addEventListener('click', onClick);
   root.addEventListener('change', onChange);
   document.addEventListener('visibilitychange', onVisibility);
@@ -257,7 +279,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     stopFrames();
     stopExtra();
     onDispose();
+    resized?.disconnect();
     comicMotion.dispose();
+    stripCues.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);

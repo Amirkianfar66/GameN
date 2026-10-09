@@ -30,6 +30,8 @@ export { buildPlayerShellModel } from './model/player-shell.js';
 export { resolveShotGate, shotStepFocusId, shotTargetCandidates } from './model/shot.js';
 export type { ShotGate } from './model/shot.js';
 export { buildTableShellModel } from './model/table-shell.js';
+export { BOARD_ROOMS, isBoardRoom, placeSeats, rowsFor, stationsFor } from './model/stations.js';
+export type { BoardRoom, Station } from './model/stations.js';
 export { buildVotePanel, ownBallotLine, tallyResult } from './model/votes.js';
 export type * from './model/types.js';
 export { escapeAttribute, escapeText, h, isElement, splitRegions, textOf, toHtml } from './markup/node.js';
