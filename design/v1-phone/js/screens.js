@@ -461,9 +461,6 @@ const VIEWS = {
     const field = h('label', { class: 'j-field' },
       h('span', { class: 'j-field__label' }, 'Room code', h('span', { class: 'j-field__count' }, `${data.code.length}/12`)),
       h('input', { class: 'j-input j-input--code', id: 'j-code', type: 'text', inputmode: 'text', enterkeyhint: 'go', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', maxlength: '14', value: data.code ? grouped(data.code).join(' ') : '', 'aria-invalid': data.invalid ? 'true' : null, 'aria-describedby': 'j-code-help', disabled: data.busy || data.unsettled || null }));
-    const tile = (id, name) => h('label', { class: 'j-roomtile', 'data-room': id },
-      h('input', { type: 'radio', name: 'room', value: name, checked: data.room === name || null, disabled: data.busy || data.unsettled || null }),
-      h('span', { class: 'j-roomtile__face' }, h('span', { class: 'j-roomtile__check', 'aria-hidden': 'true' }, '✓'), h('span', { class: 'j-roomtile__cap' }, name)));
     const status = data.invalid ? notice(say('codeForm'), 'problem')
       : data.refused ? notice('This room cannot take your request. Check the code with the host: the room may not exist or may have started, or this device may already be in it.', 'problem')
       : data.unsettled ? notice('Asking to join: no answer. Press again to send the same request again.', 'uncertain')
@@ -474,8 +471,6 @@ const VIEWS = {
       h('p', { class: 'j-lede' }, 'Type the room code from the host.'),
       h('form', { class: 'j-stack', id: 'j-join-form', 'data-submit-to': data.busy ? null : 'join.waiting-host', novalidate: '' }, field),
       h('p', { class: 'j-quiet', id: 'j-code-help' }, '12 characters: 0–9 and A–F.'),
-      h('fieldset', { class: 'j-stack' }, h('legend', { class: 'j-h2' }, 'Where you start'), h('div', { class: 'j-rooms' }, tile('room-a', 'Room A'), tile('room-b', 'Room B')),
-        h('p', { class: 'j-quiet' }, 'Your starting room has nothing to do with your role. Roles are dealt later, at random.')),
       status,
       data.unsettled ? btn(say('giveUp'), { quiet: true }) : null,
       h('p', null, h('a', { class: 'j-link', href: '?state=join.recover', 'data-to': 'join.recover' }, 'Moving to a new phone? Take over your seat'))],
@@ -485,7 +480,7 @@ const VIEWS = {
   'join-wait'(data) {
     const states = {
       waiting: { cap: 'Waiting to be seated', big: 'Request sent', token: '?', lines: [say('waitingSeat')], facts: [['Your device', h('span', { class: 'j-tag' }, data.device)], ['You start in', data.room]], quiet: 'The host sees the same device tag beside your request. Keep this tab open.' },
-      seated: { cap: 'You are seated', big: `Player ${data.seat}`, token: data.seat, lines: [say('waitingSetup'), 'Next: choose your character and public name.'], facts: [['Your device', h('span', { class: 'j-tag' }, data.device)], ['You start in', data.room]] },
+      seated: { cap: 'You are seated', big: `Player ${data.seat}`, token: data.seat, lines: [say('waitingSetup'), 'Next: choose your character.'], facts: [['Your device', h('span', { class: 'j-tag' }, data.device)], ['You start in', data.room]] },
       ended: { cap: 'Match ended', big: 'Not started', token: '–', lines: [say('endedInLobby')], button: ['Join another game', 'join.code'] },
       'recover-checking': { cap: 'Taking over a seat', big: 'Checking…', token: '?', lines: [say('recoverWaiting')], button: [say('sendSame'), null], quietButton: [say('recoverStartOver'), 'join.recover'] },
       'recover-refused': { cap: 'Taking over a seat', big: 'No seat yet', token: '–', lines: ['The server has not given this device a seat in this match. If the request is still on its way this page will find out; otherwise ask the host for a new code and start over.'], quietButton: [say('recoverStartOver'), 'join.recover'] },
@@ -517,59 +512,33 @@ const VIEWS = {
 
   select(data) {
     if (data.phase === 'assigned') return VIEWS.reveal({ phase: 'concealed', timer: data.timer, assigned: data.assigned });
-    const frozen = ['submitting', 'retry', 'expired'].includes(data.phase);
+    const frozen = ['submitting', 'retry', 'expired', 'confirmed'].includes(data.phase) || data.timer.syncing;
     const tile = entry => {
       const holder = data.taken[entry.id];
       const mine = data.selected === entry.id && !holder;
-      const holderSeat = holder ? BASE_SEATS[holder - 1] : null;
-      return h('button', { type: 'button', class: 'j-crewtile', 'data-character': entry.id, 'aria-pressed': String(mine), 'aria-disabled': holder || frozen ? 'true' : null, 'data-act': 'pick-crew', 'data-just-taken': data.justTaken === entry.id || null,
+      return h('button', { type: 'button', class: 'j-crewtile', 'data-character': entry.id, 'aria-pressed': String(mine),
+        'aria-disabled': holder || frozen ? 'true' : null, 'data-act': 'pick-crew', 'data-confirmed': String(mine && data.phase === 'confirmed'),
+        'data-just-taken': data.justTaken === entry.id || null,
         'aria-label': holder ? `${entry.sign}, taken by Player ${holder}` : entry.sign },
-      h('span', { class: 'j-crewtile__art', 'aria-hidden': 'true' }),
-      h('span', { class: 'j-crewtile__sign', 'aria-hidden': 'true' }, entry.sign),
-      holder ? h('span', { class: 'j-crewtile__state', 'aria-hidden': 'true' }, `${holder} · ${nameOf(holderSeat)}`) : mine ? h('span', { class: 'j-crewtile__state', 'aria-hidden': 'true' }, '✓ Yours') : null);
+        h('span', { class: 'j-crewtile__art', 'aria-hidden': 'true' }),
+        h('span', { class: 'j-crewtile__sign', 'aria-hidden': 'true' }, entry.sign),
+        holder ? h('span', { class: 'j-crewtile__state', 'aria-hidden': 'true' }, `Player ${holder}`)
+          : mine ? h('span', { class: 'j-crewtile__state', 'aria-hidden': 'true' }, '✓') : null);
     };
-    if (data.phase === 'confirmed') {
-      const me = { n: VIEWER, name: data.name, character: data.selected };
-      return screen({ surface: 'player', noMast: true, main: [
-        head('Crew confirmed', data.timer),
-        bar(data.timer),
-        h('section', { class: 'j-panel j-crewpreview' },
-          h('div', { class: 'j-crewpreview__piece' }, h('ul', { class: 'j-pieces', style: { '--n': 1 } }, piece({ ...me, location: 'Room B', health: 'Healthy' }, { viewer: VIEWER, active: null }))),
-          h('div', { class: 'j-stack' }, h('p', { class: 'j-crewpreview__name' }, `${callSign(data.selected)}`), h('p', null, `Player ${VIEWER} · ${NAMES ? NAMES[VIEWER - 1] : data.name}`), h('span', { class: 'j-stamp' }, 'Confirmed'))),
-        h('p', { class: 'j-lede', role: 'status' }, say('characterConfirmed')),
-        h('p', { class: 'j-quiet' }, 'Everyone gets the full 30 seconds, however quickly others confirm.'),
-        h('section', { class: 'j-stack' }, h2('Crew', `${data.progress.filter(seat => seat.state === 'confirmed').length} of ${data.progress.length} confirmed`), h('ol', { class: 'j-slots' }, data.progress.map(seat => slot(seat, { self: seat.n === VIEWER }))))] });
-    }
-    const count = [...(data.name ?? '')].length;
     const status = data.phase === 'conflict' ? notice(say('characterTaken'), 'problem')
-      : data.phase === 'name-taken' ? notice(say('nameTaken'), 'problem')
-      : data.phase === 'retry' ? notice(say('choiceUncertain'), 'uncertain')
-      : data.phase === 'expired' ? notice(say('selectionOverPlayer'), 'info')
-      : data.timer.syncing ? notice(say('syncCountdown'), 'info') : null;
-    const ready = data.selected && count > 0 && !data.taken[data.selected];
-    const label = data.phase === 'submitting' ? 'Confirming…' : data.phase === 'retry' ? say('sameChoiceAgain') : say('confirmCharacter');
+      : data.phase === 'unavailable' ? notice(say('selectionUnavailable'), 'problem')
+      : data.phase === 'retry' ? notice(say('choiceUncertain'), 'uncertain') : null;
     return screen({ surface: 'player', noMast: true, main: [
-      head('Choose your character', data.timer),
+      head(say('chooseCharacter'), data.timer),
       bar(data.timer),
-      h('div', { class: `j-crew${frozen ? ' j-crewgrid-frozen' : ''}`, role: 'group', 'aria-label': 'Choose your character', 'aria-describedby': 'j-choose-help' }, CREW.map(tile)),
-      h('form', { class: 'j-field', id: 'j-name-form', 'data-submit-act': 'confirm-crew', novalidate: '' }, h('label', { class: 'j-field', for: 'j-name' },
-        h('span', { class: 'j-field__label' }, 'Your public name', h('span', { class: 'j-field__count', 'aria-live': 'polite' }, `${count}/12`))),
-        h('input', { class: 'j-input', id: 'j-name', type: 'text', autocomplete: 'nickname', spellcheck: 'false', enterkeyhint: 'go', value: data.name ?? '', placeholder: 'Your name', disabled: frozen || null, 'aria-invalid': data.phase === 'name-taken' ? 'true' : null })),
-      status,
-      h('p', { class: 'j-quiet', id: 'j-choose-help' }, say('choosePrompt'))],
-    dock: dock(btn(label, { primary: true, wide: true, disabled: data.phase === 'expired' || data.phase === 'submitting' || (!ready && data.phase !== 'retry'), act: 'confirm-crew' }),
-      h('p', { class: 'j-dock__note' }, say('unconfirmedAssigned'))) });
+      h('div', { class: `j-crew${frozen ? ' j-crewgrid-frozen' : ''}`, role: 'group', 'aria-label': say('chooseCharacter'),
+        'data-selection-state': data.phase }, CREW.map(tile)), status],
+      dock: data.phase === 'retry' ? dock(btn(say('sameChoiceAgain'), { primary: true, wide: true, act: 'retry-crew' })) : null });
   },
 
   reveal(data) {
     const me = { n: VIEWER, character: data.assigned?.character ?? 'c1', name: data.assigned?.name ?? 'Cleo' };
     const role = data.role ?? roleOf(VIEWER);
-    const step = ['dealing', 'concealed', 'recovered', 'backgrounded', 'reconnecting'].includes(data.phase) ? 1 : data.phase === 'revealed' || data.phase === 'sending' || data.phase === 'retry' ? 2 : 3;
-    const steps = h('ol', { class: 'j-steps', 'aria-label': 'Steps' },
-      h('li', { 'data-n': '1', 'data-now': step === 1 || null, 'data-done': step > 1 || null }, 'Reveal your card'),
-      h('li', { 'data-n': '2', 'data-now': step === 2 || null, 'data-done': step > 2 || null }, 'Press Ready'),
-      h('li', { 'data-n': '3', 'data-now': step === 3 || null }, 'Play starts'));
-    const progress = data.progress ? h('section', { class: 'j-stack' }, h2('Crew', `${data.progress.filter(seat => seat.state === 'ready').length} of ${data.progress.length} Ready`), h('ol', { class: 'j-slots' }, data.progress.map(seat => slot(seat, { self: seat.n === VIEWER })))) : null;
     const banner = data.phase === 'reconnecting' ? h('p', { class: 'j-notice', 'data-kind': 'problem', role: 'alert' }, 'Connection lost. Your role card is hidden until the connection is back. The deal is unchanged and the server’s timer keeps running.') : null;
     let card; let lines = []; let dockBody;
     const ready = (disabled, label = 'Ready', to = 'reveal.ready-sending') => btn(label, { primary: true, wide: true, disabled, to: disabled ? null : to });
@@ -577,19 +546,20 @@ const VIEWS = {
       case 'dealing':
         card = cardBack({ note: 'Dealing…' });
         lines = [say('freshRole')];
-        dockBody = [btn(say('revealMine'), { primary: true, wide: true, disabled: true }), h('p', { class: 'j-dock__note' }, say('revealThenReady'))];
+        dockBody = null;
         break;
       case 'concealed': case 'recovered': case 'backgrounded':
-        card = cardBack({ note: 'Dealt to you only', dealt: data.phase === 'concealed' && !data.assigned });
-        lines = [say('revealWhere')];
+        card = h('button', { type: 'button', class: 'j-reveal-tap', 'data-act': 'reveal', 'data-to': 'reveal.revealed', 'aria-label': say('revealMine'), 'aria-expanded': 'false' }, cardBack({ words: say('tapToReveal'), dealt: data.phase === 'concealed' && !data.assigned }));
+        lines = [];
         if (data.phase === 'recovered') lines.unshift('This device has taken over Player 3. Your role is the same: reveal it here, then press Ready again on this device.');
         if (data.phase === 'backgrounded') lines.unshift('Hidden while you were away from this screen.');
-        dockBody = [btn(say('revealMine'), { primary: true, wide: true, act: 'reveal', to: 'reveal.revealed', glyph: 'private-open' }), h('p', { class: 'j-dock__note' }, say('revealThenReady'))];
+        dockBody = null;
         break;
       case 'revealed':
-        card = h('div', { class: 'j-private j-cardslot' }, roleCard(role, me.character), h('p', { class: 'j-guide' }, ROLE_GUIDE[role]));
+        card = h('div', { class: 'j-private j-cardslot j-role-surface', id: 'j-role-view' }, roleCard(role, me.character),
+          h('button', { type: 'button', class: 'j-reveal-toggle', 'data-to': 'reveal.concealed', 'aria-label': say('hideMine'), 'aria-expanded': 'true', 'aria-controls': 'j-role-view' }));
         lines = [];
-        dockBody = [h('div', { class: 'j-dock__two' }, btn(say('hideMine'), { to: 'reveal.concealed', glyph: 'private-closed' }), ready(false)), h('p', { class: 'j-dock__note' }, 'Ready now or later: play starts after the reading time and when everyone is Ready.')];
+        dockBody = [ready(false)];
         break;
       case 'sending':
         card = cardBack({});
@@ -602,29 +572,23 @@ const VIEWS = {
         dockBody = [btn(say('readyAgain'), { primary: true, wide: true, to: 'reveal.ready-early' })];
         break;
       case 'ready-early': case 'waiting': case 'everyone':
-        card = cardBack({ small: true, stamp: 'Ready ✓' });
-        lines = [data.phase === 'everyone' ? 'Everyone is Ready. Play starts when the reading time ends.' : data.phase === 'waiting' ? say('readingOver') : say('readyWaiting')];
+        card = h('div', { class: 'j-ready-mark', role: 'status', 'aria-label': say('readyWaiting') }, h('span', { 'aria-hidden': 'true' }, '✓'));
+        lines = [];
         dockBody = null;
         break;
       case 'reconnecting':
         card = cardBack({ note: 'Hidden' });
-        dockBody = [btn(say('revealMine'), { primary: true, wide: true, disabled: true }), h('p', { class: 'j-dock__note' }, say('pausedStale'))];
+        dockBody = null;
         break;
       default: card = cardBack({});
     }
-    const waitingFor = data.phase === 'waiting' ? data.progress.filter(seat => seat.state === 'reading') : [];
     return screen({ surface: 'player', conn: data.phase === 'reconnecting' ? 'stale' : 'live', noMast: true, main: [
       banner,
       head(data.assigned ? 'Your character and role' : 'Your role card', data.timer),
       bar(data.timer),
-      data.assigned ? h('section', { class: 'j-panel j-crewpreview' }, h('div', { class: 'j-crewpreview__piece' }, h('ul', { class: 'j-pieces', style: { '--n': 1 } }, piece({ ...me, location: 'Room B', health: 'Healthy' }, { viewer: VIEWER, active: null }))),
-        h('div', { class: 'j-stack' }, h('p', { class: 'j-crewpreview__name' }, callSign(me.character)), h('p', null, `Player ${VIEWER} · ${me.name}`), h('p', { class: 'j-card__text' }, 'Time ran out before you confirmed, so the server chose for you.', ' ', proposal('Words: proposal')))) : null,
-      steps,
       h('div', { class: 'j-cardslot' }, card),
-      lines.map(line => h('p', { class: 'j-lede', role: 'status' }, line)),
-      data.phase === 'retry' ? notice(say('readyUncertain'), 'uncertain') : null,
-      waitingFor.length ? notice(`Waiting for: ${waitingFor.map(seat => `Player ${seat.n} · ${nameOf(seat)}`).join(', ')}.`, 'info') : null,
-      progress],
+      lines.map(line => h('p', { class: 'j-vh', role: 'status' }, line)),
+      data.phase === 'retry' ? h('p', { class: 'j-vh', role: 'status' }, say('readyUncertain')) : null],
     dock: dockBody ? dock(...dockBody) : null });
   },
 
