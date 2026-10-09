@@ -18,21 +18,25 @@ CHROME_PATH=/path/to/chrome node apps/game/dev/capture-board-play.mjs docs/front
 `simulation/facts.json` holds every measured step, and `simulation/capture-log.txt` gives one line per step. A step is "clean" when all of these hold:
 
 - the page does not scroll, vertically or sideways;
-- every press area is at least 44 × 44, inside its own room, on screen, hit at its centre by itself, and overlaps no other press area and no room tag;
+- every press area is at least 44 × 44, inside its own room, on screen, hit at its centre by itself, and overlaps no other press area and no room tag (boxes that only touch, within half a pixel, do not count);
 - every visible control is at least 44 px;
 - the status bar clips nothing.
 
+Where the board scrolls inside itself (only at doubled text, or with safe-area insets on a 568 px screen), a character scrolled out of view is not counted as hidden. Each one is scrolled into view instead, and must then be hit at its centre.
+
 **Results of the run kept here (2026-10-09, headless Chromium 141.0.7390.37 via the DevTools protocol):**
 
-- **236 measured steps, all clean.** 234 are on phones: 58 each at 320 × 568, 360 × 740 and 430 × 932, and 60 at 390 × 844, which adds the keyboard and reduced-motion runs. 2 are on the shared display at 1280 × 720.
-- **491 press areas measured**, every one at least 44 × 44, inside its room, hit at its centre, and overlapping no other press area and no room tag. The crowds include nine in one room in Room A, Room B, the Command Room and Jail, and eight in the Hospital.
+- **240 measured steps, all clean.** 238 are on phones: 58 each at 360 × 740 and 430 × 932, 60 at 320 × 568 and 62 at 390 × 844. The two larger counts add the keyboard, reduced-motion, safe-area and doubled-text runs. 2 are on the shared display at 1280 × 720.
+- **545 press areas measured**, every one at least 44 × 44, inside its room, hit at its centre (3 of them once scrolled to, see below), and overlapping no other press area and no room tag. The crowds include nine in one room in Room A, Room B, the Command Room and Jail, and eight in the Hospital.
+- **Safe areas** (Chromium's safe-area override: a 47 px notch and a 34 px home indicator). At 390 × 844 the status bar starts at 49 px and the navigation buttons end at 810 px, clear of both. At 320 × 568 the same holds, and the board scrolls inside itself. That case is synthetic: no phone that small has a notch.
+- **Doubled text** (the reader's default size set to 32 px). The status bar grows with its words and keeps the timer beside them; plates show numbers only. At 390 × 844 the board still fits. At 320 × 568 the board scrolls inside itself, and 3 of the 9 characters start out of view; each one is hit at its centre once scrolled to. The page never scrolls, and Pass's word stays inside its button.
 - **Keyboard.** From the strip's question, 3 Tab presses reach the first offered character. Enter picks it, and focus lands on the strip's next question. Escape steps back from confirming to choosing.
 - **Reduced motion** (in-app setting). A move lands with no flight, no trail and no effects-layer node.
 - **Robustness.** Losing focus mid-choice drops the choice: no mark, press area, strip or private hook remains. A stale (unconfirmed) view pauses actions and removes every mark.
 - **Shared display.** It has no private hook and no role word, and the public move flies there as on the phone.
 - **Pass.** It is available on the player's own turn, unavailable on another's, and absent in a legacy match. The middle slot is kept.
 
-`simulation/facts.json` is not a test oracle: it records one run. The scenarios are synthetic and say nothing about who could be offered what in a real match beyond what the engine permits.
+`simulation/facts.json` is not a test oracle: it records one run. The scenarios are synthetic. What each offers follows the engine's gates for its state, and `apps/game/test/board-scenarios.test.mjs` checks that. Three crowd scenarios (nine in the Command Room, nine in Jail, eight in the Hospital) are states no real match reaches; they are kept because the board has no capacity and must draw them.
 
 Only a curated set of screenshots is kept. The log and facts cover every step at every size.
 
@@ -86,6 +90,10 @@ Only a curated set of screenshots is kept. The log and facts cover every step at
 | [320x568-move-flight.png](simulation/320x568-move-flight.png) | 320 x 568: a public move in flight |
 | [430x932-crowd-room-b-supply.png](simulation/430x932-crowd-room-b-supply.png) | 430 x 932: nine in Room B, Supply |
 | [360x740-election-choose.png](simulation/360x740-election-choose.png) | 360 x 740: Captain election |
+| [390x844-safe-areas.png](simulation/390x844-safe-areas.png) | Safe areas (a 47 px notch, a 34 px home indicator): Supply |
+| [320x568-safe-areas.png](simulation/320x568-safe-areas.png) | Safe areas at 320 x 568, a synthetic case: the board scrolls inside itself |
+| [390x844-enlarged-text.png](simulation/390x844-enlarged-text.png) | Text doubled (32 px): the status bar grows, and nine in Room A still fit |
+| [320x568-enlarged-text.png](simulation/320x568-enlarged-text.png) | Text doubled at 320 x 568: the board scrolls inside itself |
 | [keyboard-focus-target.png](simulation/keyboard-focus-target.png) | Keyboard: a character focused after three Tabs from the strip |
 | [reduced-motion-move.png](simulation/reduced-motion-move.png) | Reduced motion: the move lands without a flight |
 | [display-public.png](simulation/display-public.png) | Shared display: public facts only |
@@ -99,7 +107,7 @@ Command (with the three practice processes of `docs/frontend/practice-bots.md` r
 CHROME_PATH=/path/to/chrome node apps/game/dev/capture-board-emulator.mjs docs/frontend/evidence/board-play/emulator 7
 ```
 
-**Results of the run kept here (2026-10-09, 7 seats: 6 bots, one player, one admitted display, local emulators only).** `emulator/capture-log.txt` is the step log and `emulator/facts.json` holds the measurements.
+**Results of the run kept here (2026-10-09, 7 seats: 6 bots, one player, one admitted display, local emulators only).** `emulator/capture-log.txt` is the step log and `emulator/facts.json` holds the measurements. The run used the runtime of this branch's first commit, `cbb7304` (rebasing it onto `ef4c2ee` changed no runtime file); the only later runtime change applies at large text, which this run does not reach.
 
 - **Setup.** The staged start ran unchanged: the player chose a character, revealed the role, pressed Ready, and the match opened on the phone and the display.
 - **The player's turn** came after 297 s of bot turns (each bot holds its full minute; practice bots never Pass).

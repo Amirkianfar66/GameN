@@ -1,6 +1,6 @@
 # The board as the place the game is played (issue #87)
 
-Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87). This branch, `codex/frontend-board-motion`, is built from the Designer's head `e652bbf90f99b8aa616223c46f8ac8ff510cea03` (`codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88)). Its runtime parent is `94a49ce0c5220b814ec56333b028fbe6180b257e` ([PR #86](https://github.com/Amirkianfar66/GameN/pull/86)). Both PRs are unmerged. Protocol 2 is unchanged. New matches use engine `full-game-1.1.0` and ruleset `in-person-v1-pass-2026-10-08`. Legacy matches (`full-game-1.0.1`, `in-person-v1-2026-10-06`) keep working without Pass. Original Powers stay off. The design is a proposal that is **not owner-approved**: this is its runtime implementation, for integration review. It is not merged or deployed.
+Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87). This branch, `codex/frontend-board-motion`, was built from the Designer's head `e652bbf90f99b8aa616223c46f8ac8ff510cea03` (`codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88)) and rebased onto its newer head `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02`, which adds the full-body figure proposal and changes only `design/`, `docs/design/` and a design-tokens test. Its runtime parent is `94a49ce0c5220b814ec56333b028fbe6180b257e` ([PR #86](https://github.com/Amirkianfar66/GameN/pull/86)). Both PRs are unmerged. Protocol 2 is unchanged. New matches use engine `full-game-1.1.0` and ruleset `in-person-v1-pass-2026-10-08`. Legacy matches (`full-game-1.0.1`, `in-person-v1-2026-10-06`) keep working without Pass. Original Powers stay off. The design is a proposal that is **not owner-approved**: this is its runtime implementation, for integration review. It is not merged or deployed.
 
 ## What changed for a player
 
@@ -48,6 +48,7 @@ Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87). This branch, `cod
 - **The stylesheet cannot draw a leaked mark.** Every rule that draws a private mark is scoped to `[data-board="own"]`, and `board-play-style.test.mjs` enforces it.
 - **The receipt is neutral.** Every accepted command gets the same status word and the release's receipt words. No effect, color, sound or vibration differs by action. Nothing is drawn on a target after a receipt. A shot or a Disable is never shown as a result.
 - **Public cues come only from public facts.** They come from differences between two drawn public views: location, health, Jail, Captain, a revealed faction, the active seat, the round and the phase. They never come from a role, a receipt or an acknowledgment. A role word never reaches a cue, and a test checks this.
+- **A sent command is concealed too.** Backend's review of the handoff ([PR #90](https://github.com/Amirkianfar66/GameN/pull/90)) found that the prototype kept a sent command's pending marks on a hidden page. Here, hiding the page closes the private panel and removes every mark of the player's own command, whether it is being chosen, on its way, being checked or unknown. The controller keeps the command, asks about it again when the page returns, and shows it when the player opens Actions. Two tests check this: `board-play.test.mjs` covers every in-flight step for a Shot, Supply, a move and Pass, and `apps/game/test/board-hidden-page.test.mjs` runs the real controller with an answer that never comes and one that is lost.
 - **Assets add nothing per action.** No sound or haptics are added. The flight copies the character's already-drawn picture, so no per-action asset is requested.
 - **Simulation checks.** In the simulation, the display had no private hook or role word in any step. In the emulator run, the display was checked at each step of the player's turn and vote. See [Verification](#verification).
 
@@ -98,7 +99,7 @@ The choosing hint keeps the release's line "Shot · Tap a character". Its action
 | What | Implementation | Why |
 | --- | --- | --- |
 | Prop layers (GAP-5, DSN-D30) | Not loaded. The three stations drawn behind a prop stand in the back row instead. Room B's back-row standee is at x 0.5 rather than 0.533. | The props are outside the reviewed manifest (`design-0.2.0`), and adopting them is Integration's call. At 0.533 the three Room B back-row press areas would touch at 320 px. |
-| Phone frame | The match screen's side padding and grid gaps are removed. The status bar has a fixed height (52 px, or 44 px when the screen is 640 px tall or less). | The measurements found the release's 9.6 px padding and 8 px gaps squeezed half-width rooms to 131 px, so crowded rows touched and a Jail target fell below the board. The Designer's 141 px budget is now met. |
+| Phone frame | The match screen's side padding and grid gaps are removed. The status bar has a fixed height (52 px, or 44 px when the screen is 640 px tall or less). At large text it grows with its words instead, and keeps the timer beside them. | The measurements found the release's 9.6 px padding and 8 px gaps squeezed half-width rooms to 131 px, so crowded rows touched and a Jail target fell below the board. The Designer's 141 px budget is now met. A fixed bar clipped its words at doubled text. |
 | Row pitch | The back row keeps a whole 44 px press area under the room's caption (`max(piece height, 44px)` in the pitch). | Without it, a 3-row crowd's back row reached 3 px into the room-tag band at 320 × 568. |
 | Reading order | The strip comes before the board in the DOM. | Focus lands on the strip's question. With the board first, a keyboard user had to tab through navigation and wrap around to reach a character. Now it takes 3 Tabs. |
 | Ballot marks | "On the ballot" and the counts over heads are not drawn. The release-vote subject is named in the strip ("Release Player 9 from Jail?"), and the count stays in the vote panel. | They are proposed words and components (`cue-tally`, `cue-ballot-subject`); left for review. |
@@ -111,35 +112,43 @@ Commands ran on Node 22.21.1 / npm 10.9.4. Three kinds of evidence are kept sepa
 
 **Unit and package checks** (at the committed head; results in the PR):
 
-- `npm run test --workspace @mothership/presentation`: 168 tests, all pass. That is 160 existing tests plus 8 in `board-play.test.mjs`:
+- `npm run test --workspace @mothership/presentation`: 169 tests, all pass. That is 160 existing tests plus 9 in `board-play.test.mjs`:
   - stations for one to nine occupants in every room, with no touching press areas at 320 px;
   - for each of 11 seat-target actions, the press areas are exactly the offered seats and everyone else is faint;
   - Supply and Code numbering, a check on a single pick, pending marks, and nothing marked after a receipt;
   - inline answers;
   - the tentative move;
   - no marks outside the open action, and none on the table;
+  - nothing private on a hidden page for a command on its way, being checked, unknown or accepted, and the same command shown again when the page returns;
   - strip order, ids and regions, and the same status word for every accepted action.
   - Three existing tests were updated: the strip's words, the pick's accessible text, and the legacy Pass slot.
-- `npm run test --workspace @mothership/game`: 415 tests, all pass. That is 409 existing tests plus:
+- `npm run test --workspace @mothership/game`: 419 tests, all pass. That is 409 existing tests plus:
   - public-fact and change detection;
   - strip cues;
-  - stylesheet scoping, tokens and 44 px minimums.
+  - stylesheet scoping, tokens and 44 px minimums;
+  - the real controller on a hidden page, with a command on its way and one whose answer is lost;
+  - every simulation scenario against the engine's gates, and the mistakes that check refuses.
 - `npm run check:exclusion --workspace @mothership/game`: passes. The five new development files carry the sentinel.
-- `npm run check:board-motion --workspace @mothership/design-tokens`: 12 of 12 pass on this branch. The release words are still quoted exactly, and no runtime file mentions the prototype.
-- `npm run check:v1-phone --workspace @mothership/design-tokens`: **fails, and this is pre-existing**. It passes 6 of 7 checks with 13 "not found verbatim" failures. The failures are identical on a pristine export of `e652bbf` and of `94a49ce`. They start at runtime commit `983d3ec`; the check passes 7 of 7 at its parent `57174b9`. That commit reworded the setup words that the V1 phone prototype quotes. The fix belongs on the Designer side and is reported on [PR #88](https://github.com/Amirkianfar66/GameN/pull/88#issuecomment-6071845711). This branch does not touch `design/v1-phone/`.
+- `npm run check:board-motion --workspace @mothership/design-tokens`: 13 of 13 pass on this branch. The 13th, added at `ef4c2ee`, checks the figure proposal. The release words are still quoted exactly, and no runtime file mentions the prototype.
+- `npm run check:v1-phone --workspace @mothership/design-tokens`: **fails, and this is pre-existing**. It passes 6 of 7 checks with 13 "not found verbatim" failures. The failures are identical on pristine exports of `ef4c2ee`, `e652bbf` and `94a49ce`. They start at runtime commit `983d3ec`; the check passes 7 of 7 at its parent `57174b9`. That commit reworded the setup words that the V1 phone prototype quotes. The fix belongs on the Designer side and is reported on [PR #88](https://github.com/Amirkianfar66/GameN/pull/88#issuecomment-6071845711). This branch does not touch `design/v1-phone/`.
+- `npm run test --workspace @mothership/design-tokens`: 100 of 101 pass. The one failure is the same V1 phone check.
 
 **Browser simulation** (`apps/game/dev/board/` and `apps/game/dev/capture-board-play.mjs`):
 
-- **Setup.** The release's own player and display screens, controller, host, stylesheets and art run in headless Chromium. They are fed schema-checked synthetic views by a scripted in-page command desk. The scenarios mirror the Designer's reviewed list and keep to what the engine can offer. Every action is played through real touch input at 320 × 568, 360 × 740, 390 × 844 and 430 × 932.
+- **Setup.** The release's own player and display screens, controller, host, stylesheets and art run in headless Chromium. They are fed schema-checked synthetic views by a scripted in-page command desk. What each scenario offers follows the engine's gates for its state, and a test checks that. The first version of these scenarios had the same faults Backend found in the Designer's fixtures: an election in round 1 with an Injured and a Jailed candidate, Jail and release votes that left out eligible voters, and Rescue and Supply offers without the player. These were corrected before this run. Three crowd scenarios are states no real match reaches (nine in the Command Room, nine in Jail, eight in the Hospital); they stay because the board has no capacity. Every action is played through real touch input at 320 × 568, 360 × 740, 390 × 844 and 430 × 932.
 - **Checks after each step:**
   - page scroll and sideways overflow;
-  - every press area is at least 44 × 44, inside its room, on screen, hit at its centre, and overlaps no other press area or room tag;
+  - every press area is at least 44 × 44, inside its room, on screen, hit at its centre, and overlaps no other press area or room tag (boxes that only touch, within half a pixel, do not count);
   - every visible control is at least 44 px;
   - the status bar does not clip its content.
+  - Where the board scrolls inside itself, a character scrolled out of view is not counted as hidden. Instead, each one is scrolled into view and must then be hit at its centre.
 - **Coverage.** Nine-in-one-room crowds in Room A, the Command Room and Jail, eight in the Hospital, nine in Room B, twelve-character names, seven players and a legacy match are included.
+- **Safe areas and large text.** Chromium's safe-area override emulates a 47 px notch and a 34 px home indicator. The reader's default text size is doubled to 32 px. Both run at 390 × 844 and 320 × 568.
 - **Results** ([evidence/board-play/](evidence/board-play/README.md)):
-  - 236 steps measured, all clean, of which 234 were on phones.
-  - 491 press areas measured, all clean.
+  - 240 steps measured, all clean, of which 238 were on phones.
+  - 545 press areas measured, all clean.
+  - Safe areas: at 390 × 844 the status bar starts at 49 px, below the notch, and the navigation buttons end at 810 px, above the home indicator. The same holds at 320 × 568, where the board scrolls inside itself. That case is synthetic: no phone that small has a notch.
+  - Doubled text: at 390 × 844 the board still fits. At 320 × 568 it scrolls inside itself; 3 of 9 characters start out of view, and each is hit at its centre once scrolled to. The page never scrolls, and Pass's word stays inside its button.
   - Keyboard: 3 Tabs from the strip's question to the first character. Enter picks it; Escape steps back.
   - Reduced motion plays no flight.
   - Losing focus mid-choice drops the choice and its marks, and a stale view pauses actions and removes the marks.
@@ -155,7 +164,7 @@ Commands ran on Node 22.21.1 / npm 10.9.4. Three kinds of evidence are kept sepa
 - In the Jail vote, the player tapped a character on the board and got "Your vote for Player 1 is recorded. This is not a result."
 - The display held no private hook or role word at any of five checkpoints.
 
-This is local emulator evidence, not a deployment.
+This is local emulator evidence, not a deployment. It was captured on the runtime of this branch's first commit, `cbb7304`; rebasing it onto `ef4c2ee` changed no runtime file. The only later runtime change applies at large text (the status bar and the Pass word), which this run, at the default text size, does not reach.
 
 **Physical devices:** none were used. No phone or tablet was tested.
 
@@ -170,5 +179,7 @@ This is local emulator evidence, not a deployment.
 | DSN-D29: room subtitles (not implemented) | Game owner |
 | DSN-D30: the prop layers and a manifest revision (not loaded here) | Integration |
 | DSN-D31: the proposed cues listed above, and the "You?" word | Game owner / Designer |
-| Fact-to-cue mapping review | Backend (in progress, independently) |
+| Fact-to-cue mapping review: Backend's review is draft [PR #90](https://github.com/Amirkianfar66/GameN/pull/90). It needs no new server fact or audience. Its two adoption findings are handled here: a sent command's marks on a hidden page, and fixture eligibility in this branch's own simulation scenarios. | Backend (unmerged) |
 | `check:v1-phone` quotes that commit `983d3ec` reworded | Designer |
+| DSN-D32: the full-body figures (`board-motion-0.2.0`, added at `ef4c2ee`) are outside the reviewed manifest. The runtime still draws the approved standees. Adopting them needs an export revision first; drawing them is then Frontend's work. | Integration, then Frontend |
+| DSN-D33: a figure's pose changes with public facts, while the crew catalog says a character never changes | Game owner with Integration |

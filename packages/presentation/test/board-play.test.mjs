@@ -150,6 +150,40 @@ test('no mark, press area or tentative place exists outside the player\'s own op
   assert.doesNotMatch(table, /data-board="own"|data-board-target|phone-character-target|phone-pick-order|phone-move-ghost|phone-strip|data-station/);
 });
 
+test('a command on its way, being checked, unknown or accepted leaves nothing private on a hidden page, and comes back with the page', () => {
+  // Backend's review of the board handoff (PR #90): hiding the page must hide the marks of a
+  // command already sent, not only of a choice, while the command itself stays recoverable.
+  const hidden = { privacy: { revealed: true, concealed: true } };
+  const [, shotChange] = SEAT_ACTIONS[0];
+  const [, supplyChange] = SEAT_ACTIONS.find(([kind]) => kind === 'supply');
+  const passChange = view => { view.legalTargets.PASS_TURN = [view.self.seatId]; };
+  const cases = [
+    [shotChange, { kind: 'shot', targetSeatId: 'seat-5' }, ['seat-5']],
+    [supplyChange, { kind: 'supply', targetSeatIds: ['seat-1', 'seat-5'] }, ['seat-1', 'seat-5']],
+    [() => {}, { kind: 'move', destination: 'Room B' }, []],
+    [passChange, { kind: 'pass' }, []],
+  ];
+  const steps = choice => [
+    { step: 'submitting', choice },
+    { step: 'checking', choice, recovered: false },
+    { step: 'checking', choice, recovered: true },
+    { step: 'unknown', choice, recovered: false, phaseOver: false, armed: false },
+    { step: 'accepted', choice, armed: true },
+  ];
+  for (const [change, choice, pending] of cases) {
+    for (const action of steps(choice)) {
+      const label = `${choice.kind} ${action.step}${action.recovered ? ' (recovered)' : ''}`;
+      const away = toHtml(renderComicPlayerShell(model(playerView(change), action, hidden), { phoneView: 'actions' }));
+      assert.doesNotMatch(away, /data-board-target|phone-character-target|phone-pick-order|phone-move-ghost|phone-strip|data-region="pass-status"/, `${label}: hidden`);
+      const back = renderComicPlayerShell(model(playerView(change), action), { phoneView: 'actions' });
+      assert.match(toHtml(back), /class="[^"]*\bphone-strip\b/, `${label}: the strip is back`);
+      const inFlight = action.step === 'submitting' || action.step === 'checking';
+      assert.deepEqual(marks(board(back), 'pending'), inFlight ? pending : [], `${label}: pending marks`);
+      if (choice.kind === 'move') assert.equal(/phone-move-ghost/.test(board(back)), action.step !== 'unknown', `${label}: the tentative place`);
+    }
+  }
+});
+
 test('the strip comes before the board in reading order, keeps the release\'s ids and nested regions, and puts its controls where the step needs them', () => {
   const [, shotChange] = SEAT_ACTIONS[0];
   const choosing = renderComicPlayerShell(model(playerView(shotChange), { step: 'choosing', kind: 'shot' }), { phoneView: 'actions' });

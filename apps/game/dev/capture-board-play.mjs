@@ -14,7 +14,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { connect, launchBrowser, openPage, sleep } from './capture/browser.mjs';
-import { MEASURE, problemsOf } from './capture/board-measure.mjs';
+import { MEASURE, REACHABLE, problemsOf } from './capture/board-measure.mjs';
 
 // A statement, not only a comment: it survives bundling and comment stripping, so the
 // production-exclusion check finds this module wherever it ends up.
@@ -32,8 +32,11 @@ const note = (...parts) => { const line = `${new Date().toISOString().slice(11, 
 const browserProcess = await launchBrowser();
 const browser = await connect(browserProcess.endpoint);
 
-async function open(scenario, [width, height], query = '') {
+/** safeArea: insets of a notch and a home indicator; fontSize: the reader's default text size. Both set before the page loads. */
+async function open(scenario, [width, height], query = '', { safeArea = null, fontSize = null } = {}) {
   const page = await openPage(browser, { width, height, scale: 1, mobile: !query.includes('as=display'), ownContext: true });
+  if (safeArea) await page.send('Emulation.setSafeAreaInsetsOverride', { insets: safeArea });
+  if (fontSize) await page.send('Page.setFontSizes', { fontSizes: { standard: fontSize } });
   // The display's board has no stations: only a player's own board is laid out by them.
   const ready = query.includes('as=display') ? "document.querySelector('.ms-shell[data-screen=\"match\"] .ms-board .ms-seat')" : "document.querySelector('.ms-board .ms-seat[data-station]')";
   await page.goto(`${BASE}?scenario=${scenario}${query}`, ready, 20_000);
@@ -214,6 +217,47 @@ for (const size of sizes) {
   await confirm(page);
   const reduced = await step(page, 'reduced-motion-move', 'spread', size, { settle: 700 });
   facts.push({ name: 'reduced-motion', fxNodesDuringMove: reduced.fxNodes, moving: reduced.moving });
+  await page.close();
+}
+
+// Safe areas: a notch at the top and a home indicator at the bottom. Nothing may sit under either.
+for (const size of [[390, 844], [320, 568]]) {
+  const insets = { top: 47, bottom: 34, left: 0, right: 0 };
+  const page = await open('supply', size, '', { safeArea: insets });
+  await openAction(page, 'supply');
+  const measured = await step(page, `${size[0]}x${size[1]}-safe-areas`, 'supply', size);
+  const edges = await page.evaluate(`(() => {
+    const box = selector => document.querySelector(selector)?.getBoundingClientRect() ?? null;
+    const phase = box('.ms-phase'), buttons = [...document.querySelectorAll('.phone-nav button')].map(node => node.getBoundingClientRect());
+    return { statusTop: phase ? Math.round(phase.top) : null, navButtonsBottom: Math.round(Math.max(...buttons.map(b => b.bottom))), viewport: innerHeight };
+  })()`);
+  const clear = edges.statusTop >= insets.top && edges.navButtonsBottom <= edges.viewport - insets.bottom;
+  const unreachable = await page.evaluate(REACHABLE);
+  facts.push({ name: `safe-areas-${size.join('x')}`, insets, ...edges, clear, boardScrollsInside: measured.boardScrollsInside, unreachable, targetsClean: problemsOf(measured).length === 0 });
+  note(`safe areas ${size.join('x')}:`, JSON.stringify(edges), clear ? 'clear of the notch and the home indicator' : 'PROBLEM: content under an inset',
+    measured.boardScrollsInside ? '| the board scrolls inside itself' : '', unreachable.length ? `| PROBLEM: not reachable by scrolling: ${unreachable.join(', ')}` : '');
+  await page.close();
+}
+
+// Enlarged text: the reader's default size doubled (32 px). The board may scroll inside itself;
+// the page may not, and no press area may be cut off.
+for (const size of [[390, 844], [320, 568]]) {
+  const page = await open('crowd-vote', size, '', { fontSize: 32 });
+  await openAction(page, 'vote');
+  const measured = await step(page, `${size[0]}x${size[1]}-enlarged-text`, 'crowd-vote', size);
+  const unreachable = await page.evaluate(REACHABLE);
+  const hidden = measured.targets.filter(target => target.inView === false).map(target => target.seat);
+  // Pass's word stays inside its round button's 3 px border.
+  const passFits = await page.evaluate(`(() => {
+    const button = document.querySelector('#ms-phone-pass'), word = button?.querySelector('span:last-child');
+    if (!word) return null;
+    const b = button.getBoundingClientRect(), w = word.getBoundingClientRect();
+    return w.left >= b.left + 3 && w.right <= b.right - 3 && w.top >= b.top + 3 && w.bottom <= b.bottom - 3;
+  })()`);
+  facts.push({ name: `enlarged-text-${size.join('x')}`, pageScrolls: measured.pageScrolls, boardScrollsInside: measured.boardScrollsInside, scrolledOutOfView: hidden, unreachable, passFits, problems: problemsOf(measured) });
+  note(`enlarged text ${size.join('x')}:`, measured.boardScrollsInside ? `the board scrolls inside itself; ${hidden.length} of ${measured.targets.length} characters scrolled out of view` : 'the board fits',
+    unreachable.length ? `| PROBLEM: not reachable by scrolling: ${unreachable.join(', ')}` : '| every character reachable',
+    passFits ? '| Pass fits its button' : '| PROBLEM: Pass overflows its button');
   await page.close();
 }
 

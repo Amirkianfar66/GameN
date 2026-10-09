@@ -11,19 +11,25 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 export const ROLES = ['Officer', 'Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
 
 // Read from the page after every step. A fact is an observation of one run, not a test oracle.
+// Boxes that only touch, within a fraction of a pixel (layout rounds to 1/64 px), do not
+// overlap. "shown" is the part of the board that is showing: where the board scrolls inside
+// itself, a character outside it is scrolled out of view, not hidden.
 export const MEASURE = `(() => {
   const box = node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; };
   const visible = node => node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden';
   const inside = (a, b, slack = 0.5) => a.x >= b.x - slack && a.y >= b.y - slack && a.x + a.w <= b.x + b.w + slack && a.y + a.h <= b.y + b.h + slack;
-  const overlap = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+  const overlap = (a, b) => { const dx = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), dy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y); return dx > 0.5 && dy > 0.5 ? dx * dy : 0; };
   const hits = node => { const b = box(node); const top = document.elementFromPoint(b.x + b.w / 2, b.y + b.h / 2); return top === node || node.contains(top); };
   const viewport = { x: 0, y: 0, w: innerWidth, h: innerHeight };
   const tags = [...document.querySelectorAll('.ms-board .phone-room-move')].filter(visible);
+  const zones = document.querySelector('.ms-board[data-board="own"] > .ms-zones');
+  const shown = zones ? (() => { const r = zones.getBoundingClientRect(); return { x: r.x + zones.clientLeft, y: r.y + zones.clientTop, w: zones.clientWidth, h: zones.clientHeight }; })() : null;
   const targets = [...document.querySelectorAll('.ms-board .phone-character-target')].filter(visible).map(node => {
     const b = box(node);
     const zone = node.closest('.ms-zone');
     return { id: node.id, seat: node.dataset.value, ...Object.fromEntries(Object.entries(b).map(([k, v]) => [k, Math.round(v * 10) / 10])),
       big: b.w >= 44 - 0.01 && b.h >= 44 - 0.01, inRoom: zone ? inside(b, box(zone)) : false, onScreen: inside(b, viewport), hit: hits(node),
+      inView: shown ? inside(b, shown) : true,
       onTag: tags.some(tag => overlap(b, box(tag)) > 0.5) };
   });
   const overlaps = [];
@@ -36,7 +42,6 @@ export const MEASURE = `(() => {
     .map(({ node, b }) => ({ id: node.id || null, cls: node.className || null, text: (node.textContent || '').trim().slice(0, 30), w: Math.round(b.w), h: Math.round(b.h) }));
   const phase = document.querySelector('.ms-phase');
   const statusClipped = phase ? [...phase.querySelectorAll('.ms-timer, .ms-phase__labels')].some(node => !inside(box(node), box(phase), 1)) : null;
-  const zones = document.querySelector('.ms-board[data-board="own"] > .ms-zones');
   const html = document.getElementById('app').innerHTML;
   return {
     viewport: [innerWidth, innerHeight],
@@ -69,11 +74,34 @@ export function problemsOf(measured, { phone = true } = {}) {
     phone && measured.pageScrolls && 'page scrolls', measured.pageOverflowsSideways && 'sideways overflow',
     ...measured.targets.filter(t => !t.big).map(t => `small target ${t.seat} ${t.w}x${t.h}`),
     ...measured.targets.filter(t => !t.inRoom).map(t => `target ${t.seat} leaves its room`),
-    ...measured.targets.filter(t => !t.hit).map(t => `target ${t.seat} not hit at its centre`),
-    ...measured.targets.filter(t => !t.onScreen).map(t => `target ${t.seat} off screen`),
+    // A character scrolled out of view inside a board that scrolls is not hidden; whether it can
+    // be scrolled to is checked where that happens (REACHABLE).
+    ...measured.targets.filter(t => !t.hit && t.inView !== false).map(t => `target ${t.seat} not hit at its centre`),
+    ...measured.targets.filter(t => !t.onScreen && t.inView !== false).map(t => `target ${t.seat} off screen`),
+    ...measured.targets.filter(t => t.inView === false && !measured.boardScrollsInside).map(t => `target ${t.seat} outside the board`),
     ...measured.targets.filter(t => t.onTag).map(t => `target ${t.seat} over a room tag`),
     ...measured.overlaps.map(([a, b, area]) => `targets ${a}/${b} overlap ${area}px²`),
     ...(phone ? measured.smallControls.map(c => `control under 44 px: ${c.id ?? c.cls} "${c.text}" ${c.w}x${c.h}`) : []),
     measured.statusClipped && 'status bar clips its content',
   ].filter(Boolean);
 }
+
+/**
+ * Scrolls each character that is out of view inside the board into view and checks that a tap
+ * at its centre lands on it. Returns the seats that could not be reached.
+ */
+export const REACHABLE = `(() => {
+  const zones = document.querySelector('.ms-board[data-board="own"] > .ms-zones');
+  if (!zones) return [];
+  const start = zones.scrollTop;
+  const unreachable = [];
+  for (const node of document.querySelectorAll('.ms-board .phone-character-target')) {
+    node.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    const r = node.getBoundingClientRect();
+    const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+    if (!(top === node || node.contains(top))) unreachable.push(node.dataset.value);
+  }
+  zones.scrollTop = start;
+  document.scrollingElement.scrollTop = 0;
+  return unreachable;
+})()`;

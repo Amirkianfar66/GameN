@@ -764,6 +764,14 @@
 
 /* ---------- large text: the same board, numbers on the plates, nothing cut off ---------- */
 @media (max-width: 18em) {
+  /* The status bar grows with its words instead of clipping them, and keeps the timer beside
+     them so it takes as little of the board as it can; the board scrolls inside itself. */
+  #app .ms-shell--player[data-screen="match"] .ms-phase { height: auto; min-height: 44px; flex-wrap: nowrap; }
+  #app .ms-shell--player[data-screen="match"] .ms-phase__labels { flex: 1 1 0; }
+  /* Pass keeps its word inside the round button: its icon makes way, and the word is as large
+     as the button allows. */
+  #app .ms-shell--player .phone-nav .phone-pass { padding: 0; font-size: 0.625rem; }
+  #app .ms-shell--player .phone-nav .phone-pass .phone-nav__icon { display: none; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__player { display: none; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__name { font-size: 0.7rem; }
   #app .ms-shell--player .phone-action-dock .phone-strip__answers { flex-wrap: wrap; }

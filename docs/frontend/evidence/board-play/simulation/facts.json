@@ -437,6 +437,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -450,6 +451,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -463,6 +465,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -685,6 +688,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -698,6 +702,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -711,6 +716,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -835,6 +841,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -848,6 +855,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -861,6 +869,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -874,6 +883,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -988,6 +998,62 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 8.5,
+        "y": 275.6,
+        "w": 44,
+        "h": 46.4,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 102.4,
+        "y": 275.6,
+        "w": 44,
+        "h": 46.4,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 21.6,
+        "y": 223.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 89.3,
+        "y": 223.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-6",
         "seat": "seat-6",
         "x": 18.3,
@@ -998,6 +1064,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -1006,16 +1073,16 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-1",
+        "seat-3",
+        "seat-5",
+        "seat-8",
         "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-1",
-        "seat-3",
-        "seat-5",
-        "seat-8",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -1122,6 +1189,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1135,6 +1203,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1148,6 +1217,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -1272,6 +1342,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1285,6 +1356,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1298,6 +1370,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1311,6 +1384,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -1492,6 +1566,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 102.4,
+        "y": 260,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1505,6 +1594,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1518,6 +1608,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -1527,6 +1618,7 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -1534,7 +1626,6 @@
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -1577,6 +1668,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 102.4,
+        "y": 248,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
         "x": 21.7,
@@ -1587,6 +1692,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1600,6 +1706,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -1608,6 +1715,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -1617,7 +1725,6 @@
       ],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -1776,6 +1883,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1789,6 +1897,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1802,6 +1911,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1815,6 +1925,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1828,6 +1939,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1841,6 +1953,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1854,6 +1967,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -1979,6 +2093,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -1992,6 +2107,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2005,6 +2121,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2018,6 +2135,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2031,6 +2149,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2044,6 +2163,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2057,6 +2177,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2070,6 +2191,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2083,6 +2205,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -2151,6 +2274,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2164,6 +2288,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2177,6 +2302,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2190,6 +2316,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2203,6 +2330,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2216,6 +2344,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2229,6 +2358,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -2335,7 +2465,7 @@
     "pageScrolls": false,
     "pageOverflowsSideways": false,
     "boardScrollsInside": false,
-    "rowUnit": "46px",
+    "rowUnit": "61.333333333333336px",
     "phase": "Captain election",
     "strip": "VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the choices the server offers you now. Abstain Cancel",
     "stripStep": "choosing",
@@ -2345,118 +2475,99 @@
       {
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
-        "x": 8.5,
-        "y": 253,
-        "w": 44,
-        "h": 44,
+        "x": 7.8,
+        "y": 228.8,
+        "w": 45.4,
+        "h": 52.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-3",
         "seat": "seat-3",
-        "x": 102.4,
-        "y": 253,
-        "w": 44,
-        "h": 44,
+        "x": 101.8,
+        "y": 228.8,
+        "w": 45.4,
+        "h": 52.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
-        "x": 55.5,
-        "y": 207,
+        "x": 21.7,
+        "y": 174.8,
         "w": 44,
-        "h": 44,
+        "h": 44.9,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 89.3,
+        "y": 174.8,
+        "w": 44,
+        "h": 44.9,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-2",
         "seat": "seat-2",
         "x": 220.5,
-        "y": 207,
+        "y": 172.7,
         "w": 44,
-        "h": 44,
+        "h": 47,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-4",
         "seat": "seat-4",
-        "x": 175.4,
-        "y": 253,
-        "w": 44,
-        "h": 44,
+        "x": 174.7,
+        "y": 228.8,
+        "w": 45.4,
+        "h": 52.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-8",
         "seat": "seat-8",
-        "x": 265.6,
-        "y": 253,
-        "w": 44,
-        "h": 44,
+        "x": 264.9,
+        "y": 228.8,
+        "w": 45.4,
+        "h": 52.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-7",
-        "seat": "seat-7",
-        "x": 138,
-        "y": 99,
-        "w": 44,
-        "h": 44,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-6",
-        "seat": "seat-6",
-        "x": 18.3,
-        "y": 349,
-        "w": 44,
-        "h": 44,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-9",
-        "seat": "seat-9",
-        "x": 192.3,
-        "y": 349,
-        "w": 44,
-        "h": 44,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -2468,17 +2579,18 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
-        "seat-8",
-        "seat-7",
-        "seat-6",
-        "seat-9"
+        "seat-8"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": []
+      "other": [
+        "seat-6",
+        "seat-9"
+      ]
     },
     "ghost": null,
     "pass": "unavailable",
@@ -2507,7 +2619,7 @@
     "pageScrolls": false,
     "pageOverflowsSideways": false,
     "boardScrollsInside": false,
-    "rowUnit": "42.75px",
+    "rowUnit": "57px",
     "phase": "Captain election",
     "strip": "VOTE NOT SENT YET VOTE : Abstain from this vote? This is your one ballot in this vote. You cannot change it once the server accepts it. Cast ballot Choose again",
     "stripStep": "confirming",
@@ -2526,10 +2638,10 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7",
         "seat-6",
         "seat-9"
       ]
@@ -2560,7 +2672,7 @@
     "pageScrolls": false,
     "pageOverflowsSideways": false,
     "boardScrollsInside": false,
-    "rowUnit": "50.25px",
+    "rowUnit": "67px",
     "phase": "Captain election",
     "strip": "VOTE ACCEPTED VOTE : Your vote for Player 7 is recorded. This is not a result. The count is shown to everyone when the vote closes. Done",
     "stripStep": "result",
@@ -2625,6 +2737,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 102.4,
+        "y": 253,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2638,6 +2765,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2651,6 +2779,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2664,6 +2793,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2677,6 +2807,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -2690,6 +2821,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 18.3,
+        "y": 349,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -2699,18 +2845,18 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7"
+        "seat-7",
+        "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
-        "seat-6",
         "seat-9"
       ]
     },
@@ -2814,6 +2960,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3022,6 +3169,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3035,6 +3183,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3048,6 +3197,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3061,6 +3211,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3074,6 +3225,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3087,6 +3239,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3100,6 +3253,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3113,6 +3267,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3182,6 +3337,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3195,6 +3351,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3208,6 +3365,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3221,6 +3379,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3234,6 +3393,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3247,6 +3407,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3260,6 +3421,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3273,6 +3435,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3286,6 +3449,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3354,6 +3518,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3367,6 +3532,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3380,6 +3546,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3393,6 +3560,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3406,6 +3574,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3419,6 +3588,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3432,6 +3602,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3445,6 +3616,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3458,6 +3630,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3526,6 +3699,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3539,6 +3713,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3552,6 +3727,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3565,6 +3741,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3578,6 +3755,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3591,6 +3769,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3604,6 +3783,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3617,6 +3797,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3630,6 +3811,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3698,6 +3880,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3711,6 +3894,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3724,6 +3908,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3737,6 +3922,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3750,6 +3936,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3763,6 +3950,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3776,6 +3964,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3789,6 +3978,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3802,6 +3992,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3860,6 +4051,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 55.5,
+        "y": 166.6,
+        "w": 44,
+        "h": 46.4,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 8.5,
@@ -3870,6 +4075,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3883,6 +4089,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3896,6 +4103,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3909,6 +4117,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3922,6 +4131,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3935,6 +4145,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3948,6 +4159,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -3961,6 +4173,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -3969,6 +4182,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-1",
         "seat-2",
         "seat-4",
@@ -3981,9 +4195,7 @@
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": [
-        "seat-3"
-      ]
+      "other": []
     },
     "ghost": null,
     "pass": "unavailable",
@@ -4030,6 +4242,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4043,6 +4256,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4056,6 +4270,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4069,6 +4284,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4082,6 +4298,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4095,6 +4312,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4108,6 +4326,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4121,6 +4340,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -4963,6 +5183,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4976,6 +5197,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -4989,6 +5211,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -5211,6 +5434,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5224,6 +5448,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5237,6 +5462,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -5361,6 +5587,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5374,6 +5601,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5387,6 +5615,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5400,6 +5629,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -5514,6 +5744,62 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 7.8,
+        "y": 374,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 112.4,
+        "y": 374,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 26.3,
+        "y": 302.3,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 101.6,
+        "y": 302.3,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-6",
         "seat": "seat-6",
         "x": 18.7,
@@ -5524,6 +5810,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -5532,16 +5819,16 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-1",
+        "seat-3",
+        "seat-5",
+        "seat-8",
         "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-1",
-        "seat-3",
-        "seat-5",
-        "seat-8",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -5648,6 +5935,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5661,6 +5949,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5674,6 +5963,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -5798,6 +6088,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5811,6 +6102,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5824,6 +6116,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -5837,6 +6130,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6018,6 +6312,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 112.4,
+        "y": 367,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6031,6 +6340,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6044,6 +6354,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6053,6 +6364,7 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -6060,7 +6372,6 @@
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -6103,6 +6414,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 112.4,
+        "y": 345,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
         "x": 26.3,
@@ -6113,6 +6438,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6126,6 +6452,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6134,6 +6461,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -6143,7 +6471,6 @@
       ],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -6302,6 +6629,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6315,6 +6643,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6328,6 +6657,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6341,6 +6671,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6354,6 +6685,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6367,6 +6699,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6380,6 +6713,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6505,6 +6839,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6518,6 +6853,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6531,6 +6867,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6544,6 +6881,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6557,6 +6895,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6570,6 +6909,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6583,6 +6923,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6596,6 +6937,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6609,6 +6951,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6677,6 +7020,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6690,6 +7034,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6703,6 +7048,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6716,6 +7062,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6729,6 +7076,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6742,6 +7090,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -6755,6 +7104,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6872,117 +7222,98 @@
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 7.8,
-        "y": 349,
+        "y": 313,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-3",
         "seat": "seat-3",
         "x": 112.4,
-        "y": 349,
+        "y": 313,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
-        "x": 63.9,
-        "y": 283.8,
+        "x": 26.3,
+        "y": 227.5,
         "w": 47.1,
         "h": 54.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 101.6,
+        "y": 227.5,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-2",
         "seat": "seat-2",
         "x": 247.8,
-        "y": 281.3,
+        "y": 225,
         "w": 49.3,
         "h": 56.7,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-4",
         "seat": "seat-4",
         "x": 194.9,
-        "y": 349,
+        "y": 313,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-8",
         "seat": "seat-8",
         "x": 295.4,
-        "y": 349,
+        "y": 313,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-7",
-        "seat": "seat-7",
-        "x": 152.6,
-        "y": 125,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-6",
-        "seat": "seat-6",
-        "x": 18.7,
-        "y": 484,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-9",
-        "seat": "seat-9",
-        "x": 213.7,
-        "y": 484,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -6994,17 +7325,18 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
-        "seat-8",
-        "seat-7",
-        "seat-6",
-        "seat-9"
+        "seat-8"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": []
+      "other": [
+        "seat-6",
+        "seat-9"
+      ]
     },
     "ghost": null,
     "pass": "unavailable",
@@ -7052,10 +7384,10 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7",
         "seat-6",
         "seat-9"
       ]
@@ -7151,6 +7483,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 112.4,
+        "y": 349,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7164,6 +7511,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7177,6 +7525,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7190,6 +7539,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7203,6 +7553,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7216,6 +7567,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 18.7,
+        "y": 484,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -7225,18 +7591,18 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7"
+        "seat-7",
+        "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
-        "seat-6",
         "seat-9"
       ]
     },
@@ -7340,6 +7706,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -7548,6 +7915,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7561,6 +7929,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7574,6 +7943,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7587,6 +7957,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7600,6 +7971,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7613,6 +7985,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7626,6 +7999,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7639,6 +8013,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -7708,6 +8083,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7721,6 +8097,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7734,6 +8111,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7747,6 +8125,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7760,6 +8139,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7773,6 +8153,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7786,6 +8167,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7799,6 +8181,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7812,6 +8195,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -7880,6 +8264,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7893,6 +8278,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7906,6 +8292,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7919,6 +8306,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7932,6 +8320,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7945,6 +8334,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7958,6 +8348,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7971,6 +8362,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -7984,6 +8376,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -8052,6 +8445,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8065,6 +8459,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8078,6 +8473,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8091,6 +8487,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8104,6 +8501,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8117,6 +8515,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8130,6 +8529,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8143,6 +8543,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8156,6 +8557,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -8224,6 +8626,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8237,6 +8640,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8250,6 +8654,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8263,6 +8668,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8276,6 +8682,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8289,6 +8696,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8302,6 +8710,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8315,6 +8724,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8328,6 +8738,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -8386,6 +8797,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 60.1,
+        "y": 219,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 10.8,
@@ -8396,6 +8821,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8409,6 +8835,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8422,6 +8849,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8435,6 +8863,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8448,6 +8877,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8461,6 +8891,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8474,6 +8905,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8487,6 +8919,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -8495,6 +8928,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-1",
         "seat-2",
         "seat-4",
@@ -8507,9 +8941,7 @@
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": [
-        "seat-3"
-      ]
+      "other": []
     },
     "ghost": null,
     "pass": "unavailable",
@@ -8556,6 +8988,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8569,6 +9002,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8582,6 +9016,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8595,6 +9030,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8608,6 +9044,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8621,6 +9058,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8634,6 +9072,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -8647,6 +9086,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -9489,6 +9929,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9502,6 +9943,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9515,6 +9957,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -9737,6 +10180,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9750,6 +10194,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9763,6 +10208,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -9887,6 +10333,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9900,6 +10347,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9913,6 +10361,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -9926,6 +10375,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -10040,6 +10490,62 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 10.3,
+        "y": 445,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 124.9,
+        "y": 445,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 30.2,
+        "y": 353.5,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 112.7,
+        "y": 353.5,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-6",
         "seat": "seat-6",
         "x": 22.2,
@@ -10050,6 +10556,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -10058,16 +10565,16 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-1",
+        "seat-3",
+        "seat-5",
+        "seat-8",
         "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-1",
-        "seat-3",
-        "seat-5",
-        "seat-8",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -10174,6 +10681,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10187,6 +10695,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10200,6 +10709,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -10324,6 +10834,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10337,6 +10848,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10350,6 +10862,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10363,6 +10876,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -10544,6 +11058,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 124.9,
+        "y": 437,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10557,6 +11086,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10570,6 +11100,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -10579,6 +11110,7 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -10586,7 +11118,6 @@
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -10629,6 +11160,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 124.9,
+        "y": 415,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
         "x": 30.2,
@@ -10639,6 +11184,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10652,6 +11198,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -10660,6 +11207,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -10669,7 +11217,6 @@
       ],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -10828,6 +11375,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10841,6 +11389,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10854,6 +11403,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10867,6 +11417,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10880,6 +11431,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10893,6 +11445,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -10906,6 +11459,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -11031,6 +11585,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11044,6 +11599,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11057,6 +11613,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11070,6 +11627,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11083,6 +11641,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11096,6 +11655,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11109,6 +11669,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11122,6 +11683,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11135,6 +11697,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -11203,6 +11766,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11216,6 +11780,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11229,6 +11794,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11242,6 +11808,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11255,6 +11822,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11268,6 +11836,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11281,6 +11850,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -11398,117 +11968,98 @@
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 10.3,
-        "y": 419,
+        "y": 371,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-3",
         "seat": "seat-3",
         "x": 124.9,
-        "y": 419,
+        "y": 371,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
-        "x": 71.4,
-        "y": 334.9,
+        "x": 30.2,
+        "y": 258.8,
         "w": 47.1,
         "h": 54.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 112.7,
+        "y": 258.8,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-2",
         "seat": "seat-2",
         "x": 270.3,
-        "y": 332.4,
+        "y": 256.3,
         "w": 49.3,
         "h": 56.7,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-4",
         "seat": "seat-4",
         "x": 212.6,
-        "y": 419,
+        "y": 371,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-8",
         "seat": "seat-8",
         "x": 322.7,
-        "y": 419,
+        "y": 371,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-7",
-        "seat": "seat-7",
-        "x": 167.6,
-        "y": 153,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-6",
-        "seat": "seat-6",
-        "x": 22.2,
-        "y": 588,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-9",
-        "seat": "seat-9",
-        "x": 233.2,
-        "y": 588,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -11520,17 +12071,18 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
-        "seat-8",
-        "seat-7",
-        "seat-6",
-        "seat-9"
+        "seat-8"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": []
+      "other": [
+        "seat-6",
+        "seat-9"
+      ]
     },
     "ghost": null,
     "pass": "unavailable",
@@ -11578,10 +12130,10 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7",
         "seat-6",
         "seat-9"
       ]
@@ -11677,6 +12229,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 124.9,
+        "y": 419,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11690,6 +12257,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11703,6 +12271,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11716,6 +12285,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11729,6 +12299,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -11742,6 +12313,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 22.2,
+        "y": 588,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -11751,18 +12337,18 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7"
+        "seat-7",
+        "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
-        "seat-6",
         "seat-9"
       ]
     },
@@ -11866,6 +12452,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -12074,6 +12661,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12087,6 +12675,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12100,6 +12689,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12113,6 +12703,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12126,6 +12717,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12139,6 +12731,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12152,6 +12745,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12165,6 +12759,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -12234,6 +12829,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12247,6 +12843,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12260,6 +12857,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12273,6 +12871,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12286,6 +12885,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12299,6 +12899,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12312,6 +12913,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12325,6 +12927,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12338,6 +12941,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -12406,6 +13010,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12419,6 +13024,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12432,6 +13038,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12445,6 +13052,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12458,6 +13066,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12471,6 +13080,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12484,6 +13094,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12497,6 +13108,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12510,6 +13122,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -12578,6 +13191,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12591,6 +13205,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12604,6 +13219,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12617,6 +13233,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12630,6 +13247,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12643,6 +13261,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12656,6 +13275,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12669,6 +13289,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12682,6 +13303,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -12750,6 +13372,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12763,6 +13386,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12776,6 +13400,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12789,6 +13414,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12802,6 +13428,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12815,6 +13442,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12828,6 +13456,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12841,6 +13470,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12854,6 +13484,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -12912,6 +13543,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 67.6,
+        "y": 277,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 13.3,
@@ -12922,6 +13567,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12935,6 +13581,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12948,6 +13595,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12961,6 +13609,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12974,6 +13623,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -12987,6 +13637,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13000,6 +13651,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13013,6 +13665,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -13021,6 +13674,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-1",
         "seat-2",
         "seat-4",
@@ -13033,9 +13687,7 @@
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": [
-        "seat-3"
-      ]
+      "other": []
     },
     "ghost": null,
     "pass": "unavailable",
@@ -13082,6 +13734,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13095,6 +13748,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13108,6 +13762,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13121,6 +13776,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13134,6 +13790,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13147,6 +13804,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13160,6 +13818,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -13173,6 +13832,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -14015,6 +14675,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14028,6 +14689,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14041,6 +14703,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -14263,6 +14926,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14276,6 +14940,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14289,6 +14954,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -14413,6 +15079,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14426,6 +15093,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14439,6 +15107,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14452,6 +15121,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -14566,6 +15236,62 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 13.7,
+        "y": 504,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 141.5,
+        "y": 504,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 35.4,
+        "y": 396,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 127.5,
+        "y": 396,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-6",
         "seat": "seat-6",
         "x": 26.9,
@@ -14576,6 +15302,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -14584,16 +15311,16 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-1",
+        "seat-3",
+        "seat-5",
+        "seat-8",
         "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-1",
-        "seat-3",
-        "seat-5",
-        "seat-8",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -14700,6 +15427,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14713,6 +15441,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14726,6 +15455,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -14850,6 +15580,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14863,6 +15594,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14876,6 +15608,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -14889,6 +15622,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -15070,6 +15804,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 141.5,
+        "y": 497,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15083,6 +15832,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15096,6 +15846,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -15105,6 +15856,7 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -15112,7 +15864,6 @@
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -15155,6 +15906,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 141.5,
+        "y": 474,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
         "x": 35.4,
@@ -15165,6 +15930,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15178,6 +15944,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -15186,6 +15953,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-5",
         "seat-8"
       ],
@@ -15195,7 +15963,6 @@
       ],
       "pending": [],
       "other": [
-        "seat-3",
         "seat-2",
         "seat-4",
         "seat-7",
@@ -15354,6 +16121,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15367,6 +16135,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15380,6 +16149,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15393,6 +16163,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15406,6 +16177,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15419,6 +16191,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15432,6 +16205,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -15557,6 +16331,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15570,6 +16345,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15583,6 +16359,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15596,6 +16373,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15609,6 +16387,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15622,6 +16401,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15635,6 +16415,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15648,6 +16429,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15661,6 +16443,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -15729,6 +16512,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15742,6 +16526,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15755,6 +16540,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15768,6 +16554,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15781,6 +16568,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15794,6 +16582,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -15807,6 +16596,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -15924,117 +16714,98 @@
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 13.7,
-        "y": 478,
+        "y": 420,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-3",
         "seat": "seat-3",
         "x": 141.5,
-        "y": 478,
+        "y": 420,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-5",
         "seat": "seat-5",
-        "x": 81.4,
-        "y": 377.3,
+        "x": 35.4,
+        "y": 285.3,
         "w": 47.1,
         "h": 54.2,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 127.5,
+        "y": 285.3,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-2",
         "seat": "seat-2",
         "x": 300.3,
-        "y": 374.8,
+        "y": 282.8,
         "w": 49.3,
         "h": 56.7,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-4",
         "seat": "seat-4",
         "x": 236.2,
-        "y": 478,
+        "y": 420,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
         "id": "ms-action-choice-seat-8",
         "seat": "seat-8",
         "x": 359,
-        "y": 478,
+        "y": 420,
         "w": 54.8,
         "h": 63,
         "big": true,
         "inRoom": true,
         "onScreen": true,
         "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-7",
-        "seat": "seat-7",
-        "x": 187.6,
-        "y": 176,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-6",
-        "seat": "seat-6",
-        "x": 26.9,
-        "y": 676,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
-        "onTag": false
-      },
-      {
-        "id": "ms-action-choice-seat-9",
-        "seat": "seat-9",
-        "x": 259.2,
-        "y": 676,
-        "w": 54.8,
-        "h": 63,
-        "big": true,
-        "inRoom": true,
-        "onScreen": true,
-        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -16046,17 +16817,18 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
-        "seat-8",
-        "seat-7",
-        "seat-6",
-        "seat-9"
+        "seat-8"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": []
+      "other": [
+        "seat-6",
+        "seat-9"
+      ]
     },
     "ghost": null,
     "pass": "unavailable",
@@ -16104,10 +16876,10 @@
         "seat-1",
         "seat-3",
         "seat-5",
+        "seat-7",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7",
         "seat-6",
         "seat-9"
       ]
@@ -16203,6 +16975,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 141.5,
+        "y": 478,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16216,6 +17003,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16229,6 +17017,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16242,6 +17031,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16255,6 +17045,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16268,6 +17059,21 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 26.9,
+        "y": 676,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -16277,18 +17083,18 @@
     "marks": {
       "eligible": [
         "seat-1",
+        "seat-3",
         "seat-5",
         "seat-2",
         "seat-4",
         "seat-8",
-        "seat-7"
+        "seat-7",
+        "seat-6"
       ],
       "selected": [],
       "picked": [],
       "pending": [],
       "other": [
-        "seat-3",
-        "seat-6",
         "seat-9"
       ]
     },
@@ -16392,6 +17198,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -16600,6 +17407,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16613,6 +17421,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16626,6 +17435,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16639,6 +17449,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16652,6 +17463,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16665,6 +17477,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16678,6 +17491,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16691,6 +17505,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -16760,6 +17575,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16773,6 +17589,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16786,6 +17603,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16799,6 +17617,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16812,6 +17631,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16825,6 +17645,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16838,6 +17659,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16851,6 +17673,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16864,6 +17687,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -16932,6 +17756,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16945,6 +17770,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16958,6 +17784,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16971,6 +17798,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16984,6 +17812,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -16997,6 +17826,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17010,6 +17840,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17023,6 +17854,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17036,6 +17868,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -17104,6 +17937,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17117,6 +17951,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17130,6 +17965,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17143,6 +17979,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17156,6 +17993,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17169,6 +18007,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17182,6 +18021,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17195,6 +18035,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17208,6 +18049,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -17276,6 +18118,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17289,6 +18132,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17302,6 +18146,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17315,6 +18160,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17328,6 +18174,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17341,6 +18188,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17354,6 +18202,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17367,6 +18216,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17380,6 +18230,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -17438,6 +18289,20 @@
     "tray": false,
     "targets": [
       {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 77.6,
+        "y": 326,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
         "id": "ms-action-choice-seat-1",
         "seat": "seat-1",
         "x": 16.6,
@@ -17448,6 +18313,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17461,6 +18327,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17474,6 +18341,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17487,6 +18355,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17500,6 +18369,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17513,6 +18383,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17526,6 +18397,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17539,6 +18411,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -17547,6 +18420,7 @@
     "statusClipped": false,
     "marks": {
       "eligible": [
+        "seat-3",
         "seat-1",
         "seat-2",
         "seat-4",
@@ -17559,9 +18433,7 @@
       "selected": [],
       "picked": [],
       "pending": [],
-      "other": [
-        "seat-3"
-      ]
+      "other": []
     },
     "ghost": null,
     "pass": "unavailable",
@@ -17608,6 +18480,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17621,6 +18494,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17634,6 +18508,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17647,6 +18522,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17660,6 +18536,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17673,6 +18550,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17686,6 +18564,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -17699,6 +18578,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -18135,6 +19015,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -18148,6 +19029,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       },
       {
@@ -18161,6 +19043,7 @@
         "inRoom": true,
         "onScreen": true,
         "hit": true,
+        "inView": true,
         "onTag": false
       }
     ],
@@ -18262,6 +19145,646 @@
     "name": "reduced-motion",
     "fxNodesDuringMove": 0,
     "moving": []
+  },
+  {
+    "name": "390x844-safe-areas",
+    "scenario": "supply",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": "SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a character These are the choices the server offers you now. Cancel",
+    "stripStep": "choosing",
+    "stamp": null,
+    "tray": false,
+    "targets": [
+      {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 10.3,
+        "y": 436,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 124.9,
+        "y": 436,
+        "w": 54.8,
+        "h": 63,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 30.2,
+        "y": 360.2,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 112.7,
+        "y": 360.2,
+        "w": 47.1,
+        "h": 54.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      }
+    ],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [
+        "seat-1",
+        "seat-3",
+        "seat-5",
+        "seat-8"
+      ],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": [
+        "seat-2",
+        "seat-4",
+        "seat-7",
+        "seat-6",
+        "seat-9"
+      ]
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-character-target",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "safe-areas-390x844",
+    "insets": {
+      "top": 47,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "statusTop": 49,
+    "navButtonsBottom": 810,
+    "viewport": 844,
+    "clear": true,
+    "boardScrollsInside": false,
+    "unreachable": [],
+    "targetsClean": true
+  },
+  {
+    "name": "320x568-safe-areas",
+    "scenario": "supply",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": true,
+    "rowUnit": "44px",
+    "phase": "Your turn",
+    "strip": "SUPPLY CHOOSING SUPPLY : Two players get a weapon each. Choose the first. Supply · Tap a character These are the choices the server offers you now. Cancel",
+    "stripStep": "choosing",
+    "stamp": null,
+    "tray": false,
+    "targets": [
+      {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 8.5,
+        "y": 294,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 102.4,
+        "y": 294,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 21.7,
+        "y": 250,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 89.3,
+        "y": 250,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      }
+    ],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [
+        "seat-1",
+        "seat-3",
+        "seat-5",
+        "seat-8"
+      ],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": [
+        "seat-2",
+        "seat-4",
+        "seat-7",
+        "seat-6",
+        "seat-9"
+      ]
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-character-target",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "safe-areas-320x568",
+    "insets": {
+      "top": 47,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "statusTop": 49,
+    "navButtonsBottom": 534,
+    "viewport": 568,
+    "clear": true,
+    "boardScrollsInside": true,
+    "unreachable": [],
+    "targetsClean": true
+  },
+  {
+    "name": "390x844-enlarged-text",
+    "scenario": "crowd-vote",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Captain election",
+    "strip": "VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the choices the server offers you now. Abstain Cancel",
+    "stripStep": "choosing",
+    "stamp": null,
+    "tray": false,
+    "targets": [
+      {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 13.3,
+        "y": 442.5,
+        "w": 48.8,
+        "h": 56.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-2",
+        "seat": "seat-2",
+        "x": 70.6,
+        "y": 442.5,
+        "w": 48.8,
+        "h": 56.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 127.8,
+        "y": 442.5,
+        "w": 48.8,
+        "h": 56.2,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-4",
+        "seat": "seat-4",
+        "x": 15.7,
+        "y": 344.6,
+        "w": 44,
+        "h": 50.5,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 73,
+        "y": 344.6,
+        "w": 44,
+        "h": 50.5,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 130.3,
+        "y": 344.6,
+        "w": 44,
+        "h": 50.5,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 15.7,
+        "y": 245.6,
+        "w": 44,
+        "h": 46,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 73,
+        "y": 245.6,
+        "w": 44,
+        "h": 46,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-9",
+        "seat": "seat-9",
+        "x": 130.3,
+        "y": 245.6,
+        "w": 44,
+        "h": 46,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      }
+    ],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4",
+        "seat-5",
+        "seat-6",
+        "seat-7",
+        "seat-8",
+        "seat-9"
+      ],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-character-target",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "enlarged-text-390x844",
+    "pageScrolls": false,
+    "boardScrollsInside": false,
+    "scrolledOutOfView": [],
+    "unreachable": [],
+    "passFits": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-enlarged-text",
+    "scenario": "crowd-vote",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": true,
+    "rowUnit": "44px",
+    "phase": "Captain election",
+    "strip": "VOTE CHOOSING VOTE : Who do you vote for as Captain? Vote · Tap a character These are the choices the server offers you now. Abstain Cancel",
+    "stripStep": "choosing",
+    "stamp": null,
+    "tray": false,
+    "targets": [
+      {
+        "id": "ms-action-choice-seat-1",
+        "seat": "seat-1",
+        "x": 8.5,
+        "y": 299.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": false,
+        "inView": false,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-2",
+        "seat": "seat-2",
+        "x": 55.5,
+        "y": 299.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": false,
+        "inView": false,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-3",
+        "seat": "seat-3",
+        "x": 102.4,
+        "y": 299.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": false,
+        "inView": false,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-4",
+        "seat": "seat-4",
+        "x": 8.5,
+        "y": 255.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-5",
+        "seat": "seat-5",
+        "x": 55.5,
+        "y": 255.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-6",
+        "seat": "seat-6",
+        "x": 102.4,
+        "y": 255.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-7",
+        "seat": "seat-7",
+        "x": 8.5,
+        "y": 211.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-8",
+        "seat": "seat-8",
+        "x": 55.5,
+        "y": 211.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      },
+      {
+        "id": "ms-action-choice-seat-9",
+        "seat": "seat-9",
+        "x": 102.4,
+        "y": 211.5,
+        "w": 44,
+        "h": 44,
+        "big": true,
+        "inRoom": true,
+        "onScreen": true,
+        "hit": true,
+        "inView": true,
+        "onTag": false
+      }
+    ],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4",
+        "seat-5",
+        "seat-6",
+        "seat-7",
+        "seat-8",
+        "seat-9"
+      ],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "unavailable",
+    "focus": "ms-action-step",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [
+      "data-board-target",
+      "phone-character-target",
+      "phone-strip"
+    ],
+    "roleWords": [],
+    "commands": []
+  },
+  {
+    "name": "enlarged-text-320x568",
+    "pageScrolls": false,
+    "boardScrollsInside": true,
+    "scrolledOutOfView": [
+      "seat-1",
+      "seat-2",
+      "seat-3"
+    ],
+    "unreachable": [],
+    "passFits": true,
+    "problems": []
   },
   {
     "name": "display-public",
