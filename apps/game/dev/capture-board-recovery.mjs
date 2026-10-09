@@ -3,6 +3,7 @@
 // Faults are arranged in dev/board, never in production. No device/multiplayer acceptance.
 // With the board Vite server on 5178:
 //   node apps/game/dev/capture-board-recovery.mjs <output-directory>
+// Add --explicit-full to run only the no-redraw OS preference regression at three sizes.
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -18,11 +19,28 @@ const note = message => { lines.push(message); console.log(message); };
 const browserProcess = await launchBrowser();
 const browser = await connect(browserProcess.endpoint);
 const SIZES = [[320, 568], [390, 844]];
+const explicitFullOnly = process.argv.includes('--explicit-full');
 const state = status => `document.querySelector('.phone-strip [data-status="${status}"]')`;
 const marksEmpty = measured => measured.targets.length === 0 && measured.ghost === null && Object.values(measured.marks).every(seats => seats.length === 0);
 
 async function open(scenario, size, query = '', display = false, fontSize = null) {
   const page = await openPage(browser, { width: size[0], height: size[1], scale: 1, mobile: !display, ownContext: true });
+  // Observe native media-query ownership, forwarding registration/removal unchanged.
+  await page.send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => {
+    const listeners = new Map();
+    window.__mediaProbe = { count: () => [...listeners.values()].reduce((n, set) => n + set.size, 0) };
+    for (const method of ['addEventListener', 'removeEventListener']) {
+      const native = MediaQueryList.prototype[method];
+      MediaQueryList.prototype[method] = function(type, listener, ...args) {
+        if (type === 'change' && this.media === '(prefers-reduced-motion: reduce)') {
+          if (!listeners.has(this)) listeners.set(this, new Set());
+          if (method === 'addEventListener') listeners.get(this).add(listener);
+          else listeners.get(this).delete(listener);
+        }
+        return native.call(this, type, listener, ...args);
+      };
+    }
+  })()` });
   if (fontSize) await page.send('Page.setFontSizes', { fontSizes: { standard: fontSize } });
   await page.goto(`http://127.0.0.1:5178/?scenario=${scenario}${query}${display ? '&as=display' : ''}`, "window.__simulation && document.querySelector('.ms-board .ms-seat')", 20_000);
   await page.foreground();
@@ -66,11 +84,28 @@ const commandCount = page => page.evaluate('window.__simulation.log.length');
 try {
   // Both effective preferences, on phones and display, during an actual native 900 ms flight.
   // Instrumentation counts native Animation.cancel calls; it does not replace animations.
-  for (const size of [...SIZES, [1280, 720]]) for (const preference of ['in-app', 'system']) {
+  for (const size of [...SIZES, [1280, 720]]) for (const preference of explicitFullOnly ? ['system-explicit-full'] : ['in-app', 'system', 'system-explicit-full']) {
     const display = size[0] > 600;
     const page = await open('spread', size, '', display);
     const tag = `${size.join('x')}-${preference}`;
     try {
+      if (preference === 'system-explicit-full') {
+        // Real checkbox changes select reduced, then explicitly full. This prevents the
+        // screen's effective model changing on an OS event; no snapshot/redraw is forced.
+        await page.evaluate(`(() => {
+          document.querySelector('#ms-phone-more')?.click();
+          document.querySelector('#ms-reduce-motion').click();
+          document.querySelector('#ms-reduce-motion').click();
+          document.querySelector('#ms-phone-board')?.click();
+          const media = matchMedia('(prefers-reduced-motion: reduce)');
+          window.__systemProbe = { events: 0 };
+          media.onchange = () => { window.__systemProbe.events++; };
+        })()`);
+        const frames = await page.evaluate('window.__simulation.frames');
+        // Start just after a real timer frame, so the preference is observed before the
+        // next timer boundary rather than accidentally settled by that unrelated redraw.
+        await page.waitFor(`window.__simulation.frames > ${frames}`, 'timer boundary before the flight');
+      }
       await page.evaluate(`(() => {
         const animate = Element.prototype.animate;
         window.__motionProbe = { starts: 0, cancellations: 0 };
@@ -86,29 +121,34 @@ try {
         window.__simulation.move('Room B');
       })()`);
       await page.waitFor("document.querySelector('.phone-fx__flyer') && document.querySelector('.ms-seat[data-moving]')", 'active flight');
-      const during = await page.evaluate("({ ...window.__motionProbe, fx: document.querySelectorAll('.phone-fx > *').length })");
+      const during = await page.evaluate("({ ...window.__motionProbe, fx: document.querySelectorAll('.phone-fx > *').length, frames: window.__simulation.frames, mediaListeners: window.__mediaProbe.count() })");
       assert.equal(during.fx, 3);
-      if (preference === 'system') await page.media({ 'prefers-reduced-motion': 'reduce' });
+      if (preference.startsWith('system')) await page.media({ 'prefers-reduced-motion': 'reduce' });
       else await page.evaluate(`(() => {
         document.querySelector('#ms-phone-more')?.click();
         document.querySelector('#ms-reduce-motion').click();
       })()`);
-      await page.waitFor("!document.querySelector('.phone-fx > *, .ms-seat[data-moving]')", 'settled on preference change');
+      if (preference === 'system-explicit-full') {
+        await page.waitFor('window.__systemProbe.events === 1', 'native OS preference delivered');
+        assert.equal(await page.evaluate('window.__simulation.frames'), during.frames, 'OS reduction with explicit full emits no screen frame');
+        assert.equal(await page.evaluate("document.querySelector('.phone-fx > *, .ms-seat[data-moving]') !== null"), false, 'native event settles travel without a redraw');
+      } else await page.waitFor("!document.querySelector('.phone-fx > *, .ms-seat[data-moving]')", 'settled on preference change');
       const landed = await page.evaluate(`(() => {
         const piece = document.querySelector('.ms-board .ms-seat[data-seat="seat-3"]');
-        return { ...window.__motionProbe, room: piece.closest('.ms-zone').dataset.zone, visibility: getComputedStyle(piece).visibility };
+        return { ...window.__motionProbe, frames: window.__simulation.frames, room: piece.closest('.ms-zone').dataset.zone, visibility: getComputedStyle(piece).visibility };
       })()`);
       assert.ok(landed.cancellations > during.cancellations);
       assert.equal(landed.room, 'room-b');
       assert.equal(landed.visibility, 'visible');
-      await page.evaluate('window.__simulation.redeliver()');
+      if (preference !== 'system-explicit-full') await page.evaluate('window.__simulation.redeliver()');
       await measure(page, `${tag}-settled`, { display, empty: true, screenshot: true });
-      if (preference === 'system') await page.media({ 'prefers-reduced-motion': 'no-preference' });
+      if (preference.startsWith('system')) await page.media({ 'prefers-reduced-motion': 'no-preference' });
       else await page.evaluate("document.querySelector('#ms-reduce-motion').click(); document.querySelector('#ms-phone-board')?.click()");
       // Native media-query change delivery is asynchronous. A genuinely later move must
       // begin after the screen has consumed the preference, rather than race that callback.
       await page.waitFor("document.querySelector('.ms-shell[data-motion=\"full\"]')", 'motion preference restored');
-      await page.evaluate('window.__simulation.redeliver()');
+      if (preference === 'system-explicit-full') await page.waitFor('window.__systemProbe.events === 2', 'native OS reduction turned off');
+      else await page.evaluate('window.__simulation.redeliver()');
       assert.equal(await page.evaluate('window.__motionProbe.starts'), landed.starts, 'same facts never replay when motion returns');
       await page.evaluate("window.__simulation.move('Room A')");
       await page.waitFor("document.querySelector('.phone-fx__flyer')", 'later move works');
@@ -116,10 +156,16 @@ try {
       await page.evaluate('window.__simulation.dispose(); window.__simulation.dispose(); window.__simulation.redeliver()');
       assert.ok(await page.evaluate('window.__motionProbe.cancellations') > beforeDispose);
       assert.equal(await page.evaluate("document.querySelectorAll('#app > *, .phone-fx').length"), 0, 'disposal clears owned DOM/listeners');
-      facts.push({ name: `${tag}-lifecycle`, during, landed, disposed: true, replayed: false });
+      assert.equal(await page.evaluate('window.__mediaProbe.count()'), 0, 'all mounted media-query listeners are removed');
+      await page.media({ 'prefers-reduced-motion': 'reduce' });
+      await sleep(100);
+      assert.equal(await page.evaluate("document.querySelectorAll('#app > *, .phone-fx').length"), 0, 'OS changes after disposal cannot revive the mounted host');
+      facts.push({ name: `${tag}-lifecycle`, during, landed, disposed: true, replayed: false,
+        ...(preference === 'system-explicit-full' ? { noRedrawOnReduction: landed.frames === during.frames } : {}), mediaListenersAfterDispose: 0 });
     } finally { await page.close(); }
   }
 
+  if (!explicitFullOnly) {
   // Every reproduced in-flight combination: Rescue submitting/checking, Move
   // submitting/checking/accepted awaiting a view, each stale and expired, at both sizes.
   for (const size of SIZES) for (const paused of ['stale', 'expired']) {
@@ -216,7 +262,9 @@ try {
     await enlarged.waitFor("document.querySelector('.ms-timer[data-state=\"expired\"]')", 'expired status at doubled default text');
     await measure(enlarged, '320x568-expired-enlarged-text', { empty: true, screenshot: true });
   } finally { await enlarged.close(); }
-  note(`PASS: ${facts.length} records; native motion cancellation, in-flight marks and receipt recovery`);
+  }
+  note(explicitFullOnly ? `PASS: ${facts.length} records; explicit-full OS change without a frame, native cancellation and teardown`
+    : `PASS: ${facts.length} records; native motion cancellation, in-flight marks and receipt recovery`);
 } finally {
   await writeFile(join(output, 'facts.json'), `${JSON.stringify(facts, null, 2)}\n`);
   await writeFile(join(output, 'capture-log.txt'), `${lines.join('\n')}\n`);

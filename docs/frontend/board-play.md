@@ -79,6 +79,7 @@ The release's rules are all kept:
 - Four or fewer moves in one update fly; more do not.
 - Nothing plays when the page is hidden, more than a second late, or under reduced motion. Reduced motion is the device setting or the in-app one. With it, nothing flies, lifts or shakes, and arrivals, stamps and status changes use the 80 ms fade.
 - Changing either reduced-motion preference during a flight immediately cancels the director's native animations and timers, removes trails and puffs, and reveals the authoritative piece. This happens before the unchanged-public-facts return. The same facts never replay when the preference returns to full motion; a later public move still works.
+- An OS change also reaches an owned director listener when an explicitly selected full-motion setting causes no screen frame. The original 77-record follow-up did not cover that wiring case; the [explicit-full regression and correction](motion-os-preference.md) do.
 - A newer change to a seat cancels that seat's cue in flight.
 - Nothing is queued or repeats, and nothing waits for an animation.
 

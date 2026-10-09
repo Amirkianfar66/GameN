@@ -67,6 +67,8 @@ export function publicChanges(previous, next) {
  */
 export function createComicMotion(root, { fx = null, now = () => performance.now() } = {}) {
   let previous = null;
+  let disposed = false;
+  const deviceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   /** seat -> what a running cue owns: animations, timers and fx nodes. */
   const running = new Map();
   let phaseTimer = null;
@@ -76,7 +78,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     // A piece that is not drawn (a room hidden during a showdown) has no place to fly from or to.
     return [seat.dataset.seat, rect && rect.width > 0 && rect.height > 0 ? rect : null];
   }));
-  const reducedMotion = model => model.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedMotion = model => model.motion === 'reduced' || deviceMotion.matches;
   const entry = seat => {
     if (!running.has(seat)) running.set(seat, { animations: [], timers: [], nodes: [], moving: false });
     return running.get(seat);
@@ -106,6 +108,10 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     piece.dataset.cue = cue;
     later(seat, ms, () => { const current = pieceOf(seat); if (current?.dataset.cue === cue) delete current.dataset.cue; });
   }
+  // Explicit full motion can leave the screen model unchanged on an OS preference event.
+  // Settle owned travel directly, without requiring a frame or replaying public facts.
+  const onDeviceMotion = () => { if (!disposed && deviceMotion.matches) cancelAll(); };
+  deviceMotion.addEventListener('change', onDeviceMotion);
 
   // The moving character is carried in the layer over the page, as a copy of its own drawn
   // picture, from where it stood to where the view now has it. The piece waits hidden until it lands.
@@ -162,6 +168,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     before() { return { rects: rects(), at: now() }; },
     /** After a redraw: play what changed in the public facts, and keep pieces in flight hidden. Returns what was played. */
     after(model, before) {
+      if (disposed) return [];
       const next = publicFacts(model);
       // Not live, a reconnect, or a page in the background: settle at once and play nothing.
       if (next === null || document.visibilityState !== 'visible') { previous = null; cancelAll(); return []; }
@@ -210,6 +217,12 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
       }
       return played;
     },
-    dispose() { previous = null; cancelAll(); },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      deviceMotion.removeEventListener('change', onDeviceMotion);
+      previous = null;
+      cancelAll();
+    },
   };
 }
