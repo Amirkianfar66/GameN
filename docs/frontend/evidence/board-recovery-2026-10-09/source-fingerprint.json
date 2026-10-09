@@ -9,5 +9,6 @@
     "apps/game/dev/board/main.js": "bc91bdf728d66a12602d3638463ef6cfc97a296c9d7d1d529b3f28bb74e8e763",
     "apps/game/dev/capture-board-recovery.mjs": "1282802f57c80ef76499086e72b1c31167807b62c182f0b0e98551cd293a4081"
   },
-  "browser": "Google Chrome 155.0.8059.39"
+  "browser": "Google Chrome 155.0.8059.39",
+  "implementationCommit": "629889e69ded1d4615a7600bf9a0a9598adc2f54"
 }

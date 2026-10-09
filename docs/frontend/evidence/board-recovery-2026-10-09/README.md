@@ -4,6 +4,8 @@ This directory belongs to the [PR #92 consumer follow-up](../../board-recovery.m
 
 All simulation names/views and all local-emulator participants are synthetic. These are DOM observations and screenshots of local test play, not Firebase document exports, credentials or real-player payloads. No physical device or deployed service was tested.
 
+The code and captures are committed at `629889e69ded1d4615a7600bf9a0a9598adc2f54`. Full `npm run verify` passed there on a clean checkout with exit 0; [verification.txt](verification.txt) preserves the actual count/gate output. Subsequent handoff edits change documentation/evidence metadata only.
+
 ## Added recovery and native-motion capture
 
 Command, with the existing board Vite configuration on `127.0.0.1:5178`:

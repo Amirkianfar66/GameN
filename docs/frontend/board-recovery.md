@@ -18,6 +18,8 @@ The Codex Frontend worker fixes the two reproduced consumer findings in Backend'
 | Current gameplay | `full-game-1.1.0` / `in-person-v1-pass-2026-10-08` / `a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183` |
 | Legacy gameplay | `full-game-1.0.1` / `in-person-v1-2026-10-06` / `6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90` |
 
+The implementation and capture sources are committed at `629889e69ded1d4615a7600bf9a0a9598adc2f54`. The later handoff update changes documentation/evidence metadata only; the source fingerprints remain identical.
+
 The current workstream allocation comes from the owner's request to use persistent Codex Frontend and Designer workers, superseding the historical Claude runner allocation. Ownership boundaries remain those in `AGENTS.md`.
 
 The applicable sources were read directly: the role brief and project/rendering context, production V1 rules and the V1 decision register, current overlays, the staged-start, compact-phone, random-starting-room and Pass decisions, the Frontend phone/board handoffs, and Designer's owner decisions and motion handoff. In particular, [the compact-phone decision](../decisions/2026-10-08-compact-phone-ui.md) approves board interaction. It does not approve every proposed artwork or motion treatment.
@@ -50,7 +52,8 @@ Node `22.21.1`, npm `10.9.4`. Fresh captures use the hosted screens, controller,
 | Workspace test phase of `npm run verify` | 1,032 passed: 53 bootstrap, 148 engine, 130 Backend/Firebase, 102 tooling, 173 presentation, 426 game |
 | Production exclusion | Passed: 54 reachable modules, 2 entries, 167 scanned files, 38 labeled development files; fixture/development code absent from production |
 | Balance static checks | 71/71 passed |
-| Full clean-commit `npm run verify` | Final clean-commit result will be recorded after the evidence commit |
+| Full clean-commit `npm run verify` | Passed with exit 0 at `629889e69ded1d4615a7600bf9a0a9598adc2f54`; toolchain, workspace/source integrity, typecheck/build, workspace tests, static Balance and the complete engine/report gate passed |
+| Balance engine/report gate | 483 scenarios passed, 33 reviewed blocked, 6 explicit manual; 475 control baselines passed and 4,388 controls detected with no misses; 10 playouts in each of 7/8/9 modes completed; common clean-commit/build/manifest provenance passed |
 | Existing board browser journey | Passed: 130 records, 124 measured steps, 287 target hit areas; 320×568, 390×844 and 1280×720; no journey failures |
 | Added recovery/motion browser journey | Passed: 77 records, 69 measured steps, 20 in-flight paused combinations at both phone sizes, both mid-flight preferences at all three viewports |
 | Local Auth/Firestore flow | Passed: 22 records, 15 measured steps, 8 target hit areas, 5 display-privacy checkpoints; staged start, Hack picking, keyboard Move, public flights, Pass, Jail vote and host abort |
@@ -61,7 +64,7 @@ The presentation matrix covers all 11 seat-target kinds and Move in submitting, 
 
 The native-motion tests run the actual director with observable DOM/animation ports. Browser evidence switches both the in-app and system preference during a native 900 ms flight at 320×568, 390×844 and 1280×720. It checks cancellation, authoritative location and visibility, unchanged-facts redelivery, later motion and idempotent disposal. The phone recovery matrix covers every reproduced combination of Rescue submitting/checking and Move submitting/checking/accepted, under both stale and expired conditions, plus unknown results, reload recovery, synthetic visibility events and foreground clock resynchronization.
 
-The initial sandbox verification failed eight existing loopback HTTP tests with `EPERM`; rerunning with loopback access passed the workspace tests. The final Balance scenario gate then refused an uncommitted checkout, as designed. Those runs are not reported as a successful complete `verify`; the required clean-commit run follows the evidence commit. Preliminary browser captures found status-bar clipping, which was corrected without weakening the geometry checks. A diagnostic that changed only CSS root font size did not match the established reader-default-text method; final enlarged-text evidence uses Chromium `Page.setFontSizes` before page load.
+The initial sandbox verification failed eight existing loopback HTTP tests with `EPERM`; rerunning with loopback access passed the workspace tests. The final Balance scenario gate then refused an uncommitted checkout, as designed. Those preliminary runs are not a successful complete `verify`; the required clean-commit run subsequently passed with exit 0 at `629889e`. Preliminary browser captures found status-bar clipping, which was corrected without weakening the geometry checks. A diagnostic that changed only CSS root font size did not match the established reader-default-text method; final enlarged-text evidence uses Chromium `Page.setFontSizes` before page load.
 
 For emulator isolation, occupied sibling-workstream ports were left untouched. Temporary copies of the existing practice configuration/provider/server/capture use Auth `9731`, Firestore `8731`, Firestore websocket `9171`, hub `4531`, logging `4631`, loopback service `5231` and Vite `5181`, with project `demo-mothership`. Only literal loopback ports/origins and local import paths were changed. Production client/service/rules code is unchanged; temporary configuration and emulator/debug data remain outside the repository. This local runner is the existing stand-in for deadline and bot triggers, not a Cloud Tasks delivery test.
 
@@ -75,8 +78,10 @@ Those artifacts remain historical evidence. Their results are not fresh acceptan
 
 ## Adoption dependencies
 
+Designer subsequently published `ed15d7c` and `93a7e326a47d67b10ce61edbf8f247f859011f53` on PR #88. A read-only comparison confirms changes are confined to design, design documentation and design-token tests. This Frontend follow-up remains based on `ef4c2ee`; it did not merge or rebase those concurrent corrections. Integration must reconcile the updated stack.
+
 Integration retains the PR stack and review/merge gate. This worker updates the existing #92 remote by a normal fast-forward push; it does not create another PR or change its base. It does not integrate Backend deadline PR #91 or contract-review PR #90.
 
-Designer owns its pending prototype fixes, including the quoted V1 words. DSN-D30 props and DSN-D32 full-body figures stay outside the runtime manifest. DSN-D31 cue/word proposals and DSN-D33 pose semantics retain their existing owner/Integration review boundaries. The approved standees and tokens stay in use. These two consumer fixes require no new public facts or audience and change no rule version.
+Designer owns prototype verification and the quoted V1 words. DSN-D30 props and DSN-D32 full-body figures stay outside the runtime manifest. DSN-D31 cue/word proposals and DSN-D33 pose semantics retain their existing owner/Integration review boundaries. The approved standees and tokens stay in use. These two consumer fixes require no new public facts or audience and change no rule version.
 
 Merge, deployment, Firebase/IAM/queue changes, billing and access changes were not performed.
