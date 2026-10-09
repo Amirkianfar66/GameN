@@ -21,7 +21,7 @@ Node `22.21.1`, npm `10.9.4`, macOS, headless Google Chrome `155.0.8059.39`. Bro
 | `node --test packages/design-tokens/test/board-motion-offers.test.mjs` | 20/20 passed, no skips/todo |
 | `npm run check:board-motion --workspace @mothership/design-tokens` | 13/13 passed, 14 actions, 20 cues, 65 scenarios |
 | `npm run flows:board-motion --workspace @mothership/design-tokens` | 187/187 assertions passed, including late/lost replies, concealment, explicit recovery/reopen and disposal |
-| `npm run capture:board-motion --workspace @mothership/design-tokens` | 185 captures + 5 contact sheets, zero reported problems; inputs SHA-256 `ce2218f785e6be6dd6cf5484eb34e9fb0ddda05a15dc8351001f15997621e871` |
+| `npm run capture:board-motion --workspace @mothership/design-tokens` | 185 captures + 5 contact sheets, zero reported problems; inputs SHA-256 `23c20777430790026d96d7458ba75dc15a544efbe32b7c4481b31066bc03f655` |
 | `npm run check:assets --workspace @mothership/design-tokens` | 15/15 passed |
 | `npm run check:layout --workspace @mothership/design-tokens` | 456 cases, zero failures |
 | `npm run check:shell --workspace @mothership/design-tokens` | 54 loads, 468 redraws, 1368 public comparisons, zero failures |
@@ -30,7 +30,7 @@ Node `22.21.1`, npm `10.9.4`, macOS, headless Google Chrome `155.0.8059.39`. Bro
 
 Visually inspected the regenerated Round 2 election and 320 × 568 Round 5 Code capture: only eligible election candidates are marked; Code still includes seats in Hospital/Jail/Command. The report verifies normal-width page fit, at least 44 px controls/targets and enlarged-text reflow. Desktop browser simulations and manually dispatched lifecycle events are not physical-device, real background/process-death or multiplayer acceptance.
 
-The complete clean-commit `npm run verify` result and its exact tested head are recorded after the correction commit below. Root verify/CI omit the Designer phone checker and cannot close its failure.
+Full `npm run verify` passed (exit 0) at clean correction commit `ed15d7c153bb47d23bd38aab6db35e565a1415e6`: 53 bootstrap/contracts, 148 engine, 130 backend/Firebase, 102 tooling, 160 presentation and 409 game tests, all passing with zero skips/todo. Balance static passed 71/71; 522 catalogue IDs produced 483 passes, 33 reviewed blocked and 6 explicit manual cases, zero errors; 475 baselines and 4388 negative controls passed/detected; 10 playouts completed in each of 7/8/9 modes; common Git/build/manifest provenance gate passed. The initial restricted run stopped at loopback HTTP `EPERM`; the same full command passed with execution permission. The subsequent evidence-record/schema-name documentation correction changes no production input. Root verify/CI omit the Designer phone checker and cannot close its failure.
 
 ## Separate copy follow-up and dependent work
 

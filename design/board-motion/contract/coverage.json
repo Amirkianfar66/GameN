@@ -571,7 +571,7 @@
       {
         "id": "own-acknowledgments",
         "drawn": "Supplier granted-recipient results and each recipient’s own Supply receipt, inside Card only. No public cue.",
-        "source": "Existing OwnAcknowledgmentsSchema and OwnSeatSessionSchema in packages/contracts/src/own-acknowledgments.ts, paired to the authorized seat session by comic-feeds.ts. historyAvailable=false renders the existing history-unavailable fallback; knowledge prose in this synthetic prototype is not the typed acknowledgment feed.",
+        "source": "Existing OwnAcknowledgmentsSchema and SeatSessionSchema in packages/contracts/src/own-acknowledgments.ts, paired to the authorized seat session by comic-feeds.ts. historyAvailable=false renders the existing history-unavailable fallback; knowledge prose in this synthetic prototype is not the typed acknowledgment feed.",
         "audience": "private",
         "cues": []
       }
