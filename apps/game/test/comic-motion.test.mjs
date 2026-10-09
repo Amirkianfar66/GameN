@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { movedPublicSeats } from '../hosted/comic-motion.mjs';
+import { createComicMotion, movedPublicSeats } from '../hosted/comic-motion.mjs';
+import { motionDom } from './support/comic-motion-dom.mjs';
 import { ART_BUNDLES, bundlesFor } from '../hosted/art.mjs';
 test('first/reconnected snapshots never cue a move; unchanged public facts stay unchanged across private redraws',()=>{
   const publicFacts=new Map([['seat-1','room-a'],['seat-2','room-b']]);
@@ -50,6 +51,67 @@ test('cues start only from a difference between two drawn public states', () => 
   const reshuffle = publicChanges(publicFacts(drawn(nine('room-a'))), publicFacts(drawn(nine('hospital'))));
   assert.equal(reshuffle.moved.length, 9);
   assert.equal(reshuffle.flights, false);
+});
+
+const atRoom = (room, motion = 'full') => ({ ...drawn({ [room]: [seatFacts()], 'hospital': [{ ...seatFacts(), seatId: 'seat-2' }] }), motion });
+for (const preference of ['in-app', 'system']) {
+  test(`${preference} reduced motion during travel cancels owned effects before an unchanged-facts return`, t => {
+    const dom = motionDom(t);
+    const motion = createComicMotion(dom.root, { fx: dom.fx, now: () => 0 });
+    t.after(() => motion.dispose());
+    assert.deepEqual(motion.after(atRoom('room-a'), motion.before()), []);
+    const before = motion.before();
+    dom.redraw('room-b');
+    assert.deepEqual(motion.after(atRoom('room-b'), before), [{ cue: 'public-move', seat: 'seat-1', variant: 'flight' }]);
+    assert.equal(dom.fx.children.length, 3, 'flight, trail and puff are owned');
+    assert.equal(dom.animations.length, 2, 'flight and co-occupant reflow both run');
+    assert.equal(dom.animations[0].options.duration, 900);
+    assert.equal(dom.piece('seat-1').dataset.moving, '');
+
+    // The real host replaces pieces on each redraw. Same public facts keep that new piece
+    // hidden while the flight runs, until either preference takes effect.
+    dom.redraw('room-b');
+    assert.deepEqual(motion.after(atRoom('room-b'), motion.before()), []);
+    assert.equal(dom.piece('seat-1').dataset.moving, '');
+    if (preference === 'system') dom.deviceReduced(true);
+    dom.redraw('room-b');
+    const reduced = atRoom('room-b', preference === 'in-app' ? 'reduced' : 'full');
+    assert.deepEqual(motion.after(reduced, motion.before()), [], 'same facts replay no cue');
+    assert.ok(dom.animations.every(animation => animation.cancellations === 1), 'both spatial animations are cancelled');
+    assert.equal(dom.fx.children.length, 0);
+    assert.equal(dom.piece('seat-1').dataset.moving, undefined, 'the authoritative piece is visible at its new location');
+    t.mock.timers.tick(2_000);
+    assert.equal(dom.fx.children.length, 0, 'old timers cannot reintroduce effects');
+    dom.deviceReduced(false);
+    assert.deepEqual(motion.after(atRoom('room-b'), motion.before()), [], 'turning motion back on does not replay the move');
+    const nextBefore = motion.before();
+    dom.redraw('room-a');
+    motion.after(atRoom('room-a'), nextBefore);
+    assert.equal(dom.fx.children.length, 3, 'a later authoritative move still works');
+    motion.dispose();
+    motion.dispose();
+    assert.equal(dom.fx.children.length, 0);
+    assert.equal(dom.piece('seat-1').dataset.moving, undefined);
+    assert.ok(dom.animations.every(animation => animation.cancellations === 1), 'disposal is idempotent');
+  });
+}
+
+test('a reduced-motion switch also clears the lingering trail after travel completes', async t => {
+  const dom = motionDom(t);
+  const motion = createComicMotion(dom.root, { fx: dom.fx, now: () => 0 });
+  t.after(() => motion.dispose());
+  motion.after(atRoom('room-a'), motion.before());
+  const before = motion.before();
+  dom.redraw('room-b');
+  motion.after(atRoom('room-b'), before);
+  dom.animations[0].finish();
+  await Promise.resolve();
+  assert.equal(dom.piece('seat-1').dataset.moving, undefined);
+  assert.equal(dom.fx.children.length, 2, 'only trail and puff linger');
+  motion.after(atRoom('room-b', 'reduced'), motion.before());
+  assert.equal(dom.fx.children.length, 0);
+  t.mock.timers.tick(2_000);
+  assert.equal(dom.fx.children.length, 0);
 });
 
 test('the strip\'s own cues come from its drawn step: arriving, a pick, the registration stamp, a command not accepted', () => {

@@ -314,7 +314,9 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
   return {
     title, kind: action.step === 'idle' ? null : action.step === 'choosing' ? action.kind : action.choice?.kind ?? null,
     status, statusLabel: en.action.status[status], selected: !['idle', 'accepted', 'not-accepted'].includes(status), body,
-    board: boardMarks(action, view, body),
+    // Keep sent commands and receipt recovery in the strip, but do not paint their choices
+    // against stale facts or a deadline this device cannot still trust as running.
+    board: mayStart(input) ? boardMarks(action, view, body) : NO_MARKS,
   };
 }
 

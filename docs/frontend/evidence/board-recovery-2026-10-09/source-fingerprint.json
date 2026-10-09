@@ -1,0 +1,13 @@
+{
+  "baseline": "aa007890c5bf8f4801bfb545c0f6da0426f7d6cd",
+  "node": "22.21.1",
+  "npm": "10.9.4",
+  "modifiedSources": {
+    "packages/presentation/src/model/connected-player.ts": "acd35c75558ba72ed5148729bde5b503c08a65f8434e38b12bf775111f68434b",
+    "apps/game/hosted/comic-motion.mjs": "1fa72d0a7797d60d0e224ec6e7c2edea78539a1f4c001f330897756f5c89dadc",
+    "apps/game/hosted/board-play.css": "e89dbe16f2d8bc678c4f836fcb6829eba6611f42ee16bcd2d72d82a42996cb19",
+    "apps/game/dev/board/main.js": "bc91bdf728d66a12602d3638463ef6cfc97a296c9d7d1d529b3f28bb74e8e763",
+    "apps/game/dev/capture-board-recovery.mjs": "1282802f57c80ef76499086e72b1c31167807b62c182f0b0e98551cd293a4081"
+  },
+  "browser": "Google Chrome 155.0.8059.39"
+}

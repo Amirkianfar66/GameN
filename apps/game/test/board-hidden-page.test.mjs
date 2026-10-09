@@ -51,6 +51,9 @@ test('a command on its way leaves no mark on a hidden page, and is still there w
   s.screen.setPageVisible(true);
   assert.doesNotMatch(s.page(), PRIVATE, 'The panel stays closed until the player opens it');
   assert.match(s.host.kept, /"commandId"/, 'The command is still kept for recovery');
+  // Foregrounding invalidates the clock. Marks may return only after the real
+  // server-time response calibrates it again; the in-flight command is kept throughout.
+  await flush();
   s.screen.dispatch(TOGGLE);
   assert.equal(s.card().status, 'submitting');
   assert.match(s.page(), /data-seat="seat-3"[^>]*data-board-target="pending"/);

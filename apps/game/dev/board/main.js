@@ -7,12 +7,15 @@
 //
 //   ?scenario=<id from scenarios.mjs>   which synthetic match to show (default: spread)
 //   ?as=display                         the shared display instead of the player's phone
-//   ?answer=accept|reject|hang          how the scripted desk answers a command (default: accept)
+//   ?answer=accept|reject|hang|lost     how the scripted desk answers a command (default: accept)
 //   ?latency=<ms>                       how long it takes to answer (default: 450)
 //   ?motion=reduced                     start with the in-app reduced-motion setting
+//   ?time-left=<ms>                     start near the end of the same 60-second turn
+//   ?hold-move                         keep an accepted Move awaiting its public view
 
 import { createComicFeeds, createConnectedPlayerScreen, createConnectedTableScreen, shellTokenStylesheet } from '@mothership/game';
 import { nextDesignTokens } from '@mothership/design-tokens';
+import { FullReceiptSchema } from '@mothership/contracts';
 import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
 import '../../src/styles/shell.css';
 import '../../hosted/preview.css';
@@ -47,7 +50,10 @@ if (!definition) throw new Error(`Unknown scenario ${id}`);
 
 /** What the scripted desk did, for the capture script to read. Synthetic data only. */
 const log = [];
-const started = Date.now();
+// The scenario factory already places the turn 18 seconds in (42 seconds remaining).
+// Shift that sample, retaining the full 60-second window and the original default.
+const timeLeft = Math.min(60_000, Math.max(1_000, Number(params.get('time-left') ?? 42_000)));
+const started = Date.now() - (42_000 - timeLeft);
 let revision = 1;
 let moved = null;
 const listeners = new Map();
@@ -64,6 +70,8 @@ function publish(kind, fresh = true) {
   for (const listener of listeners.get(kind) ?? []) listener.onSnapshot({ value: structuredClone(documents[kind]?.() ?? null), fresh });
 }
 const receipts = new Map();
+let receiptAvailable = params.get('answer') !== 'lost';
+const operations = [];
 const transport = {
   mode: 'emulator',
   currentUid: () => 'simulation-uid',
@@ -71,7 +79,8 @@ const transport = {
   async post(operation, body) {
     if (operation === 'v1ServerTime') return { protocolVersion: 2, serverTimeMs: Date.now() };
     if (operation === 'v1Command') {
-      log.push({ at: Date.now() - started, command: body.command });
+      log.push({ at: Date.now() - started, commandId: body.commandId, command: body.command });
+      operations.push({ operation, commandId: body.commandId });
       const answer = params.get('answer') ?? 'accept';
       if (answer === 'hang') return new Promise(() => {});
       await new Promise(resolve => setTimeout(resolve, latency));
@@ -79,10 +88,14 @@ const transport = {
         ...(answer === 'reject' ? { status: 'rejected', code: 'NOT_ALLOWED' } : { status: 'accepted', code: 'REGISTERED' }) };
       receipts.set(body.commandId, receipt);
       // A move the desk accepts is public at once: the next view has the player in the room asked for.
-      if (answer !== 'reject' && body.command.type === 'MOVE') setTimeout(() => window.__simulation.move(body.command.destination), 60);
+      if (answer !== 'reject' && body.command.type === 'MOVE' && !params.has('hold-move')) setTimeout(() => window.__simulation.move(body.command.destination), 60);
+      if (answer === 'lost') return { ok: false, serverTimeMs: Date.now(), error: { code: 'UNAVAILABLE' } };
       return { ok: true, serverTimeMs: Date.now(), receipt };
     }
-    if (operation === 'v1Receipt' && receipts.has(body.commandId)) return { ok: true, serverTimeMs: Date.now(), receipt: receipts.get(body.commandId) };
+    if (operation === 'v1Receipt') {
+      operations.push({ operation, commandId: body.commandId });
+      if (receiptAvailable && receipts.has(body.commandId)) return { status: 'found', serverTimeMs: Date.now(), receipt: receipts.get(body.commandId) };
+    }
     return { ok: false, serverTimeMs: Date.now(), error: { code: 'UNAVAILABLE' } };
   },
   listenDocument(target, listener) {
@@ -101,17 +114,26 @@ const screen = display
 const feeds = createComicFeeds({ transport, ports, matchId: MATCH, ...(display ? {} : { seatId: self }) });
 const render = display ? renderComicTableShell : renderComicPlayerShell;
 await transport.signIn();
-mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: null }),
+const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: null }),
   subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => feeds.dispose() });
 feeds.start();
 if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce-motion', checked: true });
 
 window.__simulation = {
-  scenario: id, title: definition.title, log,
+  scenario: id, title: definition.title, log, operations,
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The same view again, as a fresh snapshot. */
   redeliver() { revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The view as a cache would serve it: not confirmed by the server. */
   stale() { publish(display ? 'public-view' : 'player-view', false); },
+  /** Resume the synthetic receipt desk. A capture may restore its recorded receipt after reload,
+   * into this desk's memory only; the actual client persists only reconciliation identifiers. */
+  recover(receipt = null) {
+    if (receipt !== null) { const checked = FullReceiptSchema.parse(receipt); receipts.set(checked.commandId, checked); }
+    receiptAvailable = true;
+  },
+  /** The synthetic desk's receipt, for a driver to hold outside the browser across reload. */
+  receipt() { return [...receipts.values()][0] ?? null; },
+  dispose() { unmount(); },
 };

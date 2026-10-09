@@ -184,6 +184,65 @@ test('a command on its way, being checked, unknown or accepted leaves nothing pr
   }
 });
 
+const NO_MARKS = { eligible: [], picked: [], numbered: false, pending: [], faint: false, move: null };
+for (const [paused, overrides] of [
+  ['stale', { connection: 'stale' }],
+  ['expired', { deadline: { kind: 'expired' } }],
+  ['untrusted clock', { deadline: { kind: 'unsynced' } }],
+]) {
+  test(`${paused}: an open in-flight or receipt strip keeps its state without marking the board`, () => {
+    const cases = SEAT_ACTIONS.map(([kind, change, offered]) => [change,
+      kind === 'supply' ? { kind, targetSeatIds: offered.slice(0, 2) }
+        : kind === 'code' ? { kind, seatIds: offered.slice(0, 4) }
+          : kind === 'scan' ? { kind, targetSeatId: offered[0], guess: 'Red' }
+            : { kind, targetSeatId: offered[0] }]);
+    cases.push([() => {}, { kind: 'move', destination: 'Room B' }]);
+    for (const [change, choice] of cases) {
+      for (const action of [
+        { step: 'submitting', choice },
+        { step: 'checking', choice, recovered: false },
+        { step: 'unknown', choice, recovered: false, phaseOver: false, armed: true },
+        { step: 'accepted', choice, armed: true },
+      ]) {
+        const label = `${choice.kind} ${action.step}`;
+        const original = structuredClone(action);
+        const current = model(playerView(change), action);
+        const held = model(playerView(change), action, overrides);
+        const card = held.match.privateArea.content.actions.card;
+        assert.equal(card.status, action.step, `${label}: recovery/receipt state remains`);
+        assert.deepEqual(card.body, current.match.privateArea.content.actions.card.body, `${label}: the strip keeps the same recovery controls and words`);
+        assert.deepEqual(card.board, NO_MARKS, `${label}: paused marks do not reach the renderer`);
+        const page = renderComicPlayerShell(held, { phoneView: 'actions' });
+        assert.doesNotMatch(board(page), /data-board-target|phone-character-target|phone-pick-order|phone-move-ghost/, label);
+        assert.match(strip(page), /class="[^\"]*\bphone-strip\b/, `${label}: the strip remains open`);
+        if (action.step === 'unknown') assert.match(strip(page), /id="ms-action-check" data-intent="action\/check-again"/, label);
+        assert.deepEqual(action, original, `${label}: drawing does not discard the command`);
+      }
+    }
+    for (const action of [
+      { step: 'checking', choice: null, recovered: true },
+      { step: 'unknown', choice: null, recovered: true, phaseOver: true, armed: true },
+    ]) {
+      const held = model(playerView(), action, overrides);
+      assert.deepEqual(held.match.privateArea.content.actions.card.board, NO_MARKS);
+      assert.equal(held.match.privateArea.content.actions.card.status, action.step, 'identifier-only reload recovery stays available');
+    }
+  });
+}
+
+test('an accepted Move awaiting its own view is unmarked while paused and settles only where the view places it', () => {
+  const action = { step: 'accepted', choice: { kind: 'move', destination: 'Room B' }, armed: true };
+  const draw = (view, overrides = {}) => board(renderComicPlayerShell(model(view, action, overrides), { phoneView: 'actions' }));
+  const waiting = playerView();
+  assert.match(draw(waiting), /phone-move-ghost/, 'a current running view may show the tentative place');
+  assert.doesNotMatch(draw(waiting, { connection: 'stale' }), /phone-move-ghost/);
+  assert.doesNotMatch(draw(waiting, { deadline: { kind: 'expired' } }), /phone-move-ghost/);
+  assert.match(draw(waiting), /phone-move-ghost/, 'a fresh running view restores only the held choice, without moving the piece');
+  const arrived = playerView(view => { view.seats[0].location = 'Room B'; view.self.movementDestinations = []; });
+  assert.doesNotMatch(draw(arrived), /phone-move-ghost/, 'the own authoritative location ends the ghost');
+  assert.equal(action.step, 'accepted');
+});
+
 test('the strip comes before the board in reading order, keeps the release\'s ids and nested regions, and puts its controls where the step needs them', () => {
   const [, shotChange] = SEAT_ACTIONS[0];
   const choosing = renderComicPlayerShell(model(playerView(shotChange), { step: 'choosing', kind: 'shot' }), { phoneView: 'actions' });

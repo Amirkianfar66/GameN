@@ -1,6 +1,8 @@
 # The board as the place the game is played (issue #87)
 
-Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87). This branch, `codex/frontend-board-motion`, was built from the Designer's head `e652bbf90f99b8aa616223c46f8ac8ff510cea03` (`codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88)) and rebased onto its newer head `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02`, which adds the full-body figure proposal and changes only `design/`, `docs/design/` and a design-tokens test. Its runtime parent is `94a49ce0c5220b814ec56333b028fbe6180b257e` ([PR #86](https://github.com/Amirkianfar66/GameN/pull/86)). Both PRs are unmerged. Protocol 2 is unchanged. New matches use engine `full-game-1.1.0` and ruleset `in-person-v1-pass-2026-10-08`. Legacy matches (`full-game-1.0.1`, `in-person-v1-2026-10-06`) keep working without Pass. Original Powers stay off. The design is a proposal that is **not owner-approved**: this is its runtime implementation, for integration review. It is not merged or deployed.
+Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87). This branch, `codex/frontend-board-motion`, was built from the Designer's head `e652bbf90f99b8aa616223c46f8ac8ff510cea03` (`codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88)) and rebased onto its newer head `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02`, which adds the full-body figure proposal and changes only `design/`, `docs/design/` and a design-tokens test. Its runtime parent is `94a49ce0c5220b814ec56333b028fbe6180b257e` ([PR #86](https://github.com/Amirkianfar66/GameN/pull/86)). Protocol 2 is unchanged. New matches use engine `full-game-1.1.0` and ruleset `in-person-v1-pass-2026-10-08`. Legacy matches (`full-game-1.0.1`, `in-person-v1-2026-10-06`) keep working without Pass. Original Powers stay off. The board interaction follows the owner's phone-first decisions; the proposed treatments, cues and assets listed below still need their specific reviews. Merge and release remain Integration's decisions.
+
+The Codex Frontend follow-up starts at the actual PR #92 head `aa007890c5bf8f4801bfb545c0f6da0426f7d6cd`. Its two consumer fixes and fresh evidence are in [board-recovery.md](board-recovery.md); the earlier evidence below remains a historical record.
 
 ## What changed for a player
 
@@ -44,11 +46,11 @@ Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87). This branch, `cod
 
 ## Privacy
 
-- **Marks exist only on the player's own open action.** Marks, press areas, picks and the tentative move live only in a card. A card exists only while the private panel is open in the foreground, or while the player's own Pass receipt is showing. A closed panel, a backgrounded page, a stale view, an expired deadline, or the Card or Menu view draws none of them. Tests check every action kind in each of those states. The shared display never receives them, and its board has no station attributes at all.
+- **Marks exist only on the player's own open action.** Marks, press areas, picks and the tentative move live only in a card. A card exists only while the private panel is open in the foreground, or while the player's own Pass receipt is showing. Board marks also require a current view and a trusted running deadline. A closed panel, a backgrounded page, a stale view, an expired or unsynchronized deadline, or the Card or Menu view draws none. The paused-state presentation matrix checks 11 seat-target actions and Move during submitting, checking, unknown and accepted states. Real-controller tests exercise pending Move and receipt-checking Rescue. The shared display never receives these marks, and its board has no station attributes at all.
 - **The stylesheet cannot draw a leaked mark.** Every rule that draws a private mark is scoped to `[data-board="own"]`, and `board-play-style.test.mjs` enforces it.
-- **The receipt is neutral.** Every accepted command gets the same status word and the release's receipt words. No effect, color, sound or vibration differs by action. Nothing is drawn on a target after a receipt. A shot or a Disable is never shown as a result.
+- **The receipt is neutral.** Every accepted command gets the same status word and the release's receipt words. No effect, color, sound or vibration differs by action. Nothing is drawn on a seat target after a receipt. An accepted Move may keep its tentative place only while the view is current, the deadline is running, and authoritative arrival is still awaited. A shot or a Disable is never shown as a result.
 - **Public cues come only from public facts.** They come from differences between two drawn public views: location, health, Jail, Captain, a revealed faction, the active seat, the round and the phase. They never come from a role, a receipt or an acknowledgment. A role word never reaches a cue, and a test checks this.
-- **A sent command is concealed too.** Backend's review of the handoff ([PR #90](https://github.com/Amirkianfar66/GameN/pull/90)) found that the prototype kept a sent command's pending marks on a hidden page. Here, hiding the page closes the private panel and removes every mark of the player's own command, whether it is being chosen, on its way, being checked or unknown. The controller keeps the command, asks about it again when the page returns, and shows it when the player opens Actions. Two tests check this: `board-play.test.mjs` covers every in-flight step for a Shot, Supply, a move and Pass, and `apps/game/test/board-hidden-page.test.mjs` runs the real controller with an answer that never comes and one that is lost.
+- **A sent command is concealed too.** Backend's review of the handoff ([PR #90](https://github.com/Amirkianfar66/GameN/pull/90)) found that the prototype kept a sent command's pending marks on a hidden page. Here, hiding the page closes the private panel and removes every mark of the player's own command. The controller retains command recovery while the page is hidden or the board is paused. Returning to the foreground requires clock resynchronization before marks can return; reopening Actions can still show the retained command and receipt controls. The original hidden-page tests remain, with dedicated stale/deadline tests and browser evidence added in the follow-up.
 - **Assets add nothing per action.** No sound or haptics are added. The flight copies the character's already-drawn picture, so no per-action asset is requested.
 - **Simulation checks.** In the simulation, the display had no private hook or role word in any step. In the emulator run, the display was checked at each step of the player's turn and vote. See [Verification](#verification).
 
@@ -76,6 +78,7 @@ The release's rules are all kept:
 - A cue starts only from a difference between two drawn public states. Nothing plays on a first or reconnected snapshot.
 - Four or fewer moves in one update fly; more do not.
 - Nothing plays when the page is hidden, more than a second late, or under reduced motion. Reduced motion is the device setting or the in-app one. With it, nothing flies, lifts or shakes, and arrivals, stamps and status changes use the 80 ms fade.
+- Changing either reduced-motion preference during a flight immediately cancels the director's native animations and timers, removes trails and puffs, and reveals the authoritative piece. This happens before the unchanged-public-facts return. The same facts never replay when the preference returns to full motion; a later public move still works.
 - A newer change to a seat cancels that seat's cue in flight.
 - Nothing is queued or repeats, and nothing waits for an animation.
 
@@ -106,9 +109,9 @@ The choosing hint keeps the release's line "Shot · Tap a character". Its action
 | Showdown | Only the Final Zone is drawn, as the Designer proposes. Eliminated players stay in the readable list (Menu). | The engine moves only the living to the Final Zone. |
 | Rows for six in a room | 2 rows. | The handoff's prose says 3; the Designer's `rowsFor` code, which is followed here, gives 2. |
 
-## Verification
+## Historical verification before the consumer follow-up
 
-Commands ran on Node 22.21.1 / npm 10.9.4. Three kinds of evidence are kept separate.
+The following records describe the original PR #92 implementation through `aa007890`, before the stale/deadline and mid-flight preference fixes. They do not verify those fixes. Fresh checks are recorded in [board-recovery.md](board-recovery.md). Commands ran on Node 22.21.1 / npm 10.9.4. Three kinds of evidence are kept separate.
 
 **Unit and package checks** (at the committed head; results in the PR):
 
@@ -173,13 +176,13 @@ This is local emulator evidence, not a deployment. It was captured on the runtim
 | Item | Owner |
 | --- | --- |
 | PR #86 (runtime parent) and PR #88 (design) are unmerged; this PR targets `codex/designer-board-motion` | Integration |
-| DSN-D20: does the board-as-game layout replace the release's board-plus-list layout on phones? | Game owner |
+| Board interaction follows the owner's compact-phone and room-tag decisions. Adoption of the remaining proposed design treatments remains gated by their own entries below. | Integration |
 | DSN-D27: at most five per room is drawing only, with no capacity (the crowd formation handles six to nine) | Game owner with Balance |
 | DSN-D28: no corridor arrows or adjacency; the spine has lamps only | Game owner |
 | DSN-D29: room subtitles (not implemented) | Game owner |
 | DSN-D30: the prop layers and a manifest revision (not loaded here) | Integration |
 | DSN-D31: the proposed cues listed above, and the "You?" word | Game owner / Designer |
-| Fact-to-cue mapping review: Backend's review is draft [PR #90](https://github.com/Amirkianfar66/GameN/pull/90). It needs no new server fact or audience. Its two adoption findings are handled here: a sent command's marks on a hidden page, and fixture eligibility in this branch's own simulation scenarios. | Backend (unmerged) |
+| Fact-to-cue mapping review: [PR #90](https://github.com/Amirkianfar66/GameN/pull/90), reviewed at `7f921f4ee05958834532a36d37b72541237fd9e0`. It needs no new server fact or audience. The consumer follow-up addresses its stale/deadline marks and mid-flight reduced-motion findings; Designer fixture findings remain Designer's work. | Backend review / Integration adoption |
 | `check:v1-phone` quotes that commit `983d3ec` reworded | Designer |
 | DSN-D32: the full-body figures (`board-motion-0.2.0`, added at `ef4c2ee`) are outside the reviewed manifest. The runtime still draws the approved standees. Adopting them needs an export revision first; drawing them is then Frontend's work. | Integration, then Frontend |
 | DSN-D33: a figure's pose changes with public facts, while the crew catalog says a character never changes | Game owner with Integration |

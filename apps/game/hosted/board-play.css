@@ -36,11 +36,18 @@
   min-height: 0;
   margin: 2px 6px 0;
   overflow: hidden;
+  flex-wrap: nowrap;
 }
+#app .ms-shell--player[data-screen="match"] .ms-phase__labels { flex: 1 1 0; }
 #app .ms-shell--player[data-screen="match"] :is(.ms-private[data-open="true"]:not(.phone-action-dock), .phone-menu) { margin-inline: 6px; }
 /* The timer's line is as tall as its digits, so the fixed bar never clips it. */
 #app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer { align-self: center; padding-block: 2px; }
 #app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer__value { font-size: 1.4rem; line-height: 1.15; }
+/* The expired timer adds a waiting note. Beside the digits it fits the same bar,
+   including the 44 px short-phone bar, without hiding that authoritative-state notice. */
+#app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer[data-state="expired"] { display: flex; align-items: center; gap: 6px; }
+#app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer[data-state="expired"] .ms-timer__value { flex: none; }
+#app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer[data-state="expired"] .ms-timer__note { line-height: 1.2; }
 
 /* ---------- one comic page: Command Room across the top; Room A, Room B; Hospital, Jail ---------- */
 #app .ms-shell--player .ms-board[data-board="own"] > .ms-zones {
@@ -768,6 +775,10 @@
      them so it takes as little of the board as it can; the board scrolls inside itself. */
   #app .ms-shell--player[data-screen="match"] .ms-phase { height: auto; min-height: 44px; flex-wrap: nowrap; }
   #app .ms-shell--player[data-screen="match"] .ms-phase__labels { flex: 1 1 0; }
+  /* At enlarged text the waiting note goes below the digits, leaving real width for
+     the phase words. Both remain readable while the board scrolls inside its own row. */
+  #app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer[data-state="expired"] { display: block; flex: none; width: 4rem; }
+  #app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer[data-state="expired"] .ms-timer__note { max-width: 100%; }
   /* Pass keeps its word inside the round button: its icon makes way, and the word is as large
      as the button allows. */
   #app .ms-shell--player .phone-nav .phone-pass { padding: 0; font-size: 0.625rem; }

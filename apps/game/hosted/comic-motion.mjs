@@ -167,11 +167,14 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
       if (next === null || document.visibilityState !== 'visible') { previous = null; cancelAll(); return []; }
       const changes = publicChanges(previous, next);
       previous = next;
+      const reduced = reducedMotion(model);
+      // A preference switch must settle owned flights, trails and reflow even when the
+      // public facts did not change. CSS suppression alone leaves the real piece hidden.
+      if (reduced) cancelAll();
       // A redraw that replaced a piece in flight keeps the new element hidden until the flight ends.
       for (const [seat, owned] of running) if (owned.moving) { const piece = pieceOf(seat); if (piece) piece.dataset.moving = ''; }
       const played = [];
       if (changes.moved.length === 0 && changes.status.length === 0 && changes.active === null && changes.phase === null) return played;
-      const reduced = reducedMotion(model);
       // A main thread busy for more than a second plays no old visual: the authoritative piece is already in place.
       const late = now() - before.at > LATE_MS;
       const after = rects();
