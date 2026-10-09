@@ -1,8 +1,8 @@
 {
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/v1-phone-capture.mjs",
-  "inputsSha256": "bf69093f7c9ce76b415c805c45c38a62c062e48806cee2a5b6ca11ef5c17c624",
-  "browser": "Chromium 141.0.7390.37",
+  "inputsSha256": "db38dc00053e2a4b92b4f134ee676c33d377ef19345c6abbc063a4937c892eed",
+  "browser": "Google Chrome 155.0.8059.39",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Not a device measurement.",
   "matrix": [
     {
@@ -82,8 +82,8 @@
       "about": "Keyboard up (390 x 450 left): room code field focused"
     },
     {
-      "id": "keyboard-name",
-      "about": "Keyboard up (390 x 450 left): name field focused"
+      "id": "keyboard-recovery",
+      "about": "Keyboard up (390 x 450 left): recovery identifier focused"
     },
     {
       "id": "reduced-motion-reveal",
@@ -169,21 +169,6 @@
     {
       "row": "04-cue-registration",
       "cue": "cue-registration",
-      "title": "Ready is stamped on the card back",
-      "state": "reveal.ready-early",
-      "selector": ".j-cardslot",
-      "only": ".j-rolecard__stamp",
-      "frames": [
-        0,
-        60,
-        120
-      ],
-      "token": "motion.registrationStamp 120 ms",
-      "trigger": "The server accepts this seat’s Ready (the answer to its own request)."
-    },
-    {
-      "row": "05-cue-registration",
-      "cue": "cue-registration",
       "title": "A command is registered: stamp in the private card",
       "state": "game.registered",
       "selector": ".j-card",
@@ -197,7 +182,7 @@
       "trigger": "The server’s receipt accepts this seat’s command. Never a public cue."
     },
     {
-      "row": "06-cue-sheet-open",
+      "row": "05-cue-sheet-open",
       "cue": "cue-sheet-open",
       "title": "The private card opens",
       "state": "game.private-open",
@@ -213,7 +198,7 @@
       "proposal": true
     },
     {
-      "row": "07-cue-public-move",
+      "row": "06-cue-public-move",
       "cue": "cue-public-move",
       "title": "A piece is carried to its new room",
       "state": "game.move-accepted",
@@ -230,7 +215,7 @@
       "trigger": "A public location change in the view (PUBLIC_MOVE); the same on every screen."
     },
     {
-      "row": "08-cue-phase-change",
+      "row": "07-cue-phase-change",
       "cue": "cue-phase-change",
       "title": "A new phase: the words slide in",
       "state": "phase.jail-vote",
@@ -245,7 +230,7 @@
       "trigger": "The view reports a new phase (PHASE_CHANGED)."
     },
     {
-      "row": "09-cue-round-transition",
+      "row": "08-cue-round-transition",
       "cue": "cue-round-transition",
       "title": "A new round: the ink band sweeps under the strip",
       "state": "phase.resolution",
@@ -261,7 +246,7 @@
       "trigger": "The view reports a new round."
     },
     {
-      "row": "10-cue-request-arrives",
+      "row": "09-cue-request-arrives",
       "cue": "cue-request-arrives",
       "title": "Host: a request to join drops in",
       "state": "host.requests",
@@ -277,7 +262,7 @@
       "proposal": true
     },
     {
-      "row": "11-cue-choice-taken",
+      "row": "10-cue-choice-taken",
       "cue": "cue-choice-taken",
       "title": "Selection: the character was just taken",
       "state": "select.conflict",
@@ -294,7 +279,7 @@
       "proposal": true
     },
     {
-      "row": "12-cue-result-cover",
+      "row": "11-cue-result-cover",
       "cue": "cue-result-cover",
       "title": "The result arrives as a comic cover",
       "state": "end.winner",
@@ -781,9 +766,9 @@
       "matrix": false
     },
     {
-      "id": "select.name-taken",
-      "state": "select.name-taken",
-      "file": "design/v1-phone/review/states/select.name-taken.png",
+      "id": "select.unavailable",
+      "state": "select.unavailable",
+      "file": "design/v1-phone/review/states/select.unavailable.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -1793,7 +1778,7 @@
       "state": "game.readable",
       "file": "design/v1-phone/review/matrix/text200-game-readable.png",
       "width": 390,
-      "height": 3695,
+      "height": 3618,
       "viewport": "390x844",
       "fontPx": 32,
       "names": null,
@@ -1849,9 +1834,9 @@
       "matrix": true
     },
     {
-      "id": "keyboard-name",
-      "state": "select.picked",
-      "file": "design/v1-phone/review/matrix/keyboard-name.png",
+      "id": "keyboard-recovery",
+      "state": "join.recover",
+      "file": "design/v1-phone/review/matrix/keyboard-recovery.png",
       "width": 390,
       "height": 450,
       "viewport": "390x450",
@@ -2119,7 +2104,7 @@
       "state": "reveal.revealed",
       "file": "design/v1-phone/review/motion/03-cue-role-card-turn-0ms.png",
       "width": 378,
-      "height": 539,
+      "height": 351,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2136,7 +2121,7 @@
       "state": "reveal.revealed",
       "file": "design/v1-phone/review/motion/03-cue-role-card-turn-225ms.png",
       "width": 378,
-      "height": 539,
+      "height": 351,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2153,7 +2138,7 @@
       "state": "reveal.revealed",
       "file": "design/v1-phone/review/motion/03-cue-role-card-turn-450ms.png",
       "width": 378,
-      "height": 539,
+      "height": 351,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2170,7 +2155,7 @@
       "state": "reveal.revealed",
       "file": "design/v1-phone/review/motion/03-cue-role-card-turn-675ms.png",
       "width": 378,
-      "height": 539,
+      "height": 351,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2187,7 +2172,7 @@
       "state": "reveal.revealed",
       "file": "design/v1-phone/review/motion/03-cue-role-card-turn-900ms.png",
       "width": 378,
-      "height": 539,
+      "height": 351,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2204,7 +2189,7 @@
       "state": "reveal.revealed",
       "file": "design/v1-phone/review/motion/03-cue-role-card-turn-reduced.png",
       "width": 378,
-      "height": 539,
+      "height": 351,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2218,10 +2203,10 @@
     },
     {
       "id": "04-cue-registration-0",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "file": "design/v1-phone/review/motion/04-cue-registration-0ms.png",
-      "width": 378,
-      "height": 210,
+      "width": 370,
+      "height": 224,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2235,10 +2220,10 @@
     },
     {
       "id": "04-cue-registration-60",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "file": "design/v1-phone/review/motion/04-cue-registration-60ms.png",
-      "width": 378,
-      "height": 210,
+      "width": 370,
+      "height": 224,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2252,10 +2237,10 @@
     },
     {
       "id": "04-cue-registration-120",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "file": "design/v1-phone/review/motion/04-cue-registration-120ms.png",
-      "width": 378,
-      "height": 210,
+      "width": 370,
+      "height": 224,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2269,10 +2254,10 @@
     },
     {
       "id": "04-cue-registration-reduced",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "file": "design/v1-phone/review/motion/04-cue-registration-reduced.png",
-      "width": 378,
-      "height": 210,
+      "width": 370,
+      "height": 224,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2285,77 +2270,9 @@
       }
     },
     {
-      "id": "05-cue-registration-0",
-      "state": "game.registered",
-      "file": "design/v1-phone/review/motion/05-cue-registration-0ms.png",
-      "width": 370,
-      "height": 224,
-      "viewport": "390x844",
-      "fontPx": null,
-      "names": null,
-      "motion": null,
-      "matrix": false,
-      "frame": {
-        "row": "05-cue-registration",
-        "cue": "cue-registration",
-        "at": 0
-      }
-    },
-    {
-      "id": "05-cue-registration-60",
-      "state": "game.registered",
-      "file": "design/v1-phone/review/motion/05-cue-registration-60ms.png",
-      "width": 370,
-      "height": 224,
-      "viewport": "390x844",
-      "fontPx": null,
-      "names": null,
-      "motion": null,
-      "matrix": false,
-      "frame": {
-        "row": "05-cue-registration",
-        "cue": "cue-registration",
-        "at": 60
-      }
-    },
-    {
-      "id": "05-cue-registration-120",
-      "state": "game.registered",
-      "file": "design/v1-phone/review/motion/05-cue-registration-120ms.png",
-      "width": 370,
-      "height": 224,
-      "viewport": "390x844",
-      "fontPx": null,
-      "names": null,
-      "motion": null,
-      "matrix": false,
-      "frame": {
-        "row": "05-cue-registration",
-        "cue": "cue-registration",
-        "at": 120
-      }
-    },
-    {
-      "id": "05-cue-registration-reduced",
-      "state": "game.registered",
-      "file": "design/v1-phone/review/motion/05-cue-registration-reduced.png",
-      "width": 370,
-      "height": 224,
-      "viewport": "390x844",
-      "fontPx": null,
-      "names": null,
-      "motion": "reduced",
-      "matrix": false,
-      "frame": {
-        "row": "05-cue-registration",
-        "cue": "cue-registration",
-        "at": "reduced"
-      }
-    },
-    {
-      "id": "06-cue-sheet-open-0",
+      "id": "05-cue-sheet-open-0",
       "state": "game.private-open",
-      "file": "design/v1-phone/review/motion/06-cue-sheet-open-0ms.png",
+      "file": "design/v1-phone/review/motion/05-cue-sheet-open-0ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2364,15 +2281,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "06-cue-sheet-open",
+        "row": "05-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": 0
       }
     },
     {
-      "id": "06-cue-sheet-open-110",
+      "id": "05-cue-sheet-open-110",
       "state": "game.private-open",
-      "file": "design/v1-phone/review/motion/06-cue-sheet-open-110ms.png",
+      "file": "design/v1-phone/review/motion/05-cue-sheet-open-110ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2381,15 +2298,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "06-cue-sheet-open",
+        "row": "05-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": 110
       }
     },
     {
-      "id": "06-cue-sheet-open-220",
+      "id": "05-cue-sheet-open-220",
       "state": "game.private-open",
-      "file": "design/v1-phone/review/motion/06-cue-sheet-open-220ms.png",
+      "file": "design/v1-phone/review/motion/05-cue-sheet-open-220ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2398,15 +2315,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "06-cue-sheet-open",
+        "row": "05-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": 220
       }
     },
     {
-      "id": "06-cue-sheet-open-reduced",
+      "id": "05-cue-sheet-open-reduced",
       "state": "game.private-open",
-      "file": "design/v1-phone/review/motion/06-cue-sheet-open-reduced.png",
+      "file": "design/v1-phone/review/motion/05-cue-sheet-open-reduced.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2415,15 +2332,15 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "06-cue-sheet-open",
+        "row": "05-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": "reduced"
       }
     },
     {
-      "id": "07-cue-public-move-0",
+      "id": "06-cue-public-move-0",
       "state": "game.move-accepted",
-      "file": "design/v1-phone/review/motion/07-cue-public-move-0ms.png",
+      "file": "design/v1-phone/review/motion/06-cue-public-move-0ms.png",
       "width": 378,
       "height": 569,
       "viewport": "390x844",
@@ -2432,15 +2349,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "07-cue-public-move",
+        "row": "06-cue-public-move",
         "cue": "cue-public-move",
         "at": 0
       }
     },
     {
-      "id": "07-cue-public-move-225",
+      "id": "06-cue-public-move-225",
       "state": "game.move-accepted",
-      "file": "design/v1-phone/review/motion/07-cue-public-move-225ms.png",
+      "file": "design/v1-phone/review/motion/06-cue-public-move-225ms.png",
       "width": 378,
       "height": 569,
       "viewport": "390x844",
@@ -2449,15 +2366,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "07-cue-public-move",
+        "row": "06-cue-public-move",
         "cue": "cue-public-move",
         "at": 225
       }
     },
     {
-      "id": "07-cue-public-move-450",
+      "id": "06-cue-public-move-450",
       "state": "game.move-accepted",
-      "file": "design/v1-phone/review/motion/07-cue-public-move-450ms.png",
+      "file": "design/v1-phone/review/motion/06-cue-public-move-450ms.png",
       "width": 378,
       "height": 569,
       "viewport": "390x844",
@@ -2466,15 +2383,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "07-cue-public-move",
+        "row": "06-cue-public-move",
         "cue": "cue-public-move",
         "at": 450
       }
     },
     {
-      "id": "07-cue-public-move-780",
+      "id": "06-cue-public-move-780",
       "state": "game.move-accepted",
-      "file": "design/v1-phone/review/motion/07-cue-public-move-780ms.png",
+      "file": "design/v1-phone/review/motion/06-cue-public-move-780ms.png",
       "width": 378,
       "height": 569,
       "viewport": "390x844",
@@ -2483,15 +2400,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "07-cue-public-move",
+        "row": "06-cue-public-move",
         "cue": "cue-public-move",
         "at": 780
       }
     },
     {
-      "id": "07-cue-public-move-900",
+      "id": "06-cue-public-move-900",
       "state": "game.move-accepted",
-      "file": "design/v1-phone/review/motion/07-cue-public-move-900ms.png",
+      "file": "design/v1-phone/review/motion/06-cue-public-move-900ms.png",
       "width": 378,
       "height": 569,
       "viewport": "390x844",
@@ -2500,15 +2417,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "07-cue-public-move",
+        "row": "06-cue-public-move",
         "cue": "cue-public-move",
         "at": 900
       }
     },
     {
-      "id": "07-cue-public-move-reduced",
+      "id": "06-cue-public-move-reduced",
       "state": "game.move-accepted",
-      "file": "design/v1-phone/review/motion/07-cue-public-move-reduced.png",
+      "file": "design/v1-phone/review/motion/06-cue-public-move-reduced.png",
       "width": 378,
       "height": 569,
       "viewport": "390x844",
@@ -2517,15 +2434,15 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "07-cue-public-move",
+        "row": "06-cue-public-move",
         "cue": "cue-public-move",
         "at": "reduced"
       }
     },
     {
-      "id": "08-cue-phase-change-0",
+      "id": "07-cue-phase-change-0",
       "state": "phase.jail-vote",
-      "file": "design/v1-phone/review/motion/08-cue-phase-change-0ms.png",
+      "file": "design/v1-phone/review/motion/07-cue-phase-change-0ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2534,15 +2451,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "08-cue-phase-change",
+        "row": "07-cue-phase-change",
         "cue": "cue-phase-change",
         "at": 0
       }
     },
     {
-      "id": "08-cue-phase-change-110",
+      "id": "07-cue-phase-change-110",
       "state": "phase.jail-vote",
-      "file": "design/v1-phone/review/motion/08-cue-phase-change-110ms.png",
+      "file": "design/v1-phone/review/motion/07-cue-phase-change-110ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2551,15 +2468,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "08-cue-phase-change",
+        "row": "07-cue-phase-change",
         "cue": "cue-phase-change",
         "at": 110
       }
     },
     {
-      "id": "08-cue-phase-change-220",
+      "id": "07-cue-phase-change-220",
       "state": "phase.jail-vote",
-      "file": "design/v1-phone/review/motion/08-cue-phase-change-220ms.png",
+      "file": "design/v1-phone/review/motion/07-cue-phase-change-220ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2568,15 +2485,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "08-cue-phase-change",
+        "row": "07-cue-phase-change",
         "cue": "cue-phase-change",
         "at": 220
       }
     },
     {
-      "id": "08-cue-phase-change-reduced",
+      "id": "07-cue-phase-change-reduced",
       "state": "phase.jail-vote",
-      "file": "design/v1-phone/review/motion/08-cue-phase-change-reduced.png",
+      "file": "design/v1-phone/review/motion/07-cue-phase-change-reduced.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2585,15 +2502,15 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "08-cue-phase-change",
+        "row": "07-cue-phase-change",
         "cue": "cue-phase-change",
         "at": "reduced"
       }
     },
     {
-      "id": "09-cue-round-transition-0",
+      "id": "08-cue-round-transition-0",
       "state": "phase.resolution",
-      "file": "design/v1-phone/review/motion/09-cue-round-transition-0ms.png",
+      "file": "design/v1-phone/review/motion/08-cue-round-transition-0ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2602,15 +2519,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "09-cue-round-transition",
+        "row": "08-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 0
       }
     },
     {
-      "id": "09-cue-round-transition-230",
+      "id": "08-cue-round-transition-230",
       "state": "phase.resolution",
-      "file": "design/v1-phone/review/motion/09-cue-round-transition-230ms.png",
+      "file": "design/v1-phone/review/motion/08-cue-round-transition-230ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2619,15 +2536,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "09-cue-round-transition",
+        "row": "08-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 230
       }
     },
     {
-      "id": "09-cue-round-transition-470",
+      "id": "08-cue-round-transition-470",
       "state": "phase.resolution",
-      "file": "design/v1-phone/review/motion/09-cue-round-transition-470ms.png",
+      "file": "design/v1-phone/review/motion/08-cue-round-transition-470ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2636,15 +2553,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "09-cue-round-transition",
+        "row": "08-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 470
       }
     },
     {
-      "id": "09-cue-round-transition-700",
+      "id": "08-cue-round-transition-700",
       "state": "phase.resolution",
-      "file": "design/v1-phone/review/motion/09-cue-round-transition-700ms.png",
+      "file": "design/v1-phone/review/motion/08-cue-round-transition-700ms.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2653,15 +2570,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "09-cue-round-transition",
+        "row": "08-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 700
       }
     },
     {
-      "id": "09-cue-round-transition-reduced",
+      "id": "08-cue-round-transition-reduced",
       "state": "phase.resolution",
-      "file": "design/v1-phone/review/motion/09-cue-round-transition-reduced.png",
+      "file": "design/v1-phone/review/motion/08-cue-round-transition-reduced.png",
       "width": 410,
       "height": 90,
       "viewport": "390x844",
@@ -2670,15 +2587,15 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "09-cue-round-transition",
+        "row": "08-cue-round-transition",
         "cue": "cue-round-transition",
         "at": "reduced"
       }
     },
     {
-      "id": "10-cue-request-arrives-0",
+      "id": "09-cue-request-arrives-0",
       "state": "host.requests",
-      "file": "design/v1-phone/review/motion/10-cue-request-arrives-0ms.png",
+      "file": "design/v1-phone/review/motion/09-cue-request-arrives-0ms.png",
       "width": 378,
       "height": 313,
       "viewport": "390x844",
@@ -2687,15 +2604,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "10-cue-request-arrives",
+        "row": "09-cue-request-arrives",
         "cue": "cue-request-arrives",
         "at": 0
       }
     },
     {
-      "id": "10-cue-request-arrives-110",
+      "id": "09-cue-request-arrives-110",
       "state": "host.requests",
-      "file": "design/v1-phone/review/motion/10-cue-request-arrives-110ms.png",
+      "file": "design/v1-phone/review/motion/09-cue-request-arrives-110ms.png",
       "width": 378,
       "height": 313,
       "viewport": "390x844",
@@ -2704,15 +2621,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "10-cue-request-arrives",
+        "row": "09-cue-request-arrives",
         "cue": "cue-request-arrives",
         "at": 110
       }
     },
     {
-      "id": "10-cue-request-arrives-220",
+      "id": "09-cue-request-arrives-220",
       "state": "host.requests",
-      "file": "design/v1-phone/review/motion/10-cue-request-arrives-220ms.png",
+      "file": "design/v1-phone/review/motion/09-cue-request-arrives-220ms.png",
       "width": 378,
       "height": 313,
       "viewport": "390x844",
@@ -2721,15 +2638,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "10-cue-request-arrives",
+        "row": "09-cue-request-arrives",
         "cue": "cue-request-arrives",
         "at": 220
       }
     },
     {
-      "id": "10-cue-request-arrives-reduced",
+      "id": "09-cue-request-arrives-reduced",
       "state": "host.requests",
-      "file": "design/v1-phone/review/motion/10-cue-request-arrives-reduced.png",
+      "file": "design/v1-phone/review/motion/09-cue-request-arrives-reduced.png",
       "width": 378,
       "height": 313,
       "viewport": "390x844",
@@ -2738,15 +2655,15 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "10-cue-request-arrives",
+        "row": "09-cue-request-arrives",
         "cue": "cue-request-arrives",
         "at": "reduced"
       }
     },
     {
-      "id": "11-cue-choice-taken-0",
+      "id": "10-cue-choice-taken-0",
       "state": "select.conflict",
-      "file": "design/v1-phone/review/motion/11-cue-choice-taken-0ms.png",
+      "file": "design/v1-phone/review/motion/10-cue-choice-taken-0ms.png",
       "width": 378,
       "height": 391,
       "viewport": "390x844",
@@ -2755,15 +2672,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "11-cue-choice-taken",
+        "row": "10-cue-choice-taken",
         "cue": "cue-choice-taken",
         "at": 0
       }
     },
     {
-      "id": "11-cue-choice-taken-70",
+      "id": "10-cue-choice-taken-70",
       "state": "select.conflict",
-      "file": "design/v1-phone/review/motion/11-cue-choice-taken-70ms.png",
+      "file": "design/v1-phone/review/motion/10-cue-choice-taken-70ms.png",
       "width": 378,
       "height": 391,
       "viewport": "390x844",
@@ -2772,15 +2689,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "11-cue-choice-taken",
+        "row": "10-cue-choice-taken",
         "cue": "cue-choice-taken",
         "at": 70
       }
     },
     {
-      "id": "11-cue-choice-taken-140",
+      "id": "10-cue-choice-taken-140",
       "state": "select.conflict",
-      "file": "design/v1-phone/review/motion/11-cue-choice-taken-140ms.png",
+      "file": "design/v1-phone/review/motion/10-cue-choice-taken-140ms.png",
       "width": 378,
       "height": 391,
       "viewport": "390x844",
@@ -2789,15 +2706,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "11-cue-choice-taken",
+        "row": "10-cue-choice-taken",
         "cue": "cue-choice-taken",
         "at": 140
       }
     },
     {
-      "id": "11-cue-choice-taken-220",
+      "id": "10-cue-choice-taken-220",
       "state": "select.conflict",
-      "file": "design/v1-phone/review/motion/11-cue-choice-taken-220ms.png",
+      "file": "design/v1-phone/review/motion/10-cue-choice-taken-220ms.png",
       "width": 378,
       "height": 391,
       "viewport": "390x844",
@@ -2806,15 +2723,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "11-cue-choice-taken",
+        "row": "10-cue-choice-taken",
         "cue": "cue-choice-taken",
         "at": 220
       }
     },
     {
-      "id": "11-cue-choice-taken-reduced",
+      "id": "10-cue-choice-taken-reduced",
       "state": "select.conflict",
-      "file": "design/v1-phone/review/motion/11-cue-choice-taken-reduced.png",
+      "file": "design/v1-phone/review/motion/10-cue-choice-taken-reduced.png",
       "width": 378,
       "height": 391,
       "viewport": "390x844",
@@ -2823,15 +2740,15 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "11-cue-choice-taken",
+        "row": "10-cue-choice-taken",
         "cue": "cue-choice-taken",
         "at": "reduced"
       }
     },
     {
-      "id": "12-cue-result-cover-0",
+      "id": "11-cue-result-cover-0",
       "state": "end.winner",
-      "file": "design/v1-phone/review/motion/12-cue-result-cover-0ms.png",
+      "file": "design/v1-phone/review/motion/11-cue-result-cover-0ms.png",
       "width": 359,
       "height": 144,
       "viewport": "390x844",
@@ -2840,15 +2757,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "12-cue-result-cover",
+        "row": "11-cue-result-cover",
         "cue": "cue-result-cover",
         "at": 0
       }
     },
     {
-      "id": "12-cue-result-cover-300",
+      "id": "11-cue-result-cover-300",
       "state": "end.winner",
-      "file": "design/v1-phone/review/motion/12-cue-result-cover-300ms.png",
+      "file": "design/v1-phone/review/motion/11-cue-result-cover-300ms.png",
       "width": 375,
       "height": 145,
       "viewport": "390x844",
@@ -2857,15 +2774,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "12-cue-result-cover",
+        "row": "11-cue-result-cover",
         "cue": "cue-result-cover",
         "at": 300
       }
     },
     {
-      "id": "12-cue-result-cover-600",
+      "id": "11-cue-result-cover-600",
       "state": "end.winner",
-      "file": "design/v1-phone/review/motion/12-cue-result-cover-600ms.png",
+      "file": "design/v1-phone/review/motion/11-cue-result-cover-600ms.png",
       "width": 378,
       "height": 145,
       "viewport": "390x844",
@@ -2874,15 +2791,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "12-cue-result-cover",
+        "row": "11-cue-result-cover",
         "cue": "cue-result-cover",
         "at": 600
       }
     },
     {
-      "id": "12-cue-result-cover-900",
+      "id": "11-cue-result-cover-900",
       "state": "end.winner",
-      "file": "design/v1-phone/review/motion/12-cue-result-cover-900ms.png",
+      "file": "design/v1-phone/review/motion/11-cue-result-cover-900ms.png",
       "width": 378,
       "height": 145,
       "viewport": "390x844",
@@ -2891,15 +2808,15 @@
       "motion": null,
       "matrix": false,
       "frame": {
-        "row": "12-cue-result-cover",
+        "row": "11-cue-result-cover",
         "cue": "cue-result-cover",
         "at": 900
       }
     },
     {
-      "id": "12-cue-result-cover-reduced",
+      "id": "11-cue-result-cover-reduced",
       "state": "end.winner",
-      "file": "design/v1-phone/review/motion/12-cue-result-cover-reduced.png",
+      "file": "design/v1-phone/review/motion/11-cue-result-cover-reduced.png",
       "width": 378,
       "height": 145,
       "viewport": "390x844",
@@ -2908,7 +2825,7 @@
       "motion": "reduced",
       "matrix": false,
       "frame": {
-        "row": "12-cue-result-cover",
+        "row": "11-cue-result-cover",
         "cue": "cue-result-cover",
         "at": "reduced"
       }
@@ -2918,7 +2835,7 @@
       "state": null,
       "file": "design/v1-phone/review/contact-priority.png",
       "width": 1600,
-      "height": 5396,
+      "height": 5480,
       "viewport": "1600",
       "contact": true
     },
@@ -2927,7 +2844,7 @@
       "state": null,
       "file": "design/v1-phone/review/contact-all.png",
       "width": 1600,
-      "height": 6180,
+      "height": 6200,
       "viewport": "1600",
       "contact": true
     },
@@ -2936,7 +2853,7 @@
       "state": null,
       "file": "design/v1-phone/review/contact-matrix.png",
       "width": 1600,
-      "height": 3323,
+      "height": 3288,
       "viewport": "1600",
       "contact": true
     },
@@ -2945,7 +2862,7 @@
       "state": null,
       "file": "design/v1-phone/review/contact-motion.png",
       "width": 1600,
-      "height": 4107,
+      "height": 3697,
       "viewport": "1600",
       "contact": true
     }

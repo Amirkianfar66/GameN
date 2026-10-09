@@ -6,6 +6,8 @@ A working, navigable prototype of the phone-first V1 journey: host, joining, cha
 
 The design, the reasoning and the handoff are in [docs/design/v1-phone-journey.md](../../docs/design/v1-phone-journey.md), [v1-phone-inventory.md](../../docs/design/v1-phone-inventory.md) and [v1-phone-handoff.md](../../docs/design/v1-phone-handoff.md).
 
+Setup and join examples were refreshed on 9 October from source `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02` under the compact-phone and random-starting-rooms decisions. The original base remains historical. Retired examples are recorded in the inventory; current evidence is [v1-phone-copy-refresh.md](../../docs/design/v1-phone-copy-refresh.md). The older main-game layout remains a study; current board direction is in the board-motion handoff.
+
 ![The five priority screens and key states](review/contact-priority.png)
 
 ## Open it
@@ -24,13 +26,13 @@ npm run dev:review --workspace @mothership/design-tokens   # serves design/ on h
 
 On a state, **◀ ▶** walk the journey in order, **Journey** returns to the index and **Notes** shows the state's data source, what the pinned release already does, and the gap. The navigator is the prototype's own and not part of the design.
 
-The buttons work: pick a character and type a name, Confirm; Reveal, Hide, Ready; open the Private card, choose where to move (on the board or in the list), choose a target, confirm, see it registered; vote; end a match in two presses. A countdown runs on the device's clock and, at zero, only changes its words: as in the release, only the server ends a window.
+The buttons work: tap a character to confirm, Retry selection; tap the role card to Reveal/Hide, Ready and Retry Ready; open the Private card, choose where to move (on the board or in the list), choose a target, confirm, see it registered; vote; end a match in two presses. A countdown runs on the device's clock and, at zero, only changes its words: as in the release, only the server ends a window.
 
 ## What is in it
 
 | Path | What it is |
 | --- | --- |
-| `index.html`, `js/app.js` | The router, the reviewer's navigator, countdowns, the local flows (pick → confirm → sending → result) and `?t=` holds |
+| `index.html`, `js/app.js` | The router, the reviewer's navigator, countdowns, the local flows (tile tap → submitting → confirmed; action choice → sending → result) and `?t=` holds |
 | `js/screens.js` | One function per view; the shared parts (masthead, caption, timer, dock, board, piece, private card, action card) |
 | `js/fixtures.js` | The synthetic fixtures, one per state id, and the release's own words quoted with the file they come from (`RELEASE_COPY`, `ROLE_GUIDE`) |
 | `js/h.js` | A DOM helper that sets text as text |
