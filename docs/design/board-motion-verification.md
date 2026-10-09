@@ -1,5 +1,7 @@
 # Verification of the board motion work
 
+The fresh replacement-worker correction results on 9 October 2026 are in [board-motion-corrections.md](board-motion-corrections.md). The record below preserves the earlier Claude run and its environment; its historical offer/lifecycle claims are superseded by that correction record.
+
 Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87) · branch `codex/designer-board-motion` · design base `94a49ce0c5220b814ec56333b028fbe6180b257e` (`codex/v1-pass-board-targets`, draft [PR #86](https://github.com/Amirkianfar66/GameN/pull/86), **not merged**) · 8 October 2026; run again on 9 October 2026 with the full-body figures (the owner's "lets try full body comic", [owner-decisions.md](owner-decisions.md#9-october-2026-full-body-comic-characters)). Every result below is of the version with the figures.
 
 Environment: a Claude Code cloud container on Linux 6.18; Node `22.21.1` and npm `10.9.4`; for everything that needs a browser, headless **Chromium 141.0.7390.37**, the build that comes with the container, started through a two-line wrapper given as `CHROME_PATH` that adds `--no-sandbox` (the container runs as root; that changes how the browser's processes are isolated, not how a page is laid out or painted). The fonts are the container's: Arial Narrow and Helvetica Neue are not installed, so the lettering stack most likely set in Liberation Sans, and `system-ui` resolves to Inter. A phone has other fonts, so lines will break in other places than in these pictures.

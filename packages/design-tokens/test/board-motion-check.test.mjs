@@ -168,6 +168,19 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
 
   // ---------- the release's words and looks ----------
 
+  test('wrong-round/actor offers, non-Captain Command movement and unready election candidates', async () => {
+    const root = scratchCopy();
+    append(root, FIXTURES, [
+      "{ const entry = SCENARIOS.find(item => item.id === 'code.two'); const s = entry.s; entry.s = () => { const st = s(); st.public.round = 2; return st; }; }",
+      "{ const entry = SCENARIOS.find(item => item.id === 'crowd.supply'); const s = entry.s; entry.s = () => { const st = s(); st.public.round = 2; st.private.role = 'Hacker'; return st; }; }",
+      "{ const entry = SCENARIOS.find(item => item.id === 'move.tags'); const s = entry.s; entry.s = () => { const st = s(); st.public.seats[2].captain = false; return st; }; }",
+      "{ const entry = SCENARIOS.find(item => item.id === 'vote.election'); const s = entry.s; entry.s = () => { const st = s(); st.public.round = 1; st.public.ballot.targets.push(6, 9); st.private.offers.vote.targets.push(6, 9); return st; }; }",
+    ].join('\n'));
+    refuses(await check(root), /code\.two: code requires a living Hacker in Round 5/, /crowd\.supply: supply requires Supplier in Round 3/,
+      /move\.tags: move offers Command Room to a non-Captain/, /vote\.election: Captain election starts.*after Round 1/,
+      /vote\.election: CAPTAIN_ELECTION offers ineligible candidate Player 6/, /vote\.election: CAPTAIN_ELECTION offers ineligible candidate Player 9/);
+  });
+
   test('a release word changed, a quote not in its file, a proposed word that names a role, a call sign changed and a role in another team', async () => {
     const root = scratchCopy();
     append(root, COPY, [

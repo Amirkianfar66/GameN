@@ -1,6 +1,6 @@
 # Board motion: the board as the game
 
-`mothership:dev-only` · issue [#87](https://github.com/Amirkianfar66/GameN/issues/87) · **a design proposal, not owner-approved**
+`mothership:dev-only` · issue [#87](https://github.com/Amirkianfar66/GameN/issues/87) · **approved board-targeting direction; proposed props, motion treatments and production figures**
 
 A working prototype of a phone where the comic board is the game. Every action of the pinned release is chosen from a compact tray and played on the board: the players it names are picked by tapping their characters in their rooms, and the choice, its progress, its confirmation and the server's answer stay in a strip above navigation. Moving is pressing a room's name; Pass is the middle of navigation. The nine characters are full-body comic figures (the owner's "lets try full body comic", 9 October 2026), posed at hand-placed places in each room like people in a comic panel: the Captain leaning over the chart table, someone at the laboratory counter, the Injured sitting up in the Hospital bed, the Jailed on the bench, everyone else standing in their own stance; a move is a walk. Every one of them has the same eleven interaction states and its own small flourish when it moves. Beside the phone, a second board draws what every other screen sees at the same moment, from public facts only.
 
@@ -26,6 +26,8 @@ npm run dev:review --workspace @mothership/design-tokens   # serves design/ on h
 | Hold every animation at a moment (how the storyboards are made) | `&play=move&t=450` |
 | Nine characters in eleven states | `http://127.0.0.1:4320/board-motion/vocabulary.html` |
 | The contact sheets | `http://127.0.0.1:4320/board-motion/contact.html?set=key` (`all`, `matrix`, `motion`, `secrecy`) |
+
+Crowded-room scenarios are marked **layout stress** on the phone and in the selector. The offer guard checks static engine predicates, not resources or an engine-reachable match history.
 
 The controls on the right are the prototype's own, not the design: pick a scenario, choose how the stand-in server answers the next command (accept, reject, lose the answer, slow), deliver public facts to every screen (a move, a health change, a new Captain, the next turn or round, a replay of the last snapshot, a reconnect), and switch reduced motion or long names. On the phone, everything works: Actions, every action, every character, room tags, Pass, Card, Menu, Escape.
 

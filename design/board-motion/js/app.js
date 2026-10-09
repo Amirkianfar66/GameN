@@ -36,14 +36,16 @@ const ICON = { shot: '◎', disable: '⊘', protect: '◇', rescue: '+', hack: '
 // ---------- state ----------
 const S = { motion: params.get('motion') === 'reduced' ? 'reduced' : 'full' };
 const announce = { public: [], private: [] };
+let countdownTimer = null;
 
 function load(id) {
   const entry = findScenario(id);
   const st = entry.s();
   Object.assign(S, {
-    scenarioId: entry.id, title: entry.title, public: st.public, private: st.private, flow: st.flow, view: st.view,
+    scenarioId: entry.id, title: entry.title, fixtureStatus: entry.status ?? 'synthetic', public: st.public, private: st.private, flow: st.flow, view: st.view,
     answer: params.get('answer') ?? st.answer, banner: st.banner, legacy: st.legacy, notice: st.notice, revision: 1, timer: st.public.phase.seconds,
     names: params.get('names') ?? entry.names ?? 'short', armedAt: 0, lastSnapshot: null,
+    concealed: document.visibilityState !== 'visible', disposed: false, privateQuiet: false, requests: { sent: 0, lookups: 0 },
   });
   if (S.names === 'long') S.public.seats.forEach((seat, index) => { seat.name = LONG_NAMES[index]; });
   // A scenario that starts mid-flow takes its picks as seat numbers or answers, as the controls carry them.
@@ -58,6 +60,7 @@ const seatsPicked = () => S.flow.picked.filter(value => typeof value === 'number
 const voteOn = () => (S.public.phase.kind === 'CAPTAIN_ELECTION' || S.public.phase.kind === 'JAIL_VOTE' ? S.public.phase.kind : 'other');
 const releaseSubject = () => (S.public.ballot?.release ? whoIs(S.public.ballot.release) : null);
 const paused = () => S.banner === 'stale' || S.timer <= 0;
+const privateVisible = () => !S.concealed && !S.disposed && document.visibilityState === 'visible' && !paused();
 
 function offerSeats(kind) {
   const offer = offers()[kind];
@@ -69,12 +72,13 @@ const isOpen = kind => (kind === 'release-vote' ? Boolean(offers()['release-vote
 
 function passAvailable() {
   const settled = ['accepted', 'rejected', 'not-accepted', 'unknown'].includes(S.flow.step) && S.flow.step !== 'unknown' && Date.now() - S.armedAt > 400;
-  return Boolean(offers().pass) && !S.legacy && !paused() && S.public.phase.kind === 'ORDINARY_TURN' && S.public.active === VIEWER && (S.flow.step === 'idle' || settled);
+  return Boolean(offers().pass) && !S.legacy && privateVisible() && S.public.phase.kind === 'ORDINARY_TURN' && S.public.active === VIEWER && (S.flow.step === 'idle' || settled);
 }
 
 // ---------- the controller: the release's steps, in the prototype ----------
 function openAction(kind) {
-  if (S.flow.step !== 'idle' || paused()) return;
+  if (S.flow.step !== 'idle' || !privateVisible()) return;
+  S.privateQuiet = false;
   S.flow = { step: 'choosing', kind, picked: [] };
   S.view = 'board';
   S.enter = true;
@@ -83,7 +87,8 @@ function openAction(kind) {
 
 function pick(value) {
   const { kind, picked } = S.flow;
-  if (S.flow.step !== 'choosing') return;
+  if (S.flow.step !== 'choosing' || !privateVisible()) return;
+  S.privateQuiet = false;
   const seat = typeof value === 'number' ? value : null;
   if (seat !== null && !offerSeats(kind).includes(seat)) return;
   if (seat !== null && picked.includes(seat)) return;
@@ -102,7 +107,9 @@ function back() {
 }
 
 function confirm() {
-  if (S.flow.step !== 'confirming' || paused()) return;
+  if (S.flow.step !== 'confirming' || !privateVisible()) return;
+  S.privateQuiet = false;
+  S.requests.sent += 1;
   S.flow = { ...S.flow, step: 'submitting' };
   render({ focus: 'strip' });
   const answer = S.answer;
@@ -111,6 +118,7 @@ function confirm() {
 }
 
 function respond(answer) {
+  if (S.disposed) return;
   if (S.flow.step !== 'submitting' && S.flow.step !== 'checking') return;
   S.armedAt = Date.now();
   if (answer === 'reject' || answer === 'reject-closed') S.flow = { ...S.flow, step: 'rejected', code: answer === 'reject' ? 'NOT_ALLOWED' : 'PHASE_CLOSED' };
@@ -132,7 +140,9 @@ function authoritativeFollowUp() {
 }
 
 function checkAgain() {
-  if (S.flow.step !== 'unknown') return;
+  if (S.flow.step !== 'unknown' || !privateVisible()) return;
+  S.privateQuiet = false;
+  S.requests.lookups += 1;
   S.flow = { ...S.flow, step: 'checking' };
   render({ focus: 'strip' });
   setTimeout(() => respond('accept'), 600);
@@ -148,7 +158,8 @@ function pressRoom(location, tag) {
   tag?.closest('.bm-tag')?.setAttribute('data-pressed', '');
   setTimeout(() => tag?.closest('.bm-tag')?.removeAttribute('data-pressed'), 140);
   if (S.flow.step !== 'idle') { notice(SHELL.finishFirst); return; }
-  if (paused() || !(offers().move ?? []).includes(location)) { notice(SHELL.cannotMove); return; }
+  if (!privateVisible() || !(offers().move ?? []).includes(location)) { notice(SHELL.cannotMove); return; }
+  S.privateQuiet = false;
   S.flow = { step: 'confirming', kind: 'move', picked: [location] };
   S.view = 'board';
   S.enter = true;
@@ -157,6 +168,7 @@ function pressRoom(location, tag) {
 
 function pressPass() {
   if (!passAvailable()) return;
+  S.privateQuiet = false;
   S.flow = { step: 'confirming', kind: 'pass', picked: ['pass'] };
   S.view = 'board';
   S.enter = true;
@@ -168,11 +180,35 @@ function notice(text) { S.notice = text; render(); clearTimeout(S.noticeTimer); 
 /** A choice that was not sent is dropped when the page goes to the background, the view goes stale or time runs out. */
 function dropUnsent(reason) {
   if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = reason; }
-  if (S.view === 'card') S.view = 'board';
+  S.view = 'board';
+}
+
+/** Conceal presentation without discarding a sent request or its recovery state. */
+function conceal() {
+  dropUnsent(COPY.choiceDropped);
+  S.concealed = true;
+  S.privateQuiet = true;
+  S.enter = false;
+  announce.private.length = 0;
+  livePrivate.replaceChildren();
+  for (const animation of phone.getAnimations({ subtree: true })) {
+    const target = animation.effect?.target;
+    if (target instanceof Element && target.closest('.bm-strip, .bm-sheet, .bm-tray')) animation.cancel();
+  }
+  director.cancelAll();
+  observer?.director.cancelAll();
+}
+
+function reopen() {
+  if (S.disposed || document.visibilityState !== 'visible' || paused()) return false;
+  S.concealed = false;
+  // Restoring the same private status is quiet; only a new interaction may cue it.
+  return true;
 }
 
 // ---------- public facts: the authoritative updates every screen receives ----------
 function deliver(fact) {
+  if (S.disposed) return;
   const previous = structuredClone(S.public);
   let kind = 'update';
   if (fact.type === 'REPLAY') { kind = 'replay'; }
@@ -262,8 +298,8 @@ function drawStatus(target) {
 
 function boardCues() {
   const { step, kind } = S.flow;
-  if (S.banner === 'stale' || S.view === 'card' || S.view === 'menu') return {};
-  if (kind === 'move' && ['confirming', 'submitting', 'accepted'].includes(step) && !S.flow.arrived) return { ghost: { location: S.flow.picked[0], state: step === 'confirming' ? 'tentative' : 'pending' } };
+  if (!privateVisible() || S.view === 'card' || S.view === 'menu') return {};
+  if (kind === 'move' && ['confirming', 'submitting', 'checking', 'accepted'].includes(step) && !S.flow.arrived) return { ghost: { location: S.flow.picked[0], state: step === 'confirming' ? 'tentative' : 'pending' } };
   if (!kind || kind === 'move' || kind === 'pass' || kind === 'release-vote') return {};
   const multi = kind === 'supply' || kind === 'code';
   const seats = seatsPicked();
@@ -363,9 +399,9 @@ function acceptedDetail() {
 }
 
 function drawStrip() {
-  const content = stripContent();
+  const content = privateVisible() ? stripContent() : null;
   strip.hidden = content === null;
-  if (!content) { put(strip); delete strip.dataset.step; return; }
+  if (!content) { put(strip); delete strip.dataset.step; delete strip.dataset.enter; return; }
   strip.dataset.step = content.step;
   if (S.enter) { strip.dataset.enter = ''; S.enter = false; setTimeout(() => delete strip.dataset.enter, 260); }
   // The words first, with the action's name set into them; one control at the side (back, Done,
@@ -377,12 +413,12 @@ function drawStrip() {
 }
 
 function drawTray() {
-  tray.hidden = !(S.view === 'actions' && S.flow.step === 'idle');
-  if (tray.hidden) return;
+  tray.hidden = (S.concealed && !paused()) || S.disposed || document.visibilityState !== 'visible' || !(S.view === 'actions' && S.flow.step === 'idle');
+  if (tray.hidden) { put(tray); return; }
   const open = TRAY_ORDER.filter(kind => isOpen(kind));
   put(tray,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-tray-heading', tabindex: '-1' }, SHELL.nav.actions), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
-    S.private.pending ? h('p', { class: 'bm-tray__empty' }, COPY.queued(S.private.pending)) : null,
+    !paused() && S.private.pending ? h('p', { class: 'bm-tray__empty' }, COPY.queued(S.private.pending)) : null,
     paused() ? h('p', { class: 'bm-tray__empty' }, S.banner === 'stale' ? COPY.actions.pausedStale : COPY.actions.pausedExpired)
       : open.length ? h('ul', { class: 'bm-tray__grid' }, open.map(kind => h('li', null, h('button', { type: 'button', class: 'bm-chip', 'data-act': `open:${kind}`, id: `bm-open-${kind}` },
         h('span', { class: 'bm-chip__icon', 'aria-hidden': 'true' }, ICON[kind] ?? '•'), h('span', { class: 'bm-chip__name' }, COPY.kind[kind]), h('span', { class: 'bm-chip__hint' }, COPY.open[kind])))))
@@ -390,7 +426,7 @@ function drawTray() {
 }
 
 function drawCard() {
-  card.hidden = S.view !== 'card';
+  card.hidden = S.view !== 'card' || !privateVisible();
   if (card.hidden) { put(card); return; }
   // Built only while open: closed, there is no private word in the document.
   const self = seatOf(VIEWER);
@@ -428,11 +464,14 @@ function drawNav() {
 }
 
 function render({ previous = null, kind = 'update', focus = null } = {}) {
+  if (paused() && !S.concealed) conceal();
   markShort();
   const before = previous ? director.before() : null;
   const obefore = previous && observer ? observer.director.before() : null;
   phone.dataset.motion = S.motion;
   phone.dataset.view = S.view;
+  phone.dataset.privateQuiet = String(S.privateQuiet);
+  phone.querySelector('.bm-synthetic').textContent = S.fixtureStatus === 'layout-stress' ? 'Synthetic · layout stress' : 'Synthetic';
   document.documentElement.dataset.motion = S.motion;
   drawStatus(status);
   board.update(S.public, boardCues());
@@ -442,21 +481,23 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   phone.querySelector('.bm-banner')?.remove();
   if (S.banner === 'stale') phone.append(h('p', { class: 'bm-banner', role: 'status' }, COPY.banner.stale));
   else if (S.notice) phone.append(h('p', { class: 'bm-notice', role: 'status' }, S.notice));
-  if (previous) director.after(previous, S.public, before, { kind, revision: S.revision });
+  const cueKind = paused() || S.disposed ? 'reconnect' : kind;
+  if (previous) director.after(previous, S.public, before, { kind: cueKind, revision: S.revision });
   if (observer) {
     drawStatus(observer.status);
     observer.board.update(S.public, {});
     fitBoard(observer.board.element);
-    if (previous) observer.director.after(previous, S.public, obefore, { kind, revision: S.revision });
+    if (previous) observer.director.after(previous, S.public, obefore, { kind: cueKind, revision: S.revision });
   }
   for (const text of announce.public.splice(0)) live.append(h('p', null, text));
-  for (const text of announce.private.splice(0)) livePrivate.append(h('p', null, text));
+  for (const text of announce.private.splice(0)) if (privateVisible()) livePrivate.append(h('p', null, text));
   // Private words leave the document as soon as nothing private is open.
-  if (S.view !== 'card' && S.flow.step === 'idle') livePrivate.replaceChildren();
+  if (!privateVisible() || (S.view !== 'card' && S.flow.step === 'idle')) livePrivate.replaceChildren();
   if (focus === 'strip') document.getElementById('bm-strip-line')?.focus({ preventScroll: true });
   if (focus === 'nav') document.getElementById('bm-nav-actions')?.focus({ preventScroll: true });
   if (focus === 'sheet') phone.querySelector('.bm-sheet:not([hidden]) h2, .bm-tray:not([hidden]) h2')?.focus({ preventScroll: true });
-  window.__bmState = { scenario: S.scenarioId, flow: S.flow, view: S.view, active: S.public.active, revision: S.revision };
+  window.__bmState = { scenario: S.scenarioId, flow: S.flow, view: S.view, active: S.public.active, revision: S.revision,
+    concealed: S.concealed, disposed: S.disposed, requests: { ...S.requests } };
 }
 
 /**
@@ -519,6 +560,7 @@ const markShort = () => { phone.dataset.short = String(phone.clientHeight > 0 &&
 
 // ---------- input ----------
 phone.addEventListener('click', event => {
+  if (S.disposed || document.visibilityState !== 'visible') return;
   const target = event.target instanceof Element ? event.target : null;
   if (!target) return;
   const room = target.closest('button[data-move-room]');
@@ -528,7 +570,16 @@ phone.addEventListener('click', event => {
   const view = target.closest('button[data-view]');
   if (view) {
     const next = view.dataset.view === S.view && view.dataset.view !== 'board' ? 'board' : view.dataset.view;
-    if (next === 'actions' && S.flow.step !== 'idle') { document.getElementById('bm-strip-line')?.focus(); return; }
+    if (next === 'card' || next === 'actions') {
+      if (!reopen()) {
+        if (next === 'actions' && !S.disposed && S.banner === 'stale') {
+          // A public pause notice, with no private offer or queued-command details.
+          S.view = 'actions'; render({ focus: 'sheet' });
+        }
+        return;
+      }
+    }
+    if (next === 'actions' && S.flow.step !== 'idle') { S.view = 'board'; render({ focus: 'strip' }); return; }
     S.view = next;
     render({ focus: next === 'board' ? null : 'sheet' });
     return;
@@ -553,7 +604,11 @@ phone.addEventListener('keydown', event => {
   else if (S.flow.step === 'choosing' || S.flow.step === 'confirming') back();
 });
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') { dropUnsent(COPY.choiceDropped); director.cancelAll(); observer?.director.cancelAll(); render(); }
+  if (document.visibilityState !== 'visible') conceal();
+  render(); // Foregrounding never opens private content, resends or checks a request.
+});
+window.addEventListener('pagehide', () => {
+  conceal(); S.disposed = true; clearInterval(countdownTimer); render();
 });
 new ResizeObserver(() => { fitBoard(board.element); if (observer) fitBoard(observer.board.element); }).observe(board.element);
 new ResizeObserver(markShort).observe(phone);
@@ -590,6 +645,17 @@ function fixturePanel() {
     h('p', null, `${SYNTHETIC_LABEL}. Issue #87. The phone on the left is the design; these controls are not.`),
     h('fieldset', null, h('legend', null, 'Scenario'), select, h('button', { type: 'button', id: 'bm-restart' }, 'Restart')),
     h('fieldset', null, h('legend', null, 'The stand-in server'), answer, h('p', null, 'Every answer is labeled synthetic. Nothing is resolved.')),
+    h('fieldset', null, h('legend', null, 'View lifecycle · synthetic'),
+      ...[['stale', 'Make the view stale'], ['fresh', 'Restore a fresh view'], ['expire', 'Expire the local timer']].map(([id, label]) => {
+        const button = h('button', { type: 'button', id: `bm-${id}` }, label);
+        button.addEventListener('click', () => {
+          if (id === 'expire') S.timer = 0;
+          else S.banner = id === 'stale' ? 'stale' : null;
+          if (id !== 'fresh') conceal();
+          render();
+        });
+        return button;
+      })),
     h('fieldset', null, h('legend', null, 'Public facts, to every screen'), events),
     h('fieldset', null, h('legend', null, 'Display'),
       toggle('Reduced motion', S.motion === 'reduced', on => { S.motion = on ? 'reduced' : 'full'; render(); }),
@@ -611,7 +677,7 @@ if (chrome) {
   if (params.get('safe') === '1') { phone.style.setProperty('--bm-safe-top', '47px'); phone.style.setProperty('--bm-safe-bottom', '34px'); }
 }
 render();
-if (!frozen) setInterval(() => { if (S.timer > 0 && S.public.phase.kind !== 'FINISHED') { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) { dropUnsent(COPY.choiceDropped); render(); } } }, 1000);
+if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && S.public.phase.kind !== 'FINISHED') { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) { conceal(); render(); } } }, 1000);
 
 // ---------- holds for storyboards and captures: ?play=<step>&t=<ms> ----------
 const PLAY = {

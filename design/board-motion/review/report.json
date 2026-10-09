@@ -2,8 +2,8 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "704c2c3de709d2d23d7f104c253a655b1291f1206d2297a37364f47e6c2eecee",
-  "browser": "Chromium 141.0.7390.37",
+  "inputsSha256": "ce2218f785e6be6dd6cf5484eb34e9fb0ddda05a15dc8351001f15997621e871",
+  "browser": "Google Chrome 155.0.8059.39",
   "captures": 185,
   "failures": [],
   "results": [
@@ -978,7 +978,7 @@
       "kind": "state",
       "problems": [],
       "measured": {
-        "targets": 9,
+        "targets": 7,
         "boardOverflow": 0,
         "places": {
           "1": "room-a/A4",
@@ -987,8 +987,8 @@
           "4": "room-b/B2",
           "5": "room-a/A6",
           "6": "hospital/H1",
-          "7": "command-room/C1",
-          "8": "room-b/B3",
+          "7": "room-b/B3",
+          "8": "room-b/B4",
           "9": "jail/J1"
         }
       }
@@ -1010,8 +1010,8 @@
           "4": "room-b/B2",
           "5": "room-a/A6",
           "6": "hospital/H1",
-          "7": "command-room/C1",
-          "8": "room-b/B3",
+          "7": "room-b/B3",
+          "8": "room-b/B4",
           "9": "jail/J1"
         }
       }
@@ -1024,7 +1024,7 @@
       "kind": "state",
       "problems": [],
       "measured": {
-        "targets": 6,
+        "targets": 8,
         "boardOverflow": 0,
         "places": {
           "1": "room-a/A4",
@@ -1148,8 +1148,8 @@
           "4": "room-b/B2",
           "5": "room-a/A6",
           "6": "hospital/H1",
-          "7": "command-room/C1",
-          "8": "room-b/B3",
+          "7": "room-b/B3",
+          "8": "room-b/B4",
           "9": "jail/J1"
         }
       }
@@ -1576,7 +1576,7 @@
       "kind": "matrix",
       "problems": [],
       "measured": {
-        "targets": 9,
+        "targets": 7,
         "boardOverflow": 0,
         "places": {
           "1": "room-a/A4",
@@ -1585,8 +1585,8 @@
           "4": "room-b/B2",
           "5": "room-a/A6",
           "6": "hospital/H1",
-          "7": "command-room/C1",
-          "8": "room-b/B3",
+          "7": "room-b/B3",
+          "8": "room-b/B4",
           "9": "jail/J1"
         }
       }
@@ -2148,7 +2148,7 @@
       "kind": "matrix",
       "problems": [],
       "measured": {
-        "targets": 9,
+        "targets": 7,
         "boardOverflow": 0,
         "places": {
           "1": "room-a/A4",
@@ -2157,8 +2157,8 @@
           "4": "room-b/B2",
           "5": "room-a/A6",
           "6": "hospital/H1",
-          "7": "command-room/C1",
-          "8": "room-b/B3",
+          "7": "room-b/B3",
+          "8": "room-b/B4",
           "9": "jail/J1"
         }
       }

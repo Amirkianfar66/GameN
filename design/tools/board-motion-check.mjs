@@ -16,6 +16,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { planAssets } from './board-motion-assets.mjs';
 import { planCoverage, COVERAGE_PATH } from './board-motion-docs.mjs';
 import { boardMotionInputsSha256 } from './lib/board-motion-inputs.mjs';
+import { offerProblems } from './lib/board-motion-offers.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const text = path => readFile(resolve(repoRoot, path), 'utf8');
@@ -314,6 +315,8 @@ if (loadError) {
   const problems = [];
   for (const entry of fixtures.SCENARIOS) {
     const state = entry.s();
+    for (const problem of offerProblems(state, fixtures.VIEWER)) problems.push(`${entry.id}: ${problem}`);
+    if ((entry.group === 'Crowded rooms' || entry.id.includes('crowded') || entry.id === 'board.all-one-room' || entry.id === 'board.tightest') && entry.status !== 'layout-stress') problems.push(`${entry.id}: crowd fixture is not labeled layout-stress`);
     const publicPart = JSON.stringify(state.public);
     for (const word of ROLE_WORDS.filter(role => role !== 'Alien')) if (new RegExp(`\\b${word}\\b`).test(publicPart)) problems.push(`${entry.id}: the public state names the role ${word}`);
     for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
@@ -341,7 +344,7 @@ if (loadError) {
     for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
   }
   if (!fixtures.SYNTHETIC_LABEL || !/synthetic/i.test(fixtures.SYNTHETIC_LABEL)) problems.push('the fixtures are not labeled synthetic');
-  check('public fixtures carry nothing private, offers are what the engine could offer, events are public facts', problems);
+  check('public fixtures carry nothing private, offers meet static engine predicates (not reachability), events are public facts', problems);
 }
 
 // ---------- The stylesheet keeps the design system's rules and the secrets ----------
