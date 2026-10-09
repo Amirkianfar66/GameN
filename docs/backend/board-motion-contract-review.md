@@ -130,7 +130,55 @@ Locally inspected exact Git pins, changed-path ownership, all 14 command/action 
 
 Inspected existing successful [PR #86 CI job](https://github.com/Amirkianfar66/GameN/actions/runs/37797988854/job/113382490841), associated with `94a49ce`. Its checkout was synthetic merge `4e3ba2c` (merge of `94a49ce` into `90f079d`), not an independent exact-head checkout. Logs show 53 bootstrap/contracts, 148 engine, 130 backend, 118 Auth/Firestore data, 14 legacy Functions, two real V1 Functions/Tasks and seven Frontend-emulator tests passing with no failures/skips; package standalone install/exclusion passed. These are inspected CI results, not newly executed review tests or cloud acceptance.
 
-Designer-reported browser captures/flows, repository verification and 15 new prototype tests are recorded in [its verification page][designer-verification]; they were not rerun here. No production Frontend browser/device, two-client runtime motion, human playtest, deployment, IAM change or hosted acceptance was performed. Local documentation validation passed: the read-only source probe, an inventory/immutable-link check covering 14 action/command rows, 20 cue classifications and 25 source paths/line bounds, and `git diff --cached --check`. Temporary probe scripts are local verification artifacts; no runtime or Designer suite was rerun for this document. Exact commands are recorded in this PR. Gameplay versions, public/private contracts, source snapshots and shared manifests remain unchanged.
+Designer-reported browser captures/flows, repository verification and 15 new prototype tests are recorded in [its verification page][designer-verification]; they were not rerun here. No production Frontend browser/device, two-client runtime motion, human playtest, deployment, IAM change or hosted acceptance was performed. Initial documentation validation passed: the read-only source probe, an inventory/immutable-link check covering 14 action/command rows, 20 cue classifications and 25 source paths/line bounds, and `git diff --cached --check`. Temporary probe scripts are local verification artifacts; no runtime or Designer suite was rerun for this document. Exact commands are recorded in this PR. Gameplay versions, public/private contracts, source snapshots and shared manifests remain unchanged.
+
+## Follow-up: actual Frontend consumer, PR #92
+
+Reviewed on 9 October 2026 at Frontend head `aa007890c5bf8f4801bfb545c0f6da0426f7d6cd`, draft [PR #92](https://github.com/Amirkianfar66/GameN/pull/92), based on Designer `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02`. The original review above remains pinned to `e652bbf`; this follow-up reviews the production consumer separately. It updates Backend PR #90 only. Deadline correction [PR #91](https://github.com/Amirkianfar66/GameN/pull/91) remains a separate integration change.
+
+### Audience and contract conclusion
+
+The consumer introduces no new server fact or audience. Contracts, engine/service/Rules, root manifests/lockfile/CI, `apps/game/src/`, action-offer mapping and table renderer are byte-unchanged from its Designer parent. Presentation's new station/board-mark fields are local render models. The action controller still owns command IDs, retries and confirmation; the server still owns admission, legality, resources and deadlines. Both gameplay tuples and the existing setup/Ready/Pass/Hack behavior remain intact.
+
+| Consumer surface | Verified source and boundary |
+| --- | --- |
+| Character press areas and multi-picks | Existing action offers feed the board model and strip. Self/location/Command exceptions remain action-specific. Supply/Code count local distinct picks; Move uses the existing room movement path, and Pass remains targetless. No role-derived authority. |
+| Background/private concealment | [Private content][consumer-hide] is absent when concealed. The [own board renderer][consumer-render] receives marks only from the open Actions card; Pass's separate receipt is also suppressed on conceal. The display never receives those own marks. |
+| Neutral receipt and strip | [Strip differences][consumer-strip] use local steps/picks and the same acceptance status; a transition from submitting/checking/unknown to accepted stamps neutral registration. A strip first opened already accepted, or repeated accepted state, stamps nothing. No hit/heal/block/Code-correct fact is inferred. |
+| Public movement/status/turn/phase | [Public fact extraction][consumer-facts] reads confirmed location, health/Jail/Captain/permitted faction, active-seat flag and displayed round/phase labels. Snapshot differences drive cues, without an event listener or use of `COMMAND_REGISTERED`, role, knowledge, receipt or acknowledgment as a public source. Reconnect/stale/background produces a quiet baseline; repeated facts cue nothing; more than four moves settle without travel. |
+| Flight artwork and placement | Public crew appearance and occupancy supply the decorative copy/stations. No private selection markup is cloned, and no per-action asset request/audio/haptics are added. Routes/capacity are not inferred. Proposed props/full-body figures remain outside the reviewed manifest and are not adopted here. |
+| Protection/Hack/Supply Card evidence | Existing private feed/session pairing is untouched. [Card consumption][consumer-ack] retains Supplier results, recipient-only receipt and history-unavailable fallback. Protection stays Undercover-only; Hack requester remains public active seat, partner association private. No acknowledgment becomes a public motion effect. |
+
+The two original adoption findings have distinct outcomes. Frontend's [hidden-page/model regressions][consumer-hidden-tests] and [real controller regressions][consumer-controller-tests] cover submitting, checking, recovered checking, unknown and accepted states, including lost answers. The new [simulation guard][consumer-scenarios] corrects its own Code/Supply round, Captain movement and ballot fixtures, with negative checks. It restates applicable engine gates for synthetic views; it does not execute full engine histories, and explicitly unreachable crowd states remain labeled layout stress cases.
+
+Designer `ef4c2ee` still has the submitted/checking background marks and six original fixture discrepancies described above. An exact-source probe reproduced them at that pin. PR #92 does not change those Designer files, so its consumer fixes do not close the prototype findings or approve the prototype's broader verification claim. The same 13 pre-existing V1-phone quote mismatches also remain at both current pins.
+
+### P2: stale/expired sent-command board marks remain
+
+At [connected-player.ts:242–247][consumer-marks], submitting/checking returns pending target IDs or a Move ghost; accepted Move also retains its ghost until the own location arrives. Freshness/time gating in `drawnAction` applies only to unsent choosing/confirming. An open private panel still builds this card with a paused notice, and the renderer paints its marks. Thus an unattended request/receipt check whose view becomes stale or deadline expires can retain these cues.
+
+A separate probe executed the actual compiled model and renderer with schema-validated synthetic own inputs: stale and expired states each retained Rescue target marks for submitting/checking and Move ghosts for submitting/checking/accepted, **10 combinations total**. Unknown correctly had no board marks. This is a renderer reproduction, not a browser or service execution.
+
+Suppress these board marks/ghosts when the own view is not current or its trusted deadline is no longer running; preserve the uncertain command and receipt-recovery strip internally. Add in-flight stale/expired regressions, including accepted Move awaiting its public view. Existing tests cover stale/expired **choosing** and background **in-flight** states separately, leaving this combination uncovered. The [Frontend privacy claim][consumer-doc] currently overstates that coverage.
+
+### P2: reduced-motion change does not cancel an existing flight
+
+At [comic-motion.mjs:173–174][consumer-motion-after], unchanged public facts return before effective reduced motion is evaluated. Switching the in-app preference or device preference during a flight therefore leaves it owned/running when the next redraw has identical public facts. The exact-source DOM/animation shim independently reproduced **zero cancellations, three retained effect nodes and the piece still marked moving** for both switches. A disposal control cancelled and cleared all three, confirming the ownership cleanup exists.
+
+This matters to the public cue cancellation/reduced-motion mapping. Cancel and settle running motion before the unchanged-facts return when reduced motion becomes effective; add an in-flight preference-change regression. [CSS motion suppression][consumer-css] does not replace the missing animation/ownership cleanup. This finding concerns presentation cancellation; it requires no backend fact, command or rule change. No Frontend file was edited in this Backend review.
+
+### Follow-up evidence and limits
+
+An immutable `git archive` snapshot of `aa007890` was created at `/private/tmp/gamen-pr92-consumer-review-1vy_zv5v/GameN`. Node `22.21.1`/npm `10.9.4` were pinned; `npm ci` passed with 887 packages, then `tsc --build packages/engine packages/presentation apps/game` passed. The following original assertions were run unchanged:
+
+```sh
+node --test --test-concurrency=1 packages/presentation/test/board-play.test.mjs apps/game/test/board-hidden-page.test.mjs apps/game/test/comic-motion.test.mjs apps/game/test/board-scenarios.test.mjs
+npm run check:exclusion --workspace @mothership/game
+```
+
+**19/19 tests passed**, zero failed/skipped/cancelled/todo. Production exclusion passed: 54 reachable modules, 167 files scanned, 37 development files labeled; no fixture/test/development module or marker found. Passing existing tests does not cover the two new P2 cases above. The updated document inventory/link check passed for all 14 action/command rows, 20 cue classifications and 37 immutable source paths/line bounds; staged whitespace validation was also clean. Temporary read-only probes `/private/tmp/gamen-pr92-stale-marks-probe.mjs` and `/private/tmp/gamen-pr92-motion-probes.mjs` both exited 0 while reproducing those defects and the distinct Designer findings. The latter also checks the pre-existing quote mismatches; it is not the full phone checker.
+
+GitHub metadata confirmed green CI for the original PR #90 head `e6a70ca` and separate PR #91 head `1051cca`; PR #92's exact `aa007890` CI was still in progress at this follow-up readback. Those are status readbacks, not new cloud/runtime acceptance. No browser/device measurements, capture/emulator rerun, full Frontend/Balance suite, deployment, IAM operation, merge or canonical/contract expansion was performed. The two consumer corrections belong to Frontend; proposed visual treatments and open DSN decisions retain their existing review gates.
 
 ## Pinned source references
 
@@ -159,3 +207,16 @@ Designer-reported browser captures/flows, repository verification and 15 new pro
 [fixtures]: https://github.com/Amirkianfar66/GameN/blob/e652bbf90f99b8aa616223c46f8ac8ff510cea03/design/board-motion/js/fixtures.js#L43
 [fixture-guard]: https://github.com/Amirkianfar66/GameN/blob/e652bbf90f99b8aa616223c46f8ac8ff510cea03/design/tools/board-motion-check.mjs#L254
 [designer-verification]: https://github.com/Amirkianfar66/GameN/blob/e652bbf90f99b8aa616223c46f8ac8ff510cea03/docs/design/board-motion-verification.md
+
+[consumer-hide]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/packages/presentation/src/model/connected-player.ts#L324
+[consumer-render]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/packages/presentation/src/markup/comic-shell.ts#L261
+[consumer-strip]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/apps/game/hosted/strip-cues.mjs#L18
+[consumer-facts]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/apps/game/hosted/comic-motion.mjs#L33
+[consumer-ack]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/packages/presentation/src/markup/comic-shell.ts#L310
+[consumer-hidden-tests]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/packages/presentation/test/board-play.test.mjs#L153
+[consumer-controller-tests]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/apps/game/test/board-hidden-page.test.mjs#L42
+[consumer-scenarios]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/apps/game/test/board-scenarios.test.mjs#L31
+[consumer-marks]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/packages/presentation/src/model/connected-player.ts#L242
+[consumer-doc]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/docs/frontend/board-play.md#L47
+[consumer-motion-after]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/apps/game/hosted/comic-motion.mjs#L173
+[consumer-css]: https://github.com/Amirkianfar66/GameN/blob/aa007890c5bf8f4801bfb545c0f6da0426f7d6cd/apps/game/hosted/board-play.css#L732
