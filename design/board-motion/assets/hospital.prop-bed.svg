@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · board-motion proposal 0.1.0 · hospital.prop-bed · generated, do not edit
+  The blanket, side and feet of the left bed, in front of the station lying in it (the Hospital's first station).
+  Lifted from design/source/board/board-hospital.svg (group hospital-props-back, 8 elements) by design/tools/board-motion-assets.mjs
+  and printed in the room's colors by the recolor map of the reviewed export recipe board-hospital.
+  Nothing is drawn here that the approved source does not draw. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <pattern id="halftone-ink-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-l-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-paper-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/>
+    </pattern>
+    <pattern id="halftone-paper-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/>
+    </pattern>
+    <clipPath id="clip-hospital-floor">
+      <polygon points="120,372 904,372 1004,748 20,748"/>
+    </clipPath>
+    <clipPath id="clip-hospital-glass">
+      <path d="M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z"/>
+    </clipPath>
+  </defs>
+  <g id="hospital-prop-bed">
+    <polygon points="160,392 306,392 300,498 118,498" fill="#57BBA8" stroke="#151923" stroke-width="4" stroke-linejoin="round"/>
+    <polygon points="160,392 306,392 305,410 154,410" fill="#A6DFD0" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="240,410 305,410 300,498 214,498" fill="url(#halftone-ink-s-hospital)"/>
+    <polygon points="118,498 300,498 300,548 118,548" fill="#1F8A80" stroke="#151923" stroke-width="5" stroke-linejoin="round"/>
+    <polygon points="130,514 288,514 288,530 130,530" fill="#A6DFD0" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="308,352 303,470 303,486 308,366" fill="#A6DFD0" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="136" cy="556" r="9" fill="#155B58" stroke="#151923" stroke-width="4"/>
+    <circle cx="284" cy="556" r="9" fill="#155B58" stroke="#151923" stroke-width="4"/>
+  </g>
+</svg>

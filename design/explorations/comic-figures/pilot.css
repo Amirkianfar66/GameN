@@ -1,0 +1,165 @@
+/* mothership:dev-only
+   The comic-figure pilot: the nine characters as full-body comic figures, posed in the five
+   approved rooms on a phone. Tokens only (design/prototypes/css/tokens.css); room art only
+   behind the bundle marks; the viewer's own pick only on the viewer's own board. */
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); font-family: var(--ms-font-body); line-height: var(--ms-leading-body); }
+button, select { font: inherit; color: inherit; }
+:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 2px; }
+.cf-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- the page around the phone ---------- */
+.cf-page { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; display: grid; gap: 28px; }
+.cf-intro h1 { margin: 0 0 6px; font-family: var(--ms-font-heading); font-size: 26px; letter-spacing: 0.02em; }
+.cf-intro p { margin: 0; max-width: 70ch; color: var(--ms-color-text-secondary); }
+.cf-flag { display: inline-block; margin-bottom: 8px; padding: 2px 8px; border: 2px solid var(--ms-color-ink); background: var(--ms-color-caption); color: var(--ms-color-ink); font: var(--ms-weight-lettering) 12px var(--ms-font-lettering); letter-spacing: var(--ms-tracking-lettering); text-transform: uppercase; }
+.cf-stage { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.cf-controls { display: grid; gap: 12px; min-width: 240px; max-width: 360px; padding: 14px; border: 2px solid var(--ms-color-panel); border-radius: var(--ms-radius-panel); }
+.cf-controls h2 { margin: 0; font: 700 15px var(--ms-font-heading); }
+.cf-controls label { display: grid; gap: 4px; font-size: 13px; }
+.cf-controls select, .cf-controls button { min-height: 44px; padding: 6px 10px; border: 2px solid var(--ms-color-ink); border-radius: var(--ms-radius-control); background: var(--ms-color-paper); color: var(--ms-color-ink); }
+.cf-controls .cf-check { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.cf-controls .cf-check input { width: 20px; height: 20px; }
+.cf-controls p { margin: 0; font-size: 12px; color: var(--ms-color-text-secondary); }
+
+/* ---------- the phone ---------- */
+.cf-phone {
+  --cf-gutter: 6px;
+  position: relative; display: grid; grid-template-rows: 44px auto 1fr; width: 390px; height: 844px; flex: none; overflow: hidden;
+  background: var(--ms-color-paper); border: 3px solid var(--ms-color-ink); border-radius: 22px; box-shadow: var(--ms-shadow-offset-lifted) var(--ms-shadow-offset-lifted) 0 var(--ms-color-ink);
+}
+.cf-status { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 14px; background: var(--ms-color-ink); color: var(--ms-color-paper); font: var(--ms-weight-lettering) 13px var(--ms-font-lettering); letter-spacing: var(--ms-tracking-lettering); text-transform: uppercase; }
+.cf-status small { font: 600 10px var(--ms-font-body); letter-spacing: 0.08em; padding: 2px 6px; border: 1px solid var(--ms-color-paper); }
+
+/* ---------- the board: one comic page, five panels ---------- */
+.cf-board { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cf-gutter); padding: var(--cf-gutter); align-content: start; background: var(--ms-color-paper); }
+.cf-room {
+  position: relative; overflow: hidden; container-type: inline-size;
+  border: 3px solid var(--ms-color-ink); border-radius: 3px; background: var(--ms-color-steel-shadow);
+  box-shadow: inset 0 0 0 2px var(--ms-color-paper);
+}
+.cf-room[data-room="command-room"] { grid-column: 1 / -1; }
+.cf-art, .cf-prop { position: absolute; pointer-events: none; }
+.cf-prop { z-index: var(--z); }
+[data-art~="public-board"] .cf-room[data-room="command-room"] .cf-art { background: var(--ms-asset-board-command-room-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .cf-room[data-room="room-a"] .cf-art { background: var(--ms-asset-board-room-a-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .cf-room[data-room="room-b"] .cf-art { background: var(--ms-asset-board-room-b-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .cf-room[data-room="hospital"] .cf-art { background: var(--ms-asset-board-hospital-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .cf-room[data-room="jail"] .cf-art { background: var(--ms-asset-board-jail-full) 0 0 / 100% 100% no-repeat; }
+[data-art~="board-motion"] .cf-room[data-room="command-room"] .cf-prop { background: var(--bm-asset-command-room-prop-table) 0 0 / 100% 100% no-repeat; }
+[data-art~="board-motion"] .cf-room[data-room="room-b"] .cf-prop { background: var(--bm-asset-room-b-prop-counter) 0 0 / 100% 100% no-repeat; }
+[data-art~="board-motion"] .cf-room[data-room="hospital"] .cf-prop { background: var(--bm-asset-hospital-prop-bed) 0 0 / 100% 100% no-repeat; }
+
+/* The room's name: the slanted caption of the approved page. Room A and Room B are moves. */
+.cf-tag { position: absolute; z-index: 1000; top: 0; left: 0; margin: 0; font-size: 12px; }
+.cf-tag__face {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 26px; padding: 2px 8px;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); letter-spacing: 0.04em; text-transform: uppercase; line-height: 1;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 2px;
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt)); box-shadow: 3px 3px 0 var(--ms-color-ink); white-space: nowrap;
+}
+.cf-tag__move { display: block; min-width: 44px; min-height: 44px; padding: 4px 6px; border: 0; background: none; cursor: pointer; text-align: left; }
+.cf-tag__move:focus-visible { outline: none; }
+.cf-tag__move:focus-visible .cf-tag__face { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 2px; }
+.cf-tag--fixed .cf-tag__face { margin: 4px 6px; }
+[data-motion="full"] .cf-tag[data-nope] .cf-tag__face { animation: cf-nope var(--ms-motion-card) var(--ms-ease-standard); }
+
+/* ---------- figures ---------- */
+.cf-fig { position: absolute; z-index: var(--z); pointer-events: none; display: block; }
+.cf-fig img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transform-origin: var(--ox) var(--oy); }
+.cf-fig[data-mirror="true"] img { scale: -1 1; }
+.cf-fig[data-layer="front"] { z-index: var(--z); }
+/* Characters who change station glide there; under reduced motion they are simply there. */
+[data-motion="full"] .cf-fig[data-placed] { transition: left var(--ms-motion-move) var(--ms-ease-settle), top var(--ms-motion-move) var(--ms-ease-settle), width var(--ms-motion-move) var(--ms-ease-settle), height var(--ms-motion-move) var(--ms-ease-settle); }
+/* Idle: everyone breathes, out of step, as on the approved comic board. A loop: the pinned tokens refuse
+   motion that repeats (motionPolicy.loops is false, open decision DSN-D16), so it is only here, and
+   nothing repeats under reduced motion. */
+[data-motion="full"] .cf-fig img { animation: cf-breathe 3.4s var(--ms-ease-sweep) var(--breath, 0s) infinite alternate; }
+
+/* The plate over a head: seat number and name, with the public markers. */
+.cf-plate {
+  position: absolute; z-index: 800; display: flex; align-items: center; gap: 2px; pointer-events: none;
+  padding: 1px 3px 1px 1px; border: 1.5px solid var(--ms-color-ink); border-radius: 2px; background: var(--ms-color-paper); color: var(--ms-color-ink);
+  font: var(--ms-weight-lettering) 9.5px/1 var(--ms-font-lettering); letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap;
+  box-shadow: 1.5px 1.5px 0 var(--ms-color-ink);
+}
+/* The viewer's own plate is inked, on the viewer's phone only. */
+.cf-plate[data-self] { background: var(--ms-color-ink); color: var(--ms-color-caption); border-color: var(--ms-color-caption); }
+.cf-plate[data-self] .cf-plate__num { background: var(--ms-color-caption); color: var(--ms-color-ink); }
+[data-motion="full"] .cf-plate[data-placed] { transition: left var(--ms-motion-move) var(--ms-ease-settle), top var(--ms-motion-move) var(--ms-ease-settle); }
+.cf-plate__num { display: grid; place-items: center; min-width: 12px; height: 12px; padding: 0 2px; background: var(--ms-color-ink); color: var(--ms-color-paper); border-radius: 1px; }
+.cf-plate__badge { width: 12px; height: 12px; background: 0 0 / 100% 100% no-repeat; }
+[data-art~="public-board"] .cf-plate__badge[data-badge="captain"] { background-image: var(--ms-asset-marker-captain-badge); }
+[data-art~="public-board"] .cf-plate__badge[data-badge="injured"] { background-image: var(--ms-asset-marker-health-injured-badge); }
+[data-art~="public-board"] .cf-plate__badge[data-badge="jailed"] { background-image: var(--ms-asset-marker-jail-badge); }
+[data-tags="off"] .cf-plate { display: none; }
+
+/* The press area: one button per character, never smaller than a 44 px target, never overlapping another. */
+.cf-hit { position: absolute; z-index: 900; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 6px; }
+[data-hits="show"] .cf-hit { outline: 1.5px dashed var(--ms-color-focus); outline-offset: -1.5px; background: color-mix(in srgb, var(--ms-color-focus) 12%, transparent); }
+
+/* ---------- the viewer's own pick: private, on this board only ---------- */
+[data-board="own"] .cf-fig[data-pick] img {
+  filter: drop-shadow(2.5px 0 0 var(--ms-color-caption)) drop-shadow(-2.5px 0 0 var(--ms-color-caption)) drop-shadow(0 2.5px 0 var(--ms-color-caption)) drop-shadow(0 -2.5px 0 var(--ms-color-caption)) drop-shadow(0 0 0.5px var(--ms-color-ink));
+}
+[data-board="own"][data-motion="full"] .cf-fig[data-pick="new"] img { animation: cf-pick var(--ms-motion-card) var(--ms-ease-snap); }
+[data-board="own"] .cf-plate[data-pick] { background: var(--ms-color-caption); }
+[data-board="own"] .cf-plate[data-pick="done"]::after { content: "✓"; display: grid; place-items: center; width: 13px; height: 13px; margin-left: 2px; background: var(--ms-color-ink); color: var(--ms-color-caption); font-size: 10px; }
+[data-board="own"][data-motion="full"] .cf-plate[data-pick="done"]::after { animation: cf-stamp var(--ms-motion-stamp) var(--ms-ease-impact); }
+
+/* ---------- a move: lifted off, set down in the other room ---------- */
+[data-motion="full"] .cf-fig[data-cue="leave"] { animation: cf-leave var(--ms-motion-card) var(--ms-ease-impact) forwards; }
+[data-motion="full"] .cf-fig[data-cue="land"] { animation: cf-land var(--ms-motion-move) var(--ms-ease-settle); }
+[data-motion="reduced"] .cf-fig[data-cue="leave"] { animation: cf-fade-out var(--ms-motion-reduced-fade) linear forwards; }
+[data-motion="reduced"] .cf-fig[data-cue="land"] { animation: cf-fade-in var(--ms-motion-reduced-fade) linear; }
+.cf-puff { position: absolute; z-index: 850; pointer-events: none; translate: -50% -60%; }
+[data-art~="public-board"] .cf-puff { background: var(--ms-asset-fx-landing-puff-ink) center / contain no-repeat; }
+[data-motion="full"] .cf-puff { animation: cf-puff var(--ms-motion-move) var(--ms-ease-settle) forwards; }
+[data-motion="reduced"] .cf-puff { display: none; }
+
+/* ---------- the tray ---------- */
+.cf-tray { display: grid; align-content: start; gap: 8px; padding: 10px 12px 12px; border-top: 3px solid var(--ms-color-ink); background: var(--ms-color-panel); color: var(--ms-color-text); }
+.cf-tray__hint { margin: 0; font-size: 13px; color: var(--ms-color-text-secondary); }
+.cf-tray__notice { margin: 0; padding: 6px 10px; border: 2px solid var(--ms-color-ink); border-radius: var(--ms-radius-control); background: var(--ms-color-paper); color: var(--ms-color-ink); font-weight: 700; font-size: 13px; }
+.cf-tray__row { display: flex; align-items: center; gap: 10px; min-height: 52px; }
+.cf-tray__who { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; font: var(--ms-weight-lettering) 15px var(--ms-font-lettering); text-transform: uppercase; letter-spacing: 0.03em; }
+.cf-tray__face { width: 44px; height: 52px; flex: none; border: 2px solid var(--ms-color-ink); border-radius: 3px; background: var(--ms-color-paper) 50% 0 / 140% auto no-repeat; }
+.cf-btn { min-height: 44px; min-width: 44px; padding: 8px 14px; border: 2px solid var(--ms-color-ink); border-radius: var(--ms-radius-control); background: var(--ms-color-paper); color: var(--ms-color-ink); font-weight: 700; cursor: pointer; box-shadow: 2px 2px 0 var(--ms-color-ink); }
+.cf-btn--go { background: var(--ms-color-caption); }
+.cf-tray__note { margin: 0; font-size: 11px; color: var(--ms-color-text-secondary); }
+[data-motion="full"] .cf-tray__row[data-new] { animation: cf-rise var(--ms-motion-card) var(--ms-ease-settle); }
+
+/* ---------- the sheet of poses ---------- */
+.cf-sheet h2, .cf-notes h2 { margin: 0 0 10px; font: 700 18px var(--ms-font-heading); }
+.cf-sheet > p, .cf-notes > p { margin: 0 0 12px; max-width: 76ch; color: var(--ms-color-text-secondary); }
+.cf-grid { display: grid; grid-template-columns: 120px repeat(9, minmax(64px, 1fr)); gap: 6px; align-items: end; overflow-x: auto; }
+.cf-grid__head { font: 600 11px var(--ms-font-body); text-align: center; color: var(--ms-color-text-secondary); }
+.cf-grid__pose { align-self: center; font: 600 12px var(--ms-font-body); }
+.cf-grid__pose small { display: block; font-weight: 400; color: var(--ms-color-text-secondary); }
+.cf-cell { position: relative; aspect-ratio: 1 / 1.45; background: var(--ms-color-steel-shadow); border: 2px solid var(--ms-color-ink); border-radius: 3px; overflow: hidden; }
+.cf-cell img { position: absolute; inset: 4px; width: calc(100% - 8px); height: calc(100% - 8px); object-fit: contain; }
+.cf-compare { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+.cf-compare figure { margin: 0; display: grid; gap: 6px; justify-items: center; }
+.cf-compare figcaption { font-size: 12px; color: var(--ms-color-text-secondary); text-align: center; max-width: 220px; }
+.cf-compare__frame { position: relative; width: 200px; height: 260px; background: var(--ms-color-steel-shadow); border: 2px solid var(--ms-color-ink); border-radius: 3px; overflow: hidden; }
+.cf-compare__frame img, .cf-compare__frame div { position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); object-fit: contain; background: center / contain no-repeat; }
+[data-art~="public-board"] .cf-compare__standee { background-image: var(--ms-asset-piece-crew-standee-c1); }
+.cf-notes ul { margin: 0; padding-left: 20px; max-width: 80ch; }
+.cf-notes li { margin-bottom: 6px; }
+
+@keyframes cf-breathe { from { transform: scale(1, 1); } to { transform: scale(1.006, 1.016); } }
+@keyframes cf-pick { 0% { transform: translateY(0); } 45% { transform: translateY(-5%); } 100% { transform: translateY(0); } }
+@keyframes cf-stamp { from { transform: scale(1.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes cf-leave { 0% { transform: none; opacity: 1; } 35% { transform: translateY(-6%) scale(1.02, 0.98); opacity: 1; } 100% { transform: translateY(-22%); opacity: 0; } }
+@keyframes cf-land { 0% { transform: translateY(-26%); opacity: 0; } 45% { transform: translateY(0) scale(1.04, 0.94); opacity: 1; } 70% { transform: scale(0.98, 1.02); } 100% { transform: none; } }
+@keyframes cf-puff { 0% { opacity: 0.9; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.3); } }
+@keyframes cf-fade-out { to { opacity: 0; } }
+@keyframes cf-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cf-rise { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes cf-nope { 0%, 100% { transform: none; } 30% { transform: translateX(-4px); } 70% { transform: translateX(4px); } }
+
+@media (forced-colors: active) {
+  .cf-tag__face, .cf-plate, .cf-btn { forced-color-adjust: none; border-color: CanvasText; }
+  [data-board="own"] .cf-fig[data-pick] img { filter: none; outline: 3px solid Highlight; }
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · board-motion proposal 0.1.0 · command-room.prop-table · generated, do not edit
+  The round chart table, in front of the station behind it (the Command Room's first station).
+  Lifted from design/source/board/board-command-room.svg (group command-room-props-back, 8 elements) by design/tools/board-motion-assets.mjs
+  and printed in the room's colors by the recolor map of the reviewed export recipe board-command-room.
+  Nothing is drawn here that the approved source does not draw. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <pattern id="halftone-ink-s-command-room" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-m-command-room" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-l-command-room" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-paper-s-command-room" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/>
+    </pattern>
+    <pattern id="halftone-paper-m-command-room" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/>
+    </pattern>
+    <clipPath id="clip-command-room-floor">
+      <polygon points="120,372 904,372 1004,748 20,748"/>
+    </clipPath>
+    <clipPath id="clip-command-room-glass">
+      <path d="M196 112 L224 96 H800 L828 112 V292 H196 Z"/>
+    </clipPath>
+    <clipPath id="clip-command-room-table">
+      <ellipse cx="512" cy="474" rx="176" ry="50"/>
+    </clipPath>
+  </defs>
+  <g id="command-room-prop-table">
+    <ellipse cx="522" cy="600" rx="128" ry="17" fill="#151923"/>
+    <path d="M480 520 H544 L560 590 Q512 602 464 590 Z" fill="#7A5A0C" stroke="#151923" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M522 524 H542 L556 588 Q540 594 522 596 Z" fill="url(#halftone-ink-m-command-room)"/>
+    <ellipse cx="512" cy="590" rx="74" ry="12" fill="#C4950F" stroke="#151923" stroke-width="5"/>
+    <path d="M336 474 V492 A176 50 0 0 0 688 492 V474 Z" fill="#C4950F" stroke="#151923" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M560 520 A176 50 0 0 0 688 492 V474 H560 Z" fill="url(#halftone-ink-m-command-room)"/>
+    <ellipse cx="512" cy="474" rx="176" ry="50" fill="#40300A" stroke="#151923" stroke-width="5"/>
+    <g clip-path="url(#clip-command-room-table)">
+      <g fill="none" stroke="#F9E48C" stroke-width="2.5">
+        <ellipse cx="512" cy="474" rx="148" ry="40"/><ellipse cx="512" cy="474" rx="104" ry="28"/><ellipse cx="512" cy="474" rx="56" ry="15"/>
+        <path d="M336 474 H688 M512 424 V524 M388 438 L636 510 M388 510 L636 438"/>
+      </g>
+      <g fill="#F4EBDD"><circle cx="452" cy="462" r="4"/><circle cx="566" cy="488" r="3.4"/><circle cx="596" cy="456" r="2.8"/><circle cx="486" cy="496" r="2.8"/><circle cx="512" cy="474" r="5.5"/></g>
+      <path d="M350 440 L470 424 L404 470 Z" fill="#F4EBDD" opacity="0.16"/>
+    </g>
+  </g>
+</svg>
