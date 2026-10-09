@@ -48,6 +48,11 @@ const samePlaces = page => page.evaluate(`(() => {
 const notice = page => page.evaluate(`document.querySelector('#bm-app .bm-notice')?.textContent ?? null`);
 const cues = page => page.evaluate('window.__bmCues.map(c => c.board + ":" + c.cue + ":" + (c.seat ?? "") + ":" + (c.variant ?? ""))');
 const hide = page => page.evaluate(`(() => { Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true }); document.dispatchEvent(new Event('visibilitychange')); })()`);
+const show = page => page.evaluate(`(() => { Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true }); document.dispatchEvent(new Event('visibilitychange')); })()`);
+const privateDOM = page => page.evaluate(`(() => {
+  const app = document.getElementById('bm-app');
+  return [...app.querySelectorAll('[data-target], .bm-piece__target, .bm-piece__pick, .bm-ghost, .bm-stamp, .bm-private, .bm-know, [data-device], [data-team], #bm-strip[data-step], #bm-live-private > *')].map(n => n.className || n.id);
+})()`);
 /** A real key press, as the browser's input pipeline delivers it to the focused element. */
 async function key(page, name, code = name, keyCode = 0, text = undefined) {
   await page.send('Emulation.setFocusEmulationEnabled', { enabled: true });
@@ -124,7 +129,7 @@ try {
   ok('scan: target and guess confirmed together', (await stripLine(page)) === 'Scan Player 8, guessing Red?', await stripLine(page));
   await page.close();
   page = await open('vote.election');
-  ok('vote: all nine candidates are tappable on the board', (await seatsWith(page, OWN, 'data-target', 'eligible')).length === 9);
+  ok('vote: only the seven Healthy, unjailed candidates are tappable', js(await seatsWith(page, OWN, 'data-target', 'eligible')) === js([1, 2, 3, 4, 5, 7, 8]));
   await click(page, '#bm-app [data-act="answer:none"]');
   ok('vote: Abstain is an answer in the strip', (await stripLine(page)) === 'Abstain from this vote?', await stripLine(page));
   await page.close();
@@ -224,6 +229,79 @@ try {
   await page.close();
 
   // ---------- Private surfaces close; the card exists only while open ----------
+  for (const reason of ['background', 'stale', 'expired', 'disposed']) {
+    for (const scenario of ['shot.confirm', 'shot.pending', 'shot.unknown', 'move.confirm', 'move.pending', 'shot.checking']) {
+      page = await open(scenario === 'shot.checking' ? 'shot.unknown' : scenario, 'freeze=1');
+      if (scenario === 'shot.checking') await click(page, '#bm-app [data-act="check"]');
+      const before = await page.evaluate('structuredClone(window.__bmState)');
+      if (reason === 'background') await hide(page);
+      else if (reason === 'disposed') await page.evaluate(`window.dispatchEvent(new Event('pagehide'))`);
+      else await click(page, reason === 'stale' ? '#bm-stale' : '#bm-expire');
+      const after = await page.evaluate('window.__bmState');
+      ok(`${reason}/${scenario}: all private DOM is removed`, (await privateDOM(page)).length === 0, await privateDOM(page));
+      ok(`${reason}/${scenario}: unsent choice drops; sent/recovery flow and request counts survive`,
+        (before.flow.step === 'confirming' ? after.flow.step === 'idle' : js(after.flow) === js(before.flow)) && js(after.requests) === js(before.requests), after);
+      if (reason === 'background') await show(page);
+      if (reason === 'stale') await click(page, '#bm-fresh');
+      ok(`${reason}/${scenario}: foreground/fresh/disposed redraw never reopens private content`, (await privateDOM(page)).length === 0 && (await observerPrivate(page)).length === 0);
+      ok(`${reason}/${scenario}: no browser errors`, page.problems().length === 0, page.problems());
+      await page.close();
+    }
+  }
+
+  // Real prototype send -> lost answer -> explicit lookup, including a Move awaiting its
+  // public update. Reopening cannot itself submit, check or replay a receipt/card animation.
+  for (const kind of ['shot', 'move']) {
+    page = await open(kind === 'shot' ? 'shot.confirm' : 'move.confirm', 'answer=lose&freeze=1');
+    await click(page, '#bm-app [data-act="confirm"]');
+    await hide(page);
+    await sleep(800);
+    ok(`${kind}/lost answer: recovery is retained while hidden`, (await flow(page)).step === 'unknown' && (await privateDOM(page)).length === 0);
+    await show(page);
+    const requests = await page.evaluate('window.__bmState.requests');
+    await click(page, '#bm-nav-actions');
+    ok(`${kind}/reopen: Unknown with Check again, no automatic request`, (await flow(page)).step === 'unknown'
+      && Boolean(await page.evaluate(`document.querySelector('#bm-app [data-act="check"]')`)) && js(await page.evaluate('window.__bmState.requests')) === js(requests));
+    await click(page, '#bm-app [data-act="check"]');
+    ok(`${kind}/lookup: Checking is an explicit receipt lookup`, (await flow(page)).step === 'checking'
+      && (await page.evaluate('window.__bmState.requests.lookups')) === requests.lookups + 1);
+    await hide(page);
+    await sleep(750);
+    ok(`${kind}/lookup answer: accepted state stays internal while hidden`, (await flow(page)).step === 'accepted' && (await privateDOM(page)).length === 0);
+    if (kind === 'move') {
+      await show(page); await click(page, '#bm-nav-actions');
+      ok('accepted Move awaiting public view: stale removes the pending ghost and keeps the receipt', (await page.evaluate(`Boolean(document.querySelector('#bm-app .bm-ghost'))`)));
+      await click(page, '#bm-stale');
+      ok('accepted Move awaiting public view: all private content removed', (await flow(page)).step === 'accepted' && (await privateDOM(page)).length === 0);
+      await sleep(550); await click(page, '#bm-fresh');
+    } else await show(page);
+    const settledRequests = await page.evaluate('window.__bmState.requests');
+    const settledCues = (await cues(page)).length;
+    await click(page, '#bm-nav-actions');
+    ok(`${kind}/recovered reopen: same accepted receipt and no extra send/lookup/cue`, (await flow(page)).step === 'accepted'
+      && js(await page.evaluate('window.__bmState.requests')) === js(settledRequests) && (await cues(page)).length === settledCues);
+    ok(`${kind}/recovered reopen: no strip/card animation replay`, await page.evaluate(`document.getElementById('bm-app').getAnimations({ subtree: true }).filter(a => a.effect?.target?.closest('.bm-strip, .bm-sheet, .bm-tray')).length === 0`));
+    await page.close();
+  }
+
+  page = await open('shot.confirm', 'answer=slow&freeze=1');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await page.evaluate(`window.dispatchEvent(new Event('pagehide'))`);
+  await sleep(2700);
+  ok('dispose: a late answer cannot redraw private content or settle the disposed controller', (await flow(page)).step === 'submitting' && (await privateDOM(page)).length === 0);
+  await page.close();
+
+  page = await open('board.idle');
+  await click(page, '#bm-nav-card');
+  await hide(page); await show(page);
+  ok('card/background: role, knowledge and device stay absent after foreground', (await privateDOM(page)).length === 0);
+  await click(page, '#bm-nav-card');
+  ok('card/explicit reopen: authorized card restored without replay', Boolean(await page.evaluate(`document.querySelector('#bm-card .bm-private')`))
+    && await page.evaluate(`document.getElementById('bm-card').getAnimations({ subtree: true }).length === 0`));
+  await click(page, '#bm-stale');
+  ok('card/stale: role and card cues removed', (await privateDOM(page)).length === 0);
+  await page.close();
+
   page = await open('shot.choose');
   await hide(page);
   ok('background: an unsent choice is dropped and said so', (await flow(page)).step === 'idle' && (await notice(page)) === 'Your choice was not sent.', await notice(page));

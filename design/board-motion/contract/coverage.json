@@ -104,7 +104,7 @@
       "kind": "hack",
       "command": "REQUEST_HACK",
       "offers": "legalTargets.REQUEST_HACK",
-      "board": "As Shot. After the turn, the Hack phase is shown in the status bar with its own full minute; who is in it is in the Card only.",
+      "board": "As Shot. After the turn, the Hack phase has its own full minute. The requester remains the public active seat; only the partner association is in Card.",
       "inline": [],
       "self": "Not offered.",
       "hospitalJail": "Only where the view offers it.",
@@ -117,7 +117,7 @@
         "cue-registration",
         "cue-phase-change"
       ],
-      "public": "The HACK phase itself (phase.kind) is public; its members are not.",
+      "public": "The HACK phase and requester (activeSeatId) are public. The partner association is private to the participating players.",
       "scenarios": [
         "hack.choose",
         "hack.phase",
@@ -567,6 +567,13 @@
           "cue-sheet-open"
         ],
         "status": "authorized"
+      },
+      {
+        "id": "own-acknowledgments",
+        "drawn": "Supplier granted-recipient results and each recipient’s own Supply receipt, inside Card only. No public cue.",
+        "source": "Existing OwnAcknowledgmentsSchema and SeatSessionSchema in packages/contracts/src/own-acknowledgments.ts, paired to the authorized seat session by comic-feeds.ts. historyAvailable=false renders the existing history-unavailable fallback; knowledge prose in this synthetic prototype is not the typed acknowledgment feed.",
+        "audience": "private",
+        "cues": []
       }
     ]
   },

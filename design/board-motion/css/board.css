@@ -3,6 +3,13 @@
    Tokens only (design/prototypes/css/tokens.css, 0.4.0); pictures only behind the bundle marks;
    private cue hooks only on the viewer's own board ([data-board="own"]); nothing repeats. */
 
+/* Reopening a concealed receipt/card restores its facts without replaying a cue. */
+.bm-app[data-private-quiet="true"] :is(.bm-strip, .bm-sheet, .bm-tray),
+.bm-app[data-private-quiet="true"] :is(.bm-strip, .bm-sheet, .bm-tray) * {
+  animation: none !important;
+  transition: none !important;
+}
+
 :root {
   --bm-status: 52px;
   --bm-nav: 64px;

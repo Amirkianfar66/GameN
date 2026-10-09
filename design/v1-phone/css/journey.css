@@ -891,6 +891,46 @@ button, input, select { font: inherit; color: inherit; }
 
 /* ---------- the role card ---------- */
 
+.j-reveal-tap {
+  display: grid;
+  justify-items: center;
+  inline-size: min(100%, 17.5rem);
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ms-radius-panel);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.j-reveal-tap .j-rolecard { inline-size: 100%; }
+.j-role-surface { position: relative; inline-size: min(100%, 17.5rem); }
+.j-reveal-toggle {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ms-radius-panel);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.j-ready-mark {
+  display: grid;
+  place-items: center;
+  min-inline-size: 3rem;
+  min-block-size: 3rem;
+  border: var(--ms-stroke-ink-bold) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-control);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  font-size: 2rem;
+}
+
+
 .j-cardslot { display: grid; justify-items: center; gap: var(--ms-space-3); perspective: 900px; }
 .j-rolecard {
   position: relative;

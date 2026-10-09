@@ -2,8 +2,8 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "704c2c3de709d2d23d7f104c253a655b1291f1206d2297a37364f47e6c2eecee",
-  "browser": "Chromium 141.0.7390.37",
+  "inputsSha256": "23c20777430790026d96d7458ba75dc15a544efbe32b7c4481b31066bc03f655",
+  "browser": "Google Chrome 155.0.8059.39",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
     {
@@ -33,19 +33,19 @@
     {
       "id": "board.crowded",
       "group": "Board",
-      "title": "Seven in Room A, everyone reachable",
+      "title": "Layout stress: Seven in Room A, everyone reachable",
       "key": true
     },
     {
       "id": "board.all-one-room",
       "group": "Board",
-      "title": "All nine in Room A",
+      "title": "Layout stress: All nine in Room A",
       "key": false
     },
     {
       "id": "board.crowded-hospital",
       "group": "Board",
-      "title": "Six in the Hospital",
+      "title": "Layout stress: Six in the Hospital",
       "key": false
     },
     {
@@ -63,7 +63,7 @@
     {
       "id": "board.tightest",
       "group": "Board",
-      "title": "The tallest board: six in Room A, the Captain, two in the Hospital",
+      "title": "Layout stress: The tallest board: six in Room A, the Captain, two in the Hospital",
       "key": false
     },
     {
@@ -159,49 +159,49 @@
     {
       "id": "crowd.shot",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: a Shot at any of eight",
+      "title": "Layout stress: All nine in Room A: a Shot at any of eight",
       "key": false
     },
     {
       "id": "crowd.disable",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: a Disable at any of eight",
+      "title": "Layout stress: All nine in Room A: a Disable at any of eight",
       "key": false
     },
     {
       "id": "crowd.protect",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: Protection for any of nine",
+      "title": "Layout stress: All nine in Room A: Protection for any of nine",
       "key": false
     },
     {
       "id": "crowd.rescue",
       "group": "Crowded rooms",
-      "title": "Eight in the Hospital: a Rescue for any of them",
+      "title": "Layout stress: Eight in the Hospital: a Rescue for any of them",
       "key": true
     },
     {
       "id": "crowd.hack",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: a Hack request with any of eight",
+      "title": "Layout stress: All nine in Room A: a Hack request with any of eight",
       "key": false
     },
     {
       "id": "crowd.scan",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: a Scan of any of nine",
+      "title": "Layout stress: All nine in Room A: a Scan of any of nine",
       "key": false
     },
     {
       "id": "crowd.supply",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: Supply, one chosen",
+      "title": "Layout stress: All nine in Room A: Supply, one chosen",
       "key": false
     },
     {
       "id": "crowd.vote",
       "group": "Crowded rooms",
-      "title": "All nine in Room A: nine candidates, all reachable",
+      "title": "Layout stress: All nine in Room A: nine candidates, all reachable",
       "key": true
     },
     {
@@ -412,7 +412,7 @@
     },
     {
       "id": "w320-vote",
-      "about": "320 x 568: nine candidates on the board"
+      "about": "320 x 568: seven Healthy, unjailed candidates on the board"
     },
     {
       "id": "w320-crowded",
@@ -512,7 +512,7 @@
     },
     {
       "id": "long-names-vote",
-      "about": "Twelve-character names, every character a candidate"
+      "about": "Twelve-character names, seven eligible candidates"
     },
     {
       "id": "long-names-320",
@@ -2428,7 +2428,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-0ms.png",
       "width": 190,
-      "height": 287,
+      "height": 288,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2445,7 +2445,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-60ms.png",
       "width": 190,
-      "height": 287,
+      "height": 288,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2462,7 +2462,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-120ms.png",
       "width": 190,
-      "height": 287,
+      "height": 288,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2479,7 +2479,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-reduced.png",
       "width": 190,
-      "height": 287,
+      "height": 288,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2530,7 +2530,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-0ms.png",
       "width": 390,
-      "height": 86,
+      "height": 84,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2547,7 +2547,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-60ms.png",
       "width": 390,
-      "height": 86,
+      "height": 84,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2564,7 +2564,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-120ms.png",
       "width": 390,
-      "height": 86,
+      "height": 84,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2581,7 +2581,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-reduced.png",
       "width": 390,
-      "height": 86,
+      "height": 84,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2598,7 +2598,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-0ms.png",
       "width": 390,
-      "height": 56,
+      "height": 54,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2615,7 +2615,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-60ms.png",
       "width": 390,
-      "height": 56,
+      "height": 54,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2632,7 +2632,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-120ms.png",
       "width": 390,
-      "height": 56,
+      "height": 54,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2666,7 +2666,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-0ms.png",
       "width": 190,
-      "height": 283,
+      "height": 284,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2683,7 +2683,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-110ms.png",
       "width": 190,
-      "height": 283,
+      "height": 284,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2700,7 +2700,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-220ms.png",
       "width": 190,
-      "height": 283,
+      "height": 284,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2717,7 +2717,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-reduced.png",
       "width": 190,
-      "height": 283,
+      "height": 284,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -3501,7 +3501,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-key.png",
       "width": 1600,
-      "height": 4343,
+      "height": 4389,
       "viewport": "1600",
       "contact": true
     },
@@ -3510,7 +3510,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 4556,
+      "height": 4570,
       "viewport": "1600",
       "contact": true
     },
@@ -3519,7 +3519,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-matrix.png",
       "width": 1600,
-      "height": 2478,
+      "height": 2493,
       "viewport": "1600",
       "contact": true
     },
@@ -3528,7 +3528,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-motion.png",
       "width": 1600,
-      "height": 11913,
+      "height": 11894,
       "viewport": "1600",
       "contact": true
     },
@@ -3537,7 +3537,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-secrecy.png",
       "width": 1600,
-      "height": 2868,
+      "height": 2867,
       "viewport": "1600",
       "contact": true
     }
