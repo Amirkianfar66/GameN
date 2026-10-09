@@ -1,0 +1,4 @@
+320x568-system-explicit-full-settled: clean
+390x844-system-explicit-full-settled: clean
+1280x720-system-explicit-full-settled: clean
+PASS: 6 records; explicit-full OS change without a frame, native cancellation and teardown

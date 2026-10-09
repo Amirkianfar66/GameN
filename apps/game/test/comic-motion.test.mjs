@@ -96,6 +96,40 @@ for (const preference of ['in-app', 'system']) {
   });
 }
 
+test('OS reduction settles explicit full motion without a redraw and unsubscribes on disposal', t => {
+  const dom = motionDom(t);
+  const motion = createComicMotion(dom.root, { fx: dom.fx, now: () => 0 });
+  t.after(() => motion.dispose());
+  motion.after(atRoom('room-a', 'full'), motion.before());
+  const before = motion.before();
+  dom.redraw('room-b');
+  motion.after(atRoom('room-b', 'full'), before);
+  assert.equal(dom.fx.children.length, 3);
+  assert.equal(dom.animations.length, 2, 'native flight and co-occupant reflow');
+
+  // No after(), new model, snapshot or redraw accompanies this native preference event.
+  dom.deviceReduced(true);
+  assert.equal(dom.fx.children.length, 0);
+  assert.equal(dom.piece('seat-1').dataset.moving, undefined);
+  assert.ok(dom.animations.every(animation => animation.cancellations === 1));
+  assert.equal(dom.mediaListeners.size, 1);
+  dom.deviceReduced(false);
+  assert.equal(dom.animations.length, 2, 'turning reduction off replays nothing');
+  assert.deepEqual(motion.after(atRoom('room-b', 'full'), motion.before()), []);
+  const nextBefore = motion.before();
+  dom.redraw('room-a');
+  motion.after(atRoom('room-a', 'full'), nextBefore);
+  assert.equal(dom.fx.children.length, 3, 'a later public move still travels');
+  motion.dispose();
+  motion.dispose();
+  assert.equal(dom.mediaListeners.size, 0);
+  assert.equal(dom.fx.children.length, 0);
+  dom.deviceReduced(true);
+  t.mock.timers.tick(2_000);
+  assert.ok(dom.animations.every(animation => animation.cancellations === 1), 'disposed listener/timers cannot cancel twice');
+  assert.deepEqual(motion.after(atRoom('room-b', 'full'), motion.before()), [], 'disposed director cannot restart');
+});
+
 test('a reduced-motion switch also clears the lingering trail after travel completes', async t => {
   const dom = motionDom(t);
   const motion = createComicMotion(dom.root, { fx: dom.fx, now: () => 0 });

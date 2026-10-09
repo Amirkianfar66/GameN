@@ -31,6 +31,8 @@ It also records what differs from the proposal, and why. Its browser-simulation 
 
 [board-recovery.md](board-recovery.md) is the Codex Frontend follow-up to draft PR #92: stale/deadline concealment of sent-command board marks, immediate mid-flight reduced-motion cancellation, and fresh current-runtime evidence. The historical screenshots and earlier outcomes work remain separate from that verification.
 
+[motion-os-preference.md](motion-os-preference.md) fixes the remaining explicit-full → OS-reduced wiring case without a screen frame, with native cancellation and owned-listener teardown evidence.
+
 ## Slices
 
 Each stage is labeled as the brief requires: **proposed**, **fixture-tested**, **integrated** or **measured**. Nothing is integrated or measured yet.

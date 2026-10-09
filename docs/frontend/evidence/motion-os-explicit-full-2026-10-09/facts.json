@@ -1,0 +1,173 @@
+[
+  {
+    "name": "320x568-system-explicit-full-settled",
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "71.75px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "ms-phone-more",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-system-explicit-full-lifecycle",
+    "during": {
+      "starts": 5,
+      "cancellations": 0,
+      "fx": 3,
+      "frames": 6,
+      "mediaListeners": 2
+    },
+    "landed": {
+      "starts": 5,
+      "cancellations": 5,
+      "frames": 6,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false,
+    "noRedrawOnReduction": true,
+    "mediaListenersAfterDispose": 0
+  },
+  {
+    "name": "390x844-system-explicit-full-settled",
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": false,
+    "rowUnit": "74px",
+    "phase": "Your turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": "available",
+    "focus": "ms-phone-more",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-system-explicit-full-lifecycle",
+    "during": {
+      "starts": 5,
+      "cancellations": 0,
+      "fx": 3,
+      "frames": 6,
+      "mediaListeners": 2
+    },
+    "landed": {
+      "starts": 5,
+      "cancellations": 5,
+      "frames": 6,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false,
+    "noRedrawOnReduction": true,
+    "mediaListenersAfterDispose": 0
+  },
+  {
+    "name": "1280x720-system-explicit-full-settled",
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "boardScrollsInside": null,
+    "rowUnit": null,
+    "phase": "Player 3’s turn",
+    "strip": null,
+    "stripStep": null,
+    "stamp": null,
+    "tray": false,
+    "targets": [],
+    "overlaps": [],
+    "smallControls": [],
+    "statusClipped": false,
+    "marks": {
+      "eligible": [],
+      "selected": [],
+      "picked": [],
+      "pending": [],
+      "other": []
+    },
+    "ghost": null,
+    "pass": null,
+    "focus": "connected-body",
+    "fxNodes": 0,
+    "moving": [],
+    "privateHooks": [],
+    "roleWords": [],
+    "commands": [],
+    "problems": []
+  },
+  {
+    "name": "1280x720-system-explicit-full-lifecycle",
+    "during": {
+      "starts": 6,
+      "cancellations": 0,
+      "fx": 3,
+      "frames": 6,
+      "mediaListeners": 2
+    },
+    "landed": {
+      "starts": 6,
+      "cancellations": 6,
+      "frames": 6,
+      "room": "room-b",
+      "visibility": "visible"
+    },
+    "disposed": true,
+    "replayed": false,
+    "noRedrawOnReduction": true,
+    "mediaListenersAfterDispose": 0
+  }
+]

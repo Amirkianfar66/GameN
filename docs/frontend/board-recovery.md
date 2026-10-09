@@ -2,6 +2,8 @@
 
 Issue [#87](https://github.com/Amirkianfar66/GameN/issues/87) · existing draft [PR #92](https://github.com/Amirkianfar66/GameN/pull/92) · 9 October 2026.
 
+The first follow-up below did not cover an explicitly selected full-motion setting followed by OS reduction without a screen frame. The [bounded OS-preference correction](motion-os-preference.md) reproduces and fixes that remaining wiring gap, with separate current-runtime evidence. Its source changes supersede the first follow-up's cancellation implementation; the earlier captures remain evidence for their actual cases.
+
 The Codex Frontend worker fixes the two reproduced consumer findings in Backend's [PR #90](https://github.com/Amirkianfar66/GameN/pull/90), reviewed at `7f921f4ee05958834532a36d37b72541237fd9e0`. It continues the actual committed Frontend head; it does not restart the implementation. Integration retains coordination, shared files, merge and release ownership.
 
 ## Baseline and rule references

@@ -6,6 +6,12 @@ export function motionDom(t) {
   const phase = { dataset: {} };
   let pieces = new Map();
   let deviceReduced = false;
+  const mediaListeners = new Set();
+  const deviceMotion = {
+    get matches() { return deviceReduced; },
+    addEventListener(type, listener) { if (type === 'change') mediaListeners.add(listener); },
+    removeEventListener(type, listener) { if (type === 'change') mediaListeners.delete(listener); },
+  };
 
   function element() {
     return {
@@ -41,7 +47,7 @@ export function motionDom(t) {
   const globals = {
     document: { visibilityState: 'visible', createElement: element },
     CSS: { escape: value => value },
-    matchMedia: () => ({ matches: deviceReduced }),
+    matchMedia: () => deviceMotion,
     getComputedStyle: () => ({ backgroundImage: 'url(public-standee.svg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }),
   };
   for (const [name, value] of Object.entries(globals)) {
@@ -51,5 +57,10 @@ export function motionDom(t) {
   }
   t.mock.timers.enable({ apis: ['setTimeout'] });
   redraw('room-a');
-  return { root, fx, phase, animations, redraw, piece: seat => pieces.get(seat), deviceReduced: value => { deviceReduced = value; } };
+  return { root, fx, phase, animations, redraw, piece: seat => pieces.get(seat), mediaListeners,
+    deviceReduced(value) {
+      deviceReduced = value;
+      for (const listener of [...mediaListeners]) listener({ matches: value });
+    },
+  };
 }

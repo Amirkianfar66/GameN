@@ -112,15 +112,18 @@ const screen = display
   ? createConnectedTableScreen({ transport, matchId: MATCH, ports, host: { reload: () => window.location.reload() } })
   : createConnectedPlayerScreen({ transport, matchId: MATCH, seatId: self, ports, host: { reload: () => window.location.reload() } });
 const feeds = createComicFeeds({ transport, ports, matchId: MATCH, ...(display ? {} : { seatId: self }) });
+let frameCount = 0;
+const stopCounting = screen.subscribe(() => { frameCount += 1; });
 const render = display ? renderComicTableShell : renderComicPlayerShell;
 await transport.signIn();
 const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: null }),
-  subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => feeds.dispose() });
+  subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => { stopCounting(); feeds.dispose(); } });
 feeds.start();
 if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce-motion', checked: true });
 
 window.__simulation = {
   scenario: id, title: definition.title, log, operations,
+  get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The same view again, as a fresh snapshot. */
