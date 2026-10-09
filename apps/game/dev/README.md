@@ -73,3 +73,22 @@ The operator console can arrange what happens to the next command request, once:
 One thing, in the tab's session storage, under `mothership:unresolved-command`: the match, seat, phase and command identifiers of a command whose outcome is not yet known. The client core writes it when the command is sent and removes it as soon as the outcome is known. It never holds a target, a role or a payload. It is what lets a reloaded page ask what became of its command instead of offering the shot again. Nothing else is stored: no local storage, cookie, cache or database.
 
 A request that gets no answer fails at once with an empty `504`. A real one could also hang until the client gives up; the client's eight-second limit is covered by tests, not by this harness. The connection is deliberately not cut instead: Chrome 154 re-sent a single `fetch` six times, once per idle connection, when the server closed the connection before any response. That is worth knowing in itself — a command can be delivered more than once without any client code retrying it — and it is why the identical command must always get its original receipt back.
+
+## Board simulation (issue #87)
+
+`board/` is a separate page, not part of the fixture harness above. It mounts the release's own connected player screen (or, with `?as=display`, the shared display): the real command controller, host, stylesheets and art. A scripted in-page command desk replaces the backend and feeds it schema-checked synthetic protocol-2 views (`board/scenarios.mjs`). The desk answers every command as registered, after a delay, or as `?answer=reject` / `?answer=hang` say. A move it accepts is followed by a view that has the player in the room asked for. What each scenario offers follows the Designer's reviewed scenario list and stays within what the engine can offer. It is not an engine, and it is labeled as the local emulator mode.
+
+```sh
+npx vite --config apps/game/dev/board/vite.config.mjs        # http://127.0.0.1:5178/?scenario=shot
+CHROME_PATH=/path/to/chrome node apps/game/dev/capture-board-play.mjs <output-directory> [--all-sizes]
+```
+
+`capture-board-play.mjs` plays every action through touch and key input at 320 × 568, 360 × 740, 390 × 844 and 430 × 932. After each step it measures, through `capture/board-measure.mjs`:
+
+- page scroll;
+- press areas: size, containment in the room, hit at the centre, overlap;
+- controls under 44 px;
+- status-bar clipping;
+- private hooks.
+
+`capture-board-emulator.mjs` plays the same board against the local practice harness (`docs/frontend/practice-bots.md`): a host, one player among bots and an admitted shared display. Both scripts are evidence tools, not checks.

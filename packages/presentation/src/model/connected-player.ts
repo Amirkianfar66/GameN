@@ -8,8 +8,8 @@ import {
 import { buildKnowledge } from './knowledge.js';
 import { buildResult } from './result.js';
 import type {
-  ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
-  ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, SeatModel,
+  ActionBoardMarksModel, ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
+  ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, LocationName, SeatModel,
 } from './types.js';
 import { buildVotePanel, ownBallotLine } from './votes.js';
 
@@ -195,10 +195,62 @@ export function describeAction(action: ActionFlowState, selfSeatId: SeatId | nul
   }
 }
 
-function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): { status: ConnectedActionStatus; title: string; body: ConnectedActionBody } {
-  // A choice that has not been sent cannot outlive the conditions it was made under.
+/** A choice that has not been sent cannot outlive the conditions it was made under. */
+function drawnAction(input: ConnectedPlayerInput): ActionFlowState {
   const unsent = input.action.step === 'choosing' || input.action.step === 'confirming';
-  const action: ActionFlowState = unsent && !mayStart(input) ? { step: 'idle' } : input.action;
+  return unsent && !mayStart(input) ? { step: 'idle' } : input.action;
+}
+
+const NO_MARKS: ActionBoardMarksModel = { eligible: [], picked: [], numbered: false, pending: [], faint: false, move: null };
+
+/** The seats a choice names, in the order they were picked. A move names a room; a release vote, the public ballot's subject. */
+function chosenSeats(choice: ActionChoice): SeatId[] {
+  switch (choice.kind) {
+    case 'pass':
+    case 'move':
+    case 'release-vote': return [];
+    case 'supply': return [...choice.targetSeatIds];
+    case 'code': return [...choice.seatIds];
+    default: return choice.targetSeatId === null ? [] : [choice.targetSeatId];
+  }
+}
+
+/** Kinds whose choice is made by tapping characters on the board. */
+const namesSeats = (kind: ActionKind): boolean => kind !== 'pass' && kind !== 'move' && kind !== 'release-vote';
+
+/**
+ * What the player's own command marks on the board. The press areas are exactly the seats the
+ * server's view offers for the next part; a pick, a pending command or a tentative move is the
+ * player's own choice. Nothing is derived from a role, a result or another seat's command.
+ */
+function boardMarks(action: ActionFlowState, view: FullPlayerView, body: ConnectedActionBody): ActionBoardMarksModel {
+  const numbered = (kind: ActionKind): boolean => kind === 'supply' || kind === 'code';
+  // A move is drawn where the view has the player, never where they asked: once the view shows
+  // them in the room asked for, the tentative place is gone, whatever the receipt says yet.
+  const shown = view.seats.find(seat => seat.seatId === view.self.seatId)?.location;
+  const tentative = (destination: LocationName, state: 'tentative' | 'pending'): ActionBoardMarksModel =>
+    (shown === destination ? NO_MARKS : { ...NO_MARKS, move: { destination, state } });
+  switch (action.step) {
+    case 'choosing': {
+      if (!namesSeats(action.kind)) return NO_MARKS;
+      const eligible = body.step === 'choosing' ? body.choices.map(choice => choice.value).filter(isSeatId) : [];
+      return { ...NO_MARKS, eligible, picked: (action.picked ?? []).filter(isSeatId), numbered: numbered(action.kind), faint: true };
+    }
+    case 'confirming':
+      if (action.choice.kind === 'move') return tentative(action.choice.destination, 'tentative');
+      return namesSeats(action.choice.kind) ? { ...NO_MARKS, picked: chosenSeats(action.choice), numbered: numbered(action.choice.kind), faint: true } : NO_MARKS;
+    case 'submitting':
+    case 'checking':
+      if (action.choice?.kind === 'move') return tentative(action.choice.destination, 'pending');
+      return action.choice === null ? NO_MARKS : { ...NO_MARKS, pending: chosenSeats(action.choice) };
+    case 'accepted':
+      return action.choice?.kind === 'move' ? tentative(action.choice.destination, 'pending') : NO_MARKS;
+    default: return NO_MARKS;
+  }
+}
+
+function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): { status: ConnectedActionStatus; title: string; body: ConnectedActionBody } {
+  const action = drawnAction(input);
   const titled = (kind: ActionKind | null): string => (kind === null ? en.action.title : en.action.kind[kind]);
   const acknowledge = (label: string, armed: boolean): CardButtonModel => button(SHELL_IDS.actionDismiss, label, 'action/dismiss', true, !armed);
 
@@ -258,8 +310,16 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 
 function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedActionCardModel {
   const { status, title, body } = buildBody(input, view, seats);
-  return { title, status, statusLabel: en.action.status[status], selected: !['idle', 'accepted', 'not-accepted'].includes(status), body };
+  const action = drawnAction(input);
+  return {
+    title, kind: action.step === 'idle' ? null : action.step === 'choosing' ? action.kind : action.choice?.kind ?? null,
+    status, statusLabel: en.action.status[status], selected: !['idle', 'accepted', 'not-accepted'].includes(status), body,
+    board: boardMarks(action, view, body),
+  };
 }
+
+/** Rulesets that have no Pass. A match keeps the ruleset it was created with. */
+const RULESETS_WITHOUT_PASS: ReadonlySet<string> = new Set(['in-person-v1-2026-10-06']);
 
 function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedPrivateAreaModel {
   const open = input.privacy.revealed && !input.privacy.concealed;
@@ -302,6 +362,8 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     passTurn: {
       available: !input.privacy.concealed && mayStart(input) && openness(view, 'pass') === 'open'
         && (input.action.step === 'idle' || (['accepted', 'rejected', 'not-accepted'].includes(input.action.step) && 'armed' in input.action && input.action.armed)),
+      // The server's offer is what makes Pass available; the ruleset only says whether the match has it at all.
+      inRules: !RULESETS_WITHOUT_PASS.has(view.versions.rulesetVersion) || openness(view, 'pass') !== 'closed',
       card: !input.privacy.concealed && 'choice' in input.action && input.action.choice?.kind === 'pass' ? buildCard(input, view, seats) : null,
     },
     privateArea: buildPrivateArea(input, view, seats),

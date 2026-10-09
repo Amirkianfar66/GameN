@@ -1,0 +1,777 @@
+/* The comic board as the place the game is played on a phone (issue #87).
+   One page of five rooms between the status bar and navigation; characters stand at stations
+   worked out from public occupancy, so every phone draws the same board. The marks of the
+   player's own command (press areas, picks, a pending command, a tentative move) are drawn
+   only on the viewer's own board ([data-board="own"]), which only a player's phone has.
+   Colors and durations are tokens (0.4.0); pictures are the loaded public bundle's. Proposed
+   cues (DSN-D31) are marked "proposed" where they are drawn. */
+
+#app .ms-shell--player .ms-board[data-board="own"] {
+  --board-gutter: 6px;
+  --board-spine: 10px;
+  --board-pad: 8px;
+  --board-lift: 3px;
+  position: relative;
+  /* Its own stacking context: the characters' and tags' layers never rise over the tray,
+     a sheet or the strip, whatever their order inside the board. */
+  z-index: 0;
+  isolation: isolate;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  container-type: normal;
+}
+
+/* ---------- the phone: status bar, board, strip, navigation; nothing else takes height ---------- */
+#app .ms-shell--player[data-screen="match"] .ms-main {
+  gap: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+}
+/* The status bar keeps one height, so nothing below it moves when its words change. */
+#app .ms-shell--player[data-screen="match"] .ms-phase {
+  height: 52px;
+  min-height: 0;
+  margin: 2px 6px 0;
+  overflow: hidden;
+}
+#app .ms-shell--player[data-screen="match"] :is(.ms-private[data-open="true"]:not(.phone-action-dock), .phone-menu) { margin-inline: 6px; }
+/* The timer's line is as tall as its digits, so the fixed bar never clips it. */
+#app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer { align-self: center; padding-block: 2px; }
+#app .ms-shell--player[data-screen="match"] .ms-phase .ms-timer__value { font-size: 1.4rem; line-height: 1.15; }
+
+/* ---------- one comic page: Command Room across the top; Room A, Room B; Hospital, Jail ---------- */
+#app .ms-shell--player .ms-board[data-board="own"] > .ms-zones {
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: var(--board-gutter);
+  display: grid;
+  gap: var(--board-gutter);
+  grid-template-columns: minmax(0, 1fr) var(--board-spine) minmax(0, 1fr);
+  grid-template-rows: var(--band-top, minmax(0, 0.8fr)) var(--band-middle, minmax(0, 1.25fr)) var(--band-lower, minmax(0, 1fr));
+  grid-template-areas: "top top top" "a spine b" "h spine j";
+  background: var(--ms-color-ink);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+  /* The bands are sized so that this never scrolls at the default text size. If it must (at
+     enlarged text), the board scrolls inside itself and the strip never covers a room. */
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+}
+/* The gutter between the columns: a steel spine with lamps. No arrow, door or path: the
+   picture says nothing about which rooms connect (DSN-D28). */
+#app .ms-shell--player .ms-board[data-board="own"] > .ms-zones::before {
+  content: "";
+  grid-area: 2 / 2 / 4 / 3;
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 3px;
+  background:
+    linear-gradient(var(--ms-color-caption), var(--ms-color-caption)) 50% 18% / 4px 14% no-repeat,
+    linear-gradient(var(--ms-color-caption), var(--ms-color-caption)) 50% 50% / 4px 14% no-repeat,
+    linear-gradient(var(--ms-color-caption), var(--ms-color-caption)) 50% 82% / 4px 14% no-repeat,
+    var(--ms-color-steel-shadow);
+  opacity: 0.9;
+}
+#app .ms-shell--player .ms-board[data-board="own"] > .ms-zones[data-final="true"] {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: "f";
+}
+#app .ms-shell--player .ms-board[data-board="own"] > .ms-zones[data-final="true"]::before { display: none; }
+
+/* ---------- a room panel: its picture pinned by its anchor line, its characters at their stations ---------- */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone {
+  /* A move tag keeps a full 44 px band (measured, and replaced, by the host); a fixed caption less. */
+  --cap: 32px;
+  --pad: var(--board-pad);
+  --area-h: calc(100cqh - var(--cap) - var(--pad));
+  --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.74), 60px);
+  /* Rows are stacked at least one press area apart, and the back row keeps a whole press area
+     under the room's caption: the pitch is the board's row unit or more. */
+  --row-gap: max(var(--row-unit, 50px), min(calc((var(--area-h) - max(var(--piece-w) * 1.25, 44px)) / max(var(--room-rows, 1) - 1, 1)), calc(var(--area-h) * 0.46)));
+  /* The picture is pinned by its anchor line (edge, in its own units) at a share (at) of the
+     piece area, and scaled to cover the panel. On a short panel the line rises until the rows
+     in front of it fit below it. */
+  --anchor-y: calc(var(--cap) + min(var(--at) * var(--area-h), var(--area-h) - (var(--room-rows, 1) - 1) * var(--row-gap) - 6px));
+  --k: max(calc(100cqw / var(--cw)), calc(var(--anchor-y) / var(--edge)), calc((100cqh - var(--anchor-y)) / (768 - var(--edge))));
+  position: relative;
+  display: block;
+  min-height: 0;
+  min-block-size: 0;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: auto;
+  overflow: hidden;
+  container-type: size;
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 3px;
+  background: var(--ms-zone-ground, var(--ms-color-steel-shadow));
+  box-shadow: inset 0 0 0 2px var(--ms-color-paper);
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[hidden] { display: none; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone::after { content: none; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone:has(.phone-room-move) { --cap: 44px; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-crowd="true"] { --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.66), 52px); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="command-room"] { grid-area: top; --cx: 512; --cw: 1024; --edge: 424; --at: 0.62; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="room-a"] { grid-area: a; --cx: 512; --cw: 600; --edge: 600; --at: 0.78; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="room-b"] { grid-area: b; --cx: 540; --cw: 600; --edge: 372; --at: 0.5; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="hospital"] { grid-area: h; --cx: 380; --cw: 560; --edge: 392; --at: 0.5; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="jail"] { grid-area: j; --cx: 400; --cw: 620; --edge: 600; --at: 0.8; }
+/* The Final Zone has no picture in the kit (GAP-6): paper, with the approved halftone and speed lines. */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="final-zone"] {
+  grid-area: f;
+  --cx: 512; --cw: 1024; --edge: 384; --at: 0.5;
+  --piece-w: clamp(40px, 14cqw, 70px);
+  --row-gap: clamp(60px, calc(var(--area-h) * 0.3), 130px);
+  background: var(--ms-color-paper-deep);
+}
+
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-stage {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: calc(1024 * var(--k));
+  height: calc(768 * var(--k));
+  left: calc(50cqw - var(--cx) * var(--k));
+  top: calc(var(--anchor-y) - var(--edge) * var(--k));
+  background: var(--ms-zone-art, none) 0 0 / 100% 100% no-repeat;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="final-zone"] .phone-room-stage { inset: 0; width: auto; height: auto; }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="final-zone"] .phone-room-stage {
+  background: var(--ms-asset-fx-speed-lines-ink) center 62% / 160% auto no-repeat, var(--ms-asset-pattern-halftone-fine-ink) 0 0 / 14px 14px;
+  opacity: 0.28;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone__empty { display: none; }
+
+/* ---------- room name tags: the slanted caption of the approved page ---------- */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone__name {
+  position: absolute;
+  z-index: 60;
+  inset: 0 auto auto 0;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  transform: none;
+  translate: none;
+  font-size: 0.75rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone__name::before,
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone__name::after { content: none; }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 26px;
+  max-width: 100%;
+  margin: 3px;
+  padding: 2px 8px;
+  overflow: hidden;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-caption);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 2px;
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt));
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+}
+/* A move tag's button is its press area: at least 44 by 44 around the drawn caption, never
+   wider than its panel. An overflow-hidden caption could not carry a larger press area. */
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-move {
+  display: block;
+  box-sizing: border-box;
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0 9px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-transform: none;
+  cursor: pointer;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-move .phone-room-tag { display: flex; width: max-content; max-width: calc(100% - 6px); }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-move:focus-visible { outline: none; }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-move:focus-visible .phone-room-tag { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 2px; }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-move:active .phone-room-tag { translate: 0 1px; }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-room-tag__go { flex: none; }
+@container (max-width: 120px) { #app .ms-shell--player .ms-board[data-board="own"] .phone-room-tag__go { display: none; } }
+
+/* ---------- characters at their stations ---------- */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seats {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat {
+  --w: calc(var(--piece-w) * var(--depth, 1));
+  --h: calc(var(--w) * 1.25);
+  position: absolute;
+  z-index: calc(30 - var(--row, 0) * 8);
+  display: block;
+  width: var(--w);
+  height: var(--h);
+  min-width: 0;
+  max-width: none;
+  max-inline-size: none;
+  margin: 0;
+  padding: 0;
+  flex: none;
+  left: calc(var(--x, 0.5) * 100cqw - var(--w) / 2);
+  top: calc(100cqh - var(--pad) - var(--row, 0) * var(--row-gap) - var(--h));
+  outline: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone[data-zone="final-zone"] .ms-seat {
+  top: calc(100cqh - var(--pad) - 24cqh - var(--row, 0) * var(--row-gap) - var(--h));
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat > .ms-token {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
+  min-width: 0;
+  aspect-ratio: auto;
+  margin: 0;
+  border-radius: 40% 40% 12% 12%;
+  font-size: 0;
+}
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat > .ms-token { border-radius: 0; background-position: center bottom; }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat[data-character] > .ms-token {
+  background: var(--ms-piece-standee, none) center bottom / contain no-repeat;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token { filter: grayscale(1) contrast(0.7); opacity: 0.6; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token { transform-origin: 50% 100%; rotate: -4deg; }
+
+/* The name plate: seat number and name on the character's own stand. The number is never cut. */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__name {
+  position: absolute;
+  z-index: 50;
+  inset: auto auto -3px 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: stretch;
+  max-width: calc(var(--w) + 18px);
+  max-inline-size: calc(var(--w) + 18px);
+  height: auto;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: none;
+  font-family: var(--ms-font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 1.5px solid var(--ms-color-ink);
+  border-radius: 2px;
+  box-shadow: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__number {
+  position: static;
+  flex: none;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0 3px;
+  overflow: visible;
+  clip-path: none;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-caption);
+  border-right: 1.5px solid var(--ms-color-ink);
+  border-radius: 0;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__player { min-width: 0; padding: 0 3px; overflow: hidden; text-overflow: ellipsis; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat[data-self="true"] .ms-seat__name { box-shadow: 0 0 0 2px var(--ms-color-caption); }
+
+/* Public markers ride on the character: health, Jail, Captain, the active turn, and a faction
+   the rules have revealed. Their words are in the document and in the readable list. */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-markers {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: block;
+  width: auto;
+  height: auto;
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: none;
+  translate: none;
+  pointer-events: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker:not(.ms-marker--health[data-variant="healthy"]) {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  inline-size: 16px;
+  min-block-size: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  outline: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--self,
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--health[data-variant="healthy"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--captain { inset: -4px -6px auto auto; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--health { inset: -4px auto auto -6px; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--jail { inset: 14px -6px auto auto; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--turn { inset: -15px auto auto calc(50% - 11px); width: 22px; height: 16px; inline-size: 22px; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker:not(.ms-marker--health[data-variant="healthy"])::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 50%;
+  background: var(--ms-color-paper);
+  border: 1.5px solid var(--ms-color-ink);
+  -webkit-mask: none;
+  mask: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--turn::before { border-radius: 0; border: 0; background: var(--ms-color-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker:not(.ms-marker--health[data-variant="healthy"])::before { border: 0; border-radius: 0; background: var(--ms-marker-badge, var(--ms-color-paper)) center / contain no-repeat; }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--turn::before { clip-path: none; }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--captain { --ms-marker-badge: var(--ms-asset-marker-captain-badge); }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--health[data-variant="injured"] { --ms-marker-badge: var(--ms-asset-marker-health-injured-badge); }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--health[data-variant="eliminated"] { --ms-marker-badge: var(--ms-asset-marker-health-eliminated-badge); }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--jail { --ms-marker-badge: var(--ms-asset-marker-jail-badge); }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--turn { --ms-marker-badge: var(--ms-asset-marker-turn-float); }
+/* A faction the rules reveal (at elimination): its name, stamped on the character. */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--faction { inset: 30% auto auto 50%; width: auto; height: auto; inline-size: auto; translate: -50% 0; rotate: var(--ms-stamp-rotation); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--faction::before { content: none; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--faction::after {
+  content: attr(data-variant);
+  display: block;
+  padding: 0 4px;
+  font-size: 0.5625rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 1.5px solid var(--ms-color-ink);
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--faction[data-variant="blue"]::after { background: var(--ms-color-faction-blue); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--faction[data-variant="red"]::after { background: var(--ms-color-faction-red); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-marker--faction[data-variant="alien"]::after { background: var(--ms-color-faction-alien); }
+
+/* ---------- the player's own command, on their own board only ---------- */
+/* The ring at a character's feet: dashed while offered, solid once picked, dotted while sent. */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-board-target]::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: auto -14% -8% -14%;
+  height: 36%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-board-target="eligible"]::before { border: 2.5px dashed var(--ms-color-caption); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat:is([data-board-target="selected"], [data-board-target="picked"])::before { border: 3.5px solid var(--ms-color-caption); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-board-target="pending"]::before { border: 2px dotted var(--ms-color-paper); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-board-target="other"]::before { content: none; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-board-target="other"] > .ms-token { opacity: 0.42; filter: grayscale(0.6); }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat:is([data-board-target="selected"], [data-board-target="picked"]) > .ms-token { translate: 0 calc(-1 * var(--board-lift)); }
+/* A pick's number (Supply, Code), or a check for a single chosen character, on the character. */
+#app .ms-shell--player .ms-board[data-board="own"] .phone-pick-order {
+  position: absolute;
+  z-index: 52;
+  inset: 8px -8px auto auto;
+  width: 20px;
+  height: 20px;
+  min-width: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-caption);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 50%;
+  transform: rotate(var(--ms-stamp-rotation));
+}
+#app .ms-shell--player .ms-board[data-board="own"] .phone-pick-order[data-mark="pending"] { background: var(--ms-color-paper); }
+/* The press area is the character itself: at least 44 by 44, anchored at its feet, never wider
+   than the distance to its nearest neighbour in the row, so two never overlap. */
+#app .ms-shell--player .ms-board[data-board="own"] .phone-character-target {
+  position: absolute;
+  z-index: 55;
+  inset: auto auto 0 50%;
+  width: max(44px, min(var(--w), calc(var(--gap, 1) * 100cqw - 2px)));
+  min-width: 44px;
+  height: clamp(44px, min(calc(var(--h) * 0.92), var(--row-gap, 44px)), calc(100cqh - var(--pad) - var(--row, 0) * var(--row-gap) - var(--cap)));
+  min-height: 44px;
+  aspect-ratio: auto;
+  margin: 0;
+  padding: 0;
+  translate: -50% 0;
+  transform: none;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .phone-character-target::after {
+  content: "+";
+  position: absolute;
+  inset: -2px -2px auto auto;
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-caption);
+  border: 1.5px solid var(--ms-color-ink);
+  border-radius: 50%;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .phone-character-target:active { background: color-mix(in srgb, var(--ms-color-caption) 22%, transparent); }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-character-target:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
+
+/* A tentative place for the player's own move (proposed, cue-move-tentative): dashed, in the
+   room asked for, until the view shows where the character is. Words: "You?" (proposed). */
+#app .ms-shell--player .ms-board[data-board="own"] .phone-move-ghost {
+  position: absolute;
+  z-index: 25;
+  width: var(--piece-w);
+  height: calc(var(--piece-w) * 1.25);
+  left: calc(50% - var(--piece-w) / 2);
+  bottom: calc(var(--pad) + 4px);
+  border: 2.5px dashed var(--ms-color-caption);
+  border-radius: 40% 40% 14% 14%;
+  pointer-events: none;
+  animation: board-fade var(--ms-motion-card) var(--ms-ease-standard) backwards;
+}
+#app .ms-shell--player .ms-board[data-board="own"] .phone-move-ghost[data-state="pending"] { border-style: dotted; }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-move-ghost__art { position: absolute; inset: 4px; opacity: 0.4; background: transparent center bottom / contain no-repeat; }
+[data-art~="public-board"] #app .ms-shell--player .ms-board[data-board="own"] .phone-move-ghost[data-character] .phone-move-ghost__art { background-image: var(--ms-piece-standee, none); }
+#app .ms-shell--player .ms-board[data-board="own"] .phone-move-ghost__tag {
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  translate: -50% 0;
+  padding: 0 4px;
+  font-size: 0.625rem;
+  font-weight: 800;
+  white-space: nowrap;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-caption);
+  border: 1.5px solid var(--ms-color-ink);
+}
+
+/* ---------- motion of public facts: the same on every screen, the shared display included ---------- */
+.ms-shell .ms-board .ms-seat[data-moving] { visibility: hidden; }
+.ms-shell .ms-board .ms-seat[data-cue="arrived"] > .ms-token { animation: board-fade var(--ms-motion-reduced-fade) linear both; }
+.ms-shell .ms-board .ms-seat[data-cue="status"] .ms-marker { animation: board-stamp var(--ms-motion-card) var(--ms-ease-snap) backwards; }
+.ms-shell .ms-board .ms-seat[data-cue="status"] > .ms-token { animation: board-status-ink var(--ms-motion-card) var(--ms-ease-standard); }
+.ms-shell .ms-board .ms-seat[data-cue="turn"] .ms-marker--turn { animation: board-drop var(--ms-motion-card) var(--ms-ease-snap) backwards; }
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-cue="pick"] > .ms-token { animation: board-pick var(--ms-motion-selection) var(--ms-ease-snap) backwards; }
+#app .ms-shell--player[data-screen="match"] .ms-phase,
+.ms-shell--table .ms-phase { position: relative; }
+.ms-shell .ms-phase[data-cue="phase"] .ms-phase__label { animation: board-line-in var(--ms-motion-card) var(--ms-ease-snap) backwards; }
+.ms-shell .ms-phase[data-cue="round"] .ms-phase__round { animation: board-stamp var(--ms-motion-round) var(--ms-ease-snap) backwards; }
+.ms-shell .ms-phase[data-cue="round"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--ms-color-caption);
+  transform-origin: left center;
+  animation: board-sweep var(--ms-motion-round) var(--ms-ease-sweep) both;
+  opacity: 0;
+}
+/* The layer a moving character is carried in: over the page, taking no pointer events. */
+.phone-fx { position: fixed; inset: 0; z-index: 85; pointer-events: none; overflow: hidden; }
+/* The flyer is a copy of the character's own picture: the host copies the drawn token's background. */
+.phone-fx__flyer { position: absolute; z-index: 2; background: transparent center bottom / contain no-repeat; }
+.phone-fx__trail { position: absolute; height: 10px; transform-origin: 0 50%; border-radius: 5px; background: var(--ms-color-ink); opacity: 0; animation: board-trail var(--ms-motion-piece-move) var(--ms-ease-standard) forwards; }
+[data-art~="public-board"] .phone-fx__trail { height: 14px; background: var(--ms-asset-fx-ink-trail-paper) center / 100% 100% no-repeat; }
+.phone-fx__puff { position: absolute; width: 46px; height: 22px; margin: -14px 0 0 -23px; border-radius: 50%; border: 2px solid var(--ms-color-paper); opacity: 0; animation: board-puff calc(var(--ms-motion-piece-move) * 0.37) var(--ms-ease-settle) calc(var(--ms-motion-piece-move) * 0.63) forwards; }
+[data-art~="public-board"] .phone-fx__puff { border: 0; background: var(--ms-asset-fx-landing-puff-paper) center / contain no-repeat; }
+
+/* ---------- the actions tray: compact, over the lower edge of the board ---------- */
+#app .ms-shell--player[data-phone-view="actions"][data-action-dock="false"] .ms-private[data-open="true"] {
+  max-height: 46%;
+  margin: 0 6px 4px;
+  padding: 0 10px 10px;
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 12px;
+  box-shadow: 0 -6px 0 color-mix(in srgb, var(--ms-color-ink) 60%, transparent);
+  animation: board-rise var(--ms-motion-card) var(--ms-ease-settle) backwards;
+}
+#app .ms-shell--player[data-phone-view="actions"][data-action-dock="false"] .phone-panel-head { min-height: 44px; }
+#app .ms-shell--player[data-phone-view="actions"] .ms-offers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#app .ms-shell--player[data-phone-view="actions"] .ms-offers > .phone-empty-actions { grid-column: 1 / -1; margin: 4px 0 6px; font-size: 0.875rem; }
+#app .ms-shell--player[data-phone-view="actions"] .ms-offer button {
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 10px;
+  box-shadow: 0 3px 0 var(--ms-color-ink);
+}
+
+/* ---------- the strip: selection, progress, confirmation and the receipt, above navigation ---------- */
+#app .ms-shell--player .phone-action-dock,
+#app .ms-shell--player .ms-private.phone-action-dock[data-open="true"] {
+  position: relative;
+  z-index: 70;
+  overflow: visible;
+  max-height: none;
+  margin: 4px 6px 2px;
+  padding: 8px 10px;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 10px;
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+}
+#app .ms-shell--player .phone-action-dock .ms-private__panel,
+#app .ms-shell--player .phone-action-dock .ms-actions { margin: 0; padding: 0; }
+#app .ms-shell--player .phone-action-dock .phone-panel-notice { margin: 0 0 6px; font-size: 0.8125rem; }
+/* The strip does not lift like a picked-up card: it is already the step in progress. */
+#app .ms-shell--player .phone-action-dock .phone-strip { display: block; margin: 0; padding: 0; color: var(--ms-color-ink); background: transparent; border: 0; box-shadow: none; outline: 0; transform: none; translate: none; }
+/* The stamp hangs from the strip's top edge, so it is placed against the strip itself; the words
+   scroll inside the strip if enlarged text ever makes them taller than it may be. */
+#app .ms-shell--player .phone-action-dock .phone-strip,
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state { position: static; }
+#app .ms-shell--player .phone-action-dock > .ms-private__panel,
+#app .ms-shell--player .phone-pass-status > .phone-strip { max-height: 40dvh; overflow-y: auto; overscroll-behavior: contain; }
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-card__title { position: absolute; width: 1px; height: 1px; margin: 0; padding: 0; overflow: hidden; clip-path: inset(50%); }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "text side" "answers answers";
+  gap: 6px 8px;
+  align-items: center;
+}
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-strip="pair"] { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "text text" "answers side"; }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-strip="row"] { grid-template-areas: "text text" "side side"; }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-strip="none"] { grid-template-areas: "text text"; }
+#app .ms-shell--player .phone-action-dock .phone-strip__text { grid-area: text; min-width: 0; }
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-card__controls { grid-area: side; display: flex; gap: 6px; margin: 0; align-self: start; }
+#app .ms-shell--player .phone-action-dock .phone-strip__answers { grid-area: answers; display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+#app .ms-shell--player .phone-action-dock .phone-strip__answers > li { flex: 1 1 0; min-width: 0; }
+#app .ms-shell--player .phone-action-dock .phone-strip :is(.ms-card__prompt, .ms-card__result, .ms-card__busy) {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+#app .ms-shell--player .phone-action-dock .phone-strip :is(.ms-card__prompt, .ms-card__result, .ms-card__busy):focus { outline: none; }
+#app .ms-shell--player .phone-action-dock .phone-strip :is(.ms-card__prompt, .ms-card__result, .ms-card__busy):focus-visible { outline: 2px solid var(--ms-color-focus); }
+#app .ms-shell--player .phone-action-dock .phone-strip__kind {
+  float: left;
+  margin: 0 8px 2px 0;
+  padding: 2px 6px;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  background: var(--ms-color-caption);
+  border: 2px solid var(--ms-color-ink);
+  transform: skewX(var(--ms-caption-skew));
+}
+#app .ms-shell--player .phone-action-dock .phone-strip__detail { clear: left; margin: 2px 0 0; font-size: 0.71875rem; line-height: 1.3; opacity: 0.85; }
+#app .ms-shell--player .phone-action-dock .phone-strip__progress { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -5px; }
+#app .ms-shell--player .phone-action-dock .phone-strip__progress > span { width: 18px; height: 18px; display: grid; place-items: center; font-size: 0.625rem; font-weight: 900; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+#app .ms-shell--player .phone-action-dock .phone-strip__progress > span[data-done="true"] { background: var(--ms-color-caption); }
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 10px;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 8px;
+  box-shadow: none;
+}
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-button--primary { background: var(--ms-color-caption); box-shadow: 0 3px 0 var(--ms-color-ink); }
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-button[aria-disabled="true"] { opacity: 0.45; box-shadow: none; cursor: default; }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-strip="side"] .ms-card__controls .ms-button { flex: none; min-width: 64px; max-width: 8.5em; padding: 4px 10px; }
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-target { width: 100%; min-height: 44px; padding: 4px 6px; }
+/* The receipt's stamp: the release's status word, the same for every action, on the strip's
+   top edge once a command is sent. Accepted lands as the reviewed registration stamp. */
+#app .ms-shell--player .phone-action-dock .phone-strip .ms-card__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state:is([data-step="busy"], [data-step="result"]) > .ms-card__status {
+  inset: -12px 10px auto auto;
+  width: auto;
+  height: auto;
+  max-width: 60%;
+  padding: 1px 8px;
+  overflow: hidden;
+  clip-path: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 2.5px dashed var(--ms-color-ink);
+  rotate: var(--ms-stamp-rotation);
+}
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-status="accepted"] > .ms-card__status { background: var(--ms-color-caption); border-style: solid; }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-status="not-accepted"] > .ms-card__status { border-style: solid; background-image: repeating-linear-gradient(45deg, var(--ms-color-paper) 0 4px, var(--ms-color-paper-deep) 4px 7px); }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-status="unknown"] > .ms-card__status { border-style: dotted; }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-cue="registration"] > .ms-card__status { animation: board-stamp var(--ms-motion-stamp) var(--ms-ease-impact) backwards; }
+#app .ms-shell--player .phone-action-dock[data-cue="enter"] { animation: board-rise var(--ms-motion-card) var(--ms-ease-settle) backwards; }
+#app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-cue="not-accepted"] { animation: board-nope var(--ms-motion-selection) var(--ms-ease-standard); }
+
+/* ---------- navigation: Board, Actions, Pass in the middle, Card, Menu ---------- */
+#app .ms-shell--player .phone-nav .phone-pass {
+  align-self: start;
+  justify-self: center;
+  width: 62px;
+  height: 62px;
+  min-height: 62px;
+  margin-top: -18px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-caption);
+  border: 3px solid var(--ms-color-ink);
+  box-shadow: 0 4px 0 var(--ms-color-ink);
+  opacity: 1;
+}
+#app .ms-shell--player .phone-nav .phone-pass:disabled { color: var(--ms-color-text-secondary); background: var(--ms-color-panel); border: 3px dashed var(--ms-color-steel-mid); box-shadow: none; }
+#app .ms-shell--player .phone-nav .phone-nav__slot { display: block; }
+
+/* ---------- keyframes: finite, decorative, never in the way ---------- */
+@keyframes board-stamp { from { scale: 1.6; opacity: 0; } 60% { scale: 0.94; opacity: 1; } to { scale: 1; } }
+@keyframes board-pick { from { translate: 0 0; } 60% { translate: 0 calc(-1.6 * var(--board-lift, 3px)); } to { translate: 0 calc(-1 * var(--board-lift, 3px)); } }
+@keyframes board-rise { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes board-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes board-line-in { from { transform: translateX(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes board-sweep { 0% { transform: scaleX(0); opacity: 0.9; } 55% { transform: scaleX(1); opacity: 0.9; } 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes board-drop { from { transform: translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes board-status-ink { 0% { filter: none; } 40% { filter: brightness(1.5) contrast(1.2); } 100% { filter: none; } }
+@keyframes board-nope { 0%, 100% { transform: none; } 30% { transform: translateX(-4px); } 70% { transform: translateX(4px); } }
+@keyframes board-trail { 0% { opacity: 0; } 15% { opacity: 0.85; } 70% { opacity: 0.6; } 100% { opacity: 0; } }
+@keyframes board-puff { 0% { opacity: 0.9; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.3); } }
+
+/* ---------- reduced motion: the same facts and controls; nothing travels, shakes or zooms ---------- */
+.ms-shell[data-motion="reduced"] :is(.ms-board, .phone-action-dock, .ms-private, .ms-phase) *,
+.ms-shell[data-motion="reduced"] :is(.ms-board, .phone-action-dock, .ms-private, .ms-phase) *::before,
+.ms-shell[data-motion="reduced"] :is(.ms-board, .phone-action-dock, .ms-private, .ms-phase) *::after,
+.ms-shell[data-motion="reduced"] :is(.phone-action-dock, .ms-private, .ms-phase),
+.ms-shell[data-motion="reduced"] .ms-phase::after { animation: none !important; transition: none !important; }
+.ms-shell[data-motion="reduced"] :is(.phone-pick-order, .phone-move-ghost, .phone-action-dock[data-cue="enter"]),
+.ms-shell[data-motion="reduced"] .ms-seat:is([data-cue="arrived"], [data-cue="status"]) > .ms-token,
+.ms-shell[data-motion="reduced"] .phone-strip > .ms-card__state[data-cue="registration"] > .ms-card__status { animation: board-fade var(--ms-motion-reduced-fade) linear both !important; }
+#app .ms-shell--player[data-motion="reduced"] .ms-board[data-board="own"] .ms-seat[data-board-target] > .ms-token { translate: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ms-shell:not([data-motion="full"]) :is(.ms-board, .phone-action-dock, .ms-private, .ms-phase) *,
+  .ms-shell:not([data-motion="full"]) :is(.ms-board, .phone-action-dock, .ms-private, .ms-phase) *::before,
+  .ms-shell:not([data-motion="full"]) :is(.ms-board, .phone-action-dock, .ms-private, .ms-phase) *::after,
+  .ms-shell:not([data-motion="full"]) :is(.phone-action-dock, .ms-private, .ms-phase) { animation: none !important; transition: none !important; }
+  .phone-fx * { animation: none !important; }
+}
+
+/* ---------- a short phone (568 px tall and the like): the same parts, tighter ---------- */
+@media (max-height: 640px) {
+  #app .ms-shell--player .ms-board[data-board="own"] { --board-gutter: 4px; }
+  #app .ms-shell--player[data-screen="match"] .ms-phase { height: 44px; padding-block: 2px; }
+  #app .ms-shell--player[data-screen="match"] .ms-phase :is(.ms-timer__value, .ms-timer__digits) { font-size: 1.2rem; }
+  #app .ms-shell--player .phone-nav { min-height: 56px; }
+  #app .ms-shell--player .phone-nav button { min-height: 48px; }
+  #app .ms-shell--player .phone-nav .phone-pass { width: 56px; height: 56px; min-height: 56px; margin-top: -14px; }
+  #app .ms-shell--player .phone-action-dock,
+  #app .ms-shell--player .ms-private.phone-action-dock[data-open="true"] { margin-top: 3px; padding: 6px 8px; }
+  #app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state { gap: 4px 6px; }
+  #app .ms-shell--player .phone-action-dock .phone-strip__kind { margin-right: 6px; padding: 0 5px; font-size: 0.625rem; line-height: 14px; }
+  #app .ms-shell--player .phone-action-dock .phone-strip :is(.ms-card__prompt, .ms-card__result, .ms-card__busy) { font-size: 0.8125rem; line-height: 1.2; }
+  #app .ms-shell--player .phone-action-dock .phone-strip__detail { font-size: 0.6875rem; line-height: 1.25; }
+}
+
+/* ---------- large text: the same board, numbers on the plates, nothing cut off ---------- */
+@media (max-width: 18em) {
+  #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__player { display: none; }
+  #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__name { font-size: 0.7rem; }
+  #app .ms-shell--player .phone-action-dock .phone-strip__answers { flex-wrap: wrap; }
+  #app .ms-shell--player .phone-action-dock .phone-strip > .ms-card__state[data-strip="side"] .ms-card__controls .ms-button { max-width: 12em; }
+}
+
+@media (forced-colors: active) {
+  #app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-board-target]::before { border-color: Highlight; }
+  #app .ms-shell--player .ms-board[data-board="own"] .phone-character-target { border: 2px solid ButtonText; }
+  #app .ms-shell--player .ms-board[data-board="own"] .phone-room-tag { forced-color-adjust: none; color: CanvasText; background: Canvas; border-color: CanvasText; }
+}
