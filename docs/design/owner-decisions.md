@@ -6,6 +6,33 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 11 October 2026: the current look, in the game, before any paint
+
+**A direction, recorded: the look is to be judged in the game, and nothing is painted for now.** Shown the painted draft of Room B beside the comic look (below), with the Designer's suggestion of a mix (painted light on the rooms, inked figures), the owner answered on 11 October 2026:
+
+> dont go with mix lets try whiteout paint the current  in game then i will judge , lets go with reviewer
+
+The owner sent this after interrupting a first wording that read “lets try this in game”.
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | “dont go with mix” | No mix: the suggestion of painted light on the rooms with inked figures is not taken |
+| 2 | “lets try whiteout paint the current in game” | Read as “without paint”: the current look is tried in the game. That is the board-motion prototype's scenes, full-body figures, gestures and animations, in the comic look, unpainted. The painted draft stays an exploration |
+| 3 | “then i will judge” | The owner judges the look in the game. This is a trial, not the look's final approval: DSN-D34 stays open until then |
+| 4 | “lets go with reviewer” | The Designer PR, #88, goes to review |
+
+### What happens now
+
+- **PR #88 is ready for review.**
+- **Putting the look in the game is Integration's and Frontend's work** ([DSN-REQ-13](integration-requests.md#dsn-req-13), issue [#97](https://github.com/Amirkianfar66/GameN/issues/97)). It needs the scene layers and the figures brought into a build (DSN-D30, DSN-D32). The runtime then draws the 21 places, the move with its walk, the hit and FULL on a room's tag. The hit is a proposal against the reviewed motion contract (DSN-D35). Today's staging release (#95) draws the approved standees on the reviewed rooms. The Designer changes nothing in `apps/game/`, the contracts or the runtime manifest.
+- **The painted draft** ([design/explorations/painted-room/](../../design/explorations/painted-room/README.md)) is kept as evidence and is not developed further.
+
+### What it does not settle
+
+- **The final look (DSN-D34).** It is decided after the owner has judged the current look in the game.
+- **Whether the trial shows the hit (DSN-D35).** The owner asked for it on 9 October; the reviewed motion contract has no impact for a health change. Integration and Frontend decide with the owner how the trial carries it.
+- **The capacity.** It is enforced only when Backend's issue [#96](https://github.com/Amirkianfar66/GameN/issues/96) lands. Until then the trial draws FULL from public occupancy.
+
 ## 11 October 2026: one room repainted, as a draft test
 
 **A request, answered with a draft; nothing is decided by it.** After the scenes were drawn, the owner asked the Designer session on 11 October 2026:
@@ -26,7 +53,7 @@ The owner's messages are quoted as written.
 ### What it does not settle
 
 - **Which look.** The comic look stays the board's until the owner chooses (DSN-D34). In the phone framing, the painted draft's glow and rim light draw the eye; its figures are softer against the lit deck than the comic's inked ones. Nothing was measured, on a device or otherwise.
-- **The owner has not answered on the draft yet.**
+- **The owner answered the same day:** no mix and no paint for now; the current look is to be tried in the game first (above).
 
 ## 11 October 2026: five a room is a hard rule
 

@@ -4,6 +4,8 @@
 
 **A draft test for the game owner's request of 11 October 2026:** *"lets repaint just 1 art work as a draft test to compare. it can be just 1 room test"*. It follows the owner's wish of 9 October 2026 that each room be *"like AAA game or animation art work … like a scene"* ([owner-decisions.md](../../../docs/design/owner-decisions.md#9-october-2026-five-places-a-room-each-a-scene)), and it is evidence for DSN-D34: is the procedural vector look enough, or should the scenes be repainted?
 
+**The owner's answer, the same day:** *"dont go with mix lets try whiteout paint the current  in game then i will judge"*: no mix and no paint for now. The current, unpainted look is to be tried in the game first, and the owner will judge it there ([owner-decisions.md](../../../docs/design/owner-decisions.md#11-october-2026-the-current-look-in-the-game-before-any-paint)). This page is kept as evidence and is not developed further.
+
 One room, Room B (the laboratory), drawn twice from the same scene, the same five places and the same figures:
 
 - **Comic**: the room as the board-motion prototype draws it today: flat color, ink outline, halftone.
