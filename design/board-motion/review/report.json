@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "b36e1fb0e65423ab29e522f544d769615933cc60a39e422aa1e5ca59e13617d9",
+  "inputsSha256": "a0b0c1e4c135f4cb28d89b94ddfdfc0e1f3bdf681f8c8fc3c9766ec5e7b44caf",
   "browser": "Chromium 141.0.7390.37",
   "captures": 212,
   "failures": [],

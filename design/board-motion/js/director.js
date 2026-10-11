@@ -142,7 +142,7 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
    * and what happened to it (hit: 'hurt' or 'down', or none). Plays in the room it was in, then
    * walks above the board, then settles in the room it is in.
    */
-  function perform(seat, was, now, { hit = null, character }) {
+  function perform(seat, was, now, { hit = null, character, step = false }) {
     const piece = board.pieces.get(seat);
     if (!piece || !was || !now) return;
     const body = piece.querySelector('.bm-piece__body'), front = piece.querySelector('.bm-piece__front');
@@ -179,15 +179,19 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
     piece.dataset.moving = '';
     const goingRight = now.anchor[0] > was.anchor[0];
     entry.restore = () => { body.dataset.drawn = ''; drawFigure(body, front, character, now.gesture, `${board.prefix}${seat}`); delete piece.dataset.moving; };
-    // The ink trail and the landing puff of the reviewed public move, from feet to feet.
-    const box = fx.getBoundingClientRect();
-    const [x1, y1] = [was.anchor[0] - box.left, was.anchor[1] - box.top], [x2, y2] = [now.anchor[0] - box.left, now.anchor[1] - box.top];
-    const trail = h('span', { class: 'bm-trail', 'aria-hidden': 'true' });
-    Object.assign(trail.style, { left: `${x1}px`, top: `${y1}px`, width: `${Math.hypot(x2 - x1, y2 - y1)}px`, transform: `rotate(${Math.atan2(y2 - y1, x2 - x1)}rad)` });
-    const puff = h('span', { class: 'bm-puff', 'aria-hidden': 'true' });
-    Object.assign(puff.style, { left: `${x2}px`, top: `${y2}px` });
-    fx.append(trail, puff);
-    entry.nodes.push(trail, puff);
+    // The ink trail and the landing puff of the reviewed public move, from feet to feet. A step to
+    // the next place in the same room (layout-reflow) has neither: nobody moved between rooms.
+    let trail = null, puff = null;
+    if (!step) {
+      const box = fx.getBoundingClientRect();
+      const [x1, y1] = [was.anchor[0] - box.left, was.anchor[1] - box.top], [x2, y2] = [now.anchor[0] - box.left, now.anchor[1] - box.top];
+      trail = h('span', { class: 'bm-trail', 'aria-hidden': 'true' });
+      Object.assign(trail.style, { left: `${x1}px`, top: `${y1}px`, width: `${Math.hypot(x2 - x1, y2 - y1)}px`, transform: `rotate(${Math.atan2(y2 - y1, x2 - x1)}rad)` });
+      puff = h('span', { class: 'bm-puff', 'aria-hidden': 'true' });
+      Object.assign(puff.style, { left: `${x2}px`, top: `${y2}px` });
+      fx.append(trail, puff);
+      entry.nodes.push(trail, puff);
+    }
     let stage = '';
     choreograph(seat, flyer, total, t => {
       if (t < opening) {
@@ -206,7 +210,7 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
         if (stage !== 'in') { stage = 'in'; flyer.hidden = true; delete piece.dataset.moving; }
         drawFigure(body, front, character, '*', `${prefix}i`, sample(into, t - opening - MOVE.accent));
       }
-    }, () => { entry.restore(); entry.restore = null; flyer.remove(); ghost?.remove(); later(seat, 340, () => { trail.remove(); puff.remove(); }); });
+    }, () => { entry.restore(); entry.restore = null; flyer.remove(); ghost?.remove(); later(seat, 340, () => { trail?.remove(); puff?.remove(); }); });
   }
 
   /**
@@ -229,18 +233,23 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
       const changedMove = moved.includes(seat.n);
       const changedStatus = was.health !== seat.health || was.jailed !== seat.jailed || was.captain !== seat.captain || was.revealedFaction !== seat.revealedFaction;
       const hit = was.health !== seat.health && seat.health !== 'Healthy' ? (seat.health === 'Eliminated' ? 'down' : 'hurt') : null;
-      if (changedMove || changedStatus) cancelSeat(seat.n); // the latest authoritative state wins
+      // A character who stayed steps to its next place when the lower seat of its pair comes in, or back when it leaves.
+      const from = before.get(seat.n), to = now.get(seat.n);
+      const stepped = !changedMove && Boolean(from && to) && from.room === to.room && from.kind === 'place' && to.kind === 'place' && from.place !== to.place;
+      if (changedMove || changedStatus || stepped) cancelSeat(seat.n); // the latest authoritative state wins
       if (isReduced || moved.length > 4) {
-        if (changedMove || hit) {
+        if (changedMove || hit || stepped) {
           const piece = board.pieces.get(seat.n);
           if (piece) { piece.dataset.arrived = ''; later(seat.n, 80, () => delete piece.dataset.arrived); }
         }
         if (changedMove) played.push({ cue: 'cue-public-move', seat: seat.n, variant: isReduced ? 'reduced' : 'settled' });
+        if (stepped) played.push({ cue: 'layout-reflow', seat: seat.n, variant: isReduced ? 'reduced' : 'settled' });
         if (hit) played.push({ cue: 'cue-public-hit', seat: seat.n, variant: isReduced ? 'reduced' : 'settled' });
-      } else if (changedMove || hit) {
-        perform(seat.n, before.get(seat.n), now.get(seat.n), { hit, character: seat.character });
+      } else if (changedMove || hit || stepped) {
+        perform(seat.n, from, to, { hit, character: seat.character, step: stepped });
         if (hit) played.push({ cue: 'cue-public-hit', seat: seat.n, variant: hit });
         if (changedMove) played.push({ cue: 'cue-public-move', seat: seat.n, variant: hit ? 'hurt' : 'walk' });
+        if (stepped) played.push({ cue: 'layout-reflow', seat: seat.n, variant: 'step' });
       }
       if (changedStatus) { mark(seat.n, 'status', isReduced ? 80 : STATUS_MS); played.push({ cue: 'cue-status-change', seat: seat.n }); }
     }

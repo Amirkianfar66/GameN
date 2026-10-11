@@ -289,11 +289,12 @@ if (loadError) {
     const [width, cap, most] = PANEL[room];
     const places = layout.placesOf(room);
     for (const subset of subsets(places.length)) {
-      // Each taken place held by a seat that held it before, alive or, every one of them, Eliminated there.
-      const held = new Map(subset.map((index, k) => [k + 1, places[index].id]));
+      // Each taken place held by the seat whose first place it is (seat n prefers place n), alive or,
+      // every one of them, Eliminated there.
       for (const health of ['Healthy', 'Eliminated']) {
-        const seats = subset.map((index, k) => ({ n: k + 1, location: layout.LOCATION_OF[room], health, captain: room === 'command-room' }));
-        const drawn = [...layout.placements(seats, held).values()];
+        const seats = subset.map(index => ({ n: index + 1, location: layout.LOCATION_OF[room], health, captain: room === 'command-room' }));
+        const drawn = [...layout.placements(seats).values()];
+        if (room !== 'command-room' && drawn.map(place => place.place).sort().join() !== subset.map(index => places[index].id).sort().join()) problems.push(`${room}: seats ${seats.map(seat => seat.n).join(', ')} do not take their own first places`);
         let height = cap + 50;
         while (height <= most && !fits(drawn, width, height, cap)) height += 2;
         if (height > most) problems.push(`${room}: ${subset.map(index => places[index].id).join(' ')}${health === 'Eliminated' ? ' Eliminated' : ''} need more than ${most} px at ${width} px wide for whole, separate press areas`);
@@ -304,15 +305,18 @@ if (loadError) {
       if (!fits(crowd, width, Math.max(most, 196), cap)) problems.push(`${room}: a crowd of ${count} does not fit ${Math.max(most, 196)} px with whole, separate press areas`);
     }
   }
-  // Who takes which place, and the gesture, are public facts: the Captain at the chart table, a place kept while
-  // its character stays, the place's fall when Eliminated, a bandage only when Injured.
+  // Who takes which place, and the gesture, are public facts: the Captain at the chart table, the places from
+  // who is in the room by seat number, the place's fall when Eliminated, a bandage only when Injured.
   const bridge = layout.placements([{ n: 4, location: 'Command Room', health: 'Healthy', captain: true }]);
   if (bridge.get(4)?.place !== 'C1' || bridge.get(4)?.gesture !== 'captainTable') problems.push('the Captain does not take the chart table');
-  // Seat 7 holds its own first place, which is also seat 2's: seat 2 coming in does not move seat 7.
-  const before = layout.placements([{ n: 7, location: 'Room A', health: 'Healthy' }]);
-  const kept = new Map([[7, before.get(7)?.place]]);
-  const after = layout.placements([{ n: 2, location: 'Room A', health: 'Healthy' }, { n: 7, location: 'Room A', health: 'Healthy' }], kept);
-  if (after.get(7)?.place !== kept.get(7)) problems.push('a character changes place when another comes into its room');
+  // Seats 2 and 7 prefer the same place, A2, and the lower seat gets it: seat 7, alone there, steps to A3 when
+  // seat 2 comes in, and back when it leaves. A screen that has just loaded or reconnected draws exactly what a
+  // screen that followed the match draws, because the places are a function of who is in the room now.
+  const alone = layout.placements([{ n: 7, location: 'Room A', health: 'Healthy' }]);
+  const pair = layout.placements([{ n: 2, location: 'Room A', health: 'Healthy' }, { n: 7, location: 'Room A', health: 'Healthy' }]);
+  if (alone.get(7)?.place !== 'A2' || pair.get(2)?.place !== 'A2' || pair.get(7)?.place !== 'A3') problems.push('the seats of a pair do not take their places by seat number');
+  const parameters = fn => String(fn).slice(String(fn).indexOf('(') + 1, String(fn).indexOf(')')).split(',').map(name => name.trim()).filter(Boolean);
+  if (parameters(layout.placements).join() !== 'seats' || parameters(layout.assign).join() !== 'room,occupants') problems.push('the places depend on something other than who is in the room now, so two screens can draw them differently');
   const forward = [...layout.placements([3, 5, 8].map(n => ({ n, location: 'Room B', health: 'Healthy' }))).entries()].sort();
   const backward = [...layout.placements([8, 5, 3].map(n => ({ n, location: 'Room B', health: 'Healthy' }))).entries()].sort();
   if (JSON.stringify(forward) !== JSON.stringify(backward)) problems.push('the places depend on the order the seats arrive in, not on public facts');

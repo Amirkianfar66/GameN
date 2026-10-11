@@ -48,9 +48,6 @@ function load(id) {
     concealed: document.visibilityState !== 'visible', disposed: false, privateQuiet: false, requests: { sent: 0, lookups: 0 },
   });
   if (S.names === 'long') S.public.seats.forEach((seat, index) => { seat.name = LONG_NAMES[index]; });
-  // A new match view: nobody has held a place in it yet, on either board.
-  board.reset();
-  observer?.board.reset();
   // A scenario that starts mid-flow takes its picks as seat numbers or answers, as the controls carry them.
   S.flow = { ...S.flow, picked: [...(S.flow.picked ?? [])] };
 }

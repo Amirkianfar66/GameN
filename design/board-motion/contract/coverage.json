@@ -679,7 +679,7 @@
         "runtime": ".ms-seat[data-seat] with .ms-token, .ms-seat__number, .ms-seat__player",
         "status": "extend",
         "audience": "public",
-        "about": "A character at a place in its room, as a full-body comic figure drawn live by the figure rig in the place's gesture (owner's decisions of 9 October 2026): five places a room, each with its own gesture (at the workstation, crouched at the hatch, at the microscope, in a bed, on the bench, at the door), the Command Room's the Captain's at the chart table. A character keeps its place while it stays. Injured: the same gesture with a bandage; Eliminated: the place's fall. In a crowd of six or more or in the Final Zone, one of three standing stances by seat number. Over a prop, a second layer (the hands on the desk, the arms on the blanket) is drawn in front of it. Seat number and name on a plate under the press area."
+        "about": "A character at a place in its room, as a full-body comic figure drawn live by the figure rig in the place's gesture (owner's decisions of 9 October 2026): five places a room, each with its own gesture (at the workstation, crouched at the hatch, at the microscope, in a bed, on the bench, at the door), the Command Room's the Captain's at the chart table. The places come from who is in the room by seat number, the same on every screen. Injured: the same gesture with a bandage; Eliminated: the place's fall. In a crowd of six or more or in the Final Zone, one of three standing stances by seat number. Over a prop, a second layer (the hands on the desk, the arms on the blanket) is drawn in front of it. Seat number and name on a plate under the press area."
       },
       {
         "id": "piece-target",

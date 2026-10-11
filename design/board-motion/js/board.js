@@ -172,7 +172,6 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
   const pieces = new Map();
   const panels = new Map();
   const prefix = interactive ? 'o' : 'p';
-  let history = new Map();
   let last = { seats: [], placed: new Map(), cues: {} };
   const board = h('main', { class: 'bm-board', 'aria-label': label, 'data-board': interactive ? 'own' : 'observer' },
     h('h2', { class: 'bm-vh', id: interactive ? 'bm-board-heading' : null }, label));
@@ -184,13 +183,9 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
   board.append(h('div', { class: 'bm-spine', 'aria-hidden': 'true' }, h('span'), h('span'), h('span'), h('span')));
   root.append(board);
 
-  /** Forgets who held which place: a new match view, not an update of the one drawn. */
-  function reset() { history = new Map(); }
-
   function update(pub, cues = {}) {
     const { seats, active } = pub;
-    const placed = placements(seats, history);
-    history = new Map([...placed].filter(([, place]) => place.kind === 'place').map(([n, place]) => [n, place.place]));
+    const placed = placements(seats);
     const finalZone = seats.some(seat => seat.location === 'Final Zone');
     board.dataset.final = String(finalZone);
     const byRoom = new Map([...panels.keys()].map(room => [room, []]));
@@ -250,7 +245,7 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
       const self = seats.find(seat => seat.n === viewer);
       if (room && self) {
         const occupants = seats.filter(seat => seat.location === cues.ghost.location && seat.n !== viewer);
-        const place = assign(room, [...occupants, { ...self, location: cues.ghost.location }], history).get(viewer);
+        const place = assign(room, [...occupants, { ...self, location: cues.ghost.location }]).get(viewer);
         const ghost = h('div', { class: 'bm-ghost', 'data-character': self.character, 'data-state': cues.ghost.state, 'aria-hidden': 'true' },
           h('span', { class: 'bm-ghost__art' }), h('span', { class: 'bm-ghost__tag' }, PROPOSED.moveTentative));
         const gesture = gestureOf(self, place ?? { gesture: 'stand' });
@@ -332,5 +327,5 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
   /** The placements of the characters in a room, as last drawn. */
   const placesIn = room => [...last.placed.values()].filter(place => place.room === room);
 
-  return { element: board, update, layout, reset, rects, placesIn, pieces, panels, prefix };
+  return { element: board, update, layout, rects, placesIn, pieces, panels, prefix };
 }

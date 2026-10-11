@@ -234,15 +234,17 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
       /c1 tablet: #AFCF4E is another character's color/, /the manifest lists no figure sheet for the gesture think/, /the prototype fetches figure art/);
   });
 
-  test('an Injured character without its bandage, an Eliminated one in its place\'s gesture, a place lost to a newcomer, and a gesture that reads something private', async () => {
+  test('an Injured character without its bandage, an Eliminated one in its place\'s gesture, places that depend on what a screen drew before or go to the higher seat, and a gesture that reads something private', async () => {
     const root = scratchCopy();
     const LAYOUT = 'design/board-motion/js/layout.js';
     edit(root, LAYOUT, text => text.replace("  if (seat.health === 'Eliminated') return place.down ?? 'down';\n", '')
       .replace("return seat.health === 'Injured' ? `${place.gesture}${INJURED}` : place.gesture;", 'return place.gesture;')
-      .replace('const kept = previous.get(seat.n);', 'const kept = undefined;'));
+      .replace('const seats = [...occupants].sort((a, b) => a.n - b.n);', 'const seats = [...occupants].sort((a, b) => b.n - a.n);')
+      .replace('export function placements(seats) {', 'export function placements(seats, previous = new Map()) {'));
     append(root, LAYOUT, 'export const stanceByRole = seat => seat.role;');
     refuses(await check(root), /an Injured character is drawn without its bandage/, /an Eliminated character does not take its place's fall/,
-      /a character changes place when another comes into its room/, /layout\.js reads something private to place a character or choose its gesture/);
+      /the seats of a pair do not take their places by seat number/, /the places depend on something other than who is in the room now/,
+      /layout\.js reads something private to place a character or choose its gesture/);
   });
 
   test('a scene layer edited by hand, and scenes proposed against another manifest', async () => {

@@ -48,13 +48,15 @@ export function preferences(n, count) {
 }
 
 /**
- * Who takes which place in a room, as Map seat -> place. The Command Room's one place is the
- * Captain's. Elsewhere a character who held a place in the previous drawing keeps it, so that
- * nobody jumps when someone else comes or goes; a newcomer takes the first free place in its
- * own order of preference, the lowest seat first. With no previous drawing (a fresh view, a
- * reconnect) the same rule from nothing gives every screen the same picture.
+ * Who takes which place in a room, as Map seat -> place: a function of who is in the room now and
+ * of nothing else, so that every screen draws the same picture, whether it has followed the match
+ * or has just loaded or reconnected. The Command Room's one place is the Captain's. Elsewhere, the
+ * lowest seat first, each takes the first free place in its own order of preference, seat n
+ * starting at place (n - 1) mod 5. Seats n and n + 5 prefer the same place and the lower seat gets
+ * it, so when someone comes in or leaves, a character can step to another place in the room: the
+ * lower seat of its pair took its place, or a place it prefers came free (layout-reflow).
  */
-export function assign(room, occupants, previous = new Map()) {
+export function assign(room, occupants) {
   const places = placesOf(room);
   const result = new Map();
   const taken = new Set();
@@ -65,12 +67,6 @@ export function assign(room, occupants, previous = new Map()) {
     return result;
   }
   for (const seat of seats) {
-    const kept = previous.get(seat.n);
-    const place = places.find(candidate => candidate.id === kept);
-    if (place && !taken.has(place.id)) { result.set(seat.n, place); taken.add(place.id); }
-  }
-  for (const seat of seats) {
-    if (result.has(seat.n)) continue;
     const order = preferences(seat.n, places.length);
     const place = order.map(index => places[index]).find(candidate => !taken.has(candidate.id));
     if (place) { result.set(seat.n, place); taken.add(place.id); }
@@ -92,9 +88,9 @@ export const gestureOf = (seat, place) => {
  * Each seat's placement, as Map seat -> placement. kind 'place': a scene's place (at and scale in
  * the scene's units, depth its drawing order, pressGesture the place's own gesture, whose press
  * area it keeps); 'crowd': the layout-stress crowd of six or more ([x share, row]); 'final': the
- * Final Zone's two rows. previous: seat -> place id last drawn.
+ * Final Zone's two rows. A function of the public seats alone, like assign().
  */
-export function placements(seats, previous = new Map()) {
+export function placements(seats) {
   const result = new Map();
   const byRoom = new Map();
   for (const seat of [...seats].sort((a, b) => a.n - b.n)) {
@@ -119,7 +115,7 @@ export function placements(seats, previous = new Map()) {
       });
       continue;
     }
-    const assigned = assign(room, occupants, previous);
+    const assigned = assign(room, occupants);
     occupants.forEach((seat, index) => {
       const place = assigned.get(seat.n);
       if (!place) return;
