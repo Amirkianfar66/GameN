@@ -136,11 +136,11 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 **What it must show, and never show.**
 
 - One snapshot, the known Undercover, from the view's knowledge.undercoverSeatId.
-- Nothing about the Code: the release's sentence says only who the Undercover is, and nothing is worked out from the rules (not even what they imply about the Code).
+- Of the Code, only what the rule itself gives the Hacker from the start: “Knows only who Undercover is and therefore knows that player's number is excluded from Code” (v2.1 roles.Hacker.starting_knowledge; Code.undercover_number_always_excluded). Nothing else is worked out.
 
-**Concept.** The same file kit: one snapshot pinned under the file's tab, with the label tape UNDERCOVER on its caption. Here the pairing is the Hacker's own knowledge, so the one label may sit on the one portrait; the Insider's file never pairs.
+**Concept.** The same file kit: one snapshot pinned under the file's tab, with the label tape UNDERCOVER on its caption, and a small struck-out Code chip: not in the Code. Here the pairing is the Hacker's own knowledge, so the one label may sit on the one portrait; the Insider's file never pairs.
 
-**Art.** dossier kit
+**Art.** dossier kit; planned: code-chip (the Code's mark, struck out)
 
 | Motion | |
 | --- | --- |
@@ -152,7 +152,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 **States.** closed; opening; at rest; hidden; missing art
 
-**Words.** “Hacker file”, “Undercover”. Accessible: “The Undercover is <who>. (the release's sentence)”
+**Words.** “Hacker file”, “Undercover”, “Not in the Code (proposed: the release's sentence names only the Undercover)”. Accessible: “The Undercover is <who>. (the release's sentence)”
 
 <a id="hacker-scan"></a>
 

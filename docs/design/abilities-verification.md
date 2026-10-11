@@ -33,7 +33,7 @@ Run in this branch's worktree on the content of the commit that adds slice 1 (it
 - **The inspect card was below the fold.** It now lies over the dimmed envelope, and the lifted snapshot grows down from its pin instead of over the file's tab.
 - **The board's secrecy measurement did not know the file.** It reported the role names in the file as outside the private card. The file is now marked as private content of the open card, like the role card, so every board secrecy check covers it too: the flows prove it leaves the document with the card.
 - **The board's captures did not depend on the ability art they draw.** Their freshness hash now includes `abilities.css`, `dossier.js` and the kit's stylesheet.
-- **A planned entry would have worked something out.** The Hacker's planned file had a "Not in the Code" chip for the known Undercover, which the release's sentence does not say. It was removed from the plan.
+- **A planned entry checked against the rule.** The Hacker's planned file marks the known Undercover "Not in the Code". The release's sentence says only who the Undercover is, but the rule gives the Hacker exactly that from the start (v2.1 `roles.Hacker.starting_knowledge`: "therefore knows that player's number is excluded from Code"), so the mark stays in the plan, cited, as proposed words.
 
 ## What the checks assert, and what they do not
 
