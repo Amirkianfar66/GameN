@@ -44,3 +44,13 @@ test('press areas, room tags and the strip\'s controls keep a 44 px minimum', ()
   assert.match(minimum('.ms-board[data-board="own"] .phone-room-move'), /min-width: 44px;[\s\S]*min-height: 44px;/);
   assert.match(minimum('.phone-action-dock .phone-strip .ms-button'), /min-height: 44px;/);
 });
+
+test('at large text the navigation labels keep to their own fifth, and on the phone the connection icon keeps its room', () => {
+  // The four labels beside Pass: no side padding, and a smaller size in rem, so they still grow with the reader's text.
+  const large = css.match(/@media \(max-width: 18em\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
+  assert.match(large, /\.phone-nav button:not\(\.phone-pass\) \{ padding-inline: 0; \}/);
+  assert.match(large, /\.phone-nav button:not\(\.phone-pass\) > span:last-child \{ font-size: 0\.5rem; \}/);
+  // The phone's banner padding would otherwise put the words under the icon comic.css draws at the banner's start.
+  const compact = readFileSync(new URL('../hosted/compact-phone.css', import.meta.url), 'utf8');
+  assert.match(compact, /\[data-art~="public-board"\] #app \.ms-shell--player \.ms-banners \.ms-banner--connection \{ padding-inline-start:calc\(var\(--ms-space-3\) \+ 36px\); \}/);
+});

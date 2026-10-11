@@ -783,6 +783,10 @@
      as the button allows. */
   #app .ms-shell--player .phone-nav .phone-pass { padding: 0; font-size: 0.625rem; }
   #app .ms-shell--player .phone-nav .phone-pass .phone-nav__icon { display: none; }
+  /* The other four labels each keep to their fifth of the width: smaller than the reader's text,
+     though they still grow with it, instead of running into the next label. */
+  #app .ms-shell--player .phone-nav button:not(.phone-pass) { padding-inline: 0; }
+  #app .ms-shell--player .phone-nav button:not(.phone-pass) > span:last-child { font-size: 0.5rem; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__player { display: none; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__name { font-size: 0.7rem; }
   #app .ms-shell--player .phone-action-dock .phone-strip__answers { flex-wrap: wrap; }

@@ -42,6 +42,20 @@ export const MEASURE = `(() => {
     .map(({ node, b }) => ({ id: node.id || null, cls: node.className || null, text: (node.textContent || '').trim().slice(0, 30), w: Math.round(b.w), h: Math.round(b.h) }));
   const phase = document.querySelector('.ms-phase');
   const statusClipped = phase ? [...phase.querySelectorAll('.ms-timer, .ms-phase__labels')].some(node => !inside(box(node), box(phase), 1)) : null;
+  const banner = [...document.querySelectorAll('.ms-banner--connection')].find(visible);
+  const bannerIconOverText = banner ? (() => {
+    const icon = getComputedStyle(banner, '::before');
+    if (icon.content === 'none' || icon.display === 'none') return false;
+    const range = document.createRange();
+    range.selectNodeContents(banner.querySelector('.ms-banner__text') ?? banner);
+    const lines = [...range.getClientRects()];
+    const start = banner.getBoundingClientRect().left;
+    return lines.length > 0 && Math.min(...lines.map(line => line.left)) - start < parseFloat(icon.left) + parseFloat(icon.width) - 0.5;
+  })() : null;
+  const navLabelsOut = [...document.querySelectorAll('.phone-nav button')].filter(visible).filter(button => {
+    const label = button.querySelector('span:last-child');
+    return label && !inside(box(label), box(button), 0.5);
+  }).map(button => button.textContent.trim());
   const html = document.getElementById('app').innerHTML;
   return {
     viewport: [innerWidth, innerHeight],
@@ -54,7 +68,7 @@ export const MEASURE = `(() => {
     stripStep: document.querySelector('.phone-strip > .ms-card__state')?.dataset.step ?? null,
     stamp: (() => { const s = document.querySelector('.phone-strip > .ms-card__state > .ms-card__status'); return s && getComputedStyle(s).clipPath === 'none' ? s.textContent : null; })(),
     tray: !!document.querySelector('[data-phone-view="actions"][data-action-dock="false"] .ms-private[data-open="true"]'),
-    targets, overlaps, smallControls: small, statusClipped,
+    targets, overlaps, smallControls: small, statusClipped, bannerIconOverText, navLabelsOut,
     marks: Object.fromEntries(['eligible', 'selected', 'picked', 'pending', 'other'].map(state => [state, [...document.querySelectorAll('.ms-board .ms-seat[data-board-target="' + state + '"]')].map(seat => seat.dataset.seat)])),
     ghost: document.querySelector('.phone-move-ghost')?.dataset.state ?? null,
     pass: (() => { const p = document.querySelector('#ms-phone-pass'); return p ? (p.disabled ? 'unavailable' : 'available') : document.querySelector('.phone-nav__slot') ? 'absent' : null; })(),
@@ -83,6 +97,8 @@ export function problemsOf(measured, { phone = true } = {}) {
     ...measured.overlaps.map(([a, b, area]) => `targets ${a}/${b} overlap ${area}px²`),
     ...(phone ? measured.smallControls.map(c => `control under 44 px: ${c.id ?? c.cls} "${c.text}" ${c.w}x${c.h}`) : []),
     measured.statusClipped && 'status bar clips its content',
+    measured.bannerIconOverText && 'the connection banner\'s icon lies over its words',
+    ...(measured.navLabelsOut ?? []).map(label => `navigation label "${label}" runs past its button`),
   ].filter(Boolean);
 }
 
