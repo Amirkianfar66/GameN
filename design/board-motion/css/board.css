@@ -82,6 +82,10 @@ button { font: inherit; color: inherit; }
   /* The bands are sized so that this never scrolls at the default text size (the captures
      measure it). If it ever must, it scrolls inside itself: the strip never covers a room. */
   overflow: hidden auto;
+  /* The board's own stack: its figures, the layers in front of their places and the flyers order
+     themselves by depth inside it (z-index up to 2500), and never rise over the strip, the tray,
+     the card or the menu, which sit above the whole board. */
+  isolation: isolate;
 }
 .bm-board[data-final="true"] { grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); grid-template-areas: "f"; }
 .bm-board[data-final="true"] .bm-spine { display: none; }
