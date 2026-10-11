@@ -12,6 +12,7 @@
 //   ?motion=reduced                     start with the in-app reduced-motion setting
 //   ?time-left=<ms>                     start near the end of the same 60-second turn
 //   ?hold-move                         keep an accepted Move awaiting its public view
+//   ?kit=off                           without the Designer's ability kit, as the hosted build draws the file today
 
 import { createComicFeeds, createConnectedPlayerScreen, createConnectedTableScreen, shellTokenStylesheet } from '@mothership/game';
 import { nextDesignTokens } from '@mothership/design-tokens';
@@ -45,6 +46,19 @@ tokenStyle.textContent = shellTokenStylesheet(nextDesignTokens);
 document.head.append(tokenStyle);
 document.body.dataset.device = display ? 'display' : 'player';
 await loadArt(display ? 'display' : 'player');
+// The Designer's ability kit (abilities-0.1.0), a proposal outside the reviewed manifest that the hosted
+// build does not load until Integration adopts it (DSN-D36). Its own rule is followed here: loaded whole,
+// on every player phone whatever the seat's role, before the first view, and never on the display.
+if (!display && params.get('kit') !== 'off') {
+  await new Promise(resolve => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/art/abilities.art.css';
+    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} abilities`.trim(); resolve(); }, { once: true });
+    link.addEventListener('error', () => resolve(), { once: true });
+    document.head.append(link);
+  });
+}
 
 const app = document.getElementById('app');
 if (!definition) throw new Error(`Unknown scenario ${id}`);

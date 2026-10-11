@@ -3,6 +3,7 @@ import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
 import { fitBoard } from './board-layout.mjs';
 import { createStripCues } from './strip-cues.mjs';
+import { createInsiderFile } from './insider-file.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A command identifier is random and means nothing. randomUUID needs a secure context,
@@ -83,6 +84,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
 
   const comicMotion = createComicMotion(root, { fx });
   const stripCues = createStripCues(root);
+  const insiderFile = createInsiderFile(root);
   let rootAttributes = {};
   let drawn = null;
   let spokenSeq = 0;
@@ -92,10 +94,12 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let phoneView = 'board';
   let phoneFocus = null;
   let phoneNotice = null;
-  // The Insider's investigation board, open inside the private card. Only a deliberate tap
-  // opens it; it closes with the card, with any loss of private content and with a view the
-  // server no longer confirms, and nothing opens it again by itself.
-  let investigation = false;
+  // The snapshot inspected in the Insider's file, by seat. Only a deliberate tap sets it; it is
+  // forgotten with the card, with any loss of private content and with a view the server no
+  // longer confirms (the file then stays at rest), and nothing sets it again by itself.
+  let inspect = null;
+  // The player has just pressed Card: a file that appears in the next drawing may assemble.
+  let cardRequested = false;
   let phoneOpener = '#ms-phone-actions';
   const inertNodes = new Set();
 
@@ -109,12 +113,13 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
 
   function draw() {
     const beforeMotion = comicMotion.before();
+    insiderFile.before();
     const frame = screen.getFrame();
     if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (!frame.model.match?.privateArea?.open) phoneNotice = null;
-    if (phoneView !== 'role' || !frame.model.match?.privateArea?.open || frame.model.connection !== 'live' || frame.privacyEpoch !== privacyEpoch) investigation = false;
-    const split = splitRegions(render(frame.model, { phoneView, phoneNotice, investigation }));
+    if (phoneView !== 'role' || !frame.model.match?.privateArea?.open || frame.model.connection !== 'live' || frame.privacyEpoch !== privacyEpoch) inspect = null;
+    const split = splitRegions(render(frame.model, { phoneView, phoneNotice, inspect }));
     applyRootAttributes(split.rootAttrs);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
@@ -155,6 +160,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     fitBoard(root);
     comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
+    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced', current: frame.model.connection === 'live' });
+    cardRequested = false;
+    if (inspect !== null && !root.querySelector('.ab-photo[aria-pressed="true"]')) inspect = null;
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
 
@@ -192,21 +200,39 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       phoneNotice = openRoomMovement(screen, room.dataset.moveRoom);
       phoneFocus = phoneNotice ? '#ms-private-heading' : null; draw(); return;
     }
-    const intel = event.target instanceof Element ? event.target.closest('button[data-phone-investigation]') : null;
-    if (intel && root.contains(intel)) {
-      investigation = intel.dataset.phoneInvestigation === 'open';
-      phoneFocus = investigation ? '#phone-investigation-heading' : '#phone-investigation-toggle';
+    // A snapshot in the Insider's file: inspect that player, or put them back. Focus stays on it.
+    const photo = event.target instanceof Element ? event.target.closest('button.ab-photo[data-seat]') : null;
+    if (photo && root.contains(photo)) {
+      insiderFile.finish();
+      const seatId = `seat-${photo.dataset.seat}`;
+      inspect = inspect === seatId ? null : seatId;
+      phoneFocus = `#${CSS.escape(photo.id)}`;
       draw();
-      // Focus moves without scrolling; the board is then brought into view inside the card,
-      // its top below the card's sticky heading even when, at large text, it is taller than the card.
-      const board = investigation ? root.querySelector('#phone-investigation') : null;
-      const sheet = board?.closest('.ms-private');
-      if (board && sheet) {
-        board.scrollIntoView({ block: 'nearest' });
+      // At large text the inspect card follows the snapshots in the card, which scrolls: bring it into
+      // view, its top below the card's sticky heading even when it is taller than the card.
+      const card = inspect ? root.querySelector('.ab-inspect') : null;
+      const sheet = card?.closest('.ms-private');
+      if (card && sheet && getComputedStyle(card).position === 'static') {
+        card.scrollIntoView({ block: 'nearest' });
         const head = sheet.querySelector('.phone-panel-head');
-        const covered = head ? head.getBoundingClientRect().bottom - board.getBoundingClientRect().top : 0;
+        const covered = head ? head.getBoundingClientRect().bottom - card.getBoundingClientRect().top : 0;
         if (covered > 0) sheet.scrollTop -= covered;
       }
+      return;
+    }
+    const act = event.target instanceof Element ? event.target.closest('button[data-file-act]') : null;
+    if (act && root.contains(act)) {
+      inspect = null;
+      if (act.dataset.fileAct === 'back') {
+        phoneFocus = `#ab-photo-${CSS.escape(act.dataset.seat)}`;
+        draw();
+        return;
+      }
+      // Show on board: the card closes, and that character is ringed on this phone's own board.
+      insiderFile.spot(`seat-${act.dataset.seat}`);
+      phoneView = 'board'; phoneNotice = null; phoneFocus = '#ms-private-toggle';
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      else draw();
       return;
     }
     const tab = event.target instanceof Element ? event.target.closest('button[data-phone-view]') : null;
@@ -216,6 +242,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       if (!['board', 'actions', 'role', 'more'].includes(view)) return;
       if (view === phoneView && view !== 'board') view = 'board';
       if (view !== 'board') phoneOpener = `#${tab.id}`;
+      cardRequested = view === 'role';
       phoneView = view; phoneNotice = null;
       phoneFocus = view === 'more' ? '#phone-menu-heading' : ['actions', 'role'].includes(view) ? '#ms-private-heading' : phoneOpener;
       const needsPrivate = view === 'actions' || view === 'role';
@@ -257,9 +284,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       screen.dispatch({ type: 'action/back' });
       return;
     }
-    // Escape closes the investigation board first, back to the control that opened it.
-    if (event.key === 'Escape' && investigation) {
-      event.preventDefault(); investigation = false; phoneFocus = '#phone-investigation-toggle';
+    // Escape puts an inspected snapshot back first, and focus returns to it.
+    if (event.key === 'Escape' && inspect !== null) {
+      event.preventDefault(); phoneFocus = `#ab-photo-${CSS.escape(inspect.slice(5))}`; inspect = null;
+      insiderFile.finish();
       draw();
       return;
     }
@@ -310,6 +338,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     resized?.disconnect();
     comicMotion.dispose();
     stripCues.dispose();
+    insiderFile.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);

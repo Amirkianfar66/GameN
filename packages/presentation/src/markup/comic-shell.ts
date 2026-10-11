@@ -2,7 +2,7 @@ import type { OwnAcknowledgments, FullPracticeBotsDocument, SeatId } from '@moth
 import { SHELL_IDS } from '../ids.js';
 import { placeSeats, rowsFor } from '../model/stations.js';
 import { en } from '../copy/en.js';
-import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, InsiderSetModel, TableShellModel } from '../model/types.js';
+import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, InsiderSetModel, SeatModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode } from './node.js';
 import { renderConnectedPlayerShell } from './connected-player.js';
@@ -22,8 +22,8 @@ export interface ComicContext {
   readonly identities?: readonly ComicIdentity[];
   readonly acknowledgments?: OwnAcknowledgments | null;
   readonly practice?: FullPracticeBotsDocument | null;
-  /** The Insider's investigation board is open in the private card. A phone's own state, set by a deliberate tap. */
-  readonly investigation?: boolean;
+  /** The snapshot inspected in the Insider's file, by seat. A phone's own state, set by a deliberate tap. */
+  readonly inspect?: string | null;
 }
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
@@ -73,49 +73,84 @@ export function renderComicRoleCard(name: string, ownCharacter: string | null): 
   );
 }
 
+/** A seat's public facts, in the words every screen can show: where it is, its health, Captain, Jail. */
+function publicFacts(seat: SeatModel): string {
+  return [seat.location, en.marker.health(seat.health), seat.captain ? en.marker.captain : null, seat.jailed ? en.marker.jailed : null]
+    .filter((fact): fact is string => fact !== null).join(' · ');
+}
+
 /**
- * The Insider's investigation board: the three players of the role's starting knowledge and,
- * apart from them, the three roles they hold between them, one each. Nothing pairs a player
- * with a role: no role is written on or beside a portrait, the players stand in public seat
- * order and the roles in the rule's order whatever the deal was, every role looks the same,
- * and the board appears whole, at once. A portrait is the character the player chose, a
- * public picture every phone has already loaded. Render only inside the open private card
- * of the seat's own current view; the open state is the phone's, set by a deliberate tap.
+ * The Insider's file (the Designer's ability art abilities-0.1.0, docs/design/abilities-handoff.md
+ * at 1453500): the three players of the role's starting knowledge as three snapshots pinned in
+ * public seat order, and the three roles they hold between them, one each, as one slip in one
+ * envelope below all three. Nothing pairs a player with a role: every snapshot is built the same
+ * way, with the same frame, pin, query tag and tilt for its position; no role is written on,
+ * beside or about a snapshot; and the roles are one picture with one accessible name, in the
+ * rule's order whatever the deal was. A portrait is the character the player chose, a public
+ * picture every phone has already loaded. Inspecting a snapshot says only that player's public
+ * facts. Render only inside the open private card of the seat's own live view.
  */
-function renderInvestigation(set: InsiderSetModel, context: ComicContext, open: boolean): MarkupElement {
-  const toggle = h('button', {
-    type: 'button', id: 'phone-investigation-toggle', class: 'ms-button phone-investigation-toggle',
-    'data-phone-investigation': open ? 'hide' : 'open', 'aria-expanded': String(open), 'aria-controls': 'phone-investigation',
-  }, open ? en.investigation.hide : en.investigation.open);
-  const players = !open ? [] : set.seatIds.map(seatId => {
+function renderInsiderFile(set: InsiderSetModel, context: ComicContext, seats: readonly SeatModel[]): MarkupElement {
+  const words = en.insiderFile;
+  const inspected = seats.find(seat => seat.seatId === context.inspect && set.seatIds.includes(seat.seatId)) ?? null;
+  const snapshots = set.seatIds.map(seatId => {
+    const number = seatId.slice(5);
     const identity = identityFor(context, seatId);
     const look = character(identity?.characterId);
     const name = identity?.displayName ?? null;
-    // Without a character the portrait is the seat's number, as on the board.
-    return h('li', { class: 'phone-investigation__player' },
-      h('span', { class: 'phone-investigation__portrait', 'aria-hidden': 'true', ...(look ? { 'data-character': look } : {}) }, look ? null : seatId.slice(5)),
-      h('span', { class: 'phone-investigation__plate' }, ...(name ? nameParts(seatId, name)
-        : [h('span', { class: 'ms-seat__number' }, hiddenText('Player '), seatId.slice(5))])));
+    // The seat number is an evidence sticker on the portrait (or, without one, the portrait
+    // itself), so the caption holds the whole width for the name. A name too long for a small
+    // snapshot ends in an ellipsis there and is said whole by the button and the inspect card.
+    return h('li', { class: 'ab-suspect' },
+      h('button', {
+        type: 'button', class: 'ab-photo', id: `ab-photo-${number}`, 'data-seat': number,
+        'aria-pressed': String(inspected?.seatId === seatId), 'aria-label': words.inspect(Number(number), name),
+      },
+      h('span', { class: 'ab-photo__frame', 'aria-hidden': 'true' },
+        h('span', { class: 'ab-photo__art', ...(look ? { 'data-character': look } : {}) }),
+        h('span', { class: 'ab-photo__numeral' }, number),
+        h('span', { class: 'ab-photo__pin' }), h('span', { class: 'ab-photo__query' }),
+        h('span', { class: 'ab-seat ab-photo__seat' }, number)),
+      h('span', { class: 'ab-photo__caption', 'aria-hidden': 'true' },
+        h('span', { class: 'ab-seat ab-photo__caption-seat' }, number), h('span', { class: 'ab-photo__name' }, name))));
   });
-  // The section always exists, so the toggle's aria-controls resolves; closed, it is empty.
-  // Interim: the Designer's reviewed treatment of this board is pending.
-  const board = open ? h('section', { id: 'phone-investigation', class: 'phone-investigation', 'aria-labelledby': 'phone-investigation-heading', 'data-treatment': 'interim' },
-    h('h3', { id: 'phone-investigation-heading', class: 'phone-investigation__heading', tabindex: '-1' }, en.investigation.heading),
-    h('ul', { class: 'phone-investigation__players', 'aria-label': en.investigation.players }, players),
-    h('div', { class: 'phone-investigation__roles' },
-      // Said once, by the set's own accessible name below.
-      h('p', { class: 'phone-investigation__among', 'aria-hidden': 'true' }, en.investigation.among),
-      // The three roles as one set (the Designer's rule, docs/design/abilities-handoff.md at 1453500):
-      // one picture with one accessible name, the names stacked in one slip below all three players and
-      // beside none, never a list or a row that a screen reader or the eye could pair with them.
-      h('div', { class: 'phone-investigation__role-set', role: 'img', 'aria-label': en.investigation.roleSet(set.roles) },
-        set.roles.map(role => h('span', { class: 'phone-investigation__role-name' }, role))),
-      h('p', { class: 'phone-investigation__unknown' }, en.investigation.unknown)))
-    : h('section', { id: 'phone-investigation', class: 'phone-investigation', 'aria-label': en.investigation.heading, hidden: true });
-  return h('div', { class: 'phone-investigation-region', 'data-region': 'investigation', 'data-focus-fallback': 'phone-investigation-toggle' }, toggle, board);
+  const inspectedName = inspected ? identityFor(context, inspected.seatId)?.displayName ?? null : null;
+  // The inspect card's words are redrawn inside a live container that stays put, so they are said
+  // when they change. Nothing in it is new: they are facts every screen shows.
+  const card = h('div', { class: 'ab-inspect__card', 'data-region': 'insider-inspect', hidden: inspected === null },
+    inspected === null ? null : [
+      h('p', { class: 'ab-inspect__who' }, h('span', { class: 'ab-inspect__lens', 'aria-hidden': 'true' }),
+        h('span', { class: 'ab-seat' }, hiddenText('Player '), String(inspected.number)),
+        inspectedName ? [hiddenText(', '), h('span', { class: 'ab-inspect__name' }, inspectedName)] : null),
+      h('p', { class: 'ab-inspect__facts' }, publicFacts(inspected)),
+      h('div', { class: 'ab-inspect__controls' },
+        h('button', { type: 'button', class: 'ab-button', id: 'ab-inspect-show', 'data-file-act': 'show', 'data-seat': String(inspected.number) }, words.showOnBoard),
+        h('button', { type: 'button', class: 'ab-button', id: 'ab-inspect-back', 'data-file-act': 'back', 'data-seat': String(inspected.number) }, words.back)),
+    ]);
+  return h('section', { class: 'ab-file', 'data-file': 'insider', 'aria-labelledby': 'ab-file-title', 'data-region': 'insider-file', 'data-focus-fallback': 'ab-file-title' },
+    // The Designer's tab is a header; a div here, so the shell keeps its one banner landmark.
+    h('div', { class: 'ab-file__tab' },
+      h('h3', { class: 'ab-file__title', id: 'ab-file-title', tabindex: '-1' }, words.title),
+      h('span', { class: 'ab-stamp', 'data-stamp': 'classified', 'aria-hidden': 'true' }, words.classified)),
+    // The release's own sentence for this knowledge, which the card's list then does not repeat.
+    h('p', { class: 'ab-vh ms-visually-hidden' }, set.sentence),
+    h('div', { class: 'ab-file__field' },
+      (['tl', 'tr', 'br', 'bl'] as const).map(corner => h('span', { class: 'ab-corner-pin', 'data-corner': corner, 'aria-hidden': 'true' })),
+      h('ol', { class: 'ab-suspects', 'aria-label': words.suspects, 'data-region': 'insider-suspects', 'data-focus-fallback': 'ab-file-title' }, snapshots),
+      // The three roles as one set: one picture with one accessible name, the names stacked in one
+      // slip below all three snapshots and beside none, never a list or a row a screen reader or
+      // the eye could pair with them.
+      h('div', { class: 'ab-roles', role: 'img', 'aria-label': words.roleSet(set.roles) },
+        h('span', { class: 'ab-roles__back' }),
+        h('span', { class: 'ab-roles__slip' }, set.roles.map(role => h('span', { class: 'ab-roles__name' }, role))),
+        h('span', { class: 'ab-roles__front' }), h('span', { class: 'ab-roles__clip' }),
+        h('span', { class: 'ab-stamp', 'data-stamp': 'one-each' }, words.oneEach))),
+    // The string round the whole set is drawn by the host from the four corner pins, here.
+    h('p', { class: 'ab-file__note' }, words.note),
+    h('div', { class: 'ab-inspect', 'aria-live': 'polite' }, card));
 }
 
-/** The knowledge list without the Insider's sentence, where the board says it instead. */
+/** The knowledge list without the Insider’s sentence, where the file says it instead. */
 function withoutSentence(region: MarkupNode, sentence: string | null): MarkupNode {
   if (sentence === null || !isElement(region)) return region;
   const drop = (node: MarkupNode): MarkupNode | null => {
@@ -363,18 +398,20 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
-    let investigation = false;
+    let file = false;
     if (classHas(node, 'ms-private__panel') && privateContent) {
-      // The Insider's three players are drawn on the investigation board, and only while the
-      // view is live: a view the server no longer confirms shows neither board nor sentence.
+      // The Insider's three players are drawn in the Insider's file, which says the sentence
+      // itself, so the card's list of what the seat knows does not repeat it. A view the server no
+      // longer confirms keeps the card as the release draws it, with the file at rest under the
+      // release's "may be out of date" banner (the Designer's DSN-REQ-16 recommendation, pending
+      // Integration): it holds nothing the phone does not already hold, and nothing in it acts.
       const insider = privateContent.knowledge?.insider ?? null;
       children = children.map(child => (isElement(child) && child.attrs['data-region'] === 'knowledge' ? withoutSentence(child, insider?.sentence ?? null) : child));
-      if (insider && phoneView === 'role' && model.connection === 'live') {
-        investigation = context.investigation === true;
-        // At the top of the card, where a short phone shows it without scrolling; open, the
-        // board takes the role card's place below it.
+      if (insider && phoneView === 'role') {
+        file = true;
+        // Under the role card, which makes way by becoming a row.
         const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
-        children.splice(at < 0 ? children.length : at, 0, renderInvestigation(insider, context, investigation));
+        children.splice(at < 0 ? children.length : at + 1, 0, renderInsiderFile(insider, context, match!.roster.zones.flatMap(zone => zone.seats)));
       }
     }
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
@@ -413,7 +450,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
         h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
-    if (investigation) return { ...node, attrs: { ...node.attrs, 'data-investigation': 'open' }, children };
+    if (file) return { ...node, attrs: { ...node.attrs, 'data-file': 'insider' }, children };
     return { ...node, children };
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };

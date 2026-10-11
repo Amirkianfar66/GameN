@@ -82,9 +82,9 @@ export const SCENARIOS = {
     locations: HOSPITAL_8, role: 'Cracker', captain: null, offers: { rescue: EVERYONE, pass: true } },
   // Six Injured at once can only happen late: it takes the attacks of rounds 1 to 4.
   'crowd-hospital-6': { title: 'Six in the Hospital', locations: CROWD_HOSPITAL, round: 5, active: 7, offers: {} },
-  // The Insider's investigation board, in the card. The view lists the three as a set.
-  insider: { title: 'Insider: the investigation board in the card', role: 'Insider', offers: { move: ['Room B'], pass: true } },
-  'insider-long-names': { title: 'Insider: twelve-character names on the investigation board', role: 'Insider', names: LONG_NAMES, offers: { move: ['Room B'], pass: true } },
+  // The Insider's file, in the card. The view lists the three as a set, here not in seat order.
+  insider: { title: 'Insider: the Insider’s file in the card', role: 'Insider', offers: { move: ['Room B'], pass: true } },
+  'insider-long-names': { title: 'Insider: twelve-character names in the Insider’s file', role: 'Insider', names: LONG_NAMES, offers: { move: ['Room B'], pass: true } },
   'crowd-room-b-supply': { title: 'All nine in Room B: Supply', locations: ALL('Room B'), role: 'Supplier', round: 3, captain: null, offers: { move: ['Room A'], supply: EVERYONE, pass: true } },
 };
 
@@ -118,7 +118,7 @@ function publicFacts(definition, now, revision) {
 function knowledge(role, self) {
   const empty = { insiderCandidates: [], undercoverSeatId: null, code: [], scanResults: [], protections: [] };
   if (role === 'Hacker') return { ...empty, undercoverSeatId: seat(self === 5 ? 1 : 5) };
-  if (role === 'Insider') return { ...empty, insiderCandidates: seats([1, 2, 4].map(n => (n === self ? 6 : n))) };
+  if (role === 'Insider') return { ...empty, insiderCandidates: seats([4, 1, 2].map(n => (n === self ? 6 : n))) };
   if (role === 'Alien') return { ...empty, code: seats([self, ...[1, 2, 4, 6].filter(n => n !== self)].slice(0, 4)) };
   return empty;
 }

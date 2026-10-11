@@ -461,18 +461,21 @@ export const en = {
     rescues: (count: number) => `Rescues you have left: ${count}.`,
   },
 
-  // The Insider's investigation board: the same set as the sentence above, drawn as three
-  // players and one group of three roles. Interim words, pending the Designer's treatment;
-  // they say no more than the rule does: one role each, and who holds which is not known.
-  investigation: {
-    open: 'Investigation board',
-    hide: 'Hide investigation board',
-    heading: 'Investigation board',
-    players: 'Three players',
-    among: 'Between them, one each:',
-    unknown: 'Who holds which is not known.',
-    /** The role set's one accessible name, in the Designer's words (abilities handoff at 1453500). */
+  // The Insider's file: the same set as the sentence above, drawn as three snapshots and one
+  // envelope of three roles. The Designer's words (ability art abilities-0.1.0, PR #102 at
+  // 1453500). They say no more than the rule does: one role each, and who holds which is not known.
+  insiderFile: {
+    title: 'Insider file',
+    classified: 'Classified',
+    oneEach: 'One each',
+    note: 'Who is which: unknown.',
+    suspects: 'The three players',
+    /** The role set's one accessible name. */
     roleSet: (roles: readonly string[]) => `Their roles, one each: ${roles.slice(0, -1).join(', ')} and ${roles.at(-1)}. Which of them holds which is not known.`,
+    /** A snapshot's accessible name: the player's public identity, said whole, and what pressing it does. */
+    inspect: (seat: number, name: string | null) => `Player ${seat}${name ? `, ${name}` : ''}. Inspect`,
+    showOnBoard: 'Show on board',
+    back: 'Back',
   },
 
   // What every audience may know about a vote: what is being voted on, who may be voted

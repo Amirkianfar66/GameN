@@ -44,6 +44,15 @@ Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) integrates the Des
 
 Its browser-simulation evidence is under [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md).
 
+[insider-file.md](insider-file.md) replaces that interim board with the Designer's Insider file (`abilities-0.1.0`, [#102](https://github.com/Amirkianfar66/GameN/pull/102) at `1453500`), played in the release's phone so the owner can judge it. It covers:
+
+- where to see it;
+- what differs from the Designer's handoff, and why;
+- a view out of date, which keeps the release's card (the Designer's DSN-REQ-16 recommendation);
+- what the kit's adoption needs.
+
+Its evidence is under [evidence/insider-file-2026-10-11/](evidence/insider-file-2026-10-11/README.md).
+
 ## Slices
 
 Each stage is labeled as the brief requires: **proposed**, **fixture-tested**, **integrated** or **measured**. Nothing is integrated or measured yet.
