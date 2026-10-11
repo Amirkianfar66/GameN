@@ -6,7 +6,7 @@ The capture runs in the board simulation, which uses the release's own screen, c
 
 ## Command
 
-From commit `788b42c`, with `npx vite --config apps/game/dev/board/vite.config.mjs` serving `127.0.0.1:5178`:
+From commit `e985556`, with `npx vite --config apps/game/dev/board/vite.config.mjs` serving `127.0.0.1:5178`:
 
 ```sh
 CHROME_PATH=/path/to/chrome node apps/game/dev/capture-insider-file.mjs docs/frontend/evidence/insider-file-2026-10-11
@@ -39,12 +39,12 @@ A drawn file must also pass the Designer's checks (handoff section 11):
 | `*-show-on-board`, `*-ring-over` | The card closed, no file in the page, Player 4 ringed on the own board, focus on Card. The ring is gone after 1.6 s |
 | `*-reopened`, `*-live-again` | Opening the card again, and a view confirmed again after a stale one: the file at rest, nothing assembling |
 | `*-blurred` | Losing focus closes the card: no file and no role word in the page |
-| `*-stale` | A view the server no longer confirms: the closed folder and its words, no role card, no file, no role word |
+| `*-stale` | A view the server no longer confirms, entered while a snapshot is inspected. The checks: the release's banner shown, the role card kept, the file drawn and checked like any file but not required to fit (the banner takes room), the snapshot put back, nothing moving, no folder |
 | `*-text-*` | Doubled reader text at 320 and 390, and twelve-character names at 320: one column inside a card that scrolls. Every snapshot, the roles and the note are reachable, no name is cut, and the inspect card is brought into view below the sticky heading |
 | `320x568-long-names*` | Twelve-character names: cut only with an ellipsis, said whole by each button and by the inspect card |
 | `390x844-reduced-*` | Reduced motion: no more than the fade while opening; the inspected snapshot is not moved |
 | `*-no-kit` | `?kit=off`, as the hosted build draws it today: the whole file in paper, ink and words with the crew cards, the kit neither loaded nor requested |
-| `390x844-{seven,disable,tray}-*` | A Cracker, a Red Disabler and a Hacker: the same kit loaded, no file in the card, and a stale card that is the same folder, byte for byte, as the Insider's |
+| `390x844-{seven,disable,tray}-*` | A Cracker, a Red Disabler and a Hacker: the same kit loaded, and no file in the card. A stale view keeps their role cards under the banner, with no folder |
 | `display` | The shared display: no kit requested, no file, no role word |
 
 ## Defects the capture found, fixed before the commit
@@ -60,7 +60,7 @@ A drawn file must also pass the Designer's checks (handoff section 11):
 | [390x844-assembling.png](390x844-assembling.png), [320x568-assembling.png](320x568-assembling.png) | 150 ms into the assembly |
 | [390x844-inspect.png](390x844-inspect.png), [320x568-inspect.png](320x568-inspect.png) | A snapshot inspected |
 | [390x844-show-on-board.png](390x844-show-on-board.png), [320x568-show-on-board.png](320x568-show-on-board.png) | Show on board: the character ringed |
-| [390x844-stale.png](390x844-stale.png), [320x568-stale.png](320x568-stale.png), [390x844-seven-stale.png](390x844-seven-stale.png) | The closed folder, the Insider's and a Cracker's |
+| [390x844-stale.png](390x844-stale.png), [320x568-stale.png](320x568-stale.png), [390x844-seven-stale.png](390x844-seven-stale.png) | A view out of date: the Insider's card and file at rest, and a Cracker's card |
 | [390x844-no-kit.png](390x844-no-kit.png), [320x568-no-kit.png](320x568-no-kit.png) | Without the kit, as the hosted build draws it |
 | [390x844-reduced-inspect.png](390x844-reduced-inspect.png) | Reduced motion: the inspected snapshot ringed, not lifted |
 | [320x568-long-names.png](320x568-long-names.png), [320x568-long-names-inspect.png](320x568-long-names-inspect.png) | Twelve-character names |
@@ -72,6 +72,8 @@ Two defects visible in these pictures are fixed separately in [#103](https://git
 - in `*-stale.png`, the connection banner's icon lies over its words;
 - in `320x568-text-*.png`, the navigation labels run together at doubled text.
 
+At 320×568 the `320x568-stale` step records `headUnderBanner: true`: the release's connection banner covers the open card's heading. It does so for every role, and is described in [insider-file.md](../../insider-file.md).
+
 ## Full verification
 
-`npm run verify` passed with exit 0 on the clean commit `788b42c`, the commit these captures come from. [verification.txt](verification.txt) keeps the run's own summary lines.
+`npm run verify` passed with exit 0 on the clean commit `e985556`, the commit these captures come from. [verification.txt](verification.txt) keeps the run's own summary lines. The earlier `788b42c`, which drew the closed folder, passed with the same counts.

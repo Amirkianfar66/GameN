@@ -48,7 +48,7 @@ Its browser-simulation evidence is under [evidence/insider-board-2026-10-11/](ev
 
 - where to see it;
 - what differs from the Designer's handoff, and why;
-- the closed folder of a card that cannot be shown;
+- a view out of date, which keeps the release's card (the Designer's DSN-REQ-16 recommendation);
 - what the kit's adoption needs.
 
 Its evidence is under [evidence/insider-file-2026-10-11/](evidence/insider-file-2026-10-11/README.md).
