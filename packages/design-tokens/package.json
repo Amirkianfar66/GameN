@@ -26,6 +26,11 @@
     "capture:v1-phone": "node ../../design/tools/v1-phone-capture.mjs",
     "docs:v1-phone": "node ../../design/tools/v1-phone-docs.mjs",
     "check:v1-phone": "node ../../design/tools/v1-phone-check.mjs",
-    "flows:v1-phone": "node ../../design/tools/v1-phone-flows.mjs"
+    "flows:v1-phone": "node ../../design/tools/v1-phone-flows.mjs",
+    "assets:board-motion": "node ../../design/tools/board-motion-assets.mjs",
+    "capture:board-motion": "node ../../design/tools/board-motion-capture.mjs",
+    "docs:board-motion": "node ../../design/tools/board-motion-docs.mjs",
+    "check:board-motion": "node ../../design/tools/board-motion-check.mjs",
+    "flows:board-motion": "node ../../design/tools/board-motion-flows.mjs"
   }
 }

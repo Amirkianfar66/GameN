@@ -18,6 +18,8 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-9](#dsn-req-9) | Decide whether a join link or QR code may carry the room code (issue #76) | The share sheet's link and QR, which are drawn as a PROPOSAL | None |
 | [DSN-REQ-10](#dsn-req-10) | A shorter, supervised way to hand a seat to another device than 43 characters plus a match identifier (finding G20; issue #76) | Seat recovery read aloud or typed at a table | None |
 | [DSN-REQ-11](#dsn-req-11) | Say in the view that an election is a second one among tied candidates (G13), and which vote a published count belongs to (G15) (issue #76) | Wording the runoff and the “last count” without inference | None |
+| [DSN-REQ-12](#dsn-req-12) | Enforce the owner's room capacity of five in the engine and the server (owner, 11 October 2026; issue #87) | The board drawing five places a room as a rule rather than a picture; a full room refused before it is pressed | None |
+| [DSN-REQ-13](#dsn-req-13) | Put the current board-motion look in the game for the owner to judge: the five scenes with 21 places, the full-body figures and their animations, unpainted (owner, 11 October 2026; issue #87) | The owner's judgement of the look (DSN-D34), which is to be made in the game | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -199,6 +201,34 @@ A recovery code is 43 characters and the new device also needs the match identif
 - The last published count stays in the view through later phases with nothing saying which vote it was. The design labels it “Last vote counted · Jail vote”. An identifier of the vote it counts, or its round, would let a screen say whether it is this round's.
 
 Both are additive public facts. Neither changes a rule.
+
+## DSN-REQ-12
+
+**Enforce the room capacity of five.** Added 11 October 2026 for issue [#87](https://github.com/Amirkianfar66/GameN/issues/87); tracked in issue [#96](https://github.com/Amirkianfar66/GameN/issues/96). For Backend (the engine, the rules overlays and the server's starting rooms), with Game Balance to audit the effect on play.
+
+The owner decided on 11 October 2026: “yes enforce 5 as a hard rule” ([owner-decisions.md](owner-decisions.md#11-october-2026-five-a-room-is-a-hard-rule)). At most five players are in Room A, Room B, the Hospital and the Jail; the Command Room keeps its one, the Captain; the Final Zone is not a room and holds everyone left. Nothing in the engine or the server enforces it today: the rules have no capacity, and the starting rooms are an independent coin flip for each player (issue #83), which puts six or more of nine in one room about half the time.
+
+Requested: a new ruleset version that enforces it, in the six cases as the owner decided them the same day (“yes go with your recommendations for all six”, owner-decisions.md): a full room is not offered and a move into it is refused; the Eliminated count; a sixth Injured player waits where it is for a free Hospital place; the Jail never exceeds five (Balance to confirm from the vote rules); starting rooms random but at most five a room; a return to a full room goes to the other of Room A and Room B. No new public fact is needed: occupancy is already public, and the board derives FULL from it. Until the engine enforces it the design draws what the view says, six or more in a room as a crowd.
+
+## DSN-REQ-13
+
+**Put the current look in the game, for the owner to judge.** Added 11 October 2026 for issue [#87](https://github.com/Amirkianfar66/GameN/issues/87); tracked in issue [#97](https://github.com/Amirkianfar66/GameN/issues/97). For Integration (the build, the runtime manifest pin and the staging release) and Frontend (the runtime).
+
+The owner decided on 11 October 2026: “dont go with mix lets try whiteout paint the current  in game then i will judge , lets go with reviewer” ([owner-decisions.md](owner-decisions.md#11-october-2026-the-current-look-in-the-game-before-any-paint)). Today's staging release (#95) pins this PR at `93a7e32`. It draws the approved bust standees on the reviewed rooms (`design-0.2.0`); the scenes and full-body figures are outside the runtime manifest.
+
+Requested: a build for the owner's trial that draws the board as PR #88 draws it at `403ccc6`, unpainted:
+
+- the five rooms as scenes with their 21 fixed places (DSN-D30);
+- the nine characters as full-body figures in their places' gestures, drawn by the rig or exported from it (DSN-D32, DSN-D33);
+- who takes which place, from public facts only;
+- the move with its walk, and the hit if Integration and Frontend adopt it with the owner (DSN-D35), with their reduced-motion forms;
+- FULL on a room's tag while five are there.
+
+How to adopt each part is in [board-motion-handoff.md](board-motion-handoff.md): the export revision and the manifest pin for the scenes, the figures, the cues and the open gaps. Not requested:
+
+- the painted look, which stays an exploration;
+- the capacity rule itself, which is [DSN-REQ-12](#dsn-req-12);
+- any change to a rule, the protocol or a contract.
 
 ## What Designer does next, and what it waits for
 
