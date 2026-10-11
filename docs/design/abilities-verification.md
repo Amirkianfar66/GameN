@@ -137,6 +137,7 @@ The ordinary shot (every seat that shoots: the Officer's from Round 1, the Under
 | `npm run test --workspace @mothership/design-tokens` | **170 tests: 169 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **47 ability-check tests pass**, 9 new for slice 4 |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `697a1e73a9d2e1ebcca5908042d2e0fc967ec27b`, the commit that adds slice 4, with the working tree clean before and after (the commit after it changes only this page and corrects a rule citation in the handoff): **exit 0 in 731 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
@@ -144,6 +145,7 @@ The ordinary shot (every seat that shoots: the Officer's from Round 1, the Under
 - **The crack's first frame showed the board**, as the slip's did (the fix above): the frames now hold only the note's beat.
 - **Three measures broke the capture's page script.** Inside its template literal an escaped apostrophe (`\'`) became a bare quote and ended the string. They are double-quoted now, and the page script was parsed and searched for a stray backspace before any picture was taken.
 - **A claim in the first draft of the handoff did not hold**: that the Officer's role card states its one-shot rule. It does not (the card names the role, its team and its device), and the handoff says so.
+- **A rule was cited wrongly**, found after the commit: the handoff gave V1-15 for a weapon used when the shot is accepted. V1-15 covers the Rescue's and the Disable's uses and the Undercover's grant, once per recipient; the weapon is the engine's (it is spent at acceptance) and v2.1's (a shot's resources are consumed whatever its outcome, `protection.on_block`). The handoff now cites those.
 
 **Not run, and what the checks do not prove.** Every picture is a desktop Chromium simulation: no real phone, screen reader, touch input, production integration or match. The prototype's server and its private facts are stand-ins: a Protection's grant and use come from the fixture panel, not from the engine's round. The strip's detail line and buttons keep their pixel size at twice the text size (the board-motion proposal, unchanged here); the slice 4 rounds in them keep their size too.
 
