@@ -23,10 +23,11 @@ export const EVIDENCE_FILES = {
 // one is, and of which kind: a defect against the cases the implementation was written for, or a
 // rule the owner decided on 11 October 2026, after it was written.
 export const EXPECTED_FAILURES = {
-  'CAP-25': { finding: 'F3', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-2)', message: /truth @Insider\.location: expected "Room B", observed "Room A"/ },
-  'CAP-27': { finding: 'F4', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-3)', message: /truth @Supplier\.location: expected "Room A", observed "Room B"/ },
-  'CAP-28': { finding: 'F1', kind: 'defect', why: 'A defect against the sixth decided case of issue #96', message: /truth @Insider\.location: expected "Room B", observed "Room A"/ },
-  'CAP-45': { finding: 'F5', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-4)', message: /truth @Supplier\.location: expected "Room B", observed "Room A"/ },
+  'CAP-25': { finding: 'F3', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-2)', message: /truth @Insider\.location: expected "Room B", observed "Room A"/, invariant: 'INV-CAP-03' },
+  'CAP-27': { finding: 'F4', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-3)', message: /truth @Supplier\.location: expected "Room A", observed "Room B"/, invariant: 'INV-CAP-03' },
+  'CAP-28': { finding: 'F1', kind: 'defect', why: 'A defect against the sixth decided case of issue #96', message: /truth @Insider\.location: expected "Room B", observed "Room A"/, invariant: 'INV-CAP-03' },
+  'CAP-45': { finding: 'F5', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-4)', message: /truth @Supplier\.location: expected "Room B", observed "Room A"/, invariant: 'INV-CAP-03' },
+  'CAP-46': { finding: 'F11', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-6)', message: /truth @Hacker\.location: expected "Room B", observed "Room A"/, invariant: 'INV-CAP-07' },
 };
 export const caseOf = scenarioId => scenarioId.replace(/^V1-M\d-/, '');
 // Ready cases that assert nothing the rule changes and in which no room ever holds five: a Captain
@@ -114,6 +115,8 @@ export function probeTable({ scenarios, control }) {
       rows.push(line([`\`${run.scenarioId}\``, run.decisionIds.join(', '), probe.label, probe.outcome, earlier]));
     }
   }
+  // With no blocked case there is nothing to record, and the documents say so in words.
+  if (rows.length === 0) return null;
   return ['| Case | Question | What is recorded | Implementation | Engine before the rule |', '| --- | --- | --- | --- | --- |', ...rows].join('\n');
 }
 

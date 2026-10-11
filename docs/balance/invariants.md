@@ -72,7 +72,7 @@ When no player can take a turn in the next round, a Jail vote or an election may
 
 ## Room capacity
 
-These six are checked only where a run says that the ruleset it plays has the room-capacity rule, the game owner's decision of 11 October 2026 recorded in issue #96. A match of an earlier ruleset keeps its own rules, and nothing here is held against it. The rows of the rule and the audit of it are in `docs/balance/capacity-audit.md`.
+These seven are checked only where a run says that the ruleset it plays has the room-capacity rule, the game owner's decision of 11 October 2026 recorded in issue #96. A match of an earlier ruleset keeps its own rules, and nothing here is held against it. The rows of the rule and the audit of it are in `docs/balance/capacity-audit.md`.
 
 | ID | Statement | Rules |
 | --- | --- | --- |
@@ -82,6 +82,7 @@ These six are checked only where a run says that the ruleset it plays has the ro
 | INV-CAP-04 | An Eliminated player keeps their place: once Eliminated, a player's location does not change. | R-CAP-03 |
 | INV-CAP-05 | Nobody is moved to make a place: a Healthy, free player who is in Room A or Room B before and after a phase closes is in the same room. | R-CAP-01, R-MOVE-01 |
 | INV-CAP-06 | A player who waits for Hospital stays where they are: an Injured, free player who has no place in Hospital after a phase closes is where they were before it. A Captain who was inside Command Room is the exception: they cannot stay there and are seated like a returning player, which INV-CAP-03 holds. | R-CAP-04, R-CAP-15, R-CAP-20, R-CAP-24 |
+| INV-CAP-07 | Where two players return to a room in the same resolution, have the same last room, and only one of them is placed in it, that one has the lower player number. | R-CAP-27, R-CAP-26 |
 
 Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be in Room A, Room B or Jail while Hospital holds five (R-CAP-04, R-CAP-20), and INV-CAP-06 holds them to the place they were in. Since the owner's decisions of 11 October 2026, INV-CAP-03 counts a place that is being left in the same resolution as free (R-CAP-19), and takes a player's last room from what the checks themselves saw, not from the engine's record: the last room is the room the player was last in (R-CAP-22).
 

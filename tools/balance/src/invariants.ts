@@ -343,6 +343,8 @@ export function checkTransition(
     if (!deepEqual(ledger.turnsThisRound, expected)) fail('INV-PH-04', `Round ${prev.round} turns ${ledger.turnsThisRound.join(',')} differ from the recorded order of non-eliminated players ${expected.join(',')}`);
   }
 
+  // Players who return to a room in this transition, with the room each was last in.
+  const returned: { seat: SeatId; last: string; to: string }[] = [];
   for (const after of next.truth.seats) {
     const before = prev.truth.seats.find(item => item.seat === after.seat);
     if (before === undefined) { fail('INV-SET-01', `${after.seat} appeared mid-match`); continue; }
@@ -367,6 +369,7 @@ export function checkTransition(
     const returns = before.location === 'Hospital' || before.location === 'Jail'
       || (before.location === 'Command Room' && phaseChanged && before.captain && !after.captain);
     const last = ledger.lastRoom[after.seat] ?? before.lastRoom;
+    if (ledger.roomCapacity !== null && returns && (after.location === 'Room A' || after.location === 'Room B')) returned.push({ seat: after.seat, last, to: after.location });
     if (ledger.roomCapacity !== null && returns && (after.location === 'Room A' || after.location === 'Room B') && after.location !== last) {
       const others = next.truth.seats.filter(seat => seat.seat !== after.seat && seat.location === last).length;
       if (others < ledger.roomCapacity) {
@@ -457,6 +460,16 @@ export function checkTransition(
       ledger.mainActionsThisRound = {}; ledger.shotsThisRound = {}; ledger.turnsThisRound = [];
     }
     if (next.phaseKind === 'ORDINARY_TURN' && next.activeSeat !== null) ledger.turnsThisRound.push(next.activeSeat);
+  }
+  // Two returning players whose last room is the same, and only one of them is in it: the place
+  // went to the lower player number (the owner's decision of 11 October 2026, R-CAP-27).
+  const numberOf = (seat: SeatId) => Number(seat.replace(/^\D+/, ''));
+  for (const kept of returned) {
+    for (const sent of returned) {
+      if (kept.last === sent.last && kept.to === kept.last && sent.to !== sent.last && numberOf(sent.seat) < numberOf(kept.seat)) {
+        fail('INV-CAP-07', `${sent.seat} was sent to ${sent.to} and ${kept.seat} was given the last place in ${kept.last}, the last room of both, although ${sent.seat} has the lower number`);
+      }
+    }
   }
   rememberRooms(ledger, next);
   out.push(...checkState(setup, next, ledger));

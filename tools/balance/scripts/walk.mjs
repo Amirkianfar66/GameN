@@ -7,7 +7,7 @@
 // --rooms          How starting rooms are drawn: an independent draw for each player (`seeded`,
 //                  the default, and the rule until issue #96), or the same made legal under the
 //                  capacity rule (`capped`).
-// --room-capacity  Holds every playout to the capacity invariants (INV-CAP-01 to 06). Give it for
+// --room-capacity  Holds every playout to the capacity invariants (INV-CAP-01 to 07). Give it for
 //                  a ruleset that carries the rule, and for none that does not.
 // --occupancy      Adds to the summary how full the places got. It is on with --room-capacity.
 // --digests        Adds one digest of the end states of each mode's playouts, in order. Two runs

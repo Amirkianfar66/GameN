@@ -19,9 +19,9 @@
 // not tell from other orders.
 //
 // On 11 October 2026 the owner then decided the three questions that were open (CAP-D2, CAP-D4,
-// CAP-D5) and when starting rooms are drawn. Cases 25, 27, 42 and 43 had been blocked and are ready;
-// case 45 is new. The implementation of PR #98 was written before those decisions. Case 44 is
-// blocked on a question they raise (CAP-D6).
+// CAP-D5) and when starting rooms are drawn, and then the one question those decisions raised
+// (CAP-D6). Cases 25, 27, 42, 43 and 44 had been blocked and are ready; cases 45 and 46 are new.
+// The implementation of PR #98 was written before those decisions. No case is blocked now.
 //
 // These fixtures are a suite of their own beside tests/scenarios/v1/. They run under the ruleset
 // that carries the rule. The Version 1 catalogue is left as reviewed and runs under the rulesets
@@ -79,8 +79,6 @@ const expire = (times = 1) => ({ op: 'expire', times });
 const cmd = (actor, command, expect = 'REGISTERED', at) => ({ op: 'command', actor: ref(actor), command, expect, ...(at ? { at } : {}) });
 const mark = name => ({ op: 'mark', name });
 const check = (...checks) => ({ op: 'assert', checks });
-const note = (label, field) => ({ op: 'note', label, match: field });
-const noteOf = (label, role, field) => ({ op: 'note', label, truth: ref(role), field });
 
 const shot = target => ({ type: 'REGISTER_SHOT', target: ref(target) });
 const disable = target => ({ type: 'DISABLE', target: ref(target) });
@@ -445,13 +443,24 @@ function build(mode) {
       check(truth('Supplier', 'health', 'Healthy'), truth('Supplier', 'captain', false), truth('Supplier', 'location', 'Room B'), truth('Alien', 'health', 'Injured'), truth('Alien', 'location', 'Hospital'),
         holds('Room B', 5), holds('Command Room', 0))],
   });
-  add(44, 'Which of two returning players gets the one place left in the last room they share', {
-    status: 'blocked', decisions: ['CAP-D6'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-27'], depends: ['R-CAP-07', 'R-CAP-19', 'R-CAP-24'], setup: setup('b4'),
-    note: 'When Round 4 resolves, the Captain is Eliminated inside Command Room and Insider is healed. Room B is the last room of both and has one place. The decisions say that each is seated once the round has resolved, and not which of them first.',
-    steps: [open(1), cmd('Insider', move('Room B')), turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Insider')), ...elect('Supplier'), open(2), cmd('Supplier', move('Room B')), cmd('Alien', move('Room B')),
-      turn(3, 'Supplier'), cmd('Supplier', supply('Blue Disabler', 'Cracker')),
-      ...acts(4, { Undercover: [cmd('Undercover', shot('Supplier'))], 'Blue Disabler': [cmd('Blue Disabler', shot('Supplier'))], Cracker: [cmd('Cracker', rescue('Insider'))] }),
-      cmd('Supplier', move('Command Room')), open(5), noteOf('where the Eliminated Captain lies', 'Supplier', 'location'), noteOf('where the healed player is', 'Insider', 'location')],
+  // Two returning players, one place in the last room of both: a Captain Eliminated inside Command
+  // Room, and a player healed in the same round. `healed` was hurt in Room B in Round 1.
+  const lastPlace = healed => [open(1), cmd(healed, move('Room B')), turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable(healed)), ...elect('Supplier'), open(2), cmd('Supplier', move('Room B')),
+    cmd('Alien', move('Room B')), turn(3, 'Supplier'), cmd('Supplier', supply('Blue Disabler', 'Cracker')),
+    ...acts(4, { Undercover: [cmd('Undercover', shot('Supplier'))], 'Blue Disabler': [cmd('Blue Disabler', shot('Supplier'))], Cracker: [cmd('Cracker', rescue(healed))] }),
+    cmd('Supplier', move('Command Room')), check(holds('Room B', 4)), open(5)];
+  const lastPlaceRules = { areas: ['resolution-order', 'movement', 'elimination'], rules: ['R-CAP-27', 'R-CAP-26', 'R-CAP-24'],
+    depends: ['R-CAP-07', 'R-CAP-19', 'R-CAP-03', 'R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-STATE-01', 'R-STATE-08', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05', 'R-ROLE-07', 'R-SHOT-02', 'R-SHOT-03', 'R-MOVE-01', 'R-MOVE-04'], setup: setup('b4') };
+  add(44, 'Two returning players and one place in the last room of both: the lower player number gets it, here the Captain who was Eliminated', {
+    ...lastPlaceRules,
+    note: 'When Round 4 resolves, the Captain (Supplier, player 2) is Eliminated inside Command Room and Insider, who has a higher number, is healed. Room B is the last room of both and has one place. A rule that seated the healed player first would give it to Insider. Blocked on CAP-D6 until the owner decided it on 11 October 2026.',
+    steps: [...lastPlace('Insider'), check(truth('Supplier', 'health', 'Eliminated'), truth('Supplier', 'location', 'Room B'), truth('Insider', 'health', 'Healthy'), truth('Insider', 'location', 'Room A'), holds('Room B', 5))],
+  });
+  add(46, 'Two returning players and one place in the last room of both: the lower player number gets it, here the healed player', {
+    ...lastPlaceRules,
+    note: 'As case 44, but the healed player is Hacker, player 1, and the Captain who is Eliminated inside Command Room is player 2. The place goes to Hacker, and the Captain lies in the other room. A rule that seated the Captain first would give it to the Captain.',
+    steps: [...lastPlace('Hacker'), check(truth('Hacker', 'health', 'Healthy'), truth('Hacker', 'location', 'Room B'), truth('Supplier', 'health', 'Eliminated'), truth('Supplier', 'location', 'Room A'),
+      pub('Supplier', 'location', 'Room A'), holds('Room B', 5))],
   });
 
   // ----- Places and returns together ----------------------------------------------------------------
