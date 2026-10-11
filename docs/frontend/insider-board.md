@@ -4,7 +4,14 @@ Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) · branch `codex/f
 
 The owner commissioned the Designer to create artwork and interactive comic animation for every V1 role ability and shared action. This is the first Frontend piece of that integration. It draws the Insider's starting knowledge as a board inside the Insider's own card.
 
-The Designer has not delivered a treatment of this board. The board is therefore built only from approved public crew cards and existing tokens, and it marks itself `data-treatment="interim"`. **It is not finished design.** The coordinator's mockup was not used as a design source.
+When this board was built, the Designer had not delivered a treatment of it. The board is therefore built only from approved public crew cards and existing tokens, and it marks itself `data-treatment="interim"`. **It is not finished design.** The coordinator's mockup was not used as a design source.
+
+The Designer has since delivered a first ability-art slice, **the Insider's file**: PR [#102](https://github.com/Amirkianfar66/GameN/pull/102) at `1453500a2c2313844903f037a948578052122d49`, proposal `abilities-0.1.0`, with a Frontend handoff in `docs/design/abilities-handoff.md`. It is a proposal awaiting two decisions:
+
+- Integration adopting its kit into a reviewed export (DSN-D36);
+- the owner's approval of its look and motion (DSN-D37).
+
+This board already follows its never-show rules: see [The Designer's treatment](#the-designers-treatment).
 
 ## Baseline
 
@@ -34,7 +41,7 @@ This change asks nothing new of Backend or the contracts.
    - a portrait, which is the character card that player chose (the seat number if no identity is known);
    - a seat-number badge;
    - the display name, as text.
-3. **The roles.** Set apart from the players, a dashed group says "Between them, one each:", then shows three identical chips — Undercover, Alien, Cracker — in the rule's order. It ends with "Who holds which is not known."
+3. **The roles.** Set apart from the players, a dashed group says "Between them, one each:". Below it is **one slip** with the three names stacked (Undercover, Alien, Cracker, in the rule's order), under all three players and beside none. Then: "Who holds which is not known." The slip is one picture with one accessible name: "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known." The visible first line is hidden from assistive technology, because the slip's name says it.
 4. **Opening.** Focus moves to the board's heading, and the board scrolls into view inside the card. Its top stays below the card's sticky heading even when, at large text, the board is taller than the card. The role card makes way while the board is open, so the board fits a 320×568 phone.
 5. **Closing.** "Hide investigation board" or Escape closes the board and returns focus to the toggle.
 6. **No repeated sentence.** In the comic shell the "What you know" list no longer repeats the set, because the board says it. The plain shell, which has no art, still says it in one sentence.
@@ -59,9 +66,10 @@ The interim words live in `en.investigation`. They say no more than the rule doe
 - No role is written on or beside a portrait.
 - The model sorts the three seats into public seat order, whatever order the view gives.
 - The roles always appear in the rule's order.
-- The three chips are identical.
+- The three names are stacked in one slip. They are never a list a screen reader could pair item by item with the players, and never a row or column under a portrait. The first interim drew three chips in a row, which at 390 px stood one under each portrait ([before-role-chips-390x844-board.png](evidence/insider-board-2026-10-11/before-role-chips-390x844-board.png)). The Designer's rule replaced it.
+- Every name in the slip is drawn the same way.
 - No line, color, connector or motion joins a role to a player, and the board appears whole, at once.
-- No accessible name on the board contains a role word.
+- Only the slip's own accessible name says a role. Nothing on or around a player does, and no `aria-describedby`, `aria-labelledby`, `aria-controls` or `aria-owns` points from a player anywhere.
 
 All six orderings of the same set render byte-identical markup.
 
@@ -71,31 +79,41 @@ All six orderings of the same set render byte-identical markup.
 - Names are escaped text nodes, never classes, identifiers or URLs.
 - No URL, storage, log or analytics behavior changed.
 
-## Interim treatment and missing Designer assets
+## The Designer's treatment
 
-The board uses only:
+The interim board uses only:
 
 - the approved crew cards `piece-crew-card-c1`…`c9`;
 - tokens: paper, ink, panel, paper-deep, steel-mid and the lettering font.
 
-Recorded for the Designer's role-ability commission:
+The Designer's file (PR #102 at `1453500`, `abilities-0.1.0`) is what this board becomes once it is reviewed. Already the same here:
 
-| Missing | Interim stand-in | Constraint for the delivery |
+- the one field, sorted by seat on the client;
+- three players built alike, in seat order;
+- the roles as one picture with one name, below all three and beside none;
+- no role-dependent loading;
+- nothing before gameplay or while the card is closed;
+- the knowledge sentence not repeated in the list.
+
+What the file adds, and what it waits for:
+
+| The Designer's file adds | Frontend's port | Waits for |
 | --- | --- | --- |
-| Board frame and layout | Paper panel with an ink border | Keep players and roles in separate groups |
-| Role group art (badges or a slate) | Three identical text chips | All three must look the same, or appear as one picture. `device-insider` (a slate with three alike marks) already sets this direction |
-| Open and close motion | None: the board appears whole | No sequence or order that could stand for a role. Reduced motion must give the same result |
-| Final words for the toggle, heading and two lines | `en.investigation` | Say no more than the rule |
+| The kit: 11 neutral assets in one stylesheet, loaded **whole on every player phone** behind `[data-art~="abilities"]` | Load it with the player bundles. Never fetch on open | DSN-D36: the kit in a reviewed export and the runtime manifest pin. The fallback (paper, ink and words) needs no kit |
+| The markup (`ab-file`, `ab-suspects`, `ab-photo`, `ab-roles`), the file under the role card when the card opens, and its words ("Insider file", "Who is which: unknown.") | Port its structure into `renderComicPlayerShell`. The toggle gives way to the file shown with the card | DSN-D37: the owner's look |
+| **Inspect**: pressing a portrait shows that player's public facts. **Show on board** rings the character on the own board for 1.6 s | Public facts from the public seat model only | DSN-D37 |
+| The assembly motion: 1,020 ms, once per page on the first deliberate open, never replayed. Reduced: an 80 ms fade. Cancelled at once by close, background, staleness or reduced motion | Ported onto the motion director's cancellation | DSN-D37 |
+| **A closed folder, the same for every role**, when the card is pressed while it cannot be shown (stale view, time up) | Changes today's stale card for every role, which still shows the role card | DSN-D37, and Integration's agreement to the conceal change |
 
-When the Designer delivers, the reviewed commit and manifest version replace the interim classes and stylesheet, `apps/game/hosted/private-card.css`. The model (`InsiderSetModel`), the toggle, the focus handling and the privacy lifecycle stay.
+When those land, the reviewed commit and asset version replace `apps/game/hosted/private-card.css` and the interim classes. The model (`InsiderSetModel`) and the privacy lifecycle stay, and the tests here carry over.
 
 ## Changed files
 
 - `packages/presentation/src/model/knowledge.ts` and `types.ts`: `knowledge.insider` (an `InsiderSetModel`) gives the seats in public seat order, the three roles in fixed order and the existing sentence.
-- `packages/presentation/src/markup/comic-shell.ts`: draws the toggle and board in the open card when the phone is in the Card view and the view is live. Removes the sentence from that card's knowledge list.
+- `packages/presentation/src/markup/comic-shell.ts`: draws the toggle and board in the open card when the phone is in the Card view and the view is live, with the roles as one stacked set. Removes the sentence from that card's knowledge list.
 - `packages/presentation/src/copy/en.ts`: adds the interim words.
 - `apps/game/hosted/browser-host.js`: owns the open state. Open only on a tap; reset whenever the card closes, the view leaves Card, the connection is not live or the private epoch changes. Also handles focus, Escape, and scrolling the board into view below the card's sticky heading.
-- `apps/game/hosted/private-card.css`: the interim treatment. It is imported by the hosted entry and the board simulation.
+- `apps/game/hosted/private-card.css`: the interim treatment, tightened on short phones. It is imported by the hosted entry and the board simulation.
 
 Development only:
 
@@ -118,7 +136,8 @@ The presentation tests cover:
 
 - seat order, names, characters and fixed role order;
 - that the six orderings draw identical boards;
-- no pairing hooks, identical chips and role-free accessible names;
+- no pairing hooks;
+- one role set with one accessible name, no list, and no role word on or pointing from a player;
 - absence on a closed card, in the background, on a stale view, in the other phone views, for other roles and on the display;
 - a closed board by default;
 - number fallbacks and escaped names;
@@ -143,5 +162,5 @@ CHROME_PATH=/path/to/chrome node apps/game/dev/capture-insider-board.mjs <output
 
 - Browser emulation (Chromium device metrics) only. No physical phone, deployed service or multiplayer run was tested.
 - Screenshots do not establish multiplayer correctness or social-deduction balance.
-- The treatment is interim and awaits the Designer's reviewed delivery.
-- The board has no motion until the Designer specifies one.
+- The treatment is interim. The Designer's file (#102) awaits DSN-D36 and DSN-D37.
+- The board has no motion; the file's assembly motion arrives with it.

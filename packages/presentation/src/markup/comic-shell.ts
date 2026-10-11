@@ -103,8 +103,13 @@ function renderInvestigation(set: InsiderSetModel, context: ComicContext, open: 
     h('h3', { id: 'phone-investigation-heading', class: 'phone-investigation__heading', tabindex: '-1' }, en.investigation.heading),
     h('ul', { class: 'phone-investigation__players', 'aria-label': en.investigation.players }, players),
     h('div', { class: 'phone-investigation__roles' },
-      h('p', { class: 'phone-investigation__among' }, en.investigation.among),
-      h('ul', { class: 'phone-investigation__role-list' }, set.roles.map(role => h('li', { class: 'phone-investigation__role' }, role))),
+      // Said once, by the set's own accessible name below.
+      h('p', { class: 'phone-investigation__among', 'aria-hidden': 'true' }, en.investigation.among),
+      // The three roles as one set (the Designer's rule, docs/design/abilities-handoff.md at 1453500):
+      // one picture with one accessible name, the names stacked in one slip below all three players and
+      // beside none, never a list or a row that a screen reader or the eye could pair with them.
+      h('div', { class: 'phone-investigation__role-set', role: 'img', 'aria-label': en.investigation.roleSet(set.roles) },
+        set.roles.map(role => h('span', { class: 'phone-investigation__role-name' }, role))),
       h('p', { class: 'phone-investigation__unknown' }, en.investigation.unknown)))
     : h('section', { id: 'phone-investigation', class: 'phone-investigation', 'aria-label': en.investigation.heading, hidden: true });
   return h('div', { class: 'phone-investigation-region', 'data-region': 'investigation', 'data-focus-fallback': 'phone-investigation-toggle' }, toggle, board);

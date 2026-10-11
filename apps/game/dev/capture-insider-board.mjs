@@ -57,7 +57,18 @@ const READ = `(() => {
       const b = box(heading), top = head ? head.getBoundingClientRect().bottom : shown.y;
       return b.y >= top - 0.5 && b.y + b.h <= shown.y + shown.h + 0.5;
     })(),
-    roles: [...document.querySelectorAll('.phone-investigation__role')].map(node => node.textContent),
+    roles: [...document.querySelectorAll('.phone-investigation__role-name')].map(node => node.textContent),
+    rolesStacked: (() => {
+      const names = [...document.querySelectorAll('.phone-investigation__role-name')].map(box);
+      if (names.length < 2) return null;
+      const centres = names.map(b => b.x + b.w / 2);
+      return Math.max(...centres) - Math.min(...centres) <= 2 && names.every((b, i) => i === 0 || b.y >= names[i - 1].y + names[i - 1].h - 0.5);
+    })(),
+    rolesBelowPlayers: (() => {
+      const set = document.querySelector('.phone-investigation__role-set');
+      const tops = [...document.querySelectorAll('.phone-investigation__player')].map(box);
+      return set && tops.length ? box(set).y >= Math.max(...tops.map(b => b.y + b.h)) - 0.5 : null;
+    })(),
     focus: document.activeElement?.id || null,
     sentence: document.body.innerText.includes('hold the roles'),
     hooks: app ? app.innerHTML.includes('phone-investigation') : false,
@@ -101,6 +112,8 @@ const opened = m => [
   m.players.some(player => !player.shown) && 'a player is not in view in the card',
   m.rolesShown === false && 'the roles are not in view in the card',
   JSON.stringify(m.roles) !== JSON.stringify(['Undercover', 'Alien', 'Cracker']) && `roles ${m.roles}`,
+  m.rolesStacked !== true && 'the role names are not stacked in one slip',
+  m.rolesBelowPlayers !== true && 'the roles are not below every player',
   m.toggle?.expanded !== 'true' && 'toggle not expanded',
   m.headingShown !== true && 'the board heading is not in view below the card heading',
   m.roleWordsOutsideCard.length > 0 && `role words outside the card: ${m.roleWordsOutsideCard}`,
@@ -130,6 +143,8 @@ const enlarged = (m, missed) => [
   missed.length > 0 && `not reachable by scrolling the card: ${missed.join(', ')}`,
   m.headingShown !== true && 'the board heading is not in view below the card heading',
   JSON.stringify(m.roles) !== JSON.stringify(['Undercover', 'Alien', 'Cracker']) && `roles ${m.roles}`,
+  m.rolesStacked !== true && 'the role names are not stacked in one slip',
+  m.rolesBelowPlayers !== true && 'the roles are not below every player',
 ];
 const cleared = m => [
   m.players.length > 0 && 'players still drawn',

@@ -474,6 +474,8 @@ export const en = {
     players: 'Three players',
     among: 'Between them, one each:',
     unknown: 'Who holds which is not known.',
+    /** The role set's one accessible name, in the Designer's words (abilities handoff at 1453500). */
+    roleSet: (roles: readonly string[]) => `Their roles, one each: ${roles.slice(0, -1).join(', ')} and ${roles.at(-1)}. Which of them holds which is not known.`,
   },
 
   // What every audience may know about a vote: what is being voted on, who may be voted
