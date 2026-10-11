@@ -62,7 +62,7 @@ export async function planAbilityAssets(root = repoRoot) {
     for (const color of colors(exported)) if (!palette.includes(color)) problems.push(`${recipe.id}: ${color} is not in the ${recipe.palette} palette`);
     const content = `<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Mothership · ability art proposal ${recipes.manifestVersion} · ${recipe.id} ${recipe.version} · generated, do not edit by hand
+  Mothership · ability art proposal · ${recipe.id} ${recipe.version} · generated, do not edit by hand
   ${recipe.title}. ${recipe.use}
   Built by design/tools/abilities-assets.mjs from design/abilities/${recipe.source} (layer ${recipe.layer}). Not in the reviewed manifest ${recipes.baseManifest}.
 -->

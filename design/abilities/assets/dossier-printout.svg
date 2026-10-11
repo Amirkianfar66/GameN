@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-printout 0.1.0 · generated, do not edit by hand
+  A printout. The paper of a private result (a Scan's), stretched to the width it needs; its words and stamp are live text.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/intel.svg (layer dossier-printout). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 56" width="240" height="56"><defs><pattern id="intel-rows" width="8" height="7" patternUnits="userSpaceOnUse"><rect x="0" y="5.6" width="8" height="1.1" fill="#E3D6C2"/></pattern><pattern id="intel-ink-dots" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="2" cy="2" r="0.8" fill="#151923"/></pattern></defs><g id="dossier-printout"><path d="M8 9 L232 7 L236 54 L12 55 Z" fill="#151923" opacity="0.28"/><path d="M4 3 L9 7 L4 11 L9 15 L4 19 L9 23 L4 27 L9 31 L4 35 L9 39 L4 43 L9 47 L5 51 L230 50 L235 46 L230 42 L235 38 L230 34 L235 30 L230 26 L235 22 L230 18 L235 14 L230 10 L235 6 L231 2 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><rect x="14" y="8" width="210" height="38" fill="url(#intel-rows)" opacity="0.9"/><path d="M196 4 L231 3 L234 46 L230 50 L186 50 Q206 30 196 4 Z" fill="url(#intel-ink-dots)" opacity="0.18"/></g></svg>

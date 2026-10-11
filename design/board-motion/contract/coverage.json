@@ -178,7 +178,7 @@
       "kind": "supply",
       "command": "SUPPLY",
       "offers": "legalTargets.SUPPLY",
-      "board": "Tap two distinct characters; numbered stamps 1 and 2; Take back removes the last; confirm.",
+      "board": "Tap two distinct characters; each pick checked alike (a set: no numbers), named in seat order; Take back removes the last; confirm.",
       "inline": [],
       "self": "Only if the view lists it.",
       "hospitalJail": "Only where the view offers it.",
@@ -204,7 +204,7 @@
       "kind": "code",
       "command": "SUBMIT_CODE",
       "offers": "self.codeAttemptAvailable; every seat of the match",
-      "board": "Tap four distinct characters in any rooms; numbered stamps 1 to 4 (a visual aid, not an ordered Code); Take back removes the last; confirm.",
+      "board": "Tap four distinct characters in any rooms; each pick checked alike on the board and clipped into the Code card in seat order (a set, never positions: design/abilities/); Take back removes the last; confirm.",
       "inline": [],
       "self": "The player's own seat may be one of the four.",
       "hospitalJail": "Any room, as every seat may be named.",
@@ -536,7 +536,7 @@
       },
       {
         "id": "own-choice",
-        "drawn": "Selected and numbered characters, the tentative place of a move, the strip's question and confirmation.",
+        "drawn": "Selected and checked characters, the tentative place of a move, the strip's question and confirmation.",
         "source": "The player's own taps on their own device, before anything is sent.",
         "audience": "local",
         "cues": [
@@ -695,7 +695,7 @@
         "runtime": ".ms-seat[data-board-target=eligible|picked]",
         "status": "extend",
         "audience": "private",
-        "about": "The viewer's own open action drawn on the characters: eligible (a dashed ring around the press area, + tab), selected (outlined, check), picked (outlined, numbered), pending (dotted), other (faint). Own board only."
+        "about": "The viewer's own open action drawn on the characters: eligible (a dashed ring around the press area, + tab), selected (outlined, check), picked (outlined, checked alike: a set), pending (dotted), other (faint). Own board only."
       },
       {
         "id": "pick-stamp",

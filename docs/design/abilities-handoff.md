@@ -1,4 +1,8 @@
-# Frontend handoff: ability art, slice 1 (the Insider's file)
+# Frontend handoff: ability art
+
+Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; it builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of its rules. The kit is `abilities-0.2.0` since slice 2: four assets added, the slice 1 assets unchanged.
+
+## Slice 1: the Insider's file
 
 **A proposal.** Ability art `abilities-0.1.0`, slice 1 of the inventory in [abilities-inventory.md](abilities-inventory.md). Designed on the board-motion prototype at `08409392d1040f20d559a9f36a2a1d9bb23468c4` (PR [#88](https://github.com/Amirkianfar66/GameN/pull/88), branch `codex/designer-board-motion`, unmerged): protocol 2, engine `full-game-1.1.0`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), Original Powers off. Tokens 0.4.0 and the reviewed manifest `design-0.2.0` are unchanged; the kit is outside it. The owner chose this treatment's content, **character portraits and role labels** ([owner-decisions.md](owner-decisions.md#11-october-2026-the-insiders-file-portraits-and-role-labels)); the look and motion are the Designer's proposal.
 
@@ -152,6 +156,80 @@ Original vector artwork made for this repository by the Visual and Motion Design
 | --- | --- | --- | --- |
 | [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates` and `knowledge.code` list seats in seat order | Integration | The engine sorts them; the file sorts them again |
 | DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, `abilities-0.1.0`) |
-| DSN-D37 | The look and motion of the Insider's file | Game owner | The owner chose the content (portraits and role labels); this design waits for the owner's look |
+| DSN-D37 | The look and motion of the ability art (slices 1 and 2) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
 
 Browser emulation only: desktop Chromium at simulated phone viewports. No real phone, screen reader or touch test has been run.
+
+## 14. Slice 2: the Hacker and the Alien
+
+**A proposal**, on the same base and tuple as slice 1. Review pictures: `design/abilities/review/contact-hacker-alien.png`. Scenarios: `file.hacker`, `file.hacker-start`, `scan.result`, `scan.faction`, `scan.sending`, `scan.fresh`, `code.two`, `code.four`, `code.registered`, `file.alien`. Reference code: `design/abilities/js/intel.js` (`hackerFile`, `printout`, `printFresh`, `alienFile`, `codeCard`, `scanTarget`), its styles in `abilities.css` (the slice 2 block), wired in `app.js` (`fileFor`, `stripContent`) and `board.js` (`applyCues`).
+
+### 14.1 What changes for a player
+
+- **The Hacker's card** shows the Hacker's file: the known Undercover's own crew card, the label tape UNDERCOVER on its frame, and beside it the Code's mark struck out, "Not in the Code". Under it, **Scans**: one torn printout per result the view carries, in the view's order: the player's chip, "Round 2 · Eli", "Guess: Blue", and a stamp: WRONG, or RIGHT with the Code's mark (plain: in the Code; struck: not in the Code).
+- **A Scan in the strip**: once a player is picked, their chip stands beside the question; while the Scan is on its way a scanner line sweeps the chip; the receipt is the same neutral Registered stamp as every action. The result appears only in the Hacker's file, printed once the first time the card shows it.
+- **A Code attempt in the strip**: a punch card with four windows; each pick clips its portrait chip into a window, **the windows filled in seat order** whatever the picking order; registration punches the card once. On the board every pick wears the same check, never a number; the strip names the picks in seat order.
+- **The Alien's card** shows the Alien's file: the Code's four players two by two, in seat order, one string round the four, the Code's tag on the string, the Alien's own snapshot marked YOU, and "Four players, in no order."
+
+### 14.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| Hacker's file | `knowledge.undercoverSeatId`, `knowledge.scanResults[]` (`round`, `targetSeatId`, `guess`, `matched`, `inCode`), the lobby identity of those seats, the public facts for inspecting | The view's order of `scanResults`, never sorted or filtered. A result is never worked out from a receipt: V1-14 returns it with the acceptance, in the next view |
+| "Not in the Code" | none: the rule | v2.1 `roles.Hacker.starting_knowledge` ("therefore knows that player's number is excluded from Code") and `code.undercover_number_always_excluded`. Proposed words: the release's sentence names only the Undercover |
+| Scan strip | `legalTargets` for Scan, the picked seat, the guess, the receipt | The chip is the picked player's public identity; the sweep only while `submitting` or `checking` |
+| Code card | the picks (`SUBMIT_CODE.seatIds`), the receipt | Sort by seat number before drawing; the command's own order carries no meaning (the Code is a set) |
+| Alien's file | `knowledge.code` (four seats, the Alien's own among them), the lobby identity, the public facts | Sort by seat number before drawing (DSN-REQ-14 asks the contract to say so); mark the own seat |
+
+### 14.3 Markup and hooks
+
+- Hacker's file: `section.ab-file[data-file="hacker"]` with the tab, a visually hidden summary (the release's sentence and "That player is not in the Code."), `.ab-known` (the snapshot, with `.ab-photo__tape` on its frame, and `.ab-known__words`), then `section.ab-scans` holding `ol.ab-scans__list > li.ab-printout[data-scan="<round>:<seat>"][data-result="wrong|in-code|not-in-code"]`. Each printout carries its sentence, in the release's words, as visually hidden text; its paper is `aria-hidden`.
+- Alien's file: `section.ab-file[data-file="alien"]` with the summary (the release's sentence, seats in seat order, the own marked "(you)"), `ul.ab-code-set` (an unordered list) of four snapshots, `.ab-code-tag`, the note.
+- Strip: `.ab-code-card` (aria-hidden: the strip's words name the picks) with four `.ab-code-card__window[data-filled]`, each holding an `.ab-chip[data-seat]`; `.ab-scan-target[data-sweeping]` floated beside the question.
+- Board: `.bm-piece__pick` holds the same check (✓) on every pick of a set (Supply's two, the Code's four); it was a number.
+
+### 14.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `dossier-printout` | 240 x 56 | text (16, 8, 208 x 40) | A Scan result's paper. Nine-sliced (`border-image` 12 14 fill), so its torn ends keep their teeth at any width |
+| `dossier-chip` | 48 x 48 | window circle (24, 24), r 17 | A small portrait: a printout's player, a pick in the Code card |
+| `dossier-code-mark` | 40 x 30 | center (20, 15) | The Code's mark, four holes two by two: a set, not a row. Struck through by CSS for "not in the Code" |
+| `dossier-code-card` | 240 x 76 | windows at (38, 44), (92, 44), (148, 44), (202, 44), r 20 | Behind a Code attempt's picks; the element keeps the art's aspect so the windows line up |
+
+The stamp frame (`dossier-stamp`) is nine-sliced since `1453500` (slice 1's fix). Same loading rule as slice 1: the whole kit on every player phone, whatever its role.
+
+### 14.5 Layout
+
+At the default text size both files fit 390 x 844 and 320 x 568 without scrolling with the fixtures' content (two Scans for the Hacker). In the strip the Code card stands under the question; on a short phone (640 px tall or less) it sits small at the start of the detail line, where progress dots would, its chips without their seat badges (the line names the seats), so the board keeps its height. With more Scans the card scrolls inside itself on a short phone; the newest result is the last. At large text both files reflow into one column: the Hacker's label leaves the frame and stands as words beside it; printouts put their stamp under the words; the Alien's four stand one under the other.
+
+### 14.6 Motion
+
+| | Hacker's file | Scan strip | Code card | Alien's file |
+| --- | --- | --- | --- | --- |
+| Normal | Assembles on the first open in a page (about 1.1 s): snapshot, tape (380, 180), struck mark (520), printouts fed in the view's order (from 600, 90 apart), string, stamp. A result that arrived since is printed once (420) with its stamp (140) | Sweep, 900 ms back and forth, only while on its way | Each chip clips in (160); registration punches the card (220) | Assembles: the four drop in seat order, the string (520, 380), the tag swings on (820, 260) |
+| Reduced | An 80 ms fade; a new result fades in once | No sweep; the chip ringed while on its way | No clip, no punch | An 80 ms fade |
+| Cancel | Closing, the background, a stale view or reduced motion finishes everything at rest | Ends with the step | Ends with the step | As the Hacker's |
+| Replay | Never again on an update, a recovery or a reconnect: keep the keys of the results already shown | Never | Never | Never |
+
+### 14.7 What it must never show (review with Balance)
+
+- A wrong Scan: nothing of the Code, not even an empty mark. A right one: membership only, never a position.
+- The Alien's Code and a Code attempt: never numbered, never an order but seat order; never "first", a position or a list a reader would count.
+- The Hacker's pairing is the only label on a portrait in any file; the Insider's file still pairs nothing.
+- Nothing on the board, the shared display or a host view; no sound, no vibration; the same kit loaded on every phone.
+
+### 14.8 Words
+
+| Where | Words |
+| --- | --- |
+| Hacker's file | Hacker file · Classified · Undercover · Not in the Code (proposed) · Scans · Round N · Guess: Red · Wrong · Right · In the Code |
+| Hacker's file, accessible | "The Undercover is Player 4." (the release) · "That player is not in the Code." (proposed) · each Scan: "Round 2: you scanned Player 5 and guessed Blue." with "The guess was right, and that player is in the Code." (the release) |
+| Alien's file | Alien file · Classified · The Code · You · Four players, in no order. Accessible: "The Code is these four players: Player 1, Player 3 (you), Player 5, Player 9." (the release, in seat order) |
+| Strip | Unchanged release words; the picks named in seat order |
+
+The release's Scan detail says the result "is listed under 'What you know'". With the file, the result is in the Hacker's file: Frontend words it with the copy owner.
+
+### 14.9 Tests to port
+
+The slice 2 rules in `design/tools/abilities-capture.mjs` and `abilities-check.mjs`: one snapshot in the Hacker's file, labelled; a wrong Scan with no Code mark and no "Code"; at most one mark on a right one; each printout said in the release's words; Scans in the view's order; the Alien's four in seat order, one marked as the viewer's, no ordinal words, an unordered list; the Code card filled in seat order; no number on any pick of a set; the strip naming a set's picks in seat order; the sweep only while sending and never in reduced motion. The flows (`board-motion-flows.mjs`) add a live Scan whose result is printed once and not again after reopening.

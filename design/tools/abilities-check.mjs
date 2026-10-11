@@ -83,20 +83,28 @@ const acknowledgments = await text('packages/contracts/src/own-acknowledgments.t
     }
   }
   if (inventory.base?.originalPowers !== 'off') problems.push('the inventory does not keep Original Powers off');
-  check('the inventory covers every V1 role and every shared moment, from approved view fields, in four motion forms', problems);
+  check('the inventory covers every V1 role and every shared moment, from approved view fields, in five motion forms', problems);
 }
 
 // ---------- The Insider's file shows a set and never a mapping ----------
+const functionBody = (source, name) => {
+  const at = source.indexOf(`export function ${name}(`);
+  if (at < 0) return '';
+  const end = source.indexOf('\n}\n', at);
+  return source.slice(at, end < 0 ? undefined : end);
+};
 {
   const problems = [];
   const source = await text(`${ROOT}/js/dossier.js`);
   const { ROLE_NAMES, FILE_MOTION } = await import(pathToFileURL(resolve(repoRoot, `${ROOT}/js/dossier.js`)).href);
   if (JSON.stringify(ROLE_NAMES) !== JSON.stringify(['Undercover', 'Alien', 'Cracker'])) problems.push('the three role names are not the fixed set Undercover, Alien, Cracker');
   if (!/\[\.\.\.candidates\]\.sort\(\(a, b\) => a\.n - b\.n\)/.test(source)) problems.push('the candidates are not put in seat order before they are drawn');
-  // Inside the loop that draws a candidate, nothing may name a role.
-  const loop = source.slice(source.indexOf('for (const seat of suspects)'), source.indexOf("list.append(el('li'"));
-  if (!loop || /ROLE_NAMES|roleName|\brole\b|Undercover|Alien|Cracker/.test(loop)) problems.push('a candidate is drawn with something of a role');
-  if (/data-role|aria-describedby|aria-labelledby=\{?['"`]ab-roles/.test(loop)) problems.push('a candidate points at the role names');
+  // The snapshot is drawn alike for everyone: nothing of a role in it; the Insider's file draws it with no label tape.
+  const snapshotBody = functionBody(source, 'snapshot');
+  if (!snapshotBody || /ROLE_NAMES|roleName|data-role|Undercover|Alien|Cracker/.test(snapshotBody)) problems.push('a candidate is drawn with something of a role');
+  const loop = source.slice(source.indexOf('for (const seat of suspects)'), source.indexOf('\n', source.indexOf('for (const seat of suspects)')));
+  if (!loop || /ROLE_NAMES|tape|own:|data-role|Undercover|Alien|Cracker/.test(loop)) problems.push('a candidate is drawn with something of a role');
+  if (/aria-describedby|aria-labelledby=\{?['"`]ab-roles/.test(snapshotBody)) problems.push('a candidate points at the role names');
   // The names are one picture with one accessible name: never a list a screen reader pairs with the candidates.
   if (!/role: 'img', 'aria-label': FILE_COPY\.roles/.test(source)) problems.push('the role names are not one group with one accessible name');
   if (/<ul|el\('ul'|el\('ol', \{ class: 'ab-roles/.test(source.slice(source.indexOf('const roles ='), source.indexOf('const note =')))) problems.push('the role names are a list');
@@ -113,6 +121,32 @@ const acknowledgments = await text('packages/contracts/src/own-acknowledgments.t
   if (/\.ab-suspect\[data-seat|\.ab-photo\[data-seat|\[data-character="c\d"\][^{]*\{[^}]*(?:border|outline|rotate)/.test(css)) problems.push('abilities.css styles one candidate apart from the others');
   for (const match of css.matchAll(/[^{}]*\.bm-piece[^{}]*\{/g)) if (!match[0].includes('[data-board="own"]')) problems.push('abilities.css draws a board cue outside the own board');
   check('the Insider\'s file shows three players and three roles as a set, never a mapping', problems);
+}
+
+// ---------- The Hacker's and the Alien's files, and the Code attempt, say what is authorized and no more ----------
+{
+  const problems = [];
+  const source = await text(`${ROOT}/js/intel.js`);
+  // A wrong Scan carries nothing of the Code; a right one at most one mark, from inCode.
+  const print = functionBody(source, 'printout');
+  const wrong = print.slice(print.indexOf('if (!scan.matched) {'), print.indexOf('} else {', print.indexOf('if (!scan.matched) {')));
+  if (!wrong || /codeMark\(|inCode|Code/.test(wrong)) problems.push('a wrong Scan shows something of the Code');
+  if (!/HACKER_COPY\.scan\(scan\.round, who, scan\.guess\)/.test(print)) problems.push('a Scan result is not said in the release words');
+  // The Scans are shown in the view's order: never sorted, never filtered by result.
+  const hacker = functionBody(source, 'hackerFile');
+  if (/\.sort\(|\.filter\(/.test(hacker)) problems.push('the Hacker\'s file reorders or filters the Scan results');
+  // The Alien's Code: one unordered set, in seat order, with no numbering but seat numbers.
+  const alien = functionBody(source, 'alienFile');
+  if (!/\[\.\.\.code\]\.sort\(\(a, b\) => a\.n - b\.n\)/.test(alien)) problems.push('the Alien\'s Code is not put in seat order before it is drawn');
+  if (/el\('ol'/.test(alien) || /index \+ 1|\bfirst\b|position/i.test(alien)) problems.push('the Alien\'s Code is drawn as an ordered list');
+  // A Code attempt's picks fill the card in seat order, whatever order they were picked in.
+  if (!/\[\.\.\.picks\]\.sort\(\(a, b\) => a\.n - b\.n\)/.test(functionBody(source, 'codeCard'))) problems.push('the Code card is not filled in seat order');
+  // On the board, a set's picks are marked alike; in the strip they are named in seat order.
+  const board = await text('design/board-motion/js/board.js');
+  if (/String\(pick \+ 1\)/.test(board)) problems.push('a set\'s picks are numbered on the board');
+  const app = await text('design/board-motion/js/app.js');
+  if (!/const unordered = kind === 'code' \|\| kind === 'supply';\s*const listed = unordered \? \[\.\.\.seats\]\.sort\(\(a, b\) => a - b\) : seats;/.test(app)) problems.push('the strip does not name a set\'s picks in seat order');
+  check('the Hacker\'s and the Alien\'s files and the Code attempt say what is authorized, as sets in seat order', problems);
 }
 
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------

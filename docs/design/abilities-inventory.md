@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.1.0 · proposal
+`mothership:dev-only` · abilities-0.2.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 2 of 24 treatments (Insider: the investigation board; Any role: the hidden card). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 6 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -29,10 +29,10 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | --- | --- | --- | --- | --- |
 | [Insider: the investigation board](#insider-file) | Insider | private-own | 1 | delivered |
 | [Any role: the hidden card](#card-hidden) | any | private-own | 1 | delivered |
-| [Hacker: the known Undercover](#hacker-file) | Hacker | private-own | 2 | planned |
-| [Hacker: Scan](#hacker-scan) | Hacker | private-own | 2 | planned |
-| [Hacker: Code submission](#hacker-code) | Hacker | private-own | 2 | planned |
-| [Alien: the Code from the start](#alien-code-file) | Alien | private-own | 2 | planned |
+| [Hacker: the known Undercover](#hacker-file) | Hacker | private-own | 2 | delivered |
+| [Hacker: Scan](#hacker-scan) | Hacker | private-own | 2 | delivered |
+| [Hacker: Code submission](#hacker-code) | Hacker | private-own | 2 | delivered |
+| [Alien: the Code from the start](#alien-code-file) | Alien | private-own | 2 | delivered |
 | [Cracker: Rescue](#cracker-rescue) | Cracker | private-own; recovery public | 3 | planned |
 | [Blue Disabler and Red Disabler: Disable](#disabler) | Blue Disabler, Red Disabler | private-own | 3 | planned |
 | [Supplier: Supply](#supplier-supply) | Supplier | private-own; each recipient's own acknowledgment | 3 | planned |
@@ -127,38 +127,40 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Hacker: the known Undercover
 
-`hacker-file` · slice 2 · **planned** · Hacker · private-own
+`hacker-file` · slice 2 · **delivered** · Hacker · private-own
 
-**Trigger.** The player opens their card during gameplay.
+**Trigger.** The player opens their card during gameplay. The view carries the known Undercover from the first gameplay view; the setup reading stage carries none.
 
-**View fields.** `knowledge.undercoverSeatId`, `lobby identity`
+**View fields.** `knowledge.undercoverSeatId`, `knowledge.scanResults[]`, `lobby identity: seats[].displayName, seats[].characterId`, `seats[].location, seats[].health, seats[].captain, seats[].jailed (inspect)`
 
 **What it must show, and never show.**
 
 - One snapshot, the known Undercover, from the view's knowledge.undercoverSeatId.
 - Of the Code, only what the rule itself gives the Hacker from the start: “Knows only who Undercover is and therefore knows that player's number is excluded from Code” (v2.1 roles.Hacker.starting_knowledge; Code.undercover_number_always_excluded). Nothing else is worked out.
 
-**Concept.** The same file kit: one snapshot pinned under the file's tab, with the label tape UNDERCOVER on its caption, and a small struck-out Code chip: not in the Code. Here the pairing is the Hacker's own knowledge, so the one label may sit on the one portrait; the Insider's file never pairs.
+**Concept.** The same file kit: one snapshot of the known Undercover pinned on a string, the label tape UNDERCOVER on its frame (here the pairing is the Hacker's own knowledge), and beside it the Code's mark struck out: not in the Code. Under it, the Scans: one torn printout each, in the view's order.
 
-**Art.** dossier kit; planned: code-chip (the Code's mark, struck out)
+**Art.** dossier kit; dossier-code-mark; dossier-printout; dossier-chip; piece-crew.card-c1..c9 (approved, design-0.2.0)
 
 | Motion | |
 | --- | --- |
-| normal | Snapshot drop and pin, label tape slap (480 ms). |
-| reduced | At rest, 80 ms fade. |
-| static | Paper and words. |
-| cancel | As the Insider file. |
-| replay | Once per page, on a deliberate open. |
+| normal | The first open in a page assembles the file in about 1.1 s: the board rises, the snapshot drops and is pinned (120 to 380), the label tape slaps on (380, 180), the struck Code mark lands (520), the printouts feed in in the view's order (from 600, 90 apart, 240 each), the string draws (640, 380), CLASSIFIED lands (220). Later opens show it at rest; a Scan result that arrived since is printed once (420) with its stamp (140). |
+| reduced | At rest with an 80 ms fade; a new result fades in once; inspecting rings the snapshot. |
+| static | Without the ability art: paper and ink, plain printouts, a ruled Code mark. Without the crew cards: the seat number in the window and in each chip. |
+| cancel | As the Insider's file: closing, the background, an out-of-date view or reduced motion finishes everything at rest. |
+| replay | Once per page on a deliberate open; a result is printed once, the first time it is seen, never again on an update, a recovery or a reconnect. |
 
-**States.** closed; opening; at rest; hidden; missing art
+**States.** closed; opening; at rest; no Scan yet; one or more Scan results; a new result printed once; inspecting the known Undercover; twelve-character names; large text (one column, the label as words); reduced motion; missing art; hidden (card-hidden)
 
 **Words.** “Hacker file”, “Undercover”, “Not in the Code (proposed: the release's sentence names only the Undercover)”. Accessible: “The Undercover is <who>. (the release's sentence)”
+
+**Review.** `design/abilities/review/contact-hacker-alien.png`, `design/abilities/review/hacker-w390-rest.png`, `design/abilities/review/hacker-w320-rest.png`, `design/abilities/review/hacker-w390-start.png`, `design/abilities/review/hacker-w320-text200.png`, `design/board-motion/index.html?scenario=file.hacker`
 
 <a id="hacker-scan"></a>
 
 ### Hacker: Scan
 
-`hacker-scan` · slice 2 · **planned** · Hacker · private-own
+`hacker-scan` · slice 2 · **delivered** · Hacker · private-own
 
 **Trigger.** The Hacker opens Scan from the Actions tray, picks a character on the board (themself included) and a faction guess, and confirms.
 
@@ -171,27 +173,29 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 - A right guess shows membership only, never a position.
 - The scan cue plays on the Hacker's own board only.
 
-**Concept.** The Hacker's scanner (the approved device) projects a reticle over the picked character; three faction dials (Blue, Red, Alien) in the strip; on registration, a scan line sweeps the character's card; the result arrives as a printout pinned in the file: WRONG GUESS (blank), or IN THE CODE / NOT IN THE CODE.
+**Concept.** In the Hacker's strip: the picked player's portrait chip beside the question, the three faction answers inline; while the Scan is on its way a scanner line sweeps the chip; registered is the same neutral stamp as every action. The result arrives in the Hacker's file as a printout: WRONG (nothing of the Code) or RIGHT with the Code's mark, plain for in the Code, struck for not in the Code.
 
-**Art.** planned: scan-reticle, scan-sweep, faction-dial, printout
+**Art.** dossier-chip; dossier-printout; dossier-code-mark; dossier-stamp
 
 | Motion | |
 | --- | --- |
-| normal | Reticle lock 220 ms on the pick, sweep 600 ms after the receipt, printout drop 260 ms when the result arrives. |
-| reduced | Ring and stamp only; no sweep. |
-| static | Ring, words. |
-| cancel | A newer view or the strip closing ends the sweep at rest. |
-| replay | A result already shown is never swept again after recovery or reconnect. |
+| normal | The sweep runs (900 ms, back and forth) only while the Scan is on its way; the result is printed in the file once (420 ms) with its stamp (140 ms). |
+| reduced | No sweep: the target chip is ringed while sending; the result fades in once. |
+| static | The chip, the words and the stamp. |
+| cancel | A newer view, the strip closing, the background or reduced motion ends the sweep at once. |
+| replay | A result already shown is never printed again after an update, a recovery or a reconnect. |
 
-**States.** unavailable (used this round); choosing a character; choosing a guess; confirming; sending; registered; result: wrong; result: in the Code; result: not in the Code; rejected; unknown
+**States.** unavailable (used this round); choosing a character; choosing a guess (the target chip); confirming; sending (the sweep); registered; result: wrong; result: right, in the Code; result: right, not in the Code; rejected; unknown
 
 **Words.** “Scan”, “Guess a faction”, “Scan registered”, “Wrong guess”, “In the Code”, “Not in the Code”
+
+**Review.** `design/abilities/review/scan-w390-guess.png`, `design/abilities/review/scan-w320-guess.png`, `design/abilities/review/scan-w390-sending.png`, `design/abilities/review/scan-w390-sending-reduced.png`, `design/abilities/review/hacker-w390-one-result.png`, `design/board-motion/index.html?scenario=scan.sending`
 
 <a id="hacker-code"></a>
 
 ### Hacker: Code submission
 
-`hacker-code` · slice 2 · **planned** · Hacker · private-own
+`hacker-code` · slice 2 · **delivered** · Hacker · private-own
 
 **Trigger.** Round 5: the Hacker opens Code, picks four characters on the board and confirms.
 
@@ -202,51 +206,57 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 - The four picks are an unordered set: shown in seat order, never as positions 1 to 4.
 - Registration is not a result: Code victory is checked with the other victories after normal Round 5 effects (V1-08).
 
-**Concept.** Four snapshot chips clipped into a code card in seat order; a punch-through stamp CODE SENT on registration; the card stays in the file as sent.
+**Concept.** In the Hacker's strip: a punch card with four round windows. Each pick clips its portrait chip into a window, the windows filled in seat order whatever the picking order; on the board every pick wears the same check, never a number; the strip names the picks in seat order. Registered punches the card once; it is not a result.
 
-**Art.** planned: code-card, code-chip, punch stamp
+**Art.** dossier-code-card; dossier-chip
 
 | Motion | |
 | --- | --- |
-| normal | Each pick clips in (160 ms); the punch on registration (220 ms). |
-| reduced | No clip or punch: rings and stamp. |
-| static | Words in seat order. |
+| normal | Each chip clips in (160 ms); registration punches the card (220 ms). |
+| reduced | No clip or punch: the chips appear; the neutral stamp says registered. |
+| static | The card with its chips, or the words in seat order. |
 | cancel | As every strip. |
-| replay | Never after recovery or reconnect. |
+| replay | Never after a recovery or a reconnect. |
 
-**States.** unavailable (before Round 5, or attempted); picking 1 to 4; confirming; sending; registered; rejected; unknown
+**States.** unavailable (before Round 5, or attempted); picking 0 to 4 (the card filling in seat order); a short phone (the card small at the start of the detail line); confirming; sending; registered (punched); rejected; unknown
 
 **Words.** “Code”, “Pick four”, “Code registered”
+
+**Review.** `design/abilities/review/code-w390-two.png`, `design/abilities/review/code-w320-two.png`, `design/abilities/review/code-w320-four.png`, `design/abilities/review/code-w390-registered.png`, `design/abilities/review/code-w390-no-art.png`, `design/board-motion/index.html?scenario=code.four`
+
+**Depends on.** DSN-REQ-14: knowledge.code in seat order, stated in the contract (the submission's own order carries no meaning: SUBMIT_CODE.seatIds is a set).
 
 <a id="alien-code-file"></a>
 
 ### Alien: the Code from the start
 
-`alien-code-file` · slice 2 · **planned** · Alien · private-own
+`alien-code-file` · slice 2 · **delivered** · Alien · private-own
 
 **Trigger.** The player opens their card during gameplay.
 
-**View fields.** `knowledge.code (four seats, the Alien among them)`, `lobby identity`
+**View fields.** `knowledge.code (four seats, the Alien among them)`, `lobby identity: seats[].displayName, seats[].characterId`, `seats[].location, seats[].health, seats[].captain, seats[].jailed (inspect)`
 
 **What it must show, and never show.**
 
 - Four snapshots as one unordered group in seat order; no positions, no numbering beyond seat numbers.
 
-**Concept.** The Alien's stone device glows over a file of four snapshots held by one clip ring: the Code. The same file kit as the Insider's.
+**Concept.** The same file kit: the four snapshots two by two, in seat order, one string round the four and the Code's tag (a punch card with four holes in a square) hanging from it; the Alien's own snapshot marked YOU; under it, Four players, in no order.
 
-**Art.** dossier kit; planned: code-ring
+**Art.** dossier kit; dossier-code-mark; piece-crew.card-c1..c9 (approved, design-0.2.0)
 
 | Motion | |
 | --- | --- |
-| normal | The four snapshots drop together in seat order, the ring closes round them (520 ms). |
-| reduced | At rest. |
-| static | Paper and words. |
-| cancel | As the Insider file. |
+| normal | The first open in a page assembles the file in about 1.1 s: the board rises, the four drop in seat order and are pinned, the string draws round the four (520, 380), the Code's tag swings on (820, 260), CLASSIFIED lands (220). |
+| reduced | At rest with an 80 ms fade; inspecting rings the snapshot. |
+| static | Paper and ink; the seat numbers in the windows without the crew cards. |
+| cancel | As the Insider's file. |
 | replay | Once per page. |
 
-**States.** closed; opening; at rest; hidden; missing art
+**States.** closed; opening; at rest; inspecting one of the four; twelve-character names; large text (one column); reduced motion; missing art; hidden (card-hidden)
 
-**Words.** “Alien file”, “The Code”. Accessible: “The Code is these four players: <names>. (the release's sentence)”
+**Words.** “Alien file”, “The Code”, “You”, “Four players, in no order.”. Accessible: “The Code is these four players: <names>. (the release's sentence, in seat order, the own marked (you))”, “Player <n>, <name>. Inspect”
+
+**Review.** `design/abilities/review/alien-w390-rest.png`, `design/abilities/review/alien-w320-rest.png`, `design/abilities/review/alien-w390-long-names.png`, `design/abilities/review/alien-w320-text200.png`, `design/abilities/review/alien-w390-no-art.png`, `design/board-motion/index.html?scenario=file.alien`
 
 **Depends on.** DSN-REQ-14: knowledge.code in seat order, stated in the contract.
 
@@ -816,21 +826,25 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ## The kit
 
-Manifest `abilities-0.1.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 9451 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.2.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 13822 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
 | Asset | Version | Box | Anchors | Bytes | sha256 | Use |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dossier-cork` | 0.1.0 | 96 x 96 | tile [96,96] | 1952 | `ffe2bc562356` | Tiled behind a private file (background-repeat), at 96 CSS px or smaller. |
-| `dossier-tape` | 0.1.0 | 64 x 22 | center [32,11] | 804 | `01cd2ceb6afc` | Across a file's top corners, turned 35 to 45 degrees. |
-| `dossier-pin` | 0.1.0 | 26 x 28 | point [12,10] | 953 | `eb3e870523ea` | Holds every snapshot and the envelope; one drawing for every candidate. |
-| `dossier-photo` | 0.1.0 | 104 x 134 | window [10,10,80,92]; pin [50,4]; caption [6,104,92,20] | 1193 | `67c51b258691` | Around a player's chosen crew card: the portrait fills the window. One frame for every candidate alike. |
-| `dossier-query` | 0.1.0 | 30 x 38 | hole [15,10.5] | 1062 | `b01a3c816347` | On the corner of every candidate's snapshot alike: this one is not known. |
-| `dossier-lens` | 0.1.0 | 30 x 30 | center [12,12] | 861 | `48f585b33176` | Marks what can be inspected; never a result. |
-| `dossier-clip` | 0.1.0 | 18 x 46 | grip [10,4] | 846 | `6d47029e40dc` | Holds a slip to an envelope. |
-| `dossier-stamp` | 0.1.0 | 132 x 40 | text [8.5,8.5,115,23] | 839 | `d41fb1fc1dbf` | Around a live word stamped on a file (CLASSIFIED, ONE EACH). The word is live text, never drawn. |
-| `dossier-envelope-back` | 0.1.0 | 224 x 88 | mouth [6,44,212] | 774 | `4086306a9584` | Behind a slip that stands in it; the front layer goes over the slip. |
-| `dossier-envelope-front` | 0.1.0 | 224 x 88 | mouth [6,44,212] | 1109 | `a5fdf6a88a7c` | Over the lower part of a slip that stands in the envelope. |
-| `dossier-folder` | 0.1.0 | 228 x 156 | label [62,76,100,36] | 1699 | `729303a85900` | The cover of any private file while it is hidden: the same for every role. |
+| `dossier-cork` | 0.1.0 | 96 x 96 | tile [96,96] | 1936 | `fe86d2fce37b` | Tiled behind a private file (background-repeat), at 96 CSS px or smaller. |
+| `dossier-tape` | 0.1.0 | 64 x 22 | center [32,11] | 788 | `3a013e86c30b` | Across a file's top corners, turned 35 to 45 degrees. |
+| `dossier-pin` | 0.1.0 | 26 x 28 | point [12,10] | 937 | `8e8be2beabf4` | Holds every snapshot and the envelope; one drawing for every candidate. |
+| `dossier-photo` | 0.1.0 | 104 x 134 | window [10,10,80,92]; pin [50,4]; caption [6,104,92,20] | 1177 | `d70d94c7da85` | Around a player's chosen crew card: the portrait fills the window. One frame for every candidate alike. |
+| `dossier-query` | 0.1.0 | 30 x 38 | hole [15,10.5] | 1046 | `e3fcec30179c` | On the corner of every candidate's snapshot alike: this one is not known. |
+| `dossier-lens` | 0.1.0 | 30 x 30 | center [12,12] | 845 | `74a2f9794188` | Marks what can be inspected; never a result. |
+| `dossier-clip` | 0.1.0 | 18 x 46 | grip [10,4] | 830 | `b0b9351ccf31` | Holds a slip to an envelope. |
+| `dossier-stamp` | 0.1.0 | 132 x 40 | text [8.5,8.5,115,23] | 823 | `878dfbceee17` | Around a live word stamped on a file (CLASSIFIED, ONE EACH). The word is live text, never drawn. |
+| `dossier-envelope-back` | 0.1.0 | 224 x 88 | mouth [6,44,212] | 758 | `570ac2f295b1` | Behind a slip that stands in it; the front layer goes over the slip. |
+| `dossier-envelope-front` | 0.1.0 | 224 x 88 | mouth [6,44,212] | 1093 | `fd73a7cb462f` | Over the lower part of a slip that stands in the envelope. |
+| `dossier-folder` | 0.1.0 | 228 x 156 | label [62,76,100,36] | 1683 | `42f674175ed7` | The cover of any private file while it is hidden: the same for every role. |
+| `dossier-printout` | 0.1.0 | 240 x 56 | text [16,8,208,40]; pin [12,28] | 1393 | `416b9eb48c87` | The paper of a private result (a Scan's), stretched to the width it needs; its words and stamp are live text. |
+| `dossier-chip` | 0.1.0 | 48 x 48 | window [24,24,17] | 866 | `30fd8dcc457f` | Around a small crew card: a printout's player, a pick in the Code card. One chip for every player alike. |
+| `dossier-code-mark` | 0.1.0 | 40 x 30 | center [20,15] | 1264 | `7f72bbf91193` | Says the Code: a punch card with four holes, two by two, a set and not a row. Struck through by the client for not in the Code. |
+| `dossier-code-card` | 0.1.0 | 240 x 76 | windows [[38,44],[92,44],[148,44],[202,44]]; radius [20] | 1935 | `c0f1dd53997a` | Behind a Code attempt's picks in the action strip: four windows, filled in seat order. |
 

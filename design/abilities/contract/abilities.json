@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "abilities-0.1.0",
+  "version": "abilities-0.2.0",
   "status": "proposal",
   "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
   "base": {
@@ -177,38 +177,50 @@
       "id": "hacker-file",
       "title": "Hacker: the known Undercover",
       "slice": 2,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Hacker"
       ],
       "audience": "private-own",
-      "trigger": "The player opens their card during gameplay.",
+      "trigger": "The player opens their card during gameplay. The view carries the known Undercover from the first gameplay view; the setup reading stage carries none.",
       "fields": [
         "knowledge.undercoverSeatId",
-        "lobby identity"
+        "knowledge.scanResults[]",
+        "lobby identity: seats[].displayName, seats[].characterId",
+        "seats[].location, seats[].health, seats[].captain, seats[].jailed (inspect)"
       ],
       "disclosure": [
         "One snapshot, the known Undercover, from the view's knowledge.undercoverSeatId.",
         "Of the Code, only what the rule itself gives the Hacker from the start: “Knows only who Undercover is and therefore knows that player's number is excluded from Code” (v2.1 roles.Hacker.starting_knowledge; Code.undercover_number_always_excluded). Nothing else is worked out."
       ],
-      "concept": "The same file kit: one snapshot pinned under the file's tab, with the label tape UNDERCOVER on its caption, and a small struck-out Code chip: not in the Code. Here the pairing is the Hacker's own knowledge, so the one label may sit on the one portrait; the Insider's file never pairs.",
+      "concept": "The same file kit: one snapshot of the known Undercover pinned on a string, the label tape UNDERCOVER on its frame (here the pairing is the Hacker's own knowledge), and beside it the Code's mark struck out: not in the Code. Under it, the Scans: one torn printout each, in the view's order.",
       "art": [
         "dossier kit",
-        "planned: code-chip (the Code's mark, struck out)"
+        "dossier-code-mark",
+        "dossier-printout",
+        "dossier-chip",
+        "piece-crew.card-c1..c9 (approved, design-0.2.0)"
       ],
       "motion": {
-        "normal": "Snapshot drop and pin, label tape slap (480 ms).",
-        "reduced": "At rest, 80 ms fade.",
-        "static": "Paper and words.",
-        "cancel": "As the Insider file.",
-        "replay": "Once per page, on a deliberate open."
+        "normal": "The first open in a page assembles the file in about 1.1 s: the board rises, the snapshot drops and is pinned (120 to 380), the label tape slaps on (380, 180), the struck Code mark lands (520), the printouts feed in in the view's order (from 600, 90 apart, 240 each), the string draws (640, 380), CLASSIFIED lands (220). Later opens show it at rest; a Scan result that arrived since is printed once (420) with its stamp (140).",
+        "reduced": "At rest with an 80 ms fade; a new result fades in once; inspecting rings the snapshot.",
+        "static": "Without the ability art: paper and ink, plain printouts, a ruled Code mark. Without the crew cards: the seat number in the window and in each chip.",
+        "cancel": "As the Insider's file: closing, the background, an out-of-date view or reduced motion finishes everything at rest.",
+        "replay": "Once per page on a deliberate open; a result is printed once, the first time it is seen, never again on an update, a recovery or a reconnect."
       },
       "states": [
         "closed",
         "opening",
         "at rest",
-        "hidden",
-        "missing art"
+        "no Scan yet",
+        "one or more Scan results",
+        "a new result printed once",
+        "inspecting the known Undercover",
+        "twelve-character names",
+        "large text (one column, the label as words)",
+        "reduced motion",
+        "missing art",
+        "hidden (card-hidden)"
       ],
       "copy": {
         "visible": [
@@ -220,14 +232,21 @@
           "The Undercover is <who>. (the release's sentence)"
         ]
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/contact-hacker-alien.png",
+        "design/abilities/review/hacker-w390-rest.png",
+        "design/abilities/review/hacker-w320-rest.png",
+        "design/abilities/review/hacker-w390-start.png",
+        "design/abilities/review/hacker-w320-text200.png",
+        "design/board-motion/index.html?scenario=file.hacker"
+      ],
       "dependencies": []
     },
     {
       "id": "hacker-scan",
       "title": "Hacker: Scan",
       "slice": 2,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Hacker"
       ],
@@ -245,27 +264,30 @@
         "A right guess shows membership only, never a position.",
         "The scan cue plays on the Hacker's own board only."
       ],
-      "concept": "The Hacker's scanner (the approved device) projects a reticle over the picked character; three faction dials (Blue, Red, Alien) in the strip; on registration, a scan line sweeps the character's card; the result arrives as a printout pinned in the file: WRONG GUESS (blank), or IN THE CODE / NOT IN THE CODE.",
+      "concept": "In the Hacker's strip: the picked player's portrait chip beside the question, the three faction answers inline; while the Scan is on its way a scanner line sweeps the chip; registered is the same neutral stamp as every action. The result arrives in the Hacker's file as a printout: WRONG (nothing of the Code) or RIGHT with the Code's mark, plain for in the Code, struck for not in the Code.",
       "art": [
-        "planned: scan-reticle, scan-sweep, faction-dial, printout"
+        "dossier-chip",
+        "dossier-printout",
+        "dossier-code-mark",
+        "dossier-stamp"
       ],
       "motion": {
-        "normal": "Reticle lock 220 ms on the pick, sweep 600 ms after the receipt, printout drop 260 ms when the result arrives.",
-        "reduced": "Ring and stamp only; no sweep.",
-        "static": "Ring, words.",
-        "cancel": "A newer view or the strip closing ends the sweep at rest.",
-        "replay": "A result already shown is never swept again after recovery or reconnect."
+        "normal": "The sweep runs (900 ms, back and forth) only while the Scan is on its way; the result is printed in the file once (420 ms) with its stamp (140 ms).",
+        "reduced": "No sweep: the target chip is ringed while sending; the result fades in once.",
+        "static": "The chip, the words and the stamp.",
+        "cancel": "A newer view, the strip closing, the background or reduced motion ends the sweep at once.",
+        "replay": "A result already shown is never printed again after an update, a recovery or a reconnect."
       },
       "states": [
         "unavailable (used this round)",
         "choosing a character",
-        "choosing a guess",
+        "choosing a guess (the target chip)",
         "confirming",
-        "sending",
+        "sending (the sweep)",
         "registered",
         "result: wrong",
-        "result: in the Code",
-        "result: not in the Code",
+        "result: right, in the Code",
+        "result: right, not in the Code",
         "rejected",
         "unknown"
       ],
@@ -280,14 +302,21 @@
         ],
         "accessible": []
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/scan-w390-guess.png",
+        "design/abilities/review/scan-w320-guess.png",
+        "design/abilities/review/scan-w390-sending.png",
+        "design/abilities/review/scan-w390-sending-reduced.png",
+        "design/abilities/review/hacker-w390-one-result.png",
+        "design/board-motion/index.html?scenario=scan.sending"
+      ],
       "dependencies": []
     },
     {
       "id": "hacker-code",
       "title": "Hacker: Code submission",
       "slice": 2,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Hacker"
       ],
@@ -302,23 +331,25 @@
         "The four picks are an unordered set: shown in seat order, never as positions 1 to 4.",
         "Registration is not a result: Code victory is checked with the other victories after normal Round 5 effects (V1-08)."
       ],
-      "concept": "Four snapshot chips clipped into a code card in seat order; a punch-through stamp CODE SENT on registration; the card stays in the file as sent.",
+      "concept": "In the Hacker's strip: a punch card with four round windows. Each pick clips its portrait chip into a window, the windows filled in seat order whatever the picking order; on the board every pick wears the same check, never a number; the strip names the picks in seat order. Registered punches the card once; it is not a result.",
       "art": [
-        "planned: code-card, code-chip, punch stamp"
+        "dossier-code-card",
+        "dossier-chip"
       ],
       "motion": {
-        "normal": "Each pick clips in (160 ms); the punch on registration (220 ms).",
-        "reduced": "No clip or punch: rings and stamp.",
-        "static": "Words in seat order.",
+        "normal": "Each chip clips in (160 ms); registration punches the card (220 ms).",
+        "reduced": "No clip or punch: the chips appear; the neutral stamp says registered.",
+        "static": "The card with its chips, or the words in seat order.",
         "cancel": "As every strip.",
-        "replay": "Never after recovery or reconnect."
+        "replay": "Never after a recovery or a reconnect."
       },
       "states": [
         "unavailable (before Round 5, or attempted)",
-        "picking 1 to 4",
+        "picking 0 to 4 (the card filling in seat order)",
+        "a short phone (the card small at the start of the detail line)",
         "confirming",
         "sending",
-        "registered",
+        "registered (punched)",
         "rejected",
         "unknown"
       ],
@@ -330,14 +361,23 @@
         ],
         "accessible": []
       },
-      "review": [],
-      "dependencies": []
+      "review": [
+        "design/abilities/review/code-w390-two.png",
+        "design/abilities/review/code-w320-two.png",
+        "design/abilities/review/code-w320-four.png",
+        "design/abilities/review/code-w390-registered.png",
+        "design/abilities/review/code-w390-no-art.png",
+        "design/board-motion/index.html?scenario=code.four"
+      ],
+      "dependencies": [
+        "DSN-REQ-14: knowledge.code in seat order, stated in the contract (the submission's own order carries no meaning: SUBMIT_CODE.seatIds is a set)."
+      ]
     },
     {
       "id": "alien-code-file",
       "title": "Alien: the Code from the start",
       "slice": 2,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Alien"
       ],
@@ -345,40 +385,56 @@
       "trigger": "The player opens their card during gameplay.",
       "fields": [
         "knowledge.code (four seats, the Alien among them)",
-        "lobby identity"
+        "lobby identity: seats[].displayName, seats[].characterId",
+        "seats[].location, seats[].health, seats[].captain, seats[].jailed (inspect)"
       ],
       "disclosure": [
         "Four snapshots as one unordered group in seat order; no positions, no numbering beyond seat numbers."
       ],
-      "concept": "The Alien's stone device glows over a file of four snapshots held by one clip ring: the Code. The same file kit as the Insider's.",
+      "concept": "The same file kit: the four snapshots two by two, in seat order, one string round the four and the Code's tag (a punch card with four holes in a square) hanging from it; the Alien's own snapshot marked YOU; under it, Four players, in no order.",
       "art": [
         "dossier kit",
-        "planned: code-ring"
+        "dossier-code-mark",
+        "piece-crew.card-c1..c9 (approved, design-0.2.0)"
       ],
       "motion": {
-        "normal": "The four snapshots drop together in seat order, the ring closes round them (520 ms).",
-        "reduced": "At rest.",
-        "static": "Paper and words.",
-        "cancel": "As the Insider file.",
+        "normal": "The first open in a page assembles the file in about 1.1 s: the board rises, the four drop in seat order and are pinned, the string draws round the four (520, 380), the Code's tag swings on (820, 260), CLASSIFIED lands (220).",
+        "reduced": "At rest with an 80 ms fade; inspecting rings the snapshot.",
+        "static": "Paper and ink; the seat numbers in the windows without the crew cards.",
+        "cancel": "As the Insider's file.",
         "replay": "Once per page."
       },
       "states": [
         "closed",
         "opening",
         "at rest",
-        "hidden",
-        "missing art"
+        "inspecting one of the four",
+        "twelve-character names",
+        "large text (one column)",
+        "reduced motion",
+        "missing art",
+        "hidden (card-hidden)"
       ],
       "copy": {
         "visible": [
           "Alien file",
-          "The Code"
+          "The Code",
+          "You",
+          "Four players, in no order."
         ],
         "accessible": [
-          "The Code is these four players: <names>. (the release's sentence)"
+          "The Code is these four players: <names>. (the release's sentence, in seat order, the own marked (you))",
+          "Player <n>, <name>. Inspect"
         ]
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/alien-w390-rest.png",
+        "design/abilities/review/alien-w320-rest.png",
+        "design/abilities/review/alien-w390-long-names.png",
+        "design/abilities/review/alien-w320-text200.png",
+        "design/abilities/review/alien-w390-no-art.png",
+        "design/board-motion/index.html?scenario=file.alien"
+      ],
       "dependencies": [
         "DSN-REQ-14: knowledge.code in seat order, stated in the contract."
       ]

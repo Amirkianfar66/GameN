@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.1.0",
+  "manifestVersion": "abilities-0.2.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -83,6 +83,30 @@
       "title": "A closed folder", "source": "source/dossier.svg", "layer": "dossier-folder", "viewBox": "0 0 228 156",
       "use": "The cover of any private file while it is hidden: the same for every role.",
       "anchors": { "label": [62, 76, 100, 36] }
+    },
+    {
+      "id": "dossier-printout", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A printout", "source": "source/intel.svg", "layer": "dossier-printout", "viewBox": "0 0 240 56",
+      "use": "The paper of a private result (a Scan's), stretched to the width it needs; its words and stamp are live text.",
+      "anchors": { "text": [16, 8, 208, 40], "pin": [12, 28] }
+    },
+    {
+      "id": "dossier-chip", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A portrait chip", "source": "source/intel.svg", "layer": "dossier-chip", "viewBox": "0 0 48 48",
+      "use": "Around a small crew card: a printout's player, a pick in the Code card. One chip for every player alike.",
+      "anchors": { "window": [24, 24, 17] }
+    },
+    {
+      "id": "dossier-code-mark", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The Code's mark", "source": "source/intel.svg", "layer": "dossier-code-mark", "viewBox": "0 0 40 30",
+      "use": "Says the Code: a punch card with four holes, two by two, a set and not a row. Struck through by the client for not in the Code.",
+      "anchors": { "center": [20, 15] }
+    },
+    {
+      "id": "dossier-code-card", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A Code card", "source": "source/intel.svg", "layer": "dossier-code-card", "viewBox": "0 0 240 76",
+      "use": "Behind a Code attempt's picks in the action strip: four windows, filled in seat order.",
+      "anchors": { "windows": [[38, 44], [92, 44], [148, 44], [202, 44]], "radius": [20] }
     }
   ]
 }
