@@ -54,6 +54,7 @@ Run in the worktree of `claude/designer-ability-art-2` on the content of the com
 | `npm run test --workspace @mothership/design-tokens` | **153 tests: 152 passed, 1 failed.** The **30 ability-check tests pass** (8 new for slice 2). The one failure is the same pre-existing issue #76 quote mismatch (PR #93) |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `b056831e82728e4e2c49cf0ae3befabe082124e3`, the commit that adds slice 2, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 759 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
