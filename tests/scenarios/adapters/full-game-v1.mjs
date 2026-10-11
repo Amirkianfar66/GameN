@@ -17,8 +17,25 @@ const REQUIRED = ['createFullGame', 'executeFullGame', 'advanceFullGame', 'abort
 export const ADAPTER_NAME = 'full-game-v1';
 const FIXTURE_START = 1_800_000_000_000;
 
-/** @returns {Promise<{available: true, adapter: object, origin: string} | {available: false, reason: string, origin: string}>} */
-export async function load(engineRoot) {
+// A version tuple the engine says it plays: an exported object with exactly these four facts.
+const TUPLE_KEYS = ['protocolVersion', 'engineVersion', 'rulesetVersion', 'rulesetHash'];
+function tuplesOf(engine) {
+  return Object.values(engine).filter(value => value !== null && typeof value === 'object' && !Array.isArray(value)
+    && TUPLE_KEYS.every(key => key in value) && typeof value.rulesetVersion === 'string');
+}
+
+/**
+ * @param {string | null | undefined} engineRoot a built checkout of another commit; the engine of this checkout when absent
+ * @param {{ ruleset?: string | null, roomCapacity?: number | null }} [options]
+ *   `ruleset`: the ruleset version whose tuple every match is created with. A match keeps the
+ *   tuple it was created with, so this is how an engine that plays several rulesets is asked for
+ *   one of them. Absent: the engine's own default, as before. An engine that does not name the
+ *   ruleset among its tuples is reported as unavailable, so that nothing is run under another.
+ *   `roomCapacity`: how many players a room holds under the rules this run holds the engine to
+ *   (issue #96). It turns on the capacity invariants; it tells the engine nothing.
+ * @returns {Promise<{available: true, adapter: object, origin: string} | {available: false, reason: string, origin: string}>}
+ */
+export async function load(engineRoot, options = {}) {
   const origin = engineRoot ? join(engineRoot, 'packages/engine/dist/index.js') : '@mothership/engine';
   let engine;
   try {
@@ -30,7 +47,13 @@ export async function load(engineRoot) {
   if (missing.length > 0) {
     return { available: false, origin, reason: `the engine at this commit does not export the full-game API (${missing.join(', ')} missing)` };
   }
-  return { available: true, origin, adapter: createAdapter(engine) };
+  const ruleset = options.ruleset ?? null;
+  const tuple = ruleset === null ? null : tuplesOf(engine).find(item => item.rulesetVersion === ruleset) ?? null;
+  if (ruleset !== null && tuple === null) {
+    const named = [...new Set(tuplesOf(engine).map(item => item.rulesetVersion))].sort();
+    return { available: false, origin, reason: `the engine at this commit does not name ruleset ${ruleset} among the tuples it plays (${named.length === 0 ? 'it names none' : named.join(', ')})` };
+  }
+  return { available: true, origin, adapter: createAdapter(engine, tuple, options.roomCapacity ?? null) };
 }
 
 function protectionState(seat, round, queued) {
@@ -98,16 +121,27 @@ function wireCommand(command) {
   }
 }
 
-function createAdapter(engine) {
-  const pins = {
+function createAdapter(engine, tuple, roomCapacity) {
+  const pins = tuple === null ? {
     adapter: ADAPTER_NAME,
     engineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
     rulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
     rulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
     protocolVersion: 2,
+  } : {
+    adapter: ADAPTER_NAME, engineVersion: tuple.engineVersion, rulesetVersion: tuple.rulesetVersion, rulesetHash: tuple.rulesetHash,
+    protocolVersion: tuple.protocolVersion,
+    // The build that plays the match is not always the one the ruleset is named after: an engine
+    // keeps playing the rulesets of earlier matches. Both are recorded, as Integration's gate
+    // does since Backend's change for issue #96.
+    binaryEngineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
+    binaryRulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
+    binaryRulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
   };
+  const assetManifestVersion = 'balance-fixture-no-assets';
   return {
     pins,
+    ...(roomCapacity === null ? {} : { roomCapacity }),
     createMatch(setup, matchId) {
       // Identifiers count what they name and nothing else: a phase identifier counts phases, and a
       // command identifier counts the commands of the player who sent it. In a paired case the two
@@ -127,8 +161,13 @@ function createAdapter(engine) {
           playerCount: setup.playerCount, roleOrder: [...setup.roleOrder], codeExtraSeatIds: [...setup.codeExtraSeatIds],
           initialRooms: { ...setup.initialRooms }, roundOrders: setup.roundOrders.map(order => [...order]),
         },
-        now: FIXTURE_START, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'balance-fixture-no-assets',
+        now: FIXTURE_START, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion,
+        ...(tuple === null ? {} : { versions: { ...Object.fromEntries(TUPLE_KEYS.map(key => [key, tuple[key]])), assetManifestVersion } }),
       });
+      // A report names the tuple of its matches. It must be the one the engine recorded.
+      if (tuple !== null && TUPLE_KEYS.some(key => state.versions?.[key] !== tuple[key])) {
+        throw new Error(`the engine created a match under ${state.versions?.rulesetVersion ?? 'no recorded ruleset'}, not under ${tuple.rulesetVersion}`);
+      }
       return {
         observe() {
           const views = engine.projectFullGame(state);

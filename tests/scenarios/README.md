@@ -11,11 +11,14 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `v1/catalog.mjs` | The authoring source. The JSON files are produced from it and checked against it |
 | `v1/exceptions.json` | The reviewed list of the fixtures that are blocked or manual: case, modes, status, decisions, whether it has a probe, and why |
 | `v1/files.mjs` | Reading and writing those files; the pins they carry |
+| `capacity/mode-7.scenarios.json`, `capacity/mode-8.scenarios.json`, `capacity/mode-9.scenarios.json` | The room-capacity fixtures of issue #96, a suite of its own, one file per mode. They run under the ruleset that has the rule; the Version 1 catalogue runs under the rulesets before it |
+| `capacity/catalog.mjs`, `capacity/files.mjs` | Their authoring source, and reading and writing them. The rows they cite beside the rulebook's are in `docs/balance/capacity-audit.md` |
+| `support/capacity-tables.mjs` | The tables of that audit that are arithmetic, as text, so that a test can hold the document to them |
 | `adapters/full-game-v1.mjs` | Binding to Backend's full-game engine API |
 | `support/stub.mjs` | A scripted stand-in for an engine, used only to test the runner and the invariants |
 | `support/leaks.mjs` | The deliberate leaks: a wrapper that makes a binding tell somebody one thing it may not, so that the paired cases can be seen to notice |
 | `support/gate-reports.mjs` | Reports written from the catalogue for the tests of the report gate. Not results |
-| `*.test.mjs` | Static checks, run on `node:test`, in five files. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
+| `*.test.mjs` | Static checks, run on `node:test`, in six files. `capacity.test.mjs` checks the capacity suite, its rows, its invariants and the audit's tables. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
 
 ## What a scenario is
 
@@ -98,6 +101,16 @@ To execute against another commit, build a copy of it and pass its directory:
 ```sh
 npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/built/checkout --engine-commit <sha> --out report.json
 ```
+
+An engine that plays several rulesets is asked for one by name, and runs nothing if it does not name it. The Version 1 catalogue starts every player in one room, so on an engine whose own default has the room-capacity rule it is run under an earlier ruleset:
+
+```sh
+npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/built/checkout --ruleset in-person-v1-pass-2026-10-08
+npm run scenarios --workspace @mothership/balance -- --engine-root /path/to/built/checkout --suite capacity
+npm run walk --workspace @mothership/balance -- --engine-root /path/to/built/checkout --ruleset in-person-v1-capacity-2026-10-11 --rooms capped --room-capacity 5
+```
+
+The second line runs the capacity fixtures under the ruleset that has the rule, and holds every case to the capacity invariants as well. The third starts playouts from rooms the rule allows, tries full rooms often and checks the same invariants at every step.
 
 Where a decision depends on the result, the exit status of that command is not enough. Run the engine gate, which also runs the controls and the playouts and then holds the three reports to the catalogue, the exception list and each other:
 

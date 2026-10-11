@@ -223,6 +223,13 @@ function visibleField(session: Session, seat: SeatId, field: string): unknown {
   }
 }
 
+// Injured, free players who are in Room A or Room B and not in Hospital: under the capacity rule
+// they wait there for a place. Read from the public facts, which every audience has.
+function waitingSeats(now: Observation): SeatId[] {
+  return now.publicView.seats.filter(seat => seat.health === 'Injured' && !seat.jailed && (seat.location === 'Room A' || seat.location === 'Room B'))
+    .map(seat => seat.seat).sort();
+}
+
 function matchValues(now: Observation): Record<string, unknown> {
   return {
     round: now.round, phase: now.phaseKind, terminal: now.terminal, active: now.activeSeat,
@@ -230,6 +237,7 @@ function matchValues(now: Observation): Record<string, unknown> {
     codeSubmitted: now.truth.codeSubmitted, codeCorrect: now.truth.codeCorrect, releaseUsed: now.truth.releaseUsed,
     endRevealPresent: now.publicView.endReveal !== null,
     windowMs: now.phaseEndsAt === null ? null : now.phaseEndsAt - now.phaseStartedAt,
+    waiting: waitingSeats(now),
   };
 }
 
@@ -314,6 +322,10 @@ function evaluate(check: Check, session: Session): string | null {
     electionPhases: session.trace.filter(item => item.phaseKind === 'CAPTAIN_ELECTION').length,
     releaseChoicePhases: session.trace.filter(item => item.phaseKind === 'RELEASE_CHOICE').length,
   };
+  counts['waiting'] = waitingSeats(now).length;
+  // `occupants:<location>` is how many players are located there, whatever their health.
+  const place = /^occupants:(Room A|Room B|Command Room|Hospital|Jail|Final Zone)$/.exec(check.count)?.[1];
+  if (place !== undefined) counts[check.count] = seats.filter(seat => seat.location === place).length;
   if (!(check.count in counts)) throw new StepError(`unknown count ${check.count}`);
   return counts[check.count] === check.equals ? null : `count ${check.count}: expected ${check.equals}, observed ${String(counts[check.count])}`;
 }
@@ -376,16 +388,23 @@ function runStep(step: Step, session: Session): void {
     }
     case 'command': {
       const outcome = submit(session, step.actor, step.command, step.at ?? 'start');
-      const met = step.expect === 'REFUSED' ? outcome === 'NOT_ALLOWED' || outcome === 'INVALID' : outcome === step.expect;
+      // REFUSED: the engine did not accept it, for a reason of the rules or of the request's shape.
+      // A window that has closed is another matter and has its own expectation.
+      const met = step.expect === 'REFUSED' ? outcome !== 'REGISTERED' && outcome !== 'PHASE_CLOSED' : outcome === step.expect;
       if (!met) throw new StepError(`${step.command.type} by ${step.actor}: expected ${step.expect}, engine returned ${outcome}`);
       return;
     }
     case 'probe':
       session.probes.push({ label: step.label, outcome: submit(session, step.actor, step.command, 'start') });
       return;
-    case 'note':
-      session.probes.push({ label: step.label, outcome: String(matchValues(session.current)[step.match] ?? 'unknown field') });
+    case 'note': {
+      const value = 'truth' in step
+        ? (session.current.truth.seats.find(item => item.seat === resolveRef(step.truth, session.setup)) as unknown as Record<string, unknown> | undefined)?.[step.field]
+        : matchValues(session.current)[step.match];
+      // An empty list is recorded in words: an outcome is never an empty text.
+      session.probes.push({ label: step.label, outcome: Array.isArray(value) ? (value.length === 0 ? 'nobody' : value.join(',')) : String(value ?? 'unknown field') });
       return;
+    }
     case 'mark':
       session.marks[step.name] = session.current;
       return;
@@ -437,8 +456,10 @@ function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapte
     if (scenario.status === 'blocked') return { ...base, status: 'blocked', failure, reason: `probe could not be completed: ${failure.message}` };
     return { ...base, status: 'failed', failure };
   }
+  const ledger = startLedger(first);
+  ledger.roomCapacity = adapter.roomCapacity ?? null;
   const session: Session = {
-    setup, match, ledger: startLedger(first), current: first, marks: {},
+    setup, match, ledger, current: first, marks: {},
     trace: [{ round: first.round, phaseKind: first.phaseKind, activeSeat: first.activeSeat }],
     violations: [...checkSetup(setup, first)], probes: [], commandsInPhase: 0, transitions: 0, commands: 0,
     stepIndex: 0, recording: pairing.recording ?? null, twinAt: pairing.twinAt ?? null,

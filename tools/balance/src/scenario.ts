@@ -54,6 +54,9 @@ export type Step =
   | { op: 'command'; actor: Ref; command: StepCommand; expect: Expectation; at?: 'start' | 'deadline-1' | 'deadline'; twin?: StepCommand | null }
   | { op: 'probe'; actor: Ref; command: StepCommand; label: string }
   | { op: 'note'; label: string; match: string }
+  // The same for one player's authoritative state, for a blocked case that records where an
+  // engine currently puts a player in a situation the rules do not decide.
+  | { op: 'note'; label: string; truth: Ref; field: string }
   | { op: 'mark'; name: string }
   | { op: 'abort' }
   | { op: 'createRejected' }

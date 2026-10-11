@@ -7,6 +7,8 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 
 **Finding G17 and its fix.** The integration review of 7 October found that the engine did not tell Supplier whom the weapons reached, which the approved decision V1-16 requires. Seventeen fixtures ask for it. They fail against the engine before the fix, and that run is kept as a record. Backend's fix, draft PR [#65](https://github.com/Amirkianfar66/GameN/pull/65), adds a read of a seat's own acknowledgments; against that engine the whole catalogue passes, the comparisons of what each player may learn included. An engine without that read is not one the binding runs.
 
+**The room capacity of five (issue #96).** The owner decided on 11 October that at most five players are in Room A, Room B, Hospital and Jail. [capacity-audit.md](capacity-audit.md) is the independent audit of the rule and of Backend's implementation in PR #98, for seven, eight and nine players separately: 122 fixtures of their own beside the Version 1 catalogue, seven invariants, one defect found in the implementation, and the six decisions the owner took on 11 October on what the audit had found open, which the implementation does not follow yet. The rulebook and the catalogue are unchanged and describe the rulesets before the rule; the catalogue cannot run under the new one until it is re-seated.
+
 ## Start here
 
 | If you want | Read |
@@ -15,6 +17,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | Where each rule comes from, what is undecided, and what follows by counting | [rules-audit-v1.md](rules-audit-v1.md) |
 | What has actually been run, and against what | The current evidence, against the engine with the fix for G17: [evidence/2026-10-07-supplier-fix.md](evidence/2026-10-07-supplier-fix.md). Records: the defect before the fix, [evidence/2026-10-07-supplier-disclosure.md](evidence/2026-10-07-supplier-disclosure.md); the catalogue as it was earlier, [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md) and [evidence/2026-10-07-report-gate.md](evidence/2026-10-07-report-gate.md) |
 | What Balance asks of Codex Integration | [integration-requests.md](integration-requests.md), [contract-review.md](contract-review.md) |
+| What the room capacity of five does, and what was run against its implementation | [capacity-audit.md](capacity-audit.md), [evidence/2026-10-11-capacity.md](evidence/2026-10-11-capacity.md) |
 | To run a playtest | [playtest/protocol.md](playtest/protocol.md) |
 | What the owner is asked to decide | The nine open rule edges, with a proposal for each: [rules-audit-v1.md](rules-audit-v1.md#triage-of-7-october-a-proposal-for-each-edge) |
 
@@ -25,6 +28,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | [game-rules.md](game-rules.md) | The consolidated rulebook. One row per rule, each with a status and its sources. The single text all four workstreams follow |
 | [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D40, and consequences derived from the rules |
 | [invariants.md](invariants.md) | Statements that must hold in every match, with the rule behind each |
+| [capacity-audit.md](capacity-audit.md) | The audit of the room-capacity rule of issue #96: the rows of the rule, where it can bind, the nine areas for each number of players, findings in three kinds, and what is left for the owner |
 | [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each reading, and the rules without a scenario |
 | [contract-review.md](contract-review.md) | Independent review of the shared contracts, the Officer and Protection fixture and Backend's draft engine |
 | [integration-requests.md](integration-requests.md) | The exact shared changes requested |

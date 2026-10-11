@@ -101,11 +101,13 @@ export function engineProvenance(engineRoot, stated, tree) {
 }
 
 /**
- * @param {{ engineRoot: string | null, engineCommit: string | null, adapter: { pins: object } | null, runner: string }} run
- *   engineRoot is absolute, or null for the engine of this checkout
+ * @param {{ engineRoot: string | null, engineCommit: string | null, adapter: { pins: object } | null, runner: string, extra?: object }} run
+ *   engineRoot is absolute, or null for the engine of this checkout. `extra` is what a run of
+ *   another suite, or under a ruleset asked for by name, records beside the usual pins; a run
+ *   without it carries exactly the pins it always did.
  * @returns {{ problem: string } | { pins: object }}
  */
-export function buildPins({ engineRoot, engineCommit, adapter, runner }) {
+export function buildPins({ engineRoot, engineCommit, adapter, runner, extra = {} }) {
   const tree = treeState(root);
   const engine = engineProvenance(engineRoot, engineCommit, tree);
   if ('problem' in engine) return { problem: engine.problem };
@@ -126,6 +128,7 @@ export function buildPins({ engineRoot, engineCommit, adapter, runner }) {
       runner,
       node: process.version,
       generatedAt: new Date().toISOString(),
+      ...extra,
     },
   };
 }

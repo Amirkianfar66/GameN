@@ -1,6 +1,9 @@
 // Negative controls for the scenario harness.
 //
 //   node scripts/controls.mjs --engine-root <dir> [--engine-commit <sha>] [--out <file.json>] [--require-engine]
+//     [--ruleset <ruleset version>]   the ruleset every match is created under; the engine's own default without it
+//     [--suite v1|capacity]           the Version 1 catalogue (the default) or the room-capacity fixtures of issue #96,
+//                                     which run under the ruleset that has the rule and are held to its invariants
 //
 // Each control copies a ready scenario and makes exactly one of its expectations wrong: a
 // command expected to be accepted is expected to be refused, or an asserted value is changed.
@@ -25,13 +28,18 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { controlVerdict, hasTwin, judgeLeak, runControls, runScenario, unexercised } from '@mothership/balance';
 import { load } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
+import * as capacity from '../../../tests/scenarios/capacity/files.mjs';
 import { LEAKS, leakModes, withLeak } from '../../../tests/scenarios/support/leaks.mjs';
-import { loadGroup } from '../../../tests/scenarios/v1/files.mjs';
+import { loadGroup as loadVersionOne } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
 
 const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out'], flags: ['require-engine'] }, refuse);
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out', 'ruleset', 'suite'], flags: ['require-engine'] }, refuse);
+const suiteName = values.suite ?? 'v1';
+if (suiteName !== 'v1' && suiteName !== 'capacity') refuse(`--suite ${suiteName} names no suite; the suites are v1 and capacity.`);
+const loadGroup = suiteName === 'v1' ? loadVersionOne : capacity.loadGroup;
+const ruleset = suiteName === 'v1' ? values.ruleset : values.ruleset ?? capacity.CAPACITY_RULESET_VERSION;
 const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
 const out = values.out;
 const requireEngine = flags['require-engine'];
@@ -43,8 +51,11 @@ const write = summary => {
   console.log(`Summary written to ${target}`);
 };
 
-const loaded = await load(engineRoot);
-const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance negative controls' });
+const loaded = await load(engineRoot, { ruleset, roomCapacity: suiteName === 'capacity' ? 5 : null });
+const built = buildPins({
+  engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance negative controls',
+  extra: suiteName === 'v1' && ruleset === null ? {} : { ...(suiteName === 'v1' ? {} : { suite: suiteName, roomCapacity: 5 }), rulesetAskedFor: ruleset },
+});
 if ('problem' in built) refuse(built.problem);
 const pins = built.pins;
 if (!loaded.available) {
@@ -73,11 +84,14 @@ const verdict = controlVerdict(runs);
 // leak tests whether the cases together watch the right things. A run through a leaking binding
 // says nothing about the engine and is not part of the counts above.
 summary.leaks = [];
+// The deliberate leaks are made for the paired cases of the Version 1 catalogue. Another suite
+// has none, and is not tried with them.
+const leaks = suiteName === 'v1' ? Object.entries(LEAKS) : [];
 const paired = [7, 8, 9].flatMap(mode => loadGroup(String(mode)).scenarios).filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
 // The paired cases that pass when nothing leaks. Only those can show a leak.
 const passing = new Set(paired.filter(scenario => runScenario(scenario, adapter, '').status === 'passed').map(scenario => scenario.id));
 const outcomes = [];
-for (const [leak, meaning] of Object.entries(LEAKS)) {
+for (const [leak, meaning] of leaks) {
   const leaking = withLeak(adapter, leak);
   const modes = leakModes(leak);
   const outcome = judgeLeak(leak, meaning, modes, paired.filter(scenario => passing.has(scenario.id)).map(scenario => ({ scenario, run: runScenario(scenario, leaking, '') })), passing);

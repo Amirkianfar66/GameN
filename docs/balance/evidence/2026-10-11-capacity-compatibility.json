@@ -1,0 +1,291 @@
+{
+ "schema": "mothership.balance.capacity-compat/1",
+ "generatedAt": "2026-10-11T21:08:02.858Z",
+ "node": "v22.21.1",
+ "before": "1a92f3790e45622196014cc008544fc33c359c0a",
+ "after": "dd04f68ee5af887b01761a03eca644f7a67e84dd",
+ "rulesets": {
+  "in-person-v1-pass-2026-10-08": {
+   "before": {
+    "scenarios": {
+     "engine": {
+      "adapter": "full-game-v1",
+      "engineVersion": "full-game-1.1.0",
+      "rulesetVersion": "in-person-v1-pass-2026-10-08",
+      "rulesetHash": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183",
+      "protocolVersion": 2,
+      "binaryEngineVersion": "full-game-1.1.0",
+      "binaryRulesetVersion": "in-person-v1-pass-2026-10-08",
+      "binaryRulesetHash": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183"
+     },
+     "engineBuildSha256": "d62325bf1b041c040df4b9c84e80db9caaaec25719f98200a11ee3218642ae0c",
+     "scenarioFileHashes": {
+      "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+      "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+      "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+      "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+     },
+     "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
+     "totals": {
+      "total": 555,
+      "passed": 516,
+      "failed": 0,
+      "blocked": 33,
+      "notRun": 6
+     },
+     "resultsSha256": "5315403cf7112d5df173f35664b1a51ba1c00a7ecb4ddc9ecd68d9525357a564",
+     "refusedAtCreation": 0,
+     "invariantViolations": 0
+    },
+    "playouts": {
+     "seedsPerMode": 200,
+     "modes": {
+      "7": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "4f65e34e37b2d0432f5e74df365925dca56613fa6ad8147b5cd659478fdbfe2a"
+      },
+      "8": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "8f183a2d3265fc92c78c87530ac6e9770bc60967f533230c57e703acd83e29a2"
+      },
+      "9": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "ecc4e6301c9ef9a257df0f7e47ba52fb635057a414cccaf253a3dd19a1cb5253"
+      }
+     }
+    }
+   },
+   "after": {
+    "scenarios": {
+     "engine": {
+      "adapter": "full-game-v1",
+      "engineVersion": "full-game-1.1.0",
+      "rulesetVersion": "in-person-v1-pass-2026-10-08",
+      "rulesetHash": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183",
+      "protocolVersion": 2,
+      "binaryEngineVersion": "full-game-1.2.0",
+      "binaryRulesetVersion": "in-person-v1-capacity-2026-10-11",
+      "binaryRulesetHash": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468"
+     },
+     "engineBuildSha256": "97cb670e791403eda9f3f20b7e3f87727f330fbb2965f1a999e22096f040e552",
+     "scenarioFileHashes": {
+      "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+      "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+      "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+      "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+     },
+     "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
+     "totals": {
+      "total": 555,
+      "passed": 516,
+      "failed": 0,
+      "blocked": 33,
+      "notRun": 6
+     },
+     "resultsSha256": "5315403cf7112d5df173f35664b1a51ba1c00a7ecb4ddc9ecd68d9525357a564",
+     "refusedAtCreation": 0,
+     "invariantViolations": 0
+    },
+    "playouts": {
+     "seedsPerMode": 200,
+     "modes": {
+      "7": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "4f65e34e37b2d0432f5e74df365925dca56613fa6ad8147b5cd659478fdbfe2a"
+      },
+      "8": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "8f183a2d3265fc92c78c87530ac6e9770bc60967f533230c57e703acd83e29a2"
+      },
+      "9": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "ecc4e6301c9ef9a257df0f7e47ba52fb635057a414cccaf253a3dd19a1cb5253"
+      }
+     }
+    }
+   },
+   "sameResults": true,
+   "sameEndStates": true,
+   "clean": true
+  },
+  "in-person-v1-2026-10-06": {
+   "before": {
+    "scenarios": {
+     "engine": {
+      "adapter": "full-game-v1",
+      "engineVersion": "full-game-1.0.1",
+      "rulesetVersion": "in-person-v1-2026-10-06",
+      "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+      "protocolVersion": 2,
+      "binaryEngineVersion": "full-game-1.1.0",
+      "binaryRulesetVersion": "in-person-v1-pass-2026-10-08",
+      "binaryRulesetHash": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183"
+     },
+     "engineBuildSha256": "d62325bf1b041c040df4b9c84e80db9caaaec25719f98200a11ee3218642ae0c",
+     "scenarioFileHashes": {
+      "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+      "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+      "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+      "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+     },
+     "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
+     "totals": {
+      "total": 555,
+      "passed": 516,
+      "failed": 0,
+      "blocked": 33,
+      "notRun": 6
+     },
+     "resultsSha256": "5315403cf7112d5df173f35664b1a51ba1c00a7ecb4ddc9ecd68d9525357a564",
+     "refusedAtCreation": 0,
+     "invariantViolations": 0
+    },
+    "playouts": {
+     "seedsPerMode": 200,
+     "modes": {
+      "7": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "4f65e34e37b2d0432f5e74df365925dca56613fa6ad8147b5cd659478fdbfe2a"
+      },
+      "8": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "8f183a2d3265fc92c78c87530ac6e9770bc60967f533230c57e703acd83e29a2"
+      },
+      "9": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "ecc4e6301c9ef9a257df0f7e47ba52fb635057a414cccaf253a3dd19a1cb5253"
+      }
+     }
+    }
+   },
+   "after": {
+    "scenarios": {
+     "engine": {
+      "adapter": "full-game-v1",
+      "engineVersion": "full-game-1.0.1",
+      "rulesetVersion": "in-person-v1-2026-10-06",
+      "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+      "protocolVersion": 2,
+      "binaryEngineVersion": "full-game-1.2.0",
+      "binaryRulesetVersion": "in-person-v1-capacity-2026-10-11",
+      "binaryRulesetHash": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468"
+     },
+     "engineBuildSha256": "97cb670e791403eda9f3f20b7e3f87727f330fbb2965f1a999e22096f040e552",
+     "scenarioFileHashes": {
+      "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+      "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+      "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+      "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+     },
+     "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
+     "totals": {
+      "total": 555,
+      "passed": 516,
+      "failed": 0,
+      "blocked": 33,
+      "notRun": 6
+     },
+     "resultsSha256": "5315403cf7112d5df173f35664b1a51ba1c00a7ecb4ddc9ecd68d9525357a564",
+     "refusedAtCreation": 0,
+     "invariantViolations": 0
+    },
+    "playouts": {
+     "seedsPerMode": 200,
+     "modes": {
+      "7": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "4f65e34e37b2d0432f5e74df365925dca56613fa6ad8147b5cd659478fdbfe2a"
+      },
+      "8": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "8f183a2d3265fc92c78c87530ac6e9770bc60967f533230c57e703acd83e29a2"
+      },
+      "9": {
+       "playouts": 200,
+       "completed": 200,
+       "invariantViolations": 0,
+       "hintMismatches": 0,
+       "replayMismatches": 0,
+       "endStatesSha256": "ecc4e6301c9ef9a257df0f7e47ba52fb635057a414cccaf253a3dd19a1cb5253"
+      }
+     }
+    }
+   },
+   "sameResults": true,
+   "sameEndStates": true,
+   "clean": true
+  }
+ },
+ "catalogueUnderTheDefaultOfTheLaterBuild": {
+  "engine": {
+   "adapter": "full-game-v1",
+   "engineVersion": "full-game-1.2.0",
+   "rulesetVersion": "in-person-v1-capacity-2026-10-11",
+   "rulesetHash": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468",
+   "protocolVersion": 2
+  },
+  "engineBuildSha256": "97cb670e791403eda9f3f20b7e3f87727f330fbb2965f1a999e22096f040e552",
+  "scenarioFileHashes": {
+   "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+   "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+   "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+   "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+  },
+  "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
+  "totals": {
+   "total": 555,
+   "passed": 24,
+   "failed": 492,
+   "blocked": 33,
+   "notRun": 6
+  },
+  "resultsSha256": "d0ef212910a5ccd2e84bf660d65ea0429589d8b7b250b6d223bedf5837130875",
+  "refusedAtCreation": 492,
+  "invariantViolations": 0
+ },
+ "verdict": "the-same"
+}

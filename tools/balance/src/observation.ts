@@ -152,6 +152,11 @@ export interface EngineMatch {
 
 export interface EngineAdapter {
   readonly pins: EnginePins;
+  /**
+   * How many players a room holds under the rules this run holds the engine to (issue #96).
+   * Absent for a ruleset without the rule. The capacity invariants are checked only where it is set.
+   */
+  readonly roomCapacity?: number;
   /** Throws when the engine refuses the setup. */
   createMatch(setup: ScenarioSetup, matchId: string): EngineMatch;
 }
