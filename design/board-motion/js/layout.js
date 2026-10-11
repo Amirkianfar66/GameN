@@ -18,13 +18,17 @@ export const ROOM_OF = Object.fromEntries(Object.entries(LOCATION_OF).map(([room
 /** The rooms a player can move to by pressing their name tag: the protocol's MOVE destinations. */
 export const MOVE_ROOMS = ['Command Room', 'Room A', 'Room B'];
 /**
- * The owner's decision of 11 October 2026: at most five in a room, a hard rule (the Command
- * Room holds its one, the Captain). The engine does not enforce it yet (DSN-REQ-12): the board
- * says FULL on a full room's tag from public occupancy, and still draws a view with more.
+ * The owner's decision of 11 October 2026: at most five in a room, a hard rule, the Eliminated
+ * counted (the Command Room holds its one, the Captain). The engine does not enforce it yet
+ * (DSN-REQ-12): the board says FULL on a full room's tag from public occupancy, and still draws
+ * a view with more.
  */
 export const CAPACITY = 5;
-/** The rooms whose tag says FULL: the two a player moves between. */
-export const CAPACITY_ROOMS = ['Room A', 'Room B'];
+/**
+ * The rooms whose tag says FULL: the two a player moves between, and the Hospital and the Jail,
+ * where a full Hospital is why an Injured character waits in its room (the owner's decision).
+ */
+export const CAPACITY_ROOMS = ['Room A', 'Room B', 'Hospital', 'Jail'];
 
 /**
  * Six to nine in one room: three rows of three, everyone standing, every character reachable

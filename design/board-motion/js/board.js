@@ -45,7 +45,9 @@ function roomTag(room, { interactive }) {
       interactive ? h('button', { type: 'button', class: 'bm-tag__move', 'data-move-room': location, 'aria-label': `Move to ${location}`, id: `bm-move-${room}` },
         face(inner, full, h('span', { class: 'bm-tag__go', 'aria-hidden': 'true' }, '↗'))) : h('span', { class: 'bm-tag__move' }, face(inner, full)));
   }
-  return h('h3', { class: 'bm-tag bm-tag--fixed', 'data-room-tag': room }, h('span', { class: 'bm-tag__icon', 'data-icon': room, 'aria-hidden': 'true' }), inner);
+  // The Hospital and the Jail say FULL too; their heading reads "Hospital, full" while they are.
+  const full = CAPACITY_ROOMS.includes(location) ? [h('span', { class: 'bm-vh bm-tag__fullvh' }), h('span', { class: 'bm-tag__full', 'aria-hidden': 'true' }, PROPOSED.roomFull)] : null;
+  return h('h3', { class: 'bm-tag bm-tag--fixed', 'data-room-tag': room }, h('span', { class: 'bm-tag__icon', 'data-icon': room, 'aria-hidden': 'true' }), inner, full);
 }
 
 function roomPanel(room, { interactive }) {
@@ -235,6 +237,8 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
         const full = list.length >= CAPACITY;
         panel.dataset.full = String(full);
         panel.querySelector('button.bm-tag__move')?.setAttribute('aria-label', full ? PROPOSED.moveFullLabel(location) : `Move to ${location}`);
+        const words = panel.querySelector('.bm-tag__fullvh');
+        if (words) words.textContent = full ? PROPOSED.captionFull : '';
       }
       panel.hidden = finalZone ? room !== 'final-zone' : room === 'final-zone';
     }

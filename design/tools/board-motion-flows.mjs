@@ -175,6 +175,9 @@ try {
   await click(page, '#bm-app [data-move-room="Room A"]');
   ok('capacity: pressing a full room says the release\'s words and opens nothing', (await notice(page)) === 'You cannot move to that room right now.' && (await flow(page)).step === 'idle', await notice(page));
   await page.close();
+  page = await open('board.crowded-hospital');
+  ok('capacity: a full Hospital says FULL on both boards, and its heading reads full', await page.evaluate(`[...document.querySelectorAll('#bm-app .bm-board, [data-observer] .bm-board')].every(b => { const tag = b.querySelector('.bm-room[data-room="hospital"] .bm-tag'); const chip = tag?.querySelector('.bm-tag__full'); return chip && getComputedStyle(chip).display !== 'none' && tag.querySelector('.bm-tag__fullvh').textContent === ', full' && b.querySelector('.bm-room[data-room="jail"] .bm-tag__fullvh').textContent === ''; })`));
+  await page.close();
 
   // ---------- Pass: the middle of navigation ----------
   page = await open('board.idle');

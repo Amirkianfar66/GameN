@@ -206,4 +206,5 @@ export const PROPOSED = {
   observerTitle: 'Everyone else sees',
   roomFull: 'Full',
   moveFullLabel: location => `Move to ${location}, full`,
+  captionFull: ', full',
 };

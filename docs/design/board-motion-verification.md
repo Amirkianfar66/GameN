@@ -52,6 +52,8 @@ The owner made five a room a hard rule ([owner-decisions.md](owner-decisions.md#
 
 The check refuses a fixture that offers a room already holding five; one of the tests offers Room A in `move.full` and expects that refusal by name. Three new flow steps show FULL on both boards (and not on the other room), the button named full, and a press on it that says the release's words and opens nothing.
 
+The owner then decided the rule's six cases (“yes go with your recommendations for all six”). The Hospital's and the Jail's captions now say FULL at five too, their headings read “Hospital, full”; a fourth flow step shows it on both boards in `board.crowded-hospital`. Run again after that change: `check:board-motion` **13 of 13** (66 scenarios); captures **212 and 5 contact sheets, 0 with problems**; flows **191 of 191**; the Designer suite **123 tests, 122 passed** (the 19 board-motion tests pass; the one failure is the same pre-existing V1 phone quote mismatch); `check:assets` **15 of 15**.
+
 ## Checks that need no browser
 
 | Command | Actual result |
