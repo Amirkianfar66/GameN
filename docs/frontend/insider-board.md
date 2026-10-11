@@ -2,6 +2,8 @@
 
 Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) · branch `codex/frontend-insider-board` · 11 October 2026 · **interim treatment, pending the Designer's**
 
+> **Superseded on `codex/frontend-insider-file`.** There the Designer's Insider file replaces this interim board: see [insider-file.md](insider-file.md). This page records the interim board of [#100](https://github.com/Amirkianfar66/GameN/pull/100) as it was built.
+
 The owner commissioned the Designer to create artwork and interactive comic animation for every V1 role ability and shared action. This is the first Frontend piece of that integration. It draws the Insider's starting knowledge as a board inside the Insider's own card.
 
 When this board was built, the Designer had not delivered a treatment of it. The board is therefore built only from approved public crew cards and existing tokens, and it marks itself `data-treatment="interim"`. **It is not finished design.** The coordinator's mockup was not used as a design source.
