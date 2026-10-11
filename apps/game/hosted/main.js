@@ -19,6 +19,7 @@ import './setup.css';
 import './phone.css';
 import './compact-phone.css';
 import './board-play.css';
+import './private-card.css';
 import { disclosure, dock, copyControl, choiceTiles, publicSlots } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';

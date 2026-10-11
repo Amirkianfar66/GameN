@@ -1,7 +1,7 @@
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { seatNumber } from './common.js';
-import type { ConnectedPrivateAreaModel } from './types.js';
+import type { ConnectedPrivateAreaModel, InsiderSetModel, RoleName } from './types.js';
 
 // What the server's view tells one seat and nobody else, put into words for that seat's
 // open private panel. Nothing here is worked out: each sentence is one field of the view.
@@ -12,6 +12,9 @@ type Knowledge = NonNullable<NonNullable<ConnectedPrivateAreaModel['content']>['
 
 const bySeat = (a: SeatId, b: SeatId): number => seatNumber(a) - seatNumber(b);
 
+/** The roles the Insider's three players hold between them, in the rule's own order. */
+const INSIDER_ROLES: readonly RoleName[] = Object.freeze(['Undercover', 'Alien', 'Cracker']);
+
 export function buildKnowledge(view: FullPlayerView): Knowledge {
   const { knowledge, self } = view;
   /** A seat in a sentence: by its public number, or as the player's own. */
@@ -21,7 +24,12 @@ export function buildKnowledge(view: FullPlayerView): Knowledge {
     .map(seatId => (seatId === self.seatId ? en.seat.labelSelf(seatNumber(seatId)) : en.seat.label(seatNumber(seatId)))).join(', ');
 
   const items: string[] = [];
-  if (knowledge.insiderCandidates.length > 0) items.push(en.knowledge.insider(listed(knowledge.insiderCandidates)));
+  // The view lists the three as a set. They are put in public seat order here, whatever order
+  // the view gives, so no order can stand for a role.
+  const insider: InsiderSetModel | null = knowledge.insiderCandidates.length > 0
+    ? { seatIds: [...knowledge.insiderCandidates].sort(bySeat), roles: INSIDER_ROLES, sentence: en.knowledge.insider(listed(knowledge.insiderCandidates)) }
+    : null;
+  if (insider) items.push(insider.sentence);
   if (knowledge.undercoverSeatId !== null) items.push(en.knowledge.undercover(en.seat.label(seatNumber(knowledge.undercoverSeatId))));
   if (knowledge.code.length > 0) items.push(en.knowledge.code(listed(knowledge.code)));
   // In the order the view lists them.
@@ -39,5 +47,5 @@ export function buildKnowledge(view: FullPlayerView): Knowledge {
   // What the seat holds. A weapon received later is learned here and nowhere else.
   items.push(en.knowledge.weapons(self.ordinaryWeapons));
   if (self.rescuesRemaining > 0) items.push(en.knowledge.rescues(self.rescuesRemaining));
-  return { heading: en.knowledge.heading, items };
+  return { heading: en.knowledge.heading, items, insider };
 }

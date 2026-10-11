@@ -461,6 +461,18 @@ export const en = {
     rescues: (count: number) => `Rescues you have left: ${count}.`,
   },
 
+  // The Insider's investigation board: the same set as the sentence above, drawn as three
+  // players and one group of three roles. Interim words, pending the Designer's treatment;
+  // they say no more than the rule does: one role each, and who holds which is not known.
+  investigation: {
+    open: 'Investigation board',
+    hide: 'Hide investigation board',
+    heading: 'Investigation board',
+    players: 'Three players',
+    among: 'Between them, one each:',
+    unknown: 'Who holds which is not known.',
+  },
+
   // What every audience may know about a vote: what is being voted on, who may be voted
   // for, and the count the server publishes when a vote closes. The four result sentences
   // say what the server's tally names; the counting is the server's.
