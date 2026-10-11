@@ -31,6 +31,8 @@ It also records what differs from the proposal, and why. Its browser-simulation 
 
 [board-recovery.md](board-recovery.md) is the Codex Frontend follow-up to draft PR #92: stale/deadline concealment of sent-command board marks, immediate mid-flight reduced-motion cancellation, and fresh current-runtime evidence. The historical screenshots and earlier outcomes work remain separate from that verification.
 
+[phone-polish.md](phone-polish.md) fixes two defects of that release, with new capture checks for each. On the phone, the connection banner's icon lay over its words. At doubled text, the navigation labels ran into each other.
+
 [motion-os-preference.md](motion-os-preference.md) fixes the remaining explicit-full → OS-reduced wiring case without a screen frame, with native cancellation and owned-listener teardown evidence.
 
 ## Slices
