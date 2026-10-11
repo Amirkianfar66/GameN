@@ -27,6 +27,7 @@ The Insider's file (`design/abilities/`, `abilities-0.1.0`, slice 1 of the abili
 ### What it does not settle
 
 - **The look and the motion** (DSN-D37): the owner chose the content; the board, the envelope, the string and the assembly are the Designer's proposal, not yet seen by the owner.
+- **Slices 2 and 3 follow the same rule** (DSN-D37): the Hacker's and the Alien's files, the Scan and Code strips (slice 2), the Rescue's cross and vials, the Disable's reticle and charge, Supply's tags and slips (slice 3) are the Designer's proposal for their look and motion; their content is the rules' and the release's.
 - **Adoption** (DSN-D36): the kit is outside the reviewed manifest until Integration adopts it.
 
 ## 11 October 2026: the current look, in the game, before any paint

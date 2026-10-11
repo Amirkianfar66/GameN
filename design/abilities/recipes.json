@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.2.0",
+  "manifestVersion": "abilities-0.3.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -107,6 +107,54 @@
       "title": "A Code card", "source": "source/intel.svg", "layer": "dossier-code-card", "viewBox": "0 0 240 76",
       "use": "Behind a Code attempt's picks in the action strip: four windows, filled in seat order.",
       "anchors": { "windows": [[38, 44], [92, 44], [148, 44], [202, 44]], "radius": [20] }
+    },
+    {
+      "id": "dossier-vial", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A vial", "source": "source/tools.svg", "layer": "dossier-vial", "viewBox": "0 0 22 36",
+      "use": "One Rescue left, in the Cracker's own strip and card: the full ones first, as many as the view's count (self.rescuesRemaining).",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-vial-empty", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An empty vial", "source": "source/tools.svg", "layer": "dossier-vial-empty", "viewBox": "0 0 22 36",
+      "use": "A Rescue used: its use is reserved when the Rescue is accepted (V1-15), and the vial is drawn empty when the view's count falls, never ahead of it.",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-cross", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A cross ring", "source": "source/tools.svg", "layer": "dossier-cross", "viewBox": "0 0 48 48",
+      "use": "Round the chip of a Rescue's target, in the Cracker's strip only.",
+      "anchors": { "ring": [24, 26, 20] }
+    },
+    {
+      "id": "dossier-cell", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A charge cell", "source": "source/tools.svg", "layer": "dossier-cell", "viewBox": "0 0 24 36",
+      "use": "The one Disable a match gives, while the server offers it; the same cell for the Blue and the Red Disabler.",
+      "anchors": { "base": [12, 34] }
+    },
+    {
+      "id": "dossier-cell-empty", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An empty cell", "source": "source/tools.svg", "layer": "dossier-cell-empty", "viewBox": "0 0 24 36",
+      "use": "The Disable spent, on its receipt: its use is reserved when it is accepted (V1-15).",
+      "anchors": { "base": [12, 34] }
+    },
+    {
+      "id": "dossier-spark", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "Sparks", "source": "source/tools.svg", "layer": "dossier-spark", "viewBox": "0 0 56 56",
+      "use": "Four sparks at the corners of a Disable's target, outside its chip: a charged reticle, never a hit. In the Disabler's strip only; the same for both Disablers.",
+      "anchors": { "center": [28, 28], "clear": [20] }
+    },
+    {
+      "id": "dossier-tag", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A shipping tag", "source": "source/tools.svg", "layer": "dossier-tag", "viewBox": "0 0 70 40",
+      "use": "One of a Supply's two picks, its chip at (42, 20); the two in seat order.",
+      "anchors": { "eyelet": [12, 20], "chip": [42, 20] }
+    },
+    {
+      "id": "dossier-slip", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A slip", "source": "source/tools.svg", "layer": "dossier-slip", "viewBox": "0 0 200 64",
+      "use": "The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band.",
+      "anchors": { "slice": [18, 34, 10, 10], "text": [10, 18, 156, 36] }
     }
   ]
 }

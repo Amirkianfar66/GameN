@@ -2,7 +2,7 @@
 
 # design/abilities/: ability art and motion
 
-`mothership:dev-only` · `abilities-0.2.0` · **a proposal**
+`mothership:dev-only` · `abilities-0.3.0` · **a proposal**
 
 Original artwork and comic motion for every current V1 role ability and shared game action, delivered in focused slices on the board-motion phone prototype (`design/board-motion/`). The first slice is **the Insider's file**: a private investigation board for the Insider's starting knowledge. The inventory of all 24 treatments, delivered and planned, is generated into [docs/design/abilities-inventory.md](../../docs/design/abilities-inventory.md); Frontend's instructions are in [docs/design/abilities-handoff.md](../../docs/design/abilities-handoff.md).
 
@@ -27,20 +27,28 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 - **The Code attempt in the strip**: a punch card with four windows, the picks' chips filled in seat order whatever the picking order; on the board every pick wears the same check, never a number; registration punches the card once, and is not a result.
 - **The Alien's file**: the Code's four players (`knowledge.code`) two by two, in seat order, one string round the four, the Code's tag on the string, the Alien's own snapshot marked YOU: "Four players, in no order."
 
+## Slice 3: the Rescue, the Disable and the Supply
+
+- **The Rescue**: in the Cracker's strip, the picked player's chip in a medical cross ring, and two vials, as many full as the view's count (`self.rescuesRemaining`). On the receipt a vial empties when the count falls (the use is reserved at acceptance, V1-15), never ahead of it, and the receipt says nothing of a recovery. A recovery is public: the board's health change at the end of the round, the same on every screen, naming no one. In the card, while one is left: the vials and "Rescues you have left: 1.", the release's sentence.
+- **The Disable**: the picked player's chip in a charged reticle (sparks at its corners, never across the face) and the one charge cell, full while the Disable is offered and spent on its receipt. **The Blue and the Red Disabler see the same strip, part for part**: their identities stay in their own role cards, so a glance at a phone mid-Disable tells nobody which. The view keeps no lasting "spent" (DSN-REQ-15).
+- **The Supply**: two shipping tags, each pick's chip in seat order, tied together on the receipt, which is not a delivery. After Round 3 the card shows **Supply results** (the release's heading): the Supplier's slip naming the players who received a weapon, and a recipient's slip that names no Supplier, each in the release's words, stamped DELIVERED when a weapon arrived. A slip drops in once, the first time the page shows it.
+
 ## What is here
 
 | Path | What it is | Edit it? |
 | --- | --- | --- |
 | `source/dossier.svg` | The editable kit: cork, tape, pin, snapshot frame, query tag, lens, clip, stamp frame, envelope (back and front), closed folder. Each a layer, in the drawing vocabulary of `design/tools/lib/svg.mjs` and the neutral palette | **Yes. The editable source** |
 | `source/intel.svg` | Slice 2's pieces: the printout, the portrait chip, the Code's mark (four holes, two by two) and the Code card | **Yes. The editable source** |
+| `source/tools.svg` | Slice 3's pieces: a vial and an empty vial, the cross ring, a charge cell and a spent one, the sparks, a shipping tag, a slip (nine-sliced) | **Yes. The editable source** |
 | `recipes.json` | How each asset is lifted out of its source: id, version, box, anchors, use; the neutral palette; the bundle's load policy; rights | Yes |
 | `assets/` | One SVG per asset, `abilities.art.css` (every asset as a custom property `--ab-asset-<id>`) and `manifest.json` (ids, versions, boxes, anchors, sizes, hashes, colors) | No. Written by `design/tools/abilities-assets.mjs` |
 | `js/dossier.js` | What every file shares (`snapshot()`, `fileShell()`, `makeInspectable()`, `assemble()`, `cancelMotion()`, `closedFolder()`) and the Insider's file (`insiderFile()`), the copy and the motion beats. Reference behaviour for Frontend | Yes |
-| `js/intel.js` | Slice 2: `hackerFile()`, `printout()`, `printFresh()`, `alienFile()`, `codeCard()`, `scanTarget()` | Yes |
+| `js/intel.js` | Slice 2: `hackerFile()`, `printout()`, `printFresh()`, `alienFile()`, `codeCard()`, `scanTarget()`, and the strip's one-shot beats `clipIn()`, `punch()` | Yes |
+| `js/tools.js` | Slice 3: `vials()`, `target()`, `cell()`, `supplyTags()`, `rescueKit()`, `deliveries()`, and the beats `drain()`, `discharge()`, `tie()`, `dropIn()` | Yes |
 | `css/abilities.css` | The reference styles: tokens only; art drawn only behind `[data-art~="abilities"]` and the crew cards behind `[data-art~="public-board"]`; the short-phone and large-text layouts | Yes |
 | `contract/abilities.json` | The inventory: every treatment's roles, audience, trigger, view fields, disclosure, concept, art, motion in five forms, states, copy, review and dependencies | Yes. `docs/design/abilities-inventory.md` follows |
 | `contact.html` | The contact sheet of the review pictures | Yes |
-| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1) and `contact-hacker-alien.png` (slice 2) | No. Written by `design/tools/abilities-capture.mjs` |
+| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2) and `contact-rescue-disable-supply.png` (slice 3) | No. Written by `design/tools/abilities-capture.mjs` |
 
 ## See it
 
@@ -54,6 +62,9 @@ npm run dev:review --workspace @mothership/design-tokens
 #   ?scenario=scan.faction, scan.sending, scan.fresh&scan=in   the Scan in the strip (scan.fresh: Actions, Scan, a player, a guess, then Card)
 #   ?scenario=code.two, code.four, code.registered             the Code card
 #   ?scenario=file.alien                                       the Alien's file
+#   ?scenario=rescue.choose, rescue.confirm, rescue.registered, rescue.self, rescue.kit   the Rescue (then the panel's "Player 6 is now Healthy")
+#   ?scenario=disable.confirm, disable.registered, disable.red-confirm, disable.red-registered   the Disable, Blue and Red
+#   ?scenario=supply.first, supply.registered, supply.ack, supply.ack-one, supply.ack-none, supply.self, supply.received, supply.history   the Supply
 ```
 
 Every name, seat and role in it is synthetic.

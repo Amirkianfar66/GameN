@@ -154,9 +154,11 @@ Original vector artwork made for this repository by the Visual and Motion Design
 
 | ID | What | Who | Meanwhile |
 | --- | --- | --- | --- |
-| [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates` and `knowledge.code` list seats in seat order | Integration | The engine sorts them; the file sorts them again |
-| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, `abilities-0.1.0`) |
-| DSN-D37 | The look and motion of the ability art (slices 1 and 2) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
+| [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order | Integration | The engine sorts them; the treatments sort them again |
+| [DSN-REQ-15](integration-requests.md#dsn-req-15) | Carry a Disabler's spent Disable in its own view | Integration, Backend | The receipt shows the charge spent; no lasting mark |
+| [DSN-REQ-16](integration-requests.md#dsn-req-16) | Whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | Integration | The prototype shows the closed folder (PR #88's conceal rule); recommended: keep the release's card, the folder only after the background |
+| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.3.0`) |
+| DSN-D37 | The look and motion of the ability art (slices 1 to 3) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
 
 Browser emulation only: desktop Chromium at simulated phone viewports. No real phone, screen reader or touch test has been run.
 
@@ -201,7 +203,7 @@ The stamp frame (`dossier-stamp`) is nine-sliced since `1453500` (slice 1's fix)
 
 ### 14.5 Layout
 
-At the default text size both files fit 390 x 844 and 320 x 568 without scrolling with the fixtures' content (two Scans for the Hacker). In the strip the Code card stands under the question; on a short phone (640 px tall or less) it sits small at the start of the detail line, where progress dots would, its chips without their seat badges (the line names the seats), so the board keeps its height. With more Scans the card scrolls inside itself on a short phone; the newest result is the last. At large text both files reflow into one column: the Hacker's label leaves the frame and stands as words beside it; printouts put their stamp under the words; the Alien's four stand one under the other.
+At the default text size both files fit 390 x 844 and 320 x 568 without scrolling with the fixtures' content (two Scans for the Hacker). In the strip the Code card stands under the question; on a short phone (640 px tall or less) it sits small at the start of the detail line (where Supply's tags sit since slice 3), its chips without their seat badges (the line names the seats), so the board keeps its height. With more Scans the card scrolls inside itself on a short phone; the newest result is the last. At large text both files reflow into one column: the Hacker's label leaves the frame and stands as words beside it; printouts put their stamp under the words; the Alien's four stand one under the other.
 
 ### 14.6 Motion
 
@@ -233,3 +235,78 @@ The release's Scan detail says the result "is listed under 'What you know'". Wit
 ### 14.9 Tests to port
 
 The slice 2 rules in `design/tools/abilities-capture.mjs` and `abilities-check.mjs`: one snapshot in the Hacker's file, labelled; a wrong Scan with no Code mark and no "Code"; at most one mark on a right one; each printout said in the release's words; Scans in the view's order; the Alien's four in seat order, one marked as the viewer's, no ordinal words, an unordered list; the Code card filled in seat order; no number on any pick of a set; the strip naming a set's picks in seat order; the sweep only while sending and never in reduced motion. The flows (`board-motion-flows.mjs`) add a live Scan whose result is printed once and not again after reopening.
+
+## 15. Slice 3: the Rescue, the Disable and the Supply
+
+**A proposal**, on the same base and tuple as slices 1 and 2. Review pictures: `design/abilities/review/contact-rescue-disable-supply.png`. Scenarios: `rescue.choose`, `rescue.self`, `rescue.confirm`, `rescue.registered`, `rescue.kit`, `disable.confirm`, `disable.registered`, `disable.red-confirm`, `disable.red-registered`, `supply.first`, `supply.second`, `supply.confirm`, `supply.registered`, `supply.ack`, `supply.ack-one`, `supply.ack-none`, `supply.self`, `supply.received`, `supply.history`; the panel's **Player 6 is now Healthy** plays the public recovery. Reference code: `design/abilities/js/tools.js`, its styles in `abilities.css` (the slice 3 block), wired in `app.js` (`stripContent`, `stripBeats`, `drawCard`, `deliveriesFor`).
+
+### 15.1 What changes for a player
+
+- **A Rescue.** In the Cracker's strip the picked player's chip stands in a **medical cross ring** beside the question, and **two vials** sit at the start of the detail line: as many full as the Rescues left. On the receipt (the neutral **Registered** stamp and the release's words, "This is not a result.") the vial the count gave up drains once. Nothing says the target is or will be healed. At the end of the round a recovery, if there is one, is the public health change every screen draws the same way (the bandage comes off, the player leaves the Hospital), naming no rescuer and no Rescue. In the card, while one is left: a note with the vials and **Rescues you have left: 1.**
+- **A Disable.** The picked player's chip in a **charged reticle**, a dashed ring with sparks at its four corners, never across the face; **one charge cell** at the start of the detail line, full while the Disable is offered, **spent on the receipt**. The Blue and the Red Disabler see **the same strip, part for part**.
+- **A Supply.** Two **shipping tags** at the start of the detail line; each pick's chip goes into a tag, **in seat order** whatever the picking order; the receipt **ties the two tags together**, and is not a delivery. After Round 3 the card shows **Supply results**: the Supplier's **slip** naming the players who received a weapon, and, for any player who received one, a slip that says so and names no Supplier. A slip that says a weapon arrived is stamped **DELIVERED**.
+
+### 15.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| Rescue's target | the picked seat (`RESCUE.targetSeatId`), its lobby identity | Only while a Rescue is chosen, confirmed, sent or its receipt shows. The board keeps the neutral marks every action has |
+| Vials | `self.rescuesRemaining`, of the two a match gives (v2.1 `roles.Cracker.rescues_per_match`) | Full ones first. **A vial empties when the count falls**, never on the receipt by itself: the use is reserved at acceptance and kept whatever the round brings (V1-15), and the next view says so. A Rescue that heals no one still spends its vial |
+| The Cracker's note | `self.rescuesRemaining > 0` | The release's sentence (`en.knowledge.rescues`), with the vials. At none the release says nothing, and neither does the card. It is a picture of the knowledge line: the card's list need not repeat it |
+| Disable's target and cell | the picked seat, the offer (`legalTargets.DISABLE`, given only while the Disable is unspent), the receipt | Full while offered; spent on an accepted receipt (V1-15). **No lasting spent mark**: `self.disablerAvailable` means a legal target now, so a card cannot tell spent from not-your-turn ([DSN-REQ-15](integration-requests.md#dsn-req-15)) |
+| Supply's tags | the picks (`SUPPLY.targetSeatIds`), the receipt | Sort by seat number before drawing; the command's own order carries no meaning (a set of two). Tied only on an accepted receipt |
+| The Supplier's slip | own acknowledgments: `supplierResults[].successfulRecipientSeatIds` (sorted by the engine, DSN-REQ-14) | The release's sentence, one or two players, or "No players received a weapon from your Round 3 Supply."; a tag per player it names, seat order; DELIVERED only with a tag |
+| A recipient's slip | own acknowledgments: `receivedSupply[]` (its round) | "You received one ordinary weapon from Supply in Round 3." and one tag, the recipient's own. **Names no Supplier**: the acknowledgment carries none (V1-16). Any role, the Supplier included when it supplied itself |
+| History unavailable | `historyAvailable === false`, the Supplier only (as the release) | "Supply result history is unavailable for this match." No tag, no stamp |
+
+### 15.3 Markup and hooks
+
+- Strip: `.ab-target[data-mark="cross"|"spark"]` (aria-hidden) floated beside the question, holding an `.ab-chip[data-seat]` and `.ab-target__mark`; at the start of `.bm-strip__detail` one of `.ab-vials[data-remaining] > .ab-vial[data-full]`, `.ab-cell[data-spent]`, `.ab-tags[data-count][data-tied] > .ab-tag[data-filled]` (each holding a chip) and `.ab-tags__string`. All aria-hidden: the strip's words carry every fact (the release's prompts, the picks named in seat order).
+- A vial's liquid and a cell's charge are their `::after`, so that draining and discharging are beats of their own on an element already drawn at its rest.
+- Card: `.ab-kit[data-kit="rescue"]` (vials and `.ab-kit__words`, visible text) after the role card; then `section.ab-deliveries` (`h3` **Supply results**) with `ul.ab-deliveries__list > li.ab-slip[data-slip="supplied:3"|"received:3"|"unavailable"]`, each with `.ab-slip__tags` (aria-hidden), `p.ab-slip__words` (visible, the release's words) and `.ab-slip__stamp[data-stamp="delivered"]` (aria-hidden).
+- Nothing in the kit or the strip carries `data-device`, `data-team` or a role's name; the role card keeps the approved device art.
+
+### 15.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `dossier-vial` / `dossier-vial-empty` | 22 x 36 | base (11, 34) | A Rescue left / used. Same silhouette, so the full one lies exactly over the empty one |
+| `dossier-cross` | 48 x 48 | ring (24, 26), r 20 | Round a Rescue's target chip, a medical cross on its top |
+| `dossier-cell` / `dossier-cell-empty` | 24 x 36 | base (12, 34) | The one Disable, ready / spent |
+| `dossier-spark` | 56 x 56 | center (28, 28), clear within r 20 | A dashed ring and four sparks round a Disable's target, outside the chip |
+| `dossier-tag` | 70 x 40 | eyelet (12, 20), chip (42, 20) | One of Supply's two picks; the strip and the slips |
+| `dossier-slip` | 200 x 64 | slice 18 34 10 10; text (10, 18, 156 x 36) | The paper of a note in the card. Nine-sliced (`border-image` 18 34 10 10 fill, `round stretch`): the perforation in the top band, the shading in the right band |
+
+All neutral: no team, room or crew color; the same assets for both Disablers. Same loading rule as slices 1 and 2: the whole kit on every player phone, whatever its role.
+
+### 15.5 Layout
+
+The art sits where the strip already had room: the target floated beside the question (as the Scan's), what the action uses at the start of the detail line (where Supply's progress dots were). All of it fits 390 x 844 and 320 x 568 with the board keeping its height. The stamp on the strip's top edge keeps clear of the words: the first line wraps short of its corner (the prototype reserves 38, 60 and 80 px for Registered, Not accepted and Sending, measured; Unknown needs none). The card's notes fit both phones without scrolling; at large text every word grows, the slips put their tags under their words, and the card scrolls.
+
+### 15.6 Motion
+
+| | Rescue | Disable | Supply |
+| --- | --- | --- | --- |
+| Normal | When the view's count falls while the receipt shows, the emptied vial drains (240) | On the receipt the cell discharges (200) | A pick clips into its tag (160); the receipt ties the tags (200); a slip shown for the first time drops in (260) |
+| Reduced | The vial is simply empty | The cell is simply spent | Tags and slips at rest |
+| Static | The ring, the vials, the words | The reticle, the cell, the words | The tags, the slips, the words |
+| Cancel | As every strip; reduced motion finishes a beat at once | As the Rescue | As the Rescue |
+| Replay | Never: only a fall of the count drains | Never: only the receipt discharges | Never: a slip already shown in this page is drawn at rest |
+
+### 15.7 What it must never show (review with Balance)
+
+- A Rescue's receipt that reads as a recovery: no healed, healthy or recovered; no change to the target's chip. The recovery is the public health change, which names no one.
+- A vial emptied ahead of the view's count; a Rescue drawn as refunded (a canceled or non-live target gets no refund, V1-15).
+- Anything that tells the Blue Disabler from the Red in the strip: no color, class, asset or word. A Disable drawn as a hit.
+- Supply's picks in an order; a delivery before the acknowledgment; a recipient told who supplied it; any public weapon marker.
+
+### 15.8 Words
+
+| Where | Words |
+| --- | --- |
+| Strip | The release's, unchanged: "Who is the Rescue for?", "Register a Rescue of Player 6?", "Rescue of Player 6 registered.", "Register a Disable at Player 5?", "Two players get a weapon each. Choose the first.", "Register a weapon each for Player 1 and Player 8?", "Supply for Player 1 and Player 8 registered.", and "This is not a result. Registered actions are resolved at the end of the round." |
+| Card | The release's: "Rescues you have left: 1."; **Supply results**; "Your Round 3 Supply granted one weapon each to Player 1 and Player 8."; "No players received a weapon from your Round 3 Supply."; "You received one ordinary weapon from Supply in Round 3."; "Supply result history is unavailable for this match." Proposed: the stamp **Delivered** |
+
+### 15.9 Tests to port
+
+The slice 3 rules in `abilities-capture.mjs` and `abilities-check.mjs`: two vials, as many full as the count, full first; nothing of a recovery on a Rescue's receipt; the cross only on a Rescue; the cell spent exactly on the receipt; nothing that tells the Disablers apart in the strip, and the Blue and Red strips identical; Supply's tags and the strip's words in seat order, tied exactly on the receipt; every slip in the release's words, its tags in seat order and matching the players it names, a recipient's tag the recipient's own, DELIVERED exactly with a tag; the release's words quoted from `en.ts` and `comic-shell.ts`. The flows (`board-motion-flows.mjs`) add a live Rescue whose vial drains once and whose recovery is the same public cue on both boards, the Blue and Red Disablers compared, a Supply picked out of seat order, and a slip that drops in once and is at rest when the card opens again. In the board capture, no stamp covers the strip's words.

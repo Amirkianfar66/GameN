@@ -149,6 +149,42 @@ const functionBody = (source, name) => {
   check('the Hacker\'s and the Alien\'s files and the Code attempt say what is authorized, as sets in seat order', problems);
 }
 
+// ---------- The Rescue, the Disable and the Supply: the release's words, sets in seat order, and never a result on a receipt ----------
+{
+  const problems = [];
+  const source = await text(`${ROOT}/js/tools.js`);
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  const { TOOLS_COPY } = await import(pathToFileURL(resolve(repoRoot, `${ROOT}/js/tools.js`)).href);
+  const en = await text('packages/presentation/src/copy/en.ts');
+  const shell = await text('packages/presentation/src/markup/comic-shell.ts');
+  // The words are the release's: its knowledge sentence for the Rescues, and the comic shell's acknowledgments.
+  if (TOOLS_COPY.rescues(2) !== 'Rescues you have left: 2.' || !en.includes('`Rescues you have left: ${count}.`')) problems.push('the Rescues are not said in the release\'s words');
+  for (const words of [TOOLS_COPY.supplyResults, TOOLS_COPY.suppliedNone, TOOLS_COPY.historyUnavailable]) if (!shell.includes(`'${words}'`)) problems.push(`not the release's words: ${words}`);
+  if (TOOLS_COPY.supplied('Player 1 and Player 8') !== 'Your Round 3 Supply granted one weapon each to Player 1 and Player 8.' || !shell.includes('`Your Round 3 Supply granted one weapon each to ${')) problems.push('the Supplier\'s slip is not in the release\'s words');
+  if (TOOLS_COPY.received(3) !== 'You received one ordinary weapon from Supply in Round 3.' || !shell.includes('`You received one ordinary weapon from Supply in Round ${result.round}.`')) problems.push('a recipient\'s slip is not in the release\'s words');
+  // Sets in seat order: Supply's two picks, and the players a Supplier's slip names.
+  if (!/const sorted = \[\.\.\.picks\]\.sort\(\(a, b\) => a\.n - b\.n\);/.test(functionBody(source, 'supplyTags'))) problems.push('Supply\'s tags are not put in seat order');
+  const deliveriesBody = functionBody(source, 'deliveries');
+  if (!/const seats = \[\.\.\.result\.recipients\]\.sort\(\(a, b\) => a\.n - b\.n\);/.test(deliveriesBody)) problems.push('the Supplier\'s slip does not put its players in seat order');
+  // A recipient's slip says what the release says and names no Supplier: its words and its one tag, the recipient's own.
+  const received = deliveriesBody.slice(deliveriesBody.indexOf('...received.map('), deliveriesBody.indexOf('\n', deliveriesBody.indexOf('...received.map(')));
+  if (!received.includes('words: TOOLS_COPY.received(result.round) }') || !received.includes('seats: self ? [self] : []') || /supplier|recipients|seatId|\$\{/i.test(received.replace('`received:${result.round}`', ''))) problems.push('a recipient\'s slip says more than the release');
+  // Nothing in the kit is a role's, and nothing in it speaks of a recovery or a hit.
+  if (ROLE_OR_TEAM.test(code)) problems.push('tools.js draws something by role or team: ' + code.match(ROLE_OR_TEAM)[0]);
+  if (/\b(heal|heals|healed|healthy|recover|recovers|recovered|injur|disabled|hit)\w*/i.test(code)) problems.push('tools.js speaks of a recovery or a hit');
+  // In the prototype: the Disable's strip never depends on the role; a vial empties only when the view's count falls;
+  // the Rescues are drawn only while one is left; the unavailable history only for the Supplier, as the release does.
+  const app = await text('design/board-motion/js/app.js');
+  const strip = app.slice(app.indexOf('function stripContent()'), app.indexOf('function confirmText()'));
+  if (/S\.private\.role|ROLE_LOOK|device/.test(strip)) problems.push('the Disable\'s strip depends on the role');
+  if (!/now\.kind === 'rescue' && now\.rescues !== null && was\.rescues !== null && now\.rescues < was\.rescues/.test(app)) problems.push('a vial empties ahead of the view\'s count');
+  if (!/rescues > 0 \? rescueKit\(rescues\) : null/.test(app)) problems.push('the card draws the Rescues when none is left');
+  if (!/unavailable: acks\.historyAvailable === false && S\.private\.role === 'Supplier'/.test(app)) problems.push('the unavailable history is not the Supplier\'s alone');
+  const css = await text(`${ROOT}/css/abilities.css`);
+  if (/data-device|--ms-asset-device-/.test(css)) problems.push('abilities.css draws a role\'s device');
+  check('the Rescue, the Disable and the Supply say what is authorized, in the release\'s words, sets in seat order, never a result on a receipt', problems);
+}
+
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------
 {
   const problems = [];

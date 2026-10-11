@@ -64,7 +64,7 @@ const APP = 'design/board-motion/js/app.js';
 test('the ability art as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Ability-art checks: 7 passed, 0 failing/);
+  assert.match(result.output, /Ability-art checks: 8 passed, 0 failing/);
 });
 
 // ---------- the kit ----------
@@ -209,6 +209,58 @@ test('a set\'s picks named in picking order are refused', async () => {
   const root = scratchCopy();
   edit(root, APP, text => text.replace('const listed = unordered ? [...seats].sort((a, b) => a - b) : seats;', 'const listed = seats;'));
   refuses(await check(root), /the strip does not name a set's picks in seat order/);
+});
+
+// ---------- slice 3: the Rescue, the Disable and the Supply ----------
+
+const TOOLS = 'design/abilities/js/tools.js';
+
+test('Supply\'s tags filled in picking order are refused', async () => {
+  const root = scratchCopy();
+  edit(root, TOOLS, text => text.replace('const sorted = [...picks].sort((a, b) => a.n - b.n);', 'const sorted = [...picks];'));
+  refuses(await check(root), /Supply's tags are not put in seat order/);
+});
+
+test('a Supplier\'s slip naming its players in the view\'s order is refused', async () => {
+  const root = scratchCopy();
+  edit(root, TOOLS, text => text.replace('const seats = [...result.recipients].sort((a, b) => a.n - b.n);', 'const seats = [...result.recipients];'));
+  refuses(await check(root), /the Supplier's slip does not put its players in seat order/);
+});
+
+test('a recipient\'s slip that names its Supplier is refused', async () => {
+  const root = scratchCopy();
+  edit(root, TOOLS, text => text.replace('words: TOOLS_COPY.received(result.round) }', 'words: `${TOOLS_COPY.received(result.round)} From Player ${result.supplier}.` }'));
+  refuses(await check(root), /a recipient's slip says more than the release/);
+});
+
+test('the Rescues said in other words than the release\'s are refused', async () => {
+  const root = scratchCopy();
+  edit(root, TOOLS, text => text.replace('rescues: count => `Rescues you have left: ${count}.`', 'rescues: count => `Rescues left: ${count}.`'));
+  refuses(await check(root), /the Rescues are not said in the release's words/);
+});
+
+test('a kit that speaks of a recovery is refused', async () => {
+  const root = scratchCopy();
+  edit(root, TOOLS, text => text.replace("delivered: 'Delivered',", "delivered: 'Delivered',\n  healed: 'Healed',"));
+  refuses(await check(root), /tools\.js speaks of a recovery or a hit/);
+});
+
+test('a Disable strip that depends on the role is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace(": kind === 'disable' ? cell({ spent: step === 'accepted' })", ": kind === 'disable' ? [cell({ spent: step === 'accepted' }), S.private.role]"));
+  refuses(await check(root), /the Disable's strip depends on the role/);
+});
+
+test('a role\'s device drawn by the ability styles is refused', async () => {
+  const root = scratchCopy();
+  append(root, CSS, '.ab-cell[data-device="red-disabler"] { outline: 2px solid var(--ms-color-ink); }');
+  refuses(await check(root), /abilities\.css draws a role's device/);
+});
+
+test('a vial emptied on the receipt rather than by the view\'s count is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace("now.kind === 'rescue' && now.rescues !== null && was.rescues !== null && now.rescues < was.rescues", "now.kind === 'rescue' && receipt"));
+  refuses(await check(root), /a vial empties ahead of the view's count/);
 });
 
 // ---------- loading, hiding, and the production fence ----------

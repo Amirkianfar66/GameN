@@ -118,7 +118,7 @@ try {
   // ---------- Supply, Scan, ballots: the inline answers ----------
   page = await open('supply.first');
   await click(page, '#bm-app [data-value="seat-1"]');
-  ok('supply: the first pick fills one of two', await page.evaluate(`[...document.querySelectorAll('#bm-app .bm-strip__progress [data-done="true"]')].length === 1`));
+  ok('supply: the first pick fills one of two tags', await page.evaluate(`[...document.querySelectorAll('#bm-app .ab-tags .ab-tag[data-filled="true"]')].length === 1`));
   await click(page, '#bm-app [data-value="seat-8"]');
   ok('supply: two distinct, then confirm', (await stripLine(page)) === 'Register a weapon each for Player 1 and Player 8?', await stripLine(page));
   await page.close();
@@ -416,6 +416,88 @@ try {
     const filled = [...document.querySelectorAll('#bm-strip .ab-code-card .ab-chip')].map(n => n.dataset.seat).join();
     const marks = [...document.querySelectorAll('#bm-app [data-board="own"] .bm-piece__pick')].map(n => n.textContent);
     return filled === '2,6,7,9' && marks.length === 4 && marks.every(mark => mark === '✓');
+  })()`));
+  await page.close();
+
+  // ---------- Slice 3: a Rescue registered is not a recovery; the two Disablers alike; Supply's tags and slips ----------
+  const vialsFull = page => page.evaluate(`[...document.querySelectorAll('#bm-app .ab-vials .ab-vial[data-full="true"]')].length`);
+  const beats = (page, scope) => page.evaluate(`document.querySelector(${js(scope)})?.getAnimations({ subtree: true }).filter(a => a.id === 'ab-beat').map(a => a.effect.target.className) ?? []`);
+  page = await open('rescue.choose');
+  ok('rescue: two vials while choosing; a player in the Hospital is reachable from Room A', (await vialsFull(page)) === 2 && js(await seatsWith(page, OWN, 'data-target', 'eligible')) === js([6]));
+  await click(page, '#bm-app [data-value="seat-6"]');
+  ok('rescue: the target in the medical cross beside the question', await page.evaluate(`Boolean(document.querySelector('#bm-strip .ab-target[data-mark="cross"] .ab-chip[data-seat="6"]'))`) && (await stripLine(page)) === 'Register a Rescue of Player 6?');
+  await page.close();
+  // Held 100 ms into the receipt: the one beat playing is the vial that emptied as the count fell.
+  page = await open('rescue.confirm', 'play=register&t=100');
+  ok('rescue: on the receipt one vial empties, once, as the count falls', (await vialsFull(page)) === 1 && js(await beats(page, '#bm-strip')) === js(['ab-vial']), await beats(page, '#bm-strip'));
+  await page.close();
+  page = await open('rescue.confirm');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('rescue: the receipt is registered and says nothing of a recovery', (await stamp(page)) === 'Registered' && !(await page.evaluate(`/\\b(heal|heals|healed|healthy|recover|recovered|saved)\\b/i.test(document.getElementById('bm-strip').textContent)`)));
+  ok('rescue: the other screens show nothing of it', (await observerPrivate(page)).length === 0, await observerPrivate(page));
+  const beforeRecovery = (await cues(page)).length;
+  await click(page, '[data-event="recover"]');
+  await sleep(80);
+  const recoveryCues = (await cues(page)).slice(beforeRecovery);
+  const sides = side => recoveryCues.filter(cue => cue.startsWith(side + ':')).map(cue => cue.slice(side.length)).sort();
+  ok('rescue/recovery: a public health change, the same cue on both boards, naming no one', await page.evaluate(`document.querySelector('#bm-app .bm-piece[data-seat="6"]').dataset.health === 'Healthy' && document.querySelector('[data-observer] .bm-piece[data-seat="6"]').dataset.health === 'Healthy'`)
+    && recoveryCues.length > 0 && js(sides('own')) === js(sides('observer')) && !(await page.evaluate(`/\\b(rescue|rescued|cracker|vial)\\b/i.test(document.querySelector('[data-observer]').textContent)`)), recoveryCues);
+  ok('rescue/recovery: nothing private plays on this phone for it', (await beats(page, '#bm-app')).length === 0);
+  await click(page, '#bm-app [data-act="dismiss"]');
+  await click(page, '#bm-nav-card');
+  ok('rescue: the card says the Rescues left in the release\'s words, with its vials', await page.evaluate(`document.querySelector('#bm-card .ab-kit__words')?.textContent === 'Rescues you have left: 1.' && document.querySelectorAll('#bm-card .ab-kit .ab-vial[data-full="true"]').length === 1`));
+  ok('rescue: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  // One page at a time: a second page would send the first to the background, which hides its private strip.
+  const stripOf = p => p.evaluate(`document.getElementById('bm-strip').outerHTML`);
+  const disabler = async scenario => {
+    const p = await open(scenario);
+    const confirming = await stripOf(p);
+    const marked = await p.evaluate(`Boolean(document.querySelector('#bm-strip .ab-target[data-mark="spark"] .ab-chip[data-seat="5"]')) && document.querySelector('#bm-strip .ab-cell').dataset.spent === 'false'`);
+    await click(p, '#bm-app [data-act="confirm"]');
+    await sleep(700);
+    const receipt = await stripOf(p);
+    const spent = await p.evaluate(`document.querySelector('#bm-strip .ab-cell').dataset.spent === 'true' && document.querySelector('#bm-strip .bm-strip__detail').textContent.includes('This is not a result.')`) && (await stamp(p)) === 'Registered';
+    const quiet = (await observerPrivate(p)).length === 0 && (await cues(p)).length === 0;
+    await p.close();
+    return { confirming, marked, receipt, spent, quiet };
+  };
+  const blue = await disabler('disable.confirm');
+  const red = await disabler('disable.red-confirm');
+  ok('disable: the Blue and the Red Disabler see the same strip, part for part', blue.confirming === red.confirming && !/data-device|data-team/.test(red.confirming));
+  ok('disable: the target in its sparks, the one charge full', blue.marked && red.marked);
+  ok('disable: the receipt spends the charge and is not a result', blue.spent && red.spent);
+  ok('disable: the two receipts are the same; the other screens see neither, and no public cue plays', blue.receipt === red.receipt && blue.quiet && red.quiet);
+
+  page = await open('supply.first');
+  await click(page, '#bm-app [data-value="seat-8"]');
+  await click(page, '#bm-app [data-value="seat-1"]');
+  ok('supply: the two tags hold the picks in seat order, whatever the picking order', js(await page.evaluate(`[...document.querySelectorAll('#bm-strip .ab-tags .ab-chip')].map(n => Number(n.dataset.seat))`)) === js([1, 8]) && (await stripLine(page)) === 'Register a weapon each for Player 1 and Player 8?');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(700);
+  ok('supply: the receipt ties the tags; registered, not delivered', await page.evaluate(`document.querySelector('#bm-strip .ab-tags').dataset.tied === 'true' && !/deliver/i.test(document.getElementById('bm-strip').textContent)`) && (await stamp(page)) === 'Registered');
+  ok('supply: the other screens show nothing of it', (await observerPrivate(page)).length === 0);
+  await page.close();
+  // Held 100 ms in: the slip dropping into the card the first time it is shown.
+  page = await open('supply.ack', 't=100');
+  ok('supply/slip: the Supplier\'s own slip, in the release\'s words, its tags in seat order', await page.evaluate(`(() => {
+    const slip = document.querySelector('#bm-card .ab-deliveries .ab-slip');
+    return document.querySelector('#bm-card .ab-deliveries__title').textContent === 'Supply results' && slip.querySelector('.ab-slip__words').textContent === 'Your Round 3 Supply granted one weapon each to Player 1 and Player 8.'
+      && [...slip.querySelectorAll('.ab-chip')].map(n => n.dataset.seat).join() === '1,8' && slip.querySelector('[data-stamp="delivered"]') !== null;
+  })()`));
+  ok('supply/slip: dropped in once, the first time the card shows it', js(await beats(page, '#bm-card')) === js(['ab-slip']), await beats(page, '#bm-card'));
+  await click(page, '#bm-card .bm-close');
+  await click(page, '#bm-nav-card');
+  ok('supply/slip: opened again, at rest', (await beats(page, '#bm-card')).length === 0 && await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-slip'))`));
+  ok('supply/slip: private content of the own open card, nowhere else', (await observerPrivate(page)).length === 0);
+  await page.close();
+  page = await open('supply.received');
+  ok('supply/received: a recipient\'s own slip names no Supplier, its tag addressed to the recipient', await page.evaluate(`(() => {
+    const slip = document.querySelector('#bm-card .ab-slip');
+    const words = slip.querySelector('.ab-slip__words').textContent;
+    return words === 'You received one ordinary weapon from Supply in Round 3.' && !/Player/.test(words) && [...slip.querySelectorAll('.ab-chip')].map(n => n.dataset.seat).join() === '3';
   })()`));
   await page.close();
 

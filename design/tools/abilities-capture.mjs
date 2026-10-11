@@ -7,14 +7,20 @@
 // - Slice 2, the Hacker's file and the Alien's, the Code card and the Scan in the Hacker's strip: at
 //   rest, inspecting, with long names, twice the text size, reduced motion, without art, and the strips
 //   while choosing, confirming, sending and registered.
+// - Slice 3, the Rescue, the Disable and the Supply: the strips while choosing, confirming and
+//   registered, the Cracker's card, the Supplier's and a recipient's slips, at twice the text size, in
+//   reduced motion, without art, and the beats frame by frame; the Blue and the Red Disabler's strips
+//   compared part for part.
 // Then one contact sheet per slice. Each picture is measured in the page: the snapshots alike and in
 // seat order, each with its seat number; nothing of a role in a snapshot but the Hacker's own known
 // pairing; the Insider's role names one group below the three; a wrong Scan with nothing of the Code;
 // the Alien's four in seat order with no numbering but seat numbers; a Code attempt's picks in seat
 // order and never numbered on the board; nothing wider than the phone; no scrolling at the default
 // text size; controls at least 44 px; names cut only with an ellipsis and said whole, never cut at
-// large text; nothing private while hidden. Desktop Chromium with simulated viewports: not a device
-// measurement.
+// large text; nothing private while hidden; the vials as many as the view's count and nothing of a
+// recovery on a Rescue's receipt; the Disable's cell spent only on its receipt; Supply's tags in seat
+// order, tied only on the receipt; the slips in the release's words, their tags in seat order, a
+// recipient's naming no Supplier. Desktop Chromium with simulated viewports: not a device measurement.
 //
 //   node design/tools/abilities-capture.mjs
 
@@ -30,7 +36,7 @@ const OUT = 'design/abilities/review';
 const PHONES = { w390: { width: 390, height: 844 }, w320: { width: 320, height: 568 } };
 const SCALE = 1.5;
 const FRAMES = [0, 120, 260, 420, 600, 780, 1020];
-const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png' };
+const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png' };
 
 /** In the page: what the open file and the strip's ability art show, measured. Returns the problems found. */
 const MEASURE = `(() => {
@@ -149,6 +155,58 @@ const MEASURE = `(() => {
     const running = target.querySelector('.ab-scan-target__sweep').getAnimations().length > 0;
     if (reduced && running) problems.push('the scanner sweeps in reduced motion');
   }
+  // Slice 3, in the strip: the action's target, the vials, the cell, the tags.
+  const strip = document.getElementById('bm-strip');
+  const step = strip?.dataset.step;
+  const flow = window.__bmState?.flow ?? {};
+  const said = [...(strip?.querySelectorAll('.bm-strip__line, .bm-strip__detail') ?? [])].map(node => node.textContent).join(' ');
+  const mark = strip?.querySelector('.ab-target');
+  if (mark && Number(mark.querySelector('.ab-chip').dataset.seat) !== flow.picked?.[0]) problems.push('the target in the strip is not the player picked');
+  for (const group of document.querySelectorAll('.ab-vials')) {
+    const full = group.querySelectorAll('.ab-vial[data-full="true"]').length;
+    if (group.querySelectorAll('.ab-vial').length !== 2) problems.push('not two vials, the Rescues a match gives');
+    if (String(full) !== group.dataset.remaining) problems.push('the full vials are not the count');
+    if ([...group.querySelectorAll('.ab-vial')].some((vial, index) => (vial.dataset.full === 'true') !== (index < full))) problems.push('a full vial stands after an empty one');
+  }
+  if (flow.kind === 'rescue' && step === 'accepted' && /\\b(heal|heals|healed|healthy|recover|recovers|recovered|saved|cured)\\b/i.test(strip.textContent)) problems.push("the Rescue's receipt speaks of a recovery");
+  if (mark?.dataset.mark === 'cross' && flow.kind !== 'rescue') problems.push('the cross marks something that is not a Rescue');
+  const charge = strip?.querySelector('.ab-cell');
+  if (charge && (charge.dataset.spent === 'true') !== (step === 'accepted')) problems.push('the cell is spent when nothing was registered, or full after the receipt');
+  if (flow.kind === 'disable' && strip && /data-device|data-team|\\bblue\\b|\\bred\\b/i.test(strip.innerHTML)) problems.push("the Disable's strip says which Disabler");
+  const tags = strip?.querySelector('.ab-tags');
+  if (tags) {
+    const seats = [...tags.querySelectorAll('.ab-chip')].map(chip => Number(chip.dataset.seat));
+    if (seats.join() !== [...seats].sort((a, b) => a - b).join()) problems.push("Supply's tags are not in seat order");
+    if ((tags.dataset.tied === 'true') !== (step === 'accepted')) problems.push('the tags are tied before the receipt, or not on it');
+    const named = [...said.matchAll(/Player (\\d)/g)].map(match => Number(match[1]));
+    if (named.join() !== [...named].sort((a, b) => a - b).join()) problems.push("the strip names Supply's picks out of seat order");
+  }
+  // In the card: the Cracker's Rescues and Supply's slips, in the release's words.
+  const kit = document.querySelector('#bm-card .ab-kit');
+  if (kit) {
+    const count = Number((kit.querySelector('.ab-kit__words')?.textContent.match(/^Rescues you have left: (\\d)\\.$/) ?? [])[1]);
+    if (!(count > 0)) problems.push("the Rescues are not said in the release's words, or said at none");
+    if (kit.querySelectorAll('.ab-vial[data-full="true"]').length !== count) problems.push('the vials do not show the count said');
+  }
+  for (const slip of document.querySelectorAll('#bm-card .ab-slip')) {
+    const words = slip.querySelector('.ab-slip__words')?.textContent ?? '';
+    const seats = [...slip.querySelectorAll('.ab-chip')].map(chip => Number(chip.dataset.seat));
+    const kind = slip.dataset.slip.split(':')[0];
+    const named = [...words.matchAll(/Player (\\d)/g)].map(match => Number(match[1]));
+    if (kind === 'supplied') {
+      if (!/^(Your Round 3 Supply granted one weapon each to Player \\d( and Player \\d)?\\.|No players received a weapon from your Round 3 Supply\\.)$/.test(words)) problems.push("a Supplier's slip is not in the release's words: " + words);
+      if (named.join() !== seats.join()) problems.push("a Supplier's slip names other players than its tags");
+    } else if (kind === 'received') {
+      if (!/^You received one ordinary weapon from Supply in Round \\d\\.$/.test(words)) problems.push("a recipient's slip is not in the release's words");
+      if (seats.join() !== String(window.__bmState?.viewer ?? 3)) problems.push("a recipient's tag is not addressed to the recipient");
+    } else if (words !== 'Supply result history is unavailable for this match.') problems.push('an unexpected slip: ' + words);
+    if (seats.join() !== [...seats].sort((a, b) => a - b).join()) problems.push("a slip's tags are not in seat order");
+    if (Boolean(slip.querySelector('[data-stamp="delivered"]')) !== seats.length > 0) problems.push('a slip is stamped Delivered without a weapon, or a delivery without its stamp');
+  }
+  // A card with the Cracker's note or Supply's slips fits without scrolling at the default text size, as the files do.
+  if (sheet && !file && sheet.querySelector('.ab-kit, .ab-deliveries') && !largeText && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
+  // At large text the notes' words grow with the reader's text.
+  for (const words of document.querySelectorAll('#bm-card .ab-slip__words, #bm-card .ab-kit__words')) if (largeText && parseFloat(getComputedStyle(words).fontSize) < 20) problems.push('at large text a note keeps its small words');
   return problems;
 })()`;
 /** In the page: a hidden card holds nothing private. With folder, the card is open on the closed folder; without, it is closed. */
@@ -172,13 +230,16 @@ const REOPENED = `(() => {
 })()`;
 
 const shots = [];
-async function shoot(browser, server, { name, title, group, phone, path, slice = 1, scale = SCALE, before = null, measure = MEASURE, block = [], selector = null, wait = 1300 }) {
+/** What each picture's page held, where a later comparison asks for it (the Disablers' strips). */
+const kept = new Map();
+async function shoot(browser, server, { name, title, group, phone, path, slice = 1, scale = SCALE, before = null, measure = MEASURE, block = [], selector = null, wait = 1300, keepStrip = false }) {
   const page = await openPage(browser, { ...PHONES[phone], scale, mobile: true });
   if (block.length) await page.block(block);
   await page.goto(`${server.origin}/board-motion/index.html${path}`, 'document.readyState === "complete" && window.__designReady === true');
   await page.evaluate(`new Promise(done => setTimeout(done, ${wait}))`);
   if (before) { await page.evaluate(before); await page.evaluate('new Promise(done => setTimeout(done, 450))'); }
   const problems = await page.evaluate(measure);
+  if (keepStrip) kept.set(name, await page.evaluate(`document.getElementById('bm-strip').outerHTML`));
   const file = `${OUT}/${name}.png`;
   const size = await page.screenshot(resolve(repoRoot, file), { selector, viewport: selector === null });
   for (const problem of page.problems()) problems.push(`page: ${problem}`);
@@ -258,6 +319,50 @@ try {
   }
   for (const t of [0, 260, 520, 820, 1100]) {
     await shoot(browser, server, { slice: 2, name: `alien-assembly-${String(t).padStart(4, '0')}ms`, title: `Alien's file, ${t} ms`, group: 'Slice 2: assembly, frame by frame', phone: 'w390', path: `?scenario=file.alien&chrome=0&t=${t}`, selector: '.bm-sheet:not([hidden])', measure: '[]', wait: 200 });
+  }
+
+  // ---------- slice 3: the Rescue, the Disable, the Supply ----------
+  for (const phone of ['w390', 'w320']) {
+    const px = PHONES[phone];
+    const at = `${px.width} x ${px.height}`;
+    await shoot(browser, server, { slice: 3, name: `rescue-${phone}-choose`, title: `Rescue: a player in the Hospital, two vials left, ${at}`, group: 'The Rescue', phone, path: '?scenario=rescue.choose&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `rescue-${phone}-confirm`, title: `Rescue: the target in the medical cross, ${at}`, group: 'The Rescue', phone, path: '?scenario=rescue.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `rescue-${phone}-registered`, title: `Rescue registered: one vial spent, not a recovery, ${at}`, group: 'The Rescue', phone, path: '?scenario=rescue.registered&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `rescue-${phone}-kit`, title: `The Cracker's card: one Rescue left, ${at}`, group: 'The Rescue', phone, path: '?scenario=rescue.kit&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `disable-${phone}-confirm`, title: `Disable: the target in the sparks, the one charge, ${at}`, group: 'The Disable', phone, path: '?scenario=disable.confirm&chrome=0', keepStrip: true });
+    await shoot(browser, server, { slice: 3, name: `disable-${phone}-registered`, title: `Disable registered: the charge spent, not a result, ${at}`, group: 'The Disable', phone, path: '?scenario=disable.registered&chrome=0', keepStrip: true });
+    await shoot(browser, server, { slice: 3, name: `supply-${phone}-second`, title: `Supply: one tag filled, choose the second, ${at}`, group: 'The Supply', phone, path: '?scenario=supply.second&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `supply-${phone}-registered`, title: `Supply registered: the tags tied, not a delivery, ${at}`, group: 'The Supply', phone, path: '?scenario=supply.registered&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `supply-${phone}-ack`, title: `The Supplier's slip: delivered to both, ${at}`, group: 'The Supply', phone, path: '?scenario=supply.ack&chrome=0' });
+    await shoot(browser, server, { slice: 3, name: `supply-${phone}-received`, title: `A recipient's slip: no Supplier named, ${at}`, group: 'The Supply', phone, path: '?scenario=supply.received&chrome=0' });
+  }
+  await shoot(browser, server, { slice: 3, name: 'rescue-w390-self', title: 'Rescue: yourself, injured, one vial left', group: 'The Rescue', phone: 'w390', path: '?scenario=rescue.self&chrome=0' });
+  await shoot(browser, server, { slice: 3, name: 'disable-w390-red-confirm', title: 'The Red Disabler\'s strip: the same as the Blue\'s', group: 'The Disable', phone: 'w390', path: '?scenario=disable.red-confirm&chrome=0', keepStrip: true });
+  await shoot(browser, server, { slice: 3, name: 'disable-w390-red-registered', title: 'The Red Disabler\'s receipt: the same as the Blue\'s', group: 'The Disable', phone: 'w390', path: '?scenario=disable.red-registered&chrome=0', keepStrip: true });
+  await shoot(browser, server, { slice: 3, name: 'supply-w390-ack-one', title: 'Delivered to one of the two', group: 'The Supply', phone: 'w390', path: '?scenario=supply.ack-one&chrome=0' });
+  await shoot(browser, server, { slice: 3, name: 'supply-w390-ack-none', title: 'No one received a weapon', group: 'The Supply', phone: 'w390', path: '?scenario=supply.ack-none&chrome=0' });
+  await shoot(browser, server, { slice: 3, name: 'supply-w390-self', title: 'Supplied yourself and Player 8: two slips', group: 'The Supply', phone: 'w390', path: '?scenario=supply.self&chrome=0' });
+  await shoot(browser, server, { slice: 3, name: 'supply-w390-history', title: 'The Supplier\'s history unavailable', group: 'The Supply', phone: 'w390', path: '?scenario=supply.history&chrome=0' });
+  await shoot(big, server, { slice: 3, name: 'rescue-w390-text200-confirm', title: 'Rescue at twice the text size', group: 'Slice 3: text size, motion, art', phone: 'w390', path: '?scenario=rescue.confirm&chrome=0' });
+  await shoot(big, server, { slice: 3, name: 'supply-w320-text200-registered', title: 'Supply registered at twice the text size, 320 x 568', group: 'Slice 3: text size, motion, art', phone: 'w320', path: '?scenario=supply.registered&chrome=0' });
+  await shoot(big, server, { slice: 3, name: 'supply-w390-text200-self', title: 'Two slips at twice the text size', group: 'Slice 3: text size, motion, art', phone: 'w390', path: '?scenario=supply.self&chrome=0' });
+  await shoot(big, server, { slice: 3, name: 'rescue-w320-text200-kit', title: 'The Cracker\'s card at twice the text size, 320 x 568', group: 'Slice 3: text size, motion, art', phone: 'w320', path: '?scenario=rescue.kit&chrome=0' });
+  await shoot(browser, server, { slice: 3, name: 'rescue-w390-registered-reduced', title: 'Reduced motion: the receipt at rest', group: 'Slice 3: text size, motion, art', phone: 'w390', path: '?scenario=rescue.registered&chrome=0&motion=reduced' });
+  for (const [scenario, label] of [['rescue.confirm', 'rescue'], ['disable.confirm', 'disable'], ['supply.second', 'supply'], ['supply.ack', 'slip']]) {
+    await shoot(browser, server, { slice: 3, name: `${label}-w390-no-art`, title: `Without the ability art or the crew cards: ${scenario}`, group: 'Slice 3: text size, motion, art', phone: 'w390', path: `?scenario=${scenario}&chrome=0`, block: ART });
+  }
+  // The beats, held frame by frame: the vial draining and the cell discharging on the receipt, the tags tied, a slip dropping in.
+  for (const [scenario, label, ends] of [['rescue.confirm', 'drain', 240], ['disable.confirm', 'discharge', 200], ['supply.confirm', 'tie', 200]]) {
+    for (const t of [0, Math.round(ends / 2), ends]) {
+      await shoot(browser, server, { slice: 3, name: `beat-${label}-${String(t).padStart(4, '0')}ms`, title: `${label[0].toUpperCase()}${label.slice(1)}, ${t} ms`, group: 'Slice 3: the beats, frame by frame', phone: 'w390', path: `?scenario=${scenario}&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
+    }
+  }
+  for (const t of [0, 130, 260]) {
+    await shoot(browser, server, { slice: 3, name: `beat-slip-${String(t).padStart(4, '0')}ms`, title: `A slip drops in, ${t} ms`, group: 'Slice 3: the beats, frame by frame', phone: 'w390', path: `?scenario=supply.ack&chrome=0&t=${t}`, selector: '.ab-deliveries', measure: '[]', wait: 200 });
+  }
+  // The Blue and the Red Disabler see the same strip, part for part.
+  for (const [blue, red] of [['disable-w390-confirm', 'disable-w390-red-confirm'], ['disable-w390-registered', 'disable-w390-red-registered']]) {
+    if (kept.get(blue) !== kept.get(red)) shots.find(shot => shot.name === red).problems.push('the Red Disabler\'s strip differs from the Blue Disabler\'s');
   }
 
   // The contact sheets: every picture above, with its caption, one sheet per slice.
