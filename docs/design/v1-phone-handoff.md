@@ -2,17 +2,19 @@
 
 Issue [#76](https://github.com/Amirkianfar66/GameN/issues/76) · for Frontend, with Integration for the items marked so · **a proposal, not owner-approved, not integrated**
 
-Design base `87715a46dbd6a107e417bb6024d81c3fcb679049` (`codex/v1-start-sequence`, [PR #75](https://github.com/Amirkianfar66/GameN/pull/75), unmerged). Protocol 2, `staged-start-1`, ruleset `in-person-v1-2026-10-06` and engine `full-game-1.0.1` unchanged. Tokens 0.4.0, assets `design-0.2.0`, crew `crew-0.1.0`.
+Historical design base `87715a46dbd6a107e417bb6024d81c3fcb679049` (`codex/v1-start-sequence`, [PR #75](https://github.com/Amirkianfar66/GameN/pull/75), unmerged). Protocol 2, `staged-start-1`, ruleset `in-person-v1-2026-10-06` and engine `full-game-1.0.1` unchanged. Tokens 0.4.0, assets `design-0.2.0`, crew `crew-0.1.0`.
 
 **What this hands over:** a reviewed-ready design for every screen and state of the V1 phone journey, as a working prototype (`design/v1-phone/`), its machine-readable inventory (`design/v1-phone/contract/journey.json`), screenshots, storyboards made from the prototype's own CSS, and this page. **What it is not:** runtime code. Nothing under `apps/game/` or `packages/presentation/` was changed. The prototype is plain script written to be looked at; take its rules, not its code.
 
+Setup/join examples were refreshed on 9 October from source `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02`, based on the [compact-phone decision](../decisions/2026-10-08-compact-phone-ui.md) and [random-starting-rooms decision](../decisions/2026-10-08-random-starting-rooms.md). Character tiles confirm on tap, joining asks for the code only, and setup uses the role-card surface plus Ready. Original verification remains historical; current evidence is in [v1-phone-copy-refresh.md](v1-phone-copy-refresh.md). The original main-game study remains here for history; current board direction and gates are in [board-motion-handoff.md](board-motion-handoff.md).
+
 ## 1. Build order
 
-The journey's runtime levels ([inventory](v1-phone-inventory.md)): of 109 states, 101 are produced by the release today (the design changes presentation and, where marked, wording), 7 need Frontend work only (`host.running`, `host.ended`, `select.assigned`, `reveal.reconnecting`, `game.choose-room`, `phase.resolution`, `end.next`), and 1 needs an Integration decision (`host.share`). A sensible order, each slice reviewable on its own:
+The journey's runtime levels ([inventory](v1-phone-inventory.md)): of 109 states, 102 have corresponding source states (the design changes presentation and, where marked, wording), 6 need Frontend work only (`host.running`, `host.ended`, `reveal.reconnecting`, `game.choose-room`, `phase.resolution`, `end.next`), and 1 needs an Integration decision (`host.share`). A sensible order, each slice reviewable on its own:
 
 1. **Shell and shared parts**: `masthead`, `screen-caption`, `action-dock`, `notice`, `status-chip`, `window-timer`, `sheet`, `disclosure-row`, the button variants. Everything else is built from these.
-2. **Setup on a phone** (the owner's priorities 3 and 4 first, since they are the newest flow): `character-choice`, `name-field`, `crew-preview`, `role-card-back`, `role-card` (large), `role-guide`, `ready-control`, `setup-progress` with `seat-slots`.
-3. **Joining**: `code-field`, `room-choice`, `waiting-card`, `recover-form`.
+2. **Setup on a phone** (the owner's priorities 3 and 4 first, since they are the newest flow): `character-choice` (tap confirms), `role-card-back` (tap reveals), `role-card`, `ready-control`. Public `setup-progress` with `seat-slots` belongs on Host and Display. The `role-guide` remains on the manual reference sheet.
+3. **Joining**: `code-field`, `waiting-card`, `recover-form`; starting-room assignment is a persisted server fact.
 4. **Host**: `seat-count-picker`, `room-code`, `admission-request`, `bot-stepper`, `confirm-sheet`, `recovery-code`, `display-admit`, `host-status` (subscribes to the public view: see §9).
 5. **Game**: `phase-strip`, `phone-board`, `room-panel`, `piece`, `self-status`, `turn-banner`, `private-dock` and `private-sheet` (bottom sheet; peek while picking a room; drawer on desktop), then the votes (`vote-panel`, `tally`), `round-summary`, `result-panel`, `reveal-table`.
 6. **Motion** last, behind the director, with reduced motion from the first cue.
@@ -58,7 +60,6 @@ The journey's runtime levels ([inventory](v1-phone-inventory.md)): of 109 states
 | ID | Reuse / new | Hook | Specification |
 | --- | --- | --- | --- |
 | `code-field` | reuse `#connected-room-code-input` | `.j-input--code` | 3rem, monospace 1.375rem, uppercase as typed, groups of four shown, `enterkeyhint="go"` inside a form so Go submits, counter n/12, format help below, `aria-invalid` with a dashed 4 px border |
-| `room-choice` | reuse `#connected-initial-room` | `fieldset.j-rooms > label.j-roomtile` | Two radio tiles with the room's full art (cover, 65% vertical) and its slanted caption; selected = lifted, paper ring, ✓ badge; unselected desaturated. Room color is never the only cue |
 | `waiting-card` | reuse `#connected-waiting` | `section.j-wait[data-state]` | Large token (dashed ? while waiting, solid number when seated), the state in lettering, the release's sentence, device tag and starting room as facts |
 | `recover-form` | reuse runtime recovery fields | `.j-recover` | Two fields, the 43-character caveat, “Take over the seat” in the dock |
 
@@ -66,13 +67,11 @@ The journey's runtime levels ([inventory](v1-phone-inventory.md)): of 109 states
 
 | ID | Reuse / new | Hook | Specification |
 | --- | --- | --- | --- |
-| `character-choice` | reuse `character-choice` + runtime `button.crew-option` | `[data-character][aria-pressed][aria-disabled]` | 3 × 3 (2 × at large text); art 4.25rem max; selected = caption yellow, 4 px ink, lifted 5 px, “✓ Yours”; taken = paper-deep, dashed, greyed art, holder's “N · Name” tag, `aria-disabled`, still focusable and named (“Vega, taken by Player 1”); frozen while a request is out, the selected tile keeps its look |
-| `name-field` | reuse `#crew-name` | `.j-input` | Counter counts code points (`[...value].length`), 1–12; `enterkeyhint="go"` submits the choice |
-| `crew-preview` | new | `.j-crewpreview` | The piece as the board draws it, call sign, “Player 3 · Cleo”, Confirmed stamp |
-| `role-card-back` | new | `.j-rolecard[data-face=back]` | Ink with a steel hatch, inner paper rule, closed-eye icon (player-ui bundle), PRIVATE. Identical for every role and state; a READY stamp replaces the word after Ready. Nothing role-specific in its markup or classes |
+| `character-choice` | reuse `character-choice` + runtime `button.crew-option` | `[data-character][aria-pressed][aria-disabled]` | 3 × 3 (2 × at large text); art 4.25rem max; selected = caption yellow, 4 px ink, lifted 5 px, “✓”; taken = paper-deep, dashed, greyed art, holder's seat-number tag, `aria-disabled`, still focusable and named (“Vega, taken by Player 1”); tap confirms the existing name or call sign; frozen while submitting/retrying and after confirmation; the selected tile keeps its look |
+| `role-card-back` | new | `.j-rolecard[data-face=back]` | Ink with a steel hatch, inner paper rule, closed-eye icon (player-ui bundle), “Tap to reveal”. Identical for every role and seat; Ready acceptance replaces it with a public ✓ and an accessible waiting status. Nothing role-specific in its markup or classes |
 | `role-card` | reuse `role-card` + runtime `.ms-role-card--full` | inside `.j-private` / the open panel only | Setup: large (17.5rem). Art 5:4.6: the player's own character card (`--ms-asset-piece-crew-card-cN`) at 62% width, 9% / 7% inset, −2.5°; the device (`--ms-asset-device-*-held`) 66% width, bottom-right −10% / −6%. Plate: role name ≤ `--ms-text-role-name`, team word beside a 0.9em swatch of `--ms-color-faction-*`. In-game: compact 5rem thumbnail row |
-| `role-guide` | reuse `p.setup-role-guide` | — | The release's `ROLE_GUIDE` text unchanged; a 4 px paper rule at the start; 1rem/1.55 |
-| `ready-control` | reuse `#setup-role-ready`, `#setup-ready-waiting` | — | In the dock beside “Hide my role”; disabled (“Reveal your role, then press Ready.”) until the card has been turned up for this deal; busy “Confirming…”; uncertain “Send the same Ready again” |
+| `role-guide` | reuse `p.setup-role-guide` | — | The release's `ROLE_GUIDE` text unchanged on the manual card reference sheet; the current setup card has no separate guide paragraph |
+| `ready-control` | reuse `#setup-role-ready`, `#setup-ready-waiting` | — | Visible after revealing the current deal; busy “Confirming…”; uncertain “Retry Ready”. Acceptance shows ✓ with aria-label “Ready. Waiting for the timer and other players.”; the card surface has accessible Reveal/Hide names |
 
 ### Game
 
@@ -160,10 +159,10 @@ How each authorized fact becomes what is drawn. The per-state list, with gaps, i
 | `lobby.seats[].initialRoom`, `practice.botSeatIds` | slot room word; Bot chip |
 | `setup.stage` | lobby → waiting/seated; choosing → `select.*` (player) / `host.choosing`; awaiting-ready → `reveal.*` / `host.reading`; running → the game; aborted → ended |
 | `setup.choosingEndsAt` / `readingEndsAt` + server time | `window-timer` and bar; zero changes words only |
-| `setup.seats[].confirmed` / `.ready` | done chips and pips; “Waiting for: …” names after the reading minimum |
+| `setup.seats[].confirmed` / `.ready` | host/display chips and pips; the compact player view uses a public Ready checkmark and accessible waiting status |
 | `identities.seats[].displayName`, `characterId` | every tag, face and piece; holder of a taken tile |
-| `setupPreview.self.role` (own, current deal and binding) | `role-card` + `role-guide`, inside the private container, after Reveal |
-| Receipts of the setup operations | `select.submitting` / `retry` / `conflict` / `name-taken`, `reveal.ready-*` |
+| `setupPreview.self.role` (own, current deal and binding) | `role-card` inside the private container after explicit Reveal |
+| Receipts of the setup operations | `select.submitting` / `retry` / `conflict` / `unavailable`, `reveal.ready-*` |
 | `publicView.round`, `phase.kind`, `activeSeatId`, `phase.endsAt` | `phase-strip`; `turn-banner`; turn float on the piece |
 | `seats[].location`, `health`, `jailed`, `captain`, `revealedFaction` | room of the piece; markers; status chips; readable list |
 | `ballot`, `lastTally` | `vote-panel`; `tally` |
@@ -182,7 +181,8 @@ Storyboards are frames of the prototype's own CSS, held at moments of each cue a
 | `cue-stage-change` | new | Setup stage changes | 220 ms, snap | Caption drops in from −5° and 0.92 | Direct |
 | `cue-role-deal` | new | Own preview first arrives for this deal (not after a reload) | 420 ms (`roleDeal`), settle | Card arrives face down from above, settles | Direct |
 | `cue-role-card-turn` | existing | Reveal pressed (local, private) | 900 ms | Turn on Y, device slides into the hand from 45% | 80 ms fade |
-| `cue-registration` | existing | The seat's own accepted receipt (Ready, a command, a ballot) | 120 ms, impact | Stamp from 1.7× and −9° to −4° | 80 ms fade |
+| `cue-registration` | existing | The seat's own accepted command/ballot receipt | 120 ms, impact | Stamp from 1.7× and −9° to −4° | 80 ms fade |
+| Ready accepted | current compact source | The seat's own accepted Ready receipt | Direct | Public ✓ and accessible waiting status; retired Ready stamp has no active storyboard | Direct |
 | `cue-sheet-open` | new | Private card / a host sheet opened | 220 ms, settle | Rises 24 px | 80 ms fade |
 | `cue-public-move` | existing | Public location change | 900 ms | Lifted, carried in an arc over the panels (its room raised), set down | Direct |
 | `cue-phase-change` | existing | New phase | 220 ms | Phase words slide in 12 px | Direct |
@@ -203,10 +203,12 @@ Rules: entrances use `animation-fill-mode: backwards` (never `both`), so nothing
 | --- | --- |
 | Entry | “Welcome aboard”, “A table game for 7 to 9 players. Everyone plays on their own phone.”, the door titles and lines |
 | Host | “Your lobby”, “Players open Join a game and type this code.”, “No free seat. Lower the bot count to make room, or leave the request waiting.”, “Locks the seats. Everyone gets 30 seconds to choose a character.”, “Fill all N seats to start: K open.”, “Match running”, the share sheet's caution |
-| Join | “Type the room code from the host.”, “12 characters: 0–9 and A–F.”, “Your starting room has nothing to do with your role. Roles are dealt later, at random.”, the refused sentence (one for the server's one answer), “The server is busy. Wait N s, then press again.”, “Moving to a new phone? Take over your seat” |
-| Setup | “Crew confirmed”, “Everyone gets the full 30 seconds, however quickly others confirm.”, “Time ran out before you confirmed, so the server chose for you.”, the three steps, “Ready now or later: play starts after the reading time and when everyone is Ready.”, “Waiting for: …”, the reconnect and recovered lines |
+| Join | “Type the room code from the host.”, “12 characters: 0–9 and A–F.”, the refused sentence (one for the server's one answer), “The server is busy. Wait N s, then press again.”, “Moving to a new phone? Take over your seat” |
+| Setup | Reconnect banner; recovered/backgrounded explanation is screen-reader status. Separate selection-success, name-entry, steps and waiting paragraphs are retired from the visible compact setup |
 | Game | “Your card stays closed until you open it.”, “Open your private card to act.”, “You may vote. Your ballot is private.”, “A Hack conversation is in progress.”, “Every player still in has one showdown shot.”, “You are out · You can keep watching the match.”, the vote panel's privacy line, “What changed since the last phase” |
 | End | “No winner”, “Nothing was revealed: a match the host ends shows no roles and no Code.”, “A new game is a new match …”, “Join a new game”, “Start a new game” |
+
+The inventory records retired `name-field`, `room-choice`, `crew-preview` and `select.name-taken` explicitly. Six changed quotes were refreshed and seven obsolete quote keys retired; required current copy and exact source matching remain checked. Historical screenshots are recoverable in the original Git commit, rather than kept as active examples.
 
 ## 9. Dependencies
 
@@ -214,7 +216,6 @@ Rules: entrances use `animation-fill-mode: backwards` (never `both`), so nothing
 
 - `host.running`: subscribe the host page to `views/public`. The host identity is created as a `display` member (`createMatch`), and the Rules let a display read the public view once gameplay is available. Integration should confirm this is intended before it is relied on.
 - `phase.resolution`: show the public-change sentences the shell already announces (`announce.health`, `jailed`, `released`, `location`, `captain`, and `Revealed: <faction>`) as a visible panel at the start of the next phase. Derived from two public views only; never from a registration, a pending command or a private result.
-- `select.assigned`: say the server chose, using only the public identity and this device's own memory that it had not confirmed.
 - `host.ended`, `end.next`: one control that forgets the tab's match and opens Create or Join. A new game is always a fresh match.
 - `reveal.reconnecting`: the connection banner in setup, the card forced face down.
 - The room pick on the board (DSN-D18), the bottom sheet / peek / drawer (DSN-D04), the large text rules, the dock with a focused field, `interactive-widget=resizes-content`.
@@ -241,8 +242,8 @@ Rules: entrances use `animation-fill-mode: backwards` (never `both`), so nothing
 
 ## 11. Questions for review
 
-1. The comic page as the phone's primary game view (DSN-D20, superseding DSN-D18's “a phone keeps its list of rooms”): does it read on real phones at arm's length, and is the readable list enough at large text?
+1. Board targeting is approved under the later compact-phone decision. Readability on physical phones and at enlarged text still requires device review; the current implementation handoff is `board-motion-handoff.md`.
 2. The large role card in setup and the compact one in the game (DSN-D21): right split?
-3. Should Ready leave the card face up until play starts, or hide it as the release does? The design follows the release (DSN-D25).
+3. Ready conceals the role in the current release. Preserve that behavior; private content requires a deliberate authorized reopen.
 4. Is the round summary helpful, or does it change the table's social game (DSN-D24, with Game Balance)?
 5. The seven new cues (DSN-D26): too much, too little?

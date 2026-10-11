@@ -1,7 +1,7 @@
 {
   "devOnly": "mothership:dev-only",
   "$comment": "The phone-first V1 screen and state inventory for issue #76. Every state names the authorized data it is drawn from, whether the pinned release's runtime already produces it (existing), has the data or operation but not this presentation or one sub-feature (partial), or needs something the release does not have (proposed), and the gap in words. The prototype in design/v1-phone/ renders every state from a labeled synthetic fixture with the same id; design/tools/v1-phone-check.mjs holds the two together. A PROPOSAL, not owner-approved, and not a shared contract.",
-  "journeyVersion": "v1-phone-0.1.0",
+  "journeyVersion": "v1-phone-0.1.1",
   "status": "proposal",
   "ownerApproved": false,
   "issue": "https://github.com/Amirkianfar66/GameN/issues/76",
@@ -136,7 +136,7 @@
         "display"
       ],
       "audience": "public",
-      "about": "A server-timed window as seconds in an ink box and a bar that empties. At zero it only changes the words to waiting for the server. Unsynced shows –:–– and says so."
+      "about": "A server-timed window as seconds in an ink box and a bar that empties. At zero it only changes the words to waiting for the server. Unsynced shows \u2013:\u2013\u2013 and says so."
     },
     {
       "id": "notice",
@@ -169,7 +169,7 @@
         "host"
       ],
       "audience": "public",
-      "about": "A collapsed row for a less frequent host tool, with its current state in the summary (\"Practice bots · 3 bots\")."
+      "about": "A collapsed row for a less frequent host tool, with its current state in the summary (\"Practice bots \u00b7 3 bots\")."
     },
     {
       "id": "route-door",
@@ -297,16 +297,6 @@
       "about": "The room code entry: 12 characters, uppercase as typed, grouped visually, inputmode text, autocomplete off."
     },
     {
-      "id": "room-choice",
-      "reuse": "runtime: #connected-initial-room",
-      "hook": "PROPOSED fieldset.j-rooms > label.j-roomtile[data-room]",
-      "surfaces": [
-        "player"
-      ],
-      "audience": "public",
-      "about": "Room A or Room B, as two radio tiles with each room's art and caption. The choice is made before roles and has no role restriction (V1-01)."
-    },
-    {
       "id": "waiting-card",
       "reuse": "runtime: #connected-waiting",
       "hook": "PROPOSED section.j-wait[data-state]",
@@ -334,27 +324,7 @@
         "player"
       ],
       "audience": "public",
-      "about": "Nine character tiles. Available, selected (lifted, check, yellow), taken (greyed, holder's number and name, not offered), confirmed (stamp)."
-    },
-    {
-      "id": "name-field",
-      "reuse": "runtime: #crew-name",
-      "hook": "PROPOSED .j-field--name with .j-count",
-      "surfaces": [
-        "player"
-      ],
-      "audience": "public",
-      "about": "Public name, 1 to 12 characters as the contract counts them (code points). The counter counts the same way."
-    },
-    {
-      "id": "crew-preview",
-      "reuse": null,
-      "hook": "PROPOSED .j-crewpreview",
-      "surfaces": [
-        "player"
-      ],
-      "audience": "public",
-      "about": "The confirmed piece as everyone will see it: standee, seat number and name. Public."
+      "about": "Nine tap-to-confirm tiles. Available, pressed while submitting, taken with a holder seat number, and pressed/read-only once confirmed. The request preserves an existing name or uses the call sign."
     },
     {
       "id": "role-card-back",
@@ -364,7 +334,7 @@
         "player"
       ],
       "audience": "public",
-      "about": "The concealed role card. Identical for every role, every seat and every state: no name, color, device or role-specific hook."
+      "about": "Concealed card with a Tap to reveal surface, identical for every role and seat; no role/device/team hook."
     },
     {
       "id": "role-card",
@@ -384,7 +354,7 @@
         "player"
       ],
       "audience": "private",
-      "about": "The release's concise rule reminder for the role, unchanged words. No match-specific knowledge, target or teammate."
+      "about": "The release's ROLE_GUIDE text remains an unchanged reference-sheet reminder; the current setup role card omits the separate guide paragraph."
     },
     {
       "id": "ready-control",
@@ -394,7 +364,7 @@
         "player"
       ],
       "audience": "public",
-      "about": "Ready, enabled once the card has been turned up for this deal. Pressing it early is allowed and shortens nothing."
+      "about": "Ready appears after the card is revealed for the current deal. Retry Ready repeats an uncertain request. A public checkmark with a screen-reader status follows acceptance; neither confirmation nor Ready shortens a window."
     },
     {
       "id": "phase-strip",
@@ -675,7 +645,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js frame('Mothership playtest', 'Signing in…')",
+          "runtimeRef": "main.js frame('Mothership playtest', 'Signing in\u2026')",
           "gap": null,
           "components": [
             "masthead",
@@ -717,7 +687,7 @@
             "receipt"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js host(): #connected-player-count, #connected-create → createMatch",
+          "runtimeRef": "main.js host(): #connected-player-count, #connected-create \u2192 createMatch",
           "gap": "Radio tiles replace the select; same request.",
           "components": [
             "masthead",
@@ -780,7 +750,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js row(): device tag, initialRoom, seat select, Seat this player → approveAdmission",
+          "runtimeRef": "main.js row(): device tag, initialRoom, seat select, Seat this player \u2192 approveAdmission",
           "gap": null,
           "components": [
             "admission-request",
@@ -838,7 +808,7 @@
             "receipt"
           ],
           "runtime": "existing",
-          "runtimeRef": "practice-controls.js createPracticeControls(): count, Add/Update/Remove bots → setPracticeBots",
+          "runtimeRef": "practice-controls.js createPracticeControls(): count, Add/Update/Remove bots \u2192 setPracticeBots",
           "gap": "A stepper replaces the select; same request and the same kept-request rule.",
           "components": [
             "disclosure-row",
@@ -860,7 +830,7 @@
             "setup"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js start.disabled unless seated == playerCount, setup open and bots settled → beginSetup",
+          "runtimeRef": "main.js start.disabled unless seated == playerCount, setup open and bots settled \u2192 beginSetup",
           "gap": null,
           "components": [
             "seat-slots",
@@ -901,7 +871,7 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "setup-controls.js: 'Selection time has ended. Waiting for the server…'",
+          "runtimeRef": "setup-controls.js: 'Selection time has ended. Waiting for the server\u2026'",
           "gap": null,
           "components": [
             "window-timer",
@@ -980,7 +950,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js #connected-recovery-*: human seats only, one request at a time → issueSeatRecovery",
+          "runtimeRef": "main.js #connected-recovery-*: human seats only, one request at a time \u2192 issueSeatRecovery",
           "gap": "Grouped code for reading aloud. The code is still 43 characters plus the match identifier (finding G20): a shorter supervised hand-over needs an Integration decision.",
           "components": [
             "sheet",
@@ -1018,7 +988,7 @@
             "receipt"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js #connected-display-uid → admitDisplay",
+          "runtimeRef": "main.js #connected-display-uid \u2192 admitDisplay",
           "gap": null,
           "components": [
             "disclosure-row",
@@ -1036,7 +1006,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js #connected-end → #connected-end-cancel (focused) / #connected-end-confirm → abortMatch",
+          "runtimeRef": "main.js #connected-end \u2192 #connected-end-cancel (focused) / #connected-end-confirm \u2192 abortMatch",
           "gap": null,
           "components": [
             "confirm-sheet",
@@ -1076,20 +1046,19 @@
       "states": [
         {
           "id": "join.code",
-          "title": "Room code and starting room",
+          "title": "Room code only; server assigns A/B",
           "surface": "player",
           "audience": "public",
           "data": [
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js player(): #connected-room-code-input, #connected-initial-room, #connected-join → requestAdmission",
+          "runtimeRef": "main.js join form omits initialRoom under random-starting-rooms",
           "gap": "Room tiles replace the select (same request).",
           "components": [
             "masthead",
             "screen-caption",
             "code-field",
-            "room-choice",
             "action-dock"
           ],
           "priority": true
@@ -1119,11 +1088,10 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "operate('join'…) 'Asking to join…'",
+          "runtimeRef": "operate('join'\u2026) 'Asking to join\u2026'",
           "gap": null,
           "components": [
             "code-field",
-            "room-choice",
             "action-dock"
           ]
         },
@@ -1136,7 +1104,7 @@
             "receipt"
           ],
           "runtime": "existing",
-          "runtimeRef": "keeping('join'…): Send the same request again / Give this request up",
+          "runtimeRef": "keeping('join'\u2026): Send the same request again / Give this request up",
           "gap": null,
           "components": [
             "notice",
@@ -1237,7 +1205,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js #connected-recover-match, #connected-recover-code → redeemSeatRecovery",
+          "runtimeRef": "main.js #connected-recover-match, #connected-recover-code \u2192 redeemSeatRecovery",
           "gap": "Reached from a link under the join form instead of the same page.",
           "components": [
             "recover-form",
@@ -1270,7 +1238,7 @@
             "lobby"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js 'The server has not given this device a seat in this match…'",
+          "runtimeRef": "main.js 'The server has not given this device a seat in this match\u2026'",
           "gap": null,
           "components": [
             "waiting-card",
@@ -1287,7 +1255,7 @@
       "states": [
         {
           "id": "select.open",
-          "title": "Choose a character and a public name (30 s)",
+          "title": "Choose your character (tap confirms, 30 s)",
           "surface": "player",
           "audience": "public",
           "data": [
@@ -1297,20 +1265,18 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "setup-controls.js createPlayerSetup(): .crew-picker, #crew-name, #crew-save → confirmSetupChoice",
+          "runtimeRef": "setup-controls.js createPlayerSetup(): .crew-option tap confirms the existing name or call sign",
           "gap": null,
           "components": [
             "screen-caption",
             "window-timer",
-            "character-choice",
-            "name-field",
-            "action-dock"
+            "character-choice"
           ],
           "priority": true
         },
         {
           "id": "select.picked",
-          "title": "Character picked and name typed",
+          "title": "Tile tapped: confirmation in flight",
           "surface": "player",
           "audience": "public",
           "data": [
@@ -1318,12 +1284,10 @@
             "identities"
           ],
           "runtime": "existing",
-          "runtimeRef": "aria-pressed on .crew-option; Confirm enabled for 1–12 characters",
+          "runtimeRef": "aria-pressed on .crew-option while confirm() is in flight; no separate confirm button",
           "gap": null,
           "components": [
-            "character-choice",
-            "name-field",
-            "action-dock"
+            "character-choice"
           ],
           "priority": true
         },
@@ -1336,8 +1300,8 @@
             "identities"
           ],
           "runtime": "existing",
-          "runtimeRef": ".crew-option disabled with 'Callsign · Player N'",
-          "gap": "The holder is shown as number and name when the name is known (Frontend-only).",
+          "runtimeRef": "aria-label: <call sign>, taken by Player N; tile unavailable",
+          "gap": null,
           "components": [
             "character-choice"
           ]
@@ -1351,17 +1315,15 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "operate('setup-choice'…) 'Confirming your character'",
+          "runtimeRef": "operate('setup-choice'\u2026) 'Confirming your character'",
           "gap": null,
           "components": [
-            "character-choice",
-            "name-field",
-            "action-dock"
+            "character-choice"
           ]
         },
         {
           "id": "select.confirmed",
-          "title": "Confirmed: waiting for the deal",
+          "title": "Confirmed tile: waiting for the selection deadline",
           "surface": "player",
           "audience": "public",
           "data": [
@@ -1370,18 +1332,17 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "#crew-status 'Character confirmed. Roles are dealt when the selection timer ends.'",
+          "runtimeRef": "setup-controls.js: confirmed tile remains pressed/frozen; no separate success paragraph",
           "gap": null,
           "components": [
-            "crew-preview",
-            "window-timer",
-            "setup-progress"
+            "character-choice",
+            "window-timer"
           ],
           "priority": true
         },
         {
           "id": "select.conflict",
-          "title": "That character was just taken",
+          "title": "Taken. Choose another character.",
           "surface": "player",
           "audience": "public",
           "data": [
@@ -1389,8 +1350,8 @@
             "identities"
           ],
           "runtime": "existing",
-          "runtimeRef": "CHARACTER_TAKEN: 'That character was taken. Choose another.'",
-          "gap": "The tile turns taken in place and the name stays typed.",
+          "runtimeRef": "CHARACTER_TAKEN: Taken. Choose another character.",
+          "gap": "Server refusal marks the taken tile; no name form is shown.",
           "components": [
             "character-choice",
             "notice"
@@ -1398,24 +1359,24 @@
           "priority": true
         },
         {
-          "id": "select.name-taken",
-          "title": "That name is taken",
+          "id": "select.unavailable",
+          "title": "Selection unavailable",
           "surface": "player",
           "audience": "public",
           "data": [
             "receipt"
           ],
           "runtime": "existing",
-          "runtimeRef": "NAME_TAKEN: 'That name was taken. Choose another.'",
+          "runtimeRef": "setup-controls.js: Selection unavailable. Try again.",
           "gap": null,
           "components": [
-            "name-field",
+            "character-choice",
             "notice"
           ]
         },
         {
           "id": "select.retry",
-          "title": "Uncertain answer: send the same choice",
+          "title": "Connection interrupted: retry selection",
           "surface": "player",
           "audience": "public",
           "data": [
@@ -1423,7 +1384,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "'The answer is uncertain. Send the same choice again while selection is open.'",
+          "runtimeRef": "Connection interrupted. Retry your selection.; Retry selection resends the kept choice",
           "gap": null,
           "components": [
             "character-choice",
@@ -1434,7 +1395,7 @@
         },
         {
           "id": "select.expired",
-          "title": "Time is up: the server assigns",
+          "title": "Timer ended: await the server",
           "surface": "player",
           "audience": "public",
           "data": [
@@ -1442,12 +1403,11 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "'Selection has ended. The server is assigning any remaining characters.'",
+          "runtimeRef": "expired disables crew options/retry; only the server assigns unclaimed characters",
           "gap": null,
           "components": [
             "window-timer",
-            "character-choice",
-            "notice"
+            "character-choice"
           ],
           "priority": true
         },
@@ -1461,12 +1421,11 @@
             "setup",
             "local"
           ],
-          "runtime": "partial",
-          "runtimeRef": "The reveal stage shows the role card on identity.characterId",
-          "gap": "Frontend-only: say 'chosen for you when time ran out' when this device had not confirmed before the deal. Uses only the public identity and the device's own memory.",
+          "runtime": "existing",
+          "runtimeRef": "The server-assigned character is retained; the next authorized role stage draws the same concealed card.",
           "components": [
-            "crew-preview",
-            "notice"
+            "role-card-back",
+            "window-timer"
           ]
         },
         {
@@ -1478,7 +1437,7 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "'Synchronizing countdown…'",
+          "runtimeRef": "'Synchronizing countdown\u2026'",
           "gap": null,
           "components": [
             "window-timer",
@@ -1508,8 +1467,7 @@
           "components": [
             "screen-caption",
             "role-card-back",
-            "window-timer",
-            "ready-control"
+            "window-timer"
           ],
           "priority": true
         },
@@ -1524,14 +1482,12 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "#setup-role-toggle 'Reveal my role'; Ready disabled until revealed",
+          "runtimeRef": "#setup-role-toggle card surface shows Tap to reveal with aria-label Reveal my role; Ready appears only after revealing this deal.",
           "gap": null,
           "components": [
             "screen-caption",
             "role-card-back",
-            "window-timer",
-            "ready-control",
-            "action-dock"
+            "window-timer"
           ],
           "priority": true
         },
@@ -1546,11 +1502,10 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "renderComicRoleCard + ROLE_GUIDE inside #setup-role-card; Hide my role; Ready",
+          "runtimeRef": "renderComicRoleCard inside #setup-role-card; the card surface has aria-label Hide my role; Ready below; no separate guide paragraph.",
           "gap": "Large card, as approved (DSN-D19 does not apply here: setup has no actions to keep in reach).",
           "components": [
             "role-card",
-            "role-guide",
             "window-timer",
             "ready-control",
             "action-dock"
@@ -1566,7 +1521,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "'Confirming…' / 'Confirming your readiness…'",
+          "runtimeRef": "'Confirming\u2026' / 'Confirming your readiness\u2026'",
           "gap": null,
           "components": [
             "role-card-back",
@@ -1583,11 +1538,10 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "#setup-ready-waiting 'You are ready. The match starts after the reading timer and everyone’s confirmation.'",
+          "runtimeRef": "setup-controls.js: Ready checkmark with aria-label Ready. Waiting for the timer and other players.",
           "gap": null,
           "components": [
             "window-timer",
-            "setup-progress",
             "status-chip"
           ],
           "priority": true
@@ -1619,12 +1573,11 @@
             "identities"
           ],
           "runtime": "existing",
-          "runtimeRef": "createSetupProgress awaiting-ready rows",
+          "runtimeRef": "setup-controls.js: Ready checkmark with aria-label Ready. Waiting for the timer and other players.",
           "gap": "Names from the public identities (Frontend-only).",
           "components": [
             "window-timer",
-            "setup-progress",
-            "seat-slots"
+            "status-chip"
           ],
           "priority": true
         },
@@ -1638,11 +1591,11 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "'The first turn waits for 30 seconds of reading and everyone’s Ready.'",
+          "runtimeRef": "setup-controls.js: Ready checkmark with aria-label Ready. Waiting for the timer and other players.",
           "gap": null,
           "components": [
             "window-timer",
-            "setup-progress"
+            "status-chip"
           ]
         },
         {
@@ -1677,7 +1630,6 @@
           "gap": "Words proposed for why Ready is asked again.",
           "components": [
             "role-card-back",
-            "ready-control",
             "notice"
           ]
         },
@@ -1690,7 +1642,7 @@
             "local"
           ],
           "runtime": "existing",
-          "runtimeRef": "visibilitychange/blur → control.conceal()",
+          "runtimeRef": "visibilitychange/blur \u2192 control.conceal()",
           "gap": "A one-line note proposed.",
           "components": [
             "role-card-back",
@@ -1870,7 +1822,7 @@
             "playerView"
           ],
           "runtime": "existing",
-          "runtimeRef": "acceptedTarget + acceptedDetail ('This is not a result…')",
+          "runtimeRef": "acceptedTarget + acceptedDetail ('This is not a result\u2026')",
           "gap": null,
           "components": [
             "action-card",
@@ -2005,7 +1957,7 @@
             "playerView"
           ],
           "runtime": "existing",
-          "runtimeRef": "comic-shell.ts own-acknowledgments: 'Your Round 3 Supply granted one weapon each to …'",
+          "runtimeRef": "comic-shell.ts own-acknowledgments: 'Your Round 3 Supply granted one weapon each to \u2026'",
           "gap": null,
           "components": [
             "private-sheet",
@@ -2235,7 +2187,7 @@
         },
         {
           "id": "phase.hack",
-          "title": "Hack conversation (a participant’s private card)",
+          "title": "Hack conversation (a participant\u2019s private card)",
           "surface": "player",
           "audience": "private",
           "data": [
@@ -2445,7 +2397,7 @@
             "serverTime"
           ],
           "runtime": "existing",
-          "runtimeRef": "timer syncing '–:––'; actions pausedUnsynced",
+          "runtimeRef": "timer syncing '\u2013:\u2013\u2013'; actions pausedUnsynced",
           "gap": null,
           "components": [
             "phase-strip",
@@ -2526,7 +2478,7 @@
             "playerView"
           ],
           "runtime": "existing",
-          "runtimeRef": "main.js 'This device has taken over a seat. Opening the match…'",
+          "runtimeRef": "main.js 'This device has taken over a seat. Opening the match\u2026'",
           "gap": null,
           "components": [
             "system-panel",
@@ -2683,6 +2635,44 @@
           ]
         }
       ]
+    }
+  ],
+  "copyRefresh": {
+    "sourceCommit": "ef4c2ee449f6b0a5991814e18acf7ab42e73ef02",
+    "decisions": [
+      "docs/decisions/2026-10-08-compact-phone-ui.md",
+      "docs/decisions/2026-10-08-random-starting-rooms.md"
+    ],
+    "scope": "Current copy and selection/reveal/join examples; the original design base stays historical. No gameplay or production adoption.",
+    "baseCommit": "93a7e326a47d67b10ce61edbf8f247f859011f53"
+  },
+  "retiredStates": [
+    {
+      "id": "select.name-taken",
+      "reason": "Superseded by compact-phone-ui: no editable selection name form; the current generic Selection unavailable state replaces it."
+    }
+  ],
+  "retiredReleaseKeys": [
+    "nameTaken",
+    "choosePrompt",
+    "characterConfirmed",
+    "selectionOverPlayer",
+    "botsAutomatic",
+    "revealWhere",
+    "confirmCharacter"
+  ],
+  "retiredComponents": [
+    {
+      "id": "name-field",
+      "reason": "The compact-phone decision confirms an existing name or the call sign on tile tap."
+    },
+    {
+      "id": "room-choice",
+      "reason": "The random-starting-rooms decision makes join code-only."
+    },
+    {
+      "id": "crew-preview",
+      "reason": "The compact role stage shows the role card without a separate setup preview."
     }
   ]
 }

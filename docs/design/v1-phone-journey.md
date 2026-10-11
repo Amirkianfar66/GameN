@@ -11,6 +11,8 @@ The owner asked for five screens, phones first: the host's screen, joining, choo
 | [v1-phone-handoff.md](v1-phone-handoff.md) | For Frontend: components (reused and new), assets, tokens, state mappings, layout rules, motion, copy, dependencies, and what goes to Integration |
 | [v1-phone-verification.md](v1-phone-verification.md) | The checks actually run, their results, and what was not run |
 
+Setup and join examples were refreshed on 9 October from `ef4c2ee449f6b0a5991814e18acf7ab42e73ef02` under the [compact-phone](../decisions/2026-10-08-compact-phone-ui.md) and [random-starting-rooms](../decisions/2026-10-08-random-starting-rooms.md) owner decisions. The original base/runner below records the study's origin. The current compact board study is [board-motion-handoff.md](board-motion-handoff.md); this focused refresh does not replace the older main-game layout. Current evidence is [v1-phone-copy-refresh.md](v1-phone-copy-refresh.md).
+
 ## Provenance
 
 | | |
@@ -38,13 +40,13 @@ Recorded in [owner-decisions.md](owner-decisions.md#8-october-2026-phones-first-
 ```mermaid
 flowchart LR
   E[Entry<br/>Join · Host · Display] --> H1[Host: create 7/8/9]
-  E --> J1[Join: room code<br/>+ Room A/B]
+  E --> J1[Join: room code only]
   E --> D1[Display: identifier]
   H1 --> H2[Lobby: code, requests,<br/>seats, bots]
   J1 --> J2[Waiting for the host] --> J3[Seated: waiting for setup]
   H2 -- seats a request --> J3
   H2 -- every seat filled --> S[Start setup]
-  S --> C[Choose character + name<br/>30 s, server fills at expiry]
+  S --> C[Tap character to confirm<br/>30 s, server fills at expiry]
   C --> R[Private role card<br/>reveal · read ≥30 s · Ready]
   R -- reading time over<br/>AND every human Ready --> G[Game: fresh 60 s first turn]
   G --> G2[Turns · Hack · elections ·<br/>Jail vote · release · resolution]
@@ -87,9 +89,9 @@ Hierarchy is the point: the frequent tasks (share the code, seat people, start) 
 
 ## 2. Player joining and waiting
 
-![Joining with a room code and a starting room](../../design/v1-phone/review/states/join.code.png)
+![Joining with a room code](../../design/v1-phone/review/states/join.code.png)
 
-The room code field accepts the 12 characters as typed and groups them for the eye; **Room A or Room B** are two tiles with each room's approved art and caption, “Your starting room has nothing to do with your role” (V1-01). Go on the keyboard asks to join, so the button need not be in view while typing. Waiting shows the device tag the host sees, so the two can be matched by eye across the table.
+The room code field accepts the 12 characters as typed and groups them for the eye. Go on the keyboard asks to join. The server assigns Room A or Room B and reuses the persisted assignment on retries/recovery; the form has no starting-room control. Waiting shows the assigned room and the device tag the host sees.
 
 | State | Picture | Notes |
 | --- | --- | --- |
@@ -105,42 +107,42 @@ A full lobby is not a state: the server accepts the request and it waits; only t
 
 ## 3. Character selection
 
-![Choosing a character: picked and named](../../design/v1-phone/review/states/select.picked.png)
+![Choosing a character: tap confirmation in flight](../../design/v1-phone/review/states/select.picked.png)
 
-The nine approved characters in a 3 × 3 grid of cards, with the call signs; the countdown in the caption row (sticky while scrolling), a bar that empties under it; the public name with a counter that counts as the contract does (code points, 1 to 12); **Confirm character** in the dock with the release's line “Unconfirmed characters are assigned when the 30-second timer ends.” A character is public and says nothing about a role, and the screen says so.
+The nine approved characters form a 3 × 3 tap-to-confirm matrix with their call signs. A tile tap confirms the existing name or the character's call sign, freezes the choice while sending, and leaves that same tile pressed/read-only after acknowledgment. Selection, retry, conflict and generic refusal use the current source words. The timer remains visible and only the server deals roles or advances setup.
 
 | State | Picture | Notes |
 | --- | --- | --- |
-| `select.open` | [png](../../design/v1-phone/review/states/select.open.png) | Nothing selected; Confirm disabled |
-| `select.picked` | [png](../../design/v1-phone/review/states/select.picked.png) | Selected: lifted, caption yellow, ink border, “✓ Yours” |
-| `select.taken` | [png](../../design/v1-phone/review/states/select.taken.png) | Taken: still drawn and named, greyed, dashed, holder's number and name; not offered |
+| `select.open` | [png](../../design/v1-phone/review/states/select.open.png) | Nothing selected; an available tile tap confirms |
+| `select.picked` | [png](../../design/v1-phone/review/states/select.picked.png) | Tap accepted locally: pressed while confirmation is in flight; no second Confirm control |
+| `select.taken` | [png](../../design/v1-phone/review/states/select.taken.png) | Taken: still drawn and named, greyed, dashed, holder's seat number; not offered |
 | `select.submitting` | [png](../../design/v1-phone/review/states/select.submitting.png) | Frozen while the request is out |
-| `select.confirmed` | [png](../../design/v1-phone/review/states/select.confirmed.png) | The piece as everyone will see it, stamped Confirmed; the crew filling up. Confirming early shortens nothing |
-| `select.conflict` | [png](../../design/v1-phone/review/states/select.conflict.png) | `CHARACTER_TAKEN`: the tile turns taken in place (`cue-choice-taken`), the name stays typed |
-| `select.retry` | [png](../../design/v1-phone/review/states/select.retry.png) | Uncertain answer: the same choice again; the choice cannot be edited meanwhile |
+| `select.confirmed` | [png](../../design/v1-phone/review/states/select.confirmed.png) | The same tile stays pressed/read-only; no separate success paragraph. Confirming early shortens nothing |
+| `select.conflict` | [png](../../design/v1-phone/review/states/select.conflict.png) | `CHARACTER_TAKEN`: the tile turns taken in place (`cue-choice-taken`), the existing name stays retained |
+| `select.retry` | [png](../../design/v1-phone/review/states/select.retry.png) | “Connection interrupted. Retry your selection.” and “Retry selection”; the kept choice cannot be replaced |
 | `select.expired` | [png](../../design/v1-phone/review/states/select.expired.png) | Local zero: the words change; only the server assigns |
-| `select.assigned`, `select.name-taken`, `select.unsynced` | [png](../../design/v1-phone/review/states/select.assigned.png) | The server's own fallback name is `Player N`; bots are `Bot N` |
+| `select.assigned`, `select.unavailable`, `select.unsynced` | [png](../../design/v1-phone/review/states/select.assigned.png) | Assigned: the concealed role stage with the persisted character. Unavailable: “Selection unavailable. Try again.” Unsynced: selection disabled |
 
 ## 4. Private role reveal and Ready
 
 ![The role card face up: the player's character with the Officer's device](../../design/v1-phone/review/states/reveal.revealed.png)
 
-Three steps are always in view (Reveal your card · Press Ready · Play starts). The card is dealt face down (`cue-role-deal`); its back is the same for every role, seat and state. **Reveal my role** turns it up (the approved 900 ms turn, the device added to the player's own character), with the role, the team word beside its swatch, and the release's reminder for that role. Ready unlocks once the card has been turned up for this deal, and may be pressed early; it never shortens the 30 seconds. After Ready the card goes face down with a READY stamp, and the screen shows who is still reading.
+The neutral card surface says **Tap to reveal** and has accessible name **Reveal my role**. Turning it up constructs the own role/device/team only inside `.j-private`; tapping it again hides it. Ready appears after the current deal was revealed and conceals the card while sending. Acceptance shows a public ✓ with accessible status “Ready. Waiting for the timer and other players.” The three steps, separate guide and public progress list are retired from the player setup surface. The 30-second reading minimum and every human's explicit Ready remain unchanged.
 
 | State | Picture | Notes |
 | --- | --- | --- |
-| `reveal.dealing` | [png](../../design/v1-phone/review/states/reveal.dealing.png) | Delayed deal: face down, Reveal disabled, “Waiting for a fresh, authorized role.” |
-| `reveal.concealed` | [png](../../design/v1-phone/review/states/reveal.concealed.png) | “Only reveal this where other players cannot see your screen.” |
+| `reveal.dealing` | [png](../../design/v1-phone/review/states/reveal.dealing.png) | Delayed deal: neutral back; “Waiting for a fresh, authorized role.” remains a screen-reader status |
+| `reveal.concealed` | [png](../../design/v1-phone/review/states/reveal.concealed.png) | Neutral Tap to reveal surface; no role or device in the closed DOM |
 | `reveal.revealed` | [png](../../design/v1-phone/review/states/reveal.revealed.png) | Large card in setup, where there are no actions to keep in reach (DSN-D19 is about the in-game sheet) |
-| `reveal.ready-early` | [png](../../design/v1-phone/review/states/reveal.ready-early.png) | Ready before the minimum; the release's own sentence |
-| `reveal.waiting-others` | [png](../../design/v1-phone/review/states/reveal.waiting-others.png) | Minimum over: “Waiting for: Player 6 · Fay, Player 8 · Hana.” |
+| `reveal.ready-early` | [png](../../design/v1-phone/review/states/reveal.ready-early.png) | Ready before the minimum: ✓ and accessible waiting status |
+| `reveal.waiting-others` | [png](../../design/v1-phone/review/states/reveal.waiting-others.png) | Minimum over: the same public ✓; no player list in this compact surface |
 | `reveal.everyone-ready` | [png](../../design/v1-phone/review/states/reveal.everyone-ready.png) | Everyone Ready, waiting for the minimum |
 | `reveal.reconnecting` | [png](../../design/v1-phone/review/states/reveal.reconnecting.png) | Card forced face down; “The deal is unchanged and the server’s timer keeps running.” No pause, no redeal |
 | `reveal.recovered` | [png](../../design/v1-phone/review/states/reveal.recovered.png) | A seat moved to this device: same role; Reveal and Ready again here |
 | `reveal.backgrounded` | [png](../../design/v1-phone/review/states/reveal.backgrounded.png) | Hidden again on return from the background |
 | `reveal.devices` | [png](../../design/v1-phone/review/states/reveal.devices.png) | Review sheet of all nine role cards and reminders; each is private to one seat |
 
-**What the card does not carry:** no Code, no target, no teammate and no starting knowledge. The reminders for the Insider, the Hacker and the Alien say that knowledge arrives “when play starts”, in the release's own words.
+The setup card carries only the own role, character and team. Code, targets, teammates and starting knowledge arrive through their authorized gameplay feed. The manual `reveal.devices` sheet retains unchanged reference reminders for review.
 
 ## 5. The game on a phone
 
@@ -153,7 +155,7 @@ The **phase strip** is sticky at the top: round, phase, whose turn (number and n
 | `game.waiting` | [png](../../design/v1-phone/review/states/game.waiting.png) | “Your card stays closed until you open it.” |
 | `game.own-turn` | [png](../../design/v1-phone/review/states/game.own-turn.png) | YOUR TURN in the dock; the Private card button stays neutral |
 | `game.private-open` | [png](../../design/v1-phone/review/states/game.private-open.png) | Bottom sheet under the sticky strip: role thumbnail, About this role, what the seat knows, the one action card |
-| `game.choose-room` | [png](../../design/v1-phone/review/states/game.choose-room.png) | The card sits low; the offered room is lifted on the board with **Move here**; the others step back. The list in the card stays complete (DSN-D18 → proposal) |
+| `game.choose-room` | [png](../../design/v1-phone/review/states/game.choose-room.png) | The card sits low; the offered room is lifted on the board with **Move here**; the others step back. The list in the card stays complete (earlier room-pick study; current approved tag interaction is in board-motion-handoff.md) |
 | `game.choose-target` | [png](../../design/v1-phone/review/states/game.choose-target.png) | Exactly the seats the server lists, 48 px rows with character, number, name and public status |
 | `game.confirm` | [png](../../design/v1-phone/review/states/game.confirm.png) | “Not sent yet”; one primary control; the release's consequence sentence |
 | `game.registered` | [png](../../design/v1-phone/review/states/game.registered.png) | REGISTERED stamp (120 ms); “This is not a result.” |
@@ -176,10 +178,10 @@ Also: `game.submitting`, `game.move-accepted` (the 900 ms carried move, played f
 
 | Requirement | Where it is kept |
 | --- | --- |
-| Full 30 s selection; the server fills missing choices | `select.*` timer and dock line; `select.expired` only changes words; `select.assigned` shows the server's `Player N` |
+| Full 30 s selection; the server fills missing choices | `select.*` timer; expired/uncalibrated choices cannot send; `select.assigned` retains the recorded identity in the next concealed role stage |
 | Role deal follows selection; one deal through refresh, disconnect, recovery | `reveal.dealing` waits for the own preview; `reveal.reconnecting`, `reveal.recovered`, `reveal.backgrounded` keep the same card |
-| ≥ 30 s reading from the actual deal **and** every human Ready | The steps row, `reveal.ready-early` (“The match starts after the reading timer and everyone’s confirmation”), `reveal.waiting-others`, `reveal.everyone-ready` |
-| Ready may be pressed early; bots cannot shorten either window | Ready is enabled from the first reveal; “Everyone gets the full 30 seconds, however quickly others confirm” |
+| ≥ 30 s reading from the actual deal **and** every human Ready | The timer and public ✓ in `reveal.ready-early`, `reveal.waiting-others`, `reveal.everyone-ready` |
+| Ready may be pressed early; bots cannot shorten either window | Ready is enabled after the current-deal reveal; its receipt/checkmark never advances a window locally |
 | Fresh 60 s first turn; animation never blocks a deadline | No cue gates a control or a timer; reduced motion removes travel and keeps timing |
 | Host and display never imply a role | Host and display load the public bundle only; no role word, device or team hook outside `.j-private` (measured on every capture) |
 | Explicit Reveal/Hide; concealment on backgrounding | `reveal.*`, the private sheet's Hide, `reveal.backgrounded` |
@@ -192,4 +194,4 @@ Also: `game.submitting`, `game.move-accepted` (the 900 ms carried move, played f
 npm run dev:review --workspace @mothership/design-tokens     # then open http://127.0.0.1:4320/v1-phone/
 ```
 
-The index lists every state with its picture; open one, then walk the journey with ◀ ▶ and read **Notes** for its data source, what the release does, and the gap. Add `&motion=reduced` or `&names=long` to any state. Buttons follow the journey: pick a character, Confirm, Reveal, Ready, open the private card, choose a room on the board, confirm. A countdown runs locally and, at zero, only changes its words.
+The index lists every state with its picture; open one, then walk the journey with ◀ ▶ and read **Notes** for its data source, what the release does, and the gap. Add `&motion=reduced` or `&names=long` to any state. Buttons follow the journey: tap a character to confirm, retry explicitly, tap the role card to Reveal/Hide, Ready, open the private card, choose a room on the board, confirm. A countdown runs locally and, at zero, only changes its words.

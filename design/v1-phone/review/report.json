@@ -1,9 +1,9 @@
 {
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/v1-phone-capture.mjs",
-  "inputsSha256": "bf69093f7c9ce76b415c805c45c38a62c062e48806cee2a5b6ca11ef5c17c624",
-  "browser": "Chromium 141.0.7390.37",
-  "captures": 193,
+  "inputsSha256": "db38dc00053e2a4b92b4f134ee676c33d377ef19345c6abbc063a4937c892eed",
+  "browser": "Google Chrome 155.0.8059.39",
+  "captures": 189,
   "failures": [],
   "results": [
     {
@@ -181,7 +181,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 907,
+        "height": 885,
         "primaryInView": null,
         "focus": null
       }
@@ -412,8 +412,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -424,8 +424,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 874,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -436,8 +436,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -448,8 +448,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 874,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -472,20 +472,20 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 957,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "select.name-taken",
-      "state": "select.name-taken",
+      "id": "select.unavailable",
+      "state": "select.unavailable",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 937,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -496,7 +496,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 959,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -508,8 +508,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 955,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -520,8 +520,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1037,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -532,8 +532,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 931,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -545,7 +545,7 @@
       "problems": [],
       "measured": {
         "height": 844,
-        "primaryInView": true,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -556,8 +556,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -568,7 +568,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -616,7 +616,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 890,
+        "height": 844,
         "primaryInView": null,
         "focus": null
       }
@@ -641,7 +641,7 @@
       "problems": [],
       "measured": {
         "height": 844,
-        "primaryInView": true,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -653,7 +653,7 @@
       "problems": [],
       "measured": {
         "height": 844,
-        "primaryInView": true,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -665,7 +665,7 @@
       "problems": [],
       "measured": {
         "height": 844,
-        "primaryInView": true,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -676,7 +676,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 5041,
+        "height": 4992,
         "primaryInView": null,
         "focus": null
       }
@@ -940,7 +940,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1095,
+        "height": 1052,
         "primaryInView": null,
         "focus": null
       }
@@ -952,7 +952,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1281,
+        "height": 1238,
         "primaryInView": null,
         "focus": null
       }
@@ -964,7 +964,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1118,
+        "height": 1095,
         "primaryInView": null,
         "focus": null
       }
@@ -976,7 +976,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1118,
+        "height": 1095,
         "primaryInView": null,
         "focus": null
       }
@@ -988,7 +988,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1337,
+        "height": 1294,
         "primaryInView": null,
         "focus": null
       }
@@ -1012,7 +1012,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1088,
+        "height": 1066,
         "primaryInView": null,
         "focus": null
       }
@@ -1036,7 +1036,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1401,
+        "height": 1306,
         "primaryInView": null,
         "focus": null
       }
@@ -1120,7 +1120,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1090,
+        "height": 1067,
         "primaryInView": null,
         "focus": null
       }
@@ -1240,7 +1240,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 915,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1300,7 +1300,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1383,
+        "height": 1293,
         "primaryInView": null,
         "focus": null
       }
@@ -1336,8 +1336,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 927,
-        "primaryInView": true,
+        "height": 640,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1360,7 +1360,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1606,
+        "height": 640,
         "primaryInView": true,
         "focus": null
       }
@@ -1384,7 +1384,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
+        "height": 1095,
         "primaryInView": true,
         "focus": null
       }
@@ -1409,7 +1409,7 @@
       "problems": [],
       "measured": {
         "height": 932,
-        "primaryInView": true,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1432,8 +1432,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 600,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1444,7 +1444,7 @@
       "fontPx": 32,
       "problems": [],
       "measured": {
-        "height": 2024,
+        "height": 1947,
         "primaryInView": null,
         "focus": null
       }
@@ -1456,8 +1456,8 @@
       "fontPx": 32,
       "problems": [],
       "measured": {
-        "height": 2438,
-        "primaryInView": false,
+        "height": 1717,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1468,7 +1468,7 @@
       "fontPx": 32,
       "problems": [],
       "measured": {
-        "height": 4174,
+        "height": 3978,
         "primaryInView": false,
         "focus": null
       }
@@ -1480,7 +1480,7 @@
       "fontPx": 32,
       "problems": [],
       "measured": {
-        "height": 3556,
+        "height": 1110,
         "primaryInView": false,
         "focus": null
       }
@@ -1492,7 +1492,7 @@
       "fontPx": 32,
       "problems": [],
       "measured": {
-        "height": 3695,
+        "height": 3618,
         "primaryInView": null,
         "focus": null
       }
@@ -1504,7 +1504,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 971,
+        "height": 928,
         "primaryInView": null,
         "focus": null
       }
@@ -1540,8 +1540,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 642,
-        "primaryInView": false,
+        "height": 450,
+        "primaryInView": true,
         "focus": {
           "tag": "INPUT",
           "inView": true
@@ -1549,14 +1549,14 @@
       }
     },
     {
-      "id": "keyboard-name",
-      "state": "select.picked",
+      "id": "keyboard-recovery",
+      "state": "join.recover",
       "viewport": "390x450",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 874,
-        "primaryInView": true,
+        "height": 598,
+        "primaryInView": false,
         "focus": {
           "tag": "INPUT",
           "inView": true
@@ -1570,7 +1570,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1594,8 +1594,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 805,
-        "primaryInView": true,
+        "height": 800,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1654,8 +1654,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1666,8 +1666,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1678,8 +1678,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1690,8 +1690,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1702,8 +1702,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 872,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1714,8 +1714,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1726,8 +1726,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1738,8 +1738,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1750,8 +1750,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1762,8 +1762,8 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1116,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
@@ -1774,7 +1774,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1786,7 +1786,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1798,7 +1798,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1810,7 +1810,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1822,7 +1822,7 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
@@ -1834,61 +1834,49 @@
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1223,
+        "height": 844,
         "primaryInView": true,
         "focus": null
       }
     },
     {
       "id": "04-cue-registration-0",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 844,
+        "height": 878,
         "primaryInView": null,
         "focus": null
       }
     },
     {
       "id": "04-cue-registration-60",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 844,
+        "height": 878,
         "primaryInView": null,
         "focus": null
       }
     },
     {
       "id": "04-cue-registration-120",
-      "state": "reveal.ready-early",
+      "state": "game.registered",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 844,
+        "height": 878,
         "primaryInView": null,
         "focus": null
       }
     },
     {
       "id": "04-cue-registration-reduced",
-      "state": "reveal.ready-early",
-      "viewport": "390x844",
-      "fontPx": null,
-      "problems": [],
-      "measured": {
-        "height": 844,
-        "primaryInView": null,
-        "focus": null
-      }
-    },
-    {
-      "id": "05-cue-registration-0",
       "state": "game.registered",
       "viewport": "390x844",
       "fontPx": null,
@@ -1900,43 +1888,7 @@
       }
     },
     {
-      "id": "05-cue-registration-60",
-      "state": "game.registered",
-      "viewport": "390x844",
-      "fontPx": null,
-      "problems": [],
-      "measured": {
-        "height": 878,
-        "primaryInView": null,
-        "focus": null
-      }
-    },
-    {
-      "id": "05-cue-registration-120",
-      "state": "game.registered",
-      "viewport": "390x844",
-      "fontPx": null,
-      "problems": [],
-      "measured": {
-        "height": 878,
-        "primaryInView": null,
-        "focus": null
-      }
-    },
-    {
-      "id": "05-cue-registration-reduced",
-      "state": "game.registered",
-      "viewport": "390x844",
-      "fontPx": null,
-      "problems": [],
-      "measured": {
-        "height": 878,
-        "primaryInView": null,
-        "focus": null
-      }
-    },
-    {
-      "id": "06-cue-sheet-open-0",
+      "id": "05-cue-sheet-open-0",
       "state": "game.private-open",
       "viewport": "390x844",
       "fontPx": null,
@@ -1948,7 +1900,7 @@
       }
     },
     {
-      "id": "06-cue-sheet-open-110",
+      "id": "05-cue-sheet-open-110",
       "state": "game.private-open",
       "viewport": "390x844",
       "fontPx": null,
@@ -1960,7 +1912,7 @@
       }
     },
     {
-      "id": "06-cue-sheet-open-220",
+      "id": "05-cue-sheet-open-220",
       "state": "game.private-open",
       "viewport": "390x844",
       "fontPx": null,
@@ -1972,7 +1924,7 @@
       }
     },
     {
-      "id": "06-cue-sheet-open-reduced",
+      "id": "05-cue-sheet-open-reduced",
       "state": "game.private-open",
       "viewport": "390x844",
       "fontPx": null,
@@ -1984,7 +1936,7 @@
       }
     },
     {
-      "id": "07-cue-public-move-0",
+      "id": "06-cue-public-move-0",
       "state": "game.move-accepted",
       "viewport": "390x844",
       "fontPx": null,
@@ -1996,7 +1948,7 @@
       }
     },
     {
-      "id": "07-cue-public-move-225",
+      "id": "06-cue-public-move-225",
       "state": "game.move-accepted",
       "viewport": "390x844",
       "fontPx": null,
@@ -2008,7 +1960,7 @@
       }
     },
     {
-      "id": "07-cue-public-move-450",
+      "id": "06-cue-public-move-450",
       "state": "game.move-accepted",
       "viewport": "390x844",
       "fontPx": null,
@@ -2020,7 +1972,7 @@
       }
     },
     {
-      "id": "07-cue-public-move-780",
+      "id": "06-cue-public-move-780",
       "state": "game.move-accepted",
       "viewport": "390x844",
       "fontPx": null,
@@ -2032,7 +1984,7 @@
       }
     },
     {
-      "id": "07-cue-public-move-900",
+      "id": "06-cue-public-move-900",
       "state": "game.move-accepted",
       "viewport": "390x844",
       "fontPx": null,
@@ -2044,7 +1996,7 @@
       }
     },
     {
-      "id": "07-cue-public-move-reduced",
+      "id": "06-cue-public-move-reduced",
       "state": "game.move-accepted",
       "viewport": "390x844",
       "fontPx": null,
@@ -2056,115 +2008,115 @@
       }
     },
     {
-      "id": "08-cue-phase-change-0",
+      "id": "07-cue-phase-change-0",
       "state": "phase.jail-vote",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1118,
+        "height": 1095,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "08-cue-phase-change-110",
+      "id": "07-cue-phase-change-110",
       "state": "phase.jail-vote",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1118,
+        "height": 1095,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "08-cue-phase-change-220",
+      "id": "07-cue-phase-change-220",
       "state": "phase.jail-vote",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1118,
+        "height": 1095,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "08-cue-phase-change-reduced",
+      "id": "07-cue-phase-change-reduced",
       "state": "phase.jail-vote",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1118,
+        "height": 1095,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "09-cue-round-transition-0",
+      "id": "08-cue-round-transition-0",
       "state": "phase.resolution",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1401,
+        "height": 1306,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "09-cue-round-transition-230",
+      "id": "08-cue-round-transition-230",
       "state": "phase.resolution",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1401,
+        "height": 1306,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "09-cue-round-transition-470",
+      "id": "08-cue-round-transition-470",
       "state": "phase.resolution",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1401,
+        "height": 1306,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "09-cue-round-transition-700",
+      "id": "08-cue-round-transition-700",
       "state": "phase.resolution",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1401,
+        "height": 1306,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "09-cue-round-transition-reduced",
+      "id": "08-cue-round-transition-reduced",
       "state": "phase.resolution",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 1401,
+        "height": 1306,
         "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "10-cue-request-arrives-0",
+      "id": "09-cue-request-arrives-0",
       "state": "host.requests",
       "viewport": "390x844",
       "fontPx": null,
@@ -2176,7 +2128,7 @@
       }
     },
     {
-      "id": "10-cue-request-arrives-110",
+      "id": "09-cue-request-arrives-110",
       "state": "host.requests",
       "viewport": "390x844",
       "fontPx": null,
@@ -2188,7 +2140,7 @@
       }
     },
     {
-      "id": "10-cue-request-arrives-220",
+      "id": "09-cue-request-arrives-220",
       "state": "host.requests",
       "viewport": "390x844",
       "fontPx": null,
@@ -2200,7 +2152,7 @@
       }
     },
     {
-      "id": "10-cue-request-arrives-reduced",
+      "id": "09-cue-request-arrives-reduced",
       "state": "host.requests",
       "viewport": "390x844",
       "fontPx": null,
@@ -2212,67 +2164,67 @@
       }
     },
     {
-      "id": "11-cue-choice-taken-0",
+      "id": "10-cue-choice-taken-0",
       "state": "select.conflict",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 957,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "11-cue-choice-taken-70",
+      "id": "10-cue-choice-taken-70",
       "state": "select.conflict",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 957,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "11-cue-choice-taken-140",
+      "id": "10-cue-choice-taken-140",
       "state": "select.conflict",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 957,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "11-cue-choice-taken-220",
+      "id": "10-cue-choice-taken-220",
       "state": "select.conflict",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 957,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "11-cue-choice-taken-reduced",
+      "id": "10-cue-choice-taken-reduced",
       "state": "select.conflict",
       "viewport": "390x844",
       "fontPx": null,
       "problems": [],
       "measured": {
-        "height": 957,
-        "primaryInView": true,
+        "height": 844,
+        "primaryInView": null,
         "focus": null
       }
     },
     {
-      "id": "12-cue-result-cover-0",
+      "id": "11-cue-result-cover-0",
       "state": "end.winner",
       "viewport": "390x844",
       "fontPx": null,
@@ -2284,7 +2236,7 @@
       }
     },
     {
-      "id": "12-cue-result-cover-300",
+      "id": "11-cue-result-cover-300",
       "state": "end.winner",
       "viewport": "390x844",
       "fontPx": null,
@@ -2296,7 +2248,7 @@
       }
     },
     {
-      "id": "12-cue-result-cover-600",
+      "id": "11-cue-result-cover-600",
       "state": "end.winner",
       "viewport": "390x844",
       "fontPx": null,
@@ -2308,7 +2260,7 @@
       }
     },
     {
-      "id": "12-cue-result-cover-900",
+      "id": "11-cue-result-cover-900",
       "state": "end.winner",
       "viewport": "390x844",
       "fontPx": null,
@@ -2320,7 +2272,7 @@
       }
     },
     {
-      "id": "12-cue-result-cover-reduced",
+      "id": "11-cue-result-cover-reduced",
       "state": "end.winner",
       "viewport": "390x844",
       "fontPx": null,

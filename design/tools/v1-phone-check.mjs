@@ -104,6 +104,15 @@ const END_STATES = new Set(['end.winner', 'end.draw', 'end.next', 'display.resul
 // ---------- Words quoted from the release are the release's words ----------
 {
   const problems = [];
+  if (JSON.stringify(journey.retiredReleaseKeys) !== JSON.stringify(fixtures.RETIRED_RELEASE_KEYS)) problems.push('the superseded quote registry differs between the inventory and fixtures');
+  for (const key of journey.retiredReleaseKeys ?? []) if (Object.hasOwn(fixtures.RELEASE_COPY, key)) problems.push(`${key}: superseded release quote is still active`);
+  for (const retired of journey.retiredStates ?? []) if (STATES.some(state => state.id === retired.id) || Object.hasOwn(fixtures.FIXTURES, retired.id)) problems.push(`${retired.id}: superseded state is still active`);
+  for (const key of ['noRequests', 'chooseCharacter', 'selectionUnavailable', 'characterTaken', 'choiceUncertain', 'sameChoiceAgain', 'readyWaiting', 'tapToReveal', 'readyAgain']) if (!Object.hasOwn(fixtures.RELEASE_COPY, key)) problems.push(`${key}: required current release quote is missing`);
+  const screens = await text('design/v1-phone/js/screens.js');
+  const app = await text('design/v1-phone/js/app.js');
+  for (const key of journey.retiredReleaseKeys ?? []) if (screens.includes(`say('${key}')`)) problems.push(`${key}: a screen renders a superseded quote`);
+  if (/data-act['"]?: ?['"]confirm-crew|id: ['"]j-name|act: ['"]confirm-crew/.test(screens + app)) problems.push('the compact selection still has a name form or separate confirm control');
+  if (/name: ['"]room['"]/.test(screens)) problems.push('the code-only join still asks the player to choose a starting room');
   for (const [key, [path, quote]] of Object.entries(fixtures.RELEASE_COPY)) {
     const source = await text(path).catch(() => null);
     if (source === null) problems.push(`${key}: ${path} does not exist`);

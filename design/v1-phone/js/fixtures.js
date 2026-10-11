@@ -8,8 +8,8 @@
 // appears only in a fixture whose surface is private to its own seat (the reveal, the
 // private sheet), and in the end reveal, which the rules make public at the end of a match.
 //
-// Words quoted from the pinned release are in RELEASE_COPY with the file they come from;
-// design/tools/v1-phone-check.mjs finds each one, verbatim, in that file at the design base.
+// Words quoted from the current copy-refresh source are in RELEASE_COPY with the file they come from;
+// design/tools/v1-phone-check.mjs finds each one, verbatim, in that file at the copy-refresh source.
 // Words this design adds are marked PROPOSED where they are drawn.
 
 export const SYNTHETIC_LABEL = 'Synthetic fixture · design prototype, not a match';
@@ -31,7 +31,7 @@ export const ROLE_LOOK = {
   Alien: { device: 'alien', team: 'Alien' },
 };
 
-/** The release's role reminders, verbatim (apps/game/hosted/role-guide.js at the design base). */
+/** The release's role reminders, verbatim (apps/game/hosted/role-guide.js at the copy-refresh source). */
 export const ROLE_GUIDE = {
   Insider: 'When play starts, your private panel shows three players: the Undercover, Alien and Cracker, without telling you which is which. Use that information to help Blue.',
   Cracker: 'You have two Rescues for the match. A Rescue heals an injured target at the end of the round. You can rescue yourself while injured, or rescue a player in Hospital from Room A or B; otherwise the target must share your location. Eliminated players cannot be revived.',
@@ -44,8 +44,14 @@ export const ROLE_GUIDE = {
   Alien: 'When play starts, your private panel shows the full Code. You may lie during a standard Hack. If you survive, you share a Blue victory, or win alone if both factions are eliminated at the same resolution checkpoint. A Red victory does not include you.',
 };
 
-/** Sentences quoted from the pinned release. Key → [source file, exact text]. */
+/** Earlier-release keys retained as retirement evidence, never active copy. */
+export const RETIRED_RELEASE_KEYS = ["nameTaken", "choosePrompt", "characterConfirmed", "selectionOverPlayer", "botsAutomatic", "revealWhere", "confirmCharacter"];
+
+/** Current source quotes. Key → [source file, exact text]. */
 export const RELEASE_COPY = {
+  chooseCharacter: ['apps/game/hosted/setup-controls.js', 'Choose your character'],
+  selectionUnavailable: ['apps/game/hosted/setup-controls.js', 'Selection unavailable. Try again.'],
+  tapToReveal: ['apps/game/hosted/role-confirmation.js', 'Tap to reveal'],
   waitingSeat: ['apps/game/hosted/main.js', 'Waiting for the host to seat you.'],
   endedInLobby: ['apps/game/hosted/main.js', 'The host ended this match before it started. There is nothing of it to show.'],
   hostNoRoles: ['apps/game/hosted/main.js', 'Hosting gives no view of anyone’s role. To play, join from another tab with the room code.'],
@@ -53,7 +59,7 @@ export const RELEASE_COPY = {
   endAsk: ['apps/game/hosted/main.js', 'End the match for everyone…'],
   endKeep: ['apps/game/hosted/main.js', 'No, keep the match'],
   endYes: ['apps/game/hosted/main.js', 'Yes, end the match now'],
-  noRequests: ['apps/game/hosted/main.js', 'None yet. Give the players the room code.'],
+  noRequests: ['apps/game/hosted/main.js', 'Waiting for players'],
   codeForm: ['apps/game/hosted/main.js', 'A room code is twelve characters, 0 to 9 and A to F.'],
   signinFailed: ['apps/game/hosted/main.js', 'Could not verify this session. Check your connection and reload to try again.'],
   giveUp: ['apps/game/hosted/main.js', 'Give this request up'],
@@ -73,21 +79,14 @@ export const RELEASE_COPY = {
   selectionOverHost: ['apps/game/hosted/setup-controls.js', 'Selection time has ended. Waiting for the server…'],
   readingOver: ['apps/game/hosted/setup-controls.js', 'Reading time has ended. Waiting for everyone to be Ready.'],
   waitingSetup: ['apps/game/hosted/setup-controls.js', 'Waiting for the host to start setup.'],
-  characterConfirmed: ['apps/game/hosted/setup-controls.js', 'Character confirmed. Roles are dealt when the selection timer ends.'],
-  selectionOverPlayer: ['apps/game/hosted/setup-controls.js', 'Selection has ended. The server is assigning any remaining characters.'],
-  choiceUncertain: ['apps/game/hosted/setup-controls.js', 'The answer is uncertain. Send the same choice again while selection is open.'],
-  choosePrompt: ['apps/game/hosted/setup-controls.js', 'Choose a character and a public name, up to 12 characters. Your secret role is dealt separately.'],
-  characterTaken: ['apps/game/hosted/setup-controls.js', 'That character was taken. Choose another.'],
-  nameTaken: ['apps/game/hosted/setup-controls.js', 'That name was taken. Choose another.'],
-  readyWaiting: ['apps/game/hosted/setup-controls.js', 'You are ready. The match starts after the reading timer and everyone’s confirmation.'],
+  choiceUncertain: ['apps/game/hosted/setup-controls.js', 'Connection interrupted. Retry your selection.'],
+  characterTaken: ['apps/game/hosted/setup-controls.js', 'Taken. Choose another character.'],
+  readyWaiting: ['apps/game/hosted/setup-controls.js', 'Ready. Waiting for the timer and other players.'],
   syncCountdown: ['apps/game/hosted/setup-controls.js', 'Synchronizing countdown…'],
-  sameChoiceAgain: ['apps/game/hosted/setup-controls.js', 'Send the same choice again'],
-  confirmCharacter: ['apps/game/hosted/setup-controls.js', 'Confirm character'],
-  botsAutomatic: ['apps/game/hosted/setup-controls.js', 'Bots choose and confirm automatically.'],
-  revealWhere: ['apps/game/hosted/role-confirmation.js', 'Only reveal this where other players cannot see your screen.'],
+  sameChoiceAgain: ['apps/game/hosted/setup-controls.js', 'Retry selection'],
   revealMine: ['apps/game/hosted/role-confirmation.js', 'Reveal my role'],
   hideMine: ['apps/game/hosted/role-confirmation.js', 'Hide my role'],
-  readyAgain: ['apps/game/hosted/role-confirmation.js', 'Send the same Ready again'],
+  readyAgain: ['apps/game/hosted/role-confirmation.js', 'Retry Ready'],
   freshRole: ['apps/game/hosted/role-confirmation.js', 'Waiting for a fresh, authorized role.'],
   readyOthers: ['apps/game/hosted/role-confirmation.js', 'You are ready. Waiting for everyone else.'],
   readyUncertain: ['apps/game/hosted/role-confirmation.js', 'Your Ready answer is uncertain. Send the same request again.'],
@@ -265,12 +264,12 @@ export const FIXTURES = {
 
   // ---------- character selection ----------
   'select.open': { view: 'select', surface: 'player', data: { phase: 'open', timer: timer(28, 30, 'To choose'), taken: {}, selected: null, name: '' } },
-  'select.picked': { view: 'select', surface: 'player', data: { phase: 'picked', timer: timer(19, 30, 'To choose'), taken: crewTaken, selected: 'c1', name: 'Cleo' } },
+  'select.picked': { view: 'select', surface: 'player', data: { phase: 'submitting', timer: timer(19, 30, 'To choose'), taken: crewTaken, selected: 'c1', name: 'Cleo' } },
   'select.taken': { view: 'select', surface: 'player', data: { phase: 'open', timer: timer(22, 30, 'To choose'), taken: { ...crewTaken, c6: 6, c3: 7 }, selected: null, name: '' } },
   'select.submitting': { view: 'select', surface: 'player', data: { phase: 'submitting', timer: timer(17, 30, 'To choose'), taken: crewTaken, selected: 'c1', name: 'Cleo' } },
   'select.confirmed': { view: 'select', surface: 'player', data: { phase: 'confirmed', timer: timer(12, 30, 'Deal in'), taken: crewTaken, selected: 'c1', name: 'Cleo', progress: setupSeats(9, [1, 2, 3, 4, 5, 9], 'choosing') } },
   'select.conflict': { view: 'select', surface: 'player', data: { phase: 'conflict', timer: timer(15, 30, 'To choose'), taken: { ...crewTaken, c1: 6 }, justTaken: 'c1', selected: null, name: 'Cleo' } },
-  'select.name-taken': { view: 'select', surface: 'player', data: { phase: 'name-taken', timer: timer(14, 30, 'To choose'), taken: crewTaken, selected: 'c1', name: 'Ben' } },
+  'select.unavailable': { view: 'select', surface: 'player', data: { phase: 'unavailable', timer: timer(14, 30, 'To choose'), taken: crewTaken, selected: 'c1', name: 'Ben' } },
   'select.retry': { view: 'select', surface: 'player', data: { phase: 'retry', timer: timer(9, 30, 'To choose'), taken: crewTaken, selected: 'c1', name: 'Cleo' } },
   'select.expired': { view: 'select', surface: 'player', data: { phase: 'expired', timer: { ...timer(0, 30, 'To choose'), expired: true }, taken: crewTaken, selected: 'c1', name: 'Cl' } },
   'select.assigned': { view: 'select', surface: 'player', data: { phase: 'assigned', timer: timer(29, 30, 'Reading'), assigned: { character: 'c8', name: 'Player 3' } } },

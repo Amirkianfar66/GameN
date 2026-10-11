@@ -6,6 +6,8 @@ Environment: a Claude Code cloud container on Linux 6.18; Node `22.21.1` and npm
 
 This page says what was run for issue #76, what each check asserts, and what it does not. The reviewed design kit has its own record in [verification.md](verification.md). This work changes none of that kit's inputs, so that record still stands, and `check:assets` below shows its renders and reports are still current.
 
+This is the original 8 October verification record. Later compact-phone and random-starting-room decisions superseded its selection/name/room-control examples. Fresh 9 October results and limits for the revised inputs are in [v1-phone-copy-refresh.md](v1-phone-copy-refresh.md). The earlier results below remain evidence of that historical source and environment.
+
 ## Checks that need no browser
 
 | Command | Actual result |

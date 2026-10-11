@@ -93,6 +93,24 @@ describe('mistakes the V1 phone check refuses', { concurrency: 6 }, () => {
 
   // ---------- the release's own words and looks ----------
 
+  test('a superseded quote reactivated and a required current quote deleted', async () => {
+    const root = scratchCopy();
+    append(root, FIXTURES, "RELEASE_COPY.nameTaken = [RELEASE_COPY.characterTaken[0], 'That name is already used.'];\ndelete RELEASE_COPY.sameChoiceAgain;");
+    refuses(await check(root), /nameTaken: superseded release quote is still active/, /sameChoiceAgain: required current release quote is missing/);
+  });
+
+  test('a superseded state reactivated and the retired registry changed', async () => {
+    const root = scratchCopy();
+    append(root, FIXTURES, "FIXTURES['select.name-taken'] = FIXTURES['select.unavailable'];\nRETIRED_RELEASE_KEYS.pop();");
+    refuses(await check(root), /select\.name-taken: superseded state is still active/, /the superseded quote registry differs/);
+  });
+
+  test('the obsolete name/confirm form and player-selected starting room return', async () => {
+    const root = scratchCopy();
+    append(root, 'design/v1-phone/js/screens.js', "const regressionForm = () => [h('input', { id: 'j-name' }), btn('Confirm', { act: 'confirm-crew' }), h('input', { name: 'room' })];");
+    refuses(await check(root), /compact selection still has a name form or separate confirm control/, /code-only join still asks the player to choose a starting room/);
+  });
+
   test('a release word misquoted, a role reminder reworded, a call sign changed and a role in another team', async () => {
     const root = scratchCopy();
     append(root, FIXTURES, [

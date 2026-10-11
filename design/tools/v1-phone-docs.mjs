@@ -51,6 +51,10 @@ export async function planInventory(repo = repoRoot) {
     }
     lines.push('');
   }
+  lines.push('## Superseded examples', '', ...(journey.retiredStates ?? []).map(state => `- ${state.id}: ${state.reason}`),
+    ...(journey.retiredComponents ?? []).map(component => `- ${component.id}: ${component.reason}`),
+    '', `Retired release quote keys: ${(journey.retiredReleaseKeys ?? []).map(key => `\`${key}\``).join(', ')}. They are historical examples, excluded from current release copy and rendering. Required current quotes and verbatim source matching remain checked.`,
+    '', `Current copy refresh: ${journey.copyRefresh?.sourceCommit ?? 'none'}; original design-base pin remains historical. Compact selection confirms on tile tap; joining takes a room code and uses the server-assigned room; the own setup surface is the role card plus Ready.`, '');
   lines.push('★ marks the states of the five priority screens shown on the priority contact sheet.', '',
     '## Components', '',
     'Reuse names the existing contract component (design/contract/component-states.json) or runtime hook the state is drawn on. Hooks marked PROPOSED are new.', '',
