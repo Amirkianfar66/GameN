@@ -12,7 +12,7 @@ The comic board stays on screen through a whole turn.
 
 1. **Actions** in navigation opens a compact tray over the lower edge of the board, listing only the actions the player's own view opens. Move is not in it.
 2. Choosing an action closes the tray. The characters the view offers for it get a dashed ring around their press area and a **+** tab; everyone else is drawn faint. The strip above navigation asks the release's question ("Choose a target", "Who is the Protection for?").
-3. The player taps a **character, in its room** (Hospital and Jail included where offered). Several parts (Scan's guess, Supply's two, the Code's four) are numbered on the characters and counted in the strip; Take back removes the last. Inline answers (Blue, Red, Alien; Abstain; No release request; Yes, No, Abstain) are buttons in the strip.
+3. The player taps a **character, in its room** (Hospital and Jail included where offered). Several parts (Scan's guess, Supply's two, the Code's four) are counted in the strip; the picks of a set (Supply's two, the Code's four) are checked alike on the characters, never numbered, and named in seat order, the Code's four clipped into a Code card ([abilities-handoff.md](abilities-handoff.md)); Take back removes the last. Inline answers (Blue, Red, Alien; Abstain; No release request; Yes, No, Abstain) are buttons in the strip.
 4. The strip asks to confirm, in the release's words; Confirm sends; the same neutral **Registered** stamp answers every action. Nothing about the outcome is drawn.
 5. **Moving** is pressing a room's name tag: a dashed "You?" marks the place tentatively, the strip confirms, and the character moves only when the public update says so, on every screen at once. A room holding five (the owner's hard rule of 11 October 2026) says **FULL** on its tag on every screen and is never offered.
 6. **Pass** is the middle of navigation, available only on the player's own ordinary turn, absent in legacy matches.
@@ -97,7 +97,7 @@ All of it is computed on every device from public facts only, so every screen dr
 - The action's name (`.bm-strip__kind`, a slanted caption) is set into the question; the question is `#bm-strip-line`, focused after every step (`tabindex="-1"`, `aria-live="polite"` on the strip).
 - **One control at the side** (`.bm-strip__side`): Cancel or "Take back Player N" while choosing; Done, OK or Check again after the answer.
 - **One row beneath** (`.bm-strip__controls`): inline answers of equal width; a single answer (Abstain, No release request) shares the row with Cancel; a long "Take back Player N" with no answer takes the row itself; Confirm (primary) with Choose again.
-- Progress of a Supply or a Code attempt: numbered dots inline at the start of "Chosen so far: …".
+- Progress of a Supply: unnumbered dots at the start of "Chosen so far: …", the picks named in seat order. Of a Code attempt: the Code card, its windows filled in seat order (ability art, slice 2).
 - The receipt's stamp sits on the strip's top edge; the release's receipt words are the line and its detail.
 
 ## 7. Motion

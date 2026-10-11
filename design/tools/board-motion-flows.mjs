@@ -104,7 +104,7 @@ try {
 
   // ---------- A Code attempt: four distinct characters, Take back, confirm ----------
   page = await open('code.two');
-  ok('code: two picked, numbered 1 and 2 on the board', js(await page.evaluate(`[...document.querySelectorAll('#bm-app .bm-piece__pick')].map(n => n.closest('.bm-piece').dataset.seat + '=' + n.textContent).sort()`)) === js(['2=2', '6=1']));
+  ok('code: two picked, checked alike on the board, never numbered', js(await page.evaluate(`[...document.querySelectorAll('#bm-app .bm-piece__pick')].map(n => n.closest('.bm-piece').dataset.seat + '=' + n.textContent).sort()`)) === js(['2=✓', '6=✓']));
   ok('code: a picked character offers no second press', await page.evaluate(`!document.querySelector('#bm-app [data-value="seat-6"]') && !document.querySelector('#bm-app [data-value="seat-2"]')`));
   await click(page, '#bm-app [data-value="seat-9"]');
   await click(page, '#bm-app [data-value="seat-7"]');
@@ -360,6 +360,63 @@ try {
   await click(page, '#bm-nav-card');
   ok('file/stale: Card shows the closed folder and nothing private', await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-folder')) && !document.querySelector('.ab-file, .bm-private')`));
   ok('file: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  // ---------- Slice 2: the Hacker's file, a Scan printed once, the Alien's Code, the Code card ----------
+  page = await open('file.hacker');
+  ok('hacker file: one snapshot, the known Undercover, labelled on its frame', await page.evaluate(`(() => {
+    const photos = [...document.querySelectorAll('#bm-card .ab-file[data-file="hacker"] .ab-photo')];
+    return photos.length === 1 && photos[0].dataset.seat === '4' && photos[0].querySelector('.ab-photo__tape')?.textContent === 'Undercover';
+  })()`));
+  ok('hacker file: the Scans in the view\'s order; a wrong guess shows nothing of the Code', await page.evaluate(`(() => {
+    const items = [...document.querySelectorAll('#bm-card .ab-printout')];
+    return items.map(n => n.dataset.scan).join() === '1:8,2:5' && !items[0].querySelector('.ab-code-mark') && !/code/i.test(items[0].textContent) && items[1].querySelectorAll('.ab-code-mark').length === 1;
+  })()`));
+  ok('hacker file: private content of the own open card, nowhere else', await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-file.bm-private')) && document.querySelectorAll('.ab-file').length === 1`) && (await observerPrivate(page)).length === 0);
+  ok('hacker file: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  page = await open('scan.fresh', 'scan=in');
+  await click(page, '#bm-nav-card');
+  await sleep(1300);
+  await click(page, '#bm-card [data-act="close"]');
+  await click(page, '#bm-nav-actions');
+  await click(page, '#bm-open-scan');
+  await click(page, '#bm-target-seat-8');
+  await click(page, '#bm-app [data-act="answer:Red"]');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(1000);
+  ok('scan: the receipt says registered, and nothing of the result', (await flow(page)).step === 'accepted' && !/in the code|wrong|right/i.test(await page.evaluate(`document.getElementById('bm-strip').textContent`)));
+  await click(page, '#bm-nav-card');
+  ok('scan: the new result is printed once in the Hacker\'s file', await page.evaluate(`(() => {
+    const item = document.querySelector('#bm-card .ab-printout[data-scan="2:8"]');
+    return Boolean(item) && item.dataset.result === 'in-code' && item.getAnimations().length > 0;
+  })()`));
+  await sleep(800);
+  await click(page, '#bm-card [data-act="close"]');
+  await click(page, '#bm-nav-card');
+  ok('scan: opened again, the result is at rest, not printed again', await page.evaluate(`(() => {
+    const item = document.querySelector('#bm-card .ab-printout[data-scan="2:8"]');
+    return Boolean(item) && item.getAnimations({ subtree: true }).length === 0;
+  })()`));
+  ok('scan: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  page = await open('file.alien');
+  ok('alien file: the Code\'s four in seat order, the own one marked, an unordered list', await page.evaluate(`(() => {
+    const seats = [...document.querySelectorAll('#bm-card .ab-code-set .ab-photo')].map(n => n.dataset.seat).join();
+    const own = [...document.querySelectorAll('#bm-card .ab-photo__own')].map(n => n.closest('.ab-photo').dataset.seat).join();
+    return seats === '1,3,5,9' && own === '3' && document.querySelector('#bm-card .ab-code-set').tagName === 'UL';
+  })()`));
+  ok('alien file: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  page = await open('code.four');
+  ok('code: the card filled in seat order, every pick on the board checked alike', await page.evaluate(`(() => {
+    const filled = [...document.querySelectorAll('#bm-strip .ab-code-card .ab-chip')].map(n => n.dataset.seat).join();
+    const marks = [...document.querySelectorAll('#bm-app [data-board="own"] .bm-piece__pick')].map(n => n.textContent);
+    return filled === '2,6,7,9' && marks.length === 4 && marks.every(mark => mark === '✓');
+  })()`));
   await page.close();
 } catch (error) {
   results.push(`FAIL  the flows stopped: ${error.message}`);

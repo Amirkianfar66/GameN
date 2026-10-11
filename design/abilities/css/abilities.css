@@ -1,4 +1,4 @@
-/* mothership:dev-only · ability art proposal abilities-0.1.0 · the treatments' reference styles.
+/* mothership:dev-only · ability art proposal abilities-0.2.0 · the treatments' reference styles.
    Colors are tokens (design/prototypes/css/tokens.css); pictures come only from loaded bundles:
    the kit behind [data-art~="abilities"], the crew cards behind [data-art~="public-board"]. Without
    them every treatment is complete in paper, ink and words (the missing-asset fallback). Private:
@@ -68,16 +68,16 @@
   position: absolute; left: 9.6%; top: 7.5%; width: 76.9%; height: 68.7%; display: grid; place-items: center; font-family: var(--ms-font-lettering);
   font-weight: var(--ms-weight-lettering); font-size: 34px; color: var(--ms-color-paper); pointer-events: none;
 }
-[data-art~="public-board"] .ab-photo__numeral { display: none; }
-[data-art~="public-board"] .ab-photo__art[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
-[data-art~="public-board"] .ab-photo__art[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
-[data-art~="public-board"] .ab-photo__art[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
-[data-art~="public-board"] .ab-photo__art[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
-[data-art~="public-board"] .ab-photo__art[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
-[data-art~="public-board"] .ab-photo__art[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
-[data-art~="public-board"] .ab-photo__art[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
-[data-art~="public-board"] .ab-photo__art[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
-[data-art~="public-board"] .ab-photo__art[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+[data-art~="public-board"] :is(.ab-photo__numeral, .ab-chip__numeral) { display: none; }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
 /* The pin, the query tag and the seat marker sit on the frame, so they follow it in any layout. */
 .ab-photo__pin { position: absolute; left: calc(50% - 11px); top: -12px; width: 22px; height: 24px; z-index: 2; }
 .ab-photo__query { position: absolute; right: -12px; top: 6px; width: 24px; height: 31px; rotate: 8deg; transform-origin: 50% 10%; z-index: 2; }
@@ -134,7 +134,7 @@
 
 /* Inspect: the snapshot is lifted toward the middle; the others step back. No clue is added. */
 .ab-file[data-inspect]:not([data-inspect=""]) .ab-photo[aria-pressed="false"],
-.ab-file[data-inspect]:not([data-inspect=""]) :is(.ab-roles, .ab-thread, .ab-file__note) { opacity: 0.3; }
+.ab-file[data-inspect]:not([data-inspect=""]) :is(.ab-roles, .ab-thread, .ab-file__note, .ab-known__words, .ab-scans, .ab-code-tag) { opacity: 0.3; }
 /* Lifted from its pin: it grows downward, over the dimmed envelope, never over the file's tab. */
 .ab-photo[aria-pressed="true"] { z-index: 5; transform-origin: 50% 0; transform: translateX(var(--ab-lift-x, 0px)) translateY(2px) scale(1.42); rotate: 0deg; }
 /* The inspect card lies over the lower part of the file, where the envelope is dimmed: the file keeps its height. */
@@ -162,6 +162,117 @@
 [data-art~="abilities"] .ab-folder__art { background: var(--ab-asset-dossier-folder) center / contain no-repeat; border: 0; }
 .ab-folder__label { margin: 0; max-width: 34ch; text-align: center; font-size: 13px; color: var(--ms-color-text-secondary); }
 
+/* ---------- slice 2: the Hacker's file, the Alien's file, the Code and the Scan ---------- */
+
+/* The own seat's snapshot in a file: a YOU tag on the frame's top right. */
+.ab-photo__own {
+  position: absolute; right: -10px; top: 8px; z-index: 2; padding: 1px 5px; rotate: 8deg; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering);
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 2px;
+}
+
+/* A portrait chip: the player's own crew card, its face in a round window; the seat number beside it. */
+.ab-chip { position: relative; flex: none; display: inline-block; width: 36px; height: 36px; border-radius: 50%; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); }
+[data-art~="abilities"] .ab-chip { background: var(--ab-asset-dossier-chip) center / contain no-repeat; border: 0; }
+.ab-chip__art { position: absolute; inset: 14%; border-radius: 50%; overflow: hidden; background: var(--ms-color-canvas) 50% 22% / 175% auto no-repeat; }
+.ab-chip__numeral {
+  position: absolute; inset: 14%; display: grid; place-items: center; border-radius: 50%; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering);
+  font-size: 13px; color: var(--ms-color-paper); background: var(--ms-color-canvas);
+}
+.ab-chip__seat { position: absolute; right: -7px; bottom: -5px; min-width: 16px; height: 16px; padding: 0 3px; font-size: 10px; box-shadow: 0 0 0 2px var(--ms-color-paper); display: none; }
+[data-art~="public-board"] .ab-chip__seat { display: inline-grid; }
+
+/* The Code's mark: a punch card with four holes, two by two; struck through, not in the Code. */
+.ab-code-mark {
+  position: relative; flex: none; display: inline-block; width: 28px; height: 21px; border: 2px solid var(--ms-color-ink); border-radius: 3px; background-color: var(--ms-color-paper);
+  background-image: radial-gradient(circle, var(--ms-color-ink) 0 2.4px, transparent 2.8px); background-size: 50% 50%; background-position: 2px 1px;
+}
+[data-art~="abilities"] .ab-code-mark { background: var(--ab-asset-dossier-code-mark) center / contain no-repeat; border: 0; border-radius: 0; }
+.ab-code-mark[data-struck="true"]::after {
+  content: ''; position: absolute; left: -3px; right: -3px; top: calc(50% - 2px); height: 4px; rotate: -24deg; background: var(--ms-color-ink); border-radius: 2px;
+  box-shadow: 0 0 0 1.5px var(--ms-color-paper);
+}
+
+/* The Hacker's file: the known Undercover, the one pairing that is the Hacker's own knowledge. */
+.ab-known { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 112px) minmax(0, 1fr); gap: 16px; align-items: center; padding: 10px 8px 8px; }
+.ab-known__photo { position: relative; display: grid; justify-items: center; --ab-tilt: -2deg; }
+/* The label tape, on the frame: here the pairing is the Hacker's own knowledge. */
+.ab-photo__tape {
+  position: absolute; left: -8px; right: -12px; bottom: 27%; z-index: 3; padding: 3px 4px 2px; text-align: center; pointer-events: none; rotate: -7deg; white-space: nowrap;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.15;
+  color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3);
+}
+.ab-known__words { display: grid; gap: 8px; justify-items: start; }
+.ab-known__code { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 800; font-size: 13px; line-height: 1.2; }
+.ab-known__role {
+  display: none; padding: 3px 8px 2px; rotate: -2deg; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px;
+}
+
+/* The Scans: one printout each, in the view's order. */
+.ab-scans { position: relative; z-index: 2; margin: 10px 0 0; }
+.ab-scans__title {
+  display: inline-block; margin: 0 0 6px; padding: 2px 8px 1px; rotate: -1.5deg; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.ab-scans__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ab-printout__paper {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 46px; padding: 5px 12px 5px 10px;
+  background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 2px;
+}
+[data-art~="abilities"] .ab-printout__paper { border: 8px solid transparent; border-width: 8px 14px; border-image: var(--ab-asset-dossier-printout) 12 14 fill / 8px 14px stretch; padding: 0 2px; }
+.ab-printout:nth-child(odd) .ab-printout__paper { rotate: -0.6deg; }
+.ab-printout:nth-child(even) .ab-printout__paper { rotate: 0.5deg; }
+.ab-printout__words { display: grid; min-width: 0; font-size: 12px; line-height: 1.25; }
+.ab-printout__round { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ab-printout__guess { color: var(--ms-color-steel-shadow); font-weight: 700; }
+.ab-printout__marks { display: grid; justify-items: end; gap: 3px; }
+.ab-printout__stamp { --ab-stamp-turn: -6deg; font-size: 11px; padding: 2px 7px 1px; }
+.ab-printout__stamp[data-stamp="right"] { color: var(--ms-color-ink); border-color: var(--ms-color-ink); }
+[data-art~="abilities"] .ab-printout__stamp { padding: 0 2px; }
+.ab-printout__code { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.ab-printout__code .ab-code-mark { width: 22px; height: 17px; }
+
+/* The Alien's file: the Code's four players as one set, two by two, in seat order; one string round the four. */
+.ab-code-set { list-style: none; margin: 0; padding: 8px 12px 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 26px; justify-items: center; }
+.ab-code-set__member { display: grid; justify-items: center; width: 100%; }
+.ab-code-set__member:nth-child(1) { --ab-tilt: -2.5deg; }
+.ab-code-set__member:nth-child(2) { --ab-tilt: 2deg; }
+.ab-code-set__member:nth-child(3) { --ab-tilt: 1.5deg; }
+.ab-code-set__member:nth-child(4) { --ab-tilt: -1.5deg; }
+.ab-code-set .ab-photo { max-width: 104px; }
+.ab-code-tag {
+  position: absolute; left: 50%; bottom: -14px; z-index: 4; translate: -50% 0; transform-origin: 50% 0; display: flex; align-items: center; gap: 7px; padding: 5px 10px 4px 7px;
+  rotate: -3deg; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.35);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+.ab-file[data-file="alien"] .ab-file__note { margin-top: 22px; }
+
+/* The Code card in the Hacker's strip: four windows, the picks in seat order. Windows sit where the art has them (240 x 76). */
+.ab-code-card {
+  position: relative; display: block; width: 196px; aspect-ratio: 240 / 76; margin: 6px 0 2px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px;
+}
+[data-art~="abilities"] .ab-code-card { background: var(--ab-asset-dossier-code-card) center / 100% 100% no-repeat; border: 0; border-radius: 0; }
+.ab-code-card__window { position: absolute; top: 31.6%; width: 16.7%; aspect-ratio: 1; display: grid; place-items: center; border: 2px dashed var(--ms-color-steel-mid); border-radius: 50%; }
+.ab-code-card__window:nth-child(1) { left: 7.5%; }
+.ab-code-card__window:nth-child(2) { left: 30%; }
+.ab-code-card__window:nth-child(3) { left: 53.3%; }
+.ab-code-card__window:nth-child(4) { left: 75.8%; }
+[data-art~="abilities"] .ab-code-card__window { border-color: transparent; }
+.ab-code-card__window[data-filled="true"] { border-color: transparent; }
+.ab-code-card .ab-chip { width: 100%; height: 100%; animation: ab-clip 160ms cubic-bezier(0.3, 1.4, 0.6, 1) backwards; }
+.ab-code-card .ab-chip__seat { right: -6px; bottom: -6px; }
+@keyframes ab-clip { from { transform: scale(1.5) rotate(-10deg); opacity: 0; } }
+/* Registered: the card is punched once. */
+.bm-strip[data-step="accepted"] .ab-code-card { animation: ab-punch 220ms cubic-bezier(0.5, 0, 0.75, 0) backwards; }
+@keyframes ab-punch { 0% { transform: none; } 40% { transform: scale(0.94) translateY(2px); } 100% { transform: none; } }
+
+/* The Scan's target in the Hacker's strip; the scanner sweeps it while the Scan is on its way. */
+.ab-scan-target { position: relative; float: left; margin: 0 8px 2px 0; width: 36px; height: 36px; }
+.ab-scan-target .ab-chip { width: 36px; height: 36px; }
+.ab-scan-target__sweep { position: absolute; left: -3px; right: -3px; top: 2px; height: 3px; border-radius: 2px; background: var(--ms-color-focus); opacity: 0; pointer-events: none; }
+.ab-scan-target[data-sweeping="true"] .ab-scan-target__sweep { opacity: 1; animation: ab-sweep 900ms ease-in-out infinite alternate; }
+@keyframes ab-sweep { from { top: 2px; } to { top: 31px; } }
+
 /* A board seen from the file: the character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
 [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { display: block; border: 3.5px solid var(--ms-color-focus); animation: ab-spot 1600ms ease-out forwards; }
 @keyframes ab-spot { 0% { opacity: 0; transform: scale(1.5); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; } }
@@ -172,9 +283,14 @@
 [data-motion="reduced"] .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
 [data-motion="reduced"] [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { animation: ab-spot-reduced 1600ms linear forwards; }
 @keyframes ab-spot-reduced { 0%, 95% { opacity: 1; } 100% { opacity: 0; } }
+[data-motion="reduced"] :is(.ab-code-card, .ab-code-card .ab-chip) { animation: none; }
+[data-motion="reduced"] .ab-scan-target[data-sweeping="true"] .ab-scan-target__sweep { animation: none; opacity: 0; }
+[data-motion="reduced"] .ab-scan-target[data-sweeping="true"] .ab-chip { outline: 3px solid var(--ms-color-focus); outline-offset: 1px; border-radius: 50%; }
 @media (prefers-reduced-motion: reduce) {
   .ab-photo { transition: none; }
   .ab-photo[aria-pressed="true"] { transform: none; }
+  :is(.ab-code-card, .ab-code-card .ab-chip) { animation: none; }
+  .ab-scan-target__sweep { animation: none !important; opacity: 0 !important; }
 }
 
 /* A short phone (320 x 568 and the like) at the default text size: the role card shrinks to a row and the
@@ -202,6 +318,23 @@
   .bm-app[data-short="true"] .ab-inspect__who { font-size: 15px; }
   .bm-app[data-short="true"] .ab-inspect__facts { margin: 2px 0 6px; }
   .bm-app[data-short="true"] .ab-button { padding: 8px 11px; }
+  /* The Hacker's file: a smaller snapshot beside its words, closer printouts. */
+  .bm-app[data-short="true"] .ab-known { grid-template-columns: minmax(0, 72px) minmax(0, 1fr); gap: 12px; padding: 4px 6px; }
+  .bm-app[data-short="true"] .ab-photo__tape { left: -3px; right: -9px; font-size: 9px; letter-spacing: 0.08em; padding: 2px 2px 1px; }
+  .bm-app[data-short="true"] .ab-known__code { font-size: 12px; gap: 6px; }
+  .bm-app[data-short="true"] .ab-scans { margin-top: 4px; }
+  .bm-app[data-short="true"] .ab-scans__title { margin-bottom: 3px; padding: 1px 7px 0; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-scans__list { gap: 4px; }
+  .bm-app[data-short="true"] .ab-printout__paper { min-height: 34px; gap: 8px; border-top-width: 6px; border-bottom-width: 6px; }
+  .bm-app[data-short="true"] .ab-printout .ab-chip { width: 28px; height: 28px; }
+  .bm-app[data-short="true"] .ab-printout__words { font-size: 11px; }
+  /* The Alien's file: smaller snapshots, the tag and the note kept apart. */
+  .bm-app[data-short="true"] .ab-code-set { gap: 10px 22px; padding: 2px 12px 14px; }
+  .bm-app[data-short="true"] .ab-code-set .ab-photo { max-width: 64px; }
+  .bm-app[data-short="true"] .ab-file[data-file="alien"] .ab-file__note { margin-top: 20px; }
+  /* The Code card, small, at the start of the strip's detail line. */
+  .bm-app[data-short="true"] .bm-strip__detail .ab-code-card { display: inline-block; vertical-align: -9px; width: 86px; margin: 0 6px 0 0; }
+  .bm-app[data-short="true"] .bm-strip__detail .ab-code-card .ab-chip__seat { display: none; }
 }
 
 /* Large text (the board's own large-text query): every word grows with the reader's text size and the file
@@ -231,4 +364,23 @@
   .ab-inspect__facts { font-size: 0.85rem; }
   .ab-button { font-size: 0.85rem; }
   .ab-folder__label { font-size: 0.85rem; }
+  /* The Hacker's file and the Alien's: the same one column, the words growing; marks beneath the words. */
+  .ab-known { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .ab-known__photo { justify-items: start; }
+  .ab-photo__tape { display: none; }
+  .ab-known__role { display: inline-block; font-size: 0.7rem; }
+  .ab-chip__seat { min-width: 1rem; height: 1rem; font-size: 0.5rem; right: -0.7rem; bottom: -0.45rem; }
+  .ab-printout .ab-chip { width: 52px; height: 52px; margin-right: 0.4rem; }
+  .ab-code-set .ab-photo { max-width: none; }
+  .ab-known__code { font-size: 0.8rem; flex-wrap: wrap; }
+  .ab-scans__title { font-size: 0.7rem; }
+  .ab-printout__paper { grid-template-columns: auto minmax(0, 1fr); }
+  .ab-printout__words { font-size: 0.8rem; }
+  .ab-printout__round { white-space: normal; overflow-wrap: anywhere; }
+  .ab-printout__marks { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; justify-content: start; }
+  .ab-printout__stamp { font-size: 0.6rem; }
+  .ab-printout__code { font-size: 0.7rem; white-space: normal; }
+  .ab-code-set { grid-template-columns: minmax(0, 1fr); justify-items: start; padding: 14px 6px 22px 10px; }
+  .ab-code-tag { font-size: 0.6rem; }
+  .ab-photo__own { font-size: 0.5rem; }
 }

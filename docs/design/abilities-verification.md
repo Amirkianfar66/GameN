@@ -1,6 +1,6 @@
 # Verification of the ability art
 
-Ability art `abilities-0.1.0`, slice 1: the Insider's file and the hidden card · branch `claude/designer-ability-art` · built on the board-motion prototype at `08409392d1040f20d559a9f36a2a1d9bb23468c4` (branch `codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88), **not merged**) · ruleset `in-person-v1-pass-2026-10-08` · 11 October 2026
+Ability art · slice 1 (the Insider's file and the hidden card, branch `claude/designer-ability-art`, `abilities-0.1.0`) and slice 2 (the Hacker's file and Scan, the Code attempt, the Alien's Code, branch `claude/designer-ability-art-2`, `abilities-0.2.0`) · built on the board-motion prototype at `08409392d1040f20d559a9f36a2a1d9bb23468c4` (branch `codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88), **not merged**) · ruleset `in-person-v1-pass-2026-10-08` · 11 October 2026
 
 Environment: a Claude Code cloud container on Linux 6.18; Node `22.21.1` and npm `10.9.4` (the pinned toolchain); for everything that needs a browser, headless **Chromium 141.0.7390.37**, started through a wrapper given as `CHROME_PATH` that adds `--no-sandbox` (the container runs as root).
 
@@ -39,11 +39,36 @@ Run in this branch's worktree on the content of the commit that adds slice 1 (it
 
 Found while building slice 2: the stamp frame (`dossier-stamp`) was drawn as a background sized `100% 100%`, but an SVG keeps its aspect ratio, so on a wide word the frame shrank to the stamp's height and the word ran past it ("CLASSIFIED"). The frame is now nine-sliced (`border-image`): its corners keep their shape and its sides stretch to the word. Run again on the fix with the same tools: `abilities-capture.mjs` **26 pictures and a contact sheet, 0 with problems**; `board-motion-capture.mjs` **214 captures and 5 contact sheets, 0 with problems**; `abilities-check.mjs` **6 of 6**; `board-motion-check.mjs` **13 of 13**.
 
+## 11 October 2026: slice 2
+
+Run in the worktree of `claude/designer-ability-art-2` on the content of the commit that adds slice 2 (its parent is `1453500`, slice 1's head), before committing, with `npm ci` and `npm run build` (both passed; Node 22.21.1, npm 10.9.4). The board prototype changed again (ten scenarios, the files and strip art wired in, a set's picks marked alike), so its checks were run again.
+
+| Command | Actual result |
+| --- | --- |
+| `node design/tools/abilities-assets.mjs --check` | Passed: `Ability assets are current: 17 files` (15 assets, the stylesheet, the manifest `abilities-0.2.0`) |
+| `node design/tools/abilities-capture.mjs` | Passed: **66 pictures and 2 contact sheets, 0 with problems** (slice 1's 26 and slice 2's 40: the Hacker's file and the Alien's at rest, inspecting, with long names, at twice the text size, without art; the Code card choosing, confirming and registered; the Scan's target, sending and reduced; ten assembly frames) |
+| `node design/tools/abilities-check.mjs` | Passed: **7 of 7 checks**, over 15 assets and 24 treatments (6 delivered) |
+| `node design/tools/board-motion-capture.mjs` | Passed: **220 captures and 5 contact sheets, 0 with problems** (74 scenarios) |
+| `node design/tools/board-motion-check.mjs` | Passed: **13 of 13 checks**, over 14 actions, 21 cues and 74 scenarios |
+| `node design/tools/board-motion-flows.mjs` | Passed: **212 of 212** (11 new: the Hacker's file, a live Scan whose result is printed once and not again on reopening, the Alien's file, the Code card) |
+| `npm run test --workspace @mothership/design-tokens` | **153 tests: 152 passed, 1 failed.** The **30 ability-check tests pass** (8 new for slice 2). The one failure is the same pre-existing issue #76 quote mismatch (PR #93) |
+| `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
+| `git diff --check` | Clean |
+| `npm run verify` | Run on `b056831e82728e4e2c49cf0ae3befabe082124e3`, the commit that adds slice 2, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 759 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
+
+**What this run caught, and what was changed.**
+
+- **The printout's paper shrank in the middle of its row.** Like the stamp, an SVG keeps its aspect ratio; the printout is nine-sliced too, so its torn ends keep their teeth at any width.
+- **The Code card pushed the board off a short phone.** At 320 x 568 the strip grew by the card and the board overflowed its row by 56 px (the board capture's `w320-code`). On a short phone the card now sits small at the start of the detail line, where progress dots were.
+- **Large text.** The Undercover tape spanned the wrong box, chip seat numbers grew over their chips, and the Alien's names wrapped letter by letter under a width cap. At large text the tape's word now stands beside the snapshot, the chips grow, and the cap is lifted.
+- **A stray file.** A scratch renderer wrote an HTML page next to `intel.svg`; the check refused it for its missing development-only mark, and it was removed.
+
 ## What the checks assert, and what they do not
 
 - `check:abilities` (no browser): the kit is exactly what its recipes make from `source/dossier.svg`, in the drawing vocabulary and the neutral palette (no team, room or crew color), versioned, anchored and with its rights; the inventory names a treatment for every V1 role and every shared moment, each with five motion forms, and reads only view fields the approved contracts carry; the Insider's file sorts the candidates by seat before drawing them, draws each candidate with nothing of a role, keeps the role names one picture with one accessible name and never a list, swings the query tags together, colors only with tokens, draws art only behind loaded bundles, styles no candidate apart and draws its board cue on the own board only; the prototype loads the kit whatever the role, its hidden card holds nothing private, no production file refers to the prototype, every file carries the development-only mark; the review pictures were taken from the current art, pages and fixtures and measured clean; the inventory page is generated from the contract. Statically: it reads source text, so it proves what the code says, not what a browser draws.
 - `capture:abilities` (browser): in every picture, in the page, the three snapshots are in seat order, built and sized alike, each shows its seat number, none names a role or points at the role names, the role names are one group below the three, nothing scrolls sideways, nothing scrolls at the default text size (the inspect card included), every control is at least 44 px, a name is cut only with an ellipsis and said whole by its button, and never cut at large text; while the card is hidden, the page holds neither the file nor a private word; after the background, reopening shows the file at rest with no animation running. It does not measure readability, contrast in compositing, touch accuracy or motion comfort.
-- The board flows press the file's own controls: inspect, Escape, the background, an explicit reopen, a stale view and Card while stale.
+- Since slice 2, `check:abilities` also holds: a wrong Scan's printout carries nothing of the Code; a Scan result is said in the release's words; the Hacker's file neither reorders nor filters the results; the Alien's Code is sorted by seat before it is drawn and is never an ordered list; the Code card is filled in seat order; no pick of a set is numbered on the board; the strip names a set's picks in seat order. `capture:abilities` measures the same in the page, and that the scanner sweeps only while a Scan is on its way, never in reduced motion.
+- The board flows press the file's own controls: inspect, Escape, the background, an explicit reopen, a stale view and Card while stale; and, since slice 2, a live Scan whose result is printed once in the Hacker's file and not again when the card is opened again.
 - None of it is a test of the production runtime, a real phone, a screen reader, or a match.
 
 ## Not run

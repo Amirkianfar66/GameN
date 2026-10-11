@@ -17,6 +17,7 @@ import { SCENARIOS, EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as fin
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abilities/js/dossier.js';
+import { alienFile, codeCard, hackerFile, printFresh, scanTarget } from '../../abilities/js/intel.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -137,7 +138,13 @@ function authoritativeFollowUp() {
   const { kind, picked } = S.flow;
   if (kind === 'move') setTimeout(() => deliver({ type: 'PUBLIC_MOVE', seat: VIEWER, location: picked[0] }), params.has('t') ? 0 : 500);
   if (kind === 'pass') setTimeout(() => deliver({ type: 'PHASE_CHANGED', next: 'turn' }), params.has('t') ? 0 : 600);
-  if (kind === 'scan') S.private.knowledge = [...S.private.knowledge, `Round ${S.public.round}: you scanned ${whoIs(picked[0])}, guessing ${picked[1]}. Synthetic: the server gives the result here, privately.`];
+  if (kind === 'scan' && S.private.intel?.undercoverSeatId) {
+    // Synthetic: the result the server returns with the acceptance (V1-14), as the fixture's ?scan= answer says
+    // (wrong, in or out). It reaches the Hacker's file, and nowhere else; the receipt itself says nothing of it.
+    const answer = params.get('scan') ?? 'wrong';
+    const matched = answer !== 'wrong';
+    S.private.intel = { ...S.private.intel, scanResults: [...(S.private.intel.scanResults ?? []), { round: S.public.round, target: picked[0], guess: picked[1], matched, inCode: matched ? answer === 'in' : null }] };
+  } else if (kind === 'scan') S.private.knowledge = [...S.private.knowledge, `Round ${S.public.round}: you scanned ${whoIs(picked[0])}, guessing ${picked[1]}. Synthetic: the server gives the result here, privately.`];
 }
 
 function checkAgain() {
@@ -321,14 +328,25 @@ function stripContent() {
   // The detail line may open with the progress of a choice in several parts.
   const line = (text, detail = null, lead = null) => [h('p', { class: 'bm-strip__line', id: 'bm-strip-line', tabindex: '-1' }, text), detail || lead ? h('p', { class: 'bm-strip__detail' }, lead, detail) : null];
   const button = (label, act, primary = false, extra = {}) => h('button', { type: 'button', class: `bm-btn${primary ? ' bm-btn--primary' : ''}`, 'data-act': act, ...extra }, label);
-  const progress = of => h('div', { class: 'bm-strip__progress', 'aria-hidden': 'true' }, Array.from({ length: of }, (_, index) => h('span', { 'data-done': String(index < seats.length) }, index < seats.length ? String(index + 1) : '')));
+  // Progress of a set (Supply's two): filled dots, unnumbered, since the picks have no order.
+  const progress = of => h('div', { class: 'bm-strip__progress', 'aria-hidden': 'true' }, Array.from({ length: of }, (_, index) => h('span', { 'data-done': String(index < seats.length) })));
+  // A set of picks (a Code attempt's four, Supply's two) is named in seat order, whatever order it was picked in.
+  const unordered = kind === 'code' || kind === 'supply';
+  const listed = unordered ? [...seats].sort((a, b) => a - b) : seats;
+  // The ability art in the strip (design/abilities/): the Code card, filled in seat order; the Scan's target, swept while it is on its way.
+  const art = kind === 'code' ? codeCard(seats.map(identity).filter(Boolean))
+    : kind === 'scan' && seats.length === 1 && identity(seats[0]) ? scanTarget(identity(seats[0]), { sweeping: step === 'submitting' || step === 'checking' }) : null;
+  // On a short phone the Code card sits small at the start of the detail line, where progress dots would, so the board keeps its height.
+  const inlineArt = kind === 'code' && phone.dataset.short === 'true';
+  const lead0 = inlineArt ? art : null;
+  const withArt = words => (art === null || inlineArt ? words : kind === 'scan' ? [art, ...words] : [...words, art]);
   if (step === 'choosing') {
     let text, lead = null, controls = [];
     if (kind === 'scan' && seats.length === 1) {
       text = COPY.compound.scanGuess(whoIs(seats[0]));
       controls = ['Blue', 'Red', 'Alien'].map(faction => button(faction, `answer:${faction}`, false, { class: 'bm-btn bm-btn--choice' }));
     } else if (kind === 'supply') { text = seats.length === 0 ? COPY.compound.supplyFirst : COPY.compound.supplySecond; lead = progress(2); }
-    else if (kind === 'code') { text = COPY.compound.codePick(4 - seats.length); lead = progress(4); }
+    else if (kind === 'code') { text = COPY.compound.codePick(4 - seats.length); lead = lead0; }
     else if (kind === 'scan') text = COPY.compound.scanSeat;
     else if (kind === 'vote') { text = COPY.ballot.votePrompt[voteOn()]; controls = [button(COPY.ballot.abstain, 'answer:none', false, { class: 'bm-btn bm-btn--choice' })]; }
     else if (kind === 'release-choice') { text = COPY.choosePrompt['release-choice']; controls = [button(COPY.ballot.noRequest, 'answer:none', false, { class: 'bm-btn bm-btn--choice' })]; }
@@ -338,7 +356,7 @@ function stripContent() {
     } else text = COPY.choosePrompt[kind];
     const tap = kind === 'release-vote' || (kind === 'scan' && seats.length === 1) ? null : SHELL.tapCharacter;
     const backLabel = seats.length > 0 ? COPY.compound.undo(seats.at(-1) === VIEWER ? `Player ${VIEWER} (you)` : `Player ${seats.at(-1)}`) : COPY.cancel;
-    const words = line(text, seats.length && kind !== 'scan' ? COPY.compound.picked(seats.map(n => (n === VIEWER ? `Player ${n} (you)` : `Player ${n}`)).join(', ')) : tap, lead);
+    const words = withArt(line(text, seats.length && kind !== 'scan' ? COPY.compound.picked(listed.map(n => (n === VIEWER ? `Player ${n} (you)` : `Player ${n}`)).join(', ')) : tap, lead));
     // Going back sits at the side of the words. Beside a single answer (Abstain, No release
     // request) it shares that answer's row, and a long one (Take back Player 2) with no answer
     // takes the row itself, so that the question keeps the whole width.
@@ -347,11 +365,11 @@ function stripContent() {
       ? { step, kindLabel, text: words, controls: [...controls, back] } : { step, kindLabel, text: words, controls, side: back };
   }
   if (step === 'confirming') {
-    return { step, kindLabel, text: line(confirmText(), consequence()),
+    return { step, kindLabel, text: withArt(line(confirmText(), consequence(), lead0)),
       controls: [button(COPY.confirm[kind], 'confirm', true, { 'aria-disabled': String(paused()) }), button(COPY.chooseAgain, 'back')] };
   }
-  if (step === 'submitting' || step === 'checking') return { step, kindLabel, stamp: ['pending', PROPOSED.pendingStamp], text: line(step === 'checking' ? COPY.checking : COPY.submitting[kind]), controls: [] };
-  if (step === 'accepted') return { step, kindLabel, stamp: ['registered', PROPOSED.registeredStamp], text: line(acceptedText(), acceptedDetail()), controls: [], side: button(COPY.done, 'dismiss', true) };
+  if (step === 'submitting' || step === 'checking') return { step, kindLabel, stamp: ['pending', PROPOSED.pendingStamp], text: withArt(line(step === 'checking' ? COPY.checking : COPY.submitting[kind], null, lead0)), controls: [] };
+  if (step === 'accepted') return { step, kindLabel, stamp: ['registered', PROPOSED.registeredStamp], text: withArt(line(acceptedText(), acceptedDetail(), lead0)), controls: [], side: button(COPY.done, 'dismiss', true) };
   if (step === 'rejected') return { step: 'not-accepted', kindLabel, stamp: ['not-accepted', PROPOSED.notAcceptedStamp], text: line(COPY.rejected[S.flow.code], S.flow.code === 'NOT_ALLOWED' ? COPY.tryAgainHint : null), controls: [], side: button(COPY.ok, 'dismiss', true) };
   if (step === 'unknown') return { step, kindLabel, stamp: ['unknown', PROPOSED.unknownStamp], text: line(COPY.unknown, COPY.unknownDetail), controls: [], side: button(COPY.checkAgain, 'check', true) };
   return null;
@@ -367,7 +385,7 @@ function confirmText() {
     case 'release-choice': return picked[0] === 'none' ? COPY.ballot.confirmNoRequest : COPY.ballot.confirmRelease(whoIs(picked[0]));
     case 'release-vote': return picked[0] === 'none' ? COPY.ballot.confirmAbstain : COPY.ballot.confirmReleaseVote[picked[0]](releaseSubject());
     case 'scan': return COPY.compound.confirmScan(whoIs(seats[0]), picked[1]);
-    case 'supply': return COPY.compound.confirmSupply(whoIs(seats[0]), whoIs(seats[1]));
+    case 'supply': { const [a, b] = [...seats].sort((x, y) => x - y); return COPY.compound.confirmSupply(whoIs(a), whoIs(b)); }
     case 'code': return COPY.compound.confirmCode([...seats].sort((a, b) => a - b).map(n => (n === VIEWER ? `Player ${n} (you)` : `Player ${n}`)).join(', '));
     default: return COPY.confirmTarget[kind](whoIs(seats[0]));
   }
@@ -383,7 +401,7 @@ function acceptedText() {
     case 'release-choice': return picked[0] === 'none' ? COPY.ballot.noRequestMade : COPY.ballot.releaseRequested(whoIs(picked[0]));
     case 'release-vote': return picked[0] === 'none' ? COPY.ballot.abstained : COPY.ballot.releaseVoted[picked[0]];
     case 'scan': return COPY.compound.scanAccepted(whoIs(seats[0]), picked[1]);
-    case 'supply': return COPY.compound.supplyAccepted(whoIs(seats[0]), whoIs(seats[1]));
+    case 'supply': { const [a, b] = [...seats].sort((x, y) => x - y); return COPY.compound.supplyAccepted(whoIs(a), whoIs(b)); }
     case 'code': return COPY.compound.codeAccepted;
     default: return COPY.acceptedTarget[kind](whoIs(seats[0]));
   }
@@ -426,19 +444,23 @@ function drawTray() {
         : h('p', { class: 'bm-tray__empty' }, SHELL.noActions));
 }
 
-// The Insider's file (design/abilities/): built once per set of candidates and kept while the
-// card stays open, so that inspecting a portrait survives an update; it assembles the first time
-// it is opened in this page and appears at rest after that. Forgotten as soon as nothing private
-// is open.
+// The seat's own file (design/abilities/): the Insider's, the Hacker's or the Alien's, from what
+// the view carries. Built once per content and kept while the card stays open, so that inspecting a
+// portrait survives an update; it assembles the first time it is opened in this page and appears at
+// rest after that. A Scan result that arrives later is printed once, the first time it is seen, and
+// never again. Forgotten as soon as nothing private is open.
 let fileNode = null;
 let fileKey = '';
 let fileSeen = false;
+const scansSeen = new Set();
 const reducedNow = () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches;
 const publicFacts = n => {
   const seat = seatOf(n);
   if (!seat) return '';
   return [seat.location, seat.health, seat.captain ? COPY.marker.captain : null, seat.jailed ? COPY.marker.jailed : null].filter(Boolean).join(' · ');
 };
+/** A seat's public identity: its number, the name and the character its player chose. */
+const identity = n => { const seat = seatOf(n); return seat ? { n: seat.n, name: seat.name, character: seat.character } : null; };
 function spotOnBoard(n) {
   S.view = 'board';
   render({ focus: 'nav' });
@@ -447,16 +469,35 @@ function spotOnBoard(n) {
   piece.dataset.spot = '';
   setTimeout(() => delete piece.dataset.spot, 1700);
 }
-function fileFor(candidates) {
-  const seats = candidates.map(n => seatOf(n)).filter(Boolean).map(seat => ({ n: seat.n, name: seat.name, character: seat.character }));
-  const key = JSON.stringify(seats);
+function fileFor(intel) {
+  let build = null, key = '', scanKeys = [];
+  const opts = { describe: publicFacts, onShow: spotOnBoard };
+  if (intel?.insiderCandidates?.length === 3) {
+    const seats = intel.insiderCandidates.map(identity).filter(Boolean);
+    key = JSON.stringify(['insider', seats]);
+    build = () => insiderFile(seats, opts);
+  } else if (intel?.undercoverSeatId) {
+    const known = identity(intel.undercoverSeatId);
+    const scans = (intel.scanResults ?? []).map(scan => ({ ...scan, target: identity(scan.target), self: scan.target === VIEWER })).filter(scan => scan.target);
+    scanKeys = scans.map(scan => `${scan.round}:${scan.target.n}`);
+    key = JSON.stringify(['hacker', known, scans]);
+    build = () => hackerFile(known, scans, opts);
+  } else if (intel?.code?.length === 4) {
+    const members = intel.code.map(identity).filter(Boolean);
+    key = JSON.stringify(['alien', members]);
+    build = () => alienFile(members, { ...opts, self: VIEWER });
+  }
+  if (!build) return { file: null, fresh: [] };
   if (!fileNode || fileKey !== key) {
-    fileNode = insiderFile(seats, { describe: publicFacts, onShow: spotOnBoard });
+    fileNode = build();
     // Private content of the open card, like the role card: the prototype's secrecy measurements know it by this class.
     fileNode.classList.add('bm-private');
     fileKey = key;
   }
-  return fileNode;
+  // The results this page has not shown yet; the first open shows every result as part of the file.
+  const fresh = fileSeen ? scanKeys.filter(scan => !scansSeen.has(scan)) : [];
+  for (const scan of scanKeys) scansSeen.add(scan);
+  return { file: fileNode, fresh };
 }
 
 function drawCard() {
@@ -475,8 +516,7 @@ function drawCard() {
   const self = seatOf(VIEWER);
   const [device, team] = ROLE_LOOK[S.private.role] ?? ['officer', 'Blue'];
   const knowledge = [...S.private.knowledge, ...(S.private.hackPartner ? [COPY.hackWith(S.private.hackPartner)] : [])];
-  const candidates = S.private.intel?.insiderCandidates ?? [];
-  const file = candidates.length === 3 ? fileFor(candidates) : null;
+  const { file, fresh } = fileFor(S.private.intel);
   put(card, head,
     h('p', { class: 'bm-hint' }, COPY.privateArea.hint),
     h('div', { class: 'bm-card bm-private', 'data-character': self.character, 'data-device': device, 'data-team': team.toLowerCase() },
@@ -485,6 +525,7 @@ function drawCard() {
     file,
     knowledge.length ? h('ul', { class: 'bm-know', 'aria-label': 'What you know' }, knowledge.map(item => h('li', null, item))) : null);
   if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: reducedNow() }); }
+  else if (file && fresh.length) for (const scan of fresh) printFresh(file, scan, { reduced: reducedNow() });
   else if (file && reducedNow()) cancelMotion(file);
 }
 

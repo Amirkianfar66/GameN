@@ -64,7 +64,7 @@ const APP = 'design/board-motion/js/app.js';
 test('the ability art as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Ability-art checks: 6 passed, 0 failing/);
+  assert.match(result.output, /Ability-art checks: 7 passed, 0 failing/);
 });
 
 // ---------- the kit ----------
@@ -117,7 +117,13 @@ test('candidates drawn in the order the view lists them are refused', async () =
 
 test('a candidate drawn with a role is refused', async () => {
   const root = scratchCopy();
-  edit(root, DOSSIER, text => text.replace("'data-seat': seat.n, 'aria-pressed': 'false',", "'data-seat': seat.n, 'data-role': ROLE_NAMES[suspects.indexOf(seat)], 'aria-pressed': 'false',"));
+  edit(root, DOSSIER, text => text.replace("'data-seat': seat.n, 'aria-pressed': 'false',", "'data-seat': seat.n, 'data-role': ROLE_NAMES[seat.n % 3], 'aria-pressed': 'false',"));
+  refuses(await check(root), /a candidate is drawn with something of a role/);
+});
+
+test('the Insider\'s candidates drawn with a label tape are refused', async () => {
+  const root = scratchCopy();
+  edit(root, DOSSIER, text => text.replace("snapshot(seat, { label: FILE_COPY.inspect(seat.n, seat.name), query: true })", "snapshot(seat, { label: FILE_COPY.inspect(seat.n, seat.name), query: true, tape: ROLE_NAMES[0] })"));
   refuses(await check(root), /a candidate is drawn with something of a role/);
 });
 
@@ -157,6 +163,52 @@ test('a board cue drawn outside the own board is refused', async () => {
   const root = scratchCopy();
   append(root, CSS, '.bm-piece[data-spot] .bm-piece__ring { display: block; }');
   refuses(await check(root), /abilities\.css draws a board cue outside the own board/);
+});
+
+// ---------- the Hacker's and the Alien's files, and the Code attempt ----------
+
+const INTEL = 'design/abilities/js/intel.js';
+
+test('a wrong Scan that shows the Code\'s mark is refused', async () => {
+  const root = scratchCopy();
+  edit(root, INTEL, text => text.replace("marks.push(el('span', { class: 'ab-stamp ab-printout__stamp', 'data-stamp': 'wrong' }, HACKER_COPY.stampWrong));", "marks.push(el('span', { class: 'ab-stamp ab-printout__stamp', 'data-stamp': 'wrong' }, HACKER_COPY.stampWrong), codeMark(true));"));
+  refuses(await check(root), /a wrong Scan shows something of the Code/);
+});
+
+test('Scan results sorted by the file are refused', async () => {
+  const root = scratchCopy();
+  edit(root, INTEL, text => text.replace("el('ol', { class: 'ab-scans__list' }, scans.map(printout))", "el('ol', { class: 'ab-scans__list' }, [...scans].sort((a, b) => Number(b.matched) - Number(a.matched)).map(printout))"));
+  refuses(await check(root), /the Hacker's file reorders or filters the Scan results/);
+});
+
+test('the Alien\'s Code drawn in the view\'s order is refused', async () => {
+  const root = scratchCopy();
+  edit(root, INTEL, text => text.replace('const members = [...code].sort((a, b) => a.n - b.n);', 'const members = [...code];'));
+  refuses(await check(root), /the Alien's Code is not put in seat order before it is drawn/);
+});
+
+test('the Alien\'s Code drawn as an ordered list is refused', async () => {
+  const root = scratchCopy();
+  edit(root, INTEL, text => text.replace("const grid = el('ul', { class: 'ab-code-set'", "const grid = el('ol', { class: 'ab-code-set'"));
+  refuses(await check(root), /the Alien's Code is drawn as an ordered list/);
+});
+
+test('a Code card filled in picking order is refused', async () => {
+  const root = scratchCopy();
+  edit(root, INTEL, text => text.replace('const sorted = [...picks].sort((a, b) => a.n - b.n);', 'const sorted = [...picks];'));
+  refuses(await check(root), /the Code card is not filled in seat order/);
+});
+
+test('picks of a set numbered on the board are refused', async () => {
+  const root = scratchCopy();
+  edit(root, 'design/board-motion/js/board.js', text => text.replace("h('span', { class: 'bm-piece__pick', 'aria-hidden': 'true' }, '✓')", "h('span', { class: 'bm-piece__pick', 'aria-hidden': 'true' }, String(pick + 1))"));
+  refuses(await check(root), /a set's picks are numbered on the board/);
+});
+
+test('a set\'s picks named in picking order are refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace('const listed = unordered ? [...seats].sort((a, b) => a - b) : seats;', 'const listed = seats;'));
+  refuses(await check(root), /the strip does not name a set's picks in seat order/);
 });
 
 // ---------- loading, hiding, and the production fence ----------

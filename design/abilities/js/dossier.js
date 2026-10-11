@@ -1,8 +1,13 @@
 // mothership:dev-only
 //
-// The Insider's file: a private investigation board for the starting knowledge the Insider's
-// view carries (knowledge.insiderCandidates in packages/contracts/src/full-game.ts): the unordered
-// set of the three players who hold Undercover, Alien and Cracker, without which holds which.
+// The private files of the ability art: a seat's own investigation board, drawn from what its
+// view carries. This module holds what every file shares (the snapshot, the board, the string,
+// inspecting, the assembly and the closed folder) and the Insider's file; intel.js adds the
+// Hacker's and the Alien's.
+//
+// The Insider's file draws the starting knowledge the Insider's view carries
+// (knowledge.insiderCandidates in packages/contracts/src/full-game.ts): the unordered set of the
+// three players who hold Undercover, Alien and Cracker, without which holds which.
 //
 // What it shows, and what it must never show:
 // - The three players' own public appearances: the crew card each chose, the seat number and the
@@ -46,9 +51,9 @@ export const FILE_MOTION = Object.freeze({
   total: 1020, reducedFade: 80, inspect: 200, hide: 160,
 });
 
-function el(tag, attrs = {}, ...children) {
+export function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
-  for (const [name, value] of Object.entries(attrs)) {
+  for (const [name, value] of Object.entries(attrs ?? {})) {
     if (value === null || value === undefined || value === false) continue;
     if (name === 'class') node.className = value;
     else if (name === 'dataset') Object.assign(node.dataset, value);
@@ -58,63 +63,71 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-const seatList = suspects => suspects.map(seat => `Player ${seat.n}, ${seat.name}`).join(', ').replace(/, ([^,]*)$/, ' and $1');
+/** Players in a sentence, in the order given: "Player 2, Ben, Player 5, Eli and Player 8, Hana". */
+export const seatList = seats => seats.map(seat => `Player ${seat.n}, ${seat.name}`).join(', ').replace(/, ([^,]*)$/, ' and $1');
 
 /**
- * The file, built from the view's candidates joined with each seat's public identity.
- * candidates: [{ n, name, character }]. describe(n): that seat's public facts in words.
- * onShow(n): the player asked to see that character on the board.
+ * One snapshot: a player's own chosen crew card in the frame, pinned, the seat number as a sticker in
+ * the portrait's corner and the name on the frame's margin. Built the same for every player; what may
+ * differ is only the player (seat, name, character) and, for a file that asks, the query tag (the same
+ * on every snapshot of that file), the own seat's mark, and a label tape where the pairing is the
+ * seat's own knowledge (the Hacker's Undercover; never in the Insider's file).
+ *
+ * The seat number is an evidence marker in the portrait's corner, so the caption holds the whole
+ * width for the name; a name too long for a small snapshot ends in an ellipsis there and is said in
+ * full by the button and by the inspect card. At large text the caption, beside the snapshot,
+ * carries the number and the whole name instead.
  */
-export function insiderFile(candidates, { describe = () => '', onShow = null } = {}) {
-  // A stable public order: by seat number, never the order the view happens to list them in.
-  const suspects = [...candidates].sort((a, b) => a.n - b.n);
-  const file = el('section', { class: 'ab-file', 'data-file': 'insider', 'aria-labelledby': 'ab-file-title' });
+export function snapshot(seat, { label, query = false, own = null, tape = null } = {}) {
+  return el('button', { type: 'button', class: 'ab-photo', 'data-seat': seat.n, 'aria-pressed': 'false', 'aria-label': label },
+    el('span', { class: 'ab-photo__frame', 'aria-hidden': 'true' },
+      el('span', { class: 'ab-photo__art', 'data-character': seat.character }),
+      el('span', { class: 'ab-photo__numeral' }, String(seat.n)),
+      el('span', { class: 'ab-photo__pin' }),
+      query ? el('span', { class: 'ab-photo__query' }) : null,
+      el('span', { class: 'ab-seat ab-photo__seat' }, String(seat.n)),
+      own ? el('span', { class: 'ab-photo__own' }, own) : null,
+      tape ? el('span', { class: 'ab-photo__tape' }, tape) : null),
+    el('span', { class: 'ab-photo__caption', 'aria-hidden': 'true' }, el('span', { class: 'ab-seat ab-photo__caption-seat' }, String(seat.n)), el('span', { class: 'ab-photo__name' }, seat.name)));
+}
+
+/** A file's board: the tab with its title and the CLASSIFIED stamp. */
+export function fileShell(kind, title) {
+  const file = el('section', { class: 'ab-file', 'data-file': kind, 'aria-labelledby': 'ab-file-title' });
   const tab = el('header', { class: 'ab-file__tab' },
-    el('h3', { class: 'ab-file__title', id: 'ab-file-title' }, FILE_COPY.title),
+    el('h3', { class: 'ab-file__title', id: 'ab-file-title' }, title),
     el('span', { class: 'ab-stamp', 'data-stamp': 'classified', 'aria-hidden': 'true' }, FILE_COPY.classified));
-  const summary = el('p', { class: 'ab-vh' }, FILE_COPY.summary(seatList(suspects)));
-  const list = el('ol', { class: 'ab-suspects', 'aria-label': FILE_COPY.suspects });
-  for (const seat of suspects) {
-    // The seat number is an evidence marker in the portrait's corner, so the caption holds the
-    // whole width for the name; a name too long for a small snapshot ends in an ellipsis there and
-    // is said in full by the button and by the inspect card. At large text the caption, beside the
-    // snapshot, carries the number and the whole name instead.
-    const photo = el('button', { type: 'button', class: 'ab-photo', 'data-seat': seat.n, 'aria-pressed': 'false', 'aria-label': FILE_COPY.inspect(seat.n, seat.name) },
-      el('span', { class: 'ab-photo__frame', 'aria-hidden': 'true' },
-        el('span', { class: 'ab-photo__art', 'data-character': seat.character }),
-        el('span', { class: 'ab-photo__numeral' }, String(seat.n)),
-        el('span', { class: 'ab-photo__pin' }),
-        el('span', { class: 'ab-photo__query' }),
-        el('span', { class: 'ab-seat ab-photo__seat' }, String(seat.n))),
-      el('span', { class: 'ab-photo__caption', 'aria-hidden': 'true' }, el('span', { class: 'ab-seat ab-photo__caption-seat' }, String(seat.n)), el('span', { class: 'ab-photo__name' }, seat.name)));
-    list.append(el('li', { class: 'ab-suspect' }, photo));
-  }
-  // The three names as one set: one group with one accessible name; the slip's words are pictures of it.
-  const roles = el('div', { class: 'ab-roles', role: 'img', 'aria-label': FILE_COPY.roles },
-    el('span', { class: 'ab-roles__back' }),
-    el('span', { class: 'ab-roles__slip' }, ROLE_NAMES.map(name => el('span', { class: 'ab-roles__name' }, name))),
-    el('span', { class: 'ab-roles__front' }),
-    el('span', { class: 'ab-roles__clip' }),
-    el('span', { class: 'ab-stamp', 'data-stamp': 'one-each' }, FILE_COPY.oneEach));
-  const note = el('p', { class: 'ab-file__note' }, FILE_COPY.note);
-  const corners = ['tl', 'tr', 'br', 'bl'].map(corner => el('span', { class: 'ab-corner-pin', 'data-corner': corner, 'aria-hidden': 'true' }));
+  file.append(tab);
+  return file;
+}
+
+export const cornerPins = () => ['tl', 'tr', 'br', 'bl'].map(corner => el('span', { class: 'ab-corner-pin', 'data-corner': corner, 'aria-hidden': 'true' }));
+
+export function threadSvg() {
   const thread = document.createElementNS(NS, 'svg');
   thread.setAttribute('class', 'ab-thread');
   thread.setAttribute('aria-hidden', 'true');
   thread.innerHTML = '<path class="ab-thread__ink" d=""/><path class="ab-thread__core" d=""/>';
-  const field = el('div', { class: 'ab-file__field' }, corners, list, roles);
-  const card = el('div', { class: 'ab-inspect', hidden: true, 'aria-live': 'polite' });
-  file.append(tab, summary, field, thread, note, card);
+  return thread;
+}
 
+/**
+ * Inspecting, the same in every file: pressing a snapshot lifts it toward the middle of the field and
+ * dims the rest; a card says that player's public facts (describe(n)), with Show on board (onShow) and
+ * Back; Back and Escape put it back and return focus to it. It never adds a clue.
+ */
+export function makeInspectable(file, { field, seats, describe = () => '', onShow = null }) {
+  const card = el('div', { class: 'ab-inspect', hidden: true, 'aria-live': 'polite' });
+  file.append(card);
   const inspect = n => {
-    const seat = suspects.find(entry => entry.n === n) ?? null;
+    const seat = seats.find(entry => entry.n === n) ?? null;
     file.dataset.inspect = seat ? String(seat.n) : '';
-    for (const button of list.querySelectorAll('.ab-photo')) {
+    for (const button of file.querySelectorAll('.ab-photo')) {
       const on = seat !== null && Number(button.dataset.seat) === seat.n;
       button.setAttribute('aria-pressed', String(on));
       button.style.removeProperty('--ab-lift-x');
       if (on) {
-        // Lift the snapshot toward the middle of the board: the same lift for any of the three.
+        // Lift the snapshot toward the middle of the board: the same lift for any of them.
         const box = button.getBoundingClientRect(), frame = field.getBoundingClientRect();
         button.style.setProperty('--ab-lift-x', `${Math.round(frame.left + frame.width / 2 - (box.left + box.width / 2))}px`);
       }
@@ -129,6 +142,11 @@ export function insiderFile(candidates, { describe = () => '', onShow = null } =
         el('button', { type: 'button', class: 'ab-button', 'data-file-act': 'back' }, FILE_COPY.back)),
     ]));
   };
+  const putBack = () => {
+    const was = file.dataset.inspect;
+    inspect(null);
+    file.querySelector(`.ab-photo[data-seat="${CSS.escape(was)}"]`)?.focus();
+  };
   file.addEventListener('click', event => {
     const photo = event.target.closest('.ab-photo');
     if (photo) {
@@ -137,21 +155,41 @@ export function insiderFile(candidates, { describe = () => '', onShow = null } =
       return;
     }
     const act = event.target.closest('[data-file-act]')?.dataset.fileAct;
-    if (act === 'back') {
-      const was = file.dataset.inspect;
-      inspect(null);
-      list.querySelector(`.ab-photo[data-seat="${CSS.escape(was)}"]`)?.focus();
-    }
+    if (act === 'back') putBack();
     if (act === 'show' && onShow) onShow(Number(file.dataset.inspect));
   });
   file.addEventListener('keydown', event => {
     if (event.key !== 'Escape' || !file.dataset.inspect) return;
     event.stopPropagation();
-    const was = file.dataset.inspect;
-    inspect(null);
-    list.querySelector(`.ab-photo[data-seat="${CSS.escape(was)}"]`)?.focus();
+    putBack();
   });
   new ResizeObserver(() => drawThread(file)).observe(file);
+  return inspect;
+}
+
+/**
+ * The file, built from the view's candidates joined with each seat's public identity.
+ * candidates: [{ n, name, character }]. describe(n): that seat's public facts in words.
+ * onShow(n): the player asked to see that character on the board.
+ */
+export function insiderFile(candidates, { describe = () => '', onShow = null } = {}) {
+  // A stable public order: by seat number, never the order the view happens to list them in.
+  const suspects = [...candidates].sort((a, b) => a.n - b.n);
+  const file = fileShell('insider', FILE_COPY.title);
+  const summary = el('p', { class: 'ab-vh' }, FILE_COPY.summary(seatList(suspects)));
+  const list = el('ol', { class: 'ab-suspects', 'aria-label': FILE_COPY.suspects });
+  for (const seat of suspects) list.append(el('li', { class: 'ab-suspect' }, snapshot(seat, { label: FILE_COPY.inspect(seat.n, seat.name), query: true })));
+  // The three names as one set: one group with one accessible name; the slip's words are pictures of it.
+  const roles = el('div', { class: 'ab-roles', role: 'img', 'aria-label': FILE_COPY.roles },
+    el('span', { class: 'ab-roles__back' }),
+    el('span', { class: 'ab-roles__slip' }, ROLE_NAMES.map(name => el('span', { class: 'ab-roles__name' }, name))),
+    el('span', { class: 'ab-roles__front' }),
+    el('span', { class: 'ab-roles__clip' }),
+    el('span', { class: 'ab-stamp', 'data-stamp': 'one-each' }, FILE_COPY.oneEach));
+  const note = el('p', { class: 'ab-file__note' }, FILE_COPY.note);
+  const field = el('div', { class: 'ab-file__field' }, cornerPins(), list, roles);
+  file.append(summary, field, threadSvg(), note);
+  makeInspectable(file, { field, seats: suspects, describe, onShow });
   return file;
 }
 
@@ -184,11 +222,54 @@ export function cancelMotion(file) {
   ANIMATIONS.delete(file);
 }
 
+/** The beats every file opens with: the board rises, the snapshots drop in seat order and are pinned. */
+export function openingBeats(file, play, M = FILE_MOTION) {
+  play(file, [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: M.board, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+  file.querySelectorAll('.ab-photo').forEach((photo, index) => {
+    const delay = M.photosFrom + index * M.photoStagger;
+    play(photo, [
+      { opacity: 0, transform: `translateY(-28px) rotate(${index % 2 ? 7 : -7}deg) scale(1.08)` },
+      { opacity: 1, offset: 0.55 },
+      { opacity: 1, transform: 'none' },
+    ], { duration: M.photo, delay, easing: 'cubic-bezier(0.3, 1.35, 0.6, 1)' });
+    play(photo.querySelector('.ab-photo__pin'), [{ opacity: 0, transform: 'scale(1.7)' }, { opacity: 1, transform: 'scale(1)' }], { duration: M.pin, delay: delay + M.photo - 60, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+  });
+}
+
+/** The string drawn round the whole set from the four corner pins, from a given moment. */
+export function threadBeats(file, play, from, M = FILE_MOTION) {
+  for (const pin of file.querySelectorAll('.ab-corner-pin')) {
+    play(pin, [{ opacity: 0, transform: 'scale(1.7)' }, { opacity: 1, transform: 'scale(1)' }], { duration: M.pin, delay: from - M.pin, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+  }
+  for (const path of file.querySelectorAll('.ab-thread path')) {
+    const length = path.getTotalLength?.() || 1;
+    play(path, [{ strokeDasharray: `${length}`, strokeDashoffset: `${length}` }, { strokeDasharray: `${length}`, strokeDashoffset: '0' }], { duration: M.thread, delay: from, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
+  }
+}
+
+/** A stamp landing. */
+export const THUMP = [{ opacity: 0, transform: 'scale(1.9) rotate(var(--ab-stamp-from, -18deg))' }, { opacity: 1, transform: 'scale(0.94) rotate(var(--ab-stamp-turn, -8deg))', offset: 0.75 }, { opacity: 1, transform: 'scale(1) rotate(var(--ab-stamp-turn, -8deg))' }];
+export const STAMP_EASING = 'cubic-bezier(0.5, 0, 0.75, 0)';
+
+/** The Insider's file: the envelope and its slip (the three names together), the query tags all at once, the string, the stamps. */
+function insiderBeats(file, play, M = FILE_MOTION) {
+  openingBeats(file, play, M);
+  for (const query of file.querySelectorAll('.ab-photo__query')) {
+    play(query, [{ opacity: 0, transform: 'rotate(-48deg)' }, { opacity: 1, transform: 'rotate(18deg)', offset: 0.7 }, { opacity: 1, transform: 'none' }], { duration: M.query, delay: M.queriesFrom, easing: 'ease-out' });
+  }
+  play(file.querySelector('.ab-roles'), [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }], { duration: M.envelope, delay: M.envelopeFrom, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+  play(file.querySelector('.ab-roles__slip'), [{ transform: 'translateY(58%)' }, { transform: 'none' }], { duration: M.slip, delay: M.slipFrom, easing: 'cubic-bezier(0.3, 1.25, 0.6, 1)' });
+  threadBeats(file, play, M.threadFrom, M);
+  play(file.querySelector('[data-stamp="classified"]'), THUMP, { duration: M.stamp, delay: M.stampClassified, easing: STAMP_EASING });
+  play(file.querySelector('[data-stamp="one-each"]'), THUMP, { duration: M.stamp, delay: M.stampOneEach, easing: STAMP_EASING });
+}
+
+/** Each kind of file's own assembly; intel.js adds the Hacker's and the Alien's. */
+export const BEATS = { insider: insiderBeats };
+
 /**
- * The file assembles: the board, the snapshots dropped in seat order and pinned, the envelope and
- * its slip (the three names together), the query tags all at once, the string round the whole
- * set, the stamps. Nothing waits on it: every control works from the first frame. Reduced: the
- * file appears at rest with a fade. Returns the animations, finished as one.
+ * The file assembles in its own beats (BEATS). Nothing waits on it: every control works from the
+ * first frame. Reduced: the file appears at rest with a fade. Returns the animations, finished as one.
  */
 export function assemble(file, { reduced = false } = {}) {
   cancelMotion(file);
@@ -199,35 +280,18 @@ export function assemble(file, { reduced = false } = {}) {
     play(file, [{ opacity: 0 }, { opacity: 1 }], { duration: M.reducedFade, easing: 'linear' });
   } else {
     drawThread(file);
-    play(file, [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: M.board, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
-    file.querySelectorAll('.ab-photo').forEach((photo, index) => {
-      const delay = M.photosFrom + index * M.photoStagger;
-      play(photo, [
-        { opacity: 0, transform: `translateY(-28px) rotate(${index % 2 ? 7 : -7}deg) scale(1.08)` },
-        { opacity: 1, offset: 0.55 },
-        { opacity: 1, transform: 'none' },
-      ], { duration: M.photo, delay, easing: 'cubic-bezier(0.3, 1.35, 0.6, 1)' });
-      play(photo.querySelector('.ab-photo__pin'), [{ opacity: 0, transform: 'scale(1.7)' }, { opacity: 1, transform: 'scale(1)' }], { duration: M.pin, delay: delay + M.photo - 60, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
-    });
-    for (const query of file.querySelectorAll('.ab-photo__query')) {
-      play(query, [{ opacity: 0, transform: 'rotate(-48deg)' }, { opacity: 1, transform: 'rotate(18deg)', offset: 0.7 }, { opacity: 1, transform: 'none' }], { duration: M.query, delay: M.queriesFrom, easing: 'ease-out' });
-    }
-    play(file.querySelector('.ab-roles'), [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }], { duration: M.envelope, delay: M.envelopeFrom, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
-    play(file.querySelector('.ab-roles__slip'), [{ transform: 'translateY(58%)' }, { transform: 'none' }], { duration: M.slip, delay: M.slipFrom, easing: 'cubic-bezier(0.3, 1.25, 0.6, 1)' });
-    for (const pin of file.querySelectorAll('.ab-corner-pin')) {
-      play(pin, [{ opacity: 0, transform: 'scale(1.7)' }, { opacity: 1, transform: 'scale(1)' }], { duration: M.pin, delay: M.threadFrom - M.pin, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
-    }
-    for (const path of file.querySelectorAll('.ab-thread path')) {
-      const length = path.getTotalLength?.() || 1;
-      play(path, [{ strokeDasharray: `${length}`, strokeDashoffset: `${length}` }, { strokeDasharray: `${length}`, strokeDashoffset: '0' }], { duration: M.thread, delay: M.threadFrom, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
-    }
-    const thump = [{ opacity: 0, transform: 'scale(1.9) rotate(var(--ab-stamp-from, -18deg))' }, { opacity: 1, transform: 'scale(0.94) rotate(var(--ab-stamp-turn, -8deg))', offset: 0.75 }, { opacity: 1, transform: 'scale(1) rotate(var(--ab-stamp-turn, -8deg))' }];
-    play(file.querySelector('[data-stamp="classified"]'), thump, { duration: M.stamp, delay: M.stampClassified, easing: 'cubic-bezier(0.5, 0, 0.75, 0)' });
-    play(file.querySelector('[data-stamp="one-each"]'), thump, { duration: M.stamp, delay: M.stampOneEach, easing: 'cubic-bezier(0.5, 0, 0.75, 0)' });
+    (BEATS[file.dataset.file] ?? insiderBeats)(file, play);
   }
   ANIMATIONS.set(file, list);
   const finished = Promise.allSettled(list.map(animation => animation.finished)).then(() => { if (ANIMATIONS.get(file) === list) ANIMATIONS.delete(file); });
   return { animations: list, finished };
+}
+
+/** Adds animations to the file's own, so that cancelMotion finishes them too. */
+export function playInFile(file, animations) {
+  const list = ANIMATIONS.get(file) ?? [];
+  list.push(...animations);
+  ANIMATIONS.set(file, list);
 }
 
 /**

@@ -2,9 +2,9 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "943e45cc66e5134dcdf59dcff0391ecb10ec9238b751694552e1c6d7697f562d",
+  "inputsSha256": "61548b567818681e6af15835cc9376564524d230a3c68155f928b57050a43b8e",
   "browser": "Chromium 141.0.7390.37",
-  "captures": 214,
+  "captures": 220,
   "failures": [],
   "results": [
     {
@@ -833,6 +833,52 @@
       }
     },
     {
+      "id": "scan.sending",
+      "scenario": "scan.sending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "scan.fresh",
+      "scenario": "scan.fresh",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
       "id": "supply.first",
       "scenario": "supply.first",
       "viewport": "390x844",
@@ -971,6 +1017,75 @@
       }
     },
     {
+      "id": "file.hacker",
+      "scenario": "file.hacker",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.hacker-start",
+      "scenario": "file.hacker-start",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.alien",
+      "scenario": "file.alien",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
       "id": "code.two",
       "scenario": "code.two",
       "viewport": "390x844",
@@ -996,6 +1111,29 @@
     {
       "id": "code.four",
       "scenario": "code.four",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "code.registered",
+      "scenario": "code.registered",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "state",

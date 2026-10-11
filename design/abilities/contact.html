@@ -27,16 +27,23 @@
   <script type="module">
     window.__designReady = false;
     const report = await fetch('./review/report.json').then(response => response.json());
+    const slice = Number(new URLSearchParams(location.search).get('slice') ?? 1);
+    const SLICES = {
+      1: ['The Insider’s file', 'The three players and the three roles as a set: who holds which is not known, and nothing draws a mapping.'],
+      2: ['The Hacker’s file and the Alien’s, the Code and the Scan', 'The Hacker’s known Undercover and every Scan result as authorized; the Alien’s Code, four players in no order; a Code attempt’s picks as a set, in seat order.'],
+    };
     const sheet = document.getElementById('sheet');
     const el = (tag, attrs = {}, ...kids) => { const node = document.createElement(tag); for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value); node.append(...kids.filter(kid => kid !== null)); return node; };
-    sheet.append(el('h1', {}, 'The Insider’s file', el('span', { class: 'flag' }, 'Synthetic · private · a proposal')),
-      el('p', { class: 'meta' }, `Ability art abilities-0.1.0, on the board-motion phone prototype. The three players and the three roles as a set: who holds which is not known, and nothing draws a mapping. ${report.browser}, simulated phone viewports at ${report.scale}x: not device measurements. Every name is synthetic; nothing here is a match.`));
-    const groups = [...new Set(report.shots.map(shot => shot.group))];
+    sheet.append(el('h1', {}, SLICES[slice][0], el('span', { class: 'flag' }, 'Synthetic · private · a proposal')),
+      el('p', { class: 'meta' }, `Ability art, slice ${slice}, on the board-motion phone prototype. ${SLICES[slice][1]} ${report.browser}, simulated phone viewports at ${report.scale}x: not device measurements. Every name is synthetic; nothing here is a match.`));
+    const mine = report.shots.filter(shot => (shot.slice ?? 1) === slice);
+    const groups = [...new Set(mine.map(shot => shot.group))];
     for (const group of groups) {
-      const shots = report.shots.filter(shot => shot.group === group);
-      const width = group.startsWith('Assembly') ? 170 : shots.some(shot => shot.phone === 'w320') ? 214 : 250;
+      const shots = mine.filter(shot => shot.group === group);
+      const framed = /assembly/i.test(group);
+      const width = framed ? 170 : shots.some(shot => shot.phone === 'w320') ? 214 : 250;
       sheet.append(el('section', {}, el('h2', {}, group), el('div', { class: 'grid' },
-        ...shots.map(shot => el('figure', { style: `--w:${shot.phone === 'w320' && !group.startsWith('Assembly') ? Math.round(width * 320 / 390) : width}px` },
+        ...shots.map(shot => el('figure', { style: `--w:${shot.phone === 'w320' && !framed ? Math.round(width * 320 / 390) : width}px` },
           el('img', { src: `./review/${shot.file.split('/').pop()}`, alt: shot.title }),
           el('figcaption', {}, el('b', {}, shot.title), shot.problems.length ? `${shot.problems.length} problems` : 'measured clean'))))));
     }

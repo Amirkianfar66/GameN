@@ -86,7 +86,7 @@
       "audience": "local",
       "trigger": "Each pick of a Supply (two) or a Code attempt (four).",
       "facts": "The player's own taps, in order. The order is a visual aid, not an ordered Code.",
-      "anchor": ".bm-piece__pick (numbered stamp) and .bm-strip__progress",
+      "anchor": ".bm-piece__pick (the same check on every pick of a set) and .bm-strip__progress (unnumbered) or the Code card",
       "durationMs": 120,
       "token": "motionMs.registrationStamp",
       "easing": "--ms-ease-snap",

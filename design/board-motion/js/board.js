@@ -295,7 +295,8 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
     const target = pending ? 'pending' : pick >= 0 ? (cues.multi ? 'picked' : 'selected') : eligible ? 'eligible' : cues.choosing ? 'other' : null;
     if (target) element.dataset.target = target; else delete element.dataset.target;
     element.querySelector('.bm-piece__pick')?.remove();
-    if (pick >= 0 && cues.multi) element.append(h('span', { class: 'bm-piece__pick', 'aria-hidden': 'true' }, String(pick + 1)));
+    // A set's picks (a Code attempt's four, Supply's two) are marked alike, never numbered: they have no order.
+    if (pick >= 0 && cues.multi) element.append(h('span', { class: 'bm-piece__pick', 'aria-hidden': 'true' }, '✓'));
     const existing = element.querySelector('.bm-piece__target');
     if (eligible && interactive) {
       const label = `Select ${seat.n === viewer ? `Player ${seat.n} (you)` : `Player ${seat.n}`}, ${seat.name}`;
