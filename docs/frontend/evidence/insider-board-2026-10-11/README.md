@@ -50,7 +50,7 @@ Then:
 
 ## Full verification
 
-`npm run verify` passed with exit 0 on the clean commit `1c3e819`. [verification.txt](verification.txt) keeps the run's own summary lines. It is re-run on the role-set change, and the result is recorded there.
+`npm run verify` passed with exit 0 on the clean commit `1c3e819`. It passed again on `94f5939`, after the role-set change; these captures are from its code commit, `69ee0e6`. [verification.txt](verification.txt) keeps both runs' own summary lines. Later commits change documentation only.
 
 ## The roles as one set (after the Designer's delivery)
 
