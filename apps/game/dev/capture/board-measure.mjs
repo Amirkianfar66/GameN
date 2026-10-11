@@ -52,6 +52,11 @@ export const MEASURE = `(() => {
     const start = banner.getBoundingClientRect().left;
     return lines.length > 0 && Math.min(...lines.map(line => line.left)) - start < parseFloat(icon.left) + parseFloat(icon.width) - 0.5;
   })() : null;
+  const fx = document.querySelector('.phone-fx');
+  const fxLayer = fx ? Number(getComputedStyle(fx).zIndex) : null;
+  const flyersOver = fx === null ? [] : [...document.querySelectorAll('.ms-private[data-open="true"], .phone-menu, .phone-action-dock, .ms-phase, .ms-banners')].filter(visible)
+    .filter(node => getComputedStyle(node).position !== 'static')
+    .filter(node => !(Number(getComputedStyle(node).zIndex) > fxLayer)).map(node => node.className.toString().split(' ')[0]);
   const navLabelsOut = [...document.querySelectorAll('.phone-nav button')].filter(visible).filter(button => {
     const label = button.querySelector('span:last-child');
     return label && !inside(box(label), box(button), 0.5);
@@ -68,7 +73,7 @@ export const MEASURE = `(() => {
     stripStep: document.querySelector('.phone-strip > .ms-card__state')?.dataset.step ?? null,
     stamp: (() => { const s = document.querySelector('.phone-strip > .ms-card__state > .ms-card__status'); return s && getComputedStyle(s).clipPath === 'none' ? s.textContent : null; })(),
     tray: !!document.querySelector('[data-phone-view="actions"][data-action-dock="false"] .ms-private[data-open="true"]'),
-    targets, overlaps, smallControls: small, statusClipped, bannerIconOverText, navLabelsOut,
+    targets, overlaps, smallControls: small, statusClipped, bannerIconOverText, navLabelsOut, flyersOver,
     marks: Object.fromEntries(['eligible', 'selected', 'picked', 'pending', 'other'].map(state => [state, [...document.querySelectorAll('.ms-board .ms-seat[data-board-target="' + state + '"]')].map(seat => seat.dataset.seat)])),
     ghost: document.querySelector('.phone-move-ghost')?.dataset.state ?? null,
     pass: (() => { const p = document.querySelector('#ms-phone-pass'); return p ? (p.disabled ? 'unavailable' : 'available') : document.querySelector('.phone-nav__slot') ? 'absent' : null; })(),
@@ -99,6 +104,7 @@ export function problemsOf(measured, { phone = true } = {}) {
     measured.statusClipped && 'status bar clips its content',
     measured.bannerIconOverText && 'the connection banner\'s icon lies over its words',
     ...(measured.navLabelsOut ?? []).map(label => `navigation label "${label}" runs past its button`),
+    ...(measured.flyersOver ?? []).map(layer => `a moving character would be drawn over ${layer}`),
   ].filter(Boolean);
 }
 
