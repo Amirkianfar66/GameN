@@ -86,6 +86,20 @@ Three were open when the fixtures were written, before Backend's implementation 
 
 <!-- results -->
 
+| Run | Engine | Passed | Failed | Blocked | Not run |
+| --- | --- | --- | --- | --- | --- |
+| The capacity fixtures under `in-person-v1-capacity-2026-10-11`, on the implementation | `dd04f68` | 92 | 15 | 0 | 15 |
+| Control: the same fixtures under `in-person-v1-pass-2026-10-08`, on the engine before the rule | `1a92f37` | 3 | 104 | 0 | 15 |
+| The Version 1 catalogue under `in-person-v1-pass-2026-10-08`, on the implementation | `dd04f68` | 516 | 0 | 33 | 6 |
+| The same, on the engine before the rule | `1a92f37` | 516 | 0 | 33 | 6 |
+| The Version 1 catalogue under `in-person-v1-2026-10-06`, on the implementation | `dd04f68` | 516 | 0 | 33 | 6 |
+| The same, on the engine before the rule | `1a92f37` | 516 | 0 | 33 | 6 |
+| The Version 1 catalogue under `in-person-v1-capacity-2026-10-11`, the implementation's own default | `dd04f68` | 24 | 492 | 33 | 6 |
+
+The first row is the result of this audit. The cases that fail are of two kinds: one case with each number of players is a defect against the cases the implementation was written for (finding F1), and four cases with each number of players hold rules the owner decided on 11 October, after it was written (F3, F4, F5, F11). The second row is the control: without the rule the cases fail, all but a few that assert a return to a room with a place and hold either way. The next four show that the two earlier rulesets play on the new build as they did on the build before it. The last is finding F6. By number of players, the failing cases, the controls, the playouts and the commands: [evidence/2026-10-11-capacity.md](evidence/2026-10-11-capacity.md).
+
+<!-- /results -->
+
 ## 3. Where the rule can bind
 
 This table is arithmetic on the rulebook's resource and vote rows. A test holds it to the computed values.

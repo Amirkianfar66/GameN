@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "HEAD",
-  "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
+  "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -41,7 +41,7 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance seeded playouts",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-11T19:15:09.690Z",
+  "generatedAt": "2026-10-11T20:47:07.780Z",
   "rulesetAskedFor": "in-person-v1-capacity-2026-10-11",
   "rooms": "capped",
   "roomCapacity": 5,

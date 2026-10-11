@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "HEAD",
-  "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
+  "workingTreeCommit": "4da5b414b843f58cfdc8498d7cada497d56c9560",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -41,7 +41,7 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance negative controls",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-11T19:14:44.487Z",
+  "generatedAt": "2026-10-11T20:46:36.182Z",
   "suite": "capacity",
   "roomCapacity": 5,
   "rulesetAskedFor": "in-person-v1-capacity-2026-10-11"
@@ -60,25 +60,25 @@
  "node": "v22.21.1",
  "modes": {
   "7": {
-   "scenarios": 31,
-   "controls": 340,
-   "detected": 340,
+   "scenarios": 33,
+   "controls": 356,
+   "detected": 356,
    "undetected": 0,
-   "baselineNotPassing": 4
+   "baselineNotPassing": 5
   },
   "8": {
-   "scenarios": 31,
-   "controls": 341,
-   "detected": 341,
+   "scenarios": 33,
+   "controls": 357,
+   "detected": 357,
    "undetected": 0,
-   "baselineNotPassing": 4
+   "baselineNotPassing": 5
   },
   "9": {
-   "scenarios": 39,
-   "controls": 536,
-   "detected": 536,
+   "scenarios": 41,
+   "controls": 552,
+   "detected": 552,
    "undetected": 0,
-   "baselineNotPassing": 4
+   "baselineNotPassing": 5
   }
  },
  "undetected": [],
@@ -87,14 +87,17 @@
   "V1-M7-CAP-27: truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\"",
   "V1-M7-CAP-28: truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
   "V1-M7-CAP-45: truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
+  "V1-M7-CAP-46: truth @Hacker.location: expected \"Room B\", observed \"Room A\"; truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\"",
   "V1-M8-CAP-25: truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
   "V1-M8-CAP-27: truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\"",
   "V1-M8-CAP-28: truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
   "V1-M8-CAP-45: truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
+  "V1-M8-CAP-46: truth @Hacker.location: expected \"Room B\", observed \"Room A\"; truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\"",
   "V1-M9-CAP-25: truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
   "V1-M9-CAP-27: truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\"",
   "V1-M9-CAP-28: truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
-  "V1-M9-CAP-45: truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+  "V1-M9-CAP-45: truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4",
+  "V1-M9-CAP-46: truth @Hacker.location: expected \"Room B\", observed \"Room A\"; truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\""
  ],
  "verdict": "failed",
  "leaks": [],
