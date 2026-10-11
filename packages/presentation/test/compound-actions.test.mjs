@@ -127,17 +127,17 @@ test('the idle card lists each of them only while the view opens it, and says so
   for (const [kind, { view, label, open }] of Object.entries(expected)) {
     const offers = card(view).body.offers;
     assert.deepEqual(offers.map(offer => offer.kind), ['move', 'shot', kind]);
-    assert.deepEqual(offers[2], { kind, label, statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: open } });
+    assert.deepEqual(offers[2], { kind, label, state: 'available', statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: open } });
     for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
-      assert.deepEqual(card(view, IDLE, overrides).body.offers[2], { kind, label, statusLabel: 'Paused', open: null }, kind);
+      assert.deepEqual(card(view, IDLE, overrides).body.offers[2], { kind, label, state: 'paused', statusLabel: 'Paused', open: null }, kind);
     }
     const shut = model(view, IDLE, closed);
     assert.equal(shut.match.privateArea.content, null);
     assert.equal(toHtml(renderConnectedPlayerShell(shut)).includes(`ms-action-open-${kind}`), false, kind);
     assert.deepEqual(auditMarkup(markup(view)), [], kind);
   }
-  assert.deepEqual(card(scanning([])).body.offers[2], { kind: 'scan', label: 'Scan', statusLabel: 'No one you can target right now', open: null });
-  assert.deepEqual(card(supplying(['seat-3'])).body.offers[2], { kind: 'supply', label: 'Supply', statusLabel: 'Too few players to choose right now', open: null });
+  assert.deepEqual(card(scanning([])).body.offers[2], { kind: 'scan', label: 'Scan', state: 'no-target', statusLabel: 'No one you can target right now', open: null });
+  assert.deepEqual(card(supplying(['seat-3'])).body.offers[2], { kind: 'supply', label: 'Supply', state: 'too-few', statusLabel: 'Too few players to choose right now', open: null });
   // In the phone's own fixed order, whatever order the view lists them in.
   const several = card(playerView(view => { view.self.codeAttemptAvailable = true; view.legalTargets = { REQUEST_HACK: ['seat-3'], SUPPLY: ['seat-3', 'seat-5'], SCAN: ['seat-3'] }; }));
   assert.deepEqual(several.body.offers.map(offer => offer.kind), ['move', 'shot', 'scan', 'supply', 'hack', 'code']);
@@ -221,7 +221,9 @@ test('the private panel says what the server’s view tells this seat, one sente
   const said = view => model(view).match.privateArea.content.knowledge;
   // Every seat is told what it holds. A seat the view gives nothing more is told nothing more.
   assert.deepEqual(said(playerView()), { heading: 'What you know', items: ['Ordinary weapons you hold: 0.', 'Rescues you have left: 1.'], insider: null });
-  assert.deepEqual(said(playerView(view => { view.self.rescuesRemaining = 0; view.self.ordinaryWeapons = 2; })).items, ['Ordinary weapons you hold: 2.']);
+  // A Cracker is told when no Rescue is left; another role, with none to begin with, is told nothing of Rescues.
+  assert.deepEqual(said(playerView(view => { view.self.rescuesRemaining = 0; view.self.ordinaryWeapons = 2; })).items, ['Ordinary weapons you hold: 2.', 'You have no Rescues left.']);
+  assert.deepEqual(said(playerView(view => { view.self.role = 'Supplier'; view.self.rescuesRemaining = 0; view.self.ordinaryWeapons = 2; })).items, ['Ordinary weapons you hold: 2.']);
   assert.deepEqual(said(insider).items, [
     'Player 2, Player 4, Player 6 hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which.',
     'Ordinary weapons you hold: 0.',
@@ -247,13 +249,18 @@ test('the private panel says what the server’s view tells this seat, one sente
     'Round 3: you scanned yourself and guessed Red. The guess was right, and that player is not in the Code.',
     'Ordinary weapons you hold: 0.',
   ]);
-  // A Protection, as only the seat that granted it is told: the round the view says it is
-  // active from, or that it is used up. Whether that round has come is not worked out: the
-  // sentence is the same before it, in it and after it.
+  // A Protection, as only the seat that granted it is told: used up, active once the view's own
+  // round has reached the round it names, and until then active from that round. (A Protection
+  // registered and not yet resolved is not in the view: its receipt speaks for it.)
   const protections = [{ seatId: 'seat-2', activeFromRound: 4, consumed: false }, { seatId: 'seat-5', activeFromRound: 3, consumed: false }, { seatId: 'seat-1', activeFromRound: 2, consumed: true }];
-  const told = ['Protection for Player 2: active from round 4.', 'Protection for Player 5: active from round 3.', 'Protection for yourself: used up.', 'Ordinary weapons you hold: 1.'];
-  assert.deepEqual(said(undercover(protections)).items, told);
-  for (const round of [1, 4, 5]) assert.deepEqual(said(undercover(protections, view => { view.round = round; })).items, told, `round ${round}`);
+  const told = round => [
+    round >= 4 ? 'Protection for Player 2: active.' : 'Protection for Player 2: active from round 4.',
+    round >= 3 ? 'Protection for Player 5: active.' : 'Protection for Player 5: active from round 3.',
+    'Protection for yourself: used up.', 'Ordinary weapons you hold: 1.',
+  ];
+  assert.deepEqual(said(undercover(protections)).items, told(3));
+  assert.deepEqual(said(undercover(protections)).items.slice(0, 2), ['Protection for Player 2: active from round 4.', 'Protection for Player 5: active.']);
+  for (const round of [1, 2, 4, 5]) assert.deepEqual(said(undercover(protections, view => { view.round = round; })).items, told(round), `round ${round}`);
   assert.deepEqual(buildKnowledge(insider), said(insider));
 });
 

@@ -450,10 +450,19 @@ export interface ActionChoiceModel {
   readonly number: number | null;
 }
 
+/**
+ * Where one kind of action stands while nothing is in progress, as the view states it:
+ * open now, open on a view this device can no longer trust as current, not opened, or opened
+ * with nobody to name (one seat) or too few to make the choice (several).
+ */
+export type ActionOfferState = 'available' | 'paused' | 'unavailable' | 'no-target' | 'too-few';
+
 /** One kind of action as it stands while nothing is in progress. */
 export interface ActionOfferModel {
   readonly kind: ActionKind;
   readonly label: string;
+  /** The same as statusLabel, for styling; it never says more than the words. */
+  readonly state: ActionOfferState;
   readonly statusLabel: string;
   /** Present only when the server offers at least one choice now, on a fresh view. */
   readonly open: { readonly id: string; readonly label: string } | null;

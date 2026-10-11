@@ -9,7 +9,7 @@
 // in the Command Room, for one); it is drawn because the board has no capacity, and its offers
 // still follow the gates for that state. Nothing here is imported by the release.
 
-import { FullLobbyIdentityDocumentSchema, FullPlayerViewSchema, FullPublicViewSchema } from '@mothership/contracts';
+import { FullLobbyIdentityDocumentSchema, FullPlayerViewSchema, FullPublicViewSchema, OwnAcknowledgmentsSchema } from '@mothership/contracts';
 
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
@@ -26,6 +26,8 @@ const BUSY_A = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Hospital', 'C
 /** Before the first Captain is elected nobody is in the Command Room: only the elected Captain is placed there. */
 const NO_CAPTAIN_YET = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Hospital', 'Room A', 'Room B', 'Jail'];
 const ALL = room => Array(9).fill(room);
+/** Round 1: everyone where the server placed them, nobody hurt, jailed or Captain yet. */
+const ROUND_ONE = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Room B', 'Room A'];
 const HOSPITAL_8 = Array.from({ length: 9 }, (_, index) => (index === 2 ? 'Room A' : 'Hospital'));
 const CROWD_HOSPITAL = ['Hospital', 'Hospital', 'Room A', 'Hospital', 'Hospital', 'Hospital', 'Command Room', 'Hospital', 'Room B'];
 const seat = n => `seat-${n}`;
@@ -86,6 +88,18 @@ export const SCENARIOS = {
   insider: { title: 'Insider: the investigation board in the card', role: 'Insider', offers: { move: ['Room B'], pass: true } },
   'insider-long-names': { title: 'Insider: twelve-character names on the investigation board', role: 'Insider', names: LONG_NAMES, offers: { move: ['Room B'], pass: true } },
   'crowd-room-b-supply': { title: 'All nine in Room B: Supply', locations: ALL('Room B'), role: 'Supplier', round: 3, captain: null, offers: { move: ['Room A'], supply: EVERYONE, pass: true } },
+  // Role-ability states for the Designer's treatments (#99): what each role's own view states.
+  // The knowledge and acknowledgments are what the strict schemas allow that role to hold, in
+  // states a match reaches; a Main Action already used this round can explain an absent offer.
+  'protection-states': { title: 'Undercover, round 3: one Protection used up, one active', role: 'Undercover', round: 3, offers: { move: ['Room B'], pass: true },
+    knowledge: { protections: [{ seatId: seat(2), activeFromRound: 2, consumed: true }, { seatId: seat(4), activeFromRound: 3, consumed: false }] } },
+  'cracker-no-rescues': { title: 'Cracker with no Rescues left', role: 'Cracker', rescues: 0, offers: { move: ['Room B'], pass: true } },
+  'scan-results': { title: 'Hacker, round 3: two Scan results', role: 'Hacker', round: 3, offers: { move: ['Room B'], pass: true },
+    knowledge: { scanResults: [{ round: 1, targetSeatId: seat(4), guess: 'Red', matched: false, inCode: null }, { round: 2, targetSeatId: seat(1), guess: 'Blue', matched: true, inCode: true }] } },
+  'alien-code': { title: 'Alien: the starting Code', role: 'Alien', offers: { move: ['Room B'], pass: true } },
+  'officer-round-1': { title: 'Officer, round 1: the one shot, offered from the first round', role: 'Officer', round: 1, locations: ROUND_ONE, captain: null, offers: { move: ['Room B'], shot: [1, 5, 7, 9], pass: true } },
+  'supplier-results': { title: 'Supplier, round 4: the Round 3 Supply granted two weapons', role: 'Supplier', round: 4, offers: { move: ['Room B'], pass: true },
+    acknowledgments: { supplierResults: [{ round: 3, commandId: 'simulated-supply', successfulRecipientSeatIds: [seat(1), seat(5)] }], receivedSupply: [] } },
 };
 
 /** The roster of a scenario: who stands where, with their public status. */
@@ -132,10 +146,11 @@ export function playerView(definition, now, revision = 1, move = null) {
     ...publicFacts(definition, now, revision), audience: { kind: 'player', seatId: seat(self) },
     self: {
       seatId: seat(self), role, movementDestinations: offers.move ?? [], releaseVoteAvailable: offers['release-vote'] === true,
-      ordinaryWeapons: offers.shot ? 1 : 0, shotAvailable: Boolean(offers.shot), rescuesRemaining: 1, disablerAvailable: Boolean(offers.disable),
+      // The Officer and the Undercover start with one ordinary weapon; anyone offered a shot holds one.
+      ordinaryWeapons: offers.shot || role === 'Officer' || role === 'Undercover' ? 1 : 0, shotAvailable: Boolean(offers.shot), rescuesRemaining: definition.rescues ?? (role === 'Cracker' ? 2 : 0), disablerAvailable: Boolean(offers.disable),
       hackAvailable: Boolean(offers.hack), scanAvailable: Boolean(offers.scan), codeAttemptAvailable: offers.code === true,
     },
-    knowledge: knowledge(role, self),
+    knowledge: { ...knowledge(role, self), ...definition.knowledge },
     legalTargets: Object.fromEntries([
       ['REGISTER_SHOT', offers.shot], ['DISABLE', offers.disable], ['PROTECT', offers.protect], ['RESCUE', offers.rescue], ['REQUEST_HACK', offers.hack],
       ['SHOWDOWN_SHOT', offers['showdown-shot']], ['SCAN', offers.scan], ['SUPPLY', offers.supply], ['VOTE', offers.vote], ['RELEASE_CHOICE', offers['release-choice']],
@@ -162,5 +177,15 @@ export function identities(definition) {
   return FullLobbyIdentityDocumentSchema.parse({
     schemaVersion: 1, protocolVersion: 2, catalogVersion: 'crew-0.1.0', matchId: MATCH, revision: 1, locked: true,
     seats: Array.from({ length: definition.count ?? 9 }, (_, index) => ({ seatId: seat(index + 1), displayName: names[index], characterId: CHARACTER[index] })),
+  });
+}
+
+/** The seat's own acknowledgments, when a scenario has any: the Supplier's results and a recipient's grant. */
+export function ownAcknowledgments(definition) {
+  if (!definition.acknowledgments) return null;
+  const { supplierResults = [], receivedSupply = [] } = definition.acknowledgments;
+  return OwnAcknowledgmentsSchema.parse({
+    schemaVersion: 1, protocolVersion: 2, matchId: MATCH, seatId: seat(definition.self ?? 3), bindingRevision: 1,
+    revision: 1 + supplierResults.length + receivedSupply.length, historyAvailable: true, supplierResults, receivedSupply,
   });
 }

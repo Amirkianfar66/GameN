@@ -39,13 +39,19 @@ export function buildKnowledge(view: FullPlayerView): Knowledge {
     const answer = !result.matched ? en.knowledge.scanWrong : result.inCode === true ? en.knowledge.scanRightInCode : result.inCode === false ? en.knowledge.scanRightNotInCode : null;
     items.push(answer === null ? asked : `${asked} ${answer}`);
   }
-  // The two things the view says of a Protection: the round it is active from, and whether it
-  // is used up. Comparing that round with the present one would be working something out.
+  // A Protection as the view states it: used up, or active from the round the view names. That
+  // round is set beside the view's own round, so a Protection in place says so (the contract's
+  // own meaning of the field). Before a Protection is resolved it is the registered command's
+  // receipt that speaks for it, never this list.
   for (const protection of knowledge.protections) {
-    items.push(protection.consumed ? en.knowledge.protectionUsed(who(protection.seatId)) : en.knowledge.protectionFrom(who(protection.seatId), protection.activeFromRound));
+    items.push(protection.consumed ? en.knowledge.protectionUsed(who(protection.seatId))
+      : protection.activeFromRound <= view.round ? en.knowledge.protectionActive(who(protection.seatId))
+        : en.knowledge.protectionFrom(who(protection.seatId), protection.activeFromRound));
   }
   // What the seat holds. A weapon received later is learned here and nowhere else.
   items.push(en.knowledge.weapons(self.ordinaryWeapons));
+  // The Rescues the view counts. A Cracker with none left is told so; the count is the view's.
   if (self.rescuesRemaining > 0) items.push(en.knowledge.rescues(self.rescuesRemaining));
+  else if (self.role === 'Cracker') items.push(en.knowledge.noRescues);
   return { heading: en.knowledge.heading, items, insider };
 }

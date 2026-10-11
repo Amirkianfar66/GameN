@@ -105,9 +105,9 @@ test('the idle card lists a ballot only while it is open, and never on a view or
   for (const [kind, { view, label, open }] of Object.entries(expected)) {
     const offers = card(view).body.offers;
     assert.deepEqual(offers.map(offer => offer.kind), ['move', 'shot', kind]);
-    assert.deepEqual(offers[2], { kind, label, statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: open } });
+    assert.deepEqual(offers[2], { kind, label, state: 'available', statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: open } });
     for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
-      assert.deepEqual(card(view, IDLE, overrides).body.offers[2], { kind, label, statusLabel: 'Paused', open: null }, kind);
+      assert.deepEqual(card(view, IDLE, overrides).body.offers[2], { kind, label, state: 'paused', statusLabel: 'Paused', open: null }, kind);
     }
     // Closed, nothing of it is in the model or the document.
     const shut = model(view, IDLE, closed);
