@@ -51,6 +51,10 @@ Each expected line must be **drawn**: present in the page and not hidden by styl
 | `protect-registered` | `protect` / `accepted`: "Protection for yourself registered." |
 | `officer-shot-registered` (round 1) | `shot` / `accepted`: "Shot at Player 5 registered." |
 
+## Full verification
+
+`npm run verify` passed with exit 0 on the clean commit `43693ed`; the code and these captures are from that commit. [verification.txt](verification.txt) keeps the run's own summary lines. Later commits change documentation only.
+
 ## A capture defect found and fixed
 
 The first run checked only that the expected text was in the page. That check passed for `supplier-results` while the results were hidden by style in the Card view, where `compact-phone.css` keeps them out by design.
