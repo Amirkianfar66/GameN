@@ -10,6 +10,11 @@
 // --room-capacity  Holds every playout to the capacity invariants (INV-CAP-01 to 03). Give it for
 //                  a ruleset that carries the rule, and for none that does not.
 // --occupancy      Adds to the summary how full the places got. It is on with --room-capacity.
+// --digests        Adds one digest of the end states of each mode's playouts, in order. Two runs
+//                  with the same digest played every one of those matches to the same end.
+//
+// With --room-capacity the policy also tries moves into full rooms far more often than the plain
+// policy does, so that offers and refusals are exercised; such a run records `pressFullRooms`.
 //
 // Exit status: 1 on any invariant violation, hint mismatch, replay mismatch or unfinished playout;
 // 2 when nothing was run that could count: --require-engine was given and no engine is available,
@@ -20,6 +25,7 @@
 // boundaries over many reachable states, and whether the engine's own target hints agree with
 // what it accepts. What it is not: evidence about human play. Only whether a terminal category
 // was reached at all is reported; how often a random policy reaches it is not recorded.
+import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { DEFAULT_WALK, walk } from '@mothership/balance';
@@ -28,14 +34,17 @@ import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
 
 const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'seeds', 'out', 'ruleset', 'rooms', 'room-capacity'], flags: ['require-engine', 'occupancy'] }, refuse);
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'seeds', 'out', 'ruleset', 'rooms', 'room-capacity'], flags: ['require-engine', 'occupancy', 'digests'] }, refuse);
 const rooms = values.rooms ?? 'seeded';
 if (rooms !== 'seeded' && rooms !== 'capped') refuse(`--rooms ${rooms} is neither seeded nor capped.`);
 const roomCapacity = values['room-capacity'] === null ? null : Number(values['room-capacity']);
 if (roomCapacity !== null && (!Number.isInteger(roomCapacity) || roomCapacity < 1)) refuse('--room-capacity needs a whole number of at least 1.');
 const withOccupancy = flags.occupancy || roomCapacity !== null;
+const pressFullRooms = roomCapacity === null ? 0 : 0.25;
+// A plain run has exactly the policy it always had.
+const policy = { ...DEFAULT_WALK, ...(rooms === 'seeded' ? {} : { rooms }), ...(pressFullRooms > 0 ? { pressFullRooms } : {}) };
 // A run that names a ruleset, a way of drawing rooms or a capacity records them. A plain run carries the pins it always did.
-const asked = values.ruleset === null && rooms === 'seeded' && roomCapacity === null ? {} : { rulesetAskedFor: values.ruleset, rooms, roomCapacity };
+const asked = values.ruleset === null && rooms === 'seeded' && roomCapacity === null ? {} : { rulesetAskedFor: values.ruleset, rooms, roomCapacity, pressFullRooms };
 const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
 const seeds = Number(values.seeds ?? 200);
 const out = values.out;
@@ -63,7 +72,7 @@ if (!loaded.available) {
   write({ schema: 'mothership.balance.walk/1', pins, verdict: 'not-run', reason: loaded.reason, seedsPerMode: seeds, node: process.version, modes: {} });
   process.exit(flags['require-engine'] ? 2 : 0);
 }
-const summary = { schema: 'mothership.balance.walk/1', pins, engine: loaded.adapter.pins, engineCommit: pins.engineCommit, policy: { ...DEFAULT_WALK, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
+const summary = { schema: 'mothership.balance.walk/1', pins, engine: loaded.adapter.pins, engineCommit: pins.engineCommit, policy: { ...policy, description: 'uniform random choice among offered commands, plus arbitrary commands' }, seedsPerMode: seeds, seedLabels: `walk-1 .. walk-${seeds}`, node: process.version, modes: {} };
 let problems = 0;
 for (const mode of [7, 8, 9]) {
   const stats = {
@@ -71,6 +80,7 @@ for (const mode of [7, 8, 9]) {
     replayMismatches: 0, showdowns: 0, mostEliminatedBeforeShowdown: 0, mostJailedAtOnce: 0,
     windowMinutes: { min: Infinity, max: 0 }, terminal: { Blue: 0, Red: 0, Alien: 0, Draw: 0, unfinished: 0 }, alienCoWin: 0, examples: [],
   };
+  const digest = createHash('sha256');
   // How full the places got, over all playouts of the mode. Counts of what was reached and of how
   // the engine answered; under a random policy they say nothing about how people would play.
   const occupancy = {
@@ -80,8 +90,9 @@ for (const mode of [7, 8, 9]) {
   };
   for (let index = 1; index <= seeds; index += 1) {
     const seed = `walk-${index}`;
-    const result = walk(loaded.adapter, mode, seed, { ...DEFAULT_WALK, rooms });
-    const again = walk(loaded.adapter, mode, seed, { ...DEFAULT_WALK, rooms });
+    const result = walk(loaded.adapter, mode, seed, policy);
+    const again = walk(loaded.adapter, mode, seed, policy);
+    digest.update(`${seed}\n${result.endDigest}\n`);
     for (const [place, held] of Object.entries(result.occupancy.most)) occupancy.most[place] = Math.max(occupancy.most[place] ?? 0, held);
     for (const key of ['phasesOpened', 'phasesWithAFullRoom', 'phasesOverCapacity', 'movesTowardsAFullRoom', 'movesIntoAFullRoom', 'returns', 'returnsToTheOtherRoom', 'returnsToTheOtherRoomThoughTheLastHadAPlace']) {
       occupancy[key] += result.occupancy[key];
@@ -127,6 +138,10 @@ for (const mode of [7, 8, 9]) {
   delete stats.alienCoWin;
   delete stats.showdowns;
   if (stats.completed === 0) stats.windowMinutes = null;
+  if (flags.digests) {
+    stats.endStatesSha256 = digest.digest('hex');
+    console.log(`  end states of the ${stats.playouts} playouts, in order: ${stats.endStatesSha256}`);
+  }
   if (withOccupancy) {
     stats.occupancy = occupancy;
     console.log(`  places: most at once ${Object.entries(occupancy.most).map(([place, held]) => `${place} ${held}`).join(', ')}; most waiting for Hospital ${occupancy.mostWaiting}`);

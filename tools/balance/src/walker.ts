@@ -109,6 +109,10 @@ export interface WalkOptions {
   // How starting rooms are drawn. 'seeded' is an independent draw for each player, which was the
   // rule until the capacity rule; 'capped' is the same made legal under it. Default 'seeded'.
   rooms?: RoomPlan;
+  // Probability that a seat also tries to move into a room that holds five players, in a phase in
+  // which one does. The plain policy seldom tries; a run that is about capacity asks for more.
+  // Default 0, which leaves every earlier playout exactly as it was.
+  pressFullRooms?: number;
 }
 
 export const DEFAULT_WALK: WalkOptions = { activity: 0.6, noise: 0.25, coordination: 0.5, maxPhases: 400 };
@@ -254,6 +258,16 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
             : { type, target: pick(seats, random) };
         const fresh = current.playerViews[seat];
         if (fresh !== undefined) {
+          send(seat, command, isOffered(fresh, command), current.phaseStartedAt + offset);
+          offset += 7;
+        }
+      }
+      if ((options.pressFullRooms ?? 0) > 0 && random() < (options.pressFullRooms ?? 0)) {
+        const here = current.truth.seats.find(item => item.seat === seat)?.location;
+        const full = ROOMS.filter(room => room !== here && room !== 'Command Room' && heldIn(current, room, seat) >= FULL);
+        const fresh = current.playerViews[seat];
+        if (full.length > 0 && fresh !== undefined) {
+          const command: NeutralCommand = { type: 'MOVE', destination: pick(full, random) };
           send(seat, command, isOffered(fresh, command), current.phaseStartedAt + offset);
           offset += 7;
         }

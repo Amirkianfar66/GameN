@@ -151,6 +151,35 @@ What changed for a caller of the three commands: nothing. They take the same opt
 2. **The read** is a document of its own, `matches/{matchId}/identities/public`, written by the service. The engine does not project it, so the engine binding cannot read it and no scenario here watches it. Balance reviewed the contract by reading; the conditions and what the draft does with each are in [contract-review.md](contract-review.md#names-and-characters-in-the-lobby). Nothing further is asked. If a later change gives the engine a projection of identities, Balance will bind it and the paired cases will cover it as they stand.
 3. **Keep the typed name out of every research record.** It is free text from a person, and the contract calls it `displayName`. The record validator refuses that field name and two likely others; the export of BAL-REQ-2 should not carry it under any.
 
+## BAL-REQ-10
+
+**The capacity suite as the Balance check of the capacity ruleset.** Asked on 11 October 2026, with the audit of issue #96 ([capacity-audit.md](capacity-audit.md)).
+
+Backend's PR #98 keeps the Version 1 catalogue as a check of the earlier ruleset and has no Balance check of the ruleset new matches will use. This branch has one: 88 fixtures in `tests/scenarios/capacity/`, three capacity invariants, and playouts that start from legal rooms and try full rooms.
+
+Asked of Integration, in the files it owns: for an engine that plays `in-person-v1-capacity-2026-10-11`, run
+
+- `npm run scenarios --workspace @mothership/balance -- --suite capacity --require-engine`, and hold it to 67 passed, 0 failed, 6 blocked and 15 not run, with the six probes recorded;
+- `npm run walk --workspace @mothership/balance -- --ruleset in-person-v1-capacity-2026-10-11 --rooms capped --room-capacity 5 --require-engine`, and hold it to no invariant violation, no hint mismatch, no replay mismatch and no unfinished playout.
+
+The hashes of the three fixture files are in the pins of the scenario report (`capacityFileHashes`), and the evidence report lists them.
+
+## BAL-REQ-11
+
+**The Version 1 gate asks for its ruleset by name.** Backend's PR #98 changed the Balance engine binding so that every match of the catalogue is created under the Pass ruleset, whatever the engine's own default is. The catalogue needs that: 510 of its 526 fixtures with a setup start with more than five players in one room, which the capacity ruleset refuses.
+
+This branch does it without fixing the ruleset in the binding: the four engine commands take `--ruleset`, and a report records the ruleset of its matches and, beside it, the build that played them, under the same three names Backend's change uses (`binaryEngineVersion`, `binaryRulesetVersion`, `binaryRulesetHash`). The same binding then serves the capacity suite.
+
+Asked of Integration: take this binding in place of the patch, and pass `--ruleset in-person-v1-pass-2026-10-08` where `scripts/test-balance.mjs` starts the catalogue, the controls and the playouts. The pins its guard compares are then the ones it compares now.
+
+The catalogue's own cases have not been run under the capacity ruleset. Re-seating them so that they can be is Balance's next work on this, and changes the pinned catalogue; it is not in this PR.
+
+## BAL-REQ-12
+
+**Starting rooms that do not depend on the order of joining.** Finding F1 of the audit. The service gives each player an even draw as they are approved and the other room when the drawn one holds five. Each player's own room is then even, but with nine players the last to join has no draw in 72.7% of lobbies, late joiners start together more often than early ones, and the lobby shows the rooms as they are given. The owner's decision reads "unrelated to role, character, faction and seat", and the decision of 8 October says players do not choose their room.
+
+Asked of Backend, once the owner has said when rooms are drawn (audit, section 7): draw all rooms at once when the roster is complete, every legal assignment equally likely, and keep that draw through retries and recovery as now. The arithmetic of the three methods is in section 4.1 of the audit.
+
 ## Where each request stands
 
 Backend answered every request in its reconciliation (PR [#39](https://github.com/Amirkianfar66/GameN/pull/39) at `e6923b3ffd6f47beb3b7a5963ce5f423c7b08e8e`, a draft, unmerged). The middle column is that document's disposition in short; its own wording is the authority.
@@ -169,6 +198,9 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | BAL-C15, BAL-C16, BAL-C17 | Advisory follow-ups. No new canon follows from them | Agreed |
 | BAL-REQ-8 | Answered by PR #65 and PR #67 on 7 October: the read exists and the binding uses it; the catalogue was adopted at commit `7d63089` | The binding patch is taken over. Open in one respect: adopt the head of this branch in place of `7d63089` |
 | BAL-REQ-9 | Answered by PR #64 on 7 October: a decision record and a separate identity document | Reviewed by reading; no objection. The rulebook row waits for the record to be merged |
+| BAL-REQ-10 | Not answered yet: asked on 11 October | Open |
+| BAL-REQ-11 | Not answered yet. Backend's PR #98 does the same by a patch to the binding | Open: this binding in place of the patch |
+| BAL-REQ-12 | Not answered yet: asked on 11 October | Open, and waits for the owner on when rooms are drawn |
 
 ## What Balance does next, and what it waits for
 
@@ -181,3 +213,5 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | First in-person pilot sessions under [playtest/protocol.md](playtest/protocol.md) | A playable build, the owner's approval of consent, access and retention, and people |
 | Complete playtest records | BAL-REQ-2 |
 | A separate powers-on suite | D10 |
+| Re-seat the Version 1 catalogue so that it can run under the capacity ruleset, with a new rulebook revision that takes in the capacity rows | The capacity ruleset on a branch the rulebook's sources are read from, and Integration's agreement to move the pins |
+| Turn the two blocked capacity cases into ready ones | The owner on CAP-D2 and CAP-D4 |

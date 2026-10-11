@@ -9,7 +9,7 @@
   "optionalPowers": false,
   "generatedFrom": "tests/scenarios/capacity/catalog.mjs",
   "execution": "Declarative fixtures. Results of actual runs are in docs/balance/evidence/. A fixture is not a result.",
-  "counts": {"total":27,"ready":21,"blocked":1,"manual":5},
+  "counts": {"total":28,"ready":21,"blocked":2,"manual":5},
   "setups": {
     "cap-b5": {
       "seed": "cap-b5",
@@ -663,6 +663,47 @@
         {"op":"command","actor":"@Undercover","command":{"type":"REGISTER_SHOT","target":"@Supplier"},"expect":"REGISTERED"},
         {"op":"until","round":5,"phase":"ORDINARY_TURN"},
         {"op":"note","label":"where the healed player is","truth":"@Insider","field":"location"}
+      ]
+    },
+    {
+      "id": "V1-M7-CAP-27",
+      "title": "Which room is a player's last room after they were sent to the other one",
+      "status": "blocked",
+      "kind": "rules_correctness",
+      "areas": ["resolution-order","movement"],
+      "ruleRefs": ["R-CAP-22"],
+      "dependsOn": ["R-CAP-07","R-STATE-08","R-VOTE-07"],
+      "lineage": [],
+      "decisionIds": ["CAP-D4"],
+      "setup": "cap-b5",
+      "note": "Supplier is released while Room B, their last room, is full, and is sent to Room A. Later Supplier is hurt in Room A and healed, and by then both rooms have a place. R-STATE-08 says the last room they occupied; the implementation remembers the room of their last move of their own.",
+      "steps": [
+        {"op":"until","round":1,"phase":"JAIL_VOTE"},
+        {"op":"command","actor":"@Insider","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Cracker","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Supplier","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","phase":"CAPTAIN_ELECTION"},
+        {"op":"command","actor":"@Alien","command":{"type":"VOTE","target":"@Alien"},"expect":"REGISTERED"},
+        {"op":"expire","times":1},
+        {"op":"until","round":2,"phase":"ORDINARY_TURN"},
+        {"op":"command","actor":"@Cracker","command":{"type":"MOVE","destination":"Room B"},"expect":"REGISTERED"},
+        {"op":"until","round":2,"phase":"RELEASE_CHOICE"},
+        {"op":"command","actor":"@Alien","command":{"type":"RELEASE_CHOICE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","phase":"RELEASE_VOTE"},
+        {"op":"command","actor":"@Insider","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Cracker","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Supplier","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"expire","times":1},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"MOVE","destination":"Room A"},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Blue Disabler"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"DISABLE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":4,"phase":"ORDINARY_TURN","active":"@Cracker"},
+        {"op":"command","actor":"@Cracker","command":{"type":"RESCUE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":5,"phase":"ORDINARY_TURN"},
+        {"op":"note","label":"where the healed player is","truth":"@Supplier","field":"location"}
       ]
     },
     {

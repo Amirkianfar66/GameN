@@ -1,6 +1,7 @@
 // The two tables of docs/balance/capacity-audit.md that are arithmetic, as text. A test holds the
 // document to this text, so that no number in them is typed by hand.
 import { capacityReach, startingRoomFacts } from '@mothership/balance';
+import { GROUPS, loadGroup } from '../capacity/files.mjs';
 
 const MODES = [7, 8, 9];
 const percent = value => `${(value * 100).toFixed(1)}%`;
@@ -42,5 +43,17 @@ export function startingRoomTable() {
     row('**The most even split, in a random order**: splits', facts.map(item => splits(item.balanced))),
     row('a room starts full', facts.map(item => percent(item.balanced.aRoomStartsFull))),
     row('two given players start in the same room', facts.map(item => together(item.balanced))),
+  ].join('\n');
+}
+
+/** How many capacity fixtures each mode has, by status, read from the committed files. */
+export function fixtureTable() {
+  const counts = GROUPS.map(group => loadGroup(group).header.counts);
+  const sum = key => counts.reduce((total, item) => total + item[key], 0);
+  return [
+    '| | 7 players | 8 players | 9 players | All |',
+    '| --- | --- | --- | --- | --- |',
+    ...[['Fixtures', 'total'], ['Ready: an engine run decides them', 'ready'], ['Blocked: a question is open, the case records what an engine does', 'blocked'], ['Manual: not an engine run', 'manual']]
+      .map(([label, key]) => `| ${label} | ${counts.map(item => item[key]).join(' | ')} | ${sum(key)} |`),
   ].join('\n');
 }

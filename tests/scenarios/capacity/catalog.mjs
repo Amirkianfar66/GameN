@@ -4,10 +4,12 @@
 // Room B, Hospital and Jail at any time. It is recorded in issue #96 and in
 // docs/design/owner-decisions.md of Designer's PR #88. Every expectation here is derived by hand
 // from that decision and from docs/balance/game-rules.md, and names the rows it rests on; the
-// R-CAP rows are in docs/balance/capacity-audit.md. Nothing is copied from an engine's output, and
-// the cases were written before Backend's implementation had a commit. A case that needs a
-// question the six decided cases leave open is `blocked`: it asserts nothing and records what an
-// engine does.
+// R-CAP rows are in docs/balance/capacity-audit.md. Nothing is copied from an engine's output. The
+// cases were written before Backend's implementation was read (commit ce4d9d0 of this branch holds
+// them as they then stood). Three questions were open then. Backend's record of the owner's
+// further decisions, docs/decisions/2026-10-11-room-capacity.md at b0ab779, answers two of them,
+// and cases 24 and 26 were changed from blocked to ready on that record and say so. A case that
+// needs a question still open is `blocked`: it asserts nothing and records what an engine does.
 //
 // These fixtures are a suite of their own beside tests/scenarios/v1/. They run under the ruleset
 // that carries the rule. The Version 1 catalogue is left as reviewed and runs under the rulesets
@@ -83,6 +85,7 @@ const is = (field, equals) => ({ match: field, equals });
 const sees = (role, field, equals) => ({ visible: ref(role), field, equals });
 const seesSet = (role, field, roles) => ({ visible: ref(role), field, sameSet: roles.map(ref) });
 const count = (name, equals) => ({ count: name, equals });
+const factSet = (name, roles) => ({ publicFact: name, sameSet: roles.map(ref) });
 const holds = (location, equals) => count(`occupants:${location}`, equals);
 // The table and every player: nobody was shown anything new.
 const nobodySaw = since => ({ unchanged: { since, audiences: { allPlayersExcept: [] } } });
@@ -307,15 +310,19 @@ function build(mode) {
       note: 'Insider is Injured and Jailed, and five other players are in Hospital. The release is the Captain\'s to ask for and the table\'s to grant as before. Where Insider is then placed is not decided (CAP-D3) and is not asserted; that Hospital still holds five is.',
       steps: [...freed, check(is('phase', 'JAIL_VOTE'), is('round', 5), truth('Insider', 'jailed', false), truth('Insider', 'health', 'Injured'), count('injured', 6), holds('Hospital', 5))],
     });
-    add(24, 'Which of the players hurt in one round is left waiting when Hospital has too few beds', {
-      status: 'blocked', decisions: ['CAP-D1'], areas: ['resolution-order'], rules: ['R-CAP-18'], depends: ['R-CAP-04', 'R-CAP-13'], setup: setup('ward'),
-      note: 'Three players are hurt in Round 4 and Hospital has two beds. The six cases do not say who waits. An order that follows who attacked first would tell the table something about the attacks (R-ACT-08).',
-      steps: [...nine.first, ...nine.arm, ...nine.last({}), open(5), note('the player left waiting', 'waiting')],
+    add(24, 'When more players are hurt in one round than Hospital has places, the lower player numbers get them', {
+      areas: ['resolution-order'], rules: ['R-CAP-18', 'R-CAP-04'], depends: ['R-CAP-13', 'R-CAP-15'], setup: setup('ward'),
+      note: 'Three players are hurt in Round 4 and Hospital has two places. They are players 2 (Supplier), 4 (Officer) and 9 (Blue Disabler), so Blue Disabler waits. In the order of the attacks Officer was hurt last, and in the order of that round\'s turns Officer comes last, so either of those orders would leave Officer waiting. Blocked on CAP-D1 until Backend\'s record of the owner\'s choice (CAP-ORDER-01) was read.',
+      steps: [...nine.first, ...nine.arm, ...nine.last({}), open(5),
+        check(count('waiting', 1), is('waiting', [ref('Blue Disabler')]), truth('Blue Disabler', 'health', 'Injured'), truth('Blue Disabler', 'location', 'Room A'),
+          truth('Supplier', 'location', 'Hospital'), truth('Officer', 'location', 'Hospital'), holds('Hospital', 5))],
     });
-    add(26, 'Where a prisoner released while Injured is placed when Hospital is full', {
-      status: 'blocked', decisions: ['CAP-D3'], areas: ['voting', 'resolution-order'], rules: ['R-CAP-20'], depends: ['R-STATE-07', 'R-CAP-01'], setup: setup('ward'),
-      note: 'R-STATE-07 sends a prisoner released while Injured to Hospital. The third decided case speaks of a player hurt at the end of a round, who stays where they are; a released prisoner is in Jail and has just been let out of it.',
-      steps: [...freed, noteOf('where the released prisoner is', 'Insider', 'location')],
+    add(26, 'A prisoner released while Injured, with Hospital full, stays in Jail as a free player and goes to the showdown with everyone', {
+      areas: ['voting', 'resolution-order', 'showdown'], rules: ['R-CAP-20', 'R-CAP-01'], depends: ['R-STATE-07', 'R-VOTE-10', 'R-VOTE-02', 'R-SHOW-02', 'R-WIN-10', 'R-CAP-13'], setup: setup('ward'),
+      note: 'R-STATE-07 sends a prisoner released while Injured to Hospital, and Hospital holds five. Backend\'s record (CAPACITY-04) applies the owner\'s words for a player refused by Hospital, who stays where they are: the released player is free and still stands in Jail. Blocked on CAP-D3 until that record was read.',
+      steps: [...freed, check(truth('Insider', 'jailed', false), truth('Insider', 'location', 'Jail'), pub('Insider', 'location', 'Jail'), pub('Insider', 'jailed', false), holds('Jail', 1), holds('Hospital', 5),
+        factSet('eligibleTargets', roles)),
+      untilPhase('SHOWDOWN'), check(count('finalZone', N), truth('Insider', 'location', 'Final Zone'))],
     });
   }
   add(25, 'Whether a healed player returns to a last room that a room-mate is leaving for Hospital in the same resolution', {
@@ -324,6 +331,14 @@ function build(mode) {
     steps: [...injure, open(2), cmd('Alien', move('Room B')),
       ...acts(4, { Cracker: [cmd('Cracker', rescue('Insider'))], Undercover: [cmd('Undercover', shot('Supplier'))] }), open(5),
       noteOf('where the healed player is', 'Insider', 'location')],
+  });
+
+  add(27, 'Which room is a player\'s last room after they were sent to the other one', {
+    status: 'blocked', decisions: ['CAP-D4'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-22'], depends: ['R-CAP-07', 'R-STATE-08', 'R-VOTE-07'],
+    note: 'Supplier is released while Room B, their last room, is full, and is sent to Room A. Later Supplier is hurt in Room A and healed, and by then both rooms have a place. R-STATE-08 says the last room they occupied; the implementation remembers the room of their last move of their own.',
+    steps: [...jail(1, 'Supplier'), ...elect('Alien'), open(2), cmd('Cracker', move('Room B')), ...release(2, 'Alien', 'Supplier'),
+      open(3), cmd('Blue Disabler', move('Room A')), turn(3, 'Blue Disabler'), cmd('Blue Disabler', disable('Supplier')),
+      turn(4, 'Cracker'), cmd('Cracker', rescue('Supplier')), open(5), noteOf('where the healed player is', 'Supplier', 'location')],
   });
 
   // ----- What an engine run cannot show ------------------------------------------------------------

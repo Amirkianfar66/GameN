@@ -131,6 +131,12 @@ function createAdapter(engine, tuple, roomCapacity) {
   } : {
     adapter: ADAPTER_NAME, engineVersion: tuple.engineVersion, rulesetVersion: tuple.rulesetVersion, rulesetHash: tuple.rulesetHash,
     protocolVersion: tuple.protocolVersion,
+    // The build that plays the match is not always the one the ruleset is named after: an engine
+    // keeps playing the rulesets of earlier matches. Both are recorded, as Integration's gate
+    // does since Backend's change for issue #96.
+    binaryEngineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
+    binaryRulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
+    binaryRulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
   };
   const assetManifestVersion = 'balance-fixture-no-assets';
   return {

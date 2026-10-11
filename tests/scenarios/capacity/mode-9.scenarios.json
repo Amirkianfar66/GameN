@@ -9,7 +9,7 @@
   "optionalPowers": false,
   "generatedFrom": "tests/scenarios/capacity/catalog.mjs",
   "execution": "Declarative fixtures. Results of actual runs are in docs/balance/evidence/. A fixture is not a result.",
-  "counts": {"total":31,"ready":23,"blocked":3,"manual":5},
+  "counts": {"total":32,"ready":25,"blocked":2,"manual":5},
   "setups": {
     "cap-b5": {
       "seed": "cap-b5",
@@ -740,16 +740,16 @@
     },
     {
       "id": "V1-M9-CAP-24",
-      "title": "Which of the players hurt in one round is left waiting when Hospital has too few beds",
-      "status": "blocked",
+      "title": "When more players are hurt in one round than Hospital has places, the lower player numbers get them",
+      "status": "ready",
       "kind": "rules_correctness",
       "areas": ["resolution-order"],
-      "ruleRefs": ["R-CAP-18"],
-      "dependsOn": ["R-CAP-04","R-CAP-13"],
+      "ruleRefs": ["R-CAP-18","R-CAP-04"],
+      "dependsOn": ["R-CAP-13","R-CAP-15"],
       "lineage": [],
-      "decisionIds": ["CAP-D1"],
+      "decisionIds": [],
       "setup": "cap-ward",
-      "note": "Three players are hurt in Round 4 and Hospital has two beds. The six cases do not say who waits. An order that follows who attacked first would tell the table something about the attacks (R-ACT-08).",
+      "note": "Three players are hurt in Round 4 and Hospital has two places. They are players 2 (Supplier), 4 (Officer) and 9 (Blue Disabler), so Blue Disabler waits. In the order of the attacks Officer was hurt last, and in the order of that round's turns Officer comes last, so either of those orders would leave Officer waiting. Blocked on CAP-D1 until Backend's record of the owner's choice (CAP-ORDER-01) was read.",
       "steps": [
         {"op":"until","round":1,"phase":"ORDINARY_TURN","active":"@Red Disabler"},
         {"op":"command","actor":"@Red Disabler","command":{"type":"DISABLE","target":"@Alien"},"expect":"REGISTERED"},
@@ -766,7 +766,7 @@
         {"op":"until","round":4,"phase":"ORDINARY_TURN","active":"@Undercover"},
         {"op":"command","actor":"@Undercover","command":{"type":"REGISTER_SHOT","target":"@Officer"},"expect":"REGISTERED"},
         {"op":"until","round":5,"phase":"ORDINARY_TURN"},
-        {"op":"note","label":"the player left waiting","match":"waiting"}
+        {"op":"assert","checks":[{"count":"waiting","equals":1},{"match":"waiting","equals":["@Blue Disabler"]},{"truth":"@Blue Disabler","field":"health","equals":"Injured"},{"truth":"@Blue Disabler","field":"location","equals":"Room A"},{"truth":"@Supplier","field":"location","equals":"Hospital"},{"truth":"@Officer","field":"location","equals":"Hospital"},{"count":"occupants:Hospital","equals":5}]}
       ]
     },
     {
@@ -796,16 +796,16 @@
     },
     {
       "id": "V1-M9-CAP-26",
-      "title": "Where a prisoner released while Injured is placed when Hospital is full",
-      "status": "blocked",
+      "title": "A prisoner released while Injured, with Hospital full, stays in Jail as a free player and goes to the showdown with everyone",
+      "status": "ready",
       "kind": "rules_correctness",
-      "areas": ["voting","resolution-order"],
-      "ruleRefs": ["R-CAP-20"],
-      "dependsOn": ["R-CAP-01","R-STATE-07"],
+      "areas": ["voting","resolution-order","showdown"],
+      "ruleRefs": ["R-CAP-20","R-CAP-01"],
+      "dependsOn": ["R-CAP-13","R-SHOW-02","R-STATE-07","R-VOTE-02","R-VOTE-10","R-WIN-10"],
       "lineage": [],
-      "decisionIds": ["CAP-D3"],
+      "decisionIds": [],
       "setup": "cap-ward",
-      "note": "R-STATE-07 sends a prisoner released while Injured to Hospital. The third decided case speaks of a player hurt at the end of a round, who stays where they are; a released prisoner is in Jail and has just been let out of it.",
+      "note": "R-STATE-07 sends a prisoner released while Injured to Hospital, and Hospital holds five. Backend's record (CAPACITY-04) applies the owner's words for a player refused by Hospital, who stays where they are: the released player is free and still stands in Jail. Blocked on CAP-D3 until that record was read.",
       "steps": [
         {"op":"until","round":1,"phase":"ORDINARY_TURN","active":"@Red Disabler"},
         {"op":"command","actor":"@Red Disabler","command":{"type":"DISABLE","target":"@Alien"},"expect":"REGISTERED"},
@@ -839,7 +839,52 @@
         {"op":"command","actor":"@Supplier","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
         {"op":"command","actor":"@Officer","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
         {"op":"expire","times":1},
-        {"op":"note","label":"where the released prisoner is","truth":"@Insider","field":"location"}
+        {"op":"assert","checks":[{"truth":"@Insider","field":"jailed","equals":false},{"truth":"@Insider","field":"location","equals":"Jail"},{"public":"@Insider","field":"location","equals":"Jail"},{"public":"@Insider","field":"jailed","equals":false},{"count":"occupants:Jail","equals":1},{"count":"occupants:Hospital","equals":5},{"publicFact":"eligibleTargets","sameSet":["@Insider","@Cracker","@Blue Disabler","@Supplier","@Officer","@Undercover","@Hacker","@Red Disabler","@Alien"]}]},
+        {"op":"until","phase":"SHOWDOWN"},
+        {"op":"assert","checks":[{"count":"finalZone","equals":9},{"truth":"@Insider","field":"location","equals":"Final Zone"}]}
+      ]
+    },
+    {
+      "id": "V1-M9-CAP-27",
+      "title": "Which room is a player's last room after they were sent to the other one",
+      "status": "blocked",
+      "kind": "rules_correctness",
+      "areas": ["resolution-order","movement"],
+      "ruleRefs": ["R-CAP-22"],
+      "dependsOn": ["R-CAP-07","R-STATE-08","R-VOTE-07"],
+      "lineage": [],
+      "decisionIds": ["CAP-D4"],
+      "setup": "cap-b5",
+      "note": "Supplier is released while Room B, their last room, is full, and is sent to Room A. Later Supplier is hurt in Room A and healed, and by then both rooms have a place. R-STATE-08 says the last room they occupied; the implementation remembers the room of their last move of their own.",
+      "steps": [
+        {"op":"until","round":1,"phase":"JAIL_VOTE"},
+        {"op":"command","actor":"@Insider","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Cracker","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Supplier","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Officer","command":{"type":"VOTE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","phase":"CAPTAIN_ELECTION"},
+        {"op":"command","actor":"@Alien","command":{"type":"VOTE","target":"@Alien"},"expect":"REGISTERED"},
+        {"op":"expire","times":1},
+        {"op":"until","round":2,"phase":"ORDINARY_TURN"},
+        {"op":"command","actor":"@Cracker","command":{"type":"MOVE","destination":"Room B"},"expect":"REGISTERED"},
+        {"op":"until","round":2,"phase":"RELEASE_CHOICE"},
+        {"op":"command","actor":"@Alien","command":{"type":"RELEASE_CHOICE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","phase":"RELEASE_VOTE"},
+        {"op":"command","actor":"@Insider","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Cracker","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Supplier","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"command","actor":"@Officer","command":{"type":"RELEASE_VOTE","approve":true},"expect":"REGISTERED"},
+        {"op":"expire","times":1},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"MOVE","destination":"Room A"},"expect":"REGISTERED"},
+        {"op":"until","round":3,"phase":"ORDINARY_TURN","active":"@Blue Disabler"},
+        {"op":"command","actor":"@Blue Disabler","command":{"type":"DISABLE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":4,"phase":"ORDINARY_TURN","active":"@Cracker"},
+        {"op":"command","actor":"@Cracker","command":{"type":"RESCUE","target":"@Supplier"},"expect":"REGISTERED"},
+        {"op":"until","round":5,"phase":"ORDINARY_TURN"},
+        {"op":"note","label":"where the healed player is","truth":"@Supplier","field":"location"}
       ]
     },
     {

@@ -1,6 +1,7 @@
 // Negative controls for the scenario harness.
 //
 //   node scripts/controls.mjs --engine-root <dir> [--engine-commit <sha>] [--out <file.json>] [--require-engine]
+//     [--ruleset <ruleset version>]   the ruleset every match is created under; the engine's own default without it
 //
 // Each control copies a ready scenario and makes exactly one of its expectations wrong: a
 // command expected to be accepted is expected to be refused, or an asserted value is changed.
@@ -31,7 +32,7 @@ import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
 
 const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out'], flags: ['require-engine'] }, refuse);
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'out', 'ruleset'], flags: ['require-engine'] }, refuse);
 const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
 const out = values.out;
 const requireEngine = flags['require-engine'];
@@ -43,8 +44,11 @@ const write = summary => {
   console.log(`Summary written to ${target}`);
 };
 
-const loaded = await load(engineRoot);
-const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance negative controls' });
+const loaded = await load(engineRoot, { ruleset: values.ruleset });
+const built = buildPins({
+  engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance negative controls',
+  extra: values.ruleset === null ? {} : { rulesetAskedFor: values.ruleset },
+});
 if ('problem' in built) refuse(built.problem);
 const pins = built.pins;
 if (!loaded.available) {
