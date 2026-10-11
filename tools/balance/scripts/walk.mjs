@@ -1,6 +1,15 @@
 // Seeded random-policy playouts with the rulebook invariants checked after every transition.
 //
 //   node scripts/walk.mjs [--engine-root <dir>] [--engine-commit <sha>] [--seeds 200] [--out <file.json>] [--require-engine]
+//     [--ruleset <ruleset version>] [--rooms seeded|capped] [--room-capacity 5] [--occupancy]
+//
+// --ruleset        The ruleset every match is created under; the engine's own default without it.
+// --rooms          How starting rooms are drawn: an independent draw for each player (`seeded`,
+//                  the default, and the rule until issue #96), or the same made legal under the
+//                  capacity rule (`capped`).
+// --room-capacity  Holds every playout to the capacity invariants (INV-CAP-01 to 03). Give it for
+//                  a ruleset that carries the rule, and for none that does not.
+// --occupancy      Adds to the summary how full the places got. It is on with --room-capacity.
 //
 // Exit status: 1 on any invariant violation, hint mismatch, replay mismatch or unfinished playout;
 // 2 when nothing was run that could count: --require-engine was given and no engine is available,
@@ -19,7 +28,14 @@ import { invocationPath, readArgs } from './args.mjs';
 import { buildPins, noteProvenance } from './pins.mjs';
 
 const refuse = message => { console.error(`FAILED: ${message} Nothing was run.`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'seeds', 'out'], flags: ['require-engine'] }, refuse);
+const { values, flags } = readArgs({ values: ['engine-root', 'engine-commit', 'seeds', 'out', 'ruleset', 'rooms', 'room-capacity'], flags: ['require-engine', 'occupancy'] }, refuse);
+const rooms = values.rooms ?? 'seeded';
+if (rooms !== 'seeded' && rooms !== 'capped') refuse(`--rooms ${rooms} is neither seeded nor capped.`);
+const roomCapacity = values['room-capacity'] === null ? null : Number(values['room-capacity']);
+if (roomCapacity !== null && (!Number.isInteger(roomCapacity) || roomCapacity < 1)) refuse('--room-capacity needs a whole number of at least 1.');
+const withOccupancy = flags.occupancy || roomCapacity !== null;
+// A run that names a ruleset, a way of drawing rooms or a capacity records them. A plain run carries the pins it always did.
+const asked = values.ruleset === null && rooms === 'seeded' && roomCapacity === null ? {} : { rulesetAskedFor: values.ruleset, rooms, roomCapacity };
 const engineRoot = values['engine-root'] === null ? null : invocationPath(values['engine-root']);
 const seeds = Number(values.seeds ?? 200);
 const out = values.out;
@@ -36,8 +52,8 @@ const write = report => {
   console.log(`Summary written to ${target}`);
 };
 
-const loaded = await load(engineRoot);
-const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance seeded playouts' });
+const loaded = await load(engineRoot, { ruleset: values.ruleset, roomCapacity });
+const built = buildPins({ engineRoot, engineCommit: values['engine-commit'], adapter: loaded.available ? loaded.adapter : null, runner: '@mothership/balance seeded playouts', extra: asked });
 if ('problem' in built) refuse(built.problem);
 const pins = built.pins;
 if (!loaded.available) {
@@ -55,10 +71,27 @@ for (const mode of [7, 8, 9]) {
     replayMismatches: 0, showdowns: 0, mostEliminatedBeforeShowdown: 0, mostJailedAtOnce: 0,
     windowMinutes: { min: Infinity, max: 0 }, terminal: { Blue: 0, Red: 0, Alien: 0, Draw: 0, unfinished: 0 }, alienCoWin: 0, examples: [],
   };
+  // How full the places got, over all playouts of the mode. Counts of what was reached and of how
+  // the engine answered; under a random policy they say nothing about how people would play.
+  const occupancy = {
+    most: {}, phasesOpened: 0, phasesWithAFullRoom: 0, phasesOverCapacity: 0, playoutsOverCapacity: 0, playoutsWithAFullRoom: 0,
+    movesTowardsAFullRoom: 0, movesIntoAFullRoom: 0, returns: 0, returnsToTheOtherRoom: 0, returnsToTheOtherRoomThoughTheLastHadAPlace: 0,
+    mostWaiting: 0, playoutsWithSomeoneWaiting: 0, startsWithAFullRoom: 0,
+  };
   for (let index = 1; index <= seeds; index += 1) {
     const seed = `walk-${index}`;
-    const result = walk(loaded.adapter, mode, seed);
-    const again = walk(loaded.adapter, mode, seed);
+    const result = walk(loaded.adapter, mode, seed, { ...DEFAULT_WALK, rooms });
+    const again = walk(loaded.adapter, mode, seed, { ...DEFAULT_WALK, rooms });
+    for (const [place, held] of Object.entries(result.occupancy.most)) occupancy.most[place] = Math.max(occupancy.most[place] ?? 0, held);
+    for (const key of ['phasesOpened', 'phasesWithAFullRoom', 'phasesOverCapacity', 'movesTowardsAFullRoom', 'movesIntoAFullRoom', 'returns', 'returnsToTheOtherRoom', 'returnsToTheOtherRoomThoughTheLastHadAPlace']) {
+      occupancy[key] += result.occupancy[key];
+    }
+    occupancy.mostWaiting = Math.max(occupancy.mostWaiting, result.occupancy.mostWaiting);
+    if (result.occupancy.mostWaiting > 0) occupancy.playoutsWithSomeoneWaiting += 1;
+    if (result.occupancy.phasesOverCapacity > 0) occupancy.playoutsOverCapacity += 1;
+    if (result.occupancy.phasesWithAFullRoom > 0) occupancy.playoutsWithAFullRoom += 1;
+    const startsInA = Object.values(result.setup.initialRooms).filter(room => room === 'Room A').length;
+    if (Math.max(startsInA, mode - startsInA) === 5) occupancy.startsWithAFullRoom += 1;
     stats.playouts += 1;
     stats.completed += result.completed ? 1 : 0;
     stats.phases += result.phases;
@@ -94,6 +127,12 @@ for (const mode of [7, 8, 9]) {
   delete stats.alienCoWin;
   delete stats.showdowns;
   if (stats.completed === 0) stats.windowMinutes = null;
+  if (withOccupancy) {
+    stats.occupancy = occupancy;
+    console.log(`  places: most at once ${Object.entries(occupancy.most).map(([place, held]) => `${place} ${held}`).join(', ')}; most waiting for Hospital ${occupancy.mostWaiting}`);
+    console.log(`  a room was full in ${occupancy.phasesWithAFullRoom} of ${occupancy.phasesOpened} phases and over capacity in ${occupancy.phasesOverCapacity}; moves towards a full room ${occupancy.movesTowardsAFullRoom}, accepted ${occupancy.movesIntoAFullRoom}`);
+    console.log(`  returns from Hospital or Jail ${occupancy.returns}, to the other room ${occupancy.returnsToTheOtherRoom}, of which the last room had a place afterwards ${occupancy.returnsToTheOtherRoomThoughTheLastHadAPlace}`);
+  }
   console.log(stats.windowMinutes === null ? '  clock length not available: no playout finished' : `  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
   for (const example of stats.examples) console.log(`  example ${example.seed}: ${JSON.stringify(example)}`);
 }

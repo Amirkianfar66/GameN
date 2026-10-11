@@ -70,6 +70,18 @@ When no player can take a turn in the next round, a Jail vote or an election may
 | INV-MOVE-01 | Between phase closures a player's location changes only through that player's own accepted move, and only to Room A, Room B or Command Room. | R-MOVE-02, R-MOVE-03, R-MOVE-04 |
 | INV-MOVE-02 | A player has at most one move accepted per round. | R-MOVE-01 |
 
+## Room capacity
+
+These three are checked only where a run says that the ruleset it plays has the room-capacity rule, the game owner's decision of 11 October 2026 recorded in issue #96. A match of an earlier ruleset keeps its own rules, and nothing here is held against it. The rows of the rule and the audit of it are in `docs/balance/capacity-audit.md`.
+
+| ID | Statement | Rules |
+| --- | --- | --- |
+| INV-CAP-01 | Room A, Room B, Hospital and Jail each hold at most five players at every moment. A place is held by every player located there, whatever their health: an Eliminated player keeps theirs. The Final Zone is not counted. | Issue #96, the rule and its cases 2 and 4 |
+| INV-CAP-02 | No player's view offers a move to Room A or Room B while that room holds five players. | Issue #96, case 1 |
+| INV-CAP-03 | A player who leaves Hospital or Jail for a room arrives in their last room. They arrive in the other room only if their last room held five other players before that resolution or holds five after it. | Issue #96, case 6; R-STATE-08, R-VOTE-07 |
+
+Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be outside Hospital while Hospital holds five (issue #96, case 3). INV-CAP-03 takes a room as full if it was full before the resolution or is full after it, because whether a place that is being left in the same resolution counts as free is not decided.
+
 ## Authorized views
 
 | ID | Statement | Rules |

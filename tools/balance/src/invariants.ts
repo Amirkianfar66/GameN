@@ -1,4 +1,4 @@
-import { ROLES_BY_MODE, canonicalJson, deepEqual, factionOf, isMode, sameSet, seatIdsFor } from './model.js';
+import { CAPPED_LOCATIONS, ROLES_BY_MODE, canonicalJson, deepEqual, factionOf, isMode, sameSet, seatIdsFor } from './model.js';
 import type { Faction, Role, ScenarioSetup, SeatId } from './model.js';
 import { expectedCode } from './prng.js';
 import { payloadOf } from './observation.js';
@@ -37,6 +37,9 @@ export interface Ledger {
   roundOfCounters: number;
   showdowns: number;
   phaseKinds: string[];
+  // How many players a room holds, where the run is held to the capacity rule (issue #96); null
+  // for a ruleset without it. It is not something counted: the run states it once, at the start.
+  roomCapacity: number | null;
 }
 
 export function newLedger(): Ledger {
@@ -44,6 +47,7 @@ export function newLedger(): Ledger {
     ordinaryShots: {}, specialShots: {}, movesThisRound: {}, hackRequests: {}, hackRequestsThisRound: 0,
     scansThisRound: 0, codeAttempts: 0, disables: {}, rescues: 0, protectionsByRecipient: {}, supplies: 0,
     mainActionsThisRound: {}, shotsThisRound: {}, turnsThisRound: [], roundOfCounters: 1, showdowns: 0, phaseKinds: [],
+    roomCapacity: null,
   };
 }
 
@@ -165,6 +169,21 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
   if (weapons + fired > startingWeapons(setup) + 2) fail('INV-RES-03', `ordinary weapons in play (${weapons} held + ${fired} fired) exceed the starting grants plus two Supplier weapons`);
   if (seats.filter(seat => seat.captain).length > 1) fail('INV-LOC-01', 'more than one Captain');
 
+  // Room capacity. A place is taken by every player located there, whatever their health: an
+  // Eliminated player keeps theirs. The Final Zone is not a room and is not counted.
+  const capacity = ledger.roomCapacity;
+  const held = (location: string) => seats.filter(seat => seat.location === location).length;
+  if (capacity !== null) {
+    for (const location of CAPPED_LOCATIONS) {
+      if (held(location) > capacity) fail('INV-CAP-01', `${location} holds ${held(location)} players, more than ${capacity}`);
+    }
+    for (const [viewer, view] of Object.entries(observation.playerViews)) {
+      for (const room of view.moveDestinations) {
+        if ((room === 'Room A' || room === 'Room B') && held(room) >= capacity) fail('INV-CAP-02', `${viewer} is offered a move to ${room}, which is full`);
+      }
+    }
+  }
+
   const showdownPlacement = seats.some(seat => seat.location === 'Final Zone');
   for (const seat of seats) {
     if (seat.health === 'Eliminated') continue;
@@ -172,7 +191,13 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
       if (seat.location !== 'Final Zone') fail('INV-LOC-02', `${seat.seat} is not in Final Zone during the showdown`);
     } else if (!showdownPlacement) {
       if (seat.jailed && seat.location !== 'Jail') fail('INV-LOC-02', `${seat.seat} is Jailed but located in ${seat.location}`);
-      if (!seat.jailed && seat.health === 'Injured' && seat.location !== 'Hospital') fail('INV-LOC-02', `${seat.seat} is Injured but located in ${seat.location}`);
+      if (!seat.jailed && seat.health === 'Injured' && seat.location !== 'Hospital') {
+        // Under the capacity rule an Injured player waits in Room A or Room B while Hospital is full,
+        // and only then. Where a prisoner released while Injured waits is not decided, so Jail is
+        // not counted against the engine either.
+        const waits = capacity !== null && held('Hospital') >= capacity && (seat.location === 'Room A' || seat.location === 'Room B' || seat.location === 'Jail');
+        if (!waits) fail('INV-LOC-02', `${seat.seat} is Injured but located in ${seat.location}`);
+      }
       if (!seat.jailed && seat.health === 'Healthy' && !['Room A', 'Room B', 'Command Room'].includes(seat.location)) fail('INV-LOC-02', `${seat.seat} is Healthy and free but located in ${seat.location}`);
     }
   }
@@ -328,6 +353,16 @@ export function checkTransition(
       if (!phaseChanged || prev.phaseKind !== expectedPhase) fail('INV-JAIL-01', `${after.seat} Jail status changed outside the closure of ${expectedPhase}`);
     }
     if (!before.captain && after.captain && !(phaseChanged && prev.phaseKind === 'CAPTAIN_ELECTION')) fail('INV-CAPT-01', `${after.seat} became Captain outside an election`);
+    // A healed or released player goes back to their last room, and to the other one only when the
+    // last is full. Whether a place that is being left in the same resolution counts as free is not
+    // decided, so the room is taken as full if it was before the resolution or is after it.
+    if (ledger.roomCapacity !== null && (before.location === 'Hospital' || before.location === 'Jail')
+      && (after.location === 'Room A' || after.location === 'Room B') && after.location !== before.lastRoom) {
+      const others = (observation: Observation) => observation.truth.seats.filter(seat => seat.seat !== after.seat && seat.location === before.lastRoom).length;
+      if (others(prev) < ledger.roomCapacity && others(next) < ledger.roomCapacity) {
+        fail('INV-CAP-03', `${after.seat} was sent to ${after.location} although ${before.lastRoom}, their last room, had a free place`);
+      }
+    }
     if (before.location !== after.location && !phaseChanged) {
       const moved = event.kind === 'command' && event.outcome === 'REGISTERED' && event.command.type === 'MOVE' && event.actor === after.seat;
       if (!moved) fail('INV-MOVE-01', `${after.seat} changed location without its own accepted move or a phase closure`);
