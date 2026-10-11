@@ -501,6 +501,100 @@ try {
   })()`));
   await page.close();
 
+  // ---------- Slice 4: one shot strip for every seat that shoots; Protection the Undercover's own ----------
+  const roundsIn = (p, scope) => p.evaluate(`(() => { const g = document.querySelector(${js(scope)}); return g ? { full: g.querySelectorAll('.ab-round[data-spent="false"]').length, spent: g.querySelectorAll('.ab-round[data-spent="true"]').length } : null; })()`);
+  /** Any piece of the ability art on the other screens. */
+  const observerArt = p => p.evaluate(`[...document.querySelectorAll('[data-observer] *')].filter(n => typeof n.className === 'string' && /\\bab-/.test(n.className)).length`);
+  page = await open('shot.officer');
+  ok('shot/officer: Round 1, the Officer\'s one round, the players in the same room eligible', await page.evaluate(`document.querySelector('#bm-app .bm-status__round').textContent`) === 'Round 1'
+    && js(await roundsIn(page, '#bm-strip .ab-rounds')) === js({ full: 1, spent: 0 }) && js(await seatsWith(page, OWN, 'data-target', 'eligible')) === js([1, 5, 8]));
+  await click(page, '#bm-app [data-value="seat-5"]');
+  ok('shot/officer: the target in the reticle beside the question', await page.evaluate(`Boolean(document.querySelector('#bm-strip .ab-target[data-mark="reticle"] .ab-chip[data-seat="5"]'))`) && (await stripLine(page)) === 'Register a shot at Player 5?');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('shot/officer: the receipt spends the round and is not a result', (await stamp(page)) === 'Registered' && js(await roundsIn(page, '#bm-strip .ab-rounds')) === js({ full: 0, spent: 1 })
+    && await page.evaluate(`document.querySelector('#bm-strip .bm-strip__detail').textContent.includes('This is not a result.') && !/\\b(hit|injur|damage|eliminat)/i.test(document.getElementById('bm-strip').textContent)`));
+  ok('shot/officer: the other screens see nothing of it, and no public cue plays', (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0 && (await cues(page)).length === 0, await cues(page));
+  await click(page, '#bm-app [data-act="dismiss"]');
+  await click(page, '#bm-nav-card');
+  ok('shot/officer: the card then holds none, in the release\'s words, with no round', await page.evaluate(`document.querySelector('#bm-card .ab-kit[data-kit="weapons"] .ab-kit__words')?.textContent === 'Ordinary weapons you hold: 0.' && document.querySelectorAll('#bm-card .ab-kit[data-kit="weapons"] .ab-round').length === 0`));
+  ok('shot/officer: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  const shooter = async scenario => {
+    const p = await open(scenario);
+    const confirming = await stripOf(p);
+    await click(p, '#bm-app [data-act="confirm"]');
+    await sleep(700);
+    const receipt = await stripOf(p);
+    const quiet = (await observerPrivate(p)).length === 0 && (await observerArt(p)) === 0 && (await cues(p)).length === 0;
+    await p.close();
+    return { confirming, receipt, quiet };
+  };
+  const officer = await shooter('shot.confirm');
+  const undercover = await shooter('shot.undercover-confirm');
+  const alien = await shooter('shot.alien-confirm');
+  ok('shot: the Officer, the Undercover and an Alien with a supplied weapon see the same strip, part for part', officer.confirming === undercover.confirming && officer.confirming === alien.confirming
+    && !/data-device|data-team|officer|undercover|alien/i.test(officer.confirming));
+  ok('shot: the same receipt for each; the other screens see none of them, and no public cue plays', officer.receipt === undercover.receipt && officer.receipt === alien.receipt && officer.quiet && undercover.quiet && alien.quiet);
+  // Held 100 ms into the receipt: the one beat playing is the round that left as the count fell.
+  page = await open('shot.confirm', 'play=register&t=100');
+  ok('shot: on the receipt the round leaves the rack, once, as the count falls', js(await beats(page, '#bm-strip')) === js(['ab-round']), await beats(page, '#bm-strip'));
+  await page.close();
+  page = await open('shot.confirm', 'motion=reduced&play=register&t=100');
+  ok('shot: with reduced motion the round is drawn spent, with no beat', (await beats(page, '#bm-strip')).length === 0 && js(await roundsIn(page, '#bm-strip .ab-rounds')) === js({ full: 0, spent: 1 }));
+  await page.close();
+
+  page = await open('protect.confirm');
+  ok('protect: the target on the shield beside the question', await page.evaluate(`Boolean(document.querySelector('#bm-strip .ab-target[data-mark="shield"] .ab-chip[data-seat="5"]'))`) && (await stripLine(page)) === 'Register Protection for Player 5?');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('protect: the receipt is registered, and not a grant', (await stamp(page)) === 'Registered' && !(await page.evaluate(`/\\b(active|protected|granted|shielded|used)\\b/i.test(document.getElementById('bm-strip').textContent)`)));
+  await click(page, '#bm-app [data-act="dismiss"]');
+  await click(page, '#bm-nav-card');
+  ok('protect: the card has no note until the view carries one', await page.evaluate(`document.querySelectorAll('#bm-card .ab-guard').length === 0`));
+  const cuesBefore = (await cues(page)).length;
+  await click(page, '[data-private-event="guard-granted"]');
+  await sleep(60);
+  ok('protect/granted: the Undercover\'s own note, in the release\'s words, its shield whole', await page.evaluate(`(() => {
+    const note = document.querySelector('#bm-card .ab-guard');
+    return note?.querySelector('.ab-guard__words').textContent === 'Protection for Player 5: active from round 3.' && note.querySelector('.ab-target').dataset.mark === 'shield' && note.querySelector('.ab-chip').dataset.seat === '5';
+  })()`));
+  ok('protect/granted: nothing public changes, and no cue plays on any screen', (await cues(page)).length === cuesBefore && (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0 && await samePlaces(page));
+  await click(page, '[data-private-event="guard-used"]');
+  await sleep(60);
+  ok('protect/used: the note says used up, the shield split, the player drawn whole', await page.evaluate(`(() => {
+    const note = document.querySelector('#bm-card .ab-guard');
+    return note.querySelector('.ab-guard__words').textContent === 'Protection for Player 5: used up.' && note.querySelector('.ab-target').dataset.mark === 'shield-used' && getComputedStyle(note.querySelector('.ab-chip')).opacity === '1';
+  })()`));
+  ok('protect/used: the shield shakes once, as the view changes', js(await beats(page, '#bm-card')) === js(['ab-target__mark']), await beats(page, '#bm-card'));
+  await sleep(400);
+  await click(page, '[data-event="replay"]');
+  await sleep(60);
+  ok('protect/used: a duplicate snapshot plays nothing again', (await beats(page, '#bm-card')).length === 0, await beats(page, '#bm-card'));
+  await click(page, '#bm-card .bm-close');
+  await click(page, '#bm-nav-card');
+  ok('protect/used: opened again, at rest', (await beats(page, '#bm-card')).length === 0 && await page.evaluate(`document.querySelector('#bm-card .ab-guard')?.dataset.used === 'true'`));
+  ok('protect/used: nothing public changes, and no cue plays on any screen', (await cues(page)).length === cuesBefore && (await observerArt(page)) === 0);
+  ok('protect: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+  page = await open('guard.self');
+  ok('protect/card: the notes in the view\'s order, the own one as "yourself", and the weapon held', await page.evaluate(`(() => {
+    const notes = [...document.querySelectorAll('#bm-card .ab-guard')];
+    return notes.map(n => n.dataset.guard).join() === '8,3' && notes[1].querySelector('.ab-guard__words').textContent === 'Protection for yourself: active from round 4.'
+      && document.querySelector('#bm-card .ab-kit[data-kit="weapons"] .ab-kit__words').textContent === 'Ordinary weapons you hold: 1.' && document.querySelectorAll('#bm-card .ab-kit[data-kit="weapons"] .ab-round[data-spent="false"]').length === 1;
+  })()`));
+  ok('protect/card: a used-up note drawn at rest on a fresh page', (await beats(page, '#bm-card')).length === 0);
+  await page.close();
+  page = await open('alien.weapon');
+  ok('alien/weapon: the Code file, the recipient\'s slip naming no Supplier, and the weapon in the release\'s words', await page.evaluate(`(() => {
+    const words = document.querySelector('#bm-card .ab-slip .ab-slip__words')?.textContent;
+    return Boolean(document.querySelector('#bm-card .ab-code-set')) && words === 'You received one ordinary weapon from Supply in Round 3.'
+      && document.querySelector('#bm-card .ab-kit[data-kit="weapons"] .ab-kit__words')?.textContent === 'Ordinary weapons you hold: 1.';
+  })()`));
+  ok('alien/weapon: nothing of it on the other screens', (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0);
+  await page.close();
+
   // ---------- An update replays nothing it has already played: the strip's stamp and art, a pick's mark ----------
   const strikes = page => page.evaluate(`document.getAnimations().filter(a => a.effect?.target?.closest?.('#bm-strip, [data-board="own"] .bm-piece__pick') && a.playState === 'running').map(a => a.effect.target.className)`);
   for (const scenario of ['shot.registered', 'code.two', 'code.registered', 'supply.second']) {

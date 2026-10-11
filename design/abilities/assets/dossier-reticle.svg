@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-reticle 0.1.0 · generated, do not edit by hand
+  A reticle. A ring and four ticks round the chip of a shot's target, in the shooter's strip only; the same for every seat that holds a weapon, the Officer included.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/guard.svg (layer dossier-reticle). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="56" height="56"><g id="dossier-reticle"><circle cx="28" cy="28" r="22" fill="none" stroke="#151923" stroke-width="4"/><circle cx="28" cy="28" r="22" fill="none" stroke="#F4EBDD" stroke-width="1.6"/><path d="M28 1 V11 M28 45 V55 M1 28 H11 M45 28 H55" fill="none" stroke="#151923" stroke-width="4.4" stroke-linecap="round"/><path d="M28 2.5 V9.5 M28 46.5 V53.5 M2.5 28 H9.5 M46.5 28 H53.5" fill="none" stroke="#F7C52B" stroke-width="1.8" stroke-linecap="round"/></g></svg>

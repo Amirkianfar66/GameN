@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.3.0",
+  "manifestVersion": "abilities-0.4.0",
   "status": "proposal",
   "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -12,8 +12,8 @@
   },
   "stylesheet": {
     "file": "design/abilities/assets/abilities.art.css",
-    "sha256": "f5c0c105ce9f934befaba71346948384467f4615c969dd8729ce9561d913df57",
-    "bytes": 19556
+    "sha256": "15d71a013261bf792da156d34884107876152b61e9c4ed1b052707ba5d93edfc",
+    "bytes": 22911
   },
   "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
   "assets": [
@@ -698,6 +698,148 @@
       "sha256": "2bfb2b63305ef4e1f9f76cfb5c9fd7601b70a2fa0e3c25ab7de474a483a44dad",
       "use": "The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band.",
       "cssProperty": "--ab-asset-dossier-slip"
+    },
+    {
+      "id": "dossier-reticle",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A reticle",
+      "file": "design/abilities/assets/dossier-reticle.svg",
+      "source": "design/abilities/source/guard.svg#dossier-reticle",
+      "viewBox": "0 0 56 56",
+      "width": 56,
+      "height": 56,
+      "anchors": {
+        "center": [
+          28,
+          28
+        ],
+        "clear": [
+          19
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1000,
+      "sha256": "72260d7a83fdb989447877fbead4fb1e2162945428423b3269d7fb1ba952895a",
+      "use": "A ring and four ticks round the chip of a shot's target, in the shooter's strip only; the same for every seat that holds a weapon, the Officer included.",
+      "cssProperty": "--ab-asset-dossier-reticle"
+    },
+    {
+      "id": "dossier-shield",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A shield",
+      "file": "design/abilities/assets/dossier-shield.svg",
+      "source": "design/abilities/source/guard.svg#dossier-shield",
+      "viewBox": "0 0 48 56",
+      "width": 48,
+      "height": 56,
+      "anchors": {
+        "window": [
+          24,
+          25,
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#CBBBA2",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1087,
+      "sha256": "03ca1feb016532d066d62b84a072a05404364d749da8e3dab65a47322bbf5365",
+      "use": "Behind the chip of a Protection's target, in the Undercover's strip and on its own note of the Protection in the card. Never on the recipient's phone or a public surface (V1-17).",
+      "cssProperty": "--ab-asset-dossier-shield"
+    },
+    {
+      "id": "dossier-shield-used",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A shield used up",
+      "file": "design/abilities/assets/dossier-shield-used.svg",
+      "source": "design/abilities/source/guard.svg#dossier-shield-used",
+      "viewBox": "0 0 48 56",
+      "width": 48,
+      "height": 56,
+      "anchors": {
+        "window": [
+          24,
+          25,
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#E3D6C2"
+      ],
+      "bytes": 1231,
+      "sha256": "d0944a9cc1174363c8a092bf6445822f5b8639436e8ac53c62572f4e268bf668",
+      "use": "A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only.",
+      "cssProperty": "--ab-asset-dossier-shield-used"
+    },
+    {
+      "id": "dossier-round",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A round",
+      "file": "design/abilities/assets/dossier-round.svg",
+      "source": "design/abilities/source/guard.svg#dossier-round",
+      "viewBox": "0 0 14 30",
+      "width": 14,
+      "height": 30,
+      "anchors": {
+        "base": [
+          7,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#B9C4D3",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 905,
+      "sha256": "019e5cf26c81fda407947b4cc1559c728b3187c6e9fe91040619546c71b19ae9",
+      "use": "One ordinary weapon the seat holds (self.ordinaryWeapons), in its own shot strip and its own card.",
+      "cssProperty": "--ab-asset-dossier-round"
+    },
+    {
+      "id": "dossier-round-spent",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A round spent",
+      "file": "design/abilities/assets/dossier-round-spent.svg",
+      "source": "design/abilities/source/guard.svg#dossier-round-spent",
+      "viewBox": "0 0 14 30",
+      "width": 14,
+      "height": 30,
+      "anchors": {
+        "base": [
+          7,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#C6CDD4",
+        "#E3D6C2"
+      ],
+      "bytes": 816,
+      "sha256": "a973434a79f50b10389c379bd2a69f835270b730962f3575e03fc645cd52503c",
+      "use": "The weapon a registered shot used: drawn when the view's count falls, never ahead of it.",
+      "cssProperty": "--ab-asset-dossier-round-spent"
     }
   ]
 }

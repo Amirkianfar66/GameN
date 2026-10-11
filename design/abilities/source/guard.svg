@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · ability art proposal · guard kit
+  Original vector artwork made for this repository. Rights and provenance: design/abilities/assets/manifest.json.
+
+  PRIVATE. The pieces of a seat's own shot and of the Undercover's Protection, added to the dossier,
+  intel and tools kits: the reticle round a shot's target, the rounds a seat holds, the shield behind a
+  Protection's target and on the Undercover's own note, and the shield used up, split behind its
+  player. Drawn only inside that seat's own open card or its own action strip, never on the board, the
+  shared display or in a public cue. Every player phone loads the whole kit in one stylesheet, whatever
+  its role, and nothing in it is named after or coloured for a role or a team: every seat that holds a
+  weapon shoots through the same reticle and the same rounds, the Officer included.
+
+  No text is drawn: every word, number and stamp is live text in the client. Colors are token values
+  (tokens 0.4.0): paper, the paper shades, ink, canvas, the steel values and the caption yellow.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <!-- A reticle: a ring and four ticks round the chip of a shot's target, clear within r 19 of (28, 28). 56 x 56. -->
+  <g transform="translate(10 10)">
+    <g id="dossier-reticle">
+      <circle cx="28" cy="28" r="22" fill="none" stroke="#151923" stroke-width="4"/>
+      <circle cx="28" cy="28" r="22" fill="none" stroke="#F4EBDD" stroke-width="1.6"/>
+      <path d="M28 1 V11 M28 45 V55 M1 28 H11 M45 28 H55" fill="none" stroke="#151923" stroke-width="4.4" stroke-linecap="round"/>
+      <path d="M28 2.5 V9.5 M28 46.5 V53.5 M2.5 28 H9.5 M46.5 28 H53.5" fill="none" stroke="#F7C52B" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- A shield: behind the chip of a Protection's target, the chip's window round (24, 25), r 17. 48 x 56. -->
+  <g transform="translate(80 6)">
+    <g id="dossier-shield">
+      <path d="M24 3 L44 10 V27 Q44 44 24 54 Q4 44 4 27 V10 Z" fill="#151923" opacity="0.3" transform="translate(2 2)"/>
+      <path d="M24 3 L44 10 V27 Q44 44 24 54 Q4 44 4 27 V10 Z" fill="#CBBBA2" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M24 7 L40 12.5 V27 Q40 41 24 49.5 Q8 41 8 27 V12.5 Z" fill="none" stroke="#F4EBDD" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M17 49 Q24 52 31 49" fill="none" stroke="#F7C52B" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- A shield used up: the same shield, pale, split from rim to point and its halves parted, behind the chip
+       of the player it covered, who is drawn whole: the shield is what was spent. 48 x 56. -->
+  <g transform="translate(140 6)">
+    <g id="dossier-shield-used">
+      <g transform="translate(-1.6 0) rotate(-4 24 54)">
+        <path d="M24 3.5 L19.5 15 L26 22 L18.5 33 L25 41 L24 53 Q6 43.5 6 27 V10.5 Z" fill="#E3D6C2" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M24 3.5 L19.5 15 L26 22 L18.5 33 L25 41 L24 53" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+      </g>
+      <g transform="translate(1.6 0) rotate(4 24 54)">
+        <path d="M24 3.5 L42 10.5 V27 Q42 43.5 24 53 L25 41 L18.5 33 L26 22 L19.5 15 Z" fill="#E3D6C2" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M24 3.5 L19.5 15 L26 22 L18.5 33 L25 41 L24 53" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- A round: one ordinary weapon held. 14 x 30. -->
+  <g transform="translate(210 10)">
+    <g id="dossier-round">
+      <path d="M7 2 Q12 2 12 10 V27 H2 V10 Q2 2 7 2 Z" fill="#B9C4D3" stroke="#151923" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M2.5 18 H11.5 V22 H2.5 Z" fill="#F7C52B"/>
+      <path d="M1.5 25 H12.5 V28.5 H1.5 Z" fill="#55657E" stroke="#151923" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M5 6 Q5.5 4 7 3.6" fill="none" stroke="#F4EBDD" stroke-width="1.4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- A round spent: its outline, dashed. 14 x 30. -->
+  <g transform="translate(240 10)">
+    <g id="dossier-round-spent">
+      <path d="M7 2 Q12 2 12 10 V27 H2 V10 Q2 2 7 2 Z" fill="#E3D6C2" stroke="#151923" stroke-width="1.8" stroke-dasharray="3 2" stroke-linejoin="round"/>
+      <path d="M1.5 25 H12.5 V28.5 H1.5 Z" fill="#C6CDD4" stroke="#151923" stroke-width="1.4" stroke-dasharray="3 2" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

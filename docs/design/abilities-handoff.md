@@ -1,6 +1,6 @@
 # Frontend handoff: ability art
 
-Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; it builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of its rules. The kit is `abilities-0.2.0` since slice 2: four assets added, the slice 1 assets unchanged.
+Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.4.0` since slice 4: each slice added assets and changed none of the earlier ones.
 
 ## Slice 1: the Insider's file
 
@@ -155,10 +155,10 @@ Original vector artwork made for this repository by the Visual and Motion Design
 | ID | What | Who | Meanwhile |
 | --- | --- | --- | --- |
 | [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order | Integration | The engine sorts them; the treatments sort them again |
-| [DSN-REQ-15](integration-requests.md#dsn-req-15) | Carry a Disabler's spent Disable in its own view | Integration, Backend | The receipt shows the charge spent; no lasting mark |
+| [DSN-REQ-15](integration-requests.md#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view | Integration, Backend | The receipt shows the charge or the round spent; no lasting mark, and a weapon supplied after the Officer's shot is drawn as held |
 | [DSN-REQ-16](integration-requests.md#dsn-req-16) | Whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | Integration | The prototype shows the closed folder (PR #88's conceal rule); recommended: keep the release's card, the folder only after the background |
-| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.3.0`) |
-| DSN-D37 | The look and motion of the ability art (slices 1 to 3) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
+| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.4.0`) |
+| DSN-D37 | The look and motion of the ability art (slices 1 to 4) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
 
 Browser emulation only: desktop Chromium at simulated phone viewports. No real phone, screen reader or touch test has been run.
 
@@ -310,3 +310,76 @@ The art sits where the strip already had room: the target floated beside the que
 ### 15.9 Tests to port
 
 The slice 3 rules in `abilities-capture.mjs` and `abilities-check.mjs`: two vials, as many full as the count, full first; nothing of a recovery on a Rescue's receipt; the cross only on a Rescue; the cell spent exactly on the receipt; nothing that tells the Disablers apart in the strip, and the Blue and Red strips identical; Supply's tags and the strip's words in seat order, tied exactly on the receipt; every slip in the release's words, its tags in seat order and matching the players it names, a recipient's tag the recipient's own, DELIVERED exactly with a tag; the release's words quoted from `en.ts` and `comic-shell.ts`. The flows (`board-motion-flows.mjs`) add a live Rescue whose vial drains once and whose recovery is the same public cue on both boards, the Blue and Red Disablers compared, a Supply picked out of seat order, and a slip that drops in once and is at rest when the card opens again. In the board capture, no stamp covers the strip's words.
+
+## 16. Slice 4: the shot and Protection
+
+**A proposal**, on the same base and tuple as slices 1 to 3. Review pictures: `design/abilities/review/contact-shot-protection.png`. Scenarios: `shot.choose`, `shot.confirm`, `shot.pending`, `shot.registered`, `shot.officer`, `shot.undercover-confirm`, `shot.alien-confirm`, `protect.choose`, `protect.confirm`, `protect.registered`, `guard.card`, `guard.used`, `guard.self`, `weapons.officer-spent`, `weapons.officer-supplied`, `alien.weapon`; the panel's **Private facts, to this seat alone** grants Player 5's Protection and then uses it up. Reference code: `design/abilities/js/guard.js`, its styles in `abilities.css` (the slice 4 block), wired in `app.js` (`stripContent`, `stripBeats`, `drawCard`, `deliverPrivate`).
+
+### 16.1 What changes for a player
+
+- **A shot.** In the strip of any seat that shoots, the picked player's chip in a **reticle** beside the question, and at the start of the detail line **the rounds the seat holds**, as many as the view counts. On the receipt (the neutral **Registered** stamp and "This is not a result. Registered shots are resolved at the end of the round.") the round the shot used **leaves the rack** once, when the view's count falls. Nothing says the target is hit. **The Officer's shot from Round 1, the Undercover's, and an Alien's (or anyone's) supplied weapon use the same strip, part for part.** A hit, if there is one, is the public health change at the end of the round, the same for every cause and from no direction.
+- **The weapons note.** In every seat's card: the rounds it holds and the release's sentence, **Ordinary weapons you hold: 1.** At 0 the sentence stands alone.
+- **Protection.** In the Undercover's strip the picked player's chip **on a shield**; the receipt is the neutral Registered stamp and **not a grant**. Once the view carries it, the Undercover's card shows **a note per Protection** on slip paper: the chip on a whole shield, **Protection for Player 5: active from round 3.**; when the view says it was used, the chip **drawn whole before a shield split in two**, **Protection for Player 5: used up.** The shield shakes once as it splits. The seat's own is "yourself". Nobody else's phone shows any of it.
+
+### 16.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| Shot's target | the picked seat (`REGISTER_SHOT.targetSeatId`), its lobby identity | Only while a shot is chosen, confirmed, sent or its receipt shows. Direct targeting: the shooter and the target, no third player (direct-shot-2026-09-26) |
+| Rounds in the strip | `self.ordinaryWeapons` | Full ones first. The weapon is used when the shot is accepted (the engine spends it at acceptance; v2.1 consumes a shot's resources whatever its outcome, `protection.on_block`); **a round is drawn spent when the count falls**, never on the receipt by itself. Keep the count the seat held when it sent the shot (`weaponsAtSend` in the prototype) and, on an accepted receipt, draw that many minus the view's count as spent |
+| The strip itself | the offer (`legalTargets.REGISTER_SHOT`, `self.shotAvailable`) | Opens only when the view offers a shot: the Officer's from Round 1 in nine-player mode, others' from Round 4. **Never read the role**: the Officer's, the Undercover's and every supplied weapon's strip is one component |
+| Weapons note | `self.ordinaryWeapons`, every seat | The release's sentence (`en.knowledge.weapons`) for every seat, whatever the count, and as many rounds. A picture of the knowledge line: the card's list need not repeat it |
+| Protection's target | the picked seat (`PROTECT.targetSeatId`) | The shield behind the chip, only while Protection is chosen, confirmed, sent or its receipt shows. The receipt is not a grant: the round's resolution grants it only if the player is still in the game |
+| Protection notes | `knowledge.protections[]`: `seatId`, `activeFromRound`, `consumed` | **Only the Undercover's view carries it** (V1-17); a player can be given one only once a match, reserved when it is registered (V1-15): draw the notes from the field, never from the role. In the view's order. `consumed` gives used up; otherwise "active from round N", **N as the view says**: never compare it with the present round (the release does not). The seat's own as "yourself" (`en.action.who`) |
+
+### 16.3 Markup and hooks
+
+- Strip: `.ab-target[data-mark="reticle"|"shield"]` (aria-hidden) floated beside the question, holding an `.ab-chip[data-seat]` and `.ab-target__mark`; for a shot, at the start of `.bm-strip__detail`, `.ab-rounds[data-count] > .ab-round[data-spent]` (aria-hidden; the full ones first, then the spent). A round's full look is its `::after`, so that spending is a beat of its own on an element already drawn spent.
+- Card: `.ab-kit[data-kit="weapons"]` (the rounds and `.ab-kit__words`, visible text) after the role card and the Cracker's note; then `ul.ab-guards > li.ab-guard[data-guard][data-used]`, each with `.ab-target.ab-guard__mark[data-mark="shield"|"shield-used"]` (aria-hidden, the player's chip in it) and `p.ab-guard__words` (visible, the release's words).
+- Nothing in the kit or the strip carries `data-device`, `data-team` or a role's name.
+
+### 16.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `dossier-reticle` | 56 x 56 | center (28, 28), clear within r 19 | Round a shot's target chip: a ring and four ticks, outside the face |
+| `dossier-shield` | 48 x 56 | window (24, 25), r 17 | Behind a Protection's target chip, in the strip and on a note |
+| `dossier-shield-used` | 48 x 56 | window (24, 25), r 17 | A Protection used up: the shield split in two and parted behind the chip, which is drawn whole (the shield was spent, not the player) |
+| `dossier-round` / `dossier-round-spent` | 14 x 30 | base (7, 28) | An ordinary weapon held / used. Same silhouette, so the full one lies exactly over the spent |
+
+All neutral, the same for every seat that shoots. Same loading rule as before: the whole kit on every player phone, whatever its role.
+
+### 16.5 Layout
+
+Where the strip already had room: the target beside the question, the rounds at the start of the detail line, the board keeping its height at 390 x 844 and 320 x 568. In the card the notes come after the role card. Without a file the card fits both phones without scrolling at the default text size; with one (the Alien's Code and a received weapon) the card may scroll, the file whole in its first view. At large text the notes' words grow with the reader's text and the card scrolls.
+
+### 16.6 Motion
+
+| | Shot | Protection |
+| --- | --- | --- |
+| Normal | When the view's count falls while the receipt shows, the round used leaves the rack (220) | When the view first says a Protection is used up, the split shield shakes and settles (260) |
+| Reduced | The round is simply spent | The note is simply used up |
+| Static | The reticle, the rounds, the words | The shields, the words |
+| Cancel | As every strip; reduced motion finishes a beat at once | As the shot |
+| Replay | Never: only a fall of the count spends a round | Never: a Protection this page has shown used up is drawn at rest, and a fresh page, a reconnect or a duplicate snapshot draws it at rest |
+
+### 16.7 What it must never show (review with Balance)
+
+- Who shoots: no role, team, device, color or word in the strip. The Officer's, the Undercover's and an Alien's strips are compared part for part.
+- A shot's receipt that reads as a hit; a round spent ahead of the count; a third player in a shot.
+- A Protection anywhere but the Undercover's own strip and card. The recipient, the public, and a shooter or Disabler whose attack it stopped see nothing of it: their receipts are the same as for any other, and nothing public changes when it is granted or used. No "active now" worked out from the round; no "blocked", "saved" or "stopped".
+
+### 16.8 Words
+
+| Where | Words |
+| --- | --- |
+| Strip | The release's, unchanged: "Choose a target", "Register a shot at Player 5?", "Shot at Player 5 registered.", "This is not a result. Registered shots are resolved at the end of the round.", "Who is the Protection for?", "Register Protection for Player 5?", "Protection for Player 5 registered.", "This is not a result. Registered actions are resolved at the end of the round." |
+| Card | The release's: "Ordinary weapons you hold: 1."; "Protection for Player 5: active from round 3."; "Protection for Player 5: used up."; "Protection for yourself: active from round 4." |
+
+### 16.9 Tests to port
+
+The slice 4 rules in `abilities-capture.mjs` and `abilities-check.mjs`: as many full rounds as the count, a spent one only on a shot's receipt; the reticle only on a shot and the shield only on a Protection; nothing in a shot's strip that says who shoots, and the Officer's, the Undercover's and an Alien's strips identical; every Protection note in the release's words, in the view's order, its shield as the view says; the weapons note in the release's words with as many rounds; the words quoted from `en.ts`; the notes drawn from `knowledge.protections`, never the role; nothing in the kit that works out whether a Protection is active or speaks of an attack stopped. The flows (`board-motion-flows.mjs`) add the Officer's Round 1 shot from the pick to the empty card, the three shooters compared, a round spent once (and at rest with reduced motion), and a Protection registered, granted and used up with no cue on any screen and a shake that plays once.
+
+### 16.10 Open: the Officer's one shot
+
+The view counts the Officer's weapons as it counts anyone's, and a weapon supplied after the Officer's shot counts too (V1-16: received, never a second shot). The card then says, as the release does, **Ordinary weapons you hold: 1.**, with one round, and the server offers no shot. Nothing in the view says the Officer's one shot is spent (`self.shotAvailable` means a legal target now), so the card cannot show that weapon as one that cannot be used. [DSN-REQ-15](integration-requests.md#dsn-req-15) asks for a lasting own field; until then the scenario `weapons.officer-supplied` shows the gap. Nothing else on the phone says it today: the role card names the role, its team and its device, and no rule.

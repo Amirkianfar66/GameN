@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "ca706f33d4170ddfeb26fad6451e801f5e02c20de3327cb4ea9afc291b5a7019",
+  "inputsSha256": "94ace0f5ba718dcf44772697e3abd7078cf965fb005755e0f037ca10f3921547",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -1141,6 +1141,316 @@
       "file": "design/abilities/review/beat-slip-0260ms.png",
       "phone": "w390",
       "size": "525x189",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-confirm",
+      "title": "Shot: the target in the reticle, one round, 390 x 844",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-registered",
+      "title": "Shot registered: the round spent, not a result, 390 x 844",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "protect-w390-confirm",
+      "title": "Protection: the target on the shield, 390 x 844",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "protect-w390-registered",
+      "title": "Protection registered: not a grant, 390 x 844",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-card",
+      "title": "The Undercover's card: a Protection, one weapon, 390 x 844",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-card.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-weapon",
+      "title": "The Alien's card with a supplied weapon, 390 x 844",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/alien-w390-weapon.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w320-confirm",
+      "title": "Shot: the target in the reticle, one round, 320 x 568",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "shot-w320-registered",
+      "title": "Shot registered: the round spent, not a result, 320 x 568",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "protect-w320-confirm",
+      "title": "Protection: the target on the shield, 320 x 568",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "protect-w320-registered",
+      "title": "Protection registered: not a grant, 320 x 568",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "guard-w320-card",
+      "title": "The Undercover's card: a Protection, one weapon, 320 x 568",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w320-card.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "alien-w320-weapon",
+      "title": "The Alien's card with a supplied weapon, 320 x 568",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/alien-w320-weapon.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-officer",
+      "title": "The Officer's shot in Round 1",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-officer.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-undercover-confirm",
+      "title": "The Undercover's shot: the same strip",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-undercover-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-alien-confirm",
+      "title": "An Alien's supplied weapon: the same strip",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-alien-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "weapons-w390-officer-spent",
+      "title": "The Officer's card after the one shot",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/weapons-w390-officer-spent.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "weapons-w390-officer-supplied",
+      "title": "The Officer after the one shot, a weapon supplied: counted; that it cannot be used is not in the view (DSN-REQ-15)",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/weapons-w390-officer-supplied.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-used",
+      "title": "A Protection used up: the shield split, the player drawn whole",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-used.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-self",
+      "title": "Protection for yourself, and one used up",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-text200-self",
+      "title": "The Undercover's notes at twice the text size",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-text200-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w320-text200-confirm",
+      "title": "A shot at twice the text size, 320 x 568",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w320-text200-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-registered-reduced",
+      "title": "Reduced motion: the receipt at rest",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-registered-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-no-art",
+      "title": "Without the ability art or the crew cards: shot.confirm",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "protect-w390-no-art",
+      "title": "Without the ability art or the crew cards: protect.confirm",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-no-art",
+      "title": "Without the ability art or the crew cards: guard.self",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-spend-0000ms",
+      "title": "Spend, 0 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-spend-0000ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-spend-0110ms",
+      "title": "Spend, 110 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-spend-0110ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-spend-0220ms",
+      "title": "Spend, 220 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-spend-0220ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-crack-0000ms",
+      "title": "Crack, 0 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-crack-0000ms.png",
+      "phone": "w390",
+      "size": "525x102",
+      "problems": []
+    },
+    {
+      "name": "beat-crack-0130ms",
+      "title": "Crack, 130 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-crack-0130ms.png",
+      "phone": "w390",
+      "size": "525x102",
+      "problems": []
+    },
+    {
+      "name": "beat-crack-0260ms",
+      "title": "Crack, 260 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-crack-0260ms.png",
+      "phone": "w390",
+      "size": "525x102",
       "problems": []
     }
   ]

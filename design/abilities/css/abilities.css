@@ -1,4 +1,4 @@
-/* mothership:dev-only · ability art proposal abilities-0.3.0 · the treatments' reference styles.
+/* mothership:dev-only · ability art proposal abilities-0.4.0 · the treatments' reference styles.
    Colors are tokens (design/prototypes/css/tokens.css); pictures come only from loaded bundles:
    the kit behind [data-art~="abilities"], the crew cards behind [data-art~="public-board"]. Without
    them every treatment is complete in paper, ink and words (the missing-asset fallback). Private:
@@ -7,7 +7,7 @@
 .ab-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* A card that holds a file or a note takes the height it needs, up to the whole space between the status bar and the dock. */
-#bm-card:has(.ab-file, .ab-folder, .ab-kit, .ab-deliveries) { max-height: calc(100% - var(--bm-safe-top, 0px) - var(--bm-status) - var(--bm-nav) - 10px); }
+#bm-card:has(.ab-file, .ab-folder, .ab-kit, .ab-deliveries, .ab-guards) { max-height: calc(100% - var(--bm-safe-top, 0px) - var(--bm-status) - var(--bm-nav) - 10px); }
 
 /* ---------- the Insider's file: an investigation board ---------- */
 .ab-file {
@@ -307,6 +307,8 @@
 .ab-target { position: relative; float: left; margin: 0 9px 2px 0; width: 40px; height: 42px; }
 .ab-target .ab-chip { position: absolute; left: 4px; top: 7px; width: 32px; height: 32px; }
 .ab-target__mark { position: absolute; pointer-events: none; }
+/* The seat badge stays above the mark, so the reticle, the cross or the sparks never hide the player's number. */
+.ab-target .ab-chip__seat { z-index: 2; }
 /* A Rescue: the medical cross ring (48 x 48, its ring round (24, 26)). Without the kit, a plain ring and a cross of two bars. */
 .ab-target[data-mark="cross"] .ab-target__mark { left: 0; top: 0; width: 40px; height: 40px; }
 .ab-target[data-mark="cross"] .ab-target__mark::before { content: ''; position: absolute; left: 1px; right: 1px; top: 4px; bottom: -3px; border: 2.5px solid var(--ms-color-ink); border-radius: 50%; }
@@ -347,6 +349,48 @@
 .ab-slip__stamp { grid-area: stamp; justify-self: end; margin: 0 2px 2px 0; --ab-stamp-turn: -8deg; font-size: 11px; padding: 2px 7px 1px; color: var(--ms-color-ink); border-color: var(--ms-color-ink); }
 [data-art~="abilities"] .ab-slip__stamp { padding: 0 2px; }
 
+/* ---------- slice 4: the shot and Protection ---------- */
+
+/* The rounds a seat holds, full first, then the one an accepted shot used. The round is its ::after, so that spending is a beat of its own (guard.js spend). */
+.ab-rounds { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -6px; }
+.ab-round { position: relative; flex: none; display: inline-block; width: 10px; height: 21px; border: 2px dashed var(--ms-color-ink); border-radius: 5px 5px 1px 1px; background: var(--ms-color-paper-deep); }
+.ab-round::after { content: ''; position: absolute; inset: 1px; border-radius: 4px 4px 0 0; background: linear-gradient(transparent 55%, var(--ms-color-caption) 55% 72%, var(--ms-color-steel-mid) 72%); opacity: 0; }
+.ab-round[data-spent="false"] { border-style: solid; background: var(--ms-color-paper); }
+.ab-round[data-spent="false"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-round { border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-spent) center / contain no-repeat; }
+[data-art~="abilities"] .ab-round::after { inset: 0; border-radius: 0; background: var(--ab-asset-dossier-round) center / contain no-repeat; }
+
+/* A shot's target: the reticle round the chip. Without the kit, a ring with four ticks in ink. */
+.ab-target[data-mark="reticle"] .ab-target__mark { left: -4px; top: 1px; width: 48px; height: 48px; border: 2.5px solid var(--ms-color-ink); border-radius: 50%; }
+.ab-target[data-mark="reticle"] .ab-target__mark::before {
+  content: ''; position: absolute; inset: -6px; pointer-events: none;
+  background: linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 50% 0 / 3px 9px no-repeat, linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 50% 100% / 3px 9px no-repeat,
+    linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 0 50% / 9px 3px no-repeat, linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 100% 50% / 9px 3px no-repeat;
+}
+[data-art~="abilities"] .ab-target[data-mark="reticle"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-reticle) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="reticle"] .ab-target__mark::before { content: none; }
+
+/* Protection's target: the chip on a shield, the shield behind it (48 x 56, the window round (24, 25)). Without the kit, a pointed paper badge. */
+.ab-target:is([data-mark="shield"], [data-mark="shield-used"]) { width: 40px; height: 47px; }
+.ab-target:is([data-mark="shield"], [data-mark="shield-used"]) .ab-chip { z-index: 1; left: 5px; top: 4px; width: 30px; height: 30px; }
+.ab-target:is([data-mark="shield"], [data-mark="shield-used"]) .ab-target__mark { z-index: 0; inset: 0; background: var(--ms-color-paper-shade); border: 2.5px solid var(--ms-color-ink); border-radius: 6px 6px 50% 50% / 6px 6px 60% 60%; }
+.ab-target[data-mark="shield-used"] .ab-target__mark { background: var(--ms-color-paper-deep); border-style: dashed; }
+[data-art~="abilities"] .ab-target[data-mark="shield"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-shield) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="shield-used"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-shield-used) center / contain no-repeat; }
+/* A used-up Protection: the shield split behind its player, whose chip is drawn whole: the shield is what was spent, the player is unchanged. */
+
+/* The Undercover's own notes of its Protections: the shield and the release's words, on the slip paper. */
+.ab-guards { list-style: none; margin: 10px 0 2px; padding: 0; display: grid; gap: 8px; }
+.ab-guard {
+  position: relative; display: flex; align-items: center; gap: 12px; padding: 6px 10px; color: var(--ms-color-ink); background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink); border-top-style: dashed; border-radius: 2px; box-shadow: 2px 3px 0 rgb(21 25 35 / 0.35);
+}
+[data-art~="abilities"] .ab-guard { border-style: solid; border-color: transparent; border-width: 12px 22px 7px 7px; border-image: var(--ab-asset-dossier-slip) 18 34 10 10 fill / 12px 22px 7px 7px round stretch; border-radius: 0; box-shadow: none; padding: 0 4px 2px; }
+.ab-guard .ab-target { float: none; flex: none; margin: 0; }
+.ab-guard__words { margin: 0; font-weight: 800; font-size: 14px; line-height: 1.25; }
+.ab-kit[data-kit="weapons"] .ab-round { width: 14px; height: 30px; }
+.ab-kit[data-kit="weapons"] .ab-rounds { gap: 4px; }
+
 /* A board seen from the file: the character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
 [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { display: block; border: 3.5px solid var(--ms-color-focus); animation: ab-spot 1600ms ease-out forwards; }
 @keyframes ab-spot { 0% { opacity: 0; transform: scale(1.5); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; } }
@@ -368,11 +412,11 @@
 /* A short phone (320 x 568 and the like) at the default text size: the role card shrinks to a row and the
    file tightens, so the whole file fits the card without scrolling. At large text the reflow below applies instead. */
 @media (min-width: 18.01em) {
-  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries) .bm-hint { margin: 0 0 6px; font-size: 11px; line-height: 1.25; }
-  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries) .bm-card { grid-template-columns: 40px minmax(0, 1fr); padding: 4px 8px; gap: 8px; }
-  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries) .bm-card__art { width: 40px; height: 46px; }
-  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries) .bm-card__name { font-size: 16px; }
-  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries) .bm-card__team { margin-top: 0; font-size: 11px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-hint { margin: 0 0 6px; font-size: 11px; line-height: 1.25; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card { grid-template-columns: 40px minmax(0, 1fr); padding: 4px 8px; gap: 8px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card__art { width: 40px; height: 46px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card__name { font-size: 16px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card__team { margin-top: 0; font-size: 11px; }
   .bm-app[data-short="true"] .ab-file { margin-top: 8px; }
   .bm-app[data-short="true"] .ab-file__tab { padding: 4px 12px 0; }
   .bm-app[data-short="true"] .ab-file__title { font-size: 13px; padding: 2px 8px 1px; }
@@ -417,6 +461,9 @@
   .bm-app[data-short="true"] .ab-slip__words { font-size: 12px; line-height: 1.25; }
   .bm-app[data-short="true"] .ab-slip .ab-tag { width: 46px; height: 26px; }
   .bm-app[data-short="true"] .ab-slip .ab-tag .ab-chip { left: calc(60% - 10px); top: calc(50% - 10px); width: 20px; height: 20px; }
+  /* Slice 4: the Protection notes, closer. */
+  .bm-app[data-short="true"] .ab-guards { margin-top: 8px; gap: 6px; }
+  .bm-app[data-short="true"] .ab-guard__words { font-size: 13px; }
 }
 
 /* Large text (the board's own large-text query): every word grows with the reader's text size and the file
@@ -473,4 +520,6 @@
   .ab-slip__words { font-size: 0.85rem; }
   .ab-slip__stamp { font-size: 0.6rem; }
   .bm-strip :is(.ab-target, .ab-scan-target, .ab-tags, .ab-code-card) .ab-chip__seat { display: none; }
+  /* Slice 4: the Protection notes' words grow; the weapons note's with the Rescues'. */
+  .ab-guard__words { font-size: 0.9rem; }
 }

@@ -2,7 +2,7 @@
 
 # design/abilities/: ability art and motion
 
-`mothership:dev-only` · `abilities-0.3.0` · **a proposal**
+`mothership:dev-only` · `abilities-0.4.0` · **a proposal**
 
 Original artwork and comic motion for every current V1 role ability and shared game action, delivered in focused slices on the board-motion phone prototype (`design/board-motion/`). The first slice is **the Insider's file**: a private investigation board for the Insider's starting knowledge. The inventory of all 24 treatments, delivered and planned, is generated into [docs/design/abilities-inventory.md](../../docs/design/abilities-inventory.md); Frontend's instructions are in [docs/design/abilities-handoff.md](../../docs/design/abilities-handoff.md).
 
@@ -33,6 +33,12 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 - **The Disable**: the picked player's chip in a charged reticle (sparks at its corners, never across the face) and the one charge cell, full while the Disable is offered and spent on its receipt. **The Blue and the Red Disabler see the same strip, part for part**: their identities stay in their own role cards, so a glance at a phone mid-Disable tells nobody which. The view keeps no lasting "spent" (DSN-REQ-15).
 - **The Supply**: two shipping tags, each pick's chip in seat order, tied together on the receipt, which is not a delivery. After Round 3 the card shows **Supply results** (the release's heading): the Supplier's slip naming the players who received a weapon, and a recipient's slip that names no Supplier, each in the release's words, stamped DELIVERED when a weapon arrived. A slip drops in once, the first time the page shows it.
 
+## Slice 4: the shot and Protection
+
+- **The shot**: one strip for every seat that shoots, the Officer from Round 1 (nine players, one shot in the match), the Undercover, and anyone with a supplied weapon, an Alien included. The picked player's chip in a reticle; at the start of the detail line the rounds the seat holds (`self.ordinaryWeapons`). On the receipt the round used leaves the rack once the view's count falls, never ahead of it, and nothing says a hit: a hit is the public health change at the end of the round, from no direction. The strips of the Officer, the Undercover and an Alien are compared part for part. Every seat's card holds the release's sentence, "Ordinary weapons you hold: 1.", with its rounds.
+- **Protection**: in the Undercover's strip the picked player's chip on a shield, the receipt not a grant. In the Undercover's card, once its view carries them (`knowledge.protections`, V1-17), a note per Protection in the release's words: the chip on a whole shield, "active from round 3."; or drawn whole before a shield split in two, "used up.", the shield shaking once as it splits. Whether that round has come is not worked out, as the release does not. Nobody else's phone shows any of it, and nothing public changes.
+- **Open**: the view counts a weapon supplied after the Officer's one shot and says nothing of the shot being spent, so the card cannot show that weapon as one that cannot be used (DSN-REQ-15, extended).
+
 ## What is here
 
 | Path | What it is | Edit it? |
@@ -40,15 +46,17 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 | `source/dossier.svg` | The editable kit: cork, tape, pin, snapshot frame, query tag, lens, clip, stamp frame, envelope (back and front), closed folder. Each a layer, in the drawing vocabulary of `design/tools/lib/svg.mjs` and the neutral palette | **Yes. The editable source** |
 | `source/intel.svg` | Slice 2's pieces: the printout, the portrait chip, the Code's mark (four holes, two by two) and the Code card | **Yes. The editable source** |
 | `source/tools.svg` | Slice 3's pieces: a vial and an empty vial, the cross ring, a charge cell and a spent one, the sparks, a shipping tag, a slip (nine-sliced) | **Yes. The editable source** |
+| `source/guard.svg` | Slice 4's pieces: the reticle, a shield and a shield used up (split), a round and a spent one | **Yes. The editable source** |
 | `recipes.json` | How each asset is lifted out of its source: id, version, box, anchors, use; the neutral palette; the bundle's load policy; rights | Yes |
 | `assets/` | One SVG per asset, `abilities.art.css` (every asset as a custom property `--ab-asset-<id>`) and `manifest.json` (ids, versions, boxes, anchors, sizes, hashes, colors) | No. Written by `design/tools/abilities-assets.mjs` |
 | `js/dossier.js` | What every file shares (`snapshot()`, `fileShell()`, `makeInspectable()`, `assemble()`, `cancelMotion()`, `closedFolder()`) and the Insider's file (`insiderFile()`), the copy and the motion beats. Reference behaviour for Frontend | Yes |
 | `js/intel.js` | Slice 2: `hackerFile()`, `printout()`, `printFresh()`, `alienFile()`, `codeCard()`, `scanTarget()`, and the strip's one-shot beats `clipIn()`, `punch()` | Yes |
 | `js/tools.js` | Slice 3: `vials()`, `target()`, `cell()`, `supplyTags()`, `rescueKit()`, `deliveries()`, and the beats `drain()`, `discharge()`, `tie()`, `dropIn()` | Yes |
+| `js/guard.js` | Slice 4: `rounds()`, `weaponsNote()`, `guardNotes()`, and the beats `spend()`, `crack()`; the shot's and Protection's targets use slice 3's `target()` | Yes |
 | `css/abilities.css` | The reference styles: tokens only; art drawn only behind `[data-art~="abilities"]` and the crew cards behind `[data-art~="public-board"]`; the short-phone and large-text layouts | Yes |
 | `contract/abilities.json` | The inventory: every treatment's roles, audience, trigger, view fields, disclosure, concept, art, motion in five forms, states, copy, review and dependencies | Yes. `docs/design/abilities-inventory.md` follows |
 | `contact.html` | The contact sheet of the review pictures | Yes |
-| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2) and `contact-rescue-disable-supply.png` (slice 3) | No. Written by `design/tools/abilities-capture.mjs` |
+| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3) and `contact-shot-protection.png` (slice 4) | No. Written by `design/tools/abilities-capture.mjs` |
 
 ## See it
 

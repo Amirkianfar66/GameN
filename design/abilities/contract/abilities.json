@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "abilities-0.3.0",
+  "version": "abilities-0.4.0",
   "status": "proposal",
   "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
   "base": {
@@ -657,65 +657,84 @@
       "id": "undercover-protection",
       "title": "Undercover: Protection",
       "slice": 4,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Undercover"
       ],
-      "audience": "private-own (Undercover only)",
-      "trigger": "The Undercover opens Protection, picks a Healthy or Injured character (themself included) and confirms.",
+      "audience": "private-own (the Undercover only)",
+      "trigger": "The Undercover opens Protection, picks a character in the same location who has never been given one (themself included) and confirms. The round's resolution grants it if that player is still in the game, active from the next round; the first attack to reach that player from then on uses it up.",
       "fields": [
         "legalTargets.PROTECT",
         "receipt",
         "knowledge.protections[]: seatId, activeFromRound, consumed"
       ],
       "disclosure": [
-        "Grant, activation and consumption are drawn only for the Undercover (V1-17). The recipient never sees a shield; nothing public changes."
+        "Registration is not a grant: the receipt stamps Registered with the target's chip on the shield and says nothing of whether, or from when, the player is protected.",
+        "A grant and its use are drawn only from the Undercover's own view (V1-17): one note per entry of knowledge.protections, in the view's order and the release's words, active from round N or used up. Whether that round has come is not worked out, as the release does not.",
+        "The recipient never sees a shield and nothing public changes. A seat whose shot or Disable it stopped sees only its own receipt, the same as for any other."
       ],
-      "concept": "The dome emitter device: a dome sketched over the picked portrait in the Undercover's file; queued (dashed dome, Active from round N), active (solid dome), consumed (dome cracked, Used).",
+      "concept": "In the strip: the picked player's chip on a shield beside the question, and the neutral Registered stamp on the receipt. In the Undercover's card: a note per Protection on slip paper, the player's chip on a whole shield (active from round N), or drawn whole before a shield split in two (used up: the shield was spent, not the player), beside the release's sentence.",
       "art": [
-        "planned: dome-queued, dome-active, dome-cracked"
+        "dossier-shield",
+        "dossier-shield-used",
+        "dossier-slip",
+        "dossier-chip"
       ],
       "motion": {
-        "normal": "Dome draw 300 ms on registration; crack 240 ms when the view says consumed.",
-        "reduced": "Static domes.",
-        "static": "Words.",
-        "cancel": "As every strip.",
-        "replay": "A consumed dome never cracks again after recovery."
+        "normal": "When the view first says a Protection is used up, its split shield shakes and settles (260 ms), once.",
+        "reduced": "No shake: the note is drawn used up.",
+        "static": "The shields and the words.",
+        "cancel": "As every strip; reduced motion finishes the shake at once.",
+        "replay": "Never: a Protection this page has shown used up is drawn at rest; a duplicate snapshot, a recovery or a reconnect plays nothing."
       },
       "states": [
         "choosing",
-        "confirming",
+        "confirming (the target on the shield)",
         "sending",
-        "registered",
-        "queued",
-        "active (from the view's round)",
-        "consumed",
+        "registered (not a grant)",
         "rejected",
-        "unknown"
+        "unknown",
+        "granted: active from round N",
+        "used up",
+        "for yourself",
+        "several, in the view's order"
       ],
       "copy": {
         "visible": [
           "Protection",
-          "Active from round <n>",
-          "Used up"
+          "Register Protection for Player 5?",
+          "Protection for Player 5 registered.",
+          "Protection for Player 5: active from round 3.",
+          "Protection for yourself: used up."
         ],
         "accessible": []
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/protect-w390-confirm.png",
+        "design/abilities/review/protect-w320-confirm.png",
+        "design/abilities/review/protect-w390-registered.png",
+        "design/abilities/review/guard-w390-card.png",
+        "design/abilities/review/guard-w320-card.png",
+        "design/abilities/review/guard-w390-used.png",
+        "design/abilities/review/guard-w390-self.png",
+        "design/abilities/review/guard-w390-text200-self.png",
+        "design/abilities/review/guard-w390-no-art.png",
+        "design/board-motion/index.html?scenario=guard.card"
+      ],
       "dependencies": []
     },
     {
       "id": "ordinary-shot",
-      "title": "Ordinary shot (every eligible role)",
+      "title": "Ordinary shot (every seat that holds a weapon)",
       "slice": 4,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
-        "Undercover",
         "Officer",
+        "Undercover",
         "any holder of a supplied weapon, the Alien included"
       ],
-      "audience": "private-own; damage public",
-      "trigger": "A seat whose view offers REGISTER_SHOT picks a character in the same location and confirms. Direct targeting only: no third player.",
+      "audience": "private-own; any damage public",
+      "trigger": "A seat whose view offers REGISTER_SHOT picks a character in the same location and confirms: from Round 4 with an ordinary weapon, from Round 1 for the Officer (nine-player mode). Direct targeting only: the shooter and the target, no third player.",
       "fields": [
         "self.shotAvailable",
         "self.ordinaryWeapons",
@@ -724,39 +743,56 @@
         "PUBLIC_HEALTH_CHANGED"
       ],
       "disclosure": [
-        "Registration is not damage.",
-        "The public hit (cue-public-hit, a proposal) is the same for every cause and from no direction."
+        "Every seat that shoots sees the same strip, part for part: the Officer's, the Undercover's and an Alien's with a supplied weapon are compared in the captures and the flows. Nothing in it is a role's.",
+        "Registration is not damage: the receipt stamps Registered and says nothing of a hit. A hit, if there is one, is the public health change at the end of the round, the same for every cause and from no direction (cue-public-hit, a proposal).",
+        "The weapon is used when the shot is accepted, and a round is drawn spent only when the view's count (self.ordinaryWeapons) falls, never ahead of it."
       ],
-      "concept": "A shared shot strip: a crosshair over the picked character on the own board, the weapon pip spent on registration. The same component for every role; the Officer's card and the supplied weapon differ only in their own private art.",
+      "concept": "In the strip: the target's chip in a reticle beside the question and, at the start of the detail line, the rounds the seat holds; on the receipt the one used is drawn spent. In the card, for every seat as the release says it: Ordinary weapons you hold: N., with as many rounds.",
       "art": [
         "approved: icon-action-shot",
-        "planned: crosshair, weapon-pip"
+        "dossier-reticle",
+        "dossier-round",
+        "dossier-round-spent",
+        "dossier-chip"
       ],
       "motion": {
-        "normal": "Crosshair lock 180 ms; pip spends 160 ms on the receipt.",
-        "reduced": "Ring and stamp.",
-        "static": "Words.",
-        "cancel": "As every strip.",
-        "replay": "Never."
+        "normal": "On the receipt, once the view's count has fallen, the round leaves the rack (220 ms).",
+        "reduced": "No beat: the round is drawn spent.",
+        "static": "The reticle, the rounds and the words.",
+        "cancel": "As every strip; reduced motion finishes the beat at once.",
+        "replay": "Never: the round leaves once, for the fall of the count; a duplicate snapshot, a recovery or a reconnect plays nothing."
       },
       "states": [
-        "unavailable",
+        "unavailable (not offered)",
         "choosing",
-        "confirming",
+        "confirming (the target in the reticle, the rounds held)",
         "sending",
-        "registered",
+        "registered (the round spent; not a result)",
         "rejected",
-        "unknown"
+        "unknown",
+        "holding none (the card says 0)"
       ],
       "copy": {
         "visible": [
           "Shot",
-          "Shot registered"
+          "Register a shot at Player 5?",
+          "Shot at Player 5 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round.",
+          "Ordinary weapons you hold: 1."
         ],
         "accessible": []
       },
       "review": [
-        "design/board-motion/index.html?scenario=shot.choose"
+        "design/abilities/review/shot-w390-confirm.png",
+        "design/abilities/review/shot-w320-confirm.png",
+        "design/abilities/review/shot-w390-registered.png",
+        "design/abilities/review/shot-w320-registered.png",
+        "design/abilities/review/shot-w390-undercover-confirm.png",
+        "design/abilities/review/shot-w390-alien-confirm.png",
+        "design/abilities/review/shot-w390-registered-reduced.png",
+        "design/abilities/review/shot-w320-text200-confirm.png",
+        "design/abilities/review/shot-w390-no-art.png",
+        "design/board-motion/index.html?scenario=shot.confirm"
       ],
       "dependencies": []
     },
@@ -764,87 +800,113 @@
       "id": "officer-shot",
       "title": "Officer: the one shot",
       "slice": 4,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Officer"
       ],
       "audience": "private-own",
-      "trigger": "Nine-player mode only. From Round 1, during the Officer's own ordinary turn; one ordinary shot in the match, never a second from a supplied weapon.",
+      "trigger": "Nine-player mode only. From Round 1, in the Officer's own ordinary turn; one ordinary shot in the match, never a second, even with a supplied weapon (V1-16).",
       "fields": [
         "self.shotAvailable",
         "self.ordinaryWeapons",
-        "legalTargets.REGISTER_SHOT"
+        "legalTargets.REGISTER_SHOT",
+        "receipt"
       ],
       "disclosure": [
-        "The same shared shot strip; the sidearm device with one cell, empty once spent."
+        "The same strip as every seat that shoots: nothing in it says Officer. The Officer's identity stays in its role card (the approved device).",
+        "Round 1 is the server's offer: the strip opens only when the view offers REGISTER_SHOT.",
+        "One shot in the match: after it the view offers no shot and the card says the Officer holds 0. A weapon supplied after the shot is counted like any other (the card says 1), but the view carries nothing saying the Officer's shot is spent, so the card cannot say that weapon cannot be used (DSN-REQ-15)."
       ],
-      "concept": "The sidearm device's single cell in the strip; spent: the cell dark and a SPENT tag on the card.",
+      "concept": "The ordinary shot strip from Round 1 with the Officer's one round; after the shot, the card's weapons note holding none.",
       "art": [
-        "approved: device-officer",
-        "planned: cell-pip"
+        "approved: device-officer (the role card)",
+        "dossier-reticle",
+        "dossier-round",
+        "dossier-round-spent"
       ],
       "motion": {
         "normal": "As the ordinary shot.",
         "reduced": "As the ordinary shot.",
-        "static": "Words.",
+        "static": "The reticle, the rounds and the words.",
         "cancel": "As every strip.",
         "replay": "Never."
       },
       "states": [
-        "available",
-        "spent"
+        "available from Round 1",
+        "registered (the one round spent)",
+        "spent (not offered; the card holds none)",
+        "a weapon supplied after the shot (counted; that it cannot be used is not shown, DSN-REQ-15)"
       ],
       "copy": {
         "visible": [
-          "One shot",
-          "Spent"
+          "Shot",
+          "Register a shot at Player 5?",
+          "Ordinary weapons you hold: 0."
         ],
         "accessible": []
       },
-      "review": [],
-      "dependencies": []
+      "review": [
+        "design/abilities/review/shot-w390-officer.png",
+        "design/abilities/review/weapons-w390-officer-spent.png",
+        "design/abilities/review/weapons-w390-officer-supplied.png",
+        "design/board-motion/index.html?scenario=shot.officer"
+      ],
+      "dependencies": [
+        "DSN-REQ-15: a lasting own field for the Officer's spent shot (shotAvailable means a legal target now), so that a weapon supplied after it can be drawn as one that cannot be used."
+      ]
     },
     {
       "id": "alien-weapon",
       "title": "Alien: shared actions and a supplied weapon",
       "slice": 4,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Alien"
       ],
       "audience": "private-own",
-      "trigger": "The Alien's view offers the shared actions; a weapon arrives only through a Supplier grant, and is used in Rounds 4 and 5 like any ordinary weapon.",
+      "trigger": "The Alien's view offers the shared actions. A weapon arrives only through a Supplier's grant in Round 3, and is shot from Round 4 like any ordinary weapon.",
       "fields": [
         "self.ordinaryWeapons",
-        "receivedSupply[]",
-        "legalTargets.REGISTER_SHOT"
+        "receivedSupply[] (round)",
+        "legalTargets.REGISTER_SHOT",
+        "receipt"
       ],
       "disclosure": [
-        "The supplied weapon slip in the Alien's file only; no public weapon marker."
+        "The weapon received is the recipient's slip in the Alien's own card (slice 3), naming no Supplier, and the weapons note; no public weapon marker.",
+        "The Alien shoots through the same strip as every other seat, part for part: nothing in it says Alien or a team."
       ],
-      "concept": "The ordinary shot strip; the weapon slip in the file.",
+      "concept": "In the Alien's card, under its Code file: the recipient's slip and the weapons note with its round. The ordinary shot strip.",
       "art": [
-        "planned: weapon-slip (shared with every recipient)"
+        "dossier-slip",
+        "dossier-tag",
+        "dossier-round",
+        "dossier-reticle"
       ],
       "motion": {
-        "normal": "As the ordinary shot.",
-        "reduced": "As the ordinary shot.",
-        "static": "Words.",
+        "normal": "As the ordinary shot; the slip drops in once (slice 3).",
+        "reduced": "As the ordinary shot; no drop.",
+        "static": "The slip, the rounds and the words.",
         "cancel": "As every strip.",
         "replay": "Never."
       },
       "states": [
-        "no weapon",
-        "weapon received",
+        "no weapon (the card says 0)",
+        "weapon received (the slip and one round)",
         "shot as the ordinary shot"
       ],
       "copy": {
         "visible": [
-          "Weapon received"
+          "You received one ordinary weapon from Supply in Round 3.",
+          "Ordinary weapons you hold: 1."
         ],
         "accessible": []
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/alien-w390-weapon.png",
+        "design/abilities/review/alien-w320-weapon.png",
+        "design/abilities/review/shot-w390-alien-confirm.png",
+        "design/board-motion/index.html?scenario=alien.weapon"
+      ],
       "dependencies": []
     },
     {
