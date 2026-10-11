@@ -64,6 +64,12 @@ With all three fixes it reports none.
 
 ## Verification
 
-See [evidence/phone-polish-2026-10-11/](evidence/phone-polish-2026-10-11/README.md).
+All checks ran locally with Node 22.21.1 and npm 10.9.4.
+
+| Check | Actual result |
+| --- | --- |
+| Full `npm run verify` on the clean commit `42a61bb5c9a771220d340190ac888312859f46b1` | Passed, exit 0. Tests: 53 bootstrap, 148 engine, 130 Backend, 102 tooling, 173 presentation, 429 game, with no failures; the game count includes the two new style tests. Production exclusion: 54 reachable modules and 38 labeled development files, with no fixture or development code reachable. Balance: static 71/71; 522 scenarios (483 passed, 33 reviewed blocked, 6 manual, zero errors); 475 baselines with 4,388 controls detected; 10 playouts in each of 7/8/9. See [verification.txt](evidence/phone-polish-2026-10-11/verification.txt) |
+| Board journey (simulation) | 130 measured steps, all clean. See [evidence/phone-polish-2026-10-11/](evidence/phone-polish-2026-10-11/README.md) |
+| This branch merged locally with #101 (and so #100) and Backend #98 | Clean merge. Frontend 186 presentation and 432 game, engine 212 and Backend 145 tests passed. Not pushed; Integration owns the combined result |
 
 No change touches contracts, tokens, Designer sources, root manifests or the lockfile. Browser emulation only; no physical device was tested.
