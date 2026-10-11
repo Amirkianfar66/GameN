@@ -76,11 +76,11 @@ These three are checked only where a run says that the ruleset it plays has the 
 
 | ID | Statement | Rules |
 | --- | --- | --- |
-| INV-CAP-01 | Room A, Room B, Hospital and Jail each hold at most five players at every moment. A place is held by every player located there, whatever their health: an Eliminated player keeps theirs. The Final Zone is not counted. | Issue #96, the rule and its cases 2 and 4 |
-| INV-CAP-02 | No player's view offers a move to Room A or Room B while that room holds five players. | Issue #96, case 1 |
-| INV-CAP-03 | A player who leaves Hospital or Jail for a room arrives in their last room. They arrive in the other room only if their last room held five other players before that resolution or holds five after it. | Issue #96, case 6; R-STATE-08, R-VOTE-07 |
+| INV-CAP-01 | Room A, Room B, Hospital and Jail each hold at most five players at every moment. A place is held by every player located there, whatever their health: an Eliminated player keeps theirs. The Final Zone is not counted. | R-CAP-01, R-CAP-03, R-CAP-05 |
+| INV-CAP-02 | No player's view offers a move to Room A or Room B while that room holds five players. | R-CAP-02 |
+| INV-CAP-03 | A player who leaves Hospital or Jail for a room arrives in their last room. They arrive in the other room only if their last room held five other players before that resolution or holds five after it. | R-CAP-07, R-CAP-19, R-STATE-08, R-VOTE-07 |
 
-Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be outside Hospital while Hospital holds five (issue #96, case 3). INV-CAP-03 takes a room as full if it was full before the resolution or is full after it, because whether a place that is being left in the same resolution counts as free is not decided.
+Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be outside Hospital while Hospital holds five (R-CAP-04, R-CAP-20). INV-CAP-03 takes a room as full if it was full before the resolution or is full after it, because whether a place that is being left in the same resolution counts as free is not decided (R-CAP-19).
 
 ## Authorized views
 

@@ -116,7 +116,7 @@ Of the 67 ready cases, 65 were written as they stand before the implementation w
 
 **The engine** takes the rooms it is given. CAP-01 and CAP-02 start a match at the fullest legal split, each room in turn. CAP-03 and CAP-04 give it six players in one room: it must refuse, because the rule holds from the first moment (R-CAP-16).
 
-**The service** draws the rooms. It was read, not run. As each player is approved it draws Room A or Room B evenly, and if that room already holds five it gives the other (`allocatedInitialRoom` in `services/game-api/src/full-game.ts`). No room can exceed five that way, and each player's own chance of Room A is one half. But what a player is given depends on who was approved before them. The table compares that method with two that do not depend on the order of joining. It is exact arithmetic, held to the computed values by a test; it is not a measurement of the service.
+**The service** draws the rooms. It was read, not run. Each player who asks to join is given an even draw of Room A or Room B, which is stored with their request. When the host approves the request, the player keeps that room if it has a place among the players already approved, and is given the other room if it holds five (`allocatedInitialRoom` in `services/game-api/src/full-game.ts`). No room can exceed five that way, and each player's own chance of Room A is one half. But whose draw counts depends on the order of approval, and the host chooses that order, chooses each player's number, and can read the stored room of every request before approving it (`infra/firebase/firestore.rules`, the rule for `admissions`). The table compares that method with two that do not depend on any order. It is exact arithmetic, held to the computed values by a test; it is not a measurement of the service.
 
 | | 7 players | 8 players | 9 players |
 | --- | --- | --- | --- |
@@ -124,15 +124,17 @@ Of the 67 ready cases, 65 were written as they stand before the implementation w
 | **Every legal assignment equally likely**: splits | 5/2 37.5%, 4/3 62.5% | 5/3 61.5%, 4/4 38.5% | 5/4 100.0% |
 | a room starts full | 37.5% | 61.5% | 100.0% |
 | two given players start in the same room | 46.4% | 45.1% | 44.4% |
-| **A draw for each player as they join, and none once a room holds five**: splits | 5/2 45.3%, 4/3 54.7% | 5/3 72.7%, 4/4 27.3% | 5/4 100.0% |
+| **An even draw for each player, kept in the order they are approved; once a room holds five, the rest get the other**: splits | 5/2 45.3%, 4/3 54.7% | 5/3 72.7%, 4/4 27.3% | 5/4 100.0% |
 | a room starts full | 45.3% | 72.7% | 100.0% |
-| two given players start in the same room, from the least to the most likely pair | 42.2% to 50.0% | 38.3% to 50.0% | 36.3% to 59.0% |
-| the last player to join has no draw: their room is settled before they join | 21.9% | 45.3% | 72.7% |
+| two given players start in the same room, from the least to the most likely pair of places in the order | 42.2% to 50.0% | 38.3% to 50.0% | 36.3% to 59.0% |
+| the draw of the last player approved does not count: their room is settled by the others | 21.9% | 45.3% | 72.7% |
 | **The most even split, in a random order**: splits | 4/3 100.0% | 4/4 100.0% | 5/4 100.0% |
 | a room starts full | 0.0% | 0.0% | 100.0% |
 | two given players start in the same room | 42.9% | 42.9% | 44.4% |
 
-The third block is the service's method. With nine players the ninth to join has no draw in 72.7% of lobbies, the eighth in 45.3%, the seventh in 21.9% and the sixth in 6.3%; the first five always have one. Two players who join last start together more often, and a late joiner starts with any given early joiner less often, than under a draw that ignores the order. The lobby carries each seat's room from the moment it is approved, so a player who joins once a room is full can know their room beforehand. Finding F1.
+The third block is the service's method. With nine players the draw of the ninth player approved does not count in 72.7% of lobbies, that of the eighth in 45.3%, of the seventh in 21.9% and of the sixth in 6.3%; the first five always keep theirs. Two players approved last start together more often, and a player approved late starts with any given player approved early less often, than under a draw that ignores the order.
+
+The first row says how often the order matters at all when everyone has asked to join before the host approves anyone: six or more players drew the same room in 12.5%, 28.9% and 50.8% of lobbies. In those lobbies the five who keep that room are the first five of them to be approved, and the host, who can read the draws, decides who they are. The lobby also shows each approved player's room at once, so once a room holds five anyone who sees the lobby knows which room the next player will be given. Finding F1.
 
 **Not tested:** the service's draw itself, over many lobbies (CAP-30).
 
@@ -249,7 +251,7 @@ Three kinds, kept apart: what a run or the code shows; what may follow for balan
 
 | | Finding | Shown by | For |
 | --- | --- | --- | --- |
-| F1 | **Starting rooms depend on the order of joining.** Each player's own room is an even draw, but a late joiner often has no draw (nine players: the last in 72.7% of lobbies), late joiners start together more often, and a room starts full more often than under an order-free draw (45.3% against 37.5% with seven, 72.7% against 61.5% with eight). The lobby shows rooms as they are given. The decision says "unrelated to ... seat", and the decision of 8 October says players do not choose their room. Drawing all rooms at once when the roster is complete removes all of it | The code of the service, read; the arithmetic of section 4.1. Not run against the service | Backend; the owner, for when rooms are drawn |
+| F1 | **Starting rooms depend on the order in which the host approves players, and the host can see the draws.** Each player's own room is an even draw. But when six or more drew the same room (12.5%, 28.9% and 50.8% of lobbies with seven, eight and nine players, if all have asked before anyone is approved), the first five approved keep it and the rest are moved, and the host chooses the order, chooses the numbers and can read each request's room first. The draw of the last player approved does not count in 72.7% of nine-player lobbies. A room also starts full more often than under an order-free draw (45.3% against 37.5% with seven, 72.7% against 61.5% with eight). The decision says "unrelated to ... seat", and the decision of 8 October says players do not choose their room. Drawing all rooms at once when the roster is complete removes all of it | The code of the service and the database rules, read; the arithmetic of section 4.1. Not run against the service | Backend; the owner, for when rooms are drawn |
 | F2 | **A healed player can be sent to the other room although their last room has a place when the round is over** (CAP-D2). The implementation seats healed players before the newly Injured leave their rooms | CAP-25 at 7, 8 and 9: Insider is placed in Room A; Room B, their last room, ends the resolution with four | The owner |
 | F3 | **After being sent to the other room, a player's last room is still the one they could not enter** (CAP-D4). Their next return goes there if it has a place, not to the room they stood in. The owner's decision V1-02 says "their last A/B room" | CAP-27 at 7, 8 and 9: Supplier, hurt in Room A after being sent there, is returned to Room B | The owner |
 | F4 | **The Version 1 catalogue cannot run under the new ruleset.** 510 of its 526 fixtures with a setup start with more than five players in one room, as the earlier rules allowed. Under the new ruleset the engine refuses those starts. So the catalogue's cases on who is told what, on the order of resolution, on votes and on victory have not been run under the ruleset new matches will use. They pass, unchanged, under the two earlier rulesets on the new build | The catalogue under the new ruleset: section 2 results | Balance, to re-seat the catalogue; Integration, to keep its gate on the earlier ruleset until then |
@@ -268,7 +270,7 @@ None of these is shown. Each says what to look for.
 - **H4. Holding a place is a new move.** A player can take the last place in a room to keep someone else out, to shield a room-mate or to isolate one. It is public, so it is also a signal.
 - **H5. Hacker's Scans are slowed.** One Scan a round, on a player in the same room. With rooms of five Hacker reaches fewer players without moving, and cannot always move.
 - **H6. Speed at the phone becomes part of the game.** The last place goes to the first move to arrive.
-- **H7. At seven and eight players, an even split at the start (4/3, 4/4) would leave no room full at the start**, against 45.3% and 72.7% of lobbies under the present method. The owner chose a random start; this is a lever, not a proposal.
+- **H7. With seven and eight players, an even split at the start (4/3, 4/4) would leave no room full at the start**, against 45.3% and 72.7% of lobbies under the present method. The owner chose a random start; this is a lever, not a proposal.
 
 ### 6.3 Questions for human playtests
 
@@ -285,7 +287,7 @@ Random playouts cannot answer any of these, and are not offered as an answer.
 
 | | Decision | What the implementation does now | Stakes |
 | --- | --- | --- | --- |
-| 1 | **When starting rooms are drawn** (F1): as each player joins, which depends on the order of joining and shows in the lobby; or all at once when everyone has joined | As each player is approved | Every match. Recommended: all at once, every legal assignment equally likely |
+| 1 | **When starting rooms are drawn** (F1): for each player as they join, which lets the order of approval, and so the host, settle who is moved from a room that six or more drew; or all at once when everyone has joined | For each player as they ask to join, settled as they are approved | Every match. Recommended: all at once, every legal assignment equally likely |
 | 2 | **CAP-D2**: a healed player's last room has a place only because a room-mate is leaving for Hospital in the same resolution. Do they return to it? | No: the other room | Any mode, uncommon. Recommended: yes, seat returning players after the Injured have left |
 | 3 | **CAP-D4**: after being sent to the other room, which is a player's last room? | The room they could not enter | Any mode, rare. Recommended: the room they were last in |
 | 4 | **Confirm R-CAP-20**: a prisoner released while Injured, with Hospital full, stands in Jail as a free player | As recorded by Backend from the owner's words | Nine players, Round 5 only |

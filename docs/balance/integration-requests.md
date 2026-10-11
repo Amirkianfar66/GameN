@@ -176,7 +176,7 @@ The catalogue's own cases have not been run under the capacity ruleset. Re-seati
 
 ## BAL-REQ-12
 
-**Starting rooms that do not depend on the order of joining.** Finding F1 of the audit. The service gives each player an even draw as they are approved and the other room when the drawn one holds five. Each player's own room is then even, but with nine players the last to join has no draw in 72.7% of lobbies, late joiners start together more often than early ones, and the lobby shows the rooms as they are given. The owner's decision reads "unrelated to role, character, faction and seat", and the decision of 8 October says players do not choose their room.
+**Starting rooms that do not depend on the order of approval.** Finding F1 of the audit. The service gives each player an even draw when they ask to join, and at approval keeps it unless that room already holds five approved players, in which case the player gets the other room. Each player's own room is then even. But when six or more drew the same room, which is 50.8% of nine-player lobbies if all have asked before anyone is approved, the first five approved keep it and the others are moved: the host chooses the order of approval and each player's number, and the database rules let the host read every request's room first. The owner's decision reads "unrelated to role, character, faction and seat", and the decision of 8 October says players do not choose their room.
 
 Asked of Backend, once the owner has said when rooms are drawn (audit, section 7): draw all rooms at once when the roster is complete, every legal assignment equally likely, and keep that draw through retries and recovery as now. The arithmetic of the three methods is in section 4.1 of the audit.
 

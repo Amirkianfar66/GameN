@@ -30,9 +30,12 @@ export interface StartingRoomFacts {
   // Every assignment that the capacity allows, equally likely: the independent draws, drawn again
   // until they are legal.
   uniform: StartingScheme;
-  // An even draw for each player as they join, and no draw once a room holds five.
+  // An even draw for each player, kept in a given order until a room holds five; every later
+  // player gets the other room whatever they drew. The service of PR #98 does this in the order
+  // in which the host approves players.
   sequential: StartingScheme & {
-    // For each joining position, how often that player's room was settled before they joined.
+    // For each place in that order, how often the player's room was settled by those before them,
+    // so that their own draw did not count.
     settledBeforeJoining: number[];
   };
   // The most even split the mode allows, in a random order: no draw of sizes at all.

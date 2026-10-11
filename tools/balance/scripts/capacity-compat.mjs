@@ -46,7 +46,8 @@ const scenarios = (commit, ruleset) => {
   return {
     engine: report.pins.engine, engineBuildSha256: report.pins.engineBuildSha256, scenarioFileHashes: report.pins.scenarioFileHashes, workingTreeCommit: report.pins.workingTreeCommit,
     totals: report.totals, resultsSha256: sha256(canonicalJson(report.runs)),
-    refusedAtCreation: report.runs.filter(run => run.status === 'failed' && run.failure?.op === 'create').length,
+    // A paired case is refused twice over: its own start, or the start of its twin run.
+    refusedAtCreation: report.runs.filter(run => run.status === 'failed' && typeof run.failure?.message === 'string' && run.failure.message.includes('the engine refused a legal setup')).length,
     invariantViolations: report.runs.reduce((sum, run) => sum + run.invariantViolations.length, 0),
   };
 };
