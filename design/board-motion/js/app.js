@@ -20,6 +20,7 @@ import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abiliti
 import { alienFile, BEAT_ID, clipIn, codeCard, hackerFile, printFresh, punch, scanTarget } from '../../abilities/js/intel.js';
 import { cell, deliveries, discharge, drain, dropIn, rescueKit, supplyTags, target, tie, vials } from '../../abilities/js/tools.js';
 import { crack, guardNotes, rounds, spend, weaponsNote } from '../../abilities/js/guard.js';
+import { ballotBox, ballotSlip, connect, hackLink, handOn, post, speakingTurn } from '../../abilities/js/ballot.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -367,7 +368,12 @@ function stripContent() {
     : kind === 'rescue' && one ? target(one, 'cross')
     : kind === 'disable' && one ? target(one, 'spark')
     : kind === 'shot' && one ? target(one, 'reticle')
-    : kind === 'protect' && one ? target(one, 'shield') : null;
+    : kind === 'protect' && one ? target(one, 'shield')
+    // The seat's own ballot: its pick ticked, a release vote's subject ticked or crossed, or a blank slip for an abstention;
+    // a Hack's request (the asked player in the comms ring).
+    : kind === 'vote' && (one || picked[0] === 'none') ? ballotSlip({ seat: one, vote: one ? 'for' : 'abstain' })
+    : kind === 'release-vote' && ['yes', 'no', 'none'].includes(picked[0]) ? ballotSlip({ seat: identity(S.public.ballot?.release), vote: picked[0] === 'none' ? 'abstain' : picked[0] })
+    : kind === 'hack' && one ? target(one, 'comms') : null;
   // On a short phone the Code card sits small at the start of the detail line, so the board keeps its height.
   const inlineArt = kind === 'code' && phone.dataset.short === 'true';
   // What the action uses, at the start of the detail line: the Cracker's vials (the view's count), the one
@@ -379,7 +385,12 @@ function stripContent() {
     : kind === 'disable' ? cell({ spent: step === 'accepted' })
     : kind === 'supply' ? supplyTags(seats.map(identity).filter(Boolean), { tied: step === 'accepted' })
     // The rounds the seat holds; after an accepted shot, the one it used, once the view's count has fallen.
-    : kind === 'shot' && typeof weapons === 'number' ? rounds(weapons, { spent: step === 'accepted' ? Math.max(0, (S.flow.weaponsAtSend ?? weapons) - weapons) : 0 }) : null;
+    : kind === 'shot' && typeof weapons === 'number' ? rounds(weapons, { spent: step === 'accepted' ? Math.max(0, (S.flow.weaponsAtSend ?? weapons) - weapons) : 0 })
+    // The ballot box, the slip in its slot once the ballot is accepted; the speaking turn's microphone, handed on once Pass is accepted;
+    // the Captain's release request, the jailed player in the key ring, small (its long label leaves the question too little width beside it).
+    : kind === 'vote' || kind === 'release-vote' ? ballotBox({ posted: step === 'accepted' })
+    : kind === 'release-choice' && one ? target(one, 'key')
+    : kind === 'pass' ? speakingTurn({ passed: step === 'accepted' }) : null;
   const withArt = words => (art === null || inlineArt ? words : kind === 'code' ? [...words, art] : [art, ...words]);
   if (step === 'choosing') {
     let text, lead = lead0, controls = [];
@@ -496,6 +507,8 @@ function stripBeats(was, now) {
   if (receipt && now.kind === 'code') punch(strip.querySelector('.ab-code-card'));
   if (receipt && now.kind === 'supply') tie(strip.querySelector('.ab-tags'));
   if (receipt && now.kind === 'disable') discharge(strip.querySelector('.ab-cell'));
+  if (receipt && (now.kind === 'vote' || now.kind === 'release-vote')) post(strip.querySelector('.ab-box'));
+  if (receipt && now.kind === 'pass') handOn(strip.querySelector('.ab-mic'));
   // A round leaves the rack when the view's weapon count falls, never ahead of it.
   if (now.kind === 'shot' && now.weapons !== null && was.weapons !== null && now.weapons < was.weapons) {
     for (const round of [...strip.querySelectorAll('.ab-round[data-spent="true"]')].slice(-(was.weapons - now.weapons))) spend(round);
@@ -524,6 +537,8 @@ function drawTray() {
 const slipsShown = new Set();
 // The Protections this page has shown, and whether used up, so that one turning used up cracks once.
 const guardsShown = new Map();
+// The Hacks this page has shown (round and partner), so that a note's cord runs once.
+const linksShown = new Set();
 /** The seat's own acknowledgments, as the release shows them: the Supplier's results, a received weapon, an unavailable history. */
 function deliveriesFor(acks) {
   if (!acks) return null;
@@ -607,13 +622,15 @@ function drawCard() {
   // Built only while open: closed, there is no private word in the document.
   const self = seatOf(VIEWER);
   const [device, team] = ROLE_LOOK[S.private.role] ?? ['officer', 'Blue'];
-  const knowledge = [...S.private.knowledge, ...(S.private.hackPartner ? [COPY.hackWith(S.private.hackPartner)] : [])];
+  const knowledge = S.private.knowledge;
+  // A Hack's partner, to each of the two while the server says they are in one (hackPartnerSeatId): the same note for both.
+  const partner = S.private.hackPartner ? identity(S.private.hackPartner) : null;
   const { file, fresh } = fileFor(S.private.intel);
   const rescues = S.private.resources?.rescues ?? 0;
   const weapons = S.private.resources?.weapons;
   // The Undercover's Protections, as its own view carries them (knowledge.protections), in the view's order.
   const guards = (S.private.intel?.protections ?? []).map(entry => ({ seat: identity(entry.seat), activeFromRound: entry.activeFromRound, consumed: entry.consumed, self: entry.seat === VIEWER })).filter(entry => entry.seat);
-  if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey, rescues, weapons, guards, S.private.acks])) && (!file || card.contains(file))) {
+  if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey, rescues, weapons, guards, partner, S.private.acks])) && (!file || card.contains(file))) {
     // The same card: only the inspected player's public facts follow the board, said again by its live region.
     const inspected = Number(file?.dataset.inspect);
     const facts = inspected ? file.querySelector('.ab-inspect__facts') : null;
@@ -632,6 +649,7 @@ function drawCard() {
     // What the seat holds, as the release says it for every seat: "Ordinary weapons you hold: N."
     typeof weapons === 'number' ? weaponsNote(weapons) : null,
     guardNotes(guards),
+    partner ? hackLink(identity(VIEWER), partner) : null,
     deliveriesFor(S.private.acks),
     knowledge.length ? h('ul', { class: 'bm-know', 'aria-label': 'What you know' }, knowledge.map(item => h('li', null, item))) : null);
   for (const slip of card.querySelectorAll('.ab-slip')) {
@@ -644,6 +662,13 @@ function drawCard() {
     const used = note.dataset.used === 'true';
     if (used && guardsShown.get(note.dataset.guard) === false && !reducedNow()) crack(note.querySelector('.ab-target__mark'));
     guardsShown.set(note.dataset.guard, used);
+  }
+  // A Hack's note: the cord runs from chip to chip the first time this page shows that Hack.
+  const link = card.querySelector('.ab-kit[data-kit="hack"]');
+  if (link) {
+    const key = `${S.public.round}:${link.dataset.partner}`;
+    if (!linksShown.has(key) && !reducedNow()) connect(link.querySelector('.ab-link__cord'));
+    linksShown.add(key);
   }
   if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: reducedNow() }); }
   else if (file && fresh.length) for (const scan of fresh) printFresh(file, scan, { reduced: reducedNow() });

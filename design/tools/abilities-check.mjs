@@ -222,6 +222,37 @@ const functionBody = (source, name) => {
   check('the shot and Protection say what is authorized, in the release\'s words: one strip for every seat that shoots, Protection the Undercover\'s alone', problems);
 }
 
+// ---------- The ballots, the release request, a Hack and Pass: the seat's own choice, never a count, the same for every role ----------
+{
+  const problems = [];
+  const source = await text(`${ROOT}/js/ballot.js`);
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  const { BALLOT_COPY } = await import(pathToFileURL(resolve(repoRoot, `${ROOT}/js/ballot.js`)).href);
+  const en = await text('packages/presentation/src/copy/en.ts');
+  // The Hack's note in the release's words, the same for both partners: it says nothing of who asked.
+  if (BALLOT_COPY.hackWith(5) !== 'Hack: you and Player 5.' || !en.includes('`Hack: you and Player ${seat}.`')) problems.push("a Hack's note is not in the release's words");
+  if (/requester|actor|asked|active/i.test(functionBody(source, 'hackLink'))) problems.push("a Hack's note says who asked");
+  // Nothing in the kit is a role's, nothing speaks of what may be said in a Hack (that depends on a role), and nothing draws a count.
+  if (ROLE_OR_TEAM.test(code)) problems.push('ballot.js draws something by role or team: ' + code.match(ROLE_OR_TEAM)[0]);
+  if (/\b(truth|truthful|lie|lies|lying|liar|honest|bluff)\w*/i.test(code)) problems.push('ballot.js speaks of what may be said in a Hack');
+  if (/count|tally|\bvotes\b|ownBallot|eligible/i.test(code)) problems.push('ballot.js draws something of a count or of other ballots');
+  // In the prototype: a ballot drawn from the seat's own choice and the vote's subject alone, posted only once accepted; the
+  // microphone handed on only once Pass is accepted; a Hack's note from the view's partner alone, its cord run once a Hack.
+  const app = await text('design/board-motion/js/app.js');
+  const strip = app.slice(app.indexOf('function stripContent()'), app.indexOf('function confirmText()'));
+  const ballotLines = strip.split('\n').filter(line => /ballotSlip\(|ballotBox\(|speakingTurn\(/.test(line));
+  if (!/kind === 'vote' && \(one \|\| picked\[0\] === 'none'\) \? ballotSlip\(\{ seat: one, vote: one \? 'for' : 'abstain' \}\)/.test(strip)
+    || !/kind === 'release-vote' && \['yes', 'no', 'none'\]\.includes\(picked\[0\]\) \? ballotSlip\(\{ seat: identity\(S\.public\.ballot\?\.release\), vote: picked\[0\] === 'none' \? 'abstain' : picked\[0\] \}\)/.test(strip)
+    || ballotLines.some(line => /tally|ownBallot|S\.private\.role/.test(line))) problems.push("a ballot is drawn from something other than the seat's own choice");
+  if (!/ballotBox\(\{ posted: step === 'accepted' \}\)/.test(strip)) problems.push('a ballot is posted before the server accepts it');
+  if (!/speakingTurn\(\{ passed: step === 'accepted' \}\)/.test(strip)) problems.push('the microphone is handed on before Pass is accepted');
+  if (!/if \(receipt && \(now\.kind === 'vote' \|\| now\.kind === 'release-vote'\)\) post\(/.test(app) || !/if \(receipt && now\.kind === 'pass'\) handOn\(/.test(app)) problems.push('a ballot is posted, or the microphone handed on, other than on its receipt');
+  const drawCard = app.slice(app.indexOf('function drawCard()'), app.indexOf('function drawMenu()'));
+  if (!/const partner = S\.private\.hackPartner \? identity\(S\.private\.hackPartner\) : null;/.test(drawCard) || !/\n\s+partner \? hackLink\(identity\(VIEWER\), partner\) : null,/.test(drawCard)) problems.push("a Hack's note depends on something besides the view's partner");
+  if (!/if \(!linksShown\.has\(key\) && !reducedNow\(\)\) connect\(/.test(drawCard)) problems.push("a Hack's cord runs again for a Hack this page has shown");
+  check("the ballots, the release request, a Hack and Pass draw the seat's own choice in the release's words, never a count, the same for every role", problems);
+}
+
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------
 {
   const problems = [];

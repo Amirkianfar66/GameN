@@ -11,6 +11,12 @@
 //   registered, the Cracker's card, the Supplier's and a recipient's slips, at twice the text size, in
 //   reduced motion, without art, and the beats frame by frame; the Blue and the Red Disabler's strips
 //   compared part for part.
+// - Slice 4, the shot and Protection: the strips of every seat that shoots, compared part for part, the
+//   Undercover's notes and the weapons note, at twice the text size, in reduced motion, without art, and
+//   the beats frame by frame.
+// - Slice 5, the ballots, the Captain's release request, a Hack and Pass: the strips while confirming
+//   and registered, an abstention, the release vote's Yes and No, the Hack's note on both partners'
+//   phones compared, at twice the text size, in reduced motion, without art, and the beats frame by frame.
 // Then one contact sheet per slice. Each picture is measured in the page: the snapshots alike and in
 // seat order, each with its seat number; nothing of a role in a snapshot but the Hacker's own known
 // pairing; the Insider's role names one group below the three; a wrong Scan with nothing of the Code;
@@ -36,7 +42,7 @@ const OUT = 'design/abilities/review';
 const PHONES = { w390: { width: 390, height: 844 }, w320: { width: 320, height: 568 } };
 const SCALE = 1.5;
 const FRAMES = [0, 120, 260, 420, 600, 780, 1020];
-const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png' };
+const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png' };
 
 /** In the page: what the open file and the strip's ability art show, measured. Returns the problems found. */
 const MEASURE = `(() => {
@@ -164,7 +170,8 @@ const MEASURE = `(() => {
   const flow = window.__bmState?.flow ?? {};
   const said = [...(strip?.querySelectorAll('.bm-strip__line, .bm-strip__detail') ?? [])].map(node => node.textContent).join(' ');
   const mark = strip?.querySelector('.ab-target');
-  if (mark && Number(mark.querySelector('.ab-chip').dataset.seat) !== flow.picked?.[0]) problems.push('the target in the strip is not the player picked');
+  // A ballot names the pick, a release vote's subject or nobody: slice 5 measures it below.
+  if (mark && mark.dataset.mark !== 'ballot' && Number(mark.querySelector('.ab-chip')?.dataset.seat) !== flow.picked?.[0]) problems.push('the target in the strip is not the player picked');
   for (const group of document.querySelectorAll('.ab-vials')) {
     const full = group.querySelectorAll('.ab-vial[data-full="true"]').length;
     if (group.querySelectorAll('.ab-vial').length !== 2) problems.push('not two vials, the Rescues a match gives');
@@ -229,6 +236,39 @@ const MEASURE = `(() => {
     if (!(count >= 0)) problems.push("the weapons are not said in the release's words");
     if (weaponsKit.querySelectorAll('.ab-round[data-spent="false"]').length !== count) problems.push('the rounds do not show the count said');
   }
+  // Slice 5. A ballot slip names the seat's own pick, a release vote's subject, or nobody for an abstention, its pencil the answer;
+  // the box is posted exactly on an accepted ballot; no count in a ballot's strip; the key ring only on the Captain's release request,
+  // the comms ring only on a Hack's request; the microphone only on Pass, handed on exactly on its receipt; a Hack's note in the
+  // release's words, the seat's own chip joined to its partner's, and nothing of who asked or of what may be said.
+  const slip = strip?.querySelector('.ab-ballot');
+  if (slip) {
+    const vote = slip.dataset.vote;
+    const named = Number(slip.querySelector('.ab-chip')?.dataset.seat) || null;
+    const answer = flow.picked?.[0];
+    const subject = Number(document.querySelector('#bm-app .bm-board .bm-piece[data-subject]')?.dataset.seat) || null;
+    if (flow.kind === 'vote') {
+      if (answer === 'none' ? vote !== 'abstain' || named !== null : vote !== 'for' || named !== answer) problems.push("the ballot is not the seat's own pick");
+    } else if (flow.kind === 'release-vote') {
+      if (answer === 'none' ? vote !== 'abstain' || named !== null : vote !== answer || named !== subject) problems.push("the release ballot is not the seat's own answer on the vote's subject");
+    } else problems.push('a ballot slip in a strip that is not a ballot');
+    if (slip.querySelector('.ab-ballot__pencil')?.dataset.pencil !== { for: 'tick', yes: 'tick', no: 'x-mark', abstain: 'dash' }[vote]) problems.push("the ballot's pencil is not its answer");
+  }
+  const box = strip?.querySelector('.ab-box');
+  if (box && !['vote', 'release-vote'].includes(flow.kind)) problems.push('a ballot box in a strip that is not a ballot');
+  if (box && (box.dataset.posted === 'true') !== (step === 'accepted')) problems.push('the ballot is posted before the server accepts it, or not on its receipt');
+  if (['vote', 'release-vote'].includes(flow.kind) && strip && /\\b\\d+ votes?\\b|Yes: \\d/.test(strip.textContent)) problems.push("a ballot's strip shows a count");
+  if (mark?.dataset.mark === 'key' && flow.kind !== 'release-choice') problems.push('the key ring marks something that is not a release request');
+  if (mark?.dataset.mark === 'comms' && flow.kind !== 'hack') problems.push("the comms ring marks something that is not a Hack's request");
+  const mic = strip?.querySelector('.ab-mic');
+  if (mic && flow.kind !== 'pass') problems.push('the microphone in a strip that is not Pass');
+  if (mic && (mic.dataset.passed === 'true') !== (step === 'accepted')) problems.push('the microphone is handed on before Pass is accepted, or not on its receipt');
+  for (const note of document.querySelectorAll('#bm-card .ab-kit[data-kit="hack"]')) {
+    const words = note.querySelector('.ab-kit__words')?.textContent ?? '';
+    const chips = [...note.querySelectorAll('.ab-link .ab-chip')].map(node => Number(node.dataset.seat));
+    if (!/^Hack: you and Player \\d\\.$/.test(words)) problems.push("a Hack's note is not in the release's words: " + words);
+    if (chips.length !== 2 || chips[0] !== (window.__bmState?.viewer ?? 3) || 'Player ' + chips[1] !== (words.match(/Player \\d/) ?? [])[0]) problems.push("a Hack's note does not join the seat's own chip to its partner's");
+    if (/\\b(ask|asked|request|truth|true|lie|lies|honest)\\b/i.test(note.textContent)) problems.push("a Hack's note says who asked, or what may be said");
+  }
   // A card with the Cracker's note or Supply's slips fits without scrolling at the default text size, as the files do.
   if (sheet && !file && sheet.querySelector('.ab-kit, .ab-deliveries, .ab-guards') && !largeText && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
   // At large text the notes' words grow with the reader's text.
@@ -258,7 +298,7 @@ const REOPENED = `(() => {
 const shots = [];
 /** What each picture's page held, where a later comparison asks for it (the Disablers' strips). */
 const kept = new Map();
-async function shoot(browser, server, { name, title, group, phone, path, slice = 1, scale = SCALE, before = null, measure = MEASURE, block = [], selector = null, wait = 1300, keepStrip = false }) {
+async function shoot(browser, server, { name, title, group, phone, path, slice = 1, scale = SCALE, before = null, measure = MEASURE, block = [], selector = null, wait = 1300, keepStrip = false, keep = null }) {
   const page = await openPage(browser, { ...PHONES[phone], scale, mobile: true });
   if (block.length) await page.block(block);
   await page.goto(`${server.origin}/board-motion/index.html${path}`, 'document.readyState === "complete" && window.__designReady === true');
@@ -266,6 +306,7 @@ async function shoot(browser, server, { name, title, group, phone, path, slice =
   if (before) { await page.evaluate(before); await page.evaluate('new Promise(done => setTimeout(done, 450))'); }
   const problems = await page.evaluate(measure);
   if (keepStrip) kept.set(name, await page.evaluate(`document.getElementById('bm-strip').outerHTML`));
+  if (keep) kept.set(name, await page.evaluate(`document.querySelector(${JSON.stringify(keep)})?.outerHTML ?? ''`));
   const file = `${OUT}/${name}.png`;
   const size = await page.screenshot(resolve(repoRoot, file), { selector, viewport: selector === null });
   for (const problem of page.problems()) problems.push(`page: ${problem}`);
@@ -428,6 +469,46 @@ try {
   for (const other of ['shot-w390-undercover-confirm', 'shot-w390-alien-confirm']) {
     if (kept.get('shot-w390-confirm') !== kept.get(other)) shots.find(shot => shot.name === other).problems.push('this shot strip differs from the Officer\'s');
   }
+
+  // ---------- slice 5: the ballots, the release request, a Hack and Pass ----------
+  for (const phone of ['w390', 'w320']) {
+    const at = `${PHONES[phone].width} x ${PHONES[phone].height}`;
+    await shoot(browser, server, { slice: 5, name: `vote-${phone}-confirm`, title: `Captain election: the ballot for Player 5, ${at}`, group: 'The ballots', phone, path: '?scenario=vote.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 5, name: `vote-${phone}-recorded`, title: `Ballot recorded: posted, not a result, ${at}`, group: 'The ballots', phone, path: '?scenario=vote.recorded&chrome=0' });
+    await shoot(browser, server, { slice: 5, name: `release-${phone}-vote-yes`, title: `Release vote: Yes on Player 9's slip, ${at}`, group: 'The ballots', phone, path: '?scenario=release.vote-yes&chrome=0' });
+    await shoot(browser, server, { slice: 5, name: `release-${phone}-confirm`, title: `The Captain's release request: Player 9 in the key ring, ${at}`, group: 'The ballots', phone, path: '?scenario=release.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 5, name: `hack-${phone}-confirm`, title: `A Hack's request: the comms ring, ${at}`, group: 'The Hack', phone, path: '?scenario=hack.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 5, name: `hack-${phone}-link`, title: `The Hack's note on the asking partner's phone, ${at}`, group: 'The Hack', phone, path: '?scenario=hack.phase&chrome=0', keep: phone === 'w390' ? '#bm-card .ab-kit[data-kit="hack"]' : null });
+    await shoot(browser, server, { slice: 5, name: `pass-${phone}-confirm`, title: `Pass: the speaking turn's microphone, ${at}`, group: 'Pass', phone, path: '?scenario=pass.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 5, name: `pass-${phone}-passed`, title: `Pass accepted: the microphone handed on, ${at}`, group: 'Pass', phone, path: '?scenario=pass.passed&chrome=0' });
+  }
+  await shoot(browser, server, { slice: 5, name: 'vote-w390-abstain', title: 'An abstention: a blank slip', group: 'The ballots', phone: 'w390', path: '?scenario=vote.abstain&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'vote-w390-abstained', title: 'Abstention recorded: the blank slip posted', group: 'The ballots', phone: 'w390', path: '?scenario=vote.abstained&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'vote-w390-runoff', title: 'The runoff among the tied: the box waits for a pick', group: 'The ballots', phone: 'w390', path: '?scenario=vote.runoff&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'release-w390-vote-no', title: 'Release vote: No, crossed', group: 'The ballots', phone: 'w390', path: '?scenario=release.vote-no&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'release-w390-voted', title: 'Release ballot recorded: posted, not a result', group: 'The ballots', phone: 'w390', path: '?scenario=release.voted&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'release-w390-requested', title: 'Release request accepted: not the vote', group: 'The ballots', phone: 'w390', path: '?scenario=release.requested&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'hack-w390-requested', title: "A Hack's request accepted: not the Hack itself", group: 'The Hack', phone: 'w390', path: '?scenario=hack.requested&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'hack-w390-partner', title: "The Hack's note on the asked partner's phone: the same", group: 'The Hack', phone: 'w390', path: '?scenario=hack.partner&chrome=0', keep: '#bm-card .ab-kit[data-kit="hack"]' });
+  await shoot(big, server, { slice: 5, name: 'vote-w320-text200-confirm', title: 'A ballot at twice the text size, 320 x 568', group: 'Slice 5: text size, motion, art', phone: 'w320', path: '?scenario=vote.confirm&chrome=0' });
+  await shoot(big, server, { slice: 5, name: 'hack-w390-text200-link', title: "The Hack's note at twice the text size", group: 'Slice 5: text size, motion, art', phone: 'w390', path: '?scenario=hack.phase&chrome=0' });
+  await shoot(browser, server, { slice: 5, name: 'vote-w390-recorded-reduced', title: 'Reduced motion: the ballot posted at rest', group: 'Slice 5: text size, motion, art', phone: 'w390', path: '?scenario=vote.recorded&chrome=0&motion=reduced' });
+  await shoot(browser, server, { slice: 5, name: 'pass-w390-passed-reduced', title: 'Reduced motion: the microphone handed on at rest', group: 'Slice 5: text size, motion, art', phone: 'w390', path: '?scenario=pass.passed&chrome=0&motion=reduced' });
+  for (const [scenario, label] of [['vote.confirm', 'vote'], ['release.confirm', 'release'], ['hack.confirm', 'hack'], ['hack.phase', 'hack-link'], ['pass.confirm', 'pass']]) {
+    await shoot(browser, server, { slice: 5, name: `${label}-w390-no-art`, title: `Without the ability art or the crew cards: ${scenario}`, group: 'Slice 5: text size, motion, art', phone: 'w390', path: `?scenario=${scenario}&chrome=0`, block: ART });
+  }
+  // The beats, held frame by frame: a ballot posted, the microphone handed on, a Hack's cord running (only its own beat held).
+  for (const t of [0, 120, 240]) {
+    await shoot(browser, server, { slice: 5, name: `beat-post-${String(t).padStart(4, '0')}ms`, title: `Post, ${t} ms`, group: 'Slice 5: the beats, frame by frame', phone: 'w390', path: `?scenario=vote.confirm&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
+  }
+  for (const t of [0, 120, 240]) {
+    await shoot(browser, server, { slice: 5, name: `beat-hand-on-${String(t).padStart(4, '0')}ms`, title: `Hand on, ${t} ms`, group: 'Slice 5: the beats, frame by frame', phone: 'w390', path: `?scenario=pass.confirm&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
+  }
+  for (const t of [0, 160, 320]) {
+    await shoot(browser, server, { slice: 5, name: `beat-connect-${String(t).padStart(4, '0')}ms`, title: `Connect, ${t} ms`, group: 'Slice 5: the beats, frame by frame', phone: 'w390', path: `?scenario=hack.phase&chrome=0&t=${t}&only=.ab-link`, selector: '.ab-kit[data-kit="hack"]', measure: '[]', wait: 200 });
+  }
+  // Both partners of a Hack see the same note, whoever asked.
+  if (kept.get('hack-w390-link') !== kept.get('hack-w390-partner')) shots.find(shot => shot.name === 'hack-w390-partner').problems.push("the asked partner's note differs from the asking partner's");
 
   // The contact sheets: every picture above, with its caption, one sheet per slice.
   await writeFile(resolve(repoRoot, `${OUT}/report.json`), `${JSON.stringify({ inputsSha256: await abilitiesInputsSha256(), browser: browserName, scale: SCALE, shots }, null, 2)}\n`);

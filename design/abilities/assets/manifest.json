@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.4.0",
+  "manifestVersion": "abilities-0.5.0",
   "status": "proposal",
   "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -12,8 +12,8 @@
   },
   "stylesheet": {
     "file": "design/abilities/assets/abilities.art.css",
-    "sha256": "15d71a013261bf792da156d34884107876152b61e9c4ed1b052707ba5d93edfc",
-    "bytes": 22911
+    "sha256": "9829bfed6fb3eb3e20aa169224ddbc86d37013917d8104569085a8d150cd1889",
+    "bytes": 30318
   },
   "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
   "assets": [
@@ -840,6 +840,290 @@
       "sha256": "a973434a79f50b10389c379bd2a69f835270b730962f3575e03fc645cd52503c",
       "use": "The weapon a registered shot used: drawn when the view's count falls, never ahead of it.",
       "cssProperty": "--ab-asset-dossier-round-spent"
+    },
+    {
+      "id": "dossier-ballot",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot slip",
+      "file": "design/abilities/assets/dossier-ballot.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-ballot",
+      "viewBox": "0 0 48 56",
+      "width": 48,
+      "height": 56,
+      "anchors": {
+        "window": [
+          24,
+          25,
+          15
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#B9C4D3",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 1341,
+      "sha256": "e522f411cf3e11011ea2d3a4096a273b37a50b6cfc26fdec1ee62bed298d2b00",
+      "use": "The seat's own ballot in its strip: the picked player's chip in the box (a Captain election, its runoff, a Jail vote), the jailed player's chip on a release vote, or blank for an abstention.",
+      "cssProperty": "--ab-asset-dossier-ballot"
+    },
+    {
+      "id": "dossier-ballot-edge",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot slip's top edge",
+      "file": "design/abilities/assets/dossier-ballot-edge.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-ballot-edge",
+      "viewBox": "0 0 18 12",
+      "width": 18,
+      "height": 12,
+      "anchors": {
+        "slot": [
+          9,
+          11
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3",
+        "#CBBBA2",
+        "#F4EBDD"
+      ],
+      "bytes": 915,
+      "sha256": "ce71954fbafc0393ed0274c24603f8baf32e70b4ea16757f4eb38ea9228638da",
+      "use": "The seat's own ballot posted, standing in the box's slot once the server accepts it.",
+      "cssProperty": "--ab-asset-dossier-ballot-edge"
+    },
+    {
+      "id": "dossier-tick",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A pencil tick",
+      "file": "design/abilities/assets/dossier-tick.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-tick",
+      "viewBox": "0 0 24 24",
+      "width": 24,
+      "height": 24,
+      "anchors": {
+        "center": [
+          12,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 755,
+      "sha256": "fc59e314483891127baa27e0437a70ba155b7a56f6ec45ffdbbeed1f2928da36",
+      "use": "On the seat's own ballot: a vote for the player on the slip, or Yes to a release.",
+      "cssProperty": "--ab-asset-dossier-tick"
+    },
+    {
+      "id": "dossier-x-mark",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A pencil cross",
+      "file": "design/abilities/assets/dossier-x-mark.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-x-mark",
+      "viewBox": "0 0 24 24",
+      "width": 24,
+      "height": 24,
+      "anchors": {
+        "center": [
+          12,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 685,
+      "sha256": "a6bc11eca83e211e5fcb7b2143a8f89f0793edec1f8976ec9f4d47ac45130f10",
+      "use": "On the seat's own ballot: No to a release.",
+      "cssProperty": "--ab-asset-dossier-x-mark"
+    },
+    {
+      "id": "dossier-ballot-box",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot box",
+      "file": "design/abilities/assets/dossier-ballot-box.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-ballot-box",
+      "viewBox": "0 0 36 34",
+      "width": 36,
+      "height": 34,
+      "anchors": {
+        "slot": [
+          17,
+          9
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#8696AE",
+        "#B9C4D3",
+        "#F4EBDD"
+      ],
+      "bytes": 1106,
+      "sha256": "ed0b2f07bb8c187f380b71527e3846633ce5aa2551455accc616dbdc705e2ef4",
+      "use": "At the start of the seat's own ballot strip; the slip stands in its slot once the server accepts the ballot.",
+      "cssProperty": "--ab-asset-dossier-ballot-box"
+    },
+    {
+      "id": "dossier-key-ring",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A key ring",
+      "file": "design/abilities/assets/dossier-key-ring.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-key-ring",
+      "viewBox": "0 0 48 48",
+      "width": 48,
+      "height": 48,
+      "anchors": {
+        "ring": [
+          24,
+          26,
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1147,
+      "sha256": "bbecf4c34297204e34da00098c8b6d51e8c1533b3409a0941532046e730099f7",
+      "use": "Round the chip of the jailed player the Captain asks to release, in the Captain's own strip.",
+      "cssProperty": "--ab-asset-dossier-key-ring"
+    },
+    {
+      "id": "dossier-comms",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A comms ring",
+      "file": "design/abilities/assets/dossier-comms.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-comms",
+      "viewBox": "0 0 56 56",
+      "width": 56,
+      "height": 56,
+      "anchors": {
+        "center": [
+          28,
+          28
+        ],
+        "clear": [
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 894,
+      "sha256": "e8b96d67a182aabe383d39454de1ac6a2cd91d99691cb8f54e7cfd9eedf58ccb",
+      "use": "Round the chip of the player a seat asks for a Hack, in its own strip.",
+      "cssProperty": "--ab-asset-dossier-comms"
+    },
+    {
+      "id": "dossier-cord",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A coiled cord",
+      "file": "design/abilities/assets/dossier-cord.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-cord",
+      "viewBox": "0 0 64 24",
+      "width": 64,
+      "height": 24,
+      "anchors": {
+        "from": [
+          2,
+          12
+        ],
+        "to": [
+          62,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3"
+      ],
+      "bytes": 1397,
+      "sha256": "2a5c25ce5d0ec18aea69f14ced86e24d9c397d2f41b0351d9eef572c614c8bcc",
+      "use": "Between the two chips of a Hack's partners, in each partner's own card while the server says they are in one.",
+      "cssProperty": "--ab-asset-dossier-cord"
+    },
+    {
+      "id": "dossier-mic",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A microphone",
+      "file": "design/abilities/assets/dossier-mic.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-mic",
+      "viewBox": "0 0 22 36",
+      "width": 22,
+      "height": 36,
+      "anchors": {
+        "base": [
+          11,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#8696AE",
+        "#B9C4D3",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1294,
+      "sha256": "2e0f3ce5726b4d1c22980aeb1b084e8843c35385c2d7eb2a42edb26ed70e9f96",
+      "use": "The speaking turn, held: at the start of the seat's own Pass strip.",
+      "cssProperty": "--ab-asset-dossier-mic"
+    },
+    {
+      "id": "dossier-mic-passed",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A microphone handed on",
+      "file": "design/abilities/assets/dossier-mic-passed.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-mic-passed",
+      "viewBox": "0 0 22 36",
+      "width": 22,
+      "height": 36,
+      "anchors": {
+        "base": [
+          11,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#E3D6C2"
+      ],
+      "bytes": 888,
+      "sha256": "4a4db3f93a6171534441978b51ef9fbac0fef2875b757114e557742df4f5c5a7",
+      "use": "The speaking turn handed on: drawn once the server accepts Pass.",
+      "cssProperty": "--ab-asset-dossier-mic-passed"
     }
   ]
 }

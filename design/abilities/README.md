@@ -2,7 +2,7 @@
 
 # design/abilities/: ability art and motion
 
-`mothership:dev-only` · `abilities-0.4.0` · **a proposal**
+`mothership:dev-only` · `abilities-0.5.0` · **a proposal**
 
 Original artwork and comic motion for every current V1 role ability and shared game action, delivered in focused slices on the board-motion phone prototype (`design/board-motion/`). The first slice is **the Insider's file**: a private investigation board for the Insider's starting knowledge. The inventory of all 24 treatments, delivered and planned, is generated into [docs/design/abilities-inventory.md](../../docs/design/abilities-inventory.md); Frontend's instructions are in [docs/design/abilities-handoff.md](../../docs/design/abilities-handoff.md).
 
@@ -39,6 +39,13 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 - **Protection**: in the Undercover's strip the picked player's chip on a shield, the receipt not a grant. In the Undercover's card, once its view carries them (`knowledge.protections`, V1-17), a note per Protection in the release's words: the chip on a whole shield, "active from round 3."; or drawn whole before a shield split in two, "used up.", the shield shaking once as it splits. Whether that round has come is not worked out, as the release does not. Nobody else's phone shows any of it, and nothing public changes.
 - **Open**: the view counts a weapon supplied after the Officer's one shot and says nothing of the shot being spent, so the card cannot show that weapon as one that cannot be used (DSN-REQ-15, extended).
 
+## Slice 5: the ballots, the release request, a Hack and Pass
+
+- **The ballots**: in the strip of a Captain election, its runoff or a Jail vote, a ballot box and the seat's own slip, the pick's chip ticked, or a blank slip for an abstention; a release vote's slip carries the jailed player, ticked for Yes or crossed for No. The receipt posts the slip into the box and is not a result. No count and nobody else's ballot is drawn on a phone: the count is the board's public tally (V1-10).
+- **The Captain's release request**: the jailed player's chip in a key ring, small at the start of the detail line.
+- **A Hack**: the request, the asked player's chip in a comms ring; while the server says two players are in one, each sees the same note, its own chip and the other's joined by a coiled cord, "Hack: you and Player 5." (the release's words). Nothing tells who asked, and nothing speaks of what either may say: that depends on a role.
+- **Pass**: the speaking turn's microphone at the start of the strip, handed on once the server accepts Pass.
+
 ## What is here
 
 | Path | What it is | Edit it? |
@@ -47,16 +54,18 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 | `source/intel.svg` | Slice 2's pieces: the printout, the portrait chip, the Code's mark (four holes, two by two) and the Code card | **Yes. The editable source** |
 | `source/tools.svg` | Slice 3's pieces: a vial and an empty vial, the cross ring, a charge cell and a spent one, the sparks, a shipping tag, a slip (nine-sliced) | **Yes. The editable source** |
 | `source/guard.svg` | Slice 4's pieces: the reticle, a shield and a shield used up (split), a round and a spent one | **Yes. The editable source** |
+| `source/ballot.svg` | Slice 5's pieces: a ballot slip and its edge, a pencil tick and cross, a ballot box, the key ring, the comms ring, the coiled cord, a microphone and its outline | **Yes. The editable source** |
 | `recipes.json` | How each asset is lifted out of its source: id, version, box, anchors, use; the neutral palette; the bundle's load policy; rights | Yes |
 | `assets/` | One SVG per asset, `abilities.art.css` (every asset as a custom property `--ab-asset-<id>`) and `manifest.json` (ids, versions, boxes, anchors, sizes, hashes, colors) | No. Written by `design/tools/abilities-assets.mjs` |
 | `js/dossier.js` | What every file shares (`snapshot()`, `fileShell()`, `makeInspectable()`, `assemble()`, `cancelMotion()`, `closedFolder()`) and the Insider's file (`insiderFile()`), the copy and the motion beats. Reference behaviour for Frontend | Yes |
 | `js/intel.js` | Slice 2: `hackerFile()`, `printout()`, `printFresh()`, `alienFile()`, `codeCard()`, `scanTarget()`, and the strip's one-shot beats `clipIn()`, `punch()` | Yes |
 | `js/tools.js` | Slice 3: `vials()`, `target()`, `cell()`, `supplyTags()`, `rescueKit()`, `deliveries()`, and the beats `drain()`, `discharge()`, `tie()`, `dropIn()` | Yes |
 | `js/guard.js` | Slice 4: `rounds()`, `weaponsNote()`, `guardNotes()`, and the beats `spend()`, `crack()`; the shot's and Protection's targets use slice 3's `target()` | Yes |
+| `js/ballot.js` | Slice 5: `ballotSlip()`, `ballotBox()`, `speakingTurn()`, `hackLink()`, and the beats `post()`, `connect()`, `handOn()`; the key and comms rings use slice 3's `target()` | Yes |
 | `css/abilities.css` | The reference styles: tokens only; art drawn only behind `[data-art~="abilities"]` and the crew cards behind `[data-art~="public-board"]`; the short-phone and large-text layouts | Yes |
 | `contract/abilities.json` | The inventory: every treatment's roles, audience, trigger, view fields, disclosure, concept, art, motion in five forms, states, copy, review and dependencies | Yes. `docs/design/abilities-inventory.md` follows |
 | `contact.html` | The contact sheet of the review pictures | Yes |
-| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3) and `contact-shot-protection.png` (slice 4) | No. Written by `design/tools/abilities-capture.mjs` |
+| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3), `contact-shot-protection.png` (slice 4) and `contact-ballots-hack-pass.png` (slice 5) | No. Written by `design/tools/abilities-capture.mjs` |
 
 ## See it
 

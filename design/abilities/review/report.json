@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "94ace0f5ba718dcf44772697e3abd7078cf965fb005755e0f037ca10f3921547",
+  "inputsSha256": "bb97e5873b1fd59cb9f9bcd002d2dbce8677991b03edbaa22d5e3cc970ecbb8d",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -1451,6 +1451,426 @@
       "file": "design/abilities/review/beat-crack-0260ms.png",
       "phone": "w390",
       "size": "525x102",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-confirm",
+      "title": "Captain election: the ballot for Player 5, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-recorded",
+      "title": "Ballot recorded: posted, not a result, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-recorded.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-vote-yes",
+      "title": "Release vote: Yes on Player 9's slip, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-vote-yes.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-confirm",
+      "title": "The Captain's release request: Player 9 in the key ring, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-confirm",
+      "title": "A Hack's request: the comms ring, 390 x 844",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-link",
+      "title": "The Hack's note on the asking partner's phone, 390 x 844",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-link.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-confirm",
+      "title": "Pass: the speaking turn's microphone, 390 x 844",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-passed",
+      "title": "Pass accepted: the microphone handed on, 390 x 844",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-passed.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w320-confirm",
+      "title": "Captain election: the ballot for Player 5, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "vote-w320-recorded",
+      "title": "Ballot recorded: posted, not a result, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w320-recorded.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "release-w320-vote-yes",
+      "title": "Release vote: Yes on Player 9's slip, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w320-vote-yes.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "release-w320-confirm",
+      "title": "The Captain's release request: Player 9 in the key ring, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hack-w320-confirm",
+      "title": "A Hack's request: the comms ring, 320 x 568",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hack-w320-link",
+      "title": "The Hack's note on the asking partner's phone, 320 x 568",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w320-link.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "pass-w320-confirm",
+      "title": "Pass: the speaking turn's microphone, 320 x 568",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "pass-w320-passed",
+      "title": "Pass accepted: the microphone handed on, 320 x 568",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w320-passed.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-abstain",
+      "title": "An abstention: a blank slip",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-abstain.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-abstained",
+      "title": "Abstention recorded: the blank slip posted",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-abstained.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-runoff",
+      "title": "The runoff among the tied: the box waits for a pick",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-runoff.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-vote-no",
+      "title": "Release vote: No, crossed",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-vote-no.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-voted",
+      "title": "Release ballot recorded: posted, not a result",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-voted.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-requested",
+      "title": "Release request accepted: not the vote",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-requested.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-requested",
+      "title": "A Hack's request accepted: not the Hack itself",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-requested.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-partner",
+      "title": "The Hack's note on the asked partner's phone: the same",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-partner.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w320-text200-confirm",
+      "title": "A ballot at twice the text size, 320 x 568",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w320-text200-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-text200-link",
+      "title": "The Hack's note at twice the text size",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-text200-link.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-recorded-reduced",
+      "title": "Reduced motion: the ballot posted at rest",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-recorded-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-passed-reduced",
+      "title": "Reduced motion: the microphone handed on at rest",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-passed-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-no-art",
+      "title": "Without the ability art or the crew cards: vote.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-no-art",
+      "title": "Without the ability art or the crew cards: release.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-no-art",
+      "title": "Without the ability art or the crew cards: hack.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-link-w390-no-art",
+      "title": "Without the ability art or the crew cards: hack.phase",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/hack-link-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-no-art",
+      "title": "Without the ability art or the crew cards: pass.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-post-0000ms",
+      "title": "Post, 0 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-post-0000ms.png",
+      "phone": "w390",
+      "size": "567x162",
+      "problems": []
+    },
+    {
+      "name": "beat-post-0120ms",
+      "title": "Post, 120 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-post-0120ms.png",
+      "phone": "w390",
+      "size": "567x162",
+      "problems": []
+    },
+    {
+      "name": "beat-post-0240ms",
+      "title": "Post, 240 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-post-0240ms.png",
+      "phone": "w390",
+      "size": "567x162",
+      "problems": []
+    },
+    {
+      "name": "beat-hand-on-0000ms",
+      "title": "Hand on, 0 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-hand-on-0000ms.png",
+      "phone": "w390",
+      "size": "567x98",
+      "problems": []
+    },
+    {
+      "name": "beat-hand-on-0120ms",
+      "title": "Hand on, 120 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-hand-on-0120ms.png",
+      "phone": "w390",
+      "size": "567x98",
+      "problems": []
+    },
+    {
+      "name": "beat-hand-on-0240ms",
+      "title": "Hand on, 240 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-hand-on-0240ms.png",
+      "phone": "w390",
+      "size": "567x98",
+      "problems": []
+    },
+    {
+      "name": "beat-connect-0000ms",
+      "title": "Connect, 0 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-connect-0000ms.png",
+      "phone": "w390",
+      "size": "525x77",
+      "problems": []
+    },
+    {
+      "name": "beat-connect-0160ms",
+      "title": "Connect, 160 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-connect-0160ms.png",
+      "phone": "w390",
+      "size": "525x77",
+      "problems": []
+    },
+    {
+      "name": "beat-connect-0320ms",
+      "title": "Connect, 320 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-connect-0320ms.png",
+      "phone": "w390",
+      "size": "525x77",
       "problems": []
     }
   ]

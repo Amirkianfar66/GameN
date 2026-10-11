@@ -595,6 +595,85 @@ try {
   ok('alien/weapon: nothing of it on the other screens', (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0);
   await page.close();
 
+  // ---------- Slice 5: the seat's own ballot, the Captain's release request, a Hack and Pass ----------
+  const slipOf = p => p.evaluate(`(() => { const slip = document.querySelector('#bm-strip .ab-ballot'); return slip ? { vote: slip.dataset.vote, seat: Number(slip.querySelector('.ab-chip')?.dataset.seat) || null, pencil: slip.querySelector('.ab-ballot__pencil')?.dataset.pencil } : null; })()`);
+  const posted = p => p.evaluate(`document.querySelector('#bm-strip .ab-box')?.dataset.posted ?? null`);
+  page = await open('vote.election');
+  ok('ballot: the box waits, empty, while the seat chooses', (await posted(page)) === 'false' && (await slipOf(page)) === null);
+  await click(page, '#bm-app [data-value="seat-5"]');
+  ok('ballot: the pick on the seat\'s own slip, ticked, beside the question', js(await slipOf(page)) === js({ vote: 'for', seat: 5, pencil: 'tick' }) && (await stripLine(page)) === 'Vote for Player 5 as Captain?');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('ballot: the receipt posts the slip into the box; registered, and no count', (await posted(page)) === 'true' && (await stamp(page)) === 'Registered' && !(await page.evaluate(`/\\b\\d+ votes?\\b|Yes: \\d/.test(document.getElementById('bm-strip').textContent)`)));
+  ok('ballot: the other screens see nothing of it, and no public cue plays', (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0 && (await cues(page)).length === 0, await cues(page));
+  await page.close();
+  page = await open('vote.confirm', 'play=register&t=100');
+  ok('ballot: on the receipt the slip drops into the box, once', js(await beats(page, '#bm-strip')) === js(['ab-box']), await beats(page, '#bm-strip'));
+  await page.close();
+  page = await open('vote.jail');
+  await click(page, '#bm-app [data-act="answer:none"]');
+  ok('ballot: an abstention is a blank slip that names nobody', js(await slipOf(page)) === js({ vote: 'abstain', seat: null, pencil: 'dash' }));
+  await page.close();
+  page = await open('release.vote');
+  await click(page, '#bm-app [data-act="answer:yes"]');
+  ok('release ballot: Yes, ticked on the subject\'s slip', js(await slipOf(page)) === js({ vote: 'yes', seat: 9, pencil: 'tick' }));
+  await click(page, '#bm-app [data-act="back"]');
+  await click(page, '#bm-app [data-act="answer:no"]');
+  ok('release ballot: No, crossed', js(await slipOf(page)) === js({ vote: 'no', seat: 9, pencil: 'x-mark' }));
+  await page.close();
+  page = await open('release.choice');
+  await click(page, '#bm-app [data-value="seat-9"]');
+  ok('release request: the jailed player in the key ring, at the start of the detail line', await page.evaluate(`Boolean(document.querySelector('#bm-strip .bm-strip__detail > .ab-target[data-mark="key"] .ab-chip[data-seat="9"]'))`));
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('release request: registered; the other screens see nothing of it until the vote opens', (await stamp(page)) === 'Registered' && (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0);
+  await page.close();
+
+  page = await open('hack.choose');
+  await click(page, '#bm-app [data-value="seat-5"]');
+  ok('hack: the asked player in the comms ring beside the question', await page.evaluate(`Boolean(document.querySelector('#bm-strip .ab-target[data-mark="comms"] .ab-chip[data-seat="5"]'))`) && (await stripLine(page)) === 'Request a Hack with Player 5?');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('hack: the request accepted is not the Hack; the other screens see nothing of it', /accepted\.$/.test(await stripLine(page)) && (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0);
+  await page.close();
+  const noteOf = p => p.evaluate(`document.querySelector('#bm-card .ab-kit[data-kit="hack"]')?.outerHTML ?? null`);
+  page = await open('hack.phase', 't=100');
+  ok('hack/note: the seat\'s own chip joined to its partner\'s, in the release\'s words', await page.evaluate(`(() => {
+    const note = document.querySelector('#bm-card .ab-kit[data-kit="hack"]');
+    return note?.querySelector('.ab-kit__words').textContent === 'Hack: you and Player 5.' && [...note.querySelectorAll('.ab-link .ab-chip')].map(n => n.dataset.seat).join() === '3,5';
+  })()`));
+  ok('hack/note: the cord runs once, the first time the card shows it', js(await beats(page, '#bm-card')) === js(['ab-link__cord']), await beats(page, '#bm-card'));
+  await page.close();
+  page = await open('hack.phase');
+  await sleep(500);
+  const asking = await noteOf(page);
+  await click(page, '[data-event="replay"]');
+  await sleep(60);
+  ok('hack/note: a duplicate snapshot runs nothing again', (await beats(page, '#bm-card')).length === 0);
+  await click(page, '#bm-card .bm-close');
+  await click(page, '#bm-nav-card');
+  ok('hack/note: opened again, at rest', (await beats(page, '#bm-card')).length === 0 && (await noteOf(page)) === asking);
+  ok('hack/note: nothing of it on the other screens, which show the Hack phase alone', (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0);
+  await page.close();
+  page = await open('hack.partner');
+  await sleep(500);
+  ok('hack/note: the asked partner sees the same note as the asking one', (await noteOf(page)) === asking && asking !== null);
+  await page.close();
+
+  page = await open('pass.confirm');
+  ok('pass: the speaking turn\'s microphone, held', await page.evaluate(`document.querySelector('#bm-strip .ab-mic')?.dataset.passed === 'false'`));
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(900);
+  ok('pass: on the receipt the microphone is handed on', await page.evaluate(`document.querySelector('#bm-strip .ab-mic')?.dataset.passed === 'true'`) && (await stamp(page)) === 'Registered');
+  await page.close();
+  page = await open('pass.confirm', 'play=register&t=100');
+  ok('pass: the microphone is handed on once, on the receipt', js(await beats(page, '#bm-strip')) === js(['ab-mic']), await beats(page, '#bm-strip'));
+  await page.close();
+  page = await open('pass.confirm', 'motion=reduced&play=register&t=100');
+  ok('pass: with reduced motion the microphone is drawn handed on, with no beat', (await beats(page, '#bm-strip')).length === 0 && await page.evaluate(`document.querySelector('#bm-strip .ab-mic')?.dataset.passed === 'true'`));
+  ok('pass: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
   // ---------- An update replays nothing it has already played: the strip's stamp and art, a pick's mark ----------
   const strikes = page => page.evaluate(`document.getAnimations().filter(a => a.effect?.target?.closest?.('#bm-strip, [data-board="own"] .bm-piece__pick') && a.playState === 'running').map(a => a.effect.target.className)`);
   for (const scenario of ['shot.registered', 'code.two', 'code.registered', 'supply.second']) {
