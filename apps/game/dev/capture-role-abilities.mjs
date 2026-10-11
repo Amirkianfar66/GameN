@@ -44,8 +44,8 @@ const CARD = `(() => {
     pageScrolls: document.scrollingElement.scrollHeight > innerHeight + 0.5,
     pageOverflowsSideways: document.scrollingElement.scrollWidth > innerWidth + 0.5,
     sheetOpen: Boolean(sheet),
-    knowledge: [...document.querySelectorAll('.ms-knowledge__item')].map(item => item.textContent),
-    results: [...document.querySelectorAll('.ms-acknowledgments p')].map(line => line.textContent),
+    knowledge: [...document.querySelectorAll('.ms-knowledge__item')].filter(item => item.getClientRects().length > 0).map(item => item.textContent),
+    results: [...document.querySelectorAll('.ms-acknowledgments p')].filter(line => line.getClientRects().length > 0).map(line => line.textContent),
     privateWordsOutside: ['Protection', 'Rescue', 'scanned', 'The Code', 'Supply', 'Undercover', 'Hacker', 'Alien', 'Supplier', 'Cracker', 'Officer'].filter(word => outside.includes(word)),
   };
 })()`;
@@ -92,13 +92,14 @@ async function stripStep(page, name, scenario, size, expected) {
   note(name, size.join('x'), problems.length ? `PROBLEMS: ${problems.join('; ')}` : 'clean', strip ? `| ${strip.status}: ${strip.text.slice(0, 80)}` : '');
 }
 
-// What each role's own view states, as the card says it.
+// What each role's own view states, where the phone shows it: "What you know" in the card, and
+// the Supply results with the actions. Only lines that are drawn (not hidden by style) count.
 const CARDS = [
-  ['protection-states', ['Protection for Player 2: used up.', 'Protection for Player 4: active.']],
-  ['cracker-no-rescues', ['You have no Rescues left.']],
-  ['scan-results', ['The Undercover is Player 5.', 'Round 1: you scanned Player 4 and guessed Red. The guess was wrong.', 'Round 2: you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code.']],
-  ['alien-code', ['The Code is these four players: Player 1, Player 2, Player 3 (you), Player 4.']],
-  ['supplier-results', ['Your Round 3 Supply granted one weapon each to Player 1 and Player 5.']],
+  ['protection-states', 'role', ['Protection for Player 2: used up.', 'Protection for Player 4: active.']],
+  ['cracker-no-rescues', 'role', ['You have no Rescues left.']],
+  ['scan-results', 'role', ['The Undercover is Player 5.', 'Round 1: you scanned Player 4 and guessed Red. The guess was wrong.', 'Round 2: you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code.']],
+  ['alien-code', 'role', ['The Code is these four players: Player 1, Player 2, Player 3 (you), Player 4.']],
+  ['supplier-results', 'actions', ['Your Round 3 Supply granted one weapon each to Player 1 and Player 5.']],
 ];
 
 // An ability played on the board to the desk's answer: scenario, action, the character tapped, the query, and what the strip then says.
@@ -112,14 +113,19 @@ const STRIPS = [
 
 for (const size of SIZES) {
   const tag = size.join('x');
-  for (const [scenario, expected] of CARDS) {
+  for (const [scenario, view, expected] of CARDS) {
     const page = await open(scenario, size);
-    await page.tap('#ms-private-toggle');
-    await page.waitFor("document.querySelector('.phone-knowledge > summary')", 'the card', 5000);
-    await page.tap('.phone-knowledge > summary');
-    await page.waitFor("document.querySelector('.phone-knowledge[open]')", 'what you know, open', 5000);
-    // The last of what the card says in view: the Supply results where there are any, else what the seat knows.
-    await page.evaluate("(document.querySelector('.ms-acknowledgments') ?? document.querySelector('.phone-knowledge')).scrollIntoView({ block: 'end' })");
+    if (view === 'role') {
+      await page.tap('#ms-private-toggle');
+      await page.waitFor("document.querySelector('.phone-knowledge > summary')", 'the card', 5000);
+      await page.tap('.phone-knowledge > summary');
+      await page.waitFor("document.querySelector('.phone-knowledge[open]')", 'what you know, open', 5000);
+      await page.evaluate("document.querySelector('.phone-knowledge').scrollIntoView({ block: 'end' })");
+    } else {
+      await page.tap('#ms-phone-actions');
+      await page.waitFor("document.querySelector('.ms-acknowledgments')?.getClientRects().length > 0", 'the Supply results with the actions', 5000);
+      await page.evaluate("document.querySelector('.ms-acknowledgments').scrollIntoView({ block: 'end' })");
+    }
     await cardStep(page, `${tag}-${scenario}`, scenario, size, expected);
     await page.close();
   }

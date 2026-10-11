@@ -79,7 +79,7 @@ Each row is what the phone does now, from what it reads.
 
 | Requirement | Phone behavior | Read from | Tests and evidence |
 | --- | --- | --- | --- |
-| Two distinct recipients, registration, delivery feedback | Two numbered, distinct picks in round 3, then the receipt. The Supplier's card says "Your Round 3 Supply granted one weapon each to …". A recipient is told "You received one ordinary weapon…" (V1-16) | `legalTargets.SUPPLY`, own acknowledgments | compound-actions, comic-shell; board capture `supply-*`, `supplier-results` |
+| Two distinct recipients, registration, delivery feedback | Two numbered, distinct picks in round 3, then the receipt. The Supply results appear with the actions (the Actions view), not in the card: "Your Round 3 Supply granted one weapon each to …". A recipient is told "You received one ordinary weapon…" (V1-16) | `legalTargets.SUPPLY`, own acknowledgments | compound-actions, comic-shell; board capture `supply-*`, `supplier-results` |
 
 **Undercover**
 
