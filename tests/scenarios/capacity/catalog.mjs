@@ -18,6 +18,11 @@
 // number is the one healed and the one who must keep a place, which the first construction could
 // not tell from other orders.
 //
+// On 11 October 2026 the owner then decided the three questions that were open (CAP-D2, CAP-D4,
+// CAP-D5) and when starting rooms are drawn. Cases 25, 27, 42 and 43 had been blocked and are ready;
+// case 45 is new. The implementation of PR #98 was written before those decisions. Case 44 is
+// blocked on a question they raise (CAP-D6).
+//
 // These fixtures are a suite of their own beside tests/scenarios/v1/. They run under the ruleset
 // that carries the rule. The Version 1 catalogue is left as reviewed and runs under the rulesets
 // it was written for, where every player may start in one room. The three modes are separate
@@ -357,26 +362,27 @@ function build(mode) {
         check(is('phase', 'FINISHED'), is('winner', 'Blue'), truth('Insider', 'location', 'Hospital'), truth('Insider', 'jailed', false), truth('Hacker', 'location', 'Jail'), truth('Hacker', 'jailed', true),
           holds('Hospital', 5), holds('Jail', 1), count('waiting', 0))],
     });
-    add(43, 'Where a Captain waits who is the sixth Injured player and was hurt after entering Command Room', {
-      status: 'blocked', decisions: ['CAP-D5'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-24'], depends: ['R-CAP-04', 'R-CAPT-07', 'R-ACT-06', 'R-CAP-13'], setup: setup('ward'),
-      note: 'Red Disabler is Captain, is shot in Room A, then enters Command Room. Of the three hurt in Round 4 they have the highest number and get no place. The third decided case says a player without a place stays where they are, and a player who is no longer Captain cannot stay in Command Room.',
+    add(43, 'A Captain hurt after entering Command Room, with no place in Hospital, waits in their last room', {
+      areas: ['resolution-order', 'movement'], rules: ['R-CAP-24', 'R-CAP-04', 'R-CAP-18'], depends: ['R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-MOVE-04', 'R-CAP-13'], setup: setup('ward'),
+      note: 'Red Disabler is Captain, is shot in Room A, then enters Command Room. Of the three hurt in Round 4 they have the highest number and get no place. A player without a place stays where they are, and a player who is no longer Captain cannot stay in Command Room: they are seated like a returning player. Blocked on CAP-D5 until the owner decided it on 11 October 2026.',
       steps: [...nine.first, ...elect('Red Disabler'), open(2), cmd('Red Disabler', move('Room A')), ...nine.arm, ...nine.last({}), cmd('Red Disabler', move('Command Room')), open(5),
-        noteOf('where the Captain who was hurt waits', 'Red Disabler', 'location'), note('who waits', 'waiting')],
+        check(count('waiting', 1), is('waiting', [ref('Red Disabler')]), truth('Red Disabler', 'health', 'Injured'), truth('Red Disabler', 'captain', false), truth('Red Disabler', 'location', 'Room A'),
+          holds('Hospital', 5), holds('Command Room', 0))],
     });
   }
-  add(25, 'Whether a healed player returns to a last room that a room-mate is leaving for Hospital in the same resolution', {
-    status: 'blocked', decisions: ['CAP-D2'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-19'], depends: ['R-CAP-07', 'R-STATE-08', 'R-RES-01'],
-    note: 'Room B holds five when Round 4 resolves: Supplier is hurt and leaves it for Hospital, and Insider is healed and comes back from Hospital. Room B is full before the resolution and has a place after it.',
+  add(25, 'A healed player returns to their last room when a room-mate leaves it for Hospital in the same round', {
+    areas: ['resolution-order', 'movement'], rules: ['R-CAP-19', 'R-CAP-26', 'R-CAP-07'], depends: ['R-STATE-08', 'R-RES-01', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05', 'R-SHOT-02', 'R-SHOT-03', 'R-MOVE-01'],
+    note: 'Room B holds five when Round 4 resolves: Supplier is hurt and leaves it for Hospital, and Insider is healed and comes back from Hospital. Room B has a place once the round has resolved, and the healed player takes it. Blocked on CAP-D2 until the owner decided it on 11 October 2026.',
     steps: [...injure, open(2), cmd('Alien', move('Room B')),
       ...acts(4, { Cracker: [cmd('Cracker', rescue('Insider'))], Undercover: [cmd('Undercover', shot('Supplier'))] }), open(5),
-      noteOf('where the healed player is', 'Insider', 'location')],
+      check(truth('Insider', 'health', 'Healthy'), truth('Insider', 'location', 'Room B'), truth('Supplier', 'location', 'Hospital'), holds('Room B', 5), holds('Hospital', 1))],
   });
-  add(27, 'Which room is a player\'s last room after they were sent to the other one', {
-    status: 'blocked', decisions: ['CAP-D4'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-22'], depends: ['R-CAP-07', 'R-STATE-08', 'R-VOTE-07'],
-    note: 'Supplier is released while Room B, their last room, is full, and is sent to Room A. Later Supplier is hurt in Room A and healed, and by then both rooms have a place. R-STATE-08 says the last room they occupied; the implementation remembers the room of their last move of their own.',
+  add(27, 'After being sent to the other room, that room is the player\'s last room', {
+    areas: ['resolution-order', 'movement'], rules: ['R-CAP-22', 'R-CAP-07'], depends: ['R-STATE-08', 'R-VOTE-07', 'R-VOTE-05', 'R-VOTE-06', 'R-VOTE-10', 'R-CAPT-05', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05', 'R-MOVE-01'],
+    note: 'Supplier is released while Room B, their last room, is full, and is sent to Room A. Later Supplier is hurt in Room A and healed, and by then both rooms have a place. The last room is the room the player was last in, so Supplier returns to Room A. Blocked on CAP-D4 until the owner decided it on 11 October 2026.',
     steps: [...jail(1, 'Supplier'), ...elect('Alien'), open(2), cmd('Cracker', move('Room B')), ...release(2, 'Alien', 'Supplier'),
       open(3), cmd('Blue Disabler', move('Room A')), turn(3, 'Blue Disabler'), cmd('Blue Disabler', disable('Supplier')),
-      turn(4, 'Cracker'), cmd('Cracker', rescue('Supplier')), open(5), noteOf('where the healed player is', 'Supplier', 'location')],
+      turn(4, 'Cracker'), cmd('Cracker', rescue('Supplier')), open(5), check(truth('Supplier', 'health', 'Healthy'), truth('Supplier', 'location', 'Room A'), pub('Supplier', 'location', 'Room A'))],
   });
 
   // ----- A Captain who is hit after entering Command Room -------------------------------------------
@@ -418,14 +424,35 @@ function build(mode) {
   {
     const second = has('Red Disabler') ? 'Red Disabler' : 'Undercover';
     const round = has('Red Disabler') ? 3 : 4;
-    add(42, 'Where a Captain lies who is Eliminated after entering Command Room', {
-      status: 'blocked', decisions: ['CAP-D5'], areas: ['elimination', 'movement'], rules: ['R-CAP-24'], depends: ['R-CAP-03', 'R-CAPT-07', 'R-ACT-06'], setup: setup('b4'),
-      note: 'Two attacks are registered on the Captain in Room B, who then enters Command Room. An Eliminated player keeps their place (the second decided case), and Command Room is for the Captain. Wherever the player is put, they take one of that room\'s five places for the rest of the match.',
+    add(42, 'A Captain who is Eliminated after entering Command Room lies in their last room and holds a place there', {
+      areas: ['elimination', 'movement'], rules: ['R-CAP-24', 'R-CAP-03'],
+      depends: ['R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-STATE-01', 'R-ROLE-05', 'R-MOVE-04', 'R-MOVE-01', ...(has('Red Disabler') ? ['R-ROLE-06'] : ['R-SHOT-02', 'R-SHOT-03'])], setup: setup('b4'),
+      note: 'Two attacks are registered on the Captain in Room B, who then enters Command Room. Command Room is for the Captain, so the Eliminated player is seated like a returning player: in their last room, where they hold one of the five places for the rest of the match. Blocked on CAP-D5 until the owner decided it on 11 October 2026.',
       steps: [...elect('Supplier'), open(2), cmd('Supplier', move('Room B')), ...(has('Red Disabler') ? [cmd('Red Disabler', move('Room B'))] : []),
         ...acts(round, { 'Blue Disabler': [cmd('Blue Disabler', disable('Supplier'))], [second]: [cmd(second, second === 'Undercover' ? shot('Supplier') : disable('Supplier'))] }),
-        cmd('Supplier', move('Command Room')), open(round + 1), noteOf('health of the Captain who was hit twice', 'Supplier', 'health'), noteOf('where they lie', 'Supplier', 'location')],
+        cmd('Supplier', move('Command Room')), open(round + 1),
+        check(truth('Supplier', 'health', 'Eliminated'), truth('Supplier', 'captain', false), truth('Supplier', 'location', 'Room B'), pub('Supplier', 'location', 'Room B'),
+          holds('Room B', has('Red Disabler') ? 5 : 4), holds('Command Room', 0), count('captains', 0), sees('Alien', 'moveDestinations', has('Red Disabler') ? [] : ['Room B']))],
     });
   }
+  add(45, 'A Captain who loses the title inside Command Room is seated once the round has resolved: a place a room-mate is leaving is free', {
+    areas: ['resolution-order', 'movement'], rules: ['R-CAP-24', 'R-CAP-19', 'R-CAP-26', 'R-CAP-07'],
+    depends: ['R-CAPT-14', 'R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-RES-01', 'R-ROLE-02', 'R-ROLE-05', 'R-SHOT-02', 'R-SHOT-03', 'R-MOVE-04', 'R-MOVE-01'], setup: setup('b4'),
+    note: 'As case 35, but one of the five players in Room B is hurt in the same round and leaves for Hospital. At the moment the Captain is hit, Room B holds five others; once the round has resolved it holds four, and the Captain who lost the title returns to it.',
+    steps: [...elect('Supplier'), open(2), cmd('Supplier', move('Room B')), cmd('Alien', move('Room B')), check(holds('Room B', 5)),
+      ...acts(4, { 'Blue Disabler': [cmd('Blue Disabler', disable('Supplier'))], Cracker: [cmd('Cracker', rescue('Supplier'))], Undercover: [cmd('Undercover', shot('Alien'))] }),
+      cmd('Supplier', move('Command Room')), cmd('Insider', move('Room B')), check(holds('Room B', 5), truth('Supplier', 'location', 'Command Room')), open(5),
+      check(truth('Supplier', 'health', 'Healthy'), truth('Supplier', 'captain', false), truth('Supplier', 'location', 'Room B'), truth('Alien', 'health', 'Injured'), truth('Alien', 'location', 'Hospital'),
+        holds('Room B', 5), holds('Command Room', 0))],
+  });
+  add(44, 'Which of two returning players gets the one place left in the last room they share', {
+    status: 'blocked', decisions: ['CAP-D6'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-27'], depends: ['R-CAP-07', 'R-CAP-19', 'R-CAP-24'], setup: setup('b4'),
+    note: 'When Round 4 resolves, the Captain is Eliminated inside Command Room and Insider is healed. Room B is the last room of both and has one place. The decisions say that each is seated once the round has resolved, and not which of them first.',
+    steps: [open(1), cmd('Insider', move('Room B')), turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Insider')), ...elect('Supplier'), open(2), cmd('Supplier', move('Room B')), cmd('Alien', move('Room B')),
+      turn(3, 'Supplier'), cmd('Supplier', supply('Blue Disabler', 'Cracker')),
+      ...acts(4, { Undercover: [cmd('Undercover', shot('Supplier'))], 'Blue Disabler': [cmd('Blue Disabler', shot('Supplier'))], Cracker: [cmd('Cracker', rescue('Insider'))] }),
+      cmd('Supplier', move('Command Room')), open(5), noteOf('where the Eliminated Captain lies', 'Supplier', 'location'), noteOf('where the healed player is', 'Insider', 'location')],
+  });
 
   // ----- Places and returns together ----------------------------------------------------------------
   {
@@ -460,8 +487,8 @@ function build(mode) {
 
   // ----- What an engine run cannot show ------------------------------------------------------------
   const manual = (number, title, rules, text) => add(number, title, { status: 'manual', areas: ['operating-policy'], rules, setup: null, note: `${text} ${MANUAL_NOTE}` });
-  manual(30, `Starting rooms are drawn by the service: never six in a room, and unrelated to role, character, faction and seat with ${N} players`, ['R-CAP-06', 'R-CAP-16'],
-    `Many lobbies of ${N} players: no room starts with more than five; each seat is in Room A about half the time; the room does not follow from the character chosen, from the order of joining or from the role dealt afterwards.`);
+  manual(30, `Starting rooms are drawn by the service once, for all ${N} players together, when the roster is complete`, ['R-CAP-25', 'R-CAP-06', 'R-CAP-16'],
+    `Many lobbies of ${N} players: nobody has a room before everyone has joined; no room starts with more than five; the splits come as often as section 4.1 of the audit gives for equally likely legal assignments; any two players start together equally often; the order of joining, the order of approval, the character chosen and the role dealt afterwards make no difference.`);
   manual(31, 'A lobby whose rooms were drawn before the rule and put six players in one room', ['R-CAP-16', 'R-CAP-21'],
     'Such a lobby either starts under the ruleset it was prepared for, or is given rooms the rule allows. It must not start under this ruleset with six in a room, and it must not be left unable to start.');
   manual(32, 'Two phones move for the last place at the same moment', ['R-CAP-09', 'R-CAP-02'],

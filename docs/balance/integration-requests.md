@@ -155,11 +155,11 @@ What changed for a caller of the three commands: nothing. They take the same opt
 
 **The capacity suite as the Balance check of the capacity ruleset.** Asked on 11 October 2026, with the audit of issue #96 ([capacity-audit.md](capacity-audit.md)).
 
-Backend's PR #98 keeps the Version 1 catalogue as a check of the earlier ruleset and has no Balance check of the ruleset new matches will use. This branch has one: 113 fixtures in `tests/scenarios/capacity/`, six capacity invariants, and playouts that start from legal rooms and try full rooms.
+Backend's PR #98 keeps the Version 1 catalogue as a check of the earlier ruleset and has no Balance check of the ruleset new matches will use. This branch has one: 119 fixtures in `tests/scenarios/capacity/`, six capacity invariants, and playouts that start from legal rooms and try full rooms.
 
 Asked of Integration, in the files it owns: for an engine that plays `in-person-v1-capacity-2026-10-11`, run
 
-- `npm run scenarios --workspace @mothership/balance -- --suite capacity --require-engine`, and hold it to 88 passed, 0 failed, 10 blocked and 15 not run, with the probes recorded. At the head of PR #98 it is 85 passed and 3 failed: case 28, for each number of players, which is BAL-REQ-13;
+- `npm run scenarios --workspace @mothership/balance -- --suite capacity --require-engine`, and hold it to 101 passed, 0 failed, 3 blocked and 15 not run, with the probes recorded. At the head of PR #98 it is 89 passed and 12 failed: case 28, for each number of players, which is BAL-REQ-13, and cases 25, 27 and 45, which hold rules the owner decided after PR #98 was written and are BAL-REQ-14;
 - `npm run walk --workspace @mothership/balance -- --ruleset in-person-v1-capacity-2026-10-11 --rooms capped --room-capacity 5 --require-engine`, and hold it to no invariant violation, no hint mismatch, no replay mismatch and no unfinished playout.
 
 The hashes of the three fixture files are in the pins of the scenario report (`capacityFileHashes`), and the evidence report lists them.
@@ -178,7 +178,9 @@ The catalogue's own cases have not been run under the capacity ruleset. Re-seati
 
 **Starting rooms that do not depend on the order of approval.** Finding F1 of the audit. The service gives each player an even draw when they ask to join, and at approval keeps it unless that room already holds five approved players, in which case the player gets the other room. Each player's own room is then even. But when six or more drew the same room, which is 50.8% of nine-player lobbies if all have asked before anyone is approved, the first five approved keep it and the others are moved: the host chooses the order of approval and each player's number, and the database rules let the host read every request's room first. The owner's decision reads "unrelated to role, character, faction and seat", and the decision of 8 October says players do not choose their room.
 
-Asked of Backend, once the owner has said when rooms are drawn (audit, section 7): draw all rooms at once when the roster is complete, every legal assignment equally likely, and keep that draw through retries and recovery as now. The arithmetic of the three methods is in section 4.1 of the audit.
+The owner decided it on 11 October 2026 (audit, section 7, `BAL-OD-1`): starting rooms are drawn once, for all players together, when the roster is complete, and every assignment with at most five players in a room is equally likely.
+
+Asked of Backend: draw them that way, and keep the draw through retries and recovery as now. Before the draw nobody has a room; what the lobby shows until then, and the moment at which the roster counts as complete, are Backend's and Designer's to state. The arithmetic of the three methods is in section 4.1 of the audit: the second block is what a correct draw gives, and fixture CAP-30 says what to look for.
 
 ## BAL-REQ-13
 
@@ -190,7 +192,25 @@ The cause, in `packages/engine/src/full-game/lifecycle.ts` at `dd04f68`: the att
 
 To see it: `npm run scenarios --workspace @mothership/balance -- --suite capacity --only V1-M7-CAP-28 --engine-root <a built checkout of dd04f68>`, and the same with `M8` and `M9`. The engine before the rule passes the case's own checks.
 
-Asked of Backend: seat a healed player by the rooms as they are when the round has resolved. One order that does it and keeps the owner's "free healed Hospital places first": the healed leave their places in Hospital; the Injured are then placed, a hurt Captain going from Command Room to Hospital directly; the healed are seated last. That order would also send a healed player back to a room that a room-mate is leaving for Hospital, which is the open question CAP-D2 and is the owner's to answer.
+Asked of Backend: seat a healed player by the rooms as they are when the round has resolved. One order that does it and keeps the owner's "free healed Hospital places first": the healed leave their places in Hospital; the Injured are then placed, a hurt Captain going from Command Room to Hospital directly; the healed are seated last. That order also sends a healed player back to a room that a room-mate is leaving for Hospital. The owner decided on 11 October that it should (`BAL-OD-2`), so it is the order to implement: BAL-REQ-14.
+
+## BAL-REQ-14
+
+**The owner's decisions of 11 October on what the audit found open.** They were given in the Game Balance session and are recorded in section 7 of the audit as `BAL-OD-1` to `BAL-OD-5`, and in a comment on issue #96. PR #98 was written before them.
+
+Asked of Integration and Backend, in the files they own: carry them into the capacity overlay and the decision record, under a ruleset version of Backend's choosing, and implement them.
+
+| Decision | What has to change in the engine or the service | Fixture that holds it |
+| --- | --- | --- |
+| `BAL-OD-1`: starting rooms drawn once, when the roster is complete, every legal assignment equally likely | The service's draw (BAL-REQ-12) | CAP-30, manual |
+| `BAL-OD-2`: a place that a room-mate is leaving for Hospital in the same round is free for a returning player | Returning players are seated after the Injured have been placed | CAP-25; fails at `dd04f68` |
+| `BAL-OD-3`: a player's last room is the room they were last in, also after they were sent to the other one | The room an engine remembers for a player changes with a forced return too | CAP-27; fails at `dd04f68` |
+| `BAL-OD-4`: a Captain hit after entering Command Room who is Eliminated, or hurt while Hospital is full, is seated like a returning player once the round has resolved | The room is the one the implementation uses already; the moment of seating is not | CAP-42 and CAP-43 pass; CAP-45 fails at `dd04f68` |
+| `BAL-OD-5`: a prisoner released while Injured, with Hospital full, stands in Jail as a free player | Nothing: it is what PR #98 does | CAP-26, CAP-38 |
+
+One order does all of it and mends BAL-REQ-13 as well: when a round has resolved, the healed leave their places in Hospital; the Injured are placed, by player number; then returning players are seated, each in the room they were last in or, if it holds five, in the other.
+
+One question is left by these decisions, CAP-D6: two returning players whose last room is the same and has one place. Balance recommends player number, as for Hospital; it is the owner's to decide, and CAP-44 records what an engine does.
 
 ## Where each request stands
 
@@ -212,8 +232,9 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | BAL-REQ-9 | Answered by PR #64 on 7 October: a decision record and a separate identity document | Reviewed by reading; no objection. The rulebook row waits for the record to be merged |
 | BAL-REQ-10 | Not answered yet: asked on 11 October | Open |
 | BAL-REQ-11 | Not answered yet. Backend's PR #98 does the same by a patch to the binding | Open: this binding in place of the patch |
-| BAL-REQ-12 | Not answered yet: asked on 11 October | Open, and waits for the owner on when rooms are drawn |
+| BAL-REQ-12 | Not answered yet: asked on 11 October | Open. The owner has decided when rooms are drawn; it waits for Backend |
 | BAL-REQ-13 | Not answered yet: asked on 11 October | Open. Three fixtures fail until it is mended |
+| BAL-REQ-14 | Not answered yet: asked on 11 October | Open. Nine fixtures fail until the decisions are implemented |
 
 ## What Balance does next, and what it waits for
 
@@ -227,5 +248,5 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | Complete playtest records | BAL-REQ-2 |
 | A separate powers-on suite | D10 |
 | Re-seat the Version 1 catalogue so that it can run under the capacity ruleset, with a new rulebook revision that takes in the capacity rows | The capacity ruleset on a branch the rulebook's sources are read from, and Integration's agreement to move the pins |
-| Turn the blocked capacity cases into ready ones | The owner on CAP-D2, CAP-D4 and CAP-D5 |
-| Run the capacity suite again and commit the report | Backend's answer to BAL-REQ-13 |
+| Turn the blocked capacity case into a ready one | The owner on CAP-D6 |
+| Run the capacity suite again and commit the report | Backend's answer to BAL-REQ-13 and BAL-REQ-14 |

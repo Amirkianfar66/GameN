@@ -17,7 +17,7 @@ import { load } from './adapters/full-game-v1.mjs';
 import { buildCapacityCatalog, setupFromLabel } from './capacity/catalog.mjs';
 import { CAPACITY_DECISION, CAPACITY_RULES_PATH, CAPACITY_RULESET_VERSION, GROUPS, capacityFileUrl, loadAll, loadGroup, renderCapacityFile } from './capacity/files.mjs';
 import {
-  BEFORE_THE_RULE, EARLIER_RULESETS, EVIDENCE_REPORT, HOLDS_WITHOUT_THE_RULE, IMPLEMENTATION, KNOWN_DEFECTS, PASS_RULESET, caseOf, compatibilityTable, controlsTable, failureTable, loadEvidence,
+  BEFORE_THE_RULE, EARLIER_RULESETS, EVIDENCE_REPORT, EXPECTED_FAILURES, HOLDS_WITHOUT_THE_RULE, IMPLEMENTATION, PASS_RULESET, caseOf, compatibilityTable, controlsTable, failureTable, loadEvidence,
   modeTable, playoutTable, probeTable, resultsTable,
 } from './support/capacity-evidence.mjs';
 import { fixtureTable, reachTable, startingRoomTable } from './support/capacity-tables.mjs';
@@ -92,6 +92,23 @@ test('the three modes are separate files; every setup is reproduced by its label
   assert.equal(capacityReach(9).mostWaiting, 1);
 });
 
+// The decisions the owner gave in the Game Balance session on 11 October 2026, from the table of section 7.
+const ownerDecisions = new Map([...audit.matchAll(/^\| (BAL-OD-\d) \| (.+?) \| (.+?) \|$/gm)].map(match => [match[1], { question: match[2], decided: match[3] }]));
+
+test('the owner\'s decisions of 11 October are recorded once each, with the owner\'s words, and every one is carried by a row', () => {
+  assert.deepEqual([...ownerDecisions.keys()], ['BAL-OD-1', 'BAL-OD-2', 'BAL-OD-3', 'BAL-OD-4', 'BAL-OD-5']);
+  assert.ok(audit.includes('"yes go with your recommendations for all five"'));
+  assert.ok(audit.includes('"Their last room (Recommended)"'));
+  for (const [id, decision] of ownerDecisions) {
+    const carriers = [...rows].filter(([, row]) => row.sources.includes(`\`${id}\``));
+    assert.ok(carriers.length > 0, `${id} is carried by no row`);
+    for (const [rowId, row] of carriers) {
+      assert.equal(row.status, 'OWNER', `${rowId} carries ${id}`);
+      assert.ok(decision.decided.includes(rowId), `the record of ${id} names ${rowId}`);
+    }
+  }
+});
+
 test('the capacity rows are complete: each has a status and a source of its kind, and every open one names an open question', () => {
   assert.deepEqual([...rows.keys()], [...rows.keys()].sort());
   assert.deepEqual([...rows.keys()], Array.from({ length: rows.size }, (_, index) => `R-CAP-${String(index + 1).padStart(2, '0')}`));
@@ -107,7 +124,9 @@ test('the capacity rows are complete: each has a status and a source of its kind
       assert.equal(questions.get(question[0]).status, 'OPEN', `${id}: its question is open`);
     } else assert.equal(question.length, 0, `${id}: only an open row names a question`);
     // The owner's decision is cited by where it is recorded: the issue, or Backend's record of what was said to Backend.
-    if (row.status === 'OWNER') assert.ok(cited.some(item => item === '#96' || /^(CAPACITY-0\d|CAP-ORDER-01)$/.test(item)), `${id}: an owner row cites issue #96 or Backend's record`);
+    // or the decisions the owner gave in the Game Balance session, which section 7 of the audit records.
+    if (row.status === 'OWNER') assert.ok(cited.some(item => item === '#96' || /^(CAPACITY-0\d|CAP-ORDER-01|BAL-OD-\d)$/.test(item)), `${id}: an owner row cites issue #96, Backend's record or a decision of section 7`);
+    for (const ref of cited.filter(item => /^BAL-OD-/.test(item))) assert.ok(ownerDecisions.has(ref), `${id} cites unknown decision ${ref}`);
     if (row.status === 'DERIVED') assert.ok(cited.some(item => /^R-/.test(item)), `${id}: a derived row names what it follows from`);
   }
   for (const [id, question] of questions) {
@@ -259,7 +278,7 @@ test('an Injured player outside Hospital is a fault unless the run has the rule 
   assert.deepEqual(found(full, null), ['INV-LOC-02']);
 });
 
-test('INV-CAP-03 sees a player sent to the other room although their last room had a place before and after', () => {
+test('INV-CAP-03 sees a player sent to the other room although their last room has a place once the phase has closed', () => {
   const opening = openingObservation(base);
   const insider = seatOf('Insider');
   const inHospital = place(opening, insider, { health: 'Injured', location: 'Hospital' });
@@ -272,11 +291,42 @@ test('INV-CAP-03 sees a player sent to the other room although their last room h
   // Room B, the last room, holds four others: the other room is the wrong place.
   assert.equal(run(inHospital, place(inHospital, insider, { health: 'Healthy', location: 'Room A' })), 1);
   assert.equal(run(inHospital, place(inHospital, insider, { health: 'Healthy', location: 'Room B' })), 0);
-  // Room B was filled meanwhile: the other room is right, whether the room was full before the resolution or is after it.
+  // Room B was filled meanwhile and stays full: the other room is right.
   const filled = place(inHospital, seatOf('Alien'), { location: 'Room B' });
   assert.equal(run(filled, place(filled, insider, { health: 'Healthy', location: 'Room A' })), 0);
+  // A room-mate leaves Room B for Hospital in the same resolution: the place is free, and the other room is wrong.
   const emptied = place(place(filled, insider, { health: 'Healthy', location: 'Room A' }), seatOf('Hacker'), { location: 'Hospital', health: 'Injured' });
-  assert.equal(run(filled, emptied), 0, 'full before the resolution is enough: whether the place being left counts is not decided');
+  assert.equal(run(filled, emptied), 1, 'a place that is being left in the same resolution is free');
+  assert.equal(run(filled, place(place(filled, insider, { health: 'Healthy', location: 'Room B' }), seatOf('Hacker'), { location: 'Hospital', health: 'Injured' })), 0);
+});
+
+test('the last room is the room a player was last seen in, whatever the engine records', () => {
+  // Alien starts in Room A. The engine of this stand-in then says their last room is Room B.
+  const opening = openingObservation(base);
+  const alien = seatOf('Alien');
+  const ledger = startLedger(opening);
+  ledger.roomCapacity = 5;
+  const hurt = place(opening, alien, { health: 'Injured', location: 'Hospital', lastRoom: 'Room B' });
+  const step = (before, after, phase) => checkTransition(base, before, { ...after, phaseId: phase }, { kind: 'advance', atMs: before.phaseEndsAt, advanced: true }, ledger)
+    .filter(violation => violation.invariant === 'INV-CAP-03').map(violation => violation.message);
+  assert.deepEqual(step(opening, hurt, 'phase-2'), []);
+  // Room B has a place for them (Insider has left it), and so has Room A, where they last were.
+  const room = place({ ...hurt, phaseId: 'phase-2' }, seatOf('Insider'), { health: 'Injured', location: 'Hospital' });
+  assert.deepEqual(step({ ...hurt, phaseId: 'phase-2' }, place(room, alien, { health: 'Healthy', location: 'Room B' }), 'phase-3'),
+    [`${alien} was sent to Room B although Room A, the room they were last in, has a place`]);
+  // Standing somewhere else changes it: the ledger follows the player, not a record. Alien and
+  // Hacker change rooms, Alien is hurt, and the engine's record still says Room A.
+  const broken = returnsTo => {
+    const fresh = startLedger(opening);
+    fresh.roomCapacity = 5;
+    const closes = (before, after, phase) => checkTransition(base, before, { ...after, phaseId: phase }, { kind: 'advance', atMs: before.phaseEndsAt, advanced: true }, fresh)
+      .filter(violation => violation.invariant === 'INV-CAP-03').length;
+    const walked = { ...place(place(opening, seatOf('Hacker'), { location: 'Room A' }), alien, { location: 'Room B' }), phaseId: 'phase-2' };
+    const away = { ...place(walked, alien, { health: 'Injured', location: 'Hospital', lastRoom: 'Room A' }), phaseId: 'phase-3' };
+    return [closes(opening, walked, 'phase-2'), closes(walked, away, 'phase-3'), closes(away, place(away, alien, { health: 'Healthy', location: returnsTo }), 'phase-4')];
+  };
+  assert.deepEqual(broken('Room A'), [0, 0, 1], 'they were last in Room B, which has a place');
+  assert.deepEqual(broken('Room B'), [0, 0, 0]);
 });
 
 // What the capacity invariants say about one phase closing, from `before` to `after`.
@@ -349,8 +399,13 @@ test('INV-CAP-03 covers a release and a Captain who lost the title; INV-CAP-04 t
   assert.deepEqual(closing(full, place(full, supplier, { ...hurt, location: 'Jail' })), ['INV-CAP-06'], 'a waiting player who was never a prisoner is put in Jail');
   const prisoner = place(full, supplier, { ...hurt, jailed: true, location: 'Jail' });
   assert.deepEqual(closing(prisoner, place(prisoner, supplier, { jailed: false })), [], 'a prisoner released while Injured stays in Jail');
+  // A Captain hurt inside Command Room cannot stay there. They are seated like a returning player: their last room, here Room B.
   const hurtCaptain = place(full, supplier, { captain: true, location: 'Command Room' });
-  assert.deepEqual(closing(hurtCaptain, place(hurtCaptain, supplier, { ...hurt, captain: false, location: 'Room A' })), [], 'where a Captain hurt inside Command Room waits is not decided');
+  assert.deepEqual(closing(hurtCaptain, place(hurtCaptain, supplier, { ...hurt, captain: false, location: 'Room B' })), []);
+  assert.deepEqual(closing(hurtCaptain, place(hurtCaptain, supplier, { ...hurt, captain: false, location: 'Room A' })), ['INV-CAP-03']);
+  // The same for one who is Eliminated there.
+  assert.deepEqual(closing(captain, place(captain, supplier, { health: 'Eliminated', captain: false, location: 'Room B' })), []);
+  assert.deepEqual(closing(captain, place(captain, supplier, { health: 'Eliminated', captain: false, location: 'Room A' })), ['INV-CAP-03']);
   // A patient put out of Hospital is a player moved who should have stayed.
   assert.deepEqual(closing(full, place(full, seatOf('Hacker'), { location: 'Room B' })), ['INV-CAP-06']);
 });
@@ -490,7 +545,10 @@ const evidence = loadEvidence();
 const fileHash = url => createHash('sha256').update(readFileSync(url)).digest('hex');
 const readyIds = () => loadAll().filter(scenario => scenario.status === 'ready').map(scenario => scenario.id);
 
-test('the capacity fixtures against the implementation: every ready case passed but the three of finding F1, from clean commits', () => {
+// The ready fixtures that are expected to fail against the implementation, by identifier.
+const expectedToFail = () => loadAll().filter(scenario => scenario.status === 'ready' && caseOf(scenario.id) in EXPECTED_FAILURES).map(scenario => scenario.id);
+
+test('the capacity fixtures against the implementation: every ready case passed but the defect and the rules decided after it was written', () => {
   const report = evidence.scenarios;
   assert.equal(report.schema, 'mothership.balance.scenario-run/1');
   assert.equal(report.pins.engineCommit, IMPLEMENTATION);
@@ -507,16 +565,17 @@ test('the capacity fixtures against the implementation: every ready case passed 
   const fixtures = loadAll();
   assert.deepEqual(report.runs.map(run => run.scenarioId), fixtures.map(scenario => scenario.id));
   const wanted = { ready: 'passed', blocked: 'blocked', manual: 'not-run' };
-  const defects = [];
+  const failed = [];
   for (const run of report.runs) {
     const fixture = fixtures.find(scenario => scenario.id === run.scenarioId);
-    if (fixture.status === 'ready' && caseOf(run.scenarioId) in KNOWN_DEFECTS) {
-      // The defect: the healed player is in the other room, and the run breaks the invariant on returns.
-      defects.push(run.scenarioId);
+    const expected = EXPECTED_FAILURES[caseOf(run.scenarioId)];
+    if (fixture.status === 'ready' && expected !== undefined) {
+      // A returning player is in the wrong room, and the run breaks the invariant on returns and no other.
+      failed.push(run.scenarioId);
       assert.equal(run.status, 'failed', run.scenarioId);
       assert.equal(run.failure.op, 'assert', run.scenarioId);
-      assert.match(run.failure.message, /truth @Insider\.location: expected "Room B", observed "Room A"/, run.scenarioId);
-      assert.deepEqual(run.invariantViolations.map(violation => violation.invariant), ['INV-CAP-03'], run.scenarioId);
+      assert.match(run.failure.message, expected.message, run.scenarioId);
+      assert.deepEqual([...new Set(run.invariantViolations.map(violation => violation.invariant))], ['INV-CAP-03'], run.scenarioId);
       continue;
     }
     assert.equal(run.status, wanted[fixture.status], run.scenarioId);
@@ -525,9 +584,13 @@ test('the capacity fixtures against the implementation: every ready case passed 
     if (fixture.status === 'ready') assert.ok(run.transitions + run.commands > 0 || fixture.steps.some(step => step.op === 'createRejected' || step.op === 'assert'), `${run.scenarioId} was executed`);
     if (fixture.status === 'blocked') assert.deepEqual(run.probes.map(probe => probe.label), fixture.steps.filter(step => step.op === 'note' || step.op === 'probe').map(step => step.label), run.scenarioId);
   }
-  assert.deepEqual(defects, GROUPS.flatMap(group => Object.keys(KNOWN_DEFECTS).map(id => `V1-M${group}-${id}`)).sort(), 'the defect shows with every number of players');
-  assert.equal(report.totals.failed, defects.length);
-  assert.equal(report.totals.passed, readyIds().length - defects.length);
+  // Each of the four shows with every number of players, and nothing else fails.
+  assert.deepEqual(failed, GROUPS.flatMap(group => Object.keys(EXPECTED_FAILURES).map(id => `V1-M${group}-${id}`)).sort());
+  assert.deepEqual(failed, expectedToFail());
+  assert.equal(report.totals.failed, failed.length);
+  assert.equal(report.totals.passed, readyIds().length - failed.length);
+  // One of the four is a defect against the cases the implementation was written for; the rest were decided after it.
+  assert.deepEqual(Object.entries(EXPECTED_FAILURES).filter(([, item]) => item.kind === 'defect').map(([id]) => id), ['CAP-28']);
 });
 
 test('the negative controls on the capacity fixtures: every control on a passing case was detected', () => {
@@ -543,15 +606,15 @@ test('the negative controls on the capacity fixtures: every control on a passing
     assert.equal(stats.scenarios, loadGroup(mode).scenarios.filter(scenario => scenario.status === 'ready').length);
     assert.ok(stats.controls > 0);
     assert.deepEqual([stats.detected, stats.undetected], [stats.controls, 0], `mode ${mode}`);
-    assert.equal(stats.baselineNotPassing, Object.keys(KNOWN_DEFECTS).length, 'the cases of the defect do not pass, so they have no controls');
+    assert.equal(stats.baselineNotPassing, Object.keys(EXPECTED_FAILURES).length, 'the cases that fail have no controls');
   }
   assert.deepEqual(report.undetected, []);
-  assert.deepEqual(report.baselineFailures.map(item => item.split(':')[0]).sort(), GROUPS.flatMap(group => Object.keys(KNOWN_DEFECTS).map(id => `V1-M${group}-${id}`)).sort());
-  // The command ends as failed while a ready case does not pass. That is the defect, not a control missed.
+  assert.deepEqual(report.baselineFailures.map(item => item.split(':')[0]).sort(), expectedToFail());
+  // The command ends as failed while a ready case does not pass. That is those cases, not a control missed.
   assert.equal(report.verdict, 'failed');
 });
 
-test('the control: against the engine before the rule every ready capacity case fails, but the two that hold without the rule', () => {
+test('the control: against the engine before the rule every ready capacity case fails, but the few that hold without the rule', () => {
   const report = evidence.control;
   assert.equal(report.pins.engineCommit, BEFORE_THE_RULE);
   assert.equal(report.pins.engineTreeClean, true);
@@ -572,11 +635,11 @@ test('the control: against the engine before the rule every ready capacity case 
   const onlyByInvariant = report.runs.filter(run => run.status === 'failed' && run.failure.op === 'invariant');
   assert.ok(onlyByInvariant.length > 0 && onlyByInvariant.length < readyIds().length);
   for (const run of onlyByInvariant) assert.ok(run.invariantViolations.some(violation => violation.invariant.startsWith('INV-CAP-')), run.scenarioId);
-  // The cases of the defect are among those: on the engine before the rule their own checks hold.
-  for (const id of Object.keys(KNOWN_DEFECTS)) for (const group of GROUPS) assert.ok(onlyByInvariant.some(run => run.scenarioId === `V1-M${group}-${id}`), `${id}, ${group} players`);
+  // The case of the defect is among those: on the engine before the rule its own checks hold.
+  for (const group of GROUPS) assert.ok(onlyByInvariant.some(run => run.scenarioId === `V1-M${group}-CAP-28`), `CAP-28, ${group} players`);
 });
 
-test('the playouts under the capacity ruleset: all finished, nothing over five anywhere, no full room entered or offered', () => {
+test('the playouts under the capacity ruleset: all finished, nothing over five anywhere, no full room entered or offered, and only the invariant on returns broken', () => {
   const report = evidence.playouts;
   assert.equal(report.pins.engineCommit, IMPLEMENTATION);
   assert.equal(report.pins.engineTreeClean, true);
@@ -590,7 +653,12 @@ test('the playouts under the capacity ruleset: all finished, nothing over five a
     const stats = report.modes[mode];
     assert.equal(stats.playouts, report.seedsPerMode);
     assert.equal(stats.completed, stats.playouts);
-    assert.equal(stats.invariantViolations + stats.hintMismatches + stats.replayMismatches, 0, `mode ${mode}`);
+    assert.equal(stats.hintMismatches + stats.replayMismatches, 0, `mode ${mode}`);
+    // The implementation predates the owner's decisions on returns. Where random play reaches such
+    // a return, the invariant that holds those decisions is broken, and no other invariant is.
+    for (const invariant of Object.keys(stats.violationsByInvariant)) assert.equal(invariant, 'INV-CAP-03', `mode ${mode}`);
+    assert.equal(stats.invariantViolations, Object.values(stats.violationsByInvariant).reduce((sum, times) => sum + times, 0));
+    assert.equal(stats.invariantViolations, stats.occupancy.returnsToTheOtherRoomThoughTheLastHadAPlace, 'each is a return to another room than the last, which had a place');
     assert.equal(stats.occupancy.phasesOverCapacity + stats.occupancy.playoutsOverCapacity, 0);
     assert.ok(stats.occupancy.movesTowardsAFullRoom > 0, 'full rooms were tried');
     assert.equal(stats.occupancy.movesIntoAFullRoom, 0);
@@ -648,14 +716,10 @@ test('the audit and the evidence report print the tables of the reports, and nam
   for (const digest of Object.values(evidence.scenarios.pins.capacityFileHashes)) assert.ok(report.includes(digest), 'the report lists the hashes of the fixture files');
   // What the implementation does in the blocked cases is what the audit says it does.
   const probes = Object.fromEntries(evidence.scenarios.runs.filter(run => run.status === 'blocked').map(run => [run.scenarioId, run.probes[0].outcome]));
+  // CAP-D6: the implementation seats the Captain who was Eliminated inside Command Room first, in Room B, and the healed player goes to Room A.
   for (const mode of GROUPS) {
-    assert.equal(probes[`V1-M${mode}-CAP-25`], 'Room A', 'CAP-D2: the healed player is sent to the other room');
-    assert.equal(probes[`V1-M${mode}-CAP-27`], 'Room B', 'CAP-D4: the next return goes to the remembered room');
+    const run = evidence.scenarios.runs.find(item => item.scenarioId === `V1-M${mode}-CAP-44`);
+    assert.deepEqual(run.probes.map(probe => probe.outcome), ['Room B', 'Room A']);
   }
-  // CAP-D5: the Captain hit twice after entering Command Room lies in Room B, their last room.
-  for (const mode of GROUPS) {
-    const run = evidence.scenarios.runs.find(item => item.scenarioId === `V1-M${mode}-CAP-42`);
-    assert.deepEqual(run.probes.map(probe => probe.outcome), ['Eliminated', 'Room B']);
-  }
-  assert.deepEqual(evidence.scenarios.runs.find(item => item.scenarioId === 'V1-M9-CAP-43').probes.map(probe => probe.outcome), ['Room A', 'seat-7']);
+  assert.deepEqual(Object.keys(probes).sort(), GROUPS.map(mode => `V1-M${mode}-CAP-44`));
 });

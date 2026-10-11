@@ -55,8 +55,9 @@ export interface OccupancyStats {
   // Moves sent towards a room that held five players, and how many of them were accepted.
   movesTowardsAFullRoom: number;
   movesIntoAFullRoom: number;
-  // Players sent back to a room after healing or release; those sent to the other room; and of
-  // those, the ones whose last room had a free place once the resolution was over.
+  // Players sent back to a room: after healing or release, or as a Captain who lost the title
+  // inside Command Room. Then those sent to another room than the one they were last in; and of
+  // those, the ones whose last room had a place once the resolution was over.
   returns: number;
   returnsToTheOtherRoom: number;
   returnsToTheOtherRoomThoughTheLastHadAPlace: number;
@@ -86,15 +87,22 @@ function notePhase(stats: OccupancyStats, observation: Observation): void {
   stats.mostWaiting = Math.max(stats.mostWaiting, waiting);
 }
 
-function noteReturns(stats: OccupancyStats, before: Observation, after: Observation): void {
+// `lastStood` is the room each player was last seen in, kept by the playout itself.
+function noteReturns(stats: OccupancyStats, before: Observation, after: Observation, lastStood: Record<SeatId, string>): void {
   for (const now of after.truth.seats) {
     const was = before.truth.seats.find(seat => seat.seat === now.seat);
-    if (was === undefined || (was.location !== 'Hospital' && was.location !== 'Jail') || (now.location !== 'Room A' && now.location !== 'Room B')) continue;
-    stats.returns += 1;
-    if (now.location === was.lastRoom) continue;
-    stats.returnsToTheOtherRoom += 1;
-    if (heldIn(after, was.lastRoom, now.seat) < FULL) stats.returnsToTheOtherRoomThoughTheLastHadAPlace += 1;
+    // A return: from Hospital or Jail, or from Command Room for a Captain who lost the title there.
+    const from = was !== undefined && (was.location === 'Hospital' || was.location === 'Jail' || (was.location === 'Command Room' && was.captain && !now.captain));
+    if (was !== undefined && from && (now.location === 'Room A' || now.location === 'Room B')) {
+      const last = lastStood[now.seat] ?? was.lastRoom;
+      stats.returns += 1;
+      if (now.location !== last) {
+        stats.returnsToTheOtherRoom += 1;
+        if (heldIn(after, last, now.seat) < FULL) stats.returnsToTheOtherRoomThoughTheLastHadAPlace += 1;
+      }
+    }
   }
+  for (const now of after.truth.seats) if (now.location === 'Room A' || now.location === 'Room B') lastStood[now.seat] = now.location;
 }
 
 export interface WalkOptions {
@@ -203,6 +211,8 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
   const violations: Violation[] = [...checkSetup(setup, current), ...checkState(setup, current, ledger)];
   const occupancy = newOccupancy();
   notePhase(occupancy, current);
+  const lastStood: Record<SeatId, string> = {};
+  for (const seat of current.truth.seats) lastStood[seat.seat] = seat.location;
   const hintMismatches: HintMismatch[] = [];
   let commandsAccepted = 0;
   let commandsRejected = 0;
@@ -225,7 +235,8 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
     violations.push(...checkTransition(setup, before, current, { kind: 'command', actor: seat, command, outcome }, ledger));
     if (outcome === 'REGISTERED') commandsAccepted += 1; else commandsRejected += 1;
     // A command can close its phase, as the Captain's release choice does.
-    if (current.phaseId !== before.phaseId) { noteReturns(occupancy, before, current); notePhase(occupancy, current); }
+    noteReturns(occupancy, before, current, lastStood);
+    if (current.phaseId !== before.phaseId) notePhase(occupancy, current);
     if ((outcome === 'REGISTERED') !== offered) {
       hintMismatches.push({ round: before.round, phaseKind: before.phaseKind, seat, type: command.type, offered, outcome });
     }
@@ -280,7 +291,7 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
     current = match.observe();
     violations.push(...checkTransition(setup, before, current, { kind: 'advance', atMs: before.phaseEndsAt, advanced }, ledger));
     phases += 1;
-    noteReturns(occupancy, before, current);
+    noteReturns(occupancy, before, current, lastStood);
     if (current.phaseId !== before.phaseId) notePhase(occupancy, current);
     maxJailed = Math.max(maxJailed, current.truth.seats.filter(seat => seat.jailed).length);
     if (current.phaseKind === 'SHOWDOWN') { showdown = true; eliminatedBeforeShowdown = eliminated(current); }

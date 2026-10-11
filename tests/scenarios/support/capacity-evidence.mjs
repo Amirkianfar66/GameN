@@ -19,13 +19,20 @@ export const EVIDENCE_FILES = {
   playouts: '2026-10-11-capacity-playouts-engine-dd04f68.json',
   compatibility: '2026-10-11-capacity-compatibility.json',
 };
-// The cases that fail against the implementation, and the finding of the audit each one is.
-export const KNOWN_DEFECTS = { 'CAP-28': 'F1' };
+// The ready cases that fail against the implementation of PR #98, the finding of the audit each
+// one is, and of which kind: a defect against the cases the implementation was written for, or a
+// rule the owner decided on 11 October 2026, after it was written.
+export const EXPECTED_FAILURES = {
+  'CAP-25': { finding: 'F3', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-2)', message: /truth @Insider\.location: expected "Room B", observed "Room A"/ },
+  'CAP-27': { finding: 'F4', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-3)', message: /truth @Supplier\.location: expected "Room A", observed "Room B"/ },
+  'CAP-28': { finding: 'F1', kind: 'defect', why: 'A defect against the sixth decided case of issue #96', message: /truth @Insider\.location: expected "Room B", observed "Room A"/ },
+  'CAP-45': { finding: 'F5', kind: 'decided-after', why: 'Decided after the implementation was written (BAL-OD-4)', message: /truth @Supplier\.location: expected "Room B", observed "Room A"/ },
+};
 export const caseOf = scenarioId => scenarioId.replace(/^V1-M\d-/, '');
 // Ready cases that assert nothing the rule changes and in which no room ever holds five: a Captain
-// who lost the title returns to a last room that has a place, with seven and eight players. They
-// pass on an engine without the rule as well, and the control says so.
-export const HOLDS_WITHOUT_THE_RULE = ['V1-M7-CAP-29', 'V1-M8-CAP-29'];
+// who lost the title comes to a last room that has a place. They pass on an engine without the
+// rule as well, and the control says so.
+export const HOLDS_WITHOUT_THE_RULE = ['V1-M7-CAP-29', 'V1-M7-CAP-42', 'V1-M8-CAP-29'];
 
 export function loadEvidence() {
   return Object.fromEntries(Object.entries(EVIDENCE_FILES).map(([key, name]) => [key, read(name)]));
@@ -71,11 +78,14 @@ export function modeTable({ scenarios, control }) {
 
 /** The cases that failed against the implementation: what they expected and what the engine did. */
 export function failureTable({ scenarios }) {
-  const rows = scenarios.runs.filter(run => run.status === 'failed').map(run => line([
-    `\`${run.scenarioId}\``, KNOWN_DEFECTS[caseOf(run.scenarioId)] ?? 'not explained', run.failure.message,
-    run.invariantViolations.map(violation => `${violation.invariant}: ${violation.message}`).join('; ') || 'none',
-  ]));
-  return ['| Case | Finding | What the case expected and what the engine did | Invariants broken in the run |', '| --- | --- | --- | --- |', ...rows].join('\n');
+  const rows = scenarios.runs.filter(run => run.status === 'failed').map(run => {
+    const expected = EXPECTED_FAILURES[caseOf(run.scenarioId)];
+    return line([
+      `\`${run.scenarioId}\``, expected?.finding ?? 'not explained', expected?.why ?? 'not explained', run.failure.message,
+      run.invariantViolations.map(violation => `${violation.invariant}: ${violation.message}`).join('; ') || 'none',
+    ]);
+  });
+  return ['| Case | Finding | Why it fails | What the case expected and what the engine did | Invariants broken in the run |', '| --- | --- | --- | --- | --- |', ...rows].join('\n');
 }
 
 /** The negative controls on the capacity fixtures: each makes one expectation of a passing case wrong, and the run must fail. */
@@ -117,7 +127,8 @@ export function playoutTable({ playouts }) {
     '| --- | --- | --- | --- |',
     row('Playouts, each run twice', item => item.playouts),
     row('Finished', item => item.completed),
-    row('Invariant violations', item => item.invariantViolations),
+    row('Playouts in which an invariant was broken', item => item.playoutsWithAViolation),
+    row('Invariants broken, and how often', item => Object.entries(item.violationsByInvariant).map(([invariant, times]) => `${invariant}: ${times}`).join(', ') || 'none'),
     row('Offers that disagree with what the engine accepted', item => item.hintMismatches),
     row('Second runs that ended differently', item => item.replayMismatches),
     row('Commands accepted', item => item.commandsAccepted),
@@ -128,9 +139,9 @@ export function playoutTable({ playouts }) {
     row('Moves sent towards a room of five', item => item.occupancy.movesTowardsAFullRoom),
     row('Of them, accepted', item => item.occupancy.movesIntoAFullRoom),
     row('Most players at once in Room A, Room B, Hospital, Jail, Command Room', item => ['Room A', 'Room B', 'Hospital', 'Jail', 'Command Room'].map(place => item.occupancy.most[place]).join(', ')),
-    row('Returns from Hospital or Jail to a room', item => item.occupancy.returns),
-    row('Of them, to the other room', item => item.occupancy.returnsToTheOtherRoom),
-    row('Of those, the last room had a place when the round was over', item => item.occupancy.returnsToTheOtherRoomThoughTheLastHadAPlace),
+    row('Returns to a room: from Hospital, from Jail, or of a Captain who lost the title inside Command Room', item => item.occupancy.returns),
+    row('Of them, to another room than the one the player was last in', item => item.occupancy.returnsToTheOtherRoom),
+    row('Of those, the room they were last in had a place when the round was over', item => item.occupancy.returnsToTheOtherRoomThoughTheLastHadAPlace),
     row('Most players waiting for Hospital at once', item => item.occupancy.mostWaiting),
   ].join('\n');
 }

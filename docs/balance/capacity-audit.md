@@ -2,7 +2,9 @@
 
 An independent audit of the capacity rule of issue [#96](https://github.com/Amirkianfar66/GameN/issues/96), for games of seven, eight and nine players separately, and of Backend's implementation of it in PR [#98](https://github.com/Amirkianfar66/GameN/pull/98).
 
-**What this establishes.** What the rule can and cannot do in a match, from the rules themselves; which of its consequences the decided cases leave open; and where the implementation does and does not do what the decided cases say. It does in every case written here but one: a healed player is sent to the wrong room when a Captain is hurt in the same round after entering Command Room (finding F1).
+**What this establishes.** What the rule can and cannot do in a match, from the rules themselves; which of its consequences the first decided cases left open; and where the implementation does and does not do what is decided. Against the six cases it was written for, it does in every case written here but one: a healed player is sent to the wrong room when a Captain is hurt in the same round after entering Command Room (finding F1).
+
+**What has been decided since.** On 11 October the owner decided the questions this audit had found open, and when starting rooms are drawn (section 7). The implementation was written before those decisions and does not follow three of them yet; the cases for them fail against it, and are marked as such.
 
 **What it does not establish.** That the rule is good for the game. Nothing here was played by people. Scripted cases and random playouts show what an engine does and what can be reached; they say nothing about how people move, bluff or vote. The service that draws starting rooms and orders two phones' moves was read, not run.
 
@@ -17,10 +19,11 @@ The owner's words, 9 and 11 October 2026: "lets say the maximum capacity of each
 | The rule and its six decided cases | Issue #96 | Opened and decided 11 October 2026 |
 | The owner's words, verbatim | `docs/design/owner-decisions.md` in Designer's PR #88 | Commit `e01bbd7daf873a514948021b89098c8459bae19d`, SHA-256 `28addfef446053a74b7047a361fad77fa925abd3125e0a7e7ef34d222bdaa682` |
 | Two further decisions, as Backend records them from its own assignment | `docs/decisions/2026-10-11-room-capacity.md` and `rules/overlays/room-capacity-owner-decision-2026-10-11.json` in Backend's PR #98 | Commit `b0ab7796b1157e3acc33d4dcee93ba5fdad6da66`; overlay SHA-256 `e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468`, which is the ruleset hash |
+| Five decisions on what this audit found open, given by the owner in the Game Balance session | Section 7 of this document, `BAL-OD-1` to `BAL-OD-5`, and a comment on issue #96 | 11 October 2026, after PR #98 was written. Not yet in any overlay: that file is Integration's |
 
 The two further decisions are `CAP-ORDER-01`, quoted there as the owner's "Free healed Hospital places first, then use existing seat order", and the part of `CAPACITY-04` that leaves a prisoner released while Injured standing in Jail. This audit could read them only in Backend's record. They are taken as decided, and each row that rests on them says so.
 
-Backend's record and PR speak of "the independent Balance audit" and "the Balance-role auditor". That was not this workstream: Game Balance had published nothing on capacity before this document. PR #98 says that audit "found no rule-correctness ... findings" and that "no capacity gameplay decision remains unresolved". This audit finds one defect and three open questions, in sections 6 and 7.
+Backend's record and PR speak of "the independent Balance audit" and "the Balance-role auditor". That was not this workstream: Game Balance had published nothing on capacity before this document. PR #98 says that audit "found no rule-correctness ... findings" and that "no capacity gameplay decision remains unresolved". This audit found one defect and three open questions; the owner has since decided the three (sections 6 and 7).
 
 ### The rows
 
@@ -48,24 +51,28 @@ The rulebook (`game-rules.md`, revision 4) describes the rulesets before this ru
 | R-CAP-16 | A match under this ruleset does not start with six players in a room. | DERIVED | `R-CAP-01`, `R-CAP-06` |
 | R-CAP-17 | Capacity adds no exception to the same-location rule: who may be named by an action is decided as before. | DERIVED | `R-ACT-02`, `R-ROLE-04`, `R-CAP-01` |
 | R-CAP-18 | When a round has resolved, healed players leave Hospital first. Injured players are then placed in order of player number: where Hospital has fewer places than players hurt, the lower numbers get them and the others wait where they are. | OWNER | `CAP-ORDER-01`, in Backend's record |
-| R-CAP-19 | Whether a healed player returns to a last room that a room-mate is leaving for Hospital in the same resolution is not decided. | OPEN | `CAP-D2` |
-| R-CAP-20 | A prisoner released while Injured, with Hospital full, stays in Jail as a free player and is placed again at the next end of round. | OWNER | `CAPACITY-04`, in Backend's record; `#96`, case 3 |
+| R-CAP-19 | A returning player goes to their last room when it has a place once the round has resolved. A place that a room-mate is leaving for Hospital in that same resolution is free. | OWNER | `BAL-OD-2` |
+| R-CAP-20 | A prisoner released while Injured, with Hospital full, stays in Jail as a free player and is placed again at the next end of round. | OWNER | `CAPACITY-04`, in Backend's record; `BAL-OD-5`, the owner's confirmation; `#96`, case 3 |
 | R-CAP-21 | A match keeps the ruleset it was created under. Matches, lobbies and replays of an earlier ruleset are not held to this rule. | ACCEPTANCE | `#96`, acceptance |
-| R-CAP-22 | Which room is a player's last room after they were sent to the other one is not decided. | OPEN | `CAP-D4` |
+| R-CAP-22 | A player's last room is the room they were last in, also after they were sent to the other one. | OWNER | `BAL-OD-3` |
 | R-CAP-23 | A Captain who is hurt after entering Command Room goes to Hospital like any other Injured player. They hold no place in Room A or Room B on the way. | DERIVED | `R-CAPT-14`, `R-CAPT-07`, `R-STATE-06`, `R-ACT-06` |
-| R-CAP-24 | Where a Captain lies who is Eliminated after entering Command Room, and where a Captain hurt there waits when Hospital is full, is not decided. | OPEN | `CAP-D5` |
+| R-CAP-24 | A Captain who is hit after entering Command Room and is Eliminated, or hurt while Hospital is full, is seated like a returning player once the round has resolved: in their last room, or in the other one if it is full. An Eliminated Captain lies there and holds a place; a hurt one waits there. | OWNER | `BAL-OD-4` |
+| R-CAP-25 | Starting rooms are drawn once, for all players together, when the roster is complete. Every assignment with at most five players in a room is equally likely. | OWNER | `BAL-OD-1` |
+| R-CAP-26 | When a round has resolved, in this order: healed players leave Hospital; Injured players are placed, by player number; returning players are seated. | DERIVED | `R-CAP-18`, `R-CAP-19`, `R-CAP-24` |
+| R-CAP-27 | Which of two returning players gets the one place left in a last room they share is not decided. | OPEN | `CAP-D6` |
 
 ### The questions
 
-Three were open when the fixtures were written, before Backend's implementation was read (commit `ce4d9d0` of this branch holds the fixtures as they stood). Backend's record answers two. Two more came from reading and reviewing the implementation.
+Three were open when the fixtures were written, before Backend's implementation was read (commit `ce4d9d0` of this branch holds the fixtures as they stood). Backend's record answers two. Two more came from reading and reviewing the implementation. The owner decided those three on 11 October (section 7). One more follows from the decisions.
 
 | ID | Question | Status | Answer, or what the implementation does |
 | --- | --- | --- | --- |
 | CAP-D1 | Which of several players hurt in one round gets the last place in Hospital | RESOLVED | The lower player number (`CAP-ORDER-01`, R-CAP-18). Nine players only. It follows no attack, so it tells the table nothing about who attacked whom |
-| CAP-D2 | Whether a healed player returns to a last room that a room-mate is leaving for Hospital in the same resolution | OPEN | The implementation sends them to the other room: it seats healed players before the newly Injured leave. The owner's sentence is about Hospital places and does not speak of this. Seven, eight and nine players |
+| CAP-D2 | Whether a healed player returns to a last room that a room-mate is leaving for Hospital in the same resolution | RESOLVED | Yes (`BAL-OD-2`, R-CAP-19). The implementation of PR #98 predates this and sends them to the other room |
 | CAP-D3 | Where a prisoner released while Injured goes when Hospital is full | RESOLVED | They stay in Jail, free (`CAPACITY-04`, R-CAP-20). Nine players only, Round 5 only |
-| CAP-D4 | Which room is a player's last room after they were sent to the other one | OPEN | The implementation keeps the room of the player's last move of their own, so the next return goes back to the room they could not enter, not to the one they stood in. Seven, eight and nine players |
-| CAP-D5 | Where a Captain lies who is Eliminated after entering Command Room, and where one hurt there waits when Hospital is full | OPEN | The implementation puts them in their last room, or in the other one if it is full, at the moment they are hit. An Eliminated Captain then holds one of that room's five places for the rest of the match. Seven, eight and nine players; the waiting half, nine only |
+| CAP-D4 | Which room is a player's last room after they were sent to the other one | RESOLVED | The room they were last in (`BAL-OD-3`, R-CAP-22). The implementation of PR #98 predates this and keeps the room of the player's last move of their own |
+| CAP-D5 | Where a Captain lies who is Eliminated after entering Command Room, and where one hurt there waits when Hospital is full | RESOLVED | Their last room, or the other one if it is full, seated once the round has resolved (`BAL-OD-4`, R-CAP-24). The implementation of PR #98 uses the same room but seats them at the moment they are hit |
+| CAP-D6 | Which of two returning players gets the one place left in a last room they share | OPEN | It can happen when a Captain is Eliminated inside Command Room in the round in which another player with the same last room is healed. The implementation of PR #98 seats the Captain first. Seven, eight and nine players; rare |
 
 ## 2. What was tested
 
@@ -78,20 +85,6 @@ Three were open when the fixtures were written, before Backend's implementation 
 `dd04f68` is `b0ab779`, the implementation, with one document changed.
 
 <!-- results -->
-
-| Run | Engine | Passed | Failed | Blocked | Not run |
-| --- | --- | --- | --- | --- | --- |
-| The capacity fixtures under `in-person-v1-capacity-2026-10-11`, on the implementation | `dd04f68` | 85 | 3 | 10 | 15 |
-| Control: the same fixtures under `in-person-v1-pass-2026-10-08`, on the engine before the rule | `1a92f37` | 2 | 86 | 10 | 15 |
-| The Version 1 catalogue under `in-person-v1-pass-2026-10-08`, on the implementation | `dd04f68` | 516 | 0 | 33 | 6 |
-| The same, on the engine before the rule | `1a92f37` | 516 | 0 | 33 | 6 |
-| The Version 1 catalogue under `in-person-v1-2026-10-06`, on the implementation | `dd04f68` | 516 | 0 | 33 | 6 |
-| The same, on the engine before the rule | `1a92f37` | 516 | 0 | 33 | 6 |
-| The Version 1 catalogue under `in-person-v1-capacity-2026-10-11`, the implementation's own default | `dd04f68` | 24 | 492 | 33 | 6 |
-
-The first row is the result of this audit: every case that an engine run decides passes but three, which are one case with each number of players and are finding F1. The second is the control: without the rule the cases fail, all but two that assert a return to a room with a place and hold either way. The next four show that the two earlier rulesets play on the new build as they did on the build before it. The last is finding F6. By number of players, the failing cases, the controls, the playouts, what the engine does in the blocked cases, and the commands: [evidence/2026-10-11-capacity.md](evidence/2026-10-11-capacity.md).
-
-<!-- /results -->
 
 ## 3. Where the rule can bind
 
@@ -120,12 +113,14 @@ The fixtures are in `tests/scenarios/capacity/`, one file per mode, numbered CAP
 
 | | 7 players | 8 players | 9 players | All |
 | --- | --- | --- | --- | --- |
-| Fixtures | 35 | 35 | 43 | 113 |
-| Ready: an engine run decides them | 27 | 27 | 34 | 88 |
-| Blocked: a question is open, the case records what an engine does | 3 | 3 | 4 | 10 |
+| Fixtures | 37 | 37 | 45 | 119 |
+| Ready: an engine run decides them | 31 | 31 | 39 | 101 |
+| Blocked: a question is open, the case records what an engine does | 1 | 1 | 1 | 3 |
 | Manual: not an engine run | 5 | 5 | 5 | 15 |
 
 65 of the ready cases were written before the implementation was read. Two were then made ready on Backend's record of the owner's further decisions: cases 24 and 26, nine players only. An independent review of the fixtures then showed what they had missed, and 21 ready cases were added for it: cases 28, 29, 35, 39, 40 and 41 for each number of players, and cases 36, 37 and 38 for nine. The nine-player Hospital cases 21 to 26 were rebuilt in that review so that they tell the decided order from others, and one check that could not fail was dropped from case 13. No other expectation of the first 65 was changed.
+
+The owner's decisions of 11 October (section 7) then made ready what had been blocked: cases 25, 27 and 42 for each number of players, and case 43 for nine. Case 45 was added for each. Case 44 is blocked on the one question those decisions raise.
 
 ### 4.1 Starting rooms
 
@@ -156,6 +151,8 @@ The third block is the service's method. With nine players the draw of the ninth
 The first row says how often the order matters at all when everyone has asked to join before the host approves anyone: six or more players drew the same room in 12.5%, 28.9% and 50.8% of lobbies. In those lobbies the five who keep that room are the first five of them to be approved, and the host, who can read the draws, decides who they are. The lobby also shows each approved player's room at once, so once a room holds five anyone who sees the lobby knows which room the next player will be given.
 
 One thing more, which is not new with this rule: a player who has not been approved yet can ask again, and each new request is given a new draw (`requestAdmission` keys a request by the player and the request's own identifier, and allows twenty). The player can read their own request's room. Finding F2.
+
+**Decided on 11 October** (`BAL-OD-1`, R-CAP-25): rooms are drawn once, for all players together, when the roster is complete, and every legal assignment is equally likely. That is the second block of the table, and it replaces the service's present method, the third block. Before the draw nobody has a room, so the order of approval settles nothing and nothing can be read in advance. What the lobby shows before the draw, and the moment at which the roster counts as complete, are for Backend and Designer to state. The rule of 8 October stands: the app assigns the rooms, players do not choose them, and a room once drawn is not drawn again.
 
 **Not tested:** the service's draw itself, over many lobbies (CAP-30).
 
@@ -189,7 +186,7 @@ Where an Eliminated player lies:
 
 - A player hit twice in a room lies in that room.
 - A player voted into Jail in the round in which two attacks on them resolve lies in Jail, and holds one of its places. The Jail vote comes before the attacks in the resolution (R-RES-01). The bound on Jail still holds, because it is a bound on how many are ever sent.
-- A Captain who was named twice in a room and then entered Command Room is hit inside it (R-ACT-06). Where they lie is not decided (CAP-D5). The implementation puts them in their last room, or in the other one if it is full, and they hold a place there. CAP-42 records it at 7, 8 and 9.
+- A Captain who was named twice in a room and then entered Command Room is hit inside it (R-ACT-06). They lie in their last room, or in the other one if it is full, and hold a place there (R-CAP-24, decided on 11 October). CAP-42, at 7, 8 and 9.
 
 A match has at most two, two and three Eliminated players before the showdown with seven, eight and nine. Each closes one place for the rest of the match. With nine players three Eliminated players in one room leave it two places for the living.
 
@@ -214,10 +211,12 @@ A patient in Hospital can be named from outside only by Cracker's Rescue; patien
 | Two moves for the last place | The order in which the server takes them (R-CAP-09). Within a resolution the order of arrival never matters (R-RES-02). Before it, who acts first already decided whether a target had left before an attacker named them; now it also decides who gets a last place | CAP-08; through the service, CAP-32 |
 | Several players hurt in one round, fewer places in Hospital | Healed players leave first, then player number (R-CAP-18) | CAP-22, CAP-24 |
 | A released player and a healed player, one last place, one round | The release, which takes effect when its vote closes, before the round resolves (R-VOTE-10) | CAP-41 |
-| A healed player returning while a room-mate leaves for Hospital | Not decided (CAP-D2). The implementation seats the healed player first, so they find the room full | CAP-25, at 7, 8 and 9 |
+| A healed player returning while a room-mate leaves for Hospital | The place being left is free: returning players are seated after the Injured have been placed (R-CAP-19, R-CAP-26; decided on 11 October). The implementation of PR #98 seats the healed player first, so they find the room full | CAP-25, at 7, 8 and 9: fails on that implementation |
 | A healed player returning while a Captain is hurt inside Command Room | The hurt Captain goes to Hospital and is never in a room (R-CAP-23). The implementation sets them down in their last room for a moment, and the healed player is turned away from a room that had a place before and has one after. **Finding F1** | CAP-28, at 7, 8 and 9: fails |
+| A Captain who lost the title inside Command Room, while a room-mate leaves their last room for Hospital | The same as for a healed player: seated once the round has resolved (R-CAP-24; decided on 11 October). The implementation seats them at the moment they are hit | CAP-45, at 7, 8 and 9: fails on that implementation |
+| Two returning players, one place left in the last room of both | Not decided (CAP-D6). The implementation seats a Captain who lost the title first | CAP-44, at 7, 8 and 9 |
 
-At most one player is healed in a round, because Cracker has one Main Action a turn (R-ACT-01). So two healed players never compete for one place.
+At most one player is healed in a round, because Cracker has one Main Action a turn (R-ACT-01). So two healed players never compete for one place. A healed player and a Captain who lost the title inside Command Room can; that is CAP-D6.
 
 ### 4.6 Jail
 
@@ -234,7 +233,8 @@ A released prisoner who is Injured and finds Hospital full stays in Jail as a fr
 - CAP-18: a Captain is voted into Jail from Command Room and released later. Their last room is the room they were elected from; it was filled meanwhile, and they go to the other.
 - CAP-29 and CAP-35: **a Captain who loses the title and reaches a room at once.** A Captain is named by an attack and by a Rescue while in a room, then enters Command Room. The attack resolves first and takes the title (R-RES-01, R-CAPT-07); the Rescue heals; a player who is no longer Captain and is Healthy returns to their last room (R-CAPT-14), or to the other if it is full. This is the sixth decided case's "a Captain who loses the title", reached directly.
 - CAP-28: a Captain hurt the same way and not healed goes to Hospital, and must not keep a healed player out of the room on the way. Finding F1.
-- CAP-25 (CAP-D2), CAP-27 (CAP-D4), CAP-42 and CAP-43 (CAP-D5) are blocked and record what the implementation does where no decision reaches.
+- CAP-25, CAP-27, CAP-42, CAP-43 and CAP-45 hold the owner's decisions of 11 October: a place that is being left is free (25, 45); the last room is the room the player was last in (27); a Captain hit inside Command Room is seated like a returning player (42, 43, 45).
+- CAP-44 is blocked on CAP-D6 and records what the implementation does.
 
 That a forced return uses none of the player's movement (R-MOVE-06) cannot be seen in a run: a release comes after the last moment for moving, and a healing at the end of the round.
 
@@ -286,17 +286,18 @@ Three kinds, kept apart: what a run or the code shows; what may follow for balan
 | | Finding | Shown by | For |
 | --- | --- | --- | --- |
 | F1 | **A defect.** A healed player is sent to the other room although their last room had a place before the round resolved and has one after it. It happens when a Captain who was attacked in that room, and then entered Command Room, is hurt in the same resolution: the implementation sets the hurt Captain down in their last room at the moment of the hit, counts them there when it seats the healed player, and only then takes them to Hospital. By the rules an Injured Captain goes to Hospital and is in no room on the way (R-CAPT-14, R-STATE-06), so the sixth decided case does not apply: the room is not full | CAP-28 fails with 7, 8 and 9 players: Insider is in Room A, and Room B, their last room, holds four. The capacity invariant INV-CAP-03 names the same thing. On the engine before the rule the case's own checks hold | Backend |
-| F2 | **Starting rooms depend on the order in which the host approves players, and the host can see the draws.** Each player's own room is an even draw. But when six or more drew the same room (12.5%, 28.9% and 50.8% of lobbies with seven, eight and nine players, if all have asked before anyone is approved), the first five approved keep it and the rest are moved, and the host chooses the order, chooses the numbers and can read each request's room first. The draw of the last player approved does not count in 72.7% of nine-player lobbies. A room also starts full more often than under an order-free draw (45.3% against 37.5% with seven, 72.7% against 61.5% with eight). A player not yet approved can also ask again and be given a new draw; that was so before this rule. The decision says "unrelated to ... seat", and the decision of 8 October says players do not choose their room. Drawing all rooms at once when the roster is complete removes all of it | The code of the service and the database rules, read; the arithmetic of section 4.1. Not run against the service | Backend; the owner, for when rooms are drawn |
-| F3 | **A healed player can be sent to the other room although their last room has a place when the round is over** (CAP-D2). The implementation seats healed players before the newly Injured leave their rooms. It is the same mechanism as F1, with one difference: here the room really holds five before the round resolves, so the decided case can be read either way | CAP-25 at 7, 8 and 9: Insider is placed in Room A; Room B, their last room, ends the resolution with four. Random play reaches such returns too: the playout table of the evidence counts them | The owner |
-| F4 | **After being sent to the other room, a player's last room is still the one they could not enter** (CAP-D4). Their next return goes there if it has a place, not to the room they stood in. The owner's decision V1-02 says "their last A/B room" | CAP-27 at 7, 8 and 9: Supplier, hurt in Room A after being sent there, is returned to Room B | The owner |
-| F5 | **Where a Captain goes who is hit after entering Command Room is not decided when they are Eliminated, or hurt with Hospital full** (CAP-D5). The implementation uses their last room, or the other one if it is full. An Eliminated Captain then holds a place in a room they were not in when they were hit | CAP-42 at 7, 8 and 9: the Captain lies in Room B. CAP-43 at 9: the Captain waits in Room A | The owner |
+| F2 | **Starting rooms depend on the order in which the host approves players, and the host can see the draws.** Each player's own room is an even draw. But when six or more drew the same room (12.5%, 28.9% and 50.8% of lobbies with seven, eight and nine players, if all have asked before anyone is approved), the first five approved keep it and the rest are moved, and the host chooses the order, chooses the numbers and can read each request's room first. The draw of the last player approved does not count in 72.7% of nine-player lobbies. A room also starts full more often than under an order-free draw (45.3% against 37.5% with seven, 72.7% against 61.5% with eight). A player not yet approved can also ask again and be given a new draw; that was so before this rule. The decision says "unrelated to ... seat", and the decision of 8 October says players do not choose their room. Drawing all rooms at once when the roster is complete removes all of it. **Decided on 11 October** (`BAL-OD-1`): that is how they are to be drawn | The code of the service and the database rules, read; the arithmetic of section 4.1. Not run against the service | Backend, to implement (BAL-REQ-12) |
+| F3 | **A healed player can be sent to the other room although their last room has a place when the round is over** (CAP-D2). The implementation seats healed players before the newly Injured leave their rooms. It is the same mechanism as F1, with one difference: here the room really holds five before the round resolves, so the first six cases could be read either way. **Decided on 11 October** (`BAL-OD-2`): the player returns to it. The implementation predates the decision | CAP-25 at 7, 8 and 9 fails on the implementation: Insider is placed in Room A; Room B, their last room, ends the resolution with four. Random play reaches such returns too: the playout table of the evidence counts them | Backend, to implement (BAL-REQ-14) |
+| F4 | **After being sent to the other room, a player's last room is still the one they could not enter** (CAP-D4). Their next return goes there if it has a place, not to the room they stood in. The owner's decision V1-02 says "their last A/B room". **Decided on 11 October** (`BAL-OD-3`): the last room is the room the player was last in. The implementation predates the decision | CAP-27 at 7, 8 and 9 fails on the implementation: Supplier, hurt in Room A after being sent there, is returned to Room B | Backend, to implement (BAL-REQ-14) |
+| F5 | **Where a Captain goes who is hit after entering Command Room was not decided when they are Eliminated, or hurt with Hospital full** (CAP-D5). **Decided on 11 October** (`BAL-OD-4`): their last room, or the other one if it is full, seated once the round has resolved. The implementation uses the same room and seats them at the moment they are hit, which differs when a room-mate leaves that room in the same round | CAP-42 at 7, 8 and 9 and CAP-43 at 9 pass. CAP-45 at 7, 8 and 9 fails on the implementation: the Captain who lost the title is in Room A, and Room B, their last room, ends the round with four | Backend, to implement (BAL-REQ-14) |
 | F6 | **The Version 1 catalogue cannot run under the new ruleset.** 510 of its 526 fixtures with a setup start with more than five players in one room, as the earlier rules allowed. Under the new ruleset the engine refuses those starts. So the catalogue's cases on who is told what, on the order of resolution, on votes and on victory have not been run under the ruleset new matches will use. They pass, unchanged, under the two earlier rulesets on the new build | The catalogue under the new ruleset: the last row of the results | Balance, to re-seat the catalogue; Integration, to keep its gate on the earlier ruleset until then |
-| F7 | **A free player can stand in Jail** (R-CAP-20): a prisoner released while Injured when Hospital is full. The public facts then show `jailed: false` with location Jail, and no Cracker can heal them there. Nine players, Round 5 only | CAP-26, CAP-38 | Designer and Frontend, to show it; the owner, to confirm |
+| F7 | **A free player can stand in Jail** (R-CAP-20): a prisoner released while Injured when Hospital is full. The public facts then show `jailed: false` with location Jail, and no Cracker can heal them there. Nine players, Round 5 only. **Confirmed by the owner on 11 October** (`BAL-OD-5`) | CAP-26, CAP-38 | Designer and Frontend, to show it |
 | F8 | The Jail bound of the fourth decided case is confirmed from the vote rules (R-CAP-12) | Section 3; CAP-19 at 7, 8 and 9 | Closed |
 | F9 | The clause "the next end of round that has a free Hospital place" can only mean the end of Round 5 | Section 3; CAP-36 | Note |
 | F10 | Nothing can lock (section 4.9) | R-CAP-11; playouts | Closed |
+| F11 | **The decisions of 11 October leave one thing open** (CAP-D6): two returning players whose last room is the same and has one place. It needs a Captain Eliminated inside Command Room in the round in which another player of the same last room is healed | CAP-44 at 7, 8 and 9 records what the implementation does: the Captain is seated first | The owner |
 
-Apart from F1, every case that an engine run decides passes; the capacity invariants held at every step of every playout; and the earlier rulesets play as before.
+Against the implementation the only cases that fail are those of F1, a defect against the cases it was written for, and those of F3, F4 and F5, rules the owner decided after it was written. The earlier rulesets play as before.
 
 ### 6.2 Hypotheses about balance
 
@@ -322,27 +323,39 @@ None of these is shown. Each says what to look for.
 
 Random playouts cannot answer any of these, and are not offered as an answer.
 
-## 7. What is left for the owner
+## 7. What the owner decided on 11 October, and what is left
 
-| | Decision | What the implementation does now | Stakes |
+The five items below were put to the owner in the Game Balance session, the first three with a recommendation. The owner answered: "yes go with your recommendations for all five". The fourth had been put without a recommendation, so it was asked again with one, and the owner chose "Their last room (Recommended)".
+
+| ID | Question, as put | Decided |
+| --- | --- | --- |
+| BAL-OD-1 | When are starting rooms drawn (F2)? | Once, for all players together, when the roster is complete. Every assignment with at most five players in a room is equally likely (R-CAP-25) |
+| BAL-OD-2 | A healed player's last room has a place only because a room-mate is leaving for Hospital in the same round (F3). Do they return to it? | Yes. Returning players are seated once the round has resolved, after the Injured have left (R-CAP-19) |
+| BAL-OD-3 | After being sent to the other room, which is a player's last room (F4)? | The room they were last in (R-CAP-22) |
+| BAL-OD-4 | A Captain is attacked in a room, steps into Command Room, and is hit there when the round resolves (F5). Where do they go if they are Eliminated, or hurt while Hospital is full? | Their last room, or the other room if that one is full, seated once the round has resolved, like any returning player. If Eliminated they lie there and hold a place; if hurt with Hospital full they wait there (R-CAP-24) |
+| BAL-OD-5 | Confirm: a prisoner released while Injured, with Hospital full, stands in Jail as a free player (F7) | Confirmed (R-CAP-20) |
+
+They are recorded here and in a comment on issue #96. They are not yet in the capacity overlay or in Backend's decision record, which are Integration's and Backend's files; BAL-REQ-14 asks for that. The implementation of PR #98 was written before them.
+
+**What the decisions come to, as one order** (R-CAP-26). When a round has resolved: healed players leave their places in Hospital; Injured players are placed, by player number, and those without a place wait; then returning players are seated, each in the room they were last in or, if it holds five, in the other. That order keeps the owner's "free healed Hospital places first", and it also mends F1.
+
+**Left for the owner: one question the decisions raise.**
+
+| | Question | What the implementation does now | Stakes |
 | --- | --- | --- | --- |
-| 1 | **When starting rooms are drawn** (F2): for each player as they join, which lets the order of approval, and so the host, settle who is moved from a room that six or more drew; or all at once when everyone has joined | For each player as they ask to join, settled as they are approved | Every match. Recommended: all at once, every legal assignment equally likely |
-| 2 | **CAP-D2** (F3): a healed player's last room has a place only because a room-mate is leaving for Hospital in the same resolution. Do they return to it? | No: the other room | Any mode, uncommon. Recommended: yes, seat returning players after the Injured have left. The same change mends F1 |
-| 3 | **CAP-D4** (F4): after being sent to the other room, which is a player's last room? | The room they could not enter | Any mode, rare. Recommended: the room they were last in |
-| 4 | **CAP-D5** (F5): a Captain who is hit after entering Command Room. Where do they lie if Eliminated, and where do they wait if Hospital is full? | Their last room, or the other if it is full | Any mode, rare; the waiting half, nine players only |
-| 5 | **Confirm R-CAP-20** (F7): a prisoner released while Injured, with Hospital full, stands in Jail as a free player | As recorded by Backend from the owner's words | Nine players, Round 5 only |
+| 1 | **CAP-D6.** Two returning players have the same last room, and it has one place. Who gets it? | A Captain who lost the title is seated first | Rare, with any number of players. Recommended: by player number, as for places in Hospital |
 
-None of the five blocks play. The first changes every match a little; the others change rare moments. F1 is not on this list: it is a defect against a decided case, and needs no decision.
+It does not block play. F1 is not a question: it is a defect against a decided case, and needs no decision.
 
 ## 8. For Integration and Backend
 
-The requests are in [integration-requests.md](integration-requests.md) as BAL-REQ-10 to BAL-REQ-13. In short: this suite and its invariants as the Balance gate for the capacity ruleset; the Version 1 gate kept on the earlier ruleset by asking for it by name; the starting rooms (F2); and the defect (F1).
+The requests are in [integration-requests.md](integration-requests.md) as BAL-REQ-10 to BAL-REQ-14. In short: this suite and its invariants as the Balance gate for the capacity ruleset; the Version 1 gate kept on the earlier ruleset by asking for it by name; the starting rooms as decided (F2); the defect (F1); and the owner's decisions of 11 October in the overlay and in the engine.
 
 Backend's PR changed the Balance engine binding so that the Version 1 catalogue is always created under the Pass ruleset. This branch does the same by a named ruleset (`--ruleset`), and records the build beside the ruleset under the same three names Backend's change uses, so that Integration's gate reads them as it does now.
 
 ## 9. How this was checked, and its limits
 
-**An independent review.** After the first version of this audit (commit `8eb5cef`) a separate Claude Code agent, not a person, was given its own clone and asked to break it. It found that no expectation was wrong, and that the audit had missed a whole situation: a Captain hit after entering Command Room, which this document had called impossible. That is where F1, F5 and cases 28, 29, 35, 42 and 43 come from. It also showed, by changing a copy of the engine, that the first nine-player Hospital cases passed on an engine without the decided order, that nothing checked a waiting player was ever admitted, and that an Eliminated player's place and a full room outside ordinary turns were checked only by playouts. Each has a case now. Three invariants were added (INV-CAP-04 to 06) for a player moved who should have stayed. The changes made after that review have not themselves been reviewed independently.
+**An independent review.** After the first version of this audit (commit `8eb5cef`) a separate Claude Code agent, not a person, was given its own clone and asked to break it. It found that no expectation was wrong, and that the audit had missed a whole situation: a Captain hit after entering Command Room, which this document had called impossible. That is where F1, F5 and cases 28, 29, 35, 42 and 43 come from. It also showed, by changing a copy of the engine, that the first nine-player Hospital cases passed on an engine without the decided order, that nothing checked a waiting player was ever admitted, and that an Eliminated player's place and a full room outside ordinary turns were checked only by playouts. Each has a case now. Three invariants were added (INV-CAP-04 to 06) for a player moved who should have stayed. The changes made after that review, and those that carry the owner's later decisions, have not themselves been reviewed independently.
 
 **Limits.**
 
@@ -351,5 +364,5 @@ Backend's PR changed the Balance engine binding so that the Version 1 catalogue 
 - Random playouts start from every legal split, try full rooms often and check the invariants at every step. They reach a full Hospital seldom and a waiting player never; those are reached by the scripted cases.
 - The deliberate leaks of the Version 1 gate were not run against the new build, and its mutation controls only for the capacity fixtures.
 - The catalogue's own cases have not run under the new ruleset (F6).
-- INV-CAP-03 takes the engine's own record of a player's last room. Which room that should be after a forced move is CAP-D4.
+- The owner's decisions of 11 October were given in this session. The wording of the rows that carry them is this audit's, and the fourth was the owner's choice among three options that were offered.
 - The changes made after reading Backend's record (cases 24 and 26, R-CAP-18 and R-CAP-20) rest on that record of the owner's words, which this audit could not check against the owner.

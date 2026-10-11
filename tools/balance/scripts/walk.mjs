@@ -88,11 +88,16 @@ for (const mode of [7, 8, 9]) {
     movesTowardsAFullRoom: 0, movesIntoAFullRoom: 0, returns: 0, returnsToTheOtherRoom: 0, returnsToTheOtherRoomThoughTheLastHadAPlace: 0,
     mostWaiting: 0, playoutsWithSomeoneWaiting: 0, startsWithAFullRoom: 0,
   };
+  // Which invariants were broken, how often, and in how many playouts.
+  const violationsByInvariant = {};
+  let playoutsWithAViolation = 0;
   for (let index = 1; index <= seeds; index += 1) {
     const seed = `walk-${index}`;
     const result = walk(loaded.adapter, mode, seed, policy);
     const again = walk(loaded.adapter, mode, seed, policy);
     digest.update(`${seed}\n${result.endDigest}\n`);
+    for (const violation of result.violations) violationsByInvariant[violation.invariant] = (violationsByInvariant[violation.invariant] ?? 0) + 1;
+    if (result.violations.length > 0) playoutsWithAViolation += 1;
     for (const [place, held] of Object.entries(result.occupancy.most)) occupancy.most[place] = Math.max(occupancy.most[place] ?? 0, held);
     for (const key of ['phasesOpened', 'phasesWithAFullRoom', 'phasesOverCapacity', 'movesTowardsAFullRoom', 'movesIntoAFullRoom', 'returns', 'returnsToTheOtherRoom', 'returnsToTheOtherRoomThoughTheLastHadAPlace']) {
       occupancy[key] += result.occupancy[key];
@@ -143,10 +148,13 @@ for (const mode of [7, 8, 9]) {
     console.log(`  end states of the ${stats.playouts} playouts, in order: ${stats.endStatesSha256}`);
   }
   if (withOccupancy) {
+    stats.violationsByInvariant = violationsByInvariant;
+    stats.playoutsWithAViolation = playoutsWithAViolation;
+    if (playoutsWithAViolation > 0) console.log(`  invariants broken: ${Object.entries(violationsByInvariant).map(([invariant, times]) => `${invariant} ${times}`).join(', ')}, in ${playoutsWithAViolation} playouts`);
     stats.occupancy = occupancy;
     console.log(`  places: most at once ${Object.entries(occupancy.most).map(([place, held]) => `${place} ${held}`).join(', ')}; most waiting for Hospital ${occupancy.mostWaiting}`);
     console.log(`  a room was full in ${occupancy.phasesWithAFullRoom} of ${occupancy.phasesOpened} phases and over capacity in ${occupancy.phasesOverCapacity}; moves towards a full room ${occupancy.movesTowardsAFullRoom}, accepted ${occupancy.movesIntoAFullRoom}`);
-    console.log(`  returns from Hospital or Jail ${occupancy.returns}, to the other room ${occupancy.returnsToTheOtherRoom}, of which the last room had a place afterwards ${occupancy.returnsToTheOtherRoomThoughTheLastHadAPlace}`);
+    console.log(`  returns to a room ${occupancy.returns}, to another room than the last ${occupancy.returnsToTheOtherRoom}, of which the last room had a place afterwards ${occupancy.returnsToTheOtherRoomThoughTheLastHadAPlace}`);
   }
   console.log(stats.windowMinutes === null ? '  clock length not available: no playout finished' : `  clock length ${stats.windowMinutes.min.toFixed(0)} to ${stats.windowMinutes.max.toFixed(0)} minutes of windows under this policy`);
   for (const example of stats.examples) console.log(`  example ${example.seed}: ${JSON.stringify(example)}`);

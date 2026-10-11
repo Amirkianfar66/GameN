@@ -42,6 +42,9 @@ export interface Ledger {
   // How many players a room holds, where the run is held to the capacity rule (issue #96); null
   // for a ruleset without it. It is not something counted: the run states it once, at the start.
   roomCapacity: number | null;
+  // The last of Room A and Room B each player was seen in. It is kept here and not read from the
+  // engine, because which room an engine remembers is one of the things the capacity rule decides.
+  lastRoom: Record<SeatId, string>;
 }
 
 export function newLedger(): Ledger {
@@ -49,7 +52,7 @@ export function newLedger(): Ledger {
     ordinaryShots: {}, specialShots: {}, movesThisRound: {}, hackRequests: {}, hackRequestsThisRound: 0,
     scansThisRound: 0, codeAttempts: 0, disables: {}, rescues: 0, protectionsByRecipient: {}, supplies: 0,
     mainActionsThisRound: {}, shotsThisRound: {}, turnsThisRound: [], roundOfCounters: 1, showdowns: 0, phaseKinds: [],
-    roomCapacity: null,
+    roomCapacity: null, lastRoom: {},
   };
 }
 
@@ -355,19 +358,19 @@ export function checkTransition(
       if (!phaseChanged || prev.phaseKind !== expectedPhase) fail('INV-JAIL-01', `${after.seat} Jail status changed outside the closure of ${expectedPhase}`);
     }
     if (!before.captain && after.captain && !(phaseChanged && prev.phaseKind === 'CAPTAIN_ELECTION')) fail('INV-CAPT-01', `${after.seat} became Captain outside an election`);
-    // A healed or released player goes back to their last room, and to the other one only when the
-    // last is full. So does a Captain who lost the title inside Command Room and is Healthy when
-    // the phase has closed. Whether a place that is being left in the same resolution counts as
-    // free is not decided, so the room is taken as full if it was before the resolution or is after
-    // it. The last room is the one the engine records; which room that is after a forced move to
-    // the other one is a question of its own (CAP-D4).
+    // A player who returns to a room goes to their last room, and to the other one only when the
+    // last holds five others once the phase has closed: a place that is being left in the same
+    // resolution is free (the owner's decisions of 11 October 2026, R-CAP-19). Returning players
+    // are the healed, the released, and a Captain who lost the title inside Command Room, whether
+    // they are then Healthy, Eliminated or hurt without a place in Hospital (R-CAP-24). The last
+    // room is the room the player was last in (R-CAP-22), as this ledger saw it.
     const returns = before.location === 'Hospital' || before.location === 'Jail'
-      || (before.location === 'Command Room' && phaseChanged && before.captain && !after.captain && after.health === 'Healthy');
-    if (ledger.roomCapacity !== null && returns
-      && (after.location === 'Room A' || after.location === 'Room B') && after.location !== before.lastRoom) {
-      const others = (observation: Observation) => observation.truth.seats.filter(seat => seat.seat !== after.seat && seat.location === before.lastRoom).length;
-      if (others(prev) < ledger.roomCapacity && others(next) < ledger.roomCapacity) {
-        fail('INV-CAP-03', `${after.seat} was sent to ${after.location} although ${before.lastRoom}, their last room, had a free place`);
+      || (before.location === 'Command Room' && phaseChanged && before.captain && !after.captain);
+    const last = ledger.lastRoom[after.seat] ?? before.lastRoom;
+    if (ledger.roomCapacity !== null && returns && (after.location === 'Room A' || after.location === 'Room B') && after.location !== last) {
+      const others = next.truth.seats.filter(seat => seat.seat !== after.seat && seat.location === last).length;
+      if (others < ledger.roomCapacity) {
+        fail('INV-CAP-03', `${after.seat} was sent to ${after.location} although ${last}, the room they were last in, has a place`);
       }
     }
     if (ledger.roomCapacity !== null) {
@@ -380,7 +383,7 @@ export function checkTransition(
         fail('INV-CAP-05', `${after.seat} was moved from ${before.location} to ${after.location} without a move of their own`);
       }
       // A player who waits for Hospital stays where they are. A Captain hurt inside Command Room
-      // cannot stay there, and where they then wait is not decided (CAP-D5).
+      // cannot stay there: they are seated like a returning player, which INV-CAP-03 holds.
       if (phaseChanged && after.health === 'Injured' && !after.jailed && after.location !== 'Hospital' && after.location !== 'Final Zone'
         && before.location !== after.location && before.location !== 'Command Room') {
         fail('INV-CAP-06', `${after.seat} is Injured without a place in Hospital and was moved from ${before.location} to ${after.location}`);
@@ -455,12 +458,20 @@ export function checkTransition(
     }
     if (next.phaseKind === 'ORDINARY_TURN' && next.activeSeat !== null) ledger.turnsThisRound.push(next.activeSeat);
   }
+  rememberRooms(ledger, next);
   out.push(...checkState(setup, next, ledger));
   return out;
 }
 
+function rememberRooms(ledger: Ledger, observation: Observation): void {
+  for (const seat of observation.truth.seats) {
+    if (seat.location === 'Room A' || seat.location === 'Room B') ledger.lastRoom[seat.seat] = seat.location;
+  }
+}
+
 export function startLedger(observation: Observation): Ledger {
   const ledger = newLedger();
+  rememberRooms(ledger, observation);
   ledger.phaseKinds.push(observation.phaseKind);
   if (observation.phaseKind === 'ORDINARY_TURN' && observation.activeSeat !== null) ledger.turnsThisRound.push(observation.activeSeat);
   return ledger;
