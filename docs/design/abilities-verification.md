@@ -23,6 +23,7 @@ Run in this branch's worktree on the content of the commit that adds slice 1 (it
 | `npm run test --workspace @mothership/design-tokens` | **145 tests: 144 passed, 1 failed.** The **22 new ability-check tests pass** (the check as committed, and 21 named mistakes it refuses) and the board-motion tests pass. The one failure is the V1 phone's (issue #76) check of its prototype as committed: the same 13 quotes "not found verbatim" in `apps/game/hosted/`, pre-existing on this branch's base and fixed separately in draft [PR #93](https://github.com/Amirkianfar66/GameN/pull/93) |
 | `node design/tools/check-assets.mjs` (`check:assets`) | Passed: **15 of 15 checks**; the reviewed kit's renders and reports are still current |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `458e1ae6ea94e4eb0d063abd631b0fa067da35e3`, the commit that adds slice 1, with the working tree clean before and after (the commit after it changes only this page, to record it): **exit 0 in 712 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
