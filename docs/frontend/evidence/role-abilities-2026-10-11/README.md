@@ -53,7 +53,7 @@ Each expected line must be **drawn**: present in the page and not hidden by styl
 
 ## Full verification
 
-`npm run verify` passed with exit 0 on the clean commit `43693ed`; the code and these captures are from that commit. [verification.txt](verification.txt) keeps the run's own summary lines. Later commits change documentation only.
+`npm run verify` passed with exit 0 on the clean commit `43693ed`; the code and these captures are from that commit. It passed again on `4409bfd`, after the Insider board's role-set change was merged in. That change touches none of the states captured here. [verification.txt](verification.txt) keeps both runs' own summary lines.
 
 ## A capture defect found and fixed
 

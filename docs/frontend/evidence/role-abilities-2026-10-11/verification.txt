@@ -31,3 +31,35 @@ Balance report gate: common build/manifest/Git provenance checked at this clean 
 Balance engine source: 43693edce20ee178eee0887a9d9580dcc5a6064f; protocol 2; Original Powers off
 Balance fresh reports/logs: <temporary directory>
 verify exit=0
+
+----
+npm run verify at 4409bfdfe05b8d6b7d13ab36e7fffa8a470c8968 (clean checkout, after merging the Insider board's role-set change), Node 22.21.1 / npm 10.9.4, 11 October 2026. Same group order.
+
+# tests 53
+# pass 53
+# fail 0
+# tests 148
+# pass 148
+# fail 0
+# tests 130
+# pass 130
+# fail 0
+# tests 102
+# pass 102
+# fail 0
+# tests 186
+# pass 186
+# fail 0
+# tests 430
+# pass 430
+# fail 0
+Production exclusion: 54 modules reachable from 2 production entries, 167 shipped or source files scanned, 40 development files labeled; no fixture, test or development module or marker found
+Balance static: 71 executed, 71 passed, zero failed/cancelled/skipped/todo; materialization and traceability checked
+Balance static log: <temporary directory>
+Balance scenarios: 522 catalogue IDs; 483 passed, 33 reviewed blocked, 6 explicit manual; zero errors
+Balance controls: 475 baselines passed; 4388 controls executed and detected; zero misses
+Balance playouts: 10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches
+Balance report gate: common build/manifest/Git provenance checked at this clean candidate
+Balance engine source: 4409bfdfe05b8d6b7d13ab36e7fffa8a470c8968; protocol 2; Original Powers off
+Balance fresh reports/logs: <temporary directory>
+verify exit=0
