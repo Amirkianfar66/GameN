@@ -150,13 +150,6 @@ function renderInsiderFile(set: InsiderSetModel, context: ComicContext, seats: r
     h('div', { class: 'ab-inspect', 'aria-live': 'polite' }, card));
 }
 
-/** The private card while it cannot be shown: one closed folder, the same for every role and seat. It names nothing. */
-function renderClosedFolder(): MarkupElement {
-  return h('div', { class: 'ab-folder', 'data-card': 'hidden' },
-    h('span', { class: 'ab-folder__art', 'aria-hidden': 'true' }),
-    h('p', { class: 'ab-folder__label' }, en.cardHidden.stale));
-}
-
 /** The knowledge list without the Insider’s sentence, where the file says it instead. */
 function withoutSentence(region: MarkupNode, sentence: string | null): MarkupNode {
   if (sentence === null || !isElement(region)) return region;
@@ -407,11 +400,11 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     let children = node.children.map(visit);
     let file = false;
     if (classHas(node, 'ms-private__panel') && privateContent) {
-      // The card shows only what a live view confirms. While the server does not confirm the view,
-      // one closed folder stands for the whole card, the same for every role and seat.
-      if (phoneView === 'role' && model.connection !== 'live') return { ...node, children: [renderClosedFolder()] };
       // The Insider's three players are drawn in the Insider's file, which says the sentence
-      // itself, so the card's list of what the seat knows does not repeat it.
+      // itself, so the card's list of what the seat knows does not repeat it. A view the server no
+      // longer confirms keeps the card as the release draws it, with the file at rest under the
+      // release's "may be out of date" banner (the Designer's DSN-REQ-16 recommendation, pending
+      // Integration): it holds nothing the phone does not already hold, and nothing in it acts.
       const insider = privateContent.knowledge?.insider ?? null;
       children = children.map(child => (isElement(child) && child.attrs['data-region'] === 'knowledge' ? withoutSentence(child, insider?.sentence ?? null) : child));
       if (insider && phoneView === 'role') {

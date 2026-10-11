@@ -1,5 +1,4 @@
-/* The private card's own boards: the Insider's file, and the closed folder of a card that
-   cannot be shown. Inside the deliberately opened Card sheet only.
+/* The private card's own boards: the Insider's file. Inside the deliberately opened Card sheet only.
 
    A port of the Designer's ability art abilities-0.1.0 (PR #102 at 1453500: the reference
    styles design/abilities/css/abilities.css and docs/design/abilities-handoff.md). Colors are
@@ -8,12 +7,16 @@
    paper, ink and words. The kit is a proposal outside the reviewed manifest, so the hosted
    build does not load it until Integration adopts it (DSN-D36); the board simulation does. The
    look and motion await the game owner (DSN-D37). Nothing here names a role: every snapshot is
-   drawn alike, and the role names stand below all three snapshots, beside none, in every layout. */
+   drawn alike, and the role names stand below all three snapshots, beside none, in every layout.
+   The handoff's closed folder is not ported: the release never shows a concealed card, and the
+   Designer recommends keeping the release's card on a view out of date (DSN-REQ-16, pending). */
 
-/* A card that holds the file, or the closed folder, takes the height it needs, up to the whole space
-   between the status bar and navigation, so a short phone shows the whole file without scrolling. It
-   never scrolls sideways, not even while a stamp is landing larger than it finally is. */
-#app .ms-shell--player .ms-private[data-open="true"]:has(.ab-file, .ab-folder) { max-height: 100%; overflow-x: hidden; }
+/* On a live view, a card that holds the file takes the height it needs, up to the whole space between
+   the status bar and navigation, so a short phone shows the whole file without scrolling. A view out
+   of date keeps the release's card height, below the connection banner. The card never scrolls
+   sideways, not even while a stamp is landing larger than it finally is. */
+#app .ms-shell--player[data-connection="live"] .ms-private[data-open="true"]:has(.ab-file) { max-height: 100%; }
+#app .ms-shell--player .ms-private[data-open="true"]:has(.ab-file) { overflow-x: hidden; }
 
 /* ---------- the Insider's file: an investigation board ---------- */
 #app .ms-shell--player .ms-private__panel .ab-file {
@@ -299,12 +302,6 @@
 }
 #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card__text { padding: 0; }
 
-/* ---------- the closed folder: a card that cannot be shown, the same for every role ---------- */
-#app .ms-shell--player .ms-private__panel .ab-folder { display: grid; justify-items: center; gap: 8px; margin: 16px 0 4px; }
-#app .ms-shell--player .ms-private__panel .ab-folder__art { width: 180px; aspect-ratio: 228 / 156; background: var(--ms-color-paper-deep); border: 3px solid var(--ms-color-ink); border-radius: 6px; }
-[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-folder__art { background: var(--ab-asset-dossier-folder) center / contain no-repeat; border: 0; }
-#app .ms-shell--player .ms-private__panel .ab-folder__label { max-width: 34ch; margin: 0; font-size: 13px; text-align: center; color: var(--ms-color-text-secondary); }
-
 /* ---------- the board seen from the file ---------- */
 /* The character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
 #app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-spot]::after {
@@ -391,11 +388,10 @@
   #app .ms-shell--player .ms-private__panel .ab-inspect__who { flex-wrap: wrap; font-size: 1rem; }
   #app .ms-shell--player .ms-private__panel .ab-inspect__facts { font-size: 0.85rem; }
   #app .ms-shell--player .ms-private__panel .ab-button { font-size: 0.85rem; }
-  #app .ms-shell--player .ms-private__panel .ab-folder__label { font-size: 0.85rem; }
 }
 
 @media (forced-colors: active) {
-  #app .ms-shell--player .ms-private__panel :is(.ab-file, .ab-photo__frame, .ab-roles__slip, .ab-inspect__card, .ab-folder__art) { border-color: CanvasText; }
+  #app .ms-shell--player .ms-private__panel :is(.ab-file, .ab-photo__frame, .ab-roles__slip, .ab-inspect__card) { border-color: CanvasText; }
   #app .ms-shell--player .ms-private__panel .ab-thread path { stroke: CanvasText; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-spot]::after { border-color: Highlight; }
 }

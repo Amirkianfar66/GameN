@@ -4,8 +4,8 @@
 // 1453500) in the board simulation (dev/board/: the release's own screen, controller, host,
 // styles and art over synthetic, schema-checked views). The file is opened, assembled, inspected,
 // shown on the board, put back with Escape, hidden by losing focus and by a view the server no
-// longer confirms, drawn at doubled text, with reduced motion and without the kit, and looked
-// for on other roles' cards and on the shared display. Each step is measured against the
+// longer confirms (which keeps the card, the file at rest), drawn at doubled text, with reduced
+// motion and without the kit, and looked for on other roles' cards and on the shared display. Each step is measured against the
 // Designer's checks and photographed. This is browser simulation: it proves nothing about real
 // devices, the backend or multiplayer behavior.
 //
@@ -24,7 +24,6 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 const BASE = 'http://127.0.0.1:5178/';
 const ROLES = ['Undercover', 'Alien', 'Cracker'];
 const ROLE_SET = 'Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known.';
-const FOLDER = 'Your card stays hidden until your view is up to date.';
 const output = resolve(process.argv[2] ?? 'insider-file-evidence');
 await mkdir(output, { recursive: true });
 const facts = [];
@@ -91,8 +90,14 @@ const READ = `(() => {
     })(),
     controls,
     focus: document.activeElement?.id || null,
-    folder: document.querySelector('.ab-folder')?.innerText.trim() ?? null,
-    folderHtml: document.querySelector('.ab-folder')?.outerHTML ?? null,
+    folder: Boolean(document.querySelector('.ab-folder')),
+    outOfDate: Boolean(document.getElementById('ms-banner-connection')),
+    headUnderBanner: (() => {
+      const banner = document.getElementById('ms-banner-connection');
+      if (!banner || !head) return null;
+      const b = banner.getBoundingClientRect(), h = head.getBoundingClientRect();
+      return b.bottom > h.top + 0.5 && b.top < h.bottom - 0.5;
+    })(),
     roleCard: Boolean(document.querySelector('.ms-role-card')),
     spot: [...document.querySelectorAll('.ms-board[data-board="own"] .ms-seat[data-spot]')].map(node => node.dataset.seat),
     sentence: text.includes('hold the roles'),
@@ -122,8 +127,7 @@ async function step(page, name, size, { shot = true, settle = 300, expect = () =
     measured.roleWordsOutsideCard.length > 0 && `role words outside the card: ${measured.roleWordsOutsideCard}`,
     ...expect(measured),
   ].filter(Boolean);
-  const { folderHtml, ...kept } = measured;
-  facts.push({ name, size, ...kept, problems });
+  facts.push({ name, size, ...measured, problems });
   if (shot) await page.screenshot(join(output, `${name}.png`), { viewport: true });
   note(name, size.join('x'), problems.length ? `PROBLEMS: ${problems.join('; ')}` : 'clean');
   return measured;
@@ -174,12 +178,16 @@ for (const size of [[320, 568], [390, 844]]) {
   // Losing focus closes the card, and with it the file.
   await page.evaluate("window.dispatchEvent(new Event('blur'))");
   await step(page, `${tag}-blurred`, size, { shot: false, expect: m => [m.sheetOpen && 'card still open', m.hooks && 'file hooks still in the page', m.roleWordsInPage.length > 0 && `role words in the page: ${m.roleWordsInPage}`] });
-  // A view the server no longer confirms: one closed folder stands for the whole card.
+  // A view the server no longer confirms keeps the card as the release draws it, the file at rest under
+  // the release's banner (the Designer's DSN-REQ-16 recommendation): an inspected snapshot is put back,
+  // nothing moves, and there is no folder. The banner takes room, so the file may need a scroll.
   await page.tap('#ms-private-toggle');
   await page.waitFor("document.querySelector('.ab-file')", 'the file before the stale view', 5000);
+  await page.tap('.ab-photo[data-seat="1"]');
+  await sleep(250);
   await page.evaluate('window.__simulation.stale()');
-  const stale = await step(page, `${tag}-stale`, size, { expect: m => [m.folder !== FOLDER && `folder says ${m.folder}`, m.hooks && 'file hooks on a stale view', m.roleCard && 'the role card on a stale view', m.roleWordsInPage.length > 0 && `role words in the page: ${m.roleWordsInPage}`, m.sentence && 'the set written'] });
-  facts.at(-1).folderHtml = stale.folderHtml;
+  await step(page, `${tag}-stale`, size, { expect: m => [...fileChecks(m, { fits: false }), !m.outOfDate && 'no out-of-date banner', !m.roleCard && 'no role card on a stale view',
+    m.folder && 'a folder', m.running > 0 && `${m.running} animations on a stale view`, m.photos.some(photo => photo.pressed !== 'false') && 'a snapshot still inspected'] });
   await page.evaluate('window.__simulation.redeliver()');
   await step(page, `${tag}-live-again`, size, { shot: false, settle: 500, expect: m => [...fileChecks(m), m.running > 0 && 'the file assembled again after a reconnect'] });
   await page.close();
@@ -250,8 +258,7 @@ for (const size of [[320, 568], [390, 844]]) {
   await page.close();
 }
 
-// Other roles: the same kit arrives on every player phone, the card has no file, and a hidden card is the same folder.
-const insiderFolder = facts.find(fact => fact.name === '390x844-stale')?.folderHtml ?? null;
+// Other roles: the same kit arrives on every player phone, the card has no file, and a stale view keeps the role card.
 for (const [scenario, role] of [['seven', 'Cracker'], ['disable', 'Red Disabler'], ['tray', 'Hacker']]) {
   const size = [390, 844];
   const page = await open(scenario, size);
@@ -259,7 +266,7 @@ for (const [scenario, role] of [['seven', 'Cracker'], ['disable', 'Red Disabler'
   await page.waitFor("document.querySelector('.ms-private[data-open=\"true\"] .ms-role-card')", 'the card', 5000);
   await step(page, `390x844-${scenario}-card`, size, { shot: false, expect: m => [m.hooks && `a file on the ${role}'s card`, !m.art.includes('abilities') && 'kit not loaded', m.kitRequests !== 1 && `kit requested ${m.kitRequests} times`] });
   await page.evaluate('window.__simulation.stale()');
-  await step(page, `390x844-${scenario}-stale`, size, { shot: scenario === 'seven', expect: m => [m.folder !== FOLDER && `folder says ${m.folder}`, insiderFolder !== null && m.folderHtml !== insiderFolder && 'the folder differs from the Insider’s', m.roleWordsInPage.length > 0 && `role words in the page: ${m.roleWordsInPage}`] });
+  await step(page, `390x844-${scenario}-stale`, size, { shot: scenario === 'seven', expect: m => [!m.outOfDate && 'no out-of-date banner', !m.roleCard && 'no role card on a stale view', m.hooks && `a file on the ${role}'s card`, m.folder && 'a folder'] });
   await page.close();
 }
 

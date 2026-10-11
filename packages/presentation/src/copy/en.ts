@@ -478,11 +478,6 @@ export const en = {
     back: 'Back',
   },
 
-  // The private card while it cannot be shown: one closed folder, the same for every role and seat.
-  cardHidden: {
-    stale: 'Your card stays hidden until your view is up to date.',
-  },
-
   // What every audience may know about a vote: what is being voted on, who may be voted
   // for, and the count the server publishes when a vote closes. The four result sentences
   // say what the server's tally names; the counting is the server's.

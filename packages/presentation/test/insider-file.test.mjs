@@ -122,7 +122,7 @@ test('inspecting a snapshot presses it and says that player’s public facts, an
   assert.deepEqual([find(stray, byClass('ab-inspect__card')).attrs.hidden, find(stray, byClass('ab-inspect__card')).children], [true, []]);
 });
 
-test('the file is only in the Insider’s own open card, while the view is live', () => {
+test('the file is only in the Insider’s own open card', () => {
   const absent = (markup, label) => {
     assert.doesNotMatch(toHtml(markup), /ab-file|ab-photo|ab-roles/, `${label}: no file`);
     assert.doesNotMatch(textOf(markup), SENTENCE, `${label}: the set is not written anywhere`);
@@ -130,8 +130,6 @@ test('the file is only in the Insider’s own open card, while the view is live'
   // A card not opened, or a page in the background: nothing private is in the model at all.
   absent(draw(insider(), closed), 'closed');
   absent(draw(insider(), { privacy: { concealed: true, revealed: true } }), 'background');
-  // A view the server no longer confirms shows the closed folder instead.
-  absent(draw(insider(), { connection: 'stale' }), 'stale');
   // Only the card shows it; actions, the board and the menu do not.
   for (const phoneView of ['board', 'actions', 'more']) absent(draw(insider(), {}, { phoneView }), phoneView);
   // Other roles have no file: their views carry no such set.
@@ -140,24 +138,23 @@ test('the file is only in the Insider’s own open card, while the view is live'
   absent(renderComicTableShell(buildTableShellModel({ ...environment, view: publicView() }), { identities: IDENTITIES }), 'display');
 });
 
-test('a card that cannot be shown is one closed folder, the same for every role and seat', () => {
-  const folderOf = view => find(draw(view, { connection: 'stale' }), byId('ms-private-panel'));
-  const insiderFolder = folderOf(insider());
-  assert.equal(textOf(insiderFolder), 'Your card stays hidden until your view is up to date.');
-  assert.doesNotMatch(toHtml(insiderFolder), /ms-role-card|data-device|data-team|data-file|Insider/);
+test('a view out of date keeps every role’s card as the release draws it, the Insider’s file with it', () => {
+  // The Designer's DSN-REQ-16 recommendation, pending Integration: the card stays, nothing in it
+  // can be acted on, and the release's banner says the view may be out of date. No closed folder.
+  const stale = draw(insider(), { connection: 'stale' });
+  assert.ok(find(stale, byClass('ms-role-card')), 'the Insider’s role card');
+  assert.equal(toHtml(fileOf(stale)), toHtml(fileOf(draw(insider()))), 'the same file as on a live view');
+  assert.doesNotMatch(toHtml(stale), /ab-folder/);
   const others = {
     Cracker: () => {}, Supplier: view => { view.self.rescuesRemaining = 0; }, 'Blue Disabler': view => { view.self.rescuesRemaining = 0; },
     // A role whose view carries knowledge of its own: the Alien's Code.
     Alien: view => { view.self.rescuesRemaining = 0; view.knowledge.code = ['seat-1', 'seat-3', 'seat-5', 'seat-7']; },
   };
   for (const [role, change] of Object.entries(others)) {
-    const other = folderOf(playerView(view => { view.self.role = role; change(view); }));
-    assert.equal(toHtml(other), toHtml(insiderFolder), `${role}: the same folder`);
+    const card = draw(playerView(view => { view.self.role = role; change(view); }), { connection: 'stale' });
+    assert.equal(textOf(find(card, byClass('ms-role-card__name'))), role, `${role}: the role card stays`);
+    assert.doesNotMatch(toHtml(card), /ab-file|ab-folder/, `${role}: no file and no folder`);
   }
-  // The folder stands for the card only: the Actions view keeps its own paused notice.
-  assert.doesNotMatch(toHtml(draw(insider(), { connection: 'stale' }, { phoneView: 'actions' })), /ab-folder/);
-  // While the view is live the card is the card.
-  assert.doesNotMatch(toHtml(draw(insider())), /ab-folder/);
 });
 
 test('without public identities a snapshot shows the seat number, and a name is only ever text', () => {

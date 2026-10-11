@@ -96,7 +96,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let phoneNotice = null;
   // The snapshot inspected in the Insider's file, by seat. Only a deliberate tap sets it; it is
   // forgotten with the card, with any loss of private content and with a view the server no
-  // longer confirms, and nothing sets it again by itself.
+  // longer confirms (the file then stays at rest), and nothing sets it again by itself.
   let inspect = null;
   // The player has just pressed Card: a file that appears in the next drawing may assemble.
   let cardRequested = false;
@@ -160,7 +160,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     fitBoard(root);
     comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
-    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced' });
+    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced', current: frame.model.connection === 'live' });
     cardRequested = false;
     if (inspect !== null && !root.querySelector('.ab-photo[aria-pressed="true"]')) inspect = null;
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);

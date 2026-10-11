@@ -186,9 +186,10 @@ export function createInsiderFile(root, { setTimeout: later = globalThis.setTime
     },
     /**
      * After a redraw. `requested`: this draw follows the player's own press of Card, so a file that
-     * appears in it may assemble, once per page. `reduced`: motion is reduced, by the device or in the app.
+     * appears in it may assemble, once per page. `reduced`: motion is reduced, by the device or in the
+     * app. `current`: the server confirms the view; a file shown on a view out of date stays at rest.
      */
-    after({ requested = false, reduced = false } = {}) {
+    after({ requested = false, reduced = false, current = true } = {}) {
       const next = root.querySelector('.ab-file');
       if (next !== file) {
         // Closed, concealed or out of date: whatever was moving stops, at rest, with the old file.
@@ -203,8 +204,8 @@ export function createInsiderFile(root, { setTimeout: later = globalThis.setTime
           resize?.observe(file);
         }
       }
-      if (file && reduced) finish();
-      if (file && requested && !assembled) {
+      if (file && (reduced || !current)) finish();
+      if (file && requested && current && !assembled) {
         // A reveal the player asked for, not a game event: the first deliberate open in this page,
         // never an update, a reconnect or a later open.
         assembled = true;

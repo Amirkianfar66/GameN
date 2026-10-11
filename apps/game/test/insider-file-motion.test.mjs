@@ -144,7 +144,7 @@ test('the file assembles once per page, on a deliberate open, and stops at rest 
   motion.dispose();
 });
 
-test('reduced motion finishes the assembly at once, and an inspected snapshot is given its lift toward the middle', t => {
+test('reduced motion and a view out of date finish the assembly at once, and an inspected snapshot is lifted toward the middle', t => {
   const { root, show } = page(t);
   const motion = createInsiderFile(root, { setTimeout: () => 0, clearTimeout: () => {}, now: () => 0 });
   const drawn = drawnFile();
@@ -153,6 +153,22 @@ test('reduced motion finishes the assembly at once, and an inspected snapshot is
   const running = [drawn.file, ...drawn.photos].flatMap(element => element.animations);
   motion.before(); motion.after({ reduced: true });
   assert.ok(running.length > 0 && running.every(animation => animation.finished));
+  // A first open on a view out of date shows the file at rest; it may still assemble once the view is current.
+  const { root: otherRoot, show: showOther } = page(t);
+  const other = createInsiderFile(otherRoot, { setTimeout: () => 0, clearTimeout: () => {}, now: () => 0 });
+  const outOfDate = drawnFile();
+  showOther(outOfDate.file);
+  other.before(); other.after({ requested: true, current: false });
+  assert.equal([outOfDate.file, ...outOfDate.photos].flatMap(element => element.animations).length, 0);
+  const live = drawnFile();
+  showOther(live.file);
+  other.before(); other.after({ requested: true, current: true });
+  const assembling = [live.file, ...live.photos].flatMap(element => element.animations);
+  assert.ok(assembling.length > 0);
+  // The view goes out of date while it assembles: it stops, at rest.
+  other.before(); other.after({ current: false });
+  assert.ok(assembling.every(animation => animation.finished));
+  other.dispose();
   // Inspecting: the pressed snapshot is lifted by the distance from its middle to the field's.
   const inspected = drawnFile(['1', '2', '4'], '4');
   inspected.photos[2].getBoundingClientRect = () => ({ left: 200, top: 0, width: 80, height: 100, right: 280, bottom: 100 });

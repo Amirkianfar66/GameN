@@ -8,8 +8,8 @@ import { createFakeHost, flush } from './support/fakes.mjs';
 import { createFakeConnectedTransport, EPOCH, MATCH, playerView } from './support/connected.mjs';
 
 // The Insider's file through the real screen: its private content exists only while the seat's
-// own view is live and its card is open in the foreground. A card that cannot be shown is one
-// closed folder, the same for every role. What these tests show is what the screen withholds
+// card is open in the foreground, on its own view. A view out of date keeps the card as the
+// release draws it, the file with it. What these tests show is what the screen withholds
 // whatever the host asks for.
 
 const TOGGLE = { type: 'private/toggle' };
@@ -54,7 +54,7 @@ test('backgrounding clears the file, and coming back does not show it again', as
   s.screen.dispose();
 });
 
-test('a seat this device no longer holds, a view the server stopped confirming, and another match show no file', async () => {
+test('a seat this device no longer holds and another match show no file; a view out of date keeps it', async () => {
   // Refused: the seat was bound to another device. Nothing of the match stays.
   const refused = await opened();
   await refused.fake.fail(OWN, 'refused');
@@ -62,19 +62,18 @@ test('a seat this device no longer holds, a view the server stopped confirming, 
   assert.doesNotMatch(refused.page(), FILE);
   refused.screen.dispose();
 
-  // A listener that fails without refusing leaves the last view, marked stale: the card is one
-  // closed folder then, with no role and no file.
+  // A listener that fails without refusing leaves the last view, marked stale: the card stays as the
+  // release draws it, with the role card and the file (the Designer's DSN-REQ-16 recommendation).
   const stale = await opened();
   await stale.fake.fail(OWN);
   assert.equal(stale.screen.getFrame().model.connection, 'stale');
-  assert.doesNotMatch(stale.page(), FILE);
-  assert.match(stale.page(), /Your card stays hidden until your view is up to date\./);
-  assert.doesNotMatch(stale.page(), /ms-role-card|Insider/);
-  // When the server confirms the view again, the card the player opened shows the file again.
+  assert.match(stale.page(), /ms-role-card/);
+  assert.match(stale.page(), /ab-photo/);
+  assert.doesNotMatch(stale.page(), /ab-folder/);
+  // When the server confirms the view again, the same card is still open.
   await stale.fake.deliver(OWN, insiderView(6), true);
   assert.equal(stale.screen.getFrame().model.connection, 'live');
   assert.match(stale.page(), /ab-photo/);
-  assert.doesNotMatch(stale.page(), /ab-folder/);
   stale.screen.dispose();
 
   // A view of another match never becomes this phone's view.
