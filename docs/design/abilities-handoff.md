@@ -1,6 +1,6 @@
 # Frontend handoff: ability art
 
-Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.5.0` since slice 5: each slice added assets and changed none of the earlier ones.
+Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17; slice 6, the showdown's special shot and the match's end, section 18. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.6.0` since slice 6: each slice added assets and changed none of the earlier ones.
 
 ## Slice 1: the Insider's file
 
@@ -157,7 +157,7 @@ Original vector artwork made for this repository by the Visual and Motion Design
 | [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order | Integration | The engine sorts them; the treatments sort them again |
 | [DSN-REQ-15](integration-requests.md#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view | Integration, Backend | The receipt shows the charge or the round spent; no lasting mark, and a weapon supplied after the Officer's shot is drawn as held |
 | [DSN-REQ-16](integration-requests.md#dsn-req-16) | Whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | Integration | The prototype shows the closed folder (PR #88's conceal rule); recommended: keep the release's card, the folder only after the background |
-| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.5.0`) |
+| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.6.0`) |
 | DSN-D37 | The look and motion of the ability art (slices 1 to 5) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
 
 Browser emulation only: desktop Chromium at simulated phone viewports. No real phone, screen reader or touch test has been run.
@@ -461,3 +461,82 @@ Where the strip already had room: the slip and the comms ring beside the questio
 ### 17.9 Tests to port
 
 The slice 5 rules in `abilities-capture.mjs` and `abilities-check.mjs`: a slip names the seat's own pick, a release vote's subject or nobody, its pencil its answer; the box posted exactly on an accepted ballot; no count in a ballot's strip; the key ring only on a release request and the comms ring only on a Hack's request; the microphone only on Pass, handed on exactly on its receipt; a Hack's note in the release's words, the seat's own chip joined to its partner's, nothing of who asked or of what may be said, and the two partners' notes identical; the words quoted from `en.ts`; nothing in `ballot.js` of a role, a count or of truth and lies. The flows (`board-motion-flows.mjs`) add a ballot picked, abstained, posted once and unseen by the other screens; a release vote's Yes and No; the Captain's release request; a Hack's request and its note, the cord run once and never again, the same on the asked partner's phone; Pass handed on once, and with no beat in reduced motion.
+
+## 18. Slice 6: the showdown and the match's end
+
+**A proposal**, on the same base and tuple as slices 1 to 5. Review pictures: `design/abilities/review/contact-showdown-end.png`, and the board's storyboards of `cue-end-reveal` in `design/board-motion/review/motion/`. Scenarios: `showdown.choose`, `showdown.confirm`, `showdown.registered`, `end.blue`, `end.alien-co`, `end.red`, `end.alien`, `end.draw`, `end.aborted`, and the fixture panel's public facts "The match ends: Blue wins" and "The host ends the match" (`?play=finish`, `?play=abort`). Reference code: `design/abilities/js/finale.js` and its styles in `abilities.css` (the slice 6 block) for the showdown, wired in `app.js` (`stripContent`, `stripBeats`); the match's end is public, so it is the board's: `drawResult()` and `drawStatus()` in `app.js`, the end's cue in `director.js`, its styles in `board.css` (the result sheet), its contract in `design/board-motion/contract/` (`cue-end-reveal`, the fact `match-end`, the component `result-sheet`).
+
+### 18.1 What changes for a player
+
+- **The showdown.** In the Final Zone every player still in the match registers one special shot (final-showdown-decision, option 1). Its strip draws the target **in the same reticle as an ordinary shot** and, at the start of the detail line, **the special shot**: a round in caption yellow with a double band, full while the server offers it, **spent** (the ordinary round's dashed outline) on the receipt, which is the neutral **Registered** stamp and "This is not a result." Every target stays secret until the shots resolve, one at a time, as the board's public health changes. **Every seat in the Final Zone sees the same strip**, whatever its role.
+- **The match's end, on every screen alike.** A **result sheet** over the lower board, on this phone, every other phone and the shared display: **the winner struck on a ribbon** in its side's colour (striped paper for a draw), the Alien's co-win beneath it, then **the cast list**: the release's table of roles drawn in two columns (one at large text), each seat's character, its label ("Player 3 (you)" on its own phone, as the release labels it) and **its role in its side's colour**, in seat order; the Code's four rows **pinned** with a punched card, and **the Code's sentence in seat order**. A match **the host ended** shows its sentence alone, on plain paper: no winner, nothing revealed.
+- **The status bar at the end** says "Match finished" or "Match ended by the host" (both lines if it needs them) and, where the timer was, a dash in a dashed box, read as the release's "This phase has no timer".
+- **As in the release, the card and the actions close for good**: their buttons stay in place, marked unavailable (the prototype keeps them focusable with `aria-disabled`, a proposal; the release disables them), a choice in progress or a receipt leaves with the match, and an open card or tray closes. Pass is not offered. The menu stays, and covers the sheet on this phone as the release hides its result behind the menu.
+
+### 18.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| The showdown's reticle | the picked seat (`SHOWDOWN_SHOT.targetSeatId`) | The seat's own strip only; the same mark as an ordinary shot |
+| The special shot | the offer (`legalTargets.SHOWDOWN_SHOT`), the receipt | Full while offered; spent only on the accepted receipt: used then, with no refund or redirect (V1-20). The view carries no lasting spent shot (the offer simply ends), so nothing outside the receipt draws it |
+| The result sheet | `phase.kind` (`FINISHED` or `ABORTED`), `result.winner`, `result.alienCoWinner` | The release's `buildResult()` words. Shown at a terminal phase only; `ABORTED` has no `result` |
+| The cast list and the Code | `endReveal.roles`, `endReveal.code`, the seats' lobby identities | **Only at `FINISHED`, only from the public view** (the contract carries `endReveal` then and only then; V1-18), in seat order whatever order the view lists them in. A row's side is `data-end-faction`, worked out from the role the end reveal names. **Never from `self.role` or `knowledge`, never on the board's pieces, never device art** |
+| The terminal status | `phase.kind`, `phase.endsAt: null` | The release's `timer.none` words; no `role="timer"` |
+
+### 18.3 Markup and hooks
+
+- Strip: beside the question `.ab-target[data-mark="reticle"]` (as slice 4); at the start of `.bm-strip__detail`, `.ab-special[data-spent]` (aria-hidden). The full round is its `::after`, so that spending is the slice 4 beat (`spend()`) on an element already drawn spent.
+- The result sheet (the board's, public): `section.bm-result[data-ended="finished"|"aborted"][data-winner]` (a labeled region, `tabindex="0"` because it scrolls at large text) with `h2.bm-result__heading`, `p.bm-result__outcome` (the ribbon), `p.bm-result__line` (the co-win), `table.bm-cast` (explicit table roles, so that its meaning survives the cards' layout: `caption` "Roles", a visually hidden header row "Player" / "Role", `tr.bm-cast__row[data-seat][data-end-faction][data-code][data-self]` with `th.bm-cast__who` (`.bm-cast__chip[data-character]`, aria-hidden, and `.bm-cast__label`) and `td.bm-cast__role` (`.bm-cast__name`, and `.bm-cast__pin` on the Code's rows, aria-hidden)), and `p.bm-result__code` with its pin. It maps onto the release's `renderResult()` (`.ms-result`, `.ms-result__outcome`, `.ms-result__line`, `table.ms-result__roles > tr[data-seat]`).
+- Status: `header.bm-status[data-over]`, `.bm-timer[data-state="none"]` holding an aria-hidden dash and the visually hidden words.
+- Navigation at the end: `#bm-nav-card` and `#bm-nav-actions` with `aria-disabled="true"`.
+- Nothing in the showdown strip carries `data-device`, `data-team` or a role's name; nothing in the result sheet comes from the ability kit (`ab-` classes), the private card or the seat's own view.
+
+### 18.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `dossier-round-special` | 14 x 30 | base (7, 28) | The showdown's special shot, full. Spent, it is `dossier-round-spent` (slice 4): the same silhouette, so the full round lies over the outline |
+
+Neutral, in the kit's one stylesheet, loaded on every player phone whatever its role. **The result sheet uses no ability art**: it is public and drawn on the shared display too, which does not load the kit. Its pictures are the public board's approved crew cards (`piece-crew-card-c1` to `c9`, behind `[data-art~="public-board"]`); its ribbon, cast cards and the Code's pin are CSS in the tokens' colours (the faction colours `--ms-color-faction-blue`, `-red`, `-alien` for the winner and each role's side). **No device art at the end**: the roles are words in their side's colour. The planned "every character's card flips to show its device" of the inventory is not used: it would put device art outside the private card, where the board check refuses it, and require the roles bundle on the shared display. The owner may ask for it (DSN-D37).
+
+### 18.5 Layout
+
+The showdown strip is slice 4's: it fits 390 x 844 and 320 x 568 with the board keeping its height. The result sheet lies over the lower board like the card and the tray, above navigation, at most 62% of the phone's height (70% on a short phone and in the other screens' frame, where its parts are tighter); the board keeps its size and the Command Room stays in view. At 390 x 844 and 320 x 568 everything fits without scrolling; at twice the text size the cast list takes one column and the sheet scrolls inside itself. In a sheet whose content is under 300 px wide (the 320 px phone's, and the other screens' frame) a container query takes the character and the role down a step, so that every role's longest word fits its card on one line.
+
+### 18.6 Motion
+
+| | The special shot | The end (`cue-end-reveal`, public) |
+| --- | --- | --- |
+| Normal | On the receipt the round leaves the strip (220, slice 4's `spend()`) | 900 ms, `motionMs.comicBeatMaximum` (240 / 260 / 400): the sheet rises; the winner is struck; the rows turn up one after another (20 ms apart, 200 ms each), each Code pin stamped on its row; the Code's sentence last. An ended match: the rise alone |
+| Reduced | No beat: the spent outline is drawn | The whole sheet with the 80 ms fade |
+| Static | The reticle, the round, the words | The sheet, every word |
+| Cancel | As every strip; reduced motion finishes the beat at once | A reconnect, the page going to the background, or reduced motion switched on mid-reveal: the sheet stands as it is at once |
+| Replay | Never: spent once, for its receipt | Never: not on a page that loads at the end, a duplicate snapshot, a reconnect or the menu closing |
+
+The end's cue is a proposal with its own entry in `design/board-motion/contract/cues.json`: public, started only by the view's phase turning terminal on a page that drew the match before, marking only what the sheet already says (every word is in the document, and said once by the public live region, from the first frame), changing nothing and delaying nothing.
+
+### 18.7 What it must never show (review with Balance)
+
+- A showdown target anywhere but the shooter's own strip, or the shot spent before the server accepts it; anything role-dependent in the showdown strip (the check compares, the capture measures).
+- A role, a side or the Code before the match finished, or at a match the host ended; a role drawn from the seat's own view rather than the end reveal; an end hook or a role word on the board's pieces (the capture measures every screen; the flows compare both boards).
+- A winner the view does not name, or a result when the host ended the match: at `ABORTED` the contract carries no result and no end reveal, and the release says only the host's sentence.
+- Device art, team colours or role hooks outside the result sheet.
+
+### 18.8 Words
+
+| Where | Words |
+| --- | --- |
+| Strip | The release's, unchanged: "Choose a target", "Register a showdown shot at Player 5?", "You cannot change or withdraw it here once it is registered.", "Register shot", "Sending your shot to the server…", "Showdown shot at Player 5 registered.", "This is not a result." |
+| Result | The release's (`en.result`), unchanged: "Result", "Blue wins.", "Red wins.", "The Alien wins.", "Nobody wins. The match is a draw.", "The Alien wins with Blue.", "The host ended this match. There is no winner.", "Roles", "Player", "Role", "The Code was: Player 1, Player 4, Player 6, Player 8.", the labels "Player N" and "Player N (you)" |
+| Status | The release's: "Match finished", "Match ended by the host", "This phase has no timer" |
+
+No new words: the ribbon, the cast cards and the pins say nothing the words do not.
+
+### 18.9 Tests to port
+
+The slice 6 rules in `abilities-capture.mjs` and `abilities-check.mjs`: the special shot only in the showdown's strip, spent exactly on its receipt, the strip the same whoever shoots; the reticle for a shot or a showdown shot only; nothing of the ability kit in the result sheet; no role drawn before a finished match; nothing in `finale.js` of a role, a hit or the end. The board's (`board-motion-check.mjs`, `board-motion-capture.mjs`): the fixtures' result and end reveal only at `FINISHED`, every seat's role once, the viewer's its own, the Code with the Alien and without the Undercover, a revealed faction its role's; an end hook only in the result sheet; a role word or an end hook nowhere else on any screen; the sheet clear of the status bar and navigation, nothing in it cut off. The flows (`board-motion-flows.mjs`) add the showdown picked, registered, spent once and unseen by the other screens, and with no beat in reduced motion; the end: the winner, the roles in seat order in their sides' colours, the Code in seat order, the same on the other screens but for "(you)", one reveal cue on each, the timer's words, Card and Actions closed with nothing private in the page, a choice, a receipt and an open card leaving with the match, nothing played again on a duplicate, a reconnect, a load at the end or the menu closing, the host's ending with nothing revealed, and reduced motion, also switched on mid-reveal.
+
+### 18.10 Open
+
+- **A Final Zone scene.** The board draws the Final Zone on the page's paper with the approved halftone and speed lines (board-motion GAP-6). A scene of its own, two rows of places facing each other as the inventory planned, is design work for a later slice; it needs no contract change.
+- **Card and Actions at the end.** The release disables them; the prototype marks them `aria-disabled` so that focus stays where it was when the match ends. Frontend's call.

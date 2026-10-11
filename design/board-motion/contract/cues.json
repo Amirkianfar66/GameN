@@ -325,6 +325,22 @@
       "asset": "None."
     },
     {
+      "id": "cue-end-reveal",
+      "status": "proposal",
+      "level": "phase_or_finale",
+      "audience": "public",
+      "trigger": "The view's phase turns FINISHED (with result and endReveal) or ABORTED (with neither), on a device that drew the match before it ended.",
+      "facts": "phase.kind, result (winner, alienCoWinner) and endReveal (roles, code) of the public view; the contract carries the result and the end reveal at FINISHED only.",
+      "anchor": ".bm-result: .bm-result__outcome, .bm-cast__row, .bm-cast__pin, .bm-result__code",
+      "durationMs": 900,
+      "token": "motionMs.comicBeatMaximum",
+      "easing": "--ms-ease-settle, --ms-ease-snap",
+      "cancellation": "A reconnect, a page that was in the background, reduced motion switched on or disposal: the sheet stands as it is, with every word. Never played for a page that loads at the end already, a replayed snapshot or a reconnect.",
+      "settled": "The result sheet over the lower board on every screen: the winner on its ribbon, the Alien's co-win, the cast list (each seat's character, label and role, its side's colour; the Code's four pinned) and the Code's sentence; at an ended match, the host's sentence only. The status bar's timer says the phase has none.",
+      "reduced": "80 ms fade of the whole sheet: nothing is struck, turned up or stamped.",
+      "asset": "The crew cards of the public board (piece-crew-card-c1 to c9, public); everything else is CSS. No device art."
+    },
+    {
       "id": "cue-tally",
       "status": "proposal",
       "level": "game_event",

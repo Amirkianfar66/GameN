@@ -253,6 +253,28 @@ const functionBody = (source, name) => {
   check("the ballots, the release request, a Hack and Pass draw the seat's own choice in the release's words, never a count, the same for every role", problems);
 }
 
+// ---------- The showdown's special shot: the same for every seat in the Final Zone, spent on its receipt; the end is public ----------
+{
+  const problems = [];
+  const source = await text(`${ROOT}/js/finale.js`);
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  // Nothing in the kit is a role's, and nothing in it speaks of a hit, a winner or what the end reveals.
+  if (ROLE_OR_TEAM.test(code)) problems.push('finale.js draws something by role or team: ' + code.match(ROLE_OR_TEAM)[0]);
+  if (/\b(shooter|attack|block|hit|injur|eliminat|damage|winner|wins|result|reveal)\w*/i.test(code)) problems.push('finale.js speaks of a hit or of the end');
+  // In the prototype: the target in the reticle of an ordinary shot and the special shot spent only on its receipt, whoever
+  // shoots (V1-20: used when accepted, no refund); the match's end is the board's public result sheet, with nothing private in it.
+  const app = await text('design/board-motion/js/app.js');
+  const strip = app.slice(app.indexOf('function stripContent()'), app.indexOf('function confirmText()'));
+  if (strip.split('\n').some(line => line.includes("'showdown-shot'") && /S\.private\.role|ROLE_LOOK|device|officer|undercover|alien/i.test(line))) problems.push("the showdown's strip depends on who shoots");
+  if (!/kind === 'showdown-shot' && one \? target\(one, 'reticle'\)/.test(strip)) problems.push("the showdown's strip does not draw its target in the shot's reticle");
+  if (!/kind === 'showdown-shot' \? specialShot\(\{ spent: step === 'accepted' \}\)/.test(strip)) problems.push('the special shot is drawn spent outside its receipt');
+  if (!/if \(receipt && now\.kind === 'showdown-shot'\) spend\(strip\.querySelector\('\.ab-special'\)\)/.test(app)) problems.push('the special shot is spent other than on its receipt');
+  const result = app.slice(app.indexOf('function drawResult('), app.indexOf('function drawNav()')).replace(/\/\*\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  if (!result || /S\.private|knowledge|\bab-/.test(result)) problems.push('the result sheet draws something private or from the ability kit');
+  if (!/const \{ phase, round, result: outcome, endReveal \} = S\.public;/.test(result)) problems.push('the result sheet is not drawn from the public view');
+  check("the showdown's special shot is the same for every seat and spent on its receipt; the end is drawn from the public view alone", problems);
+}
+
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------
 {
   const problems = [];

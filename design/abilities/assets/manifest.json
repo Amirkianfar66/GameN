@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.5.0",
+  "manifestVersion": "abilities-0.6.0",
   "status": "proposal",
   "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -12,8 +12,8 @@
   },
   "stylesheet": {
     "file": "design/abilities/assets/abilities.art.css",
-    "sha256": "9829bfed6fb3eb3e20aa169224ddbc86d37013917d8104569085a8d150cd1889",
-    "bytes": 30318
+    "sha256": "4314145fb975a35fe295a3d3c8fe1d2ef3220db5bb41188d4fa5cf71e52b89e3",
+    "bytes": 31033
   },
   "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
   "assets": [
@@ -1124,6 +1124,35 @@
       "sha256": "4a4db3f93a6171534441978b51ef9fbac0fef2875b757114e557742df4f5c5a7",
       "use": "The speaking turn handed on: drawn once the server accepts Pass.",
       "cssProperty": "--ab-asset-dossier-mic-passed"
+    },
+    {
+      "id": "dossier-round-special",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The special shot",
+      "file": "design/abilities/assets/dossier-round-special.svg",
+      "source": "design/abilities/source/finale.svg#dossier-round-special",
+      "viewBox": "0 0 14 30",
+      "width": 14,
+      "height": 30,
+      "anchors": {
+        "base": [
+          7,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#E3D6C2",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1073,
+      "sha256": "da88eeb99730b4ca98cb06d36dd79159fed09feb74796b6249001ee01c4dcf39",
+      "use": "The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.",
+      "cssProperty": "--ab-asset-dossier-round-special"
     }
   ]
 }

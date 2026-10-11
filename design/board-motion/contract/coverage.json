@@ -142,7 +142,9 @@
       "public": "None.",
       "scenarios": [
         "showdown.choose",
-        "board.final-zone"
+        "board.final-zone",
+        "showdown.confirm",
+        "showdown.registered"
       ]
     },
     {
@@ -503,6 +505,17 @@
         "status": "authorized"
       },
       {
+        "id": "match-end",
+        "drawn": "The result sheet over the lower board, the same on every screen: the winner struck on a ribbon in its side's colour and the Alien's co-win; at a finished match every seat's role in seat order, its row in its side's colour, and the Code in seat order, its four rows pinned; at a match the host ended, its sentence only. The status bar's timer says the phase has none; the card and the actions close for good.",
+        "source": "phase.kind FINISHED or ABORTED; result (winner, alienCoWinner) and endReveal (roles, code), which the contract carries at FINISHED only (validPublicReferences) and the release draws as its result (packages/presentation/src/model/result.ts, renderResult in parts.ts, en.result). V1-18: the roles and the Code are public only then.",
+        "audience": "public",
+        "cues": [
+          "cue-end-reveal",
+          "cue-phase-change"
+        ],
+        "status": "authorized"
+      },
+      {
         "id": "release-subject",
         "drawn": "On the ballot, over the jailed character a release vote is on.",
         "source": "ballot.releaseTargetSeatId.",
@@ -768,6 +781,14 @@
         "status": "reuse",
         "audience": "public",
         "about": "Round, phase or whose turn, and the timer. Its size never changes."
+      },
+      {
+        "id": "result-sheet",
+        "prototype": "section.bm-result[data-ended=finished|aborted][data-winner] > .bm-result__outcome, .bm-result__line, table.bm-cast > tr.bm-cast__row[data-seat][data-end-faction][data-code], .bm-result__code",
+        "runtime": "div.ms-result-region[data-region=result] > section.ms-panel.ms-result (renderResult in parts.ts): #ms-result-heading, .ms-result__outcome, .ms-result__line, table.ms-result__roles > tr[data-seat]",
+        "status": "extend",
+        "audience": "public",
+        "about": "The match's end over the lower board, on every phone and the shared display alike, in the release's words: the winner struck on a ribbon in its side's colour, the Alien's co-win, the release's table of roles drawn as a cast list in two columns (each seat's character, its label, its role in its side's colour, the Code's four pinned) and the Code's sentence; a match the host ended shows its sentence only. Hidden behind the menu, as the release hides its result there."
       },
       {
         "id": "fx-layer",

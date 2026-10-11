@@ -25,6 +25,12 @@
 //   - An Injured character walks limping, bandaged: the public health it already has.
 //   - No cue exists for a registration on a public surface, a shot, a shooter, a weapon, a
 //     block, Protection, a Rescue giver, a Supply giver or any cause.
+//   - The match's end (the view's phase turning FINISHED or ABORTED): the result sheet comes
+//     up, its winner is struck on its ribbon and, at a finished match, the cast list's rows turn
+//     up one after another, the Code's pinned (motionMs.comicBeatMaximum: 240, 260, 400 ms). It
+//     marks only what the sheet already says in words, the same on every screen; an ended match
+//     has only the sheet's rise. Never on a page drawn at the end already (a scenario, a reload,
+//     a reconnect).
 //   - Reduced motion: nobody walks, jolts or falls; arrival and status changes use the 80 ms
 //     fade. The facts and the controls are the same.
 
@@ -39,13 +45,16 @@ const IMPACT = 320; // motionMs.publicImpact
 const FALL = { opening: 240, accent: 260, settle: 400 }; // motionBeatsMs.comicBeatMaximum
 const STATUS_MS = 220;
 const ROUND_MS = 700;
+const END_MS = 900; // motionMs.comicBeatMaximum: the sheet's rise, the ribbon's strike, the rows turned up
+const TERMINAL = ['FINISHED', 'ABORTED'];
 const FRAME_MS = 1000 / 30;
 const [BOX_X, BOX_Y, BOX] = FRAME.box;
 const [ANCHOR_X, ANCHOR_Y] = FRAME.anchor;
 
-export function createDirector({ board, status, fx, reduced, onCue = () => {}, hold = false }) {
+export function createDirector({ board, status, fx, result = null, reduced, onCue = () => {}, hold = false }) {
   const running = new Map(); // seat -> { animations, timers, nodes, raf, restore }
   let statusTimer = null;
+  let endTimer = null;
   let lastRevision = null;
 
   function cancelSeat(seat) {
@@ -60,7 +69,11 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
     if (piece) { delete piece.dataset.moving; delete piece.dataset.cue; delete piece.dataset.arrived; }
     running.delete(seat);
   }
-  function cancelAll() { for (const seat of [...running.keys()]) cancelSeat(seat); clearTimeout(statusTimer); delete status.dataset.cue; }
+  function cancelAll() {
+    for (const seat of [...running.keys()]) cancelSeat(seat);
+    clearTimeout(statusTimer); delete status.dataset.cue;
+    clearTimeout(endTimer); if (result) delete result.dataset.cue;
+  }
   const entryFor = seat => { if (!running.has(seat)) running.set(seat, { animations: [], timers: [], nodes: [], raf: 0, restore: null }); return running.get(seat); };
   // A storyboard hold keeps every cue on screen: nothing is taken away by a timer.
   const later = (seat, ms, fn) => { if (!hold) entryFor(seat).timers.push(setTimeout(fn, ms)); };
@@ -264,6 +277,13 @@ export function createDirector({ board, status, fx, reduced, onCue = () => {}, h
       status.dataset.cue = roundChanged ? 'round' : 'phase';
       if (!hold) statusTimer = setTimeout(() => delete status.dataset.cue, isReduced ? 80 : roundChanged ? ROUND_MS : STATUS_MS);
       played.push({ cue: roundChanged ? 'cue-round-transition' : 'cue-phase-change' });
+    }
+    // The match's end, the first time this page draws it: the sheet already holds every word of it.
+    if (result && !TERMINAL.includes(previous.phase.kind) && TERMINAL.includes(next.phase.kind)) {
+      clearTimeout(endTimer);
+      result.dataset.cue = isReduced ? 'fade' : 'reveal';
+      if (!hold) endTimer = setTimeout(() => delete result.dataset.cue, isReduced ? 80 : END_MS);
+      played.push({ cue: 'cue-end-reveal', variant: next.phase.kind === 'ABORTED' ? 'ended' : isReduced ? 'reduced' : 'reveal' });
     }
     for (const entry of played) onCue(entry);
     return played;

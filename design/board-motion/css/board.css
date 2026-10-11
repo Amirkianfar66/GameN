@@ -24,6 +24,7 @@
   --bm-motion-move: var(--ms-motion-piece-move);
   --bm-motion-ghost: var(--ms-motion-card);
   --bm-motion-tag: var(--ms-motion-selection);
+  --bm-motion-end: var(--ms-motion-beat-max);
 }
 
 * { box-sizing: border-box; }
@@ -64,6 +65,9 @@ button { font: inherit; color: inherit; }
 .bm-status__detail { margin: 0; font-size: 11px; color: var(--ms-color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bm-timer { min-width: 64px; padding: 4px 8px; text-align: center; font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 800; background: var(--ms-color-ink); color: var(--ms-color-paper); border-radius: 6px; }
 .bm-timer[data-final="true"] { background: var(--ms-color-accent); color: var(--ms-color-ink); }
+/* A match that is over has no timer: a dash in a dashed box (the release's words for a screen reader), and the phase's words on two lines. */
+.bm-timer[data-state="none"] { min-width: 0; padding: 2px 10px; font-size: 16px; color: var(--ms-color-text-secondary); background: transparent; border: 2px dashed var(--ms-color-steel-mid); }
+.bm-status[data-over="true"] .bm-status__line { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .bm-status[data-cue="phase"] .bm-status__line { animation: bm-line-in var(--bm-motion-status) var(--ms-ease-snap) backwards; }
 .bm-status[data-cue="round"] .bm-status__round { animation: bm-stamp var(--ms-motion-round) var(--ms-ease-snap) backwards; }
 .bm-status[data-cue="round"]::after {
@@ -415,6 +419,96 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-notice { position: absolute; z-index: 78; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; font-weight: 700; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 8px; animation: bm-fade var(--ms-motion-card) var(--ms-ease-standard) backwards; }
 .bm-banner { position: absolute; z-index: 79; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px dashed var(--ms-color-ink); border-radius: 8px; }
 
+/* ---------- the match's end: the result, the roles and the Code, the same on every screen ----------
+   Drawn from the public view only (FullPublicView.result and .endReveal), over the lower board like the sheets: at
+   the end nothing on the board takes a tap, and the board keeps its size. Its words are the release's (en.result).
+   A finished match: the winner struck on a ribbon in its side's colour, the Alien's co-win, then the cast list (every
+   seat's character, its label and its role in its side's colour, in seat order; the Code's four pinned) and the Code
+   in seat order. A match the host ended: its sentence only. No device art and no role hook: a row's side is
+   data-end-faction, only here, and only from the end reveal. */
+.bm-result {
+  position: absolute; z-index: 74; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 62%; overflow-y: auto; overscroll-behavior: contain;
+  padding: 8px 10px 10px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-paper); color: var(--ms-color-ink);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+}
+.bm-result[hidden] { display: none; }
+.bm-result { container-type: inline-size; }
+.bm-app[data-observer] .bm-result { bottom: 6px; }
+.bm-result__head { text-align: center; }
+.bm-result__heading {
+  display: inline-block; margin: 0 0 6px; padding: 1px 8px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); transform: skewX(var(--ms-caption-skew));
+}
+.bm-result__heading:focus { outline: none; }
+/* The winner on a ribbon: the band in the side's colour, its two folded tails behind it. */
+.bm-result__outcome {
+  position: relative; margin: 0 14px; padding: 0.3rem 0.6rem; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 1.3rem; line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase;
+  background: var(--ms-color-paper-shade); border: 2.5px solid var(--ms-color-ink); box-shadow: 0 3px 0 var(--ms-color-ink);
+}
+.bm-result__outcome::before, .bm-result__outcome::after { content: ''; position: absolute; z-index: -1; top: 8px; bottom: -8px; width: 20px; background: var(--ms-color-paper-deep); border: 2.5px solid var(--ms-color-ink); }
+.bm-result__outcome::before { left: -14px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 45% 50%); }
+.bm-result__outcome::after { right: -14px; clip-path: polygon(0 0, 100% 0, 55% 50%, 100% 100%, 0 100%); }
+.bm-result[data-winner="Blue"] .bm-result__outcome { background: var(--ms-color-faction-blue); }
+.bm-result[data-winner="Red"] .bm-result__outcome { background: var(--ms-color-faction-red); }
+.bm-result[data-winner="Alien"] .bm-result__outcome { background: var(--ms-color-faction-alien); }
+.bm-result[data-winner="Draw"] .bm-result__outcome { background: repeating-linear-gradient(-45deg, var(--ms-color-paper) 0 6px, var(--ms-color-paper-shade) 6px 12px); }
+/* The host ended it: the sentence on plain paper, no ribbon, nothing struck. */
+.bm-result[data-ended="aborted"] .bm-result__outcome { margin: 0; font-family: var(--ms-font-body); font-weight: 700; font-size: 0.95rem; line-height: 1.3; letter-spacing: 0; text-transform: none; background: var(--ms-color-paper); border-style: dashed; box-shadow: none; }
+.bm-result[data-ended="aborted"] .bm-result__outcome::before, .bm-result[data-ended="aborted"] .bm-result__outcome::after { display: none; }
+.bm-result__line { margin: 8px 0 0; font-size: 0.8rem; font-weight: 800; }
+.bm-result__line::before { content: ''; display: inline-block; width: 0.7em; height: 0.7em; margin-right: 6px; vertical-align: -0.05em; border-radius: 50%; background: var(--ms-color-faction-alien); border: 2px solid var(--ms-color-ink); }
+/* The cast list: a table, drawn as cards in two columns. */
+.bm-cast { display: block; width: 100%; margin: 10px 0 0; }
+.bm-cast__caption { display: block; margin: 0 0 6px; padding-bottom: 2px; text-align: left; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 2px solid var(--ms-color-ink); }
+.bm-cast__rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+.bm-cast__row { position: relative; display: block; min-height: 40px; padding: 3px 6px 4px 8px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 7px; transform-origin: 50% 0; }
+.bm-cast__row[data-self="true"] { background: var(--ms-color-paper-shade); }
+.bm-cast__who, .bm-cast__role { display: block; padding: 0; text-align: left; font-weight: 400; }
+.bm-cast__label { display: block; padding-right: 14px; font-size: 0.72rem; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+.bm-cast__name {
+  display: inline-block; margin-top: 2px; padding: 0 4px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.72rem; line-height: 1.4; letter-spacing: 0.01em; text-transform: uppercase;
+  background: var(--ms-color-paper-shade); border: 1.5px solid var(--ms-color-ink); border-radius: 3px;
+}
+.bm-cast__row[data-end-faction="blue"] .bm-cast__name { background: var(--ms-color-faction-blue); }
+.bm-cast__row[data-end-faction="red"] .bm-cast__name { background: var(--ms-color-faction-red); }
+.bm-cast__row[data-end-faction="alien"] .bm-cast__name { background: var(--ms-color-faction-alien); }
+/* The seat's character, as on the board, once the public board's art has arrived. Without it the label says who. */
+.bm-cast__chip { display: none; position: absolute; left: 5px; top: 50%; width: 28px; height: 28px; margin-top: -14px; border-radius: 50%; border: 2px solid var(--ms-color-ink); background: var(--ms-color-canvas) 50% 22% / 175% auto no-repeat; }
+[data-art~="public-board"] .bm-cast__row { padding-left: 39px; }
+[data-art~="public-board"] .bm-cast__chip { display: block; }
+[data-art~="public-board"] .bm-cast__chip[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+/* The Code's pin: a punched card, on each of its four rows and before the Code's sentence, which says the same in words. */
+.bm-cast__pin {
+  position: absolute; right: 4px; top: 4px; width: 12px; height: 15px; border: 1.5px solid var(--ms-color-ink); border-radius: 2px;
+  background: radial-gradient(circle, var(--ms-color-ink) 0 1.3px, transparent 1.6px) 1px 2px / 5px 5px, var(--ms-color-caption);
+  clip-path: polygon(0 0, 65% 0, 100% 28%, 100% 100%, 0 100%);
+}
+.bm-result__code { margin: 8px 0 0; font-size: 0.78rem; font-weight: 700; line-height: 1.35; }
+.bm-result__code .bm-cast__pin { position: relative; right: auto; top: auto; display: inline-block; margin-right: 6px; vertical-align: -0.2em; }
+/* A sheet narrower than any phone's (the other screens' frame): a smaller character and role, so that every role's longest word fits its row. */
+@container (max-width: 18.75rem) {
+  .bm-cast__row { padding-left: 6px; }
+  [data-art~="public-board"] .bm-cast__row { padding-left: 32px; }
+  .bm-cast__chip { left: 4px; width: 24px; height: 24px; margin-top: -12px; }
+  .bm-cast__name { font-size: 0.62rem; }
+}
+/* cue-end-reveal (motionMs.comicBeatMaximum 900 ms: 240 / 260 / 400): the sheet rises; the winner is struck; the rows turn up
+   one after another, each Code pin stamped on its row; the Code's sentence last. It marks only what the sheet already says. */
+.bm-result[data-cue="reveal"] { animation: bm-rise calc(var(--bm-motion-end) * 0.267) var(--ms-ease-settle) backwards; }
+.bm-result[data-ended="finished"][data-cue="reveal"] .bm-result__outcome { animation: bm-strike calc(var(--bm-motion-end) * 0.289) var(--ms-ease-snap) calc(var(--bm-motion-end) * 0.267) backwards; }
+.bm-result[data-cue="reveal"] .bm-result__line { animation: bm-fade calc(var(--bm-motion-end) * 0.222) var(--ms-ease-standard) calc(var(--bm-motion-end) * 0.444) backwards; }
+.bm-result[data-cue="reveal"] .bm-cast__row { animation: bm-turn calc(var(--bm-motion-end) * 0.222) var(--ms-ease-settle) calc(var(--bm-motion-end) * (0.556 + var(--i) * 0.022)) backwards; }
+.bm-result[data-cue="reveal"] .bm-cast__row .bm-cast__pin { animation: bm-pin var(--ms-motion-stamp) var(--ms-ease-snap) calc(var(--bm-motion-end) * (0.667 + var(--i) * 0.022)) backwards; }
+.bm-result[data-cue="reveal"] .bm-result__code { animation: bm-fade calc(var(--bm-motion-end) * 0.222) var(--ms-ease-standard) calc(var(--bm-motion-end) * 0.778) backwards; }
+
 /* ---------- navigation: Board, Actions, Pass in the middle, Card, Menu ---------- */
 .bm-nav {
   position: relative; z-index: 80; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end;
@@ -425,6 +519,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
   font-size: 11px; color: var(--ms-color-text-secondary); background: transparent; border: 0; border-radius: 8px;
 }
 .bm-nav button[aria-pressed="true"] { color: var(--ms-color-caption); background: var(--ms-color-panel); }
+/* Closed for good at the match's end (the card and the actions, as in the release). */
+.bm-nav button[data-view][aria-disabled="true"] { opacity: 0.4; cursor: default; }
 .bm-nav__icon { width: 22px; height: 22px; display: block; background: currentColor; }
 .bm-nav__icon[data-icon="board"] { clip-path: polygon(0 0, 46% 0, 46% 46%, 0 46%, 0 0, 54% 0, 100% 0, 100% 46%, 54% 46%, 54% 0, 54% 54%, 100% 54%, 100% 100%, 54% 100%, 54% 54%, 0 54%, 46% 54%, 46% 100%, 0 100%, 0 54%); }
 .bm-nav__icon[data-icon="actions"] { clip-path: polygon(55% 0, 12% 57%, 45% 57%, 35% 100%, 90% 38%, 56% 38%, 68% 0); }
@@ -450,17 +546,21 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 @keyframes bm-nope { 0%, 100% { transform: none; } 30% { transform: translateX(-4px); } 70% { transform: translateX(4px); } }
 @keyframes bm-trail { 0% { opacity: 0; } 15% { opacity: 0.85; } 70% { opacity: 0.6; } 100% { opacity: 0; } }
 @keyframes bm-puff { 0% { opacity: 0.9; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.3); } }
+@keyframes bm-strike { from { transform: scale(1.35) rotate(-2deg); opacity: 0; } 55% { transform: scale(0.96) rotate(0.5deg); opacity: 1; } to { transform: none; opacity: 1; } }
+@keyframes bm-turn { from { transform: perspective(500px) rotateX(-80deg); opacity: 0; } to { transform: none; opacity: 1; } }
+/* A pin pressed on: the stamp's scale without its tilt, so that it settles exactly as it rests. */
+@keyframes bm-pin { from { transform: scale(1.8); opacity: 0; } 60% { transform: scale(0.92); opacity: 1; } to { transform: none; opacity: 1; } }
 
 /* ---------- reduced motion: the same facts and controls; nothing travels, shakes or zooms ---------- */
 [data-motion="reduced"] *, [data-motion="reduced"] *::before, [data-motion="reduced"] *::after { animation: none !important; transition: none !important; }
-[data-motion="reduced"] :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice),
+[data-motion="reduced"] :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice, .bm-result[data-cue]),
 [data-motion="reduced"] .bm-piece[data-cue="status"] :is(.bm-badge, .bm-reveal),
 [data-motion="reduced"] .bm-piece[data-arrived] :is(.bm-piece__body, .bm-piece__front) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
 [data-motion="reduced"] .bm-board .bm-piece[data-target] :is(.bm-piece__body, .bm-piece__front) { translate: none; }
 [data-motion="reduced"] .bm-hit { display: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
+  :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice, .bm-result[data-cue]) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
 }
 
 /* ---------- a short phone (568 px tall and the like): the same parts, tighter ---------- */
@@ -474,6 +574,14 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-app[data-short="true"] .bm-strip__kind { margin-right: 6px; padding: 0 5px; font-size: 10px; line-height: 14px; }
 .bm-app[data-short="true"] .bm-strip__line { font-size: 13px; line-height: 1.2; }
 .bm-app[data-short="true"] .bm-strip__detail { font-size: 11px; line-height: 1.25; }
+/* The end's sheet, tighter on a short phone and in the other screens' frame. */
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result { max-height: 70%; padding: 6px 8px 8px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__heading { margin-bottom: 4px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__outcome { padding: 0.15rem 0.5rem; font-size: 1.15rem; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast { margin-top: 6px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast__rows { gap: 4px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast__row { min-height: 36px; padding-top: 2px; padding-bottom: 2px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__code { margin-top: 6px; }
 
 /* ---------- wider screens follow the same design: one phone-width column, centered ---------- */
 @media (min-width: 40em) {
@@ -497,10 +605,12 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
   .bm-strip__line { font-size: 0.85rem; }
   .bm-strip__controls { flex-wrap: wrap; }
   .bm-strip__side .bm-btn { max-width: 12em; }
+  .bm-cast__rows { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (forced-colors: active) {
   .bm-tag__face, .bm-tag--fixed, .bm-piece__tag, .bm-strip, .bm-btn, .bm-chip { forced-color-adjust: none; border-color: CanvasText; }
+  .bm-result, .bm-cast__row, .bm-result__outcome { border-color: CanvasText; }
   [data-board="own"] .bm-piece[data-target] .bm-piece__ring { border-color: Highlight; }
 }
 
@@ -522,7 +632,7 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-frame > .bm-app { height: 100%; }
 .bm-proto[data-pair] { grid-template-columns: auto auto; width: max-content; min-height: 0; }
 .bm-observer { width: 300px; }
-.bm-observer h2, .bm-panel h2 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-color-text-secondary); }
+.bm-observer > h2, .bm-panel h2 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-color-text-secondary); }
 .bm-observer .bm-frame { --frame-w: 300px; --frame-h: 560px; border-width: 6px; border-radius: 20px; }
 .bm-observer .bm-app { grid-template-rows: var(--bm-status) minmax(0, 1fr); pointer-events: none; }
 .bm-panel { display: grid; gap: 12px; font-size: 13px; max-width: 420px; }

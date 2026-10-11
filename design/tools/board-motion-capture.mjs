@@ -39,7 +39,7 @@ const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const reviewDir = resolve(repoRoot, 'design/board-motion/review');
 const only = (process.argv.find(arg => arg.startsWith('--only='))?.slice(7).split(',').filter(Boolean)) ?? null;
 const { SCENARIOS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/js/fixtures.js')).href);
-const KEY = new Set(['board.idle', 'board.crowded', 'crowd.vote', 'crowd.rescue', 'board.final-zone', 'tray.open', 'shot.choose', 'shot.confirm', 'shot.registered', 'protect.choose', 'rescue.choose', 'scan.faction', 'supply.second', 'code.two', 'vote.election', 'vote.tally', 'release.choice', 'release.vote', 'move.confirm', 'move.accepted', 'pass.confirm', 'pass.passed', 'hack.phase', 'showdown.choose', 'shot.unknown', 'shot.rejected']);
+const KEY = new Set(['board.idle', 'board.crowded', 'crowd.vote', 'crowd.rescue', 'board.final-zone', 'tray.open', 'shot.choose', 'shot.confirm', 'shot.registered', 'protect.choose', 'rescue.choose', 'scan.faction', 'supply.second', 'code.two', 'vote.election', 'vote.tally', 'release.choice', 'release.vote', 'move.confirm', 'move.accepted', 'pass.confirm', 'pass.passed', 'hack.phase', 'showdown.choose', 'showdown.registered', 'end.blue', 'end.aborted', 'shot.unknown', 'shot.rejected']);
 
 export const MEASURE = `(() => {
   const vw = innerWidth, vh = innerHeight, doc = document.documentElement;
@@ -88,8 +88,34 @@ export const MEASURE = `(() => {
   }
   const hooks = [...app.querySelectorAll('[data-device], [data-team]')].filter(n => !n.closest('.bm-private'));
   if (hooks.length) problems.push('a role or team hook outside the private card: ' + hooks.map(n => n.className).join(', '));
+  // The roles and the Code are public at a finished match only (V1-18): in its result sheet, and nowhere else.
+  const finished = window.__bmState && window.__bmState.phase === 'FINISHED';
+  const reveal = [...app.querySelectorAll('[data-end-faction], [data-code], .bm-cast')].filter(n => !finished || !n.closest('.bm-result'));
+  if (reveal.length) problems.push("an end-reveal mark outside a finished match's result sheet: " + reveal.map(n => n.className || n.tagName).join(', '));
+  const sheet = app.querySelector('.bm-result');
+  if (sheet && visible(sheet)) {
+    const r = sheet.getBoundingClientRect(), top = app.querySelector('.bm-status').getBoundingClientRect(), foot = app.querySelector('.bm-nav').getBoundingClientRect();
+    if (r.top < top.bottom - 0.5 || r.bottom > foot.top + 0.5) problems.push('the result sheet covers the status bar or navigation');
+    if (sheet.scrollWidth > sheet.clientWidth + 1) problems.push('the result sheet scrolls sideways');
+    for (const row of sheet.querySelectorAll('.bm-cast__row')) {
+      const box = row.getBoundingClientRect();
+      for (const n of row.querySelectorAll('.bm-cast__label, .bm-cast__name, .bm-cast__chip, .bm-cast__pin')) {
+        if (!visible(n)) continue;
+        const inner = n.getBoundingClientRect();
+        if (inner.left < box.left - 0.5 || inner.right > box.right + 0.5) { problems.push('the cast list cuts off: ' + (n.textContent.trim() || n.className)); break; }
+      }
+    }
+    // The outcome's words stay inside its ribbon (the ribbon's tails lie outside it by design).
+    const outcome = sheet.querySelector('.bm-result__outcome');
+    if (outcome) {
+      const band = outcome.getBoundingClientRect();
+      const range = document.createRange();
+      range.selectNodeContents(outcome);
+      if ([...range.getClientRects()].some(r => r.width > 0 && (r.left < band.left - 0.5 || r.right > band.right + 0.5))) problems.push('the outcome is cut off');
+    }
+  }
   const copy = app.cloneNode(true);
-  for (const n of copy.querySelectorAll('.bm-private')) n.remove();
+  for (const n of copy.querySelectorAll('.bm-private' + (finished ? ', .bm-result .bm-cast' : ''))) n.remove();
   const roleWord = (copy.textContent.match(/\\b(Officer|Insider|Cracker|Blue Disabler|Supplier|Undercover|Hacker|Red Disabler)\\b/) || [])[0];
   if (roleWord) problems.push('a role name outside the private card: ' + roleWord);
   const roomOf = n => n.closest('.bm-room')?.dataset.room;
@@ -124,6 +150,9 @@ export const MATRIX = [
   m('w320-release', 'release.vote', 320, 568, '320 x 568: a release vote'),
   m('w320-move', 'move.confirm', 320, 568, '320 x 568: a tentative move'),
   m('w320-showdown', 'showdown.choose', 320, 568, '320 x 568: the Final Zone'),
+  m('w320-end', 'end.blue', 320, 568, '320 x 568: the end: the winner, the roles and the Code'),
+  m('w320-end-co', 'end.alien-co', 320, 568, '320 x 568: the end: Blue wins, and the Alien with Blue'),
+  m('w320-aborted', 'end.aborted', 320, 568, '320 x 568: the host ended the match: no winner, nothing revealed'),
   m('w320-hospital', 'board.crowded-hospital', 320, 568, '320 x 568: six in the Hospital'),
   m('w320-crowd-vote', 'crowd.vote', 320, 568, '320 x 568: all nine in Room A, all nine candidates'),
   m('w320-crowd-shot', 'crowd.shot', 320, 568, '320 x 568: all nine in Room A, a Shot at any of eight'),
@@ -148,6 +177,8 @@ export const MATRIX = [
   m('text200-shot', 'shot.choose', 390, 844, '200% text: a Shot', { fontPx: 32 }),
   m('text200-release', 'release.vote', 390, 844, '200% text: a release vote', { fontPx: 32 }),
   m('text200-320', 'shot.choose', 320, 568, '320 x 568 at 200% text: a Shot', { fontPx: 32 }),
+  m('text200-end', 'end.blue', 390, 844, '200% text: the end, the roles and the Code in one column', { fontPx: 32 }),
+  m('reduced-end', 'board.idle', 390, 844, 'Reduced motion: the match ends, the result sheet faded in', { motion: 'reduced', play: 'finish' }),
   m('safe-idle', 'board.idle', 390, 844, 'Simulated safe areas (47 px top, 34 px bottom): the board', { safe: true }),
   m('safe-shot', 'shot.choose', 390, 844, 'Simulated safe areas: a Shot', { safe: true }),
   m('reduced-move', 'board.idle', 390, 844, 'Reduced motion: a public move, settled with the 80 ms fade', { motion: 'reduced', play: 'move' }),
@@ -177,12 +208,14 @@ export const STORYBOARD = [
   sb('cue-status-change', 'A new Captain', 'board.idle', [0, 110, 220], { play: 'captain', crop: '.bm-board', token: 'motionMs.cardTransition 220 ms', audience: 'public: every screen', trigger: 'A view that shows Player 1 as Captain.' }),
   sb('cue-phase-change', 'The next turn: the status words and the turn marker', 'board.idle', [0, 110, 220], { play: 'phase', also: ['cue-turn-accent'], token: 'motionMs.cardTransition 220 ms', audience: 'public: every screen', trigger: 'PHASE_CHANGED to the next player.' }),
   sb('cue-round-transition', 'A new round', 'board.idle', [0, 230, 470, 700], { play: 'round', crop: '.bm-status', token: 'motionMs.roundTransition 700 ms', audience: 'public: every screen', trigger: 'PHASE_CHANGED with a higher round.' }),
+  sb('cue-end-reveal', 'The match ends: the result rises, the winner is struck, the roles turn up', 'board.idle', [0, 120, 380, 600, 900], { play: 'finish', crop: '.bm-app', token: 'motionMs.comicBeatMaximum 900 ms (240 / 260 / 400)', audience: 'public: every screen', trigger: 'A view whose phase is FINISHED, with the result and the end reveal.', proposal: true }),
+  sb('cue-end-reveal', 'The host ends the match: the sheet rises with its sentence, nothing revealed', 'board.idle', [0, 120, 240], { play: 'abort', crop: '.bm-app', token: 'motionMs.comicBeatMaximum (its 240 ms opening only)', audience: 'public: every screen', trigger: 'A view whose phase is ABORTED.', proposal: true }),
   sb('cue-sheet-open', 'The private card opens over the board', 'hack.phase', [0], { token: 'motionMs.cardTransition 220 ms', audience: 'private', trigger: 'Card pressed.', proposal: true }),
   sb('cue-tally', 'The published count of a closed vote', 'vote.tally', [0], { crop: '.bm-board', token: 'motionMs.cardTransition 220 ms', audience: 'public: every screen', trigger: 'The view carries lastTally.', proposal: true }),
   sb('cue-ballot-subject', 'The subject of a release vote', 'release.vote', [0], { crop: '.bm-board', token: 'state, no motion', audience: 'public: every screen', trigger: 'A release vote opens.', proposal: true }),
 ];
 
-export const SECRECY = ['shot.pending', 'supply.second', 'code.four', 'scan.faction', 'protect.choose', 'vote.recorded', 'move.confirm', 'hack.phase'];
+export const SECRECY = ['shot.pending', 'supply.second', 'code.four', 'scan.faction', 'protect.choose', 'vote.recorded', 'move.confirm', 'hack.phase', 'showdown.registered', 'end.blue'];
 
 const server = await startStaticServer({ port: 0 });
 const browsers = new Map();

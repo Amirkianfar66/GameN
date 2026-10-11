@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "bb97e5873b1fd59cb9f9bcd002d2dbce8677991b03edbaa22d5e3cc970ecbb8d",
+  "inputsSha256": "b25bc5d31530f0b29cced0e44560dc1d54cc5ee9dab0b9350512cc888b900cab",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -1871,6 +1871,276 @@
       "file": "design/abilities/review/beat-connect-0320ms.png",
       "phone": "w390",
       "size": "525x77",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-choose",
+      "title": "Showdown: the special shot, full, before a target, 390 x 844",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-choose.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-confirm",
+      "title": "Showdown: the target in the reticle, 390 x 844",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-registered",
+      "title": "Showdown shot registered: spent, not a result, 390 x 844",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-blue",
+      "title": "The end: Blue wins, the roles and the Code, 390 x 844",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-blue.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-aborted",
+      "title": "The host ended the match: no winner, nothing revealed, 390 x 844",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-aborted.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-choose",
+      "title": "Showdown: the special shot, full, before a target, 320 x 568",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-choose.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-confirm",
+      "title": "Showdown: the target in the reticle, 320 x 568",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-registered",
+      "title": "Showdown shot registered: spent, not a result, 320 x 568",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w320-blue",
+      "title": "The end: Blue wins, the roles and the Code, 320 x 568",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w320-blue.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w320-aborted",
+      "title": "The host ended the match: no winner, nothing revealed, 320 x 568",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w320-aborted.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w390-alien-co",
+      "title": "Blue wins, and the Alien with Blue",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-alien-co.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-red",
+      "title": "Red wins",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-red.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-alien",
+      "title": "The Alien wins",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-alien.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-draw",
+      "title": "A draw after the showdown",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-draw.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-text200-confirm",
+      "title": "The showdown at twice the text size, 320 x 568",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-text200-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w390-text200-blue",
+      "title": "The end at twice the text size: one column",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-text200-blue.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-registered-reduced",
+      "title": "Reduced motion: the special shot spent at rest",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-registered-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-reduced",
+      "title": "Reduced motion: the match ends, the sheet faded in",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-no-art",
+      "title": "Without the ability art or the crew cards: showdown.confirm",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-no-art",
+      "title": "Without the ability art or the crew cards: end.blue",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-special-0000ms",
+      "title": "The special shot spent, 0 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/beat-special-0000ms.png",
+      "phone": "w390",
+      "size": "567x161",
+      "problems": []
+    },
+    {
+      "name": "beat-special-0110ms",
+      "title": "The special shot spent, 110 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/beat-special-0110ms.png",
+      "phone": "w390",
+      "size": "567x161",
+      "problems": []
+    },
+    {
+      "name": "beat-special-0220ms",
+      "title": "The special shot spent, 220 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/beat-special-0220ms.png",
+      "phone": "w390",
+      "size": "567x161",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0120ms",
+      "title": "The end revealed, 120 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0120ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0380ms",
+      "title": "The end revealed, 380 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0380ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0600ms",
+      "title": "The end revealed, 600 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0600ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0900ms",
+      "title": "The end revealed, 900 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0900ms.png",
+      "phone": "w390",
+      "size": "567x597",
       "problems": []
     }
   ]
