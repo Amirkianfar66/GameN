@@ -168,6 +168,13 @@ try {
   await click(page, '#bm-app [data-move-room="Room B"]');
   ok('move: a tag pressed during an open action opens nothing', (await notice(page)) === 'Finish or cancel the current action first.' && (await flow(page)).kind === 'shot', await notice(page));
   await page.close();
+  // The owner's capacity of five (11 October 2026): a full room says so on every screen, and is never a destination.
+  page = await open('move.full');
+  ok('capacity: a full room says FULL on its tag, on both boards, and the other room does not', await page.evaluate(`[...document.querySelectorAll('#bm-app .bm-board, [data-observer] .bm-board')].every(b => { const full = b.querySelector('.bm-room[data-room="room-a"] .bm-tag__full'); const other = b.querySelector('.bm-room[data-room="room-b"] .bm-tag__full'); return full && getComputedStyle(full).display !== 'none' && other && getComputedStyle(other).display === 'none'; })`));
+  ok('capacity: the full room\'s tag is named full', await page.evaluate(`document.querySelector('#bm-app [data-move-room="Room A"]').getAttribute('aria-label') === 'Move to Room A, full' && document.querySelector('#bm-app [data-move-room="Room B"]').getAttribute('aria-label') === 'Move to Room B'`));
+  await click(page, '#bm-app [data-move-room="Room A"]');
+  ok('capacity: pressing a full room says the release\'s words and opens nothing', (await notice(page)) === 'You cannot move to that room right now.' && (await flow(page)).step === 'idle', await notice(page));
+  await page.close();
 
   // ---------- Pass: the middle of navigation ----------
   page = await open('board.idle');

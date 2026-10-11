@@ -38,6 +38,20 @@ Run on the commit that adds the scenes, the 21 places, the live figures and thei
 - **B4 and B5 at 141 px.** B4's press area, clamped inside the panel, touched B5's; B4 moved right of the room's centre.
 - **A private hook in a public rule.** The rule that sizes every figure's drawing also named the tentative move's; it is scoped to the own board now.
 
+### Later on 11 October 2026: the owner's capacity rule
+
+The owner made five a room a hard rule ([owner-decisions.md](owner-decisions.md#11-october-2026-five-a-room-is-a-hard-rule)). The engine does not enforce it yet (issue [#96](https://github.com/Amirkianfar66/GameN/issues/96)); the board now says FULL on a full room's tag, the fixtures never offer a full room, and a new scenario, `move.full`, draws one. Run again after that change, in the same environment:
+
+| Command | Actual result |
+| --- | --- |
+| `npm run check:board-motion --workspace @mothership/design-tokens` | Passed: **13 of 13 checks**, over 14 actions, 21 cues and **66** scenarios |
+| `npm run capture:board-motion --workspace @mothership/design-tokens` | Passed: **212 captures and 5 contact sheets, 0 with problems** (the 66 scenarios at 390 x 844, `move.full` among them; the matrix, storyboards, secrecy pairs and character sheet as above) |
+| `npm run flows:board-motion --workspace @mothership/design-tokens` | Passed: **190 of 190** |
+| `npm run test --workspace @mothership/design-tokens` | **123 tests: 122 passed, 1 failed**: the **19 board-motion tests pass**; the one failure is the same pre-existing V1 phone quote mismatch (issue #76, draft PR #93) |
+| `npm run check:assets --workspace @mothership/design-tokens` | Passed: **15 of 15 checks** |
+
+The check refuses a fixture that offers a room already holding five; one of the tests offers Room A in `move.full` and expects that refusal by name. Three new flow steps show FULL on both boards (and not on the other room), the button named full, and a press on it that says the release's words and opens nothing.
+
 ## Checks that need no browser
 
 | Command | Actual result |

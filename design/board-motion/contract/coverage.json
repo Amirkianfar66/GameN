@@ -301,7 +301,7 @@
       "kind": "move",
       "command": "MOVE",
       "offers": "self.movementDestinations",
-      "board": "Not in the tray. Press a room's name tag; a dashed You? marks the place tentatively; confirm; the piece moves with the public update.",
+      "board": "Not in the tray. Press a room's name tag; a dashed You? marks the place tentatively; confirm; the piece moves with the public update. A full room (five, the owner's capacity) says FULL on its tag and is never offered; pressing it says the release's words.",
       "inline": [],
       "self": "The player's own piece.",
       "hospitalJail": "Hospital and Jail are not destinations: their tags are captions, not buttons.",
@@ -314,13 +314,14 @@
         "cue-public-move",
         "layout-reflow"
       ],
-      "public": "The move itself, on every screen, from the public update.",
+      "public": "The move itself, on every screen, from the public update; and FULL on a room that holds five, from public occupancy.",
       "scenarios": [
         "move.tags",
         "move.confirm",
         "move.pending",
         "move.accepted",
-        "move.refused"
+        "move.refused",
+        "move.full"
       ]
     },
     {
@@ -590,8 +591,8 @@
       {
         "id": "GAP-2",
         "kind": "owner decision",
-        "what": "The owner's reference asked for at most five players in a room, and on 9 October 2026 the owner said: “lets say the maximum capacity of each room is 5”, five fixed places a room, one in the Command Room. The rules have no room capacity: rules/overlays/location-board-layout-v1.json says \"Unnumbered token areas avoid imposing an artificial room-capacity rule\", docs/design/art-direction.md asks for room for all nine without implying capacity, and docs/balance/rules-audit.md finds no capacity rule.",
-        "decision": "Five fixed places a room, each with its own gesture (the Command Room one, the Captain's); a character keeps its place while it stays. Drawn, not enforced: six to nine in one room stand in a 3 x 3 crowd (layout stress) until a capacity rule exists. A capacity is a rule change for the game owner with Backend and Balance, with open questions: what a move into a full room does, whether the Eliminated count, a sixth Injured player at the end of a round, the Jail, and setup placement (DSN-D27)."
+        "what": "The owner's reference asked for at most five players in a room; on 9 October 2026 the owner said “lets say the maximum capacity of each room is 5”, and on 11 October 2026 “yes enforce 5 as a hard rule”. The rules and the engine have no room capacity yet: rules/overlays/location-board-layout-v1.json says \"Unnumbered token areas avoid imposing an artificial room-capacity rule\", and the server's starting rooms are an independent coin flip for each player (issue #83).",
+        "decision": "Five fixed places a room, each with its own gesture (the Command Room one, the Captain's), a character keeping its place while it stays. A full room says FULL on its tag, on every screen, from public occupancy, and no fixture offers one. Until the engine enforces the rule (DSN-REQ-12, Backend, with Balance and the owner settling six cases: a move into a full room, the Eliminated, a sixth Injured player, the Jail, the starting rooms, a return to a full room; DSN-D27), a view with six to nine in one room is still drawn, as a 3 x 3 crowd in which everyone can be pressed (layout stress)."
       },
       {
         "id": "GAP-3",

@@ -28,7 +28,7 @@ npm run dev:review --workspace @mothership/design-tokens   # serves design/ on h
 | Nine characters in eleven states | `http://127.0.0.1:4320/board-motion/vocabulary.html` |
 | The contact sheets | `http://127.0.0.1:4320/board-motion/contact.html?set=key` (`all`, `matrix`, `motion`, `secrecy`) |
 
-Crowded-room scenarios are marked **layout stress** on the phone and in the selector. The offer guard checks static engine predicates, not resources or an engine-reachable match history.
+Crowded-room scenarios are marked **layout stress** on the phone and in the selector: six or more in one room is beyond the owner's capacity of five (a hard rule since 11 October 2026, not yet enforced by the engine), kept to show the board still draws such a view. A full room's tag says FULL (`move.full`). The offer guard checks static engine predicates, not resources or an engine-reachable match history.
 
 The controls on the right are the prototype's own, not the design: pick a scenario, choose how the stand-in server answers the next command (accept, reject, lose the answer, slow), deliver public facts to every screen (a move, a health change, a new Captain, the next turn or round, a replay of the last snapshot, a reconnect), and switch reduced motion or long names. On the phone, everything works: Actions, every action, every character, room tags, Pass, Card, Menu, Escape.
 

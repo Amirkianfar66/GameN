@@ -204,4 +204,6 @@ export const PROPOSED = {
   passLegacy: 'This match has no Pass.',
   passNotYours: 'Pass is available on your own turn.',
   observerTitle: 'Everyone else sees',
+  roomFull: 'Full',
+  moveFullLabel: location => `Move to ${location}, full`,
 };

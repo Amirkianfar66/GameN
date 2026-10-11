@@ -18,6 +18,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-9](#dsn-req-9) | Decide whether a join link or QR code may carry the room code (issue #76) | The share sheet's link and QR, which are drawn as a PROPOSAL | None |
 | [DSN-REQ-10](#dsn-req-10) | A shorter, supervised way to hand a seat to another device than 43 characters plus a match identifier (finding G20; issue #76) | Seat recovery read aloud or typed at a table | None |
 | [DSN-REQ-11](#dsn-req-11) | Say in the view that an election is a second one among tied candidates (G13), and which vote a published count belongs to (G15) (issue #76) | Wording the runoff and the “last count” without inference | None |
+| [DSN-REQ-12](#dsn-req-12) | Enforce the owner's room capacity of five in the engine and the server (owner, 11 October 2026; issue #87) | The board drawing five places a room as a rule rather than a picture; a full room refused before it is pressed | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -199,6 +200,14 @@ A recovery code is 43 characters and the new device also needs the match identif
 - The last published count stays in the view through later phases with nothing saying which vote it was. The design labels it “Last vote counted · Jail vote”. An identifier of the vote it counts, or its round, would let a screen say whether it is this round's.
 
 Both are additive public facts. Neither changes a rule.
+
+## DSN-REQ-12
+
+**Enforce the room capacity of five.** Added 11 October 2026 for issue [#87](https://github.com/Amirkianfar66/GameN/issues/87); tracked in issue [#96](https://github.com/Amirkianfar66/GameN/issues/96). For Backend (the engine, the rules overlays and the server's starting rooms), with Game Balance to audit the effect on play.
+
+The owner decided on 11 October 2026: “yes enforce 5 as a hard rule” ([owner-decisions.md](owner-decisions.md#11-october-2026-five-a-room-is-a-hard-rule)). At most five players are in Room A, Room B, the Hospital and the Jail; the Command Room keeps its one, the Captain; the Final Zone is not a room and holds everyone left. Nothing in the engine or the server enforces it today: the rules have no capacity, and the starting rooms are an independent coin flip for each player (issue #83), which puts six or more of nine in one room about half the time.
+
+Requested: a new ruleset version that enforces it, with the six cases the owner has not settled decided first (the Designer's recommendations are in owner-decisions.md: a full room is not offered and a move into it is refused; the Eliminated count; a sixth Injured player waits where it is for a free Hospital place; the Jail never exceeds five; starting rooms random but at most five a room; a return to a full room goes to the other of Room A and Room B). No new public fact is needed: occupancy is already public, and the board derives FULL from it. Until the engine enforces it the design draws what the view says, six or more in a room as a crowd.
 
 ## What Designer does next, and what it waits for
 

@@ -162,6 +162,10 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 /* A narrow panel keeps the room's name whole: its subtitle goes first. */
 @container (max-width: 190px) { .bm-tag__sub { display: none; } }
 @container (max-width: 120px) { .bm-tag__go { display: none; } }
+/* A full room (five, the owner's capacity of 11 October 2026): FULL instead of the arrow, on every screen. */
+.bm-tag__full { display: none; padding: 1px 4px; font-size: 9px; letter-spacing: 0.08em; color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px; }
+.bm-room[data-full="true"] .bm-tag__full { display: inline-block; }
+.bm-room[data-full="true"] .bm-tag__go { display: none; }
 
 /* ---------- characters: full-body comic figures in fixed places (owner's decisions of 9 October 2026) ---------- */
 /* A piece is an anchor at its panel's corner. board.js lays its parts out in panel pixels: the figure's box

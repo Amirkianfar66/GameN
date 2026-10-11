@@ -12,7 +12,7 @@
 // never derived here; the observer board is drawn with none.
 
 import { h, vh } from './h.js';
-import { LOCATION_OF, MOVE_ROOMS, ROOMS, ROOM_OF, assign, gestureOf, placements } from './layout.js';
+import { CAPACITY, CAPACITY_ROOMS, LOCATION_OF, MOVE_ROOMS, ROOMS, ROOM_OF, assign, gestureOf, placements } from './layout.js';
 import { COPY, PROPOSED, SHELL } from './copy.js';
 import { SCENES } from '../scenes/index.mjs';
 import { PRESS, frameScene, pressPoint, toScene } from '../scenes/frame.mjs';
@@ -39,9 +39,11 @@ function roomTag(room, { interactive }) {
     // checked by their own controller after the press, never drawn here. The button is the
     // press area (at least 44 x 44); the slanted caption is drawn inside it.
     const face = (...kids) => h('span', { class: 'bm-tag__face' }, ...kids);
+    // FULL, from public occupancy (the owner's capacity of five), drawn alike on every screen.
+    const full = CAPACITY_ROOMS.includes(location) ? h('span', { class: 'bm-tag__full', 'aria-hidden': 'true' }, PROPOSED.roomFull) : null;
     return h('h3', { class: 'bm-tag', 'data-room-tag': room },
       interactive ? h('button', { type: 'button', class: 'bm-tag__move', 'data-move-room': location, 'aria-label': `Move to ${location}`, id: `bm-move-${room}` },
-        face(inner, h('span', { class: 'bm-tag__go', 'aria-hidden': 'true' }, '↗'))) : h('span', { class: 'bm-tag__move' }, face(inner)));
+        face(inner, full, h('span', { class: 'bm-tag__go', 'aria-hidden': 'true' }, '↗'))) : h('span', { class: 'bm-tag__move' }, face(inner, full)));
   }
   return h('h3', { class: 'bm-tag bm-tag--fixed', 'data-room-tag': room }, h('span', { class: 'bm-tag__icon', 'data-icon': room, 'aria-hidden': 'true' }), inner);
 }
@@ -226,6 +228,14 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
       wanted.forEach((element, index) => { if (ol.children[index] !== element) ol.insertBefore(element, ol.children[index] ?? null); });
       panel.dataset.count = String(list.length);
       panel.dataset.crowd = String(list.some(([, , place]) => place.kind === 'crowd'));
+      // A full room says so on its tag, in words for everyone too; pressing it still goes
+      // through the viewer's own offers, which never include a full room.
+      const location = LOCATION_OF[room];
+      if (CAPACITY_ROOMS.includes(location)) {
+        const full = list.length >= CAPACITY;
+        panel.dataset.full = String(full);
+        panel.querySelector('button.bm-tag__move')?.setAttribute('aria-label', full ? PROPOSED.moveFullLabel(location) : `Move to ${location}`);
+      }
       panel.hidden = finalZone ? room !== 'final-zone' : room === 'final-zone';
     }
     // A tentative place for a move is drawn in the room the viewer pressed, and only there: the

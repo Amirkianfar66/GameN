@@ -6,8 +6,8 @@
 //
 // The owner's decision of 9 October 2026: each room is a scene with five fixed places, each
 // with its own gesture; the Command Room has one, the Captain's (only the Captain may enter
-// it). The places are drawn, not enforced: the rules have no room capacity yet (DSN-D27), so
-// six or more in one room stand in a crowd until a capacity rule exists (layout stress).
+// it). On 11 October 2026 the owner made five a hard rule; until the engine enforces it
+// (DSN-REQ-12), six or more in one room still stand in a crowd (layout stress).
 
 import { SCENES } from '../scenes/index.mjs';
 import { INJURED } from '../figures/gestures.mjs';
@@ -17,6 +17,14 @@ export const LOCATION_OF = { 'command-room': 'Command Room', 'room-a': 'Room A',
 export const ROOM_OF = Object.fromEntries(Object.entries(LOCATION_OF).map(([room, location]) => [location, room]));
 /** The rooms a player can move to by pressing their name tag: the protocol's MOVE destinations. */
 export const MOVE_ROOMS = ['Command Room', 'Room A', 'Room B'];
+/**
+ * The owner's decision of 11 October 2026: at most five in a room, a hard rule (the Command
+ * Room holds its one, the Captain). The engine does not enforce it yet (DSN-REQ-12): the board
+ * says FULL on a full room's tag from public occupancy, and still draws a view with more.
+ */
+export const CAPACITY = 5;
+/** The rooms whose tag says FULL: the two a player moves between. */
+export const CAPACITY_ROOMS = ['Room A', 'Room B'];
 
 /**
  * Six to nine in one room: three rows of three, everyone standing, every character reachable

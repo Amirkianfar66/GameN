@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "e7d21684d9dccc248ddec44f9f6131189fccef10c994d8ff8b3b2422fd13e088",
+  "inputsSha256": "5fd71b87a94ff1bbe336200079e12b3850b14b13d2aaad64ccb6582344334e76",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
@@ -328,6 +328,12 @@
       "id": "move.refused",
       "group": "Movement",
       "title": "A room you cannot move to",
+      "key": false
+    },
+    {
+      "id": "move.full",
+      "group": "Movement",
+      "title": "Room A is full (five, the owner’s capacity): its tag says FULL on every screen, and it is never offered",
       "key": false
     },
     {
@@ -1576,6 +1582,18 @@
       "id": "move.refused",
       "state": "move.refused",
       "file": "design/board-motion/review/states/move.refused.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.full",
+      "state": "move.full",
+      "file": "design/board-motion/review/states/move.full.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -4016,7 +4034,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 4590,
+      "height": 4637,
       "viewport": "1600",
       "contact": true
     },

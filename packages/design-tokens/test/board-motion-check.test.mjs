@@ -155,15 +155,17 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
 
   // ---------- fixtures ----------
 
-  test('a role word in a public state, an offer the engine never makes, and an event that carries a cause', async () => {
+  test('a role word in a public state, an offer the engine never makes, an event that carries a cause, and a full room offered', async () => {
     const root = scratchCopy();
     append(root, FIXTURES, [
       "{ const entry = SCENARIOS.find(item => item.id === 'board.idle'); const s = entry.s; entry.s = () => { const st = s(); st.public.note = 'Ada is the Undercover'; return st; }; }",
       "{ const entry = SCENARIOS.find(item => item.id === 'shot.choose'); const s = entry.s; entry.s = () => { const st = s(); st.private.offers.shot = [1, 3, 7]; return st; }; }",
       "EVENTS.push({ id: 'bang', label: 'Bang', fact: { type: 'PUBLIC_HEALTH_CHANGED', seat: 5, health: 'Injured', attacker: 2 } }, { id: 'shot', label: 'Shot', fact: { type: 'SHOT_FIRED', seat: 5 } });",
+      "{ const entry = SCENARIOS.find(item => item.id === 'move.full'); const s = entry.s; entry.s = () => { const st = s(); st.private.offers.move = ['Room A']; return st; }; }",
     ].join('\n'));
     refuses(await check(root), /board\.idle: the public state names the role Undercover/, /shot\.choose: shot offers the player's own seat/,
-      /shot\.choose: shot offers Player 7 in Command Room/, /event bang: carries attacker/, /event shot: SHOT_FIRED is not a public fact/);
+      /shot\.choose: shot offers Player 7 in Command Room/, /event bang: carries attacker/, /event shot: SHOT_FIRED is not a public fact/,
+      /move\.full: move offers Room A, which already holds five \(the owner's capacity\)/);
   });
 
   // ---------- the release's words and looks ----------

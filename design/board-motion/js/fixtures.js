@@ -56,6 +56,8 @@ const sameRoom = (count = 9, locations = SPREAD, self = VIEWER) => seatsFor(coun
 const BUSY_A = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Hospital', 'Command Room', 'Room A', 'Jail'];
 const CROWD_A = ['Room A', 'Room A', 'Room A', 'Room A', 'Room A', 'Room A', 'Room A', 'Hospital', 'Jail'];
 const ALL_A = Array(9).fill('Room A');
+/** Room A full (seats 1, 2, 4, 5 and 8); the viewer alone in Room B. */
+const FULL_A = ['Room A', 'Room A', 'Room B', 'Room A', 'Room A', 'Hospital', 'Command Room', 'Room A', 'Jail'];
 const CROWD_HOSPITAL = ['Hospital', 'Hospital', 'Room A', 'Hospital', 'Hospital', 'Hospital', 'Command Room', 'Hospital', 'Room B'];
 const FINAL = Array(9).fill('Final Zone');
 const HOSPITAL_8 = Array.from({ length: 9 }, (_, index) => (index + 1 === VIEWER ? 'Room A' : 'Hospital'));
@@ -131,6 +133,7 @@ export const SCENARIOS = [
   { id: 'move.pending', group: 'Movement', title: 'Move: sending', s: () => state({ offers: { move: ['Room B'] }, flow: { step: 'submitting', kind: 'move', picked: ['Room B'] } }) },
   { id: 'move.accepted', group: 'Movement', title: 'Move accepted; the piece moves with the public update', s: () => state({ offers: { move: [] }, flow: { step: 'accepted', kind: 'move', picked: ['Room B'] }, seats: s => { s[2].location = 'Room B'; } }) },
   { id: 'move.refused', group: 'Movement', title: 'A room you cannot move to', s: () => state({ offers: { move: ['Room B'] }, notice: SHELL.cannotMove }) },
+  { id: 'move.full', group: 'Movement', title: 'Room A is full (five, the owner’s capacity): its tag says FULL on every screen, and it is never offered', s: () => state({ locations: FULL_A, offers: { move: [] } }) },
 
   // ---------- pass ----------
   { id: 'pass.confirm', group: 'Pass', title: 'Pass: confirm on the board', s: () => state({ offers: { move: moveTo }, flow: { step: 'confirming', kind: 'pass', picked: ['pass'] } }) },
