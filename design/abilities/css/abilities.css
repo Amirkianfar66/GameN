@@ -33,7 +33,8 @@
   font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ms-color-steel-shadow);
   border: 3px double var(--ms-color-steel-shadow); border-radius: 4px; transform: rotate(var(--ab-stamp-turn)); opacity: 0.92; white-space: nowrap;
 }
-[data-art~="abilities"] .ab-stamp { border-color: transparent; background: var(--ab-asset-dossier-stamp) center / 100% 100% no-repeat; padding: 6px 12px 5px; }
+/* The frame is nine-sliced: its corners keep their shape and its sides stretch to the word, however long. */
+[data-art~="abilities"] .ab-stamp { border: 8px solid transparent; border-image: var(--ab-asset-dossier-stamp) 10 12 fill / 8px 10px stretch; padding: 0 2px; }
 
 /* The field: corner pins for the string, the snapshots, the envelope. */
 .ab-file__field { position: relative; padding: 12px 4px 12px; }

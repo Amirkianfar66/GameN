@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "d3c7011c16027e7fef57a8d69ec5e76e4bcfd5398fa2729b8dc11d38a6061cef",
+  "inputsSha256": "300187e0ce706ccedfabdddcef381f11f1af74618802e83639ef868e708edec5",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -180,7 +180,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-0000ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     },
     {
@@ -189,7 +189,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-0120ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     },
     {
@@ -198,7 +198,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-0260ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     },
     {
@@ -207,7 +207,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-0420ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     },
     {
@@ -216,7 +216,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-0600ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     },
     {
@@ -225,7 +225,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-0780ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     },
     {
@@ -234,7 +234,7 @@
       "group": "Assembly, frame by frame",
       "file": "design/abilities/review/assembly-1020ms.png",
       "phone": "w390",
-      "size": "567x957",
+      "size": "567x956",
       "problems": []
     }
   ]
