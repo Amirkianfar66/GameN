@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.3.0 · proposal
+`mothership:dev-only` · abilities-0.4.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 9 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 13 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -36,10 +36,10 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | [Cracker: Rescue](#cracker-rescue) | Cracker | private-own; recovery public | 3 | delivered |
 | [Blue Disabler and Red Disabler: Disable](#disabler) | Blue Disabler, Red Disabler | private-own | 3 | delivered |
 | [Supplier: Supply](#supplier-supply) | Supplier, any recipient | private-own; each recipient's own acknowledgment | 3 | delivered |
-| [Undercover: Protection](#undercover-protection) | Undercover | private-own (Undercover only) | 4 | planned |
-| [Ordinary shot (every eligible role)](#ordinary-shot) | Undercover, Officer, any holder of a supplied weapon, the Alien included | private-own; damage public | 4 | planned |
-| [Officer: the one shot](#officer-shot) | Officer | private-own | 4 | planned |
-| [Alien: shared actions and a supplied weapon](#alien-weapon) | Alien | private-own | 4 | planned |
+| [Undercover: Protection](#undercover-protection) | Undercover | private-own (the Undercover only) | 4 | delivered |
+| [Ordinary shot (every seat that holds a weapon)](#ordinary-shot) | Officer, Undercover, any holder of a supplied weapon, the Alien included | private-own; any damage public | 4 | delivered |
+| [Officer: the one shot](#officer-shot) | Officer | private-own | 4 | delivered |
+| [Alien: shared actions and a supplied weapon](#alien-weapon) | Alien | private-own | 4 | delivered |
 | [Character selection](#shared-selection) | any | public choice, own confirmation | 5 | planned |
 | [Private role-card reveal](#shared-role-card) | any | private-own | 5 | planned |
 | [Movement and room arrival](#shared-move) | any | public | 5 | planned |
@@ -370,124 +370,138 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Undercover: Protection
 
-`undercover-protection` · slice 4 · **planned** · Undercover · private-own (Undercover only)
+`undercover-protection` · slice 4 · **delivered** · Undercover · private-own (the Undercover only)
 
-**Trigger.** The Undercover opens Protection, picks a Healthy or Injured character (themself included) and confirms.
+**Trigger.** The Undercover opens Protection, picks a character in the same location who has never been given one (themself included) and confirms. The round's resolution grants it if that player is still in the game, active from the next round; the first attack to reach that player from then on uses it up.
 
 **View fields.** `legalTargets.PROTECT`, `receipt`, `knowledge.protections[]: seatId, activeFromRound, consumed`
 
 **What it must show, and never show.**
 
-- Grant, activation and consumption are drawn only for the Undercover (V1-17). The recipient never sees a shield; nothing public changes.
+- Registration is not a grant: the receipt stamps Registered with the target's chip on the shield and says nothing of whether, or from when, the player is protected.
+- A grant and its use are drawn only from the Undercover's own view (V1-17): one note per entry of knowledge.protections, in the view's order and the release's words, active from round N or used up. Whether that round has come is not worked out, as the release does not.
+- The recipient never sees a shield and nothing public changes. A seat whose shot or Disable it stopped sees only its own receipt, the same as for any other.
 
-**Concept.** The dome emitter device: a dome sketched over the picked portrait in the Undercover's file; queued (dashed dome, Active from round N), active (solid dome), consumed (dome cracked, Used).
+**Concept.** In the strip: the picked player's chip on a shield beside the question, and the neutral Registered stamp on the receipt. In the Undercover's card: a note per Protection on slip paper, the player's chip on a whole shield (active from round N), or drawn whole before a shield split in two (used up: the shield was spent, not the player), beside the release's sentence.
 
-**Art.** planned: dome-queued, dome-active, dome-cracked
+**Art.** dossier-shield; dossier-shield-used; dossier-slip; dossier-chip
 
 | Motion | |
 | --- | --- |
-| normal | Dome draw 300 ms on registration; crack 240 ms when the view says consumed. |
-| reduced | Static domes. |
-| static | Words. |
-| cancel | As every strip. |
-| replay | A consumed dome never cracks again after recovery. |
+| normal | When the view first says a Protection is used up, its split shield shakes and settles (260 ms), once. |
+| reduced | No shake: the note is drawn used up. |
+| static | The shields and the words. |
+| cancel | As every strip; reduced motion finishes the shake at once. |
+| replay | Never: a Protection this page has shown used up is drawn at rest; a duplicate snapshot, a recovery or a reconnect plays nothing. |
 
-**States.** choosing; confirming; sending; registered; queued; active (from the view's round); consumed; rejected; unknown
+**States.** choosing; confirming (the target on the shield); sending; registered (not a grant); rejected; unknown; granted: active from round N; used up; for yourself; several, in the view's order
 
-**Words.** “Protection”, “Active from round <n>”, “Used up”
+**Words.** “Protection”, “Register Protection for Player 5?”, “Protection for Player 5 registered.”, “Protection for Player 5: active from round 3.”, “Protection for yourself: used up.”
+
+**Review.** `design/abilities/review/protect-w390-confirm.png`, `design/abilities/review/protect-w320-confirm.png`, `design/abilities/review/protect-w390-registered.png`, `design/abilities/review/guard-w390-card.png`, `design/abilities/review/guard-w320-card.png`, `design/abilities/review/guard-w390-used.png`, `design/abilities/review/guard-w390-self.png`, `design/abilities/review/guard-w390-text200-self.png`, `design/abilities/review/guard-w390-no-art.png`, `design/board-motion/index.html?scenario=guard.card`
 
 <a id="ordinary-shot"></a>
 
-### Ordinary shot (every eligible role)
+### Ordinary shot (every seat that holds a weapon)
 
-`ordinary-shot` · slice 4 · **planned** · Undercover, Officer, any holder of a supplied weapon, the Alien included · private-own; damage public
+`ordinary-shot` · slice 4 · **delivered** · Officer, Undercover, any holder of a supplied weapon, the Alien included · private-own; any damage public
 
-**Trigger.** A seat whose view offers REGISTER_SHOT picks a character in the same location and confirms. Direct targeting only: no third player.
+**Trigger.** A seat whose view offers REGISTER_SHOT picks a character in the same location and confirms: from Round 4 with an ordinary weapon, from Round 1 for the Officer (nine-player mode). Direct targeting only: the shooter and the target, no third player.
 
 **View fields.** `self.shotAvailable`, `self.ordinaryWeapons`, `legalTargets.REGISTER_SHOT`, `receipt`, `PUBLIC_HEALTH_CHANGED`
 
 **What it must show, and never show.**
 
-- Registration is not damage.
-- The public hit (cue-public-hit, a proposal) is the same for every cause and from no direction.
+- Every seat that shoots sees the same strip, part for part: the Officer's, the Undercover's and an Alien's with a supplied weapon are compared in the captures and the flows. Nothing in it is a role's.
+- Registration is not damage: the receipt stamps Registered and says nothing of a hit. A hit, if there is one, is the public health change at the end of the round, the same for every cause and from no direction (cue-public-hit, a proposal).
+- The weapon is used when the shot is accepted, and a round is drawn spent only when the view's count (self.ordinaryWeapons) falls, never ahead of it.
 
-**Concept.** A shared shot strip: a crosshair over the picked character on the own board, the weapon pip spent on registration. The same component for every role; the Officer's card and the supplied weapon differ only in their own private art.
+**Concept.** In the strip: the target's chip in a reticle beside the question and, at the start of the detail line, the rounds the seat holds; on the receipt the one used is drawn spent. In the card, for every seat as the release says it: Ordinary weapons you hold: N., with as many rounds.
 
-**Art.** approved: icon-action-shot; planned: crosshair, weapon-pip
+**Art.** approved: icon-action-shot; dossier-reticle; dossier-round; dossier-round-spent; dossier-chip
 
 | Motion | |
 | --- | --- |
-| normal | Crosshair lock 180 ms; pip spends 160 ms on the receipt. |
-| reduced | Ring and stamp. |
-| static | Words. |
-| cancel | As every strip. |
-| replay | Never. |
+| normal | On the receipt, once the view's count has fallen, the round leaves the rack (220 ms). |
+| reduced | No beat: the round is drawn spent. |
+| static | The reticle, the rounds and the words. |
+| cancel | As every strip; reduced motion finishes the beat at once. |
+| replay | Never: the round leaves once, for the fall of the count; a duplicate snapshot, a recovery or a reconnect plays nothing. |
 
-**States.** unavailable; choosing; confirming; sending; registered; rejected; unknown
+**States.** unavailable (not offered); choosing; confirming (the target in the reticle, the rounds held); sending; registered (the round spent; not a result); rejected; unknown; holding none (the card says 0)
 
-**Words.** “Shot”, “Shot registered”
+**Words.** “Shot”, “Register a shot at Player 5?”, “Shot at Player 5 registered.”, “This is not a result. Registered shots are resolved at the end of the round.”, “Ordinary weapons you hold: 1.”
 
-**Review.** `design/board-motion/index.html?scenario=shot.choose`
+**Review.** `design/abilities/review/shot-w390-confirm.png`, `design/abilities/review/shot-w320-confirm.png`, `design/abilities/review/shot-w390-registered.png`, `design/abilities/review/shot-w320-registered.png`, `design/abilities/review/shot-w390-undercover-confirm.png`, `design/abilities/review/shot-w390-alien-confirm.png`, `design/abilities/review/shot-w390-registered-reduced.png`, `design/abilities/review/shot-w320-text200-confirm.png`, `design/abilities/review/shot-w390-no-art.png`, `design/board-motion/index.html?scenario=shot.confirm`
 
 <a id="officer-shot"></a>
 
 ### Officer: the one shot
 
-`officer-shot` · slice 4 · **planned** · Officer · private-own
+`officer-shot` · slice 4 · **delivered** · Officer · private-own
 
-**Trigger.** Nine-player mode only. From Round 1, during the Officer's own ordinary turn; one ordinary shot in the match, never a second from a supplied weapon.
+**Trigger.** Nine-player mode only. From Round 1, in the Officer's own ordinary turn; one ordinary shot in the match, never a second, even with a supplied weapon (V1-16).
 
-**View fields.** `self.shotAvailable`, `self.ordinaryWeapons`, `legalTargets.REGISTER_SHOT`
+**View fields.** `self.shotAvailable`, `self.ordinaryWeapons`, `legalTargets.REGISTER_SHOT`, `receipt`
 
 **What it must show, and never show.**
 
-- The same shared shot strip; the sidearm device with one cell, empty once spent.
+- The same strip as every seat that shoots: nothing in it says Officer. The Officer's identity stays in its role card (the approved device).
+- Round 1 is the server's offer: the strip opens only when the view offers REGISTER_SHOT.
+- One shot in the match: after it the view offers no shot and the card says the Officer holds 0. A weapon supplied after the shot is counted like any other (the card says 1), but the view carries nothing saying the Officer's shot is spent, so the card cannot say that weapon cannot be used (DSN-REQ-15).
 
-**Concept.** The sidearm device's single cell in the strip; spent: the cell dark and a SPENT tag on the card.
+**Concept.** The ordinary shot strip from Round 1 with the Officer's one round; after the shot, the card's weapons note holding none.
 
-**Art.** approved: device-officer; planned: cell-pip
+**Art.** approved: device-officer (the role card); dossier-reticle; dossier-round; dossier-round-spent
 
 | Motion | |
 | --- | --- |
 | normal | As the ordinary shot. |
 | reduced | As the ordinary shot. |
-| static | Words. |
+| static | The reticle, the rounds and the words. |
 | cancel | As every strip. |
 | replay | Never. |
 
-**States.** available; spent
+**States.** available from Round 1; registered (the one round spent); spent (not offered; the card holds none); a weapon supplied after the shot (counted; that it cannot be used is not shown, DSN-REQ-15)
 
-**Words.** “One shot”, “Spent”
+**Words.** “Shot”, “Register a shot at Player 5?”, “Ordinary weapons you hold: 0.”
+
+**Review.** `design/abilities/review/shot-w390-officer.png`, `design/abilities/review/weapons-w390-officer-spent.png`, `design/abilities/review/weapons-w390-officer-supplied.png`, `design/board-motion/index.html?scenario=shot.officer`
+
+**Depends on.** DSN-REQ-15: a lasting own field for the Officer's spent shot (shotAvailable means a legal target now), so that a weapon supplied after it can be drawn as one that cannot be used.
 
 <a id="alien-weapon"></a>
 
 ### Alien: shared actions and a supplied weapon
 
-`alien-weapon` · slice 4 · **planned** · Alien · private-own
+`alien-weapon` · slice 4 · **delivered** · Alien · private-own
 
-**Trigger.** The Alien's view offers the shared actions; a weapon arrives only through a Supplier grant, and is used in Rounds 4 and 5 like any ordinary weapon.
+**Trigger.** The Alien's view offers the shared actions. A weapon arrives only through a Supplier's grant in Round 3, and is shot from Round 4 like any ordinary weapon.
 
-**View fields.** `self.ordinaryWeapons`, `receivedSupply[]`, `legalTargets.REGISTER_SHOT`
+**View fields.** `self.ordinaryWeapons`, `receivedSupply[] (round)`, `legalTargets.REGISTER_SHOT`, `receipt`
 
 **What it must show, and never show.**
 
-- The supplied weapon slip in the Alien's file only; no public weapon marker.
+- The weapon received is the recipient's slip in the Alien's own card (slice 3), naming no Supplier, and the weapons note; no public weapon marker.
+- The Alien shoots through the same strip as every other seat, part for part: nothing in it says Alien or a team.
 
-**Concept.** The ordinary shot strip; the weapon slip in the file.
+**Concept.** In the Alien's card, under its Code file: the recipient's slip and the weapons note with its round. The ordinary shot strip.
 
-**Art.** planned: weapon-slip (shared with every recipient)
+**Art.** dossier-slip; dossier-tag; dossier-round; dossier-reticle
 
 | Motion | |
 | --- | --- |
-| normal | As the ordinary shot. |
-| reduced | As the ordinary shot. |
-| static | Words. |
+| normal | As the ordinary shot; the slip drops in once (slice 3). |
+| reduced | As the ordinary shot; no drop. |
+| static | The slip, the rounds and the words. |
 | cancel | As every strip. |
 | replay | Never. |
 
-**States.** no weapon; weapon received; shot as the ordinary shot
+**States.** no weapon (the card says 0); weapon received (the slip and one round); shot as the ordinary shot
 
-**Words.** “Weapon received”
+**Words.** “You received one ordinary weapon from Supply in Round 3.”, “Ordinary weapons you hold: 1.”
+
+**Review.** `design/abilities/review/alien-w390-weapon.png`, `design/abilities/review/alien-w320-weapon.png`, `design/abilities/review/shot-w390-alien-confirm.png`, `design/board-motion/index.html?scenario=alien.weapon`
 
 <a id="shared-selection"></a>
 
@@ -839,7 +853,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ## The kit
 
-Manifest `abilities-0.3.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 19556 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.4.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 22911 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
@@ -868,4 +882,9 @@ Manifest `abilities-0.3.0` (proposal), against the reviewed manifest `design-0.2
 | `dossier-spark` | 0.1.0 | 56 x 56 | center [28,28]; clear [20] | 1923 | `b34d596b9ed7` | Four sparks at the corners of a Disable's target, outside its chip: a charged reticle, never a hit. In the Disabler's strip only; the same for both Disablers. |
 | `dossier-tag` | 0.1.0 | 70 x 40 | eyelet [12,20]; chip [42,20] | 942 | `68753d6d5cb1` | One of a Supply's two picks, its chip at (42, 20); the two in seat order. |
 | `dossier-slip` | 0.1.0 | 200 x 64 | slice [18,34,10,10]; text [10,18,156,36] | 1189 | `2bfb2b63305e` | The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band. |
+| `dossier-reticle` | 0.1.0 | 56 x 56 | center [28,28]; clear [19] | 1000 | `72260d7a83fd` | A ring and four ticks round the chip of a shot's target, in the shooter's strip only; the same for every seat that holds a weapon, the Officer included. |
+| `dossier-shield` | 0.1.0 | 48 x 56 | window [24,25,17] | 1087 | `03ca1feb0165` | Behind the chip of a Protection's target, in the Undercover's strip and on its own note of the Protection in the card. Never on the recipient's phone or a public surface (V1-17). |
+| `dossier-shield-used` | 0.1.0 | 48 x 56 | window [24,25,17] | 1231 | `d0944a9cc117` | A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only. |
+| `dossier-round` | 0.1.0 | 14 x 30 | base [7,28] | 905 | `019e5cf26c81` | One ordinary weapon the seat holds (self.ordinaryWeapons), in its own shot strip and its own card. |
+| `dossier-round-spent` | 0.1.0 | 14 x 30 | base [7,28] | 816 | `a973434a79f5` | The weapon a registered shot used: drawn when the view's count falls, never ahead of it. |
 

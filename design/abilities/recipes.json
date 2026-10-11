@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.3.0",
+  "manifestVersion": "abilities-0.4.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -155,6 +155,36 @@
       "title": "A slip", "source": "source/tools.svg", "layer": "dossier-slip", "viewBox": "0 0 200 64",
       "use": "The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band.",
       "anchors": { "slice": [18, 34, 10, 10], "text": [10, 18, 156, 36] }
+    },
+    {
+      "id": "dossier-reticle", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A reticle", "source": "source/guard.svg", "layer": "dossier-reticle", "viewBox": "0 0 56 56",
+      "use": "A ring and four ticks round the chip of a shot's target, in the shooter's strip only; the same for every seat that holds a weapon, the Officer included.",
+      "anchors": { "center": [28, 28], "clear": [19] }
+    },
+    {
+      "id": "dossier-shield", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A shield", "source": "source/guard.svg", "layer": "dossier-shield", "viewBox": "0 0 48 56",
+      "use": "Behind the chip of a Protection's target, in the Undercover's strip and on its own note of the Protection in the card. Never on the recipient's phone or a public surface (V1-17).",
+      "anchors": { "window": [24, 25, 17] }
+    },
+    {
+      "id": "dossier-shield-used", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A shield used up", "source": "source/guard.svg", "layer": "dossier-shield-used", "viewBox": "0 0 48 56",
+      "use": "A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only.",
+      "anchors": { "window": [24, 25, 17] }
+    },
+    {
+      "id": "dossier-round", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A round", "source": "source/guard.svg", "layer": "dossier-round", "viewBox": "0 0 14 30",
+      "use": "One ordinary weapon the seat holds (self.ordinaryWeapons), in its own shot strip and its own card.",
+      "anchors": { "base": [7, 28] }
+    },
+    {
+      "id": "dossier-round-spent", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A round spent", "source": "source/guard.svg", "layer": "dossier-round-spent", "viewBox": "0 0 14 30",
+      "use": "The weapon a registered shot used: drawn when the view's count falls, never ahead of it.",
+      "anchors": { "base": [7, 28] }
     }
   ]
 }

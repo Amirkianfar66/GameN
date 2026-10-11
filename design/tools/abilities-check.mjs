@@ -185,6 +185,43 @@ const functionBody = (source, name) => {
   check('the Rescue, the Disable and the Supply say what is authorized, in the release\'s words, sets in seat order, never a result on a receipt', problems);
 }
 
+// ---------- The shot and Protection: the release's words, one strip for every seat that shoots, Protection the Undercover's alone ----------
+{
+  const problems = [];
+  const source = await text(`${ROOT}/js/guard.js`);
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  const { GUARD_COPY } = await import(pathToFileURL(resolve(repoRoot, `${ROOT}/js/guard.js`)).href);
+  const en = await text('packages/presentation/src/copy/en.ts');
+  // The words are the release's knowledge sentences, with its "yourself" for the seat's own.
+  if (GUARD_COPY.weapons(1) !== 'Ordinary weapons you hold: 1.' || !en.includes('`Ordinary weapons you hold: ${count}.`')) problems.push('the weapons are not said in the release\'s words');
+  if (GUARD_COPY.protectionFrom('Player 5', 3) !== 'Protection for Player 5: active from round 3.' || !en.includes('`Protection for ${who}: active from round ${round}.`')
+    || GUARD_COPY.protectionUsed('yourself') !== 'Protection for yourself: used up.' || !en.includes('`Protection for ${who}: used up.`')) problems.push('a Protection is not said in the release\'s words');
+  const notes = functionBody(source, 'guardNotes');
+  if (!/protection\.self \? 'yourself' : `Player \$\{protection\.seat\.n\}`/.test(notes) || !en.includes("(isSelf ? 'yourself' : `Player ${seat}`)")) problems.push('a Protection\'s player is not named as the release names it');
+  // Every Protection the view carries, in its order; whether its round has come is not worked out, as the release does not.
+  if (/\.sort\(|\.filter\(/.test(notes)) problems.push('the Protection notes are reordered or filtered');
+  if (/activeFromRound\s*[<>]|[<>]=?\s*[\w.]*activeFromRound|\bround\b\s*[<>]/.test(code)) problems.push('guard.js works out whether a Protection is active');
+  // Nothing in the kit is a role's, and nothing in it speaks of an attack, a hit or a block.
+  if (ROLE_OR_TEAM.test(code)) problems.push('guard.js draws something by role or team: ' + code.match(ROLE_OR_TEAM)[0]);
+  if (/\b(shooter|attack|block|stopped|saved|hit|injur|eliminat|damage)\w*/i.test(code)) problems.push('guard.js speaks of an attack, a hit or a block');
+  // In the prototype: the notes come from the seat's own view, never its role; every seat's shot strip is drawn from its target
+  // and the view's count alone; a round is spent only when the view's count falls; a Protection's grant and use change nothing public.
+  const app = await text('design/board-motion/js/app.js');
+  const drawCard = app.slice(app.indexOf('function drawCard()'), app.indexOf('function drawMenu()'));
+  const guardsLine = drawCard.slice(drawCard.indexOf('const guards ='), drawCard.indexOf('\n', drawCard.indexOf('const guards =')));
+  if (!/^const guards = \(S\.private\.intel\?\.protections \?\? \[\]\)\.map\(/.test(guardsLine)) problems.push('the Protection notes are not drawn from the view');
+  if (/S\.private\.role/.test(guardsLine) || !/\n\s+guardNotes\(guards\),/.test(drawCard)) problems.push('the Protection notes depend on the role');
+  if (!/typeof weapons === 'number' \? weaponsNote\(weapons\) : null/.test(drawCard)) problems.push('the weapons note is not drawn for every count the view says');
+  const strip = app.slice(app.indexOf('function stripContent()'), app.indexOf('function confirmText()'));
+  if (strip.split('\n').some(line => line.includes("kind === 'shot'") && /S\.private\.role|ROLE_LOOK|device|officer|undercover|alien/i.test(line))) problems.push('the shot\'s strip depends on who shoots');
+  if (!/kind === 'shot' && one \? target\(one, 'reticle'\)/.test(strip)) problems.push('the shot\'s strip does not draw its target in the reticle');
+  if (!/rounds\(weapons, \{ spent: step === 'accepted' \? Math\.max\(0, \(S\.flow\.weaponsAtSend \?\? weapons\) - weapons\) : 0 \}\)/.test(strip)) problems.push('a round is drawn spent outside an accepted shot');
+  if (!/now\.kind === 'shot' && now\.weapons !== null && was\.weapons !== null && now\.weapons < was\.weapons/.test(app)) problems.push('a round is spent ahead of the view\'s count');
+  const privateFact = app.slice(app.indexOf('function deliverPrivate('), app.indexOf('function deliver(fact)'));
+  if (!privateFact || /S\.public(?!\.round\b)|cue|director|deliver\(/.test(privateFact.replace(/\/\*[\s\S]*?\*\//g, ''))) problems.push('a Protection changes something public');
+  check('the shot and Protection say what is authorized, in the release\'s words: one strip for every seat that shoots, Protection the Undercover\'s alone', problems);
+}
+
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------
 {
   const problems = [];

@@ -64,7 +64,7 @@ const APP = 'design/board-motion/js/app.js';
 test('the ability art as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Ability-art checks: 8 passed, 0 failing/);
+  assert.match(result.output, /Ability-art checks: 9 passed, 0 failing/);
 });
 
 // ---------- the kit ----------
@@ -261,6 +261,64 @@ test('a vial emptied on the receipt rather than by the view\'s count is refused'
   const root = scratchCopy();
   edit(root, APP, text => text.replace("now.kind === 'rescue' && now.rescues !== null && was.rescues !== null && now.rescues < was.rescues", "now.kind === 'rescue' && receipt"));
   refuses(await check(root), /a vial empties ahead of the view's count/);
+});
+
+// ---------- slice 4: the shot and Protection ----------
+
+const GUARD = 'design/abilities/js/guard.js';
+
+test('the weapons said in other words than the release\'s are refused', async () => {
+  const root = scratchCopy();
+  edit(root, GUARD, text => text.replace('weapons: count => `Ordinary weapons you hold: ${count}.`', 'weapons: count => `Weapons: ${count}.`'));
+  refuses(await check(root), /the weapons are not said in the release's words/);
+});
+
+test('a Protection said in other words than the release\'s is refused', async () => {
+  const root = scratchCopy();
+  edit(root, GUARD, text => text.replace('protectionUsed: who => `Protection for ${who}: used up.`', 'protectionUsed: who => `${who} was saved by your Protection.`'));
+  refuses(await check(root), /a Protection is not said in the release's words/);
+});
+
+test('Protection notes put in another order than the view\'s are refused', async () => {
+  const root = scratchCopy();
+  edit(root, GUARD, text => text.replace("return el('ul', { class: 'ab-guards' }, protections.map(", "return el('ul', { class: 'ab-guards' }, [...protections].sort((a, b) => a.seat.n - b.seat.n).map("));
+  refuses(await check(root), /the Protection notes are reordered or filtered/);
+});
+
+test('a kit that works out whether a Protection is active is refused', async () => {
+  const root = scratchCopy();
+  edit(root, GUARD, text => text.replace('const used = protection.consumed === true;', 'const used = protection.consumed === true;\n    const active = protection.activeFromRound <= protection.round;'));
+  refuses(await check(root), /guard\.js works out whether a Protection is active/);
+});
+
+test('a kit that speaks of an attack stopped is refused', async () => {
+  const root = scratchCopy();
+  edit(root, GUARD, text => text.replace('protectionUsed: who =>', "blocked: 'An attack was stopped.',\n  protectionUsed: who =>"));
+  refuses(await check(root), /guard\.js speaks of an attack, a hit or a block/);
+});
+
+test('Protection notes drawn by role rather than from the view are refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace('    guardNotes(guards),', "    S.private.role === 'Undercover' ? guardNotes(guards) : null,"));
+  refuses(await check(root), /the Protection notes depend on the role/);
+});
+
+test('a shot strip that depends on who shoots is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace(": kind === 'shot' && one ? target(one, 'reticle')", ": kind === 'shot' && one ? target(one, S.private.role === 'Officer' ? 'cross' : 'reticle')"));
+  refuses(await check(root), /the shot's strip depends on who shoots/);
+});
+
+test('a round spent on the receipt rather than by the view\'s count is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace("now.kind === 'shot' && now.weapons !== null && was.weapons !== null && now.weapons < was.weapons", "now.kind === 'shot' && receipt"));
+  refuses(await check(root), /a round is spent ahead of the view's count/);
+});
+
+test('a Protection that changes something public is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace('  S.private.intel = { ...(S.private.intel ?? {}), protections: list };', '  S.private.intel = { ...(S.private.intel ?? {}), protections: list };\n  S.public = { ...S.public, shielded: fact.seat };'));
+  refuses(await check(root), /a Protection changes something public/);
 });
 
 // ---------- loading, hiding, and the production fence ----------

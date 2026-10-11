@@ -13,12 +13,13 @@ import { createBoard, geometry, pressRect } from './board.js';
 import { SCENES } from '../scenes/index.mjs';
 import { createDirector } from './director.js';
 import { COPY, PROPOSED, SHELL } from './copy.js';
-import { SCENARIOS, EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario } from './fixtures.js';
+import { SCENARIOS, EVENTS, PRIVATE_EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario } from './fixtures.js';
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abilities/js/dossier.js';
 import { alienFile, BEAT_ID, clipIn, codeCard, hackerFile, printFresh, punch, scanTarget } from '../../abilities/js/intel.js';
 import { cell, deliveries, discharge, drain, dropIn, rescueKit, supplyTags, target, tie, vials } from '../../abilities/js/tools.js';
+import { crack, guardNotes, rounds, spend, weaponsNote } from '../../abilities/js/guard.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -122,7 +123,7 @@ function confirm() {
   if (S.flow.step !== 'confirming' || !privateVisible()) return;
   S.privateQuiet = false;
   S.requests.sent += 1;
-  S.flow = { ...S.flow, step: 'submitting' };
+  S.flow = { ...S.flow, step: 'submitting', weaponsAtSend: S.private.resources?.weapons };
   render({ focus: 'strip' });
   const answer = S.answer;
   const latency = params.get('play') === 'register' ? 0 : answer === 'slow' ? 2500 : 650;
@@ -139,6 +140,8 @@ function respond(answer) {
     S.flow = { ...S.flow, step: 'accepted' };
     // Synthetic: a Rescue's use is reserved when it is accepted (V1-15), so the view that comes with the acceptance counts one fewer.
     if (S.flow.kind === 'rescue' && S.private.resources?.rescues > 0) S.private.resources = { ...S.private.resources, rescues: S.private.resources.rescues - 1 };
+    // Synthetic: a shot uses one ordinary weapon when it is accepted, and the view says so.
+    if (S.flow.kind === 'shot' && S.private.resources?.weapons > 0) S.private.resources = { ...S.private.resources, weapons: S.private.resources.weapons - 1 };
     announce.private.push(acceptedText());
     authoritativeFollowUp();
   }
@@ -227,6 +230,19 @@ function reopen() {
 }
 
 // ---------- public facts: the authoritative updates every screen receives ----------
+/**
+ * A fact of the seat's own view alone (synthetic): the round's resolution granting the Undercover's
+ * Protection, or using it up. Nothing public changes, so no screen plays a cue.
+ */
+function deliverPrivate(fact) {
+  if (S.disposed) return;
+  const list = [...(S.private.intel?.protections ?? [])];
+  if (fact.type === 'PRIVATE_GUARD_GRANTED' && !list.some(entry => entry.seat === fact.seat)) list.push({ seat: fact.seat, activeFromRound: S.public.round + 1, consumed: false });
+  if (fact.type === 'PRIVATE_GUARD_USED') { const at = list.findIndex(entry => entry.seat === fact.seat); if (at >= 0) list[at] = { ...list[at], consumed: true }; }
+  S.private.intel = { ...(S.private.intel ?? {}), protections: list };
+  render();
+}
+
 function deliver(fact) {
   if (S.disposed) return;
   const previous = structuredClone(S.public);
@@ -349,16 +365,21 @@ function stripContent() {
   const art = kind === 'code' ? codeCard(seats.map(identity).filter(Boolean))
     : kind === 'scan' && one ? scanTarget(one, { sweeping: step === 'submitting' || step === 'checking' })
     : kind === 'rescue' && one ? target(one, 'cross')
-    : kind === 'disable' && one ? target(one, 'spark') : null;
+    : kind === 'disable' && one ? target(one, 'spark')
+    : kind === 'shot' && one ? target(one, 'reticle')
+    : kind === 'protect' && one ? target(one, 'shield') : null;
   // On a short phone the Code card sits small at the start of the detail line, so the board keeps its height.
   const inlineArt = kind === 'code' && phone.dataset.short === 'true';
   // What the action uses, at the start of the detail line: the Cracker's vials (the view's count), the one
   // Disable's cell (spent on its receipt), Supply's two tags (the picks in seat order, tied on the receipt).
   const rescues = S.private.resources?.rescues;
+  const weapons = S.private.resources?.weapons;
   const lead0 = inlineArt ? art
     : kind === 'rescue' && typeof rescues === 'number' ? vials(rescues)
     : kind === 'disable' ? cell({ spent: step === 'accepted' })
-    : kind === 'supply' ? supplyTags(seats.map(identity).filter(Boolean), { tied: step === 'accepted' }) : null;
+    : kind === 'supply' ? supplyTags(seats.map(identity).filter(Boolean), { tied: step === 'accepted' })
+    // The rounds the seat holds; after an accepted shot, the one it used, once the view's count has fallen.
+    : kind === 'shot' && typeof weapons === 'number' ? rounds(weapons, { spent: step === 'accepted' ? Math.max(0, (S.flow.weaponsAtSend ?? weapons) - weapons) : 0 }) : null;
   const withArt = words => (art === null || inlineArt ? words : kind === 'code' ? [...words, art] : [art, ...words]);
   if (step === 'choosing') {
     let text, lead = lead0, controls = [];
@@ -457,7 +478,7 @@ function drawStrip() {
   if (strip.dataset.step === content.step) strip.dataset.settled = ''; else delete strip.dataset.settled;
   strip.dataset.step = content.step;
   strip.replaceChildren(...next.childNodes);
-  const now = { step: content.step, kind: S.flow.kind, picked: seatsPicked(), rescues: S.private.resources?.rescues ?? null };
+  const now = { step: content.step, kind: S.flow.kind, picked: seatsPicked(), rescues: S.private.resources?.rescues ?? null, weapons: S.private.resources?.weapons ?? null };
   if (stripWas && stripWas.kind === now.kind && !reducedNow()) stripBeats(stripWas, now);
   stripWas = now;
 }
@@ -475,6 +496,10 @@ function stripBeats(was, now) {
   if (receipt && now.kind === 'code') punch(strip.querySelector('.ab-code-card'));
   if (receipt && now.kind === 'supply') tie(strip.querySelector('.ab-tags'));
   if (receipt && now.kind === 'disable') discharge(strip.querySelector('.ab-cell'));
+  // A round leaves the rack when the view's weapon count falls, never ahead of it.
+  if (now.kind === 'shot' && now.weapons !== null && was.weapons !== null && now.weapons < was.weapons) {
+    for (const round of [...strip.querySelectorAll('.ab-round[data-spent="true"]')].slice(-(was.weapons - now.weapons))) spend(round);
+  }
   if (now.kind === 'rescue' && now.rescues !== null && was.rescues !== null && now.rescues < was.rescues) {
     const all = strip.querySelectorAll('.ab-vial');
     for (let index = now.rescues; index < was.rescues; index += 1) drain(all[index]);
@@ -497,6 +522,8 @@ function drawTray() {
 
 // Supply's slips (design/abilities/js/tools.js) drop into the card once, the first time this page shows each.
 const slipsShown = new Set();
+// The Protections this page has shown, and whether used up, so that one turning used up cracks once.
+const guardsShown = new Map();
 /** The seat's own acknowledgments, as the release shows them: the Supplier's results, a received weapon, an unavailable history. */
 function deliveriesFor(acks) {
   if (!acks) return null;
@@ -583,7 +610,10 @@ function drawCard() {
   const knowledge = [...S.private.knowledge, ...(S.private.hackPartner ? [COPY.hackWith(S.private.hackPartner)] : [])];
   const { file, fresh } = fileFor(S.private.intel);
   const rescues = S.private.resources?.rescues ?? 0;
-  if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey, rescues, S.private.acks])) && (!file || card.contains(file))) {
+  const weapons = S.private.resources?.weapons;
+  // The Undercover's Protections, as its own view carries them (knowledge.protections), in the view's order.
+  const guards = (S.private.intel?.protections ?? []).map(entry => ({ seat: identity(entry.seat), activeFromRound: entry.activeFromRound, consumed: entry.consumed, self: entry.seat === VIEWER })).filter(entry => entry.seat);
+  if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey, rescues, weapons, guards, S.private.acks])) && (!file || card.contains(file))) {
     // The same card: only the inspected player's public facts follow the board, said again by its live region.
     const inspected = Number(file?.dataset.inspect);
     const facts = inspected ? file.querySelector('.ab-inspect__facts') : null;
@@ -599,12 +629,21 @@ function drawCard() {
     file,
     // The Cracker's Rescues while one is left: the release's sentence, with its vials. At none the release says nothing.
     rescues > 0 ? rescueKit(rescues) : null,
+    // What the seat holds, as the release says it for every seat: "Ordinary weapons you hold: N."
+    typeof weapons === 'number' ? weaponsNote(weapons) : null,
+    guardNotes(guards),
     deliveriesFor(S.private.acks),
     knowledge.length ? h('ul', { class: 'bm-know', 'aria-label': 'What you know' }, knowledge.map(item => h('li', null, item))) : null);
   for (const slip of card.querySelectorAll('.ab-slip')) {
     if (slipsShown.has(slip.dataset.slip)) continue;
     slipsShown.add(slip.dataset.slip);
     if (!reducedNow()) dropIn(slip);
+  }
+  // A Protection this page showed whole and the view now says is used up cracks, once.
+  for (const note of card.querySelectorAll('.ab-guard')) {
+    const used = note.dataset.used === 'true';
+    if (used && guardsShown.get(note.dataset.guard) === false && !reducedNow()) crack(note.querySelector('.ab-target__mark'));
+    guardsShown.set(note.dataset.guard, used);
   }
   if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: reducedNow() }); }
   else if (file && fresh.length) for (const scan of fresh) printFresh(file, scan, { reduced: reducedNow() });
@@ -857,6 +896,11 @@ function fixturePanel() {
         return button;
       })),
     h('fieldset', null, h('legend', null, 'Public facts, to every screen'), events),
+    h('fieldset', null, h('legend', null, 'Private facts, to this seat alone'), h('div', { class: 'bm-events' }, PRIVATE_EVENTS.map(event => {
+      const button = h('button', { type: 'button', 'data-private-event': event.id }, event.label);
+      button.addEventListener('click', () => deliverPrivate(event.fact));
+      return button;
+    }))),
     h('fieldset', null, h('legend', null, 'Display'),
       toggle('Reduced motion', S.motion === 'reduced', on => { S.motion = on ? 'reduced' : 'full'; render(); }),
       toggle('Long names', S.names === 'long', on => { const url = new URL(location.href); url.searchParams.set('names', on ? 'long' : 'short'); location.href = url.href; })));
@@ -889,6 +933,9 @@ const PLAY = {
   eliminate: () => deliver(EVENTS.find(e => e.id === 'eliminate').fact),
   // The end of the round: Player 6 is Healthy again and leaves the Hospital; on every screen alike, naming no rescuer.
   recover: () => { deliver(EVENTS.find(e => e.id === 'recover').fact); deliver(EVENTS.find(e => e.id === 'leave-hospital').fact); },
+  // The seat's own view alone: the Undercover's Protection granted at the round's end, or used up.
+  'guard-granted': () => deliverPrivate(PRIVATE_EVENTS.find(e => e.id === 'guard-granted').fact),
+  'guard-used': () => deliverPrivate(PRIVATE_EVENTS.find(e => e.id === 'guard-used').fact),
   jail: () => deliver(EVENTS.find(e => e.id === 'jail').fact),
   captain: () => deliver(EVENTS.find(e => e.id === 'captain').fact),
   phase: () => deliver(EVENTS.find(e => e.id === 'phase').fact),

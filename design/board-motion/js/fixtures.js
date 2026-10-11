@@ -85,10 +85,14 @@ export const SCENARIOS = [
   { id: 'tray.empty', group: 'Actions tray', title: 'Actions tray: nothing open', s: () => state({ active: 5, role: 'Insider', view: 'actions', offers: {} }) },
 
   // ---------- one target ----------
-  { id: 'shot.choose', group: 'One target', title: 'Shot: eligible characters on the board', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] } }) },
-  { id: 'shot.confirm', group: 'One target', title: 'Shot: one character chosen, confirm in the strip', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'confirming', kind: 'shot', picked: [5] } }) },
-  { id: 'shot.pending', group: 'One target', title: 'Shot: sending', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'submitting', kind: 'shot', picked: [5] } }) },
-  { id: 'shot.registered', group: 'One target', title: 'Shot: registered (not a result)', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'accepted', kind: 'shot', picked: [5] } }) },
+  { id: 'shot.choose', group: 'One target', title: 'Shot: eligible characters on the board', s: () => state({ locations: BUSY_A, resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] } }) },
+  { id: 'shot.confirm', group: 'One target', title: 'Shot: one character chosen, confirm in the strip', s: () => state({ locations: BUSY_A, resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'confirming', kind: 'shot', picked: [5] } }) },
+  { id: 'shot.pending', group: 'One target', title: 'Shot: sending', s: () => state({ locations: BUSY_A, resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'submitting', kind: 'shot', picked: [5], weaponsAtSend: 1 } }) },
+  { id: 'shot.registered', group: 'One target', title: 'Shot: registered (not a result), the round spent', s: () => state({ locations: BUSY_A, resources: { weapons: 0 }, offers: { move: moveTo }, flow: { step: 'accepted', kind: 'shot', picked: [5], weaponsAtSend: 1 } }) },
+  // The same strip for every seat that shoots: the Officer's first shot from Round 1, the Undercover's, an Alien's supplied weapon.
+  { id: 'shot.officer', group: 'One target', title: 'The Officer\'s shot in Round 1, its one round', s: () => state({ locations: BUSY_A, round: 1, resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] } }) },
+  { id: 'shot.undercover-confirm', group: 'One target', title: 'The Undercover\'s shot in Round 4: the same strip', s: () => state({ locations: BUSY_A, round: 4, role: 'Undercover', resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'confirming', kind: 'shot', picked: [5] } }) },
+  { id: 'shot.alien-confirm', group: 'One target', title: 'An Alien\'s supplied weapon in Round 4: the same strip', s: () => state({ locations: BUSY_A, round: 4, role: 'Alien', resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'confirming', kind: 'shot', picked: [5] } }) },
   { id: 'shot.rejected', group: 'One target', title: 'Shot: not accepted', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'rejected', kind: 'shot', picked: [5], code: 'NOT_ALLOWED' } }) },
   { id: 'shot.unknown', group: 'One target', title: 'Shot: result unknown', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'unknown', kind: 'shot', picked: [5] } }) },
   { id: 'disable.choose', group: 'One target', title: 'Disable: eligible characters', s: () => state({ locations: BUSY_A, role: 'Red Disabler', offers: { move: moveTo, disable: [1, 5, 8] }, flow: { step: 'choosing', kind: 'disable', picked: [] } }) },
@@ -98,6 +102,8 @@ export const SCENARIOS = [
   { id: 'disable.red-confirm', group: 'One target', title: 'Disable (Red Disabler): the same strip as the Blue Disabler\'s', s: () => state({ locations: BUSY_A, role: 'Red Disabler', offers: { move: moveTo, disable: [1, 5, 8] }, flow: { step: 'confirming', kind: 'disable', picked: [5] } }) },
   { id: 'disable.red-registered', group: 'One target', title: 'Disable (Red Disabler) registered: the same receipt', s: () => state({ locations: BUSY_A, role: 'Red Disabler', offers: { move: moveTo }, flow: { step: 'accepted', kind: 'disable', picked: [5] } }) },
   { id: 'protect.choose', group: 'One target', title: 'Protection: yourself included', s: () => state({ locations: BUSY_A, role: 'Undercover', offers: { move: moveTo, protect: [1, 3, 5, 8] }, flow: { step: 'choosing', kind: 'protect', picked: [] } }) },
+  { id: 'protect.confirm', group: 'One target', title: 'Protection: the target on the shield', s: () => state({ locations: BUSY_A, role: 'Undercover', offers: { move: moveTo, protect: [1, 3, 5, 8] }, flow: { step: 'confirming', kind: 'protect', picked: [5] } }) },
+  { id: 'protect.registered', group: 'One target', title: 'Protection registered: not a grant', s: () => state({ locations: BUSY_A, role: 'Undercover', offers: { move: moveTo }, flow: { step: 'accepted', kind: 'protect', picked: [5] } }) },
   { id: 'rescue.choose', group: 'One target', title: 'Rescue: a character in the Hospital, from Room A', s: () => state({ locations: BUSY_A, role: 'Cracker', resources: { rescues: 2 }, offers: { move: moveTo, rescue: [6] }, flow: { step: 'choosing', kind: 'rescue', picked: [] } }) },
   { id: 'rescue.self', group: 'One target', title: 'Rescue: yourself, injured', s: () => state({ locations: BUSY_A, role: 'Cracker', resources: { rescues: 1 }, seats: s => { s[2].health = 'Injured'; }, offers: { rescue: [3] }, flow: { step: 'choosing', kind: 'rescue', picked: [] } }) },
   { id: 'rescue.confirm', group: 'One target', title: 'Rescue: the target in the medical cross, two Rescues left', s: () => state({ locations: BUSY_A, role: 'Cracker', resources: { rescues: 2 }, offers: { move: moveTo, rescue: [6] }, flow: { step: 'confirming', kind: 'rescue', picked: [6] } }) },
@@ -142,6 +148,14 @@ export const SCENARIOS = [
   { id: 'file.hacker-start', group: 'Private file', title: 'Hacker file at the start: the known Undercover, no Scan yet', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 1, active: 5, offers: { move: [] }, view: 'card', intel: { undercoverSeatId: 4, scanResults: [] } }) },
   // The Alien's file: the Code's four players as the view might list them (not in seat order), the viewer among them.
   { id: 'file.alien', group: 'Private file', title: 'Alien file: the Code, four players in no order', s: () => state({ locations: BUSY_A, role: 'Alien', active: 5, offers: { move: [] }, view: 'card', intel: { code: [9, 3, 5, 1] } }) },
+  // The Undercover's own notes of its Protections (knowledge.protections, synthetic), and what a seat holds.
+  { id: 'guard.card', group: 'Private file', title: 'Undercover card: Protection for Player 5, one weapon', s: () => state({ locations: BUSY_A, role: 'Undercover', round: 3, active: 5, offers: { move: [] }, view: 'card', resources: { weapons: 1 }, intel: { protections: [{ seat: 5, activeFromRound: 3, consumed: false }] } }) },
+  { id: 'guard.used', group: 'Private file', title: 'Undercover card: the Protection used up', s: () => state({ locations: BUSY_A, role: 'Undercover', round: 4, active: 5, offers: { move: [] }, view: 'card', resources: { weapons: 1 }, intel: { protections: [{ seat: 5, activeFromRound: 3, consumed: true }] } }) },
+  { id: 'guard.self', group: 'Private file', title: 'Undercover card: Protection for yourself, and one used up', s: () => state({ locations: BUSY_A, role: 'Undercover', round: 4, active: 5, offers: { move: [] }, view: 'card', resources: { weapons: 1 }, intel: { protections: [{ seat: 8, activeFromRound: 2, consumed: true }, { seat: 3, activeFromRound: 4, consumed: false }] } }) },
+  { id: 'weapons.officer-spent', group: 'Private file', title: 'Officer card after the one shot', s: () => state({ locations: BUSY_A, round: 2, active: 5, offers: { move: [] }, view: 'card', resources: { weapons: 0 } }) },
+  // The view counts a weapon supplied after the Officer's shot and carries nothing saying it cannot be used (DSN-REQ-15).
+  { id: 'weapons.officer-supplied', group: 'Private file', title: 'Officer card after the one shot, a weapon supplied in Round 3', s: () => state({ locations: BUSY_A, round: 4, active: 5, offers: { move: [] }, view: 'card', resources: { weapons: 1 }, acks: { historyAvailable: true, supplierResults: [], receivedSupply: [{ round: 3 }] } }) },
+  { id: 'alien.weapon', group: 'Private file', title: 'Alien card in Round 4: the Code, a supplied weapon', s: () => state({ locations: BUSY_A, role: 'Alien', round: 4, active: 5, offers: { move: [] }, view: 'card', resources: { weapons: 1 }, intel: { code: [9, 3, 5, 1] }, acks: { historyAvailable: true, supplierResults: [], receivedSupply: [{ round: 3 }] } }) },
   { id: 'code.two', group: 'Several parts', title: 'Code attempt: two of four chosen', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, offers: { move: moveTo, code: true }, flow: { step: 'choosing', kind: 'code', picked: [6, 2] } }) },
   { id: 'code.four', group: 'Several parts', title: 'Code attempt: four chosen, confirm', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, offers: { move: moveTo, code: true }, flow: { step: 'confirming', kind: 'code', picked: [6, 2, 9, 7] } }) },
   { id: 'code.registered', group: 'Several parts', title: 'Code attempt: registered (not a result), the card punched', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, offers: { move: moveTo }, flow: { step: 'accepted', kind: 'code', picked: [6, 2, 9, 7] } }) },
@@ -197,6 +211,12 @@ export const EVENTS = [
   { id: 'round', label: 'Next round', fact: { type: 'PHASE_CHANGED', next: 'round' } },
   { id: 'replay', label: 'Deliver the last snapshot again', fact: { type: 'REPLAY' } },
   { id: 'reconnect', label: 'Reconnect: a fresh snapshot', fact: { type: 'RECONNECT' } },
+];
+
+/** Facts of the seat's own view alone (synthetic), for the fixture panel: nothing public changes with them. */
+export const PRIVATE_EVENTS = [
+  { id: 'guard-granted', label: 'The round resolves: your Protection for Player 5', fact: { type: 'PRIVATE_GUARD_GRANTED', seat: 5 } },
+  { id: 'guard-used', label: 'Your Protection for Player 5 is used up', fact: { type: 'PRIVATE_GUARD_USED', seat: 5 } },
 ];
 
 export const scenario = id => SCENARIOS.find(entry => entry.id === id) ?? SCENARIOS[0];

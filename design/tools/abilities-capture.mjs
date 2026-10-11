@@ -36,7 +36,7 @@ const OUT = 'design/abilities/review';
 const PHONES = { w390: { width: 390, height: 844 }, w320: { width: 320, height: 568 } };
 const SCALE = 1.5;
 const FRAMES = [0, 120, 260, 420, 600, 780, 1020];
-const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png' };
+const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png' };
 
 /** In the page: what the open file and the strip's ability art show, measured. Returns the problems found. */
 const MEASURE = `(() => {
@@ -124,8 +124,11 @@ const MEASURE = `(() => {
       if (said.length !== 4 || said.join() !== [...said].sort((a, b) => a - b).join()) problems.push('the Code is not said in seat order');
       if (!/The Code/.test(file.querySelector('.ab-code-tag')?.textContent ?? '')) problems.push('the set is not named the Code');
     }
-    // At the default text size the file fits the card: nothing to scroll, the open inspect card included.
-    if (!largeText && sheet && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
+    // At the default text size the file fits the card: nothing to scroll, the open inspect card included. A card that
+    // also holds notes after the file (what the seat holds, its slips) may scroll to them, the file whole in the first view.
+    const notes = sheet?.querySelector('.ab-kit, .ab-deliveries, .ab-guards');
+    if (!largeText && sheet && !notes && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
+    if (!largeText && sheet && notes && file.getBoundingClientRect().bottom > sheet.getBoundingClientRect().bottom + 1) problems.push('the file is not whole in the first view of the card');
     const card = file.querySelector('.ab-inspect:not([hidden])');
     if (card && sheet) {
       const box = card.getBoundingClientRect(), view = sheet.getBoundingClientRect();
@@ -182,7 +185,7 @@ const MEASURE = `(() => {
     if (named.join() !== [...named].sort((a, b) => a - b).join()) problems.push("the strip names Supply's picks out of seat order");
   }
   // In the card: the Cracker's Rescues and Supply's slips, in the release's words.
-  const kit = document.querySelector('#bm-card .ab-kit');
+  const kit = document.querySelector('#bm-card .ab-kit[data-kit="rescue"]');
   if (kit) {
     const count = Number((kit.querySelector('.ab-kit__words')?.textContent.match(/^Rescues you have left: (\\d)\\.$/) ?? [])[1]);
     if (!(count > 0)) problems.push("the Rescues are not said in the release's words, or said at none");
@@ -203,10 +206,33 @@ const MEASURE = `(() => {
     if (seats.join() !== [...seats].sort((a, b) => a - b).join()) problems.push("a slip's tags are not in seat order");
     if (Boolean(slip.querySelector('[data-stamp="delivered"]')) !== seats.length > 0) problems.push('a slip is stamped Delivered without a weapon, or a delivery without its stamp');
   }
+  // Slice 4. The rounds: as many full as the count, a spent one only on a shot's receipt; the marks only for their action;
+  // nothing in a shot's strip says who shoots; every Protection note in the release's words, its shield as the view says.
+  for (const group of document.querySelectorAll('.ab-rounds')) {
+    const full = group.querySelectorAll('.ab-round[data-spent="false"]').length;
+    const spent = group.querySelectorAll('.ab-round[data-spent="true"]').length;
+    if (String(full) !== group.dataset.count) problems.push('the full rounds are not the count');
+    if (spent && !(group.closest('#bm-strip') && step === 'accepted' && flow.kind === 'shot')) problems.push("a round is drawn spent outside a shot's receipt");
+  }
+  if (mark?.dataset.mark === 'reticle' && flow.kind !== 'shot') problems.push('the reticle marks something that is not a shot');
+  if (mark?.dataset.mark === 'shield' && flow.kind !== 'protect') problems.push('the shield marks something that is not a Protection');
+  if (flow.kind === 'shot' && strip && /data-device|data-team|\\bblue\\b|\\bred\\b|officer|undercover|alien/i.test(strip.innerHTML)) problems.push("the shot's strip says who shoots");
+  for (const note of document.querySelectorAll('#bm-card .ab-guard')) {
+    const words = note.querySelector('.ab-guard__words')?.textContent ?? '';
+    const used = note.dataset.used === 'true';
+    if (!/^Protection for (Player \\d|yourself): (active from round \\d\\.|used up\\.)$/.test(words)) problems.push("a Protection note is not in the release's words: " + words);
+    if (used !== / used up\\.$/.test(words) || (note.querySelector('.ab-target').dataset.mark === 'shield-used') !== used) problems.push('a Protection note draws its shield other than the view says');
+  }
+  const weaponsKit = document.querySelector('#bm-card .ab-kit[data-kit="weapons"]');
+  if (weaponsKit) {
+    const count = Number((weaponsKit.querySelector('.ab-kit__words')?.textContent.match(/^Ordinary weapons you hold: (\\d)\\.$/) ?? [])[1]);
+    if (!(count >= 0)) problems.push("the weapons are not said in the release's words");
+    if (weaponsKit.querySelectorAll('.ab-round[data-spent="false"]').length !== count) problems.push('the rounds do not show the count said');
+  }
   // A card with the Cracker's note or Supply's slips fits without scrolling at the default text size, as the files do.
-  if (sheet && !file && sheet.querySelector('.ab-kit, .ab-deliveries') && !largeText && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
+  if (sheet && !file && sheet.querySelector('.ab-kit, .ab-deliveries, .ab-guards') && !largeText && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
   // At large text the notes' words grow with the reader's text.
-  for (const words of document.querySelectorAll('#bm-card .ab-slip__words, #bm-card .ab-kit__words')) if (largeText && parseFloat(getComputedStyle(words).fontSize) < 20) problems.push('at large text a note keeps its small words');
+  for (const words of document.querySelectorAll('#bm-card .ab-slip__words, #bm-card .ab-kit__words, #bm-card .ab-guard__words')) if (largeText && parseFloat(getComputedStyle(words).fontSize) < 20) problems.push('at large text a note keeps its small words');
   return problems;
 })()`;
 /** In the page: a hidden card holds nothing private. With folder, the card is open on the closed folder; without, it is closed. */
@@ -364,6 +390,43 @@ try {
   // The Blue and the Red Disabler see the same strip, part for part.
   for (const [blue, red] of [['disable-w390-confirm', 'disable-w390-red-confirm'], ['disable-w390-registered', 'disable-w390-red-registered']]) {
     if (kept.get(blue) !== kept.get(red)) shots.find(shot => shot.name === red).problems.push('the Red Disabler\'s strip differs from the Blue Disabler\'s');
+  }
+
+  // ---------- slice 4: the shot and Protection ----------
+  for (const phone of ['w390', 'w320']) {
+    const px = PHONES[phone];
+    const at = `${px.width} x ${px.height}`;
+    await shoot(browser, server, { slice: 4, name: `shot-${phone}-confirm`, title: `Shot: the target in the reticle, one round, ${at}`, group: 'The shot', phone, path: '?scenario=shot.confirm&chrome=0', keepStrip: phone === 'w390' });
+    await shoot(browser, server, { slice: 4, name: `shot-${phone}-registered`, title: `Shot registered: the round spent, not a result, ${at}`, group: 'The shot', phone, path: '?scenario=shot.registered&chrome=0' });
+    await shoot(browser, server, { slice: 4, name: `protect-${phone}-confirm`, title: `Protection: the target on the shield, ${at}`, group: 'Protection', phone, path: '?scenario=protect.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 4, name: `protect-${phone}-registered`, title: `Protection registered: not a grant, ${at}`, group: 'Protection', phone, path: '?scenario=protect.registered&chrome=0' });
+    await shoot(browser, server, { slice: 4, name: `guard-${phone}-card`, title: `The Undercover's card: a Protection, one weapon, ${at}`, group: 'Protection', phone, path: '?scenario=guard.card&chrome=0' });
+    await shoot(browser, server, { slice: 4, name: `alien-${phone}-weapon`, title: `The Alien's card with a supplied weapon, ${at}`, group: 'The shot', phone, path: '?scenario=alien.weapon&chrome=0' });
+  }
+  await shoot(browser, server, { slice: 4, name: 'shot-w390-officer', title: 'The Officer\'s shot in Round 1', group: 'The shot', phone: 'w390', path: '?scenario=shot.officer&chrome=0' });
+  await shoot(browser, server, { slice: 4, name: 'shot-w390-undercover-confirm', title: 'The Undercover\'s shot: the same strip', group: 'The shot', phone: 'w390', path: '?scenario=shot.undercover-confirm&chrome=0', keepStrip: true });
+  await shoot(browser, server, { slice: 4, name: 'shot-w390-alien-confirm', title: 'An Alien\'s supplied weapon: the same strip', group: 'The shot', phone: 'w390', path: '?scenario=shot.alien-confirm&chrome=0', keepStrip: true });
+  await shoot(browser, server, { slice: 4, name: 'weapons-w390-officer-spent', title: 'The Officer\'s card after the one shot', group: 'The shot', phone: 'w390', path: '?scenario=weapons.officer-spent&chrome=0' });
+  await shoot(browser, server, { slice: 4, name: 'weapons-w390-officer-supplied', title: 'The Officer after the one shot, a weapon supplied: counted; that it cannot be used is not in the view (DSN-REQ-15)', group: 'The shot', phone: 'w390', path: '?scenario=weapons.officer-supplied&chrome=0' });
+  await shoot(browser, server, { slice: 4, name: 'guard-w390-used', title: 'A Protection used up: the shield split, the player drawn whole', group: 'Protection', phone: 'w390', path: '?scenario=guard.used&chrome=0' });
+  await shoot(browser, server, { slice: 4, name: 'guard-w390-self', title: 'Protection for yourself, and one used up', group: 'Protection', phone: 'w390', path: '?scenario=guard.self&chrome=0' });
+  await shoot(big, server, { slice: 4, name: 'guard-w390-text200-self', title: 'The Undercover\'s notes at twice the text size', group: 'Slice 4: text size, motion, art', phone: 'w390', path: '?scenario=guard.self&chrome=0' });
+  await shoot(big, server, { slice: 4, name: 'shot-w320-text200-confirm', title: 'A shot at twice the text size, 320 x 568', group: 'Slice 4: text size, motion, art', phone: 'w320', path: '?scenario=shot.confirm&chrome=0' });
+  await shoot(browser, server, { slice: 4, name: 'shot-w390-registered-reduced', title: 'Reduced motion: the receipt at rest', group: 'Slice 4: text size, motion, art', phone: 'w390', path: '?scenario=shot.registered&chrome=0&motion=reduced' });
+  for (const [scenario, label] of [['shot.confirm', 'shot'], ['protect.confirm', 'protect'], ['guard.self', 'guard']]) {
+    await shoot(browser, server, { slice: 4, name: `${label}-w390-no-art`, title: `Without the ability art or the crew cards: ${scenario}`, group: 'Slice 4: text size, motion, art', phone: 'w390', path: `?scenario=${scenario}&chrome=0`, block: ART });
+  }
+  // The beats, held frame by frame: a round spent on the receipt, a Protection's split shield shaking when the view says it is used up
+  // (only its own beat held: the card's slide-in finishes, as for the slip).
+  for (const t of [0, 110, 220]) {
+    await shoot(browser, server, { slice: 4, name: `beat-spend-${String(t).padStart(4, '0')}ms`, title: `Spend, ${t} ms`, group: 'Slice 4: the beats, frame by frame', phone: 'w390', path: `?scenario=shot.confirm&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
+  }
+  for (const t of [0, 130, 260]) {
+    await shoot(browser, server, { slice: 4, name: `beat-crack-${String(t).padStart(4, '0')}ms`, title: `Crack, ${t} ms`, group: 'Slice 4: the beats, frame by frame', phone: 'w390', path: `?scenario=guard.card&chrome=0&play=guard-used&t=${t}&only=.ab-guards`, selector: '.ab-guards', measure: '[]', wait: 200 });
+  }
+  // Every seat that shoots sees the same strip, part for part.
+  for (const other of ['shot-w390-undercover-confirm', 'shot-w390-alien-confirm']) {
+    if (kept.get('shot-w390-confirm') !== kept.get(other)) shots.find(shot => shot.name === other).problems.push('this shot strip differs from the Officer\'s');
   }
 
   // The contact sheets: every picture above, with its caption, one sheet per slice.
