@@ -82,6 +82,9 @@ export const SCENARIOS = {
     locations: HOSPITAL_8, role: 'Cracker', captain: null, offers: { rescue: EVERYONE, pass: true } },
   // Six Injured at once can only happen late: it takes the attacks of rounds 1 to 4.
   'crowd-hospital-6': { title: 'Six in the Hospital', locations: CROWD_HOSPITAL, round: 5, active: 7, offers: {} },
+  // The Insider's investigation board, in the card. The view lists the three as a set.
+  insider: { title: 'Insider: the investigation board in the card', role: 'Insider', offers: { move: ['Room B'], pass: true } },
+  'insider-long-names': { title: 'Insider: twelve-character names on the investigation board', role: 'Insider', names: LONG_NAMES, offers: { move: ['Room B'], pass: true } },
   'crowd-room-b-supply': { title: 'All nine in Room B: Supply', locations: ALL('Room B'), role: 'Supplier', round: 3, captain: null, offers: { move: ['Room A'], supply: EVERYONE, pass: true } },
 };
 

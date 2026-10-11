@@ -531,9 +531,21 @@ export interface ConnectedPrivateAreaModel {
      * What the server's view tells this seat and nobody else: what its role knows, the
      * results it has been given, and what it holds. Null when the view says none of it.
      */
-    readonly knowledge: { readonly heading: string; readonly items: readonly string[] } | null;
+    readonly knowledge: { readonly heading: string; readonly items: readonly string[]; readonly insider: InsiderSetModel | null } | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
+}
+
+/**
+ * The Insider's starting knowledge: three players who between them hold three roles, one
+ * each, without saying who holds which. The seats are in public seat order and the roles
+ * in the rule's own order, so neither order can pair a player with a role.
+ */
+export interface InsiderSetModel {
+  readonly seatIds: readonly SeatId[];
+  readonly roles: readonly RoleName[];
+  /** The same set in words, as the list of what the seat knows says it. */
+  readonly sentence: string;
 }
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {

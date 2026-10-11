@@ -220,12 +220,19 @@ const undercover = (protections, more = () => {}) => playerView(view => { view.r
 test('the private panel says what the server’s view tells this seat, one sentence for each thing it carries', () => {
   const said = view => model(view).match.privateArea.content.knowledge;
   // Every seat is told what it holds. A seat the view gives nothing more is told nothing more.
-  assert.deepEqual(said(playerView()), { heading: 'What you know', items: ['Ordinary weapons you hold: 0.', 'Rescues you have left: 1.'] });
+  assert.deepEqual(said(playerView()), { heading: 'What you know', items: ['Ordinary weapons you hold: 0.', 'Rescues you have left: 1.'], insider: null });
   assert.deepEqual(said(playerView(view => { view.self.rescuesRemaining = 0; view.self.ordinaryWeapons = 2; })).items, ['Ordinary weapons you hold: 2.']);
   assert.deepEqual(said(insider).items, [
     'Player 2, Player 4, Player 6 hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which.',
     'Ordinary weapons you hold: 0.',
   ]);
+  // The same set, for the investigation board: in seat order whatever order the view gives, and
+  // the three roles in the rule's order, so that neither order pairs a player with a role.
+  assert.deepEqual(said(insider).insider, {
+    seatIds: ['seat-2', 'seat-4', 'seat-6'], roles: ['Undercover', 'Alien', 'Cracker'],
+    sentence: 'Player 2, Player 4, Player 6 hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which.',
+  });
+  for (const view of [alien, hacker(), playerView()]) assert.equal(said(view).insider, null);
   assert.deepEqual(said(alien).items, ['The Code is these four players: Player 1 (you), Player 2, Player 5, Player 7.', 'Ordinary weapons you hold: 0.']);
   assert.deepEqual(said(hacker()).items, ['The Undercover is Player 4.', 'Ordinary weapons you hold: 0.']);
   // Scan results, in the order the view lists them. A wrong guess says nothing of the Code; a right one says membership and no more.

@@ -1,7 +1,8 @@
 import type { OwnAcknowledgments, FullPracticeBotsDocument, SeatId } from '@mothership/contracts';
 import { SHELL_IDS } from '../ids.js';
 import { placeSeats, rowsFor } from '../model/stations.js';
-import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, TableShellModel } from '../model/types.js';
+import { en } from '../copy/en.js';
+import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, InsiderSetModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode } from './node.js';
 import { renderConnectedPlayerShell } from './connected-player.js';
@@ -15,7 +16,15 @@ export interface ComicIdentity {
   readonly displayName: string | null;
   readonly characterId: string | null;
 }
-export interface ComicContext { readonly phoneNotice?: string | null; readonly phoneView?: 'board' | 'actions' | 'role' | 'more'; readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
+export interface ComicContext {
+  readonly phoneNotice?: string | null;
+  readonly phoneView?: 'board' | 'actions' | 'role' | 'more';
+  readonly identities?: readonly ComicIdentity[];
+  readonly acknowledgments?: OwnAcknowledgments | null;
+  readonly practice?: FullPracticeBotsDocument | null;
+  /** The Insider's investigation board is open in the private card. A phone's own state, set by a deliberate tap. */
+  readonly investigation?: boolean;
+}
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
   Officer: { device: 'officer', team: 'Blue' }, Insider: { device: 'insider', team: 'Blue' },
@@ -62,6 +71,59 @@ export function renderComicRoleCard(name: string, ownCharacter: string | null): 
     h('span', { class: 'ms-role-card__art', 'aria-hidden': 'true' }),
     h('div', { class: 'ms-role-card__text' }, h('p', { class: 'ms-role-card__name' }, name), h('p', { class: 'ms-role-card__team' }, `${look.team} team`)),
   );
+}
+
+/**
+ * The Insider's investigation board: the three players of the role's starting knowledge and,
+ * apart from them, the three roles they hold between them, one each. Nothing pairs a player
+ * with a role: no role is written on or beside a portrait, the players stand in public seat
+ * order and the roles in the rule's order whatever the deal was, every role looks the same,
+ * and the board appears whole, at once. A portrait is the character the player chose, a
+ * public picture every phone has already loaded. Render only inside the open private card
+ * of the seat's own current view; the open state is the phone's, set by a deliberate tap.
+ */
+function renderInvestigation(set: InsiderSetModel, context: ComicContext, open: boolean): MarkupElement {
+  const toggle = h('button', {
+    type: 'button', id: 'phone-investigation-toggle', class: 'ms-button phone-investigation-toggle',
+    'data-phone-investigation': open ? 'hide' : 'open', 'aria-expanded': String(open), 'aria-controls': 'phone-investigation',
+  }, open ? en.investigation.hide : en.investigation.open);
+  const players = !open ? [] : set.seatIds.map(seatId => {
+    const identity = identityFor(context, seatId);
+    const look = character(identity?.characterId);
+    const name = identity?.displayName ?? null;
+    // Without a character the portrait is the seat's number, as on the board.
+    return h('li', { class: 'phone-investigation__player' },
+      h('span', { class: 'phone-investigation__portrait', 'aria-hidden': 'true', ...(look ? { 'data-character': look } : {}) }, look ? null : seatId.slice(5)),
+      h('span', { class: 'phone-investigation__plate' }, ...(name ? nameParts(seatId, name)
+        : [h('span', { class: 'ms-seat__number' }, hiddenText('Player '), seatId.slice(5))])));
+  });
+  // The section always exists, so the toggle's aria-controls resolves; closed, it is empty.
+  // Interim: the Designer's reviewed treatment of this board is pending.
+  const board = open ? h('section', { id: 'phone-investigation', class: 'phone-investigation', 'aria-labelledby': 'phone-investigation-heading', 'data-treatment': 'interim' },
+    h('h3', { id: 'phone-investigation-heading', class: 'phone-investigation__heading', tabindex: '-1' }, en.investigation.heading),
+    h('ul', { class: 'phone-investigation__players', 'aria-label': en.investigation.players }, players),
+    h('div', { class: 'phone-investigation__roles' },
+      // Said once, by the set's own accessible name below.
+      h('p', { class: 'phone-investigation__among', 'aria-hidden': 'true' }, en.investigation.among),
+      // The three roles as one set (the Designer's rule, docs/design/abilities-handoff.md at 1453500):
+      // one picture with one accessible name, the names stacked in one slip below all three players and
+      // beside none, never a list or a row that a screen reader or the eye could pair with them.
+      h('div', { class: 'phone-investigation__role-set', role: 'img', 'aria-label': en.investigation.roleSet(set.roles) },
+        set.roles.map(role => h('span', { class: 'phone-investigation__role-name' }, role))),
+      h('p', { class: 'phone-investigation__unknown' }, en.investigation.unknown)))
+    : h('section', { id: 'phone-investigation', class: 'phone-investigation', 'aria-label': en.investigation.heading, hidden: true });
+  return h('div', { class: 'phone-investigation-region', 'data-region': 'investigation', 'data-focus-fallback': 'phone-investigation-toggle' }, toggle, board);
+}
+
+/** The knowledge list without the Insider's sentence, where the board says it instead. */
+function withoutSentence(region: MarkupNode, sentence: string | null): MarkupNode {
+  if (sentence === null || !isElement(region)) return region;
+  const drop = (node: MarkupNode): MarkupNode | null => {
+    if (!isElement(node)) return node;
+    if (classHas(node, 'ms-knowledge__item') && node.children.length === 1 && node.children[0] === sentence) return null;
+    return { ...node, children: node.children.map(drop).filter((child): child is MarkupNode => child !== null) };
+  };
+  return drop(region) ?? region;
 }
 
 /** Public, opt-in practice status; it never exposes a bot's role or decision inputs. */
@@ -301,6 +363,20 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
+    let investigation = false;
+    if (classHas(node, 'ms-private__panel') && privateContent) {
+      // The Insider's three players are drawn on the investigation board, and only while the
+      // view is live: a view the server no longer confirms shows neither board nor sentence.
+      const insider = privateContent.knowledge?.insider ?? null;
+      children = children.map(child => (isElement(child) && child.attrs['data-region'] === 'knowledge' ? withoutSentence(child, insider?.sentence ?? null) : child));
+      if (insider && phoneView === 'role' && model.connection === 'live') {
+        investigation = context.investigation === true;
+        // At the top of the card, where a short phone shows it without scrolling; open, the
+        // board takes the role card's place below it.
+        const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
+        children.splice(at < 0 ? children.length : at, 0, renderInvestigation(insider, context, investigation));
+      }
+    }
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
       const knowledge = children.find(child => isElement(child) && child.attrs['data-region'] === 'knowledge');
       if (knowledge) {
@@ -337,6 +413,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
         h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
+    if (investigation) return { ...node, attrs: { ...node.attrs, 'data-investigation': 'open' }, children };
     return { ...node, children };
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };

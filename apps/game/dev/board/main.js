@@ -26,6 +26,7 @@ import '../../hosted/setup.css';
 import '../../hosted/phone.css';
 import '../../hosted/compact-phone.css';
 import '../../hosted/board-play.css';
+import '../../hosted/private-card.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
 import { loadArt } from '../../hosted/art.mjs';
 import { identities, MATCH, playerView, publicView, SCENARIOS } from './scenarios.mjs';

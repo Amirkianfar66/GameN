@@ -92,6 +92,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let phoneView = 'board';
   let phoneFocus = null;
   let phoneNotice = null;
+  // The Insider's investigation board, open inside the private card. Only a deliberate tap
+  // opens it; it closes with the card, with any loss of private content and with a view the
+  // server no longer confirms, and nothing opens it again by itself.
+  let investigation = false;
   let phoneOpener = '#ms-phone-actions';
   const inertNodes = new Set();
 
@@ -109,7 +113,8 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (!frame.model.match?.privateArea?.open) phoneNotice = null;
-    const split = splitRegions(render(frame.model, { phoneView, phoneNotice }));
+    if (phoneView !== 'role' || !frame.model.match?.privateArea?.open || frame.model.connection !== 'live' || frame.privacyEpoch !== privacyEpoch) investigation = false;
+    const split = splitRegions(render(frame.model, { phoneView, phoneNotice, investigation }));
     applyRootAttributes(split.rootAttrs);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
@@ -187,6 +192,23 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       phoneNotice = openRoomMovement(screen, room.dataset.moveRoom);
       phoneFocus = phoneNotice ? '#ms-private-heading' : null; draw(); return;
     }
+    const intel = event.target instanceof Element ? event.target.closest('button[data-phone-investigation]') : null;
+    if (intel && root.contains(intel)) {
+      investigation = intel.dataset.phoneInvestigation === 'open';
+      phoneFocus = investigation ? '#phone-investigation-heading' : '#phone-investigation-toggle';
+      draw();
+      // Focus moves without scrolling; the board is then brought into view inside the card,
+      // its top below the card's sticky heading even when, at large text, it is taller than the card.
+      const board = investigation ? root.querySelector('#phone-investigation') : null;
+      const sheet = board?.closest('.ms-private');
+      if (board && sheet) {
+        board.scrollIntoView({ block: 'nearest' });
+        const head = sheet.querySelector('.phone-panel-head');
+        const covered = head ? head.getBoundingClientRect().bottom - board.getBoundingClientRect().top : 0;
+        if (covered > 0) sheet.scrollTop -= covered;
+      }
+      return;
+    }
     const tab = event.target instanceof Element ? event.target.closest('button[data-phone-view]') : null;
     if (tab && root.contains(tab)) {
       if (tab.disabled) return;
@@ -233,6 +255,12 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     if (event.key === 'Escape' && unsent && phoneView === 'actions') {
       event.preventDefault(); phoneNotice = null;
       screen.dispatch({ type: 'action/back' });
+      return;
+    }
+    // Escape closes the investigation board first, back to the control that opened it.
+    if (event.key === 'Escape' && investigation) {
+      event.preventDefault(); investigation = false; phoneFocus = '#phone-investigation-toggle';
+      draw();
       return;
     }
     if (event.key === 'Escape' && phoneView !== 'board') {

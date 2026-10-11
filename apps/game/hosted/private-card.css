@@ -1,0 +1,174 @@
+/* The private card's own boards, inside the deliberately opened Card sheet only.
+
+   The Insider's investigation board: three players and, apart from them, the three roles they
+   hold between them, one each. INTERIM treatment: it uses the approved character cards (public,
+   already loaded by every phone) and tokens only, and draws nothing that could pair a player with a
+   role. Every role is drawn the same way, no line or color joins a role to a player, and the board
+   appears whole, without motion. The Designer's treatment (the Insider's file, abilities-0.1.0, PR
+   #102 at 1453500) awaits Integration's adoption of its kit (DSN-D36) and the owner's look
+   (DSN-D37); until then this board follows that treatment's never-show rules. */
+
+#app .ms-shell--player .ms-private__panel .phone-investigation-region {
+  margin-block: 0.5rem;
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation-toggle {
+  width: 100%;
+  min-height: 48px;
+  justify-content: center;
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation {
+  min-width: 0;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.5rem 0.7rem;
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 10px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__heading {
+  margin: 0 0 0.5rem;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  /* A long word wraps rather than pushing the card sideways at enlarged text. */
+  overflow-wrap: anywhere;
+}
+
+/* Three players, in public seat order. */
+#app .ms-shell--player .ms-private__panel .phone-investigation__players {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__player {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+/* The character the player chose: the approved card picture. Without one, the seat's number. */
+#app .ms-shell--player .ms-private__panel .phone-investigation__portrait {
+  display: grid;
+  place-items: center;
+  width: min(100%, 5.5rem);
+  aspect-ratio: 84 / 96;
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 8px;
+  color: var(--ms-color-text);
+  background: var(--ms-color-panel);
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 1.5rem;
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__portrait[data-character] {
+  background: var(--ms-role-person, none) 50% 50% / contain no-repeat, var(--ms-color-panel);
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__plate {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  max-width: 100%;
+  min-width: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__plate .ms-seat__number {
+  flex: none;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  color: var(--ms-color-paper);
+  background: var(--ms-color-ink);
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__plate .ms-seat__player {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The three roles: one group, set apart from the players, every role the same. */
+#app .ms-shell--player .ms-private__panel .phone-investigation__roles {
+  margin-top: 0.7rem;
+  padding: 0.5rem;
+  border: 2px dashed var(--ms-color-steel-mid);
+  border-radius: 8px;
+  text-align: center;
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__among,
+#app .ms-shell--player .ms-private__panel .phone-investigation__unknown {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ms-color-ink);
+}
+
+/* One slip holding the three names stacked: a bundle under all three players, never a row or a
+   column under one of them (the Designer's rule for the Insider's file). */
+#app .ms-shell--player .ms-private__panel .phone-investigation__role-set {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: min(12rem, 80%);
+  margin: 0.4rem auto;
+  padding: 0.45rem 0.5rem;
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 3px;
+  background: var(--ms-color-paper-deep);
+}
+
+#app .ms-shell--player .ms-private__panel .phone-investigation__role-name {
+  padding: 0.1rem 0.6rem;
+  border-radius: 2px;
+  color: var(--ms-color-paper);
+  background: var(--ms-color-ink);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* With the board open the role card makes way, so the board fits a short phone. The board is
+   the Insider's own view; the card returns with the toggle that closes it. */
+#app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-investigation="open"] .ms-role-card {
+  display: none;
+}
+
+/* A short phone (568 px tall and the like): the same board, tighter, so the players and the set
+   of roles fit the card without scrolling at the default text size. */
+@media (max-height: 640px) {
+  #app .ms-shell--player .ms-private__panel .phone-investigation { margin-top: 0.35rem; padding: 0.45rem 0.45rem 0.5rem; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__heading { margin-bottom: 0.35rem; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__portrait { width: min(100%, 4.5rem); }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__roles { margin-top: 0.45rem; padding: 0.35rem; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__role-set { gap: 2px; margin: 0.3rem auto; padding: 0.3rem 0.4rem; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__role-name { padding: 0.05rem 0.5rem; font-size: 0.75rem; }
+}
+
+/* Large text: names wrap instead of being cut short, and the players still fit in three columns. */
+@media (max-width: 18em) {
+  #app .ms-shell--player .ms-private__panel .phone-investigation__plate { flex-wrap: wrap; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__plate .ms-seat__player { white-space: normal; overflow-wrap: anywhere; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__portrait { font-size: 1.1rem; }
+  #app .ms-shell--player .ms-private__panel .phone-investigation__heading { letter-spacing: 0; }
+}
+
+@media (forced-colors: active) {
+  #app .ms-shell--player .ms-private__panel .phone-investigation,
+  #app .ms-shell--player .ms-private__panel .phone-investigation__role-set { border-color: CanvasText; }
+}
