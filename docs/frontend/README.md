@@ -44,6 +44,16 @@ Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) integrates the Des
 
 Its browser-simulation evidence is under [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md).
 
+[role-abilities.md](role-abilities.md) prepares every other role ability for the Designer's treatments. It covers:
+
+- the states each role's own view gives, including Protection queued, active and used up, and a Cracker with no Rescues left;
+- hooks a treatment can style, which say no more than their words;
+- a role-by-role coverage table;
+- the Designer assets still missing;
+- the view gaps proposed on #99.
+
+Its evidence is under [evidence/role-abilities-2026-10-11/](evidence/role-abilities-2026-10-11/README.md).
+
 ## Slices
 
 Each stage is labeled as the brief requires: **proposed**, **fixture-tested**, **integrated** or **measured**. Nothing is integrated or measured yet.

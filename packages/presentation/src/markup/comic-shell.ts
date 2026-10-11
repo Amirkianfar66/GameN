@@ -284,7 +284,8 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
     h('h4', { class: 'ms-card__title', id: SHELL_IDS.actionTitle, tabindex: '-1' }, card.title),
     h('div', {
       class: 'ms-card__state', 'data-region': 'action', 'data-status': card.status, 'data-step': body.step, 'data-selected': String(card.selected),
-      'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
+      // The action the strip is about, when it knows it (a reloaded page may not): the hook for that action's own art.
+      'data-kind': card.kind, 'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
     },
       // The release's status word, the same for every action, drawn as a stamp once a command is sent.
       h('p', { class: 'ms-card__status' }, card.statusLabel),

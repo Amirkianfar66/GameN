@@ -123,7 +123,7 @@ test('a move by intents alone: the server’s destination, one command, the rece
   await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; view.seats[0].location = 'Room B'; view.self.movementDestinations = []; }));
   await s.host.advance(GUARD);
   s.screen.dispatch({ type: 'action/dismiss' });
-  assert.deepEqual(s.card().body.offers[0], { kind: 'move', label: 'Move', statusLabel: 'Not available', open: null });
+  assert.deepEqual(s.card().body.offers[0], { kind: 'move', label: 'Move', state: 'unavailable', statusLabel: 'Not available', open: null });
   assert.equal(s.frame().model.match.location.name, 'Room B');
 });
 

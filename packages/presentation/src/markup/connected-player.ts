@@ -36,7 +36,7 @@ function renderBody(body: ConnectedActionBody): MarkupChild {
   switch (body.step) {
     case 'idle':
       return [
-        h('ul', { class: 'ms-offers', 'aria-labelledby': SHELL_IDS.actionTitle }, body.offers.map(offer => h('li', { class: 'ms-offer', 'data-kind': offer.kind },
+        h('ul', { class: 'ms-offers', 'aria-labelledby': SHELL_IDS.actionTitle }, body.offers.map(offer => h('li', { class: 'ms-offer', 'data-kind': offer.kind, 'data-offer': offer.state },
           h('span', { class: 'ms-offer__name', id: offerNameId(offer.kind) }, offer.label), hiddenText(': '), h('span', { class: 'ms-offer__status' }, offer.statusLabel),
           // Several actions can be open at once with the same words on their controls. Each
           // control is named by its action first, then by its own words.
@@ -70,6 +70,8 @@ export function renderConnectedActionCard(card: ConnectedActionCardModel): Marku
     h('h4', { class: 'ms-card__title', id: SHELL_IDS.actionTitle, tabindex: '-1' }, card.title),
     h('div', {
       class: 'ms-card__state', 'data-region': 'action', 'data-status': card.status, 'data-step': card.body.step, 'data-selected': String(card.selected),
+      // The action the card is about, when the card knows it: a hook for that action's own art.
+      'data-kind': card.kind,
       // If the line or control that held focus is gone after a redraw, focus stays with the card.
       'data-focus-fallback': SHELL_IDS.actionTitle,
     },

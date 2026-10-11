@@ -454,11 +454,14 @@ export const en = {
     scanWrong: 'The guess was wrong.',
     scanRightInCode: 'The guess was right, and that player is in the Code.',
     scanRightNotInCode: 'The guess was right, and that player is not in the Code.',
-    // The round is the one the view names. Whether that round has come is not worked out here.
+    // The round is the one the view names. Once the view's own round has reached it, the
+    // Protection is in place; until it is used up, it says so.
+    protectionActive: (who: string) => `Protection for ${who}: active.`,
     protectionFrom: (who: string, round: number) => `Protection for ${who}: active from round ${round}.`,
     protectionUsed: (who: string) => `Protection for ${who}: used up.`,
     weapons: (count: number) => `Ordinary weapons you hold: ${count}.`,
     rescues: (count: number) => `Rescues you have left: ${count}.`,
+    noRescues: 'You have no Rescues left.',
   },
 
   // The Insider's investigation board: the same set as the sentence above, drawn as three
