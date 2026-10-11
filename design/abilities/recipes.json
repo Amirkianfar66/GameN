@@ -1,0 +1,88 @@
+{
+  "devOnly": "mothership:dev-only",
+  "manifestVersion": "abilities-0.1.0",
+  "status": "proposal",
+  "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
+  "baseManifest": "design-0.2.0",
+  "tokens": "0.4.0",
+  "bundle": {
+    "name": "abilities",
+    "audience": "private art: drawn only inside a seat's own open private sheet",
+    "loadPolicy": "Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role."
+  },
+  "palettes": {
+    "neutral": {
+      "about": "Paper, ink and steel only: no team accent, no room color, no crew color, so no piece of the kit can be told apart by role, team or character.",
+      "colors": ["#151923", "#10141C", "#202837", "#F4EBDD", "#E3D6C2", "#CBBBA2", "#222B3A", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#C6CDD4", "#F7C52B"]
+    }
+  },
+  "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
+  "assets": [
+    {
+      "id": "dossier-cork", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "Cork of a private file", "source": "source/dossier.svg", "layer": "dossier-cork", "viewBox": "0 0 96 96",
+      "use": "Tiled behind a private file (background-repeat), at 96 CSS px or smaller.",
+      "anchors": { "tile": [96, 96] }
+    },
+    {
+      "id": "dossier-tape", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A strip of tape", "source": "source/dossier.svg", "layer": "dossier-tape", "viewBox": "0 0 64 22",
+      "use": "Across a file's top corners, turned 35 to 45 degrees.",
+      "anchors": { "center": [32, 11] }
+    },
+    {
+      "id": "dossier-pin", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A push pin", "source": "source/dossier.svg", "layer": "dossier-pin", "viewBox": "0 0 26 28",
+      "use": "Holds every snapshot and the envelope; one drawing for every candidate.",
+      "anchors": { "point": [12, 10] }
+    },
+    {
+      "id": "dossier-photo", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A snapshot frame", "source": "source/dossier.svg", "layer": "dossier-photo", "viewBox": "0 0 104 134",
+      "use": "Around a player's chosen crew card: the portrait fills the window. One frame for every candidate alike.",
+      "anchors": { "window": [10, 10, 80, 92], "pin": [50, 4], "caption": [6, 104, 92, 20] }
+    },
+    {
+      "id": "dossier-query", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A query tag", "source": "source/dossier.svg", "layer": "dossier-query", "viewBox": "0 0 30 38",
+      "use": "On the corner of every candidate's snapshot alike: this one is not known.",
+      "anchors": { "hole": [15, 10.5] }
+    },
+    {
+      "id": "dossier-lens", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A magnifying lens", "source": "source/dossier.svg", "layer": "dossier-lens", "viewBox": "0 0 30 30",
+      "use": "Marks what can be inspected; never a result.",
+      "anchors": { "center": [12, 12] }
+    },
+    {
+      "id": "dossier-clip", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A paper clip", "source": "source/dossier.svg", "layer": "dossier-clip", "viewBox": "0 0 18 46",
+      "use": "Holds a slip to an envelope.",
+      "anchors": { "grip": [10, 4] }
+    },
+    {
+      "id": "dossier-stamp", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A rubber-stamp frame", "source": "source/dossier.svg", "layer": "dossier-stamp", "viewBox": "0 0 132 40",
+      "use": "Around a live word stamped on a file (CLASSIFIED, ONE EACH). The word is live text, never drawn.",
+      "anchors": { "text": [8.5, 8.5, 115, 23] }
+    },
+    {
+      "id": "dossier-envelope-back", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An open envelope, behind what it holds", "source": "source/dossier.svg", "layer": "dossier-envelope-back", "viewBox": "0 0 224 88",
+      "use": "Behind a slip that stands in it; the front layer goes over the slip.",
+      "anchors": { "mouth": [6, 44, 212] }
+    },
+    {
+      "id": "dossier-envelope-front", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An open envelope, in front of what it holds", "source": "source/dossier.svg", "layer": "dossier-envelope-front", "viewBox": "0 0 224 88",
+      "use": "Over the lower part of a slip that stands in the envelope.",
+      "anchors": { "mouth": [6, 44, 212] }
+    },
+    {
+      "id": "dossier-folder", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A closed folder", "source": "source/dossier.svg", "layer": "dossier-folder", "viewBox": "0 0 228 156",
+      "use": "The cover of any private file while it is hidden: the same for every role.",
+      "anchors": { "label": [62, 76, 100, 36] }
+    }
+  ]
+}

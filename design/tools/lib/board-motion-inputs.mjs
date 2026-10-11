@@ -17,6 +17,8 @@ export async function boardMotionInputsSha256(repoRoot) {
   for (const sub of ['css', 'js', 'contract', 'assets', 'figures', 'scenes']) {
     for (const entry of await readdir(resolve(repoRoot, 'design/board-motion', sub), { withFileTypes: true })) if (entry.isFile()) paths.push(`design/board-motion/${sub}/${entry.name}`);
   }
+  // The page also draws the ability art (design/abilities/): its styles, its script and its kit.
+  paths.push('design/abilities/css/abilities.css', 'design/abilities/js/dossier.js', 'design/abilities/assets/abilities.art.css');
   const lines = [];
   for (const path of paths.sort()) lines.push(`${sha(await readFile(resolve(repoRoot, path)))}  ${path}`);
   return sha(lines.join('\n'));

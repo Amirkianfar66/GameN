@@ -27,6 +27,7 @@ function scratchCopy() {
   const root = mkdtempSync(join(tmpdir(), 'mothership-board-motion-check-'));
   scratchRoots.push(root);
   for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'docs/design', 'packages/design-tokens/src',
+    'design/abilities/css', 'design/abilities/js', 'design/abilities/assets',
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });

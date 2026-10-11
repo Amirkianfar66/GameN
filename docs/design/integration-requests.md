@@ -20,6 +20,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-11](#dsn-req-11) | Say in the view that an election is a second one among tied candidates (G13), and which vote a published count belongs to (G15) (issue #76) | Wording the runoff and the “last count” without inference | None |
 | [DSN-REQ-12](#dsn-req-12) | Enforce the owner's room capacity of five in the engine and the server (owner, 11 October 2026; issue #87) | The board drawing five places a room as a rule rather than a picture; a full room refused before it is pressed | None |
 | [DSN-REQ-13](#dsn-req-13) | Put the current board-motion look in the game for the owner to judge: the five scenes with 21 places, the full-body figures and their animations, unpainted (owner, 11 October 2026; issue #87) | The owner's judgement of the look (DSN-D34), which is to be made in the game | None |
+| [DSN-REQ-14](#dsn-req-14) | State in the contract that `knowledge.insiderCandidates` and `knowledge.code` list seats in seat order (ability art, 11 October 2026) | Nothing today: the engine sorts both. It keeps any later producer from leaking a role order through a list's order | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -229,6 +230,14 @@ How to adopt each part is in [board-motion-handoff.md](board-motion-handoff.md):
 - the painted look, which stays an exploration;
 - the capacity rule itself, which is [DSN-REQ-12](#dsn-req-12);
 - any change to a rule, the protocol or a contract.
+
+## DSN-REQ-14
+
+**Say in the contract that the Insider's candidates and the Alien's Code are in seat order.** Added 11 October 2026 for the ability art ([abilities-handoff.md](abilities-handoff.md)). For Integration (`packages/contracts/`), with Backend.
+
+`knowledge.insiderCandidates` is the unordered set of the three players who hold Undercover, Alien and Cracker; `knowledge.code` is the unordered set of four seats. Both are arrays, and an array has an order. The engine sorts both by seat ID today (`packages/engine/src/full-game/roster.ts`: `[undercoverSeatId, alienSeatId, seatForRole('Cracker')].sort()` and `[alienSeatId, ...codeExtraSeatIds].sort()`), and `endReveal.code` copies the sorted Code. The contract (`FullPlayerViewSchema` in `packages/contracts/src/full-game.ts`) only checks length and uniqueness. A later producer that listed the candidates as Undercover, Alien, Cracker, or put the Alien first in the Code, would leak a role to any consumer, or to anyone reading the wire, through the order alone.
+
+Requested: the schema (or its refinement) requires both lists in ascending seat order, with a contract test. No new field and no change to what is disclosed. Until then the Designer's treatments, like the release's knowledge sentences, sort on the client and never draw a list in the view's order.
 
 ## What Designer does next, and what it waits for
 

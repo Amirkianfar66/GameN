@@ -1,0 +1,1263 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "abilities-0.1.0",
+  "status": "proposal",
+  "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
+  "base": {
+    "designerCommit": "08409392d1040f20d559a9f36a2a1d9bb23468c4",
+    "ruleset": "in-person-v1-pass-2026-10-08",
+    "rulesetParent": "in-person-v1-2026-10-06",
+    "engine": "full-game-1.1.0",
+    "protocol": 2,
+    "tokens": "0.4.0",
+    "reviewedAssets": "design-0.2.0",
+    "boardMotion": "board-motion-0.3.0",
+    "originalPowers": "off"
+  },
+  "sources": [
+    "rules/sources/v2.1-decisions.json (roles, ordinary_shot, protection, victory)",
+    "rules/overlays/in-person-v1-owner-decisions-2026-10-06.json (V1-01 to V1-21)",
+    "rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json (PASS-01 to PASS-06)",
+    "rules/overlays/direct-shot-decision.json, player-modes-officer.json, final-showdown-decision.json, movement-decision.json, consolidated-decisions-2026-09-26.json",
+    "packages/contracts/src/full-game.ts (FullPlayerView, FullPublicView, commands, receipts, events)",
+    "packages/contracts/src/own-acknowledgments.ts (Supplier results, received supply)",
+    "packages/contracts/src/lobby-identity.ts (public name and chosen character of a seat)",
+    "packages/contracts/src/staged-start.ts (the setup preview carries a role and no knowledge)"
+  ],
+  "rules": [
+    "A chosen character is a public appearance, independent of the role: any character may hold any role. No face, outfit, pose, color or public effect is tied to a role or a team.",
+    "A command receipt says registered, never a result: not damage, not healing, not delivery. A result is shown only when an authorized view or acknowledgment carries it.",
+    "Public motion uses confirmed public facts only (PHASE_CHANGED, PUBLIC_MOVE, PUBLIC_HEALTH_CHANGED and the public view). No public animation names a private target, an action type, a role, a weapon or an action's source.",
+    "Private art is drawn only inside the seat's own open private sheet or its own action strip, never on the shared display, a host view or another phone. Every player phone loads all private art in one stylesheet, whatever its role, so loading says nothing.",
+    "Unordered sets stay unordered: the Insider's three candidates, the Code's four players and a Code submission are shown in seat order, a public order, never in an order the view or the engine might carry.",
+    "Every effect has a normal form, a reduced-motion form, a static fallback and a cancelled state. Motion never delays a control, pauses a timer or decides game state. Changing the reduced-motion setting cancels movement at once and leaves the latest authoritative pose, health and location.",
+    "A duplicate event, a receipt recovery or a reconnection never replays an effect as a new action.",
+    "No secret-specific sound or haptics. No historical optional power and no new ability."
+  ],
+  "treatments": [
+    {
+      "id": "insider-file",
+      "title": "Insider: the investigation board",
+      "slice": 1,
+      "status": "delivered",
+      "roles": [
+        "Insider"
+      ],
+      "audience": "private-own",
+      "trigger": "The player opens their card during gameplay. The view carries the three candidates from the first gameplay view; the setup reading stage's preview carries none, so nothing is shown before gameplay.",
+      "fields": [
+        "knowledge.insiderCandidates",
+        "seats[].seatId",
+        "seats[].location",
+        "seats[].health",
+        "seats[].captain",
+        "seats[].jailed",
+        "lobby identity: seats[].displayName, seats[].characterId"
+      ],
+      "disclosure": [
+        "The three portraits in seat order (a public order), whatever order the view lists them in.",
+        "The three role names as one set in one envelope, in a fixed order that never changes with the candidates, below all three portraits and beside none of them, in every layout (large text included).",
+        "Nothing ties a role name to a portrait: the same frame, pin, query tag, seat sticker and tilt-by-position for every portrait; one string around the whole set; no per-portrait color, line, animation order, accessible name or asset.",
+        "Inspecting a portrait lifts it and says that player's public facts (room, health, Captain, Jail), which every screen shows; it never adds evidence.",
+        "No sound and no vibration.",
+        "Never on the board, the shared display or a host view; not during setup."
+      ],
+      "concept": "A cork board in the private sheet: three snapshots of the players' own crew cards pinned on a string in seat order, each with the same seat sticker in the portrait's corner, the name on the frame's margin and the same paper query tag; below, an open envelope holding a slip with three label tapes, Undercover, Alien and Cracker, stamped ONE EACH; one string pinned round the four corners of the whole set; a CLASSIFIED stamp on the file's tab; under it all, Who is which: unknown. People are written by hand on paper; roles are label tapes: two visual languages that never pair up.",
+      "art": [
+        "dossier-cork",
+        "dossier-tape",
+        "dossier-pin",
+        "dossier-photo",
+        "dossier-query",
+        "dossier-lens",
+        "dossier-clip",
+        "dossier-stamp",
+        "dossier-envelope-back",
+        "dossier-envelope-front",
+        "piece-crew.card-c1..c9 (approved, design-0.2.0)"
+      ],
+      "motion": {
+        "normal": "The first open in a page assembles the file in 1020 ms: the board rises (180), the snapshots drop and are pinned in seat order (from 120, 70 apart, 260 each), the envelope rises (300) and its slip slides up with the three names together (520), the query tags swing on together (540), the corner pins pop and the string draws round the whole set (640, 380), the stamps land (CLASSIFIED 220, ONE EACH 860). Later opens show it at rest. Inspecting lifts the snapshot from its pin toward the middle (200 ms) while the rest dims; the inspect card lies over the dimmed envelope; Back or Escape returns it.",
+        "reduced": "The file appears at rest with an 80 ms fade. Inspecting rings the snapshot instead of lifting it.",
+        "static": "Without the ability art: the same file in paper and ink, words on plain paper, a plain envelope. Without the crew cards: the seat number large in each window (the corner sticker waits for the portraits).",
+        "cancel": "Closing the card, the page going to the background, the view going out of date or reduced motion being switched on finishes every animation at once and leaves the file at rest; nothing is replayed.",
+        "replay": "The assembly is a reveal the player asked for, not a game event: it plays once per page, on the first deliberate open, and never on an update, a recovery or a reconnect."
+      },
+      "states": [
+        "closed (no private word in the page)",
+        "opening (assembling, once per page)",
+        "at rest",
+        "inspecting one portrait (Show on board, Back)",
+        "show on board (the card closes; a ring on the own board for 1.6 s)",
+        "twelve-character names (a small snapshot ends a long name in an ellipsis; the button and the inspect card say it whole)",
+        "large text (one column: each snapshot with its number and whole name beside it, the envelope below the three; the card scrolls)",
+        "reduced motion (a fade; inspecting rings the snapshot)",
+        "missing art",
+        "hidden (see card-hidden)"
+      ],
+      "copy": {
+        "visible": [
+          "Insider file",
+          "Classified",
+          "One each",
+          "Who is which: unknown.",
+          "Show on board",
+          "Back"
+        ],
+        "accessible": [
+          "<names> hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which. (the release's sentence)",
+          "Player <n>, <name>. Inspect",
+          "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+        ]
+      },
+      "review": [
+        "design/abilities/review/contact-insider.png",
+        "design/abilities/review/insider-w390-rest.png",
+        "design/abilities/review/insider-w320-rest.png",
+        "design/abilities/review/insider-w320-inspect.png",
+        "design/abilities/review/insider-w320-long-names.png",
+        "design/abilities/review/insider-w320-text200.png",
+        "design/board-motion/index.html?scenario=file.insider"
+      ],
+      "dependencies": [
+        "The view's insiderCandidates is sorted by seat ID today (packages/engine/src/full-game/roster.ts); DSN-REQ-14 asks the contract to state that order, so no consumer can ever leak a role order through it."
+      ]
+    },
+    {
+      "id": "card-hidden",
+      "title": "Any role: the hidden card",
+      "slice": 1,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "private-own",
+      "trigger": "The player presses Card while the card cannot be shown: the view is out of date or the turn's time is up. (Going to the background or out of date closes an open card at once, the reviewed conceal rule, and coming back shows the board; a page that opens in the background with its card open shows the folder.)",
+      "fields": [
+        "phase.endsAt (local expiry)",
+        "view freshness (client)"
+      ],
+      "disclosure": [
+        "One closed folder and the same words for every role and seat: nothing names or colors a role. Nothing private is in the page until the player opens the card again."
+      ],
+      "concept": "A closed manila folder with a blank label and a clasp, where the card was.",
+      "art": [
+        "dossier-folder"
+      ],
+      "motion": {
+        "normal": "None: the private content is removed at once.",
+        "reduced": "The same.",
+        "static": "A plain paper rectangle with the words.",
+        "cancel": "Concealing cancels every private animation.",
+        "replay": "Opening the card again never replays a private cue."
+      },
+      "states": [
+        "pressed while out of date or time is up: the closed folder, no control",
+        "a page opened in the background: the closed folder with Show my card",
+        "back from the background: the board, the card closed; pressing Card opens the file again at rest, not assembled again"
+      ],
+      "copy": {
+        "visible": [
+          "Your card is hidden.",
+          "Your card stays hidden until your view is up to date.",
+          "Show my card"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/hidden-w390-stale.png",
+        "design/abilities/review/hidden-w320-stale.png",
+        "design/abilities/review/hidden-w390-background.png",
+        "design/abilities/review/hidden-w390-reopened.png",
+        "design/board-motion/index.html?scenario=file.hidden"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "hacker-file",
+      "title": "Hacker: the known Undercover",
+      "slice": 2,
+      "status": "planned",
+      "roles": [
+        "Hacker"
+      ],
+      "audience": "private-own",
+      "trigger": "The player opens their card during gameplay.",
+      "fields": [
+        "knowledge.undercoverSeatId",
+        "lobby identity"
+      ],
+      "disclosure": [
+        "One snapshot, the known Undercover, from the view's knowledge.undercoverSeatId.",
+        "Nothing about the Code: the release's sentence says only who the Undercover is, and nothing is worked out from the rules (not even what they imply about the Code)."
+      ],
+      "concept": "The same file kit: one snapshot pinned under the file's tab, with the label tape UNDERCOVER on its caption. Here the pairing is the Hacker's own knowledge, so the one label may sit on the one portrait; the Insider's file never pairs.",
+      "art": [
+        "dossier kit"
+      ],
+      "motion": {
+        "normal": "Snapshot drop and pin, label tape slap (480 ms).",
+        "reduced": "At rest, 80 ms fade.",
+        "static": "Paper and words.",
+        "cancel": "As the Insider file.",
+        "replay": "Once per page, on a deliberate open."
+      },
+      "states": [
+        "closed",
+        "opening",
+        "at rest",
+        "hidden",
+        "missing art"
+      ],
+      "copy": {
+        "visible": [
+          "Hacker file",
+          "Undercover"
+        ],
+        "accessible": [
+          "The Undercover is <who>. (the release's sentence)"
+        ]
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "hacker-scan",
+      "title": "Hacker: Scan",
+      "slice": 2,
+      "status": "planned",
+      "roles": [
+        "Hacker"
+      ],
+      "audience": "private-own",
+      "trigger": "The Hacker opens Scan from the Actions tray, picks a character on the board (themself included) and a faction guess, and confirms.",
+      "fields": [
+        "self.scanAvailable",
+        "legalTargets.SCAN",
+        "knowledge.scanResults[]: round, targetSeatId, guess, matched, inCode",
+        "receipt status/code"
+      ],
+      "disclosure": [
+        "The result is the view's knowledge.scanResults entry, never inferred from the receipt.",
+        "A wrong guess shows no Code information.",
+        "A right guess shows membership only, never a position.",
+        "The scan cue plays on the Hacker's own board only."
+      ],
+      "concept": "The Hacker's scanner (the approved device) projects a reticle over the picked character; three faction dials (Blue, Red, Alien) in the strip; on registration, a scan line sweeps the character's card; the result arrives as a printout pinned in the file: WRONG GUESS (blank), or IN THE CODE / NOT IN THE CODE.",
+      "art": [
+        "planned: scan-reticle, scan-sweep, faction-dial, printout"
+      ],
+      "motion": {
+        "normal": "Reticle lock 220 ms on the pick, sweep 600 ms after the receipt, printout drop 260 ms when the result arrives.",
+        "reduced": "Ring and stamp only; no sweep.",
+        "static": "Ring, words.",
+        "cancel": "A newer view or the strip closing ends the sweep at rest.",
+        "replay": "A result already shown is never swept again after recovery or reconnect."
+      },
+      "states": [
+        "unavailable (used this round)",
+        "choosing a character",
+        "choosing a guess",
+        "confirming",
+        "sending",
+        "registered",
+        "result: wrong",
+        "result: in the Code",
+        "result: not in the Code",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Scan",
+          "Guess a faction",
+          "Scan registered",
+          "Wrong guess",
+          "In the Code",
+          "Not in the Code"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "hacker-code",
+      "title": "Hacker: Code submission",
+      "slice": 2,
+      "status": "planned",
+      "roles": [
+        "Hacker"
+      ],
+      "audience": "private-own",
+      "trigger": "Round 5: the Hacker opens Code, picks four characters on the board and confirms.",
+      "fields": [
+        "self.codeAttemptAvailable",
+        "SUBMIT_CODE.seatIds (four, distinct)",
+        "receipt status/code"
+      ],
+      "disclosure": [
+        "The four picks are an unordered set: shown in seat order, never as positions 1 to 4.",
+        "Registration is not a result: Code victory is checked with the other victories after normal Round 5 effects (V1-08)."
+      ],
+      "concept": "Four snapshot chips clipped into a code card in seat order; a punch-through stamp CODE SENT on registration; the card stays in the file as sent.",
+      "art": [
+        "planned: code-card, code-chip, punch stamp"
+      ],
+      "motion": {
+        "normal": "Each pick clips in (160 ms); the punch on registration (220 ms).",
+        "reduced": "No clip or punch: rings and stamp.",
+        "static": "Words in seat order.",
+        "cancel": "As every strip.",
+        "replay": "Never after recovery or reconnect."
+      },
+      "states": [
+        "unavailable (before Round 5, or attempted)",
+        "picking 1 to 4",
+        "confirming",
+        "sending",
+        "registered",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Code",
+          "Pick four",
+          "Code registered"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "alien-code-file",
+      "title": "Alien: the Code from the start",
+      "slice": 2,
+      "status": "planned",
+      "roles": [
+        "Alien"
+      ],
+      "audience": "private-own",
+      "trigger": "The player opens their card during gameplay.",
+      "fields": [
+        "knowledge.code (four seats, the Alien among them)",
+        "lobby identity"
+      ],
+      "disclosure": [
+        "Four snapshots as one unordered group in seat order; no positions, no numbering beyond seat numbers."
+      ],
+      "concept": "The Alien's stone device glows over a file of four snapshots held by one clip ring: the Code. The same file kit as the Insider's.",
+      "art": [
+        "dossier kit",
+        "planned: code-ring"
+      ],
+      "motion": {
+        "normal": "The four snapshots drop together in seat order, the ring closes round them (520 ms).",
+        "reduced": "At rest.",
+        "static": "Paper and words.",
+        "cancel": "As the Insider file.",
+        "replay": "Once per page."
+      },
+      "states": [
+        "closed",
+        "opening",
+        "at rest",
+        "hidden",
+        "missing art"
+      ],
+      "copy": {
+        "visible": [
+          "Alien file",
+          "The Code"
+        ],
+        "accessible": [
+          "The Code is these four players: <names>. (the release's sentence)"
+        ]
+      },
+      "review": [],
+      "dependencies": [
+        "DSN-REQ-14: knowledge.code in seat order, stated in the contract."
+      ]
+    },
+    {
+      "id": "cracker-rescue",
+      "title": "Cracker: Rescue",
+      "slice": 3,
+      "status": "planned",
+      "roles": [
+        "Cracker"
+      ],
+      "audience": "private-own; recovery public",
+      "trigger": "The Cracker opens Rescue, picks a character (an Injured one in the Hospital from A or B, or themself while Injured, V1-05) and confirms; at the end of the round the public view may show the target Healthy.",
+      "fields": [
+        "self.rescuesRemaining",
+        "legalTargets.RESCUE",
+        "receipt",
+        "PUBLIC_HEALTH_CHANGED (Healthy)"
+      ],
+      "disclosure": [
+        "Registering is not recovery: the strip stamps RESCUE REGISTERED and the remaining uses drop by one (reserved at acceptance, V1-15).",
+        "Recovery is a public health change, drawn by the public status cue for everyone, with nothing that names a rescuer or a Rescue."
+      ],
+      "concept": "The injector device: two vial pips in the strip, one filling as the pick is confirmed; a medical cross reticle on the picked character on the own board; registered = a paper tag clipped to the strip; recovery later = the public bandage coming off on every board.",
+      "art": [
+        "planned: vial-pip, cross-reticle, rescue-tag"
+      ],
+      "motion": {
+        "normal": "Vial fill 240 ms on confirm; tag clip 140 ms on the receipt.",
+        "reduced": "Stamp only.",
+        "static": "Words and pips.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "available (2/1 left)",
+        "spent (0 left)",
+        "choosing",
+        "confirming",
+        "sending",
+        "registered",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Rescue",
+          "Rescues left: <n>",
+          "Rescue registered"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "disabler",
+      "title": "Blue Disabler and Red Disabler: Disable",
+      "slice": 3,
+      "status": "planned",
+      "roles": [
+        "Blue Disabler",
+        "Red Disabler"
+      ],
+      "audience": "private-own",
+      "trigger": "The Disabler opens Disable, picks a character in the same location and confirms; one use per match.",
+      "fields": [
+        "self.disablerAvailable",
+        "legalTargets.DISABLE",
+        "receipt"
+      ],
+      "disclosure": [
+        "Each Disabler's own prod in its own team accent, on its own phone only.",
+        "Public feedback never tells Blue from Red: the result is a neutral public health change, the same as any damage."
+      ],
+      "concept": "The prod device crackles over the picked character on the own board (Blue: a cold arc; Red: a hot arc); one charge ring in the strip empties on registration; spent: the ring hollow.",
+      "art": [
+        "planned: prod-arc-blue, prod-arc-red, charge-ring"
+      ],
+      "motion": {
+        "normal": "Arc flicker 300 ms on the pick, ring empties 200 ms on the receipt.",
+        "reduced": "Ring and stamp.",
+        "static": "Words.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "available",
+        "spent",
+        "choosing",
+        "confirming",
+        "sending",
+        "registered",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Disable",
+          "Disable registered",
+          "Used"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "supplier-supply",
+      "title": "Supplier: Supply",
+      "slice": 3,
+      "status": "planned",
+      "roles": [
+        "Supplier"
+      ],
+      "audience": "private-own; each recipient's own acknowledgment",
+      "trigger": "Round 3: the Supplier opens Supply, picks two different characters in the same location and confirms; delivery is acknowledged after the round's distribution.",
+      "fields": [
+        "legalTargets.SUPPLY",
+        "receipt",
+        "own acknowledgments: supplierResults[].successfulRecipientSeatIds",
+        "recipient: receivedSupply[], self.ordinaryWeapons"
+      ],
+      "disclosure": [
+        "Registration is not delivery.",
+        "Delivery is shown only from the Supplier's own acknowledgment, naming the successful recipients, and to each recipient from its own acknowledgment; no public weapon marker (V1-16)."
+      ],
+      "concept": "The carrier device with two cells: the first pick loads a crate tag with the first portrait, the second the other; registered: the carrier sealed; delivered: a delivery slip pinned in the file. A recipient finds a weapon slip in its own file.",
+      "art": [
+        "planned: carrier-cell, crate-tag, delivery-slip, weapon-slip"
+      ],
+      "motion": {
+        "normal": "Cell load 180 ms per pick, seal 160 ms on the receipt, slip drop 260 ms on the acknowledgment.",
+        "reduced": "Stamps only.",
+        "static": "Words.",
+        "cancel": "As every strip.",
+        "replay": "An acknowledgment already shown is never dropped again."
+      },
+      "states": [
+        "unavailable (not Round 3)",
+        "first pick",
+        "second pick",
+        "confirming",
+        "sending",
+        "registered",
+        "delivered (acknowledged)",
+        "history unavailable",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Supply",
+          "Pick two",
+          "Supply registered",
+          "Delivered to <names>"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "undercover-protection",
+      "title": "Undercover: Protection",
+      "slice": 4,
+      "status": "planned",
+      "roles": [
+        "Undercover"
+      ],
+      "audience": "private-own (Undercover only)",
+      "trigger": "The Undercover opens Protection, picks a Healthy or Injured character (themself included) and confirms.",
+      "fields": [
+        "legalTargets.PROTECT",
+        "receipt",
+        "knowledge.protections[]: seatId, activeFromRound, consumed"
+      ],
+      "disclosure": [
+        "Grant, activation and consumption are drawn only for the Undercover (V1-17). The recipient never sees a shield; nothing public changes."
+      ],
+      "concept": "The dome emitter device: a dome sketched over the picked portrait in the Undercover's file; queued (dashed dome, Active from round N), active (solid dome), consumed (dome cracked, Used).",
+      "art": [
+        "planned: dome-queued, dome-active, dome-cracked"
+      ],
+      "motion": {
+        "normal": "Dome draw 300 ms on registration; crack 240 ms when the view says consumed.",
+        "reduced": "Static domes.",
+        "static": "Words.",
+        "cancel": "As every strip.",
+        "replay": "A consumed dome never cracks again after recovery."
+      },
+      "states": [
+        "choosing",
+        "confirming",
+        "sending",
+        "registered",
+        "queued",
+        "active (from the view's round)",
+        "consumed",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Protection",
+          "Active from round <n>",
+          "Used up"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "ordinary-shot",
+      "title": "Ordinary shot (every eligible role)",
+      "slice": 4,
+      "status": "planned",
+      "roles": [
+        "Undercover",
+        "Officer",
+        "any holder of a supplied weapon, the Alien included"
+      ],
+      "audience": "private-own; damage public",
+      "trigger": "A seat whose view offers REGISTER_SHOT picks a character in the same location and confirms. Direct targeting only: no third player.",
+      "fields": [
+        "self.shotAvailable",
+        "self.ordinaryWeapons",
+        "legalTargets.REGISTER_SHOT",
+        "receipt",
+        "PUBLIC_HEALTH_CHANGED"
+      ],
+      "disclosure": [
+        "Registration is not damage.",
+        "The public hit (cue-public-hit, a proposal) is the same for every cause and from no direction."
+      ],
+      "concept": "A shared shot strip: a crosshair over the picked character on the own board, the weapon pip spent on registration. The same component for every role; the Officer's card and the supplied weapon differ only in their own private art.",
+      "art": [
+        "approved: icon-action-shot",
+        "planned: crosshair, weapon-pip"
+      ],
+      "motion": {
+        "normal": "Crosshair lock 180 ms; pip spends 160 ms on the receipt.",
+        "reduced": "Ring and stamp.",
+        "static": "Words.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "unavailable",
+        "choosing",
+        "confirming",
+        "sending",
+        "registered",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Shot",
+          "Shot registered"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=shot.choose"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "officer-shot",
+      "title": "Officer: the one shot",
+      "slice": 4,
+      "status": "planned",
+      "roles": [
+        "Officer"
+      ],
+      "audience": "private-own",
+      "trigger": "Nine-player mode only. From Round 1, during the Officer's own ordinary turn; one ordinary shot in the match, never a second from a supplied weapon.",
+      "fields": [
+        "self.shotAvailable",
+        "self.ordinaryWeapons",
+        "legalTargets.REGISTER_SHOT"
+      ],
+      "disclosure": [
+        "The same shared shot strip; the sidearm device with one cell, empty once spent."
+      ],
+      "concept": "The sidearm device's single cell in the strip; spent: the cell dark and a SPENT tag on the card.",
+      "art": [
+        "approved: device-officer",
+        "planned: cell-pip"
+      ],
+      "motion": {
+        "normal": "As the ordinary shot.",
+        "reduced": "As the ordinary shot.",
+        "static": "Words.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "available",
+        "spent"
+      ],
+      "copy": {
+        "visible": [
+          "One shot",
+          "Spent"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "alien-weapon",
+      "title": "Alien: shared actions and a supplied weapon",
+      "slice": 4,
+      "status": "planned",
+      "roles": [
+        "Alien"
+      ],
+      "audience": "private-own",
+      "trigger": "The Alien's view offers the shared actions; a weapon arrives only through a Supplier grant, and is used in Rounds 4 and 5 like any ordinary weapon.",
+      "fields": [
+        "self.ordinaryWeapons",
+        "receivedSupply[]",
+        "legalTargets.REGISTER_SHOT"
+      ],
+      "disclosure": [
+        "The supplied weapon slip in the Alien's file only; no public weapon marker."
+      ],
+      "concept": "The ordinary shot strip; the weapon slip in the file.",
+      "art": [
+        "planned: weapon-slip (shared with every recipient)"
+      ],
+      "motion": {
+        "normal": "As the ordinary shot.",
+        "reduced": "As the ordinary shot.",
+        "static": "Words.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "no weapon",
+        "weapon received",
+        "shot as the ordinary shot"
+      ],
+      "copy": {
+        "visible": [
+          "Weapon received"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "shared-selection",
+      "title": "Character selection",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "public choice, own confirmation",
+      "trigger": "Setup: 30 seconds to choose; an unconfirmed choice is assigned automatically.",
+      "fields": [
+        "lobby identity: seats[].characterId, displayName, locked",
+        "staged start progress"
+      ],
+      "disclosure": [
+        "A clean nine-character matrix; a taken character says who took it; nothing about roles exists yet."
+      ],
+      "concept": "The nine crew cards in a 3 x 3 matrix on paper; a taken card gets the taker's seat stamp; the own pick pops and is ringed.",
+      "art": [
+        "approved: piece-crew.card-c1..c9"
+      ],
+      "motion": {
+        "normal": "Pick pop 220 ms; taken stamp 120 ms.",
+        "reduced": "Ring and stamp.",
+        "static": "Words.",
+        "cancel": "The timer closing settles every card.",
+        "replay": "Never."
+      },
+      "states": [
+        "choosing",
+        "taken by another",
+        "confirmed",
+        "assigned automatically",
+        "retry"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words (compact-phone decision of 8 October 2026)"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/v1-phone/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-role-card",
+      "title": "Private role-card reveal",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "private-own",
+      "trigger": "Setup: the role card is turned by the player; at least 30 seconds of reading, then every player Ready.",
+      "fields": [
+        "staged-start preview: self.role"
+      ],
+      "disclosure": [
+        "The card centers on the role; the device is added to the player's own character. No starting knowledge in this stage."
+      ],
+      "concept": "The approved card turn (cue-role-card-turn) with the role device sliding into the character's hand.",
+      "art": [
+        "approved: device-*.held, piece-crew.card-c*"
+      ],
+      "motion": {
+        "normal": "The reviewed turn (220 ms) plus the device slide (180 ms).",
+        "reduced": "Fade.",
+        "static": "The card face.",
+        "cancel": "Concealing hides the card.",
+        "replay": "Never after a reconnect."
+      },
+      "states": [
+        "face down",
+        "turning",
+        "face up",
+        "ready",
+        "hidden"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "shared-move",
+      "title": "Movement and room arrival",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "public",
+      "trigger": "Tapping an eligible room's name tag (never an action-menu choice); the public move cue on PUBLIC_MOVE.",
+      "fields": [
+        "self.movementDestinations",
+        "PUBLIC_MOVE",
+        "seats[].location"
+      ],
+      "disclosure": [
+        "The same walk for every move, transfer and release."
+      ],
+      "concept": "The board-motion move (get up, walk, settle) and the room tags; arrival dust.",
+      "art": [
+        "board-motion-0.3.0 figures and scenes",
+        "approved: fx-ink-trail, fx-landing-puff"
+      ],
+      "motion": {
+        "normal": "cue-public-move (900 ms).",
+        "reduced": "80 ms fade at the new place.",
+        "static": "At the new place.",
+        "cancel": "A newer move or a reconnect.",
+        "replay": "Never."
+      },
+      "states": [
+        "tag eligible",
+        "tentative ghost",
+        "sending",
+        "accepted",
+        "arrived",
+        "full room",
+        "refused"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=move.tags"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-target",
+      "title": "Action selection, targeting and confirmation",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "private-own",
+      "trigger": "Actions tray, then the characters on the board, then the strip's confirmation.",
+      "fields": [
+        "legalTargets.*",
+        "receipt"
+      ],
+      "disclosure": [
+        "What can be chosen is only what the view offers; registered is not a result."
+      ],
+      "concept": "The board-motion tray and strip, with each action's icon and device art added (slices 2 to 4).",
+      "art": [
+        "approved: icon-action-shot",
+        "planned: one icon per action"
+      ],
+      "motion": {
+        "normal": "The board-motion cues (tray, strip, eligible, picked, sending).",
+        "reduced": "Their reduced forms.",
+        "static": "Words.",
+        "cancel": "Background, out of date.",
+        "replay": "Never."
+      },
+      "states": [
+        "idle",
+        "choosing",
+        "confirming",
+        "sending",
+        "registered",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-hack",
+      "title": "Standard Hack request and conversation",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "request private; phase public; partner private to the two",
+      "trigger": "A Hack is requested within the ordinary minute; its own 60-second conversation follows.",
+      "fields": [
+        "legalTargets.REQUEST_HACK",
+        "phase.kind HACK",
+        "hackPartnerSeatId"
+      ],
+      "disclosure": [
+        "The public sees a Hack phase; who with is known to the two only."
+      ],
+      "concept": "A comms-line cable between the two portraits in each partner's own file; a public HACK banner over the board.",
+      "art": [
+        "planned: comms-cable, hack-banner"
+      ],
+      "motion": {
+        "normal": "Cable draws 300 ms; banner 220 ms.",
+        "reduced": "Static.",
+        "static": "Words.",
+        "cancel": "Phase end.",
+        "replay": "Never."
+      },
+      "states": [
+        "request",
+        "registered",
+        "conversation",
+        "ended"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=hack.phase"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-pass",
+      "title": "Pass turn",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "own control; public phase change",
+      "trigger": "The central Pass button during the player's own ordinary turn (PASS-01).",
+      "fields": [
+        "legalTargets.PASS_TURN"
+      ],
+      "disclosure": [
+        "Role-neutral: the same for every seat."
+      ],
+      "concept": "The center dock button: a stamped PASSED tab, then the turn accent moves on.",
+      "art": [
+        "planned: pass-stamp"
+      ],
+      "motion": {
+        "normal": "Stamp 120 ms.",
+        "reduced": "Stamp without scale.",
+        "static": "Words.",
+        "cancel": "Phase change.",
+        "replay": "Never."
+      },
+      "states": [
+        "available",
+        "unavailable (not your turn)",
+        "confirming",
+        "passed"
+      ],
+      "copy": {
+        "visible": [
+          "Pass"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=pass.confirm"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-votes",
+      "title": "Captain election, Jail vote, release choice and release vote",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "own ballot private until the tally; tally public",
+      "trigger": "The 60-second vote windows (V1-09, V1-10, V1-11).",
+      "fields": [
+        "ballot.eligibleVoters",
+        "ballot.eligibleTargets",
+        "ballot.releaseTargetSeatId",
+        "ownBallot",
+        "hasVoted",
+        "lastTally"
+      ],
+      "disclosure": [
+        "Ballots stay private until the published tally."
+      ],
+      "concept": "Ballot slips dropped into a box over the board; the tally as chalk marks under each candidate's portrait.",
+      "art": [
+        "planned: ballot-slip, ballot-box, tally-chalk"
+      ],
+      "motion": {
+        "normal": "Slip drop 260 ms; tally chalk 40 ms a mark.",
+        "reduced": "Static.",
+        "static": "Words.",
+        "cancel": "Window close.",
+        "replay": "A tally shown once is not re-chalked after recovery."
+      },
+      "states": [
+        "choosing",
+        "voted",
+        "abstain",
+        "tally",
+        "runoff",
+        "no one elected"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=vote.election"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-health",
+      "title": "Injury, elimination and recovery; Hospital, Jail and Command transitions",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "public",
+      "trigger": "PUBLIC_HEALTH_CHANGED and PUBLIC_MOVE; faction reveal at elimination.",
+      "fields": [
+        "seats[].health",
+        "seats[].location",
+        "seats[].revealedFaction",
+        "seats[].jailed",
+        "seats[].captain"
+      ],
+      "disclosure": [
+        "One hit for every cause and from no direction (cue-public-hit, a proposal, DSN-D35). Recovery names no rescuer."
+      ],
+      "concept": "The board-motion hit and falls; a bandage coming off on recovery; the Jail door slam and the Command Room hatch as transition cues.",
+      "art": [
+        "board-motion-0.3.0",
+        "planned: door-slam, hatch"
+      ],
+      "motion": {
+        "normal": "cue-public-hit, cue-public-move, cue-status-change.",
+        "reduced": "Their reduced forms.",
+        "static": "Markers.",
+        "cancel": "A newer change.",
+        "replay": "Never."
+      },
+      "states": [
+        "Healthy",
+        "Injured",
+        "Eliminated (revealed faction)",
+        "Jailed",
+        "Captain",
+        "released"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/review/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-showdown",
+      "title": "Final Showdown",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any non-eliminated"
+      ],
+      "audience": "own target private; results public",
+      "trigger": "No winner after Round 5: everyone left moves to the Final Zone and registers one special shot.",
+      "fields": [
+        "phase.kind SHOWDOWN",
+        "legalTargets.SHOWDOWN_SHOT",
+        "seats[].location Final Zone"
+      ],
+      "disclosure": [
+        "Targets are secret until resolution; shots resolve in Round 5 order."
+      ],
+      "concept": "A two-row standoff in the Final Zone; each player's own crosshair; the public resolution one hit at a time.",
+      "art": [
+        "planned: final-zone backdrop"
+      ],
+      "motion": {
+        "normal": "The public hits in order.",
+        "reduced": "Markers.",
+        "static": "Words.",
+        "cancel": "Terminal state.",
+        "replay": "Never."
+      },
+      "states": [
+        "moving to the Final Zone",
+        "choosing",
+        "registered",
+        "resolving",
+        "result"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=showdown.choose"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-end",
+      "title": "End of game: roles, the Code and the outcome",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "public, only when finished",
+      "trigger": "phase.kind FINISHED with result and endReveal; ABORTED shows no winner and no reveal.",
+      "fields": [
+        "result.winner",
+        "result.alienCoWinner",
+        "endReveal.roles",
+        "endReveal.code"
+      ],
+      "disclosure": [
+        "Exact roles and the Code only through the finished-game reveal; an abort fabricates no winner and reveals no secret."
+      ],
+      "concept": "Every character's card flips to show its device; the Code's four snapshots pinned in seat order; the winning team's banner.",
+      "art": [
+        "approved: device-*",
+        "planned: winner-banner"
+      ],
+      "motion": {
+        "normal": "Cards flip in seat order 120 ms apart.",
+        "reduced": "At rest.",
+        "static": "Words.",
+        "cancel": "None: terminal.",
+        "replay": "At rest after a reconnect."
+      },
+      "states": [
+        "Blue wins",
+        "Red wins (Code)",
+        "Alien solo",
+        "Blue with the Alien",
+        "Draw",
+        "Aborted"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "shared-failure",
+      "title": "Unavailable actions, rejection, missing assets and reconnecting",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "own",
+      "trigger": "An action the view does not offer; a rejected receipt; a bundle that did not load; a reconnect.",
+      "fields": [
+        "legalTargets",
+        "receipt code (PHASE_CLOSED, NOT_ALLOWED)",
+        "view freshness"
+      ],
+      "disclosure": [
+        "Reasons are the receipt's codes only; nothing is guessed."
+      ],
+      "concept": "A NOT ACCEPTED stamp, an out-of-date banner, a closed folder for private content, paper-and-ink fallbacks.",
+      "art": [
+        "dossier-folder",
+        "dossier-stamp"
+      ],
+      "motion": {
+        "normal": "Stamp 120 ms.",
+        "reduced": "Stamp without scale.",
+        "static": "Words.",
+        "cancel": "Immediate.",
+        "replay": "Never."
+      },
+      "states": [
+        "unavailable",
+        "rejected: phase closed",
+        "rejected: not allowed",
+        "unknown",
+        "missing art",
+        "reconnecting",
+        "recovered"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/index.html?scenario=shot.rejected"
+      ],
+      "dependencies": []
+    }
+  ]
+}

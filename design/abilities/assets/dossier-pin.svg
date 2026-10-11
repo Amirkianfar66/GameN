@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal abilities-0.1.0 · dossier-pin 0.1.0 · generated, do not edit by hand
+  A push pin. Holds every snapshot and the envelope; one drawing for every candidate.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/dossier.svg (layer dossier-pin). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 28" width="26" height="28"><g id="dossier-pin"><ellipse cx="16" cy="20" rx="7.5" ry="3.4" fill="#151923" opacity="0.3"/><path d="M12 12 L15.5 22" fill="none" stroke="#151923" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="10" r="8.6" fill="#8696AE" stroke="#151923" stroke-width="2.6"/><circle cx="12" cy="10" r="4.6" fill="#B9C4D3" stroke="#151923" stroke-width="1.4"/><ellipse cx="9.2" cy="7.2" rx="2.3" ry="1.5" fill="#F4EBDD" opacity="0.85" transform="rotate(-32 9.2 7.2)"/></g></svg>

@@ -191,6 +191,10 @@ export const RELEASE_TEXT = {
 
 /** New words this prototype proposes. Nothing the release says is reworded. */
 export const PROPOSED = {
+  // The card while it cannot be shown (design/abilities/): the same words for every role and seat.
+  cardHidden: 'Your card is hidden.',
+  cardHiddenStale: 'Your card stays hidden until your view is up to date.',
+  cardReveal: 'Show my card',
   moveTentative: 'You?',
   moveSent: 'Your character moves when the board update arrives.',
   moveArrived: 'Your character is shown where the server has it.',

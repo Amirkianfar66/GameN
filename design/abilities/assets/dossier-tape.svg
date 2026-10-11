@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal abilities-0.1.0 · dossier-tape 0.1.0 · generated, do not edit by hand
+  A strip of tape. Across a file's top corners, turned 35 to 45 degrees.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/dossier.svg (layer dossier-tape). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 22" width="64" height="22"><g id="dossier-tape"><path d="M3 4 L7 2 L10 4.5 L60 2.5 L58 6.5 L61.5 11 L58 15 L60 19.5 L9 20 L5 18 L2 20 L4 14 L1.5 10 L4 6.5 Z" fill="#E3D6C2" stroke="#151923" stroke-width="1.6" stroke-linejoin="round" opacity="0.94"/><path d="M12 7.5 H52 M14 14.5 H47" fill="none" stroke="#CBBBA2" stroke-width="1.4" stroke-linecap="round"/></g></svg>

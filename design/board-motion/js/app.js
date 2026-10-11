@@ -16,6 +16,7 @@ import { COPY, PROPOSED, SHELL } from './copy.js';
 import { SCENARIOS, EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario } from './fixtures.js';
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
+import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abilities/js/dossier.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -425,20 +426,66 @@ function drawTray() {
         : h('p', { class: 'bm-tray__empty' }, SHELL.noActions));
 }
 
+// The Insider's file (design/abilities/): built once per set of candidates and kept while the
+// card stays open, so that inspecting a portrait survives an update; it assembles the first time
+// it is opened in this page and appears at rest after that. Forgotten as soon as nothing private
+// is open.
+let fileNode = null;
+let fileKey = '';
+let fileSeen = false;
+const reducedNow = () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+const publicFacts = n => {
+  const seat = seatOf(n);
+  if (!seat) return '';
+  return [seat.location, seat.health, seat.captain ? COPY.marker.captain : null, seat.jailed ? COPY.marker.jailed : null].filter(Boolean).join(' · ');
+};
+function spotOnBoard(n) {
+  S.view = 'board';
+  render({ focus: 'nav' });
+  const piece = board.pieces.get(n);
+  if (!piece) return;
+  piece.dataset.spot = '';
+  setTimeout(() => delete piece.dataset.spot, 1700);
+}
+function fileFor(candidates) {
+  const seats = candidates.map(n => seatOf(n)).filter(Boolean).map(seat => ({ n: seat.n, name: seat.name, character: seat.character }));
+  const key = JSON.stringify(seats);
+  if (!fileNode || fileKey !== key) {
+    fileNode = insiderFile(seats, { describe: publicFacts, onShow: spotOnBoard });
+    // Private content of the open card, like the role card: the prototype's secrecy measurements know it by this class.
+    fileNode.classList.add('bm-private');
+    fileKey = key;
+  }
+  return fileNode;
+}
+
 function drawCard() {
-  card.hidden = S.view !== 'card' || !privateVisible();
-  if (card.hidden) { put(card); return; }
+  card.hidden = S.view !== 'card' || S.disposed;
+  if (card.hidden) { put(card); fileNode = null; return; }
+  const head = h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-card-heading', tabindex: '-1' }, SHELL.yourCard), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×'));
+  if (!privateVisible()) {
+    // Hidden (the page went to the background, or the view is out of date): one closed folder,
+    // the same for every role and seat. Nothing private is in the page until it is opened again.
+    fileNode = null;
+    put(card, head, closedFolder(paused() ? PROPOSED.cardHiddenStale : PROPOSED.cardHidden),
+      paused() ? null : h('p', { class: 'ab-folder__open' }, h('button', { type: 'button', class: 'ab-button', 'data-act': 'reveal' }, PROPOSED.cardReveal)));
+    return;
+  }
   // Built only while open: closed, there is no private word in the document.
   const self = seatOf(VIEWER);
   const [device, team] = ROLE_LOOK[S.private.role] ?? ['officer', 'Blue'];
   const knowledge = [...S.private.knowledge, ...(S.private.hackPartner ? [COPY.hackWith(S.private.hackPartner)] : [])];
-  put(card,
-    h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-card-heading', tabindex: '-1' }, SHELL.yourCard), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
+  const candidates = S.private.intel?.insiderCandidates ?? [];
+  const file = candidates.length === 3 ? fileFor(candidates) : null;
+  put(card, head,
     h('p', { class: 'bm-hint' }, COPY.privateArea.hint),
     h('div', { class: 'bm-card bm-private', 'data-character': self.character, 'data-device': device, 'data-team': team.toLowerCase() },
       h('span', { class: 'bm-card__art', 'aria-hidden': 'true' }),
       h('div', null, h('p', { class: 'bm-card__name' }, S.private.role), h('p', { class: 'bm-card__team' }, `${team} team`))),
+    file,
     knowledge.length ? h('ul', { class: 'bm-know', 'aria-label': 'What you know' }, knowledge.map(item => h('li', null, item))) : null);
+  if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: reducedNow() }); }
+  else if (file && reducedNow()) cancelMotion(file);
 }
 
 function drawMenu() {
@@ -585,6 +632,8 @@ phone.addEventListener('click', event => {
           // A public pause notice, with no private offer or queued-command details.
           S.view = 'actions'; render({ focus: 'sheet' });
         }
+        // The card while it cannot be shown: the closed folder, the same for every role.
+        if (next === 'card' && !S.disposed) { S.view = 'card'; render({ focus: 'sheet' }); }
         return;
       }
     }
@@ -603,6 +652,7 @@ phone.addEventListener('click', event => {
   else if (act === 'check') checkAgain();
   else if (act === 'pass') pressPass();
   else if (act === 'close') { S.view = 'board'; render({ focus: 'nav' }); }
+  else if (act === 'reveal') { if (reopen()) render({ focus: 'sheet' }); }
 });
 phone.addEventListener('change', event => {
   if (event.target.dataset?.act === 'motion') { S.motion = event.target.checked ? 'reduced' : 'full'; render(); }
@@ -625,6 +675,14 @@ new ResizeObserver(markShort).observe(phone);
 // ---------- the page around the phone: frame, observer and fixture controls ----------
 async function loadArt() {
   await loadBundles(['public-board', 'player-ui', 'roles']);
+  // The ability art (design/abilities/): private, and loaded whole on every player phone with its
+  // other bundles, whatever the seat's role, so that which art arrives says nothing about the role.
+  await new Promise(resolve => {
+    const link = h('link', { rel: 'stylesheet', href: new URL('../../abilities/assets/abilities.art.css', import.meta.url).href });
+    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} abilities`.trim(); resolve(); }, { once: true });
+    link.addEventListener('error', resolve, { once: true });
+    document.head.append(link);
+  });
   // The room scenes: every room's picture and the layers drawn in front of its places, before the first
   // match view, whatever the seat's role, state or turn. Marked on the root once it has arrived. The
   // figures need no art: the figure rig draws them from public facts.

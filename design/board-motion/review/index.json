@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "5febefcc72e520cf966ef111d2e5d3f337e2ea20dc1bd0c6edd024b2c2e73afd",
+  "inputsSha256": "94eb427eee4a1b4bb8685ae9f78909ba7ed1324f6323b8c66c111f4846099de5",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
@@ -244,6 +244,18 @@
       "id": "supply.ack",
       "group": "Several parts",
       "title": "Supply: the acknowledgment, private, in the card",
+      "key": false
+    },
+    {
+      "id": "file.insider",
+      "group": "Private file",
+      "title": "Insider file: three players, three roles, who is which unknown",
+      "key": false
+    },
+    {
+      "id": "file.hidden",
+      "group": "Private file",
+      "title": "Private file: hidden while the view is out of date",
       "key": false
     },
     {
@@ -1414,6 +1426,30 @@
       "id": "supply.ack",
       "state": "supply.ack",
       "file": "design/board-motion/review/states/supply.ack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.insider",
+      "state": "file.insider",
+      "file": "design/board-motion/review/states/file.insider.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.hidden",
+      "state": "file.hidden",
+      "file": "design/board-motion/review/states/file.hidden.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -4034,7 +4070,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 4637,
+      "height": 5056,
       "viewport": "1600",
       "contact": true
     },

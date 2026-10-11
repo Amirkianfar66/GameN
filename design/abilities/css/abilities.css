@@ -1,0 +1,233 @@
+/* mothership:dev-only · ability art proposal abilities-0.1.0 · the treatments' reference styles.
+   Colors are tokens (design/prototypes/css/tokens.css); pictures come only from loaded bundles:
+   the kit behind [data-art~="abilities"], the crew cards behind [data-art~="public-board"]. Without
+   them every treatment is complete in paper, ink and words (the missing-asset fallback). Private:
+   nothing here is drawn outside a seat's own open private sheet. */
+
+.ab-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* A card that holds a file takes the height it needs, up to the whole space between the status bar and the dock. */
+#bm-card:has(.ab-file, .ab-folder) { max-height: calc(100% - var(--bm-safe-top, 0px) - var(--bm-status) - var(--bm-nav) - 10px); }
+
+/* ---------- the Insider's file: an investigation board ---------- */
+.ab-file {
+  position: relative; margin: 12px 0 2px; padding: 0 10px 10px; color: var(--ms-color-ink);
+  background: var(--ms-color-paper-deep); border: 3px solid var(--ms-color-ink); border-radius: 8px;
+  box-shadow: 4px 5px 0 rgb(21 25 35 / 0.55); isolation: isolate;
+}
+[data-art~="abilities"] .ab-file { background: var(--ab-asset-dossier-cork) 0 0 / 96px 96px repeat, var(--ms-color-paper-deep); }
+/* Tape on the two top corners. */
+[data-art~="abilities"] .ab-file::before, [data-art~="abilities"] .ab-file::after {
+  content: ''; position: absolute; top: -9px; width: 58px; height: 20px; background: var(--ab-asset-dossier-tape) center / contain no-repeat; z-index: 3; pointer-events: none;
+}
+[data-art~="abilities"] .ab-file::before { left: -14px; rotate: -38deg; }
+[data-art~="abilities"] .ab-file::after { right: -14px; rotate: 38deg; }
+
+.ab-file__tab { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 -10px; padding: 8px 12px 6px; }
+.ab-file__title {
+  margin: 0; padding: 3px 10px 2px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px 4px 0 0; border-bottom-width: 3px; rotate: -1deg;
+}
+.ab-stamp {
+  --ab-stamp-turn: -8deg; display: inline-block; padding: 4px 9px 3px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering);
+  font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ms-color-steel-shadow);
+  border: 3px double var(--ms-color-steel-shadow); border-radius: 4px; transform: rotate(var(--ab-stamp-turn)); opacity: 0.92; white-space: nowrap;
+}
+[data-art~="abilities"] .ab-stamp { border-color: transparent; background: var(--ab-asset-dossier-stamp) center / 100% 100% no-repeat; padding: 6px 12px 5px; }
+
+/* The field: corner pins for the string, the snapshots, the envelope. */
+.ab-file__field { position: relative; padding: 12px 4px 12px; }
+.ab-corner-pin { position: absolute; width: 18px; height: 20px; z-index: 4; }
+.ab-corner-pin[data-corner="tl"] { left: -4px; top: -2px; }
+.ab-corner-pin[data-corner="tr"] { right: -4px; top: -2px; }
+.ab-corner-pin[data-corner="br"] { right: -4px; bottom: -6px; }
+.ab-corner-pin[data-corner="bl"] { left: -4px; bottom: -6px; }
+.ab-corner-pin, .ab-photo__pin { background: var(--ms-color-steel-mid); border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] :is(.ab-corner-pin, .ab-photo__pin) { background: var(--ab-asset-dossier-pin) center / contain no-repeat; border: 0; border-radius: 0; }
+
+.ab-suspects { list-style: none; margin: 0; padding: 6px 2px 4px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: start; }
+.ab-suspect { display: grid; justify-items: center; }
+/* One tilt per position, the same for any candidates: a public order, never a role. */
+.ab-suspect:nth-child(1) { --ab-tilt: -3deg; }
+.ab-suspect:nth-child(2) { --ab-tilt: 1.5deg; }
+.ab-suspect:nth-child(3) { --ab-tilt: -1.5deg; }
+.ab-photo {
+  position: relative; display: grid; justify-items: center; width: 100%; max-width: 112px; min-height: 44px; margin: 0; padding: 0; border: 0; background: none;
+  color: inherit; font: inherit; cursor: pointer; rotate: var(--ab-tilt, 0deg); transition: transform var(--ab-inspect, 200ms) cubic-bezier(0.2, 0.8, 0.2, 1), opacity 160ms linear;
+}
+.ab-photo:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 4px; border-radius: 4px; }
+.ab-photo__frame {
+  position: relative; display: block; width: 100%; aspect-ratio: 104 / 134; background: var(--ms-color-paper); border: 3px solid var(--ms-color-ink); border-radius: 3px;
+  box-shadow: 3px 4px 0 rgb(21 25 35 / 0.35);
+}
+[data-art~="abilities"] .ab-photo__frame { background: var(--ab-asset-dossier-photo) center / 100% 100% no-repeat; border: 0; box-shadow: none; }
+/* The portrait: the player's own chosen crew card, in the frame's window (10, 10, 80 x 92 of 104 x 134). */
+.ab-photo__art { position: absolute; left: 9.6%; top: 7.5%; width: 76.9%; height: 68.7%; background: var(--ms-color-canvas) center bottom / cover no-repeat; overflow: hidden; }
+.ab-photo__numeral {
+  position: absolute; left: 9.6%; top: 7.5%; width: 76.9%; height: 68.7%; display: grid; place-items: center; font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering); font-size: 34px; color: var(--ms-color-paper); pointer-events: none;
+}
+[data-art~="public-board"] .ab-photo__numeral { display: none; }
+[data-art~="public-board"] .ab-photo__art[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .ab-photo__art[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .ab-photo__art[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .ab-photo__art[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .ab-photo__art[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .ab-photo__art[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .ab-photo__art[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .ab-photo__art[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .ab-photo__art[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+/* The pin, the query tag and the seat marker sit on the frame, so they follow it in any layout. */
+.ab-photo__pin { position: absolute; left: calc(50% - 11px); top: -12px; width: 22px; height: 24px; z-index: 2; }
+.ab-photo__query { position: absolute; right: -12px; top: 6px; width: 24px; height: 31px; rotate: 8deg; transform-origin: 50% 10%; z-index: 2; }
+.ab-photo__query::before { content: '?'; display: grid; place-items: center; width: 100%; height: 100%; font-weight: 900; font-size: 16px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 3px; }
+[data-art~="abilities"] .ab-photo__query { background: var(--ab-asset-dossier-query) center / contain no-repeat; }
+[data-art~="abilities"] .ab-photo__query::before { content: none; }
+/* A seat number: the player's public number, in ink, as the board shows it. */
+.ab-seat {
+  flex: none; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; background: var(--ms-color-ink); color: var(--ms-color-paper);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; line-height: 1;
+}
+/* On a snapshot it is an evidence sticker in the portrait's top left corner, ringed in paper; the caption's own number is for large text.
+   Without the crew cards the window shows the number large instead, so the sticker waits for the portraits. */
+.ab-photo__seat { position: absolute; left: 6%; top: 4.5%; z-index: 2; box-shadow: 0 0 0 2px var(--ms-color-paper); }
+.ab-photo__frame .ab-photo__seat { display: none; }
+[data-art~="public-board"] .ab-photo__frame .ab-photo__seat { display: inline-grid; }
+.ab-photo__caption-seat { display: none; }
+/* The caption on the frame's lower margin: the name, the player's public identity, whole width; too long, it ends in an ellipsis. */
+.ab-photo__caption {
+  position: absolute; left: 6%; right: 6%; bottom: 2.5%; height: 18%; display: grid; place-items: center; min-width: 0;
+  font-size: 12px; line-height: 1.1; font-weight: 700; text-align: center;
+}
+.ab-photo__name { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* The three names as one set: a slip standing in an open envelope, clipped, stamped once. */
+.ab-roles { position: relative; width: min(232px, 86%); margin: 10px auto 0; padding-top: 6px; display: grid; justify-items: center; }
+.ab-roles__back, .ab-roles__front { position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 224 / 88; pointer-events: none; }
+.ab-roles__back { z-index: 0; }
+.ab-roles__front { z-index: 2; background: var(--ms-color-paper-shade); border: 3px solid var(--ms-color-ink); border-radius: 0 0 5px 5px; height: auto; aspect-ratio: 224 / 44; }
+[data-art~="abilities"] .ab-roles__back { background: var(--ab-asset-dossier-envelope-back) center bottom / 100% auto no-repeat; }
+[data-art~="abilities"] .ab-roles__front { aspect-ratio: 224 / 88; background: var(--ab-asset-dossier-envelope-front) center bottom / 100% auto no-repeat; border: 0; border-radius: 0; }
+.ab-roles__slip {
+  position: relative; z-index: 1; display: grid; gap: 4px; justify-items: center; width: 70%; margin-bottom: 5%; padding: 9px 8px 52px; background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink); border-radius: 3px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3);
+}
+.ab-roles__name {
+  display: block; padding: 3px 10px 2px; background: var(--ms-color-ink); color: var(--ms-color-paper); border-radius: 2px;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.15;
+}
+/* Three label tapes in one slip, each set a little askew: a bundle, never a column under a portrait. */
+.ab-roles__name:nth-child(1) { rotate: -2deg; }
+.ab-roles__name:nth-child(2) { rotate: 1.5deg; }
+.ab-roles__name:nth-child(3) { rotate: -1deg; }
+.ab-roles__clip { position: absolute; z-index: 3; left: calc(15% + 6px); top: 26px; width: 15px; height: 38px; rotate: -8deg; }
+[data-art~="abilities"] .ab-roles__clip { background: var(--ab-asset-dossier-clip) center / contain no-repeat; }
+.ab-roles .ab-stamp { position: absolute; z-index: 3; right: 2px; bottom: 9%; --ab-stamp-turn: -10deg; font-size: 12px; }
+.ab-file__note { position: relative; z-index: 2; margin: 12px 0 0; text-align: center; font-weight: 700; font-size: 13px; }
+
+/* The string round the whole set. */
+.ab-thread { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 3; }
+.ab-thread path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ab-thread__ink { stroke: var(--ms-color-ink); stroke-width: 4.2; }
+.ab-thread__core { stroke: var(--ms-color-caption); stroke-width: 2; }
+
+/* Inspect: the snapshot is lifted toward the middle; the others step back. No clue is added. */
+.ab-file[data-inspect]:not([data-inspect=""]) .ab-photo[aria-pressed="false"],
+.ab-file[data-inspect]:not([data-inspect=""]) :is(.ab-roles, .ab-thread, .ab-file__note) { opacity: 0.3; }
+/* Lifted from its pin: it grows downward, over the dimmed envelope, never over the file's tab. */
+.ab-photo[aria-pressed="true"] { z-index: 5; transform-origin: 50% 0; transform: translateX(var(--ab-lift-x, 0px)) translateY(2px) scale(1.42); rotate: 0deg; }
+/* The inspect card lies over the lower part of the file, where the envelope is dimmed: the file keeps its height. */
+.ab-inspect {
+  position: absolute; z-index: 6; left: 10px; right: 10px; bottom: 10px; margin: 0; padding: 10px 12px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 6px;
+  box-shadow: 3px 3px 0 rgb(21 25 35 / 0.4);
+}
+.ab-inspect[hidden] { display: none; }
+.ab-inspect__who { margin: 0; font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.ab-inspect__lens { flex: none; width: 22px; height: 22px; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] .ab-inspect__lens { background: var(--ab-asset-dossier-lens) center / contain no-repeat; border: 0; border-radius: 0; }
+.ab-inspect__name { min-width: 0; overflow-wrap: anywhere; }
+.ab-inspect__facts { margin: 4px 0 8px; font-size: 13px; }
+.ab-inspect__controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.ab-button {
+  min-height: 44px; padding: 8px 14px; border: 2px solid var(--ms-color-ink); border-radius: var(--ms-radius-control); background: var(--ms-color-paper-shade); color: var(--ms-color-ink);
+  font: inherit; font-weight: 800; cursor: pointer;
+}
+.ab-button:first-child { background: var(--ms-color-caption); }
+.ab-button:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 2px; }
+
+/* The closed folder: a hidden private file, the same for every role. */
+.ab-folder { display: grid; justify-items: center; gap: 8px; margin: 12px 0 4px; }
+.ab-folder__art { width: 180px; aspect-ratio: 228 / 156; background: var(--ms-color-paper-deep); border: 3px solid var(--ms-color-ink); border-radius: 6px; }
+[data-art~="abilities"] .ab-folder__art { background: var(--ab-asset-dossier-folder) center / contain no-repeat; border: 0; }
+.ab-folder__label { margin: 0; max-width: 34ch; text-align: center; font-size: 13px; color: var(--ms-color-text-secondary); }
+
+/* A board seen from the file: the character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
+[data-board="own"] .bm-piece[data-spot] .bm-piece__ring { display: block; border: 3.5px solid var(--ms-color-focus); animation: ab-spot 1600ms ease-out forwards; }
+@keyframes ab-spot { 0% { opacity: 0; transform: scale(1.5); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Reduced motion: nothing is lifted or flies; the inspected snapshot is ringed instead. */
+[data-motion="reduced"] .ab-photo { transition: none; }
+[data-motion="reduced"] .ab-photo[aria-pressed="true"] { transform: none; }
+[data-motion="reduced"] .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+[data-motion="reduced"] [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { animation: ab-spot-reduced 1600ms linear forwards; }
+@keyframes ab-spot-reduced { 0%, 95% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .ab-photo { transition: none; }
+  .ab-photo[aria-pressed="true"] { transform: none; }
+}
+
+/* A short phone (320 x 568 and the like) at the default text size: the role card shrinks to a row and the
+   file tightens, so the whole file fits the card without scrolling. At large text the reflow below applies instead. */
+@media (min-width: 18.01em) {
+  .bm-app[data-short="true"] #bm-card:has(.ab-file) .bm-hint { margin: 0 0 6px; font-size: 11px; line-height: 1.25; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file) .bm-card { grid-template-columns: 40px minmax(0, 1fr); padding: 4px 8px; gap: 8px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file) .bm-card__art { width: 40px; height: 46px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file) .bm-card__name { font-size: 16px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file) .bm-card__team { margin-top: 0; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-file { margin-top: 8px; }
+  .bm-app[data-short="true"] .ab-file__tab { padding: 4px 12px 0; }
+  .bm-app[data-short="true"] .ab-file__title { font-size: 13px; padding: 2px 8px 1px; }
+  .bm-app[data-short="true"] .ab-file__tab .ab-stamp { font-size: 11px; }
+  .bm-app[data-short="true"] .ab-file__field { padding: 4px 4px 6px; }
+  .bm-app[data-short="true"] .ab-suspects { gap: 8px; }
+  .bm-app[data-short="true"] .ab-photo { max-width: 70px; }
+  .bm-app[data-short="true"] .ab-photo__caption { font-size: 11px; }
+  .bm-app[data-short="true"] .ab-seat { min-width: 18px; height: 18px; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-roles { width: min(190px, 80%); margin-top: 6px; }
+  .bm-app[data-short="true"] .ab-roles__slip { padding: 5px 6px 32px; gap: 2px; }
+  .bm-app[data-short="true"] .ab-roles__name { font-size: 12px; padding: 2px 8px 1px; }
+  .bm-app[data-short="true"] .ab-file__note { margin-top: 2px; font-size: 12px; }
+  .bm-app[data-short="true"] .ab-inspect { padding: 8px 10px; }
+  .bm-app[data-short="true"] .ab-inspect__who { font-size: 15px; }
+  .bm-app[data-short="true"] .ab-inspect__facts { margin: 2px 0 6px; }
+  .bm-app[data-short="true"] .ab-button { padding: 8px 11px; }
+}
+
+/* Large text (the board's own large-text query): every word grows with the reader's text size and the file
+   reflows into one column, a snapshot and its words to a row, inside the card, which scrolls; nothing is clipped
+   or shrunk. The envelope stays below the three, so no role name stands beside a portrait. */
+@media (max-width: 18em) {
+  .ab-file__tab { flex-wrap: wrap; row-gap: 6px; }
+  .ab-file__title { font-size: 0.8rem; white-space: normal; }
+  .ab-stamp { font-size: 0.6rem; }
+  .ab-suspects { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 14px 6px 4px 10px; }
+  .ab-photo { grid-template-columns: 84px minmax(0, 1fr); align-items: center; justify-items: start; column-gap: 18px; max-width: none; rotate: 0deg; text-align: start; }
+  .ab-photo__frame { width: 84px; rotate: var(--ab-tilt, 0deg); }
+  .ab-photo__frame .ab-photo__seat, [data-art~="public-board"] .ab-photo__frame .ab-photo__seat { display: none; }
+  .ab-photo__caption { position: static; height: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 0.85rem; line-height: 1.2; text-align: start; }
+  .ab-photo__caption-seat { display: inline-grid; }
+  .ab-photo__name { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+  .ab-photo[aria-pressed="true"] { transform: none; }
+  .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+  .ab-seat { min-width: 1.3rem; height: 1.3rem; border-radius: 0.65rem; font-size: 0.7rem; }
+  .ab-inspect { position: static; margin: 14px 0 0; }
+  .ab-roles { width: 100%; margin-top: 14px; }
+  .ab-roles__slip { width: 78%; padding-bottom: 3.4rem; }
+  .ab-roles__name { font-size: 0.75rem; }
+  .ab-roles .ab-stamp { font-size: 0.6rem; }
+  .ab-file__note { font-size: 0.85rem; }
+  .ab-inspect__who { font-size: 1rem; flex-wrap: wrap; }
+  .ab-inspect__facts { font-size: 0.85rem; }
+  .ab-button { font-size: 0.85rem; }
+  .ab-folder__label { font-size: 0.85rem; }
+}

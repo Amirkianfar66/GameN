@@ -1,0 +1,336 @@
+{
+  "devOnly": "mothership:dev-only",
+  "manifestVersion": "abilities-0.1.0",
+  "status": "proposal",
+  "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
+  "baseManifest": "design-0.2.0",
+  "tokens": "0.4.0",
+  "bundle": {
+    "name": "abilities",
+    "audience": "private art: drawn only inside a seat's own open private sheet",
+    "loadPolicy": "Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role."
+  },
+  "stylesheet": {
+    "file": "design/abilities/assets/abilities.art.css",
+    "sha256": "09e99fa361828aa2fa858af636b50e7f2b19cac17070a001379830e118895dcd",
+    "bytes": 9451
+  },
+  "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
+  "assets": [
+    {
+      "id": "dossier-cork",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "Cork of a private file",
+      "file": "design/abilities/assets/dossier-cork.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-cork",
+      "viewBox": "0 0 96 96",
+      "width": 96,
+      "height": 96,
+      "anchors": {
+        "tile": [
+          96,
+          96
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#CBBBA2",
+        "#E3D6C2"
+      ],
+      "bytes": 1952,
+      "sha256": "ffe2bc562356e5fe7cb151b1b7a86928e04ab640694549713f59436cd71b262d",
+      "use": "Tiled behind a private file (background-repeat), at 96 CSS px or smaller.",
+      "cssProperty": "--ab-asset-dossier-cork"
+    },
+    {
+      "id": "dossier-tape",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A strip of tape",
+      "file": "design/abilities/assets/dossier-tape.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-tape",
+      "viewBox": "0 0 64 22",
+      "width": 64,
+      "height": 22,
+      "anchors": {
+        "center": [
+          32,
+          11
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#CBBBA2",
+        "#E3D6C2"
+      ],
+      "bytes": 804,
+      "sha256": "01cd2ceb6afcf75dcb16b582141e6cf4f56eb91d17e35a7bea32c1c3c32ed351",
+      "use": "Across a file's top corners, turned 35 to 45 degrees.",
+      "cssProperty": "--ab-asset-dossier-tape"
+    },
+    {
+      "id": "dossier-pin",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A push pin",
+      "file": "design/abilities/assets/dossier-pin.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-pin",
+      "viewBox": "0 0 26 28",
+      "width": 26,
+      "height": 28,
+      "anchors": {
+        "point": [
+          12,
+          10
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#B9C4D3",
+        "#F4EBDD"
+      ],
+      "bytes": 953,
+      "sha256": "eb3e870523eaa4d52f892e0de8d1efededa890924547fb0ae1a251a04934a5a9",
+      "use": "Holds every snapshot and the envelope; one drawing for every candidate.",
+      "cssProperty": "--ab-asset-dossier-pin"
+    },
+    {
+      "id": "dossier-photo",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A snapshot frame",
+      "file": "design/abilities/assets/dossier-photo.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-photo",
+      "viewBox": "0 0 104 134",
+      "width": 104,
+      "height": 134,
+      "anchors": {
+        "window": [
+          10,
+          10,
+          80,
+          92
+        ],
+        "pin": [
+          50,
+          4
+        ],
+        "caption": [
+          6,
+          104,
+          92,
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#10141C",
+        "#151923",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 1193,
+      "sha256": "67c51b258691acf39d27e293f140111f7aea973df3750c66c866c7c239865dd6",
+      "use": "Around a player's chosen crew card: the portrait fills the window. One frame for every candidate alike.",
+      "cssProperty": "--ab-asset-dossier-photo"
+    },
+    {
+      "id": "dossier-query",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A query tag",
+      "file": "design/abilities/assets/dossier-query.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-query",
+      "viewBox": "0 0 30 38",
+      "width": 30,
+      "height": 38,
+      "anchors": {
+        "hole": [
+          15,
+          10.5
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#10141C",
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 1062,
+      "sha256": "b01a3c816347e1b58cd136113cf8abd04c98193a48057e814432b4a0b2f5effa",
+      "use": "On the corner of every candidate's snapshot alike: this one is not known.",
+      "cssProperty": "--ab-asset-dossier-query"
+    },
+    {
+      "id": "dossier-lens",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A magnifying lens",
+      "file": "design/abilities/assets/dossier-lens.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-lens",
+      "viewBox": "0 0 30 30",
+      "width": 30,
+      "height": 30,
+      "anchors": {
+        "center": [
+          12,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#B9C4D3",
+        "#F4EBDD"
+      ],
+      "bytes": 861,
+      "sha256": "48f585b33176f63707f0f47628fd857d2b453d630ee29dbeb7702b950df47a1a",
+      "use": "Marks what can be inspected; never a result.",
+      "cssProperty": "--ab-asset-dossier-lens"
+    },
+    {
+      "id": "dossier-clip",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A paper clip",
+      "file": "design/abilities/assets/dossier-clip.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-clip",
+      "viewBox": "0 0 18 46",
+      "width": 18,
+      "height": 46,
+      "anchors": {
+        "grip": [
+          10,
+          4
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3"
+      ],
+      "bytes": 846,
+      "sha256": "6d47029e40dcc860c98c0eb8f1062a0367a2849ea7fa2f8f94b30fce5c88592e",
+      "use": "Holds a slip to an envelope.",
+      "cssProperty": "--ab-asset-dossier-clip"
+    },
+    {
+      "id": "dossier-stamp",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A rubber-stamp frame",
+      "file": "design/abilities/assets/dossier-stamp.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-stamp",
+      "viewBox": "0 0 132 40",
+      "width": 132,
+      "height": 40,
+      "anchors": {
+        "text": [
+          8.5,
+          8.5,
+          115,
+          23
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#34415A"
+      ],
+      "bytes": 839,
+      "sha256": "d41fb1fc1dbf59a43dcb277b2090c6bc5babc2b5aa77fb15ba498daafa31f18a",
+      "use": "Around a live word stamped on a file (CLASSIFIED, ONE EACH). The word is live text, never drawn.",
+      "cssProperty": "--ab-asset-dossier-stamp"
+    },
+    {
+      "id": "dossier-envelope-back",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "An open envelope, behind what it holds",
+      "file": "design/abilities/assets/dossier-envelope-back.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-envelope-back",
+      "viewBox": "0 0 224 88",
+      "width": 224,
+      "height": 88,
+      "anchors": {
+        "mouth": [
+          6,
+          44,
+          212
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#CBBBA2"
+      ],
+      "bytes": 774,
+      "sha256": "4086306a9584b4dae0326936a1ff94f0e0b700f203cd853a07636ae7a37242c1",
+      "use": "Behind a slip that stands in it; the front layer goes over the slip.",
+      "cssProperty": "--ab-asset-dossier-envelope-back"
+    },
+    {
+      "id": "dossier-envelope-front",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "An open envelope, in front of what it holds",
+      "file": "design/abilities/assets/dossier-envelope-front.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-envelope-front",
+      "viewBox": "0 0 224 88",
+      "width": 224,
+      "height": 88,
+      "anchors": {
+        "mouth": [
+          6,
+          44,
+          212
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#E3D6C2"
+      ],
+      "bytes": 1109,
+      "sha256": "a5fdf6a88a7c53fdc21192970bfad60f42915b600f917ddad4fc3bea016f3f00",
+      "use": "Over the lower part of a slip that stands in the envelope.",
+      "cssProperty": "--ab-asset-dossier-envelope-front"
+    },
+    {
+      "id": "dossier-folder",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A closed folder",
+      "file": "design/abilities/assets/dossier-folder.svg",
+      "source": "design/abilities/source/dossier.svg#dossier-folder",
+      "viewBox": "0 0 228 156",
+      "width": 228,
+      "height": 156,
+      "anchors": {
+        "label": [
+          62,
+          76,
+          100,
+          36
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#8696AE",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 1699,
+      "sha256": "729303a85900b2a7005b691cf6c463e41ed78b003f78f2f85f6bf355982b4da1",
+      "use": "The cover of any private file while it is hidden: the same for every role.",
+      "cssProperty": "--ab-asset-dossier-folder"
+    }
+  ]
+}

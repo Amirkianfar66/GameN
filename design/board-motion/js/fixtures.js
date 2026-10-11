@@ -40,12 +40,12 @@ export function seatsFor(count, locations = SPREAD) {
 }
 
 /** A whole synthetic state: public facts, the viewer's private facts, the action flow and what is open. */
-function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, knowledge = [], hackPartner = null, answer = 'accept', banner = null, legacy = false, notice = null, pending = 0 }) {
+function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, knowledge = [], intel = null, hackPartner = null, answer = 'accept', banner = null, legacy = false, notice = null, pending = 0 }) {
   const seats = seatsFor(count, locations);
   change(seats);
   return {
     public: { playerCount: count, round, phase: { kind: phase, seconds }, active: ['ORDINARY_TURN', 'HACK', 'RELEASE_CHOICE'].includes(phase) ? active : null, seats, ballot, tally },
-    private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, hackPartner, pending },
+    private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, intel, hackPartner, pending },
     flow, view, answer, banner, legacy, notice,
   };
 }
@@ -115,6 +115,9 @@ export const SCENARIOS = [
   { id: 'supply.second', group: 'Several parts', title: 'Supply: one chosen, choose the second', s: () => state({ locations: BUSY_A, role: 'Supplier', round: 3, offers: { move: moveTo, supply: [1, 5, 8] }, flow: { step: 'choosing', kind: 'supply', picked: [1] } }) },
   { id: 'supply.confirm', group: 'Several parts', title: 'Supply: two chosen, confirm', s: () => state({ locations: BUSY_A, role: 'Supplier', round: 3, offers: { move: moveTo, supply: [1, 5, 8] }, flow: { step: 'confirming', kind: 'supply', picked: [1, 8] } }) },
   { id: 'supply.ack', group: 'Several parts', title: 'Supply: the acknowledgment, private, in the card', s: () => state({ locations: BUSY_A, role: 'Supplier', round: 4, offers: {}, view: 'card', knowledge: ['Your Round 3 Supply granted one weapon each to Player 1 and Player 8.'] }) },
+  // The Insider's file (design/abilities/): the three candidates as the view might list them (not in seat order).
+  { id: 'file.insider', group: 'Private file', title: 'Insider file: three players, three roles, who is which unknown', s: () => state({ locations: BUSY_A, role: 'Insider', active: 5, offers: { move: [] }, view: 'card', intel: { insiderCandidates: [8, 2, 5] } }) },
+  { id: 'file.hidden', group: 'Private file', title: 'Private file: hidden while the view is out of date', s: () => state({ locations: BUSY_A, role: 'Insider', active: 5, offers: { move: [] }, view: 'card', banner: 'stale', intel: { insiderCandidates: [8, 2, 5] } }) },
   { id: 'code.two', group: 'Several parts', title: 'Code attempt: two of four chosen', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, offers: { move: moveTo, code: true }, flow: { step: 'choosing', kind: 'code', picked: [6, 2] } }) },
   { id: 'code.four', group: 'Several parts', title: 'Code attempt: four chosen, confirm', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, offers: { move: moveTo, code: true }, flow: { step: 'confirming', kind: 'code', picked: [6, 2, 9, 7] } }) },
 
