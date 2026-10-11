@@ -98,6 +98,7 @@ The Cracker's Rescue, the Blue and the Red Disabler's Disable, and the Supplier'
 | `npm run test --workspace @mothership/design-tokens` | **161 tests: 160 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **38 ability-check tests pass**, 8 new for slice 3 |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `678814c5679731ceca7d32b2b9431eda7134271c`, the commit that adds slice 3, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 701 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
