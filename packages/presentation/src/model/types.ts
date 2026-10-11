@@ -484,11 +484,35 @@ export type ConnectedActionStatus = 'idle' | 'choosing' | 'confirming' | 'submit
 /** The one card for the player's own command. One command at a time, so one card. */
 export interface ConnectedActionCardModel {
   readonly title: string;
+  /** The action the card is about, or null when idle or when a reloaded page does not know it. */
+  readonly kind: ActionKind | null;
   readonly status: ConnectedActionStatus;
   readonly statusLabel: string;
   /** True from the moment the player picks an action up until its command is settled. */
   readonly selected: boolean;
   readonly body: ConnectedActionBody;
+  /** What this command marks on the player's own board. */
+  readonly board: ActionBoardMarksModel;
+}
+
+/**
+ * What the player's own command marks on their own comic board: seats and a room, from the
+ * command's own choice and the server's offer, and nothing else. It exists only in a card,
+ * so only while the private panel is open or a Pass of the player's own is on its way.
+ */
+export interface ActionBoardMarksModel {
+  /** Seats that get a press area now: exactly the seats the view offers for the next part. */
+  readonly eligible: readonly SeatId[];
+  /** Seats chosen so far, in the order they were chosen. */
+  readonly picked: readonly SeatId[];
+  /** Supply and a Code attempt number their picks; a single chosen seat is checked instead. */
+  readonly numbered: boolean;
+  /** The chosen seats while the command is on its way to the server. */
+  readonly pending: readonly SeatId[];
+  /** While a seat is being chosen or confirmed, every other character is drawn faint. */
+  readonly faint: boolean;
+  /** A move being confirmed or sent: a tentative place in that room until the view shows the player there. */
+  readonly move: { readonly destination: LocationName; readonly state: 'tentative' | 'pending' } | null;
 }
 
 export interface ConnectedPrivateAreaModel {
@@ -514,7 +538,11 @@ export interface ConnectedPrivateAreaModel {
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
   /** Ending your own turn is role-neutral; it does not require revealing the private card. */
-  readonly passTurn: { readonly available: boolean; readonly card: ConnectedActionCardModel | null };
+  /**
+   * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose
+   * view does not offer one, so the control is left out instead of being unavailable forever.
+   */
+  readonly passTurn: { readonly available: boolean; readonly inRules: boolean; readonly card: ConnectedActionCardModel | null };
   readonly privateArea: ConnectedPrivateAreaModel;
   /** The public facts of a vote, the same on every phone and on the shared display. */
   readonly vote: VotePanelModel | null;

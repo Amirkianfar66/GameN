@@ -1,0 +1,53 @@
+Implementation commit: 629889e69ded1d4615a7600bf9a0a9598adc2f54
+Node 22.21.1 / npm 10.9.4
+Command: npm run verify
+Clean checkout; exit status: 0
+
+Toolchain: Node 22.21.1, npm 10.9.4
+Workspace boundaries: 8 explicit packages; TS/TSX imports checked; pure and browser programs separated; exact runtime subpaths; fixture and reference imports excluded
+Source integrity: 119 original Canvas files + 1 unbound example; 7 rule sources; 24 pinned source files; token proposal unchanged
+# tests 53
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# tests 148
+# pass 148
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# tests 130
+# pass 130
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# tests 102
+# pass 102
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# tests 173
+# pass 173
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# tests 426
+# pass 426
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+Production exclusion: 54 modules reachable from 2 production entries, 167 shipped or source files scanned, 38 development files labeled; no fixture, test or development module or marker found
+Balance static: 71 executed, 71 passed, zero failed/cancelled/skipped/todo; materialization and traceability checked
+Balance static log: /var/folders/0j/rqfrwf_d5lz2rkkbzz03p_380000gn/T/mothership-balance-static-xohlrx
+Balance scenarios: 522 catalogue IDs; 483 passed, 33 reviewed blocked, 6 explicit manual; zero errors
+Balance controls: 475 baselines passed; 4388 controls executed and detected; zero misses
+Balance playouts: 10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches
+Balance report gate: common build/manifest/Git provenance checked at this clean candidate
+Balance engine source: 629889e69ded1d4615a7600bf9a0a9598adc2f54; protocol 2; Original Powers off
+Balance fresh reports/logs: /var/folders/0j/rqfrwf_d5lz2rkkbzz03p_380000gn/T/mothership-balance-engine-TnkD1w

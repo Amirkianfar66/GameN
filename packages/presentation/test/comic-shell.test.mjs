@@ -159,7 +159,9 @@ test('choosing an action targets only offered characters on the board, with no d
   for (const id of ['seat-3','seat-5']) assert.match(board, new RegExp(`data-value="${id}"`));
   assert.equal((board.match(/data-intent="action\/choose"/g) ?? []).length, 2);
   assert.doesNotMatch(panel, /data-value="seat-|data-device|data-team/);
-  assert.match(panel, /Shot · Tap a character/);
+  // The strip asks the release's question with the action's name set into it; the seats are on the board.
+  assert.match(panel, /id="ms-action-step"[^>]*><span class="phone-strip__kind">Shot<\/span><span class="ms-visually-hidden">: <\/span>Choose a target</);
+  assert.match(panel, /<span class="ms-visually-hidden">Shot<\/span> · Tap a character/);
   assert.match(panel, /action\/back/);
   assert.equal(markup.attrs['data-action-dock'], 'true');
 });
@@ -169,7 +171,7 @@ test('ordered compound picks stay on the board; answers and abstention stay in t
   auditMarkup(supply);
   const board = toHtml(find(supply,byRegion('comic-board')));
   assert.match(board,/data-board-target="picked"/);
-  assert.match(board,/aria-label="Selected 1"/);
+  assert.match(board,/<span class="phone-pick-order" data-mark="number"><span class="ms-visually-hidden">Selected <\/span><span aria-hidden="true">1<\/span>/);
   assert.doesNotMatch(board,/data-value="seat-2"/);
   for (const id of ['seat-1','seat-3']) assert.match(board,new RegExp(`data-value="${id}"`));
   const scan = renderComicPlayerShell(model(view,{step:'choosing',kind:'scan',picked:['seat-2']}),{phoneView:'actions'});
@@ -198,9 +200,18 @@ test('Pass is the central control, server-gated, and its receipt reveals no priv
   const nav = find(markup,byRegion('phone-navigation'));
   assert.equal(nav.children[2].attrs.id,'ms-phone-pass');
   assert.equal(nav.children[2].attrs.disabled,undefined);
-  for (const [v,action,overrides] of [[playerView(),undefined,closed],[view,{step:'checking',choice:{kind:'move',destination:'Room B'},recovered:false},closed],[view,undefined,{...closed,connection:'stale'}],[view,undefined,{...closed,deadline:{kind:'expired'}}]]) {
+  // A match with Pass in its ruleset, on a turn the server does not offer it: shown, unavailable.
+  const passRules = playerView(v => { v.versions.rulesetVersion = 'in-person-v1-pass-2026-10-08'; v.versions.engineVersion = 'full-game-1.1.0'; });
+  for (const [v,action,overrides] of [[passRules,undefined,closed],[view,{step:'checking',choice:{kind:'move',destination:'Room B'},recovered:false},closed],[view,undefined,{...closed,connection:'stale'}],[view,undefined,{...closed,deadline:{kind:'expired'}}]]) {
     assert.equal(find(renderComicPlayerShell(model(v,action,overrides)),byId('ms-phone-pass')).attrs.disabled,true);
   }
+  // A legacy match has no Pass: the middle of navigation stays empty and nothing else moves.
+  const legacy = renderComicPlayerShell(model(playerView(),undefined,closed),{phoneView:'board'});
+  auditMarkup(legacy);
+  const legacyNav = find(legacy,byRegion('phone-navigation'));
+  assert.equal(legacyNav.children.length,5);
+  assert.deepEqual(legacyNav.children[2].attrs,{class:'phone-nav__slot','aria-hidden':'true'});
+  assert.doesNotMatch(toHtml(legacy),/ms-phone-pass|action\/pass/);
   const accepted=renderComicPlayerShell(model(view,{step:'accepted',choice:{kind:'pass'},armed:true},closed),{phoneView:'board'});
   auditMarkup(accepted);
   assert.match(toHtml(accepted),/Turn passed/);
