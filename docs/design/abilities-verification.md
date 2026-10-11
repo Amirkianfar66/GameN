@@ -164,6 +164,7 @@ The ballots (a Captain election and its runoff, a Jail vote, a release vote), th
 | `npm run test --workspace @mothership/design-tokens` | **178 tests: 177 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **55 ability-check tests pass**, 8 new for slice 5 |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `f287351e9a4d9ed6e16b39066d5d097f94660cde`, the commit that adds slice 5, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 675 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
