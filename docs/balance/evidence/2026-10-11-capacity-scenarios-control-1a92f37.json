@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "HEAD",
-  "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+  "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -41,14 +41,14 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance scenario runner",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-11T18:07:05.179Z",
+  "generatedAt": "2026-10-11T19:14:42.245Z",
   "suite": "capacity",
   "rulesetAskedFor": "in-person-v1-pass-2026-10-08",
   "roomCapacity": 5,
   "capacityFileHashes": {
-   "mode-7.scenarios.json": "14f11ed204cc7cf11c21a0cd00da2759548ccb77785e36beeb700be1ed27ec78",
-   "mode-8.scenarios.json": "6c00a80fd4db0fee98b4b8a899fe797b536ad5d8026a0b15f88adb1af5ffbc55",
-   "mode-9.scenarios.json": "b0acc2257772f37a75bec0b24f63918daca5471954d2c6538cd001ec1cef4a47"
+   "mode-7.scenarios.json": "b24bd718e32cdbd4e200eb5ccb863dc569a78a5eb479a3622ecd2a657b212222",
+   "mode-8.scenarios.json": "67c5e0e73f70dee3effb96ed56fa5db8771ae33c31f652f782b0cdc8c0851994",
+   "mode-9.scenarios.json": "c7fdc4c8b4426b403a8fb2866a4cb60de046ba95c2d1b7241bdf9b689989e509"
   },
   "capacityRulesetVersion": "in-person-v1-capacity-2026-10-11",
   "ownerDecision": {
@@ -59,32 +59,32 @@
   }
  },
  "totals": {
-  "total": 113,
-  "passed": 2,
-  "failed": 86,
-  "blocked": 10,
+  "total": 119,
+  "passed": 3,
+  "failed": 98,
+  "blocked": 3,
   "notRun": 15
  },
  "byGroup": {
   "mode-7": {
-   "total": 35,
-   "passed": 1,
-   "failed": 26,
-   "blocked": 3,
+   "total": 37,
+   "passed": 2,
+   "failed": 29,
+   "blocked": 1,
    "notRun": 5
   },
   "mode-8": {
-   "total": 35,
+   "total": 37,
    "passed": 1,
-   "failed": 26,
-   "blocked": 3,
+   "failed": 30,
+   "blocked": 1,
    "notRun": 5
   },
   "mode-9": {
-   "total": 43,
+   "total": 45,
    "passed": 0,
-   "failed": 34,
-   "blocked": 4,
+   "failed": 39,
+   "blocked": 1,
    "notRun": 5
   },
   "unsupported": {
@@ -733,9 +733,7 @@
    "scenarioId": "V1-M7-CAP-25",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "CAP-D2"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
    "invariantViolations": [
     {
@@ -749,26 +747,23 @@
      "times": 35
     }
    ],
-   "probes": [
-    {
-     "label": "where the healed player is",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 36,
    "commands": 4,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": -1,
+    "op": "invariant",
+    "message": "INV-CAP-02: seat-3 is offered a move to Room B, which is full"
+   }
   },
   {
    "scenarioId": "V1-M7-CAP-27",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "CAP-D4"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
    "invariantViolations": [
     {
@@ -791,8 +786,8 @@
    "transitions": 24,
    "commands": 13,
    "finalDigest": null,
-   "reason": "probe could not be completed: DISABLE by @Blue Disabler: expected REGISTERED, engine returned NOT_ALLOWED",
-   "status": "blocked",
+   "reason": null,
+   "status": "failed",
    "failure": {
     "stepIndex": 21,
     "op": "command",
@@ -1051,27 +1046,88 @@
    "scenarioId": "V1-M7-CAP-42",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "CAP-D5"
-   ],
+   "decisionIds": [],
    "seed": "cap-b4",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "health of the Captain who was hit twice",
-     "outcome": "Eliminated"
-    },
-    {
-     "label": "where they lie",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 34,
    "commands": 5,
    "finalDigest": null,
    "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAP-44",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [
+    "CAP-D6"
+   ],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-1 is offered a move to Room B, which is full",
+     "times": 35
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-3 is offered a move to Room B, which is full",
+     "times": 8
+    },
+    {
+     "invariant": "INV-CAP-01",
+     "message": "Room B holds 6 players, more than 5",
+     "times": 2
+    }
+   ],
+   "probes": [
+    {
+     "label": "where the Eliminated Captain lies",
+     "outcome": "Room B"
+    },
+    {
+     "label": "where the healed player is",
+     "outcome": "Room B"
+    }
+   ],
+   "transitions": 34,
+   "commands": 10,
+   "finalDigest": null,
+   "reason": null,
    "status": "blocked",
    "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAP-45",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-1 is offered a move to Room B, which is full",
+     "times": 27
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-5 is offered a move to Room B, which is full",
+     "times": 24
+    }
+   ],
+   "probes": [],
+   "transitions": 34,
+   "commands": 8,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": -1,
+    "op": "invariant",
+    "message": "INV-CAP-02: seat-1 is offered a move to Room B, which is full"
+   }
   },
   {
    "scenarioId": "V1-M8-CAP-01",
@@ -1802,9 +1858,7 @@
    "scenarioId": "V1-M8-CAP-25",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "CAP-D2"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
    "invariantViolations": [
     {
@@ -1823,26 +1877,23 @@
      "times": 39
     }
    ],
-   "probes": [
-    {
-     "label": "where the healed player is",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 40,
    "commands": 4,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": -1,
+    "op": "invariant",
+    "message": "INV-CAP-02: seat-3 is offered a move to Room B, which is full"
+   }
   },
   {
    "scenarioId": "V1-M8-CAP-27",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "CAP-D4"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
    "invariantViolations": [
     {
@@ -1870,8 +1921,8 @@
    "transitions": 28,
    "commands": 13,
    "finalDigest": null,
-   "reason": "probe could not be completed: DISABLE by @Blue Disabler: expected REGISTERED, engine returned NOT_ALLOWED",
-   "status": "blocked",
+   "reason": null,
+   "status": "failed",
    "failure": {
     "stepIndex": 21,
     "op": "command",
@@ -2155,9 +2206,7 @@
    "scenarioId": "V1-M8-CAP-42",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "CAP-D5"
-   ],
+   "decisionIds": [],
    "seed": "cap-b4",
    "invariantViolations": [
     {
@@ -2176,22 +2225,99 @@
      "times": 20
     }
    ],
-   "probes": [
-    {
-     "label": "health of the Captain who was hit twice",
-     "outcome": "Eliminated"
-    },
-    {
-     "label": "where they lie",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 29,
    "commands": 6,
    "finalDigest": null,
    "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": 12,
+    "op": "assert",
+    "message": "view of @Alien: moveDestinations: expected [], observed [\"Room B\"]"
+   }
+  },
+  {
+   "scenarioId": "V1-M8-CAP-44",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [
+    "CAP-D6"
+   ],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-1 is offered a move to Room B, which is full",
+     "times": 39
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-3 is offered a move to Room B, which is full",
+     "times": 9
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-6 is offered a move to Room B, which is full",
+     "times": 39
+    },
+    {
+     "invariant": "INV-CAP-01",
+     "message": "Room B holds 6 players, more than 5",
+     "times": 2
+    }
+   ],
+   "probes": [
+    {
+     "label": "where the Eliminated Captain lies",
+     "outcome": "Room B"
+    },
+    {
+     "label": "where the healed player is",
+     "outcome": "Room B"
+    }
+   ],
+   "transitions": 38,
+   "commands": 10,
+   "finalDigest": null,
+   "reason": null,
    "status": "blocked",
    "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-CAP-45",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-1 is offered a move to Room B, which is full",
+     "times": 30
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-5 is offered a move to Room B, which is full",
+     "times": 27
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-6 is offered a move to Room B, which is full",
+     "times": 30
+    }
+   ],
+   "probes": [],
+   "transitions": 38,
+   "commands": 8,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": -1,
+    "op": "invariant",
+    "message": "INV-CAP-02: seat-1 is offered a move to Room B, which is full"
+   }
   },
   {
    "scenarioId": "V1-M9-CAP-01",
@@ -3184,9 +3310,7 @@
    "scenarioId": "V1-M9-CAP-25",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D2"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
    "invariantViolations": [
     {
@@ -3210,18 +3334,17 @@
      "times": 43
     }
    ],
-   "probes": [
-    {
-     "label": "where the healed player is",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 44,
    "commands": 4,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": -1,
+    "op": "invariant",
+    "message": "INV-CAP-02: seat-3 is offered a move to Room B, which is full"
+   }
   },
   {
    "scenarioId": "V1-M9-CAP-26",
@@ -3271,9 +3394,7 @@
    "scenarioId": "V1-M9-CAP-27",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D4"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
    "invariantViolations": [
     {
@@ -3306,8 +3427,8 @@
    "transitions": 27,
    "commands": 15,
    "finalDigest": null,
-   "reason": "probe could not be completed: DISABLE by @Blue Disabler: expected REGISTERED, engine returned NOT_ALLOWED",
-   "status": "blocked",
+   "reason": null,
+   "status": "failed",
    "failure": {
     "stepIndex": 23,
     "op": "command",
@@ -3796,9 +3917,7 @@
    "scenarioId": "V1-M9-CAP-42",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D5"
-   ],
+   "decisionIds": [],
    "seed": "cap-b4",
    "invariantViolations": [
     {
@@ -3842,30 +3961,23 @@
      "times": 18
     }
    ],
-   "probes": [
-    {
-     "label": "health of the Captain who was hit twice",
-     "outcome": "Eliminated"
-    },
-    {
-     "label": "where they lie",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 32,
    "commands": 6,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 12,
+    "op": "assert",
+    "message": "view of @Alien: moveDestinations: expected [], observed [\"Room B\"]"
+   }
   },
   {
    "scenarioId": "V1-M9-CAP-43",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D5"
-   ],
+   "decisionIds": [],
    "seed": "cap-ward",
    "invariantViolations": [
     {
@@ -3894,14 +4006,77 @@
      "times": 2
     }
    ],
-   "probes": [
+   "probes": [],
+   "transitions": 42,
+   "commands": 10,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": 21,
+    "op": "assert",
+    "message": "count waiting: expected 1, observed 0; match waiting: expected [\"seat-7\"], observed []; truth @Red Disabler.location: expected \"Room A\", observed \"Hospital\"; count occupants:Hospital: expected 5, observed 6"
+   }
+  },
+  {
+   "scenarioId": "V1-M9-CAP-44",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [
+    "CAP-D6"
+   ],
+   "seed": "cap-b4",
+   "invariantViolations": [
     {
-     "label": "where the Captain who was hurt waits",
-     "outcome": "Hospital"
+     "invariant": "INV-CAP-02",
+     "message": "seat-2 is offered a move to Room A, which is full"
     },
     {
-     "label": "who waits",
-     "outcome": "nobody"
+     "invariant": "INV-CAP-02",
+     "message": "seat-5 is offered a move to Room A, which is full"
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-8 is offered a move to Room A, which is full"
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-9 is offered a move to Room A, which is full"
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-1 is offered a move to Room B, which is full",
+     "times": 42
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-3 is offered a move to Room B, which is full",
+     "times": 10
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-4 is offered a move to Room B, which is full",
+     "times": 42
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-7 is offered a move to Room B, which is full",
+     "times": 42
+    },
+    {
+     "invariant": "INV-CAP-01",
+     "message": "Room B holds 6 players, more than 5",
+     "times": 2
+    }
+   ],
+   "probes": [
+    {
+     "label": "where the Eliminated Captain lies",
+     "outcome": "Room B"
+    },
+    {
+     "label": "where the healed player is",
+     "outcome": "Room B"
     }
    ],
    "transitions": 42,
@@ -3910,6 +4085,66 @@
    "reason": null,
    "status": "blocked",
    "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-CAP-45",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-2 is offered a move to Room A, which is full",
+     "times": 12
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-5 is offered a move to Room A, which is full",
+     "times": 13
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-8 is offered a move to Room A, which is full",
+     "times": 13
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-9 is offered a move to Room A, which is full",
+     "times": 13
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-1 is offered a move to Room B, which is full",
+     "times": 33
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-4 is offered a move to Room B, which is full",
+     "times": 33
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-6 is offered a move to Room B, which is full",
+     "times": 29
+    },
+    {
+     "invariant": "INV-CAP-02",
+     "message": "seat-7 is offered a move to Room B, which is full",
+     "times": 33
+    }
+   ],
+   "probes": [],
+   "transitions": 42,
+   "commands": 8,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": -1,
+    "op": "invariant",
+    "message": "INV-CAP-02: seat-2 is offered a move to Room A, which is full"
+   }
   }
  ]
 }

@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "HEAD",
-  "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+  "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -41,14 +41,14 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance scenario runner",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-11T18:07:01.256Z",
+  "generatedAt": "2026-10-11T19:14:38.324Z",
   "suite": "capacity",
   "rulesetAskedFor": "in-person-v1-capacity-2026-10-11",
   "roomCapacity": 5,
   "capacityFileHashes": {
-   "mode-7.scenarios.json": "14f11ed204cc7cf11c21a0cd00da2759548ccb77785e36beeb700be1ed27ec78",
-   "mode-8.scenarios.json": "6c00a80fd4db0fee98b4b8a899fe797b536ad5d8026a0b15f88adb1af5ffbc55",
-   "mode-9.scenarios.json": "b0acc2257772f37a75bec0b24f63918daca5471954d2c6538cd001ec1cef4a47"
+   "mode-7.scenarios.json": "b24bd718e32cdbd4e200eb5ccb863dc569a78a5eb479a3622ecd2a657b212222",
+   "mode-8.scenarios.json": "67c5e0e73f70dee3effb96ed56fa5db8771ae33c31f652f782b0cdc8c0851994",
+   "mode-9.scenarios.json": "c7fdc4c8b4426b403a8fb2866a4cb60de046ba95c2d1b7241bdf9b689989e509"
   },
   "capacityRulesetVersion": "in-person-v1-capacity-2026-10-11",
   "ownerDecision": {
@@ -59,32 +59,32 @@
   }
  },
  "totals": {
-  "total": 113,
-  "passed": 85,
-  "failed": 3,
-  "blocked": 10,
+  "total": 119,
+  "passed": 89,
+  "failed": 12,
+  "blocked": 3,
   "notRun": 15
  },
  "byGroup": {
   "mode-7": {
-   "total": 35,
-   "passed": 26,
-   "failed": 1,
-   "blocked": 3,
+   "total": 37,
+   "passed": 27,
+   "failed": 4,
+   "blocked": 1,
    "notRun": 5
   },
   "mode-8": {
-   "total": 35,
-   "passed": 26,
-   "failed": 1,
-   "blocked": 3,
+   "total": 37,
+   "passed": 27,
+   "failed": 4,
+   "blocked": 1,
    "notRun": 5
   },
   "mode-9": {
-   "total": 43,
-   "passed": 33,
-   "failed": 1,
-   "blocked": 4,
+   "total": 45,
+   "passed": 35,
+   "failed": 4,
+   "blocked": 1,
    "notRun": 5
   },
   "unsupported": {
@@ -415,45 +415,49 @@
    "scenarioId": "V1-M7-CAP-25",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "CAP-D2"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
-   "invariantViolations": [],
-   "probes": [
+   "invariantViolations": [
     {
-     "label": "where the healed player is",
-     "outcome": "Room A"
+     "invariant": "INV-CAP-03",
+     "message": "seat-5 was sent to Room A although Room B, the room they were last in, has a place"
     }
    ],
+   "probes": [],
    "transitions": 36,
    "commands": 4,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 9,
+    "op": "assert",
+    "message": "truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+   }
   },
   {
    "scenarioId": "V1-M7-CAP-27",
    "group": "mode-7",
    "mode": 7,
-   "decisionIds": [
-    "CAP-D4"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
-   "invariantViolations": [],
-   "probes": [
+   "invariantViolations": [
     {
-     "label": "where the healed player is",
-     "outcome": "Room B"
+     "invariant": "INV-CAP-03",
+     "message": "seat-2 was sent to Room B although Room A, the room they were last in, has a place"
     }
    ],
+   "probes": [],
    "transitions": 35,
    "commands": 14,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 25,
+    "op": "assert",
+    "message": "truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\""
+   }
   },
   {
    "scenarioId": "V1-M7-CAP-28",
@@ -464,7 +468,7 @@
    "invariantViolations": [
     {
      "invariant": "INV-CAP-03",
-     "message": "seat-5 was sent to Room A although Room B, their last room, had a free place"
+     "message": "seat-5 was sent to Room A although Room B, the room they were last in, has a place"
     }
    ],
    "probes": [],
@@ -633,27 +637,66 @@
    "scenarioId": "V1-M7-CAP-42",
    "group": "mode-7",
    "mode": 7,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 34,
+   "commands": 5,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAP-44",
+   "group": "mode-7",
+   "mode": 7,
    "decisionIds": [
-    "CAP-D5"
+    "CAP-D6"
    ],
    "seed": "cap-b4",
    "invariantViolations": [],
    "probes": [
     {
-     "label": "health of the Captain who was hit twice",
-     "outcome": "Eliminated"
+     "label": "where the Eliminated Captain lies",
+     "outcome": "Room B"
     },
     {
-     "label": "where they lie",
-     "outcome": "Room B"
+     "label": "where the healed player is",
+     "outcome": "Room A"
     }
    ],
    "transitions": 34,
-   "commands": 5,
+   "commands": 10,
    "finalDigest": null,
    "reason": null,
    "status": "blocked",
    "failure": null
+  },
+  {
+   "scenarioId": "V1-M7-CAP-45",
+   "group": "mode-7",
+   "mode": 7,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-03",
+     "message": "seat-2 was sent to Room A although Room B, the room they were last in, has a place"
+    }
+   ],
+   "probes": [],
+   "transitions": 34,
+   "commands": 8,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": 17,
+    "op": "assert",
+    "message": "truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+   }
   },
   {
    "scenarioId": "V1-M8-CAP-01",
@@ -974,45 +1017,49 @@
    "scenarioId": "V1-M8-CAP-25",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "CAP-D2"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
-   "invariantViolations": [],
-   "probes": [
+   "invariantViolations": [
     {
-     "label": "where the healed player is",
-     "outcome": "Room A"
+     "invariant": "INV-CAP-03",
+     "message": "seat-5 was sent to Room A although Room B, the room they were last in, has a place"
     }
    ],
+   "probes": [],
    "transitions": 40,
    "commands": 4,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 9,
+    "op": "assert",
+    "message": "truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+   }
   },
   {
    "scenarioId": "V1-M8-CAP-27",
    "group": "mode-8",
    "mode": 8,
-   "decisionIds": [
-    "CAP-D4"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
-   "invariantViolations": [],
-   "probes": [
+   "invariantViolations": [
     {
-     "label": "where the healed player is",
-     "outcome": "Room B"
+     "invariant": "INV-CAP-03",
+     "message": "seat-2 was sent to Room B although Room A, the room they were last in, has a place"
     }
    ],
+   "probes": [],
    "transitions": 39,
    "commands": 14,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 25,
+    "op": "assert",
+    "message": "truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\""
+   }
   },
   {
    "scenarioId": "V1-M8-CAP-28",
@@ -1023,7 +1070,7 @@
    "invariantViolations": [
     {
      "invariant": "INV-CAP-03",
-     "message": "seat-5 was sent to Room A although Room B, their last room, had a free place"
+     "message": "seat-5 was sent to Room A although Room B, the room they were last in, has a place"
     }
    ],
    "probes": [],
@@ -1192,27 +1239,66 @@
    "scenarioId": "V1-M8-CAP-42",
    "group": "mode-8",
    "mode": 8,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 29,
+   "commands": 6,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-CAP-44",
+   "group": "mode-8",
+   "mode": 8,
    "decisionIds": [
-    "CAP-D5"
+    "CAP-D6"
    ],
    "seed": "cap-b4",
    "invariantViolations": [],
    "probes": [
     {
-     "label": "health of the Captain who was hit twice",
-     "outcome": "Eliminated"
+     "label": "where the Eliminated Captain lies",
+     "outcome": "Room B"
     },
     {
-     "label": "where they lie",
-     "outcome": "Room B"
+     "label": "where the healed player is",
+     "outcome": "Room A"
     }
    ],
-   "transitions": 29,
-   "commands": 6,
+   "transitions": 38,
+   "commands": 10,
    "finalDigest": null,
    "reason": null,
    "status": "blocked",
    "failure": null
+  },
+  {
+   "scenarioId": "V1-M8-CAP-45",
+   "group": "mode-8",
+   "mode": 8,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-03",
+     "message": "seat-2 was sent to Room A although Room B, the room they were last in, has a place"
+    }
+   ],
+   "probes": [],
+   "transitions": 38,
+   "commands": 8,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": 17,
+    "op": "assert",
+    "message": "truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+   }
   },
   {
    "scenarioId": "V1-M9-CAP-01",
@@ -1578,23 +1664,25 @@
    "scenarioId": "V1-M9-CAP-25",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D2"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
-   "invariantViolations": [],
-   "probes": [
+   "invariantViolations": [
     {
-     "label": "where the healed player is",
-     "outcome": "Room A"
+     "invariant": "INV-CAP-03",
+     "message": "seat-6 was sent to Room A although Room B, the room they were last in, has a place"
     }
    ],
+   "probes": [],
    "transitions": 44,
    "commands": 4,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 9,
+    "op": "assert",
+    "message": "truth @Insider.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+   }
   },
   {
    "scenarioId": "V1-M9-CAP-26",
@@ -1615,23 +1703,25 @@
    "scenarioId": "V1-M9-CAP-27",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D4"
-   ],
+   "decisionIds": [],
    "seed": "cap-b5",
-   "invariantViolations": [],
-   "probes": [
+   "invariantViolations": [
     {
-     "label": "where the healed player is",
-     "outcome": "Room B"
+     "invariant": "INV-CAP-03",
+     "message": "seat-2 was sent to Room B although Room A, the room they were last in, has a place"
     }
    ],
+   "probes": [],
    "transitions": 43,
    "commands": 16,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
-   "failure": null
+   "status": "failed",
+   "failure": {
+    "stepIndex": 27,
+    "op": "assert",
+    "message": "truth @Supplier.location: expected \"Room A\", observed \"Room B\"; public @Supplier.location: expected \"Room A\", observed \"Room B\""
+   }
   },
   {
    "scenarioId": "V1-M9-CAP-28",
@@ -1642,7 +1732,7 @@
    "invariantViolations": [
     {
      "invariant": "INV-CAP-03",
-     "message": "seat-6 was sent to Room A although Room B, their last room, had a free place"
+     "message": "seat-6 was sent to Room A although Room B, the room they were last in, has a place"
     }
    ],
    "probes": [],
@@ -1856,45 +1946,49 @@
    "scenarioId": "V1-M9-CAP-42",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D5"
-   ],
+   "decisionIds": [],
    "seed": "cap-b4",
    "invariantViolations": [],
-   "probes": [
-    {
-     "label": "health of the Captain who was hit twice",
-     "outcome": "Eliminated"
-    },
-    {
-     "label": "where they lie",
-     "outcome": "Room B"
-    }
-   ],
+   "probes": [],
    "transitions": 32,
    "commands": 6,
    "finalDigest": null,
    "reason": null,
-   "status": "blocked",
+   "status": "passed",
    "failure": null
   },
   {
    "scenarioId": "V1-M9-CAP-43",
    "group": "mode-9",
    "mode": 9,
-   "decisionIds": [
-    "CAP-D5"
-   ],
+   "decisionIds": [],
    "seed": "cap-ward",
+   "invariantViolations": [],
+   "probes": [],
+   "transitions": 42,
+   "commands": 10,
+   "finalDigest": null,
+   "reason": null,
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-CAP-44",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [
+    "CAP-D6"
+   ],
+   "seed": "cap-b4",
    "invariantViolations": [],
    "probes": [
     {
-     "label": "where the Captain who was hurt waits",
-     "outcome": "Room A"
+     "label": "where the Eliminated Captain lies",
+     "outcome": "Room B"
     },
     {
-     "label": "who waits",
-     "outcome": "seat-7"
+     "label": "where the healed player is",
+     "outcome": "Room A"
     }
    ],
    "transitions": 42,
@@ -1903,6 +1997,30 @@
    "reason": null,
    "status": "blocked",
    "failure": null
+  },
+  {
+   "scenarioId": "V1-M9-CAP-45",
+   "group": "mode-9",
+   "mode": 9,
+   "decisionIds": [],
+   "seed": "cap-b4",
+   "invariantViolations": [
+    {
+     "invariant": "INV-CAP-03",
+     "message": "seat-2 was sent to Room A although Room B, the room they were last in, has a place"
+    }
+   ],
+   "probes": [],
+   "transitions": 42,
+   "commands": 8,
+   "finalDigest": null,
+   "reason": null,
+   "status": "failed",
+   "failure": {
+    "stepIndex": 17,
+    "op": "assert",
+    "message": "truth @Supplier.location: expected \"Room B\", observed \"Room A\"; count occupants:Room B: expected 5, observed 4"
+   }
   }
  ]
 }

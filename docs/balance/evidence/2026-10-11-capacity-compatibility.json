@@ -1,6 +1,6 @@
 {
  "schema": "mothership.balance.capacity-compat/1",
- "generatedAt": "2026-10-11T18:29:14.865Z",
+ "generatedAt": "2026-10-11T19:34:49.436Z",
  "node": "v22.21.1",
  "before": "1a92f3790e45622196014cc008544fc33c359c0a",
  "after": "dd04f68ee5af887b01761a03eca644f7a67e84dd",
@@ -25,7 +25,7 @@
       "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
       "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
      },
-     "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+     "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
      "totals": {
       "total": 555,
       "passed": 516,
@@ -86,7 +86,7 @@
       "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
       "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
      },
-     "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+     "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
      "totals": {
       "total": 555,
       "passed": 516,
@@ -152,7 +152,7 @@
       "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
       "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
      },
-     "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+     "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
      "totals": {
       "total": 555,
       "passed": 516,
@@ -213,7 +213,7 @@
       "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
       "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
      },
-     "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+     "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
      "totals": {
       "total": 555,
       "passed": 516,
@@ -275,7 +275,7 @@
    "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
    "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
   },
-  "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+  "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
   "totals": {
    "total": 555,
    "passed": 24,

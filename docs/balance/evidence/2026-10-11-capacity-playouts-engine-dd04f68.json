@@ -4,7 +4,7 @@
   "repository": "Amirkianfar66/GameN",
   "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
   "branch": "HEAD",
-  "workingTreeCommit": "ca18852f211e47231dab4a629980cc4f925dda5d",
+  "workingTreeCommit": "bcbfcd91b40b3c0e965a1feff94b3e407d737880",
   "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
   "ruleSourceHashes": {
    "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
@@ -41,7 +41,7 @@
   "engineOrigin": "built checkout outside this worktree (--engine-root)",
   "runner": "@mothership/balance seeded playouts",
   "node": "v22.21.1",
-  "generatedAt": "2026-10-11T18:07:33.197Z",
+  "generatedAt": "2026-10-11T19:15:09.690Z",
   "rulesetAskedFor": "in-person-v1-capacity-2026-10-11",
   "rooms": "capped",
   "roomCapacity": 5,
@@ -97,6 +97,8 @@
    },
    "showdownReached": true,
    "endStatesSha256": "04f9488cf0cf495e8c506fd40ff0fac599e2bfbb738b7ada83b9c5af6c6ab9d9",
+   "violationsByInvariant": {},
+   "playoutsWithAViolation": 0,
    "occupancy": {
     "most": {
      "Room A": 5,
@@ -126,7 +128,7 @@
    "phases": 11240,
    "commandsAccepted": 18782,
    "commandsRejected": 23848,
-   "invariantViolations": 0,
+   "invariantViolations": 2,
    "hintMismatches": 0,
    "replayMismatches": 0,
    "mostEliminatedBeforeShowdown": 2,
@@ -135,7 +137,28 @@
     "min": 50,
     "max": 63
    },
-   "examples": [],
+   "examples": [
+    {
+     "seed": "walk-142",
+     "violations": [
+      {
+       "invariant": "INV-CAP-03",
+       "message": "seat-5 was sent to Room B although Room A, the room they were last in, has a place"
+      }
+     ],
+     "hintMismatches": []
+    },
+    {
+     "seed": "walk-186",
+     "violations": [
+      {
+       "invariant": "INV-CAP-03",
+       "message": "seat-8 was sent to Room B although Room A, the room they were last in, has a place"
+      }
+     ],
+     "hintMismatches": []
+    }
+   ],
    "terminalReached": {
     "Blue": true,
     "Red": true,
@@ -146,6 +169,10 @@
    },
    "showdownReached": true,
    "endStatesSha256": "6b69585d2f6c3b55c774a3f4347d933db2b8ed3d68059cc7b3f83ced4ce7fb1b",
+   "violationsByInvariant": {
+    "INV-CAP-03": 2
+   },
+   "playoutsWithAViolation": 2,
    "occupancy": {
     "most": {
      "Room A": 5,
@@ -195,6 +222,8 @@
    },
    "showdownReached": true,
    "endStatesSha256": "242e97f6862386e1c50a89e4199f49716988360b5f27c2d577ddeae5c4c9b31a",
+   "violationsByInvariant": {},
+   "playoutsWithAViolation": 0,
    "occupancy": {
     "most": {
      "Room A": 5,
