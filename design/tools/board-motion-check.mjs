@@ -339,7 +339,7 @@ if (loadError) {
   let en = null;
   try { ({ en } = await load('packages/presentation/dist/copy/en.js')); } catch { problems.push('packages/presentation/dist/copy/en.js is missing: run npm run build'); }
   if (en) {
-    const SECTIONS = { phase: en.phase, timer: en.timer, marker: en.marker, actions: en.actions, privateArea: en.privateArea, banner: en.banner, tally: en.vote.tally, announce: en.announce, roster: en.roster };
+    const SECTIONS = { phase: en.phase, timer: en.timer, marker: en.marker, actions: en.actions, privateArea: en.privateArea, banner: en.banner, tally: en.vote.tally, announce: en.announce, roster: en.roster, result: en.result };
     const SAMPLES = [[3, false], [4, true], ['Player 4', 'Blue'], [null, null], [1], [2, 9]];
     const same = (mine, theirs, path) => {
       if (typeof mine === 'function') {
@@ -373,8 +373,24 @@ if (loadError) {
     const state = entry.s();
     for (const problem of offerProblems(state, fixtures.VIEWER)) problems.push(`${entry.id}: ${problem}`);
     if ((entry.group === 'Crowded rooms' || entry.id.includes('crowded') || entry.id === 'board.all-one-room' || entry.id === 'board.tightest') && entry.status !== 'layout-stress') problems.push(`${entry.id}: crowd fixture is not labeled layout-stress`);
-    const publicPart = JSON.stringify(state.public);
+    // The roles and the Code are public at a finished match only (V1-18), in the view's end reveal, as the contract has it:
+    // the result and the end reveal at FINISHED and never before or at ABORTED; every seat's role once, the viewer's its own,
+    // the four of the Code with the Alien and without the Undercover, a revealed faction its role's.
+    const { endReveal, ...rest } = state.public;
+    const publicPart = JSON.stringify(rest);
     for (const word of ROLE_WORDS.filter(role => role !== 'Alien')) if (new RegExp(`\\b${word}\\b`).test(publicPart)) problems.push(`${entry.id}: the public state names the role ${word}`);
+    const finished = state.public.phase.kind === 'FINISHED';
+    if (finished !== Boolean(state.public.result) || finished !== Boolean(endReveal)) problems.push(`${entry.id}: a result or an end reveal outside a finished match, or a finished match without them`);
+    if (['FINISHED', 'ABORTED'].includes(state.public.phase.kind) && (state.public.phase.seconds !== 0 || state.public.active !== null)) problems.push(`${entry.id}: a match that is over has a timer or an active seat`);
+    if (endReveal) {
+      const side = role => (role === 'Alien' ? 'Alien' : ['Undercover', 'Hacker', 'Red Disabler'].includes(role) ? 'Red' : 'Blue');
+      const roleOf = n => endReveal.roles.find(item => item.seat === n)?.role;
+      if (endReveal.roles.length !== state.public.playerCount || new Set(endReveal.roles.map(item => item.seat)).size !== state.public.playerCount || new Set(endReveal.roles.map(item => item.role)).size !== state.public.playerCount) problems.push(`${entry.id}: the end reveal is not every seat's role, once`);
+      if (roleOf(fixtures.VIEWER) !== state.private.role) problems.push(`${entry.id}: the end reveal gives the viewer another role than its own`);
+      const alien = endReveal.roles.find(item => item.role === 'Alien')?.seat, undercover = endReveal.roles.find(item => item.role === 'Undercover')?.seat;
+      if (endReveal.code.length !== 4 || new Set(endReveal.code).size !== 4 || !endReveal.code.includes(alien) || endReveal.code.includes(undercover)) problems.push(`${entry.id}: the end reveal's Code is not four seats with the Alien and without the Undercover`);
+      for (const seat of state.public.seats) if (seat.revealedFaction && seat.revealedFaction !== side(roleOf(seat.n))) problems.push(`${entry.id}: Player ${seat.n} is revealed ${seat.revealedFaction} and was ${roleOf(seat.n)}`);
+    }
     for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
     for (const seat of state.public.seats) if (seat.revealedFaction && seat.health !== 'Eliminated') problems.push(`${entry.id}: Player ${seat.n} has a revealed faction and is not Eliminated`);
     if (state.public.seats.length !== state.public.playerCount || ![7, 8, 9].includes(state.public.playerCount)) problems.push(`${entry.id}: not a 7, 8 or 9 player roster`);
@@ -394,9 +410,12 @@ if (loadError) {
       }
     }
   }
-  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'REPLAY', 'RECONNECT']);
+  // MATCH_ENDED: the view's phase turning FINISHED (with the result and the end reveal, public then) or ABORTED (with neither).
+  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'MATCH_ENDED', 'REPLAY', 'RECONNECT']);
   for (const event of fixtures.EVENTS) {
     if (!allowed.has(event.fact.type)) problems.push(`event ${event.id}: ${event.fact.type} is not a public fact`);
+    // A finished match carries both the result and the end reveal; any other end carries neither.
+    if (event.fact.type === 'MATCH_ENDED' && (event.fact.phase === 'FINISHED' ? !(event.fact.result && event.fact.endReveal) : Boolean(event.fact.result || event.fact.endReveal))) problems.push(`event ${event.id}: a result or an end reveal outside a finished match, or a finished match without them`);
     for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
   }
   if (!fixtures.SYNTHETIC_LABEL || !/synthetic/i.test(fixtures.SYNTHETIC_LABEL)) problems.push('the fixtures are not labeled synthetic');
@@ -430,6 +449,8 @@ if (loadError) {
     if (/--bm-scene-/.test(body) && !/\[data-art~="board-motion-scenes"\]/.test(selector)) problems.push(`${selector}: draws a scene layer without waiting for the scene bundle`);
     if (/--ms-asset-device-/.test(body) && !(/\.bm-private/.test(selector) && /\[data-art~="roles"\]/.test(selector))) problems.push(`${selector}: a role's device outside the private card`);
     if (/\[data-(?:device|team)/.test(selector) && !selectorsOf(selector).every(part => /\.bm-private/.test(part))) problems.push(`${selector}: a role or team hook outside the private card`);
+    // A side drawn from the end reveal, only in the end's result sheet.
+    if (/\[data-end-/.test(selector) && !selectorsOf(selector).every(part => /\.bm-(?:result|cast)/.test(part))) problems.push(`${selector}: an end-reveal hook outside the result sheet`);
     if (/\binfinite\b|animation-iteration-count/.test(body)) problems.push(`${selector}: an animation that repeats`);
     if (/\b\d+(?:\.\d+)?m?s\b/.test(body.replace(/var\([^)]*\)/g, '')) && /animation|transition/.test(body)) problems.push(`${selector}: a duration that is not a token`);
     // A private cue is drawn only on the viewer's own board, whatever else the page holds.

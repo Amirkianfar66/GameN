@@ -42,7 +42,7 @@ const OUT = 'design/abilities/review';
 const PHONES = { w390: { width: 390, height: 844 }, w320: { width: 320, height: 568 } };
 const SCALE = 1.5;
 const FRAMES = [0, 120, 260, 420, 600, 780, 1020];
-const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png' };
+const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png', 6: 'contact-showdown-end.png' };
 
 /** In the page: what the open file and the strip's ability art show, measured. Returns the problems found. */
 const MEASURE = `(() => {
@@ -221,7 +221,7 @@ const MEASURE = `(() => {
     if (String(full) !== group.dataset.count) problems.push('the full rounds are not the count');
     if (spent && !(group.closest('#bm-strip') && step === 'accepted' && flow.kind === 'shot')) problems.push("a round is drawn spent outside a shot's receipt");
   }
-  if (mark?.dataset.mark === 'reticle' && flow.kind !== 'shot') problems.push('the reticle marks something that is not a shot');
+  if (mark?.dataset.mark === 'reticle' && flow.kind !== 'shot' && flow.kind !== 'showdown-shot') problems.push('the reticle marks something that is not a shot');
   if (mark?.dataset.mark === 'shield' && flow.kind !== 'protect') problems.push('the shield marks something that is not a Protection');
   if (flow.kind === 'shot' && strip && /data-device|data-team|\\bblue\\b|\\bred\\b|officer|undercover|alien/i.test(strip.innerHTML)) problems.push("the shot's strip says who shoots");
   for (const note of document.querySelectorAll('#bm-card .ab-guard')) {
@@ -269,6 +269,14 @@ const MEASURE = `(() => {
     if (chips.length !== 2 || chips[0] !== (window.__bmState?.viewer ?? 3) || 'Player ' + chips[1] !== (words.match(/Player \\d/) ?? [])[0]) problems.push("a Hack's note does not join the seat's own chip to its partner's");
     if (/\\b(ask|asked|request|truth|true|lie|lies|honest)\\b/i.test(note.textContent)) problems.push("a Hack's note says who asked, or what may be said");
   }
+  // Slice 6. The special shot only in the showdown's strip, spent exactly on its receipt; nothing in that strip says who shoots.
+  // The match's end is public: the ability kit draws nothing in the result sheet, and no role is named before a finished match.
+  const special = strip?.querySelector('.ab-special');
+  if (special && flow.kind !== 'showdown-shot') problems.push('the special shot in a strip that is not the showdown');
+  if (special && (special.dataset.spent === 'true') !== (step === 'accepted')) problems.push('the special shot is spent before its receipt, or full after it');
+  if (flow.kind === 'showdown-shot' && strip && /data-device|data-team|\\bblue\\b|\\bred\\b|officer|undercover|alien/i.test(strip.innerHTML)) problems.push("the showdown's strip says who shoots");
+  if (document.querySelector('.bm-result [class*="ab-"]')) problems.push('the result sheet draws the private kit');
+  if (document.querySelector('.bm-cast') && window.__bmState?.phase !== 'FINISHED') problems.push('the roles are drawn before the match finished');
   // A card with the Cracker's note or Supply's slips fits without scrolling at the default text size, as the files do.
   if (sheet && !file && sheet.querySelector('.ab-kit, .ab-deliveries, .ab-guards') && !largeText && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
   // At large text the notes' words grow with the reader's text.
@@ -509,6 +517,33 @@ try {
   }
   // Both partners of a Hack see the same note, whoever asked.
   if (kept.get('hack-w390-link') !== kept.get('hack-w390-partner')) shots.find(shot => shot.name === 'hack-w390-partner').problems.push("the asked partner's note differs from the asking partner's");
+
+  // ---------- slice 6: the showdown's special shot, and the match's end ----------
+  for (const phone of ['w390', 'w320']) {
+    const at = `${PHONES[phone].width} x ${PHONES[phone].height}`;
+    await shoot(browser, server, { slice: 6, name: `showdown-${phone}-choose`, title: `Showdown: the special shot, full, before a target, ${at}`, group: 'The showdown', phone, path: '?scenario=showdown.choose&chrome=0' });
+    await shoot(browser, server, { slice: 6, name: `showdown-${phone}-confirm`, title: `Showdown: the target in the reticle, ${at}`, group: 'The showdown', phone, path: '?scenario=showdown.confirm&chrome=0' });
+    await shoot(browser, server, { slice: 6, name: `showdown-${phone}-registered`, title: `Showdown shot registered: spent, not a result, ${at}`, group: 'The showdown', phone, path: '?scenario=showdown.registered&chrome=0' });
+    await shoot(browser, server, { slice: 6, name: `end-${phone}-blue`, title: `The end: Blue wins, the roles and the Code, ${at}`, group: "The match's end", phone, path: '?scenario=end.blue&chrome=0' });
+    await shoot(browser, server, { slice: 6, name: `end-${phone}-aborted`, title: `The host ended the match: no winner, nothing revealed, ${at}`, group: "The match's end", phone, path: '?scenario=end.aborted&chrome=0' });
+  }
+  for (const [scenario, label, title] of [['end.alien-co', 'alien-co', 'Blue wins, and the Alien with Blue'], ['end.red', 'red', 'Red wins'], ['end.alien', 'alien', 'The Alien wins'], ['end.draw', 'draw', 'A draw after the showdown']]) {
+    await shoot(browser, server, { slice: 6, name: `end-w390-${label}`, title, group: "The match's end", phone: 'w390', path: `?scenario=${scenario}&chrome=0` });
+  }
+  await shoot(big, server, { slice: 6, name: 'showdown-w320-text200-confirm', title: 'The showdown at twice the text size, 320 x 568', group: 'Slice 6: text size, motion, art', phone: 'w320', path: '?scenario=showdown.confirm&chrome=0' });
+  await shoot(big, server, { slice: 6, name: 'end-w390-text200-blue', title: 'The end at twice the text size: one column', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=end.blue&chrome=0' });
+  await shoot(browser, server, { slice: 6, name: 'showdown-w390-registered-reduced', title: 'Reduced motion: the special shot spent at rest', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=showdown.registered&chrome=0&motion=reduced' });
+  await shoot(browser, server, { slice: 6, name: 'end-w390-reduced', title: 'Reduced motion: the match ends, the sheet faded in', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=board.idle&chrome=0&motion=reduced&play=finish' });
+  for (const [scenario, label] of [['showdown.confirm', 'showdown'], ['end.blue', 'end']]) {
+    await shoot(browser, server, { slice: 6, name: `${label}-w390-no-art`, title: `Without the ability art or the crew cards: ${scenario}`, group: 'Slice 6: text size, motion, art', phone: 'w390', path: `?scenario=${scenario}&chrome=0`, block: ART });
+  }
+  // The beats, held frame by frame: the special shot spent on the receipt; the end's reveal (cue-end-reveal, the board's public cue).
+  for (const t of [0, 110, 220]) {
+    await shoot(browser, server, { slice: 6, name: `beat-special-${String(t).padStart(4, '0')}ms`, title: `The special shot spent, ${t} ms`, group: 'Slice 6: the beats, frame by frame', phone: 'w390', path: `?scenario=showdown.confirm&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
+  }
+  for (const t of [120, 380, 600, 900]) {
+    await shoot(browser, server, { slice: 6, name: `end-reveal-${String(t).padStart(4, '0')}ms`, title: `The end revealed, ${t} ms`, group: 'Slice 6: the beats, frame by frame', phone: 'w390', path: `?scenario=board.idle&chrome=0&play=finish&t=${t}`, selector: '#bm-result', measure: '[]', wait: 200 });
+  }
 
   // The contact sheets: every picture above, with its caption, one sheet per slice.
   await writeFile(resolve(repoRoot, `${OUT}/report.json`), `${JSON.stringify({ inputsSha256: await abilitiesInputsSha256(), browser: browserName, scale: SCALE, shots }, null, 2)}\n`);

@@ -674,6 +674,117 @@ try {
   ok('pass: no page error', page.problems().length === 0, page.problems());
   await page.close();
 
+  // ---------- Slice 6: the showdown's special shot; the match's end, the same on every screen ----------
+  page = await open('showdown.choose');
+  ok('showdown: the special shot, full, at the start of the strip while it is offered', await page.evaluate(`document.querySelector('#bm-strip .ab-special')?.dataset.spent === 'false'`));
+  await click(page, '#bm-app [data-value="seat-5"]');
+  ok('showdown: the target in the reticle of an ordinary shot, in the release\'s words', await page.evaluate(`Boolean(document.querySelector('#bm-strip .ab-target[data-mark="reticle"] .ab-chip[data-seat="5"]'))`) && (await stripLine(page)) === 'Register a showdown shot at Player 5?', await stripLine(page));
+  await click(page, '#bm-app [data-act="confirm"]');
+  ok('showdown: still full while it is on its way', await page.evaluate(`document.querySelector('#bm-strip .ab-special')?.dataset.spent === 'false'`));
+  await sleep(900);
+  ok('showdown: spent on the receipt, which is not a result', await page.evaluate(`document.querySelector('#bm-strip .ab-special')?.dataset.spent === 'true'`) && (await stamp(page)) === 'Registered'
+    && (await stripLine(page)) === 'Showdown shot at Player 5 registered.' && await page.evaluate(`document.querySelector('#bm-app .bm-strip__detail').textContent.endsWith('This is not a result.')`));
+  ok('showdown: the other screens see nothing of it, and no public cue plays', (await observerPrivate(page)).length === 0 && (await observerArt(page)) === 0 && (await cues(page)).length === 0, await cues(page));
+  await page.close();
+  page = await open('showdown.confirm', 'play=register&t=100');
+  ok('showdown: the shot is spent once, on the receipt', js(await beats(page, '#bm-strip')) === js(['ab-special']), await beats(page, '#bm-strip'));
+  await page.close();
+  page = await open('showdown.confirm', 'motion=reduced&play=register&t=100');
+  ok('showdown: with reduced motion the shot is drawn spent, with no beat', (await beats(page, '#bm-strip')).length === 0 && await page.evaluate(`document.querySelector('#bm-strip .ab-special')?.dataset.spent === 'true'`));
+  await page.close();
+
+  const resultOf = (p, scope) => p.evaluate(`(() => {
+    const sheet = document.querySelector(${js(scope)});
+    if (!sheet || sheet.hidden) return null;
+    return { ended: sheet.dataset.ended, winner: sheet.dataset.winner ?? null, outcome: sheet.querySelector('.bm-result__outcome')?.textContent ?? null,
+      lines: [...sheet.querySelectorAll('.bm-result__line')].map(n => n.textContent),
+      rows: [...sheet.querySelectorAll('.bm-cast__row')].map(n => [n.querySelector('.bm-cast__label').textContent, n.querySelector('.bm-cast__name').textContent, n.dataset.endFaction, n.dataset.code]),
+      code: sheet.querySelector('.bm-result__code')?.textContent ?? null };
+  })()`);
+  const OWN_RESULT = '#bm-app .bm-result', OBS_RESULT = '[data-observer] .bm-result';
+  const CAST = [['Insider', 'blue', 'true'], ['Hacker', 'red', 'false'], ['Officer', 'blue', 'false'], ['Red Disabler', 'red', 'true'], ['Undercover', 'red', 'false'], ['Cracker', 'blue', 'true'], ['Supplier', 'blue', 'false'], ['Alien', 'alien', 'true'], ['Blue Disabler', 'blue', 'false']];
+  const resultRunning = p => p.evaluate(`document.querySelectorAll('.bm-result').length && [...document.querySelectorAll('.bm-result')].flatMap(n => n.getAnimations({ subtree: true })).filter(a => a.playState === 'running').length`);
+  page = await open('board.idle');
+  ok('end: nothing of the end before it comes', (await resultOf(page, OWN_RESULT)) === null && (await page.evaluate(`document.querySelectorAll('.bm-cast, [data-end-faction]').length`)) === 0);
+  await click(page, '[data-event="finish"]');
+  await sleep(60);
+  const own = await resultOf(page, OWN_RESULT);
+  const other = await resultOf(page, OBS_RESULT);
+  ok('end: the winner the server names, in the release\'s words', own?.ended === 'finished' && own.winner === 'Blue' && own.outcome === 'Blue wins.' && own.lines.length === 0, own);
+  ok('end: every role in seat order, each in its side\'s colour, the Code\'s four pinned', js(own?.rows) === js(CAST.map(([role, side, code], index) => [index + 1 === 3 ? 'Player 3 (you)' : `Player ${index + 1}`, role, side, code])), own?.rows);
+  ok('end: the Code in seat order, whatever order the view lists it in', own?.code === 'The Code was: Player 1, Player 4, Player 6, Player 8.', own?.code);
+  ok('end: the other screens draw the same, naming nobody "(you)"', other?.outcome === own?.outcome && js(other?.rows) === js(CAST.map(([role, side, code], index) => [`Player ${index + 1}`, role, side, code])) && other?.code === own?.code, other);
+  ok('end: one reveal cue on each screen, with the phase\'s', js((await cues(page)).filter(c => /end-reveal/.test(c))) === js(['own:cue-end-reveal::reveal', 'observer:cue-end-reveal::reveal']) && (await cues(page)).some(c => c === 'own:cue-phase-change::'), await cues(page));
+  ok('end: the roles are never on the board, and no piece carries an end hook', (await observerPrivate(page)).length === 0
+    && !(await page.evaluate(`/\\b(Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker)\\b/.test(document.querySelector('#bm-app .bm-board').textContent)`))
+    && (await page.evaluate(`document.querySelectorAll('.bm-board [data-end-faction], .bm-board [data-code]').length`)) === 0);
+  ok('end: the timer says the phase has none, and runs no more', await page.evaluate(`(() => { const t = document.querySelector('#bm-app .bm-timer'); return t.dataset.state === 'none' && !t.hasAttribute('role') && t.textContent.includes('This phase has no timer'); })()`));
+  ok('end: the status bar says the match finished', await page.evaluate(`document.querySelector('#bm-app .bm-status__line').textContent === 'Match finished' && document.querySelector('[data-observer] .bm-status__line').textContent === 'Match finished'`));
+  ok('end: said once to a screen reader, in the release\'s words', await page.evaluate(`[...document.querySelectorAll('#bm-live p')].filter(n => n.textContent === 'Blue wins.').length === 1`));
+  ok('end: the card and the actions are closed for good; Pass is not offered', await page.evaluate(`['bm-nav-card', 'bm-nav-actions'].every(id => document.getElementById(id).getAttribute('aria-disabled') === 'true') && document.getElementById('bm-pass').getAttribute('aria-disabled') === 'true'`));
+  await click(page, '#bm-nav-card');
+  await click(page, '#bm-nav-actions');
+  ok('end: pressing them opens nothing, and nothing private is in the page', (await page.evaluate('window.__bmState.view')) === 'board' && (await privateDOM(page)).length === 0, await privateDOM(page));
+  await sleep(1000);
+  ok('end: the reveal is over within the comic beat maximum', (await resultRunning(page)) === 0 && await page.evaluate(`!document.querySelector('#bm-app .bm-result').dataset.cue`));
+  const cuesAtEnd = (await cues(page)).length;
+  await click(page, '[data-event="replay"]');
+  await click(page, '[data-event="reconnect"]');
+  await sleep(60);
+  ok('end: a duplicate snapshot or a reconnect plays nothing again, and the sheet stays', (await cues(page)).length === cuesAtEnd && (await resultRunning(page)) === 0 && js(await resultOf(page, OWN_RESULT)) === js(own), (await cues(page)).slice(cuesAtEnd));
+  await click(page, '#bm-nav-menu');
+  ok('end: the menu covers it on this phone, as in the release; the other screens keep it', (await resultOf(page, OWN_RESULT)) === null && (await resultOf(page, OBS_RESULT)) !== null);
+  await click(page, '#bm-menu .bm-close');
+  ok('end: closing the menu shows it again, at rest', js(await resultOf(page, OWN_RESULT)) === js(own) && (await resultRunning(page)) === 0);
+  ok('end: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+  page = await open('shot.choose');
+  await click(page, '[data-event="finish"]');
+  await sleep(60);
+  ok('end: a choice in progress leaves with the match, and nothing private stays', (await flow(page)).step === 'idle' && (await page.evaluate(`document.getElementById('bm-strip').hidden`)) && (await privateDOM(page)).length === 0, await privateDOM(page));
+  await page.close();
+  page = await open('shot.registered');
+  await click(page, '[data-event="finish"]');
+  await sleep(60);
+  ok('end: even a receipt leaves the strip, as the release closes the actions', (await page.evaluate(`document.getElementById('bm-strip').hidden`)) && (await privateDOM(page)).length === 0);
+  await page.close();
+  page = await open('hack.phase');
+  await click(page, '[data-event="finish"]');
+  await sleep(60);
+  ok('end: an open card closes, and no private word is left in the page', (await page.evaluate('window.__bmState.view')) === 'board' && (await page.evaluate(`!document.querySelector('.bm-private, .ab-kit, [data-device]')`)));
+  await page.close();
+  page = await open('board.idle');
+  await click(page, '[data-event="abort"]');
+  await sleep(60);
+  const ended = await resultOf(page, OWN_RESULT);
+  ok('end/aborted: the host\'s sentence, no winner, nothing revealed', ended?.ended === 'aborted' && ended.winner === null && ended.outcome === 'The host ended this match. There is no winner.' && ended.rows.length === 0 && ended.code === null, ended);
+  ok('end/aborted: the other screens the same, and no role named anywhere', js(await resultOf(page, OBS_RESULT)) === js(ended)
+    && !(await page.evaluate(`/\\b(Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker)\\b/.test(document.querySelector('#bm-app').textContent + document.querySelector('[data-observer]').textContent)`)));
+  ok('end/aborted: its cue is the sheet\'s rise alone', js((await cues(page)).filter(c => /end-reveal/.test(c))) === js(['own:cue-end-reveal::ended', 'observer:cue-end-reveal::ended']), await cues(page));
+  ok('end/aborted: the status bar says the host ended it', await page.evaluate(`document.querySelector('#bm-app .bm-status__line').textContent === 'Match ended by the host'`));
+  await page.close();
+  page = await open('board.idle', 'motion=reduced');
+  await click(page, '[data-event="finish"]');
+  await sleep(30);
+  ok('end/reduced: the sheet fades in; nothing is struck or turned up', js((await cues(page)).filter(c => /end-reveal/.test(c))) === js(['own:cue-end-reveal::reduced', 'observer:cue-end-reveal::reduced'])
+    && (await page.evaluate(`document.querySelector('#bm-app .bm-result').dataset.cue`)) === 'fade'
+    && (await page.evaluate(`[...document.querySelectorAll('.bm-cast__row, .bm-result__outcome')].flatMap(n => n.getAnimations()).length`)) === 0, await cues(page));
+  await page.close();
+  page = await open('board.idle');
+  await click(page, '[data-event="finish"]');
+  await sleep(200);
+  await page.evaluate(`(() => { const box = [...document.querySelectorAll('.bm-panel label')].find(n => n.textContent.includes('Reduced motion')).querySelector('input'); box.click(); })()`);
+  await sleep(30);
+  ok('end/reduced: switched on mid-reveal, the sheet stands as it is at once', (await resultRunning(page)) === 0 && await page.evaluate(`!document.querySelector('#bm-app .bm-result').dataset.cue && !document.querySelector('[data-observer] .bm-result').dataset.cue`));
+  await page.close();
+  page = await open('end.blue');
+  await sleep(200);
+  ok('end: a page that loads at the end plays nothing', (await cues(page)).length === 0 && (await resultRunning(page)) === 0 && js((await resultOf(page, OWN_RESULT))?.rows) === js(own?.rows));
+  await page.close();
+  page = await open('end.alien-co');
+  ok('end: the Alien\'s co-win, in the release\'s words', js((await resultOf(page, OWN_RESULT))?.lines) === js(['The Alien wins with Blue.']));
+  await page.close();
+
   // ---------- An update replays nothing it has already played: the strip's stamp and art, a pick's mark ----------
   const strikes = page => page.evaluate(`document.getAnimations().filter(a => a.effect?.target?.closest?.('#bm-strip, [data-board="own"] .bm-piece__pick') && a.playState === 'running').map(a => a.effect.target.className)`);
   for (const scenario of ['shot.registered', 'code.two', 'code.registered', 'supply.second']) {

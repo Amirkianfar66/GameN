@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "25b5c7329ac01a639c895927c592f97dd6705615ed629a978fa3da6ab32250d6",
+  "inputsSha256": "fb2fc9839a0b87a461a2bc897d4509ce137cac577b270c34a01596590f1d1b3b",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
@@ -65,6 +65,42 @@
       "group": "Board",
       "title": "Layout stress: The tallest board: six in Room A, the Captain, two in the Hospital",
       "key": false
+    },
+    {
+      "id": "end.blue",
+      "group": "The end",
+      "title": "Blue wins: the result, the roles and the Code",
+      "key": true
+    },
+    {
+      "id": "end.alien-co",
+      "group": "The end",
+      "title": "Blue wins, and the Alien with Blue",
+      "key": false
+    },
+    {
+      "id": "end.red",
+      "group": "The end",
+      "title": "Red wins",
+      "key": false
+    },
+    {
+      "id": "end.alien",
+      "group": "The end",
+      "title": "The Alien wins",
+      "key": false
+    },
+    {
+      "id": "end.draw",
+      "group": "The end",
+      "title": "A draw after the showdown, in the Final Zone",
+      "key": false
+    },
+    {
+      "id": "end.aborted",
+      "group": "The end",
+      "title": "The host ended the match: no winner, nothing revealed",
+      "key": true
     },
     {
       "id": "tray.open",
@@ -244,6 +280,18 @@
       "id": "showdown.choose",
       "group": "One target",
       "title": "Showdown shot in the Final Zone",
+      "key": true
+    },
+    {
+      "id": "showdown.confirm",
+      "group": "One target",
+      "title": "Showdown shot: the target in the reticle, the special shot",
+      "key": false
+    },
+    {
+      "id": "showdown.registered",
+      "group": "One target",
+      "title": "Showdown shot registered: spent, the target still secret",
       "key": true
     },
     {
@@ -707,6 +755,18 @@
       "about": "320 x 568: the Final Zone"
     },
     {
+      "id": "w320-end",
+      "about": "320 x 568: the end: the winner, the roles and the Code"
+    },
+    {
+      "id": "w320-end-co",
+      "about": "320 x 568: the end: Blue wins, and the Alien with Blue"
+    },
+    {
+      "id": "w320-aborted",
+      "about": "320 x 568: the host ended the match: no winner, nothing revealed"
+    },
+    {
       "id": "w320-hospital",
       "about": "320 x 568: six in the Hospital"
     },
@@ -801,6 +861,14 @@
     {
       "id": "text200-320",
       "about": "320 x 568 at 200% text: a Shot"
+    },
+    {
+      "id": "text200-end",
+      "about": "200% text: the end, the roles and the Code in one column"
+    },
+    {
+      "id": "reduced-end",
+      "about": "Reduced motion: the match ends, the result sheet faded in"
     },
     {
       "id": "safe-idle",
@@ -1158,7 +1226,43 @@
       "trigger": "PHASE_CHANGED with a higher round."
     },
     {
-      "row": "20-cue-sheet-open",
+      "row": "20-cue-end-reveal",
+      "cue": "cue-end-reveal",
+      "title": "The match ends: the result rises, the winner is struck, the roles turn up",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        120,
+        380,
+        600,
+        900
+      ],
+      "play": "finish",
+      "crop": ".bm-app",
+      "token": "motionMs.comicBeatMaximum 900 ms (240 / 260 / 400)",
+      "audience": "public: every screen",
+      "trigger": "A view whose phase is FINISHED, with the result and the end reveal.",
+      "proposal": true
+    },
+    {
+      "row": "21-cue-end-reveal",
+      "cue": "cue-end-reveal",
+      "title": "The host ends the match: the sheet rises with its sentence, nothing revealed",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        120,
+        240
+      ],
+      "play": "abort",
+      "crop": ".bm-app",
+      "token": "motionMs.comicBeatMaximum (its 240 ms opening only)",
+      "audience": "public: every screen",
+      "trigger": "A view whose phase is ABORTED.",
+      "proposal": true
+    },
+    {
+      "row": "22-cue-sheet-open",
       "cue": "cue-sheet-open",
       "title": "The private card opens over the board",
       "scenario": "hack.phase",
@@ -1171,7 +1275,7 @@
       "proposal": true
     },
     {
-      "row": "21-cue-tally",
+      "row": "23-cue-tally",
       "cue": "cue-tally",
       "title": "The published count of a closed vote",
       "scenario": "vote.tally",
@@ -1185,7 +1289,7 @@
       "proposal": true
     },
     {
-      "row": "22-cue-ballot-subject",
+      "row": "24-cue-ballot-subject",
       "cue": "cue-ballot-subject",
       "title": "The subject of a release vote",
       "scenario": "release.vote",
@@ -1312,6 +1416,78 @@
       "id": "board.tightest",
       "state": "board.tightest",
       "file": "design/board-motion/review/states/board.tightest.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.blue",
+      "state": "end.blue",
+      "file": "design/board-motion/review/states/end.blue.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.alien-co",
+      "state": "end.alien-co",
+      "file": "design/board-motion/review/states/end.alien-co.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.red",
+      "state": "end.red",
+      "file": "design/board-motion/review/states/end.red.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.alien",
+      "state": "end.alien",
+      "file": "design/board-motion/review/states/end.alien.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.draw",
+      "state": "end.draw",
+      "file": "design/board-motion/review/states/end.draw.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.aborted",
+      "state": "end.aborted",
+      "file": "design/board-motion/review/states/end.aborted.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -1672,6 +1848,30 @@
       "id": "showdown.choose",
       "state": "showdown.choose",
       "file": "design/board-motion/review/states/showdown.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.confirm",
+      "state": "showdown.confirm",
+      "file": "design/board-motion/review/states/showdown.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.registered",
+      "state": "showdown.registered",
+      "file": "design/board-motion/review/states/showdown.registered.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2652,6 +2852,45 @@
       "matrix": true
     },
     {
+      "id": "w320-end",
+      "state": "end.blue",
+      "file": "design/board-motion/review/matrix/w320-end.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-end-co",
+      "state": "end.alien-co",
+      "file": "design/board-motion/review/matrix/w320-end-co.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-aborted",
+      "state": "end.aborted",
+      "file": "design/board-motion/review/matrix/w320-aborted.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
       "id": "w320-hospital",
       "state": "board.crowded-hospital",
       "file": "design/board-motion/review/matrix/w320-hospital.png",
@@ -2960,6 +3199,32 @@
       "fontPx": 32,
       "names": null,
       "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-end",
+      "state": "end.blue",
+      "file": "design/board-motion/review/matrix/text200-end.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "reduced-end",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/reduced-end.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
       "kind": "matrix",
       "matrix": true
     },
@@ -4572,9 +4837,179 @@
       }
     },
     {
-      "id": "20-cue-sheet-open-0",
+      "id": "20-cue-end-reveal-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 0
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-120",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-120ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 120
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-380",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-380ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 380
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-600",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-600ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 600
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-900ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 900
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 0
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-120",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-120ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 120
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-240",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-240ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 240
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "22-cue-sheet-open-0",
       "state": "hack.phase",
-      "file": "design/board-motion/review/motion/20-cue-sheet-open-0ms.png",
+      "file": "design/board-motion/review/motion/22-cue-sheet-open-0ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -4583,15 +5018,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "20-cue-sheet-open",
+        "row": "22-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": 0
       }
     },
     {
-      "id": "20-cue-sheet-open-reduced",
+      "id": "22-cue-sheet-open-reduced",
       "state": "hack.phase",
-      "file": "design/board-motion/review/motion/20-cue-sheet-open-reduced.png",
+      "file": "design/board-motion/review/motion/22-cue-sheet-open-reduced.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -4600,15 +5035,15 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "20-cue-sheet-open",
+        "row": "22-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": "reduced"
       }
     },
     {
-      "id": "21-cue-tally-0",
+      "id": "23-cue-tally-0",
       "state": "vote.tally",
-      "file": "design/board-motion/review/motion/21-cue-tally-0ms.png",
+      "file": "design/board-motion/review/motion/23-cue-tally-0ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -4617,15 +5052,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "21-cue-tally",
+        "row": "23-cue-tally",
         "cue": "cue-tally",
         "at": 0
       }
     },
     {
-      "id": "21-cue-tally-reduced",
+      "id": "23-cue-tally-reduced",
       "state": "vote.tally",
-      "file": "design/board-motion/review/motion/21-cue-tally-reduced.png",
+      "file": "design/board-motion/review/motion/23-cue-tally-reduced.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -4634,15 +5069,15 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "21-cue-tally",
+        "row": "23-cue-tally",
         "cue": "cue-tally",
         "at": "reduced"
       }
     },
     {
-      "id": "22-cue-ballot-subject-0",
+      "id": "24-cue-ballot-subject-0",
       "state": "release.vote",
-      "file": "design/board-motion/review/motion/22-cue-ballot-subject-0ms.png",
+      "file": "design/board-motion/review/motion/24-cue-ballot-subject-0ms.png",
       "width": 402,
       "height": 605,
       "viewport": "390x844",
@@ -4651,15 +5086,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "22-cue-ballot-subject",
+        "row": "24-cue-ballot-subject",
         "cue": "cue-ballot-subject",
         "at": 0
       }
     },
     {
-      "id": "22-cue-ballot-subject-reduced",
+      "id": "24-cue-ballot-subject-reduced",
       "state": "release.vote",
-      "file": "design/board-motion/review/motion/22-cue-ballot-subject-reduced.png",
+      "file": "design/board-motion/review/motion/24-cue-ballot-subject-reduced.png",
       "width": 402,
       "height": 605,
       "viewport": "390x844",
@@ -4668,7 +5103,7 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "22-cue-ballot-subject",
+        "row": "24-cue-ballot-subject",
         "cue": "cue-ballot-subject",
         "at": "reduced"
       }
@@ -4786,6 +5221,34 @@
       "title": "Hack phase: its own full minute"
     },
     {
+      "id": "secrecy-showdown.registered",
+      "state": "showdown.registered",
+      "file": "design/board-motion/review/secrecy/showdown.registered.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Showdown shot registered: spent, the target still secret"
+    },
+    {
+      "id": "secrecy-end.blue",
+      "state": "end.blue",
+      "file": "design/board-motion/review/secrecy/end.blue.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Blue wins: the result, the roles and the Code"
+    },
+    {
       "id": "vocabulary",
       "state": null,
       "file": "design/board-motion/review/vocabulary.png",
@@ -4799,7 +5262,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-key.png",
       "width": 1600,
-      "height": 4393,
+      "height": 4862,
       "viewport": "1600",
       "contact": true
     },
@@ -4808,7 +5271,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 6559,
+      "height": 6986,
       "viewport": "1600",
       "contact": true
     },
@@ -4817,7 +5280,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-matrix.png",
       "width": 1600,
-      "height": 2513,
+      "height": 2725,
       "viewport": "1600",
       "contact": true
     },
@@ -4826,7 +5289,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-motion.png",
       "width": 1600,
-      "height": 15358,
+      "height": 17599,
       "viewport": "1600",
       "contact": true
     },
@@ -4835,7 +5298,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-secrecy.png",
       "width": 1600,
-      "height": 2886,
+      "height": 3551,
       "viewport": "1600",
       "contact": true
     }

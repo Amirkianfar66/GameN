@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "abilities-0.5.0",
+  "version": "abilities-0.6.0",
   "status": "proposal",
   "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
   "base": {
@@ -1376,96 +1376,149 @@
     {
       "id": "shared-showdown",
       "title": "Final Showdown",
-      "slice": 5,
-      "status": "planned",
+      "slice": 6,
+      "status": "delivered",
       "roles": [
         "any non-eliminated"
       ],
-      "audience": "own target private; results public",
-      "trigger": "No winner after Round 5: everyone left moves to the Final Zone and registers one special shot.",
+      "audience": "own target and special shot private; the resolution public",
+      "trigger": "No winner after Round 5 (final-showdown-decision, option 1): everyone still in the match is in the Final Zone and registers one special shot at a living player other than itself (legalTargets.SHOWDOWN_SHOT).",
       "fields": [
         "phase.kind SHOWDOWN",
         "legalTargets.SHOWDOWN_SHOT",
-        "seats[].location Final Zone"
+        "seats[].location Final Zone",
+        "receipt"
       ],
       "disclosure": [
-        "Targets are secret until resolution; shots resolve in Round 5 order."
+        "Every target stays secret until the shots resolve, one at a time, as the board's public health changes: the same for every cause and from no direction (cue-public-hit).",
+        "The special shot is used when the server accepts it, with no refund and no redirect (V1-20). The view carries no lasting spent shot (the offer simply ends), so nothing outside the receipt draws it spent.",
+        "Role-neutral: every seat in the Final Zone sees the same strip, part for part."
       ],
-      "concept": "A two-row standoff in the Final Zone; each player's own crosshair; the public resolution one hit at a time.",
+      "concept": "The target's chip in the same reticle as an ordinary shot, beside the question; at the start of the detail line the special shot, a caption-yellow round with a double band, full while the server offers it and spent (the ordinary round's dashed outline) on the receipt.",
       "art": [
-        "planned: final-zone backdrop"
+        "dossier-reticle",
+        "dossier-round-special",
+        "dossier-round-spent",
+        "planned: a Final Zone scene (the board draws the Final Zone on the page's paper, halftone and speed lines today)"
       ],
       "motion": {
-        "normal": "The public hits in order.",
-        "reduced": "Markers.",
-        "static": "Words.",
-        "cancel": "Terminal state.",
-        "replay": "Never."
+        "normal": "On the receipt the special shot leaves the strip (the round's 220 ms spend). The public resolution is the board's: one hit at a time, each the same cue.",
+        "reduced": "No beat: the spent outline is drawn.",
+        "static": "The reticle, the round, full or spent, and the words.",
+        "cancel": "As every strip; reduced motion finishes the beat at once.",
+        "replay": "Never: the shot is spent once, for its receipt."
       },
       "states": [
-        "moving to the Final Zone",
-        "choosing",
-        "registered",
-        "resolving",
-        "result"
+        "choosing (the special shot full)",
+        "confirming (the target in the reticle)",
+        "sending",
+        "registered (spent)",
+        "rejected",
+        "unknown",
+        "resolving (public hits on the board)"
       ],
       "copy": {
         "visible": [
-          "the release's words"
+          "Showdown shot",
+          "Choose a target",
+          "Register a showdown shot at Player 5?",
+          "You cannot change or withdraw it here once it is registered.",
+          "Register shot",
+          "Sending your shot to the server…",
+          "Showdown shot at Player 5 registered.",
+          "This is not a result."
         ],
         "accessible": []
       },
       "review": [
-        "design/board-motion/index.html?scenario=showdown.choose"
+        "design/abilities/review/showdown-w390-choose.png",
+        "design/abilities/review/showdown-w320-choose.png",
+        "design/abilities/review/showdown-w390-confirm.png",
+        "design/abilities/review/showdown-w320-confirm.png",
+        "design/abilities/review/showdown-w390-registered.png",
+        "design/abilities/review/showdown-w320-registered.png",
+        "design/abilities/review/showdown-w390-registered-reduced.png",
+        "design/abilities/review/showdown-w390-no-art.png",
+        "design/board-motion/index.html?scenario=showdown.confirm"
       ],
       "dependencies": []
     },
     {
       "id": "shared-end",
       "title": "End of game: roles, the Code and the outcome",
-      "slice": 5,
-      "status": "planned",
+      "slice": 6,
+      "status": "delivered",
       "roles": [
         "any"
       ],
-      "audience": "public, only when finished",
-      "trigger": "phase.kind FINISHED with result and endReveal; ABORTED shows no winner and no reveal.",
+      "audience": "public: every phone and the shared display alike, only when the match is over",
+      "trigger": "phase.kind FINISHED, with result and endReveal; ABORTED, with neither (the contract carries the result and the end reveal at FINISHED only).",
       "fields": [
+        "phase.kind FINISHED or ABORTED",
         "result.winner",
         "result.alienCoWinner",
         "endReveal.roles",
         "endReveal.code"
       ],
       "disclosure": [
-        "Exact roles and the Code only through the finished-game reveal; an abort fabricates no winner and reveals no secret."
+        "The exact roles and the Code only through the finished match's reveal (V1-18), in seat order: never before, and never from a seat's own view. A match the host ended names no winner and reveals nothing.",
+        "No device art and no role hook on the board: the roles are words, each in its side's colour, in the result sheet alone (data-end-faction from the end reveal).",
+        "As in the release, the card and the actions close for good at the end; nothing private is drawn."
       ],
-      "concept": "Every character's card flips to show its device; the Code's four snapshots pinned in seat order; the winning team's banner.",
+      "concept": "A result sheet over the lower board, the same on every screen: the winner struck on a ribbon in its side's colour, the Alien's co-win beneath it; the release's table of roles drawn as a cast list in two columns, each seat's character, its label and its role in its side's colour, the Code's four pinned with a punched card; the Code's sentence in seat order. A match the host ended: its sentence alone, on plain paper.",
       "art": [
-        "approved: device-*",
-        "planned: winner-banner"
+        "approved: piece-crew-card-c1 to c9 (public)",
+        "CSS: the ribbon, the cast list, the Code's pin"
       ],
       "motion": {
-        "normal": "Cards flip in seat order 120 ms apart.",
-        "reduced": "At rest.",
-        "static": "Words.",
-        "cancel": "None: terminal.",
-        "replay": "At rest after a reconnect."
+        "normal": "cue-end-reveal, motionMs.comicBeatMaximum 900 ms: the sheet rises (240 ms), the winner is struck (260 ms), the rows turn up one after another, each Code pin stamped, and the Code's sentence comes last (400 ms). An ended match: the rise alone.",
+        "reduced": "The 80 ms fade of the whole sheet.",
+        "static": "The sheet with every word, at rest.",
+        "cancel": "A reconnect, the page going to the background or reduced motion switched on: the sheet stands as it is at once.",
+        "replay": "Never: not for a page that loads at the end, a duplicate snapshot, a reconnect or the menu closing."
       },
       "states": [
         "Blue wins",
-        "Red wins (Code)",
-        "Alien solo",
-        "Blue with the Alien",
-        "Draw",
-        "Aborted"
+        "Blue wins, the Alien with Blue",
+        "Red wins",
+        "The Alien wins",
+        "A draw",
+        "Ended by the host"
       ],
       "copy": {
         "visible": [
-          "the release's words"
+          "Result",
+          "Blue wins.",
+          "Red wins.",
+          "The Alien wins.",
+          "Nobody wins. The match is a draw.",
+          "The Alien wins with Blue.",
+          "The host ended this match. There is no winner.",
+          "Roles",
+          "The Code was: Player 1, Player 4, Player 6, Player 8.",
+          "Match finished",
+          "Match ended by the host"
         ],
-        "accessible": []
+        "accessible": [
+          "Player",
+          "Role",
+          "This phase has no timer"
+        ]
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/end-w390-blue.png",
+        "design/abilities/review/end-w320-blue.png",
+        "design/abilities/review/end-w390-aborted.png",
+        "design/abilities/review/end-w320-aborted.png",
+        "design/abilities/review/end-w390-alien-co.png",
+        "design/abilities/review/end-w390-red.png",
+        "design/abilities/review/end-w390-alien.png",
+        "design/abilities/review/end-w390-draw.png",
+        "design/abilities/review/end-w390-text200-blue.png",
+        "design/abilities/review/end-w390-reduced.png",
+        "design/abilities/review/end-w390-no-art.png",
+        "design/board-motion/index.html?scenario=end.blue"
+      ],
       "dependencies": []
     },
     {

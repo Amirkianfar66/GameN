@@ -21,6 +21,7 @@ import { alienFile, BEAT_ID, clipIn, codeCard, hackerFile, printFresh, punch, sc
 import { cell, deliveries, discharge, drain, dropIn, rescueKit, supplyTags, target, tie, vials } from '../../abilities/js/tools.js';
 import { crack, guardNotes, rounds, spend, weaponsNote } from '../../abilities/js/guard.js';
 import { ballotBox, ballotSlip, connect, hackLink, handOn, post, speakingTurn } from '../../abilities/js/ballot.js';
+import { specialShot } from '../../abilities/js/finale.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -45,6 +46,8 @@ const ROLE_LOOK = {
 const TRAY_ORDER = ['shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote'];
 const SEAT_KINDS = ['shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-shot', 'vote', 'release-choice'];
 const PARTS = { scan: 1, supply: 2, code: 4 };
+// A match's two ends: the view's phase is FINISHED (a winner, the roles and the Code) or ABORTED (none of them).
+const TERMINAL = ['FINISHED', 'ABORTED'];
 const ICON = { shot: '◎', disable: '⊘', protect: '◇', rescue: '+', hack: '⌁', 'showdown-shot': '◎', scan: '?', supply: '⇄', code: '#', vote: '✓', 'release-choice': '⌂', 'release-vote': '✓' };
 
 // ---------- state ----------
@@ -73,7 +76,9 @@ const offers = () => S.private.offers;
 const seatsPicked = () => S.flow.picked.filter(value => typeof value === 'number');
 const voteOn = () => (S.public.phase.kind === 'CAPTAIN_ELECTION' || S.public.phase.kind === 'JAIL_VOTE' ? S.public.phase.kind : 'other');
 const releaseSubject = () => (S.public.ballot?.release ? whoIs(S.public.ballot.release) : null);
-const paused = () => S.banner === 'stale' || S.timer <= 0;
+const ended = () => TERMINAL.includes(S.public.phase.kind);
+// A finished match has no timer to run out: its end is never a pause.
+const paused = () => S.banner === 'stale' || (S.timer <= 0 && !ended());
 const privateVisible = () => !S.concealed && !S.disposed && document.visibilityState === 'visible' && !paused();
 
 function offerSeats(kind) {
@@ -280,6 +285,22 @@ function deliver(fact) {
       if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
       S.private.offers.pass = S.public.active === VIEWER;
     }
+    if (fact.type === 'MATCH_ENDED') {
+      // The view's phase turns FINISHED, with the winner the server names and the end reveal, or ABORTED, with
+      // neither (the contract's terminal view): no timer, no active seat, no ballot, nothing offered. As in the
+      // release, nothing private is drawn any more (the card and the actions are disabled): a choice in progress,
+      // even a receipt, leaves the strip, and an open card or tray closes.
+      S.public.phase = { kind: fact.phase, seconds: 0 };
+      S.timer = 0;
+      S.public.active = null;
+      S.public.ballot = null;
+      S.public.result = fact.phase === 'FINISHED' ? fact.result : null;
+      S.public.endReveal = fact.phase === 'FINISHED' ? fact.endReveal : null;
+      S.private.offers = { pass: false, move: [] };
+      S.flow = { step: 'idle' };
+      if (S.view === 'card' || S.view === 'actions') S.view = 'board';
+      announce.public.push(fact.phase === 'ABORTED' ? COPY.result.aborted : COPY.result.winner[fact.result.winner]);
+    }
   }
   render({ previous, kind });
 }
@@ -291,19 +312,21 @@ const status = h('header', { class: 'bm-status', 'data-cue-at': 'phase' });
 const strip = h('section', { class: 'bm-strip', id: 'bm-strip', 'aria-live': 'polite', hidden: true });
 const tray = h('section', { class: 'bm-tray', id: 'bm-tray', 'aria-labelledby': 'bm-tray-heading', hidden: true });
 const card = h('section', { class: 'bm-sheet', id: 'bm-card', 'aria-labelledby': 'bm-card-heading', hidden: true });
+// The match's end, public: on this phone, on every other one and on the shared display alike.
+const result = h('section', { class: 'bm-result', id: 'bm-result', 'aria-labelledby': 'bm-result-heading', tabindex: '0', hidden: true });
 const menu = h('section', { class: 'bm-sheet', id: 'bm-menu', 'aria-labelledby': 'bm-menu-heading', hidden: true });
 const nav = h('nav', { class: 'bm-nav', 'aria-label': SHELL.navigation });
 const live = h('div', { class: 'bm-vh', 'aria-live': 'polite', id: 'bm-live' });
 const livePrivate = h('div', { class: 'bm-vh', 'aria-live': 'polite', id: 'bm-live-private', 'data-private': 'true' });
 const boardHost = h('div', { class: 'bm-board-host', style: { display: 'contents' } });
-phone.append(h('p', { class: 'bm-synthetic' }, 'Synthetic'), status, boardHost, strip, nav, tray, card, menu, live, livePrivate);
+phone.append(h('p', { class: 'bm-synthetic' }, 'Synthetic'), status, boardHost, strip, result, nav, tray, card, menu, live, livePrivate);
 const board = createBoard(boardHost, { interactive: true, viewer: VIEWER });
 const fx = h('div', { class: 'bm-fx', 'aria-hidden': 'true' });
 board.element.append(fx);
 // Every cue either board plays, for the flows tool to count (dev-only): replays and reconnects must add none.
 const cueLog = [];
 window.__bmCues = cueLog;
-const director = createDirector({ board, status, fx, hold: params.has('t'), reduced: () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches, onCue: entry => cueLog.push({ board: 'own', ...entry }) });
+const director = createDirector({ board, status, fx, result, hold: params.has('t'), reduced: () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches, onCue: entry => cueLog.push({ board: 'own', ...entry }) });
 
 // The observer: what every other phone and the shared display draw at the same moment.
 let observer = null;
@@ -311,14 +334,15 @@ function buildObserver(container) {
   const app = h('div', { class: 'bm-app', 'data-frame': 'phone', 'data-observer': 'true' });
   const ostatus = h('header', { class: 'bm-status' });
   const host = h('div', { style: { display: 'contents' } });
-  app.append(ostatus, host);
+  const oresult = h('section', { class: 'bm-result', 'aria-labelledby': 'bm-oresult-heading', hidden: true });
+  app.append(ostatus, host, oresult);
   // The other screens' phone, in a frame of its own size: what every other player and the display draw.
   container.append(h('div', { class: 'bm-frame' }, app));
   const oboard = createBoard(host, { interactive: false, viewer: null, label: PROPOSED.observerTitle });
   const ofx = h('div', { class: 'bm-fx', 'aria-hidden': 'true' });
   oboard.element.append(ofx);
-  const odirector = createDirector({ board: oboard, status: ostatus, fx: ofx, hold: params.has('t'), reduced: () => S.motion === 'reduced', onCue: entry => cueLog.push({ board: 'observer', ...entry }) });
-  return { app, status: ostatus, board: oboard, director: odirector };
+  const odirector = createDirector({ board: oboard, status: ostatus, fx: ofx, result: oresult, hold: params.has('t'), reduced: () => S.motion === 'reduced', onCue: entry => cueLog.push({ board: 'observer', ...entry }) });
+  return { app, status: ostatus, board: oboard, result: oresult, director: odirector };
 }
 
 function drawStatus(target) {
@@ -327,10 +351,15 @@ function drawStatus(target) {
   const line = phase.kind === 'ORDINARY_TURN' ? (active === VIEWER && own ? COPY.phase.yourTurn : `${nameOf(active)}’s turn`) : COPY.phase.kind[phase.kind];
   const detail = phase.kind === 'ORDINARY_TURN' ? `Player ${active} · ${seatOf(active)?.location ?? ''}` : COPY.phase.round(round);
   const seconds = Math.max(0, S.timer);
+  const over = TERMINAL.includes(phase.kind);
+  // At the end the phase's words may take both lines ("Match ended by the host"): the round is in its chip already.
+  if (over) target.dataset.over = 'true'; else delete target.dataset.over;
   put(target,
     h('span', { class: 'bm-status__round' }, COPY.phase.round(round)),
-    h('div', { class: 'bm-status__phase' }, h('p', { class: 'bm-status__line' }, line), h('p', { class: 'bm-status__detail' }, seconds === 0 ? COPY.timer.waiting : detail)),
-    h('span', { class: 'bm-timer', role: 'timer', 'aria-label': `${COPY.timer.label}: ${seconds} seconds`, 'data-final': String(seconds <= 10) }, `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`));
+    h('div', { class: 'bm-status__phase' }, h('p', { class: 'bm-status__line' }, line), over ? null : h('p', { class: 'bm-status__detail' }, seconds === 0 ? COPY.timer.waiting : detail)),
+    // A finished or ended match has no deadline (the contract's terminal phase): the release says so instead of a count.
+    over ? h('span', { class: 'bm-timer', 'data-state': 'none' }, h('span', { 'aria-hidden': 'true' }, '–'), vh(COPY.timer.none))
+      : h('span', { class: 'bm-timer', role: 'timer', 'aria-label': `${COPY.timer.label}: ${seconds} seconds`, 'data-final': String(seconds <= 10) }, `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`));
 }
 
 function boardCues() {
@@ -368,6 +397,8 @@ function stripContent() {
     : kind === 'rescue' && one ? target(one, 'cross')
     : kind === 'disable' && one ? target(one, 'spark')
     : kind === 'shot' && one ? target(one, 'reticle')
+    // The showdown's special shot takes the same reticle: every seat in the Final Zone shoots alike.
+    : kind === 'showdown-shot' && one ? target(one, 'reticle')
     : kind === 'protect' && one ? target(one, 'shield')
     // The seat's own ballot: its pick ticked, a release vote's subject ticked or crossed, or a blank slip for an abstention;
     // a Hack's request (the asked player in the comms ring).
@@ -390,6 +421,8 @@ function stripContent() {
     // the Captain's release request, the jailed player in the key ring, small (its long label leaves the question too little width beside it).
     : kind === 'vote' || kind === 'release-vote' ? ballotBox({ posted: step === 'accepted' })
     : kind === 'release-choice' && one ? target(one, 'key')
+    // The showdown's one special shot: full while offered, spent on its receipt (V1-20: used at registration, no refund).
+    : kind === 'showdown-shot' ? specialShot({ spent: step === 'accepted' })
     : kind === 'pass' ? speakingTurn({ passed: step === 'accepted' }) : null;
   const withArt = words => (art === null || inlineArt ? words : kind === 'code' ? [...words, art] : [art, ...words]);
   if (step === 'choosing') {
@@ -509,6 +542,7 @@ function stripBeats(was, now) {
   if (receipt && now.kind === 'disable') discharge(strip.querySelector('.ab-cell'));
   if (receipt && (now.kind === 'vote' || now.kind === 'release-vote')) post(strip.querySelector('.ab-box'));
   if (receipt && now.kind === 'pass') handOn(strip.querySelector('.ab-mic'));
+  if (receipt && now.kind === 'showdown-shot') spend(strip.querySelector('.ab-special'));
   // A round leaves the rack when the view's weapon count falls, never ahead of it.
   if (now.kind === 'shot' && now.weapons !== null && was.weapons !== null && now.weapons < was.weapons) {
     for (const round of [...strip.querySelectorAll('.ab-round[data-spent="true"]')].slice(-(was.weapons - now.weapons))) spend(round);
@@ -694,10 +728,52 @@ function drawMenu() {
     h('label', { class: 'bm-hint' }, h('input', { type: 'checkbox', 'data-act': 'motion', checked: S.motion === 'reduced' }), ' Reduce motion'));
 }
 
+/** Each role's side, for the colour of its name in the end's cast list: the role look the release keeps (ROLE_LOOK). */
+const sideOf = role => (ROLE_LOOK[role]?.[1] ?? '').toLowerCase();
+/**
+ * The match's end, the same on every screen (the release's result, packages/presentation/src/model/result.ts): the
+ * winner the server names, struck on a ribbon, and the Alien's co-win; then, only because the view now carries them
+ * (V1-18: the roles and the Code at the end only), every seat's role in seat order, each row with the seat's character
+ * and its side's colour, and the Code in seat order, its four rows pinned. A match the host ended says so, and
+ * reveals nothing: the view carries neither. Drawn from the public view alone; own: this phone, which names its
+ * seat "(you)" as the release does; the other screens name nobody so.
+ */
+function drawResult(target, { own }) {
+  const { phase, round, result: outcome, endReveal } = S.public;
+  if (!TERMINAL.includes(phase.kind)) { target.hidden = true; put(target); forget(target); return; }
+  // The menu covers it on this phone, as the release hides it behind its menu; it is drawn again as it was.
+  target.hidden = own && S.view === 'menu';
+  if (keep(target, JSON.stringify([phase.kind, round, outcome, endReveal, S.public.seats.map(seat => seat.character)]))) return;
+  const finished = phase.kind === 'FINISHED' && outcome !== null;
+  const heading = own ? 'bm-result-heading' : 'bm-oresult-heading';
+  const label = n => (own && n === VIEWER ? `Player ${n} (you)` : `Player ${n}`);
+  target.dataset.ended = finished ? 'finished' : 'aborted';
+  if (finished) target.dataset.winner = outcome.winner; else delete target.dataset.winner;
+  const roles = endReveal ? [...endReveal.roles].sort((a, b) => a.seat - b.seat) : [];
+  const code = endReveal ? [...endReveal.code].sort((a, b) => a - b) : [];
+  put(target,
+    h('div', { class: 'bm-result__head' },
+      h('h2', { class: 'bm-result__heading', id: heading, tabindex: '-1' }, COPY.result.heading),
+      h('p', { class: 'bm-result__outcome' }, finished ? COPY.result.winner[outcome.winner] : COPY.result.aborted),
+      finished && outcome.alienCoWinner ? h('p', { class: 'bm-result__line' }, COPY.result.alienCoWinner) : null),
+    endReveal ? [
+      // A table, as in the release, drawn as a cast list in two columns: its roles keep the table's meaning.
+      h('table', { class: 'bm-cast', role: 'table', 'aria-labelledby': `${heading}-roles` },
+        h('caption', { class: 'bm-cast__caption', id: `${heading}-roles` }, COPY.result.revealHeading),
+        h('thead', { class: 'bm-vh', role: 'rowgroup' }, h('tr', { role: 'row' }, h('th', { scope: 'col', role: 'columnheader' }, COPY.result.columns.player), h('th', { scope: 'col', role: 'columnheader' }, COPY.result.columns.role))),
+        h('tbody', { class: 'bm-cast__rows', role: 'rowgroup' }, roles.map((entry, index) => h('tr', { class: 'bm-cast__row', role: 'row', 'data-seat': entry.seat, 'data-end-faction': sideOf(entry.role), 'data-code': String(code.includes(entry.seat)), 'data-self': own && entry.seat === VIEWER ? 'true' : null, style: { '--i': index } },
+          h('th', { class: 'bm-cast__who', scope: 'row', role: 'rowheader' }, h('span', { class: 'bm-cast__chip', 'data-character': seatOf(entry.seat)?.character, 'aria-hidden': 'true' }), h('span', { class: 'bm-cast__label' }, label(entry.seat))),
+          h('td', { class: 'bm-cast__role', role: 'cell' }, h('span', { class: 'bm-cast__name' }, entry.role), code.includes(entry.seat) ? h('span', { class: 'bm-cast__pin', 'aria-hidden': 'true' }) : null))))),
+      h('p', { class: 'bm-result__code' }, h('span', { class: 'bm-cast__pin', 'aria-hidden': 'true' }), COPY.result.code(code.map(label).join(', '))),
+    ] : null);
+}
+
 function drawNav() {
-  const item = (view, label, icon) => h('button', { type: 'button', 'data-view': view, 'aria-pressed': String(S.view === view), id: `bm-nav-${view}` }, h('span', { class: 'bm-nav__icon', 'data-icon': icon, 'aria-hidden': 'true' }), h('span', null, label));
+  // At the match's end the card and the actions are closed for good, as in the release; marked, not removed, so that focus stays.
+  const over = ended();
+  const item = (view, label, icon) => h('button', { type: 'button', 'data-view': view, 'aria-pressed': String(S.view === view), id: `bm-nav-${view}`, 'aria-disabled': over && (view === 'card' || view === 'actions') ? 'true' : null }, h('span', { class: 'bm-nav__icon', 'data-icon': icon, 'aria-hidden': 'true' }), h('span', null, label));
   const available = passAvailable();
-  if (keep(nav, JSON.stringify([S.view, available, S.legacy]))) return;
+  if (keep(nav, JSON.stringify([S.view, available, S.legacy, over]))) return;
   put(nav, item('board', SHELL.nav.board, 'board'), item('actions', SHELL.nav.actions, 'actions'),
     S.legacy ? h('span', { 'aria-hidden': 'true' }) : h('button', { type: 'button', class: 'bm-pass', id: 'bm-pass', 'data-act': 'pass', 'aria-label': SHELL.passLabel, 'aria-disabled': String(!available) },
       h('span', { class: 'bm-nav__icon', 'data-icon': 'pass', 'aria-hidden': 'true' }), h('span', null, 'Pass')),
@@ -716,9 +792,12 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   document.documentElement.dataset.motion = S.motion;
   drawStatus(status);
   board.update(S.public, boardCues());
-  drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav();
-  // Reduced motion, switched on mid-beat, leaves the strip's art at rest at once.
-  if (reducedNow()) for (const animation of strip.getAnimations({ subtree: true })) if (animation.id === BEAT_ID) animation.finish();
+  drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav(); drawResult(result, { own: true });
+  // Reduced motion, switched on mid-beat, leaves the strip's art at rest at once, and the end's sheet as it stands.
+  if (reducedNow()) {
+    for (const animation of strip.getAnimations({ subtree: true })) if (animation.id === BEAT_ID) animation.finish();
+    for (const sheet of [result, observer?.result]) if (sheet?.dataset.cue === 'reveal') delete sheet.dataset.cue;
+  }
   fitBoard(board);
   phone.querySelector('.bm-notice')?.remove();
   phone.querySelector('.bm-banner')?.remove();
@@ -729,6 +808,7 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   if (observer) {
     drawStatus(observer.status);
     observer.board.update(S.public, {});
+    drawResult(observer.result, { own: false });
     fitBoard(observer.board);
     if (previous) observer.director.after(previous, S.public, obefore, { kind: cueKind, revision: S.revision });
   }
@@ -739,7 +819,7 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   if (focus === 'strip') document.getElementById('bm-strip-line')?.focus({ preventScroll: true });
   if (focus === 'nav') document.getElementById('bm-nav-actions')?.focus({ preventScroll: true });
   if (focus === 'sheet') phone.querySelector('.bm-sheet:not([hidden]) h2, .bm-tray:not([hidden]) h2')?.focus({ preventScroll: true });
-  window.__bmState = { scenario: S.scenarioId, flow: S.flow, view: S.view, active: S.public.active, revision: S.revision,
+  window.__bmState = { scenario: S.scenarioId, phase: S.public.phase.kind, flow: S.flow, view: S.view, active: S.public.active, revision: S.revision,
     concealed: S.concealed, disposed: S.disposed, requests: { ...S.requests } };
 }
 
@@ -820,6 +900,7 @@ phone.addEventListener('click', event => {
   const choose = target.closest('button[data-intent="action/choose"]');
   if (choose) { pick(Number(choose.dataset.value.slice(5))); return; }
   const view = target.closest('button[data-view]');
+  if (view?.getAttribute('aria-disabled') === 'true') return;
   if (view) {
     const next = view.dataset.view === S.view && view.dataset.view !== 'board' ? 'board' : view.dataset.view;
     if (next === 'card' || next === 'actions') {
@@ -946,7 +1027,7 @@ if (chrome) {
   if (params.get('safe') === '1') { phone.style.setProperty('--bm-safe-top', '47px'); phone.style.setProperty('--bm-safe-bottom', '34px'); }
 }
 render();
-if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && S.public.phase.kind !== 'FINISHED') { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) { conceal(); render(); } } }, 1000);
+if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && !ended()) { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) { conceal(); render(); } } }, 1000);
 
 // ---------- holds for storyboards and captures: ?play=<step>&t=<ms> ----------
 const PLAY = {
@@ -965,6 +1046,9 @@ const PLAY = {
   captain: () => deliver(EVENTS.find(e => e.id === 'captain').fact),
   phase: () => deliver(EVENTS.find(e => e.id === 'phase').fact),
   round: () => deliver(EVENTS.find(e => e.id === 'round').fact),
+  // The match's end: Blue wins (the result, the roles and the Code), or the host ends it (nothing revealed).
+  finish: () => deliver(EVENTS.find(e => e.id === 'finish').fact),
+  abort: () => deliver(EVENTS.find(e => e.id === 'abort').fact),
   replay: () => { deliver(EVENTS.find(e => e.id === 'move').fact); deliver({ type: 'REPLAY' }); },
   pick: () => { const first = offerSeats(S.flow.kind).find(n => !seatsPicked().includes(n)); if (first) pick(first); },
   register: () => confirm(),

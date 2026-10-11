@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.5.0 · proposal
+`mothership:dev-only` · abilities-0.6.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 16 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 18 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote; Final Showdown; End of game: roles, the Code and the outcome). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -48,8 +48,8 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | [Pass turn](#shared-pass) | any | own control; the phase change public | 5 | delivered |
 | [Captain election, Jail vote, release request and release vote](#shared-votes) | any | own ballot private; the tally public, the board's | 5 | delivered |
 | [Injury, elimination and recovery; Hospital, Jail and Command transitions](#shared-health) | any | public | 5 | planned |
-| [Final Showdown](#shared-showdown) | any non-eliminated | own target private; results public | 5 | planned |
-| [End of game: roles, the Code and the outcome](#shared-end) | any | public, only when finished | 5 | planned |
+| [Final Showdown](#shared-showdown) | any non-eliminated | own target and special shot private; the resolution public | 6 | delivered |
+| [End of game: roles, the Code and the outcome](#shared-end) | any | public: every phone and the shared display alike, only when the match is over | 6 | delivered |
 | [Unavailable actions, rejection, missing assets and reconnecting](#shared-failure) | any | own | 5 | planned |
 
 <a id="insider-file"></a>
@@ -765,63 +765,69 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Final Showdown
 
-`shared-showdown` · slice 5 · **planned** · any non-eliminated · own target private; results public
+`shared-showdown` · slice 6 · **delivered** · any non-eliminated · own target and special shot private; the resolution public
 
-**Trigger.** No winner after Round 5: everyone left moves to the Final Zone and registers one special shot.
+**Trigger.** No winner after Round 5 (final-showdown-decision, option 1): everyone still in the match is in the Final Zone and registers one special shot at a living player other than itself (legalTargets.SHOWDOWN_SHOT).
 
-**View fields.** `phase.kind SHOWDOWN`, `legalTargets.SHOWDOWN_SHOT`, `seats[].location Final Zone`
+**View fields.** `phase.kind SHOWDOWN`, `legalTargets.SHOWDOWN_SHOT`, `seats[].location Final Zone`, `receipt`
 
 **What it must show, and never show.**
 
-- Targets are secret until resolution; shots resolve in Round 5 order.
+- Every target stays secret until the shots resolve, one at a time, as the board's public health changes: the same for every cause and from no direction (cue-public-hit).
+- The special shot is used when the server accepts it, with no refund and no redirect (V1-20). The view carries no lasting spent shot (the offer simply ends), so nothing outside the receipt draws it spent.
+- Role-neutral: every seat in the Final Zone sees the same strip, part for part.
 
-**Concept.** A two-row standoff in the Final Zone; each player's own crosshair; the public resolution one hit at a time.
+**Concept.** The target's chip in the same reticle as an ordinary shot, beside the question; at the start of the detail line the special shot, a caption-yellow round with a double band, full while the server offers it and spent (the ordinary round's dashed outline) on the receipt.
 
-**Art.** planned: final-zone backdrop
+**Art.** dossier-reticle; dossier-round-special; dossier-round-spent; planned: a Final Zone scene (the board draws the Final Zone on the page's paper, halftone and speed lines today)
 
 | Motion | |
 | --- | --- |
-| normal | The public hits in order. |
-| reduced | Markers. |
-| static | Words. |
-| cancel | Terminal state. |
-| replay | Never. |
+| normal | On the receipt the special shot leaves the strip (the round's 220 ms spend). The public resolution is the board's: one hit at a time, each the same cue. |
+| reduced | No beat: the spent outline is drawn. |
+| static | The reticle, the round, full or spent, and the words. |
+| cancel | As every strip; reduced motion finishes the beat at once. |
+| replay | Never: the shot is spent once, for its receipt. |
 
-**States.** moving to the Final Zone; choosing; registered; resolving; result
+**States.** choosing (the special shot full); confirming (the target in the reticle); sending; registered (spent); rejected; unknown; resolving (public hits on the board)
 
-**Words.** “the release's words”
+**Words.** “Showdown shot”, “Choose a target”, “Register a showdown shot at Player 5?”, “You cannot change or withdraw it here once it is registered.”, “Register shot”, “Sending your shot to the server…”, “Showdown shot at Player 5 registered.”, “This is not a result.”
 
-**Review.** `design/board-motion/index.html?scenario=showdown.choose`
+**Review.** `design/abilities/review/showdown-w390-choose.png`, `design/abilities/review/showdown-w320-choose.png`, `design/abilities/review/showdown-w390-confirm.png`, `design/abilities/review/showdown-w320-confirm.png`, `design/abilities/review/showdown-w390-registered.png`, `design/abilities/review/showdown-w320-registered.png`, `design/abilities/review/showdown-w390-registered-reduced.png`, `design/abilities/review/showdown-w390-no-art.png`, `design/board-motion/index.html?scenario=showdown.confirm`
 
 <a id="shared-end"></a>
 
 ### End of game: roles, the Code and the outcome
 
-`shared-end` · slice 5 · **planned** · any · public, only when finished
+`shared-end` · slice 6 · **delivered** · any · public: every phone and the shared display alike, only when the match is over
 
-**Trigger.** phase.kind FINISHED with result and endReveal; ABORTED shows no winner and no reveal.
+**Trigger.** phase.kind FINISHED, with result and endReveal; ABORTED, with neither (the contract carries the result and the end reveal at FINISHED only).
 
-**View fields.** `result.winner`, `result.alienCoWinner`, `endReveal.roles`, `endReveal.code`
+**View fields.** `phase.kind FINISHED or ABORTED`, `result.winner`, `result.alienCoWinner`, `endReveal.roles`, `endReveal.code`
 
 **What it must show, and never show.**
 
-- Exact roles and the Code only through the finished-game reveal; an abort fabricates no winner and reveals no secret.
+- The exact roles and the Code only through the finished match's reveal (V1-18), in seat order: never before, and never from a seat's own view. A match the host ended names no winner and reveals nothing.
+- No device art and no role hook on the board: the roles are words, each in its side's colour, in the result sheet alone (data-end-faction from the end reveal).
+- As in the release, the card and the actions close for good at the end; nothing private is drawn.
 
-**Concept.** Every character's card flips to show its device; the Code's four snapshots pinned in seat order; the winning team's banner.
+**Concept.** A result sheet over the lower board, the same on every screen: the winner struck on a ribbon in its side's colour, the Alien's co-win beneath it; the release's table of roles drawn as a cast list in two columns, each seat's character, its label and its role in its side's colour, the Code's four pinned with a punched card; the Code's sentence in seat order. A match the host ended: its sentence alone, on plain paper.
 
-**Art.** approved: device-*; planned: winner-banner
+**Art.** approved: piece-crew-card-c1 to c9 (public); CSS: the ribbon, the cast list, the Code's pin
 
 | Motion | |
 | --- | --- |
-| normal | Cards flip in seat order 120 ms apart. |
-| reduced | At rest. |
-| static | Words. |
-| cancel | None: terminal. |
-| replay | At rest after a reconnect. |
+| normal | cue-end-reveal, motionMs.comicBeatMaximum 900 ms: the sheet rises (240 ms), the winner is struck (260 ms), the rows turn up one after another, each Code pin stamped, and the Code's sentence comes last (400 ms). An ended match: the rise alone. |
+| reduced | The 80 ms fade of the whole sheet. |
+| static | The sheet with every word, at rest. |
+| cancel | A reconnect, the page going to the background or reduced motion switched on: the sheet stands as it is at once. |
+| replay | Never: not for a page that loads at the end, a duplicate snapshot, a reconnect or the menu closing. |
 
-**States.** Blue wins; Red wins (Code); Alien solo; Blue with the Alien; Draw; Aborted
+**States.** Blue wins; Blue wins, the Alien with Blue; Red wins; The Alien wins; A draw; Ended by the host
 
-**Words.** “the release's words”
+**Words.** “Result”, “Blue wins.”, “Red wins.”, “The Alien wins.”, “Nobody wins. The match is a draw.”, “The Alien wins with Blue.”, “The host ended this match. There is no winner.”, “Roles”, “The Code was: Player 1, Player 4, Player 6, Player 8.”, “Match finished”, “Match ended by the host”. Accessible: “Player”, “Role”, “This phase has no timer”
+
+**Review.** `design/abilities/review/end-w390-blue.png`, `design/abilities/review/end-w320-blue.png`, `design/abilities/review/end-w390-aborted.png`, `design/abilities/review/end-w320-aborted.png`, `design/abilities/review/end-w390-alien-co.png`, `design/abilities/review/end-w390-red.png`, `design/abilities/review/end-w390-alien.png`, `design/abilities/review/end-w390-draw.png`, `design/abilities/review/end-w390-text200-blue.png`, `design/abilities/review/end-w390-reduced.png`, `design/abilities/review/end-w390-no-art.png`, `design/board-motion/index.html?scenario=end.blue`
 
 <a id="shared-failure"></a>
 
@@ -857,7 +863,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ## The kit
 
-Manifest `abilities-0.5.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 30318 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.6.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 31033 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
@@ -901,4 +907,5 @@ Manifest `abilities-0.5.0` (proposal), against the reviewed manifest `design-0.2
 | `dossier-cord` | 0.1.0 | 64 x 24 | from [2,12]; to [62,12] | 1397 | `2a5c25ce5d0e` | Between the two chips of a Hack's partners, in each partner's own card while the server says they are in one. |
 | `dossier-mic` | 0.1.0 | 22 x 36 | base [11,34] | 1294 | `2e0f3ce5726b` | The speaking turn, held: at the start of the seat's own Pass strip. |
 | `dossier-mic-passed` | 0.1.0 | 22 x 36 | base [11,34] | 888 | `4a4db3f93a61` | The speaking turn handed on: drawn once the server accepts Pass. |
+| `dossier-round-special` | 0.1.0 | 14 x 30 | base [7,28] | 1073 | `da88eeb99730` | The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it. |
 

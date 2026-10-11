@@ -30,7 +30,7 @@ npm run dev:review --workspace @mothership/design-tokens   # serves design/ on h
 
 Crowded-room scenarios are marked **layout stress** on the phone and in the selector: six or more in one room is beyond the owner's capacity of five (a hard rule since 11 October 2026, not yet enforced by the engine), kept to show the board still draws such a view. A full room's tag says FULL (`move.full`). The offer guard checks static engine predicates, not resources or an engine-reachable match history.
 
-The controls on the right are the prototype's own, not the design: pick a scenario, choose how the stand-in server answers the next command (accept, reject, lose the answer, slow), deliver public facts to every screen (a move, a health change, a new Captain, the next turn or round, a replay of the last snapshot, a reconnect), and switch reduced motion or long names. On the phone, everything works: Actions, every action, every character, room tags, Pass, Card, Menu, Escape.
+The controls on the right are the prototype's own, not the design: pick a scenario, choose how the stand-in server answers the next command (accept, reject, lose the answer, slow), deliver public facts to every screen (a move, a health change, a new Captain, the next turn or round, the match's end, a replay of the last snapshot, a reconnect) and private facts to the seat alone (a Protection granted or used up), and switch reduced motion or long names. On the phone, everything works: Actions, every action, every character, room tags, Pass, Card, Menu, Escape.
 
 ## What is in it
 
@@ -42,11 +42,11 @@ The controls on the right are the prototype's own, not the design: pick a scenar
 | `scenes/` | The five rooms as scenes: `kit.mjs` (the drawing of decks, props and light), one module a room (its approved groups, its props, its 21 places' points, scales, depths, gestures and falls, the layers drawn in front of a place), `compose.mjs` (lifts the approved groups and recolors them), `frame.mjs` (how a scene is framed in a panel of any size, and its press areas) |
 | `figures/` | The figures' drawing rig: `rig.mjs` (ink, cel shadow, halftone, hatching), `crew.mjs` (the nine characters, in `color.crew`, front and back heads), `parts.mjs` (hands, boots, held things), `body.mjs` (a skeleton drawn as a body), `gestures.mjs` (27 gestures; the marks `+injured` and `+still`), `motion.mjs` (blending, the walk, the jolt, flinch and fall, and the timelines), `plan.mjs` (the review sheets) |
 | `lab/` | The figure lab: gestures for all nine, a scene with its places taken, an animation as a row of frames |
-| `js/director.js` | Public cues from the difference between two drawn views: moves (out of the place, the walk, into the new one), hits, status changes, turn, phase, round |
+| `js/director.js` | Public cues from the difference between two drawn views: moves (out of the place, the walk, into the new one), hits, status changes, turn, phase, round, the match's end |
 | `js/copy.js` | The release's words (`COPY`, compared with the built `en`; `SHELL`, found verbatim), and the new words (`PROPOSED`) |
-| `js/fixtures.js` | 65 synthetic scenarios, the nine characters, and the public facts the panel delivers |
+| `js/fixtures.js` | 117 synthetic scenarios, the nine characters, and the public and private facts the panel delivers |
 | `js/vocabulary.js`, `vocabulary.html` | Nine characters in eleven states, drawn by the rig as the board draws them |
-| `css/board.css` | Tokens only, art only behind the bundle marks, private cues only on the own board, roles only inside the card, nothing repeats |
+| `css/board.css` | Tokens only, art only behind the bundle marks, private cues only on the own board, roles only inside the card and, at a finished match, the end's result sheet; nothing repeats |
 | `contract/cues.json` | Every cue: trigger, audience, facts, anchor, timing, cancellation, settled state, reduced motion, asset |
 | `contract/coverage.json` | Every action and command; the eleven states; every fact and its source; the components and the release hooks; the gaps |
 | `assets/` | The scene layers (`scenes/`, nine files) and their one stylesheet; the manifest `board-motion-0.3.0` with every scene layer, place and figure sheet. Written by `design/tools/board-motion-assets.mjs` |

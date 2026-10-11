@@ -2,9 +2,9 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "25b5c7329ac01a639c895927c592f97dd6705615ed629a978fa3da6ab32250d6",
+  "inputsSha256": "fb2fc9839a0b87a461a2bc897d4509ce137cac577b270c34a01596590f1d1b3b",
   "browser": "Chromium 141.0.7390.37",
-  "captures": 255,
+  "captures": 280,
   "failures": [],
   "results": [
     {
@@ -231,6 +231,144 @@
           "7": "command-room/C1",
           "8": "room-a/room-a-crowd-6",
           "9": "hospital/H4"
+        }
+      }
+    },
+    {
+      "id": "end.blue",
+      "scenario": "end.blue",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.alien-co",
+      "scenario": "end.alien-co",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.red",
+      "scenario": "end.red",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.alien",
+      "scenario": "end.alien",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.draw",
+      "scenario": "end.draw",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "end.aborted",
+      "scenario": "end.aborted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
         }
       }
     },
@@ -910,6 +1048,52 @@
       "problems": [],
       "measured": {
         "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "showdown.confirm",
+      "scenario": "showdown.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "showdown.registered",
+      "scenario": "showdown.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
         "boardOverflow": 0,
         "places": {
           "1": "final-zone/F1",
@@ -2765,6 +2949,75 @@
       }
     },
     {
+      "id": "w320-end",
+      "scenario": "end.blue",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-end-co",
+      "scenario": "end.alien-co",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-aborted",
+      "scenario": "end.aborted",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
       "id": "w320-hospital",
       "scenario": "board.crowded-hospital",
       "viewport": "320x568",
@@ -3309,6 +3562,52 @@
           "6": "hospital/H1",
           "7": "command-room/C1",
           "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-end",
+      "scenario": "end.blue",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "reduced-end",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
           "9": "jail/J4"
         }
       }
@@ -4262,7 +4561,97 @@
       "measured": null
     },
     {
-      "id": "20-cue-sheet-open-0",
+      "id": "20-cue-end-reveal-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-120",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-380",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-600",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-900",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-120",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-240",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "22-cue-sheet-open-0",
       "scenario": "hack.phase",
       "viewport": "390x844",
       "fontPx": null,
@@ -4271,7 +4660,7 @@
       "measured": null
     },
     {
-      "id": "20-cue-sheet-open-reduced",
+      "id": "22-cue-sheet-open-reduced",
       "scenario": "hack.phase",
       "viewport": "390x844",
       "fontPx": null,
@@ -4280,7 +4669,7 @@
       "measured": null
     },
     {
-      "id": "21-cue-tally-0",
+      "id": "23-cue-tally-0",
       "scenario": "vote.tally",
       "viewport": "390x844",
       "fontPx": null,
@@ -4289,7 +4678,7 @@
       "measured": null
     },
     {
-      "id": "21-cue-tally-reduced",
+      "id": "23-cue-tally-reduced",
       "scenario": "vote.tally",
       "viewport": "390x844",
       "fontPx": null,
@@ -4298,7 +4687,7 @@
       "measured": null
     },
     {
-      "id": "22-cue-ballot-subject-0",
+      "id": "24-cue-ballot-subject-0",
       "scenario": "release.vote",
       "viewport": "390x844",
       "fontPx": null,
@@ -4307,7 +4696,7 @@
       "measured": null
     },
     {
-      "id": "22-cue-ballot-subject-reduced",
+      "id": "24-cue-ballot-subject-reduced",
       "scenario": "release.vote",
       "viewport": "390x844",
       "fontPx": null,
@@ -4381,6 +4770,24 @@
     {
       "id": "secrecy-hack.phase",
       "scenario": "hack.phase",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-showdown.registered",
+      "scenario": "showdown.registered",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-end.blue",
+      "scenario": "end.blue",
       "viewport": "1440x920",
       "fontPx": null,
       "kind": "secrecy",

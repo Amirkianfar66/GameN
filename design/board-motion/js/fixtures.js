@@ -40,11 +40,12 @@ export function seatsFor(count, locations = SPREAD) {
 }
 
 /** A whole synthetic state: public facts, the viewer's private facts, the action flow and what is open. */
-function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, knowledge = [], intel = null, hackPartner = null, resources = null, acks = null, answer = 'accept', banner = null, legacy = false, notice = null, pending = 0 }) {
+function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, result = null, endReveal = null, knowledge = [], intel = null, hackPartner = null, resources = null, acks = null, answer = 'accept', banner = null, legacy = false, notice = null, pending = 0 }) {
   const seats = seatsFor(count, locations);
   change(seats);
   return {
-    public: { playerCount: count, round, phase: { kind: phase, seconds }, active: ['ORDINARY_TURN', 'HACK', 'RELEASE_CHOICE'].includes(phase) ? active : null, seats, ballot, tally },
+    // A finished or ended match has no deadline (the contract's terminal phase: endsAt null).
+    public: { playerCount: count, round, phase: { kind: phase, seconds: ['FINISHED', 'ABORTED'].includes(phase) ? 0 : seconds }, active: ['ORDINARY_TURN', 'HACK', 'RELEASE_CHOICE'].includes(phase) ? active : null, seats, ballot, tally, result, endReveal },
     // resources: what the seat holds (self.rescuesRemaining as rescues); acks: its own acknowledgments
     // (supplierResults with the recipients' seat numbers, receivedSupply, historyAvailable).
     private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, intel, hackPartner, resources, acks, pending },
@@ -66,6 +67,13 @@ const HOSPITAL_8 = Array.from({ length: 9 }, (_, index) => (index + 1 === VIEWER
 const EVERYONE = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const OTHERS = EVERYONE.filter(n => n !== VIEWER);
 const moveTo = ['Room B'];
+/**
+ * The end's reveal (synthetic): every seat's role, the viewer's own the Officer it holds in every nine-player
+ * scenario, and the Code's four as the view might list them, not in seat order (the Hacker is never in it).
+ */
+const END_ROLES = { 1: 'Insider', 2: 'Hacker', 3: 'Officer', 4: 'Red Disabler', 5: 'Undercover', 6: 'Cracker', 7: 'Supplier', 8: 'Alien', 9: 'Blue Disabler' };
+const END_REVEAL = { roles: EVERYONE.map(seat => ({ seat, role: END_ROLES[seat] })), code: [6, 1, 8, 4] };
+const fallen = (seats, list) => { for (const [n, faction] of list) { seats[n - 1].health = 'Eliminated'; seats[n - 1].revealedFaction = faction; seats[n - 1].captain = false; } };
 
 export const SCENARIOS = [
   // ---------- the board ----------
@@ -79,6 +87,14 @@ export const SCENARIOS = [
   { id: 'board.final-zone', group: 'Board', title: 'Final Zone: the showdown', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[8].health = 'Eliminated'; s[8].revealedFaction = 'Blue'; s[5].health = 'Healthy'; }, offers: { 'showdown-shot': [1, 2, 5, 6, 7, 8] } }) },
   { id: 'board.long-names', group: 'Board', title: 'Twelve-character names', names: 'long', s: () => state({ offers: { move: moveTo } }) },
   { id: 'board.tightest', group: 'Board', status: 'layout-stress', title: 'Layout stress: The tallest board: six in Room A, the Captain, two in the Hospital', s: () => state({ locations: ['Room A', 'Room A', 'Room A', 'Room A', 'Room A', 'Hospital', 'Command Room', 'Room A', 'Hospital'], seats: s => { s[8].jailed = false; s[8].health = 'Injured'; }, offers: { move: [], vote: null, shot: [1, 2, 4, 5, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] } }) },
+
+  // ---------- the match's end: the result, the roles and the Code, on every screen alike ----------
+  { id: 'end.blue', group: 'The end', title: 'Blue wins: the result, the roles and the Code', s: () => state({ phase: 'FINISHED', round: 4, seats: s => fallen(s, [[2, 'Red'], [4, 'Red'], [5, 'Red']]), result: { winner: 'Blue', alienCoWinner: false }, endReveal: END_REVEAL, offers: {} }) },
+  { id: 'end.alien-co', group: 'The end', title: 'Blue wins, and the Alien with Blue', s: () => state({ phase: 'FINISHED', round: 4, seats: s => fallen(s, [[2, 'Red'], [4, 'Red'], [5, 'Red']]), result: { winner: 'Blue', alienCoWinner: true }, endReveal: END_REVEAL, offers: {} }) },
+  { id: 'end.red', group: 'The end', title: 'Red wins', s: () => state({ phase: 'FINISHED', round: 5, seats: s => fallen(s, [[7, 'Blue'], [9, 'Blue']]), result: { winner: 'Red', alienCoWinner: false }, endReveal: END_REVEAL, offers: {} }) },
+  { id: 'end.alien', group: 'The end', title: 'The Alien wins', s: () => state({ phase: 'FINISHED', round: 5, seats: s => fallen(s, [[1, 'Blue'], [2, 'Red'], [4, 'Red'], [5, 'Red'], [6, 'Blue'], [7, 'Blue'], [9, 'Blue']]), result: { winner: 'Alien', alienCoWinner: false }, endReveal: END_REVEAL, offers: {} }) },
+  { id: 'end.draw', group: 'The end', title: 'A draw after the showdown, in the Final Zone', s: () => state({ locations: FINAL, phase: 'FINISHED', round: 5, seats: s => fallen(s, [[4, 'Red'], [5, 'Red'], [7, 'Blue']]), result: { winner: 'Draw', alienCoWinner: false }, endReveal: END_REVEAL, offers: {} }) },
+  { id: 'end.aborted', group: 'The end', title: 'The host ended the match: no winner, nothing revealed', s: () => state({ phase: 'ABORTED', round: 3, offers: {} }) },
 
   // ---------- the tray ----------
   { id: 'tray.open', group: 'Actions tray', title: 'Actions tray: what the view opens, over the board', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, view: 'actions', offers: { move: moveTo, shot: [1, 5, 8], hack: [1, 5, 8], scan: [1, 3, 5, 8], code: true } }) },
@@ -117,6 +133,9 @@ export const SCENARIOS = [
   { id: 'hack.requested', group: 'One target', title: 'Hack request accepted: not the Hack itself', s: () => state({ locations: BUSY_A, role: 'Hacker', offers: { move: moveTo }, flow: { step: 'accepted', kind: 'hack', picked: [5] } }) },
   { id: 'hack.partner', group: 'One target', title: 'Hack phase on the other partner’s phone: the same note', s: () => state({ locations: BUSY_A, role: 'Cracker', phase: 'HACK', seconds: 52, active: 5, hackPartner: 5, offers: {}, view: 'card' }) },
   { id: 'showdown.choose', group: 'One target', title: 'Showdown shot in the Final Zone', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, offers: { 'showdown-shot': [1, 2, 5, 6, 7, 8, 9] }, flow: { step: 'choosing', kind: 'showdown-shot', picked: [] } }) },
+  // The seat's own special shot (design/abilities/js/finale.js): the target in the reticle, the shot spent on the receipt.
+  { id: 'showdown.confirm', group: 'One target', title: 'Showdown shot: the target in the reticle, the special shot', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, offers: { 'showdown-shot': [1, 2, 5, 6, 7, 8, 9] }, flow: { step: 'confirming', kind: 'showdown-shot', picked: [5] } }) },
+  { id: 'showdown.registered', group: 'One target', title: 'Showdown shot registered: spent, the target still secret', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, offers: {}, flow: { step: 'accepted', kind: 'showdown-shot', picked: [5] } }) },
 
   // ---------- crowded rooms: every character the rules allow is a target ----------
   { id: 'crowd.shot', group: 'Crowded rooms', status: 'layout-stress', title: 'Layout stress: All nine in Room A: a Shot at any of eight', s: () => state({ locations: ALL_A, seats: s => { s[6].captain = false; }, offers: { move: moveTo, shot: OTHERS }, flow: { step: 'choosing', kind: 'shot', picked: [] } }) },
@@ -225,6 +244,8 @@ export const EVENTS = [
   { id: 'round', label: 'Next round', fact: { type: 'PHASE_CHANGED', next: 'round' } },
   { id: 'replay', label: 'Deliver the last snapshot again', fact: { type: 'REPLAY' } },
   { id: 'reconnect', label: 'Reconnect: a fresh snapshot', fact: { type: 'RECONNECT' } },
+  { id: 'finish', label: 'The match ends: Blue wins', fact: { type: 'MATCH_ENDED', phase: 'FINISHED', result: { winner: 'Blue', alienCoWinner: false }, endReveal: END_REVEAL } },
+  { id: 'abort', label: 'The host ends the match', fact: { type: 'MATCH_ENDED', phase: 'ABORTED' } },
 ];
 
 /** Facts of the seat's own view alone (synthetic), for the fixture panel: nothing public changes with them. */

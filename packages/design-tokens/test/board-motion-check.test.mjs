@@ -117,6 +117,17 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
       /the device reduced-motion setting is not honored/, /the cue layer can take a tap/);
   });
 
+  test('the roles before a finished match, an end hook on the board, and an end reveal at the wrong phase', async () => {
+    const root = scratchCopy();
+    edit(root, FIXTURES, text => text.replace("2: 'Hacker', 3: 'Officer'", "2: 'Officer', 3: 'Hacker'")
+      .replace("s: () => state({ phase: 'ABORTED', round: 3, offers: {} })", "s: () => state({ phase: 'ABORTED', round: 3, endReveal: END_REVEAL, offers: {} })")
+      .replace("fact: { type: 'MATCH_ENDED', phase: 'ABORTED' }", "fact: { type: 'MATCH_ENDED', phase: 'ABORTED', endReveal: END_REVEAL }"));
+    append(root, CSS, '.bm-board .bm-piece[data-end-faction="red"] .bm-piece__tag { outline: 2px solid var(--ms-color-faction-red); }');
+    refuses(await check(root), /end\.blue: the end reveal gives the viewer another role than its own/, /end\.blue: Player 2 is revealed Red and was Officer/,
+      /end\.aborted: a result or an end reveal outside a finished match/, /event abort: a result or an end reveal outside a finished match/,
+      /\[data-end-faction="red"\] \.bm-piece__tag: an end-reveal hook outside the result sheet/);
+  });
+
   // ---------- the cue contract ----------
 
   test('a cue whose time is not its token, a public cue resting on a private fact, a cue with a sound, and an orphan cue', async () => {

@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.5.0",
+  "manifestVersion": "abilities-0.6.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -245,6 +245,12 @@
       "title": "A microphone handed on", "source": "source/ballot.svg", "layer": "dossier-mic-passed", "viewBox": "0 0 22 36",
       "use": "The speaking turn handed on: drawn once the server accepts Pass.",
       "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-round-special", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The special shot", "source": "source/finale.svg", "layer": "dossier-round-special", "viewBox": "0 0 14 30",
+      "use": "The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.",
+      "anchors": { "base": [7, 28] }
     }
   ]
 }

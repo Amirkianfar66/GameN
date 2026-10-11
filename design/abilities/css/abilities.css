@@ -1,4 +1,4 @@
-/* mothership:dev-only · ability art proposal abilities-0.5.0 · the treatments' reference styles.
+/* mothership:dev-only · ability art proposal abilities-0.6.0 · the treatments' reference styles.
    Colors are tokens (design/prototypes/css/tokens.css); pictures come only from loaded bundles:
    the kit behind [data-art~="abilities"], the crew cards behind [data-art~="public-board"]. Without
    them every treatment is complete in paper, ink and words (the missing-asset fallback). Private:
@@ -452,6 +452,16 @@
 .ab-mic[data-passed="false"]::after { opacity: 1; }
 [data-art~="abilities"] .ab-mic { border: 0; border-radius: 0; background: var(--ab-asset-dossier-mic-passed) center / contain no-repeat; }
 [data-art~="abilities"] .ab-mic::after { inset: 0; border-radius: 0; background: var(--ab-asset-dossier-mic) center / contain no-repeat; }
+
+/* ---------- slice 6: the showdown's special shot ---------- */
+
+/* The special shot at the start of the showdown strip (14 x 30): full while offered, spent on its receipt. The full round is its ::after,
+   so that spending is the slice 4 beat (guard.js spend) on an element already drawn spent. Without the kit, a caption round in ink. */
+.ab-special { position: relative; flex: none; display: inline-block; width: 13px; height: 21px; margin: 0 6px 0 0; vertical-align: -6px; border: 2px dashed var(--ms-color-ink); border-radius: 5px 5px 1px 1px; background: var(--ms-color-paper-deep); }
+.ab-special::after { content: ''; position: absolute; inset: -2px; border: 2px solid var(--ms-color-ink); border-radius: 5px 5px 1px 1px; background: linear-gradient(var(--ms-color-caption) 62%, var(--ms-color-steel-mid) 62%); opacity: 0; }
+.ab-special[data-spent="false"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-special { border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-spent) center / contain no-repeat; }
+[data-art~="abilities"] .ab-special::after { inset: 0; border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-special) center / contain no-repeat; }
 
 /* A board seen from the file: the character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
 [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { display: block; border: 3.5px solid var(--ms-color-focus); animation: ab-spot 1600ms ease-out forwards; }
