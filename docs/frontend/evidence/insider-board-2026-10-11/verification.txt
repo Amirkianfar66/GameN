@@ -1,0 +1,33 @@
+npm run verify at 1c3e8199860b8cbe1ebd093e1224cc8226f605cd (clean checkout), Node 22.21.1 / npm 10.9.4, 11 October 2026.
+Summary lines from the run's own output. The six '# tests' groups are, in order: bootstrap, engine, Backend/Firebase, tooling, presentation, game.
+
+Toolchain: Node 22.21.1, npm 10.9.4
+Workspace boundaries: 8 explicit packages; TS/TSX imports checked; pure and browser programs separated; exact runtime subpaths; fixture and reference imports excluded
+# tests 53
+# pass 53
+# fail 0
+# tests 148
+# pass 148
+# fail 0
+# tests 130
+# pass 130
+# fail 0
+# tests 102
+# pass 102
+# fail 0
+# tests 179
+# pass 179
+# fail 0
+# tests 430
+# pass 430
+# fail 0
+Production exclusion: 54 modules reachable from 2 production entries, 167 shipped or source files scanned, 39 development files labeled; no fixture, test or development module or marker found
+Balance static: 71 executed, 71 passed, zero failed/cancelled/skipped/todo; materialization and traceability checked
+Balance static log: <temporary directory>
+Balance scenarios: 522 catalogue IDs; 483 passed, 33 reviewed blocked, 6 explicit manual; zero errors
+Balance controls: 475 baselines passed; 4388 controls executed and detected; zero misses
+Balance playouts: 10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches
+Balance report gate: common build/manifest/Git provenance checked at this clean candidate
+Balance engine source: 1c3e8199860b8cbe1ebd093e1224cc8226f605cd; protocol 2; Original Powers off
+Balance fresh reports/logs: <temporary directory>
+verify exit=0

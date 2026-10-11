@@ -112,7 +112,7 @@ All checks below ran locally with Node 22.21.1 and npm 10.9.4.
 | Presentation suite | 179/179 passed. This includes 6 new Insider-board tests and an updated knowledge test |
 | Game suite | 430/430 passed. This includes 3 new screen-lifecycle tests. The first run failed the production-exclusion test because a comment sat inside a capture script's page string; it was moved out, and the test then passed |
 | Browser capture (simulation) | 18 steps, 0 problems. See [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md). Its board-heading check reproduced a defect at doubled text, where the sticky card heading covered the board's top. Without the fix, 2 steps fail; with it, none do |
-| Full `npm run verify` on the clean commit | Recorded below, under the commit it ran on |
+| Full `npm run verify` on the clean commit `1c3e8199860b8cbe1ebd093e1224cc8226f605cd` | Passed, exit 0. Tests: 53 bootstrap, 148 engine, 130 Backend, 102 tooling, 179 presentation, 430 game. Production exclusion: 54 reachable modules, 39 labeled development files, no fixture or development code reachable. Balance: static 71/71; 522 scenarios (483 passed, 33 reviewed blocked, 6 manual, zero errors); 475 control baselines with 4,388 controls detected; 10 playouts in each of 7/8/9; provenance checked at this commit. See [verification.txt](evidence/insider-board-2026-10-11/verification.txt) |
 
 The presentation tests cover:
 

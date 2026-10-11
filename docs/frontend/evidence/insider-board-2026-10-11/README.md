@@ -48,6 +48,10 @@ Then:
 | `320x568-long-names-board` | Twelve-character names (`WWWWWWWWWWWW`, `Maximiliana`, `Konstantinos`) end in an ellipsis inside their columns. No element overflows visibly |
 | `display` (1280×720) | The shared display, built from the public view. No board hook, toggle, sentence or role word |
 
+## Full verification
+
+`npm run verify` passed with exit 0 on the clean commit `1c3e819`; the code and these captures are from that commit. [verification.txt](verification.txt) keeps the run's own summary lines. Later commits change documentation only.
+
 ## A defect the capture found and the fix
 
 The first doubled-text capture of the committed code showed the board's top hidden under the card's sticky heading. The board is taller than the card at that size, so `scrollIntoView({ block: 'nearest' })` aligned the board's top with the card's edge, behind the heading.
