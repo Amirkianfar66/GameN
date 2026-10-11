@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal abilities-0.1.0 · dossier-envelope-front 0.1.0 · generated, do not edit by hand
+  An open envelope, in front of what it holds. Over the lower part of a slip that stands in the envelope.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/dossier.svg (layer dossier-envelope-front). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 88" width="224" height="88"><defs><pattern id="dossier-ink-dots" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="2" cy="2" r="0.8" fill="#151923"/></pattern></defs><g id="dossier-envelope-front"><path d="M6 44 H218 V80 Q218 85 213 85 H11 Q6 85 6 80 Z" fill="#E3D6C2" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><path d="M8 83 L84 50 M216 83 L140 50" fill="none" stroke="#151923" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/><path d="M170 46 H216 V80 Q216 83 213 83 H150 Q178 66 170 46 Z" fill="url(#dossier-ink-dots)" opacity="0.25"/></g></svg>

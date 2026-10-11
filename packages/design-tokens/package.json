@@ -31,6 +31,10 @@
     "capture:board-motion": "node ../../design/tools/board-motion-capture.mjs",
     "docs:board-motion": "node ../../design/tools/board-motion-docs.mjs",
     "check:board-motion": "node ../../design/tools/board-motion-check.mjs",
-    "flows:board-motion": "node ../../design/tools/board-motion-flows.mjs"
+    "flows:board-motion": "node ../../design/tools/board-motion-flows.mjs",
+    "assets:abilities": "node ../../design/tools/abilities-assets.mjs",
+    "capture:abilities": "node ../../design/tools/abilities-capture.mjs",
+    "docs:abilities": "node ../../design/tools/abilities-docs.mjs",
+    "check:abilities": "node ../../design/tools/abilities-check.mjs"
   }
 }

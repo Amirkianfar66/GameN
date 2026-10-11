@@ -1,0 +1,241 @@
+{
+  "inputsSha256": "300187e0ce706ccedfabdddcef381f11f1af74618802e83639ef868e708edec5",
+  "browser": "Chrome/141.0.7390.37",
+  "scale": 1.5,
+  "shots": [
+    {
+      "name": "insider-w390-rest",
+      "title": "The file at rest, 390 x 844",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w390-rest.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-inspect",
+      "title": "Inspecting Player 5, 390 x 844",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w390-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-long-names",
+      "title": "Twelve-character names, 390 x 844",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w390-long-names.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-long-inspect",
+      "title": "A long name inspected, 390 x 844",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w390-long-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-text200",
+      "title": "Twice the default text size, 390 x 844",
+      "group": "Text size, motion, art",
+      "file": "design/abilities/review/insider-w390-text200.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-text200-inspect",
+      "title": "Twice the text size, inspecting, 390 x 844",
+      "group": "Text size, motion, art",
+      "file": "design/abilities/review/insider-w390-text200-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-rest",
+      "title": "The file at rest, 320 x 568",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w320-rest.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-inspect",
+      "title": "Inspecting Player 5, 320 x 568",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w320-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-long-names",
+      "title": "Twelve-character names, 320 x 568",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w320-long-names.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-long-inspect",
+      "title": "A long name inspected, 320 x 568",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w320-long-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-text200",
+      "title": "Twice the default text size, 320 x 568",
+      "group": "Text size, motion, art",
+      "file": "design/abilities/review/insider-w320-text200.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-text200-inspect",
+      "title": "Twice the text size, inspecting, 320 x 568",
+      "group": "Text size, motion, art",
+      "file": "design/abilities/review/insider-w320-text200-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-show-on-board",
+      "title": "Show on board: Player 5 ringed on the own board",
+      "group": "The Insider's file",
+      "file": "design/abilities/review/insider-w390-show-on-board.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-reduced",
+      "title": "Reduced motion: at rest, nothing flies",
+      "group": "Text size, motion, art",
+      "file": "design/abilities/review/insider-w390-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-no-art",
+      "title": "Without the ability art or the crew cards",
+      "group": "Text size, motion, art",
+      "file": "design/abilities/review/insider-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hidden-w390-stale",
+      "title": "Card pressed while the view is out of date: the closed folder",
+      "group": "Hidden",
+      "file": "design/abilities/review/hidden-w390-stale.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hidden-w320-stale",
+      "title": "The closed folder, 320 x 568",
+      "group": "Hidden",
+      "file": "design/abilities/review/hidden-w320-stale.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hidden-w390-background",
+      "title": "Back from the background: the board, the card closed",
+      "group": "Hidden",
+      "file": "design/abilities/review/hidden-w390-background.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hidden-w390-reopened",
+      "title": "Card pressed again: the file at rest, not assembled again",
+      "group": "Hidden",
+      "file": "design/abilities/review/hidden-w390-reopened.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "assembly-0000ms",
+      "title": "0 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-0000ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0120ms",
+      "title": "120 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-0120ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0260ms",
+      "title": "260 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-0260ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0420ms",
+      "title": "420 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-0420ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0600ms",
+      "title": "600 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-0600ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0780ms",
+      "title": "780 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-0780ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-1020ms",
+      "title": "1020 ms",
+      "group": "Assembly, frame by frame",
+      "file": "design/abilities/review/assembly-1020ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    }
+  ]
+}

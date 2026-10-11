@@ -6,6 +6,29 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 11 October 2026: the Insider's file, portraits and role labels
+
+**A choice of content, recorded: the Insider's starting knowledge is drawn as the three players' portraits and the three role labels.** The assignment for the ability art, relayed to the Designer on 11 October 2026, says:
+
+> The owner selected CHARACTER PORTRAITS + ROLE LABELS.
+
+and states the rule the drawing keeps: the Insider knows the unordered set of the three players who are Undercover, Alien and Cracker, and not which player has which role. So the file shows the three portraits, with names and seat numbers, and Undercover, Alien and Cracker as one grouped set of labels; it attaches no label to a portrait and implies no mapping through color, position, connecting lines, animation order, accessible labels or asset selection; the candidates are in a stable public order; pressing a portrait may inspect it but adds no evidence; it is private, after gameplay starts, never during the 30-second reading stage, with deliberate open and hide controls and a hidden state.
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | “CHARACTER PORTRAITS” | The candidates are drawn by their own chosen crew cards, names and seat numbers, not as seat tokens or words alone |
+| 2 | “ROLE LABELS” | The three roles appear as labels, as one set |
+| 3 | The coordinator's Insider mockup | An optional reference, not an approved layout: the assignment says so |
+
+### What the Designer did with it
+
+The Insider's file (`design/abilities/`, `abilities-0.1.0`, slice 1 of the ability art): three snapshots pinned in seat order on a cork board, the three role names as label tapes on one slip in one envelope stamped ONE EACH, one string round the whole set, and “Who is which: unknown.” Frontend's instructions: [abilities-handoff.md](abilities-handoff.md).
+
+### What it does not settle
+
+- **The look and the motion** (DSN-D37): the owner chose the content; the board, the envelope, the string and the assembly are the Designer's proposal, not yet seen by the owner.
+- **Adoption** (DSN-D36): the kit is outside the reviewed manifest until Integration adopts it.
+
 ## 11 October 2026: the current look, in the game, before any paint
 
 **A direction, recorded: the look is to be judged in the game, and nothing is painted for now.** Shown the painted draft of Room B beside the comic look (below), with the Designer's suggestion of a mix (painted light on the rooms, inked figures), the owner answered on 11 October 2026:

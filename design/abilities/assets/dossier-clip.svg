@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal abilities-0.1.0 · dossier-clip 0.1.0 · generated, do not edit by hand
+  A paper clip. Holds a slip to an envelope.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/dossier.svg (layer dossier-clip). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 46" width="18" height="46"><g id="dossier-clip"><path d="M5 42 V10 Q5 3.5 10 3.5 Q15 3.5 15 10 V37 Q15 42.5 10.5 42.5 Q6.5 42.5 6.5 37.5 V15" fill="none" stroke="#151923" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 42 V10 Q5 3.5 10 3.5 Q15 3.5 15 10 V37 Q15 42.5 10.5 42.5 Q6.5 42.5 6.5 37.5 V15" fill="none" stroke="#B9C4D3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>

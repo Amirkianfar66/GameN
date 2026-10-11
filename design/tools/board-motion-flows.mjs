@@ -332,6 +332,35 @@ try {
   ok('timer: counts down locally and changes nothing else', (await page.evaluate(`document.querySelector('#bm-app .bm-timer').textContent`)) !== t0 && (await flow(page)).step === 'idle');
   ok('no page error in any of it', page.problems().length === 0, page.problems());
   await page.close();
+
+  // ---------- The Insider's file (design/abilities/): private, in seat order, inspected without new evidence ----------
+  page = await open('file.insider');
+  ok('file: three snapshots in seat order, not the order the view lists them in', js(await page.evaluate(`[...document.querySelectorAll('#bm-card .ab-photo')].map(n => Number(n.dataset.seat))`)) === js([2, 5, 8]));
+  ok('file: the three role names one picture, below the three snapshots', await page.evaluate(`(() => {
+    const groups = document.querySelectorAll('#bm-card .ab-roles[role="img"]');
+    const lowest = Math.max(...[...document.querySelectorAll('#bm-card .ab-photo')].map(n => n.getBoundingClientRect().bottom));
+    return groups.length === 1 && groups[0].querySelectorAll('.ab-roles__name').length === 3 && groups[0].querySelector('.ab-roles__slip').getBoundingClientRect().top >= lowest - 1;
+  })()`));
+  ok('file: private content of the own open card, nowhere else', await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-file.bm-private')) && document.querySelectorAll('.ab-file').length === 1`) && (await observerPrivate(page)).length === 0);
+  await page.evaluate(`document.querySelector('#bm-card .ab-photo[data-seat="5"]').focus()`);
+  await click(page, '#bm-card .ab-photo[data-seat="5"]');
+  ok('file/inspect: the pressed snapshot and its public facts, no role word, no other snapshot pressed', await page.evaluate(`(() => {
+    const card = document.querySelector('#bm-card .ab-inspect');
+    const pressed = [...document.querySelectorAll('#bm-card .ab-photo[aria-pressed="true"]')].map(n => n.dataset.seat);
+    return pressed.join() === '5' && !card.hidden && card.textContent.includes('Room A') && !/Undercover|Alien|Cracker/.test(card.textContent);
+  })()`));
+  await key(page, 'Escape', 'Escape', 27);
+  ok('file/inspect: Escape puts the snapshot back, keeps the card open and returns focus to it', await page.evaluate(`document.querySelector('#bm-card .ab-inspect').hidden && document.querySelectorAll('#bm-card .ab-photo[aria-pressed="true"]').length === 0 && document.activeElement?.dataset?.seat === '5' && document.getElementById('bm-card').hidden === false`));
+  await hide(page); await show(page);
+  ok('file/background: gone from the document, and the foreground does not reopen it', (await privateDOM(page)).length === 0 && !(await page.evaluate(`Boolean(document.querySelector('.ab-file'))`)));
+  await click(page, '#bm-nav-card');
+  ok('file/explicit reopen: back at rest, not assembled again', await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-file')) && document.getElementById('bm-card').getAnimations({ subtree: true }).length === 0`));
+  await click(page, '#bm-stale');
+  ok('file/stale: gone with the card', (await privateDOM(page)).length === 0 && !(await page.evaluate(`Boolean(document.querySelector('.ab-file'))`)));
+  await click(page, '#bm-nav-card');
+  ok('file/stale: Card shows the closed folder and nothing private', await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-folder')) && !document.querySelector('.ab-file, .bm-private')`));
+  ok('file: no page error', page.problems().length === 0, page.problems());
+  await page.close();
 } catch (error) {
   results.push(`FAIL  the flows stopped: ${error.message}`);
 } finally {

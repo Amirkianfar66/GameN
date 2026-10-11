@@ -53,7 +53,7 @@ Hooks are those of `packages/presentation/src/markup/comic-shell.ts`, `parts.ts`
 | `nav` | `nav.bm-nav > #bm-pass` | `.phone-nav` with `#ms-phone-pass[data-intent=action/pass]` | reuse | Unchanged: Pass third of five, its availability from `legalTargets.PASS_TURN` and the pending-command gate |
 | `status` | `header.bm-status` | `.ms-phase__labels`, `.ms-timer` | reuse | Fixed height (52 px; 44 px on a short phone) so nothing below moves when its words change |
 | `fx-layer` | `.bm-fx > .bm-flyer, .bm-hit, .bm-trail, .bm-puff` | `createComicMotion()` in `apps/game/hosted/comic-motion.mjs` | extend | Section 7 |
-| `card-sheet` | `section.bm-sheet#bm-card > .bm-private` | `.ms-private` (Card view), `.ms-role-card` | reuse | Unchanged: built only while open, over the lower board |
+| `card-sheet` | `section.bm-sheet#bm-card > .bm-private` | `.ms-private` (Card view), `.ms-role-card` | reuse | Unchanged: built only while open, over the lower board. Since the ability art (slice 1, [abilities-handoff.md](abilities-handoff.md)) it also holds the Insider's file under the role card, marked `.bm-private` like it, and shows a closed folder, the same for every role, when Card is pressed while the card cannot be shown |
 
 ## 4. The controller: what stays exactly as the release has it
 
