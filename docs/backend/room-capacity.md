@@ -48,4 +48,26 @@ The pure Designer probe was read-only. Capacity/FULL derive from existing public
 
 ## Verification record
 
-Verification results and exact source commit will be recorded after the checks run. Tests use synthetic matches and local emulators only. No cloud configuration, IAM, deployment, public asset publication or production match access is authorized by this issue.
+The implementation and test sources were committed and verified at `b0ab7796b1157e3acc33d4dcee93ba5fdad6da66`. The final PR head also includes this verification record. Toolchain: Node `22.21.1`, npm `10.9.4`; local Firestore uses Java 21.
+
+| Check | Actual local result |
+| --- | --- |
+| `npm ci` | Passed; 887 packages installed |
+| `npm run verify` | Passed at the clean implementation commit: source/workspace/toolchain checks, both typechecks, builds, 53 bootstrap, 212 engine, 145 Backend, 105 tooling, 173 presentation and 427 Frontend tests; no failures or skips |
+| Independent capacity engine audit | 64/64 passed at the same commit; includes all three player counts and exact previous tuples |
+| Balance static | 71/71 passed; frozen source/traceability checked |
+| Historical Pass catalogue | 483 passed / 33 reviewed blocked / 6 explicit manual out of 522; zero errors; 475 control baselines and 4,388 detected controls; 30 completed playouts, ten per player count |
+| Isolated Auth/Firestore service group | 167/167 passed, including 36 new capacity cases; no failures or skips |
+| `npm run check:browser-dependencies` | Passed; strict browser typecheck, production bundle and fixture exclusion |
+| Standalone Backend package with clean install/import verification | Passed; forbidden-source scan passed; `verifiedStandaloneInstall=true` |
+| Local real Functions and connected Frontend group | Full acceptance not completed locally: standard emulator ports are occupied by another workstream. An isolated-port attempt was rejected by the unchanged pre-initialization runtime guard (legacy HTTP group: 12 passed / 2 failed before runtime initialization). The guarded ports and the other session were preserved. These groups remain required in the PR's isolated CI runner. |
+
+The actual `verify` Balance reports are under the temporary directories `mothership-balance-static-XXMPnw` and `mothership-balance-engine-ULymZ7`. Gameplay provenance is the previous Pass tuple; binary provenance is the new capacity tuple. The separate capacity tests exercise current behavior.
+
+The forced-transfer emulator cases label their injected predecessor states explicitly. They prove canonical stored-deadline effects, projection/acknowledgment persistence, single-record replay and duplicate-delivery behavior; they do not claim that every injected predecessor has a complete reachable match history. Initial placement and concurrent MOVE cases additionally replay their stored command journals.
+
+A synthetic `{"type":"MOVE","destination":"Room A"}` into five occupied places returns a durable receipt with `status="rejected"` and `code="NOT_ALLOWED"`, leaves movement available, and is omitted from own movement offers. The existing client message remains “You cannot move to that room right now.”
+
+There are no unresolved capacity gameplay decisions. The independent Balance review found no rule or compatibility findings. The stacked PR depends on #95 and requests affected Frontend review of the test-only movement-selection adaptation; no shared field or Frontend runtime change is adopted. Designer's retained-station versus fresh-snapshot behavior remains the separate presentation decision described above.
+
+Tests use synthetic matches and local emulators only. No cloud configuration, IAM, deployment, public asset publication or production match access occurred. CI results are reported on the PR for its exact final head; local emulator results do not establish deployed multiplayer or human social balance.
