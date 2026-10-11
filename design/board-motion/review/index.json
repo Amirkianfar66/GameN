@@ -2,8 +2,8 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "23c20777430790026d96d7458ba75dc15a544efbe32b7c4481b31066bc03f655",
-  "browser": "Google Chrome 155.0.8059.39",
+  "inputsSha256": "e7d21684d9dccc248ddec44f9f6131189fccef10c994d8ff8b3b2422fd13e088",
+  "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
     {
@@ -714,18 +714,20 @@
     {
       "row": "10-cue-public-move",
       "cue": "cue-public-move",
-      "title": "A public move: carried between stations",
+      "title": "A public move: up from B2, the walk to Room A, settled at A2",
       "scenario": "board.idle",
       "frames": [
         0,
-        225,
-        450,
-        675,
+        60,
+        120,
+        345,
+        570,
+        735,
         900
       ],
       "play": "move",
       "crop": ".bm-board",
-      "token": "motionMs.pieceMove 900 ms",
+      "token": "motionMs.pieceMove 900 ms (120 / 450 / 330)",
       "audience": "public: every screen",
       "trigger": "A view that shows Player 2 in Room A."
     },
@@ -747,7 +749,69 @@
       "trigger": "The accepted move, then a view that shows Player 3 in Room B."
     },
     {
-      "row": "12-cue-status-change",
+      "row": "12-cue-public-hit",
+      "cue": "cue-public-hit",
+      "title": "A hit, Injured where it is: burst and jolt, a flinch, the bandage",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        40,
+        80,
+        200,
+        320,
+        520,
+        720
+      ],
+      "play": "injure",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.publicImpact 320 ms, settled by 720 ms (within motionMs.comicBeatMaximum 900 ms)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 5 Injured.",
+      "proposal": true
+    },
+    {
+      "row": "13-cue-public-hit",
+      "cue": "cue-public-hit",
+      "title": "A hit, Eliminated: burst and jolt, the fall into the place's fall",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        80,
+        240,
+        370,
+        500,
+        700,
+        900
+      ],
+      "play": "eliminate",
+      "crop": ".bm-room[data-room=\"room-b\"]",
+      "token": "motionMs.comicBeatMaximum 900 ms (240 / 260 / 400)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 4 Eliminated.",
+      "proposal": true
+    },
+    {
+      "row": "14-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "Injured, to the Hospital at the end of the round: the limp",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        60,
+        120,
+        345,
+        570,
+        735,
+        900
+      ],
+      "play": "hospital",
+      "crop": ".bm-board",
+      "token": "motionMs.pieceMove 900 ms (120 / 450 / 330)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 5 Injured, then one that shows Player 5 in the Hospital."
+    },
+    {
+      "row": "15-cue-status-change",
       "cue": "cue-status-change",
       "title": "Now Injured: the marker is stamped on",
       "scenario": "board.idle",
@@ -763,7 +827,7 @@
       "trigger": "A view that shows Player 5 Injured."
     },
     {
-      "row": "13-cue-status-change",
+      "row": "16-cue-status-change",
       "cue": "cue-status-change",
       "title": "Now Eliminated: grey, and the faction the rules reveal",
       "scenario": "board.idle",
@@ -779,7 +843,7 @@
       "trigger": "A view that shows Player 4 Eliminated."
     },
     {
-      "row": "14-cue-status-change",
+      "row": "17-cue-status-change",
       "cue": "cue-status-change",
       "title": "A new Captain",
       "scenario": "board.idle",
@@ -795,7 +859,7 @@
       "trigger": "A view that shows Player 1 as Captain."
     },
     {
-      "row": "15-cue-phase-change",
+      "row": "18-cue-phase-change",
       "cue": "cue-phase-change",
       "title": "The next turn: the status words and the turn marker",
       "scenario": "board.idle",
@@ -813,7 +877,7 @@
       "trigger": "PHASE_CHANGED to the next player."
     },
     {
-      "row": "16-cue-round-transition",
+      "row": "19-cue-round-transition",
       "cue": "cue-round-transition",
       "title": "A new round",
       "scenario": "board.idle",
@@ -830,7 +894,7 @@
       "trigger": "PHASE_CHANGED with a higher round."
     },
     {
-      "row": "17-cue-sheet-open",
+      "row": "20-cue-sheet-open",
       "cue": "cue-sheet-open",
       "title": "The private card opens over the board",
       "scenario": "hack.phase",
@@ -843,7 +907,7 @@
       "proposal": true
     },
     {
-      "row": "18-cue-tally",
+      "row": "21-cue-tally",
       "cue": "cue-tally",
       "title": "The published count of a closed vote",
       "scenario": "vote.tally",
@@ -857,7 +921,7 @@
       "proposal": true
     },
     {
-      "row": "19-cue-ballot-subject",
+      "row": "22-cue-ballot-subject",
       "cue": "cue-ballot-subject",
       "title": "The subject of a release vote",
       "scenario": "release.vote",
@@ -2360,7 +2424,7 @@
       "state": "shot.choose",
       "file": "design/board-motion/review/motion/04-cue-selection-0ms.png",
       "width": 190,
-      "height": 290,
+      "height": 266,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2377,7 +2441,7 @@
       "state": "shot.choose",
       "file": "design/board-motion/review/motion/04-cue-selection-60ms.png",
       "width": 190,
-      "height": 290,
+      "height": 266,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2394,7 +2458,7 @@
       "state": "shot.choose",
       "file": "design/board-motion/review/motion/04-cue-selection-120ms.png",
       "width": 190,
-      "height": 290,
+      "height": 266,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2411,7 +2475,7 @@
       "state": "shot.choose",
       "file": "design/board-motion/review/motion/04-cue-selection-reduced.png",
       "width": 190,
-      "height": 290,
+      "height": 266,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2428,7 +2492,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-0ms.png",
       "width": 190,
-      "height": 288,
+      "height": 262,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2445,7 +2509,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-60ms.png",
       "width": 190,
-      "height": 288,
+      "height": 262,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2462,7 +2526,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-120ms.png",
       "width": 190,
-      "height": 288,
+      "height": 262,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2479,7 +2543,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-reduced.png",
       "width": 190,
-      "height": 288,
+      "height": 262,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2530,7 +2594,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-0ms.png",
       "width": 390,
-      "height": 84,
+      "height": 86,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2547,7 +2611,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-60ms.png",
       "width": 390,
-      "height": 84,
+      "height": 86,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2564,7 +2628,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-120ms.png",
       "width": 390,
-      "height": 84,
+      "height": 86,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2581,7 +2645,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/07-cue-registration-reduced.png",
       "width": 390,
-      "height": 84,
+      "height": 86,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2598,7 +2662,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-0ms.png",
       "width": 390,
-      "height": 54,
+      "height": 56,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2615,7 +2679,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-60ms.png",
       "width": 390,
-      "height": 54,
+      "height": 56,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2632,7 +2696,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-120ms.png",
       "width": 390,
-      "height": 54,
+      "height": 56,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2666,7 +2730,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-0ms.png",
       "width": 190,
-      "height": 284,
+      "height": 240,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2683,7 +2747,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-110ms.png",
       "width": 190,
-      "height": 284,
+      "height": 240,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2700,7 +2764,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-220ms.png",
       "width": 190,
-      "height": 284,
+      "height": 240,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2717,7 +2781,7 @@
       "state": "board.idle",
       "file": "design/board-motion/review/motion/09-cue-room-press-reduced.png",
       "width": 190,
-      "height": 284,
+      "height": 240,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2747,9 +2811,9 @@
       }
     },
     {
-      "id": "10-cue-public-move-225",
+      "id": "10-cue-public-move-60",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/10-cue-public-move-225ms.png",
+      "file": "design/board-motion/review/motion/10-cue-public-move-60ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -2760,13 +2824,13 @@
       "frame": {
         "row": "10-cue-public-move",
         "cue": "cue-public-move",
-        "at": 225
+        "at": 60
       }
     },
     {
-      "id": "10-cue-public-move-450",
+      "id": "10-cue-public-move-120",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/10-cue-public-move-450ms.png",
+      "file": "design/board-motion/review/motion/10-cue-public-move-120ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -2777,13 +2841,13 @@
       "frame": {
         "row": "10-cue-public-move",
         "cue": "cue-public-move",
-        "at": 450
+        "at": 120
       }
     },
     {
-      "id": "10-cue-public-move-675",
+      "id": "10-cue-public-move-345",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/10-cue-public-move-675ms.png",
+      "file": "design/board-motion/review/motion/10-cue-public-move-345ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -2794,7 +2858,41 @@
       "frame": {
         "row": "10-cue-public-move",
         "cue": "cue-public-move",
-        "at": 675
+        "at": 345
+      }
+    },
+    {
+      "id": "10-cue-public-move-570",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-570ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 570
+      }
+    },
+    {
+      "id": "10-cue-public-move-735",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-735ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 735
       }
     },
     {
@@ -2917,145 +3015,281 @@
       }
     },
     {
-      "id": "12-cue-status-change-0",
+      "id": "12-cue-public-hit-0",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/12-cue-status-change-0ms.png",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-0ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "12-cue-status-change",
-        "cue": "cue-status-change",
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
         "at": 0
       }
     },
     {
-      "id": "12-cue-status-change-110",
+      "id": "12-cue-public-hit-40",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/12-cue-status-change-110ms.png",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-40ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "12-cue-status-change",
-        "cue": "cue-status-change",
-        "at": 110
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 40
       }
     },
     {
-      "id": "12-cue-status-change-220",
+      "id": "12-cue-public-hit-80",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/12-cue-status-change-220ms.png",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-80ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "12-cue-status-change",
-        "cue": "cue-status-change",
-        "at": 220
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 80
       }
     },
     {
-      "id": "12-cue-status-change-reduced",
+      "id": "12-cue-public-hit-200",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/12-cue-status-change-reduced.png",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-200ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 200
+      }
+    },
+    {
+      "id": "12-cue-public-hit-320",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-320ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 320
+      }
+    },
+    {
+      "id": "12-cue-public-hit-520",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-520ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 520
+      }
+    },
+    {
+      "id": "12-cue-public-hit-720",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-720ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 720
+      }
+    },
+    {
+      "id": "12-cue-public-hit-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-reduced.png",
+      "width": 190,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "12-cue-status-change",
-        "cue": "cue-status-change",
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
         "at": "reduced"
       }
     },
     {
-      "id": "13-cue-status-change-0",
+      "id": "13-cue-public-hit-0",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/13-cue-status-change-0ms.png",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-0ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "13-cue-status-change",
-        "cue": "cue-status-change",
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
         "at": 0
       }
     },
     {
-      "id": "13-cue-status-change-110",
+      "id": "13-cue-public-hit-80",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/13-cue-status-change-110ms.png",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-80ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "13-cue-status-change",
-        "cue": "cue-status-change",
-        "at": 110
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 80
       }
     },
     {
-      "id": "13-cue-status-change-220",
+      "id": "13-cue-public-hit-240",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/13-cue-status-change-220ms.png",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-240ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "13-cue-status-change",
-        "cue": "cue-status-change",
-        "at": 220
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 240
       }
     },
     {
-      "id": "13-cue-status-change-reduced",
+      "id": "13-cue-public-hit-370",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/13-cue-status-change-reduced.png",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-370ms.png",
       "width": 190,
-      "height": 336,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 370
+      }
+    },
+    {
+      "id": "13-cue-public-hit-500",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-500ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 500
+      }
+    },
+    {
+      "id": "13-cue-public-hit-700",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-700ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 700
+      }
+    },
+    {
+      "id": "13-cue-public-hit-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-900ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 900
+      }
+    },
+    {
+      "id": "13-cue-public-hit-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-reduced.png",
+      "width": 190,
+      "height": 318,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "13-cue-status-change",
-        "cue": "cue-status-change",
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
         "at": "reduced"
       }
     },
     {
-      "id": "14-cue-status-change-0",
+      "id": "14-cue-public-move-0",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/14-cue-status-change-0ms.png",
+      "file": "design/board-motion/review/motion/14-cue-public-move-0ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -3064,15 +3298,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "14-cue-status-change",
-        "cue": "cue-status-change",
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
         "at": 0
       }
     },
     {
-      "id": "14-cue-status-change-110",
+      "id": "14-cue-public-move-60",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/14-cue-status-change-110ms.png",
+      "file": "design/board-motion/review/motion/14-cue-public-move-60ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -3081,15 +3315,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "14-cue-status-change",
-        "cue": "cue-status-change",
-        "at": 110
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 60
       }
     },
     {
-      "id": "14-cue-status-change-220",
+      "id": "14-cue-public-move-120",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/14-cue-status-change-220ms.png",
+      "file": "design/board-motion/review/motion/14-cue-public-move-120ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -3098,15 +3332,83 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "14-cue-status-change",
-        "cue": "cue-status-change",
-        "at": 220
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 120
       }
     },
     {
-      "id": "14-cue-status-change-reduced",
+      "id": "14-cue-public-move-345",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/14-cue-status-change-reduced.png",
+      "file": "design/board-motion/review/motion/14-cue-public-move-345ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 345
+      }
+    },
+    {
+      "id": "14-cue-public-move-570",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-570ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 570
+      }
+    },
+    {
+      "id": "14-cue-public-move-735",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-735ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 735
+      }
+    },
+    {
+      "id": "14-cue-public-move-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-900ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "14-cue-public-move-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-reduced.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -3115,15 +3417,219 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "14-cue-status-change",
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "15-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-0ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "15-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-110ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "15-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-220ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "15-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-reduced.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
         "cue": "cue-status-change",
         "at": "reduced"
       }
     },
     {
-      "id": "15-cue-phase-change-0",
+      "id": "16-cue-status-change-0",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/15-cue-phase-change-0ms.png",
+      "file": "design/board-motion/review/motion/16-cue-status-change-0ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "16-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-110ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "16-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-220ms.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "16-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-reduced.png",
+      "width": 190,
+      "height": 318,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "17-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "17-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-110ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "17-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-220ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "17-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "18-cue-phase-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-0ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -3132,15 +3638,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "15-cue-phase-change",
+        "row": "18-cue-phase-change",
         "cue": "cue-phase-change",
         "at": 0
       }
     },
     {
-      "id": "15-cue-phase-change-110",
+      "id": "18-cue-phase-change-110",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/15-cue-phase-change-110ms.png",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-110ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -3149,15 +3655,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "15-cue-phase-change",
+        "row": "18-cue-phase-change",
         "cue": "cue-phase-change",
         "at": 110
       }
     },
     {
-      "id": "15-cue-phase-change-220",
+      "id": "18-cue-phase-change-220",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/15-cue-phase-change-220ms.png",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-220ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -3166,15 +3672,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "15-cue-phase-change",
+        "row": "18-cue-phase-change",
         "cue": "cue-phase-change",
         "at": 220
       }
     },
     {
-      "id": "15-cue-phase-change-reduced",
+      "id": "18-cue-phase-change-reduced",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/15-cue-phase-change-reduced.png",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-reduced.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -3183,15 +3689,15 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "15-cue-phase-change",
+        "row": "18-cue-phase-change",
         "cue": "cue-phase-change",
         "at": "reduced"
       }
     },
     {
-      "id": "16-cue-round-transition-0",
+      "id": "19-cue-round-transition-0",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/16-cue-round-transition-0ms.png",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-0ms.png",
       "width": 402,
       "height": 64,
       "viewport": "390x844",
@@ -3200,15 +3706,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "16-cue-round-transition",
+        "row": "19-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 0
       }
     },
     {
-      "id": "16-cue-round-transition-230",
+      "id": "19-cue-round-transition-230",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/16-cue-round-transition-230ms.png",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-230ms.png",
       "width": 402,
       "height": 64,
       "viewport": "390x844",
@@ -3217,15 +3723,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "16-cue-round-transition",
+        "row": "19-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 230
       }
     },
     {
-      "id": "16-cue-round-transition-470",
+      "id": "19-cue-round-transition-470",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/16-cue-round-transition-470ms.png",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-470ms.png",
       "width": 402,
       "height": 64,
       "viewport": "390x844",
@@ -3234,15 +3740,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "16-cue-round-transition",
+        "row": "19-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 470
       }
     },
     {
-      "id": "16-cue-round-transition-700",
+      "id": "19-cue-round-transition-700",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/16-cue-round-transition-700ms.png",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-700ms.png",
       "width": 402,
       "height": 64,
       "viewport": "390x844",
@@ -3251,15 +3757,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "16-cue-round-transition",
+        "row": "19-cue-round-transition",
         "cue": "cue-round-transition",
         "at": 700
       }
     },
     {
-      "id": "16-cue-round-transition-reduced",
+      "id": "19-cue-round-transition-reduced",
       "state": "board.idle",
-      "file": "design/board-motion/review/motion/16-cue-round-transition-reduced.png",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-reduced.png",
       "width": 402,
       "height": 64,
       "viewport": "390x844",
@@ -3268,15 +3774,15 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "16-cue-round-transition",
+        "row": "19-cue-round-transition",
         "cue": "cue-round-transition",
         "at": "reduced"
       }
     },
     {
-      "id": "17-cue-sheet-open-0",
+      "id": "20-cue-sheet-open-0",
       "state": "hack.phase",
-      "file": "design/board-motion/review/motion/17-cue-sheet-open-0ms.png",
+      "file": "design/board-motion/review/motion/20-cue-sheet-open-0ms.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -3285,15 +3791,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "17-cue-sheet-open",
+        "row": "20-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": 0
       }
     },
     {
-      "id": "17-cue-sheet-open-reduced",
+      "id": "20-cue-sheet-open-reduced",
       "state": "hack.phase",
-      "file": "design/board-motion/review/motion/17-cue-sheet-open-reduced.png",
+      "file": "design/board-motion/review/motion/20-cue-sheet-open-reduced.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -3302,15 +3808,15 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "17-cue-sheet-open",
+        "row": "20-cue-sheet-open",
         "cue": "cue-sheet-open",
         "at": "reduced"
       }
     },
     {
-      "id": "18-cue-tally-0",
+      "id": "21-cue-tally-0",
       "state": "vote.tally",
-      "file": "design/board-motion/review/motion/18-cue-tally-0ms.png",
+      "file": "design/board-motion/review/motion/21-cue-tally-0ms.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -3319,15 +3825,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "18-cue-tally",
+        "row": "21-cue-tally",
         "cue": "cue-tally",
         "at": 0
       }
     },
     {
-      "id": "18-cue-tally-reduced",
+      "id": "21-cue-tally-reduced",
       "state": "vote.tally",
-      "file": "design/board-motion/review/motion/18-cue-tally-reduced.png",
+      "file": "design/board-motion/review/motion/21-cue-tally-reduced.png",
       "width": 402,
       "height": 740,
       "viewport": "390x844",
@@ -3336,15 +3842,15 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "18-cue-tally",
+        "row": "21-cue-tally",
         "cue": "cue-tally",
         "at": "reduced"
       }
     },
     {
-      "id": "19-cue-ballot-subject-0",
+      "id": "22-cue-ballot-subject-0",
       "state": "release.vote",
-      "file": "design/board-motion/review/motion/19-cue-ballot-subject-0ms.png",
+      "file": "design/board-motion/review/motion/22-cue-ballot-subject-0ms.png",
       "width": 402,
       "height": 622,
       "viewport": "390x844",
@@ -3353,15 +3859,15 @@
       "motion": null,
       "kind": "frame",
       "frame": {
-        "row": "19-cue-ballot-subject",
+        "row": "22-cue-ballot-subject",
         "cue": "cue-ballot-subject",
         "at": 0
       }
     },
     {
-      "id": "19-cue-ballot-subject-reduced",
+      "id": "22-cue-ballot-subject-reduced",
       "state": "release.vote",
-      "file": "design/board-motion/review/motion/19-cue-ballot-subject-reduced.png",
+      "file": "design/board-motion/review/motion/22-cue-ballot-subject-reduced.png",
       "width": 402,
       "height": 622,
       "viewport": "390x844",
@@ -3370,7 +3876,7 @@
       "motion": "reduced",
       "kind": "frame",
       "frame": {
-        "row": "19-cue-ballot-subject",
+        "row": "22-cue-ballot-subject",
         "cue": "cue-ballot-subject",
         "at": "reduced"
       }
@@ -3492,7 +3998,7 @@
       "state": null,
       "file": "design/board-motion/review/vocabulary.png",
       "width": 1420,
-      "height": 1300,
+      "height": 1390,
       "viewport": "1420",
       "kind": "vocabulary"
     },
@@ -3501,7 +4007,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-key.png",
       "width": 1600,
-      "height": 4389,
+      "height": 4393,
       "viewport": "1600",
       "contact": true
     },
@@ -3510,7 +4016,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 4570,
+      "height": 4590,
       "viewport": "1600",
       "contact": true
     },
@@ -3519,7 +4025,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-matrix.png",
       "width": 1600,
-      "height": 2493,
+      "height": 2513,
       "viewport": "1600",
       "contact": true
     },
@@ -3528,7 +4034,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-motion.png",
       "width": 1600,
-      "height": 11894,
+      "height": 15379,
       "viewport": "1600",
       "contact": true
     },
@@ -3537,7 +4043,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-secrecy.png",
       "width": 1600,
-      "height": 2867,
+      "height": 2886,
       "viewport": "1600",
       "contact": true
     }

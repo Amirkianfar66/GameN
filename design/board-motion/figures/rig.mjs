@@ -144,7 +144,9 @@ export function canvas(prefix) {
     front(draw) { const keep = body; body = layers.front; draw(); body = keep; },
     hasFront: () => layers.front.length > 0,
     /** The drawing as an SVG document; header is its comment, layer 'body' or 'front'. */
-    svg({ viewBox, width, height, header, layer = 'body' }) {
+    svg({ viewBox, width, height, header, layer = 'body', inline = false }) {
+      // Inline, for a page that draws the figure itself: the element alone, sized by its box.
+      if (inline) return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet"><defs>${defs.join('')}</defs>${layers[layer].join('')}</svg>`;
       return `<?xml version="1.0" encoding="UTF-8"?>
 <!--
 ${header}

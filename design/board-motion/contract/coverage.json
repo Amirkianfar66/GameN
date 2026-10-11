@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "board-motion-0.2.0",
+  "version": "board-motion-0.3.0",
   "status": "proposal",
   "source": "ACTION_KINDS of packages/presentation/src/model/actions.ts and FullCommandSchema of packages/contracts/src/full-game.ts at 94a49ce0c5220b814ec56333b028fbe6180b257e. The check refuses a kind or command that is missing here.",
   "actions": [
@@ -348,11 +348,11 @@
     }
   ],
   "vocabulary": {
-    "about": "The states every one of the nine characters has. They are drawn by the same rules for all nine: a character's picture never selects a rule, and nothing about a role or a faction changes any of them. What differs per character is public: its picture, and in a move its lift height and settle angle.",
+    "about": "The states every one of the nine characters has. They are drawn by the same rules for all nine: a character's picture never selects a rule, and nothing about a role or a faction changes any of them. What differs per character is public: its picture. Where it is drawn and in what gesture follows public facts only: its room, the place it holds there, Injured and Eliminated.",
     "states": [
       {
         "id": "idle",
-        "drawn": "The figure at its station, in its pose (a stance by seat number, or the station's: at the chart table, at the counter, in the bed, on the bench), number and name on a plate at its feet or on the prop's edge.",
+        "drawn": "The figure at its place in its room, in the place's own gesture (five places a room, each with a gesture of its own; the Command Room's one is the Captain's, at the chart table); in a crowd of six or more, or in the Final Zone, one of three standing stances by seat number. Injured: the same gesture with a bandage; Eliminated: the place's fall. Number and name on a plate under its press area.",
         "cue": null
       },
       {
@@ -392,12 +392,12 @@
       },
       {
         "id": "authoritative-movement",
-        "drawn": "Carried in an arc to its new station with an ink trail and a landing puff; its own lift and settle.",
+        "drawn": "Gets up from its place, walks above the board to its new room with an ink trail (limping and bandaged when Injured), and settles into its new place's gesture with a landing puff. The same walk for every character.",
         "cue": "cue-public-move"
       },
       {
         "id": "public-status-change",
-        "drawn": "A marker stamped on: Injured (leaning), Eliminated (grey, the revealed faction), Captain, Jailed.",
+        "drawn": "A marker stamped on: Injured (and a bandage at its place), Eliminated (the place's fall, grey, the revealed faction), Captain, Jailed. A health change is first marked by one hit, the same for every cause (cue-public-hit).",
         "cue": "cue-status-change"
       },
       {
@@ -408,11 +408,11 @@
     ]
   },
   "facts": {
-    "about": "Every fact the board draws, the authorized source it is read from at the pinned tuple, who may see it and the cues that draw it. Nothing is drawn from anything else. A station (where in a room a character stands) is not a game fact: every device works it out the same way from public occupancy and seat order (design/board-motion/js/layout.js).",
+    "about": "Every fact the board draws, the authorized source it is read from at the pinned tuple, who may see it and the cues that draw it. Nothing is drawn from anything else. A place (where in a room a character is drawn, and so its gesture) is not a game fact: every device works it out the same way from public occupancy, seat order and the places drawn before (design/board-motion/js/layout.js).",
     "list": [
       {
         "id": "seat-identity",
-        "drawn": "Each character's picture, seat number and name on its stand.",
+        "drawn": "Each character's picture, seat number and name on its plate.",
         "source": "Lobby identity: seats[].characterId and seats[].displayName (packages/contracts/src/lobby-identity.ts), as the release's comic shell already reads them; seat numbers from seatId.",
         "audience": "public",
         "cues": [],
@@ -420,7 +420,7 @@
       },
       {
         "id": "location",
-        "drawn": "The room a character stands in, and its station there.",
+        "drawn": "The room a character is in, and its place there.",
         "source": "seats[].location in the public and player views (packages/contracts/src/full-game.ts); PUBLIC_MOVE events.",
         "audience": "public",
         "cues": [
@@ -431,10 +431,11 @@
       },
       {
         "id": "health",
-        "drawn": "Injured (leaning, marker) and Eliminated (grey, marker).",
+        "drawn": "Injured (a bandage at its place, a limp when it walks, the marker) and Eliminated (the place's fall, grey, the marker). One hit, the same for every cause, marks the change.",
         "source": "seats[].health; PUBLIC_HEALTH_CHANGED events (new health only, no cause).",
         "audience": "public",
         "cues": [
+          "cue-public-hit",
           "cue-status-change"
         ],
         "status": "authorized"
@@ -589,8 +590,8 @@
       {
         "id": "GAP-2",
         "kind": "owner decision",
-        "what": "The owner's reference asks for at most five players in a room. The rules have no room capacity: rules/overlays/location-board-layout-v1.json says \"Unnumbered token areas avoid imposing an artificial room-capacity rule\", docs/design/art-direction.md asks for room for all nine without implying capacity, and docs/balance/rules-audit.md finds no capacity rule.",
-        "decision": "A hand-placed formation for each count from one to five in every room, and a 3 x 3 crowd formation when six to nine are in one room. A capacity would be a rule change for the game owner and Balance; the design works either way."
+        "what": "The owner's reference asked for at most five players in a room, and on 9 October 2026 the owner said: “lets say the maximum capacity of each room is 5”, five fixed places a room, one in the Command Room. The rules have no room capacity: rules/overlays/location-board-layout-v1.json says \"Unnumbered token areas avoid imposing an artificial room-capacity rule\", docs/design/art-direction.md asks for room for all nine without implying capacity, and docs/balance/rules-audit.md finds no capacity rule.",
+        "decision": "Five fixed places a room, each with its own gesture (the Command Room one, the Captain's); a character keeps its place while it stays. Drawn, not enforced: six to nine in one room stand in a 3 x 3 crowd (layout stress) until a capacity rule exists. A capacity is a rule change for the game owner with Backend and Balance, with open questions: what a move into a full room does, whether the Eliminated count, a sixth Injured player at the end of a round, the Jail, and setup placement (DSN-D27)."
       },
       {
         "id": "GAP-3",
@@ -607,8 +608,8 @@
       {
         "id": "GAP-5",
         "kind": "asset",
-        "what": "The three prop layers (Command Room table, Room B counter, Hospital bed) are not in the reviewed manifest design-0.2.0.",
-        "decision": "Generated from the approved sources as a versioned proposal (board-motion-0.2.0); adopted only through an Integration review of a later manifest revision."
+        "what": "The five room scenes (each approved room around a new deck, the props of its places and its light, and the layers drawn in front of a place: the chart table, the laboratory bench, the two beds) are not in the reviewed manifest design-0.2.0.",
+        "decision": "Built from the approved sources, their groups lifted unchanged and printed by the reviewed export recipes, as a versioned proposal (board-motion-0.3.0, one public stylesheet loaded before the first match view); adopted only through an Integration review of a later manifest revision (DSN-D30)."
       },
       {
         "id": "GAP-6",
@@ -619,14 +620,20 @@
       {
         "id": "GAP-7",
         "kind": "asset",
-        "what": "The full-body figures (nine characters in every pose, owner's decision of 9 October 2026) are not in the reviewed manifest design-0.2.0, and the runtime still draws the approved bust standees.",
-        "decision": "Drawn by one rig in design/board-motion/figures/ after the approved standees, in their own colors, as a versioned proposal (board-motion-0.2.0, one public stylesheet loaded before the first match view). Adopting them is an Integration step and drawing them in the game Frontend's (DSN-D32)."
+        "what": "The full-body figures (the nine characters in 27 gestures: 21 places, three crowd stances, three falls; and a move and a hit from every gesture; owner's decisions of 9 October 2026) are not in the reviewed manifest design-0.2.0, and the runtime still draws the approved bust standees.",
+        "decision": "Drawn live by one rig in design/board-motion/figures/ after the approved standees, in their own colors, as a versioned proposal (board-motion-0.3.0): no figure art is fetched; the sheets of every gesture are written on request for review. Adopting them is an Integration step and drawing them the game Frontend's (DSN-D32)."
       },
       {
         "id": "GAP-8",
         "kind": "owner decision",
-        "what": "design/contract/crew-catalog.json says a character never changes with health, Jail, the Captain or anything private, and that those are markers on the piece. A figure's pose follows public facts: the Captain at the chart table, Injured in the bed, Jailed on the bench, Eliminated on the floor.",
-        "decision": "The character (face, skin, hair, colors, suit) never changes; only the pose does, from public facts only, and every marker is still drawn. Whether a pose may say what a marker says is for the game owner, with Integration for the catalog (DSN-D33)."
+        "what": "design/contract/crew-catalog.json says a character never changes with health, Jail, the Captain or anything private, and that those are markers on the piece. A figure's gesture follows public facts: the place it holds in its room, the Captain at the chart table, a bandage when Injured, the place's fall when Eliminated.",
+        "decision": "The character (face, skin, hair, colors, suit) never changes; only the gesture does, from public facts only, and every marker is still drawn. Whether a gesture may say what a marker says is for the game owner, with Integration for the catalog (DSN-D33)."
+      },
+      {
+        "id": "GAP-9",
+        "kind": "owner decision",
+        "what": "The owner asked for an animation “if got shot” for every gesture. A public view says only that a health changed, never that a shot was fired, by whom, with what or from where (a Disable and a showdown shot also deal damage). The reviewed motion contract accepts “a health change is a status change with no impact”, and motion-direction.md allows a burst only when the attack type is public.",
+        "decision": "One hit for every cause (cue-public-hit, a proposal): a burst and a jolt where the character is, then a flinch back into its gesture with a bandage (Injured) or the place's fall (Eliminated). No lettering, weapon, shooter, trajectory or direction. Drawing a shot as a shot needs a public shot fact: a rules and contract decision (DSN-D35)."
       }
     ]
   },
@@ -643,11 +650,11 @@
       },
       {
         "id": "room-panel",
-        "prototype": ".bm-room[data-room] > .bm-stage, .bm-prop",
+        "prototype": ".bm-room[data-room] > .bm-stage, .bm-layer[data-layer]",
         "runtime": "li.ms-zone[data-zone] (renderZones, ids ms-comic-zone-*)",
         "status": "extend",
         "audience": "public",
-        "about": "A room as a panel: the approved room picture pinned by its anchor line, and, for the Command Room, Room B and the Hospital, the prop layer drawn in front of the station behind it."
+        "about": "A room as a panel and a scene (owner's decision of 9 October 2026): the approved room around a new deck, the props of its five places and its light, framed on its places at every panel size; what is drawn in front of a place (the chart table, the laboratory bench, a bed) is a layer of its own, stacked between the characters by depth."
       },
       {
         "id": "room-tag-move",
@@ -667,11 +674,11 @@
       },
       {
         "id": "piece",
-        "prototype": "li.bm-piece[data-seat][data-character][data-station][data-kind=stand|prop|seat][data-pose][data-mirror] > .bm-piece__body (.bm-piece__art), .bm-piece__front, .bm-piece__tag",
+        "prototype": "li.bm-piece[data-seat][data-character][data-place][data-kind=place|crowd|final][data-gesture][data-mirror] > .bm-piece__body, .bm-piece__front, .bm-piece__tag",
         "runtime": ".ms-seat[data-seat] with .ms-token, .ms-seat__number, .ms-seat__player",
         "status": "extend",
         "audience": "public",
-        "about": "A character at a station in its room, as a full-body comic figure (owner's decision of 9 October 2026) posed by public facts only: standing in one of three stances by seat number and facing into the room, leaning over the chart table or the counter, sitting up in the Hospital bed, on the Jail bench, or Eliminated on the floor. Over a prop, a second layer (the hands, the arms on the blanket) is drawn in front of it. Seat number and name on a plate at the feet, or on the prop's edge."
+        "about": "A character at a place in its room, as a full-body comic figure drawn live by the figure rig in the place's gesture (owner's decisions of 9 October 2026): five places a room, each with its own gesture (at the workstation, crouched at the hatch, at the microscope, in a bed, on the bench, at the door), the Command Room's the Captain's at the chart table. A character keeps its place while it stays. Injured: the same gesture with a bandage; Eliminated: the place's fall. In a crowd of six or more or in the Final Zone, one of three standing stances by seat number. Over a prop, a second layer (the hands on the desk, the arms on the blanket) is drawn in front of it. Seat number and name on a plate under the press area."
       },
       {
         "id": "piece-target",
@@ -679,7 +686,7 @@
         "runtime": "button.phone-character-target[data-intent=action/choose][data-value][aria-describedby=ms-action-step]",
         "status": "extend",
         "audience": "private",
-        "about": "The press area on an eligible character: its upper body from the head down, at least 44 x 44, never overlapping another or a room tag, never reaching under a tag. A standing character's band hangs at the same height above its row's floor line in every row; behind a prop it ends 6 px below the prop line; on the bench it is the figure."
+        "about": "The press area on an eligible character: on its upper body (on the head, lying in a bed or on a cot), at least 44 x 44, never overlapping another or a room tag, never reaching under a tag. The board gives each band the height that keeps every taken place's press area whole and apart."
       },
       {
         "id": "piece-cue",
@@ -687,7 +694,7 @@
         "runtime": ".ms-seat[data-board-target=eligible|picked]",
         "status": "extend",
         "audience": "private",
-        "about": "The viewer's own open action drawn on the characters: eligible (dashed ring at the feet, + tab; behind a prop or on the bench, a thin outline), selected (lifted, outlined, check), picked (outlined, numbered), pending (dotted), other (faint). Own board only."
+        "about": "The viewer's own open action drawn on the characters: eligible (a dashed ring around the press area, + tab), selected (outlined, check), picked (outlined, numbered), pending (dotted), other (faint). Own board only."
       },
       {
         "id": "pick-stamp",
@@ -703,7 +710,7 @@
         "runtime": "none",
         "status": "proposed",
         "audience": "private",
-        "about": "The tentative place of the viewer's own move: the viewer's own figure, faint and dashed, labeled You?, in the room pressed. The real piece moves only with the public update."
+        "about": "The tentative place of the viewer's own move: the viewer's own figure, faint and dashed, at the place it would take there by the same rule as everyone's, labeled You?, in the room pressed. The real piece moves only with the public update."
       },
       {
         "id": "public-markers",
@@ -763,11 +770,11 @@
       },
       {
         "id": "fx-layer",
-        "prototype": ".bm-fx > .bm-flyer, .bm-trail, .bm-puff",
+        "prototype": ".bm-fx > .bm-flyer, .bm-hit, .bm-trail, .bm-puff",
         "runtime": "apps/game/hosted/comic-motion.mjs (createComicMotion, movedPublicSeats) animating .ms-token",
         "status": "extend",
         "audience": "public",
-        "about": "A layer over the board that takes no pointer events: a moving character is carried in it from its old station to its new one, with an ink trail and a landing puff."
+        "about": "A layer over the board that takes no pointer events: a moving character walks in it from its old room to its new one, with an ink trail and a landing puff; a hit's burst is drawn in it at the character's chest."
       },
       {
         "id": "card-sheet",

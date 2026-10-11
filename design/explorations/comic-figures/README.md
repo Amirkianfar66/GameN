@@ -6,7 +6,9 @@
 
 **The answer was yes, and this is the working pilot of it**: the nine approved characters as full-body comic figures, posed by the room they are in, on the approved rooms, on a phone. It is an exploration. It is not an asset, a contract, a token, a shell or the game, and nothing reviewed reads it.
 
-**The owner then said "lets try full body comic"** ([owner-decisions.md](../../../docs/design/owner-decisions.md#9-october-2026-full-body-comic-characters)). The figures are now the board-motion prototype's: its drawing rig and figure files are in `design/board-motion/figures/` and `design/board-motion/assets/figures/`, every piece of that prototype is a posed figure, and this page reads its figures from there. The approved standees (7 October) are unchanged in the reviewed kit and the runtime; adopting the figures is DSN-D32.
+**The owner then said "lets try full body comic"** ([owner-decisions.md](../../../docs/design/owner-decisions.md#9-october-2026-full-body-comic-characters)), and later the same day asked for each room to be a scene with five fixed places ([owner-decisions.md](../../../docs/design/owner-decisions.md#9-october-2026-five-places-a-room-each-a-scene)). The figures are now the board-motion prototype's, drawn live by its rig in `design/board-motion/figures/`. The approved standees (7 October) are unchanged in the reviewed kit and the runtime; adopting the figures is DSN-D32.
+
+**Only the evidence is kept here (11 October 2026).** This README, the review pictures and `review/audit.json` show what the owner saw before deciding. The pilot's page and scripts (`index.html`, `pilot.css`, `pilot.js`, `scene.js`, `render.mjs`) drew from the board-motion poses, figure files and prop layers that the scenes replaced, so they were retired rather than left broken; they are in git, from commit `c005c35` to `93a7e32`. The sections below describe the pilot as it was.
 
 | The board on a phone | Five in one room | A character picked |
 | --- | --- | --- |
@@ -14,7 +16,7 @@
 
 ## Open it
 
-Start the review server (`npm run dev:review --workspace @mothership/design-tokens`), then open `http://127.0.0.1:4320/explorations/comic-figures/`.
+Retired: check out commit `93a7e32` to open it as it was (`npm run dev:review --workspace @mothership/design-tokens`, then `http://127.0.0.1:4320/explorations/comic-figures/`).
 
 Tap a character to pick them: an outline, the plate and the tray say who, and Confirm stamps the plate. Tap **Room A** or **Room B** to move the viewer (Juno, Player 7) there: the piece is lifted off, set down in the other room, and the others in both rooms step to their new places. `?scenario=spread|full|fullB|fullH|fullJ|crowded` chooses the public state, `?motion=reduced` the reduced-motion alternative (also taken from the system setting), `?tags=off` hides the plates, `?hits=show` draws every press area. The fixture panel beside the phone does the same. Everything is synthetic.
 

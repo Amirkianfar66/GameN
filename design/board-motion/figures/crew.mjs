@@ -50,11 +50,51 @@ function hairBehind(cv, c) {
 }
 
 /**
+ * The back of the head, for a figure turned away (at a console, a tank, the bars): the skull,
+ * both ears and the hair or hijab over them. The character is still told by hair, skin and the
+ * patches; the name plate says who it is.
+ */
+function headBack(cv, c, { bandage }) {
+  const skull = blob([[-11, -11], [-12.8, -3], [-12.4, 4.6], [-9.6, 10.6], [-5, 14], [0, 14.8], [5, 14], [9.6, 10.6], [12.4, 4.6], [12.8, -3], [11, -11], [0, -14.6]]);
+  const shade = blob([[4, -13.6], [11, -11], [12.8, -3], [12.4, 4.6], [9.6, 10.6], [5, 14], [4.4, 6], [6, -4]]);
+  if (c.hairStyle === 'hijab') {
+    cv.form(blob([[-15, -6], [-11, -17], [0, -21], [11, -17], [15, -6], [16, 10], [20, 26], [-20, 26], [-16, 10]]), c.hair, { stroke: 2.3, shadow: blob([[6, -19], [15, -6], [16, 10], [20, 26], [9, 26], [9, 2]]) });
+    cv.line('M-9 -14 Q0 -18 9 -14 M-6 6 Q0 9 6 6', { width: 1.1, color: c.hairLight });
+    return;
+  }
+  for (const side of [-1, 1]) cv.form(blob([[11.2 * side, -4], [14.6 * side, -4.4], [15 * side, 2], [12 * side, 5.6], [10.6 * side, 2]]), c.skin, { stroke: 1.7, dots: false });
+  cv.form(skull, c.skin, { stroke: 2.3, shadow: shade, depth: 0.26 });
+  if (c.hairStyle === 'afro') {
+    cv.form(cloud([0, -5], 20.5, 18.6, 16), c.hair, { stroke: 2.3, shadow: blob([[6, -23], [20, -14], [21, 0], [14, 12], [6, 10], [10, -4]]), depth: 0.25 });
+    for (const [x, y] of [[-12, -14], [-4, -20], [6, -19], [13, -10], [-14, -2], [-6, -8], [4, -6], [-2, 4], [10, 2]]) cv.line(`M${x} ${y} a2.6 2.6 0 0 1 4.4 1`, { width: 1, color: c.hairLight });
+  } else if (c.hairStyle === 'bald') {
+    cv.form('M-12.6 -1 Q-12 8 -6 11.6 Q0 13.6 6 11.6 Q12 8 12.6 -1 Q8 4 0 4.6 Q-8 4 -12.6 -1 Z', c.hair, { stroke: 1.7 });
+    cv.line('M-7 -10 Q0 -13 7 -10', { width: 1.1, color: PAPER, opacity: 0.6 });
+  } else {
+    // Crop, bun, bob and locs: the hair caps the skull down to the nape, longer for a bob.
+    const low = c.hairStyle === 'bob' ? 12.6 : 6;
+    cv.form(`M-12.8 ${low - 6} Q-13.4 -12 0 -15.4 Q13.4 -12 12.8 ${low - 6} Q11 ${low + 2} 6 ${low + 1.6} Q0 ${low - 1} -6 ${low + 1.6} Q-11 ${low + 2} -12.8 ${low - 6} Z`, c.hair, { stroke: 2.1, shadow: blob([[5, -14], [12.8, -6], [12.6, low - 4], [7, low], [7, -4]]), dots: false });
+    cv.line('M-8 -11 Q0 -14.6 8 -11', { width: 1.1, color: c.hairLight });
+    if (c.hairStyle === 'bun') cv.form(cloud([0, -17], 6.6, 5.8, 7), c.hair, { stroke: 2, shadow: blob([[2, -22], [6.6, -17], [3, -12], [1, -16]]), dots: false });
+    if (c.hairStyle === 'locs') {
+      for (const [x, length, dx] of [[-10, 26, -2], [-5, 31, -1], [0, 33, 0], [5, 31, 1], [10, 26, 2]]) cv.form(blob([[x - 2.6, 2], [x + 2.6, 2], [x + 2.4 + dx, length - 4], [x + dx, length - 1], [x - 2.4 + dx, length - 4]], 0.7), c.hair, { stroke: 1.8 });
+    }
+  }
+  if (c.headset) {
+    cv.line('M-13 -2 Q-12 -17 0 -17.6 Q12 -17 13 -2', { width: 2.4 });
+    for (const side of [-1, 1]) cv.form(`M${13 * side - 3.2} 0 a3.2 4.2 0 1 0 6.4 0 a3.2 4.2 0 1 0 -6.4 0 Z`, STEEL.mid, { stroke: 1.8 });
+  }
+  if (c.goggles) cv.line('M-13 -9 Q0 -6.4 13 -9', { width: 3, color: c.accent });
+  if (bandage) cv.form('M-12.8 -9 Q0 -14.4 12.8 -9 L12.8 -4.4 Q0 -9.4 -12.8 -4.4 Z', PAPER, { stroke: 1.7, dots: false });
+}
+
+/**
  * The head, in its own frame: the middle of the face at 0,0, chin at 15, the top of the skull
- * at -13. view: 'front' (three-quarter, facing left) or 'down' (looking down and left, the eyes
- * lids). bandage: drawn only where the public view says Injured.
+ * at -13. view: 'front' (three-quarter, facing left), 'down' (looking down and left, the eyes
+ * lids) or 'back' (turned away). bandage: drawn only where the public view says Injured.
  */
 export function head(cv, c, view = 'front', { bandage = false } = {}) {
+  if (view === 'back') { headBack(cv, c, { bandage }); return; }
   hairBehind(cv, c);
   const down = view === 'down';
   cv.form(blob(down ? FACE.down : FACE.front), c.skin, { stroke: 2.3, shadow: FACE_SHADOW, depth: 0.26 });

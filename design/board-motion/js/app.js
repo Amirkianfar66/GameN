@@ -9,7 +9,8 @@
 // labeled stand-in that answers as the fixture panel says. Nothing is resolved.
 
 import { h, vh } from './h.js';
-import { createBoard } from './board.js';
+import { createBoard, geometry, pressRect } from './board.js';
+import { SCENES } from '../scenes/index.mjs';
 import { createDirector } from './director.js';
 import { COPY, PROPOSED, SHELL } from './copy.js';
 import { SCENARIOS, EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario } from './fixtures.js';
@@ -19,7 +20,6 @@ import { loadBundles } from '../../prototypes/js/bundles.js';
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
 const frozen = params.has('t') || params.get('freeze') === '1' || !chrome;
-const stations = await (await fetch(new URL('../contract/stations.json', import.meta.url))).json();
 
 /** replaceChildren that skips nothing-children, so that no "null" is ever drawn. */
 const put = (node, ...children) => node.replaceChildren(...children.flat(Infinity).filter(child => child !== null && child !== undefined && child !== false));
@@ -48,6 +48,9 @@ function load(id) {
     concealed: document.visibilityState !== 'visible', disposed: false, privateQuiet: false, requests: { sent: 0, lookups: 0 },
   });
   if (S.names === 'long') S.public.seats.forEach((seat, index) => { seat.name = LONG_NAMES[index]; });
+  // A new match view: nobody has held a place in it yet, on either board.
+  board.reset();
+  observer?.board.reset();
   // A scenario that starts mid-flow takes its picks as seat numbers or answers, as the controls carry them.
   S.flow = { ...S.flow, picked: [...(S.flow.picked ?? [])] };
 }
@@ -260,7 +263,7 @@ const live = h('div', { class: 'bm-vh', 'aria-live': 'polite', id: 'bm-live' });
 const livePrivate = h('div', { class: 'bm-vh', 'aria-live': 'polite', id: 'bm-live-private', 'data-private': 'true' });
 const boardHost = h('div', { class: 'bm-board-host', style: { display: 'contents' } });
 phone.append(h('p', { class: 'bm-synthetic' }, 'Synthetic'), status, boardHost, strip, nav, tray, card, menu, live, livePrivate);
-const board = createBoard(boardHost, { stations, interactive: true, viewer: VIEWER });
+const board = createBoard(boardHost, { interactive: true, viewer: VIEWER });
 const fx = h('div', { class: 'bm-fx', 'aria-hidden': 'true' });
 board.element.append(fx);
 // Every cue either board plays, for the flows tool to count (dev-only): replays and reconnects must add none.
@@ -277,7 +280,7 @@ function buildObserver(container) {
   app.append(ostatus, host);
   // The other screens' phone, in a frame of its own size: what every other player and the display draw.
   container.append(h('div', { class: 'bm-frame' }, app));
-  const oboard = createBoard(host, { stations, interactive: false, viewer: null, label: PROPOSED.observerTitle });
+  const oboard = createBoard(host, { interactive: false, viewer: null, label: PROPOSED.observerTitle });
   const ofx = h('div', { class: 'bm-fx', 'aria-hidden': 'true' });
   oboard.element.append(ofx);
   const odirector = createDirector({ board: oboard, status: ostatus, fx: ofx, hold: params.has('t'), reduced: () => S.motion === 'reduced', onCue: entry => cueLog.push({ board: 'observer', ...entry }) });
@@ -476,7 +479,7 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   drawStatus(status);
   board.update(S.public, boardCues());
   drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav();
-  fitBoard(board.element);
+  fitBoard(board);
   phone.querySelector('.bm-notice')?.remove();
   phone.querySelector('.bm-banner')?.remove();
   if (S.banner === 'stale') phone.append(h('p', { class: 'bm-banner', role: 'status' }, COPY.banner.stale));
@@ -486,7 +489,7 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   if (observer) {
     drawStatus(observer.status);
     observer.board.update(S.public, {});
-    fitBoard(observer.board.element);
+    fitBoard(observer.board);
     if (previous) observer.director.after(previous, S.public, obefore, { kind: cueKind, revision: S.revision });
   }
   for (const text of announce.public.splice(0)) live.append(h('p', null, text));
@@ -501,57 +504,66 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
 }
 
 /**
- * The board's three bands share the screen by public occupancy. Each band needs its rooms' name
- * tags, the piece pad and one row unit per row of characters, inside the panels' borders; what
- * is left is shared out. The row unit is at least 44 px while characters can be tapped, so that
- * no two press areas overlap and none reaches under a room's tag; with nothing to tap (a
- * confirmation, a receipt) it may shrink to 30 px, so a taller strip never covers a room.
+ * The board's three bands share the screen by public occupancy. Each room's scene needs its name
+ * tag and, for the places taken in it, a panel tall enough that every taken place's press area is
+ * whole, at least 44 x 44, clear of the tag and of every other press area (scenes/frame.mjs and
+ * board.js lay them out; the captures measure them); an empty room keeps a sliver of its scene.
+ * What is left is shared out by weight, a band growing no taller than its scenes can fill
+ * without cropping their places off the sides; past that the middle band takes the rest.
  */
 const BANDS = { top: ['command-room'], middle: ['room-a', 'room-b'], lower: ['hospital', 'jail'] };
-function fitBoard(element) {
+function fitBoard(api) {
+  const element = api.element;
   const height = element.clientHeight;
   if (!height) return;
   const style = element.style;
   const board = getComputedStyle(element);
   const outer = parseFloat(board.paddingTop) + parseFloat(board.paddingBottom) + 2 * parseFloat(board.rowGap);
-  if (element.dataset.final === 'true') { style.setProperty('--row-unit', `${Math.min(76, Math.max(48, (height - outer - 32) / 3))}px`); return; }
-  const live = Boolean(element.querySelector('.bm-piece__target'));
-  const minUnit = live ? 44 : 30;
-  const base = Object.entries(BANDS).map(([, rooms]) => Math.max(...rooms.map(id => {
-    const room = element.querySelector(`.bm-room[data-room="${id}"]`);
-    const tag = room.querySelector('.bm-tag');
+  if (element.dataset.final === 'true') { api.layout(); return; }
+  const fits = (id, width, h) => {
+    const panel = api.panels.get(id);
+    const css = getComputedStyle(panel);
+    const size = { width, height: h, cap: parseFloat(css.getPropertyValue('--bm-cap')) || 32, pad: parseFloat(css.getPropertyValue('--bm-pad')) || 6 };
+    const rects = api.placesIn(id).map(place => pressRect(geometry(place, size), size));
+    if (rects.some(r => r.top < size.cap - 0.5 || r.top + r.side > h - size.pad + 0.5)) return false;
+    return rects.every((a, i) => rects.every((b, j) => j <= i || a.left + a.side <= b.left || b.left + b.side <= a.left || a.top + a.side <= b.top || b.top + b.side <= a.top));
+  };
+  const needs = Object.values(BANDS).map(rooms => rooms.map(id => {
+    const panel = api.panels.get(id);
+    const tag = panel.querySelector('.bm-tag');
     const fixed = tag.classList.contains('bm-tag--fixed');
     // A move tag's button is its press area; a fixed caption keeps its 3 px inset above and below.
     // A public label over a head (On the ballot, a published count) gets its own line below the tag.
-    const label = room.querySelector('.bm-piece__subject, .bm-piece__tally') ? 16 : 0;
+    const label = panel.querySelector('.bm-piece__subject, .bm-piece__tally') ? 16 : 0;
     const cap = Math.ceil((fixed ? tag.offsetHeight + 6 : Math.max(44, tag.offsetHeight)) + label);
-    room.style.setProperty('--bm-cap', `${cap}px`);
-    const css = getComputedStyle(room);
-    return parseFloat(css.borderTopWidth) + parseFloat(css.borderBottomWidth) + cap + parseFloat(css.getPropertyValue('--bm-pad'));
-  })));
-  const rows = Object.keys(BANDS).map(band => Number(style.getPropertyValue(`--rows-${band}`)) || 0);
-  const standing = Object.keys(BANDS).map(band => Number(style.getPropertyValue(`--stand-${band}`)) || 0);
-  // A band needs a row unit for each row behind the front one, and the front row's figure: twice as
-  // tall as it is wide (board.css --fig-h), less what the panel's lower edge crops of it on the
-  // smallest phones (--crop). A band of picture stations only (the chart table, a bed, the bench)
-  // holds figures drawn at the picture's scale: about a unit and a tenth. The unit is the largest that fits.
-  const figH = u => 2.0667 * Math.min(60, Math.max(30, u * 0.74));
-  const crop = u => Math.min(Math.max(0, (60 - u) * 1.7), figH(u) * 0.4);
-  const bandNeed = (index, u) => {
-    if (!rows[index]) return base[index];
-    if (!standing[index]) return base[index] + 1.1 * u;
-    return base[index] + (rows[index] - 1) * u + figH(u) - crop(u);
-  };
-  const room = height - outer;
-  let unit = minUnit;
-  for (let u = 74; u >= minUnit; u -= 0.5) if (base.reduce((sum, _, index) => sum + bandNeed(index, u), 0) <= room) { unit = u; break; }
-  const need = base.map((_, index) => bandNeed(index, unit));
-  const weights = [0.8, 1.25, 1].map((w, index) => (rows[index] === 0 ? 0 : w));
-  const left = Math.max(0, height - outer - need.reduce((a, b) => a + b, 0));
-  const share = weights.reduce((a, b) => a + b, 0) || 1;
-  const sizes = need.map((value, index) => value + (left * weights[index]) / share);
-  style.setProperty('--row-unit', `${unit}px`);
+    panel.style.setProperty('--bm-cap', `${cap}px`);
+    const css = getComputedStyle(panel);
+    const borders = parseFloat(css.borderTopWidth) + parseFloat(css.borderBottomWidth);
+    const width = panel.clientWidth;
+    let need = cap + 24;
+    if (api.placesIn(id).length) {
+      need = cap + 50;
+      while (need < 900 && !fits(id, width, need)) need += 2;
+    }
+    const scene = SCENES[id];
+    const most = scene ? (width * (scene.inner[3] - scene.inner[1])) / (scene.focus[2] - scene.focus[0]) : Infinity;
+    return { need: need + borders, most: Math.max(need, most) + borders };
+  }));
+  const need = needs.map(list => Math.max(...list.map(entry => entry.need)));
+  const most = needs.map((list, index) => Math.max(need[index], Math.min(...list.map(entry => entry.most))));
+  const sizes = [...need];
+  let left = Math.max(0, height - outer - need.reduce((a, b) => a + b, 0));
+  const weights = [0.8, 1.25, 1];
+  for (let round = 0; round < 4 && left > 0.5; round += 1) {
+    const open = sizes.map((size, index) => (size < most[index] ? weights[index] : 0));
+    const share = open.reduce((a, b) => a + b, 0);
+    if (!share) { sizes[1] += left; left = 0; break; }
+    let given = 0;
+    sizes.forEach((size, index) => { const add = Math.min((left * open[index]) / share, most[index] - size); sizes[index] += add; given += add; });
+    left -= given;
+  }
   for (const [index, band] of Object.keys(BANDS).entries()) style.setProperty(`--band-${band}`, `${sizes[index]}px`);
+  api.layout();
 }
 
 /** A short phone (568 px tall and the like) draws the same parts tighter: see .bm-app[data-short]. */
@@ -610,20 +622,21 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('pagehide', () => {
   conceal(); S.disposed = true; clearInterval(countdownTimer); render();
 });
-new ResizeObserver(() => { fitBoard(board.element); if (observer) fitBoard(observer.board.element); }).observe(board.element);
+new ResizeObserver(() => { fitBoard(board); if (observer) fitBoard(observer.board); }).observe(board.element);
 new ResizeObserver(markShort).observe(phone);
 
 // ---------- the page around the phone: frame, observer and fixture controls ----------
 async function loadArt() {
   await loadBundles(['public-board', 'player-ui', 'roles']);
-  // The prop layers and the figures: every pose of every character, before the first match view,
-  // whatever the seat's role, state or turn. Each is marked on the root once it has arrived.
-  await Promise.all([['board-motion.art.css', 'board-motion'], ['board-motion.figures.css', 'board-motion-figures']].map(([file, mark]) => new Promise(resolve => {
-    const link = h('link', { rel: 'stylesheet', href: new URL(`../assets/${file}`, import.meta.url).href });
-    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} ${mark}`.trim(); resolve(); }, { once: true });
+  // The room scenes: every room's picture and the layers drawn in front of its places, before the first
+  // match view, whatever the seat's role, state or turn. Marked on the root once it has arrived. The
+  // figures need no art: the figure rig draws them from public facts.
+  await new Promise(resolve => {
+    const link = h('link', { rel: 'stylesheet', href: new URL('../assets/board-motion.scenes.css', import.meta.url).href });
+    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} board-motion-scenes`.trim(); resolve(); }, { once: true });
     link.addEventListener('error', resolve, { once: true });
     document.head.append(link);
-  })));
+  });
 }
 
 function fixturePanel() {
@@ -683,6 +696,9 @@ if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && S.public.ph
 const PLAY = {
   move: () => deliver(EVENTS.find(e => e.id === 'move').fact),
   injure: () => deliver(EVENTS.find(e => e.id === 'injure').fact),
+  // Injured first, then the end-of-round move, which withdraws the hit in flight: the limp to the Hospital.
+  hospital: () => { deliver(EVENTS.find(e => e.id === 'injure').fact); deliver(EVENTS.find(e => e.id === 'to-hospital').fact); },
+  release: () => deliver(EVENTS.find(e => e.id === 'release').fact),
   eliminate: () => deliver(EVENTS.find(e => e.id === 'eliminate').fact),
   jail: () => deliver(EVENTS.find(e => e.id === 'jail').fact),
   captain: () => deliver(EVENTS.find(e => e.id === 'captain').fact),

@@ -13,17 +13,17 @@ import { COPY, PROPOSED, SHELL } from './copy.js';
 export const SYNTHETIC_LABEL = 'Synthetic fixture · design prototype, not a match';
 export const VIEWER = 3;
 
-/** The nine crew characters (design/contract/crew-catalog.json) and a public flourish each: how it settles after landing. */
+/** The nine crew characters (design/contract/crew-catalog.json). Every one walks, is hit and falls the same way: only its picture differs. */
 export const CREW = [
-  { id: 'c1', sign: 'Vega', settle: -3, hop: 6 },
-  { id: 'c2', sign: 'Rigel', settle: 2, hop: 4 },
-  { id: 'c3', sign: 'Lyra', settle: -2, hop: 8 },
-  { id: 'c4', sign: 'Atlas', settle: 1, hop: 3 },
-  { id: 'c5', sign: 'Orion', settle: -1, hop: 4 },
-  { id: 'c6', sign: 'Nova', settle: 3, hop: 7 },
-  { id: 'c7', sign: 'Juno', settle: -2, hop: 5 },
-  { id: 'c8', sign: 'Mira', settle: 2, hop: 6 },
-  { id: 'c9', sign: 'Echo', settle: -3, hop: 4 },
+  { id: 'c1', sign: 'Vega' },
+  { id: 'c2', sign: 'Rigel' },
+  { id: 'c3', sign: 'Lyra' },
+  { id: 'c4', sign: 'Atlas' },
+  { id: 'c5', sign: 'Orion' },
+  { id: 'c6', sign: 'Nova' },
+  { id: 'c7', sign: 'Juno' },
+  { id: 'c8', sign: 'Mira' },
+  { id: 'c9', sign: 'Echo' },
 ];
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
