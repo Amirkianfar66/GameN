@@ -50,6 +50,13 @@ const READ = `(() => {
     players: players.map(player => ({ text: player.innerText.replace(/\\s+/g, ' ').trim(), character: player.querySelector('.phone-investigation__portrait')?.dataset.character ?? null,
       shown: shown ? inside(box(player), shown) : false, ...round(box(player)) })),
     rolesShown: roles && shown ? inside(box(roles), shown) : null,
+    headingShown: (() => {
+      const heading = document.querySelector('#phone-investigation-heading');
+      const head = sheet ? sheet.querySelector('.phone-panel-head') : null;
+      if (!heading || !shown) return null;
+      const b = box(heading), top = head ? head.getBoundingClientRect().bottom : shown.y;
+      return b.y >= top - 0.5 && b.y + b.h <= shown.y + shown.h + 0.5;
+    })(),
     roles: [...document.querySelectorAll('.phone-investigation__role')].map(node => node.textContent),
     focus: document.activeElement?.id || null,
     sentence: document.body.innerText.includes('hold the roles'),
@@ -95,6 +102,7 @@ const opened = m => [
   m.rolesShown === false && 'the roles are not in view in the card',
   JSON.stringify(m.roles) !== JSON.stringify(['Undercover', 'Alien', 'Cracker']) && `roles ${m.roles}`,
   m.toggle?.expanded !== 'true' && 'toggle not expanded',
+  m.headingShown !== true && 'the board heading is not in view below the card heading',
   m.roleWordsOutsideCard.length > 0 && `role words outside the card: ${m.roleWordsOutsideCard}`,
 ];
 // At enlarged text the card scrolls inside itself: everything on the board must be reachable
@@ -120,6 +128,7 @@ const enlarged = (m, missed) => [
   !m.boardOpen && 'board not open',
   m.players.length !== 3 && `${m.players.length} players`,
   missed.length > 0 && `not reachable by scrolling the card: ${missed.join(', ')}`,
+  m.headingShown !== true && 'the board heading is not in view below the card heading',
   JSON.stringify(m.roles) !== JSON.stringify(['Undercover', 'Alien', 'Cracker']) && `roles ${m.roles}`,
 ];
 const cleared = m => [

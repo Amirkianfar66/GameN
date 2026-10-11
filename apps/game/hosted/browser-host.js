@@ -197,8 +197,16 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       investigation = intel.dataset.phoneInvestigation === 'open';
       phoneFocus = investigation ? '#phone-investigation-heading' : '#phone-investigation-toggle';
       draw();
-      // Focus moves without scrolling; the board is then brought into view inside the card.
-      if (investigation) root.querySelector('#phone-investigation')?.scrollIntoView({ block: 'nearest' });
+      // Focus moves without scrolling; the board is then brought into view inside the card,
+      // its top below the card's sticky heading even when, at large text, it is taller than the card.
+      const board = investigation ? root.querySelector('#phone-investigation') : null;
+      const sheet = board?.closest('.ms-private');
+      if (board && sheet) {
+        board.scrollIntoView({ block: 'nearest' });
+        const head = sheet.querySelector('.phone-panel-head');
+        const covered = head ? head.getBoundingClientRect().bottom - board.getBoundingClientRect().top : 0;
+        if (covered > 0) sheet.scrollTop -= covered;
+      }
       return;
     }
     const tab = event.target instanceof Element ? event.target.closest('button[data-phone-view]') : null;

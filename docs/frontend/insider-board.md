@@ -35,7 +35,7 @@ This change asks nothing new of Backend or the contracts.
    - a seat-number badge;
    - the display name, as text.
 3. **The roles.** Set apart from the players, a dashed group says "Between them, one each:", then shows three identical chips — Undercover, Alien, Cracker — in the rule's order. It ends with "Who holds which is not known."
-4. **Opening.** Focus moves to the board's heading, and the board scrolls into view inside the card. The role card makes way while the board is open, so the board fits a 320×568 phone.
+4. **Opening.** Focus moves to the board's heading, and the board scrolls into view inside the card. Its top stays below the card's sticky heading even when, at large text, the board is taller than the card. The role card makes way while the board is open, so the board fits a 320×568 phone.
 5. **Closing.** "Hide investigation board" or Escape closes the board and returns focus to the toggle.
 6. **No repeated sentence.** In the comic shell the "What you know" list no longer repeats the set, because the board says it. The plain shell, which has no art, still says it in one sentence.
 
@@ -94,7 +94,7 @@ When the Designer delivers, the reviewed commit and manifest version replace the
 - `packages/presentation/src/model/knowledge.ts` and `types.ts`: `knowledge.insider` (an `InsiderSetModel`) gives the seats in public seat order, the three roles in fixed order and the existing sentence.
 - `packages/presentation/src/markup/comic-shell.ts`: draws the toggle and board in the open card when the phone is in the Card view and the view is live. Removes the sentence from that card's knowledge list.
 - `packages/presentation/src/copy/en.ts`: adds the interim words.
-- `apps/game/hosted/browser-host.js`: owns the open state. Open only on a tap; reset whenever the card closes, the view leaves Card, the connection is not live or the private epoch changes. Also handles focus, Escape and scroll into view.
+- `apps/game/hosted/browser-host.js`: owns the open state. Open only on a tap; reset whenever the card closes, the view leaves Card, the connection is not live or the private epoch changes. Also handles focus, Escape, and scrolling the board into view below the card's sticky heading.
 - `apps/game/hosted/private-card.css`: the interim treatment. It is imported by the hosted entry and the board simulation.
 
 Development only:
@@ -111,8 +111,8 @@ All checks below ran locally with Node 22.21.1 and npm 10.9.4.
 | --- | --- |
 | Presentation suite | 179/179 passed. This includes 6 new Insider-board tests and an updated knowledge test |
 | Game suite | 430/430 passed. This includes 3 new screen-lifecycle tests. The first run failed the production-exclusion test because a comment sat inside a capture script's page string; it was moved out, and the test then passed |
-| Browser capture (simulation) | 18 steps, 0 problems. See [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md) |
-| Full `npm run verify` on the clean commit | See the evidence README for the commit and the actual result |
+| Browser capture (simulation) | 18 steps, 0 problems. See [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md). Its board-heading check reproduced a defect at doubled text, where the sticky card heading covered the board's top. Without the fix, 2 steps fail; with it, none do |
+| Full `npm run verify` on the clean commit | Recorded below, under the commit it ran on |
 
 The presentation tests cover:
 

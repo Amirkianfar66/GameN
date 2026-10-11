@@ -33,6 +33,17 @@ It also records what differs from the proposal, and why. Its browser-simulation 
 
 [motion-os-preference.md](motion-os-preference.md) fixes the remaining explicit-full → OS-reduced wiring case without a screen frame, with native cancellation and owned-listener teardown evidence.
 
+## Role abilities
+
+Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) integrates the Designer's role-ability treatments on the phone. [insider-board.md](insider-board.md) covers the first piece, the Insider's investigation board. It is an interim treatment, pending the Designer's, and it covers:
+
+- the privacy lifecycle;
+- what was never drawn, so no player is paired with a role;
+- the missing Designer assets;
+- the actual checks.
+
+Its browser-simulation evidence is under [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md).
+
 ## Slices
 
 Each stage is labeled as the brief requires: **proposed**, **fixture-tested**, **integrated** or **measured**. Nothing is integrated or measured yet.
