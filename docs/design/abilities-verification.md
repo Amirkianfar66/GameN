@@ -190,6 +190,7 @@ The showdown's special shot and the match's end (`abilities-0.6.0`), on `a3379d1
 | `npm run test --workspace @mothership/design-tokens` | **183 tests: 182 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **59 ability-check tests pass**, 4 new for slice 6, and a new board-check test proves the end's rules refuse a role before a finished match, an end hook on the board and an end reveal at the wrong phase |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `4a6542fff759f9704d83297ffbd251e5aae69c99`, the commit that adds slice 6, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 659 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
