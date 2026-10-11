@@ -357,8 +357,9 @@ try {
       await shoot(browser, server, { slice: 3, name: `beat-${label}-${String(t).padStart(4, '0')}ms`, title: `${label[0].toUpperCase()}${label.slice(1)}, ${t} ms`, group: 'Slice 3: the beats, frame by frame', phone: 'w390', path: `?scenario=${scenario}&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
     }
   }
+  // Only the slip's own beat is held: the card's slide-in finishes, so that every frame shows the slip where it lands.
   for (const t of [0, 130, 260]) {
-    await shoot(browser, server, { slice: 3, name: `beat-slip-${String(t).padStart(4, '0')}ms`, title: `A slip drops in, ${t} ms`, group: 'Slice 3: the beats, frame by frame', phone: 'w390', path: `?scenario=supply.ack&chrome=0&t=${t}`, selector: '.ab-deliveries', measure: '[]', wait: 200 });
+    await shoot(browser, server, { slice: 3, name: `beat-slip-${String(t).padStart(4, '0')}ms`, title: `A slip drops in, ${t} ms`, group: 'Slice 3: the beats, frame by frame', phone: 'w390', path: `?scenario=supply.ack&chrome=0&t=${t}&only=.ab-deliveries`, selector: '.ab-deliveries', measure: '[]', wait: 200 });
   }
   // The Blue and the Red Disabler see the same strip, part for part.
   for (const [blue, red] of [['disable-w390-confirm', 'disable-w390-red-confirm'], ['disable-w390-registered', 'disable-w390-red-registered']]) {

@@ -111,6 +111,17 @@ The Cracker's Rescue, the Blue and the Red Disabler's Disable, and the Supplier'
 
 **Not run, and what the checks do not prove.** Every picture is a desktop Chromium simulation: no real phone, screen reader, touch input, production integration or match. The strip's detail line and buttons keep their pixel size at twice the text size (the board-motion proposal, unchanged here); the slice 3 art in them keeps its size too.
 
+## A fix after slice 3: the slip's frames held the card
+
+Found while reviewing slice 4's beat frames: the first frame of a slip dropping into the card, `beat-slip-0000ms.png`, showed the board and no slip. The capture held every animation at the frame's time, the card's own slide-in among them, so at 0 ms the card was still below the screen and the picture showed what lay under it. The slip's frames now hold only the slip's beat and let the card finish opening (the prototype's `only` parameter), so each frame shows the slip where it lands: hidden at 0 ms, landing at 130 ms, at rest at 260 ms. Only the capture's parameters changed; the slip, its motion and the prototype did not.
+
+| Command | Result |
+| --- | --- |
+| `node design/tools/abilities-capture.mjs` | Passed: **114 pictures and 3 contact sheets, 0 with problems**. The two changed frames and the slice 3 contact sheet are committed; the other pictures differed from the committed ones only in rendering bytes and were kept as they were |
+| `node design/tools/abilities-check.mjs` | Passed: **8 of 8 checks** |
+| `node --test packages/design-tokens/test/abilities-check.test.mjs` | Passed: **38 of 38** |
+| `git diff --check` | Clean |
+
 ## What the checks assert, and what they do not
 
 - `check:abilities` (no browser): the kit is exactly what its recipes make from `source/dossier.svg`, in the drawing vocabulary and the neutral palette (no team, room or crew color), versioned, anchored and with its rights; the inventory names a treatment for every V1 role and every shared moment, each with five motion forms, and reads only view fields the approved contracts carry; the Insider's file sorts the candidates by seat before drawing them, draws each candidate with nothing of a role, keeps the role names one picture with one accessible name and never a list, swings the query tags together, colors only with tokens, draws art only behind loaded bundles, styles no candidate apart and draws its board cue on the own board only; the prototype loads the kit whatever the role, its hidden card holds nothing private, no production file refers to the prototype, every file carries the development-only mark; the review pictures were taken from the current art, pages and fixtures and measured clean; the inventory page is generated from the contract. Statically: it reads source text, so it proves what the code says, not what a browser draws.
