@@ -122,7 +122,7 @@ test('every rule, decision, invariant and scenario named in a balance document e
     'docs/balance/contract-review.md', 'docs/balance/integration-requests.md', 'docs/balance/telemetry-spec.md',
     'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/evidence/2026-10-07-supplier-disclosure.md', 'docs/balance/evidence/2026-10-07-supplier-fix.md', 'docs/balance/playtest/protocol.md',
     'docs/balance/playtest/analysis-plan.md', 'docs/balance/playtest/rule-problem-log.md', 'docs/balance/playtest/facilitator-session-form.md',
-    'docs/balance/playtest/participant-questionnaire.md', 'tests/scenarios/README.md', 'docs/balance/capacity-audit.md',
+    'docs/balance/playtest/participant-questionnaire.md', 'tests/scenarios/README.md', 'docs/balance/capacity-audit.md', 'docs/balance/evidence/2026-10-11-capacity.md',
   ];
   const source = text('tools/balance/src/invariants.ts') + text('tools/balance/src/runner.ts');
   const implemented = new Set(source.match(/INV-[A-Z]+-\d{2}/g));

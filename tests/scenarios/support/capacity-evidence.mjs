@@ -22,6 +22,10 @@ export const EVIDENCE_FILES = {
 // The cases that fail against the implementation, and the finding of the audit each one is.
 export const KNOWN_DEFECTS = { 'CAP-28': 'F1' };
 export const caseOf = scenarioId => scenarioId.replace(/^V1-M\d-/, '');
+// Ready cases that assert nothing the rule changes and in which no room ever holds five: a Captain
+// who lost the title returns to a last room that has a place, with seven and eight players. They
+// pass on an engine without the rule as well, and the control says so.
+export const HOLDS_WITHOUT_THE_RULE = ['V1-M7-CAP-29', 'V1-M8-CAP-29'];
 
 export function loadEvidence() {
   return Object.fromEntries(Object.entries(EVIDENCE_FILES).map(([key, name]) => [key, read(name)]));

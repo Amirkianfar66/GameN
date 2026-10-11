@@ -1,6 +1,6 @@
 # Room capacity of five: Game Balance audit
 
-An independent audit of the capacity rule of issue [#96](https://github.com/Amirkianfar66/GameN/issues/96), for games of seven, eight and nine players separately, and of Backend's implementation of it in draft PR [#98](https://github.com/Amirkianfar66/GameN/pull/98).
+An independent audit of the capacity rule of issue [#96](https://github.com/Amirkianfar66/GameN/issues/96), for games of seven, eight and nine players separately, and of Backend's implementation of it in PR [#98](https://github.com/Amirkianfar66/GameN/pull/98).
 
 **What this establishes.** What the rule can and cannot do in a match, from the rules themselves; which of its consequences the decided cases leave open; and where the implementation does and does not do what the decided cases say. It does in every case written here but one: a healed player is sent to the wrong room when a Captain is hurt in the same round after entering Command Room (finding F1).
 
@@ -78,6 +78,20 @@ Three were open when the fixtures were written, before Backend's implementation 
 `dd04f68` is `b0ab779`, the implementation, with one document changed.
 
 <!-- results -->
+
+| Run | Engine | Passed | Failed | Blocked | Not run |
+| --- | --- | --- | --- | --- | --- |
+| The capacity fixtures under `in-person-v1-capacity-2026-10-11`, on the implementation | `dd04f68` | 85 | 3 | 10 | 15 |
+| Control: the same fixtures under `in-person-v1-pass-2026-10-08`, on the engine before the rule | `1a92f37` | 2 | 86 | 10 | 15 |
+| The Version 1 catalogue under `in-person-v1-pass-2026-10-08`, on the implementation | `dd04f68` | 516 | 0 | 33 | 6 |
+| The same, on the engine before the rule | `1a92f37` | 516 | 0 | 33 | 6 |
+| The Version 1 catalogue under `in-person-v1-2026-10-06`, on the implementation | `dd04f68` | 516 | 0 | 33 | 6 |
+| The same, on the engine before the rule | `1a92f37` | 516 | 0 | 33 | 6 |
+| The Version 1 catalogue under `in-person-v1-capacity-2026-10-11`, the implementation's own default | `dd04f68` | 24 | 492 | 33 | 6 |
+
+The first row is the result of this audit: every case that an engine run decides passes but three, which are one case with each number of players and are finding F1. The second is the control: without the rule the cases fail, all but two that assert a return to a room with a place and hold either way. The next four show that the two earlier rulesets play on the new build as they did on the build before it. The last is finding F6. By number of players, the failing cases, the controls, the playouts, what the engine does in the blocked cases, and the commands: [evidence/2026-10-11-capacity.md](evidence/2026-10-11-capacity.md).
+
+<!-- /results -->
 
 ## 3. Where the rule can bind
 
