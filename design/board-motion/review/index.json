@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "e88ec1c35385abfe2c006f0562c333af8af639227363d6a4f86e68ff799e45ad",
+  "inputsSha256": "25b5c7329ac01a639c895927c592f97dd6705615ed629a978fa3da6ab32250d6",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
@@ -221,6 +221,24 @@
       "group": "One target",
       "title": "Hack phase: its own full minute",
       "key": true
+    },
+    {
+      "id": "hack.confirm",
+      "group": "One target",
+      "title": "Hack request: the asked player in the comms ring",
+      "key": false
+    },
+    {
+      "id": "hack.requested",
+      "group": "One target",
+      "title": "Hack request accepted: not the Hack itself",
+      "key": false
+    },
+    {
+      "id": "hack.partner",
+      "group": "One target",
+      "title": "Hack phase on the other partner’s phone: the same note",
+      "key": false
     },
     {
       "id": "showdown.choose",
@@ -491,6 +509,54 @@
       "group": "Ballots",
       "title": "Release vote: Yes, No or Abstain inline",
       "key": true
+    },
+    {
+      "id": "vote.confirm",
+      "group": "Ballots",
+      "title": "Captain election: the ballot for Player 5",
+      "key": false
+    },
+    {
+      "id": "vote.abstain",
+      "group": "Ballots",
+      "title": "Jail vote: an abstention, a blank slip",
+      "key": false
+    },
+    {
+      "id": "vote.abstained",
+      "group": "Ballots",
+      "title": "Abstention recorded: the blank slip posted",
+      "key": false
+    },
+    {
+      "id": "release.confirm",
+      "group": "Ballots",
+      "title": "Captain’s release request: Player 9 in the key ring",
+      "key": false
+    },
+    {
+      "id": "release.requested",
+      "group": "Ballots",
+      "title": "Release request accepted: not the vote",
+      "key": false
+    },
+    {
+      "id": "release.vote-yes",
+      "group": "Ballots",
+      "title": "Release vote: Yes, ticked on Player 9’s slip",
+      "key": false
+    },
+    {
+      "id": "release.vote-no",
+      "group": "Ballots",
+      "title": "Release vote: No, crossed",
+      "key": false
+    },
+    {
+      "id": "release.voted",
+      "group": "Ballots",
+      "title": "Release ballot recorded: posted, not a result",
+      "key": false
     },
     {
       "id": "move.tags",
@@ -1567,6 +1633,42 @@
       "kind": "state"
     },
     {
+      "id": "hack.confirm",
+      "state": "hack.confirm",
+      "file": "design/board-motion/review/states/hack.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.requested",
+      "state": "hack.requested",
+      "file": "design/board-motion/review/states/hack.requested.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.partner",
+      "state": "hack.partner",
+      "file": "design/board-motion/review/states/hack.partner.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
       "id": "showdown.choose",
       "state": "showdown.choose",
       "file": "design/board-motion/review/states/showdown.choose.png",
@@ -2098,6 +2200,102 @@
       "id": "release.vote",
       "state": "release.vote",
       "file": "design/board-motion/review/states/release.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.confirm",
+      "state": "vote.confirm",
+      "file": "design/board-motion/review/states/vote.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.abstain",
+      "state": "vote.abstain",
+      "file": "design/board-motion/review/states/vote.abstain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.abstained",
+      "state": "vote.abstained",
+      "file": "design/board-motion/review/states/vote.abstained.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.confirm",
+      "state": "release.confirm",
+      "file": "design/board-motion/review/states/release.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.requested",
+      "state": "release.requested",
+      "file": "design/board-motion/review/states/release.requested.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.vote-yes",
+      "state": "release.vote-yes",
+      "file": "design/board-motion/review/states/release.vote-yes.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.vote-no",
+      "state": "release.vote-no",
+      "file": "design/board-motion/review/states/release.vote-no.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.voted",
+      "state": "release.voted",
+      "file": "design/board-motion/review/states/release.voted.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -4446,7 +4644,7 @@
       "state": "release.vote",
       "file": "design/board-motion/review/motion/22-cue-ballot-subject-0ms.png",
       "width": 402,
-      "height": 622,
+      "height": 605,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -4463,7 +4661,7 @@
       "state": "release.vote",
       "file": "design/board-motion/review/motion/22-cue-ballot-subject-reduced.png",
       "width": 402,
-      "height": 622,
+      "height": 605,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -4610,7 +4808,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 6183,
+      "height": 6559,
       "viewport": "1600",
       "contact": true
     },
@@ -4628,7 +4826,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-motion.png",
       "width": 1600,
-      "height": 15370,
+      "height": 15358,
       "viewport": "1600",
       "contact": true
     },

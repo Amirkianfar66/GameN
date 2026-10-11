@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.4.0",
+  "manifestVersion": "abilities-0.5.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -185,6 +185,66 @@
       "title": "A round spent", "source": "source/guard.svg", "layer": "dossier-round-spent", "viewBox": "0 0 14 30",
       "use": "The weapon a registered shot used: drawn when the view's count falls, never ahead of it.",
       "anchors": { "base": [7, 28] }
+    },
+    {
+      "id": "dossier-ballot", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot slip", "source": "source/ballot.svg", "layer": "dossier-ballot", "viewBox": "0 0 48 56",
+      "use": "The seat's own ballot in its strip: the picked player's chip in the box (a Captain election, its runoff, a Jail vote), the jailed player's chip on a release vote, or blank for an abstention.",
+      "anchors": { "window": [24, 25, 15] }
+    },
+    {
+      "id": "dossier-ballot-edge", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot slip's top edge", "source": "source/ballot.svg", "layer": "dossier-ballot-edge", "viewBox": "0 0 18 12",
+      "use": "The seat's own ballot posted, standing in the box's slot once the server accepts it.",
+      "anchors": { "slot": [9, 11] }
+    },
+    {
+      "id": "dossier-tick", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A pencil tick", "source": "source/ballot.svg", "layer": "dossier-tick", "viewBox": "0 0 24 24",
+      "use": "On the seat's own ballot: a vote for the player on the slip, or Yes to a release.",
+      "anchors": { "center": [12, 12] }
+    },
+    {
+      "id": "dossier-x-mark", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A pencil cross", "source": "source/ballot.svg", "layer": "dossier-x-mark", "viewBox": "0 0 24 24",
+      "use": "On the seat's own ballot: No to a release.",
+      "anchors": { "center": [12, 12] }
+    },
+    {
+      "id": "dossier-ballot-box", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot box", "source": "source/ballot.svg", "layer": "dossier-ballot-box", "viewBox": "0 0 36 34",
+      "use": "At the start of the seat's own ballot strip; the slip stands in its slot once the server accepts the ballot.",
+      "anchors": { "slot": [17, 9] }
+    },
+    {
+      "id": "dossier-key-ring", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A key ring", "source": "source/ballot.svg", "layer": "dossier-key-ring", "viewBox": "0 0 48 48",
+      "use": "Round the chip of the jailed player the Captain asks to release, in the Captain's own strip.",
+      "anchors": { "ring": [24, 26, 20] }
+    },
+    {
+      "id": "dossier-comms", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A comms ring", "source": "source/ballot.svg", "layer": "dossier-comms", "viewBox": "0 0 56 56",
+      "use": "Round the chip of the player a seat asks for a Hack, in its own strip.",
+      "anchors": { "center": [28, 28], "clear": [17] }
+    },
+    {
+      "id": "dossier-cord", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A coiled cord", "source": "source/ballot.svg", "layer": "dossier-cord", "viewBox": "0 0 64 24",
+      "use": "Between the two chips of a Hack's partners, in each partner's own card while the server says they are in one.",
+      "anchors": { "from": [2, 12], "to": [62, 12] }
+    },
+    {
+      "id": "dossier-mic", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A microphone", "source": "source/ballot.svg", "layer": "dossier-mic", "viewBox": "0 0 22 36",
+      "use": "The speaking turn, held: at the start of the seat's own Pass strip.",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-mic-passed", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A microphone handed on", "source": "source/ballot.svg", "layer": "dossier-mic-passed", "viewBox": "0 0 22 36",
+      "use": "The speaking turn handed on: drawn once the server accepts Pass.",
+      "anchors": { "base": [11, 34] }
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Frontend handoff: ability art
 
-Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.4.0` since slice 4: each slice added assets and changed none of the earlier ones.
+Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.5.0` since slice 5: each slice added assets and changed none of the earlier ones.
 
 ## Slice 1: the Insider's file
 
@@ -157,8 +157,8 @@ Original vector artwork made for this repository by the Visual and Motion Design
 | [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order | Integration | The engine sorts them; the treatments sort them again |
 | [DSN-REQ-15](integration-requests.md#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view | Integration, Backend | The receipt shows the charge or the round spent; no lasting mark, and a weapon supplied after the Officer's shot is drawn as held |
 | [DSN-REQ-16](integration-requests.md#dsn-req-16) | Whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | Integration | The prototype shows the closed folder (PR #88's conceal rule); recommended: keep the release's card, the folder only after the background |
-| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.4.0`) |
-| DSN-D37 | The look and motion of the ability art (slices 1 to 4) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
+| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.5.0`) |
+| DSN-D37 | The look and motion of the ability art (slices 1 to 5) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
 
 Browser emulation only: desktop Chromium at simulated phone viewports. No real phone, screen reader or touch test has been run.
 
@@ -383,3 +383,81 @@ The slice 4 rules in `abilities-capture.mjs` and `abilities-check.mjs`: as many 
 ### 16.10 Open: the Officer's one shot
 
 The view counts the Officer's weapons as it counts anyone's, and a weapon supplied after the Officer's shot counts too (V1-16: received, never a second shot). The card then says, as the release does, **Ordinary weapons you hold: 1.**, with one round, and the server offers no shot. Nothing in the view says the Officer's one shot is spent (`self.shotAvailable` means a legal target now), so the card cannot show that weapon as one that cannot be used. [DSN-REQ-15](integration-requests.md#dsn-req-15) asks for a lasting own field; until then the scenario `weapons.officer-supplied` shows the gap. Nothing else on the phone says it today: the role card names the role, its team and its device, and no rule.
+
+## 17. Slice 5: the ballots, the release request, a Hack and Pass
+
+**A proposal**, on the same base and tuple as slices 1 to 4. Review pictures: `design/abilities/review/contact-ballots-hack-pass.png`. Scenarios: `vote.election`, `vote.confirm`, `vote.recorded`, `vote.jail`, `vote.abstain`, `vote.abstained`, `vote.runoff`, `release.choice`, `release.confirm`, `release.requested`, `release.vote`, `release.vote-yes`, `release.vote-no`, `release.voted`, `hack.choose`, `hack.confirm`, `hack.requested`, `hack.phase`, `hack.partner`, `pass.confirm`, `pass.passed`. Reference code: `design/abilities/js/ballot.js`, its styles in `abilities.css` (the slice 5 block), wired in `app.js` (`stripContent`, `stripBeats`, `drawCard`).
+
+### 17.1 What changes for a player
+
+- **A ballot.** In the strip of a Captain election, its runoff or a Jail vote, a **ballot box** at the start of the detail line; once a player is picked, **the seat's own slip** beside the question: the pick's chip in the box, **ticked**. An abstention is **a blank slip with a dash**. On the receipt (the neutral **Registered** stamp, "This is not a result. The count is shown to everyone when the vote closes.") the slip **drops into the box**, its edge left standing in the slot. No count and nobody else's ballot is ever drawn on a phone: the count is public as the board's tally (PR #88), the same on every screen.
+- **A release vote.** The same slip carries the jailed player's chip, **ticked** for Yes or **crossed** for No; Abstain is the blank slip.
+- **The Captain's release request.** The jailed player's chip in a **key ring**, small at the start of the detail line (the long label "Release request" leaves the question too little room beside it). "No release request" draws nothing.
+- **A Hack.** The request: the asked player's chip in a **comms ring** beside the question; the receipt says the request is accepted, not the Hack. While the server says two players are in one, **each of them sees the same note** in the card: its own chip and the other's **joined by a coiled cord**, and the release's words, **Hack: you and Player 5.** The cord runs once, the first time the card shows that Hack.
+- **Pass.** The speaking turn's **microphone** at the start of the Pass strip, held while the seat confirms, **handed on** once the server accepts Pass (its dashed outline stays). The turn moving on is the board's public turn cue.
+
+### 17.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| The ballot box | the ballot's offer (`legalTargets.VOTE`, `self.releaseVoteAvailable`), the receipt | Empty while the seat chooses and confirms; posted only on an accepted ballot |
+| The seat's own slip | its own choice (the command it is about to send: `VOTE.targetSeatId`, or `RELEASE_VOTE.approve`) and the release vote's subject (`ballot.releaseTargetSeatId`) | Names one player at most: the pick, or the subject; nobody for an abstention (`targetSeatId: null`, `approve: null`). **Never `lastTally`, never `ownBallot` from another phase, never anyone else's choice** (V1-10) |
+| The key ring | the Captain's choice (`RELEASE_CHOICE.targetSeatId`) | The Captain's own strip only. "No release request" (`null`) draws nothing |
+| The comms ring | the asked seat (`REQUEST_HACK.targetSeatId`) | The receipt is the request accepted, not the Hack (the Hack phase opens when the turn closes, PASS-02) |
+| A Hack's note | `hackPartnerSeatId`, the seat's own and the partner's lobby identities | **Each partner's view carries the other**, and both draw the same note. Never read who is active or who asked, and never the role: what a player may say in a Hack depends on its role (v2.1 `standard_hack.truth_rule`), and nothing in the note may hint at it |
+| The microphone | the Pass offer (`legalTargets.PASS_TURN`), the receipt | The same for every seat (PASS-01); handed on only on the accepted receipt |
+
+### 17.3 Markup and hooks
+
+- Strip: `.ab-target.ab-ballot[data-mark="ballot"][data-vote="for"|"yes"|"no"|"abstain"]` (aria-hidden) floated beside the question, holding the chip (none for an abstention), `.ab-target__mark` and `.ab-ballot__pencil[data-pencil="tick"|"x-mark"|"dash"]`; at the start of `.bm-strip__detail`, `.ab-box[data-posted]` for a ballot, `.ab-target[data-mark="key"]` for the release request (small; its seat badge hidden, the words name the player), `.ab-mic[data-passed]` for Pass; beside the question `.ab-target[data-mark="comms"]` for a Hack's request.
+- The box's posted slip edge and the held microphone are their `::after`, so that posting and handing on are beats of their own on elements already drawn at rest.
+- Card: `.ab-kit[data-kit="hack"][data-partner]` with `.ab-link` (aria-hidden: the seat's own `.ab-chip`, `.ab-link__cord`, the partner's `.ab-chip`) and `p.ab-kit__words` (visible, the release's words). It replaces the plain line the prototype listed under "What you know".
+- Nothing carries `data-device`, `data-team`, a role's name, or who asked.
+
+### 17.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `dossier-ballot` | 48 x 56 | window (24, 25), r 15 | The seat's own ballot slip, a chip in its box |
+| `dossier-ballot-edge` | 18 x 12 | slot (9, 11) | The slip's top edge standing in the box's slot |
+| `dossier-tick` / `dossier-x-mark` | 24 x 24 | center (12, 12) | The pencil on a slip: a vote or Yes / No. Haloed in paper, so that they read over a chip |
+| `dossier-ballot-box` | 36 x 34 | slot (17, 9) | The ballot box at the start of the detail line |
+| `dossier-key-ring` | 48 x 48 | ring (24, 26), r 20 | Round the jailed player's chip in the Captain's release request |
+| `dossier-comms` | 56 x 56 | center (28, 28), clear within r 17 | Round the asked player's chip in a Hack's request |
+| `dossier-cord` | 64 x 24 | from (2, 12) to (62, 12) | Between the two partners' chips in a Hack's note |
+| `dossier-mic` / `dossier-mic-passed` | 22 x 36 | base (11, 34) | The speaking turn, held / handed on. Same silhouette, so the held one lies over the outline |
+
+All neutral. Same loading rule as before: the whole kit on every player phone, whatever its role.
+
+### 17.5 Layout
+
+Where the strip already had room: the slip and the comms ring beside the question, as every target; the box, the key ring and the microphone at the start of the detail line. All of it fits 390 x 844 and 320 x 568 with the board keeping its height. The Hack's note is one row in the card (two chips, the cord, the words), the card unscrolled at the default text size; at large text the words grow and the card scrolls.
+
+### 17.6 Motion
+
+| | Ballot | Hack's note | Pass |
+| --- | --- | --- | --- |
+| Normal | On the receipt the slip drops into the slot (240) | The first time the card shows a Hack, the cord runs from chip to chip (320) | On the receipt the microphone is handed on (240) |
+| Reduced | The slip stands in the slot | The cord is whole | The outline is drawn |
+| Static | The slip, the box, the words | The chips, the cord, the words | The microphone, the words |
+| Cancel | As every strip; reduced motion finishes a beat at once | As the ballot | As the ballot |
+| Replay | Never: once, for its receipt | Never: once a Hack in a page; a duplicate snapshot, a second opening or a reconnect draws it at rest | Never: once, for its receipt |
+
+### 17.7 What it must never show (review with Balance)
+
+- Anyone else's ballot, a running count, or a count on a phone at all: the tally is the board's, published when the vote closes (V1-10).
+- A ballot posted before the server accepts it; a slip naming more than one player.
+- Who asked for a Hack on a partner's note (both partners' notes are compared), and any word about truth or lies in it: whether a player may lie depends on its role.
+- A Hack's partner anywhere but the two partners' own cards: the public sees the Hack phase and whose turn it is, nothing more.
+- Anything role-dependent in a ballot, a Hack or Pass.
+
+### 17.8 Words
+
+| Where | Words |
+| --- | --- |
+| Strip | The release's, unchanged: "Who do you vote for as Captain?", "Vote for Player 5 as Captain?", "Abstain from this vote?", "Your vote for Player 4 is recorded.", "Your abstention is recorded.", "Vote yes to releasing Player 9?", "Vote no to releasing Player 9?", "Ask for a vote on releasing Player 9 from Jail?", "Release vote for Player 9 requested.", "Request a Hack with Player 5?", "Hack request with Player 5 accepted.", "End your turn now?", "Turn passed.", and the details "This is not a result. The count is shown to everyone when the vote closes.", "Your turn ends when the server accepts Pass." |
+| Card | The release's: "Hack: you and Player 5." |
+
+### 17.9 Tests to port
+
+The slice 5 rules in `abilities-capture.mjs` and `abilities-check.mjs`: a slip names the seat's own pick, a release vote's subject or nobody, its pencil its answer; the box posted exactly on an accepted ballot; no count in a ballot's strip; the key ring only on a release request and the comms ring only on a Hack's request; the microphone only on Pass, handed on exactly on its receipt; a Hack's note in the release's words, the seat's own chip joined to its partner's, nothing of who asked or of what may be said, and the two partners' notes identical; the words quoted from `en.ts`; nothing in `ballot.js` of a role, a count or of truth and lies. The flows (`board-motion-flows.mjs`) add a ballot picked, abstained, posted once and unseen by the other screens; a release vote's Yes and No; the Captain's release request; a Hack's request and its note, the cord run once and never again, the same on the asked partner's phone; Pass handed on once, and with no beat in reduced motion.

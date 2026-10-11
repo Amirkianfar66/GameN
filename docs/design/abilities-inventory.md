@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.4.0 · proposal
+`mothership:dev-only` · abilities-0.5.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 13 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 16 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -44,9 +44,9 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | [Private role-card reveal](#shared-role-card) | any | private-own | 5 | planned |
 | [Movement and room arrival](#shared-move) | any | public | 5 | planned |
 | [Action selection, targeting and confirmation](#shared-target) | any | private-own | 5 | planned |
-| [Standard Hack request and conversation](#shared-hack) | any | request private; phase public; partner private to the two | 5 | planned |
-| [Pass turn](#shared-pass) | any | own control; public phase change | 5 | planned |
-| [Captain election, Jail vote, release choice and release vote](#shared-votes) | any | own ballot private until the tally; tally public | 5 | planned |
+| [Standard Hack: the request and the two partners](#shared-hack) | any | request private; the Hack phase and its requester public; the partner private to the two | 5 | delivered |
+| [Pass turn](#shared-pass) | any | own control; the phase change public | 5 | delivered |
+| [Captain election, Jail vote, release request and release vote](#shared-votes) | any | own ballot private; the tally public, the board's | 5 | delivered |
 | [Injury, elimination and recovery; Hospital, Jail and Command transitions](#shared-health) | any | public | 5 | planned |
 | [Final Showdown](#shared-showdown) | any non-eliminated | own target private; results public | 5 | planned |
 | [End of game: roles, the Code and the outcome](#shared-end) | any | public, only when finished | 5 | planned |
@@ -631,99 +631,103 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 <a id="shared-hack"></a>
 
-### Standard Hack request and conversation
+### Standard Hack: the request and the two partners
 
-`shared-hack` · slice 5 · **planned** · any · request private; phase public; partner private to the two
+`shared-hack` · slice 5 · **delivered** · any · request private; the Hack phase and its requester public; the partner private to the two
 
-**Trigger.** A Hack is requested within the ordinary minute; its own 60-second conversation follows.
+**Trigger.** During its own ordinary turn a seat asks for a Hack with a player in the same location (once a match, at most two a round); when the turn closes the Hack phase opens for its own 60 seconds, the requester the active seat.
 
-**View fields.** `legalTargets.REQUEST_HACK`, `phase.kind HACK`, `hackPartnerSeatId`
+**View fields.** `legalTargets.REQUEST_HACK`, `self.hackAvailable`, `receipt`, `phase.kind HACK`, `activeSeatId`, `hackPartnerSeatId`
 
 **What it must show, and never show.**
 
-- The public sees a Hack phase; who with is known to the two only.
+- The public sees the Hack phase and whose turn it is; who is the partner is known to the two alone (hackPartnerSeatId).
+- Both partners see the same note, so nothing on a phone tells who asked; the captures and the flows compare the two.
+- Nothing speaks of what either may say in a Hack: whether a player may lie depends on its role (v2.1 standard_hack.truth_rule), which the note never reads.
 
-**Concept.** A comms-line cable between the two portraits in each partner's own file; a public HACK banner over the board.
+**Concept.** In the strip: the asked player's chip in a comms ring beside the question; the receipt says the request is accepted, not the Hack. In each partner's card, while the server says they are in one: the seat's own chip and its partner's joined by a coiled cord, and the release's words.
 
-**Art.** planned: comms-cable, hack-banner
+**Art.** dossier-comms; dossier-cord; dossier-slip; dossier-chip
 
 | Motion | |
 | --- | --- |
-| normal | Cable draws 300 ms; banner 220 ms. |
-| reduced | Static. |
-| static | Words. |
-| cancel | Phase end. |
-| replay | Never. |
+| normal | The first time the card shows a Hack's note, the cord runs from chip to chip (320 ms). |
+| reduced | No run: the cord is drawn whole. |
+| static | The ring, the chips, the cord and the words. |
+| cancel | As every strip; reduced motion finishes the run at once. |
+| replay | Never: the cord runs once a Hack in a page; a duplicate snapshot, a second opening or a reconnect draws it at rest. |
 
-**States.** request; registered; conversation; ended
+**States.** choosing; confirming (the comms ring); sending; accepted (not the Hack); rejected; unknown; the Hack phase: the asking partner's note; the Hack phase: the asked partner's note (the same); ended (the note gone)
 
-**Words.** “the release's words”
+**Words.** “Hack”, “Who do you request a Hack with?”, “Request a Hack with Player 5?”, “Hack request with Player 5 accepted.”, “Hack: you and Player 5.”
 
-**Review.** `design/board-motion/index.html?scenario=hack.phase`
+**Review.** `design/abilities/review/hack-w390-confirm.png`, `design/abilities/review/hack-w320-confirm.png`, `design/abilities/review/hack-w390-requested.png`, `design/abilities/review/hack-w390-link.png`, `design/abilities/review/hack-w320-link.png`, `design/abilities/review/hack-w390-partner.png`, `design/abilities/review/hack-w390-text200-link.png`, `design/abilities/review/hack-w390-no-art.png`, `design/abilities/review/hack-link-w390-no-art.png`, `design/board-motion/index.html?scenario=hack.phase`
 
 <a id="shared-pass"></a>
 
 ### Pass turn
 
-`shared-pass` · slice 5 · **planned** · any · own control; public phase change
+`shared-pass` · slice 5 · **delivered** · any · own control; the phase change public
 
-**Trigger.** The central Pass button during the player's own ordinary turn (PASS-01).
+**Trigger.** The central Pass button during the seat's own ordinary turn (PASS-01); the strip confirms it.
 
-**View fields.** `legalTargets.PASS_TURN`
+**View fields.** `legalTargets.PASS_TURN`, `receipt`
 
 **What it must show, and never show.**
 
-- Role-neutral: the same for every seat.
+- Role-neutral: the same for every seat. Passing ends only the speaking turn (PASS-02, PASS-03); the turn moving on is the board's public turn cue.
 
-**Concept.** The center dock button: a stamped PASSED tab, then the turn accent moves on.
+**Concept.** The speaking turn's microphone at the start of the Pass strip, held while the seat confirms; handed on once the server accepts Pass, its outline left behind.
 
-**Art.** planned: pass-stamp
+**Art.** dossier-mic; dossier-mic-passed
 
 | Motion | |
 | --- | --- |
-| normal | Stamp 120 ms. |
-| reduced | Stamp without scale. |
-| static | Words. |
-| cancel | Phase change. |
-| replay | Never. |
+| normal | On the receipt the microphone is handed on (240 ms). |
+| reduced | No beat: the outline is drawn. |
+| static | The microphone, its outline and the words. |
+| cancel | As every strip; reduced motion finishes the beat at once. |
+| replay | Never: the microphone is handed on once, for its receipt. |
 
-**States.** available; unavailable (not your turn); confirming; passed
+**States.** available; unavailable (not the seat's turn); confirming (held); sending; passed (handed on); rejected; unknown; a legacy match (no Pass)
 
-**Words.** “Pass”
+**Words.** “Pass”, “End your turn now?”, “Your turn ends when the server accepts Pass.”, “Turn passed.”, “The next phase is shown at the top of the board.”
 
-**Review.** `design/board-motion/index.html?scenario=pass.confirm`
+**Review.** `design/abilities/review/pass-w390-confirm.png`, `design/abilities/review/pass-w320-confirm.png`, `design/abilities/review/pass-w390-passed.png`, `design/abilities/review/pass-w320-passed.png`, `design/abilities/review/pass-w390-passed-reduced.png`, `design/abilities/review/pass-w390-no-art.png`, `design/board-motion/index.html?scenario=pass.confirm`
 
 <a id="shared-votes"></a>
 
-### Captain election, Jail vote, release choice and release vote
+### Captain election, Jail vote, release request and release vote
 
-`shared-votes` · slice 5 · **planned** · any · own ballot private until the tally; tally public
+`shared-votes` · slice 5 · **delivered** · any · own ballot private; the tally public, the board's
 
-**Trigger.** The 60-second vote windows (V1-09, V1-10, V1-11).
+**Trigger.** The 60-second windows (V1-09): a Captain election and its runoff among the tied (V1-04), the Captain's release request for one jailed player and the release vote it opens, then the Jail vote (V1-11). Every non-eliminated player votes, Injured and Jailed included; one final ballot each; self-votes allowed (V1-10).
 
-**View fields.** `ballot.eligibleVoters`, `ballot.eligibleTargets`, `ballot.releaseTargetSeatId`, `ownBallot`, `hasVoted`, `lastTally`
+**View fields.** `ballot.eligibleVoters`, `ballot.eligibleTargets`, `ballot.releaseTargetSeatId`, `legalTargets.VOTE`, `legalTargets.RELEASE_CHOICE`, `self.releaseVoteAvailable`, `receipt`, `lastTally`
 
 **What it must show, and never show.**
 
-- Ballots stay private until the published tally.
+- A ballot stays private until the published tally (V1-10): the slip is drawn only in the seat's own strip, from its own choice, and names one player at most. No count, no other ballot and nobody else's choice is drawn on a phone; the count is public only as the board's tally (PR #88), the same on every screen.
+- A ballot's receipt is not a result: the slip posted into the box and the neutral Registered stamp.
+- The Captain's release request is the Captain's own until the release vote opens, when its subject is public (the board's ON THE BALLOT).
 
-**Concept.** Ballot slips dropped into a box over the board; the tally as chalk marks under each candidate's portrait.
+**Concept.** In the strip: a ballot box at the start of the detail line and, beside the question, the seat's own slip: the pick's chip in the box, ticked; for a release vote, the jailed player's chip ticked (Yes) or crossed (No); a blank slip with a dash for an abstention. The receipt posts the slip: its edge stands in the box's slot. The Captain's release request: the jailed player's chip in a key ring, small at the start of the detail line.
 
-**Art.** planned: ballot-slip, ballot-box, tally-chalk
+**Art.** dossier-ballot; dossier-ballot-edge; dossier-tick; dossier-x-mark; dossier-ballot-box; dossier-key-ring; dossier-chip
 
 | Motion | |
 | --- | --- |
-| normal | Slip drop 260 ms; tally chalk 40 ms a mark. |
-| reduced | Static. |
-| static | Words. |
-| cancel | Window close. |
-| replay | A tally shown once is not re-chalked after recovery. |
+| normal | On the receipt the slip drops into the box's slot (240 ms). |
+| reduced | No drop: the slip stands in the slot. |
+| static | The slip, the box and the words. |
+| cancel | As every strip; reduced motion finishes the drop at once. |
+| replay | Never: the slip drops once, for its receipt; a duplicate snapshot, a recovery or a reconnect plays nothing. |
 
-**States.** choosing; voted; abstain; tally; runoff; no one elected
+**States.** choosing (the box empty); a pick (the slip ticked); an abstention (a blank slip); release Yes (ticked); release No (crossed); sending; recorded (posted; not a result); rejected; unknown; runoff among the tied; release request (the key ring); no release request (nothing drawn); tally (the board's, public)
 
-**Words.** “the release's words”
+**Words.** “Vote”, “Who do you vote for as Captain?”, “Vote for Player 5 as Captain?”, “Abstain from this vote?”, “Your vote for Player 4 is recorded.”, “Your abstention is recorded.”, “Vote yes to releasing Player 9?”, “Ask for a vote on releasing Player 9 from Jail?”, “Release vote for Player 9 requested.”, “This is not a result. The count is shown to everyone when the vote closes.”
 
-**Review.** `design/board-motion/index.html?scenario=vote.election`
+**Review.** `design/abilities/review/vote-w390-confirm.png`, `design/abilities/review/vote-w320-confirm.png`, `design/abilities/review/vote-w390-recorded.png`, `design/abilities/review/vote-w320-recorded.png`, `design/abilities/review/vote-w390-abstain.png`, `design/abilities/review/vote-w390-abstained.png`, `design/abilities/review/vote-w390-runoff.png`, `design/abilities/review/release-w390-vote-yes.png`, `design/abilities/review/release-w320-vote-yes.png`, `design/abilities/review/release-w390-vote-no.png`, `design/abilities/review/release-w390-voted.png`, `design/abilities/review/release-w390-confirm.png`, `design/abilities/review/release-w320-confirm.png`, `design/abilities/review/release-w390-requested.png`, `design/abilities/review/vote-w390-no-art.png`, `design/abilities/review/release-w390-no-art.png`, `design/board-motion/index.html?scenario=vote.confirm`
 
 <a id="shared-health"></a>
 
@@ -853,7 +857,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ## The kit
 
-Manifest `abilities-0.4.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 22911 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.5.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 30318 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
@@ -887,4 +891,14 @@ Manifest `abilities-0.4.0` (proposal), against the reviewed manifest `design-0.2
 | `dossier-shield-used` | 0.1.0 | 48 x 56 | window [24,25,17] | 1231 | `d0944a9cc117` | A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only. |
 | `dossier-round` | 0.1.0 | 14 x 30 | base [7,28] | 905 | `019e5cf26c81` | One ordinary weapon the seat holds (self.ordinaryWeapons), in its own shot strip and its own card. |
 | `dossier-round-spent` | 0.1.0 | 14 x 30 | base [7,28] | 816 | `a973434a79f5` | The weapon a registered shot used: drawn when the view's count falls, never ahead of it. |
+| `dossier-ballot` | 0.1.0 | 48 x 56 | window [24,25,15] | 1341 | `e522f411cf3e` | The seat's own ballot in its strip: the picked player's chip in the box (a Captain election, its runoff, a Jail vote), the jailed player's chip on a release vote, or blank for an abstention. |
+| `dossier-ballot-edge` | 0.1.0 | 18 x 12 | slot [9,11] | 915 | `ce71954fbafc` | The seat's own ballot posted, standing in the box's slot once the server accepts it. |
+| `dossier-tick` | 0.1.0 | 24 x 24 | center [12,12] | 755 | `fc59e3144838` | On the seat's own ballot: a vote for the player on the slip, or Yes to a release. |
+| `dossier-x-mark` | 0.1.0 | 24 x 24 | center [12,12] | 685 | `a6bc11eca83e` | On the seat's own ballot: No to a release. |
+| `dossier-ballot-box` | 0.1.0 | 36 x 34 | slot [17,9] | 1106 | `ed0b2f07bb8c` | At the start of the seat's own ballot strip; the slip stands in its slot once the server accepts the ballot. |
+| `dossier-key-ring` | 0.1.0 | 48 x 48 | ring [24,26,20] | 1147 | `bbecf4c34297` | Round the chip of the jailed player the Captain asks to release, in the Captain's own strip. |
+| `dossier-comms` | 0.1.0 | 56 x 56 | center [28,28]; clear [17] | 894 | `e8b96d67a182` | Round the chip of the player a seat asks for a Hack, in its own strip. |
+| `dossier-cord` | 0.1.0 | 64 x 24 | from [2,12]; to [62,12] | 1397 | `2a5c25ce5d0e` | Between the two chips of a Hack's partners, in each partner's own card while the server says they are in one. |
+| `dossier-mic` | 0.1.0 | 22 x 36 | base [11,34] | 1294 | `2e0f3ce5726b` | The speaking turn, held: at the start of the seat's own Pass strip. |
+| `dossier-mic-passed` | 0.1.0 | 22 x 36 | base [11,34] | 888 | `4a4db3f93a61` | The speaking turn handed on: drawn once the server accepts Pass. |
 

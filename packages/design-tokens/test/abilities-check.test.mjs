@@ -64,7 +64,7 @@ const APP = 'design/board-motion/js/app.js';
 test('the ability art as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Ability-art checks: 9 passed, 0 failing/);
+  assert.match(result.output, /Ability-art checks: 10 passed, 0 failing/);
 });
 
 // ---------- the kit ----------
@@ -319,6 +319,58 @@ test('a Protection that changes something public is refused', async () => {
   const root = scratchCopy();
   edit(root, APP, text => text.replace('  S.private.intel = { ...(S.private.intel ?? {}), protections: list };', '  S.private.intel = { ...(S.private.intel ?? {}), protections: list };\n  S.public = { ...S.public, shielded: fact.seat };'));
   refuses(await check(root), /a Protection changes something public/);
+});
+
+// ---------- slice 5: the ballots, the release request, a Hack and Pass ----------
+
+const BALLOT = 'design/abilities/js/ballot.js';
+
+test('a Hack note in other words than the release\'s is refused', async () => {
+  const root = scratchCopy();
+  edit(root, BALLOT, text => text.replace('hackWith: seat => `Hack: you and Player ${seat}.`', 'hackWith: seat => `Hacking with Player ${seat}.`'));
+  refuses(await check(root), /a Hack's note is not in the release's words/);
+});
+
+test('a Hack note that says who asked is refused', async () => {
+  const root = scratchCopy();
+  edit(root, BALLOT, text => text.replace("'data-partner': String(partner.n) }", "'data-partner': String(partner.n), 'data-asked': String(self.n) }"));
+  refuses(await check(root), /a Hack's note says who asked/);
+});
+
+test('a kit that speaks of what may be said in a Hack is refused', async () => {
+  const root = scratchCopy();
+  edit(root, BALLOT, text => text.replace("hackWith: seat =>", "warning: 'Your partner may lie.',\n  hackWith: seat =>"));
+  refuses(await check(root), /ballot\.js speaks of what may be said in a Hack/);
+});
+
+test('a kit that draws a count is refused', async () => {
+  const root = scratchCopy();
+  append(root, BALLOT, 'export const tallyMarks = counts => counts;');
+  refuses(await check(root), /ballot\.js draws something of a count or of other ballots/);
+});
+
+test('a ballot drawn from the published count rather than the seat\'s own choice is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace("ballotSlip({ seat: one, vote: one ? 'for' : 'abstain' })", "ballotSlip({ seat: identity(S.public.tally?.selected) ?? one, vote: one ? 'for' : 'abstain' })"));
+  refuses(await check(root), /a ballot is drawn from something other than the seat's own choice/);
+});
+
+test('a ballot posted before the server accepts it is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace("ballotBox({ posted: step === 'accepted' })", "ballotBox({ posted: step !== 'choosing' })"));
+  refuses(await check(root), /a ballot is posted before the server accepts it/);
+});
+
+test('a microphone handed on before Pass is accepted is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace("speakingTurn({ passed: step === 'accepted' })", "speakingTurn({ passed: step !== 'confirming' })"));
+  refuses(await check(root), /the microphone is handed on before Pass is accepted/);
+});
+
+test('a Hack note drawn by role rather than from the view\'s partner is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace('    partner ? hackLink(identity(VIEWER), partner) : null,', "    partner && S.private.role === 'Hacker' ? hackLink(identity(VIEWER), partner) : null,"));
+  refuses(await check(root), /a Hack's note depends on something besides the view's partner/);
 });
 
 // ---------- loading, hiding, and the production fence ----------
