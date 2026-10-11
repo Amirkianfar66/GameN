@@ -226,7 +226,7 @@ test('the private panel says what the server’s view tells this seat, one sente
     'Player 2, Player 4, Player 6 hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which.',
     'Ordinary weapons you hold: 0.',
   ]);
-  // The same set, for the investigation board: in seat order whatever order the view gives, and
+  // The same set, for the Insider’s file: in seat order whatever order the view gives, and
   // the three roles in the rule's order, so that neither order pairs a player with a role.
   assert.deepEqual(said(insider).insider, {
     seatIds: ['seat-2', 'seat-4', 'seat-6'], roles: ['Undercover', 'Alien', 'Cracker'],

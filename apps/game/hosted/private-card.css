@@ -1,174 +1,401 @@
-/* The private card's own boards, inside the deliberately opened Card sheet only.
+/* The private card's own boards: the Insider's file, and the closed folder of a card that
+   cannot be shown. Inside the deliberately opened Card sheet only.
 
-   The Insider's investigation board: three players and, apart from them, the three roles they
-   hold between them, one each. INTERIM treatment: it uses the approved character cards (public,
-   already loaded by every phone) and tokens only, and draws nothing that could pair a player with a
-   role. Every role is drawn the same way, no line or color joins a role to a player, and the board
-   appears whole, without motion. The Designer's treatment (the Insider's file, abilities-0.1.0, PR
-   #102 at 1453500) awaits Integration's adoption of its kit (DSN-D36) and the owner's look
-   (DSN-D37); until then this board follows that treatment's never-show rules. */
+   A port of the Designer's ability art abilities-0.1.0 (PR #102 at 1453500: the reference
+   styles design/abilities/css/abilities.css and docs/design/abilities-handoff.md). Colors are
+   tokens. Pictures come only from loaded bundles: the ability kit behind [data-art~="abilities"]
+   and the crew cards behind [data-art~="public-board"]. Without them the file is complete in
+   paper, ink and words. The kit is a proposal outside the reviewed manifest, so the hosted
+   build does not load it until Integration adopts it (DSN-D36); the board simulation does. The
+   look and motion await the game owner (DSN-D37). Nothing here names a role: every snapshot is
+   drawn alike, and the role names stand below all three snapshots, beside none, in every layout. */
 
-#app .ms-shell--player .ms-private__panel .phone-investigation-region {
-  margin-block: 0.5rem;
-}
+/* A card that holds the file, or the closed folder, takes the height it needs, up to the whole space
+   between the status bar and navigation, so a short phone shows the whole file without scrolling. It
+   never scrolls sideways, not even while a stamp is landing larger than it finally is. */
+#app .ms-shell--player .ms-private[data-open="true"]:has(.ab-file, .ab-folder) { max-height: 100%; overflow-x: hidden; }
 
-#app .ms-shell--player .ms-private__panel .phone-investigation-toggle {
-  width: 100%;
-  min-height: 48px;
-  justify-content: center;
-}
-
-#app .ms-shell--player .ms-private__panel .phone-investigation {
-  min-width: 0;
-  margin-top: 0.5rem;
-  padding: 0.6rem 0.5rem 0.7rem;
-  border: 3px solid var(--ms-color-ink);
-  border-radius: 10px;
-  background: var(--ms-color-paper);
+/* ---------- the Insider's file: an investigation board ---------- */
+#app .ms-shell--player .ms-private__panel .ab-file {
+  position: relative;
+  /* The side margins leave room for the tape on the two top corners. */
+  margin: 14px 10px 4px;
+  padding: 0 10px 10px;
   color: var(--ms-color-ink);
+  background: var(--ms-color-paper-deep);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 8px;
+  box-shadow: 4px 5px 0 rgb(21 25 35 / 0.55);
+  isolation: isolate;
+  font-family: var(--ms-font-body);
+  text-transform: none;
 }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-file { background: var(--ab-asset-dossier-cork) 0 0 / 96px 96px repeat, var(--ms-color-paper-deep); }
+/* Tape on the two top corners. */
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-file::before,
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-file::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  z-index: 3;
+  width: 58px;
+  height: 20px;
+  background: var(--ab-asset-dossier-tape) center / contain no-repeat;
+  pointer-events: none;
+}
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-file::before { left: -14px; rotate: -38deg; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-file::after { right: -14px; rotate: 38deg; }
 
-#app .ms-shell--player .ms-private__panel .phone-investigation__heading {
-  margin: 0 0 0.5rem;
+#app .ms-shell--player .ms-private__panel .ab-file__tab { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 -10px; padding: 8px 12px 6px; }
+#app .ms-shell--player .ms-private__panel .ab-file__title {
+  margin: 0;
+  padding: 3px 10px 2px;
   font-family: var(--ms-font-lettering);
   font-weight: var(--ms-weight-lettering);
-  font-size: 1rem;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  /* A long word wraps rather than pushing the card sideways at enlarged text. */
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink);
+  border-bottom-width: 3px;
+  border-radius: 4px 4px 0 0;
+  rotate: -1deg;
 }
+#app .ms-shell--player .ms-private__panel .ab-file__title:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 2px; }
+#app .ms-shell--player .ms-private__panel .ab-stamp {
+  --ab-stamp-turn: -8deg;
+  display: inline-block;
+  padding: 4px 9px 3px;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ms-color-steel-shadow);
+  border: 3px double var(--ms-color-steel-shadow);
+  border-radius: 4px;
+  transform: rotate(var(--ab-stamp-turn));
+  opacity: 0.92;
+}
+/* The frame is nine-sliced: its corners keep their shape and its sides stretch to the word, however long. */
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-stamp { padding: 0 2px; border: 8px solid transparent; border-image: var(--ab-asset-dossier-stamp) 10 12 fill / 8px 10px stretch; }
 
-/* Three players, in public seat order. */
-#app .ms-shell--player .ms-private__panel .phone-investigation__players {
+/* The field: corner pins for the string, the snapshots, the envelope. */
+#app .ms-shell--player .ms-private__panel .ab-file__field { position: relative; padding: 12px 4px; }
+#app .ms-shell--player .ms-private__panel .ab-corner-pin { position: absolute; z-index: 4; width: 18px; height: 20px; }
+#app .ms-shell--player .ms-private__panel .ab-corner-pin[data-corner="tl"] { left: -4px; top: -2px; }
+#app .ms-shell--player .ms-private__panel .ab-corner-pin[data-corner="tr"] { right: -4px; top: -2px; }
+#app .ms-shell--player .ms-private__panel .ab-corner-pin[data-corner="br"] { right: -4px; bottom: -6px; }
+#app .ms-shell--player .ms-private__panel .ab-corner-pin[data-corner="bl"] { left: -4px; bottom: -6px; }
+#app .ms-shell--player .ms-private__panel :is(.ab-corner-pin, .ab-photo__pin) { background: var(--ms-color-steel-mid); border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel :is(.ab-corner-pin, .ab-photo__pin) { background: var(--ab-asset-dossier-pin) center / contain no-repeat; border: 0; border-radius: 0; }
+
+#app .ms-shell--player .ms-private__panel .ab-suspects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: start; margin: 0; padding: 6px 2px 4px; list-style: none; }
+#app .ms-shell--player .ms-private__panel .ab-suspect { display: grid; justify-items: center; min-width: 0; margin: 0; }
+/* One tilt per position, the same for any three players: a public order, never a role. */
+#app .ms-shell--player .ms-private__panel .ab-suspect:nth-child(1) { --ab-tilt: -3deg; }
+#app .ms-shell--player .ms-private__panel .ab-suspect:nth-child(2) { --ab-tilt: 1.5deg; }
+#app .ms-shell--player .ms-private__panel .ab-suspect:nth-child(3) { --ab-tilt: -1.5deg; }
+#app .ms-shell--player .ms-private__panel .ab-photo {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.4rem;
+  justify-items: center;
+  width: 100%;
+  max-width: 112px;
+  min-height: 44px;
   margin: 0;
   padding: 0;
-  list-style: none;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  rotate: var(--ab-tilt, 0deg);
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 160ms linear;
 }
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__player {
-  display: grid;
-  justify-items: center;
-  gap: 0.25rem;
-  min-width: 0;
+#app .ms-shell--player .ms-private__panel .ab-photo:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 4px; border-radius: 4px; }
+#app .ms-shell--player .ms-private__panel .ab-photo__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 104 / 134;
+  background: var(--ms-color-paper);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 3px;
+  box-shadow: 3px 4px 0 rgb(21 25 35 / 0.35);
 }
-
-/* The character the player chose: the approved card picture. Without one, the seat's number. */
-#app .ms-shell--player .ms-private__panel .phone-investigation__portrait {
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-photo__frame { background: var(--ab-asset-dossier-photo) center / 100% 100% no-repeat; border: 0; box-shadow: none; }
+/* The portrait: the player's own chosen crew card, in the frame's window (10, 10, 80 x 92 of 104 x 134). */
+#app .ms-shell--player .ms-private__panel .ab-photo__art { position: absolute; left: 9.6%; top: 7.5%; width: 76.9%; height: 68.7%; overflow: hidden; background: var(--ms-color-canvas) center bottom / cover no-repeat; }
+[data-art~="public-board"] #app .ms-shell--player .ms-private__panel .ab-photo__art[data-character] { background-image: var(--ms-role-person, none); }
+/* Without a portrait the window shows the seat number large. */
+#app .ms-shell--player .ms-private__panel .ab-photo__numeral {
+  position: absolute;
+  left: 9.6%;
+  top: 7.5%;
+  width: 76.9%;
+  height: 68.7%;
   display: grid;
   place-items: center;
-  width: min(100%, 5.5rem);
-  aspect-ratio: 84 / 96;
-  border: 2px solid var(--ms-color-ink);
-  border-radius: 8px;
-  color: var(--ms-color-text);
-  background: var(--ms-color-panel);
   font-family: var(--ms-font-lettering);
   font-weight: var(--ms-weight-lettering);
-  font-size: 1.5rem;
+  font-size: 34px;
+  color: var(--ms-color-paper);
+  pointer-events: none;
 }
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__portrait[data-character] {
-  background: var(--ms-role-person, none) 50% 50% / contain no-repeat, var(--ms-color-panel);
-}
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__plate {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 0.25rem;
-  max-width: 100%;
-  min-width: 0;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__plate .ms-seat__number {
+[data-art~="public-board"] #app .ms-shell--player .ms-private__panel .ab-photo__art[data-character] ~ .ab-photo__numeral { display: none; }
+/* The pin, the query tag and the seat sticker sit on the frame, so they follow it in any layout. */
+#app .ms-shell--player .ms-private__panel .ab-photo__pin { position: absolute; z-index: 2; left: calc(50% - 11px); top: -12px; width: 22px; height: 24px; }
+#app .ms-shell--player .ms-private__panel .ab-photo__query { position: absolute; z-index: 2; right: -12px; top: 6px; width: 24px; height: 31px; rotate: 8deg; transform-origin: 50% 10%; }
+#app .ms-shell--player .ms-private__panel .ab-photo__query::before { content: "?"; display: grid; place-items: center; width: 100%; height: 100%; font-weight: 900; font-size: 16px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 3px; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-photo__query { background: var(--ab-asset-dossier-query) center / contain no-repeat; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-photo__query::before { content: none; }
+/* A seat number: the player's public number, in ink, as the board shows it. */
+#app .ms-shell--player .ms-private__panel .ab-seat {
   flex: none;
-  padding: 0 0.3rem;
-  border-radius: 4px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 10px;
   color: var(--ms-color-paper);
   background: var(--ms-color-ink);
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 12px;
+  line-height: 1;
 }
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__plate .ms-seat__player {
+/* On a snapshot it is an evidence sticker in the portrait's top left corner, ringed in paper, once
+   there is a portrait; the caption's own number is for large text. */
+#app .ms-shell--player .ms-private__panel .ab-photo__seat { position: absolute; z-index: 2; left: 6%; top: 4.5%; box-shadow: 0 0 0 2px var(--ms-color-paper); }
+#app .ms-shell--player .ms-private__panel .ab-photo__frame .ab-photo__seat { display: none; }
+[data-art~="public-board"] #app .ms-shell--player .ms-private__panel .ab-photo__art[data-character] ~ .ab-photo__seat { display: inline-grid; }
+#app .ms-shell--player .ms-private__panel .ab-photo__caption-seat { display: none; }
+/* The caption on the frame's lower margin: the name, whole width; too long, it ends in an ellipsis. */
+#app .ms-shell--player .ms-private__panel .ab-photo__caption {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 2.5%;
+  height: 18%;
+  display: grid;
+  place-items: center;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* The three roles: one group, set apart from the players, every role the same. */
-#app .ms-shell--player .ms-private__panel .phone-investigation__roles {
-  margin-top: 0.7rem;
-  padding: 0.5rem;
-  border: 2px dashed var(--ms-color-steel-mid);
-  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.1;
+  font-weight: 700;
   text-align: center;
-}
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__among,
-#app .ms-shell--player .ms-private__panel .phone-investigation__unknown {
-  margin: 0;
-  font-size: 0.8125rem;
   color: var(--ms-color-ink);
 }
+#app .ms-shell--player .ms-private__panel .ab-photo__name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* One slip holding the three names stacked: a bundle under all three players, never a row or a
-   column under one of them (the Designer's rule for the Insider's file). */
-#app .ms-shell--player .ms-private__panel .phone-investigation__role-set {
+/* The three names as one set: a slip standing in an open envelope, clipped, stamped once. */
+#app .ms-shell--player .ms-private__panel .ab-roles { position: relative; display: grid; justify-items: center; width: min(232px, 86%); margin: 10px auto 0; padding-top: 6px; }
+#app .ms-shell--player .ms-private__panel :is(.ab-roles__back, .ab-roles__front) { position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 224 / 88; pointer-events: none; }
+#app .ms-shell--player .ms-private__panel .ab-roles__back { z-index: 0; }
+#app .ms-shell--player .ms-private__panel .ab-roles__front { z-index: 2; height: auto; aspect-ratio: 224 / 44; background: var(--ms-color-paper-shade); border: 3px solid var(--ms-color-ink); border-radius: 0 0 5px 5px; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-roles__back { background: var(--ab-asset-dossier-envelope-back) center bottom / 100% auto no-repeat; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-roles__front { aspect-ratio: 224 / 88; background: var(--ab-asset-dossier-envelope-front) center bottom / 100% auto no-repeat; border: 0; border-radius: 0; }
+#app .ms-shell--player .ms-private__panel .ab-roles__slip {
+  position: relative;
+  z-index: 1;
   display: grid;
-  justify-items: center;
   gap: 4px;
-  width: min(12rem, 80%);
-  margin: 0.4rem auto;
-  padding: 0.45rem 0.5rem;
+  justify-items: center;
+  width: 70%;
+  margin-bottom: 5%;
+  padding: 9px 8px 52px;
+  background: var(--ms-color-paper);
   border: 2px solid var(--ms-color-ink);
   border-radius: 3px;
-  background: var(--ms-color-paper-deep);
+  box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3);
 }
-
-#app .ms-shell--player .ms-private__panel .phone-investigation__role-name {
-  padding: 0.1rem 0.6rem;
+#app .ms-shell--player .ms-private__panel .ab-roles__name {
+  display: block;
+  padding: 3px 10px 2px;
   border-radius: 2px;
   color: var(--ms-color-paper);
   background: var(--ms-color-ink);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-size: 14px;
+  line-height: 1.15;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+/* Three label tapes in one slip, each set a little askew: a bundle, never a column under a portrait. */
+#app .ms-shell--player .ms-private__panel .ab-roles__name:nth-child(1) { rotate: -2deg; }
+#app .ms-shell--player .ms-private__panel .ab-roles__name:nth-child(2) { rotate: 1.5deg; }
+#app .ms-shell--player .ms-private__panel .ab-roles__name:nth-child(3) { rotate: -1deg; }
+#app .ms-shell--player .ms-private__panel .ab-roles__clip { position: absolute; z-index: 3; left: calc(15% + 6px); top: 26px; width: 15px; height: 38px; rotate: -8deg; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-roles__clip { background: var(--ab-asset-dossier-clip) center / contain no-repeat; }
+#app .ms-shell--player .ms-private__panel .ab-roles .ab-stamp { --ab-stamp-turn: -10deg; position: absolute; z-index: 3; right: 2px; bottom: 9%; font-size: 12px; }
+#app .ms-shell--player .ms-private__panel .ab-file__note { position: relative; z-index: 2; margin: 12px 0 0; font-size: 13px; font-weight: 700; text-align: center; color: var(--ms-color-ink); }
 
-/* With the board open the role card makes way, so the board fits a short phone. The board is
-   the Insider's own view; the card returns with the toggle that closes it. */
-#app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-investigation="open"] .ms-role-card {
-  display: none;
+/* The string round the whole set, drawn by the host from the four corner pins. */
+#app .ms-shell--player .ms-private__panel .ab-thread { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+#app .ms-shell--player .ms-private__panel .ab-thread path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+#app .ms-shell--player .ms-private__panel .ab-thread__ink { stroke: var(--ms-color-ink); stroke-width: 4.2; }
+#app .ms-shell--player .ms-private__panel .ab-thread__core { stroke: var(--ms-color-caption); stroke-width: 2; }
+
+/* Inspect: the snapshot is lifted toward the middle; the rest steps back. No clue is added. */
+#app .ms-shell--player .ms-private__panel :is(.ab-roles, .ab-thread, .ab-file__note) { transition: opacity 160ms linear; }
+#app .ms-shell--player .ms-private__panel .ab-file:has(.ab-photo[aria-pressed="true"]) .ab-photo[aria-pressed="false"],
+#app .ms-shell--player .ms-private__panel .ab-file:has(.ab-photo[aria-pressed="true"]) :is(.ab-roles, .ab-thread, .ab-file__note) { opacity: 0.3; }
+/* Lifted from its pin: it grows downward, over the dimmed envelope, never over the file's tab. */
+#app .ms-shell--player .ms-private__panel .ab-photo[aria-pressed="true"] { z-index: 5; transform-origin: 50% 0; transform: translateX(var(--ab-lift-x, 0px)) translateY(2px) scale(1.42); rotate: 0deg; }
+/* The inspect card lies over the lower part of the file, where the envelope is dimmed, so the file
+   keeps its height. Its box stays in the page and only its words are redrawn, so they are said. */
+#app .ms-shell--player .ms-private__panel .ab-inspect { position: absolute; z-index: 6; left: 10px; right: 10px; bottom: 10px; margin: 0; }
+#app .ms-shell--player .ms-private__panel .ab-inspect__card { margin: 0; padding: 10px 12px; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 6px; box-shadow: 3px 3px 0 rgb(21 25 35 / 0.4); }
+#app .ms-shell--player .ms-private__panel .ab-inspect__card[hidden] { display: none; }
+#app .ms-shell--player .ms-private__panel .ab-inspect__who { display: flex; align-items: center; gap: 6px; min-width: 0; margin: 0; font-size: 16px; font-weight: 900; }
+#app .ms-shell--player .ms-private__panel .ab-inspect__lens { flex: none; width: 22px; height: 22px; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-inspect__lens { background: var(--ab-asset-dossier-lens) center / contain no-repeat; border: 0; border-radius: 0; }
+#app .ms-shell--player .ms-private__panel .ab-inspect__name { min-width: 0; overflow-wrap: anywhere; }
+#app .ms-shell--player .ms-private__panel .ab-inspect__facts { margin: 4px 0 8px; font-size: 13px; }
+#app .ms-shell--player .ms-private__panel .ab-inspect__controls { display: flex; flex-wrap: wrap; gap: 8px; }
+#app .ms-shell--player .ms-private__panel .ab-button {
+  min-height: 44px;
+  padding: 8px 14px;
+  color: var(--ms-color-ink);
+  background: var(--ms-color-paper-shade);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-control);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+#app .ms-shell--player .ms-private__panel .ab-button:first-child { background: var(--ms-color-caption); }
+#app .ms-shell--player .ms-private__panel .ab-button:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 2px; }
+
+/* With the file in the card, the role card makes way by becoming a row above it. */
+#app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card--full {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  width: auto;
+  max-width: none;
+  margin: 4px 10px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+[data-art~="roles"] #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card--full > .ms-role-card__art {
+  display: block;
+  width: 72px;
+  inline-size: 72px;
+  height: auto;
+  aspect-ratio: 50 / 53;
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 6px;
+}
+#app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card__text { padding: 0; }
+
+/* ---------- the closed folder: a card that cannot be shown, the same for every role ---------- */
+#app .ms-shell--player .ms-private__panel .ab-folder { display: grid; justify-items: center; gap: 8px; margin: 16px 0 4px; }
+#app .ms-shell--player .ms-private__panel .ab-folder__art { width: 180px; aspect-ratio: 228 / 156; background: var(--ms-color-paper-deep); border: 3px solid var(--ms-color-ink); border-radius: 6px; }
+[data-art~="abilities"] #app .ms-shell--player .ms-private__panel .ab-folder__art { background: var(--ab-asset-dossier-folder) center / contain no-repeat; border: 0; }
+#app .ms-shell--player .ms-private__panel .ab-folder__label { max-width: 34ch; margin: 0; font-size: 13px; text-align: center; color: var(--ms-color-text-secondary); }
+
+/* ---------- the board seen from the file ---------- */
+/* The character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
+#app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-spot]::after {
+  content: "";
+  position: absolute;
+  z-index: 60;
+  inset: -4px;
+  border: 3.5px solid var(--ms-color-focus);
+  border-radius: 12px;
+  pointer-events: none;
+  animation: ab-spot 1600ms ease-out var(--ab-spot-delay, 0ms) forwards;
+}
+@keyframes ab-spot { 0% { opacity: 0; transform: scale(1.5); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ab-spot-reduced { 0%, 95% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Reduced motion: nothing is lifted or flies; the inspected snapshot is ringed instead, and the board's ring does not zoom. */
+#app .ms-shell--player[data-motion="reduced"] .ms-private__panel :is(.ab-photo, .ab-roles, .ab-thread, .ab-file__note) { transition: none; }
+#app .ms-shell--player[data-motion="reduced"] .ms-private__panel .ab-photo[aria-pressed="true"] { transform: none; }
+#app .ms-shell--player[data-motion="reduced"] .ms-private__panel .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+#app .ms-shell--player[data-motion="reduced"] .ms-board[data-board="own"] .ms-seat[data-spot]::after { animation: ab-spot-reduced 1600ms linear var(--ab-spot-delay, 0ms) forwards; }
+@media (prefers-reduced-motion: reduce) {
+  #app .ms-shell--player .ms-private__panel :is(.ab-photo, .ab-roles, .ab-thread, .ab-file__note) { transition: none; }
+  #app .ms-shell--player .ms-private__panel .ab-photo[aria-pressed="true"] { transform: none; }
+  #app .ms-shell--player .ms-private__panel .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+  #app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-spot]::after { animation: ab-spot-reduced 1600ms linear var(--ab-spot-delay, 0ms) forwards; }
 }
 
-/* A short phone (568 px tall and the like): the same board, tighter, so the players and the set
-   of roles fit the card without scrolling at the default text size. */
-@media (max-height: 640px) {
-  #app .ms-shell--player .ms-private__panel .phone-investigation { margin-top: 0.35rem; padding: 0.45rem 0.45rem 0.5rem; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__heading { margin-bottom: 0.35rem; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__portrait { width: min(100%, 4.5rem); }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__roles { margin-top: 0.45rem; padding: 0.35rem; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__role-set { gap: 2px; margin: 0.3rem auto; padding: 0.3rem 0.4rem; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__role-name { padding: 0.05rem 0.5rem; font-size: 0.75rem; }
+/* A short phone (320 x 568 and the like) at the default text size: the role card shrinks to a small
+   row and the file tightens, so the whole file fits the card without scrolling. At large text the
+   reflow below applies instead. */
+@media (max-height: 640px) and (min-width: 18.01em) {
+  #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card--full { gap: 8px; margin-top: 0; padding: 4px 8px; }
+  [data-art~="roles"] #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card--full > .ms-role-card__art { width: 40px; inline-size: 40px; }
+  #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card__name { font-size: 16px; }
+  #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card__team { font-size: 11px; }
+  #app .ms-shell--player .ms-private__panel .ab-file { margin-top: 10px; }
+  #app .ms-shell--player .ms-private__panel .ab-file__tab { padding: 4px 12px 0; }
+  #app .ms-shell--player .ms-private__panel .ab-file__title { padding: 2px 8px 1px; font-size: 13px; }
+  #app .ms-shell--player .ms-private__panel .ab-file__tab .ab-stamp { font-size: 11px; }
+  #app .ms-shell--player .ms-private__panel .ab-file__field { padding: 4px 4px 6px; }
+  #app .ms-shell--player .ms-private__panel .ab-suspects { gap: 8px; }
+  #app .ms-shell--player .ms-private__panel .ab-photo { max-width: 70px; }
+  #app .ms-shell--player .ms-private__panel .ab-photo__caption { font-size: 11px; }
+  #app .ms-shell--player .ms-private__panel .ab-seat { min-width: 18px; height: 18px; font-size: 11px; }
+  #app .ms-shell--player .ms-private__panel .ab-roles { width: min(190px, 80%); margin-top: 6px; }
+  #app .ms-shell--player .ms-private__panel .ab-roles__slip { gap: 2px; padding: 5px 6px 32px; }
+  #app .ms-shell--player .ms-private__panel .ab-roles__name { padding: 2px 8px 1px; font-size: 12px; }
+  #app .ms-shell--player .ms-private__panel .ab-file__note { margin-top: 2px; font-size: 12px; }
+  #app .ms-shell--player .ms-private__panel .ab-inspect__card { padding: 8px 10px; }
+  #app .ms-shell--player .ms-private__panel .ab-inspect__who { font-size: 15px; }
+  #app .ms-shell--player .ms-private__panel .ab-inspect__facts { margin: 2px 0 6px; }
+  #app .ms-shell--player .ms-private__panel .ab-button { padding: 8px 11px; }
 }
 
-/* Large text: names wrap instead of being cut short, and the players still fit in three columns. */
+/* Large text (the board's own large-text query): every word grows with the reader's text size and
+   the file reflows into one column, a snapshot and its words to a row, inside the card, which
+   scrolls; nothing is clipped or shrunk. The envelope stays below the three, so no role name
+   stands beside a portrait. */
 @media (max-width: 18em) {
-  #app .ms-shell--player .ms-private__panel .phone-investigation__plate { flex-wrap: wrap; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__plate .ms-seat__player { white-space: normal; overflow-wrap: anywhere; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__portrait { font-size: 1.1rem; }
-  #app .ms-shell--player .ms-private__panel .phone-investigation__heading { letter-spacing: 0; }
+  /* The role card's thumbnail gives its room to the role's name, as everywhere at large text. */
+  #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card--full { grid-template-columns: minmax(0, 1fr); }
+  [data-art~="roles"] #app .ms-shell--player[data-phone-view="role"] .ms-private__panel[data-file] .ms-role-card--full > .ms-role-card__art { display: none; }
+  #app .ms-shell--player .ms-private__panel .ab-file__tab { flex-wrap: wrap; row-gap: 6px; }
+  #app .ms-shell--player .ms-private__panel .ab-file__title { font-size: 0.8rem; white-space: normal; overflow-wrap: anywhere; }
+  #app .ms-shell--player .ms-private__panel .ab-stamp { font-size: 0.6rem; }
+  #app .ms-shell--player .ms-private__panel .ab-suspects { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 14px 6px 4px 10px; }
+  #app .ms-shell--player .ms-private__panel .ab-suspect { justify-items: stretch; }
+  #app .ms-shell--player .ms-private__panel .ab-photo { grid-template-columns: 84px minmax(0, 1fr); align-items: center; justify-items: start; column-gap: 18px; max-width: none; rotate: 0deg; text-align: start; }
+  #app .ms-shell--player .ms-private__panel .ab-photo__frame { width: 84px; rotate: var(--ab-tilt, 0deg); }
+  #app .ms-shell--player .ms-private__panel .ab-photo__frame .ab-photo__seat,
+  [data-art~="public-board"] #app .ms-shell--player .ms-private__panel .ab-photo__art[data-character] ~ .ab-photo__seat { display: none; }
+  #app .ms-shell--player .ms-private__panel .ab-photo__caption { position: static; height: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 0.85rem; line-height: 1.2; text-align: start; }
+  #app .ms-shell--player .ms-private__panel .ab-photo__caption-seat { display: inline-grid; }
+  #app .ms-shell--player .ms-private__panel .ab-photo__name { overflow: visible; white-space: normal; overflow-wrap: anywhere; }
+  #app .ms-shell--player .ms-private__panel .ab-photo[aria-pressed="true"] { transform: none; }
+  #app .ms-shell--player .ms-private__panel .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+  #app .ms-shell--player .ms-private__panel .ab-seat { min-width: 1.3rem; height: 1.3rem; border-radius: 0.65rem; font-size: 0.7rem; }
+  #app .ms-shell--player .ms-private__panel .ab-inspect { position: static; margin: 14px 0 0; }
+  #app .ms-shell--player .ms-private__panel .ab-roles { width: 100%; margin-top: 14px; }
+  #app .ms-shell--player .ms-private__panel .ab-roles__slip { width: 78%; padding-bottom: 3.4rem; }
+  #app .ms-shell--player .ms-private__panel .ab-roles__name { font-size: 0.75rem; }
+  #app .ms-shell--player .ms-private__panel .ab-roles .ab-stamp { font-size: 0.6rem; }
+  #app .ms-shell--player .ms-private__panel .ab-file__note { font-size: 0.85rem; }
+  #app .ms-shell--player .ms-private__panel .ab-inspect__who { flex-wrap: wrap; font-size: 1rem; }
+  #app .ms-shell--player .ms-private__panel .ab-inspect__facts { font-size: 0.85rem; }
+  #app .ms-shell--player .ms-private__panel .ab-button { font-size: 0.85rem; }
+  #app .ms-shell--player .ms-private__panel .ab-folder__label { font-size: 0.85rem; }
 }
 
 @media (forced-colors: active) {
-  #app .ms-shell--player .ms-private__panel .phone-investigation,
-  #app .ms-shell--player .ms-private__panel .phone-investigation__role-set { border-color: CanvasText; }
+  #app .ms-shell--player .ms-private__panel :is(.ab-file, .ab-photo__frame, .ab-roles__slip, .ab-inspect__card, .ab-folder__art) { border-color: CanvasText; }
+  #app .ms-shell--player .ms-private__panel .ab-thread path { stroke: CanvasText; }
+  #app .ms-shell--player .ms-board[data-board="own"] .ms-seat[data-spot]::after { border-color: Highlight; }
 }
