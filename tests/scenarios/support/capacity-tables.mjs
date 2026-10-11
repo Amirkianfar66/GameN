@@ -39,6 +39,8 @@ export function startingRoomTable() {
     row('**An even draw for each player, kept in the order they are approved; once a room holds five, the rest get the other**: splits', facts.map(item => splits(item.sequential))),
     row('a room starts full', facts.map(item => percent(item.sequential.aRoomStartsFull))),
     row('two given players start in the same room, from the least to the most likely pair of places in the order', facts.map(item => together(item.sequential))),
+    row('the first two players approved start in the same room', facts.map(item => percent(item.sequential.togetherFirstTwo))),
+    row('the last two players approved start in the same room', facts.map(item => percent(item.sequential.togetherLastTwo))),
     row('the draw of the last player approved does not count: their room is settled by the others', facts.map(item => percent(item.sequential.settledBeforeJoining.at(-1)))),
     row('**The most even split, in a random order**: splits', facts.map(item => splits(item.balanced))),
     row('a room starts full', facts.map(item => percent(item.balanced.aRoomStartsFull))),

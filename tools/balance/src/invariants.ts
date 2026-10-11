@@ -17,6 +17,8 @@ export type TransitionEvent =
 export interface Violation {
   invariant: string;
   message: string;
+  // In a report: how many times this same violation was found in the run, when more than once.
+  times?: number;
 }
 
 export interface Ledger {
@@ -192,9 +194,9 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
     } else if (!showdownPlacement) {
       if (seat.jailed && seat.location !== 'Jail') fail('INV-LOC-02', `${seat.seat} is Jailed but located in ${seat.location}`);
       if (!seat.jailed && seat.health === 'Injured' && seat.location !== 'Hospital') {
-        // Under the capacity rule an Injured player waits in Room A or Room B while Hospital is full,
-        // and only then. Where a prisoner released while Injured waits is not decided, so Jail is
-        // not counted against the engine either.
+        // Under the capacity rule an Injured player waits while Hospital is full, and only then:
+        // in Room A or Room B, or in Jail if they are a prisoner released while Injured. That a
+        // waiting player is where they were before, and not somewhere else, is INV-CAP-06.
         const waits = capacity !== null && held('Hospital') >= capacity && (seat.location === 'Room A' || seat.location === 'Room B' || seat.location === 'Jail');
         if (!waits) fail('INV-LOC-02', `${seat.seat} is Injured but located in ${seat.location}`);
       }
@@ -354,13 +356,34 @@ export function checkTransition(
     }
     if (!before.captain && after.captain && !(phaseChanged && prev.phaseKind === 'CAPTAIN_ELECTION')) fail('INV-CAPT-01', `${after.seat} became Captain outside an election`);
     // A healed or released player goes back to their last room, and to the other one only when the
-    // last is full. Whether a place that is being left in the same resolution counts as free is not
-    // decided, so the room is taken as full if it was before the resolution or is after it.
-    if (ledger.roomCapacity !== null && (before.location === 'Hospital' || before.location === 'Jail')
+    // last is full. So does a Captain who lost the title inside Command Room and is Healthy when
+    // the phase has closed. Whether a place that is being left in the same resolution counts as
+    // free is not decided, so the room is taken as full if it was before the resolution or is after
+    // it. The last room is the one the engine records; which room that is after a forced move to
+    // the other one is a question of its own (CAP-D4).
+    const returns = before.location === 'Hospital' || before.location === 'Jail'
+      || (before.location === 'Command Room' && phaseChanged && before.captain && !after.captain && after.health === 'Healthy');
+    if (ledger.roomCapacity !== null && returns
       && (after.location === 'Room A' || after.location === 'Room B') && after.location !== before.lastRoom) {
       const others = (observation: Observation) => observation.truth.seats.filter(seat => seat.seat !== after.seat && seat.location === before.lastRoom).length;
       if (others(prev) < ledger.roomCapacity && others(next) < ledger.roomCapacity) {
         fail('INV-CAP-03', `${after.seat} was sent to ${after.location} although ${before.lastRoom}, their last room, had a free place`);
+      }
+    }
+    if (ledger.roomCapacity !== null) {
+      const inARoom = (location: string) => location === 'Room A' || location === 'Room B';
+      // An Eliminated player keeps their place.
+      if (before.health === 'Eliminated' && before.location !== after.location) fail('INV-CAP-04', `${after.seat} is Eliminated and was moved from ${before.location} to ${after.location}`);
+      // Nobody is moved from one room to the other when a phase closes: a place is made for no one.
+      if (phaseChanged && before.health === 'Healthy' && after.health === 'Healthy' && !before.jailed && !after.jailed
+        && inARoom(before.location) && inARoom(after.location) && before.location !== after.location) {
+        fail('INV-CAP-05', `${after.seat} was moved from ${before.location} to ${after.location} without a move of their own`);
+      }
+      // A player who waits for Hospital stays where they are. A Captain hurt inside Command Room
+      // cannot stay there, and where they then wait is not decided (CAP-D5).
+      if (phaseChanged && after.health === 'Injured' && !after.jailed && after.location !== 'Hospital' && after.location !== 'Final Zone'
+        && before.location !== after.location && before.location !== 'Command Room') {
+        fail('INV-CAP-06', `${after.seat} is Injured without a place in Hospital and was moved from ${before.location} to ${after.location}`);
       }
     }
     if (before.location !== after.location && !phaseChanged) {

@@ -72,15 +72,18 @@ When no player can take a turn in the next round, a Jail vote or an election may
 
 ## Room capacity
 
-These three are checked only where a run says that the ruleset it plays has the room-capacity rule, the game owner's decision of 11 October 2026 recorded in issue #96. A match of an earlier ruleset keeps its own rules, and nothing here is held against it. The rows of the rule and the audit of it are in `docs/balance/capacity-audit.md`.
+These six are checked only where a run says that the ruleset it plays has the room-capacity rule, the game owner's decision of 11 October 2026 recorded in issue #96. A match of an earlier ruleset keeps its own rules, and nothing here is held against it. The rows of the rule and the audit of it are in `docs/balance/capacity-audit.md`.
 
 | ID | Statement | Rules |
 | --- | --- | --- |
 | INV-CAP-01 | Room A, Room B, Hospital and Jail each hold at most five players at every moment. A place is held by every player located there, whatever their health: an Eliminated player keeps theirs. The Final Zone is not counted. | R-CAP-01, R-CAP-03, R-CAP-05 |
 | INV-CAP-02 | No player's view offers a move to Room A or Room B while that room holds five players. | R-CAP-02 |
-| INV-CAP-03 | A player who leaves Hospital or Jail for a room arrives in their last room. They arrive in the other room only if their last room held five other players before that resolution or holds five after it. | R-CAP-07, R-CAP-19, R-STATE-08, R-VOTE-07 |
+| INV-CAP-03 | A player who leaves Hospital or Jail for a room arrives in their last room, and so does a Captain who lost the title inside Command Room and is Healthy when the phase has closed. They arrive in the other room only if their last room held five other players before that resolution or holds five after it. | R-CAP-07, R-CAP-19, R-CAP-23, R-STATE-08, R-VOTE-07, R-CAPT-14 |
+| INV-CAP-04 | An Eliminated player keeps their place: once Eliminated, a player's location does not change. | R-CAP-03 |
+| INV-CAP-05 | Nobody is moved to make a place: a Healthy, free player who is in Room A or Room B before and after a phase closes is in the same room. | R-CAP-01, R-MOVE-01 |
+| INV-CAP-06 | A player who waits for Hospital stays where they are: an Injured, free player who has no place in Hospital after a phase closes is where they were before it. A Captain who was inside Command Room is the exception, because where they wait is not decided. | R-CAP-04, R-CAP-15, R-CAP-20, R-CAP-24 |
 
-Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be outside Hospital while Hospital holds five (R-CAP-04, R-CAP-20). INV-CAP-03 takes a room as full if it was full before the resolution or is full after it, because whether a place that is being left in the same resolution counts as free is not decided (R-CAP-19).
+Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be in Room A, Room B or Jail while Hospital holds five (R-CAP-04, R-CAP-20), and INV-CAP-06 holds them to the place they were in. INV-CAP-03 takes a room as full if it was full before the resolution or is full after it, because whether a place that is being left in the same resolution counts as free is not decided (R-CAP-19). It takes the last room from the engine's own record; which room that should be after a forced move to the other one is not decided either (R-CAP-22).
 
 ## Authorized views
 

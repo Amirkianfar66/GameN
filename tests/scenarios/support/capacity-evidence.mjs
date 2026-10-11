@@ -15,9 +15,13 @@ export const EVIDENCE_REPORT = 'docs/balance/evidence/2026-10-11-capacity.md';
 export const EVIDENCE_FILES = {
   scenarios: '2026-10-11-capacity-scenarios-engine-dd04f68.json',
   control: '2026-10-11-capacity-scenarios-control-1a92f37.json',
+  controls: '2026-10-11-capacity-controls-engine-dd04f68.json',
   playouts: '2026-10-11-capacity-playouts-engine-dd04f68.json',
   compatibility: '2026-10-11-capacity-compatibility.json',
 };
+// The cases that fail against the implementation, and the finding of the audit each one is.
+export const KNOWN_DEFECTS = { 'CAP-28': 'F1' };
+export const caseOf = scenarioId => scenarioId.replace(/^V1-M\d-/, '');
 
 export function loadEvidence() {
   return Object.fromEntries(Object.entries(EVIDENCE_FILES).map(([key, name]) => [key, read(name)]));
@@ -58,6 +62,30 @@ export function modeTable({ scenarios, control }) {
     line(['Implementation: not run (manual)', ...cells(scenarios, 'notRun')]),
     line(['Control: passed', ...cells(control, 'passed')]),
     line(['Control: failed', ...cells(control, 'failed')]),
+  ].join('\n');
+}
+
+/** The cases that failed against the implementation: what they expected and what the engine did. */
+export function failureTable({ scenarios }) {
+  const rows = scenarios.runs.filter(run => run.status === 'failed').map(run => line([
+    `\`${run.scenarioId}\``, KNOWN_DEFECTS[caseOf(run.scenarioId)] ?? 'not explained', run.failure.message,
+    run.invariantViolations.map(violation => `${violation.invariant}: ${violation.message}`).join('; ') || 'none',
+  ]));
+  return ['| Case | Finding | What the case expected and what the engine did | Invariants broken in the run |', '| --- | --- | --- | --- |', ...rows].join('\n');
+}
+
+/** The negative controls on the capacity fixtures: each makes one expectation of a passing case wrong, and the run must fail. */
+export function controlsTable({ controls }) {
+  const stats = MODES.map(mode => controls.modes[mode]);
+  const row = (label, value) => line([label, ...stats.map(value)]);
+  return [
+    '| | 7 players | 8 players | 9 players |',
+    '| --- | --- | --- | --- |',
+    row('Ready cases', item => item.scenarios),
+    row('Of them, not passing unchanged, so without controls', item => item.baselineNotPassing),
+    row('Controls run', item => item.controls),
+    row('Detected', item => item.detected),
+    row('Not detected', item => item.undetected),
   ].join('\n');
 }
 

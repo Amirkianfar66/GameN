@@ -140,6 +140,11 @@ test('the arithmetic tables and the fixture counts in the audit are the computed
   for (const [name, table] of [['where the limits can be reached', reachTable()], ['starting rooms', startingRoomTable()], ['fixtures', fixtureTable()]]) {
     assert.ok(audit.includes(table), `the table of ${name} in ${CAPACITY_RULES_PATH} differs from the computed one`);
   }
+  // The counts the other documents give are the files' own.
+  const all = loadAll();
+  const has = status => all.filter(scenario => scenario.status === status).length;
+  for (const path of ['docs/balance/README.md', 'docs/balance/integration-requests.md']) assert.ok(text(path).includes(`${all.length} fixtures`), `${path} does not say "${all.length} fixtures"`);
+  assert.ok(text('docs/balance/integration-requests.md').includes(`${has('ready')} passed, 0 failed, ${has('blocked')} blocked and ${has('manual')} not run`));
   // The same arithmetic by another road, with exact fractions.
   const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-12, `${actual} is not ${expected}`);
   close(startingRoomFacts(7).independentDrawOverCapacity, 16 / 128);
@@ -149,6 +154,11 @@ test('the arithmetic tables and the fixture counts in the audit are the computed
   close(startingRoomFacts(8).uniform.aRoomStartsFull, 112 / 182);
   close(startingRoomFacts(9).uniform.togetherLowest, 4 / 9);
   close(startingRoomFacts(9).sequential.settledBeforeJoining.at(-1), 372 / 512);
+  // The first two of the order always have a draw each; the last two are together more often than any two under an order-free draw only with eight and nine players.
+  for (const mode of [7, 8, 9]) close(startingRoomFacts(mode).sequential.togetherFirstTwo, 0.5);
+  assert.ok(startingRoomFacts(7).sequential.togetherLastTwo < startingRoomFacts(7).uniform.togetherLowest);
+  assert.ok(startingRoomFacts(8).sequential.togetherLastTwo > startingRoomFacts(8).uniform.togetherLowest);
+  close(startingRoomFacts(9).sequential.togetherLastTwo, 302 / 512);
   for (const mode of [7, 8, 9]) {
     const facts = startingRoomFacts(mode);
     for (const scheme of [facts.uniform, facts.sequential, facts.balanced]) {
@@ -262,6 +272,76 @@ test('INV-CAP-03 sees a player sent to the other room although their last room h
   assert.equal(run(filled, place(filled, insider, { health: 'Healthy', location: 'Room A' })), 0);
   const emptied = place(place(filled, insider, { health: 'Healthy', location: 'Room A' }), seatOf('Hacker'), { location: 'Hospital', health: 'Injured' });
   assert.equal(run(filled, emptied), 0, 'full before the resolution is enough: whether the place being left counts is not decided');
+});
+
+// What the capacity invariants say about one phase closing, from `before` to `after`.
+const closing = (before, after, capacity = 5) => {
+  const ledger = startLedger(before);
+  ledger.roomCapacity = capacity;
+  return [...new Set(checkTransition(base, before, { ...after, phaseId: 'phase-2' }, { kind: 'advance', atMs: before.phaseEndsAt, advanced: true }, ledger)
+    .map(violation => violation.invariant).filter(invariant => invariant.startsWith('INV-CAP-')))].sort();
+};
+
+test('INV-CAP-01 counts Hospital and Jail as it counts the rooms, and a waiting player may be in no other place than a room or Jail', () => {
+  const opening = openingObservation(base);
+  const six = ['Blue Disabler', 'Insider', 'Supplier', 'Undercover', 'Hacker', 'Alien'];
+  let hospital = opening;
+  for (const role of six) hospital = place(hospital, seatOf(role), { health: 'Injured', location: 'Hospital' });
+  assert.ok(found(hospital, 5).includes('INV-CAP-01'), 'six players in Hospital');
+  assert.ok(!found(hospital, null).includes('INV-CAP-01'));
+  let jail = opening;
+  for (const role of six) jail = place(jail, seatOf(role), { jailed: true, location: 'Jail' });
+  assert.ok(found(jail, 5).includes('INV-CAP-01'), 'six players in Jail');
+  // Five in Hospital and a sixth Injured player: in a room or in Jail they wait; anywhere else is a fault.
+  let full = opening;
+  for (const role of six.slice(0, 5)) full = place(full, seatOf(role), { health: 'Injured', location: 'Hospital' });
+  for (const [location, fault] of [['Room A', false], ['Room B', false], ['Jail', false], ['Command Room', true]]) {
+    assert.equal(found(place(full, seatOf('Alien'), { health: 'Injured', location }), 5).includes('INV-LOC-02'), fault, location);
+  }
+});
+
+test('INV-CAP-03 covers a release and a Captain who lost the title; INV-CAP-04 to 06 see a player moved who should have stayed', () => {
+  const opening = openingObservation(base);
+  const supplier = seatOf('Supplier');
+  // Released: Room B, the last room, holds four others.
+  const jailed = place(opening, supplier, { jailed: true, location: 'Jail' });
+  assert.deepEqual(closing(jailed, place(jailed, supplier, { jailed: false, location: 'Room A' })), ['INV-CAP-03']);
+  assert.deepEqual(closing(jailed, place(jailed, supplier, { jailed: false, location: 'Room B' })), []);
+  assert.deepEqual(closing(jailed, place(jailed, supplier, { jailed: false, location: 'Room A' }), null), [], 'a ruleset without the rule is not held to it');
+  // A Captain inside Command Room who is Captain no more and Healthy when the phase has closed.
+  const captain = place(opening, supplier, { captain: true, location: 'Command Room' });
+  assert.deepEqual(closing(captain, place(captain, supplier, { captain: false, location: 'Room A' })), ['INV-CAP-03']);
+  assert.deepEqual(closing(captain, place(captain, supplier, { captain: false, location: 'Room B' })), []);
+  const filled = place(captain, seatOf('Alien'), { location: 'Room B' });
+  assert.deepEqual(closing(filled, place(filled, supplier, { captain: false, location: 'Room A' })), [], 'the last room is full: the other room is right');
+  // The Captain's own move out of Command Room is theirs to choose, and no phase closes with it.
+  const ledger = startLedger(captain);
+  ledger.roomCapacity = 5;
+  const moved = checkTransition(base, captain, place(captain, supplier, { location: 'Room A' }), { kind: 'command', actor: supplier, command: { type: 'MOVE', destination: 'Room A' }, outcome: 'REGISTERED' }, ledger);
+  assert.deepEqual(moved.filter(violation => violation.invariant.startsWith('INV-CAP-')), []);
+
+  // INV-CAP-04: an Eliminated player keeps their place.
+  const dead = place(opening, seatOf('Insider'), { health: 'Eliminated' });
+  assert.deepEqual(closing(dead, place(dead, seatOf('Insider'), { location: 'Room A' })), ['INV-CAP-04']);
+  assert.deepEqual(closing(dead, dead), []);
+  // INV-CAP-05: nobody Healthy and free changes rooms when a phase closes.
+  assert.deepEqual(closing(opening, place(opening, seatOf('Hacker'), { location: 'Room A' })), ['INV-CAP-05']);
+  assert.deepEqual(closing(opening, place(opening, seatOf('Hacker'), { location: 'Room A' }), null), []);
+  assert.deepEqual(closing(opening, place(opening, seatOf('Hacker'), { captain: true, location: 'Command Room' })), [], 'an elected Captain is placed in Command Room');
+  // INV-CAP-06: a player who waits for Hospital stays where they are.
+  let full = opening;
+  for (const role of ['Blue Disabler', 'Insider', 'Undercover', 'Hacker']) full = place(full, seatOf(role), { health: 'Injured', location: 'Hospital' });
+  full = place(full, seatOf('Cracker'), { health: 'Injured', location: 'Hospital' });
+  const hurt = { health: 'Injured' };
+  assert.deepEqual(closing(full, place(full, supplier, hurt)), [], 'hurt in Room B and waiting in Room B');
+  assert.deepEqual(closing(full, place(full, supplier, { ...hurt, location: 'Room A' })), ['INV-CAP-06'], 'hurt in Room B and waiting in Room A');
+  assert.deepEqual(closing(full, place(full, supplier, { ...hurt, location: 'Jail' })), ['INV-CAP-06'], 'a waiting player who was never a prisoner is put in Jail');
+  const prisoner = place(full, supplier, { ...hurt, jailed: true, location: 'Jail' });
+  assert.deepEqual(closing(prisoner, place(prisoner, supplier, { jailed: false })), [], 'a prisoner released while Injured stays in Jail');
+  const hurtCaptain = place(full, supplier, { captain: true, location: 'Command Room' });
+  assert.deepEqual(closing(hurtCaptain, place(hurtCaptain, supplier, { ...hurt, captain: false, location: 'Room A' })), [], 'where a Captain hurt inside Command Room waits is not decided');
+  // A patient put out of Hospital is a player moved who should have stayed.
+  assert.deepEqual(closing(full, place(full, seatOf('Hacker'), { location: 'Room B' })), ['INV-CAP-06']);
 });
 
 test('the runner counts who is where and who waits, and records a player\'s place for a blocked case', () => {

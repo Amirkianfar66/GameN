@@ -11,6 +11,13 @@
 // and cases 24 and 26 were changed from blocked to ready on that record and say so. A case that
 // needs a question still open is `blocked`: it asserts nothing and records what an engine does.
 //
+// An independent review of commit 8eb5cef then found what the cases had missed, and cases 28, 29
+// and 35 to 43 answer it: a Captain who is hit after entering Command Room; whether a waiting
+// player is ever admitted; an Eliminated player's place against a return; a full room outside the
+// ordinary turns. The nine-player Hospital cases were rebuilt so that the patient with the highest
+// number is the one healed and the one who must keep a place, which the first construction could
+// not tell from other orders.
+//
 // These fixtures are a suite of their own beside tests/scenarios/v1/. They run under the ruleset
 // that carries the rule. The Version 1 catalogue is left as reviewed and runs under the rulesets
 // it was written for, where every player may start in one room. The three modes are separate
@@ -73,6 +80,7 @@ const noteOf = (label, role, field) => ({ op: 'note', label, truth: ref(role), f
 const shot = target => ({ type: 'REGISTER_SHOT', target: ref(target) });
 const disable = target => ({ type: 'DISABLE', target: ref(target) });
 const rescue = target => ({ type: 'RESCUE', target: ref(target) });
+const hack = target => ({ type: 'REQUEST_HACK', target: ref(target) });
 const supply = (first, second) => ({ type: 'SUPPLY', targets: [ref(first), ref(second)] });
 const vote = target => ({ type: 'VOTE', target: ref(target) });
 const move = destination => ({ type: 'MOVE', destination });
@@ -138,7 +146,7 @@ function build(mode) {
   for (const [number, name, room] of [[3, 'a6', 'Room A'], [4, 'b6', 'Room B']]) {
     add(number, `A match does not start with six players in ${room}`, {
       areas: ['mode-setup'], rules: ['R-CAP-16', 'R-CAP-01', 'R-CAP-06'], setup: setup(name), illegalStart: true,
-      note: 'The rule holds at any time, the first moment included. An engine that took this start would play a match the rule does not allow, whatever the service meant to send.',
+      note: 'The rule holds at any time, the first moment included, so no match under it begins with six players in a room. That the engine refuses such a start is how that is checked here; the six decided cases do not say which part of the system has to refuse.',
       steps: [{ op: 'createRejected' }],
     });
   }
@@ -164,7 +172,7 @@ function build(mode) {
   });
   add(8, 'Of two moves for the last place, the first to arrive is accepted and the second is refused', {
     areas: ['movement', 'resolution-order'], rules: ['R-CAP-09', 'R-CAP-02', 'R-CAP-08'], depends: ['R-MOVE-01', 'R-MOVE-07'], setup: setup('b4'),
-    note: `Room B holds four and Room A ${N - 4}. Both moves carry the same time; the engine is given Insider's first. That the service keeps the order in which two phones' moves arrive is CAP-32.`,
+    note: `Room B holds four and Room A ${N - 4}. The two moves are sent one after the other, Insider's first. That the service keeps the order in which two phones' moves arrive is CAP-32.`,
     steps: [check(holds('Room B', 4), sees('Insider', 'moveDestinations', ['Room B']), sees('Alien', 'moveDestinations', ['Room B'])),
       cmd('Insider', move('Room B'), 'REGISTERED', 'start'), cmd('Alien', move('Room B'), 'REFUSED', 'start'),
       check(truth('Insider', 'location', 'Room B'), truth('Alien', 'location', 'Room A'), truth('Alien', 'movedThisRound', false), holds('Room B', 5), holds('Room A', N - 5),
@@ -206,11 +214,10 @@ function build(mode) {
     steps: [...injure, turn(2, 'Cracker'), cmd('Cracker', rescue('Insider')), open(3),
       check(truth('Insider', 'health', 'Healthy'), truth('Insider', 'location', 'Room B'), holds('Room B', 5), holds('Hospital', 0))],
   });
-  add(13, 'A healed player whose last room is full goes to the other room, and that uses none of their movement', {
-    areas: ['movement', 'resolution-order'], rules: ['R-CAP-07', 'R-CAP-11'], depends: ['R-STATE-08', 'R-MOVE-06', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05'],
+  add(13, 'A healed player whose last room is full goes to the other room', {
+    areas: ['movement', 'resolution-order'], rules: ['R-CAP-07', 'R-CAP-11'], depends: ['R-STATE-08', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05'],
     steps: [...injure, open(2), cmd('Alien', move('Room B')), check(holds('Room B', 5)), turn(2, 'Cracker'), cmd('Cracker', rescue('Insider')), open(3),
-      check(truth('Insider', 'health', 'Healthy'), truth('Insider', 'location', 'Room A'), pub('Insider', 'location', 'Room A'), holds('Room B', 5), holds('Hospital', 0),
-        truth('Insider', 'movedThisRound', false))],
+      check(truth('Insider', 'health', 'Healthy'), truth('Insider', 'location', 'Room A'), pub('Insider', 'location', 'Room A'), holds('Room B', 5), holds('Hospital', 0))],
   });
   add(14, 'A released player returns to their last room when it has a place', {
     areas: ['voting', 'movement'], rules: ['R-CAP-07', 'R-VOTE-07'], depends: ['R-VOTE-05', 'R-VOTE-06', 'R-VOTE-10', 'R-CAPT-05'],
@@ -279,50 +286,82 @@ function build(mode) {
     turn(3, 'Supplier'), cmd('Supplier', supply('Blue Disabler', 'Red Disabler')),
     ...acts(4, { 'Blue Disabler': [cmd('Blue Disabler', shot('Supplier'))], 'Red Disabler': [cmd('Red Disabler', shot('Blue Disabler'))], Undercover: [cmd('Undercover', shot('Cracker'))] }),
   ] : null;
-  // With nine players, in three parts so that a Rescue, an election or a Jail vote can be set between them.
+  // With nine players, in three parts so that a Rescue, an election or a vote can be set between
+  // them. After Round 1 the patients are players 1, 6 and 9 (Hacker, Insider, Blue Disabler); in
+  // Round 4 players 2, 4 and 7 are hurt (Supplier, Officer, Red Disabler). The patient with the
+  // highest number and the hurt players with lower ones are what tells the orders of placement apart.
   const nine = {
-    first: acts(1, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Alien'))], Officer: [cmd('Officer', shot('Hacker'))] }),
-    arm: [turn(3, 'Supplier'), cmd('Supplier', supply('Blue Disabler', 'Red Disabler'))],
-    last: extra => acts(4, { Undercover: [cmd('Undercover', shot('Officer'))], 'Blue Disabler': [cmd('Blue Disabler', shot('Supplier'))], 'Red Disabler': [cmd('Red Disabler', shot('Blue Disabler'))], ...extra }),
+    first: acts(1, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], 'Red Disabler': [cmd('Red Disabler', disable('Blue Disabler'))], Officer: [cmd('Officer', shot('Hacker'))] }),
+    arm: [turn(3, 'Supplier'), cmd('Supplier', supply('Red Disabler', 'Alien'))],
+    last: extra => acts(4, { 'Red Disabler': [cmd('Red Disabler', shot('Supplier'))], Alien: [cmd('Alien', shot('Red Disabler'))], Undercover: [cmd('Undercover', shot('Officer'))], ...extra }),
   };
   const most = { 7: 4, 8: 5, 9: 6 }[mode];
-  add(21, mode === 9 ? 'Six players Injured by the end of Round 4: five are in Hospital and the sixth waits where they are'
+  add(21, mode === 9 ? 'Six players Injured by the end of Round 4: five are in Hospital, the sixth waits where they are, and no patient loses a place'
     : `The most players that can be Injured at once is ${most}: Hospital ${mode === 8 ? 'is exactly full and nobody waits' : 'never fills'}`, {
     areas: ['resolution-order', 'resources'], rules: mode === 9 ? ['R-CAP-04', 'R-CAP-13', 'R-CAP-15'] : ['R-CAP-13', 'R-CAP-01'],
     depends: ['R-SETUP-13', 'R-ROLE-05', 'R-ROLE-07', 'R-SHOT-02', 'R-SHOT-03', 'R-STATE-06', ...(mode === 7 ? [] : ['R-ROLE-06']), ...(mode === 9 ? ['R-ROLE-11'] : [])],
     setup: setup('ward'),
-    note: mode === 9 ? 'Every damage a nine-player match has before the showdown falls on a different player and nobody is healed. Which of the three players hurt in Round 4 is the one left waiting is not decided (CAP-D1), and is not asserted.'
+    note: mode === 9 ? 'Every damage a nine-player match has before the showdown falls on a different player and nobody is healed. The three patients of Round 1 keep their places, the one with the highest number among them. Who of the three hurt in Round 4 waits is case 24.'
       : `Every damage a ${N}-player match has before the showdown falls on a different player and nobody is healed. There is no further damage to give, so no ${N}-player match has a ${most + 1}th Injured player.`,
     steps: mode === 9 ? [...nine.first, ...nine.arm, ...nine.last({}), open(5),
-      check(count('injured', 6), count('eliminated', 0), holds('Hospital', 5), count('waiting', 1), truth('Insider', 'location', 'Hospital'), truth('Alien', 'location', 'Hospital'), truth('Hacker', 'location', 'Hospital'))]
+      check(count('injured', 6), count('eliminated', 0), holds('Hospital', 5), count('waiting', 1), truth('Insider', 'location', 'Hospital'), truth('Blue Disabler', 'location', 'Hospital'), truth('Hacker', 'location', 'Hospital'))]
       : [...allDamage, open(5), check(count('injured', most), count('eliminated', 0), holds('Hospital', most), count('waiting', 0), count('ordinaryWeapons', 0))],
   });
   if (mode === 9) {
-    add(22, 'Five players Injured after a Rescue in the same round: all five are in Hospital and nobody waits', {
-      areas: ['resolution-order', 'resources'], rules: ['R-CAP-14', 'R-CAP-04'], depends: ['R-RES-01', 'R-ROLE-02', 'R-ROLE-04', 'R-STATE-08', 'R-CAP-13'], setup: setup('ward'),
-      note: 'Three patients, one of them healed in Round 4, and three players hurt in Round 4. After the resolution five players are Injured, so there is no sixth and nobody waits: the bed the healed player leaves is not held back.',
-      steps: [...nine.first, ...nine.arm, ...nine.last({ Cracker: [cmd('Cracker', rescue('Alien'))] }), open(5),
-        check(count('injured', 5), holds('Hospital', 5), count('waiting', 0), truth('Alien', 'health', 'Healthy'), truth('Alien', 'location', 'Room A'))],
+    add(22, 'Five players Injured after a Rescue in the same round: all five are in Hospital and nobody waits, whatever the healed player\'s number', {
+      areas: ['resolution-order', 'resources'], rules: ['R-CAP-14', 'R-CAP-18', 'R-CAP-04'], depends: ['R-RES-01', 'R-ROLE-02', 'R-ROLE-04', 'R-STATE-08', 'R-CAP-13'], setup: setup('ward'),
+      note: 'Three patients, of whom player 9 is healed in Round 4, and players 2, 4 and 7 hurt in Round 4. Five players are Injured afterwards, so there is no sixth and nobody waits: the place the healed player leaves is free in that resolution. An engine that placed everyone in one pass by player number would reach player 7 before player 9 had left, and leave player 7 waiting.',
+      steps: [...nine.first, ...nine.arm, ...nine.last({ Cracker: [cmd('Cracker', rescue('Blue Disabler'))] }), open(5),
+        check(count('injured', 5), holds('Hospital', 5), count('waiting', 0), truth('Red Disabler', 'location', 'Hospital'), truth('Blue Disabler', 'health', 'Healthy'), truth('Blue Disabler', 'location', 'Room A'))],
     });
     const freed = [...nine.first, ...elect('Cracker'), ...jail(2, 'Insider'), ...nine.arm, ...nine.last({}), ...release(5, 'Cracker', 'Insider')];
     add(23, 'A prisoner released while Injured does not become a sixth player in Hospital', {
       areas: ['voting', 'resolution-order'], rules: ['R-CAP-01'], depends: ['R-VOTE-05', 'R-VOTE-06', 'R-VOTE-10', 'R-STATE-07', 'R-CAP-13', 'R-CAPT-05'], setup: setup('ward'),
-      note: 'Insider is Injured and Jailed, and five other players are in Hospital. The release is the Captain\'s to ask for and the table\'s to grant as before. Where Insider is then placed is not decided (CAP-D3) and is not asserted; that Hospital still holds five is.',
+      note: 'Insider is Injured and Jailed, and five other players are in Hospital. The release is the Captain\'s to ask for and the table\'s to grant as before. Where Insider is then placed is case 26; this case asserts only that Hospital still holds five.',
       steps: [...freed, check(is('phase', 'JAIL_VOTE'), is('round', 5), truth('Insider', 'jailed', false), truth('Insider', 'health', 'Injured'), count('injured', 6), holds('Hospital', 5))],
     });
     add(24, 'When more players are hurt in one round than Hospital has places, the lower player numbers get them', {
-      areas: ['resolution-order'], rules: ['R-CAP-18', 'R-CAP-04'], depends: ['R-CAP-13', 'R-CAP-15'], setup: setup('ward'),
-      note: 'Three players are hurt in Round 4 and Hospital has two places. They are players 2 (Supplier), 4 (Officer) and 9 (Blue Disabler), so Blue Disabler waits. In the order of the attacks Officer was hurt last, and in the order of that round\'s turns Officer comes last, so either of those orders would leave Officer waiting. Blocked on CAP-D1 until Backend\'s record of the owner\'s choice (CAP-ORDER-01) was read.',
+      areas: ['resolution-order'], rules: ['R-CAP-18', 'R-CAP-04', 'R-CAP-15'], depends: ['R-CAP-13'], setup: setup('ward'),
+      note: 'Players 2 (Supplier), 4 (Officer) and 7 (Red Disabler) are hurt in Round 4 and Hospital has two places, so Red Disabler waits. Red Disabler was the first of the three to be attacked and Officer the last, and Officer has the last turn of that round, so an order by attack or by turn would leave Officer waiting. Player 9 is a patient and keeps the place: an order by number over patients and newcomers alike would put player 9 out. Blocked on CAP-D1 until Backend\'s record of the owner\'s choice (CAP-ORDER-01) was read.',
       steps: [...nine.first, ...nine.arm, ...nine.last({}), open(5),
-        check(count('waiting', 1), is('waiting', [ref('Blue Disabler')]), truth('Blue Disabler', 'health', 'Injured'), truth('Blue Disabler', 'location', 'Room A'),
-          truth('Supplier', 'location', 'Hospital'), truth('Officer', 'location', 'Hospital'), holds('Hospital', 5))],
+        check(count('waiting', 1), is('waiting', [ref('Red Disabler')]), truth('Red Disabler', 'health', 'Injured'), truth('Red Disabler', 'location', 'Room A'),
+          truth('Supplier', 'location', 'Hospital'), truth('Officer', 'location', 'Hospital'), truth('Blue Disabler', 'location', 'Hospital'), holds('Hospital', 5))],
     });
-    add(26, 'A prisoner released while Injured, with Hospital full, stays in Jail as a free player and goes to the showdown with everyone', {
-      areas: ['voting', 'resolution-order', 'showdown'], rules: ['R-CAP-20', 'R-CAP-01'], depends: ['R-STATE-07', 'R-VOTE-10', 'R-VOTE-02', 'R-SHOW-02', 'R-WIN-10', 'R-CAP-13'], setup: setup('ward'),
-      note: 'R-STATE-07 sends a prisoner released while Injured to Hospital, and Hospital holds five. Backend\'s record (CAPACITY-04) applies the owner\'s words for a player refused by Hospital, who stays where they are: the released player is free and still stands in Jail. Blocked on CAP-D3 until that record was read.',
+    add(26, 'A prisoner released while Injured, with Hospital full, stays in Jail as a free player', {
+      areas: ['voting', 'resolution-order'], rules: ['R-CAP-20', 'R-CAP-01'], depends: ['R-STATE-07', 'R-VOTE-10', 'R-VOTE-02', 'R-WIN-04', 'R-WIN-01', 'R-CAP-13'], setup: setup('ward'),
+      note: 'R-STATE-07 sends a prisoner released while Injured to Hospital, and Hospital holds five. Backend\'s record (CAPACITY-04) applies the owner\'s words for a player refused by Hospital, who stays where they are: the released player is free and still stands in Jail, and may be voted for again. No place comes free, so they are still there when the match ends at the Round 5 check. Blocked on CAP-D3 until that record was read.',
       steps: [...freed, check(truth('Insider', 'jailed', false), truth('Insider', 'location', 'Jail'), pub('Insider', 'location', 'Jail'), pub('Insider', 'jailed', false), holds('Jail', 1), holds('Hospital', 5),
         factSet('eligibleTargets', roles)),
-      untilPhase('SHOWDOWN'), check(count('finalZone', N), truth('Insider', 'location', 'Final Zone'))],
+      expire(), check(is('phase', 'FINISHED'), is('winner', 'Blue'), truth('Insider', 'location', 'Jail'), truth('Insider', 'jailed', false), holds('Hospital', 5))],
+    });
+    add(36, 'A player who waits goes to Hospital at the end of the next round, when a place has come free', {
+      areas: ['resolution-order', 'victory'], rules: ['R-CAP-04', 'R-CAP-14', 'R-CAP-18'], depends: ['R-ROLE-02', 'R-ROLE-04', 'R-STATE-08', 'R-WIN-04', 'R-WIN-01', 'R-CAP-13'], setup: setup('ward'),
+      note: 'Red Disabler waits through Round 5. Cracker heals a patient in Round 5, so a place is free when the round resolves. The match ends at the Round 5 check with a Blue win, which leaves every player where the resolution put them.',
+      steps: [...nine.first, ...nine.arm, ...nine.last({}), turn(5, 'Cracker'), check(truth('Red Disabler', 'location', 'Room A')), cmd('Cracker', rescue('Insider')), phase(5, 'JAIL_VOTE'), expire(),
+        check(is('phase', 'FINISHED'), is('winner', 'Blue'), truth('Red Disabler', 'health', 'Injured'), truth('Red Disabler', 'location', 'Hospital'), truth('Insider', 'health', 'Healthy'),
+          truth('Insider', 'location', 'Room A'), holds('Hospital', 5), count('waiting', 0))],
+    });
+    add(37, 'A player who waits in a room can be healed by a Cracker in that room, and not from the other room', {
+      areas: ['resources', 'movement'], rules: ['R-CAP-17', 'R-CAP-04'], depends: ['R-ROLE-02', 'R-ROLE-04', 'R-ACT-02', 'R-MOVE-01', 'R-WIN-10', 'R-CAP-13'], setup: setup('ward'),
+      note: 'Cracker reaches into Hospital from either room (R-ROLE-04), and a waiting player is not in Hospital. Red Disabler waits in Room A; Cracker is in Room B, cannot name them, moves to Room A and can. With Red Disabler healed, Power is equal at the Round 5 check and the showdown begins.',
+      steps: [...nine.first, ...nine.arm, ...nine.last({}), turn(5, 'Cracker'),
+        check({ visible: ref('Cracker'), field: 'legal:RESCUE', excludes: ref('Red Disabler') }, { visible: ref('Cracker'), field: 'legal:RESCUE', includes: ref('Insider') }),
+        cmd('Cracker', rescue('Red Disabler'), 'NOT_ALLOWED'), cmd('Cracker', move('Room A')),
+        check({ visible: ref('Cracker'), field: 'legal:RESCUE', includes: ref('Red Disabler') }, { visible: ref('Cracker'), field: 'legal:RESCUE', includes: ref('Insider') }),
+        cmd('Cracker', rescue('Red Disabler')), untilPhase('SHOWDOWN'), check(truth('Red Disabler', 'health', 'Healthy'), count('injured', 5))],
+    });
+    add(38, 'The released prisoner who stands in Jail goes to Hospital at the end of the round, when a place has come free', {
+      areas: ['voting', 'resolution-order'], rules: ['R-CAP-20', 'R-CAP-04'], depends: ['R-VOTE-01', 'R-VOTE-02', 'R-VOTE-03', 'R-STATE-07', 'R-RES-01', 'R-WIN-04', 'R-WIN-01', 'R-CAP-13'], setup: setup('ward'),
+      note: 'After the release the table votes a patient, Hacker, into Jail. That frees a place before the round resolves, and the released player, who is free and Injured and stands in Jail, takes it.',
+      steps: [...freed, ...voters().map(voter => cmd(voter, vote('Hacker'))), expire(),
+        check(is('phase', 'FINISHED'), is('winner', 'Blue'), truth('Insider', 'location', 'Hospital'), truth('Insider', 'jailed', false), truth('Hacker', 'location', 'Jail'), truth('Hacker', 'jailed', true),
+          holds('Hospital', 5), holds('Jail', 1), count('waiting', 0))],
+    });
+    add(43, 'Where a Captain waits who is the sixth Injured player and was hurt after entering Command Room', {
+      status: 'blocked', decisions: ['CAP-D5'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-24'], depends: ['R-CAP-04', 'R-CAPT-07', 'R-ACT-06', 'R-CAP-13'], setup: setup('ward'),
+      note: 'Red Disabler is Captain, is shot in Room A, then enters Command Room. Of the three hurt in Round 4 they have the highest number and get no place. The third decided case says a player without a place stays where they are, and a player who is no longer Captain cannot stay in Command Room.',
+      steps: [...nine.first, ...elect('Red Disabler'), open(2), cmd('Red Disabler', move('Room A')), ...nine.arm, ...nine.last({}), cmd('Red Disabler', move('Command Room')), open(5),
+        noteOf('where the Captain who was hurt waits', 'Red Disabler', 'location'), note('who waits', 'waiting')],
     });
   }
   add(25, 'Whether a healed player returns to a last room that a room-mate is leaving for Hospital in the same resolution', {
@@ -332,13 +371,91 @@ function build(mode) {
       ...acts(4, { Cracker: [cmd('Cracker', rescue('Insider'))], Undercover: [cmd('Undercover', shot('Supplier'))] }), open(5),
       noteOf('where the healed player is', 'Insider', 'location')],
   });
-
   add(27, 'Which room is a player\'s last room after they were sent to the other one', {
     status: 'blocked', decisions: ['CAP-D4'], areas: ['resolution-order', 'movement'], rules: ['R-CAP-22'], depends: ['R-CAP-07', 'R-STATE-08', 'R-VOTE-07'],
     note: 'Supplier is released while Room B, their last room, is full, and is sent to Room A. Later Supplier is hurt in Room A and healed, and by then both rooms have a place. R-STATE-08 says the last room they occupied; the implementation remembers the room of their last move of their own.',
     steps: [...jail(1, 'Supplier'), ...elect('Alien'), open(2), cmd('Cracker', move('Room B')), ...release(2, 'Alien', 'Supplier'),
       open(3), cmd('Blue Disabler', move('Room A')), turn(3, 'Blue Disabler'), cmd('Blue Disabler', disable('Supplier')),
       turn(4, 'Cracker'), cmd('Cracker', rescue('Supplier')), open(5), noteOf('where the healed player is', 'Supplier', 'location')],
+  });
+
+  // ----- A Captain who is hit after entering Command Room -------------------------------------------
+  // Where an action's target is when it resolves does not matter (R-ACT-06): a Captain named in a
+  // room is hit although they have entered Command Room since. They lose the title at once (R-CAPT-07).
+  {
+    // The Captain is attacked in Room B and enters Command Room; a patient whose last room is Room B is healed in the same round.
+    const fourth = has('Red Disabler') ? 'Red Disabler' : 'Alien';
+    const attacker = has('Red Disabler') ? 'Red Disabler' : 'Undercover';
+    const round = has('Red Disabler') ? 3 : 4;
+    add(28, 'A Captain hurt after entering Command Room goes to Hospital and holds no place in a room: a healed player returns to their last room', {
+      areas: ['resolution-order', 'movement'], rules: ['R-CAP-07', 'R-CAP-23'],
+      depends: ['R-CAPT-14', 'R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-STATE-06', 'R-STATE-08', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05', 'R-MOVE-04', ...(has('Red Disabler') ? ['R-ROLE-06'] : ['R-SHOT-02', 'R-SHOT-03'])],
+      note: `Room B, Insider's last room, holds four players before Round ${round} resolves and four after it. The Captain is hurt inside Command Room and goes to Hospital like any Injured player (R-CAPT-14); the rules give no moment at which they are in Room B. An engine that sets the hurt Captain down in their last room on the way would make it five for that moment and turn the healed player away.`,
+      steps: [...injure, ...elect('Supplier'), open(2), cmd('Supplier', move('Room B')), cmd(fourth, move('Room B')), check(holds('Room B', 5)),
+        ...acts(round, { [attacker]: [cmd(attacker, attacker === 'Undercover' ? shot('Supplier') : disable('Supplier'))], Cracker: [cmd('Cracker', rescue('Insider'))] }),
+        cmd('Supplier', move('Command Room')), check(truth('Supplier', 'location', 'Command Room'), holds('Room B', 4)), open(round + 1),
+        check(truth('Supplier', 'health', 'Injured'), truth('Supplier', 'captain', false), truth('Supplier', 'location', 'Hospital'), truth('Insider', 'health', 'Healthy'),
+          truth('Insider', 'location', 'Room B'), holds('Room B', 5), holds('Hospital', 1))],
+    });
+  }
+  {
+    const hurtAndHealed = [...elect('Supplier'), open(2), cmd('Supplier', move('Room B')),
+      ...acts(3, { 'Blue Disabler': [cmd('Blue Disabler', disable('Supplier'))], Cracker: [cmd('Cracker', rescue('Supplier'))] }), cmd('Supplier', move('Command Room'))];
+    add(29, 'A Captain hurt and healed in one round after entering Command Room is Captain no more and returns to their last room', {
+      areas: ['resolution-order', 'movement'], rules: ['R-CAP-07'], depends: ['R-CAPT-14', 'R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-RES-01', 'R-ROLE-02', 'R-ROLE-05', 'R-MOVE-04'], setup: setup('b4'),
+      note: 'The sixth decided case names "a Captain who loses the title". This is how one reaches a room at once: the attack resolves before the Rescue (R-RES-01), the title is lost on the injury and does not come back with the healing, and a player who is no longer Captain and is Healthy returns to their last room (R-CAPT-14).',
+      steps: [...hurtAndHealed, check(truth('Supplier', 'location', 'Command Room'), truth('Supplier', 'captain', true), holds('Room B', 3)), open(4),
+        check(truth('Supplier', 'health', 'Healthy'), truth('Supplier', 'captain', false), truth('Supplier', 'location', 'Room B'), count('captains', 0), holds('Command Room', 0), holds('Room B', 4),
+          truth('Blue Disabler', 'disablerSpent', true), truth('Cracker', 'rescuesRemaining', 1))],
+    });
+    add(35, 'A Captain who loses the title inside Command Room and whose last room is full goes to the other room', {
+      areas: ['resolution-order', 'movement'], rules: ['R-CAP-07', 'R-CAP-11'], depends: ['R-CAPT-14', 'R-CAPT-07', 'R-CAPT-05', 'R-ACT-06', 'R-RES-01', 'R-ROLE-02', 'R-ROLE-05', 'R-MOVE-04', 'R-MOVE-01'], setup: setup('b4'),
+      note: 'As case 29, and two players enter Room B after the Captain has left it for Command Room.',
+      steps: [...hurtAndHealed, cmd('Insider', move('Room B')), cmd('Alien', move('Room B')), check(holds('Room B', 5)), open(4),
+        check(truth('Supplier', 'health', 'Healthy'), truth('Supplier', 'captain', false), truth('Supplier', 'location', 'Room A'), pub('Supplier', 'location', 'Room A'), holds('Room B', 5), holds('Command Room', 0))],
+    });
+  }
+  {
+    const second = has('Red Disabler') ? 'Red Disabler' : 'Undercover';
+    const round = has('Red Disabler') ? 3 : 4;
+    add(42, 'Where a Captain lies who is Eliminated after entering Command Room', {
+      status: 'blocked', decisions: ['CAP-D5'], areas: ['elimination', 'movement'], rules: ['R-CAP-24'], depends: ['R-CAP-03', 'R-CAPT-07', 'R-ACT-06'], setup: setup('b4'),
+      note: 'Two attacks are registered on the Captain in Room B, who then enters Command Room. An Eliminated player keeps their place (the second decided case), and Command Room is for the Captain. Wherever the player is put, they take one of that room\'s five places for the rest of the match.',
+      steps: [...elect('Supplier'), open(2), cmd('Supplier', move('Room B')), ...(has('Red Disabler') ? [cmd('Red Disabler', move('Room B'))] : []),
+        ...acts(round, { 'Blue Disabler': [cmd('Blue Disabler', disable('Supplier'))], [second]: [cmd(second, second === 'Undercover' ? shot('Supplier') : disable('Supplier'))] }),
+        cmd('Supplier', move('Command Room')), open(round + 1), noteOf('health of the Captain who was hit twice', 'Supplier', 'health'), noteOf('where they lie', 'Supplier', 'location')],
+    });
+  }
+
+  // ----- Places and returns together ----------------------------------------------------------------
+  {
+    const early = has('Red Disabler');
+    const second = early ? 'Red Disabler' : 'Undercover';
+    const kill = acts(early ? 1 : 4, { 'Blue Disabler': [cmd('Blue Disabler', disable('Insider'))], [second]: [cmd(second, second === 'Undercover' ? shot('Insider') : disable('Insider'))] });
+    const back = round => [open(round), cmd('Alien', move('Room B')), check(holds('Room B', 5), truth('Insider', 'health', 'Eliminated')), ...release(round, 'Hacker', 'Supplier', ['Insider'])];
+    add(39, 'An Eliminated player\'s place counts against a returning player too: the released player goes to the other room', {
+      areas: ['elimination', 'voting', 'movement'], rules: ['R-CAP-03', 'R-CAP-07'],
+      depends: ['R-STATE-01', 'R-ROLE-05', 'R-VOTE-05', 'R-VOTE-06', 'R-VOTE-07', 'R-VOTE-10', 'R-CAPT-05', 'R-MOVE-01', ...(early ? ['R-ROLE-06', 'R-ROLE-17'] : ['R-SHOT-02', 'R-SHOT-03'])], setup: setup('fight'),
+      note: 'Room B, the released player\'s last room, holds four living players and one Eliminated. That is five.',
+      steps: [...(early ? [...kill, ...jail(1, 'Supplier'), ...elect('Hacker'), ...back(2)] : [...jail(1, 'Supplier'), ...elect('Hacker'), ...kill, ...back(5)]),
+        check(is('phase', 'JAIL_VOTE'), truth('Supplier', 'jailed', false), truth('Supplier', 'location', 'Room A'), truth('Insider', 'location', 'Room B'), holds('Room B', 5))],
+    });
+  }
+  {
+    const first = orderOf(1)[0];
+    add(40, 'A full room cannot be entered during a Hack conversation or while a Captain is elected', {
+      areas: ['movement', 'phase-transitions'], rules: ['R-CAP-02', 'R-CAP-08'], depends: ['R-MOVE-01', 'R-MOVE-07', 'R-HACK-02', 'R-FLOW-06'],
+      note: 'A move may be made at any moment before voting begins, and those moments include a Hack conversation. Whether a player may move at all while a Captain is elected is not decided (D16); a move into a full room is refused under either answer.',
+      steps: [turn(1, first), cmd(first, hack('Supplier')), untilPhase('HACK'), check(holds('Room B', 5), sees('Alien', 'moveDestinations', [])), cmd('Alien', move('Room B'), 'REFUSED'),
+        untilPhase('CAPTAIN_ELECTION'), cmd('Alien', move('Room B'), 'REFUSED'), check(truth('Alien', 'location', 'Room A'), holds('Room B', 5))],
+    });
+  }
+  add(41, 'A released player and a healed player want the same last place in one round: the release comes first', {
+    areas: ['voting', 'resolution-order', 'movement'], rules: ['R-CAP-07', 'R-CAP-10'], depends: ['R-VOTE-10', 'R-VOTE-07', 'R-STATE-08', 'R-RES-01', 'R-ROLE-02', 'R-ROLE-04', 'R-ROLE-05', 'R-CAPT-05', 'R-MOVE-01'],
+    note: 'Room B holds four, and two absent players have it as their last room: Supplier in Jail and Insider in Hospital. A release takes effect when its vote closes (R-VOTE-10), before the round resolves, so Supplier has the place when Insider is healed.',
+    steps: [...injure, ...jail(1, 'Supplier'), ...elect('Alien'), open(2), cmd('Cracker', move('Room B')), check(holds('Room B', 4)), turn(2, 'Cracker'), cmd('Cracker', rescue('Insider')),
+      ...release(2, 'Alien', 'Supplier'), check(is('phase', 'JAIL_VOTE'), truth('Supplier', 'location', 'Room B'), holds('Room B', 5)), open(3),
+      check(truth('Insider', 'health', 'Healthy'), truth('Insider', 'location', 'Room A'), truth('Supplier', 'location', 'Room B'), holds('Room B', 5))],
   });
 
   // ----- What an engine run cannot show ------------------------------------------------------------

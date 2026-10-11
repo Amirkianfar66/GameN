@@ -51,6 +51,10 @@ export interface StartingScheme {
   // How often two given players start in the same room: the lowest and the highest over all pairs.
   togetherLowest: number;
   togetherHighest: number;
+  // The same for the first two players of the order and for the last two. Under a method that
+  // follows no order these are every pair's.
+  togetherFirstTwo: number;
+  togetherLastTwo: number;
 }
 
 function schemeFrom(mode: Mode, weightOf: (assignment: boolean[]) => number): StartingScheme {
@@ -84,6 +88,8 @@ function schemeFrom(mode: Mode, weightOf: (assignment: boolean[]) => number): St
     inRoomA: inRoomA / total,
     togetherLowest: Math.min(...pairs),
     togetherHighest: Math.max(...pairs),
+    togetherFirstTwo: ((together[0] as number[])[1] ?? 0) / total,
+    togetherLastTwo: ((together[mode - 2] as number[])[mode - 1] ?? 0) / total,
   };
 }
 
@@ -95,7 +101,8 @@ const legal = (mode: Mode, assignment: boolean[]): boolean => {
 /**
  * What three ways of drawing starting rooms give, exactly. The owner's decision is "random, but at
  * most five per room, unrelated to role, character, faction and seat"; it names no distribution.
- * None of these is the service's method, which is Backend's to choose and to state.
+ * `sequential` is the rule the service of PR #98 follows, as read in its code; this is arithmetic
+ * on that rule, not a run of the service.
  */
 export function startingRoomFacts(mode: Mode): StartingRoomFacts {
   const all = 2 ** mode;
