@@ -207,7 +207,7 @@ At the default text size both files fit 390 x 844 and 320 x 568 without scrollin
 
 | | Hacker's file | Scan strip | Code card | Alien's file |
 | --- | --- | --- | --- | --- |
-| Normal | Assembles on the first open in a page (about 1.1 s): snapshot, tape (380, 180), struck mark (520), printouts fed in the view's order (from 600, 90 apart), string, stamp. A result that arrived since is printed once (420) with its stamp (140) | Sweep, 900 ms back and forth, only while on its way | Each chip clips in (160); registration punches the card (220) | Assembles: the four drop in seat order, the string (520, 380), the tag swings on (820, 260) |
+| Normal | Assembles on the first open in a page (about 1.1 s): snapshot, tape (380, 180), struck mark (520), printouts fed in the view's order (from 600, 90 apart), string, stamp. A result that arrived since is printed once (420) with its stamp (140) | Sweep, 900 ms back and forth, only while on its way | The new pick's chip clips in (160); registration punches the card (220); an update that changes nothing in the strip plays neither again | Assembles: the four drop in seat order, the string (520, 380), the tag swings on (820, 260) |
 | Reduced | An 80 ms fade; a new result fades in once | No sweep; the chip ringed while on its way | No clip, no punch | An 80 ms fade |
 | Cancel | Closing, the background, a stale view or reduced motion finishes everything at rest | Ends with the step | Ends with the step | As the Hacker's |
 | Replay | Never again on an update, a recovery or a reconnect: keep the keys of the results already shown | Never | Never | Never |

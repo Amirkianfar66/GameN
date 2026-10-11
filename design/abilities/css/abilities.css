@@ -259,12 +259,9 @@
 .ab-code-card__window:nth-child(4) { left: 75.8%; }
 [data-art~="abilities"] .ab-code-card__window { border-color: transparent; }
 .ab-code-card__window[data-filled="true"] { border-color: transparent; }
-.ab-code-card .ab-chip { width: 100%; height: 100%; animation: ab-clip 160ms cubic-bezier(0.3, 1.4, 0.6, 1) backwards; }
+.ab-code-card .ab-chip { width: 100%; height: 100%; }
 .ab-code-card .ab-chip__seat { right: -6px; bottom: -6px; }
-@keyframes ab-clip { from { transform: scale(1.5) rotate(-10deg); opacity: 0; } }
-/* Registered: the card is punched once. */
-.bm-strip[data-step="accepted"] .ab-code-card { animation: ab-punch 220ms cubic-bezier(0.5, 0, 0.75, 0) backwards; }
-@keyframes ab-punch { 0% { transform: none; } 40% { transform: scale(0.94) translateY(2px); } 100% { transform: none; } }
+/* A pick clipping into its window and the card punched on the receipt are one-shot beats (intel.js), played once when the strip changes. */
 
 /* The Scan's target in the Hacker's strip; the scanner sweeps it while the Scan is on its way. */
 .ab-scan-target { position: relative; float: left; margin: 0 8px 2px 0; width: 36px; height: 36px; }
@@ -283,13 +280,11 @@
 [data-motion="reduced"] .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
 [data-motion="reduced"] [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { animation: ab-spot-reduced 1600ms linear forwards; }
 @keyframes ab-spot-reduced { 0%, 95% { opacity: 1; } 100% { opacity: 0; } }
-[data-motion="reduced"] :is(.ab-code-card, .ab-code-card .ab-chip) { animation: none; }
 [data-motion="reduced"] .ab-scan-target[data-sweeping="true"] .ab-scan-target__sweep { animation: none; opacity: 0; }
 [data-motion="reduced"] .ab-scan-target[data-sweeping="true"] .ab-chip { outline: 3px solid var(--ms-color-focus); outline-offset: 1px; border-radius: 50%; }
 @media (prefers-reduced-motion: reduce) {
   .ab-photo { transition: none; }
   .ab-photo[aria-pressed="true"] { transform: none; }
-  :is(.ab-code-card, .ab-code-card .ab-chip) { animation: none; }
   .ab-scan-target__sweep { animation: none !important; opacity: 0 !important; }
 }
 

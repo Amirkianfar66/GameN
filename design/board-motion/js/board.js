@@ -294,9 +294,11 @@ export function createBoard(root, { interactive = true, viewer = null, label = S
     const pending = cues.pending?.includes(seat.n) ?? false;
     const target = pending ? 'pending' : pick >= 0 ? (cues.multi ? 'picked' : 'selected') : eligible ? 'eligible' : cues.choosing ? 'other' : null;
     if (target) element.dataset.target = target; else delete element.dataset.target;
-    element.querySelector('.bm-piece__pick')?.remove();
     // A set's picks (a Code attempt's four, Supply's two) are marked alike, never numbered: they have no order.
-    if (pick >= 0 && cues.multi) element.append(h('span', { class: 'bm-piece__pick', 'aria-hidden': 'true' }, '✓'));
+    // A mark stays while its pick does, so an update that changes nothing here does not stamp it again.
+    const mark = element.querySelector('.bm-piece__pick');
+    if (!(pick >= 0 && cues.multi)) mark?.remove();
+    else if (!mark) element.append(h('span', { class: 'bm-piece__pick', 'aria-hidden': 'true' }, '✓'));
     const existing = element.querySelector('.bm-piece__target');
     if (eligible && interactive) {
       const label = `Select ${seat.n === viewer ? `Player ${seat.n} (you)` : `Player ${seat.n}`}, ${seat.name}`;

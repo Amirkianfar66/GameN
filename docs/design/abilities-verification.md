@@ -63,6 +63,26 @@ Run in the worktree of `claude/designer-ability-art-2` on the content of the com
 - **Large text.** The Undercover tape spanned the wrong box, chip seat numbers grew over their chips, and the Alien's names wrapped letter by letter under a width cap. At large text the tape's word now stands beside the snapshot, the chips grow, and the cap is lifted.
 - **A stray file.** A scratch renderer wrote an HTML page next to `intel.svg`; the check refused it for its missing development-only mark, and it was removed.
 
+## A fix before slice 3: an update plays nothing again, and moves no focus
+
+Found while building slice 3, on `022ae5b`, with the board flows' own controls and a probe in the page:
+
+- **A duplicate snapshot played the receipt again.** The strip was rebuilt on every update, so the same snapshot delivered twice (or any public fact about someone else) stamped **Registered** again (the board-motion proposal, PR #88), and punched the Code card and clipped its four chips again (slice 2). The board's check on each pick of a set was stamped again too.
+- **An update dropped focus.** The card, the tray, the menu and the navigation were rebuilt on every update, so a public fact about another player moved focus from an inspected snapshot (or Close, or a navigation button) to the page; the inspect card kept the public facts it was opened with.
+
+Now each part of the phone is drawn again only when what it shows changes; a stamp lands once per step; a set's check stays while its pick does; the Code card's clip (only the new pick's chip) and punch are one-shot beats played for the change that caused them, finished at once by reduced motion; an inspected player's facts follow the board in place. Recorded in the board-motion handoff (tests 5 and 9) and the Code attempt's motion entry.
+
+| Command | Result |
+| --- | --- |
+| `node design/tools/board-motion-flows.mjs` | Passed: **228 of 228** (16 new: a duplicate snapshot and a public fact replay nothing in four strips; a new pick clips only its chip; the receipt punches once; a move's arrival redraws the receipt without stamping it again; focus kept on a snapshot, Close, the navigation and the Reduce motion box; an inspected player's facts follow the board) |
+| `node design/tools/board-motion-capture.mjs` | Passed: **220 captures and 5 contact sheets, 0 with problems** |
+| `node design/tools/abilities-capture.mjs` | Passed: **66 pictures and 2 contact sheets, 0 with problems** |
+| `node design/tools/board-motion-check.mjs` | Passed: **13 of 13** |
+| `node design/tools/abilities-check.mjs` | Passed: **7 of 7** |
+| `npm run test --workspace @mothership/design-tokens` | **153 tests: 152 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). One test's edit followed the hidden card's new code |
+| `node design/tools/check-assets.mjs` | Passed: **15 of 15** |
+| `git diff --check` | Clean |
+
 ## What the checks assert, and what they do not
 
 - `check:abilities` (no browser): the kit is exactly what its recipes make from `source/dossier.svg`, in the drawing vocabulary and the neutral palette (no team, room or crew color), versioned, anchored and with its rights; the inventory names a treatment for every V1 role and every shared moment, each with five motion forms, and reads only view fields the approved contracts carry; the Insider's file sorts the candidates by seat before drawing them, draws each candidate with nothing of a role, keeps the role names one picture with one accessible name and never a list, swings the query tags together, colors only with tokens, draws art only behind loaded bundles, styles no candidate apart and draws its board cue on the own board only; the prototype loads the kit whatever the role, its hidden card holds nothing private, no production file refers to the prototype, every file carries the development-only mark; the review pictures were taken from the current art, pages and fixtures and measured clean; the inventory page is generated from the contract. Statically: it reads source text, so it proves what the code says, not what a browser draws.

@@ -17,7 +17,7 @@ import { SCENARIOS, EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as fin
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abilities/js/dossier.js';
-import { alienFile, codeCard, hackerFile, printFresh, scanTarget } from '../../abilities/js/intel.js';
+import { alienFile, BEAT_ID, clipIn, codeCard, hackerFile, printFresh, punch, scanTarget } from '../../abilities/js/intel.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -25,6 +25,15 @@ const frozen = params.has('t') || params.get('freeze') === '1' || !chrome;
 
 /** replaceChildren that skips nothing-children, so that no "null" is ever drawn. */
 const put = (node, ...children) => node.replaceChildren(...children.flat(Infinity).filter(child => child !== null && child !== undefined && child !== false));
+
+/**
+ * What each part of the phone last drew, by what it shows. An update that changes nothing in a part
+ * (a duplicate snapshot, a public fact about someone else, the timer) leaves it as it is: nothing in
+ * it plays again, and focus stays where it was. keep(node, key) says whether the part is already drawn.
+ */
+const drawnAs = new WeakMap();
+const keep = (node, key) => { if (drawnAs.get(node) === key) return true; drawnAs.set(node, key); return false; };
+const forget = node => drawnAs.delete(node);
 
 const ROLE_LOOK = {
   Officer: ['officer', 'Blue'], Insider: ['insider', 'Blue'], Cracker: ['cracker', 'Blue'], 'Blue Disabler': ['blue-disabler', 'Blue'], Supplier: ['supplier', 'Blue'],
@@ -417,24 +426,47 @@ function acceptedDetail() {
   return COPY.acceptedDetail[kind];
 }
 
+// What the strip last drew: its step, its action and the picks so far, for the beats that play once when it changes.
+let stripWas = null;
 function drawStrip() {
   const content = privateVisible() ? stripContent() : null;
   strip.hidden = content === null;
-  if (!content) { put(strip); delete strip.dataset.step; delete strip.dataset.enter; return; }
-  strip.dataset.step = content.step;
+  if (!content) { put(strip); delete strip.dataset.step; delete strip.dataset.enter; delete strip.dataset.settled; stripWas = null; return; }
   if (S.enter) { strip.dataset.enter = ''; S.enter = false; setTimeout(() => delete strip.dataset.enter, 260); }
   // The words first, with the action's name set into them; one control at the side (back, Done,
   // OK, Check again); answers and the confirmation in one row beneath.
-  put(strip, h('div', { class: 'bm-strip__text' }, content.kindLabel, content.text),
+  const next = h('div', null, h('div', { class: 'bm-strip__text' }, content.kindLabel, content.text),
     content.side ? h('div', { class: 'bm-strip__side' }, content.side) : null,
     content.stamp ? h('span', { class: 'bm-stamp', 'data-kind': content.stamp[0] }, content.stamp[1]) : null,
     content.controls.length ? h('div', { class: 'bm-strip__controls' }, content.controls) : null);
+  // An update that changes nothing in the strip (a duplicate snapshot, a public fact about someone else)
+  // leaves it as it is: nothing in it plays again, and focus stays where it was.
+  if (strip.dataset.step === content.step && strip.innerHTML === next.innerHTML) return;
+  // Drawn again in the same step (a pick, a newer fact), the stamp is already down: it lands only when the step changes.
+  if (strip.dataset.step === content.step) strip.dataset.settled = ''; else delete strip.dataset.settled;
+  strip.dataset.step = content.step;
+  strip.replaceChildren(...next.childNodes);
+  const now = { step: content.step, kind: S.flow.kind, picked: seatsPicked() };
+  if (stripWas && stripWas.kind === now.kind && !reducedNow()) stripBeats(stripWas, now);
+  stripWas = now;
+}
+
+/**
+ * The strip's ability art plays its beats once, as the strip changes: a pick clipping into the Code
+ * card, the card punched on the receipt. Never on a strip drawn from scratch (a scenario, a reopen,
+ * a recovery), never in reduced motion: there the art is simply at rest.
+ */
+function stripBeats(was, now) {
+  const added = now.picked.filter(n => !was.picked.includes(n));
+  if (now.kind === 'code' && added.length === 1) clipIn(strip.querySelector(`.ab-code-card .ab-chip[data-seat="${added[0]}"]`));
+  if (now.step === 'accepted' && was.step !== 'accepted' && now.kind === 'code') punch(strip.querySelector('.ab-code-card'));
 }
 
 function drawTray() {
   tray.hidden = (S.concealed && !paused()) || S.disposed || document.visibilityState !== 'visible' || !(S.view === 'actions' && S.flow.step === 'idle');
-  if (tray.hidden) { put(tray); return; }
+  if (tray.hidden) { put(tray); forget(tray); return; }
   const open = TRAY_ORDER.filter(kind => isOpen(kind));
+  if (keep(tray, JSON.stringify([paused(), S.banner, S.private.pending, open]))) return;
   put(tray,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-tray-heading', tabindex: '-1' }, SHELL.nav.actions), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
     !paused() && S.private.pending ? h('p', { class: 'bm-tray__empty' }, COPY.queued(S.private.pending)) : null,
@@ -502,12 +534,13 @@ function fileFor(intel) {
 
 function drawCard() {
   card.hidden = S.view !== 'card' || S.disposed;
-  if (card.hidden) { put(card); fileNode = null; return; }
+  if (card.hidden) { put(card); forget(card); fileNode = null; return; }
   const head = h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-card-heading', tabindex: '-1' }, SHELL.yourCard), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×'));
   if (!privateVisible()) {
     // Hidden (the page went to the background, or the view is out of date): one closed folder,
     // the same for every role and seat. Nothing private is in the page until it is opened again.
     fileNode = null;
+    if (keep(card, JSON.stringify(['hidden', paused()]))) return;
     put(card, head, closedFolder(paused() ? PROPOSED.cardHiddenStale : PROPOSED.cardHidden),
       paused() ? null : h('p', { class: 'ab-folder__open' }, h('button', { type: 'button', class: 'ab-button', 'data-act': 'reveal' }, PROPOSED.cardReveal)));
     return;
@@ -517,6 +550,14 @@ function drawCard() {
   const [device, team] = ROLE_LOOK[S.private.role] ?? ['officer', 'Blue'];
   const knowledge = [...S.private.knowledge, ...(S.private.hackPartner ? [COPY.hackWith(S.private.hackPartner)] : [])];
   const { file, fresh } = fileFor(S.private.intel);
+  if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey])) && (!file || card.contains(file))) {
+    // The same card: only the inspected player's public facts follow the board, said again by its live region.
+    const inspected = Number(file?.dataset.inspect);
+    const facts = inspected ? file.querySelector('.ab-inspect__facts') : null;
+    if (facts && facts.textContent !== publicFacts(inspected)) facts.textContent = publicFacts(inspected);
+    if (file && reducedNow()) cancelMotion(file);
+    return;
+  }
   put(card, head,
     h('p', { class: 'bm-hint' }, COPY.privateArea.hint),
     h('div', { class: 'bm-card bm-private', 'data-character': self.character, 'data-device': device, 'data-team': team.toLowerCase() },
@@ -531,7 +572,13 @@ function drawCard() {
 
 function drawMenu() {
   menu.hidden = S.view !== 'menu';
-  if (menu.hidden) { put(menu); return; }
+  if (menu.hidden) { put(menu); forget(menu); return; }
+  if (keep(menu, JSON.stringify([S.public.seats, S.public.active]))) {
+    // Reduced motion switched elsewhere (the fixture panel): the box says so, and keeps its focus.
+    const box = menu.querySelector('[data-act="motion"]');
+    if (box) box.checked = S.motion === 'reduced';
+    return;
+  }
   put(menu,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-menu-heading', tabindex: '-1' }, SHELL.nav.menu), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
     h('p', { class: 'bm-hint' }, SYNTHETIC_LABEL),
@@ -545,6 +592,7 @@ function drawMenu() {
 function drawNav() {
   const item = (view, label, icon) => h('button', { type: 'button', 'data-view': view, 'aria-pressed': String(S.view === view), id: `bm-nav-${view}` }, h('span', { class: 'bm-nav__icon', 'data-icon': icon, 'aria-hidden': 'true' }), h('span', null, label));
   const available = passAvailable();
+  if (keep(nav, JSON.stringify([S.view, available, S.legacy]))) return;
   put(nav, item('board', SHELL.nav.board, 'board'), item('actions', SHELL.nav.actions, 'actions'),
     S.legacy ? h('span', { 'aria-hidden': 'true' }) : h('button', { type: 'button', class: 'bm-pass', id: 'bm-pass', 'data-act': 'pass', 'aria-label': SHELL.passLabel, 'aria-disabled': String(!available) },
       h('span', { class: 'bm-nav__icon', 'data-icon': 'pass', 'aria-hidden': 'true' }), h('span', null, 'Pass')),
@@ -564,6 +612,8 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   drawStatus(status);
   board.update(S.public, boardCues());
   drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav();
+  // Reduced motion, switched on mid-beat, leaves the strip's art at rest at once.
+  if (reducedNow()) for (const animation of strip.getAnimations({ subtree: true })) if (animation.id === BEAT_ID) animation.finish();
   fitBoard(board);
   phone.querySelector('.bm-notice')?.remove();
   phone.querySelector('.bm-banner')?.remove();

@@ -418,6 +418,63 @@ try {
     return filled === '2,6,7,9' && marks.length === 4 && marks.every(mark => mark === '✓');
   })()`));
   await page.close();
+
+  // ---------- An update replays nothing it has already played: the strip's stamp and art, a pick's mark ----------
+  const strikes = page => page.evaluate(`document.getAnimations().filter(a => a.effect?.target?.closest?.('#bm-strip, [data-board="own"] .bm-piece__pick') && a.playState === 'running').map(a => a.effect.target.className)`);
+  for (const scenario of ['shot.registered', 'code.two', 'code.registered', 'supply.second']) {
+    page = await open(scenario);
+    await sleep(700);
+    await click(page, '[data-event="replay"]');
+    await sleep(30);
+    ok(`replay/${scenario}: a duplicate snapshot plays nothing again in the strip or on a pick`, (await strikes(page)).length === 0, await strikes(page));
+    await click(page, '[data-event="injure"]');
+    await sleep(30);
+    ok(`replay/${scenario}: a public fact about someone else leaves the strip as it is`, (await strikes(page)).length === 0, await strikes(page));
+    await page.close();
+  }
+  page = await open('code.two');
+  await sleep(700);
+  await click(page, '#bm-app [data-value="seat-9"]');
+  ok('code: a new pick clips only its own chip into the card', js(await page.evaluate(`document.getElementById('bm-strip').getAnimations({ subtree: true }).filter(a => a.id === 'ab-beat').map(a => a.effect.target.dataset.seat)`)) === js(['9']));
+  await click(page, '#bm-app [data-value="seat-4"]');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(700);
+  ok('code: the receipt punches the card once', js(await page.evaluate(`document.getElementById('bm-strip').getAnimations({ subtree: true }).filter(a => a.id === 'ab-beat').map(a => a.effect.target.className)`)) === js(['ab-code-card']));
+  await page.close();
+  // ---------- An update keeps what it does not change: focus stays, an inspected player's facts follow the board ----------
+  page = await open('file.insider');
+  await sleep(1200);
+  await page.evaluate(`document.querySelector('#bm-card .ab-photo[data-seat="5"]').focus()`);
+  await click(page, '[data-event="move"]');
+  await sleep(60);
+  ok('card: a public fact about someone else keeps focus on the snapshot', await page.evaluate(`document.activeElement?.dataset?.seat === '5' && document.activeElement.closest('#bm-card') !== null`));
+  await page.evaluate(`document.querySelector('#bm-card .ab-photo[data-seat="5"]').click()`);
+  await click(page, '[data-event="injure"]');
+  await sleep(60);
+  ok('card: the inspected player\'s public facts follow the board, focus kept', await page.evaluate(`document.querySelector('#bm-card .ab-inspect__facts').textContent === 'Room A · Injured' && document.activeElement?.dataset?.seat === '5'`),
+    await page.evaluate(`document.querySelector('#bm-card .ab-inspect__facts')?.textContent`));
+  await page.evaluate(`document.querySelector('#bm-card .bm-close').focus()`);
+  await click(page, '[data-event="replay"]');
+  await sleep(60);
+  ok('card: a duplicate snapshot keeps focus on Close', await page.evaluate(`document.activeElement?.classList.contains('bm-close') && document.activeElement.closest('#bm-card') !== null`));
+  await page.close();
+  page = await open('board.other-turn');
+  await page.evaluate(`document.getElementById('bm-nav-actions').focus()`);
+  await click(page, '[data-event="injure"]');
+  await sleep(60);
+  ok('nav: a public fact keeps focus where it was', await page.evaluate(`document.activeElement?.id === 'bm-nav-actions'`));
+  await click(page, '#bm-nav-menu');
+  await page.evaluate(`document.querySelector('#bm-menu [data-act="motion"]').focus()`);
+  await page.evaluate(`document.querySelector('#bm-menu [data-act="motion"]').click()`);
+  await sleep(60);
+  ok('menu: Reduce motion keeps focus on its box, and the box says it is on', await page.evaluate(`document.activeElement?.dataset?.act === 'motion' && document.activeElement.checked === true && document.getElementById('bm-app').dataset.motion === 'reduced'`));
+  await page.close();
+  page = await open('move.confirm');
+  await click(page, '#bm-app [data-act="confirm"]');
+  await sleep(1400);
+  ok('move: the arrival changes the receipt\'s words without stamping it again', (await flow(page)).arrived === true
+    && await page.evaluate(`document.getElementById('bm-strip').hasAttribute('data-settled') && document.querySelector('#bm-strip .bm-stamp').getAnimations().length === 0`));
+  await page.close();
 } catch (error) {
   results.push(`FAIL  the flows stopped: ${error.message}`);
 } finally {

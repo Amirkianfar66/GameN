@@ -212,11 +212,11 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 | Motion | |
 | --- | --- |
-| normal | Each chip clips in (160 ms); registration punches the card (220 ms). |
-| reduced | No clip or punch: the chips appear; the neutral stamp says registered. |
+| normal | The new pick's chip clips in (160 ms), the others stay put; registration punches the card (220 ms). |
+| reduced | No clip or punch: the chips appear; the neutral stamp says registered. Switching to reduced finishes a clip or punch at once. |
 | static | The card with its chips, or the words in seat order. |
 | cancel | As every strip. |
-| replay | Never after a recovery or a reconnect. |
+| replay | Never: not on a duplicate snapshot, a public fact about someone else, a recovery or a reconnect. Only a new pick clips, only the receipt punches. |
 
 **States.** unavailable (before Round 5, or attempted); picking 0 to 4 (the card filling in seat order); a short phone (the card small at the start of the detail line); confirming; sending; registered (punched); rejected; unknown
 

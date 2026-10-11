@@ -141,17 +141,17 @@ Every cue, with trigger, audience, facts, anchor, duration and easing, cancellat
 
 ## 10. Tests Frontend should add
 
-The prototype's own flows (`design/tools/board-motion-flows.mjs`, 73 steps) and measurements (`design/tools/board-motion-capture.mjs`) are the specification. In the runtime:
+The prototype's own flows (`design/tools/board-motion-flows.mjs`) and measurements (`design/tools/board-motion-capture.mjs`) are the specification. In the runtime:
 
 1. For every action kind: the eligible characters are exactly `legalTargets[COMMAND]` (every seat for Code), each with its own press area, none in the Command Room or the actor's own seat where the engine excludes them.
 2. Every press area at least 44 x 44, on screen, inside its room, hit at its centre by itself, overlapping no other and no room tag, at 320 x 568, 360 x 740, 390 x 844 and 430 x 932, with all nine in one room.
 3. No page scroll at any of those sizes in any strip state; at 200% text the board scrolls inside itself and nothing is clipped.
 4. Two clients: for every action and step, the other client's DOM has no private hook, press area, pick number, tentative move, stamp or role word.
-5. Replay of the same snapshot plays nothing; a reconnect plays nothing and stops what was in flight; five moves in one update fly none; reduced motion flies none and draws the same facts.
+5. Replay of the same snapshot plays nothing; a reconnect plays nothing and stops what was in flight; five moves in one update fly none; reduced motion flies none and draws the same facts. Nothing already played plays again on an update: an update that changes nothing in the strip leaves it as it is (its focus too); the Registered stamp lands once, when the step changes, not when a newer fact redraws the receipt's words; a set pick's check stays while its pick does; a one-shot beat of the strip's art plays for the change that caused it (a new pick, the receipt) and nothing else.
 6. Backgrounding while choosing drops the choice and its marks; a stale view pauses Actions.
 7. Pass: third of five; available only on the own ordinary turn; absent in legacy; a pending Hack keeps its full minute.
 8. Room tags: Hospital and Jail are not buttons; an unoffered room and a tag pressed during an open action say the release's words and open nothing; a room holding five says FULL on every screen, is named full, and is never offered.
-9. Keyboard: Tab reaches every press area; Enter picks; Escape goes back; focus lands on the strip's question.
+9. Keyboard: Tab reaches every press area; Enter picks; Escape goes back; focus lands on the strip's question. An update never moves focus: a part of the phone that an update does not change (the strip, the tray, the card, the menu, the navigation) stays as it is, so focus stays where the player left it; an inspected player's public facts follow the board in place and are said again by their live region.
 10. Places and gestures: the Captain at the chart table; the places from who is in the room by seat number, identical on a screen that followed the match and on one that has just reconnected; the higher seat of a pair stepping to another place when the lower one comes in; Injured with a bandage wherever it is, a healed character without; Eliminated in its place's fall with the place's press area; six or more in a room in the crowd. The two animations from every place's gesture, and none in reduced motion.
 
 ## 11. Words

@@ -221,7 +221,7 @@ test('ability art loaded by role is refused', async () => {
 
 test('a hidden card that builds the private file is refused', async () => {
   const root = scratchCopy();
-  edit(root, APP, text => text.replace('    fileNode = null;\n    put(card, head, closedFolder(', '    fileNode = fileFor(S.private.intel?.insiderCandidates ?? []);\n    put(card, head, closedFolder('));
+  edit(root, APP, text => text.replace('    fileNode = null;\n    if (keep(card,', '    fileNode = fileFor(S.private.intel?.insiderCandidates ?? []);\n    if (keep(card,'));
   refuses(await check(root), /the hidden card builds the private file/);
 });
 

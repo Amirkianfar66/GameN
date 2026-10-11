@@ -349,6 +349,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-stamp[data-kind="unknown"] { border-style: dotted; }
 .bm-strip[data-step="not-accepted"] { animation: bm-nope var(--bm-motion-pick) var(--ms-ease-standard); }
 .bm-strip[data-enter] { animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards; }
+/* Drawn again within the same step, the strip's stamp is already down: it lands once, when the step changes. */
+.bm-strip[data-settled] .bm-stamp { animation: none !important; }
 
 /* ---------- the actions tray: compact, over the lower edge of the board ---------- */
 .bm-tray {

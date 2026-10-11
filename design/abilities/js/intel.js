@@ -63,9 +63,18 @@ export const INTEL_MOTION = Object.freeze({
   print: 420, printStamp: 140,
   // The Alien's file.
   alienThreadFrom: 520, tagFrom: 820, tag: 260, alienStamp: 220,
-  // The strip: the scan sweep while the Scan is on its way; a chip clipping into the Code card.
-  sweep: 900, clip: 160,
+  // The strip: the scan sweep while the Scan is on its way; a chip clipping into the Code card; the card punched on the receipt.
+  sweep: 900, clip: 160, punch: 220,
 });
+
+/**
+ * The strip's one-shot beats. Each plays once, when the strip changes (a new pick, the receipt): the board
+ * prototype keeps a strip that an update leaves unchanged, so a duplicate snapshot, a recovery or a
+ * reconnect plays nothing again. Each is tagged, so that reduced motion can finish it at once.
+ */
+export const BEAT_ID = 'ab-beat';
+export const clipIn = chip => chip?.animate([{ opacity: 0, transform: 'scale(1.5) rotate(-10deg)' }, { opacity: 1, transform: 'none' }], { duration: INTEL_MOTION.clip, easing: 'cubic-bezier(0.3, 1.4, 0.6, 1)', fill: 'backwards', id: BEAT_ID }) ?? null;
+export const punch = card => card?.animate([{ transform: 'none' }, { transform: 'scale(0.94) translateY(2px)', offset: 0.4 }, { transform: 'none' }], { duration: INTEL_MOTION.punch, easing: STAMP_EASING, id: BEAT_ID }) ?? null;
 
 /** A small portrait chip: a player's own crew card in a round window. */
 export function chip(seat, { label = null } = {}) {
