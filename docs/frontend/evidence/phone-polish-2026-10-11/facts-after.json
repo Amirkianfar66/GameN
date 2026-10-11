@@ -25,6 +25,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -67,6 +68,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -112,6 +114,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -157,6 +160,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -207,6 +211,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -258,6 +263,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -307,6 +313,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -359,6 +366,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -404,6 +412,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -492,6 +501,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -549,6 +559,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -606,6 +617,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -659,6 +671,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -751,6 +764,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -808,6 +822,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -922,6 +937,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -979,6 +995,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -1107,6 +1124,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -1164,6 +1182,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -1264,6 +1283,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -1321,6 +1341,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -1435,6 +1456,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -1492,6 +1514,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -1551,6 +1574,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -1665,6 +1689,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -1765,6 +1790,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-3",
@@ -1824,6 +1850,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -1881,6 +1908,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -2032,6 +2060,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -2090,6 +2119,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -2274,6 +2304,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -2429,6 +2460,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -2486,6 +2518,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -2642,6 +2675,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -2699,6 +2733,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -2754,6 +2789,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -2916,6 +2952,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -2973,6 +3010,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -3045,6 +3083,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-9"
@@ -3102,6 +3141,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -3159,6 +3199,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -3203,6 +3244,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -3360,6 +3402,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -3544,6 +3587,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -3727,6 +3771,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -3910,6 +3955,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -4093,6 +4139,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -4276,6 +4323,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-3",
@@ -4445,6 +4493,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -4503,6 +4552,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4545,6 +4595,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4587,6 +4638,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4629,6 +4681,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4671,6 +4724,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4713,6 +4767,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4755,6 +4810,7 @@
     "statusClipped": false,
     "bannerIconOverText": false,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4800,6 +4856,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4845,6 +4902,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4887,6 +4945,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4929,6 +4988,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -4974,6 +5034,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5019,6 +5080,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5069,6 +5131,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5120,6 +5183,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5169,6 +5233,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5221,6 +5286,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5266,6 +5332,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5354,6 +5421,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -5411,6 +5479,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -5468,6 +5537,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5521,6 +5591,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -5613,6 +5684,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -5670,6 +5742,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -5784,6 +5857,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -5841,6 +5915,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -5969,6 +6044,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -6026,6 +6102,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -6126,6 +6203,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -6183,6 +6261,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -6297,6 +6376,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -6354,6 +6434,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -6413,6 +6494,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -6527,6 +6609,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -6627,6 +6710,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-3",
@@ -6686,6 +6770,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -6743,6 +6828,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -6894,6 +6980,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -6952,6 +7039,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -7136,6 +7224,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -7291,6 +7380,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -7348,6 +7438,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -7504,6 +7595,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -7561,6 +7653,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -7616,6 +7709,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -7778,6 +7872,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -7835,6 +7930,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -7907,6 +8003,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-9"
@@ -7964,6 +8061,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [
@@ -8021,6 +8119,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -8065,6 +8164,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -8222,6 +8322,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -8406,6 +8507,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -8589,6 +8691,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -8772,6 +8875,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -8955,6 +9059,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -9138,6 +9243,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-3",
@@ -9307,6 +9413,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -9365,6 +9472,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9407,6 +9515,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9449,6 +9558,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9491,6 +9601,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9533,6 +9644,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9575,6 +9687,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9617,6 +9730,7 @@
     "statusClipped": false,
     "bannerIconOverText": false,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9662,6 +9776,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9707,6 +9822,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9792,6 +9908,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -9862,6 +9979,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -9973,6 +10091,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -10103,6 +10222,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -10303,6 +10423,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -10495,6 +10616,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [
         "seat-1",
@@ -10539,6 +10661,156 @@
     "problems": []
   },
   {
+    "name": "confirm-stability-shot-320x568",
+    "scenario": "shot",
+    "size": [
+      320,
+      568
+    ],
+    "fontSize": null,
+    "boards": {
+      "choosing": [
+        396,
+        396,
+        396
+      ],
+      "confirming": [
+        349,
+        349,
+        349
+      ]
+    },
+    "roomsOutOfViewWhileConfirming": [],
+    "boardScrollsInside": false,
+    "problems": []
+  },
+  {
+    "name": "confirm-stability-supply-320x568",
+    "scenario": "supply",
+    "size": [
+      320,
+      568
+    ],
+    "fontSize": null,
+    "boards": {
+      "choosing": [
+        373,
+        373,
+        373
+      ],
+      "confirming": [
+        335,
+        335,
+        335
+      ]
+    },
+    "roomsOutOfViewWhileConfirming": [],
+    "boardScrollsInside": false,
+    "problems": []
+  },
+  {
+    "name": "confirm-stability-shot-390x844",
+    "scenario": "shot",
+    "size": [
+      390,
+      844
+    ],
+    "fontSize": null,
+    "boards": {
+      "choosing": [
+        654,
+        654,
+        654
+      ],
+      "confirming": [
+        616,
+        616,
+        616
+      ]
+    },
+    "roomsOutOfViewWhileConfirming": [],
+    "boardScrollsInside": false,
+    "problems": []
+  },
+  {
+    "name": "confirm-stability-supply-390x844",
+    "scenario": "supply",
+    "size": [
+      390,
+      844
+    ],
+    "fontSize": null,
+    "boards": {
+      "choosing": [
+        643,
+        643,
+        643
+      ],
+      "confirming": [
+        602,
+        602,
+        602
+      ]
+    },
+    "roomsOutOfViewWhileConfirming": [],
+    "boardScrollsInside": false,
+    "problems": []
+  },
+  {
+    "name": "confirm-stability-shot-320x568-text",
+    "scenario": "shot",
+    "size": [
+      320,
+      568
+    ],
+    "fontSize": 32,
+    "boards": {
+      "choosing": [
+        274,
+        274,
+        274
+      ],
+      "confirming": [
+        146,
+        146,
+        146
+      ]
+    },
+    "roomsOutOfViewWhileConfirming": [
+      "hospital",
+      "jail"
+    ],
+    "boardScrollsInside": true,
+    "problems": []
+  },
+  {
+    "name": "confirm-stability-supply-320x568-text",
+    "scenario": "supply",
+    "size": [
+      320,
+      568
+    ],
+    "fontSize": 32,
+    "boards": {
+      "choosing": [
+        153,
+        153,
+        153
+      ],
+      "confirming": [
+        143,
+        143,
+        143
+      ]
+    },
+    "roomsOutOfViewWhileConfirming": [
+      "hospital",
+      "jail"
+    ],
+    "boardScrollsInside": true,
+    "problems": []
+  },
+  {
     "name": "display-public",
     "scenario": "shot",
     "size": [
@@ -10564,6 +10836,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],
@@ -10606,6 +10879,7 @@
     "statusClipped": false,
     "bannerIconOverText": null,
     "navLabelsOut": [],
+    "flyersOver": [],
     "marks": {
       "eligible": [],
       "selected": [],

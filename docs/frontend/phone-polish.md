@@ -1,8 +1,8 @@
-# Two phone defects found while capturing the Insider board
+# Three phone defects found while capturing the Insider board
 
 Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) (found there) · branch `codex/frontend-phone-polish` · base `1a92f3790e45622196014cc008544fc33c359c0a` (`codex/v1-board-release`, [#95](https://github.com/Amirkianfar66/GameN/pull/95)) · 11 October 2026
 
-Both defects are visible in the base release and in Integration's own [9 October evidence](evidence/board-recovery-2026-10-09/README.md). They are fixed here separately from the feature work in #100 and #101, so the fix can be reviewed on its own.
+All three defects are in the base release. The first two are also visible in Integration's own [9 October evidence](evidence/board-recovery-2026-10-09/README.md). The third is the runtime counterpart of the fault the Designer fixed in the proposal at `0840939` ("Keep the board's figures under the card, tray, strip and menu"). They are fixed here separately from the feature work in #100 and #101, so the fix can be reviewed on its own.
 
 ## 1. The connection banner's icon lay over its words
 
@@ -23,16 +23,44 @@ Both defects are visible in the base release and in Integration's own [9 October
 
 They still grow with the reader's text, from 10.4 px at normal size to 16 px at doubled size, but each stays inside its own button. At 390 px they already fitted; they now keep a wider gap.
 
+## 3. A public move flew over the open card
+
+**The defect.** The layer that carries a moving character (`.phone-fx`, created by the host outside the redrawn shell) was at `z-index: 85`. Everything laid over the board was lower: the card, tray and menu at 5, the status bar at 24 and the strip at 70. A public move during an open card therefore drew the character over the card, the role art included. The board's own figures were already isolated (`isolation: isolate` on the own board); only the flight layer escaped.
+
+**The fix.** `board-play.css` puts the layer at 1. That is over the board, which is its own stacking context at 0, and under every overlay; all of them share the same stacking context. A flight still crosses room panels unclipped, as the layer was made to.
+
+## Confirmation keeps the board steady
+
+The owner's phone rule says confirmation never shrinks the board until rooms disappear, and never grows it cumulatively. The board journey now checks this. Each run makes three rounds of confirming and going back, for a one-pick Shot and a two-pick Supply. Board heights are in pixels:
+
+| Phone | Choosing | Confirming | Rooms while confirming |
+| --- | --- | --- | --- |
+| 320×568 | Shot 396 · Supply 373, the same in all three rounds | Shot 349 · Supply 335, the same in all three rounds | All five wholly in view |
+| 390×844 | Shot 654 · Supply 643 | Shot 616 · Supply 602 | All five wholly in view |
+| 320×568, doubled text | Shot 274 · Supply 153 | Shot 146 · Supply 143 | Hospital and Jail scrolled out of view, inside a board that scrolls |
+
+At normal text nothing grows or shrinks from round to round, and no room leaves the view.
+
+At doubled reader text on the smallest phone, the confirmation's words and its two controls take about 240 px, so the board keeps about 145 px. As at every enlarged-text step, the board then scrolls inside itself, and Hospital and Jail are out of view while confirming. They are reachable by scrolling, and nothing is chosen on the board at that step. This is recorded as a large-text trade-off for Designer and Integration review, not changed here. The alternatives (a capped strip that scrolls, or a more compact confirmation) change the confirmation's hierarchy.
+
 ## Checks added
 
-**Capture checks.** The shared capture measurements (`apps/game/dev/capture/board-measure.mjs`, used by the board, recovery and emulator captures) now report:
+**Capture checks.** The shared capture measurements (`apps/game/dev/capture/board-measure.mjs`, used by the board, recovery and emulator captures) now report three things:
 
 - a connection banner whose icon lies over its words;
-- any navigation label that runs past its button.
+- any navigation label that runs past its button;
+- any positioned overlay that a flight would be drawn over.
 
-On the unchanged base, the existing board journey reports 3 problems: `320x568-stale-pauses` and `390x844-stale-pauses` (the icon), and `320x568-enlarged-text` ("Actions"). With the fix it reports none.
+The board journey also gains the confirmation check above.
 
-**A style test.** `apps/game/test/board-play-style.test.mjs` asserts both rules. It fails without the fix and passes with it.
+On the unchanged base stylesheets, the board journey reports:
+
+- 3 problems from the first two checks: `320x568-stale-pauses` and `390x844-stale-pauses` (the icon), and `320x568-enlarged-text` ("Actions");
+- with only the first two fixes in place, a flight drawn over an overlay at every step: over the status bar everywhere, and over any open card, tray, menu or strip.
+
+With all three fixes it reports none.
+
+**Style tests.** `apps/game/test/board-play-style.test.mjs` asserts the banner padding, the label rules and the layer order. Each fails without its fix and passes with it.
 
 ## Verification
 
