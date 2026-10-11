@@ -4,7 +4,7 @@ import { before, after, test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { FullOperationResponseSchema, FullCommandResponseSchema, FullSetPracticeBotsResponseSchema } from '@mothership/contracts';
-import { advanceFullGame, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, projectFullGame } from '@mothership/engine';
+import { advanceFullGame, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, projectFullGame } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 import { encodeV1State, decodeV1State } from '../dist/full-game.js';
 import { startStagedMatch } from './staged-start-helper.mjs';
@@ -24,13 +24,15 @@ async function harness({ count = 7, bots = 0, legacy = false } = {}) {
   const players = await Promise.all(Array.from({ length: count - bots }, () => createEmulatorIdentity()));
   const created = success(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: count }));
   const base = db.collection('matches').doc(created.matchId);
+  // Preserve the original repair scenarios' all-Room-A tuple before admission/bot fill.
+  if (legacy) await base.collection('engine').doc('gameplayPins').delete();
+  else await base.collection('engine').doc('gameplayPins').set(PASS_FULL_GAME_VERSION_PINS);
   const request = (fields = {}) => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
   for (const [index, player] of players.entries()) {
     const admission = success(await service.requestAdmission(player.uid, { protocolVersion: 2, requestId: randomUUID(), roomCode: created.roomCode }));
     success(await service.approveAdmission(host.uid, request({ admissionId: admission.admissionId, seatId: `seat-${index + 1}` })));
   }
   if (bots) assert.equal(FullSetPracticeBotsResponseSchema.parse(await service.setPracticeBots(host.uid, { schemaVersion: 1, ...request({ botCount: bots }) })).ok, true);
-  if (legacy) await base.collection('engine').doc('gameplayPins').delete();
   const h = { service, options, host, players, base, request, now: () => now, setTime: value => { now = value; },
     current: async () => decodeV1State((await base.collection('engine').doc('current').get()).data()) };
   await startStagedMatch(h);
@@ -65,7 +67,7 @@ async function command(h, seatNumber, command) {
 }
 const journal = async h => (await h.base.collection('events').orderBy('sequence').get()).docs.map(doc => doc.data());
 
-for (const legacy of [false, true]) test(`dispatched due deadline with no delivery advances once and retains ${legacy ? 'legacy' : 'current'} version pins`, async () => {
+for (const legacy of [false, true]) test(`dispatched due deadline with no delivery advances once and retains ${legacy ? 'legacy' : 'Pass'} version pins`, async () => {
   const h = await harness({ legacy }), { ref, state } = await dispatched(h);
   const before = await journal(h); h.setTime(state.phase.endsAt + 90_000);
   await h.repair.repairOutbox(noEnqueue, { limit: 10 });
@@ -73,7 +75,7 @@ for (const legacy of [false, true]) test(`dispatched due deadline with no delive
   assert.notEqual(after.phase.id, state.phase.id, 'Repair must recover the acknowledged, undelivered deadline');
   assert.equal(after.activeSeatId, 'seat-2'); assert.equal(after.phase.startedAt, h.now());
   assert.equal(after.phase.endsAt, h.now() + 60_000); assert.deepEqual(after.seats, state.seats); assert.deepEqual(after.queued, state.queued);
-  assert.deepEqual(after.versions, { ...(legacy ? LEGACY_FULL_GAME_VERSION_PINS : FULL_GAME_VERSION_PINS), assetManifestVersion: state.versions.assetManifestVersion });
+  assert.deepEqual(after.versions, { ...(legacy ? LEGACY_FULL_GAME_VERSION_PINS : PASS_FULL_GAME_VERSION_PINS), assetManifestVersion: state.versions.assetManifestVersion });
   assert.equal((await ref.get()).get('status'), 'completed');
   const records = await journal(h); assert.equal(records.length, before.length + 1);
   const decision = records.at(-1); assert.equal(decision.kind, 'DEADLINE'); assert.equal(decision.phaseId, state.phase.id); assert.equal(decision.deadlineToken, state.deadlineToken);

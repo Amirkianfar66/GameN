@@ -10,6 +10,7 @@ import {
   OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import { createV1Service } from '../dist/index.js';
+import { PASS_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { decodeV1State } from '../dist/full-game.js';
 import { startStagedMatch } from './staged-start-helper.mjs';
 import { assertLocalEmulators, projectId, createEmulatorIdentity, firestoreRequest } from '../../../infra/firebase/test/helpers.mjs';
@@ -36,6 +37,8 @@ async function harness({ hostPlays = false } = {}) {
   const players = await Promise.all(Array.from({ length: 7 }, (_, index) => hostPlays && index === 0 ? host : createEmulatorIdentity()));
   const created = success(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: 7 }));
   const base = db.collection('matches').doc(created.matchId);
+  // Keep the historical all-Room-A fixture pinned before admission.
+  await base.collection('engine').doc('gameplayPins').set(PASS_FULL_GAME_VERSION_PINS);
   const request = fields => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
   for (let index = 0; index < players.length; index++) {
     const admission = success(await service.requestAdmission(players[index].uid, {

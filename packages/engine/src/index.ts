@@ -211,3 +211,5 @@ export { buildRoster } from './full-game/roster.js';
 export type { FullGameSetup, FullGameState, FullGameContext } from './full-game/model.js';
 
 export { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';
+
+export { assertInitialRoomCapacity } from './full-game/capacity.js';

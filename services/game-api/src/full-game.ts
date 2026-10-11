@@ -13,7 +13,7 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
 import type { FullGameSetup, FullGameState, FullGameplayVersions } from '@mothership/engine';
@@ -139,6 +139,24 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const room = randomInitialRoom();
     if (room !== 'Room A' && room !== 'Room B') throw new Error('Invalid initial room draw');
     return room;
+  }
+  async function gameplayPins(tx: Transaction, base: DocumentReference): Promise<FullGameplayVersions> {
+    // Absent pins belong to historical lobbies. Never adopt the current rules for them.
+    const versions = (await tx.get(base.collection('engine').doc('gameplayPins'))).data() as FullGameplayVersions | undefined
+      ?? LEGACY_FULL_GAME_VERSION_PINS;
+    if (!isSupportedFullGameVersions(versions)) throw new Error('Unsupported match gameplay pins');
+    return versions;
+  }
+  function allocatedInitialRoom(preferred: Room, occupied: readonly Room[], versions: FullGameplayVersions): Room {
+    if (!roomCapacityEnabled(versions)) return preferred;
+    if (preferred !== 'Room A' && preferred !== 'Room B') throw new Error('Invalid initial room preference');
+    if (occupied.some(room => room !== 'Room A' && room !== 'Room B')) throw new Error('Invalid initial room roster');
+    const count = (room: Room) => occupied.filter(value => value === room).length;
+    if (count('Room A') > MAX_ROOM_OCCUPANTS || count('Room B') > MAX_ROOM_OCCUPANTS) throw new Error('Invalid initial room capacity');
+    if (count(preferred) < MAX_ROOM_OCCUPANTS) return preferred;
+    const other = preferred === 'Room A' ? 'Room B' : 'Room A';
+    if (count(other) >= MAX_ROOM_OCCUPANTS) throw new Error('No initial room space');
+    return other;
   }
   const failure = (code: FailureCode, retryAfterMs?: number): FullFailure => ({ ok: false, serverTimeMs: clock(), error: {
     code, ...(retryAfterMs === undefined ? {} : { retryAfterMs }),
@@ -296,7 +314,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const admissionId = hash([uid, body['requestId']]);
     // Draw only for a new admission, and reuse the candidate across transaction retries.
     // Keep the original body (including deprecated initialRoom) in receipt fingerprints.
-    let initialRoom: Room | undefined;
+    let preferredRoom: Room | undefined;
     return operation(uid, body, 'requestAdmission', async (tx, now) => {
       const code = await tx.get(db.collection('roomCodes').doc(body['roomCode'] as string));
       if (!code.exists || !id(code.get('matchId'))) return failure('FORBIDDEN');
@@ -304,7 +322,11 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
       const member = await tx.get(base.collection('members').doc(uid));
       if (control?.protocolVersion !== 2 || control.status !== 'lobby' || member.get('kind') === 'player') return failure('FORBIDDEN');
-      initialRoom ??= drawInitialRoom();
+      const versions = await gameplayPins(tx, base);
+      const bindings = roomCapacityEnabled(versions) ? (await tx.get(base.collection('seats'))).docs : [];
+      preferredRoom ??= drawInitialRoom();
+      // Pending admissions are not occupants. Each retry uses the current approved roster.
+      const initialRoom = allocatedInitialRoom(preferredRoom, bindings.map(binding => binding.get('initialRoom') as Room), versions);
       return { response: success(now, { matchId: base.id, admissionId, status: 'pending' }), write: () => {
         tx.create(base.collection('admissions').doc(admissionId), { uid, initialRoom, requestedAt: now, status: 'pending' });
       } };
@@ -335,14 +357,15 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const nextSetup = FullSetupDocumentSchema.parse({ ...currentSetup, revision: currentSetup.revision + 1,
         seats: [...bindings.docs.map(binding => ({ seatId: binding.id, confirmed: false, ready: false })), { seatId, confirmed: false, ready: false }]
           .sort((a, b) => a.seatId.localeCompare(b.seatId)) });
-      const initialRoom = admission.get('initialRoom') as Room;
+      const versions = await gameplayPins(tx, base);
+      const initialRoom = allocatedInitialRoom(admission.get('initialRoom') as Room, bindings.docs.map(binding => binding.get('initialRoom') as Room), versions);
       const nextLobby = lobby(base, control, bindings.docs); nextLobby.seats.push({ seatId, initialRoom });
       FullLobbyViewSchema.parse(nextLobby);
       return { response: success(now, { admissionId: admission.id, seatId, status: 'approved' }), write: () => {
         tx.create(bindingRef, { uid: targetUid, bindingRevision: 1, initialRoom });
         tx.create(base.collection('seatSessions').doc(targetUid), SeatSessionSchema.parse({ schemaVersion: 1, protocolVersion: 2, matchId: base.id, seatId, bindingRevision: 1 }));
         tx.set(memberRef, { kind: 'player', seatId, bindingRevision: 1 });
-        tx.update(admissionRef, { status: 'approved', seatId });
+        tx.update(admissionRef, { status: 'approved', seatId, ...(initialRoom === admission.get('initialRoom') ? {} : { initialRoom }) });
         tx.set(base.collection('lobby').doc('public'), nextLobby);
         tx.set(identityRef, nextIdentity); tx.set(setupRef, nextSetup);
       } };
@@ -421,6 +444,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const decoded = decodeV1Setup(deal.setup);
     if (decoded.playerCount !== match.playerCount) throw new Error('Invalid prepared roster');
     buildRoster(decoded);
+    assertInitialRoomCapacity(decoded, deal.versions);
     return deal;
   }
   function setupPreview(matchId: string, deal: PreparedDeal, binding: DocumentSnapshot, bindingRevision?: number): FullSetupPlayerView {
@@ -487,6 +511,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const practiceSnapshot = await tx.get(base.collection('practice').doc('public'));
         const practice = practiceSnapshot.exists ? FullPracticeBotsDocumentSchema.parse(practiceSnapshot.data()) : practiceDocument(base.id);
         const humans = bindings.filter(binding => humanBinding(binding.data())), bots = bindings.filter(botBinding);
+        const creationVersions = name === 'beginSetup' ? await gameplayPins(tx, base) : undefined;
         let now = clock();
         let response: SetupResponse, mutate: (() => void) | undefined;
         const acknowledge = (progress: FullSetupDocument): SetupResponse => responseSchema.parse({ schemaVersion: 1, protocolVersion: 2,
@@ -500,6 +525,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             && bindings.every(binding => seat(binding.id) && Number(binding.id.slice(5)) <= control.playerCount)
             && memberships.every((membership, index) => { const member = membership.data(), binding = humans[index]!;
               return memberPlayer(member) && member.seatId === binding.id && member.bindingRevision === binding.get('bindingRevision'); });
+          if (validRoster) assertInitialRoomCapacity({ initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) }, creationVersions!);
           if (control.status !== 'lobby' || current.stage !== 'lobby') response = fail('SETUP_LOCKED');
           else if (engineSnapshot.exists || dealSnapshot.exists || control.gameStarted === true) response = fail('UNAVAILABLE');
           else if (!validRoster) response = fail('ROSTER_INCOMPLETE');
@@ -627,6 +653,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
           recordedSetup ??= encodeV1Setup({ ...randomSetup(control.playerCount, shuffle),
             initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) });
           buildRoster(decodeV1Setup(recordedSetup));
+          assertInitialRoomCapacity(decodeV1Setup(recordedSetup), gameplayVersions);
           const deal: PreparedDeal = { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION, dealId,
             setupId: payload.setupId, readingStartedAt: now, readingEndsAt, readingDeadlineToken: readingToken, preparedAt: now,
             versions: { ...gameplayVersions, assetManifestVersion },
@@ -683,6 +710,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const now = clock(), budget = await limit(tx, uid, 'setPracticeBots', now);
         if (!budget.allowed) return fail('RATE_LIMITED', budget.retryAfterMs);
         const bindings = await tx.get(base.collection('seats'));
+        const versions = await gameplayPins(tx, base);
         const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
         const practiceRef = base.collection('practice').doc('public'), practiceSnapshot = await tx.get(practiceRef);
         const epochRef = base.collection('practice').doc('bindingEpochs'), epochSnapshot = await tx.get(epochRef);
@@ -712,7 +740,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             epochs[seatId] = previous + 1;
             const bindingRevision = previous + 1, roomKey = `${seatId}:${bindingRevision}`;
             if (!newBotRooms.has(roomKey)) newBotRooms.set(roomKey, drawInitialRoom());
-            added.push({ seatId, bindingRevision, initialRoom: newBotRooms.get(roomKey)! });
+            const initialRoom = allocatedInitialRoom(newBotRooms.get(roomKey)!,
+              [...humans, ...kept].map(binding => binding.get('initialRoom') as Room).concat(added.map(entry => entry.initialRoom)), versions);
+            added.push({ seatId, bindingRevision, initialRoom });
           }
           const botSeatIds = [...kept.map(doc => doc.id as SeatId), ...added.map(entry => entry.seatId)].sort();
           const changed = digest(botSeatIds) !== digest(current.botSeatIds);

@@ -36,3 +36,14 @@ assert.equal(owner.optional_powers, false);
 const model = read('packages/engine/src/full-game/model.ts').toString();
 assert.ok(model.includes(v1.ruleset_hash) && model.includes(v1.ruleset_version), 'Engine ruleset pins');
 console.log('Approved V1 source integrity: 21 immutable owner decisions; historical source pin preserved');
+
+const capacityPath = 'rules/overlays/room-capacity-owner-decision-2026-10-11.json';
+const capacity = json(capacityPath);
+assert.equal(capacity.status, 'confirmed');
+assert.equal(capacity.protocol_version, 2);
+assert.equal(capacity.optional_powers, false);
+assert.equal(capacity.decisions.length, 6);
+assert.equal(capacity.ordering_decision.status, 'confirmed');
+assert.equal(capacity.parent_ruleset.hash, hash('rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'));
+assert.ok(model.includes(hash(capacityPath)) && model.includes(capacity.ruleset_version) && model.includes(capacity.engine_version), 'Capacity engine pins');
+console.log('Capacity owner source integrity: six confirmed decisions; separate exact behavior tuple; historical bytes preserved');

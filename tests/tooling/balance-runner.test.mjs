@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { assertBalanceEngine, balanceEngineCommands, balanceReportGateCommand, balanceStaticInputs, readBalanceProvenance, readBalanceReport, runBalanceProcess } from '../../scripts/test-balance.mjs';
 
-import { ENGINE_PINS } from '../../scripts/test-balance-reports.mjs';
+import { BINARY_ENGINE_PINS, ENGINE_PINS } from '../../scripts/test-balance-reports.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const head = '1234567890abcdef1234567890abcdef12345678';
@@ -97,9 +97,10 @@ test('report gate reuses exactly the fresh reports and pins the actual clean can
   assert.throws(() => balanceReportGateCommand(root, 'a389', directory), /actual full Git HEAD/);
 });
 test('G17 engine capability and version are required even if legacy engine exports remain available', () => {
-  const engine = { FULL_ENGINE_VERSION: ENGINE_PINS.engineVersion, FULL_RULESET_VERSION: ENGINE_PINS.rulesetVersion,
-    FULL_RULESET_HASH: ENGINE_PINS.rulesetHash, projectOwnAcknowledgments: () => {} };
+  const engine = { FULL_ENGINE_VERSION: BINARY_ENGINE_PINS.engineVersion, FULL_RULESET_VERSION: BINARY_ENGINE_PINS.rulesetVersion,
+    FULL_RULESET_HASH: BINARY_ENGINE_PINS.rulesetHash, PASS_FULL_GAME_VERSION_PINS: ENGINE_PINS, projectOwnAcknowledgments: () => {} };
   assert.doesNotThrow(() => assertBalanceEngine(engine));
   assert.throws(() => assertBalanceEngine({ ...engine, projectOwnAcknowledgments: undefined }), /real projectOwnAcknowledgments export unavailable/);
   assert.throws(() => assertBalanceEngine({ ...engine, FULL_ENGINE_VERSION: 'full-game-1.0.0' }), /reviewed V1 engine/);
+  assert.throws(() => assertBalanceEngine({ ...engine, PASS_FULL_GAME_VERSION_PINS: undefined }), /catalogue behavior tuple/);
 });

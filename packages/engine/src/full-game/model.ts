@@ -1,12 +1,15 @@
 import type { FullCommand, FullPhase, FullPublicView, SeatId } from '@mothership/contracts';
 import type { GameSeat, Role, Room } from './roster.js';
-export const FULL_ENGINE_VERSION = 'full-game-1.1.0' as const;
-export const FULL_RULESET_VERSION = 'in-person-v1-pass-2026-10-08' as const;
-export const FULL_RULESET_HASH = 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' as const;
+export const FULL_ENGINE_VERSION = 'full-game-1.2.0' as const;
+export const FULL_RULESET_VERSION = 'in-person-v1-capacity-2026-10-11' as const;
+export const FULL_RULESET_HASH = 'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468' as const;
 
 export type FullGameplayVersions = Pick<FullPublicView['versions'], 'protocolVersion' | 'engineVersion' | 'rulesetVersion' | 'rulesetHash'>;
 export const FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const, engineVersion: FULL_ENGINE_VERSION,
   rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH });
+export const PASS_FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const, engineVersion: 'full-game-1.1.0',
+  rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' });
+export const MAX_ROOM_OCCUPANTS = 5 as const;
 export const LEGACY_FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const, engineVersion: 'full-game-1.0.1',
   rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' });
 const sameGameplayVersions = (versions: FullGameplayVersions, pins: FullGameplayVersions): boolean =>
@@ -14,8 +17,11 @@ const sameGameplayVersions = (versions: FullGameplayVersions, pins: FullGameplay
   && versions.rulesetVersion === pins.rulesetVersion && versions.rulesetHash === pins.rulesetHash;
 // Support exact reviewed tuples; mixing a new engine with an old ruleset is invalid.
 export const isSupportedFullGameVersions = (versions: FullGameplayVersions): boolean =>
-  sameGameplayVersions(versions, FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, LEGACY_FULL_GAME_VERSION_PINS);
-export const passTurnEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, FULL_GAME_VERSION_PINS);
+  sameGameplayVersions(versions, FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, PASS_FULL_GAME_VERSION_PINS)
+    || sameGameplayVersions(versions, LEGACY_FULL_GAME_VERSION_PINS);
+export const roomCapacityEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, FULL_GAME_VERSION_PINS);
+export const passTurnEnabled = (versions: FullGameplayVersions): boolean =>
+  roomCapacityEnabled(versions) || sameGameplayVersions(versions, PASS_FULL_GAME_VERSION_PINS);
 export interface FullGameSetup {
   playerCount: 7 | 8 | 9;
   roleOrder: Role[];
