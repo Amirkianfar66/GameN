@@ -29,7 +29,10 @@ test('the board shows the three players in seat order, and the three roles once,
   const players = findAll(board, byClass('phone-investigation__player'));
   assert.deepEqual(players.map(textOf), ['Player 2, Ben', 'Player 4, Dev', 'Player 6, Fay']);
   assert.deepEqual(players.map(player => find(player, byClass('phone-investigation__portrait')).attrs['data-character']), ['c4', 'c6', 'c8']);
-  assert.deepEqual(findAll(board, byClass('phone-investigation__role')).map(textOf), ['Undercover', 'Alien', 'Cracker']);
+  // The three roles as one set: one picture with one accessible name, in the rule's order.
+  const set = find(board, byClass('phone-investigation__role-set'));
+  assert.deepEqual([set.attrs.role, set.attrs['aria-label']], ['img', 'Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known.']);
+  assert.deepEqual(findAll(set, byClass('phone-investigation__role-name')).map(textOf), ['Undercover', 'Alien', 'Cracker']);
   assert.match(textOf(board), /Between them, one each:.*Who holds which is not known\./s);
   // The toggle says what it shows and that it is open.
   const toggle = find(markup, byId('phone-investigation-toggle'));
@@ -56,14 +59,21 @@ test('nothing on the board pairs a player with a role', () => {
     assert.doesNotMatch(textOf(player), ROLE, 'no role is written on a player');
     assert.doesNotMatch(toHtml(player), /data-(?:role|device|team|faction)/, 'no role hook on a player');
   }
-  // The roles are one group, outside the players' list, every one drawn the same way.
-  const roles = findAll(board, byClass('phone-investigation__role'));
-  assert.equal(new Set(roles.map(role => JSON.stringify(role.attrs))).size, 1);
-  assert.equal(findAll(find(board, byClass('phone-investigation__players')), byClass('phone-investigation__role')).length, 0);
-  assert.equal(findAll(find(board, byClass('phone-investigation__roles')), byClass('phone-investigation__player')).length, 0);
-  // No accessible name or label anywhere on the board ties the two together.
-  assert.doesNotMatch(JSON.stringify(findAll(board, element => Object.keys(element.attrs).some(name => name.startsWith('aria-')))
-    .map(element => Object.entries(element.attrs).filter(([name]) => name.startsWith('aria-')))), ROLE);
+  // The roles are one set, outside the players' list, every name drawn the same way, and never a
+  // list a screen reader could pair item by item with the three players.
+  const names = findAll(board, byClass('phone-investigation__role-name'));
+  assert.equal(names.length, 3);
+  assert.equal(new Set(names.map(name => JSON.stringify(name.attrs))).size, 1);
+  const roles = find(board, byClass('phone-investigation__roles'));
+  assert.equal(findAll(roles, element => ['ul', 'ol', 'li'].includes(element.tag) || ['list', 'listitem'].includes(String(element.attrs.role))).length, 0);
+  assert.equal(findAll(find(board, byClass('phone-investigation__players')), byClass('phone-investigation__role-name')).length, 0);
+  assert.equal(findAll(roles, byClass('phone-investigation__player')).length, 0);
+  // Only the set's own name says a role. Nothing on or around a player does, and nothing points from a player to the set.
+  const labelled = findAll(board, element => Object.entries(element.attrs).some(([name, value]) => name.startsWith('aria-') && ROLE.test(String(value))));
+  assert.deepEqual(labelled.map(element => element.attrs.class), ['phone-investigation__role-set']);
+  for (const player of players) {
+    assert.equal(findAll(player, element => ['aria-describedby', 'aria-labelledby', 'aria-controls', 'aria-owns'].some(name => name in element.attrs)).length, 0);
+  }
 });
 
 test('the board is only in the Insider’s own open card, while the view is live', () => {
