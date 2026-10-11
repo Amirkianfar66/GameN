@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "1a38e6bb3e100a147fc62cb48784ca3cd40323e6f4f2a63c2361f34d9873856d",
+  "inputsSha256": "ca706f33d4170ddfeb26fad6451e801f5e02c20de3327cb4ea9afc291b5a7019",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -661,6 +661,486 @@
       "file": "design/abilities/review/alien-assembly-1100ms.png",
       "phone": "w390",
       "size": "567x987",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-choose",
+      "title": "Rescue: a player in the Hospital, two vials left, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-choose.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-confirm",
+      "title": "Rescue: the target in the medical cross, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-registered",
+      "title": "Rescue registered: one vial spent, not a recovery, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-kit",
+      "title": "The Cracker's card: one Rescue left, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-kit.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-confirm",
+      "title": "Disable: the target in the sparks, the one charge, 390 x 844",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-registered",
+      "title": "Disable registered: the charge spent, not a result, 390 x 844",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-second",
+      "title": "Supply: one tag filled, choose the second, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-second.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-registered",
+      "title": "Supply registered: the tags tied, not a delivery, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-ack",
+      "title": "The Supplier's slip: delivered to both, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-ack.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-received",
+      "title": "A recipient's slip: no Supplier named, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-received.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-choose",
+      "title": "Rescue: a player in the Hospital, two vials left, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-choose.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-confirm",
+      "title": "Rescue: the target in the medical cross, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-registered",
+      "title": "Rescue registered: one vial spent, not a recovery, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-kit",
+      "title": "The Cracker's card: one Rescue left, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-kit.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "disable-w320-confirm",
+      "title": "Disable: the target in the sparks, the one charge, 320 x 568",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "disable-w320-registered",
+      "title": "Disable registered: the charge spent, not a result, 320 x 568",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-second",
+      "title": "Supply: one tag filled, choose the second, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-second.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-registered",
+      "title": "Supply registered: the tags tied, not a delivery, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-ack",
+      "title": "The Supplier's slip: delivered to both, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-ack.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-received",
+      "title": "A recipient's slip: no Supplier named, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-received.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-self",
+      "title": "Rescue: yourself, injured, one vial left",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-red-confirm",
+      "title": "The Red Disabler's strip: the same as the Blue's",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-red-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-red-registered",
+      "title": "The Red Disabler's receipt: the same as the Blue's",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-red-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-ack-one",
+      "title": "Delivered to one of the two",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-ack-one.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-ack-none",
+      "title": "No one received a weapon",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-ack-none.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-self",
+      "title": "Supplied yourself and Player 8: two slips",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-history",
+      "title": "The Supplier's history unavailable",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-history.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-text200-confirm",
+      "title": "Rescue at twice the text size",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-text200-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-text200-registered",
+      "title": "Supply registered at twice the text size, 320 x 568",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-text200-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-text200-self",
+      "title": "Two slips at twice the text size",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-text200-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-text200-kit",
+      "title": "The Cracker's card at twice the text size, 320 x 568",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-text200-kit.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-registered-reduced",
+      "title": "Reduced motion: the receipt at rest",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-registered-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-no-art",
+      "title": "Without the ability art or the crew cards: rescue.confirm",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-no-art",
+      "title": "Without the ability art or the crew cards: disable.confirm",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-no-art",
+      "title": "Without the ability art or the crew cards: supply.second",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "slip-w390-no-art",
+      "title": "Without the ability art or the crew cards: supply.ack",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/slip-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-drain-0000ms",
+      "title": "Drain, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-drain-0000ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-drain-0120ms",
+      "title": "Drain, 120 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-drain-0120ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-drain-0240ms",
+      "title": "Drain, 240 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-drain-0240ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-discharge-0000ms",
+      "title": "Discharge, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-discharge-0000ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-discharge-0100ms",
+      "title": "Discharge, 100 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-discharge-0100ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-discharge-0200ms",
+      "title": "Discharge, 200 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-discharge-0200ms.png",
+      "phone": "w390",
+      "size": "567x150",
+      "problems": []
+    },
+    {
+      "name": "beat-tie-0000ms",
+      "title": "Tie, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-tie-0000ms.png",
+      "phone": "w390",
+      "size": "567x147",
+      "problems": []
+    },
+    {
+      "name": "beat-tie-0100ms",
+      "title": "Tie, 100 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-tie-0100ms.png",
+      "phone": "w390",
+      "size": "567x147",
+      "problems": []
+    },
+    {
+      "name": "beat-tie-0200ms",
+      "title": "Tie, 200 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-tie-0200ms.png",
+      "phone": "w390",
+      "size": "567x147",
+      "problems": []
+    },
+    {
+      "name": "beat-slip-0000ms",
+      "title": "A slip drops in, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-slip-0000ms.png",
+      "phone": "w390",
+      "size": "525x189",
+      "problems": []
+    },
+    {
+      "name": "beat-slip-0130ms",
+      "title": "A slip drops in, 130 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-slip-0130ms.png",
+      "phone": "w390",
+      "size": "525x189",
+      "problems": []
+    },
+    {
+      "name": "beat-slip-0260ms",
+      "title": "A slip drops in, 260 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-slip-0260ms.png",
+      "phone": "w390",
+      "size": "525x189",
       "problems": []
     }
   ]

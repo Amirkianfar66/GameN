@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.2.0 · proposal
+`mothership:dev-only` · abilities-0.3.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 6 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 9 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -33,9 +33,9 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | [Hacker: Scan](#hacker-scan) | Hacker | private-own | 2 | delivered |
 | [Hacker: Code submission](#hacker-code) | Hacker | private-own | 2 | delivered |
 | [Alien: the Code from the start](#alien-code-file) | Alien | private-own | 2 | delivered |
-| [Cracker: Rescue](#cracker-rescue) | Cracker | private-own; recovery public | 3 | planned |
-| [Blue Disabler and Red Disabler: Disable](#disabler) | Blue Disabler, Red Disabler | private-own | 3 | planned |
-| [Supplier: Supply](#supplier-supply) | Supplier | private-own; each recipient's own acknowledgment | 3 | planned |
+| [Cracker: Rescue](#cracker-rescue) | Cracker | private-own; recovery public | 3 | delivered |
+| [Blue Disabler and Red Disabler: Disable](#disabler) | Blue Disabler, Red Disabler | private-own | 3 | delivered |
+| [Supplier: Supply](#supplier-supply) | Supplier, any recipient | private-own; each recipient's own acknowledgment | 3 | delivered |
 | [Undercover: Protection](#undercover-protection) | Undercover | private-own (Undercover only) | 4 | planned |
 | [Ordinary shot (every eligible role)](#ordinary-shot) | Undercover, Officer, any holder of a supplied weapon, the Alien included | private-own; damage public | 4 | planned |
 | [Officer: the one shot](#officer-shot) | Officer | private-own | 4 | planned |
@@ -212,11 +212,11 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 | Motion | |
 | --- | --- |
-| normal | Each chip clips in (160 ms); registration punches the card (220 ms). |
-| reduced | No clip or punch: the chips appear; the neutral stamp says registered. |
+| normal | The new pick's chip clips in (160 ms), the others stay put; registration punches the card (220 ms). |
+| reduced | No clip or punch: the chips appear; the neutral stamp says registered. Switching to reduced finishes a clip or punch at once. |
 | static | The card with its chips, or the words in seat order. |
 | cancel | As every strip. |
-| replay | Never after a recovery or a reconnect. |
+| replay | Never: not on a duplicate snapshot, a public fact about someone else, a recovery or a reconnect. Only a new pick clips, only the receipt punches. |
 
 **States.** unavailable (before Round 5, or attempted); picking 0 to 4 (the card filling in seat order); a short phone (the card small at the start of the detail line); confirming; sending; registered (punched); rejected; unknown
 
@@ -264,94 +264,107 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Cracker: Rescue
 
-`cracker-rescue` · slice 3 · **planned** · Cracker · private-own; recovery public
+`cracker-rescue` · slice 3 · **delivered** · Cracker · private-own; recovery public
 
-**Trigger.** The Cracker opens Rescue, picks a character (an Injured one in the Hospital from A or B, or themself while Injured, V1-05) and confirms; at the end of the round the public view may show the target Healthy.
+**Trigger.** The Cracker opens Rescue, picks a character (an Injured one in the Hospital from Room A or B, or themself while Injured, V1-05) and confirms; at the end of the round the public view may show the target Healthy.
 
-**View fields.** `self.rescuesRemaining`, `legalTargets.RESCUE`, `receipt`, `PUBLIC_HEALTH_CHANGED (Healthy)`
+**View fields.** `self.rescuesRemaining`, `legalTargets.RESCUE`, `receipt`, `PUBLIC_HEALTH_CHANGED (Healthy) and PUBLIC_MOVE out of the Hospital`
 
 **What it must show, and never show.**
 
-- Registering is not recovery: the strip stamps RESCUE REGISTERED and the remaining uses drop by one (reserved at acceptance, V1-15).
-- Recovery is a public health change, drawn by the public status cue for everyone, with nothing that names a rescuer or a Rescue.
+- Registering is not a recovery: the receipt is the neutral Registered stamp and the release's words; nothing in the strip or the card says the target is, or will be, healed.
+- The vials are the view's count of the two Rescues a match gives; one is drawn empty when the count falls (the use is reserved at acceptance and kept whatever the round brings, V1-15), never ahead of it.
+- A recovery is the public health change at the end of the round, drawn by the same status cue on every screen, naming no rescuer and no Rescue.
 
-**Concept.** The injector device: two vial pips in the strip, one filling as the pick is confirmed; a medical cross reticle on the picked character on the own board; registered = a paper tag clipped to the strip; recovery later = the public bandage coming off on every board.
+**Concept.** In the Cracker's strip: the picked player's chip in a medical cross ring beside the question, and two vials at the start of the detail line, as many full as the view's count. On the receipt the vial that the count gave up drains once. In the card, while one is left, a slip with the vials and the release's sentence, Rescues you have left: N. Nothing on the board but the neutral targeting every action has.
 
-**Art.** planned: vial-pip, cross-reticle, rescue-tag
+**Art.** dossier-cross; dossier-vial; dossier-vial-empty; dossier-chip; dossier-slip
 
 | Motion | |
 | --- | --- |
-| normal | Vial fill 240 ms on confirm; tag clip 140 ms on the receipt. |
-| reduced | Stamp only. |
-| static | Words and pips. |
-| cancel | As every strip. |
-| replay | Never. |
+| normal | When the view's count falls while the receipt shows, the emptied vial drains (240 ms). Nothing else moves. |
+| reduced | No drain: the vial is simply empty. |
+| static | The ring, the vials and the words. |
+| cancel | As every strip; reduced motion finishes a drain at once. |
+| replay | Never: the drain plays for the fall of the count, once; a duplicate snapshot, a recovery or a reconnect draws the vials at rest. |
 
-**States.** available (2/1 left); spent (0 left); choosing; confirming; sending; registered; rejected; unknown
+**States.** available (two or one left); none left (no Rescue offered; the card says nothing, as the release); choosing (a player in the Hospital from Room A or B, or yourself while Injured); confirming (the cross ring); sending; registered (one vial empty; not a recovery); rejected; unknown; recovered later (public: a health change on every screen)
 
-**Words.** “Rescue”, “Rescues left: <n>”, “Rescue registered”
+**Words.** “Rescue”, “Register a Rescue of Player 6?”, “Rescue of Player 6 registered.”, “Rescues you have left: 1.”
+
+**Review.** `design/abilities/review/rescue-w390-choose.png`, `design/abilities/review/rescue-w320-confirm.png`, `design/abilities/review/rescue-w390-registered.png`, `design/abilities/review/rescue-w390-kit.png`, `design/abilities/review/rescue-w390-self.png`, `design/abilities/review/rescue-w390-no-art.png`, `design/board-motion/index.html?scenario=rescue.confirm`
 
 <a id="disabler"></a>
 
 ### Blue Disabler and Red Disabler: Disable
 
-`disabler` · slice 3 · **planned** · Blue Disabler, Red Disabler · private-own
+`disabler` · slice 3 · **delivered** · Blue Disabler, Red Disabler · private-own
 
 **Trigger.** The Disabler opens Disable, picks a character in the same location and confirms; one use per match.
 
-**View fields.** `self.disablerAvailable`, `legalTargets.DISABLE`, `receipt`
+**View fields.** `legalTargets.DISABLE (offered only while the one use is unspent)`, `self.disablerAvailable`, `receipt`
 
 **What it must show, and never show.**
 
-- Each Disabler's own prod in its own team accent, on its own phone only.
-- Public feedback never tells Blue from Red: the result is a neutral public health change, the same as any damage.
+- The Blue and the Red Disabler see the same strip, part for part: no color, class, asset or word differs. Each one's identity stays in its own role card (the approved device), so a glance at a phone mid-Disable tells nobody which.
+- The receipt spends the one charge (reserved at acceptance, V1-15) and is not a result: the target's chip is ringed by sparks at its corners, never struck.
+- The effect is public only as a health change at the end of the round, the same as any damage, from no direction.
 
-**Concept.** The prod device crackles over the picked character on the own board (Blue: a cold arc; Red: a hot arc); one charge ring in the strip empties on registration; spent: the ring hollow.
+**Concept.** In the strip: the picked player's chip in a charged reticle (a dashed ring with four sparks at its corners) beside the question, and one charge cell at the start of the detail line, full while the server offers the Disable and spent on its receipt. The card draws no lasting spent cell: the view does not carry one (DSN-REQ-15).
 
-**Art.** planned: prod-arc-blue, prod-arc-red, charge-ring
+**Art.** dossier-spark; dossier-cell; dossier-cell-empty; dossier-chip
 
 | Motion | |
 | --- | --- |
-| normal | Arc flicker 300 ms on the pick, ring empties 200 ms on the receipt. |
-| reduced | Ring and stamp. |
-| static | Words. |
-| cancel | As every strip. |
-| replay | Never. |
+| normal | On the receipt the cell discharges (200 ms). |
+| reduced | No discharge: the cell is simply spent. |
+| static | The reticle, the cell and the words. |
+| cancel | As every strip; reduced motion finishes a discharge at once. |
+| replay | Never: the discharge plays for the receipt, once. |
 
-**States.** available; spent; choosing; confirming; sending; registered; rejected; unknown
+**States.** available (offered); choosing; confirming (the reticle, the charge full); sending; registered (the charge spent; not a result); rejected; unknown; spent later (not offered; no lasting mark until the view carries one, DSN-REQ-15)
 
-**Words.** “Disable”, “Disable registered”, “Used”
+**Words.** “Disable”, “Register a Disable at Player 5?”, “Disable at Player 5 registered.”
+
+**Review.** `design/abilities/review/disable-w390-confirm.png`, `design/abilities/review/disable-w320-confirm.png`, `design/abilities/review/disable-w390-registered.png`, `design/abilities/review/disable-w390-red-confirm.png`, `design/abilities/review/disable-w390-red-registered.png`, `design/abilities/review/disable-w390-no-art.png`, `design/board-motion/index.html?scenario=disable.confirm`
+
+**Depends on.** DSN-REQ-15: a lasting own field for the spent Disable (disablerAvailable means a legal target now).
 
 <a id="supplier-supply"></a>
 
 ### Supplier: Supply
 
-`supplier-supply` · slice 3 · **planned** · Supplier · private-own; each recipient's own acknowledgment
+`supplier-supply` · slice 3 · **delivered** · Supplier, any recipient · private-own; each recipient's own acknowledgment
 
-**Trigger.** Round 3: the Supplier opens Supply, picks two different characters in the same location and confirms; delivery is acknowledged after the round's distribution.
+**Trigger.** Round 3: the Supplier opens Supply, picks two different characters in the same location (themself allowed) and confirms; the delivery is acknowledged after the round's distribution.
 
-**View fields.** `legalTargets.SUPPLY`, `receipt`, `own acknowledgments: supplierResults[].successfulRecipientSeatIds`, `recipient: receivedSupply[], self.ordinaryWeapons`
+**View fields.** `legalTargets.SUPPLY`, `SUPPLY.targetSeatIds (two, distinct)`, `receipt`, `own acknowledgments: supplierResults[].successfulRecipientSeatIds`, `recipient: receivedSupply[] (round)`, `historyAvailable`
 
 **What it must show, and never show.**
 
-- Registration is not delivery.
-- Delivery is shown only from the Supplier's own acknowledgment, naming the successful recipients, and to each recipient from its own acknowledgment; no public weapon marker (V1-16).
+- The two picks are a set: drawn and named in seat order, never first and second.
+- Registration is not delivery: the receipt ties the two tags and stamps Registered; nothing says a weapon arrived.
+- A delivery is shown only from an own acknowledgment (V1-16): the Supplier's slip names the players who received a weapon, in the release's sentence; a recipient's slip says one ordinary weapon arrived and names no Supplier. No public weapon marker.
 
-**Concept.** The carrier device with two cells: the first pick loads a crate tag with the first portrait, the second the other; registered: the carrier sealed; delivered: a delivery slip pinned in the file. A recipient finds a weapon slip in its own file.
+**Concept.** In the strip: two shipping tags at the start of the detail line, each pick's chip in a tag, in seat order; the receipt ties them together with a string. In the card, after Round 3: Supply results (the release's heading) with a slip per acknowledgment, its words the release's, a tag per player it names, and the stamp DELIVERED when a weapon arrived. A slip drops in once, the first time the card shows it.
 
-**Art.** planned: carrier-cell, crate-tag, delivery-slip, weapon-slip
+**Art.** dossier-tag; dossier-slip; dossier-chip; dossier-stamp
 
 | Motion | |
 | --- | --- |
-| normal | Cell load 180 ms per pick, seal 160 ms on the receipt, slip drop 260 ms on the acknowledgment. |
-| reduced | Stamps only. |
-| static | Words. |
-| cancel | As every strip. |
-| replay | An acknowledgment already shown is never dropped again. |
+| normal | A pick clips into its tag (160 ms); the receipt ties the tags (200 ms); a slip shown for the first time drops in (260 ms). |
+| reduced | No clip, tie or drop: the tags and slips appear at rest. |
+| static | The tags, the slips and the words. |
+| cancel | As every strip; reduced motion finishes a beat at once. |
+| replay | Never: a slip already shown in this page is drawn at rest; a duplicate snapshot, a recovery or a reconnect plays nothing. |
 
-**States.** unavailable (not Round 3); first pick; second pick; confirming; sending; registered; delivered (acknowledged); history unavailable; rejected; unknown
+**States.** unavailable (not Round 3); first pick; second pick (the tags in seat order); confirming; sending; registered (tied; not a delivery); rejected; unknown; delivered to both; delivered to one; delivered to none; supplied to yourself (two slips); a recipient's slip; history unavailable (the Supplier's)
 
-**Words.** “Supply”, “Pick two”, “Supply registered”, “Delivered to <names>”
+**Words.** “Supply”, “Two players get a weapon each. Choose the first.”, “Supply for Player 1 and Player 8 registered.”, “Supply results”, “Your Round 3 Supply granted one weapon each to Player 1 and Player 8.”, “You received one ordinary weapon from Supply in Round 3.”, “Delivered (proposed)”
+
+**Review.** `design/abilities/review/supply-w390-second.png`, `design/abilities/review/supply-w320-registered.png`, `design/abilities/review/supply-w390-ack.png`, `design/abilities/review/supply-w390-received.png`, `design/abilities/review/supply-w390-self.png`, `design/abilities/review/supply-w390-ack-none.png`, `design/abilities/review/supply-w390-history.png`, `design/abilities/review/slip-w390-no-art.png`, `design/board-motion/index.html?scenario=supply.ack`
+
+**Depends on.** DSN-REQ-14: successfulRecipientSeatIds in seat order, stated in the contract (the engine sorts them).
 
 <a id="undercover-protection"></a>
 
@@ -826,7 +839,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ## The kit
 
-Manifest `abilities-0.2.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 13822 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.3.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 19556 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
@@ -847,4 +860,12 @@ Manifest `abilities-0.2.0` (proposal), against the reviewed manifest `design-0.2
 | `dossier-chip` | 0.1.0 | 48 x 48 | window [24,24,17] | 866 | `30fd8dcc457f` | Around a small crew card: a printout's player, a pick in the Code card. One chip for every player alike. |
 | `dossier-code-mark` | 0.1.0 | 40 x 30 | center [20,15] | 1264 | `7f72bbf91193` | Says the Code: a punch card with four holes, two by two, a set and not a row. Struck through by the client for not in the Code. |
 | `dossier-code-card` | 0.1.0 | 240 x 76 | windows [[38,44],[92,44],[148,44],[202,44]]; radius [20] | 1935 | `c0f1dd53997a` | Behind a Code attempt's picks in the action strip: four windows, filled in seat order. |
+| `dossier-vial` | 0.1.0 | 22 x 36 | base [11,34] | 1003 | `dbfd24980064` | One Rescue left, in the Cracker's own strip and card: the full ones first, as many as the view's count (self.rescuesRemaining). |
+| `dossier-vial-empty` | 0.1.0 | 22 x 36 | base [11,34] | 856 | `9facc5154026` | A Rescue used: its use is reserved when the Rescue is accepted (V1-15), and the vial is drawn empty when the view's count falls, never ahead of it. |
+| `dossier-cross` | 0.1.0 | 48 x 48 | ring [24,26,20] | 798 | `5e0fdfad1030` | Round the chip of a Rescue's target, in the Cracker's strip only. |
+| `dossier-cell` | 0.1.0 | 24 x 36 | base [12,34] | 865 | `42e15c0bcfef` | The one Disable a match gives, while the server offers it; the same cell for the Blue and the Red Disabler. |
+| `dossier-cell-empty` | 0.1.0 | 24 x 36 | base [12,34] | 743 | `184338b3f131` | The Disable spent, on its receipt: its use is reserved when it is accepted (V1-15). |
+| `dossier-spark` | 0.1.0 | 56 x 56 | center [28,28]; clear [20] | 1923 | `b34d596b9ed7` | Four sparks at the corners of a Disable's target, outside its chip: a charged reticle, never a hit. In the Disabler's strip only; the same for both Disablers. |
+| `dossier-tag` | 0.1.0 | 70 x 40 | eyelet [12,20]; chip [42,20] | 942 | `68753d6d5cb1` | One of a Supply's two picks, its chip at (42, 20); the two in seat order. |
+| `dossier-slip` | 0.1.0 | 200 x 64 | slice [18,34,10,10]; text [10,18,156,36] | 1189 | `2bfb2b63305e` | The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band. |
 

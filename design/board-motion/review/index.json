@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "61548b567818681e6af15835cc9376564524d230a3c68155f928b57050a43b8e",
+  "inputsSha256": "2bf76f9632bdb393a57c90c5a4c098a15705913047b98acc96500ade68e410c0",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
@@ -121,6 +121,30 @@
       "key": false
     },
     {
+      "id": "disable.confirm",
+      "group": "One target",
+      "title": "Disable (Blue Disabler): the target in the sparks, the one charge",
+      "key": false
+    },
+    {
+      "id": "disable.registered",
+      "group": "One target",
+      "title": "Disable (Blue Disabler) registered: the charge spent, not a result",
+      "key": false
+    },
+    {
+      "id": "disable.red-confirm",
+      "group": "One target",
+      "title": "Disable (Red Disabler): the same strip as the Blue Disabler's",
+      "key": false
+    },
+    {
+      "id": "disable.red-registered",
+      "group": "One target",
+      "title": "Disable (Red Disabler) registered: the same receipt",
+      "key": false
+    },
+    {
       "id": "protect.choose",
       "group": "One target",
       "title": "Protection: yourself included",
@@ -129,13 +153,31 @@
     {
       "id": "rescue.choose",
       "group": "One target",
-      "title": "Rescue: a character in the Hospital",
+      "title": "Rescue: a character in the Hospital, from Room A",
       "key": true
     },
     {
       "id": "rescue.self",
       "group": "One target",
       "title": "Rescue: yourself, injured",
+      "key": false
+    },
+    {
+      "id": "rescue.confirm",
+      "group": "One target",
+      "title": "Rescue: the target in the medical cross, two Rescues left",
+      "key": false
+    },
+    {
+      "id": "rescue.registered",
+      "group": "One target",
+      "title": "Rescue registered: one vial spent, not a recovery",
+      "key": false
+    },
+    {
+      "id": "rescue.kit",
+      "group": "Private file",
+      "title": "Cracker card: one Rescue left",
       "key": false
     },
     {
@@ -253,9 +295,45 @@
       "key": false
     },
     {
+      "id": "supply.registered",
+      "group": "Several parts",
+      "title": "Supply registered: the two tags tied, not a delivery",
+      "key": false
+    },
+    {
       "id": "supply.ack",
       "group": "Several parts",
-      "title": "Supply: the acknowledgment, private, in the card",
+      "title": "Supply: delivered to both, the Supplier's slip in the card",
+      "key": false
+    },
+    {
+      "id": "supply.ack-one",
+      "group": "Several parts",
+      "title": "Supply: delivered to one of the two",
+      "key": false
+    },
+    {
+      "id": "supply.ack-none",
+      "group": "Several parts",
+      "title": "Supply: no one received a weapon",
+      "key": false
+    },
+    {
+      "id": "supply.self",
+      "group": "Several parts",
+      "title": "Supply to yourself and Player 8: two slips",
+      "key": false
+    },
+    {
+      "id": "supply.received",
+      "group": "Several parts",
+      "title": "A recipient's slip: one weapon received, no Supplier named",
+      "key": false
+    },
+    {
+      "id": "supply.history",
+      "group": "Several parts",
+      "title": "Supply: the result history is unavailable",
       "key": false
     },
     {
@@ -1219,6 +1297,54 @@
       "kind": "state"
     },
     {
+      "id": "disable.confirm",
+      "state": "disable.confirm",
+      "file": "design/board-motion/review/states/disable.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.registered",
+      "state": "disable.registered",
+      "file": "design/board-motion/review/states/disable.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.red-confirm",
+      "state": "disable.red-confirm",
+      "file": "design/board-motion/review/states/disable.red-confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.red-registered",
+      "state": "disable.red-registered",
+      "file": "design/board-motion/review/states/disable.red-registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
       "id": "protect.choose",
       "state": "protect.choose",
       "file": "design/board-motion/review/states/protect.choose.png",
@@ -1246,6 +1372,42 @@
       "id": "rescue.self",
       "state": "rescue.self",
       "file": "design/board-motion/review/states/rescue.self.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.confirm",
+      "state": "rescue.confirm",
+      "file": "design/board-motion/review/states/rescue.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.registered",
+      "state": "rescue.registered",
+      "file": "design/board-motion/review/states/rescue.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.kit",
+      "state": "rescue.kit",
+      "file": "design/board-motion/review/states/rescue.kit.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -1483,9 +1645,81 @@
       "kind": "state"
     },
     {
+      "id": "supply.registered",
+      "state": "supply.registered",
+      "file": "design/board-motion/review/states/supply.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
       "id": "supply.ack",
       "state": "supply.ack",
       "file": "design/board-motion/review/states/supply.ack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.ack-one",
+      "state": "supply.ack-one",
+      "file": "design/board-motion/review/states/supply.ack-one.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.ack-none",
+      "state": "supply.ack-none",
+      "file": "design/board-motion/review/states/supply.ack-none.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.self",
+      "state": "supply.self",
+      "file": "design/board-motion/review/states/supply.self.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.received",
+      "state": "supply.received",
+      "file": "design/board-motion/review/states/supply.received.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.history",
+      "state": "supply.history",
+      "file": "design/board-motion/review/states/supply.history.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2654,7 +2888,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-0ms.png",
       "width": 190,
-      "height": 264,
+      "height": 259,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2671,7 +2905,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-60ms.png",
       "width": 190,
-      "height": 264,
+      "height": 259,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2688,7 +2922,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-120ms.png",
       "width": 190,
-      "height": 264,
+      "height": 259,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2705,7 +2939,7 @@
       "state": "supply.first",
       "file": "design/board-motion/review/motion/05-cue-target-pick-reduced.png",
       "width": 190,
-      "height": 264,
+      "height": 259,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2824,7 +3058,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-0ms.png",
       "width": 390,
-      "height": 56,
+      "height": 67,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2841,7 +3075,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-60ms.png",
       "width": 390,
-      "height": 56,
+      "height": 67,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -2858,7 +3092,7 @@
       "state": "shot.confirm",
       "file": "design/board-motion/review/motion/08-cue-not-accepted-120ms.png",
       "width": 390,
-      "height": 56,
+      "height": 67,
       "viewport": "390x844",
       "fontPx": null,
       "names": null,
@@ -4178,7 +4412,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 5432,
+      "height": 5463,
       "viewport": "1600",
       "contact": true
     },
@@ -4196,7 +4430,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-motion.png",
       "width": 1600,
-      "height": 15383,
+      "height": 15375,
       "viewport": "1600",
       "contact": true
     },

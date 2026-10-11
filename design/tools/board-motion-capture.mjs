@@ -76,6 +76,16 @@ export const MEASURE = `(() => {
     const r = c.getBoundingClientRect();
     if (r.width < 43.5 || r.height < 43.5) problems.push('control "' + c.textContent.trim().slice(0, 24) + '" is ' + Math.round(r.width) + 'x' + Math.round(r.height));
   }
+  // The strip's stamp lands clear of its words: no line of the question, its detail or the action's name lies under it.
+  const stamp = app.querySelector('.bm-strip .bm-stamp');
+  if (stamp && visible(stamp)) {
+    const s = stamp.getBoundingClientRect();
+    for (const node of app.querySelectorAll('.bm-strip .bm-strip__line, .bm-strip .bm-strip__detail, .bm-strip .bm-strip__kind')) {
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      if ([...range.getClientRects()].some(r => r.width > 0 && overlap(r, s) > 2)) { problems.push("the strip's stamp covers its words: " + node.textContent.trim().slice(0, 32)); break; }
+    }
+  }
   const hooks = [...app.querySelectorAll('[data-device], [data-team]')].filter(n => !n.closest('.bm-private'));
   if (hooks.length) problems.push('a role or team hook outside the private card: ' + hooks.map(n => n.className).join(', '));
   const copy = app.cloneNode(true);

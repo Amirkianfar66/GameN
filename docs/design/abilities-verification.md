@@ -1,6 +1,6 @@
 # Verification of the ability art
 
-Ability art · slice 1 (the Insider's file and the hidden card, branch `claude/designer-ability-art`, `abilities-0.1.0`) and slice 2 (the Hacker's file and Scan, the Code attempt, the Alien's Code, branch `claude/designer-ability-art-2`, `abilities-0.2.0`) · built on the board-motion prototype at `08409392d1040f20d559a9f36a2a1d9bb23468c4` (branch `codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88), **not merged**) · ruleset `in-person-v1-pass-2026-10-08` · 11 October 2026
+Ability art · slice 1 (the Insider's file and the hidden card, branch `claude/designer-ability-art`, `abilities-0.1.0`), slice 2 (the Hacker's file and Scan, the Code attempt, the Alien's Code, branch `claude/designer-ability-art-2`, `abilities-0.2.0`) and slice 3 (the Rescue, the Disable, the Supply and its slips, branch `claude/designer-ability-art-3`, `abilities-0.3.0`) · built on the board-motion prototype at `08409392d1040f20d559a9f36a2a1d9bb23468c4` (branch `codex/designer-board-motion`, [PR #88](https://github.com/Amirkianfar66/GameN/pull/88), **not merged**) · ruleset `in-person-v1-pass-2026-10-08` · 11 October 2026
 
 Environment: a Claude Code cloud container on Linux 6.18; Node `22.21.1` and npm `10.9.4` (the pinned toolchain); for everything that needs a browser, headless **Chromium 141.0.7390.37**, started through a wrapper given as `CHROME_PATH` that adds `--no-sandbox` (the container runs as root).
 
@@ -63,12 +63,72 @@ Run in the worktree of `claude/designer-ability-art-2` on the content of the com
 - **Large text.** The Undercover tape spanned the wrong box, chip seat numbers grew over their chips, and the Alien's names wrapped letter by letter under a width cap. At large text the tape's word now stands beside the snapshot, the chips grow, and the cap is lifted.
 - **A stray file.** A scratch renderer wrote an HTML page next to `intel.svg`; the check refused it for its missing development-only mark, and it was removed.
 
+## A fix before slice 3: an update plays nothing again, and moves no focus
+
+Found while building slice 3, on `022ae5b`, with the board flows' own controls and a probe in the page:
+
+- **A duplicate snapshot played the receipt again.** The strip was rebuilt on every update, so the same snapshot delivered twice (or any public fact about someone else) stamped **Registered** again (the board-motion proposal, PR #88), and punched the Code card and clipped its four chips again (slice 2). The board's check on each pick of a set was stamped again too.
+- **An update dropped focus.** The card, the tray, the menu and the navigation were rebuilt on every update, so a public fact about another player moved focus from an inspected snapshot (or Close, or a navigation button) to the page; the inspect card kept the public facts it was opened with.
+
+Now each part of the phone is drawn again only when what it shows changes; a stamp lands once per step; a set's check stays while its pick does; the Code card's clip (only the new pick's chip) and punch are one-shot beats played for the change that caused them, finished at once by reduced motion; an inspected player's facts follow the board in place. Recorded in the board-motion handoff (tests 5 and 9) and the Code attempt's motion entry.
+
+| Command | Result |
+| --- | --- |
+| `node design/tools/board-motion-flows.mjs` | Passed: **228 of 228** (16 new: a duplicate snapshot and a public fact replay nothing in four strips; a new pick clips only its chip; the receipt punches once; a move's arrival redraws the receipt without stamping it again; focus kept on a snapshot, Close, the navigation and the Reduce motion box; an inspected player's facts follow the board) |
+| `node design/tools/board-motion-capture.mjs` | Passed: **220 captures and 5 contact sheets, 0 with problems** |
+| `node design/tools/abilities-capture.mjs` | Passed: **66 pictures and 2 contact sheets, 0 with problems** |
+| `node design/tools/board-motion-check.mjs` | Passed: **13 of 13** |
+| `node design/tools/abilities-check.mjs` | Passed: **7 of 7** |
+| `npm run test --workspace @mothership/design-tokens` | **153 tests: 152 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). One test's edit followed the hidden card's new code |
+| `node design/tools/check-assets.mjs` | Passed: **15 of 15** |
+| `git diff --check` | Clean |
+
+## 11 October 2026: slice 3
+
+The Cracker's Rescue, the Blue and the Red Disabler's Disable, and the Supplier's Supply with its slips (`abilities-0.3.0`), on `b73cc9a` (the fix above). Checks ran on the slice's commit in a Linux container, with the pinned Node 22.21.1 and npm 10.9.4, and headless Chromium 141.
+
+| Command | Result |
+| --- | --- |
+| `node design/tools/abilities-assets.mjs --check` | Passed: the kit is what its recipes make (**23 assets**) |
+| `node design/tools/abilities-capture.mjs` | Passed: **114 pictures and 3 contact sheets, 0 with problems**: slices 1 and 2's 66, and 48 new (the Rescue, the Disable and the Supply at both sizes; the Red Disabler's strips, compared part for part with the Blue's; the Cracker's card and seven states of the slips; four at twice the text size; reduced motion; four without art; twelve beat frames) |
+| `node design/tools/abilities-check.mjs` | Passed: **8 of 8 checks**, over 23 assets and 24 treatments (9 delivered) |
+| `node design/tools/board-motion-capture.mjs` | Passed: **233 captures and 5 contact sheets, 0 with problems** (87 scenarios), with the new measure that no stamp covers the strip's words |
+| `node design/tools/board-motion-check.mjs` | Passed: **13 of 13 checks**, over 14 actions, 21 cues and 87 scenarios |
+| `node design/tools/board-motion-flows.mjs` | Passed: **249 of 249** (21 new: a Rescue from Room A of a player in the Hospital, its vial emptied once as the count falls, a receipt with nothing of a recovery, then the recovery as the same public cue on both boards and nothing private on this phone; the Blue and the Red Disabler's strips and receipts the same; Supply picked out of seat order, tied on the receipt; the Supplier's slip dropped in once and at rest when the card opens again; a recipient's slip naming no Supplier) |
+| `npm run test --workspace @mothership/design-tokens` | **161 tests: 160 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **38 ability-check tests pass**, 8 new for slice 3 |
+| `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
+| `git diff --check` | Clean |
+| `npm run verify` | Run on `678814c5679731ceca7d32b2b9431eda7134271c`, the commit that adds slice 3, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 701 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
+
+**What this run caught, and what was changed.**
+
+- **The Disable's sparks crossed the target's face.** On a receipt that must not be a result, arcs over the portrait read as the hit itself. They are now a charged reticle: a dashed ring with sparks at its four corners, outside the chip.
+- **The card's notes had no words.** The sheet's light text color was inherited onto the paper; the notes now set their ink.
+- **The card with two slips scrolled on a 320 x 568 phone**, and at twice the text size the notes' words did not grow, and a strip chip's seat badge covered the question. The card now compacts as the files do on a short phone, the notes' words grow with the reader's text, and a strip chip drops its badge at large text (the strip's words name the seat). Two new measures hold it.
+- **The strip's stamp covered words** (the board-motion proposal): on a long first line at 320 x 568 (Supply's receipt, a recorded vote, "Not accepted"), and on a sending action's line at both sizes. The first line now wraps short of the stamp's corner; the board capture measures that no stamp covers a word, in every scenario and size.
+- **Two measures could not fail.** Inside the capture's template literal, `\b` became a backspace and `\d` a letter, so the checks that a Rescue's receipt speaks of no recovery and that the Disable's strip names no team matched nothing. Every backslash in the slice 3 measures is now doubled, and the page script was parsed and searched for a stray backspace.
+- **The board-motion capture's input hash left out `intel.js`.** It now takes every ability script.
+
+**Not run, and what the checks do not prove.** Every picture is a desktop Chromium simulation: no real phone, screen reader, touch input, production integration or match. The strip's detail line and buttons keep their pixel size at twice the text size (the board-motion proposal, unchanged here); the slice 3 art in them keeps its size too.
+
+## A fix after slice 3: the slip's frames held the card
+
+Found while reviewing slice 4's beat frames: the first frame of a slip dropping into the card, `beat-slip-0000ms.png`, showed the board and no slip. The capture held every animation at the frame's time, the card's own slide-in among them, so at 0 ms the card was still below the screen and the picture showed what lay under it. The slip's frames now hold only the slip's beat and let the card finish opening (the prototype's `only` parameter), so each frame shows the slip where it lands: hidden at 0 ms, landing at 130 ms, at rest at 260 ms. Only the capture's parameters changed; the slip, its motion and the prototype did not.
+
+| Command | Result |
+| --- | --- |
+| `node design/tools/abilities-capture.mjs` | Passed: **114 pictures and 3 contact sheets, 0 with problems**. The two changed frames and the slice 3 contact sheet are committed; the other pictures differed from the committed ones only in rendering bytes and were kept as they were |
+| `node design/tools/abilities-check.mjs` | Passed: **8 of 8 checks** |
+| `node --test packages/design-tokens/test/abilities-check.test.mjs` | Passed: **38 of 38** |
+| `git diff --check` | Clean |
+
 ## What the checks assert, and what they do not
 
 - `check:abilities` (no browser): the kit is exactly what its recipes make from `source/dossier.svg`, in the drawing vocabulary and the neutral palette (no team, room or crew color), versioned, anchored and with its rights; the inventory names a treatment for every V1 role and every shared moment, each with five motion forms, and reads only view fields the approved contracts carry; the Insider's file sorts the candidates by seat before drawing them, draws each candidate with nothing of a role, keeps the role names one picture with one accessible name and never a list, swings the query tags together, colors only with tokens, draws art only behind loaded bundles, styles no candidate apart and draws its board cue on the own board only; the prototype loads the kit whatever the role, its hidden card holds nothing private, no production file refers to the prototype, every file carries the development-only mark; the review pictures were taken from the current art, pages and fixtures and measured clean; the inventory page is generated from the contract. Statically: it reads source text, so it proves what the code says, not what a browser draws.
 - `capture:abilities` (browser): in every picture, in the page, the three snapshots are in seat order, built and sized alike, each shows its seat number, none names a role or points at the role names, the role names are one group below the three, nothing scrolls sideways, nothing scrolls at the default text size (the inspect card included), every control is at least 44 px, a name is cut only with an ellipsis and said whole by its button, and never cut at large text; while the card is hidden, the page holds neither the file nor a private word; after the background, reopening shows the file at rest with no animation running. It does not measure readability, contrast in compositing, touch accuracy or motion comfort.
 - Since slice 2, `check:abilities` also holds: a wrong Scan's printout carries nothing of the Code; a Scan result is said in the release's words; the Hacker's file neither reorders nor filters the results; the Alien's Code is sorted by seat before it is drawn and is never an ordered list; the Code card is filled in seat order; no pick of a set is numbered on the board; the strip names a set's picks in seat order. `capture:abilities` measures the same in the page, and that the scanner sweeps only while a Scan is on its way, never in reduced motion.
 - The board flows press the file's own controls: inspect, Escape, the background, an explicit reopen, a stale view and Card while stale; and, since slice 2, a live Scan whose result is printed once in the Hacker's file and not again when the card is opened again.
+- Since slice 3, `check:abilities` also holds: the Rescues, the slips and their heading in the release's words, found in `en.ts` and `comic-shell.ts`; Supply's tags and a Supplier's slip in seat order; a recipient's slip saying no more than the release; nothing in `tools.js` named for a role or a team, or speaking of a recovery or a hit; the Disable's strip independent of the role; a vial emptied only by a fall of the view's count; no role's device drawn by the ability styles. `capture:abilities` measures the vials against the count, a Rescue's receipt free of any recovery, the cell spent exactly on the receipt, the tags in seat order and tied exactly on the receipt, every slip's words and tags, the Blue and the Red strips identical, a card with notes unscrolled at the default size and its words grown at large text. The flows add the journeys above.
 - None of it is a test of the production runtime, a real phone, a screen reader, or a match.
 
 ## Not run
@@ -76,3 +136,4 @@ Run in the worktree of `claude/designer-ability-art-2` on the content of the com
 - Any real phone, tablet or shared display; any screen reader or switch access; any touch input.
 - The production game (`apps/game/`): nothing there draws the file yet.
 - An owner review of the look and motion (DSN-D37).
+- A match where the Rescue's count, the Disable or Supply's acknowledgments come from the engine: the prototype's server is a labeled stand-in that answers as its fixtures say.

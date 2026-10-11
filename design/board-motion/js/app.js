@@ -17,7 +17,8 @@ import { SCENARIOS, EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as fin
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abilities/js/dossier.js';
-import { alienFile, codeCard, hackerFile, printFresh, scanTarget } from '../../abilities/js/intel.js';
+import { alienFile, BEAT_ID, clipIn, codeCard, hackerFile, printFresh, punch, scanTarget } from '../../abilities/js/intel.js';
+import { cell, deliveries, discharge, drain, dropIn, rescueKit, supplyTags, target, tie, vials } from '../../abilities/js/tools.js';
 
 const params = new URLSearchParams(location.search);
 const chrome = params.get('chrome') !== '0';
@@ -25,6 +26,15 @@ const frozen = params.has('t') || params.get('freeze') === '1' || !chrome;
 
 /** replaceChildren that skips nothing-children, so that no "null" is ever drawn. */
 const put = (node, ...children) => node.replaceChildren(...children.flat(Infinity).filter(child => child !== null && child !== undefined && child !== false));
+
+/**
+ * What each part of the phone last drew, by what it shows. An update that changes nothing in a part
+ * (a duplicate snapshot, a public fact about someone else, the timer) leaves it as it is: nothing in
+ * it plays again, and focus stays where it was. keep(node, key) says whether the part is already drawn.
+ */
+const drawnAs = new WeakMap();
+const keep = (node, key) => { if (drawnAs.get(node) === key) return true; drawnAs.set(node, key); return false; };
+const forget = node => drawnAs.delete(node);
 
 const ROLE_LOOK = {
   Officer: ['officer', 'Blue'], Insider: ['insider', 'Blue'], Cracker: ['cracker', 'Blue'], 'Blue Disabler': ['blue-disabler', 'Blue'], Supplier: ['supplier', 'Blue'],
@@ -127,6 +137,8 @@ function respond(answer) {
   else if (answer === 'lose' && S.flow.step === 'submitting') S.flow = { ...S.flow, step: 'unknown' };
   else {
     S.flow = { ...S.flow, step: 'accepted' };
+    // Synthetic: a Rescue's use is reserved when it is accepted (V1-15), so the view that comes with the acceptance counts one fewer.
+    if (S.flow.kind === 'rescue' && S.private.resources?.rescues > 0) S.private.resources = { ...S.private.resources, rescues: S.private.resources.rescues - 1 };
     announce.private.push(acceptedText());
     authoritativeFollowUp();
   }
@@ -328,25 +340,33 @@ function stripContent() {
   // The detail line may open with the progress of a choice in several parts.
   const line = (text, detail = null, lead = null) => [h('p', { class: 'bm-strip__line', id: 'bm-strip-line', tabindex: '-1' }, text), detail || lead ? h('p', { class: 'bm-strip__detail' }, lead, detail) : null];
   const button = (label, act, primary = false, extra = {}) => h('button', { type: 'button', class: `bm-btn${primary ? ' bm-btn--primary' : ''}`, 'data-act': act, ...extra }, label);
-  // Progress of a set (Supply's two): filled dots, unnumbered, since the picks have no order.
-  const progress = of => h('div', { class: 'bm-strip__progress', 'aria-hidden': 'true' }, Array.from({ length: of }, (_, index) => h('span', { 'data-done': String(index < seats.length) })));
   // A set of picks (a Code attempt's four, Supply's two) is named in seat order, whatever order it was picked in.
   const unordered = kind === 'code' || kind === 'supply';
   const listed = unordered ? [...seats].sort((a, b) => a - b) : seats;
-  // The ability art in the strip (design/abilities/): the Code card, filled in seat order; the Scan's target, swept while it is on its way.
+  // The ability art in the strip (design/abilities/): the Code card, filled in seat order; the target of a Scan (swept
+  // while it is on its way), a Rescue (the medical cross) or a Disable (the sparks), beside the question.
+  const one = seats.length === 1 ? identity(seats[0]) : null;
   const art = kind === 'code' ? codeCard(seats.map(identity).filter(Boolean))
-    : kind === 'scan' && seats.length === 1 && identity(seats[0]) ? scanTarget(identity(seats[0]), { sweeping: step === 'submitting' || step === 'checking' }) : null;
-  // On a short phone the Code card sits small at the start of the detail line, where progress dots would, so the board keeps its height.
+    : kind === 'scan' && one ? scanTarget(one, { sweeping: step === 'submitting' || step === 'checking' })
+    : kind === 'rescue' && one ? target(one, 'cross')
+    : kind === 'disable' && one ? target(one, 'spark') : null;
+  // On a short phone the Code card sits small at the start of the detail line, so the board keeps its height.
   const inlineArt = kind === 'code' && phone.dataset.short === 'true';
-  const lead0 = inlineArt ? art : null;
-  const withArt = words => (art === null || inlineArt ? words : kind === 'scan' ? [art, ...words] : [...words, art]);
+  // What the action uses, at the start of the detail line: the Cracker's vials (the view's count), the one
+  // Disable's cell (spent on its receipt), Supply's two tags (the picks in seat order, tied on the receipt).
+  const rescues = S.private.resources?.rescues;
+  const lead0 = inlineArt ? art
+    : kind === 'rescue' && typeof rescues === 'number' ? vials(rescues)
+    : kind === 'disable' ? cell({ spent: step === 'accepted' })
+    : kind === 'supply' ? supplyTags(seats.map(identity).filter(Boolean), { tied: step === 'accepted' }) : null;
+  const withArt = words => (art === null || inlineArt ? words : kind === 'code' ? [...words, art] : [art, ...words]);
   if (step === 'choosing') {
-    let text, lead = null, controls = [];
+    let text, lead = lead0, controls = [];
     if (kind === 'scan' && seats.length === 1) {
       text = COPY.compound.scanGuess(whoIs(seats[0]));
       controls = ['Blue', 'Red', 'Alien'].map(faction => button(faction, `answer:${faction}`, false, { class: 'bm-btn bm-btn--choice' }));
-    } else if (kind === 'supply') { text = seats.length === 0 ? COPY.compound.supplyFirst : COPY.compound.supplySecond; lead = progress(2); }
-    else if (kind === 'code') { text = COPY.compound.codePick(4 - seats.length); lead = lead0; }
+    } else if (kind === 'supply') text = seats.length === 0 ? COPY.compound.supplyFirst : COPY.compound.supplySecond;
+    else if (kind === 'code') text = COPY.compound.codePick(4 - seats.length);
     else if (kind === 'scan') text = COPY.compound.scanSeat;
     else if (kind === 'vote') { text = COPY.ballot.votePrompt[voteOn()]; controls = [button(COPY.ballot.abstain, 'answer:none', false, { class: 'bm-btn bm-btn--choice' })]; }
     else if (kind === 'release-choice') { text = COPY.choosePrompt['release-choice']; controls = [button(COPY.ballot.noRequest, 'answer:none', false, { class: 'bm-btn bm-btn--choice' })]; }
@@ -417,24 +437,55 @@ function acceptedDetail() {
   return COPY.acceptedDetail[kind];
 }
 
+// What the strip last drew: its step, its action and the picks so far, for the beats that play once when it changes.
+let stripWas = null;
 function drawStrip() {
   const content = privateVisible() ? stripContent() : null;
   strip.hidden = content === null;
-  if (!content) { put(strip); delete strip.dataset.step; delete strip.dataset.enter; return; }
-  strip.dataset.step = content.step;
+  if (!content) { put(strip); delete strip.dataset.step; delete strip.dataset.enter; delete strip.dataset.settled; stripWas = null; return; }
   if (S.enter) { strip.dataset.enter = ''; S.enter = false; setTimeout(() => delete strip.dataset.enter, 260); }
   // The words first, with the action's name set into them; one control at the side (back, Done,
   // OK, Check again); answers and the confirmation in one row beneath.
-  put(strip, h('div', { class: 'bm-strip__text' }, content.kindLabel, content.text),
+  const next = h('div', null, h('div', { class: 'bm-strip__text' }, content.kindLabel, content.text),
     content.side ? h('div', { class: 'bm-strip__side' }, content.side) : null,
     content.stamp ? h('span', { class: 'bm-stamp', 'data-kind': content.stamp[0] }, content.stamp[1]) : null,
     content.controls.length ? h('div', { class: 'bm-strip__controls' }, content.controls) : null);
+  // An update that changes nothing in the strip (a duplicate snapshot, a public fact about someone else)
+  // leaves it as it is: nothing in it plays again, and focus stays where it was.
+  if (strip.dataset.step === content.step && strip.innerHTML === next.innerHTML) return;
+  // Drawn again in the same step (a pick, a newer fact), the stamp is already down: it lands only when the step changes.
+  if (strip.dataset.step === content.step) strip.dataset.settled = ''; else delete strip.dataset.settled;
+  strip.dataset.step = content.step;
+  strip.replaceChildren(...next.childNodes);
+  const now = { step: content.step, kind: S.flow.kind, picked: seatsPicked(), rescues: S.private.resources?.rescues ?? null };
+  if (stripWas && stripWas.kind === now.kind && !reducedNow()) stripBeats(stripWas, now);
+  stripWas = now;
+}
+
+/**
+ * The strip's ability art plays its beats once, as the strip changes: a pick clipping into the Code
+ * card or a Supply tag; on the receipt the Code card punched, Supply's tags tied, the Disable's cell
+ * discharged; a vial emptying when the view's Rescue count falls (never ahead of it). Never on a strip
+ * drawn from scratch (a scenario, a reopen, a recovery), never in reduced motion: there the art is at rest.
+ */
+function stripBeats(was, now) {
+  const added = now.picked.filter(n => !was.picked.includes(n));
+  if ((now.kind === 'code' || now.kind === 'supply') && added.length === 1) clipIn(strip.querySelector(`:is(.ab-code-card, .ab-tags) .ab-chip[data-seat="${added[0]}"]`));
+  const receipt = now.step === 'accepted' && was.step !== 'accepted';
+  if (receipt && now.kind === 'code') punch(strip.querySelector('.ab-code-card'));
+  if (receipt && now.kind === 'supply') tie(strip.querySelector('.ab-tags'));
+  if (receipt && now.kind === 'disable') discharge(strip.querySelector('.ab-cell'));
+  if (now.kind === 'rescue' && now.rescues !== null && was.rescues !== null && now.rescues < was.rescues) {
+    const all = strip.querySelectorAll('.ab-vial');
+    for (let index = now.rescues; index < was.rescues; index += 1) drain(all[index]);
+  }
 }
 
 function drawTray() {
   tray.hidden = (S.concealed && !paused()) || S.disposed || document.visibilityState !== 'visible' || !(S.view === 'actions' && S.flow.step === 'idle');
-  if (tray.hidden) { put(tray); return; }
+  if (tray.hidden) { put(tray); forget(tray); return; }
   const open = TRAY_ORDER.filter(kind => isOpen(kind));
+  if (keep(tray, JSON.stringify([paused(), S.banner, S.private.pending, open]))) return;
   put(tray,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-tray-heading', tabindex: '-1' }, SHELL.nav.actions), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
     !paused() && S.private.pending ? h('p', { class: 'bm-tray__empty' }, COPY.queued(S.private.pending)) : null,
@@ -442,6 +493,19 @@ function drawTray() {
       : open.length ? h('ul', { class: 'bm-tray__grid' }, open.map(kind => h('li', null, h('button', { type: 'button', class: 'bm-chip', 'data-act': `open:${kind}`, id: `bm-open-${kind}` },
         h('span', { class: 'bm-chip__icon', 'aria-hidden': 'true' }, ICON[kind] ?? '•'), h('span', { class: 'bm-chip__name' }, COPY.kind[kind]), h('span', { class: 'bm-chip__hint' }, COPY.open[kind])))))
         : h('p', { class: 'bm-tray__empty' }, SHELL.noActions));
+}
+
+// Supply's slips (design/abilities/js/tools.js) drop into the card once, the first time this page shows each.
+const slipsShown = new Set();
+/** The seat's own acknowledgments, as the release shows them: the Supplier's results, a received weapon, an unavailable history. */
+function deliveriesFor(acks) {
+  if (!acks) return null;
+  return deliveries({
+    supplied: (acks.supplierResults ?? []).map(result => ({ round: result.round, recipients: result.recipients.map(identity).filter(Boolean) })),
+    received: acks.receivedSupply ?? [],
+    self: identity(VIEWER),
+    unavailable: acks.historyAvailable === false && S.private.role === 'Supplier',
+  });
 }
 
 // The seat's own file (design/abilities/): the Insider's, the Hacker's or the Alien's, from what
@@ -502,12 +566,13 @@ function fileFor(intel) {
 
 function drawCard() {
   card.hidden = S.view !== 'card' || S.disposed;
-  if (card.hidden) { put(card); fileNode = null; return; }
+  if (card.hidden) { put(card); forget(card); fileNode = null; return; }
   const head = h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-card-heading', tabindex: '-1' }, SHELL.yourCard), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×'));
   if (!privateVisible()) {
     // Hidden (the page went to the background, or the view is out of date): one closed folder,
     // the same for every role and seat. Nothing private is in the page until it is opened again.
     fileNode = null;
+    if (keep(card, JSON.stringify(['hidden', paused()]))) return;
     put(card, head, closedFolder(paused() ? PROPOSED.cardHiddenStale : PROPOSED.cardHidden),
       paused() ? null : h('p', { class: 'ab-folder__open' }, h('button', { type: 'button', class: 'ab-button', 'data-act': 'reveal' }, PROPOSED.cardReveal)));
     return;
@@ -517,13 +582,30 @@ function drawCard() {
   const [device, team] = ROLE_LOOK[S.private.role] ?? ['officer', 'Blue'];
   const knowledge = [...S.private.knowledge, ...(S.private.hackPartner ? [COPY.hackWith(S.private.hackPartner)] : [])];
   const { file, fresh } = fileFor(S.private.intel);
+  const rescues = S.private.resources?.rescues ?? 0;
+  if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey, rescues, S.private.acks])) && (!file || card.contains(file))) {
+    // The same card: only the inspected player's public facts follow the board, said again by its live region.
+    const inspected = Number(file?.dataset.inspect);
+    const facts = inspected ? file.querySelector('.ab-inspect__facts') : null;
+    if (facts && facts.textContent !== publicFacts(inspected)) facts.textContent = publicFacts(inspected);
+    if (file && reducedNow()) cancelMotion(file);
+    return;
+  }
   put(card, head,
     h('p', { class: 'bm-hint' }, COPY.privateArea.hint),
     h('div', { class: 'bm-card bm-private', 'data-character': self.character, 'data-device': device, 'data-team': team.toLowerCase() },
       h('span', { class: 'bm-card__art', 'aria-hidden': 'true' }),
       h('div', null, h('p', { class: 'bm-card__name' }, S.private.role), h('p', { class: 'bm-card__team' }, `${team} team`))),
     file,
+    // The Cracker's Rescues while one is left: the release's sentence, with its vials. At none the release says nothing.
+    rescues > 0 ? rescueKit(rescues) : null,
+    deliveriesFor(S.private.acks),
     knowledge.length ? h('ul', { class: 'bm-know', 'aria-label': 'What you know' }, knowledge.map(item => h('li', null, item))) : null);
+  for (const slip of card.querySelectorAll('.ab-slip')) {
+    if (slipsShown.has(slip.dataset.slip)) continue;
+    slipsShown.add(slip.dataset.slip);
+    if (!reducedNow()) dropIn(slip);
+  }
   if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: reducedNow() }); }
   else if (file && fresh.length) for (const scan of fresh) printFresh(file, scan, { reduced: reducedNow() });
   else if (file && reducedNow()) cancelMotion(file);
@@ -531,7 +613,13 @@ function drawCard() {
 
 function drawMenu() {
   menu.hidden = S.view !== 'menu';
-  if (menu.hidden) { put(menu); return; }
+  if (menu.hidden) { put(menu); forget(menu); return; }
+  if (keep(menu, JSON.stringify([S.public.seats, S.public.active]))) {
+    // Reduced motion switched elsewhere (the fixture panel): the box says so, and keeps its focus.
+    const box = menu.querySelector('[data-act="motion"]');
+    if (box) box.checked = S.motion === 'reduced';
+    return;
+  }
   put(menu,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-menu-heading', tabindex: '-1' }, SHELL.nav.menu), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
     h('p', { class: 'bm-hint' }, SYNTHETIC_LABEL),
@@ -545,6 +633,7 @@ function drawMenu() {
 function drawNav() {
   const item = (view, label, icon) => h('button', { type: 'button', 'data-view': view, 'aria-pressed': String(S.view === view), id: `bm-nav-${view}` }, h('span', { class: 'bm-nav__icon', 'data-icon': icon, 'aria-hidden': 'true' }), h('span', null, label));
   const available = passAvailable();
+  if (keep(nav, JSON.stringify([S.view, available, S.legacy]))) return;
   put(nav, item('board', SHELL.nav.board, 'board'), item('actions', SHELL.nav.actions, 'actions'),
     S.legacy ? h('span', { 'aria-hidden': 'true' }) : h('button', { type: 'button', class: 'bm-pass', id: 'bm-pass', 'data-act': 'pass', 'aria-label': SHELL.passLabel, 'aria-disabled': String(!available) },
       h('span', { class: 'bm-nav__icon', 'data-icon': 'pass', 'aria-hidden': 'true' }), h('span', null, 'Pass')),
@@ -564,6 +653,8 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   drawStatus(status);
   board.update(S.public, boardCues());
   drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav();
+  // Reduced motion, switched on mid-beat, leaves the strip's art at rest at once.
+  if (reducedNow()) for (const animation of strip.getAnimations({ subtree: true })) if (animation.id === BEAT_ID) animation.finish();
   fitBoard(board);
   phone.querySelector('.bm-notice')?.remove();
   phone.querySelector('.bm-banner')?.remove();
@@ -796,6 +887,8 @@ const PLAY = {
   hospital: () => { deliver(EVENTS.find(e => e.id === 'injure').fact); deliver(EVENTS.find(e => e.id === 'to-hospital').fact); },
   release: () => deliver(EVENTS.find(e => e.id === 'release').fact),
   eliminate: () => deliver(EVENTS.find(e => e.id === 'eliminate').fact),
+  // The end of the round: Player 6 is Healthy again and leaves the Hospital; on every screen alike, naming no rescuer.
+  recover: () => { deliver(EVENTS.find(e => e.id === 'recover').fact); deliver(EVENTS.find(e => e.id === 'leave-hospital').fact); },
   jail: () => deliver(EVENTS.find(e => e.id === 'jail').fact),
   captain: () => deliver(EVENTS.find(e => e.id === 'captain').fact),
   phase: () => deliver(EVENTS.find(e => e.id === 'phase').fact),

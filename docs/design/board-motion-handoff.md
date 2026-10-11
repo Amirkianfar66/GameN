@@ -12,7 +12,7 @@ The comic board stays on screen through a whole turn.
 
 1. **Actions** in navigation opens a compact tray over the lower edge of the board, listing only the actions the player's own view opens. Move is not in it.
 2. Choosing an action closes the tray. The characters the view offers for it get a dashed ring around their press area and a **+** tab; everyone else is drawn faint. The strip above navigation asks the release's question ("Choose a target", "Who is the Protection for?").
-3. The player taps a **character, in its room** (Hospital and Jail included where offered). Several parts (Scan's guess, Supply's two, the Code's four) are counted in the strip; the picks of a set (Supply's two, the Code's four) are checked alike on the characters, never numbered, and named in seat order, the Code's four clipped into a Code card ([abilities-handoff.md](abilities-handoff.md)); Take back removes the last. Inline answers (Blue, Red, Alien; Abstain; No release request; Yes, No, Abstain) are buttons in the strip.
+3. The player taps a **character, in its room** (Hospital and Jail included where offered). Several parts (Scan's guess, Supply's two, the Code's four) are counted in the strip; the picks of a set (Supply's two, the Code's four) are checked alike on the characters, never numbered, and named in seat order, the Code's four clipped into a Code card and Supply's two into shipping tags ([abilities-handoff.md](abilities-handoff.md)); Take back removes the last. Inline answers (Blue, Red, Alien; Abstain; No release request; Yes, No, Abstain) are buttons in the strip.
 4. The strip asks to confirm, in the release's words; Confirm sends; the same neutral **Registered** stamp answers every action. Nothing about the outcome is drawn.
 5. **Moving** is pressing a room's name tag: a dashed "You?" marks the place tentatively, the strip confirms, and the character moves only when the public update says so, on every screen at once. A room holding five (the owner's hard rule of 11 October 2026) says **FULL** on its tag on every screen and is never offered.
 6. **Pass** is the middle of navigation, available only on the player's own ordinary turn, absent in legacy matches.
@@ -43,7 +43,7 @@ Hooks are those of `packages/presentation/src/markup/comic-shell.ts`, `parts.ts`
 | `piece` | `li.bm-piece[data-seat][data-character][data-place][data-kind=place\|crowd\|final][data-gesture][data-mirror]` | `.ms-seat[data-seat]`, `.ms-token`, `.ms-seat__number`, `.ms-seat__player` | extend | Place each seat at its place (section 5) as a full-body figure in the place's gesture: a body layer, and over a prop a front layer (`.bm-piece__front`: the hands on the desk, the arms on the blanket) above the prop. Seat number and name on a plate under the press area |
 | `piece-target` | `button.bm-piece__target[data-intent=action/choose][data-value=seat-N]` | `button.phone-character-target` | extend | Keep the release's button and intent. The place's press area: a square of `max(44px, min(64px, 0.26 x the figure's standing height))` on the place's gesture's upper chest (on the head in a bed or on the cot), moved inward to stay whole in the panel and under the room tag. It is the place's, so it does not move when the character there is hit (section 5) |
 | `piece-cue` | `.bm-piece[data-target=eligible\|selected\|picked\|pending\|other]` | `.ms-seat[data-board-target=eligible\|picked]` | extend | Add `selected`, `pending` and `other` to the release's two values; draw them only on the own board. The ring is around the press area; a chosen figure is outlined in the caption color |
-| `pick-stamp` | `.bm-piece__pick` | `span.phone-pick-order` | reuse | The pick's number on the character; the strip counts the same picks |
+| `pick-stamp` | `.bm-piece__pick` | `span.phone-pick-order` | reuse | The same check on every pick of a set, never a number; the strip names the same picks in seat order |
 | `move-ghost` | `.bm-ghost[data-state=tentative\|pending]` | none | proposed | While a move is confirmed or sent: a faint, dashed copy of the player's own figure, "You?", at the place it would take in the room pressed, by the same rule as everyone's. Removed by Choose again, a rejection, or the public move arriving |
 | `public-markers` | `.bm-badge[data-badge]`, `.bm-reveal`, `.bm-piece[data-active] .bm-piece__turn` | marker labels in `.ms-seat` | extend | The approved marker pictures on the character, the same words in the readable list |
 | `ballot-marks` | `.bm-piece[data-subject] .bm-piece__subject`, `.bm-piece__tally` | the vote section's words (`en.vote`) | proposed | "On the ballot" over the subject of a release vote; the published count over each counted character. The room's caption band is 16 px taller while one is shown, so the label is never under the tag |
@@ -97,8 +97,8 @@ All of it is computed on every device from public facts only, so every screen dr
 - The action's name (`.bm-strip__kind`, a slanted caption) is set into the question; the question is `#bm-strip-line`, focused after every step (`tabindex="-1"`, `aria-live="polite"` on the strip).
 - **One control at the side** (`.bm-strip__side`): Cancel or "Take back Player N" while choosing; Done, OK or Check again after the answer.
 - **One row beneath** (`.bm-strip__controls`): inline answers of equal width; a single answer (Abstain, No release request) shares the row with Cancel; a long "Take back Player N" with no answer takes the row itself; Confirm (primary) with Choose again.
-- Progress of a Supply: unnumbered dots at the start of "Chosen so far: …", the picks named in seat order. Of a Code attempt: the Code card, its windows filled in seat order (ability art, slice 2).
-- The receipt's stamp sits on the strip's top edge; the release's receipt words are the line and its detail.
+- Progress of a Supply: two shipping tags at the start of "Chosen so far: …", the picks' chips in seat order (ability art, slice 3). Of a Code attempt: the Code card, its windows filled in seat order (ability art, slice 2).
+- The receipt's stamp sits on the strip's top edge, clear of the words: where it reaches over their column, the first line wraps short of its corner (38, 60 and 80 px for Registered, Not accepted and Sending in the prototype, measured; the board capture checks no stamp covers a word). The release's receipt words are the line and its detail.
 
 ## 7. Motion
 
@@ -141,17 +141,17 @@ Every cue, with trigger, audience, facts, anchor, duration and easing, cancellat
 
 ## 10. Tests Frontend should add
 
-The prototype's own flows (`design/tools/board-motion-flows.mjs`, 73 steps) and measurements (`design/tools/board-motion-capture.mjs`) are the specification. In the runtime:
+The prototype's own flows (`design/tools/board-motion-flows.mjs`) and measurements (`design/tools/board-motion-capture.mjs`) are the specification. In the runtime:
 
 1. For every action kind: the eligible characters are exactly `legalTargets[COMMAND]` (every seat for Code), each with its own press area, none in the Command Room or the actor's own seat where the engine excludes them.
 2. Every press area at least 44 x 44, on screen, inside its room, hit at its centre by itself, overlapping no other and no room tag, at 320 x 568, 360 x 740, 390 x 844 and 430 x 932, with all nine in one room.
 3. No page scroll at any of those sizes in any strip state; at 200% text the board scrolls inside itself and nothing is clipped.
 4. Two clients: for every action and step, the other client's DOM has no private hook, press area, pick number, tentative move, stamp or role word.
-5. Replay of the same snapshot plays nothing; a reconnect plays nothing and stops what was in flight; five moves in one update fly none; reduced motion flies none and draws the same facts.
+5. Replay of the same snapshot plays nothing; a reconnect plays nothing and stops what was in flight; five moves in one update fly none; reduced motion flies none and draws the same facts. Nothing already played plays again on an update: an update that changes nothing in the strip leaves it as it is (its focus too); the Registered stamp lands once, when the step changes, not when a newer fact redraws the receipt's words; a set pick's check stays while its pick does; a one-shot beat of the strip's art plays for the change that caused it (a new pick, the receipt) and nothing else.
 6. Backgrounding while choosing drops the choice and its marks; a stale view pauses Actions.
 7. Pass: third of five; available only on the own ordinary turn; absent in legacy; a pending Hack keeps its full minute.
 8. Room tags: Hospital and Jail are not buttons; an unoffered room and a tag pressed during an open action say the release's words and open nothing; a room holding five says FULL on every screen, is named full, and is never offered.
-9. Keyboard: Tab reaches every press area; Enter picks; Escape goes back; focus lands on the strip's question.
+9. Keyboard: Tab reaches every press area; Enter picks; Escape goes back; focus lands on the strip's question. An update never moves focus: a part of the phone that an update does not change (the strip, the tray, the card, the menu, the navigation) stays as it is, so focus stays where the player left it; an inspected player's public facts follow the board in place and are said again by their live region.
 10. Places and gestures: the Captain at the chart table; the places from who is in the room by seat number, identical on a screen that followed the match and on one that has just reconnected; the higher seat of a pair stepping to another place when the lower one comes in; Injured with a bandage wherever it is, a healed character without; Eliminated in its place's fall with the place's press area; six or more in a room in the crowd. The two animations from every place's gesture, and none in reduced motion.
 
 ## 11. Words

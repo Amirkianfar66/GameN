@@ -20,7 +20,9 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-11](#dsn-req-11) | Say in the view that an election is a second one among tied candidates (G13), and which vote a published count belongs to (G15) (issue #76) | Wording the runoff and the “last count” without inference | None |
 | [DSN-REQ-12](#dsn-req-12) | Enforce the owner's room capacity of five in the engine and the server (owner, 11 October 2026; issue #87) | The board drawing five places a room as a rule rather than a picture; a full room refused before it is pressed | None |
 | [DSN-REQ-13](#dsn-req-13) | Put the current board-motion look in the game for the owner to judge: the five scenes with 21 places, the full-body figures and their animations, unpainted (owner, 11 October 2026; issue #87) | The owner's judgement of the look (DSN-D34), which is to be made in the game | None |
-| [DSN-REQ-14](#dsn-req-14) | State in the contract that `knowledge.insiderCandidates` and `knowledge.code` list seats in seat order (ability art, 11 October 2026) | Nothing today: the engine sorts both. It keeps any later producer from leaking a role order through a list's order | None |
+| [DSN-REQ-14](#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order (ability art, 11 October 2026) | Nothing today: the engine sorts all three. It keeps any later producer from leaking a role order, or a picking order, through a list's order | None |
+| [DSN-REQ-15](#dsn-req-15) | Carry a Disabler's spent Disable in its own view (ability art, slice 3) | A lasting "spent" mark in the Disabler's card. Today the receipt shows the charge spent and then the Disable is simply not offered again | None |
+| [DSN-REQ-16](#dsn-req-16) | Decide whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | The port of the closed folder. Recommended: keep the release's behaviour for the card; the folder only after the background | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -238,6 +240,30 @@ How to adopt each part is in [board-motion-handoff.md](board-motion-handoff.md):
 `knowledge.insiderCandidates` is the unordered set of the three players who hold Undercover, Alien and Cracker; `knowledge.code` is the unordered set of four seats. Both are arrays, and an array has an order. The engine sorts both by seat ID today (`packages/engine/src/full-game/roster.ts`: `[undercoverSeatId, alienSeatId, seatForRole('Cracker')].sort()` and `[alienSeatId, ...codeExtraSeatIds].sort()`), and `endReveal.code` copies the sorted Code. The contract (`FullPlayerViewSchema` in `packages/contracts/src/full-game.ts`) only checks length and uniqueness. A later producer that listed the candidates as Undercover, Alien, Cracker, or put the Alien first in the Code, would leak a role to any consumer, or to anyone reading the wire, through the order alone.
 
 Requested: the schema (or its refinement) requires both lists in ascending seat order, with a contract test. No new field and no change to what is disclosed. Until then the Designer's treatments, like the release's knowledge sentences, sort on the client and never draw a list in the view's order.
+
+Slice 3 adds a third list. A Supplier's own acknowledgment (`supplierResults[].successfulRecipientSeatIds` in `packages/contracts/src/own-acknowledgments.ts`) names the players who received a weapon; the engine sorts them (`packages/engine/src/full-game/lifecycle.ts`), and the release's sentence names them in the list's order. A producer that kept them in the Supplier's picking order would tell the Supplier nothing new, but the same rule keeps every set a set. Requested the same way: ascending seat order, with a contract test.
+
+## DSN-REQ-15
+
+**Carry a Disabler's spent Disable in its own view.** Added 11 October 2026 for slice 3 of the ability art ([abilities-handoff.md](abilities-handoff.md#15-slice-3-the-rescue-the-disable-and-the-supply)). For Integration (`packages/contracts/`), with Backend.
+
+A Disabler has one Disable a match (v2.1 `roles.Blue_Disabler.uses_per_match` and `Red_Disabler`), reserved when it is accepted (V1-15). The view's `self.disablerAvailable` is `!!legalTargets.DISABLE`: true only while the Disable is unspent **and** there is a legal target now (the seat's own turn, Healthy and free, someone in the same location). False therefore says nothing on its own: it is false on another player's turn too. The engine keeps `disablerSpent` and does not project it. The Cracker's equivalent is carried (`self.rescuesRemaining`), so the Cracker's card shows its Rescues left and the Disabler's cannot.
+
+Requested: an own field, for example `self.disableUsed: boolean` (or `disableUsesRemaining`), private to the seat like `rescuesRemaining`, the same for the Blue and the Red Disabler and false (or absent) for every other role, with a projection test that it changes when the Disable is accepted and never otherwise. Until then the Designer's treatment shows the charge spent only on the receipt, and draws no lasting mark.
+
+## DSN-REQ-16
+
+**Decide whether a stale or timed-out view hides the private card.** Raised by Frontend on PR #102 (11 October 2026) before porting the Insider's file; recorded here for Integration, who owns the conceal behaviour, with the owner if it is a rule of play.
+
+The release shows the private card whenever the player has revealed it and the page has not been concealed (`buildPrivateArea` in `packages/presentation/src/model/connected-player.ts`: `open = revealed && !concealed`); a stale view or an expired turn adds only a notice that actions are paused. The board-motion proposal (PR #88) conceals more: a stale view, a turn's time running out, the background and page disposal all remove every private mark, strip, offer and card ([board-motion-handoff.md](board-motion-handoff.md)). Slice 1 of the ability art follows PR #88: pressing Card while the view is stale or the time is up shows the closed folder, the same for every role and seat.
+
+The Designer's recommendation, for Integration to confirm or overrule:
+
+- **The card: keep the release's behaviour.** A stale or timed-out view still shows the role card and the seat's file, at rest and marked as possibly out of date. They hold nothing the device does not already hold, nothing in them can be acted on, and a player on a flaky connection can still read their role. A Scan result or a slip that arrives later is drawn when the view is current again, once.
+- **The folder: only where the release already conceals**, after the page has been in the background, until the player reveals the card again (the release's own explicit reveal, Show my card).
+- **Actions: as PR #88.** A stale or timed-out view drops an unsent choice and pauses the strip and the tray; a sent action's recovery state stays internal.
+
+If Integration keeps PR #88's rule instead, the release's conceal changes for every role, as Frontend notes, and the folder stays as drawn. Either way nothing private reaches another surface; the question is only what the seat's own phone shows its own player while its view is not current.
 
 ## What Designer does next, and what it waits for
 

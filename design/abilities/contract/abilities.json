@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "abilities-0.2.0",
+  "version": "abilities-0.3.0",
   "status": "proposal",
   "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
   "base": {
@@ -337,11 +337,11 @@
         "dossier-chip"
       ],
       "motion": {
-        "normal": "Each chip clips in (160 ms); registration punches the card (220 ms).",
-        "reduced": "No clip or punch: the chips appear; the neutral stamp says registered.",
+        "normal": "The new pick's chip clips in (160 ms), the others stay put; registration punches the card (220 ms).",
+        "reduced": "No clip or punch: the chips appear; the neutral stamp says registered. Switching to reduced finishes a clip or punch at once.",
         "static": "The card with its chips, or the words in seat order.",
         "cancel": "As every strip.",
-        "replay": "Never after a recovery or a reconnect."
+        "replay": "Never: not on a duplicate snapshot, a public fact about someone else, a recovery or a reconnect. Only a new pick clips, only the receipt punches."
       },
       "states": [
         "unavailable (before Round 5, or attempted)",
@@ -443,59 +443,74 @@
       "id": "cracker-rescue",
       "title": "Cracker: Rescue",
       "slice": 3,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Cracker"
       ],
       "audience": "private-own; recovery public",
-      "trigger": "The Cracker opens Rescue, picks a character (an Injured one in the Hospital from A or B, or themself while Injured, V1-05) and confirms; at the end of the round the public view may show the target Healthy.",
+      "trigger": "The Cracker opens Rescue, picks a character (an Injured one in the Hospital from Room A or B, or themself while Injured, V1-05) and confirms; at the end of the round the public view may show the target Healthy.",
       "fields": [
         "self.rescuesRemaining",
         "legalTargets.RESCUE",
         "receipt",
-        "PUBLIC_HEALTH_CHANGED (Healthy)"
+        "PUBLIC_HEALTH_CHANGED (Healthy) and PUBLIC_MOVE out of the Hospital"
       ],
       "disclosure": [
-        "Registering is not recovery: the strip stamps RESCUE REGISTERED and the remaining uses drop by one (reserved at acceptance, V1-15).",
-        "Recovery is a public health change, drawn by the public status cue for everyone, with nothing that names a rescuer or a Rescue."
+        "Registering is not a recovery: the receipt is the neutral Registered stamp and the release's words; nothing in the strip or the card says the target is, or will be, healed.",
+        "The vials are the view's count of the two Rescues a match gives; one is drawn empty when the count falls (the use is reserved at acceptance and kept whatever the round brings, V1-15), never ahead of it.",
+        "A recovery is the public health change at the end of the round, drawn by the same status cue on every screen, naming no rescuer and no Rescue."
       ],
-      "concept": "The injector device: two vial pips in the strip, one filling as the pick is confirmed; a medical cross reticle on the picked character on the own board; registered = a paper tag clipped to the strip; recovery later = the public bandage coming off on every board.",
+      "concept": "In the Cracker's strip: the picked player's chip in a medical cross ring beside the question, and two vials at the start of the detail line, as many full as the view's count. On the receipt the vial that the count gave up drains once. In the card, while one is left, a slip with the vials and the release's sentence, Rescues you have left: N. Nothing on the board but the neutral targeting every action has.",
       "art": [
-        "planned: vial-pip, cross-reticle, rescue-tag"
+        "dossier-cross",
+        "dossier-vial",
+        "dossier-vial-empty",
+        "dossier-chip",
+        "dossier-slip"
       ],
       "motion": {
-        "normal": "Vial fill 240 ms on confirm; tag clip 140 ms on the receipt.",
-        "reduced": "Stamp only.",
-        "static": "Words and pips.",
-        "cancel": "As every strip.",
-        "replay": "Never."
+        "normal": "When the view's count falls while the receipt shows, the emptied vial drains (240 ms). Nothing else moves.",
+        "reduced": "No drain: the vial is simply empty.",
+        "static": "The ring, the vials and the words.",
+        "cancel": "As every strip; reduced motion finishes a drain at once.",
+        "replay": "Never: the drain plays for the fall of the count, once; a duplicate snapshot, a recovery or a reconnect draws the vials at rest."
       },
       "states": [
-        "available (2/1 left)",
-        "spent (0 left)",
-        "choosing",
-        "confirming",
+        "available (two or one left)",
+        "none left (no Rescue offered; the card says nothing, as the release)",
+        "choosing (a player in the Hospital from Room A or B, or yourself while Injured)",
+        "confirming (the cross ring)",
         "sending",
-        "registered",
+        "registered (one vial empty; not a recovery)",
         "rejected",
-        "unknown"
+        "unknown",
+        "recovered later (public: a health change on every screen)"
       ],
       "copy": {
         "visible": [
           "Rescue",
-          "Rescues left: <n>",
-          "Rescue registered"
+          "Register a Rescue of Player 6?",
+          "Rescue of Player 6 registered.",
+          "Rescues you have left: 1."
         ],
         "accessible": []
       },
-      "review": [],
+      "review": [
+        "design/abilities/review/rescue-w390-choose.png",
+        "design/abilities/review/rescue-w320-confirm.png",
+        "design/abilities/review/rescue-w390-registered.png",
+        "design/abilities/review/rescue-w390-kit.png",
+        "design/abilities/review/rescue-w390-self.png",
+        "design/abilities/review/rescue-w390-no-art.png",
+        "design/board-motion/index.html?scenario=rescue.confirm"
+      ],
       "dependencies": []
     },
     {
       "id": "disabler",
       "title": "Blue Disabler and Red Disabler: Disable",
       "slice": 3,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
         "Blue Disabler",
         "Red Disabler"
@@ -503,100 +518,140 @@
       "audience": "private-own",
       "trigger": "The Disabler opens Disable, picks a character in the same location and confirms; one use per match.",
       "fields": [
+        "legalTargets.DISABLE (offered only while the one use is unspent)",
         "self.disablerAvailable",
-        "legalTargets.DISABLE",
         "receipt"
       ],
       "disclosure": [
-        "Each Disabler's own prod in its own team accent, on its own phone only.",
-        "Public feedback never tells Blue from Red: the result is a neutral public health change, the same as any damage."
+        "The Blue and the Red Disabler see the same strip, part for part: no color, class, asset or word differs. Each one's identity stays in its own role card (the approved device), so a glance at a phone mid-Disable tells nobody which.",
+        "The receipt spends the one charge (reserved at acceptance, V1-15) and is not a result: the target's chip is ringed by sparks at its corners, never struck.",
+        "The effect is public only as a health change at the end of the round, the same as any damage, from no direction."
       ],
-      "concept": "The prod device crackles over the picked character on the own board (Blue: a cold arc; Red: a hot arc); one charge ring in the strip empties on registration; spent: the ring hollow.",
+      "concept": "In the strip: the picked player's chip in a charged reticle (a dashed ring with four sparks at its corners) beside the question, and one charge cell at the start of the detail line, full while the server offers the Disable and spent on its receipt. The card draws no lasting spent cell: the view does not carry one (DSN-REQ-15).",
       "art": [
-        "planned: prod-arc-blue, prod-arc-red, charge-ring"
+        "dossier-spark",
+        "dossier-cell",
+        "dossier-cell-empty",
+        "dossier-chip"
       ],
       "motion": {
-        "normal": "Arc flicker 300 ms on the pick, ring empties 200 ms on the receipt.",
-        "reduced": "Ring and stamp.",
-        "static": "Words.",
-        "cancel": "As every strip.",
-        "replay": "Never."
+        "normal": "On the receipt the cell discharges (200 ms).",
+        "reduced": "No discharge: the cell is simply spent.",
+        "static": "The reticle, the cell and the words.",
+        "cancel": "As every strip; reduced motion finishes a discharge at once.",
+        "replay": "Never: the discharge plays for the receipt, once."
       },
       "states": [
-        "available",
-        "spent",
+        "available (offered)",
         "choosing",
-        "confirming",
+        "confirming (the reticle, the charge full)",
         "sending",
-        "registered",
+        "registered (the charge spent; not a result)",
         "rejected",
-        "unknown"
+        "unknown",
+        "spent later (not offered; no lasting mark until the view carries one, DSN-REQ-15)"
       ],
       "copy": {
         "visible": [
           "Disable",
-          "Disable registered",
-          "Used"
+          "Register a Disable at Player 5?",
+          "Disable at Player 5 registered."
         ],
         "accessible": []
       },
-      "review": [],
-      "dependencies": []
+      "review": [
+        "design/abilities/review/disable-w390-confirm.png",
+        "design/abilities/review/disable-w320-confirm.png",
+        "design/abilities/review/disable-w390-registered.png",
+        "design/abilities/review/disable-w390-red-confirm.png",
+        "design/abilities/review/disable-w390-red-registered.png",
+        "design/abilities/review/disable-w390-no-art.png",
+        "design/board-motion/index.html?scenario=disable.confirm"
+      ],
+      "dependencies": [
+        "DSN-REQ-15: a lasting own field for the spent Disable (disablerAvailable means a legal target now)."
+      ]
     },
     {
       "id": "supplier-supply",
       "title": "Supplier: Supply",
       "slice": 3,
-      "status": "planned",
+      "status": "delivered",
       "roles": [
-        "Supplier"
+        "Supplier",
+        "any recipient"
       ],
       "audience": "private-own; each recipient's own acknowledgment",
-      "trigger": "Round 3: the Supplier opens Supply, picks two different characters in the same location and confirms; delivery is acknowledged after the round's distribution.",
+      "trigger": "Round 3: the Supplier opens Supply, picks two different characters in the same location (themself allowed) and confirms; the delivery is acknowledged after the round's distribution.",
       "fields": [
         "legalTargets.SUPPLY",
+        "SUPPLY.targetSeatIds (two, distinct)",
         "receipt",
         "own acknowledgments: supplierResults[].successfulRecipientSeatIds",
-        "recipient: receivedSupply[], self.ordinaryWeapons"
+        "recipient: receivedSupply[] (round)",
+        "historyAvailable"
       ],
       "disclosure": [
-        "Registration is not delivery.",
-        "Delivery is shown only from the Supplier's own acknowledgment, naming the successful recipients, and to each recipient from its own acknowledgment; no public weapon marker (V1-16)."
+        "The two picks are a set: drawn and named in seat order, never first and second.",
+        "Registration is not delivery: the receipt ties the two tags and stamps Registered; nothing says a weapon arrived.",
+        "A delivery is shown only from an own acknowledgment (V1-16): the Supplier's slip names the players who received a weapon, in the release's sentence; a recipient's slip says one ordinary weapon arrived and names no Supplier. No public weapon marker."
       ],
-      "concept": "The carrier device with two cells: the first pick loads a crate tag with the first portrait, the second the other; registered: the carrier sealed; delivered: a delivery slip pinned in the file. A recipient finds a weapon slip in its own file.",
+      "concept": "In the strip: two shipping tags at the start of the detail line, each pick's chip in a tag, in seat order; the receipt ties them together with a string. In the card, after Round 3: Supply results (the release's heading) with a slip per acknowledgment, its words the release's, a tag per player it names, and the stamp DELIVERED when a weapon arrived. A slip drops in once, the first time the card shows it.",
       "art": [
-        "planned: carrier-cell, crate-tag, delivery-slip, weapon-slip"
+        "dossier-tag",
+        "dossier-slip",
+        "dossier-chip",
+        "dossier-stamp"
       ],
       "motion": {
-        "normal": "Cell load 180 ms per pick, seal 160 ms on the receipt, slip drop 260 ms on the acknowledgment.",
-        "reduced": "Stamps only.",
-        "static": "Words.",
-        "cancel": "As every strip.",
-        "replay": "An acknowledgment already shown is never dropped again."
+        "normal": "A pick clips into its tag (160 ms); the receipt ties the tags (200 ms); a slip shown for the first time drops in (260 ms).",
+        "reduced": "No clip, tie or drop: the tags and slips appear at rest.",
+        "static": "The tags, the slips and the words.",
+        "cancel": "As every strip; reduced motion finishes a beat at once.",
+        "replay": "Never: a slip already shown in this page is drawn at rest; a duplicate snapshot, a recovery or a reconnect plays nothing."
       },
       "states": [
         "unavailable (not Round 3)",
         "first pick",
-        "second pick",
+        "second pick (the tags in seat order)",
         "confirming",
         "sending",
-        "registered",
-        "delivered (acknowledged)",
-        "history unavailable",
+        "registered (tied; not a delivery)",
         "rejected",
-        "unknown"
+        "unknown",
+        "delivered to both",
+        "delivered to one",
+        "delivered to none",
+        "supplied to yourself (two slips)",
+        "a recipient's slip",
+        "history unavailable (the Supplier's)"
       ],
       "copy": {
         "visible": [
           "Supply",
-          "Pick two",
-          "Supply registered",
-          "Delivered to <names>"
+          "Two players get a weapon each. Choose the first.",
+          "Supply for Player 1 and Player 8 registered.",
+          "Supply results",
+          "Your Round 3 Supply granted one weapon each to Player 1 and Player 8.",
+          "You received one ordinary weapon from Supply in Round 3.",
+          "Delivered (proposed)"
         ],
         "accessible": []
       },
-      "review": [],
-      "dependencies": []
+      "review": [
+        "design/abilities/review/supply-w390-second.png",
+        "design/abilities/review/supply-w320-registered.png",
+        "design/abilities/review/supply-w390-ack.png",
+        "design/abilities/review/supply-w390-received.png",
+        "design/abilities/review/supply-w390-self.png",
+        "design/abilities/review/supply-w390-ack-none.png",
+        "design/abilities/review/supply-w390-history.png",
+        "design/abilities/review/slip-w390-no-art.png",
+        "design/board-motion/index.html?scenario=supply.ack"
+      ],
+      "dependencies": [
+        "DSN-REQ-14: successfulRecipientSeatIds in seat order, stated in the contract (the engine sorts them)."
+      ]
     },
     {
       "id": "undercover-protection",

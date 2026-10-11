@@ -323,9 +323,6 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-strip__line:focus { outline: none; }
 .bm-strip__line:focus-visible { outline: 2px solid var(--ms-color-focus); }
 .bm-strip__detail { clear: left; margin: 2px 0 0; font-size: 11.5px; line-height: 1.3; color: var(--ms-color-ink); opacity: 0.85; }
-.bm-strip__progress { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -5px; }
-.bm-strip__progress > span { width: 18px; height: 18px; display: grid; place-items: center; font-size: 10px; font-weight: 900; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
-.bm-strip__progress > span[data-done="true"] { background: var(--ms-color-caption); }
 .bm-strip__text { grid-column: 1; grid-row: 1; }
 /* One control at the side of the words: back, Done, OK or Check again. Its words may take two lines. */
 .bm-strip__side { grid-column: 2; grid-row: 1; align-self: start; display: flex; }
@@ -339,6 +336,13 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-btn--primary { background: var(--ms-color-caption); box-shadow: 0 3px 0 var(--ms-color-ink); }
 .bm-btn--choice { flex: 1 1 0; padding: 4px 6px; line-height: 1.1; }
 .bm-btn[aria-disabled="true"] { opacity: 0.45; cursor: default; box-shadow: none; }
+/* The stamp lands on the strip's top edge, above the side control. Where it reaches over the words' column,
+   the first line keeps clear of its corner, so it never covers a word. */
+.bm-strip:has(> .bm-stamp) .bm-strip__text::before { content: ''; float: right; width: var(--bm-stamp-clear, 0px); height: 12px; }
+.bm-strip:has(> .bm-stamp[data-kind="registered"]) { --bm-stamp-clear: 38px; }
+.bm-strip:has(> .bm-stamp[data-kind="not-accepted"]) { --bm-stamp-clear: 60px; }
+/* Sending has no control beside it: the stamp stands over the words' column itself. */
+.bm-strip:has(> .bm-stamp[data-kind="pending"]) { --bm-stamp-clear: 80px; }
 .bm-stamp {
   position: absolute; right: 10px; top: -12px; padding: 1px 8px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2.5px solid var(--ms-color-ink); transform: rotate(var(--ms-stamp-rotation));
@@ -349,6 +353,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-stamp[data-kind="unknown"] { border-style: dotted; }
 .bm-strip[data-step="not-accepted"] { animation: bm-nope var(--bm-motion-pick) var(--ms-ease-standard); }
 .bm-strip[data-enter] { animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards; }
+/* Drawn again within the same step, the strip's stamp is already down: it lands once, when the step changes. */
+.bm-strip[data-settled] .bm-stamp { animation: none !important; }
 
 /* ---------- the actions tray: compact, over the lower edge of the board ---------- */
 .bm-tray {
