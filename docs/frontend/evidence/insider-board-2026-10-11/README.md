@@ -28,7 +28,7 @@ At **320×568 and 390×844**:
 | Step | Checked |
 | --- | --- |
 | `card` | The card opens with the toggle closed. No player is drawn, and the set is not written in the card |
-| `board` | One tap shows three players in seat order (1 Ada, 2 Ben, 4 Dev). Each player and the role group lie inside the visible card. The roles are Undercover, Alien, Cracker; the toggle is expanded; focus is on the board heading, which is in view below the card's heading. No role word appears outside the card |
+| `board` | One tap shows three players in seat order (1 Ada, 2 Ben, 4 Dev). Each player and the role group lie inside the visible card. The roles are Undercover, Alien, Cracker, stacked in one slip below every player. The toggle is expanded, and focus is on the board heading, which is in view below the card's heading. No role word appears outside the card |
 | `escape` | Escape closes the board, with focus back on the toggle and the toggle collapsed |
 | `blurred` | With the board open, the window loses focus. The card closes and no board hook stays in the page |
 | `reopened-card` | Reopening the card does not reopen the board |
@@ -50,7 +50,15 @@ Then:
 
 ## Full verification
 
-`npm run verify` passed with exit 0 on the clean commit `1c3e819`; the code and these captures are from that commit. [verification.txt](verification.txt) keeps the run's own summary lines. Later commits change documentation only.
+`npm run verify` passed with exit 0 on the clean commit `1c3e819`. [verification.txt](verification.txt) keeps the run's own summary lines. It is re-run on the role-set change, and the result is recorded there.
+
+## The roles as one set (after the Designer's delivery)
+
+The first interim drew the three roles as chips in a row. At 390 px they stood one under each portrait: [before-role-chips-390x844-board.png](before-role-chips-390x844-board.png). The Designer's first ability-art slice (#102, `abilities-0.1.0` at `1453500`) forbids exactly that: a row or list that could be read as a pairing.
+
+The board now draws the names stacked in one slip, under all three players and beside none. The capture checks that the names share one centre line and that the slip sits below every player. The images in this directory were recaptured from `69ee0e6`: 18 steps, 0 problems.
+
+At 320×568 the taller slip first left the role group partly out of the card's view, which the capture flagged at two steps. A short-phone rule tightens the board, and now nothing scrolls at the default text size.
 
 ## A defect the capture found and the fix
 
