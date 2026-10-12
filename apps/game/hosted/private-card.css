@@ -1,15 +1,14 @@
 /* The private card's own boards: the Insider's file. Inside the deliberately opened Card sheet only.
 
    A port of the Designer's ability art abilities-0.1.0 (PR #102 at 1453500: the reference
-   styles design/abilities/css/abilities.css and docs/design/abilities-handoff.md). Colors are
+   source paths in the Frontend provenance handoff). Colors are
    tokens. Pictures come only from loaded bundles: the ability kit behind [data-art~="abilities"]
    and the crew cards behind [data-art~="public-board"]. Without them the file is complete in
-   paper, ink and words. The kit is a proposal outside the reviewed manifest, so the hosted
-   build does not load it until Integration adopts it (DSN-D36); the board simulation does. The
-   look and motion await the game owner (DSN-D37). Nothing here names a role: every snapshot is
+   paper, ink and words. Integration adopted the complete kit for the owner-authorized trial.
+   Nothing here names a role: every snapshot is
    drawn alike, and the role names stand below all three snapshots, beside none, in every layout.
    The handoff's closed folder is not ported: the release never shows a concealed card, and the
-   Designer recommends keeping the release's card on a view out of date (DSN-REQ-16, pending). */
+   card is concealed whenever the server no longer confirms the current view. */
 
 /* On a live view, a card that holds the file takes the height it needs, up to the whole space between
    the status bar and navigation, so a short phone shows the whole file without scrolling. A view out

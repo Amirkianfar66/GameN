@@ -41,6 +41,7 @@ export function buildResult(view: AudienceFacts, selfSeatId: SeatId | null): Res
     columns: en.result.columns,
     roles: [...facts.endReveal.roles].sort((a, b) => bySeat(a.seatId, b.seatId)).map(entry => ({ seatId: entry.seatId, label: label(entry.seatId, selfSeatId), role: entry.role })),
     code: en.result.code([...facts.endReveal.code].sort(bySeat).map(seatId => label(seatId, selfSeatId)).join(', ')),
+    codeSeatIds: [...facts.endReveal.code].sort(bySeat),
   };
-  return { heading: en.result.heading, outcome, lines: matchOutcomeLines(view), reveal };
+  return { heading: en.result.heading, winner: facts.phase.kind === 'FINISHED' ? facts.result?.winner ?? null : null, outcome, lines: matchOutcomeLines(view), reveal };
 }

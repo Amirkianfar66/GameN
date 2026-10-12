@@ -348,7 +348,7 @@ test('when the host ends the match, a phone shows it ended without a winner, rev
 
   await s.fake.deliver(OWN, playerView('seat-1', endedByHost));
   const { match } = s.frame().model;
-  assert.deepEqual(match.result, { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
+  assert.deepEqual(match.result, { heading: 'Result', winner: null, outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
   assert.deepEqual([match.phase.phaseLabel, match.phase.timer.state], ['Match ended by the host', 'none']);
   assert.match(s.frame().announcement.text, /The host ended this match\. There is no winner\./);
   // What was being chosen is dropped, the player is told, and nothing can be started.

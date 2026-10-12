@@ -360,6 +360,8 @@ export interface ShellModelBase {
 }
 
 export interface PlayerMatchModel {
+  /** The public gameplay tuple, used for display-only capacity labels. */
+  readonly versions: AudienceFacts['versions'];
   readonly identity: { readonly seatId: SeatId; readonly number: number; readonly label: string };
   readonly phase: PhaseStripModel;
   readonly location: {
@@ -405,6 +407,7 @@ export interface VotePanelModel {
  * host ended it. The roles and the Code are shown only when the server's view carries them.
  */
 export interface ResultModel {
+  readonly winner: NonNullable<FullPublicView['result']>['winner'] | null;
   readonly heading: string;
   readonly outcome: string;
   readonly lines: readonly string[];
@@ -413,10 +416,12 @@ export interface ResultModel {
     readonly columns: { readonly player: string; readonly role: string };
     readonly roles: readonly { readonly seatId: SeatId; readonly label: string; readonly role: RoleName }[];
     readonly code: string;
+    readonly codeSeatIds: readonly SeatId[];
   } | null;
 }
 
 export interface TableMatchModel {
+  readonly versions: PublicFacts['versions'];
   readonly phase: PhaseStripModel;
   /** Null while the match is being played, and for a view that cannot carry an end. */
   readonly result: ResultModel | null;
@@ -502,6 +507,13 @@ export interface ConnectedActionCardModel {
   readonly body: ConnectedActionBody;
   /** What this command marks on the player's own board. */
   readonly board: ActionBoardMarksModel;
+  /** Pictures of this seat's known choice/resources only; null after identifier-only recovery. */
+  readonly art: {
+    readonly seatIds: readonly SeatId[];
+    readonly vote: 'for' | 'yes' | 'no' | 'abstain' | null;
+    readonly resourceCount: number | null;
+    readonly offered: boolean;
+  } | null;
 }
 
 /**
@@ -514,7 +526,7 @@ export interface ActionBoardMarksModel {
   readonly eligible: readonly SeatId[];
   /** Seats chosen so far, in the order they were chosen. */
   readonly picked: readonly SeatId[];
-  /** Supply and a Code attempt number their picks; a single chosen seat is checked instead. */
+  /** Current treatments use identical checks for sets; retained for older presentation consumers. */
   readonly numbered: boolean;
   /** The chosen seats while the command is on its way to the server. */
   readonly pending: readonly SeatId[];
@@ -534,13 +546,24 @@ export interface ConnectedPrivateAreaModel {
     readonly role: { readonly label: string; readonly name: RoleName };
     /** While the server says this seat is in a Hack: who with. Known to the two of them only. */
     readonly hack: string | null;
+    readonly hackPartnerSeatId: SeatId | null;
     /** While the server's view says this seat has voted in the open vote: its own ballot, as the server recorded it. */
     readonly ballot: string | null;
     /**
      * What the server's view tells this seat and nobody else: what its role knows, the
      * results it has been given, and what it holds. Null when the view says none of it.
      */
-    readonly knowledge: { readonly heading: string; readonly items: readonly string[]; readonly insider: InsiderSetModel | null } | null;
+    readonly knowledge: {
+      readonly heading: string; readonly items: readonly string[]; readonly insider: InsiderSetModel | null;
+      readonly art: {
+        readonly undercover: { readonly seatId: SeatId; readonly sentence: string } | null;
+        readonly code: { readonly seatIds: readonly SeatId[]; readonly sentence: string } | null;
+        readonly scans: readonly (FullPlayerView['knowledge']['scanResults'][number] & { readonly sentence: string })[];
+        readonly protections: readonly { readonly seatId: SeatId; readonly state: 'used' | 'active' | 'queued'; readonly sentence: string }[];
+        readonly weapons: { readonly count: number; readonly sentence: string };
+        readonly rescues: { readonly count: number; readonly sentence: string } | null;
+      };
+    } | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
 }

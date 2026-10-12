@@ -16,7 +16,7 @@
 
 import { createComicFeeds, createConnectedPlayerScreen, createConnectedTableScreen, shellTokenStylesheet } from '@mothership/game';
 import { nextDesignTokens } from '@mothership/design-tokens';
-import { FullReceiptSchema } from '@mothership/contracts';
+import { FullReceiptSchema, FullPlayerViewSchema, FullPublicViewSchema } from '@mothership/contracts';
 import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
 import '../../src/styles/shell.css';
 import '../../hosted/preview.css';
@@ -28,6 +28,8 @@ import '../../hosted/phone.css';
 import '../../hosted/compact-phone.css';
 import '../../hosted/board-play.css';
 import '../../hosted/private-card.css';
+import '../../hosted/scene-board.css';
+import '../../hosted/ability-art.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
 import { loadArt } from '../../hosted/art.mjs';
 import { identities, MATCH, ownAcknowledgments, playerView, publicView, SCENARIOS } from './scenarios.mjs';
@@ -45,20 +47,7 @@ const tokenStyle = document.createElement('style');
 tokenStyle.textContent = shellTokenStylesheet(nextDesignTokens);
 document.head.append(tokenStyle);
 document.body.dataset.device = display ? 'display' : 'player';
-await loadArt(display ? 'display' : 'player');
-// The Designer's ability kit (abilities-0.1.0), a proposal outside the reviewed manifest that the hosted
-// build does not load until Integration adopts it (DSN-D36). Its own rule is followed here: loaded whole,
-// on every player phone whatever the seat's role, before the first view, and never on the display.
-if (!display && params.get('kit') !== 'off') {
-  await new Promise(resolve => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/art/abilities.art.css';
-    link.addEventListener('load', () => { document.documentElement.dataset.art = `${document.documentElement.dataset.art ?? ''} abilities`.trim(); resolve(); }, { once: true });
-    link.addEventListener('error', () => resolve(), { once: true });
-    document.head.append(link);
-  });
-}
+await loadArt(display ? 'display' : 'player', document, { abilities: params.get('kit') !== 'off', scenes: params.get('scenes') !== 'off' });
 
 const app = document.getElementById('app');
 if (!definition) throw new Error(`Unknown scenario ${id}`);
@@ -71,8 +60,26 @@ const timeLeft = Math.min(60_000, Math.max(1_000, Number(params.get('time-left')
 const started = Date.now() - (42_000 - timeLeft);
 let revision = 1;
 let moved = null;
+const publicOverrides = new Map();
+let deadlineExpired = false, terminal = null;
 const listeners = new Map();
-const viewFor = () => (display ? publicView(definition, started, revision, moved) : playerView(definition, started, revision, moved));
+const viewFor = () => {
+  const view = display ? publicView(definition, started, revision, moved) : playerView(definition, started, revision, moved);
+  for (const seat of view.seats) Object.assign(seat, publicOverrides.get(seat.seatId) ?? {});
+  if (deadlineExpired) { view.phase.endsAt = Date.now() - 1; view.phase.startedAt = view.phase.endsAt - 60_000; }
+  if (terminal) {
+    view.phase = { id: `phase-${terminal}`, kind: terminal === 'finished' ? 'FINISHED' : 'ABORTED', startedAt: view.phase.startedAt, endsAt: null };
+    view.activeSeatId = null;
+    view.ballot = { eligibleVoters: [], eligibleTargets: [], releaseTargetSeatId: null };
+    if (terminal === 'finished') {
+      const roles = ['Insider', 'Cracker', 'Officer', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
+      view.result = { winner: 'Blue', alienCoWinner: true };
+      view.endReveal = { roles: view.seats.map((seat, index) => ({ seatId: seat.seatId, role: roles[index] })), code: ['seat-1', 'seat-2', 'seat-4', 'seat-9'] };
+    }
+    if (!display) { view.self.movementDestinations = []; view.legalTargets = {}; for (const key of ['releaseVoteAvailable','shotAvailable','disablerAvailable','hackAvailable','scanAvailable','codeAttemptAvailable']) view.self[key] = false; }
+  }
+  return (display ? FullPublicViewSchema : FullPlayerViewSchema).parse(view);
+};
 const documents = {
   'player-view': () => (display ? null : viewFor()),
   'public-view': () => (display ? viewFor() : null),
@@ -141,6 +148,11 @@ window.__simulation = {
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  /** Synthetic public updates for motion/resize regressions; parsed again before publication. */
+  publicSeat(n, fields) { publicOverrides.set(`seat-${n}`, { ...(publicOverrides.get(`seat-${n}`) ?? {}), ...fields }); revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  motion(reduced) { screen.dispatch({ type: 'settings/reduce-motion', checked: reduced }); },
+  expire() { deadlineExpired = true; revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  end(kind = 'finished') { terminal = kind; revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The same view again, as a fresh snapshot. */
   redeliver() { revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The view as a cache would serve it: not confirmed by the server. */

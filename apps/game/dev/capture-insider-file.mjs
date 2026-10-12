@@ -51,7 +51,7 @@ const READ = `(() => {
   const card = document.querySelector('.ms-private');
   const words = ${JSON.stringify(['Insider', ...ROLES])};
   const art = (document.documentElement.dataset.art ?? '').split(' ').filter(Boolean);
-  const kitRequests = performance.getEntriesByType('resource').filter(entry => entry.name.includes('abilities.art.css')).length;
+  const kitRequests = performance.getEntriesByType('resource').filter(entry => /abilities\.art\./.test(entry.name)).length;
   const running = document.getAnimations().filter(a => a.playState === 'running' && a.effect?.target instanceof Element && a.effect.target.closest('.ab-file')).length;
   const controls = [...(file?.querySelectorAll('button') ?? [])].filter(drawn).map(button => ({ id: button.id || button.className, ...round(box(button)) }));
   return {

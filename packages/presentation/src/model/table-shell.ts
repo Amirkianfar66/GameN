@@ -8,6 +8,7 @@ function buildMatch(input: TableShellInput, view: NonNullable<TableShellInput['v
   // The table has no seat of its own, so nothing here can be phrased from a player's side.
   const seats = buildSeats(view, null);
   return {
+    versions: view.versions,
     phase: buildPhaseStrip(view, null, input.deadline),
     result: buildResult(view, null),
     vote: buildVotePanel(view),

@@ -1,0 +1,74 @@
+{
+  "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6",
+  "styleSourceCommit": "d87163358ea85878fd3e9e4ffb347c4e71d6de5d",
+  "boardVersion": "board-motion-0.3.0",
+  "trial": "unpainted-owner-trial-2026-10-12",
+  "sources": {
+    "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+    "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
+    "design/board-motion/figures/parts.mjs": "7c3d34f0b35856ad9287f32d525a612cc40b37feb3e6d26344b9b7de794c2a7e",
+    "design/board-motion/figures/rig.mjs": "b7fd681bb392f0104785fda3c838a2ca2d749c04278e05c8bbec5bb6379da45c",
+    "design/board-motion/figures/gestures.mjs": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
+    "design/board-motion/figures/motion.mjs": "b50a12ff2e967eca07778433d2359fef907397de90e04fff355367d0eae5343c",
+    "design/board-motion/scenes/frame.mjs": "aa2a9531f8badd28bbe6e03e956b5cb93411ef876c48c509929833fcdd5648c0",
+    "design/board-motion/js/layout.js": "6f137ec3aaa7cafa31f547f2246b6125a0ceb5b54cbd681a96b519631781ed3f",
+    "design/board-motion/scenes/index.mjs": "5e042aa605336b16e9bf139169cb277497ba4f0be1077f7c1bfbbba54efdb109",
+    "design/board-motion/scenes/kit.mjs": "9e9489bfddaa37ccac06b049934e097b068cae54539a455c151a66935055c14b",
+    "design/board-motion/scenes/command-room.mjs": "f7be9a9001153b4a2803910a9eacdd4ef2de677da0f7dd600f36701497a357de",
+    "design/board-motion/scenes/room-a.mjs": "d3729374ce23a60d14bd4d24ab3abc93a63cedc906e200d6a5b44f24b43c75bd",
+    "design/board-motion/scenes/room-b.mjs": "74eaec045c0915ab983daac8967005f91137760b6646366c6738f08c9674a084",
+    "design/board-motion/scenes/hospital.mjs": "55e56114ccc150ca8048f2851d9168b7bdbe6f7c79575e5273ae8d8cbc972fa9",
+    "design/board-motion/scenes/jail.mjs": "c2eed83374299fb205683244d50873b3a0029308c45c4505cd1dc998b401eef4",
+    "design/board-motion/js/board.js": "56a1cfcd9c838ab65c4c381a334acee083d5698f5d1099fba69102dfd3adbeb6",
+    "design/abilities/css/abilities.css": "cfcc1e29239840a22210df26a8c09439101f658f1e11f5fd7ab89f21b2e6b808"
+  },
+  "ports": {
+    "body.mjs": {
+      "source": "design/board-motion/figures/body.mjs",
+      "sha256": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513"
+    },
+    "crew.mjs": {
+      "source": "design/board-motion/figures/crew.mjs",
+      "sha256": "d2147b981140504d47d2fecfbcf0d2efd5860cfe4929d2e3238173289ac8a093"
+    },
+    "parts.mjs": {
+      "source": "design/board-motion/figures/parts.mjs",
+      "sha256": "7f14f7a93d5d7b5d9f99f07e6e53c2d0edc562b9e080005c926cf7435b91f742"
+    },
+    "rig.mjs": {
+      "source": "design/board-motion/figures/rig.mjs",
+      "sha256": "e73d4815b8d5afb457fad712c97136bb69384176c8e7e6335f89d101f63dad5d"
+    },
+    "gestures.mjs": {
+      "source": "design/board-motion/figures/gestures.mjs",
+      "sha256": "fb0c74ec0feee65f29e5ebbb14c949f2fb51afcb2bcef45e33807f0f7e06a823"
+    },
+    "motion.mjs": {
+      "source": "design/board-motion/figures/motion.mjs",
+      "sha256": "8140af8d28cef802259d571993c5813718dda1ce064ff5075b541f4fee547a63"
+    },
+    "frame.mjs": {
+      "source": "design/board-motion/scenes/frame.mjs",
+      "sha256": "da22de905a2e0615723bd63745614d6f5d393271aeed34166fab177df4b2f9ba"
+    },
+    "layout.mjs": {
+      "source": "design/board-motion/js/layout.js",
+      "sha256": "c9469fb2c3c790d44c8a09fccee86b893e717bd670a666ba5eb53340da32b3db"
+    },
+    "scenes.mjs": {
+      "source": "selected SCENES geometry",
+      "sha256": "97e4f509bb4b2608f176d0638aab8c9233fcb84c5ff6412e310f75eadb2accfa"
+    },
+    "geometry.mjs": {
+      "source": "selected board geometry functions",
+      "sha256": "5d6a73cc5e20daad520e69a70747fdb74ced22873d36be175ddb596afe77b861"
+    }
+  },
+  "styles": {
+    "ability-drawing.css": {
+      "source": "design/abilities/css/abilities.css",
+      "sha256": "639cf452ddfd0edd37f859aab2ffb64a91812204f673db32c16e8161a01a5d10",
+      "adaptations": "Slice 2 onward; hosted selectors; existing owned board spotlight retained separately."
+    }
+  }
+}

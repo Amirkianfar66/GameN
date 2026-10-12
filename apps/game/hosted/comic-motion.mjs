@@ -4,6 +4,10 @@
 // acknowledgment. A cue adds no fact: every change it marks is already drawn, in words. It
 // changes nothing and nothing waits for it, it is never queued, and a newer change to the same
 // seat withdraws the cue in flight: the latest authoritative state is what is drawn.
+import { figureSvg, hasFront } from './scene-drawing/body.mjs';
+import { CREW } from './scene-drawing/crew.mjs';
+import { skeletonOf } from './scene-drawing/gestures.mjs';
+import { TIMELINES, sample, walkPose } from './scene-drawing/motion.mjs';
 
 /** How high each character is lifted in a move and how it settles: its public flourish, never a role. */
 const FLOURISH = Object.freeze({
@@ -80,7 +84,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
   }));
   const reducedMotion = model => model.motion === 'reduced' || deviceMotion.matches;
   const entry = seat => {
-    if (!running.has(seat)) running.set(seat, { animations: [], timers: [], nodes: [], moving: false });
+    if (!running.has(seat)) running.set(seat, { animations: [], timers: [], nodes: [], moving: false, frame: null });
     return running.get(seat);
   };
 
@@ -90,6 +94,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     running.delete(seat);
     for (const animation of owned.animations) animation.cancel();
     for (const timer of owned.timers) clearTimeout(timer);
+    if (owned.frame !== null) cancelAnimationFrame(owned.frame);
     for (const node of owned.nodes) node.remove();
     const piece = pieceOf(seat);
     if (piece) { delete piece.dataset.moving; delete piece.dataset.cue; }
@@ -115,18 +120,20 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
 
   // The moving character is carried in the layer over the page, as a copy of its own drawn
   // picture, from where it stood to where the view now has it. The piece waits hidden until it lands.
-  function fly(seat, from, to) {
+  function fly(seat, from, to, fromFigure) {
     const piece = pieceOf(seat);
     if (!fx || !piece || !from || !to || typeof fx.animate !== 'function') return false;
     const [hop, settle] = FLOURISH[piece.dataset.character] ?? [5, 0];
     const flyer = document.createElement('span');
     flyer.className = 'phone-fx__flyer';
     const token = piece.querySelector('.ms-token');
+    const scene = Boolean(token?.dataset?.figure && CREW[piece.dataset.character] && fromFigure?.gesture && typeof requestAnimationFrame === 'function');
     if (token) {
       const art = getComputedStyle(token);
       Object.assign(flyer.style, { backgroundImage: art.backgroundImage, backgroundSize: art.backgroundSize, backgroundPosition: art.backgroundPosition, backgroundRepeat: art.backgroundRepeat });
     }
     Object.assign(flyer.style, { left: `${to.left}px`, top: `${to.top}px`, width: `${to.width}px`, height: `${to.height}px` });
+    if (scene) { flyer.dataset.scene = ''; flyer.style.backgroundImage = 'none'; }
     const dx = from.left - to.left;
     const dy = from.top - to.top;
     const lift = 22 + hop;
@@ -142,7 +149,12 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     puff.className = 'phone-fx__puff';
     Object.assign(puff.style, { left: `${x2}px`, top: `${y2 + to.height * 0.18}px` });
     fx.append(trail, flyer, puff);
-    const animation = flyer.animate([
+    const animation = flyer.animate(scene ? [
+      { transform: `translate(${dx}px, ${dy}px) scale(${from.width / Math.max(1, to.width)})`, offset: 0 },
+      { transform: `translate(${dx}px, ${dy}px) scale(${from.width / Math.max(1, to.width)})`, offset: 120 / MOVE_MS },
+      { transform: 'none', offset: 570 / MOVE_MS },
+      { transform: 'none', offset: 1 },
+    ] : [
       { transform: `translate(${dx}px, ${dy}px) scale(${from.width / Math.max(1, to.width)})`, offset: 0 },
       { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - lift}px) scale(1.12) rotate(${settle * -2}deg)`, offset: 0.5 },
       { transform: `translate(0, 0) scale(1.05) rotate(${settle}deg)`, offset: 0.86 },
@@ -153,8 +165,32 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     owned.nodes.push(flyer, trail, puff);
     owned.moving = true;
     piece.dataset.moving = '';
+    if (scene) {
+      const start = performance.now();
+      const character = piece.dataset.character;
+      const fromPose = skeletonOf(fromFigure.gesture);
+      const toPose = skeletonOf(piece.dataset.gesture);
+      const limp = piece.dataset.gesture.includes('+injured') ? 1 : 0;
+      const walk = phase => ({ ...walkPose(phase, { limp }), bandage: limp === 1 });
+      const departure = TIMELINES.exit(fromPose, 120, walk(0));
+      const arrival = TIMELINES.arrive(toPose, 330, walk(2));
+      const paint = at => {
+        // An old flight owns no authority over the newly rendered body, and cannot restart
+        // RAF or write a captured gesture after any cancellation or disposal.
+        if (disposed || running.get(seat) !== owned || !owned.moving) return;
+        const elapsed = Math.min(MOVE_MS, Math.max(0, at - start));
+        const pose = elapsed < 120 ? sample(departure, elapsed) : elapsed < 570 ? walk((elapsed - 120) / 225) : sample(arrival, elapsed - 570);
+        const mirror = elapsed < 120 ? fromFigure.mirror : elapsed < 570 ? dx < 0 : piece.dataset.mirror === 'true';
+        flyer.innerHTML = `<span class="travel-body">${figureSvg(CREW[character], pose, { prefix: `travel-${seat}-body` })}</span>${hasFront(pose) ? `<span class="travel-front">${figureSvg(CREW[character], pose, { prefix: `travel-${seat}-front`, layer: 'front' })}</span>` : ''}`;
+        for (const svg of flyer.querySelectorAll?.('svg') ?? [flyer.querySelector('svg')]) if (svg) svg.style.transform = mirror ? 'scaleX(-1)' : 'none';
+        owned.frame = elapsed < MOVE_MS ? requestAnimationFrame(paint) : null;
+      };
+      paint(start);
+    }
     animation.finished.then(() => {
+      if (disposed || running.get(seat) !== owned) return;
       owned.moving = false;
+      if (owned.frame !== null) { cancelAnimationFrame(owned.frame); owned.frame = null; }
       const current = pieceOf(seat);
       if (current) delete current.dataset.moving;
       flyer.remove();
@@ -165,7 +201,9 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
 
   return {
     /** Taken before a redraw: where every piece is drawn now, and when. */
-    before() { return { rects: rects(), at: now() }; },
+    before() { return { rects: rects(), figures: new Map([...root.querySelectorAll('.ms-board .ms-seat[data-seat]')].map(piece => [piece.dataset.seat, { gesture: piece.dataset.gesture, mirror: piece.dataset.mirror === 'true' }])), at: now() }; },
+    /** Resize settles owned travel without replaying or changing public facts. */
+    settle() { if (!disposed) cancelAll(); },
     /** After a redraw: play what changed in the public facts, and keep pieces in flight hidden. Returns what was played. */
     after(model, before) {
       if (disposed) return [];
@@ -187,7 +225,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
       const after = rects();
       for (const seat of new Set([...changes.moved, ...changes.status])) cancelSeat(seat);
       for (const seat of changes.moved) {
-        if (!reduced && !late && changes.flights && fly(seat, before.rects.get(seat), after.get(seat))) played.push({ cue: 'public-move', seat, variant: 'flight' });
+        if (!reduced && !late && changes.flights && fly(seat, before.rects.get(seat), after.get(seat), before.figures?.get(seat))) played.push({ cue: 'public-move', seat, variant: 'flight' });
         else { mark(seat, 'arrived', REDUCED_MS); played.push({ cue: 'public-move', seat, variant: 'settled' }); }
       }
       // Others in a room a piece entered or left slide to their new places. Layout, not a cue.
@@ -201,7 +239,8 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
           const dy = from.top - to.top;
           if (Math.abs(dx) < 1 && Math.abs(dy) < 1) continue;
           cancelSeat(seat);
-          entry(seat).animations.push(piece.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: STATUS_MS, easing: REFLOW_EASING }));
+          const parts = piece.dataset.gesture ? [...piece.querySelectorAll('.ms-token, .scene-front, .ms-seat__name, .ms-markers')] : [piece];
+          for (const part of parts) entry(seat).animations.push(part.animate([{ translate: `${dx}px ${dy}px` }, { translate: '0 0' }], { duration: STATUS_MS, easing: REFLOW_EASING }));
         }
       }
       for (const seat of changes.status) { mark(seat, 'status', reduced ? REDUCED_MS : STATUS_MS); played.push({ cue: 'status-change', seat }); }

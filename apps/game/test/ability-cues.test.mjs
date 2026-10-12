@@ -1,0 +1,45 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { abilityChanges, createAbilityCues } from '../hosted/ability-cues.mjs';
+import { motionDom } from './support/comic-motion-dom.mjs';
+const idle = () => ({ strip: null, file: null, scans: [], slips: [], hack: null, rescues: null, end: null });
+const strip = (status, extra = {}) => ({ ...idle(), strip: { kind: 'code', status, seats: [], resource: null, ...extra } });
+const none = { receipt: null, picked: [], scans: [], slips: [], hack: false, vial: null, end: false };
+test('idle redraws, strip entry/exit and duplicates are total and replay nothing; only known state changes cue', () => {
+  assert.deepEqual(abilityChanges(null, idle()), none);
+  assert.deepEqual(abilityChanges(idle(), idle()), none);
+  assert.deepEqual(abilityChanges(idle(), strip('choosing')), none);
+  assert.deepEqual(abilityChanges(strip('choosing'), idle()), none);
+  assert.deepEqual(abilityChanges(strip('accepted'), strip('accepted')), none);
+  assert.deepEqual(abilityChanges(strip('submitting'), strip('accepted')), { ...none, receipt: 'code' });
+  assert.deepEqual(abilityChanges(strip('choosing'), strip('choosing', { seats: ['2'] })), { ...none, picked: ['2'] });
+  assert.equal(abilityChanges({ ...idle(), end: 'blue' }, { ...idle(), end: 'blue' }).end, false);
+});
+test('vials drain from a falling authorized count, never an accepted receipt alone; only continuous new Scans print', () => {
+  const rescue = (status, resource) => strip(status, { kind: 'rescue', resource });
+  assert.equal(abilityChanges(rescue('submitting', 2), rescue('accepted', 2)).vial, null);
+  assert.equal(abilityChanges(rescue('submitting', 2), rescue('accepted', 1)).vial, 1);
+  assert.deepEqual(abilityChanges(idle(), { ...idle(), file: 'hacker', scans: ['2:seat-3'] }).scans, []);
+  assert.deepEqual(abilityChanges({ ...idle(), file: 'hacker', scans: [] }, { ...idle(), file: 'hacker', scans: ['2:seat-3'] }).scans, ['2:seat-3']);
+});
+test('native private effects cancel on expiry, concealment and OS reduction without a frame; disposal is idempotent', t => {
+  const dom = motionDom(t);
+  let state = null;
+  const animationNode = dom.piece('seat-1');
+  const root = { querySelector: selector => selector === '.phone-strip > .ms-card__state' ? state : null, querySelectorAll: () => [] };
+  const cues = createAbilityCues(root);
+  const model = { screen: 'match', connection: 'live', motion: 'full', match: { phase: { timer: { state: 'running' } } } };
+  cues.after(model); cues.after(model);
+  state = { dataset: { kind: 'code', status: 'choosing' }, picks: [], querySelectorAll() { return this.picks.map(seat => ({ dataset: { seat } })); }, querySelector: () => animationNode };
+  cues.after(model); state.picks = ['2']; cues.after(model); assert.equal(dom.animations.length, 1);
+  cues.after(model); assert.equal(dom.animations.length, 1, 'a duplicate snapshot is quiet');
+  cues.after({ ...model, match: { phase: { timer: { state: 'expired' } } } }); assert.equal(dom.animations[0].cancellations, 1);
+  state.picks = []; cues.after(model); state.picks = ['3']; cues.after(model); assert.equal(dom.animations.length, 2);
+  dom.deviceReduced(true); assert.equal(dom.animations[1].cancellations, 1, 'no redraw was needed');
+  dom.deviceReduced(false); cues.after(model); assert.equal(dom.animations.length, 2, 'turning full back on does not replay');
+  state.picks = ['4']; cues.after(model); assert.equal(dom.animations.length, 3);
+  cues.after({ ...model, connection: 'stale' }); assert.equal(dom.animations[2].cancellations, 1);
+  state = null; cues.after(model); cues.after(model);
+  cues.dispose(); cues.dispose(); assert.equal(dom.mediaListeners.size, 0);
+  cues.after(model); assert.equal(dom.animations.length, 3);
+});

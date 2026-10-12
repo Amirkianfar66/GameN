@@ -165,13 +165,13 @@ test('choosing an action targets only offered characters on the board, with no d
   assert.match(panel, /action\/back/);
   assert.equal(markup.attrs['data-action-dock'], 'true');
 });
-test('ordered compound picks stay on the board; answers and abstention stay in the compact strip', () => {
+test('unordered compound picks stay on the board; answers and abstention stay in the compact strip', () => {
   const view = playerView(v => { v.legalTargets.SUPPLY = ['seat-1','seat-2','seat-3']; v.legalTargets.SCAN = ['seat-2']; });
   const supply = renderComicPlayerShell(model(view,{step:'choosing',kind:'supply',picked:['seat-2']}), {phoneView:'actions'});
   auditMarkup(supply);
   const board = toHtml(find(supply,byRegion('comic-board')));
-  assert.match(board,/data-board-target="picked"/);
-  assert.match(board,/<span class="phone-pick-order" data-mark="number"><span class="ms-visually-hidden">Selected <\/span><span aria-hidden="true">1<\/span>/);
+  assert.match(board,/data-board-target="selected"/);
+  assert.match(board,/<span class="phone-pick-order" data-mark="check"><span class="ms-visually-hidden">Selected<\/span><span aria-hidden="true">✓<\/span>/);
   assert.doesNotMatch(board,/data-value="seat-2"/);
   for (const id of ['seat-1','seat-3']) assert.match(board,new RegExp(`data-value="${id}"`));
   const scan = renderComicPlayerShell(model(view,{step:'choosing',kind:'scan',picked:['seat-2']}),{phoneView:'actions'});

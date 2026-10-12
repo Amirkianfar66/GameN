@@ -2,8 +2,10 @@
 import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
 import { fitBoard } from './board-layout.mjs';
+import { applySceneBoard } from './scene-board.mjs';
 import { createStripCues } from './strip-cues.mjs';
 import { createInsiderFile } from './insider-file.mjs';
+import { createAbilityCues } from './ability-cues.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A command identifier is random and means nothing. randomUUID needs a secure context,
@@ -85,6 +87,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const comicMotion = createComicMotion(root, { fx });
   const stripCues = createStripCues(root);
   const insiderFile = createInsiderFile(root);
+  const abilityCues = createAbilityCues(root);
   let rootAttributes = {};
   let drawn = null;
   let spokenSeq = 0;
@@ -122,6 +125,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     if (phoneView !== 'role' || !frame.model.match?.privateArea?.open || frame.model.connection !== 'live' || frame.privacyEpoch !== privacyEpoch) inspect = null;
     const split = splitRegions(render(frame.model, { phoneView, phoneNotice, inspect }));
     applyRootAttributes(split.rootAttrs);
+    root.dataset.short = String(window.innerHeight <= 640);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
     // countdown tick. The plan says what to redraw and in which order; this host carries it out.
@@ -159,9 +163,12 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     privateWasOpen = Boolean(sheet);
     // Stations and bands first, so motion measures where every character finally stands.
     fitBoard(root);
+    applySceneBoard(root, frame.model);
     comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
-    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced' || motion.matches, current: frame.model.connection === 'live' });
+    abilityCues.after(frame.model);
+    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced' || motion.matches,
+      current: frame.model.screen === 'match' && frame.model.connection === 'live' && document.visibilityState === 'visible' && !frame.model.banners.some(banner => banner.kind === 'connection') });
     cardRequested = false;
     if (inspect !== null && !root.querySelector('.ab-photo[aria-pressed="true"]')) inspect = null;
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
@@ -277,7 +284,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     if (motion.matches) insiderFile.finish(); // Explicit full can emit no frame.
   };
   const onVisibility = () => screen.setPageVisible(document.visibilityState === 'visible');
-  const onBlur = () => { if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
+  const onBlur = () => { insiderFile.conceal(); abilityCues.finish(); if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
   function onKeyDown(event) {
     const sheet = root.querySelector('.ms-private[data-open="true"]');
     // Escape steps back like the strip's own Back control while a choice is being made or
@@ -318,7 +325,13 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const stopFrames = screen.subscribe(draw);
   const stopExtra = subscribeExtra(draw);
   // A rotation, a resized window or a keyboard opening refits the board; nothing else is redrawn.
-  const resized = typeof ResizeObserver === 'function' ? new ResizeObserver(() => fitBoard(root)) : null;
+  let fittedSize = [root.clientWidth, root.clientHeight];
+  const resized = typeof ResizeObserver === 'function' ? new ResizeObserver(() => {
+    const nextSize = [root.clientWidth, root.clientHeight];
+    if (nextSize.some((size, index) => size !== fittedSize[index])) comicMotion.settle();
+    fittedSize = nextSize;
+    fitBoard(root); applySceneBoard(root, screen.getFrame().model);
+  }) : null;
   resized?.observe(root);
   root.addEventListener('click', onClick);
   root.addEventListener('change', onChange);
@@ -326,6 +339,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   window.addEventListener('blur', onBlur);
   root.addEventListener('keydown', onKeyDown);
   motion.addEventListener('change', onMotion);
+  document.addEventListener('mothership:art-ready', draw);
 
   screen.setDeviceReducedMotion(motion.matches);
   screen.start();
@@ -343,6 +357,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     comicMotion.dispose();
     stripCues.dispose();
     insiderFile.dispose();
+    abilityCues.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);
@@ -351,6 +366,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     for (const node of inertNodes) node.inert = false;
     inertNodes.clear();
     motion.removeEventListener('change', onMotion);
+    document.removeEventListener('mothership:art-ready', draw);
     screen.dispose();
     container.replaceChildren();
   }

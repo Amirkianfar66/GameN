@@ -15,6 +15,7 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 
 export const MATCH = 'board-simulation';
 export const PASS_VERSIONS = { protocolVersion: 2, rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183', engineVersion: 'full-game-1.1.0', assetManifestVersion: 'design-0.2.0' };
+const CAPPED_VERSIONS = { protocolVersion: 2, engineVersion: 'full-game-1.3.0', rulesetVersion: 'in-person-v1-capacity-resolution-2026-10-12', rulesetHash: 'aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e', assetManifestVersion: 'design-0.2.0' };
 export const LEGACY_VERSIONS = { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90', engineVersion: 'full-game-1.0.1', assetManifestVersion: 'design-0.2.0' };
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
@@ -43,6 +44,7 @@ const FREE = [1, 2, 3, 4, 5, 6, 7, 8];
  * keys are the presentation's action kinds; a list names seats by number.
  */
 export const SCENARIOS = {
+  'capped-room-a': { title: 'Reviewed 1.3 tuple: Room A has five occupants', versions: CAPPED_VERSIONS, locations: ['Room A','Room A','Room A','Room A','Room A','Room B','Command Room','Room B','Room B'], offers: { move: ['Room B'], shot: [1,2,4,5], pass: true } },
   spread: { title: 'Nine players spread over the board; your turn', offers: { move: ['Room B'], pass: true } },
   'other-turn': { title: 'Someone else’s turn', active: 5, offers: { move: [] } },
   seven: { title: 'Seven players', count: 7, role: 'Cracker', offers: { move: ['Room B'], pass: true } },

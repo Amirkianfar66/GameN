@@ -1,0 +1,120 @@
+{
+  "scope": "Final terminal contrast and fit after the CSS-only follow-up; synthetic native browser views, no backend claim.",
+  "inputs": {
+    "apps/game/hosted/ability-art.css": "4e3963577937a68380383deb5d4ac218f825c8775407397b2f8cfce6ceaa0e2b"
+  },
+  "facts": [
+    {
+      "size": [
+        320,
+        568
+      ],
+      "scroll": false,
+      "roles": [
+        {
+          "role": "Insider",
+          "text": "Insider",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Cracker",
+          "text": "Cracker",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Officer",
+          "text": "Officer",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Blue Disabler",
+          "text": "Blue Disabler",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Supplier",
+          "text": "Supplier",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Undercover",
+          "text": "Undercover",
+          "color": "rgb(255, 140, 140)"
+        },
+        {
+          "role": "Hacker",
+          "text": "Hacker",
+          "color": "rgb(255, 140, 140)"
+        },
+        {
+          "role": "Red Disabler",
+          "text": "Red Disabler",
+          "color": "rgb(255, 140, 140)"
+        },
+        {
+          "role": "Alien",
+          "text": "Alien",
+          "color": "rgb(196, 164, 255)"
+        }
+      ],
+      "cast": 9,
+      "private": 0
+    },
+    {
+      "size": [
+        390,
+        844
+      ],
+      "scroll": false,
+      "roles": [
+        {
+          "role": "Insider",
+          "text": "Insider",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Cracker",
+          "text": "Cracker",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Officer",
+          "text": "Officer",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Blue Disabler",
+          "text": "Blue Disabler",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Supplier",
+          "text": "Supplier",
+          "color": "rgb(112, 175, 255)"
+        },
+        {
+          "role": "Undercover",
+          "text": "Undercover",
+          "color": "rgb(255, 140, 140)"
+        },
+        {
+          "role": "Hacker",
+          "text": "Hacker",
+          "color": "rgb(255, 140, 140)"
+        },
+        {
+          "role": "Red Disabler",
+          "text": "Red Disabler",
+          "color": "rgb(255, 140, 140)"
+        },
+        {
+          "role": "Alien",
+          "text": "Alien",
+          "color": "rgb(196, 164, 255)"
+        }
+      ],
+      "cast": 9,
+      "private": 0
+    }
+  ]
+}

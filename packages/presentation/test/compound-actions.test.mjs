@@ -144,7 +144,7 @@ test('the idle card lists each of them only while the view opens it, and says so
   assert.deepEqual(several.body.offers.map(offer => offer.kind), ['move', 'shot', 'scan', 'supply', 'hack', 'code']);
 });
 
-test('each part is asked for in turn, with what is already picked shown in the order picked, and going back names the pick it takes away', () => {
+test('each part is asked for in turn, sets are shown in seat order, and going back names the pick it takes away', () => {
   // A Scan: the seat, then the guess.
   const scanSeat = card(scanning(), { step: 'choosing', kind: 'scan' });
   assert.deepEqual([scanSeat.title, scanSeat.body.prompt, scanSeat.body.progress, scanSeat.body.back.label], ['Scan', 'Who do you scan?', null, 'Cancel']);
@@ -165,8 +165,8 @@ test('each part is asked for in turn, with what is already picked shown in the o
   // A Code attempt: four seats, counted down.
   const prompts = [[], ['seat-7'], ['seat-7', 'seat-1'], ['seat-7', 'seat-1', 'seat-5']].map(picked => card(coding(), { step: 'choosing', kind: 'code', picked }).body);
   assert.deepEqual(prompts.map(body => body.prompt), ['Choose the four players of your Code attempt.', 'Choose 3 more players.', 'Choose 2 more players.', 'Choose one more player.']);
-  // In the order picked, not in seat order: the last one named is the one going back takes away, and the control says so.
-  assert.deepEqual(prompts.map(body => body.progress), [null, 'Chosen so far: Player 7.', 'Chosen so far: Player 7, Player 1 (you).', 'Chosen so far: Player 7, Player 1 (you), Player 5.']);
+  // A set is in seat order. Back still takes away the last actual pick and names it explicitly.
+  assert.deepEqual(prompts.map(body => body.progress), [null, 'Chosen so far: Player 7.', 'Chosen so far: Player 1 (you), Player 7.', 'Chosen so far: Player 1 (you), Player 5, Player 7.']);
   assert.deepEqual(prompts.map(body => body.back.label), ['Cancel', 'Take back Player 7', 'Take back Player 1 (you)', 'Take back Player 5']);
   // A pick that names no seat cannot come from a control. Going back would still take it away, and says no more than that.
   assert.equal(card(coding(), { step: 'choosing', kind: 'code', picked: ['seat-7', 'elsewhere'] }).body.back.label, 'Take back the last choice');
@@ -185,8 +185,8 @@ test('each of them confirms in its own words, says what is final about it, and r
   const cases = [
     { view: scanning(), choice: SCAN, confirm: 'Scan Player 3, guessing Red?', button: 'Scan', consequence: 'This uses your Scan for this round, whatever the result. You cannot change or withdraw it once the server accepts it.',
       sending: 'Sending your Scan to the server…', accepted: 'Scan of Player 3, guessing Red, accepted.', detail: 'The result is listed under “What you know”, as the server gives it.' },
-    { view: supplying(), choice: SUPPLY, confirm: 'Register a weapon each for Player 5 and yourself?', button: 'Register Supply', consequence: 'You cannot change or withdraw it here once it is registered.',
-      sending: 'Sending your Supply to the server…', accepted: 'Supply for Player 5 and yourself registered.', detail: 'This is not a result. Registered actions are resolved at the end of the round.' },
+    { view: supplying(), choice: SUPPLY, confirm: 'Register a weapon each for yourself and Player 5?', button: 'Register Supply', consequence: 'You cannot change or withdraw it here once it is registered.',
+      sending: 'Sending your Supply to the server…', accepted: 'Supply for yourself and Player 5 registered.', detail: 'This is not a result. Registered actions are resolved at the end of the round.' },
     { view: coding(), choice: CODE, confirm: 'Submit this Code attempt: Player 1 (you), Player 3, Player 5, Player 7?', button: 'Submit Code attempt', consequence: 'This is your one Code attempt in this match. You cannot change it once the server accepts it.',
       sending: 'Sending your Code attempt to the server…', accepted: 'Your Code attempt is recorded.', detail: 'This is not a result. It is checked when the round is resolved, not now.' },
   ];
@@ -221,7 +221,7 @@ const undercover = (protections, more = () => {}) => playerView(view => { view.r
 test('the private panel says what the server’s view tells this seat, one sentence for each thing it carries', () => {
   const said = view => model(view).match.privateArea.content.knowledge;
   // Every seat is told what it holds. A seat the view gives nothing more is told nothing more.
-  assert.deepEqual(said(playerView()), { heading: 'What you know', items: ['Ordinary weapons you hold: 0.', 'Rescues you have left: 1.'], insider: null });
+  assert.deepEqual(said(playerView()), { heading: 'What you know', items: ['Ordinary weapons you hold: 0.', 'Rescues you have left: 1.'], insider: null, art: { undercover: null, code: null, scans: [], protections: [], weapons: { count: 0, sentence: 'Ordinary weapons you hold: 0.' }, rescues: { count: 1, sentence: 'Rescues you have left: 1.' } } });
   // A Cracker is told when no Rescue is left; another role, with none to begin with, is told nothing of Rescues.
   assert.deepEqual(said(playerView(view => { view.self.rescuesRemaining = 0; view.self.ordinaryWeapons = 2; })).items, ['Ordinary weapons you hold: 2.', 'You have no Rescues left.']);
   assert.deepEqual(said(playerView(view => { view.self.role = 'Supplier'; view.self.rescuesRemaining = 0; view.self.ordinaryWeapons = 2; })).items, ['Ordinary weapons you hold: 2.']);

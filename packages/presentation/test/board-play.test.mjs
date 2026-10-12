@@ -84,17 +84,19 @@ test('for every action the press areas are exactly the seats the view offers, in
   }
 });
 
-test('Supply numbers two distinct picks and a Code attempt four; a single chosen character is checked; a sent command is pending', () => {
+test('Supply and Code sets mark every pick with the same check; a sent command is pending', () => {
   const [, supplyChange] = SEAT_ACTIONS.find(([kind]) => kind === 'supply');
   const supply = renderComicPlayerShell(model(playerView(supplyChange), { step: 'choosing', kind: 'supply', picked: ['seat-3'] }), { phoneView: 'actions' });
-  assert.deepEqual(marks(board(supply), 'picked'), ['seat-3']);
+  assert.deepEqual(marks(board(supply), 'selected'), ['seat-3']);
   assert.deepEqual(pressAreas(board(supply)).sort(), ['seat-1', 'seat-5'], 'a picked character cannot be picked again');
-  assert.match(board(supply), /data-mark="number"><span class="ms-visually-hidden">Selected <\/span><span aria-hidden="true">1<\/span>/);
-  assert.match(strip(supply), /class="phone-strip__progress" aria-hidden="true"><span data-done="true">1<\/span><span data-done="false"><\/span><\/span>Chosen so far: Player 3\./);
+  assert.match(board(supply), /data-mark="check"><span class="ms-visually-hidden">Selected<\/span><span aria-hidden="true">✓<\/span>/);
+  assert.match(strip(supply), /class="ab-tags" data-count="1"/);
+  assert.match(strip(supply), /Chosen so far: Player 3\./);
   const [, codeChange] = SEAT_ACTIONS.find(([kind]) => kind === 'code');
   const code = renderComicPlayerShell(model(playerView(codeChange), { step: 'confirming', choice: { kind: 'code', seatIds: ['seat-6', 'seat-2', 'seat-7', 'seat-1'] }, armed: true }), { phoneView: 'actions' });
-  assert.deepEqual(marks(board(code), 'picked').sort(), ['seat-1', 'seat-2', 'seat-6', 'seat-7']);
-  for (const [seat, order] of [['seat-6', 1], ['seat-2', 2], ['seat-7', 3], ['seat-1', 4]]) assert.match(board(code), new RegExp(`data-seat="${seat}"[^]*?<span aria-hidden="true">${order}</span>`));
+  assert.deepEqual(marks(board(code), 'selected').sort(), ['seat-1', 'seat-2', 'seat-6', 'seat-7']);
+  assert.equal([...board(code).matchAll(/data-mark="check"/g)].length, 4);
+  assert.doesNotMatch(board(code), /data-mark="number"/);
   assert.deepEqual(pressAreas(board(code)), [], 'confirming offers no press area');
   const [, shotChange] = SEAT_ACTIONS[0];
   const shot = renderComicPlayerShell(model(playerView(shotChange), { step: 'confirming', choice: { kind: 'shot', targetSeatId: 'seat-5' }, armed: false }), { phoneView: 'actions' });
