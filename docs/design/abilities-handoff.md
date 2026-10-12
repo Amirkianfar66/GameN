@@ -1,6 +1,6 @@
 # Frontend handoff: ability art
 
-Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17; slice 6, the showdown's special shot and the match's end, section 18. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.6.0` since slice 6: each slice added assets and changed none of the earlier ones.
+Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17; slice 6, the showdown's special shot and the match's end, section 18; slice 7, the marks in the tray, the failure states (out of date, unreadable, Reconnect now) and the card kept out of date, with movement and health recorded from PR #88, section 19. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.7.0` since slice 7: each slice added assets and changed none of the earlier ones.
 
 ## Slice 1: the Insider's file
 
@@ -157,7 +157,7 @@ Original vector artwork made for this repository by the Visual and Motion Design
 | [DSN-REQ-14](integration-requests.md#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order | Integration | The engine sorts them; the treatments sort them again |
 | [DSN-REQ-15](integration-requests.md#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view | Integration, Backend | The receipt shows the charge or the round spent; no lasting mark, and a weapon supplied after the Officer's shot is drawn as held |
 | [DSN-REQ-16](integration-requests.md#dsn-req-16) | Whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | Integration | The prototype shows the closed folder (PR #88's conceal rule); recommended: keep the release's card, the folder only after the background |
-| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.6.0`) |
+| DSN-D36 | Adopt the ability kit into a reviewed export revision and the runtime manifest pin, loaded on every player phone | Integration | A proposal beside the kit (`design/abilities/assets/`, now `abilities-0.7.0`) |
 | DSN-D37 | The look and motion of the ability art (slices 1 to 5) | Game owner | The owner chose the Insider's content (portraits and role labels); the rest waits for the owner's look |
 
 Browser emulation only: desktop Chromium at simulated phone viewports. No real phone, screen reader or touch test has been run.
@@ -540,3 +540,79 @@ The slice 6 rules in `abilities-capture.mjs` and `abilities-check.mjs`: the spec
 
 - **A Final Zone scene.** The board draws the Final Zone on the page's paper with the approved halftone and speed lines (board-motion GAP-6). A scene of its own, two rows of places facing each other as the inventory planned, is design work for a later slice; it needs no contract change.
 - **Card and Actions at the end.** The release disables them; the prototype marks them `aria-disabled` so that focus stays where it was when the match ends. Frontend's call.
+
+## 19. Slice 7: the marks in the tray, the failure states, movement and health
+
+**A proposal**, on the same base and tuple as slices 1 to 6. Review pictures: `design/abilities/review/contact-icons-failure.png`. Scenarios: `tray.open`, `tray.undercover`, `tray.cracker`, `tray.disabler`, `tray.supplier`, `tray.showdown`, `tray.vote`, `tray.release`, `tray.release-vote`, `robust.stale`, `robust.unreadable`, `stale.card`, `stale.card-notes`, `file.hidden`, and the fixture panel's "An update could not be read" and "Keep the card on an out-of-date view (DSN-REQ-16)". Reference code: the icons in `abilities.css` (the slice 7 block) and `source/actions.svg`; the banner, its clearance and the card kept out of date in `app.js` (`drawBanner`, `goStale`, `restoreView`, `reconnectNow`, `cardVisible`, `pausePrivate`, `drawCard`) and `board.css`; `pauseFile()` in `dossier.js`.
+
+### 19.1 What changes for a player
+
+- **The tray.** Each action the seat's own view opens has its chip's caption-yellow disc hold **its own mark, the strip's**: the reticle (the reviewed `icon-action-shot`), the Disable's charged ring, the shield, the cross, the lens, the tag, the comms, the punch card, the special round, the ballot box (every ballot, a release vote too) and the key. **The same for every role**: both Disablers see the same ring, and nothing in a mark names a role. Without the art, the glyph stays, and the label beside it says the action in words.
+- **Out of date.** When the connection is lost, or the latest update could not be read, **the release's banner** says so in its words, with its one control, **Reconnect now**, and the reviewed **stale-connection icon**. The change is said once, as the release says it ("Connection lost. Showing the last known state." / "The latest update could not be read."). The actions pause ("Actions are paused until the connection is restored."), and a choice not sent is dropped and said so. Pressed, Reconnect now waits (pressed again, nothing more is asked); the fresh view arrives, the banner leaves, and it is said once: **"Reconnected. Round 2. Your turn."** (or "Up to date again. …" after an unreadable update). **Nothing plays** on that reconnect.
+- **Every sheet keeps clear of the banner.** The menu, the tray, the card and the end's result sheet open below it, so that their heading and Close stay in view on a 320 x 568 phone, where Frontend found the release's banner covering an open card's heading and Close.
+- **The card on an out-of-date view: both behaviours, for DSN-REQ-16.** By default, PR #88's rule: the **closed folder**, the same for every role. Where the release's behaviour is asked for (DSN-REQ-16, recommended), the card **stays**: its file **at rest** (whatever moved finishes; the card is not drawn again, so focus stays where it is; an inspected snapshot is put back, and focus in its card goes back to the snapshot, as Back does; no snapshot can be pressed, its facts would be the stale view's; a first open does not assemble) and, while the view **may be out of date**, one mark at its top: **May be out of date** (proposed words), the same for every role, with the stale-connection icon. When only a turn's time is up, the card stays at rest **without the mark**: the view is not out of date. The background still conceals it, as the release does.
+- **Movement and health** are PR #88's board, recorded in the inventory as delivered: the room tags, the walk, the hit, the bandage, the fall, the markers. **No door slam and no hatch**: the walk into the Jail or the Command Room is the public move, and the Jailed and Captain markers are the status change. A cue adds no fact.
+- The other failure states were already drawn and are recorded here: the **Not accepted** stamp (hatched, no red) with the receipt's own reason, the **Unknown** stamp with Check again, an unavailable Pass or room said in words, and paper-and-ink fallbacks for every picture.
+
+### 19.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| A chip's mark | the tray's offers (`legalTargets`, the availability flags) | One per action kind; the tray is the seat's own. A mark never depends on the role |
+| The banner | the client's own connection (`ShellEnvironment.connection` stale, `env.problem` `unreadable-update`), as the release's `buildBanners` reads it | Local to the device; never a game fact. The words and the control are the release's |
+| The announcements | the same, and the view's round and phase | The release's `announcements.ts`: once per change, in the public live region |
+| The card kept | the release's private area (`open = revealed && !concealed`), DSN-REQ-16 | Kept only where asked; PR #88's folder by default |
+| The out-of-date mark | the connection state above | Only while the view may be out of date; never for a turn's time up |
+
+### 19.3 Markup and hooks
+
+- Tray: `.bm-chip__icon[data-kind="<kind>"]` (aria-hidden), the kit drawing `--ab-asset-icon-action-<mark>` behind `[data-art~="abilities"]` and the Shot the reviewed `--ms-asset-icon-action-shot-ink` behind `[data-art~="player-ui"]`, its glyph then transparent.
+- Banner: `div.bm-banner[role=note][data-variant="stale"|"unreadable"]` with `.bm-banner__icon` (aria-hidden; the reviewed `--ms-asset-icon-connection-stale-ink` behind `[data-art~="public-board"]`), `p.bm-banner__text` and `button.bm-banner__act[data-act="reconnect"][aria-disabled]`. It maps onto the release's `.ms-banner--connection` and its `session/reconnect` button. Drawn again only when it changes, so that focus on its button survives an update.
+- Clearance: the phone's `--bm-banner-clear` (the banner's bottom edge, measured as it is drawn and again whenever its height changes: its words wrap with the width and grow with the reader's text, so the prototype observes the banner's size), and every sheet's `max-height: min(…, var(--bm-sheet-room))`. The banner's words and its button are sized in `rem`, as the release's `.ms-banner` is.
+- The card kept: `p.bm-card-stale[role=note]` under the card's heading (its icon aria-hidden), put in and taken out in place: going out of date or current again never draws the card again, so focus stays; the file's `data-paused`, its snapshots `aria-disabled`.
+
+### 19.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `icon-action-disable`, `-protect`, `-rescue`, `-scan`, `-supply`, `-hack`, `-code`, `-showdown`, `-ballot`, `-key` | 32 x 32 | center (16, 16) | A tray chip's mark, drawn at 20 px in its 26 px disc. One ink, a 2.6 stroke with round ends, in the reviewed `icon-action-shot`'s idiom |
+
+Neutral, in the kit's one stylesheet, loaded on every player phone whatever its role. The Shot keeps the reviewed `icon-action-shot`; the banner and the mark use the reviewed `icon-connection-stale`. Named `icon-action-*`, ready for a reviewed export revision (DSN-D36).
+
+### 19.5 Layout
+
+The marks fill the existing disc; nothing in the tray moves. The banner is the prototype's, now a grid (its icon, its words, its button beneath them); it is about 100 px tall at 320 px wide, and every sheet's room is what is left below it. With the card kept, the banner leaves it less room, at 390 x 844 as at 320 x 568: its first view holds its heading, Close, the mark, the hint and the role card, and it scrolls to the file (the only card that scrolls at the default text size without notes; the capture measures that first view). At twice the text size the banner grows and the sheets with it.
+
+### 19.6 Motion
+
+| | The marks | The banner | The card kept |
+| --- | --- | --- | --- |
+| Normal | None: the tray's own rise (PR #88) | None; its change is said once | None: at rest, nothing assembles, drops in, cracks or runs |
+| Reduced | The same | The same | The same |
+| Static | The mark, or the glyph without the art | The banner | The card at rest, marked |
+| Cancel | As the tray | A reconnect settles at once | Whatever moved finishes when the view goes out of date |
+| Replay | Never | Never: a reconnect plays nothing | Never: a file first opened on such a view does not assemble later |
+
+### 19.7 What it must never show (review with Balance)
+
+- A tray mark that tells a role: the same ring for both Disablers, Supply's tag not the Supplier's, a Hack's comms not the Hacker's.
+- A card marked out of date when the view is only timed out, or a kept file that can be pressed (its inspected facts would be the stale view's).
+- A guessed reason for a rejection: only the receipt's codes.
+- A banner over an open sheet's heading or Close.
+
+### 19.8 Words
+
+| Where | Words |
+| --- | --- |
+| Banner | The release's: "Connection lost. Showing the last known state, which may be out of date. Reconnecting…", "The latest update could not be read. Showing the last known state, which may be out of date.", "Reconnect now" |
+| Said | The release's: "Connection lost. Showing the last known state.", "The latest update could not be read.", "Reconnected. Round 2. Your turn.", "Up to date again. Round 2. Your turn." |
+| Card | **Proposed:** "May be out of date" (the release says it only in its banner) |
+
+### 19.9 Tests to port
+
+The slice 7 rules in `abilities-capture.mjs` and `abilities-check.mjs`: every tray kind has its mark, drawn only behind its art, the Shot the reviewed icon, nothing of a role in the marks; a mark drawn exactly when its art has arrived, its glyph then hidden; the card kept on an out-of-date view only where asked, marked only while the view may be out of date, its file not pressable, an inspected snapshot put back, and its heading, Close and the mark in its first view, and the role card too at the default text size. The board's capture now measures that the banner covers no open sheet's heading (a probe proves it fails with the clearance off). The flows (`board-motion-flows.mjs`) add each tray's marks, every ballot's one mark, eleven marks for eleven actions; the banner's words, Reconnect now waiting and then the fresh view said once with nothing played; the unreadable update and its own words; the menu and the paused tray below the banner at 320 x 568, and still below it when the reader's text doubles with a sheet open; and the card kept: marked, at rest, not pressable, the mark gone when current, an inspected snapshot put back on going out of date with focus going to it, focus elsewhere in the card staying where it was, no mark when only timed out, concealed by the background, and PR #88's folder by default.
+
+### 19.10 Open
+
+- **DSN-REQ-16** (Integration): which behaviour the release keeps. Both are drawn; the mark's words are proposed.
+- **The banner's height at 320 px** (about a sixth of the screen) is the release's long sentence; a shorter one is the release's to choose.

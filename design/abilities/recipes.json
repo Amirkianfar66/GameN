@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.6.0",
+  "manifestVersion": "abilities-0.7.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -251,6 +251,66 @@
       "title": "The special shot", "source": "source/finale.svg", "layer": "dossier-round-special", "viewBox": "0 0 14 30",
       "use": "The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.",
       "anchors": { "base": [7, 28] }
+    },
+    {
+      "id": "icon-action-disable", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The Disable: its tray icon", "source": "source/actions.svg", "layer": "icon-action-disable", "viewBox": "0 0 32 32",
+      "use": "The Disable's chip in the seat's own Actions tray: the charged ring of its strip, the same for both Disablers. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-protect", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "Protection: its tray icon", "source": "source/actions.svg", "layer": "icon-action-protect", "viewBox": "0 0 32 32",
+      "use": "Protection's chip in the seat's own Actions tray: the shield of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-rescue", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The Rescue: its tray icon", "source": "source/actions.svg", "layer": "icon-action-rescue", "viewBox": "0 0 32 32",
+      "use": "The Rescue's chip in the seat's own Actions tray: the medical cross of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-scan", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The Scan: its tray icon", "source": "source/actions.svg", "layer": "icon-action-scan", "viewBox": "0 0 32 32",
+      "use": "The Scan's chip in the seat's own Actions tray: the lens and its sweep. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-supply", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "Supply: its tray icon", "source": "source/actions.svg", "layer": "icon-action-supply", "viewBox": "0 0 32 32",
+      "use": "Supply's chip in the seat's own Actions tray: the shipping tag of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-hack", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A Hack: its tray icon", "source": "source/actions.svg", "layer": "icon-action-hack", "viewBox": "0 0 32 32",
+      "use": "A Hack request's chip in the seat's own Actions tray: the comms of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-code", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A Code attempt: its tray icon", "source": "source/actions.svg", "layer": "icon-action-code", "viewBox": "0 0 32 32",
+      "use": "A Code attempt's chip in the seat's own Actions tray: the punch card, four holes two by two, never a row. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-showdown", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The showdown's shot: its tray icon", "source": "source/actions.svg", "layer": "icon-action-showdown", "viewBox": "0 0 32 32",
+      "use": "The showdown shot's chip in the seat's own Actions tray: the special round of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-ballot", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot: its tray icon", "source": "source/actions.svg", "layer": "icon-action-ballot", "viewBox": "0 0 32 32",
+      "use": "Every ballot's chip in the seat's own Actions tray (a Captain election, a Jail vote, a release vote): the box of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "icon-action-key", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The release request: its tray icon", "source": "source/actions.svg", "layer": "icon-action-key", "viewBox": "0 0 32 32",
+      "use": "The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "anchors": { "center": [16, 16] }
     }
   ]
 }

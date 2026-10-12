@@ -16,7 +16,7 @@ import { COPY, PROPOSED, SHELL } from './copy.js';
 import { SCENARIOS, EVENTS, PRIVATE_EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario } from './fixtures.js';
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
-import { assemble, cancelMotion, closedFolder, insiderFile } from '../../abilities/js/dossier.js';
+import { assemble, cancelMotion, closedFolder, insiderFile, pauseFile } from '../../abilities/js/dossier.js';
 import { alienFile, BEAT_ID, clipIn, codeCard, hackerFile, printFresh, punch, scanTarget } from '../../abilities/js/intel.js';
 import { cell, deliveries, discharge, drain, dropIn, rescueKit, supplyTags, target, tie, vials } from '../../abilities/js/tools.js';
 import { crack, guardNotes, rounds, spend, weaponsNote } from '../../abilities/js/guard.js';
@@ -61,6 +61,8 @@ function load(id) {
   Object.assign(S, {
     scenarioId: entry.id, title: entry.title, fixtureStatus: entry.status ?? 'synthetic', public: st.public, private: st.private, flow: st.flow, view: st.view,
     answer: params.get('answer') ?? st.answer, banner: st.banner, legacy: st.legacy, notice: st.notice, revision: 1, timer: st.public.phase.seconds,
+    // DSN-REQ-16, recommended: an out-of-date or timed-out view keeps the release's card, marked, instead of PR #88's closed folder.
+    staleCard: params.get('stale') === 'card' || Boolean(st.staleCard),
     names: params.get('names') ?? entry.names ?? 'short', armedAt: 0, lastSnapshot: null,
     concealed: document.visibilityState !== 'visible', disposed: false, privateQuiet: false, requests: { sent: 0, lookups: 0 },
   });
@@ -78,8 +80,12 @@ const voteOn = () => (S.public.phase.kind === 'CAPTAIN_ELECTION' || S.public.pha
 const releaseSubject = () => (S.public.ballot?.release ? whoIs(S.public.ballot.release) : null);
 const ended = () => TERMINAL.includes(S.public.phase.kind);
 // A finished match has no timer to run out: its end is never a pause.
-const paused = () => S.banner === 'stale' || (S.timer <= 0 && !ended());
+// The view may be out of date: the connection is lost, or the latest update could not be read (the release's two banners).
+const outOfDate = () => S.banner === 'stale' || S.banner === 'unreadable';
+const paused = () => outOfDate() || (S.timer <= 0 && !ended());
 const privateVisible = () => !S.concealed && !S.disposed && document.visibilityState === 'visible' && !paused();
+// The card follows the private surfaces, except where an out-of-date or timed-out view keeps it (S.staleCard).
+const cardVisible = () => !S.concealed && !S.disposed && document.visibilityState === 'visible' && (!paused() || S.staleCard);
 
 function offerSeats(kind) {
   const offer = offers()[kind];
@@ -228,11 +234,47 @@ function conceal() {
   observer?.director.cancelAll();
 }
 
+/** The view went out of date with the card kept (S.staleCard): drop what was not sent, quiet the strip; the card stays. */
+function pausePrivate() {
+  if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
+  announce.private.length = 0;
+  livePrivate.replaceChildren();
+  for (const animation of phone.getAnimations({ subtree: true })) {
+    const target = animation.effect?.target;
+    if (target instanceof Element && target.closest('.bm-strip, .bm-tray')) animation.cancel();
+  }
+}
+
 function reopen() {
-  if (S.disposed || document.visibilityState !== 'visible' || paused()) return false;
+  if (S.disposed || document.visibilityState !== 'visible' || (paused() && !S.staleCard)) return false;
   S.concealed = false;
   // Restoring the same private status is quiet; only a new interaction may cue it.
   return true;
+}
+
+// ---------- the connection: out of date, and back (the release's banners and announcements) ----------
+/** The view goes out of date: the connection is lost ('stale'), or the latest update could not be read ('unreadable'). */
+function goStale(variant) {
+  S.banner = variant;
+  announce.public.push(variant === 'unreadable' ? COPY.announce.unreadable : COPY.announce.connectionLost);
+  render();
+}
+const phaseNow = () => (S.public.phase.kind === 'ORDINARY_TURN' ? (S.public.active === VIEWER ? COPY.phase.yourTurn : COPY.phase.turnOf(S.public.active)) : COPY.phase.kind[S.public.phase.kind]);
+/** A fresh view arrives after the gap: said once ("Reconnected. Round 2. Your turn."), and nothing in it plays (a reconnect settles at once). */
+function restoreView() {
+  const was = S.banner;
+  S.banner = null;
+  if (!was) { render(); return; }
+  S.revision += 1;
+  announce.public.push((was === 'unreadable' ? COPY.announce.readableAgain : COPY.announce.reconnected)(`${COPY.phase.round(S.public.round)}. ${phaseNow()}.`));
+  render({ previous: structuredClone(S.public), kind: 'reconnect' });
+}
+/** The release's Reconnect now (session/reconnect): the stand-in reconnects shortly. Pressed again meanwhile, nothing more is asked. */
+function reconnectNow() {
+  if (!outOfDate() || S.reconnecting) return;
+  S.reconnecting = true;
+  render();
+  setTimeout(() => { S.reconnecting = false; restoreView(); }, params.has('t') ? 0 : 600);
 }
 
 // ---------- public facts: the authoritative updates every screen receives ----------
@@ -319,7 +361,9 @@ const nav = h('nav', { class: 'bm-nav', 'aria-label': SHELL.navigation });
 const live = h('div', { class: 'bm-vh', 'aria-live': 'polite', id: 'bm-live' });
 const livePrivate = h('div', { class: 'bm-vh', 'aria-live': 'polite', id: 'bm-live-private', 'data-private': 'true' });
 const boardHost = h('div', { class: 'bm-board-host', style: { display: 'contents' } });
-phone.append(h('p', { class: 'bm-synthetic' }, 'Synthetic'), status, boardHost, strip, result, nav, tray, card, menu, live, livePrivate);
+// The connection banner (the release's buildBanners): out of date, with its one control.
+const banner = h('div', { class: 'bm-banner', id: 'bm-banner', role: 'note', hidden: true });
+phone.append(h('p', { class: 'bm-synthetic' }, 'Synthetic'), status, boardHost, strip, result, nav, tray, card, menu, banner, live, livePrivate);
 const board = createBoard(boardHost, { interactive: true, viewer: VIEWER });
 const fx = h('div', { class: 'bm-fx', 'aria-hidden': 'true' });
 board.element.append(fx);
@@ -561,9 +605,10 @@ function drawTray() {
   put(tray,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-tray-heading', tabindex: '-1' }, SHELL.nav.actions), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
     !paused() && S.private.pending ? h('p', { class: 'bm-tray__empty' }, COPY.queued(S.private.pending)) : null,
-    paused() ? h('p', { class: 'bm-tray__empty' }, S.banner === 'stale' ? COPY.actions.pausedStale : COPY.actions.pausedExpired)
+    paused() ? h('p', { class: 'bm-tray__empty' }, outOfDate() ? COPY.actions.pausedStale : COPY.actions.pausedExpired)
       : open.length ? h('ul', { class: 'bm-tray__grid' }, open.map(kind => h('li', null, h('button', { type: 'button', class: 'bm-chip', 'data-act': `open:${kind}`, id: `bm-open-${kind}` },
-        h('span', { class: 'bm-chip__icon', 'aria-hidden': 'true' }, ICON[kind] ?? '•'), h('span', { class: 'bm-chip__name' }, COPY.kind[kind]), h('span', { class: 'bm-chip__hint' }, COPY.open[kind])))))
+        // The action's mark (design/abilities/, slice 7) once the art has arrived; until then its glyph.
+        h('span', { class: 'bm-chip__icon', 'data-kind': kind, 'aria-hidden': 'true' }, ICON[kind] ?? '•'), h('span', { class: 'bm-chip__name' }, COPY.kind[kind]), h('span', { class: 'bm-chip__hint' }, COPY.open[kind])))))
         : h('p', { class: 'bm-tray__empty' }, SHELL.noActions));
 }
 
@@ -644,7 +689,7 @@ function drawCard() {
   card.hidden = S.view !== 'card' || S.disposed;
   if (card.hidden) { put(card); forget(card); fileNode = null; return; }
   const head = h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-card-heading', tabindex: '-1' }, SHELL.yourCard), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×'));
-  if (!privateVisible()) {
+  if (!cardVisible()) {
     // Hidden (the page went to the background, or the view is out of date): one closed folder,
     // the same for every role and seat. Nothing private is in the page until it is opened again.
     fileNode = null;
@@ -664,11 +709,17 @@ function drawCard() {
   const weapons = S.private.resources?.weapons;
   // The Undercover's Protections, as its own view carries them (knowledge.protections), in the view's order.
   const guards = (S.private.intel?.protections ?? []).map(entry => ({ seat: identity(entry.seat), activeFromRound: entry.activeFromRound, consumed: entry.consumed, self: entry.seat === VIEWER })).filter(entry => entry.seat);
+  // Kept on a view that is out of date or whose time is up (S.staleCard): at rest, nothing played; marked when it may be out of date.
+  const held = paused();
+  const stale = held && outOfDate();
   if (keep(card, JSON.stringify(['open', S.private.role, self.character, knowledge, fileKey, rescues, weapons, guards, partner, S.private.acks])) && (!file || card.contains(file))) {
     // The same card: only the inspected player's public facts follow the board, said again by its live region.
     const inspected = Number(file?.dataset.inspect);
     const facts = inspected ? file.querySelector('.ab-inspect__facts') : null;
     if (facts && facts.textContent !== publicFacts(inspected)) facts.textContent = publicFacts(inspected);
+    // Out of date, its time up, or current again: the same card in place, marked or not, its file paused or not, so focus stays.
+    markCard(stale);
+    if (file) pauseFile(file, held);
     if (file && reducedNow()) cancelMotion(file);
     return;
   }
@@ -686,27 +737,38 @@ function drawCard() {
     partner ? hackLink(identity(VIEWER), partner) : null,
     deliveriesFor(S.private.acks),
     knowledge.length ? h('ul', { class: 'bm-know', 'aria-label': 'What you know' }, knowledge.map(item => h('li', null, item))) : null);
+  markCard(stale);
+  if (file) pauseFile(file, held);
+  // A held card plays nothing: what it shows is at rest, as the latest view the page has.
+  const still = reducedNow() || held;
   for (const slip of card.querySelectorAll('.ab-slip')) {
     if (slipsShown.has(slip.dataset.slip)) continue;
     slipsShown.add(slip.dataset.slip);
-    if (!reducedNow()) dropIn(slip);
+    if (!still) dropIn(slip);
   }
   // A Protection this page showed whole and the view now says is used up cracks, once.
   for (const note of card.querySelectorAll('.ab-guard')) {
     const used = note.dataset.used === 'true';
-    if (used && guardsShown.get(note.dataset.guard) === false && !reducedNow()) crack(note.querySelector('.ab-target__mark'));
+    if (used && guardsShown.get(note.dataset.guard) === false && !still) crack(note.querySelector('.ab-target__mark'));
     guardsShown.set(note.dataset.guard, used);
   }
   // A Hack's note: the cord runs from chip to chip the first time this page shows that Hack.
   const link = card.querySelector('.ab-kit[data-kit="hack"]');
   if (link) {
     const key = `${S.public.round}:${link.dataset.partner}`;
-    if (!linksShown.has(key) && !reducedNow()) connect(link.querySelector('.ab-link__cord'));
+    if (!linksShown.has(key) && !still) connect(link.querySelector('.ab-link__cord'));
     linksShown.add(key);
   }
-  if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: reducedNow() }); }
-  else if (file && fresh.length) for (const scan of fresh) printFresh(file, scan, { reduced: reducedNow() });
-  else if (file && reducedNow()) cancelMotion(file);
+  if (file && !fileSeen) { fileSeen = true; assemble(file, { reduced: still }); }
+  else if (file && fresh.length) for (const scan of fresh) printFresh(file, scan, { reduced: still });
+  else if (file && still) cancelMotion(file);
+}
+
+/** The card kept on a view that may be out of date (DSN-REQ-16): one mark under its heading, the same for every role, put in or taken out in place. */
+function markCard(stale) {
+  const mark = card.querySelector(':scope > .bm-card-stale');
+  if (stale && !mark) card.querySelector(':scope > .bm-sheet__head')?.after(h('p', { class: 'bm-card-stale', role: 'note' }, h('span', { class: 'bm-card-stale__icon', 'aria-hidden': 'true' }), PROPOSED.cardStale));
+  else if (!stale && mark) mark.remove();
 }
 
 function drawMenu() {
@@ -726,6 +788,28 @@ function drawMenu() {
       h('tbody', null, S.public.seats.map(seat => h('tr', null, h('th', { scope: 'row' }, `${seat.n} · ${seat.name}`), h('td', null, seat.location),
         h('td', null, [seat.n === VIEWER ? COPY.marker.self : null, seat.n === S.public.active ? COPY.marker.turn : null, seat.captain ? COPY.marker.captain : null, seat.health !== 'Healthy' ? seat.health : null, seat.jailed ? COPY.marker.jailed : null, seat.revealedFaction ? COPY.marker.faction(seat.revealedFaction) : null].filter(Boolean).join(', ') || COPY.roster.noStatus))))),
     h('label', { class: 'bm-hint' }, h('input', { type: 'checkbox', 'data-act': 'motion', checked: S.motion === 'reduced' }), ' Reduce motion'));
+}
+
+/**
+ * The connection banner, in the release's words with its one control, Reconnect now, and the reviewed stale-connection
+ * icon. Drawn again only when it changes, so that focus on its button survives an update. Every sheet keeps clear of it
+ * (--bm-banner-clear: its bottom edge), so that a sheet's heading and Close stay in view on a short phone.
+ */
+function drawBanner() {
+  const words = outOfDate() ? COPY.banner[S.banner] : null;
+  banner.hidden = words === null;
+  if (words === null) { put(banner); forget(banner); delete banner.dataset.variant; }
+  else if (!keep(banner, JSON.stringify([S.banner, Boolean(S.reconnecting)]))) {
+    banner.dataset.variant = S.banner;
+    put(banner, h('span', { class: 'bm-banner__icon', 'aria-hidden': 'true' }), h('p', { class: 'bm-banner__text' }, words),
+      h('button', { type: 'button', class: 'bm-btn bm-banner__act', 'data-act': 'reconnect', 'aria-disabled': String(Boolean(S.reconnecting)) }, COPY.banner.reconnect));
+  }
+  clearBanner();
+}
+/** --bm-banner-clear, the banner's bottom edge: measured again whenever its height changes (its words wrap with the width and the reader's text). */
+function clearBanner() {
+  if (banner.hidden) phone.style.removeProperty('--bm-banner-clear');
+  else phone.style.setProperty('--bm-banner-clear', `${banner.offsetTop + banner.offsetHeight + 6}px`);
 }
 
 /** Each role's side, for the colour of its name in the end's cast list: the role look the release keeps (ROLE_LOOK). */
@@ -781,7 +865,13 @@ function drawNav() {
 }
 
 function render({ previous = null, kind = 'update', focus = null } = {}) {
-  if (paused() && !S.concealed) conceal();
+  // Out of date or timed out: what was not sent is dropped and the actions pause; the private surfaces are concealed,
+  // or, where the card is kept (S.staleCard), only the strip and the tray, as in the release.
+  if (paused() && !S.concealed) {
+    if (!S.staleCard) conceal();
+    else if (!S.pauseHandled) { S.pauseHandled = true; pausePrivate(); }
+  }
+  if (!paused()) S.pauseHandled = false;
   markShort();
   const before = previous ? director.before() : null;
   const obefore = previous && observer ? observer.director.before() : null;
@@ -800,9 +890,8 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   }
   fitBoard(board);
   phone.querySelector('.bm-notice')?.remove();
-  phone.querySelector('.bm-banner')?.remove();
-  if (S.banner === 'stale') phone.append(h('p', { class: 'bm-banner', role: 'status' }, COPY.banner.stale));
-  else if (S.notice) phone.append(h('p', { class: 'bm-notice', role: 'status' }, S.notice));
+  drawBanner();
+  if (!outOfDate() && S.notice) phone.append(h('p', { class: 'bm-notice', role: 'status' }, S.notice));
   const cueKind = paused() || S.disposed ? 'reconnect' : kind;
   if (previous) director.after(previous, S.public, before, { kind: cueKind, revision: S.revision });
   if (observer) {
@@ -905,7 +994,7 @@ phone.addEventListener('click', event => {
     const next = view.dataset.view === S.view && view.dataset.view !== 'board' ? 'board' : view.dataset.view;
     if (next === 'card' || next === 'actions') {
       if (!reopen()) {
-        if (next === 'actions' && !S.disposed && S.banner === 'stale') {
+        if (next === 'actions' && !S.disposed && outOfDate()) {
           // A public pause notice, with no private offer or queued-command details.
           S.view = 'actions'; render({ focus: 'sheet' });
         }
@@ -930,6 +1019,7 @@ phone.addEventListener('click', event => {
   else if (act === 'pass') pressPass();
   else if (act === 'close') { S.view = 'board'; render({ focus: 'nav' }); }
   else if (act === 'reveal') { if (reopen()) render({ focus: 'sheet' }); }
+  else if (act === 'reconnect') reconnectNow();
 });
 phone.addEventListener('change', event => {
   if (event.target.dataset?.act === 'motion') { S.motion = event.target.checked ? 'reduced' : 'full'; render(); }
@@ -948,6 +1038,7 @@ window.addEventListener('pagehide', () => {
 });
 new ResizeObserver(() => { fitBoard(board); if (observer) fitBoard(observer.board); }).observe(board.element);
 new ResizeObserver(markShort).observe(phone);
+new ResizeObserver(clearBanner).observe(banner);
 
 // ---------- the page around the phone: frame, observer and fixture controls ----------
 async function loadArt() {
@@ -991,16 +1082,17 @@ function fixturePanel() {
     h('fieldset', null, h('legend', null, 'Scenario'), select, h('button', { type: 'button', id: 'bm-restart' }, 'Restart')),
     h('fieldset', null, h('legend', null, 'The stand-in server'), answer, h('p', null, 'Every answer is labeled synthetic. Nothing is resolved.')),
     h('fieldset', null, h('legend', null, 'View lifecycle · synthetic'),
-      ...[['stale', 'Make the view stale'], ['fresh', 'Restore a fresh view'], ['expire', 'Expire the local timer']].map(([id, label]) => {
+      ...[['stale', 'Make the view stale'], ['unreadable', 'An update could not be read'], ['fresh', 'Restore a fresh view'], ['expire', 'Expire the local timer']].map(([id, label]) => {
         const button = h('button', { type: 'button', id: `bm-${id}` }, label);
         button.addEventListener('click', () => {
-          if (id === 'expire') S.timer = 0;
-          else S.banner = id === 'stale' ? 'stale' : null;
-          if (id !== 'fresh') conceal();
-          render();
+          if (id === 'expire') { S.timer = 0; render(); }
+          else if (id === 'fresh') restoreView();
+          else goStale(id);
         });
         return button;
-      })),
+      }),
+      // DSN-REQ-16: the release keeps the card on an out-of-date view; PR #88 closes it into the folder.
+      toggle('Keep the card on an out-of-date view (DSN-REQ-16)', S.staleCard, on => { S.staleCard = on; render(); })),
     h('fieldset', null, h('legend', null, 'Public facts, to every screen'), events),
     h('fieldset', null, h('legend', null, 'Private facts, to this seat alone'), h('div', { class: 'bm-events' }, PRIVATE_EVENTS.map(event => {
       const button = h('button', { type: 'button', 'data-private-event': event.id }, event.label);
@@ -1027,7 +1119,7 @@ if (chrome) {
   if (params.get('safe') === '1') { phone.style.setProperty('--bm-safe-top', '47px'); phone.style.setProperty('--bm-safe-bottom', '34px'); }
 }
 render();
-if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && !ended()) { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) { conceal(); render(); } } }, 1000);
+if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && !ended()) { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) render(); } }, 1000);
 
 // ---------- holds for storyboards and captures: ?play=<step>&t=<ms> ----------
 const PLAY = {
@@ -1053,6 +1145,10 @@ const PLAY = {
   pick: () => { const first = offerSeats(S.flow.kind).find(n => !seatsPicked().includes(n)); if (first) pick(first); },
   register: () => confirm(),
   tray: () => { S.view = 'actions'; render(); },
+  menu: () => { S.view = 'menu'; render(); },
+  // The connection: lost, an update unreadable, and the release's Reconnect now.
+  stale: () => goStale('stale'),
+  reconnect: () => reconnectNow(),
   strip: () => openAction('shot'),
   card: () => { S.view = 'card'; render(); },
   tag: () => pressRoom('Room B', document.querySelector('[data-move-room="Room B"]')),

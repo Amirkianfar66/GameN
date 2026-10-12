@@ -40,7 +40,7 @@ export function seatsFor(count, locations = SPREAD) {
 }
 
 /** A whole synthetic state: public facts, the viewer's private facts, the action flow and what is open. */
-function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, result = null, endReveal = null, knowledge = [], intel = null, hackPartner = null, resources = null, acks = null, answer = 'accept', banner = null, legacy = false, notice = null, pending = 0 }) {
+function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, result = null, endReveal = null, knowledge = [], intel = null, hackPartner = null, resources = null, acks = null, answer = 'accept', banner = null, staleCard = false, legacy = false, notice = null, pending = 0 }) {
   const seats = seatsFor(count, locations);
   change(seats);
   return {
@@ -49,7 +49,7 @@ function state({ count = 9, locations, seats: change = () => {}, round = 2, phas
     // resources: what the seat holds (self.rescuesRemaining as rescues); acks: its own acknowledgments
     // (supplierResults with the recipients' seat numbers, receivedSupply, historyAvailable).
     private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, intel, hackPartner, resources, acks, pending },
-    flow, view, answer, banner, legacy, notice,
+    flow, view, answer, banner, staleCard, legacy, notice,
   };
 }
 
@@ -99,6 +99,15 @@ export const SCENARIOS = [
   // ---------- the tray ----------
   { id: 'tray.open', group: 'Actions tray', title: 'Actions tray: what the view opens, over the board', s: () => state({ locations: BUSY_A, role: 'Hacker', round: 5, view: 'actions', offers: { move: moveTo, shot: [1, 5, 8], hack: [1, 5, 8], scan: [1, 3, 5, 8], code: true } }) },
   { id: 'tray.empty', group: 'Actions tray', title: 'Actions tray: nothing open', s: () => state({ active: 5, role: 'Insider', view: 'actions', offers: {} }) },
+  // Each action's mark in its chip (design/abilities/, slice 7), in a tray for each set of actions a view opens together.
+  { id: 'tray.undercover', group: 'Actions tray', title: 'Actions tray, the Undercover in Round 4: a shot, Protection, a Hack', s: () => state({ locations: BUSY_A, role: 'Undercover', round: 4, view: 'actions', resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8], protect: [1, 3, 5, 8], hack: [1, 5, 8] } }) },
+  { id: 'tray.cracker', group: 'Actions tray', title: 'Actions tray, the Cracker: a Rescue, a Hack', s: () => state({ locations: BUSY_A, role: 'Cracker', resources: { rescues: 2 }, view: 'actions', offers: { move: moveTo, rescue: [6], hack: [1, 5, 8] } }) },
+  { id: 'tray.disabler', group: 'Actions tray', title: 'Actions tray, a Disabler: the Disable, a Hack', s: () => state({ locations: BUSY_A, role: 'Red Disabler', view: 'actions', offers: { move: moveTo, disable: [1, 5, 8], hack: [1, 5, 8] } }) },
+  { id: 'tray.supplier', group: 'Actions tray', title: 'Actions tray, the Supplier in Round 3: Supply, a Hack', s: () => state({ locations: BUSY_A, role: 'Supplier', round: 3, view: 'actions', offers: { move: moveTo, supply: [1, 5, 8], hack: [1, 5, 8] } }) },
+  { id: 'tray.showdown', group: 'Actions tray', title: 'Actions tray in the Final Zone: the showdown shot', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, view: 'actions', offers: { 'showdown-shot': [1, 2, 5, 6, 7, 8, 9] } }) },
+  { id: 'tray.vote', group: 'Actions tray', title: 'Actions tray in a Jail vote: a ballot', s: () => state({ phase: 'JAIL_VOTE', seconds: 37, ballot: { voters: EVERYONE, targets: [1, 2, 3, 4, 5, 6, 7, 8], release: null }, view: 'actions', offers: { vote: { targets: [1, 2, 3, 4, 5, 6, 7, 8], on: 'JAIL_VOTE' } } }) },
+  { id: 'tray.release', group: 'Actions tray', title: 'Actions tray, the Captain: the release request', s: () => state({ phase: 'RELEASE_CHOICE', seconds: 49, locations: ['Room A', 'Room B', 'Command Room', 'Room B', 'Room A', 'Hospital', 'Room A', 'Room B', 'Jail'], seats: s => { s[6].captain = false; s[2].captain = true; }, ballot: { voters: [], targets: [], release: null }, view: 'actions', offers: { 'release-choice': [9] } }) },
+  { id: 'tray.release-vote', group: 'Actions tray', title: 'Actions tray in a release vote: the same ballot', s: () => state({ phase: 'RELEASE_VOTE', seconds: 44, ballot: { voters: EVERYONE, targets: [], release: 9 }, view: 'actions', offers: { 'release-vote': true } }) },
 
   // ---------- one target ----------
   { id: 'shot.choose', group: 'One target', title: 'Shot: eligible characters on the board', s: () => state({ locations: BUSY_A, resources: { weapons: 1 }, offers: { move: moveTo, shot: [1, 5, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] } }) },
@@ -133,6 +142,8 @@ export const SCENARIOS = [
   { id: 'hack.requested', group: 'One target', title: 'Hack request accepted: not the Hack itself', s: () => state({ locations: BUSY_A, role: 'Hacker', offers: { move: moveTo }, flow: { step: 'accepted', kind: 'hack', picked: [5] } }) },
   { id: 'hack.partner', group: 'One target', title: 'Hack phase on the other partner’s phone: the same note', s: () => state({ locations: BUSY_A, role: 'Cracker', phase: 'HACK', seconds: 52, active: 5, hackPartner: 5, offers: {}, view: 'card' }) },
   { id: 'showdown.choose', group: 'One target', title: 'Showdown shot in the Final Zone', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, offers: { 'showdown-shot': [1, 2, 5, 6, 7, 8, 9] }, flow: { step: 'choosing', kind: 'showdown-shot', picked: [] } }) },
+  // The showdown's shots resolved (the Reds down), the match about to end: where the end's storyboard starts.
+  { id: 'showdown.resolved', group: 'One target', title: 'Showdown resolved: the shots landed, before the end', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seconds: 4, seats: s => fallen(s, [[2, 'Red'], [4, 'Red'], [5, 'Red']]), offers: {} }) },
   // The seat's own special shot (design/abilities/js/finale.js): the target in the reticle, the shot spent on the receipt.
   { id: 'showdown.confirm', group: 'One target', title: 'Showdown shot: the target in the reticle, the special shot', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, offers: { 'showdown-shot': [1, 2, 5, 6, 7, 8, 9] }, flow: { step: 'confirming', kind: 'showdown-shot', picked: [5] } }) },
   { id: 'showdown.registered', group: 'One target', title: 'Showdown shot registered: spent, the target still secret', s: () => state({ locations: FINAL, phase: 'SHOWDOWN', round: 5, seats: s => { s[3].health = 'Eliminated'; s[3].revealedFaction = 'Red'; s[5].health = 'Healthy'; }, offers: {}, flow: { step: 'accepted', kind: 'showdown-shot', picked: [5] } }) },
@@ -222,6 +233,11 @@ export const SCENARIOS = [
   { id: 'public.captain', group: 'Public changes', title: 'A new Captain', s: () => state({ active: 1, seats: s => { s[6].captain = false; s[0].captain = true; } }) },
 
   // ---------- robustness ----------
+  // The latest update could not be read (the release's other banner): the same pause, its own words.
+  { id: 'robust.unreadable', group: 'Robustness', title: 'An update could not be read: actions paused, Reconnect now', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, banner: 'unreadable' }) },
+  // DSN-REQ-16, recommended (design/abilities/, slice 7): the card kept on an out-of-date view, at rest and marked.
+  { id: 'stale.card', group: 'Robustness', title: 'Out of date with the card kept: the Insider file at rest, marked', s: () => state({ locations: BUSY_A, role: 'Insider', active: 5, offers: { move: [] }, view: 'card', banner: 'stale', staleCard: true, intel: { insiderCandidates: [8, 2, 5] } }) },
+  { id: 'stale.card-notes', group: 'Robustness', title: 'Out of date with the card kept: the Undercover’s notes, marked', s: () => state({ locations: BUSY_A, role: 'Undercover', round: 4, active: 5, offers: { move: [] }, view: 'card', banner: 'stale', staleCard: true, resources: { weapons: 1 }, intel: { protections: [{ seat: 5, activeFromRound: 4, consumed: false }] } }) },
   { id: 'robust.stale', group: 'Robustness', title: 'Connection lost: actions paused, private cues gone', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, banner: 'stale' }) },
   { id: 'robust.dropped', group: 'Robustness', title: 'Backgrounded while choosing: the choice was not sent', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, notice: COPY.choiceDropped }) },
   { id: 'robust.withdrawn', group: 'Robustness', title: 'A fresh view no longer offers a chosen character', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] }, notice: PROPOSED.noLongerOffered(5) }) },
