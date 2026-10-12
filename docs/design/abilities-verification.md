@@ -234,6 +234,16 @@ The tray's marks, the failure states (the connection banner, Reconnect now, the 
 - **Older ability-check rules** matched lines this slice rewrote (the strip's beats now ask whether the card is still or paused, and loading asks whether the card can be shown); updated to the new lines, with the same meaning.
 - **A stale comment**, flagged in slice 6: `board.css`'s narrow-sheet container query also reaches the 320 px phone's sheet; the comment says so now.
 
+**A fix after the pull request went up.** On a view that went out of date with the card kept, an inspected snapshot was put back with its 200 ms slide home, so the held file still moved for a moment. Slice 8's run of these board flows caught it on a slower run; this branch had passed by timing. `pauseFile()` now finishes everything still moving in the file once it is held, and the flow that puts focus on Back asserts that nothing is left moving at the put-back itself (it fails on the previous code: the slide is still running). Run again on the fix:
+
+| Command | Result |
+| --- | --- |
+| `node design/tools/board-motion-capture.mjs` | Passed: **299 captures and 5 contact sheets, 0 with problems** |
+| `node design/tools/abilities-capture.mjs` | Passed: **235 pictures and 7 contact sheets, 0 with problems** |
+| `node design/tools/board-motion-flows.mjs` | Passed: **366 of 366** |
+| `node design/tools/abilities-check.mjs`, `board-motion-check.mjs` | Passed: **12 of 12** and **13 of 13** |
+| `npm run test --workspace @mothership/design-tokens` | **187 tests: 186 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93) |
+
 **Not run, and what the checks do not prove.** Every picture is a desktop Chromium simulation: no real phone, screen reader, touch input, production integration or match. The connection state is the prototype's panel, not a lost socket: the banner, Reconnect now and the fresh view are drawn from the fixtures, and Reconnect now's wait is a timer. Which behaviour the card keeps on an out-of-date view is Integration's (DSN-REQ-16); both are drawn.
 
 ## What the checks assert, and what they do not

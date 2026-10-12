@@ -241,6 +241,8 @@ export function pauseFile(file, paused) {
     const focused = Boolean(was) && Boolean(file.querySelector('.ab-inspect')?.contains(document.activeElement));
     if (was) INSPECTORS.get(file)?.(null);
     if (focused) file.querySelector(`.ab-photo[data-seat="${CSS.escape(was)}"]`)?.focus();
+    // Held, the file is at rest at once: the snapshot put back does not slide home, and nothing else still moves.
+    for (const animation of file.getAnimations({ subtree: true })) { try { animation.finish(); } catch { animation.cancel(); } }
   }
   for (const photo of file.querySelectorAll('.ab-photo')) photo.setAttribute('aria-disabled', String(paused));
 }

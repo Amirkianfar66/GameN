@@ -869,7 +869,8 @@ try {
   // Focus on the inspect card's Back (a programmatic click moves no focus: it is put there).
   await page.evaluate(`(() => { document.querySelector('#bm-card .ab-inspect [data-file-act="back"]').focus(); return true; })()`);
   await click(page, '#bm-stale');
-  ok('kept card: going out of date puts the inspected snapshot back, focus on it as Back does', Boolean(inspected) && await page.evaluate(`!document.querySelector('#bm-card .ab-file').dataset.inspect && document.activeElement?.closest('.ab-photo')?.dataset.seat === ${js(inspected)}`));
+  ok('kept card: going out of date puts the inspected snapshot back at once, focus on it as Back does, nothing left moving', Boolean(inspected) && await page.evaluate(`!document.querySelector('#bm-card .ab-file').dataset.inspect && document.activeElement?.closest('.ab-photo')?.dataset.seat === ${js(inspected)}`)
+    && (await kept(page)).moving === 0, await kept(page));
   await click(page, '#bm-fresh');
   await page.evaluate(`(() => { document.querySelector('#bm-card .bm-close').focus(); return true; })()`);
   await click(page, '#bm-stale');
