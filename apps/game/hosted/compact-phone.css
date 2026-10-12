@@ -82,6 +82,8 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 #app .ms-shell--player .ms-main:has(.ms-result) > .ms-board { display:none; }
 #app .ms-shell--player .ms-banners:not(:empty) { position:absolute; top:4rem; inset-inline:.5rem; z-index:90; max-width:29rem; margin:auto; }
 #app .ms-shell--player .ms-banners .ms-banner { padding:.5rem; font-size:.8rem; }
+/* The connection banner's icon (public-board art) keeps the room comic.css reserves for it at the start of the banner, so it never lies over the words. */
+[data-art~="public-board"] #app .ms-shell--player .ms-banners .ms-banner--connection { padding-inline-start:calc(var(--ms-space-3) + 36px); }
 @media (max-height:560px) { .connected-lobby .crew-picker { gap:.4rem; } .connected-lobby .crew-option { font-size:.7rem; } #app .ms-shell--player .ms-phase { min-height:48px; } .phone-nav { min-height:54px; } }
 @media (prefers-reduced-motion:reduce) { .phone-role-toggle * { animation:none !important; } }
 
