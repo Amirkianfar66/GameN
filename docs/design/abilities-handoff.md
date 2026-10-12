@@ -616,3 +616,7 @@ The slice 7 rules in `abilities-capture.mjs` and `abilities-check.mjs`: every tr
 
 - **DSN-REQ-16** (Integration): which behaviour the release keeps. Both are drawn; the mark's words are proposed.
 - **The banner's height at 320 px** (about a sixth of the screen) is the release's long sentence; a shorter one is the release's to choose.
+
+## Maintenance on the frozen slice-7 trial
+
+The 12 October [motion lifecycle correction](board-motion-lifecycle-correction.md) records latest-public-pose restoration, immediate in-app/native motion cancellation, short-screen selection-strip fit and the paused-photo transition regression. It preserves every art source and the default private-card concealment. The kept-card option remains an unadopted illustration; slice 8 is not part of this trial.
