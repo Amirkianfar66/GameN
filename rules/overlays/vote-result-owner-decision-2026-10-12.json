@@ -1,0 +1,40 @@
+{
+  "decision_id": "vote-result-owner-decision-2026-10-12",
+  "status": "confirmed",
+  "decided_on": "2026-10-12",
+  "authority": "Owner requested five-second results after every completed vote; Backend assignment and Integration review in issue #119 / coordinating chat approved the checkpoint interpretation.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/119",
+  "base_commit": "abb6839524b6dc3e5225e600f2f067c3fa3f9501",
+  "parent_ruleset": {
+    "version": "in-person-v1-capacity-resolution-2026-10-12",
+    "hash": "aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.4.0",
+  "ruleset_version": "in-person-v1-vote-results-2026-10-12",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "VOTE-RESULT-01",
+      "decision": "Every completed Captain election, including every runoff, release vote and Jail vote opens a synchronized five-second server result. All-abstain votes have a result; skipped votes have none."
+    },
+    {
+      "id": "VOTE-RESULT-02",
+      "decision": "Lock ballots at closure and publish only the existing aggregate tally, durable result identity, original vote phase/round, exact timestamps and explicit outcome. Never publish individual ballots."
+    },
+    {
+      "id": "VOTE-RESULT-03",
+      "decision": "Apply the vote-specific Captain/release/Jail effect at closure; defer continuation and registered round resolution until the result deadline. Captain tie continues to a full runoff; release continues to a full Jail vote; Jail continues through registered attacks/actions, Rescue, Supplier, placements/reveals and victory in existing order. Show the result before any terminal roles/Code summary."
+    },
+    {
+      "id": "VOTE-RESULT-04",
+      "decision": "No gameplay commands or Code input during the result. Host abort remains available. The next phase receives its full duration at actual server transition time; the display never consumes that clock."
+    },
+    {
+      "id": "VOTE-RESULT-05",
+      "decision": "First closure/continuation is durable and replayable. Duplicate/stale tasks, receipts and reconnect do not restart committed windows. A first late valid repair opens the next full window at its actual transition time."
+    }
+  ],
+  "version_policy": "Only new creation pins select this tuple after affected Frontend/manifest adoption. All four historical tuples, assignments, deals, matches, receipts, replay and asset pins retain their exact behavior. No migration.",
+  "contract_review": "Protocol 2 exact-tuple gating with VOTE_RESULT 5000ms and required/nullable voteResult only on new tuples; affected Frontend review before consumer adoption."
+}
