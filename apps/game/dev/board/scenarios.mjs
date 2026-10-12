@@ -45,6 +45,16 @@ const FREE = [1, 2, 3, 4, 5, 6, 7, 8];
  */
 export const SCENARIOS = {
   'capped-room-a': { title: 'Reviewed 1.3 tuple: Room A has five occupants', versions: CAPPED_VERSIONS, locations: ['Room A','Room A','Room A','Room A','Room A','Room B','Command Room','Room B','Room B'], offers: { move: ['Room B'], shot: [1,2,4,5], pass: true } },
+  'phone-full-room': { title: 'Phone feedback: five in Room A, nine long names', versions: CAPPED_VERSIONS, names: LONG_NAMES,
+    locations: ['Room A','Room A','Room A','Room A','Room A','Room B','Command Room','Room B','Room B'], offers: { move: ['Room B'], shot: [1,2,4,5], pass: true } },
+  'phone-full-hospital': { title: 'Phone feedback: five patients, Rescue confirmation', versions: CAPPED_VERSIONS, names: LONG_NAMES, round: 5, role: 'Cracker',
+    locations: ['Hospital','Hospital','Room A','Hospital','Hospital','Hospital','Command Room','Room B','Jail'], offers: { rescue: [1,2,3,4,5,6], pass: true } },
+  'phone-full-jail': { title: 'Phone feedback: five Jail occupants, one released and Injured', versions: CAPPED_VERSIONS, names: LONG_NAMES, round: 5, role: 'Hacker',
+    locations: ['Jail','Jail','Room A','Jail','Jail','Hospital','Command Room','Room B','Jail'],
+    seats: list => { list[8].health = 'Injured'; list[8].jailed = false; }, offers: { code: true, pass: true } },
+  'phone-released-waiting': { title: 'Phone feedback: full Hospital, released Injured occupant waiting in Jail', versions: CAPPED_VERSIONS, names: LONG_NAMES, round: 5, role: 'Hacker',
+    locations: ['Hospital','Hospital','Room A','Hospital','Hospital','Hospital','Command Room','Room A','Jail'],
+    seats: list => { list[8].health = 'Injured'; list[8].jailed = false; }, offers: { code: true, pass: true } },
   spread: { title: 'Nine players spread over the board; your turn', offers: { move: ['Room B'], pass: true } },
   'other-turn': { title: 'Someone else’s turn', active: 5, offers: { move: [] } },
   seven: { title: 'Seven players', count: 7, role: 'Cracker', offers: { move: ['Room B'], pass: true } },
