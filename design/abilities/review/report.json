@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "e4d2cc4c9cdaa43657996fc8d79069732ed7ce591a34bde56fa591abbca6af2d",
+  "inputsSha256": "be82367a316c810e2d3527051159b2afea2363019970b04b86976c95fb41a195",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -2349,6 +2349,386 @@
       "group": "Out of date",
       "slice": 7,
       "file": "design/abilities/review/stale-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-choose",
+      "title": "Choosing: two characters taken, stamped with their takers' seats, 390 x 844",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-choose.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-crowded",
+      "title": "Seven taken, the seat's own pick checked, 390 x 844",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-crowded.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-choose",
+      "title": "Choosing: two characters taken, stamped with their takers' seats, 320 x 568",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-choose.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-crowded",
+      "title": "Seven taken, the seat's own pick checked, 320 x 568",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-crowded.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-sending",
+      "title": "Rigel tapped: on its way, its ring dashed",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-sending.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-confirmed",
+      "title": "Rigel confirmed: the seat's own check, stamped",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-confirmed.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-refused",
+      "title": "Taken first: the release’s words, and the stamp of the seat that took it",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-refused.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-retry",
+      "title": "The answer was lost: the pick kept, Retry selection",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-retry.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-expired",
+      "title": "Time is up: every card at rest",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-expired.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-text200-crowded",
+      "title": "Twice the text size: a narrow card keeps its taker’s number",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-text200-crowded.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-no-art",
+      "title": "Without the art: the release’s cards, the stamps in paper and ink",
+      "group": "Choosing a character",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-back",
+      "title": "Face down, the same back for every role: Tap to reveal, 390 x 844",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-back.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-face",
+      "title": "Turned up: the Insider, its device in the seat's own character's hand, 390 x 844",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-face.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-ready",
+      "title": "Ready: the card put away, READY across its seal, 390 x 844",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-ready.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-back",
+      "title": "Face down, the same back for every role: Tap to reveal, 320 x 568",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-back.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-face",
+      "title": "Turned up: the Insider, its device in the seat's own character's hand, 320 x 568",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-face.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w320-ready",
+      "title": "Ready: the card put away, READY across its seal, 320 x 568",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w320-ready.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-face-red",
+      "title": "Turned up: the Red Disabler",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-face-red.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-face-alien",
+      "title": "Turned up: the Alien",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-face-alien.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-seen",
+      "title": "Hidden again, at once: Ready is offered",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-seen.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-confirming",
+      "title": "Ready pressed: the card put away face down, Confirming…",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-confirming.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-retry",
+      "title": "The Ready answer was lost: Retry Ready",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-retry.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-assigned",
+      "title": "Assigned when time ran out: face down, the same back",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-assigned.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-text200-back",
+      "title": "Twice the text size: the back’s words on a band that grows with them",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-text200-back.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-text200-face",
+      "title": "Twice the text size: turned up",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-text200-face.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-w390-back-no-art",
+      "title": "Without the art: the release’s back",
+      "group": "The role card",
+      "slice": 8,
+      "file": "design/abilities/review/setup-w390-back-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0000ms",
+      "title": "The turn at 0 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0000ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0130ms",
+      "title": "The turn at 130 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0130ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0260ms",
+      "title": "The turn at 260 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0260ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0390ms",
+      "title": "The turn at 390 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0390ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0520ms",
+      "title": "The turn at 520 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0520ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0600ms",
+      "title": "The turn at 600 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0600ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-0680ms",
+      "title": "The turn at 680 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-0680ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-turn-reduced",
+      "title": "The turn in reduced motion: the face at once, the 80 ms fade at 40 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-turn-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-rise-0110ms",
+      "title": "The cards are dealt: the back comes up, 110 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-rise-0110ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-pop-0100ms",
+      "title": "The seat's own pick confirmed: the pop on its burst, 100 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-pop-0100ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-stamp-0060ms",
+      "title": "Another seat takes a character: its stamp lands, 60 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-stamp-0060ms.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "setup-ready-0060ms",
+      "title": "Ready accepted: READY lands, 60 ms",
+      "group": "The beats, frame by frame",
+      "slice": 8,
+      "file": "design/abilities/review/setup-ready-0060ms.png",
       "phone": "w390",
       "size": "585x1266",
       "problems": []

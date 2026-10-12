@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.7.0 · proposal
+`mothership:dev-only` · abilities-0.8.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 22 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Movement and room arrival; Action selection, targeting and confirmation; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote; Injury, elimination and recovery; Hospital, Jail and Command transitions; Final Showdown; End of game: roles, the Code and the outcome; Unavailable actions, rejection, missing assets and reconnecting). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 24 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Character selection; Private role-card reveal; Movement and room arrival; Action selection, targeting and confirmation; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote; Injury, elimination and recovery; Hospital, Jail and Command transitions; Final Showdown; End of game: roles, the Code and the outcome; Unavailable actions, rejection, missing assets and reconnecting). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -40,8 +40,8 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | [Ordinary shot (every seat that holds a weapon)](#ordinary-shot) | Officer, Undercover, any holder of a supplied weapon, the Alien included | private-own; any damage public | 4 | delivered |
 | [Officer: the one shot](#officer-shot) | Officer | private-own | 4 | delivered |
 | [Alien: shared actions and a supplied weapon](#alien-weapon) | Alien | private-own | 4 | delivered |
-| [Character selection](#shared-selection) | any | public choice, own confirmation | 5 | planned |
-| [Private role-card reveal](#shared-role-card) | any | private-own | 5 | planned |
+| [Character selection](#shared-selection) | any | public choice, own confirmation | 8 | delivered |
+| [Private role-card reveal](#shared-role-card) | any | private-own | 8 | delivered |
 | [Movement and room arrival](#shared-move) | any | public | 7 | delivered |
 | [Action selection, targeting and confirmation](#shared-target) | any | private-own | 7 | delivered |
 | [Standard Hack: the request and the two partners](#shared-hack) | any | request private; the Hack phase and its requester public; the partner private to the two | 5 | delivered |
@@ -507,63 +507,68 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Character selection
 
-`shared-selection` · slice 5 · **planned** · any · public choice, own confirmation
+`shared-selection` · slice 8 · **delivered** · any · public choice, own confirmation
 
-**Trigger.** Setup: 30 seconds to choose; an unconfirmed choice is assigned automatically.
+**Trigger.** The setup's choosing stage (30 seconds): the seat's own tap confirms its pick at once (the release's tap to confirm); another seat's confirmation arrives as a public identity; the timer's end settles every card, and the server assigns every character not confirmed.
 
-**View fields.** `lobby identity: seats[].characterId, displayName, locked`, `staged start progress`
+**View fields.** `lobby identity: seats[].characterId, seats[].displayName (public)`, `setup document: stage, choosingEndsAt, seats[].confirmed`, `the own confirmation's answer (confirmSetupChoice: accepted, CHARACTER_TAKEN, or lost)`
 
 **What it must show, and never show.**
 
-- A clean nine-character matrix; a taken character says who took it; nothing about roles exists yet.
+- Who has taken which character is public: every phone stamps a taken card with its taker's seat, as the card's own name says ("Vega, taken by Player 4").
+- The seat's own pick is its own: ringed, dashed while it is on its way, checked once confirmed. Nothing of a role exists in the page yet.
 
-**Concept.** The nine crew cards in a 3 x 3 matrix on paper; a taken card gets the taker's seat stamp; the own pick pops and is ringed.
+**Concept.** The release's nine crew cards, three by three: a taken card greyed and stamped PLAYER 4 in the kit's stamp frame (a card too narrow for the word at the reader's text size keeps the number); the seat's own pick ringed in the caption yellow, dashed while it is on its way, popping on the approved burst once confirmed, its check a stamped tick.
 
-**Art.** approved: piece-crew.card-c1..c9
+**Art.** approved: piece-crew.card-c1..c9; approved: fx-landing-burst; dossier-stamp; dossier-tick
 
 | Motion | |
 | --- | --- |
-| normal | Pick pop 220 ms; taken stamp 120 ms. |
-| reduced | Ring and stamp. |
-| static | Words. |
-| cancel | The timer closing settles every card. |
-| replay | Never. |
+| normal | The pop (cardTransition, 220 ms) on the approved burst and the check landing (registrationStamp, 120 ms), once, when the server confirms the seat's own pick; another seat's stamp lands (120 ms) once, when its confirmation arrives. |
+| reduced | No pop and no burst: the stamps and the check with the 80 ms fade. |
+| static | The stamps, the ring and the check; the card's name says who took it. |
+| cancel | The timer's end settles every card at once. |
+| replay | Never: a page that loads, or a fresh view after a gap, draws the stamps and the check at rest. |
 
-**States.** choosing; taken by another; confirmed; assigned automatically; retry
+**States.** choosing; on its way; confirmed; taken by another; taken first (refused); answer lost: retry; time up; assigned automatically
 
-**Words.** “the release's words (compact-phone decision of 8 October 2026)”
+**Words.** “Choose your character”, “Taken. Choose another character.”, “Connection interrupted. Retry your selection.”, “Retry selection”, “Player 4 (the stamp)”. Accessible: “Vega, taken by Player 4”, “Character selection · 24 s”, “Selection time has ended. Waiting for the server…”
 
-**Review.** `design/v1-phone/`
+**Review.** `design/abilities/review/setup-w390-choose.png`, `design/abilities/review/setup-w320-choose.png`, `design/abilities/review/setup-w390-crowded.png`, `design/abilities/review/setup-w320-crowded.png`, `design/abilities/review/setup-w390-sending.png`, `design/abilities/review/setup-w390-confirmed.png`, `design/abilities/review/setup-w320-refused.png`, `design/abilities/review/setup-w320-retry.png`, `design/abilities/review/setup-w390-expired.png`, `design/abilities/review/setup-w390-text200-crowded.png`, `design/abilities/review/setup-w390-no-art.png`, `design/abilities/review/setup-pop-0100ms.png`, `design/abilities/review/setup-stamp-0060ms.png`, `design/abilities/setup.html?scenario=select.open`
 
 <a id="shared-role-card"></a>
 
 ### Private role-card reveal
 
-`shared-role-card` · slice 5 · **planned** · any · private-own
+`shared-role-card` · slice 8 · **delivered** · any · private-own
 
-**Trigger.** Setup: the role card is turned by the player; at least 30 seconds of reading, then every player Ready.
+**Trigger.** The setup's reading stage (at least 30 seconds): the card is dealt face down; the player turns it up and down again (the release's Reveal my role and Hide my role); Ready once it has been seen.
 
-**View fields.** `staged-start preview: self.role`
+**View fields.** `own setup preview: self.role, dealId, bindingRevision`, `lobby identity: the seat's own characterId (public)`, `setup document: stage, readingEndsAt, seats[].ready`
 
 **What it must show, and never show.**
 
-- The card centers on the role; the device is added to the player's own character. No starting knowledge in this stage.
+- The back is the same picture for every role, and so is the card put away once Ready: no hook, word, colour or asset of a role while the card is face down.
+- Turned up, the release's card: the role's name and side, and its device in the hand of the player's own character. Built only while turned up; hidden, it leaves the page. No starting knowledge in this stage.
+- Hiding is at once; the page going to the background hides it; nothing but the player turns it up.
 
-**Concept.** The approved card turn (cue-role-card-turn) with the role device sliding into the character's hand.
+**Concept.** The kit's card back (the closed eye of the reviewed icon-private on a paper seal over a caption-yellow burst, the release's words on a band); the reviewed cue-role-card-turn on the player's tap: the back turns away, the face turns in, the device is put into the hand and its colour comes on; Ready: the card put away face down, READY stamped across its seal.
 
-**Art.** approved: device-*.held, piece-crew.card-c*
+**Art.** setup-back; dossier-tick; approved: device-*.held, piece-crew.card-c*
 
 | Motion | |
 | --- | --- |
-| normal | The reviewed turn (220 ms) plus the device slide (180 ms). |
-| reduced | Fade. |
-| static | The card face. |
-| cancel | Concealing hides the card. |
-| replay | Never after a reconnect. |
+| normal | The reviewed cue-role-card-turn (900 ms: the back comes up when the reading stage begins, 220 ms; the turn with the device put into the hand, 520 ms; the device's colour, 160 ms); READY lands (registrationStamp, 120 ms) once Ready is accepted. |
+| reduced | The face at once with the 80 ms fade: nothing rises, turns or is put anywhere; READY with the fade. |
+| static | The back, the card's face, READY. |
+| cancel | Hiding, the background or a new deal ends the turn at once, face down; reduced motion switched on finishes it. |
+| replay | Never: a page that loads, or a fresh view after a gap, shows the card as it is, at rest. Turning it up again turns it again: the player's own act. |
 
-**States.** face down; turning; face up; ready; hidden
+**States.** face down; turning; face up; hidden again; confirming; ready; answer lost: retry; not confirmed; assigned automatically
 
-**Words.** “the release's words”
+**Words.** “Your role”, “Tap to reveal”, “Ready”, “Confirming…”, “Retry Ready”, “Ready not confirmed. Try again.”. Accessible: “Reveal my role”, “Hide my role”, “Your private role”, “Ready. Waiting for the timer and other players.”, “Press Ready when you understand your role.”
+
+**Review.** `design/abilities/review/setup-w390-back.png`, `design/abilities/review/setup-w320-back.png`, `design/abilities/review/setup-w390-face.png`, `design/abilities/review/setup-w320-face.png`, `design/abilities/review/setup-w390-face-red.png`, `design/abilities/review/setup-w390-face-alien.png`, `design/abilities/review/setup-w390-seen.png`, `design/abilities/review/setup-w390-confirming.png`, `design/abilities/review/setup-w390-ready.png`, `design/abilities/review/setup-w320-ready.png`, `design/abilities/review/setup-w390-retry.png`, `design/abilities/review/setup-w390-assigned.png`, `design/abilities/review/setup-w390-text200-back.png`, `design/abilities/review/setup-w390-text200-face.png`, `design/abilities/review/setup-w390-back-no-art.png`, `design/abilities/review/setup-turn-0260ms.png`, `design/abilities/review/setup-turn-0520ms.png`, `design/abilities/review/setup-turn-reduced.png`, `design/abilities/review/setup-rise-0110ms.png`, `design/abilities/review/setup-ready-0060ms.png`, `design/abilities/setup.html?scenario=role.back`
 
 <a id="shared-move"></a>
 
@@ -873,7 +878,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ## The kit
 
-Manifest `abilities-0.7.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 35848 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.8.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 38620 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
@@ -928,4 +933,5 @@ Manifest `abilities-0.7.0` (proposal), against the reviewed manifest `design-0.2
 | `icon-action-showdown` | 0.1.0 | 32 x 32 | center [16,16] | 902 | `a0259d8b6383` | The showdown shot's chip in the seat's own Actions tray: the special round of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
 | `icon-action-ballot` | 0.1.0 | 32 x 32 | center [16,16] | 938 | `9865966504da` | Every ballot's chip in the seat's own Actions tray (a Captain election, a Jail vote, a release vote): the box of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
 | `icon-action-key` | 0.1.0 | 32 x 32 | center [16,16] | 814 | `5ece3f7a9ac3` | The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `setup-back` | 0.1.0 | 240 x 400 | center [120,200]; seal [120,200] | 3215 | `201eab9994fd` | The back of the seat's own role card in the reading stage, and of the card put away once the seat is Ready: the same back for every role. Laid out with background-size: cover inside the card's own border; everything that matters is in the middle 200 x 240, and the release's words (Tap to reveal) sit on a band below the seal. |
 

@@ -23,7 +23,7 @@ export async function abilitiesInputsSha256(root = repoRoot) {
   const hash = createHash('sha256');
   const paths = [
     ...(await filesUnder(root, `${ROOT}/source`)), ...(await filesUnder(root, `${ROOT}/assets`)), ...(await filesUnder(root, `${ROOT}/js`)), ...(await filesUnder(root, `${ROOT}/css`)),
-    `${ROOT}/contact.html`, 'design/board-motion/js/app.js', 'design/board-motion/js/fixtures.js', 'design/board-motion/js/copy.js', 'design/board-motion/js/board.js',
+    `${ROOT}/contact.html`, `${ROOT}/setup.html`, 'design/board-motion/js/app.js', 'design/board-motion/js/fixtures.js', 'design/board-motion/js/copy.js', 'design/board-motion/js/board.js',
     'design/board-motion/css/board.css', 'design/board-motion/index.html', 'design/tools/abilities-capture.mjs',
   ];
   for (const path of paths) hash.update(`${path}\n`).update(await readFile(resolve(root, path)).catch(() => Buffer.from('missing')));

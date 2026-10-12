@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.7.0",
+  "manifestVersion": "abilities-0.8.0",
   "status": "proposal",
   "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -12,8 +12,8 @@
   },
   "stylesheet": {
     "file": "design/abilities/assets/abilities.art.css",
-    "sha256": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
-    "bytes": 35848
+    "sha256": "de9522917aef61d16cc37daf8f560eeafce54114421c71dc8ff6be14cec2eb95",
+    "bytes": 38620
   },
   "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
   "assets": [
@@ -1404,6 +1404,42 @@
       "sha256": "5ece3f7a9ac3b02225ae17352ac10e5b7db495747e2f780645c4677f28220563",
       "use": "The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
       "cssProperty": "--ab-asset-icon-action-key"
+    },
+    {
+      "id": "setup-back",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The role card's back",
+      "file": "design/abilities/assets/setup-back.svg",
+      "source": "design/abilities/source/setup.svg#setup-back",
+      "viewBox": "0 0 240 400",
+      "width": 240,
+      "height": 400,
+      "anchors": {
+        "center": [
+          120,
+          200
+        ],
+        "seal": [
+          120,
+          200
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#10141C",
+        "#151923",
+        "#202837",
+        "#222B3A",
+        "#55657E",
+        "#CBBBA2",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 3215,
+      "sha256": "201eab9994fdb57c8a728a57d30f349b50bcd473cb4dd9f8bcb609e072b21fec",
+      "use": "The back of the seat's own role card in the reading stage, and of the card put away once the seat is Ready: the same back for every role. Laid out with background-size: cover inside the card's own border; everything that matters is in the middle 200 x 240, and the release's words (Tap to reveal) sit on a band below the seal.",
+      "cssProperty": "--ab-asset-setup-back"
     }
   ]
 }

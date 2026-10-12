@@ -36,11 +36,12 @@
       5: ['The ballots, the release request, a Hack and Pass', 'Each seat’s own ballot on a slip, posted into the box and never a count; the Captain’s release request; a Hack’s request, and the same note on both partners’ phones; the speaking turn handed on.'],
       6: ['The showdown and the match’s end', 'Every seat in the Final Zone sees the same strip, its special shot spent on the receipt and never a result; the end on every screen alike, in the release’s words: the winner, then the roles and the Code in seat order only at a finished match, and nothing revealed when the host ends it.'],
       7: ['The marks in the tray, and out of date', 'Every action the seat’s own tray opens beside its own mark, the strip’s; the connection lost or an update unreadable, in the release’s words, with Reconnect now; every sheet below the banner; and, as DSN-REQ-16 recommends, the card kept at rest and marked May be out of date.'],
+      8: ['Choosing a character, and the role card', 'Who has taken which character, stamped with the taker’s seat on every phone; the seat’s own pick on its way and then checked; the role card dealt face down, the same back for every role, turned up by the player with its device put into the hand of the player’s own character, and put away once Ready.'],
     };
     const sheet = document.getElementById('sheet');
     const el = (tag, attrs = {}, ...kids) => { const node = document.createElement(tag); for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value); node.append(...kids.filter(kid => kid !== null)); return node; };
     sheet.append(el('h1', {}, SLICES[slice][0], el('span', { class: 'flag' }, 'Synthetic · private · a proposal')),
-      el('p', { class: 'meta' }, `Ability art, slice ${slice}, on the board-motion phone prototype. ${SLICES[slice][1]} ${report.browser}, simulated phone viewports at ${report.scale}x: not device measurements. Every name is synthetic; nothing here is a match.`));
+      el('p', { class: 'meta' }, `Ability art, slice ${slice}, on the ${slice === 8 ? 'setup prototype (setup.html), a replica of the release’s setup steps' : 'board-motion phone prototype'}. ${SLICES[slice][1]} ${report.browser}, simulated phone viewports at ${report.scale}x: not device measurements. Every name is synthetic; nothing here is a match.`));
     const mine = report.shots.filter(shot => (shot.slice ?? 1) === slice);
     const groups = [...new Set(mine.map(shot => shot.group))];
     for (const group of groups) {

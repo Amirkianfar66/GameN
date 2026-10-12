@@ -35,6 +35,7 @@
     "assets:abilities": "node ../../design/tools/abilities-assets.mjs",
     "capture:abilities": "node ../../design/tools/abilities-capture.mjs",
     "docs:abilities": "node ../../design/tools/abilities-docs.mjs",
-    "check:abilities": "node ../../design/tools/abilities-check.mjs"
+    "check:abilities": "node ../../design/tools/abilities-check.mjs",
+    "flows:abilities": "node ../../design/tools/abilities-flows.mjs"
   }
 }

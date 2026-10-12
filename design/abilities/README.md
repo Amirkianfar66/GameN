@@ -2,7 +2,7 @@
 
 # design/abilities/: ability art and motion
 
-`mothership:dev-only` · `abilities-0.7.0` · **a proposal**
+`mothership:dev-only` · `abilities-0.8.0` · **a proposal**
 
 Original artwork and comic motion for every current V1 role ability and shared game action, delivered in focused slices on the board-motion phone prototype (`design/board-motion/`). The first slice is **the Insider's file**: a private investigation board for the Insider's starting knowledge. The inventory of all 24 treatments, delivered and planned, is generated into [docs/design/abilities-inventory.md](../../docs/design/abilities-inventory.md); Frontend's instructions are in [docs/design/abilities-handoff.md](../../docs/design/abilities-handoff.md).
 
@@ -58,6 +58,12 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 - **The card on an out-of-date view, both ways** ([DSN-REQ-16](../../docs/design/integration-requests.md#dsn-req-16)): the closed folder by default; where the card is kept, as recommended, it stays at rest (nothing moving, no snapshot pressable), marked **May be out of date** (proposed words) while the view may be out of date, and unmarked when only the turn's time is up.
 - **Movement and health** stay the board-motion prototype's (PR #88): the room tags, the walk, the hit, the bandage, the fall, the markers; recorded as delivered. No door slam and no hatch: the walk into the Jail or the Command Room is the public move, and a cue adds no fact.
 
+## Slice 8: choosing a character, and the role card
+
+- **Choosing** (public choice, own confirmation): on the release's nine crew cards, a taken card is stamped with its taker's seat, PLAYER 4, on every phone alike, as its name says; a card too narrow for the word at the reader's text size keeps the number. The seat's own pick: its ring dashed while it is on its way, then a pop on the approved burst and its check stamped once the server confirms it. The timer's end settles every card.
+- **The role card** (private): dealt face down with the kit's back, **the same for every role** (the closed eye on a paper seal over a caption-yellow burst, Tap to reveal on its band); turned up by the player with the reviewed `cue-role-card-turn`, the role's device put into the hand of the player's own character; hidden at once; put away once Ready, READY stamped across its seal.
+- The setup steps are not on the board, so they have their own prototype, `setup.html`: a replica of the release's compact setup (its markup, hooks and words) with the treatment on top.
+
 ## What is here
 
 | Path | What it is | Edit it? |
@@ -68,6 +74,7 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 | `source/guard.svg` | Slice 4's pieces: the reticle, a shield and a shield used up (split), a round and a spent one | **Yes. The editable source** |
 | `source/ballot.svg` | Slice 5's pieces: a ballot slip and its edge, a pencil tick and cross, a ballot box, the key ring, the comms ring, the coiled cord, a microphone and its outline | **Yes. The editable source** |
 | `source/finale.svg` | Slice 6's piece: the showdown's special shot (spent, it is slice 4's spent round) | **Yes. The editable source** |
+| `source/setup.svg` | Slice 8's piece: the role card's back, the same for every role (`setup-back`) | **Yes. The editable source** |
 | `source/actions.svg` | Slice 7's pieces: the tray's ten marks (Disable, Protection, Rescue, Scan, Supply, Hack, Code, the showdown's shot, a ballot, the release request's key), 32 x 32 in one ink, in the reviewed `icon-action-shot`'s idiom | **Yes. The editable source** |
 | `recipes.json` | How each asset is lifted out of its source: id, version, box, anchors, use; the neutral palette; the bundle's load policy; rights | Yes |
 | `assets/` | One SVG per asset, `abilities.art.css` (every asset as a custom property `--ab-asset-<id>`) and `manifest.json` (ids, versions, boxes, anchors, sizes, hashes, colors) | No. Written by `design/tools/abilities-assets.mjs` |
@@ -80,7 +87,8 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 | `css/abilities.css` | The reference styles: tokens only; art drawn only behind `[data-art~="abilities"]` and the crew cards behind `[data-art~="public-board"]`; the short-phone and large-text layouts | Yes |
 | `contract/abilities.json` | The inventory: every treatment's roles, audience, trigger, view fields, disclosure, concept, art, motion in five forms, states, copy, review and dependencies | Yes. `docs/design/abilities-inventory.md` follows |
 | `contact.html` | The contact sheet of the review pictures | Yes |
-| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3), `contact-shot-protection.png` (slice 4), `contact-ballots-hack-pass.png` (slice 5), `contact-showdown-end.png` (slice 6) and `contact-icons-failure.png` (slice 7) | No. Written by `design/tools/abilities-capture.mjs` |
+| `setup.html`, `js/setup.js`, `css/setup.css` | Slice 8's prototype: the release's setup steps (choosing a character, the role card, Ready) as a replica, with the treatment; `setup.css` is the replica's layout, not a proposal | Yes |
+| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3), `contact-shot-protection.png` (slice 4), `contact-ballots-hack-pass.png` (slice 5), `contact-showdown-end.png` (slice 6) and `contact-icons-failure.png` (slice 7) and `contact-setup.png` (slice 8) | No. Written by `design/tools/abilities-capture.mjs` |
 
 ## See it
 
@@ -105,6 +113,9 @@ npm run dev:review --workspace @mothership/design-tokens
 #   ?scenario=tray.open, tray.undercover, tray.cracker, tray.disabler, tray.supplier, tray.showdown, tray.vote, tray.release, tray.release-vote   the tray's marks
 #   ?scenario=robust.stale, robust.unreadable   the connection banner and Reconnect now (or the panel's "Make the view stale", "An update could not be read", "Restore a fresh view")
 #   ?scenario=stale.card, stale.card-notes      the card kept on an out-of-date view (DSN-REQ-16; on any scenario, &stale=card)
+# http://127.0.0.1:4320/abilities/setup.html?scenario=select.open   choosing a character (slice 8; the panel: another player takes one, time runs out, the roles are dealt)
+#   ?scenario=select.sending, select.confirmed, select.crowded, select.refused, select.retry, select.expired
+#   ?scenario=role.back, role.face, role.face-red, role.face-alien, role.seen, role.confirming, role.ready, role.retry, role.assigned   the role card
 ```
 
 Every name, seat and role in it is synthetic.
@@ -116,6 +127,7 @@ npm run assets:abilities --workspace @mothership/design-tokens    # assets/ from
 npm run capture:abilities --workspace @mothership/design-tokens   # review/; needs a browser (CHROME_PATH overrides the search)
 npm run docs:abilities --workspace @mothership/design-tokens      # docs/design/abilities-inventory.md
 npm run check:abilities --workspace @mothership/design-tokens     # no browser; refuses pictures and pages made before an edit
+npm run flows:abilities --workspace @mothership/design-tokens     # the setup prototype's journeys (slice 8); needs a browser
 ```
 
 `npm run test --workspace @mothership/design-tokens` includes tests that show `check:abilities` refusing named mistakes.
