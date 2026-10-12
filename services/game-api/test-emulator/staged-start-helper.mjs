@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {
-  FullSetupDocumentSchema, FullSetupPlayerViewSchema, FullLobbyIdentityDocumentSchema,
+  supportsVoteResults, FullSetupDocumentSchema, FullSetupPlayerViewSchema, FullLobbyIdentityDocumentSchema,
   FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema,
 } from '@mothership/contracts';
 
@@ -164,7 +164,8 @@ export async function completeStagedSetup(h) {
     const preview = FullSetupPlayerViewSchema.parse((await h.base.collection('setupPlayerViews').doc(uid).get()).data());
     assert.equal(preview.matchId, h.base.id); assert.equal(preview.self.seatId, binding.id);
     assert.equal(preview.bindingRevision, binding.get('bindingRevision')); assert.equal(preview.dealId, setup.dealId);
-    const body = setupRequest(h, { dealId: preview.dealId, bindingRevision: preview.bindingRevision });
+    const body = setupRequest(h, { dealId: preview.dealId, bindingRevision: preview.bindingRevision,
+      ...(supportsVoteResults(preview.versions) ? { acceptedVersions: preview.versions } : {}) });
     const result = accepted(FullReadyForMatchResponseSchema, await h.service.readyForMatch(uid, body), body);
     assert.equal(result.seatId, binding.id); assert.equal(result.bindingRevision, body.bindingRevision); assert.equal(result.dealId, body.dealId);
     assert.equal(result.stage, 'awaiting-ready', 'Early Ready cannot shorten the reading timer');

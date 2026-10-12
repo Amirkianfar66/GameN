@@ -5,6 +5,7 @@ import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 import { hiddenText, renderDetails, renderPhase, renderResult, renderShell, renderVote, renderZones } from './parts.js';
 import { renderButton, renderLocation } from './player-shell.js';
+import { renderVoteResultPanel } from './phase-feedback.js';
 
 // The connected phone. Outside the private panel it is the same markup as every other
 // player screen. Inside, one card for the player's own command, redrawn in nested regions so
@@ -121,6 +122,7 @@ export function renderConnectedPlayerShell(model: ConnectedPlayerShellModel): Ma
     h('h1', { class: 'ms-title', id: SHELL_IDS.title }, h('span', { class: 'ms-title__prefix' }, `${en.surface.youAre} `), match.identity.label),
     renderPhase(match.phase),
     renderResult(match.result),
+    renderVoteResultPanel(match.voteResult),
     renderLocation(match.location),
     renderPrivateArea(match.privateArea),
     renderVote(match.vote),

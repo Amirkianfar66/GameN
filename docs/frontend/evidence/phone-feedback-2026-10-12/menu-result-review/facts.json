@@ -1,0 +1,467 @@
+{
+  "scope": "Chromium fixture lifecycle; no backend/device/visual acceptance claim; preserved framing remains provisional",
+  "facts": [
+    {
+      "name": "current",
+      "size": [
+        320,
+        568
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "os-reduced-with-explicit-full",
+      "size": [
+        320,
+        568
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "stale",
+      "size": [
+        320,
+        568
+      ],
+      "id": null,
+      "text": null,
+      "timer": "0:055 seconds remaining",
+      "resultVisible": false,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": false,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "reconnected",
+      "size": [
+        320,
+        568
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:044 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "reload-same-window",
+      "size": [
+        320,
+        568
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:044 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "expired-awaiting-server",
+      "size": [
+        320,
+        568
+      ],
+      "id": null,
+      "text": null,
+      "timer": "0:00Time is up",
+      "resultVisible": false,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": true,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": false,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "current",
+      "size": [
+        390,
+        844
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "os-reduced-with-explicit-full",
+      "size": [
+        390,
+        844
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "stale",
+      "size": [
+        390,
+        844
+      ],
+      "id": null,
+      "text": null,
+      "timer": "0:055 seconds remaining",
+      "resultVisible": false,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": false,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "reconnected",
+      "size": [
+        390,
+        844
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:044 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "reload-same-window",
+      "size": [
+        390,
+        844
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:044 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "expired-awaiting-server",
+      "size": [
+        390,
+        844
+      ],
+      "id": null,
+      "text": null,
+      "timer": "0:00Time is up",
+      "resultVisible": false,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": true,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": false,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "current",
+      "size": [
+        1280,
+        720
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": null,
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": true,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": null,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "os-reduced-with-explicit-full",
+      "size": [
+        1280,
+        720
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": null,
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": true,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": null,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "stale",
+      "size": [
+        1280,
+        720
+      ],
+      "id": null,
+      "text": null,
+      "timer": "0:055 seconds remaining",
+      "resultVisible": false,
+      "resultInMenu": false,
+      "phoneView": null,
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": true,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": null,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "reconnected",
+      "size": [
+        1280,
+        720
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:044 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": null,
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": true,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": null,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "reload-same-window",
+      "size": [
+        1280,
+        720
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:044 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": null,
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": true,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": null,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "expired-awaiting-server",
+      "size": [
+        1280,
+        720
+      ],
+      "id": null,
+      "text": null,
+      "timer": "0:00Time is up",
+      "resultVisible": false,
+      "resultInMenu": false,
+      "phoneView": null,
+      "expired": true,
+      "phase": "Vote result",
+      "pageScrolls": true,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": null,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "result-arrives-menu-open",
+      "size": [
+        320,
+        568
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 1
+    },
+    {
+      "name": "menu-reopened-during-result",
+      "size": [
+        320,
+        568
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": true,
+      "phoneView": "more",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    },
+    {
+      "name": "result-arrives-menu-open",
+      "size": [
+        390,
+        844
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots\n\nThe next phase starts when this result ends.",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": false,
+      "phoneView": "board",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 1
+    },
+    {
+      "name": "menu-reopened-during-result",
+      "size": [
+        390,
+        844
+      ],
+      "id": "phase-result-1",
+      "text": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "timer": "0:055 seconds remaining",
+      "resultVisible": true,
+      "resultInMenu": true,
+      "phoneView": "more",
+      "expired": false,
+      "phase": "Vote result",
+      "pageScrolls": false,
+      "sideways": false,
+      "secretHooks": 0,
+      "actionsDisabled": true,
+      "privateText": null,
+      "animations": 0
+    }
+  ]
+}

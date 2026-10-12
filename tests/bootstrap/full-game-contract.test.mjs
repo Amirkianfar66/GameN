@@ -107,7 +107,7 @@ test('asset pins accept dotted versions and reject ambiguous configuration value
 
 test('terminal reveals require the canonical role permutation and Alien-in, Undercover-out Code',()=>{
   const roles=['Insider','Cracker','Blue Disabler','Supplier','Undercover','Hacker','Alien'];
-  const view={versions:{protocolVersion:2,rulesetVersion:'in-person-v1-2026-10-06',rulesetHash:'a'.repeat(64),engineVersion:'full-game-1.0.0',assetManifestVersion:'comic.1.0'},
+  const view={versions:{protocolVersion:2,rulesetVersion:'in-person-v1-2026-10-06',rulesetHash:'6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90',engineVersion:'full-game-1.0.1',assetManifestVersion:'comic.1.0'},
     matchId:'m1',viewRevision:1,playerCount:7,round:5,phase:{id:'finished',kind:'FINISHED',startedAt:10,endsAt:null},activeSeatId:null,audience:{kind:'public'},
     seats:roles.map((_,i)=>({seatId:`seat-${i+1}`,health:'Healthy',location:'Room A',jailed:false,captain:false,revealedFaction:null})),
     ballot:{eligibleVoters:[],eligibleTargets:[],releaseTargetSeatId:null},lastTally:null,result:{winner:'Draw',alienCoWinner:false},

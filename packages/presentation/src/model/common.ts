@@ -123,8 +123,9 @@ function phaseDetail(view: AudienceView): string | null {
 }
 
 export function buildPhaseStrip(view: AudienceView, selfSeatId: SeatId | null, deadline: DeadlineEstimate): PhaseStripModel {
+  const round = 'voteResult' in view && view.voteResult !== null && view.voteResult !== undefined ? view.voteResult.round : view.round;
   return {
-    roundLabel: en.phase.round(view.round),
+    roundLabel: en.phase.round(round),
     phaseLabel: phaseLabel(view, selfSeatId),
     detail: phaseDetail(view),
     timer: buildTimer(deadline),

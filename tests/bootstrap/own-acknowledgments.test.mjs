@@ -62,7 +62,7 @@ test('seat sessions expose only the strict own-seat binding metadata', () => {
 
 test('existing strict protocol-2 player views still parse exactly and reject acknowledgment fields', () => {
   const view = {
-    versions: { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: 'a'.repeat(64), engineVersion: 'full-game-1.0.0', assetManifestVersion: 'legacy-assets-v1' },
+    versions: { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90', engineVersion: 'full-game-1.0.0', assetManifestVersion: 'legacy-assets-v1' },
     matchId: supplier.matchId, viewRevision: 7, playerCount: 7, round: 3,
     phase: { id: 'legacy-phase', kind: 'ORDINARY_TURN', startedAt: 1_000, endsAt: 61_000 }, activeSeatId: 'seat-4',
     audience: { kind: 'player', seatId: 'seat-4' },

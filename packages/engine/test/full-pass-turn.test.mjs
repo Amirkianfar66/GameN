@@ -309,7 +309,7 @@ for (const field of ['engineVersion', 'rulesetVersion', 'rulesetHash']) {
   test('a loaded mixed tuple cannot obtain Pass through only a changed ' + field, () => {
     const d = driver(), state = structuredClone(d.initial);
     state.versions[field] = LEGACY_FULL_GAME_VERSION_PINS[field];
-    assert.equal(Object.hasOwn(validViews(state).players['seat-1'].legalTargets, 'PASS_TURN'), false);
+    assert.throws(() => validViews(state), /Exact reviewed gameplay tuple required/);
     rejectedUnchanged(d.apply(state, 'seat-1'), state);
   });
 }

@@ -201,7 +201,7 @@ test('Pass is the central control, server-gated, and its receipt reveals no priv
   assert.equal(nav.children[2].attrs.id,'ms-phone-pass');
   assert.equal(nav.children[2].attrs.disabled,undefined);
   // A match with Pass in its ruleset, on a turn the server does not offer it: shown, unavailable.
-  const passRules = playerView(v => { v.versions.rulesetVersion = 'in-person-v1-pass-2026-10-08'; v.versions.engineVersion = 'full-game-1.1.0'; });
+  const passRules = playerView(v => { v.versions.rulesetVersion = 'in-person-v1-pass-2026-10-08'; v.versions.engineVersion = 'full-game-1.1.0'; v.versions.rulesetHash = 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183'; });
   for (const [v,action,overrides] of [[passRules,undefined,closed],[view,{step:'checking',choice:{kind:'move',destination:'Room B'},recovered:false},closed],[view,undefined,{...closed,connection:'stale'}],[view,undefined,{...closed,deadline:{kind:'expired'}}]]) {
     assert.equal(find(renderComicPlayerShell(model(v,action,overrides)),byId('ms-phone-pass')).attrs.disabled,true);
   }

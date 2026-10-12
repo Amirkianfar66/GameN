@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
+import { isKnownFullGameplayPins, supportsVoteResults } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
 export const FULL_PROTOCOL_VERSION = 2 as const;
@@ -35,22 +36,60 @@ export const FullFailureSchema = z.strictObject({ ok: z.literal(false), serverTi
   error: z.strictObject({ code: z.enum(['UNAUTHENTICATED','FORBIDDEN','INVALID_REQUEST','UNSUPPORTED_PROTOCOL','COMMAND_ID_CONFLICT','REQUEST_ID_CONFLICT','UNAVAILABLE','RATE_LIMITED']), retryAfterMs: TimestampSchema.nullable().optional() }) });
 export type FullFailure = z.infer<typeof FullFailureSchema>;
 export const FullPhaseSchema = z.strictObject({ id: IdentifierSchema,
-  kind: z.enum(['ORDINARY_TURN','HACK','CAPTAIN_ELECTION','RELEASE_CHOICE','RELEASE_VOTE','JAIL_VOTE','SHOWDOWN','FINISHED','ABORTED']),
-  startedAt: TimestampSchema, endsAt: TimestampSchema.nullable() }).refine(p => ['FINISHED','ABORTED'].includes(p.kind) ? p.endsAt === null : p.endsAt !== null && p.endsAt - p.startedAt === 60_000, 'Fixed 60-second live windows and no terminal deadline');
+  kind: z.enum(['ORDINARY_TURN','HACK','CAPTAIN_ELECTION','RELEASE_CHOICE','RELEASE_VOTE','JAIL_VOTE','SHOWDOWN','VOTE_RESULT','FINISHED','ABORTED']),
+  startedAt: TimestampSchema, endsAt: TimestampSchema.nullable() }).refine(p => ['FINISHED','ABORTED'].includes(p.kind) ? p.endsAt === null : p.endsAt !== null && p.endsAt - p.startedAt === (p.kind === 'VOTE_RESULT' ? 5_000 : 60_000), 'Exact live phase duration and no terminal deadline');
 export type FullPhase = z.infer<typeof FullPhaseSchema>;
 export const FullAssetManifestVersionSchema = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/);
 export const FullVersionsSchema = z.strictObject({ protocolVersion: z.literal(2), rulesetVersion: IdentifierSchema,
-  rulesetHash: z.string().regex(/^[a-f0-9]{64}$/), engineVersion: z.string().min(1).max(128), assetManifestVersion: FullAssetManifestVersionSchema });
+  rulesetHash: z.string().regex(/^[a-f0-9]{64}$/), engineVersion: z.string().min(1).max(128), assetManifestVersion: FullAssetManifestVersionSchema }).refine(isKnownFullGameplayPins, 'Exact reviewed gameplay tuple required');
+const FullTallySchema = z.strictObject({ kind:z.enum(['CAPTAIN_ELECTION','RELEASE_VOTE','JAIL_VOTE']),counts:z.partialRecord(SeatIdSchema,z.number().int().nonnegative()),eligibleVoterCount:z.number().int().nonnegative(), yesCount:z.number().int().nonnegative().nullable(), selectedSeatId:SeatIdSchema.nullable(),released:z.boolean().nullable() });
+export const FullVoteResultSchema = FullTallySchema.extend({ id:IdentifierSchema,votePhaseId:IdentifierSchema,
+  round:z.number().int().min(1).max(5),startedAt:TimestampSchema,endsAt:TimestampSchema,
+  outcome:z.enum(['CAPTAIN_ELECTED','RUNOFF_REQUIRED','NO_CAPTAIN_ELECTED','PLAYER_JAILED','NO_JAIL_SELECTION','PLAYER_RELEASED','RELEASE_DENIED']),
+  tiedSeatIds:z.array(SeatIdSchema).max(9),
+ }).refine(r=>{
+  if(r.id===r.votePhaseId || r.endsAt-r.startedAt!==5000 || new Set(r.tiedSeatIds).size!==r.tiedSeatIds.length) return false;
+  if(r.kind==='RELEASE_VOTE') {
+    const released=r.eligibleVoterCount>0 && (r.yesCount??0)*2>=r.eligibleVoterCount;
+    return r.selectedSeatId!==null && Object.keys(r.counts).length===0 && r.yesCount!==null && r.yesCount<=r.eligibleVoterCount
+      && r.tiedSeatIds.length===0 && r.released===released && r.outcome===(released?'PLAYER_RELEASED':'RELEASE_DENIED');
+  }
+  if(r.yesCount!==null || r.released!==null || Object.values(r.counts).reduce((a,b)=>a+b,0)>r.eligibleVoterCount) return false;
+  const maximum=Math.max(0,...Object.values(r.counts));
+  const top=maximum===0?[]:Object.keys(r.counts).filter(id=>r.counts[id as keyof typeof r.counts]===maximum).sort();
+  const ties=top.length>1?top:[];
+  if(JSON.stringify(r.tiedSeatIds)!==JSON.stringify(ties)) return false;
+  if(r.kind==='JAIL_VOTE') {
+    const selected=top.length===1 && maximum*2>=r.eligibleVoterCount?top[0]:null;
+    return r.selectedSeatId===selected && r.outcome===(selected?'PLAYER_JAILED':'NO_JAIL_SELECTION');
+  }
+  const selected=top.length===1?top[0]:null;
+  return r.selectedSeatId===selected && r.outcome===(selected?'CAPTAIN_ELECTED':ties.length?'RUNOFF_REQUIRED':'NO_CAPTAIN_ELECTED');
+},'Consistent vote result identity, timing and aggregate outcome required');
+export type FullVoteResult = z.infer<typeof FullVoteResultSchema>;
 const publicFacts = {
   versions: FullVersionsSchema, matchId: IdentifierSchema, viewRevision: RevisionSchema,
   playerCount: z.union([z.literal(7),z.literal(8),z.literal(9)]), round: z.number().int().min(1).max(5),
   phase: FullPhaseSchema, activeSeatId: SeatIdSchema.nullable(),
   seats: z.array(z.strictObject({ seatId: SeatIdSchema, health: HealthSchema, location: LocationSchema, jailed:z.boolean(),captain:z.boolean(),revealedFaction:FactionSchema.nullable() })).min(7).max(9),
   ballot: z.strictObject({ eligibleVoters: z.array(SeatIdSchema), eligibleTargets: z.array(SeatIdSchema), releaseTargetSeatId: SeatIdSchema.nullable() }),
-  lastTally: z.strictObject({ kind:z.enum(['CAPTAIN_ELECTION','RELEASE_VOTE','JAIL_VOTE']),counts:z.partialRecord(SeatIdSchema,z.number().int().nonnegative()),eligibleVoterCount:z.number().int().nonnegative(), yesCount:z.number().int().nonnegative().nullable(), selectedSeatId:SeatIdSchema.nullable(),released:z.boolean().nullable() }).nullable(),
+  lastTally: FullTallySchema.nullable(),
+  voteResult: FullVoteResultSchema.nullable().optional(),
   result: z.strictObject({ winner:z.enum(['Blue','Red','Alien','Draw']),alienCoWinner:z.boolean() }).nullable(),
   endReveal: z.strictObject({ roles:z.array(z.strictObject({seatId:SeatIdSchema,role:RoleSchema})),code:z.array(SeatIdSchema).length(4) }).nullable(),
 };
+function validVoteResult(view:z.infer<typeof FullPublicViewShape>):boolean {
+  if(!supportsVoteResults(view.versions)) return view.phase.kind!=='VOTE_RESULT' && !Object.hasOwn(view,'voteResult');
+  if(!Object.hasOwn(view,'voteResult') || view.voteResult===undefined) return false;
+  if(view.phase.kind!=='VOTE_RESULT') return view.voteResult===null;
+  const r=view.voteResult,t=view.lastTally;
+  if(r===null || t===null || r.id!==view.phase.id || r.round!==view.round || r.startedAt!==view.phase.startedAt
+    || r.endsAt!==view.phase.endsAt || view.activeSeatId!==null || view.ballot.eligibleVoters.length!==0
+    || view.ballot.eligibleTargets.length!==0 || view.ballot.releaseTargetSeatId!==null || r.eligibleVoterCount>view.playerCount
+    || r.tiedSeatIds.some(id=>!view.seats.some(s=>s.seatId===id))) return false;
+  return r.kind===t.kind && r.eligibleVoterCount===t.eligibleVoterCount && r.yesCount===t.yesCount
+    && r.selectedSeatId===t.selectedSeatId && r.released===t.released && JSON.stringify(r.counts)===JSON.stringify(t.counts);
+}
 function validTerminalReveal(view:z.infer<typeof FullPublicViewShape>):boolean {
   if (!view.endReveal) return true;
   const expected=['Insider','Cracker','Blue Disabler','Supplier','Undercover','Hacker','Alien',...(view.playerCount>=8?['Red Disabler']:[]),...(view.playerCount===9?['Officer']:[])];
@@ -63,7 +102,7 @@ function validTerminalReveal(view:z.infer<typeof FullPublicViewShape>):boolean {
 }
 function validPublicReferences(view:z.infer<typeof FullPublicViewShape>):boolean {
   const ids=view.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
-  return (view.phase.kind==='FINISHED'?view.endReveal!==null && view.result!==null:view.endReveal===null && view.result===null)
+  return validVoteResult(view) && (view.phase.kind==='FINISHED'?view.endReveal!==null && view.result!==null:view.endReveal===null && view.result===null)
     && view.seats.every(s=>s.health==='Eliminated'?s.revealedFaction!==null:view.phase.kind==='FINISHED'||s.revealedFaction===null)
     && (!view.result || !view.result.alienCoWinner || view.result.winner==='Blue')
     && ids.length===view.playerCount && new Set(ids).size===view.playerCount && ids.every(id=>Number(id.slice(5))<=view.playerCount)
@@ -86,7 +125,8 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
   const ids=v.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
   const unique=(items:string[])=>new Set(items).size===items.length && items.every(has);
   const k=v.knowledge,role=v.self.role;
-  return validPublicReferences({...v,audience:{kind:'public'}}) && v.audience.seatId===v.self.seatId && has(v.self.seatId)
+  return (v.phase.kind!=='VOTE_RESULT' || (Object.keys(v.legalTargets).length===0 && v.self.movementDestinations.length===0 && !v.self.codeAttemptAvailable && !v.self.releaseVoteAvailable && v.ownBallot===null && !v.hasVoted))
+    && validPublicReferences({...v,audience:{kind:'public'}}) && v.audience.seatId===v.self.seatId && has(v.self.seatId)
     && (!v.endReveal || v.endReveal.roles.find(s=>s.seatId===v.self.seatId)?.role===v.self.role)
     && has(v.hackPartnerSeatId) && (typeof v.ownBallot!=='string' || has(v.ownBallot)) && Object.values(v.legalTargets).every(unique)
     && !(v.playerCount<9 && role==='Officer') && !(v.playerCount<8 && role==='Red Disabler')

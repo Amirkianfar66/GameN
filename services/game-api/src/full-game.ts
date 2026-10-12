@@ -13,7 +13,7 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
 import { jointStartingRooms, jointStartingRoomAssignmentCount } from './joint-starting-rooms.js';
@@ -662,6 +662,10 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
           else {
             const deal = parseDeal(dealSnapshot.data(), current, recordedRooms), own = current.seats.find(seat => seat.seatId === actor!.seatId);
             if (own === undefined || !own.confirmed || identities.matchId !== base.id || !identities.locked) throw new Error('Invalid ready roster');
+            // A cached protocol-2 client must adopt the exact prepared schema/asset pins
+            // before it can mark a new-tuple seat Ready. Refusals are not durable intents.
+            if (voteResultEnabled(deal.versions) && (body['acceptedVersions'] === undefined
+              || digest(body['acceptedVersions']) !== digest(deal.versions))) return fail('UNSUPPORTED_PROTOCOL');
             if (current.stage === 'running') response = acknowledge(current);
             else {
               let progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + (own.ready ? 0 : 1),

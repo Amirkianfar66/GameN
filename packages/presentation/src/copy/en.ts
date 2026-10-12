@@ -88,6 +88,7 @@ export const en = {
       RELEASE_CHOICE: 'Release choice',
       RELEASE_VOTE: 'Release vote',
       JAIL_VOTE: 'Jail vote',
+      VOTE_RESULT: 'Vote result',
       SHOWDOWN: 'Showdown',
       FINISHED: 'Match finished',
       ABORTED: 'Match ended by the host',

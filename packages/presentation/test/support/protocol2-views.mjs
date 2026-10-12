@@ -6,7 +6,7 @@ import { buildConnectedPlayerShellModel, renderConnectedPlayerShell } from '@mot
 
 export const EPOCH = 1_900_000_000_000;
 export const facts = (playerCount = 7) => ({
-  versions: { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: 'a'.repeat(64), engineVersion: 'full-game-1.0.0', assetManifestVersion: '0.0.0-no-assets' },
+  versions: { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90', engineVersion: 'full-game-1.0.0', assetManifestVersion: '0.0.0-no-assets' },
   matchId: 'connected-test-match', viewRevision: 4, playerCount, round: 1,
   phase: { id: 'phase-one', kind: 'ORDINARY_TURN', startedAt: EPOCH, endsAt: EPOCH + 60_000 }, activeSeatId: 'seat-1',
   seats: Array.from({ length: playerCount }, (unused, index) => ({ seatId: `seat-${index + 1}`, health: 'Healthy', location: index % 2 === 0 ? 'Room A' : 'Room B', jailed: false, captain: false, revealedFaction: null })),

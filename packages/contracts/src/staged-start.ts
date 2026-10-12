@@ -57,7 +57,7 @@ export const FullBeginSetupRequestSchema = z.strictObject(request);
 export const FullConfirmSetupChoiceRequestSchema = z.strictObject({
   ...request, bindingRevision, displayName: CrewDisplayNameSchema, characterId: CrewCharacterIdSchema,
 });
-export const FullReadyForMatchRequestSchema = z.strictObject({ ...request, dealId: IdentifierSchema, bindingRevision });
+export const FullReadyForMatchRequestSchema = z.strictObject({ ...request, dealId: IdentifierSchema, bindingRevision, acceptedVersions: FullVersionsSchema.optional() });
 
 export const FullSetupErrorCodeSchema = z.enum([
   'UNAUTHENTICATED', 'FORBIDDEN', 'INVALID_REQUEST', 'UNSUPPORTED_PROTOCOL', 'UNSUPPORTED_SCHEMA',

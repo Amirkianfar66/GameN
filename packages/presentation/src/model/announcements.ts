@@ -1,10 +1,12 @@
 import type { SeatId } from '@mothership/contracts';
+import { supportsVoteResults } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
 import { describeAction } from './connected-player.js';
 import { matchOutcome, matchOutcomeLines } from './result.js';
 import { resolveShotGate } from './shot.js';
 import { eligibleVoters, publishedTally, tallyResult } from './votes.js';
+import { voteResultOf, voteResultSummary } from './phase-feedback.js';
 import type {
   ActionFlowState, AudienceFacts, ConnectedPlayerInput, LiveAnnouncement, PlayerShellInput, ShellEnvironment, ShotFlowInput, TableShellInput,
 } from './types.js';
@@ -49,7 +51,7 @@ function seatChanges(previous: AudienceView, next: AudienceView): string[] {
 }
 
 // What changed about connection, phase and seats between two moments.
-function describeChange(previous: Moment | null, next: Moment, view: AudienceView, selfSeatId: SeatId | null): LiveAnnouncement[] {
+function describeChange(previous: Moment | null, next: Moment, view: AudienceView, selfSeatId: SeatId | null, resultHeard: string | null): LiveAnnouncement[] {
   const previousScreen = previous ? resolveScreen(previous.env, previous.view !== null) : 'connecting';
   const becameUnreadable = next.env.problem === 'unreadable-update' && previous?.env.problem !== 'unreadable-update';
   const current = isCurrent(next.env);
@@ -59,7 +61,9 @@ function describeChange(previous: Moment | null, next: Moment, view: AudienceVie
   // How the match ended is part of where it stands. A screen that was not there, or not
   // current, when it ended is told with the rest of the present, and not again afterwards.
   const outcome = matchOutcome(view);
-  const present = outcome === null ? summary : [summary, outcome, ...matchOutcomeLines(view)].join(' ');
+  const result = next.env.deadline.kind === 'running' ? voteResultOf(view) : null;
+  const newResult = result !== null && result.id !== resultHeard;
+  const present = outcome === null ? [summary, ...(newResult ? [voteResultSummary(result)] : [])].join(' ') : [summary, outcome, ...matchOutcomeLines(view)].join(' ');
 
   if (!current) {
     if (becameUnreadable) return [polite(en.announce.unreadable)];
@@ -74,15 +78,19 @@ function describeChange(previous: Moment | null, next: Moment, view: AudienceVie
   const out: LiveAnnouncement[] = [];
   if (previous?.view) {
     if (previous.view.phase.id !== view.phase.id) out.push(polite(summary));
-    // A count the server has just published, said once: what was voted on and what the count
-    // names. It is new when it differs from the one before, or when the vote it counts has
-    // just closed, because two counts can be alike. A vote the host cut short by ending the
-    // match was never counted: the count in the view is then an older one, and is not said.
-    const tally = publishedTally(view);
-    if (tally !== null) {
-      const justClosed = previous.view.phase.id !== view.phase.id && previous.view.phase.kind === tally.kind && view.phase.kind !== 'ABORTED';
-      if (justClosed || JSON.stringify(tally) !== JSON.stringify(publishedTally(previous.view))) {
-        out.push(polite(en.announce.tally(en.phase.kind[tally.kind], tallyResult(tally) ?? '').trim()));
+    if (supportsVoteResults(view.versions)) {
+      // Current result identity is server-owned. Equal tallies in successive votes are
+      // distinct; stale/reconnected moments describe only the present above.
+      if (newResult) out.push(polite(voteResultSummary(result)));
+    } else {
+      // Preserve the historical announcement behavior for immutable old tuples, which
+      // never carry a result phase/identity. This branch cannot produce a result window.
+      const tally = publishedTally(view);
+      if (tally !== null) {
+        const justClosed = previous.view.phase.id !== view.phase.id && previous.view.phase.kind === tally.kind && view.phase.kind !== 'ABORTED';
+        if (justClosed || JSON.stringify(tally) !== JSON.stringify(publishedTally(previous.view))) {
+          out.push(polite(en.announce.tally(en.phase.kind[tally.kind], tallyResult(tally) ?? '').trim()));
+        }
       }
     }
     for (const change of seatChanges(previous.view, view)) out.push(polite(change));
@@ -117,7 +125,7 @@ function describeCountdown(next: Moment, view: AudienceView, selfSeatId: SeatId 
   return { out, memory: remembered };
 }
 
-function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | null, memory: PhaseMemory): { out: LiveAnnouncement[]; memory: PhaseMemory } {
+function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | null, memory: PhaseMemory, resultHeard: string | null): { out: LiveAnnouncement[]; memory: PhaseMemory } {
   const nextScreen = resolveScreen(next.env, next.view !== null);
   if (nextScreen === 'blocked') {
     const previousScreen = previous ? resolveScreen(previous.env, previous.view !== null) : 'connecting';
@@ -132,7 +140,7 @@ function describe(previous: Moment | null, next: Moment, selfSeatId: SeatId | nu
     return { out: becameUnreadable ? [polite(en.announce.unreadable)] : [], memory };
   }
   const countdown = describeCountdown(next, next.view, selfSeatId, memory);
-  return { out: [...describeChange(previous, next, next.view, selfSeatId), ...countdown.out], memory: countdown.memory };
+  return { out: [...describeChange(previous, next, next.view, selfSeatId, resultHeard), ...countdown.out], memory: countdown.memory };
 }
 
 /**
@@ -147,10 +155,13 @@ export interface Announcer<Input> {
 function createAnnouncer<Input extends PlayerShellInput | TableShellInput | ConnectedPlayerInput>(selfSeatOf: (input: Input) => SeatId | null): Announcer<Input> {
   let previous: Moment | null = null;
   let memory = NOTHING_SPOKEN;
+  let resultHeard: string | null = null;
   return {
     next(input) {
       const moment: Moment = { env: input, view: input.view };
-      const result = describe(previous, moment, selfSeatOf(input), memory);
+      const result = describe(previous, moment, selfSeatOf(input), memory, resultHeard);
+      const window = moment.view !== null && isCurrent(moment.env) && moment.env.deadline.kind === 'running' ? voteResultOf(moment.view) : null;
+      if (window !== null) resultHeard = window.id;
       previous = moment;
       memory = result.memory;
       return result.out;

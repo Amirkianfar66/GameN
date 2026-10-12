@@ -33,6 +33,7 @@ export { buildTableShellModel } from './model/table-shell.js';
 export { BOARD_ROOMS, isBoardRoom, placeSeats, rowsFor, stationsFor } from './model/stations.js';
 export type { BoardRoom, Station } from './model/stations.js';
 export { buildVotePanel, ownBallotLine, tallyResult } from './model/votes.js';
+export { buildVoteResult, voteResultOf, voteResultSummary } from './model/phase-feedback.js';
 export type * from './model/types.js';
 export { escapeAttribute, escapeText, h, isElement, splitRegions, textOf, toHtml } from './markup/node.js';
 export type { MarkupAttributes, MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode, MarkupTag, RegionSplit } from './markup/node.js';

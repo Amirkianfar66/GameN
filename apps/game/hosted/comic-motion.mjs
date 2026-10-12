@@ -4,7 +4,8 @@
 // acknowledgment. A cue adds no fact: every change it marks is already drawn, in words. It
 // changes nothing and nothing waits for it, it is never queued, and a newer change to the same
 // seat withdraws the cue in flight: the latest authoritative state is what is drawn.
-import { figureSvg, hasFront } from './scene-drawing/body.mjs';
+import { hasFront } from './scene-drawing/body.mjs';
+import { wardrobeSvg } from './scene-drawing/wardrobe.mjs';
 import { CREW } from './scene-drawing/crew.mjs';
 import { skeletonOf } from './scene-drawing/gestures.mjs';
 import { TIMELINES, sample, walkPose } from './scene-drawing/motion.mjs';
@@ -168,6 +169,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     if (scene) {
       const start = performance.now();
       const character = piece.dataset.character;
+      const outfit = piece.dataset.outfit ?? 'crew';
       const fromPose = skeletonOf(fromFigure.gesture);
       const toPose = skeletonOf(piece.dataset.gesture);
       const limp = piece.dataset.gesture.includes('+injured') ? 1 : 0;
@@ -181,7 +183,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
         const elapsed = Math.min(MOVE_MS, Math.max(0, at - start));
         const pose = elapsed < 120 ? sample(departure, elapsed) : elapsed < 570 ? walk((elapsed - 120) / 225) : sample(arrival, elapsed - 570);
         const mirror = elapsed < 120 ? fromFigure.mirror : elapsed < 570 ? dx < 0 : piece.dataset.mirror === 'true';
-        flyer.innerHTML = `<span class="travel-body">${figureSvg(CREW[character], pose, { prefix: `travel-${seat}-body` })}</span>${hasFront(pose) ? `<span class="travel-front">${figureSvg(CREW[character], pose, { prefix: `travel-${seat}-front`, layer: 'front' })}</span>` : ''}`;
+        flyer.innerHTML = `<span class="travel-body">${wardrobeSvg(CREW[character], pose, { outfit, prefix: `travel-${seat}-body` })}</span>${hasFront(pose) ? `<span class="travel-front">${wardrobeSvg(CREW[character], pose, { outfit, prefix: `travel-${seat}-front`, layer: 'front' })}</span>` : ''}`;
         for (const svg of flyer.querySelectorAll?.('svg') ?? [flyer.querySelector('svg')]) if (svg) svg.style.transform = mirror ? 'scaleX(-1)' : 'none';
         owned.frame = elapsed < MOVE_MS ? requestAnimationFrame(paint) : null;
       };

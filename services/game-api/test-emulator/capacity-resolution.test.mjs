@@ -5,7 +5,8 @@ import { before, after, test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { FullCommandResponseSchema, FullAdvanceResponseSchema, FullPublicViewSchema, FullPlayerViewSchema, FullLobbyViewSchema, OwnAcknowledgmentsSchema, SeatSessionSchema } from '@mothership/contracts';
-import { FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
+// Historical resolution fixtures retain their exact 1.3 vote timing.
+import { RESOLUTION_FULL_GAME_VERSION_PINS as FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 import { encodeV1Setup, encodeV1State, decodeV1Setup, decodeV1State } from '../dist/full-game.js';
 import { assertLocalEmulators, createEmulatorIdentity } from '../../../infra/firebase/test/helpers.mjs';

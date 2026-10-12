@@ -1,0 +1,1466 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "phone-feedback-0.1.0",
+  "status": "Proposed new kit for explicit Integration adoption; no historical pin replacement",
+  "baseCommit": "abb6839524b6dc3e5225e600f2f067c3fa3f9501",
+  "referenceSha256": "0fb3f32502ebada8feb676a5fa9bf0476628cfc0ffcc3f8831583f7707f1dab9",
+  "sourceHashes": {
+    "design/phone-feedback/source/wardrobe.mjs": "9eb24fce2a7559a45e6442de54d720d33a246560758d44bc3e454bb19419fd35",
+    "design/phone-feedback/source/compositions.mjs": "463114139e91d597a46bbc305e32860aa8656cd1b6d6b9d5df54c5f99c9b1d53",
+    "design/phone-feedback/source/icons.mjs": "4cfb567bad09e58d675b76d3226e4c37f9baf23904fe9092badea2f0b8dbdefc",
+    "design/phone-feedback/source/compact-layout.mjs": "9ce56537b5f0e0d85ee8da7a65c507fb93108b904334e15b08731be5d21dc87f",
+    "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+    "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
+    "design/board-motion/figures/parts.mjs": "7c3d34f0b35856ad9287f32d525a612cc40b37feb3e6d26344b9b7de794c2a7e",
+    "design/board-motion/figures/rig.mjs": "b7fd681bb392f0104785fda3c838a2ca2d749c04278e05c8bbec5bb6379da45c",
+    "design/board-motion/figures/gestures.mjs": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
+    "design/board-motion/figures/motion.mjs": "b50a12ff2e967eca07778433d2359fef907397de90e04fff355367d0eae5343c",
+    "design/phone-feedback/contract/tokens.json": "c8afa32df4b29df64f7e037a408c33702f5b7877867ca5ffa24626b767d5c38d",
+    "design/board-motion/assets/manifest.json": "1983f9ad21e0a71b43bf865a2b1aeff11b7ad2f96ffc57dce4b5dcc788148c7a"
+  },
+  "posesSupported": [
+    "stand",
+    "standFolded",
+    "standBack",
+    "down",
+    "slumpDesk",
+    "slumpBench",
+    "consoleBack",
+    "think",
+    "crouchHatch",
+    "leanCrates",
+    "wallPanelBack",
+    "tablet",
+    "laptopStool",
+    "tankBack",
+    "leanBench",
+    "microscope",
+    "bedSitting",
+    "bedLying",
+    "wheelchair",
+    "ivPole",
+    "benchSling",
+    "benchHunched",
+    "doorBack",
+    "wallLean",
+    "floorSit",
+    "cotLying",
+    "captainTable"
+  ],
+  "motionFrames": "Any original skeleton/blended frame; health marks independent",
+  "entries": [
+    {
+      "id": "c1-crew-stand",
+      "path": "design/phone-feedback/assets/c1-crew-stand.svg",
+      "sha256": "b00294746b22282f495bbf42d54d7996da018a003b5b4149277679dbc5d05a41",
+      "character": "c1",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c1-crew-standBack",
+      "path": "design/phone-feedback/assets/c1-crew-standBack.svg",
+      "sha256": "4fab2ab410e35aa976eea0d94030c35c6e84fe86a422d0fcaf25be92a259f221",
+      "character": "c1",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c1-patient-stand",
+      "path": "design/phone-feedback/assets/c1-patient-stand.svg",
+      "sha256": "142e2558bc7d2a61e4051fab10bd807d9e2e4ef93ef3dc87732f30892fb9ac32",
+      "character": "c1",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c1-patient-standBack",
+      "path": "design/phone-feedback/assets/c1-patient-standBack.svg",
+      "sha256": "f83206fd56440313d536aca91ae4f99c749f38fe834f309f24a65e42899d3cd1",
+      "character": "c1",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c1-prisoner-stand",
+      "path": "design/phone-feedback/assets/c1-prisoner-stand.svg",
+      "sha256": "cc2bf4e5d5abfc86b4f0c404f6a9e7a06fd4175ebb9a5d0f5af30de63971a85d",
+      "character": "c1",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c1-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c1-prisoner-standBack.svg",
+      "sha256": "8174af8e184183b0ab8d208a2fc5a519c65599a0d0540648c3dc13398405d8a8",
+      "character": "c1",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c2-crew-stand",
+      "path": "design/phone-feedback/assets/c2-crew-stand.svg",
+      "sha256": "59ea4b9b5a78f3a380c8fab0cf2b9402905c2829b58415dbd0f47c03c6d2f97b",
+      "character": "c2",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c2-crew-standBack",
+      "path": "design/phone-feedback/assets/c2-crew-standBack.svg",
+      "sha256": "cad4f09fa7473278760062ef001fcabae67db448f635bd21bc94cb7884736399",
+      "character": "c2",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c2-patient-stand",
+      "path": "design/phone-feedback/assets/c2-patient-stand.svg",
+      "sha256": "e9297abc1bbefba255af375ac75c816dde4a764cace5fbefd287d5a32e67dd08",
+      "character": "c2",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c2-patient-standBack",
+      "path": "design/phone-feedback/assets/c2-patient-standBack.svg",
+      "sha256": "c9b69d458ebd9c527caaebab781ef4c4f0839da2189caff06b41c631067e7d25",
+      "character": "c2",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c2-prisoner-stand",
+      "path": "design/phone-feedback/assets/c2-prisoner-stand.svg",
+      "sha256": "07bac04b741172da96d6940ae13805d945b0bca8b07ee4cb98ee30a9f65f6571",
+      "character": "c2",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c2-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c2-prisoner-standBack.svg",
+      "sha256": "394ada097f32a5cd69bdbe1a73c30b9f59b6851646abbf5aa0c35404832263d1",
+      "character": "c2",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c3-crew-stand",
+      "path": "design/phone-feedback/assets/c3-crew-stand.svg",
+      "sha256": "822da09fe39d618f2d2a4e55174c33b0f1c5df2c84048ef2008235c16dc534f0",
+      "character": "c3",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c3-crew-standBack",
+      "path": "design/phone-feedback/assets/c3-crew-standBack.svg",
+      "sha256": "48c58b73bebccc084b849e52f6bceddb00b822c908ffe24a6023ddfda7bd8939",
+      "character": "c3",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c3-patient-stand",
+      "path": "design/phone-feedback/assets/c3-patient-stand.svg",
+      "sha256": "3f1d9db78222e9c741c2976343ca9646c085217df71f0a6ca8ea5c315f6aac5b",
+      "character": "c3",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c3-patient-standBack",
+      "path": "design/phone-feedback/assets/c3-patient-standBack.svg",
+      "sha256": "79cbe0a6361baff226beabb09a82ffb574e9f5b8b8e09858350371899ff2e886",
+      "character": "c3",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c3-prisoner-stand",
+      "path": "design/phone-feedback/assets/c3-prisoner-stand.svg",
+      "sha256": "ee308b8a3910ef2e4b8151f01bf0e2f5259df54a5d0684a51227cdefd5b15fce",
+      "character": "c3",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c3-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c3-prisoner-standBack.svg",
+      "sha256": "d857db8f28d8b6eb04b5214e422211bdf051d523099942ab74d89e3fa5b5c043",
+      "character": "c3",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c4-crew-stand",
+      "path": "design/phone-feedback/assets/c4-crew-stand.svg",
+      "sha256": "626a7d82dfb49ed2a3f6f35625d5aea27a57939fff42a7bb7519f784833ac92c",
+      "character": "c4",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c4-crew-standBack",
+      "path": "design/phone-feedback/assets/c4-crew-standBack.svg",
+      "sha256": "f17172238b1388ec857326e4183f21e81fa255cff6e78b99aa282c1a6895b5cc",
+      "character": "c4",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c4-patient-stand",
+      "path": "design/phone-feedback/assets/c4-patient-stand.svg",
+      "sha256": "19dc805ad225cd6aaeffb197d48e19e3b20cd45ec761beb9a2475b55157d7038",
+      "character": "c4",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c4-patient-standBack",
+      "path": "design/phone-feedback/assets/c4-patient-standBack.svg",
+      "sha256": "b37a8b9ad8f1042782936aecaab58745c5acd6191516280b30d58ae0a047af40",
+      "character": "c4",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c4-prisoner-stand",
+      "path": "design/phone-feedback/assets/c4-prisoner-stand.svg",
+      "sha256": "888701c77525c8619ff44bba9add6e74dd341a24471296ff659951b3e5074810",
+      "character": "c4",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c4-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c4-prisoner-standBack.svg",
+      "sha256": "f9759f06338d80ca34c3e50a9791a9c8d35fed004af256bccfb562a2c1c7dda5",
+      "character": "c4",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c5-crew-stand",
+      "path": "design/phone-feedback/assets/c5-crew-stand.svg",
+      "sha256": "3ce9dfc3f8a76bacdbd513521026c40aeeafec19c4b3d4ea23dc71754e67e1c3",
+      "character": "c5",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c5-crew-standBack",
+      "path": "design/phone-feedback/assets/c5-crew-standBack.svg",
+      "sha256": "863a1406d11d21e221528e17280fa8ffbb578ae68278a2410a4864bf39c4fd50",
+      "character": "c5",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c5-patient-stand",
+      "path": "design/phone-feedback/assets/c5-patient-stand.svg",
+      "sha256": "26e492dbe8b61564888ef4e04f082478c2b448a81bc7a928e7b5ec8d8154e076",
+      "character": "c5",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c5-patient-standBack",
+      "path": "design/phone-feedback/assets/c5-patient-standBack.svg",
+      "sha256": "d60b1d1997a91ac5c97ecbddc7ebc4b8683ba263ce772ad4ddf3e394b7dba6f8",
+      "character": "c5",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c5-prisoner-stand",
+      "path": "design/phone-feedback/assets/c5-prisoner-stand.svg",
+      "sha256": "da4261acc3e1de28bb300a10f45bd11939654f35357f370daa2a021093026719",
+      "character": "c5",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c5-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c5-prisoner-standBack.svg",
+      "sha256": "db65371bc2b4345a124dc90fb7d226814954e65fff6503894637810d973e6bf5",
+      "character": "c5",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c6-crew-stand",
+      "path": "design/phone-feedback/assets/c6-crew-stand.svg",
+      "sha256": "a96e1573efbd6927cb534f5810493e25201e8413a5c3cb38460c03d6de3ecf01",
+      "character": "c6",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c6-crew-standBack",
+      "path": "design/phone-feedback/assets/c6-crew-standBack.svg",
+      "sha256": "785c07fffb2f9380e5e5a952d81778b165baed982f3d01ed0489318fac577135",
+      "character": "c6",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c6-patient-stand",
+      "path": "design/phone-feedback/assets/c6-patient-stand.svg",
+      "sha256": "ffca535f2685c0d869192ef87e5755d71dd84a38ef6d1d5426cda1cdb1532ef3",
+      "character": "c6",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c6-patient-standBack",
+      "path": "design/phone-feedback/assets/c6-patient-standBack.svg",
+      "sha256": "1014a45f290da571259768f781ad3d0dab28c3e8c60a4acfd0c40e72e24e63d2",
+      "character": "c6",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c6-prisoner-stand",
+      "path": "design/phone-feedback/assets/c6-prisoner-stand.svg",
+      "sha256": "ae75b90506ed390df5b07cd54c55265eafcd9b966282322f3bb187d3ef243c05",
+      "character": "c6",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c6-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c6-prisoner-standBack.svg",
+      "sha256": "afdcb2e03c6e6b90ee6c7cb9baeb8371693b939bf0c16e357e1d636a1ea1c6ac",
+      "character": "c6",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c7-crew-stand",
+      "path": "design/phone-feedback/assets/c7-crew-stand.svg",
+      "sha256": "9562d5c8cc3d30c2064affbe29eefac41761f04b2c06cd4dcc421542eaeb7d8e",
+      "character": "c7",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c7-crew-standBack",
+      "path": "design/phone-feedback/assets/c7-crew-standBack.svg",
+      "sha256": "4b0090e5a5b6c153cb36795bc8bf0f421da9a3a6797bf4770194bb3077321ad1",
+      "character": "c7",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c7-patient-stand",
+      "path": "design/phone-feedback/assets/c7-patient-stand.svg",
+      "sha256": "f01ca5e9d45e580fe71a6bdcf184e493ae7cccd4dc6eb99e9e8e66b7ac7678a4",
+      "character": "c7",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c7-patient-standBack",
+      "path": "design/phone-feedback/assets/c7-patient-standBack.svg",
+      "sha256": "ab3070191fdea0593c3f5d30439c52a7aa7f45a0403e12724ddcd58003d32c7a",
+      "character": "c7",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c7-prisoner-stand",
+      "path": "design/phone-feedback/assets/c7-prisoner-stand.svg",
+      "sha256": "008721d494c353ac37a12302d55ec92cf66d01005e62c334e4db6d4265cca56a",
+      "character": "c7",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c7-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c7-prisoner-standBack.svg",
+      "sha256": "91edfbad2cf9b54e23d6ca84ee9181301efea5ae94ae0921ab4064b5dbd2d1bc",
+      "character": "c7",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c8-crew-stand",
+      "path": "design/phone-feedback/assets/c8-crew-stand.svg",
+      "sha256": "0c767424bf76adb246add5422020e273a5f015443f564fbed0cad4e4f69e977b",
+      "character": "c8",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c8-crew-standBack",
+      "path": "design/phone-feedback/assets/c8-crew-standBack.svg",
+      "sha256": "cc8949c3acd62f18139f4f8baf5aeecab8e667bfebc3217d5ee9f2688768ba33",
+      "character": "c8",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c8-patient-stand",
+      "path": "design/phone-feedback/assets/c8-patient-stand.svg",
+      "sha256": "6fd5540f9630a76a534f0ccf58f4908383168fc890003aa6e6387eaf6d814b5e",
+      "character": "c8",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c8-patient-standBack",
+      "path": "design/phone-feedback/assets/c8-patient-standBack.svg",
+      "sha256": "a7a9b6504edf105f1e341a42a88622b7fd5151858d3bbff1951a47105a4e4d4d",
+      "character": "c8",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c8-prisoner-stand",
+      "path": "design/phone-feedback/assets/c8-prisoner-stand.svg",
+      "sha256": "85ffab0cc88c893d086d12062095e42382f61eecf99df6d46db98deaf3e9cf3e",
+      "character": "c8",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c8-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c8-prisoner-standBack.svg",
+      "sha256": "5db25a276474b72da4f7f9df93469d40e327d2a484444382888f9c41884e5ff2",
+      "character": "c8",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c9-crew-stand",
+      "path": "design/phone-feedback/assets/c9-crew-stand.svg",
+      "sha256": "6f84e0ec950585d6ee98ca1b9f2054b05b67b702a855c0a3895653c7f199e13e",
+      "character": "c9",
+      "outfit": "crew",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c9-crew-standBack",
+      "path": "design/phone-feedback/assets/c9-crew-standBack.svg",
+      "sha256": "bed0f5f3f27c5eca03d7f615a711e90a917ebc4efd2362b66835369a5b23d029",
+      "character": "c9",
+      "outfit": "crew",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c9-patient-stand",
+      "path": "design/phone-feedback/assets/c9-patient-stand.svg",
+      "sha256": "1c5c05af731b923aa2bdcbca629747cb47723036be95e242fffc0ac3f1969974",
+      "character": "c9",
+      "outfit": "patient",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c9-patient-standBack",
+      "path": "design/phone-feedback/assets/c9-patient-standBack.svg",
+      "sha256": "d98138569e7eef1518cbd70be7bd127853e0c79bb380e544b49f8655d7b37427",
+      "character": "c9",
+      "outfit": "patient",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c9-prisoner-stand",
+      "path": "design/phone-feedback/assets/c9-prisoner-stand.svg",
+      "sha256": "859ecebe81931884c9912b39dfd9ba132e9e1c72acb20c740056bf1511f1f7fc",
+      "character": "c9",
+      "outfit": "prisoner",
+      "pose": "stand",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "c9-prisoner-standBack",
+      "path": "design/phone-feedback/assets/c9-prisoner-standBack.svg",
+      "sha256": "c8d1df84aab6c81984cb3b77957774246eb175b63e8dd758d0f8e2cd36efa546",
+      "character": "c9",
+      "outfit": "prisoner",
+      "pose": "standBack",
+      "frame": [
+        -90,
+        -40,
+        300,
+        300
+      ],
+      "anchor": [
+        62,
+        233
+      ],
+      "audience": "public",
+      "rights": "Original project vector sources; preserved crew identity",
+      "source": "design/phone-feedback/source/wardrobe.mjs"
+    },
+    {
+      "id": "icon-board",
+      "path": "design/phone-feedback/assets/icon-board.svg",
+      "sha256": "c80d84dbf1261cfbade24cb04523a8a41a007b126e033520de2e335674e40a5d",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-actions",
+      "path": "design/phone-feedback/assets/icon-actions.svg",
+      "sha256": "e34beb01ecdaabb9642cf1fc65d3aae9e093769f72d2ef4cbab190b881809720",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-pass",
+      "path": "design/phone-feedback/assets/icon-pass.svg",
+      "sha256": "b112c90e5bebe02cb69e0cec2f9e8a752746144117be26c21ee825bd6e454bb6",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-card",
+      "path": "design/phone-feedback/assets/icon-card.svg",
+      "sha256": "b3bcc8f641532e221181aacfee43bb1d926ac30b9cdbff45a3f7e679446bdace",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-menu",
+      "path": "design/phone-feedback/assets/icon-menu.svg",
+      "sha256": "859c713a3594c40b3f56a1022cbc1a2568a7e2d441222e02d18a5370502dce3c",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-clock",
+      "path": "design/phone-feedback/assets/icon-clock.svg",
+      "sha256": "446afb047e24d83e2e79ae7e85f44e113cd6952d62df4038852094ce6b48e1c2",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-captain",
+      "path": "design/phone-feedback/assets/icon-captain.svg",
+      "sha256": "f8a5446751d3678d335e84658dac9ba4021bd9158830ae2d4fa99a13184f3e22",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-tie",
+      "path": "design/phone-feedback/assets/icon-tie.svg",
+      "sha256": "358b317b3d8596a0394bd542e986527ade93459fd47406036abe605b9e3be12f",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-none",
+      "path": "design/phone-feedback/assets/icon-none.svg",
+      "sha256": "ae67afdac0cf12927ab0b1f1d1d765d7ae06822bc9ed88b5ae69572f14b7a010",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-jail",
+      "path": "design/phone-feedback/assets/icon-jail.svg",
+      "sha256": "1ff6eb507be0552516407dc2a1ce93959699365019ab83a37016bec7adab8118",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-release",
+      "path": "design/phone-feedback/assets/icon-release.svg",
+      "sha256": "4b29341464a03d01c6ca82e5ab46e85a0734c73d1cdefbcf1cc68befc370eeda",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-denied",
+      "path": "design/phone-feedback/assets/icon-denied.svg",
+      "sha256": "1d247016f8f48c73c96f99ad452d0639d1ceae2e131f770a606fd2eeb6ebb0be",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "icon-claim",
+      "path": "design/phone-feedback/assets/icon-claim.svg",
+      "sha256": "09f8845a805ec75968c5fa9316944fb4c6964a46f4795352530f1ff4cbf8fd06",
+      "frame": [
+        0,
+        0,
+        24,
+        24
+      ],
+      "anchor": [
+        12,
+        12
+      ],
+      "audience": "neutral/shared",
+      "rights": "Original project vector linework",
+      "source": "design/phone-feedback/source/icons.mjs"
+    },
+    {
+      "id": "private-folder",
+      "path": "design/phone-feedback/assets/private-folder.svg",
+      "sha256": "4ae9f9f9f24f6cf7f462f6cf8fd0133b1bdca55e60cd665af18ed11028e207f2",
+      "frame": [
+        0,
+        0,
+        320,
+        220
+      ],
+      "anchor": [
+        160,
+        110
+      ],
+      "audience": "uniform private bundle",
+      "rights": "Original project vector linework",
+      "source": "design/tools/phone-feedback-assets.mjs"
+    }
+  ],
+  "proposedPorts": {
+    "design/phone-feedback/source/wardrobe.mjs": {
+      "sourceSha256": "9eb24fce2a7559a45e6442de54d720d33a246560758d44bc3e454bb19419fd35",
+      "proposedRuntimePath": "apps/game/hosted/scene-drawing/wardrobe.mjs",
+      "adaptedPath": "design/phone-feedback/ports/wardrobe.mjs",
+      "adaptedSha256": "1150f67bea3df821fe513777b3de353fb0d54b82fb90b4a4e6160cf1fe8b95fd"
+    },
+    "design/phone-feedback/source/compositions.mjs": {
+      "sourceSha256": "463114139e91d597a46bbc305e32860aa8656cd1b6d6b9d5df54c5f99c9b1d53",
+      "proposedRuntimePath": "apps/game/hosted/scene-drawing/compositions.mjs",
+      "adaptedPath": "design/phone-feedback/ports/compositions.mjs",
+      "adaptedSha256": "240e63bf0e30e407e548757ebd1e1d7a5ad010abefb1be2e233f020ec860c46d"
+    },
+    "design/phone-feedback/source/icons.mjs": {
+      "sourceSha256": "4cfb567bad09e58d675b76d3226e4c37f9baf23904fe9092badea2f0b8dbdefc",
+      "proposedRuntimePath": "apps/game/hosted/scene-drawing/icons.mjs",
+      "adaptedPath": "design/phone-feedback/ports/icons.mjs",
+      "adaptedSha256": "9b4913f9b5d78d58a543e7d4d163e5870f840361b7d13143752b532f710a4380"
+    },
+    "design/phone-feedback/source/compact-layout.mjs": {
+      "sourceSha256": "9ce56537b5f0e0d85ee8da7a65c507fb93108b904334e15b08731be5d21dc87f",
+      "proposedRuntimePath": "apps/game/hosted/scene-drawing/compact-layout.mjs",
+      "adaptedPath": "design/phone-feedback/ports/compact-layout.mjs",
+      "adaptedSha256": "cc4f06755db5651334dc658745ccf2f4e18c3e9d57ab92ed5a9259af8cc383a3"
+    }
+  },
+  "privateLoading": "All shared private assets load uniformly, never based on role, target or claim"
+}

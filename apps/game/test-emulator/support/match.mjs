@@ -1,12 +1,21 @@
 // Brings a real match up on the local emulators through the client core, for tests that
 // need one already running. Test-only.
 import assert from 'node:assert/strict';
-import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema } from '@mothership/contracts';
+import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS } from '@mothership/contracts';
 import { createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission } from '@mothership/game';
 import { createRestEmulatorTransport, realPorts, until } from './rest-transport.mjs';
 
 export const ports = realPorts();
 export const requestId = () => ports.ids.next();
+
+/** This SDK-only emulator harness supports an explicit tuple and known test art pins.
+ * It makes no browser-loading or production-art claim and cannot echo an unknown version. */
+export function readyTestAcknowledgment(versions) {
+  if (!supportsVoteResults(versions)) return {};
+  assert.ok(sameFullGameplayPins(versions,VOTE_RESULT_VERSION_PINS),'Harness must explicitly adopt the new gameplay tuple');
+  assert.ok(['0.0.0-no-assets','design-0.2.0'].includes(versions.assetManifestVersion),'Known emulator artifact pin required');
+  return {acceptedVersions:{...versions}};
+}
 
 /** One signed-in participant: its own identity, transport and API client. */
 export async function participant() {
@@ -52,7 +61,8 @@ export async function finishSetup(host, players, matchId) {
     assert.equal(own.bindingRevision, player.setupBinding);
     assert.equal(own.dealId, progress.dealId);
     assert.equal(await host.rawStatus(`matches/${matchId}/setupPlayerViews/${player.uid}`), 403, 'Host cannot read private role preview');
-    const body = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(), dealId: own.dealId, bindingRevision: own.bindingRevision };
+    const body = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(), dealId: own.dealId, bindingRevision: own.bindingRevision,
+      ...readyTestAcknowledgment(own.versions) };
     const result = await player.api.readyForMatch(body);
     assert.equal(result.kind, 'done', JSON.stringify(result));
     // Early Ready may be acknowledged during reading, but only the server deadline
