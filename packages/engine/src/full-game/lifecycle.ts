@@ -1,10 +1,10 @@
-import { FullCommandRequestSchema, FullPublicViewSchema, FullPlayerViewSchema, FullAssetManifestVersionSchema, FullVersionsSchema, IdentifierSchema } from '@mothership/contracts';
+import { FullCommandRequestSchema, FullPublicViewSchema, FullPlayerViewSchema, FullAssetManifestVersionSchema, FullVersionsSchema, FullHackFeedbackSchema, IdentifierSchema } from '@mothership/contracts';
 import type { FullCommand, FullCommandRequest, FullReceipt, FullPlayerView, SeatId } from '@mothership/contracts';
 import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
 import { placeResolvedSeats } from './placement.js';
@@ -14,15 +14,16 @@ const alive = (seat: GameSeat) => seat.health !== 'Eliminated';
 const ready = (seat: GameSeat) => seat.health === 'Healthy' && !seat.jailed;
 const voterIds = (state: FullGameState) => state.seats.filter(alive).map(s => s.seatId);
 const find = (state: FullGameState, id: SeatId) => state.seats.find(s => s.seatId === id);
-const beforeVoting = (state: FullGameState) => ['ORDINARY_TURN','HACK','CAPTAIN_ELECTION'].includes(state.phase.kind);
+const beforeVoting = (state: FullGameState) => ['ORDINARY_TURN','HACK','HACK_DECLARE','HACK_RESULT','CAPTAIN_ELECTION'].includes(state.phase.kind);
 function validateContext(context: FullGameContext) {
   if (!Number.isSafeInteger(context.now) || context.now < 0 || context.now > Number.MAX_SAFE_INTEGER - 60_000
     || !IdentifierSchema.safeParse(context.nextPhaseId).success || !IdentifierSchema.safeParse(context.nextDeadlineToken).success) throw new Error('Invalid trusted transition context');
 }
 function phase(state: FullGameState, kind: FullGameState['phase']['kind'], context: FullGameContext) {
-  state.phase = { id: context.nextPhaseId, kind, startedAt: context.now, endsAt: ['FINISHED','ABORTED'].includes(kind) ? null : context.now + (kind==='VOTE_RESULT'?5_000:60_000) };
+  state.phase = { id: context.nextPhaseId, kind, startedAt: context.now, endsAt: ['FINISHED','ABORTED'].includes(kind) ? null : context.now + (kind==='HACK_DECLARE'?15_000:['VOTE_RESULT','HACK_RESULT'].includes(kind)?5_000:60_000) };
   state.deadlineToken = state.phase.endsAt === null ? null : context.nextDeadlineToken;
   state.activeSeatId = null; state.activeHack = null;
+  if(declaredHackEnabled(state.versions)) state.hackFeedback=null;
   if(voteResultEnabled(state.versions)) {state.voteResult=null;state.voteResultContinuation=null;}
   state.ballots = []; state.eligibleVoters = []; state.eligibleTargets = []; state.releaseTargetSeatId = null;
 }
@@ -52,8 +53,20 @@ function requireNewPhaseIdentifiers(state: FullGameState, context: FullGameConte
 function closeOrdinaryTurn(state: FullGameState, context: FullGameContext) {
   if (state.pendingHack) {
     const hack = state.pendingHack;
-    phase(state, 'HACK', context); state.activeHack = hack; state.activeSeatId = hack.actorSeatId; state.pendingHack = null;
+    phase(state, declaredHackEnabled(state.versions)?'HACK_DECLARE':'HACK', context);
+    state.activeHack = hack; state.activeSeatId = hack.actorSeatId; state.pendingHack = null;
+    if(declaredHackEnabled(state.versions)) state.hackFeedback={hackId:state.phase.id,phaseId:state.phase.id,round:state.round,status:'AWAITING_DECLARATION',declaredSide:null};
   } else { state.turnIndex++; nextTurn(state, context); }
+}
+function advanceHack(state:FullGameState,kind:'HACK_RESULT'|'HACK',context:FullGameContext,declaredSide:NonNullable<FullGameState['hackFeedback']>['declaredSide']) {
+  const hack=state.activeHack,feedback=state.hackFeedback;
+  if(!declaredHackEnabled(state.versions) || !hack || !feedback || feedback.phaseId!==state.phase.id
+    || feedback.round!==state.round || state.activeSeatId!==hack.actorSeatId
+    || (state.phase.kind==='HACK_DECLARE' ? feedback.hackId!==state.phase.id || feedback.status!=='AWAITING_DECLARATION'
+      : state.phase.kind!=='HACK_RESULT' || feedback.status==='AWAITING_DECLARATION')) throw new Error('Current Hack continuation required');
+  FullHackFeedbackSchema.parse(feedback);
+  phase(state,kind,context);state.activeHack=hack;state.activeSeatId=hack.actorSeatId;
+  state.hackFeedback={...feedback,phaseId:state.phase.id,status:declaredSide===null?'NO_DECLARATION':'DECLARED',declaredSide};
 }
 function openJailVote(state: FullGameState, context: FullGameContext) {
   phase(state,'JAIL_VOTE',context); state.eligibleVoters=voterIds(state);
@@ -171,6 +184,7 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
     turnIndex:0,turnOrder:[],queued:[],ballots:[],eligibleVoters:[],eligibleTargets:[],releaseTargetSeatId:null,releaseUsed:false,releaseChoiceMade:false,
     hacksThisRound:0,pendingHack:null,activeHack:null,codeSubmitted:false,correctCode:false,lastTally:null,result:null,electionForNextRound:false,supplierGrantResults:[],journalSequence:0,
     ...(voteResultEnabled(recordedVersions)?{voteResult:null,voteResultContinuation:null}:{}),
+    ...(declaredHackEnabled(recordedVersions)?{hackFeedback:null}:{}),
     viewRevisions:{public:0,players:Object.fromEntries(seatIds.map(id=>[id,0]))}};
   beginRound(state,context); return state;
 }
@@ -184,6 +198,7 @@ function mainAllowed(state:FullGameState,actor:GameSeat) {return state.phase.kin
 export function legalTargets(state:FullGameState, actor:GameSeat):Record<string,SeatId[]> {
   const targets:Record<string,SeatId[]>={};
   const ids=(filter:(s:GameSeat)=>boolean)=>state.seats.filter(filter).map(s=>s.seatId);
+  if(declaredHackEnabled(state.versions) && state.phase.kind==='HACK_DECLARE' && state.activeHack?.targetSeatId===actor.seatId && alive(actor)) targets['DECLARE_HACK_SIDE']=[actor.seatId];
   const ownTurn=state.phase.kind==='ORDINARY_TURN' && state.activeSeatId===actor.seatId;
   if (ownTurn && alive(actor) && passTurnEnabled(state.versions)) targets['PASS_TURN']=[actor.seatId];
   if (ownTurn && ordinaryShotAllowed(state,actor) && !state.queued.some(q=>q.actorSeatId===actor.seatId && q.command.type==='REGISTER_SHOT')) targets['REGISTER_SHOT']=ids(s=>localTarget(state,actor,s,false));
@@ -221,12 +236,16 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
     case 'PASS_TURN':
       if (!allowed['PASS_TURN']?.includes(actorSeatId)) return reject('NOT_ALLOWED');
       requireNewPhaseIdentifiers(state, context); closeOrdinaryTurn(state, context); break;
+    case 'DECLARE_HACK_SIDE':
+      if(!allowed['DECLARE_HACK_SIDE']?.includes(actorSeatId)
+        || (!['Undercover','Alien'].includes(actor.role) && command.declaredSide!==actor.faction)) return reject('NOT_ALLOWED');
+      requireNewPhaseIdentifiers(state,context);advanceHack(state,'HACK_RESULT',context,command.declaredSide);break;
     case 'MOVE':
       if (!beforeVoting(state)||!ready(actor)||actor.movedInRound||!['Room A','Room B','Command Room'].includes(actor.location)
         ||command.destination===actor.location||(command.destination==='Command Room'&&!actor.captain)||!roomHasSpace(state,command.destination)) return reject('NOT_ALLOWED');
       actor.location=command.destination; if(command.destination!=='Command Room')actor.lastRoom=command.destination; actor.movedInRound=true; break;
     case 'SUBMIT_CODE':
-      if (actor.role!=='Hacker'||state.round!==5||state.codeSubmitted||state.phase.kind==='SHOWDOWN'||command.seatIds.some(id=>!find(state,id))) return reject('NOT_ALLOWED');
+      if (actor.role!=='Hacker'||state.round!==5||state.codeSubmitted||['SHOWDOWN','HACK_DECLARE','HACK_RESULT'].includes(state.phase.kind)||command.seatIds.some(id=>!find(state,id))) return reject('NOT_ALLOWED');
       state.codeSubmitted=true;state.correctCode=[...command.seatIds].sort().join(',')===state.code.join(',');break;
     case 'RELEASE_VOTE':
       if(state.phase.kind!=='RELEASE_VOTE'||!state.eligibleVoters.includes(actorSeatId)||state.ballots.some(b=>b.voterSeatId===actorSeatId))return reject('NOT_ALLOWED');
@@ -271,6 +290,8 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
   const state=clone(before);
   switch(state.phase.kind) {
     case 'ORDINARY_TURN':closeOrdinaryTurn(state,context);break;
+    case 'HACK_DECLARE':advanceHack(state,'HACK_RESULT',context,null);break;
+    case 'HACK_RESULT':advanceHack(state,'HACK',context,state.hackFeedback?.declaredSide??null);break;
     case 'HACK':state.turnIndex++;nextTurn(state,context);break;
     case 'RELEASE_CHOICE': {
       const target=state.releaseTargetSeatId;
@@ -344,9 +365,10 @@ export function projectFullGame(state:FullGameState) {
   for(const self of state.seats) {
     const targets=legalTargets(state,self),own=state.ballots.find(b=>b.voterSeatId===self.seatId);
     players[self.seatId]=FullPlayerViewSchema.parse({...facts,viewRevision:state.viewRevisions.players[self.seatId]??0,audience:{kind:'player',seatId:self.seatId},
-      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
+      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','HACK_DECLARE','HACK_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
       knowledge:{...self.knowledge,protections:self.role==='Undercover'?state.seats.filter(s=>s.protection!==null).map(s=>({seatId:s.seatId,activeFromRound:s.protection!.activeFromRound,consumed:s.protection!.consumed})):[]},
       legalTargets:targets,ownPendingCommandIds:state.queued.filter(q=>q.actorSeatId===self.seatId).map(q=>q.commandId),ownBallot:own?(state.phase.kind==='RELEASE_VOTE'?own.approve:own.targetSeatId):null,hasVoted:!!own,
+      ...(declaredHackEnabled(state.versions)?{hackFeedback:state.activeHack && [state.activeHack.actorSeatId,state.activeHack.targetSeatId].includes(self.seatId)?state.hackFeedback??null:null}:{}),
       hackPartnerSeatId:state.activeHack?.actorSeatId===self.seatId?state.activeHack.targetSeatId:state.activeHack?.targetSeatId===self.seatId?state.activeHack.actorSeatId:null});
   }
   return {public:publicView,players};
