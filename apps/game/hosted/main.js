@@ -20,6 +20,8 @@ import './phone.css';
 import './compact-phone.css';
 import './board-play.css';
 import './private-card.css';
+import './scene-board.css';
+import './ability-art.css';
 import { disclosure, dock, copyControl, choiceTiles, publicSlots, initialRoomWords } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';

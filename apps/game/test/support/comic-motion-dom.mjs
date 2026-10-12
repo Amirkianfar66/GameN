@@ -1,12 +1,14 @@
 // Minimal observable DOM/animation ports for the actual comic motion director. Test-only.
 // No public-fact comparison, cue selection or lifecycle behavior is replaced here.
-export function motionDom(t) {
+export function motionDom(t, { scene = false } = {}) {
   const animations = [];
   const fx = { children: [], append(...nodes) { this.children.push(...nodes); for (const node of nodes) node.parent = this; }, animate() {} };
   const phase = { dataset: {} };
   let pieces = new Map();
   let deviceReduced = false;
   const mediaListeners = new Set();
+  const frames = new Map();
+  let nextFrame = 1;
   const deviceMotion = {
     get matches() { return deviceReduced; },
     addEventListener(type, listener) { if (type === 'change') mediaListeners.add(listener); },
@@ -16,6 +18,7 @@ export function motionDom(t) {
   function element() {
     return {
       style: {}, dataset: {},
+      querySelector: () => ({ style: {} }),
       remove() { if (this.parent) this.parent.children = this.parent.children.filter(node => node !== this); this.parent = null; },
       animate(frames, options) {
         let resolve, reject;
@@ -35,12 +38,18 @@ export function motionDom(t) {
     querySelectorAll: () => [...pieces.values()],
     querySelector: selector => selector === '.ms-phase' ? phase : pieces.get(/data-seat="([^"]+)"/.exec(selector)?.[1]) ?? null,
   };
-  function redraw(room) {
+  function redraw(room, { health = 'Healthy' } = {}) {
     pieces = new Map(['seat-1', 'seat-2'].map((seat, index) => {
       const piece = element();
       piece.dataset = { seat, character: `c${index + 1}` };
-      const token = { getBoundingClientRect: () => ({ left: room === 'room-a' ? 20 + index * 80 : 160 + index * 90, top: 150, width: 40, height: 50 }) };
+      const token = { ...element(), getBoundingClientRect: () => ({ left: room === 'room-a' ? 20 + index * 80 : 160 + index * 90, top: 150, width: 40, height: 50 }) };
+      if (scene) {
+        const gesture = `${room === 'room-a' ? 'consoleBack' : 'tablet'}${health === 'Injured' ? '+injured' : ''}`;
+        piece.dataset.gesture = gesture; piece.dataset.mirror = 'false';
+        token.dataset.figure = `c${index + 1}|${gesture}`; token.innerHTML = `latest authoritative ${gesture}`;
+      }
       piece.querySelector = () => token;
+      piece.querySelectorAll = () => [token];
       return [seat, piece];
     }));
   }
@@ -49,6 +58,8 @@ export function motionDom(t) {
     CSS: { escape: value => value },
     matchMedia: () => deviceMotion,
     getComputedStyle: () => ({ backgroundImage: 'url(public-standee.svg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }),
+    requestAnimationFrame: callback => { const id = nextFrame++; frames.set(id, callback); return id; },
+    cancelAnimationFrame: id => frames.delete(id),
   };
   for (const [name, value] of Object.entries(globals)) {
     const original = Object.getOwnPropertyDescriptor(globalThis, name);
@@ -57,7 +68,8 @@ export function motionDom(t) {
   }
   t.mock.timers.enable({ apis: ['setTimeout'] });
   redraw('room-a');
-  return { root, fx, phase, animations, redraw, piece: seat => pieces.get(seat), mediaListeners,
+  return { root, fx, phase, animations, redraw, piece: seat => pieces.get(seat), mediaListeners, frames,
+    frame(at) { const pending = [...frames.values()]; frames.clear(); for (const callback of pending) callback(at); },
     deviceReduced(value) {
       deviceReduced = value;
       for (const listener of [...mediaListeners]) listener({ matches: value });

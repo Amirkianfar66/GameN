@@ -1,7 +1,7 @@
 // The Insider's file in the page: the string round the whole set, the assembly the first time the
 // player opens the card in this page, the lift of an inspected snapshot, and a character ringed on
 // the player's own board. A port of the Designer's motion (ability art abilities-0.1.0,
-// PR #102 at 1453500; exact source paths are recorded in docs/frontend/insider-file.md).
+// Designer PR #102 at 1453500; full source paths in the Frontend provenance handoff).
 //
 // All of it decorates what the markup already says. Nothing waits on it, nothing here decides or
 // delays game state, and every control works from the first frame. It reads no role and draws no
@@ -218,6 +218,8 @@ export function createInsiderFile(root, { setTimeout: later = globalThis.setTime
     },
     /** The player pressed a snapshot or Back: anything still assembling stops, at rest. */
     finish,
+    /** Foreground/current-view loss removes even the brief private board spotlight. */
+    conceal() { finish(); clearSpot(); },
     /** Ring a character on the player's own board, once the board is drawn. */
     spot(seatId) {
       clearSpot();

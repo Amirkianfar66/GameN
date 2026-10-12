@@ -111,7 +111,7 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   const own = listen(listener => player.transport.listenDocument({ kind: 'admission', matchId, admissionId: requested.result.admissionId }, listener));
   const pending = await own.until(snapshot => snapshot.fresh && snapshot.value !== null, 'own admission');
   const assignedRoom = readAdmission(pending.value).value.initialRoom;
-  assert.ok(['Room A', 'Room B'].includes(assignedRoom));
+  assert.equal(assignedRoom, null, 'The initial room is pending until the roster is complete');
   assert.deepEqual(readAdmission(pending.value).value.status, 'pending');
   assert.equal((await player.api.requestAdmission(admissionRequest)).kind, 'done');
   // A document that does not exist is delivered as null, not as an error.
@@ -129,7 +129,7 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   assert.equal(approved.kind, 'done', JSON.stringify(approved));
   const pushed = await own.until(snapshot => snapshot.fresh && readAdmission(snapshot.value).value?.status === 'approved', 'the approval, pushed to the requester');
   assert.equal(readAdmission(pushed.value).value.seatId, 'seat-4');
-  assert.equal(readAdmission(pushed.value).value.initialRoom, assignedRoom, 'Retry and approval preserve the server assignment');
+  assert.equal(readAdmission(pushed.value).value.initialRoom, null, 'A single approval does not draw a guessed room');
   assert.equal(own.snapshots.length > before, true);
 
   // Now seated, the player can listen to the lobby; someone never admitted cannot.
@@ -139,6 +139,26 @@ test('connected (Firebase web client): identity, operations, live listeners and 
   const refused = listen(listener => outsider.transport.listenDocument({ kind: 'lobby', matchId }, listener));
   await refused.untilError();
   assert.deepEqual(refused.reasons, ['refused']);
+
+  // The complete roster triggers one joint draw. Existing listeners receive the same
+  // canonical room in admission and lobby; an identical retry cannot redraw it.
+  for (const seatId of ['seat-1', 'seat-2', 'seat-3', 'seat-5', 'seat-6', 'seat-7']) {
+    const added = client(t);
+    await added.transport.signIn();
+    const request = await added.api.requestAdmission({ protocolVersion: 2, requestId: requestId(), roomCode });
+    assert.equal(request.kind, 'done', JSON.stringify(request));
+    const approval = await host.api.approveAdmission({ protocolVersion: 2, matchId, requestId: requestId(), admissionId: request.result.admissionId, seatId });
+    assert.equal(approval.kind, 'done', JSON.stringify(approval));
+  }
+  const complete = await lobby.until(snapshot => snapshot.fresh && readLobby(snapshot.value, matchId).value?.seats.length === 7 && readLobby(snapshot.value, matchId).value.seats.every(seat => seat.initialRoom !== null), 'the joint initial room draw');
+  const canonicalRoom = readLobby(complete.value, matchId).value.seats.find(seat => seat.seatId === 'seat-4').initialRoom;
+  assert.ok(['Room A', 'Room B'].includes(canonicalRoom));
+  const assigned = await own.until(snapshot => snapshot.fresh && readAdmission(snapshot.value).value?.initialRoom === canonicalRoom, 'the assigned room pushed to the original admission');
+  assert.equal(readAdmission(assigned.value).value.initialRoom, canonicalRoom);
+  const completeSeats = readLobby(complete.value, matchId).value.seats;
+  for (const room of ['Room A', 'Room B']) assert.ok(completeSeats.filter(seat => seat.initialRoom === room).length <= 5, 'The joint draw respects the reviewed capacity');
+  assert.equal((await player.api.requestAdmission(admissionRequest)).kind, 'done');
+  assert.equal(readAdmission(own.snapshots.at(-1).value).value.initialRoom, canonicalRoom, 'An identical retry preserves the completed draw');
 
   // A stopped listener hears nothing more.
   own.stop();

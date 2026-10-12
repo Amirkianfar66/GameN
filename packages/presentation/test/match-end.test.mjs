@@ -77,6 +77,7 @@ test('the roles and the Code are shown when the server’s view carries them, wh
     heading: 'Roles', columns: { player: 'Player', role: 'Role' },
     roles: ROLES.map((role, index) => ({ seatId: `seat-${index + 1}`, label: `Player ${index + 1}`, role })),
     code: 'The Code was: Player 1, Player 2, Player 3, Player 7.',
+    codeSeatIds: ['seat-1', 'seat-2', 'seat-3', 'seat-7'],
   });
   const drawn = renderTableShell(display);
   const text = textOf(find(drawn, byRegion('result')));
@@ -101,7 +102,7 @@ test('the roles and the Code are shown when the server’s view carries them, wh
 
 test('a match the host ended has no winner, and nothing is revealed that the view does not carry', () => {
   const display = table(aborted);
-  assert.deepEqual(display.match.result, { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
+  assert.deepEqual(display.match.result, { heading: 'Result', winner: null, outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
   assert.deepEqual([display.match.phase.phaseLabel, display.match.phase.timer.state], ['Match ended by the host', 'none']);
   const own = phone(aborted);
   assert.deepEqual(own.match.result, display.match.result);

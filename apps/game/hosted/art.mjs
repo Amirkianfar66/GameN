@@ -4,14 +4,16 @@ export const ART_BUNDLES = Object.freeze({
   'public-board': '/art/public-board.art.1f47b9f920.css',
   'player-ui': '/art/player-ui.art.fc4830756c.css',
   roles: '/art/roles.art.14e56b5e3e.css',
+  'scene-art': '/art/scenes.art.0ff8b3c930.css',
+  abilities: '/art/abilities.art.f7ff31a86d.css',
 });
 
-export function bundlesFor(device) {
-  return device === 'player' ? ['public-board', 'player-ui', 'roles'] : ['public-board'];
+export function bundlesFor(device, { abilities = true, scenes = true } = {}) {
+  return ['public-board', ...(device === 'player' ? ['player-ui', 'roles'] : []), ...(scenes ? ['scene-art'] : []), ...(device === 'player' && abilities ? ['abilities'] : [])];
 }
 
-export async function loadArt(device, document = globalThis.document) {
-  const arrived = await Promise.all(bundlesFor(device).map(name => new Promise(resolve => {
+export async function loadArt(device, document = globalThis.document, options = {}) {
+  const arrived = await Promise.all(bundlesFor(device, options).map(name => new Promise(resolve => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = ART_BUNDLES[name];
@@ -23,4 +25,5 @@ export async function loadArt(device, document = globalThis.document) {
     globalThis.setTimeout(() => resolve(null), 8000);
   })));
   document.documentElement.dataset.art = arrived.filter(Boolean).join(' ');
+  document.dispatchEvent?.(new Event('mothership:art-ready'));
 }

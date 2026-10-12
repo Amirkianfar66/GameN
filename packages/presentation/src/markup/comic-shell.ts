@@ -9,6 +9,7 @@ import { renderConnectedPlayerShell } from './connected-player.js';
 import { renderButton } from './player-shell.js';
 import { renderTableShell } from './table-shell.js';
 import { hiddenText, renderZones } from './parts.js';
+import { deliveryNotes, intelFile, privateNotes, resultSheet, stripArt } from './ability-art.js';
 
 /** Public identity only. The transport validates the separately versioned document. */
 export interface ComicIdentity {
@@ -35,6 +36,13 @@ const ROLES: Readonly<Record<string, { readonly device: string; readonly team: s
 };
 const classHas = (node: MarkupElement, name: string): boolean => String(node.attrs.class ?? '').split(' ').includes(name);
 const character = (value: string | null | undefined): string | null => typeof value === 'string' && /^c[1-9]$/u.test(value) ? value : null;
+// Release copy remains here for the reviewed quote checks; the treatment shares it.
+const DELIVERY_WORDS = {
+  heading: 'Supply results', none: 'No players received a weapon from your Round 3 Supply.',
+  unavailable: 'Supply result history is unavailable for this match.',
+  supplied: (names: string): string => `Your Round 3 Supply granted one weapon each to ${names}.`,
+  received: (result: { readonly round: number }): string => `You received one ordinary weapon from Supply in Round ${result.round}.`,
+};
 
 function identityFor(context: ComicContext, seat: string): ComicIdentity | undefined {
   return context.identities?.find(item => item.seatId === seat);
@@ -80,8 +88,8 @@ function publicFacts(seat: SeatModel): string {
 }
 
 /**
- * The Insider's file (the Designer's ability art abilities-0.1.0, PR #102 at 1453500;
- * exact source paths in docs/frontend/insider-file.md): the three players of the role's starting knowledge as three snapshots pinned in
+ * The Insider's file (Designer PR #102 at 1453500; provenance in the Frontend handoff):
+ * the three players of the role's starting knowledge as three snapshots pinned in
  * public seat order, and the three roles they hold between them, one each, as one slip in one
  * envelope below all three. Nothing pairs a player with a role: every snapshot is built the same
  * way, with the same frame, pin, query tag and tilt for its position; no role is written on,
@@ -260,13 +268,14 @@ function renderOwnBoard(
  * regions are those of the release's action card, so focus, redraw and the command controller
  * are unchanged; only the seat answers are gone from it, because they are on the board.
  */
-function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
+function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext): MarkupElement {
   const body = card.body;
+  const art = stripArt(card, context);
   // The step's line, focused after every step. The action's name is set into it as a caption,
   // so "Choose a target" is never read without saying which action it is for.
   const line = (className: string, text: string): MarkupElement => h('p', { class: className, id: SHELL_IDS.actionStep, tabindex: '-1' },
-    h('span', { class: 'phone-strip__kind' }, card.title), hiddenText(': '), text);
-  const detail = (...children: readonly MarkupChild[]): MarkupElement => h('p', { class: 'phone-strip__detail' }, ...children);
+    art.prompt, h('span', { class: 'phone-strip__kind' }, card.title), hiddenText(': '), text);
+  const detail = (...children: readonly MarkupChild[]): MarkupElement => h('p', { class: 'phone-strip__detail' }, art.detail, ...children);
   const controls = (...buttons: readonly (CardButtonModel | null)[]): MarkupElement =>
     h('div', { class: 'ms-card__controls', 'data-region': 'action-controls' }, buttons.map(button => (button ? renderButton(button) : null)));
   let words: MarkupChild[] = [];
@@ -284,7 +293,7 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
       const picked = card.board.picked.length;
       const parts = card.kind === 'supply' ? 2 : card.kind === 'code' ? 4 : 0;
       // Supply and a Code attempt count their picks in numbered dots, the same numbers the board shows.
-      const dots = parts > 0 ? h('span', { class: 'phone-strip__progress', 'aria-hidden': 'true' },
+      const dots = parts > 0 && art.detail === null ? h('span', { class: 'phone-strip__progress', 'aria-hidden': 'true' },
         Array.from({ length: parts }, (_, index) => h('span', { 'data-done': String(index < picked) }, index < picked ? String(index + 1) : ''))) : null;
       words = [
         line('ms-card__prompt', body.prompt),
@@ -306,11 +315,11 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
       layout = 'row';
       break;
     case 'busy':
-      words = [line('ms-card__text ms-card__busy', body.text)];
+      words = [line('ms-card__text ms-card__busy', body.text), art.detail ? detail() : null];
       layout = 'none';
       break;
     case 'result':
-      words = [line('ms-card__result', body.text), body.detail ? detail(body.detail) : null];
+      words = [line('ms-card__result', body.text), body.detail || art.detail ? detail(body.detail) : null];
       buttons = controls(body.action);
       break;
   }
@@ -320,7 +329,7 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
     h('div', {
       class: 'ms-card__state', 'data-region': 'action', 'data-status': card.status, 'data-step': body.step, 'data-selected': String(card.selected),
       // The action the strip is about, when it knows it (a reloaded page may not): the hook for that action's own art.
-      'data-kind': card.kind, 'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
+      'data-kind': card.kind, 'data-resource-count': card.art?.resourceCount === null ? null : card.art?.resourceCount, 'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
     },
       // The release's status word, the same for every action, drawn as a stamp once a command is sent.
       h('p', { class: 'ms-card__status' }, card.statusLabel),
@@ -383,7 +392,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (node.attrs['data-intent'] === 'action/open') {
       const offer = match!.privateArea.content?.actions.card.body;
       const label = offer?.step === 'idle' ? offer.offers.find(item => item.kind === node.attrs['data-kind'])?.label : undefined;
-      if (label) return { ...node, attrs: { ...node.attrs, 'aria-labelledby': String(node.attrs.id) }, children: [label] };
+      if (label) return { ...node, attrs: { ...node.attrs, 'aria-labelledby': String(node.attrs.id) }, children: [h('span', { class: 'ability-offer-icon', 'data-kind': node.attrs['data-kind'], 'aria-hidden': 'true' }), label] };
     }
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     if (classHas(node, 'ms-private')) {
@@ -391,28 +400,36 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       if (dockedAction && card) return h('section', { class: 'ms-private phone-action-dock',
         'data-region': 'private', 'data-open': 'true', 'aria-labelledby': 'ms-private-heading', 'data-focus-fallback': 'ms-phone-actions',
       }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
-      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null, h('div', { class: 'ms-actions' }, renderActionStrip(card))));
+      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null, h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
-    if (node.attrs['data-region'] === 'result') return { ...node, attrs: { ...node.attrs, hidden: phoneView === 'more' } };
+    if (node.attrs['data-region'] === 'result') {
+      const result = resultSheet(match!.result, context);
+      return { ...result, attrs: { ...result.attrs, hidden: phoneView === 'more' } };
+    }
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
-    let file = false;
+    let file: string | null = null;
     if (classHas(node, 'ms-private__panel') && privateContent) {
       // The Insider's three players are drawn in the Insider's file, which says the sentence
-      // itself, so the card's list of what the seat knows does not repeat it. A view the server no
-      // longer confirms keeps the card as the release draws it, with the file at rest under the
-      // release's "may be out of date" banner (the Designer's DSN-REQ-16 recommendation, pending
-      // Integration): it holds nothing the phone does not already hold, and nothing in it acts.
+      // itself, so the card's list of what the seat knows does not repeat it. Current-view
+      // or authorization loss conceals this entire card. Recovery remains internal and a
+      // newly confirmed view requires a deliberate reopening.
       const insider = privateContent.knowledge?.insider ?? null;
       children = children.map(child => (isElement(child) && child.attrs['data-region'] === 'knowledge' ? withoutSentence(child, insider?.sentence ?? null) : child));
       if (insider && phoneView === 'role') {
-        file = true;
+        file = 'insider';
         // Under the role card, which makes way by becoming a row.
         const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
         children.splice(at < 0 ? children.length : at + 1, 0, renderInsiderFile(insider, context, match!.roster.zones.flatMap(zone => zone.seats)));
+      }
+      const intel = privateContent.knowledge ? intelFile(privateContent.knowledge, context, match!.roster.zones.flatMap(zone => zone.seats), match!.identity.seatId) : null;
+      if (intel && phoneView === 'role') {
+        file = String(intel.attrs['data-file']);
+        const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
+        children.splice(at < 0 ? children.length : at + 1, 0, intel);
       }
     }
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
@@ -421,18 +438,8 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         children = children.filter(child => child !== knowledge);
         children.push(h('details', { class: 'phone-knowledge' }, h('summary', null, 'What you know'), knowledge));
       }
-      const own = context.acknowledgments;
-      const lines: string[] = [];
-      if (own && own.seatId === match!.identity.seatId) {
-        for (const result of own.supplierResults) lines.push(result.successfulRecipientSeatIds.length === 0
-          ? 'No players received a weapon from your Round 3 Supply.'
-          : `Your Round 3 Supply granted one weapon each to ${result.successfulRecipientSeatIds.map(id => `Player ${id.slice(5)}`).join(' and ')}.`);
-        for (const result of own.receivedSupply) lines.push(`You received one ordinary weapon from Supply in Round ${result.round}.`);
-        if (!own.historyAvailable && privateContent.role.name === 'Supplier') lines.push('Supply result history is unavailable for this match.');
-      }
-      children.push(h('div', { class: 'ms-acknowledgments-region', 'data-region': 'own-acknowledgments' }, lines.length ?
-        h('section', { class: 'ms-acknowledgments', 'aria-labelledby': 'ms-acknowledgments-title' },
-          h('h3', { id: 'ms-acknowledgments-title' }, 'Supply results'), lines.map(line => h('p', null, line))) : null));
+      if (phoneView === 'role') children.push(...privateNotes(privateContent, context, match!.identity.seatId));
+      children.push(deliveryNotes(context, match!.identity.seatId, privateContent.role.name === 'Supplier', DELIVERY_WORDS));
     }
     if (classHas(node, 'ms-main')) {
       const location = children.find(child => isElement(child) && child.attrs['data-region'] === 'location');
@@ -443,7 +450,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       // The strip, the tray or a Pass receipt comes before the board in reading and focus order:
       // focus lands on the strip's question, and the next Tab reaches its answers, then the
       // characters. The page's grid still draws the strip above navigation.
-      const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard)) : null;
+      const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard, context)) : null;
       children.splice(privateIndex + 1, 0, ...(passStatus ? [passStatus] : []), board);
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
@@ -451,7 +458,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
         h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
-    if (file) return { ...node, attrs: { ...node.attrs, 'data-file': 'insider' }, children };
+    if (file) return { ...node, attrs: { ...node.attrs, 'data-file': file }, children };
     return { ...node, children };
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };
@@ -461,5 +468,6 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
 
 export function renderComicTableShell(model: TableShellModel, context: ComicContext = {}): MarkupElement {
   const current = { ...context, practice: model.match && model.connection === 'live' ? context.practice ?? null : null };
-  return decoratePublic(withPracticeNotice(renderTableShell(model), current), current) as MarkupElement;
+  const visit = (node: MarkupNode): MarkupNode => !isElement(node) ? node : node.attrs['data-region'] === 'result' ? resultSheet(model.match?.result ?? null, context) : { ...node, children: node.children.map(visit) };
+  return decoratePublic(withPracticeNotice(visit(renderTableShell(model)), current), current) as MarkupElement;
 }

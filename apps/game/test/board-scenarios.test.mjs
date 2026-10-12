@@ -14,6 +14,13 @@ const NOW = 1_800_000_000_000;
 const alive = seat => seat.health !== 'Eliminated';
 const ready = seat => seat.health === 'Healthy' && !seat.jailed;
 const same = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+// Independent reviewed metadata from engine/model.ts at d5d1459. Capacity rules
+// retain Pass; an unknown or mixed tuple must not acquire it from a version name.
+const PASS_TUPLES = [
+  { protocolVersion: 2, engineVersion: 'full-game-1.1.0', rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' },
+  { protocolVersion: 2, engineVersion: 'full-game-1.2.0', rulesetVersion: 'in-person-v1-capacity-2026-10-11', rulesetHash: 'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468' },
+  { protocolVersion: 2, engineVersion: 'full-game-1.3.0', rulesetVersion: 'in-person-v1-capacity-resolution-2026-10-12', rulesetHash: 'aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e' },
+];
 
 function problemsOf(definition) {
   const view = playerView(definition, NOW);
@@ -25,7 +32,7 @@ function problemsOf(definition) {
   const local = (target, selfAllowed, remoteRescue = false) => alive(target) && (selfAllowed || target.seatId !== actor.seatId) && target.location !== 'Command Room'
     && (target.location === actor.location || (remoteRescue && actor.role === 'Cracker' && ['Room A', 'Room B'].includes(actor.location) && target.location === 'Hospital'));
   const ownTurn = phase === 'ORDINARY_TURN' && view.activeSeatId === actor.seatId;
-  const passRules = view.versions.rulesetVersion === 'in-person-v1-pass-2026-10-08';
+  const passRules = PASS_TUPLES.some(tuple => Object.entries(tuple).every(([key, value]) => view.versions[key] === value));
   const problems = [];
 
   // Each command: whether its gate opens in this state, and the targets the engine would list.
@@ -88,6 +95,18 @@ test('every board simulation scenario offers what the engine would offer in its 
   assert.deepEqual(found, {});
   // The states no match reaches are the board's crowd stress cases, and each says why.
   assert.deepEqual(Object.entries(SCENARIOS).filter(([, definition]) => definition.unreachable).map(([id]) => id).sort(), ['crowd-command', 'crowd-hospital', 'crowd-jail']);
+});
+
+test('Pass fixture validation recognizes only the exact reviewed Pass and capacity tuples', () => {
+  for (const tuple of PASS_TUPLES) {
+    const versions = { ...tuple, assetManifestVersion: 'design-0.2.0' };
+    assert.deepEqual(problemsOf({ ...SCENARIOS['capped-room-a'], versions }), []);
+    for (const changed of [{ engineVersion: 'full-game-1.0.1' }, { rulesetHash: 'a'.repeat(64) }, { rulesetVersion: 'unknown-ruleset' }]) {
+      assert.ok(problemsOf({ ...SCENARIOS['capped-room-a'], versions: { ...versions, ...changed } }).some(problem => problem.includes('PASS_TURN offered where the engine does not open it')));
+    }
+  }
+  assert.deepEqual(problemsOf(SCENARIOS.legacy), []);
+  assert.ok(problemsOf({ ...SCENARIOS.legacy, offers: { ...SCENARIOS.legacy.offers, pass: true } }).some(problem => problem.includes('PASS_TURN offered where the engine does not open it')));
 });
 
 test('the check refuses the mistakes a fixture can make', () => {

@@ -20,6 +20,21 @@ scene sources and generated art. The combined Designer suite, including the
 existing PR #93 phone-copy correction, is required by `npm run test:design` and
 the root `npm run verify` command.
 
+The production drawing boundary is enforced by Designer PR #117 at
+`428c1c741c5ccdfdf42947570530adea1b3a0757`: ten exact drawing modules, a
+reviewed stylesheet derivative and a build-only asset plugin have independently
+reviewed hashes. Prototype imports, fixtures and controllers remain excluded.
+The stylesheet source is pinned separately to PR #113; geometry and generated
+assets retain the frozen PR #111 source.
+
+Integration imported the reviewed Frontend working snapshot into this isolated
+release while its author completed the handoff. The exact source head, dirty
+status, file hashes and browser-evidence scope are recorded in
+`v1-frontend-source-snapshot.json`. The source checkout was read-only during the
+import. Final CI and the deployed release must identify the clean integration
+commit; the snapshot's source head is not a claim that its pending files were
+already committed or deployed.
+
 For this staging trial, Integration accepts packaging the complete
 `abilities-0.7.0` kit: 49 assets and 22 delivered ability treatments. The two
 setup treatments marked planned in the inventory remain proposals; existing

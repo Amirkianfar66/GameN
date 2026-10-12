@@ -1,0 +1,71 @@
+/* Hosted adapters to the reviewed ability stylesheet port. */
+@import "./ability-drawing.css";
+/* Hosted sizes and selectors keep the strip's text/controls and the public board reachable. */
+#app .ms-shell--player .phone-strip__text { min-width: 0; }
+#app .trial-result { background: var(--ms-color-paper); }
+#app .trial-result .ms-result__outcome { padding: 8px 12px; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); rotate: -1deg; }
+#app .trial-result[data-winner="blue"] .ms-result__outcome { background: var(--ms-color-faction-blue); color: var(--ms-color-paper); }
+#app .trial-result[data-winner="red"] .ms-result__outcome { background: var(--ms-color-faction-red); color: var(--ms-color-paper); }
+#app .trial-result[data-winner="alien"] .ms-result__outcome { background: var(--ms-color-faction-alien); color: var(--ms-color-ink); }
+#app .trial-result[data-winner="draw"] .ms-result__outcome { background: repeating-linear-gradient(135deg,var(--ms-color-paper) 0 8px,var(--ms-color-paper-deep) 8px 12px); }
+#app .trial-result[data-winner="aborted"] .ms-result__outcome { background: none; border: 0; rotate: none; }
+#app .trial-cast { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; list-style: none; margin: 0; padding: 0; }
+#app .trial-cast__member { position: relative; display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px; border: 1px solid var(--ms-color-ink); background: var(--ms-color-paper-shade); }
+#app .trial-cast__portrait { display: block; width: 30px; height: 34px; flex: none; background: var(--cast-art,none) center / contain no-repeat; }
+#app .trial-cast__who { display: grid; gap: 2px; font-size: .72rem; overflow-wrap: anywhere; }
+#app .trial-cast__role { font-weight: 800; }
+#app .trial-result .trial-cast__role:is([data-role="Officer"],[data-role="Insider"],[data-role="Cracker"],[data-role="Blue Disabler"],[data-role="Supplier"]) { color: var(--ms-color-faction-blue); }
+#app .trial-result .trial-cast__role:is([data-role="Undercover"],[data-role="Hacker"],[data-role="Red Disabler"]) { color: var(--ms-color-faction-red); }
+#app .trial-result .trial-cast__role[data-role="Alien"] { color: var(--ms-color-faction-alien); }
+#app .trial-cast__code { position: absolute; right: -2px; top: -4px; width: 17px; height: 12px; border: 1.5px solid var(--ms-color-ink); border-radius: 2px; background: radial-gradient(circle,var(--ms-color-ink) 0 1px,transparent 1.5px) 0 0 / 50% 50% var(--ms-color-caption); rotate: 10deg; }
+@media (max-width: 18em) { #app .trial-cast { grid-template-columns: minmax(0,1fr); } #app .trial-cast__who { font-size: .9rem; } }
+#app .ms-shell--player .phone-strip :is(.ab-target,.ab-scan-target) { margin: 0 7px 0 0; }
+#app .ms-shell--player .phone-strip__detail > .ab-code-card { display: inline-block; vertical-align: -8px; width: 86px; margin: 0 6px 0 0; }
+#app .ms-shell--player .ability-offer-icon { width: 30px; height: 30px; flex: none; display: inline-block; background: var(--ability-icon,none) center / 22px 22px no-repeat; }
+#app .ms-shell--player .ms-offers button[data-intent="action/open"] { display: flex; align-items: center; gap: 6px; }
+#app .ms-shell--player .ms-offers button[data-intent="action/open"]::before { content: none; }
+#app .ms-shell--player .ab-kit { margin-block: 6px; }
+#app .ms-shell--player .ms-private:has(.ab-kit,.ab-deliveries,.ab-guards) .ms-role-card--full { grid-template-columns: 44px minmax(0,1fr); gap: 8px; padding: 4px 8px; }
+#app .ms-shell--player .ms-private:has(.ab-kit,.ab-deliveries,.ab-guards) .ms-role-card__art { width: 44px; height: 54px; }
+#app .ms-shell--player .ms-private:has(.ab-kit,.ab-deliveries,.ab-guards) .ms-role-card__name { font-size: 1rem; }
+#app .ms-shell--player .ms-private:has(.ab-kit,.ab-deliveries,.ab-guards) .ms-role-card__team { font-size: .7rem; }
+#app .ms-shell--player .ab-code-card[data-punched="true"] { border-style: dashed; }
+[data-art~="public-board"] .ab-chip:has(.ab-chip__art[data-character]) .ab-chip__numeral { display: none; }
+@media (max-height: 640px) and (min-width: 18.01em) {
+  #app .ms-shell--player .phone-strip :is(.ab-target,.ab-scan-target) { width: 26px; height: 28px; }
+  #app .ms-shell--player .phone-strip :is(.ab-target,.ab-scan-target) > .ab-chip { width: 24px; height: 24px; }
+  #app .ms-shell--player .phone-strip .ab-target__mark { transform: scale(.65); transform-origin: 0 0; }
+  #app .ms-shell--player .phone-strip .ab-target:is([data-mark="shield"],[data-mark="ballot"]) > .ab-chip { width: 20px; height: 20px; left: 4px; top: 3px; }
+  #app .ms-shell--player .phone-strip .ab-ballot__pencil { transform: scale(.7); right: -3px; }
+  #app .ms-shell--player .phone-strip .ab-chip__seat { display: none; }
+}
+[data-art~="public-board"] .ab-chip__art[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .ab-chip__art[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .ab-chip__art[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .ab-chip__art[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .ab-chip__art[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .ab-chip__art[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .ab-chip__art[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .ab-chip__art[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .ab-chip__art[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+[data-art~="player-ui"] .ability-offer-icon[data-kind="shot"] { --ability-icon: var(--ms-asset-icon-action-shot-ink); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="disable"] { --ability-icon: var(--ab-asset-icon-action-disable); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="protect"] { --ability-icon: var(--ab-asset-icon-action-protect); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="rescue"] { --ability-icon: var(--ab-asset-icon-action-rescue); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="scan"] { --ability-icon: var(--ab-asset-icon-action-scan); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="supply"] { --ability-icon: var(--ab-asset-icon-action-supply); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="hack"] { --ability-icon: var(--ab-asset-icon-action-hack); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="code"] { --ability-icon: var(--ab-asset-icon-action-code); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="showdown-shot"] { --ability-icon: var(--ab-asset-icon-action-showdown); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="vote"] { --ability-icon: var(--ab-asset-icon-action-ballot); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="release-vote"] { --ability-icon: var(--ab-asset-icon-action-ballot); }
+[data-art~="abilities"] .ability-offer-icon[data-kind="release-choice"] { --ability-icon: var(--ab-asset-icon-action-key); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c1"] { --cast-art: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c2"] { --cast-art: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c3"] { --cast-art: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c4"] { --cast-art: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c5"] { --cast-art: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c6"] { --cast-art: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c7"] { --cast-art: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c8"] { --cast-art: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .trial-cast__portrait[data-character="c9"] { --cast-art: var(--ms-asset-piece-crew-card-c9); }
