@@ -72,6 +72,7 @@ export async function productionDrawingProblems(root) {
       if (!port) problems.push(`${path}: unreviewed file in the adopted drawing ports`);
       else if (!reviewedPort) problems.push(`${path}: reviewed drawing port content hash differs`);
     }
+    if (port && !path.startsWith(SCENE_DIRECTORY) && !reviewedPort) problems.push(`${path}: reviewed drawing port content hash differs`);
     if (style && !reviewedStyle) problems.push(`${path}: reviewed drawing stylesheet content hash differs`);
     if (reviewedStyle) {
       const source = await read(style.source).catch(() => null);
