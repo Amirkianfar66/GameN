@@ -1,7 +1,33 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { fullRoomCapacityForVersions } from '../../packages/contracts/dist/index.js';
 import {FullCommandSchema,FullCommandRequestSchema,FullReceiptSchema,FullPhaseSchema,FullEventSchema,FULL_PROTOCOL_VERSION,PROTOCOL_VERSION,FullAssetManifestVersionSchema,FullCreateMatchRequestSchema,FullAdmissionRequestSchema,FullApproveAdmissionRequestSchema,FullIssueSeatRecoveryRequestSchema,FullRedeemSeatRecoveryRequestSchema,FullOperationResponseSchema,FullLobbyViewSchema,FullLookupResponseSchema,FullAdvanceResponseSchema,FullPublicViewSchema} from '../../packages/contracts/dist/index.js';
 const base={protocolVersion:2,matchId:'match-v1',phaseId:'neutral-phase-1',commandId:'cmd-1'};
+test('public capacity metadata matches exact approved overlays, independent of art pins',()=>{
+  for(const [engineVersion,rulesetVersion,file] of [
+    ['full-game-1.2.0','in-person-v1-capacity-2026-10-11','room-capacity-owner-decision-2026-10-11.json'],
+    ['full-game-1.3.0','in-person-v1-capacity-resolution-2026-10-12','room-capacity-resolution-owner-decision-2026-10-12.json'],
+  ]) {
+    const rulesetHash=createHash('sha256').update(readFileSync(new URL(`../../rules/overlays/${file}`,import.meta.url))).digest('hex');
+    const versions={protocolVersion:2,engineVersion,rulesetVersion,rulesetHash,assetManifestVersion:'unrelated-art'};
+    for(const room of ['Room A','Room B','Hospital','Jail'])assert.equal(fullRoomCapacityForVersions(versions,room),5);
+    assert.equal(fullRoomCapacityForVersions(versions,'Command Room'),1);
+    assert.equal(fullRoomCapacityForVersions(versions,'Final Zone'),null);
+    for(const changed of [{protocolVersion:1},{engineVersion:'unknown'},{rulesetVersion:'unknown'},{rulesetHash:'f'.repeat(64)}])
+      for(const room of ['Room A','Command Room'])assert.equal(fullRoomCapacityForVersions({...versions,...changed},room),null);
+  }
+});
+test('uncapped historical and mismatched gameplay tuples have no finite capacity label',()=>{
+  const tuples=[
+    {protocolVersion:2,engineVersion:'full-game-1.1.0',rulesetVersion:'in-person-v1-pass-2026-10-08',rulesetHash:'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183'},
+    {protocolVersion:2,engineVersion:'full-game-1.0.1',rulesetVersion:'in-person-v1-2026-10-06',rulesetHash:'6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90'},
+    {protocolVersion:2,engineVersion:'full-game-1.3.0',rulesetVersion:'in-person-v1-capacity-2026-10-11',rulesetHash:'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468'},
+  ];
+  for(const versions of tuples)for(const room of ['Room A','Room B','Hospital','Jail','Command Room','Final Zone'])
+    assert.equal(fullRoomCapacityForVersions(versions,room),null);
+});
 test('full-game commands use strict protocol 2 envelopes and reject forged authority',()=>{
   assert.equal(PROTOCOL_VERSION,1);assert.equal(FULL_PROTOCOL_VERSION,2);
   const payload={...base,command:{type:'REGISTER_SHOT',targetSeatId:'seat-1'}};

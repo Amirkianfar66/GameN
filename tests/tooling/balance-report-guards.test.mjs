@@ -96,10 +96,13 @@ for (const [name, mutate] of [
   ['wrong source digest', r => r.pins.ruleSourceHashes['rules/sources/v2.1-decisions.json'] = 'a'.repeat(64)],
   ['wrong catalogue digest', r => r.pins.scenarioFileHashes['mode-7.scenarios.json'] = 'a'.repeat(64)],
   ['wrong rulebook digest', r => r.pins.rulebookSha256 = 'a'.repeat(64)],
-  ['missing Pass owner decision evidence', r => delete r.pins.additionalOwnerOverlayHashes],
-  ['changed Pass owner decision evidence', r => r.pins.additionalOwnerOverlayHashes = {}],
+  ['missing runtime owner decision evidence', r => delete r.pins.additionalOwnerOverlayHashes],
+  ['changed runtime owner decision evidence', r => r.pins.additionalOwnerOverlayHashes = {}],
   ['wrong overlay digest', r => r.pins.v1OverlaySha256 = 'a'.repeat(64)],
   ['wrong protocol', r => r.pins.engine.protocolVersion = 1],
+  ['missing binary provenance', r => delete r.pins.engine.binaryEngineVersion],
+  ['wrong binary ruleset', r => r.pins.engine.binaryRulesetVersion = 'unreviewed'],
+  ['capacity gameplay falsely labels the frozen catalogue', r => r.pins.engine.rulesetVersion = r.pins.engine.binaryRulesetVersion],
   ['wrong runtime', r => r.pins.node = 'v24.0.0'],
   ['external engine origin', r => r.pins.engineOrigin = 'external checkout'],
   ['stale generation timestamp', r => r.pins.generatedAt = '2026-10-06T11:59:59.999Z'],
@@ -155,7 +158,7 @@ test('disk source pins fail before accepting a changed reviewed artifact', () =>
   const temporary = mkdtempSync(join(tmpdir(), 'balance-guard-sources-'));
   try {
     for (const path of ['rules', 'docs/balance', 'tests/scenarios']) cpSync(join(root, path), join(temporary, path), { recursive: true });
-    for (const path of ['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json', 'docs/balance/game-rules.md', 'tests/scenarios/v1/catalog.mjs', 'tests/scenarios/v1/exceptions.json', 'tests/scenarios/adapters/full-game-v1.mjs', 'rules/in-person-v1-manifest.json', 'rules/sources/v2.1-decisions.json', 'tests/scenarios/v1/mode-7.scenarios.json']) {
+    for (const path of ['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json', 'rules/overlays/room-capacity-owner-decision-2026-10-11.json', 'docs/balance/game-rules.md', 'tests/scenarios/v1/catalog.mjs', 'tests/scenarios/v1/exceptions.json', 'tests/scenarios/adapters/full-game-v1.mjs', 'rules/in-person-v1-manifest.json', 'rules/sources/v2.1-decisions.json', 'tests/scenarios/v1/mode-7.scenarios.json']) {
       const target = join(temporary, path); const original = readFileSync(target);
       writeFileSync(target, Buffer.concat([original, Buffer.from('\n')]));
       assert.throws(() => loadBalanceContract(temporary, provenance), /Balance gate:/, path);

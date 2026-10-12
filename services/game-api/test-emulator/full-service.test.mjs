@@ -8,7 +8,7 @@ import {
   FullOperationResponseSchema, FullCommandResponseSchema, FullLookupResponseSchema, FullAdvanceResponseSchema,
   FullServerTimeResponseSchema, FullLobbyViewSchema, FullBeginSetupResponseSchema,
 } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame } from '@mothership/engine';
+import { PASS_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 import { beginStagedSetup, completeStagedSetup, startStagedMatch, setupRequest } from './staged-start-helper.mjs';
 import { encodeV1State, decodeV1State, decodeV1Setup } from '../dist/full-game.js';
@@ -35,6 +35,8 @@ async function harness(playerCount = 7, { deal = true, hostPlays = false, assetM
   const createPayload = { protocolVersion: 2, requestId: randomUUID(), playerCount };
   const created = success(await service.createMatch(host.uid, createPayload));
   const base = db.collection('matches').doc(created.matchId);
+  // Preserve these historical all-Room-A gameplay cases before any seat is admitted.
+  await base.collection('engine').doc('gameplayPins').set(PASS_FULL_GAME_VERSION_PINS);
   const lobbyView = async () => FullLobbyViewSchema.parse((await base.collection('lobby').doc('public').get()).data());
   assert.equal((await lobbyView()).status, 'lobby');
   const request = (fields = {}) => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });

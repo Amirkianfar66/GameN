@@ -23,8 +23,9 @@ export const FullLookupRequestSchema=z.strictObject({...match,commandId:Identifi
 export const FullAdvanceRequestSchema=z.strictObject({...match,phaseId:IdentifierSchema});
 export const FullServerTimeRequestSchema=z.strictObject(match);
 export const FullLobbyViewSchema=z.strictObject({...match,playerCount,status:z.enum(['lobby','running','complete','aborted']),
-  seats:z.array(z.strictObject({seatId:SeatIdSchema,initialRoom:room})).max(9),
+  seats:z.array(z.strictObject({seatId:SeatIdSchema,initialRoom:room.nullable()})).max(9),
 }).refine(v=>v.seats.length<=v.playerCount && new Set(v.seats.map(s=>s.seatId)).size===v.seats.length && v.seats.every(s=>Number(s.seatId.slice(5))<=v.playerCount)
+  && (v.seats.length<v.playerCount || v.seats.every(s=>s.initialRoom!==null))
   && (!['running','complete'].includes(v.status)||v.seats.length===v.playerCount));
 export type FullLobbyView=z.infer<typeof FullLobbyViewSchema>;
 const result=z.union([

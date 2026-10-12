@@ -13,9 +13,10 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
+import { jointStartingRooms, jointStartingRoomAssignmentCount } from './joint-starting-rooms.js';
 import type { FullGameSetup, FullGameState, FullGameplayVersions } from '@mothership/engine';
 
 type FailureCode = FullFailure['error']['code'];
@@ -26,8 +27,9 @@ type EnvelopeSchema = { safeParse(value: unknown): { success: true; data: Body }
 type Role = FullPlayerView['self']['role'];
 type FullVersions = FullPlayerView['versions'];
 type Room = 'Room A' | 'Room B';
+type StartingRoomsRecord = { schemaVersion: 1; matchId: string; versions: FullGameplayVersions; drawNonce: string; initialRooms: Record<string, Room> };
 type Control = { protocolVersion: 2; hostUid: string; playerCount: 7 | 8 | 9; status: 'lobby' | 'choosing' | 'awaiting-ready' | 'running' | 'complete' | 'aborted'; lifecycleVersion?: string; gameStarted?: boolean; roomCode: string; createdAt: number };
-type SeatBinding = { uid: string; bindingRevision: number; initialRoom: Room; controller?: 'human' };
+type SeatBinding = { uid: string; bindingRevision: number; initialRoom: Room | null; controller?: 'human' };
 const humanBinding = (value: unknown): value is SeatBinding => value !== null && typeof value === 'object'
   && (!('controller' in value) || value.controller === 'human') && 'uid' in value && uidSafe(value.uid);
 const botBinding = (entry: QueryDocumentSnapshot): boolean => entry.get('controller') === 'bot' && !Object.hasOwn(entry.data(), 'uid')
@@ -131,14 +133,91 @@ function randomSetup(playerCount: 7 | 8 | 9, shuffle: Shuffler): Omit<FullGameSe
     roundOrders: Array.from({ length: 5 }, () => shuffle(ids)) };
 }
 
-export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuffle = secureShuffle, randomInitialRoom = secureInitialRoom, assetManifestVersion = '0.0.0-no-assets' }: {
-  db: Firestore; clock?: () => number; newId?: () => string; shuffle?: Shuffler; randomInitialRoom?: RoomRandomizer; assetManifestVersion?: string;
+export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuffle = secureShuffle, randomInitialRoom = secureInitialRoom, randomStartingRoomRank = randomInt, assetManifestVersion = '0.0.0-no-assets' }: {
+  db: Firestore; clock?: () => number; newId?: () => string; shuffle?: Shuffler; randomInitialRoom?: RoomRandomizer; randomStartingRoomRank?: (maximum: number) => number; assetManifestVersion?: string;
 }) {
   if (!FullAssetManifestVersionSchema.safeParse(assetManifestVersion).success) throw new Error('Invalid asset manifest version');
   function drawInitialRoom(): Room {
     const room = randomInitialRoom();
     if (room !== 'Room A' && room !== 'Room B') throw new Error('Invalid initial room draw');
     return room;
+  }
+  function drawStartingRoomRank(playerCount: 7 | 8 | 9): number {
+    const maximum = jointStartingRoomAssignmentCount(playerCount), rank = randomStartingRoomRank(maximum);
+    if (!Number.isSafeInteger(rank) || rank < 0 || rank >= maximum) throw new Error('Invalid joint starting-room draw');
+    return rank;
+  }
+  function unassignedRooms(seatIds: readonly string[]): Record<string, null> {
+    return Object.fromEntries(seatIds.map(seatId => [seatId, null]));
+  }
+  function writeRosterRooms(tx: Transaction, bindings: QueryDocumentSnapshot[], admissions: QueryDocumentSnapshot[],
+    rooms: Record<string, Room | null>) {
+    for (const binding of bindings) if (binding.get('initialRoom') !== rooms[binding.id]) tx.update(binding.ref, { initialRoom: rooms[binding.id] });
+    for (const admission of admissions) {
+      const seatId = admission.get('seatId') as string;
+      if (Object.hasOwn(rooms, seatId) && admission.get('initialRoom') !== rooms[seatId]) tx.update(admission.ref, { initialRoom: rooms[seatId] });
+    }
+  }
+  const gameplayTuple = (versions: FullGameplayVersions): FullGameplayVersions => ({ protocolVersion: versions.protocolVersion,
+    engineVersion: versions.engineVersion, rulesetVersion: versions.rulesetVersion, rulesetHash: versions.rulesetHash });
+  function validateStartingRooms(value: unknown, matchId: string, playerCount: 7 | 8 | 9, versions: FullGameplayVersions): StartingRoomsRecord {
+    if (!safeBody(value, ['schemaVersion', 'matchId', 'versions', 'drawNonce', 'initialRooms'])) throw new Error('Invalid starting-room record');
+    const record = value as StartingRoomsRecord, seatIds = Array.from({ length: playerCount }, (_, index) => `seat-${index + 1}`);
+    if (record.schemaVersion !== 1 || record.matchId !== matchId || !id(record.drawNonce)
+      || !safeBody(record.versions, ['protocolVersion', 'engineVersion', 'rulesetVersion', 'rulesetHash'])
+      || !jointStartingRoomsEnabled(record.versions) || digest(record.versions) !== digest(gameplayTuple(versions))
+      || !safeBody(record.initialRooms, seatIds) || Object.values(record.initialRooms).some(room => room !== 'Room A' && room !== 'Room B')) {
+      throw new Error('Invalid starting-room record');
+    }
+    assertInitialRoomCapacity(record, versions);
+    return record;
+  }
+  async function readStartingRooms(tx: Transaction, base: DocumentReference, playerCount: 7 | 8 | 9, versions: FullGameplayVersions,
+    bindings: readonly DocumentSnapshot[], admissions: readonly DocumentSnapshot[] = []): Promise<StartingRoomsRecord | null> {
+    const snapshot = await tx.get(base.collection('engine').doc('startingRooms'));
+    const record = snapshot.exists ? validateStartingRooms(snapshot.data(), base.id, playerCount, versions) : null;
+    const boundIds = new Set(bindings.map(binding => binding.id));
+    if (bindings.length > playerCount || bindings.some(binding => !seat(binding.id) || Number(binding.id.slice(5)) > playerCount)
+      || record === null && bindings.length === playerCount) throw new Error('Missing or invalid canonical starting rooms');
+    for (const binding of bindings) if (binding.get('initialRoom') !== (record?.initialRooms[binding.id] ?? null)) {
+      throw new Error('Binding differs from canonical starting rooms');
+    }
+    for (const admission of admissions) {
+      const seatId = admission.get('seatId');
+      if (!seat(seatId) || !boundIds.has(seatId) || admission.get('initialRoom') !== (record?.initialRooms[seatId] ?? null)) {
+        throw new Error('Admission differs from canonical starting rooms');
+      }
+    }
+    return record;
+  }
+  function startingRoomRecord(base: DocumentReference, playerCount: 7 | 8 | 9, versions: FullGameplayVersions,
+    rooms: Record<string, Room>, drawNonce: string): StartingRoomsRecord {
+    return validateStartingRooms({ schemaVersion: 1, matchId: base.id, versions: gameplayTuple(versions), drawNonce, initialRooms: rooms },
+      base.id, playerCount, versions);
+  }
+  function assertRecordedRoomMap(setup: Pick<FullGameSetup, 'initialRooms'>, versions: FullGameplayVersions, record: StartingRoomsRecord | null | undefined) {
+    if (jointStartingRoomsEnabled(versions) && (record === null || record === undefined
+      || digest(record.versions) !== digest(gameplayTuple(versions)) || digest(setup.initialRooms) !== digest(record.initialRooms))) {
+      throw new Error('Prepared rooms differ from the canonical first draw');
+    }
+  }
+  async function gameplayPins(tx: Transaction, base: DocumentReference): Promise<FullGameplayVersions> {
+    // Absent pins belong to historical lobbies. Never adopt the current rules for them.
+    const versions = (await tx.get(base.collection('engine').doc('gameplayPins'))).data() as FullGameplayVersions | undefined
+      ?? LEGACY_FULL_GAME_VERSION_PINS;
+    if (!isSupportedFullGameVersions(versions)) throw new Error('Unsupported match gameplay pins');
+    return versions;
+  }
+  function allocatedInitialRoom(preferred: Room, occupied: readonly Room[], versions: FullGameplayVersions): Room {
+    if (preferred !== 'Room A' && preferred !== 'Room B') throw new Error('Invalid initial room preference');
+    if (occupied.some(room => room !== 'Room A' && room !== 'Room B')) throw new Error('Invalid initial room roster');
+    if (!roomCapacityEnabled(versions)) return preferred;
+    const count = (room: Room) => occupied.filter(value => value === room).length;
+    if (count('Room A') > MAX_ROOM_OCCUPANTS || count('Room B') > MAX_ROOM_OCCUPANTS) throw new Error('Invalid initial room capacity');
+    if (count(preferred) < MAX_ROOM_OCCUPANTS) return preferred;
+    const other = preferred === 'Room A' ? 'Room B' : 'Room A';
+    if (count(other) >= MAX_ROOM_OCCUPANTS) throw new Error('No initial room space');
+    return other;
   }
   const failure = (code: FailureCode, retryAfterMs?: number): FullFailure => ({ ok: false, serverTimeMs: clock(), error: {
     code, ...(retryAfterMs === undefined ? {} : { retryAfterMs }),
@@ -296,7 +375,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const admissionId = hash([uid, body['requestId']]);
     // Draw only for a new admission, and reuse the candidate across transaction retries.
     // Keep the original body (including deprecated initialRoom) in receipt fingerprints.
-    let initialRoom: Room | undefined;
+    let preferredRoom: Room | undefined;
     return operation(uid, body, 'requestAdmission', async (tx, now) => {
       const code = await tx.get(db.collection('roomCodes').doc(body['roomCode'] as string));
       if (!code.exists || !id(code.get('matchId'))) return failure('FORBIDDEN');
@@ -304,7 +383,13 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
       const member = await tx.get(base.collection('members').doc(uid));
       if (control?.protocolVersion !== 2 || control.status !== 'lobby' || member.get('kind') === 'player') return failure('FORBIDDEN');
-      initialRoom ??= drawInitialRoom();
+      const versions = await gameplayPins(tx, base);
+      const joint = jointStartingRoomsEnabled(versions);
+      const bindings = !joint && roomCapacityEnabled(versions) ? (await tx.get(base.collection('seats'))).docs : [];
+      // New-tuple pending requests have no assignment and consume no randomness.
+      // Historical requests retain their one independently drawn preference.
+      const initialRoom = joint ? null : allocatedInitialRoom(preferredRoom ??= drawInitialRoom(),
+        bindings.map(binding => binding.get('initialRoom') as Room), versions);
       return { response: success(now, { matchId: base.id, admissionId, status: 'pending' }), write: () => {
         tx.create(base.collection('admissions').doc(admissionId), { uid, initialRoom, requestedAt: now, status: 'pending' });
       } };
@@ -314,6 +399,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const body = envelope(uid, payload, FullApproveAdmissionRequestSchema);
     if (isFailure(body)) return body;
     const base = db.collection('matches').doc(body['matchId'] as string), seatId = body['seatId'] as SeatId;
+    let jointRank: number | undefined, drawNonce: string | undefined;
     return operation(uid, body, 'approveAdmission', async (tx, now) => {
       const control = (await tx.get(base.collection('control').doc('session'))).data() as Control | undefined;
       if (control?.hostUid !== uid || control.status !== 'lobby' || Number(seatId.slice(5)) > control.playerCount) return failure('FORBIDDEN');
@@ -335,14 +421,31 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const nextSetup = FullSetupDocumentSchema.parse({ ...currentSetup, revision: currentSetup.revision + 1,
         seats: [...bindings.docs.map(binding => ({ seatId: binding.id, confirmed: false, ready: false })), { seatId, confirmed: false, ready: false }]
           .sort((a, b) => a.seatId.localeCompare(b.seatId)) });
-      const initialRoom = admission.get('initialRoom') as Room;
+      const versions = await gameplayPins(tx, base);
+      const joint = jointStartingRoomsEnabled(versions);
+      const approvedAdmissions = joint ? (await tx.get(base.collection('admissions').where('status', '==', 'approved'))).docs : [];
+      const recordedRooms = joint ? await readStartingRooms(tx, base, control.playerCount, versions, bindings.docs, approvedAdmissions) : null;
+      const nextSeatIds = [...bindings.docs.map(binding => binding.id), seatId];
+      if (joint && (nextSeatIds.length > control.playerCount || new Set(nextSeatIds).size !== nextSeatIds.length
+        || nextSeatIds.some(value => !seat(value) || Number(value.slice(5)) > control.playerCount))) throw new Error('Invalid joint roster');
+      // The winning complete roster receives one joint draw. Replayed operations
+      // recover receipts first; callback retries reuse this invocation's rank.
+      const rooms: Record<string, Room | null> | undefined = joint ? recordedRooms?.initialRooms ?? (nextSeatIds.length === control.playerCount
+        ? jointStartingRooms(control.playerCount, jointRank ??= drawStartingRoomRank(control.playerCount)) : unassignedRooms(nextSeatIds)) : undefined;
+      const newRecord = joint && recordedRooms === null && nextSeatIds.length === control.playerCount
+        ? startingRoomRecord(base, control.playerCount, versions, rooms as Record<string, Room>, drawNonce ??= newId()) : null;
+      const initialRoom = joint ? rooms![seatId]! : allocatedInitialRoom(admission.get('initialRoom') as Room,
+        bindings.docs.map(binding => binding.get('initialRoom') as Room), versions);
       const nextLobby = lobby(base, control, bindings.docs); nextLobby.seats.push({ seatId, initialRoom });
+      if (rooms !== undefined) nextLobby.seats = nextLobby.seats.map(binding => ({ ...binding, initialRoom: rooms[binding.seatId]! }));
       FullLobbyViewSchema.parse(nextLobby);
       return { response: success(now, { admissionId: admission.id, seatId, status: 'approved' }), write: () => {
+        if (newRecord !== null) tx.create(base.collection('engine').doc('startingRooms'), newRecord);
+        if (rooms !== undefined) writeRosterRooms(tx, bindings.docs, approvedAdmissions, rooms);
         tx.create(bindingRef, { uid: targetUid, bindingRevision: 1, initialRoom });
         tx.create(base.collection('seatSessions').doc(targetUid), SeatSessionSchema.parse({ schemaVersion: 1, protocolVersion: 2, matchId: base.id, seatId, bindingRevision: 1 }));
         tx.set(memberRef, { kind: 'player', seatId, bindingRevision: 1 });
-        tx.update(admissionRef, { status: 'approved', seatId });
+        tx.update(admissionRef, { status: 'approved', seatId, ...(initialRoom === admission.get('initialRoom') ? {} : { initialRoom }) });
         tx.set(base.collection('lobby').doc('public'), nextLobby);
         tx.set(identityRef, nextIdentity); tx.set(setupRef, nextSetup);
       } };
@@ -409,7 +512,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     });
     return FullLobbyIdentityDocumentSchema.parse({ ...current, locked: true, revision: current.revision + 1, seats });
   }
-  function parseDeal(value: unknown, match: FullSetupDocument): PreparedDeal {
+  function parseDeal(value: unknown, match: FullSetupDocument, recordedRooms?: StartingRoomsRecord | null): PreparedDeal {
     if (value === null || typeof value !== 'object') throw new Error('Missing prepared deal');
     const deal = value as PreparedDeal;
     if (deal.schemaVersion !== 1 || deal.protocolVersion !== 2 || deal.lifecycleVersion !== SETUP_LIFECYCLE_VERSION
@@ -421,6 +524,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     const decoded = decodeV1Setup(deal.setup);
     if (decoded.playerCount !== match.playerCount) throw new Error('Invalid prepared roster');
     buildRoster(decoded);
+    assertInitialRoomCapacity(decoded, deal.versions);
+    assertRecordedRoomMap(decoded, deal.versions, recordedRooms);
     return deal;
   }
   function setupPreview(matchId: string, deal: PreparedDeal, binding: DocumentSnapshot, bindingRevision?: number): FullSetupPlayerView {
@@ -487,6 +592,10 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const practiceSnapshot = await tx.get(base.collection('practice').doc('public'));
         const practice = practiceSnapshot.exists ? FullPracticeBotsDocumentSchema.parse(practiceSnapshot.data()) : practiceDocument(base.id);
         const humans = bindings.filter(binding => humanBinding(binding.data())), bots = bindings.filter(botBinding);
+        const creationVersions = name === 'beginSetup' ? await gameplayPins(tx, base) : undefined;
+        const setupVersions = creationVersions ?? (dealSnapshot.exists ? FullVersionsSchema.parse(dealSnapshot.get('versions')) : await gameplayPins(tx, base));
+        const recordedRooms = jointStartingRoomsEnabled(setupVersions)
+          ? await readStartingRooms(tx, base, control.playerCount, setupVersions, bindings) : null;
         let now = clock();
         let response: SetupResponse, mutate: (() => void) | undefined;
         const acknowledge = (progress: FullSetupDocument): SetupResponse => responseSchema.parse({ schemaVersion: 1, protocolVersion: 2,
@@ -500,6 +609,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             && bindings.every(binding => seat(binding.id) && Number(binding.id.slice(5)) <= control.playerCount)
             && memberships.every((membership, index) => { const member = membership.data(), binding = humans[index]!;
               return memberPlayer(member) && member.seatId === binding.id && member.bindingRevision === binding.get('bindingRevision'); });
+          if (validRoster && jointStartingRoomsEnabled(creationVersions!) && bindings.some(binding => !['Room A', 'Room B'].includes(binding.get('initialRoom')))) throw new Error('Joint roster remains unassigned');
+          if (validRoster) assertInitialRoomCapacity({ initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) }, creationVersions!);
           if (control.status !== 'lobby' || current.stage !== 'lobby') response = fail('SETUP_LOCKED');
           else if (engineSnapshot.exists || dealSnapshot.exists || control.gameStarted === true) response = fail('UNAVAILABLE');
           else if (!validRoster) response = fail('ROSTER_INCOMPLETE');
@@ -549,7 +660,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             ? control.gameStarted !== false || engineSnapshot.exists
             : control.gameStarted !== true || !engineSnapshot.exists)) response = fail('UNAVAILABLE');
           else {
-            const deal = parseDeal(dealSnapshot.data(), current), own = current.seats.find(seat => seat.seatId === actor!.seatId);
+            const deal = parseDeal(dealSnapshot.data(), current, recordedRooms), own = current.seats.find(seat => seat.seatId === actor!.seatId);
             if (own === undefined || !own.confirmed || identities.matchId !== base.id || !identities.locked) throw new Error('Invalid ready roster');
             if (current.stage === 'running') response = acknowledge(current);
             else {
@@ -616,6 +727,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const creationPins = payload.stage === 'choosing'
           ? (await tx.get(base.collection('engine').doc('gameplayPins'))).data() as FullGameplayVersions | undefined : undefined;
         if (identities.matchId !== base.id || digest(identities.seats.map(seat => seat.seatId)) !== digest(current.seats.map(seat => seat.seatId))) return { status: 'blocked' as const };
+        const setupVersions = payload.stage === 'choosing' ? creationPins ?? LEGACY_FULL_GAME_VERSION_PINS : FullVersionsSchema.parse(dealSnapshot.get('versions'));
+        const recordedRooms = jointStartingRoomsEnabled(setupVersions)
+          ? await readStartingRooms(tx, base, control.playerCount, setupVersions, bindings) : null;
         // Start the next full window after loading its transactional inputs.
         const now = clock();
         if (payload.stage === 'choosing') {
@@ -627,6 +741,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
           recordedSetup ??= encodeV1Setup({ ...randomSetup(control.playerCount, shuffle),
             initialRooms: Object.fromEntries(bindings.map(binding => [binding.id, binding.get('initialRoom') as Room])) });
           buildRoster(decodeV1Setup(recordedSetup));
+          assertInitialRoomCapacity(decodeV1Setup(recordedSetup), gameplayVersions);
+          assertRecordedRoomMap(decodeV1Setup(recordedSetup), gameplayVersions, recordedRooms);
           const deal: PreparedDeal = { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION, dealId,
             setupId: payload.setupId, readingStartedAt: now, readingEndsAt, readingDeadlineToken: readingToken, preparedAt: now,
             versions: { ...gameplayVersions, assetManifestVersion },
@@ -642,7 +758,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
           tx.update(intentRef, { status: 'completed', leaseToken: null, leaseUntil: null });
           return { status: 'advanced' as const };
         }
-        const deal = parseDeal(dealSnapshot.data(), current);
+        const deal = parseDeal(dealSnapshot.data(), current, recordedRooms);
         if (!identities.locked || deal.readingDeadlineToken !== payload.deadlineToken) return { status: 'blocked' as const };
         if (current.seats.every(seat => seat.ready)) {
           const progress = FullSetupDocumentSchema.parse({ ...current, stage: 'running', revision: current.revision + 1 });
@@ -672,6 +788,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
     // Memoize each new binding's draw for this invocation, even if Firestore retries.
     // Retained bots are read from storage and never use the randomizer.
     const newBotRooms = new Map<string, Room>();
+    let jointRank: number | undefined, drawNonce: string | undefined;
     try {
       return await db.runTransaction(async tx => {
         // Recheck the current host before any cached acknowledgment, including after start.
@@ -683,6 +800,10 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         const now = clock(), budget = await limit(tx, uid, 'setPracticeBots', now);
         if (!budget.allowed) return fail('RATE_LIMITED', budget.retryAfterMs);
         const bindings = await tx.get(base.collection('seats'));
+        const versions = await gameplayPins(tx, base), joint = jointStartingRoomsEnabled(versions);
+        if (!joint && bindings.docs.some(binding => !['Room A', 'Room B'].includes(binding.get('initialRoom')))) throw new Error('Invalid historical room assignment');
+        const approvedAdmissions = joint ? (await tx.get(base.collection('admissions').where('status', '==', 'approved'))).docs : [];
+        const recordedRooms = joint ? await readStartingRooms(tx, base, control.playerCount, versions, bindings.docs, approvedAdmissions) : null;
         const identityRef = base.collection('identities').doc('public'), identitySnapshot = await tx.get(identityRef);
         const practiceRef = base.collection('practice').doc('public'), practiceSnapshot = await tx.get(practiceRef);
         const epochRef = base.collection('practice').doc('bindingEpochs'), epochSnapshot = await tx.get(epochRef);
@@ -702,7 +823,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         else {
           const kept = oldBots.slice(0, body.botCount), removed = oldBots.slice(body.botCount);
           const occupied = new Set([...humans, ...kept].map(doc => doc.id));
-          const added: Array<{ seatId: SeatId; bindingRevision: number; initialRoom: Room }> = [];
+          const added: Array<{ seatId: SeatId; bindingRevision: number; initialRoom: Room | null }> = [];
           const epochs = { ...(epochSnapshot.get('revisions') as Record<string, number> | undefined ?? {}) };
           for (let n = 1; kept.length + added.length < body.botCount && n <= control.playerCount; n++) {
             const seatId = `seat-${n}` as SeatId;
@@ -711,11 +832,24 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             if (!Number.isSafeInteger(previous) || previous < 0 || previous >= Number.MAX_SAFE_INTEGER) throw new Error('Invalid binding epoch');
             epochs[seatId] = previous + 1;
             const bindingRevision = previous + 1, roomKey = `${seatId}:${bindingRevision}`;
-            if (!newBotRooms.has(roomKey)) newBotRooms.set(roomKey, drawInitialRoom());
-            added.push({ seatId, bindingRevision, initialRoom: newBotRooms.get(roomKey)! });
+            if (!joint && !newBotRooms.has(roomKey)) newBotRooms.set(roomKey, drawInitialRoom());
+            const initialRoom = joint ? null : allocatedInitialRoom(newBotRooms.get(roomKey)!,
+              [...humans, ...kept].map(binding => binding.get('initialRoom') as Room).concat(added.map(entry => entry.initialRoom as Room)), versions);
+            added.push({ seatId, bindingRevision, initialRoom });
           }
           const botSeatIds = [...kept.map(doc => doc.id as SeatId), ...added.map(entry => entry.seatId)].sort();
           const changed = digest(botSeatIds) !== digest(current.botSeatIds);
+          const nextSeatIds = [...humans, ...kept].map(binding => binding.id).concat(added.map(entry => entry.seatId));
+          if (joint && (new Set(nextSeatIds).size !== nextSeatIds.length
+            || nextSeatIds.some(value => !seat(value) || Number(value.slice(5)) > control.playerCount))) throw new Error('Invalid joint roster');
+          // The first complete roster creates an immutable map of canonical seats.
+          // Later removals/replacements inherit it, including a fresh bot epoch.
+          // This conservatively implements the existing once-drawn persistence rule.
+          const rooms: Record<string, Room | null> | undefined = joint && changed ? recordedRooms?.initialRooms ?? (nextSeatIds.length === control.playerCount
+            ? jointStartingRooms(control.playerCount, jointRank ??= drawStartingRoomRank(control.playerCount)) : unassignedRooms(nextSeatIds)) : undefined;
+          const newRecord = joint && recordedRooms === null && changed && nextSeatIds.length === control.playerCount
+            ? startingRoomRecord(base, control.playerCount, versions, rooms as Record<string, Room>, drawNonce ??= newId()) : null;
+          if (rooms !== undefined) for (const entry of added) entry.initialRoom = rooms[entry.seatId]!;
           const next = FullPracticeBotsDocumentSchema.parse({ ...current, revision: current.revision + (changed ? 1 : 0), botSeatIds });
           const removedIds = new Set(removed.map(doc => doc.id));
           const identitySeats = identities.seats.filter(entry => !removedIds.has(entry.seatId));
@@ -733,10 +867,14 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             seats: identitySeats.sort((a, b) => a.seatId.localeCompare(b.seatId)) });
           const nextLobby = FullLobbyViewSchema.parse({ ...lobby(base, control, [...humans, ...kept]),
             seats: [...humans, ...kept].map(doc => ({ seatId: doc.id, initialRoom: doc.get('initialRoom') }))
-              .concat(added.map(entry => ({ seatId: entry.seatId, initialRoom: entry.initialRoom }))).sort((a, b) => a.seatId.localeCompare(b.seatId)) });
+              .concat(added.map(entry => ({ seatId: entry.seatId, initialRoom: entry.initialRoom })))
+              .map(binding => ({ ...binding, initialRoom: rooms === undefined ? binding.initialRoom : rooms[binding.seatId]! }))
+              .sort((a, b) => a.seatId.localeCompare(b.seatId)) });
           response = FullSetPracticeBotsResponseSchema.parse({ schemaVersion: 1, protocolVersion: 2, ok: true,
             serverTimeMs: now, matchId: body.matchId, requestId: body.requestId, revision: next.revision, botSeatIds });
           mutate = () => {
+            if (newRecord !== null) tx.create(base.collection('engine').doc('startingRooms'), newRecord);
+            if (rooms !== undefined) writeRosterRooms(tx, [...humans, ...kept], approvedAdmissions, rooms);
             for (const doc of removed) { tx.delete(doc.ref); tx.delete(base.collection('recovery').doc(doc.id)); }
             for (const entry of added) tx.create(base.collection('seats').doc(entry.seatId), {
               controller: 'bot', bindingRevision: entry.bindingRevision, initialRoom: entry.initialRoom });
@@ -1054,7 +1192,11 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const setupRef = base.collection('setup').doc('public'), setupSnapshot = await tx.get(setupRef);
       const progress = setupSnapshot.exists ? FullSetupDocumentSchema.parse(setupSnapshot.data()) : null;
       const dealSnapshot = await tx.get(base.collection('setup').doc('deal'));
-      const prepared = state === null && progress?.stage === 'awaiting-ready' ? parseDeal(dealSnapshot.data(), progress) : null;
+      const awaiting = state === null && progress?.stage === 'awaiting-ready';
+      const preparedVersions = awaiting ? FullVersionsSchema.parse(dealSnapshot.get('versions')) : null;
+      const recordedRooms = preparedVersions !== null && jointStartingRoomsEnabled(preparedVersions)
+        ? await readStartingRooms(tx, base, control.playerCount, preparedVersions, (await tx.get(base.collection('seats'))).docs) : null;
+      const prepared = awaiting ? parseDeal(dealSnapshot.data(), progress, recordedRooms) : null;
       const ownProgress = progress?.seats.find(seat => seat.seatId === grant.id);
       if (prepared !== null && (control.status !== 'awaiting-ready' || ownProgress === undefined || !ownProgress.confirmed)) return failure('FORBIDDEN');
       const bindingRevision = (binding.get('bindingRevision') as number) + 1;

@@ -9,13 +9,13 @@ constraints; it is not a claim that the candidate has been deployed.
 The owner requested the current unpainted full-body scenes in the playable game
 before judging further painting, recorded in [issue #97](https://github.com/Amirkianfar66/GameN/issues/97).
 Designer supplied the cumulative ability stack through
-[`1e2f4916`](https://github.com/Amirkianfar66/GameN/pull/110), based on board-motion
+[`49f0db4d`](https://github.com/Amirkianfar66/GameN/pull/111), based on board-motion
 [`08409392`](https://github.com/Amirkianfar66/GameN/pull/88). Keep that artwork and
 its editable sources. Frontend owns its production rendering and lifecycle.
 
 For this staging trial, Integration accepts packaging the complete
-`abilities-0.6.0` kit: 39 assets and 18 delivered ability treatments. The six
-shared treatments marked planned in the inventory remain proposals; existing
+`abilities-0.7.0` kit: 49 assets and 22 delivered ability treatments. The two
+setup treatments marked planned in the inventory remain proposals; existing
 board/setup behavior is not evidence that those additional designs are delivered.
 The owner has approved the Insider's content as character portraits and role
 labels, and has requested this trial. Final acceptance of the complete look and
@@ -51,6 +51,18 @@ proposal to keep private cards visible on stale views is not adopted. DSN-REQ-15
 lasting Disabler/Officer spent-state fields remain unimplemented: unavailable
 legal targets are not proof that a resource was spent. Use the existing authorized
 resources and receipts, without inferring extra private facts.
+
+`fullRoomCapacityForVersions` in shared contracts supplies finite display limits
+only for the exact reviewed 1.2 and 1.3 gameplay tuples. Unknown/mixed tuples,
+historical uncapped matches and Final Zone have no finite label. This metadata
+does not grant movement: enable room tags from the server's legal offers.
+
+The new 1.3 capacity-resolution tuple follows BAL-OD-1 through BAL-OD-6. Initial
+rooms remain unassigned until the first complete-roster draw; the first canonical
+seat map then persists across roster edits and recovery. Existing saved tuples
+retain their original behavior. The root verification runs the frozen historical
+catalogue explicitly under its Pass ruleset, followed by a separate strict
+107-case capacity gate and 600 capped playouts under the new tuple.
 
 ## Release evidence
 

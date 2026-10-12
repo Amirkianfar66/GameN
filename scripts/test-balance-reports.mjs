@@ -30,8 +30,18 @@ const V1_MANIFEST_HASH = '451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467
 const SOURCE_MANIFEST_HASH = '34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc';
 // The reviewed catalogue and parent overlay stay immutable. Runtime additions are pinned
 // separately, so the current engine must pass the entire original catalogue as well.
-export const ADDITIONAL_OWNER_OVERLAYS = { 'rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json': 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' };
-export const ENGINE_PINS = { adapter: 'full-game-v1', engineVersion: 'full-game-1.1.0', rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'], protocolVersion: 2 };
+export const ADDITIONAL_OWNER_OVERLAYS = {
+  'rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json': 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183',
+  'rules/overlays/room-capacity-owner-decision-2026-10-11.json': 'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468',
+  'rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json': 'aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e',
+};
+// The catalogue is historical compatibility evidence. Current capacity acceptance
+// has its own engine/service suites; neither tuple is inferred from the other.
+export const BINARY_ENGINE_PINS = { engineVersion: 'full-game-1.3.0', rulesetVersion: 'in-person-v1-capacity-resolution-2026-10-12',
+  rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json'] };
+export const ENGINE_PINS = { adapter: 'full-game-v1', engineVersion: 'full-game-1.1.0', rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'], protocolVersion: 2,
+  binaryEngineVersion: BINARY_ENGINE_PINS.engineVersion, binaryRulesetVersion: BINARY_ENGINE_PINS.rulesetVersion,
+  binaryRulesetHash: BINARY_ENGINE_PINS.rulesetHash };
 const BLOCKED = {
   'FLOW-07': ['D17'], 'FLOW-08': ['D20'], 'FLOW-09': ['D19'], 'MOVE-05': ['D16'],
   'SUP-08': ['D11'], 'SUP-09': ['D12', 'D11'], 'HACK-06': ['D18'], 'FLOW-10': ['D17'],
