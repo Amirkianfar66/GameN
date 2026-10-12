@@ -2,7 +2,7 @@
 
 # design/abilities/: ability art and motion
 
-`mothership:dev-only` · `abilities-0.6.0` · **a proposal**
+`mothership:dev-only` · `abilities-0.7.0` · **a proposal**
 
 Original artwork and comic motion for every current V1 role ability and shared game action, delivered in focused slices on the board-motion phone prototype (`design/board-motion/`). The first slice is **the Insider's file**: a private investigation board for the Insider's starting knowledge. The inventory of all 24 treatments, delivered and planned, is generated into [docs/design/abilities-inventory.md](../../docs/design/abilities-inventory.md); Frontend's instructions are in [docs/design/abilities-handoff.md](../../docs/design/abilities-handoff.md).
 
@@ -51,6 +51,13 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 - **The showdown**: in the Final Zone every player still in the match registers one special shot. Its strip draws the target in the same reticle as an ordinary shot and, at the start of the detail line, the special shot, a caption-yellow round, full while offered and spent on the receipt (used then, with no refund, V1-20), which is not a result. Every seat in the Final Zone sees the same strip, whatever its role.
 - **The match's end** is public, so it is the board's (`design/board-motion/`): a result sheet over the lower board on every screen alike, in the release's words. The winner struck on a ribbon in its side's colour and the Alien's co-win; then, at a finished match only (V1-18), every seat's role in seat order, in its side's colour, the Code's four rows pinned, and the Code's sentence in seat order. A match the host ended shows its sentence alone. No device art and no ability art: the sheet is drawn on the shared display too. Its cue, `cue-end-reveal`, plays once, for the view's phase turning terminal.
 
+## Slice 7: the marks in the tray, the failure states, movement and health
+
+- **The tray's marks**: each action the seat's own view opens has its chip hold its own mark, the strip's: the reticle (the reviewed `icon-action-shot`), the Disable's charged ring, the shield, the cross, the lens, the tag, the comms, the punch card, the special round, the ballot box (every ballot) and the key. The same for every role: both Disablers see the same ring, and nothing in a mark names a role. Without the art the glyph stays, and the label beside it says the action in words.
+- **Out of date**: the release's connection banner over the top of the board, in its words, with its one control, Reconnect now, and the reviewed stale-connection icon; its change is said once, and nothing plays on the reconnect. Every sheet keeps clear of it, so that its heading and Close stay in view on a 320 x 568 phone.
+- **The card on an out-of-date view, both ways** ([DSN-REQ-16](../../docs/design/integration-requests.md#dsn-req-16)): the closed folder by default; where the card is kept, as recommended, it stays at rest (nothing moving, no snapshot pressable), marked **May be out of date** (proposed words) while the view may be out of date, and unmarked when only the turn's time is up.
+- **Movement and health** stay the board-motion prototype's (PR #88): the room tags, the walk, the hit, the bandage, the fall, the markers; recorded as delivered. No door slam and no hatch: the walk into the Jail or the Command Room is the public move, and a cue adds no fact.
+
 ## What is here
 
 | Path | What it is | Edit it? |
@@ -61,9 +68,10 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 | `source/guard.svg` | Slice 4's pieces: the reticle, a shield and a shield used up (split), a round and a spent one | **Yes. The editable source** |
 | `source/ballot.svg` | Slice 5's pieces: a ballot slip and its edge, a pencil tick and cross, a ballot box, the key ring, the comms ring, the coiled cord, a microphone and its outline | **Yes. The editable source** |
 | `source/finale.svg` | Slice 6's piece: the showdown's special shot (spent, it is slice 4's spent round) | **Yes. The editable source** |
+| `source/actions.svg` | Slice 7's pieces: the tray's ten marks (Disable, Protection, Rescue, Scan, Supply, Hack, Code, the showdown's shot, a ballot, the release request's key), 32 x 32 in one ink, in the reviewed `icon-action-shot`'s idiom | **Yes. The editable source** |
 | `recipes.json` | How each asset is lifted out of its source: id, version, box, anchors, use; the neutral palette; the bundle's load policy; rights | Yes |
 | `assets/` | One SVG per asset, `abilities.art.css` (every asset as a custom property `--ab-asset-<id>`) and `manifest.json` (ids, versions, boxes, anchors, sizes, hashes, colors) | No. Written by `design/tools/abilities-assets.mjs` |
-| `js/dossier.js` | What every file shares (`snapshot()`, `fileShell()`, `makeInspectable()`, `assemble()`, `cancelMotion()`, `closedFolder()`) and the Insider's file (`insiderFile()`), the copy and the motion beats. Reference behaviour for Frontend | Yes |
+| `js/dossier.js` | What every file shares (`snapshot()`, `fileShell()`, `makeInspectable()`, `assemble()`, `cancelMotion()`, `pauseFile()`, `closedFolder()`) and the Insider's file (`insiderFile()`), the copy and the motion beats. Reference behaviour for Frontend | Yes |
 | `js/intel.js` | Slice 2: `hackerFile()`, `printout()`, `printFresh()`, `alienFile()`, `codeCard()`, `scanTarget()`, and the strip's one-shot beats `clipIn()`, `punch()` | Yes |
 | `js/tools.js` | Slice 3: `vials()`, `target()`, `cell()`, `supplyTags()`, `rescueKit()`, `deliveries()`, and the beats `drain()`, `discharge()`, `tie()`, `dropIn()` | Yes |
 | `js/guard.js` | Slice 4: `rounds()`, `weaponsNote()`, `guardNotes()`, and the beats `spend()`, `crack()`; the shot's and Protection's targets use slice 3's `target()` | Yes |
@@ -72,7 +80,7 @@ It is private: drawn only inside the seat's own open card, after gameplay starts
 | `css/abilities.css` | The reference styles: tokens only; art drawn only behind `[data-art~="abilities"]` and the crew cards behind `[data-art~="public-board"]`; the short-phone and large-text layouts | Yes |
 | `contract/abilities.json` | The inventory: every treatment's roles, audience, trigger, view fields, disclosure, concept, art, motion in five forms, states, copy, review and dependencies | Yes. `docs/design/abilities-inventory.md` follows |
 | `contact.html` | The contact sheet of the review pictures | Yes |
-| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3), `contact-shot-protection.png` (slice 4), `contact-ballots-hack-pass.png` (slice 5) and `contact-showdown-end.png` (slice 6) | No. Written by `design/tools/abilities-capture.mjs` |
+| `review/` | Review pictures at 390 x 844 and 320 x 568, measured as they are taken, the assemblies frame by frame, `report.json`, `contact-insider.png` (slice 1), `contact-hacker-alien.png` (slice 2), `contact-rescue-disable-supply.png` (slice 3), `contact-shot-protection.png` (slice 4), `contact-ballots-hack-pass.png` (slice 5), `contact-showdown-end.png` (slice 6) and `contact-icons-failure.png` (slice 7) | No. Written by `design/tools/abilities-capture.mjs` |
 
 ## See it
 
@@ -94,6 +102,9 @@ npm run dev:review --workspace @mothership/design-tokens
 #   ?scenario=vote.confirm, vote.recorded, release.vote-yes, release.confirm, hack.confirm, hack.phase, hack.partner, pass.confirm   the ballots, a Hack and Pass
 #   ?scenario=showdown.choose, showdown.confirm, showdown.registered   the showdown
 #   ?scenario=end.blue, end.alien-co, end.red, end.alien, end.draw, end.aborted   the match's end (or board.idle, then the panel's "The match ends")
+#   ?scenario=tray.open, tray.undercover, tray.cracker, tray.disabler, tray.supplier, tray.showdown, tray.vote, tray.release, tray.release-vote   the tray's marks
+#   ?scenario=robust.stale, robust.unreadable   the connection banner and Reconnect now (or the panel's "Make the view stale", "An update could not be read", "Restore a fresh view")
+#   ?scenario=stale.card, stale.card-notes      the card kept on an out-of-date view (DSN-REQ-16; on any scenario, &stale=card)
 ```
 
 Every name, seat and role in it is synthetic.

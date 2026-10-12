@@ -764,11 +764,11 @@ try {
   ok('end/aborted: the status bar says the host ended it', await page.evaluate(`document.querySelector('#bm-app .bm-status__line').textContent === 'Match ended by the host'`));
   await page.close();
   page = await open('board.idle', 'motion=reduced');
-  await click(page, '[data-event="finish"]');
-  await sleep(30);
+  // Read in the same step as the fact: the fade's mark lasts its 80 ms only.
+  const fadeMark = await page.evaluate(`(() => { document.querySelector('[data-event="finish"]').click(); return document.querySelector('#bm-app .bm-result').dataset.cue ?? null; })()`);
   ok('end/reduced: the sheet fades in; nothing is struck or turned up', js((await cues(page)).filter(c => /end-reveal/.test(c))) === js(['own:cue-end-reveal::reduced', 'observer:cue-end-reveal::reduced'])
-    && (await page.evaluate(`document.querySelector('#bm-app .bm-result').dataset.cue`)) === 'fade'
-    && (await page.evaluate(`[...document.querySelectorAll('.bm-cast__row, .bm-result__outcome')].flatMap(n => n.getAnimations()).length`)) === 0, await cues(page));
+    && fadeMark === 'fade'
+    && (await page.evaluate(`[...document.querySelectorAll('.bm-cast__row, .bm-result__outcome')].flatMap(n => n.getAnimations()).length`)) === 0, { cues: await cues(page), fadeMark });
   await page.close();
   page = await open('board.idle');
   await click(page, '[data-event="finish"]');
@@ -783,6 +783,115 @@ try {
   await page.close();
   page = await open('end.alien-co');
   ok('end: the Alien\'s co-win, in the release\'s words', js((await resultOf(page, OWN_RESULT))?.lines) === js(['The Alien wins with Blue.']));
+  await page.close();
+
+  // ---------- Slice 7: each action's mark in the tray; out of date and back; the card kept (DSN-REQ-16) ----------
+  const chipArt = p => p.evaluate(`[...document.querySelectorAll('#bm-tray .bm-chip__icon')].map(n => n.dataset.kind + ':' + (getComputedStyle(n).backgroundImage.startsWith('url(') ? 'art' : 'none') + ':' + (getComputedStyle(n).color === 'rgba(0, 0, 0, 0)' ? 'glyph hidden' : 'glyph shown'))`);
+  const chipImage = (p, kind) => p.evaluate(`getComputedStyle(document.querySelector('#bm-tray .bm-chip__icon[data-kind="${kind}"]')).backgroundImage`);
+  for (const [scenario, kinds] of [['tray.open', ['shot', 'scan', 'hack', 'code']], ['tray.undercover', ['shot', 'protect', 'hack']], ['tray.cracker', ['rescue', 'hack']], ['tray.disabler', ['disable', 'hack']],
+    ['tray.supplier', ['supply', 'hack']], ['tray.showdown', ['showdown-shot']], ['tray.vote', ['vote']], ['tray.release', ['release-choice']], ['tray.release-vote', ['release-vote']]]) {
+    page = await open(scenario);
+    ok(`icons/${scenario}: each chip draws its own action's mark, its glyph hidden`, js(await chipArt(page)) === js(kinds.map(kind => `${kind}:art:glyph hidden`)), await chipArt(page));
+    await page.close();
+  }
+  page = await open('tray.vote');
+  const ballotIcon = await chipImage(page, 'vote');
+  await page.close();
+  page = await open('tray.release-vote');
+  ok('icons: every ballot has the same mark, a release vote too', (await chipImage(page, 'release-vote')) === ballotIcon && ballotIcon.startsWith('url('));
+  await page.close();
+  page = await open('tray.open');
+  const shotIcon = await chipImage(page, 'shot');
+  const marks = new Set();
+  for (const scenario of ['tray.open', 'tray.undercover', 'tray.cracker', 'tray.disabler', 'tray.supplier', 'tray.showdown', 'tray.vote', 'tray.release']) {
+    const other = scenario === 'tray.open' ? page : await open(scenario);
+    for (const image of await other.evaluate(`[...document.querySelectorAll('#bm-tray .bm-chip__icon')].map(n => n.dataset.kind + '|' + getComputedStyle(n).backgroundImage)`)) marks.add(image);
+    if (other !== page) await other.close();
+  }
+  const byKind = new Map([...marks].map(entry => entry.split('|')));
+  ok('icons: eleven actions, eleven marks, the Shot the reviewed one', byKind.size === 11 && new Set(byKind.values()).size === 11 && /icon-action-shot|svg/.test(shotIcon), [...byKind.keys()]);
+  await page.close();
+
+  const bannerOf = p => p.evaluate(`(() => { const b = document.querySelector('#bm-app .bm-banner'); return b && !b.hidden ? { variant: b.dataset.variant, words: b.querySelector('.bm-banner__text').textContent, act: b.querySelector('[data-act="reconnect"]')?.textContent ?? null, waiting: b.querySelector('[data-act="reconnect"]')?.getAttribute('aria-disabled') } : null; })()`);
+  const said = p => p.evaluate(`[...document.querySelectorAll('#bm-live p')].map(n => n.textContent)`);
+  page = await open('board.idle');
+  await click(page, '#bm-stale');
+  ok('stale: the banner in the release\'s words, with Reconnect now', js(await bannerOf(page)) === js({ variant: 'stale', words: 'Connection lost. Showing the last known state, which may be out of date. Reconnecting…', act: 'Reconnect now', waiting: 'false' }), await bannerOf(page));
+  ok('stale: said once, in the release\'s words', (await said(page)).filter(text => text === 'Connection lost. Showing the last known state.').length === 1, await said(page));
+  const cuesAtStale = (await cues(page)).length;
+  await click(page, '#bm-app [data-act="reconnect"]');
+  ok('reconnect: pressed, it waits; pressed again, nothing more is asked', (await bannerOf(page))?.waiting === 'true');
+  await sleep(900);
+  ok('reconnect: the banner leaves and the fresh view is said once: "Reconnected. Round 2. Your turn."', (await bannerOf(page)) === null && (await said(page)).filter(text => text === 'Reconnected. Round 2. Your turn.').length === 1, await said(page));
+  ok('reconnect: nothing plays, and nothing private comes back by itself', (await cues(page)).length === cuesAtStale && (await privateDOM(page)).length === 0);
+  await page.close();
+  page = await open('board.idle');
+  await click(page, '#bm-unreadable');
+  ok('unreadable: its own banner, in the release\'s words, the same control', js(await bannerOf(page)) === js({ variant: 'unreadable', words: 'The latest update could not be read. Showing the last known state, which may be out of date.', act: 'Reconnect now', waiting: 'false' })
+    && (await said(page)).includes('The latest update could not be read.'));
+  ok('unreadable: the actions pause, as when the connection is lost', await page.evaluate(`document.getElementById('bm-pass').getAttribute('aria-disabled') === 'true'`));
+  await click(page, '#bm-fresh');
+  ok('unreadable: readable again, said once: "Up to date again. Round 2. Your turn."', (await bannerOf(page)) === null && (await said(page)).includes('Up to date again. Round 2. Your turn.'));
+  await page.close();
+  const clear = p => p.evaluate(`(() => {
+    const b = document.querySelector('#bm-app .bm-banner').getBoundingClientRect();
+    return [...document.querySelectorAll('#bm-app .bm-sheet:not([hidden]) .bm-sheet__head, #bm-app .bm-tray:not([hidden]) .bm-sheet__head')].every(head => head.getBoundingClientRect().top >= b.bottom);
+  })()`);
+  page = await open('board.idle', 'w=320&h=568');
+  await click(page, '#bm-stale');
+  await click(page, '#bm-nav-menu');
+  ok('clearance: at 320 x 568 the menu opens below the banner, its heading and Close in view', await clear(page));
+  await click(page, '#bm-menu .bm-close');
+  await click(page, '#bm-nav-actions');
+  ok('clearance: the paused actions too', await clear(page) && /paused until the connection is restored/.test(await page.evaluate(`document.getElementById('bm-tray').textContent`)));
+  // The reader's text doubled while a sheet is open: the banner's words grow with it, and the sheet follows the banner's new edge.
+  await page.evaluate(`(() => { document.documentElement.style.fontSize = '32px'; return true; })()`);
+  await page.evaluate('new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)))');
+  ok('clearance: at twice the text size the banner\'s words grow, and the open sheet stays below it', await clear(page)
+    && await page.evaluate(`!document.getElementById('bm-tray').hidden && parseFloat(getComputedStyle(document.querySelector('#bm-app .bm-banner__text')).fontSize) >= 26`));
+  await page.close();
+
+  const kept = p => p.evaluate(`(() => {
+    const file = document.querySelector('#bm-card .ab-file');
+    return { mark: document.querySelector('#bm-card .bm-card-stale')?.textContent ?? null, role: document.querySelector('#bm-card .bm-card__name')?.textContent ?? null,
+      paused: file?.dataset.paused ?? null, disabled: file ? [...file.querySelectorAll('.ab-photo')].every(n => n.getAttribute('aria-disabled') === 'true') : null,
+      moving: file ? file.getAnimations({ subtree: true }).filter(a => a.playState === 'running').length : null };
+  })()`);
+  page = await open('stale.card');
+  ok('kept card: the card stays on an out-of-date view, marked, the file at rest and not pressable', js(await kept(page)) === js({ mark: 'May be out of date', role: 'Insider', paused: 'true', disabled: true, moving: 0 }), await kept(page));
+  await click(page, '#bm-card .ab-photo');
+  ok('kept card: a snapshot pressed while out of date inspects nothing', await page.evaluate(`!document.querySelector('#bm-card .ab-file').dataset.inspect`));
+  ok('kept card: the actions stay paused, nothing private elsewhere', await page.evaluate(`document.getElementById('bm-strip').hidden && document.getElementById('bm-pass').getAttribute('aria-disabled') === 'true'`) && (await observerPrivate(page)).length === 0);
+  await click(page, '#bm-fresh');
+  ok('kept card: current again, the mark leaves and the file can be pressed; nothing assembles again', js(await kept(page)) === js({ mark: null, role: 'Insider', paused: 'false', disabled: false, moving: 0 }), await kept(page));
+  await click(page, '#bm-card .ab-photo');
+  const inspected = await page.evaluate(`document.querySelector('#bm-card .ab-file').dataset.inspect`);
+  // Focus on the inspect card's Back (a programmatic click moves no focus: it is put there).
+  await page.evaluate(`(() => { document.querySelector('#bm-card .ab-inspect [data-file-act="back"]').focus(); return true; })()`);
+  await click(page, '#bm-stale');
+  ok('kept card: going out of date puts the inspected snapshot back at once, focus on it as Back does, nothing left moving', Boolean(inspected) && await page.evaluate(`!document.querySelector('#bm-card .ab-file').dataset.inspect && document.activeElement?.closest('.ab-photo')?.dataset.seat === ${js(inspected)}`)
+    && (await kept(page)).moving === 0, await kept(page));
+  await click(page, '#bm-fresh');
+  await page.evaluate(`(() => { document.querySelector('#bm-card .bm-close').focus(); return true; })()`);
+  await click(page, '#bm-stale');
+  ok('kept card: going out of date redraws nothing else in the card: focus stays where it was, the mark put in place', await page.evaluate(`document.activeElement === document.querySelector('#bm-card .bm-close') && Boolean(document.querySelector('#bm-card > .bm-card-stale'))`));
+  await click(page, '#bm-fresh');
+  await click(page, '#bm-expire');
+  ok('kept card: time up, the card stays at rest with no mark: the view is not out of date', js(await kept(page)) === js({ mark: null, role: 'Insider', paused: 'true', disabled: true, moving: 0 }), await kept(page));
+  await page.close();
+  page = await open('stale.card');
+  await hide(page);
+  ok('kept card: the background still conceals it: nothing private in the page', (await privateDOM(page)).length === 0);
+  await show(page);
+  ok('kept card: back from the background, the card stays closed until opened', (await privateDOM(page)).length === 0);
+  await page.close();
+  page = await open('stale.card-notes');
+  ok('kept card: the Undercover\'s notes, marked, the same mark for every role', await page.evaluate(`document.querySelector('#bm-card .bm-card-stale')?.textContent === 'May be out of date' && Boolean(document.querySelector('#bm-card .ab-guards'))`));
+  ok('kept card: no page error', page.problems().length === 0, page.problems());
+  await page.close();
+  page = await open('file.hidden');
+  await click(page, '#bm-nav-card');
+  ok('default (PR #88): an out-of-date view still shows the closed folder, the same for every role', await page.evaluate(`Boolean(document.querySelector('#bm-card .ab-folder')) && !document.querySelector('#bm-card .bm-card-stale, #bm-card .ab-file')`));
   await page.close();
 
   // ---------- An update replays nothing it has already played: the strip's stamp and art, a pick's mark ----------

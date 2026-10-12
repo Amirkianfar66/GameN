@@ -2,11 +2,11 @@
 
 # Ability art and motion: the inventory
 
-`mothership:dev-only` · abilities-0.6.0 · proposal
+`mothership:dev-only` · abilities-0.7.0 · proposal
 
 The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.
 
-**Delivered:** 18 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote; Final Showdown; End of game: roles, the Code and the outcome). The rest are planned, slice by slice; each says what it will show and what it must never show.
+**Delivered:** 22 of 24 treatments (Insider: the investigation board; Any role: the hidden card; Hacker: the known Undercover; Hacker: Scan; Hacker: Code submission; Alien: the Code from the start; Cracker: Rescue; Blue Disabler and Red Disabler: Disable; Supplier: Supply; Undercover: Protection; Ordinary shot (every seat that holds a weapon); Officer: the one shot; Alien: shared actions and a supplied weapon; Movement and room arrival; Action selection, targeting and confirmation; Standard Hack: the request and the two partners; Pass turn; Captain election, Jail vote, release request and release vote; Injury, elimination and recovery; Hospital, Jail and Command transitions; Final Showdown; End of game: roles, the Code and the outcome; Unavailable actions, rejection, missing assets and reconnecting). The rest are planned, slice by slice; each says what it will show and what it must never show.
 
 **Base:** Designer `0840939`, ruleset `in-person-v1-pass-2026-10-08` (parent `in-person-v1-2026-10-06`), engine `full-game-1.1.0`, protocol 2, tokens 0.4.0, reviewed assets `design-0.2.0`, board motion `board-motion-0.3.0`. Original Powers off.
 
@@ -42,15 +42,15 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 | [Alien: shared actions and a supplied weapon](#alien-weapon) | Alien | private-own | 4 | delivered |
 | [Character selection](#shared-selection) | any | public choice, own confirmation | 5 | planned |
 | [Private role-card reveal](#shared-role-card) | any | private-own | 5 | planned |
-| [Movement and room arrival](#shared-move) | any | public | 5 | planned |
-| [Action selection, targeting and confirmation](#shared-target) | any | private-own | 5 | planned |
+| [Movement and room arrival](#shared-move) | any | public | 7 | delivered |
+| [Action selection, targeting and confirmation](#shared-target) | any | private-own | 7 | delivered |
 | [Standard Hack: the request and the two partners](#shared-hack) | any | request private; the Hack phase and its requester public; the partner private to the two | 5 | delivered |
 | [Pass turn](#shared-pass) | any | own control; the phase change public | 5 | delivered |
 | [Captain election, Jail vote, release request and release vote](#shared-votes) | any | own ballot private; the tally public, the board's | 5 | delivered |
-| [Injury, elimination and recovery; Hospital, Jail and Command transitions](#shared-health) | any | public | 5 | planned |
+| [Injury, elimination and recovery; Hospital, Jail and Command transitions](#shared-health) | any | public | 7 | delivered |
 | [Final Showdown](#shared-showdown) | any non-eliminated | own target and special shot private; the resolution public | 6 | delivered |
 | [End of game: roles, the Code and the outcome](#shared-end) | any | public: every phone and the shared display alike, only when the match is over | 6 | delivered |
-| [Unavailable actions, rejection, missing assets and reconnecting](#shared-failure) | any | own | 5 | planned |
+| [Unavailable actions, rejection, missing assets and reconnecting](#shared-failure) | any | own | 7 | delivered |
 
 <a id="insider-file"></a>
 
@@ -569,7 +569,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Movement and room arrival
 
-`shared-move` · slice 5 · **planned** · any · public
+`shared-move` · slice 7 · **delivered** · any · public
 
 **Trigger.** Tapping an eligible room's name tag (never an action-menu choice); the public move cue on PUBLIC_MOVE.
 
@@ -579,7 +579,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 - The same walk for every move, transfer and release.
 
-**Concept.** The board-motion move (get up, walk, settle) and the room tags; arrival dust.
+**Concept.** Delivered by the board-motion prototype (PR #88), recorded here: the room tags as the move control, the tentative place, the walk (out of the place, across, into the new one), arrival dust and the ink trail; FULL on a full room.
 
 **Art.** board-motion-0.3.0 figures and scenes; approved: fx-ink-trail, fx-landing-puff
 
@@ -595,39 +595,42 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 **Words.** “the release's words”
 
-**Review.** `design/board-motion/index.html?scenario=move.tags`
+**Review.** `design/board-motion/review/states/move.tags.png`, `design/board-motion/review/states/move.confirm.png`, `design/board-motion/review/states/move.accepted.png`, `design/board-motion/review/states/move.full.png`, `design/board-motion/review/states/move.refused.png`, `design/board-motion/review/motion/10-cue-public-move-345ms.png`, `design/board-motion/review/motion/10-cue-public-move-reduced.png`, `design/board-motion/index.html?scenario=move.tags`
+
+**Depends on.** PR #88 (the board-motion prototype; its cues are proposals)
 
 <a id="shared-target"></a>
 
 ### Action selection, targeting and confirmation
 
-`shared-target` · slice 5 · **planned** · any · private-own
+`shared-target` · slice 7 · **delivered** · any · private-own
 
-**Trigger.** Actions tray, then the characters on the board, then the strip's confirmation.
+**Trigger.** The Actions tray, then the characters on the board, then the strip's confirmation (PR #88); in the tray, each action the seat's own view opens, beside its own mark.
 
 **View fields.** `legalTargets.*`, `receipt`
 
 **What it must show, and never show.**
 
 - What can be chosen is only what the view offers; registered is not a result.
+- The tray lists only what the seat's own view opens. Each chip's mark is the strip's own and the same for every role: the Disable's for both Disablers, Supply's not the Supplier's, a Hack's not the Hacker's; every ballot the same box.
 
-**Concept.** The board-motion tray and strip, with each action's icon and device art added (slices 2 to 4).
+**Concept.** The board-motion tray and strip (PR #88), with every action's art in the strip (slices 1 to 6); in the tray each chip's caption-yellow disc holds its action's mark, one ink, the strip's own: the reticle (the reviewed icon-action-shot), the charged ring, the shield, the cross, the lens, the tag, the comms, the punch card, the special round, the ballot box, the key.
 
-**Art.** approved: icon-action-shot; planned: one icon per action
+**Art.** approved: icon-action-shot; icon-action-disable; icon-action-protect; icon-action-rescue; icon-action-scan; icon-action-supply; icon-action-hack; icon-action-code; icon-action-showdown; icon-action-ballot; icon-action-key
 
 | Motion | |
 | --- | --- |
-| normal | The board-motion cues (tray, strip, eligible, picked, sending). |
-| reduced | Their reduced forms. |
-| static | Words. |
-| cancel | Background, out of date. |
+| normal | The board-motion cues (tray, strip, eligible, picked, sending); the marks themselves do not move. |
+| reduced | The cues' reduced forms. |
+| static | The marks and the words; without the art, the glyphs. |
+| cancel | The background or an out-of-date view: the tray pauses, the strip closes. |
 | replay | Never. |
 
-**States.** idle; choosing; confirming; sending; registered; rejected; unknown
+**States.** idle; choosing; confirming; sending; registered; rejected; unknown; paused
 
-**Words.** “the release's words”
+**Words.** “Shot”, “Choose a target”, “Scan”, “Choose a player”, “Code attempt”, “Enter a Code”, “Supply”, “Choose two players”, “Release request”, “Choose”
 
-**Review.** `design/board-motion/`
+**Review.** `design/abilities/review/tray-w390-hacker.png`, `design/abilities/review/tray-w390-undercover.png`, `design/abilities/review/tray-w390-cracker.png`, `design/abilities/review/tray-w390-disabler.png`, `design/abilities/review/tray-w390-supplier.png`, `design/abilities/review/tray-w390-showdown.png`, `design/abilities/review/tray-w390-ballot.png`, `design/abilities/review/tray-w390-release.png`, `design/abilities/review/tray-w320-undercover.png`, `design/abilities/review/tray-w390-text200-hacker.png`, `design/abilities/review/tray-w390-no-art.png`, `design/board-motion/index.html?scenario=tray.open`
 
 <a id="shared-hack"></a>
 
@@ -733,7 +736,7 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Injury, elimination and recovery; Hospital, Jail and Command transitions
 
-`shared-health` · slice 5 · **planned** · any · public
+`shared-health` · slice 7 · **delivered** · any · public
 
 **Trigger.** PUBLIC_HEALTH_CHANGED and PUBLIC_MOVE; faction reveal at elimination.
 
@@ -742,10 +745,11 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 **What it must show, and never show.**
 
 - One hit for every cause and from no direction (cue-public-hit, a proposal, DSN-D35). Recovery names no rescuer.
+- No door slam and no hatch: the walk into the Jail or the Command Room is the public move, and the Jailed and Captain markers are the status change. A cue adds no fact.
 
-**Concept.** The board-motion hit and falls; a bandage coming off on recovery; the Jail door slam and the Command Room hatch as transition cues.
+**Concept.** Delivered by the board-motion prototype (PR #88), recorded here: one hit for every cause (a burst and a jolt), Injured with a bandage and a limp, the place's fall when Eliminated with the faction the rules reveal, the bandage gone on recovery; the Jail and the Command Room reached by the public move, their markers the status change.
 
-**Art.** board-motion-0.3.0; planned: door-slam, hatch
+**Art.** board-motion-0.3.0 figures and scenes (PR #88)
 
 | Motion | |
 | --- | --- |
@@ -759,7 +763,9 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 **Words.** “the release's words”
 
-**Review.** `design/board-motion/review/`
+**Review.** `design/board-motion/review/states/public.injured.png`, `design/board-motion/review/states/public.eliminated.png`, `design/board-motion/review/states/board.crowded-hospital.png`, `design/board-motion/review/motion/12-cue-public-hit-80ms.png`, `design/board-motion/review/motion/13-cue-public-hit-500ms.png`, `design/board-motion/review/motion/12-cue-public-hit-reduced.png`, `design/board-motion/index.html?scenario=public.injured`
+
+**Depends on.** PR #88 (the board-motion prototype; its cues are proposals)
 
 <a id="shared-showdown"></a>
 
@@ -833,37 +839,41 @@ Frontend instructions for the delivered treatments: [abilities-handoff.md](abili
 
 ### Unavailable actions, rejection, missing assets and reconnecting
 
-`shared-failure` · slice 5 · **planned** · any · own
+`shared-failure` · slice 7 · **delivered** · any · own
 
-**Trigger.** An action the view does not offer; a rejected receipt; a bundle that did not load; a reconnect.
+**Trigger.** An action the view does not offer; a rejected receipt; a lost answer; a bundle that did not load; the connection lost or an update unreadable; a reconnect.
 
-**View fields.** `legalTargets`, `receipt code (PHASE_CLOSED, NOT_ALLOWED)`, `view freshness`
+**View fields.** `legalTargets`, `receipt code (PHASE_CLOSED, NOT_ALLOWED)`, `view freshness (connection, unreadable update)`
 
 **What it must show, and never show.**
 
 - Reasons are the receipt's codes only; nothing is guessed.
+- Out of date: the release's banner and words with Reconnect now; the actions pause; a choice not sent is dropped and said so; the change is said once, and a reconnect plays nothing.
+- The card on an out-of-date view: PR #88's closed folder, the same for every role; or, as DSN-REQ-16 recommends, the release's card kept, at rest, marked May be out of date (proposed words), the same mark for every role.
 
-**Concept.** A NOT ACCEPTED stamp, an out-of-date banner, a closed folder for private content, paper-and-ink fallbacks.
+**Concept.** A NOT ACCEPTED stamp (hatched, no red) and an Unknown stamp with Check again (PR #88); an unavailable Pass or room said in words; the connection banner with the reviewed stale-connection icon and Reconnect now, every sheet kept below it; the card's out-of-date mark; paper-and-ink fallbacks for every picture.
 
-**Art.** dossier-folder; dossier-stamp
+**Art.** approved: icon-connection-stale; dossier-folder; dossier-stamp; CSS: the banner, the mark
 
 | Motion | |
 | --- | --- |
-| normal | Stamp 120 ms. |
-| reduced | Stamp without scale. |
+| normal | The stamps (120 ms; Not accepted, a short nudge); the banner and the mark do not move; a reconnect plays nothing. |
+| reduced | The stamps without scale or nudge. |
 | static | Words. |
 | cancel | Immediate. |
-| replay | Never. |
+| replay | Never: a reconnect settles at once. |
 
-**States.** unavailable; rejected: phase closed; rejected: not allowed; unknown; missing art; reconnecting; recovered
+**States.** unavailable; rejected: phase closed; rejected: not allowed; unknown; missing art; connection lost; update unreadable; reconnecting; reconnected; the card kept out of date (DSN-REQ-16); the card folded (PR #88)
 
-**Words.** “the release's words”
+**Words.** “Connection lost. Showing the last known state, which may be out of date. Reconnecting…”, “The latest update could not be read. Showing the last known state, which may be out of date.”, “Reconnect now”, “Actions are paused until the connection is restored.”, “Your choice was not sent.”, “May be out of date”. Accessible: “Connection lost. Showing the last known state.”, “The latest update could not be read.”, “Reconnected. Round 2. Your turn.”, “Up to date again. Round 2. Your turn.”
 
-**Review.** `design/board-motion/index.html?scenario=shot.rejected`
+**Review.** `design/abilities/review/stale-w390-board.png`, `design/abilities/review/stale-w320-board.png`, `design/abilities/review/stale-w390-card.png`, `design/abilities/review/stale-w320-card.png`, `design/abilities/review/stale-w320-menu.png`, `design/abilities/review/stale-w390-card-notes.png`, `design/abilities/review/stale-w390-unreadable.png`, `design/abilities/review/stale-w390-folder.png`, `design/abilities/review/stale-w390-text200-card.png`, `design/abilities/review/stale-w390-no-art.png`, `design/board-motion/review/states/shot.rejected.png`, `design/board-motion/review/states/shot.unknown.png`, `design/board-motion/review/states/move.refused.png`, `design/board-motion/index.html?scenario=stale.card`
+
+**Depends on.** DSN-REQ-16
 
 ## The kit
 
-Manifest `abilities-0.6.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 31033 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
+Manifest `abilities-0.7.0` (proposal), against the reviewed manifest `design-0.2.0` and tokens 0.4.0. Stylesheet `design/abilities/assets/abilities.art.css`, 35848 bytes. Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role.
 
 **Rights.** Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.
 
@@ -908,4 +918,14 @@ Manifest `abilities-0.6.0` (proposal), against the reviewed manifest `design-0.2
 | `dossier-mic` | 0.1.0 | 22 x 36 | base [11,34] | 1294 | `2e0f3ce5726b` | The speaking turn, held: at the start of the seat's own Pass strip. |
 | `dossier-mic-passed` | 0.1.0 | 22 x 36 | base [11,34] | 888 | `4a4db3f93a61` | The speaking turn handed on: drawn once the server accepts Pass. |
 | `dossier-round-special` | 0.1.0 | 14 x 30 | base [7,28] | 1073 | `da88eeb99730` | The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it. |
+| `icon-action-disable` | 0.1.0 | 32 x 32 | center [16,16] | 1026 | `c11710db747b` | The Disable's chip in the seat's own Actions tray: the charged ring of its strip, the same for both Disablers. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-protect` | 0.1.0 | 32 x 32 | center [16,16] | 811 | `683df43244b7` | Protection's chip in the seat's own Actions tray: the shield of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-rescue` | 0.1.0 | 32 x 32 | center [16,16] | 824 | `825e59a0ba5e` | The Rescue's chip in the seat's own Actions tray: the medical cross of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-scan` | 0.1.0 | 32 x 32 | center [16,16] | 823 | `ddd127a32c6e` | The Scan's chip in the seat's own Actions tray: the lens and its sweep. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-supply` | 0.1.0 | 32 x 32 | center [16,16] | 919 | `69cc586c2544` | Supply's chip in the seat's own Actions tray: the shipping tag of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-hack` | 0.1.0 | 32 x 32 | center [16,16] | 855 | `b2fd0a28bd67` | A Hack request's chip in the seat's own Actions tray: the comms of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-code` | 0.1.0 | 32 x 32 | center [16,16] | 1000 | `c9392e44c770` | A Code attempt's chip in the seat's own Actions tray: the punch card, four holes two by two, never a row. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-showdown` | 0.1.0 | 32 x 32 | center [16,16] | 902 | `a0259d8b6383` | The showdown shot's chip in the seat's own Actions tray: the special round of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-ballot` | 0.1.0 | 32 x 32 | center [16,16] | 938 | `9865966504da` | Every ballot's chip in the seat's own Actions tray (a Captain election, a Jail vote, a release vote): the box of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
+| `icon-action-key` | 0.1.0 | 32 x 32 | center [16,16] | 814 | `5ece3f7a9ac3` | The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot. |
 

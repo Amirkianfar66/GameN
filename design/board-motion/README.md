@@ -22,6 +22,7 @@ npm run dev:review --workspace @mothership/design-tokens   # serves design/ on h
 | One scenario | `http://127.0.0.1:4320/board-motion/?scenario=crowd.vote` |
 | A phone size | `&w=320&h=568` |
 | Reduced motion, long names | `&motion=reduced`, `&names=long` |
+| The card kept on an out-of-date view (DSN-REQ-16) | `?scenario=stale.card`; on any scenario, `&stale=card` |
 | The phone alone, full screen (how the captures are made) | `&chrome=0`; simulated safe areas `&safe=1` |
 | Hold every animation at a moment (how the storyboards are made) | `&play=move&t=450`; also `injure`, `eliminate`, `hospital` (Injured, then the move to the Hospital), `jail`, `release`, `captain` |
 | The figure lab: gestures, scenes, animations | `http://127.0.0.1:4320/board-motion/lab/?g=think,microscope`, `?scene=room-b` (or `&panel=172x300`), `?strip=hitDown&g=leanBench&to=slumpBench` |
@@ -30,7 +31,7 @@ npm run dev:review --workspace @mothership/design-tokens   # serves design/ on h
 
 Crowded-room scenarios are marked **layout stress** on the phone and in the selector: six or more in one room is beyond the owner's capacity of five (a hard rule since 11 October 2026, not yet enforced by the engine), kept to show the board still draws such a view. A full room's tag says FULL (`move.full`). The offer guard checks static engine predicates, not resources or an engine-reachable match history.
 
-The controls on the right are the prototype's own, not the design: pick a scenario, choose how the stand-in server answers the next command (accept, reject, lose the answer, slow), deliver public facts to every screen (a move, a health change, a new Captain, the next turn or round, the match's end, a replay of the last snapshot, a reconnect) and private facts to the seat alone (a Protection granted or used up), and switch reduced motion or long names. On the phone, everything works: Actions, every action, every character, room tags, Pass, Card, Menu, Escape.
+The controls on the right are the prototype's own, not the design: pick a scenario, choose how the stand-in server answers the next command (accept, reject, lose the answer, slow), deliver public facts to every screen (a move, a health change, a new Captain, the next turn or round, the match's end, a replay of the last snapshot, a reconnect) and private facts to the seat alone (a Protection granted or used up), put the phone's own view out of date (the connection lost, an update that could not be read, the turn's time up, a fresh view), keep the card open on an out-of-date view (DSN-REQ-16), and switch reduced motion or long names. On the phone, everything works: Actions, every action, every character, room tags, Pass, Card, Menu, Escape.
 
 ## What is in it
 
@@ -44,7 +45,7 @@ The controls on the right are the prototype's own, not the design: pick a scenar
 | `lab/` | The figure lab: gestures for all nine, a scene with its places taken, an animation as a row of frames |
 | `js/director.js` | Public cues from the difference between two drawn views: moves (out of the place, the walk, into the new one), hits, status changes, turn, phase, round, the match's end |
 | `js/copy.js` | The release's words (`COPY`, compared with the built `en`; `SHELL`, found verbatim), and the new words (`PROPOSED`) |
-| `js/fixtures.js` | 117 synthetic scenarios, the nine characters, and the public and private facts the panel delivers |
+| `js/fixtures.js` | 129 synthetic scenarios, the nine characters, and the public and private facts the panel delivers |
 | `js/vocabulary.js`, `vocabulary.html` | Nine characters in eleven states, drawn by the rig as the board draws them |
 | `css/board.css` | Tokens only, art only behind the bundle marks, private cues only on the own board, roles only inside the card and, at a finished match, the end's result sheet; nothing repeats |
 | `contract/cues.json` | Every cue: trigger, audience, facts, anchor, timing, cancellation, settled state, reduced motion, asset |

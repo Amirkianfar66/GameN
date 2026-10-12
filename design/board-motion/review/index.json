@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "fb2fc9839a0b87a461a2bc897d4509ce137cac577b270c34a01596590f1d1b3b",
+  "inputsSha256": "603ed223c235b8418a890df684ab9c085dbea6cca944092d47c7ea4e31181d7d",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [
@@ -112,6 +112,54 @@
       "id": "tray.empty",
       "group": "Actions tray",
       "title": "Actions tray: nothing open",
+      "key": false
+    },
+    {
+      "id": "tray.undercover",
+      "group": "Actions tray",
+      "title": "Actions tray, the Undercover in Round 4: a shot, Protection, a Hack",
+      "key": true
+    },
+    {
+      "id": "tray.cracker",
+      "group": "Actions tray",
+      "title": "Actions tray, the Cracker: a Rescue, a Hack",
+      "key": false
+    },
+    {
+      "id": "tray.disabler",
+      "group": "Actions tray",
+      "title": "Actions tray, a Disabler: the Disable, a Hack",
+      "key": false
+    },
+    {
+      "id": "tray.supplier",
+      "group": "Actions tray",
+      "title": "Actions tray, the Supplier in Round 3: Supply, a Hack",
+      "key": false
+    },
+    {
+      "id": "tray.showdown",
+      "group": "Actions tray",
+      "title": "Actions tray in the Final Zone: the showdown shot",
+      "key": false
+    },
+    {
+      "id": "tray.vote",
+      "group": "Actions tray",
+      "title": "Actions tray in a Jail vote: a ballot",
+      "key": false
+    },
+    {
+      "id": "tray.release",
+      "group": "Actions tray",
+      "title": "Actions tray, the Captain: the release request",
+      "key": false
+    },
+    {
+      "id": "tray.release-vote",
+      "group": "Actions tray",
+      "title": "Actions tray in a release vote: the same ballot",
       "key": false
     },
     {
@@ -281,6 +329,12 @@
       "group": "One target",
       "title": "Showdown shot in the Final Zone",
       "key": true
+    },
+    {
+      "id": "showdown.resolved",
+      "group": "One target",
+      "title": "Showdown resolved: the shots landed, before the end",
+      "key": false
     },
     {
       "id": "showdown.confirm",
@@ -685,10 +739,28 @@
       "key": false
     },
     {
+      "id": "robust.unreadable",
+      "group": "Robustness",
+      "title": "An update could not be read: actions paused, Reconnect now",
+      "key": false
+    },
+    {
+      "id": "stale.card",
+      "group": "Robustness",
+      "title": "Out of date with the card kept: the Insider file at rest, marked",
+      "key": true
+    },
+    {
+      "id": "stale.card-notes",
+      "group": "Robustness",
+      "title": "Out of date with the card kept: the Undercover’s notes, marked",
+      "key": false
+    },
+    {
       "id": "robust.stale",
       "group": "Robustness",
       "title": "Connection lost: actions paused, private cues gone",
-      "key": false
+      "key": true
     },
     {
       "id": "robust.dropped",
@@ -765,6 +837,26 @@
     {
       "id": "w320-aborted",
       "about": "320 x 568: the host ended the match: no winner, nothing revealed"
+    },
+    {
+      "id": "w320-stale",
+      "about": "320 x 568: connection lost, the banner with Reconnect now"
+    },
+    {
+      "id": "w320-stale-menu",
+      "about": "320 x 568: connection lost, the menu open below the banner"
+    },
+    {
+      "id": "w320-stale-tray",
+      "about": "320 x 568: connection lost, the actions paused"
+    },
+    {
+      "id": "w320-stale-card",
+      "about": "320 x 568: out of date with the card kept, below the banner, marked"
+    },
+    {
+      "id": "w320-unreadable",
+      "about": "320 x 568: an update could not be read"
     },
     {
       "id": "w320-hospital",
@@ -865,6 +957,10 @@
     {
       "id": "text200-end",
       "about": "200% text: the end, the roles and the Code in one column"
+    },
+    {
+      "id": "text200-stale-card",
+      "about": "200% text: the card kept below the banner, marked"
     },
     {
       "id": "reduced-end",
@@ -1229,7 +1325,7 @@
       "row": "20-cue-end-reveal",
       "cue": "cue-end-reveal",
       "title": "The match ends: the result rises, the winner is struck, the roles turn up",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "frames": [
         0,
         120,
@@ -1512,6 +1608,102 @@
       "id": "tray.empty",
       "state": "tray.empty",
       "file": "design/board-motion/review/states/tray.empty.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.undercover",
+      "state": "tray.undercover",
+      "file": "design/board-motion/review/states/tray.undercover.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.cracker",
+      "state": "tray.cracker",
+      "file": "design/board-motion/review/states/tray.cracker.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.disabler",
+      "state": "tray.disabler",
+      "file": "design/board-motion/review/states/tray.disabler.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.supplier",
+      "state": "tray.supplier",
+      "file": "design/board-motion/review/states/tray.supplier.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.showdown",
+      "state": "tray.showdown",
+      "file": "design/board-motion/review/states/tray.showdown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.vote",
+      "state": "tray.vote",
+      "file": "design/board-motion/review/states/tray.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.release",
+      "state": "tray.release",
+      "file": "design/board-motion/review/states/tray.release.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.release-vote",
+      "state": "tray.release-vote",
+      "file": "design/board-motion/review/states/tray.release-vote.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -1848,6 +2040,18 @@
       "id": "showdown.choose",
       "state": "showdown.choose",
       "file": "design/board-motion/review/states/showdown.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.resolved",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/states/showdown.resolved.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -2661,6 +2865,42 @@
       "kind": "state"
     },
     {
+      "id": "robust.unreadable",
+      "state": "robust.unreadable",
+      "file": "design/board-motion/review/states/robust.unreadable.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "stale.card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/states/stale.card.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "stale.card-notes",
+      "state": "stale.card-notes",
+      "file": "design/board-motion/review/states/stale.card-notes.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
       "id": "robust.stale",
       "state": "robust.stale",
       "file": "design/board-motion/review/states/robust.stale.png",
@@ -2881,6 +3121,71 @@
       "id": "w320-aborted",
       "state": "end.aborted",
       "file": "design/board-motion/review/matrix/w320-aborted.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/matrix/w320-stale.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale-menu",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/matrix/w320-stale-menu.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale-tray",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/matrix/w320-stale-tray.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale-card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/matrix/w320-stale-card.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-unreadable",
+      "state": "robust.unreadable",
+      "file": "design/board-motion/review/matrix/w320-unreadable.png",
       "width": 320,
       "height": 568,
       "viewport": "320x568",
@@ -3206,6 +3511,19 @@
       "id": "text200-end",
       "state": "end.blue",
       "file": "design/board-motion/review/matrix/text200-end.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-stale-card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/matrix/text200-stale-card.png",
       "width": 390,
       "height": 844,
       "viewport": "390x844",
@@ -4838,7 +5156,7 @@
     },
     {
       "id": "20-cue-end-reveal-0",
-      "state": "board.idle",
+      "state": "showdown.resolved",
       "file": "design/board-motion/review/motion/20-cue-end-reveal-0ms.png",
       "width": 402,
       "height": 856,
@@ -4855,7 +5173,7 @@
     },
     {
       "id": "20-cue-end-reveal-120",
-      "state": "board.idle",
+      "state": "showdown.resolved",
       "file": "design/board-motion/review/motion/20-cue-end-reveal-120ms.png",
       "width": 402,
       "height": 856,
@@ -4872,7 +5190,7 @@
     },
     {
       "id": "20-cue-end-reveal-380",
-      "state": "board.idle",
+      "state": "showdown.resolved",
       "file": "design/board-motion/review/motion/20-cue-end-reveal-380ms.png",
       "width": 402,
       "height": 856,
@@ -4889,7 +5207,7 @@
     },
     {
       "id": "20-cue-end-reveal-600",
-      "state": "board.idle",
+      "state": "showdown.resolved",
       "file": "design/board-motion/review/motion/20-cue-end-reveal-600ms.png",
       "width": 402,
       "height": 856,
@@ -4906,7 +5224,7 @@
     },
     {
       "id": "20-cue-end-reveal-900",
-      "state": "board.idle",
+      "state": "showdown.resolved",
       "file": "design/board-motion/review/motion/20-cue-end-reveal-900ms.png",
       "width": 402,
       "height": 856,
@@ -4923,7 +5241,7 @@
     },
     {
       "id": "20-cue-end-reveal-reduced",
-      "state": "board.idle",
+      "state": "showdown.resolved",
       "file": "design/board-motion/review/motion/20-cue-end-reveal-reduced.png",
       "width": 402,
       "height": 856,
@@ -5249,6 +5567,20 @@
       "title": "Blue wins: the result, the roles and the Code"
     },
     {
+      "id": "secrecy-stale.card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/secrecy/stale.card.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Out of date with the card kept: the Insider file at rest, marked"
+    },
+    {
       "id": "vocabulary",
       "state": null,
       "file": "design/board-motion/review/vocabulary.png",
@@ -5262,7 +5594,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-key.png",
       "width": 1600,
-      "height": 4862,
+      "height": 5362,
       "viewport": "1600",
       "contact": true
     },
@@ -5271,7 +5603,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-all.png",
       "width": 1600,
-      "height": 6986,
+      "height": 7017,
       "viewport": "1600",
       "contact": true
     },
@@ -5280,7 +5612,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-matrix.png",
       "width": 1600,
-      "height": 2725,
+      "height": 3109,
       "viewport": "1600",
       "contact": true
     },
@@ -5298,7 +5630,7 @@
       "state": null,
       "file": "design/board-motion/review/contact-secrecy.png",
       "width": 1600,
-      "height": 3551,
+      "height": 4215,
       "viewport": "1600",
       "contact": true
     }
