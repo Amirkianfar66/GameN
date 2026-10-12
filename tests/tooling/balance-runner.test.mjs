@@ -18,6 +18,7 @@ function temporary(fn) {
 test('required engine plan runs all three local CLIs, actual HEAD, fresh reports, and ten seeds without filters', () => {
   const commands = balanceEngineCommands(root, head, '/private/tmp/balance-new-run');
   assert.deepEqual(commands.map(command => command.name), ['scenarios', 'controls', 'playouts']);
+  assert.deepEqual(commands.map(command => command.timeoutMs), [600_000, 1_200_000, 600_000]);
   assert.equal(new Set(commands.map(command => command.reportPath)).size, 3);
   for (const command of commands) {
     assert.equal(command.args.filter(argument => argument === '--require-engine').length, 1);
@@ -87,6 +88,21 @@ test('zero-exit CLI without a fresh report and malformed reports fail closed', (
   assert.throws(() => readBalanceReport(path), error => /invalid JSON/.test(error.message) && !error.message.includes('private sentinel'));
   writeFileSync(path, '{"schema":"report"}');
   assert.deepEqual(readBalanceReport(path), { schema: 'report' });
+}));
+
+test('long controls remain bounded and a timeout cannot become passing evidence', () => temporary(directory => {
+  const log = join(directory, 'controls.log');
+  let observedTimeout;
+  const timedOut = (command, args, options) => {
+    observedTimeout = options.timeout;
+    return { status: null, signal: 'SIGTERM', error: Object.assign(new Error('timeout'), { code: 'ETIMEDOUT' }), stdout: 'all passed\nprivate sentinel', stderr: '' };
+  };
+  assert.throws(() => runBalanceProcess('fake-node', [], directory, log, timedOut, 1_200_000),
+    error => /time limit 1200000 ms/.test(error.message) && !error.message.includes('private sentinel'));
+  assert.equal(observedTimeout, 1_200_000);
+  for (const limit of [0, -1, Infinity, 1_200_001]) {
+    assert.throws(() => runBalanceProcess('fake-node', [], directory, log, () => assert.fail('invalid limit must not spawn'), limit), /invalid child time limit/);
+  }
 }));
 
 test('report gate reuses exactly the fresh reports and pins the actual clean candidate without trial flags', () => {

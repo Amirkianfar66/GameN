@@ -34,7 +34,10 @@ export function balanceEngineCommands(root, head, directory) {
     ['playouts', 'walk.mjs', assertWalkReport],
   ].map(([name, script, check]) => {
     const reportPath = join(directory, `${name}.json`);
-    return { name, reportPath, check, args: [join(root, 'tools/balance/scripts', script), '--require-engine', '--engine-commit', head,
+    // The 4,490 historical negative controls take over ten minutes on slower CI runners.
+    // Preserve the entire suite and give only that command a larger, bounded allowance.
+    return { name, reportPath, check, timeoutMs: name === 'controls' ? 1_200_000 : 600_000,
+      args: [join(root, 'tools/balance/scripts', script), '--require-engine', '--engine-commit', head,
       '--ruleset', ENGINE_PINS.rulesetVersion,
       ...(name === 'playouts' ? ['--seeds', '10'] : []), '--out', reportPath] };
   });
@@ -54,12 +57,14 @@ export function assertBalanceEngine(engine) {
     'built engine does not retain the reviewed catalogue behavior tuple');
   requireBalance(typeof engine.projectOwnAcknowledgments === 'function', 'real projectOwnAcknowledgments export unavailable');
 }
-export function runBalanceProcess(command, args, cwd, logPath, spawn = spawnSync) {
+export function runBalanceProcess(command, args, cwd, logPath, spawn = spawnSync, timeoutMs = 600_000) {
+  requireBalance(Number.isSafeInteger(timeoutMs) && timeoutMs > 0 && timeoutMs <= 1_200_000, 'invalid child time limit');
   const environment = { ...process.env };
   delete environment.NODE_TEST_CONTEXT;
-  const result = spawn(command, args, { cwd, env: environment, encoding: 'utf8', timeout: 600_000, maxBuffer: 16 * 1024 * 1024 });
+  const result = spawn(command, args, { cwd, env: environment, encoding: 'utf8', timeout: timeoutMs, maxBuffer: 16 * 1024 * 1024 });
   writeFileSync(logPath, `${result.stdout ?? ''}${result.stderr ?? ''}`);
-  requireBalance(!result.error && result.signal == null && result.status === 0, `command failed or unavailable; inspect ${logPath}`);
+  const timing = result.error?.code === 'ETIMEDOUT' ? ` (time limit ${timeoutMs} ms)` : '';
+  requireBalance(!result.error && result.signal == null && result.status === 0, `command failed or unavailable${timing}; inspect ${logPath}`);
   return result.stdout ?? '';
 }
 export function readBalanceReport(path) {
@@ -94,7 +99,7 @@ export async function runBalanceEngineEvidence(root = repositoryRoot) {
   for (const command of balanceEngineCommands(root, provenance.head, directory)) {
     requireBalance(existsSync(command.args[0]), 'required engine CLI missing');
     requireBalance(!existsSync(command.reportPath), 'engine output must be fresh');
-    runBalanceProcess(process.execPath, command.args, root, join(directory, `${command.name}.log`));
+    runBalanceProcess(process.execPath, command.args, root, join(directory, `${command.name}.log`), undefined, command.timeoutMs);
     const report = readBalanceReport(command.reportPath);
     results[command.name] = command.check(report, contract, { startedAt, finishedAt: Date.now() });
     const after = readBalanceProvenance(root);

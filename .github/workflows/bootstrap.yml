@@ -16,7 +16,8 @@ jobs:
   bootstrap:
     runs-on: ubuntu-24.04
     # Preserve full historical controls, 600 capacity playouts, and both real setup windows.
-    timeout-minutes: 45
+    # The historical controls alone may need up to twenty minutes on slower runners.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
