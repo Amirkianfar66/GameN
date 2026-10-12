@@ -53,6 +53,9 @@ const [ANCHOR_X, ANCHOR_Y] = FRAME.anchor;
 
 export function createDirector({ board, status, fx, result = null, reduced, onCue = () => {}, hold = false }) {
   const running = new Map(); // seat -> { animations, timers, nodes, raf, restore }
+  const motionQuery = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const reducedNow = () => reduced() || motionQuery?.matches === true;
+  let disposed = false;
   let statusTimer = null;
   let endTimer = null;
   let lastRevision = null;
@@ -73,6 +76,25 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     for (const seat of [...running.keys()]) cancelSeat(seat);
     clearTimeout(statusTimer); delete status.dataset.cue;
     clearTimeout(endTimer); if (result) delete result.dataset.cue;
+  }
+  // An OS preference change may arrive without a new public view or an app redraw.
+  const onMotionChange = event => { if (event.matches) cancelAll(); };
+  motionQuery?.addEventListener('change', onMotionChange);
+  function dispose() {
+    if (disposed) return;
+    disposed = true;
+    motionQuery?.removeEventListener('change', onMotionChange);
+    cancelAll();
+  }
+  // board.update has already installed the latest public gesture. Never restore a
+  // choreography's captured destination over a newer health, place or character.
+  function restoreCurrent(seat) {
+    const piece = board.pieces.get(seat);
+    if (!piece) return;
+    const body = piece.querySelector('.bm-piece__body');
+    body.dataset.drawn = '';
+    drawFigure(body, piece.querySelector('.bm-piece__front'), piece.dataset.character, piece.dataset.gesture, `${board.prefix}${seat}`);
+    delete piece.dataset.moving;
   }
   const entryFor = seat => { if (!running.has(seat)) running.set(seat, { animations: [], timers: [], nodes: [], raf: 0, restore: null }); return running.get(seat); };
   // A storyboard hold keeps every cue on screen: nothing is taken away by a timer.
@@ -169,7 +191,7 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
       const keys = hit === 'down' ? TIMELINES.hitDown(from, FALL, to, IMPACT / 4) : TIMELINES.hitStay(from, to, IMPACT, FALL.settle);
       burst(seat, was);
       const total = keys[keys.length - 1].at;
-      entry.restore = () => { body.dataset.drawn = ''; drawFigure(body, front, character, now.gesture, `${board.prefix}${seat}`); };
+      entry.restore = () => restoreCurrent(seat);
       choreograph(seat, piece, total, t => drawFigure(body, front, character, '*', prefix, sample(keys, t)), () => { entry.restore(); entry.restore = null; });
       return;
     }
@@ -191,7 +213,7 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     if (hit) burst(seat, was);
     piece.dataset.moving = '';
     const goingRight = now.anchor[0] > was.anchor[0];
-    entry.restore = () => { body.dataset.drawn = ''; drawFigure(body, front, character, now.gesture, `${board.prefix}${seat}`); delete piece.dataset.moving; };
+    entry.restore = () => restoreCurrent(seat);
     // The ink trail and the landing puff of the reviewed public move, from feet to feet. A step to
     // the next place in the same room (layout-reflow) has neither: nobody moved between rooms.
     let trail = null, puff = null;
@@ -231,6 +253,11 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
    * before: where every piece was drawn, taken before the board was redrawn.
    */
   function after(previous, next, before, { kind = 'update', revision = null } = {}) {
+    if (disposed) return [];
+    const isReduced = reducedNow();
+    // Cleanup also precedes the duplicate/replay return: changing comfort settings
+    // must settle work that began under full motion even if the facts are unchanged.
+    if (isReduced) cancelAll();
     if (kind === 'reconnect' || previous === null) { cancelAll(); lastRevision = revision; return []; }
     if (kind === 'replay' || (revision !== null && revision === lastRevision)) return [];
     lastRevision = revision;
@@ -238,7 +265,6 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     const played = [];
     const prior = new Map(previous.seats.map(seat => [seat.n, seat]));
     const moved = next.seats.filter(seat => prior.has(seat.n) && prior.get(seat.n).location !== seat.location).map(seat => seat.n);
-    const isReduced = reduced();
     const now = board.rects();
     for (const seat of next.seats) {
       const was = prior.get(seat.n);
@@ -299,5 +325,5 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     return rects;
   }
 
-  return { before, after, cancelAll, dispose: cancelAll };
+  return { before, after, cancelAll, dispose };
 }
