@@ -60,5 +60,13 @@
     "packages/presentation/test/comic-shell.test.mjs": "c2d069410fa48e8ec7ee51a7d4a35abcab3e15555f7107ddb7d54d379d7e1a40",
     "packages/presentation/test/compound-actions.test.mjs": "f62477182fc8223f74a6b3065c057854f07ba538b5bedfa316207f664aa015b9",
     "packages/presentation/test/match-end.test.mjs": "bd4d53f0002a4e222b9e5b33a0e543b8731afe8e5714c2b36c750c7165e3835f"
+  },
+  "reviewedFollowUp": {
+    "scope": "CSS-only correction for unreadable terminal text and public role-label contrast. No executable JavaScript, contracts, rules or backend changes.",
+    "file": "apps/game/hosted/ability-art.css",
+    "sha256": "4e3963577937a68380383deb5d4ac218f825c8775407397b2f8cfce6ceaa0e2b",
+    "priorSha256": "1251925d041d63fc381b88acebb56d2d585c7a60f4772980f1135b7ee0c122ce",
+    "evidence": "Frontend terminal-final.json and final 320/390 px terminal captures; independent Integration visual inspection. The original 56-step report predates this one-file follow-up.",
+    "verification": "Final source, focused presentation/Designer checks and hosted production build are recorded in the integration release report separately."
   }
 }

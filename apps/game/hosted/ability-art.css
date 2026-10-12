@@ -2,10 +2,10 @@
 @import "./ability-drawing.css";
 /* Hosted sizes and selectors keep the strip's text/controls and the public board reachable. */
 #app .ms-shell--player .phone-strip__text { min-width: 0; }
-#app .trial-result { background: var(--ms-color-paper); }
+#app .trial-result { color: var(--ms-color-ink); background: var(--ms-color-paper); }
 #app .trial-result .ms-result__outcome { padding: 8px 12px; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); rotate: -1deg; }
-#app .trial-result[data-winner="blue"] .ms-result__outcome { background: var(--ms-color-faction-blue); color: var(--ms-color-paper); }
-#app .trial-result[data-winner="red"] .ms-result__outcome { background: var(--ms-color-faction-red); color: var(--ms-color-paper); }
+#app .trial-result[data-winner="blue"] .ms-result__outcome { background: var(--ms-color-faction-blue); color: var(--ms-color-ink); }
+#app .trial-result[data-winner="red"] .ms-result__outcome { background: var(--ms-color-faction-red); color: var(--ms-color-ink); }
 #app .trial-result[data-winner="alien"] .ms-result__outcome { background: var(--ms-color-faction-alien); color: var(--ms-color-ink); }
 #app .trial-result[data-winner="draw"] .ms-result__outcome { background: repeating-linear-gradient(135deg,var(--ms-color-paper) 0 8px,var(--ms-color-paper-deep) 8px 12px); }
 #app .trial-result[data-winner="aborted"] .ms-result__outcome { background: none; border: 0; rotate: none; }
@@ -13,7 +13,7 @@
 #app .trial-cast__member { position: relative; display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px; border: 1px solid var(--ms-color-ink); background: var(--ms-color-paper-shade); }
 #app .trial-cast__portrait { display: block; width: 30px; height: 34px; flex: none; background: var(--cast-art,none) center / contain no-repeat; }
 #app .trial-cast__who { display: grid; gap: 2px; font-size: .72rem; overflow-wrap: anywhere; }
-#app .trial-cast__role { font-weight: 800; }
+#app .trial-cast__role { font-weight: 800; justify-self: start; padding: 1px 4px; border-radius: 2px; background: var(--ms-color-ink); }
 #app .trial-result .trial-cast__role:is([data-role="Officer"],[data-role="Insider"],[data-role="Cracker"],[data-role="Blue Disabler"],[data-role="Supplier"]) { color: var(--ms-color-faction-blue); }
 #app .trial-result .trial-cast__role:is([data-role="Undercover"],[data-role="Hacker"],[data-role="Red Disabler"]) { color: var(--ms-color-faction-red); }
 #app .trial-result .trial-cast__role[data-role="Alien"] { color: var(--ms-color-faction-alien); }
