@@ -8,7 +8,7 @@ import {
 import { buildKnowledge } from './knowledge.js';
 import { buildResult } from './result.js';
 import type {
-  ActionBoardMarksModel, ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
+  ActionBoardMarksModel, ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, ActionOfferState, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
   ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, LocationName, SeatModel,
 } from './types.js';
 import { buildVotePanel, ownBallotLine } from './votes.js';
@@ -35,18 +35,20 @@ function button(id: string, label: string, intent: CardButtonModel['intent'], pr
 // ordinary shot are always listed, open or not. Every other action, and every ballot, is
 // listed only while the server's view opens it: which roles have which actions, and who may
 // vote on what, is the server's knowledge, not this screen's.
+const OFFER_WORDS = { available: 'available', paused: 'paused', unavailable: 'unavailable', 'no-target': 'noTarget', 'too-few': 'tooFew' } as const satisfies Record<ActionOfferState, keyof typeof en.action.offer>;
+
 function offer(input: ConnectedPlayerInput, view: FullPlayerView, kind: ActionKind): ActionOfferModel | null {
-  const state = openness(view, kind);
-  if (state === 'closed' && kind !== 'shot') return null;
+  const openState = openness(view, kind);
+  if (openState === 'closed' && kind !== 'shot') return null;
   // On a view the server no longer confirms, or after the countdown, "available" would be a
   // claim about the present that this device cannot make: the offer is the last one it was sent.
   // The category open and nobody to name is said as it is, not as "unavailable".
-  const statusLabel = state === 'open' ? (mayStart(input) ? en.action.offer.available : en.action.offer.paused)
-    : state === 'closed' || kind === 'move' ? en.action.offer.unavailable
-      : kind === 'supply' || kind === 'code' ? en.action.offer.tooFew : en.action.offer.noTarget;
+  const state: ActionOfferState = openState === 'open' ? (mayStart(input) ? 'available' : 'paused')
+    : openState === 'closed' || kind === 'move' ? 'unavailable'
+      : kind === 'supply' || kind === 'code' ? 'too-few' : 'no-target';
   return {
-    kind, label: en.action.kind[kind], statusLabel,
-    open: state === 'open' && mayStart(input) ? { id: actionOpenId(kind), label: en.action.open[kind] } : null,
+    kind, label: en.action.kind[kind], state, statusLabel: en.action.offer[OFFER_WORDS[state]],
+    open: state === 'available' ? { id: actionOpenId(kind), label: en.action.open[kind] } : null,
   };
 }
 

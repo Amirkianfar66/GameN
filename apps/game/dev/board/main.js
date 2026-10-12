@@ -30,7 +30,7 @@ import '../../hosted/board-play.css';
 import '../../hosted/private-card.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
 import { loadArt } from '../../hosted/art.mjs';
-import { identities, MATCH, playerView, publicView, SCENARIOS } from './scenarios.mjs';
+import { identities, MATCH, ownAcknowledgments, playerView, publicView, SCENARIOS } from './scenarios.mjs';
 
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
@@ -131,7 +131,7 @@ let frameCount = 0;
 const stopCounting = screen.subscribe(() => { frameCount += 1; });
 const render = display ? renderComicTableShell : renderComicPlayerShell;
 await transport.signIn();
-const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: null }),
+const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: display || model.connection !== 'live' ? null : ownAcknowledgments(definition) }),
   subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => { stopCounting(); feeds.dispose(); } });
 feeds.start();
 if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce-motion', checked: true });
