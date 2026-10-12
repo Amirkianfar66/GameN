@@ -57,3 +57,12 @@ assert.deepEqual(resolution.decisions.map(row => row.id), Array.from({length: 6}
 assert.equal(resolution.parent_ruleset.hash, hash(capacityPath));
 assert.ok(model.includes(hash(resolutionPath)) && model.includes(resolution.ruleset_version) && model.includes(resolution.engine_version), 'Resolution engine pins');
 console.log('Capacity resolution integrity: six latest owner decisions; exact historical tuples preserved');
+
+const voteResultPath = 'rules/overlays/vote-result-owner-decision-2026-10-12.json';
+const voteResult = json(voteResultPath);
+assert.equal(voteResult.status,'confirmed'); assert.equal(voteResult.protocol_version,2);
+assert.equal(voteResult.parent_ruleset.hash,hash(resolutionPath));
+assert.deepEqual(voteResult.decisions.map(d=>d.id),Array.from({length:5},(_,i)=>`VOTE-RESULT-${String(i+1).padStart(2,'0')}`));
+assert.ok(model.includes(hash(voteResultPath)) && model.includes(voteResult.ruleset_version) && model.includes(voteResult.engine_version));
+assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(voteResultPath)));
+console.log('Vote result integrity: approved five-second checkpoints and exact new tuple bound');
