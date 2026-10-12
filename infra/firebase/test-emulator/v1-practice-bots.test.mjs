@@ -57,12 +57,13 @@ async function read(h, identity, suffix, { method = 'GET', data } = {}) {
     ...(data === undefined ? {} : { body: JSON.stringify({ fields: encodeFirestoreValue(data).mapValue.fields }) }),
   });
 }
-async function harness({ playerCount = 7, humanSeats = [], versions } = {}) {
+async function harness({ playerCount = 7, humanSeats = [], versions, roomRank } = {}) {
   let now = 1_620_000_000_000 + ++serial * 100_000_000;
   // Preserve both-room gameplay coverage independently of human request hints or bot seat parity.
   let roomAssignments = 0;
   const service = createV1Service({ db, clock: () => now, shuffle: items => [...items],
-    randomInitialRoom: () => roomAssignments++ % 2 === 0 ? 'Room A' : 'Room B' });
+    randomInitialRoom: () => roomAssignments++ % 2 === 0 ? 'Room A' : 'Room B',
+    ...(roomRank === undefined ? {} : { randomStartingRoomRank: () => roomRank }) });
   const [host, display, outsider, ...humans] = await Promise.all(Array.from({ length: humanSeats.length + 3 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount }));
   const base = db.collection('matches').doc(created.matchId);
@@ -473,11 +474,26 @@ test('the canonical deadline handler repairs a dropped engine-write bot event an
   assert.equal((await h.base.collection('receipts').get()).size, receipts);
 });
 
-test('a human Hack with a bot keeps the private partner and full canonical minute without a fabricated bot conversation', async () => {
-  const h = await harness({ humanSeats: ['seat-1'] }); await h.set(6); await startStagedMatch(h);
+for (const roomRank of [0, 11]) test(`a human Hack with a bot keeps the private partner and full canonical minute without a fabricated bot conversation (joint rank ${roomRank})`, async () => {
+  const h = await harness({ humanSeats: ['seat-1'], roomRank }); await h.set(6); await startStagedMatch(h);
   const turn = await h.state(), human = h.humans[0];
   assert.equal(turn.activeSeatId, 'seat-1');
-  const request = { protocolVersion: 2, matchId: h.base.id, phaseId: turn.phase.id, commandId: randomUUID(), command: { type: 'REQUEST_HACK', targetSeatId: 'seat-3' } };
+  // Joint ranks 0/11 make the old fixed partner local/remote. Choose from actual
+  // persisted own offers, preserving the original seat-3 case when it is legal.
+  const offered = FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(human.uid).get()).data()).legalTargets.REQUEST_HACK;
+  assert.ok(offered?.length > 0, 'The human must have a legal bot Hack partner');
+  assert.equal(offered.includes('seat-3'), roomRank === 0);
+  const targetSeatId = offered.includes('seat-3') ? 'seat-3' : offered[0];
+  assert.equal((await h.bindings())[targetSeatId].controller, 'bot');
+  assert.equal(turn.seats.find(seat => seat.seatId === targetSeatId).location, turn.seats.find(seat => seat.seatId === 'seat-1').location);
+  const request = { protocolVersion: 2, matchId: h.base.id, phaseId: turn.phase.id, commandId: randomUUID(), command: { type: 'REQUEST_HACK', targetSeatId } };
+  if (roomRank === 11) {
+    const rejected = await h.service.submit(human.uid, { ...request, commandId: randomUUID(), command: { type: 'REQUEST_HACK', targetSeatId: 'seat-3' } });
+    assert.equal(rejected.receipt.status, 'rejected'); assert.equal(rejected.receipt.code, 'NOT_ALLOWED');
+    const unchanged = await h.state();
+    assert.deepEqual(unchanged.phase, turn.phase); assert.equal(unchanged.pendingHack, null);
+    assert.equal(unchanged.hacksThisRound, 0); assert.equal(unchanged.seats.find(seat => seat.seatId === 'seat-1').hackUsed, false);
+  }
   const response = await h.service.submit(human.uid, request); assert.equal(response.receipt.status, 'accepted');
   assert.equal((await h.state()).phase.kind, 'ORDINARY_TURN');
   const deadline = createV1DeadlineHandler(h.service);
@@ -486,8 +502,8 @@ test('a human Hack with a bot keeps the private partner and full canonical minut
   const hack = await h.state(); assert.equal(hack.phase.kind, 'HACK');
   assert.equal(hack.phase.endsAt - hack.phase.startedAt, 60_000);
   const own = FullPlayerViewSchema.parse((await h.base.collection('playerViews').doc(human.uid).get()).data());
-  assert.equal(own.hackPartnerSeatId, 'seat-3');
-  assert.equal(projectFullGame(hack).players['seat-3'].hackPartnerSeatId, 'seat-1');
+  assert.equal(own.hackPartnerSeatId, targetSeatId);
+  assert.equal(projectFullGame(hack).players[targetSeatId].hackPartnerSeatId, 'seat-1');
   const botCommands = (await h.base.collection('events').get()).docs.map(doc => doc.data()).filter(record => record.controller === 'bot');
   assert.ok(botCommands.every(record => record.request.command.type === 'MOVE'), 'Only canonical public movement can occur during this Hack; no reply or requested conversation is manufactured');
   assert.deepEqual((await h.base.collection('playerViews').get()).docs.map(doc => doc.id), [human.uid]);
