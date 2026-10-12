@@ -1,0 +1,19 @@
+// Reviewed immutable gameplay tuples, independent of asset versions and engine imports.
+export const VOTE_RESULT_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const,
+  engineVersion: 'full-game-1.4.0', rulesetVersion: 'in-person-v1-vote-results-2026-10-12',
+  rulesetHash: '617173762d5a1589d0adce55d4742a3aa70f6d5af03a968b6ab9f90d5392b010' });
+export type FullGameplayPins = { protocolVersion: number; engineVersion: string; rulesetVersion: string; rulesetHash: string };
+export const sameFullGameplayPins = (a: FullGameplayPins, b: FullGameplayPins): boolean =>
+  a.protocolVersion === b.protocolVersion && a.engineVersion === b.engineVersion
+  && a.rulesetVersion === b.rulesetVersion && a.rulesetHash === b.rulesetHash;
+const HISTORICAL_PINS: readonly FullGameplayPins[] = [
+  // Historical protocol-2 handoff snapshots; not an executable service tuple.
+  { protocolVersion:2,engineVersion:'full-game-1.0.0',rulesetVersion:'in-person-v1-2026-10-06',rulesetHash:'6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' },
+  { protocolVersion:2,engineVersion:'full-game-1.3.0',rulesetVersion:'in-person-v1-capacity-resolution-2026-10-12',rulesetHash:'aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e' },
+  { protocolVersion:2,engineVersion:'full-game-1.2.0',rulesetVersion:'in-person-v1-capacity-2026-10-11',rulesetHash:'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468' },
+  { protocolVersion:2,engineVersion:'full-game-1.1.0',rulesetVersion:'in-person-v1-pass-2026-10-08',rulesetHash:'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' },
+  { protocolVersion:2,engineVersion:'full-game-1.0.1',rulesetVersion:'in-person-v1-2026-10-06',rulesetHash:'6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' },
+];
+export const supportsVoteResults = (pins: FullGameplayPins): boolean => sameFullGameplayPins(pins,VOTE_RESULT_VERSION_PINS);
+export const isKnownFullGameplayPins = (pins: FullGameplayPins): boolean =>
+  supportsVoteResults(pins) || HISTORICAL_PINS.some(known=>sameFullGameplayPins(pins,known));
