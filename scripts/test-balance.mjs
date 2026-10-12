@@ -4,10 +4,10 @@ import { existsSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } fro
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { ENGINE_PINS, assertCompleteStaticSuite, assertControlReport, assertScenarioReport, assertWalkReport, loadBalanceContract, requireBalance } from './test-balance-reports.mjs';
+import { BINARY_ENGINE_PINS, ENGINE_PINS, assertCompleteStaticSuite, assertControlReport, assertScenarioReport, assertWalkReport, loadBalanceContract, requireBalance } from './test-balance-reports.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));
-const STATIC_FILES = ['commands.test.mjs', 'rulebook.test.mjs', 'scenarios.test.mjs', 'sources.test.mjs', 'tooling.test.mjs'];
+const STATIC_FILES = ['capacity.test.mjs', 'commands.test.mjs', 'rulebook.test.mjs', 'scenarios.test.mjs', 'sources.test.mjs', 'tooling.test.mjs'];
 export function balanceStaticInputs(root = repositoryRoot) {
   const directory = join(root, 'tests/scenarios');
   requireBalance(existsSync(directory), 'required static suite missing');
@@ -35,6 +35,7 @@ export function balanceEngineCommands(root, head, directory) {
   ].map(([name, script, check]) => {
     const reportPath = join(directory, `${name}.json`);
     return { name, reportPath, check, args: [join(root, 'tools/balance/scripts', script), '--require-engine', '--engine-commit', head,
+      '--ruleset', ENGINE_PINS.rulesetVersion,
       ...(name === 'playouts' ? ['--seeds', '10'] : []), '--out', reportPath] };
   });
 }
@@ -47,8 +48,10 @@ export function balanceReportGateCommand(root, head, directory) {
     '--playouts-per-mode', '10'];
 }
 export function assertBalanceEngine(engine) {
-  requireBalance(engine?.FULL_ENGINE_VERSION === ENGINE_PINS.engineVersion && engine?.FULL_RULESET_VERSION === ENGINE_PINS.rulesetVersion
-    && engine?.FULL_RULESET_HASH === ENGINE_PINS.rulesetHash, 'built engine does not match the reviewed V1 engine/ruleset');
+  requireBalance(engine?.FULL_ENGINE_VERSION === BINARY_ENGINE_PINS.engineVersion && engine?.FULL_RULESET_VERSION === BINARY_ENGINE_PINS.rulesetVersion
+    && engine?.FULL_RULESET_HASH === BINARY_ENGINE_PINS.rulesetHash, 'built engine does not match the reviewed V1 engine/ruleset');
+  requireBalance(['engineVersion', 'rulesetVersion', 'rulesetHash', 'protocolVersion'].every(key => engine?.PASS_FULL_GAME_VERSION_PINS?.[key] === ENGINE_PINS[key]),
+    'built engine does not retain the reviewed catalogue behavior tuple');
   requireBalance(typeof engine.projectOwnAcknowledgments === 'function', 'real projectOwnAcknowledgments export unavailable');
 }
 export function runBalanceProcess(command, args, cwd, logPath, spawn = spawnSync) {
@@ -96,15 +99,15 @@ export async function runBalanceEngineEvidence(root = repositoryRoot) {
     results[command.name] = command.check(report, contract, { startedAt, finishedAt: Date.now() });
     const after = readBalanceProvenance(root);
     requireBalance(after.head === provenance.head && after.branch === provenance.branch, 'checkout changed during engine verification');
-    console.log(command.name === 'scenarios' ? 'Balance scenarios: 522 catalogue IDs; 483 passed, 33 reviewed blocked, 6 explicit manual; zero errors'
-      : command.name === 'controls' ? 'Balance controls: 475 baselines passed; 4388 controls executed and detected; zero misses'
+    console.log(command.name === 'scenarios' ? 'Balance scenarios: 555 catalogue IDs; 516 passed, 33 reviewed blocked, 6 explicit manual; zero errors'
+      : command.name === 'controls' ? 'Balance controls: 508 baselines passed; 4490 controls executed and detected; zero misses'
         : 'Balance playouts: 10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches');
   }
   runBalanceProcess(process.execPath, balanceReportGateCommand(root, provenance.head, directory), root, join(directory, 'report-gate.log'));
   const final = readBalanceProvenance(root);
   requireBalance(final.head === provenance.head && final.branch === provenance.branch, 'checkout changed during report gate');
   console.log('Balance report gate: common build/manifest/Git provenance checked at this clean candidate');
-  console.log(`Balance engine source: ${provenance.head}; protocol 2; Original Powers off`);
+  console.log(`Balance legacy compatibility source: ${provenance.head}; protocol 2; Original Powers off`);
   console.log(`Balance fresh reports/logs: ${directory}`);
   return { provenance, results, directory };
 }

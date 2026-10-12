@@ -11,9 +11,9 @@ const provenance = { head: '1234567890abcdef1234567890abcdef12345678', branch: '
 const contract = loadBalanceContract(root, provenance);
 const window = { startedAt: Date.parse('2026-10-06T12:00:00.000Z'), finishedAt: Date.parse('2026-10-06T12:00:01.000Z') };
 const grouped = {
-  'mode-7': { total: 165, passed: 152, failed: 0, blocked: 11, notRun: 2 },
-  'mode-8': { total: 171, passed: 158, failed: 0, blocked: 11, notRun: 2 },
-  'mode-9': { total: 178, passed: 165, failed: 0, blocked: 11, notRun: 2 },
+  'mode-7': { total: 176, passed: 163, failed: 0, blocked: 11, notRun: 2 },
+  'mode-8': { total: 182, passed: 169, failed: 0, blocked: 11, notRun: 2 },
+  'mode-9': { total: 189, passed: 176, failed: 0, blocked: 11, notRun: 2 },
   unsupported: { total: 8, passed: 8, failed: 0, blocked: 0, notRun: 0 },
 };
 function scenarioReport() {
@@ -50,8 +50,8 @@ test('reviewed full reports pass, including zero-transition setup/rejection case
   const report = scenarioReport();
   assert.equal(report.runs.filter(run => run.status === 'passed' && run.scenarioId.includes('SETUP') && run.transitions === 0).length, 23);
   assert.ok(report.runs.every(run => run.finalDigest === null));
-  assert.equal(assertScenarioReport(report, contract, window).passed, 483);
-  assert.deepEqual(assertControlReport(controlReport(), contract), { baselines: 475, controls: 4388, detected: 4388 });
+  assert.equal(assertScenarioReport(report, contract, window).passed, 516);
+  assert.deepEqual(assertControlReport(controlReport(), contract), { baselines: 508, controls: 4490, detected: 4490 });
   assert.deepEqual(assertWalkReport(walkReport(), contract), { modes: 3, playoutsPerMode: 10, completed: 30 });
 });
 for (const [name, mutate] of [
@@ -96,10 +96,13 @@ for (const [name, mutate] of [
   ['wrong source digest', r => r.pins.ruleSourceHashes['rules/sources/v2.1-decisions.json'] = 'a'.repeat(64)],
   ['wrong catalogue digest', r => r.pins.scenarioFileHashes['mode-7.scenarios.json'] = 'a'.repeat(64)],
   ['wrong rulebook digest', r => r.pins.rulebookSha256 = 'a'.repeat(64)],
-  ['missing Pass owner decision evidence', r => delete r.pins.additionalOwnerOverlayHashes],
-  ['changed Pass owner decision evidence', r => r.pins.additionalOwnerOverlayHashes = {}],
+  ['missing runtime owner decision evidence', r => delete r.pins.additionalOwnerOverlayHashes],
+  ['changed runtime owner decision evidence', r => r.pins.additionalOwnerOverlayHashes = {}],
   ['wrong overlay digest', r => r.pins.v1OverlaySha256 = 'a'.repeat(64)],
   ['wrong protocol', r => r.pins.engine.protocolVersion = 1],
+  ['missing binary provenance', r => delete r.pins.engine.binaryEngineVersion],
+  ['wrong binary ruleset', r => r.pins.engine.binaryRulesetVersion = 'unreviewed'],
+  ['capacity gameplay falsely labels the frozen catalogue', r => r.pins.engine.rulesetVersion = r.pins.engine.binaryRulesetVersion],
   ['wrong runtime', r => r.pins.node = 'v24.0.0'],
   ['external engine origin', r => r.pins.engineOrigin = 'external checkout'],
   ['stale generation timestamp', r => r.pins.generatedAt = '2026-10-06T11:59:59.999Z'],
@@ -155,13 +158,13 @@ test('disk source pins fail before accepting a changed reviewed artifact', () =>
   const temporary = mkdtempSync(join(tmpdir(), 'balance-guard-sources-'));
   try {
     for (const path of ['rules', 'docs/balance', 'tests/scenarios']) cpSync(join(root, path), join(temporary, path), { recursive: true });
-    for (const path of ['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json', 'docs/balance/game-rules.md', 'tests/scenarios/v1/catalog.mjs', 'tests/scenarios/v1/exceptions.json', 'tests/scenarios/adapters/full-game-v1.mjs', 'rules/in-person-v1-manifest.json', 'rules/sources/v2.1-decisions.json', 'tests/scenarios/v1/mode-7.scenarios.json']) {
+    for (const path of ['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json', 'rules/overlays/room-capacity-owner-decision-2026-10-11.json', 'docs/balance/game-rules.md', 'tests/scenarios/v1/catalog.mjs', 'tests/scenarios/v1/exceptions.json', 'tests/scenarios/adapters/full-game-v1.mjs', 'rules/in-person-v1-manifest.json', 'rules/sources/v2.1-decisions.json', 'tests/scenarios/v1/mode-7.scenarios.json']) {
       const target = join(temporary, path); const original = readFileSync(target);
       writeFileSync(target, Buffer.concat([original, Buffer.from('\n')]));
       assert.throws(() => loadBalanceContract(temporary, provenance), /Balance gate:/, path);
       writeFileSync(target, original);
     }
-    assert.equal(loadBalanceContract(temporary, provenance).scenarios.size, 522);
+    assert.equal(loadBalanceContract(temporary, provenance).scenarios.size, 555);
   } finally { rmSync(temporary, { recursive: true, force: true }); }
 });
 const tap = values => Object.entries({ tests: 43, pass: 43, fail: 0, cancelled: 0, skipped: 0, todo: 0, ...values }).map(([name, count]) => `# ${name} ${count}`).join('\n');

@@ -25,6 +25,9 @@ const rulebook = parseRulebook(text('docs/balance/game-rules.md'));
 const audit = text('docs/balance/rules-audit-v1.md');
 const register = parseDecisionRegister(audit);
 const rules = new Map(rulebook.entries.map(entry => [entry.id, entry]));
+// The rows of the room-capacity rule (issue #96) are in the capacity audit until they are folded
+// into the rulebook. A document may name them; tests/scenarios/capacity.test.mjs checks the rows themselves.
+const capacityRows = new Set(text('docs/balance/capacity-audit.md').match(/^\| R-CAP-\d{2} /gm).map(row => row.slice(2).trim()));
 const decisions = new Map(register.entries.map(entry => [entry.id, entry]));
 const V1_IDS = Array.from({ length: 21 }, (_, index) => `V1-${String(index + 1).padStart(2, '0')}`);
 
@@ -73,7 +76,7 @@ test('every owner decision the rulebook cites is in the owner-decision file', t 
 
 test('the decision register is complete and consistent with rule statuses', () => {
   assert.deepEqual(register.issues, []);
-  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 39 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
+  assert.deepEqual(register.entries.map(entry => entry.id), Array.from({ length: 40 }, (_, index) => `D${String(index + 1).padStart(2, '0')}`));
   for (const entry of rulebook.entries) {
     for (const ref of entry.refs.filter(item => item.kind === 'decision')) {
       const decision = decisions.get(ref.key);
@@ -117,9 +120,9 @@ test('every rule, decision, invariant and scenario named in a balance document e
   const paths = [
     'docs/balance/README.md', 'docs/balance/game-rules.md', 'docs/balance/rules-audit-v1.md', 'docs/balance/invariants.md',
     'docs/balance/contract-review.md', 'docs/balance/integration-requests.md', 'docs/balance/telemetry-spec.md',
-    'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/playtest/protocol.md',
+    'docs/balance/scenario-traceability.md', 'docs/balance/evidence/2026-10-06-baseline.md', 'docs/balance/evidence/2026-10-07-report-gate.md', 'docs/balance/evidence/2026-10-07-supplier-disclosure.md', 'docs/balance/evidence/2026-10-07-supplier-fix.md', 'docs/balance/playtest/protocol.md',
     'docs/balance/playtest/analysis-plan.md', 'docs/balance/playtest/rule-problem-log.md', 'docs/balance/playtest/facilitator-session-form.md',
-    'docs/balance/playtest/participant-questionnaire.md', 'tests/scenarios/README.md',
+    'docs/balance/playtest/participant-questionnaire.md', 'tests/scenarios/README.md', 'docs/balance/capacity-audit.md', 'docs/balance/evidence/2026-10-11-capacity.md',
   ];
   const source = text('tools/balance/src/invariants.ts') + text('tools/balance/src/runner.ts');
   const implemented = new Set(source.match(/INV-[A-Z]+-\d{2}/g));
@@ -127,7 +130,7 @@ test('every rule, decision, invariant and scenario named in a balance document e
   const areas = [...new Set([...scenarioCodes].map(code => code.split('-')[0]))].join('|');
   for (const path of paths) {
     const body = text(path);
-    for (const id of body.match(/R-[A-Z]+-\d{2}/g) ?? []) assert.ok(rules.has(id), `${path} names unknown rule ${id}`);
+    for (const id of body.match(/R-[A-Z]+-\d{2}/g) ?? []) assert.ok(rules.has(id) || capacityRows.has(id), `${path} names unknown rule ${id}`);
     for (const id of body.match(/\bD\d{2}\b/g) ?? []) assert.ok(decisions.has(id), `${path} names unknown decision ${id}`);
     for (const id of body.match(/INV-[A-Z]+-\d{2}/g) ?? []) assert.ok(implemented.has(id), `${path} names an invariant that is not implemented: ${id}`);
     for (const code of body.match(new RegExp(`(?<![A-Z-])(?:${areas})-\\d{2}[a-z]?(?![\\d-])`, 'g')) ?? []) assert.ok(scenarioCodes.has(code), `${path} names unknown scenario ${code}`);

@@ -9,7 +9,7 @@ import {
 } from '@mothership/contracts';
 import {
   createFullGame, executeFullGame, advanceFullGame, projectFullGame,
-  FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS,
+  PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS,
 } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 import { encodeV1State, decodeV1State, decodeV1Setup } from '../dist/full-game.js';
@@ -34,15 +34,15 @@ async function harness(count = 7, { start = true, legacy = false } = {}) {
   const players = await Promise.all(Array.from({ length: count }, () => createEmulatorIdentity()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: count }));
   const base = db.collection('matches').doc(created.matchId);
+  // Select the saved tuple before admission, retaining the historical all-Room-A setup.
+  if (legacy) await base.collection('engine').doc('gameplayPins').delete();
+  else await base.collection('engine').doc('gameplayPins').set(PASS_FULL_GAME_VERSION_PINS);
   const request = (fields = {}) => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
   for (const [index, identity] of players.entries()) {
     const admission = op(await service.requestAdmission(identity.uid, { protocolVersion: 2, requestId: randomUUID(), roomCode: created.roomCode }));
     op(await service.approveAdmission(host.uid, request({ admissionId: admission.admissionId, seatId: `seat-${index + 1}` })));
   }
-  if (legacy) {
-    // Fixture of a saved pre-PASS lobby: this field did not exist in that release.
-    await base.collection('engine').doc('gameplayPins').delete();
-  } else assert.deepEqual((await base.collection('engine').doc('gameplayPins').get()).data(), FULL_GAME_VERSION_PINS);
+  if (!legacy) assert.deepEqual((await base.collection('engine').doc('gameplayPins').get()).data(), PASS_FULL_GAME_VERSION_PINS);
   // Existing host readers strictly allow these keys; creation pins stay server-only.
   assert.deepEqual(Object.keys((await base.collection('control').doc('session').get()).data()).sort(),
     ['protocolVersion', 'hostUid', 'playerCount', 'status', 'roomCode', 'createdAt', 'lifecycleVersion', 'gameStarted'].sort());

@@ -10,6 +10,7 @@ export * from './runner.js';
 export * from './rulebook.js';
 export * from './stats.js';
 export * from './codeinfo.js';
+export * from './capacity.js';
 export * from './walker.js';
 export * from './telemetry.js';
 export * from './evidence.js';

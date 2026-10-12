@@ -9,7 +9,7 @@ import {
   FullOperationResponseSchema, FullFailureSchema, FullPublicViewSchema, FullPlayerViewSchema,
   FullBeginSetupResponseSchema,
 } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
+import { CAPACITY_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { createV1Service } from '../../../services/game-api/dist/index.js';
 import { decodeV1State, decodeV1Setup } from '../../../services/game-api/dist/full-game.js';
 import { startStagedMatch, beginStagedSetup, confirmStagedChoices, completeStagedSetup } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
@@ -57,7 +57,7 @@ async function read(h, identity, suffix, { method = 'GET', data } = {}) {
     ...(data === undefined ? {} : { body: JSON.stringify({ fields: encodeFirestoreValue(data).mapValue.fields }) }),
   });
 }
-async function harness({ playerCount = 7, humanSeats = [] } = {}) {
+async function harness({ playerCount = 7, humanSeats = [], versions } = {}) {
   let now = 1_620_000_000_000 + ++serial * 100_000_000;
   // Preserve both-room gameplay coverage independently of human request hints or bot seat parity.
   let roomAssignments = 0;
@@ -66,6 +66,8 @@ async function harness({ playerCount = 7, humanSeats = [] } = {}) {
   const [host, display, outsider, ...humans] = await Promise.all(Array.from({ length: humanSeats.length + 3 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount }));
   const base = db.collection('matches').doc(created.matchId);
+  // Historical retention fixtures pin the lobby before any human or bot admission.
+  if (versions !== undefined) await base.collection('engine').doc('gameplayPins').set(versions);
   const request = fields => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
   const admission = async identity => op(await service.requestAdmission(identity.uid, { protocolVersion: 2, requestId: randomUUID(), roomCode: created.roomCode, initialRoom: 'Room A' }));
   const approve = async (identity, seatId) => {
@@ -94,7 +96,7 @@ async function roster(h) {
 }
 
 for (const playerCount of [7, 8, 9]) test(`${playerCount}-seat bot capacity preserves human bindings and their chosen public identities`, async () => {
-  const h = await harness({ playerCount, humanSeats: ['seat-1', 'seat-' + playerCount] });
+  const h = await harness({ playerCount, humanSeats: ['seat-1', 'seat-' + playerCount], versions: CAPACITY_FULL_GAME_VERSION_PINS });
   const humanBindings = await h.bindings(), humanIdentities = (await h.identities()).seats;
   const result = await h.set(playerCount - 2), before = await roster(h);
   assert.equal(result.botSeatIds.length, playerCount - 2); assert.equal(before.practice.revision, result.revision);

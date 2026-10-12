@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { FullPlayerViewSchema, FullPublicViewSchema, FullReceiptSchema } from '@mothership/contracts';
 import {
-  FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS,
+  PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS,
   createFullGame, executeFullGame, advanceFullGame, legalTargets,
   projectFullGame, projectOwnAcknowledgments,
 } from '../dist/index.js';
@@ -11,14 +11,15 @@ const START = 1_800_000_000_000;
 const ASSETS = 'pass-fixture-assets-v1';
 const PASS = Object.freeze({ type: 'PASS_TURN' });
 const baseRoles = ['Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'];
-function argumentsFor(playerCount = 7, versions) {
+// Historical Pass fixtures deliberately retain their uncapped all-Room-A setup.
+function argumentsFor(playerCount = 7, versions = { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: ASSETS }) {
   const roleOrder = [...baseRoles, ...(playerCount >= 8 ? ['Red Disabler'] : []), ...(playerCount === 9 ? ['Officer'] : [])];
   const ids = roleOrder.map((_, index) => 'seat-' + (index + 1));
   return { matchId: 'pass-turn-fixture', setup: { playerCount, roleOrder,
     codeExtraSeatIds: ['seat-1', 'seat-2', 'seat-3'], initialRooms: Object.fromEntries(ids.map(id => [id, 'Room A'])),
     roundOrders: Array.from({ length: 5 }, () => [...ids]) },
   now: START, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: ASSETS,
-  ...(versions === undefined ? {} : { versions }) };
+  versions };
 }
 function driver(playerCount = 7, versions) {
   let serial = 0;
@@ -265,9 +266,9 @@ test('duplicate old-phase Pass and its old deadline cannot advance the newly ope
   assert.deepEqual(d.initial, before);
 });
 
-test('constructor defaults to new pins and preserves an explicit supported tuple without aliasing it', () => {
-  assert.deepEqual(driver().initial.versions, { ...FULL_GAME_VERSION_PINS, assetManifestVersion: ASSETS });
-  for (const pins of [FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS]) {
+test('historical Pass fixtures preserve exact supported tuples without aliasing them', () => {
+  assert.deepEqual(driver().initial.versions, { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: ASSETS });
+  for (const pins of [PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS]) {
     const versions = { ...pins, assetManifestVersion: ASSETS }, expected = structuredClone(versions);
     const initial = createFullGame(argumentsFor(7, versions));
     assert.deepEqual(initial.versions, expected);
@@ -286,7 +287,7 @@ for (const [name, changed] of [
   ['unknown version field', { callerControlled: true }],
 ]) {
   test('constructor rejects ' + name, () => {
-    const versions = { ...FULL_GAME_VERSION_PINS, assetManifestVersion: ASSETS, ...changed };
+    const versions = { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: ASSETS, ...changed };
     assert.throws(() => createFullGame(argumentsFor(7, versions)));
   });
 }

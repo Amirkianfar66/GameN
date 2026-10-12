@@ -1,3 +1,4 @@
+import type { Violation } from './invariants.js';
 import type { EnginePins } from './model.js';
 import { summarize } from './runner.js';
 import type { RunSummary, ScenarioRun } from './runner.js';
@@ -54,11 +55,24 @@ export interface EvidenceReport {
 
 const GROUPS: readonly ScenarioGroup[] = ['mode-7', 'mode-8', 'mode-9', 'unsupported'];
 
+// A state that breaks an invariant breaks it again at every later step. A report lists each
+// violation once, in the order found, with how many times it was found.
+function distinct(violations: readonly Violation[]): Violation[] {
+  const found = new Map<string, Violation>();
+  for (const { invariant, message } of violations) {
+    const key = `${invariant}\n${message}`;
+    const seen = found.get(key);
+    if (seen === undefined) found.set(key, { invariant, message });
+    else seen.times = (seen.times ?? 1) + 1;
+  }
+  return [...found.values()];
+}
+
 export function buildReport(runs: readonly ScenarioRun[], pins: RunPins): EvidenceReport {
   const byGroup = Object.fromEntries(GROUPS.map(group => [group, summarize(runs.filter(run => run.group === group))])) as Record<ScenarioGroup, RunSummary>;
   // Keep the committed artifact small: end-state digests are compared in memory, not stored.
   return {
     schema: 'mothership.balance.scenario-run/1', pins, totals: summarize(runs), byGroup,
-    runs: runs.map(run => ({ ...run, finalDigest: null })),
+    runs: runs.map(run => ({ ...run, finalDigest: null, invariantViolations: distinct(run.invariantViolations) })),
   };
 }

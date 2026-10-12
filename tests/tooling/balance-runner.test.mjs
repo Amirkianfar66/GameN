@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { assertBalanceEngine, balanceEngineCommands, balanceReportGateCommand, balanceStaticInputs, readBalanceProvenance, readBalanceReport, runBalanceProcess } from '../../scripts/test-balance.mjs';
 
-import { ENGINE_PINS } from '../../scripts/test-balance-reports.mjs';
+import { BINARY_ENGINE_PINS, ENGINE_PINS } from '../../scripts/test-balance-reports.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const head = '1234567890abcdef1234567890abcdef12345678';
@@ -22,6 +22,7 @@ test('required engine plan runs all three local CLIs, actual HEAD, fresh reports
   for (const command of commands) {
     assert.equal(command.args.filter(argument => argument === '--require-engine').length, 1);
     assert.equal(command.args[command.args.indexOf('--engine-commit') + 1], head);
+    assert.equal(command.args[command.args.indexOf('--ruleset') + 1], ENGINE_PINS.rulesetVersion);
     assert.equal(command.args[command.args.indexOf('--out') + 1], command.reportPath);
     assert.equal(dirname(command.reportPath), '/private/tmp/balance-new-run');
     assert.ok(!command.args.includes('--only'));
@@ -39,13 +40,13 @@ test('actual Git HEAD is read and dirty or unknown provenance cannot become engi
   assert.throws(() => readBalanceProvenance(root, () => ' M changed-source'), /clean committed checkout/);
   assert.throws(() => readBalanceProvenance(root, (...args) => args[0] === 'status' ? '' : 'unknown'), /actual Git HEAD unavailable/);
 });
-test('static suite requires all five reviewed files and the materialization/traceability checkers', () => {
-  assert.equal(balanceStaticInputs(root).files.length, 5);
+test('static suite requires all six reviewed files and the materialization/traceability checkers', () => {
+  assert.equal(balanceStaticInputs(root).files.length, 6);
   temporary(directory => {
-    for (const path of ['tests/scenarios/commands.test.mjs', 'tests/scenarios/rulebook.test.mjs', 'tests/scenarios/scenarios.test.mjs', 'tests/scenarios/sources.test.mjs', 'tests/scenarios/tooling.test.mjs', 'tools/balance/package.json', 'tools/balance/scripts/materialize.mjs', 'tools/balance/scripts/traceability.mjs']) {
+    for (const path of ['tests/scenarios/capacity.test.mjs', 'tests/scenarios/commands.test.mjs', 'tests/scenarios/rulebook.test.mjs', 'tests/scenarios/scenarios.test.mjs', 'tests/scenarios/sources.test.mjs', 'tests/scenarios/tooling.test.mjs', 'tools/balance/package.json', 'tools/balance/scripts/materialize.mjs', 'tools/balance/scripts/traceability.mjs']) {
       mkdirSync(dirname(join(directory, path)), { recursive: true }); writeFileSync(join(directory, path), '');
     }
-    assert.equal(balanceStaticInputs(directory).files.length, 5);
+    assert.equal(balanceStaticInputs(directory).files.length, 6);
     const mandatory = join(directory, 'tests/scenarios/sources.test.mjs');
     unlinkSync(mandatory);
     assert.throws(() => balanceStaticInputs(directory), /required static suite file missing/);
@@ -97,9 +98,10 @@ test('report gate reuses exactly the fresh reports and pins the actual clean can
   assert.throws(() => balanceReportGateCommand(root, 'a389', directory), /actual full Git HEAD/);
 });
 test('G17 engine capability and version are required even if legacy engine exports remain available', () => {
-  const engine = { FULL_ENGINE_VERSION: ENGINE_PINS.engineVersion, FULL_RULESET_VERSION: ENGINE_PINS.rulesetVersion,
-    FULL_RULESET_HASH: ENGINE_PINS.rulesetHash, projectOwnAcknowledgments: () => {} };
+  const engine = { FULL_ENGINE_VERSION: BINARY_ENGINE_PINS.engineVersion, FULL_RULESET_VERSION: BINARY_ENGINE_PINS.rulesetVersion,
+    FULL_RULESET_HASH: BINARY_ENGINE_PINS.rulesetHash, PASS_FULL_GAME_VERSION_PINS: ENGINE_PINS, projectOwnAcknowledgments: () => {} };
   assert.doesNotThrow(() => assertBalanceEngine(engine));
   assert.throws(() => assertBalanceEngine({ ...engine, projectOwnAcknowledgments: undefined }), /real projectOwnAcknowledgments export unavailable/);
   assert.throws(() => assertBalanceEngine({ ...engine, FULL_ENGINE_VERSION: 'full-game-1.0.0' }), /reviewed V1 engine/);
+  assert.throws(() => assertBalanceEngine({ ...engine, PASS_FULL_GAME_VERSION_PINS: undefined }), /catalogue behavior tuple/);
 });

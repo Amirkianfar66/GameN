@@ -25,7 +25,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ENGINE_COMMIT_BASIS, gateProblems } from '@mothership/balance';
 import { ADAPTER_NAME } from '../../../tests/scenarios/adapters/full-game-v1.mjs';
-import { EXCEPTIONS_PATH, SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, loadAll, loadExceptions } from '../../../tests/scenarios/v1/files.mjs';
+import { EXCEPTIONS_PATH, SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, V1_RULESET_VERSION, loadAll, loadExceptions } from '../../../tests/scenarios/v1/files.mjs';
+import { LEAKS, leakModes } from '../../../tests/scenarios/support/leaks.mjs';
 import { invocationPath, readArgs } from './args.mjs';
 import { V1_MANIFEST_PATH, root, sourceHashes } from './pins.mjs';
 import { ENGINE_PINS, ADDITIONAL_OWNER_OVERLAYS } from '../../../scripts/test-balance-reports.mjs';
@@ -36,13 +37,18 @@ const usage = message => {
   process.exit(2);
 };
 const { values, flags } = readArgs({
-  values: ['scenarios', 'controls', 'playouts', 'engine-commit', 'playouts-per-mode', 'engine-root', 'candidate-commit'],
+  values: ['scenarios', 'controls', 'playouts', 'engine-commit', 'playouts-per-mode', 'engine-root', 'candidate-commit', 'ruleset'],
   flags: ['allow-unpinned-tree'],
 }, usage);
 const files = { scenarios: values.scenarios, controls: values.controls, playouts: values.playouts };
 for (const [name, file] of Object.entries(files)) if (file === null) usage(`No ${name} report was named.`);
 if (values['engine-commit'] === null) usage('No engine commit was named.');
 if (values['playouts-per-mode'] === null) usage('The required number of playouts per mode was not given.');
+// Historical committed evidence remains checkable only when its immutable tuple is
+// selected explicitly. Never infer an accepted tuple from the report under review.
+const ruleset = values.ruleset ?? ENGINE_PINS.rulesetVersion;
+if (![ENGINE_PINS.rulesetVersion, V1_RULESET_VERSION].includes(ruleset)) usage('The named ruleset has no reviewed catalogue gate.');
+const historical = ruleset === V1_RULESET_VERSION;
 
 const problems = [];
 const explain = error => (error instanceof Error ? error.message : String(error));
@@ -81,9 +87,10 @@ if (catalogue !== null && onDisk !== null) {
     candidateCommit: values['candidate-commit'],
     allowUnpinnedTree: flags['allow-unpinned-tree'],
     adapter: ADAPTER_NAME,
-    rulesetVersion: ENGINE_PINS.rulesetVersion,
-    engineRulesetHash: ENGINE_PINS.rulesetHash,
-    additionalOwnerOverlayHashes: ADDITIONAL_OWNER_OVERLAYS,
+    rulesetVersion: ruleset,
+    engineRulesetHash: historical ? V1_OVERLAY_SHA256 : ENGINE_PINS.rulesetHash,
+    ...(historical ? {} : { additionalOwnerOverlayHashes: ADDITIONAL_OWNER_OVERLAYS }),
+    leaks: Object.keys(LEAKS).map(name => ({ name, modes: leakModes(name) })),
     overlaySha256: V1_OVERLAY_SHA256,
     sourceManifestSha256: SOURCE_MANIFEST_SHA256,
     v1Manifest: manifestAtHand ? { sha256: onDisk.v1ManifestSha256 } : null,
@@ -114,6 +121,7 @@ console.log(`  engine commit: ${pins.engineCommitBasis === ENGINE_COMMIT_BASIS.s
 console.log(`  working tree ${pins.workingTreeCommit}`);
 console.log(`  scenarios: ${catalogue.length} in the catalogue, each reported once; ${count('ready')} ready and passed; ${count('blocked')} blocked and ${count('manual')} manual, as in ${EXCEPTIONS_PATH}`);
 console.log(`  controls: ${controls.join(' + ')} = ${controls.reduce((sum, value) => sum + value, 0)} executed, all detected`);
+console.log(`  deliberate leaks: ${reports.controls.leaks.length} tried, each caught by a comparison with every number of players it names; each of the paired scenarios that claim sameness failed for at least one`);
 console.log(`  playouts: ${reports.playouts.seedsPerMode} per mode, all finished, no invariant violation, hint mismatch or replay mismatch`);
 console.log(manifestAtHand ? '  combined Version 1 manifest: the same in the reports and beside the engine' : '  combined Version 1 manifest: the reports carry it and agree; the engine checkout is not at hand to compare');
 console.log('  A pass says the checks ran completely and found nothing. It says nothing about balance or human play.');
