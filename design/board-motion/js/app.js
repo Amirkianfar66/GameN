@@ -12,8 +12,11 @@ import { h, vh } from './h.js';
 import { createBoard, geometry, pressRect } from './board.js';
 import { SCENES } from '../scenes/index.mjs';
 import { createDirector } from './director.js';
+import { dressBoard } from './dress.js';
+import { VOTE_RESULT_MS, playVoteResult, voteResultElement, voteResultModel } from '../../phone-kit/js/vote-result.js';
+import { HACK_WINDOWS, HACK_WORDS, claimSentence, hackElement, hackModel, playClaim } from '../../phone-kit/js/hack.js';
 import { COPY, PROPOSED, SHELL } from './copy.js';
-import { SCENARIOS, EVENTS, PRIVATE_EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario } from './fixtures.js';
+import { SCENARIOS, EVENTS, PRIVATE_EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario, voteResultFixture } from './fixtures.js';
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { assemble, cancelMotion, closedFolder, insiderFile, pauseFile } from '../../abilities/js/dossier.js';
@@ -24,6 +27,8 @@ import { ballotBox, ballotSlip, connect, hackLink, handOn, post, speakingTurn } 
 import { specialShot } from '../../abilities/js/finale.js';
 
 const params = new URLSearchParams(location.search);
+// ?kit=0: the page without the phone kit's stylesheet (issue #121), for before-and-after pictures; its panels still draw.
+if (params.get('kit') === '0') document.querySelector('link[href$="phone-kit/css/phone-kit.css"]')?.remove();
 const chrome = params.get('chrome') !== '0';
 const frozen = params.has('t') || params.get('freeze') === '1' || !chrome;
 
@@ -48,6 +53,10 @@ const SEAT_KINDS = ['shot', 'disable', 'protect', 'rescue', 'hack', 'showdown-sh
 const PARTS = { scan: 1, supply: 2, code: 4 };
 // A match's two ends: the view's phase is FINISHED (a winner, the roles and the Code) or ABORTED (none of them).
 const TERMINAL = ['FINISHED', 'ABORTED'];
+/** A phase's name: the release's, or the words proposed for the new phases (a vote's result, the Hack's prelude). */
+const phaseName = kind => COPY.phase.kind[kind] ?? PROPOSED.phaseKind[kind] ?? kind;
+/** The declared-side Hack's windows (Backend's proposal, PR #125): the declaration at most 15 s, the claim 5 s, the talk 60 s. */
+const HACK_PHASE_MS = { HACK_DECLARE: HACK_WINDOWS.declareMaxMs, HACK_RESULT: HACK_WINDOWS.resultMs, HACK: HACK_WINDOWS.talkMs };
 const ICON = { shot: '◎', disable: '⊘', protect: '◇', rescue: '+', hack: '⌁', 'showdown-shot': '◎', scan: '?', supply: '⇄', code: '#', vote: '✓', 'release-choice': '⌂', 'release-vote': '✓' };
 
 // ---------- state ----------
@@ -69,6 +78,21 @@ function load(id) {
     concealed: document.visibilityState !== 'visible', disposed: false, privateQuiet: false, requests: { sent: 0, lookups: 0 },
   });
   if (S.names === 'long') S.public.seats.forEach((seat, index) => { seat.name = LONG_NAMES[index]; });
+  // A vote's result (issue #119): its five seconds on the page's clock, as far into them as the scenario (or ?elapsed=) says.
+  if (S.public.voteResult) {
+    const startedAt = performance.now() - Number(params.get('elapsed') ?? S.public.resultElapsed ?? 1500);
+    S.public.voteResult = { ...S.public.voteResult, startedAt, endsAt: startedAt + VOTE_RESULT_MS };
+    S.timer = Math.max(0, Math.ceil((S.public.voteResult.endsAt - performance.now()) / 1000));
+  }
+  // The Hack's windows (issue #120), on the page's clock the same way, for a scenario that carries the participants' feedback.
+  const hackWindow = HACK_PHASE_MS[S.public.phase.kind];
+  if (hackWindow && S.public.hackElapsed !== null && S.public.hackElapsed !== undefined) {
+    const startedAt = performance.now() - Number(params.get('elapsed') ?? S.public.hackElapsed);
+    S.public.phase = { ...S.public.phase, startedAt, endsAt: startedAt + hackWindow };
+    S.timer = Math.max(0, Math.ceil((S.public.phase.endsAt - performance.now()) / 1000));
+  }
+  // The target's own declaration as this phone holds it: idle, or a side chosen, sent, answered.
+  S.hackFlow = { step: 'idle', ...(st.hackFlow ?? {}) };
   // A scenario that starts mid-flow takes its picks as seat numbers or answers, as the controls carry them.
   S.flow = { ...S.flow, picked: [...(S.flow.picked ?? [])] };
 }
@@ -103,8 +127,10 @@ function passAvailable() {
 }
 
 // ---------- the controller: the release's steps, in the prototype ----------
+/** The target's declaration in progress (chosen, sent, its answer unknown): one command at a time. */
+const declaring = () => ['confirming', 'sending', 'unknown'].includes(S.hackFlow?.step);
 function openAction(kind) {
-  if (S.flow.step !== 'idle' || !privateVisible()) return;
+  if (S.flow.step !== 'idle' || declaring() || !privateVisible()) return;
   S.privateQuiet = false;
   S.flow = { step: 'choosing', kind, picked: [] };
   S.view = 'board';
@@ -194,7 +220,7 @@ function dismiss() {
 function pressRoom(location, tag) {
   tag?.closest('.bm-tag')?.setAttribute('data-pressed', '');
   setTimeout(() => tag?.closest('.bm-tag')?.removeAttribute('data-pressed'), 140);
-  if (S.flow.step !== 'idle') { notice(SHELL.finishFirst); return; }
+  if (S.flow.step !== 'idle' || declaring()) { notice(SHELL.finishFirst); return; }
   if (!privateVisible() || !(offers().move ?? []).includes(location)) { notice(SHELL.cannotMove); return; }
   S.privateQuiet = false;
   S.flow = { step: 'confirming', kind: 'move', picked: [location] };
@@ -217,6 +243,8 @@ function notice(text) { S.notice = text; render(); clearTimeout(S.noticeTimer); 
 /** A choice that was not sent is dropped when the page goes to the background, the view goes stale or time runs out. */
 function dropUnsent(reason) {
   if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = reason; }
+  // A side chosen and not yet sent goes too; one that was sent keeps its recovery state, hidden.
+  if (S.hackFlow?.step === 'confirming') { S.hackFlow = { step: 'idle' }; S.notice = reason; }
   S.view = 'board';
 }
 
@@ -230,8 +258,9 @@ function conceal() {
   livePrivate.replaceChildren();
   for (const animation of phone.getAnimations({ subtree: true })) {
     const target = animation.effect?.target;
-    if (target instanceof Element && target.closest('.bm-strip, .bm-sheet, .bm-tray')) animation.cancel();
+    if (target instanceof Element && target.closest('.bm-strip, .bm-sheet, .bm-tray, .pk-hack')) animation.cancel();
   }
+  clearHack();
   director.cancelAll();
   observer?.director.cancelAll();
 }
@@ -239,6 +268,7 @@ function conceal() {
 /** The view went out of date with the card kept (S.staleCard): drop what was not sent, quiet the strip; the card stays. */
 function pausePrivate() {
   if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
+  if (S.hackFlow?.step === 'confirming') { S.hackFlow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
   announce.private.length = 0;
   livePrivate.replaceChildren();
   for (const animation of phone.getAnimations({ subtree: true })) {
@@ -261,7 +291,7 @@ function goStale(variant) {
   announce.public.push(variant === 'unreadable' ? COPY.announce.unreadable : COPY.announce.connectionLost);
   render();
 }
-const phaseNow = () => (S.public.phase.kind === 'ORDINARY_TURN' ? (S.public.active === VIEWER ? COPY.phase.yourTurn : COPY.phase.turnOf(S.public.active)) : COPY.phase.kind[S.public.phase.kind]);
+const phaseNow = () => (S.public.phase.kind === 'ORDINARY_TURN' ? (S.public.active === VIEWER ? COPY.phase.yourTurn : COPY.phase.turnOf(S.public.active)) : phaseName(S.public.phase.kind));
 /** A fresh view arrives after the gap: said once ("Reconnected. Round 2. Your turn."), and nothing in it plays (a reconnect settles at once). */
 function restoreView() {
   const was = S.banner;
@@ -280,6 +310,130 @@ function reconnectNow() {
 }
 
 // ---------- public facts: the authoritative updates every screen receives ----------
+
+/**
+ * A vote closes (synthetic, issue #119): the server counts it once, applies only what it decides (the Captain to the
+ * Command Room, the jailed to the Jail, the released out of it) and opens VOTE_RESULT for exactly five seconds, with
+ * the aggregate count. Nothing is offered meanwhile; a choice in progress drops.
+ */
+function closeVote() {
+  const { kind } = S.public.phase;
+  const now = performance.now();
+  const targets = S.public.ballot?.targets ?? [];
+  let result;
+  if (kind === 'JAIL_VOTE') {
+    const n = targets.includes(4) ? 4 : targets[0] ?? 4;
+    result = voteResultFixture('JAIL_VOTE', 'PLAYER_JAILED', { round: S.public.round, counts: { [n]: 5, 2: 1, 8: 1 }, eligible: 8, selected: n });
+    const seat = seatOf(n); seat.location = 'Jail'; seat.jailed = true; seat.captain = false;
+  } else if (kind === 'RELEASE_VOTE') {
+    const n = S.public.ballot?.release ?? 9;
+    result = voteResultFixture('RELEASE_VOTE', 'PLAYER_RELEASED', { round: S.public.round, eligible: 8, selected: n, yes: 5, released: true });
+    const seat = seatOf(n); seat.jailed = false; seat.location = 'Room A';
+  } else {
+    const n = targets.includes(5) ? 5 : targets[0] ?? 5;
+    result = voteResultFixture('CAPTAIN_ELECTION', 'CAPTAIN_ELECTED', { round: S.public.round, counts: { [n]: 5, 2: 2, 8: 1 }, eligible: 9, selected: n });
+    for (const other of S.public.seats) if (other.captain) { other.captain = false; if (other.location === 'Command Room') other.location = 'Room A'; }
+    const seat = seatOf(n); seat.captain = true; seat.location = 'Command Room';
+  }
+  S.public.voteResult = { ...result, startedAt: now, endsAt: now + VOTE_RESULT_MS };
+  S.public.phase = { kind: 'VOTE_RESULT', seconds: 5 };
+  S.timer = 5;
+  S.public.active = null;
+  S.public.ballot = null;
+  S.private.offers = { pass: false, move: [] };
+  if (S.flow.step !== 'idle') { S.flow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
+  // A result closes the private sheets and live lines (docs/frontend/phone-feedback-contract-review.md); a sent command keeps its recovery.
+  if (S.view === 'card' || S.view === 'actions') S.view = 'board';
+  announce.private.length = 0;
+  livePrivate.replaceChildren();
+}
+
+/** The result's five seconds end (synthetic): the next phase starts with its own full minute. */
+function endResult() {
+  const result = S.public.voteResult;
+  S.public.voteResult = null;
+  if (result?.outcome === 'RUNOFF_REQUIRED') {
+    const tied = result.tiedSeatIds.map(id => Number(id.slice(5)));
+    S.public.phase = { kind: 'CAPTAIN_ELECTION', seconds: 60 };
+    S.public.ballot = { voters: S.public.seats.map(seat => seat.n), targets: tied, release: null };
+    S.private.offers = { pass: false, move: [], vote: { targets: tied, on: 'CAPTAIN_ELECTION' } };
+    S.public.active = null;
+  } else {
+    S.public.phase = { kind: 'ORDINARY_TURN', seconds: 60 };
+    S.public.active = VIEWER;
+    S.private.offers = { pass: true, move: [] };
+  }
+  S.timer = 60;
+}
+
+/**
+ * The declared-side Hack's next window (synthetic; Backend's proposal, PR #125), as the stand-in server opens it. A public
+ * phase change for every screen; for the two participants their own view also says what it means. claim: the side the
+ * target's accepted declaration names, or null: the window closed without one ("No side declared", never an invented side).
+ */
+function hackPhase(next, claim) {
+  const { kind } = S.public.phase;
+  const now = performance.now();
+  const id = part => `fixture-hack${part}-r${S.public.round}`;
+  if (next === 'HACK_RESULT' && kind === 'HACK_DECLARE') {
+    const feedback = S.private.hackFeedback;
+    if (feedback && feedback.status === 'AWAITING_DECLARATION') S.private.hackFeedback = { ...feedback, status: claim ? 'DECLARED' : 'NO_DECLARATION', declaredSide: claim ?? null };
+    S.public.phase = { kind: 'HACK_RESULT', seconds: 5, id: id('-result'), startedAt: now, endsAt: now + HACK_WINDOWS.resultMs };
+    S.timer = 5;
+  } else if (next === 'HACK' && kind === 'HACK_RESULT') {
+    S.public.phase = { kind: 'HACK', seconds: 60, id: id(''), startedAt: now, endsAt: now + HACK_WINDOWS.talkMs };
+    S.timer = 60;
+  } else if (next === 'ORDINARY_TURN' && kind === 'HACK') {
+    // The conversation ends: the live feedback and the partner leave both views (the server keeps its own record).
+    S.private.hackFeedback = null;
+    S.private.hackPartner = null;
+    nextTurn('turn');
+  } else return;
+  // The declaration is offered in its own window only; the prelude's move stays as the view offers it.
+  S.private.offers = { ...S.private.offers, declare: [] };
+  if (S.hackFlow.step === 'confirming') S.notice = COPY.choiceDropped;
+  S.hackFlow = { step: 'idle' };
+}
+
+/**
+ * A declaration accepted (this phone's own, or its partner's): the stand-in server's next view. The public window ends
+ * early (HACK_RESULT, five seconds, for every screen); the claim is only in the two participants' own views.
+ */
+function openClaim(side) {
+  if (S.disposed || S.public.phase.kind !== 'HACK_DECLARE') return;
+  const previous = structuredClone(S.public);
+  S.revision += 1;
+  hackPhase('HACK_RESULT', side);
+  render({ previous, kind: 'update' });
+}
+/**
+ * The Hack's facts in this seat's own view (synthetic, the fixture panel): its partner's accepted declaration, or the view
+ * no longer carrying the Hack at all (an audience change: no feedback, no partner, nothing offered).
+ */
+function deliverHack(fact) {
+  if (S.disposed) return;
+  if (fact.type === 'PRIVATE_HACK_DECLARED') { if (S.private.hackFeedback) openClaim(fact.side); return; }
+  if (fact.type === 'PRIVATE_HACK_CLEARED') {
+    S.private.hackFeedback = null; S.private.hackPartner = null; S.private.offers = { ...S.private.offers, declare: [] };
+    if (S.hackFlow.step === 'confirming') S.notice = COPY.choiceDropped;
+    S.hackFlow = { step: 'idle' };
+    render();
+  }
+}
+
+/** The next seat's ordinary turn, or the next round's first (synthetic). */
+function nextTurn(next) {
+  const living = S.public.seats.filter(item => item.health !== 'Eliminated').map(item => item.n);
+  const at = living.indexOf(S.public.active ?? living[0]);
+  S.public.active = living[(at + 1) % living.length];
+  if (next === 'round') S.public.round = Math.min(5, S.public.round + 1);
+  S.public.phase = { kind: 'ORDINARY_TURN', seconds: 60 };
+  S.timer = 60;
+  if (S.flow.kind === 'pass' && S.flow.step === 'accepted') S.flow = { ...S.flow, phaseShown: true };
+  if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
+  S.private.offers.pass = S.public.active === VIEWER;
+}
+
 /**
  * A fact of the seat's own view alone (synthetic): the round's resolution granting the Undercover's
  * Protection, or using it up. Nothing public changes, so no screen plays a cue.
@@ -318,17 +472,11 @@ function deliver(fact) {
       seatOf(fact.seat).captain = true;
       announce.public.push(COPY.announce.captain(fact.seat));
     }
-    if (fact.type === 'PHASE_CHANGED') {
-      const living = S.public.seats.filter(item => item.health !== 'Eliminated').map(item => item.n);
-      const at = living.indexOf(S.public.active ?? living[0]);
-      S.public.active = living[(at + 1) % living.length];
-      if (fact.next === 'round') S.public.round = Math.min(5, S.public.round + 1);
-      S.public.phase = { kind: 'ORDINARY_TURN', seconds: 60 };
-      S.timer = 60;
-      if (S.flow.kind === 'pass' && S.flow.step === 'accepted') S.flow = { ...S.flow, phaseShown: true };
-      if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
-      S.private.offers.pass = S.public.active === VIEWER;
-    }
+    if (fact.type === 'PHASE_CHANGED') nextTurn(fact.next);
+    // The Hack's next public window (synthetic): a deadline passed; a declaration's own window ends through openClaim.
+    if (fact.type === 'HACK_PHASE') hackPhase(fact.next, null);
+    if (fact.type === 'VOTE_CLOSED') closeVote();
+    if (fact.type === 'RESULT_ENDED' && S.public.phase.kind === 'VOTE_RESULT') endResult();
     if (fact.type === 'MATCH_ENDED') {
       // The view's phase turns FINISHED, with the winner the server names and the end reveal, or ABORTED, with
       // neither (the contract's terminal view): no timer, no active seat, no ballot, nothing offered. As in the
@@ -342,6 +490,7 @@ function deliver(fact) {
       S.public.endReveal = fact.phase === 'FINISHED' ? fact.endReveal : null;
       S.private.offers = { pass: false, move: [] };
       S.flow = { step: 'idle' };
+      S.hackFlow = { step: 'idle' };
       if (S.view === 'card' || S.view === 'actions') S.view = 'board';
       announce.public.push(fact.phase === 'ABORTED' ? COPY.result.aborted : COPY.result.winner[fact.result.winner]);
     }
@@ -394,15 +543,20 @@ function buildObserver(container) {
 function drawStatus(target) {
   const { phase, round, active } = S.public;
   const own = target === status;
-  const line = phase.kind === 'ORDINARY_TURN' ? (active === VIEWER && own ? COPY.phase.yourTurn : `${nameOf(active)}’s turn`) : COPY.phase.kind[phase.kind];
-  const detail = phase.kind === 'ORDINARY_TURN' ? `Player ${active} · ${seatOf(active)?.location ?? ''}` : COPY.phase.round(round);
+  const line = phase.kind === 'ORDINARY_TURN' ? (active === VIEWER && own ? COPY.phase.yourTurn : `${nameOf(active)}’s turn`) : phaseName(phase.kind);
+  // A vote's result names the vote it closes, and that vote's own round (never the round that comes next).
+  const detail = phase.kind === 'ORDINARY_TURN' ? `Player ${active} · ${seatOf(active)?.location ?? ''}`
+    : phase.kind === 'VOTE_RESULT' && S.public.voteResult ? `${phaseName(S.public.voteResult.kind)} · ${COPY.phase.round(S.public.voteResult.round)}` : COPY.phase.round(round);
   const seconds = Math.max(0, S.timer);
   const over = TERMINAL.includes(phase.kind);
+  const whoPlays = !over && active !== null && seatOf(active) ? active : null;
   // At the end the phase's words may take both lines ("Match ended by the host"): the round is in its chip already.
   if (over) target.dataset.over = 'true'; else delete target.dataset.over;
   put(target,
     h('span', { class: 'bm-status__round' }, COPY.phase.round(round)),
-    h('div', { class: 'bm-status__phase' }, h('p', { class: 'bm-status__line' }, line), over ? null : h('p', { class: 'bm-status__detail' }, seconds === 0 ? COPY.timer.waiting : detail)),
+    // Who plays (the phone kit, issue #121): their character's picture, public; none when no one has the turn.
+    h('div', { class: 'bm-status__phase' }, whoPlays !== null ? h('span', { class: 'pk-who', 'data-character': seatOf(whoPlays)?.character ?? '', 'aria-hidden': 'true' }) : null,
+      h('p', { class: 'bm-status__line' }, line), over ? null : h('p', { class: 'bm-status__detail' }, seconds === 0 ? COPY.timer.waiting : detail)),
     // A finished or ended match has no deadline (the contract's terminal phase): the release says so instead of a count.
     over ? h('span', { class: 'bm-timer', 'data-state': 'none' }, h('span', { 'aria-hidden': 'true' }, '–'), vh(COPY.timer.none))
       : h('span', { class: 'bm-timer', role: 'timer', 'aria-label': `${COPY.timer.label}: ${seconds} seconds`, 'data-final': String(seconds <= 10) }, `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`));
@@ -603,12 +757,17 @@ function drawTray() {
   tray.hidden = (S.concealed && !paused()) || S.disposed || document.visibilityState !== 'visible' || !(S.view === 'actions' && S.flow.step === 'idle');
   if (tray.hidden) { put(tray); forget(tray); return; }
   const open = TRAY_ORDER.filter(kind => isOpen(kind));
-  if (keep(tray, JSON.stringify([paused(), S.banner, S.private.pending, open]))) return;
+  // The Hack's declaration (the phone kit, issue #120): offered to its fixed target alone; its chip leads to its panel on the board.
+  const declare = (offers().declare ?? []).includes(VIEWER) && S.public.phase.kind === 'HACK_DECLARE';
+  if (keep(tray, JSON.stringify([paused(), S.banner, S.private.pending, open, declare]))) return;
+  const declareChip = declare ? h('li', null, h('button', { type: 'button', class: 'bm-chip', 'data-act': 'open:declare', id: 'bm-open-declare' },
+    h('span', { class: 'bm-chip__icon', 'data-kind': 'hack', 'aria-hidden': 'true' }, ICON.hack), h('span', { class: 'bm-chip__name' }, HACK_WORDS.declareHeading),
+    h('span', { class: 'bm-chip__hint' }, HACK_WORDS.declareDetail(S.private.hackPartner)))) : null;
   put(tray,
     h('div', { class: 'bm-sheet__head' }, h('h2', { id: 'bm-tray-heading', tabindex: '-1' }, SHELL.nav.actions), h('button', { type: 'button', class: 'bm-close', 'data-act': 'close', 'aria-label': SHELL.closePanel }, '×')),
     !paused() && S.private.pending ? h('p', { class: 'bm-tray__empty' }, COPY.queued(S.private.pending)) : null,
     paused() ? h('p', { class: 'bm-tray__empty' }, outOfDate() ? COPY.actions.pausedStale : COPY.actions.pausedExpired)
-      : open.length ? h('ul', { class: 'bm-tray__grid' }, open.map(kind => h('li', null, h('button', { type: 'button', class: 'bm-chip', 'data-act': `open:${kind}`, id: `bm-open-${kind}` },
+      : open.length || declareChip ? h('ul', { class: 'bm-tray__grid' }, declareChip, open.map(kind => h('li', null, h('button', { type: 'button', class: 'bm-chip', 'data-act': `open:${kind}`, id: `bm-open-${kind}` },
         // The action's mark (design/abilities/, slice 7) once the art has arrived; until then its glyph.
         h('span', { class: 'bm-chip__icon', 'data-kind': kind, 'aria-hidden': 'true' }, ICON[kind] ?? '•'), h('span', { class: 'bm-chip__name' }, COPY.kind[kind]), h('span', { class: 'bm-chip__hint' }, COPY.open[kind])))))
         : h('p', { class: 'bm-tray__empty' }, SHELL.noActions));
@@ -865,6 +1024,159 @@ function drawNav() {
     item('card', SHELL.nav.card, 'card'), item('menu', SHELL.nav.menu, 'menu'));
 }
 
+// ---------- the vote's result (issue #119; the phone kit, issue #121) ----------
+let resultShown = null; // { id, panel, play, reduced, timer, other }
+function clearVoteResult() {
+  if (!resultShown) return;
+  for (const shown of [resultShown, resultShown.other]) if (shown) { shown.play.cancel(); shown.panel.remove(); }
+  clearTimeout(resultShown.timer);
+  resultShown = null;
+}
+/**
+ * The result's panel for its five seconds. The same result again (a duplicate, a replay, a reconnect) leaves it
+ * as it is; a new one replaces it; any other phase removes it at once. live: it arrived while this page watched.
+ */
+function drawVoteResult({ live }) {
+  const vr = S.public.phase.kind === 'VOTE_RESULT' ? S.public.voteResult : null;
+  if (!vr) { clearVoteResult(); return; }
+  const now = performance.now();
+  if (resultShown?.id === vr.id) {
+    if (reducedNow() && !resultShown.reduced) {
+      for (const shown of [resultShown, resultShown.other]) {
+        if (!shown) continue;
+        shown.play.cancel();
+        shown.play = playVoteResult(shown.panel, { now, startedAt: vr.startedAt, endsAt: vr.endsAt, live: false, reduced: true });
+      }
+      resultShown.reduced = true;
+    }
+    return;
+  }
+  clearVoteResult();
+  const model = voteResultModel(vr, S.public.seats);
+  if (!model) return;
+  const panel = voteResultElement(model, { prefix: 'pkvr' });
+  phone.append(panel);
+  const reduced = reducedNow();
+  resultShown = { id: vr.id, panel, reduced, play: playVoteResult(panel, { now, startedAt: vr.startedAt, endsAt: vr.endsAt, live, reduced }), timer: null, other: null };
+  // Public: the other screens draw the same panel at the same moment (its ids are this phone's own; the copy carries none).
+  if (observer) {
+    const copy = voteResultElement(model, { prefix: 'pkvro' });
+    copy.removeAttribute('id');
+    copy.removeAttribute('aria-labelledby');
+    copy.querySelector('#pk-vr-heading')?.removeAttribute('id');
+    observer.app.append(copy);
+    resultShown.other = { panel: copy, play: playVoteResult(copy, { now, startedAt: vr.startedAt, endsAt: vr.endsAt, live, reduced }) };
+  }
+  announce.public.push(model.sentence);
+  // The server opens the next phase at endsAt (synthetic here): it arrives a little after, with its full clock.
+  if (!frozen) resultShown.timer = setTimeout(() => deliver({ type: 'RESULT_ENDED' }), Math.max(0, vr.endsAt - now) + 60);
+}
+
+// ---------- the private Hack, declared side first (issue #120; the phone kit, issue #121) ----------
+let hackShown = null; // { key, id, stage, panel, play, reduced }
+const claimsSaid = new Set();
+const hackView = () => hackModel({ phase: S.public.phase, initiator: S.public.active, viewer: VIEWER, feedback: S.private.hackFeedback, partner: S.private.hackPartner,
+  canDeclare: (offers().declare ?? []).includes(VIEWER), seats: S.public.seats });
+function clearHack() {
+  if (!hackShown) return;
+  hackShown.play?.cancel();
+  hackShown.panel.remove();
+  hackShown = null;
+}
+/**
+ * The Hack's private panel, above the strip, for its two participants only and only while the page is visible and its
+ * view current: otherwise nothing of it is in the page. The same panel again (a duplicate, the timer) is left as it is;
+ * the claim plays once per exchange, as it arrives; a page that joins late draws it settled. live: it arrived while watched.
+ */
+function drawHack({ live }) {
+  const model = privateVisible() && !ended() ? hackView() : null;
+  if (!model) { clearHack(); return; }
+  const flow = model.audience === 'target' && model.stage === 'declare' ? S.hackFlow : { step: 'idle' };
+  // Another command open in the strip: the panel keeps one line, its controls out of the way (one command at a time).
+  const compact = S.flow.step !== 'idle';
+  const key = JSON.stringify([model, flow, compact]);
+  const now = performance.now();
+  const { startedAt, endsAt } = S.public.phase;
+  if (hackShown?.key === key) {
+    // Reduced motion switched on mid-claim: at rest at once, then the 80 ms fade out.
+    if (hackShown.play && reducedNow() && !hackShown.reduced) {
+      hackShown.play.cancel();
+      hackShown.play = playClaim(hackShown.panel, { now, startedAt, endsAt, live: false, reduced: true });
+      hackShown.reduced = true;
+    }
+    return;
+  }
+  const was = hackShown;
+  const panel = hackElement(model, { flow, compact });
+  if (was) { was.play?.cancel(); was.panel.replaceWith(panel); } else strip.before(panel);
+  const reduced = reducedNow();
+  let play = null;
+  if (model.stage === 'result' && Number.isFinite(startedAt)) {
+    const again = was?.id === model.hackId && was.stage === 'result';
+    play = playClaim(panel, { now, startedAt, endsAt, live: live && !again, reduced });
+    // Said once per exchange, privately; never again on a reconnect or a duplicate.
+    if (!claimsSaid.has(model.hackId)) { claimsSaid.add(model.hackId); announce.private.push(claimSentence(model)); }
+  } else if (live && !reduced && was?.stage !== model.stage && !compact) {
+    panel.dataset.enter = '';
+    setTimeout(() => delete panel.dataset.enter, 320);
+  }
+  hackShown = { key, id: model.hackId, stage: model.stage, panel, play, reduced };
+}
+
+/** The target chooses a side: the three are offered alike; nothing is sent until it is confirmed. */
+function chooseSide(side) {
+  const model = privateVisible() ? hackView() : null;
+  if (!model?.canDeclare || !['idle', 'not-accepted'].includes(S.hackFlow.step)) return;
+  if (S.flow.step !== 'idle') { notice(SHELL.finishFirst); return; }
+  S.hackFlow = { step: 'confirming', side };
+  render({ focus: 'hack' });
+}
+function unchooseSide() {
+  if (S.hackFlow.step !== 'confirming') return;
+  S.hackFlow = { step: 'idle' };
+  render({ focus: 'hack' });
+}
+/** Sent once, as the release sends a command: "accepted" is only what the server answered (the stand-in here, as the panel says). */
+function declareSide() {
+  const model = privateVisible() ? hackView() : null;
+  if (!model?.canDeclare || S.hackFlow.step !== 'confirming') return;
+  S.requests.sent += 1;
+  const { side } = S.hackFlow;
+  S.hackFlow = { step: 'sending', side };
+  render({ focus: 'hack' });
+  const answer = S.answer;
+  setTimeout(() => answerDeclaration(answer, side), params.has('t') ? 0 : answer === 'slow' ? 2500 : 650);
+}
+function answerDeclaration(answer, side) {
+  if (S.disposed || S.hackFlow.step !== 'sending' || S.public.phase.kind !== 'HACK_DECLARE') return;
+  if (answer === 'reject') { S.hackFlow = { step: 'not-accepted' }; announce.private.push(HACK_WORDS.notAccepted); }
+  // The window closed first: the server's next view says no side was declared.
+  else if (answer === 'reject-closed') { S.hackFlow = { step: 'idle' }; deliver({ type: 'HACK_PHASE', next: 'HACK_RESULT' }); return; }
+  else if (answer === 'lose') S.hackFlow = { step: 'unknown', side };
+  else {
+    S.hackFlow = { step: 'accepted', side };
+    announce.private.push(HACK_WORDS.accepted(side));
+    // The accepted declaration ends the window early: the claim's view follows the receipt.
+    setTimeout(() => openClaim(side), params.has('t') ? 0 : 450);
+  }
+  render({ focus: 'hack' });
+}
+
+/** The stand-in server's next view at a window's deadline (synthetic): the declaration's, then the claim's. */
+let continuation = null; // { key, timer }
+function scheduleContinuation() {
+  const { phase } = S.public;
+  const key = `${phase.kind}:${phase.id ?? ''}:${phase.endsAt ?? ''}`;
+  if (continuation?.key === key) return;
+  clearTimeout(continuation?.timer);
+  continuation = null;
+  const fact = phase.kind === 'HACK_DECLARE' ? { type: 'HACK_PHASE', next: 'HACK_RESULT' } : phase.kind === 'HACK_RESULT' ? { type: 'HACK_PHASE', next: 'HACK' } : null;
+  if (frozen || S.disposed || !fact || !Number.isFinite(phase.endsAt)) return;
+  continuation = { key, timer: setTimeout(() => { continuation = null; deliver(fact); }, Math.max(0, phase.endsAt - performance.now())) };
+}
+/** The stand-in answers at the deadline itself: the local count does not run out ahead of it and pause the view. */
+const serverDue = () => Boolean(continuation || resultShown?.timer);
+
 function render({ previous = null, kind = 'update', focus = null } = {}) {
   // Out of date or timed out: what was not sent is dropped and the actions pause; the private surfaces are concealed,
   // or, where the card is kept (S.staleCard), only the strip and the tray, as in the release.
@@ -878,12 +1190,17 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   const obefore = previous && observer ? observer.director.before() : null;
   phone.dataset.motion = S.motion;
   phone.dataset.view = S.view;
+  phone.dataset.phase = S.public.phase.kind;
   phone.dataset.privateQuiet = String(S.privateQuiet);
   phone.querySelector('.bm-synthetic').textContent = S.fixtureStatus === 'layout-stress' ? 'Synthetic · layout stress' : 'Synthetic';
   document.documentElement.dataset.motion = S.motion;
   drawStatus(status);
   board.update(S.public, boardCues());
+  dressBoard(board, S.public.seats);
   drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav(); drawResult(result, { own: true });
+  drawVoteResult({ live: Boolean(previous) && kind === 'update' });
+  drawHack({ live: Boolean(previous) && kind === 'update' });
+  scheduleContinuation();
   // Reduced motion, switched on mid-beat, leaves the strip's art at rest at once, and the end's sheet as it stands.
   if (reducedNow()) {
     director.cancelAll();
@@ -898,8 +1215,10 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   const cueKind = paused() || S.disposed ? 'reconnect' : kind;
   if (previous) director.after(previous, S.public, before, { kind: cueKind, revision: S.revision });
   if (observer) {
+    observer.app.dataset.phase = S.public.phase.kind;
     drawStatus(observer.status);
     observer.board.update(S.public, {});
+    dressBoard(observer.board, S.public.seats);
     drawResult(observer.result, { own: false });
     fitBoard(observer.board);
     if (previous) observer.director.after(previous, S.public, obefore, { kind: cueKind, revision: S.revision });
@@ -907,12 +1226,13 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   for (const text of announce.public.splice(0)) live.append(h('p', null, text));
   for (const text of announce.private.splice(0)) if (privateVisible()) livePrivate.append(h('p', null, text));
   // Private words leave the document as soon as nothing private is open.
-  if (!privateVisible() || (S.view !== 'card' && S.flow.step === 'idle')) livePrivate.replaceChildren();
+  if (!privateVisible() || (S.view !== 'card' && S.flow.step === 'idle' && !hackShown)) livePrivate.replaceChildren();
   if (focus === 'strip') document.getElementById('bm-strip-line')?.focus({ preventScroll: true });
+  if (focus === 'hack') document.getElementById('pk-hack-heading')?.focus({ preventScroll: true });
   if (focus === 'nav') document.getElementById('bm-nav-actions')?.focus({ preventScroll: true });
   if (focus === 'sheet') phone.querySelector('.bm-sheet:not([hidden]) h2, .bm-tray:not([hidden]) h2')?.focus({ preventScroll: true });
   window.__bmState = { scenario: S.scenarioId, phase: S.public.phase.kind, flow: S.flow, view: S.view, active: S.public.active, revision: S.revision,
-    concealed: S.concealed, disposed: S.disposed, requests: { ...S.requests } };
+    concealed: S.concealed, disposed: S.disposed, requests: { ...S.requests }, hackFlow: S.hackFlow, hack: hackShown ? { id: hackShown.id, stage: hackShown.stage } : null };
 }
 
 /**
@@ -1018,7 +1338,11 @@ phone.addEventListener('click', event => {
   }
   const act = target.closest('[data-act]')?.dataset.act;
   if (!act || target.closest('[aria-disabled="true"]')) { if (act === 'pass') notice(S.legacy ? PROPOSED.passLegacy : PROPOSED.passNotYours); return; }
-  if (act.startsWith('open:')) openAction(act.slice(5));
+  if (act === 'open:declare') { S.view = 'board'; render({ focus: 'hack' }); }
+  else if (act.startsWith('declare:')) chooseSide(act.slice(8));
+  else if (act === 'declare-confirm') declareSide();
+  else if (act === 'declare-back') unchooseSide();
+  else if (act.startsWith('open:')) openAction(act.slice(5));
   else if (act.startsWith('answer:')) pick(act.slice(7));
   else if (act === 'back') back();
   else if (act === 'confirm') confirm();
@@ -1036,6 +1360,7 @@ phone.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
   if (S.view !== 'board') { S.view = 'board'; render({ focus: 'nav' }); }
   else if (S.flow.step === 'choosing' || S.flow.step === 'confirming') back();
+  else if (S.hackFlow.step === 'confirming') unchooseSide();
 });
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') conceal();
@@ -1046,7 +1371,7 @@ function onSystemMotion() {
 }
 motionQuery.addEventListener('change', onSystemMotion);
 window.addEventListener('pagehide', () => {
-  conceal(); S.disposed = true; clearInterval(countdownTimer); render();
+  conceal(); S.disposed = true; clearInterval(countdownTimer); clearVoteResult(); clearHack(); clearTimeout(continuation?.timer); continuation = null; render();
   director.dispose(); observer?.director.dispose();
   motionQuery.removeEventListener('change', onSystemMotion);
 });
@@ -1110,7 +1435,7 @@ function fixturePanel() {
     h('fieldset', null, h('legend', null, 'Public facts, to every screen'), events),
     h('fieldset', null, h('legend', null, 'Private facts, to this seat alone'), h('div', { class: 'bm-events' }, PRIVATE_EVENTS.map(event => {
       const button = h('button', { type: 'button', 'data-private-event': event.id }, event.label);
-      button.addEventListener('click', () => deliverPrivate(event.fact));
+      button.addEventListener('click', () => (event.fact.type.startsWith('PRIVATE_HACK') ? deliverHack(event.fact) : deliverPrivate(event.fact)));
       return button;
     }))),
     h('fieldset', null, h('legend', null, 'Display'),
@@ -1133,7 +1458,14 @@ if (chrome) {
   if (params.get('safe') === '1') { phone.style.setProperty('--bm-safe-top', '47px'); phone.style.setProperty('--bm-safe-bottom', '34px'); }
 }
 render();
-if (!frozen) countdownTimer = setInterval(() => { if (S.timer > 0 && !ended()) { S.timer -= 1; drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) render(); } }, 1000);
+if (!frozen) countdownTimer = setInterval(() => {
+  if (S.timer <= 0 || ended()) return;
+  // A window with a server deadline counts from it; one the stand-in closes at that deadline does not run out ahead of its answer.
+  const { endsAt } = S.public.phase;
+  S.timer = Number.isFinite(endsAt) ? Math.max(0, Math.ceil((endsAt - performance.now()) / 1000)) : S.timer - 1;
+  if (S.timer === 0 && serverDue()) S.timer = 1;
+  drawStatus(status); if (observer) drawStatus(observer.status); if (S.timer === 0) render();
+}, 1000);
 
 // ---------- holds for storyboards and captures: ?play=<step>&t=<ms> ----------
 const PLAY = {
@@ -1168,6 +1500,27 @@ const PLAY = {
   tag: () => pressRoom('Room B', document.querySelector('[data-move-room="Room B"]')),
   self: () => { S.flow = { step: 'accepted', kind: 'move', picked: ['Room B'] }; render(); deliver({ type: 'PUBLIC_MOVE', seat: VIEWER, location: 'Room B' }); },
   reject: () => { S.answer = 'reject'; confirm(); },
+  // The Hack: a side chosen, then sent (the stand-in answers as the panel says); the partner declaring; the claim from its first frame.
+  'declare-pick': () => chooseSide('Red'),
+  declare: () => { chooseSide('Red'); declareSide(); },
+  'partner-declares': () => deliverHack({ type: 'PRIVATE_HACK_DECLARED', side: 'Red' }),
+  claim: () => {
+    const { phase } = S.public;
+    if (phase.kind !== 'HACK_RESULT') return;
+    const startedAt = performance.now();
+    S.public.phase = { ...phase, startedAt, endsAt: startedAt + HACK_WINDOWS.resultMs };
+    claimsSaid.clear();
+    clearHack();
+    render({ previous: structuredClone(S.public), kind: 'update' });
+  },
+  // A vote's result from its first frame, as a screen watching when it arrives sees it (storyboards only).
+  result: () => {
+    if (!S.public.voteResult) { deliver({ type: 'VOTE_CLOSED' }); return; }
+    const startedAt = performance.now();
+    S.public.voteResult = { ...S.public.voteResult, startedAt, endsAt: startedAt + VOTE_RESULT_MS };
+    clearVoteResult();
+    render({ previous: structuredClone(S.public), kind: 'update' });
+  },
 };
 const play = params.get('play');
 if (play && PLAY[play]) {

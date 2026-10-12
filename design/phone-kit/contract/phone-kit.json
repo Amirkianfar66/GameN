@@ -1,0 +1,173 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "phone-kit-0.1.0",
+  "status": "proposal for issue #121; not owner-approved, not in the reviewed manifest design-0.2.0, not a game rule",
+  "base": "abb6839524b6dc3e5225e600f2f067c3fa3f9501",
+  "tuple": { "protocol": 2, "engine": "full-game-1.3.0", "ruleset": "in-person-v1-capacity-resolution-2026-10-12", "rulesetHash": "aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e" },
+  "inputsFrom": {
+    "backend": "docs/backend/playtest-feedback-contract.md on codex/backend-vote-results at bd4d77c (proposal: full-game-1.4.0 vote results, full-game-1.5.0 declared-side Hack). Nothing here invents a field: every input below is named there or already in the 1.3 projections.",
+    "frontend": "docs/frontend/phone-feedback-contract-review.md on codex/frontend-phone-feedback at a82bd4f (read only).",
+    "owner": "The owner's requests of 12 October 2026 (issues #119, #120, #121); the reference picture they attached is not in this repository (see docs/design/phone-kit-handoff.md)."
+  },
+  "about": "What the phone kit draws, from which inputs, where, in which layer, how it moves, and how it stops. Frontend owns the production implementation (apps/game, packages/presentation); these are the Designer's specifications and a working prototype (design/board-motion/index.html with design/phone-kit/).",
+  "rules": [
+    "Everything drawn is either public (the same on every screen) or private to this phone's own view; nothing private is ever inferred from a public fact, and nothing public waits on a private one.",
+    "A picture holds no word: every word is the page's text, so it is read, translated and enlarged with the page.",
+    "Nothing repeats forever. Nothing changes the game, delays a deadline or takes a tap away from the board unless it says so below.",
+    "Reduced motion (the player's setting or the device's) keeps every fact and control and replaces travel, scale and flips with an 80 ms fade or a direct change.",
+    "Art loads whole and alike on every phone: no request, file or class name depends on a role, a side, a claim or a vote."
+  ],
+  "tokens": {
+    "proposal": "The shell's colors as CSS custom properties on :root in design/phone-kit/css/phone-kit.css; recorded with their values in design/phone-kit/assets/manifest.json. A candidate for the next token revision (0.5.0) of @mothership/design-tokens once the owner accepts the look; this change does not alter that package's exports.",
+    "roles": {
+      "--pk-navy-950": "the page and the board's gutter",
+      "--pk-navy-900": "the bars' lower edge, plates on gold (a vote's tag, a strip's action)",
+      "--pk-navy-850": "sheets (the card, the menu, the tray)",
+      "--pk-navy-800": "rooms behind their scenes, the bars' upper edge, the Hack panel",
+      "--pk-navy-700": "a portrait's ground, a vote's other cells",
+      "--pk-navy-600": "spare",
+      "--pk-gold-100": "the timer's digits",
+      "--pk-gold-300": "lettering on navy, the pressed nav item, a pick's light",
+      "--pk-gold-500": "accents: keylines, the nav indicator, a subject's vote cells, rings of portraits",
+      "--pk-gold-700": "spare",
+      "--pk-gold-plate": "struck plates: room tags, Pass, the primary button, a Hack tag",
+      "--pk-gold-line": "the bars' edges",
+      "--pk-gold-faint": "keylines inside rooms and sheets, a disabled Pass's dashes",
+      "--pk-glow": "the glow of a pick, the final seconds of the timer",
+      "--pk-ink": "every edge and the ink of plates",
+      "--pk-text": "words on navy",
+      "--pk-text-muted": "secondary words on navy"
+    },
+    "constraints": [
+      "Navy and gold carry no side, role or game fact; gold is the shell's accent and focus, as amber was.",
+      "Faction colors (Blue #70AFFF, Red #FF8C8C, Alien #C4A4FF from the reviewed tokens) appear only in a Hack participant's own private panel, on the three side cards, alike."
+    ]
+  },
+  "layers": {
+    "about": "z-index inside the phone (.bm-app). The board is its own stacking context: its rooms, figures (by depth), badges, targets, room tags and move flyers stay inside it and never rise over a panel.",
+    "order": [
+      { "z": "board", "what": "rooms, scenes, figures by depth, plates, targets (2200), room tags (2300 in the phone kit, above figures), move flyers (2500)" },
+      { "z": 70, "what": "the strip (the release's selection, confirmation and receipt)" },
+      { "z": 71, "what": "#pk-hack, the private Hack panel (its own grid row above the strip)" },
+      { "z": 74, "what": "#pk-vote-result over the lower board; the match's end sheet uses the same layer and never coexists with it" },
+      { "z": 75, "what": "the Actions tray" },
+      { "z": 76, "what": "sheets: the card, the menu" },
+      { "z": 78, "what": "a notice" },
+      { "z": 79, "what": "the connection banner" },
+      { "z": 80, "what": "the bottom bar (Board, Actions, Pass, Card, Menu)" }
+    ]
+  },
+  "components": [
+    {
+      "id": "shell.status",
+      "element": "header.bm-status",
+      "audience": "public",
+      "inputs": ["phase.kind", "phase deadline (endsAt on the trusted clock)", "round", "activeSeatId with that seat's public character", "voteResult.kind and voteResult.round during VOTE_RESULT"],
+      "anchors": "top of the phone below the safe area; 52 px tall, 44 px on a short phone (<= 640 px tall)",
+      "parts": {
+        "round": "gold-ringed capsule: 'Round N'",
+        "who": ".pk-who: the active seat's crew portrait, 30 px (26 px short) in a gold ring; none when no seat is active",
+        "phase": "the phase's name (the release's words, or for VOTE_RESULT 'Vote result' and for HACK_DECLARE/HACK_RESULT 'Hack', proposed) and its detail: an ordinary turn 'Player N · room'; a vote result the vote's kind and its OWN round (never the next round); otherwise the round",
+        "timer": "m:ss on navy; gold plate in the final 10 s; a dashed '–' for a phase with no deadline"
+      },
+      "notes": "No phone OS indicators are drawn: the status bar is the game's own."
+    },
+    {
+      "id": "shell.roomTag",
+      "element": ".bm-tag (a button when the room is a move destination)",
+      "audience": "public look; the move arrow and press are the viewer's own offer",
+      "inputs": ["room", "movementDestinations (the view's own offer)", "public occupancy (FULL)"],
+      "hitArea": "the tag button, at least 44 x 44 CSS px (the release's press area, unchanged)",
+      "anchors": "top-left of its room; drawn above the room's figures (z 2300), below move flyers",
+      "states": ["fixed caption (not a destination)", "movable (arrow)", "full", "pressed (a 1-frame press, pk-tag-press)"],
+      "interaction": "Tap = the release's move confirmation in the strip (Move / Choose again). Allowed wherever the view offers it, including HACK_DECLARE and HACK_RESULT (Integration: the prelude keeps the before-voting move).",
+      "cancellation": "A move confirmation drops when the page is backgrounded, the view goes stale or time runs out, as the release does."
+    },
+    {
+      "id": "shell.nav",
+      "element": "nav.bm-nav",
+      "audience": "public look; Pass availability is the viewer's own offer",
+      "inputs": ["selected view", "Pass offered (own ordinary turn)", "match ended"],
+      "anchors": "bottom of the phone above the safe area; 64 px tall (56 px short)",
+      "hitArea": "each item its fifth of the width, at least 48 px tall; Pass a 64 px gold disc (58 px short) raised 20 px (16 px) above the bar",
+      "states": ["Board / Actions / Card / Menu: pressed (gold bar above the icon and gold label) or not", "Pass: available (gold plate) or not (dashed, dim, still focusable; a tap says why)"],
+      "interaction": "Unchanged from the release: the same five items and their order, Pass in the middle."
+    },
+    {
+      "id": "board.frame",
+      "element": ".bm-board, .bm-room, .bm-spine",
+      "audience": "public",
+      "parts": "a 5 px navy gutter; each room a 2 px ink border, radius 8, a 1.5 px gold keyline inside; the spine with a gold lamp",
+      "notes": "The room scenes, the figures and every ability's art are drawn as before (design/board-motion, design/abilities); the kit only frames them."
+    },
+    {
+      "id": "figure.wardrobe",
+      "element": "the figure of a seat on every board (own and observer)",
+      "module": "design/board-motion/figures/wardrobe.mjs (wardrobe-0.1.0)",
+      "audience": "public",
+      "inputs": ["seat.location only"],
+      "rule": "outfitFor(location): 'Hospital' -> 'gown', 'Jail' -> 'prison', anything else -> 'crew'. Never health, jailed, Captain, Eliminated, a role, a side or a cause. A released, Injured player still waiting in the Jail (Hospital full) wears the prison suit and has no Jailed badge (jailed=false): badges stay independent.",
+      "api": "dressedFigureSvg(character, skeleton, { outfit, prefix, layer: 'body' | 'front', inline, header }) replaces figureSvg(character, skeleton, { prefix, layer, inline, header }); for outfit 'crew' it returns figureSvg's string byte for byte.",
+      "identity": "Head, face, hair, skin and hands are body.mjs's own parts; only the torso, arms and legs are dressed. Every gesture and its front layer is drawn in every outfit, in the same frame (FRAME.box -90 -40 300 300, floor y 233).",
+      "motion": "A move draws the leaving room's outfit until the figure arrives and the landing room's outfit from its arrival frames on (design/board-motion/js/director.js). Reduced motion: the figure appears in the new room in the new outfit.",
+      "cancellation": "A move withdrawn or replaced mid-flight restores the figure in its current room's outfit."
+    },
+    {
+      "id": "voteResult.panel",
+      "element": "section#pk-vote-result.pk-vr",
+      "module": "design/phone-kit/js/vote-result.js",
+      "audience": "public: the same panel on every screen",
+      "inputs": ["phase.kind === 'VOTE_RESULT'", "voteResult: id, votePhaseId, round, kind, startedAt, endsAt, outcome, tiedSeatIds, counts, eligibleVoterCount, yesCount, selectedSeatId, released", "public seats: number, name, character, location"],
+      "variants": {
+        "CAPTAIN_ELECTED": "captain: gold stage, the subject standing, the Captain's star lands",
+        "RUNOFF_REQUIRED": "runoff: paper stage, the tied players facing each other, a burst; 'Runoff vote next' (proposed)",
+        "NO_CAPTAIN_ELECTED": "no-captain: paper stage, the empty chair",
+        "PLAYER_JAILED": "jailed: steel stage, the subject in prison clothes behind dropping bars",
+        "NO_JAIL_SELECTION": "no-jail (empty cell) or no-jail-tie (tied players, a burst), by tiedSeatIds",
+        "PLAYER_RELEASED": "released: gold stage, bars bent open",
+        "RELEASE_DENIED": "denied: steel stage, bars"
+      },
+      "words": "The release's en.vote.tally sentences for a screen reader (said once per result id); the ribbon's lettering is a picture of them. A release shows only 'Yes: Y of V.', never a No or abstention total.",
+      "anchors": "absolute over the lower board: left/right 8 px, bottom = nav height + 8 px (6 px short); its stage 150 px tall (112 px short); it never covers the status bar or the bottom bar",
+      "hitArea": "none: pointer-events none; nothing on the board is offered during VOTE_RESULT, and the bars stay usable (Card, Menu)",
+      "timing": { "durationMs": 5000, "clock": "the result's own startedAt/endsAt on the trusted server clock", "beatsMs": { "enter": [0, 320], "ribbon": [80, 440], "subject": [200, 760], "piece": [360, 620], "count": [760, 1260], "exit": [4720, 5000] }, "settledAtMs": 1260, "easing": { "enter": "cubic-bezier(0.16, 0.84, 0.3, 1)", "pop": "cubic-bezier(0.2, 0.9, 0.3, 1.2)", "drop/exit": "cubic-bezier(0.55, 0, 1, 0.45)" } },
+      "reducedMotion": "an 80 ms fade in (if live) and an 80 ms fade out ending at endsAt; nothing travels or scales",
+      "settled": "A screen that arrives late (reconnect, reload, late delivery, joining after 1260 ms) draws it at rest for the time left and plays only the exit.",
+      "cancellation": "Any other phase removes it at once (no exit wait). The same result id again (duplicate, replay, reconnect) leaves it as it is and never replays it. Reduced motion switched on mid-play puts it at rest at once. The page hidden: nothing changes (it is public). The next phase opens on the server's update only, with its own full deadline.",
+      "privateEffect": "When it opens, the card and tray close and private live lines clear (Frontend's consumer review); a sent command keeps its recovery state."
+    },
+    {
+      "id": "hack.panel",
+      "element": "section#pk-hack.pk-hack[data-private]",
+      "module": "design/phone-kit/js/hack.js",
+      "audience": "private: the two participants only, in their own view; never on the observer, host or display screens",
+      "inputs": ["phase.kind in HACK_DECLARE | HACK_RESULT | HACK, with startedAt/endsAt", "activeSeatId (the initiator, throughout)", "the viewer's own seat", "hackFeedback: hackId, round, status (AWAITING_DECLARATION | DECLARED | NO_DECLARATION), declaredSide", "hackPartnerSeatId", "legalTargets.DECLARE_HACK_SIDE (only the target's own seat)", "public seats: number, name, character"],
+      "notRead": "role, faction, team, a truth or verification flag, any other seat's private view. The model takes no role at all: every target gets the same three controls.",
+      "stages": {
+        "declare/target": "'Declare your side' · 'Only Player N sees your answer.' and three equal buttons Blue | Red | Alien (side card + word). Steps: choosing -> confirming ('Declare Red to Player N?' + the release's consequence line; 'Declare Red' / 'Choose again') -> sending ('Sending your declaration…', stamp Sending) -> accepted ('You declared Red.', stamp Declared) | not accepted (stamp, 'Choose again.', the three again) | unknown ('Sent. No answer yet.'; the next view decides).",
+        "declare/initiator": "'Waiting for Player N' · 'Player N is declaring a side.' with three dots that come in once.",
+        "result (5 s)": "who declared (the partner's portrait for the initiator, the viewer's own for the target), the heading ('Player N claims' / 'You declared', the side in words for a screen reader), the side card and word in a speech balloon, and 'A claim, not a verified side.' / 'Shown to Player N only.'. No declaration: 'No side declared' (the owner's words) with an empty balloon and the blank card.",
+        "talk (60 s)": "'Talk with Player N' · 'Claimed: Red, not verified.' / 'You declared: Red.' / 'No side declared', the side card small at the side."
+      },
+      "compact": "While another command is open in the strip (a move confirmation in the prelude), the panel keeps one line without controls; one command at a time: a declaration in progress blocks a room-tag move and the other way round ('Finish or cancel the current action first.').",
+      "controls": [
+        { "id": "pk-declare-blue | pk-declare-red | pk-declare-alien", "act": "declare:<Side>", "hitArea": ">= 52 px tall (46 px short), a third of the panel's width each (>= 88 px at 320 px)", "enabled": "only with the self-only DECLARE_HACK_SIDE offer, status AWAITING_DECLARATION, the view current and visible" },
+        { "id": "pk-declare-confirm", "act": "declare-confirm", "hitArea": ">= 44 px, half the width", "sends": "DECLARE_HACK_SIDE { declaredSide } through the existing command envelope, once" },
+        { "act": "declare-back", "hitArea": ">= 44 px, half the width", "effect": "back to choosing; nothing sent" },
+        { "id": "bm-open-declare", "where": "the Actions tray", "effect": "closes the tray and focuses the panel's heading" }
+      ],
+      "anchors": "its own grid row between the board and the strip; 6 px side margins; heights as measured in design/phone-kit/review/report.json at 320 x 568: declare 123, confirm 135, sending 67, waiting 77, result 134, talk 77, compact 44-46 px (390 x 844: declare 138, result 135)",
+      "timing": { "claimMs": 5000, "beatsMs": { "enter": [0, 300], "balloon": [160, 520], "card": [380, 800], "exit": [4720, 5000] }, "settledAtMs": 800, "stageEnterMs": "var(--bm-motion-tray) rise when a new stage arrives live", "dots": "three dots fade in once, staggered over 1.2 x --bm-motion-tray" },
+      "reducedMotion": "an 80 ms fade in (if live) and out for the claim; stages appear directly; the dots are drawn at once",
+      "settled": "A participant whose view arrives late in HACK_RESULT sees the claim at rest for the time left, exit only. The claim is said once per hackId.",
+      "concealment": "Removed from the document at once when the page goes to the background, the view goes stale or unreadable, its deadline passes, the view no longer carries hackFeedback (an audience change), or the match ends; it returns only on the player's own tap (Actions or Card), never by itself. An unsent choice (confirming) is dropped and said so; a sent declaration keeps its command recovery, hidden.",
+      "uniformLoading": "The three side cards, the blank card, the tail and the dots are all built into every phone's page alike (source/art.mjs); nothing is requested when a claim arrives."
+    }
+  ],
+  "words": {
+    "release": "Quoted exactly and checked: en.vote.tally (vote result sentences), en.action.consequence.move and en.action.chooseAgain (the declaration's confirmation).",
+    "owner": ["No side declared"],
+    "proposed": "Every other word in RESULT_WORDS (vote-result.js) and HACK_WORDS (hack.js), and the phase names 'Vote result' and 'Hack' for VOTE_RESULT, HACK_DECLARE and HACK_RESULT (board-motion copy.js PROPOSED.phaseKind)."
+  },
+  "fixtures": "Every scenario under 'Vote results', 'Room clothes' and 'Private Hack' in design/board-motion/js/fixtures.js is synthetic and labeled so; their ids (fixture-result-*, fixture-hack-*) are not production ids. The stand-in server answers as the prototype's panel says; it times nothing for the game."
+}
