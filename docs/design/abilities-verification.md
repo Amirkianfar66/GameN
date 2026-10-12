@@ -243,6 +243,7 @@ The tray's marks, the failure states (the connection banner, Reconnect now, the 
 | `node design/tools/board-motion-flows.mjs` | Passed: **366 of 366** |
 | `node design/tools/abilities-check.mjs`, `board-motion-check.mjs` | Passed: **12 of 12** and **13 of 13** |
 | `npm run test --workspace @mothership/design-tokens` | **187 tests: 186 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93) |
+| `npm run verify` | Run on `f60a0dd8b081d5e6a8b360dda2b1be3381357685`, the commit that makes the fix, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 701 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **Not run, and what the checks do not prove.** Every picture is a desktop Chromium simulation: no real phone, screen reader, touch input, production integration or match. The connection state is the prototype's panel, not a lost socket: the banner, Reconnect now and the fresh view are drawn from the fixtures, and Reconnect now's wait is a timer. Which behaviour the card keeps on an out-of-date view is Integration's (DSN-REQ-16); both are drawn.
 
