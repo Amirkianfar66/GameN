@@ -27,6 +27,7 @@ function scratchCopy() {
   const root = mkdtempSync(join(tmpdir(), 'mothership-board-motion-check-'));
   scratchRoots.push(root);
   for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'docs/design', 'packages/design-tokens/src',
+    'design/abilities/css', 'design/abilities/js', 'design/abilities/assets',
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
@@ -69,7 +70,7 @@ const FIXTURES = 'design/board-motion/js/fixtures.js';
 const COPY = 'design/board-motion/js/copy.js';
 const CUES = 'design/board-motion/contract/cues.json';
 const COVERAGE = 'design/board-motion/contract/coverage.json';
-const STATIONS = 'design/board-motion/contract/stations.json';
+const ROOM_A = 'design/board-motion/scenes/room-a.mjs';
 
 test('the board-motion prototype as committed passes its check', async () => {
   const result = await check(scratchCopy());
@@ -99,11 +100,11 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
       /\.bm-piece__art: a role's device outside the private card/);
   });
 
-  test('colors that are not tokens, art before its bundle, and a prop layer before it loads', async () => {
+  test('colors that are not tokens, art before its bundle, and a scene layer before it loads', async () => {
     const root = scratchCopy();
-    append(root, CSS, '.bm-btn { color: #c00; }\n.bm-notice { border-color: rgb(200 0 0); }\n.bm-chip { background: red; }\n.bm-stage { background-image: var(--ms-asset-board-jail-full); }\n.bm-prop { background-image: var(--bm-asset-hospital-prop-bed); }');
+    append(root, CSS, '.bm-btn { color: #c00; }\n.bm-notice { border-color: rgb(200 0 0); }\n.bm-chip { background: red; }\n.bm-stage { background-image: var(--ms-asset-board-jail-full); }\n.bm-layer { background-image: var(--bm-scene-hospital-bed-left); }');
     refuses(await check(root), /\.bm-btn: a literal hex color/, /\.bm-notice: a functional color/, /\.bm-chip: a named color/,
-      /\.bm-stage: draws art without waiting for its bundle/, /\.bm-prop: draws a prop layer without waiting for it/);
+      /\.bm-stage: draws art without waiting for its bundle/, /\.bm-layer: draws a scene layer without waiting for the scene bundle/);
   });
 
   test('a repeating animation, a duration that is not a token, reduced motion that no longer stops motion, and a cue layer that takes taps', async () => {
@@ -114,6 +115,17 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
       .replace(/(\.bm-fx \{[^}]*?)pointer-events: none;/, '$1'));
     refuses(await check(root), /\.bm-chip: an animation that repeats/, /\.bm-tray: a duration that is not a token/, /no reduced-motion rule that stops every animation/,
       /the device reduced-motion setting is not honored/, /the cue layer can take a tap/);
+  });
+
+  test('the roles before a finished match, an end hook on the board, and an end reveal at the wrong phase', async () => {
+    const root = scratchCopy();
+    edit(root, FIXTURES, text => text.replace("2: 'Hacker', 3: 'Officer'", "2: 'Officer', 3: 'Hacker'")
+      .replace("s: () => state({ phase: 'ABORTED', round: 3, offers: {} })", "s: () => state({ phase: 'ABORTED', round: 3, endReveal: END_REVEAL, offers: {} })")
+      .replace("fact: { type: 'MATCH_ENDED', phase: 'ABORTED' }", "fact: { type: 'MATCH_ENDED', phase: 'ABORTED', endReveal: END_REVEAL }"));
+    append(root, CSS, '.bm-board .bm-piece[data-end-faction="red"] .bm-piece__tag { outline: 2px solid var(--ms-color-faction-red); }');
+    refuses(await check(root), /end\.blue: the end reveal gives the viewer another role than its own/, /end\.blue: Player 2 is revealed Red and was Officer/,
+      /end\.aborted: a result or an end reveal outside a finished match/, /event abort: a result or an end reveal outside a finished match/,
+      /\[data-end-faction="red"\] \.bm-piece__tag: an end-reveal hook outside the result sheet/);
   });
 
   // ---------- the cue contract ----------
@@ -155,15 +167,17 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
 
   // ---------- fixtures ----------
 
-  test('a role word in a public state, an offer the engine never makes, and an event that carries a cause', async () => {
+  test('a role word in a public state, an offer the engine never makes, an event that carries a cause, and a full room offered', async () => {
     const root = scratchCopy();
     append(root, FIXTURES, [
       "{ const entry = SCENARIOS.find(item => item.id === 'board.idle'); const s = entry.s; entry.s = () => { const st = s(); st.public.note = 'Ada is the Undercover'; return st; }; }",
       "{ const entry = SCENARIOS.find(item => item.id === 'shot.choose'); const s = entry.s; entry.s = () => { const st = s(); st.private.offers.shot = [1, 3, 7]; return st; }; }",
       "EVENTS.push({ id: 'bang', label: 'Bang', fact: { type: 'PUBLIC_HEALTH_CHANGED', seat: 5, health: 'Injured', attacker: 2 } }, { id: 'shot', label: 'Shot', fact: { type: 'SHOT_FIRED', seat: 5 } });",
+      "{ const entry = SCENARIOS.find(item => item.id === 'move.full'); const s = entry.s; entry.s = () => { const st = s(); st.private.offers.move = ['Room A']; return st; }; }",
     ].join('\n'));
     refuses(await check(root), /board\.idle: the public state names the role Undercover/, /shot\.choose: shot offers the player's own seat/,
-      /shot\.choose: shot offers Player 7 in Command Room/, /event bang: carries attacker/, /event shot: SHOT_FIRED is not a public fact/);
+      /shot\.choose: shot offers Player 7 in Command Room/, /event bang: carries attacker/, /event shot: SHOT_FIRED is not a public fact/,
+      /move\.full: move offers Room A, which already holds five \(the owner's capacity\)/);
   });
 
   // ---------- the release's words and looks ----------
@@ -194,16 +208,16 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
       /CREW differs from design\/contract\/crew-catalog\.json/, /Officer: device or team differs from comic-shell\.ts/);
   });
 
-  // ---------- stations ----------
+  // ---------- places ----------
 
-  test('two places in a row too close for two targets, a place whose target leaves the panel, and a formation that repeats a station', async () => {
+  test('a place whose press area lands on another, two places with one gesture, a gesture that does not exist, and a room with four places', async () => {
     const root = scratchCopy();
-    editJson(root, STATIONS, stations => {
-      stations.rooms['room-a'].stations.A5.at = [0.4, 0];
-      stations.rooms.jail.stations.J3.at = [0.05, 0];
-      stations.rooms['room-b'].formations['3'] = ['B1', 'B2', 'B2'];
-    });
-    refuses(await check(root), /room-a: two places in row 0 \d+ px apart at 320 px/, /jail: a place whose 44 px target leaves the panel/, /room-b: no formation of 3 distinct stations/);
+    edit(root, ROOM_A, text => text.replace("{ id: 'A5', at: [366, 394]", "{ id: 'A5', at: [396, 472]"));
+    edit(root, 'design/board-motion/scenes/room-b.mjs', text => text.replace("{ id: 'B3', at: [706, 656], scale: 1.08, gesture: 'tankBack'", "{ id: 'B3', at: [706, 656], scale: 1.08, gesture: 'tablet'"));
+    edit(root, 'design/board-motion/scenes/jail.mjs', text => text.replace("gesture: 'doorBack'", "gesture: 'doorFront'"));
+    edit(root, 'design/board-motion/scenes/hospital.mjs', text => text.replace(/\n\s*\{ id: 'H5'[^\n]*/, ''));
+    refuses(await check(root), /room-a: [A-Z0-9 ]*A5[A-Z0-9 ]* need more than 190 px at 141 px wide for whole, separate press areas/, /B1 and B3: the same gesture tablet/,
+      /J2: no gesture doorFront/, /hospital: 4 places, not 5/, /20 places in all, not 21/);
   });
 
   // ---------- the fence ----------
@@ -222,31 +236,40 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
 
   // ---------- the figures ----------
 
-  test('a figure in a color outside the crew palette, another character\'s color, a board pose left out of the bundle, and a figure drawn before its bundle', async () => {
+  test('a character in a color that is not its own, another character\'s color on everyone, a gesture with no sheet, and figure art fetched', async () => {
     const root = scratchCopy();
-    edit(root, 'design/board-motion/assets/figures/c2-standing.svg', text => text.replaceAll('#C6CDD4', '#ABCDEF'));
-    edit(root, 'design/board-motion/assets/figures/c3-standing.svg', text => text.replaceAll('#AFCF4E', '#45A866'));
-    editJson(root, 'design/board-motion/assets/manifest.json', manifest => { manifest.figures.find(figure => figure.id === 'figure.c5-walking').bundled = false; });
-    append(root, CSS, '.bm-flyer .bm-piece__art { background-image: var(--fig); }');
-    refuses(await check(root), /figure\.c2-standing: #ABCDEF is not in the crew palette/, /figure\.c3-standing: #45A866 is another character's color/,
-      /figure\.c3-standing: does not use #AFCF4E/, /c5: the board pose walking is not in the figure bundle/, /\.bm-flyer \.bm-piece__art: draws a figure without waiting for the figure bundle/);
+    edit(root, 'design/board-motion/figures/crew.mjs', text => text.replace("field: '#F3CB3F'", "field: '#ABCDEF'"));
+    edit(root, 'design/board-motion/figures/parts.mjs', text => text.replace("cv.form('M-11 -15 H11 Q13 -15 13 -13 V13 Q13 15 11 15 H-11 Q-13 15 -13 13 V-13 Q-13 -15 -11 -15 Z', STEEL.deep", "cv.form('M-11 -15 H11 Q13 -15 13 -13 V13 Q13 15 11 15 H-11 Q-13 15 -13 13 V-13 Q-13 -15 -11 -15 Z', '#AFCF4E'"));
+    editJson(root, 'design/board-motion/assets/manifest.json', manifest => { manifest.figures = manifest.figures.filter(figure => figure.gesture !== 'think'); });
+    append(root, 'design/board-motion/js/app.js', "const sheet = new URL('../assets/figures/c1-think.svg', import.meta.url);");
+    refuses(await check(root), /c2: its skin, field or accent is not color\.crew\.c2/, /c2 stand: #ABCDEF is not in the crew palette/,
+      /c1 tablet: #AFCF4E is another character's color/, /the manifest lists no figure sheet for the gesture think/, /the prototype fetches figure art/);
   });
 
-  test('the bed given to a healed character, an Eliminated character at the counter, and a pose that reads something private', async () => {
+  test('an Injured character without its bandage, an Eliminated one in its place\'s gesture, places that depend on what a screen drew before or go to the higher seat, and a gesture that reads something private', async () => {
     const root = scratchCopy();
     const LAYOUT = 'design/board-motion/js/layout.js';
-    edit(root, LAYOUT, text => text.replace("return living.find(seat => seat.health === 'Injured') ?? null;", "return living.find(seat => seat.health === 'Injured') ?? living[0] ?? null;")
-      .replace("const living = occupants.filter(seat => seat.health !== 'Eliminated');", 'const living = occupants;'));
+    edit(root, LAYOUT, text => text.replace("  if (seat.health === 'Eliminated') return place.down ?? 'down';\n", '')
+      .replace("return seat.health === 'Injured' ? `${place.gesture}${INJURED}` : place.gesture;", 'return place.gesture;')
+      .replace('const seats = [...occupants].sort((a, b) => a.n - b.n);', 'const seats = [...occupants].sort((a, b) => b.n - a.n);')
+      .replace('export function placements(seats) {', 'export function placements(seats, previous = new Map()) {'));
     append(root, LAYOUT, 'export const stanceByRole = seat => seat.role;');
-    refuses(await check(root), /a healed character in the Hospital is put in the bed/, /an Eliminated character takes the counter, or does not sit on the floor/,
-      /layout\.js reads something private to place or pose a character/);
+    refuses(await check(root), /an Injured character is drawn without its bandage/, /an Eliminated character does not take its place's fall/,
+      /the seats of a pair do not take their places by seat number/, /the places depend on something other than who is in the room now/,
+      /layout\.js reads something private to place a character or choose its gesture/);
   });
 
-  test('a prop layer edited by hand, and layers proposed against another manifest', async () => {
+  test('a scene layer edited by hand, and scenes proposed against another manifest', async () => {
     const root = scratchCopy();
-    append(root, 'design/board-motion/assets/room-b.prop-counter.svg', '<!-- touched up by hand -->');
+    append(root, 'design/board-motion/assets/scenes/room-b.back.svg', '<!-- touched up by hand -->');
     editJson(root, 'design/board-motion/assets/manifest.json', manifest => { manifest.baseManifest = 'design-0.1.0'; });
-    refuses(await check(root), /room-b\.prop-counter\.svg: not what design\/tools\/board-motion-assets\.mjs makes/, /proposed against design-0\.1\.0, the reviewed manifest is design-0\.2\.0/);
+    refuses(await check(root), /scenes\/room-b\.back\.svg: not what design\/tools\/board-motion-assets\.mjs makes/, /the scenes are proposed against design-0\.1\.0, the reviewed manifest is design-0\.2\.0/);
+  });
+
+  test('an approved group that is gone from its source is refused by name, not a crash', async () => {
+    const root = scratchCopy();
+    edit(root, 'design/source/board/board-jail.svg', text => text.replace('id="jail-edges"', 'id="jail-rim"'));
+    refuses(await check(root), /the scenes cannot be built: No group jail-edges/, /jail: the approved group jail-edges is not in design\/source\/board\/board-jail\.svg/);
   });
 
   // ---------- captures and documents ----------

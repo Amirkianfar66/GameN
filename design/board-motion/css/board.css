@@ -24,6 +24,7 @@
   --bm-motion-move: var(--ms-motion-piece-move);
   --bm-motion-ghost: var(--ms-motion-card);
   --bm-motion-tag: var(--ms-motion-selection);
+  --bm-motion-end: var(--ms-motion-beat-max);
 }
 
 * { box-sizing: border-box; }
@@ -64,6 +65,9 @@ button { font: inherit; color: inherit; }
 .bm-status__detail { margin: 0; font-size: 11px; color: var(--ms-color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bm-timer { min-width: 64px; padding: 4px 8px; text-align: center; font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 800; background: var(--ms-color-ink); color: var(--ms-color-paper); border-radius: 6px; }
 .bm-timer[data-final="true"] { background: var(--ms-color-accent); color: var(--ms-color-ink); }
+/* A match that is over has no timer: a dash in a dashed box (the release's words for a screen reader), and the phase's words on two lines. */
+.bm-timer[data-state="none"] { min-width: 0; padding: 2px 10px; font-size: 16px; color: var(--ms-color-text-secondary); background: transparent; border: 2px dashed var(--ms-color-steel-mid); }
+.bm-status[data-over="true"] .bm-status__line { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .bm-status[data-cue="phase"] .bm-status__line { animation: bm-line-in var(--bm-motion-status) var(--ms-ease-snap) backwards; }
 .bm-status[data-cue="round"] .bm-status__round { animation: bm-stamp var(--ms-motion-round) var(--ms-ease-snap) backwards; }
 .bm-status[data-cue="round"]::after {
@@ -82,6 +86,10 @@ button { font: inherit; color: inherit; }
   /* The bands are sized so that this never scrolls at the default text size (the captures
      measure it). If it ever must, it scrolls inside itself: the strip never covers a room. */
   overflow: hidden auto;
+  /* The board's own stack: its figures, the layers in front of their places and the flyers order
+     themselves by depth inside it (z-index up to 2500), and never rise over the strip, the tray,
+     the card or the menu, which sit above the whole board. */
+  isolation: isolate;
 }
 .bm-board[data-final="true"] { grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); grid-template-areas: "f"; }
 .bm-board[data-final="true"] .bm-spine { display: none; }
@@ -99,51 +107,40 @@ button { font: inherit; color: inherit; }
 .bm-spine > span { width: 4px; height: 18%; max-height: 40px; border-radius: 2px; background: var(--ms-color-caption); opacity: 0.85; }
 
 .bm-room {
-  /* The picture is pinned by its anchor line (edge, in its own units) at a share (at) of the piece
-     area, and scaled to cover the panel: a prop line stays put whatever the panel's size. On a
-     short panel the line rises until the rows in front of it fit below it, so the press area
-     of a character behind the prop ends where the front rows' begin. */
-  --area-h: calc(100cqh - var(--bm-cap) - var(--bm-pad));
-  /* With standing characters in front of a used prop, the prop line clears the press areas of the front
-     row's upper bodies (data-prop-front, set by board.js). Elsewhere the picture stays where at puts it. */
-  --prop-clear: 0px;
-  --anchor-y: calc(var(--bm-cap) + min(var(--at) * var(--area-h), var(--area-h) - var(--prop-clear)));
-  --k: max(calc(100cqw / var(--cw)), calc(var(--anchor-y) / var(--edge)), calc((100cqh - var(--anchor-y)) / (768 - var(--edge))));
-  /* A standing figure in the front row: its box is 120 x 248, so it is about twice as tall as it is wide. */
-  --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.74), 60px);
-  --fig-h: calc(var(--piece-w) * 2.0667);
-  /* On the smallest phones the panel's lower edge crops the front row at the knees, as a comic panel does
-     (fitBoard counts the same): nothing on the smallest unit, up to two fifths of a figure at 44 px. */
-  --crop: clamp(0px, calc((60px - var(--row-unit, 64px)) * 1.7), calc(var(--fig-h) * 0.4));
-  /* Rows of characters are stacked at least one target apart: the row pitch is the board's row unit (at least 44 px). */
-  --row-gap: max(var(--row-unit, 50px), min(calc((var(--area-h) - var(--fig-h)) / max(var(--room-rows, 1) - 1, 1)), calc(var(--area-h) * 0.46)));
   position: relative; min-height: 0; overflow: hidden; container-type: size;
   border: 3px solid var(--ms-color-ink); border-radius: 3px; background: var(--ms-color-steel-shadow);
   box-shadow: inset 0 0 0 2px var(--ms-color-paper);
 }
-.bm-room[data-crowd="true"] { --piece-w: clamp(30px, calc(var(--row-unit, 64px) * 0.66), 52px); }
-.bm-room[data-prop-front="true"] { --prop-clear: calc(var(--fig-h) * 0.92 + 6px); }
 /* A room whose name is a move control keeps a full 44 px band for it; the others a caption band. */
 .bm-room:is([data-room="command-room"], [data-room="room-a"], [data-room="room-b"]) { --bm-cap: 44px; }
 .bm-room:is([data-room="hospital"], [data-room="jail"], [data-room="final-zone"]) { --bm-cap: 32px; }
-.bm-stage, .bm-prop {
-  position: absolute; pointer-events: none; width: calc(1024 * var(--k)); height: calc(768 * var(--k));
-  left: calc(50cqw - var(--cx) * var(--k)); top: calc(var(--anchor-y) - var(--edge) * var(--k));
+/* The room's scene, framed by board.js (scenes/frame.mjs): its focus across the panel, the picture covering
+   it (--k pixels per scene unit, offset --tx, --ty). What is drawn in front of a place (the bench, a bed's
+   blanket, the chart table) is a layer of its own, stacked between the characters by depth (--z). */
+.bm-stage, .bm-layer {
+  position: absolute; pointer-events: none; left: calc(var(--tx, 0) * 1px); top: calc(var(--ty, 0) * 1px);
+  width: calc(1024px * var(--k, 0.4)); height: calc(768px * var(--k, 0.4)); background: 0 0 / 100% 100% no-repeat;
 }
-.bm-prop { z-index: 5; }
-[data-art~="public-board"] .bm-room[data-room="command-room"] .bm-stage { background: var(--ms-asset-board-command-room-full) 0 0 / 100% 100% no-repeat; }
-[data-art~="public-board"] .bm-room[data-room="room-a"] .bm-stage { background: var(--ms-asset-board-room-a-full) 0 0 / 100% 100% no-repeat; }
-[data-art~="public-board"] .bm-room[data-room="room-b"] .bm-stage { background: var(--ms-asset-board-room-b-full) 0 0 / 100% 100% no-repeat; }
-[data-art~="public-board"] .bm-room[data-room="hospital"] .bm-stage { background: var(--ms-asset-board-hospital-full) 0 0 / 100% 100% no-repeat; }
-[data-art~="public-board"] .bm-room[data-room="jail"] .bm-stage { background: var(--ms-asset-board-jail-full) 0 0 / 100% 100% no-repeat; }
-[data-art~="board-motion"] .bm-room[data-room="command-room"] .bm-prop { background: var(--bm-asset-command-room-prop-table) 0 0 / 100% 100% no-repeat; }
-[data-art~="board-motion"] .bm-room[data-room="room-b"] .bm-prop { background: var(--bm-asset-room-b-prop-counter) 0 0 / 100% 100% no-repeat; }
-[data-art~="board-motion"] .bm-room[data-room="hospital"] .bm-prop { background: var(--bm-asset-hospital-prop-bed) 0 0 / 100% 100% no-repeat; }
+.bm-layer { z-index: var(--z); }
+/* Until the scene bundle has arrived, a room is its approved picture (the reviewed public-board bundle). */
+[data-art~="public-board"] .bm-room[data-room="command-room"] .bm-stage { background-image: var(--ms-asset-board-command-room-full); }
+[data-art~="public-board"] .bm-room[data-room="room-a"] .bm-stage { background-image: var(--ms-asset-board-room-a-full); }
+[data-art~="public-board"] .bm-room[data-room="room-b"] .bm-stage { background-image: var(--ms-asset-board-room-b-full); }
+[data-art~="public-board"] .bm-room[data-room="hospital"] .bm-stage { background-image: var(--ms-asset-board-hospital-full); }
+[data-art~="public-board"] .bm-room[data-room="jail"] .bm-stage { background-image: var(--ms-asset-board-jail-full); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="command-room"] .bm-stage { background-image: var(--bm-scene-command-room-back); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="room-a"] .bm-stage { background-image: var(--bm-scene-room-a-back); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="room-b"] .bm-stage { background-image: var(--bm-scene-room-b-back); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="hospital"] .bm-stage { background-image: var(--bm-scene-hospital-back); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="jail"] .bm-stage { background-image: var(--bm-scene-jail-back); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="command-room"] .bm-layer[data-layer="table"] { background-image: var(--bm-scene-command-room-table); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="room-b"] .bm-layer[data-layer="bench"] { background-image: var(--bm-scene-room-b-bench); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="hospital"] .bm-layer[data-layer="bedLeft"] { background-image: var(--bm-scene-hospital-bed-left); }
+[data-art~="board-motion-scenes"] .bm-room[data-room="hospital"] .bm-layer[data-layer="bedRight"] { background-image: var(--bm-scene-hospital-bed-right); }
 /* The Final Zone has no picture: the page's paper ground, halftone and speed lines. */
-.bm-room[data-room="final-zone"] { --piece-w: clamp(40px, 14cqw, 70px); --row-gap: clamp(60px, calc(var(--area-h) * 0.3), 130px); background: var(--ms-color-paper-deep); }
+.bm-room[data-room="final-zone"] { background: var(--ms-color-paper-deep); }
 .bm-room[data-room="final-zone"] .bm-stage { inset: 0; width: auto; height: auto; }
 [data-art~="public-board"] .bm-room[data-room="final-zone"] .bm-stage { background: var(--ms-asset-fx-speed-lines-ink) center 62% / 160% auto no-repeat, var(--ms-asset-pattern-halftone-fine-ink) 0 0 / 14px 14px; opacity: 0.28; }
-.bm-room[data-room="final-zone"] .bm-piece { top: calc(100cqh - var(--bm-pad) - 24cqh - var(--row, 0) * var(--row-gap) - var(--h)); }
 
 /* ---------- room name tags: the slanted caption of the approved page ---------- */
 .bm-tag { position: absolute; z-index: 60; top: 0; left: 0; margin: 0; max-width: 100%; font-size: 12px; }
@@ -173,134 +170,100 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 /* A narrow panel keeps the room's name whole: its subtitle goes first. */
 @container (max-width: 190px) { .bm-tag__sub { display: none; } }
 @container (max-width: 120px) { .bm-tag__go { display: none; } }
+/* A full room (five, the owner's capacity of 11 October 2026): FULL instead of the arrow, on every screen. */
+.bm-tag__full { display: none; padding: 1px 4px; font-size: 9px; letter-spacing: 0.08em; color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px; }
+.bm-room[data-full="true"] .bm-tag__full { display: inline-block; }
+.bm-room[data-full="true"] .bm-tag__go { display: none; }
 
-/* ---------- characters: full-body comic figures (owner's decision of 9 October 2026) ---------- */
-/* A piece's box is its figure's box (figures/geometry.mjs): --fa its height over its width, --fx and --fy
-   the anchor (the feet, the seat, or the line a prop hides it below), --hx, --hy and --ht the head, --pl
-   the plate's line, all as shares of the box, mirrored for a figure facing left. board.js sets them. */
+/* ---------- characters: full-body comic figures in fixed places (owner's decisions of 9 October 2026) ---------- */
+/* A piece is an anchor at its panel's corner. board.js lays its parts out in panel pixels: the figure's box
+   (--bx, --by, --bs), drawn live by the figure rig, mirrored about its anchor; its press area (--px, --py,
+   --ps); its head (--hx, --hy) and scale (--unit, pixels per figure unit); its drawing order (--zb, and --zf
+   for what lies over its place's prop, the hands on a desk). */
 .bm-pieces { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
-.bm-piece {
-  --w: calc(var(--piece-w) * var(--depth, 1));
-  --h: calc(var(--w) * var(--fa, 2.0667));
-  position: absolute; width: var(--w); height: var(--h);
-  left: calc(var(--x, 0.5) * 100cqw - var(--w) * var(--fx, 0.5));
-  top: calc(100cqh - var(--bm-pad) + var(--crop, 0px) - var(--row, 0) * var(--row-gap) - var(--h) * var(--fy, 1));
-  /* How far the panel's lower edge is below this piece's anchor: the plate and the ring stay above it. */
-  --to-edge: calc(var(--bm-pad) - var(--crop, 0px) + var(--row, 0) * var(--row-gap));
+.bm-piece { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.bm-piece__body, .bm-piece__front {
+  position: absolute; pointer-events: none; left: calc(var(--bx) * 1px); top: calc(var(--by) * 1px);
+  width: calc(var(--bs) * 1px); height: calc(var(--bs) * 1px); transform-origin: 50.667% 0;
 }
-/* A picture station: the figure's anchor at a point of the room's picture (--ax, --ay), drawn at the picture's scale. */
-.bm-piece:is([data-kind="prop"], [data-kind="seat"]) {
-  --to-edge: 100cqh;
-  --w: calc(var(--fw) * var(--fs) * var(--k));
-  --at-picture: calc(var(--anchor-y) + (var(--ay) - var(--edge)) * var(--k) - var(--h) * var(--fy));
-  --top: var(--at-picture);
-  left: calc(50cqw + (var(--ax) - var(--cx)) * var(--k) - var(--w) * var(--fx));
-  top: var(--top);
-}
-/* The bed and the bench are under their room's caption: on a short panel the figure sinks into the bed
-   or onto the bench rather than put its head under the caption. */
-.bm-piece[data-clear] { --top: max(calc(var(--bm-cap) + 2px - var(--h) * var(--ht)), var(--at-picture)); }
-.bm-piece__body { position: absolute; inset: 0; z-index: calc(30 - var(--row, 0) * 8); }
-.bm-piece[data-kind="prop"] .bm-piece__body { z-index: 2; }
-.bm-piece[data-kind="seat"] .bm-piece__body { z-index: 7; }
-/* The hands on the chart table and the counter, the arms on the blanket: over the prop (5), under the standing (14 and up). */
-.bm-piece__front { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
-.bm-piece__art { position: absolute; inset: 0; border-radius: 40% 40% 12% 12%; background: var(--ms-color-steel-mid); }
-.bm-piece__art, .bm-piece__front { background-position: 0 0; background-size: 100% 100%; background-repeat: no-repeat; }
-[data-art~="board-motion-figures"] .bm-piece__art { border-radius: 0; background-color: transparent; background-image: var(--fig); }
-[data-art~="board-motion-figures"] .bm-piece__front { background-image: var(--fig-front); }
-:is(.bm-piece, .bm-flyer)[data-mirror="true"] :is(.bm-piece__art, .bm-piece__front) { scale: -1 1; }
+.bm-piece__body { z-index: var(--zb); }
+.bm-piece__front { z-index: var(--zf); }
+:is(.bm-piece__body, .bm-piece__front, .bm-flyer) > svg, [data-board="own"] .bm-ghost__art > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.bm-piece[data-mirror="true"] :is(.bm-piece__body, .bm-piece__front), .bm-flyer[data-mirror="true"], [data-board="own"] .bm-ghost[data-mirror="true"] .bm-ghost__art { transform: scaleX(-1); }
 
-/* The tag: seat number and name, a plate on the floor at the figure's feet, or on the prop's edge. */
+/* The plate: seat number and name, on the lower edge of the figure's press area, never wider than it. */
 .bm-piece__tag {
-  position: absolute; z-index: 50; left: calc(var(--fx, 0.5) * 100%); top: min(calc(var(--h) * var(--pl, 1) - 8px), calc(var(--h) * var(--fy, 1) + var(--to-edge, 100cqh) - 19px)); transform: translateX(-50%);
-  display: flex; align-items: stretch; max-width: calc(var(--w) + 18px); height: 15px; font-size: 10px; line-height: 13px; font-weight: 700;
+  position: absolute; z-index: 2100; left: calc((var(--px) + var(--ps) / 2) * 1px); top: calc((var(--py) + var(--ps)) * 1px - 15px); transform: translateX(-50%);
+  display: flex; align-items: stretch; max-width: calc(var(--ps) * 1px + 4px); height: 15px; font-size: 10px; line-height: 13px; font-weight: 700; pointer-events: none;
   border: 1.5px solid var(--ms-color-ink); border-radius: 2px; background: var(--ms-color-paper); color: var(--ms-color-ink); white-space: nowrap;
 }
 .bm-piece__num { padding: 0 3px; background: var(--ms-color-caption); border-right: 1.5px solid var(--ms-color-ink); }
 .bm-piece__name { padding: 0 3px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.bm-piece:is([data-kind="prop"], [data-kind="seat"]) .bm-piece__tag { max-width: calc(var(--w) + 30px); }
 
 /* Public markers at the head: captain, health, jail, the faction the rules reveal at elimination, the active turn. */
-.bm-piece__badges { position: absolute; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--hy, 0.15) * 100%); width: 0; height: 0; pointer-events: none; }
+.bm-piece__badges { position: absolute; z-index: 2100; left: calc(var(--hx) * 1px); top: calc(var(--hy) * 1px); width: 0; height: 0; pointer-events: none; }
 .bm-badge { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--ms-color-paper) center / 100% 100% no-repeat; border: 1.5px solid var(--ms-color-ink); }
-.bm-badge[data-badge="captain"] { top: calc(var(--w) * -0.17 - 12px); left: calc(var(--w) * 0.08); }
-.bm-badge[data-badge="injured"], .bm-badge[data-badge="eliminated"] { top: calc(var(--w) * -0.17 - 12px); left: calc(var(--w) * -0.08 - 16px); }
-.bm-badge[data-badge="jailed"] { top: calc(var(--w) * 0.02 - 4px); left: calc(var(--w) * 0.16); }
+.bm-badge[data-badge="captain"] { top: calc(var(--unit) * -22px - 10px); left: 2px; }
+.bm-badge:is([data-badge="injured"], [data-badge="eliminated"]) { top: calc(var(--unit) * -22px - 10px); left: -18px; }
+.bm-badge[data-badge="jailed"] { top: calc(var(--unit) * -6px - 8px); left: calc(var(--unit) * 14px + 2px); }
 [data-art~="public-board"] .bm-badge[data-badge="captain"] { background-image: var(--ms-asset-marker-captain-badge); border: 0; }
 [data-art~="public-board"] .bm-badge[data-badge="injured"] { background-image: var(--ms-asset-marker-health-injured-badge); border: 0; }
 [data-art~="public-board"] .bm-badge[data-badge="eliminated"] { background-image: var(--ms-asset-marker-health-eliminated-badge); border: 0; }
 [data-art~="public-board"] .bm-badge[data-badge="jailed"] { background-image: var(--ms-asset-marker-jail-badge); border: 0; }
 .bm-reveal {
-  position: absolute; top: calc(var(--w) * 0.24); left: 0; transform: translateX(-50%) rotate(var(--ms-stamp-rotation)); padding: 0 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
+  position: absolute; top: calc(var(--unit) * 16px); left: 0; transform: translateX(-50%) rotate(var(--ms-stamp-rotation)); padding: 0 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--ms-color-paper); background: var(--ms-color-ink); border: 1.5px solid var(--ms-color-paper);
 }
 .bm-piece[data-revealed="Blue"] .bm-reveal { background: var(--ms-color-faction-blue); color: var(--ms-color-ink); }
 .bm-piece[data-revealed="Red"] .bm-reveal { background: var(--ms-color-faction-red); color: var(--ms-color-ink); }
 .bm-piece[data-revealed="Alien"] .bm-reveal { background: var(--ms-color-faction-alien); color: var(--ms-color-ink); }
-/* Eliminated: the figure sits on the floor (its pose), greyed. Injured: the marker, and in the Hospital the bed. */
-.bm-piece[data-health="Eliminated"] :is(.bm-piece__art, .bm-piece__front) { filter: grayscale(1) contrast(0.7); opacity: 0.6; }
-.bm-piece__turn { position: absolute; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--h) * var(--ht, 0) - 14px); width: 18px; height: 12px; margin-left: -9px; display: none; background: var(--ms-color-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+/* Eliminated: the figure lies on the deck or slumps where it was (its gesture), greyed; the marker says it. */
+.bm-piece[data-health="Eliminated"] :is(.bm-piece__body, .bm-piece__front) { filter: grayscale(1) contrast(0.8); opacity: 0.82; }
+.bm-piece__turn { position: absolute; z-index: 2100; left: calc(var(--hx) * 1px - 9px); top: calc(var(--hy) * 1px - var(--unit) * 24px - 18px); width: 18px; height: 12px; display: none; background: var(--ms-color-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); pointer-events: none; }
 .bm-piece[data-active] .bm-piece__turn { display: block; }
-[data-art~="public-board"] .bm-piece[data-active] .bm-piece__turn { clip-path: none; background: var(--ms-asset-marker-turn-float) center / contain no-repeat; width: 22px; height: 16px; margin-left: -11px; top: calc(var(--h) * var(--ht, 0) - 18px); }
+[data-art~="public-board"] .bm-piece[data-active] .bm-piece__turn { clip-path: none; background: var(--ms-asset-marker-turn-float) center / contain no-repeat; width: 22px; height: 16px; left: calc(var(--hx) * 1px - 11px); }
 .bm-piece[data-self] .bm-piece__tag { box-shadow: 0 0 0 2px var(--ms-color-caption); }
 
 /* Public: the subject of a release vote, and the published count of a closed vote, over the head. */
 .bm-piece__subject, .bm-piece__tally {
-  position: absolute; z-index: 52; left: calc(var(--hx, 0.5) * 100%); top: calc(var(--h) * var(--ht, 0) - 20px); transform: translateX(-50%); padding: 0 4px; white-space: nowrap;
+  position: absolute; z-index: 2110; left: calc(var(--hx) * 1px); top: calc(var(--hy) * 1px - var(--unit) * 24px - 20px); transform: translateX(-50%); padding: 0 4px; white-space: nowrap; pointer-events: none;
   font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; border: 1.5px solid var(--ms-color-ink); background: var(--ms-color-paper); color: var(--ms-color-ink);
 }
 .bm-piece__tally[data-selected="true"] { background: var(--ms-color-caption); }
-/* A ring on the floor around the feet: the subject of a release vote (public), and the private cues below. */
-.bm-piece__ring { position: absolute; display: none; pointer-events: none; left: calc(var(--fx, 0.5) * 100% - var(--w) * 0.62); width: calc(var(--w) * 1.24); top: min(calc(var(--h) * var(--fy, 1) - var(--w) * 0.2), calc(var(--h) * var(--fy, 1) + var(--to-edge, 100cqh) - var(--w) * 0.4 - 3px)); height: calc(var(--w) * 0.4); border-radius: 50%; }
+/* A frame round the figure's press area: the subject of a release vote (public), and the private cues below. */
+.bm-piece__ring {
+  position: absolute; z-index: 2050; display: none; pointer-events: none; border-radius: 12px;
+  left: calc(var(--px) * 1px - 3px); top: calc(var(--py) * 1px - 3px); width: calc(var(--ps) * 1px + 6px); height: calc(var(--ps) * 1px + 6px);
+}
 .bm-piece[data-subject] .bm-piece__ring { display: block; border: 3px double var(--ms-color-paper); }
-/* Behind a prop or on the bench the feet are hidden: an outline round the figure says it instead. */
-.bm-piece[data-subject]:is([data-kind="prop"], [data-kind="seat"]) .bm-piece__ring { display: none; }
-.bm-piece[data-subject]:is([data-kind="prop"], [data-kind="seat"]) :is(.bm-piece__art, .bm-piece__front) { filter: drop-shadow(2px 0 0 var(--ms-color-paper)) drop-shadow(-2px 0 0 var(--ms-color-paper)) drop-shadow(0 -2px 0 var(--ms-color-paper)); }
 
 /* ---------- private cues: the viewer's own open action, on their own board only ---------- */
 [data-board="own"] .bm-piece[data-target] .bm-piece__ring { display: block; }
 [data-board="own"] .bm-piece[data-target="eligible"] .bm-piece__ring { border: 2.5px dashed var(--ms-color-caption); }
-[data-board="own"] .bm-piece[data-target="selected"] .bm-piece__ring,
-[data-board="own"] .bm-piece[data-target="picked"] .bm-piece__ring { border: 3.5px solid var(--ms-color-caption); }
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) .bm-piece__ring { border: 3.5px solid var(--ms-color-caption); }
 [data-board="own"] .bm-piece[data-target="pending"] .bm-piece__ring { border: 2px dotted var(--ms-color-paper); }
-[data-board="own"] .bm-piece:is([data-kind="prop"], [data-kind="seat"])[data-target] .bm-piece__ring { display: none; }
-/* The chosen figure is outlined in the caption color; behind a prop an eligible one is too, thinly. */
-[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__art, .bm-piece__front) {
+/* The chosen figure is outlined in the caption color and lifted; the others step back. */
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__body, .bm-piece__front) {
   filter: drop-shadow(2.5px 0 0 var(--ms-color-caption)) drop-shadow(-2.5px 0 0 var(--ms-color-caption)) drop-shadow(0 2.5px 0 var(--ms-color-caption)) drop-shadow(0 -2.5px 0 var(--ms-color-caption));
+  translate: 0 calc(-1 * var(--ms-lift));
 }
-[data-board="own"] .bm-piece:is([data-kind="prop"], [data-kind="seat"])[data-target="eligible"] :is(.bm-piece__art, .bm-piece__front) {
-  filter: drop-shadow(1.5px 0 0 var(--ms-color-caption)) drop-shadow(-1.5px 0 0 var(--ms-color-caption)) drop-shadow(0 -1.5px 0 var(--ms-color-caption));
-}
-[data-board="own"] .bm-piece[data-target="other"] :is(.bm-piece__art, .bm-piece__front) { opacity: 0.42; filter: grayscale(0.6); }
+[data-board="own"] .bm-piece[data-target="other"] :is(.bm-piece__body, .bm-piece__front) { opacity: 0.42; filter: grayscale(0.6); }
 [data-board="own"] .bm-piece[data-target="other"] .bm-piece__ring { display: none; }
-[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__body, .bm-piece__front) { translate: 0 calc(-1 * var(--ms-lift)); }
 [data-board="own"] .bm-piece[data-target="selected"] :is(.bm-piece__body, .bm-piece__front) { animation: bm-pick var(--bm-motion-pick) var(--ms-ease-snap) backwards; }
 [data-board="own"] .bm-piece__pick, [data-board="own"] .bm-piece[data-target="selected"]::after, [data-board="own"] .bm-piece[data-target="pending"]::after {
-  position: absolute; z-index: 52; left: calc(var(--hx, 0.5) * 100% + var(--w) * 0.14); top: calc(var(--h) * var(--ht, 0)); width: 20px; height: 20px; display: grid; place-items: center;
+  position: absolute; z-index: 2120; left: calc((var(--px) + var(--ps)) * 1px - 14px); top: calc(var(--py) * 1px - 8px); width: 20px; height: 20px; display: grid; place-items: center;
   font-size: 12px; font-weight: 900; color: var(--ms-color-ink); background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 50%;
   transform: rotate(var(--ms-stamp-rotation));
 }
 [data-board="own"] .bm-piece__pick { animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
 [data-board="own"] .bm-piece[data-target="selected"]::after { content: '✓'; animation: bm-stamp var(--bm-motion-stamp) var(--ms-ease-snap) backwards; }
 [data-board="own"] .bm-piece[data-target="pending"]::after { content: '…'; background: var(--ms-color-paper); }
-/* The target button: the character's upper body, from the head down, at least 44 x 44, never overlapping
-   another. A standing character's band hangs at the same height above its row's floor line in every row,
-   so rows a row unit apart never overlap, whatever the figures' depth. */
+/* The target button: the figure's press area, at least 44 x 44, on the figure, whole on screen, clear of the
+   room's caption and of every other press area (board.js and scenes/frame.mjs; the captures measure it). */
 [data-board="own"] .bm-piece__target {
-  position: absolute; z-index: 55; left: calc(var(--fx, 0.5) * 100%); top: calc(var(--h) * var(--fy, 1) - var(--fig-h) * 0.916); transform: translateX(-50%);
-  width: max(44px, min(calc(var(--w) * 0.8), calc(var(--gap, 1) * 100cqw - 2px))); height: clamp(44px, calc(var(--fig-h) * 0.55), var(--row-gap, 44px));
+  position: absolute; z-index: 2200; left: calc(var(--px) * 1px); top: calc(var(--py) * 1px); width: calc(var(--ps) * 1px); height: calc(var(--ps) * 1px);
   margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 10px;
 }
-/* Behind a prop, the press area is the figure down to 6 px below the prop line (the room's, or the figure's
-   own if that is higher), at least 44 px tall, and never reaching up under the room's tag. On the bench,
-   the figure itself. */
-[data-board="own"] .bm-piece[data-kind="prop"] .bm-piece__target {
-  --line: calc(min(var(--h) * var(--fy), var(--anchor-y) - var(--top)) + 6px);
-  --from: max(min(calc(var(--h) * var(--ht)), calc(var(--line) - 44px)), calc(var(--bm-cap) - var(--top)));
-  top: var(--from); height: max(44px, calc(var(--line) - var(--from))); width: max(44px, calc(var(--w) * 0.7));
-}
-[data-board="own"] .bm-piece[data-kind="seat"] .bm-piece__target { top: calc(var(--h) * var(--ht)); height: max(44px, calc(var(--h) * (1 - var(--ht)))); width: max(44px, calc(var(--w) * 0.9)); }
 [data-board="own"] .bm-piece__target::after {
   content: '+'; position: absolute; right: -2px; top: -2px; width: 16px; height: 16px; display: grid; place-items: center; font-size: 13px; font-weight: 900; line-height: 1;
   color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px solid var(--ms-color-ink); border-radius: 50%;
@@ -308,25 +271,41 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 [data-board="own"] .bm-piece__target:active { background: color-mix(in srgb, var(--ms-color-caption) 22%, transparent); }
 [data-board="own"] .bm-piece__target:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
 
-/* A tentative place for a move: the viewer's own figure, dashed, in the room pressed, until the public update says where the piece is. */
-[data-board="own"] .bm-ghost {
-  position: absolute; z-index: 25; width: var(--piece-w); height: var(--fig-h); left: calc(50% - var(--piece-w) / 2); bottom: calc(var(--bm-pad) + 4px);
-  border: 2.5px dashed var(--ms-color-caption); border-radius: 40% 40% 14% 14%; pointer-events: none;
+/* A tentative place for a move: the viewer's own figure, faint and outlined, at the place the viewer would
+   take in the room pressed, until the public update says where the piece is. */
+[data-board="own"] .bm-ghost { position: absolute; inset: 0; z-index: 1990; pointer-events: none; }
+[data-board="own"] .bm-ghost__art {
+  position: absolute; left: calc(var(--bx) * 1px); top: calc(var(--by) * 1px); width: calc(var(--bs) * 1px); height: calc(var(--bs) * 1px); transform-origin: 50.667% 0;
+  opacity: 0.5; filter: drop-shadow(2px 0 0 var(--ms-color-caption)) drop-shadow(-2px 0 0 var(--ms-color-caption)) drop-shadow(0 -2px 0 var(--ms-color-caption));
   animation: bm-fade var(--bm-motion-ghost) var(--ms-ease-standard) backwards;
 }
-[data-board="own"] .bm-ghost__art { position: absolute; inset: 4px; opacity: 0.4; background: transparent center bottom / contain no-repeat; }
-[data-art~="board-motion-figures"] [data-board="own"] .bm-ghost__art { background-image: var(--fig); }
-[data-board="own"] .bm-ghost__tag { position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%); padding: 0 4px; font-size: 10px; font-weight: 800; color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px solid var(--ms-color-ink); }
-[data-board="own"] .bm-ghost[data-state="pending"] { border-style: dotted; }
+[data-board="own"] .bm-ghost__tag {
+  position: absolute; left: calc(var(--px) * 1px); top: calc(var(--py) * 1px - 8px); transform: translateX(-50%); padding: 0 4px; font-size: 10px; font-weight: 800;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); border: 1.5px dashed var(--ms-color-ink);
+}
+[data-board="own"] .bm-ghost[data-state="pending"] .bm-ghost__art { opacity: 0.32; }
 
 /* ---------- motion of public facts: the same on every screen ---------- */
-.bm-piece[data-moving] .bm-piece__body { z-index: 80; }
+/* While a character walks between rooms its piece is drawn by the flyer: the figure at its new place waits,
+   and its plate and markers with it (still read out: opacity, not visibility). */
+.bm-piece[data-moving] :is(.bm-piece__body, .bm-piece__front) { visibility: hidden; }
+.bm-piece[data-moving] :is(.bm-piece__tag, .bm-piece__badges, .bm-piece__turn) { opacity: 0; }
 .bm-piece[data-cue="status"] .bm-badge, .bm-piece[data-cue="status"] .bm-reveal { animation: bm-stamp var(--bm-motion-status) var(--ms-ease-snap) backwards; }
-.bm-piece[data-cue="status"] :is(.bm-piece__art, .bm-piece__front) { animation: bm-status-ink var(--bm-motion-status) var(--ms-ease-standard); }
+.bm-piece[data-cue="status"] :is(.bm-piece__body, .bm-piece__front) { animation: bm-status-ink var(--bm-motion-status) var(--ms-ease-standard); }
 .bm-piece[data-cue="turn"] .bm-piece__turn { animation: bm-drop var(--bm-motion-status) var(--ms-ease-snap) backwards; }
-.bm-fx { position: absolute; inset: 0; z-index: 85; pointer-events: none; overflow: hidden; }
-.bm-flyer { position: absolute; z-index: 2; }
-.bm-flyer .bm-piece__art { position: absolute; inset: 0; }
+.bm-fx { position: absolute; inset: 0; z-index: 2500; pointer-events: none; overflow: hidden; }
+.bm-flyer { position: absolute; z-index: 2; transform-origin: 50.667% 0; }
+/* The clock a choreography is drawn by (director.js): a Web Animation of nothing visible. */
+.bm-clock { position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none; }
+/* A hit: a burst behind the figure, the same for every cause and from no direction (a public health change
+   only). The director plays it for motionMs.publicImpact. */
+.bm-hit { position: absolute; z-index: 1; width: 0; height: 0; }
+.bm-hit::before, .bm-hit::after {
+  content: ''; position: absolute; left: calc(var(--r) * -1px); top: calc(var(--r) * -1px); width: calc(var(--r) * 2px); height: calc(var(--r) * 2px);
+  clip-path: polygon(50% 0, 60% 30%, 93% 14%, 72% 42%, 100% 55%, 68% 63%, 82% 96%, 52% 74%, 30% 100%, 33% 66%, 0 72%, 26% 48%, 5% 20%, 38% 32%);
+}
+.bm-hit::before { background: var(--ms-color-ink); scale: 1.18; }
+.bm-hit::after { background: var(--ms-color-paper); }
 .bm-trail { position: absolute; height: 10px; transform-origin: 0 50%; border-radius: 5px; background: var(--ms-color-ink); opacity: 0; animation: bm-trail var(--bm-motion-move) var(--ms-ease-standard) forwards; }
 [data-art~="public-board"] .bm-trail { background: var(--ms-asset-fx-ink-trail-paper) center / 100% 100% no-repeat; height: 14px; }
 .bm-puff { position: absolute; width: 46px; height: 22px; margin: -14px 0 0 -23px; border-radius: 50%; border: 2px solid var(--ms-color-paper); opacity: 0; animation: bm-puff calc(var(--bm-motion-move) * 0.37) var(--ms-ease-settle) calc(var(--bm-motion-move) * 0.63) forwards; }
@@ -348,9 +327,6 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-strip__line:focus { outline: none; }
 .bm-strip__line:focus-visible { outline: 2px solid var(--ms-color-focus); }
 .bm-strip__detail { clear: left; margin: 2px 0 0; font-size: 11.5px; line-height: 1.3; color: var(--ms-color-ink); opacity: 0.85; }
-.bm-strip__progress { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -5px; }
-.bm-strip__progress > span { width: 18px; height: 18px; display: grid; place-items: center; font-size: 10px; font-weight: 900; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
-.bm-strip__progress > span[data-done="true"] { background: var(--ms-color-caption); }
 .bm-strip__text { grid-column: 1; grid-row: 1; }
 /* One control at the side of the words: back, Done, OK or Check again. Its words may take two lines. */
 .bm-strip__side { grid-column: 2; grid-row: 1; align-self: start; display: flex; }
@@ -364,6 +340,13 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-btn--primary { background: var(--ms-color-caption); box-shadow: 0 3px 0 var(--ms-color-ink); }
 .bm-btn--choice { flex: 1 1 0; padding: 4px 6px; line-height: 1.1; }
 .bm-btn[aria-disabled="true"] { opacity: 0.45; cursor: default; box-shadow: none; }
+/* The stamp lands on the strip's top edge, above the side control. Where it reaches over the words' column,
+   the first line keeps clear of its corner, so it never covers a word. */
+.bm-strip:has(> .bm-stamp) .bm-strip__text::before { content: ''; float: right; width: var(--bm-stamp-clear, 0px); height: 12px; }
+.bm-strip:has(> .bm-stamp[data-kind="registered"]) { --bm-stamp-clear: 38px; }
+.bm-strip:has(> .bm-stamp[data-kind="not-accepted"]) { --bm-stamp-clear: 60px; }
+/* Sending has no control beside it: the stamp stands over the words' column itself. */
+.bm-strip:has(> .bm-stamp[data-kind="pending"]) { --bm-stamp-clear: 80px; }
 .bm-stamp {
   position: absolute; right: 10px; top: -12px; padding: 1px 8px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2.5px solid var(--ms-color-ink); transform: rotate(var(--ms-stamp-rotation));
@@ -374,6 +357,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-stamp[data-kind="unknown"] { border-style: dotted; }
 .bm-strip[data-step="not-accepted"] { animation: bm-nope var(--bm-motion-pick) var(--ms-ease-standard); }
 .bm-strip[data-enter] { animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards; }
+/* Drawn again within the same step, the strip's stamp is already down: it lands once, when the step changes. */
+.bm-strip[data-settled] .bm-stamp { animation: none !important; }
 
 /* ---------- the actions tray: compact, over the lower edge of the board ---------- */
 .bm-tray {
@@ -434,6 +419,96 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-notice { position: absolute; z-index: 78; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; font-weight: 700; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 8px; animation: bm-fade var(--ms-motion-card) var(--ms-ease-standard) backwards; }
 .bm-banner { position: absolute; z-index: 79; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px dashed var(--ms-color-ink); border-radius: 8px; }
 
+/* ---------- the match's end: the result, the roles and the Code, the same on every screen ----------
+   Drawn from the public view only (FullPublicView.result and .endReveal), over the lower board like the sheets: at
+   the end nothing on the board takes a tap, and the board keeps its size. Its words are the release's (en.result).
+   A finished match: the winner struck on a ribbon in its side's colour, the Alien's co-win, then the cast list (every
+   seat's character, its label and its role in its side's colour, in seat order; the Code's four pinned) and the Code
+   in seat order. A match the host ended: its sentence only. No device art and no role hook: a row's side is
+   data-end-faction, only here, and only from the end reveal. */
+.bm-result {
+  position: absolute; z-index: 74; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 62%; overflow-y: auto; overscroll-behavior: contain;
+  padding: 8px 10px 10px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-paper); color: var(--ms-color-ink);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+}
+.bm-result[hidden] { display: none; }
+.bm-result { container-type: inline-size; }
+.bm-app[data-observer] .bm-result { bottom: 6px; }
+.bm-result__head { text-align: center; }
+.bm-result__heading {
+  display: inline-block; margin: 0 0 6px; padding: 1px 8px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); transform: skewX(var(--ms-caption-skew));
+}
+.bm-result__heading:focus { outline: none; }
+/* The winner on a ribbon: the band in the side's colour, its two folded tails behind it. */
+.bm-result__outcome {
+  position: relative; margin: 0 14px; padding: 0.3rem 0.6rem; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 1.3rem; line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase;
+  background: var(--ms-color-paper-shade); border: 2.5px solid var(--ms-color-ink); box-shadow: 0 3px 0 var(--ms-color-ink);
+}
+.bm-result__outcome::before, .bm-result__outcome::after { content: ''; position: absolute; z-index: -1; top: 8px; bottom: -8px; width: 20px; background: var(--ms-color-paper-deep); border: 2.5px solid var(--ms-color-ink); }
+.bm-result__outcome::before { left: -14px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 45% 50%); }
+.bm-result__outcome::after { right: -14px; clip-path: polygon(0 0, 100% 0, 55% 50%, 100% 100%, 0 100%); }
+.bm-result[data-winner="Blue"] .bm-result__outcome { background: var(--ms-color-faction-blue); }
+.bm-result[data-winner="Red"] .bm-result__outcome { background: var(--ms-color-faction-red); }
+.bm-result[data-winner="Alien"] .bm-result__outcome { background: var(--ms-color-faction-alien); }
+.bm-result[data-winner="Draw"] .bm-result__outcome { background: repeating-linear-gradient(-45deg, var(--ms-color-paper) 0 6px, var(--ms-color-paper-shade) 6px 12px); }
+/* The host ended it: the sentence on plain paper, no ribbon, nothing struck. */
+.bm-result[data-ended="aborted"] .bm-result__outcome { margin: 0; font-family: var(--ms-font-body); font-weight: 700; font-size: 0.95rem; line-height: 1.3; letter-spacing: 0; text-transform: none; background: var(--ms-color-paper); border-style: dashed; box-shadow: none; }
+.bm-result[data-ended="aborted"] .bm-result__outcome::before, .bm-result[data-ended="aborted"] .bm-result__outcome::after { display: none; }
+.bm-result__line { margin: 8px 0 0; font-size: 0.8rem; font-weight: 800; }
+.bm-result__line::before { content: ''; display: inline-block; width: 0.7em; height: 0.7em; margin-right: 6px; vertical-align: -0.05em; border-radius: 50%; background: var(--ms-color-faction-alien); border: 2px solid var(--ms-color-ink); }
+/* The cast list: a table, drawn as cards in two columns. */
+.bm-cast { display: block; width: 100%; margin: 10px 0 0; }
+.bm-cast__caption { display: block; margin: 0 0 6px; padding-bottom: 2px; text-align: left; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 2px solid var(--ms-color-ink); }
+.bm-cast__rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+.bm-cast__row { position: relative; display: block; min-height: 40px; padding: 3px 6px 4px 8px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 7px; transform-origin: 50% 0; }
+.bm-cast__row[data-self="true"] { background: var(--ms-color-paper-shade); }
+.bm-cast__who, .bm-cast__role { display: block; padding: 0; text-align: left; font-weight: 400; }
+.bm-cast__label { display: block; padding-right: 14px; font-size: 0.72rem; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+.bm-cast__name {
+  display: inline-block; margin-top: 2px; padding: 0 4px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.72rem; line-height: 1.4; letter-spacing: 0.01em; text-transform: uppercase;
+  background: var(--ms-color-paper-shade); border: 1.5px solid var(--ms-color-ink); border-radius: 3px;
+}
+.bm-cast__row[data-end-faction="blue"] .bm-cast__name { background: var(--ms-color-faction-blue); }
+.bm-cast__row[data-end-faction="red"] .bm-cast__name { background: var(--ms-color-faction-red); }
+.bm-cast__row[data-end-faction="alien"] .bm-cast__name { background: var(--ms-color-faction-alien); }
+/* The seat's character, as on the board, once the public board's art has arrived. Without it the label says who. */
+.bm-cast__chip { display: none; position: absolute; left: 5px; top: 50%; width: 28px; height: 28px; margin-top: -14px; border-radius: 50%; border: 2px solid var(--ms-color-ink); background: var(--ms-color-canvas) 50% 22% / 175% auto no-repeat; }
+[data-art~="public-board"] .bm-cast__row { padding-left: 39px; }
+[data-art~="public-board"] .bm-cast__chip { display: block; }
+[data-art~="public-board"] .bm-cast__chip[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] .bm-cast__chip[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+/* The Code's pin: a punched card, on each of its four rows and before the Code's sentence, which says the same in words. */
+.bm-cast__pin {
+  position: absolute; right: 4px; top: 4px; width: 12px; height: 15px; border: 1.5px solid var(--ms-color-ink); border-radius: 2px;
+  background: radial-gradient(circle, var(--ms-color-ink) 0 1.3px, transparent 1.6px) 1px 2px / 5px 5px, var(--ms-color-caption);
+  clip-path: polygon(0 0, 65% 0, 100% 28%, 100% 100%, 0 100%);
+}
+.bm-result__code { margin: 8px 0 0; font-size: 0.78rem; font-weight: 700; line-height: 1.35; }
+.bm-result__code .bm-cast__pin { position: relative; right: auto; top: auto; display: inline-block; margin-right: 6px; vertical-align: -0.2em; }
+/* A sheet narrower than any phone's (the other screens' frame): a smaller character and role, so that every role's longest word fits its row. */
+@container (max-width: 18.75rem) {
+  .bm-cast__row { padding-left: 6px; }
+  [data-art~="public-board"] .bm-cast__row { padding-left: 32px; }
+  .bm-cast__chip { left: 4px; width: 24px; height: 24px; margin-top: -12px; }
+  .bm-cast__name { font-size: 0.62rem; }
+}
+/* cue-end-reveal (motionMs.comicBeatMaximum 900 ms: 240 / 260 / 400): the sheet rises; the winner is struck; the rows turn up
+   one after another, each Code pin stamped on its row; the Code's sentence last. It marks only what the sheet already says. */
+.bm-result[data-cue="reveal"] { animation: bm-rise calc(var(--bm-motion-end) * 0.267) var(--ms-ease-settle) backwards; }
+.bm-result[data-ended="finished"][data-cue="reveal"] .bm-result__outcome { animation: bm-strike calc(var(--bm-motion-end) * 0.289) var(--ms-ease-snap) calc(var(--bm-motion-end) * 0.267) backwards; }
+.bm-result[data-cue="reveal"] .bm-result__line { animation: bm-fade calc(var(--bm-motion-end) * 0.222) var(--ms-ease-standard) calc(var(--bm-motion-end) * 0.444) backwards; }
+.bm-result[data-cue="reveal"] .bm-cast__row { animation: bm-turn calc(var(--bm-motion-end) * 0.222) var(--ms-ease-settle) calc(var(--bm-motion-end) * (0.556 + var(--i) * 0.022)) backwards; }
+.bm-result[data-cue="reveal"] .bm-cast__row .bm-cast__pin { animation: bm-pin var(--ms-motion-stamp) var(--ms-ease-snap) calc(var(--bm-motion-end) * (0.667 + var(--i) * 0.022)) backwards; }
+.bm-result[data-cue="reveal"] .bm-result__code { animation: bm-fade calc(var(--bm-motion-end) * 0.222) var(--ms-ease-standard) calc(var(--bm-motion-end) * 0.778) backwards; }
+
 /* ---------- navigation: Board, Actions, Pass in the middle, Card, Menu ---------- */
 .bm-nav {
   position: relative; z-index: 80; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end;
@@ -444,6 +519,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
   font-size: 11px; color: var(--ms-color-text-secondary); background: transparent; border: 0; border-radius: 8px;
 }
 .bm-nav button[aria-pressed="true"] { color: var(--ms-color-caption); background: var(--ms-color-panel); }
+/* Closed for good at the match's end (the card and the actions, as in the release). */
+.bm-nav button[data-view][aria-disabled="true"] { opacity: 0.4; cursor: default; }
 .bm-nav__icon { width: 22px; height: 22px; display: block; background: currentColor; }
 .bm-nav__icon[data-icon="board"] { clip-path: polygon(0 0, 46% 0, 46% 46%, 0 46%, 0 0, 54% 0, 100% 0, 100% 46%, 54% 46%, 54% 0, 54% 54%, 100% 54%, 100% 100%, 54% 100%, 54% 54%, 0 54%, 46% 54%, 46% 100%, 0 100%, 0 54%); }
 .bm-nav__icon[data-icon="actions"] { clip-path: polygon(55% 0, 12% 57%, 45% 57%, 35% 100%, 90% 38%, 56% 38%, 68% 0); }
@@ -469,16 +546,21 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 @keyframes bm-nope { 0%, 100% { transform: none; } 30% { transform: translateX(-4px); } 70% { transform: translateX(4px); } }
 @keyframes bm-trail { 0% { opacity: 0; } 15% { opacity: 0.85; } 70% { opacity: 0.6; } 100% { opacity: 0; } }
 @keyframes bm-puff { 0% { opacity: 0.9; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.3); } }
+@keyframes bm-strike { from { transform: scale(1.35) rotate(-2deg); opacity: 0; } 55% { transform: scale(0.96) rotate(0.5deg); opacity: 1; } to { transform: none; opacity: 1; } }
+@keyframes bm-turn { from { transform: perspective(500px) rotateX(-80deg); opacity: 0; } to { transform: none; opacity: 1; } }
+/* A pin pressed on: the stamp's scale without its tilt, so that it settles exactly as it rests. */
+@keyframes bm-pin { from { transform: scale(1.8); opacity: 0; } 60% { transform: scale(0.92); opacity: 1; } to { transform: none; opacity: 1; } }
 
 /* ---------- reduced motion: the same facts and controls; nothing travels, shakes or zooms ---------- */
 [data-motion="reduced"] *, [data-motion="reduced"] *::before, [data-motion="reduced"] *::after { animation: none !important; transition: none !important; }
-[data-motion="reduced"] :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice),
+[data-motion="reduced"] :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice, .bm-result[data-cue]),
 [data-motion="reduced"] .bm-piece[data-cue="status"] :is(.bm-badge, .bm-reveal),
 [data-motion="reduced"] .bm-piece[data-arrived] :is(.bm-piece__body, .bm-piece__front) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
 [data-motion="reduced"] .bm-board .bm-piece[data-target] :is(.bm-piece__body, .bm-piece__front) { translate: none; }
+[data-motion="reduced"] .bm-hit { display: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
+  :is(.bm-stamp[data-kind="registered"], .bm-piece__pick, .bm-tray, .bm-sheet, .bm-ghost, .bm-notice, .bm-result[data-cue]) { animation: bm-fade var(--ms-motion-reduced-fade) linear both !important; }
 }
 
 /* ---------- a short phone (568 px tall and the like): the same parts, tighter ---------- */
@@ -492,6 +574,14 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-app[data-short="true"] .bm-strip__kind { margin-right: 6px; padding: 0 5px; font-size: 10px; line-height: 14px; }
 .bm-app[data-short="true"] .bm-strip__line { font-size: 13px; line-height: 1.2; }
 .bm-app[data-short="true"] .bm-strip__detail { font-size: 11px; line-height: 1.25; }
+/* The end's sheet, tighter on a short phone and in the other screens' frame. */
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result { max-height: 70%; padding: 6px 8px 8px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__heading { margin-bottom: 4px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__outcome { padding: 0.15rem 0.5rem; font-size: 1.15rem; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast { margin-top: 6px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast__rows { gap: 4px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast__row { min-height: 36px; padding-top: 2px; padding-bottom: 2px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__code { margin-top: 6px; }
 
 /* ---------- wider screens follow the same design: one phone-width column, centered ---------- */
 @media (min-width: 40em) {
@@ -515,10 +605,12 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
   .bm-strip__line { font-size: 0.85rem; }
   .bm-strip__controls { flex-wrap: wrap; }
   .bm-strip__side .bm-btn { max-width: 12em; }
+  .bm-cast__rows { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (forced-colors: active) {
   .bm-tag__face, .bm-tag--fixed, .bm-piece__tag, .bm-strip, .bm-btn, .bm-chip { forced-color-adjust: none; border-color: CanvasText; }
+  .bm-result, .bm-cast__row, .bm-result__outcome { border-color: CanvasText; }
   [data-board="own"] .bm-piece[data-target] .bm-piece__ring { border-color: Highlight; }
 }
 
@@ -529,11 +621,10 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-vocab { border-collapse: separate; border-spacing: 6px; margin: 8px; }
 .bm-vocab th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ms-color-text-secondary); text-align: left; padding: 0 4px; }
 .bm-vocab td { position: relative; padding: 0; }
-.bm-vocab__room { width: 104px; height: 118px; --bm-cap: 14px; }
+.bm-vocab__room { background: var(--ms-color-steel-shadow); }
 .bm-vocab__stamp { position: absolute; top: auto; bottom: -6px; right: 4px; font-size: 9px; padding: 0 4px; }
 .bm-vocab__focus { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 1px; }
-.bm-piece[data-demo="flight"] :is(.bm-piece__body, .bm-piece__front) { transform: translate(-6px, -18px) scale(1.12) rotate(calc(var(--settle) * -2)); }
-.bm-vocab__trail { left: 4px; top: 78px; width: 40px; opacity: 0.8; animation: none; transform: rotate(-24deg); }
+.bm-vocab__trail { left: 6px; bottom: 10px; width: 36px; opacity: 0.8; animation: none; transform: rotate(-8deg); }
 
 /* ---------- prototype chrome: the frame, the observer and the fixture controls (not part of the design) ---------- */
 .bm-proto { display: grid; grid-template-columns: auto auto minmax(260px, 1fr); gap: 20px; align-items: start; padding: 16px; min-height: 100vh; }
@@ -541,7 +632,7 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-frame > .bm-app { height: 100%; }
 .bm-proto[data-pair] { grid-template-columns: auto auto; width: max-content; min-height: 0; }
 .bm-observer { width: 300px; }
-.bm-observer h2, .bm-panel h2 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-color-text-secondary); }
+.bm-observer > h2, .bm-panel h2 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-color-text-secondary); }
 .bm-observer .bm-frame { --frame-w: 300px; --frame-h: 560px; border-width: 6px; border-radius: 20px; }
 .bm-observer .bm-app { grid-template-rows: var(--bm-status) minmax(0, 1fr); pointer-events: none; }
 .bm-panel { display: grid; gap: 12px; font-size: 13px; max-width: 420px; }

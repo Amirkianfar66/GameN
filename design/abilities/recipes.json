@@ -1,0 +1,256 @@
+{
+  "devOnly": "mothership:dev-only",
+  "manifestVersion": "abilities-0.6.0",
+  "status": "proposal",
+  "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
+  "baseManifest": "design-0.2.0",
+  "tokens": "0.4.0",
+  "bundle": {
+    "name": "abilities",
+    "audience": "private art: drawn only inside a seat's own open private sheet",
+    "loadPolicy": "Every player phone, once, with the player bundles (public-board, player-ui, roles), before the first match view, whatever the seat's role, state or turn. The table display does not load it. Which requests a phone makes says nothing about its role."
+  },
+  "palettes": {
+    "neutral": {
+      "about": "Paper, ink and steel only: no team accent, no room color, no crew color, so no piece of the kit can be told apart by role, team or character.",
+      "colors": ["#151923", "#10141C", "#202837", "#F4EBDD", "#E3D6C2", "#CBBBA2", "#222B3A", "#34415A", "#55657E", "#8696AE", "#B9C4D3", "#C6CDD4", "#F7C52B"]
+    }
+  },
+  "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
+  "assets": [
+    {
+      "id": "dossier-cork", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "Cork of a private file", "source": "source/dossier.svg", "layer": "dossier-cork", "viewBox": "0 0 96 96",
+      "use": "Tiled behind a private file (background-repeat), at 96 CSS px or smaller.",
+      "anchors": { "tile": [96, 96] }
+    },
+    {
+      "id": "dossier-tape", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A strip of tape", "source": "source/dossier.svg", "layer": "dossier-tape", "viewBox": "0 0 64 22",
+      "use": "Across a file's top corners, turned 35 to 45 degrees.",
+      "anchors": { "center": [32, 11] }
+    },
+    {
+      "id": "dossier-pin", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A push pin", "source": "source/dossier.svg", "layer": "dossier-pin", "viewBox": "0 0 26 28",
+      "use": "Holds every snapshot and the envelope; one drawing for every candidate.",
+      "anchors": { "point": [12, 10] }
+    },
+    {
+      "id": "dossier-photo", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A snapshot frame", "source": "source/dossier.svg", "layer": "dossier-photo", "viewBox": "0 0 104 134",
+      "use": "Around a player's chosen crew card: the portrait fills the window. One frame for every candidate alike.",
+      "anchors": { "window": [10, 10, 80, 92], "pin": [50, 4], "caption": [6, 104, 92, 20] }
+    },
+    {
+      "id": "dossier-query", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A query tag", "source": "source/dossier.svg", "layer": "dossier-query", "viewBox": "0 0 30 38",
+      "use": "On the corner of every candidate's snapshot alike: this one is not known.",
+      "anchors": { "hole": [15, 10.5] }
+    },
+    {
+      "id": "dossier-lens", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A magnifying lens", "source": "source/dossier.svg", "layer": "dossier-lens", "viewBox": "0 0 30 30",
+      "use": "Marks what can be inspected; never a result.",
+      "anchors": { "center": [12, 12] }
+    },
+    {
+      "id": "dossier-clip", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A paper clip", "source": "source/dossier.svg", "layer": "dossier-clip", "viewBox": "0 0 18 46",
+      "use": "Holds a slip to an envelope.",
+      "anchors": { "grip": [10, 4] }
+    },
+    {
+      "id": "dossier-stamp", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A rubber-stamp frame", "source": "source/dossier.svg", "layer": "dossier-stamp", "viewBox": "0 0 132 40",
+      "use": "Around a live word stamped on a file (CLASSIFIED, ONE EACH). The word is live text, never drawn.",
+      "anchors": { "text": [8.5, 8.5, 115, 23] }
+    },
+    {
+      "id": "dossier-envelope-back", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An open envelope, behind what it holds", "source": "source/dossier.svg", "layer": "dossier-envelope-back", "viewBox": "0 0 224 88",
+      "use": "Behind a slip that stands in it; the front layer goes over the slip.",
+      "anchors": { "mouth": [6, 44, 212] }
+    },
+    {
+      "id": "dossier-envelope-front", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An open envelope, in front of what it holds", "source": "source/dossier.svg", "layer": "dossier-envelope-front", "viewBox": "0 0 224 88",
+      "use": "Over the lower part of a slip that stands in the envelope.",
+      "anchors": { "mouth": [6, 44, 212] }
+    },
+    {
+      "id": "dossier-folder", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A closed folder", "source": "source/dossier.svg", "layer": "dossier-folder", "viewBox": "0 0 228 156",
+      "use": "The cover of any private file while it is hidden: the same for every role.",
+      "anchors": { "label": [62, 76, 100, 36] }
+    },
+    {
+      "id": "dossier-printout", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A printout", "source": "source/intel.svg", "layer": "dossier-printout", "viewBox": "0 0 240 56",
+      "use": "The paper of a private result (a Scan's), stretched to the width it needs; its words and stamp are live text.",
+      "anchors": { "text": [16, 8, 208, 40], "pin": [12, 28] }
+    },
+    {
+      "id": "dossier-chip", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A portrait chip", "source": "source/intel.svg", "layer": "dossier-chip", "viewBox": "0 0 48 48",
+      "use": "Around a small crew card: a printout's player, a pick in the Code card. One chip for every player alike.",
+      "anchors": { "window": [24, 24, 17] }
+    },
+    {
+      "id": "dossier-code-mark", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The Code's mark", "source": "source/intel.svg", "layer": "dossier-code-mark", "viewBox": "0 0 40 30",
+      "use": "Says the Code: a punch card with four holes, two by two, a set and not a row. Struck through by the client for not in the Code.",
+      "anchors": { "center": [20, 15] }
+    },
+    {
+      "id": "dossier-code-card", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A Code card", "source": "source/intel.svg", "layer": "dossier-code-card", "viewBox": "0 0 240 76",
+      "use": "Behind a Code attempt's picks in the action strip: four windows, filled in seat order.",
+      "anchors": { "windows": [[38, 44], [92, 44], [148, 44], [202, 44]], "radius": [20] }
+    },
+    {
+      "id": "dossier-vial", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A vial", "source": "source/tools.svg", "layer": "dossier-vial", "viewBox": "0 0 22 36",
+      "use": "One Rescue left, in the Cracker's own strip and card: the full ones first, as many as the view's count (self.rescuesRemaining).",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-vial-empty", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An empty vial", "source": "source/tools.svg", "layer": "dossier-vial-empty", "viewBox": "0 0 22 36",
+      "use": "A Rescue used: its use is reserved when the Rescue is accepted (V1-15), and the vial is drawn empty when the view's count falls, never ahead of it.",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-cross", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A cross ring", "source": "source/tools.svg", "layer": "dossier-cross", "viewBox": "0 0 48 48",
+      "use": "Round the chip of a Rescue's target, in the Cracker's strip only.",
+      "anchors": { "ring": [24, 26, 20] }
+    },
+    {
+      "id": "dossier-cell", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A charge cell", "source": "source/tools.svg", "layer": "dossier-cell", "viewBox": "0 0 24 36",
+      "use": "The one Disable a match gives, while the server offers it; the same cell for the Blue and the Red Disabler.",
+      "anchors": { "base": [12, 34] }
+    },
+    {
+      "id": "dossier-cell-empty", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "An empty cell", "source": "source/tools.svg", "layer": "dossier-cell-empty", "viewBox": "0 0 24 36",
+      "use": "The Disable spent, on its receipt: its use is reserved when it is accepted (V1-15).",
+      "anchors": { "base": [12, 34] }
+    },
+    {
+      "id": "dossier-spark", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "Sparks", "source": "source/tools.svg", "layer": "dossier-spark", "viewBox": "0 0 56 56",
+      "use": "Four sparks at the corners of a Disable's target, outside its chip: a charged reticle, never a hit. In the Disabler's strip only; the same for both Disablers.",
+      "anchors": { "center": [28, 28], "clear": [20] }
+    },
+    {
+      "id": "dossier-tag", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A shipping tag", "source": "source/tools.svg", "layer": "dossier-tag", "viewBox": "0 0 70 40",
+      "use": "One of a Supply's two picks, its chip at (42, 20); the two in seat order.",
+      "anchors": { "eyelet": [12, 20], "chip": [42, 20] }
+    },
+    {
+      "id": "dossier-slip", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A slip", "source": "source/tools.svg", "layer": "dossier-slip", "viewBox": "0 0 200 64",
+      "use": "The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band.",
+      "anchors": { "slice": [18, 34, 10, 10], "text": [10, 18, 156, 36] }
+    },
+    {
+      "id": "dossier-reticle", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A reticle", "source": "source/guard.svg", "layer": "dossier-reticle", "viewBox": "0 0 56 56",
+      "use": "A ring and four ticks round the chip of a shot's target, in the shooter's strip only; the same for every seat that holds a weapon, the Officer included.",
+      "anchors": { "center": [28, 28], "clear": [19] }
+    },
+    {
+      "id": "dossier-shield", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A shield", "source": "source/guard.svg", "layer": "dossier-shield", "viewBox": "0 0 48 56",
+      "use": "Behind the chip of a Protection's target, in the Undercover's strip and on its own note of the Protection in the card. Never on the recipient's phone or a public surface (V1-17).",
+      "anchors": { "window": [24, 25, 17] }
+    },
+    {
+      "id": "dossier-shield-used", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A shield used up", "source": "source/guard.svg", "layer": "dossier-shield-used", "viewBox": "0 0 48 56",
+      "use": "A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only.",
+      "anchors": { "window": [24, 25, 17] }
+    },
+    {
+      "id": "dossier-round", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A round", "source": "source/guard.svg", "layer": "dossier-round", "viewBox": "0 0 14 30",
+      "use": "One ordinary weapon the seat holds (self.ordinaryWeapons), in its own shot strip and its own card.",
+      "anchors": { "base": [7, 28] }
+    },
+    {
+      "id": "dossier-round-spent", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A round spent", "source": "source/guard.svg", "layer": "dossier-round-spent", "viewBox": "0 0 14 30",
+      "use": "The weapon a registered shot used: drawn when the view's count falls, never ahead of it.",
+      "anchors": { "base": [7, 28] }
+    },
+    {
+      "id": "dossier-ballot", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot slip", "source": "source/ballot.svg", "layer": "dossier-ballot", "viewBox": "0 0 48 56",
+      "use": "The seat's own ballot in its strip: the picked player's chip in the box (a Captain election, its runoff, a Jail vote), the jailed player's chip on a release vote, or blank for an abstention.",
+      "anchors": { "window": [24, 25, 15] }
+    },
+    {
+      "id": "dossier-ballot-edge", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot slip's top edge", "source": "source/ballot.svg", "layer": "dossier-ballot-edge", "viewBox": "0 0 18 12",
+      "use": "The seat's own ballot posted, standing in the box's slot once the server accepts it.",
+      "anchors": { "slot": [9, 11] }
+    },
+    {
+      "id": "dossier-tick", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A pencil tick", "source": "source/ballot.svg", "layer": "dossier-tick", "viewBox": "0 0 24 24",
+      "use": "On the seat's own ballot: a vote for the player on the slip, or Yes to a release.",
+      "anchors": { "center": [12, 12] }
+    },
+    {
+      "id": "dossier-x-mark", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A pencil cross", "source": "source/ballot.svg", "layer": "dossier-x-mark", "viewBox": "0 0 24 24",
+      "use": "On the seat's own ballot: No to a release.",
+      "anchors": { "center": [12, 12] }
+    },
+    {
+      "id": "dossier-ballot-box", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A ballot box", "source": "source/ballot.svg", "layer": "dossier-ballot-box", "viewBox": "0 0 36 34",
+      "use": "At the start of the seat's own ballot strip; the slip stands in its slot once the server accepts the ballot.",
+      "anchors": { "slot": [17, 9] }
+    },
+    {
+      "id": "dossier-key-ring", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A key ring", "source": "source/ballot.svg", "layer": "dossier-key-ring", "viewBox": "0 0 48 48",
+      "use": "Round the chip of the jailed player the Captain asks to release, in the Captain's own strip.",
+      "anchors": { "ring": [24, 26, 20] }
+    },
+    {
+      "id": "dossier-comms", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A comms ring", "source": "source/ballot.svg", "layer": "dossier-comms", "viewBox": "0 0 56 56",
+      "use": "Round the chip of the player a seat asks for a Hack, in its own strip.",
+      "anchors": { "center": [28, 28], "clear": [17] }
+    },
+    {
+      "id": "dossier-cord", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A coiled cord", "source": "source/ballot.svg", "layer": "dossier-cord", "viewBox": "0 0 64 24",
+      "use": "Between the two chips of a Hack's partners, in each partner's own card while the server says they are in one.",
+      "anchors": { "from": [2, 12], "to": [62, 12] }
+    },
+    {
+      "id": "dossier-mic", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A microphone", "source": "source/ballot.svg", "layer": "dossier-mic", "viewBox": "0 0 22 36",
+      "use": "The speaking turn, held: at the start of the seat's own Pass strip.",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-mic-passed", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "A microphone handed on", "source": "source/ballot.svg", "layer": "dossier-mic-passed", "viewBox": "0 0 22 36",
+      "use": "The speaking turn handed on: drawn once the server accepts Pass.",
+      "anchors": { "base": [11, 34] }
+    },
+    {
+      "id": "dossier-round-special", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The special shot", "source": "source/finale.svg", "layer": "dossier-round-special", "viewBox": "0 0 14 30",
+      "use": "The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.",
+      "anchors": { "base": [7, 28] }
+    }
+  ]
+}

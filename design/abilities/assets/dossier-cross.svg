@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-cross 0.1.0 · generated, do not edit by hand
+  A cross ring. Round the chip of a Rescue's target, in the Cracker's strip only.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/tools.svg (layer dossier-cross). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><g id="dossier-cross"><circle cx="24" cy="26" r="20" fill="none" stroke="#151923" stroke-width="4"/><circle cx="24" cy="26" r="20" fill="none" stroke="#F4EBDD" stroke-width="1.6"/><path d="M20.5 1.5 H27.5 V6 H32 V13 H27.5 V17.5 H20.5 V13 H16 V6 H20.5 Z" fill="#F4EBDD" stroke="#151923" stroke-width="1.8" stroke-linejoin="round"/></g></svg>

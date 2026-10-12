@@ -1,93 +1,96 @@
 // mothership:dev-only
 //
-// Where characters stand, from public facts only: who is in each location, by seat number.
-// Pure functions, used by the prototype in the browser and by the checks in Node.
+// Where characters are, from public facts only: who is in each location, Captain, Injured,
+// Jailed and Eliminated, by seat number. Pure functions, used by the prototype in the browser
+// and by the checks in Node.
+//
+// The owner's decision of 9 October 2026: each room is a scene with five fixed places, each
+// with its own gesture; the Command Room has one, the Captain's (only the Captain may enter
+// it). On 11 October 2026 the owner made five a hard rule; until the engine enforces it
+// (DSN-REQ-12), six or more in one room still stand in a crowd (layout stress).
+
+import { SCENES } from '../scenes/index.mjs';
+import { INJURED } from '../figures/gestures.mjs';
 
 export const ROOMS = ['command-room', 'room-a', 'room-b', 'hospital', 'jail'];
 export const LOCATION_OF = { 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail', 'final-zone': 'Final Zone' };
 export const ROOM_OF = Object.fromEntries(Object.entries(LOCATION_OF).map(([room, location]) => [location, room]));
 /** The rooms a player can move to by pressing their name tag: the protocol's MOVE destinations. */
 export const MOVE_ROOMS = ['Command Room', 'Room A', 'Room B'];
-
-/** The stations a room uses for this many occupants, in seat order. */
-function formation(stations, room, count) {
-  const spec = stations.rooms[room];
-  if (count === 0) return [];
-  if (room === 'final-zone') {
-    const front = Math.ceil(count / 2);
-    return Array.from({ length: count }, (_, index) => {
-      const inFront = index < front;
-      const row = inFront ? front : count - front;
-      const i = inFront ? index : index - front;
-      return { id: `F${index + 1}`, kind: 'stand', at: [(i + 1) / (row + 1), inFront ? 0 : 1], depth: inFront ? 1 : 0.88 };
-    });
-  }
-  if (count > 5) return stations.crowd.slots.slice(0, count).map(([x, row, depth], index) => ({ id: `${room}-crowd-${index + 1}`, kind: 'stand', at: [x, row], depth, crowd: true }));
-  return spec.formations[String(count)].map(id => ({ id, ...spec.stations[id] }));
-}
-
-/** A station drawn into the picture (behind the chart table or the counter, in the bed, on the bench). */
-const isPicture = station => station.kind === 'prop' || station.kind === 'seat';
+/**
+ * The owner's decision of 11 October 2026: at most five in a room, a hard rule, the Eliminated
+ * counted (the Command Room holds its one, the Captain). The engine does not enforce it yet
+ * (DSN-REQ-12): the board says FULL on a full room's tag from public occupancy, and still draws
+ * a view with more.
+ */
+export const CAPACITY = 5;
+/**
+ * The rooms whose tag says FULL: the two a player moves between, and the Hospital and the Jail,
+ * where a full Hospital is why an Injured character waits in its room (the owner's decision).
+ */
+export const CAPACITY_ROOMS = ['Room A', 'Room B', 'Hospital', 'Jail'];
 
 /**
- * Who takes a picture station, by public facts only: the Captain at the chart table if the
- * Captain is in the room, an Injured character in the bed, and otherwise the lowest seat. An
- * Eliminated character takes none. Nobody, when nobody qualifies.
+ * Six to nine in one room: three rows of three, everyone standing, every character reachable
+ * with a 44 px press area that overlaps no other: [x share of the panel, row, depth scale].
  */
-function takerOf(station, occupants) {
-  const living = occupants.filter(seat => seat.health !== 'Eliminated');
-  if (station.takes === 'injured') return living.find(seat => seat.health === 'Injured') ?? null;
-  if (station.takes === 'captain') return living.find(seat => seat.captain) ?? living[0] ?? null;
-  return living[0] ?? null;
+export const CROWD = [[0.167, 0, 1], [0.5, 0, 1], [0.833, 0, 1], [0.167, 1, 0.9], [0.5, 1, 0.9], [0.833, 1, 0.9], [0.167, 2, 0.82], [0.5, 2, 0.82], [0.833, 2, 0.82]];
+/** A standing character's stance in a crowd or the Final Zone: one of three, by seat number. */
+export const STANCES = ['stand', 'standFolded', 'standBack'];
+
+/** The places of a room: the scene's, in its own order. */
+export const placesOf = room => SCENES[room]?.slots ?? [];
+
+/** A seat's order of preference for a room's places: its own first, (n - 1) mod count, then on round. */
+export function preferences(n, count) {
+  const first = (n - 1) % count;
+  return Array.from({ length: count }, (_, index) => (first + index) % count);
 }
 
-/** The stations of a room for its occupants, in seat order, and who stands at each. */
-function stationsFor(stations, room, occupants) {
-  const used = formation(stations, room, occupants.length);
-  const picture = used.find(isPicture);
-  if (!picture) return occupants.map((seat, index) => [seat, used[index]]);
-  const taker = takerOf(picture, occupants);
-  if (taker) {
-    const rest = used.filter(station => station !== picture);
-    return occupants.map(seat => [seat, seat === taker ? picture : rest.shift()]);
+/**
+ * Who takes which place in a room, as Map seat -> place: a function of who is in the room now and
+ * of nothing else, so that every screen draws the same picture, whether it has followed the match
+ * or has just loaded or reconnected. The Command Room's one place is the Captain's. Elsewhere, the
+ * lowest seat first, each takes the first free place in its own order of preference, seat n
+ * starting at place (n - 1) mod 5. Seats n and n + 5 prefer the same place and the lower seat gets
+ * it, so when someone comes in or leaves, a character can step to another place in the room: the
+ * lower seat of its pair took its place, or a place it prefers came free (layout-reflow).
+ */
+export function assign(room, occupants) {
+  const places = placesOf(room);
+  const result = new Map();
+  const taken = new Set();
+  const seats = [...occupants].sort((a, b) => a.n - b.n);
+  if (room === 'command-room') {
+    const captain = seats.find(seat => seat.captain) ?? seats[0];
+    if (captain && places[0]) result.set(captain.n, places[0]);
+    return result;
   }
-  // Nobody takes it: everyone stands, at the places of one more without the picture station.
-  const instead = (occupants.length < 5 ? formation(stations, room, occupants.length + 1) : formation(stations, room, 6)).filter(station => !isPicture(station));
-  return occupants.map((seat, index) => [seat, instead[index]]);
+  for (const seat of seats) {
+    const order = preferences(seat.n, places.length);
+    const place = order.map(index => places[index]).find(candidate => !taken.has(candidate.id));
+    if (place) { result.set(seat.n, place); taken.add(place.id); }
+  }
+  return result;
 }
 
-/** A standing character's stance: one of three, by seat number, so a full room is not nine clones. */
-export const STANCES = ['standing', 'standingFolded', 'standingBack'];
+/**
+ * The gesture a character takes at a place: the place's own, or, Eliminated, the fall the place
+ * gives (slumped over a desk or the bench) or lying on the deck. Injured, the same gesture with
+ * the INJURED mark: a bandage, drawn only where the public view says Injured. Nothing else changes it.
+ */
+export const gestureOf = (seat, place) => {
+  if (seat.health === 'Eliminated') return place.down ?? 'down';
+  return seat.health === 'Injured' ? `${place.gesture}${INJURED}` : place.gesture;
+};
 
-/** The pose of a piece: its station's, Eliminated on the floor, or the seat's stance. */
-export function poseOf(seat, station) {
-  if (isPicture(station)) return station.pose;
-  if (seat.health === 'Eliminated') return 'out';
-  return STANCES[(seat.n - 1) % STANCES.length];
-}
-
-const seatsOf = occupants => (typeof occupants === 'number' ? Array.from({ length: occupants }, (_, index) => ({ n: index + 1, health: 'Healthy' })) : occupants);
-
-/** Rows of standing characters a room has (a picture station is not one). */
-export function standRowsFor(stations, room, occupants) {
-  const seats = seatsOf(occupants);
-  const stands = stationsFor(stations, room, seats).map(([, station]) => station).filter(station => station.kind === 'stand');
-  return stands.length ? Math.max(...stands.map(station => station.at[1])) + 1 : 0;
-}
-
-/** Rows of characters a room needs: a picture station counts as the back row. */
-export function rowsFor(stations, room, occupants) {
-  const seats = seatsOf(occupants);
-  if (seats.length === 0) return 0;
-  const used = stationsFor(stations, room, seats).map(([, station]) => station);
-  const stands = used.filter(station => station.kind === 'stand');
-  const standRows = stands.length ? Math.max(...stands.map(station => station.at[1])) + 1 : 0;
-  const hasPicture = used.some(isPicture);
-  return Math.max(standRows, hasPicture ? (stands.length ? 2 : 1) : 0);
-}
-
-/** Each seat's station in its room, and the pose it takes there. Returns Map seat -> placement. */
-export function placements(stations, seats) {
+/**
+ * Each seat's placement, as Map seat -> placement. kind 'place': a scene's place (at and scale in
+ * the scene's units, depth its drawing order, pressGesture the place's own gesture, whose press
+ * area it keeps); 'crowd': the layout-stress crowd of six or more ([x share, row]); 'final': the
+ * Final Zone's two rows. A function of the public seats alone, like assign().
+ */
+export function placements(seats) {
   const result = new Map();
   const byRoom = new Map();
   for (const seat of [...seats].sort((a, b) => a.n - b.n)) {
@@ -96,32 +99,32 @@ export function placements(stations, seats) {
     byRoom.get(room).push(seat);
   }
   for (const [room, occupants] of byRoom) {
-    stationsFor(stations, room, occupants).forEach(([seat, station], index) => {
-      const pose = poseOf(seat, station);
-      // Characters at a standing place face into the room: those right of its middle are drawn mirrored.
-      const mirror = station.kind === 'stand' && station.at[0] > 0.5;
+    const capacity = room === 'command-room' ? 1 : placesOf(room).length;
+    if (room === 'final-zone' || occupants.length > capacity) {
+      const final = room === 'final-zone';
+      const front = Math.ceil(occupants.length / 2);
+      occupants.forEach((seat, index) => {
+        const inFront = index < front;
+        const row = inFront ? front : occupants.length - front;
+        const i = inFront ? index : index - front;
+        const [x, line, depth] = final ? [(i + 1) / (row + 1), inFront ? 0 : 1, inFront ? 1 : 0.88] : CROWD[index];
+        result.set(seat.n, {
+          room, kind: final ? 'final' : 'crowd', place: `${final ? 'F' : `${room}-crowd-`}${index + 1}`, at: [x, line], depth,
+          gesture: gestureOf(seat, { gesture: STANCES[(seat.n - 1) % STANCES.length] }), mirror: x > 0.5, order: index,
+        });
+      });
+      continue;
+    }
+    const assigned = assign(room, occupants);
+    occupants.forEach((seat, index) => {
+      const place = assigned.get(seat.n);
+      if (!place) return;
+      // The press area is the place's own, whatever is drawn there: it never moves when a health changes.
       result.set(seat.n, {
-        room, station: station.id, kind: station.kind, at: station.at ?? null, art: station.art ?? null, figure: station.figure ?? null, clear: Boolean(station.clear),
-        depth: station.depth, order: index, crowd: Boolean(station.crowd), pose, mirror,
+        room, kind: 'place', place: place.id, at: place.at, scale: place.scale, depth: place.depth ?? place.at[1],
+        gesture: gestureOf(seat, place), pressGesture: place.gesture, mirror: Boolean(place.mirror), order: index,
       });
     });
   }
   return result;
-}
-
-/** How many rows each band of the board needs, from public occupancy. */
-export function bandRows(stations, seats) {
-  const count = room => seats.filter(seat => ROOM_OF[seat.location] === room).length;
-  if (seats.some(seat => seat.location === 'Final Zone')) return { final: count('final-zone') > 0 ? 2 : 0 };
-  const inRoom = room => seats.filter(seat => ROOM_OF[seat.location] === room).sort((a, b) => a.n - b.n);
-  const rows = room => rowsFor(stations, room, inRoom(room));
-  const stand = room => standRowsFor(stations, room, inRoom(room));
-  return {
-    top: rows('command-room'),
-    middle: Math.max(rows('room-a'), rows('room-b')),
-    lower: Math.max(rows('hospital'), rows('jail')),
-    // Rows of standing figures, the tallest part of a band; a band with none holds only picture stations.
-    stand: { top: stand('command-room'), middle: Math.max(stand('room-a'), stand('room-b')), lower: Math.max(stand('hospital'), stand('jail')) },
-    room: Object.fromEntries(['command-room', 'room-a', 'room-b', 'hospital', 'jail'].map(room => [room, rows(room)])),
-  };
 }
