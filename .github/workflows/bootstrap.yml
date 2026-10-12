@@ -13,11 +13,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  bootstrap:
+  verify:
     runs-on: ubuntu-24.04
-    # Preserve full historical controls, 600 capacity playouts, and both real setup windows.
-    # The historical controls alone may need up to twenty minutes on slower runners.
-    timeout-minutes: 60
+    # Keep every historical control and capacity playout; controls alone may need twenty minutes.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -33,6 +32,23 @@ jobs:
       # Missing suites/engines, incomplete reports and mismatched candidate/build pins fail.
       - run: npm run verify
       - run: npm run check:browser-dependencies
+      - run: npm run package:backend -- --verify-install
+
+  backend-emulator:
+    # Separate runners preserve fixed demo ports and real setup windows without shared state.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm install --global npm@10.9.4
+      - run: npm ci
       - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: temurin
@@ -40,7 +56,43 @@ jobs:
       - run: npm run test:emulator
         env:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
+
+  frontend-emulator:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm install --global npm@10.9.4
+      - run: npm ci
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: '21'
       - run: npm run test:frontend:emulator
         env:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
-      - run: npm run package:backend -- --verify-install
+
+  # Preserve the existing required check name and fail if any suite fails, cancels or skips.
+  bootstrap:
+    needs: [verify, backend-emulator, frontend-emulator]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - name: Require all verification suites
+        env:
+          VERIFY_RESULT: ${{ needs.verify.result }}
+          BACKEND_RESULT: ${{ needs['backend-emulator'].result }}
+          FRONTEND_RESULT: ${{ needs['frontend-emulator'].result }}
+        run: |
+          set -eu
+          test "$VERIFY_RESULT" = success
+          test "$BACKEND_RESULT" = success
+          test "$FRONTEND_RESULT" = success
