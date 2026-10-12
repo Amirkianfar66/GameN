@@ -263,6 +263,7 @@ Choosing a character and the role card's reveal (`abilities-0.8.0`), on `8f1f356
 | `npm run test --workspace @mothership/design-tokens` | **191 tests: 190 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **67 ability-check tests pass**, 4 new for slice 8: they prove the check refuses a release word misquoted on the setup page; a role card built while face down; a card back drawn by role; and a setup beat played on a load, with a turn off the reviewed cue's beats. The tests' scratch copy now also holds `design/contract`, where the reviewed cue is |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `e23fefcf3f52784f74dca8e3b5b98b2245d97bb6`, the commit that adds slice 8, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 687 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
