@@ -7,7 +7,8 @@
 // up only by the player with the reviewed turn and its device put into the hand, hidden at once, and
 // put away once Ready with READY stamped; nothing of a role is in the page while the card is face
 // down; nothing plays for a page that loads or a fresh view; reduced motion keeps the facts and
-// drops the travel. It tests the prototype, not the game:
+// drops the travel, and the system's own switch ends whatever moves at once; a page put away
+// rests, and put away for good stops counting down and listening. It tests the prototype, not the game:
 //   node design/tools/abilities-flows.mjs       (needs a Chromium-based browser)
 //   npm run flows:abilities --workspace @mothership/design-tokens
 
@@ -42,6 +43,24 @@ const roleInPage = page => page.evaluate(`(() => {
   return { words: said.flatMap(words => words.match(/\\b(Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker|Alien)\\b/g) || []), hooks: app.querySelectorAll('[data-device], [data-team]').length };
 })()`);
 const until = async (page, expression, label, ms = 4000) => { try { await page.waitFor(expression, label, ms); return true; } catch { return false; } };
+// The system's preferences reach a page at its next frame.
+const frames = page => page.evaluate('new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)))');
+// Counts the page's listeners on each media query, to show that a page put away for good stops listening.
+const COUNT_LISTENERS = `(() => {
+  const counts = window.__mediaListeners = {};
+  const { addEventListener: add, removeEventListener: remove } = MediaQueryList.prototype;
+  MediaQueryList.prototype.addEventListener = function (type, listener, options) { if (type === 'change') counts[this.media] = (counts[this.media] ?? 0) + 1; return add.call(this, type, listener, options); };
+  MediaQueryList.prototype.removeEventListener = function (type, listener, options) { if (type === 'change') counts[this.media] = (counts[this.media] ?? 0) - 1; return remove.call(this, type, listener, options); };
+})()`;
+async function openCounted(scenario) {
+  const page = await openPage(browser, { width: 1200, height: 1000 });
+  await page.send('Page.addScriptToEvaluateOnNewDocument', { source: COUNT_LISTENERS });
+  await page.goto(`${server.origin}/abilities/setup.html?scenario=${scenario}`, 'window.__designReady === true');
+  await sleep(150);
+  return page;
+}
+const listening = page => page.evaluate(`window.__mediaListeners['(prefers-reduced-motion: reduce)'] ?? 0`);
+const putAway = (page, persisted) => page.evaluate(`window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: ${persisted} }))`);
 
 try {
   // ---------- choosing a character ----------
@@ -148,6 +167,54 @@ try {
   await click(page, '#setup-role-toggle');
   const reducedTurn = await page.evaluate(`document.getElementById('su-app').getAnimations({ subtree: true }).map(a => Object.keys(a.effect.getKeyframes()[0]).filter(k => !['offset', 'easing', 'composite', 'computedOffset'].includes(k)).join())`);
   ok('reduced: turned up, the face at once with the 80 ms fade: nothing rises, turns or is put anywhere', js(reducedTurn) === js(['opacity']) && await page.evaluate(`document.querySelector('.phone-role-surface .phone-role-back').hidden`), reducedTurn);
+  await page.close();
+
+  // The system's own reduced motion, switched with no new fact and no switch on the page.
+  page = await open('role.back');
+  await click(page, '#setup-role-toggle');
+  const turning = (await moving(page)).length;
+  await page.media({ 'prefers-reduced-motion': 'reduce' });
+  await frames(page);
+  ok("system reduced motion, switched on mid-turn: the turn finishes at once, face up", turning === 4 && (await moving(page)).length === 0
+    && await page.evaluate(`Boolean(document.querySelector('#setup-role-card .ms-role-card')) && document.querySelector('.phone-role-surface .phone-role-back').hidden`), turning);
+  await page.media({ 'prefers-reduced-motion': 'no-preference' });
+  await frames(page);
+  ok('system reduced motion, switched off again: nothing plays again', (await moving(page)).length === 0);
+  ok('no page error', page.problems().length === 0, page.problems());
+  await page.close();
+
+  page = await open('select.open');
+  await page.evaluate(`window.__suState.answer = 'slow'`);
+  await click(page, tile('c2'));
+  await until(page, `document.querySelector('${tile('c2')}').dataset.confirmed === 'true'`, 'confirmed');
+  const popping = (await moving(page)).length;
+  await page.media({ 'prefers-reduced-motion': 'reduce' });
+  await frames(page);
+  ok('system reduced motion, switched on mid-pop: the pop, its burst and its check finish at once, the card checked', popping > 0 && (await moving(page)).length === 0
+    && await page.evaluate(`document.querySelector('${tile('c2')}').dataset.confirmed === 'true' && !document.querySelector('.ab-burst')`), popping);
+  await page.close();
+
+  // The page put away: into the back-forward cache, it may come back as it was; for good, it stops.
+  page = await openCounted('role.back');
+  ok("the page listens for the system's reduced motion once", await listening(page) === 1, await listening(page));
+  await click(page, '#setup-role-toggle');
+  await putAway(page, true);
+  ok('put in the back-forward cache mid-turn: the card concealed at once, face down, nothing left moving', (await moving(page)).length === 0 && js(await roleInPage(page)) === js({ words: [], hooks: 0 })
+    && await page.evaluate(`!document.querySelector('.phone-role-surface .phone-role-back').hidden`));
+  const before = (await state(page)).seconds;
+  await sleep(1300);
+  ok('back from the back-forward cache: the countdown runs and the page still listens', (await state(page)).seconds < before && await listening(page) === 1);
+  await page.close();
+
+  page = await openCounted('select.open');
+  await page.evaluate(`window.__suState.answer = 'slow'`);
+  await click(page, tile('c2'));
+  await putAway(page, false);
+  const stopped = (await state(page)).seconds;
+  await sleep(2700);
+  ok('put away for good: the countdown stops, the answer on its way never lands, and the page stops listening', (await state(page)).seconds === stopped && await listening(page) === 0
+    && await page.evaluate(`document.querySelectorAll('.crew-option[data-confirmed="true"]').length === 0`) && (await moving(page)).length === 0);
+  ok('no page error', page.problems().length === 0, page.problems());
   await page.close();
 
   // The same back for every role: the Insider's and the Supplier's, face down, are the same element and picture.

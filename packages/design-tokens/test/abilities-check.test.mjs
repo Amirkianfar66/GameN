@@ -504,6 +504,12 @@ test('a setup beat played on a load, or a turn off the reviewed cue, is refused'
   refuses(await check(root), /a setup beat plays on a load or a fresh view/, /the role card's turn is not the reviewed cue-role-card-turn's beats/);
 });
 
+test("a setup page deaf to the system's reduced motion, or still listening once put away, is refused", async () => {
+  const root = scratchCopy();
+  edit(root, SETUP_JS, text => text.replace("motionQuery.addEventListener('change', onSystemMotion);", '').replace("  motionQuery.removeEventListener('change', onSystemMotion);\n", ''));
+  refuses(await check(root), /the system's reduced motion, switched on, does not settle the setup page at once/, /the setup page, put away, keeps its card up, keeps moving, or keeps counting down or listening/);
+});
+
 test('an inventory page not made from the contract is refused', async () => {
   const root = scratchCopy();
   editJson(root, INVENTORY, inventory => { inventory.treatments.find(entry => entry.id === 'insider-file').title = 'Insider: the board'; });

@@ -106,7 +106,8 @@ function load(id) {
     answer: params.get('answer') ?? 'accept', motion: params.get('motion') === 'reduced' ? 'reduced' : 'full',
   });
 }
-const reducedNow = () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+const reducedNow = () => S.motion === 'reduced' || motionQuery.matches;
 const ownConfirmed = () => S.holders.get(VIEWER) !== undefined && S.holders.get(VIEWER) === S.selected && !S.busy && !S.kept;
 const holderOf = character => [...S.holders].find(([seat, held]) => held === character && seat !== VIEWER)?.[0];
 
@@ -226,8 +227,11 @@ function settleTurn() {
   for (const animation of back.getAnimations()) animation.cancel();
   back.hidden = S.visible && !S.readyAccepted;
 }
-/** Everything moving finishes at once, as it is (the timer closing, reduced motion switched on). */
-function settleAll() { for (const animation of phone.getAnimations({ subtree: true })) animation.finish(); settleTurn(); }
+/** Everything moving finishes at once, as it is (the timer closing, reduced motion switched on, the page put away). */
+function settleAll() {
+  for (const animation of phone.getAnimations({ subtree: true })) { try { animation.finish(); } catch { animation.cancel(); } }
+  settleTurn();
+}
 
 // ---------- drawing: the release's draw(), and the treatment's marks; beats only for a change this page saw ----------
 let seen = null; // what the page last drew: holders, the own confirmation, the stage, Ready
@@ -308,7 +312,8 @@ function render({ kind = 'update' } = {}) {
 }
 
 // ---------- the stand-in server, and the player's own steps (the release's controller) ----------
-const later = (ms, fn) => setTimeout(fn, frozen ? 0 : ms);
+let disposed = false; // The page put away for good: nothing answers, counts down or moves after it.
+const later = (ms, fn) => setTimeout(() => { if (!disposed) fn(); }, frozen ? 0 : ms);
 function confirmChoice() {
   if (S.busy || S.stage !== 'choosing' || S.seconds <= 0 || ownConfirmed()) return;
   S.busy = true; S.kept = false;
@@ -439,7 +444,19 @@ if (chrome) {
 }
 phone.dataset.short = String(Number(params.get('h') ?? innerHeight) <= 640);
 render({ kind: 'load' });
-if (!frozen) setInterval(() => { if (S.seconds > 0 && (S.stage === 'choosing' || S.stage === 'awaiting-ready')) { S.seconds -= 1; render(); } }, 1000);
+const countdownTimer = frozen ? null : setInterval(() => { if (S.seconds > 0 && (S.stage === 'choosing' || S.stage === 'awaiting-ready')) { S.seconds -= 1; render(); } }, 1000);
+// The system's reduced motion switched on, with no new fact: everything moving finishes at once, as the panel's switch
+// does. Switched off again, nothing plays again: a beat is only ever for a change the page saw.
+const onSystemMotion = event => { if (event.matches) settleAll(); };
+motionQuery.addEventListener('change', onSystemMotion);
+// The page put away: the card concealed and everything at rest, so a page brought back from the back-forward cache
+// resumes nothing. Put away for good, the countdown and the stand-in server stop, and the listener goes.
+window.addEventListener('pagehide', event => {
+  conceal(); settleAll();
+  if (event.persisted) return;
+  disposed = true; clearInterval(countdownTimer);
+  motionQuery.removeEventListener('change', onSystemMotion);
+});
 
 // ---------- holds for storyboards and captures: ?play=<beat>&t=<ms> ----------
 const PLAY = {

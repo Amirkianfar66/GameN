@@ -345,6 +345,9 @@ const functionBody = (source, name) => {
   if (!/if \(kind === 'update' && seen\) \{/.test(code)) problems.push('a setup beat plays on a load or a fresh view');
   if (!/if \(S\.visible\) turnUp\(\);/.test(code) || /turnUp\(\)/.test(code.slice(code.indexOf('function conceal()'), code.indexOf('function conceal()') + 200))) problems.push('the card turns other than when the player turns it up');
   if (!/if \(reducedNow\(\)\) \{ back\.hidden = true; fadeIn\(face\); return; \}/.test(code)) problems.push('the turn plays in reduced motion');
+  // Reduced motion switched on by the system, with no new fact, ends whatever moves at once; put away for good, the page stops.
+  if (!/const onSystemMotion = event => \{ if \(event\.matches\) settleAll\(\); \};\s*motionQuery\.addEventListener\('change', onSystemMotion\);/.test(code)) problems.push("the system's reduced motion, switched on, does not settle the setup page at once");
+  if (!/window\.addEventListener\('pagehide', event => \{\s*conceal\(\); settleAll\(\);[\s\S]*?clearInterval\(countdownTimer\);\s*motionQuery\.removeEventListener\('change', onSystemMotion\);/.test(code)) problems.push('the setup page, put away, keeps its card up, keeps moving, or keeps counting down or listening');
   check("choosing a character stamps each taken card with its taker's seat; the role card is the seat's own, turned up by the player, its back the same for every role", problems);
 }
 
