@@ -35,6 +35,10 @@
     "assets:abilities": "node ../../design/tools/abilities-assets.mjs",
     "capture:abilities": "node ../../design/tools/abilities-capture.mjs",
     "docs:abilities": "node ../../design/tools/abilities-docs.mjs",
-    "check:abilities": "node ../../design/tools/abilities-check.mjs"
+    "check:abilities": "node ../../design/tools/abilities-check.mjs",
+    "assets:phone-kit": "node ../../design/tools/phone-kit-assets.mjs",
+    "capture:phone-kit": "node ../../design/tools/phone-kit-capture.mjs",
+    "check:phone-kit": "node ../../design/tools/phone-kit-check.mjs",
+    "flows:phone-kit": "node ../../design/tools/phone-kit-flows.mjs"
   }
 }

@@ -1,0 +1,396 @@
+/* mothership:dev-only
+   Phone kit 0.1.0 (issue #121, the owner's request of 12 October 2026): a proposal for the look of the
+   phone's shell around the comic board. Navy framing, gold accents, a compact top bar (the round, who
+   plays, the timer), gold room tags, and the bottom bar Board / Actions / a raised gold Pass / Card /
+   Menu. Loaded after design/board-motion/css/board.css and design/abilities/css/abilities.css: it
+   changes how the shell looks and nothing about what it holds, where a control is or what it does.
+   The rooms, the figures and every ability's art are drawn as before. Colours are the kit's tokens
+   (design/phone-kit/contract/phone-kit.json, token proposal 0.5.0): navy and gold carry no side, no
+   role and no game fact; gold is focus and the shell's accent, as amber always was. */
+
+:root {
+  --pk-navy-950: #060C1C;
+  --pk-navy-900: #0A1530;
+  --pk-navy-850: #0E1B3A;
+  --pk-navy-800: #132447;
+  --pk-navy-700: #1B3058;
+  --pk-navy-600: #2A4374;
+  --pk-gold-100: #FDF0C8;
+  --pk-gold-300: #F7D886;
+  --pk-gold-500: #E9B64E;
+  --pk-gold-700: #A7771E;
+  --pk-ink: #0A1020;
+  --pk-text: #F4EBDD;
+  --pk-text-muted: #A7B6D3;
+  /* A gold plate: lit from above, a darker lower edge, as the room tags and Pass are struck. */
+  --pk-gold-plate: linear-gradient(180deg, #FBE6A6 0%, #EFC25B 38%, #DCA83F 72%, #C28C2A 100%);
+  --pk-gold-line: rgb(233 182 78 / 0.72);
+  --pk-gold-faint: rgb(233 182 78 / 0.34);
+  --pk-glow: 0 0 8px rgb(233 182 78 / 0.55);
+}
+
+body { background: var(--pk-navy-950); }
+.bm-app { background: radial-gradient(130% 60% at 50% 0%, var(--pk-navy-850), var(--pk-navy-950) 72%); }
+
+/* ---------- the top bar: the round, who plays, the timer ---------- */
+.bm-status {
+  padding: 6px 10px; gap: 8px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  background: linear-gradient(180deg, var(--pk-navy-800), var(--pk-navy-900));
+  border-bottom: 1px solid var(--pk-gold-line);
+  box-shadow: 0 1px 0 var(--pk-ink), 0 8px 12px -10px rgb(0 0 0 / 0.9);
+}
+.bm-status__round {
+  padding: 3px 9px; font-size: 10.5px; letter-spacing: 0.14em; white-space: nowrap;
+  color: var(--pk-gold-300); background: var(--pk-navy-950); border: 1.5px solid var(--pk-gold-500); border-radius: 999px;
+  transform: none; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.5);
+}
+.bm-status__phase { grid-template-columns: auto minmax(0, 1fr); column-gap: 7px; align-items: center; }
+.bm-status__phase > :not(.pk-who) { grid-column: 2; }
+.bm-status__line { color: var(--pk-text); }
+.bm-status__detail { color: var(--pk-text-muted); }
+/* Who plays: their character, round, in a gold ring (the crew picture, public). */
+.pk-who {
+  grid-column: 1; grid-row: 1 / span 2; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--pk-navy-700) 50% 22% / 175% auto no-repeat; border: 2px solid var(--pk-gold-500); box-shadow: 0 0 0 1.5px var(--pk-ink);
+}
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] :is(.pk-who, .pk-hack__who)[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+.bm-timer {
+  min-width: 62px; padding: 3px 8px; border-radius: 10px; font-size: 21px; letter-spacing: 0.02em;
+  color: var(--pk-gold-100); background: var(--pk-navy-950); border: 1.5px solid var(--pk-gold-500); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.6);
+}
+.bm-timer[data-final="true"] { color: var(--pk-ink); background: var(--pk-gold-plate); border-color: var(--pk-ink); box-shadow: var(--pk-glow); }
+.bm-timer[data-state="none"] { color: var(--pk-text-muted); background: transparent; border: 1.5px dashed var(--pk-gold-faint); box-shadow: none; }
+.bm-status[data-cue="round"]::after { background: var(--pk-gold-500); }
+
+/* ---------- the board: navy framing, a gold keyline round every room ---------- */
+.bm-board { --bm-gutter: 5px; background: var(--pk-navy-950); }
+.bm-room {
+  border: 2px solid var(--pk-ink); border-radius: 8px; background: var(--pk-navy-800);
+  box-shadow: inset 0 0 0 1.5px var(--pk-gold-faint), 0 0 0 1px var(--pk-navy-700);
+}
+.bm-spine { background: var(--pk-navy-850); border: 1.5px solid var(--pk-ink); border-radius: 6px; box-shadow: inset 0 0 0 1px var(--pk-gold-faint); }
+.bm-spine > span { width: 3px; background: var(--pk-gold-500); box-shadow: var(--pk-glow); opacity: 0.9; }
+
+/* ---------- gold room tags: the room's name on a struck plate; a movable room's has its arrow ---------- */
+/* A tag stays readable over the room's figures: it is drawn above them in its room (a figure's head may pass
+   under it, as under a comic's caption box). Every target's press area is below the tag's band (--bm-cap), so
+   the tag never covers one; the flyers of a move still pass over it. */
+.bm-tag { z-index: 2300; }
+.bm-tag__face, .bm-tag--fixed {
+  gap: 5px; min-height: 26px; padding: 2px 8px 2px 9px; font-size: 12px; letter-spacing: 0.07em;
+  color: var(--pk-ink); background: var(--pk-gold-plate); border: 2px solid var(--pk-ink); border-radius: 3px;
+  transform: skewX(-8deg);
+  box-shadow: 2px 2px 0 var(--pk-ink), inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 -1.5px 0 rgb(122 82 14 / 0.55);
+}
+.bm-tag__go {
+  display: inline-grid; place-items: center; width: 17px; height: 17px; margin-left: 1px; border-radius: 3px;
+  font-size: 11px; color: var(--pk-gold-300); background: var(--pk-ink);
+}
+.bm-tag__sub { opacity: 0.75; }
+.bm-tag__icon { background: var(--pk-ink); }
+.bm-tag__full { color: var(--pk-gold-300); background: var(--pk-ink); }
+.bm-tag[data-pressed] .bm-tag__face { animation: pk-tag-press var(--bm-motion-tag) var(--ms-ease-snap); }
+@keyframes pk-tag-press { from { transform: skewX(-8deg) translateY(2px) scale(0.96); } to { transform: skewX(-8deg); } }
+
+/* ---------- characters' plates, targets and picks in gold ---------- */
+.bm-piece__tag { border-color: var(--pk-ink); }
+.bm-piece__num { background: var(--pk-gold-500); border-right-color: var(--pk-ink); }
+.bm-piece[data-self] .bm-piece__tag { box-shadow: 0 0 0 2px var(--pk-gold-300); }
+.bm-piece__tally[data-selected="true"] { background: var(--pk-gold-500); }
+[data-board="own"] .bm-piece[data-target="eligible"] .bm-piece__ring { border-color: var(--pk-gold-300); }
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) .bm-piece__ring { border-color: var(--pk-gold-500); box-shadow: var(--pk-glow); }
+[data-board="own"] .bm-piece:is([data-target="selected"], [data-target="picked"]) :is(.bm-piece__body, .bm-piece__front) {
+  filter: drop-shadow(2.5px 0 0 var(--pk-gold-500)) drop-shadow(-2.5px 0 0 var(--pk-gold-500)) drop-shadow(0 2.5px 0 var(--pk-gold-500)) drop-shadow(0 -2.5px 0 var(--pk-gold-500));
+}
+[data-board="own"] .bm-piece__pick, [data-board="own"] .bm-piece[data-target="selected"]::after { background: var(--pk-gold-500); border-color: var(--pk-ink); }
+[data-board="own"] .bm-piece__target::after { background: var(--pk-gold-500); border-color: var(--pk-ink); }
+[data-board="own"] .bm-piece__target:active { background: color-mix(in srgb, var(--pk-gold-500) 24%, transparent); }
+[data-board="own"] .bm-ghost__art { filter: drop-shadow(2px 0 0 var(--pk-gold-500)) drop-shadow(-2px 0 0 var(--pk-gold-500)) drop-shadow(0 -2px 0 var(--pk-gold-500)); }
+[data-board="own"] .bm-ghost__tag { background: var(--pk-gold-500); border-color: var(--pk-ink); }
+
+/* ---------- the strip on the board: a paper caption with a gold edge, its action on a navy plate ---------- */
+.bm-strip { border-color: var(--pk-ink); border-top: 3px solid var(--pk-gold-500); box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.75), 2px 2px 0 var(--pk-ink); }
+.bm-strip__kind { color: var(--pk-gold-300); background: var(--pk-navy-900); border-color: var(--pk-ink); }
+.bm-btn { border-color: var(--pk-ink); }
+.bm-btn--primary { background: var(--pk-gold-plate); box-shadow: 0 3px 0 var(--pk-ink); }
+.bm-stamp[data-kind="registered"] { background: var(--pk-gold-500); border-color: var(--pk-ink); }
+
+/* ---------- sheets over the board: navy panels with a gold keyline ---------- */
+.bm-tray, .bm-sheet { background: var(--pk-navy-850); border-color: var(--pk-ink); box-shadow: inset 0 0 0 1px var(--pk-gold-faint), 0 -6px 0 color-mix(in srgb, var(--pk-ink) 60%, transparent); }
+.bm-sheet__head h2 { color: var(--pk-gold-300); letter-spacing: 0.02em; }
+.bm-close { color: var(--pk-text); }
+.bm-chip { border-color: var(--pk-ink); box-shadow: 0 3px 0 var(--pk-ink); }
+.bm-chip__icon { background-color: var(--pk-gold-500); border-color: var(--pk-ink); }
+
+/* ---------- the bottom bar: Board, Actions, a raised gold Pass, Card, Menu ---------- */
+.bm-nav {
+  background: linear-gradient(180deg, var(--pk-navy-900), var(--pk-navy-950));
+  border-top: 1px solid var(--pk-gold-line);
+  box-shadow: 0 -1px 0 var(--pk-ink), 0 -10px 14px -12px rgb(0 0 0 / 0.95);
+}
+.bm-nav button { position: relative; color: var(--pk-text-muted); font-weight: 600; letter-spacing: 0.01em; }
+.bm-nav button[aria-pressed="true"] { color: var(--pk-gold-300); background: transparent; }
+/* The view shown: a gold bar above its icon (not only a colour). */
+.bm-nav button[aria-pressed="true"]::before {
+  content: ''; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px;
+  background: var(--pk-gold-500); box-shadow: var(--pk-glow);
+}
+.bm-nav .bm-pass {
+  width: 64px; height: 64px; min-height: 64px; margin-top: -20px; font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--pk-ink); background: var(--pk-gold-plate); border: 3px solid var(--pk-ink);
+  box-shadow: 0 0 0 3px var(--pk-navy-900), 0 0 0 4.5px var(--pk-gold-line), 0 6px 14px rgb(0 0 0 / 0.6), inset 0 1.5px 0 rgb(255 255 255 / 0.55);
+}
+.bm-nav .bm-pass:active:not([aria-disabled="true"]) { transform: translateY(1px) scale(0.97); }
+/* Not the viewer's turn: Pass is there, dashed and dim, and does nothing. */
+.bm-nav .bm-pass[aria-disabled="true"] {
+  color: var(--pk-text-muted); background: var(--pk-navy-800); border: 2.5px dashed var(--pk-gold-faint);
+  box-shadow: 0 0 0 3px var(--pk-navy-900);
+}
+
+/* ---------- a short phone (568 px tall): the same bars, tighter ---------- */
+.bm-app[data-short="true"] .bm-status { padding: 3px 8px; gap: 6px; }
+.bm-app[data-short="true"] .pk-who { width: 26px; height: 26px; }
+.bm-app[data-short="true"] .bm-status__round { padding: 2px 7px; font-size: 10px; letter-spacing: 0.1em; }
+.bm-app[data-short="true"] .bm-timer { min-width: 54px; padding: 1px 6px; font-size: 18px; }
+.bm-app[data-short="true"] .bm-nav .bm-pass { width: 58px; height: 58px; min-height: 58px; margin-top: -16px; }
+
+/* ---------- large text: the round's chip goes first, as before; the portrait stays ---------- */
+@media (max-width: 18em) {
+  .bm-status__phase > :not(.pk-who) { grid-column: 2; }
+}
+
+@media (forced-colors: active) {
+  .bm-tag__face, .bm-tag--fixed, .bm-nav .bm-pass, .bm-timer { forced-color-adjust: none; border-color: CanvasText; }
+  .bm-nav button[aria-pressed="true"]::before { background: Highlight; }
+}
+
+/* ---------- the vote result: five seconds over the lower board, the same on every screen (js/vote-result.js) ----------
+   Public and aggregate only (voteResult): the vote, its outcome, the seats it names and the count. It takes no tap:
+   in VOTE_RESULT nothing on the board is offered. The bars and the bottom bar stay in view and usable (Menu, Card). */
+.pk-vr {
+  --pk-vr-stage: 150px;
+  position: absolute; z-index: 74; left: 8px; right: 8px; bottom: calc(var(--bm-nav) + 8px);
+  max-height: var(--bm-sheet-room); overflow: hidden;
+  display: grid; justify-items: center; gap: 6px; padding: 8px 10px 10px;
+  color: var(--ms-color-ink); background: var(--ms-color-paper);
+  border: 2.5px solid var(--pk-ink); border-top: 4px solid var(--pk-gold-500); border-radius: 12px;
+  box-shadow: 0 12px 26px -10px rgb(0 0 0 / 0.85), 3px 3px 0 var(--pk-ink);
+  pointer-events: none;
+}
+.pk-vr__head { justify-self: stretch; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.pk-vr__tag {
+  flex: none; padding: 2px 8px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pk-gold-300); background: var(--pk-navy-900); border: 2px solid var(--pk-ink); transform: skewX(-8deg);
+}
+.pk-vr__vote { min-width: 0; font-size: 12px; font-weight: 700; color: var(--pk-navy-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pk-vr__heading { margin: 0; display: grid; justify-items: center; }
+/* The outcome on a navy ribbon with notched ends: the end's result language, never a side's colour. */
+.pk-vr__ribbon {
+  display: inline-block; max-width: 100%; padding: 3px 26px 4px; background: var(--pk-navy-900); border-block: 2.5px solid var(--pk-ink);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%, 14px 50%);
+  filter: drop-shadow(0 2px 0 var(--pk-ink));
+}
+.pk-vr__lettering {
+  display: block; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 26px; line-height: 1.05; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--pk-gold-300); text-shadow: 0 2px 0 var(--pk-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pk-vr__then { margin-top: 3px; font-size: 12px; font-weight: 800; letter-spacing: 0.02em; color: var(--pk-navy-800); }
+.pk-vr__said { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pk-vr__stage {
+  position: relative; justify-self: stretch; height: var(--pk-vr-stage); overflow: hidden;
+  border: 2px solid var(--pk-ink); border-radius: 8px; background: var(--ms-color-paper-deep);
+}
+.pk-vr__ground { position: absolute; inset: 0; }
+.pk-vr__ground > svg, .pk-vr__fig > svg, .pk-vr__art > svg, .pk-vr__bars > svg, .pk-vr__empty > svg { display: block; width: 100%; height: 100%; }
+.pk-vr__ground > svg { object-fit: cover; }
+.pk-vr__ground { display: grid; }
+.pk-vr__ground > svg { width: 100%; height: 100%; }
+/* A subject: the figure box is 1.157 x the stage, so that a standing figure fills 86% of it, its feet 4% above its floor. */
+.pk-vr__cast { position: absolute; inset: 0; }
+.pk-vr__fig {
+  position: absolute; top: calc(var(--pk-vr-stage) * -0.093); width: calc(var(--pk-vr-stage) * 1.157); height: calc(var(--pk-vr-stage) * 1.157);
+  left: calc(var(--x, 50%) - var(--pk-vr-stage) * 1.157 * 0.507);
+}
+.pk-vr__fig[data-mirror="true"] > svg { transform: scaleX(-1); transform-origin: 50.667% 50%; }
+.pk-vr__cast[data-count="2"] .pk-vr__fig:nth-child(1) { --x: 30%; }
+.pk-vr__cast[data-count="2"] .pk-vr__fig:nth-child(2) { --x: 70%; }
+.pk-vr__cast[data-count="3"] .pk-vr__fig:nth-child(1) { --x: 20%; }
+.pk-vr__cast[data-count="3"] .pk-vr__fig:nth-child(2) { --x: 50%; }
+.pk-vr__cast[data-count="3"] .pk-vr__fig:nth-child(3) { --x: 80%; }
+.pk-vr__cast[data-count="3"] .pk-vr__fig, .pk-vr__cast[data-count="4"] .pk-vr__fig { --pk-vr-stage: calc(var(--pk-vr-stage-base, 150px) * 0.86); }
+/* The outcome's piece: the cell's bars in front of the subject; the Captain's star at the shoulder; a tie's burst between. */
+.pk-vr__bars { position: absolute; top: 4%; bottom: 0; left: 50%; width: calc(var(--pk-vr-stage) * 0.78); transform-origin: 50% 0; translate: -50% 0; }
+.pk-vr__art { position: absolute; }
+.pk-vr[data-variant="captain"] .pk-vr__art { top: 6%; left: calc(50% + var(--pk-vr-stage) * 0.2); width: calc(var(--pk-vr-stage) * 0.36); height: calc(var(--pk-vr-stage) * 0.36); }
+.pk-vr:is([data-variant="runoff"], [data-variant="no-jail-tie"]) .pk-vr__art { top: 30%; left: 50%; width: calc(var(--pk-vr-stage) * 0.42); height: calc(var(--pk-vr-stage) * 0.42); translate: -50% 0; }
+.pk-vr__empty { position: absolute; top: 5%; bottom: 3%; left: 50%; width: calc(var(--pk-vr-stage) * 0.82); translate: -50% 0; }
+/* The plates under the subjects: the board's plate, larger. */
+.pk-vr__plates { justify-self: stretch; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); justify-items: center; gap: 6px; margin-top: -2px; }
+.pk-vr__plate { display: inline-flex; align-items: stretch; max-width: 100%; height: 22px; font-size: 13px; line-height: 19px; font-weight: 800; border: 2px solid var(--pk-ink); border-radius: 3px; background: var(--ms-color-paper); white-space: nowrap; }
+.pk-vr__num { padding: 0 5px; background: var(--pk-gold-500); border-right: 2px solid var(--pk-ink); }
+.pk-vr__name { padding: 0 6px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.pk-vr__each { padding: 0 5px; color: var(--pk-gold-300); background: var(--pk-navy-900); border-left: 2px solid var(--pk-ink); }
+/* The count: one cell per player who could vote. */
+.pk-vr__count { justify-self: stretch; display: flex; align-items: center; gap: 8px; }
+.pk-vr__cells { flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: repeat(var(--cells, 9), minmax(0, 1fr)); gap: 3px; height: 16px; }
+.pk-vr__cells[data-cells="7"] { --cells: 7; } .pk-vr__cells[data-cells="8"] { --cells: 8; } .pk-vr__cells[data-cells="9"] { --cells: 9; }
+.pk-vr__cells[data-cells="5"] { --cells: 5; } .pk-vr__cells[data-cells="6"] { --cells: 6; } .pk-vr__cells[data-cells="4"] { --cells: 4; }
+.pk-vr__cells[data-cells="3"] { --cells: 3; } .pk-vr__cells[data-cells="2"] { --cells: 2; } .pk-vr__cells[data-cells="1"] { --cells: 1; }
+.pk-vr__cell { border: 2px solid var(--pk-ink); border-radius: 3px; transform-origin: 50% 100%; }
+.pk-vr__cell[data-cell="subject"], .pk-vr__cell[data-cell="yes"] { background: var(--pk-gold-500); }
+.pk-vr__cell[data-cell="other"] { background: var(--pk-navy-700); }
+.pk-vr__cell[data-cell="empty"] { background: transparent; border-style: dashed; border-color: color-mix(in srgb, var(--pk-ink) 55%, transparent); }
+.pk-vr__score { flex: none; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 20px; line-height: 1; font-variant-numeric: tabular-nums; }
+.pk-vr__score small { font-size: 13px; opacity: 0.7; }
+.pk-vr__legend { justify-self: stretch; margin: -2px 0 0; font-size: 11.5px; font-weight: 700; color: var(--pk-navy-800); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The board under it rests: nothing on it is offered during the result. */
+.bm-app[data-phase="VOTE_RESULT"] .bm-board { filter: saturate(0.85) brightness(0.92); }
+
+.bm-app[data-short="true"] .pk-vr { --pk-vr-stage: 112px; gap: 4px; padding: 6px 8px 8px; bottom: calc(var(--bm-nav) + 6px); }
+.bm-app[data-short="true"] .pk-vr__lettering { font-size: 22px; }
+.bm-app[data-short="true"] .pk-vr__plate { height: 20px; font-size: 12px; line-height: 17px; }
+.bm-app[data-short="true"] .pk-vr__cells { height: 13px; }
+.bm-app[data-short="true"] .pk-vr__score { font-size: 17px; }
+[data-motion="reduced"] .pk-vr { animation: none; }
+
+/* ---------- the private Hack (js/hack.js): the two participants' own panel, above the strip ----------
+   Drawn only in a participant's own view, while it is current and in the foreground; removed otherwise. The board
+   stays usable above it (the prelude keeps its move), so it takes its own row: the board gives up the height. Every
+   target sees the same three side buttons, alike in size, order and look; the side cards are pictures of a claim. */
+.bm-app { grid-template-rows: var(--bm-status) minmax(0, 1fr) auto auto var(--bm-nav); }
+.pk-hack { grid-row: 3; }
+.bm-strip { grid-row: 4; }
+.bm-nav { grid-row: 5; }
+.pk-hack {
+  position: relative; z-index: 71; margin: 0 6px 6px; padding: 8px 10px 9px;
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-areas: "lead body aside" "ctrl ctrl ctrl";
+  column-gap: 9px; row-gap: 8px; align-items: center;
+  color: var(--pk-text); background: linear-gradient(180deg, var(--pk-navy-800), var(--pk-navy-900));
+  border: 2px solid var(--pk-ink); border-radius: 12px;
+  box-shadow: inset 0 0 0 1.5px var(--pk-gold-faint), 0 8px 18px -8px rgb(0 0 0 / 0.85), 2px 2px 0 var(--pk-ink);
+}
+.pk-hack[data-enter] { animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards; }
+.pk-hack__lead { grid-area: lead; align-self: center; justify-self: center; display: grid; }
+.pk-hack__who {
+  display: block; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--pk-navy-700) 50% 22% / 175% auto no-repeat; border: 2px solid var(--pk-gold-500); box-shadow: 0 0 0 1.5px var(--pk-ink);
+}
+.pk-hack__body { grid-area: body; min-width: 0; }
+.pk-hack__tagline { display: flex; align-items: center; gap: 7px; margin: 0 0 3px; min-width: 0; }
+.pk-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pk-hack__tag {
+  flex: none; padding: 1px 7px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 10px; line-height: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pk-ink); background: var(--pk-gold-plate); border: 1.5px solid var(--pk-ink); transform: skewX(-8deg);
+}
+.pk-hack__heading { margin: 0; font-size: 15px; line-height: 1.2; font-weight: 800; color: var(--pk-text); }
+.pk-hack__heading:focus { outline: none; }
+.pk-hack__heading:focus-visible { outline: 2px solid var(--ms-color-focus); outline-offset: 2px; }
+.pk-hack__detail { margin: 2px 0 0; font-size: 12px; line-height: 1.3; color: var(--pk-text-muted); }
+.pk-hack__card { display: block; width: 34px; height: 44px; }
+.pk-hack__card > svg, .pk-hack__dots > svg, .pk-hack__tail > svg { display: block; width: 100%; height: 100%; }
+.pk-hack__lead.pk-hack__card { width: 34px; height: 44px; }
+/* The three sides: one row, each as wide as the others, the same plate for every side. */
+.pk-hack__sides { grid-area: ctrl; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.pk-hack__side {
+  min-width: 0; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 4px 6px; cursor: pointer;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--pk-ink); background: var(--ms-color-paper); border: 2px solid var(--pk-ink); border-radius: 8px; box-shadow: 0 3px 0 var(--pk-ink);
+}
+.pk-hack__side .pk-hack__card { flex: none; width: 27px; height: 35px; }
+.pk-hack__side-word { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* A narrow phone: a smaller card and tighter lettering, so that every side's word stays whole. */
+.pk-hack { container-type: inline-size; }
+@container (max-width: 340px) {
+  .pk-hack__side { gap: 5px; padding-inline: 4px; font-size: 13.5px; letter-spacing: 0.02em; }
+  .pk-hack__side .pk-hack__card { width: 22px; height: 29px; }
+}
+.pk-hack__side:active:not([aria-disabled="true"]) { transform: translateY(2px); box-shadow: 0 1px 0 var(--pk-ink); }
+.pk-hack__side[aria-disabled="true"] { opacity: 0.45; cursor: default; box-shadow: none; }
+.pk-hack__controls { grid-area: ctrl; display: flex; gap: 6px; }
+/* The stamp lands on the panel's top edge at the right, as on the strip; the tag line keeps clear of it. */
+.pk-hack .pk-hack__stamp { right: 12px; top: -11px; }
+.pk-hack__dots { grid-area: aside; width: 52px; height: 29px; }
+/* The dots come in once, one after another, and stay (nothing repeats); reduced motion draws them at once. */
+.pk-hack__dots .pk-dot { animation: pk-dot var(--bm-motion-tray) var(--ms-ease-settle) backwards; }
+.pk-hack__dots .pk-dot--2 { animation-delay: calc(var(--bm-motion-tray) * 0.6); }
+.pk-hack__dots .pk-dot--3 { animation-delay: calc(var(--bm-motion-tray) * 1.2); }
+@keyframes pk-dot { from { opacity: 0.2; } }
+.pk-hack__chip { grid-area: aside; width: 30px; height: 39px; }
+/* The claim, five seconds: who declared (the partner, or this phone's own character), what they declared in a balloon,
+   then the note that it is a claim. The balloon is the page's box, so any word fits; the tail is a picture. */
+.pk-hack[data-stage="result"] { grid-template-columns: 44px minmax(0, 1fr); grid-template-areas: "tag tag" "lead head" "lead balloon" "note note"; row-gap: 4px; }
+.pk-hack[data-stage="result"] .pk-hack__body { display: contents; }
+.pk-hack[data-stage="result"] .pk-hack__tagline { grid-area: tag; margin: 0; }
+.pk-hack[data-stage="result"] .pk-hack__heading { grid-area: head; align-self: end; }
+.pk-hack[data-stage="result"] .pk-hack__detail { grid-area: note; margin: 0; }
+.pk-hack__balloon {
+  grid-area: balloon; justify-self: start; position: relative; max-width: calc(100% - 16px); margin-left: 16px;
+  display: inline-flex; min-height: 48px; padding: 4px 16px 4px 9px;
+  color: var(--pk-ink); background: var(--ms-color-paper); border: 2.5px solid var(--pk-ink); border-radius: 14px;
+  box-shadow: inset 0 3px 0 var(--pk-gold-500); transform-origin: -12px 50%;
+}
+.pk-hack__tail { position: absolute; left: -17px; top: calc(50% - 13px); width: 18px; height: 26px; }
+.pk-hack__balloon-in { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.pk-hack__balloon-in .pk-hack__card { flex: none; width: 29px; height: 38px; }
+.pk-hack__claim-word {
+  min-width: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 24px; line-height: 1.15; letter-spacing: 0.04em; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.bm-app[data-short="true"] .pk-hack { margin-bottom: 4px; padding: 6px 8px 7px; column-gap: 7px; row-gap: 6px; grid-template-columns: 38px minmax(0, 1fr) auto; }
+.bm-app[data-short="true"] .pk-hack__who { width: 38px; height: 38px; }
+.bm-app[data-short="true"] .pk-hack__heading { font-size: 14px; }
+.bm-app[data-short="true"] .pk-hack__detail { font-size: 11px; }
+.bm-app[data-short="true"] .pk-hack__side { min-height: 46px; font-size: 14px; }
+.bm-app[data-short="true"] .pk-hack[data-stage="result"] { grid-template-columns: 38px minmax(0, 1fr); }
+.bm-app[data-short="true"] .pk-hack__balloon { min-height: 44px; }
+.bm-app[data-short="true"] .pk-hack__claim-word { font-size: 21px; }
+/* Compact: another command is open in the strip. One line: who, the heading, the claim's card; no controls, no detail. */
+.bm-app .pk-hack[data-compact] { grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "lead body aside"; row-gap: 0; padding: 4px 8px; margin-bottom: 4px; }
+.bm-app .pk-hack[data-compact] :is(.pk-hack__detail, .pk-hack__sides, .pk-hack__controls, .pk-hack__dots, .pk-hack__stamp, .pk-hack__tail) { display: none; }
+.bm-app .pk-hack[data-compact] .pk-hack__who { width: 30px; height: 30px; }
+.bm-app .pk-hack[data-compact] .pk-hack__lead.pk-hack__card { width: 23px; height: 30px; }
+.bm-app .pk-hack[data-compact] .pk-hack__tagline { margin: 0; }
+.bm-app .pk-hack[data-compact] .pk-hack__tag { font-size: 9px; line-height: 12px; }
+.bm-app .pk-hack[data-compact] .pk-hack__heading { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bm-app .pk-hack[data-compact][data-stage="result"] { grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "lead tag balloon" "lead head balloon"; row-gap: 0; }
+.bm-app .pk-hack[data-compact] .pk-hack__balloon { min-height: 0; max-width: none; margin-left: 0; padding: 2px 8px 2px 5px; border-width: 2px; border-radius: 9px; box-shadow: none; }
+.bm-app .pk-hack[data-compact] .pk-hack__balloon-in { gap: 5px; }
+.bm-app .pk-hack[data-compact] .pk-hack__balloon-in .pk-hack__card { width: 20px; height: 26px; }
+.bm-app .pk-hack[data-compact] .pk-hack__claim-word { font-size: 15px; overflow: visible; }
+.bm-app .pk-hack[data-compact] .pk-hack__chip { width: 23px; height: 30px; }
+
+[data-motion="reduced"] .pk-hack, [data-motion="reduced"] .pk-hack * { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .pk-hack, .pk-hack * { animation: none !important; } }
+/* ---------- large text: the kit's words follow the reader's text size, as the board's do (board.css) ----------
+   .bm-app[data-short] matches every phone (short or not): it outranks the short phone's px sizes above. A panel may then
+   scroll inside itself rather than clip; the board scrolls inside its row as before. */
+@media (max-width: 18em) {
+  .bm-app { grid-template-rows: auto minmax(0, 1fr) auto auto auto; }
+  .bm-app[data-short] .bm-timer { min-width: 0; padding: 0 0.3rem; font-size: 1.1rem; }
+  /* As board.css: the tag's arrow and subtitle give their room to the name. */
+  .bm-app[data-short] :is(.bm-tag__face, .bm-tag--fixed) { min-height: 0; gap: 0.1rem; padding-inline: 0.15rem; font-size: 0.65rem; letter-spacing: 0; }
+  .bm-app[data-short] :is(.bm-tag__go, .bm-tag__sub) { display: none; }
+  .bm-app[data-short] .pk-hack { max-height: 46vh; overflow-y: auto; }
+  .bm-app[data-short] .pk-hack__tag { font-size: 0.6rem; line-height: 1.3; }
+  .bm-app[data-short] .pk-hack__heading { font-size: 0.9rem; white-space: normal; }
+  .bm-app[data-short] .pk-hack__detail { font-size: 0.75rem; }
+  .bm-app[data-short] .pk-hack__sides { grid-template-columns: minmax(0, 1fr); }
+  .bm-app[data-short] .pk-hack__side { min-height: 44px; justify-content: flex-start; font-size: 0.85rem; }
+  .bm-app[data-short] .pk-hack__claim-word { font-size: 1.1rem; white-space: normal; }
+  .bm-app[data-short] .pk-vr { --pk-vr-stage: 96px; overflow-y: auto; }
+  .bm-app[data-short] .pk-vr__tag { font-size: 0.6rem; }
+  .bm-app[data-short] :is(.pk-vr__vote, .pk-vr__then, .pk-vr__legend) { font-size: 0.75rem; white-space: normal; }
+  .bm-app[data-short] .pk-vr__lettering { font-size: 1.25rem; white-space: normal; }
+  .bm-app[data-short] .pk-vr__plate { height: auto; font-size: 0.75rem; line-height: 1.3; white-space: normal; }
+  .bm-app[data-short] .pk-vr__score { font-size: 1rem; }
+}

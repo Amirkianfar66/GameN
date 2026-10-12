@@ -20,6 +20,10 @@ export async function boardMotionInputsSha256(repoRoot) {
   // The page also draws the ability art (design/abilities/): its styles, its scripts and its kit.
   paths.push('design/abilities/css/abilities.css', 'design/abilities/assets/abilities.art.css');
   for (const entry of await readdir(resolve(repoRoot, 'design/abilities/js'), { withFileTypes: true })) if (entry.isFile()) paths.push(`design/abilities/js/${entry.name}`);
+  // And the phone kit (design/phone-kit/, issue #121): its shell, the vote result, the private Hack and their pictures.
+  for (const sub of ['css', 'js', 'source']) {
+    for (const entry of await readdir(resolve(repoRoot, 'design/phone-kit', sub), { withFileTypes: true }).catch(() => [])) if (entry.isFile()) paths.push(`design/phone-kit/${sub}/${entry.name}`);
+  }
   const lines = [];
   for (const path of paths.sort()) lines.push(`${sha(await readFile(resolve(repoRoot, path)))}  ${path}`);
   return sha(lines.join('\n'));
