@@ -15,8 +15,8 @@ concurrency:
 jobs:
   bootstrap:
     runs-on: ubuntu-24.04
-    # Real startup acceptance includes the two owner-required 30-second windows.
-    timeout-minutes: 30
+    # Preserve full historical controls, 600 capacity playouts, and both real setup windows.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
