@@ -1,6 +1,6 @@
 import { FullCommandSchema, FullPlayerViewSchema } from '@mothership/contracts';
 import type { FullCommand, FullPlayerView, SeatId } from '@mothership/contracts';
-import { FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions } from '@mothership/engine';
+import { FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, declaredHackEnabled } from '@mothership/engine';
 
 // This is a practice heuristic over one authorized audience, not a balance model.
 // Reviewed parent and ordinary-turn Pass overlay; Powers off. Pass remains player intent.
@@ -27,6 +27,11 @@ export function choosePracticeBotActions(input: FullPlayerView): readonly FullCo
   const targets = (type: string): SeatId[] => [...(view.legalTargets[type] ?? [])].sort();
   const firstOther = (type: string): SeatId | undefined => targets(type).find(seat => seat !== self.seatId);
   const ownTurn = view.phase.kind === 'ORDINARY_TURN' && view.activeSeatId === self.seatId;
+
+  if (declaredHackEnabled(view.versions) && view.phase.kind==='HACK_DECLARE' && targets('DECLARE_HACK_SIDE').includes(self.seatId)) {
+    const declaredSide=view.self.role==='Alien'?'Alien':['Undercover','Hacker','Red Disabler'].includes(view.self.role)?'Red':'Blue';
+    commands.push({type:'DECLARE_HACK_SIDE',declaredSide});
+  }
 
   if (ownTurn) {
     if (view.self.role === 'Cracker' && view.self.rescuesRemaining > 0) {
@@ -81,7 +86,7 @@ export function choosePracticeBotActions(input: FullPlayerView): readonly FullCo
   }
 
   // Movement can be available outside one's ordinary turn, including Hack/election.
-  if (['ORDINARY_TURN', 'HACK', 'CAPTAIN_ELECTION'].includes(view.phase.kind)
+  if (['ORDINARY_TURN', 'HACK', 'HACK_DECLARE', 'HACK_RESULT', 'CAPTAIN_ELECTION'].includes(view.phase.kind)
     && self.health === 'Healthy' && !self.jailed && ['Room A', 'Room B', 'Command Room'].includes(self.location)
     && !(self.captain && self.location === 'Command Room')) {
     const preference = self.captain ? ['Command Room', 'Room A', 'Room B'] as const : ['Room A', 'Room B'] as const;

@@ -1,5 +1,5 @@
 import type { FullPublicView } from './full-game.js';
-import { VOTE_RESULT_VERSION_PINS } from './full-game-versions.js';
+import { VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS } from './full-game-versions.js';
 
 type GameplayVersions = Pick<FullPublicView['versions'], 'protocolVersion' | 'engineVersion' | 'rulesetVersion' | 'rulesetHash'>;
 type Location = FullPublicView['seats'][number]['location'];
@@ -7,7 +7,7 @@ type Location = FullPublicView['seats'][number]['location'];
 // Public display metadata for reviewed immutable tuples. This module deliberately
 // imports no engine code and grants no movement or placement authority.
 const CAPPED_TUPLES: readonly GameplayVersions[] = [
-  VOTE_RESULT_VERSION_PINS,
+  VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS,
   { protocolVersion: 2, engineVersion: 'full-game-1.2.0', rulesetVersion: 'in-person-v1-capacity-2026-10-11',
     rulesetHash: 'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468' },
   { protocolVersion: 2, engineVersion: 'full-game-1.3.0', rulesetVersion: 'in-person-v1-capacity-resolution-2026-10-12',
