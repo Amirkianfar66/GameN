@@ -390,7 +390,13 @@ if (loadError) {
       if (endReveal.code.length !== 4 || new Set(endReveal.code).size !== 4 || !endReveal.code.includes(alien) || endReveal.code.includes(undercover)) problems.push(`${entry.id}: the end reveal's Code is not four seats with the Alien and without the Undercover`);
       for (const seat of state.public.seats) if (seat.revealedFaction && seat.revealedFaction !== side(roleOf(seat.n))) problems.push(`${entry.id}: Player ${seat.n} is revealed ${seat.revealedFaction} and was ${roleOf(seat.n)}`);
     }
-    for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
+    for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'hackFeedback', 'declaredSide', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
+    // The declared-side Hack (issue #120): its feedback only in a participant's own view, for its own phases.
+    const feedback = state.private.hackFeedback;
+    if (feedback && !['HACK_DECLARE', 'HACK_RESULT', 'HACK'].includes(state.public.phase.kind)) problems.push(`${entry.id}: hackFeedback outside the Hack`);
+    if (feedback && (state.private.hackPartner === null || state.private.hackPartner === fixtures.VIEWER)) problems.push(`${entry.id}: hackFeedback without a partner`);
+    if (feedback && state.public.active !== fixtures.VIEWER && state.public.active !== state.private.hackPartner) problems.push(`${entry.id}: a target whose partner is not the initiator (the active seat)`);
+    if (feedback && (feedback.status === 'DECLARED') !== ['Blue', 'Red', 'Alien'].includes(feedback.declaredSide)) problems.push(`${entry.id}: a declared side without DECLARED, or DECLARED without one of the three`);
     for (const seat of state.public.seats) if (seat.revealedFaction && seat.health !== 'Eliminated') problems.push(`${entry.id}: Player ${seat.n} has a revealed faction and is not Eliminated`);
     if (state.public.seats.length !== state.public.playerCount || ![7, 8, 9].includes(state.public.playerCount)) problems.push(`${entry.id}: not a 7, 8 or 9 player roster`);
     const offers = state.private.offers;
@@ -410,12 +416,13 @@ if (loadError) {
     }
   }
   // MATCH_ENDED: the view's phase turning FINISHED (with the result and the end reveal, public then) or ABORTED (with neither).
-  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'MATCH_ENDED', 'REPLAY', 'RECONNECT']);
+  // VOTE_CLOSED and RESULT_ENDED: a vote's public result opens and ends (issue #119); HACK_PHASE: the Hack's next public window (issue #120).
+  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'MATCH_ENDED', 'REPLAY', 'RECONNECT', 'VOTE_CLOSED', 'RESULT_ENDED', 'HACK_PHASE']);
   for (const event of fixtures.EVENTS) {
     if (!allowed.has(event.fact.type)) problems.push(`event ${event.id}: ${event.fact.type} is not a public fact`);
     // A finished match carries both the result and the end reveal; any other end carries neither.
     if (event.fact.type === 'MATCH_ENDED' && (event.fact.phase === 'FINISHED' ? !(event.fact.result && event.fact.endReveal) : Boolean(event.fact.result || event.fact.endReveal))) problems.push(`event ${event.id}: a result or an end reveal outside a finished match, or a finished match without them`);
-    for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
+    for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect|side|claim|declared|partner|target/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
   }
   if (!fixtures.SYNTHETIC_LABEL || !/synthetic/i.test(fixtures.SYNTHETIC_LABEL)) problems.push('the fixtures are not labeled synthetic');
   check('public fixtures carry nothing private, offers meet static engine predicates (not reachability), events are public facts', problems);

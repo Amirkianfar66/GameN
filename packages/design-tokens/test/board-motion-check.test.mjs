@@ -36,6 +36,8 @@ function scratchCopy() {
   }
   // The captures are checked for being listed, present and current: empty stand-ins keep the copy small.
   cpSync(join(repoRoot, 'design/board-motion'), join(root, 'design/board-motion'), { recursive: true, filter: source => !source.includes('/review/') });
+  // The page draws the phone kit too (issue #121): its styles, scripts and pictures are inputs of the captures.
+  cpSync(join(repoRoot, 'design/phone-kit'), join(root, 'design/phone-kit'), { recursive: true, filter: source => !source.includes('/review/') });
   for (const entry of readdirSync(join(repoRoot, 'design/board-motion/review'), { withFileTypes: true, recursive: true })) {
     if (!entry.isFile()) continue;
     const path = join(entry.parentPath, entry.name).slice(repoRoot.length);
