@@ -17,6 +17,7 @@ import { planAssets } from './board-motion-assets.mjs';
 import { planCoverage, COVERAGE_PATH } from './board-motion-docs.mjs';
 import { boardMotionInputsSha256 } from './lib/board-motion-inputs.mjs';
 import { offerProblems } from './lib/board-motion-offers.mjs';
+import { productionDrawingProblems } from './lib/drawing-port-fence.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const text = path => readFile(resolve(repoRoot, path), 'utf8');
@@ -32,7 +33,7 @@ const load = path => import(pathToFileURL(resolve(repoRoot, path)).href);
 
 const ROLE_WORDS = ['Officer', 'Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
 const TOOLS = ['design/tools/board-motion-assets.mjs', 'design/tools/board-motion-capture.mjs', 'design/tools/board-motion-check.mjs', 'design/tools/board-motion-docs.mjs',
-  'design/tools/board-motion-flows.mjs', 'design/tools/lib/board-motion-inputs.mjs'];
+  'design/tools/board-motion-flows.mjs', 'design/tools/lib/board-motion-inputs.mjs', 'design/tools/lib/drawing-port-fence.mjs', 'design/tools/lib/reviewed-drawing-ports.json'];
 const coverage = await json('design/board-motion/contract/coverage.json');
 const cues = await json('design/board-motion/contract/cues.json');
 // The prototype's own modules run here in Node. One that does not load is refused by name below,
@@ -64,9 +65,7 @@ const scenarioIds = new Set(fixtures?.SCENARIOS.map(entry => entry.id) ?? []);
   }
   for (const path of TOOLS) if (!(await text(path).catch(() => '')).includes('mothership:dev-only')) problems.push(`${path}: no development-only mark`);
   // Nothing in the production frontend reaches the prototype, its fixtures or its controls.
-  for (const dir of ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src']) {
-    for (const path of await filesUnder(dir)) if ((await text(path)).includes('board-motion')) problems.push(`${path}: production code refers to the board-motion prototype`);
-  }
+  problems.push(...await productionDrawingProblems(repoRoot));
   check('the prototype is development-only and reaches nowhere it should not', problems);
 }
 

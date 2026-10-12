@@ -1,7 +1,7 @@
 // mothership:dev-only
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { after, describe, test } from 'node:test';
@@ -26,6 +26,8 @@ function scratchCopy() {
   assert.ok(existsSync(join(repoRoot, BUILT_COPY)), `${BUILT_COPY} is missing: run npm run build first`);
   const root = mkdtempSync(join(tmpdir(), 'mothership-board-motion-check-'));
   scratchRoots.push(root);
+  // The fence uses the already-pinned TypeScript parser; no dependency is installed in scratch copies.
+  symlinkSync(join(repoRoot, 'node_modules'), join(root, 'node_modules'), 'dir');
   for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'docs/design', 'packages/design-tokens/src',
     'design/abilities/css', 'design/abilities/js', 'design/abilities/assets',
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
