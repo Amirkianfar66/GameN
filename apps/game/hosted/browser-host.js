@@ -96,6 +96,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   let privacyEpoch = 0;
   let privateWasOpen = false;
   let phoneView = 'board';
+  let shownVoteResultId = null;
   let phoneFocus = null;
   let phoneNotice = null;
   // The snapshot inspected in the Insider's file, by seat. Only a deliberate tap sets it; it is
@@ -119,6 +120,11 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const beforeMotion = comicMotion.before();
     insiderFile.before();
     const frame = screen.getFrame();
+    const voteResultId = frame.model.match?.voteResult?.id ?? null;
+    // A newly arrived mandatory result wins over an already open Menu. Menu remains
+    // available afterwards, with the same result at its top and no restarted window.
+    if (voteResultId !== null && voteResultId !== shownVoteResultId) phoneView = 'board';
+    shownVoteResultId = voteResultId;
     if (frame.model.connection !== 'live' && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';

@@ -12,6 +12,9 @@ const handle=await launchBrowser(),browser=await connect(handle.endpoint),facts=
 const measure=`(() => {
  const result=document.querySelector('[data-result-id]');
  return {id:result?.dataset.resultId ?? null,text:result?.innerText ?? null,timer:document.querySelector('.ms-timer__value')?.textContent,
+  resultVisible:result ? result.getClientRects().length>0 && getComputedStyle(result).visibility!=='hidden' : false,
+  resultInMenu:result?.closest('.phone-menu')!==null && result!==null,
+  phoneView:document.querySelector('.ms-shell')?.dataset.phoneView ?? null,
   expired:document.querySelector('.ms-timer')?.dataset.state === 'expired',
   phase:document.querySelector('.ms-phase__label')?.textContent,
   pageScrolls:document.scrollingElement.scrollHeight>innerHeight+1,sideways:document.scrollingElement.scrollWidth>innerWidth+1,
@@ -48,6 +51,28 @@ try {
    value=await page.evaluate(measure);facts.push({name:'expired-awaiting-server',size:[width,height],...value});
    assert.equal(value.phase,'Vote result');assert.equal(value.privateText,null);assert.equal(value.secretHooks,0);
    await page.screenshot(join(output,`${width}x${height}-expired.png`),{viewport:true});
+  } finally {await page.close();}
+ }
+ for(const [width,height] of [[320,568],[390,844]]) {
+  const page=await openPage(browser,{width,height,mobile:true,ownContext:true});
+  try {
+   await page.goto(`${base}?scenario=result-runoff&await-result`,"window.__simulation && document.querySelector('#ms-phone-more')",20000);
+   await page.foreground();await page.tap('#ms-phone-more');
+   assert.equal(await page.evaluate("document.querySelector('.ms-shell').dataset.phoneView"),'more');
+   await page.evaluate('window.__simulation.showResult()');
+   await page.waitFor("document.querySelector('[data-result-id]')",'result arrives over open Menu',5000);
+   let value=await page.evaluate(measure);facts.push({name:'result-arrives-menu-open',size:[width,height],...value});
+   assert.equal(value.phoneView,'board');assert.equal(value.resultVisible,true);assert.equal(value.secretHooks,0);
+   await page.screenshot(join(output,`${width}x${height}-menu-interrupted-by-result.png`),{viewport:true});
+   await page.tap('#ms-phone-more');
+   value=await page.evaluate(measure);facts.push({name:'menu-reopened-during-result',size:[width,height],...value});
+   assert.equal(value.phoneView,'more');assert.equal(value.resultInMenu,true);assert.equal(value.resultVisible,true);
+   await page.evaluate("document.querySelector('.phone-menu-content').scrollTop=10000");
+   const pinned=await page.evaluate("(() => {const n=document.querySelector('[data-result-id]'),b=n.getBoundingClientRect();return b.top>=0 && b.bottom<=innerHeight && n.getClientRects().length>0;})()");
+   assert.equal(pinned,true,'Menu scrolling cannot conceal the current result');
+   const closeVisible=await page.evaluate("(() => {const b=document.querySelector('#phone-menu-close').getBoundingClientRect(),n=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2);return n?.closest('#phone-menu-close')!==null;})()");
+   assert.equal(closeVisible,true,'Menu close remains reachable above the result');
+   await page.screenshot(join(output,`${width}x${height}-menu-with-current-result.png`),{viewport:true});
   } finally {await page.close();}
  }
 } finally {

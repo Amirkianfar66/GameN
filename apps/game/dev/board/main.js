@@ -63,12 +63,17 @@ const phaseStart = params.has('phase-start') ? Number(params.get('phase-start'))
 if (phaseStart !== null && (!Number.isSafeInteger(phaseStart) || phaseStart <= 0)) throw new Error('Invalid fixed fixture phase start');
 const started = phaseStart ?? Date.now() - (42_000 - timeLeft);
 let revision = 1;
+let awaitingResult = params.has('await-result'), resultStarted = started;
 let moved = null;
 const publicOverrides = new Map();
 let deadlineExpired = false, terminal = null;
 const listeners = new Map();
 const viewFor = () => {
-  const view = display ? publicView(definition, started, revision, moved) : playerView(definition, started, revision, moved);
+  const view = display ? publicView(definition, resultStarted, revision, moved) : playerView(definition, resultStarted, revision, moved);
+  if (awaitingResult && definition.voteResult) {
+    view.phase = { id: 'fixture-vote-open', kind: definition.voteResult.kind, startedAt: started, endsAt: started + 60000 };
+    view.voteResult = null; view.lastTally = null;
+  }
   for (const seat of view.seats) Object.assign(seat, publicOverrides.get(seat.seatId) ?? {});
   if (deadlineExpired) {
     const duration = view.phase.endsAt - view.phase.startedAt;
@@ -155,6 +160,8 @@ if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce
 window.__simulation = {
   scenario: id, title: definition.title, log, operations,
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
+  /** Synthetic server closes the vote; the consumer still only reads its next snapshot. */
+  showResult() { awaitingResult = false; resultStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** Synthetic public updates for motion/resize regressions; parsed again before publication. */

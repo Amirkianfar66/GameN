@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { buildVoteResult } from '../dist/model/phase-feedback.js';
 import { renderVoteResultPanel } from '../dist/markup/phase-feedback.js';
 import { toHtml } from '../dist/markup/node.js';
+import { buildConnectedPlayerShellModel, renderComicPlayerShell, splitRegions } from '@mothership/presentation';
+import { VOTE_RESULT_VERSION_PINS } from '@mothership/contracts';
+import { playerView, input } from './support/protocol2-views.mjs';
 
 const env = { mode:'emulator', connection:'live', problem:null, deadline:{kind:'running',remainingMs:1700}, motion:{reducedMotion:false}, };
 const phase = {id:'result-2',kind:'VOTE_RESULT',startedAt:10000,endsAt:15000};
@@ -36,4 +39,30 @@ test('all-abstain and release denial remain real results without inferred No tot
   assert.equal(denied.heading,'Release denied');
   assert.deepEqual(denied.lines,['4 Yes · 9 eligible voters']);
   assert.deepEqual(denied.counts,[]);
+});
+
+test('Menu cannot hide the active result and contains it above the available menu controls',()=>{
+  const result={...facts,counts:{'seat-1':3,'seat-2':3},eligibleVoterCount:7,tiedSeatIds:['seat-1','seat-2']};
+  const view=playerView(v=>{
+    v.versions={...VOTE_RESULT_VERSION_PINS,assetManifestVersion:'design-0.2.0'};
+    v.round=2;v.phase=phase;v.activeSeatId=null;v.voteResult=result;
+    v.lastTally={kind:result.kind,counts:result.counts,eligibleVoterCount:7,yesCount:null,selectedSeatId:null,released:null};
+    v.self.movementDestinations=[];v.legalTargets={};
+  });
+  const model=buildConnectedPlayerShellModel(input(view,undefined,{privacy:{revealed:false,concealed:false},deadline:env.deadline}));
+  assert.equal(renderVoteResultPanel(model.match.voteResult,{phoneView:'more'}).attrs.hidden,undefined);
+  for(const phoneView of ['board','more']) {
+    const tree=renderComicPlayerShell(model,{phoneView});
+    const html=toHtml(tree);assert.equal((html.match(/data-result-id="result-2"/g)??[]).length,1);
+    const regions=splitRegions(tree);
+    assert.match(html,/Runoff required/);assert.match(html,/id="ms-phone-more"/);
+    const find=(node,predicate)=>typeof node!=='object'||node===null?null:predicate(node)?node:node.children?.map(child=>find(child,predicate)).find(Boolean);
+    const panel=find(tree,n=>n.attrs?.['data-result-id']==='result-2');assert.notEqual(panel.attrs.hidden,true);
+    if(phoneView==='more') {
+      const menu=find(tree,n=>n.attrs?.id==='phone-menu-panel');assert.notEqual(menu.attrs.hidden,true);
+      assert.ok(find(menu,n=>n.attrs?.['data-result-id']==='result-2'));
+      assert.ok(find(menu,n=>n.attrs?.id==='phone-menu-close'));
+    }
+    assert.ok(regions);
+  }
 });

@@ -367,6 +367,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     h('span', null, view === 'more' ? 'Menu' : view === 'role' ? 'Card' : view === 'actions' ? 'Actions' : 'Board'))));
   const ownCharacter = character(identityFor(context, match.identity.seatId)?.characterId);
   const privateContent = match.privateArea.content;
+  const voteResultPanel = renderVoteResultPanel(match.voteResult, context);
   const card = phoneView === 'actions' && !match.result && !match.voteResult ? privateContent?.actions.card : undefined;
   const dockedAction = card !== undefined && card.body.step !== 'idle';
   const passCard = phoneView === 'board' && !match.privateArea.open && !match.result && !match.voteResult ? match.passTurn.card : null;
@@ -410,7 +411,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       const result = resultSheet(match!.result, context);
       return { ...result, attrs: { ...result.attrs, hidden: phoneView === 'more' } };
     }
-    if (node.attrs['data-region'] === 'vote-result') return renderVoteResultPanel(match!.voteResult, context);
+    if (node.attrs['data-region'] === 'vote-result') return phoneView === 'more' && match!.voteResult ? h('div', { 'data-region': 'vote-result' }) : voteResultPanel;
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
@@ -458,8 +459,10 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
       children.push(h('section', { id: 'phone-menu-panel', class: 'phone-menu', hidden: phoneView !== 'more', 'aria-labelledby': 'phone-menu-heading' },
-        h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
-        h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
+        h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')),
+        phoneView === 'more' && match!.voteResult ? { ...voteResultPanel, attrs: { ...voteResultPanel.attrs, 'data-region': 'menu-vote-result' } } : null,
+        h('div', { class: 'phone-menu-content' }, ...sourceBanners, selfStatus, vote,
+          h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children)), nav);
     }
     if (file) return { ...node, attrs: { ...node.attrs, 'data-file': file }, children };
     return { ...node, children };

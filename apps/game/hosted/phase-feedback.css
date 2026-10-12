@@ -8,6 +8,14 @@
   border: 2px solid var(--ms-color-steel-mid); border-radius: 10px;
 }
 #app .ms-shell--player .feedback-window { grid-column: 1; grid-row: 2; margin: 6px; }
+#app .ms-shell--player .phone-menu > .feedback-window { margin: 0 0 12px; }
+#app .ms-shell--player .phone-menu:has(.feedback-window) .phone-panel-head { z-index: 4; }
+#app .ms-shell--player .phone-menu:has(.feedback-window) { display: grid; grid-template-rows: auto auto minmax(0,1fr); height: 100%; max-height: 100%; overflow: hidden; }
+#app .ms-shell--player .phone-menu:has(.feedback-window) .phone-menu-content { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.phone-menu-content > * { margin-bottom: 1rem; }
+.feedback-window--compact { overflow: visible; }
+.feedback-window--compact h2 { margin: 2px 0; font-size: 1rem; }
+.feedback-window--compact p { margin: 3px 0; font-size: .8125rem; }
 #app .ms-shell--player .ms-main:has(.feedback-window--vote) > .ms-board { display: none; }
 .feedback-window h2 { margin: 4px 0 8px; font-size: 1.25rem; line-height: 1.2; }
 .feedback-window p { margin: 6px 0; font-size: .875rem; line-height: 1.3; }
