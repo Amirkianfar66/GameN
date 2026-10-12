@@ -594,6 +594,12 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-app[data-short="true"] .bm-nav button { min-height: 48px; }
 .bm-app[data-short="true"] .bm-nav .bm-pass { width: 56px; height: 56px; min-height: 56px; margin-top: -14px; }
 .bm-app[data-short="true"] .bm-strip { gap: 4px 6px; margin-bottom: 2px; padding: 6px 8px; }
+/* Let the detail use the space beside the existing target portrait on a short phone.
+   Clearing that float added a blank row and pushed the board below its available height. */
+.bm-app[data-short="true"] .bm-strip:has(.ab-target) { padding-block: 4px; }
+.bm-app[data-short="true"] .bm-strip__text:has(> .ab-target) .bm-strip__detail { clear: none; }
+/* Match the side/choice controls' leading when a confirmation label wraps. */
+.bm-app[data-short="true"] .bm-strip__controls .bm-btn { padding-block: 4px; line-height: 1.1; }
 .bm-app[data-short="true"] .bm-strip__kind { margin-right: 6px; padding: 0 5px; font-size: 10px; line-height: 14px; }
 .bm-app[data-short="true"] .bm-strip__line { font-size: 13px; line-height: 1.2; }
 .bm-app[data-short="true"] .bm-strip__detail { font-size: 11px; line-height: 1.25; }

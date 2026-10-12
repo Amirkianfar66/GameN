@@ -52,6 +52,8 @@ const ICON = { shot: '◎', disable: '⊘', protect: '◇', rescue: '+', hack: '
 
 // ---------- state ----------
 const S = { motion: params.get('motion') === 'reduced' ? 'reduced' : 'full' };
+const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+const reducedNow = () => S.motion === 'reduced' || motionQuery.matches;
 const announce = { public: [], private: [] };
 let countdownTimer = null;
 
@@ -370,7 +372,7 @@ board.element.append(fx);
 // Every cue either board plays, for the flows tool to count (dev-only): replays and reconnects must add none.
 const cueLog = [];
 window.__bmCues = cueLog;
-const director = createDirector({ board, status, fx, result, hold: params.has('t'), reduced: () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches, onCue: entry => cueLog.push({ board: 'own', ...entry }) });
+const director = createDirector({ board, status, fx, result, hold: params.has('t'), reduced: reducedNow, onCue: entry => cueLog.push({ board: 'own', ...entry }) });
 
 // The observer: what every other phone and the shared display draw at the same moment.
 let observer = null;
@@ -385,7 +387,7 @@ function buildObserver(container) {
   const oboard = createBoard(host, { interactive: false, viewer: null, label: PROPOSED.observerTitle });
   const ofx = h('div', { class: 'bm-fx', 'aria-hidden': 'true' });
   oboard.element.append(ofx);
-  const odirector = createDirector({ board: oboard, status: ostatus, fx: ofx, result: oresult, hold: params.has('t'), reduced: () => S.motion === 'reduced', onCue: entry => cueLog.push({ board: 'observer', ...entry }) });
+  const odirector = createDirector({ board: oboard, status: ostatus, fx: ofx, result: oresult, hold: params.has('t'), reduced: reducedNow, onCue: entry => cueLog.push({ board: 'observer', ...entry }) });
   return { app, status: ostatus, board: oboard, result: oresult, director: odirector };
 }
 
@@ -638,7 +640,6 @@ let fileNode = null;
 let fileKey = '';
 let fileSeen = false;
 const scansSeen = new Set();
-const reducedNow = () => S.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches;
 const publicFacts = n => {
   const seat = seatOf(n);
   if (!seat) return '';
@@ -885,6 +886,8 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
   drawStrip(); drawTray(); drawCard(); drawMenu(); drawNav(); drawResult(result, { own: true });
   // Reduced motion, switched on mid-beat, leaves the strip's art at rest at once, and the end's sheet as it stands.
   if (reducedNow()) {
+    director.cancelAll();
+    observer?.director.cancelAll();
     for (const animation of strip.getAnimations({ subtree: true })) if (animation.id === BEAT_ID) animation.finish();
     for (const sheet of [result, observer?.result]) if (sheet?.dataset.cue === 'reveal') delete sheet.dataset.cue;
   }
@@ -933,7 +936,12 @@ function fitBoard(api) {
     const panel = api.panels.get(id);
     const css = getComputedStyle(panel);
     const size = { width, height: h, cap: parseFloat(css.getPropertyValue('--bm-cap')) || 32, pad: parseFloat(css.getPropertyValue('--bm-pad')) || 6 };
-    const rects = api.placesIn(id).map(place => pressRect(geometry(place, size), size));
+    // Reserve 44 px press space for the controls that are actually offered. A
+    // confirmation has no character targets; treating every decorative figure as
+    // a button forced the board to expand underneath the selection strip.
+    const targetPlaces = new Set([...panel.querySelectorAll('.bm-piece__target')].map(target => target.closest('.bm-piece').dataset.place));
+    const places = api.placesIn(id).filter(place => api.element.dataset.board !== 'own' || targetPlaces.has(String(place.place)));
+    const rects = places.map(place => pressRect(geometry(place, size), size));
     if (rects.some(r => r.top < size.cap - 0.5 || r.top + r.side > h - size.pad + 0.5)) return false;
     return rects.every((a, i) => rects.every((b, j) => j <= i || a.left + a.side <= b.left || b.left + b.side <= a.left || a.top + a.side <= b.top || b.top + b.side <= a.top));
   };
@@ -1033,8 +1041,14 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') conceal();
   render(); // Foregrounding never opens private content, resends or checks a request.
 });
+function onSystemMotion() {
+  if (!S.disposed && window.__designReady) render();
+}
+motionQuery.addEventListener('change', onSystemMotion);
 window.addEventListener('pagehide', () => {
   conceal(); S.disposed = true; clearInterval(countdownTimer); render();
+  director.dispose(); observer?.director.dispose();
+  motionQuery.removeEventListener('change', onSystemMotion);
 });
 new ResizeObserver(() => { fitBoard(board); if (observer) fitBoard(observer.board); }).observe(board.element);
 new ResizeObserver(markShort).observe(phone);
