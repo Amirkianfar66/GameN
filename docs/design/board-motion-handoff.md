@@ -180,3 +180,7 @@ The release's words are reused exactly: the check compares every phrase in `desi
 | GAP-9 | The owner asked for an animation "if got shot"; a public view says only that a health changed. One hit for every cause, from no direction, is drawn; the reviewed motion contract has "a health change is a status change with no impact" | Game owner, then Integration and Frontend (DSN-D35) |
 
 Board targeting and room-tag movement are approved interaction direction (DSN-D20); device adoption review and the proposed cues (DSN-D31) remain open. See [README.md](README.md#open-decisions).
+
+## Maintenance on the frozen slice-7 trial
+
+The 12 October [motion lifecycle correction](board-motion-lifecycle-correction.md) records latest-public-pose restoration, immediate in-app/native motion cancellation, short-screen selection-strip fit and the paused-photo transition regression. It preserves every art source and the default private-card concealment. The kept-card option remains an unadopted illustration; slice 8 is not part of this trial.
