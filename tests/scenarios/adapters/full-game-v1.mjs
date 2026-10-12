@@ -94,12 +94,18 @@ function wireCommand(command) {
 }
 
 function createAdapter(engine) {
+  // Frozen catalogue expectations describe the previous Pass gameplay tuple.
+  // Record both the behavior under test and the binary that interprets those saves.
+  const behavior = engine.PASS_FULL_GAME_VERSION_PINS ?? {};
   const pins = {
     adapter: ADAPTER_NAME,
-    engineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
-    rulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
-    rulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
+    engineVersion: behavior.engineVersion ?? 'unknown',
+    rulesetVersion: behavior.rulesetVersion ?? 'unknown',
+    rulesetHash: behavior.rulesetHash ?? 'unknown',
     protocolVersion: 2,
+    binaryEngineVersion: engine.FULL_ENGINE_VERSION ?? 'unknown',
+    binaryRulesetVersion: engine.FULL_RULESET_VERSION ?? 'unknown',
+    binaryRulesetHash: engine.FULL_RULESET_HASH ?? 'unknown',
   };
   return {
     pins,
@@ -123,7 +129,11 @@ function createAdapter(engine) {
           initialRooms: { ...setup.initialRooms }, roundOrders: setup.roundOrders.map(order => [...order]),
         },
         now: FIXTURE_START, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'balance-fixture-no-assets',
+        versions: { ...behavior, assetManifestVersion: 'balance-fixture-no-assets' },
       });
+      if (['engineVersion', 'rulesetVersion', 'rulesetHash', 'protocolVersion'].some(key => state.versions[key] !== pins[key])) {
+        throw new Error('Catalogue behavior pins differ from the actual created match');
+      }
       return {
         observe() {
           const views = engine.projectFullGame(state);

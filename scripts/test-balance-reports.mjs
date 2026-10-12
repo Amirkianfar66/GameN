@@ -24,14 +24,23 @@ const OVERLAY_PATH = 'rules/overlays/in-person-v1-owner-decisions-2026-10-06.jso
 const OVERLAY_HASH = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90';
 const RULEBOOK_HASH = '76f593c91108b1dc7dcf898f1772f0cf1e9d27a06ba4a417b66ba17e1528991f';
 const CATALOGUE_HASH = 'd4e59c2d76662c7990769bab431f5529aebd7dd4acfc3866267d82a292b1d07b';
-const ADAPTER_HASH = '381d6cfcd3f57cc94a300887740da8ed1df15142522bb98fa4e0fc76ef8d8376';
+const ADAPTER_HASH = '25318a494f1a40b5a1012b31064dc6c898f75c76b1882bd5595b65ef44261597';
 const EXCEPTIONS_HASH = '8687477328a57b37ade88e6cf35c010f9599e695c8f11846bf17dea10cf96148';
 const V1_MANIFEST_HASH = '451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2';
 const SOURCE_MANIFEST_HASH = '34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc';
 // The reviewed catalogue and parent overlay stay immutable. Runtime additions are pinned
 // separately, so the current engine must pass the entire original catalogue as well.
-export const ADDITIONAL_OWNER_OVERLAYS = { 'rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json': 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' };
-export const ENGINE_PINS = { adapter: 'full-game-v1', engineVersion: 'full-game-1.1.0', rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'], protocolVersion: 2 };
+export const ADDITIONAL_OWNER_OVERLAYS = {
+  'rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json': 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183',
+  'rules/overlays/room-capacity-owner-decision-2026-10-11.json': 'e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468',
+};
+// The catalogue is historical compatibility evidence. Current capacity acceptance
+// has its own engine/service suites; neither tuple is inferred from the other.
+export const BINARY_ENGINE_PINS = { engineVersion: 'full-game-1.2.0', rulesetVersion: 'in-person-v1-capacity-2026-10-11',
+  rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/room-capacity-owner-decision-2026-10-11.json'] };
+export const ENGINE_PINS = { adapter: 'full-game-v1', engineVersion: 'full-game-1.1.0', rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: ADDITIONAL_OWNER_OVERLAYS['rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'], protocolVersion: 2,
+  binaryEngineVersion: BINARY_ENGINE_PINS.engineVersion, binaryRulesetVersion: BINARY_ENGINE_PINS.rulesetVersion,
+  binaryRulesetHash: BINARY_ENGINE_PINS.rulesetHash };
 const BLOCKED = {
   'FLOW-07': ['D17'], 'FLOW-08': ['D20'], 'FLOW-09': ['D19'], 'MOVE-05': ['D16'],
   'SUP-08': ['D11'], 'SUP-09': ['D12', 'D11'], 'HACK-06': ['D18'], 'FLOW-10': ['D17'],

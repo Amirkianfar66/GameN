@@ -9,6 +9,7 @@ import {
   FullPublicViewSchema, FullPlayerViewSchema, FullConfirmSetupChoiceResponseSchema,
 } from '@mothership/contracts';
 import { createV1Service } from '../dist/index.js';
+import { PASS_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { beginStagedSetup, confirmStagedChoices, completeStagedSetup, startStagedMatch, setupRequest } from './staged-start-helper.mjs';
 import { decodeV1State } from '../dist/full-game.js';
 import { createV1HttpHandler } from '../../../infra/firebase/dist/v1.js';
@@ -51,6 +52,8 @@ async function harness({ seats = 7 } = {}) {
   const [host, display, outsider, ...players] = await Promise.all(Array.from({ length: 10 }, () => auth()));
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: 7 }));
   const base = db.collection('matches').doc(created.matchId);
+  // Keep the historical all-Room-A fixture pinned before admission.
+  await base.collection('engine').doc('gameplayPins').set(PASS_FULL_GAME_VERSION_PINS);
   const request = fields => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
   for (let i = 0; i < seats; i++) {
     const admission = op(await service.requestAdmission(players[i].uid, { protocolVersion: 2, requestId: randomUUID(), roomCode: created.roomCode, initialRoom: 'Room A' }));

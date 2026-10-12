@@ -4,7 +4,7 @@ import { before, after, test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { createV1Service } from '../dist/index.js';
-import { FULL_GAME_VERSION_PINS } from '@mothership/engine';
+import { PASS_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { decodeV1Setup, decodeV1State } from '../dist/full-game.js';
 import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullLobbyViewSchema } from '@mothership/contracts';
 import { assertLocalEmulators, createEmulatorIdentity } from '../../../infra/firebase/test/helpers.mjs';
@@ -30,6 +30,8 @@ async function harness(rooms) {
   const host = await createEmulatorIdentity();
   const created = op(await service.createMatch(host.uid, { protocolVersion: 2, requestId: randomUUID(), playerCount: 7 }));
   const base = db.collection('matches').doc(created.matchId);
+  // These issue-83 tests keep the original independent-draw policy and stored tuple.
+  await base.collection('engine').doc('gameplayPins').set(PASS_FULL_GAME_VERSION_PINS);
   const request = (fields = {}) => ({ protocolVersion: 2, matchId: base.id, requestId: randomUUID(), ...fields });
   return { service, host, base, created, request, randomInitialRoom, draws: () => draws, shuffles: () => shuffles,
     now: () => now, setTime: value => { now = value; }, forbidDraw: () => { forbidDraw = true; },
@@ -82,7 +84,7 @@ test('server room draws ignore legacy choices and persist through approval, stag
   assert.deepEqual(state.setup.initialRooms, expected);
   assert.deepEqual(Object.fromEntries(state.seats.map(seat => [seat.seatId, seat.location])), expected);
   assert.equal(state.phase.endsAt - state.phase.startedAt, 60_000);
-  for (const [key, value] of Object.entries(FULL_GAME_VERSION_PINS)) assert.equal(state.versions[key], value);
+  for (const [key, value] of Object.entries(PASS_FULL_GAME_VERSION_PINS)) assert.equal(state.versions[key], value);
   await recover(h, 'seat-3');
   assert.deepEqual(decodeV1State((await h.base.collection('engine').doc('current').get()).data()), state, 'Running recovery cannot re-roll rooms or gameplay');
   assert.equal(h.draws(), 7); assert.ok(h.shuffles() > 0);

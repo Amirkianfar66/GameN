@@ -5,7 +5,7 @@ import {
   PRACTICE_BOT_POLICY_VERSION, FullPracticeBotsDocumentSchema, FullSetPracticeBotsRequestSchema,
   FullSetPracticeBotsResponseSchema, FullPracticeBotsErrorCodeSchema,
 } from '../../../packages/contracts/dist/practice-bots.js';
-import { createFullGame, projectFullGame, executeFullGame, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
+import { createFullGame, projectFullGame, executeFullGame, FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { choosePracticeBotActions, PRACTICE_BOT_RULESET_VERSION, PRACTICE_BOT_RULESET_HASH } from '../dist/practice-bot-policy.js';
 
 const seats = count => Array.from({ length: count }, (_, index) => `seat-${index + 1}`);
@@ -18,6 +18,8 @@ function setup(count, extra = ['seat-1', 'seat-2', 'seat-3']) {
 }
 function stateFor(count = 7, kind = 'ORDINARY_TURN', round = 1, active = 'seat-1', extra) {
   const state = createFullGame({ matchId: 'practice-policy-match', setup: setup(count, extra), now: 100,
+    // Historical role-policy scenarios keep their reviewed all-Room-A Pass baseline.
+    versions: { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: 'test-assets' },
     phaseId: 'practice-initial', deadlineToken: 'practice-deadline', assetManifestVersion: 'test-assets' });
   state.round = round; state.activeSeatId = active;
   state.phase = { id: `practice-${kind}`, kind, startedAt: 100, endsAt: ['FINISHED', 'ABORTED'].includes(kind) ? null : 60_100 };
@@ -233,11 +235,11 @@ test('strict policy boundary rejects authoritative state, extra facts, wrong aud
   assert.throws(() => choosePracticeBotActions(view, state), /exactly one player view/);
   const unknown = structuredClone(view); unknown.legalTargets.ACTIVATE_ORIGINAL_POWER = ['seat-1'];
   assert.deepEqual(choosePracticeBotActions(unknown), choosePracticeBotActions(view));
-  assert.equal(PRACTICE_BOT_RULESET_VERSION, state.versions.rulesetVersion);
-  assert.equal(PRACTICE_BOT_RULESET_HASH, state.versions.rulesetHash);
+  assert.equal(PRACTICE_BOT_RULESET_VERSION, FULL_GAME_VERSION_PINS.rulesetVersion);
+  assert.equal(PRACTICE_BOT_RULESET_HASH, FULL_GAME_VERSION_PINS.rulesetHash);
 });
 
-for (const [label, pins] of [['current', FULL_GAME_VERSION_PINS], ['legacy', LEGACY_FULL_GAME_VERSION_PINS]]) {
+for (const [label, pins] of [['Pass', PASS_FULL_GAME_VERSION_PINS], ['legacy', LEGACY_FULL_GAME_VERSION_PINS]]) {
   test(`practice policy supports exact ${label} pins without automatically passing a turn`, () => {
     for (const count of [7, 8, 9]) for (const kind of ['ORDINARY_TURN', 'HACK', 'CAPTAIN_ELECTION', 'JAIL_VOTE', 'RELEASE_CHOICE', 'RELEASE_VOTE', 'SHOWDOWN', 'FINISHED', 'ABORTED']) {
       const state = stateFor(count, kind);
@@ -249,7 +251,7 @@ for (const [label, pins] of [['current', FULL_GAME_VERSION_PINS], ['legacy', LEG
       assert.equal(actions.some(command => command.type === 'PASS_TURN'), false, `${count}/${kind}/${label}`);
       actions.forEach(command => FullCommandSchema.parse(command));
       if (kind === 'ORDINARY_TURN') {
-        assert.deepEqual(view.legalTargets.PASS_TURN, label === 'current' ? ['seat-1'] : undefined);
+        assert.deepEqual(view.legalTargets.PASS_TURN, label === 'Pass' ? ['seat-1'] : undefined);
         assert.ok(type(actions, 'MOVE'), 'Existing practice actions remain available');
         execute(state, 'seat-1', type(actions, 'MOVE'));
         const noWork = structuredClone(view); noWork.legalTargets = {}; noWork.self.movementDestinations = [];

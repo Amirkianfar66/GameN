@@ -4,8 +4,10 @@ import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
+import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
+import { placeResolvedSeats } from './placement.js';
 
 const clone = <T>(value:T):T => JSON.parse(JSON.stringify(value)) as T;
 const alive = (seat: GameSeat) => seat.health !== 'Eliminated';
@@ -58,15 +60,24 @@ function beginRound(state: FullGameState, context: FullGameContext) {
   state.turnOrder=[...state.setup.roundOrders[state.round-1]!]; state.turnIndex=0;
   nextTurn(state,context);
 }
-function loseCaptain(seat: GameSeat) {
+function loseCaptain(state: FullGameState, seat: GameSeat) {
   seat.captain=false;
-  if (seat.location === 'Command Room') seat.location=seat.lastRoom;
+  if (seat.location === 'Command Room' && !resolutionPlacementEnabled(state.versions)) seat.location=ordinaryReturnDestination(state,seat);
 }
-function placement(seat: GameSeat) {
-  if (!ready(seat)) loseCaptain(seat);
-  if (seat.jailed) seat.location='Jail';
-  else if (seat.health === 'Injured') seat.location='Hospital';
-  else if (seat.health === 'Healthy' && ['Hospital','Jail'].includes(seat.location)) seat.location=seat.lastRoom;
+function placement(state: FullGameState, seat: GameSeat) {
+  if (!ready(seat)) loseCaptain(state,seat);
+  if (seat.jailed) {
+    // At most one successful Jail tally per round over five rounds. Fail closed on
+    // an impossible overfull snapshot rather than placing a sixth occupant.
+    if (seat.location !== 'Jail' && !roomHasSpace(state,'Jail')) throw new Error('Jail capacity invariant violated');
+    seat.location='Jail';
+  } else if (seat.health === 'Injured') {
+    // Released Injured players can wait physically in Jail while no longer jailed.
+    // Eliminated occupants retain their places and are included by roomHasSpace.
+    if (seat.location === 'Hospital' || roomHasSpace(state,'Hospital')) seat.location='Hospital';
+  } else if (seat.health === 'Healthy' && ['Hospital','Jail'].includes(seat.location)) {
+    seat.location=ordinaryReturnDestination(state,seat);
+  }
 }
 function attack(state: FullGameState, target: GameSeat) {
   if (!alive(target)) return;
@@ -75,7 +86,7 @@ function attack(state: FullGameState, target: GameSeat) {
     target.protection.consumed=true; return;
   }
   target.health=target.health === 'Healthy' ? 'Injured' : 'Eliminated';
-  if (target.captain) loseCaptain(target);
+  if (target.captain) loseCaptain(state,target);
 }
 function factionSurvives(state: FullGameState, faction: 'Blue'|'Red') { return state.seats.some(s=>s.faction===faction && alive(s)); }
 function resolveRound(state: FullGameState, context: FullGameContext, showdown=false) {
@@ -112,7 +123,15 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
           successfulRecipientSeatIds:[...successfulRecipientSeatIds].sort() });
       }
     }
-    for (const s of state.seats) placement(s);
+    if (resolutionPlacementEnabled(state.versions)) placeResolvedSeats(state);
+    else {
+      // Preserve the exact 1.2 healed-first pass, including its audited return bug.
+      // Earlier tuples retain the original single pass.
+      if (roomCapacityEnabled(state.versions)) {
+        for (const s of state.seats) if (ready(s) && s.location === 'Hospital') placement(state,s);
+      }
+      for (const s of state.seats) placement(state,s);
+    }
   }
   const simultaneousElimination=blueBefore && redBefore && !factionSurvives(state,'Blue') && !factionSurvives(state,'Red');
   state.result=evaluateVictory({ seats:state.seats,round:state.round,correctCode:state.correctCode,
@@ -136,6 +155,7 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
   const recordedVersions = FullVersionsSchema.parse(versions ?? {protocolVersion:2,rulesetVersion:FULL_RULESET_VERSION,rulesetHash:FULL_RULESET_HASH,engineVersion:FULL_ENGINE_VERSION,assetManifestVersion});
   if (!isSupportedFullGameVersions(recordedVersions) || recordedVersions.assetManifestVersion !== assetManifestVersion) throw new Error('Unsupported full-game version pins');
   const {seats,code}=buildRoster(setup), seatIds=seats.map(s=>s.seatId);
+  assertInitialRoomCapacity(setup, recordedVersions);
   if (setup.roundOrders.length!==5 || setup.roundOrders.some(order=>order.length!==seats.length || new Set(order).size!==seats.length || order.some(id=>!seatIds.includes(id)))) throw new Error('Five recorded complete round permutations required');
   const state:FullGameState={matchId,setup:clone(setup),versions:clone(recordedVersions),
     playerCount:setup.playerCount,round:1,seats,code,phase:{id:phaseId,kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60_000},deadlineToken,activeSeatId:null,
@@ -192,7 +212,7 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
       requireNewPhaseIdentifiers(state, context); closeOrdinaryTurn(state, context); break;
     case 'MOVE':
       if (!beforeVoting(state)||!ready(actor)||actor.movedInRound||!['Room A','Room B','Command Room'].includes(actor.location)
-        ||command.destination===actor.location||(command.destination==='Command Room'&&!actor.captain)) return reject('NOT_ALLOWED');
+        ||command.destination===actor.location||(command.destination==='Command Room'&&!actor.captain)||!roomHasSpace(state,command.destination)) return reject('NOT_ALLOWED');
       actor.location=command.destination; if(command.destination!=='Command Room')actor.lastRoom=command.destination; actor.movedInRound=true; break;
     case 'SUBMIT_CODE':
       if (actor.role!=='Hacker'||state.round!==5||state.codeSubmitted||state.phase.kind==='SHOWDOWN'||command.seatIds.some(id=>!find(state,id))) return reject('NOT_ALLOWED');
@@ -249,12 +269,12 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
     case 'RELEASE_VOTE': {
       const result=tallyReleaseVote({eligibleVoters:state.eligibleVoters,ballots:state.ballots.map(b=>({voterSeatId:b.voterSeatId,approve:b.approve}))});
       const target=state.releaseTargetSeatId!;
-      if(result.released) {const seat=find(state,target)!;seat.jailed=false;placement(seat);}
+      if(result.released) {const seat=find(state,target)!;seat.jailed=false;placement(state,seat);}
       state.lastTally={kind:'RELEASE_VOTE',counts:{},eligibleVoterCount:result.eligibleVoterCount,yesCount:result.yesCount,selectedSeatId:target,released:result.released};openJailVote(state,context);break;
     }
     case 'JAIL_VOTE': {
       const result=tallyJailVote({eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,ballots:state.ballots.map(b=>({voterSeatId:b.voterSeatId,targetSeatId:b.targetSeatId}))});
-      if(result.jailedSeatId) {const seat=find(state,result.jailedSeatId)!;seat.jailed=true;placement(seat);}
+      if(result.jailedSeatId) {const seat=find(state,result.jailedSeatId)!;seat.jailed=true;placement(state,seat);}
       state.lastTally={kind:'JAIL_VOTE',counts:result.counts,eligibleVoterCount:result.eligibleVoterCount,yesCount:null,selectedSeatId:result.jailedSeatId,released:null};
       resolveRound(state,context);break;
     }
@@ -285,7 +305,7 @@ export function projectFullGame(state:FullGameState) {
   for(const self of state.seats) {
     const targets=legalTargets(state,self),own=state.ballots.find(b=>b.voterSeatId===self.seatId);
     players[self.seatId]=FullPlayerViewSchema.parse({...facts,viewRevision:state.viewRevisions.players[self.seatId]??0,audience:{kind:'player',seatId:self.seatId},
-      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
+      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
       knowledge:{...self.knowledge,protections:self.role==='Undercover'?state.seats.filter(s=>s.protection!==null).map(s=>({seatId:s.seatId,activeFromRound:s.protection!.activeFromRound,consumed:s.protection!.consumed})):[]},
       legalTargets:targets,ownPendingCommandIds:state.queued.filter(q=>q.actorSeatId===self.seatId).map(q=>q.commandId),ownBallot:own?(state.phase.kind==='RELEASE_VOTE'?own.approve:own.targetSeatId):null,hasVoted:!!own,
       hackPartnerSeatId:state.activeHack?.actorSeatId===self.seatId?state.activeHack.targetSeatId:state.activeHack?.targetSeatId===self.seatId?state.activeHack.actorSeatId:null});

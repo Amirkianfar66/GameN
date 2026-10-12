@@ -1,0 +1,56 @@
+{
+  "decision_id": "room-capacity-owner-decision-2026-10-11",
+  "status": "confirmed",
+  "decided_on": "2026-10-11",
+  "authority": "Game owner approved hard capacity and all six recommendations in issue #96, and explicitly assigned their implementation on 11 October 2026.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/96",
+  "base_commit": "1a92f3790e45622196014cc008544fc33c359c0a",
+  "recorded_owner_decisions": {
+    "commit": "e01bbd7daf873a514948021b89098c8459bae19d",
+    "path": "docs/design/owner-decisions.md",
+    "sha256": "28addfef446053a74b7047a361fad77fa925abd3125e0a7e7ef34d222bdaa682"
+  },
+  "parent_ruleset": {
+    "version": "in-person-v1-pass-2026-10-08",
+    "hash": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183"
+  },
+  "ruleset_version": "in-person-v1-capacity-2026-10-11",
+  "engine_version": "full-game-1.2.0",
+  "protocol_version": 2,
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "CAPACITY-01",
+      "decision": "Room A, Room B, Hospital and Jail have a hard maximum of five occupants, including Eliminated players. Command Room has a maximum of one, the current Captain. Final Zone is not a room and holds all remaining showdown participants."
+    },
+    {
+      "id": "CAPACITY-02",
+      "decision": "A full destination is absent from the own-player movement offers. The authoritative MOVE rejects a full destination through the existing NOT_ALLOWED receipt and existing client words. Concurrent commands re-evaluate canonical occupancy; no place is reserved by a local selection."
+    },
+    {
+      "id": "CAPACITY-03",
+      "decision": "New-match server-random starting placement respects both five-place ordinary rooms and remains unrelated to role, faction, character and seat identity. Persist the assignment and reuse it through setup, retries and recovery."
+    },
+    {
+      "id": "CAPACITY-04",
+      "decision": "An Injured player unable to enter a full Hospital remains at their current location and is reconsidered at subsequent end-of-round processing. A released Injured player remains physically in Jail but is no longer jailed while waiting; health and Jail status remain separate. Existing immediate Captain-loss placement occurs before Hospital finalization."
+    },
+    {
+      "id": "CAPACITY-05",
+      "decision": "A forced return for healing, Healthy release or Captain loss uses the remembered ordinary room when it has space, otherwise the other ordinary room. Forced placement does not consume voluntary movement."
+    },
+    {
+      "id": "CAPACITY-06",
+      "decision": "Jail never exceeds five. The canonical tally admits at most one player per round over five normal rounds; releases do not add a Jail occupant and Eliminated occupants retain their places."
+    }
+  ],
+  "ordering_decision": {
+    "id": "CAP-ORDER-01",
+    "status": "confirmed",
+    "authority": "Game owner selected the Hospital ordering in the Backend assignment on 11 October 2026.",
+    "decision": "After registered attacks, Rescue and Supplier resolution, first return all healed Healthy/free Hospital occupants in existing stored seat order. Then process placements and competing Injured Hospital entrants in that same existing seat order. Eliminated Hospital occupants retain their places. Prior gameplay tuples retain their original single-pass placement order."
+  },
+  "version_policy": "Only new matches receive this exact tuple. Stored creation pins, prepared deals, running matches, journal replay and admission policy retain their exact supported prior tuple. No existing match, assignment, receipt or asset pin is upgraded.",
+  "supersedes": "For this new tuple, replaces the non-capacity interpretation of the historical location-board layout and the uncapped random-starting-room policy; historical source bytes remain unchanged.",
+  "unchanged": "Pass/Hack timing, staged-start-1 selection and reading/Ready, roles/Code/turn randomization, registered-effect authority, resources, victory, public/private audiences, contracts, and offline/recovery semantics."
+}
