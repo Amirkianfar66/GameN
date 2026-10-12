@@ -9,12 +9,13 @@
 // in the Command Room, for one); it is drawn because the board has no capacity, and its offers
 // still follow the gates for that state. Nothing here is imported by the release.
 
-import { FullLobbyIdentityDocumentSchema, FullPlayerViewSchema, FullPublicViewSchema } from '@mothership/contracts';
+import { FullLobbyIdentityDocumentSchema, FullPlayerViewSchema, FullPublicViewSchema, OwnAcknowledgmentsSchema } from '@mothership/contracts';
 
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
 export const MATCH = 'board-simulation';
 export const PASS_VERSIONS = { protocolVersion: 2, rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183', engineVersion: 'full-game-1.1.0', assetManifestVersion: 'design-0.2.0' };
+const CAPPED_VERSIONS = { protocolVersion: 2, engineVersion: 'full-game-1.3.0', rulesetVersion: 'in-person-v1-capacity-resolution-2026-10-12', rulesetHash: 'aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e', assetManifestVersion: 'design-0.2.0' };
 export const LEGACY_VERSIONS = { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90', engineVersion: 'full-game-1.0.1', assetManifestVersion: 'design-0.2.0' };
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
@@ -26,6 +27,8 @@ const BUSY_A = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Hospital', 'C
 /** Before the first Captain is elected nobody is in the Command Room: only the elected Captain is placed there. */
 const NO_CAPTAIN_YET = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Hospital', 'Room A', 'Room B', 'Jail'];
 const ALL = room => Array(9).fill(room);
+/** Round 1: everyone where the server placed them, nobody hurt, jailed or Captain yet. */
+const ROUND_ONE = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Room B', 'Room A'];
 const HOSPITAL_8 = Array.from({ length: 9 }, (_, index) => (index === 2 ? 'Room A' : 'Hospital'));
 const CROWD_HOSPITAL = ['Hospital', 'Hospital', 'Room A', 'Hospital', 'Hospital', 'Hospital', 'Command Room', 'Hospital', 'Room B'];
 const seat = n => `seat-${n}`;
@@ -41,6 +44,7 @@ const FREE = [1, 2, 3, 4, 5, 6, 7, 8];
  * keys are the presentation's action kinds; a list names seats by number.
  */
 export const SCENARIOS = {
+  'capped-room-a': { title: 'Reviewed 1.3 tuple: Room A has five occupants', versions: CAPPED_VERSIONS, locations: ['Room A','Room A','Room A','Room A','Room A','Room B','Command Room','Room B','Room B'], offers: { move: ['Room B'], shot: [1,2,4,5], pass: true } },
   spread: { title: 'Nine players spread over the board; your turn', offers: { move: ['Room B'], pass: true } },
   'other-turn': { title: 'Someone else’s turn', active: 5, offers: { move: [] } },
   seven: { title: 'Seven players', count: 7, role: 'Cracker', offers: { move: ['Room B'], pass: true } },
@@ -82,7 +86,22 @@ export const SCENARIOS = {
     locations: HOSPITAL_8, role: 'Cracker', captain: null, offers: { rescue: EVERYONE, pass: true } },
   // Six Injured at once can only happen late: it takes the attacks of rounds 1 to 4.
   'crowd-hospital-6': { title: 'Six in the Hospital', locations: CROWD_HOSPITAL, round: 5, active: 7, offers: {} },
+  // The Insider's file, in the card. The view lists the three as a set, here not in seat order.
+  insider: { title: 'Insider: the Insider’s file in the card', role: 'Insider', offers: { move: ['Room B'], pass: true } },
+  'insider-long-names': { title: 'Insider: twelve-character names in the Insider’s file', role: 'Insider', names: LONG_NAMES, offers: { move: ['Room B'], pass: true } },
   'crowd-room-b-supply': { title: 'All nine in Room B: Supply', locations: ALL('Room B'), role: 'Supplier', round: 3, captain: null, offers: { move: ['Room A'], supply: EVERYONE, pass: true } },
+  // Role-ability states for the Designer's treatments (#99): what each role's own view states.
+  // The knowledge and acknowledgments are what the strict schemas allow that role to hold, in
+  // states a match reaches; a Main Action already used this round can explain an absent offer.
+  'protection-states': { title: 'Undercover, round 3: one Protection used up, one active', role: 'Undercover', round: 3, offers: { move: ['Room B'], pass: true },
+    knowledge: { protections: [{ seatId: seat(2), activeFromRound: 2, consumed: true }, { seatId: seat(4), activeFromRound: 3, consumed: false }] } },
+  'cracker-no-rescues': { title: 'Cracker with no Rescues left', role: 'Cracker', rescues: 0, offers: { move: ['Room B'], pass: true } },
+  'scan-results': { title: 'Hacker, round 3: two Scan results', role: 'Hacker', round: 3, offers: { move: ['Room B'], pass: true },
+    knowledge: { scanResults: [{ round: 1, targetSeatId: seat(4), guess: 'Red', matched: false, inCode: null }, { round: 2, targetSeatId: seat(1), guess: 'Blue', matched: true, inCode: true }] } },
+  'alien-code': { title: 'Alien: the starting Code', role: 'Alien', offers: { move: ['Room B'], pass: true } },
+  'officer-round-1': { title: 'Officer, round 1: the one shot, offered from the first round', role: 'Officer', round: 1, locations: ROUND_ONE, captain: null, offers: { move: ['Room B'], shot: [1, 5, 7, 9], pass: true } },
+  'supplier-results': { title: 'Supplier, round 4: the Round 3 Supply granted two weapons', role: 'Supplier', round: 4, offers: { move: ['Room B'], pass: true },
+    acknowledgments: { supplierResults: [{ round: 3, commandId: 'simulated-supply', successfulRecipientSeatIds: [seat(1), seat(5)] }], receivedSupply: [] } },
 };
 
 /** The roster of a scenario: who stands where, with their public status. */
@@ -115,7 +134,7 @@ function publicFacts(definition, now, revision) {
 function knowledge(role, self) {
   const empty = { insiderCandidates: [], undercoverSeatId: null, code: [], scanResults: [], protections: [] };
   if (role === 'Hacker') return { ...empty, undercoverSeatId: seat(self === 5 ? 1 : 5) };
-  if (role === 'Insider') return { ...empty, insiderCandidates: seats([1, 2, 4].map(n => (n === self ? 6 : n))) };
+  if (role === 'Insider') return { ...empty, insiderCandidates: seats([4, 1, 2].map(n => (n === self ? 6 : n))) };
   if (role === 'Alien') return { ...empty, code: seats([self, ...[1, 2, 4, 6].filter(n => n !== self)].slice(0, 4)) };
   return empty;
 }
@@ -129,10 +148,11 @@ export function playerView(definition, now, revision = 1, move = null) {
     ...publicFacts(definition, now, revision), audience: { kind: 'player', seatId: seat(self) },
     self: {
       seatId: seat(self), role, movementDestinations: offers.move ?? [], releaseVoteAvailable: offers['release-vote'] === true,
-      ordinaryWeapons: offers.shot ? 1 : 0, shotAvailable: Boolean(offers.shot), rescuesRemaining: 1, disablerAvailable: Boolean(offers.disable),
+      // The Officer and the Undercover start with one ordinary weapon; anyone offered a shot holds one.
+      ordinaryWeapons: offers.shot || role === 'Officer' || role === 'Undercover' ? 1 : 0, shotAvailable: Boolean(offers.shot), rescuesRemaining: definition.rescues ?? (role === 'Cracker' ? 2 : 0), disablerAvailable: Boolean(offers.disable),
       hackAvailable: Boolean(offers.hack), scanAvailable: Boolean(offers.scan), codeAttemptAvailable: offers.code === true,
     },
-    knowledge: knowledge(role, self),
+    knowledge: { ...knowledge(role, self), ...definition.knowledge },
     legalTargets: Object.fromEntries([
       ['REGISTER_SHOT', offers.shot], ['DISABLE', offers.disable], ['PROTECT', offers.protect], ['RESCUE', offers.rescue], ['REQUEST_HACK', offers.hack],
       ['SHOWDOWN_SHOT', offers['showdown-shot']], ['SCAN', offers.scan], ['SUPPLY', offers.supply], ['VOTE', offers.vote], ['RELEASE_CHOICE', offers['release-choice']],
@@ -159,5 +179,15 @@ export function identities(definition) {
   return FullLobbyIdentityDocumentSchema.parse({
     schemaVersion: 1, protocolVersion: 2, catalogVersion: 'crew-0.1.0', matchId: MATCH, revision: 1, locked: true,
     seats: Array.from({ length: definition.count ?? 9 }, (_, index) => ({ seatId: seat(index + 1), displayName: names[index], characterId: CHARACTER[index] })),
+  });
+}
+
+/** The seat's own acknowledgments, when a scenario has any: the Supplier's results and a recipient's grant. */
+export function ownAcknowledgments(definition) {
+  if (!definition.acknowledgments) return null;
+  const { supplierResults = [], receivedSupply = [] } = definition.acknowledgments;
+  return OwnAcknowledgmentsSchema.parse({
+    schemaVersion: 1, protocolVersion: 2, matchId: MATCH, seatId: seat(definition.self ?? 3), bindingRevision: 1,
+    revision: 1 + supplierResults.length + receivedSupply.length, historyAvailable: true, supplierResults, receivedSupply,
   });
 }

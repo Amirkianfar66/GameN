@@ -11,7 +11,7 @@ function buildActions(input: PlayerShellInput, view: NonNullable<PlayerShellInpu
 }
 
 function buildPrivateArea(input: PlayerShellInput, view: NonNullable<PlayerShellInput['view']>, seats: readonly SeatModel[]): PrivateAreaModel {
-  const open = input.privacy.revealed && !input.privacy.concealed;
+  const open = input.privacy.revealed && !input.privacy.concealed && isCurrent(input);
   return {
     heading: en.privateArea.heading,
     hint: en.privateArea.hint,
@@ -29,6 +29,7 @@ function buildMatch(input: PlayerShellInput, view: NonNullable<PlayerShellInput[
   const self = seats.find(seat => seat.isSelf);
   if (!self) throw new Error('A validated player view always contains its own seat');
   return {
+    versions: view.versions,
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),
     location: {

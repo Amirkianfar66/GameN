@@ -454,11 +454,31 @@ export const en = {
     scanWrong: 'The guess was wrong.',
     scanRightInCode: 'The guess was right, and that player is in the Code.',
     scanRightNotInCode: 'The guess was right, and that player is not in the Code.',
-    // The round is the one the view names. Whether that round has come is not worked out here.
+    // The round is the one the view names. Once the view's own round has reached it, the
+    // Protection is in place; until it is used up, it says so.
+    protectionActive: (who: string) => `Protection for ${who}: active.`,
     protectionFrom: (who: string, round: number) => `Protection for ${who}: active from round ${round}.`,
     protectionUsed: (who: string) => `Protection for ${who}: used up.`,
     weapons: (count: number) => `Ordinary weapons you hold: ${count}.`,
     rescues: (count: number) => `Rescues you have left: ${count}.`,
+    noRescues: 'You have no Rescues left.',
+  },
+
+  // The Insider's file: the same set as the sentence above, drawn as three snapshots and one
+  // envelope of three roles. The Designer's words (ability art abilities-0.1.0, PR #102 at
+  // 1453500). They say no more than the rule does: one role each, and who holds which is not known.
+  insiderFile: {
+    title: 'Insider file',
+    classified: 'Classified',
+    oneEach: 'One each',
+    note: 'Who is which: unknown.',
+    suspects: 'The three players',
+    /** The role set's one accessible name. */
+    roleSet: (roles: readonly string[]) => `Their roles, one each: ${roles.slice(0, -1).join(', ')} and ${roles.at(-1)}. Which of them holds which is not known.`,
+    /** A snapshot's accessible name: the player's public identity, said whole, and what pressing it does. */
+    inspect: (seat: number, name: string | null) => `Player ${seat}${name ? `, ${name}` : ''}. Inspect`,
+    showOnBoard: 'Show on board',
+    back: 'Back',
   },
 
   // What every audience may know about a vote: what is being voted on, who may be voted

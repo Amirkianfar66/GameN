@@ -44,3 +44,35 @@ test('press areas, room tags and the strip\'s controls keep a 44 px minimum', ()
   assert.match(minimum('.ms-board[data-board="own"] .phone-room-move'), /min-width: 44px;[\s\S]*min-height: 44px;/);
   assert.match(minimum('.phone-action-dock .phone-strip .ms-button'), /min-height: 44px;/);
 });
+
+test('at large text the navigation labels keep to their own fifth, and on the phone the connection icon keeps its room', () => {
+  // The four labels beside Pass: no side padding, and a smaller size in rem, so they still grow with the reader's text.
+  const large = css.match(/@media \(max-width: 18em\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
+  assert.match(large, /\.phone-nav button:not\(\.phone-pass\) \{ padding-inline: 0; \}/);
+  assert.match(large, /\.phone-nav button:not\(\.phone-pass\) > span:last-child \{ font-size: 0\.5rem; \}/);
+  // The phone's banner padding would otherwise put the words under the icon comic.css draws at the banner's start.
+  const compact = readFileSync(new URL('../hosted/compact-phone.css', import.meta.url), 'utf8');
+  assert.match(compact, /\[data-art~="public-board"\] #app \.ms-shell--player \.ms-banners \.ms-banner--connection \{ padding-inline-start:calc\(var\(--ms-space-3\) \+ 36px\); \}/);
+});
+
+test('a moving character flies over the board and under the card, the tray, the menu, the status bar, the strip and the banners', () => {
+  // The z-index the last rule for this exact selector sets: later rules of the same specificity win.
+  const zOf = (text, selector) => {
+    const rule = [...text.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .filter(([, list, body]) => list.split(',').map(part => part.trim()).includes(selector) && /z-index:/.test(body)).at(-1);
+    assert.ok(rule, selector);
+    return Number(/z-index:\s*(-?\d+)/.exec(rule[2])?.[1]);
+  };
+  const compact = readFileSync(new URL('../hosted/compact-phone.css', import.meta.url), 'utf8');
+  const phone = readFileSync(new URL('../hosted/phone.css', import.meta.url), 'utf8');
+  const fx = zOf(css, '.phone-fx');
+  // The board is its own stacking context at 0; everything laid over it is above the flights.
+  assert.equal(zOf(css, '#app .ms-shell--player .ms-board[data-board="own"]'), 0);
+  assert.ok(fx > 0);
+  for (const [layer, z] of [
+    ['card, tray and menu', zOf(compact, '#app .ms-shell--player .ms-private[data-open=true]')],
+    ['status bar', zOf(phone, '#app .ms-shell--player .ms-phase')],
+    ['strip', zOf(css, '#app .ms-shell--player .phone-action-dock')],
+    ['banners', zOf(compact, '#app .ms-shell--player .ms-banners:not(:empty)')],
+  ]) assert.ok(fx < z, `${layer}: ${z} must be above the flights (${fx})`);
+});

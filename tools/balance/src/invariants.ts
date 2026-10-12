@@ -1,4 +1,4 @@
-import { ROLES_BY_MODE, canonicalJson, deepEqual, factionOf, isMode, sameSet, seatIdsFor } from './model.js';
+import { CAPPED_LOCATIONS, ROLES_BY_MODE, canonicalJson, deepEqual, factionOf, isMode, sameSet, seatIdsFor } from './model.js';
 import type { Faction, Role, ScenarioSetup, SeatId } from './model.js';
 import { expectedCode } from './prng.js';
 import { payloadOf } from './observation.js';
@@ -17,6 +17,8 @@ export type TransitionEvent =
 export interface Violation {
   invariant: string;
   message: string;
+  // In a report: how many times this same violation was found in the run, when more than once.
+  times?: number;
 }
 
 export interface Ledger {
@@ -37,6 +39,12 @@ export interface Ledger {
   roundOfCounters: number;
   showdowns: number;
   phaseKinds: string[];
+  // How many players a room holds, where the run is held to the capacity rule (issue #96); null
+  // for a ruleset without it. It is not something counted: the run states it once, at the start.
+  roomCapacity: number | null;
+  // The last of Room A and Room B each player was seen in. It is kept here and not read from the
+  // engine, because which room an engine remembers is one of the things the capacity rule decides.
+  lastRoom: Record<SeatId, string>;
 }
 
 export function newLedger(): Ledger {
@@ -44,6 +52,7 @@ export function newLedger(): Ledger {
     ordinaryShots: {}, specialShots: {}, movesThisRound: {}, hackRequests: {}, hackRequestsThisRound: 0,
     scansThisRound: 0, codeAttempts: 0, disables: {}, rescues: 0, protectionsByRecipient: {}, supplies: 0,
     mainActionsThisRound: {}, shotsThisRound: {}, turnsThisRound: [], roundOfCounters: 1, showdowns: 0, phaseKinds: [],
+    roomCapacity: null, lastRoom: {},
   };
 }
 
@@ -165,6 +174,21 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
   if (weapons + fired > startingWeapons(setup) + 2) fail('INV-RES-03', `ordinary weapons in play (${weapons} held + ${fired} fired) exceed the starting grants plus two Supplier weapons`);
   if (seats.filter(seat => seat.captain).length > 1) fail('INV-LOC-01', 'more than one Captain');
 
+  // Room capacity. A place is taken by every player located there, whatever their health: an
+  // Eliminated player keeps theirs. The Final Zone is not a room and is not counted.
+  const capacity = ledger.roomCapacity;
+  const held = (location: string) => seats.filter(seat => seat.location === location).length;
+  if (capacity !== null) {
+    for (const location of CAPPED_LOCATIONS) {
+      if (held(location) > capacity) fail('INV-CAP-01', `${location} holds ${held(location)} players, more than ${capacity}`);
+    }
+    for (const [viewer, view] of Object.entries(observation.playerViews)) {
+      for (const room of view.moveDestinations) {
+        if ((room === 'Room A' || room === 'Room B') && held(room) >= capacity) fail('INV-CAP-02', `${viewer} is offered a move to ${room}, which is full`);
+      }
+    }
+  }
+
   const showdownPlacement = seats.some(seat => seat.location === 'Final Zone');
   for (const seat of seats) {
     if (seat.health === 'Eliminated') continue;
@@ -172,7 +196,13 @@ export function checkState(setup: ScenarioSetup, observation: Observation, ledge
       if (seat.location !== 'Final Zone') fail('INV-LOC-02', `${seat.seat} is not in Final Zone during the showdown`);
     } else if (!showdownPlacement) {
       if (seat.jailed && seat.location !== 'Jail') fail('INV-LOC-02', `${seat.seat} is Jailed but located in ${seat.location}`);
-      if (!seat.jailed && seat.health === 'Injured' && seat.location !== 'Hospital') fail('INV-LOC-02', `${seat.seat} is Injured but located in ${seat.location}`);
+      if (!seat.jailed && seat.health === 'Injured' && seat.location !== 'Hospital') {
+        // Under the capacity rule an Injured player waits while Hospital is full, and only then:
+        // in Room A or Room B, or in Jail if they are a prisoner released while Injured. That a
+        // waiting player is where they were before, and not somewhere else, is INV-CAP-06.
+        const waits = capacity !== null && held('Hospital') >= capacity && (seat.location === 'Room A' || seat.location === 'Room B' || seat.location === 'Jail');
+        if (!waits) fail('INV-LOC-02', `${seat.seat} is Injured but located in ${seat.location}`);
+      }
       if (!seat.jailed && seat.health === 'Healthy' && !['Room A', 'Room B', 'Command Room'].includes(seat.location)) fail('INV-LOC-02', `${seat.seat} is Healthy and free but located in ${seat.location}`);
     }
   }
@@ -313,6 +343,8 @@ export function checkTransition(
     if (!deepEqual(ledger.turnsThisRound, expected)) fail('INV-PH-04', `Round ${prev.round} turns ${ledger.turnsThisRound.join(',')} differ from the recorded order of non-eliminated players ${expected.join(',')}`);
   }
 
+  // Players who return to a room in this transition, with the room each was last in.
+  const returned: { seat: SeatId; last: string; to: string }[] = [];
   for (const after of next.truth.seats) {
     const before = prev.truth.seats.find(item => item.seat === after.seat);
     if (before === undefined) { fail('INV-SET-01', `${after.seat} appeared mid-match`); continue; }
@@ -328,6 +360,38 @@ export function checkTransition(
       if (!phaseChanged || prev.phaseKind !== expectedPhase) fail('INV-JAIL-01', `${after.seat} Jail status changed outside the closure of ${expectedPhase}`);
     }
     if (!before.captain && after.captain && !(phaseChanged && prev.phaseKind === 'CAPTAIN_ELECTION')) fail('INV-CAPT-01', `${after.seat} became Captain outside an election`);
+    // A player who returns to a room goes to their last room, and to the other one only when the
+    // last holds five others once the phase has closed: a place that is being left in the same
+    // resolution is free (the owner's decisions of 11 October 2026, R-CAP-19). Returning players
+    // are the healed, the released, and a Captain who lost the title inside Command Room, whether
+    // they are then Healthy, Eliminated or hurt without a place in Hospital (R-CAP-24). The last
+    // room is the room the player was last in (R-CAP-22), as this ledger saw it.
+    const returns = before.location === 'Hospital' || before.location === 'Jail'
+      || (before.location === 'Command Room' && phaseChanged && before.captain && !after.captain);
+    const last = ledger.lastRoom[after.seat] ?? before.lastRoom;
+    if (ledger.roomCapacity !== null && returns && (after.location === 'Room A' || after.location === 'Room B')) returned.push({ seat: after.seat, last, to: after.location });
+    if (ledger.roomCapacity !== null && returns && (after.location === 'Room A' || after.location === 'Room B') && after.location !== last) {
+      const others = next.truth.seats.filter(seat => seat.seat !== after.seat && seat.location === last).length;
+      if (others < ledger.roomCapacity) {
+        fail('INV-CAP-03', `${after.seat} was sent to ${after.location} although ${last}, the room they were last in, has a place`);
+      }
+    }
+    if (ledger.roomCapacity !== null) {
+      const inARoom = (location: string) => location === 'Room A' || location === 'Room B';
+      // An Eliminated player keeps their place.
+      if (before.health === 'Eliminated' && before.location !== after.location) fail('INV-CAP-04', `${after.seat} is Eliminated and was moved from ${before.location} to ${after.location}`);
+      // Nobody is moved from one room to the other when a phase closes: a place is made for no one.
+      if (phaseChanged && before.health === 'Healthy' && after.health === 'Healthy' && !before.jailed && !after.jailed
+        && inARoom(before.location) && inARoom(after.location) && before.location !== after.location) {
+        fail('INV-CAP-05', `${after.seat} was moved from ${before.location} to ${after.location} without a move of their own`);
+      }
+      // A player who waits for Hospital stays where they are. A Captain hurt inside Command Room
+      // cannot stay there: they are seated like a returning player, which INV-CAP-03 holds.
+      if (phaseChanged && after.health === 'Injured' && !after.jailed && after.location !== 'Hospital' && after.location !== 'Final Zone'
+        && before.location !== after.location && before.location !== 'Command Room') {
+        fail('INV-CAP-06', `${after.seat} is Injured without a place in Hospital and was moved from ${before.location} to ${after.location}`);
+      }
+    }
     if (before.location !== after.location && !phaseChanged) {
       const moved = event.kind === 'command' && event.outcome === 'REGISTERED' && event.command.type === 'MOVE' && event.actor === after.seat;
       if (!moved) fail('INV-MOVE-01', `${after.seat} changed location without its own accepted move or a phase closure`);
@@ -397,12 +461,30 @@ export function checkTransition(
     }
     if (next.phaseKind === 'ORDINARY_TURN' && next.activeSeat !== null) ledger.turnsThisRound.push(next.activeSeat);
   }
+  // Two returning players whose last room is the same, and only one of them is in it: the place
+  // went to the lower player number (the owner's decision of 11 October 2026, R-CAP-27).
+  const numberOf = (seat: SeatId) => Number(seat.replace(/^\D+/, ''));
+  for (const kept of returned) {
+    for (const sent of returned) {
+      if (kept.last === sent.last && kept.to === kept.last && sent.to !== sent.last && numberOf(sent.seat) < numberOf(kept.seat)) {
+        fail('INV-CAP-07', `${sent.seat} was sent to ${sent.to} and ${kept.seat} was given the last place in ${kept.last}, the last room of both, although ${sent.seat} has the lower number`);
+      }
+    }
+  }
+  rememberRooms(ledger, next);
   out.push(...checkState(setup, next, ledger));
   return out;
 }
 
+function rememberRooms(ledger: Ledger, observation: Observation): void {
+  for (const seat of observation.truth.seats) {
+    if (seat.location === 'Room A' || seat.location === 'Room B') ledger.lastRoom[seat.seat] = seat.location;
+  }
+}
+
 export function startLedger(observation: Observation): Ledger {
   const ledger = newLedger();
+  rememberRooms(ledger, observation);
   ledger.phaseKinds.push(observation.phaseKind);
   if (observation.phaseKind === 'ORDINARY_TURN' && observation.activeSeat !== null) ledger.turnsThisRound.push(observation.activeSeat);
   return ledger;

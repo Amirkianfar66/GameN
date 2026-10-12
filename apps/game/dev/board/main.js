@@ -12,10 +12,11 @@
 //   ?motion=reduced                     start with the in-app reduced-motion setting
 //   ?time-left=<ms>                     start near the end of the same 60-second turn
 //   ?hold-move                         keep an accepted Move awaiting its public view
+//   ?kit=off                           without the Designer's ability kit, as the hosted build draws the file today
 
 import { createComicFeeds, createConnectedPlayerScreen, createConnectedTableScreen, shellTokenStylesheet } from '@mothership/game';
 import { nextDesignTokens } from '@mothership/design-tokens';
-import { FullReceiptSchema } from '@mothership/contracts';
+import { FullReceiptSchema, FullPlayerViewSchema, FullPublicViewSchema } from '@mothership/contracts';
 import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
 import '../../src/styles/shell.css';
 import '../../hosted/preview.css';
@@ -26,9 +27,12 @@ import '../../hosted/setup.css';
 import '../../hosted/phone.css';
 import '../../hosted/compact-phone.css';
 import '../../hosted/board-play.css';
+import '../../hosted/private-card.css';
+import '../../hosted/scene-board.css';
+import '../../hosted/ability-art.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
 import { loadArt } from '../../hosted/art.mjs';
-import { identities, MATCH, playerView, publicView, SCENARIOS } from './scenarios.mjs';
+import { identities, MATCH, ownAcknowledgments, playerView, publicView, SCENARIOS } from './scenarios.mjs';
 
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
@@ -43,7 +47,7 @@ const tokenStyle = document.createElement('style');
 tokenStyle.textContent = shellTokenStylesheet(nextDesignTokens);
 document.head.append(tokenStyle);
 document.body.dataset.device = display ? 'display' : 'player';
-await loadArt(display ? 'display' : 'player');
+await loadArt(display ? 'display' : 'player', document, { abilities: params.get('kit') !== 'off', scenes: params.get('scenes') !== 'off' });
 
 const app = document.getElementById('app');
 if (!definition) throw new Error(`Unknown scenario ${id}`);
@@ -56,8 +60,26 @@ const timeLeft = Math.min(60_000, Math.max(1_000, Number(params.get('time-left')
 const started = Date.now() - (42_000 - timeLeft);
 let revision = 1;
 let moved = null;
+const publicOverrides = new Map();
+let deadlineExpired = false, terminal = null;
 const listeners = new Map();
-const viewFor = () => (display ? publicView(definition, started, revision, moved) : playerView(definition, started, revision, moved));
+const viewFor = () => {
+  const view = display ? publicView(definition, started, revision, moved) : playerView(definition, started, revision, moved);
+  for (const seat of view.seats) Object.assign(seat, publicOverrides.get(seat.seatId) ?? {});
+  if (deadlineExpired) { view.phase.endsAt = Date.now() - 1; view.phase.startedAt = view.phase.endsAt - 60_000; }
+  if (terminal) {
+    view.phase = { id: `phase-${terminal}`, kind: terminal === 'finished' ? 'FINISHED' : 'ABORTED', startedAt: view.phase.startedAt, endsAt: null };
+    view.activeSeatId = null;
+    view.ballot = { eligibleVoters: [], eligibleTargets: [], releaseTargetSeatId: null };
+    if (terminal === 'finished') {
+      const roles = ['Insider', 'Cracker', 'Officer', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
+      view.result = { winner: 'Blue', alienCoWinner: true };
+      view.endReveal = { roles: view.seats.map((seat, index) => ({ seatId: seat.seatId, role: roles[index] })), code: ['seat-1', 'seat-2', 'seat-4', 'seat-9'] };
+    }
+    if (!display) { view.self.movementDestinations = []; view.legalTargets = {}; for (const key of ['releaseVoteAvailable','shotAvailable','disablerAvailable','hackAvailable','scanAvailable','codeAttemptAvailable']) view.self[key] = false; }
+  }
+  return (display ? FullPublicViewSchema : FullPlayerViewSchema).parse(view);
+};
 const documents = {
   'player-view': () => (display ? null : viewFor()),
   'public-view': () => (display ? viewFor() : null),
@@ -116,7 +138,7 @@ let frameCount = 0;
 const stopCounting = screen.subscribe(() => { frameCount += 1; });
 const render = display ? renderComicTableShell : renderComicPlayerShell;
 await transport.signIn();
-const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: null }),
+const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: display || model.connection !== 'live' ? null : ownAcknowledgments(definition) }),
   subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => { stopCounting(); feeds.dispose(); } });
 feeds.start();
 if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce-motion', checked: true });
@@ -126,6 +148,11 @@ window.__simulation = {
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  /** Synthetic public updates for motion/resize regressions; parsed again before publication. */
+  publicSeat(n, fields) { publicOverrides.set(`seat-${n}`, { ...(publicOverrides.get(`seat-${n}`) ?? {}), ...fields }); revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  motion(reduced) { screen.dispatch({ type: 'settings/reduce-motion', checked: reduced }); },
+  expire() { deadlineExpired = true; revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  end(kind = 'finished') { terminal = kind; revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The same view again, as a fresh snapshot. */
   redeliver() { revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The view as a cache would serve it: not confirmed by the server. */

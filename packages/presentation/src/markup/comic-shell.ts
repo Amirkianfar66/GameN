@@ -1,13 +1,15 @@
 import type { OwnAcknowledgments, FullPracticeBotsDocument, SeatId } from '@mothership/contracts';
 import { SHELL_IDS } from '../ids.js';
 import { placeSeats, rowsFor } from '../model/stations.js';
-import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, TableShellModel } from '../model/types.js';
+import { en } from '../copy/en.js';
+import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, InsiderSetModel, SeatModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode } from './node.js';
 import { renderConnectedPlayerShell } from './connected-player.js';
 import { renderButton } from './player-shell.js';
 import { renderTableShell } from './table-shell.js';
 import { hiddenText, renderZones } from './parts.js';
+import { deliveryNotes, intelFile, privateNotes, resultSheet, stripArt } from './ability-art.js';
 
 /** Public identity only. The transport validates the separately versioned document. */
 export interface ComicIdentity {
@@ -15,7 +17,15 @@ export interface ComicIdentity {
   readonly displayName: string | null;
   readonly characterId: string | null;
 }
-export interface ComicContext { readonly phoneNotice?: string | null; readonly phoneView?: 'board' | 'actions' | 'role' | 'more'; readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
+export interface ComicContext {
+  readonly phoneNotice?: string | null;
+  readonly phoneView?: 'board' | 'actions' | 'role' | 'more';
+  readonly identities?: readonly ComicIdentity[];
+  readonly acknowledgments?: OwnAcknowledgments | null;
+  readonly practice?: FullPracticeBotsDocument | null;
+  /** The snapshot inspected in the Insider's file, by seat. A phone's own state, set by a deliberate tap. */
+  readonly inspect?: string | null;
+}
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
   Officer: { device: 'officer', team: 'Blue' }, Insider: { device: 'insider', team: 'Blue' },
@@ -26,6 +36,13 @@ const ROLES: Readonly<Record<string, { readonly device: string; readonly team: s
 };
 const classHas = (node: MarkupElement, name: string): boolean => String(node.attrs.class ?? '').split(' ').includes(name);
 const character = (value: string | null | undefined): string | null => typeof value === 'string' && /^c[1-9]$/u.test(value) ? value : null;
+// Release copy remains here for the reviewed quote checks; the treatment shares it.
+const DELIVERY_WORDS = {
+  heading: 'Supply results', none: 'No players received a weapon from your Round 3 Supply.',
+  unavailable: 'Supply result history is unavailable for this match.',
+  supplied: (names: string): string => `Your Round 3 Supply granted one weapon each to ${names}.`,
+  received: (result: { readonly round: number }): string => `You received one ordinary weapon from Supply in Round ${result.round}.`,
+};
 
 function identityFor(context: ComicContext, seat: string): ComicIdentity | undefined {
   return context.identities?.find(item => item.seatId === seat);
@@ -62,6 +79,94 @@ export function renderComicRoleCard(name: string, ownCharacter: string | null): 
     h('span', { class: 'ms-role-card__art', 'aria-hidden': 'true' }),
     h('div', { class: 'ms-role-card__text' }, h('p', { class: 'ms-role-card__name' }, name), h('p', { class: 'ms-role-card__team' }, `${look.team} team`)),
   );
+}
+
+/** A seat's public facts, in the words every screen can show: where it is, its health, Captain, Jail. */
+function publicFacts(seat: SeatModel): string {
+  return [seat.location, en.marker.health(seat.health), seat.captain ? en.marker.captain : null, seat.jailed ? en.marker.jailed : null]
+    .filter((fact): fact is string => fact !== null).join(' · ');
+}
+
+/**
+ * The Insider's file (Designer PR #102 at 1453500; provenance in the Frontend handoff):
+ * the three players of the role's starting knowledge as three snapshots pinned in
+ * public seat order, and the three roles they hold between them, one each, as one slip in one
+ * envelope below all three. Nothing pairs a player with a role: every snapshot is built the same
+ * way, with the same frame, pin, query tag and tilt for its position; no role is written on,
+ * beside or about a snapshot; and the roles are one picture with one accessible name, in the
+ * rule's order whatever the deal was. A portrait is the character the player chose, a public
+ * picture every phone has already loaded. Inspecting a snapshot says only that player's public
+ * facts. Render only inside the open private card of the seat's own live view.
+ */
+function renderInsiderFile(set: InsiderSetModel, context: ComicContext, seats: readonly SeatModel[]): MarkupElement {
+  const words = en.insiderFile;
+  const inspected = seats.find(seat => seat.seatId === context.inspect && set.seatIds.includes(seat.seatId)) ?? null;
+  const snapshots = set.seatIds.map(seatId => {
+    const number = seatId.slice(5);
+    const identity = identityFor(context, seatId);
+    const look = character(identity?.characterId);
+    const name = identity?.displayName ?? null;
+    // The seat number is an evidence sticker on the portrait (or, without one, the portrait
+    // itself), so the caption holds the whole width for the name. A name too long for a small
+    // snapshot ends in an ellipsis there and is said whole by the button and the inspect card.
+    return h('li', { class: 'ab-suspect' },
+      h('button', {
+        type: 'button', class: 'ab-photo', id: `ab-photo-${number}`, 'data-seat': number,
+        'aria-pressed': String(inspected?.seatId === seatId), 'aria-label': words.inspect(Number(number), name),
+      },
+      h('span', { class: 'ab-photo__frame', 'aria-hidden': 'true' },
+        h('span', { class: 'ab-photo__art', ...(look ? { 'data-character': look } : {}) }),
+        h('span', { class: 'ab-photo__numeral' }, number),
+        h('span', { class: 'ab-photo__pin' }), h('span', { class: 'ab-photo__query' }),
+        h('span', { class: 'ab-seat ab-photo__seat' }, number)),
+      h('span', { class: 'ab-photo__caption', 'aria-hidden': 'true' },
+        h('span', { class: 'ab-seat ab-photo__caption-seat' }, number), h('span', { class: 'ab-photo__name' }, name))));
+  });
+  const inspectedName = inspected ? identityFor(context, inspected.seatId)?.displayName ?? null : null;
+  // The inspect card's words are redrawn inside a live container that stays put, so they are said
+  // when they change. Nothing in it is new: they are facts every screen shows.
+  const card = h('div', { class: 'ab-inspect__card', 'data-region': 'insider-inspect', hidden: inspected === null },
+    inspected === null ? null : [
+      h('p', { class: 'ab-inspect__who' }, h('span', { class: 'ab-inspect__lens', 'aria-hidden': 'true' }),
+        h('span', { class: 'ab-seat' }, hiddenText('Player '), String(inspected.number)),
+        inspectedName ? [hiddenText(', '), h('span', { class: 'ab-inspect__name' }, inspectedName)] : null),
+      h('p', { class: 'ab-inspect__facts' }, publicFacts(inspected)),
+      h('div', { class: 'ab-inspect__controls' },
+        h('button', { type: 'button', class: 'ab-button', id: 'ab-inspect-show', 'data-file-act': 'show', 'data-seat': String(inspected.number) }, words.showOnBoard),
+        h('button', { type: 'button', class: 'ab-button', id: 'ab-inspect-back', 'data-file-act': 'back', 'data-seat': String(inspected.number) }, words.back)),
+    ]);
+  return h('section', { class: 'ab-file', 'data-file': 'insider', 'aria-labelledby': 'ab-file-title', 'data-region': 'insider-file', 'data-focus-fallback': 'ab-file-title' },
+    // The Designer's tab is a header; a div here, so the shell keeps its one banner landmark.
+    h('div', { class: 'ab-file__tab' },
+      h('h3', { class: 'ab-file__title', id: 'ab-file-title', tabindex: '-1' }, words.title),
+      h('span', { class: 'ab-stamp', 'data-stamp': 'classified', 'aria-hidden': 'true' }, words.classified)),
+    // The release's own sentence for this knowledge, which the card's list then does not repeat.
+    h('p', { class: 'ab-vh ms-visually-hidden' }, set.sentence),
+    h('div', { class: 'ab-file__field' },
+      (['tl', 'tr', 'br', 'bl'] as const).map(corner => h('span', { class: 'ab-corner-pin', 'data-corner': corner, 'aria-hidden': 'true' })),
+      h('ol', { class: 'ab-suspects', 'aria-label': words.suspects, 'data-region': 'insider-suspects', 'data-focus-fallback': 'ab-file-title' }, snapshots),
+      // The three roles as one set: one picture with one accessible name, the names stacked in one
+      // slip below all three snapshots and beside none, never a list or a row a screen reader or
+      // the eye could pair with them.
+      h('div', { class: 'ab-roles', role: 'img', 'aria-label': words.roleSet(set.roles) },
+        h('span', { class: 'ab-roles__back' }),
+        h('span', { class: 'ab-roles__slip' }, set.roles.map(role => h('span', { class: 'ab-roles__name' }, role))),
+        h('span', { class: 'ab-roles__front' }), h('span', { class: 'ab-roles__clip' }),
+        h('span', { class: 'ab-stamp', 'data-stamp': 'one-each' }, words.oneEach))),
+    // The string round the whole set is drawn by the host from the four corner pins, here.
+    h('p', { class: 'ab-file__note' }, words.note),
+    h('div', { class: 'ab-inspect', 'aria-live': 'polite' }, card));
+}
+
+/** The knowledge list without the Insider’s sentence, where the file says it instead. */
+function withoutSentence(region: MarkupNode, sentence: string | null): MarkupNode {
+  if (sentence === null || !isElement(region)) return region;
+  const drop = (node: MarkupNode): MarkupNode | null => {
+    if (!isElement(node)) return node;
+    if (classHas(node, 'ms-knowledge__item') && node.children.length === 1 && node.children[0] === sentence) return null;
+    return { ...node, children: node.children.map(drop).filter((child): child is MarkupNode => child !== null) };
+  };
+  return drop(region) ?? region;
 }
 
 /** Public, opt-in practice status; it never exposes a bot's role or decision inputs. */
@@ -163,13 +268,14 @@ function renderOwnBoard(
  * regions are those of the release's action card, so focus, redraw and the command controller
  * are unchanged; only the seat answers are gone from it, because they are on the board.
  */
-function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
+function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext): MarkupElement {
   const body = card.body;
+  const art = stripArt(card, context);
   // The step's line, focused after every step. The action's name is set into it as a caption,
   // so "Choose a target" is never read without saying which action it is for.
   const line = (className: string, text: string): MarkupElement => h('p', { class: className, id: SHELL_IDS.actionStep, tabindex: '-1' },
-    h('span', { class: 'phone-strip__kind' }, card.title), hiddenText(': '), text);
-  const detail = (...children: readonly MarkupChild[]): MarkupElement => h('p', { class: 'phone-strip__detail' }, ...children);
+    art.prompt, h('span', { class: 'phone-strip__kind' }, card.title), hiddenText(': '), text);
+  const detail = (...children: readonly MarkupChild[]): MarkupElement => h('p', { class: 'phone-strip__detail' }, art.detail, ...children);
   const controls = (...buttons: readonly (CardButtonModel | null)[]): MarkupElement =>
     h('div', { class: 'ms-card__controls', 'data-region': 'action-controls' }, buttons.map(button => (button ? renderButton(button) : null)));
   let words: MarkupChild[] = [];
@@ -187,7 +293,7 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
       const picked = card.board.picked.length;
       const parts = card.kind === 'supply' ? 2 : card.kind === 'code' ? 4 : 0;
       // Supply and a Code attempt count their picks in numbered dots, the same numbers the board shows.
-      const dots = parts > 0 ? h('span', { class: 'phone-strip__progress', 'aria-hidden': 'true' },
+      const dots = parts > 0 && art.detail === null ? h('span', { class: 'phone-strip__progress', 'aria-hidden': 'true' },
         Array.from({ length: parts }, (_, index) => h('span', { 'data-done': String(index < picked) }, index < picked ? String(index + 1) : ''))) : null;
       words = [
         line('ms-card__prompt', body.prompt),
@@ -209,11 +315,11 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
       layout = 'row';
       break;
     case 'busy':
-      words = [line('ms-card__text ms-card__busy', body.text)];
+      words = [line('ms-card__text ms-card__busy', body.text), art.detail ? detail() : null];
       layout = 'none';
       break;
     case 'result':
-      words = [line('ms-card__result', body.text), body.detail ? detail(body.detail) : null];
+      words = [line('ms-card__result', body.text), body.detail || art.detail ? detail(body.detail) : null];
       buttons = controls(body.action);
       break;
   }
@@ -222,7 +328,8 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
     h('h4', { class: 'ms-card__title', id: SHELL_IDS.actionTitle, tabindex: '-1' }, card.title),
     h('div', {
       class: 'ms-card__state', 'data-region': 'action', 'data-status': card.status, 'data-step': body.step, 'data-selected': String(card.selected),
-      'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
+      // The action the strip is about, when it knows it (a reloaded page may not): the hook for that action's own art.
+      'data-kind': card.kind, 'data-resource-count': card.art?.resourceCount === null ? null : card.art?.resourceCount, 'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
     },
       // The release's status word, the same for every action, drawn as a stamp once a command is sent.
       h('p', { class: 'ms-card__status' }, card.statusLabel),
@@ -285,7 +392,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (node.attrs['data-intent'] === 'action/open') {
       const offer = match!.privateArea.content?.actions.card.body;
       const label = offer?.step === 'idle' ? offer.offers.find(item => item.kind === node.attrs['data-kind'])?.label : undefined;
-      if (label) return { ...node, attrs: { ...node.attrs, 'aria-labelledby': String(node.attrs.id) }, children: [label] };
+      if (label) return { ...node, attrs: { ...node.attrs, 'aria-labelledby': String(node.attrs.id) }, children: [h('span', { class: 'ability-offer-icon', 'data-kind': node.attrs['data-kind'], 'aria-hidden': 'true' }), label] };
     }
     if (classHas(node, 'ms-role-card') && privateContent) return renderComicRoleCard(privateContent.role.name, ownCharacter);
     if (classHas(node, 'ms-private')) {
@@ -293,32 +400,46 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       if (dockedAction && card) return h('section', { class: 'ms-private phone-action-dock',
         'data-region': 'private', 'data-open': 'true', 'aria-labelledby': 'ms-private-heading', 'data-focus-fallback': 'ms-phone-actions',
       }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
-      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null, h('div', { class: 'ms-actions' }, renderActionStrip(card))));
+      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null, h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
-    if (node.attrs['data-region'] === 'result') return { ...node, attrs: { ...node.attrs, hidden: phoneView === 'more' } };
+    if (node.attrs['data-region'] === 'result') {
+      const result = resultSheet(match!.result, context);
+      return { ...result, attrs: { ...result.attrs, hidden: phoneView === 'more' } };
+    }
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
+    let file: string | null = null;
+    if (classHas(node, 'ms-private__panel') && privateContent) {
+      // The Insider's three players are drawn in the Insider's file, which says the sentence
+      // itself, so the card's list of what the seat knows does not repeat it. Current-view
+      // or authorization loss conceals this entire card. Recovery remains internal and a
+      // newly confirmed view requires a deliberate reopening.
+      const insider = privateContent.knowledge?.insider ?? null;
+      children = children.map(child => (isElement(child) && child.attrs['data-region'] === 'knowledge' ? withoutSentence(child, insider?.sentence ?? null) : child));
+      if (insider && phoneView === 'role') {
+        file = 'insider';
+        // Under the role card, which makes way by becoming a row.
+        const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
+        children.splice(at < 0 ? children.length : at + 1, 0, renderInsiderFile(insider, context, match!.roster.zones.flatMap(zone => zone.seats)));
+      }
+      const intel = privateContent.knowledge ? intelFile(privateContent.knowledge, context, match!.roster.zones.flatMap(zone => zone.seats), match!.identity.seatId) : null;
+      if (intel && phoneView === 'role') {
+        file = String(intel.attrs['data-file']);
+        const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
+        children.splice(at < 0 ? children.length : at + 1, 0, intel);
+      }
+    }
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
       const knowledge = children.find(child => isElement(child) && child.attrs['data-region'] === 'knowledge');
       if (knowledge) {
         children = children.filter(child => child !== knowledge);
         children.push(h('details', { class: 'phone-knowledge' }, h('summary', null, 'What you know'), knowledge));
       }
-      const own = context.acknowledgments;
-      const lines: string[] = [];
-      if (own && own.seatId === match!.identity.seatId) {
-        for (const result of own.supplierResults) lines.push(result.successfulRecipientSeatIds.length === 0
-          ? 'No players received a weapon from your Round 3 Supply.'
-          : `Your Round 3 Supply granted one weapon each to ${result.successfulRecipientSeatIds.map(id => `Player ${id.slice(5)}`).join(' and ')}.`);
-        for (const result of own.receivedSupply) lines.push(`You received one ordinary weapon from Supply in Round ${result.round}.`);
-        if (!own.historyAvailable && privateContent.role.name === 'Supplier') lines.push('Supply result history is unavailable for this match.');
-      }
-      children.push(h('div', { class: 'ms-acknowledgments-region', 'data-region': 'own-acknowledgments' }, lines.length ?
-        h('section', { class: 'ms-acknowledgments', 'aria-labelledby': 'ms-acknowledgments-title' },
-          h('h3', { id: 'ms-acknowledgments-title' }, 'Supply results'), lines.map(line => h('p', null, line))) : null));
+      if (phoneView === 'role') children.push(...privateNotes(privateContent, context, match!.identity.seatId));
+      children.push(deliveryNotes(context, match!.identity.seatId, privateContent.role.name === 'Supplier', DELIVERY_WORDS));
     }
     if (classHas(node, 'ms-main')) {
       const location = children.find(child => isElement(child) && child.attrs['data-region'] === 'location');
@@ -329,7 +450,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       // The strip, the tray or a Pass receipt comes before the board in reading and focus order:
       // focus lands on the strip's question, and the next Tab reaches its answers, then the
       // characters. The page's grid still draws the strip above navigation.
-      const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard)) : null;
+      const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard, context)) : null;
       children.splice(privateIndex + 1, 0, ...(passStatus ? [passStatus] : []), board);
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
@@ -337,6 +458,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
         h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
+    if (file) return { ...node, attrs: { ...node.attrs, 'data-file': file }, children };
     return { ...node, children };
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };
@@ -346,5 +468,6 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
 
 export function renderComicTableShell(model: TableShellModel, context: ComicContext = {}): MarkupElement {
   const current = { ...context, practice: model.match && model.connection === 'live' ? context.practice ?? null : null };
-  return decoratePublic(withPracticeNotice(renderTableShell(model), current), current) as MarkupElement;
+  const visit = (node: MarkupNode): MarkupNode => !isElement(node) ? node : node.attrs['data-region'] === 'result' ? resultSheet(model.match?.result ?? null, context) : { ...node, children: node.children.map(visit) };
+  return decoratePublic(withPracticeNotice(visit(renderTableShell(model)), current), current) as MarkupElement;
 }

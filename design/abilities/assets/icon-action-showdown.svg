@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · icon-action-showdown 0.1.0 · generated, do not edit by hand
+  The showdown's shot: its tray icon. The showdown shot's chip in the seat's own Actions tray: the special round of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/actions.svg (layer icon-action-showdown). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="icon-action-showdown" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M16 3 Q22.5 3 22.5 12 V25 H9.5 V12 Q9.5 3 16 3 Z"/><path d="M9.5 13.5 H22.5 M9.5 17.5 H22.5" stroke-width="2"/><path d="M7.5 25 H24.5 V29 H7.5 Z" fill="#151923"/></g></svg>

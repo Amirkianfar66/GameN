@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-lens 0.1.0 · generated, do not edit by hand
+  A magnifying lens. Marks what can be inspected; never a result.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/dossier.svg (layer dossier-lens). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"><g id="dossier-lens"><path d="M19 19 L27 27" fill="none" stroke="#151923" stroke-width="6" stroke-linecap="round"/><path d="M19 19 L27 27" fill="none" stroke="#55657E" stroke-width="3" stroke-linecap="round"/><circle cx="12" cy="12" r="9" fill="#B9C4D3" stroke="#151923" stroke-width="2.8"/><path d="M7.4 11 Q8.2 7 12 6.6" fill="none" stroke="#F4EBDD" stroke-width="2" stroke-linecap="round"/></g></svg>

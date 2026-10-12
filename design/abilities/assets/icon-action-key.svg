@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · icon-action-key 0.1.0 · generated, do not edit by hand
+  The release request: its tray icon. The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/actions.svg (layer icon-action-key). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="icon-action-key" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="10" cy="11" r="6"/><path d="M14.2 15.2 L27 28 M21 22 L24.5 18.5 M24.5 25.5 L28 22"/></g></svg>

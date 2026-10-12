@@ -3,6 +3,8 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { ART_BUNDLES } from '../../hosted/art.mjs';
+import { trialStylesheet } from '../../hosted/comic-assets.mjs';
 const root = fileURLToPath(new URL('../../../../', import.meta.url));
 const manifest = JSON.parse(readFileSync(resolve(root, 'design/exports/asset-manifest.json'), 'utf8'));
 export default {
@@ -10,6 +12,13 @@ export default {
   server: { host: '127.0.0.1', port: 5178, strictPort: true, hmr: false, ws: false, fs: { allow: [root] } },
   plugins: [{ name: 'isolated-comic-art', configureServer(server) {
     server.middlewares.use((req, res, next) => {
+      const trial = ['abilities', 'scene-art'].find(name => ART_BUNDLES[name] === req.url);
+      if (trial) {
+        const source = trialStylesheet(root, trial);
+        res.setHeader('content-type', 'text/css');
+        res.end(source);
+        return;
+      }
       const bundle = Object.values(manifest.bundles).find(item => `/art/${item.stylesheet.path.split('/').at(-1)}` === req.url);
       if (!bundle) return next();
       res.setHeader('content-type', 'text/css');

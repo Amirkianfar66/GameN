@@ -8,7 +8,7 @@ import {
 import { buildKnowledge } from './knowledge.js';
 import { buildResult } from './result.js';
 import type {
-  ActionBoardMarksModel, ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
+  ActionBoardMarksModel, ActionChoice, ActionChoiceModel, ActionFlowState, ActionKind, ActionOfferModel, ActionOfferState, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel,
   ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, LocationName, SeatModel,
 } from './types.js';
 import { buildVotePanel, ownBallotLine } from './votes.js';
@@ -35,18 +35,20 @@ function button(id: string, label: string, intent: CardButtonModel['intent'], pr
 // ordinary shot are always listed, open or not. Every other action, and every ballot, is
 // listed only while the server's view opens it: which roles have which actions, and who may
 // vote on what, is the server's knowledge, not this screen's.
+const OFFER_WORDS = { available: 'available', paused: 'paused', unavailable: 'unavailable', 'no-target': 'noTarget', 'too-few': 'tooFew' } as const satisfies Record<ActionOfferState, keyof typeof en.action.offer>;
+
 function offer(input: ConnectedPlayerInput, view: FullPlayerView, kind: ActionKind): ActionOfferModel | null {
-  const state = openness(view, kind);
-  if (state === 'closed' && kind !== 'shot') return null;
+  const openState = openness(view, kind);
+  if (openState === 'closed' && kind !== 'shot') return null;
   // On a view the server no longer confirms, or after the countdown, "available" would be a
   // claim about the present that this device cannot make: the offer is the last one it was sent.
   // The category open and nobody to name is said as it is, not as "unavailable".
-  const statusLabel = state === 'open' ? (mayStart(input) ? en.action.offer.available : en.action.offer.paused)
-    : state === 'closed' || kind === 'move' ? en.action.offer.unavailable
-      : kind === 'supply' || kind === 'code' ? en.action.offer.tooFew : en.action.offer.noTarget;
+  const state: ActionOfferState = openState === 'open' ? (mayStart(input) ? 'available' : 'paused')
+    : openState === 'closed' || kind === 'move' ? 'unavailable'
+      : kind === 'supply' || kind === 'code' ? 'too-few' : 'no-target';
   return {
-    kind, label: en.action.kind[kind], statusLabel,
-    open: state === 'open' && mayStart(input) ? { id: actionOpenId(kind), label: en.action.open[kind] } : null,
+    kind, label: en.action.kind[kind], state, statusLabel: en.action.offer[OFFER_WORDS[state]],
+    open: state === 'available' ? { id: actionOpenId(kind), label: en.action.open[kind] } : null,
   };
 }
 
@@ -113,8 +115,8 @@ const seatName = (view: FullPlayerView, seatId: SeatId): string => (seatId === v
 
 /**
  * The parts already picked, in words, or null when there are none. Only seats are named: a
- * guess is picked last. They are listed in the order they were picked, so that the last one
- * named is the one going back takes away.
+ * guess is picked last. Sets are displayed in seat order; the Back control separately
+ * names the last pick it takes away.
  */
 function progress(view: FullPlayerView, picked: readonly string[]): string | null {
   const seatIds = picked.filter(isSeatId);
@@ -138,7 +140,10 @@ function confirmPrompt(choice: ActionChoice, view: FullPlayerView): string {
       if (choice.approve === null) return en.action.ballot.confirmAbstain;
       return en.action.ballot.confirmReleaseVote[choice.approve ? 'yes' : 'no'](releaseSubject(view));
     case 'scan': return en.action.compound.confirmScan(who(choice.targetSeatId), choice.guess);
-    case 'supply': return en.action.compound.confirmSupply(who(choice.targetSeatIds[0]), who(choice.targetSeatIds[1]));
+    case 'supply': {
+      const targets = [...choice.targetSeatIds].sort((a, b) => seatNumber(a) - seatNumber(b));
+      return en.action.compound.confirmSupply(who(targets[0]!), who(targets[1]!));
+    }
     case 'code': return en.action.compound.confirmCode(listedSeats(view, choice.seatIds));
     default: return en.action.confirmTarget[choice.kind](who(choice.targetSeatId));
   }
@@ -157,7 +162,10 @@ function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
     case 'release-choice': return choice.targetSeatId === null ? en.action.ballot.noRequestMade : en.action.ballot.releaseRequested(whoIs(choice.targetSeatId, selfSeatId));
     case 'release-vote': return choice.approve === null ? en.action.ballot.abstained : en.action.ballot.releaseVoted[choice.approve ? 'yes' : 'no'];
     case 'scan': return en.action.compound.scanAccepted(whoIs(choice.targetSeatId, selfSeatId), choice.guess);
-    case 'supply': return en.action.compound.supplyAccepted(whoIs(choice.targetSeatIds[0], selfSeatId), whoIs(choice.targetSeatIds[1], selfSeatId));
+    case 'supply': {
+      const targets = [...choice.targetSeatIds].sort((a, b) => seatNumber(a) - seatNumber(b));
+      return en.action.compound.supplyAccepted(whoIs(targets[0]!, selfSeatId), whoIs(targets[1]!, selfSeatId));
+    }
     // The attempt itself is not repeated: it is the most private thing a phone ever sends.
     case 'code': return en.action.compound.codeAccepted;
     default: return en.action.acceptedTarget[choice.kind](whoIs(choice.targetSeatId, selfSeatId));
@@ -224,7 +232,8 @@ const namesSeats = (kind: ActionKind): boolean => kind !== 'pass' && kind !== 'm
  * player's own choice. Nothing is derived from a role, a result or another seat's command.
  */
 function boardMarks(action: ActionFlowState, view: FullPlayerView, body: ConnectedActionBody): ActionBoardMarksModel {
-  const numbered = (kind: ActionKind): boolean => kind === 'supply' || kind === 'code';
+  // Supply and the Code are sets, with identical checks rather than ordinal marks.
+  const numbered = (_kind: ActionKind): boolean => false;
   // A move is drawn where the view has the player, never where they asked: once the view shows
   // them in the room asked for, the tentative place is gone, whatever the receipt says yet.
   const shown = view.seats.find(seat => seat.seatId === view.self.seatId)?.location;
@@ -264,7 +273,7 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
       const picked = action.picked ?? [];
       return { status: 'choosing', title: titled(action.kind), body: {
         step: 'choosing', prompt: choosePrompt(view, action.kind, picked), note: en.action.chooseNote, choices: choices(view, action.kind, picked, seats),
-        progress: progress(view, picked), pickedSeatIds: picked.filter(isSeatId),
+        progress: progress(view, action.kind === 'supply' || action.kind === 'code' ? [...picked].sort((a, b) => (isSeatId(a) && isSeatId(b) ? seatNumber(a) - seatNumber(b) : 0)) : picked), pickedSeatIds: picked.filter(isSeatId),
         // With something picked, going back takes the last pick away; with nothing, it puts the action down.
         back: button(SHELL_IDS.actionBack, picked.length > 0 ? undoLabel(view, picked) : en.action.cancel, 'action/back'),
       } };
@@ -311,12 +320,22 @@ function buildBody(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedActionCardModel {
   const { status, title, body } = buildBody(input, view, seats);
   const action = drawnAction(input);
+  const kind = action.step === 'idle' ? null : action.step === 'choosing' ? action.kind : action.choice?.kind ?? null;
+  const choice = 'choice' in action ? action.choice : null;
+  const artSeats = action.step === 'choosing' ? (action.picked ?? []).filter(isSeatId) : choice === null ? [] : chosenSeats(choice);
+  const vote = choice?.kind === 'vote' ? (choice.targetSeatId === null ? 'abstain' : 'for') : choice?.kind === 'release-vote' ? (choice.approve === null ? 'abstain' : choice.approve ? 'yes' : 'no') : null;
+  if (choice?.kind === 'release-vote' && choice.approve !== null && view.ballot.releaseTargetSeatId !== null) artSeats.push(view.ballot.releaseTargetSeatId);
   return {
-    title, kind: action.step === 'idle' ? null : action.step === 'choosing' ? action.kind : action.choice?.kind ?? null,
+    title, kind,
     status, statusLabel: en.action.status[status], selected: !['idle', 'accepted', 'not-accepted'].includes(status), body,
     // Keep sent commands and receipt recovery in the strip, but do not paint their choices
     // against stale facts or a deadline this device cannot still trust as running.
     board: mayStart(input) ? boardMarks(action, view, body) : NO_MARKS,
+    art: kind === null || !mayStart(input) ? null : {
+      seatIds: [...artSeats].sort((a, b) => seatNumber(a) - seatNumber(b)), vote,
+      resourceCount: kind === 'rescue' ? view.self.rescuesRemaining : kind === 'shot' ? view.self.ordinaryWeapons : null,
+      offered: openness(view, kind) === 'open',
+    },
   };
 }
 
@@ -324,7 +343,7 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 const RULESETS_WITHOUT_PASS: ReadonlySet<string> = new Set(['in-person-v1-2026-10-06']);
 
 function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedPrivateAreaModel {
-  const open = input.privacy.revealed && !input.privacy.concealed;
+  const open = input.privacy.revealed && !input.privacy.concealed && isCurrent(input);
   const over = view.phase.kind === 'FINISHED' || view.phase.kind === 'ABORTED';
   const notice = !isCurrent(input) ? en.actions.pausedStale
     : over ? en.actions.matchOver
@@ -341,6 +360,7 @@ function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, sea
       role: { label: en.privateArea.role, name: view.self.role },
       // The server's own statement that this seat is in a Hack, and who with.
       hack: view.hackPartnerSeatId === null ? null : en.action.hackWith(seatNumber(view.hackPartnerSeatId)),
+      hackPartnerSeatId: view.hackPartnerSeatId,
       // The server's own statement of this seat's ballot in the vote that is open.
       ballot: ownBallotLine(view),
       knowledge: buildKnowledge(view),
@@ -355,6 +375,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
   const self = seats.find(seat => seat.isSelf);
   if (!self) throw new Error('A validated player view always contains its own seat');
   return {
+    versions: view.versions,
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),
     location: {
@@ -366,7 +387,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
         && (input.action.step === 'idle' || (['accepted', 'rejected', 'not-accepted'].includes(input.action.step) && 'armed' in input.action && input.action.armed)),
       // The server's offer is what makes Pass available; the ruleset only says whether the match has it at all.
       inRules: !RULESETS_WITHOUT_PASS.has(view.versions.rulesetVersion) || openness(view, 'pass') !== 'closed',
-      card: !input.privacy.concealed && 'choice' in input.action && input.action.choice?.kind === 'pass' ? buildCard(input, view, seats) : null,
+      card: !input.privacy.concealed && isCurrent(input) && 'choice' in input.action && input.action.choice?.kind === 'pass' ? buildCard(input, view, seats) : null,
     },
     privateArea: buildPrivateArea(input, view, seats),
     vote: buildVotePanel(view),

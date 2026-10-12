@@ -13,9 +13,13 @@ const sha = content => createHash('sha256').update(content).digest('hex');
 export async function boardMotionInputsSha256(repoRoot) {
   const paths = ['design/prototypes/css/tokens.css', 'design/prototypes/js/bundles.js', 'design/prototypes/js/asset-index.js', 'design/exports/asset-manifest.json',
     'design/board-motion/index.html', 'design/board-motion/vocabulary.html'];
-  for (const sub of ['css', 'js', 'contract', 'assets']) {
+  // The figure rig and the scenes draw every piece and room live: an edit to a gesture is an edit to the pages.
+  for (const sub of ['css', 'js', 'contract', 'assets', 'figures', 'scenes']) {
     for (const entry of await readdir(resolve(repoRoot, 'design/board-motion', sub), { withFileTypes: true })) if (entry.isFile()) paths.push(`design/board-motion/${sub}/${entry.name}`);
   }
+  // The page also draws the ability art (design/abilities/): its styles, its scripts and its kit.
+  paths.push('design/abilities/css/abilities.css', 'design/abilities/assets/abilities.art.css');
+  for (const entry of await readdir(resolve(repoRoot, 'design/abilities/js'), { withFileTypes: true })) if (entry.isFile()) paths.push(`design/abilities/js/${entry.name}`);
   const lines = [];
   for (const path of paths.sort()) lines.push(`${sha(await readFile(resolve(repoRoot, path)))}  ${path}`);
   return sha(lines.join('\n'));

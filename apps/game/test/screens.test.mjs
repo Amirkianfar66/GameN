@@ -244,7 +244,7 @@ test('losing the connection keeps the screen readable, says so, and recovers wit
   assert.equal(model.screen, 'match');
   assert.equal(model.connection, 'stale');
   assert.deepEqual(model.banners.map(banner => banner.variant), ['fixture', 'stale']);
-  assert.equal(model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(model.match.privateArea.content, null);
   assert.equal(model.match.location.name, 'Room A');
   assert.equal(spoken(screen), 'Connection lost. Showing the last known state.');
   await host.advance(2_000);
@@ -259,7 +259,9 @@ test('losing the connection keeps the screen readable, says so, and recovers wit
   assert.deepEqual(model.banners.map(banner => banner.variant), ['fixture']);
   assert.equal(spoken(screen), 'Reconnected. Round 2. Player 2’s turn.');
   assert.equal(model.title, 'Mothership — Player 1', 'Same seat');
-  assert.equal(model.match.privateArea.content.role.name, 'Officer', 'Same role');
+  assert.equal(model.match.privateArea.content, null, 'recovery does not reopen the card');
+  screen.dispatch(TOGGLE);
+  assert.equal(screen.getFrame().model.match.privateArea.content.role.name, 'Officer', 'Same role');
 });
 
 test('the reconnect control resubscribes and the reload control is left to the host', async () => {

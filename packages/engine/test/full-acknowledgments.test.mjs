@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { OwnAcknowledgmentsSchema } from '@mothership/contracts';
 import {
-  FULL_ENGINE_VERSION, createFullGame, executeFullGame, advanceFullGame,
+  PASS_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame,
   abortFullGame, projectFullGame, projectOwnAcknowledgments,
 } from '../dist/index.js';
 
@@ -15,6 +15,8 @@ function driver(playerCount = 7) {
   const initial = createFullGame({ matchId: 'acknowledgment-fixture',
     setup: { playerCount, roleOrder, codeExtraSeatIds: ['seat-1', 'seat-2', 'seat-3'],
       initialRooms: Object.fromEntries(ids.map(id => [id, 'Room A'])), roundOrders: Array.from({ length: 5 }, () => [...ids]) },
+    // Keep the reviewed uncapped Supply scenario under its original Pass tuple.
+    versions: { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: 'fixture-assets-v1' },
     now: 1_800_000_000_000, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'fixture-assets-v1' });
   const journal = [];
   const tick = state => {
@@ -52,8 +54,8 @@ for (const playerCount of [7, 8, 9]) {
   test(`${playerCount}-player Supply result is durable, private and separate from existing views`, () => {
     const d = driver(playerCount);
     const before = structuredClone(d.initial);
-    assert.equal(FULL_ENGINE_VERSION, 'full-game-1.1.0');
-    assert.equal(d.initial.versions.engineVersion, FULL_ENGINE_VERSION);
+    assert.equal(PASS_FULL_GAME_VERSION_PINS.engineVersion, 'full-game-1.1.0');
+    assert.equal(d.initial.versions.engineVersion, PASS_FULL_GAME_VERSION_PINS.engineVersion);
     assert.deepEqual(d.initial.supplierGrantResults, []);
     const submitted = registered(d);
     assert.deepEqual(d.initial, before, 'Transitions must not mutate their input state');

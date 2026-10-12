@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-vial-empty 0.1.0 · generated, do not edit by hand
+  An empty vial. A Rescue used: its use is reserved when the Rescue is accepted (V1-15), and the vial is drawn empty when the view's count falls, never ahead of it.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/tools.svg (layer dossier-vial-empty). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 36" width="22" height="36"><g id="dossier-vial-empty"><rect x="6" y="2" width="10" height="6" rx="1.5" fill="#B9C4D3" stroke="#151923" stroke-width="2" stroke-dasharray="3 2"/><path d="M5 9 H17 V29 Q17 34 11 34 Q5 34 5 29 Z" fill="#E3D6C2" stroke="#151923" stroke-width="2" stroke-dasharray="3 2" stroke-linejoin="round"/></g></svg>

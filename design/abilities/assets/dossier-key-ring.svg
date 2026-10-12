@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-key-ring 0.1.0 · generated, do not edit by hand
+  A key ring. Round the chip of the jailed player the Captain asks to release, in the Captain's own strip.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/ballot.svg (layer dossier-key-ring). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><g id="dossier-key-ring"><circle cx="24" cy="26" r="20" fill="none" stroke="#151923" stroke-width="3.2"/><circle cx="24" cy="26" r="20" fill="none" stroke="#F4EBDD" stroke-width="1.4"/><path d="M37.5 39.5 L44.5 46.5" fill="none" stroke="#151923" stroke-width="4.4" stroke-linecap="round"/><path d="M37.5 39.5 L44.5 46.5" fill="none" stroke="#F7C52B" stroke-width="2" stroke-linecap="round"/><path d="M41 44.6 L39.2 46.4 M43.2 46.8 L41.6 48" fill="none" stroke="#151923" stroke-width="2" stroke-linecap="round"/><circle cx="36.5" cy="38.5" r="5" fill="#F7C52B" stroke="#151923" stroke-width="2"/><circle cx="36.5" cy="38.5" r="1.6" fill="#151923"/></g></svg>

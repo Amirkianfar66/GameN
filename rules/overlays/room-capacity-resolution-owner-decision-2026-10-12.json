@@ -1,0 +1,52 @@
+{
+  "decision_id": "room-capacity-resolution-owner-decision-2026-10-12",
+  "status": "confirmed",
+  "recorded_on": "2026-10-12",
+  "decided_on": "2026-10-11",
+  "authority": "Latest game-owner decisions BAL-OD-1 through BAL-OD-6 recorded in issue #96 and the independent Balance audit, after the original capacity implementation.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/96#issuecomment-6113799029",
+  "audit": {
+    "commit": "c82863eff563ea7fd8f6ee33e7260d2dc1c4899c",
+    "path": "docs/balance/capacity-audit.md",
+    "section": 7,
+    "pull_request": "https://github.com/Amirkianfar66/GameN/pull/104"
+  },
+  "base_commit": "dd04f68ee5af887b01761a03eca644f7a67e84dd",
+  "parent_ruleset": {
+    "version": "in-person-v1-capacity-2026-10-11",
+    "hash": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.3.0",
+  "ruleset_version": "in-person-v1-capacity-resolution-2026-10-12",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "BAL-OD-1",
+      "decision": "Draw one joint assignment when the roster is complete. Every labelled A/B assignment with at most five occupants per room is equally likely. Nobody has an assigned room before that draw. Persist the result atomically and recover it on retries, replay and setup; do not derive it from roles, characters, identities or approval order."
+    },
+    {
+      "id": "BAL-OD-2",
+      "decision": "After effects resolve, healed players vacate Hospital places, then Injured players enter by lower player number. Seat ordinary-room returners only after those Hospital transfers, so a room-mate departing for Hospital frees their place in the same resolution."
+    },
+    {
+      "id": "BAL-OD-3",
+      "decision": "The remembered last room is the last A/B room actually occupied, including a forced fallback to the other ordinary room."
+    },
+    {
+      "id": "BAL-OD-4",
+      "decision": "An attacked Captain in Command Room loses the title on injury but occupies no ordinary room on the way to Hospital. After resolution, an Eliminated former Captain or an Injured one denied a full Hospital returns to their last room, otherwise the other room. They occupy that destination as an ordinary returner."
+    },
+    {
+      "id": "BAL-OD-5",
+      "decision": "A released Injured player denied a full Hospital remains physically in Jail, no longer jailed, and is reconsidered at subsequent end-of-round placement."
+    },
+    {
+      "id": "BAL-OD-6",
+      "decision": "Competing ordinary-room returners are seated by lower player number. The first gets their shared remembered room when one place is available; the other falls back and remembers the room actually occupied."
+    }
+  ],
+  "unchanged": "Hard five-place capacity including Eliminated occupants; Captain-only Command capacity one; unlimited Final Zone; registration/effect authority, timing, votes, victory, receipt replay and public/private disclosure.",
+  "version_policy": "Only new creation pins use this exact tuple. Existing capacity 1.2, Pass 1.1 and pre-Pass 1.0.1 tuples, creation records, prepared deals, running matches, assets and journal replay retain their exact historical behavior, including the audited 1.2 defect. No migrations.",
+  "contract_proposal": "Existing initialRoom is null for unbound admissions and for bound seats before the first complete-roster draw. The first drawn seat map persists when a later roster is incomplete. Nullable readers and truthful waiting-state copy require affected Frontend review before release; no new public field is introduced."
+}

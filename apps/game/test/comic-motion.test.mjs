@@ -14,9 +14,9 @@ test('more than four moved public seats skip the treatment as a batch',()=>{
   assert.deepEqual(movedPublicSeats(a,new Map([...a].map(([seat])=>[seat,'hospital']))),[]);
 });
 test('all phones preload identical complete art bundles; a table requests only public artwork',()=>{
-  assert.deepEqual(bundlesFor('player'),['public-board','player-ui','roles']);
-  assert.deepEqual(bundlesFor('display'),['public-board']);
-  assert.deepEqual(Object.keys(ART_BUNDLES).sort(),['player-ui','public-board','roles']);
+  assert.deepEqual(bundlesFor('player'),['public-board','player-ui','roles','scene-art','abilities']);
+  assert.deepEqual(bundlesFor('display'),['public-board','scene-art']);
+  assert.deepEqual(Object.keys(ART_BUNDLES).sort(),['abilities','player-ui','public-board','roles','scene-art']);
 });
 
 // ---------- the board's public cues (issue #87) ----------

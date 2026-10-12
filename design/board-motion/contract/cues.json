@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "board-motion-0.1.0",
+  "version": "board-motion-0.3.0",
   "status": "proposal",
   "about": "The cues of the board-motion prototype (issue #87): every visible change it animates or marks, what starts it, who may see it, what fact it rests on, where it is drawn, how long, how it is cancelled, what stays when it ends, and what reduced motion shows instead. Six are the reviewed cues of design/contract/motion-cues.json, kept with their ids and durations; the rest are proposals of this work. None is owner-approved.",
   "rules": [
@@ -85,13 +85,13 @@
       "level": "interaction",
       "audience": "local",
       "trigger": "Each pick of a Supply (two) or a Code attempt (four).",
-      "facts": "The player's own taps, in order. The order is a visual aid, not an ordered Code.",
-      "anchor": ".bm-piece__pick (numbered stamp) and .bm-strip__progress",
+      "facts": "The player's own taps. A set has no order: every pick is marked alike, and the strip names and draws the picks in seat order, not in the order they were tapped.",
+      "anchor": ".bm-piece__pick (the same check on every pick of a set) and, in the strip, Supply's two tags or the Code card (design/abilities/), filled in seat order",
       "durationMs": 120,
       "token": "motionMs.registrationStamp",
       "easing": "--ms-ease-snap",
       "cancellation": "Take back removes the last pick; any change that drops the choice removes all. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
-      "settled": "Numbered stamp on the character; filled progress dots in the strip; Chosen so far in words.",
+      "settled": "The same check on each picked character; the picks' chips in Supply's tags or the Code card, in seat order; Chosen so far in words, in seat order.",
       "reduced": "80 ms fade of the stamp.",
       "asset": "None."
     },
@@ -216,30 +216,46 @@
       "audience": "public",
       "trigger": "A drawn public state shows a seat in another location than the state before (PUBLIC_MOVE), four or fewer in one update.",
       "facts": "seats[].location before and after. Nothing about why: a move, a transfer to Hospital or Jail, a release and the Final Zone transfer look the same.",
-      "anchor": ".bm-flyer in the board's .bm-fx layer, walking from its feet at the old station to its feet at the new",
+      "anchor": ".bm-flyer in the board's .bm-fx layer: the character gets up from its place (an echo of it in the old room), walks from its feet there to its feet at the new place, and settles into that place's gesture on its own piece",
       "durationMs": 900,
       "token": "motionMs.pieceMove",
-      "easing": "cubic-bezier(.2,.7,.2,1), as apps/game/hosted/comic-motion.mjs",
+      "easing": "Beats 120 / 450 / 330 ms (motionBeatsMs.pieceMove): getting up (token snap), the walk across (eased in and out), settling into the new gesture (token settle)",
       "cancellation": "A newer change to the same seat; a reconnect; the page going to the background.",
-      "settled": "The piece at its new station; an ink trail and a landing puff fade out by 900 ms. Each character's lift and settle angle is its own public flourish (fixtures CREW: hop, settle).",
-      "reduced": "No flight: the piece appears at its new station with an 80 ms fade.",
-      "asset": "The figure bundle: the character in the walking pose, facing the way it goes; fx-ink-trail.paper; fx-landing-puff.paper."
+      "settled": "The piece at its new place, in that place's gesture; an ink trail and a landing puff fade out by 900 ms. An Injured character limps and wears its bandage all the way (its public health). The same walk for every character.",
+      "reduced": "No walk: the piece appears at its new place, in its gesture, with an 80 ms fade.",
+      "asset": "Drawn live by the figure rig (design/board-motion/figures/): the old place's gesture, a generated walk facing the way it goes, the new place's gesture; fx-ink-trail.paper; fx-landing-puff.paper."
+    },
+    {
+      "id": "cue-public-hit",
+      "status": "proposal",
+      "level": "game_event",
+      "audience": "public",
+      "trigger": "A drawn public state shows a seat's health worse than the state before (PUBLIC_HEALTH_CHANGED to Injured or Eliminated), four or fewer moves in the update. Every hit in one update starts at the same moment.",
+      "facts": "seats[].health before and after, nothing else: not who, how, with what or from where. One damage injures, a second eliminates (R-STATE-01), and a Shot, a Disable and a showdown shot are drawn alike.",
+      "anchor": ".bm-hit in the board's .bm-fx layer at the character's chest; the jolt, the flinch and the fall on its own piece between its room's layers (or on its echo when a move comes in the same update)",
+      "durationMs": 900,
+      "token": "motionMs.comicBeatMaximum",
+      "easing": "The burst and the jolt peak together 80 ms in (token impact) inside motionMs.publicImpact (320 ms). Injured: a flinch and back into the place's gesture by 720 ms (token settle). Eliminated: the beats of motionBeatsMs.comicBeatMaximum, 240 / 260 / 400 ms, into the place's fall.",
+      "cancellation": "A newer change to the same seat (a move in a later update withdraws it and walks); a reconnect; the page going to the background.",
+      "settled": "Injured: the character at its place in the place's gesture, with a bandage, and the Injured marker. Eliminated: the place's fall (slumped over the desk or the bench, or lying on the deck), grey, the Eliminated marker and the faction the rules reveal. Nothing of the burst stays.",
+      "reduced": "No burst, jolt, flinch or fall: the new gesture and the marker with the 80 ms fade.",
+      "asset": "Drawn live by the figure rig (design/board-motion/figures/motion.mjs): the jolt, the flinch and the fall from whatever gesture the character holds. The burst is a CSS star in the tokens' ink and paper: no lettering, no weapon, no direction."
     },
     {
       "id": "layout-reflow",
       "status": "proposal",
       "level": "layout",
       "audience": "public",
-      "trigger": "A move into or out of a room changes the stations of those already there.",
-      "facts": "Public occupancy only.",
-      "anchor": ".bm-piece__body of each co-occupant",
-      "durationMs": 220,
-      "token": "motionMs.cardTransition",
-      "easing": "--ms-ease-standard",
-      "cancellation": "Any newer change to that seat.",
-      "settled": "Everyone at the station their seat order gives them.",
-      "reduced": "None: they are simply at their stations.",
-      "asset": "None."
+      "trigger": "A character who stays in its room is given another place there because someone came in or left: the lower seat of its pair (seats n and n + 5 prefer the same place) took its place, or a place it prefers came free. Also a room passing from five occupants to six, or from six back to five (layout stress): its characters change between their places and the crowd.",
+      "facts": "Public occupancy only: who is in the room, by seat number.",
+      "anchor": ".bm-flyer in the board's .bm-fx layer for a step, as for a move; .bm-piece of each co-occupant between places and the crowd",
+      "durationMs": 900,
+      "token": "motionMs.pieceMove",
+      "easing": "A step: the move's beats 120 / 450 / 330 ms (motionBeatsMs.pieceMove), without the ink trail and the landing puff. Between places and the crowd: none, a state.",
+      "cancellation": "A newer change to the same seat; a reconnect; the page going to the background.",
+      "settled": "Everyone at the place, or the crowd position, that who is in the room gives them, the same on every screen whether it followed the match or has just loaded or reconnected: the lowest seat first, each at the first free place in its own order of preference, seat n starting at place (n - 1) mod 5 (design/board-motion/js/layout.js).",
+      "reduced": "No walk: the piece appears at its next place, in its gesture, with an 80 ms fade. Between places and the crowd: the same, nothing moves.",
+      "asset": "Drawn live by the figure rig (design/board-motion/figures/), as for a move: the old place's gesture, a walk, the new place's gesture."
     },
     {
       "id": "cue-status-change",
@@ -254,7 +270,7 @@
       "token": "motionMs.cardTransition",
       "easing": "--ms-ease-snap",
       "cancellation": "A newer change to the same seat.",
-      "settled": "The marker on the piece and the status words in its name; Injured characters lean a little; Eliminated ones are grey with the faction the rules reveal.",
+      "settled": "The marker on the piece and the status words in its name; an Injured character wears a bandage at its place; an Eliminated one takes its place's fall, grey, with the faction the rules reveal.",
       "reduced": "80 ms fade of the marker.",
       "asset": "marker-health.injured-badge, marker-health.eliminated-badge, marker-captain.badge, marker-jail.badge (public)."
     },
@@ -309,6 +325,22 @@
       "asset": "None."
     },
     {
+      "id": "cue-end-reveal",
+      "status": "proposal",
+      "level": "phase_or_finale",
+      "audience": "public",
+      "trigger": "The view's phase turns FINISHED (with result and endReveal) or ABORTED (with neither), on a device that drew the match before it ended.",
+      "facts": "phase.kind, result (winner, alienCoWinner) and endReveal (roles, code) of the public view; the contract carries the result and the end reveal at FINISHED only.",
+      "anchor": ".bm-result: .bm-result__outcome, .bm-cast__row, .bm-cast__pin, .bm-result__code",
+      "durationMs": 900,
+      "token": "motionMs.comicBeatMaximum",
+      "easing": "--ms-ease-settle, --ms-ease-snap",
+      "cancellation": "A reconnect, a page that was in the background, reduced motion switched on or disposal: the sheet stands as it is, with every word. Never played for a page that loads at the end already, a replayed snapshot or a reconnect.",
+      "settled": "The result sheet over the lower board on every screen: the winner on its ribbon, the Alien's co-win, the cast list (each seat's character, label and role, its side's colour; the Code's four pinned) and the Code's sentence; at an ended match, the host's sentence only. The status bar's timer says the phase has none.",
+      "reduced": "80 ms fade of the whole sheet: nothing is struck, turned up or stamped.",
+      "asset": "The crew cards of the public board (piece-crew-card-c1 to c9, public); everything else is CSS. No device art."
+    },
+    {
       "id": "cue-tally",
       "status": "proposal",
       "level": "game_event",
@@ -347,8 +379,8 @@
       "why": "Not authorized: no public event discloses an attacker, weapon, block, giver or cause (the view and event schemas of packages/contracts/src/full-game.ts)."
     },
     {
-      "what": "A BANG, projectile, impact, heal or shield on a health change",
-      "why": "PUBLIC_HEALTH_CHANGED says only the new health. Drawing a cause would invent a fact."
+      "what": "A BANG, a shooter, a weapon, a projectile, a trajectory or a direction on a health change; a heal or a shield",
+      "why": "PUBLIC_HEALTH_CHANGED says only the new health. cue-public-hit draws one hit the same for every cause and from no direction; drawing a cause, an attacker or a shot would invent a fact."
     },
     {
       "what": "Sound and vibration",

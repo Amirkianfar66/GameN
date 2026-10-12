@@ -62,16 +62,16 @@ test('idle, the card lists what the server offers now: a move, a shot, both or n
   const plain = card(playerView());
   assert.deepEqual([plain.title, plain.status, plain.statusLabel, plain.selected], ['Your action', 'idle', 'Nothing in progress', false]);
   assert.deepEqual(plain.body.offers, [
-    { kind: 'move', label: 'Move', statusLabel: 'Available', open: { id: 'ms-action-open-move', label: 'Choose where to move' } },
-    { kind: 'shot', label: 'Shot', statusLabel: 'Not available', open: null },
+    { kind: 'move', label: 'Move', state: 'available', statusLabel: 'Available', open: { id: 'ms-action-open-move', label: 'Choose where to move' } },
+    { kind: 'shot', label: 'Shot', state: 'unavailable', statusLabel: 'Not available', open: null },
   ]);
   assert.equal(card(playerView(armed)).body.offers[1].open.label, 'Choose a target');
   // The category is open and nobody can be targeted: said as it is.
   const noTarget = card(playerView(view => { armed(view); view.legalTargets = { REGISTER_SHOT: [] }; })).body.offers[1];
-  assert.deepEqual([noTarget.statusLabel, noTarget.open], ['No one you can target right now', null]);
+  assert.deepEqual([noTarget.state, noTarget.statusLabel, noTarget.open], ['no-target', 'No one you can target right now', null]);
   // Targets listed while the category is closed offer nothing.
   assert.equal(card(playerView(view => { armed(view); view.self.shotAvailable = false; })).body.offers[1].open, null);
-  assert.deepEqual(card(playerView(view => { view.self.movementDestinations = []; })).body.offers[0], { kind: 'move', label: 'Move', statusLabel: 'Not available', open: null });
+  assert.deepEqual(card(playerView(view => { view.self.movementDestinations = []; })).body.offers[0], { kind: 'move', label: 'Move', state: 'unavailable', statusLabel: 'Not available', open: null });
   // How many commands are waiting, and not which: the view does not say.
   assert.equal(card(playerView()).body.note, null);
   assert.equal(card(playerView(view => { view.ownPendingCommandIds = ['command-a']; })).body.note, 'One action of yours is registered and waiting to be resolved.');
@@ -87,10 +87,11 @@ test('nothing can be started on a view that is not fresh or whose clock has run 
     [{ deadline: { kind: 'unsynced' } }, 'Actions are paused until this device has the server’s time.'],
   ]) {
     const built = model(playerView(armed), IDLE, overrides);
+    if (overrides.connection === 'stale' || overrides.problem) { assert.equal(built.match.privateArea.content, null); continue; }
     assert.equal(built.match.privateArea.content.actions.notice, notice);
     for (const offer of built.match.privateArea.content.actions.card.body.offers) assert.equal(offer.open, null, JSON.stringify(overrides));
     // What the server last offered is not called "available": this device cannot vouch for the present.
-    assert.deepEqual(built.match.privateArea.content.actions.card.body.offers.map(offer => offer.statusLabel), ['Paused', 'Paused'], JSON.stringify(overrides));
+    assert.deepEqual(built.match.privateArea.content.actions.card.body.offers.map(offer => [offer.state, offer.statusLabel]), [['paused', 'Paused'], ['paused', 'Paused']], JSON.stringify(overrides));
     // What it did not offer stays what it was.
     assert.deepEqual(card(playerView(view => { view.self.movementDestinations = []; }), IDLE, overrides).body.offers.map(offer => offer.statusLabel), ['Not available', 'Not available']);
     // An unsent choice is not drawn either, whatever the flow still holds.
@@ -265,12 +266,13 @@ test('an action other than a move or a shot is listed only while the server open
   for (const [kind, expected] of Object.entries(TARGET_ACTIONS)) {
     const open = card(playerView(listing(expected.command, ['seat-5', 'seat-3'])));
     assert.deepEqual(open.body.offers.map(offer => offer.kind), ['move', 'shot', kind]);
-    assert.deepEqual(open.body.offers[2], { kind, label: expected.label, statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: expected.open } }, kind);
+    assert.deepEqual(open.body.offers[2], { kind, label: expected.label, state: 'available', statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: expected.open } }, kind);
     // Open with nobody to choose: listed, said as it is, and no control.
-    assert.deepEqual(card(playerView(listing(expected.command, []))).body.offers[2], { kind, label: expected.label, statusLabel: 'No one you can target right now', open: null }, kind);
+    assert.deepEqual(card(playerView(listing(expected.command, []))).body.offers[2], { kind, label: expected.label, state: 'no-target', statusLabel: 'No one you can target right now', open: null }, kind);
     // On a view this device cannot vouch for, or without a running trusted clock: no control, and not called available.
     for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
-      assert.deepEqual(card(playerView(listing(expected.command, ['seat-3'])), IDLE, overrides).body.offers[2], { kind, label: expected.label, statusLabel: 'Paused', open: null }, kind);
+      if (overrides.connection === 'stale') { assert.equal(model(playerView(listing(expected.command, ['seat-3'])), IDLE, overrides).match.privateArea.content, null); continue; }
+      assert.deepEqual(card(playerView(listing(expected.command, ['seat-3'])), IDLE, overrides).body.offers[2], { kind, label: expected.label, state: 'paused', statusLabel: 'Paused', open: null }, kind);
     }
     // Closed, none of it is in the model or the document.
     const built = model(playerView(listing(expected.command, ['seat-3'])), IDLE, closed);

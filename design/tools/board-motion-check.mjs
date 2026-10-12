@@ -17,6 +17,7 @@ import { planAssets } from './board-motion-assets.mjs';
 import { planCoverage, COVERAGE_PATH } from './board-motion-docs.mjs';
 import { boardMotionInputsSha256 } from './lib/board-motion-inputs.mjs';
 import { offerProblems } from './lib/board-motion-offers.mjs';
+import { productionDrawingProblems } from './lib/drawing-port-fence.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const text = path => readFile(resolve(repoRoot, path), 'utf8');
@@ -32,10 +33,9 @@ const load = path => import(pathToFileURL(resolve(repoRoot, path)).href);
 
 const ROLE_WORDS = ['Officer', 'Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
 const TOOLS = ['design/tools/board-motion-assets.mjs', 'design/tools/board-motion-capture.mjs', 'design/tools/board-motion-check.mjs', 'design/tools/board-motion-docs.mjs',
-  'design/tools/board-motion-flows.mjs', 'design/tools/lib/board-motion-inputs.mjs'];
+  'design/tools/board-motion-flows.mjs', 'design/tools/lib/board-motion-inputs.mjs', 'design/tools/lib/drawing-port-fence.mjs', 'design/tools/lib/reviewed-drawing-ports.json'];
 const coverage = await json('design/board-motion/contract/coverage.json');
 const cues = await json('design/board-motion/contract/cues.json');
-const stations = await json('design/board-motion/contract/stations.json');
 // The prototype's own modules run here in Node. One that does not load is refused by name below,
 // after the fence check, which reads files as text and so still says why.
 let fixtures = null, layout = null, loadError = null;
@@ -57,17 +57,15 @@ const scenarioIds = new Set(fixtures?.SCENARIOS.map(entry => entry.id) ?? []);
       continue;
     }
     const content = await text(path);
-    // The prop layers and figures are art for a later export revision: generated, checked below, not development code.
-    if (!/^design\/board-motion\/assets\/(?:figures\/)?[\w.-]+\.svg$/.test(path) && !content.includes('mothership:dev-only')) problems.push(`${path}: no development-only mark`);
+    // The scene layers are art for a later export revision: generated, checked below, not development code.
+    if (!/^design\/board-motion\/assets\/scenes\/[\w.-]+\.svg$/.test(path) && !content.includes('mothership:dev-only')) problems.push(`${path}: no development-only mark`);
     if (content.includes('explorations/')) problems.push(`${path}: reaches into design/explorations/`);
     if (/\b(?:fetch|import)\s*\(?\s*['"`]https?:|url\(\s*['"]?https?:|(?:src|href)=["']https?:/.test(content)) problems.push(`${path}: loads something from the network`);
     if (/(?:from|import\()\s*['"][^'"]*\/(?:apps|packages)\//.test(content)) problems.push(`${path}: imports production code`);
   }
   for (const path of TOOLS) if (!(await text(path).catch(() => '')).includes('mothership:dev-only')) problems.push(`${path}: no development-only mark`);
   // Nothing in the production frontend reaches the prototype, its fixtures or its controls.
-  for (const dir of ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src']) {
-    for (const path of await filesUnder(dir)) if ((await text(path)).includes('board-motion')) problems.push(`${path}: production code refers to the board-motion prototype`);
-  }
+  problems.push(...await productionDrawingProblems(repoRoot));
   check('the prototype is development-only and reaches nowhere it should not', problems);
 }
 
@@ -80,69 +78,84 @@ if (loadError) {
   process.exit(1);
 }
 
-// ---------- The prop layers are lifted from the approved sources; the reviewed kit is untouched ----------
+// ---------- The scenes are built from the approved sources; the reviewed kit is untouched ----------
 {
   const problems = [];
-  for (const [path, content] of await planAssets(repoRoot)) {
-    if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-motion-assets.mjs makes from the approved sources: run it`);
+  let planned = new Map();
+  try { planned = await planAssets(repoRoot); } catch (error) { problems.push(`the scenes cannot be built: ${String(error.message).split('\n')[0]}`); }
+  for (const [path, content] of planned) {
+    if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-motion-assets.mjs makes from the approved sources and the scenes: run it`);
   }
   const manifest = await json('design/board-motion/assets/manifest.json');
   const reviewed = await json('design/exports/asset-manifest.json');
   const runtime = await text('apps/game/hosted/comic-assets.mjs');
-  if (manifest.baseManifest !== reviewed.manifestVersion) problems.push(`the prop layers are proposed against ${manifest.baseManifest}, the reviewed manifest is ${reviewed.manifestVersion}`);
+  if (manifest.baseManifest !== reviewed.manifestVersion) problems.push(`the scenes are proposed against ${manifest.baseManifest}, the reviewed manifest is ${reviewed.manifestVersion}`);
   if (!runtime.includes(`'${reviewed.manifestVersion}'`)) problems.push(`the runtime does not load the reviewed manifest ${reviewed.manifestVersion}: the kit it reads has changed`);
-  if (manifest.status !== 'proposal') problems.push('the prop layers are not marked as a proposal');
-  for (const asset of manifest.assets) {
-    if (asset.audience !== 'public') problems.push(`${asset.id}: a prop layer that is not public art`);
-    if (reviewed.assets?.some(entry => entry.id === asset.proposedExportVariant || entry.file === asset.file)) problems.push(`${asset.id}: already in the reviewed manifest`);
+  if (manifest.status !== 'proposal') problems.push('the scenes are not marked as a proposal');
+  const { SCENES } = await load('design/board-motion/scenes/index.mjs');
+  for (const room of layout.ROOMS) if (!manifest.scenes?.some(scene => scene.room === room && scene.layer === 'back')) problems.push(`${room}: no scene`);
+  for (const scene of manifest.scenes ?? []) {
+    if (scene.audience !== 'public') problems.push(`${scene.id}: a scene layer that is not public art`);
+    if (reviewed.assets?.some(entry => entry.id === scene.proposedExportVariant || entry.file === scene.file)) problems.push(`${scene.id}: already in the reviewed manifest`);
+    const svg = await text(scene.file).catch(() => '');
+    if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(svg)) problems.push(`${scene.id}: outside the drawing vocabulary`);
   }
-  check('the prop layers are made from the approved sources, and the reviewed kit is the one the runtime loads', problems);
+  // The approved room is lifted, not redrawn: every group a scene names is in its source.
+  for (const scene of Object.values(SCENES)) {
+    const source = await text(`design/source/${scene.source}`).catch(() => '');
+    for (const group of [...scene.under, ...scene.over]) if (!source.includes(`id="${group}"`)) problems.push(`${scene.room}: the approved group ${group} is not in design/source/${scene.source}`);
+  }
+  check('the scenes are built from the approved sources, and the reviewed kit is the one the runtime loads', problems);
 }
 
-// ---------- The figures: the approved characters, their own colors, every pose for everyone ----------
+// ---------- The figures: the approved characters, their own colors, every gesture for everyone, drawn live ----------
 {
   const problems = [];
   const manifest = await json('design/board-motion/assets/manifest.json');
   const reviewed = await json('design/exports/asset-manifest.json');
   const tokens = await json('packages/design-tokens/src/tokens-0.4.0.json');
   const { CREW } = await load('design/board-motion/figures/crew.mjs');
-  const { BOARD_POSES } = await load('design/board-motion/figures/plan.mjs');
-  const { GEOMETRY } = await load('design/board-motion/figures/geometry.mjs');
+  const { GESTURES, INJURED } = await load('design/board-motion/figures/gestures.mjs');
+  const { figureDocument, colorsOf } = await load('design/board-motion/figures/plan.mjs');
   const upper = value => value.toUpperCase();
   const c = tokens.color;
   // The crew palette of check-assets.mjs: the public tones, every character's own colors and the hair colors.
   const publicTones = new Set([c.canvas, c.panel, c.paper, c.ink, c.publicToken, c.paperShade, c.paperDeep, ...Object.values(c.steel)].map(upper));
   const crewTones = new Set([...Object.values(c.crew).flatMap(parts => Object.values(parts)), ...Object.values(c.crewHair)].map(upper));
-  const figures = manifest.figures ?? [];
-  if (figures.length === 0) problems.push('the manifest lists no figures');
+  const others = id => new Set(Object.entries(c.crew).filter(([name]) => name !== id).flatMap(([, parts]) => Object.values(parts)).map(upper));
+  const gestures = Object.keys(GESTURES);
+  for (const gesture of gestures) {
+    const entry = (manifest.figures ?? []).find(figure => figure.gesture === gesture);
+    if (!entry) problems.push(`the manifest lists no figure sheet for the gesture ${gesture}`);
+    else {
+      if (entry.audience !== 'public') problems.push(`${entry.id}: a figure that is not public art`);
+      if (reviewed.assets?.some(asset => asset.id === entry.id || asset.file === entry.sheet)) problems.push(`${entry.id}: already in the reviewed manifest`);
+    }
+  }
   for (const [id, character] of Object.entries(CREW)) {
     const own = c.crew[id];
     if (!own) { problems.push(`${id}: no character ${id} in color.crew`); continue; }
     if (upper(character.skin) !== upper(own.skin) || upper(character.field) !== upper(own.field) || upper(character.accent) !== upper(own.accent)) problems.push(`${id}: its skin, field or accent is not color.crew.${id}`);
-    for (const pose of BOARD_POSES) {
-      const entry = figures.find(figure => figure.character === id && figure.pose === pose && figure.layer === 'body');
-      if (!entry?.bundled) problems.push(`${id}: the board pose ${pose} is not in the figure bundle`);
-      if (GEOMETRY[pose]?.front && !figures.some(figure => figure.character === id && figure.pose === pose && figure.layer === 'front' && figure.bundled)) problems.push(`${id}: the layer of ${pose} over the prop is not in the bundle`);
+    const mine = Object.values(own).map(upper);
+    for (const gesture of gestures.flatMap(name => [name, `${name}${INJURED}`])) {
+      const { body, front } = figureDocument(id, gesture);
+      if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(body + front)) problems.push(`${id} ${gesture}: outside the drawing vocabulary`);
+      const used = colorsOf(body + front);
+      for (const color of used) if (!publicTones.has(color) && !crewTones.has(color)) problems.push(`${id} ${gesture}: ${color} is not in the crew palette`);
+      for (const color of used) if (others(id).has(color) && !mine.includes(color) && !publicTones.has(color)) problems.push(`${id} ${gesture}: ${color} is another character's color`);
     }
+    // Standing, the whole character shows: every one of its own colors is in the picture.
+    const standing = colorsOf(figureDocument(id, 'stand').body);
+    for (const color of mine) if (!standing.includes(color)) problems.push(`${id}: standing, does not use ${color}, which color.crew.${id} lists`);
   }
-  const others = id => new Set(Object.entries(c.crew).filter(([name]) => name !== id).flatMap(([, parts]) => Object.values(parts)).map(upper));
-  for (const figure of figures) {
-    if (figure.audience !== 'public') problems.push(`${figure.id}: a figure that is not public art`);
-    if (reviewed.assets?.some(entry => entry.id === figure.proposedExportVariant || entry.file === figure.file)) problems.push(`${figure.id}: already in the reviewed manifest`);
-    const svg = await text(figure.file);
-    const used = [...new Set([...svg.matchAll(/(?:fill|stroke)="(#[0-9A-Fa-f]{6})"/g)].map(match => upper(match[1])))];
-    for (const color of used) if (!publicTones.has(color) && !crewTones.has(color)) problems.push(`${figure.id}: ${color} is not in the crew palette`);
-    for (const color of used) if (others(figure.character).has(color) && !Object.values(c.crew[figure.character]).map(upper).includes(color) && !publicTones.has(color)) problems.push(`${figure.id}: ${color} is another character's color`);
-    if (figure.layer === 'body') for (const color of Object.values(c.crew[figure.character])) if (!used.includes(upper(color))) problems.push(`${figure.id}: does not use ${color}, which color.crew.${figure.character} lists`);
-    if (/<text\b|<image\b|<script\b|<foreignObject\b|href=/i.test(svg)) problems.push(`${figure.id}: outside the drawing vocabulary`);
-  }
-  // The whole bundle is loaded at once, before the first match view: no pose is ever fetched later.
-  const css = await text('design/board-motion/assets/board-motion.figures.css');
-  for (const figure of figures.filter(entry => entry.bundled)) if (!css.includes(`--bm-figure-${figure.character}-${figure.pose}${figure.layer === 'front' ? '-front' : ''}:`)) problems.push(`${figure.id}: bundled but not in board-motion.figures.css`);
-  if (!/whatever the seat's role/.test(manifest.figureStylesheet?.loadPolicy ?? '')) problems.push('the figure bundle does not say it is loaded whatever the seat\'s role');
+  // Drawn live from public facts by the rig: no figure picture is fetched, and the scenes come in one public stylesheet.
   const app = await text('design/board-motion/js/app.js');
-  if (!app.includes('board-motion.figures.css')) problems.push('the prototype does not load the figure bundle with the others');
-  check('the figures are the approved characters in their own colors, every board pose bundled for everyone', problems);
+  const board = await text('design/board-motion/js/board.js');
+  if (!/from '\.\.\/figures\/body\.mjs'/.test(board)) problems.push('the board does not draw its figures with the rig');
+  if (/board-motion\.figures\.css|assets\/figures\//.test(app + board)) problems.push('the prototype fetches figure art');
+  if (!app.includes('board-motion.scenes.css') || !app.includes('board-motion-scenes')) problems.push('the prototype does not load the scene bundle with the others');
+  if (!/whatever the seat's role/.test(manifest.stylesheet?.loadPolicy ?? '')) problems.push('the scene bundle does not say it is loaded whatever the seat\'s role');
+  check('the figures are the approved characters in their own colors, every gesture for everyone, drawn live', problems);
 }
 
 // ---------- Every action and every command of the release is covered ----------
@@ -212,10 +225,7 @@ if (loadError) {
   const problems = [];
   const catalog = await json('design/contract/crew-catalog.json');
   if (JSON.stringify(catalog.characters.map(entry => [entry.id, entry.callSign])) !== JSON.stringify(fixtures.CREW.map(entry => [entry.id, entry.sign]))) problems.push('CREW differs from design/contract/crew-catalog.json');
-  for (const entry of fixtures.CREW) {
-    if (!(entry.hop >= 2 && entry.hop <= 12)) problems.push(`${entry.id}: a lift outside 2 to 12 px`);
-    if (!(Math.abs(entry.settle) <= 4)) problems.push(`${entry.id}: a settle beyond 4 degrees`);
-  }
+  for (const entry of fixtures.CREW) if (Object.keys(entry).some(key => !['id', 'sign'].includes(key))) problems.push(`${entry.id}: a character with a rule of its own (${Object.keys(entry).join(', ')})`);
   const states = coverage.vocabulary.states.map(state => state.id);
   const required = ['idle', 'pressed-focused', 'eligible', 'selected', 'multi-selected', 'pending', 'accepted-registration', 'rejected-unavailable', 'authoritative-movement', 'public-status-change', 'active-turn'];
   for (const id of required) if (!states.includes(id)) problems.push(`no vocabulary state ${id}`);
@@ -229,51 +239,96 @@ if (loadError) {
   check('nine characters in eleven states, the release\'s crew and role looks', problems);
 }
 
-// ---------- Every room seats nine without a capacity, every target its own place ----------
+// ---------- Five places a room, each its own gesture; one to nine in a room, every one reachable ----------
 {
   const problems = [];
-  // The content width of a panel on a 320 px phone: the Command Room spans the board, the others half of it.
-  const PANEL_PX = { 'command-room': 306, other: 141 };
-  if (stations.crowd.slots.length !== 9) problems.push('the crowd formation does not have nine places');
-  const key = place => `${place.at?.[0]}:${place.at?.[1]}`;
+  const { GESTURES, INJURED, skeletonOf } = await load('design/board-motion/figures/gestures.mjs');
+  // The board's geometry, as the prototype lays it out: board.js runs in Node (it touches no document until a board is built).
+  const { geometry, pressRect } = await load('design/board-motion/js/board.js');
+  const LETTER = { 'command-room': 'C', 'room-a': 'A', 'room-b': 'B', hospital: 'H', jail: 'J' };
+  // The owner's decision of 9 October 2026: five fixed places a room, the Command Room one; 21 in all, each its own gesture.
+  const all = layout.ROOMS.flatMap(room => layout.placesOf(room).map(place => ({ ...place, room })));
   for (const room of layout.ROOMS) {
-    const spec = stations.rooms[room];
-    const ids = Object.keys(spec.stations);
-    const used = new Set();
-    for (let count = 1; count <= 5; count += 1) {
-      const formation = spec.formations[String(count)];
-      if (!formation || formation.length !== count || new Set(formation).size !== count || formation.some(id => !ids.includes(id))) problems.push(`${room}: no formation of ${count} distinct stations`);
-      for (const id of formation ?? []) used.add(id);
-    }
-    for (const id of ids) if (!used.has(id)) problems.push(`${room}: station ${id} is in no formation`);
-    const width = PANEL_PX[room] ?? PANEL_PX.other;
+    const places = layout.placesOf(room);
+    const count = room === 'command-room' ? 1 : 5;
+    if (places.length !== count) problems.push(`${room}: ${places.length} places, not ${count}`);
+    places.forEach((place, index) => { if (place.id !== `${LETTER[room]}${index + 1}`) problems.push(`${room}: place ${index + 1} is called ${place.id}`); });
+  }
+  if (all.length !== 21) problems.push(`${all.length} places in all, not 21`);
+  for (const place of all) {
+    if (!GESTURES[place.gesture]) problems.push(`${place.id}: no gesture ${place.gesture}`);
+    if (!GESTURES[(place.down ?? 'down').split('+')[0]]) problems.push(`${place.id}: no fall ${place.down}`);
+    if (!place.about) problems.push(`${place.id}: says nothing of what it shows`);
+  }
+  for (const [gesture, places] of Object.entries(Object.groupBy(all, place => place.gesture))) if (places.length > 1) problems.push(`${places.map(place => place.id).join(' and ')}: the same gesture ${gesture}`);
+  // Every count from one to nine in every room is placed, each at a place of its own or, six and more, in the crowd.
+  const key = place => `${place.place}:${place.at?.join(',')}`;
+  for (const room of layout.ROOMS) {
+    const capacity = room === 'command-room' ? 1 : 5;
     for (let count = 1; count <= 9; count += 1) {
-      const seats = Array.from({ length: count }, (_, index) => ({ n: index + 1, location: layout.LOCATION_OF[room] }));
-      const placed = [...layout.placements(stations, seats).values()];
+      const seats = Array.from({ length: count }, (_, index) => ({ n: index + 1, location: layout.LOCATION_OF[room], health: 'Healthy', captain: room === 'command-room' && index === 0 }));
+      const placed = [...layout.placements(seats).values()];
       if (placed.length !== count) { problems.push(`${room}: ${count} characters, ${placed.length} placed`); continue; }
-      const standing = placed.filter(place => place.kind === 'stand');
-      if (new Set(standing.map(key)).size !== standing.length) problems.push(`${room}: two of ${count} characters share a place`);
-      for (const place of standing) if (!(place.at[0] * width >= 22 && (1 - place.at[0]) * width >= 22)) problems.push(`${room}: a place whose 44 px target leaves the panel, for ${count}`);
-      // Within a row, neighbours at least one 44 px target apart on the smallest phone. Rows are a row unit (at least 44 px) apart.
-      const rows = new Map();
-      for (const place of standing) rows.set(place.at[1], [...(rows.get(place.at[1]) ?? []), place.at[0]].sort((a, b) => a - b));
-      for (const [rowIndex, xs] of rows) for (let i = 1; i < xs.length; i += 1) if ((xs[i] - xs[i - 1]) * width < 44) problems.push(`${room}: two places in row ${rowIndex} ${Math.round((xs[i] - xs[i - 1]) * width)} px apart at 320 px, for ${count}`);
-      if (layout.rowsFor(stations, room, count) > 3) problems.push(`${room}: more than three rows for ${count}`);
+      if (new Set(placed.map(key)).size !== count) problems.push(`${room}: two of ${count} characters share a place`);
+      if (placed.some(place => place.kind !== (count > capacity ? 'crowd' : 'place'))) problems.push(`${room}: ${count} characters are not ${count > capacity ? 'in the crowd' : 'at places'}`);
     }
   }
-  // Who takes a picture station, and the pose, are public facts; nobody Eliminated takes one.
-  const placeAll = seats => layout.placements(stations, seats);
-  const ward = placeAll([{ n: 1, location: 'Hospital', health: 'Healthy' }, { n: 2, location: 'Hospital', health: 'Injured' }]);
-  if (ward.get(2)?.pose !== 'inBed' || ward.get(1)?.pose === 'inBed') problems.push('the Hospital bed is not the first Injured character\'s');
-  if (placeAll([{ n: 1, location: 'Hospital', health: 'Healthy' }]).get(1)?.kind !== 'stand') problems.push('a healed character in the Hospital is put in the bed');
-  const bridge = placeAll([{ n: 1, location: 'Command Room', health: 'Healthy' }, { n: 4, location: 'Command Room', health: 'Healthy', captain: true }]);
-  if (bridge.get(4)?.pose !== 'leaning' || bridge.get(1)?.pose === 'leaning') problems.push('the Captain does not take the chart table');
-  const lab = placeAll([{ n: 1, location: 'Room B', health: 'Eliminated' }, { n: 2, location: 'Room B', health: 'Healthy' }]);
-  if (lab.get(1)?.pose !== 'out' || lab.get(1)?.kind !== 'stand' || lab.get(2)?.pose !== 'leaning') problems.push('an Eliminated character takes the counter, or does not sit on the floor');
-  if (placeAll([{ n: 3, location: 'Jail', health: 'Healthy', jailed: true }]).get(3)?.pose !== 'onBench') problems.push('a Jailed character alone in the Jail is not on the bench');
+  // At 320 x 568 (the smallest phone), every set of taken places fits its band with every press area whole, at
+  // least 44 px and apart. The bands of the 448 px the board has there: the Command Room 100, Rooms A and B 196,
+  // the Hospital and the Jail 150 (each with its 6 px of border); the captures measure the real board.
+  const PANEL = { 'command-room': [306, 44, 94], 'room-a': [141, 44, 190], 'room-b': [141, 44, 190], hospital: [141, 32, 144], jail: [141, 32, 144] };
+  const fits = (places, width, height, cap) => {
+    const size = { width, height, cap, pad: 6 };
+    const rects = places.map(place => pressRect(geometry(place, size), size));
+    if (rects.some(r => r.top < cap - 0.5 || r.top + r.side > height - 6 + 0.5 || r.left < -0.5 || r.left + r.side > width + 0.5 || r.side < 44)) return false;
+    return rects.every((a, i) => rects.every((b, j) => j <= i || a.left + a.side <= b.left || b.left + b.side <= a.left || a.top + a.side <= b.top || b.top + b.side <= a.top));
+  };
+  const subsets = n => Array.from({ length: (1 << n) - 1 }, (_, mask) => [...Array(n).keys()].filter(index => ((mask + 1) >> index) & 1));
+  for (const room of layout.ROOMS) {
+    const [width, cap, most] = PANEL[room];
+    const places = layout.placesOf(room);
+    for (const subset of subsets(places.length)) {
+      // Each taken place held by the seat whose first place it is (seat n prefers place n), alive or,
+      // every one of them, Eliminated there.
+      for (const health of ['Healthy', 'Eliminated']) {
+        const seats = subset.map(index => ({ n: index + 1, location: layout.LOCATION_OF[room], health, captain: room === 'command-room' }));
+        const drawn = [...layout.placements(seats).values()];
+        if (room !== 'command-room' && drawn.map(place => place.place).sort().join() !== subset.map(index => places[index].id).sort().join()) problems.push(`${room}: seats ${seats.map(seat => seat.n).join(', ')} do not take their own first places`);
+        let height = cap + 50;
+        while (height <= most && !fits(drawn, width, height, cap)) height += 2;
+        if (height > most) problems.push(`${room}: ${subset.map(index => places[index].id).join(' ')}${health === 'Eliminated' ? ' Eliminated' : ''} need more than ${most} px at ${width} px wide for whole, separate press areas`);
+      }
+    }
+    for (let count = 6; count <= 9; count += 1) {
+      const crowd = [...layout.placements(Array.from({ length: count }, (_, index) => ({ n: index + 1, location: layout.LOCATION_OF[room], health: 'Healthy' }))).values()];
+      if (!fits(crowd, width, Math.max(most, 196), cap)) problems.push(`${room}: a crowd of ${count} does not fit ${Math.max(most, 196)} px with whole, separate press areas`);
+    }
+  }
+  // Who takes which place, and the gesture, are public facts: the Captain at the chart table, the places from
+  // who is in the room by seat number, the place's fall when Eliminated, a bandage only when Injured.
+  const bridge = layout.placements([{ n: 4, location: 'Command Room', health: 'Healthy', captain: true }]);
+  if (bridge.get(4)?.place !== 'C1' || bridge.get(4)?.gesture !== 'captainTable') problems.push('the Captain does not take the chart table');
+  // Seats 2 and 7 prefer the same place, A2, and the lower seat gets it: seat 7, alone there, steps to A3 when
+  // seat 2 comes in, and back when it leaves. A screen that has just loaded or reconnected draws exactly what a
+  // screen that followed the match draws, because the places are a function of who is in the room now.
+  const alone = layout.placements([{ n: 7, location: 'Room A', health: 'Healthy' }]);
+  const pair = layout.placements([{ n: 2, location: 'Room A', health: 'Healthy' }, { n: 7, location: 'Room A', health: 'Healthy' }]);
+  if (alone.get(7)?.place !== 'A2' || pair.get(2)?.place !== 'A2' || pair.get(7)?.place !== 'A3') problems.push('the seats of a pair do not take their places by seat number');
+  const parameters = fn => String(fn).slice(String(fn).indexOf('(') + 1, String(fn).indexOf(')')).split(',').map(name => name.trim()).filter(Boolean);
+  if (parameters(layout.placements).join() !== 'seats' || parameters(layout.assign).join() !== 'room,occupants') problems.push('the places depend on something other than who is in the room now, so two screens can draw them differently');
+  const forward = [...layout.placements([3, 5, 8].map(n => ({ n, location: 'Room B', health: 'Healthy' }))).entries()].sort();
+  const backward = [...layout.placements([8, 5, 3].map(n => ({ n, location: 'Room B', health: 'Healthy' }))).entries()].sort();
+  if (JSON.stringify(forward) !== JSON.stringify(backward)) problems.push('the places depend on the order the seats arrive in, not on public facts');
+  const lab = layout.placements([{ n: 4, location: 'Room B', health: 'Eliminated' }, { n: 2, location: 'Room B', health: 'Healthy' }]);
+  const fell = layout.placesOf('room-b').find(place => place.id === lab.get(4)?.place);
+  if (!fell || lab.get(4)?.gesture !== (fell.down ?? 'down')) problems.push('an Eliminated character does not take its place\'s fall');
+  const ward = layout.placements([{ n: 1, location: 'Hospital', health: 'Healthy' }, { n: 2, location: 'Hospital', health: 'Injured' }, { n: 5, location: 'Room A', health: 'Injured' }]);
+  if (!String(ward.get(2)?.gesture).endsWith(INJURED) || !String(ward.get(5)?.gesture).endsWith(INJURED)) problems.push('an Injured character is drawn without its bandage');
+  const healed = skeletonOf(ward.get(1)?.gesture ?? 'stand');
+  if (String(ward.get(1)?.gesture).includes(INJURED) || healed.bandage || healed.sling) problems.push('a healed character in the Hospital is drawn with a wound');
   const code = (await text('design/board-motion/js/layout.js')).replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
-  if (/\b(?:role|team|device|faction|legalTargets|knowledge|ballot|receipt)\b/i.test(code)) problems.push('layout.js reads something private to place or pose a character');
-  check('every room seats one to nine with no capacity, each at its own place', problems);
+  if (/\b(?:role|team|device|faction|legalTargets|knowledge|ballot|receipt)\b/i.test(code)) problems.push('layout.js reads something private to place a character or choose its gesture');
+  check('five places a room, each its own gesture; one to nine in a room, every one reachable at 320 px', problems);
 }
 
 // ---------- The release's words are the release's words ----------
@@ -283,7 +338,7 @@ if (loadError) {
   let en = null;
   try { ({ en } = await load('packages/presentation/dist/copy/en.js')); } catch { problems.push('packages/presentation/dist/copy/en.js is missing: run npm run build'); }
   if (en) {
-    const SECTIONS = { phase: en.phase, timer: en.timer, marker: en.marker, actions: en.actions, privateArea: en.privateArea, banner: en.banner, tally: en.vote.tally, announce: en.announce, roster: en.roster };
+    const SECTIONS = { phase: en.phase, timer: en.timer, marker: en.marker, actions: en.actions, privateArea: en.privateArea, banner: en.banner, tally: en.vote.tally, announce: en.announce, roster: en.roster, result: en.result };
     const SAMPLES = [[3, false], [4, true], ['Player 4', 'Blue'], [null, null], [1], [2, 9]];
     const same = (mine, theirs, path) => {
       if (typeof mine === 'function') {
@@ -317,8 +372,24 @@ if (loadError) {
     const state = entry.s();
     for (const problem of offerProblems(state, fixtures.VIEWER)) problems.push(`${entry.id}: ${problem}`);
     if ((entry.group === 'Crowded rooms' || entry.id.includes('crowded') || entry.id === 'board.all-one-room' || entry.id === 'board.tightest') && entry.status !== 'layout-stress') problems.push(`${entry.id}: crowd fixture is not labeled layout-stress`);
-    const publicPart = JSON.stringify(state.public);
+    // The roles and the Code are public at a finished match only (V1-18), in the view's end reveal, as the contract has it:
+    // the result and the end reveal at FINISHED and never before or at ABORTED; every seat's role once, the viewer's its own,
+    // the four of the Code with the Alien and without the Undercover, a revealed faction its role's.
+    const { endReveal, ...rest } = state.public;
+    const publicPart = JSON.stringify(rest);
     for (const word of ROLE_WORDS.filter(role => role !== 'Alien')) if (new RegExp(`\\b${word}\\b`).test(publicPart)) problems.push(`${entry.id}: the public state names the role ${word}`);
+    const finished = state.public.phase.kind === 'FINISHED';
+    if (finished !== Boolean(state.public.result) || finished !== Boolean(endReveal)) problems.push(`${entry.id}: a result or an end reveal outside a finished match, or a finished match without them`);
+    if (['FINISHED', 'ABORTED'].includes(state.public.phase.kind) && (state.public.phase.seconds !== 0 || state.public.active !== null)) problems.push(`${entry.id}: a match that is over has a timer or an active seat`);
+    if (endReveal) {
+      const side = role => (role === 'Alien' ? 'Alien' : ['Undercover', 'Hacker', 'Red Disabler'].includes(role) ? 'Red' : 'Blue');
+      const roleOf = n => endReveal.roles.find(item => item.seat === n)?.role;
+      if (endReveal.roles.length !== state.public.playerCount || new Set(endReveal.roles.map(item => item.seat)).size !== state.public.playerCount || new Set(endReveal.roles.map(item => item.role)).size !== state.public.playerCount) problems.push(`${entry.id}: the end reveal is not every seat's role, once`);
+      if (roleOf(fixtures.VIEWER) !== state.private.role) problems.push(`${entry.id}: the end reveal gives the viewer another role than its own`);
+      const alien = endReveal.roles.find(item => item.role === 'Alien')?.seat, undercover = endReveal.roles.find(item => item.role === 'Undercover')?.seat;
+      if (endReveal.code.length !== 4 || new Set(endReveal.code).size !== 4 || !endReveal.code.includes(alien) || endReveal.code.includes(undercover)) problems.push(`${entry.id}: the end reveal's Code is not four seats with the Alien and without the Undercover`);
+      for (const seat of state.public.seats) if (seat.revealedFaction && seat.revealedFaction !== side(roleOf(seat.n))) problems.push(`${entry.id}: Player ${seat.n} is revealed ${seat.revealedFaction} and was ${roleOf(seat.n)}`);
+    }
     for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
     for (const seat of state.public.seats) if (seat.revealedFaction && seat.health !== 'Eliminated') problems.push(`${entry.id}: Player ${seat.n} has a revealed faction and is not Eliminated`);
     if (state.public.seats.length !== state.public.playerCount || ![7, 8, 9].includes(state.public.playerCount)) problems.push(`${entry.id}: not a 7, 8 or 9 player roster`);
@@ -338,9 +409,12 @@ if (loadError) {
       }
     }
   }
-  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'REPLAY', 'RECONNECT']);
+  // MATCH_ENDED: the view's phase turning FINISHED (with the result and the end reveal, public then) or ABORTED (with neither).
+  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'MATCH_ENDED', 'REPLAY', 'RECONNECT']);
   for (const event of fixtures.EVENTS) {
     if (!allowed.has(event.fact.type)) problems.push(`event ${event.id}: ${event.fact.type} is not a public fact`);
+    // A finished match carries both the result and the end reveal; any other end carries neither.
+    if (event.fact.type === 'MATCH_ENDED' && (event.fact.phase === 'FINISHED' ? !(event.fact.result && event.fact.endReveal) : Boolean(event.fact.result || event.fact.endReveal))) problems.push(`event ${event.id}: a result or an end reveal outside a finished match, or a finished match without them`);
     for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
   }
   if (!fixtures.SYNTHETIC_LABEL || !/synthetic/i.test(fixtures.SYNTHETIC_LABEL)) problems.push('the fixtures are not labeled synthetic');
@@ -371,10 +445,11 @@ if (loadError) {
     if (/\b(?:rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch)\(/.test(declarations)) problems.push(`${selector}: a functional color`);
     if (/(?:color|background|border|outline|fill|stroke|shadow)[^;]*:\s*[^;]*\b(?:black|white|red|green|blue|yellow|orange|purple|violet|pink|gray|grey|gold|teal)\b/i.test(declarations)) problems.push(`${selector}: a named color`);
     if (/--ms-asset-/.test(body) && !/\[data-art~="[\w-]+"\]/.test(selector)) problems.push(`${selector}: draws art without waiting for its bundle`);
-    if (/--bm-asset-/.test(body) && !/\[data-art~="board-motion"\]/.test(selector)) problems.push(`${selector}: draws a prop layer without waiting for it`);
-    if (/var\(--fig(?:-front)?\)/.test(body) && !/\[data-art~="board-motion-figures"\]/.test(selector)) problems.push(`${selector}: draws a figure without waiting for the figure bundle`);
+    if (/--bm-scene-/.test(body) && !/\[data-art~="board-motion-scenes"\]/.test(selector)) problems.push(`${selector}: draws a scene layer without waiting for the scene bundle`);
     if (/--ms-asset-device-/.test(body) && !(/\.bm-private/.test(selector) && /\[data-art~="roles"\]/.test(selector))) problems.push(`${selector}: a role's device outside the private card`);
     if (/\[data-(?:device|team)/.test(selector) && !selectorsOf(selector).every(part => /\.bm-private/.test(part))) problems.push(`${selector}: a role or team hook outside the private card`);
+    // A side drawn from the end reveal, only in the end's result sheet.
+    if (/\[data-end-/.test(selector) && !selectorsOf(selector).every(part => /\.bm-(?:result|cast)/.test(part))) problems.push(`${selector}: an end-reveal hook outside the result sheet`);
     if (/\binfinite\b|animation-iteration-count/.test(body)) problems.push(`${selector}: an animation that repeats`);
     if (/\b\d+(?:\.\d+)?m?s\b/.test(body.replace(/var\([^)]*\)/g, '')) && /animation|transition/.test(body)) problems.push(`${selector}: a duration that is not a token`);
     // A private cue is drawn only on the viewer's own board, whatever else the page holds.

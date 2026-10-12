@@ -148,7 +148,7 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
       await sleep(250);
     },
     async press(key) {
-      const keys = { Tab: { code: 'Tab', keyCode: 9 }, Enter: { code: 'Enter', keyCode: 13, text: '\r' }, ' ': { code: 'Space', keyCode: 32, text: ' ' } };
+      const keys = { Tab: { code: 'Tab', keyCode: 9 }, Enter: { code: 'Enter', keyCode: 13, text: '\r' }, ' ': { code: 'Space', keyCode: 32, text: ' ' }, Escape: { code: 'Escape', keyCode: 27 } };
       const { code, keyCode, text } = keys[key];
       // No native key code. With one, headless Chrome on macOS re-delivers a key the page does
       // not handle (Enter on plain text, say) thousands of times, as if it were held down.

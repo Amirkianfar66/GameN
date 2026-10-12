@@ -1,0 +1,1656 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "abilities-0.7.0",
+  "status": "proposal",
+  "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
+  "base": {
+    "designerCommit": "08409392d1040f20d559a9f36a2a1d9bb23468c4",
+    "ruleset": "in-person-v1-pass-2026-10-08",
+    "rulesetParent": "in-person-v1-2026-10-06",
+    "engine": "full-game-1.1.0",
+    "protocol": 2,
+    "tokens": "0.4.0",
+    "reviewedAssets": "design-0.2.0",
+    "boardMotion": "board-motion-0.3.0",
+    "originalPowers": "off"
+  },
+  "sources": [
+    "rules/sources/v2.1-decisions.json (roles, ordinary_shot, protection, victory)",
+    "rules/overlays/in-person-v1-owner-decisions-2026-10-06.json (V1-01 to V1-21)",
+    "rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json (PASS-01 to PASS-06)",
+    "rules/overlays/direct-shot-decision.json, player-modes-officer.json, final-showdown-decision.json, movement-decision.json, consolidated-decisions-2026-09-26.json",
+    "packages/contracts/src/full-game.ts (FullPlayerView, FullPublicView, commands, receipts, events)",
+    "packages/contracts/src/own-acknowledgments.ts (Supplier results, received supply)",
+    "packages/contracts/src/lobby-identity.ts (public name and chosen character of a seat)",
+    "packages/contracts/src/staged-start.ts (the setup preview carries a role and no knowledge)"
+  ],
+  "rules": [
+    "A chosen character is a public appearance, independent of the role: any character may hold any role. No face, outfit, pose, color or public effect is tied to a role or a team.",
+    "A command receipt says registered, never a result: not damage, not healing, not delivery. A result is shown only when an authorized view or acknowledgment carries it.",
+    "Public motion uses confirmed public facts only (PHASE_CHANGED, PUBLIC_MOVE, PUBLIC_HEALTH_CHANGED and the public view). No public animation names a private target, an action type, a role, a weapon or an action's source.",
+    "Private art is drawn only inside the seat's own open private sheet or its own action strip, never on the shared display, a host view or another phone. Every player phone loads all private art in one stylesheet, whatever its role, so loading says nothing.",
+    "Unordered sets stay unordered: the Insider's three candidates, the Code's four players and a Code submission are shown in seat order, a public order, never in an order the view or the engine might carry.",
+    "Every effect has a normal form, a reduced-motion form, a static fallback and a cancelled state. Motion never delays a control, pauses a timer or decides game state. Changing the reduced-motion setting cancels movement at once and leaves the latest authoritative pose, health and location.",
+    "A duplicate event, a receipt recovery or a reconnection never replays an effect as a new action.",
+    "No secret-specific sound or haptics. No historical optional power and no new ability."
+  ],
+  "treatments": [
+    {
+      "id": "insider-file",
+      "title": "Insider: the investigation board",
+      "slice": 1,
+      "status": "delivered",
+      "roles": [
+        "Insider"
+      ],
+      "audience": "private-own",
+      "trigger": "The player opens their card during gameplay. The view carries the three candidates from the first gameplay view; the setup reading stage's preview carries none, so nothing is shown before gameplay.",
+      "fields": [
+        "knowledge.insiderCandidates",
+        "seats[].seatId",
+        "seats[].location",
+        "seats[].health",
+        "seats[].captain",
+        "seats[].jailed",
+        "lobby identity: seats[].displayName, seats[].characterId"
+      ],
+      "disclosure": [
+        "The three portraits in seat order (a public order), whatever order the view lists them in.",
+        "The three role names as one set in one envelope, in a fixed order that never changes with the candidates, below all three portraits and beside none of them, in every layout (large text included).",
+        "Nothing ties a role name to a portrait: the same frame, pin, query tag, seat sticker and tilt-by-position for every portrait; one string around the whole set; no per-portrait color, line, animation order, accessible name or asset.",
+        "Inspecting a portrait lifts it and says that player's public facts (room, health, Captain, Jail), which every screen shows; it never adds evidence.",
+        "No sound and no vibration.",
+        "Never on the board, the shared display or a host view; not during setup."
+      ],
+      "concept": "A cork board in the private sheet: three snapshots of the players' own crew cards pinned on a string in seat order, each with the same seat sticker in the portrait's corner, the name on the frame's margin and the same paper query tag; below, an open envelope holding a slip with three label tapes, Undercover, Alien and Cracker, stamped ONE EACH; one string pinned round the four corners of the whole set; a CLASSIFIED stamp on the file's tab; under it all, Who is which: unknown. People are written by hand on paper; roles are label tapes: two visual languages that never pair up.",
+      "art": [
+        "dossier-cork",
+        "dossier-tape",
+        "dossier-pin",
+        "dossier-photo",
+        "dossier-query",
+        "dossier-lens",
+        "dossier-clip",
+        "dossier-stamp",
+        "dossier-envelope-back",
+        "dossier-envelope-front",
+        "piece-crew.card-c1..c9 (approved, design-0.2.0)"
+      ],
+      "motion": {
+        "normal": "The first open in a page assembles the file in 1020 ms: the board rises (180), the snapshots drop and are pinned in seat order (from 120, 70 apart, 260 each), the envelope rises (300) and its slip slides up with the three names together (520), the query tags swing on together (540), the corner pins pop and the string draws round the whole set (640, 380), the stamps land (CLASSIFIED 220, ONE EACH 860). Later opens show it at rest. Inspecting lifts the snapshot from its pin toward the middle (200 ms) while the rest dims; the inspect card lies over the dimmed envelope; Back or Escape returns it.",
+        "reduced": "The file appears at rest with an 80 ms fade. Inspecting rings the snapshot instead of lifting it.",
+        "static": "Without the ability art: the same file in paper and ink, words on plain paper, a plain envelope. Without the crew cards: the seat number large in each window (the corner sticker waits for the portraits).",
+        "cancel": "Closing the card, the page going to the background, the view going out of date or reduced motion being switched on finishes every animation at once and leaves the file at rest; nothing is replayed.",
+        "replay": "The assembly is a reveal the player asked for, not a game event: it plays once per page, on the first deliberate open, and never on an update, a recovery or a reconnect."
+      },
+      "states": [
+        "closed (no private word in the page)",
+        "opening (assembling, once per page)",
+        "at rest",
+        "inspecting one portrait (Show on board, Back)",
+        "show on board (the card closes; a ring on the own board for 1.6 s)",
+        "twelve-character names (a small snapshot ends a long name in an ellipsis; the button and the inspect card say it whole)",
+        "large text (one column: each snapshot with its number and whole name beside it, the envelope below the three; the card scrolls)",
+        "reduced motion (a fade; inspecting rings the snapshot)",
+        "missing art",
+        "hidden (see card-hidden)"
+      ],
+      "copy": {
+        "visible": [
+          "Insider file",
+          "Classified",
+          "One each",
+          "Who is which: unknown.",
+          "Show on board",
+          "Back"
+        ],
+        "accessible": [
+          "<names> hold the roles Undercover, Alien and Cracker, one each. You are not told which of them holds which. (the release's sentence)",
+          "Player <n>, <name>. Inspect",
+          "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+        ]
+      },
+      "review": [
+        "design/abilities/review/contact-insider.png",
+        "design/abilities/review/insider-w390-rest.png",
+        "design/abilities/review/insider-w320-rest.png",
+        "design/abilities/review/insider-w320-inspect.png",
+        "design/abilities/review/insider-w320-long-names.png",
+        "design/abilities/review/insider-w320-text200.png",
+        "design/board-motion/index.html?scenario=file.insider"
+      ],
+      "dependencies": [
+        "The view's insiderCandidates is sorted by seat ID today (packages/engine/src/full-game/roster.ts); DSN-REQ-14 asks the contract to state that order, so no consumer can ever leak a role order through it."
+      ]
+    },
+    {
+      "id": "card-hidden",
+      "title": "Any role: the hidden card",
+      "slice": 1,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "private-own",
+      "trigger": "The player presses Card while the card cannot be shown: the view is out of date or the turn's time is up. (Going to the background or out of date closes an open card at once, the reviewed conceal rule, and coming back shows the board; a page that opens in the background with its card open shows the folder.)",
+      "fields": [
+        "phase.endsAt (local expiry)",
+        "view freshness (client)"
+      ],
+      "disclosure": [
+        "One closed folder and the same words for every role and seat: nothing names or colors a role. Nothing private is in the page until the player opens the card again."
+      ],
+      "concept": "A closed manila folder with a blank label and a clasp, where the card was.",
+      "art": [
+        "dossier-folder"
+      ],
+      "motion": {
+        "normal": "None: the private content is removed at once.",
+        "reduced": "The same.",
+        "static": "A plain paper rectangle with the words.",
+        "cancel": "Concealing cancels every private animation.",
+        "replay": "Opening the card again never replays a private cue."
+      },
+      "states": [
+        "pressed while out of date or time is up: the closed folder, no control",
+        "a page opened in the background: the closed folder with Show my card",
+        "back from the background: the board, the card closed; pressing Card opens the file again at rest, not assembled again"
+      ],
+      "copy": {
+        "visible": [
+          "Your card is hidden.",
+          "Your card stays hidden until your view is up to date.",
+          "Show my card"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/hidden-w390-stale.png",
+        "design/abilities/review/hidden-w320-stale.png",
+        "design/abilities/review/hidden-w390-background.png",
+        "design/abilities/review/hidden-w390-reopened.png",
+        "design/board-motion/index.html?scenario=file.hidden"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "hacker-file",
+      "title": "Hacker: the known Undercover",
+      "slice": 2,
+      "status": "delivered",
+      "roles": [
+        "Hacker"
+      ],
+      "audience": "private-own",
+      "trigger": "The player opens their card during gameplay. The view carries the known Undercover from the first gameplay view; the setup reading stage carries none.",
+      "fields": [
+        "knowledge.undercoverSeatId",
+        "knowledge.scanResults[]",
+        "lobby identity: seats[].displayName, seats[].characterId",
+        "seats[].location, seats[].health, seats[].captain, seats[].jailed (inspect)"
+      ],
+      "disclosure": [
+        "One snapshot, the known Undercover, from the view's knowledge.undercoverSeatId.",
+        "Of the Code, only what the rule itself gives the Hacker from the start: “Knows only who Undercover is and therefore knows that player's number is excluded from Code” (v2.1 roles.Hacker.starting_knowledge; Code.undercover_number_always_excluded). Nothing else is worked out."
+      ],
+      "concept": "The same file kit: one snapshot of the known Undercover pinned on a string, the label tape UNDERCOVER on its frame (here the pairing is the Hacker's own knowledge), and beside it the Code's mark struck out: not in the Code. Under it, the Scans: one torn printout each, in the view's order.",
+      "art": [
+        "dossier kit",
+        "dossier-code-mark",
+        "dossier-printout",
+        "dossier-chip",
+        "piece-crew.card-c1..c9 (approved, design-0.2.0)"
+      ],
+      "motion": {
+        "normal": "The first open in a page assembles the file in about 1.1 s: the board rises, the snapshot drops and is pinned (120 to 380), the label tape slaps on (380, 180), the struck Code mark lands (520), the printouts feed in in the view's order (from 600, 90 apart, 240 each), the string draws (640, 380), CLASSIFIED lands (220). Later opens show it at rest; a Scan result that arrived since is printed once (420) with its stamp (140).",
+        "reduced": "At rest with an 80 ms fade; a new result fades in once; inspecting rings the snapshot.",
+        "static": "Without the ability art: paper and ink, plain printouts, a ruled Code mark. Without the crew cards: the seat number in the window and in each chip.",
+        "cancel": "As the Insider's file: closing, the background, an out-of-date view or reduced motion finishes everything at rest.",
+        "replay": "Once per page on a deliberate open; a result is printed once, the first time it is seen, never again on an update, a recovery or a reconnect."
+      },
+      "states": [
+        "closed",
+        "opening",
+        "at rest",
+        "no Scan yet",
+        "one or more Scan results",
+        "a new result printed once",
+        "inspecting the known Undercover",
+        "twelve-character names",
+        "large text (one column, the label as words)",
+        "reduced motion",
+        "missing art",
+        "hidden (card-hidden)"
+      ],
+      "copy": {
+        "visible": [
+          "Hacker file",
+          "Undercover",
+          "Not in the Code (proposed: the release's sentence names only the Undercover)"
+        ],
+        "accessible": [
+          "The Undercover is <who>. (the release's sentence)"
+        ]
+      },
+      "review": [
+        "design/abilities/review/contact-hacker-alien.png",
+        "design/abilities/review/hacker-w390-rest.png",
+        "design/abilities/review/hacker-w320-rest.png",
+        "design/abilities/review/hacker-w390-start.png",
+        "design/abilities/review/hacker-w320-text200.png",
+        "design/board-motion/index.html?scenario=file.hacker"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "hacker-scan",
+      "title": "Hacker: Scan",
+      "slice": 2,
+      "status": "delivered",
+      "roles": [
+        "Hacker"
+      ],
+      "audience": "private-own",
+      "trigger": "The Hacker opens Scan from the Actions tray, picks a character on the board (themself included) and a faction guess, and confirms.",
+      "fields": [
+        "self.scanAvailable",
+        "legalTargets.SCAN",
+        "knowledge.scanResults[]: round, targetSeatId, guess, matched, inCode",
+        "receipt status/code"
+      ],
+      "disclosure": [
+        "The result is the view's knowledge.scanResults entry, never inferred from the receipt.",
+        "A wrong guess shows no Code information.",
+        "A right guess shows membership only, never a position.",
+        "The scan cue plays on the Hacker's own board only."
+      ],
+      "concept": "In the Hacker's strip: the picked player's portrait chip beside the question, the three faction answers inline; while the Scan is on its way a scanner line sweeps the chip; registered is the same neutral stamp as every action. The result arrives in the Hacker's file as a printout: WRONG (nothing of the Code) or RIGHT with the Code's mark, plain for in the Code, struck for not in the Code.",
+      "art": [
+        "dossier-chip",
+        "dossier-printout",
+        "dossier-code-mark",
+        "dossier-stamp"
+      ],
+      "motion": {
+        "normal": "The sweep runs (900 ms, back and forth) only while the Scan is on its way; the result is printed in the file once (420 ms) with its stamp (140 ms).",
+        "reduced": "No sweep: the target chip is ringed while sending; the result fades in once.",
+        "static": "The chip, the words and the stamp.",
+        "cancel": "A newer view, the strip closing, the background or reduced motion ends the sweep at once.",
+        "replay": "A result already shown is never printed again after an update, a recovery or a reconnect."
+      },
+      "states": [
+        "unavailable (used this round)",
+        "choosing a character",
+        "choosing a guess (the target chip)",
+        "confirming",
+        "sending (the sweep)",
+        "registered",
+        "result: wrong",
+        "result: right, in the Code",
+        "result: right, not in the Code",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Scan",
+          "Guess a faction",
+          "Scan registered",
+          "Wrong guess",
+          "In the Code",
+          "Not in the Code"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/scan-w390-guess.png",
+        "design/abilities/review/scan-w320-guess.png",
+        "design/abilities/review/scan-w390-sending.png",
+        "design/abilities/review/scan-w390-sending-reduced.png",
+        "design/abilities/review/hacker-w390-one-result.png",
+        "design/board-motion/index.html?scenario=scan.sending"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "hacker-code",
+      "title": "Hacker: Code submission",
+      "slice": 2,
+      "status": "delivered",
+      "roles": [
+        "Hacker"
+      ],
+      "audience": "private-own",
+      "trigger": "Round 5: the Hacker opens Code, picks four characters on the board and confirms.",
+      "fields": [
+        "self.codeAttemptAvailable",
+        "SUBMIT_CODE.seatIds (four, distinct)",
+        "receipt status/code"
+      ],
+      "disclosure": [
+        "The four picks are an unordered set: shown in seat order, never as positions 1 to 4.",
+        "Registration is not a result: Code victory is checked with the other victories after normal Round 5 effects (V1-08)."
+      ],
+      "concept": "In the Hacker's strip: a punch card with four round windows. Each pick clips its portrait chip into a window, the windows filled in seat order whatever the picking order; on the board every pick wears the same check, never a number; the strip names the picks in seat order. Registered punches the card once; it is not a result.",
+      "art": [
+        "dossier-code-card",
+        "dossier-chip"
+      ],
+      "motion": {
+        "normal": "The new pick's chip clips in (160 ms), the others stay put; registration punches the card (220 ms).",
+        "reduced": "No clip or punch: the chips appear; the neutral stamp says registered. Switching to reduced finishes a clip or punch at once.",
+        "static": "The card with its chips, or the words in seat order.",
+        "cancel": "As every strip.",
+        "replay": "Never: not on a duplicate snapshot, a public fact about someone else, a recovery or a reconnect. Only a new pick clips, only the receipt punches."
+      },
+      "states": [
+        "unavailable (before Round 5, or attempted)",
+        "picking 0 to 4 (the card filling in seat order)",
+        "a short phone (the card small at the start of the detail line)",
+        "confirming",
+        "sending",
+        "registered (punched)",
+        "rejected",
+        "unknown"
+      ],
+      "copy": {
+        "visible": [
+          "Code",
+          "Pick four",
+          "Code registered"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/code-w390-two.png",
+        "design/abilities/review/code-w320-two.png",
+        "design/abilities/review/code-w320-four.png",
+        "design/abilities/review/code-w390-registered.png",
+        "design/abilities/review/code-w390-no-art.png",
+        "design/board-motion/index.html?scenario=code.four"
+      ],
+      "dependencies": [
+        "DSN-REQ-14: knowledge.code in seat order, stated in the contract (the submission's own order carries no meaning: SUBMIT_CODE.seatIds is a set)."
+      ]
+    },
+    {
+      "id": "alien-code-file",
+      "title": "Alien: the Code from the start",
+      "slice": 2,
+      "status": "delivered",
+      "roles": [
+        "Alien"
+      ],
+      "audience": "private-own",
+      "trigger": "The player opens their card during gameplay.",
+      "fields": [
+        "knowledge.code (four seats, the Alien among them)",
+        "lobby identity: seats[].displayName, seats[].characterId",
+        "seats[].location, seats[].health, seats[].captain, seats[].jailed (inspect)"
+      ],
+      "disclosure": [
+        "Four snapshots as one unordered group in seat order; no positions, no numbering beyond seat numbers."
+      ],
+      "concept": "The same file kit: the four snapshots two by two, in seat order, one string round the four and the Code's tag (a punch card with four holes in a square) hanging from it; the Alien's own snapshot marked YOU; under it, Four players, in no order.",
+      "art": [
+        "dossier kit",
+        "dossier-code-mark",
+        "piece-crew.card-c1..c9 (approved, design-0.2.0)"
+      ],
+      "motion": {
+        "normal": "The first open in a page assembles the file in about 1.1 s: the board rises, the four drop in seat order and are pinned, the string draws round the four (520, 380), the Code's tag swings on (820, 260), CLASSIFIED lands (220).",
+        "reduced": "At rest with an 80 ms fade; inspecting rings the snapshot.",
+        "static": "Paper and ink; the seat numbers in the windows without the crew cards.",
+        "cancel": "As the Insider's file.",
+        "replay": "Once per page."
+      },
+      "states": [
+        "closed",
+        "opening",
+        "at rest",
+        "inspecting one of the four",
+        "twelve-character names",
+        "large text (one column)",
+        "reduced motion",
+        "missing art",
+        "hidden (card-hidden)"
+      ],
+      "copy": {
+        "visible": [
+          "Alien file",
+          "The Code",
+          "You",
+          "Four players, in no order."
+        ],
+        "accessible": [
+          "The Code is these four players: <names>. (the release's sentence, in seat order, the own marked (you))",
+          "Player <n>, <name>. Inspect"
+        ]
+      },
+      "review": [
+        "design/abilities/review/alien-w390-rest.png",
+        "design/abilities/review/alien-w320-rest.png",
+        "design/abilities/review/alien-w390-long-names.png",
+        "design/abilities/review/alien-w320-text200.png",
+        "design/abilities/review/alien-w390-no-art.png",
+        "design/board-motion/index.html?scenario=file.alien"
+      ],
+      "dependencies": [
+        "DSN-REQ-14: knowledge.code in seat order, stated in the contract."
+      ]
+    },
+    {
+      "id": "cracker-rescue",
+      "title": "Cracker: Rescue",
+      "slice": 3,
+      "status": "delivered",
+      "roles": [
+        "Cracker"
+      ],
+      "audience": "private-own; recovery public",
+      "trigger": "The Cracker opens Rescue, picks a character (an Injured one in the Hospital from Room A or B, or themself while Injured, V1-05) and confirms; at the end of the round the public view may show the target Healthy.",
+      "fields": [
+        "self.rescuesRemaining",
+        "legalTargets.RESCUE",
+        "receipt",
+        "PUBLIC_HEALTH_CHANGED (Healthy) and PUBLIC_MOVE out of the Hospital"
+      ],
+      "disclosure": [
+        "Registering is not a recovery: the receipt is the neutral Registered stamp and the release's words; nothing in the strip or the card says the target is, or will be, healed.",
+        "The vials are the view's count of the two Rescues a match gives; one is drawn empty when the count falls (the use is reserved at acceptance and kept whatever the round brings, V1-15), never ahead of it.",
+        "A recovery is the public health change at the end of the round, drawn by the same status cue on every screen, naming no rescuer and no Rescue."
+      ],
+      "concept": "In the Cracker's strip: the picked player's chip in a medical cross ring beside the question, and two vials at the start of the detail line, as many full as the view's count. On the receipt the vial that the count gave up drains once. In the card, while one is left, a slip with the vials and the release's sentence, Rescues you have left: N. Nothing on the board but the neutral targeting every action has.",
+      "art": [
+        "dossier-cross",
+        "dossier-vial",
+        "dossier-vial-empty",
+        "dossier-chip",
+        "dossier-slip"
+      ],
+      "motion": {
+        "normal": "When the view's count falls while the receipt shows, the emptied vial drains (240 ms). Nothing else moves.",
+        "reduced": "No drain: the vial is simply empty.",
+        "static": "The ring, the vials and the words.",
+        "cancel": "As every strip; reduced motion finishes a drain at once.",
+        "replay": "Never: the drain plays for the fall of the count, once; a duplicate snapshot, a recovery or a reconnect draws the vials at rest."
+      },
+      "states": [
+        "available (two or one left)",
+        "none left (no Rescue offered; the card says nothing, as the release)",
+        "choosing (a player in the Hospital from Room A or B, or yourself while Injured)",
+        "confirming (the cross ring)",
+        "sending",
+        "registered (one vial empty; not a recovery)",
+        "rejected",
+        "unknown",
+        "recovered later (public: a health change on every screen)"
+      ],
+      "copy": {
+        "visible": [
+          "Rescue",
+          "Register a Rescue of Player 6?",
+          "Rescue of Player 6 registered.",
+          "Rescues you have left: 1."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/rescue-w390-choose.png",
+        "design/abilities/review/rescue-w320-confirm.png",
+        "design/abilities/review/rescue-w390-registered.png",
+        "design/abilities/review/rescue-w390-kit.png",
+        "design/abilities/review/rescue-w390-self.png",
+        "design/abilities/review/rescue-w390-no-art.png",
+        "design/board-motion/index.html?scenario=rescue.confirm"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "disabler",
+      "title": "Blue Disabler and Red Disabler: Disable",
+      "slice": 3,
+      "status": "delivered",
+      "roles": [
+        "Blue Disabler",
+        "Red Disabler"
+      ],
+      "audience": "private-own",
+      "trigger": "The Disabler opens Disable, picks a character in the same location and confirms; one use per match.",
+      "fields": [
+        "legalTargets.DISABLE (offered only while the one use is unspent)",
+        "self.disablerAvailable",
+        "receipt"
+      ],
+      "disclosure": [
+        "The Blue and the Red Disabler see the same strip, part for part: no color, class, asset or word differs. Each one's identity stays in its own role card (the approved device), so a glance at a phone mid-Disable tells nobody which.",
+        "The receipt spends the one charge (reserved at acceptance, V1-15) and is not a result: the target's chip is ringed by sparks at its corners, never struck.",
+        "The effect is public only as a health change at the end of the round, the same as any damage, from no direction."
+      ],
+      "concept": "In the strip: the picked player's chip in a charged reticle (a dashed ring with four sparks at its corners) beside the question, and one charge cell at the start of the detail line, full while the server offers the Disable and spent on its receipt. The card draws no lasting spent cell: the view does not carry one (DSN-REQ-15).",
+      "art": [
+        "dossier-spark",
+        "dossier-cell",
+        "dossier-cell-empty",
+        "dossier-chip"
+      ],
+      "motion": {
+        "normal": "On the receipt the cell discharges (200 ms).",
+        "reduced": "No discharge: the cell is simply spent.",
+        "static": "The reticle, the cell and the words.",
+        "cancel": "As every strip; reduced motion finishes a discharge at once.",
+        "replay": "Never: the discharge plays for the receipt, once."
+      },
+      "states": [
+        "available (offered)",
+        "choosing",
+        "confirming (the reticle, the charge full)",
+        "sending",
+        "registered (the charge spent; not a result)",
+        "rejected",
+        "unknown",
+        "spent later (not offered; no lasting mark until the view carries one, DSN-REQ-15)"
+      ],
+      "copy": {
+        "visible": [
+          "Disable",
+          "Register a Disable at Player 5?",
+          "Disable at Player 5 registered."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/disable-w390-confirm.png",
+        "design/abilities/review/disable-w320-confirm.png",
+        "design/abilities/review/disable-w390-registered.png",
+        "design/abilities/review/disable-w390-red-confirm.png",
+        "design/abilities/review/disable-w390-red-registered.png",
+        "design/abilities/review/disable-w390-no-art.png",
+        "design/board-motion/index.html?scenario=disable.confirm"
+      ],
+      "dependencies": [
+        "DSN-REQ-15: a lasting own field for the spent Disable (disablerAvailable means a legal target now)."
+      ]
+    },
+    {
+      "id": "supplier-supply",
+      "title": "Supplier: Supply",
+      "slice": 3,
+      "status": "delivered",
+      "roles": [
+        "Supplier",
+        "any recipient"
+      ],
+      "audience": "private-own; each recipient's own acknowledgment",
+      "trigger": "Round 3: the Supplier opens Supply, picks two different characters in the same location (themself allowed) and confirms; the delivery is acknowledged after the round's distribution.",
+      "fields": [
+        "legalTargets.SUPPLY",
+        "SUPPLY.targetSeatIds (two, distinct)",
+        "receipt",
+        "own acknowledgments: supplierResults[].successfulRecipientSeatIds",
+        "recipient: receivedSupply[] (round)",
+        "historyAvailable"
+      ],
+      "disclosure": [
+        "The two picks are a set: drawn and named in seat order, never first and second.",
+        "Registration is not delivery: the receipt ties the two tags and stamps Registered; nothing says a weapon arrived.",
+        "A delivery is shown only from an own acknowledgment (V1-16): the Supplier's slip names the players who received a weapon, in the release's sentence; a recipient's slip says one ordinary weapon arrived and names no Supplier. No public weapon marker."
+      ],
+      "concept": "In the strip: two shipping tags at the start of the detail line, each pick's chip in a tag, in seat order; the receipt ties them together with a string. In the card, after Round 3: Supply results (the release's heading) with a slip per acknowledgment, its words the release's, a tag per player it names, and the stamp DELIVERED when a weapon arrived. A slip drops in once, the first time the card shows it.",
+      "art": [
+        "dossier-tag",
+        "dossier-slip",
+        "dossier-chip",
+        "dossier-stamp"
+      ],
+      "motion": {
+        "normal": "A pick clips into its tag (160 ms); the receipt ties the tags (200 ms); a slip shown for the first time drops in (260 ms).",
+        "reduced": "No clip, tie or drop: the tags and slips appear at rest.",
+        "static": "The tags, the slips and the words.",
+        "cancel": "As every strip; reduced motion finishes a beat at once.",
+        "replay": "Never: a slip already shown in this page is drawn at rest; a duplicate snapshot, a recovery or a reconnect plays nothing."
+      },
+      "states": [
+        "unavailable (not Round 3)",
+        "first pick",
+        "second pick (the tags in seat order)",
+        "confirming",
+        "sending",
+        "registered (tied; not a delivery)",
+        "rejected",
+        "unknown",
+        "delivered to both",
+        "delivered to one",
+        "delivered to none",
+        "supplied to yourself (two slips)",
+        "a recipient's slip",
+        "history unavailable (the Supplier's)"
+      ],
+      "copy": {
+        "visible": [
+          "Supply",
+          "Two players get a weapon each. Choose the first.",
+          "Supply for Player 1 and Player 8 registered.",
+          "Supply results",
+          "Your Round 3 Supply granted one weapon each to Player 1 and Player 8.",
+          "You received one ordinary weapon from Supply in Round 3.",
+          "Delivered (proposed)"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/supply-w390-second.png",
+        "design/abilities/review/supply-w320-registered.png",
+        "design/abilities/review/supply-w390-ack.png",
+        "design/abilities/review/supply-w390-received.png",
+        "design/abilities/review/supply-w390-self.png",
+        "design/abilities/review/supply-w390-ack-none.png",
+        "design/abilities/review/supply-w390-history.png",
+        "design/abilities/review/slip-w390-no-art.png",
+        "design/board-motion/index.html?scenario=supply.ack"
+      ],
+      "dependencies": [
+        "DSN-REQ-14: successfulRecipientSeatIds in seat order, stated in the contract (the engine sorts them)."
+      ]
+    },
+    {
+      "id": "undercover-protection",
+      "title": "Undercover: Protection",
+      "slice": 4,
+      "status": "delivered",
+      "roles": [
+        "Undercover"
+      ],
+      "audience": "private-own (the Undercover only)",
+      "trigger": "The Undercover opens Protection, picks a character in the same location who has never been given one (themself included) and confirms. The round's resolution grants it if that player is still in the game, active from the next round; the first attack to reach that player from then on uses it up.",
+      "fields": [
+        "legalTargets.PROTECT",
+        "receipt",
+        "knowledge.protections[]: seatId, activeFromRound, consumed"
+      ],
+      "disclosure": [
+        "Registration is not a grant: the receipt stamps Registered with the target's chip on the shield and says nothing of whether, or from when, the player is protected.",
+        "A grant and its use are drawn only from the Undercover's own view (V1-17): one note per entry of knowledge.protections, in the view's order and the release's words, active from round N or used up. Whether that round has come is not worked out, as the release does not.",
+        "The recipient never sees a shield and nothing public changes. A seat whose shot or Disable it stopped sees only its own receipt, the same as for any other."
+      ],
+      "concept": "In the strip: the picked player's chip on a shield beside the question, and the neutral Registered stamp on the receipt. In the Undercover's card: a note per Protection on slip paper, the player's chip on a whole shield (active from round N), or drawn whole before a shield split in two (used up: the shield was spent, not the player), beside the release's sentence.",
+      "art": [
+        "dossier-shield",
+        "dossier-shield-used",
+        "dossier-slip",
+        "dossier-chip"
+      ],
+      "motion": {
+        "normal": "When the view first says a Protection is used up, its split shield shakes and settles (260 ms), once.",
+        "reduced": "No shake: the note is drawn used up.",
+        "static": "The shields and the words.",
+        "cancel": "As every strip; reduced motion finishes the shake at once.",
+        "replay": "Never: a Protection this page has shown used up is drawn at rest; a duplicate snapshot, a recovery or a reconnect plays nothing."
+      },
+      "states": [
+        "choosing",
+        "confirming (the target on the shield)",
+        "sending",
+        "registered (not a grant)",
+        "rejected",
+        "unknown",
+        "granted: active from round N",
+        "used up",
+        "for yourself",
+        "several, in the view's order"
+      ],
+      "copy": {
+        "visible": [
+          "Protection",
+          "Register Protection for Player 5?",
+          "Protection for Player 5 registered.",
+          "Protection for Player 5: active from round 3.",
+          "Protection for yourself: used up."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/protect-w390-confirm.png",
+        "design/abilities/review/protect-w320-confirm.png",
+        "design/abilities/review/protect-w390-registered.png",
+        "design/abilities/review/guard-w390-card.png",
+        "design/abilities/review/guard-w320-card.png",
+        "design/abilities/review/guard-w390-used.png",
+        "design/abilities/review/guard-w390-self.png",
+        "design/abilities/review/guard-w390-text200-self.png",
+        "design/abilities/review/guard-w390-no-art.png",
+        "design/board-motion/index.html?scenario=guard.card"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ordinary-shot",
+      "title": "Ordinary shot (every seat that holds a weapon)",
+      "slice": 4,
+      "status": "delivered",
+      "roles": [
+        "Officer",
+        "Undercover",
+        "any holder of a supplied weapon, the Alien included"
+      ],
+      "audience": "private-own; any damage public",
+      "trigger": "A seat whose view offers REGISTER_SHOT picks a character in the same location and confirms: from Round 4 with an ordinary weapon, from Round 1 for the Officer (nine-player mode). Direct targeting only: the shooter and the target, no third player.",
+      "fields": [
+        "self.shotAvailable",
+        "self.ordinaryWeapons",
+        "legalTargets.REGISTER_SHOT",
+        "receipt",
+        "PUBLIC_HEALTH_CHANGED"
+      ],
+      "disclosure": [
+        "Every seat that shoots sees the same strip, part for part: the Officer's, the Undercover's and an Alien's with a supplied weapon are compared in the captures and the flows. Nothing in it is a role's.",
+        "Registration is not damage: the receipt stamps Registered and says nothing of a hit. A hit, if there is one, is the public health change at the end of the round, the same for every cause and from no direction (cue-public-hit, a proposal).",
+        "The weapon is used when the shot is accepted, and a round is drawn spent only when the view's count (self.ordinaryWeapons) falls, never ahead of it."
+      ],
+      "concept": "In the strip: the target's chip in a reticle beside the question and, at the start of the detail line, the rounds the seat holds; on the receipt the one used is drawn spent. In the card, for every seat as the release says it: Ordinary weapons you hold: N., with as many rounds.",
+      "art": [
+        "approved: icon-action-shot",
+        "dossier-reticle",
+        "dossier-round",
+        "dossier-round-spent",
+        "dossier-chip"
+      ],
+      "motion": {
+        "normal": "On the receipt, once the view's count has fallen, the round leaves the rack (220 ms).",
+        "reduced": "No beat: the round is drawn spent.",
+        "static": "The reticle, the rounds and the words.",
+        "cancel": "As every strip; reduced motion finishes the beat at once.",
+        "replay": "Never: the round leaves once, for the fall of the count; a duplicate snapshot, a recovery or a reconnect plays nothing."
+      },
+      "states": [
+        "unavailable (not offered)",
+        "choosing",
+        "confirming (the target in the reticle, the rounds held)",
+        "sending",
+        "registered (the round spent; not a result)",
+        "rejected",
+        "unknown",
+        "holding none (the card says 0)"
+      ],
+      "copy": {
+        "visible": [
+          "Shot",
+          "Register a shot at Player 5?",
+          "Shot at Player 5 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round.",
+          "Ordinary weapons you hold: 1."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/shot-w390-confirm.png",
+        "design/abilities/review/shot-w320-confirm.png",
+        "design/abilities/review/shot-w390-registered.png",
+        "design/abilities/review/shot-w320-registered.png",
+        "design/abilities/review/shot-w390-undercover-confirm.png",
+        "design/abilities/review/shot-w390-alien-confirm.png",
+        "design/abilities/review/shot-w390-registered-reduced.png",
+        "design/abilities/review/shot-w320-text200-confirm.png",
+        "design/abilities/review/shot-w390-no-art.png",
+        "design/board-motion/index.html?scenario=shot.confirm"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "officer-shot",
+      "title": "Officer: the one shot",
+      "slice": 4,
+      "status": "delivered",
+      "roles": [
+        "Officer"
+      ],
+      "audience": "private-own",
+      "trigger": "Nine-player mode only. From Round 1, in the Officer's own ordinary turn; one ordinary shot in the match, never a second, even with a supplied weapon (V1-16).",
+      "fields": [
+        "self.shotAvailable",
+        "self.ordinaryWeapons",
+        "legalTargets.REGISTER_SHOT",
+        "receipt"
+      ],
+      "disclosure": [
+        "The same strip as every seat that shoots: nothing in it says Officer. The Officer's identity stays in its role card (the approved device).",
+        "Round 1 is the server's offer: the strip opens only when the view offers REGISTER_SHOT.",
+        "One shot in the match: after it the view offers no shot and the card says the Officer holds 0. A weapon supplied after the shot is counted like any other (the card says 1), but the view carries nothing saying the Officer's shot is spent, so the card cannot say that weapon cannot be used (DSN-REQ-15)."
+      ],
+      "concept": "The ordinary shot strip from Round 1 with the Officer's one round; after the shot, the card's weapons note holding none.",
+      "art": [
+        "approved: device-officer (the role card)",
+        "dossier-reticle",
+        "dossier-round",
+        "dossier-round-spent"
+      ],
+      "motion": {
+        "normal": "As the ordinary shot.",
+        "reduced": "As the ordinary shot.",
+        "static": "The reticle, the rounds and the words.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "available from Round 1",
+        "registered (the one round spent)",
+        "spent (not offered; the card holds none)",
+        "a weapon supplied after the shot (counted; that it cannot be used is not shown, DSN-REQ-15)"
+      ],
+      "copy": {
+        "visible": [
+          "Shot",
+          "Register a shot at Player 5?",
+          "Ordinary weapons you hold: 0."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/shot-w390-officer.png",
+        "design/abilities/review/weapons-w390-officer-spent.png",
+        "design/abilities/review/weapons-w390-officer-supplied.png",
+        "design/board-motion/index.html?scenario=shot.officer"
+      ],
+      "dependencies": [
+        "DSN-REQ-15: a lasting own field for the Officer's spent shot (shotAvailable means a legal target now), so that a weapon supplied after it can be drawn as one that cannot be used."
+      ]
+    },
+    {
+      "id": "alien-weapon",
+      "title": "Alien: shared actions and a supplied weapon",
+      "slice": 4,
+      "status": "delivered",
+      "roles": [
+        "Alien"
+      ],
+      "audience": "private-own",
+      "trigger": "The Alien's view offers the shared actions. A weapon arrives only through a Supplier's grant in Round 3, and is shot from Round 4 like any ordinary weapon.",
+      "fields": [
+        "self.ordinaryWeapons",
+        "receivedSupply[] (round)",
+        "legalTargets.REGISTER_SHOT",
+        "receipt"
+      ],
+      "disclosure": [
+        "The weapon received is the recipient's slip in the Alien's own card (slice 3), naming no Supplier, and the weapons note; no public weapon marker.",
+        "The Alien shoots through the same strip as every other seat, part for part: nothing in it says Alien or a team."
+      ],
+      "concept": "In the Alien's card, under its Code file: the recipient's slip and the weapons note with its round. The ordinary shot strip.",
+      "art": [
+        "dossier-slip",
+        "dossier-tag",
+        "dossier-round",
+        "dossier-reticle"
+      ],
+      "motion": {
+        "normal": "As the ordinary shot; the slip drops in once (slice 3).",
+        "reduced": "As the ordinary shot; no drop.",
+        "static": "The slip, the rounds and the words.",
+        "cancel": "As every strip.",
+        "replay": "Never."
+      },
+      "states": [
+        "no weapon (the card says 0)",
+        "weapon received (the slip and one round)",
+        "shot as the ordinary shot"
+      ],
+      "copy": {
+        "visible": [
+          "You received one ordinary weapon from Supply in Round 3.",
+          "Ordinary weapons you hold: 1."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/alien-w390-weapon.png",
+        "design/abilities/review/alien-w320-weapon.png",
+        "design/abilities/review/shot-w390-alien-confirm.png",
+        "design/board-motion/index.html?scenario=alien.weapon"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-selection",
+      "title": "Character selection",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "public choice, own confirmation",
+      "trigger": "Setup: 30 seconds to choose; an unconfirmed choice is assigned automatically.",
+      "fields": [
+        "lobby identity: seats[].characterId, displayName, locked",
+        "staged start progress"
+      ],
+      "disclosure": [
+        "A clean nine-character matrix; a taken character says who took it; nothing about roles exists yet."
+      ],
+      "concept": "The nine crew cards in a 3 x 3 matrix on paper; a taken card gets the taker's seat stamp; the own pick pops and is ringed.",
+      "art": [
+        "approved: piece-crew.card-c1..c9"
+      ],
+      "motion": {
+        "normal": "Pick pop 220 ms; taken stamp 120 ms.",
+        "reduced": "Ring and stamp.",
+        "static": "Words.",
+        "cancel": "The timer closing settles every card.",
+        "replay": "Never."
+      },
+      "states": [
+        "choosing",
+        "taken by another",
+        "confirmed",
+        "assigned automatically",
+        "retry"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words (compact-phone decision of 8 October 2026)"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/v1-phone/"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-role-card",
+      "title": "Private role-card reveal",
+      "slice": 5,
+      "status": "planned",
+      "roles": [
+        "any"
+      ],
+      "audience": "private-own",
+      "trigger": "Setup: the role card is turned by the player; at least 30 seconds of reading, then every player Ready.",
+      "fields": [
+        "staged-start preview: self.role"
+      ],
+      "disclosure": [
+        "The card centers on the role; the device is added to the player's own character. No starting knowledge in this stage."
+      ],
+      "concept": "The approved card turn (cue-role-card-turn) with the role device sliding into the character's hand.",
+      "art": [
+        "approved: device-*.held, piece-crew.card-c*"
+      ],
+      "motion": {
+        "normal": "The reviewed turn (220 ms) plus the device slide (180 ms).",
+        "reduced": "Fade.",
+        "static": "The card face.",
+        "cancel": "Concealing hides the card.",
+        "replay": "Never after a reconnect."
+      },
+      "states": [
+        "face down",
+        "turning",
+        "face up",
+        "ready",
+        "hidden"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [],
+      "dependencies": []
+    },
+    {
+      "id": "shared-move",
+      "title": "Movement and room arrival",
+      "slice": 7,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "public",
+      "trigger": "Tapping an eligible room's name tag (never an action-menu choice); the public move cue on PUBLIC_MOVE.",
+      "fields": [
+        "self.movementDestinations",
+        "PUBLIC_MOVE",
+        "seats[].location"
+      ],
+      "disclosure": [
+        "The same walk for every move, transfer and release."
+      ],
+      "concept": "Delivered by the board-motion prototype (PR #88), recorded here: the room tags as the move control, the tentative place, the walk (out of the place, across, into the new one), arrival dust and the ink trail; FULL on a full room.",
+      "art": [
+        "board-motion-0.3.0 figures and scenes",
+        "approved: fx-ink-trail, fx-landing-puff"
+      ],
+      "motion": {
+        "normal": "cue-public-move (900 ms).",
+        "reduced": "80 ms fade at the new place.",
+        "static": "At the new place.",
+        "cancel": "A newer move or a reconnect.",
+        "replay": "Never."
+      },
+      "states": [
+        "tag eligible",
+        "tentative ghost",
+        "sending",
+        "accepted",
+        "arrived",
+        "full room",
+        "refused"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/review/states/move.tags.png",
+        "design/board-motion/review/states/move.confirm.png",
+        "design/board-motion/review/states/move.accepted.png",
+        "design/board-motion/review/states/move.full.png",
+        "design/board-motion/review/states/move.refused.png",
+        "design/board-motion/review/motion/10-cue-public-move-345ms.png",
+        "design/board-motion/review/motion/10-cue-public-move-reduced.png",
+        "design/board-motion/index.html?scenario=move.tags"
+      ],
+      "dependencies": [
+        "PR #88 (the board-motion prototype; its cues are proposals)"
+      ]
+    },
+    {
+      "id": "shared-target",
+      "title": "Action selection, targeting and confirmation",
+      "slice": 7,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "private-own",
+      "trigger": "The Actions tray, then the characters on the board, then the strip's confirmation (PR #88); in the tray, each action the seat's own view opens, beside its own mark.",
+      "fields": [
+        "legalTargets.*",
+        "receipt"
+      ],
+      "disclosure": [
+        "What can be chosen is only what the view offers; registered is not a result.",
+        "The tray lists only what the seat's own view opens. Each chip's mark is the strip's own and the same for every role: the Disable's for both Disablers, Supply's not the Supplier's, a Hack's not the Hacker's; every ballot the same box."
+      ],
+      "concept": "The board-motion tray and strip (PR #88), with every action's art in the strip (slices 1 to 6); in the tray each chip's caption-yellow disc holds its action's mark, one ink, the strip's own: the reticle (the reviewed icon-action-shot), the charged ring, the shield, the cross, the lens, the tag, the comms, the punch card, the special round, the ballot box, the key.",
+      "art": [
+        "approved: icon-action-shot",
+        "icon-action-disable",
+        "icon-action-protect",
+        "icon-action-rescue",
+        "icon-action-scan",
+        "icon-action-supply",
+        "icon-action-hack",
+        "icon-action-code",
+        "icon-action-showdown",
+        "icon-action-ballot",
+        "icon-action-key"
+      ],
+      "motion": {
+        "normal": "The board-motion cues (tray, strip, eligible, picked, sending); the marks themselves do not move.",
+        "reduced": "The cues' reduced forms.",
+        "static": "The marks and the words; without the art, the glyphs.",
+        "cancel": "The background or an out-of-date view: the tray pauses, the strip closes.",
+        "replay": "Never."
+      },
+      "states": [
+        "idle",
+        "choosing",
+        "confirming",
+        "sending",
+        "registered",
+        "rejected",
+        "unknown",
+        "paused"
+      ],
+      "copy": {
+        "visible": [
+          "Shot",
+          "Choose a target",
+          "Scan",
+          "Choose a player",
+          "Code attempt",
+          "Enter a Code",
+          "Supply",
+          "Choose two players",
+          "Release request",
+          "Choose"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/tray-w390-hacker.png",
+        "design/abilities/review/tray-w390-undercover.png",
+        "design/abilities/review/tray-w390-cracker.png",
+        "design/abilities/review/tray-w390-disabler.png",
+        "design/abilities/review/tray-w390-supplier.png",
+        "design/abilities/review/tray-w390-showdown.png",
+        "design/abilities/review/tray-w390-ballot.png",
+        "design/abilities/review/tray-w390-release.png",
+        "design/abilities/review/tray-w320-undercover.png",
+        "design/abilities/review/tray-w390-text200-hacker.png",
+        "design/abilities/review/tray-w390-no-art.png",
+        "design/board-motion/index.html?scenario=tray.open"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-hack",
+      "title": "Standard Hack: the request and the two partners",
+      "slice": 5,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "request private; the Hack phase and its requester public; the partner private to the two",
+      "trigger": "During its own ordinary turn a seat asks for a Hack with a player in the same location (once a match, at most two a round); when the turn closes the Hack phase opens for its own 60 seconds, the requester the active seat.",
+      "fields": [
+        "legalTargets.REQUEST_HACK",
+        "self.hackAvailable",
+        "receipt",
+        "phase.kind HACK",
+        "activeSeatId",
+        "hackPartnerSeatId"
+      ],
+      "disclosure": [
+        "The public sees the Hack phase and whose turn it is; who is the partner is known to the two alone (hackPartnerSeatId).",
+        "Both partners see the same note, so nothing on a phone tells who asked; the captures and the flows compare the two.",
+        "Nothing speaks of what either may say in a Hack: whether a player may lie depends on its role (v2.1 standard_hack.truth_rule), which the note never reads."
+      ],
+      "concept": "In the strip: the asked player's chip in a comms ring beside the question; the receipt says the request is accepted, not the Hack. In each partner's card, while the server says they are in one: the seat's own chip and its partner's joined by a coiled cord, and the release's words.",
+      "art": [
+        "dossier-comms",
+        "dossier-cord",
+        "dossier-slip",
+        "dossier-chip"
+      ],
+      "motion": {
+        "normal": "The first time the card shows a Hack's note, the cord runs from chip to chip (320 ms).",
+        "reduced": "No run: the cord is drawn whole.",
+        "static": "The ring, the chips, the cord and the words.",
+        "cancel": "As every strip; reduced motion finishes the run at once.",
+        "replay": "Never: the cord runs once a Hack in a page; a duplicate snapshot, a second opening or a reconnect draws it at rest."
+      },
+      "states": [
+        "choosing",
+        "confirming (the comms ring)",
+        "sending",
+        "accepted (not the Hack)",
+        "rejected",
+        "unknown",
+        "the Hack phase: the asking partner's note",
+        "the Hack phase: the asked partner's note (the same)",
+        "ended (the note gone)"
+      ],
+      "copy": {
+        "visible": [
+          "Hack",
+          "Who do you request a Hack with?",
+          "Request a Hack with Player 5?",
+          "Hack request with Player 5 accepted.",
+          "Hack: you and Player 5."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/hack-w390-confirm.png",
+        "design/abilities/review/hack-w320-confirm.png",
+        "design/abilities/review/hack-w390-requested.png",
+        "design/abilities/review/hack-w390-link.png",
+        "design/abilities/review/hack-w320-link.png",
+        "design/abilities/review/hack-w390-partner.png",
+        "design/abilities/review/hack-w390-text200-link.png",
+        "design/abilities/review/hack-w390-no-art.png",
+        "design/abilities/review/hack-link-w390-no-art.png",
+        "design/board-motion/index.html?scenario=hack.phase"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-pass",
+      "title": "Pass turn",
+      "slice": 5,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "own control; the phase change public",
+      "trigger": "The central Pass button during the seat's own ordinary turn (PASS-01); the strip confirms it.",
+      "fields": [
+        "legalTargets.PASS_TURN",
+        "receipt"
+      ],
+      "disclosure": [
+        "Role-neutral: the same for every seat. Passing ends only the speaking turn (PASS-02, PASS-03); the turn moving on is the board's public turn cue."
+      ],
+      "concept": "The speaking turn's microphone at the start of the Pass strip, held while the seat confirms; handed on once the server accepts Pass, its outline left behind.",
+      "art": [
+        "dossier-mic",
+        "dossier-mic-passed"
+      ],
+      "motion": {
+        "normal": "On the receipt the microphone is handed on (240 ms).",
+        "reduced": "No beat: the outline is drawn.",
+        "static": "The microphone, its outline and the words.",
+        "cancel": "As every strip; reduced motion finishes the beat at once.",
+        "replay": "Never: the microphone is handed on once, for its receipt."
+      },
+      "states": [
+        "available",
+        "unavailable (not the seat's turn)",
+        "confirming (held)",
+        "sending",
+        "passed (handed on)",
+        "rejected",
+        "unknown",
+        "a legacy match (no Pass)"
+      ],
+      "copy": {
+        "visible": [
+          "Pass",
+          "End your turn now?",
+          "Your turn ends when the server accepts Pass.",
+          "Turn passed.",
+          "The next phase is shown at the top of the board."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/pass-w390-confirm.png",
+        "design/abilities/review/pass-w320-confirm.png",
+        "design/abilities/review/pass-w390-passed.png",
+        "design/abilities/review/pass-w320-passed.png",
+        "design/abilities/review/pass-w390-passed-reduced.png",
+        "design/abilities/review/pass-w390-no-art.png",
+        "design/board-motion/index.html?scenario=pass.confirm"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-votes",
+      "title": "Captain election, Jail vote, release request and release vote",
+      "slice": 5,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "own ballot private; the tally public, the board's",
+      "trigger": "The 60-second windows (V1-09): a Captain election and its runoff among the tied (V1-04), the Captain's release request for one jailed player and the release vote it opens, then the Jail vote (V1-11). Every non-eliminated player votes, Injured and Jailed included; one final ballot each; self-votes allowed (V1-10).",
+      "fields": [
+        "ballot.eligibleVoters",
+        "ballot.eligibleTargets",
+        "ballot.releaseTargetSeatId",
+        "legalTargets.VOTE",
+        "legalTargets.RELEASE_CHOICE",
+        "self.releaseVoteAvailable",
+        "receipt",
+        "lastTally"
+      ],
+      "disclosure": [
+        "A ballot stays private until the published tally (V1-10): the slip is drawn only in the seat's own strip, from its own choice, and names one player at most. No count, no other ballot and nobody else's choice is drawn on a phone; the count is public only as the board's tally (PR #88), the same on every screen.",
+        "A ballot's receipt is not a result: the slip posted into the box and the neutral Registered stamp.",
+        "The Captain's release request is the Captain's own until the release vote opens, when its subject is public (the board's ON THE BALLOT)."
+      ],
+      "concept": "In the strip: a ballot box at the start of the detail line and, beside the question, the seat's own slip: the pick's chip in the box, ticked; for a release vote, the jailed player's chip ticked (Yes) or crossed (No); a blank slip with a dash for an abstention. The receipt posts the slip: its edge stands in the box's slot. The Captain's release request: the jailed player's chip in a key ring, small at the start of the detail line.",
+      "art": [
+        "dossier-ballot",
+        "dossier-ballot-edge",
+        "dossier-tick",
+        "dossier-x-mark",
+        "dossier-ballot-box",
+        "dossier-key-ring",
+        "dossier-chip"
+      ],
+      "motion": {
+        "normal": "On the receipt the slip drops into the box's slot (240 ms).",
+        "reduced": "No drop: the slip stands in the slot.",
+        "static": "The slip, the box and the words.",
+        "cancel": "As every strip; reduced motion finishes the drop at once.",
+        "replay": "Never: the slip drops once, for its receipt; a duplicate snapshot, a recovery or a reconnect plays nothing."
+      },
+      "states": [
+        "choosing (the box empty)",
+        "a pick (the slip ticked)",
+        "an abstention (a blank slip)",
+        "release Yes (ticked)",
+        "release No (crossed)",
+        "sending",
+        "recorded (posted; not a result)",
+        "rejected",
+        "unknown",
+        "runoff among the tied",
+        "release request (the key ring)",
+        "no release request (nothing drawn)",
+        "tally (the board's, public)"
+      ],
+      "copy": {
+        "visible": [
+          "Vote",
+          "Who do you vote for as Captain?",
+          "Vote for Player 5 as Captain?",
+          "Abstain from this vote?",
+          "Your vote for Player 4 is recorded.",
+          "Your abstention is recorded.",
+          "Vote yes to releasing Player 9?",
+          "Ask for a vote on releasing Player 9 from Jail?",
+          "Release vote for Player 9 requested.",
+          "This is not a result. The count is shown to everyone when the vote closes."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/vote-w390-confirm.png",
+        "design/abilities/review/vote-w320-confirm.png",
+        "design/abilities/review/vote-w390-recorded.png",
+        "design/abilities/review/vote-w320-recorded.png",
+        "design/abilities/review/vote-w390-abstain.png",
+        "design/abilities/review/vote-w390-abstained.png",
+        "design/abilities/review/vote-w390-runoff.png",
+        "design/abilities/review/release-w390-vote-yes.png",
+        "design/abilities/review/release-w320-vote-yes.png",
+        "design/abilities/review/release-w390-vote-no.png",
+        "design/abilities/review/release-w390-voted.png",
+        "design/abilities/review/release-w390-confirm.png",
+        "design/abilities/review/release-w320-confirm.png",
+        "design/abilities/review/release-w390-requested.png",
+        "design/abilities/review/vote-w390-no-art.png",
+        "design/abilities/review/release-w390-no-art.png",
+        "design/board-motion/index.html?scenario=vote.confirm"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-health",
+      "title": "Injury, elimination and recovery; Hospital, Jail and Command transitions",
+      "slice": 7,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "public",
+      "trigger": "PUBLIC_HEALTH_CHANGED and PUBLIC_MOVE; faction reveal at elimination.",
+      "fields": [
+        "seats[].health",
+        "seats[].location",
+        "seats[].revealedFaction",
+        "seats[].jailed",
+        "seats[].captain"
+      ],
+      "disclosure": [
+        "One hit for every cause and from no direction (cue-public-hit, a proposal, DSN-D35). Recovery names no rescuer.",
+        "No door slam and no hatch: the walk into the Jail or the Command Room is the public move, and the Jailed and Captain markers are the status change. A cue adds no fact."
+      ],
+      "concept": "Delivered by the board-motion prototype (PR #88), recorded here: one hit for every cause (a burst and a jolt), Injured with a bandage and a limp, the place's fall when Eliminated with the faction the rules reveal, the bandage gone on recovery; the Jail and the Command Room reached by the public move, their markers the status change.",
+      "art": [
+        "board-motion-0.3.0 figures and scenes (PR #88)"
+      ],
+      "motion": {
+        "normal": "cue-public-hit, cue-public-move, cue-status-change.",
+        "reduced": "Their reduced forms.",
+        "static": "Markers.",
+        "cancel": "A newer change.",
+        "replay": "Never."
+      },
+      "states": [
+        "Healthy",
+        "Injured",
+        "Eliminated (revealed faction)",
+        "Jailed",
+        "Captain",
+        "released"
+      ],
+      "copy": {
+        "visible": [
+          "the release's words"
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/board-motion/review/states/public.injured.png",
+        "design/board-motion/review/states/public.eliminated.png",
+        "design/board-motion/review/states/board.crowded-hospital.png",
+        "design/board-motion/review/motion/12-cue-public-hit-80ms.png",
+        "design/board-motion/review/motion/13-cue-public-hit-500ms.png",
+        "design/board-motion/review/motion/12-cue-public-hit-reduced.png",
+        "design/board-motion/index.html?scenario=public.injured"
+      ],
+      "dependencies": [
+        "PR #88 (the board-motion prototype; its cues are proposals)"
+      ]
+    },
+    {
+      "id": "shared-showdown",
+      "title": "Final Showdown",
+      "slice": 6,
+      "status": "delivered",
+      "roles": [
+        "any non-eliminated"
+      ],
+      "audience": "own target and special shot private; the resolution public",
+      "trigger": "No winner after Round 5 (final-showdown-decision, option 1): everyone still in the match is in the Final Zone and registers one special shot at a living player other than itself (legalTargets.SHOWDOWN_SHOT).",
+      "fields": [
+        "phase.kind SHOWDOWN",
+        "legalTargets.SHOWDOWN_SHOT",
+        "seats[].location Final Zone",
+        "receipt"
+      ],
+      "disclosure": [
+        "Every target stays secret until the shots resolve, one at a time, as the board's public health changes: the same for every cause and from no direction (cue-public-hit).",
+        "The special shot is used when the server accepts it, with no refund and no redirect (V1-20). The view carries no lasting spent shot (the offer simply ends), so nothing outside the receipt draws it spent.",
+        "Role-neutral: every seat in the Final Zone sees the same strip, part for part."
+      ],
+      "concept": "The target's chip in the same reticle as an ordinary shot, beside the question; at the start of the detail line the special shot, a caption-yellow round with a double band, full while the server offers it and spent (the ordinary round's dashed outline) on the receipt.",
+      "art": [
+        "dossier-reticle",
+        "dossier-round-special",
+        "dossier-round-spent",
+        "planned: a Final Zone scene (the board draws the Final Zone on the page's paper, halftone and speed lines today)"
+      ],
+      "motion": {
+        "normal": "On the receipt the special shot leaves the strip (the round's 220 ms spend). The public resolution is the board's: one hit at a time, each the same cue.",
+        "reduced": "No beat: the spent outline is drawn.",
+        "static": "The reticle, the round, full or spent, and the words.",
+        "cancel": "As every strip; reduced motion finishes the beat at once.",
+        "replay": "Never: the shot is spent once, for its receipt."
+      },
+      "states": [
+        "choosing (the special shot full)",
+        "confirming (the target in the reticle)",
+        "sending",
+        "registered (spent)",
+        "rejected",
+        "unknown",
+        "resolving (public hits on the board)"
+      ],
+      "copy": {
+        "visible": [
+          "Showdown shot",
+          "Choose a target",
+          "Register a showdown shot at Player 5?",
+          "You cannot change or withdraw it here once it is registered.",
+          "Register shot",
+          "Sending your shot to the server…",
+          "Showdown shot at Player 5 registered.",
+          "This is not a result."
+        ],
+        "accessible": []
+      },
+      "review": [
+        "design/abilities/review/showdown-w390-choose.png",
+        "design/abilities/review/showdown-w320-choose.png",
+        "design/abilities/review/showdown-w390-confirm.png",
+        "design/abilities/review/showdown-w320-confirm.png",
+        "design/abilities/review/showdown-w390-registered.png",
+        "design/abilities/review/showdown-w320-registered.png",
+        "design/abilities/review/showdown-w390-registered-reduced.png",
+        "design/abilities/review/showdown-w390-no-art.png",
+        "design/board-motion/index.html?scenario=showdown.confirm"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-end",
+      "title": "End of game: roles, the Code and the outcome",
+      "slice": 6,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "public: every phone and the shared display alike, only when the match is over",
+      "trigger": "phase.kind FINISHED, with result and endReveal; ABORTED, with neither (the contract carries the result and the end reveal at FINISHED only).",
+      "fields": [
+        "phase.kind FINISHED or ABORTED",
+        "result.winner",
+        "result.alienCoWinner",
+        "endReveal.roles",
+        "endReveal.code"
+      ],
+      "disclosure": [
+        "The exact roles and the Code only through the finished match's reveal (V1-18), in seat order: never before, and never from a seat's own view. A match the host ended names no winner and reveals nothing.",
+        "No device art and no role hook on the board: the roles are words, each in its side's colour, in the result sheet alone (data-end-faction from the end reveal).",
+        "As in the release, the card and the actions close for good at the end; nothing private is drawn."
+      ],
+      "concept": "A result sheet over the lower board, the same on every screen: the winner struck on a ribbon in its side's colour, the Alien's co-win beneath it; the release's table of roles drawn as a cast list in two columns, each seat's character, its label and its role in its side's colour, the Code's four pinned with a punched card; the Code's sentence in seat order. A match the host ended: its sentence alone, on plain paper.",
+      "art": [
+        "approved: piece-crew-card-c1 to c9 (public)",
+        "CSS: the ribbon, the cast list, the Code's pin"
+      ],
+      "motion": {
+        "normal": "cue-end-reveal, motionMs.comicBeatMaximum 900 ms: the sheet rises (240 ms), the winner is struck (260 ms), the rows turn up one after another, each Code pin stamped, and the Code's sentence comes last (400 ms). An ended match: the rise alone.",
+        "reduced": "The 80 ms fade of the whole sheet.",
+        "static": "The sheet with every word, at rest.",
+        "cancel": "A reconnect, the page going to the background or reduced motion switched on: the sheet stands as it is at once.",
+        "replay": "Never: not for a page that loads at the end, a duplicate snapshot, a reconnect or the menu closing."
+      },
+      "states": [
+        "Blue wins",
+        "Blue wins, the Alien with Blue",
+        "Red wins",
+        "The Alien wins",
+        "A draw",
+        "Ended by the host"
+      ],
+      "copy": {
+        "visible": [
+          "Result",
+          "Blue wins.",
+          "Red wins.",
+          "The Alien wins.",
+          "Nobody wins. The match is a draw.",
+          "The Alien wins with Blue.",
+          "The host ended this match. There is no winner.",
+          "Roles",
+          "The Code was: Player 1, Player 4, Player 6, Player 8.",
+          "Match finished",
+          "Match ended by the host"
+        ],
+        "accessible": [
+          "Player",
+          "Role",
+          "This phase has no timer"
+        ]
+      },
+      "review": [
+        "design/abilities/review/end-w390-blue.png",
+        "design/abilities/review/end-w320-blue.png",
+        "design/abilities/review/end-w390-aborted.png",
+        "design/abilities/review/end-w320-aborted.png",
+        "design/abilities/review/end-w390-alien-co.png",
+        "design/abilities/review/end-w390-red.png",
+        "design/abilities/review/end-w390-alien.png",
+        "design/abilities/review/end-w390-draw.png",
+        "design/abilities/review/end-w390-text200-blue.png",
+        "design/abilities/review/end-w390-reduced.png",
+        "design/abilities/review/end-w390-no-art.png",
+        "design/board-motion/index.html?scenario=end.blue"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "shared-failure",
+      "title": "Unavailable actions, rejection, missing assets and reconnecting",
+      "slice": 7,
+      "status": "delivered",
+      "roles": [
+        "any"
+      ],
+      "audience": "own",
+      "trigger": "An action the view does not offer; a rejected receipt; a lost answer; a bundle that did not load; the connection lost or an update unreadable; a reconnect.",
+      "fields": [
+        "legalTargets",
+        "receipt code (PHASE_CLOSED, NOT_ALLOWED)",
+        "view freshness (connection, unreadable update)"
+      ],
+      "disclosure": [
+        "Reasons are the receipt's codes only; nothing is guessed.",
+        "Out of date: the release's banner and words with Reconnect now; the actions pause; a choice not sent is dropped and said so; the change is said once, and a reconnect plays nothing.",
+        "The card on an out-of-date view: PR #88's closed folder, the same for every role; or, as DSN-REQ-16 recommends, the release's card kept, at rest, marked May be out of date (proposed words), the same mark for every role."
+      ],
+      "concept": "A NOT ACCEPTED stamp (hatched, no red) and an Unknown stamp with Check again (PR #88); an unavailable Pass or room said in words; the connection banner with the reviewed stale-connection icon and Reconnect now, every sheet kept below it; the card's out-of-date mark; paper-and-ink fallbacks for every picture.",
+      "art": [
+        "approved: icon-connection-stale",
+        "dossier-folder",
+        "dossier-stamp",
+        "CSS: the banner, the mark"
+      ],
+      "motion": {
+        "normal": "The stamps (120 ms; Not accepted, a short nudge); the banner and the mark do not move; a reconnect plays nothing.",
+        "reduced": "The stamps without scale or nudge.",
+        "static": "Words.",
+        "cancel": "Immediate.",
+        "replay": "Never: a reconnect settles at once."
+      },
+      "states": [
+        "unavailable",
+        "rejected: phase closed",
+        "rejected: not allowed",
+        "unknown",
+        "missing art",
+        "connection lost",
+        "update unreadable",
+        "reconnecting",
+        "reconnected",
+        "the card kept out of date (DSN-REQ-16)",
+        "the card folded (PR #88)"
+      ],
+      "copy": {
+        "visible": [
+          "Connection lost. Showing the last known state, which may be out of date. Reconnecting…",
+          "The latest update could not be read. Showing the last known state, which may be out of date.",
+          "Reconnect now",
+          "Actions are paused until the connection is restored.",
+          "Your choice was not sent.",
+          "May be out of date"
+        ],
+        "accessible": [
+          "Connection lost. Showing the last known state.",
+          "The latest update could not be read.",
+          "Reconnected. Round 2. Your turn.",
+          "Up to date again. Round 2. Your turn."
+        ]
+      },
+      "review": [
+        "design/abilities/review/stale-w390-board.png",
+        "design/abilities/review/stale-w320-board.png",
+        "design/abilities/review/stale-w390-card.png",
+        "design/abilities/review/stale-w320-card.png",
+        "design/abilities/review/stale-w320-menu.png",
+        "design/abilities/review/stale-w390-card-notes.png",
+        "design/abilities/review/stale-w390-unreadable.png",
+        "design/abilities/review/stale-w390-folder.png",
+        "design/abilities/review/stale-w390-text200-card.png",
+        "design/abilities/review/stale-w390-no-art.png",
+        "design/board-motion/review/states/shot.rejected.png",
+        "design/board-motion/review/states/shot.unknown.png",
+        "design/board-motion/review/states/move.refused.png",
+        "design/board-motion/index.html?scenario=stale.card"
+      ],
+      "dependencies": [
+        "DSN-REQ-16"
+      ]
+    }
+  ]
+}

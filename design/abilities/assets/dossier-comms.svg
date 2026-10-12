@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-comms 0.1.0 · generated, do not edit by hand
+  A comms ring. Round the chip of the player a seat asks for a Hack, in its own strip.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/ballot.svg (layer dossier-comms). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="56" height="56"><g id="dossier-comms"><circle cx="28" cy="28" r="19" fill="none" stroke="#151923" stroke-width="3.4"/><circle cx="28" cy="28" r="19" fill="none" stroke="#F4EBDD" stroke-width="1.4"/><path d="M6 19 Q2 28 6 37 M50 19 Q54 28 50 37" fill="none" stroke="#151923" stroke-width="3.6" stroke-linecap="round"/><path d="M6 19 Q2 28 6 37 M50 19 Q54 28 50 37" fill="none" stroke="#F7C52B" stroke-width="1.6" stroke-linecap="round"/></g></svg>

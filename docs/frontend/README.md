@@ -31,7 +31,45 @@ It also records what differs from the proposal, and why. Its browser-simulation 
 
 [board-recovery.md](board-recovery.md) is the Codex Frontend follow-up to draft PR #92: stale/deadline concealment of sent-command board marks, immediate mid-flight reduced-motion cancellation, and fresh current-runtime evidence. The historical screenshots and earlier outcomes work remain separate from that verification.
 
+[phone-polish.md](phone-polish.md) fixes three defects of that release, with new capture checks for each:
+
+- on the phone, the connection banner's icon lay over its words;
+- at doubled text, the navigation labels ran into each other;
+- a public move flew over the open card.
+
+It also records the confirmation-stability measurements, and the large-text trade-off they show.
+
 [motion-os-preference.md](motion-os-preference.md) fixes the remaining explicit-full → OS-reduced wiring case without a screen frame, with native cancellation and owned-listener teardown evidence.
+
+## Role abilities
+
+Issue [#99](https://github.com/Amirkianfar66/GameN/issues/99) integrates the Designer's role-ability treatments on the phone. [insider-board.md](insider-board.md) covers the first piece, the Insider's investigation board. It is an interim treatment, pending the Designer's, and it covers:
+
+- the privacy lifecycle;
+- what was never drawn, so no player is paired with a role;
+- the missing Designer assets;
+- the actual checks.
+
+Its browser-simulation evidence is under [evidence/insider-board-2026-10-11/](evidence/insider-board-2026-10-11/README.md).
+
+[insider-file.md](insider-file.md) replaces that interim board with the Designer's Insider file (`abilities-0.1.0`, [#102](https://github.com/Amirkianfar66/GameN/pull/102) at `1453500`), played in the release's phone so the owner can judge it. It covers:
+
+- where to see it;
+- what differs from the Designer's handoff, and why;
+- a view out of date, which keeps the release's card (the Designer's DSN-REQ-16 recommendation);
+- what the kit's adoption needs.
+
+Its evidence is under [evidence/insider-file-2026-10-11/](evidence/insider-file-2026-10-11/README.md).
+
+[role-abilities.md](role-abilities.md) prepares every other role ability for the Designer's treatments. It covers:
+
+- the states each role's own view gives, including Protection queued, active and used up, and a Cracker with no Rescues left;
+- hooks a treatment can style, which say no more than their words;
+- a role-by-role coverage table;
+- the Designer assets still missing;
+- the view gaps proposed on #99.
+
+Its evidence is under [evidence/role-abilities-2026-10-11/](evidence/role-abilities-2026-10-11/README.md).
 
 ## Slices
 
