@@ -1,6 +1,6 @@
 import type { Mode } from './model.js';
 import type { EngineAdapter } from './observation.js';
-import { TOLD_APART, runScenario } from './runner.js';
+import { audiencesToldApart, runScenario } from './runner.js';
 import type { ScenarioRun } from './runner.js';
 import type { Scenario } from './scenario.js';
 
@@ -37,6 +37,15 @@ export function controlsFor(scenario: Scenario): Control[] {
       const copy = copyOf(scenario);
       (copy.steps[index] as unknown as Loose)['expect'] = step.expect === 'REGISTERED' ? 'NOT_ALLOWED' : 'REGISTERED';
       out.push({ kind: 'command expectation', where: `step ${index}`, scenario: copy });
+    }
+    if (step.op === 'watch') {
+      // The opposite claim about the same span: where the two runs were to look the same at every
+      // phase, they are now to look different at every phase, and the other way round.
+      const copy = copyOf(scenario);
+      const target = copy.steps[index] as unknown as Loose;
+      if ('sameAsTwin' in step) { target['differsFromTwin'] = step.sameAsTwin; delete target['sameAsTwin']; }
+      else { target['sameAsTwin'] = step.differsFromTwin; delete target['differsFromTwin']; }
+      out.push({ kind: 'asserted fact', where: `step ${index}`, scenario: copy });
     }
     if (step.op !== 'assert') return;
     step.checks.forEach((original, position) => {
@@ -141,16 +150,29 @@ export interface LeakOutcome {
  * The leak is caught where a comparison fails and names who could tell the two runs apart, and it
  * has to be caught with every number of players in `modes`. A case that does not pass for any
  * other reason has caught nothing: that is a fault of the control, and it is reported as one.
+ * `passingWithout` names the cases that pass through the same binding without the leak; a case
+ * that does not pass there either says nothing about the leak.
  */
-export function judgeLeak(leak: string, meaning: string, modes: readonly Mode[], runs: readonly { scenario: Scenario; run: ScenarioRun }[]): LeakOutcome {
+export function judgeLeak(
+  leak: string, meaning: string, modes: readonly Mode[], runs: readonly { scenario: Scenario; run: ScenarioRun }[], passingWithout: ReadonlySet<string>,
+): LeakOutcome {
   const caughtBy: LeakOutcome['caughtBy'] = [];
   const problems: string[] = [];
   const caughtIn = new Set<Mode>();
   for (const { scenario, run } of runs) {
+    if (!passingWithout.has(scenario.id)) {
+      problems.push(`with the leak "${leak}", ${scenario.id} was tried although it does not pass without the leak`);
+      continue;
+    }
     if (run.status === 'passed') continue;
     const message = run.failure?.message ?? '';
-    if (run.status === 'failed' && run.failure?.op === 'assert' && message.startsWith(TOLD_APART)) {
-      caughtBy.push({ scenario: scenario.id, couldTell: message.slice(TOLD_APART.length).split(', ') });
+    // A step reports every check of its that failed, joined by "; ". All of them have to be
+    // comparisons that name who could tell: one other failure beside them, and the case has
+    // not failed for the leak alone.
+    const compared = run.status === 'failed' && (run.failure?.op === 'assert' || run.failure?.op === 'watch');
+    const named = compared ? message.split('; ').map(audiencesToldApart) : [];
+    if (named.length > 0 && named.every((audiences): audiences is string[] => audiences !== null)) {
+      caughtBy.push({ scenario: scenario.id, couldTell: [...new Set(named.flat())] });
       if (scenario.mode !== null) caughtIn.add(scenario.mode);
     } else problems.push(`with the leak "${leak}", ${scenario.id} did not pass for a reason that is not a comparison: ${message === '' ? run.status : message}`);
   }
@@ -159,4 +181,17 @@ export function judgeLeak(leak: string, meaning: string, modes: readonly Mode[],
   }
   if (runs.length === 0) problems.push(`the leak "${leak}" was tried on no paired case`);
   return { caughtBy, problems };
+}
+
+/**
+ * The paired cases that claim two runs look the same to somebody and that no deliberate leak made
+ * fail. Such a case has been seen to pass and never to notice anything, so it has not been shown
+ * to watch what it says it watches. A case that only claims a difference is not asked: a leak adds
+ * differences and cannot make it fail.
+ */
+export function unexercised(paired: readonly Scenario[], outcomes: readonly LeakOutcome[]): string[] {
+  const caught = new Set(outcomes.flatMap(outcome => outcome.caughtBy.map(item => item.scenario)));
+  const claimsSame = (scenario: Scenario): boolean => scenario.steps.some(step => (step.op === 'watch' && 'sameAsTwin' in step)
+    || (step.op === 'assert' && step.checks.some(check => 'sameAsTwin' in check)));
+  return paired.filter(scenario => claimsSame(scenario) && !caught.has(scenario.id)).map(scenario => scenario.id);
 }

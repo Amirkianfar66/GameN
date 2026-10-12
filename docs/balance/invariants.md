@@ -70,6 +70,22 @@ When no player can take a turn in the next round, a Jail vote or an election may
 | INV-MOVE-01 | Between phase closures a player's location changes only through that player's own accepted move, and only to Room A, Room B or Command Room. | R-MOVE-02, R-MOVE-03, R-MOVE-04 |
 | INV-MOVE-02 | A player has at most one move accepted per round. | R-MOVE-01 |
 
+## Room capacity
+
+These seven are checked only where a run says that the ruleset it plays has the room-capacity rule, the game owner's decision of 11 October 2026 recorded in issue #96. A match of an earlier ruleset keeps its own rules, and nothing here is held against it. The rows of the rule and the audit of it are in `docs/balance/capacity-audit.md`.
+
+| ID | Statement | Rules |
+| --- | --- | --- |
+| INV-CAP-01 | Room A, Room B, Hospital and Jail each hold at most five players at every moment. A place is held by every player located there, whatever their health: an Eliminated player keeps theirs. The Final Zone is not counted. | R-CAP-01, R-CAP-03, R-CAP-05 |
+| INV-CAP-02 | No player's view offers a move to Room A or Room B while that room holds five players. | R-CAP-02 |
+| INV-CAP-03 | A player who returns to a room arrives in the room they were last in, and in the other one only if that room holds five other players once the phase has closed. Returning players are those who leave Hospital or Jail for a room, and a Captain who lost the title inside Command Room, whether they are then Healthy, Eliminated or hurt without a place in Hospital. | R-CAP-07, R-CAP-19, R-CAP-22, R-CAP-24, R-STATE-08, R-VOTE-07, R-CAPT-14 |
+| INV-CAP-04 | An Eliminated player keeps their place: once Eliminated, a player's location does not change. | R-CAP-03 |
+| INV-CAP-05 | Nobody is moved to make a place: a Healthy, free player who is in Room A or Room B before and after a phase closes is in the same room. | R-CAP-01, R-MOVE-01 |
+| INV-CAP-06 | A player who waits for Hospital stays where they are: an Injured, free player who has no place in Hospital after a phase closes is where they were before it. A Captain who was inside Command Room is the exception: they cannot stay there and are seated like a returning player, which INV-CAP-03 holds. | R-CAP-04, R-CAP-15, R-CAP-20, R-CAP-24 |
+| INV-CAP-07 | Where two players return to a room in the same resolution, have the same last room, and only one of them is placed in it, that one has the lower player number. | R-CAP-27, R-CAP-26 |
+
+Under the same rule INV-LOC-02 allows one thing more: an Injured, free player may be in Room A, Room B or Jail while Hospital holds five (R-CAP-04, R-CAP-20), and INV-CAP-06 holds them to the place they were in. Since the owner's decisions of 11 October 2026, INV-CAP-03 counts a place that is being left in the same resolution as free (R-CAP-19), and takes a player's last room from what the checks themselves saw, not from the engine's record: the last room is the room the player was last in (R-CAP-22).
+
 ## Authorized views
 
 | ID | Statement | Rules |
@@ -84,9 +100,9 @@ When no player can take a turn in the next round, a Jail vote or an election may
 
 INV-VIEW-04 and INV-VIEW-06 restate the technical contract in `docs/integration-baseline.md`. They are checked here because a break in either would let a hidden action show.
 
-"What an audience can see" means its view and anything else the engine binding lets it read beside the view. No engine has such a further read today. Backend proposes one for a seat's own acknowledgments; when the binding carries it, INV-VIEW-03, INV-VIEW-04 and INV-VIEW-05 cover it without a change, and so does every case that compares audiences. INV-VIEW-01 looks through a further public read as it looks through the public view.
+"What an audience can see" means its view and anything else the engine binding lets it read beside the view. Since Backend's fix for finding G17 (draft PR #65) there is such a further read, of a seat's own acknowledgments, and the binding carries it whole. INV-VIEW-03, INV-VIEW-04 and INV-VIEW-05 cover it without a change, and so does every case that compares audiences. INV-VIEW-01 looks through a further public read as it looks through the public view. The receipt of a command is an answer to its sender and not part of a view, so these invariants leave it alone; a comparison of two runs includes it.
 
-The invariants hold for every state a match passes through. They cannot say that something a rule requires is missing: an engine that tells Supplier nothing breaks none of them. A scenario has to ask for that, which is the lesson of the integration review's finding G17; the audit has the check that followed.
+The invariants hold for every state a match passes through. They cannot say that something a rule requires is missing: an engine that told Supplier nothing broke none of them. A scenario has to ask for that, which is the lesson of the integration review's finding G17; the audit has the check that followed.
 
 ## Result
 

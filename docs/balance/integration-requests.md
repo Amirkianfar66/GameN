@@ -1,7 +1,7 @@
 # Game Balance requests to Codex Integration
 
 **From:** Game Design and Balance (issue [#5](https://github.com/Amirkianfar66/GameN/issues/5)). **For:** Codex Astra, Backend and Integration.
-**Base:** `BASE_SHA` `333c9e820f362a211352bc689372663f29b73ac4`. **Date:** 6 October 2026. BAL-REQ-1 was rewritten on 7 October 2026, after the follow-up review, Backend's reconciliation and Integration's draft adoption in PR #47, and [where each request stands](#where-each-request-stands) was added. BAL-REQ-8 and BAL-REQ-9 were added the same day, after the integration review of 7 October.
+**Base:** `BASE_SHA` `333c9e820f362a211352bc689372663f29b73ac4`. **Date:** 6 October 2026. BAL-REQ-1 was rewritten on 7 October 2026, after the follow-up review, Backend's reconciliation and Integration's draft adoption in PR #47, and [where each request stands](#where-each-request-stands) was added. BAL-REQ-8 and BAL-REQ-9 were added the same day, after the integration review of 7 October, and were answered within hours by Backend's and Integration's draft PRs #64, #65 and #67; both sections say what is left.
 
 Codex owns the engine, the shared contracts, the files under `rules/`, the root manifests, the lockfile and CI. Balance has changed none of them. This document lists the exact changes Balance asks for. Contract findings are in [contract-review.md](contract-review.md). Rule questions go to the game owner, not to Codex; they are in the decision register in [rules-audit-v1.md](rules-audit-v1.md#decision-register).
 
@@ -14,8 +14,8 @@ Codex owns the engine, the shared contracts, the files under `rules/`, the root 
 | [BAL-REQ-5](#bal-req-5) | Withdrawn: a ruleset pin that covers the baseline sources | Nothing | None |
 | [BAL-REQ-6](#bal-req-6) | A decision on the three pinned Balance documents | Keeping the brief and the earlier audit current | None |
 | [BAL-REQ-7](#bal-req-7) | One contract request from the review | Projection tests | None |
-| [BAL-REQ-8](#bal-req-8) | For the fix of G17: tell Balance the read that carries Supplier's result, and adopt the new catalogue together with the fix | Seventeen fixtures that fail until Supplier is told | None |
-| [BAL-REQ-9](#bal-req-9) | For names and characters: a decision record the rulebook can cite, and the read that carries them | One rulebook row; watching the new facts | None |
+| [BAL-REQ-8](#bal-req-8) | For the fix of G17: the read that carries Supplier's result, and adoption of the new catalogue with the fix. Answered by PR #65 and PR #67; still asked: adopt the head of this branch in place of the intermediate commit that was taken | Nothing blocked. The gate of PR #67 runs 522 fixtures, not the 555 here | None |
+| [BAL-REQ-9](#bal-req-9) | For names and characters: a decision record the rulebook can cite, and the read that carries them. Answered by PR #64 | One rulebook row, until that record is merged | None |
 
 Nothing here adds a package. `tools/balance` keeps its two workspace dependencies and its source imports nothing else, so the workspace guard passes unchanged.
 
@@ -134,24 +134,84 @@ The other item this request used to carry, [BAL-C01](contract-review.md#bal-c01)
 
 **For the fix of G17: tell Balance the read that carries Supplier's result, and adopt the new catalogue together with the fix.**
 
-The integration review of 7 October asks Balance to cover Supplier's result and the adoption of the contract that will carry it. The coverage is written: [contract-review.md](contract-review.md#part-d-the-two-contracts-now-being-prepared) lists what the rules require, and the catalogue has the cases. Seventeen of them fail against every current engine, because the engine tells Supplier nothing. That is the finding, shown by the catalogue. They will pass when the fix is in and the binding reads it.
+**Answered the same day, and one thing is still asked.** Backend's fix is draft PR [#65](https://github.com/Amirkianfar66/GameN/pull/65), and Integration's adoption of the Balance gates for it is draft PR [#67](https://github.com/Amirkianfar66/GameN/pull/67).
 
-Two things are asked, and neither is a contract design.
+1. **The read.** It is `projectOwnAcknowledgments`, a seat's own acknowledgments beside the protocol-2 view. Integration bound it in the engine binding, `tests/scenarios/adapters/full-game-v1.mjs`, with a patch to that Balance-owned file in PR #67. Balance takes that patch over as it stands: the binding takes whom Supplier armed from the real read and from nowhere else, carries the whole read in every comparison, and does not run an engine that lacks it. The stand-in that Balance used before a fix existed is removed.
+2. **The catalogue.** PR #67 adopted the Balance directories as they stood at commit `7d63089`: 522 fixtures. That was an intermediate state of this branch, taken from the shared local repository before it was pushed. Two passes followed it, after an independent reading found that plausible disclosure faults passed every case of that state. The branch now has 555 fixtures, comparison in every phase of a span, receipts in every comparison, and twenty-seven deliberate leaks that the controls command tries by itself and the report gate requires. **Asked: adopt the head of this branch in place of `7d63089`.** The pins of PR #67 then move again; [the evidence report](evidence/2026-10-07-supplier-fix.md) gives the new values, from a run against the engine of PR #65 in which the whole catalogue passes.
 
-1. **The name and shape of the read, when Backend has chosen them.** Backend proposes a read of a seat's own acknowledgments beside the protocol-2 view. Balance's binding to the engine, `tests/scenarios/adapters/full-game-v1.mjs`, is where it is taken up, in two places that are marked there: the list of players Supplier is shown as armed, and the whole of what a seat can read beside its view, which every comparison of audiences then covers. Until then the binding reports, truthfully, that the engine tells the player nothing. If the result is put into the view itself under a new wire version, the paired cases need no binding at all.
-2. **Adopt this catalogue in the change that fixes G17, not before.** The catalogue has 52 more fixtures and the rulebook two more rows, so every hash and count that PR #47 pins has to move: the four scenario files, the catalogue source, the rulebook, the totals of each group and the numbers of baselines and controls. That is the intended order, and the pins are Integration's to move after review. The evidence report gives the new values. Adopted before the fix, the guard would be red for a defect that is already known; adopted with it, a green guard means Supplier is told.
-
-Until the fix exists, the cases were validated another way, so that Backend is not handed tests that cannot pass. A stand-in adds the missing disclosure on top of the real engine, from the engine's own truth, and through it every ready case passes and every control is detected; made to leak in twelve ways, it is caught each time, with every number of players for which the leak tells anybody anything. It is described in [tests/scenarios/README.md](../../tests/scenarios/README.md#paired-cases-and-the-stand-in), its runs are labelled, and the report gate refuses them as evidence about an engine.
+What changed for a caller of the three commands: nothing. They take the same options, and `controls` now tries the leaks after its other controls and fails if one is not caught. The gate refuses a controls report without them.
 
 ## BAL-REQ-9
 
 **For names and characters in the lobby: a decision record the rulebook can cite, and the read that carries them.**
 
-The owner approved the comic-board direction on 7 October, with nine characters as the playing pieces, shown with the seat number and the player's name. Designer recorded the decisions in `docs/design/owner-decisions.md` (PR #57) and asks Integration to enter them in the decision register (DSN-REQ-7). The integration review says how: the original register is locked, so a newer decision record is added, or a reviewed lock update is made.
+**Answered the same day by draft PR [#64](https://github.com/Amirkianfar66/GameN/pull/64).**
 
-1. **When that record exists, tell Balance its path.** The rulebook says each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06). The approved direction replaces the token with a character and a name. Balance will add the row then, citing the record, and not before: the rulebook cites sources and does not make them.
-2. **When the contract exists, tell Balance where a seat's name and character are read.** The conditions the rules put on them are in [contract-review.md](contract-review.md#names-and-characters-in-the-lobby). The cases that watch them, `VIEW-04` to `VIEW-07`, compare everything the binding reads for the table and for every player, so they need the binding to carry any new read.
-3. **Keep the typed name out of every research record.** It is free text from a person. The record validator now refuses it under three likely field names; the export of BAL-REQ-2 should not carry it under any.
+1. **The record** is `docs/decisions/2026-10-07-crew-identity.md`. The rulebook says each player has a public number "shown by a numbered seat card and a neutral numbered token" (R-SETUP-06); the approved direction replaces the token with a character and a name. Balance will add the row, citing that record, when the record is on a branch the rulebook's sources are read from. Until then the row would cite a file that the static check cannot find.
+2. **The read** is a document of its own, `matches/{matchId}/identities/public`, written by the service. The engine does not project it, so the engine binding cannot read it and no scenario here watches it. Balance reviewed the contract by reading; the conditions and what the draft does with each are in [contract-review.md](contract-review.md#names-and-characters-in-the-lobby). Nothing further is asked. If a later change gives the engine a projection of identities, Balance will bind it and the paired cases will cover it as they stand.
+3. **Keep the typed name out of every research record.** It is free text from a person, and the contract calls it `displayName`. The record validator refuses that field name and two likely others; the export of BAL-REQ-2 should not carry it under any.
+
+## BAL-REQ-10
+
+**The capacity suite as the Balance check of the capacity ruleset.** Asked on 11 October 2026, with the audit of issue #96 ([capacity-audit.md](capacity-audit.md)).
+
+Backend's PR #98 keeps the Version 1 catalogue as a check of the earlier ruleset and has no Balance check of the ruleset new matches will use. This branch has one: 122 fixtures in `tests/scenarios/capacity/`, seven capacity invariants, and playouts that start from legal rooms and try full rooms.
+
+Asked of Integration, in the files it owns: for an engine that plays `in-person-v1-capacity-2026-10-11`, run
+
+- `npm run scenarios --workspace @mothership/balance -- --suite capacity --require-engine`, and hold it to 107 passed, 0 failed, 0 blocked and 15 not run. At the head of PR #98 it is 92 passed and 15 failed: case 28, for each number of players, which is BAL-REQ-13, and cases 25, 27, 45 and 46, which hold rules the owner decided after PR #98 was written and are BAL-REQ-14;
+- `npm run walk --workspace @mothership/balance -- --ruleset in-person-v1-capacity-2026-10-11 --rooms capped --room-capacity 5 --require-engine`, and hold it to no invariant violation, no hint mismatch, no replay mismatch and no unfinished playout.
+
+The hashes of the three fixture files are in the pins of the scenario report (`capacityFileHashes`), and the evidence report lists them.
+
+## BAL-REQ-11
+
+**The Version 1 gate asks for its ruleset by name.** Backend's PR #98 changed the Balance engine binding so that every match of the catalogue is created under the Pass ruleset, whatever the engine's own default is. The catalogue needs that: 510 of its 526 fixtures with a setup start with more than five players in one room, which the capacity ruleset refuses.
+
+This branch does it without fixing the ruleset in the binding: the four engine commands take `--ruleset`, and a report records the ruleset of its matches and, beside it, the build that played them, under the same three names Backend's change uses (`binaryEngineVersion`, `binaryRulesetVersion`, `binaryRulesetHash`). The same binding then serves the capacity suite.
+
+Asked of Integration: take this binding in place of the patch, and pass `--ruleset in-person-v1-pass-2026-10-08` where `scripts/test-balance.mjs` starts the catalogue, the controls and the playouts. The pins its guard compares are then the ones it compares now.
+
+The catalogue's own cases have not been run under the capacity ruleset. Re-seating them so that they can be is Balance's next work on this, and changes the pinned catalogue; it is not in this PR.
+
+## BAL-REQ-12
+
+**Starting rooms that do not depend on the order of approval.** Finding F1 of the audit. The service gives each player an even draw when they ask to join, and at approval keeps it unless that room already holds five approved players, in which case the player gets the other room. Each player's own room is then even. But when six or more drew the same room, which is 50.8% of nine-player lobbies if all have asked before anyone is approved, the first five approved keep it and the others are moved: the host chooses the order of approval and each player's number, and the database rules let the host read every request's room first. The owner's decision reads "unrelated to role, character, faction and seat", and the decision of 8 October says players do not choose their room.
+
+The owner decided it on 11 October 2026 (audit, section 7, `BAL-OD-1`): starting rooms are drawn once, for all players together, when the roster is complete, and every assignment with at most five players in a room is equally likely.
+
+Asked of Backend: draw them that way, and keep the draw through retries and recovery as now. Before the draw nobody has a room; what the lobby shows until then, and the moment at which the roster counts as complete, are Backend's and Designer's to state. The arithmetic of the three methods is in section 4.1 of the audit: the second block is what a correct draw gives, and fixture CAP-30 says what to look for.
+
+## BAL-REQ-13
+
+**A healed player is sent to the wrong room when a Captain is hurt in the same round after entering Command Room.** Finding F1 of the audit; a defect against the sixth decided case of issue #96. Asked on 11 October 2026.
+
+The Captain is named by an attack in a room and then enters Command Room. Where a target is when an action resolves does not matter, so the attack lands. In the same round Cracker heals a patient whose last room is the room the Captain left. That room holds four players before the round resolves and four after it. The healed player is nevertheless sent to the other room.
+
+The cause, in `packages/engine/src/full-game/lifecycle.ts` at `dd04f68`: the attack takes the title and sets the hurt Captain down in their last room at once; the pass that seats healed players first then counts five there; and the hurt Captain is taken to Hospital only afterwards. By the rules an Injured Captain goes to Hospital like any Injured player and is in no room on the way.
+
+To see it: `npm run scenarios --workspace @mothership/balance -- --suite capacity --only V1-M7-CAP-28 --engine-root <a built checkout of dd04f68>`, and the same with `M8` and `M9`. The engine before the rule passes the case's own checks.
+
+Asked of Backend: seat a healed player by the rooms as they are when the round has resolved. One order that does it and keeps the owner's "free healed Hospital places first": the healed leave their places in Hospital; the Injured are then placed, a hurt Captain going from Command Room to Hospital directly; the healed are seated last. That order also sends a healed player back to a room that a room-mate is leaving for Hospital. The owner decided on 11 October that it should (`BAL-OD-2`), so it is the order to implement: BAL-REQ-14.
+
+## BAL-REQ-14
+
+**The owner's decisions of 11 October on what the audit found open.** They were given in the Game Balance session and are recorded in section 7 of the audit as `BAL-OD-1` to `BAL-OD-6`, and in a comment on issue #96. PR #98 was written before them.
+
+Asked of Integration and Backend, in the files they own: carry them into the capacity overlay and the decision record, under a ruleset version of Backend's choosing, and implement them.
+
+| Decision | What has to change in the engine or the service | Fixture that holds it |
+| --- | --- | --- |
+| `BAL-OD-1`: starting rooms drawn once, when the roster is complete, every legal assignment equally likely | The service's draw (BAL-REQ-12) | CAP-30, manual |
+| `BAL-OD-2`: a place that a room-mate is leaving for Hospital in the same round is free for a returning player | Returning players are seated after the Injured have been placed | CAP-25; fails at `dd04f68` |
+| `BAL-OD-3`: a player's last room is the room they were last in, also after they were sent to the other one | The room an engine remembers for a player changes with a forced return too | CAP-27; fails at `dd04f68` |
+| `BAL-OD-4`: a Captain hit after entering Command Room who is Eliminated, or hurt while Hospital is full, is seated like a returning player once the round has resolved | The room is the one the implementation uses already; the moment of seating is not | CAP-42 and CAP-43 pass; CAP-45 fails at `dd04f68` |
+| `BAL-OD-5`: a prisoner released while Injured, with Hospital full, stands in Jail as a free player | Nothing: it is what PR #98 does | CAP-26, CAP-38 |
+| `BAL-OD-6`: of two returning players with the same last room and one place in it, the lower player number gets the place | Returning players are seated in order of player number; today a Captain who lost the title is seated first | CAP-44 passes; CAP-46 fails at `dd04f68` |
+
+One order does all of it and mends BAL-REQ-13 as well: when a round has resolved, the healed leave their places in Hospital; the Injured are placed, by player number; then returning players are seated, by player number, each in the room they were last in or, if it holds five, in the other.
+
+No question on the capacity rule is open after these decisions, as far as the audit has found.
 
 ## Where each request stands
 
@@ -169,16 +229,24 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | BAL-REQ-7, BAL-C02 | A proposal for focused schema and projection hardening. No defect in a connected projection was demonstrated | Agreed that none was demonstrated. It stays a proposal |
 | BAL-C12 | The Hack partner is private to the two participants on the wire. A public field would need an approved disclosure and a protocol review | Answered: private on purpose. No change is asked |
 | BAL-C15, BAL-C16, BAL-C17 | Advisory follow-ups. No new canon follows from them | Agreed |
-| BAL-REQ-8, BAL-REQ-9 | Not yet answered: added on 7 October, after the integration review of that day | Open |
+| BAL-REQ-8 | Answered by PR #65 and PR #67 on 7 October: the read exists and the binding uses it; the catalogue was adopted at commit `7d63089` | The binding patch is taken over. Open in one respect: adopt the head of this branch in place of `7d63089` |
+| BAL-REQ-9 | Answered by PR #64 on 7 October: a decision record and a separate identity document | Reviewed by reading; no objection. The rulebook row waits for the record to be merged |
+| BAL-REQ-10 | Not answered yet: asked on 11 October | Open |
+| BAL-REQ-11 | Not answered yet. Backend's PR #98 does the same by a patch to the binding | Open: this binding in place of the patch |
+| BAL-REQ-12 | Not answered yet: asked on 11 October | Open. The owner has decided when rooms are drawn; it waits for Backend |
+| BAL-REQ-13 | Not answered yet: asked on 11 October | Open. Three fixtures fail until it is mended |
+| BAL-REQ-14 | Not answered yet: asked on 11 October | Open. Twelve fixtures fail until the decisions are implemented |
 
 ## What Balance does next, and what it waits for
 
 | Next | Waits for |
 | --- | --- |
-| Bind the read that carries Supplier's result, and run the catalogue against the fix | Backend's fix for G17 and BAL-REQ-8 |
-| Add the rulebook row for names and characters, and bind their read | The decision record and the contract of BAL-REQ-9 |
+| Run the engine gate against the fix as merged, and commit the report | PR #65 and the adoption of this catalogue on the default branch |
+| Add the rulebook row for names and characters | The decision record of PR #64 on a branch the rulebook's sources are read from |
 | Re-run the engine gate against the engine as merged, and commit the report | The landing candidate on the default branch |
 | Turn a blocked scenario into a ready one, with a new rulebook version | An owner decision on that D number |
 | First in-person pilot sessions under [playtest/protocol.md](playtest/protocol.md) | A playable build, the owner's approval of consent, access and retention, and people |
 | Complete playtest records | BAL-REQ-2 |
 | A separate powers-on suite | D10 |
+| Re-seat the Version 1 catalogue so that it can run under the capacity ruleset, with a new rulebook revision that takes in the capacity rows | The capacity ruleset on a branch the rulebook's sources are read from, and Integration's agreement to move the pins |
+| Run the capacity suite again and commit the report | Backend's answer to BAL-REQ-13 and BAL-REQ-14 |

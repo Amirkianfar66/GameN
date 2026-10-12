@@ -2,7 +2,7 @@ import { canonicalJson, deepEqual, sameSet } from './model.js';
 import type { Mode, ScenarioSetup, SeatId } from './model.js';
 import { checkSetup, checkState, checkTransition, startLedger } from './invariants.js';
 import type { Ledger, Violation } from './invariants.js';
-import { payloadOf } from './observation.js';
+import { payloadOf, readableOf } from './observation.js';
 import type { CommandOutcome, EngineAdapter, EngineMatch, NeutralCommand, Observation } from './observation.js';
 import { hasTwin, resolveRef, resolveValue, twinSetup } from './scenario.js';
 import type { Audiences, Check, Ref, Scenario, Step, StepCommand } from './scenario.js';
@@ -44,11 +44,12 @@ interface Session {
   commandsInPhase: number;
   transitions: number;
   commands: number;
-  // Paired runs. In the twin run every assert step records what was observable there and judges
-  // nothing; in the main run `twinAt` holds those records, by step index, to compare with.
+  // Paired runs. In the twin run every comparing step records what was observable there and judges
+  // nothing; in the main run `twinAt` holds those records, by step index, to compare with. A step
+  // that compares at every phase on its way records one observation for each of them.
   stepIndex: number;
-  recording: Map<number, Observation> | null;
-  twinAt: Map<number, Observation> | null;
+  recording: Map<number, Observation[]> | null;
+  twinAt: Map<number, Observation[]> | null;
 }
 
 function neutralCommand(command: StepCommand, setup: ScenarioSetup): NeutralCommand {
@@ -112,27 +113,59 @@ function audienceSeats(audiences: Audiences, session: Session): { includePublic:
 function changedSince(session: Session, since: string, audiences: Audiences): string[] {
   const mark = session.marks[since];
   if (mark === undefined) throw new StepError(`unknown mark ${since}`);
-  return differing(mark, session.current, audiences, session);
+  return differing(mark, session.current, audiences, session, payloadOf);
 }
 
 // The audiences to whom two observations do not look the same: what they can read, or its revision.
-/** How a failed comparison begins. The audiences that could tell the two runs apart follow, separated by commas. */
+/**
+ * How a failed comparison begins. The audiences that could tell the two runs apart follow,
+ * separated by commas; a step that compares at every phase then adds when it first happened.
+ */
 export const TOLD_APART = 'the twin run does not look the same to: ';
+const LOOKS_THE_SAME = 'the twin run looks exactly the same to: ';
+/** The audiences a failed comparison names, or null when the message is not one. */
+export function audiencesToldApart(message: string): string[] | null {
+  if (!message.startsWith(TOLD_APART)) return null;
+  return message.slice(TOLD_APART.length).replace(/ \(first at [^)]*\)$/, '').split(', ');
+}
 
-function differing(one: Observation, other: Observation, audiences: Audiences, session: Session): string[] {
+// Two moments of one run are compared by what an audience can read of the match (`payloadOf`).
+// Two runs are compared by everything an audience has been given, receipts included (`readableOf`).
+type Reading = (observation: Observation, audience: 'public' | SeatId) => string;
+
+function differing(one: Observation, other: Observation, audiences: Audiences, session: Session, read: Reading): string[] {
   const { includePublic, players } = audienceSeats(audiences, session);
   const out: string[] = [];
-  if (includePublic && (payloadOf(one, 'public') !== payloadOf(other, 'public') || one.revisions.public !== other.revisions.public)) out.push('public');
+  if (includePublic && (read(one, 'public') !== read(other, 'public') || one.revisions.public !== other.revisions.public)) out.push('public');
   for (const seat of players) {
-    if (payloadOf(one, seat) !== payloadOf(other, seat) || one.revisions.players[seat] !== other.revisions.players[seat]) out.push(seat);
+    if (read(one, seat) !== read(other, seat) || one.revisions.players[seat] !== other.revisions.players[seat]) out.push(seat);
   }
   return out;
 }
 
-function twinObservation(session: Session): Observation {
-  const twin = session.twinAt?.get(session.stepIndex);
-  if (twin === undefined) throw new StepError('this step has no twin run to compare with');
+const momentOf = (observation: Observation): string => `Round ${observation.round}, ${observation.phaseKind}${observation.activeSeat === null ? '' : ` of ${observation.activeSeat}`}`;
+
+// What the twin run recorded at this step. Two runs can be compared only at the same moment: a
+// step that waits for the turn of a player who sits elsewhere in the twin run leaves the two runs
+// at different turns, and whatever differs there says nothing about what anybody was told.
+function twinObservation(session: Session, index = 0): Observation {
+  const twin = session.twinAt?.get(session.stepIndex)?.[index];
+  if (twin === undefined) throw new StepError(index === 0 ? 'this step has no twin run to compare with' : 'the twin run went through fewer phases here than this run');
+  const now = session.current;
+  if (twin.phaseId !== now.phaseId || twin.round !== now.round || twin.phaseKind !== now.phaseKind || twin.activeSeat !== now.activeSeat) {
+    throw new StepError(`the two runs are not at the same moment here: this run is at ${momentOf(now)}, its twin at ${momentOf(twin)}`);
+  }
   return twin;
+}
+
+// To whom the two runs look the same although they were said to differ, or the reverse.
+function toldApart(session: Session, audiences: Audiences, index = 0): string[] {
+  return differing(twinObservation(session, index), session.current, audiences, session, readableOf);
+}
+function lookingAlike(session: Session, audiences: Audiences, index = 0): string[] {
+  const { includePublic, players } = audienceSeats(audiences, session);
+  const apart = toldApart(session, audiences, index);
+  return [...(includePublic ? ['public'] : []), ...players].filter(item => !apart.includes(item));
 }
 
 function compare(label: string, actual: unknown, check: { equals?: unknown; sameSet?: Ref[]; includes?: Ref; excludes?: Ref }, setup: ScenarioSetup): string | null {
@@ -190,6 +223,13 @@ function visibleField(session: Session, seat: SeatId, field: string): unknown {
   }
 }
 
+// Injured, free players who are in Room A or Room B and not in Hospital: under the capacity rule
+// they wait there for a place. Read from the public facts, which every audience has.
+function waitingSeats(now: Observation): SeatId[] {
+  return now.publicView.seats.filter(seat => seat.health === 'Injured' && !seat.jailed && (seat.location === 'Room A' || seat.location === 'Room B'))
+    .map(seat => seat.seat).sort();
+}
+
 function matchValues(now: Observation): Record<string, unknown> {
   return {
     round: now.round, phase: now.phaseKind, terminal: now.terminal, active: now.activeSeat,
@@ -197,6 +237,7 @@ function matchValues(now: Observation): Record<string, unknown> {
     codeSubmitted: now.truth.codeSubmitted, codeCorrect: now.truth.codeCorrect, releaseUsed: now.truth.releaseUsed,
     endRevealPresent: now.publicView.endReveal !== null,
     windowMs: now.phaseEndsAt === null ? null : now.phaseEndsAt - now.phaseStartedAt,
+    waiting: waitingSeats(now),
   };
 }
 
@@ -260,14 +301,12 @@ function evaluate(check: Check, session: Session): string | null {
     return deepEqual(turns, expected) ? null : `Round ${check.traceTurns.round} turns: expected ${expected.join(',')}, observed ${turns.join(',')}`;
   }
   if ('sameAsTwin' in check) {
-    const apart = differing(twinObservation(session), now, check.sameAsTwin.audiences, session);
+    const apart = toldApart(session, check.sameAsTwin.audiences);
     return apart.length === 0 ? null : `${TOLD_APART}${apart.join(', ')}`;
   }
   if ('differsFromTwin' in check) {
-    const { includePublic, players } = audienceSeats(check.differsFromTwin.audiences, session);
-    const apart = differing(twinObservation(session), now, check.differsFromTwin.audiences, session);
-    const alike = [...(includePublic ? ['public'] : []), ...players].filter(item => !apart.includes(item));
-    return alike.length === 0 ? null : `the twin run looks exactly the same to: ${alike.join(', ')}`;
+    const alike = lookingAlike(session, check.differsFromTwin.audiences);
+    return alike.length === 0 ? null : `${LOOKS_THE_SAME}${alike.join(', ')}`;
   }
   const seats = now.truth.seats;
   const counts: Record<string, number> = {
@@ -283,22 +322,55 @@ function evaluate(check: Check, session: Session): string | null {
     electionPhases: session.trace.filter(item => item.phaseKind === 'CAPTAIN_ELECTION').length,
     releaseChoicePhases: session.trace.filter(item => item.phaseKind === 'RELEASE_CHOICE').length,
   };
+  counts['waiting'] = waitingSeats(now).length;
+  // `occupants:<location>` is how many players are located there, whatever their health.
+  const place = /^occupants:(Room A|Room B|Command Room|Hospital|Jail|Final Zone)$/.exec(check.count)?.[1];
+  if (place !== undefined) counts[check.count] = seats.filter(seat => seat.location === place).length;
   if (!(check.count in counts)) throw new StepError(`unknown count ${check.count}`);
   return counts[check.count] === check.equals ? null : `count ${check.count}: expected ${check.equals}, observed ${String(counts[check.count])}`;
 }
 
+// Let phases expire until the checkpoint is reached. `afterEach` is called in every phase entered on the way.
+function advanceTo(step: { round?: number; phase?: string; active?: Ref }, session: Session, afterEach: () => void = () => {}): void {
+  const wanted = step.active === undefined ? undefined : resolveRef(step.active, session.setup);
+  const matches = () => (step.round === undefined || session.current.round === step.round)
+    && (step.phase === undefined || session.current.phaseKind === step.phase)
+    && (wanted === undefined || session.current.activeSeat === wanted);
+  const checkpoint = JSON.stringify({ round: step.round, phase: step.phase, active: step.active });
+  for (let expiries = 0; !matches(); expiries += 1) {
+    if (session.current.terminal) throw new StepError(`the match ended (${session.current.phaseKind}) before reaching ${checkpoint}`);
+    if (expiries >= MAX_EXPIRIES) throw new StepError(`checkpoint ${checkpoint} not reached within ${MAX_EXPIRIES} phases`);
+    expire(session);
+    afterEach();
+  }
+}
+
 function runStep(step: Step, session: Session): void {
   switch (step.op) {
-    case 'until': {
-      const wanted = step.active === undefined ? undefined : resolveRef(step.active, session.setup);
-      const matches = () => (step.round === undefined || session.current.round === step.round)
-        && (step.phase === undefined || session.current.phaseKind === step.phase)
-        && (wanted === undefined || session.current.activeSeat === wanted);
-      for (let expiries = 0; !matches(); expiries += 1) {
-        if (session.current.terminal) throw new StepError(`the match ended (${session.current.phaseKind}) before reaching ${JSON.stringify(step)}`);
-        if (expiries >= MAX_EXPIRIES) throw new StepError(`checkpoint ${JSON.stringify(step)} not reached within ${MAX_EXPIRIES} phases`);
-        expire(session);
-      }
+    case 'until':
+      advanceTo(step, session);
+      return;
+    case 'watch': {
+      // As `until`, and the two runs are compared in the phase the step starts in and in every
+      // phase entered on the way, the checkpoint included. A comparison at chosen moments finds
+      // what is told at those moments; this finds what is told at any moment in between.
+      const seen: Observation[] = [];
+      let index = 0;
+      const here = (): void => {
+        if (session.recording !== null) { seen.push(session.current); return; }
+        const at = ` (first at ${momentOf(session.current)})`;
+        if ('sameAsTwin' in step) {
+          const apart = toldApart(session, step.sameAsTwin.audiences, index);
+          if (apart.length > 0) throw new StepError(`${TOLD_APART}${apart.join(', ')}${at}`);
+        } else {
+          const alike = lookingAlike(session, step.differsFromTwin.audiences, index);
+          if (alike.length > 0) throw new StepError(`${LOOKS_THE_SAME}${alike.join(', ')}${at}`);
+        }
+      };
+      here();
+      advanceTo(step, session, () => { index += 1; here(); });
+      if (session.recording !== null) session.recording.set(session.stepIndex, seen);
+      else if ((session.twinAt?.get(session.stepIndex)?.length ?? 0) !== index + 1) throw new StepError('the twin run went through more phases here than this run');
       return;
     }
     case 'expire':
@@ -316,16 +388,23 @@ function runStep(step: Step, session: Session): void {
     }
     case 'command': {
       const outcome = submit(session, step.actor, step.command, step.at ?? 'start');
-      const met = step.expect === 'REFUSED' ? outcome === 'NOT_ALLOWED' || outcome === 'INVALID' : outcome === step.expect;
+      // REFUSED: the engine did not accept it, for a reason of the rules or of the request's shape.
+      // A window that has closed is another matter and has its own expectation.
+      const met = step.expect === 'REFUSED' ? outcome !== 'REGISTERED' && outcome !== 'PHASE_CLOSED' : outcome === step.expect;
       if (!met) throw new StepError(`${step.command.type} by ${step.actor}: expected ${step.expect}, engine returned ${outcome}`);
       return;
     }
     case 'probe':
       session.probes.push({ label: step.label, outcome: submit(session, step.actor, step.command, 'start') });
       return;
-    case 'note':
-      session.probes.push({ label: step.label, outcome: String(matchValues(session.current)[step.match] ?? 'unknown field') });
+    case 'note': {
+      const value = 'truth' in step
+        ? (session.current.truth.seats.find(item => item.seat === resolveRef(step.truth, session.setup)) as unknown as Record<string, unknown> | undefined)?.[step.field]
+        : matchValues(session.current)[step.match];
+      // An empty list is recorded in words: an outcome is never an empty text.
+      session.probes.push({ label: step.label, outcome: Array.isArray(value) ? (value.length === 0 ? 'nobody' : value.join(',')) : String(value ?? 'unknown field') });
       return;
+    }
     case 'mark':
       session.marks[step.name] = session.current;
       return;
@@ -338,7 +417,7 @@ function runStep(step: Step, session: Session): void {
     }
     case 'assert': {
       // The twin run judges nothing. It keeps what was observable here for the main run to compare with.
-      if (session.recording !== null) { session.recording.set(session.stepIndex, session.current); return; }
+      if (session.recording !== null) { session.recording.set(session.stepIndex, [session.current]); return; }
       const failures = step.checks.map(check => evaluate(check, session)).filter((message): message is string => message !== null);
       if (failures.length > 0) throw new StepError(failures.join('; '));
       return;
@@ -351,8 +430,8 @@ function runStep(step: Step, session: Session): void {
 interface Pairing {
   // The steps to execute, when they are not the scenario's own: the twin run's.
   steps?: Step[];
-  recording?: Map<number, Observation>;
-  twinAt?: Map<number, Observation>;
+  recording?: Map<number, Observation[]>;
+  twinAt?: Map<number, Observation[]>;
 }
 
 function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapter, pairing: Pairing = {}): Omit<ScenarioRun, 'scenarioId' | 'group' | 'mode' | 'decisionIds' | 'seed'> {
@@ -377,8 +456,10 @@ function execute(scenario: Scenario, setup: ScenarioSetup, adapter: EngineAdapte
     if (scenario.status === 'blocked') return { ...base, status: 'blocked', failure, reason: `probe could not be completed: ${failure.message}` };
     return { ...base, status: 'failed', failure };
   }
+  const ledger = startLedger(first);
+  ledger.roomCapacity = adapter.roomCapacity ?? null;
   const session: Session = {
-    setup, match, ledger: startLedger(first), current: first, marks: {},
+    setup, match, ledger, current: first, marks: {},
     trace: [{ round: first.round, phaseKind: first.phaseKind, activeSeat: first.activeSeat }],
     violations: [...checkSetup(setup, first)], probes: [], commandsInPhase: 0, transitions: 0, commands: 0,
     stepIndex: 0, recording: pairing.recording ?? null, twinAt: pairing.twinAt ?? null,
@@ -426,7 +507,7 @@ export function runScenario(scenario: Scenario, adapter: EngineAdapter | null, u
   // twin must itself be a clean run, or there is nothing sound to compare with.
   const pairing: Pairing = {};
   if (hasTwin(scenario)) {
-    const recording = new Map<number, Observation>();
+    const recording = new Map<number, Observation[]>();
     // The twin's steps keep their places, so that a comparison finds its counterpart by position.
     const steps = scenario.steps.map((step): Step => {
       if (step.op !== 'command' || step.twin === undefined) return step;

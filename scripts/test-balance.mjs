@@ -7,7 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ENGINE_PINS, assertCompleteStaticSuite, assertControlReport, assertScenarioReport, assertWalkReport, loadBalanceContract, requireBalance } from './test-balance-reports.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));
-const STATIC_FILES = ['commands.test.mjs', 'rulebook.test.mjs', 'scenarios.test.mjs', 'sources.test.mjs', 'tooling.test.mjs'];
+const STATIC_FILES = ['capacity.test.mjs', 'commands.test.mjs', 'rulebook.test.mjs', 'scenarios.test.mjs', 'sources.test.mjs', 'tooling.test.mjs'];
 export function balanceStaticInputs(root = repositoryRoot) {
   const directory = join(root, 'tests/scenarios');
   requireBalance(existsSync(directory), 'required static suite missing');
@@ -96,8 +96,8 @@ export async function runBalanceEngineEvidence(root = repositoryRoot) {
     results[command.name] = command.check(report, contract, { startedAt, finishedAt: Date.now() });
     const after = readBalanceProvenance(root);
     requireBalance(after.head === provenance.head && after.branch === provenance.branch, 'checkout changed during engine verification');
-    console.log(command.name === 'scenarios' ? 'Balance scenarios: 522 catalogue IDs; 483 passed, 33 reviewed blocked, 6 explicit manual; zero errors'
-      : command.name === 'controls' ? 'Balance controls: 475 baselines passed; 4388 controls executed and detected; zero misses'
+    console.log(command.name === 'scenarios' ? 'Balance scenarios: 555 catalogue IDs; 516 passed, 33 reviewed blocked, 6 explicit manual; zero errors'
+      : command.name === 'controls' ? 'Balance controls: 508 baselines passed; 4490 controls executed and detected; zero misses'
         : 'Balance playouts: 10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches');
   }
   runBalanceProcess(process.execPath, balanceReportGateCommand(root, provenance.head, directory), root, join(directory, 'report-gate.log'));

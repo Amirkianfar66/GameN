@@ -39,13 +39,13 @@ test('actual Git HEAD is read and dirty or unknown provenance cannot become engi
   assert.throws(() => readBalanceProvenance(root, () => ' M changed-source'), /clean committed checkout/);
   assert.throws(() => readBalanceProvenance(root, (...args) => args[0] === 'status' ? '' : 'unknown'), /actual Git HEAD unavailable/);
 });
-test('static suite requires all five reviewed files and the materialization/traceability checkers', () => {
-  assert.equal(balanceStaticInputs(root).files.length, 5);
+test('static suite requires all six reviewed files and the materialization/traceability checkers', () => {
+  assert.equal(balanceStaticInputs(root).files.length, 6);
   temporary(directory => {
-    for (const path of ['tests/scenarios/commands.test.mjs', 'tests/scenarios/rulebook.test.mjs', 'tests/scenarios/scenarios.test.mjs', 'tests/scenarios/sources.test.mjs', 'tests/scenarios/tooling.test.mjs', 'tools/balance/package.json', 'tools/balance/scripts/materialize.mjs', 'tools/balance/scripts/traceability.mjs']) {
+    for (const path of ['tests/scenarios/capacity.test.mjs', 'tests/scenarios/commands.test.mjs', 'tests/scenarios/rulebook.test.mjs', 'tests/scenarios/scenarios.test.mjs', 'tests/scenarios/sources.test.mjs', 'tests/scenarios/tooling.test.mjs', 'tools/balance/package.json', 'tools/balance/scripts/materialize.mjs', 'tools/balance/scripts/traceability.mjs']) {
       mkdirSync(dirname(join(directory, path)), { recursive: true }); writeFileSync(join(directory, path), '');
     }
-    assert.equal(balanceStaticInputs(directory).files.length, 5);
+    assert.equal(balanceStaticInputs(directory).files.length, 6);
     const mandatory = join(directory, 'tests/scenarios/sources.test.mjs');
     unlinkSync(mandatory);
     assert.throws(() => balanceStaticInputs(directory), /required static suite file missing/);

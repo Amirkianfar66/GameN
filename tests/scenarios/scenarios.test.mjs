@@ -77,7 +77,7 @@ test('every open decision has a blocked case in each mode, and no blocked case a
   for (const mode of [7, 8, 9]) {
     const blocked = byMode(mode).filter(scenario => scenario.status === 'blocked');
     for (const id of [...open, 'D10']) assert.ok(blocked.some(scenario => scenario.decisionIds.includes(id)), `mode ${mode}: no blocked case for ${id}`);
-    for (const scenario of blocked) assert.ok(!scenario.steps.some(step => step.op === 'assert'), `${scenario.id} asserts an outcome`);
+    for (const scenario of blocked) assert.ok(!scenario.steps.some(step => step.op === 'assert' || step.op === 'watch'), `${scenario.id} asserts an outcome`);
   }
 });
 

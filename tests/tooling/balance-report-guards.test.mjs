@@ -11,9 +11,9 @@ const provenance = { head: '1234567890abcdef1234567890abcdef12345678', branch: '
 const contract = loadBalanceContract(root, provenance);
 const window = { startedAt: Date.parse('2026-10-06T12:00:00.000Z'), finishedAt: Date.parse('2026-10-06T12:00:01.000Z') };
 const grouped = {
-  'mode-7': { total: 165, passed: 152, failed: 0, blocked: 11, notRun: 2 },
-  'mode-8': { total: 171, passed: 158, failed: 0, blocked: 11, notRun: 2 },
-  'mode-9': { total: 178, passed: 165, failed: 0, blocked: 11, notRun: 2 },
+  'mode-7': { total: 176, passed: 163, failed: 0, blocked: 11, notRun: 2 },
+  'mode-8': { total: 182, passed: 169, failed: 0, blocked: 11, notRun: 2 },
+  'mode-9': { total: 189, passed: 176, failed: 0, blocked: 11, notRun: 2 },
   unsupported: { total: 8, passed: 8, failed: 0, blocked: 0, notRun: 0 },
 };
 function scenarioReport() {
@@ -50,8 +50,8 @@ test('reviewed full reports pass, including zero-transition setup/rejection case
   const report = scenarioReport();
   assert.equal(report.runs.filter(run => run.status === 'passed' && run.scenarioId.includes('SETUP') && run.transitions === 0).length, 23);
   assert.ok(report.runs.every(run => run.finalDigest === null));
-  assert.equal(assertScenarioReport(report, contract, window).passed, 483);
-  assert.deepEqual(assertControlReport(controlReport(), contract), { baselines: 475, controls: 4388, detected: 4388 });
+  assert.equal(assertScenarioReport(report, contract, window).passed, 516);
+  assert.deepEqual(assertControlReport(controlReport(), contract), { baselines: 508, controls: 4490, detected: 4490 });
   assert.deepEqual(assertWalkReport(walkReport(), contract), { modes: 3, playoutsPerMode: 10, completed: 30 });
 });
 for (const [name, mutate] of [
@@ -161,7 +161,7 @@ test('disk source pins fail before accepting a changed reviewed artifact', () =>
       assert.throws(() => loadBalanceContract(temporary, provenance), /Balance gate:/, path);
       writeFileSync(target, original);
     }
-    assert.equal(loadBalanceContract(temporary, provenance).scenarios.size, 522);
+    assert.equal(loadBalanceContract(temporary, provenance).scenarios.size, 555);
   } finally { rmSync(temporary, { recursive: true, force: true }); }
 });
 const tap = values => Object.entries({ tests: 43, pass: 43, fail: 0, cancelled: 0, skipped: 0, todo: 0, ...values }).map(([name, count]) => `# ${name} ${count}`).join('\n');

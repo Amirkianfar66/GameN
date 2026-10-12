@@ -5,26 +5,26 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 export const BALANCE_GROUPS = ['mode-7', 'mode-8', 'mode-9', 'unsupported'];
-export const BALANCE_TOTALS = { total: 522, passed: 483, failed: 0, blocked: 33, notRun: 6 };
-export const CONTROL_COUNTS = { 7: { scenarios: 152, controls: 1384 }, 8: { scenarios: 158, controls: 1385 }, 9: { scenarios: 165, controls: 1619 } };
+export const BALANCE_TOTALS = { total: 555, passed: 516, failed: 0, blocked: 33, notRun: 6 };
+export const CONTROL_COUNTS = { 7: { scenarios: 163, controls: 1419 }, 8: { scenarios: 169, controls: 1418 }, 9: { scenarios: 176, controls: 1653 } };
 export const PLAYOUTS_PER_MODE = 10;
 const GROUP_TOTALS = {
-  'mode-7': { total: 165, passed: 152, failed: 0, blocked: 11, notRun: 2 },
-  'mode-8': { total: 171, passed: 158, failed: 0, blocked: 11, notRun: 2 },
-  'mode-9': { total: 178, passed: 165, failed: 0, blocked: 11, notRun: 2 },
+  'mode-7': { total: 176, passed: 163, failed: 0, blocked: 11, notRun: 2 },
+  'mode-8': { total: 182, passed: 169, failed: 0, blocked: 11, notRun: 2 },
+  'mode-9': { total: 189, passed: 176, failed: 0, blocked: 11, notRun: 2 },
   unsupported: { total: 8, passed: 8, failed: 0, blocked: 0, notRun: 0 },
 };
 const FILE_HASHES = {
-  'mode-7.scenarios.json': '93ce71e36d0763a93cc5204dca3909effb83e0f2876c709f04b9f1f75976fb6f',
-  'mode-8.scenarios.json': 'edf2c6a972cf2b4e970b3b154408edc7bb1df22f3e1453a1abb4c199cdec57bd',
-  'mode-9.scenarios.json': 'd7d8c7dde2141fece99353c63c1fd7d683e8756eeac9577207f755eacdd7d310',
+  'mode-7.scenarios.json': '7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782',
+  'mode-8.scenarios.json': 'a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71',
+  'mode-9.scenarios.json': 'a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4',
   'unsupported.scenarios.json': 'f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c',
 };
 const OVERLAY_PATH = 'rules/overlays/in-person-v1-owner-decisions-2026-10-06.json';
 const OVERLAY_HASH = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90';
-const RULEBOOK_HASH = '76f593c91108b1dc7dcf898f1772f0cf1e9d27a06ba4a417b66ba17e1528991f';
-const CATALOGUE_HASH = 'd4e59c2d76662c7990769bab431f5529aebd7dd4acfc3866267d82a292b1d07b';
-const ADAPTER_HASH = '381d6cfcd3f57cc94a300887740da8ed1df15142522bb98fa4e0fc76ef8d8376';
+const RULEBOOK_HASH = 'bb47ff66fed5a07631f5df8b9bd6467e557f35aec019662242325fd9bdc14bd0';
+const CATALOGUE_HASH = '506338169a94d08f189086d59d8c7b984c1012ba4695ce0f09c8d550da3b7a7a';
+const ADAPTER_HASH = '71c8457e98eedf675e39d9d338f71431572cf731a7e9af3e84c13ef25c586a30';
 const EXCEPTIONS_HASH = '8687477328a57b37ade88e6cf35c010f9599e695c8f11846bf17dea10cf96148';
 const V1_MANIFEST_HASH = '451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2';
 const SOURCE_MANIFEST_HASH = '34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc';
@@ -165,7 +165,7 @@ export function assertControlReport(report, contract) {
     const expected = CONTROL_COUNTS[mode];
     same(report.modes[mode], { ...expected, detected: expected.controls, undetected: 0, baselineNotPassing: 0 }, 'control execution/counts mismatch');
   }
-  return { baselines: 475, controls: 4388, detected: 4388 };
+  return { baselines: 508, controls: 4490, detected: 4490 };
 }
 export function assertWalkReport(report, contract) {
   same(report?.schema, 'mothership.balance.walk/1', 'playout report missing or incompatible');
