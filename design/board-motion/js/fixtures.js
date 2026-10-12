@@ -56,7 +56,7 @@ function state({ count = 9, locations, seats: change = () => {}, round = 2, phas
       active: ['ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK', 'RELEASE_CHOICE'].includes(phase) ? active : null, seats, ballot, tally, result, endReveal, voteResult, resultElapsed, hackElapsed },
     // resources: what the seat holds (self.rescuesRemaining as rescues); acks: its own acknowledgments
     // (supplierResults with the recipients' seat numbers, receivedSupply, historyAvailable).
-    // hackFeedback: the participants' own (Backend's proposal, PR #125), null for everyone else.
+    // hackFeedback: the participants' own, bound to its phase (hackFeedbackFixture), null for everyone else.
     private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, intel, hackPartner, hackFeedback, resources, acks, pending },
     flow, view, answer, banner, staleCard, legacy, notice, hackFlow,
   };
@@ -96,24 +96,45 @@ export function voteResultFixture(kind, outcome, { round = 2, counts = {}, eligi
     eligibleVoterCount: eligible, yesCount: yes, selectedSeatId: selected === null ? null : `seat-${selected}`, released,
   };
 }
+/** A Hack exchange's id (synthetic), the same through its three phases, and the id of each of those phases. */
+export const hackExchangeId = round => `fixture-hack-exchange-r${round}`;
+const HACK_PHASE_NAME = { HACK_DECLARE: 'hack-declare', HACK_RESULT: 'hack-result', HACK: 'hack-talk' };
+export const hackPhaseId = (kind, round) => `fixture-phase-${HACK_PHASE_NAME[kind]}-r${round}`;
 /**
- * The two participants' own hackFeedback (synthetic), in the shape of Backend's proposal (PR #125): the exchange's
- * id is its declaration phase's id; the declared side only once the server has accepted it. Nobody else's view has it.
+ * The two participants' own hackFeedback (synthetic), as Frontend's review reads Backend's ba1842f (not on the remote):
+ * hackId, the same for the whole exchange; phaseId, the phase it belongs to (kind: HACK_DECLARE while a declaration is
+ * awaited, HACK_RESULT or HACK after it); the status; the declared side only once the server has accepted it. Nobody
+ * else's view has it.
  */
-export function hackFeedbackFixture(status, declaredSide = null, { round = 2 } = {}) {
-  return { hackId: `fixture-hack-declare-r${round}`, round, status, declaredSide: status === 'DECLARED' ? declaredSide : null };
+export function hackFeedbackFixture(status, declaredSide = null, { kind = status === 'AWAITING_DECLARATION' ? 'HACK_DECLARE' : 'HACK_RESULT', round = 2 } = {}) {
+  return { hackId: hackExchangeId(round), phaseId: hackPhaseId(kind, round), status, declaredSide: status === 'DECLARED' ? declaredSide : null };
+}
+/**
+ * Out of order (synthetic, the fixture panel): hackFeedback a participant's view must not draw in this phase. 'earlier':
+ * the same exchange's feedback from its previous phase (none in HACK_DECLARE); 'other': another exchange's, the last
+ * round's Hack, claiming Blue. Each is consistent in itself; only its phase id says it is not this phase's.
+ */
+export function staleHackFeedback(from, phase, current, round) {
+  if (!HACK_PHASE_NAME[phase.kind]) return null;
+  if (from === 'other') {
+    const declaring = phase.kind === 'HACK_DECLARE';
+    return { hackId: hackExchangeId(round - 1), phaseId: hackPhaseId(phase.kind, round - 1), status: declaring ? 'AWAITING_DECLARATION' : 'DECLARED', declaredSide: declaring ? null : 'Blue' };
+  }
+  if (phase.kind === 'HACK_RESULT') return { ...current, phaseId: hackPhaseId('HACK_DECLARE', round), status: 'AWAITING_DECLARATION', declaredSide: null };
+  if (phase.kind === 'HACK') return { ...current, phaseId: hackPhaseId('HACK_RESULT', round) };
+  return null;
 }
 /** This phone (Player 3) as the Hack's target, Player 5 the initiator (the active seat); or as the initiator, Player 5 the target. */
 const AS_TARGET = { locations: BUSY_A, active: 5, hackPartner: 5 };
 const AS_INITIATOR = { locations: BUSY_A, active: VIEWER, hackPartner: 5 };
-const DECLARING = { phase: 'HACK_DECLARE', phaseId: 'fixture-hack-declare-r2', hackElapsed: 3000 };
-const CLAIMING = { phase: 'HACK_RESULT', phaseId: 'fixture-hack-result-r2', hackElapsed: 1200 };
-const TALKING = { phase: 'HACK', phaseId: 'fixture-hack-r2', hackElapsed: 8000 };
+const DECLARING = { phase: 'HACK_DECLARE', phaseId: hackPhaseId('HACK_DECLARE', 2), hackElapsed: 3000 };
+const CLAIMING = { phase: 'HACK_RESULT', phaseId: hackPhaseId('HACK_RESULT', 2), hackElapsed: 1200 };
+const TALKING = { phase: 'HACK', phaseId: hackPhaseId('HACK', 2), hackElapsed: 8000 };
 /** Five in Room A with this phone (seats 1, 3, 4, 5 and 8). */
 const FIVE_A = ['Room A', 'Room B', 'Room A', 'Room A', 'Room A', 'Hospital', 'Command Room', 'Room A', 'Jail'];
 const awaiting = () => hackFeedbackFixture('AWAITING_DECLARATION');
-const declared = side => hackFeedbackFixture('DECLARED', side);
-const undeclared = () => hackFeedbackFixture('NO_DECLARATION');
+const declared = (side, kind = 'HACK_RESULT') => hackFeedbackFixture('DECLARED', side, { kind });
+const undeclared = (kind = 'HACK_RESULT') => hackFeedbackFixture('NO_DECLARATION', null, { kind });
 // Before voting, the prelude keeps the once-a-round move (Integration, docs/frontend/phone-feedback-contract-review.md).
 const declareOffer = { declare: [VIEWER], move: moveTo };
 
@@ -332,9 +353,9 @@ export const SCENARIOS = [
   { id: 'hack.claim-late', group: 'Private Hack', title: 'Initiator joins at 3.2 s (a reconnect): the settled claim, no entrance', s: () => state({ ...AS_INITIATOR, ...CLAIMING, hackElapsed: 3200, hackFeedback: declared('Red'), offers: { move: moveTo } }) },
   { id: 'hack.own-claim', group: 'Private Hack', title: 'Target: what you declared, shown to Player 5 only', s: () => state({ ...AS_TARGET, ...CLAIMING, hackFeedback: declared('Red'), offers: { move: moveTo } }) },
   { id: 'hack.own-none', group: 'Private Hack', title: 'Target: time ran out, no side declared', s: () => state({ ...AS_TARGET, ...CLAIMING, hackFeedback: undeclared(), offers: { move: moveTo } }) },
-  { id: 'hack.talk', group: 'Private Hack', title: 'Initiator: the full minute\'s talk, the claim beside it', s: () => state({ ...AS_INITIATOR, ...TALKING, hackFeedback: declared('Red') }) },
-  { id: 'hack.talk-target', group: 'Private Hack', title: 'Target: the full minute\'s talk', s: () => state({ ...AS_TARGET, ...TALKING, hackFeedback: declared('Red') }) },
-  { id: 'hack.talk-none', group: 'Private Hack', title: 'Initiator: the talk after no declaration', s: () => state({ ...AS_INITIATOR, ...TALKING, hackFeedback: undeclared() }) },
+  { id: 'hack.talk', group: 'Private Hack', title: 'Initiator: the full minute\'s talk, the claim beside it', s: () => state({ ...AS_INITIATOR, ...TALKING, hackFeedback: declared('Red', 'HACK') }) },
+  { id: 'hack.talk-target', group: 'Private Hack', title: 'Target: the full minute\'s talk', s: () => state({ ...AS_TARGET, ...TALKING, hackFeedback: declared('Red', 'HACK') }) },
+  { id: 'hack.talk-none', group: 'Private Hack', title: 'Initiator: the talk after no declaration', s: () => state({ ...AS_INITIATOR, ...TALKING, hackFeedback: undeclared('HACK') }) },
   { id: 'hack.public', group: 'Private Hack', title: 'Any other phone during the prelude: the phase only, no partner, no claim', s: () => state({ locations: BUSY_A, active: 5, ...DECLARING, offers: { move: moveTo } }) },
 ];
 
@@ -375,6 +396,10 @@ export const PRIVATE_EVENTS = [
   { id: 'hack-declared-red', label: 'Your Hack partner declares Red', fact: { type: 'PRIVATE_HACK_DECLARED', side: 'Red' } },
   { id: 'hack-declared-alien', label: 'Your Hack partner declares Alien', fact: { type: 'PRIVATE_HACK_DECLARED', side: 'Alien' } },
   { id: 'hack-audience', label: 'Your view stops carrying the Hack (the audience changes)', fact: { type: 'PRIVATE_HACK_CLEARED' } },
+  // Out of order: feedback that is not this phase's reaches the view, then this phase's own again (hackFeedbackProblem).
+  { id: 'hack-stale-earlier', label: 'Out of order: this Hack\u2019s feedback from its previous phase', fact: { type: 'PRIVATE_HACK_STALE', from: 'earlier' } },
+  { id: 'hack-stale-other', label: 'Out of order: another Hack\u2019s feedback', fact: { type: 'PRIVATE_HACK_STALE', from: 'other' } },
+  { id: 'hack-current', label: 'This phase\u2019s own Hack feedback again', fact: { type: 'PRIVATE_HACK_CURRENT' } },
 ];
 
 export const scenario = id => SCENARIOS.find(entry => entry.id === id) ?? SCENARIOS[0];

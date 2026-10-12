@@ -39,6 +39,19 @@ const livePrivate = page => page.evaluate(`[...document.querySelectorAll('#bm-li
 const panelAnimations = (page, selector) => page.evaluate(`document.getAnimations().filter(a => a.effect?.target instanceof Element && a.effect.target.closest(${js(selector)})).map(a => ({ props: [...new Set(a.effect.getKeyframes().flatMap(k => Object.keys(k).filter(p => !['offset', 'easing', 'composite', 'computedOffset'].includes(p))))], start: a.startTime, target: a.effect.target.className }))`);
 const hide = page => page.evaluate(`(() => { Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true }); document.dispatchEvent(new Event('visibilitychange')); })()`);
 const show = page => page.evaluate(`(() => { Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true }); document.dispatchEvent(new Event('visibilitychange')); })()`);
+// The window losing focus, and getting it back, while the document stays visible (another window or a system sheet in front).
+const blur = page => page.evaluate(`(() => { window.dispatchEvent(new FocusEvent('blur')); return document.visibilityState; })()`);
+const focus = page => page.evaluate(`(() => { window.dispatchEvent(new FocusEvent('focus')); return document.visibilityState; })()`);
+/** Every trace of the private Hack in this phone: its panel, its pictures, its controls, its words and live lines, its running animations. */
+const hackTraces = page => page.evaluate(`(() => {
+  const app = document.querySelector('#bm-app');
+  const found = [...app.querySelectorAll('.pk-hack, [data-art^="hack-"], [data-act^="declare"]')].map(n => n.id || n.className || n.tagName);
+  const words = app.cloneNode(true); words.querySelector('#bm-live')?.remove();
+  if (/claims|You declared|Claimed:|No side declared|Declare your side|Declare (Blue|Red|Alien)|Sending your declaration|No answer yet|Waiting for Player/.test(words.textContent)) found.push('Hack words');
+  const running = document.getAnimations().filter(a => a.playState !== 'finished' && a.effect?.target instanceof Element && a.effect.target.closest('.pk-hack')).length;
+  if (running) found.push(running + ' animations');
+  return found;
+})()`);
 const timer = page => page.evaluate(`document.querySelector('#bm-app .bm-timer')?.textContent ?? null`);
 
 // ---------- B: the vote result ----------
@@ -157,6 +170,217 @@ for (const [answer, step] of [['reject', 'not-accepted'], ['lose', 'unknown']]) 
   await hide(page);
   await show(page);
   ok('hack/background: a side chosen and not sent is dropped and said so', (await state(page)).hackFlow.step === 'idle' && (await notice(page)) === 'Your choice was not sent.');
+  await page.close();
+}
+
+// ---------- D: the window losing focus while the page stays visible (review of PR #127) ----------
+{
+  // The review's reproduction: hack.claim-red, then a window blur with the document still visible.
+  const page = await open('hack.claim-red', 'freeze=1');
+  const before = await hack(page);
+  ok('hack/blur: the claim is drawn before the blur', before?.stage === 'result' && /Player 5 claims/.test(before.heading ?? ''), before?.heading);
+  const visibility = await blur(page);
+  ok('hack/blur: the document is still visible', visibility === 'visible');
+  ok('hack/blur: nothing of the panel, its pictures, its words or its animations is left in the page', (await hackTraces(page)).length === 0, await hackTraces(page));
+  ok('hack/blur: the private live lines are cleared', (await livePrivate(page)).length === 0, await livePrivate(page));
+  ok('hack/blur: the page is concealed', (await state(page)).concealed === true && (await state(page)).hack === null);
+  await focus(page);
+  ok('hack/blur: focus coming back does not bring it back', (await hackTraces(page)).length === 0 && (await state(page)).concealed === true, await hackTraces(page));
+  await sleep(1000);
+  ok('hack/blur: nothing scheduled brings it back', (await hackTraces(page)).length === 0);
+  await click(page, '#bm-nav-actions');
+  const back = await hack(page);
+  ok('hack/blur: the player\'s own tap (Actions) brings it back, settled, as the view is now', back?.stage === 'result' && back.beat === 'settled' && /Player 5 claims/.test(back.heading ?? ''), back);
+  ok('hack/blur: reopened, the claim is not said again', (await livePrivate(page)).filter(text => /claims Red/.test(text)).length === 0, await livePrivate(page));
+  ok('hack/blur: the other screens never hold it', (await observerPrivate(page)).length === 0, await observerPrivate(page));
+  await page.close();
+}
+{
+  // A claim arriving live: its animations and its settle are running when the window loses focus; the server's own
+  // continuation (the claim's five seconds ending into the talk) still comes, and still draws nothing private.
+  const page = await open('hack.waiting');
+  await privateEvent(page, 'hack-declared-red');
+  await sleep(60);
+  const live = await hack(page);
+  const running = (await panelAnimations(page, '#pk-hack')).length;
+  ok('hack/blur: a claim arriving live plays', live?.beat === 'live' && running > 0, { beat: live?.beat, running });
+  await blur(page);
+  ok('hack/blur: mid-play, the claim and its animations leave at once', (await hackTraces(page)).length === 0 && (await livePrivate(page)).length === 0, await hackTraces(page));
+  await sleep(1100);
+  ok('hack/blur: past the claim\'s settle, nothing has come back', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await sleep(4600);
+  const later = await state(page);
+  ok('hack/blur: the server\'s next phase (the talk) arrives, and draws nothing private while concealed', later.phase === 'HACK' && (await hackTraces(page)).length === 0 && (await livePrivate(page)).length === 0, { phase: later.phase, traces: await hackTraces(page) });
+  await focus(page);
+  await click(page, '#bm-nav-card');
+  await click(page, '#bm-card [data-act="close"]');
+  const talk = await hack(page);
+  ok('hack/blur: reopened with Card, the panel is the current phase\'s (the talk)', talk?.stage === 'talk' && /Claimed: Red, not verified/.test(talk.html), talk?.stage);
+  await page.close();
+}
+{
+  // Reopening needs a current view: out of date, the tap is refused; up to date again, it still waits for a tap.
+  const page = await open('hack.claim-red', 'freeze=1');
+  await blur(page);
+  await click(page, '#bm-stale');
+  await focus(page);
+  await click(page, '#bm-nav-actions');
+  ok('hack/blur: an out-of-date view keeps it hidden even on the player\'s tap', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await click(page, '#bm-fresh');
+  ok('hack/blur: the view current again, it still waits for a tap', (await hackTraces(page)).length === 0);
+  await click(page, '#bm-nav-card');
+  await click(page, '#bm-card [data-act="close"]');
+  ok('hack/blur: tapped on a current view, it is back', (await hack(page))?.stage === 'result');
+  await page.close();
+}
+{
+  // Feedback that stops being this phase's while concealed: the tap on a current view still draws nothing of it.
+  const page = await open('hack.claim-red', 'freeze=1');
+  await blur(page);
+  await privateEvent(page, 'hack-stale-other');
+  await focus(page);
+  await click(page, '#bm-nav-actions');
+  ok('hack/blur: reopened on another exchange\'s feedback, nothing is drawn (no other claim, no "No side declared")', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await privateEvent(page, 'hack-current');
+  const back = await hack(page);
+  ok('hack/blur: this phase\'s own feedback again, the claim is back, settled', back?.beat === 'settled' && /claims/.test(back.heading ?? ''), back?.heading);
+  await page.close();
+}
+{
+  const page = await open('hack.declare', 'freeze=1');
+  await click(page, '[data-act="declare:Red"]');
+  ok('hack/blur: Red chosen, not sent', (await hack(page))?.step === 'confirming' && (await state(page)).requests.sent === 0);
+  await blur(page);
+  ok('hack/blur: a side chosen and not sent is dropped and said so; nothing is sent', (await state(page)).hackFlow.step === 'idle' && (await notice(page)) === 'Your choice was not sent.' && (await state(page)).requests.sent === 0);
+  ok('hack/blur: the unsent choice leaves no trace', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await focus(page);
+  await click(page, '#bm-nav-actions');
+  await click(page, '#bm-open-declare');
+  ok('hack/blur: reopened, the three sides are offered again, nothing chosen', (await hack(page))?.step === 'idle' && await page.evaluate(`document.querySelectorAll('.pk-hack__side[aria-disabled="false"]').length === 3`));
+  await page.close();
+}
+{
+  // Sent: the declaration keeps its recovery while concealed; the server's answer arrives unseen; nothing is resent.
+  const page = await open('hack.declare', 'answer=slow');
+  await click(page, '[data-act="declare:Red"]');
+  await click(page, '[data-act="declare-confirm"]');
+  ok('hack/blur: sending', (await hack(page))?.step === 'sending' && (await state(page)).requests.sent === 1);
+  await blur(page);
+  ok('hack/blur: sending, concealed: no panel, no words, the request kept', (await hackTraces(page)).length === 0 && (await state(page)).hackFlow.step === 'sending', await hackTraces(page));
+  await sleep(3300);
+  const after = await state(page);
+  ok('hack/blur: the answer arrives while concealed: the claim\'s phase opens, nothing is drawn or said', after.phase === 'HACK_RESULT' && (await hackTraces(page)).length === 0 && (await livePrivate(page)).length === 0, { phase: after.phase, traces: await hackTraces(page), said: await livePrivate(page) });
+  ok('hack/blur: nothing was sent again', after.requests.sent === 1 && after.requests.lookups === 0, after.requests);
+  await focus(page);
+  ok('hack/blur: focus back, still hidden', (await hackTraces(page)).length === 0);
+  await click(page, '#bm-nav-actions');
+  const own = await hack(page);
+  ok('hack/blur: reopened, the target sees what it declared, settled', own?.stage === 'result' && own.beat === 'settled' && /You declared/.test(own.heading ?? ''), own?.heading);
+  ok('hack/blur: still sent once', (await state(page)).requests.sent === 1);
+  await page.close();
+}
+{
+  const page = await open('hack.declare', 'answer=lose');
+  await click(page, '[data-act="declare:Red"]');
+  await click(page, '[data-act="declare-confirm"]');
+  await sleep(800);
+  ok('hack/blur: the answer lost: unknown', (await hack(page))?.step === 'unknown');
+  await blur(page);
+  ok('hack/blur: unknown, concealed: no panel, no words, the unknown outcome kept', (await hackTraces(page)).length === 0 && (await state(page)).hackFlow.step === 'unknown', await hackTraces(page));
+  await focus(page);
+  await sleep(900);
+  const kept = await state(page);
+  ok('hack/blur: focus back: still hidden, nothing resent or checked by itself', (await hackTraces(page)).length === 0 && kept.requests.sent === 1 && kept.requests.lookups === 0, kept.requests);
+  await click(page, '#bm-nav-actions');
+  const unknown = await hack(page);
+  ok('hack/blur: reopened, the unknown outcome is where it was', unknown?.step === 'unknown' && /No answer yet/.test(unknown.heading ?? ''), unknown?.heading);
+  await page.close();
+}
+{
+  // Only the private surfaces go on a blur: the public board is still in sight, and its motion plays on, on this phone and
+  // on the other screens; the background (nobody watching) still settles it at once.
+  const running = `(sel => document.getAnimations().filter(a => a.playState === 'running' && a.effect?.target instanceof Element && a.effect.target.closest(sel)).length)`;
+  const counts = action => `(() => { const n = ${running}; const before = { phone: n('#bm-app .bm-board'), other: n('[data-observer] .bm-board') }; ${action}; return { before, after: { phone: n('#bm-app .bm-board'), other: n('[data-observer] .bm-board') }, concealed: window.__bmState.concealed }; })()`;
+  const page = await open('board.idle');
+  await event(page, 'move');
+  await sleep(150);
+  const kept = await page.evaluate(counts(`window.dispatchEvent(new FocusEvent('blur'))`));
+  ok('hack/blur: the public board\'s motion plays on, on this phone and the other screens', kept.concealed && kept.before.phone > 0 && kept.before.other > 0 && kept.after.phone === kept.before.phone && kept.after.other === kept.before.other, kept);
+  await page.close();
+  const hidden = await open('board.idle');
+  await event(hidden, 'move');
+  await sleep(150);
+  const settled = await hidden.evaluate(counts(`Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true }); document.dispatchEvent(new Event('visibilitychange'))`));
+  ok('hack/background: the background still settles the public motion at once', settled.before.phone > 0 && settled.after.phone === 0 && settled.after.other === 0, settled);
+  await hidden.close();
+}
+{
+  // Reduced motion: concealed and reopened the same way; reopened, the claim only fades.
+  const page = await open('hack.claim-red', 'freeze=1&motion=reduced&play=claim');
+  await sleep(40);
+  await blur(page);
+  ok('hack/blur: reduced motion: concealed the same way', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await focus(page);
+  await click(page, '#bm-nav-actions');
+  const props = (await panelAnimations(page, '#pk-hack')).flatMap(a => a.props);
+  ok('hack/blur: reduced motion: reopened, settled, fades only', (await hack(page))?.beat === 'settled' && props.every(prop => prop === 'opacity'), props);
+  // Disposed: the page stops listening; a later blur changes nothing.
+  await page.evaluate(`window.dispatchEvent(new Event('pagehide'))`);
+  const disposed = await state(page);
+  await blur(page);
+  ok('hack/blur: after the page is disposed, a blur changes nothing', JSON.stringify(await state(page)) === JSON.stringify(disposed) && disposed.disposed === true);
+  await page.close();
+}
+
+// ---------- D: Hack feedback bound to the current phase (review of PR #127) ----------
+{
+  // HACK_RESULT given another exchange's feedback (a claim of Blue, consistent in itself): nothing, never a wrong claim.
+  const page = await open('hack.claim-red', 'freeze=1');
+  ok('hack/phase: the current claim is drawn and said once', /claims/.test((await hack(page))?.heading ?? '') && (await livePrivate(page)).filter(text => /claims Red/.test(text)).length === 1);
+  await privateEvent(page, 'hack-stale-other');
+  ok('hack/phase: another exchange\'s feedback draws nothing: no panel, no Blue, no "No side declared"', (await hackTraces(page)).length === 0, await hackTraces(page));
+  ok('hack/phase: and says nothing', !(await livePrivate(page)).some(text => /Blue|No side declared/.test(text)), await livePrivate(page));
+  await privateEvent(page, 'hack-current');
+  const back = await hack(page);
+  ok('hack/phase: this phase\'s own feedback again: the claim, settled, not said again', back?.beat === 'settled' && /claims/.test(back.heading ?? '') && (await livePrivate(page)).filter(text => /claims Red/.test(text)).length === 0, back?.heading);
+  await page.close();
+}
+{
+  // HACK (the talk) given the claim's feedback (the same exchange's previous phase): refused by its phase id alone.
+  const page = await open('hack.talk', 'freeze=1');
+  ok('hack/phase: the talk is drawn', (await hack(page))?.stage === 'talk');
+  await privateEvent(page, 'hack-stale-earlier');
+  ok('hack/phase: the exchange\'s earlier phase\'s feedback draws nothing', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await privateEvent(page, 'hack-current');
+  ok('hack/phase: the talk is back with its own feedback', (await hack(page))?.stage === 'talk');
+  await page.close();
+}
+{
+  // HACK_RESULT given the declaration window's feedback (AWAITING): no panel, never the declare stage again.
+  const page = await open('hack.own-claim', 'freeze=1');
+  await privateEvent(page, 'hack-stale-earlier');
+  ok('hack/phase: the claim\'s phase given the declaration window\'s feedback draws nothing (no side buttons again)', (await hackTraces(page)).length === 0, await hackTraces(page));
+  await page.close();
+}
+{
+  // A side chosen and not sent does not outlive the feedback it was chosen on.
+  const page = await open('hack.declare-confirm', 'freeze=1');
+  await privateEvent(page, 'hack-stale-other');
+  ok('hack/phase: refused feedback drops the unsent side and says so; nothing is sent', (await state(page)).hackFlow.step === 'idle' && (await notice(page)) === 'Your choice was not sent.' && (await state(page)).requests.sent === 0 && (await hackTraces(page)).length === 0);
+  await privateEvent(page, 'hack-current');
+  ok('hack/phase: its own feedback again: choosing, nothing chosen', (await hack(page))?.step === 'idle');
+  await page.close();
+}
+{
+  // A sent declaration keeps its recovery while its view holds refused feedback; the server's answer binds the claim.
+  const page = await open('hack.declare', 'answer=slow');
+  await click(page, '[data-act="declare:Alien"]');
+  await click(page, '[data-act="declare-confirm"]');
+  await privateEvent(page, 'hack-stale-other');
+  ok('hack/phase: sending, refused feedback: no panel, the request kept', (await hackTraces(page)).length === 0 && (await state(page)).hackFlow.step === 'sending' && (await state(page)).requests.sent === 1);
+  await sleep(3300);
+  const own = await hack(page);
+  ok('hack/phase: the server\'s answer opens the claim with this phase\'s feedback', (await state(page)).phase === 'HACK_RESULT' && own?.stage === 'result' && /You declared/.test(own.heading ?? '') && (await state(page)).requests.sent === 1, own?.heading);
   await page.close();
 }
 {

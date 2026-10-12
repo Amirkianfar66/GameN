@@ -14,8 +14,9 @@
 //   clothes/  C: five in the Hospital, five in the Jail, the released player waiting in the Jail, and the
 //             wardrobe sheets (nine characters, front and back, every Hospital and Jail place)
 //   hack/     D: every declaration, claim and conversation state at 320 x 568, the key ones at 390 x 844,
-//             a move open beside it (compact), 200% text, the claim's storyboard, reduced motion, and the
-//             participant's phone beside the other screens
+//             a move open beside it (compact), 200% text, the claim's storyboard, reduced motion, the window
+//             losing focus (nothing private left) and the panel reopened by the player's tap (settled), and
+//             the participant's phone beside the other screens
 // What it measures on every phone: the page does not scroll; the board fits its row at the default text
 // size (at enlarged text it may scroll inside itself, never clip); the bars are whole; every control is
 // at least 44 x 44; the kit's panels sit between the bars, overlap nothing and clip nothing; the three
@@ -38,7 +39,9 @@ const only = process.argv.find(arg => arg.startsWith('--only='))?.slice(7).split
 const sha = content => createHash('sha256').update(content).digest('hex');
 
 const SHOTS = [];
-const add = (group, name, label, scenario, options = {}) => SHOTS.push({ group, name, label, scenario, w: 320, h: 568, font: null, extra: '', action: null, pair: false, reduced: false, ...options });
+const add = (group, name, label, scenario, options = {}) => SHOTS.push({ group, name, label, scenario, w: 320, h: 568, font: null, extra: '', action: null, pair: false, reduced: false, concealed: false, reopened: false, ...options });
+/** After a blur: what of the private Hack is still in the phone (its panel, pictures, controls, live lines). */
+const HACK_LEFT = `[...document.querySelectorAll('#bm-app .pk-hack, #bm-app [data-art^="hack-"], #bm-app [data-act^="declare"], #bm-live-private p')].map(n => n.id || n.className || n.tagName)`;
 const at390 = { w: 390, h: 844 };
 const tapRoomB = `document.querySelector('[data-move-room="Room B"]').click()`;
 
@@ -99,6 +102,15 @@ add('hack', 'd320-text200-declare', '320 x 568 at 200% text: declare', 'hack.dec
 add('hack', 'd390-text200-claim', '390 x 844 at 200% text: the claim', 'hack.claim-red', { ...at390, font: 32 });
 for (const t of [0, 160, 300, 520, 800, 4860]) add('hack', `d390-story-claim-${String(t).padStart(4, '0')}`, `The claim at ${t} ms`, 'hack.claim-red', { ...at390, extra: `&play=claim&t=${t}` });
 for (const t of [40, 2500]) add('hack', `d390-reduced-${String(t).padStart(4, '0')}`, `Reduced motion at ${t} ms`, 'hack.claim-red', { ...at390, extra: `&motion=reduced&play=claim&t=${t}`, reduced: true });
+// The window losing focus with the page still visible (review of PR #127): nothing private left; back only on the player's tap, settled.
+const blurNow = `window.dispatchEvent(new FocusEvent('blur'))`;
+const blurThenReopen = `(() => { window.dispatchEvent(new FocusEvent('blur')); window.dispatchEvent(new FocusEvent('focus')); document.querySelector('#bm-nav-card').click(); document.querySelector('#bm-card [data-act="close"]').click(); })()`;
+add('hack', 'd320-blur-claim', '320 x 568: the window loses focus during the claim: nothing of it is left', 'hack.claim-red', { action: blurNow, concealed: true });
+add('hack', 'd390-blur-claim', '390 x 844: the same', 'hack.claim-red', { ...at390, action: blurNow, concealed: true });
+add('hack', 'd320-blur-sending', '320 x 568: the window loses focus while the declaration is sent: hidden, its recovery kept', 'hack.declare-sending', { action: blurNow, concealed: true });
+add('hack', 'd320-blur-reopened', '320 x 568: focus back, then the player\'s own tap (Card, closed): the claim again, settled', 'hack.claim-red', { action: blurThenReopen, reopened: true });
+add('hack', 'd390-blur-reopened', '390 x 844: the same', 'hack.claim-red', { ...at390, action: blurThenReopen, reopened: true });
+add('hack', 'd390-reduced-blur-reopened', '390 x 844, reduced motion: reopened after a blur, settled', 'hack.claim-red', { ...at390, extra: '&motion=reduced', action: blurThenReopen, reopened: true, reduced: true });
 add('hack', 'd-pair-claim', 'The initiator\'s phone and every other screen: the claim is on one phone only', 'hack.claim-red', { w: 1440, h: 920, pair: true });
 add('hack', 'd-pair-declare', 'The target\'s phone and every other screen', 'hack.declare', { w: 1440, h: 920, pair: true });
 
@@ -177,6 +189,8 @@ for (const font of groups) {
     await page.evaluate('new Promise(done => setTimeout(done, 400))');
     if (shot.action) { await page.evaluate(shot.action); await page.evaluate('new Promise(done => setTimeout(done, 500))'); }
     const measured = shot.page ? { problems: [], notes: [] } : await page.evaluate(MEASURE);
+    if (shot.concealed) for (const left of await page.evaluate(HACK_LEFT)) measured.problems.push(`after the blur the page still holds ${left}`);
+    if (shot.reopened && (await page.evaluate(`document.querySelector('#bm-app #pk-hack')?.dataset.beat ?? 'none'`)) !== 'settled') measured.problems.push('reopened, the claim is not drawn settled');
     const file = `design/phone-kit/review/${shot.group}/${shot.name}.png`;
     // A pair: the phone beside the other screens' frame, cropped to the two (the page hides the other screens below 900 px).
     await page.screenshot(resolve(repoRoot, file), shot.pair ? { selector: '.bm-proto' } : { viewport: !shot.page });

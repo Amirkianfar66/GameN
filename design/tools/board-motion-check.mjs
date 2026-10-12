@@ -397,6 +397,7 @@ if (loadError) {
     if (feedback && (state.private.hackPartner === null || state.private.hackPartner === fixtures.VIEWER)) problems.push(`${entry.id}: hackFeedback without a partner`);
     if (feedback && state.public.active !== fixtures.VIEWER && state.public.active !== state.private.hackPartner) problems.push(`${entry.id}: a target whose partner is not the initiator (the active seat)`);
     if (feedback && (feedback.status === 'DECLARED') !== ['Blue', 'Red', 'Alien'].includes(feedback.declaredSide)) problems.push(`${entry.id}: a declared side without DECLARED, or DECLARED without one of the three`);
+    if (feedback && (!feedback.hackId || !state.public.phase.id || feedback.phaseId !== state.public.phase.id)) problems.push(`${entry.id}: hackFeedback not bound to its phase (a hackId, and the phase's own id as phaseId)`);
     for (const seat of state.public.seats) if (seat.revealedFaction && seat.health !== 'Eliminated') problems.push(`${entry.id}: Player ${seat.n} has a revealed faction and is not Eliminated`);
     if (state.public.seats.length !== state.public.playerCount || ![7, 8, 9].includes(state.public.playerCount)) problems.push(`${entry.id}: not a 7, 8 or 9 player roster`);
     const offers = state.private.offers;

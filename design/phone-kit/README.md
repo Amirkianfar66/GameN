@@ -13,8 +13,14 @@ prototype and the ability art at the integration baseline `abb6839`:
 - **C · the room clothes**: a patient's gown in the Hospital and a prisoner's striped suit in the Jail,
   for all nine characters in every gesture, by public location only.
 - **D · the private Hack**: the target declares Blue, Red or Alien within 15 s, both see the claim for
-  five seconds, then their full 60-second talk; private, concealed on the background, a stale view or an
-  audience change.
+  five seconds, then their full 60-second talk; private, concealed when the window loses focus, on the
+  background, a stale view or an audience change, and drawn only from feedback bound to the current phase.
+
+**Correction after review of PR #127 (same kit version; no picture, export or drawing source changed):**
+`js/hack.js` draws only `hackFeedback` whose `phaseId` is the current phase's `id` and whose status and
+side agree (`hackFeedbackProblem`); `../board-motion/js/app.js` conceals the private surfaces on a window
+blur as on the background, and reopens them only on the player's own tap on a current view. The Hack
+fields follow the contract as Frontend reviewed it at Backend's `ba1842f`, which is not on the remote.
 
 Nothing here is owner-approved yet, in the reviewed manifest `design-0.2.0`, or a game rule.
 
@@ -24,7 +30,7 @@ Nothing here is owner-approved yet, in the reviewed manifest `design-0.2.0`, or 
 | --- | --- |
 | `css/phone-kit.css` | The shell's look (tokens `--pk-*`), the vote result's and the Hack panel's styles. Loaded by `design/board-motion/index.html` after `board.css` and `abilities.css`. |
 | `js/vote-result.js` | The vote result: model from `voteResult` and public seats, DOM, and the five-second timeline. |
-| `js/hack.js` | The private Hack: model from `hackFeedback` and the view, DOM for every stage and step, and the claim's timeline. |
+| `js/hack.js` | The private Hack: the phase binding (`hackFeedbackProblem`), the model from `hackFeedback` and the view, DOM for every stage and step, and the claim's timeline. |
 | `source/art.mjs` | Every picture of the vote result and the Hack (pure functions returning SVG). Editable source. |
 | `../board-motion/figures/wardrobe.mjs` | The room clothes over the figure rig: `outfitFor(location)`, `dressedFigureSvg(...)`. Editable source. |
 | `../board-motion/js/dress.js` | The prototype's hook that dresses the board's figures. |
@@ -52,9 +58,10 @@ node design/tools/phone-kit-assets.mjs --sheets <dir>            # the wardrobe 
 
 The scenario picker groups them under **Vote results**, **Room clothes** and **Private Hack**; the
 fixture panel's **Public facts** and **Private facts** play the vote closing, the result ending, the
-Hack's windows and the partner's declaration. Storyboard holds: `&play=result&t=<ms>` and
+Hack's windows, the partner's declaration, and Hack feedback delivered out of order (the exchange's
+previous phase's, another exchange's, then the current phase's own again). Storyboard holds: `&play=result&t=<ms>` and
 `&play=claim&t=<ms>` with `&freeze=1`. `&motion=reduced` for reduced motion, `&names=long` for
 twelve-character names, `&safe=1` with `&chrome=0` for simulated safe areas.
 
-Every name, seat, id (`fixture-result-*`, `fixture-hack-*`) and answer is synthetic. The stand-in
+Every name, seat, id (`fixture-result-*`, `fixture-hack-exchange-*`, `fixture-phase-hack-*`) and answer is synthetic. The stand-in
 server answers as the fixture panel says; it decides nothing for the game.

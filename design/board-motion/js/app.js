@@ -16,7 +16,7 @@ import { dressBoard } from './dress.js';
 import { VOTE_RESULT_MS, playVoteResult, voteResultElement, voteResultModel } from '../../phone-kit/js/vote-result.js';
 import { HACK_WINDOWS, HACK_WORDS, claimSentence, hackElement, hackModel, playClaim } from '../../phone-kit/js/hack.js';
 import { COPY, PROPOSED, SHELL } from './copy.js';
-import { SCENARIOS, EVENTS, PRIVATE_EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario, voteResultFixture } from './fixtures.js';
+import { SCENARIOS, EVENTS, PRIVATE_EVENTS, SYNTHETIC_LABEL, VIEWER, LONG_NAMES, scenario as findScenario, voteResultFixture, hackPhaseId, staleHackFeedback } from './fixtures.js';
 import { MOVE_ROOMS } from './layout.js';
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { assemble, cancelMotion, closedFolder, insiderFile, pauseFile } from '../../abilities/js/dossier.js';
@@ -65,6 +65,8 @@ const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
 const reducedNow = () => S.motion === 'reduced' || motionQuery.matches;
 const announce = { public: [], private: [] };
 let countdownTimer = null;
+/** The stand-in's own Hack feedback for this seat while the view holds an out-of-order one in its place (the fixture panel). */
+let heldFeedback = null;
 
 function load(id) {
   const entry = findScenario(id);
@@ -240,7 +242,7 @@ function pressPass() {
 
 function notice(text) { S.notice = text; render(); clearTimeout(S.noticeTimer); if (!frozen) S.noticeTimer = setTimeout(() => { S.notice = null; render(); }, 2600); }
 
-/** A choice that was not sent is dropped when the page goes to the background, the view goes stale or time runs out. */
+/** A choice that was not sent is dropped when the window loses focus, the page goes to the background, the view goes stale or time runs out. */
 function dropUnsent(reason) {
   if (S.flow.step === 'choosing' || S.flow.step === 'confirming') { S.flow = { step: 'idle' }; S.notice = reason; }
   // A side chosen and not yet sent goes too; one that was sent keeps its recovery state, hidden.
@@ -248,8 +250,12 @@ function dropUnsent(reason) {
   S.view = 'board';
 }
 
-/** Conceal presentation without discarding a sent request or its recovery state. */
-function conceal() {
+/**
+ * Conceal presentation without discarding a sent request or its recovery state. settlePublic: nobody is watching (the
+ * background, disposal, an out-of-date view), so the public cues settle too; a window that only lost focus is still seen,
+ * and its public cues (and the other screens') play on: only the private surfaces go.
+ */
+function conceal({ settlePublic = true } = {}) {
   dropUnsent(COPY.choiceDropped);
   S.concealed = true;
   S.privateQuiet = true;
@@ -261,6 +267,7 @@ function conceal() {
     if (target instanceof Element && target.closest('.bm-strip, .bm-sheet, .bm-tray, .pk-hack')) animation.cancel();
   }
   clearHack();
+  if (!settlePublic) return;
   director.cancelAll();
   observer?.director.cancelAll();
 }
@@ -367,21 +374,24 @@ function endResult() {
 }
 
 /**
- * The declared-side Hack's next window (synthetic; Backend's proposal, PR #125), as the stand-in server opens it. A public
- * phase change for every screen; for the two participants their own view also says what it means. claim: the side the
- * target's accepted declaration names, or null: the window closed without one ("No side declared", never an invented side).
+ * The declared-side Hack's next window (synthetic), as the stand-in server opens it. A public phase change for every screen;
+ * for the two participants their own view also says what it means, bound to the new phase: the same hackId, the new
+ * phase's id as phaseId. claim: the side the target's accepted declaration names, or null: the window closed without one
+ * ("No side declared", never an invented side).
  */
 function hackPhase(next, claim) {
   const { kind } = S.public.phase;
   const now = performance.now();
-  const id = part => `fixture-hack${part}-r${S.public.round}`;
+  // The stand-in's own record of this seat's feedback: what the view carries, or what an out-of-order delivery displaced.
+  const record = heldFeedback ?? S.private.hackFeedback;
   if (next === 'HACK_RESULT' && kind === 'HACK_DECLARE') {
-    const feedback = S.private.hackFeedback;
-    if (feedback && feedback.status === 'AWAITING_DECLARATION') S.private.hackFeedback = { ...feedback, status: claim ? 'DECLARED' : 'NO_DECLARATION', declaredSide: claim ?? null };
-    S.public.phase = { kind: 'HACK_RESULT', seconds: 5, id: id('-result'), startedAt: now, endsAt: now + HACK_WINDOWS.resultMs };
+    S.public.phase = { kind: 'HACK_RESULT', seconds: 5, id: hackPhaseId('HACK_RESULT', S.public.round), startedAt: now, endsAt: now + HACK_WINDOWS.resultMs };
+    S.private.hackFeedback = record?.status === 'AWAITING_DECLARATION'
+      ? { hackId: record.hackId, phaseId: S.public.phase.id, status: claim ? 'DECLARED' : 'NO_DECLARATION', declaredSide: claim ?? null } : null;
     S.timer = 5;
   } else if (next === 'HACK' && kind === 'HACK_RESULT') {
-    S.public.phase = { kind: 'HACK', seconds: 60, id: id(''), startedAt: now, endsAt: now + HACK_WINDOWS.talkMs };
+    S.public.phase = { kind: 'HACK', seconds: 60, id: hackPhaseId('HACK', S.public.round), startedAt: now, endsAt: now + HACK_WINDOWS.talkMs };
+    S.private.hackFeedback = record ? { ...record, phaseId: S.public.phase.id } : null;
     S.timer = 60;
   } else if (next === 'ORDINARY_TURN' && kind === 'HACK') {
     // The conversation ends: the live feedback and the partner leave both views (the server keeps its own record).
@@ -389,6 +399,7 @@ function hackPhase(next, claim) {
     S.private.hackPartner = null;
     nextTurn('turn');
   } else return;
+  heldFeedback = null;
   // The declaration is offered in its own window only; the prelude's move stays as the view offers it.
   S.private.offers = { ...S.private.offers, declare: [] };
   if (S.hackFlow.step === 'confirming') S.notice = COPY.choiceDropped;
@@ -407,14 +418,29 @@ function openClaim(side) {
   render({ previous, kind: 'update' });
 }
 /**
- * The Hack's facts in this seat's own view (synthetic, the fixture panel): its partner's accepted declaration, or the view
- * no longer carrying the Hack at all (an audience change: no feedback, no partner, nothing offered).
+ * The Hack's facts in this seat's own view (synthetic, the fixture panel): its partner's accepted declaration; feedback
+ * delivered out of order (an earlier phase's of this exchange, or another exchange's), then this phase's own again; or the
+ * view no longer carrying the Hack at all (an audience change: no feedback, no partner, nothing offered).
  */
 function deliverHack(fact) {
   if (S.disposed) return;
-  if (fact.type === 'PRIVATE_HACK_DECLARED') { if (S.private.hackFeedback) openClaim(fact.side); return; }
+  const record = heldFeedback ?? S.private.hackFeedback;
+  if (fact.type === 'PRIVATE_HACK_DECLARED') { if (record) openClaim(fact.side); return; }
+  if (fact.type === 'PRIVATE_HACK_STALE' && record) {
+    const stale = staleHackFeedback(fact.from, S.public.phase, record, S.public.round);
+    if (!stale) return;
+    heldFeedback = record;
+    S.private.hackFeedback = stale;
+    render();
+  }
+  if (fact.type === 'PRIVATE_HACK_CURRENT' && heldFeedback) {
+    S.private.hackFeedback = heldFeedback;
+    heldFeedback = null;
+    render();
+  }
   if (fact.type === 'PRIVATE_HACK_CLEARED') {
     S.private.hackFeedback = null; S.private.hackPartner = null; S.private.offers = { ...S.private.offers, declare: [] };
+    heldFeedback = null;
     if (S.hackFlow.step === 'confirming') S.notice = COPY.choiceDropped;
     S.hackFlow = { step: 'idle' };
     render();
@@ -1073,20 +1099,24 @@ function drawVoteResult({ live }) {
 }
 
 // ---------- the private Hack, declared side first (issue #120; the phone kit, issue #121) ----------
-let hackShown = null; // { key, id, stage, panel, play, reduced }
+let hackShown = null; // { key, id, stage, panel, play, reduced, enterTimer }
 const claimsSaid = new Set();
+// Only feedback bound to the view's current phase draws (hackFeedbackProblem in hack.js); anything else is null.
 const hackView = () => hackModel({ phase: S.public.phase, initiator: S.public.active, viewer: VIEWER, feedback: S.private.hackFeedback, partner: S.private.hackPartner,
   canDeclare: (offers().declare ?? []).includes(VIEWER), seats: S.public.seats });
+/** Removes the panel and stops everything it had running: its animations, the claim's settle and the stage's rise. */
 function clearHack() {
   if (!hackShown) return;
   hackShown.play?.cancel();
+  clearTimeout(hackShown.enterTimer);
   hackShown.panel.remove();
   hackShown = null;
 }
 /**
- * The Hack's private panel, above the strip, for its two participants only and only while the page is visible and its
- * view current: otherwise nothing of it is in the page. The same panel again (a duplicate, the timer) is left as it is;
- * the claim plays once per exchange, as it arrives; a page that joins late draws it settled. live: it arrived while watched.
+ * The Hack's private panel, above the strip, for its two participants only and only while the page is visible, focused
+ * and its view current, with feedback bound to the current phase: otherwise nothing of it is in the page. The same panel
+ * again (a duplicate, the timer) is left as it is; the claim plays once per exchange, as it arrives; a page that joins
+ * late, or reopens it after concealing it, draws it settled. live: it arrived while watched.
  */
 function drawHack({ live }) {
   const model = privateVisible() && !ended() ? hackView() : null;
@@ -1108,9 +1138,9 @@ function drawHack({ live }) {
   }
   const was = hackShown;
   const panel = hackElement(model, { flow, compact });
-  if (was) { was.play?.cancel(); was.panel.replaceWith(panel); } else strip.before(panel);
+  if (was) { was.play?.cancel(); clearTimeout(was.enterTimer); was.panel.replaceWith(panel); } else strip.before(panel);
   const reduced = reducedNow();
-  let play = null;
+  let play = null, enterTimer = null;
   if (model.stage === 'result' && Number.isFinite(startedAt)) {
     const again = was?.id === model.hackId && was.stage === 'result';
     play = playClaim(panel, { now, startedAt, endsAt, live: live && !again, reduced });
@@ -1118,9 +1148,9 @@ function drawHack({ live }) {
     if (!claimsSaid.has(model.hackId)) { claimsSaid.add(model.hackId); announce.private.push(claimSentence(model)); }
   } else if (live && !reduced && was?.stage !== model.stage && !compact) {
     panel.dataset.enter = '';
-    setTimeout(() => delete panel.dataset.enter, 320);
+    enterTimer = setTimeout(() => delete panel.dataset.enter, 320);
   }
-  hackShown = { key, id: model.hackId, stage: model.stage, panel, play, reduced };
+  hackShown = { key, id: model.hackId, stage: model.stage, panel, play, reduced, enterTimer };
 }
 
 /** The target chooses a side: the three are offered alike; nothing is sent until it is confirmed. */
@@ -1185,6 +1215,9 @@ function render({ previous = null, kind = 'update', focus = null } = {}) {
     else if (!S.pauseHandled) { S.pauseHandled = true; pausePrivate(); }
   }
   if (!paused()) S.pauseHandled = false;
+  // A side chosen and not sent does not outlive the feedback it was chosen on: a view whose Hack feedback is refused
+  // (not this phase's, or gone) drops it and says so. A sent declaration keeps its recovery.
+  if (S.hackFlow.step === 'confirming' && !hackView()) { S.hackFlow = { step: 'idle' }; S.notice = COPY.choiceDropped; }
   markShort();
   const before = previous ? director.before() : null;
   const obefore = previous && observer ? observer.director.before() : null;
@@ -1366,6 +1399,24 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') conceal();
   render(); // Foregrounding never opens private content, resends or checks a request.
 });
+/**
+ * The window loses focus while the page stays visible (another window or app in front, a system sheet over it): the
+ * private surfaces are concealed at once, as on the background: the Hack panel and the private live lines leave the
+ * document, their animations and timers stop, an unsent choice is dropped and a sent one keeps its recovery, unseen.
+ * The public board, still in sight, plays on. Focus coming back opens nothing by itself: only the player's own tap
+ * (Actions, Card) on a current view does, and the Hack panel then only from feedback bound to the current phase.
+ */
+function onBlur(event) {
+  if (event.target !== window || S.disposed) return;
+  conceal({ settlePublic: false });
+  render();
+}
+function onFocus(event) {
+  if (event.target !== window || S.disposed) return;
+  render(); // Focus back never opens private content, resends or checks a request.
+}
+window.addEventListener('blur', onBlur);
+window.addEventListener('focus', onFocus);
 function onSystemMotion() {
   if (!S.disposed && window.__designReady) render();
 }
@@ -1374,6 +1425,8 @@ window.addEventListener('pagehide', () => {
   conceal(); S.disposed = true; clearInterval(countdownTimer); clearVoteResult(); clearHack(); clearTimeout(continuation?.timer); continuation = null; render();
   director.dispose(); observer?.director.dispose();
   motionQuery.removeEventListener('change', onSystemMotion);
+  window.removeEventListener('blur', onBlur);
+  window.removeEventListener('focus', onFocus);
 });
 new ResizeObserver(() => { fitBoard(board); if (observer) fitBoard(observer.board); }).observe(board.element);
 new ResizeObserver(markShort).observe(phone);

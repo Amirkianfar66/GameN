@@ -2,7 +2,7 @@
  "devOnly": "mothership:dev-only",
  "tool": "design/tools/phone-kit-capture.mjs",
  "base": "abb6839524b6dc3e5225e600f2f067c3fa3f9501",
- "inputsSha256": "49e4e93b67b47893a18137dfb028ffb2d51667f439f4435a4257899831972c83",
+ "inputsSha256": "cb37f142a529ebc91258defece30b4c19c0b0743f8abcb818f1b652e757074de",
  "browser": "Chrome/141.0.7390.37",
  "scale": 1,
  "note": "Desktop Chromium laying out the prototype at simulated phone viewports: not device measurements, and nothing here shows that a match works across phones.",
@@ -2831,7 +2831,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "a454f29cfd4fab50246f8bf2d0e84fabd8e77a81eb52049190bba4ca6392f1e1"
+   "sha256": "9d58ec60c54aa576712d2cef772f0cc9ab5af7c0e1b5c93202b1765717ccfa55"
   },
   {
    "group": "result",
@@ -2903,7 +2903,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "36c019646fbcf86e0e7c847d4b8e70f953d5a88aa9f3d718d77d0071e55d7df7"
+   "sha256": "b23bfd841ac139fde5da4c517314296aa849fa395188285cde1d5577e413f06a"
   },
   {
    "group": "result",
@@ -2975,7 +2975,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "589d3b634db2620f15228bf935a6b3667896ab5269f5b3bf8c3aa348e56252d0"
+   "sha256": "d968296577370358ae041f7075d03b77b9fbf004a5aebc4eb2bdc7191a0a0888"
   },
   {
    "group": "result",
@@ -3047,7 +3047,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "14f0c61c27d903085e27683d85ec5a9d9c2a8962890b8c9afdeff5fcf0d71b00"
+   "sha256": "fe88c39f81a94f4869f0c0e739092d09aa755c59dc7e411c40078aa8774043ef"
   },
   {
    "group": "result",
@@ -3119,7 +3119,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "8c337be30438a7f6c465473d455a7c1cbf78c17d8319b2a167717404cd588835"
+   "sha256": "501373311c46db04dc549c814318533fb4a664be2e4ec458a684a9b90069afb8"
   },
   {
    "group": "result",
@@ -3191,7 +3191,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "82b02dfa824ebabe5572d02768eac4297a504f6e5f4d67f6d2d09fe9b4b5f488"
+   "sha256": "ea2af2413dbf2456a9843fbd824b5ff23ea3a57babb525743983cb0bbbab1b14"
   },
   {
    "group": "result",
@@ -3335,7 +3335,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "38e69b2a0cd647386bd6c96bc25ccf793bb02dcab35a889ad5118e65f8a71484"
+   "sha256": "2a9ac1b712f0d8fa3f341d8d2d575063db9b8f8a47e1a91ab7e71a4dbb30089e"
   },
   {
    "group": "result",
@@ -3407,7 +3407,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "d43c76017dee2a937a0d018c050ce970fdd7758f9613d45a91a9943550f9a53a"
+   "sha256": "76bea5cd7ef96a2489dba0f79c57781046bdbe2860443c9557ffd8230f90de89"
   },
   {
    "group": "result",
@@ -3479,7 +3479,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "12c035621bc6e15cb53196203cedab98437e22fa485d1034860ddf747735cd51"
+   "sha256": "95418feb551c22a6b41d12d4aab4512140becdbb00be6b445493dbee9d677de3"
   },
   {
    "group": "result",
@@ -3551,7 +3551,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "9dcebbdbd6afb071ad90b0df42f5ba0f7cdd4297ce49d1b6cedf12ce0d0743d6"
+   "sha256": "cde5ba3a040216dda196759047c5441cdd924e0239bb570e2a489985d330307e"
   },
   {
    "group": "result",
@@ -3695,7 +3695,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "06feec8721429eb88a415b135b4196d135322ea1c01ef84d7d477d9b41f2e1d1"
+   "sha256": "d5bde7f47613a2cd23a998405afaf64a02ca190fd3452a5096c23574e3d6cc53"
   },
   {
    "group": "result",
@@ -3839,7 +3839,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "858fc98264146dd6b7e970d5a6041b499e0ab0822adbd73ccfc2fef1a7b6bce1"
+   "sha256": "a67f80493211d68d3421c742b9ae92e018b246390a23b35882c4eb14957404e6"
   },
   {
    "group": "result",
@@ -7057,7 +7057,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "d40b2257aa49504b0053be0e1d8e99899a0f019aaecff256bb50a81296b52ec1"
+   "sha256": "5fb68c7aacc3ebb4ada478f2811d439f24e1ddff3592370f11223ffb14c680d6"
   },
   {
    "group": "hack",
@@ -7129,7 +7129,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "6c4c5b5685b84b033d8d2897b120cb528e672a807414581c9ab59f946bd460d9"
+   "sha256": "2d36ecd14871c532f66cc71888c1a48b7d415d90b18845851d2c5241f50e711c"
   },
   {
    "group": "hack",
@@ -7201,7 +7201,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "8a32133fb3cc6f293252045eda155bb7ec8288596ccfe6766eaa6ae0e55a75c7"
+   "sha256": "8101a724dc2baba4505e6a7b0bdf44eff52e94bf503db8352b67781e8ac4c50d"
   },
   {
    "group": "hack",
@@ -7273,7 +7273,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "55c53d954dc19367c27b5e76895c17d3ca282e46343289f40925cef6a20b5ec7"
+   "sha256": "04572d63e5692b24e6de4a4c184e0424afac599aac2e094b7a7565b3791e5867"
   },
   {
    "group": "hack",
@@ -7417,7 +7417,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "f426ce62c03532f327e4087694438e9ea001187fd3497bf42ff8514c7aae870e"
+   "sha256": "c69919791aa0291626fef51aa1c4dba9fbda8a2a26f565e68b59186856b11093"
   },
   {
    "group": "hack",
@@ -7489,7 +7489,7 @@
     "/prototypes/js/asset-index.js",
     "/prototypes/js/bundles.js"
    ],
-   "sha256": "ffdef5e9737743342cc295ced07d40493aab56e6284ab7824a02de7b593e086e"
+   "sha256": "d39413e5fd3fcf6bff937a9e345504594b56328472ccadfa223a46b999f6f0bf"
   },
   {
    "group": "hack",
@@ -7562,6 +7562,420 @@
     "/prototypes/js/bundles.js"
    ],
    "sha256": "ffcccdd64c88282862d36a3fa73332aefd2af569c446f220733342ed32a1e7d4"
+  },
+  {
+   "group": "hack",
+   "name": "d320-blur-claim",
+   "label": "320 x 568: the window loses focus during the claim: nothing of it is left",
+   "file": "design/phone-kit/review/hack/d320-blur-claim.png",
+   "size": "320x568",
+   "scenario": "hack.claim-red",
+   "font": null,
+   "reduced": false,
+   "pair": false,
+   "measures": {
+    "board": 468,
+    "boardOverflow": 0,
+    "panels": {},
+    "largeText": false
+   },
+   "notes": [],
+   "problems": [],
+   "requests": [
+    "/abilities/assets/abilities.art.css",
+    "/abilities/css/abilities.css",
+    "/abilities/js/ballot.js",
+    "/abilities/js/dossier.js",
+    "/abilities/js/finale.js",
+    "/abilities/js/guard.js",
+    "/abilities/js/intel.js",
+    "/abilities/js/tools.js",
+    "/board-motion/assets/board-motion.scenes.css",
+    "/board-motion/css/board.css",
+    "/board-motion/figures/body.mjs",
+    "/board-motion/figures/crew.mjs",
+    "/board-motion/figures/gestures.mjs",
+    "/board-motion/figures/motion.mjs",
+    "/board-motion/figures/parts.mjs",
+    "/board-motion/figures/rig.mjs",
+    "/board-motion/figures/wardrobe.mjs",
+    "/board-motion/index.html",
+    "/board-motion/js/app.js",
+    "/board-motion/js/board.js",
+    "/board-motion/js/copy.js",
+    "/board-motion/js/director.js",
+    "/board-motion/js/dress.js",
+    "/board-motion/js/fixtures.js",
+    "/board-motion/js/h.js",
+    "/board-motion/js/layout.js",
+    "/board-motion/scenes/command-room.mjs",
+    "/board-motion/scenes/frame.mjs",
+    "/board-motion/scenes/hospital.mjs",
+    "/board-motion/scenes/index.mjs",
+    "/board-motion/scenes/jail.mjs",
+    "/board-motion/scenes/kit.mjs",
+    "/board-motion/scenes/room-a.mjs",
+    "/board-motion/scenes/room-b.mjs",
+    "/exports/player-ui/player-ui.art.fc4830756c.css",
+    "/exports/public-board/public-board.art.1f47b9f920.css",
+    "/exports/roles/roles.art.14e56b5e3e.css",
+    "/phone-kit/css/phone-kit.css",
+    "/phone-kit/js/hack.js",
+    "/phone-kit/js/vote-result.js",
+    "/phone-kit/source/art.mjs",
+    "/prototypes/css/tokens.css",
+    "/prototypes/js/asset-index.js",
+    "/prototypes/js/bundles.js"
+   ],
+   "sha256": "47dbf8175460ecb56c271895d236bae45fd0dc21f202c764c54575d55a734506"
+  },
+  {
+   "group": "hack",
+   "name": "d390-blur-claim",
+   "label": "390 x 844: the same",
+   "file": "design/phone-kit/review/hack/d390-blur-claim.png",
+   "size": "390x844",
+   "scenario": "hack.claim-red",
+   "font": null,
+   "reduced": false,
+   "pair": false,
+   "measures": {
+    "board": 728,
+    "boardOverflow": 0,
+    "panels": {},
+    "largeText": false
+   },
+   "notes": [],
+   "problems": [],
+   "requests": [
+    "/abilities/assets/abilities.art.css",
+    "/abilities/css/abilities.css",
+    "/abilities/js/ballot.js",
+    "/abilities/js/dossier.js",
+    "/abilities/js/finale.js",
+    "/abilities/js/guard.js",
+    "/abilities/js/intel.js",
+    "/abilities/js/tools.js",
+    "/board-motion/assets/board-motion.scenes.css",
+    "/board-motion/css/board.css",
+    "/board-motion/figures/body.mjs",
+    "/board-motion/figures/crew.mjs",
+    "/board-motion/figures/gestures.mjs",
+    "/board-motion/figures/motion.mjs",
+    "/board-motion/figures/parts.mjs",
+    "/board-motion/figures/rig.mjs",
+    "/board-motion/figures/wardrobe.mjs",
+    "/board-motion/index.html",
+    "/board-motion/js/app.js",
+    "/board-motion/js/board.js",
+    "/board-motion/js/copy.js",
+    "/board-motion/js/director.js",
+    "/board-motion/js/dress.js",
+    "/board-motion/js/fixtures.js",
+    "/board-motion/js/h.js",
+    "/board-motion/js/layout.js",
+    "/board-motion/scenes/command-room.mjs",
+    "/board-motion/scenes/frame.mjs",
+    "/board-motion/scenes/hospital.mjs",
+    "/board-motion/scenes/index.mjs",
+    "/board-motion/scenes/jail.mjs",
+    "/board-motion/scenes/kit.mjs",
+    "/board-motion/scenes/room-a.mjs",
+    "/board-motion/scenes/room-b.mjs",
+    "/exports/player-ui/player-ui.art.fc4830756c.css",
+    "/exports/public-board/public-board.art.1f47b9f920.css",
+    "/exports/roles/roles.art.14e56b5e3e.css",
+    "/phone-kit/css/phone-kit.css",
+    "/phone-kit/js/hack.js",
+    "/phone-kit/js/vote-result.js",
+    "/phone-kit/source/art.mjs",
+    "/prototypes/css/tokens.css",
+    "/prototypes/js/asset-index.js",
+    "/prototypes/js/bundles.js"
+   ],
+   "sha256": "c85c36caca2a244550c4a777410dfdc693cea383315698ea383585ad448ebac1"
+  },
+  {
+   "group": "hack",
+   "name": "d320-blur-sending",
+   "label": "320 x 568: the window loses focus while the declaration is sent: hidden, its recovery kept",
+   "file": "design/phone-kit/review/hack/d320-blur-sending.png",
+   "size": "320x568",
+   "scenario": "hack.declare-sending",
+   "font": null,
+   "reduced": false,
+   "pair": false,
+   "measures": {
+    "board": 468,
+    "boardOverflow": 0,
+    "panels": {},
+    "largeText": false
+   },
+   "notes": [],
+   "problems": [],
+   "requests": [
+    "/abilities/assets/abilities.art.css",
+    "/abilities/css/abilities.css",
+    "/abilities/js/ballot.js",
+    "/abilities/js/dossier.js",
+    "/abilities/js/finale.js",
+    "/abilities/js/guard.js",
+    "/abilities/js/intel.js",
+    "/abilities/js/tools.js",
+    "/board-motion/assets/board-motion.scenes.css",
+    "/board-motion/css/board.css",
+    "/board-motion/figures/body.mjs",
+    "/board-motion/figures/crew.mjs",
+    "/board-motion/figures/gestures.mjs",
+    "/board-motion/figures/motion.mjs",
+    "/board-motion/figures/parts.mjs",
+    "/board-motion/figures/rig.mjs",
+    "/board-motion/figures/wardrobe.mjs",
+    "/board-motion/index.html",
+    "/board-motion/js/app.js",
+    "/board-motion/js/board.js",
+    "/board-motion/js/copy.js",
+    "/board-motion/js/director.js",
+    "/board-motion/js/dress.js",
+    "/board-motion/js/fixtures.js",
+    "/board-motion/js/h.js",
+    "/board-motion/js/layout.js",
+    "/board-motion/scenes/command-room.mjs",
+    "/board-motion/scenes/frame.mjs",
+    "/board-motion/scenes/hospital.mjs",
+    "/board-motion/scenes/index.mjs",
+    "/board-motion/scenes/jail.mjs",
+    "/board-motion/scenes/kit.mjs",
+    "/board-motion/scenes/room-a.mjs",
+    "/board-motion/scenes/room-b.mjs",
+    "/exports/player-ui/player-ui.art.fc4830756c.css",
+    "/exports/public-board/public-board.art.1f47b9f920.css",
+    "/exports/roles/roles.art.14e56b5e3e.css",
+    "/phone-kit/css/phone-kit.css",
+    "/phone-kit/js/hack.js",
+    "/phone-kit/js/vote-result.js",
+    "/phone-kit/source/art.mjs",
+    "/prototypes/css/tokens.css",
+    "/prototypes/js/asset-index.js",
+    "/prototypes/js/bundles.js"
+   ],
+   "sha256": "b11eb04f824e6686c05c98ca575516604ff1a79298fc53c7d84fe885e9cb17c9"
+  },
+  {
+   "group": "hack",
+   "name": "d320-blur-reopened",
+   "label": "320 x 568: focus back, then the player's own tap (Card, closed): the claim again, settled",
+   "file": "design/phone-kit/review/hack/d320-blur-reopened.png",
+   "size": "320x568",
+   "scenario": "hack.claim-red",
+   "font": null,
+   "reduced": false,
+   "pair": false,
+   "measures": {
+    "board": 330,
+    "boardOverflow": 0,
+    "panels": {
+     "hack": {
+      "top": 374,
+      "bottom": 508,
+      "height": 134
+     }
+    },
+    "largeText": false
+   },
+   "notes": [],
+   "problems": [],
+   "requests": [
+    "/abilities/assets/abilities.art.css",
+    "/abilities/css/abilities.css",
+    "/abilities/js/ballot.js",
+    "/abilities/js/dossier.js",
+    "/abilities/js/finale.js",
+    "/abilities/js/guard.js",
+    "/abilities/js/intel.js",
+    "/abilities/js/tools.js",
+    "/board-motion/assets/board-motion.scenes.css",
+    "/board-motion/css/board.css",
+    "/board-motion/figures/body.mjs",
+    "/board-motion/figures/crew.mjs",
+    "/board-motion/figures/gestures.mjs",
+    "/board-motion/figures/motion.mjs",
+    "/board-motion/figures/parts.mjs",
+    "/board-motion/figures/rig.mjs",
+    "/board-motion/figures/wardrobe.mjs",
+    "/board-motion/index.html",
+    "/board-motion/js/app.js",
+    "/board-motion/js/board.js",
+    "/board-motion/js/copy.js",
+    "/board-motion/js/director.js",
+    "/board-motion/js/dress.js",
+    "/board-motion/js/fixtures.js",
+    "/board-motion/js/h.js",
+    "/board-motion/js/layout.js",
+    "/board-motion/scenes/command-room.mjs",
+    "/board-motion/scenes/frame.mjs",
+    "/board-motion/scenes/hospital.mjs",
+    "/board-motion/scenes/index.mjs",
+    "/board-motion/scenes/jail.mjs",
+    "/board-motion/scenes/kit.mjs",
+    "/board-motion/scenes/room-a.mjs",
+    "/board-motion/scenes/room-b.mjs",
+    "/exports/player-ui/player-ui.art.fc4830756c.css",
+    "/exports/public-board/public-board.art.1f47b9f920.css",
+    "/exports/roles/roles.art.14e56b5e3e.css",
+    "/phone-kit/css/phone-kit.css",
+    "/phone-kit/js/hack.js",
+    "/phone-kit/js/vote-result.js",
+    "/phone-kit/source/art.mjs",
+    "/prototypes/css/tokens.css",
+    "/prototypes/js/asset-index.js",
+    "/prototypes/js/bundles.js"
+   ],
+   "sha256": "ea4dab7e73ceb3459bfa9cff8cbe2db8aa8434d75887b629939eafee555a8d5a"
+  },
+  {
+   "group": "hack",
+   "name": "d390-blur-reopened",
+   "label": "390 x 844: the same",
+   "file": "design/phone-kit/review/hack/d390-blur-reopened.png",
+   "size": "390x844",
+   "scenario": "hack.claim-red",
+   "font": null,
+   "reduced": false,
+   "pair": false,
+   "measures": {
+    "board": 587,
+    "boardOverflow": 0,
+    "panels": {
+     "hack": {
+      "top": 639,
+      "bottom": 774,
+      "height": 135
+     }
+    },
+    "largeText": false
+   },
+   "notes": [],
+   "problems": [],
+   "requests": [
+    "/abilities/assets/abilities.art.css",
+    "/abilities/css/abilities.css",
+    "/abilities/js/ballot.js",
+    "/abilities/js/dossier.js",
+    "/abilities/js/finale.js",
+    "/abilities/js/guard.js",
+    "/abilities/js/intel.js",
+    "/abilities/js/tools.js",
+    "/board-motion/assets/board-motion.scenes.css",
+    "/board-motion/css/board.css",
+    "/board-motion/figures/body.mjs",
+    "/board-motion/figures/crew.mjs",
+    "/board-motion/figures/gestures.mjs",
+    "/board-motion/figures/motion.mjs",
+    "/board-motion/figures/parts.mjs",
+    "/board-motion/figures/rig.mjs",
+    "/board-motion/figures/wardrobe.mjs",
+    "/board-motion/index.html",
+    "/board-motion/js/app.js",
+    "/board-motion/js/board.js",
+    "/board-motion/js/copy.js",
+    "/board-motion/js/director.js",
+    "/board-motion/js/dress.js",
+    "/board-motion/js/fixtures.js",
+    "/board-motion/js/h.js",
+    "/board-motion/js/layout.js",
+    "/board-motion/scenes/command-room.mjs",
+    "/board-motion/scenes/frame.mjs",
+    "/board-motion/scenes/hospital.mjs",
+    "/board-motion/scenes/index.mjs",
+    "/board-motion/scenes/jail.mjs",
+    "/board-motion/scenes/kit.mjs",
+    "/board-motion/scenes/room-a.mjs",
+    "/board-motion/scenes/room-b.mjs",
+    "/exports/player-ui/player-ui.art.fc4830756c.css",
+    "/exports/public-board/public-board.art.1f47b9f920.css",
+    "/exports/roles/roles.art.14e56b5e3e.css",
+    "/phone-kit/css/phone-kit.css",
+    "/phone-kit/js/hack.js",
+    "/phone-kit/js/vote-result.js",
+    "/phone-kit/source/art.mjs",
+    "/prototypes/css/tokens.css",
+    "/prototypes/js/asset-index.js",
+    "/prototypes/js/bundles.js"
+   ],
+   "sha256": "5d5c86c8ed2fbc5cd5271985b94cedb05cb7163ed1e5a7a629f2387188054232"
+  },
+  {
+   "group": "hack",
+   "name": "d390-reduced-blur-reopened",
+   "label": "390 x 844, reduced motion: reopened after a blur, settled",
+   "file": "design/phone-kit/review/hack/d390-reduced-blur-reopened.png",
+   "size": "390x844",
+   "scenario": "hack.claim-red",
+   "font": null,
+   "reduced": true,
+   "pair": false,
+   "measures": {
+    "board": 587,
+    "boardOverflow": 0,
+    "panels": {
+     "hack": {
+      "top": 639,
+      "bottom": 774,
+      "height": 135
+     }
+    },
+    "largeText": false
+   },
+   "notes": [],
+   "problems": [],
+   "requests": [
+    "/abilities/assets/abilities.art.css",
+    "/abilities/css/abilities.css",
+    "/abilities/js/ballot.js",
+    "/abilities/js/dossier.js",
+    "/abilities/js/finale.js",
+    "/abilities/js/guard.js",
+    "/abilities/js/intel.js",
+    "/abilities/js/tools.js",
+    "/board-motion/assets/board-motion.scenes.css",
+    "/board-motion/css/board.css",
+    "/board-motion/figures/body.mjs",
+    "/board-motion/figures/crew.mjs",
+    "/board-motion/figures/gestures.mjs",
+    "/board-motion/figures/motion.mjs",
+    "/board-motion/figures/parts.mjs",
+    "/board-motion/figures/rig.mjs",
+    "/board-motion/figures/wardrobe.mjs",
+    "/board-motion/index.html",
+    "/board-motion/js/app.js",
+    "/board-motion/js/board.js",
+    "/board-motion/js/copy.js",
+    "/board-motion/js/director.js",
+    "/board-motion/js/dress.js",
+    "/board-motion/js/fixtures.js",
+    "/board-motion/js/h.js",
+    "/board-motion/js/layout.js",
+    "/board-motion/scenes/command-room.mjs",
+    "/board-motion/scenes/frame.mjs",
+    "/board-motion/scenes/hospital.mjs",
+    "/board-motion/scenes/index.mjs",
+    "/board-motion/scenes/jail.mjs",
+    "/board-motion/scenes/kit.mjs",
+    "/board-motion/scenes/room-a.mjs",
+    "/board-motion/scenes/room-b.mjs",
+    "/exports/player-ui/player-ui.art.fc4830756c.css",
+    "/exports/public-board/public-board.art.1f47b9f920.css",
+    "/exports/roles/roles.art.14e56b5e3e.css",
+    "/phone-kit/css/phone-kit.css",
+    "/phone-kit/js/hack.js",
+    "/phone-kit/js/vote-result.js",
+    "/phone-kit/source/art.mjs",
+    "/prototypes/css/tokens.css",
+    "/prototypes/js/asset-index.js",
+    "/prototypes/js/bundles.js"
+   ],
+   "sha256": "b3b99a5c8b165a126c5c3befe136c355adb83e8ffb1b6b3215350278054b8fa1"
   },
   {
    "group": "hack",

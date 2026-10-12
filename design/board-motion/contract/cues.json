@@ -7,7 +7,7 @@
     "A cue adds no fact: what it marks is already on screen in words (a status line, a strip line, a tag, the readable list).",
     "A cue changes nothing and nothing waits for it: no health, resource, turn, phase, deadline or command depends on it. It is never queued.",
     "Public cues are started only by a change between two drawn public states (seats' location, health, jailed, captain, revealed faction; active seat; phase; round; the published tally). A replayed snapshot, a reconnect, a page that was in the background, and more than four moves in one update play no travel.",
-    "Private cues are drawn only on the acting player's own board while their own action is open, from their own view's offers, their own taps and their own receipts. Closing, backgrounding, a stale view, time running out or a new phase removes them.",
+    "Private cues are drawn only on the acting player's own board while their own action is open, from their own view's offers, their own taps and their own receipts. Closing, a window blur, backgrounding, a stale view, time running out or a new phase removes them.",
     "No cue exists for a shot, a shooter, a weapon, an attack type, a block, Protection, a Rescue giver, a Supply giver, a Hack partner or any cause, on any surface. A health change is drawn the same whatever caused it.",
     "No cue has a sound, a vibration pattern, a light change in a room or a fetched picture. All pictures are in the bundles every device loads before the first view.",
     "Cue layers take no pointer events and cannot take focus. A newer authoritative state withdraws the cue in flight for the same seat; the latest state is what is drawn.",
@@ -25,7 +25,7 @@
       "durationMs": 220,
       "token": "motionMs.cardTransition",
       "easing": "--ms-ease-settle",
-      "cancellation": "Closing the tray, choosing an action, or any change that closes the private surface. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Closing the tray, choosing an action, or any change that closes the private surface. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "The tray is open over the lower board; the board stays visible above it.",
       "reduced": "80 ms fade.",
       "asset": "None: CSS panel."
@@ -41,7 +41,7 @@
       "durationMs": 220,
       "token": "motionMs.cardTransition",
       "easing": "--ms-ease-settle",
-      "cancellation": "Going back to nothing in progress. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Going back to nothing in progress. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "The strip sits in its own row above navigation; the board shrinks, nothing is covered.",
       "reduced": "No rise; it is simply there.",
       "asset": "None."
@@ -57,7 +57,7 @@
       "durationMs": 0,
       "token": null,
       "easing": null,
-      "cancellation": "Back, a pick that completes the choice, a fresh view that no longer offers the seat, closing, backgrounding, a stale view, time running out, a new phase. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Back, a pick that completes the choice, a fresh view that no longer offers the seat, closing, a window blur, backgrounding, a stale view, time running out, a new phase. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "A dashed ring at the character's base, a + tab, and a 44 px press area on the character; the others are drawn faint. Words: the strip says Tap a character.",
       "reduced": "The same (a state, not a motion).",
       "asset": "None: CSS ring. The approved token-emphasis.ring-targetable is its picture in the reviewed kit."
@@ -74,7 +74,7 @@
       "durationMs": 120,
       "token": "motionMs.selection",
       "easing": "--ms-ease-snap",
-      "cancellation": "Choose again; any change that drops the choice. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Choose again; any change that drops the choice. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "Lifted by --ms-lift, solid ring, check stamp. The strip asks to confirm in the release's words.",
       "reduced": "No lift; the ring and stamp are drawn at once.",
       "asset": "None."
@@ -90,7 +90,7 @@
       "durationMs": 120,
       "token": "motionMs.registrationStamp",
       "easing": "--ms-ease-snap",
-      "cancellation": "Take back removes the last pick; any change that drops the choice removes all. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Take back removes the last pick; any change that drops the choice removes all. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "The same check on each picked character; the picks' chips in Supply's tags or the Code card, in seat order; Chosen so far in words, in seat order.",
       "reduced": "80 ms fade of the stamp.",
       "asset": "None."
@@ -106,7 +106,7 @@
       "durationMs": 0,
       "token": null,
       "easing": null,
-      "cancellation": "The receipt, or the outcome becoming unknown. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "The receipt, or the outcome becoming unknown. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "A dotted ring and an ellipsis stamp on the chosen characters; a dashed Sending stamp in the strip. Nothing moves while waiting.",
       "reduced": "The same.",
       "asset": "None."
@@ -123,7 +123,7 @@
       "durationMs": 120,
       "token": "motionMs.registrationStamp",
       "easing": "--ms-ease-snap",
-      "cancellation": "Done; any change that closes the private surface. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Done; any change that closes the private surface. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "The same Registered stamp and the release's receipt words for every action; the board's private marks are gone.",
       "reduced": "80 ms fade.",
       "asset": "None."
@@ -139,7 +139,7 @@
       "durationMs": 120,
       "token": "motionMs.selection",
       "easing": "--ms-ease-standard",
-      "cancellation": "OK. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "OK. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "A hatched Not accepted stamp (no red), the release's words, OK.",
       "reduced": "No nudge.",
       "asset": "None."
@@ -155,7 +155,7 @@
       "durationMs": 0,
       "token": null,
       "easing": null,
-      "cancellation": "Check again and an answer. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Check again and an answer. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "A dotted Unknown stamp, the release's words, Check again. No motion that would suggest either outcome.",
       "reduced": "The same.",
       "asset": "None."
@@ -171,7 +171,7 @@
       "durationMs": 120,
       "token": "motionMs.selection",
       "easing": "--ms-ease-snap",
-      "cancellation": "Ends by itself. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Ends by itself. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "The caption as before.",
       "reduced": "No press motion.",
       "asset": "None."
@@ -187,7 +187,7 @@
       "durationMs": 220,
       "token": "motionMs.cardTransition",
       "easing": "--ms-ease-standard",
-      "cancellation": "Choose again; not accepted; the authoritative move arriving. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Choose again; not accepted; the authoritative move arriving. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "A dashed outline of the player's own figure with You?, in the pressed room. The real piece stays where the server has it.",
       "reduced": "80 ms fade.",
       "asset": "The player's own figure, standing, from the figure bundle (public art)."
@@ -203,7 +203,7 @@
       "durationMs": 220,
       "token": "motionMs.cardTransition",
       "easing": "--ms-ease-settle",
-      "cancellation": "Closing; backgrounding closes Card. Background, stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
+      "cancellation": "Closing; a window blur or backgrounding closes Card. A window blur, the background, a stale/expired view or disposal conceals all private DOM without clearing a sent/recovery flow. Explicit reopen restores the same facts without replay.",
       "settled": "A sheet over the lower board; the board stays visible above it.",
       "reduced": "80 ms fade.",
       "asset": "Card: piece-crew card picture with the role's held device (roles bundle), inside .bm-private only."

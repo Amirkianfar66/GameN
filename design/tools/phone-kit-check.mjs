@@ -107,14 +107,21 @@ const contract = await json('design/phone-kit/contract/phone-kit.json');
   if (CLAIM_BEATS.exit[1] !== HACK_WINDOWS.resultMs || Object.values(CLAIM_BEATS).some(([from, to]) => from < 0 || to > HACK_WINDOWS.resultMs || to <= from)) problems.push('a claim beat falls outside its five seconds');
   if (HACK_WORDS.none !== 'No side declared') problems.push('no declaration is not said in the owner\'s words, "No side declared"');
   const seats = [1, 2, 3, 4, 5].map(n => ({ n, name: `P${n}`, character: `c${n}` }));
-  const phase = kind => ({ kind });
-  const feedback = (status, declaredSide = null) => ({ hackId: 'h', round: 2, status, declaredSide });
+  // Feedback bound to its phase: the phase's id as phaseId, the exchange's hackId (packages/design-tokens/test/phone-kit-hack.test.mjs has the whole table).
+  const phase = kind => ({ kind, id: `phase-${kind}` });
+  const feedback = (status, declaredSide = null, kind = status === 'AWAITING_DECLARATION' ? 'HACK_DECLARE' : 'HACK_RESULT') => ({ hackId: 'h', phaseId: `phase-${kind}`, status, declaredSide });
   const target = hackModel({ phase: phase('HACK_DECLARE'), initiator: 5, viewer: 3, feedback: feedback('AWAITING_DECLARATION'), partner: 5, canDeclare: true, seats });
   if (!target?.canDeclare || target.audience !== 'target') problems.push('the target is not offered the declaration');
   const lying = hackModel({ phase: phase('HACK_RESULT'), initiator: 3, viewer: 3, feedback: feedback('DECLARED', 'Red'), partner: 5, seats });
   if (lying?.declared !== 'Red' || lying.audience !== 'initiator') problems.push('the initiator does not see the declared side as declared');
-  if (hackModel({ phase: phase('HACK_RESULT'), initiator: 3, viewer: 3, feedback: feedback('NO_DECLARATION'), partner: 5, seats })?.declared !== null) problems.push('no declaration is drawn as a side');
-  if (hackModel({ phase: phase('HACK_RESULT'), initiator: 3, viewer: 3, feedback: feedback('DECLARED', 'Purple'), partner: 5, seats })?.declared !== null) problems.push('a side that is not one of the three is drawn');
+  const none = hackModel({ phase: phase('HACK_RESULT'), initiator: 3, viewer: 3, feedback: feedback('NO_DECLARATION'), partner: 5, seats });
+  if (!none || none.declared !== null) problems.push('no declaration is drawn as a side, or not drawn');
+  for (const [what, given] of [['a side that is not one of the three', feedback('DECLARED', 'Purple')], ['DECLARED without a side', feedback('DECLARED', null)], ['a side without DECLARED', feedback('NO_DECLARATION', 'Blue')]]) {
+    if (hackModel({ phase: phase('HACK_RESULT'), initiator: 3, viewer: 3, feedback: given, partner: 5, seats }) !== null) problems.push(`${what} is drawn (never as "No side declared" either)`);
+  }
+  if (hackModel({ phase: phase('HACK_RESULT'), initiator: 3, viewer: 3, feedback: { ...feedback('DECLARED', 'Red'), phaseId: 'phase-obsolete' }, partner: 5, seats }) !== null) problems.push('feedback from another phase is drawn');
+  if (hackModel({ phase: phase('HACK'), initiator: 3, viewer: 3, feedback: feedback('DECLARED', 'Red'), partner: 5, seats }) !== null) problems.push('feedback from the exchange\'s earlier phase is drawn');
+  if (hackModel({ phase: { kind: 'HACK_RESULT' }, initiator: 3, viewer: 3, feedback: { ...feedback('DECLARED', 'Red'), phaseId: undefined }, partner: 5, seats }) !== null) problems.push('feedback is drawn without phase ids');
   if (hackModel({ phase: phase('HACK_DECLARE'), initiator: 5, viewer: 3, feedback: null, partner: null, seats }) !== null) problems.push('a phone without hackFeedback gets a Hack panel');
   if (hackModel({ phase: phase('ORDINARY_TURN'), initiator: 3, viewer: 3, feedback: feedback('DECLARED', 'Red'), partner: 5, seats }) !== null) problems.push('the panel outlives the Hack\'s phases');
   if (hackModel({ phase: phase('HACK_DECLARE'), initiator: 5, viewer: 3, feedback: feedback('AWAITING_DECLARATION'), partner: 5, canDeclare: true, seats, role: 'Undercover' })?.canDeclare !== true) problems.push('the model takes a role');
@@ -128,7 +135,7 @@ const contract = await json('design/phone-kit/contract/phone-kit.json');
   if (new Set(cards.map(box)).size !== 1 || box(art.sideCard(null)) !== box(cards[0])) problems.push('the side cards are not one size');
   const frame = card => card.replace(/<!--[\s\S]*?-->/g, '').replace(/<path[\s\S]*$/, '').replace(/fill="#[0-9A-F]{6}"/i, '');
   if (new Set(cards.map(frame)).size !== 1) problems.push('the side cards are not the same card');
-  check('the private Hack reads no role, offers the three sides alike, says a claim is a claim, and requests nothing', problems);
+  check('the private Hack reads no role, offers the three sides alike, draws only feedback bound to the current phase, says a claim is a claim, and requests nothing', problems);
 }
 
 // ---------- The vote result: the published aggregate, the release's words ----------

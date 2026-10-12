@@ -2,7 +2,7 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "e5aaf37bf185c43446bd2b1c32630673737290fc58d6f148a34692f6da99544c",
+  "inputsSha256": "46f414795a852e5ec731b25085308f9cfa603b45f702a5f809469096c6dd7c97",
   "browser": "Chromium 141.0.7390.37",
   "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
   "scenarios": [

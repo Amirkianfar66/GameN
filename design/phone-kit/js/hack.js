@@ -3,11 +3,19 @@
 // The private Hack, declared side first (issue #120, owner-approved on 12 October 2026): after the ordinary
 // turn closes with a Hack pending, the target has up to 15 seconds to declare a side (HACK_DECLARE), then the
 // two see the claim for five seconds (HACK_RESULT), then they have their full 60-second conversation (HACK).
-// Backend's proposal (docs/backend/playtest-feedback-contract.md on codex/backend-vote-results, bd4d77c)
-// carries it in the two participants' own views only: hackFeedback { hackId, round, status:
+// It is carried in the two participants' own views only: hackFeedback { hackId, phaseId, status:
 // AWAITING_DECLARATION | DECLARED | NO_DECLARATION, declaredSide }, the existing private hackPartnerSeatId, and
 // for the target alone the offer legalTargets.DECLARE_HACK_SIDE = [its own seat] and the command
 // DECLARE_HACK_SIDE { declaredSide: Blue | Red | Alien }. The initiator is the public active seat throughout.
+// hackId names the exchange and stays the same through its three phases; phaseId is the authoritative phase.id
+// of the stage the feedback belongs to. This is the contract as reviewed at Backend's ba1842f (Frontend's review,
+// docs/frontend/phone-feedback-contract-review.md); that commit is not on the remote, so these fields are a
+// labeled reading of it, not a checked schema. The earlier proposal, bd4d77c, had no phaseId.
+//
+// Bound to the current phase (hackFeedbackProblem): feedback is drawn only when its phaseId is the phase's own
+// id, it names its exchange, its status belongs to the stage and its side to its status. Anything else (missing,
+// from an earlier phase of the same exchange, from another exchange, a side without DECLARED, DECLARED without
+// one of the three) draws nothing at all: never a guessed stage, and never "No side declared" in its place.
 //
 // What it shows is a CLAIM: what the target declared, never a side the app has checked. The Undercover and
 // the Alien may bluff, so the three choices are offered alike to every target, in the same order, the same
@@ -15,9 +23,10 @@
 // role. No answer: "No side declared" (the owner's words), never an invented side. This is not the Hacker's
 // Scan: no lens, no printout, no Code.
 //
-// Private: drawn only for the two participants, inside their own view, while the page is visible and current.
-// Removed at once when the page goes to the background, the view goes out of date, the audience changes (the
-// view no longer carries hackFeedback) or the match ends: nothing of it is left in the page. Its pictures (the
+// Private: drawn only for the two participants, inside their own view, while the page is visible, focused and
+// current. Removed at once when the window loses focus, the page goes to the background, the view goes out of
+// date, the audience changes (the view no longer carries hackFeedback), the feedback is not the current phase's,
+// or the match ends: nothing of it is left in the page. Its pictures (the
 // three side cards, the blank card, the balloon, the dots) are all in this module's art, built into every
 // phone's page alike: no request, file name or asset depends on a claim, a side or a role. Public screens draw
 // the phase only.
@@ -74,29 +83,55 @@ export const HACK_WORDS = Object.freeze({
 });
 
 const STAGE = { HACK_DECLARE: 'declare', HACK_RESULT: 'result', HACK: 'talk' };
+/** The statuses each stage may carry: the declaration is awaited in its own window only, a claim or none after it. */
+export const STAGE_STATUSES = Object.freeze({
+  declare: Object.freeze(['AWAITING_DECLARATION']), result: Object.freeze(['DECLARED', 'NO_DECLARATION']), talk: Object.freeze(['DECLARED', 'NO_DECLARATION']),
+});
+const named = value => typeof value === 'string' && value !== '';
 
 /**
- * The Hack as this viewer's own view shows it, or null: not a participant, no hackFeedback, not a Hack phase,
- * or a partner who is not in the view. phase: { kind }; initiator: the public active seat; viewer: this phone's
- * seat; feedback: hackFeedback; partner: hackPartnerSeatId (a seat number here); canDeclare: the view offers
- * DECLARE_HACK_SIDE with the viewer's own seat; seats: the public seats ({ n, name, character }).
- * It reads no role, no side but the declared one, and nothing about the truth of a claim.
+ * Why this hackFeedback may not be drawn in this phase, or null when it may. phase: { kind, id }, the view's current
+ * authoritative phase. The feedback must belong to that phase (its phaseId is the phase's own id), name its exchange
+ * (hackId), carry a status that belongs to the stage, and a side exactly when the status is DECLARED. Feedback from an
+ * earlier phase of the same exchange, or from another exchange, has another phaseId and is refused.
+ */
+export function hackFeedbackProblem(phase, feedback) {
+  const stage = STAGE[phase?.kind];
+  if (!stage) return 'not a Hack phase';
+  if (!feedback || typeof feedback !== 'object') return 'no hackFeedback';
+  if (!named(phase.id)) return 'the phase has no id';
+  if (!named(feedback.phaseId)) return 'the feedback names no phase';
+  if (feedback.phaseId !== phase.id) return 'the feedback belongs to another phase';
+  if (!named(feedback.hackId)) return 'the feedback names no exchange';
+  if (!STAGE_STATUSES[stage].includes(feedback.status)) return `${feedback.status ?? 'no status'} in ${phase.kind}`;
+  const side = feedback.declaredSide ?? null;
+  if (feedback.status === 'DECLARED' && !SIDES.includes(side)) return 'DECLARED without one of the three sides';
+  if (feedback.status !== 'DECLARED' && side !== null) return `a side with ${feedback.status}`;
+  return null;
+}
+
+/**
+ * The Hack as this viewer's own view shows it, or null: the feedback is not bound to the current phase
+ * (hackFeedbackProblem), the viewer is not a participant, or a partner is not in the view. phase: { kind, id };
+ * initiator: the public active seat; viewer: this phone's seat; feedback: hackFeedback; partner: hackPartnerSeatId
+ * (a seat number here); canDeclare: the view offers DECLARE_HACK_SIDE with the viewer's own seat; seats: the public
+ * seats ({ n, name, character }). It reads no role, no side but the declared one, and nothing about the truth of a
+ * claim. null draws nothing: a refused feedback is never turned into another stage or into "No side declared".
  */
 export function hackModel({ phase, initiator, viewer, feedback, partner, canDeclare = false, seats }) {
-  const stage = STAGE[phase?.kind];
-  if (!stage || !feedback || partner === null || partner === undefined || partner === viewer) return null;
+  if (hackFeedbackProblem(phase, feedback) !== null) return null;
+  if (partner === null || partner === undefined || partner === viewer) return null;
   const other = seats.find(seat => seat.n === partner), me = seats.find(seat => seat.n === viewer);
   if (!other || !me) return null;
   const audience = initiator === viewer ? 'initiator' : 'target';
   // The initiator is the active seat throughout: a partner that is not, seen by a target, is a broken view.
   if (audience === 'target' && initiator !== partner) return null;
-  const declared = feedback.status === 'DECLARED' && SIDES.includes(feedback.declaredSide) ? feedback.declaredSide : null;
-  const status = ['AWAITING_DECLARATION', 'DECLARED', 'NO_DECLARATION'].includes(feedback.status) ? feedback.status : null;
-  if (status === null || (stage !== 'declare' && status === 'AWAITING_DECLARATION')) return null;
+  const stage = STAGE[phase.kind];
+  const { status } = feedback;
   return {
-    hackId: feedback.hackId, round: feedback.round, audience, stage, status, declared,
+    hackId: feedback.hackId, phaseId: feedback.phaseId, audience, stage, status, declared: status === 'DECLARED' ? feedback.declaredSide : null,
     partner: { n: other.n, name: other.name, character: other.character }, self: { n: me.n, character: me.character },
-    canDeclare: audience === 'target' && stage === 'declare' && canDeclare && status === 'AWAITING_DECLARATION',
+    canDeclare: audience === 'target' && stage === 'declare' && canDeclare === true,
   };
 }
 
