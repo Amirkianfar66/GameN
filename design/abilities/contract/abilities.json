@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "abilities-0.6.0",
+  "version": "abilities-0.7.0",
   "status": "proposal",
   "about": "The inventory of comic treatments for every current V1 role ability and shared game action: who sees each, what starts it, which approved view fields it reads, what it must never show, its art, its motion in five forms (normal, reduced, static, cancelled, and what it never replays) and its states. Delivered in focused slices; each entry says whether it is delivered or planned. Treatments draw from the approved crew cards, the full-body figures and the room scenes; mechanics and disclosure are the rules', never the art's.",
   "base": {
@@ -1001,8 +1001,8 @@
     {
       "id": "shared-move",
       "title": "Movement and room arrival",
-      "slice": 5,
-      "status": "planned",
+      "slice": 7,
+      "status": "delivered",
       "roles": [
         "any"
       ],
@@ -1016,7 +1016,7 @@
       "disclosure": [
         "The same walk for every move, transfer and release."
       ],
-      "concept": "The board-motion move (get up, walk, settle) and the room tags; arrival dust.",
+      "concept": "Delivered by the board-motion prototype (PR #88), recorded here: the room tags as the move control, the tentative place, the walk (out of the place, across, into the new one), arrival dust and the ink trail; FULL on a full room.",
       "art": [
         "board-motion-0.3.0 figures and scenes",
         "approved: fx-ink-trail, fx-landing-puff"
@@ -1044,37 +1044,56 @@
         "accessible": []
       },
       "review": [
+        "design/board-motion/review/states/move.tags.png",
+        "design/board-motion/review/states/move.confirm.png",
+        "design/board-motion/review/states/move.accepted.png",
+        "design/board-motion/review/states/move.full.png",
+        "design/board-motion/review/states/move.refused.png",
+        "design/board-motion/review/motion/10-cue-public-move-345ms.png",
+        "design/board-motion/review/motion/10-cue-public-move-reduced.png",
         "design/board-motion/index.html?scenario=move.tags"
       ],
-      "dependencies": []
+      "dependencies": [
+        "PR #88 (the board-motion prototype; its cues are proposals)"
+      ]
     },
     {
       "id": "shared-target",
       "title": "Action selection, targeting and confirmation",
-      "slice": 5,
-      "status": "planned",
+      "slice": 7,
+      "status": "delivered",
       "roles": [
         "any"
       ],
       "audience": "private-own",
-      "trigger": "Actions tray, then the characters on the board, then the strip's confirmation.",
+      "trigger": "The Actions tray, then the characters on the board, then the strip's confirmation (PR #88); in the tray, each action the seat's own view opens, beside its own mark.",
       "fields": [
         "legalTargets.*",
         "receipt"
       ],
       "disclosure": [
-        "What can be chosen is only what the view offers; registered is not a result."
+        "What can be chosen is only what the view offers; registered is not a result.",
+        "The tray lists only what the seat's own view opens. Each chip's mark is the strip's own and the same for every role: the Disable's for both Disablers, Supply's not the Supplier's, a Hack's not the Hacker's; every ballot the same box."
       ],
-      "concept": "The board-motion tray and strip, with each action's icon and device art added (slices 2 to 4).",
+      "concept": "The board-motion tray and strip (PR #88), with every action's art in the strip (slices 1 to 6); in the tray each chip's caption-yellow disc holds its action's mark, one ink, the strip's own: the reticle (the reviewed icon-action-shot), the charged ring, the shield, the cross, the lens, the tag, the comms, the punch card, the special round, the ballot box, the key.",
       "art": [
         "approved: icon-action-shot",
-        "planned: one icon per action"
+        "icon-action-disable",
+        "icon-action-protect",
+        "icon-action-rescue",
+        "icon-action-scan",
+        "icon-action-supply",
+        "icon-action-hack",
+        "icon-action-code",
+        "icon-action-showdown",
+        "icon-action-ballot",
+        "icon-action-key"
       ],
       "motion": {
-        "normal": "The board-motion cues (tray, strip, eligible, picked, sending).",
-        "reduced": "Their reduced forms.",
-        "static": "Words.",
-        "cancel": "Background, out of date.",
+        "normal": "The board-motion cues (tray, strip, eligible, picked, sending); the marks themselves do not move.",
+        "reduced": "The cues' reduced forms.",
+        "static": "The marks and the words; without the art, the glyphs.",
+        "cancel": "The background or an out-of-date view: the tray pauses, the strip closes.",
         "replay": "Never."
       },
       "states": [
@@ -1084,16 +1103,37 @@
         "sending",
         "registered",
         "rejected",
-        "unknown"
+        "unknown",
+        "paused"
       ],
       "copy": {
         "visible": [
-          "the release's words"
+          "Shot",
+          "Choose a target",
+          "Scan",
+          "Choose a player",
+          "Code attempt",
+          "Enter a Code",
+          "Supply",
+          "Choose two players",
+          "Release request",
+          "Choose"
         ],
         "accessible": []
       },
       "review": [
-        "design/board-motion/"
+        "design/abilities/review/tray-w390-hacker.png",
+        "design/abilities/review/tray-w390-undercover.png",
+        "design/abilities/review/tray-w390-cracker.png",
+        "design/abilities/review/tray-w390-disabler.png",
+        "design/abilities/review/tray-w390-supplier.png",
+        "design/abilities/review/tray-w390-showdown.png",
+        "design/abilities/review/tray-w390-ballot.png",
+        "design/abilities/review/tray-w390-release.png",
+        "design/abilities/review/tray-w320-undercover.png",
+        "design/abilities/review/tray-w390-text200-hacker.png",
+        "design/abilities/review/tray-w390-no-art.png",
+        "design/board-motion/index.html?scenario=tray.open"
       ],
       "dependencies": []
     },
@@ -1325,8 +1365,8 @@
     {
       "id": "shared-health",
       "title": "Injury, elimination and recovery; Hospital, Jail and Command transitions",
-      "slice": 5,
-      "status": "planned",
+      "slice": 7,
+      "status": "delivered",
       "roles": [
         "any"
       ],
@@ -1340,12 +1380,12 @@
         "seats[].captain"
       ],
       "disclosure": [
-        "One hit for every cause and from no direction (cue-public-hit, a proposal, DSN-D35). Recovery names no rescuer."
+        "One hit for every cause and from no direction (cue-public-hit, a proposal, DSN-D35). Recovery names no rescuer.",
+        "No door slam and no hatch: the walk into the Jail or the Command Room is the public move, and the Jailed and Captain markers are the status change. A cue adds no fact."
       ],
-      "concept": "The board-motion hit and falls; a bandage coming off on recovery; the Jail door slam and the Command Room hatch as transition cues.",
+      "concept": "Delivered by the board-motion prototype (PR #88), recorded here: one hit for every cause (a burst and a jolt), Injured with a bandage and a limp, the place's fall when Eliminated with the faction the rules reveal, the bandage gone on recovery; the Jail and the Command Room reached by the public move, their markers the status change.",
       "art": [
-        "board-motion-0.3.0",
-        "planned: door-slam, hatch"
+        "board-motion-0.3.0 figures and scenes (PR #88)"
       ],
       "motion": {
         "normal": "cue-public-hit, cue-public-move, cue-status-change.",
@@ -1369,9 +1409,17 @@
         "accessible": []
       },
       "review": [
-        "design/board-motion/review/"
+        "design/board-motion/review/states/public.injured.png",
+        "design/board-motion/review/states/public.eliminated.png",
+        "design/board-motion/review/states/board.crowded-hospital.png",
+        "design/board-motion/review/motion/12-cue-public-hit-80ms.png",
+        "design/board-motion/review/motion/13-cue-public-hit-500ms.png",
+        "design/board-motion/review/motion/12-cue-public-hit-reduced.png",
+        "design/board-motion/index.html?scenario=public.injured"
       ],
-      "dependencies": []
+      "dependencies": [
+        "PR #88 (the board-motion prototype; its cues are proposals)"
+      ]
     },
     {
       "id": "shared-showdown",
@@ -1524,32 +1572,36 @@
     {
       "id": "shared-failure",
       "title": "Unavailable actions, rejection, missing assets and reconnecting",
-      "slice": 5,
-      "status": "planned",
+      "slice": 7,
+      "status": "delivered",
       "roles": [
         "any"
       ],
       "audience": "own",
-      "trigger": "An action the view does not offer; a rejected receipt; a bundle that did not load; a reconnect.",
+      "trigger": "An action the view does not offer; a rejected receipt; a lost answer; a bundle that did not load; the connection lost or an update unreadable; a reconnect.",
       "fields": [
         "legalTargets",
         "receipt code (PHASE_CLOSED, NOT_ALLOWED)",
-        "view freshness"
+        "view freshness (connection, unreadable update)"
       ],
       "disclosure": [
-        "Reasons are the receipt's codes only; nothing is guessed."
+        "Reasons are the receipt's codes only; nothing is guessed.",
+        "Out of date: the release's banner and words with Reconnect now; the actions pause; a choice not sent is dropped and said so; the change is said once, and a reconnect plays nothing.",
+        "The card on an out-of-date view: PR #88's closed folder, the same for every role; or, as DSN-REQ-16 recommends, the release's card kept, at rest, marked May be out of date (proposed words), the same mark for every role."
       ],
-      "concept": "A NOT ACCEPTED stamp, an out-of-date banner, a closed folder for private content, paper-and-ink fallbacks.",
+      "concept": "A NOT ACCEPTED stamp (hatched, no red) and an Unknown stamp with Check again (PR #88); an unavailable Pass or room said in words; the connection banner with the reviewed stale-connection icon and Reconnect now, every sheet kept below it; the card's out-of-date mark; paper-and-ink fallbacks for every picture.",
       "art": [
+        "approved: icon-connection-stale",
         "dossier-folder",
-        "dossier-stamp"
+        "dossier-stamp",
+        "CSS: the banner, the mark"
       ],
       "motion": {
-        "normal": "Stamp 120 ms.",
-        "reduced": "Stamp without scale.",
+        "normal": "The stamps (120 ms; Not accepted, a short nudge); the banner and the mark do not move; a reconnect plays nothing.",
+        "reduced": "The stamps without scale or nudge.",
         "static": "Words.",
         "cancel": "Immediate.",
-        "replay": "Never."
+        "replay": "Never: a reconnect settles at once."
       },
       "states": [
         "unavailable",
@@ -1557,19 +1609,48 @@
         "rejected: not allowed",
         "unknown",
         "missing art",
+        "connection lost",
+        "update unreadable",
         "reconnecting",
-        "recovered"
+        "reconnected",
+        "the card kept out of date (DSN-REQ-16)",
+        "the card folded (PR #88)"
       ],
       "copy": {
         "visible": [
-          "the release's words"
+          "Connection lost. Showing the last known state, which may be out of date. Reconnecting…",
+          "The latest update could not be read. Showing the last known state, which may be out of date.",
+          "Reconnect now",
+          "Actions are paused until the connection is restored.",
+          "Your choice was not sent.",
+          "May be out of date"
         ],
-        "accessible": []
+        "accessible": [
+          "Connection lost. Showing the last known state.",
+          "The latest update could not be read.",
+          "Reconnected. Round 2. Your turn.",
+          "Up to date again. Round 2. Your turn."
+        ]
       },
       "review": [
-        "design/board-motion/index.html?scenario=shot.rejected"
+        "design/abilities/review/stale-w390-board.png",
+        "design/abilities/review/stale-w320-board.png",
+        "design/abilities/review/stale-w390-card.png",
+        "design/abilities/review/stale-w320-card.png",
+        "design/abilities/review/stale-w320-menu.png",
+        "design/abilities/review/stale-w390-card-notes.png",
+        "design/abilities/review/stale-w390-unreadable.png",
+        "design/abilities/review/stale-w390-folder.png",
+        "design/abilities/review/stale-w390-text200-card.png",
+        "design/abilities/review/stale-w390-no-art.png",
+        "design/board-motion/review/states/shot.rejected.png",
+        "design/board-motion/review/states/shot.unknown.png",
+        "design/board-motion/review/states/move.refused.png",
+        "design/board-motion/index.html?scenario=stale.card"
       ],
-      "dependencies": []
+      "dependencies": [
+        "DSN-REQ-16"
+      ]
     }
   ]
 }

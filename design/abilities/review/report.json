@@ -1,5 +1,5 @@
 {
-  "inputsSha256": "b25bc5d31530f0b29cced0e44560dc1d54cc5ee9dab0b9350512cc888b900cab",
+  "inputsSha256": "67a77c811e6afc88dee4217b27eef58934f5b7981baf88d920513ba03174a851",
   "browser": "Chrome/141.0.7390.37",
   "scale": 1.5,
   "shots": [
@@ -2141,6 +2141,216 @@
       "file": "design/abilities/review/end-reveal-0900ms.png",
       "phone": "w390",
       "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-hacker",
+      "title": "The tray, the Hacker: a shot, a Scan, a Hack, a Code attempt",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-hacker.png",
+      "phone": "w390",
+      "size": "567x252",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-undercover",
+      "title": "The tray, the Undercover: a shot, Protection, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-undercover.png",
+      "phone": "w390",
+      "size": "567x252",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-cracker",
+      "title": "The tray, the Cracker: a Rescue, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-cracker.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-disabler",
+      "title": "The tray, a Disabler: the Disable, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-disabler.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-supplier",
+      "title": "The tray, the Supplier: Supply, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-supplier.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-showdown",
+      "title": "The tray, the showdown shot",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-showdown.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-ballot",
+      "title": "The tray, a ballot",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-ballot.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-release",
+      "title": "The tray, the Captain's release request",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-release.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w320-undercover",
+      "title": "The tray at 320 x 568",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w320-undercover.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-text200-hacker",
+      "title": "The tray at twice the text size",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-text200-hacker.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-no-art",
+      "title": "Without the art: the glyphs, and the words beside them",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-no-art.png",
+      "phone": "w390",
+      "size": "567x252",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-board",
+      "title": "Connection lost: the banner, Reconnect now, 390 x 844",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-board.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-card",
+      "title": "Out of date, the card kept (DSN-REQ-16): marked, at rest, below the banner, 390 x 844",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-card.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w320-board",
+      "title": "Connection lost: the banner, Reconnect now, 320 x 568",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w320-board.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "stale-w320-card",
+      "title": "Out of date, the card kept (DSN-REQ-16): marked, at rest, below the banner, 320 x 568",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w320-card.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "stale-w320-menu",
+      "title": "Out of date: the menu opens below the banner, 320 x 568",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w320-menu.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-card-notes",
+      "title": "Out of date, the card kept: the Undercover's notes, marked",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-card-notes.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-unreadable",
+      "title": "An update could not be read",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-unreadable.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-folder",
+      "title": "Out of date, PR #88's rule: the closed folder, the same for every role",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-folder.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-text200-card",
+      "title": "The card kept at twice the text size",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-text200-card.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-no-art",
+      "title": "Out of date without the art: a plain disc for the icon",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
       "problems": []
     }
   ]

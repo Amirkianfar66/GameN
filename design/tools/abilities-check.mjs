@@ -249,7 +249,8 @@ const functionBody = (source, name) => {
   if (!/if \(receipt && \(now\.kind === 'vote' \|\| now\.kind === 'release-vote'\)\) post\(/.test(app) || !/if \(receipt && now\.kind === 'pass'\) handOn\(/.test(app)) problems.push('a ballot is posted, or the microphone handed on, other than on its receipt');
   const drawCard = app.slice(app.indexOf('function drawCard()'), app.indexOf('function drawMenu()'));
   if (!/const partner = S\.private\.hackPartner \? identity\(S\.private\.hackPartner\) : null;/.test(drawCard) || !/\n\s+partner \? hackLink\(identity\(VIEWER\), partner\) : null,/.test(drawCard)) problems.push("a Hack's note depends on something besides the view's partner");
-  if (!/if \(!linksShown\.has\(key\) && !reducedNow\(\)\) connect\(/.test(drawCard)) problems.push("a Hack's cord runs again for a Hack this page has shown");
+  // still: reduced motion, or a card held on a view out of date or timed out (slice 7): either way the cord is drawn whole.
+  if (!/if \(!linksShown\.has\(key\) && !still\) connect\(/.test(drawCard)) problems.push("a Hack's cord runs again for a Hack this page has shown");
   check("the ballots, the release request, a Hack and Pass draw the seat's own choice in the release's words, never a count, the same for every role", problems);
 }
 
@@ -275,6 +276,35 @@ const functionBody = (source, name) => {
   check("the showdown's special shot is the same for every seat and spent on its receipt; the end is drawn from the public view alone", problems);
 }
 
+// ---------- The marks in the tray, the same for every role; the card kept out of date only where asked, at rest and marked ----------
+{
+  const problems = [];
+  const css = (await text(`${ROOT}/css/abilities.css`)).replace(/\/\*[\s\S]*?\*\//g, '');
+  const app = await text('design/board-motion/js/app.js');
+  // Every action the tray can open has its mark: the strip's own, neutral, drawn only behind its loaded art; the Shot the reviewed icon.
+  const kinds = JSON.parse((app.match(/const TRAY_ORDER = (\[[^\]]*\]);/) ?? [null, '[]'])[1].replaceAll("'", '"'));
+  if (kinds.length < 12) problems.push('the tray order could not be read from app.js');
+  for (const kind of kinds) {
+    const rule = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].find(([, selector, body]) => new RegExp(`data-kind="${kind}"`).test(selector) && /background(?:-image)?\s*:[^;]*var\(--(?:ab|ms)-asset-icon-action-/.test(body));
+    if (!rule) problems.push(`the ${kind} chip has no mark`);
+    else if (!/\[data-art~="(?:abilities|player-ui)"\]/.test(rule[1])) problems.push(`the ${kind} chip's mark is drawn without waiting for its art`);
+    else if (kind === 'shot' && !/--ms-asset-icon-action-shot-ink/.test(rule[2])) problems.push("the Shot's chip is not the reviewed icon-action-shot");
+  }
+  const marks = css.slice(css.indexOf('.bm-chip__icon'), css.lastIndexOf('.bm-chip__icon') + 200);
+  if (ROLE_OR_TEAM.test(marks.replace(/data-kind="[\w-]+"/g, ''))) problems.push('a tray mark is drawn by role or team: ' + marks.match(ROLE_OR_TEAM)[0]);
+  if (!/class: 'bm-chip__icon', 'data-kind': kind,/.test(app)) problems.push("the tray's chips do not say their action's kind");
+  // The card: kept on a view out of date or timed out only where the release's behaviour is asked for (DSN-REQ-16); at rest; marked
+  // only while it may be out of date, not when merely timed out; the file then not pressable, an inspected snapshot put back.
+  if (!/const cardVisible = \(\) => !S\.concealed && !S\.disposed && document\.visibilityState === 'visible' && \(!paused\(\) \|\| S\.staleCard\);/.test(app)) problems.push("the card is kept on an out-of-date view without S.staleCard (PR #88's default is the folder)");
+  const drawCard = app.slice(app.indexOf('function drawCard()'), app.indexOf('function drawMenu()'));
+  if (!/const held = paused\(\);\s*const stale = held && outOfDate\(\);/.test(drawCard)) problems.push('the out-of-date mark is drawn for a view that is only timed out, or not drawn from the view');
+  if (!/if \(file\) pauseFile\(file, held\);/.test(drawCard) || !/const still = reducedNow\(\) \|\| held;/.test(drawCard)) problems.push('a kept card plays or can be pressed while its view is held');
+  const dossier = await text(`${ROOT}/js/dossier.js`);
+  if (!/if \(photo && file\.dataset\.paused === 'true'\) return;/.test(dossier)) problems.push('a paused file can still be inspected');
+  if (!/if \(paused\) \{\s*cancelMotion\(file\);[\s\S]{0,400}?if \(was\) INSPECTORS\.get\(file\)\?\.\(null\);/.test(dossier)) problems.push('a paused file keeps an inspected snapshot or its motion');
+  check('the tray draws a mark for every action, the same for every role; the card is kept out of date only where asked, at rest and marked', problems);
+}
+
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------
 {
   const problems = [];
@@ -283,8 +313,8 @@ const functionBody = (source, name) => {
   if (!loadArt.includes('abilities.art.css')) problems.push('the prototype does not load the ability art with its other bundles');
   if (/\brole\b|S\.private/.test(loadArt)) problems.push('which art the prototype loads depends on something private');
   const drawCard = app.slice(app.indexOf('function drawCard()'), app.indexOf('function drawMenu()'));
-  if (!/if \(!privateVisible\(\)\) \{[\s\S]*?closedFolder\(/.test(drawCard)) problems.push('a hidden card does not show the closed folder');
-  if (/insiderFile|fileFor/.test(drawCard.slice(drawCard.indexOf('if (!privateVisible())'), drawCard.indexOf('// Built only while open')))) problems.push('the hidden card builds the private file');
+  if (!/if \(!cardVisible\(\)\) \{[\s\S]*?closedFolder\(/.test(drawCard)) problems.push('a hidden card does not show the closed folder');
+  if (/insiderFile|fileFor/.test(drawCard.slice(drawCard.indexOf('if (!cardVisible())'), drawCard.indexOf('// Built only while open')))) problems.push('the hidden card builds the private file');
   for (const dir of ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src']) {
     for (const path of await filesUnder(dir)) if ((await text(path)).includes('design/abilities')) problems.push(`${path}: production code refers to the ability-art prototype`);
   }

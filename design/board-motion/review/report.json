@@ -2,9 +2,9 @@
   "devOnly": "mothership:dev-only",
   "tool": "design/tools/board-motion-capture.mjs",
   "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
-  "inputsSha256": "fb2fc9839a0b87a461a2bc897d4509ce137cac577b270c34a01596590f1d1b3b",
+  "inputsSha256": "b04398fb3acd61bbad31f76877b4e87ec716a9e57c54dfa541a464052b072a46",
   "browser": "Chromium 141.0.7390.37",
-  "captures": 280,
+  "captures": 299,
   "failures": [],
   "results": [
     {
@@ -398,6 +398,190 @@
     {
       "id": "tray.empty",
       "scenario": "tray.empty",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.undercover",
+      "scenario": "tray.undercover",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.cracker",
+      "scenario": "tray.cracker",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.disabler",
+      "scenario": "tray.disabler",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.supplier",
+      "scenario": "tray.supplier",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.showdown",
+      "scenario": "tray.showdown",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "tray.vote",
+      "scenario": "tray.vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.release",
+      "scenario": "tray.release",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "command-room/C1",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.release-vote",
+      "scenario": "tray.release-vote",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "state",
@@ -1048,6 +1232,29 @@
       "problems": [],
       "measured": {
         "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "showdown.resolved",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
         "boardOverflow": 0,
         "places": {
           "1": "final-zone/F1",
@@ -2604,6 +2811,75 @@
       }
     },
     {
+      "id": "robust.unreadable",
+      "scenario": "robust.unreadable",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "stale.card",
+      "scenario": "stale.card",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "stale.card-notes",
+      "scenario": "stale.card-notes",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
       "id": "robust.stale",
       "scenario": "robust.stale",
       "viewport": "390x844",
@@ -3013,6 +3289,121 @@
           "6": "hospital/H1",
           "7": "command-room/C1",
           "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale",
+      "scenario": "robust.stale",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale-menu",
+      "scenario": "robust.stale",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale-tray",
+      "scenario": "robust.stale",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale-card",
+      "scenario": "stale.card",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-unreadable",
+      "scenario": "robust.unreadable",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
           "9": "jail/J4"
         }
       }
@@ -3585,6 +3976,29 @@
           "6": "hospital/H1",
           "7": "command-room/C1",
           "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-stale-card",
+      "scenario": "stale.card",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
           "9": "jail/J4"
         }
       }
@@ -4562,7 +4976,7 @@
     },
     {
       "id": "20-cue-end-reveal-0",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "frame",
@@ -4571,7 +4985,7 @@
     },
     {
       "id": "20-cue-end-reveal-120",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "frame",
@@ -4580,7 +4994,7 @@
     },
     {
       "id": "20-cue-end-reveal-380",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "frame",
@@ -4589,7 +5003,7 @@
     },
     {
       "id": "20-cue-end-reveal-600",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "frame",
@@ -4598,7 +5012,7 @@
     },
     {
       "id": "20-cue-end-reveal-900",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "frame",
@@ -4607,7 +5021,7 @@
     },
     {
       "id": "20-cue-end-reveal-reduced",
-      "scenario": "board.idle",
+      "scenario": "showdown.resolved",
       "viewport": "390x844",
       "fontPx": null,
       "kind": "frame",
@@ -4788,6 +5202,15 @@
     {
       "id": "secrecy-end.blue",
       "scenario": "end.blue",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-stale.card",
+      "scenario": "stale.card",
       "viewport": "1440x920",
       "fontPx": null,
       "kind": "secrecy",

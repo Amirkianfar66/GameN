@@ -148,7 +148,10 @@ export const COPY = {
     columns: { player: 'Player', role: 'Role' },
     code: names => `The Code was: ${names}.`,
   },
-  banner: { fixture: 'Fixture data. A synthetic development scenario, not a live match.', stale: 'Connection lost. Showing the last known state, which may be out of date. Reconnecting…' },
+  banner: {
+    fixture: 'Fixture data. A synthetic development scenario, not a live match.', stale: 'Connection lost. Showing the last known state, which may be out of date. Reconnecting…',
+    unreadable: 'The latest update could not be read. Showing the last known state, which may be out of date.', reconnect: 'Reconnect now',
+  },
   tally: {
     heading: 'Last vote counted',
     votes: count => (count === 1 ? '1 vote' : `${count} votes`),
@@ -163,6 +166,11 @@ export const COPY = {
     location: (seat, location) => `Player ${seat} is now in ${location}.`,
     captain: seat => `Player ${seat} is now Captain.`,
     captainEnded: seat => `Player ${seat} is no longer Captain.`,
+    // The connection, said once as it changes (announcements.ts): summary is "Round 2. Your turn."
+    connectionLost: 'Connection lost. Showing the last known state.',
+    unreadable: 'The latest update could not be read.',
+    reconnected: summary => `Reconnected. ${summary}`,
+    readableAgain: summary => `Up to date again. ${summary}`,
   },
 };
 
@@ -205,6 +213,8 @@ export const PROPOSED = {
   cardHidden: 'Your card is hidden.',
   cardHiddenStale: 'Your card stays hidden until your view is up to date.',
   cardReveal: 'Show my card',
+  // The card kept on an out-of-date view (DSN-REQ-16, recommended): the same mark for every role and seat.
+  cardStale: 'May be out of date',
   moveTentative: 'You?',
   moveSent: 'Your character moves when the board update arrives.',
   moveArrived: 'Your character is shown where the server has it.',

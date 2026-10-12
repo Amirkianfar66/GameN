@@ -1,4 +1,4 @@
-/* mothership:dev-only · ability art proposal abilities-0.6.0 · the treatments' reference styles.
+/* mothership:dev-only · ability art proposal abilities-0.7.0 · the treatments' reference styles.
    Colors are tokens (design/prototypes/css/tokens.css); pictures come only from loaded bundles:
    the kit behind [data-art~="abilities"], the crew cards behind [data-art~="public-board"]. Without
    them every treatment is complete in paper, ink and words (the missing-asset fallback). Private:
@@ -6,8 +6,9 @@
 
 .ab-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* A card that holds a file or a note takes the height it needs, up to the whole space between the status bar and the dock. */
-#bm-card:has(.ab-file, .ab-folder, .ab-kit, .ab-deliveries, .ab-guards) { max-height: calc(100% - var(--bm-safe-top, 0px) - var(--bm-status) - var(--bm-nav) - 10px); }
+/* A card that holds a file or a note takes the height it needs, up to the whole space between the status bar (or the connection banner,
+   --bm-banner-clear) and the dock. */
+#bm-card:has(.ab-file, .ab-folder, .ab-kit, .ab-deliveries, .ab-guards) { max-height: calc(100% - var(--bm-nav) - 4px - max(var(--bm-safe-top, 0px) + var(--bm-status) + 6px, var(--bm-banner-clear, 0px))); }
 
 /* ---------- the Insider's file: an investigation board ---------- */
 .ab-file {
@@ -462,6 +463,23 @@
 .ab-special[data-spent="false"]::after { opacity: 1; }
 [data-art~="abilities"] .ab-special { border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-spent) center / contain no-repeat; }
 [data-art~="abilities"] .ab-special::after { inset: 0; border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-special) center / contain no-repeat; }
+
+/* ---------- slice 7: one mark for each action, in the seat's own Actions tray ----------
+   The tray's chip (board-motion's .bm-chip__icon: a caption-yellow disc holding a glyph) draws its action's mark, the strip's own, once
+   the kit has arrived, its glyph hidden; the Shot keeps the reviewed icon-action-shot once the player bundle has. Without them the
+   glyph stays, and the label beside it says the action in words. The tray is the seat's own, drawn from its own view's offers. */
+[data-art~="abilities"] .bm-chip__icon[data-kind]:not([data-kind="shot"]) { color: transparent; background-color: var(--ms-color-caption); background-position: center; background-size: 20px 20px; background-repeat: no-repeat; }
+[data-art~="abilities"] .bm-chip__icon[data-kind="disable"] { background-image: var(--ab-asset-icon-action-disable); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="protect"] { background-image: var(--ab-asset-icon-action-protect); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="rescue"] { background-image: var(--ab-asset-icon-action-rescue); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="scan"] { background-image: var(--ab-asset-icon-action-scan); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="supply"] { background-image: var(--ab-asset-icon-action-supply); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="hack"] { background-image: var(--ab-asset-icon-action-hack); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="code"] { background-image: var(--ab-asset-icon-action-code); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="showdown-shot"] { background-image: var(--ab-asset-icon-action-showdown); }
+[data-art~="abilities"] .bm-chip__icon:is([data-kind="vote"], [data-kind="release-vote"]) { background-image: var(--ab-asset-icon-action-ballot); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="release-choice"] { background-image: var(--ab-asset-icon-action-key); }
+[data-art~="player-ui"] .bm-chip__icon[data-kind="shot"] { color: transparent; background: var(--ms-color-caption) var(--ms-asset-icon-action-shot-ink) center / 20px 20px no-repeat; }
 
 /* A board seen from the file: the character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
 [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { display: block; border: 3.5px solid var(--ms-color-focus); animation: ab-spot 1600ms ease-out forwards; }

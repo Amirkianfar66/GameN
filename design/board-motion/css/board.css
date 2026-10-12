@@ -362,7 +362,7 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 
 /* ---------- the actions tray: compact, over the lower edge of the board ---------- */
 .bm-tray {
-  position: absolute; z-index: 75; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 46%; overflow: auto;
+  position: absolute; z-index: 75; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: min(46%, var(--bm-sheet-room)); overflow: auto;
   padding: 0 10px 10px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-panel);
   box-shadow: 0 -6px 0 color-mix(in srgb, var(--ms-color-ink) 60%, transparent); animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards;
 }
@@ -402,11 +402,20 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 [data-art~="roles"] .bm-private[data-device="red-disabler"] .bm-card__art::after { background-image: var(--ms-asset-device-red-disabler-held); }
 [data-art~="roles"] .bm-private[data-device="alien"] .bm-card__art::after { background-image: var(--ms-asset-device-alien-held); }
 .bm-sheet {
-  position: absolute; z-index: 76; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 62%; overflow: auto;
+  position: absolute; z-index: 76; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: min(62%, var(--bm-sheet-room)); overflow: auto;
   padding: 0 12px 12px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-panel);
   animation: bm-rise var(--bm-motion-tray) var(--ms-ease-settle) backwards;
 }
 .bm-sheet[hidden] { display: none; }
+/* The card kept on a view that may be out of date (DSN-REQ-16, recommended): one mark at its top, the same for every role and seat,
+   with the reviewed stale-connection icon; what the card shows is at rest. A proposal: the release says it only in its banner. */
+.bm-card-stale {
+  display: flex; align-items: center; gap: 6px; width: max-content; max-width: 100%; margin: 0 0 8px; padding: 2px 10px 2px 6px;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px dashed var(--ms-color-ink); border-radius: 4px; transform: rotate(var(--ms-stamp-rotation));
+}
+.bm-card-stale__icon { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--ms-color-paper-deep); }
+[data-art~="public-board"] .bm-card-stale__icon { border-radius: 0; background: var(--ms-asset-icon-connection-stale-ink) center / 18px 18px no-repeat; }
 .bm-card { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; align-items: center; padding: 10px; border-radius: 10px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); }
 .bm-card__art { width: 76px; height: 87px; border-radius: 8px; background: var(--ms-color-steel-mid) center / contain no-repeat; position: relative; }
 .bm-card__art::after { content: ''; position: absolute; inset: 0; background: transparent center / contain no-repeat; }
@@ -417,7 +426,20 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-list { width: 100%; border-collapse: collapse; font-size: 13px; }
 .bm-list th, .bm-list td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--ms-color-steel-mid); }
 .bm-notice { position: absolute; z-index: 78; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; font-weight: 700; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 8px; animation: bm-fade var(--ms-motion-card) var(--ms-ease-standard) backwards; }
-.bm-banner { position: absolute; z-index: 79; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px; font-size: 13px; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px dashed var(--ms-color-ink); border-radius: 8px; }
+.bm-banner {
+  position: absolute; z-index: 79; left: 10px; right: 10px; top: calc(var(--bm-status) + 8px); margin: 0; padding: 8px 10px;
+  display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 6px 8px; align-items: start;
+  font-size: 0.8125rem; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px dashed var(--ms-color-ink); border-radius: 8px;
+}
+.bm-banner[hidden] { display: none; }
+/* The reviewed stale-connection icon (public), once the public board's art has arrived; until then a plain disc. */
+.bm-banner__icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--ms-color-ink); background: var(--ms-color-paper-deep); }
+[data-art~="public-board"] .bm-banner__icon { border: 0; border-radius: 0; background: var(--ms-asset-icon-connection-stale-ink) center / 22px 22px no-repeat; }
+.bm-banner__text { grid-column: 2; margin: 0; line-height: 1.3; }
+/* Its words and its button grow with the reader's text, as the release's banner does (rem). */
+.bm-banner__act { grid-column: 2; justify-self: start; flex: none; padding: 4px 12px; font-size: 1em; }
+/* Every sheet keeps clear of the connection banner: its heading and Close stay in view (--bm-banner-clear, the banner's bottom edge). */
+.bm-app { --bm-sheet-room: calc(100% - var(--bm-nav) - 8px - var(--bm-banner-clear, 0px)); }
 
 /* ---------- the match's end: the result, the roles and the Code, the same on every screen ----------
    Drawn from the public view only (FullPublicView.result and .endReveal), over the lower board like the sheets: at
@@ -427,7 +449,7 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
    in seat order. A match the host ended: its sentence only. No device art and no role hook: a row's side is
    data-end-faction, only here, and only from the end reveal. */
 .bm-result {
-  position: absolute; z-index: 74; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: 62%; overflow-y: auto; overscroll-behavior: contain;
+  position: absolute; z-index: 74; left: 6px; right: 6px; bottom: calc(var(--bm-nav) + 4px); max-height: min(62%, var(--bm-sheet-room)); overflow-y: auto; overscroll-behavior: contain;
   padding: 8px 10px 10px; border: 2px solid var(--ms-color-ink); border-radius: 12px; background: var(--ms-color-paper); color: var(--ms-color-ink);
   box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
 }
@@ -493,7 +515,8 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 }
 .bm-result__code { margin: 8px 0 0; font-size: 0.78rem; font-weight: 700; line-height: 1.35; }
 .bm-result__code .bm-cast__pin { position: relative; right: auto; top: auto; display: inline-block; margin-right: 6px; vertical-align: -0.2em; }
-/* A sheet narrower than any phone's (the other screens' frame): a smaller character and role, so that every role's longest word fits its row. */
+/* A sheet whose content is under 300 px wide (the 320 px phone's, and the other screens' frame): a smaller character and role, so that
+   every role's longest word fits its card on one line. */
 @container (max-width: 18.75rem) {
   .bm-cast__row { padding-left: 6px; }
   [data-art~="public-board"] .bm-cast__row { padding-left: 32px; }
@@ -575,7 +598,7 @@ button.bm-tag__move:focus-visible .bm-tag__face { outline: var(--ms-stroke-focus
 .bm-app[data-short="true"] .bm-strip__line { font-size: 13px; line-height: 1.2; }
 .bm-app[data-short="true"] .bm-strip__detail { font-size: 11px; line-height: 1.25; }
 /* The end's sheet, tighter on a short phone and in the other screens' frame. */
-:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result { max-height: 70%; padding: 6px 8px 8px; }
+:is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result { max-height: min(70%, var(--bm-sheet-room)); padding: 6px 8px 8px; }
 :is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__heading { margin-bottom: 4px; }
 :is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-result__outcome { padding: 0.15rem 0.5rem; font-size: 1.15rem; }
 :is(.bm-app[data-short="true"], .bm-app[data-observer]) .bm-cast { margin-top: 6px; }

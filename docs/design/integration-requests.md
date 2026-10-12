@@ -267,6 +267,8 @@ The Designer's recommendation, for Integration to confirm or overrule:
 
 If Integration keeps PR #88's rule instead, the release's conceal changes for every role, as Frontend notes, and the folder stays as drawn. Either way nothing private reaches another surface; the question is only what the seat's own phone shows its own player while its view is not current.
 
+**Both are now drawn (ability art, slice 7).** The prototype keeps PR #88's folder by default, and draws the recommendation where it is asked for (the scenarios `stale.card` and `stale.card-notes`, `?stale=card`, or the fixture panel's "Keep the card on an out-of-date view"): the card stays, its file at rest and not pressable (the card stays in place, so focus stays where it is; an inspected snapshot is put back, focus in its card going back to the snapshot as Back does), and while the view may be out of date (the connection lost or an update unreadable, not merely a turn's time up) one mark at its top, **May be out of date** (proposed words), the same for every role, with the reviewed stale-connection icon. Every sheet, the card included, keeps clear of the connection banner, which Frontend found covering an open card's heading and Close at 320 x 568 in the release. Frontend's #106 already follows the recommendation; the mark is the Designer's proposal for it ([abilities-handoff.md](abilities-handoff.md) section 19).
+
 ## What Designer does next, and what it waits for
 
 | Next | Waits for |
