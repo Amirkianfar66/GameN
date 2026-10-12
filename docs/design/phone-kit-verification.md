@@ -77,4 +77,17 @@ The board-motion page and the ability-art captures draw the kit now, so their ow
 - Nothing ran against Backend's code: the Hack and vote-result inputs are labeled fixtures in the shape of the proposal at
   `bd4d77c`. Frontend's review cites a Hack schema at `ba1842f`, which is not on the remote and was not read.
 - The owner's reference picture was not available in this environment, so nothing was compared with it.
-- `npm run verify`: run on the committed tree after these commits; its result is recorded below once it has run.
+- `npm run verify` on `2a447e1f9de3f325ccd0ffc775f9c9e4741198d3` with the working tree clean before and after: **exit 1 in 1795 s, on
+  one stage only.** Every stage before it passed: toolchain (Node 22.21.1, npm 10.9.4), workspace boundaries, source integrity,
+  both typechecks, bootstrap 55/55, engine 253/253, backend 187/187, tooling 130/130, frontend 194/194 and 448/448, design 211/211,
+  balance static 103/103, balance scenarios (516 passed, 33 reviewed blocked, 6 manual, zero errors), 508 baselines and 4490
+  controls with zero misses, 10 playouts in each of modes 7, 8 and 9 with zero mismatches, and the report gate at this clean
+  candidate. The last stage, `test:capacity`, stopped at the balance runner's 600 000 ms child limit (`scripts/test-balance.mjs`)
+  in its 600 capacity playouts, after modes 7 and 8 had finished with zero invariant, hint and replay mismatches.
+  - **The same on the baseline:** `npm run test:capacity` alone on a clean worktree of `abb6839` in this container: exit 1 in 617 s,
+    the same 600 000 ms limit. The gate reads only the rules overlays, the capacity scenarios, the balance audit, the built engine
+    and the balance tools, none of which this branch changes.
+  - **The gate itself passes on this branch given time:** the same steps, pins, commands and assertions run from a scratch script
+    outside the repository with the runner's own maximum child limit (1 200 000 ms, the limit it gives its controls stage): 107
+    capacity scenarios passed, 15 explicit manual; 600 playouts completed without invariant, hint or replay failures; the
+    playouts took 755 s. Nothing in the repository's gate or its limit was changed.
