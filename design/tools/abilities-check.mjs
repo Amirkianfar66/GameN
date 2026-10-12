@@ -305,6 +305,49 @@ const functionBody = (source, name) => {
   check('the tray draws a mark for every action, the same for every role; the card is kept out of date only where asked, at rest and marked', problems);
 }
 
+// ---------- Slice 8: choosing a character and the role card's reveal, on the release's setup steps ----------
+{
+  const problems = [];
+  const source = await text(`${ROOT}/js/setup.js`);
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  // The release's words, quoted exactly: each one is found verbatim in the file the page names for it.
+  // The page runs only in a browser: its constants are read from its text, each an object literal of strings and numbers.
+  const constant = name => { const found = source.match(new RegExp(`export const ${name} = (\\{[\\s\\S]*?\\n?\\});`)); try { return found ? Function(`return (${found[1]});`)() : null; } catch { return null; } };
+  const setup = ['SETUP_COPY', 'ROLE_COPY', 'RELEASE_FILES', 'TURN_BEATS'].every(name => constant(name)) ? Object.fromEntries(['SETUP_COPY', 'ROLE_COPY', 'RELEASE_FILES', 'TURN_BEATS'].map(name => [name, constant(name)])) : null;
+  if (!setup) problems.push('setup.js could not be read for its words');
+  else {
+    for (const [group, file] of Object.entries(setup.RELEASE_FILES)) {
+      const release = await text(file).catch(() => '');
+      for (const [key, phrase] of Object.entries(setup[group])) if (!release.includes(phrase)) problems.push(`${group}.${key} is not the release's words: "${phrase}" is not in ${file}`);
+    }
+    // The turn's beats are the reviewed cue's, which add up to the token.
+    const cue = JSON.parse(await text('design/contract/motion-cues.json')).cues.find(entry => entry.id === 'cue-role-card-turn');
+    const beats = setup.TURN_BEATS;
+    if (!cue || JSON.stringify(cue.beatsMs) !== JSON.stringify(beats) || beats.opening + beats.accent + beats.settle !== cue.durationMs) problems.push("the role card's turn is not the reviewed cue-role-card-turn's beats");
+  }
+  // The role card exists only while it is turned up; its back and the card put away are the same for every role.
+  if ((code.match(/roleCard\(/g) ?? []).length !== 2 || !/if \(show && !card\.firstChild\) card\.append\(roleCard\(S\.role, S\.character\)\);/.test(code)) problems.push('the role card is built while it is face down');
+  if (!/if \(!show && card\.firstChild\) \{[^}]*card\.replaceChildren\(\); \}/.test(code)) problems.push('a hidden role card stays in the page');
+  const backLine = code.split('\n').find(line => /^const back = el\(/.test(line)) ?? '';
+  if (!backLine || /data-device|data-team|data-role|S\.role|ROLES/.test(backLine)) problems.push('the card back carries something of a role');
+  if (/\bS\.role\b/.test(code.replace('roleCard(S.role, S.character)', '').replace("role: entry.role ?? 'Insider'", ''))) problems.push('something other than the turned card reads the role');
+  const css = (await text(`${ROOT}/css/abilities.css`)).replace(/\/\*[\s\S]*?\*\//g, '');
+  const slice8 = css.slice(css.indexOf('.crew-picker { isolation: isolate; }'));
+  for (const [, selector] of slice8.matchAll(/([^{}]+)\{[^{}]*\}/g)) {
+    if (/phone-role-back|setup-ready-waiting/.test(selector) && (/\[data-(device|team|role)\b/.test(selector) || ROLE_OR_TEAM.test(selector.replace(/phone-role-|setup-role-/g, '')))) problems.push(`a card back is styled by role: ${selector.trim()}`);
+  }
+  if (!/var\(--ab-asset-setup-back\)/.test(slice8)) problems.push("the card back is not the kit's setup-back");
+  const setupCss = (await text(`${ROOT}/css/setup.css`)).replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const [, selector, body] of setupCss.matchAll(/([^{}]+)\{([^{}]*)\}/g)) if (/--ms-asset-device-/.test(body) && !/^\s*\.ms-private__panel \[data-device=/.test(selector)) problems.push(`a device is drawn outside the seat's own panel: ${selector.trim()}`);
+  // Who took which character is public, and its stamp says only that: the seat, from the public holders.
+  if (!/const holder = holderOf\(id\);/.test(code) || !/stamp\.append\(el\('span', 'Player', \{ class: 'ab-taken__word' \}\), document\.createTextNode\(' '\), el\('span', String\(holder\), \{ class: 'ab-taken__seat' \}\)\);/.test(code)) problems.push("a taken card's stamp is not its taker's seat, from the public holders");
+  // A beat plays only for a change this page saw: never on a load or a fresh view after a gap; hiding is at once.
+  if (!/if \(kind === 'update' && seen\) \{/.test(code)) problems.push('a setup beat plays on a load or a fresh view');
+  if (!/if \(S\.visible\) turnUp\(\);/.test(code) || /turnUp\(\)/.test(code.slice(code.indexOf('function conceal()'), code.indexOf('function conceal()') + 200))) problems.push('the card turns other than when the player turns it up');
+  if (!/if \(reducedNow\(\)\) \{ back\.hidden = true; fadeIn\(face\); return; \}/.test(code)) problems.push('the turn plays in reduced motion');
+  check("choosing a character stamps each taken card with its taker's seat; the role card is the seat's own, turned up by the player, its back the same for every role", problems);
+}
+
 // ---------- Private art loads whole, whatever the role; nothing private reaches a public surface ----------
 {
   const problems = [];

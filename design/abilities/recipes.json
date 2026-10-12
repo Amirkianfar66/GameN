@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.7.0",
+  "manifestVersion": "abilities-0.8.0",
   "status": "proposal",
   "about": "How each ability-art asset is lifted out of its editable source under design/abilities/source/. A layer is exported alone in its own box, with the patterns it uses. Built by design/tools/abilities-assets.mjs into design/abilities/assets/. A proposal outside the reviewed manifest design-0.2.0, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -311,6 +311,12 @@
       "title": "The release request: its tray icon", "source": "source/actions.svg", "layer": "icon-action-key", "viewBox": "0 0 32 32",
       "use": "The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
       "anchors": { "center": [16, 16] }
+    },
+    {
+      "id": "setup-back", "version": "0.1.0", "status": "proposal", "palette": "neutral",
+      "title": "The role card's back", "source": "source/setup.svg", "layer": "setup-back", "viewBox": "0 0 240 400",
+      "use": "The back of the seat's own role card in the reading stage, and of the card put away once the seat is Ready: the same back for every role. Laid out with background-size: cover inside the card's own border; everything that matters is in the middle 200 x 240, and the release's words (Tap to reveal) sit on a band below the seal.",
+      "anchors": { "center": [120, 200], "seal": [120, 200] }
     }
   ]
 }

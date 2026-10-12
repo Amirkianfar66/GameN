@@ -1,6 +1,6 @@
 # Frontend handoff: ability art
 
-Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17; slice 6, the showdown's special shot and the match's end, section 18; slice 7, the marks in the tray, the failure states (out of date, unreadable, Reconnect now) and the card kept out of date, with movement and health recorded from PR #88, section 19. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.7.0` since slice 7: each slice added assets and changed none of the earlier ones.
+Slice 1, the Insider's file, is sections 1 to 13. Slice 2, the Hacker's file and Scan, the Code attempt and the Alien's Code, is section 14; slice 3, the Rescue, the Disable and the Supply, section 15; slice 4, the shot (every seat that shoots, the Officer's one shot, an Alien's supplied weapon) and the Undercover's Protection, section 16; slice 5, the ballots, the Captain's release request, a Hack and Pass, section 17; slice 6, the showdown's special shot and the match's end, section 18; slice 7, the marks in the tray, the failure states (out of date, unreadable, Reconnect now) and the card kept out of date, with movement and health recorded from PR #88, section 19; slice 8, choosing a character and the role card's reveal, on the release's setup steps, section 20. Each builds on slice 1's parts (the snapshot, the file, inspecting, the loading rule) and changes none of the rules before it. The kit is `abilities-0.8.0` since slice 8: each slice added assets and changed none of the earlier ones.
 
 ## Slice 1: the Insider's file
 
@@ -616,3 +616,80 @@ The slice 7 rules in `abilities-capture.mjs` and `abilities-check.mjs`: every tr
 
 - **DSN-REQ-16** (Integration): which behaviour the release keeps. Both are drawn; the mark's words are proposed.
 - **The banner's height at 320 px** (about a sixth of the screen) is the release's long sentence; a shorter one is the release's to choose.
+
+## 20. Slice 8: choosing a character, and the role card's reveal
+
+**A proposal**, on the same base and tuple as slices 1 to 7. The setup steps are not on the board, so they have their own prototype: `design/abilities/setup.html` (`js/setup.js`, `css/setup.css`), **a replica of the release's compact setup** (`apps/game/hosted/setup-controls.js`, `role-confirmation.js`, `compact-phone.css`, `phone.css`, `comic-layout.css`): the same markup, ids, classes, attributes and words, with the treatment in `css/abilities.css` (the slice 8 block) and its beats in `js/setup.js`. Review pictures: `design/abilities/review/contact-setup.png`. Scenarios: `select.open`, `select.sending`, `select.confirmed`, `select.crowded`, `select.refused`, `select.retry`, `select.expired`, `role.back`, `role.face`, `role.face-red`, `role.face-alien`, `role.seen`, `role.confirming`, `role.ready`, `role.retry`, `role.assigned`; the panel's public facts (another player takes a character, time runs out, the roles are dealt, a fresh view, the background) and the stand-in server's answer (accept, refuse, lose, slowly).
+
+### 20.1 What changes for a player
+
+- **Choosing.** The release's nine crew cards, three by three. **A taken card is stamped with its taker's seat, PLAYER 4**, in the kit's stamp frame, over the release's grey: who has taken which character is public, and every phone draws it alike, the card's name saying the same ("Vega, taken by Player 4"). A card too narrow for the word at the reader's text size keeps the number alone, larger. **The seat's own pick**: the release's caption ring, **dashed while it is on its way** (and kept dashed after a lost answer, until Retry selection); once the server confirms it, **it pops on the approved landing burst and its check lands**, the release's check drawn as the kit's tick in a caption disc. The timer's end settles every card at once. Nothing of a role exists in the page.
+- **The role card, face down.** The reading stage deals the card face down: **the kit's back, the same for every role**: the closed eye of the reviewed `icon-private` on a paper seal over a caption-yellow burst, and the release's words, Tap to reveal, on a band below it. It comes up from the lower edge when the stage begins (the reviewed cue's opening).
+- **Turned up by the player**: the reviewed **`cue-role-card-turn`**: the back turns away and the face turns in, **the role's device is put into the hand of the player's own character**, still without its colour, and its colour comes on. The face is the release's card (the role's name, its side, the device in the hand). **Hiding is at once**: face down, the card's face leaves the page; the page going to the background hides it too, and nothing but the player turns it up. Turning it up again turns it again: it is the player's own act.
+- **Ready.** Pressed, the card is put away face down at once (as in the release) while Ready is on its way; accepted, **READY is stamped across the seal** of the put-away card: the release's Ready note, with its words. A lost answer: Retry Ready; a refusal: the release's words.
+- **Assigned when time ran out**: the server's character on the face, the same back; no new words.
+
+### 20.2 When they are drawn, and from what
+
+| Treatment | Fields | Notes |
+| --- | --- | --- |
+| A taken card's stamp | lobby identity `seats[].characterId` of another seat | Public. The stamp says the seat; the card's name already says it (the release's `aria-label`) |
+| The own pick on its way | the release's own pick while `confirmSetupChoice` is unsettled (`busy`, or kept after a lost answer) | Proposed hook `data-sending` (`true`, or `kept`) |
+| The own check and its pop | `seats[].confirmed` of the seat's own seat and its identity's `characterId` | The pop once, for the change this page saw |
+| The back | nothing of the seat: the same picture for every role and seat | Also the release's Ready note, which is a `.phone-role-back` |
+| The face | the own preview's `self.role`; the seat's own `characterId` | Built only while turned up, as the release does |
+| READY | the seat's own `seats[].ready`, or the accepted answer | The stamp once, for the change this page saw |
+
+### 20.3 Markup and hooks
+
+The release's hooks are kept as they are. Proposed additions, all `aria-hidden` (the release's accessible names already say everything):
+
+- `button.crew-option > span.ab-taken[data-seat] > span.ab-taken__word ("Player") + " " + span.ab-taken__seat ("4")`: the stamp. The card is a size container (`container-type: inline-size`); below 6.5 em the word is hidden.
+- `button.crew-option[data-sending="true"|"kept"]`: the own pick on its way, or kept after a lost answer.
+- `button.crew-option > span.ab-burst`: the pop's burst, there only for its 220 ms (`[data-art~="public-board"]`: the approved `fx-landing-burst.paper`). The picker is `isolation: isolate`, so the burst sits behind the card and above the page.
+- `.phone-role-back > span.ab-back-words`: the release's words, wrapped, so that their band grows with them at large text. The release's `::before` icon stands down while the picture is there (the seal carries the closed eye).
+- `#setup-ready-waiting > span.ab-ready-stamp ("Ready")`: READY; while the art is there the note's ✓ is transparent, and without it the release's ✓ stays.
+
+### 20.4 Art
+
+| Asset | Box | Anchors | Use |
+| --- | --- | --- | --- |
+| `setup-back` | 240 x 400 | center (120, 200), seal (120, 200) | The card's back, and the put-away card's: `background: var(--ms-color-steel-shadow) var(--ab-asset-setup-back) center / cover`, inside the release's border. Everything that matters is in the middle 200 x 240, so `cover` may crop the edges at any card height |
+
+Reused: `dossier-stamp` (the taken stamp's frame), `dossier-tick` (the check, READY), the approved `fx-landing-burst.paper`, `piece-crew.card-c*` and `device-*.held`. Neutral, in the kit's one stylesheet, loaded on every player phone whatever its role.
+
+### 20.5 Layout
+
+Nothing in the release's layout moves: the stamps, the check and READY sit over what is there. The taken stamp keeps inside its card (measured); at twice the text size a narrow card keeps the number. The back's words sit on their band 2.4 rem above the card's lower edge, wrapping with the band at large text. **Found while measuring** (the release's, not the treatment's): at twice the text size the release's setup header, a 52 px grid row, cuts "Choose your character" on a 390 px phone; it should take `minmax(52px, auto)`.
+
+### 20.6 Motion
+
+| | Choosing | The card | Ready |
+| --- | --- | --- | --- |
+| Normal | The own pick confirmed: the pop (`cardTransition`, 220 ms) on the burst, its check landing (`registrationStamp`, 120 ms); another seat's stamp landing (120 ms) | `cue-role-card-turn`, 900 ms: opening 220 (the card comes up face down, at the stage's start), accent 520 (the back to 90°, then the face from −90°, with the device sliding into the hand in grey), settle 160 (its colour) | READY lands (120 ms) |
+| Reduced | No pop, no burst: the stamps and the check with the 80 ms fade | The face at once with the 80 ms fade: nothing rises, turns or is put anywhere | The fade |
+| Static | The stamps, the ring, the check | The back; the face | READY |
+| Cancel | The timer's end settles every card | Hiding, the background or a new deal ends the turn at once, face down; reduced motion switched on finishes it | — |
+| Replay | Never: a load or a fresh view draws everything at rest; the server's assignments at the deal land no stamp (the cards are no longer shown) | Never on a load or a fresh view. Turning it up again turns it again | Never |
+
+The device's slide and colour are animations of the card picture's `::after` (Web Animations' `pseudoElement`), the release's own device layer.
+
+### 20.7 What it must never show (review with Balance)
+
+- Anything of a role while the card is face down or put away: no word, hook, colour or asset. The back is one picture, the same for every role and seat.
+- A taken stamp that says more than its seat, or a card's taker drawn differently on different phones.
+- A beat for a fact the page did not see change (a load, a fresh view, a duplicate), or a stamp landing on cards no longer shown.
+- A card turned up by anything but the player, or still in the page after Hide.
+
+### 20.8 Words
+
+All the release's (`setup-controls.js`, `role-confirmation.js`), checked verbatim: "Choose your character", "Your role", "Taken. Choose another character.", "Connection interrupted. Retry your selection.", "Retry selection", "Tap to reveal", "Reveal my role", "Hide my role", "Ready", "Confirming…", "Retry Ready", "Ready not confirmed. Try again.", "Ready. Waiting for the timer and other players.", and the card's name "Vega, taken by Player 4". The stamps say "Player 4" and "Ready": the release's own words, `aria-hidden`.
+
+### 20.9 Tests to port
+
+`abilities-check.mjs` (the slice 8 group): the release's words verbatim; the turn's beats the reviewed cue's; the role card built only while turned up and emptied when hidden; the back with no role hook, its picture the kit's; a device only inside the seat's own panel; the stamp from the public holders; beats only for an observed change; the turn only by the player's tap, none in reduced motion. `abilities-capture.mjs` (`SETUP_MEASURE`): every card at least 44 px, a taken card's stamp naming the seat its name says and whole inside it, one check and only on the own pick, no role word or hook while face down (each text and accessible name on its own), the back's picture behind its art, its words on their band, the face's name, side and device, READY whole, every control at least 44 px; a probe proves seven of its rules fail on broken pages. The flows (`abilities-flows.mjs`, 40): each journey above, the same back for two roles, nothing replayed on a fresh view, and reduced motion.
+
+### 20.10 Open
+
+- **DSN-D37** (owner): the back, the stamps and READY are the Designer's proposal.
+- PR #93 refreshes the issue #76 study's setup examples (code-only join, the nine tiles, Reveal and Hide, Ready); this slice draws on the release itself and does not depend on it.

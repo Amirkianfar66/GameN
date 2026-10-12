@@ -42,8 +42,85 @@ const OUT = 'design/abilities/review';
 const PHONES = { w390: { width: 390, height: 844 }, w320: { width: 320, height: 568 } };
 const SCALE = 1.5;
 const FRAMES = [0, 120, 260, 420, 600, 780, 1020];
-const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png', 6: 'contact-showdown-end.png', 7: 'contact-icons-failure.png' };
+const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png', 6: 'contact-showdown-end.png', 7: 'contact-icons-failure.png', 8: 'contact-setup.png' };
 
+/**
+ * In the page: the setup prototype (design/abilities/setup.html, slice 8), measured. Choosing: every card at least 44 px, a
+ * taken card stamped with the seat its name says took it and the stamp whole inside the card, one check and only on the
+ * seat's own confirmed pick. The role card: no role word or role hook anywhere while it is face down or put away, the back
+ * the same picture for every role, its words whole on the card; turned up, the role's name, side and device; READY whole.
+ */
+const SETUP_MEASURE = `(() => {
+  const problems = [];
+  const app = document.getElementById('su-app');
+  const largeText = parseFloat(getComputedStyle(document.documentElement).fontSize) >= 20;
+  const art = (document.documentElement.dataset.art || '').split(' ');
+  const shown = node => Boolean(node) && node.getClientRects().length > 0 && getComputedStyle(node).display !== 'none' && getComputedStyle(node).visibility !== 'hidden';
+  const inside = (inner, outer) => { const a = inner.getBoundingClientRect(), b = outer.getBoundingClientRect(); return a.left >= b.left - 1 && a.right <= b.right + 1 && a.top >= b.top - 1 && a.bottom <= b.bottom + 1; };
+  if (document.documentElement.scrollWidth > innerWidth + 1) problems.push('the page scrolls sideways');
+  const stage = app.dataset.stage;
+  if (stage === 'choosing') {
+    for (const tile of document.querySelectorAll('.crew-option')) {
+      const id = tile.dataset.character;
+      const box = tile.getBoundingClientRect();
+      if (box.width < 44 || box.height < 44) problems.push(id + ': smaller than 44 px');
+      const holder = ((tile.getAttribute('aria-label') || '').match(/taken by Player (\\d)$/) || [])[1] || null;
+      const stamp = tile.querySelector('.ab-taken');
+      if ((tile.dataset.taken === 'true') !== Boolean(holder)) problems.push(id + ': taken, and its name does not say by whom, or the reverse');
+      if (holder && (!stamp || stamp.dataset.seat !== holder || !stamp.textContent.includes(holder))) problems.push(id + ': its stamp does not name its taker');
+      if (!holder && stamp) problems.push(id + ': stamped while free');
+      if (stamp && shown(stamp)) {
+        if (!inside(stamp, tile)) problems.push(id + ': its stamp leaves the card');
+        for (const part of stamp.querySelectorAll('span')) if (shown(part) && part.scrollWidth > part.clientWidth + 1) problems.push(id + ': its stamp cuts its words');
+        if (stamp.scrollWidth > stamp.clientWidth + 1) problems.push(id + ': its stamp cuts its words');
+      }
+      if (tile.dataset.confirmed === 'true' && tile.getAttribute('aria-pressed') !== 'true') problems.push(id + ': checked, and not the seat’s own pick');
+    }
+    if (document.querySelectorAll('.crew-option[data-confirmed="true"]').length > 1) problems.push('more than one card checked');
+  }
+  // Nothing of a role before the cards are dealt, nor while the card is face down or put away: no word, no hook, no device.
+  const face = document.querySelector('#setup-role-card .ms-role-card');
+  const faceUp = shown(face) && stage === 'awaiting-ready';
+  if (stage !== 'awaiting-ready' && face) problems.push('a role card exists before the reading stage');
+  if (!faceUp) {
+    // Each text and each accessible name on its own: the page's whole text runs one element's words into the next.
+    const said = [];
+    for (const walker = document.createTreeWalker(app, NodeFilter.SHOW_TEXT); walker.nextNode();) said.push(walker.currentNode.nodeValue);
+    for (const node of app.querySelectorAll('[aria-label]')) said.push(node.getAttribute('aria-label'));
+    if (said.some(words => /\\b(Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker|Alien)\\b/.test(words))) problems.push('a role word is in the page while the card is face down');
+    if (app.querySelector('[data-device], [data-team]')) problems.push('a role hook is in the page while the card is face down');
+  }
+  // The back: the same for every role. It carries no hook of a role, and the kit's picture once the art has arrived.
+  for (const back of document.querySelectorAll('.phone-role-back')) {
+    if ([...back.attributes].some(attribute => /^data-(device|team|role|character)/.test(attribute.name))) problems.push('a card back carries a role hook');
+    const pictured = getComputedStyle(back).backgroundImage.includes('url(');
+    if (shown(back) && pictured !== art.includes('abilities')) problems.push('a card back is drawn without its art, or not drawn with it');
+  }
+  const words = document.querySelector('.phone-role-surface .ab-back-words');
+  if (shown(words) && art.includes('abilities')) {
+    // The words themselves (a range over their text: the band's skew lies outside their box by design) stay on their band and the card.
+    const range = document.createRange();
+    range.selectNodeContents(words);
+    const text = range.getBoundingClientRect(), band = words.getBoundingClientRect(), card = words.closest('.phone-role-back').getBoundingClientRect();
+    if (text.left < band.left - 1 || text.right > band.right + 1 || text.top < band.top - 1 || text.bottom > band.bottom + 1) problems.push('the back’s words leave their band');
+    if (band.left < card.left - 1 || band.right > card.right + 1 || band.bottom > card.bottom + 1) problems.push('the back’s words leave the card');
+  }
+  if (faceUp) {
+    if (!face.querySelector('.ms-role-card__name')?.textContent || !/ team$/.test(face.querySelector('.ms-role-card__team')?.textContent || '')) problems.push('the turned card does not say its role and side');
+    const device = getComputedStyle(face.querySelector('.ms-role-card__art'), '::after').backgroundImage;
+    if (art.includes('roles') && !device.includes('url(')) problems.push('the turned card holds no device');
+    if (!face.closest('#setup-role-card')) problems.push('the role card is outside the seat’s own panel');
+  }
+  // Ready: the card put away, READY whole across its seal.
+  const note = document.getElementById('setup-ready-waiting');
+  if (shown(note) && art.includes('abilities')) {
+    const stamp = note.querySelector('.ab-ready-stamp');
+    if (!shown(stamp) || !inside(stamp, note)) problems.push('READY is not whole on the card');
+  }
+  for (const control of document.querySelectorAll('#su-app button')) if (shown(control) && control.getBoundingClientRect().height < 43.5) problems.push((control.id || control.className) + ': under 44 px tall');
+  if (!largeText && app.scrollHeight > app.clientHeight + 1) problems.push('the phone scrolls');
+  return problems;
+})()`;
 /** In the page: what the open file and the strip's ability art show, measured. Returns the problems found. */
 const MEASURE = `(() => {
   const problems = [];
@@ -332,10 +409,10 @@ const REOPENED = `(() => {
 const shots = [];
 /** What each picture's page held, where a later comparison asks for it (the Disablers' strips). */
 const kept = new Map();
-async function shoot(browser, server, { name, title, group, phone, path, slice = 1, scale = SCALE, before = null, measure = MEASURE, block = [], selector = null, wait = 1300, keepStrip = false, keep = null }) {
+async function shoot(browser, server, { name, title, group, phone, path, page: at = 'board-motion/index.html', slice = 1, scale = SCALE, before = null, measure = MEASURE, block = [], selector = null, wait = 1300, keepStrip = false, keep = null }) {
   const page = await openPage(browser, { ...PHONES[phone], scale, mobile: true });
   if (block.length) await page.block(block);
-  await page.goto(`${server.origin}/board-motion/index.html${path}`, 'document.readyState === "complete" && window.__designReady === true');
+  await page.goto(`${server.origin}/${at}${path}`, 'document.readyState === "complete" && window.__designReady === true');
   await page.evaluate(`new Promise(done => setTimeout(done, ${wait}))`);
   if (before) { await page.evaluate(before); await page.evaluate('new Promise(done => setTimeout(done, 450))'); }
   const problems = await page.evaluate(measure);
@@ -590,6 +667,45 @@ try {
   await shoot(browser, server, { slice: 7, name: 'stale-w390-folder', title: "Out of date, PR #88's rule: the closed folder, the same for every role", group: 'Out of date', phone: 'w390', path: '?scenario=file.hidden&chrome=0&play=card' });
   await shoot(big, server, { slice: 7, name: 'stale-w390-text200-card', title: 'The card kept at twice the text size', group: 'Out of date', phone: 'w390', path: '?scenario=stale.card&chrome=0' });
   await shoot(browser, server, { slice: 7, name: 'stale-w390-no-art', title: 'Out of date without the art: a plain disc for the icon', group: 'Out of date', phone: 'w390', path: '?scenario=stale.card&chrome=0', block: ART });
+
+  // ---------- slice 8: choosing a character, and the role card's reveal (design/abilities/setup.html) ----------
+  const SETUP = { page: 'abilities/setup.html', measure: SETUP_MEASURE, slice: 8 };
+  for (const phone of ['w390', 'w320']) {
+    const at = `${PHONES[phone].width} x ${PHONES[phone].height}`;
+    await shoot(browser, server, { ...SETUP, name: `setup-${phone}-choose`, title: `Choosing: two characters taken, stamped with their takers' seats, ${at}`, group: 'Choosing a character', phone, path: '?scenario=select.open&chrome=0' });
+    await shoot(browser, server, { ...SETUP, name: `setup-${phone}-crowded`, title: `Seven taken, the seat's own pick checked, ${at}`, group: 'Choosing a character', phone, path: '?scenario=select.crowded&chrome=0' });
+  }
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-sending', title: 'Rigel tapped: on its way, its ring dashed', group: 'Choosing a character', phone: 'w390', path: '?scenario=select.sending&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-confirmed', title: "Rigel confirmed: the seat's own check, stamped", group: 'Choosing a character', phone: 'w390', path: '?scenario=select.confirmed&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w320-refused', title: 'Taken first: the release’s words, and the stamp of the seat that took it', group: 'Choosing a character', phone: 'w320', path: '?scenario=select.refused&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w320-retry', title: 'The answer was lost: the pick kept, Retry selection', group: 'Choosing a character', phone: 'w320', path: '?scenario=select.retry&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-expired', title: 'Time is up: every card at rest', group: 'Choosing a character', phone: 'w390', path: '?scenario=select.expired&chrome=0' });
+  await shoot(big, server, { ...SETUP, name: 'setup-w390-text200-crowded', title: 'Twice the text size: a narrow card keeps its taker’s number', group: 'Choosing a character', phone: 'w390', path: '?scenario=select.crowded&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-no-art', title: 'Without the art: the release’s cards, the stamps in paper and ink', group: 'Choosing a character', phone: 'w390', path: '?scenario=select.crowded&chrome=0', block: ART });
+  for (const phone of ['w390', 'w320']) {
+    const at = `${PHONES[phone].width} x ${PHONES[phone].height}`;
+    await shoot(browser, server, { ...SETUP, name: `setup-${phone}-back`, title: `Face down, the same back for every role: Tap to reveal, ${at}`, group: 'The role card', phone, path: '?scenario=role.back&chrome=0' });
+    await shoot(browser, server, { ...SETUP, name: `setup-${phone}-face`, title: `Turned up: the Insider, its device in the seat's own character's hand, ${at}`, group: 'The role card', phone, path: '?scenario=role.face&chrome=0' });
+    await shoot(browser, server, { ...SETUP, name: `setup-${phone}-ready`, title: `Ready: the card put away, READY across its seal, ${at}`, group: 'The role card', phone, path: '?scenario=role.ready&chrome=0' });
+  }
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-face-red', title: 'Turned up: the Red Disabler', group: 'The role card', phone: 'w390', path: '?scenario=role.face-red&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-face-alien', title: 'Turned up: the Alien', group: 'The role card', phone: 'w390', path: '?scenario=role.face-alien&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-seen', title: 'Hidden again, at once: Ready is offered', group: 'The role card', phone: 'w390', path: '?scenario=role.seen&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-confirming', title: 'Ready pressed: the card put away face down, Confirming…', group: 'The role card', phone: 'w390', path: '?scenario=role.confirming&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-retry', title: 'The Ready answer was lost: Retry Ready', group: 'The role card', phone: 'w390', path: '?scenario=role.retry&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-assigned', title: 'Assigned when time ran out: face down, the same back', group: 'The role card', phone: 'w390', path: '?scenario=role.assigned&chrome=0' });
+  await shoot(big, server, { ...SETUP, name: 'setup-w390-text200-back', title: 'Twice the text size: the back’s words on a band that grows with them', group: 'The role card', phone: 'w390', path: '?scenario=role.back&chrome=0' });
+  await shoot(big, server, { ...SETUP, name: 'setup-w390-text200-face', title: 'Twice the text size: turned up', group: 'The role card', phone: 'w390', path: '?scenario=role.face&chrome=0' });
+  await shoot(browser, server, { ...SETUP, name: 'setup-w390-back-no-art', title: 'Without the art: the release’s back', group: 'The role card', phone: 'w390', path: '?scenario=role.back&chrome=0', block: ART });
+  // The beats, held at a moment (?play=&t=): the turn (520 ms) and its colour (160 ms), the rise, the pop, a stamp, READY.
+  for (const t of [0, 130, 260, 390, 520, 600, 680]) {
+    await shoot(browser, server, { ...SETUP, name: `setup-turn-${String(t).padStart(4, '0')}ms`, title: `The turn at ${t} ms`, group: 'The beats, frame by frame', phone: 'w390', path: `?scenario=role.back&chrome=0&play=reveal&t=${t}`, wait: 400 });
+  }
+  await shoot(browser, server, { ...SETUP, name: 'setup-turn-reduced', title: 'The turn in reduced motion: the face at once, the 80 ms fade at 40 ms', group: 'The beats, frame by frame', phone: 'w390', path: '?scenario=role.back&chrome=0&motion=reduced&play=reveal&t=40', wait: 400 });
+  await shoot(browser, server, { ...SETUP, name: 'setup-rise-0110ms', title: 'The cards are dealt: the back comes up, 110 ms', group: 'The beats, frame by frame', phone: 'w390', path: '?scenario=select.confirmed&chrome=0&play=deal&t=110', wait: 400 });
+  await shoot(browser, server, { ...SETUP, name: 'setup-pop-0100ms', title: "The seat's own pick confirmed: the pop on its burst, 100 ms", group: 'The beats, frame by frame', phone: 'w390', path: '?scenario=select.open&chrome=0&play=confirm&t=100', wait: 400 });
+  await shoot(browser, server, { ...SETUP, name: 'setup-stamp-0060ms', title: "Another seat takes a character: its stamp lands, 60 ms", group: 'The beats, frame by frame', phone: 'w390', path: '?scenario=select.open&chrome=0&play=stamp&t=60', wait: 400 });
+  await shoot(browser, server, { ...SETUP, name: 'setup-ready-0060ms', title: 'Ready accepted: READY lands, 60 ms', group: 'The beats, frame by frame', phone: 'w390', path: '?scenario=role.seen&chrome=0&play=ready&t=60', wait: 400 });
 
   // The contact sheets: every picture above, with its caption, one sheet per slice.
   await writeFile(resolve(repoRoot, `${OUT}/report.json`), `${JSON.stringify({ inputsSha256: await abilitiesInputsSha256(), browser: browserName, scale: SCALE, shots }, null, 2)}\n`);

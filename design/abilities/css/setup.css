@@ -1,0 +1,119 @@
+/* mothership:dev-only · ability art proposal abilities-0.8.0 · the setup prototype's own layout (design/abilities/setup.html).
+
+   A replica of the release's compact setup, so that the slice 8 treatment (in abilities.css) is drawn on the release's own
+   layout: the rules for .connected-player-setup, .crew-picker, .crew-option, .connected-role-confirmation, .phone-role-surface,
+   #setup-role-ready, #setup-ready-waiting and the comic role card, from apps/game/hosted/compact-phone.css, phone.css and
+   comic-layout.css at the base. This file is the prototype's frame and its fixture panel, not a proposal: Frontend keeps the
+   release's own rules and ports only the treatment. Tokens only. */
+
+body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); font-family: var(--ms-font-body); }
+/* Without the frame (?chrome=0, how the captures are made) the phone is the whole viewport. */
+html, body, #app { height: 100%; }
+.su-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- the prototype: the phone in a frame, and the fixture panel ---------- */
+.su-proto { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 16px; }
+.su-frame { position: relative; width: var(--frame-w); height: var(--frame-h); flex: none; overflow: hidden; border: 2px solid var(--ms-color-steel-mid); border-radius: 18px; }
+/* The phone is a size container: the release's 70dvh is 70cqh here, the phone's own height in its frame. */
+.su-phone { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ms-color-canvas); container-type: size; }
+.su-synthetic {
+  position: absolute; z-index: 5; right: 6px; bottom: 4px; margin: 0; padding: 0 5px; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 1px solid var(--ms-color-steel-mid); border-radius: 3px; pointer-events: none;
+}
+.su-panel { flex: 1 1 280px; max-width: 360px; display: grid; gap: 10px; font-size: 13px; }
+.su-panel fieldset { display: grid; gap: 6px; margin: 0; padding: 8px 10px; border: 1px solid var(--ms-color-steel-mid); border-radius: 8px; }
+.su-panel legend { padding: 0 4px; font-weight: 700; }
+.su-panel button, .su-panel select { min-height: 32px; font: inherit; }
+.su-panel p { margin: 0; color: var(--ms-color-text-secondary); }
+
+/* ---------- the release's compact setup (compact-phone.css, phone.css) ---------- */
+.connected-lobby { height: 100%; min-height: 0; padding: var(--su-safe-top, 0px) 0.75rem var(--su-safe-bottom, 0px); box-sizing: border-box; overflow: hidden; }
+.connected-lobby [hidden] { display: none !important; }
+.connected-player-setup { height: 100%; min-height: 0; display: grid; grid-template-rows: 52px minmax(0, 1fr); gap: 0.5rem; }
+.phone-setup-compact { display: contents; }
+.phone-setup-head { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0.5rem; min-height: 0; padding: 0 0.25rem; }
+.phone-setup-head h2 { margin: 0; font-family: var(--ms-font-body); font-size: 0.9rem; text-transform: none; }
+.setup-countdown {
+  margin: 0; padding: 0.25rem 0.6rem; border-radius: 8px; font-family: var(--ms-font-heading); font-size: 1.1rem; font-weight: 800; font-variant-numeric: tabular-nums;
+  color: var(--ms-color-ink); background: var(--ms-color-paper);
+}
+.connected-identity { display: flex; flex-direction: column; justify-content: center; min-height: 0; gap: 0.5rem; padding: 0 0 1rem; }
+.crew-picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 0.65rem; height: min(100%, 31rem); min-height: 0; }
+.crew-option {
+  position: relative; min-height: 44px; min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0.25rem; padding: 0.35rem;
+  font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ms-color-text); background: var(--ms-color-panel);
+  border: 2px solid var(--ms-color-steel-mid); border-radius: 12px; cursor: pointer;
+}
+.crew-option::before { content: ''; display: block; flex: 1 1 auto; min-height: 0; height: calc(100% - 1.5rem); width: 100%; max-width: 6rem; background: var(--ms-role-person, none) center / contain no-repeat; }
+.crew-option:disabled { cursor: default; }
+.crew-option[aria-pressed="true"] { border: 3px solid var(--ms-color-caption); box-shadow: 0 0 0 2px var(--ms-color-caption); }
+.crew-option[data-confirmed="true"]::after { content: '✓'; position: absolute; right: 0.3rem; top: 0.2rem; padding: 0 0.25rem; color: var(--ms-color-ink); background: var(--ms-color-caption); border-radius: 50%; }
+.crew-option[data-taken="true"] { border-style: dashed; }
+.crew-option[data-taken="true"]::before { filter: grayscale(1); opacity: 0.35; }
+.crew-option:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 2px; }
+#crew-status { margin: 0; font-size: 0.8rem; }
+#crew-save { align-self: center; min-height: 44px; padding: 0 1rem; font: inherit; font-weight: 800; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 10px; cursor: pointer; }
+.connected-role-confirmation { min-height: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 0 0 1rem; }
+.phone-role-surface { position: relative; width: min(100%, 18rem); height: min(70cqh, 28rem); min-height: 0; flex: 0 1 auto; }
+.phone-role-back {
+  display: grid; align-content: center; justify-items: center; gap: 1rem; box-sizing: border-box; height: 100%; width: 100%; min-height: 0; margin: 0; padding: 1rem;
+  background: repeating-linear-gradient(135deg, var(--ms-color-panel) 0 3px, var(--ms-color-steel-shadow) 3px 6px);
+  border: 4px solid var(--ms-color-ink); outline: 2px solid var(--ms-color-paper); outline-offset: -12px; border-radius: 16px;
+  color: var(--ms-color-paper); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.06em;
+}
+[data-art~="player-ui"] .phone-role-back::before { content: ''; width: 3rem; height: 3rem; background: var(--ms-asset-icon-private-closed-paper) center / contain no-repeat; }
+.phone-role-surface #setup-role-card { position: absolute; inset: 0; margin: 0; }
+.phone-role-surface .phone-role-back { position: absolute; inset: 0; }
+.phone-role-toggle { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 16px; background: transparent; color: inherit; cursor: pointer; }
+.phone-role-toggle:focus-visible { outline: var(--ms-stroke-focus) solid var(--ms-color-focus); outline-offset: 3px; }
+#setup-role-ready {
+  flex: none; width: min(100%, 18rem); min-height: 48px; border: 0; border-radius: 12px; font: inherit; font-size: 1rem; font-weight: 800;
+  color: var(--ms-color-ink); background: var(--ms-color-caption); cursor: pointer;
+}
+#setup-role-ready:disabled { opacity: 0.6; cursor: default; }
+#setup-ready-waiting { align-self: center; justify-self: center; position: relative; width: min(100%, 18rem); height: min(70cqh, 28rem); padding: 1rem; font-size: 3rem; text-align: center; }
+.phone-role-error { margin: 0; font-size: 0.85rem; font-weight: 700; color: var(--ms-color-text); }
+.ms-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- the release's comic role card (comic-layout.css, comic.css): the player's own character with the role's device ---------- */
+.ms-private__panel { min-width: 0; }
+.ms-role-card--full {
+  display: grid; grid-template-rows: minmax(0, 1fr) auto; width: 100%; height: 100%; margin: 0; overflow: hidden; box-sizing: border-box;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 3px solid var(--ms-color-ink); border-radius: 16px;
+}
+.ms-role-card__art { position: relative; display: block; width: 100%; height: 100%; min-height: 0; overflow: hidden; border-bottom: 3px solid var(--ms-color-ink); background: var(--ms-color-paper-shade); }
+[data-art~="roles"] .ms-role-card__art { background: radial-gradient(circle at 2px 2px, var(--ms-color-paper-deep) 1.3px, transparent 1.6px) 0 0 / 7px 7px, var(--ms-color-paper-shade); }
+[data-art~="roles"] .ms-role-card__art::before { content: ''; position: absolute; inset-block-start: 6%; inset-inline-start: 11.3%; inline-size: 66.5%; aspect-ratio: 84 / 96; rotate: -2.5deg; background: var(--ms-role-person, none) center / contain no-repeat; }
+[data-art~="roles"] .ms-role-card__art::after { content: ''; position: absolute; inset-block-end: -10%; inset-inline-end: -9%; inline-size: 74%; aspect-ratio: 120 / 140; transform-origin: 80% 90%; background: var(--ms-role-device, none) center / contain no-repeat; }
+.ms-role-card__text { padding: 0.8rem; }
+.ms-role-card__name { margin: 0; font-family: var(--ms-font-heading); font-size: 1.3rem; font-weight: 800; }
+.ms-role-card__team { margin: 0; font-size: 0.85rem; font-weight: 700; }
+.ms-private__panel [data-team="blue"] { --ms-team-accent: var(--ms-color-faction-blue); }
+.ms-private__panel [data-team="red"] { --ms-team-accent: var(--ms-color-faction-red); }
+.ms-private__panel [data-team="alien"] { --ms-team-accent: var(--ms-color-faction-alien); }
+.ms-role-card__team::before { content: ''; display: inline-block; width: 0.7em; height: 0.7em; margin-right: 0.35em; border-radius: 50%; background: var(--ms-team-accent, var(--ms-color-steel-mid)); border: 1px solid var(--ms-color-ink); vertical-align: -0.05em; }
+
+/* The characters (a public fact: the seat's own character) and the devices (private: from the roles bundle every phone loads whole). */
+:is(.ms-private__panel, .crew-picker) [data-character="c1"] { --ms-role-person: var(--ms-asset-piece-crew-card-c1); }
+:is(.ms-private__panel, .crew-picker) [data-character="c2"] { --ms-role-person: var(--ms-asset-piece-crew-card-c2); }
+:is(.ms-private__panel, .crew-picker) [data-character="c3"] { --ms-role-person: var(--ms-asset-piece-crew-card-c3); }
+:is(.ms-private__panel, .crew-picker) [data-character="c4"] { --ms-role-person: var(--ms-asset-piece-crew-card-c4); }
+:is(.ms-private__panel, .crew-picker) [data-character="c5"] { --ms-role-person: var(--ms-asset-piece-crew-card-c5); }
+:is(.ms-private__panel, .crew-picker) [data-character="c6"] { --ms-role-person: var(--ms-asset-piece-crew-card-c6); }
+:is(.ms-private__panel, .crew-picker) [data-character="c7"] { --ms-role-person: var(--ms-asset-piece-crew-card-c7); }
+:is(.ms-private__panel, .crew-picker) [data-character="c8"] { --ms-role-person: var(--ms-asset-piece-crew-card-c8); }
+:is(.ms-private__panel, .crew-picker) [data-character="c9"] { --ms-role-person: var(--ms-asset-piece-crew-card-c9); }
+.ms-private__panel [data-device="officer"] { --ms-role-device: var(--ms-asset-device-officer-held); }
+.ms-private__panel [data-device="insider"] { --ms-role-device: var(--ms-asset-device-insider-held); }
+.ms-private__panel [data-device="cracker"] { --ms-role-device: var(--ms-asset-device-cracker-held); }
+.ms-private__panel [data-device="blue-disabler"] { --ms-role-device: var(--ms-asset-device-blue-disabler-held); }
+.ms-private__panel [data-device="supplier"] { --ms-role-device: var(--ms-asset-device-supplier-held); }
+.ms-private__panel [data-device="undercover"] { --ms-role-device: var(--ms-asset-device-undercover-held); }
+.ms-private__panel [data-device="hacker"] { --ms-role-device: var(--ms-asset-device-hacker-held); }
+.ms-private__panel [data-device="red-disabler"] { --ms-role-device: var(--ms-asset-device-red-disabler-held); }
+.ms-private__panel [data-device="alien"] { --ms-role-device: var(--ms-asset-device-alien-held); }
+
+/* A short phone (the release's max-height: 560px block), and the release's own reduced-motion rule for the card. */
+.su-phone[data-short="true"] .crew-picker { gap: 0.4rem; }
+.su-phone[data-short="true"] .crew-option { font-size: 0.7rem; }
+@media (prefers-reduced-motion: reduce) { .phone-role-toggle * { animation: none !important; } }

@@ -20,7 +20,7 @@ after(() => { for (const path of scratchRoots) rmSync(path, { recursive: true, f
 function scratchCopy() {
   const root = mkdtempSync(join(tmpdir(), 'mothership-abilities-check-'));
   scratchRoots.push(root);
-  for (const path of ['design/tools', 'design/board-motion/js', 'design/board-motion/css', 'design/board-motion/index.html', 'docs/design/abilities-inventory.md',
+  for (const path of ['design/tools', 'design/board-motion/js', 'design/board-motion/css', 'design/board-motion/index.html', 'design/contract', 'docs/design/abilities-inventory.md',
     'packages/contracts/src', 'packages/presentation/src', 'apps/game/src', 'apps/game/hosted']) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
@@ -70,7 +70,7 @@ const APP = 'design/board-motion/js/app.js';
 test('the ability art as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Ability-art checks: 12 passed, 0 failing/);
+  assert.match(result.output, /Ability-art checks: 13 passed, 0 failing/);
 });
 
 // ---------- the kit ----------
@@ -474,6 +474,34 @@ test('a review picture measured with a problem is refused', async () => {
   const root = scratchCopy();
   editJson(root, 'design/abilities/review/report.json', report => { report.shots[0].problems.push('the snapshots are not in seat order'); });
   refuses(await check(root), /insider-w390-rest\.png: the snapshots are not in seat order/);
+});
+
+// ---------- slice 8: choosing a character, and the role card's reveal ----------
+
+const SETUP_JS = 'design/abilities/js/setup.js';
+
+test('a release word misquoted on the setup page is refused', async () => {
+  const root = scratchCopy();
+  edit(root, SETUP_JS, text => text.replace("taken: 'Taken. Choose another character.',", "taken: 'Taken! Pick another one.',"));
+  refuses(await check(root), /SETUP_COPY\.taken is not the release's words/);
+});
+
+test('a role card built while the card is face down is refused', async () => {
+  const root = scratchCopy();
+  edit(root, SETUP_JS, text => text.replace('if (show && !card.firstChild) card.append(roleCard(S.role, S.character));', 'if (!card.firstChild) card.append(roleCard(S.role, S.character));'));
+  refuses(await check(root), /the role card is built while it is face down/);
+});
+
+test('a card back drawn by role is refused', async () => {
+  const root = scratchCopy();
+  append(root, CSS, '[data-art~="abilities"] .phone-role-back[data-device="alien"] { background-color: var(--ms-color-caption); }');
+  refuses(await check(root), /a card back is styled by role/);
+});
+
+test('a setup beat played on a load, or a turn off the reviewed cue, is refused', async () => {
+  const root = scratchCopy();
+  edit(root, SETUP_JS, text => text.replace("if (kind === 'update' && seen) {", 'if (seen) {').replace('export const TURN_BEATS = { opening: 220, accent: 520, settle: 160 };', 'export const TURN_BEATS = { opening: 220, accent: 600, settle: 160 };'));
+  refuses(await check(root), /a setup beat plays on a load or a fresh view/, /the role card's turn is not the reviewed cue-role-card-turn's beats/);
 });
 
 test('an inventory page not made from the contract is refused', async () => {
