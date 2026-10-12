@@ -32,7 +32,7 @@ function openVoteResult(state:FullGameState,context:FullGameContext,votePhaseId:
   phase(state,'VOTE_RESULT',context);
   state.voteResult={...state.lastTally,id:state.phase.id,votePhaseId,round:state.round,
     startedAt:state.phase.startedAt,endsAt:state.phase.endsAt!,outcome,tiedSeatIds:[...candidates]};
-  state.voteResultContinuation={kind,candidates:[...candidates]};
+  state.voteResultContinuation={kind,candidates:kind==='CAPTAIN_RUNOFF'?[...candidates]:[]};
 }
 function nextTurn(state: FullGameState, context: FullGameContext): void {
   while (state.turnIndex < state.turnOrder.length && !alive(find(state,state.turnOrder[state.turnIndex]!)!)) state.turnIndex++;
@@ -311,6 +311,9 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
     case 'VOTE_RESULT': {
       const continuation=state.voteResultContinuation;
       if(!voteResultEnabled(state.versions) || !state.voteResult || !continuation) throw new Error('Invalid vote result continuation');
+      const result=state.voteResult;
+      const expected=result.kind==='JAIL_VOTE'?'RESOLVE_ROUND':result.kind==='RELEASE_VOTE'?'JAIL_VOTE':result.outcome==='RUNOFF_REQUIRED'?'CAPTAIN_RUNOFF':'BEGIN_ROUND';
+      if(continuation.kind!==expected || JSON.stringify(continuation.candidates)!==JSON.stringify(expected==='CAPTAIN_RUNOFF'?result.tiedSeatIds:[])) throw new Error('Invalid vote result continuation');
       switch(continuation.kind) {
         case 'BEGIN_ROUND':beginRound(state,context);break;
         case 'CAPTAIN_RUNOFF':openElection(state,context,continuation.candidates);break;
