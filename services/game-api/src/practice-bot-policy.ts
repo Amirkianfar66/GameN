@@ -14,6 +14,9 @@ export const PRACTICE_BOT_RULESET_HASH = FULL_RULESET_HASH;
  */
 export function choosePracticeBotActions(input: FullPlayerView): readonly FullCommand[] {
   if (arguments.length !== 1) throw new TypeError('Practice policy requires exactly one player view');
+  if (!input || typeof input !== 'object' || !input.versions || !isSupportedFullGameVersions(input.versions)) {
+    throw new TypeError('Unsupported practice ruleset');
+  }
   const view = FullPlayerViewSchema.parse(input);
   if (!isSupportedFullGameVersions(view.versions)) {
     throw new TypeError('Unsupported practice ruleset');

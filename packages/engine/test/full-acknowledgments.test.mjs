@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { OwnAcknowledgmentsSchema } from '@mothership/contracts';
 import {
-  PASS_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame,
+  PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame,
   abortFullGame, projectFullGame, projectOwnAcknowledgments,
 } from '../dist/index.js';
 
@@ -205,7 +205,7 @@ test('legacy history absence stays unavailable after Round 3 and never infers re
   const d = driver();
   const legacy = JSON.parse(JSON.stringify(resolved(d, registered(d))));
   delete legacy.supplierGrantResults;
-  legacy.versions.engineVersion = 'full-game-1.0.0';
+  legacy.versions = { ...LEGACY_FULL_GAME_VERSION_PINS, assetManifestVersion: legacy.versions.assetManifestVersion };
   for (const id of ['seat-1', 'seat-4', 'seat-5']) {
     const own = projectOwnAcknowledgments(legacy, id);
     assert.equal(own.historyAvailable, false);
@@ -214,7 +214,7 @@ test('legacy history absence stays unavailable after Round 3 and never infers re
     assert.deepEqual(own.receivedSupply, []);
   }
   const later = d.tick(legacy);
-  assert.equal(later.versions.engineVersion, 'full-game-1.0.0', 'Pure transitions never rewrite saved pins');
+  assert.equal(later.versions.engineVersion, LEGACY_FULL_GAME_VERSION_PINS.engineVersion, 'Pure transitions never rewrite saved pins');
   assert.equal(later.supplierGrantResults, undefined);
   assert.equal(projectOwnAcknowledgments(later, 'seat-4').historyAvailable, false);
 });
@@ -223,10 +223,10 @@ test('a legacy pre-resolution state records only future actual Round 3 outcomes'
   const d = driver();
   const legacy = registered(d);
   delete legacy.supplierGrantResults;
-  legacy.versions.engineVersion = 'full-game-1.0.0';
+  legacy.versions = { ...LEGACY_FULL_GAME_VERSION_PINS, assetManifestVersion: legacy.versions.assetManifestVersion };
   assert.equal(projectOwnAcknowledgments(legacy, 'seat-4').historyAvailable, false);
   const after = resolved(d, legacy);
-  assert.equal(after.versions.engineVersion, 'full-game-1.0.0');
+  assert.equal(after.versions.engineVersion, LEGACY_FULL_GAME_VERSION_PINS.engineVersion);
   assert.equal(projectOwnAcknowledgments(after, 'seat-4').historyAvailable, true);
   assert.deepEqual(projectOwnAcknowledgments(after, 'seat-4').supplierResults, resultFor(['seat-1', 'seat-2']));
   // This pure compatibility case does not authorize service mutation of legacy pins.

@@ -4,7 +4,7 @@ import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
 import { placeResolvedSeats } from './placement.js';
@@ -20,10 +20,19 @@ function validateContext(context: FullGameContext) {
     || !IdentifierSchema.safeParse(context.nextPhaseId).success || !IdentifierSchema.safeParse(context.nextDeadlineToken).success) throw new Error('Invalid trusted transition context');
 }
 function phase(state: FullGameState, kind: FullGameState['phase']['kind'], context: FullGameContext) {
-  state.phase = { id: context.nextPhaseId, kind, startedAt: context.now, endsAt: ['FINISHED','ABORTED'].includes(kind) ? null : context.now + 60_000 };
+  state.phase = { id: context.nextPhaseId, kind, startedAt: context.now, endsAt: ['FINISHED','ABORTED'].includes(kind) ? null : context.now + (kind==='VOTE_RESULT'?5_000:60_000) };
   state.deadlineToken = state.phase.endsAt === null ? null : context.nextDeadlineToken;
   state.activeSeatId = null; state.activeHack = null;
+  if(voteResultEnabled(state.versions)) {state.voteResult=null;state.voteResultContinuation=null;}
   state.ballots = []; state.eligibleVoters = []; state.eligibleTargets = []; state.releaseTargetSeatId = null;
+}
+function openVoteResult(state:FullGameState,context:FullGameContext,votePhaseId:string,
+  outcome:NonNullable<FullGameState['voteResult']>['outcome'],kind:NonNullable<FullGameState['voteResultContinuation']>['kind'],candidates:SeatId[]=[]) {
+  if(!state.lastTally) throw new Error('Vote tally required');
+  phase(state,'VOTE_RESULT',context);
+  state.voteResult={...state.lastTally,id:state.phase.id,votePhaseId,round:state.round,
+    startedAt:state.phase.startedAt,endsAt:state.phase.endsAt!,outcome,tiedSeatIds:[...candidates]};
+  state.voteResultContinuation={kind,candidates:[...candidates]};
 }
 function nextTurn(state: FullGameState, context: FullGameContext): void {
   while (state.turnIndex < state.turnOrder.length && !alive(find(state,state.turnOrder[state.turnIndex]!)!)) state.turnIndex++;
@@ -161,6 +170,7 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
     playerCount:setup.playerCount,round:1,seats,code,phase:{id:phaseId,kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60_000},deadlineToken,activeSeatId:null,
     turnIndex:0,turnOrder:[],queued:[],ballots:[],eligibleVoters:[],eligibleTargets:[],releaseTargetSeatId:null,releaseUsed:false,releaseChoiceMade:false,
     hacksThisRound:0,pendingHack:null,activeHack:null,codeSubmitted:false,correctCode:false,lastTally:null,result:null,electionForNextRound:false,supplierGrantResults:[],journalSequence:0,
+    ...(voteResultEnabled(recordedVersions)?{voteResult:null,voteResultContinuation:null}:{}),
     viewRevisions:{public:0,players:Object.fromEntries(seatIds.map(id=>[id,0]))}};
   beginRound(state,context); return state;
 }
@@ -204,6 +214,7 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
   const receiptBase={protocolVersion:2 as const,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId};
   const reject=(code:'PHASE_CLOSED'|'NOT_ALLOWED')=>({state:before,receipt:{...receiptBase,status:'rejected' as const,code}});
   if (request.matchId!==before.matchId || request.phaseId!==before.phase.id || before.phase.endsAt===null || context.now>=before.phase.endsAt || context.now<before.phase.startedAt) return reject('PHASE_CLOSED');
+  if(before.phase.kind==='VOTE_RESULT') return reject('NOT_ALLOWED');
   const state=clone(before),actor=find(state,actorSeatId); if (!actor || !alive(actor)) return reject('NOT_ALLOWED');
   const command=request.command,allowed=legalTargets(state,actor);
   switch(command.type) {
@@ -270,20 +281,44 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
       const result=tallyReleaseVote({eligibleVoters:state.eligibleVoters,ballots:state.ballots.map(b=>({voterSeatId:b.voterSeatId,approve:b.approve}))});
       const target=state.releaseTargetSeatId!;
       if(result.released) {const seat=find(state,target)!;seat.jailed=false;placement(state,seat);}
-      state.lastTally={kind:'RELEASE_VOTE',counts:{},eligibleVoterCount:result.eligibleVoterCount,yesCount:result.yesCount,selectedSeatId:target,released:result.released};openJailVote(state,context);break;
+      state.lastTally={kind:'RELEASE_VOTE',counts:{},eligibleVoterCount:result.eligibleVoterCount,yesCount:result.yesCount,selectedSeatId:target,released:result.released};
+      if(voteResultEnabled(state.versions)) openVoteResult(state,context,before.phase.id,result.released?'PLAYER_RELEASED':'RELEASE_DENIED','JAIL_VOTE');
+      else openJailVote(state,context);break;
     }
     case 'JAIL_VOTE': {
       const result=tallyJailVote({eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,ballots:state.ballots.map(b=>({voterSeatId:b.voterSeatId,targetSeatId:b.targetSeatId}))});
       if(result.jailedSeatId) {const seat=find(state,result.jailedSeatId)!;seat.jailed=true;placement(state,seat);}
       state.lastTally={kind:'JAIL_VOTE',counts:result.counts,eligibleVoterCount:result.eligibleVoterCount,yesCount:null,selectedSeatId:result.jailedSeatId,released:null};
-      resolveRound(state,context);break;
+      if(voteResultEnabled(state.versions)) {
+        const maximum=Math.max(0,...Object.values(result.counts));
+        const top=maximum===0?[]:Object.keys(result.counts).filter(id=>result.counts[id]===maximum).sort() as SeatId[];
+        openVoteResult(state,context,before.phase.id,result.jailedSeatId?'PLAYER_JAILED':'NO_JAIL_SELECTION','RESOLVE_ROUND',top.length>1?top:[]);
+      }
+      else resolveRound(state,context);break;
     }
     case 'CAPTAIN_ELECTION': {
       const result=tallyElection({eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,ballots:state.ballots.map(b=>({voterSeatId:b.voterSeatId,targetSeatId:b.targetSeatId}))});
       state.lastTally={kind:'CAPTAIN_ELECTION',counts:result.counts,eligibleVoterCount:result.eligibleVoterCount,yesCount:null,selectedSeatId:result.winnerSeatId,released:null};
+      if(voteResultEnabled(state.versions)) {
+        if(result.winnerSeatId) {const captain=find(state,result.winnerSeatId)!;captain.captain=true;captain.location='Command Room';}
+        openVoteResult(state,context,before.phase.id,result.winnerSeatId?'CAPTAIN_ELECTED':result.tiedSeatIds.length?'RUNOFF_REQUIRED':'NO_CAPTAIN_ELECTED',
+          result.tiedSeatIds.length?'CAPTAIN_RUNOFF':'BEGIN_ROUND',result.tiedSeatIds);break;
+      }
       if(result.winnerSeatId) {const captain=find(state,result.winnerSeatId)!;captain.captain=true;captain.location='Command Room';beginRound(state,context);}
       else if(result.tiedSeatIds.length>0)openElection(state,context,result.tiedSeatIds);
       else beginRound(state,context);break;
+    }
+    case 'VOTE_RESULT': {
+      const continuation=state.voteResultContinuation;
+      if(!voteResultEnabled(state.versions) || !state.voteResult || !continuation) throw new Error('Invalid vote result continuation');
+      switch(continuation.kind) {
+        case 'BEGIN_ROUND':beginRound(state,context);break;
+        case 'CAPTAIN_RUNOFF':openElection(state,context,continuation.candidates);break;
+        case 'JAIL_VOTE':openJailVote(state,context);break;
+        case 'RESOLVE_ROUND':resolveRound(state,context);break;
+        default:throw new Error('Invalid vote result continuation');
+      }
+      break;
     }
     case 'SHOWDOWN':resolveRound(state,context,true);break;
     case 'FINISHED':case 'ABORTED':return {state:before,advanced:false};
@@ -299,13 +334,14 @@ export function projectFullGame(state:FullGameState) {
   const facts={versions:state.versions,matchId:state.matchId,viewRevision:state.viewRevisions.public,playerCount:state.playerCount,round:state.round,phase:state.phase,activeSeatId:state.activeSeatId,
     seats:state.seats.map(s=>({seatId:s.seatId,health:s.health,location:s.location,jailed:s.jailed,captain:s.captain,revealedFaction:s.health==='Eliminated'?s.faction:null})),
     ballot:{eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,releaseTargetSeatId:state.phase.kind==='RELEASE_VOTE'?state.releaseTargetSeatId:null},lastTally:state.lastTally,result:state.result,
+    ...(voteResultEnabled(state.versions)?{voteResult:state.voteResult??null}:{}),
     endReveal:terminal?{roles:state.seats.map(s=>({seatId:s.seatId,role:s.role})),code:state.code}:null};
   const publicView=FullPublicViewSchema.parse({...facts,audience:{kind:'public'}});
   const players:Partial<Record<SeatId,FullPlayerView>>={};
   for(const self of state.seats) {
     const targets=legalTargets(state,self),own=state.ballots.find(b=>b.voterSeatId===self.seatId);
     players[self.seatId]=FullPlayerViewSchema.parse({...facts,viewRevision:state.viewRevisions.players[self.seatId]??0,audience:{kind:'player',seatId:self.seatId},
-      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
+      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
       knowledge:{...self.knowledge,protections:self.role==='Undercover'?state.seats.filter(s=>s.protection!==null).map(s=>({seatId:s.seatId,activeFromRound:s.protection!.activeFromRound,consumed:s.protection!.consumed})):[]},
       legalTargets:targets,ownPendingCommandIds:state.queued.filter(q=>q.actorSeatId===self.seatId).map(q=>q.commandId),ownBallot:own?(state.phase.kind==='RELEASE_VOTE'?own.approve:own.targetSeatId):null,hasVoted:!!own,
       hackPartnerSeatId:state.activeHack?.actorSeatId===self.seatId?state.activeHack.targetSeatId:state.activeHack?.targetSeatId===self.seatId?state.activeHack.actorSeatId:null});
