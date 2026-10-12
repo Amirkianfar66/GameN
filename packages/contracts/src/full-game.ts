@@ -141,7 +141,7 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
     if(prelude && (v.self.codeAttemptAvailable || Object.keys(v.legalTargets).some(key=>key!=='DECLARE_HACK_SIDE'))) return false;
     const f=v.hackFeedback;
     if(!exchange || v.hackPartnerSeatId===null) {
-      if(f!==null || v.hackPartnerSeatId!==null || Object.hasOwn(v.legalTargets,'DECLARE_HACK_SIDE')) return false;
+      if(f!==null || v.hackPartnerSeatId!==null || (exchange && v.activeSeatId===v.self.seatId) || Object.hasOwn(v.legalTargets,'DECLARE_HACK_SIDE')) return false;
     } else {
       if(f===null || f.phaseId!==v.phase.id || f.round!==v.round || v.hackPartnerSeatId===v.self.seatId
         || (v.activeSeatId!==v.self.seatId && v.activeSeatId!==v.hackPartnerSeatId)) return false;
