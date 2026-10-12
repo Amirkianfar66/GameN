@@ -3,6 +3,7 @@ import test from 'node:test';
 import { createConnectedApi, createSetupFeed, readLobby } from '@mothership/game';
 import { createEmulatorTransport } from '../dist/browser/firebase-transport.js';
 import { emulatorHosts, PROJECT, realPorts } from './support/rest-transport.mjs';
+import { readyTestAcknowledgment } from './support/match.mjs';
 
 // Real SDK listeners across the two setup transactions, with actual local Functions
 // and Tasks delivery in CI. No Admin reads, injected roles, shortened deadlines,
@@ -63,7 +64,7 @@ test('live SDK setup listeners receive the dealt role and final-Ready launch wit
   const own = await Promise.all(feeds.map(feed => eventually(() => feed.own(), 'authorized own-role listener')));
   assert.ok(own.every(value => value.dealId === reading.dealId));
   const ready = index => players[index].api.readyForMatch(request({ schemaVersion: 1, matchId,
-    dealId: own[index].dealId, bindingRevision: own[index].bindingRevision }));
+    dealId: own[index].dealId, bindingRevision: own[index].bindingRevision, ...readyTestAcknowledgment(own[index].versions) }));
   assert.equal(done(await ready(0)).stage, 'awaiting-ready');
   await eventually(() => feeds[0].public()?.seats.find(seat => seat.seatId === 'seat-6')?.ready, 'first Ready');
   assert.equal(feeds[0].own(), null);
