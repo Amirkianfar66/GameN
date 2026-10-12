@@ -187,7 +187,7 @@ test('each of them confirms in its own words, says what is final about it, and r
       sending: 'Sending your Scan to the server…', accepted: 'Scan of Player 3, guessing Red, accepted.', detail: 'The result is listed under “What you know”, as the server gives it.' },
     { view: supplying(), choice: SUPPLY, confirm: 'Register a weapon each for yourself and Player 5?', button: 'Register Supply', consequence: 'You cannot change or withdraw it here once it is registered.',
       sending: 'Sending your Supply to the server…', accepted: 'Supply for yourself and Player 5 registered.', detail: 'This is not a result. Registered actions are resolved at the end of the round.' },
-    { view: coding(), choice: CODE, confirm: 'Submit this Code attempt: Player 1 (you), Player 3, Player 5, Player 7?', button: 'Submit Code attempt', consequence: 'One Code attempt per match. Final once the server accepts it.',
+    { view: coding(), choice: CODE, confirm: 'Submit this Code attempt: Player 1 (you), Player 3, Player 5, Player 7?', button: 'Submit Code attempt', consequence: 'This is your one Code attempt in this match. You cannot change it once the server accepts it.',
       sending: 'Sending your Code attempt to the server…', accepted: 'Your Code attempt is recorded.', detail: 'This is not a result. It is checked when the round is resolved, not now.' },
   ];
   for (const { view, choice, confirm, button, consequence, sending, accepted, detail } of cases) {
