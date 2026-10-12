@@ -9,7 +9,7 @@ import {
   FullOperationResponseSchema, FullFailureSchema, FullPublicViewSchema, FullPlayerViewSchema,
   FullBeginSetupResponseSchema,
 } from '@mothership/contracts';
-import { CAPACITY_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
+import { VOTE_RESULT_FULL_GAME_VERSION_PINS, CAPACITY_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { createV1Service } from '../../../services/game-api/dist/index.js';
 import { decodeV1State, decodeV1Setup } from '../../../services/game-api/dist/full-game.js';
 import { startStagedMatch, beginStagedSetup, confirmStagedChoices, completeStagedSetup } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
@@ -475,7 +475,8 @@ test('the canonical deadline handler repairs a dropped engine-write bot event an
 });
 
 for (const roomRank of [0, 11]) test(`a human Hack with a bot keeps the private partner and full canonical minute without a fabricated bot conversation (joint rank ${roomRank})`, async () => {
-  const h = await harness({ humanSeats: ['seat-1'], roomRank }); await h.set(6); await startStagedMatch(h);
+  // Preserve the reviewed direct-Hack behavior on the exact 1.4 parent. New 1.5 bot declarations have dedicated coverage.
+  const h = await harness({ humanSeats: ['seat-1'], roomRank, versions: VOTE_RESULT_FULL_GAME_VERSION_PINS }); await h.set(6); await startStagedMatch(h);
   const turn = await h.state(), human = h.humans[0];
   assert.equal(turn.activeSeatId, 'seat-1');
   // Joint ranks 0/11 make the old fixed partner local/remote. Choose from actual
