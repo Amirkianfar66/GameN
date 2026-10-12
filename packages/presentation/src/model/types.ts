@@ -450,10 +450,19 @@ export interface ActionChoiceModel {
   readonly number: number | null;
 }
 
+/**
+ * Where one kind of action stands while nothing is in progress, as the view states it:
+ * open now, open on a view this device can no longer trust as current, not opened, or opened
+ * with nobody to name (one seat) or too few to make the choice (several).
+ */
+export type ActionOfferState = 'available' | 'paused' | 'unavailable' | 'no-target' | 'too-few';
+
 /** One kind of action as it stands while nothing is in progress. */
 export interface ActionOfferModel {
   readonly kind: ActionKind;
   readonly label: string;
+  /** The same as statusLabel, for styling; it never says more than the words. */
+  readonly state: ActionOfferState;
   readonly statusLabel: string;
   /** Present only when the server offers at least one choice now, on a fresh view. */
   readonly open: { readonly id: string; readonly label: string } | null;
@@ -531,9 +540,21 @@ export interface ConnectedPrivateAreaModel {
      * What the server's view tells this seat and nobody else: what its role knows, the
      * results it has been given, and what it holds. Null when the view says none of it.
      */
-    readonly knowledge: { readonly heading: string; readonly items: readonly string[] } | null;
+    readonly knowledge: { readonly heading: string; readonly items: readonly string[]; readonly insider: InsiderSetModel | null } | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
+}
+
+/**
+ * The Insider's starting knowledge: three players who between them hold three roles, one
+ * each, without saying who holds which. The seats are in public seat order and the roles
+ * in the rule's own order, so neither order can pair a player with a role.
+ */
+export interface InsiderSetModel {
+  readonly seatIds: readonly SeatId[];
+  readonly roles: readonly RoleName[];
+  /** The same set in words, as the list of what the seat knows says it. */
+  readonly sentence: string;
 }
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {

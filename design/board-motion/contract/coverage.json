@@ -516,6 +516,14 @@
         "status": "authorized"
       },
       {
+        "id": "connection",
+        "drawn": "The connection banner while the view may be out of date, its Reconnect now control, and the actions paused; the card closed into the folder, or, where it is kept (DSN-REQ-16, recommended), marked May be out of date and at rest.",
+        "source": "The client's own connection state (ShellEnvironment.connection, env.problem 'unreadable-update'), as the release's buildBanners and announcements read it. The device's own, never a game fact.",
+        "audience": "local",
+        "cues": [],
+        "status": "authorized"
+      },
+      {
         "id": "release-subject",
         "drawn": "On the ballot, over the jailed character a release vote is on.",
         "source": "ballot.releaseTargetSeatId.",
@@ -789,6 +797,14 @@
         "status": "extend",
         "audience": "public",
         "about": "The match's end over the lower board, on every phone and the shared display alike, in the release's words: the winner struck on a ribbon in its side's colour, the Alien's co-win, the release's table of roles drawn as a cast list in two columns (each seat's character, its label, its role in its side's colour, the Code's four pinned) and the Code's sentence; a match the host ended shows its sentence only. Hidden behind the menu, as the release hides its result there."
+      },
+      {
+        "id": "connection-banner",
+        "prototype": "div.bm-banner[data-variant=stale|unreadable] > .bm-banner__icon, .bm-banner__text, button.bm-banner__act[data-act=reconnect]",
+        "runtime": "div.ms-banner.ms-banner--connection[data-variant] (renderBanner in parts.ts, buildBanners in common.ts) with #ms-banner-connection-action[data-intent=session/reconnect]",
+        "status": "extend",
+        "audience": "local",
+        "about": "The view may be out of date: the connection is lost, or the latest update could not be read. The release's words and its one control, Reconnect now, with the reviewed stale-connection icon, over the top of the board. Every open sheet keeps clear of it (--bm-banner-clear), so that its heading and Close stay in view on a short phone. Its change is said once in the public live region, as the release's announcements say it; nothing plays."
       },
       {
         "id": "fx-layer",

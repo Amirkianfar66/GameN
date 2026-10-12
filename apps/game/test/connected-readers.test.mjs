@@ -160,6 +160,10 @@ test('an admission is read as exactly the fields the service writes, and nothing
   const approved = { ...pending, status: 'approved', seatId: 'seat-3' };
   assert.deepEqual(readAdmission(pending), { kind: 'accepted', value: pending });
   assert.deepEqual(readAdmission(approved), { kind: 'accepted', value: approved });
+  for (const record of [pending, approved]) {
+    const unassigned = { ...record, initialRoom: null };
+    assert.deepEqual(readAdmission(unassigned), { kind: 'accepted', value: unassigned }, 'explicitly unassigned is neutral, not a guessed room');
+  }
   assert.deepEqual(readAdmission(null), { kind: 'missing' });
   for (const bad of [
     { ...pending, seatId: 'seat-3' }, { ...approved, seatId: undefined }, { ...approved, seatId: 'seat-10' }, { ...pending, status: 'rejected' },

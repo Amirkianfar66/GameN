@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.6.0",
+  "manifestVersion": "abilities-0.7.0",
   "status": "proposal",
   "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -12,8 +12,8 @@
   },
   "stylesheet": {
     "file": "design/abilities/assets/abilities.art.css",
-    "sha256": "4314145fb975a35fe295a3d3c8fe1d2ef3220db5bb41188d4fa5cf71e52b89e3",
-    "bytes": 31033
+    "sha256": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
+    "bytes": 35848
   },
   "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
   "assets": [
@@ -1153,6 +1153,257 @@
       "sha256": "da88eeb99730b4ca98cb06d36dd79159fed09feb74796b6249001ee01c4dcf39",
       "use": "The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.",
       "cssProperty": "--ab-asset-dossier-round-special"
+    },
+    {
+      "id": "icon-action-disable",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The Disable: its tray icon",
+      "file": "design/abilities/assets/icon-action-disable.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-disable",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 1026,
+      "sha256": "c11710db747ba8c89c26ae654eff2656f37456116fd9801ea990ec7f56aade7f",
+      "use": "The Disable's chip in the seat's own Actions tray: the charged ring of its strip, the same for both Disablers. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-disable"
+    },
+    {
+      "id": "icon-action-protect",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "Protection: its tray icon",
+      "file": "design/abilities/assets/icon-action-protect.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-protect",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 811,
+      "sha256": "683df43244b74d263bf19f81ccd07d439f30714714b4b56cd680dd3e70c93e51",
+      "use": "Protection's chip in the seat's own Actions tray: the shield of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-protect"
+    },
+    {
+      "id": "icon-action-rescue",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The Rescue: its tray icon",
+      "file": "design/abilities/assets/icon-action-rescue.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-rescue",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 824,
+      "sha256": "825e59a0ba5e208140650d8a4e496508ed8983c464d3d21028b5e3cb696fc382",
+      "use": "The Rescue's chip in the seat's own Actions tray: the medical cross of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-rescue"
+    },
+    {
+      "id": "icon-action-scan",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The Scan: its tray icon",
+      "file": "design/abilities/assets/icon-action-scan.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-scan",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 823,
+      "sha256": "ddd127a32c6e487a023bdb5c2c92f6f7b9fab13f28ef2624eadaf253293d6548",
+      "use": "The Scan's chip in the seat's own Actions tray: the lens and its sweep. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-scan"
+    },
+    {
+      "id": "icon-action-supply",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "Supply: its tray icon",
+      "file": "design/abilities/assets/icon-action-supply.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-supply",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 919,
+      "sha256": "69cc586c2544b292d9e4caf32737a4a3d7844d60ee499aac445b4bfee8cfda2a",
+      "use": "Supply's chip in the seat's own Actions tray: the shipping tag of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-supply"
+    },
+    {
+      "id": "icon-action-hack",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A Hack: its tray icon",
+      "file": "design/abilities/assets/icon-action-hack.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-hack",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 855,
+      "sha256": "b2fd0a28bd672ca5c067ec5992ada8f441ffae350e22ed3deee36fa82c021ca1",
+      "use": "A Hack request's chip in the seat's own Actions tray: the comms of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-hack"
+    },
+    {
+      "id": "icon-action-code",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A Code attempt: its tray icon",
+      "file": "design/abilities/assets/icon-action-code.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-code",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 1000,
+      "sha256": "c9392e44c7703800704641c7768a54a346523eb95cce8a64cd9000b0403bcf86",
+      "use": "A Code attempt's chip in the seat's own Actions tray: the punch card, four holes two by two, never a row. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-code"
+    },
+    {
+      "id": "icon-action-showdown",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The showdown's shot: its tray icon",
+      "file": "design/abilities/assets/icon-action-showdown.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-showdown",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 902,
+      "sha256": "a0259d8b63831ba4051dcd5095c0d3a3af9f50c4246a55bc0645593135125e23",
+      "use": "The showdown shot's chip in the seat's own Actions tray: the special round of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-showdown"
+    },
+    {
+      "id": "icon-action-ballot",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot: its tray icon",
+      "file": "design/abilities/assets/icon-action-ballot.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-ballot",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 938,
+      "sha256": "9865966504da7f28e975258473ac721b1f01055e624d3a7f739baed63c66cbb8",
+      "use": "Every ballot's chip in the seat's own Actions tray (a Captain election, a Jail vote, a release vote): the box of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-ballot"
+    },
+    {
+      "id": "icon-action-key",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The release request: its tray icon",
+      "file": "design/abilities/assets/icon-action-key.svg",
+      "source": "design/abilities/source/actions.svg#icon-action-key",
+      "viewBox": "0 0 32 32",
+      "width": 32,
+      "height": 32,
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923"
+      ],
+      "bytes": 814,
+      "sha256": "5ece3f7a9ac3b02225ae17352ac10e5b7db495747e2f780645c4677f28220563",
+      "use": "The Captain's release request's chip in the seat's own Actions tray: the key of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.",
+      "cssProperty": "--ab-asset-icon-action-key"
     }
   ]
 }

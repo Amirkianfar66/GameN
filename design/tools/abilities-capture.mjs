@@ -42,7 +42,7 @@ const OUT = 'design/abilities/review';
 const PHONES = { w390: { width: 390, height: 844 }, w320: { width: 320, height: 568 } };
 const SCALE = 1.5;
 const FRAMES = [0, 120, 260, 420, 600, 780, 1020];
-const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png', 6: 'contact-showdown-end.png' };
+const SHEETS = { 1: 'contact-insider.png', 2: 'contact-hacker-alien.png', 3: 'contact-rescue-disable-supply.png', 4: 'contact-shot-protection.png', 5: 'contact-ballots-hack-pass.png', 6: 'contact-showdown-end.png', 7: 'contact-icons-failure.png' };
 
 /** In the page: what the open file and the strip's ability art show, measured. Returns the problems found. */
 const MEASURE = `(() => {
@@ -132,9 +132,12 @@ const MEASURE = `(() => {
     }
     // At the default text size the file fits the card: nothing to scroll, the open inspect card included. A card that
     // also holds notes after the file (what the seat holds, its slips) may scroll to them, the file whole in the first view.
+    // A card kept on a view that may be out of date (DSN-REQ-16) has the connection banner's height less room: it may
+    // scroll to its file, with its heading, Close, the mark and the role card in its first view (measured below).
     const notes = sheet?.querySelector('.ab-kit, .ab-deliveries, .ab-guards');
-    if (!largeText && sheet && !notes && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
-    if (!largeText && sheet && notes && file.getBoundingClientRect().bottom > sheet.getBoundingClientRect().bottom + 1) problems.push('the file is not whole in the first view of the card');
+    const keptOutOfDate = Boolean(sheet?.querySelector('.bm-card-stale'));
+    if (!largeText && sheet && !notes && !keptOutOfDate && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
+    if (!largeText && sheet && notes && !keptOutOfDate && file.getBoundingClientRect().bottom > sheet.getBoundingClientRect().bottom + 1) problems.push('the file is not whole in the first view of the card');
     const card = file.querySelector('.ab-inspect:not([hidden])');
     if (card && sheet) {
       const box = card.getBoundingClientRect(), view = sheet.getBoundingClientRect();
@@ -277,6 +280,29 @@ const MEASURE = `(() => {
   if (flow.kind === 'showdown-shot' && strip && /data-device|data-team|\\bblue\\b|\\bred\\b|officer|undercover|alien/i.test(strip.innerHTML)) problems.push("the showdown's strip says who shoots");
   if (document.querySelector('.bm-result [class*="ab-"]')) problems.push('the result sheet draws the private kit');
   if (document.querySelector('.bm-cast') && window.__bmState?.phase !== 'FINISHED') problems.push('the roles are drawn before the match finished');
+  // Slice 7. Every tray chip draws its own action's mark once the art has arrived, its glyph hidden; without the art, the glyph. The
+  // card's out-of-date mark only while the view may be out of date (the connection banner shown), the file at rest and not pressable.
+  const artLoaded = (document.documentElement.dataset.art || '').split(' ');
+  for (const icon of document.querySelectorAll('#bm-tray .bm-chip__icon[data-kind]')) {
+    const drawn = getComputedStyle(icon).backgroundImage.startsWith('url(');
+    const needs = icon.dataset.kind === 'shot' ? 'player-ui' : 'abilities';
+    if (drawn !== artLoaded.includes(needs)) problems.push('the ' + icon.dataset.kind + " chip's mark is drawn without its art, or missing with it");
+    if (drawn && getComputedStyle(icon).color !== 'rgba(0, 0, 0, 0)') problems.push('the ' + icon.dataset.kind + " chip shows its glyph over its mark");
+  }
+  const staleMark = document.querySelector('#bm-card .bm-card-stale');
+  const bannerShown = Boolean(document.querySelector('#bm-app .bm-banner:not([hidden])'));
+  if (staleMark && !bannerShown) problems.push('the card is marked out of date while the view is current');
+  if (staleMark && file && file.dataset.paused !== 'true') problems.push('a file marked out of date can still be pressed');
+  // Kept on an out-of-date view, the card may scroll to its file, but what says what it is stays in its first view:
+  // its heading, Close and the mark, and at the default text size the role card too.
+  if (staleMark && sheet && sheet.scrollTop === 0) {
+    const view = sheet.getBoundingClientRect();
+    const firstView = [['its heading', sheet.querySelector('#bm-card-heading')], ['Close', sheet.querySelector('.bm-close')], ['the mark', staleMark], ...(largeText ? [] : [['the role card', sheet.querySelector('.bm-card')]])];
+    for (const [what, node] of firstView) {
+      const box = node?.getBoundingClientRect();
+      if (!box || box.top < view.top - 1 || box.bottom > view.bottom + 1) problems.push(what + ' of a card kept out of date is not in its first view');
+    }
+  }
   // A card with the Cracker's note or Supply's slips fits without scrolling at the default text size, as the files do.
   if (sheet && !file && sheet.querySelector('.ab-kit, .ab-deliveries, .ab-guards') && !largeText && sheet.scrollHeight > sheet.clientHeight + 1) problems.push('the card scrolls: ' + (sheet.scrollHeight - sheet.clientHeight) + ' px more than it shows');
   // At large text the notes' words grow with the reader's text.
@@ -533,7 +559,7 @@ try {
   await shoot(big, server, { slice: 6, name: 'showdown-w320-text200-confirm', title: 'The showdown at twice the text size, 320 x 568', group: 'Slice 6: text size, motion, art', phone: 'w320', path: '?scenario=showdown.confirm&chrome=0' });
   await shoot(big, server, { slice: 6, name: 'end-w390-text200-blue', title: 'The end at twice the text size: one column', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=end.blue&chrome=0' });
   await shoot(browser, server, { slice: 6, name: 'showdown-w390-registered-reduced', title: 'Reduced motion: the special shot spent at rest', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=showdown.registered&chrome=0&motion=reduced' });
-  await shoot(browser, server, { slice: 6, name: 'end-w390-reduced', title: 'Reduced motion: the match ends, the sheet faded in', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=board.idle&chrome=0&motion=reduced&play=finish' });
+  await shoot(browser, server, { slice: 6, name: 'end-w390-reduced', title: 'Reduced motion: the match ends, the sheet faded in', group: 'Slice 6: text size, motion, art', phone: 'w390', path: '?scenario=showdown.resolved&chrome=0&motion=reduced&play=finish' });
   for (const [scenario, label] of [['showdown.confirm', 'showdown'], ['end.blue', 'end']]) {
     await shoot(browser, server, { slice: 6, name: `${label}-w390-no-art`, title: `Without the ability art or the crew cards: ${scenario}`, group: 'Slice 6: text size, motion, art', phone: 'w390', path: `?scenario=${scenario}&chrome=0`, block: ART });
   }
@@ -542,8 +568,28 @@ try {
     await shoot(browser, server, { slice: 6, name: `beat-special-${String(t).padStart(4, '0')}ms`, title: `The special shot spent, ${t} ms`, group: 'Slice 6: the beats, frame by frame', phone: 'w390', path: `?scenario=showdown.confirm&chrome=0&play=register&t=${t}`, selector: '#bm-strip', measure: '[]', wait: 200 });
   }
   for (const t of [120, 380, 600, 900]) {
-    await shoot(browser, server, { slice: 6, name: `end-reveal-${String(t).padStart(4, '0')}ms`, title: `The end revealed, ${t} ms`, group: 'Slice 6: the beats, frame by frame', phone: 'w390', path: `?scenario=board.idle&chrome=0&play=finish&t=${t}`, selector: '#bm-result', measure: '[]', wait: 200 });
+    await shoot(browser, server, { slice: 6, name: `end-reveal-${String(t).padStart(4, '0')}ms`, title: `The end revealed, ${t} ms`, group: 'Slice 6: the beats, frame by frame', phone: 'w390', path: `?scenario=showdown.resolved&chrome=0&play=finish&t=${t}`, selector: '#bm-result', measure: '[]', wait: 200 });
   }
+
+  // ---------- slice 7: each action's mark in the tray; out of date, and the card kept ----------
+  for (const [scenario, label, title] of [['tray.open', 'hacker', 'the Hacker: a shot, a Scan, a Hack, a Code attempt'], ['tray.undercover', 'undercover', 'the Undercover: a shot, Protection, a Hack'], ['tray.cracker', 'cracker', 'the Cracker: a Rescue, a Hack'],
+    ['tray.disabler', 'disabler', 'a Disabler: the Disable, a Hack'], ['tray.supplier', 'supplier', 'the Supplier: Supply, a Hack'], ['tray.showdown', 'showdown', 'the showdown shot'], ['tray.vote', 'ballot', 'a ballot'], ['tray.release', 'release', "the Captain's release request"]]) {
+    await shoot(browser, server, { slice: 7, name: `tray-w390-${label}`, title: `The tray, ${title}`, group: 'The marks in the tray', phone: 'w390', path: `?scenario=${scenario}&chrome=0`, selector: '#bm-tray' });
+  }
+  await shoot(browser, server, { slice: 7, name: 'tray-w320-undercover', title: 'The tray at 320 x 568', group: 'The marks in the tray', phone: 'w320', path: '?scenario=tray.undercover&chrome=0' });
+  await shoot(big, server, { slice: 7, name: 'tray-w390-text200-hacker', title: 'The tray at twice the text size', group: 'The marks in the tray', phone: 'w390', path: '?scenario=tray.open&chrome=0' });
+  await shoot(browser, server, { slice: 7, name: 'tray-w390-no-art', title: 'Without the art: the glyphs, and the words beside them', group: 'The marks in the tray', phone: 'w390', path: '?scenario=tray.undercover&chrome=0', selector: '#bm-tray', block: ART });
+  for (const phone of ['w390', 'w320']) {
+    const at = `${PHONES[phone].width} x ${PHONES[phone].height}`;
+    await shoot(browser, server, { slice: 7, name: `stale-${phone}-board`, title: `Connection lost: the banner, Reconnect now, ${at}`, group: 'Out of date', phone, path: '?scenario=robust.stale&chrome=0' });
+    await shoot(browser, server, { slice: 7, name: `stale-${phone}-card`, title: `Out of date, the card kept (DSN-REQ-16): marked, at rest, below the banner, ${at}`, group: 'Out of date', phone, path: '?scenario=stale.card&chrome=0' });
+  }
+  await shoot(browser, server, { slice: 7, name: 'stale-w320-menu', title: 'Out of date: the menu opens below the banner, 320 x 568', group: 'Out of date', phone: 'w320', path: '?scenario=robust.stale&chrome=0&play=menu' });
+  await shoot(browser, server, { slice: 7, name: 'stale-w390-card-notes', title: "Out of date, the card kept: the Undercover's notes, marked", group: 'Out of date', phone: 'w390', path: '?scenario=stale.card-notes&chrome=0' });
+  await shoot(browser, server, { slice: 7, name: 'stale-w390-unreadable', title: 'An update could not be read', group: 'Out of date', phone: 'w390', path: '?scenario=robust.unreadable&chrome=0' });
+  await shoot(browser, server, { slice: 7, name: 'stale-w390-folder', title: "Out of date, PR #88's rule: the closed folder, the same for every role", group: 'Out of date', phone: 'w390', path: '?scenario=file.hidden&chrome=0&play=card' });
+  await shoot(big, server, { slice: 7, name: 'stale-w390-text200-card', title: 'The card kept at twice the text size', group: 'Out of date', phone: 'w390', path: '?scenario=stale.card&chrome=0' });
+  await shoot(browser, server, { slice: 7, name: 'stale-w390-no-art', title: 'Out of date without the art: a plain disc for the icon', group: 'Out of date', phone: 'w390', path: '?scenario=stale.card&chrome=0', block: ART });
 
   // The contact sheets: every picture above, with its caption, one sheet per slice.
   await writeFile(resolve(repoRoot, `${OUT}/report.json`), `${JSON.stringify({ inputsSha256: await abilitiesInputsSha256(), browser: browserName, scale: SCALE, shots }, null, 2)}\n`);

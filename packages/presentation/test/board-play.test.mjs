@@ -208,6 +208,12 @@ for (const [paused, overrides] of [
         const original = structuredClone(action);
         const current = model(playerView(change), action);
         const held = model(playerView(change), action, overrides);
+        if (paused === 'stale') {
+          assert.equal(held.match.privateArea.content, null, `${label}: stale private contents are absent`);
+          assert.doesNotMatch(toHtml(renderComicPlayerShell(held, { phoneView: 'actions' })), /phone-strip|data-board-target|phone-move-ghost/, label);
+          assert.deepEqual(action, original, `${label}: internal recovery state is untouched`);
+          continue;
+        }
         const card = held.match.privateArea.content.actions.card;
         assert.equal(card.status, action.step, `${label}: recovery/receipt state remains`);
         assert.deepEqual(card.body, current.match.privateArea.content.actions.card.body, `${label}: the strip keeps the same recovery controls and words`);
@@ -224,6 +230,7 @@ for (const [paused, overrides] of [
       { step: 'unknown', choice: null, recovered: true, phaseOver: true, armed: true },
     ]) {
       const held = model(playerView(), action, overrides);
+      if (paused === 'stale') { assert.equal(held.match.privateArea.content, null); continue; }
       assert.deepEqual(held.match.privateArea.content.actions.card.board, NO_MARKS);
       assert.equal(held.match.privateArea.content.actions.card.status, action.step, 'identifier-only reload recovery stays available');
     }

@@ -1,7 +1,8 @@
 import type { OwnAcknowledgments, FullPracticeBotsDocument, SeatId } from '@mothership/contracts';
 import { SHELL_IDS } from '../ids.js';
 import { placeSeats, rowsFor } from '../model/stations.js';
-import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, TableShellModel } from '../model/types.js';
+import { en } from '../copy/en.js';
+import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, InsiderSetModel, SeatModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode } from './node.js';
 import { renderConnectedPlayerShell } from './connected-player.js';
@@ -15,7 +16,15 @@ export interface ComicIdentity {
   readonly displayName: string | null;
   readonly characterId: string | null;
 }
-export interface ComicContext { readonly phoneNotice?: string | null; readonly phoneView?: 'board' | 'actions' | 'role' | 'more'; readonly identities?: readonly ComicIdentity[]; readonly acknowledgments?: OwnAcknowledgments | null; readonly practice?: FullPracticeBotsDocument | null }
+export interface ComicContext {
+  readonly phoneNotice?: string | null;
+  readonly phoneView?: 'board' | 'actions' | 'role' | 'more';
+  readonly identities?: readonly ComicIdentity[];
+  readonly acknowledgments?: OwnAcknowledgments | null;
+  readonly practice?: FullPracticeBotsDocument | null;
+  /** The snapshot inspected in the Insider's file, by seat. A phone's own state, set by a deliberate tap. */
+  readonly inspect?: string | null;
+}
 
 const ROLES: Readonly<Record<string, { readonly device: string; readonly team: string }>> = {
   Officer: { device: 'officer', team: 'Blue' }, Insider: { device: 'insider', team: 'Blue' },
@@ -62,6 +71,94 @@ export function renderComicRoleCard(name: string, ownCharacter: string | null): 
     h('span', { class: 'ms-role-card__art', 'aria-hidden': 'true' }),
     h('div', { class: 'ms-role-card__text' }, h('p', { class: 'ms-role-card__name' }, name), h('p', { class: 'ms-role-card__team' }, `${look.team} team`)),
   );
+}
+
+/** A seat's public facts, in the words every screen can show: where it is, its health, Captain, Jail. */
+function publicFacts(seat: SeatModel): string {
+  return [seat.location, en.marker.health(seat.health), seat.captain ? en.marker.captain : null, seat.jailed ? en.marker.jailed : null]
+    .filter((fact): fact is string => fact !== null).join(' · ');
+}
+
+/**
+ * The Insider's file (the Designer's ability art abilities-0.1.0, PR #102 at 1453500;
+ * exact source paths in docs/frontend/insider-file.md): the three players of the role's starting knowledge as three snapshots pinned in
+ * public seat order, and the three roles they hold between them, one each, as one slip in one
+ * envelope below all three. Nothing pairs a player with a role: every snapshot is built the same
+ * way, with the same frame, pin, query tag and tilt for its position; no role is written on,
+ * beside or about a snapshot; and the roles are one picture with one accessible name, in the
+ * rule's order whatever the deal was. A portrait is the character the player chose, a public
+ * picture every phone has already loaded. Inspecting a snapshot says only that player's public
+ * facts. Render only inside the open private card of the seat's own live view.
+ */
+function renderInsiderFile(set: InsiderSetModel, context: ComicContext, seats: readonly SeatModel[]): MarkupElement {
+  const words = en.insiderFile;
+  const inspected = seats.find(seat => seat.seatId === context.inspect && set.seatIds.includes(seat.seatId)) ?? null;
+  const snapshots = set.seatIds.map(seatId => {
+    const number = seatId.slice(5);
+    const identity = identityFor(context, seatId);
+    const look = character(identity?.characterId);
+    const name = identity?.displayName ?? null;
+    // The seat number is an evidence sticker on the portrait (or, without one, the portrait
+    // itself), so the caption holds the whole width for the name. A name too long for a small
+    // snapshot ends in an ellipsis there and is said whole by the button and the inspect card.
+    return h('li', { class: 'ab-suspect' },
+      h('button', {
+        type: 'button', class: 'ab-photo', id: `ab-photo-${number}`, 'data-seat': number,
+        'aria-pressed': String(inspected?.seatId === seatId), 'aria-label': words.inspect(Number(number), name),
+      },
+      h('span', { class: 'ab-photo__frame', 'aria-hidden': 'true' },
+        h('span', { class: 'ab-photo__art', ...(look ? { 'data-character': look } : {}) }),
+        h('span', { class: 'ab-photo__numeral' }, number),
+        h('span', { class: 'ab-photo__pin' }), h('span', { class: 'ab-photo__query' }),
+        h('span', { class: 'ab-seat ab-photo__seat' }, number)),
+      h('span', { class: 'ab-photo__caption', 'aria-hidden': 'true' },
+        h('span', { class: 'ab-seat ab-photo__caption-seat' }, number), h('span', { class: 'ab-photo__name' }, name))));
+  });
+  const inspectedName = inspected ? identityFor(context, inspected.seatId)?.displayName ?? null : null;
+  // The inspect card's words are redrawn inside a live container that stays put, so they are said
+  // when they change. Nothing in it is new: they are facts every screen shows.
+  const card = h('div', { class: 'ab-inspect__card', 'data-region': 'insider-inspect', hidden: inspected === null },
+    inspected === null ? null : [
+      h('p', { class: 'ab-inspect__who' }, h('span', { class: 'ab-inspect__lens', 'aria-hidden': 'true' }),
+        h('span', { class: 'ab-seat' }, hiddenText('Player '), String(inspected.number)),
+        inspectedName ? [hiddenText(', '), h('span', { class: 'ab-inspect__name' }, inspectedName)] : null),
+      h('p', { class: 'ab-inspect__facts' }, publicFacts(inspected)),
+      h('div', { class: 'ab-inspect__controls' },
+        h('button', { type: 'button', class: 'ab-button', id: 'ab-inspect-show', 'data-file-act': 'show', 'data-seat': String(inspected.number) }, words.showOnBoard),
+        h('button', { type: 'button', class: 'ab-button', id: 'ab-inspect-back', 'data-file-act': 'back', 'data-seat': String(inspected.number) }, words.back)),
+    ]);
+  return h('section', { class: 'ab-file', 'data-file': 'insider', 'aria-labelledby': 'ab-file-title', 'data-region': 'insider-file', 'data-focus-fallback': 'ab-file-title' },
+    // The Designer's tab is a header; a div here, so the shell keeps its one banner landmark.
+    h('div', { class: 'ab-file__tab' },
+      h('h3', { class: 'ab-file__title', id: 'ab-file-title', tabindex: '-1' }, words.title),
+      h('span', { class: 'ab-stamp', 'data-stamp': 'classified', 'aria-hidden': 'true' }, words.classified)),
+    // The release's own sentence for this knowledge, which the card's list then does not repeat.
+    h('p', { class: 'ab-vh ms-visually-hidden' }, set.sentence),
+    h('div', { class: 'ab-file__field' },
+      (['tl', 'tr', 'br', 'bl'] as const).map(corner => h('span', { class: 'ab-corner-pin', 'data-corner': corner, 'aria-hidden': 'true' })),
+      h('ol', { class: 'ab-suspects', 'aria-label': words.suspects, 'data-region': 'insider-suspects', 'data-focus-fallback': 'ab-file-title' }, snapshots),
+      // The three roles as one set: one picture with one accessible name, the names stacked in one
+      // slip below all three snapshots and beside none, never a list or a row a screen reader or
+      // the eye could pair with them.
+      h('div', { class: 'ab-roles', role: 'img', 'aria-label': words.roleSet(set.roles) },
+        h('span', { class: 'ab-roles__back' }),
+        h('span', { class: 'ab-roles__slip' }, set.roles.map(role => h('span', { class: 'ab-roles__name' }, role))),
+        h('span', { class: 'ab-roles__front' }), h('span', { class: 'ab-roles__clip' }),
+        h('span', { class: 'ab-stamp', 'data-stamp': 'one-each' }, words.oneEach))),
+    // The string round the whole set is drawn by the host from the four corner pins, here.
+    h('p', { class: 'ab-file__note' }, words.note),
+    h('div', { class: 'ab-inspect', 'aria-live': 'polite' }, card));
+}
+
+/** The knowledge list without the Insider’s sentence, where the file says it instead. */
+function withoutSentence(region: MarkupNode, sentence: string | null): MarkupNode {
+  if (sentence === null || !isElement(region)) return region;
+  const drop = (node: MarkupNode): MarkupNode | null => {
+    if (!isElement(node)) return node;
+    if (classHas(node, 'ms-knowledge__item') && node.children.length === 1 && node.children[0] === sentence) return null;
+    return { ...node, children: node.children.map(drop).filter((child): child is MarkupNode => child !== null) };
+  };
+  return drop(region) ?? region;
 }
 
 /** Public, opt-in practice status; it never exposes a bot's role or decision inputs. */
@@ -222,7 +319,8 @@ function renderActionStrip(card: ConnectedActionCardModel): MarkupElement {
     h('h4', { class: 'ms-card__title', id: SHELL_IDS.actionTitle, tabindex: '-1' }, card.title),
     h('div', {
       class: 'ms-card__state', 'data-region': 'action', 'data-status': card.status, 'data-step': body.step, 'data-selected': String(card.selected),
-      'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
+      // The action the strip is about, when it knows it (a reloaded page may not): the hook for that action's own art.
+      'data-kind': card.kind, 'data-strip': layout, 'data-focus-fallback': SHELL_IDS.actionTitle,
     },
       // The release's status word, the same for every action, drawn as a stamp once a command is sent.
       h('p', { class: 'ms-card__status' }, card.statusLabel),
@@ -301,6 +399,22 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
     if (classHas(node, 'ms-footer')) return h('div', { hidden: true });
     if (classHas(node, 'ms-phase__label') && active) return { ...node, children: [turnLine] };
     let children = node.children.map(visit);
+    let file = false;
+    if (classHas(node, 'ms-private__panel') && privateContent) {
+      // The Insider's three players are drawn in the Insider's file, which says the sentence
+      // itself, so the card's list of what the seat knows does not repeat it. A view the server no
+      // longer confirms keeps the card as the release draws it, with the file at rest under the
+      // release's "may be out of date" banner (the Designer's DSN-REQ-16 recommendation, pending
+      // Integration): it holds nothing the phone does not already hold, and nothing in it acts.
+      const insider = privateContent.knowledge?.insider ?? null;
+      children = children.map(child => (isElement(child) && child.attrs['data-region'] === 'knowledge' ? withoutSentence(child, insider?.sentence ?? null) : child));
+      if (insider && phoneView === 'role') {
+        file = true;
+        // Under the role card, which makes way by becoming a row.
+        const at = children.findIndex(child => isElement(child) && classHas(child, 'ms-role-card'));
+        children.splice(at < 0 ? children.length : at + 1, 0, renderInsiderFile(insider, context, match!.roster.zones.flatMap(zone => zone.seats)));
+      }
+    }
     if (classHas(node, 'ms-private__panel') && privateContent && model.connection === 'live') {
       const knowledge = children.find(child => isElement(child) && child.attrs['data-region'] === 'knowledge');
       if (knowledge) {
@@ -337,6 +451,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         h('div', { class: 'phone-panel-head' }, h('h2', { id: 'phone-menu-heading', tabindex: '-1' }, 'Menu'), closePanel('phone-menu-close')), ...sourceBanners, selfStatus, vote,
         h('details', { class: 'ms-readable-board' }, h('summary', null, 'Players and locations — readable list'), location, roster), ...footer.children), nav);
     }
+    if (file) return { ...node, attrs: { ...node.attrs, 'data-file': 'insider' }, children };
     return { ...node, children };
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };

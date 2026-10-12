@@ -152,7 +152,7 @@ test('an ordinary turn without an active seat is shown as given, not guessed', (
 test('stale and expired states pause actions with a reason and keep the last view readable', () => {
   const stale = buildPlayerShellModel(playerInput(before.officer, { connection: 'stale', ...revealed }));
   assert.equal(stale.screen, 'match');
-  assert.equal(stale.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(stale.match.privateArea.content, null);
   assert.deepEqual(stale.banners.map(banner => banner.variant), ['fixture', 'stale']);
   assert.deepEqual(stale.banners[1].action, { intent: 'session/reconnect', label: 'Reconnect now' });
   assert.equal(stale.match.location.name, 'Room A');
@@ -164,7 +164,7 @@ test('stale and expired states pause actions with a reason and keep the last vie
   const unreadable = buildPlayerShellModel(playerInput(before.officer, { problem: 'unreadable-update', ...revealed }));
   assert.equal(unreadable.screen, 'match');
   assert.deepEqual(unreadable.banners.map(banner => banner.variant), ['fixture', 'unreadable']);
-  assert.equal(unreadable.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(unreadable.match.privateArea.content, null);
 });
 
 test('the data source is always labeled unless it is the live server', () => {

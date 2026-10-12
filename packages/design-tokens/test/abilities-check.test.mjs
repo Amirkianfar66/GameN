@@ -30,6 +30,12 @@ function scratchCopy() {
   for (const entry of readdirSync(join(repoRoot, 'design/abilities/review'), { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.png')) writeFileSync(join(root, 'design/abilities/review', entry.name), '');
   }
+  // So are the board's pictures that the inventory cites (slice 7's movement, health and failure states).
+  const inventory = JSON.parse(readFileSync(join(repoRoot, 'design/abilities/contract/abilities.json'), 'utf8'));
+  for (const path of inventory.treatments.flatMap(entry => entry.review ?? []).filter(path => path.startsWith('design/board-motion/review/'))) {
+    mkdirSync(dirname(join(root, path)), { recursive: true });
+    writeFileSync(join(root, path), '');
+  }
   return root;
 }
 const edit = (root, path, change) => {
@@ -64,7 +70,7 @@ const APP = 'design/board-motion/js/app.js';
 test('the ability art as committed passes its check', async () => {
   const result = await check(scratchCopy());
   assert.equal(result.status, 0, result.output);
-  assert.match(result.output, /Ability-art checks: 11 passed, 0 failing/);
+  assert.match(result.output, /Ability-art checks: 12 passed, 0 failing/);
 });
 
 // ---------- the kit ----------
@@ -399,6 +405,35 @@ test('a result sheet that names the seat\'s own role from its view is refused', 
   const root = scratchCopy();
   edit(root, APP, text => text.replace("h('span', { class: 'bm-cast__label' }, label(entry.seat))", "h('span', { class: 'bm-cast__label' }, label(entry.seat), entry.seat === VIEWER ? S.private.role : null)"));
   refuses(await check(root), /the result sheet draws something private or from the ability kit/);
+});
+
+// ---------- slice 7: the marks in the tray, and the card kept out of date ----------
+
+const DOSSIER_JS = 'design/abilities/js/dossier.js';
+
+test('a tray action without its mark, or a mark drawn before its art, is refused', async () => {
+  const root = scratchCopy();
+  edit(root, CSS, text => text.replace(/\n\[data-art~="abilities"\] \.bm-chip__icon\[data-kind="rescue"\][^\n]*/, '')
+    .replace('[data-art~="abilities"] .bm-chip__icon[data-kind="scan"]', '.bm-chip__icon[data-kind="scan"]'));
+  refuses(await check(root), /the rescue chip has no mark/, /the scan chip's mark is drawn without waiting for its art/);
+});
+
+test('a card marked out of date when its time is merely up is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace('const stale = held && outOfDate();', 'const stale = held;'));
+  refuses(await check(root), /the out-of-date mark is drawn for a view that is only timed out/);
+});
+
+test('a kept file that can still be inspected, or keeps its inspected snapshot, is refused', async () => {
+  const root = scratchCopy();
+  edit(root, DOSSIER_JS, text => text.replace("    if (photo && file.dataset.paused === 'true') return;\n", '').replace('    if (was) INSPECTORS.get(file)?.(null);\n', ''));
+  refuses(await check(root), /a paused file can still be inspected/, /a paused file keeps an inspected snapshot or its motion/);
+});
+
+test('a card kept on an out-of-date view by default is refused', async () => {
+  const root = scratchCopy();
+  edit(root, APP, text => text.replace("&& (!paused() || S.staleCard);", "&& true;"));
+  refuses(await check(root), /the card is kept on an out-of-date view without S\.staleCard/);
 });
 
 // ---------- loading, hiding, and the production fence ----------

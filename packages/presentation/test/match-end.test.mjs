@@ -122,7 +122,7 @@ test('once the match is over the phone says so and offers nothing', () => {
     assert.deepEqual(actions.card.body.offers.map(offer => [offer.kind, offer.statusLabel]), [['move', 'Not available'], ['shot', 'Not available']]);
   }
   // A lost connection is still said first: the phone cannot vouch for what it shows.
-  assert.equal(phone(aborted, IDLE, { ...over, connection: 'stale' }).match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(phone(aborted, IDLE, { ...over, connection: 'stale' }).match.privateArea.content, null);
   // While the match is played, nothing says it is over.
   assert.equal(card(playerView()).body.offers.some(offer => offer.open !== null), true);
   assert.equal(model(playerView()).match.privateArea.content.actions.notice, null);

@@ -142,6 +142,7 @@ export function makeInspectable(file, { field, seats, describe = () => '', onSho
         el('button', { type: 'button', class: 'ab-button', 'data-file-act': 'back' }, FILE_COPY.back)),
     ]));
   };
+  INSPECTORS.set(file, inspect);
   const putBack = () => {
     const was = file.dataset.inspect;
     inspect(null);
@@ -149,6 +150,7 @@ export function makeInspectable(file, { field, seats, describe = () => '', onSho
   };
   file.addEventListener('click', event => {
     const photo = event.target.closest('.ab-photo');
+    if (photo && file.dataset.paused === 'true') return;
     if (photo) {
       cancelMotion(file);
       inspect(file.dataset.inspect === photo.dataset.seat ? null : Number(photo.dataset.seat));
@@ -215,11 +217,32 @@ export function drawThread(file) {
 }
 
 const ANIMATIONS = new WeakMap();
+// Each file's inspect, to put an inspected snapshot back when the file is paused.
+const INSPECTORS = new WeakMap();
 
 /** Stops whatever of the file is moving, and leaves it at rest, as it is. */
 export function cancelMotion(file) {
   for (const animation of ANIMATIONS.get(file) ?? []) animation.finish();
   ANIMATIONS.delete(file);
+}
+
+/**
+ * A file kept on a view that may be out of date or whose time is up (DSN-REQ-16, recommended): at rest, as it is.
+ * Whatever moves finishes, an inspected snapshot is put back, and a snapshot cannot be pressed until the view is
+ * current again: an inspected player's facts would be the stale view's.
+ */
+export function pauseFile(file, paused) {
+  if ((file.dataset.paused === 'true') === paused) return;
+  file.dataset.paused = String(paused);
+  if (paused) {
+    cancelMotion(file);
+    // Focus in the inspect card goes back to its snapshot, as Back does; focus anywhere else stays where it is.
+    const was = file.dataset.inspect;
+    const focused = Boolean(was) && Boolean(file.querySelector('.ab-inspect')?.contains(document.activeElement));
+    if (was) INSPECTORS.get(file)?.(null);
+    if (focused) file.querySelector(`.ab-photo[data-seat="${CSS.escape(was)}"]`)?.focus();
+  }
+  for (const photo of file.querySelectorAll('.ab-photo')) photo.setAttribute('aria-disabled', String(paused));
 }
 
 /** The beats every file opens with: the board rises, the snapshots drop in seat order and are pinned. */

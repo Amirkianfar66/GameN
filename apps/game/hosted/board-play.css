@@ -533,7 +533,10 @@
   opacity: 0;
 }
 /* The layer a moving character is carried in: over the page, taking no pointer events. */
-.phone-fx { position: fixed; inset: 0; z-index: 85; pointer-events: none; overflow: hidden; }
+/* Over the board (its own stacking context at 0) and under everything laid over it: the card,
+   the tray and the menu (5), the status bar (24), the strip (70) and the banners (90). A public
+   move flies across the rooms, never over the player's own card. */
+.phone-fx { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 /* The flyer is a copy of the character's own picture: the host copies the drawn token's background. */
 .phone-fx__flyer { position: absolute; z-index: 2; background: transparent center bottom / contain no-repeat; }
 .phone-fx__trail { position: absolute; height: 10px; transform-origin: 0 50%; border-radius: 5px; background: var(--ms-color-ink); opacity: 0; animation: board-trail var(--ms-motion-piece-move) var(--ms-ease-standard) forwards; }
@@ -783,6 +786,10 @@
      as the button allows. */
   #app .ms-shell--player .phone-nav .phone-pass { padding: 0; font-size: 0.625rem; }
   #app .ms-shell--player .phone-nav .phone-pass .phone-nav__icon { display: none; }
+  /* The other four labels each keep to their fifth of the width: smaller than the reader's text,
+     though they still grow with it, instead of running into the next label. */
+  #app .ms-shell--player .phone-nav button:not(.phone-pass) { padding-inline: 0; }
+  #app .ms-shell--player .phone-nav button:not(.phone-pass) > span:last-child { font-size: 0.5rem; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__player { display: none; }
   #app .ms-shell--player .ms-board[data-board="own"] .ms-zone .ms-seat .ms-seat__name { font-size: 0.7rem; }
   #app .ms-shell--player .phone-action-dock .phone-strip__answers { flex-wrap: wrap; }

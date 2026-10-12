@@ -261,6 +261,49 @@ for (const size of [[390, 844], [320, 568]]) {
   await page.close();
 }
 
+// Confirming never shrinks the board until rooms vanish, and going back and forth between
+// choosing and confirming never grows or shrinks it step by step: the same step has the same
+// board every time. At doubled text the board scrolls inside itself (see above), so a room
+// scrolled out of view while confirming is recorded there, not counted as a problem.
+const STABLE = `(() => {
+  const zones = document.querySelector('.ms-board[data-board="own"] > .ms-zones');
+  const r = zones.getBoundingClientRect();
+  const top = r.top + zones.clientTop, bottom = top + zones.clientHeight;
+  return { board: Math.round(zones.clientHeight), scrollsInside: zones.scrollHeight > zones.clientHeight + 1,
+    rooms: [...zones.querySelectorAll(':scope > .ms-zone')].filter(zone => !zone.hidden && zone.getClientRects().length > 0)
+      .map(zone => { const z = zone.getBoundingClientRect(); return [zone.dataset.zone, Math.max(0, Math.round(Math.min(z.bottom, bottom) - Math.max(z.top, top)))]; }) };
+})()`;
+for (const [size, fontSize] of [[[320, 568], null], [[390, 844], null], [[320, 568], 32]]) {
+  for (const [scenario, kind, seats] of [['shot', 'shot', [5]], ['supply', 'supply', [1, 8]]]) {
+    const page = await open(scenario, size, '', { fontSize });
+    const tag = `${size.join('x')}${fontSize ? '-text' : ''}`;
+    await openAction(page, kind);
+    const boards = { choosing: [], confirming: [] };
+    let hidden = [];
+    let scrollsInside = false;
+    for (let cycle = 0; cycle < 3; cycle += 1) {
+      await sleep(350);
+      boards.choosing.push((await page.evaluate(STABLE)).board);
+      for (const seat of seats) if (await page.evaluate(`!!document.querySelector('.phone-character-target[data-value="seat-${seat}"]')`)) await tapSeat(page, seat);
+      await page.waitFor("document.querySelector('#ms-action-confirm')", 'confirming', 5000);
+      await sleep(350);
+      const confirming = await page.evaluate(STABLE);
+      boards.confirming.push(confirming.board);
+      scrollsInside ||= confirming.scrollsInside;
+      hidden = [...new Set([...hidden, ...confirming.rooms.filter(([, visible]) => visible === 0).map(([zone]) => zone)])];
+      await page.tap('#ms-action-back');
+      await page.waitFor("document.querySelector('.phone-strip > .ms-card__state[data-step=\"choosing\"]')", 'choosing again', 5000);
+    }
+    const drift = Object.entries(boards).filter(([, heights]) => new Set(heights).size > 1).map(([step, heights]) => `${step} board ${heights.join(' → ')} px`);
+    const problems = [...drift, ...(fontSize ? [] : hidden.map(zone => `${zone} out of view while confirming`))];
+    facts.push({ name: `confirm-stability-${scenario}-${tag}`, scenario, size, fontSize, boards, roomsOutOfViewWhileConfirming: hidden, boardScrollsInside: scrollsInside, problems });
+    note(`confirm stability ${scenario} ${tag}:`, `choosing ${boards.choosing.join('/')} px, confirming ${boards.confirming.join('/')} px`,
+      hidden.length ? `| out of view while confirming: ${hidden.join(', ')}${fontSize ? ' (the board scrolls inside itself at doubled text)' : ''}` : '| every room in view',
+      problems.length ? `| PROBLEMS: ${problems.join('; ')}` : '| clean');
+    await page.close();
+  }
+}
+
 // The shared display while a phone acts: public facts only, and the public move flies there too.
 // The display is a shared screen, not a phone; it is shown at a common display size.
 {
