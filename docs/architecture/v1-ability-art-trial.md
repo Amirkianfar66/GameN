@@ -13,6 +13,13 @@ Designer supplied the cumulative ability stack through
 [`08409392`](https://github.com/Amirkianfar66/GameN/pull/88). Keep that artwork and
 its editable sources. Frontend owns its production rendering and lifecycle.
 
+Designer lifecycle corrections from PR #113 at `d87163358ea85878fd3e9e4ffb347c4e71d6de5d`
+settle the latest public pose, stop active motion on comfort-setting changes and
+fit short-phone confirmation strips. They preserve the frozen figure geometry,
+scene sources and generated art. The combined Designer suite, including the
+existing PR #93 phone-copy correction, is required by `npm run test:design` and
+the root `npm run verify` command.
+
 For this staging trial, Integration accepts packaging the complete
 `abilities-0.7.0` kit: 49 assets and 22 delivered ability treatments. The two
 setup treatments marked planned in the inventory remain proposals; existing

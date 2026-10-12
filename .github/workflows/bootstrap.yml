@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm install --global npm@10.9.4
       - run: npm ci
-      # verify preserves Frontend suites/exclusion and runs historical Balance plus the 1.3 capacity gate.
+      # verify includes Frontend exclusion, Designer checks, historical Balance and the 1.3 capacity gate.
       # Missing suites/engines, incomplete reports and mismatched candidate/build pins fail.
       - run: npm run verify
       - run: npm run check:browser-dependencies
