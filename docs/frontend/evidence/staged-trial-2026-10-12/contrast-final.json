@@ -1,0 +1,356 @@
+{
+  "scope": "Focused final CSS-only public terminal checks, native browser, synthetic views.",
+  "inputs": {
+    "apps/game/hosted/ability-art.css": "4e3963577937a68380383deb5d4ac218f825c8775407397b2f8cfce6ceaa0e2b"
+  },
+  "facts": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScroll": false,
+      "result": "blue",
+      "cast": 9,
+      "private": 0,
+      "outcome": "Blue wins.",
+      "outcomeContrast": 7.751736565109992,
+      "namesContrast": 14.871087567883167,
+      "roles": [
+        {
+          "role": "Insider",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Cracker",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Officer",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Blue Disabler",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Supplier",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Undercover",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Hacker",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Red Disabler",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Alien",
+          "fg": "rgb(196, 164, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 8.451529800082936
+        }
+      ],
+      "device": "phone",
+      "end": "finished"
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScroll": false,
+      "result": "aborted",
+      "cast": 0,
+      "private": 0,
+      "outcome": "The host ended this match. There is no winner.",
+      "outcomeContrast": 14.871087567883167,
+      "namesContrast": 14.871087567883167,
+      "roles": [],
+      "device": "phone",
+      "end": "aborted"
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScroll": true,
+      "result": "blue",
+      "cast": 9,
+      "private": 0,
+      "outcome": "Blue wins.",
+      "outcomeContrast": 7.751736565109992,
+      "namesContrast": 14.871087567883167,
+      "roles": [
+        {
+          "role": "Insider",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Cracker",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Officer",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Blue Disabler",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Supplier",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Undercover",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Hacker",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Red Disabler",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Alien",
+          "fg": "rgb(196, 164, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 8.451529800082936
+        }
+      ],
+      "device": "display",
+      "end": "finished"
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScroll": true,
+      "result": "aborted",
+      "cast": 0,
+      "private": 0,
+      "outcome": "The host ended this match. There is no winner.",
+      "outcomeContrast": 14.871087567883167,
+      "namesContrast": 14.871087567883167,
+      "roles": [],
+      "device": "display",
+      "end": "aborted"
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScroll": false,
+      "result": "blue",
+      "cast": 9,
+      "private": 0,
+      "outcome": "Blue wins.",
+      "outcomeContrast": 7.751736565109992,
+      "namesContrast": 14.871087567883167,
+      "roles": [
+        {
+          "role": "Insider",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Cracker",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Officer",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Blue Disabler",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Supplier",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Undercover",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Hacker",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Red Disabler",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Alien",
+          "fg": "rgb(196, 164, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 8.451529800082936
+        }
+      ],
+      "device": "phone",
+      "end": "finished"
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScroll": false,
+      "result": "aborted",
+      "cast": 0,
+      "private": 0,
+      "outcome": "The host ended this match. There is no winner.",
+      "outcomeContrast": 14.871087567883167,
+      "namesContrast": 14.871087567883167,
+      "roles": [],
+      "device": "phone",
+      "end": "aborted"
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScroll": true,
+      "result": "blue",
+      "cast": 9,
+      "private": 0,
+      "outcome": "Blue wins.",
+      "outcomeContrast": 7.751736565109992,
+      "namesContrast": 14.871087567883167,
+      "roles": [
+        {
+          "role": "Insider",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Cracker",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Officer",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Blue Disabler",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Supplier",
+          "fg": "rgb(112, 175, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.751736565109992
+        },
+        {
+          "role": "Undercover",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Hacker",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Red Disabler",
+          "fg": "rgb(255, 140, 140)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 7.849615414075659
+        },
+        {
+          "role": "Alien",
+          "fg": "rgb(196, 164, 255)",
+          "bg": "rgb(21, 25, 35)",
+          "contrast": 8.451529800082936
+        }
+      ],
+      "device": "display",
+      "end": "finished"
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScroll": true,
+      "result": "aborted",
+      "cast": 0,
+      "private": 0,
+      "outcome": "The host ended this match. There is no winner.",
+      "outcomeContrast": 14.871087567883167,
+      "namesContrast": 14.871087567883167,
+      "roles": [],
+      "device": "display",
+      "end": "aborted"
+    }
+  ]
+}
