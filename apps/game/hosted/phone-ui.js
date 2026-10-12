@@ -51,6 +51,10 @@ export function choiceTiles(el, select, title, kind) {
 }
 
 /** Public identities may include untrusted names: create text nodes, never markup. */
+export function initialRoomWords(room) {
+  return room === null ? 'Room assignment pending' : room === 'Room A' || room === 'Room B' ? `Starts in ${room}` : 'Room information unavailable';
+}
+
 export function publicSlots(el, count, seats, identities = [], bots = []) {
   return Array.from({ length: count }, (_, index) => {
     const seatId = `seat-${index + 1}`, seat = seats.find(item => item.seatId === seatId);
@@ -60,7 +64,7 @@ export function publicSlots(el, count, seats, identities = [], bots = []) {
     if (/^c[1-9]$/.test(identity?.characterId ?? '')) face.setAttribute('data-character', identity.characterId);
     const words = el('span');
     words.append(el('strong', identity?.displayName ?? `Player ${index + 1}`),
-      el('small', seat ? `${bots.includes(seatId) ? 'Bot · ' : ''}Starts in ${seat.initialRoom}` : 'Open seat'));
+      el('small', seat ? `${bots.includes(seatId) ? 'Bot · ' : ''}${initialRoomWords(seat.initialRoom)}` : 'Open seat'));
     row.append(face, words);
     return row;
   });

@@ -87,6 +87,7 @@ test('nothing can be started on a view that is not fresh or whose clock has run 
     [{ deadline: { kind: 'unsynced' } }, 'Actions are paused until this device has the server’s time.'],
   ]) {
     const built = model(playerView(armed), IDLE, overrides);
+    if (overrides.connection === 'stale' || overrides.problem) { assert.equal(built.match.privateArea.content, null); continue; }
     assert.equal(built.match.privateArea.content.actions.notice, notice);
     for (const offer of built.match.privateArea.content.actions.card.body.offers) assert.equal(offer.open, null, JSON.stringify(overrides));
     // What the server last offered is not called "available": this device cannot vouch for the present.
@@ -270,6 +271,7 @@ test('an action other than a move or a shot is listed only while the server open
     assert.deepEqual(card(playerView(listing(expected.command, []))).body.offers[2], { kind, label: expected.label, state: 'no-target', statusLabel: 'No one you can target right now', open: null }, kind);
     // On a view this device cannot vouch for, or without a running trusted clock: no control, and not called available.
     for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
+      if (overrides.connection === 'stale') { assert.equal(model(playerView(listing(expected.command, ['seat-3'])), IDLE, overrides).match.privateArea.content, null); continue; }
       assert.deepEqual(card(playerView(listing(expected.command, ['seat-3'])), IDLE, overrides).body.offers[2], { kind, label: expected.label, state: 'paused', statusLabel: 'Paused', open: null }, kind);
     }
     // Closed, none of it is in the model or the document.

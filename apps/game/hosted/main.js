@@ -20,7 +20,7 @@ import './phone.css';
 import './compact-phone.css';
 import './board-play.css';
 import './private-card.css';
-import { disclosure, dock, copyControl, choiceTiles, publicSlots } from './phone-ui.js';
+import { disclosure, dock, copyControl, choiceTiles, publicSlots, initialRoomWords } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';
 import { loadArt } from './art.mjs';
@@ -580,7 +580,7 @@ async function host(uid) {
       if (request.admission.status === 'approved') {
         const hadFocus = item.contains(document.activeElement);
         item.dataset.status = 'approved';
-        text.textContent = `${who}: seated as Player ${request.admission.seatId.slice(5)}, starting in ${request.admission.initialRoom}`;
+        text.textContent = `${who}: seated as Player ${request.admission.seatId.slice(5)} · ${initialRoomWords(request.admission.initialRoom)}`;
         seat.remove();
         control.remove();
         // The server's own record settles a request for this seating that was still kept.
@@ -590,7 +590,7 @@ async function host(uid) {
         continue;
       }
       item.dataset.status = 'pending';
-      text.textContent = `${who} asks to join, starting in ${request.admission.initialRoom}`;
+      text.textContent = `${who} asks to join · ${initialRoomWords(request.admission.initialRoom)}`;
       // While a request for this seating is kept, the seat it asks for is what stays shown.
       if (lifecycle.unsettled(`approve ${request.id}`) === null) {
         const chosen = vacant.includes(seat.value) ? seat.value : vacant[0];

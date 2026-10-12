@@ -76,10 +76,11 @@ test('idle: the card offers a start only when the gate is open, and explains onl
   assert.equal(card(IDLE_SHOT, othersTurn).status, 'available');
   // Paused: the notice above the cards says why, and the card offers nothing.
   for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }]) {
+    if (overrides.connection === 'stale') { assert.equal(buildPlayerShellModel(openInput(officer, IDLE_SHOT, overrides)).match.privateArea.content, null); continue; }
     assert.deepEqual(card(IDLE_SHOT, officer, overrides).body, { step: 'idle', open: null, reason: null, note: null });
   }
   const actions = overrides => buildPlayerShellModel(openInput(officer, IDLE_SHOT, overrides)).match.privateArea.content.actions;
-  assert.equal(actions({ connection: 'stale' }).notice, 'Actions are paused until the connection is restored.');
+  assert.equal(buildPlayerShellModel(openInput(officer, IDLE_SHOT, { connection: 'stale' })).match.privateArea.content, null);
   assert.equal(actions({ deadline: { kind: 'expired' } }).notice, 'This phase has ended. Waiting for phase update.');
   // "Not available" comes with no reason: whether a shot was spent or never held is not this screen's to say.
   assert.deepEqual(card(IDLE_SHOT, before.target).body, { step: 'idle', open: null, reason: null, note: null });
@@ -154,6 +155,7 @@ test('a choice that was not sent cannot be drawn once the gate has closed', () =
   ];
   for (const [view, overrides] of closed) {
     for (const step of [STEPS.targeting, STEPS.confirming]) {
+      if (overrides.connection === 'stale') { assert.equal(buildPlayerShellModel(openInput(view, step, overrides)).match.privateArea.content, null); continue; }
       const model = card(step, view, overrides);
       assert.equal(model.body.step, 'idle');
       assert.equal(model.body.open, null);
@@ -180,6 +182,7 @@ test('a sent command locks the card until the server’s answer is known', () =>
   // start over, pick someone else or walk away: a changed target must be a new, deliberate command.
   for (const name of ['submitting', 'checking', 'checking after a reload', 'unknown', 'unknown after a reload']) {
     for (const overrides of [{}, { connection: 'stale' }, { deadline: { kind: 'expired' } }]) {
+      if (overrides.connection === 'stale') { assert.equal(buildPlayerShellModel(openInput(officer, STEPS[name], overrides)).match.privateArea.content, null); continue; }
       const text = JSON.stringify(card(STEPS[name], officer, overrides));
       for (const intent of ['shot/open', 'shot/choose-target', 'shot/confirm', 'shot/back', 'shot/dismiss']) assert.equal(text.includes(intent), false, `${name} ${intent}`);
     }
@@ -393,7 +396,7 @@ test('a step change redraws the Shot card alone; a control becoming active redra
   assert.equal(regions(STEPS.submitting).get('shot').includes(`id="${SHELL_IDS.shotTitle}"`), false);
   assert.equal(regions(STEPS.submitting).get('actions').includes(`id="${SHELL_IDS.shotTitle}"`), true);
   // Losing the connection while a command is unresolved adds the notice: the role card is not rebuilt.
-  assert.deepEqual(changed(regions(STEPS.checking), regions(STEPS.checking, { connection: 'stale' })), ['banners', 'actions']);
+  assert.ok(changed(regions(STEPS.checking), regions(STEPS.checking, { connection: 'stale' })).includes('private'));
   // Outermost first, so a host can fill each region before the regions inside it.
   assert.deepEqual([...regions(STEPS.confirming).keys()].filter(id => ['private', 'actions', 'shot', 'shot-controls'].includes(id)), ['private', 'actions', 'shot', 'shot-controls']);
 });

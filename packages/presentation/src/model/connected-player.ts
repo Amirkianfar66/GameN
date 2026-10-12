@@ -326,7 +326,7 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 const RULESETS_WITHOUT_PASS: ReadonlySet<string> = new Set(['in-person-v1-2026-10-06']);
 
 function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedPrivateAreaModel {
-  const open = input.privacy.revealed && !input.privacy.concealed;
+  const open = input.privacy.revealed && !input.privacy.concealed && isCurrent(input);
   const over = view.phase.kind === 'FINISHED' || view.phase.kind === 'ABORTED';
   const notice = !isCurrent(input) ? en.actions.pausedStale
     : over ? en.actions.matchOver
@@ -368,7 +368,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
         && (input.action.step === 'idle' || (['accepted', 'rejected', 'not-accepted'].includes(input.action.step) && 'armed' in input.action && input.action.armed)),
       // The server's offer is what makes Pass available; the ruleset only says whether the match has it at all.
       inRules: !RULESETS_WITHOUT_PASS.has(view.versions.rulesetVersion) || openness(view, 'pass') !== 'closed',
-      card: !input.privacy.concealed && 'choice' in input.action && input.action.choice?.kind === 'pass' ? buildCard(input, view, seats) : null,
+      card: !input.privacy.concealed && isCurrent(input) && 'choice' in input.action && input.action.choice?.kind === 'pass' ? buildCard(input, view, seats) : null,
     },
     privateArea: buildPrivateArea(input, view, seats),
     vote: buildVotePanel(view),

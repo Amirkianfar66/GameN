@@ -195,7 +195,7 @@ test('the stale banner offers a keyboard-reachable reconnect and the last view s
   assert.equal(textOf(action), 'Reconnect now');
   assert.equal(findAll(root, byClass('ms-seat')).length > 0, true);
   assert.equal(findAll(root, byClass('ms-notice')).length, 0, 'the paused notice is private-panel content');
-  assert.equal(textOf(find(player(before.officer, { connection: 'stale', ...open }), byClass('ms-notice'))), 'Actions are paused until the connection is restored.');
+  assert.equal(findAll(player(before.officer, { connection: 'stale', ...open }), byClass('ms-private__role')).length, 0);
 });
 
 test('the table roster is a real table: caption, column and row headers, one row per seat', () => {

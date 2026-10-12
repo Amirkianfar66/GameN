@@ -21,7 +21,7 @@ import { connect, launchBrowser, openPage, sleep } from './capture/browser.mjs';
 // production-exclusion check finds this module wherever it ends up.
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
-const BASE = 'http://127.0.0.1:5178/';
+const BASE = process.env.MOTHERSHIP_BOARD_URL ?? 'http://127.0.0.1:5178/';
 const ROLES = ['Undercover', 'Alien', 'Cracker'];
 const ROLE_SET = 'Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known.';
 const output = resolve(process.argv[2] ?? 'insider-file-evidence');
@@ -99,6 +99,13 @@ const READ = `(() => {
       return b.bottom > h.top + 0.5 && b.top < h.bottom - 0.5;
     })(),
     roleCard: Boolean(document.querySelector('.ms-role-card')),
+    hideReachable: (() => {
+      const close = sheet?.querySelector('#phone-private-close');
+      if (!close) return null;
+      const b = close.getBoundingClientRect();
+      const top = document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2);
+      return b.width >= 44 - 0.01 && b.height >= 44 - 0.01 && b.top >= -0.5 && b.bottom <= innerHeight + 0.5 && (top === close || close.contains(top));
+    })(),
     spot: [...document.querySelectorAll('.ms-board[data-board="own"] .ms-seat[data-spot]')].map(node => node.dataset.seat),
     sentence: text.includes('hold the roles'),
     roleWordsOutsideCard: words.filter(word => text.replace(card ? card.innerText : '', '').includes(word)),
@@ -123,6 +130,7 @@ async function step(page, name, size, { shot = true, settle = 300, expect = () =
   const problems = [
     size[0] < 600 && measured.pageScrolls && 'page scrolls', measured.pageOverflowsSideways && 'sideways overflow',
     measured.sheetOverflowsSideways && 'the card scrolls sideways',
+    measured.sheetOpen && measured.hideReachable !== true && 'hide control is not reachable',
     ...measured.controls.filter(control => control.h < 44 - 0.01).map(control => `control ${control.id} under 44 px (${control.h})`),
     measured.roleWordsOutsideCard.length > 0 && `role words outside the card: ${measured.roleWordsOutsideCard}`,
     ...expect(measured),
@@ -178,18 +186,18 @@ for (const size of [[320, 568], [390, 844]]) {
   // Losing focus closes the card, and with it the file.
   await page.evaluate("window.dispatchEvent(new Event('blur'))");
   await step(page, `${tag}-blurred`, size, { shot: false, expect: m => [m.sheetOpen && 'card still open', m.hooks && 'file hooks still in the page', m.roleWordsInPage.length > 0 && `role words in the page: ${m.roleWordsInPage}`] });
-  // A view the server no longer confirms keeps the card as the release draws it, the file at rest under
-  // the release's banner (the Designer's DSN-REQ-16 recommendation): an inspected snapshot is put back,
-  // nothing moves, and there is no folder. The banner takes room, so the file may need a scroll.
+  // Current-view loss removes private DOM. Recovery does not reopen it by itself.
   await page.tap('#ms-private-toggle');
   await page.waitFor("document.querySelector('.ab-file')", 'the file before the stale view', 5000);
   await page.tap('.ab-photo[data-seat="1"]');
   await sleep(250);
   await page.evaluate('window.__simulation.stale()');
-  await step(page, `${tag}-stale`, size, { expect: m => [...fileChecks(m, { fits: false }), !m.outOfDate && 'no out-of-date banner', !m.roleCard && 'no role card on a stale view',
-    m.folder && 'a folder', m.running > 0 && `${m.running} animations on a stale view`, m.photos.some(photo => photo.pressed !== 'false') && 'a snapshot still inspected'] });
+  await step(page, `${tag}-stale`, size, { expect: m => [!m.outOfDate && 'no out-of-date banner', m.roleCard && 'role card on a stale view',
+    m.hooks && 'private file remains', m.sheetOpen && 'private sheet stays open', m.running > 0 && 'private motion remains', m.roleWordsInPage.length > 0 && 'private role words remain'] });
   await page.evaluate('window.__simulation.redeliver()');
-  await step(page, `${tag}-live-again`, size, { shot: false, settle: 500, expect: m => [...fileChecks(m), m.running > 0 && 'the file assembled again after a reconnect'] });
+  await step(page, `${tag}-live-again`, size, { shot: false, settle: 500, expect: m => [m.sheetOpen && 'private sheet reopened', m.hooks && 'file reopened automatically'] });
+  await page.tap('#ms-private-toggle');
+  await step(page, `${tag}-deliberate-reopen`, size, { shot: false, expect: m => [...fileChecks(m), m.running > 0 && 'the file assembled again after recovery'] });
   await page.close();
 }
 
@@ -258,7 +266,7 @@ for (const size of [[320, 568], [390, 844]]) {
   await page.close();
 }
 
-// Other roles: the same kit arrives on every player phone, the card has no file, and a stale view keeps the role card.
+// Other roles: the same kit arrives on every player phone, and staleness conceals their cards.
 for (const [scenario, role] of [['seven', 'Cracker'], ['disable', 'Red Disabler'], ['tray', 'Hacker']]) {
   const size = [390, 844];
   const page = await open(scenario, size);
@@ -266,7 +274,7 @@ for (const [scenario, role] of [['seven', 'Cracker'], ['disable', 'Red Disabler'
   await page.waitFor("document.querySelector('.ms-private[data-open=\"true\"] .ms-role-card')", 'the card', 5000);
   await step(page, `390x844-${scenario}-card`, size, { shot: false, expect: m => [m.hooks && `a file on the ${role}'s card`, !m.art.includes('abilities') && 'kit not loaded', m.kitRequests !== 1 && `kit requested ${m.kitRequests} times`] });
   await page.evaluate('window.__simulation.stale()');
-  await step(page, `390x844-${scenario}-stale`, size, { shot: scenario === 'seven', expect: m => [!m.outOfDate && 'no out-of-date banner', !m.roleCard && 'no role card on a stale view', m.hooks && `a file on the ${role}'s card`, m.folder && 'a folder'] });
+  await step(page, `390x844-${scenario}-stale`, size, { shot: scenario === 'seven', expect: m => [!m.outOfDate && 'no out-of-date banner', m.roleCard && 'role card on a stale view', m.hooks && `a file on the ${role}'s card`, m.folder && 'a folder'] });
   await page.close();
 }
 

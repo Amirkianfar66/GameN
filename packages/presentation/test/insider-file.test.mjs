@@ -138,13 +138,10 @@ test('the file is only in the Insider’s own open card', () => {
   absent(renderComicTableShell(buildTableShellModel({ ...environment, view: publicView() }), { identities: IDENTITIES }), 'display');
 });
 
-test('a view out of date keeps every role’s card as the release draws it, the Insider’s file with it', () => {
-  // The Designer's DSN-REQ-16 recommendation, pending Integration: the card stays, nothing in it
-  // can be acted on, and the release's banner says the view may be out of date. No closed folder.
+test('a stale view conceals every role card and starting knowledge in the model and markup', () => {
+  // Stale retention was a proposal, not authority to keep a private card visible.
   const stale = draw(insider(), { connection: 'stale' });
-  assert.ok(find(stale, byClass('ms-role-card')), 'the Insider’s role card');
-  assert.equal(toHtml(fileOf(stale)), toHtml(fileOf(draw(insider()))), 'the same file as on a live view');
-  assert.doesNotMatch(toHtml(stale), /ab-folder/);
+  assert.doesNotMatch(toHtml(stale), /ms-role-card|ab-file|ab-photo|ab-inspect|ab-folder/);
   const others = {
     Cracker: () => {}, Supplier: view => { view.self.rescuesRemaining = 0; }, 'Blue Disabler': view => { view.self.rescuesRemaining = 0; },
     // A role whose view carries knowledge of its own: the Alien's Code.
@@ -152,8 +149,7 @@ test('a view out of date keeps every role’s card as the release draws it, the 
   };
   for (const [role, change] of Object.entries(others)) {
     const card = draw(playerView(view => { view.self.role = role; change(view); }), { connection: 'stale' });
-    assert.equal(textOf(find(card, byClass('ms-role-card__name'))), role, `${role}: the role card stays`);
-    assert.doesNotMatch(toHtml(card), /ab-file|ab-folder/, `${role}: no file and no folder`);
+    assert.doesNotMatch(toHtml(card), /ms-role-card|ab-file|ab-photo|ab-folder/, `${role}: no private content in the document`);
   }
 });
 

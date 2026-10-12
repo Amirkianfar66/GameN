@@ -11,7 +11,7 @@ function buildActions(input: PlayerShellInput, view: NonNullable<PlayerShellInpu
 }
 
 function buildPrivateArea(input: PlayerShellInput, view: NonNullable<PlayerShellInput['view']>, seats: readonly SeatModel[]): PrivateAreaModel {
-  const open = input.privacy.revealed && !input.privacy.concealed;
+  const open = input.privacy.revealed && !input.privacy.concealed && isCurrent(input);
   return {
     heading: en.privateArea.heading,
     hint: en.privateArea.hint,

@@ -54,7 +54,7 @@ test('backgrounding clears the file, and coming back does not show it again', as
   s.screen.dispose();
 });
 
-test('a seat this device no longer holds and another match show no file; a view out of date keeps it', async () => {
+test('authorization or current-view loss conceals the file; recovery never reopens it automatically', async () => {
   // Refused: the seat was bound to another device. Nothing of the match stays.
   const refused = await opened();
   await refused.fake.fail(OWN, 'refused');
@@ -62,17 +62,19 @@ test('a seat this device no longer holds and another match show no file; a view 
   assert.doesNotMatch(refused.page(), FILE);
   refused.screen.dispose();
 
-  // A listener that fails without refusing leaves the last view, marked stale: the card stays as the
-  // release draws it, with the role card and the file (the Designer's DSN-REQ-16 recommendation).
+  // Keep the last public view and recovery internally, but remove private content immediately.
   const stale = await opened();
   await stale.fake.fail(OWN);
   assert.equal(stale.screen.getFrame().model.connection, 'stale');
-  assert.match(stale.page(), /ms-role-card/);
-  assert.match(stale.page(), /ab-photo/);
-  assert.doesNotMatch(stale.page(), /ab-folder/);
-  // When the server confirms the view again, the same card is still open.
+  assert.equal(stale.screen.getFrame().model.match.privateArea.content, null);
+  assert.equal(stale.screen.getFrame().privateAnnouncement, null);
+  assert.doesNotMatch(stale.page(), /ms-role-card|ab-photo|ab-inspect|ab-folder/);
+  // A current view does not restore private contents until the player asks again.
   await stale.fake.deliver(OWN, insiderView(6), true);
   assert.equal(stale.screen.getFrame().model.connection, 'live');
+  assert.equal(stale.screen.getFrame().model.match.privateArea.open, false);
+  assert.doesNotMatch(stale.page(), FILE);
+  stale.screen.dispatch(TOGGLE);
   assert.match(stale.page(), /ab-photo/);
   stale.screen.dispose();
 

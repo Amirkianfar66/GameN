@@ -115,6 +115,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const beforeMotion = comicMotion.before();
     insiderFile.before();
     const frame = screen.getFrame();
+    if (frame.model.connection !== 'live' && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
     if (!frame.model.match?.privateArea?.open) phoneNotice = null;
@@ -160,7 +161,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     fitBoard(root);
     comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
-    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced', current: frame.model.connection === 'live' });
+    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced' || motion.matches, current: frame.model.connection === 'live' });
     cardRequested = false;
     if (inspect !== null && !root.querySelector('.ab-photo[aria-pressed="true"]')) inspect = null;
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
@@ -271,7 +272,10 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     if (intent !== null) screen.dispatch(intent);
   }
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const onMotion = () => screen.setDeviceReducedMotion(motion.matches);
+  const onMotion = () => {
+    screen.setDeviceReducedMotion(motion.matches);
+    if (motion.matches) insiderFile.finish(); // Explicit full can emit no frame.
+  };
   const onVisibility = () => screen.setPageVisible(document.visibilityState === 'visible');
   const onBlur = () => { if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
   function onKeyDown(event) {

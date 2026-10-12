@@ -25,6 +25,7 @@ const nine = change => sized(9, change);
 test('each line of the idle card carries its state for styling, and the state says what its words say', () => {
   assert.deepEqual(offersOf(renderConnectedPlayerShell(model(playerView()))), [['move', 'available', 'Available'], ['shot', 'unavailable', 'Not available']]);
   for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
+    if (overrides.connection === 'stale') { assert.deepEqual(offersOf(renderConnectedPlayerShell(model(playerView(), IDLE, overrides))), []); continue; }
     assert.deepEqual(offersOf(renderConnectedPlayerShell(model(playerView(), IDLE, overrides))), [['move', 'paused', 'Paused'], ['shot', 'unavailable', 'Not available']], JSON.stringify(overrides));
   }
   assert.deepEqual(offersOf(renderConnectedPlayerShell(model(playerView(listing('DISABLE', []))))).at(-1), ['disable', 'no-target', 'No one you can target right now']);

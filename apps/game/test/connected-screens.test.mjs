@@ -58,18 +58,20 @@ test('only a snapshot the server confirmed makes the view current; a cached one 
   assert.deepEqual([s.frame().model.screen, s.frame().model.connection], ['match', 'stale']);
   assert.equal(s.frame().model.banners.some(banner => banner.variant === 'stale'), true);
   s.screen.dispatch(TOGGLE);
-  assert.equal(s.card().body.offers.every(offer => offer.open === null), true, 'Nothing can be started on it');
+  assert.equal(s.card(), null, 'stale private content is not displayed');
   s.screen.dispatch({ type: 'action/open', kind: 'move' });
-  assert.equal(s.card().status, 'idle');
+  assert.equal(s.card(), null);
   // The server's confirmation arrives without the bytes changing.
   await s.fake.deliver(OWN, playerView(), true);
   assert.equal(s.frame().model.connection, 'live');
+  assert.equal(s.card(), null, 'server confirmation does not reopen private contents');
+  s.screen.dispatch(TOGGLE);
   assert.notEqual(s.card().body.offers[0].open, null);
   // The listener fails: stale again, and actions are withdrawn.
   await s.fake.fail(OWN);
   assert.equal(s.frame().model.connection, 'stale');
-  assert.equal(s.card().body.offers.every(offer => offer.open === null), true);
-  assert.equal(s.frame().model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(s.card(), null);
+  assert.equal(s.frame().model.match.privateArea.content, null);
 });
 
 test('a view for another seat, or a public view, never becomes this phone’s view', async () => {
@@ -408,7 +410,7 @@ test('a phone the server refuses its view lets go of everything it was showing, 
 
   // A listener that merely fails is a lost connection: the last view stays, marked as such.
   await s.fake.fail(OWN, 'failed');
-  assert.deepEqual([s.frame().model.screen, s.frame().model.connection, s.frame().model.match.privateArea.content.role.name], ['match', 'stale', 'Cracker']);
+  assert.deepEqual([s.frame().model.screen, s.frame().model.connection, s.frame().model.match.privateArea.content], ['match', 'stale', null]);
   await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; }));
   assert.equal(s.frame().model.connection, 'live');
 

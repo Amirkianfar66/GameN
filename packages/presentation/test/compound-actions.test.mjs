@@ -129,6 +129,7 @@ test('the idle card lists each of them only while the view opens it, and says so
     assert.deepEqual(offers.map(offer => offer.kind), ['move', 'shot', kind]);
     assert.deepEqual(offers[2], { kind, label, state: 'available', statusLabel: 'Available', open: { id: `ms-action-open-${kind}`, label: open } });
     for (const overrides of [{ connection: 'stale' }, { deadline: { kind: 'expired' } }, { deadline: { kind: 'unsynced' } }]) {
+      if (overrides.connection === 'stale') { assert.equal(model(view, IDLE, overrides).match.privateArea.content, null); continue; }
       assert.deepEqual(card(view, IDLE, overrides).body.offers[2], { kind, label, state: 'paused', statusLabel: 'Paused', open: null }, kind);
     }
     const shut = model(view, IDLE, closed);

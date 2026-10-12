@@ -190,6 +190,7 @@ export function createInsiderFile(root, { setTimeout: later = globalThis.setTime
      * app. `current`: the server confirms the view; a file shown on a view out of date stays at rest.
      */
     after({ requested = false, reduced = false, current = true } = {}) {
+      if (!current) clearSpot();
       const next = root.querySelector('.ab-file');
       if (next !== file) {
         // Closed, concealed or out of date: whatever was moving stops, at rest, with the old file.
