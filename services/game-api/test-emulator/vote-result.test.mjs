@@ -175,7 +175,7 @@ async function publicationSnapshot(h, excludedSeatId) {
     refs.push(h.base.collection('playerViews').doc(player.uid), h.base.collection('ownAcknowledgments').doc(player.uid));
   }
   return Promise.all(refs.map(async ref => { const document = await ref.get();
-    return { path: ref.path, data: document.data(), updateTime: document.updateTime.toJSON() }; }));
+    return { path: ref.path, data: document.data(), updateTime: { seconds: document.updateTime.seconds, nanoseconds: document.updateTime.nanoseconds } }; }));
 }
 async function audienceCounts(h) {
   return Promise.all(['public', ...h.players.map((_, index) => `p-seat-${index + 1}`)]
