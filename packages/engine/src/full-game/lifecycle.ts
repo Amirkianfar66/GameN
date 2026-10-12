@@ -4,9 +4,10 @@ import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
+import { placeResolvedSeats } from './placement.js';
 
 const clone = <T>(value:T):T => JSON.parse(JSON.stringify(value)) as T;
 const alive = (seat: GameSeat) => seat.health !== 'Eliminated';
@@ -61,7 +62,7 @@ function beginRound(state: FullGameState, context: FullGameContext) {
 }
 function loseCaptain(state: FullGameState, seat: GameSeat) {
   seat.captain=false;
-  if (seat.location === 'Command Room') seat.location=ordinaryReturnDestination(state,seat);
+  if (seat.location === 'Command Room' && !resolutionPlacementEnabled(state.versions)) seat.location=ordinaryReturnDestination(state,seat);
 }
 function placement(state: FullGameState, seat: GameSeat) {
   if (!ready(seat)) loseCaptain(state,seat);
@@ -122,12 +123,15 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
           successfulRecipientSeatIds:[...successfulRecipientSeatIds].sort() });
       }
     }
-    // CAP-ORDER-01: free healed Hospital beds first, in existing stored seat order.
-    // Historical tuples retain their original single-pass placement semantics.
-    if (roomCapacityEnabled(state.versions)) {
-      for (const s of state.seats) if (ready(s) && s.location === 'Hospital') placement(state,s);
+    if (resolutionPlacementEnabled(state.versions)) placeResolvedSeats(state);
+    else {
+      // Preserve the exact 1.2 healed-first pass, including its audited return bug.
+      // Earlier tuples retain the original single pass.
+      if (roomCapacityEnabled(state.versions)) {
+        for (const s of state.seats) if (ready(s) && s.location === 'Hospital') placement(state,s);
+      }
+      for (const s of state.seats) placement(state,s);
     }
-    for (const s of state.seats) placement(state,s);
   }
   const simultaneousElimination=blueBefore && redBefore && !factionSurvives(state,'Blue') && !factionSurvives(state,'Red');
   state.result=evaluateVictory({ seats:state.seats,round:state.round,correctCode:state.correctCode,

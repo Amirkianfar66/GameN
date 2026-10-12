@@ -1,5 +1,7 @@
 # Issue #96 — versioned room capacity
 
+This is the original 1.2 implementation and verification record. See [the later independent audit follow-up](capacity-resolution.md) for the reachable CAP-28 defect and subsequent owner decisions implemented as 1.3.
+
 ## Source and compatibility
 
 The existing Backend worktree was clean when inspected at `1051cca8274e126b9f66229db84390e337170f4a` on `codex/backend-deadline-repair`. That branch is preserved. The implementation branch `codex/backend-room-capacity` starts from the actual V1 integration candidate `1a92f3790e45622196014cc008544fc33c359c0a`; PR #95 is its dependency. The issue [records these pins](https://github.com/Amirkianfar66/GameN/issues/96#issuecomment-6110839699).

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import test from 'node:test';
 import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullBeginSetupResponseSchema } from '@mothership/contracts';
-import { FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
+import { CAPACITY_FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 
 const MATCH = 'synthetic-capacity-match', CODE = 'ABCDEF123456', HOST = 'synthetic-capacity-host';
@@ -14,7 +14,7 @@ const request = (fields = {}) => ({ protocolVersion: 2, matchId: MATCH, requestI
 // Atomic transaction-port double with collection snapshots and reads-before-writes.
 // Retry injection changes the approved roster between attempts, without retaining
 // the losing attempt's writes. Real concurrency belongs to test-emulator coverage.
-function storage({ versions = FULL_GAME_VERSION_PINS, rooms = [], count = 9, retry, lostAck = false } = {}) {
+function storage({ versions = CAPACITY_FULL_GAME_VERSION_PINS, rooms = [], count = 9, retry, lostAck = false } = {}) {
   const documents = new Map([
     [`roomCodes/${CODE}`, { matchId: MATCH }],
     [path('control/session'), { protocolVersion: 2, hostUid: HOST, playerCount: count, status: 'lobby' }],
@@ -125,7 +125,7 @@ test('a callback retry keeps one random preference but allocates against the new
 test('lost acknowledgment replays the capacity assignment before pins, occupancy or randomness', async () => {
   const h = fixture({ rooms: Array(5).fill('Room A'), lostAck: true }), intent = admissionRequest();
   assert.equal((await h.service.requestAdmission(intent.uid, intent.body)).error.code, 'UNAVAILABLE');
-  h.db.documents.set(path('engine/gameplayPins'), { ...FULL_GAME_VERSION_PINS, rulesetHash: 'f'.repeat(64) });
+  h.db.documents.set(path('engine/gameplayPins'), { ...CAPACITY_FULL_GAME_VERSION_PINS, rulesetHash: 'f'.repeat(64) });
   const before = structuredClone([...h.db.documents]), result = await pending(h, intent);
   assert.equal(roomOf(h, result.result.admissionId), 'Room B'); assert.equal(h.draws(), 1);
   assert.deepEqual([...h.db.documents], before);
@@ -178,7 +178,7 @@ test('retained bots never redraw rooms and a removed/re-added epoch gets exactly
 });
 
 test('unknown creation pins fail closed before random draws or writes', async () => {
-  const h = fixture({ versions: { ...FULL_GAME_VERSION_PINS, rulesetHash: 'f'.repeat(64) } }), before = structuredClone([...h.db.documents]);
+  const h = fixture({ versions: { ...CAPACITY_FULL_GAME_VERSION_PINS, rulesetHash: 'f'.repeat(64) } }), before = structuredClone([...h.db.documents]);
   assert.equal((await h.service.requestAdmission(admissionRequest().uid, admissionRequest().body)).error.code, 'UNAVAILABLE');
   assert.equal((await h.service.setPracticeBots(HOST, botRequest(7))).error.code, 'UNAVAILABLE');
   assert.equal(h.draws(), 0); assert.deepEqual([...h.db.documents], before);

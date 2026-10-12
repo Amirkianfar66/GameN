@@ -4,7 +4,7 @@ import { before, after, test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullCommandResponseSchema, FullBeginSetupResponseSchema, FullAdvanceResponseSchema, FullPublicViewSchema, FullPlayerViewSchema, OwnAcknowledgmentsSchema } from '@mothership/contracts';
-import { FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
+import { FULL_GAME_VERSION_PINS, CAPACITY_FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 import { decodeV1Setup, decodeV1State, encodeV1State } from '../dist/full-game.js';
 import { startStagedMatch, beginStagedSetup, confirmStagedChoices } from './staged-start-helper.mjs';
@@ -17,7 +17,7 @@ const op = response => { FullOperationResponseSchema.parse(response); assert.equ
 const bots = response => { FullSetPracticeBotsResponseSchema.parse(response); assert.equal(response.ok, true, JSON.stringify(response)); return response; };
 const roomCounts = rooms => Object.fromEntries(['Room A', 'Room B'].map(room => [room, rooms.filter(value => value === room).length]));
 
-async function harness({ count = 9, versions = FULL_GAME_VERSION_PINS, preferences = Array(20).fill('Room A') } = {}) {
+async function harness({ count = 9, versions = CAPACITY_FULL_GAME_VERSION_PINS, preferences = Array(20).fill('Room A') } = {}) {
   let now = 1_600_000_000_000 + ++serial * 100_000_000, draws = 0, shuffles = 0, forbidDraw = false;
   const options = { db, clock: () => now, shuffle: items => { shuffles++; return [...items]; }, randomInitialRoom: () => {
     assert.equal(forbidDraw, false, 'Persisted assignments and retries must not redraw');
@@ -88,7 +88,7 @@ for (const count of [7, 8, 9]) test(`${count} human admissions keep one preferen
   const state = await h.current(), deal = (await h.base.collection('setup').doc('deal').get()).data();
   assert.deepEqual(decodeV1Setup(deal.setup).initialRooms, expected); assert.deepEqual(state.setup.initialRooms, expected);
   assert.deepEqual(Object.fromEntries(state.seats.map(seat => [seat.seatId, seat.location])), expected);
-  assert.deepEqual(state.versions, { ...FULL_GAME_VERSION_PINS, assetManifestVersion: state.versions.assetManifestVersion });
+  assert.deepEqual(state.versions, { ...CAPACITY_FULL_GAME_VERSION_PINS, assetManifestVersion: state.versions.assetManifestVersion });
   assert.equal(state.phase.endsAt - state.phase.startedAt, 60_000);
   const recovery = op(await h.service.issueSeatRecovery(h.host.uid, h.request({ seatId: 'seat-1' })));
   const replacement = await createEmulatorIdentity();
@@ -184,7 +184,7 @@ test('new-capacity corruption fails closed at selection and dealing without rewr
   assert.equal((await h.service.runSetupDeadline({ matchId: h.base.id, setupId: intent.setupId, stage: intent.stage, deadlineToken: intent.deadlineToken })).status, 'failed');
   assert.equal((await h.base.collection('setup').doc('deal').get()).exists, false);
   assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
-  assert.deepEqual((await h.base.collection('engine').doc('gameplayPins').get()).data(), FULL_GAME_VERSION_PINS);
+  assert.deepEqual((await h.base.collection('engine').doc('gameplayPins').get()).data(), CAPACITY_FULL_GAME_VERSION_PINS);
 });
 
 
@@ -200,7 +200,7 @@ test('a corrupt prepared capacity deal cannot launch gameplay or change its pinn
   assert.equal((await h.base.collection('engine').doc('current').get()).exists, false);
   assert.equal((await h.base.collection('events').get()).size, 0);
   assert.deepEqual((await dealRef.get()).get('versions'), deal.versions);
-  assert.deepEqual((await h.base.collection('engine').doc('gameplayPins').get()).data(), FULL_GAME_VERSION_PINS);
+  assert.deepEqual((await h.base.collection('engine').doc('gameplayPins').get()).data(), CAPACITY_FULL_GAME_VERSION_PINS);
 });
 
 
@@ -236,7 +236,7 @@ async function humanGame(count) {
 }
 async function storePredecessor(h, state) {
   assertPhysicalCaps(state);
-  assert.deepEqual(state.versions, { ...FULL_GAME_VERSION_PINS, assetManifestVersion: state.versions.assetManifestVersion });
+  assert.deepEqual(state.versions, { ...CAPACITY_FULL_GAME_VERSION_PINS, assetManifestVersion: state.versions.assetManifestVersion });
   const views = projectFullGame(state), bindings = await h.bindings(), batch = db.batch();
   batch.set(h.base.collection('engine').doc('current'), encodeV1State(state));
   batch.set(h.base.collection('views').doc('public'), FullPublicViewSchema.parse(views.public));
@@ -256,7 +256,7 @@ async function assertStoredViews(h, state) {
     assert.deepEqual(OwnAcknowledgmentsSchema.parse((await h.base.collection('ownAcknowledgments').doc(binding.uid).get()).data()),
       projectOwnAcknowledgments(state, seatId, binding.bindingRevision));
   }
-  assert.deepEqual((await h.base.collection('engine').doc('gameplayPins').get()).data(), FULL_GAME_VERSION_PINS);
+  assert.deepEqual((await h.base.collection('engine').doc('gameplayPins').get()).data(), CAPACITY_FULL_GAME_VERSION_PINS);
 }
 async function audienceItemCounts(h) {
   const keys = ['public', ...Object.keys(await h.bindings()).map(seatId => `p-${seatId}`)];

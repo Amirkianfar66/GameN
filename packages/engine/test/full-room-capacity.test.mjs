@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { FullPlayerViewSchema, FullPublicViewSchema, FullReceiptSchema } from '@mothership/contracts';
 import {
-  FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS,
+  CAPACITY_FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS,
   createFullGame, executeFullGame, advanceFullGame, projectFullGame, projectOwnAcknowledgments,
 } from '../dist/index.js';
 
@@ -14,7 +14,7 @@ const ASSETS = 'capacity-fixture-assets-v1';
 const ROLES = ['Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Alien'];
 const count = (state, location) => state.seats.filter(seat => seat.location === location).length;
 const own = (state, id) => state.seats.find(seat => seat.seatId === id);
-function argumentsFor(playerCount, pins = FULL_GAME_VERSION_PINS, roomACount = 5) {
+function argumentsFor(playerCount, pins = CAPACITY_FULL_GAME_VERSION_PINS, roomACount = 5) {
   const roleOrder = [...ROLES, ...(playerCount >= 8 ? ['Red Disabler'] : []), ...(playerCount === 9 ? ['Officer'] : [])];
   const ids = roleOrder.map((_, index) => `seat-${index + 1}`);
   return { matchId: 'room-capacity-fixture', setup: { playerCount, roleOrder,
@@ -36,7 +36,7 @@ function validViews(state) {
   for (const view of Object.values(views.players)) FullPlayerViewSchema.parse(view);
   return views;
 }
-function driver(playerCount, pins = FULL_GAME_VERSION_PINS, roomACount = 5) {
+function driver(playerCount, pins = CAPACITY_FULL_GAME_VERSION_PINS, roomACount = 5) {
   let serial = 0;
   const initial = createFullGame(argumentsFor(playerCount, pins, roomACount));
   const context = now => ({ now, nextPhaseId: `phase-${++serial}`, nextDeadlineToken: `deadline-${serial}` });
@@ -90,12 +90,12 @@ function approveRelease(d, state, captainId, targetId) {
 for (const mode of [7, 8, 9]) {
   test(`${mode} seats: every valid starting split respects five and six in either room is refused`, () => {
     for (let a = mode - 5; a <= 5; a++) {
-      const state = createFullGame(argumentsFor(mode, FULL_GAME_VERSION_PINS, a));
+      const state = createFullGame(argumentsFor(mode, CAPACITY_FULL_GAME_VERSION_PINS, a));
       assert.equal(count(state, 'Room A'), a);
       assert.equal(count(state, 'Room B'), mode - a);
       assertCaps(state); validViews(state);
     }
-    for (const a of [6, mode - 6]) assert.throws(() => createFullGame(argumentsFor(mode, FULL_GAME_VERSION_PINS, a)), /capacity/);
+    for (const a of [6, mode - 6]) assert.throws(() => createFullGame(argumentsFor(mode, CAPACITY_FULL_GAME_VERSION_PINS, a)), /capacity/);
   });
 
   test(`${mode} seats: full movement offer is absent and server refuses entry including Eliminated occupants`, () => {
@@ -111,7 +111,7 @@ for (const mode of [7, 8, 9]) {
 
   test(`${mode} seats: the last ordinary place goes to the first accepted move in either competitor order`, () => {
     for (const [first, second] of [['seat-5', 'seat-6'], ['seat-6', 'seat-5']]) {
-      const d = driver(mode, FULL_GAME_VERSION_PINS, 4), before = structuredClone(d.initial);
+      const d = driver(mode, CAPACITY_FULL_GAME_VERSION_PINS, 4), before = structuredClone(d.initial);
       const moved = accepted(d.apply(d.initial, first, { type: 'MOVE', destination: 'Room A' }));
       assert.equal(count(moved, 'Room A'), 5);
       assert.equal(own(moved, first).movedInRound, true);

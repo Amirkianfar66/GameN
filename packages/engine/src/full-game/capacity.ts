@@ -1,5 +1,5 @@
 import type { FullGameplayVersions, FullGameSetup, FullGameState } from './model.js';
-import { MAX_ROOM_OCCUPANTS, roomCapacityEnabled } from './model.js';
+import { MAX_ROOM_OCCUPANTS, roomCapacityEnabled, resolutionPlacementEnabled } from './model.js';
 import type { GameSeat, Room } from './roster.js';
 
 type Location = GameSeat['location'];
@@ -20,10 +20,13 @@ export function assertInitialRoomCapacity(setup: Pick<FullGameSetup, 'initialRoo
   }
 }
 
-/** A forced return spends no move and does not overwrite the remembered voluntary room. */
+/** Forced returns spend no move. Only the new tuple remembers the actual fallback room. */
 export function ordinaryReturnDestination(state: FullGameState, seat: GameSeat): Room {
-  if (seat.location === seat.lastRoom || roomHasSpace(state, seat.lastRoom)) return seat.lastRoom;
-  const other = seat.lastRoom === 'Room A' ? 'Room B' : 'Room A';
-  if (seat.location !== other && !roomHasSpace(state, other)) throw new Error('No ordinary return place in a valid roster');
-  return other;
+  let destination = seat.lastRoom;
+  if (seat.location !== destination && !roomHasSpace(state, destination)) {
+    destination = destination === 'Room A' ? 'Room B' : 'Room A';
+    if (seat.location !== destination && !roomHasSpace(state, destination)) throw new Error('No ordinary return place in a valid roster');
+  }
+  if (resolutionPlacementEnabled(state.versions)) seat.lastRoom = destination;
+  return destination;
 }

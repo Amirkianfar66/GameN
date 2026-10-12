@@ -47,3 +47,13 @@ assert.equal(capacity.ordering_decision.status, 'confirmed');
 assert.equal(capacity.parent_ruleset.hash, hash('rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json'));
 assert.ok(model.includes(hash(capacityPath)) && model.includes(capacity.ruleset_version) && model.includes(capacity.engine_version), 'Capacity engine pins');
 console.log('Capacity owner source integrity: six confirmed decisions; separate exact behavior tuple; historical bytes preserved');
+
+const resolutionPath = 'rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json';
+const resolution = json(resolutionPath);
+assert.equal(resolution.status, 'confirmed');
+assert.equal(resolution.protocol_version, 2);
+assert.equal(resolution.optional_powers, false);
+assert.deepEqual(resolution.decisions.map(row => row.id), Array.from({length: 6}, (_, i) => `BAL-OD-${i + 1}`));
+assert.equal(resolution.parent_ruleset.hash, hash(capacityPath));
+assert.ok(model.includes(hash(resolutionPath)) && model.includes(resolution.ruleset_version) && model.includes(resolution.engine_version), 'Resolution engine pins');
+console.log('Capacity resolution integrity: six latest owner decisions; exact historical tuples preserved');
