@@ -221,6 +221,7 @@ The tray's marks, the failure states (the connection banner, Reconnect now, the 
 | `npm run test --workspace @mothership/design-tokens` | **187 tests: 186 passed, 1 failed**: the same pre-existing issue #76 quote mismatch (PR #93). The **63 ability-check tests pass**, 4 new for slice 7: they prove the check refuses a tray action without its mark or a mark drawn before its art, a card marked out of date when only its time is up, a kept file that can still be inspected or keeps its inspected snapshot, and a card kept on an out-of-date view by default. The tests' scratch copy now also holds stand-ins for the board pictures the inventory cites, which the first run lacked |
 | `node design/tools/check-assets.mjs` | Passed: **15 of 15 checks** |
 | `git diff --check` | Clean |
+| `npm run verify` | Run on `647a15985ad12cd623f97e8ed9fcadea1ba2f7fd`, the commit that adds slice 7, with the working tree clean before and after (the commit after it changes only this page): **exit 0 in 687 s**; its balance stage reported 475 baselines and 4388 controls detected with zero misses, 10 completed playouts in each of modes 7, 8 and 9, and the Git provenance gate checked at that clean commit |
 
 **What this run caught, and what was changed.**
 
