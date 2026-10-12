@@ -9,7 +9,7 @@
 // in the Command Room, for one); it is drawn because the board has no capacity, and its offers
 // still follow the gates for that state. Nothing here is imported by the release.
 
-import { FullLobbyIdentityDocumentSchema, FullPlayerViewSchema, FullPublicViewSchema, OwnAcknowledgmentsSchema } from '@mothership/contracts';
+import { FullLobbyIdentityDocumentSchema, FullPlayerViewSchema, FullPublicViewSchema, OwnAcknowledgmentsSchema, supportsVoteResults, VOTE_RESULT_VERSION_PINS } from '@mothership/contracts';
 
 globalThis[Symbol.for('mothership:dev-only')] = true;
 
@@ -17,6 +17,7 @@ export const MATCH = 'board-simulation';
 export const PASS_VERSIONS = { protocolVersion: 2, rulesetVersion: 'in-person-v1-pass-2026-10-08', rulesetHash: 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183', engineVersion: 'full-game-1.1.0', assetManifestVersion: 'design-0.2.0' };
 const CAPPED_VERSIONS = { protocolVersion: 2, engineVersion: 'full-game-1.3.0', rulesetVersion: 'in-person-v1-capacity-resolution-2026-10-12', rulesetHash: 'aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e', assetManifestVersion: 'design-0.2.0' };
 export const LEGACY_VERSIONS = { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06', rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90', engineVersion: 'full-game-1.0.1', assetManifestVersion: 'design-0.2.0' };
+const VOTE_VERSIONS = { ...VOTE_RESULT_VERSION_PINS, assetManifestVersion: 'design-0.2.0' };
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
 const LONG_NAMES = ['WWWWWWWWWWWW', 'Maximiliana', 'Bartholomew!', 'Konstantinos', 'Wilhelmina R', 'Oluwaseun A.', 'Anastasiaaaa', 'Christophers', 'Guinevere II'];
@@ -44,6 +45,17 @@ const FREE = [1, 2, 3, 4, 5, 6, 7, 8];
  * keys are the presentation's action kinds; a list names seats by number.
  */
 export const SCENARIOS = {
+  'result-runoff': { title: 'Server-window fixture: positive Captain tie', versions: VOTE_VERSIONS, phase: 'VOTE_RESULT', active: null, captain: null, locations: NO_CAPTAIN_YET, names: LONG_NAMES,
+    voteResult: { kind: 'CAPTAIN_ELECTION', outcome: 'RUNOFF_REQUIRED', counts: {'seat-1':4,'seat-3':4}, tiedSeatIds: ['seat-1','seat-3'], eligibleVoterCount:9, yesCount:null, selectedSeatId:null, released:null }, offers: {} },
+  'result-captain': { title: 'Server-window fixture: Captain selected', versions: VOTE_VERSIONS, phase: 'VOTE_RESULT', active: null, captain:1, names: LONG_NAMES,
+    locations: ['Command Room','Room B','Room A','Room B','Room A','Hospital','Room A','Room B','Jail'],
+    voteResult: { kind: 'CAPTAIN_ELECTION', outcome: 'CAPTAIN_ELECTED', counts: {'seat-1':5,'seat-3':3}, tiedSeatIds: [], eligibleVoterCount:9, yesCount:null, selectedSeatId:'seat-1', released:null }, offers: {} },
+  'result-abstain': { title: 'Server-window fixture: all abstain', versions: VOTE_VERSIONS, phase: 'VOTE_RESULT', active: null, captain:null, locations:NO_CAPTAIN_YET,
+    voteResult: { kind: 'CAPTAIN_ELECTION', outcome: 'NO_CAPTAIN_ELECTED', counts: {}, tiedSeatIds: [], eligibleVoterCount:9, yesCount:null, selectedSeatId:null, released:null }, offers: {} },
+  'result-jail-tie': { title: 'Server-window fixture: positive Jail tie', versions: VOTE_VERSIONS, phase: 'VOTE_RESULT', active: null,
+    voteResult: { kind: 'JAIL_VOTE', outcome: 'NO_JAIL_SELECTION', counts: {'seat-1':4,'seat-3':4}, tiedSeatIds: ['seat-1','seat-3'], eligibleVoterCount:9, yesCount:null, selectedSeatId:null, released:null }, offers: {} },
+  'result-release-denied': { title: 'Server-window fixture: release denied', versions: VOTE_VERSIONS, phase: 'VOTE_RESULT', active: null,
+    voteResult: { kind: 'RELEASE_VOTE', outcome: 'RELEASE_DENIED', counts: {}, tiedSeatIds: [], eligibleVoterCount:9, yesCount:4, selectedSeatId:'seat-9', released:false }, offers: {} },
   'capped-room-a': { title: 'Reviewed 1.3 tuple: Room A has five occupants', versions: CAPPED_VERSIONS, locations: ['Room A','Room A','Room A','Room A','Room A','Room B','Command Room','Room B','Room B'], offers: { move: ['Room B'], shot: [1,2,4,5], pass: true } },
   'phone-full-room': { title: 'Phone feedback: five in Room A, nine long names', versions: CAPPED_VERSIONS, names: LONG_NAMES,
     locations: ['Room A','Room A','Room A','Room A','Room A','Room B','Command Room','Room B','Room B'], offers: { move: ['Room B'], shot: [1,2,4,5], pass: true } },
@@ -130,13 +142,17 @@ function roster(definition) {
 function publicFacts(definition, now, revision) {
   const self = definition.self ?? 3;
   const active = definition.active === undefined ? self : definition.active;
+  const versions = definition.versions ?? PASS_VERSIONS;
+  const result = definition.voteResult ? { ...definition.voteResult, id:'phase-result-1', votePhaseId:'phase-closed-vote-1', round:definition.round ?? 2, startedAt:now, endsAt:now+5000 } : null;
+  const tally = result ? {kind:result.kind, counts:result.counts, eligibleVoterCount:result.eligibleVoterCount, yesCount:result.yesCount, selectedSeatId:result.selectedSeatId, released:result.released} : null;
   return {
-    versions: definition.versions ?? PASS_VERSIONS, matchId: MATCH, viewRevision: revision, playerCount: definition.count ?? 9, round: definition.round ?? 2,
-    phase: { id: `phase-${definition.phase ?? 'ORDINARY_TURN'}-${definition.phaseIndex ?? 1}`, kind: definition.phase ?? 'ORDINARY_TURN', startedAt: now - 18_000, endsAt: now + 42_000 },
+    versions, matchId: MATCH, viewRevision: revision, playerCount: definition.count ?? 9, round: definition.round ?? 2,
+    phase: result ? {id:result.id,kind:'VOTE_RESULT',startedAt:result.startedAt,endsAt:result.endsAt} : { id: `phase-${definition.phase ?? 'ORDINARY_TURN'}-${definition.phaseIndex ?? 1}`, kind: definition.phase ?? 'ORDINARY_TURN', startedAt: now - 18_000, endsAt: now + 42_000 },
     activeSeatId: active === null ? null : seat(active),
     seats: roster(definition),
     ballot: { eligibleVoters: seats(definition.ballot?.voters ?? []), eligibleTargets: seats(definition.ballot?.targets ?? []), releaseTargetSeatId: definition.ballot?.release ? seat(definition.ballot.release) : null },
-    lastTally: null, result: null, endReveal: null,
+    lastTally: tally, result: null, endReveal: null,
+    ...(supportsVoteResults(versions) ? {voteResult:result} : {}),
   };
 }
 

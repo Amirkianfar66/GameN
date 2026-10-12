@@ -1,4 +1,4 @@
-import type { FullPlayerView, FullPublicView, PlayerView, PublicView, SeatId } from '@mothership/contracts';
+import type { FullPlayerView, FullPublicView, FullVoteResult, PlayerView, PublicView, SeatId } from '@mothership/contracts';
 
 /** A composed public view of either wire protocol. The shells read what both have, and what protocol 2 adds when it is there. */
 export type PublicFacts = PublicView | FullPublicView;
@@ -402,6 +402,20 @@ export interface VotePanelModel {
   } | null;
 }
 
+/** One current server result window, separate from the historical tally and game winner. */
+export interface VoteResultModel {
+  readonly id: string;
+  readonly round: number;
+  readonly kind: FullVoteResult['kind'];
+  readonly outcome: FullVoteResult['outcome'];
+  readonly heading: string;
+  readonly summary: string;
+  readonly selectedSeatId: SeatId | null;
+  readonly tiedSeatIds: readonly SeatId[];
+  readonly counts: readonly { readonly seatId: SeatId; readonly votes: number }[];
+  readonly lines: readonly string[];
+}
+
 /**
  * How a match ended, the same for every audience: the winner the server names, or that the
  * host ended it. The roles and the Code are shown only when the server's view carries them.
@@ -425,6 +439,7 @@ export interface TableMatchModel {
   readonly phase: PhaseStripModel;
   /** Null while the match is being played, and for a view that cannot carry an end. */
   readonly result: ResultModel | null;
+  readonly voteResult: VoteResultModel | null;
   /** Null for a view that has no voting facts, and while there is nothing to say about a vote. */
   readonly vote: VotePanelModel | null;
   readonly board: { readonly heading: string; readonly zones: readonly ZoneModel[] };
@@ -581,6 +596,7 @@ export interface InsiderSetModel {
 }
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
+  readonly phaseKind: FullPlayerView['phase']['kind'];
   /** Ending your own turn is role-neutral; it does not require revealing the private card. */
   /**
    * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose
@@ -592,6 +608,7 @@ export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'priva
   readonly vote: VotePanelModel | null;
   /** How the match ended, once it has. The same on every phone and on the shared display. */
   readonly result: ResultModel | null;
+  readonly voteResult: VoteResultModel | null;
 }
 
 export interface ConnectedPlayerShellModel extends ShellModelBase {

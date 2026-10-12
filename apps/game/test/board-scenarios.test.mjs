@@ -102,7 +102,7 @@ test('Pass fixture validation recognizes only the exact reviewed Pass and capaci
     const versions = { ...tuple, assetManifestVersion: 'design-0.2.0' };
     assert.deepEqual(problemsOf({ ...SCENARIOS['capped-room-a'], versions }), []);
     for (const changed of [{ engineVersion: 'full-game-1.0.1' }, { rulesetHash: 'a'.repeat(64) }, { rulesetVersion: 'unknown-ruleset' }]) {
-      assert.ok(problemsOf({ ...SCENARIOS['capped-room-a'], versions: { ...versions, ...changed } }).some(problem => problem.includes('PASS_TURN offered where the engine does not open it')));
+      assert.throws(() => problemsOf({ ...SCENARIOS['capped-room-a'], versions: { ...versions, ...changed } }), /Exact reviewed gameplay tuple required/);
     }
   }
   assert.deepEqual(problemsOf(SCENARIOS.legacy), []);

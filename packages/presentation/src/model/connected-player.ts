@@ -12,6 +12,7 @@ import type {
   ConnectedActionStatus, ConnectedPlayerInput, ConnectedPlayerMatchModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, LocationName, SeatModel,
 } from './types.js';
 import { buildVotePanel, ownBallotLine } from './votes.js';
+import { buildVoteResult } from './phase-feedback.js';
 
 // A player's phone connected under wire protocol 2. Everything outside the private panel is
 // built by the same functions as for every other audience. Inside it there is one card for
@@ -343,7 +344,7 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
 const RULESETS_WITHOUT_PASS: ReadonlySet<string> = new Set(['in-person-v1-2026-10-06']);
 
 function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, seats: readonly SeatModel[]): ConnectedPrivateAreaModel {
-  const open = input.privacy.revealed && !input.privacy.concealed && isCurrent(input);
+  const open = input.privacy.revealed && !input.privacy.concealed && isCurrent(input) && view.phase.kind !== 'VOTE_RESULT';
   const over = view.phase.kind === 'FINISHED' || view.phase.kind === 'ABORTED';
   const notice = !isCurrent(input) ? en.actions.pausedStale
     : over ? en.actions.matchOver
@@ -376,6 +377,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
   if (!self) throw new Error('A validated player view always contains its own seat');
   return {
     versions: view.versions,
+    phaseKind: view.phase.kind,
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),
     location: {
@@ -392,6 +394,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     privateArea: buildPrivateArea(input, view, seats),
     vote: buildVotePanel(view),
     result: buildResult(view, selfSeatId),
+    voteResult: buildVoteResult(view.voteResult ?? null, view.phase, input),
     roster: { heading: en.roster.playerHeading, zones: buildZones(seats) },
     details: buildDetails(view, input.mode),
   };

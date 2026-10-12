@@ -30,6 +30,8 @@ import '../../hosted/board-play.css';
 import '../../hosted/private-card.css';
 import '../../hosted/scene-board.css';
 import '../../hosted/ability-art.css';
+import '../../hosted/phone-feedback.css';
+import '../../hosted/phase-feedback.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
 import { loadArt } from '../../hosted/art.mjs';
 import { identities, MATCH, ownAcknowledgments, playerView, publicView, SCENARIOS } from './scenarios.mjs';
@@ -57,7 +59,9 @@ const log = [];
 // The scenario factory already places the turn 18 seconds in (42 seconds remaining).
 // Shift that sample, retaining the full 60-second window and the original default.
 const timeLeft = Math.min(60_000, Math.max(1_000, Number(params.get('time-left') ?? 42_000)));
-const started = Date.now() - (42_000 - timeLeft);
+const phaseStart = params.has('phase-start') ? Number(params.get('phase-start')) : null;
+if (phaseStart !== null && (!Number.isSafeInteger(phaseStart) || phaseStart <= 0)) throw new Error('Invalid fixed fixture phase start');
+const started = phaseStart ?? Date.now() - (42_000 - timeLeft);
 let revision = 1;
 let moved = null;
 const publicOverrides = new Map();
@@ -66,11 +70,16 @@ const listeners = new Map();
 const viewFor = () => {
   const view = display ? publicView(definition, started, revision, moved) : playerView(definition, started, revision, moved);
   for (const seat of view.seats) Object.assign(seat, publicOverrides.get(seat.seatId) ?? {});
-  if (deadlineExpired) { view.phase.endsAt = Date.now() - 1; view.phase.startedAt = view.phase.endsAt - 60_000; }
+  if (deadlineExpired) {
+    const duration = view.phase.endsAt - view.phase.startedAt;
+    view.phase.endsAt = Date.now() - 1; view.phase.startedAt = view.phase.endsAt - duration;
+    if (view.voteResult) { view.voteResult.startedAt = view.phase.startedAt; view.voteResult.endsAt = view.phase.endsAt; }
+  }
   if (terminal) {
     view.phase = { id: `phase-${terminal}`, kind: terminal === 'finished' ? 'FINISHED' : 'ABORTED', startedAt: view.phase.startedAt, endsAt: null };
     view.activeSeatId = null;
     view.ballot = { eligibleVoters: [], eligibleTargets: [], releaseTargetSeatId: null };
+    if ('voteResult' in view) view.voteResult = null;
     if (terminal === 'finished') {
       const roles = ['Insider', 'Cracker', 'Officer', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
       view.result = { winner: 'Blue', alienCoWinner: true };

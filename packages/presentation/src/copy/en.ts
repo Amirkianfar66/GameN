@@ -88,6 +88,7 @@ export const en = {
       RELEASE_CHOICE: 'Release choice',
       RELEASE_VOTE: 'Release vote',
       JAIL_VOTE: 'Jail vote',
+      VOTE_RESULT: 'Vote result',
       SHOWDOWN: 'Showdown',
       FINISHED: 'Match finished',
       ABORTED: 'Match ended by the host',
@@ -285,7 +286,7 @@ export const en = {
       scan: 'This uses your Scan for this round, whatever the result. You cannot change or withdraw it once the server accepts it.',
       supply: 'You cannot change or withdraw it here once it is registered.',
       // The Hacker has one Code attempt (V1-08).
-      code: 'This is your one Code attempt in this match. You cannot change it once the server accepts it.',
+      code: 'One Code attempt per match. Final once the server accepts it.',
     } satisfies Record<ActionKind, string>,
     confirm: {
       pass: 'Pass', move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',

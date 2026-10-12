@@ -11,6 +11,7 @@ import { MEASURE, REACHABLE, problemsOf } from './capture/board-measure.mjs';
 
 const output = resolve(process.argv[2] ?? 'phone-feedback-evidence');
 const base = process.argv[3] ?? 'http://127.0.0.1:5192/';
+const quick = process.argv.includes('--short');
 const facts = [];
 const cases = [
   ['phone-full-room', 'shot', [1]],
@@ -40,7 +41,7 @@ async function record(page, name, size, enlarged) {
 }
 
 try {
-  for (const size of [[320, 568], [390, 844]]) for (const mode of ['normal', 'safe-area', 'enlarged']) {
+  for (const size of quick ? [[320, 568]] : [[320, 568], [390, 844]]) for (const mode of quick ? ['normal', 'safe-area'] : ['normal', 'safe-area', 'enlarged']) {
     for (const [scenario, action, picks] of cases) {
       const page = await openPage(browser, { width: size[0], height: size[1], mobile: true, ownContext: true });
       try {

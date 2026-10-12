@@ -68,6 +68,14 @@ test('conflicting or unsupported setup documents quarantine the affected stream'
   const s = await make(); await ready(s); await s.fake.deliver(target('setup'),setupDoc('choosing',1));
   assert.equal(s.feed.own(),null); await s.fake.deliver(target('setup'),setupDoc()); assert.equal(s.feed.own(),null); s.feed.dispose();
 });
+
+test('unsupported prepared versions retain neutral progress and signal reload without holding a role',async()=>{
+  const s=await make();await ready(s);
+  const unsupported={...preview(),versions:{...preview().versions,engineVersion:'full-game-99.0.0'}};
+  await s.fake.deliver(target('setup-player-view'),unsupported);
+  assert.equal(s.feed.own(),null);assert.equal(s.feed.problem(),'unsupported-versions');
+  assert.equal(s.feed.public().stage,'awaiting-ready');s.feed.dispose();
+});
 test('host and display observe only public setup, and transports supply the caller UID', async () => {
   const s = await make(null); await s.fake.deliver(target('setup'),setupDoc());
   assert.equal(s.feed.public().stage,'awaiting-ready');assert.equal(s.feed.own(),null);

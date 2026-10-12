@@ -1,4 +1,4 @@
-import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema } from '@mothership/contracts';
+import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, FullVersionsSchema, SeatSessionSchema } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, SeatId, SeatSession } from '@mothership/contracts';
 import type { ClientPorts } from '../ports.js';
 import type { ConnectedTransport, DocumentTarget } from './transport.js';
@@ -10,6 +10,7 @@ export function createSetupFeed({ transport, ports, matchId, seatId }: {
   const listeners = new Set<() => void>();
   let publicValue: FullSetupDocument | null = null, binding: SeatSession | null = null, privateValue: FullSetupPlayerView | null = null;
   let readPublic = false, disposed = false, started = false, uid: string | null = null;
+  let privateProblem: 'unsupported-versions' | null = null;
   let stops: (() => void)[] = [], stopPrivate: (() => void) | null = null;
   const history = new Map<string, { revision: number; bytes: string }>();
   const poisoned = new Set<string>();
@@ -59,6 +60,8 @@ export function createSetupFeed({ transport, ports, matchId, seatId }: {
     // Reserve the slot before attaching: transports may deliver synchronously.
     stopPrivate = () => {};
     stopPrivate = watch('setup-player-view', raw => {
+      const candidate = typeof raw === 'object' && raw !== null && 'versions' in raw ? raw.versions : null;
+      if (!FullVersionsSchema.safeParse(candidate).success) { privateProblem = 'unsupported-versions'; throw new Error('Unsupported setup versions'); }
       const value = FullSetupPlayerViewSchema.parse(raw);
       if (value.matchId !== matchId || value.audience.seatId !== seatId) throw new Error('Wrong setup audience');
       return value;
@@ -81,6 +84,7 @@ export function createSetupFeed({ transport, ports, matchId, seatId }: {
     },
     public: () => current() ? publicValue : null,
     status: (): 'unavailable' | 'absent' | 'current' => !current() || !readPublic ? 'unavailable' : publicValue === null ? 'absent' : 'current',
+    problem: () => current() ? privateProblem : null,
     binding: () => current() ? binding : null,
     own: () => current() && publicValue?.stage === 'awaiting-ready' && binding !== null && privateValue !== null
       && privateValue.dealId === publicValue.dealId && privateValue.playerCount === publicValue.playerCount
@@ -88,7 +92,7 @@ export function createSetupFeed({ transport, ports, matchId, seatId }: {
     subscribe(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener); }; },
     quarantine() {
       started = false; uid = null; stops.splice(0).forEach(stop => stop()); stopPrivate?.(); stopPrivate = null;
-      publicValue = null; readPublic = false; binding = null; privateValue = null; publish();
+      publicValue = null; readPublic = false; binding = null; privateValue = null; privateProblem = null; publish();
     },
     dispose() {
       this.quarantine(); disposed = true; listeners.clear();

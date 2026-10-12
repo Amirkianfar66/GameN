@@ -91,6 +91,7 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     ports: options.ports,
     host: options.host,
     phaseOf: view => view.phase,
+    concealPrivate: view => view?.phase.kind === 'VOTE_RESULT',
     buildInput(environment, view, local) {
       // The server refused this device the match: the seat is no longer its own. Whatever it
       // was doing with a command is dropped, and nothing more is asked about it.
@@ -114,7 +115,7 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     handleIntent(intent, { local, model }) {
       if (intent.type === 'private/toggle') {
         // There is nothing to reveal unless a match is on screen in the foreground.
-        if (model.match === null || !local.pageVisible) return null;
+        if (model.match === null || !local.pageVisible || model.match.phaseKind === 'VOTE_RESULT') return null;
         return { local: { ...local, privateRevealed: !local.privateRevealed } };
       }
       if (intent.type === 'action/pass') return local.pageVisible && model.match?.passTurn.available && flow.pass() ? {} : null;

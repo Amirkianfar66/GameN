@@ -1,4 +1,5 @@
 import { createRoleConfirmation } from './role-confirmation.js';
+import { currentArtState, readyCompatibility } from './ready-compatibility.mjs';
 
 export function createSetupProgress({ el, compact = false }) {
   const node = el('section', undefined, { class: `connected-setup-progress${compact ? ' phone-setup-compact' : ''}`, 'aria-labelledby': 'setup-progress-heading' });
@@ -52,7 +53,7 @@ export function createSetupProgress({ el, compact = false }) {
 }
 
 /** A tile tap confirms only this seat's public character through the existing API. */
-export function createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock, onStageChange = () => {} }) {
+export function createPlayerSetup({ matchId, seatId, feed, identities, api, lifecycle, operate, el, clock, onStageChange = () => {}, artState = currentArtState, reload = () => globalThis.window?.location?.reload() }) {
   const node = el('section', undefined, { class: 'connected-player-setup' });
   const progress = createSetupProgress({ el, compact: true });
   const picker = el('section', undefined, { class: 'connected-identity', 'aria-label': 'Choose your character' });
@@ -60,14 +61,22 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
   const status = el('p', '', { id: 'crew-status', role: 'status' });
   const retry = el('button', 'Retry selection', { type: 'button', id: 'crew-save' });
   const readyNote = el('div', '✓', { id: 'setup-ready-waiting', class: 'phone-role-back', role: 'status', 'aria-label': 'Ready. Waiting for the timer and other players.', tabindex: '-1' });
+  const compatibilityNote = el('p', '', { id: 'setup-compatibility', role: 'status' });
+  const reloadButton = el('button', 'Reload app', { type: 'button', id: 'setup-compatibility-reload' });
+  reloadButton.addEventListener('click', reload);
   const choiceKey = `setup-choice ${matchId} ${seatId}`, readyKey = `setup-ready ${matchId} ${seatId}`;
   let selected = null, busy = false, closed = false, notice = '', choiceRevision = null, readyAccepted = null, previousStage = null;
   const roleKey = own => own ? `${own.dealId}/${seatId}/${own.bindingRevision}` : null;
   const role = createRoleConfirmation({ el, onReady: async key => {
     const own = feed.own();
     if (closed || own === null || roleKey(own) !== key) return draw();
+    const compatible = readyCompatibility(own.versions, artState());
+    const retrying = lifecycle.unsettled(readyKey) !== null;
+    if (!retrying && !['historical', 'supported'].includes(compatible.kind)) return draw();
     const outcome = await operate(readyKey, requestId => ({ schemaVersion: 1, protocolVersion: 2, matchId, requestId,
-      dealId: own.dealId, bindingRevision: own.bindingRevision }), request => api.readyForMatch(request), 'Confirming your readiness');
+      dealId: own.dealId, bindingRevision: own.bindingRevision,
+      ...(compatible.kind === 'supported' ? { acceptedVersions: compatible.acceptedVersions } : {}),
+    }), request => api.readyForMatch(request), 'Confirming your readiness');
     if (outcome.kind === 'done') readyAccepted = key;
     draw();
     if (outcome.kind === 'done') readyNote.focus?.({ preventScroll: true });
@@ -118,9 +127,16 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
     status.textContent = notice || (kept && !busy ? 'Connection interrupted. Retry your selection.' : '');
     status.hidden = status.textContent === '';
     const own = feed.own(), key = roleKey(own);
+    const compatible = own === null ? null : readyCompatibility(own.versions, artState());
+    const needsReload = feed.problem?.() === 'unsupported-versions' || compatible?.kind === 'reload';
+    const loading = compatible?.kind === 'loading';
+    compatibilityNote.textContent = needsReload ? 'This match needs an updated app. Reload to continue.' : loading ? 'Loading game art before Ready…' : '';
+    compatibilityNote.hidden = setup?.stage !== 'awaiting-ready' || compatibilityNote.textContent === '' || confirmedReady;
+    reloadButton.hidden = compatibilityNote.hidden || !needsReload;
     if (key !== null && ownSeat?.ready) lifecycle.abandon(readyKey);
     role.update(own === null || confirmedReady ? null : { key, role: own.self.role, characterId: identity?.characterId ?? null,
-      playerCount: setup?.playerCount, ready: ownSeat?.ready === true || readyAccepted === key, canConfirm: true, retry: lifecycle.unsettled(readyKey) !== null });
+      playerCount: setup?.playerCount, ready: ownSeat?.ready === true || readyAccepted === key,
+      canConfirm: ['historical', 'supported'].includes(compatible?.kind) || lifecycle.unsettled(readyKey) !== null, retry: lifecycle.unsettled(readyKey) !== null });
   }
   async function confirm() {
     const binding = feed.binding(), setup = feed.public();
@@ -139,10 +155,12 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
   }
   retry.addEventListener('click', confirm);
   picker.append(grid, status, retry);
-  node.append(progress.node, picker, readyNote, role.node);
+  node.append(progress.node, picker, readyNote, compatibilityNote, reloadButton, role.node);
+  const artReady = () => draw();
+  globalThis.document?.addEventListener?.('mothership:art-ready', artReady);
   const stops = [feed.subscribe(draw), identities.subscribe(draw)];
   draw();
   return { node, refresh: draw, conceal() { role.conceal(); },
-    dispose() { closed = true; stops.forEach(stop => stop()); role.dispose(); node.replaceChildren(); },
+    dispose() { closed = true; globalThis.document?.removeEventListener?.('mothership:art-ready', artReady); stops.forEach(stop => stop()); role.dispose(); node.replaceChildren(); },
   };
 }

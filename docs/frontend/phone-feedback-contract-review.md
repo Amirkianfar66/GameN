@@ -33,3 +33,11 @@ Integration clarified that the existing before-voting movement permission contin
 ## Visual adoption status
 
 The early Codex-produced source at `44c25268a04debaa00d6a7ec3f02d254775704c8` and exact Root guard commits are preserved as provisional dependencies. The owner subsequently confirmed Motion/Graphic Design ownership in their Claude Code session. Further visual adoption is paused pending Integration's verified Claude-owned head. The preserved frame/wardrobe/compact wrapper is not claimed as the owner's current design or visually accepted. Its first whole-phone pass still had four short-phone confirmation overflow cases; subsequent wrapper edits are saved but final fit is not claimed. Backend consumer and compatibility logic can proceed independently.
+
+## Vote and Ready consumer checkpoint
+
+Adopted Backend vote schema/engine `6cd41484e5c3c0bf22251699c4ba1a47121cf2f6` and Ready shape `c5be7d6cde1e04240794e95d87cb0ac44aac66a0`. The public consumer uses the exported `FullVoteResult` type, exact result/phase ID and timestamps, origin round and explicit outcome. Result windows require a current view and trusted running deadline. A result closes private content/live lines without clearing receipt recovery; a following phase cannot reopen it automatically. Equal successive tallies use their distinct IDs. Clock resynchronization/reconnect cannot replay an already-heard result, and an expired result is not announced.
+
+New-tuple Ready accepts only explicitly supported gameplay pins and the reviewed `design-0.2.0` art version after complete uniform bundle loading. Unsupported pins signal reload. Historical Ready bodies remain unchanged. Unknown-outcome retries use the original lifecycle request, including its original accepted versions. This is compatibility acknowledgment, not downloaded-byte proof or authorization.
+
+Actual owned validation: presentation 197/197; game 457/457; five focused result-controller regressions; 18 fixture browser lifecycle records. Backend-connected/1.5/Hack and final root verification remain pending. Read-only Frontend review of Hack schema at `ba1842ff991dfb53207cbef110940016cc8d533d` confirms the required `phaseId` binding, initiator invariant and self-only legal offer. Integration's exact adoption checkpoint is still required.

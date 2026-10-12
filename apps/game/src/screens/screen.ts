@@ -75,6 +75,8 @@ interface ScreenConfig<View, Input, Model> {
   readonly ports: ClientPorts;
   readonly host: ScreenHost;
   readonly phaseOf: (view: View) => PhaseFacts;
+  /** An authoritative public-only screen can close the private layer without losing recovery. */
+  readonly concealPrivate?: (view: View | null) => boolean;
   /** Called for every redraw and before every intent is judged, so it may bring other state up to date. */
   readonly buildInput: (environment: ShellEnvironment, view: View | null, local: LocalState) => Input;
   readonly buildModel: (input: Input) => Model;
@@ -118,7 +120,8 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     };
     // A private panel never outlives the screen it was opened on: when the match returns
     // after a recovery screen, it is shown again only if the player asks again.
-    if (local.privateRevealed && (state.connection !== 'live' || state.problem !== null || resolveScreen(environment, state.view !== null) !== 'match')) local = { ...local, privateRevealed: false };
+    if (local.privateRevealed && (state.connection !== 'live' || state.problem !== null || resolveScreen(environment, state.view !== null) !== 'match'
+      || config.concealPrivate?.(state.view) === true)) local = { ...local, privateRevealed: false };
     const input = config.buildInput(environment, state.view, local);
     return { input, model: config.buildModel(input), remainingMs: deadline.kind === 'running' ? deadline.remainingMs : null };
   }
