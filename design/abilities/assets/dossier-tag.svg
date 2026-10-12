@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-tag 0.1.0 · generated, do not edit by hand
+  A shipping tag. One of a Supply's two picks, its chip at (42, 20); the two in seat order.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/tools.svg (layer dossier-tag). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 40" width="70" height="40"><g id="dossier-tag"><path d="M16 3 H66 Q68 3 68 5 V35 Q68 37 66 37 H16 L3 24 V16 Z" fill="#151923" opacity="0.3" transform="translate(2 2)"/><path d="M16 3 H66 Q68 3 68 5 V35 Q68 37 66 37 H16 L3 24 V16 Z" fill="#CBBBA2" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="20" r="3.6" fill="#F4EBDD" stroke="#151923" stroke-width="1.8"/><path d="M22 9 H62 M22 31 H62" fill="none" stroke="#E3D6C2" stroke-width="1.4" stroke-linecap="round"/></g></svg>

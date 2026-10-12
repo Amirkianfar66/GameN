@@ -1,6 +1,7 @@
 // mothership:dev-only
 // Static eligibility predicates for synthetic offers, read from the accepted overlays and
-// packages/engine/src/full-game/lifecycle.ts at 94a49ce0c5220b814ec56333b028fbe6180b257e.
+// packages/engine/src/full-game/lifecycle.ts at 94a49ce0c5220b814ec56333b028fbe6180b257e, and
+// the owner's room capacity of five (11 October 2026), which the engine does not enforce yet.
 // This checks actor/round/phase/status and target gates, not resources, prior commands,
 // recorded runoff history or reachability of a complete match. Production uses projections.
 
@@ -45,6 +46,7 @@ export function offerProblems(state, viewer) {
       for (const room of offer) {
         fail(['Room A', 'Room B', 'Command Room'].includes(room) && room !== self.location, `move offers invalid/current room ${room}`);
         fail(room !== 'Command Room' || self.captain, 'move offers Command Room to a non-Captain');
+        fail(room === 'Command Room' || seats.filter(seat => seat.location === room).length < 5, `move offers ${room}, which already holds five (the owner's capacity)`);
       }
     }
     if (kind === 'code') fail(role === 'Hacker' && alive(self) && round === 5 && !['SHOWDOWN', 'FINISHED', 'ABORTED'].includes(phase.kind), 'code requires a living Hacker in Round 5 before normal resolution closes');

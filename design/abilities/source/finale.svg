@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · ability art proposal · finale kit
+  Original vector artwork made for this repository. Rights and provenance: design/abilities/assets/manifest.json.
+
+  PRIVATE. The showdown's special shot, added to the earlier kits: one round with a caption-yellow
+  casing and a double band, the special shot every player still in the match holds in the Final Zone.
+  Drawn only inside that seat's own action strip, never on the board, the shared display or in a public
+  cue. Every player phone loads the whole kit in one stylesheet, whatever its role, and nothing in it is
+  named after or coloured for a role or a team: every seat in the showdown shoots with the same round.
+  Once spent it is drawn as the ordinary round spent (dossier-round-spent, in source/guard.svg).
+
+  No text is drawn: every word, number and stamp is live text in the client. Colors are token values
+  (tokens 0.4.0): paper, the paper shades, ink, the steel values and the caption yellow.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50" width="60" height="50">
+  <!-- The special shot: the round's silhouette (14 x 30, the base at (7, 28)) in a caption-yellow casing with a double band. -->
+  <g transform="translate(10 10)">
+    <g id="dossier-round-special">
+      <path d="M7 2 Q12 2 12 10 V27 H2 V10 Q2 2 7 2 Z" fill="#F7C52B" stroke="#151923" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M2.5 14 H11.5 M2.5 17.5 H11.5" fill="none" stroke="#151923" stroke-width="1.6"/>
+      <path d="M2.5 20.5 H11.5 V23 H2.5 Z" fill="#E3D6C2"/>
+      <path d="M1.5 25 H12.5 V28.5 H1.5 Z" fill="#55657E" stroke="#151923" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M5 6 Q5.5 4 7 3.6" fill="none" stroke="#F4EBDD" stroke-width="1.4" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

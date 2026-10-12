@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "abilities-0.1.0",
+  "manifestVersion": "abilities-0.6.0",
   "status": "proposal",
   "note": "Private art for the ability treatments of the board-motion prototype: the kit of a seat's own file (the Insider's investigation board first). Every piece is neutral: drawn once and used alike for every candidate, coloured for no role, team or character. A proposal outside the reviewed manifest, adopted only through Integration.",
   "baseManifest": "design-0.2.0",
@@ -12,8 +12,8 @@
   },
   "stylesheet": {
     "file": "design/abilities/assets/abilities.art.css",
-    "sha256": "09e99fa361828aa2fa858af636b50e7f2b19cac17070a001379830e118895dcd",
-    "bytes": 9451
+    "sha256": "4314145fb975a35fe295a3d3c8fe1d2ef3220db5bb41188d4fa5cf71e52b89e3",
+    "bytes": 31033
   },
   "rights": "Original vector artwork made for this repository by the Visual and Motion Designer (Claude Code session) for Mothership. No third-party artwork, font, photograph or generated raster image is used. The portraits drawn into a file are the approved crew cards (design/source/crew/, design-0.2.0), referenced, not copied.",
   "assets": [
@@ -39,8 +39,8 @@
         "#CBBBA2",
         "#E3D6C2"
       ],
-      "bytes": 1952,
-      "sha256": "ffe2bc562356e5fe7cb151b1b7a86928e04ab640694549713f59436cd71b262d",
+      "bytes": 1936,
+      "sha256": "fe86d2fce37be3db5ea5ed6fe6b4741a16f7c6650142f575d757b20e46961b5b",
       "use": "Tiled behind a private file (background-repeat), at 96 CSS px or smaller.",
       "cssProperty": "--ab-asset-dossier-cork"
     },
@@ -66,8 +66,8 @@
         "#CBBBA2",
         "#E3D6C2"
       ],
-      "bytes": 804,
-      "sha256": "01cd2ceb6afcf75dcb16b582141e6cf4f56eb91d17e35a7bea32c1c3c32ed351",
+      "bytes": 788,
+      "sha256": "3a013e86c30b55edf71a954048ee9304afcce401d74b378bc6be311f009cfbf5",
       "use": "Across a file's top corners, turned 35 to 45 degrees.",
       "cssProperty": "--ab-asset-dossier-tape"
     },
@@ -94,8 +94,8 @@
         "#B9C4D3",
         "#F4EBDD"
       ],
-      "bytes": 953,
-      "sha256": "eb3e870523eaa4d52f892e0de8d1efededa890924547fb0ae1a251a04934a5a9",
+      "bytes": 937,
+      "sha256": "8e8be2beabf41d0345daa70541d554475fc97795ff6acb123f2b63b718a77603",
       "use": "Holds every snapshot and the envelope; one drawing for every candidate.",
       "cssProperty": "--ab-asset-dossier-pin"
     },
@@ -134,8 +134,8 @@
         "#E3D6C2",
         "#F4EBDD"
       ],
-      "bytes": 1193,
-      "sha256": "67c51b258691acf39d27e293f140111f7aea973df3750c66c866c7c239865dd6",
+      "bytes": 1177,
+      "sha256": "d70d94c7da85b8ac166f8997a3bd1bbd3547c4902dea2b22048a29bd384aebc4",
       "use": "Around a player's chosen crew card: the portrait fills the window. One frame for every candidate alike.",
       "cssProperty": "--ab-asset-dossier-photo"
     },
@@ -161,8 +161,8 @@
         "#151923",
         "#F4EBDD"
       ],
-      "bytes": 1062,
-      "sha256": "b01a3c816347e1b58cd136113cf8abd04c98193a48057e814432b4a0b2f5effa",
+      "bytes": 1046,
+      "sha256": "e3fcec30179c0bb6cec7594951189c9216b51c45e7a0f8fef5c3e9c53ae8ea22",
       "use": "On the corner of every candidate's snapshot alike: this one is not known.",
       "cssProperty": "--ab-asset-dossier-query"
     },
@@ -189,8 +189,8 @@
         "#B9C4D3",
         "#F4EBDD"
       ],
-      "bytes": 861,
-      "sha256": "48f585b33176f63707f0f47628fd857d2b453d630ee29dbeb7702b950df47a1a",
+      "bytes": 845,
+      "sha256": "74a2f979418891f892ceb2c100142748a8467b85197d7e9f0215071bcf58b5c5",
       "use": "Marks what can be inspected; never a result.",
       "cssProperty": "--ab-asset-dossier-lens"
     },
@@ -215,8 +215,8 @@
         "#151923",
         "#B9C4D3"
       ],
-      "bytes": 846,
-      "sha256": "6d47029e40dcc860c98c0eb8f1062a0367a2849ea7fa2f8f94b30fce5c88592e",
+      "bytes": 830,
+      "sha256": "b0b9351ccf31e98078c54c9409aac868cfe3ede098968b91c51a1ca42eba0a6c",
       "use": "Holds a slip to an envelope.",
       "cssProperty": "--ab-asset-dossier-clip"
     },
@@ -242,8 +242,8 @@
       "colors": [
         "#34415A"
       ],
-      "bytes": 839,
-      "sha256": "d41fb1fc1dbf59a43dcb277b2090c6bc5babc2b5aa77fb15ba498daafa31f18a",
+      "bytes": 823,
+      "sha256": "878dfbceee17f40e8dc08efebde533b6e16063c81f82171fe99b9e6a004bfa5b",
       "use": "Around a live word stamped on a file (CLASSIFIED, ONE EACH). The word is live text, never drawn.",
       "cssProperty": "--ab-asset-dossier-stamp"
     },
@@ -269,8 +269,8 @@
         "#151923",
         "#CBBBA2"
       ],
-      "bytes": 774,
-      "sha256": "4086306a9584b4dae0326936a1ff94f0e0b700f203cd853a07636ae7a37242c1",
+      "bytes": 758,
+      "sha256": "570ac2f295b14071fa8a31ac770c275eadf19a8a047ac3ec8d3b42c94a4dbb73",
       "use": "Behind a slip that stands in it; the front layer goes over the slip.",
       "cssProperty": "--ab-asset-dossier-envelope-back"
     },
@@ -296,8 +296,8 @@
         "#151923",
         "#E3D6C2"
       ],
-      "bytes": 1109,
-      "sha256": "a5fdf6a88a7c53fdc21192970bfad60f42915b600f917ddad4fc3bea016f3f00",
+      "bytes": 1093,
+      "sha256": "fd73a7cb462f784375941bedd9a2fad7cbfdc5ec15818d9dd61655d6993094e9",
       "use": "Over the lower part of a slip that stands in the envelope.",
       "cssProperty": "--ab-asset-dossier-envelope-front"
     },
@@ -327,10 +327,832 @@
         "#E3D6C2",
         "#F4EBDD"
       ],
-      "bytes": 1699,
-      "sha256": "729303a85900b2a7005b691cf6c463e41ed78b003f78f2f85f6bf355982b4da1",
+      "bytes": 1683,
+      "sha256": "42f674175ed7c1d43f3afbd10d4235057ed4277b74261ec804ef65319866b874",
       "use": "The cover of any private file while it is hidden: the same for every role.",
       "cssProperty": "--ab-asset-dossier-folder"
+    },
+    {
+      "id": "dossier-printout",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A printout",
+      "file": "design/abilities/assets/dossier-printout.svg",
+      "source": "design/abilities/source/intel.svg#dossier-printout",
+      "viewBox": "0 0 240 56",
+      "width": 240,
+      "height": 56,
+      "anchors": {
+        "text": [
+          16,
+          8,
+          208,
+          40
+        ],
+        "pin": [
+          12,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 1393,
+      "sha256": "416b9eb48c87a54d9f47aecfae55b5404f10b8352e3ce775958d7bd4e5348efa",
+      "use": "The paper of a private result (a Scan's), stretched to the width it needs; its words and stamp are live text.",
+      "cssProperty": "--ab-asset-dossier-printout"
+    },
+    {
+      "id": "dossier-chip",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A portrait chip",
+      "file": "design/abilities/assets/dossier-chip.svg",
+      "source": "design/abilities/source/intel.svg#dossier-chip",
+      "viewBox": "0 0 48 48",
+      "width": 48,
+      "height": 48,
+      "anchors": {
+        "window": [
+          24,
+          24,
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#10141C",
+        "#151923",
+        "#B9C4D3",
+        "#F4EBDD"
+      ],
+      "bytes": 866,
+      "sha256": "30fd8dcc457ffef7a380fd6bdcc9ef2b1816e363579a9216887d81904a782b96",
+      "use": "Around a small crew card: a printout's player, a pick in the Code card. One chip for every player alike.",
+      "cssProperty": "--ab-asset-dossier-chip"
+    },
+    {
+      "id": "dossier-code-mark",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The Code's mark",
+      "file": "design/abilities/assets/dossier-code-mark.svg",
+      "source": "design/abilities/source/intel.svg#dossier-code-mark",
+      "viewBox": "0 0 40 30",
+      "width": 40,
+      "height": 30,
+      "anchors": {
+        "center": [
+          20,
+          15
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#10141C",
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 1264,
+      "sha256": "7f72bbf9119341f7aafd0abf6ab144c32f168a3bdc7b968ef149a4832b8dcea7",
+      "use": "Says the Code: a punch card with four holes, two by two, a set and not a row. Struck through by the client for not in the Code.",
+      "cssProperty": "--ab-asset-dossier-code-mark"
+    },
+    {
+      "id": "dossier-code-card",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A Code card",
+      "file": "design/abilities/assets/dossier-code-card.svg",
+      "source": "design/abilities/source/intel.svg#dossier-code-card",
+      "viewBox": "0 0 240 76",
+      "width": 240,
+      "height": 76,
+      "anchors": {
+        "windows": [
+          [
+            38,
+            44
+          ],
+          [
+            92,
+            44
+          ],
+          [
+            148,
+            44
+          ],
+          [
+            202,
+            44
+          ]
+        ],
+        "radius": [
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#10141C",
+        "#151923",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 1935,
+      "sha256": "c0f1dd53997a70a1452ed9ee80fabe275281dc149dd5b250870b35b4661084db",
+      "use": "Behind a Code attempt's picks in the action strip: four windows, filled in seat order.",
+      "cssProperty": "--ab-asset-dossier-code-card"
+    },
+    {
+      "id": "dossier-vial",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A vial",
+      "file": "design/abilities/assets/dossier-vial.svg",
+      "source": "design/abilities/source/tools.svg#dossier-vial",
+      "viewBox": "0 0 22 36",
+      "width": 22,
+      "height": 36,
+      "anchors": {
+        "base": [
+          11,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1003,
+      "sha256": "dbfd2498006449e2cb8d5806ded347ca8d7e972ceeab53f7bb516265ef1fb6bb",
+      "use": "One Rescue left, in the Cracker's own strip and card: the full ones first, as many as the view's count (self.rescuesRemaining).",
+      "cssProperty": "--ab-asset-dossier-vial"
+    },
+    {
+      "id": "dossier-vial-empty",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "An empty vial",
+      "file": "design/abilities/assets/dossier-vial-empty.svg",
+      "source": "design/abilities/source/tools.svg#dossier-vial-empty",
+      "viewBox": "0 0 22 36",
+      "width": 22,
+      "height": 36,
+      "anchors": {
+        "base": [
+          11,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3",
+        "#E3D6C2"
+      ],
+      "bytes": 856,
+      "sha256": "9facc5154026f7ef88d4d4da4a9bb31e5a5858364cc456a09cd9aac9904b8228",
+      "use": "A Rescue used: its use is reserved when the Rescue is accepted (V1-15), and the vial is drawn empty when the view's count falls, never ahead of it.",
+      "cssProperty": "--ab-asset-dossier-vial-empty"
+    },
+    {
+      "id": "dossier-cross",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A cross ring",
+      "file": "design/abilities/assets/dossier-cross.svg",
+      "source": "design/abilities/source/tools.svg#dossier-cross",
+      "viewBox": "0 0 48 48",
+      "width": 48,
+      "height": 48,
+      "anchors": {
+        "ring": [
+          24,
+          26,
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 798,
+      "sha256": "5e0fdfad10304b2b8decc9184fd87516f84c872436d8d88fa8b1e356482dca91",
+      "use": "Round the chip of a Rescue's target, in the Cracker's strip only.",
+      "cssProperty": "--ab-asset-dossier-cross"
+    },
+    {
+      "id": "dossier-cell",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A charge cell",
+      "file": "design/abilities/assets/dossier-cell.svg",
+      "source": "design/abilities/source/tools.svg#dossier-cell",
+      "viewBox": "0 0 24 36",
+      "width": 24,
+      "height": 36,
+      "anchors": {
+        "base": [
+          12,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#202837",
+        "#55657E",
+        "#F7C52B"
+      ],
+      "bytes": 865,
+      "sha256": "42e15c0bcfefdc3a639ac101e5a2d88d662d16e085a356c1ea59390ad35561af",
+      "use": "The one Disable a match gives, while the server offers it; the same cell for the Blue and the Red Disabler.",
+      "cssProperty": "--ab-asset-dossier-cell"
+    },
+    {
+      "id": "dossier-cell-empty",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "An empty cell",
+      "file": "design/abilities/assets/dossier-cell-empty.svg",
+      "source": "design/abilities/source/tools.svg#dossier-cell-empty",
+      "viewBox": "0 0 24 36",
+      "width": 24,
+      "height": 36,
+      "anchors": {
+        "base": [
+          12,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3",
+        "#E3D6C2"
+      ],
+      "bytes": 743,
+      "sha256": "184338b3f13127b50f0eb73c9b10bfb5d0f8e8cea20faa150be94e0165585f7f",
+      "use": "The Disable spent, on its receipt: its use is reserved when it is accepted (V1-15).",
+      "cssProperty": "--ab-asset-dossier-cell-empty"
+    },
+    {
+      "id": "dossier-spark",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "Sparks",
+      "file": "design/abilities/assets/dossier-spark.svg",
+      "source": "design/abilities/source/tools.svg#dossier-spark",
+      "viewBox": "0 0 56 56",
+      "width": 56,
+      "height": 56,
+      "anchors": {
+        "center": [
+          28,
+          28
+        ],
+        "clear": [
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F7C52B"
+      ],
+      "bytes": 1923,
+      "sha256": "b34d596b9ed75422ae6952fc6d960d667463c5f29e63e58b07881999d0580e5e",
+      "use": "Four sparks at the corners of a Disable's target, outside its chip: a charged reticle, never a hit. In the Disabler's strip only; the same for both Disablers.",
+      "cssProperty": "--ab-asset-dossier-spark"
+    },
+    {
+      "id": "dossier-tag",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A shipping tag",
+      "file": "design/abilities/assets/dossier-tag.svg",
+      "source": "design/abilities/source/tools.svg#dossier-tag",
+      "viewBox": "0 0 70 40",
+      "width": 70,
+      "height": 40,
+      "anchors": {
+        "eyelet": [
+          12,
+          20
+        ],
+        "chip": [
+          42,
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 942,
+      "sha256": "68753d6d5cb1f4e21cfe793054c8e892627a0697721bff6d514355f7d842731b",
+      "use": "One of a Supply's two picks, its chip at (42, 20); the two in seat order.",
+      "cssProperty": "--ab-asset-dossier-tag"
+    },
+    {
+      "id": "dossier-slip",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A slip",
+      "file": "design/abilities/assets/dossier-slip.svg",
+      "source": "design/abilities/source/tools.svg#dossier-slip",
+      "viewBox": "0 0 200 64",
+      "width": 200,
+      "height": 64,
+      "anchors": {
+        "slice": [
+          18,
+          34,
+          10,
+          10
+        ],
+        "text": [
+          10,
+          18,
+          156,
+          36
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 1189,
+      "sha256": "2bfb2b63305ef4e1f9f76cfb5c9fd7601b70a2fa0e3c25ab7de474a483a44dad",
+      "use": "The paper of a note in the seat's own card: the Cracker's Rescues left, a Supply's delivery, a weapon received. Nine-sliced at 18 34 10 10: the perforation in the top band, the shading in the right band.",
+      "cssProperty": "--ab-asset-dossier-slip"
+    },
+    {
+      "id": "dossier-reticle",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A reticle",
+      "file": "design/abilities/assets/dossier-reticle.svg",
+      "source": "design/abilities/source/guard.svg#dossier-reticle",
+      "viewBox": "0 0 56 56",
+      "width": 56,
+      "height": 56,
+      "anchors": {
+        "center": [
+          28,
+          28
+        ],
+        "clear": [
+          19
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1000,
+      "sha256": "72260d7a83fdb989447877fbead4fb1e2162945428423b3269d7fb1ba952895a",
+      "use": "A ring and four ticks round the chip of a shot's target, in the shooter's strip only; the same for every seat that holds a weapon, the Officer included.",
+      "cssProperty": "--ab-asset-dossier-reticle"
+    },
+    {
+      "id": "dossier-shield",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A shield",
+      "file": "design/abilities/assets/dossier-shield.svg",
+      "source": "design/abilities/source/guard.svg#dossier-shield",
+      "viewBox": "0 0 48 56",
+      "width": 48,
+      "height": 56,
+      "anchors": {
+        "window": [
+          24,
+          25,
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#CBBBA2",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1087,
+      "sha256": "03ca1feb016532d066d62b84a072a05404364d749da8e3dab65a47322bbf5365",
+      "use": "Behind the chip of a Protection's target, in the Undercover's strip and on its own note of the Protection in the card. Never on the recipient's phone or a public surface (V1-17).",
+      "cssProperty": "--ab-asset-dossier-shield"
+    },
+    {
+      "id": "dossier-shield-used",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A shield used up",
+      "file": "design/abilities/assets/dossier-shield-used.svg",
+      "source": "design/abilities/source/guard.svg#dossier-shield-used",
+      "viewBox": "0 0 48 56",
+      "width": 48,
+      "height": 56,
+      "anchors": {
+        "window": [
+          24,
+          25,
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#E3D6C2"
+      ],
+      "bytes": 1231,
+      "sha256": "d0944a9cc1174363c8a092bf6445822f5b8639436e8ac53c62572f4e268bf668",
+      "use": "A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only.",
+      "cssProperty": "--ab-asset-dossier-shield-used"
+    },
+    {
+      "id": "dossier-round",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A round",
+      "file": "design/abilities/assets/dossier-round.svg",
+      "source": "design/abilities/source/guard.svg#dossier-round",
+      "viewBox": "0 0 14 30",
+      "width": 14,
+      "height": 30,
+      "anchors": {
+        "base": [
+          7,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#B9C4D3",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 905,
+      "sha256": "019e5cf26c81fda407947b4cc1559c728b3187c6e9fe91040619546c71b19ae9",
+      "use": "One ordinary weapon the seat holds (self.ordinaryWeapons), in its own shot strip and its own card.",
+      "cssProperty": "--ab-asset-dossier-round"
+    },
+    {
+      "id": "dossier-round-spent",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A round spent",
+      "file": "design/abilities/assets/dossier-round-spent.svg",
+      "source": "design/abilities/source/guard.svg#dossier-round-spent",
+      "viewBox": "0 0 14 30",
+      "width": 14,
+      "height": 30,
+      "anchors": {
+        "base": [
+          7,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#C6CDD4",
+        "#E3D6C2"
+      ],
+      "bytes": 816,
+      "sha256": "a973434a79f50b10389c379bd2a69f835270b730962f3575e03fc645cd52503c",
+      "use": "The weapon a registered shot used: drawn when the view's count falls, never ahead of it.",
+      "cssProperty": "--ab-asset-dossier-round-spent"
+    },
+    {
+      "id": "dossier-ballot",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot slip",
+      "file": "design/abilities/assets/dossier-ballot.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-ballot",
+      "viewBox": "0 0 48 56",
+      "width": 48,
+      "height": 56,
+      "anchors": {
+        "window": [
+          24,
+          25,
+          15
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#B9C4D3",
+        "#CBBBA2",
+        "#E3D6C2",
+        "#F4EBDD"
+      ],
+      "bytes": 1341,
+      "sha256": "e522f411cf3e11011ea2d3a4096a273b37a50b6cfc26fdec1ee62bed298d2b00",
+      "use": "The seat's own ballot in its strip: the picked player's chip in the box (a Captain election, its runoff, a Jail vote), the jailed player's chip on a release vote, or blank for an abstention.",
+      "cssProperty": "--ab-asset-dossier-ballot"
+    },
+    {
+      "id": "dossier-ballot-edge",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot slip's top edge",
+      "file": "design/abilities/assets/dossier-ballot-edge.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-ballot-edge",
+      "viewBox": "0 0 18 12",
+      "width": 18,
+      "height": 12,
+      "anchors": {
+        "slot": [
+          9,
+          11
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3",
+        "#CBBBA2",
+        "#F4EBDD"
+      ],
+      "bytes": 915,
+      "sha256": "ce71954fbafc0393ed0274c24603f8baf32e70b4ea16757f4eb38ea9228638da",
+      "use": "The seat's own ballot posted, standing in the box's slot once the server accepts it.",
+      "cssProperty": "--ab-asset-dossier-ballot-edge"
+    },
+    {
+      "id": "dossier-tick",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A pencil tick",
+      "file": "design/abilities/assets/dossier-tick.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-tick",
+      "viewBox": "0 0 24 24",
+      "width": 24,
+      "height": 24,
+      "anchors": {
+        "center": [
+          12,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 755,
+      "sha256": "fc59e314483891127baa27e0437a70ba155b7a56f6ec45ffdbbeed1f2928da36",
+      "use": "On the seat's own ballot: a vote for the player on the slip, or Yes to a release.",
+      "cssProperty": "--ab-asset-dossier-tick"
+    },
+    {
+      "id": "dossier-x-mark",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A pencil cross",
+      "file": "design/abilities/assets/dossier-x-mark.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-x-mark",
+      "viewBox": "0 0 24 24",
+      "width": 24,
+      "height": 24,
+      "anchors": {
+        "center": [
+          12,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD"
+      ],
+      "bytes": 685,
+      "sha256": "a6bc11eca83e211e5fcb7b2143a8f89f0793edec1f8976ec9f4d47ac45130f10",
+      "use": "On the seat's own ballot: No to a release.",
+      "cssProperty": "--ab-asset-dossier-x-mark"
+    },
+    {
+      "id": "dossier-ballot-box",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A ballot box",
+      "file": "design/abilities/assets/dossier-ballot-box.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-ballot-box",
+      "viewBox": "0 0 36 34",
+      "width": 36,
+      "height": 34,
+      "anchors": {
+        "slot": [
+          17,
+          9
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#8696AE",
+        "#B9C4D3",
+        "#F4EBDD"
+      ],
+      "bytes": 1106,
+      "sha256": "ed0b2f07bb8c187f380b71527e3846633ce5aa2551455accc616dbdc705e2ef4",
+      "use": "At the start of the seat's own ballot strip; the slip stands in its slot once the server accepts the ballot.",
+      "cssProperty": "--ab-asset-dossier-ballot-box"
+    },
+    {
+      "id": "dossier-key-ring",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A key ring",
+      "file": "design/abilities/assets/dossier-key-ring.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-key-ring",
+      "viewBox": "0 0 48 48",
+      "width": 48,
+      "height": 48,
+      "anchors": {
+        "ring": [
+          24,
+          26,
+          20
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1147,
+      "sha256": "bbecf4c34297204e34da00098c8b6d51e8c1533b3409a0941532046e730099f7",
+      "use": "Round the chip of the jailed player the Captain asks to release, in the Captain's own strip.",
+      "cssProperty": "--ab-asset-dossier-key-ring"
+    },
+    {
+      "id": "dossier-comms",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A comms ring",
+      "file": "design/abilities/assets/dossier-comms.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-comms",
+      "viewBox": "0 0 56 56",
+      "width": 56,
+      "height": 56,
+      "anchors": {
+        "center": [
+          28,
+          28
+        ],
+        "clear": [
+          17
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 894,
+      "sha256": "e8b96d67a182aabe383d39454de1ac6a2cd91d99691cb8f54e7cfd9eedf58ccb",
+      "use": "Round the chip of the player a seat asks for a Hack, in its own strip.",
+      "cssProperty": "--ab-asset-dossier-comms"
+    },
+    {
+      "id": "dossier-cord",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A coiled cord",
+      "file": "design/abilities/assets/dossier-cord.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-cord",
+      "viewBox": "0 0 64 24",
+      "width": 64,
+      "height": 24,
+      "anchors": {
+        "from": [
+          2,
+          12
+        ],
+        "to": [
+          62,
+          12
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#B9C4D3"
+      ],
+      "bytes": 1397,
+      "sha256": "2a5c25ce5d0ec18aea69f14ced86e24d9c397d2f41b0351d9eef572c614c8bcc",
+      "use": "Between the two chips of a Hack's partners, in each partner's own card while the server says they are in one.",
+      "cssProperty": "--ab-asset-dossier-cord"
+    },
+    {
+      "id": "dossier-mic",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A microphone",
+      "file": "design/abilities/assets/dossier-mic.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-mic",
+      "viewBox": "0 0 22 36",
+      "width": 22,
+      "height": 36,
+      "anchors": {
+        "base": [
+          11,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#8696AE",
+        "#B9C4D3",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1294,
+      "sha256": "2e0f3ce5726b4d1c22980aeb1b084e8843c35385c2d7eb2a42edb26ed70e9f96",
+      "use": "The speaking turn, held: at the start of the seat's own Pass strip.",
+      "cssProperty": "--ab-asset-dossier-mic"
+    },
+    {
+      "id": "dossier-mic-passed",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "A microphone handed on",
+      "file": "design/abilities/assets/dossier-mic-passed.svg",
+      "source": "design/abilities/source/ballot.svg#dossier-mic-passed",
+      "viewBox": "0 0 22 36",
+      "width": 22,
+      "height": 36,
+      "anchors": {
+        "base": [
+          11,
+          34
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#E3D6C2"
+      ],
+      "bytes": 888,
+      "sha256": "4a4db3f93a6171534441978b51ef9fbac0fef2875b757114e557742df4f5c5a7",
+      "use": "The speaking turn handed on: drawn once the server accepts Pass.",
+      "cssProperty": "--ab-asset-dossier-mic-passed"
+    },
+    {
+      "id": "dossier-round-special",
+      "version": "0.1.0",
+      "status": "proposal",
+      "title": "The special shot",
+      "file": "design/abilities/assets/dossier-round-special.svg",
+      "source": "design/abilities/source/finale.svg#dossier-round-special",
+      "viewBox": "0 0 14 30",
+      "width": 14,
+      "height": 30,
+      "anchors": {
+        "base": [
+          7,
+          28
+        ]
+      },
+      "palette": "neutral",
+      "colors": [
+        "#151923",
+        "#55657E",
+        "#E3D6C2",
+        "#F4EBDD",
+        "#F7C52B"
+      ],
+      "bytes": 1073,
+      "sha256": "da88eeb99730b4ca98cb06d36dd79159fed09feb74796b6249001ee01c4dcf39",
+      "use": "The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.",
+      "cssProperty": "--ab-asset-dossier-round-special"
     }
   ]
 }

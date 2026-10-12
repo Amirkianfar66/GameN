@@ -130,7 +130,7 @@ export const COPY = {
       JAIL_VOTE: 'Jail vote', SHOWDOWN: 'Showdown', FINISHED: 'Match finished', ABORTED: 'Match ended by the host',
     },
   },
-  timer: { label: 'Time remaining', expired: 'Time is up', waiting: 'Waiting for phase update', syncing: 'Syncing time with the server' },
+  timer: { label: 'Time remaining', expired: 'Time is up', waiting: 'Waiting for phase update', syncing: 'Syncing time with the server', none: 'This phase has no timer' },
   marker: { self: 'You', turn: 'Active turn', jailed: 'Jailed', captain: 'Captain', health: health => health, faction: faction => `Revealed: ${faction}` },
   actions: {
     pausedStale: 'Actions are paused until the connection is restored.',
@@ -138,6 +138,16 @@ export const COPY = {
   },
   privateArea: { hint: 'Only open this where other players cannot see your screen.', role: 'Your role' },
   roster: { column: { player: 'Player', location: 'Location', status: 'Status' }, noStatus: 'None' },
+  // The match's end, for every audience alike (en.result): the winner the server names, the roles and the Code only when the view carries them.
+  result: {
+    heading: 'Result',
+    winner: { Blue: 'Blue wins.', Red: 'Red wins.', Alien: 'The Alien wins.', Draw: 'Nobody wins. The match is a draw.' },
+    alienCoWinner: 'The Alien wins with Blue.',
+    aborted: 'The host ended this match. There is no winner.',
+    revealHeading: 'Roles',
+    columns: { player: 'Player', role: 'Role' },
+    code: names => `The Code was: ${names}.`,
+  },
   banner: { fixture: 'Fixture data. A synthetic development scenario, not a live match.', stale: 'Connection lost. Showing the last known state, which may be out of date. Reconnecting…' },
   tally: {
     heading: 'Last vote counted',
@@ -191,6 +201,10 @@ export const RELEASE_TEXT = {
 
 /** New words this prototype proposes. Nothing the release says is reworded. */
 export const PROPOSED = {
+  // The card while it cannot be shown (design/abilities/): the same words for every role and seat.
+  cardHidden: 'Your card is hidden.',
+  cardHiddenStale: 'Your card stays hidden until your view is up to date.',
+  cardReveal: 'Show my card',
   moveTentative: 'You?',
   moveSent: 'Your character moves when the board update arrives.',
   moveArrived: 'Your character is shown where the server has it.',
@@ -204,4 +218,7 @@ export const PROPOSED = {
   passLegacy: 'This match has no Pass.',
   passNotYours: 'Pass is available on your own turn.',
   observerTitle: 'Everyone else sees',
+  roomFull: 'Full',
+  moveFullLabel: location => `Move to ${location}, full`,
+  captionFull: ', full',
 };
