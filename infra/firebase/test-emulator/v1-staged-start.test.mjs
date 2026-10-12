@@ -1,3 +1,4 @@
+import { supportsVoteResults } from '@mothership/contracts';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { before, after, test } from 'node:test';
@@ -85,7 +86,12 @@ async function harness({ playerCount = 7, humanCount = playerCount, admittedCoun
   const choice = (index, fields = {}) => setupRequest({ bindingRevision: 1, displayName: 'Crew ' + (index + 1), characterId: humanCharacters[index], ...fields });
   const begin = async () => { const body = setupRequest(); return ack('beginSetup', await service.beginSetup(host.uid, body), body); };
   const confirm = async (index, body = choice(index)) => { const response = ack('confirmSetupChoice', await service.confirmSetupChoice(players[index].uid, body), body); assert.equal(response.seatId, 'seat-' + (index + 1)); return response; };
-  const readyBody = async (fields = {}) => setupRequest({ bindingRevision: 1, dealId: (await document()).dealId, ...fields });
+  // Fixture acknowledgment of actual prepared pins; this is not proof of a browser manifest download.
+  const readyBody = async (fields = {}) => {
+    const acceptedVersions=(await base.collection('setup').doc('deal').get()).get('versions');
+    return setupRequest({ bindingRevision: 1, dealId: (await document()).dealId,
+      ...(supportsVoteResults(acceptedVersions)?{acceptedVersions}:{}), ...fields });
+  };
   const ready = async (index, body) => { body ??= await readyBody(); const response = ack('readyForMatch', await service.readyForMatch(players[index].uid, body), body); assert.equal(response.seatId, 'seat-' + (index + 1)); assert.equal(response.dealId, body.dealId); return response; };
   const prepare = async () => { await begin(); for (let i = 0; i < humanCount; i++) await confirm(i); await closeChoosing(h); };
   const h = { service, base, host, display, outsider, players, request, setupRequest, document, identities, state, choice, begin, confirm, readyBody, ready, prepare, now: () => now, setTime: value => { now = value; } };

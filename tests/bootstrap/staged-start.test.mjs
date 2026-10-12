@@ -9,8 +9,8 @@ import {
 
 const wire = { schemaVersion: 1, protocolVersion: 2 };
 const request = { ...wire, matchId: 'setup-match', requestId: 'setup-request' };
-const versions = { protocolVersion: 2, rulesetVersion: 'in-person-v1-2026-10-06',
-  rulesetHash: '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90',
+const versions = { protocolVersion: 2, rulesetVersion: 'in-person-v1-pass-2026-10-08',
+  rulesetHash: 'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183',
   engineVersion: 'full-game-1.1.0', assetManifestVersion: 'comic.1.0' };
 const seats = (count, confirmed = false, ready = false) => Array.from({ length: count }, (_, index) => ({
   seatId: `seat-${index + 1}`, confirmed, ready,
