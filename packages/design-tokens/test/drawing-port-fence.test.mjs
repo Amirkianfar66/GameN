@@ -130,3 +130,14 @@ test('the build-only exception neither travels with a copied file nor allows inj
 test('even a claimed approved hash does not permit app/fixture/director paths', () => {
   for (const name of ['app', 'fixtures', 'director']) assert.equal(prototypeReferences('body.mjs', `import 'design/board-motion/js/${name}.js';`).length, 1);
 });
+
+for (const injection of [
+  "import '../../../design/phone-feedback/app.mjs';",
+  "export const bad = () => import('design/' + 'phone-feedback/fixtures.mjs');",
+  "export const bad = () => fetch('/design/%70hone-feedback/fixtures.mjs');",
+]) {
+  test('phone prototype controllers and fixtures remain excluded: ' + injection, async () => {
+    const root = await seed(); await write(root, 'apps/game/hosted/leak.mjs', injection);
+    await refuses(root, /leak\.mjs: production code refers to the phone-feedback prototype/);
+  });
+}
