@@ -1,6 +1,6 @@
 {
-  "inputsSha256": "67a77c811e6afc88dee4217b27eef58934f5b7981baf88d920513ba03174a851",
-  "browser": "Chrome/141.0.7390.37",
+  "inputsSha256": "3ddda09979a560b5edde7430d6fa4204fa6500b9ba4e75f38bda13e58baee6cc",
+  "browser": "Chrome/155.0.8059.39",
   "scale": 1.5,
   "shots": [
     {
@@ -200,7 +200,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-0000ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -210,7 +210,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-0120ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -220,7 +220,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-0260ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -230,7 +230,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-0420ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -240,7 +240,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-0600ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -250,7 +250,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-0780ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -260,7 +260,7 @@
       "slice": 1,
       "file": "design/abilities/review/assembly-1020ms.png",
       "phone": "w390",
-      "size": "567x956",
+      "size": "567x954",
       "problems": []
     },
     {
@@ -570,7 +570,7 @@
       "slice": 2,
       "file": "design/abilities/review/hacker-assembly-0000ms.png",
       "phone": "w390",
-      "size": "567x951",
+      "size": "567x945",
       "problems": []
     },
     {
@@ -580,7 +580,7 @@
       "slice": 2,
       "file": "design/abilities/review/hacker-assembly-0260ms.png",
       "phone": "w390",
-      "size": "567x951",
+      "size": "567x945",
       "problems": []
     },
     {
@@ -590,7 +590,7 @@
       "slice": 2,
       "file": "design/abilities/review/hacker-assembly-0520ms.png",
       "phone": "w390",
-      "size": "567x951",
+      "size": "567x945",
       "problems": []
     },
     {
@@ -600,7 +600,7 @@
       "slice": 2,
       "file": "design/abilities/review/hacker-assembly-0780ms.png",
       "phone": "w390",
-      "size": "567x951",
+      "size": "567x945",
       "problems": []
     },
     {
@@ -610,7 +610,7 @@
       "slice": 2,
       "file": "design/abilities/review/hacker-assembly-1100ms.png",
       "phone": "w390",
-      "size": "567x951",
+      "size": "567x945",
       "problems": []
     },
     {
@@ -620,7 +620,7 @@
       "slice": 2,
       "file": "design/abilities/review/alien-assembly-0000ms.png",
       "phone": "w390",
-      "size": "567x987",
+      "size": "567x986",
       "problems": []
     },
     {
@@ -630,7 +630,7 @@
       "slice": 2,
       "file": "design/abilities/review/alien-assembly-0260ms.png",
       "phone": "w390",
-      "size": "567x987",
+      "size": "567x986",
       "problems": []
     },
     {
@@ -640,7 +640,7 @@
       "slice": 2,
       "file": "design/abilities/review/alien-assembly-0520ms.png",
       "phone": "w390",
-      "size": "567x987",
+      "size": "567x986",
       "problems": []
     },
     {
@@ -650,7 +650,7 @@
       "slice": 2,
       "file": "design/abilities/review/alien-assembly-0820ms.png",
       "phone": "w390",
-      "size": "567x987",
+      "size": "567x986",
       "problems": []
     },
     {
@@ -660,7 +660,7 @@
       "slice": 2,
       "file": "design/abilities/review/alien-assembly-1100ms.png",
       "phone": "w390",
-      "size": "567x987",
+      "size": "567x986",
       "problems": []
     },
     {
@@ -1120,7 +1120,7 @@
       "slice": 3,
       "file": "design/abilities/review/beat-slip-0000ms.png",
       "phone": "w390",
-      "size": "525x189",
+      "size": "525x187",
       "problems": []
     },
     {
@@ -1130,7 +1130,7 @@
       "slice": 3,
       "file": "design/abilities/review/beat-slip-0130ms.png",
       "phone": "w390",
-      "size": "525x189",
+      "size": "525x187",
       "problems": []
     },
     {
@@ -1140,7 +1140,7 @@
       "slice": 3,
       "file": "design/abilities/review/beat-slip-0260ms.png",
       "phone": "w390",
-      "size": "525x189",
+      "size": "525x187",
       "problems": []
     },
     {
@@ -1820,7 +1820,7 @@
       "slice": 5,
       "file": "design/abilities/review/beat-hand-on-0000ms.png",
       "phone": "w390",
-      "size": "567x98",
+      "size": "567x117",
       "problems": []
     },
     {
@@ -1830,7 +1830,7 @@
       "slice": 5,
       "file": "design/abilities/review/beat-hand-on-0120ms.png",
       "phone": "w390",
-      "size": "567x98",
+      "size": "567x117",
       "problems": []
     },
     {
@@ -1840,7 +1840,7 @@
       "slice": 5,
       "file": "design/abilities/review/beat-hand-on-0240ms.png",
       "phone": "w390",
-      "size": "567x98",
+      "size": "567x117",
       "problems": []
     },
     {
@@ -2080,7 +2080,7 @@
       "slice": 6,
       "file": "design/abilities/review/beat-special-0000ms.png",
       "phone": "w390",
-      "size": "567x161",
+      "size": "567x143",
       "problems": []
     },
     {
@@ -2090,7 +2090,7 @@
       "slice": 6,
       "file": "design/abilities/review/beat-special-0110ms.png",
       "phone": "w390",
-      "size": "567x161",
+      "size": "567x143",
       "problems": []
     },
     {
@@ -2100,7 +2100,7 @@
       "slice": 6,
       "file": "design/abilities/review/beat-special-0220ms.png",
       "phone": "w390",
-      "size": "567x161",
+      "size": "567x143",
       "problems": []
     },
     {
@@ -2110,7 +2110,7 @@
       "slice": 6,
       "file": "design/abilities/review/end-reveal-0120ms.png",
       "phone": "w390",
-      "size": "567x597",
+      "size": "567x584",
       "problems": []
     },
     {
@@ -2120,7 +2120,7 @@
       "slice": 6,
       "file": "design/abilities/review/end-reveal-0380ms.png",
       "phone": "w390",
-      "size": "567x597",
+      "size": "567x584",
       "problems": []
     },
     {
@@ -2130,7 +2130,7 @@
       "slice": 6,
       "file": "design/abilities/review/end-reveal-0600ms.png",
       "phone": "w390",
-      "size": "567x597",
+      "size": "567x584",
       "problems": []
     },
     {
@@ -2140,7 +2140,7 @@
       "slice": 6,
       "file": "design/abilities/review/end-reveal-0900ms.png",
       "phone": "w390",
-      "size": "567x597",
+      "size": "567x584",
       "problems": []
     },
     {

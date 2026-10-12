@@ -42,7 +42,7 @@ const settled = state => state.boards.every(board => board.moving === 0 && board
 const event = id => `document.querySelector('[data-event="${id}"]').click();`;
 const panelReduce = `[...document.querySelectorAll('.bm-panel label')].find(label => label.textContent.includes('Reduced motion')).querySelector('input').click();`;
 const frames = page => page.evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))');
-async function open({ system = false } = {}) {
+async function open({ system = false, scenario = 'board.idle' } = {}) {
   const page = await openPage(browser, { width: 1440, height: 1000 });
   // Observe native listener ownership without replacing events or motion preferences.
   await page.send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => {
@@ -65,7 +65,7 @@ async function open({ system = false } = {}) {
   })();` });
   if (system) await page.media({ 'prefers-reduced-motion': 'reduce' });
   // The frame's 10 px border is excluded: its actual content is 320 x 568.
-  await page.goto(`${server.origin}/board-motion/?scenario=board.idle&w=340&h=588&freeze=1&motion=full`, 'window.__designReady === true');
+  await page.goto(`${server.origin}/board-motion/?scenario=${scenario}&w=340&h=588&freeze=1&motion=full`, 'window.__designReady === true');
   await frames(page);
   return page;
 }
@@ -146,6 +146,42 @@ try {
   await frames(page);
   const disposedState = await snapshot(page);
   ok('an OS change after disposal cannot redraw or restart a director', settled(disposedState) && disposedState.revision === state.revision && disposedState.cues === state.cues && disposedState.listeners.active === 0, disposedState);
+  await page.close();
+
+  // The frozen slice-7 trial keeps concealment as its default. The optional
+  // kept-card illustration remains source evidence and is not enabled here.
+  for (const reason of ['stale', 'expire']) {
+    page = await open();
+    await page.evaluate(`document.getElementById('bm-nav-card').click();`);
+    ok(`default ${reason}: an explicit Card open constructs private content`, await page.evaluate(`Boolean(document.querySelector('#bm-app .bm-private'))`));
+    await page.evaluate(`document.getElementById('bm-${reason}').click();`);
+    const concealed = await page.evaluate(`({ concealed: window.__bmState.concealed, view: window.__bmState.view, privateNodes: document.querySelectorAll('#bm-app .bm-private, #bm-app [data-device], #bm-app [data-team]').length })`);
+    ok(`default ${reason}: the private card is concealed rather than kept`, concealed.concealed && concealed.view === 'board' && concealed.privateNodes === 0, concealed);
+    await page.close();
+  }
+
+  // Preserve the unadopted illustration too. This exact fresh/inspect/stale cycle
+  // exposed a CSS transform transition that the JavaScript animation registry missed.
+  page = await open({ scenario: 'stale.card' });
+  await sleep(150);
+  const press = selector => page.evaluate(`document.querySelector(${JSON.stringify(selector)}).click();`);
+  await press('#bm-fresh');
+  await press('#bm-card .ab-photo');
+  await page.evaluate(`document.querySelector('#bm-card .ab-inspect [data-file-act="back"]').focus();`);
+  await press('#bm-stale');
+  await press('#bm-fresh');
+  await page.evaluate(`document.querySelector('#bm-card .bm-close').focus();`);
+  await press('#bm-stale');
+  await press('#bm-fresh');
+  await press('#bm-expire');
+  const held = await page.evaluate(`(() => {
+    const file = document.querySelector('#bm-card .ab-file');
+    return { mark: document.querySelector('#bm-card .bm-card-stale')?.textContent ?? null,
+      role: document.querySelector('#bm-card .bm-card__name')?.textContent ?? null,
+      paused: file.dataset.paused, disabled: [...file.querySelectorAll('.ab-photo')].every(node => node.getAttribute('aria-disabled') === 'true'),
+      moving: file.getAnimations({ subtree: true }).filter(animation => animation.playState === 'running').length };
+  })()`);
+  ok('optional kept illustration: expiry is immediately at rest after repeated fresh/inspect/stale changes', JSON.stringify(held) === JSON.stringify({ mark: null, role: 'Insider', paused: 'true', disabled: true, moving: 0 }), held);
   await page.close();
 
   const scenarios = ['shot.choose', 'shot.confirm', 'shot.registered', 'shot.unknown', 'code.two', 'code.four', 'supply.second', 'scan.faction', 'move.confirm', 'pass.confirm', 'vote.election', 'rescue.choose', 'release.choice', 'release.vote', 'showdown.choose', 'showdown.registered'];
