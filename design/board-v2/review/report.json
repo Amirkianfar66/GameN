@@ -1,52 +1,49 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "ac7a13a2e2660c2c6466f9faba2ce686321d9675e9b589a77c225956e6fc11c5",
+  "inputsSha256": "83598332c6e3b1d83b8e65208c965bc042de251a72fe4733dd44c066d6ea363c",
   "shots": [
     {
       "file": "board-320x568-ward.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=ward",
       "problems": [],
-      "fits": false,
-      "boardProblems": [
-        "the rooms need 22 px more than the board's 448 px"
-      ]
+      "shell": "compact",
+      "fits": true,
+      "boardProblems": []
     },
     {
       "file": "board-320x568-mixed.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=mixed",
       "problems": [],
-      "fits": false,
-      "boardProblems": [
-        "the rooms need 22 px more than the board's 448 px"
-      ]
+      "shell": "compact",
+      "fits": true,
+      "boardProblems": []
     },
     {
       "file": "slots-320x568.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
-      "fits": false,
-      "boardProblems": [
-        "the rooms need 22 px more than the board's 448 px"
-      ]
+      "shell": "compact",
+      "fits": true,
+      "boardProblems": []
     },
     {
       "file": "slots-320x568-stress.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
-      "fits": false,
-      "boardProblems": [
-        "the rooms need 22 px more than the board's 448 px"
-      ]
+      "shell": "compact",
+      "fits": true,
+      "boardProblems": []
     },
     {
       "file": "hospital-320x568.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -55,6 +52,7 @@
       "viewport": "360x740",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -63,6 +61,7 @@
       "viewport": "360x740",
       "query": "roster=9&fixture=mixed",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -71,6 +70,7 @@
       "viewport": "360x740",
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -79,6 +79,7 @@
       "viewport": "360x740",
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -87,6 +88,7 @@
       "viewport": "360x740",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -95,6 +97,7 @@
       "viewport": "390x844",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -103,6 +106,7 @@
       "viewport": "390x844",
       "query": "roster=9&fixture=mixed",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -111,6 +115,7 @@
       "viewport": "390x844",
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -119,6 +124,7 @@
       "viewport": "390x844",
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -127,6 +133,7 @@
       "viewport": "390x844",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -135,6 +142,7 @@
       "viewport": "430x932",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -143,6 +151,7 @@
       "viewport": "430x932",
       "query": "roster=9&fixture=mixed",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -151,6 +160,7 @@
       "viewport": "430x932",
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -159,6 +169,7 @@
       "viewport": "430x932",
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -167,6 +178,7 @@
       "viewport": "430x932",
       "query": "roster=9&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -175,6 +187,7 @@
       "viewport": "390x844",
       "query": "roster=7&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -183,6 +196,7 @@
       "viewport": "390x844",
       "query": "roster=7&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -191,6 +205,7 @@
       "viewport": "390x844",
       "query": "roster=8&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -199,6 +214,7 @@
       "viewport": "390x844",
       "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
+      "shell": "tall",
       "fits": true,
       "boardProblems": []
     },
@@ -207,6 +223,7 @@
       "viewport": "1024x768",
       "query": "scene=hospital&roster=9&fixture=ward",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -215,6 +232,7 @@
       "viewport": "1024x768",
       "query": "scene=hospital&roster=9&fixture=mixed",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -223,6 +241,7 @@
       "viewport": "1024x768",
       "query": "scene=hospital&roster=8&fixture=empty",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     },
@@ -231,6 +250,7 @@
       "viewport": "1024x768",
       "query": "scene=hospital&roster=7&fixture=empty",
       "problems": [],
+      "shell": null,
       "fits": null,
       "boardProblems": []
     }

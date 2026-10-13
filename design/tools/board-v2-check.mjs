@@ -32,16 +32,16 @@ async function filesUnder(path) {
 const ROLE_WORDS = ['Officer', 'Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
 const TOOLS = ['design/tools/board-v2-assets.mjs', 'design/tools/board-v2-capture.mjs', 'design/tools/board-v2-check.mjs', 'design/tools/lib/board-v2-inputs.mjs'];
 /**
- * The viewports the board is laid out at, and what is known not to fit: on a 320 x 568 phone the
- * rooms need more height than the phone kit's shell leaves the board (docs/design/board-v2-slots.md).
- * A change to that number is a change to the proposal: record it here and in the handoff.
+ * The viewports the board is laid out at, each in its shell: up to 600 px tall the compact one the
+ * owner approved on 13 October 2026, up to 640 px the phone kit's short phone, and above its own
+ * (docs/design/board-v2-slots.md, section 4). The board fits every one of them.
  */
 const VIEWPORTS = [[320, 568], [360, 640], [360, 740], [375, 667], [390, 844], [393, 852], [414, 896], [430, 932]];
-const KNOWN_DEFICIT = { '320x568': 22 };
+const TIER_OF = { '320x568': 'compact', '360x640': 'short' };
 
 const { slotsOf, slotProblems, entrySlot, BOARD_ROOMS, ROSTERS } = await load('design/board-v2/scenes/slots.mjs');
 const { WARD_BERTHS, wardBerths, wardScene } = await load('design/board-v2/scenes/hospital-ward.mjs');
-const { fitBoardV2, slotRects, slotsFit } = await load('design/board-v2/js/fit.mjs');
+const { SHELL, fitBoardV2, passClearance, shellFor, slotRects, slotsFit } = await load('design/board-v2/js/fit.mjs');
 const { SCENES } = await load('design/board-motion/scenes/index.mjs');
 
 // ---------- Development material, fenced ----------
@@ -145,22 +145,32 @@ const { SCENES } = await load('design/board-motion/scenes/index.mjs');
   check('every room has its fixed slots, the reviewed places unmoved, the ward one berth per seat, in drawing order', problems);
 }
 
-// ---------- Every slot is a whole, separate press area on every phone ----------
+// ---------- Every slot is a whole, separate press area on every phone, clear of the Pass ----------
 {
   const problems = [];
+  // The shell: the compact tier is the short one 22 px smaller, and its Pass rises no higher than the board's clear foot.
+  const [compact, short] = ['compact', 'short'].map(tier => SHELL.tiers.find(entry => entry.tier === tier));
+  const chrome = tier => tier.top + tier.nav + 2 * tier.boardPadY;
+  if (!compact || !short || compact.upTo !== 600 || short.upTo !== 640) problems.push('the shell tiers are not compact up to 600 px and short up to 640 px');
+  else if (chrome(short) - chrome(compact) !== 22) problems.push(`the compact shell is ${chrome(short) - chrome(compact)} px smaller than the short one, not 22`);
+  for (const tier of SHELL.tiers) if (tier.nav < 44 || tier.pass < 44) problems.push(`the ${tier.tier} shell: a navigation or a Pass under 44 px`);
+  // The compact Pass stays below the lowest press areas whatever its shape; the phone kit's own is checked by its circle, below.
+  if (compact && compact.passRise >= compact.boardPadY + SHELL.border + SHELL.pad) problems.push(`the compact shell: the Pass rises ${compact.passRise} px, into the lowest rooms' press areas`);
   for (const [width, height] of VIEWPORTS) {
+    const tier = TIER_OF[`${width}x${height}`] ?? 'tall';
+    if (shellFor(height).tier !== tier) problems.push(`${width}x${height}: the ${shellFor(height).tier} shell, not the ${tier} one`);
     for (const roster of ROSTERS) {
       const board = fitBoardV2({ width, height }, roster);
-      const known = KNOWN_DEFICIT[`${width}x${height}`] ?? 0;
-      if (Math.round(board.deficit) !== known) problems.push(`${width}x${height}, ${roster} players: the rooms need ${Math.round(board.deficit)} px more than the board has (recorded: ${known})`);
+      if (!board.fits || board.deficit > 0) problems.push(`${width}x${height}, ${roster} players: ${board.problems.join('; ')}`);
       for (const room of BOARD_ROOMS) {
         const panel = board.panels[room];
         if (!slotsFit(room, roster, panel)) problems.push(`${width}x${height}, ${roster} players, ${room}: its slots' press areas do not fit its ${panel.width} x ${panel.height} panel`);
         for (const rect of slotRects(room, roster, panel)) if (rect.side < 44) problems.push(`${width}x${height}, ${rect.id}: a press area of ${rect.side} px`);
       }
+      for (const slot of passClearance({ width, height }, roster)) if (slot.clearance <= 0) problems.push(`${width}x${height}, ${roster} players, ${slot.id}: under the Pass`);
     }
   }
-  check('every slot of every room is a whole press area of 44 px at least, apart from every other, at every phone size (320 x 568: the recorded shortfall)', problems);
+  check('every slot of every room is a whole press area of 44 px at least, apart from every other and clear of the raised Pass, at every phone size (320 x 568 in the compact shell)', problems);
 }
 
 // ---------- The captures were made from the current pages ----------

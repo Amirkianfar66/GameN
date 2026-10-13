@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "ac7a13a2e2660c2c6466f9faba2ce686321d9675e9b589a77c225956e6fc11c5",
+  "inputsSha256": "83598332c6e3b1d83b8e65208c965bc042de251a72fe4733dd44c066d6ea363c",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -31,7 +31,7 @@
       "file": "hospital-320x568.png",
       "group": "hospital",
       "query": "roster=9&fixture=ward",
-      "about": "The Hospital panel alone, nine patients, at 320 x 568 (3x)"
+      "about": "The Hospital panel alone, nine patients, at 320 x 568 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
     },
     {
       "file": "board-360x740-ward.png",
@@ -61,7 +61,7 @@
       "file": "hospital-360x740.png",
       "group": "hospital",
       "query": "roster=9&fixture=ward",
-      "about": "The Hospital panel alone, nine patients, at 360 x 740 (3x)"
+      "about": "The Hospital panel alone, nine patients, at 360 x 740 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
     },
     {
       "file": "board-390x844-ward.png",
@@ -91,7 +91,7 @@
       "file": "hospital-390x844.png",
       "group": "hospital",
       "query": "roster=9&fixture=ward",
-      "about": "The Hospital panel alone, nine patients, at 390 x 844 (3x)"
+      "about": "The Hospital panel alone, nine patients, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
     },
     {
       "file": "board-430x932-ward.png",
@@ -121,13 +121,13 @@
       "file": "hospital-430x932.png",
       "group": "hospital",
       "query": "roster=9&fixture=ward",
-      "about": "The Hospital panel alone, nine patients, at 430 x 932 (3x)"
+      "about": "The Hospital panel alone, nine patients, at 430 x 932 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
     },
     {
       "file": "hospital-390x844-r7.png",
       "group": "hospital",
       "query": "roster=7&fixture=ward",
-      "about": "The 7-berth ward full, at 390 x 844 (3x)"
+      "about": "The 7-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right"
     },
     {
       "file": "slots-390x844-r7.png",
@@ -139,7 +139,7 @@
       "file": "hospital-390x844-r8.png",
       "group": "hospital",
       "query": "roster=8&fixture=ward",
-      "about": "The 8-berth ward full, at 390 x 844 (3x)"
+      "about": "The 8-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right"
     },
     {
       "file": "slots-390x844-r8.png",

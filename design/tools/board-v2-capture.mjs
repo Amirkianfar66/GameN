@@ -11,7 +11,8 @@
 // DOM: every slot's press area is at least 44 x 44, whole inside its room, below the caption and
 // apart from every other, and is where design/board-v2/js/fit.mjs puts it; every position number
 // sits on its own press area; the page does not scroll; the board does not run under the
-// navigation (or, where it does, by exactly what fit.mjs reports). These are statements about
+// navigation (or, where it does, by exactly what fit.mjs reports); the navigation's raised Pass
+// is where fit.mjs puts it for the phone's shell and covers no press area. These are statements about
 // desktop Chromium laying out a review page from synthetic fixtures, not measurements of a phone
 // and nothing about a match.
 
@@ -38,10 +39,10 @@ function plan() {
     shots.push({ file: `board-${vp(viewport)}-mixed.png`, group: 'board', viewport, query: 'roster=9&fixture=mixed', about: `A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at ${w} x ${h}`, measure: true });
     shots.push({ file: `slots-${vp(viewport)}.png`, group: 'slots', viewport, query: 'roster=9&fixture=empty&markers=1&press=1&ids=1', about: `Every fixed slot of every room: its press area, its position number and its id, nobody there, at ${w} x ${h}`, measure: true });
     shots.push({ file: `slots-${vp(viewport)}-stress.png`, group: 'slots', viewport, query: 'roster=9&fixture=stress&markers=1&press=1', about: `Every slot taken (characters repeat; layout only), with press areas and position numbers, at ${w} x ${h}`, measure: true });
-    shots.push({ file: `hospital-${vp(viewport)}.png`, group: 'hospital', viewport, query: 'roster=9&fixture=ward', selector: '.v2-room[data-room=hospital]', scale: 3, about: `The Hospital panel alone, nine patients, at ${w} x ${h} (3x)` });
+    shots.push({ file: `hospital-${vp(viewport)}.png`, group: 'hospital', viewport, query: 'roster=9&fixture=ward', selector: '.v2-room[data-room=hospital]', scale: 3, about: `The Hospital panel alone, nine patients, at ${w} x ${h} (3x); the edge of the raised Pass shows at its lower right, as on the phone` });
   }
   for (const roster of [7, 8]) {
-    shots.push({ file: `hospital-390x844-r${roster}.png`, group: 'hospital', viewport: [390, 844], query: `roster=${roster}&fixture=ward`, selector: '.v2-room[data-room=hospital]', scale: 3, about: `The ${roster}-berth ward full, at 390 x 844 (3x)` });
+    shots.push({ file: `hospital-390x844-r${roster}.png`, group: 'hospital', viewport: [390, 844], query: `roster=${roster}&fixture=ward`, selector: '.v2-room[data-room=hospital]', scale: 3, about: `The ${roster}-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right` });
     shots.push({ file: `slots-390x844-r${roster}.png`, group: 'slots', viewport: [390, 844], query: `roster=${roster}&fixture=empty&markers=1&press=1&ids=1`, about: `Every fixed slot for ${roster} players, at 390 x 844`, measure: true });
   }
   for (const [roster, fixture, about] of [[9, 'ward', 'nine patients, Injured'], [9, 'mixed', 'a patient lying, one detained sitting up, one who died, empty berths made up'], [8, 'empty', 'eight berths, empty and made up; the vitals board in the ninth\'s place'], [7, 'empty', 'seven berths; the approved medicine cabinet and the vitals board in the upper places']]) {
@@ -61,8 +62,9 @@ const MEASURE = `(() => {
   }
   const nav = document.querySelector('.v2-nav')?.getBoundingClientRect();
   const board = document.querySelector('.v2-board')?.getBoundingClientRect();
+  const pass = document.querySelector('.v2-pass')?.getBoundingClientRect();
   const lowest = Math.max(...[...document.querySelectorAll('.v2-room')].map(node => node.getBoundingClientRect().bottom));
-  return { rooms, scrolls: document.documentElement.scrollHeight > innerHeight + 1, navTop: nav?.top ?? null, boardBottom: board?.bottom ?? null, lowest };
+  return { rooms, scrolls: document.documentElement.scrollHeight > innerHeight + 1, navTop: nav?.top ?? null, boardBottom: board?.bottom ?? null, lowest, shell: document.documentElement.dataset.shell ?? null, pass: pass ? { left: pass.left, top: pass.top, width: pass.width, height: pass.height } : null };
 })()`;
 
 function problemsOf(shot, measured) {
@@ -72,9 +74,14 @@ function problemsOf(shot, measured) {
   const board = fitBoardV2({ width, height }, roster);
   const expected = boardRects({ width, height }, roster);
   if (measured.scrolls) problems.push('the page scrolls');
+  if (measured.shell !== board.shell.tier) problems.push(`the page draws the ${measured.shell} shell; fit.mjs has ${board.shell.tier}`);
   // Where the rooms need more height than the board has, they run under the navigation by exactly that much.
-  const overrun = Math.max(0, measured.lowest - (measured.navTop - 5));
+  const overrun = Math.max(0, measured.lowest - (measured.navTop - board.shell.boardPadY));
   if (Math.abs(overrun - board.deficit) > 1) problems.push(`the board runs ${overrun.toFixed(1)} px under the navigation; fit.mjs says ${board.deficit.toFixed(1)}`);
+  // The raised Pass: where fit.mjs puts it, and on no press area (its circle, as it is pressed).
+  const pass = measured.pass ? { cx: measured.pass.left + measured.pass.width / 2, cy: measured.pass.top + measured.pass.height / 2, r: measured.pass.width / 2 } : null;
+  if (!pass) problems.push('no Pass drawn');
+  else if (Math.abs(pass.cx - board.pass.cx) > 0.6 || Math.abs(pass.cy - board.pass.cy) > 0.6 || Math.abs(pass.r - board.pass.r) > 0.6) problems.push(`the Pass is drawn at ${pass.cx.toFixed(1)},${pass.cy.toFixed(1)} r ${pass.r.toFixed(1)}; fit.mjs ${board.pass.cx.toFixed(1)},${board.pass.cy.toFixed(1)} r ${board.pass.r.toFixed(1)}`);
   for (const [room, drawn] of Object.entries(measured.rooms)) {
     const rects = drawn.press;
     if (!rects.length) continue;
@@ -88,6 +95,11 @@ function problemsOf(shot, measured) {
       rects.forEach((o, j) => { if (j > i && !(r.left + r.width <= o.left + 0.1 || o.left + o.width <= r.left + 0.1 || r.top + r.height <= o.top + 0.1 || o.top + o.height <= r.top + 0.1)) problems.push(`${room}: slots ${i + 1} and ${j + 1} overlap`); });
       const m = drawn.markers[i];
       if (m && !(m.left >= r.left - 0.5 && m.top >= r.top - 0.5 && m.left + m.width <= r.left + r.width + 0.5 && m.top + m.height <= r.top + r.height + 0.5)) problems.push(`${room} slot ${i + 1}: its position number is not on its press area`);
+      if (pass) {
+        const left = drawn.panel.left + r.left, top = drawn.panel.top + r.top;
+        const dx = Math.max(left - pass.cx, 0, pass.cx - (left + r.width)), dy = Math.max(top - pass.cy, 0, pass.cy - (top + r.height));
+        if (Math.hypot(dx, dy) < pass.r) problems.push(`${room} slot ${i + 1}: under the Pass`);
+      }
     });
   }
   return problems;
@@ -110,7 +122,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
       const problems = [...(measured ? problemsOf(shot, measured) : []), ...page.problems()];
       const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9)) : null;
-      report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
+      report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
       await page.close();
     }

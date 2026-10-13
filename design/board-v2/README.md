@@ -6,6 +6,7 @@
 - Every room's fixed slots with stable ids. Rooms A and B and the Jail have five, the Command Room one, and the Hospital one per seat.
 - A Hospital drawn as a ward of seven, eight or nine berths.
 - A layout in which every slot is a whole 44 px press area whatever the room's occupancy.
+- On phones up to 600 px tall, the compact shell the owner approved on 13 October 2026, so that the board fits at 320 × 568.
 
 **The handoff:** [docs/design/board-v2-slots.md](../../docs/design/board-v2-slots.md).
 

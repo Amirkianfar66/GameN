@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { BOARD_ROOMS, ROSTERS, entrySlot, slotCount, slotProblems, slotsOf } from '../../../design/board-v2/scenes/slots.mjs';
 import { WARD_BERTHS, wardBerths, wardScene } from '../../../design/board-v2/scenes/hospital-ward.mjs';
-import { MARKER_RADIUS, fitBoardV2, slotRects, slotsFit } from '../../../design/board-v2/js/fit.mjs';
+import { MARKER_RADIUS, SHELL, fitBoardV2, passClearance, shellFor, slotRects, slotsFit } from '../../../design/board-v2/js/fit.mjs';
 import { fixtureSeats } from '../../../design/board-v2/js/fixtures.mjs';
 import { SCENES } from '../../../design/board-motion/scenes/index.mjs';
 import { outfitFor } from '../../../design/board-motion/figures/wardrobe.mjs';
@@ -87,11 +87,31 @@ test('the Designer\'s entry proposal: nobody moves, the ward fills in order, A, 
   assert.equal(entrySlot('command-room', 9, 8, ['C1']), null);
 });
 
-test('every slot is a whole press area of 44 px at least, apart from every other, on every phone; 320 x 568 is 22 px short', () => {
+test('the shell by the phone\'s height: compact up to 600 px, 22 px smaller than the short phone\'s, the sides unchanged', () => {
+  assert.equal(shellFor(568).tier, 'compact');
+  assert.equal(shellFor(600).tier, 'compact');
+  assert.equal(shellFor(601).tier, 'short');
+  assert.equal(shellFor(640).tier, 'short');
+  assert.equal(shellFor(641).tier, 'tall');
+  const chrome = shell => shell.top + shell.nav + 2 * shell.boardPadY;
+  assert.equal(chrome(shellFor(640)) - chrome(shellFor(568)), 22);
+  assert.deepEqual([shellFor(568).top, shellFor(568).nav, shellFor(568).boardPadY], [36, 48, 2]);
+  assert.equal(shellFor(568).boardPadX, shellFor(640).boardPadX);
+  for (const tier of SHELL.tiers) assert.ok(tier.nav >= 44 && tier.pass >= 44);
+  // The compact Pass rises less than the board's foot below the lowest press areas, so it is clear
+  // of them whatever its shape. (The phone kit's own Pass rises 17 px on a tall phone: its circle is
+  // clear, as the next test measures.)
+  const compact = shellFor(568);
+  assert.ok(compact.passRise < compact.boardPadY + compact.border + compact.pad);
+});
+
+test('every slot is a whole press area of 44 px at least, apart from every other and clear of the Pass, on every phone', () => {
   for (const [width, height] of PHONES) {
     for (const roster of ROSTERS) {
       const board = fitBoardV2({ width, height }, roster);
-      assert.equal(Math.round(board.deficit), width === 320 ? 22 : 0, `${width}x${height}`);
+      assert.equal(board.deficit, 0, `${width}x${height}`);
+      assert.ok(board.fits, `${width}x${height}: ${board.problems.join('; ')}`);
+      for (const slot of passClearance({ width, height }, roster)) assert.ok(slot.clearance > 0, `${width}x${height} ${slot.id}`);
       for (const room of BOARD_ROOMS) {
         const panel = board.panels[room];
         assert.ok(slotsFit(room, roster, panel), `${width}x${height} ${room}`);

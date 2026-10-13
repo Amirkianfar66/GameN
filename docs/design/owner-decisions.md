@@ -6,6 +6,55 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 13 October 2026: the fixed slots, the ward and the smallest phone
+
+**A go-ahead and an approval, recorded: artwork for the owner's motion specification starts with the board's fixed slots and a Hospital ward, and the smallest phone gets a more compact shell rather than smaller targets or a scrolling board.**
+
+The owner's motion specification of 13 October 2026 reached the Designer through the coordinator's creative brief, for review and planning only. The Designer's review proposed starting artwork with the fixed slots and a 7, 8 or 9-berth Hospital ward, as new files beside the reviewed ones, and asked the owner to say "start". The owner answered:
+
+> start it then
+
+The first step was built as draft PR [Amirkianfar66/GameN#128](https://github.com/Amirkianfar66/GameN/pull/128). The Designer's status message then asked the owner to pick two things:
+
+- **A fix for the smallest phone:** "The board needs 22 px more height than the top bar and navigation leave it. I recommend making those slightly more compact on short phones, so every tap target stays 44 px."
+- **The next step:** "the Hospital patient states (heartbeat monitors, rescue-deadline badge, detention tag, rescue drone, flatline) or the Blackout's lights-out window."
+
+The owner answered:
+
+> go as your recommendations
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | “start it then” | Artwork starts. The first step is the fixed slots and the ward, as new files (PR #128) |
+| 2 | “go as your recommendations”, on the smallest phone | A more compact top bar and navigation on short phones, so that the board fits at 320 × 568 with every target at 44 px. Not 40 px targets, and not a scrolling board |
+| 3 | “go as your recommendations”, on the next step | The status message did not recommend either step. The Designer follows its review's production plan, which starts with the Blackout's lights-out window and position numbers (storyboard S1); the Hospital's states come after it |
+
+### What the Designer did with it
+
+**The compact shell** is in `design/board-v2/js/fit.mjs`, for phones whose visible viewport is up to 600 px tall:
+
+| Part | Short phone | Compact |
+| --- | --- | --- |
+| Top bar | 44 px | 36 px |
+| Navigation | 56 px | 48 px |
+| Board padding above and below | 5 px | 2 px |
+| Raised Pass | 58 px, rising 13 px | 52 px, rising 8 px |
+
+- **Where the sizes come from:** the example in the handoff's option 1. The owner approved the approach as the status message put it, not these sizes.
+- **One departure from that example:** the board keeps 5 px of padding at the sides. With 2 px there, Rooms A and B would be wider and 2 px taller.
+- **The result:**
+  - The board fits 320 × 568 with no height to spare.
+  - Every slot is a whole 44 px press area, clear of the Pass, at eight phone sizes (checked).
+- **Frontend's instructions:** [board-v2-slots.md](board-v2-slots.md#4-the-layout-from-the-phone-and-the-roster-never-from-who-is-where), sections 4 and 5.
+
+### What it does not settle
+
+- **The real bars.** Frontend implements the shell. Their content at 36 and 48 px, with long names and enlarged text, has not been tried. The review page draws stand-ins.
+- **Adoption.** `design/board-v2/` is a proposal outside the reviewed manifest. Integration approves each file by name and hash.
+- **The ward's look.** The owner has not seen the ward or its captures.
+- **The server's part.** A stored public slot per seat, and a Hospital that holds the whole roster, are Backend's. They are proposed in [board-v2-slots.md](board-v2-slots.md#6-for-backend-and-integration-proposals-nothing-accepted), and nothing is accepted. Without them the Blackout cannot reach players.
+- **The specification itself.** Its six files are not in this repository. The work follows the brief and the owner's notes, and is to be checked against the files when they arrive.
+
 ## 11 October 2026: the Insider's file, portraits and role labels
 
 **A choice of content, recorded: the Insider's starting knowledge is drawn as the three players' portraits and the three role labels.** The assignment for the ability art, relayed to the Designer on 11 October 2026, says:

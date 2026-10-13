@@ -20,7 +20,7 @@ import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { SCENES } from '../../board-motion/scenes/index.mjs';
 import { wardScene } from '../scenes/hospital-ward.mjs';
 import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { BANDS, SHELL, fitBoardV2, slotRects } from './fit.mjs';
+import { SHELL, fitBoardV2, slotRects } from './fit.mjs';
 import { fixtureSeats } from './fixtures.mjs';
 
 const params = new URLSearchParams(location.search);
@@ -111,29 +111,25 @@ function drawScene(room) {
 function draw() {
   const viewport = { width: innerWidth, height: innerHeight };
   const board = fitBoardV2(viewport, roster);
-  const short = viewport.height <= SHELL.short;
-  const topHeight = short ? SHELL.top.short : SHELL.top.tall;
-  const navHeight = short ? SHELL.nav.short : SHELL.nav.tall;
+  const { shell, pass } = board;
   const seats = fixtureSeats(fixture, roster);
   app.replaceChildren(
-    el('header', { class: 'v2-top', style: { height: `${topHeight}px` } },
+    el('header', { class: 'v2-top', style: { height: `${shell.top}px` } },
       el('span', { class: 'v2-top__label' }, 'Board v2 · proposal'),
-      el('span', { class: 'v2-top__meta' }, `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height}`)),
-    el('div', { class: 'v2-board', style: { top: `${topHeight}px`, height: `${board.boardHeight}px` } }),
-    el('nav', { class: 'v2-nav', style: { height: `${navHeight}px` }, 'aria-hidden': 'true' }, ...['Board', 'Actions', 'Pass', 'Card', 'Menu'].map(name => el('span', {}, name))));
+      el('span', { class: 'v2-top__meta' }, `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height} · ${shell.tier} shell`)),
+    el('div', { class: 'v2-board', style: { top: `${shell.top}px`, height: `${board.boardHeight}px` } }),
+    el('nav', { class: 'v2-nav', style: { height: `${shell.nav}px` }, 'aria-hidden': 'true' }, ...['Board', 'Actions', '', 'Card', 'Menu'].map(name => el('span', {}, name))),
+    // The phone kit's raised Pass, as a stand-in: its size and its rise over the board, for the check that it covers no slot.
+    el('span', { class: 'v2-pass', 'aria-hidden': 'true', style: { left: `${pass.cx - pass.r}px`, top: `${pass.cy - pass.r}px`, width: `${2 * pass.r}px`, height: `${2 * pass.r}px` } }, 'Pass'));
   const surface = app.querySelector('.v2-board');
-  const inner = viewport.width - 2 * SHELL.boardPad;
-  const half = (inner - 2 * SHELL.gap - SHELL.spine) / 2;
-  let y = SHELL.boardPad;
-  for (const [band, rooms] of Object.entries(BANDS)) {
-    rooms.forEach((room, index) => {
-      const left = SHELL.boardPad + (rooms.length === 1 ? 0 : index * (half + 2 * SHELL.gap + SHELL.spine));
-      surface.append(drawRoom(room, { left, top: y }, board.panels[room], seats));
-    });
-    y += board.bands[band] + SHELL.gap;
+  // The rooms' boxes are the phone's; the board starts below the top bar.
+  for (const room of BOARD_ROOMS) {
+    const box = board.boxes[room];
+    surface.append(drawRoom(room, { left: box.left, top: box.top - shell.top }, board.panels[room], seats));
   }
   if (!board.fits) surface.append(el('p', { class: 'v2-note' }, board.problems.join(' · ')));
   document.documentElement.dataset.fits = String(board.fits);
+  document.documentElement.dataset.shell = shell.tier;
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }

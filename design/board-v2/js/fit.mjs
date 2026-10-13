@@ -12,6 +12,8 @@
 // 5c9a151: 5 px board padding and gaps, a 10 px spine, 2 px panel borders, a 44 px caption on a
 // room a player moves to by its tag and 32 px on the Hospital's and the Jail's, 8 px at a panel's
 // foot; the top bar 44 px and the navigation 56 px on a phone up to 640 px tall, 52 and 64 above.
+// On a phone up to 600 px tall the shell is the compact one the owner approved on 13 October
+// 2026: the top bar 36 px, the navigation 48 px and the board's padding 2 px above and below.
 
 import { PRESS, frameScene } from '../../board-motion/scenes/frame.mjs';
 import { BOARD_ROOMS, sceneOf, slotsOf } from '../scenes/slots.mjs';
@@ -23,10 +25,29 @@ export const pressSide = unit => Math.max(PRESS, Math.min(64, 0.26 * STAND_HEIGH
 /** A Blackout position number's radius in CSS pixels: it sits inside its press area's upper right corner. */
 export const MARKER_RADIUS = 11;
 
+/**
+ * The shell around the board by the phone's height (the visible viewport): the top bar, the
+ * navigation, the board's padding above and below, and the navigation's raised Pass: its
+ * diameter and how far it rises above the navigation's top edge. The short and tall tiers are the
+ * phone kit's at 5c9a151, the Pass measured there; the compact tier is 22 px smaller than the
+ * short one. At the sides the board keeps 5 px: 2 px there would widen Rooms A and B by 3 px
+ * and make them 2 px taller.
+ */
+export const SHELL_TIERS = Object.freeze([
+  Object.freeze({ tier: 'compact', upTo: 600, top: 36, nav: 48, boardPadY: 2, pass: 52, passRise: 8 }),
+  Object.freeze({ tier: 'short', upTo: 640, top: 44, nav: 56, boardPadY: 5, pass: 58, passRise: 13 }),
+  Object.freeze({ tier: 'tall', upTo: Infinity, top: 52, nav: 64, boardPadY: 5, pass: 64, passRise: 17 }),
+]);
 export const SHELL = Object.freeze({
-  boardPad: 5, gap: 5, spine: 10, border: 2, captionMove: 44, captionFixed: 32, pad: 8,
-  short: 640, top: { short: 44, tall: 52 }, nav: { short: 56, tall: 64 },
+  boardPadX: 5, gap: 5, spine: 10, border: 2, captionMove: 44, captionFixed: 32, pad: 8, tiers: SHELL_TIERS,
 });
+
+/** The shell's measurements for a phone of this height: SHELL's own and its tier's. */
+export function shellFor(height, shell = SHELL) {
+  const { tiers, ...fixed } = shell;
+  const { upTo, ...tier } = tiers.find(entry => height <= entry.upTo);
+  return Object.freeze({ ...fixed, ...tier });
+}
 export const BANDS = Object.freeze({ top: ['command-room'], middle: ['room-a', 'room-b'], lower: ['hospital', 'jail'] });
 const WEIGHTS = [0.8, 1.25, 1];
 const captionOf = (room, shell) => (room === 'hospital' || room === 'jail' ? shell.captionFixed : shell.captionMove);
@@ -67,13 +88,14 @@ export function needHeight(room, roster, width, { cap, pad }) {
 }
 
 /**
- * The board for a viewport and a roster: each band's height, each room's panel, and whether the
- * rooms fit at all (fits: false when the bands' needs exceed the board's height or a room never fits).
+ * The board for a viewport and a roster: the shell's tier, each band's height, each room's panel
+ * and its box on the phone, the raised Pass, and whether the rooms fit at all (fits: false when
+ * the bands' needs exceed the board's height or a room never fits).
  */
-export function fitBoardV2({ width, height }, roster, shell = SHELL) {
-  const short = height <= shell.short;
-  const boardHeight = height - (short ? shell.top.short : shell.top.tall) - (short ? shell.nav.short : shell.nav.tall);
-  const inner = width - 2 * shell.boardPad;
+export function fitBoardV2({ width, height }, roster, shellSpec = SHELL) {
+  const shell = shellFor(height, shellSpec);
+  const boardHeight = height - shell.top - shell.nav;
+  const inner = width - 2 * shell.boardPadX;
   const half = (inner - 2 * shell.gap - shell.spine) / 2;
   const panelWidth = room => (room === 'command-room' ? inner : half) - 2 * shell.border;
   const problems = [];
@@ -88,7 +110,7 @@ export function fitBoardV2({ width, height }, roster, shell = SHELL) {
   }));
   const need = needs.map(list => Math.max(...list.map(entry => entry.need)));
   const most = needs.map((list, index) => Math.max(need[index], Math.min(...list.map(entry => entry.most))));
-  const available = boardHeight - 2 * shell.boardPad - 2 * shell.gap;
+  const available = boardHeight - 2 * shell.boardPadY - 2 * shell.gap;
   const sizes = [...need];
   let left = available - need.reduce((a, b) => a + b, 0);
   if (left < 0) problems.push(`the rooms need ${Math.ceil(-left)} px more than the board's ${available} px`);
@@ -103,15 +125,42 @@ export function fitBoardV2({ width, height }, roster, shell = SHELL) {
   }
   const bands = Object.fromEntries(Object.keys(BANDS).map((band, index) => [band, sizes[index]]));
   const panels = {};
+  // Each room's box on the phone, its border included, in CSS pixels from the viewport's top left.
+  const boxes = {};
+  let y = shell.top + shell.boardPadY;
   Object.entries(BANDS).forEach(([band, rooms]) => {
-    for (const room of rooms) panels[room] = { width: panelWidth(room), height: bands[band] - 2 * shell.border, cap: captionOf(room, shell), pad: shell.pad };
+    rooms.forEach((room, index) => {
+      panels[room] = { width: panelWidth(room), height: bands[band] - 2 * shell.border, cap: captionOf(room, shell), pad: shell.pad };
+      const left = shell.boardPadX + (rooms.length === 1 ? 0 : index * (half + 2 * shell.gap + shell.spine));
+      boxes[room] = { left, top: y, width: panels[room].width + 2 * shell.border, height: bands[band] };
+    });
+    y += bands[band] + shell.gap;
   });
+  const navTop = height - shell.nav;
+  // The Pass is a circle in the navigation's middle, over the spine, rising above its top edge.
+  const pass = { cx: width / 2, cy: navTop - shell.passRise + shell.pass / 2, r: shell.pass / 2 };
   const deficit = Math.max(0, need.reduce((a, b) => a + b, 0) - available);
-  return { roster, viewport: { width, height }, boardHeight, available, needs: need, deficit, bands, panels, problems, fits: problems.length === 0 };
+  return { roster, viewport: { width, height }, shell, boardHeight, available, needs: need, deficit, bands, panels, boxes, navTop, pass, problems, fits: problems.length === 0 };
 }
 
 /** The board's panels' slots, each with its press area, for a viewport and a roster. */
 export function boardRects(viewport, roster) {
   const board = fitBoardV2(viewport, roster);
   return Object.fromEntries(BOARD_ROOMS.map(room => [room, slotRects(room, roster, board.panels[room])]));
+}
+
+/**
+ * How far each slot's press area is from the raised Pass (CSS pixels between the press area's
+ * square and the Pass's circle; 0 where they touch or overlap), for a viewport and a roster.
+ */
+export function passClearance(viewport, roster) {
+  const board = fitBoardV2(viewport, roster);
+  const { cx, cy, r } = board.pass;
+  return BOARD_ROOMS.flatMap(room => slotRects(room, roster, board.panels[room]).map(rect => {
+    const left = board.boxes[room].left + board.shell.border + rect.left;
+    const top = board.boxes[room].top + board.shell.border + rect.top;
+    const dx = Math.max(left - cx, 0, cx - (left + rect.side));
+    const dy = Math.max(top - cy, 0, cy - (top + rect.side));
+    return { room, id: rect.id, clearance: Math.max(0, Math.hypot(dx, dy) - r) };
+  }));
 }
