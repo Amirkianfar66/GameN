@@ -138,9 +138,9 @@
   ],
   "slotTable": {
     "file": "design/board-v2/contract/slots.json",
-    "version": "board-v2-0.1.0",
-    "sha256": "248d9917056b6b863a699d26d97941431ac7b6018b0520d4a0ae551cdaab227e",
-    "bytes": 42518
+    "version": "board-v2-0.1.1",
+    "sha256": "ab687508df829b33e13e5b98243615794e14e0ff3b57e793ce6e6f335f1f4785",
+    "bytes": 42744
   },
   "scenes": [
     {

@@ -7,16 +7,19 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--v2-navy); color: var(--v2-paper); font: 14px/1.25 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
 .v2-app { position: relative; width: 100vw; height: 100vh; }
-.v2-top, .v2-nav { position: absolute; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: 0 10px; background: var(--v2-navy); }
+/* The bars and the Pass are above everything on the board, as on the phone: a target under them is covered. */
+.v2-top, .v2-nav { position: absolute; z-index: 6400; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: 0 10px; background: var(--v2-navy); }
 .v2-top { top: 0; border-bottom: 2px solid var(--v2-gold); }
 .v2-nav { bottom: 0; justify-content: space-around; border-top: 2px solid var(--v2-gold); color: var(--v2-gold-light); font-size: 12px; }
-.v2-pass { position: absolute; z-index: 6500; display: grid; place-items: center; border-radius: 50%; background: var(--v2-gold); color: var(--v2-ink); border: 3px solid var(--v2-ink); font-size: 11px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none; }
+.v2-pass { position: absolute; z-index: 6500; display: grid; place-items: center; border-radius: 50%; background: var(--v2-gold); color: var(--v2-ink); border: 3px solid var(--v2-ink); font-size: 11px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
 .v2-top__label { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 12px; color: var(--v2-gold-light); }
 .v2-top__meta { margin-left: auto; font-size: 11px; opacity: 0.85; text-align: right; }
 .v2-board { position: absolute; left: 0; right: 0; background: var(--v2-canvas); }
 .v2-room { position: absolute; overflow: hidden; border: 2px solid var(--v2-ink); background: var(--v2-canvas); }
 .v2-room > img { position: absolute; max-width: none; pointer-events: none; user-select: none; }
-.v2-cap { position: absolute; z-index: 5000; top: 3px; left: 3px; padding: 3px 9px; background: var(--v2-gold); color: var(--v2-ink); font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--v2-ink); transform: skewX(-8deg); }
+/* A room's caption: 3 px from the panel's corner, as the prototype's tag, and no lower (an h2's own margin
+   would push it over the top row's press areas, which start at the caption's 44 or 32 px). */
+.v2-cap { position: absolute; z-index: 5000; top: 3px; left: 3px; margin: 0; padding: 3px 9px; background: var(--v2-gold); color: var(--v2-ink); font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--v2-ink); transform: skewX(-8deg); }
 .v2-cap--move { min-height: 38px; display: flex; align-items: center; }
 .v2-fig { position: absolute; pointer-events: none; }
 .v2-fig svg { display: block; width: 100%; height: 100%; }
@@ -28,6 +31,11 @@ html, body { margin: 0; height: 100%; background: var(--v2-navy); color: var(--v
 .v2-id { position: absolute; z-index: 4100; transform: translate(-50%, -100%); padding: 0 3px; background: var(--v2-navy); color: var(--v2-gold-light); font: 700 9px/12px ui-monospace, monospace; }
 .v2-badge { position: absolute; z-index: 3550; width: 8px; height: 8px; margin: -4px 0 0 -4px; border: 2px solid var(--v2-gold); border-radius: 2px; background: transparent; }
 .v2-note { position: absolute; z-index: 6000; right: 4px; bottom: 4px; padding: 1px 5px; background: rgba(10, 21, 48, 0.85); color: var(--v2-gold-light); font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
+/* Every slot's press area as a transparent button (&hit=1): what a pointer test presses. */
+.v2-slot-hit { position: absolute; z-index: 4200; padding: 0; background: transparent; border: 0; cursor: pointer; }
+/* No board fits the screen (fitBoardV2's 'too-short'): say so, in the board's place. */
+.v2-unfit { position: absolute; inset: 0; margin: 0; display: grid; place-content: center; gap: 6px; padding: 16px; text-align: center; color: var(--v2-paper); font-size: 15px; }
+.v2-unfit b { display: block; color: var(--v2-gold-light); font-size: 17px; }
 
 /* ---------- the Blackout's lighting window (js/blackout-view.mjs) ---------- */
 .v2-art { position: absolute; inset: 0; }
