@@ -39,6 +39,9 @@
     "assets:phone-kit": "node ../../design/tools/phone-kit-assets.mjs",
     "capture:phone-kit": "node ../../design/tools/phone-kit-capture.mjs",
     "check:phone-kit": "node ../../design/tools/phone-kit-check.mjs",
-    "flows:phone-kit": "node ../../design/tools/phone-kit-flows.mjs"
+    "flows:phone-kit": "node ../../design/tools/phone-kit-flows.mjs",
+    "assets:board-v2": "node ../../design/tools/board-v2-assets.mjs",
+    "capture:board-v2": "node ../../design/tools/board-v2-capture.mjs",
+    "check:board-v2": "node ../../design/tools/board-v2-check.mjs"
   }
 }

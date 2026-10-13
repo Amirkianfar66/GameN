@@ -1,0 +1,238 @@
+{
+  "devOnly": "mothership:dev-only",
+  "inputsSha256": "ac7a13a2e2660c2c6466f9faba2ce686321d9675e9b589a77c225956e6fc11c5",
+  "shots": [
+    {
+      "file": "board-320x568-ward.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": false,
+      "boardProblems": [
+        "the rooms need 22 px more than the board's 448 px"
+      ]
+    },
+    {
+      "file": "board-320x568-mixed.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed",
+      "problems": [],
+      "fits": false,
+      "boardProblems": [
+        "the rooms need 22 px more than the board's 448 px"
+      ]
+    },
+    {
+      "file": "slots-320x568.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "fits": false,
+      "boardProblems": [
+        "the rooms need 22 px more than the board's 448 px"
+      ]
+    },
+    {
+      "file": "slots-320x568-stress.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "fits": false,
+      "boardProblems": [
+        "the rooms need 22 px more than the board's 448 px"
+      ]
+    },
+    {
+      "file": "hospital-320x568.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "board-360x740-ward.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-360x740-mixed.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=mixed",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-360x740.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-360x740-stress.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-360x740.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "board-390x844-ward.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-390x844-mixed.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844-stress.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-390x844.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "board-430x932-ward.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-430x932-mixed.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=mixed",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-430x932.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-430x932-stress.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-430x932.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-390x844-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-390x844-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r9-ward.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=9&fixture=ward",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r9-mixed.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=9&fixture=mixed",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r8-empty.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=8&fixture=empty",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r7-empty.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=7&fixture=empty",
+      "problems": [],
+      "fits": null,
+      "boardProblems": []
+    }
+  ]
+}
