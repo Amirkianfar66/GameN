@@ -17,13 +17,16 @@ export const FIXTURES = Object.freeze(['ward', 'mixed', 'stress', 'empty']);
 /**
  * The Blackout's synthetic outcomes on the mixed board: the slots the round's published batch
  * hit, and who is in what health once the lights are back. A miss and a round with no strike are
- * the same picture by design. Test-only, like every fixture: no rule decides these here.
+ * the same picture by design. `blocks` are not in the published batch: they are the room facts
+ * that only the blocked target's room's occupants receive (ATTACK BLOCKED, S4), so a block is a
+ * miss on every other screen. Test-only, like every fixture: no rule decides these here.
  */
 export const BLACKOUT_OUTCOMES = Object.freeze({
-  hit: Object.freeze({ hits: Object.freeze(['B2']), after: Object.freeze({ 5: 'Injured' }) }),
-  double: Object.freeze({ hits: Object.freeze(['B2', 'A3']), after: Object.freeze({ 5: 'Injured', 3: 'Injured' }) }),
-  miss: Object.freeze({ hits: Object.freeze([]), after: Object.freeze({}) }),
-  none: Object.freeze({ hits: Object.freeze([]), after: Object.freeze({}) }),
+  hit: Object.freeze({ hits: Object.freeze(['B2']), blocks: Object.freeze([]), after: Object.freeze({ 5: 'Injured' }) }),
+  double: Object.freeze({ hits: Object.freeze(['B2', 'A3']), blocks: Object.freeze([]), after: Object.freeze({ 5: 'Injured', 3: 'Injured' }) }),
+  miss: Object.freeze({ hits: Object.freeze([]), blocks: Object.freeze([]), after: Object.freeze({}) }),
+  none: Object.freeze({ hits: Object.freeze([]), blocks: Object.freeze([]), after: Object.freeze({}) }),
+  blocked: Object.freeze({ hits: Object.freeze([]), blocks: Object.freeze(['B2']), after: Object.freeze({}) }),
 });
 
 /** A fixture's occupants for a roster: [{ seat, character, slot, room, health, jailed, captain }]. */

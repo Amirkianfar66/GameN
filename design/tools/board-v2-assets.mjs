@@ -12,6 +12,8 @@
 //   out, drawn from its lit scene by the night rule, the ward once per roster; a light's sparks,
 //   the impact on a hit position and the position markers; and the film's timeline as JSON
 //   (design/board-v2/films/blackout.mjs, contract/films.json);
+// - the shared ATTACK BLOCKED art (design/board-v2/fx/blocked.mjs): the shield, its ring and its
+//   particles, and that film's timeline (design/board-v2/films/blocked.mjs) in contract/films.json;
 // - the manifest, with every file's size and hash.
 //
 //   node design/tools/board-v2-assets.mjs           writes design/board-v2/assets/, contract/slots.json and contract/films.json
@@ -28,6 +30,8 @@ import { fileURLToPath } from 'node:url';
 import { composeScene } from '../board-motion/scenes/compose.mjs';
 import { SCENES } from '../board-motion/scenes/index.mjs';
 import { BLACKOUT, FILMS_VERSION, blackoutContract } from '../board-v2/films/blackout.mjs';
+import { BLOCKED, blockedContract } from '../board-v2/films/blocked.mjs';
+import { BLOCKED_VERSION, PARTICLE_FRAMES, SHIELD, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_RADIUS, SHIELD_SIZE, FACTION_ACCENTS, MIN_ACCENT_DISTANCE, blockParticlesSvg, blockRingSvg, shieldColorDistances, shieldSvg } from '../board-v2/fx/blocked.mjs';
 import { WARD_BERTHS, WARD_ROSTERS, wardScene } from '../board-v2/scenes/hospital-ward.mjs';
 import { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, LIGHTING_VERSION, NIGHT, SPARK_BOX, SPARK_LIGHT, SPARK_ORIGIN, boltIconSvg, impactSvg, markerSvg, nightMarkup, sparkSvg } from '../board-v2/scenes/lighting.mjs';
 import { BOARD_ROOMS, ROSTERS, SLOTS_VERSION, slotsOf } from '../board-v2/scenes/slots.mjs';
@@ -37,8 +41,8 @@ const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/assets';
 const SLOTS_FILE = 'design/board-v2/contract/slots.json';
 const FILMS_FILE = 'design/board-v2/contract/films.json';
-/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting. */
-export const ASSETS_VERSION = 'board-v2-0.2.0';
+/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED. */
+export const ASSETS_VERSION = 'board-v2-0.3.0';
 const kebab = id => id.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 const kebabAll = ids => ids.map(kebab);
 const sha = content => createHash('sha256').update(content).digest('hex');
@@ -89,7 +93,8 @@ export async function planAssets(root = repoRoot) {
   const slotsJson = `${JSON.stringify(slots, null, 2)}\n`;
   files.set(SLOTS_FILE, slotsJson);
   const lighting = await planLighting(root, files);
-  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract()] };
+  const fx = planBlocked(files);
+  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract()] };
   const filmsJson = `${JSON.stringify(films, null, 2)}\n`;
   files.set(FILMS_FILE, filmsJson);
   const recipes = JSON.parse(await readFile(resolve(root, 'design/source/export-recipes.json'), 'utf8'));
@@ -99,7 +104,7 @@ export async function planAssets(root = repoRoot) {
     status: 'proposal',
     baseBoard: 'board-motion-0.3.0',
     baseManifest: 'design-0.2.0',
-    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table and the Blackout\'s lighting art, for the owner\'s motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
+    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art and the shared ATTACK BLOCKED effects, for the owner\'s motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
       origin: 'The approved Hospital\'s groups copied element for element from the repository\'s original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream: a Claude Code session working for the game owner.',
@@ -110,6 +115,7 @@ export async function planAssets(root = repoRoot) {
     slotTable: { file: SLOTS_FILE, version: SLOTS_VERSION, sha256: sha(slotsJson), bytes: Buffer.byteLength(slotsJson) },
     scenes,
     lighting,
+    fx,
     films: { file: FILMS_FILE, version: FILMS_VERSION, sha256: sha(filmsJson), bytes: Buffer.byteLength(filmsJson) },
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -183,6 +189,35 @@ async function planLighting(root, files) {
       { id: `lighting.marker-${state}`, kind: 'marker', state, viewBox: '0 0 44 44', audience: state === 'chosen' ? 'owner-private' : 'public' });
   }
   return { version: LIGHTING_VERSION, fixtures: FIXTURES, sparkLight: SPARK_LIGHT, night: NIGHT, files: entries };
+}
+
+/**
+ * The shared ATTACK BLOCKED art: the shield's three frames, the ring and the particles' three
+ * frames. Adds the files to `files`; returns the manifest's fx section.
+ */
+function planBlocked(files) {
+  const header = (name, purpose) => `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 effects proposal ${BLOCKED_VERSION} · ${name} · generated, do not edit by hand
+  ${purpose} The same for every defense that blocks an attack.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/blocked.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+`;
+  const entries = [];
+  const add = (file, content, entry) => {
+    files.set(file, content);
+    entries.push({ ...entry, file, viewBox: `0 0 ${SHIELD_BOX} ${SHIELD_BOX}`, anchor: [SHIELD_BOX / 2, SHIELD_BOX / 2], bytes: Buffer.byteLength(content), sha256: sha(content), audience: 'room-visible' });
+  };
+  const shieldMs = [BLOCKED.shieldFlash, BLOCKED.shieldBubble, BLOCKED.absorb];
+  for (const frame of [1, 2, 3]) {
+    add(`${OUT}/fx/fx-shield-${frame}.svg`, header(`shield, frame ${frame}`, ['It flashes on: a white-hot core in a pale hexagon, the only part bright enough to count as a flash.', 'The bubble: translucent, an inner rim, halftone shading, a highlight.', 'Spent: the outline breaking up, a glint at each corner.'][frame - 1] + ` Centred on the target's press point, drawn at ${SHIELD_SIZE} times its press side.`) + shieldSvg(frame),
+      { id: `fx.shield-${frame}`, kind: 'shield', frame, ms: shieldMs[frame - 1], flashRadius: frame === 1 ? SHIELD_FLASH_RADIUS : null });
+    add(`${OUT}/fx/fx-block-particles-${frame}.svg`, header(`particles, frame ${frame}`, `Eight symmetric particles scattering from the shield, at ${PARTICLE_FRAMES[frame - 1].radius} of its ${SHIELD_BOX} box.`) + blockParticlesSvg(frame),
+      { id: `fx.block-particles-${frame}`, kind: 'particles', frame, ms: BLOCKED.absorb });
+  }
+  add(`${OUT}/fx/fx-block-ring.svg`, header('ring', 'The energy ring that absorbs the attack; the film grows and fades it.') + blockRingSvg(),
+    { id: 'fx.block-ring', kind: 'ring', ms: BLOCKED.absorb });
+  return { version: BLOCKED_VERSION, colors: SHIELD, factionAccents: FACTION_ACCENTS, colorDistances: { method: 'CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0', atLeast: MIN_ACCENT_DISTANCE, toNearestFactionAccent: shieldColorDistances() }, shieldRadius: SHIELD_RADIUS, shieldSize: SHIELD_SIZE, flashRadius: SHIELD_FLASH_RADIUS, files: entries };
 }
 
 /** Everything under assets/ that the plan no longer makes: removed when writing, reported when checking. */

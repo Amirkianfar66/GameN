@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "bfa730e2b9ea9a223d3472fd983136ff1cc5372a9ad343997618341d205eae32",
+  "inputsSha256": "f14f9c42439d4beb74ae5f80206ed868236229822e24f78fcceca9a7b600c97a",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -336,6 +336,138 @@
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=15560",
       "about": "The star on the smallest phone (15 560 ms)"
+    },
+    {
+      "file": "blocked-390x844-0060-incoming.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=60",
+      "about": "Incoming: a source-free star at Orion's chest, as a hit's; nothing yet says blocked (60 ms)"
+    },
+    {
+      "file": "blocked-390x844-0160-flash.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=160",
+      "about": "The shield flashes on: a white-hot core in a pale hexagon (160 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-bubble.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280",
+      "about": "The bubble blooming towards 1.05 of its size; Orion braced 2 px, the art only (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0480-absorb.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=480",
+      "about": "The ring absorbing the attack, eight particles scattering, the shield spent (480 ms)"
+    },
+    {
+      "file": "blocked-390x844-0760-label.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "about": "ATTACK BLOCKED above Orion, who is back in place; the words in the live region (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-2320-fading.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2320",
+      "about": "The label fading (2 320 ms)"
+    },
+    {
+      "file": "blocked-390x844-2500-done.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500",
+      "about": "Done: nothing the film added is left on the page (2 500 ms)"
+    },
+    {
+      "file": "blocked-390x844-0760-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "about": "An Injured target stays Injured: bandage kept, no healing glow (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-double.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&targets=B2,B4",
+      "about": "Two blocks at one checkpoint, each on its own target (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-outsider.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=outsider",
+      "about": "A player in another room at the same moment: nothing at all (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-display.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=display",
+      "about": "The shared display at the same moment: nothing at all (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-0040-in.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=40&motion=reduced",
+      "about": "Reduced motion: a still ring and the label, in over 80 ms (40 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-hold.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&motion=reduced",
+      "about": "Reduced motion: held 1 600 ms: no star, bloom, brace or particles (800 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-1800-done.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=1800&motion=reduced",
+      "about": "Reduced motion: gone at 1 760 ms (1800 ms)"
+    },
+    {
+      "file": "blocked-320x568-0280-bubble.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280",
+      "about": "The bubble on the smallest phone, clipped to Room B's panel (280 ms)"
+    },
+    {
+      "file": "blocked-320x568-0760-label.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "about": "The label on the smallest phone: the two words stacked to fit the panel (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-art-0280.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=art&targets=A1,C1,H1,J2,B4",
+      "about": "Art review only, which no screen ever receives: a block in every room at once, on each room's colors (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-art-0760.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&viewer=art&targets=A1,C1,H1,J2,B4",
+      "about": "Art review only: the label in every room, above its target or below its name tag, never over a caption (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-blackout-16200-occupant.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16200&in=room-b",
+      "about": "The Blackout, a blocked strike: on a Room B occupant's screen the shield once the lights are fully back (16 200 ms; the outcome at 15 400)"
+    },
+    {
+      "file": "blocked-390x844-blackout-16700-occupant.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
+      "about": "The Blackout: ATTACK BLOCKED on the Room B occupant's screen (16 700 ms)"
+    },
+    {
+      "file": "blocked-390x844-blackout-16700-outsider.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-a",
+      "about": "The Blackout at the same moment on a Room A player's screen: a miss (16 700 ms)"
+    },
+    {
+      "file": "blocked-320x568-blackout-16700-occupant.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
+      "about": "The Blackout's block on the smallest phone (16 700 ms)"
     }
   ]
 }

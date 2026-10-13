@@ -180,6 +180,7 @@ export function blackoutContract() {
       strip: 'public: the same strip, the same size and brightness, on every phone (not the display)',
       selection: 'owner-private: the eligible Disabler\'s own phone, in their bound room only',
       outcome: 'public: the round\'s published batch (authorized hits only; a miss shows nothing anywhere)',
+      blocks: 'room-visible: a blocked strike is a miss in public; ATTACK BLOCKED (S4, films/blocked.mjs) plays only for its room\'s occupants, once the lights are back',
     },
     clock: 'Milliseconds from the window\'s opening: previewEndsAt - 5000. Drawn from the trusted previewEndsAt and endsAt, never from a local start time.',
     inputs: ['t (from the trusted deadlines)', 'outcomeAt (the round\'s publication, R)', 'hits (slot ids of authorized hits)', 'reduced (the device setting)', 'windowId (public)'],

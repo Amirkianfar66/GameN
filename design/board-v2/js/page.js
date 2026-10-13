@@ -12,6 +12,7 @@
 //   &ids=1               every slot's id
 //   &scene=<room>        that room's whole scene alone, at its own 1024 x 768 size (for the art review)
 //   &film=blackout       the Blackout's lighting window on the board (js/blackout-view.mjs has its options)
+//   &film=blocked        ATTACK BLOCKED on its target, for the room's occupants (js/blocked-view.mjs has its options)
 
 import { FRAME } from '../../board-motion/figures/body.mjs';
 import { CREW } from '../../board-motion/figures/crew.mjs';
@@ -24,6 +25,7 @@ import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs'
 import { SHELL, fitBoardV2, slotRects } from './fit.mjs';
 import { fixtureSeats } from './fixtures.mjs';
 import { mountBlackout } from './blackout-view.mjs';
+import { mountBlockedPage } from './blocked-view.mjs';
 
 const params = new URLSearchParams(location.search);
 const roster = Number(params.get('roster') ?? 9);
@@ -141,6 +143,7 @@ function draw() {
   document.documentElement.dataset.fits = String(board.fits);
   document.documentElement.dataset.shell = shell.tier;
   if (params.get('film') === 'blackout') mountBlackout({ app, board, roster, seats, params, drawFigure });
+  if (params.get('film') === 'blocked') mountBlockedPage({ app, board, roster, seats, params, drawFigure });
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }

@@ -22,7 +22,8 @@
   <script type="module">
     const params = new URLSearchParams(location.search);
     const group = params.get('group');
-    if (group === 'blackout') document.getElementById('title').textContent = 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)';
+    const titles = { blackout: 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)', blocked: 'Board v2 proposal: ATTACK BLOCKED, the same for every defense (storyboard S4)' };
+    if (titles[group]) document.getElementById('title').textContent = titles[group];
     const index = await (await fetch('review/index.json')).json();
     const grid = document.getElementById('grid');
     for (const shot of index.captures.filter(entry => !group || entry.group === group)) {
