@@ -28,3 +28,33 @@ html, body { margin: 0; height: 100%; background: var(--v2-navy); color: var(--v
 .v2-id { position: absolute; z-index: 4100; transform: translate(-50%, -100%); padding: 0 3px; background: var(--v2-navy); color: var(--v2-gold-light); font: 700 9px/12px ui-monospace, monospace; }
 .v2-badge { position: absolute; z-index: 3550; width: 8px; height: 8px; margin: -4px 0 0 -4px; border: 2px solid var(--v2-gold); border-radius: 2px; background: transparent; }
 .v2-note { position: absolute; z-index: 6000; right: 4px; bottom: 4px; padding: 1px 5px; background: rgba(10, 21, 48, 0.85); color: var(--v2-gold-light); font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ---------- the Blackout's lighting window (js/blackout-view.mjs) ---------- */
+.v2-art { position: absolute; inset: 0; }
+.v2-art > img { position: absolute; max-width: none; pointer-events: none; user-select: none; }
+.v2-dark { opacity: 0; }
+.v2-spark, .v2-impact { position: absolute; max-width: none; pointer-events: none; }
+.v2-burst { position: absolute; z-index: 3560; width: 24px; height: 24px; pointer-events: none; }
+.v2-marker--film { background: url(../assets/lighting/marker-preview.svg) center / 22px 22px no-repeat; border: 0; box-shadow: none; color: #F4EBDD; }
+.v2-marker--film[data-style="dark"] { background-image: url(../assets/lighting/marker-dark.svg); color: #DCE3EE; }
+.v2-marker--film[data-style="chosen"] { background-image: url(../assets/lighting/marker-chosen.svg); color: #F7D886; }
+/* The Disabler's press areas: transparent, never moved; drawn only on their own screen. */
+.v2-hit { position: absolute; z-index: 4200; padding: 0; background: transparent; border: 0; cursor: pointer; }
+.v2-hit:focus-visible { outline: 2px dashed #F7C52B; outline-offset: -2px; }
+.v2-cap-icon { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
+.v2-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+.v2-top__phase { font-weight: 800; font-size: 14px; color: var(--v2-paper); }
+.v2-top__timer { min-width: 52px; padding: 2px 6px; text-align: center; font-variant-numeric: tabular-nums; font-size: 17px; font-weight: 800; color: var(--v2-paper); background: var(--v2-ink); border: 1.5px solid var(--v2-gold); border-radius: 6px; }
+.v2-top__timer:empty { display: none; }
+.v2-top__meta { font-size: 9px; }
+/* The strip: over the Command band on every player's screen, the same box and the same dark. */
+.v2-strip { position: absolute; z-index: 5500; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 6px 10px; background: #0C1018; border: 2px solid #33405A; color: #C9D2E0; }
+.v2-strip[hidden] { display: none; }
+.v2-strip__row { display: flex; align-items: center; gap: 8px; }
+.v2-strip__kind { padding: 2px 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #DCE3EE; background: #1B2333; border: 1.5px solid #8C9BB4; transform: skewX(-8deg); }
+.v2-strip__time { margin-left: auto; font-variant-numeric: tabular-nums; font-size: 16px; font-weight: 800; color: #DCE3EE; }
+.v2-strip__body { display: contents; }
+.v2-strip__note { margin: 0; min-height: 44px; display: flex; align-items: center; font-size: 13px; }
+.v2-strip__buttons { display: flex; gap: 8px; }
+.v2-btn { flex: 1; min-height: 44px; padding: 4px 8px; font: 700 13px/1.1 system-ui, sans-serif; color: #DCE3EE; background: #1B2333; border: 2px solid #8C9BB4; border-radius: 8px; cursor: pointer; }
+.v2-btn--strike { border-color: #F7C52B; color: #F7D886; }

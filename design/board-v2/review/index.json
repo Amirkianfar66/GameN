@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "83598332c6e3b1d83b8e65208c965bc042de251a72fe4733dd44c066d6ea363c",
+  "inputsSha256": "bfa730e2b9ea9a223d3472fd983136ff1cc5372a9ad343997618341d205eae32",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -174,6 +174,168 @@
       "query": "scene=hospital&roster=7&fixture=empty",
       "about": "The whole ward scene, 7 players: seven berths; the approved medicine cabinet and the vitals board in the upper places",
       "sheetHeight": 300
+    },
+    {
+      "file": "blackout-390x844-0150-markers.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=150",
+      "about": "Markers fading in at every slot of every room, empty ones included (150 ms)"
+    },
+    {
+      "file": "blackout-390x844-1000-preview.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=1000",
+      "about": "The preview: lights on, people, name tags and position markers (1 s)"
+    },
+    {
+      "file": "blackout-390x844-4360-dip.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4360",
+      "about": "The flicker's first dip: every room at about 60% (4 360 ms)"
+    },
+    {
+      "file": "blackout-390x844-4760-sparks.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4760",
+      "about": "Each room's own light sparking, which light from the window's id; the second dip (4 760 ms)"
+    },
+    {
+      "file": "blackout-390x844-5100-lights-out.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5100",
+      "about": "Lights out: the rooms going dark, people and tags fading, markers turning dark, the strip coming up (5 100 ms)"
+    },
+    {
+      "file": "blackout-390x844-8000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000",
+      "about": "The dark, any player's screen: faint line work, dark markers, captions at 70%, the strip over the Command band (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-display.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=display",
+      "about": "The dark on the shared display: no strip; the Command Room dark with its marker (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-choose.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=choose",
+      "about": "The eligible Disabler's screen, bound to Room B: the same strip, its line theirs; Room B's press areas live (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-confirm.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "about": "The Disabler chose position 2: its marker gold on their screen only; Strike or Choose again (8 s)"
+    },
+    {
+      "file": "blackout-390x844-12000-disabler-registered.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=registered&pick=2",
+      "about": "Registered: no answer about the target until the outcome (12 s)"
+    },
+    {
+      "file": "blackout-390x844-15200-disabler-timeout.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=choose",
+      "about": "The window closed with nothing registered: a consuming miss, said only on the Disabler's screen (15.2 s)"
+    },
+    {
+      "file": "blackout-390x844-15000-hold.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15000",
+      "about": "The window's end: dark until the outcome is published (15 s)"
+    },
+    {
+      "file": "blackout-390x844-15440-impact.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15440",
+      "about": "The outcome published at 15 400: the flash at the hit position, B2 (15 440 ms)"
+    },
+    {
+      "file": "blackout-390x844-15560-star.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "about": "The comic star; the lights coming back together in every room; B2's room art shaking 3 px, its marker and press area still (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-15760-back.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15760",
+      "about": "The lights back: Orion, at B2, Injured; markers still up (15 760 ms)"
+    },
+    {
+      "file": "blackout-390x844-16300-settled.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=16300",
+      "about": "Settled: markers gone, the board normal (16 300 ms)"
+    },
+    {
+      "file": "blackout-390x844-15560-double.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=double",
+      "about": "Two strikes, two hits (B2 and A3): one star each, identical (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-15560-miss.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=miss",
+      "about": "A strike that missed: nothing anywhere, the same as a round with no strike (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-0040-markers.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=40&motion=reduced",
+      "about": "Reduced motion: markers in with an 80 ms fade (40 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-4960-fade.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4960&motion=reduced",
+      "about": "Reduced motion: one 80 ms fade to the dark: no flicker, no sparks (4960 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-8000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&motion=reduced",
+      "about": "Reduced motion: the static dark, a still spark in each caption (8000 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-15420-back.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15420&motion=reduced",
+      "about": "Reduced motion: one 80 ms fade back; a still burst at B2 (15420 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-15700-burst.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15700&motion=reduced",
+      "about": "Reduced motion: the burst held 600 ms beside the position, then gone (15700 ms)"
+    },
+    {
+      "file": "blackout-320x568-1000-preview.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=1000",
+      "about": "The preview on the smallest phone, compact shell (1 s)"
+    },
+    {
+      "file": "blackout-320x568-8000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000",
+      "about": "The dark on the smallest phone: the strip fills the Command band (8 s)"
+    },
+    {
+      "file": "blackout-320x568-8000-disabler-confirm.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "about": "The Disabler's confirmation on the smallest phone: 44 px buttons (8 s)"
+    },
+    {
+      "file": "blackout-320x568-15560-star.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "about": "The star on the smallest phone (15 560 ms)"
     }
   ]
 }

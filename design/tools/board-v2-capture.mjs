@@ -12,9 +12,14 @@
 // apart from every other, and is where design/board-v2/js/fit.mjs puts it; every position number
 // sits on its own press area; the page does not scroll; the board does not run under the
 // navigation (or, where it does, by exactly what fit.mjs reports); the navigation's raised Pass
-// is where fit.mjs puts it for the phone's shell and covers no press area. These are statements about
-// desktop Chromium laying out a review page from synthetic fixtures, not measurements of a phone
-// and nothing about a match.
+// is where fit.mjs puts it for the phone's shell and covers no press area. On every frame of the
+// Blackout's lighting window it measures that the page is at the film's stage, that every marker
+// is where fit.mjs puts it (shake or no shake), that only the eligible Disabler's screen has press
+// areas, each a slot's whole press area, that the strip is the Command band's box, and that no
+// name is on the page in the dark. Then it compares whole pages: a strike that missed against a
+// round with no strike, and a Blue Disabler's screen against a Red one's, which must be the same.
+// These are statements about desktop Chromium laying out a review page from synthetic fixtures,
+// not measurements of a phone and nothing about a match.
 
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -26,6 +31,10 @@ import { boardV2InputsSha256 } from './lib/board-v2-inputs.mjs';
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/review';
 const { fitBoardV2, boardRects } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fit.mjs')).href);
+const { BLACKOUT, blackoutFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blackout.mjs')).href);
+const { BLACKOUT_OUTCOMES } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fixtures.mjs')).href);
+const { CREW } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/figures/crew.mjs')).href);
+const NAMES = Object.values(CREW).map(member => member.sign);
 
 /** The phones the board is drawn on: the four the board-motion prototype is measured at. */
 export const VIEWPORTS = [[320, 568], [360, 740], [390, 844], [430, 932]];
@@ -48,6 +57,35 @@ function plan() {
   for (const [roster, fixture, about] of [[9, 'ward', 'nine patients, Injured'], [9, 'mixed', 'a patient lying, one detained sitting up, one who died, empty berths made up'], [8, 'empty', 'eight berths, empty and made up; the vitals board in the ninth\'s place'], [7, 'empty', 'seven berths; the approved medicine cabinet and the vitals board in the upper places']]) {
     shots.push({ file: `scene-hospital-r${roster}-${fixture}.png`, group: 'scene', viewport: [1024, 768], query: `scene=hospital&roster=${roster}&fixture=${fixture}`, scale: 1, sheetHeight: 300, about: `The whole ward scene, ${roster} players: ${about}` });
   }
+  // The Blackout's lighting window: its storyboard frames on the mixed board, the outcome a hit at B2 published at 15 400 ms.
+  const film = (name, viewport, t, extra, about) => shots.push({ file: `blackout-${vp(viewport)}-${name}.png`, group: 'blackout', viewport, query: `roster=9&fixture=mixed&film=blackout&t=${t}${extra}`, about, film: { t } });
+  const at390 = [390, 844];
+  film('0150-markers', at390, 150, '', 'Markers fading in at every slot of every room, empty ones included (150 ms)');
+  film('1000-preview', at390, 1000, '', 'The preview: lights on, people, name tags and position markers (1 s)');
+  film('4360-dip', at390, 4360, '', 'The flicker\'s first dip: every room at about 60% (4 360 ms)');
+  film('4760-sparks', at390, 4760, '', 'Each room\'s own light sparking, which light from the window\'s id; the second dip (4 760 ms)');
+  film('5100-lights-out', at390, 5100, '', 'Lights out: the rooms going dark, people and tags fading, markers turning dark, the strip coming up (5 100 ms)');
+  film('8000-dark', at390, 8000, '', 'The dark, any player\'s screen: faint line work, dark markers, captions at 70%, the strip over the Command band (8 s)');
+  film('8000-display', at390, 8000, '&viewer=display', 'The dark on the shared display: no strip; the Command Room dark with its marker (8 s)');
+  film('8000-disabler-choose', at390, 8000, '&viewer=disabler&bound=room-b&step=choose', 'The eligible Disabler\'s screen, bound to Room B: the same strip, its line theirs; Room B\'s press areas live (8 s)');
+  film('8000-disabler-confirm', at390, 8000, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'The Disabler chose position 2: its marker gold on their screen only; Strike or Choose again (8 s)');
+  film('12000-disabler-registered', at390, 12000, '&viewer=disabler&bound=room-b&step=registered&pick=2', 'Registered: no answer about the target until the outcome (12 s)');
+  film('15200-disabler-timeout', at390, 15200, '&viewer=disabler&bound=room-b&step=choose', 'The window closed with nothing registered: a consuming miss, said only on the Disabler\'s screen (15.2 s)');
+  film('15000-hold', at390, 15000, '', 'The window\'s end: dark until the outcome is published (15 s)');
+  film('15440-impact', at390, 15440, '', 'The outcome published at 15 400: the flash at the hit position, B2 (15 440 ms)');
+  film('15560-star', at390, 15560, '', 'The comic star; the lights coming back together in every room; B2\'s room art shaking 3 px, its marker and press area still (15 560 ms)');
+  film('15760-back', at390, 15760, '', 'The lights back: Orion, at B2, Injured; markers still up (15 760 ms)');
+  film('16300-settled', at390, 16300, '', 'Settled: markers gone, the board normal (16 300 ms)');
+  film('15560-double', at390, 15560, '&outcome=double', 'Two strikes, two hits (B2 and A3): one star each, identical (15 560 ms)');
+  film('15560-miss', at390, 15560, '&outcome=miss', 'A strike that missed: nothing anywhere, the same as a round with no strike (15 560 ms)');
+  for (const [name, t, about] of [['0040-markers', 40, 'markers in with an 80 ms fade'], ['4960-fade', 4960, 'one 80 ms fade to the dark: no flicker, no sparks'], ['8000-dark', 8000, 'the static dark, a still spark in each caption'], ['15420-back', 15420, 'one 80 ms fade back; a still burst at B2'], ['15700-burst', 15700, 'the burst held 600 ms beside the position, then gone']]) {
+    film(`reduced-${name}`, at390, t, '&motion=reduced', `Reduced motion: ${about} (${t} ms)`);
+  }
+  const at320 = [320, 568];
+  film('1000-preview', at320, 1000, '', 'The preview on the smallest phone, compact shell (1 s)');
+  film('8000-dark', at320, 8000, '', 'The dark on the smallest phone: the strip fills the Command band (8 s)');
+  film('8000-disabler-confirm', at320, 8000, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'The Disabler\'s confirmation on the smallest phone: 44 px buttons (8 s)');
+  film('15560-star', at320, 15560, '', 'The star on the smallest phone (15 560 ms)');
   return shots;
 }
 
@@ -66,6 +104,77 @@ const MEASURE = `(() => {
   const lowest = Math.max(...[...document.querySelectorAll('.v2-room')].map(node => node.getBoundingClientRect().bottom));
   return { rooms, scrolls: document.documentElement.scrollHeight > innerHeight + 1, navTop: nav?.top ?? null, boardBottom: board?.bottom ?? null, lowest, shell: document.documentElement.dataset.shell ?? null, pass: pass ? { left: pass.left, top: pass.top, width: pass.width, height: pass.height } : null };
 })()`;
+
+/** Reads a film frame back: its stage, every marker and press area, the strip, and any name on the page. */
+const MEASURE_FILM = `(() => {
+  const rooms = {};
+  for (const room of document.querySelectorAll('.v2-room[data-room]')) {
+    const box = room.getBoundingClientRect();
+    const inner = { left: box.left + room.clientLeft, top: box.top + room.clientTop };
+    const rect = node => { const b = node.getBoundingClientRect(); return { left: b.left - inner.left, top: b.top - inner.top, width: b.width, height: b.height }; };
+    rooms[room.dataset.room] = {
+      markers: [...room.querySelectorAll('.v2-marker')].filter(node => !node.hidden).map(node => ({ ...rect(node), style: node.dataset.style, label: node.getAttribute('aria-label') })),
+      hits: [...room.querySelectorAll('.v2-hit')].map(rect),
+      people: room.querySelectorAll('.v2-fig, .v2-tag').length,
+      spark: room.querySelector('.v2-spark') ? rect(room.querySelector('.v2-spark')) : null,
+      caption: room.querySelector('.v2-cap') ? rect(room.querySelector('.v2-cap')) : null,
+      panel: { width: room.clientWidth, height: room.clientHeight },
+    };
+  }
+  const strip = document.querySelector('.v2-strip:not([hidden])');
+  const board = document.querySelector('.v2-board').getBoundingClientRect();
+  const s = strip?.getBoundingClientRect();
+  const app = document.getElementById('v2-app');
+  const labels = [...app.querySelectorAll('[aria-label]')].map(node => node.getAttribute('aria-label')).join(' ');
+  return { stage: document.documentElement.dataset.stage, rooms, strip: s ? { left: s.left, top: s.top - board.top, width: s.width, height: s.height, background: getComputedStyle(strip).backgroundColor } : null, text: app.textContent + ' ' + labels, scrolls: document.documentElement.scrollHeight > innerHeight + 1 };
+})()`;
+
+function problemsOfFilm(shot, measured) {
+  const problems = [];
+  const query = new URLSearchParams(shot.query);
+  const [width, height] = shot.viewport;
+  const roster = Number(query.get('roster') ?? 9);
+  const outcome = BLACKOUT_OUTCOMES[query.get('outcome') ?? 'hit'];
+  const viewer = query.get('viewer') ?? 'observer';
+  const bound = query.get('bound') ?? 'room-b';
+  const frame = blackoutFrame(shot.film.t, { outcomeAt: Number(query.get('r') ?? 15400), hits: outcome.hits, reduced: query.get('motion') === 'reduced', windowId: query.get('window') ?? 'w-demo-r3' });
+  const board = fitBoardV2({ width, height }, roster);
+  const expected = boardRects({ width, height }, roster);
+  if (measured.scrolls) problems.push('the page scrolls');
+  if (measured.stage !== frame.stage) problems.push(`the page is at ${measured.stage}; the film says ${frame.stage}`);
+  for (const [room, drawn] of Object.entries(measured.rooms)) {
+    const want = expected[room];
+    if (frame.markers.opacity > 0 && drawn.markers.length !== want.length) problems.push(`${room}: ${drawn.markers.length} markers, ${want.length} slots`);
+    drawn.markers.forEach((m, i) => {
+      const r = want[i];
+      // Every marker exactly where fit.mjs puts it, at every moment: the shake never moves one.
+      if (Math.abs(m.left + m.width / 2 - r.marker[0]) > 0.6 || Math.abs(m.top + m.height / 2 - r.marker[1]) > 0.6) problems.push(`${room} marker ${i + 1} moved`);
+      if (m.label !== `Position ${i + 1}`) problems.push(`${room} marker ${i + 1} is named ${m.label}`);
+    });
+    // Press areas: only the eligible Disabler's, in the bound room, while the selection is open; each a whole slot press area.
+    const live = viewer === 'disabler' && room === bound && frame.selection;
+    if (!live && drawn.hits.length) problems.push(`${room}: press areas on a screen that has none`);
+    if (live && drawn.hits.length !== want.length) problems.push(`${room}: ${drawn.hits.length} press areas, ${want.length} slots`);
+    if (live) drawn.hits.forEach((h, i) => { const r = want[i]; if (Math.abs(h.left - r.left) > 0.6 || Math.abs(h.top - r.top) > 0.6 || Math.abs(h.width - r.side) > 0.6) problems.push(`${room} press area ${i + 1} is not the slot's`); });
+    if (frame.people === 'gone' && drawn.people) problems.push(`${room}: people on the page in the dark`);
+    // The sparks: in every room, from its own light, inside its panel and clear of its caption.
+    if (frame.sparks.frame && !drawn.spark) problems.push(`${room}: no spark`);
+    if (drawn.spark) {
+      const cx = drawn.spark.left + drawn.spark.width / 2, top = drawn.spark.top + drawn.spark.height * 0.15;
+      if (cx < 0 || cx > drawn.panel.width || top < -drawn.spark.height * 0.2) problems.push(`${room}: the spark is outside its panel`);
+      const c = drawn.caption;
+      if (c && cx > c.left && cx < c.left + c.width && top < c.top + c.height) problems.push(`${room}: the spark is under its caption`);
+    }
+  }
+  // In the dark, no name anywhere on the page: not in its text, not in a label.
+  if (frame.people === 'gone') for (const name of NAMES) if (measured.text.includes(name)) problems.push(`${name} is on the page in the dark`);
+  // The strip: the Command band's box on every player's screen, none on the display.
+  const box = board.boxes['command-room'];
+  const wantStrip = viewer !== 'display' && frame.strip > 0;
+  if (wantStrip !== Boolean(measured.strip)) problems.push(wantStrip ? 'no strip' : 'a strip where there is none');
+  if (wantStrip && measured.strip && (Math.abs(measured.strip.left - box.left) > 0.6 || Math.abs(measured.strip.top - (box.top - board.shell.top)) > 0.6 || Math.abs(measured.strip.width - box.width) > 0.6 || Math.abs(measured.strip.height - box.height) > 0.6)) problems.push('the strip is not the Command band\'s box');
+  return problems;
+}
 
 function problemsOf(shot, measured) {
   const problems = [];
@@ -112,6 +221,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const server = await startStaticServer();
   const chrome = await launchBrowser();
   const report = [];
+  const disclosure = [];
   try {
     const browser = await connect(chrome.endpoint);
     for (const shot of shots) {
@@ -119,27 +229,62 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const page = await openPage(browser, { width, height, scale: shot.scale ?? 2 });
       await page.goto(`${server.origin}/board-v2/index.html?${shot.query}`, 'document.readyState === "complete" && window.__designReady === true');
       const measured = shot.measure ? await page.evaluate(MEASURE) : null;
+      const filmed = shot.film ? await page.evaluate(MEASURE_FILM) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...page.problems()];
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...page.problems()];
       const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9)) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
       await page.close();
     }
+    // Whole pages that must be the same: a strike that missed and no strike, on any player's screen;
+    // a Blue Disabler's screen and a Red one's. And the strip: the same box and the same dark for a
+    // player and for the Disabler.
+    const pageAt = async (viewport, query) => {
+      const page = await openPage(browser, { width: viewport[0], height: viewport[1], scale: 1 });
+      await page.goto(`${server.origin}/board-v2/index.html?${query}`, 'document.readyState === "complete" && window.__designReady === true');
+      const html = await page.evaluate(`document.getElementById('v2-app').innerHTML`);
+      const strip = await page.evaluate(`(() => { const s = document.querySelector('.v2-strip:not([hidden])'); if (!s) return null; const b = s.getBoundingClientRect(); const c = getComputedStyle(s); return [b.left, b.top, b.width, b.height, c.backgroundColor, c.borderColor, c.opacity].join(' '); })()`);
+      await page.close();
+      return { html, strip };
+    };
+    const base = 'roster=9&fixture=mixed&film=blackout';
+    for (const viewport of [[390, 844], [320, 568]]) {
+      for (const t of [1000, 4360, 4760, 5100, 8000, 15000, 15440, 15560, 16300]) {
+        for (const reducedMotion of ['', '&motion=reduced']) {
+          const [miss, none] = await Promise.all(['miss', 'none'].map(outcome => pageAt(viewport, `${base}&t=${t}&outcome=${outcome}${reducedMotion}`)));
+          disclosure.push({ compare: `a missed strike and no strike, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: miss.html === none.html });
+        }
+      }
+      for (const [t, step] of [[8000, 'choose'], [8000, 'confirm'], [12000, 'registered'], [15200, 'choose']]) {
+        const [blue, red] = await Promise.all(['blue', 'red'].map(side => pageAt(viewport, `${base}&t=${t}&viewer=disabler&bound=room-b&step=${step}&pick=2&side=${side}`)));
+        disclosure.push({ compare: `a Blue Disabler's screen and a Red one's, ${vp(viewport)}, ${t} ms, ${step}`, same: blue.html === red.html });
+      }
+      // While the strip is up: coming up, in the dark, and holding for the outcome.
+      for (const t of [5180, 8000, 15200]) {
+        const [player, disabler] = await Promise.all([pageAt(viewport, `${base}&t=${t}`), pageAt(viewport, `${base}&t=${t}&viewer=disabler&bound=room-b&step=confirm&pick=2`)]);
+        disclosure.push({ compare: `the strip's box, color and opacity on a player's screen and the Disabler's, ${vp(viewport)}, ${t} ms`, same: player.strip !== null && player.strip === disabler.strip });
+      }
+    }
+    for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     const inputsSha256 = await boardV2InputsSha256(repoRoot);
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
-    await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report }, null, 2)}\n`);
-    const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
-    await page.goto(`${server.origin}/board-v2/contact.html`, 'document.readyState === "complete" && window.__designReady === true');
-    await page.fitHeight();
-    await page.screenshot(resolve(repoRoot, OUT, 'contact.png'));
+    await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, disclosure }, null, 2)}\n`);
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout']]) {
+      const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
+      await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
+      await page.fitHeight();
+      await page.screenshot(resolve(repoRoot, OUT, file));
+      await page.close();
+    }
     browser.close();
   } finally {
     await chrome.close();
     await server.close();
   }
   const failing = report.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and a contact sheet, ${failing.length} with problems`);
-  if (failing.length) process.exitCode = 1;
+  const differing = disclosure.filter(entry => !entry.same);
+  console.log(`Board-v2 captures: ${report.length} pictures and two contact sheets, ${failing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing`);
+  if (failing.length || differing.length) process.exitCode = 1;
 }

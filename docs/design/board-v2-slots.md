@@ -57,7 +57,7 @@ A character keeps their position while they stay in a room, and nobody steps asi
 | `badge` | Where a status tag hangs: a berth's plate on its headboard; elsewhere above the head |
 | `fx` | Where an impact or a shield is centred (the press point) |
 
-**Position numbers.** A slot's Blackout position number is its index in its room, 1 to n in id order. It is drawn inside the upper right corner of the slot's press area, so it is always on the target and never over the face it numbers.
+**Position numbers.** A slot's Blackout position number is its index in its room, 1 to n in id order. It is drawn inside the upper right corner of the slot's press area, so it is always on the target and never over the face it numbers. The window that uses them: [blackout-window.md](blackout-window.md).
 
 ### Who takes which slot: a proposal for Backend
 
@@ -245,6 +245,8 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 | `node design/tools/board-v2-assets.mjs --check` | 14 files current |
 | `npm test --workspace @mothership/design-tokens` | **227 / 227**, 8 of them new (`board-v2.test.mjs`); after `npm run build` |
 | Existing design checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion and phone-kit assets current |
+
+The Blackout's step adds a seventh check, 27 captures and 50 whole-page comparisons to these tools; [blackout-window.md](blackout-window.md#7-verification) has its numbers.
 
 **Not run:**
 

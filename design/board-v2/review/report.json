@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "83598332c6e3b1d83b8e65208c965bc042de251a72fe4733dd44c066d6ea363c",
+  "inputsSha256": "bfa730e2b9ea9a223d3472fd983136ff1cc5372a9ad343997618341d205eae32",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -253,6 +253,451 @@
       "shell": null,
       "fits": null,
       "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-0150-markers.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=150",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-1000-preview.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=1000",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-4360-dip.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4360",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-4760-sparks.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4760",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-5100-lights-out.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5100",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-8000-dark.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-8000-display.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=display",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-choose.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=choose",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-confirm.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-12000-disabler-registered.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=registered&pick=2",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15200-disabler-timeout.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=choose",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15000-hold.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15000",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15440-impact.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15440",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15560-star.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15760-back.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15760",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-16300-settled.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=16300",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15560-double.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=double",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15560-miss.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=miss",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-reduced-0040-markers.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=40&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-reduced-4960-fade.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4960&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-reduced-8000-dark.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-reduced-15420-back.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15420&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-reduced-15700-burst.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15700&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-320x568-1000-preview.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&t=1000",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-320x568-8000-dark.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-320x568-8000-disabler-confirm.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-320x568-15560-star.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "problems": [],
+      "shell": null,
+      "fits": null,
+      "boardProblems": []
+    }
+  ],
+  "disclosure": [
+    {
+      "compare": "a missed strike and no strike, 390x844, 1000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 1000 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 4360 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 4360 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 4760 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 4760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 5100 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 5100 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 8000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 8000 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 15000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 15000 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 16300 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 16300 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 8000 ms, choose",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 8000 ms, confirm",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 12000 ms, registered",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 15200 ms, choose",
+      "same": true
+    },
+    {
+      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 390x844, 5180 ms",
+      "same": true
+    },
+    {
+      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 390x844, 8000 ms",
+      "same": true
+    },
+    {
+      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 390x844, 15200 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 1000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 1000 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 4360 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 4360 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 4760 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 4760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 5100 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 5100 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 8000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 8000 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 15000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 15000 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 16300 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 16300 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 8000 ms, choose",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 8000 ms, confirm",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 12000 ms, registered",
+      "same": true
+    },
+    {
+      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 15200 ms, choose",
+      "same": true
+    },
+    {
+      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 320x568, 5180 ms",
+      "same": true
+    },
+    {
+      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 320x568, 8000 ms",
+      "same": true
+    },
+    {
+      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 320x568, 15200 ms",
+      "same": true
     }
   ]
 }
