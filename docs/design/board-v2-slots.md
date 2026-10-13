@@ -4,9 +4,16 @@
 
 Nothing here is a rule, a server contract or an adopted asset:
 
-- **Slots:** which slot a seat takes is the server's to decide.
+- **Slots:** which slot a seat holds is Backend's stored `slotId`, by the specification's lowest-free rule. This table allocates nothing.
 - **Adoption:** each new file needs Integration's approval by name and hash.
-- **Not readable here:** the specification packet itself (README, game-design, rules-contracts, motion-requirements, decision-register, motion-storyboards), so this follows the brief. Re-check it against the packet.
+- **The specification packet** (`GameN-owner-specification-agent-handoff-2026-10-13-v2.txt`, SHA-256 `b5b4ba2d…1590b743`: README, game-design, rules-contracts, motion-requirements, decision-register, motion-storyboards) has been read in full since the first version. Its G and Q identifiers are cited below; the Designer's earlier C-notes are reconciled with them in [motion-spec-crosswalk.md](motion-spec-crosswalk.md).
+
+**Corrected after the Integration review of 13 October 2026** (the reviewed head was `e970eaa`; the correction is the next commit on this branch):
+
+| Finding | What was wrong | What changed |
+| --- | --- | --- |
+| 3. Slot entry policy | `entrySlot()` proposed a seat-preference rule (seat 5 entering an empty Room A took A5). The specification's rule is the lowest free slot (rules-contracts, Blackout validation and resolution) | `entrySlot()` is removed: the drawing module allocates nothing. Backend's lowest-free rule fills a room in the table's numbering; existing occupants keep their slots; departures leave holes; clients read the stored `slotId` (section 2). The slot geometry is unchanged |
+| 4. The 601 px shell | The shell was chosen by height alone. From 601 px up to the short shell's real need (602 to 622 px at 360 to 430 px wide) the short shell left the rooms short and the lowest targets ran under the navigation: 21 px at 430 × 601, 13 px at 390 × 601 | The shell is now chosen by what fits the usable height (the viewport less its safe-area insets): the phone kit's shell for that height at most, the next smaller one where it would not fit. Where even the compact shell does not fit the width, the board narrows to a centred column; where no width fits, the page says so instead of drawing a board. The approved compact dimensions are unchanged, no target shrinks and the board never scrolls (section 4) |
 
 | | |
 | --- | --- |
@@ -59,24 +66,18 @@ A character keeps their position while they stay in a room, and nobody steps asi
 
 **Position numbers.** A slot's Blackout position number is its index in its room, 1 to n in id order. It is drawn inside the upper right corner of the slot's press area, so it is always on the target and never over the face it numbers.
 
-### Who takes which slot: a proposal for Backend
+### Who takes which slot: Backend's lowest-free rule
 
-The slot must be **authoritative**:
+The slot is **authoritative** and Backend's (G-01, G-09, Q-B03f; rules-contracts, Blackout validation and resolution):
 
-- Assigned by the server when a seat enters a room.
-- Kept unchanged while the seat stays.
-- Frozen through the lighting window.
-- Said in the public view.
+- Existing occupants keep their slots. An entrant takes **the lowest free slot of the room**, in this table's numbering (A1 before A2, H1 before H2). A departure leaves a hole until a later entrant fills it.
+- At most one occupant per slot and one slot per seat. The Eliminated keep their slot, except for EJECT's explicit off-board cleanup.
+- The slot is frozen through the Blackout window, from its snapshot at the window's opening.
+- It is said in the public view: a screen draws every seat at its stored `slotId` and never works a place out.
 
-Today both the board-motion prototype (`layout.js` `assign()`) and Frontend (`stations.ts`) work places out from who is in the room now. That is reconnect-safe, but people step aside when someone arrives or leaves. Backend recorded on #96 that stable places with fresh-client agreement "would need separately reviewed authoritative state" (`docs/backend/room-capacity.md` lines 45–47).
+**This table allocates nothing.** It gives each room's slot ids in their numbering and their anchors; the numbering is both the order the rule fills a room in and the Blackout position number. The first version's `entrySlot()` wrote down a seat-preference rule (seat n first tried slot n); it conflicted with the specification and is removed. The check fails if the drawing module exports an allocating function again.
 
-`entrySlot()` writes down the Designer's proposal for the rule, applied once at entry:
-
-| Room | Proposed rule |
-| --- | --- |
-| Command Room | C1, the Captain's |
-| Hospital | The first free berth in order: H1, H2, H3, then H4–H6, then H7–H9 |
-| A, B, Jail | The seat's own preference, as the prototype draws it today: seat n tries slot (n − 1) mod 5, then the next ones round the room. The Eliminated keep their slots |
+**The historical tuple keeps its own placement.** The current ruleset's stateless placement (the board-motion prototype's `layout.js` `assign()`, Frontend's `stations.ts`) is unchanged and pinned to its version. Fixed slots apply only to the new tuple.
 
 No role, side, character or cause is an input.
 
@@ -127,13 +128,37 @@ Around them are a new deck and the berths. The sick bay's two beds and IV pole (
 | Captions | 44 px on a room a player moves to; 32 px on the Hospital and the Jail |
 | Panel foot | 8 px |
 
-**The shell by the phone's height** (the visible viewport; `shellFor()` in `fit.mjs`):
+**The shells** (`SHELL.tiers` in `fit.mjs`):
 
-| Height | Shell | Top bar | Navigation | Board padding above and below | Raised Pass |
+| Shell | The phone kit's choice for usable heights | Top bar | Navigation | Board padding above and below | Raised Pass |
 | --- | --- | --- | --- | --- | --- |
-| Up to 600 px | **Compact**: the owner's decision of 13 October 2026 | 36 px | 48 px | 2 px | 52 px, rising 8 px over the board |
-| 601 to 640 px | Short: the phone kit's | 44 px | 56 px | 5 px | 58 px, rising 13 px (measured in the kit) |
-| Above 640 px | Tall: the phone kit's | 52 px | 64 px | 5 px | 64 px, rising 17 px (measured in the kit) |
+| **Compact**: the owner's decision of 13 October 2026 | Up to 600 px | 36 px | 48 px | 2 px | 52 px, rising 8 px over the board |
+| Short: the phone kit's | 601 to 640 px | 44 px | 56 px | 5 px | 58 px, rising 13 px (measured in the kit) |
+| Tall: the phone kit's | Above 640 px | 52 px | 64 px | 5 px | 64 px, rising 17 px (measured in the kit) |
+
+**Choosing the shell** (`fitBoardV2(viewport, roster, { insets })`). From the space the phone leaves the page, never from who is where:
+
+1. **The usable box** is the viewport less its safe-area insets. The bars are drawn inside it; their backgrounds fill the insets.
+2. **The phone kit's shell for the usable height** (`shellFor()`) is the largest drawn. Where the rooms would not fit in it at the usable width, the next smaller one, down to the compact one.
+3. **Fallback `narrow`:** where not even the compact shell fits the width (a wide, short window: a tablet or a desktop browser), the compact shell and the board as a centred column, the widest down to 320 px at which the rooms fit.
+4. **Fallback `too-short`:** where no width fits the usable height (under 568 px: a phone on its side, or browser bars on the smallest phone), no board is drawn. The board's place says "This board needs a taller screen. Turn the phone upright, or make the window taller." Nothing is pressable under it.
+5. **Fallback `too-narrow`:** where the usable width is under 320 px and the board does not fit it (a folding phone's cover screen, 280 px: Room B's and the Hospital's slots cannot fit 121 px), the same, asking for a wider screen: "This board needs a wider screen. Unfold the phone, or make the window wider." 
+
+No target shrinks below 44 px, the board never scrolls (the owner's decision ruled out a scrolling board), and the rooms never run under the navigation: `fits: false` is never drawn as a board.
+
+**Where each shell starts to fit**, the same for 7, 8 and 9 players (usable height; from `fitBoardV2`):
+
+| Width | Compact from | Short from | Tall from |
+| --- | --- | --- | --- |
+| 320 px | 568 px | 590 px | 606 px |
+| 360 px | 580 px | 602 px | 618 px |
+| 375 px | 586 px | 608 px | 624 px |
+| 390 px | 592 px | 614 px | 630 px |
+| 393 px | 594 px | 616 px | 632 px |
+| 412 and 414 px | 598 px | 620 px | 636 px |
+| 428 and 430 px | 600 px | 622 px | 638 px |
+
+So the phone kit's short shell is kept from its own threshold (601 px) only where it fits, and the compact shell holds the band between: at 430 px wide, 601 to 621 px. The tall shell always fits from 641 px on phones up to 430 px wide. The first version chose by height alone, which left the review's 430 × 601 21 px short and 390 × 601 13 px short.
 
 **Each band's smallest height**, with every slot pressable (from `fitBoardV2`, the same for 7, 8 and 9 players):
 
@@ -178,7 +203,7 @@ At the sides the board keeps 5 px. Padding of 2 px there would widen Rooms A and
 - **The phone kit's shells**, as measured in the kit: the short phone's Pass rises 13 px and the tall phone's 17 px, the second past the lowest press areas' line. Their circles still clear every slot, at 8.4 px or more (H3 at 360 × 740). That is more than the kit's 4.5 px ring round the Pass.
 - **The panel corners:** in every shell the Pass overlaps the lower inner corners of the Hospital's and the Jail's panels, where there is no press area. The Hospital close-ups show its edge there.
 
-The check requires every phone size to fit in its shell with no shortfall, and every slot clear of the Pass. The captures measure both in the DOM.
+The check requires every phone size to fit in its shell with no shortfall, and every slot clear of the Pass, at every width from 320 to 430 px, one pixel either side of every shell's boundary, with and without safe-area insets. The captures measure both in the DOM, and press every slot with a real pointer (section 7).
 
 ## 5. For Frontend
 
@@ -189,8 +214,8 @@ Frontend has reviewed none of this, and nothing has been adopted.
 | Module | Exports |
 | --- | --- |
 | `design/board-v2/scenes/hospital-ward.mjs` | `wardScene(roster)` in the shape of the existing scenes (`room`, `source`, `under`, `floor`, `over`, `props`, `inner`, `focus`, `layers`, `slots`); `WARD_BERTHS`, `wardBerths(roster)`, `WARD_ROSTERS` |
-| `design/board-v2/scenes/slots.mjs` | `slotsOf(room, roster)`, `boardSlots(roster)`, `slotCount`, `sceneOf`, `entrySlot` (proposal), `slotProblems` |
-| `design/board-v2/js/fit.mjs` | `fitBoardV2(viewport, roster)`: the shell, bands, panels, each room's box, the navigation's top and the Pass. Also `shellFor(height)`, `SHELL`, `SHELL_TIERS`, `slotRects(room, roster, panel)`, `slotsFit`, `needHeight`, `passClearance`, `pressSide`, `MARKER_RADIUS`, `BANDS` |
+| `design/board-v2/scenes/slots.mjs` | `slotsOf(room, roster)`, `boardSlots(roster)`, `slotCount`, `sceneOf`, `slotProblems`. No allocation: read the stored `slotId` |
+| `design/board-v2/js/fit.mjs` | `fitBoardV2(viewport, roster, { insets })`: the shell, the fallback (`null`, `narrow`, `too-short` or `too-narrow`), the board's column, bands, panels, each room's box, the navigation's top and the Pass. Also `shellFor(height)`, `insetsOf`, `MIN_BOARD_WIDTH`, `FALLBACKS`, `SHELL`, `SHELL_TIERS`, `slotRects(room, roster, panel)`, `slotsFit`, `needHeight`, `passClearance`, `pressSide`, `MARKER_RADIUS`, `BANDS` |
 
 All three read only the reviewed board-motion modules: `frame.mjs`, `kit.mjs`, `gestures.mjs`, `body.mjs` and the scene index. None reads a role, a phase, a deadline, an audience or a command.
 
@@ -212,7 +237,9 @@ All three read only the reviewed board-motion modules: `frame.mjs`, `kit.mjs`, `
 4. Draw each scene layer at its depth × 2 + 1.
 5. Put the press area at `press` (`slotRects()`), clamped whole inside the panel and below the caption. It is never transformed by any animation.
 
-**The compact shell, for phones whose visible viewport is up to 600 px tall** (the owner's decision, section 4):
+**Choosing the shell on the phone** (section 4): measure the usable height from the visual viewport less `env(safe-area-inset-top)` and `env(safe-area-inset-bottom)`, take the kit's shell for it, and step down while the rooms would not fit; then the `narrow` and `too-short` fallbacks. Measure again on resize, rotation, and when the browser's bars show or hide. Never draw a board that does not fit, and never shrink a target to make one fit. The bars' backgrounds fill the insets; their contents stay inside.
+
+**The compact shell** (the owner's decision, section 4), drawn up to 600 px and wherever the short shell would not fit:
 
 | Part | Short phone (the kit, up to 640 px) | Compact (up to 600 px) |
 | --- | --- | --- |
@@ -221,7 +248,7 @@ All three read only the reviewed board-motion modules: `frame.mjs`, `kit.mjs`, `
 | Raised Pass | 58 px, rising 13 px | 52 px, its top no more than 8 px above the navigation's top edge |
 | Board padding | 5 px | 2 px above and below; 5 px at the sides |
 
-From 601 to 640 px the kit's short phone (`data-short`) is unchanged. The board-motion prototype and the phone kit are not edited, so their reviewed captures stay valid. The compact shell is drawn only on the board-v2 review page, with stand-ins for the bars and the Pass, so its real content is for Frontend to try: long names, and enlarged text.
+From 601 to 640 px the kit's short phone (`data-short`) is drawn wherever it fits, and the compact shell elsewhere: at 430 px wide, 601 to 621 px. The board-motion prototype and the phone kit are not edited, so their reviewed captures stay valid. The compact shell is drawn only on the board-v2 review page, with stand-ins for the bars and the Pass, so its real content is for Frontend to try: long names, and enlarged text.
 
 **Not to port:** `design/board-v2/js/page.js` and `js/fixtures.mjs`. They are a review page and synthetic fixtures, not a client.
 
@@ -229,35 +256,39 @@ From 601 to 640 px the kit's short phone (`data-short`) is unchanged. The board-
 
 ## 6. For Backend and Integration (proposals; nothing accepted)
 
-1. **A stored, public `slotId` per on-board seat**, assigned on entry and never reflowed. This is the dependency that blocks Blackout; the Designer's rule proposal is in section 2. A historical tuple keeps today's stateless placement.
+1. **A stored, public `slotId` per on-board seat**, assigned by the specification's lowest-free rule (rules-contracts, Blackout validation and resolution) in this table's numbering, and never reflowed. This is the dependency that blocks Blackout. A historical tuple keeps today's stateless placement.
 2. **A new ruleset tuple in which the Hospital holds the whole roster** and every Injured character is in it. It supersedes CAPACITY-01's five for the Hospital and CAPACITY-04's waiting outside it.
 3. **Medical detention from existing facts.** An Injured prisoner is in the Hospital with `jailed` still true; the detention tag reads `location === 'Hospital' && jailed`. No new field is needed.
 4. **The roster for the ward** is `seats.length` (7–9) at match creation, fixed for the match.
 
 ## 7. Verification
 
-These were run on this branch in this container. Desktop Chromium laid out a review page from synthetic fixtures: this is not a phone, a match or a measurement of players.
+These were run on this branch in this container after the review's corrections. Desktop Chromium laid out a review page from synthetic fixtures: this is not a phone, a match or a measurement of players.
 
 | Check | Result |
 | --- | --- |
-| `node design/tools/board-v2-check.mjs` | **6 / 6**: fence and development marks; every pinned drawing source and proposed pin byte for byte; the ward built from the approved source, current, in the drawing vocabulary; the slot rules for 7, 8 and 9 players, the reviewed places unmoved, the berths' layering; at eight phone sizes, each in its shell, the board fitting with no shortfall and every slot a whole 44 px press area apart from every other and clear of the Pass; the compact shell 22 px smaller than the short one; the captures current and passing |
-| `node design/tools/board-v2-capture.mjs` | **28 pictures + a contact sheet, 0 with problems.** On each board it measures, from the DOM: press areas of 44 px at least, inside their rooms, apart, and where `fit.mjs` puts them; every position number on its own press area; the page not scrolling; the board not running under the navigation (0 px at every size, 320 × 568 included); the shell `fit.mjs` gives the phone; the Pass where `fit.mjs` puts it, on no press area. Pictures are in `design/board-v2/review/` |
+| `node design/tools/board-v2-check.mjs` | **7 / 7.** Fence and development marks; every pinned drawing source and proposed pin byte for byte; the ward built from the approved source, current, in the drawing vocabulary; the slot rules for 7, 8 and 9 players, the reviewed places unmoved, the berths' layering, **no allocating function in the drawing module** and every fixture one seat per slot; at the eight phone sizes, each in its shell, the board fitting and every slot a whole 44 px press area clear of the Pass; **the shell choice at 2 955 boards** (11 widths from 320 to 430 px, one pixel either side of every shell's boundary and of the kit's 600 and 640 px steps, 7, 8 and 9 players, five safe-area cases): the largest shell up to the kit's that fits, a narrower board or the too-short or too-narrow message where none does, and never a room under the navigation; the captures current and passing |
+| `node design/tools/board-v2-capture.mjs` | **33 pictures + a contact sheet, 0 with problems**, five new: 430 × 601 in the compact shell, 390 × 844 with safe-area insets, and the `narrow`, `too-short` and `too-narrow` fallbacks. On each board it measures, from the DOM, what the first version did, and now also **presses every slot with a real pointer**: `document.elementFromPoint` at its centre and 3 px inside each corner must land on that slot's own button |
+| The same run: **186 pointer probes, 0 with problems** | At nine widths from 320 to 430 px, the heights one pixel either side of every shell's boundary and of 600 and 640 px, for 7 and 9 players, and with safe-area insets at 390 and 430 px: the page's shell and fallback are `fit.mjs`'s and 4 428 slots were each pressed at five points |
 | `node design/tools/board-v2-assets.mjs --check` | 14 files current |
-| `npm test --workspace @mothership/design-tokens` | **227 / 227**, 8 of them new (`board-v2.test.mjs`); after `npm run build` |
-| Existing design checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion and phone-kit assets current |
+| `npm test --workspace @mothership/design-tokens` | **229 / 229**, 10 of them in `board-v2.test.mjs` (two new: the shell chosen by fit at the review's sizes, safe areas and both fallbacks; every boundary at eight widths and three rosters) |
+
+**What the pointer test found besides.** Its first run found every room's caption over the upper corners of its top row's press areas (C1, A5, B5, H7, H8, J1, J2), at every size: the review page drew the caption as an `h2` whose own top margin pushed it 10 px below its 3 px place, over press areas that start at the caption's 44 or 32 px. The caption's margin is now 0, as the prototype's tag; the second run found nothing. This was the review page's stand-in caption, not `fit.mjs`, but a client must keep the same rule: nothing over a press area.
+
+**The accepted drawing candidates are unchanged.** `hospital-ward.mjs` and the 12 ward SVGs are byte for byte the bytes the review accepted (their hashes in `GameN-designer-stack-hashes-2026-10-13.json`); only `slots.mjs` and `fit.mjs`, whose acceptance was withheld, and the evidence files `contract/slots.json` and `assets/manifest.json` changed.
 
 **Not run:**
 
 - Real phones, a screen reader, enlarged text on this page.
 - A match.
-- Reading the specification packet.
-- `npm run verify` as a whole: see the PR.
+- `npm run verify` as a whole: see the PR. Its capacity gate's time limit is Integration's (PR comment).
 
 The memory game itself (whether people can remember positions in five seconds) is not something a capture can show.
 
 ## 8. Unresolved
 
 - **Backend's slot field and the new tuple** (section 6). Until they exist, nothing here ships to players.
+- **Phones whose usable height is under 568 px**, such as a 320 × 568 phone with its browser's bars showing, get the `too-short` message rather than a board. Whether to ask for full-screen play (an installed web app, or a minimal browser interface) on the smallest phones is for the owner and Frontend; the owner's decision rules out a scrolling board.
 - **The compact shell's real bars** (section 5): their content at 36 and 48 px, with long names and enlarged text, is Frontend's to try. The review page draws stand-ins.
 - **The ward's states**, which come with the Hospital scenes: monitor states, deadline badge, detention tag, drone, flatline.
 - **The owner has not seen the ward.**

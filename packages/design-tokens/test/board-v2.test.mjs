@@ -6,10 +6,12 @@
 // is a rule, a server contract or a measurement of a phone.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { BOARD_ROOMS, ROSTERS, entrySlot, slotCount, slotProblems, slotsOf } from '../../../design/board-v2/scenes/slots.mjs';
+import * as slotsModule from '../../../design/board-v2/scenes/slots.mjs';
 import { WARD_BERTHS, wardBerths, wardScene } from '../../../design/board-v2/scenes/hospital-ward.mjs';
-import { MARKER_RADIUS, SHELL, fitBoardV2, passClearance, shellFor, slotRects, slotsFit } from '../../../design/board-v2/js/fit.mjs';
-import { fixtureSeats } from '../../../design/board-v2/js/fixtures.mjs';
+import { MARKER_RADIUS, MIN_BOARD_WIDTH, SHELL, fitBoardV2, insetsOf, passClearance, shellFor, slotRects, slotsFit } from '../../../design/board-v2/js/fit.mjs';
+import { FIXTURES, fixtureSeats } from '../../../design/board-v2/js/fixtures.mjs';
+
+const { BOARD_ROOMS, ROSTERS, slotCount, slotProblems, slotsOf } = slotsModule;
 import { SCENES } from '../../../design/board-motion/scenes/index.mjs';
 import { outfitFor } from '../../../design/board-motion/figures/wardrobe.mjs';
 
@@ -74,20 +76,22 @@ test('the ward: front row first, the two upper berths only in larger matches, th
   assert.equal(outfitFor('Hospital'), 'gown');
 });
 
-test('the Designer\'s entry proposal: nobody moves, the ward fills in order, A, B and the Jail by seat preference', () => {
-  assert.equal(entrySlot('hospital', 9, 4, []), 'H1');
-  assert.equal(entrySlot('hospital', 9, 4, ['H1', 'H3']), 'H2');
-  assert.equal(entrySlot('hospital', 7, 4, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']), null);
-  assert.equal(entrySlot('room-a', 9, 1, []), 'A1');
-  assert.equal(entrySlot('room-a', 9, 6, []), 'A1');
-  assert.equal(entrySlot('room-a', 9, 6, ['A1']), 'A2');
-  assert.equal(entrySlot('jail', 9, 5, ['J5']), 'J1');
-  assert.equal(entrySlot('room-b', 9, 3, ['B1', 'B2', 'B3', 'B4', 'B5']), null);
-  assert.equal(entrySlot('command-room', 9, 8, []), 'C1');
-  assert.equal(entrySlot('command-room', 9, 8, ['C1']), null);
+test('the slot table allocates nothing: a seat\'s slot is Backend\'s, by the lowest-free rule in the table\'s numbering', () => {
+  // No function of the drawing module picks a slot (rules-contracts.md: Backend allocates the lowest free slot).
+  for (const name of Object.keys(slotsModule)) assert.doesNotMatch(name, /entry|alloc|assign|pick|take/i);
+  // The numbering is the order the rule fills a room in: A1 before A2, H1 before H2.
+  for (const roster of ROSTERS) for (const room of BOARD_ROOMS) slotsOf(room, roster).forEach((slot, index) => assert.equal(Number(slot.id.slice(1)), index + 1));
+  // Every synthetic fixture holds one seat per slot and one slot per seat.
+  for (const roster of ROSTERS) {
+    for (const name of FIXTURES) {
+      const seats = fixtureSeats(name, roster);
+      assert.equal(new Set(seats.map(seat => seat.slot)).size, seats.length, `${name} ${roster}`);
+      for (const seat of seats) assert.ok(slotsOf(seat.room, roster).some(slot => slot.id === seat.slot), `${name} ${roster} ${seat.slot}`);
+    }
+  }
 });
 
-test('the shell by the phone\'s height: compact up to 600 px, 22 px smaller than the short phone\'s, the sides unchanged', () => {
+test('the phone kit\'s shell by height: compact up to 600 px, 22 px smaller than the short phone\'s, the sides unchanged', () => {
   assert.equal(shellFor(568).tier, 'compact');
   assert.equal(shellFor(600).tier, 'compact');
   assert.equal(shellFor(601).tier, 'short');
@@ -120,6 +124,68 @@ test('every slot is a whole press area of 44 px at least, apart from every other
           // The position number sits on its own press area.
           assert.ok(rect.marker[0] - MARKER_RADIUS >= rect.left - 0.01 && rect.marker[0] + MARKER_RADIUS <= rect.left + rect.side + 0.01);
           assert.ok(rect.marker[1] - MARKER_RADIUS >= rect.top - 0.01 && rect.marker[1] + MARKER_RADIUS <= rect.top + rect.side + 0.01);
+        }
+      }
+    }
+  }
+});
+
+test('the shell is the largest that fits: at 601 px a phone gets the compact shell where the short one would leave its rooms short', () => {
+  const at = (width, height, insets) => fitBoardV2({ width, height }, 9, { insets });
+  // Where the phone kit's shell for the height fits, it is the one.
+  assert.deepEqual([at(430, 600).shell.tier, at(430, 622).shell.tier, at(430, 641).shell.tier], ['compact', 'short', 'tall']);
+  assert.deepEqual([at(390, 614).shell.tier, at(360, 602).shell.tier, at(320, 568).shell.tier], ['short', 'short', 'compact']);
+  // Where it would not, the compact one: the review's 430 x 601 (21 px short in the short shell) and 390 x 601 (13 px).
+  for (const [width, height] of [[430, 601], [430, 621], [390, 601], [390, 613], [360, 601]]) {
+    const board = at(width, height);
+    assert.equal(board.ceiling, 'short');
+    assert.equal(board.shell.tier, 'compact', `${width}x${height}`);
+    assert.equal(board.fallback, null);
+    assert.equal(board.deficit, 0, `${width}x${height}`);
+    assert.ok(board.fits);
+  }
+  // Safe areas come off the usable height: 390 x 844 less 47 and 34 px is still a tall phone.
+  const safe = at(390, 844, '47,0,34,0');
+  assert.deepEqual(safe.insets, insetsOf({ top: 47, right: 0, bottom: 34, left: 0 }));
+  assert.equal(safe.usable.height, 763);
+  assert.equal(safe.boardTop, 47 + safe.shell.top);
+  assert.equal(safe.navTop, 844 - 34 - safe.shell.nav);
+  assert.equal(safe.shell.tier, 'tall');
+  // A wide, short window: the compact shell and a narrower, centred board; never under the navigation.
+  const wide = at(1024, 768);
+  assert.equal(wide.fallback, 'narrow');
+  assert.equal(wide.shell.tier, 'compact');
+  assert.ok(wide.boardWidth < 1024 && wide.boardWidth >= MIN_BOARD_WIDTH);
+  assert.equal(wide.boardLeft, (1024 - wide.boardWidth) / 2);
+  assert.ok(wide.fits && wide.deficit === 0);
+  // No board fits: said, never drawn short. Too short where the height is the trouble, too narrow under 320 px wide.
+  for (const [width, height] of [[844, 390], [320, 567]]) {
+    const board = at(width, height);
+    assert.equal(board.fallback, 'too-short', `${width}x${height}`);
+    assert.equal(board.fits, false);
+  }
+  for (const [width, height] of [[280, 653], [310, 700]]) {
+    const board = at(width, height);
+    assert.equal(board.fallback, 'too-narrow', `${width}x${height}`);
+    assert.equal(board.fits, false);
+  }
+});
+
+test('at every phone width and roster, one pixel either side of each shell\'s boundary, the rooms end above the navigation', () => {
+  const chrome = tier => tier.top + tier.nav + 2 * tier.boardPadY;
+  // The shortest usable height any board fits: the compact shell's need at the narrowest board (568 px).
+  const floor = fitBoardV2({ width: MIN_BOARD_WIDTH, height: 2000 }, 9).needs.reduce((a, b) => a + b, 0) + 2 * SHELL.gap + chrome(SHELL.tiers[0]);
+  assert.equal(floor, 568);
+  for (const width of [320, 360, 375, 390, 393, 412, 414, 430]) {
+    const rooms = fitBoardV2({ width, height: 2000 }, 9).needs.reduce((a, b) => a + b, 0) + 2 * SHELL.gap;
+    for (const tier of SHELL.tiers) {
+      for (const height of [rooms + chrome(tier) - 1, rooms + chrome(tier), rooms + chrome(tier) + 1].map(Math.ceil)) {
+        for (const roster of ROSTERS) {
+          const board = fitBoardV2({ width, height }, roster);
+          if (board.fallback === 'too-short') { assert.ok(height < floor, `${width}x${height}: too short above the floor`); continue; }
+          const lowest = Math.max(...BOARD_ROOMS.map(room => board.boxes[room].top + board.boxes[room].height));
+          assert.ok(lowest <= board.navTop - board.shell.boardPadY + 0.01, `${width}x${height} ${roster}: ${lowest} under ${board.navTop}`);
+          for (const slot of passClearance({ width, height }, roster)) assert.ok(slot.clearance > 0, `${width}x${height} ${slot.id}`);
         }
       }
     }

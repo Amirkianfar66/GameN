@@ -1,18 +1,18 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "83598332c6e3b1d83b8e65208c965bc042de251a72fe4733dd44c066d6ea363c",
+  "inputsSha256": "2bb8842db81a4cc5142cc029c3eaad9afca3606fece8aff33d4ef1f127cc3bdc",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
       "file": "board-320x568-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 320 x 568"
     },
     {
       "file": "board-320x568-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 320 x 568"
     },
     {
@@ -36,13 +36,13 @@
     {
       "file": "board-360x740-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 360 x 740"
     },
     {
       "file": "board-360x740-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 360 x 740"
     },
     {
@@ -66,13 +66,13 @@
     {
       "file": "board-390x844-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 390 x 844"
     },
     {
       "file": "board-390x844-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 390 x 844"
     },
     {
@@ -96,13 +96,13 @@
     {
       "file": "board-430x932-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 430 x 932"
     },
     {
       "file": "board-430x932-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 430 x 932"
     },
     {
@@ -146,6 +146,36 @@
       "group": "slots",
       "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
       "about": "Every fixed slot for 8 players, at 390 x 844"
+    },
+    {
+      "file": "board-430x601-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "At 430 x 601 the short shell would leave the rooms 21 px short: the compact shell, every target clear of the navigation"
+    },
+    {
+      "file": "board-390x844-safe-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1&safe=47,0,34,0",
+      "about": "At 390 x 844 with safe-area insets of 47 px above and 34 px below: the bars fill them, the board fits the 763 px between"
+    },
+    {
+      "file": "board-1024x768-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A wide, short window (1024 x 768): no shell fits the full width, so the compact shell and a centred board 852 px wide (fallback narrow)"
+    },
+    {
+      "file": "board-844x390-too-short.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A phone on its side (844 x 390): no board fits 390 px, so no board and a message (fallback too-short); never a board under the navigation"
+    },
+    {
+      "file": "board-280x653-too-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A folding phone's cover screen (280 x 653): Rooms B and the Hospital cannot hold their slots at 121 px, so no board and a message (fallback too-narrow)"
     },
     {
       "file": "scene-hospital-r9-ward.png",

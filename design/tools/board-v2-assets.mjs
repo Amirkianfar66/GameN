@@ -23,7 +23,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { composeScene } from '../board-motion/scenes/compose.mjs';
 import { WARD_BERTHS, WARD_ROSTERS, wardScene } from '../board-v2/scenes/hospital-ward.mjs';
-import { BOARD_ROOMS, ROSTERS, SLOTS_VERSION, slotsOf } from '../board-v2/scenes/slots.mjs';
+import { BOARD_ROOMS, ROSTERS, SLOTS_VERSION, SLOT_TABLE_VERSION, slotsOf } from '../board-v2/scenes/slots.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/assets';
@@ -63,11 +63,11 @@ export async function planAssets(root = repoRoot) {
   }
   const slots = {
     devOnly: 'mothership:dev-only',
-    version: SLOTS_VERSION,
+    version: SLOT_TABLE_VERSION,
     status: 'proposal',
-    note: 'The board\'s fixed slots for each roster, as design/board-v2/scenes/slots.mjs gives them: proposed authoritative slot ids (assigned by the server on entry, kept while the seat stays) and normalized anchors in each room\'s 1024 x 768 scene ([x / 1024, y / 768]). Not a rule and not an adopted contract.',
+    note: 'The board\'s fixed slots for each roster, as design/board-v2/scenes/slots.mjs gives them: their ids, in each room\'s numbering, and normalized anchors in each room\'s 1024 x 768 scene ([x / 1024, y / 768]). The table allocates nothing: a seat\'s slot is Backend\'s stored slotId, given by the specification\'s lowest-free rule in this numbering (rules-contracts.md, Blackout validation and resolution), and a screen reads it. Not a rule and not an adopted contract.',
     anchors: { feet: 'where the figure stands', press: 'centre of the press area (the place\'s gesture\'s press point; never moves)', badge: 'status tag (detention, rescue deadline)', fx: 'impact or shield centre' },
-    positionNumber: 'A Blackout position number is the slot\'s index in its room (1 to n, in id order), drawn inside the upper right corner of the slot\'s press area: never over the face it numbers, always on the target.',
+    positionNumber: 'A slot\'s number is its index in its room (1 to n, in id order): the order the lowest-free rule fills the room in, and the Blackout position number, drawn inside the upper right corner of the slot\'s press area: never over the face it numbers, always on the target.',
     rosters: Object.fromEntries(ROSTERS.map(roster => [roster, Object.fromEntries(BOARD_ROOMS.map(room => [room, slotsOf(room, roster).map(slot => ({
       id: slot.id, feet: slot.feet, press: slot.press, badge: slot.badge, fx: slot.fx,
       depth: slot.depth, scale: slot.scale, mirror: slot.mirror, gesture: slot.gesture, down: slot.down, front: slot.front, about: slot.about,
@@ -90,7 +90,7 @@ export async function planAssets(root = repoRoot) {
       reuse: recipes.rights.reuse,
     },
     berths: WARD_BERTHS.map(berth => ({ id: berth.id, row: berth.row, column: berth.column, gesture: berth.gesture, scale: berth.scale, mirror: berth.mirror, rosters: berth.rosters, about: berth.about })),
-    slotTable: { file: SLOTS_FILE, sha256: sha(slotsJson), bytes: Buffer.byteLength(slotsJson) },
+    slotTable: { file: SLOTS_FILE, version: SLOT_TABLE_VERSION, sha256: sha(slotsJson), bytes: Buffer.byteLength(slotsJson) },
     scenes,
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);

@@ -10,6 +10,8 @@
 //   &markers=1           the Blackout position numbers at every slot
 //   &press=1             every slot's press area
 //   &ids=1               every slot's id
+//   &hit=1               every slot's press area as a button, for pointer tests (the capture's)
+//   &safe=t,r,b,l        the phone's safe-area insets in CSS pixels (default none)
 //   &scene=<room>        that room's whole scene alone, at its own 1024 x 768 size (for the art review)
 
 import { FRAME } from '../../board-motion/figures/body.mjs';
@@ -20,7 +22,7 @@ import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { SCENES } from '../../board-motion/scenes/index.mjs';
 import { wardScene } from '../scenes/hospital-ward.mjs';
 import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { SHELL, fitBoardV2, slotRects } from './fit.mjs';
+import { SHELL, fitBoardV2, insetsOf, slotRects } from './fit.mjs';
 import { fixtureSeats } from './fixtures.mjs';
 
 const params = new URLSearchParams(location.search);
@@ -92,6 +94,7 @@ function drawRoom(room, box, panel, seats, whole = false) {
     if (whole) return;
     if (show('markers')) section.append(el('span', { class: 'v2-marker', 'aria-label': `Position ${index + 1}`, style: { left: `${rect.marker[0]}px`, top: `${rect.marker[1]}px` } }, String(index + 1)));
     if (show('press')) section.append(el('span', { class: 'v2-press', style: { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.side}px`, height: `${rect.side}px` } }));
+    if (show('hit')) section.append(el('button', { class: 'v2-slot-hit', type: 'button', 'data-slot': slot.id, 'aria-label': `${LOCATION_OF[room]}, position ${index + 1}`, style: { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.side}px`, height: `${rect.side}px` } }));
     if (show('ids')) {
       section.append(el('span', { class: 'v2-id', style: { left: `${rect.left + rect.side / 2}px`, top: `${rect.top}px` } }, slot.id));
       section.append(el('span', { class: 'v2-badge', style: { left: `${rect.badge[0]}px`, top: `${rect.badge[1]}px` } }));
@@ -110,26 +113,36 @@ function drawScene(room) {
 
 function draw() {
   const viewport = { width: innerWidth, height: innerHeight };
-  const board = fitBoardV2(viewport, roster);
+  const insets = insetsOf(params.get('safe'));
+  const board = fitBoardV2(viewport, roster, { insets });
   const { shell, pass } = board;
   const seats = fixtureSeats(fixture, roster);
+  const fallback = board.fallback ? ` · ${board.fallback}` : '';
   app.replaceChildren(
-    el('header', { class: 'v2-top', style: { height: `${shell.top}px` } },
+    // The bars fill the safe-area insets with their background; their contents stay inside.
+    el('header', { class: 'v2-top', style: { height: `${insets.top + shell.top}px`, paddingTop: `${insets.top}px`, paddingLeft: `${insets.left + 10}px`, paddingRight: `${insets.right + 10}px` } },
       el('span', { class: 'v2-top__label' }, 'Board v2 · proposal'),
-      el('span', { class: 'v2-top__meta' }, `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height} · ${shell.tier} shell`)),
-    el('div', { class: 'v2-board', style: { top: `${shell.top}px`, height: `${board.boardHeight}px` } }),
-    el('nav', { class: 'v2-nav', style: { height: `${shell.nav}px` }, 'aria-hidden': 'true' }, ...['Board', 'Actions', '', 'Card', 'Menu'].map(name => el('span', {}, name))),
+      el('span', { class: 'v2-top__meta' }, `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height} · ${shell.tier} shell${fallback}`)),
+    el('div', { class: 'v2-board', style: { left: `${board.boardLeft}px`, width: `${board.boardWidth}px`, top: `${board.boardTop}px`, height: `${board.boardHeight}px` } }),
+    el('nav', { class: 'v2-nav', style: { height: `${shell.nav + insets.bottom}px`, paddingBottom: `${insets.bottom}px`, paddingLeft: `${insets.left + 10}px`, paddingRight: `${insets.right + 10}px` }, 'aria-hidden': 'true' }, ...['Board', 'Actions', '', 'Card', 'Menu'].map(name => el('span', {}, name))),
     // The phone kit's raised Pass, as a stand-in: its size and its rise over the board, for the check that it covers no slot.
     el('span', { class: 'v2-pass', 'aria-hidden': 'true', style: { left: `${pass.cx - pass.r}px`, top: `${pass.cy - pass.r}px`, width: `${2 * pass.r}px`, height: `${2 * pass.r}px` } }, 'Pass'));
   const surface = app.querySelector('.v2-board');
-  // The rooms' boxes are the phone's; the board starts below the top bar.
-  for (const room of BOARD_ROOMS) {
-    const box = board.boxes[room];
-    surface.append(drawRoom(room, { left: box.left, top: box.top - shell.top }, board.panels[room], seats));
+  if (board.fallback === 'too-short' || board.fallback === 'too-narrow') {
+    // No board where none fits: an explicit message, never a board under the navigation or a scrolling one.
+    surface.append(board.fallback === 'too-short'
+      ? el('p', { class: 'v2-unfit', role: 'alert' }, el('b', {}, 'This board needs a taller screen.'), ' Turn the phone upright, or make the window taller.')
+      : el('p', { class: 'v2-unfit', role: 'alert' }, el('b', {}, 'This board needs a wider screen.'), ' Unfold the phone, or make the window wider.'));
+  } else {
+    // The rooms' boxes are the phone's; the board starts below the top bar, at its column's left edge.
+    for (const room of BOARD_ROOMS) {
+      const box = board.boxes[room];
+      surface.append(drawRoom(room, { left: box.left - board.boardLeft, top: box.top - board.boardTop }, board.panels[room], seats));
+    }
   }
-  if (!board.fits) surface.append(el('p', { class: 'v2-note' }, board.problems.join(' · ')));
   document.documentElement.dataset.fits = String(board.fits);
   document.documentElement.dataset.shell = shell.tier;
+  document.documentElement.dataset.fallback = board.fallback ?? 'none';
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }

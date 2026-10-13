@@ -12,8 +12,15 @@
 // 5c9a151: 5 px board padding and gaps, a 10 px spine, 2 px panel borders, a 44 px caption on a
 // room a player moves to by its tag and 32 px on the Hospital's and the Jail's, 8 px at a panel's
 // foot; the top bar 44 px and the navigation 56 px on a phone up to 640 px tall, 52 and 64 above.
-// On a phone up to 600 px tall the shell is the compact one the owner approved on 13 October
-// 2026: the top bar 36 px, the navigation 48 px and the board's padding 2 px above and below.
+// The compact shell the owner approved on 13 October 2026 (the top bar 36 px, the navigation
+// 48 px, the board's padding 2 px above and below) is the one on a phone up to 600 px tall.
+//
+// The shell is chosen from the space the phone leaves the page (its viewport less its safe-area
+// insets): the phone kit's shell for that height at most, and a smaller one wherever that one
+// would not fit, so that no target ever runs under the navigation. Where even the compact one
+// does not fit at the screen's width, the board narrows to a centred column; where no width fits,
+// the page says so instead of drawing a board (fitBoardV2's fallback). Targets never shrink and
+// the board never scrolls.
 
 import { PRESS, frameScene } from '../../board-motion/scenes/frame.mjs';
 import { BOARD_ROOMS, sceneOf, slotsOf } from '../scenes/slots.mjs';
@@ -26,12 +33,12 @@ export const pressSide = unit => Math.max(PRESS, Math.min(64, 0.26 * STAND_HEIGH
 export const MARKER_RADIUS = 11;
 
 /**
- * The shell around the board by the phone's height (the visible viewport): the top bar, the
- * navigation, the board's padding above and below, and the navigation's raised Pass: its
- * diameter and how far it rises above the navigation's top edge. The short and tall tiers are the
- * phone kit's at 5c9a151, the Pass measured there; the compact tier is 22 px smaller than the
- * short one. At the sides the board keeps 5 px: 2 px there would widen Rooms A and B by 3 px
- * and make them 2 px taller.
+ * The shells around the board, smallest first: the top bar, the navigation, the board's padding
+ * above and below, and the navigation's raised Pass (its diameter and how far it rises above the
+ * navigation's top edge). upTo is the tallest usable height a tier is the phone kit's choice for.
+ * The short and tall tiers are the phone kit's at 5c9a151, the Pass measured there; the compact
+ * tier is 22 px smaller than the short one. At the sides the board keeps 5 px: 2 px there would
+ * widen Rooms A and B by 3 px and make them 2 px taller.
  */
 export const SHELL_TIERS = Object.freeze([
   Object.freeze({ tier: 'compact', upTo: 600, top: 36, nav: 48, boardPadY: 2, pass: 52, passRise: 8 }),
@@ -42,11 +49,36 @@ export const SHELL = Object.freeze({
   boardPadX: 5, gap: 5, spine: 10, border: 2, captionMove: 44, captionFixed: 32, pad: 8, tiers: SHELL_TIERS,
 });
 
-/** The shell's measurements for a phone of this height: SHELL's own and its tier's. */
+/**
+ * The phone kit's shell for a usable height, SHELL's own measurements and its tier's: the largest
+ * a board of that height is drawn in. fitBoardV2() steps down from it where it would not fit.
+ */
 export function shellFor(height, shell = SHELL) {
-  const { tiers, ...fixed } = shell;
-  const { upTo, ...tier } = tiers.find(entry => height <= entry.upTo);
+  return shellOf(shell.tiers.find(entry => height <= entry.upTo), shell);
+}
+function shellOf({ upTo, ...tier }, { tiers, ...fixed } = SHELL) {
   return Object.freeze({ ...fixed, ...tier });
+}
+
+/** The narrowest board column fitBoardV2() narrows to: the smallest phone's width. */
+export const MIN_BOARD_WIDTH = 320;
+/**
+ * What fitBoardV2() does where the phone kit's shell cannot hold the board at the screen's width:
+ *   narrow      the compact shell, the board a centred column narrower than the screen (a wide
+ *               and short window: a tablet or a desktop browser on its side)
+ *   too-short   no width fits the usable height: the page draws no board and asks for a taller
+ *               screen (a phone on its side, or browser bars leaving less than 568 px)
+ *   too-narrow  the usable width is under MIN_BOARD_WIDTH and the board does not fit it: the page
+ *               draws no board and asks for a wider screen (a folding phone's cover screen)
+ */
+export const FALLBACKS = Object.freeze(['narrow', 'too-short', 'too-narrow']);
+const NO_INSETS = Object.freeze({ top: 0, right: 0, bottom: 0, left: 0 });
+/** Safe-area insets as { top, right, bottom, left } in CSS pixels, from an object or a "t,r,b,l" string. */
+export function insetsOf(value) {
+  if (!value) return NO_INSETS;
+  const list = typeof value === 'string' ? value.split(',').map(Number) : [value.top, value.right, value.bottom, value.left];
+  const [top, right, bottom, left] = list.map(n => (Number.isFinite(n) && n > 0 ? n : 0));
+  return Object.freeze({ top, right, bottom, left });
 }
 export const BANDS = Object.freeze({ top: ['command-room'], middle: ['room-a', 'room-b'], lower: ['hospital', 'jail'] });
 const WEIGHTS = [0.8, 1.25, 1];
@@ -81,25 +113,28 @@ export function slotsFit(room, roster, panel) {
   return rects.every((a, i) => rects.every((b, j) => j <= i || !overlap(a, b)));
 }
 
+const needs = new Map();
 /** The smallest panel height (2 px steps from the caption plus 50) at which a room's slots fit, or null. */
 export function needHeight(room, roster, width, { cap, pad }) {
-  for (let height = cap + 50; height <= 900; height += 2) if (slotsFit(room, roster, { width, height, cap, pad })) return height;
-  return null;
+  const key = `${room}|${roster}|${width}|${cap}|${pad}`;
+  if (needs.has(key)) return needs.get(key);
+  let found = null;
+  for (let height = cap + 50; height <= 900; height += 2) if (slotsFit(room, roster, { width, height, cap, pad })) { found = height; break; }
+  needs.set(key, found);
+  return found;
 }
 
 /**
- * The board for a viewport and a roster: the shell's tier, each band's height, each room's panel
- * and its box on the phone, the raised Pass, and whether the rooms fit at all (fits: false when
- * the bands' needs exceed the board's height or a room never fits).
+ * The rooms' layout in a board column of this width with this shell: each band's need and its
+ * most useful height, and whether they fit the board's height (problems empty) or by how much
+ * they do not (deficit).
  */
-export function fitBoardV2({ width, height }, roster, shellSpec = SHELL) {
-  const shell = shellFor(height, shellSpec);
-  const boardHeight = height - shell.top - shell.nav;
-  const inner = width - 2 * shell.boardPadX;
+function bandsAt(boardWidth, boardHeight, roster, shell) {
+  const inner = boardWidth - 2 * shell.boardPadX;
   const half = (inner - 2 * shell.gap - shell.spine) / 2;
   const panelWidth = room => (room === 'command-room' ? inner : half) - 2 * shell.border;
   const problems = [];
-  const needs = Object.values(BANDS).map(rooms => rooms.map(room => {
+  const list = Object.values(BANDS).map(rooms => rooms.map(room => {
     const cap = captionOf(room, shell);
     const width = panelWidth(room);
     const need = needHeight(room, roster, width, { cap, pad: shell.pad });
@@ -108,13 +143,65 @@ export function fitBoardV2({ width, height }, roster, shellSpec = SHELL) {
     const most = (width * (scene.inner[3] - scene.inner[1])) / (scene.focus[2] - scene.focus[0]);
     return { need: (need ?? 900) + 2 * shell.border, most: Math.max(need ?? 900, most) + 2 * shell.border };
   }));
-  const need = needs.map(list => Math.max(...list.map(entry => entry.need)));
-  const most = needs.map((list, index) => Math.max(need[index], Math.min(...list.map(entry => entry.most))));
+  const need = list.map(rooms => Math.max(...rooms.map(entry => entry.need)));
+  const most = list.map((rooms, index) => Math.max(need[index], Math.min(...rooms.map(entry => entry.most))));
   const available = boardHeight - 2 * shell.boardPadY - 2 * shell.gap;
+  const deficit = Math.max(0, need.reduce((a, b) => a + b, 0) - available);
+  if (deficit > 0) problems.push(`the rooms need ${Math.ceil(deficit)} px more than the board's ${available} px`);
+  return { inner, half, panelWidth, need, most, available, deficit, problems };
+}
+
+/**
+ * The board for a viewport and a roster: the shell, each band's height, each room's panel and
+ * its box on the phone, the raised Pass, and how it was fitted. From the viewport, the roster and
+ * the safe-area insets only, never from who is where.
+ *
+ *   1. The usable box is the viewport less its safe-area insets; the top bar and the navigation
+ *      are drawn inside it (their backgrounds may fill the insets).
+ *   2. The phone kit's shell for the usable height (shellFor) is the largest drawn; where the
+ *      rooms do not fit in it at the usable width, the next smaller shell, down to the compact one.
+ *   3. Where not even the compact shell fits at that width, the compact shell with the board as a
+ *      centred column: the widest, down to MIN_BOARD_WIDTH, at which the rooms fit (fallback
+ *      'narrow').
+ *   4. Where no width fits, fallback 'too-short' ('too-narrow' where the usable width is under
+ *      MIN_BOARD_WIDTH) and fits false: the page must not draw the board (the bands are given at
+ *      their needs only so that the problem can be measured).
+ *
+ * Returns { roster, viewport, insets, usable, ceiling (the phone kit's tier for the usable
+ * height), shell, fallback (null, 'narrow', 'too-short' or 'too-narrow'), boardLeft, boardTop, boardWidth,
+ * boardHeight, available, needs, deficit, bands, panels, boxes (viewport pixels), navTop, pass,
+ * problems, fits }.
+ */
+export function fitBoardV2({ width, height }, roster, { insets = NO_INSETS, shell: shellSpec = SHELL } = {}) {
+  const safe = insetsOf(insets);
+  const usable = { width: width - safe.left - safe.right, height: height - safe.top - safe.bottom };
+  const ceiling = shellFor(usable.height, shellSpec);
+  const tiers = shellSpec.tiers.slice(0, shellSpec.tiers.findIndex(entry => entry.tier === ceiling.tier) + 1).reverse().map(entry => shellOf(entry, shellSpec));
+  const compact = tiers.at(-1);
+  const heightIn = shell => usable.height - shell.top - shell.nav;
+  let shell = null;
+  let boardWidth = usable.width;
+  let fallback = null;
+  let layout = null;
+  for (const candidate of tiers) {
+    const at = bandsAt(usable.width, heightIn(candidate), roster, candidate);
+    if (!at.problems.length) { shell = candidate; layout = at; break; }
+  }
+  if (!shell) {
+    for (let narrower = Math.floor(usable.width) - 2; narrower >= MIN_BOARD_WIDTH; narrower -= 2) {
+      const at = bandsAt(narrower, heightIn(compact), roster, compact);
+      if (!at.problems.length) { shell = compact; layout = at; boardWidth = narrower; fallback = 'narrow'; break; }
+    }
+  }
+  if (!shell) {
+    shell = compact;
+    fallback = usable.width < MIN_BOARD_WIDTH ? 'too-narrow' : 'too-short';
+    layout = bandsAt(usable.width, heightIn(compact), roster, compact);
+  }
+  const boardHeight = heightIn(shell);
+  const { half, panelWidth, need, most, available, deficit, problems } = layout;
   const sizes = [...need];
-  let left = available - need.reduce((a, b) => a + b, 0);
-  if (left < 0) problems.push(`the rooms need ${Math.ceil(-left)} px more than the board's ${available} px`);
-  left = Math.max(0, left);
+  let left = Math.max(0, available - need.reduce((a, b) => a + b, 0));
   for (let round = 0; round < 4 && left > 0.5; round += 1) {
     const open = sizes.map((size, index) => (size < most[index] ? WEIGHTS[index] : 0));
     const share = open.reduce((a, b) => a + b, 0);
@@ -124,28 +211,29 @@ export function fitBoardV2({ width, height }, roster, shellSpec = SHELL) {
     left -= given;
   }
   const bands = Object.fromEntries(Object.keys(BANDS).map((band, index) => [band, sizes[index]]));
+  const boardLeft = safe.left + (usable.width - boardWidth) / 2;
+  const boardTop = safe.top + shell.top;
   const panels = {};
   // Each room's box on the phone, its border included, in CSS pixels from the viewport's top left.
   const boxes = {};
-  let y = shell.top + shell.boardPadY;
+  let y = boardTop + shell.boardPadY;
   Object.entries(BANDS).forEach(([band, rooms]) => {
     rooms.forEach((room, index) => {
       panels[room] = { width: panelWidth(room), height: bands[band] - 2 * shell.border, cap: captionOf(room, shell), pad: shell.pad };
-      const left = shell.boardPadX + (rooms.length === 1 ? 0 : index * (half + 2 * shell.gap + shell.spine));
-      boxes[room] = { left, top: y, width: panels[room].width + 2 * shell.border, height: bands[band] };
+      const x = boardLeft + shell.boardPadX + (rooms.length === 1 ? 0 : index * (half + 2 * shell.gap + shell.spine));
+      boxes[room] = { left: x, top: y, width: panels[room].width + 2 * shell.border, height: bands[band] };
     });
     y += bands[band] + shell.gap;
   });
-  const navTop = height - shell.nav;
+  const navTop = height - safe.bottom - shell.nav;
   // The Pass is a circle in the navigation's middle, over the spine, rising above its top edge.
-  const pass = { cx: width / 2, cy: navTop - shell.passRise + shell.pass / 2, r: shell.pass / 2 };
-  const deficit = Math.max(0, need.reduce((a, b) => a + b, 0) - available);
-  return { roster, viewport: { width, height }, shell, boardHeight, available, needs: need, deficit, bands, panels, boxes, navTop, pass, problems, fits: problems.length === 0 };
+  const pass = { cx: safe.left + usable.width / 2, cy: navTop - shell.passRise + shell.pass / 2, r: shell.pass / 2 };
+  return { roster, viewport: { width, height }, insets: safe, usable, ceiling: ceiling.tier, shell, fallback, boardLeft, boardTop, boardWidth, boardHeight, available, needs: need, deficit, bands, panels, boxes, navTop, pass, problems, fits: (fallback === null || fallback === 'narrow') && problems.length === 0 };
 }
 
-/** The board's panels' slots, each with its press area, for a viewport and a roster. */
-export function boardRects(viewport, roster) {
-  const board = fitBoardV2(viewport, roster);
+/** The board's panels' slots, each with its press area, for a viewport and a roster (and fitBoardV2's options). */
+export function boardRects(viewport, roster, options) {
+  const board = fitBoardV2(viewport, roster, options);
   return Object.fromEntries(BOARD_ROOMS.map(room => [room, slotRects(room, roster, board.panels[room])]));
 }
 
@@ -153,8 +241,8 @@ export function boardRects(viewport, roster) {
  * How far each slot's press area is from the raised Pass (CSS pixels between the press area's
  * square and the Pass's circle; 0 where they touch or overlap), for a viewport and a roster.
  */
-export function passClearance(viewport, roster) {
-  const board = fitBoardV2(viewport, roster);
+export function passClearance(viewport, roster, options) {
+  const board = fitBoardV2(viewport, roster, options);
   const { cx, cy, r } = board.pass;
   return BOARD_ROOMS.flatMap(room => slotRects(room, roster, board.panels[room]).map(rect => {
     const left = board.boxes[room].left + board.shell.border + rect.left;
