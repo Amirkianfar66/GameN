@@ -64,7 +64,7 @@ A character keeps their position while they stay in a room, and nobody steps asi
 | `badge` | Where a status tag hangs: a berth's plate on its headboard; elsewhere above the head |
 | `fx` | Where an impact or a shield is centred (the press point) |
 
-**Position numbers.** A slot's Blackout position number is its index in its room, 1 to n in id order. It is drawn inside the upper right corner of the slot's press area, so it is always on the target and never over the face it numbers.
+**Position numbers.** A slot's Blackout position number is its index in its room, 1 to n in id order. It is drawn inside the upper right corner of the slot's press area, so it is always on the target and never over the face it numbers. The window that uses them: [blackout-window.md](blackout-window.md).
 
 ### Who takes which slot: Backend's lowest-free rule
 
@@ -276,6 +276,8 @@ These were run on this branch in this container after the review's corrections. 
 **What the pointer test found besides.** Its first run found every room's caption over the upper corners of its top row's press areas (C1, A5, B5, H7, H8, J1, J2), at every size: the review page drew the caption as an `h2` whose own top margin pushed it 10 px below its 3 px place, over press areas that start at the caption's 44 or 32 px. The caption's margin is now 0, as the prototype's tag; the second run found nothing. This was the review page's stand-in caption, not `fit.mjs`, but a client must keep the same rule: nothing over a press area.
 
 **The accepted drawing candidates are unchanged.** `hospital-ward.mjs` and the 12 ward SVGs are byte for byte the bytes the review accepted (their hashes in `GameN-designer-stack-hashes-2026-10-13.json`); only `slots.mjs` and `fit.mjs`, whose acceptance was withheld, and the evidence files `contract/slots.json` and `assets/manifest.json` changed.
+
+The Blackout's step adds an eighth check, 37 captures, 23 real-pointer press tests and 62 whole-page comparisons to these tools; [blackout-window.md](blackout-window.md#7-verification) has its numbers.
 
 **Not run:**
 

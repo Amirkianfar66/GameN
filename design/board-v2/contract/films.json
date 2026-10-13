@@ -1,0 +1,113 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "board-v2-films-0.2.0",
+  "status": "proposal",
+  "note": "The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server's deadlines are the only clock. Not a rule and not an adopted contract.",
+  "films": [
+    {
+      "id": "blackout-window",
+      "storyboard": "S1",
+      "status": "proposal",
+      "audience": {
+        "lighting": "public: every phone and the display, every normal round, whether or not anyone asked for a strike",
+        "markers": "public",
+        "line": "public box: the window's line, a second row of the top bar from the window's opening until the lights start back, the same box on every phone and the display. It says \"Remember who is where.\" in the lit preview and \"Wait for the lights.\" in the dark on every screen but the eligible Disabler's, whose line is their own selection (owner-private). The top bar is above the board, so the line covers no position",
+        "selection": "owner-private: the eligible Disabler's own phone, in their bound room only",
+        "outcome": "public: the round's published batch (authorized hits only; a miss shows nothing anywhere)"
+      },
+      "clock": "Milliseconds from the window's opening: previewEndsAt - 5000. Drawn from the trusted previewEndsAt and endsAt, never from a local start time.",
+      "inputs": [
+        "t (from the trusted deadlines)",
+        "outcomeAt (the round's publication, R)",
+        "hits (slot ids of authorized hits)",
+        "reduced (the device setting)",
+        "windowId (public)"
+      ],
+      "notInputs": [
+        "a request or its absence",
+        "a side (Blue or Red)",
+        "a selection",
+        "a viewer or audience",
+        "a role, a cause or a defense"
+      ],
+      "server": {
+        "previewMs": 5000,
+        "windowMs": 15000,
+        "holdCapMs": 1500
+      },
+      "beats": [
+        {
+          "id": "markers-in",
+          "from": 0,
+          "to": 300,
+          "what": "Numbered position markers fade in at every fixed slot of every room, empty ones included. The top bar shows the window's clock and, in a second row, its line"
+        },
+        {
+          "id": "preview",
+          "from": 300,
+          "to": 4200,
+          "what": "Lights on: figures, name tags and markers"
+        },
+        {
+          "id": "flicker",
+          "from": 4200,
+          "to": 5000,
+          "what": "Inside the lit preview: two dips of every room's light (4300-4420, 4650-4770) and each room's own light sparking at 4700, which light seeded by the window id. People stay on the page throughout"
+        },
+        {
+          "id": "lights-out",
+          "at": 5000,
+          "what": "At previewEndsAt exactly, in both motion modes: every room cuts to its dark drawing; every figure, name tag and name leaves the page and the accessibility tree; markers turn dark; captions to 70%; the top bar's line says the dark's words. The selection opens in the same instant"
+        },
+        {
+          "id": "dark",
+          "from": 5000,
+          "to": 15000,
+          "what": "Static dark, the half-open interval [previewEndsAt, endsAt). The eligible Disabler selects in their bound room"
+        },
+        {
+          "id": "hold",
+          "from": 15000,
+          "to": "R, at most 16500",
+          "what": "Dark until the outcome is published"
+        },
+        {
+          "id": "impact",
+          "from": "R",
+          "to": "R+320",
+          "what": "At each authorized hit: the flash, the star, its rays; the hit room's art shakes 3 px for 160 ms. Nothing at a miss"
+        },
+        {
+          "id": "lights-return",
+          "from": "R+120",
+          "to": "R+520",
+          "what": "Every room comes back together; people in their published state and place: a hit patient in the Hospital, at the slot the authoritative state gives, in the gown. The top bar's clock and line go as the lights start back"
+        },
+        {
+          "id": "settle",
+          "from": "R+520",
+          "to": "R+900",
+          "what": "Markers fade out; the board is normal"
+        }
+      ],
+      "reduced": {
+        "what": "No flicker, sparks, shake or travel. The same cut to the static dark at previewEndsAt, with a still bolt in each caption; 80 ms fades elsewhere: markers in at 0, one fade back at R; a still burst on each hit position for 600 ms",
+        "fadeMs": 80,
+        "burstMs": 600
+      },
+      "flashLimit": {
+        "perSecond": 3,
+        "panelShare": 0.25,
+        "note": "Counted over every second of the film; a flash's area is its bright part (a dip covers the board, which is why there are only two)"
+      },
+      "layers": {
+        "L1": "figures (hidden in the dark, not on the page)",
+        "L3": "each room's dark drawing over its art, clipped to the panel; sparks; impacts; markers",
+        "L5": "the eligible Disabler's chosen marker (private)",
+        "L6": "press areas: never moved, never shaken",
+        "L7": "room captions (70% in the dark)",
+        "L10": "top bar and navigation: never dimmed; the top bar carries the window's clock and line (public box; the eligible Disabler's line private)"
+      }
+    }
+  ]
+}

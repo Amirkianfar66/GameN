@@ -16,12 +16,13 @@
   </style>
 </head>
 <body>
-  <h1>Board v2 proposal: fixed slots and the Hospital ward</h1>
+  <h1 id="title">Board v2 proposal: fixed slots and the Hospital ward</h1>
   <p>Synthetic fixtures in desktop Chromium. Not a phone measurement, not a match.</p>
   <div class="grid" id="grid"></div>
   <script type="module">
     const params = new URLSearchParams(location.search);
     const group = params.get('group');
+    if (group === 'blackout') document.getElementById('title').textContent = 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)';
     const index = await (await fetch('review/index.json')).json();
     const grid = document.getElementById('grid');
     for (const shot of index.captures.filter(entry => !group || entry.group === group)) {

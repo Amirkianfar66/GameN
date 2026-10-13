@@ -13,6 +13,7 @@
 //   &hit=1               every slot's press area as a button, for pointer tests (the capture's)
 //   &safe=t,r,b,l        the phone's safe-area insets in CSS pixels (default none)
 //   &scene=<room>        that room's whole scene alone, at its own 1024 x 768 size (for the art review)
+//   &film=blackout       the Blackout's lighting window on the board (js/blackout-view.mjs has its options)
 
 import { FRAME } from '../../board-motion/figures/body.mjs';
 import { CREW } from '../../board-motion/figures/crew.mjs';
@@ -24,6 +25,7 @@ import { wardScene } from '../scenes/hospital-ward.mjs';
 import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
 import { SHELL, fitBoardV2, insetsOf, slotRects } from './fit.mjs';
 import { fixtureSeats } from './fixtures.mjs';
+import { mountBlackout } from './blackout-view.mjs';
 
 const params = new URLSearchParams(location.search);
 const roster = Number(params.get('roster') ?? 9);
@@ -56,13 +58,40 @@ function scenePictures(room) {
     ...Object.entries(scene.layers ?? {}).map(([id, layer]) => ({ src: `../board-motion/assets/scenes/${room}.${kebab(id)}.svg`, z: Math.round(layer.depth) * 2 + 1 }))];
 }
 
+/** A seat's figure at its slot, in its health, framed by { k, tx, ty }: its body and, where its gesture has them, its front parts. */
+function drawFigure(room, slot, seat, { k, tx, ty }) {
+  const gesture = seat.health === 'Eliminated' ? slot.down : seat.health === 'Injured' ? `${slot.gesture}${INJURED}` : slot.gesture;
+  const sk = skeletonOf(gesture);
+  const unit = slot.scale * k;
+  const outfit = outfitFor(LOCATION_OF[room]);
+  const left = tx + slot.at[0] * k - (AX - BX) * unit;
+  const top = ty + slot.at[1] * k - (AY - BY) * unit;
+  const style = { left: `${left}px`, top: `${top}px`, width: `${BOX * unit}px`, height: `${BOX * unit}px`, '--origin': `${((AX - BX) / BOX) * 100}%` };
+  const prefix = `s${seat.seat}${slot.id}${seat.health[0]}`;
+  const body = el('div', { class: 'v2-fig', 'data-seat': String(seat.seat), 'data-mirror': String(slot.mirror), style: { ...style, zIndex: String(Math.round(slot.depth) * 2) } });
+  body.innerHTML = dressedFigureSvg(CREW[seat.character], sk, { outfit, prefix: `${prefix}b` });
+  if (!(sk.front ?? []).length) return [body];
+  const front = el('div', { class: 'v2-fig', 'data-seat': String(seat.seat), 'data-mirror': String(slot.mirror), style: { ...style, zIndex: String(1500 + Math.round(slot.depth)) } });
+  front.innerHTML = dressedFigureSvg(CREW[seat.character], sk, { outfit, prefix: `${prefix}f`, layer: 'front' });
+  return [body, front];
+}
+
+/** A seat's name tag under its slot's press area: its number and its character's name. */
+function drawTag(seat, rect, panel) {
+  return el('span', { class: 'v2-tag', 'data-seat': String(seat.seat), style: { left: `${rect.press[0]}px`, top: `${Math.min(panel.height - 16, rect.top + rect.side - 14)}px` } },
+    el('b', {}, String(seat.seat)), CREW[seat.character].sign);
+}
+
 function drawRoom(room, box, panel, seats, whole = false) {
   const scene = sceneOf(room, roster);
   // The whole scene at its own size, or framed on its places in a board panel.
   const { k, tx, ty } = whole ? { k: 1, tx: 0, ty: 0 } : frameScene(scene, panel);
   const section = el('section', { class: 'v2-room', 'data-room': room, 'aria-label': LOCATION_OF[room], style: { left: `${box.left}px`, top: `${box.top}px`, width: `${panel.width + 2 * SHELL.border}px`, height: `${panel.height + 2 * SHELL.border}px` } });
+  // The room's art and its people, together: the layer a film may darken or shake, never its press areas.
+  const art = el('div', { class: 'v2-art' });
+  section.append(art);
   for (const picture of scenePictures(room)) {
-    section.append(el('img', { src: picture.src, alt: '', style: { left: `${tx}px`, top: `${ty}px`, width: `${1024 * k}px`, height: `${768 * k}px`, zIndex: String(picture.z) } }));
+    art.append(el('img', { src: picture.src, alt: '', style: { left: `${tx}px`, top: `${ty}px`, width: `${1024 * k}px`, height: `${768 * k}px`, zIndex: String(picture.z) } }));
   }
   const fixed = room === 'hospital' || room === 'jail';
   if (!whole) section.append(el('h2', { class: `v2-cap${fixed ? '' : ' v2-cap--move'}` }, LOCATION_OF[room]));
@@ -71,24 +100,8 @@ function drawRoom(room, box, panel, seats, whole = false) {
     const rect = rects.get(slot.id);
     const seat = seats.find(entry => entry.room === room && entry.slot === slot.id);
     if (seat) {
-      const gesture = seat.health === 'Eliminated' ? slot.down : seat.health === 'Injured' ? `${slot.gesture}${INJURED}` : slot.gesture;
-      const sk = skeletonOf(gesture);
-      const unit = slot.scale * k;
-      const outfit = outfitFor(LOCATION_OF[room]);
-      const left = tx + slot.at[0] * k - (AX - BX) * unit;
-      const top = ty + slot.at[1] * k - (AY - BY) * unit;
-      const style = { left: `${left}px`, top: `${top}px`, width: `${BOX * unit}px`, height: `${BOX * unit}px`, '--origin': `${((AX - BX) / BOX) * 100}%` };
-      const prefix = `s${seat.seat}${slot.id}`;
-      section.append(el('div', { class: 'v2-fig', 'data-mirror': String(slot.mirror), style: { ...style, zIndex: String(Math.round(slot.depth) * 2) } }));
-      section.lastChild.innerHTML = dressedFigureSvg(CREW[seat.character], sk, { outfit, prefix: `${prefix}b` });
-      if ((sk.front ?? []).length) {
-        section.append(el('div', { class: 'v2-fig', 'data-mirror': String(slot.mirror), style: { ...style, zIndex: String(1500 + Math.round(slot.depth)) } }));
-        section.lastChild.innerHTML = dressedFigureSvg(CREW[seat.character], sk, { outfit, prefix: `${prefix}f`, layer: 'front' });
-      }
-      if (!whole) {
-        section.append(el('span', { class: 'v2-tag', style: { left: `${rect.press[0]}px`, top: `${Math.min(panel.height - 16, rect.top + rect.side - 14)}px` } },
-          el('b', {}, String(seat.seat)), CREW[seat.character].sign));
-      }
+      art.append(...drawFigure(room, slot, seat, { k, tx, ty }));
+      if (!whole) section.append(drawTag(seat, rect, panel));
     }
     // The whole scene is the art alone: its places' numbers and press areas belong to a board panel.
     if (whole) return;
@@ -122,7 +135,7 @@ function draw() {
     // The bars fill the safe-area insets with their background; their contents stay inside.
     el('header', { class: 'v2-top', style: { height: `${insets.top + shell.top}px`, paddingTop: `${insets.top}px`, paddingLeft: `${insets.left + 10}px`, paddingRight: `${insets.right + 10}px` } },
       el('span', { class: 'v2-top__label' }, 'Board v2 · proposal'),
-      el('span', { class: 'v2-top__meta' }, `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height} · ${shell.tier} shell${fallback}`)),
+      el('span', { class: 'v2-top__meta' }, params.get('film') ? `Synthetic · ${viewport.width}×${viewport.height} · ${shell.tier}${fallback}` : `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height} · ${shell.tier} shell${fallback}`)),
     el('div', { class: 'v2-board', style: { left: `${board.boardLeft}px`, width: `${board.boardWidth}px`, top: `${board.boardTop}px`, height: `${board.boardHeight}px` } }),
     el('nav', { class: 'v2-nav', style: { height: `${shell.nav + insets.bottom}px`, paddingBottom: `${insets.bottom}px`, paddingLeft: `${insets.left + 10}px`, paddingRight: `${insets.right + 10}px` }, 'aria-hidden': 'true' }, ...['Board', 'Actions', '', 'Card', 'Menu'].map(name => el('span', {}, name))),
     // The phone kit's raised Pass, as a stand-in: its size and its rise over the board, for the check that it covers no slot.
@@ -143,6 +156,8 @@ function draw() {
   document.documentElement.dataset.fits = String(board.fits);
   document.documentElement.dataset.shell = shell.tier;
   document.documentElement.dataset.fallback = board.fallback ?? 'none';
+  // A film only where a board is drawn: never over the too-short or too-narrow message.
+  if (params.get('film') === 'blackout' && board.fits) mountBlackout({ app, board, roster, seats, params, drawFigure, drawTag });
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }

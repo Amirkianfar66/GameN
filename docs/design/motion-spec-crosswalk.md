@@ -33,7 +33,7 @@ The Integration review of PRs #127 to #129 (13 October 2026) found six defects a
 | Finding | Packet | Corrected in |
 | --- | --- | --- |
 | 1. Occupants stayed visible after dark targeting opened | Q-B03a; rules-contracts, Blackout validation and resolution (selection only in `[dark start, window end)`); motion-requirements, Stable phone board | PR #129: people and names leave the page exactly at the preview's end, in both motion modes |
-| 2. The strip covered C1 | Q-B03d (the own position stays selectable and neutral); motion-requirements | PR #129: the strip no longer covers any position |
+| 2. The strip covered C1 | Q-B03d (the own position stays selectable and neutral); motion-requirements (timers in the top bar) | PR #129: the strip is withdrawn; the window's clock and line are in the top bar, above the board, so nothing covers a position, C1 included |
 | 3. Seat-preference slot entry | rules-contracts, Blackout validation and resolution (lowest free slot) | PR #128: the drawing module allocates nothing |
 | 4. The 601 px shell left the rooms short | motion-requirements (targets stable, no page scrolling) and the owner's 13 October shell decision | PR #128: the shell is chosen by what fits |
 | 5. A settled hit left the patient outside the Hospital | G-05, G-07; Q-H04; rules-contracts, normal-round schedule step 9 | PR #129: the outcome fixture says where the patient settles; the page draws it |

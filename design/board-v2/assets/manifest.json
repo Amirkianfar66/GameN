@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.1.0",
+  "manifestVersion": "board-v2-0.2.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9) and the board's fixed slot table, for the owner's motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table and the Blackout's lighting art, for the owner's motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -347,5 +347,378 @@
       "sha256": "de09d58d584d75af34240099059cb043f94096c62c5df8074173b0cd2120ea38",
       "audience": "public"
     }
-  ]
+  ],
+  "lighting": {
+    "version": "board-v2-lighting-0.1.0",
+    "fixtures": {
+      "command-room": [
+        [
+          300,
+          58
+        ],
+        [
+          512,
+          58
+        ],
+        [
+          724,
+          58
+        ]
+      ],
+      "room-a": [
+        [
+          381,
+          58
+        ],
+        [
+          639,
+          58
+        ]
+      ],
+      "room-b": [
+        [
+          381,
+          58
+        ],
+        [
+          639,
+          58
+        ]
+      ],
+      "hospital": [
+        [
+          380,
+          58
+        ],
+        [
+          646,
+          58
+        ]
+      ],
+      "jail": [
+        [
+          512,
+          96
+        ]
+      ]
+    },
+    "sparkLight": {
+      "command-room": 2,
+      "room-a": 1,
+      "room-b": 1,
+      "hospital": 1,
+      "jail": 0
+    },
+    "night": {
+      "low": "#0C1018",
+      "high": "#1F2737",
+      "hue": 0.07,
+      "line": "#4B5A77",
+      "space": 0.42
+    },
+    "files": [
+      {
+        "id": "lighting.command-room.dark",
+        "room": "command-room",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-motion/assets/scenes/command-room.back.svg",
+          "design/board-motion/assets/scenes/command-room.table.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/command-room.dark.svg",
+        "bytes": 17161,
+        "sha256": "bdea7e82684acf648d0bb07e5b1e1b448ad1a3f2ad898d32d372f05fd37ef062",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.room-a.dark",
+        "room": "room-a",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-motion/assets/scenes/room-a.back.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/room-a.dark.svg",
+        "bytes": 26633,
+        "sha256": "8988d6b617a4295ad14a25b562987774d4a64722a41a47cb7960c5ef8c54efc3",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.room-b.dark",
+        "room": "room-b",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-motion/assets/scenes/room-b.back.svg",
+          "design/board-motion/assets/scenes/room-b.bench.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/room-b.dark.svg",
+        "bytes": 26312,
+        "sha256": "b8676a47b4604e87c6db02b97a9805221b19591b9babd268ccb2f8fd3fbf1b2b",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.jail.dark",
+        "room": "jail",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-motion/assets/scenes/jail.back.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/jail.dark.svg",
+        "bytes": 14381,
+        "sha256": "c0978c8e1cd1678c19a412ea295af7fd8ac2f8bff56839af0bb286ee0cfae638",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.hospital-ward-7.dark",
+        "room": "hospital",
+        "rosters": [
+          7
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-v2/assets/scenes/hospital-ward-7.back.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/hospital-ward-7.dark.svg",
+        "bytes": 28843,
+        "sha256": "b0a97110562e43dab092255659dbffd5e53eaa3135935075ca046abd7fe33116",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.hospital-ward-8.dark",
+        "room": "hospital",
+        "rosters": [
+          8
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-v2/assets/scenes/hospital-ward-8.back.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h8.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/hospital-ward-8.dark.svg",
+        "bytes": 30985,
+        "sha256": "8b9c0993b717b5efde745929842d2e26e2a1e8acdcd1182656260e22aa06c536",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.hospital-ward-9.dark",
+        "room": "hospital",
+        "rosters": [
+          9
+        ],
+        "kind": "dark-room",
+        "from": [
+          "design/board-v2/assets/scenes/hospital-ward-9.back.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h8.svg",
+          "design/board-v2/assets/scenes/hospital-ward.berth-h9.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/hospital-ward-9.dark.svg",
+        "bytes": 32032,
+        "sha256": "11400d87f23638f9dc6f17be5ce2d18205b2caf2ac2633cda437d682775efdd0",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-spark-1",
+        "kind": "spark",
+        "frame": 1,
+        "ms": [
+          4700,
+          4740
+        ],
+        "viewBox": "0 0 120 120",
+        "anchor": [
+          60,
+          18
+        ],
+        "file": "design/board-v2/assets/lighting/fx-spark-1.svg",
+        "bytes": 1723,
+        "sha256": "2a9c2ed545716e798b382b0e214b1234958f1a6771203225ddd156cf01cff7cd",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-impact-1",
+        "kind": "impact",
+        "frame": 1,
+        "ms": [
+          0,
+          80
+        ],
+        "viewBox": "0 0 160 160",
+        "anchor": [
+          80,
+          80
+        ],
+        "flashRadius": 30,
+        "file": "design/board-v2/assets/lighting/fx-impact-1.svg",
+        "bytes": 1020,
+        "sha256": "89cd1c3e8a369dc469482fcc932b921cbd30c1064c7c4caf3a61b8554bdaa6d7",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-spark-2",
+        "kind": "spark",
+        "frame": 2,
+        "ms": [
+          4740,
+          4790
+        ],
+        "viewBox": "0 0 120 120",
+        "anchor": [
+          60,
+          18
+        ],
+        "file": "design/board-v2/assets/lighting/fx-spark-2.svg",
+        "bytes": 2715,
+        "sha256": "e8abe0f10b6c78cbfb1bc65853192a2c9a7280ff34d292610e0b29fc2b0aa90a",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-impact-2",
+        "kind": "impact",
+        "frame": 2,
+        "ms": [
+          80,
+          200
+        ],
+        "viewBox": "0 0 160 160",
+        "anchor": [
+          80,
+          80
+        ],
+        "flashRadius": null,
+        "file": "design/board-v2/assets/lighting/fx-impact-2.svg",
+        "bytes": 1342,
+        "sha256": "270f1524b75e8e0766e6cc77fbd279788cccb25c0f8520d9be06845506144cdc",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-spark-3",
+        "kind": "spark",
+        "frame": 3,
+        "ms": [
+          4790,
+          4860
+        ],
+        "viewBox": "0 0 120 120",
+        "anchor": [
+          60,
+          18
+        ],
+        "file": "design/board-v2/assets/lighting/fx-spark-3.svg",
+        "bytes": 1777,
+        "sha256": "3a3fdc53881a1b295cbac96e026e06eff9e5c4d6d3e98e97ca588936ede83fb8",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-impact-3",
+        "kind": "impact",
+        "frame": 3,
+        "ms": [
+          200,
+          320
+        ],
+        "viewBox": "0 0 160 160",
+        "anchor": [
+          80,
+          80
+        ],
+        "flashRadius": null,
+        "file": "design/board-v2/assets/lighting/fx-impact-3.svg",
+        "bytes": 2619,
+        "sha256": "13ae42ec493b63447589ea0408e1168597dbd44cb127aea17264025fe6228f6d",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.fx-bolt",
+        "kind": "reduced-icon",
+        "viewBox": "0 0 24 24",
+        "file": "design/board-v2/assets/lighting/fx-bolt.svg",
+        "bytes": 701,
+        "sha256": "a7c8c39268fa60ff0b17a365320a2debe2b3d148851d5e2fae2722aa395256b2",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.marker-preview",
+        "kind": "marker",
+        "state": "preview",
+        "viewBox": "0 0 44 44",
+        "audience": "public",
+        "file": "design/board-v2/assets/lighting/marker-preview.svg",
+        "bytes": 787,
+        "sha256": "be484a8351be652a96c0403754bd44288347a1c723ff19581b8671f4c8d11364"
+      },
+      {
+        "id": "lighting.marker-dark",
+        "kind": "marker",
+        "state": "dark",
+        "viewBox": "0 0 44 44",
+        "audience": "public",
+        "file": "design/board-v2/assets/lighting/marker-dark.svg",
+        "bytes": 764,
+        "sha256": "7f9038db74409b6893da8eb9d61190cf6a956f6d398d4cf1fe760c2baf7f131e"
+      },
+      {
+        "id": "lighting.marker-chosen",
+        "kind": "marker",
+        "state": "chosen",
+        "viewBox": "0 0 44 44",
+        "audience": "owner-private",
+        "file": "design/board-v2/assets/lighting/marker-chosen.svg",
+        "bytes": 816,
+        "sha256": "750be4f6199f6d477bd80051ca5e829211be3f8750c3e1cfa56a90f9943137c2"
+      }
+    ]
+  },
+  "films": {
+    "file": "design/board-v2/contract/films.json",
+    "version": "board-v2-films-0.2.0",
+    "sha256": "62a0d019af970df5a1990430043d965ad1bd22f9071edc0b540a81bc8fe1edce",
+    "bytes": 5233
+  }
 }

@@ -43,11 +43,14 @@ const WIDTHS = [320, 340, 360, 375, 390, 393, 400, 412, 414, 428, 430];
 const INSETS = [null, '20,0,0,0', '44,0,34,0', '47,0,34,0', '59,0,34,0'];
 
 const slotsModule = await load('design/board-v2/scenes/slots.mjs');
-const { slotsOf, slotProblems, BOARD_ROOMS, ROSTERS } = slotsModule;
+const { slotsOf, slotProblems, sceneOf, BOARD_ROOMS, ROSTERS } = slotsModule;
 const { WARD_BERTHS, wardBerths, wardScene } = await load('design/board-v2/scenes/hospital-ward.mjs');
 const { MIN_BOARD_WIDTH, SHELL, fitBoardV2, insetsOf, passClearance, shellFor, slotRects, slotsFit } = await load('design/board-v2/js/fit.mjs');
-const { FIXTURES, fixtureSeats } = await load('design/board-v2/js/fixtures.mjs');
+const { FIXTURES: FIXTURE_NAMES, fixtureSeats } = await load('design/board-v2/js/fixtures.mjs');
 const { SCENES } = await load('design/board-motion/scenes/index.mjs');
+const { frameScene } = await load('design/board-motion/scenes/frame.mjs');
+const { BLACKOUT, blackoutContract, blackoutFlashes, blackoutFrame } = await load('design/board-v2/films/blackout.mjs');
+const { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, sparkPlan } = await load('design/board-v2/scenes/lighting.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -97,12 +100,82 @@ const { SCENES } = await load('design/board-motion/scenes/index.mjs');
   try { planned = await planAssets(repoRoot); } catch (error) { problems.push(`the ward cannot be built: ${String(error.message).split('\n')[0]}`); }
   for (const [path, content] of planned) if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-v2-assets.mjs makes: run it`);
   for (const path of await filesUnder('design/board-v2/assets')) if (!planned.has(path)) problems.push(`${path}: not made by design/tools/board-v2-assets.mjs`);
+  const lighting = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')).lighting.files : [];
   for (const [path, content] of planned) {
     if (!path.endsWith('.svg')) continue;
     if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(content)) problems.push(`${path}: outside the drawing vocabulary`);
-    if (!content.includes('viewBox="0 0 1024 768"')) problems.push(`${path}: not in the room's 1024 x 768 box`);
+    // A room is drawn in its scene's 1024 x 768 box; a sprite in the box its manifest entry gives.
+    const sprite = lighting.find(entry => entry.file === path && entry.kind !== 'dark-room');
+    const box = sprite ? sprite.viewBox : '0 0 1024 768';
+    if (!content.includes(`viewBox="${box}"`)) problems.push(`${path}: not in its ${box} box`);
   }
-  check('the ward is built from the approved Hospital, its art is current and inside the drawing vocabulary', problems);
+  check('the ward and the lighting art are built from the approved rooms, current, and inside the drawing vocabulary', problems);
+}
+
+// ---------- The Blackout's lighting window ----------
+{
+  const problems = [];
+  const B = BLACKOUT;
+  // The server's window: five seconds lit, ten dark (Q-B03a); the selection in [previewEndsAt, endsAt) only.
+  if (B.previewMs !== 5000 || B.windowMs !== 15000) problems.push(`the window is ${B.previewMs} + ${B.windowMs - B.previewMs} ms, not 5 000 + 10 000`);
+  if (B.flicker[0] < B.markersIn[1] || B.flicker[1] > B.previewMs) problems.push('the flicker is not inside the lit preview');
+  const opts = { outcomeAt: 15400, hits: ['B2', 'A3'], windowId: 'w-check' };
+  for (const reduced of [false, true]) {
+    // Every millisecond either side of the two boundaries, and every 10 ms of the rest.
+    const moments = [...new Set([...Array.from({ length: 1801 }, (_, i) => -500 + i * 10), 4998, 4999, 5000, 5001, 5100, 14998, 14999, 15000, 15001])].sort((a, b) => a - b);
+    for (const t of moments) {
+      const frame = blackoutFrame(t, { ...opts, reduced });
+      const where = `${reduced ? 'reduced, ' : ''}${t} ms`;
+      // The full five seconds lit: the people on the board until previewEndsAt, in both modes.
+      if (t >= 0 && t < B.previewMs && (frame.people !== 'shown' || frame.peopleOpacity !== 1)) problems.push(`${where}: people leave before the preview ends`);
+      // From previewEndsAt exactly, in both modes, the full ten seconds dark: nobody on the page, the markers dark, the selection open.
+      if (t >= B.previewMs && t < B.windowMs && (frame.darkness !== 1 || frame.people !== 'gone' || frame.peopleOpacity !== 0 || frame.markers.style !== 'dark' || frame.markers.opacity < 1)) problems.push(`${where}: not fully dark with nobody on the page and the markers up`);
+      if (frame.selection !== (t >= B.previewMs && t < B.windowMs)) problems.push(`${where}: the selection is ${frame.selection ? 'open' : 'closed'}`);
+      // No selection while anyone is on the page, and nobody back on it before the outcome.
+      if (frame.selection && frame.people !== 'gone') problems.push(`${where}: a selection with people on the page`);
+      if (t >= B.previewMs && t < opts.outcomeAt && frame.people !== 'gone') problems.push(`${where}: people back before the outcome`);
+      // The top bar's line: from the window's opening until the lights start back, with the clock.
+      if (frame.line !== (t >= 0 && (frame.clock !== null))) problems.push(`${where}: the line and the clock disagree`);
+      // Reduced motion: no flicker, sparks, impact frames or shake; no fade longer than 80 ms.
+      if (reduced && (frame.sparks.frame || frame.impact.frame || frame.shake[0] || frame.shake[1] || (t < B.previewMs && frame.darkness > 0))) problems.push(`${where}: motion in the reduced variant`);
+      // Shake moves the art by 3 px at most, and only where a position was hit.
+      if (Math.max(Math.abs(frame.shake[0]), Math.abs(frame.shake[1])) > 3) problems.push(`${where}: a shake over 3 px`);
+    }
+    // The lights come back with the outcome, or at the cap without it.
+    if (blackoutFrame(B.windowMs + B.holdCapMs + 600, { windowId: 'w-check', reduced }).darkness !== 0) problems.push(`${reduced ? 'reduced: ' : ''}the dark outlasts its cap with no outcome`);
+  }
+  // A strike that missed and a round with no strike are the same film: the outcome's hits are the only input that differs, and a miss has none.
+  for (let t = 0; t <= 17000; t += 50) if (JSON.stringify(blackoutFrame(t, { outcomeAt: 15400, hits: [], windowId: 'w-check' })) !== JSON.stringify(blackoutFrame(t, { outcomeAt: 15400, hits: [], windowId: 'w-check', side: 'red', request: true }))) problems.push(`${t} ms: something besides the published outcome changes the film`);
+  // The sparks: from the window's id alone, from each room's right-hand light.
+  const plan = sparkPlan('w-check');
+  if (JSON.stringify(plan) !== JSON.stringify(sparkPlan('w-check'))) problems.push('the same window sparks differently');
+  for (const [room, entry] of Object.entries(plan)) if (entry.fixture !== FIXTURES[room].length - 1) problems.push(`${room}: sparks from a light other than its right-hand one`);
+  // Flashes: three a second at most, the bright part of each a quarter of its panel at most.
+  const flashes = blackoutFlashes(opts);
+  for (let from = -1000; from <= 17000; from += 10) {
+    const count = flashes.filter(flash => flash.at >= from && flash.at < from + 1000).reduce((sum, flash) => sum + 1, 0);
+    if (count > B.flashLimit.perSecond) { problems.push(`${count} flashes in the second from ${from} ms`); break; }
+  }
+  for (const [width, height] of VIEWPORTS) {
+    for (const roster of ROSTERS) {
+      const board = fitBoardV2({ width, height }, roster);
+      for (const room of BOARD_ROOMS) {
+        const panel = board.panels[room];
+        const area = panel.width * panel.height;
+        const k = frameScene(sceneOf(room, roster), panel).k;
+        const spark = Math.PI * (17 * k) ** 2;
+        if (spark / area > B.flashLimit.panelShare) problems.push(`${width}x${height} ${room}: a spark's flash is ${Math.round((100 * spark) / area)}% of the panel`);
+        // Every position of the room hit at once: the worst case.
+        const impacts = slotRects(room, roster, panel).reduce((sum, rect) => sum + Math.PI * ((IMPACT_FLASH_RADIUS / IMPACT_BOX) * 1.6 * rect.side) ** 2, 0);
+        if (impacts / area > B.flashLimit.panelShare) problems.push(`${width}x${height}, ${roster} players, ${room}: every position hit at once flashes ${Math.round((100 * impacts) / area)}% of the panel`);
+      }
+    }
+  }
+  // The film's contract is what the module says.
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  if (!films || JSON.stringify(films.films?.[0]) !== JSON.stringify(blackoutContract())) problems.push('contract/films.json is not the film\'s: run design/tools/board-v2-assets.mjs');
+  for (const word of ROLE_WORDS) if (JSON.stringify(films ?? {}).includes(word)) problems.push(`contract/films.json names ${word}`);
+  check('the Blackout\'s window: five seconds lit and ten dark, its film only public inputs, three flashes a second at most and none over a quarter of a panel', problems);
 }
 
 // ---------- The slots ----------
@@ -141,7 +214,7 @@ const { SCENES } = await load('design/board-motion/scenes/index.mjs');
   if (!/allocates nothing/.test(tableJson.note) || !/lowest-free/.test(tableJson.note)) problems.push('the slot table does not say that it allocates nothing and that Backend\'s lowest-free rule does');
   // Every synthetic fixture holds one seat per slot and one slot per seat, in slots that exist.
   for (const roster of ROSTERS) {
-    for (const name of FIXTURES) {
+    for (const name of FIXTURE_NAMES) {
       const seats = fixtureSeats(name, roster);
       const ids = seats.map(seat => seat.slot);
       if (new Set(ids).size !== ids.length) problems.push(`${name}, ${roster} players: two seats share a slot`);
