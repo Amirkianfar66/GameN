@@ -12,10 +12,17 @@
 // the five-second preview; the window's end is its endsAt. A client draws from those trusted
 // deadlines, never from a clock of its own, so a phone that comes back mid-window draws the
 // true moment, and a film is never replayed.
+//
+// The two stages are the specification's exactly (Q-B03a; rules-contracts, Blackout validation
+// and resolution): the lit preview is [0, previewEndsAt) and the dark is [previewEndsAt, endsAt),
+// the half-open interval in which a selection is accepted. At previewEndsAt, in both motion
+// modes, the lights cut out and every figure, name tag and name leaves the page in the same
+// instant: no fade keeps an occupant on the page once a selection can be made.
 
 import { sparkPlan } from '../scenes/lighting.mjs';
 
-export const FILMS_VERSION = 'board-v2-films-0.1.0';
+/** 0.2.0: the lights cut out exactly at previewEndsAt in both modes, and the window's line is in the top bar (the Integration review of 13 October 2026). */
+export const FILMS_VERSION = 'board-v2-films-0.2.0';
 
 export const BLACKOUT = Object.freeze({
   id: 'blackout-window',
@@ -33,23 +40,20 @@ export const BLACKOUT = Object.freeze({
   dipRampMs: 30,
   // Each room's own light sparks once, three frames.
   sparkFrames: Object.freeze([Object.freeze([4700, 4740]), Object.freeze([4740, 4790]), Object.freeze([4790, 4860])]),
-  lightsOut: [5000, 5200],
-  // The shared strip: in over the last of the lights going out, out over the first of their return.
-  stripFadeMs: 60,
   // From the outcome's publication (R).
   impactFrames: Object.freeze([Object.freeze([0, 80]), Object.freeze([80, 200]), Object.freeze([200, 320])]),
   shake: Object.freeze({ to: 160, amplitude: 3, steps: Object.freeze([[3, -2], [-3, 1], [2, 2], [-2, -1]]) }),
   lightsReturn: [120, 520],
   markersOut: [520, 900],
   darkCaptions: 0.7,
-  reduced: Object.freeze({ fadeMs: 80, darkAt: 4920, burstMs: 600 }),
+  // Reduced motion: no flicker, sparks or shake; the same cut at previewEndsAt; 80 ms fades elsewhere.
+  reduced: Object.freeze({ fadeMs: 80, burstMs: 600 }),
   flashLimit: Object.freeze({ perSecond: 3, panelShare: 0.25 }),
 });
 
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const ramp = (t, from, to) => clamp01((t - from) / (to - from));
 const easeOut = v => 1 - (1 - v) ** 2;
-const easeIn = v => v * v;
 
 /** When the lights come back: with the outcome, or at the cap if the outcome is late. */
 export function lightsBackAt(outcomeAt) {
@@ -78,15 +82,17 @@ const frameIn = (t, frames, offset = 0) => {
  * What the board shows at t: the same for every phone and the display.
  *
  *   darkness   0..1, the opacity of the rooms' dark drawing over the lit board (every room alike)
- *   people     'shown', 'fading' or 'gone': the figures and their name tags (gone: not on the page at all)
+ *   people     'shown', 'fading' or 'gone': the figures and their name tags (gone: not on the page at
+ *              all). Shown through the whole lit preview; gone from previewEndsAt in both modes
  *   markers    the position markers' opacity and style (preview or dark)
  *   captions   the room captions' opacity
  *   sparks     the spark frame (0 for none) and, per room, which light throws it
  *   impact     the impact frame (0 for none) at each hit position, the static burst for reduced motion
  *   shake      the offset of a hit room's art (never its markers, captions or press areas)
- *   strip      the shared Lights-out strip's opacity
+ *   line       whether the top bar carries the window's line (a second row, the same box on every
+ *              phone and the display): from the window's opening until the lights start back
  *   clock      what the top bar's timer counts down to, and how long is left
- *   selection  whether an eligible Disabler's selection is open
+ *   selection  whether an eligible Disabler's selection is open: exactly [previewEndsAt, endsAt)
  */
 export function blackoutFrame(t, { outcomeAt = null, hits = [], reduced = false, windowId } = {}) {
   const B = BLACKOUT;
@@ -97,7 +103,7 @@ export function blackoutFrame(t, { outcomeAt = null, hits = [], reduced = false,
     stage: 'before', darkness: 0, people: 'shown', peopleOpacity: 1,
     markers: { opacity: 0, style: 'preview' }, captions: 1,
     sparks: { frame: 0, plan }, impact: { frame: 0, burst: false, slots: [...hits] }, shake: [0, 0],
-    strip: 0, clock: null, selection: false, darkIcon: false,
+    line: false, clock: null, selection: false, darkIcon: false,
   };
   if (t < 0) return frame;
 
@@ -107,27 +113,25 @@ export function blackoutFrame(t, { outcomeAt = null, hits = [], reduced = false,
   const markersOut = reduced ? 1 - ramp(t, outFrom, outFrom + fade) : 1 - ramp(t, outFrom, back + B.markersOut[1]);
   frame.markers.opacity = Math.min(markersIn, markersOut);
 
-  // The dark: the flicker, then the lights out, then the lights back.
-  const outStart = reduced ? B.reduced.darkAt : B.lightsOut[0];
-  const outEnd = reduced ? B.reduced.darkAt + fade : B.lightsOut[1];
+  // The dark: the flicker in the lit preview's last 800 ms (full motion only), then, at
+  // previewEndsAt exactly, the lights cut out in every room; back with the outcome.
+  const dark = t >= B.previewMs;
   const returnStart = reduced ? back : back + B.lightsReturn[0];
   const returnEnd = reduced ? back + fade : back + B.lightsReturn[1];
-  const goingOut = reduced ? ramp(t, outStart, outEnd) : easeIn(ramp(t, outStart, outEnd));
   const comingBack = 1 - easeOut(ramp(t, returnStart, returnEnd));
-  frame.darkness = t < outStart ? (reduced ? 0 : flickerDarkness(t)) : Math.min(goingOut, comingBack);
+  frame.darkness = dark ? comingBack : (reduced ? 0 : flickerDarkness(t));
 
-  // The people: fade with the lights, gone from the page while it is dark, back with the lights.
-  if (t >= outStart && t < returnEnd) {
-    const shown = t < outEnd ? 1 - ramp(t, outStart, outEnd) : t >= returnStart ? ramp(t, returnStart, returnEnd) : 0;
+  // The people: on the page through the whole lit preview, off it from previewEndsAt (the same
+  // instant the selection opens), back with the lights.
+  if (dark && t < returnEnd) {
+    const shown = t >= returnStart ? ramp(t, returnStart, returnEnd) : 0;
     frame.people = shown > 0 ? 'fading' : 'gone';
     frame.peopleOpacity = shown;
   }
-  frame.markers.style = t >= (outStart + outEnd) / 2 && t < (returnStart + returnEnd) / 2 ? 'dark' : 'preview';
+  frame.markers.style = dark && t < (returnStart + returnEnd) / 2 ? 'dark' : 'preview';
   frame.captions = 1 - (1 - B.darkCaptions) * frame.darkness;
-  // The strip comes up once the room under it is nearly dark, and goes as the lights start back.
-  const stripIn = reduced ? ramp(t, outStart, outEnd) : ramp(t, outEnd - B.stripFadeMs, outEnd);
-  const stripOut = reduced ? 1 - ramp(t, returnStart, returnEnd) : 1 - ramp(t, returnStart, returnStart + B.stripFadeMs);
-  frame.strip = t >= outStart && t < returnEnd ? Math.min(stripIn, stripOut) : 0;
+  // The window's line in the top bar: from the window's opening, and gone, with the clock, as the lights start back.
+  frame.line = t < returnStart;
   frame.darkIcon = reduced && frame.darkness > 0;
 
   // The flicker's sparks, full motion only.
@@ -146,13 +150,12 @@ export function blackoutFrame(t, { outcomeAt = null, hits = [], reduced = false,
   frame.clock = t < B.previewMs ? { label: 'Lights out in', remainingMs: B.previewMs - t }
     : t < returnStart ? { label: 'Lights out', remainingMs: Math.max(0, B.windowMs - t) } : null;
   frame.stage = t < B.markersIn[1] ? 'markers-in'
-    : t < (reduced ? outStart : B.flicker[0]) ? 'preview'
-      : t < outStart ? 'flicker'
-        : t < outEnd ? 'lights-out'
-          : t < B.windowMs ? 'dark'
-            : t < returnStart ? 'hold'
-              : t < returnEnd ? 'return'
-                : t < back + B.markersOut[1] ? 'settle' : 'after';
+    : t < (reduced ? B.previewMs : B.flicker[0]) ? 'preview'
+      : t < B.previewMs ? 'flicker'
+        : t < B.windowMs ? 'dark'
+          : t < returnStart ? 'hold'
+            : t < returnEnd ? 'return'
+              : t < back + B.markersOut[1] ? 'settle' : 'after';
   return frame;
 }
 
@@ -177,7 +180,7 @@ export function blackoutContract() {
     audience: {
       lighting: 'public: every phone and the display, every normal round, whether or not anyone asked for a strike',
       markers: 'public',
-      strip: 'public: the same strip, the same size and brightness, on every phone (not the display)',
+      line: 'public box: the window\'s line, a second row of the top bar from the window\'s opening until the lights start back, the same box on every phone and the display. It says "Remember who is where." in the lit preview and "Wait for the lights." in the dark on every screen but the eligible Disabler\'s, whose line is their own selection (owner-private). The top bar is above the board, so the line covers no position',
       selection: 'owner-private: the eligible Disabler\'s own phone, in their bound room only',
       outcome: 'public: the round\'s published batch (authorized hits only; a miss shows nothing anywhere)',
       blocks: 'room-visible: a blocked strike is a miss in public; ATTACK BLOCKED (S4, films/blocked.mjs) plays only for its room\'s occupants, once the lights are back',
@@ -187,19 +190,19 @@ export function blackoutContract() {
     notInputs: ['a request or its absence', 'a side (Blue or Red)', 'a selection', 'a viewer or audience', 'a role, a cause or a defense'],
     server: { previewMs: B.previewMs, windowMs: B.windowMs, holdCapMs: B.holdCapMs },
     beats: [
-      { id: 'markers-in', from: B.markersIn[0], to: B.markersIn[1], what: 'Numbered position markers fade in at every fixed slot of every room, empty ones included' },
+      { id: 'markers-in', from: B.markersIn[0], to: B.markersIn[1], what: 'Numbered position markers fade in at every fixed slot of every room, empty ones included. The top bar shows the window\'s clock and, in a second row, its line' },
       { id: 'preview', from: B.markersIn[1], to: B.flicker[0], what: 'Lights on: figures, name tags and markers' },
-      { id: 'flicker', from: B.flicker[0], to: B.flicker[1], what: `Two dips of every room's light (${B.dips.map(([a, b]) => `${a}-${b}`).join(', ')}) and each room's own light sparking at ${B.sparkFrames[0][0]}, which light seeded by the window id` },
-      { id: 'lights-out', from: B.lightsOut[0], to: B.lightsOut[1], what: 'Every room goes to its dark drawing; figures and name tags fade and leave the page; markers turn dark; captions to 70%; the shared strip comes up' },
-      { id: 'dark', from: B.lightsOut[1], to: B.windowMs, what: 'Static dark. The eligible Disabler selects in their bound room, from previewEndsAt to endsAt' },
+      { id: 'flicker', from: B.flicker[0], to: B.flicker[1], what: `Inside the lit preview: two dips of every room's light (${B.dips.map(([a, b]) => `${a}-${b}`).join(', ')}) and each room's own light sparking at ${B.sparkFrames[0][0]}, which light seeded by the window id. People stay on the page throughout` },
+      { id: 'lights-out', at: B.previewMs, what: 'At previewEndsAt exactly, in both motion modes: every room cuts to its dark drawing; every figure, name tag and name leaves the page and the accessibility tree; markers turn dark; captions to 70%; the top bar\'s line says the dark\'s words. The selection opens in the same instant' },
+      { id: 'dark', from: B.previewMs, to: B.windowMs, what: 'Static dark, the half-open interval [previewEndsAt, endsAt). The eligible Disabler selects in their bound room' },
       { id: 'hold', from: B.windowMs, to: `R, at most ${B.windowMs + B.holdCapMs}`, what: 'Dark until the outcome is published' },
       { id: 'impact', from: 'R', to: `R+${B.impactFrames.at(-1)[1]}`, what: 'At each authorized hit: the flash, the star, its rays; the hit room\'s art shakes 3 px for 160 ms. Nothing at a miss' },
-      { id: 'lights-return', from: `R+${B.lightsReturn[0]}`, to: `R+${B.lightsReturn[1]}`, what: 'Every room comes back together; people in their published state' },
+      { id: 'lights-return', from: `R+${B.lightsReturn[0]}`, to: `R+${B.lightsReturn[1]}`, what: 'Every room comes back together; people in their published state and place: a hit patient in the Hospital, at the slot the authoritative state gives, in the gown. The top bar\'s clock and line go as the lights start back' },
       { id: 'settle', from: `R+${B.markersOut[0]}`, to: `R+${B.markersOut[1]}`, what: 'Markers fade out; the board is normal' },
     ],
     reduced: {
-      what: 'No flicker, sparks, shake or travel. 80 ms fades: markers in at 0; one fade to the static dark at 4920 with a still spark in each caption; one fade back at R; a still burst on each hit position for 600 ms',
-      fadeMs: B.reduced.fadeMs, darkAt: B.reduced.darkAt, burstMs: B.reduced.burstMs,
+      what: 'No flicker, sparks, shake or travel. The same cut to the static dark at previewEndsAt, with a still bolt in each caption; 80 ms fades elsewhere: markers in at 0, one fade back at R; a still burst on each hit position for 600 ms',
+      fadeMs: B.reduced.fadeMs, burstMs: B.reduced.burstMs,
     },
     flashLimit: { perSecond: B.flashLimit.perSecond, panelShare: B.flashLimit.panelShare, note: 'Counted over every second of the film; a flash\'s area is its bright part (a dip covers the board, which is why there are only two)' },
     layers: {
@@ -208,8 +211,7 @@ export function blackoutContract() {
       L5: 'the eligible Disabler\'s chosen marker (private)',
       L6: 'press areas: never moved, never shaken',
       L7: 'room captions (70% in the dark)',
-      L9: 'the strip over the Command band (public; the selection line private)',
-      L10: 'top bar and navigation: never dimmed',
+      L10: 'top bar and navigation: never dimmed; the top bar carries the window\'s clock and line (public box; the eligible Disabler\'s line private)',
     },
   };
 }

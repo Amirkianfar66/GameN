@@ -91,7 +91,9 @@ test('nothing before the start or after the end, and the words only while the la
 
 test('in the Blackout a block is a miss in public, and its film waits until the lights are fully back', () => {
   assert.deepEqual(BLACKOUT_OUTCOMES.blocked.hits, []);
-  assert.deepEqual(BLACKOUT_OUTCOMES.blocked.after, {});
+  // Nobody moves: a blocked target stays where it was, in its health, at every roster.
+  assert.deepEqual(BLACKOUT_OUTCOMES.blocked.after, BLACKOUT_OUTCOMES.miss.after);
+  for (const roster of [7, 8, 9]) assert.deepEqual(BLACKOUT_OUTCOMES.blocked.after[roster], []);
   for (let t = 0; t <= 19000; t += 25) {
     assert.deepEqual(blackoutFrame(t, { outcomeAt: 15400, hits: BLACKOUT_OUTCOMES.blocked.hits, windowId: 'w-test' }), blackoutFrame(t, { outcomeAt: 15400, hits: BLACKOUT_OUTCOMES.miss.hits, windowId: 'w-test' }));
   }

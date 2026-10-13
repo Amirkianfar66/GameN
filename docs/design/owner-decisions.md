@@ -47,13 +47,15 @@ The owner answered:
   - Every slot is a whole 44 px press area, clear of the Pass, at eight phone sizes (checked).
 - **Frontend's instructions:** [board-v2-slots.md](board-v2-slots.md#4-the-layout-from-the-phone-and-the-roster-never-from-who-is-where), sections 4 and 5.
 
+**Correction after the Integration review of 13 October 2026 (its finding 4).** Choosing the shell by height alone left a gap: from 601 px to the short shell's real need (up to 621 px at 430 px wide), the short shell left the rooms short and the lowest targets ran under the navigation. The compact shell's sizes above are unchanged, and it is still the shell up to 600 px. It is now also drawn wherever the phone kit's short shell would not fit, from the usable height after the safe-area insets. Where no shell fits the screen's width, the board narrows to a centred column; where none fits at all, a message replaces the board. Targets stay at 44 px and the board does not scroll, as the owner decided. This corrects the Designer's implementation of the decision; it is not a new owner decision.
+
 ### What it does not settle
 
 - **The real bars.** Frontend implements the shell. Their content at 36 and 48 px, with long names and enlarged text, has not been tried. The review page draws stand-ins.
 - **Adoption.** `design/board-v2/` is a proposal outside the reviewed manifest. Integration approves each file by name and hash.
 - **The ward's look.** The owner has not seen the ward or its captures.
 - **The server's part.** A stored public slot per seat, and a Hospital that holds the whole roster, are Backend's. They are proposed in [board-v2-slots.md](board-v2-slots.md#6-for-backend-and-integration-proposals-nothing-accepted), and nothing is accepted. Without them the Blackout cannot reach players.
-- **The specification itself.** Its six files are not in this repository. The work follows the brief and the owner's notes, and is to be checked against the files when they arrive.
+- **The specification itself.** Its six files are not in this repository. The work followed the brief and the owner's notes; the complete packet has since been read, and the Designer's notes are reconciled with it in [motion-spec-crosswalk.md](motion-spec-crosswalk.md).
 
 ## 11 October 2026: the Insider's file, portraits and role labels
 

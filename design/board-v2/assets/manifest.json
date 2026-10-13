@@ -138,9 +138,9 @@
   ],
   "slotTable": {
     "file": "design/board-v2/contract/slots.json",
-    "version": "board-v2-0.1.0",
-    "sha256": "248d9917056b6b863a699d26d97941431ac7b6018b0520d4a0ae551cdaab227e",
-    "bytes": 42518
+    "version": "board-v2-0.1.1",
+    "sha256": "ab687508df829b33e13e5b98243615794e14e0ff3b57e793ce6e6f335f1f4785",
+    "bytes": 42744
   },
   "scenes": [
     {
@@ -886,8 +886,8 @@
   },
   "films": {
     "file": "design/board-v2/contract/films.json",
-    "version": "board-v2-films-0.1.0",
-    "sha256": "c8aff4e3aed84c429b0f58f8d4cccb868096ea1a00c5518df33baf0879ab5589",
-    "bytes": 7941
+    "version": "board-v2-films-0.2.0",
+    "sha256": "cc22bc167b6e4380d8cf952bc8b8b01d241d03409a919081d3d6c3f7af52b551",
+    "bytes": 8690
   }
 }

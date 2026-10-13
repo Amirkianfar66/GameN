@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "board-v2-films-0.1.0",
+  "version": "board-v2-films-0.2.0",
   "status": "proposal",
   "note": "The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server's deadlines are the only clock. Not a rule and not an adopted contract.",
   "films": [
@@ -11,7 +11,7 @@
       "audience": {
         "lighting": "public: every phone and the display, every normal round, whether or not anyone asked for a strike",
         "markers": "public",
-        "strip": "public: the same strip, the same size and brightness, on every phone (not the display)",
+        "line": "public box: the window's line, a second row of the top bar from the window's opening until the lights start back, the same box on every phone and the display. It says \"Remember who is where.\" in the lit preview and \"Wait for the lights.\" in the dark on every screen but the eligible Disabler's, whose line is their own selection (owner-private). The top bar is above the board, so the line covers no position",
         "selection": "owner-private: the eligible Disabler's own phone, in their bound room only",
         "outcome": "public: the round's published batch (authorized hits only; a miss shows nothing anywhere)",
         "blocks": "room-visible: a blocked strike is a miss in public; ATTACK BLOCKED (S4, films/blocked.mjs) plays only for its room's occupants, once the lights are back"
@@ -41,7 +41,7 @@
           "id": "markers-in",
           "from": 0,
           "to": 300,
-          "what": "Numbered position markers fade in at every fixed slot of every room, empty ones included"
+          "what": "Numbered position markers fade in at every fixed slot of every room, empty ones included. The top bar shows the window's clock and, in a second row, its line"
         },
         {
           "id": "preview",
@@ -53,19 +53,18 @@
           "id": "flicker",
           "from": 4200,
           "to": 5000,
-          "what": "Two dips of every room's light (4300-4420, 4650-4770) and each room's own light sparking at 4700, which light seeded by the window id"
+          "what": "Inside the lit preview: two dips of every room's light (4300-4420, 4650-4770) and each room's own light sparking at 4700, which light seeded by the window id. People stay on the page throughout"
         },
         {
           "id": "lights-out",
-          "from": 5000,
-          "to": 5200,
-          "what": "Every room goes to its dark drawing; figures and name tags fade and leave the page; markers turn dark; captions to 70%; the shared strip comes up"
+          "at": 5000,
+          "what": "At previewEndsAt exactly, in both motion modes: every room cuts to its dark drawing; every figure, name tag and name leaves the page and the accessibility tree; markers turn dark; captions to 70%; the top bar's line says the dark's words. The selection opens in the same instant"
         },
         {
           "id": "dark",
-          "from": 5200,
+          "from": 5000,
           "to": 15000,
-          "what": "Static dark. The eligible Disabler selects in their bound room, from previewEndsAt to endsAt"
+          "what": "Static dark, the half-open interval [previewEndsAt, endsAt). The eligible Disabler selects in their bound room"
         },
         {
           "id": "hold",
@@ -83,7 +82,7 @@
           "id": "lights-return",
           "from": "R+120",
           "to": "R+520",
-          "what": "Every room comes back together; people in their published state"
+          "what": "Every room comes back together; people in their published state and place: a hit patient in the Hospital, at the slot the authoritative state gives, in the gown. The top bar's clock and line go as the lights start back"
         },
         {
           "id": "settle",
@@ -93,9 +92,8 @@
         }
       ],
       "reduced": {
-        "what": "No flicker, sparks, shake or travel. 80 ms fades: markers in at 0; one fade to the static dark at 4920 with a still spark in each caption; one fade back at R; a still burst on each hit position for 600 ms",
+        "what": "No flicker, sparks, shake or travel. The same cut to the static dark at previewEndsAt, with a still bolt in each caption; 80 ms fades elsewhere: markers in at 0, one fade back at R; a still burst on each hit position for 600 ms",
         "fadeMs": 80,
-        "darkAt": 4920,
         "burstMs": 600
       },
       "flashLimit": {
@@ -109,8 +107,7 @@
         "L5": "the eligible Disabler's chosen marker (private)",
         "L6": "press areas: never moved, never shaken",
         "L7": "room captions (70% in the dark)",
-        "L9": "the strip over the Command band (public; the selection line private)",
-        "L10": "top bar and navigation: never dimmed"
+        "L10": "top bar and navigation: never dimmed; the top bar carries the window's clock and line (public box; the eligible Disabler's line private)"
       }
     },
     {

@@ -1,15 +1,15 @@
 {
   "devOnly": "mothership:dev-only",
-  "version": "board-v2-0.1.0",
+  "version": "board-v2-0.1.1",
   "status": "proposal",
-  "note": "The board's fixed slots for each roster, as design/board-v2/scenes/slots.mjs gives them: proposed authoritative slot ids (assigned by the server on entry, kept while the seat stays) and normalized anchors in each room's 1024 x 768 scene ([x / 1024, y / 768]). Not a rule and not an adopted contract.",
+  "note": "The board's fixed slots for each roster, as design/board-v2/scenes/slots.mjs gives them: their ids, in each room's numbering, and normalized anchors in each room's 1024 x 768 scene ([x / 1024, y / 768]). The table allocates nothing: a seat's slot is Backend's stored slotId, given by the specification's lowest-free rule in this numbering (rules-contracts.md, Blackout validation and resolution), and a screen reads it. Not a rule and not an adopted contract.",
   "anchors": {
     "feet": "where the figure stands",
     "press": "centre of the press area (the place's gesture's press point; never moves)",
     "badge": "status tag (detention, rescue deadline)",
     "fx": "impact or shield centre"
   },
-  "positionNumber": "A Blackout position number is the slot's index in its room (1 to n, in id order), drawn inside the upper right corner of the slot's press area: never over the face it numbers, always on the target.",
+  "positionNumber": "A slot's number is its index in its room (1 to n, in id order): the order the lowest-free rule fills the room in, and the Blackout position number, drawn inside the upper right corner of the slot's press area: never over the face it numbers, always on the target.",
   "rosters": {
     "7": {
       "command-room": [

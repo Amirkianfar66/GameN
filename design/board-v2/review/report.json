@@ -1,22 +1,24 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "f14f9c42439d4beb74ae5f80206ed868236229822e24f78fcceca9a7b600c97a",
+  "inputsSha256": "ffa7736b9a424b1f23a0ecb671759fc1dc39015437eead6d95208309c26fb240",
   "shots": [
     {
       "file": "board-320x568-ward.png",
       "viewport": "320x568",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "problems": [],
       "shell": "compact",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
     {
       "file": "board-320x568-mixed.png",
       "viewport": "320x568",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "problems": [],
       "shell": "compact",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -26,6 +28,7 @@
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
       "shell": "compact",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -35,6 +38,7 @@
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
       "shell": "compact",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -44,24 +48,27 @@
       "query": "roster=9&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
       "file": "board-360x740-ward.png",
       "viewport": "360x740",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
     {
       "file": "board-360x740-mixed.png",
       "viewport": "360x740",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -71,6 +78,7 @@
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -80,6 +88,7 @@
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -89,24 +98,27 @@
       "query": "roster=9&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
       "file": "board-390x844-ward.png",
       "viewport": "390x844",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
     {
       "file": "board-390x844-mixed.png",
       "viewport": "390x844",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -116,6 +128,7 @@
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -125,6 +138,7 @@
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -134,24 +148,27 @@
       "query": "roster=9&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
       "file": "board-430x932-ward.png",
       "viewport": "430x932",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
     {
       "file": "board-430x932-mixed.png",
       "viewport": "430x932",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -161,6 +178,7 @@
       "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -170,6 +188,7 @@
       "query": "roster=9&fixture=stress&markers=1&press=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -179,6 +198,7 @@
       "query": "roster=9&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -188,6 +208,7 @@
       "query": "roster=7&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -197,6 +218,7 @@
       "query": "roster=7&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
     },
@@ -206,6 +228,7 @@
       "query": "roster=8&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -215,8 +238,66 @@
       "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
       "problems": [],
       "shell": "tall",
+      "fallback": null,
       "fits": true,
       "boardProblems": []
+    },
+    {
+      "file": "board-430x601-mixed.png",
+      "viewport": "430x601",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-390x844-safe-mixed.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&hit=1&safe=47,0,34,0",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-1024x768-narrow.png",
+      "viewport": "1024x768",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": "narrow",
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-844x390-too-short.png",
+      "viewport": "844x390",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": "too-short",
+      "fits": false,
+      "boardProblems": [
+        "the rooms need 376 px more than the board's 292 px"
+      ]
+    },
+    {
+      "file": "board-280x653-too-narrow.png",
+      "viewport": "280x653",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": "too-narrow",
+      "fits": false,
+      "boardProblems": [
+        "room-b: its slots do not fit at 121 px wide",
+        "hospital: its slots do not fit at 121 px wide",
+        "jail: its slots do not fit at 121 px wide",
+        "the rooms need 1353 px more than the board's 555 px"
+      ]
     },
     {
       "file": "scene-hospital-r9-ward.png",
@@ -224,6 +305,7 @@
       "query": "scene=hospital&roster=9&fixture=ward",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -233,6 +315,7 @@
       "query": "scene=hospital&roster=9&fixture=mixed",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -242,6 +325,7 @@
       "query": "scene=hospital&roster=8&fixture=empty",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -251,6 +335,7 @@
       "query": "scene=hospital&roster=7&fixture=empty",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -260,6 +345,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=150",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -269,6 +355,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=1000",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -278,6 +365,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=4360",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -287,15 +375,27 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=4760",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
-      "file": "blackout-390x844-5100-lights-out.png",
+      "file": "blackout-390x844-4999-last-lit.png",
       "viewport": "390x844",
-      "query": "roster=9&fixture=mixed&film=blackout&t=5100",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4999",
       "problems": [],
       "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-5000-lights-out.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5000",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -305,15 +405,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=8000",
       "problems": [],
       "shell": null,
-      "fits": null,
-      "boardProblems": []
-    },
-    {
-      "file": "blackout-390x844-8000-display.png",
-      "viewport": "390x844",
-      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=display",
-      "problems": [],
-      "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -323,6 +415,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=choose",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -332,24 +425,87 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
       "problems": [],
       "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-command.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=command-room&step=confirm&pick=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-9200-disabler-sending.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=9200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=9000",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
       "file": "blackout-390x844-12000-disabler-registered.png",
       "viewport": "390x844",
-      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=registered&pick=2",
+      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=sent&pick=2",
       "problems": [],
       "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15200-disabler-waiting.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15350-disabler-late-answer.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15350&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15450-disabler-lost.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15450&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&lost=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-15250-disabler-rejected.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15250&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14990&reply=rejected&replyAt=15200",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
       "file": "blackout-390x844-15200-disabler-timeout.png",
       "viewport": "390x844",
-      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=choose",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=confirm&pick=2",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -359,6 +515,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15000",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -368,6 +525,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15440",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -377,6 +535,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15560",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -386,6 +545,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15760",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -395,6 +555,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=16300",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -404,6 +565,27 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=double",
       "problems": [],
       "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-16300-double.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&t=16300&outcome=double",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-390x844-16300-double-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&fixture=mixed&film=blackout&t=16300&outcome=double",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -413,6 +595,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=miss",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -422,15 +605,17 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=40&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
     {
-      "file": "blackout-390x844-reduced-4960-fade.png",
+      "file": "blackout-390x844-reduced-5000-dark.png",
       "viewport": "390x844",
-      "query": "roster=9&fixture=mixed&film=blackout&t=4960&motion=reduced",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5000&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -440,6 +625,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -449,6 +635,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15420&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -458,6 +645,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15700&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -467,6 +655,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=1000",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -476,6 +665,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=8000",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -485,6 +675,27 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
       "problems": [],
       "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-320x568-8000-disabler-command.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=command-room&step=confirm&pick=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blackout-320x568-15200-disabler-waiting.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -494,6 +705,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&t=15560",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -503,6 +715,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=60",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -512,6 +725,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=160",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -521,6 +735,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=280",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -530,6 +745,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=480",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -539,6 +755,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=760",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -548,6 +765,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=2320",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -557,6 +775,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=2500",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -566,6 +785,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -575,6 +795,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=280&targets=B2,B4",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -584,6 +805,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=outsider",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -593,6 +815,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=display",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -602,6 +825,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=40&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -611,6 +835,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=800&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -620,6 +845,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=1800&motion=reduced",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -629,6 +855,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=280",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -638,6 +865,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=760",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -647,6 +875,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=art&targets=A1,C1,H1,J2,B4",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -656,6 +885,7 @@
       "query": "roster=9&fixture=mixed&film=blocked&t=760&viewer=art&targets=A1,C1,H1,J2,B4",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -665,6 +895,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16200&in=room-b",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -674,6 +905,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -683,6 +915,7 @@
       "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-a",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
     },
@@ -692,8 +925,1988 @@
       "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
       "problems": [],
       "shell": null,
+      "fallback": null,
       "fits": null,
       "boardProblems": []
+    }
+  ],
+  "probes": [
+    {
+      "viewport": "320x567",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "too-short",
+      "slots": 0,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x589",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x590",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x605",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x606",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x567",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "too-short",
+      "slots": 0,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x589",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x590",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x605",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x606",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x579",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x580",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x602",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x617",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x618",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x579",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x580",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x602",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x617",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x618",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x585",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x586",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x607",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x608",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x623",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x624",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x585",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x586",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x607",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x608",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x623",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x624",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x591",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x592",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x613",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x614",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x629",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x630",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x591",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x592",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x613",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x614",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x629",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x630",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x593",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x594",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x615",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x616",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x631",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x632",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x593",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x594",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x615",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x616",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x631",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x632",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x597",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x598",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x619",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x620",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x635",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x636",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x597",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x598",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x619",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x620",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x635",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x636",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x597",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x598",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x619",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x620",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x635",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x636",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x597",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x598",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x619",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x620",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x635",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x636",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x599",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x621",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x622",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x637",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x638",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x599",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x621",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x622",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x637",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x638",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x599",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x621",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x622",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x637",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x638",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x599",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x621",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x622",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x637",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x638",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x672",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x673",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x694",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x695",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x710",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x711",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x692",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x693",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x714",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x715",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x730",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x731",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    }
+  ],
+  "interactions": [
+    {
+      "test": "every position of command-room at 320x568: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 4,
+      "problems": []
+    },
+    {
+      "test": "every position of room-a at 320x568: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 8,
+      "problems": []
+    },
+    {
+      "test": "every position of room-b at 320x568: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 8,
+      "problems": []
+    },
+    {
+      "test": "every position of hospital at 320x568: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 12,
+      "problems": []
+    },
+    {
+      "test": "every position of jail at 320x568: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 8,
+      "problems": []
+    },
+    {
+      "test": "every position of command-room at 390x844: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 4,
+      "problems": []
+    },
+    {
+      "test": "every position of room-a at 390x844: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 8,
+      "problems": []
+    },
+    {
+      "test": "every position of room-b at 390x844: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 8,
+      "problems": []
+    },
+    {
+      "test": "every position of hospital at 390x844: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 12,
+      "problems": []
+    },
+    {
+      "test": "every position of jail at 390x844: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing",
+      "presses": 8,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in room-b at 320x568: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in command-room at 320x568: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in room-b at 320x568, reduced motion: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in command-room at 320x568, reduced motion: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in room-b at 390x844: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in command-room at 390x844: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in room-b at 390x844, reduced motion: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "the selection's ends in command-room at 390x844, reduced motion: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000",
+      "presses": 5,
+      "problems": []
+    },
+    {
+      "test": "a position sent at 14800 ms, an answer that arrives after the deadline",
+      "presses": 2,
+      "problems": []
+    },
+    {
+      "test": "a position sent at 14800 ms, a lost answer, its receipt recovered with the same command id",
+      "presses": 2,
+      "problems": []
+    },
+    {
+      "test": "a position sent at 14800 ms, a lost answer never recovered while the window lasts",
+      "presses": 2,
+      "problems": []
+    },
+    {
+      "test": "a position sent at 14990 ms, the server answering that the position was not registered",
+      "presses": 2,
+      "problems": []
+    },
+    {
+      "test": "a position chosen at 14 900 ms and never sent: at 15 000 ms nothing was sent, the press areas and the chosen marker gone",
+      "presses": 1,
+      "problems": []
     }
   ],
   "disclosure": [
@@ -722,11 +2935,19 @@
       "same": true
     },
     {
-      "compare": "a missed strike and no strike, 390x844, 5100 ms",
+      "compare": "a missed strike and no strike, 390x844, 4999 ms",
       "same": true
     },
     {
-      "compare": "a missed strike and no strike, 390x844, 5100 ms, reduced motion",
+      "compare": "a missed strike and no strike, 390x844, 4999 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 5000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 390x844, 5000 ms, reduced motion",
       "same": true
     },
     {
@@ -778,23 +2999,39 @@
       "same": true
     },
     {
-      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 12000 ms, registered",
+      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 12000 ms, sent",
       "same": true
     },
     {
-      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 15200 ms, choose",
+      "compare": "a Blue Disabler's screen and a Red one's, 390x844, 15200 ms, confirm",
       "same": true
     },
     {
-      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 390x844, 5180 ms",
+      "compare": "the shared display's page and a player's, 390x844, 1000 ms",
       "same": true
     },
     {
-      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 390x844, 8000 ms",
+      "compare": "the shared display's page and a player's, 390x844, 8000 ms",
       "same": true
     },
     {
-      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 390x844, 15200 ms",
+      "compare": "the shared display's page and a player's, 390x844, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 390x844, 1000 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 390x844, 5000 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 390x844, 8000 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 390x844, 15200 ms",
       "same": true
     },
     {
@@ -822,11 +3059,19 @@
       "same": true
     },
     {
-      "compare": "a missed strike and no strike, 320x568, 5100 ms",
+      "compare": "a missed strike and no strike, 320x568, 4999 ms",
       "same": true
     },
     {
-      "compare": "a missed strike and no strike, 320x568, 5100 ms, reduced motion",
+      "compare": "a missed strike and no strike, 320x568, 4999 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 5000 ms",
+      "same": true
+    },
+    {
+      "compare": "a missed strike and no strike, 320x568, 5000 ms, reduced motion",
       "same": true
     },
     {
@@ -878,23 +3123,39 @@
       "same": true
     },
     {
-      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 12000 ms, registered",
+      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 12000 ms, sent",
       "same": true
     },
     {
-      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 15200 ms, choose",
+      "compare": "a Blue Disabler's screen and a Red one's, 320x568, 15200 ms, confirm",
       "same": true
     },
     {
-      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 320x568, 5180 ms",
+      "compare": "the shared display's page and a player's, 320x568, 1000 ms",
       "same": true
     },
     {
-      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 320x568, 8000 ms",
+      "compare": "the shared display's page and a player's, 320x568, 8000 ms",
       "same": true
     },
     {
-      "compare": "the strip's box, color and opacity on a player's screen and the Disabler's, 320x568, 15200 ms",
+      "compare": "the shared display's page and a player's, 320x568, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 320x568, 1000 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 320x568, 5000 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 320x568, 8000 ms",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 320x568, 15200 ms",
       "same": true
     },
     {

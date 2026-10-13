@@ -1,16 +1,16 @@
 # Board v2: ATTACK BLOCKED (storyboard S4)
 
-**A proposal from the Visual and Motion Designer, 13 October 2026.** It is the third production step of the owner's motion specification of 13 October 2026, as the creative brief relays it (section 4, Clone and Undercover Protection: a shared ATTACK BLOCKED). It follows the Designer's review's storyboard S4 and its production plan, whose order the owner approved the same day ("go as your recommendations", [owner-decisions.md](owner-decisions.md#13-october-2026-the-fixed-slots-the-ward-and-the-smallest-phone)). The owner then asked for this step.
+**A proposal from the Visual and Motion Designer, 13 October 2026.** It is the third production step of the owner's motion specification of 13 October 2026 (motion storyboards, section 4, Undercover Protection and Clone: shared defensive impact). It follows the Designer's review's storyboard S4 and its production plan, whose order the owner approved the same day ("go as your recommendations", [owner-decisions.md](owner-decisions.md#13-october-2026-the-fixed-slots-the-ward-and-the-smallest-phone)). The owner then asked for this step.
 
 Nothing here is a rule, a server contract or an adopted asset:
 
 - **Rules:** which defenses block which attacks, when a block happens and who is authorized to see it are Backend's. The film draws a block; it decides none of it.
 - **Adoption:** each new file needs Integration's approval by name and hash.
-- **Not readable here:** the specification packet itself, so this follows the brief and the review. Re-check it against the packet.
+- **Checked against the specification packet** (`GameN-owner-specification-agent-handoff-2026-10-13-v2.txt`, SHA-256 `b5b4ba2d…1b590743`): G-04, Q-C01, Q-C01b, Q-C02a, the rules contracts' Clone and Protection and Audiences and delivery, the motion requirements' shared-defense scene, and storyboard section 4. It agrees: one identical effect for both defenses, room-visible, the cause never shown. [motion-spec-crosswalk.md](motion-spec-crosswalk.md) maps the Designer's earlier notes to it.
 
 | | |
 | --- | --- |
-| Branch | `claude/designer-attack-blocked`, stacked on PR #129 (`claude/designer-blackout-window` at `1995d58`), itself on PR #128, PR #127 and the integration baseline `abb6839` |
+| Branch | `claude/designer-attack-blocked`, stacked on PR #129 (`claude/designer-blackout-window`, corrected at `6154166`), itself on PR #128, PR #127 and the integration baseline `abb6839`. #129's corrections are merged in: the Blackout's line in the top bar instead of the strip, the cut at `previewEndsAt`, the Hospital placement after a hit and the pending receipts |
 | Why stacked | The film draws on #128's fixed slots and layout, and on #129's impact star and Blackout |
 | Toolchain | Node 22.21.1, npm 10.9.4, headless Chromium 141 |
 | New files | `design/board-v2/fx/blocked.mjs`, `design/board-v2/films/blocked.mjs`, `design/board-v2/js/blocked-view.mjs`, 7 files under `design/board-v2/assets/fx/`, one test file, this page |
@@ -18,7 +18,7 @@ Nothing here is a rule, a server contract or an adopted asset:
 
 ## 1. What the room's occupants see
 
-**Who sees it.** Only the occupants of the target's room that the server authorizes at the checkpoint. The display, the host and everyone outside the room get nothing: no node, class, word, banner, count or sound. Their pages are byte for byte the same with a block and without one (section 7).
+**Who sees it.** Every seat occupying the target's room at the authoritative event checkpoint, **the target included** (G-04), as the server authorizes them: the room as it was immediately before the effect. A retained Eliminated occupant is within the same room boundary; a later entrant gets nothing. The display, a host without a seat in that room and everyone outside it get nothing: no node, class, word, banner, count or sound. Their pages are byte for byte the same with a block and without one (section 7).
 
 **It is the same film whichever defense blocked the attack.** It has no input that could tell them apart. Times are from the checkpoint; the review pictures are `design/board-v2/review/blocked-*.png`, and `contact-blocked.png` has them all.
 
@@ -135,7 +135,7 @@ In the Blackout: `&film=blackout&outcome=blocked&in=room-b` is a Room B occupant
 ## 6. For Backend and Integration (proposals; nothing accepted)
 
 1. **A room fact for each block:** for example `ATTACK_BLOCKED {checkpointId, seatId}`, delivered as a player-audience item to each occupant authorized at the checkpoint. This is the review's BE6 and C-7: no new audience class, and nothing on the public stream, to the host or to the display. It carries no defense, attacker, grantor or count. The name is a proposal.
-2. **Who is an occupant at the checkpoint**, including whether the target counts as one. The review's C-7 resolves the brief's room-visible block against the earlier rule that kept Protection from its recipient: the film says a block happened, never why.
+2. **Who is an occupant at the checkpoint** is settled by the packet (G-04; rules contracts, Audiences and delivery): every seat occupying the affected target's room at its logical resolution checkpoint, the target included, frozen from the authoritative location immediately before the effect, retained Eliminated occupants within the same boundary, and no later entrant. Backend computes the recipients; the film needs only the recipient's own room fact. The film says a block happened, never why.
 3. **In the Blackout:** the published batch carries hits only. A block goes to its room's occupants as above.
 4. **Integration:** the named-file approval of `fx/blocked.mjs`, `films/blocked.mjs` and the 7 effects files, and of the label set in type.
 
@@ -145,20 +145,20 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 
 | Check | Result |
 | --- | --- |
-| `node design/tools/board-v2-check.mjs` | **8 / 8.** #129's seven and the film's own. It checks the storyboard's beats and end times, and that a defense, an attacker, a grantor, a count or a direction fed in changes nothing. It checks reduced motion without motion, the brace at 2 px at most and home by 900 ms, the words exactly while the label is up, and nothing drawn outside the film. In the Blackout, a block publishes no hit, draws a miss's public film and starts once the lights are back. The faction accents are the tokens', and every shield color is at least 30 from them. With a hit and a block in one Blackout there are at most three flashes a second. Every slot of a room blocked at once flashes under a quarter of the panel, at eight phone sizes and three rosters. `films.json` is current |
-| `node design/tools/board-v2-capture.mjs` | **77 pictures and three contact sheets, 0 with problems**, 22 of them the film's. On every frame of the film it checks the page's stage, and that each part is on the page exactly while the film draws it, on the recipients' screens alone, with nothing left after the end. It checks every label is inside its panel and off its caption, only the target's figure is braced, by the film's offset, and the live region's words. The Blackout's own measurements also run on the film's four Blackout frames |
-| The same run: **182 whole-page comparisons, 0 differing** | #129's 50, and 132 new. A block by either defense on an occupant's screen, at eight moments (32). An outsider's screen and the display, with a block and without, at four moments (32). The Blackout's blocked strike against a miss on a Room A player's screen, on the display and on a screen with no room, at five moments (60). The same on a Room B occupant's screen before the lights are back (8). Each at 390 × 844 and 320 × 568, with and without reduced motion |
+| `node design/tools/board-v2-check.mjs` | **9 / 9.** #129's eight and the film's own. It checks the storyboard's beats and end times, and that a defense, an attacker, a grantor, a count or a direction fed in changes nothing. It checks reduced motion without motion, the brace at 2 px at most and home by 900 ms, the words exactly while the label is up, and nothing drawn outside the film. In the Blackout, a block publishes no hit, draws a miss's public film and starts once the lights are back. The faction accents are the tokens', and every shield color is at least 30 from them. With a hit and a block in one Blackout there are at most three flashes a second. Every slot of a room blocked at once flashes under a quarter of the panel, at eight phone sizes and three rosters. `films.json` is current |
+| `node design/tools/board-v2-capture.mjs` | **92 pictures and three contact sheets, 0 with problems**, 22 of them the film's. On every frame of the film it checks the page's stage, and that each part is on the page exactly while the film draws it, on the recipients' screens alone, with nothing left after the end. It checks every label is inside its panel and off its caption, only the target's figure is braced, by the film's offset, and the live region's words. The Blackout's own measurements also run on the film's four Blackout frames |
+| The same run: **194 whole-page comparisons, 0 differing** | #129's 62, and 132 for this film. A block by either defense on an occupant's screen, at eight moments (32). An outsider's screen and the display, with a block and without, at four moments (32). The Blackout's blocked strike against a miss on a Room A player's screen, on the display and on a screen with no room, at five moments (60). The same on a Room B occupant's screen before the lights are back (8). Each at 390 × 844 and 320 × 568, with and without reduced motion |
 | The same run: **every slot's label** | Every slot of every room blocked at once, at four phones and three rosters: 12 pages of 23 to 25 labels, 0 problems. Every label is inside its panel and off its caption |
+| The same run: #129's **23 real-pointer press tests** (129 presses) and **186 pointer probes** | 0 problems, with this film's code on the page |
 | `node design/tools/board-v2-assets.mjs --check` | 39 files current |
-| `npm test --workspace @mothership/design-tokens` | **242 / 242**, 7 of them new (`blocked.test.mjs`) |
-| Existing checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion and phone-kit assets current; `check:toolchain`, `check:workspace`, `check:sources`; tooling 130 / 130 |
+| `npm test --workspace @mothership/design-tokens` | **247 / 247**, 7 of them in `blocked.test.mjs` (one updated for #129's per-roster after-state: a block moves nobody) |
+| Existing checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion and phone-kit assets current; `typecheck`; `check:toolchain`, `check:workspace`, `check:sources`; tooling 130 / 130 |
 
 **Not run:**
 
 - Real phones, a screen reader (the live region's words are read from the page, not heard) or enlarged text.
 - A photosensitivity analyser: the flash budget is computed from the film, not measured from video.
 - A match.
-- Reading the specification packet.
 - `npm run verify` as a whole: see the PR.
 
 Whether players read the shield as a block, and not as a hit, is for a table of players, not a capture.
@@ -166,7 +166,7 @@ Whether players read the shield as a block, and not as a hit, is for a table of 
 ## 8. Unresolved
 
 - **Backend's room fact and its audience** (section 6). Until they exist, nothing here reaches players.
-- **The showdown.** The storyboard has a showdown Protection block use this film. The showdown is not drawn on board v2 yet.
+- **The showdown.** A special shot blocked by Protection uses this film for the authorized room viewers (motion requirements, Showdown); Clone never blocks a special shot (Q-C01b). The showdown is not drawn on board v2 yet.
 - **The copy:** "Attack blocked" and "Attack blocked on Orion."
-- **Sound:** none, as the brief says.
+- **Sound:** none here. Room-specific audio is silent by default for in-person play (G-04); any sound must be identical for both defenses and reach only the room's authorized recipients.
 - **The owner has not seen this film.**
