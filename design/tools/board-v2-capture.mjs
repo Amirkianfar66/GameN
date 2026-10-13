@@ -20,11 +20,16 @@
 // without safe-area insets. On every frame of the Blackout's lighting window it measures that
 // the page is at the film's stage, that every marker is where fit.mjs puts it (shake or no
 // shake), that only the eligible Disabler's screen has press areas, each a slot's whole press
-// area, that the strip is where it belongs, and that no name is on the page in the dark. Then it
-// compares whole pages: a strike that missed against a round with no strike, and a Blue
-// Disabler's screen against a Red one's, which must be the same. These are statements about
-// desktop Chromium laying out a review page from synthetic fixtures, not measurements of a phone
-// and nothing about a match.
+// area, that the board never moves, that the window's line is in the top bar (inside it, above
+// the board, never cut, the words the view gives), that no name is on the page in the dark, and
+// that everyone is where the outcome leaves them (a hit patient in the Hospital). It presses the
+// page with a real pointer (Input.dispatchMouseEvent): every position of every room a Disabler
+// can be bound to, at both ends of the dark (4 999, 5 000, 5 100, 14 999 and 15 000 ms, in both
+// motion modes), and a sent position's answers (late, lost, rejected, never sent). Then it
+// compares whole pages: a strike that missed against a round with no strike, a Blue Disabler's
+// screen against a Red one's, the display's against a player's, and the top bar's box on every
+// screen, which must be the same. These are statements about desktop Chromium laying out a review
+// page from synthetic fixtures, not measurements of a phone and nothing about a match.
 
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -35,9 +40,11 @@ import { boardV2InputsSha256 } from './lib/board-v2-inputs.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/review';
-const { SHELL, fitBoardV2, boardRects, insetsOf } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fit.mjs')).href);
-const { BLACKOUT, blackoutFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blackout.mjs')).href);
-const { BLACKOUT_OUTCOMES } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fixtures.mjs')).href);
+const { SHELL, fitBoardV2, boardRects, insetsOf, slotRects } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fit.mjs')).href);
+const { BLACKOUT, blackoutFrame, lightsBackAt } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blackout.mjs')).href);
+const { BLACKOUT_OUTCOMES, fixtureSeats, settledSeats } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fixtures.mjs')).href);
+const { addressSelection, lineText } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blackout-view.mjs')).href);
+const { BOARD_ROOMS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/slots.mjs')).href);
 const { CREW } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/figures/crew.mjs')).href);
 const NAMES = Object.values(CREW).map(member => member.sign);
 
@@ -70,33 +77,43 @@ function plan() {
     shots.push({ file: `scene-hospital-r${roster}-${fixture}.png`, group: 'scene', viewport: [1024, 768], query: `scene=hospital&roster=${roster}&fixture=${fixture}`, scale: 1, sheetHeight: 300, about: `The whole ward scene, ${roster} players: ${about}` });
   }
   // The Blackout's lighting window: its storyboard frames on the mixed board, the outcome a hit at B2 published at 15 400 ms.
-  const film = (name, viewport, t, extra, about) => shots.push({ file: `blackout-${vp(viewport)}-${name}.png`, group: 'blackout', viewport, query: `roster=9&fixture=mixed&film=blackout&t=${t}${extra}`, about, film: { t } });
+  const film = (name, viewport, t, extra, about, roster = 9) => shots.push({ file: `blackout-${vp(viewport)}-${name}.png`, group: 'blackout', viewport, query: `roster=${roster}&fixture=mixed&film=blackout&t=${t}${extra}`, about, film: { t } });
   const at390 = [390, 844];
-  film('0150-markers', at390, 150, '', 'Markers fading in at every slot of every room, empty ones included (150 ms)');
+  film('0150-markers', at390, 150, '', 'Markers fading in at every slot of every room, empty ones included; the top bar\'s clock and its line, "Remember who is where." (150 ms)');
   film('1000-preview', at390, 1000, '', 'The preview: lights on, people, name tags and position markers (1 s)');
   film('4360-dip', at390, 4360, '', 'The flicker\'s first dip: every room at about 60% (4 360 ms)');
   film('4760-sparks', at390, 4760, '', 'Each room\'s own light sparking, which light from the window\'s id; the second dip (4 760 ms)');
-  film('5100-lights-out', at390, 5100, '', 'Lights out: the rooms going dark, people and tags fading, markers turning dark, the strip coming up (5 100 ms)');
-  film('8000-dark', at390, 8000, '', 'The dark, any player\'s screen: faint line work, dark markers, captions at 70%, the strip over the Command band (8 s)');
-  film('8000-display', at390, 8000, '&viewer=display', 'The dark on the shared display: no strip; the Command Room dark with its marker (8 s)');
-  film('8000-disabler-choose', at390, 8000, '&viewer=disabler&bound=room-b&step=choose', 'The eligible Disabler\'s screen, bound to Room B: the same strip, its line theirs; Room B\'s press areas live (8 s)');
-  film('8000-disabler-confirm', at390, 8000, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'The Disabler chose position 2: its marker gold on their screen only; Strike or Choose again (8 s)');
-  film('12000-disabler-registered', at390, 12000, '&viewer=disabler&bound=room-b&step=registered&pick=2', 'Registered: no answer about the target until the outcome (12 s)');
-  film('15200-disabler-timeout', at390, 15200, '&viewer=disabler&bound=room-b&step=choose', 'The window closed with nothing registered: a consuming miss, said only on the Disabler\'s screen (15.2 s)');
+  film('4999-last-lit', at390, 4999, '', 'The preview\'s last millisecond: everyone still on the page, and no selection open (4 999 ms)');
+  film('5000-lights-out', at390, 5000, '', 'previewEndsAt exactly: every room dark, nobody and no name on the page, markers dark, the line "Wait for the lights."; the selection opens in this instant (5 000 ms)');
+  film('8000-dark', at390, 8000, '', 'The dark on any player\'s screen: faint line work, dark markers, captions at 70%, the window\'s line in the top bar and nothing over any room (8 s)');
+  film('8000-disabler-choose', at390, 8000, '&viewer=disabler&bound=room-b&step=choose', 'The eligible Disabler\'s screen, bound to Room B: the same top bar, its line theirs; Room B\'s press areas live (8 s)');
+  film('8000-disabler-confirm', at390, 8000, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'The Disabler chose position 2: its marker gold on their screen only; a second tap on it strikes (8 s)');
+  film('8000-disabler-command', at390, 8000, '&viewer=disabler&bound=command-room&step=confirm&pick=1', 'A Disabler bound to the Command Room chose C1, its one position: nothing covers it (8 s)');
+  film('9200-disabler-sending', at390, 9200, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=9000', 'The second tap sent position 2 as one command; the press areas gone; sending (9.2 s)');
+  film('12000-disabler-registered', at390, 12000, '&viewer=disabler&bound=room-b&step=sent&pick=2', 'Registered: no answer about the target until the outcome (12 s)');
+  film('15200-disabler-waiting', at390, 15200, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300', 'Sent at 14.8 s, no answer yet at the deadline: waiting, never a rejection the server did not give (15.2 s)');
+  film('15350-disabler-late-answer', at390, 15350, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300', 'The answer arrives after the deadline: registered, as it was before the deadline (15.35 s)');
+  film('15450-disabler-lost', at390, 15450, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&lost=1', 'The answer was lost: still waiting as the outcome lands; the receipt is recovered with the same command id, and nothing is sent again (15.45 s)');
+  film('15250-disabler-rejected', at390, 15250, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14990&reply=rejected&replyAt=15200', 'The server answered that position 2 was not registered (it arrived after the deadline): said only once the server says it (15.25 s)');
+  film('15200-disabler-timeout', at390, 15200, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'Chosen and never sent by the deadline: time is up, no position was sent (15.2 s)');
   film('15000-hold', at390, 15000, '', 'The window\'s end: dark until the outcome is published (15 s)');
   film('15440-impact', at390, 15440, '', 'The outcome published at 15 400: the flash at the hit position, B2 (15 440 ms)');
-  film('15560-star', at390, 15560, '', 'The comic star; the lights coming back together in every room; B2\'s room art shaking 3 px, its marker and press area still (15 560 ms)');
-  film('15760-back', at390, 15760, '', 'The lights back: Orion, at B2, Injured; markers still up (15 760 ms)');
-  film('16300-settled', at390, 16300, '', 'Settled: markers gone, the board normal (16 300 ms)');
+  film('15560-star', at390, 15560, '', 'The comic star at B2; the lights coming back together in every room, on the resolved board; B2\'s room art shaking 3 px, its markers and press areas still (15 560 ms)');
+  film('15760-back', at390, 15760, '', 'The lights back: Orion Injured in the Hospital at H3, in the gown; B2 empty; markers still up (15 760 ms)');
+  film('16300-settled', at390, 16300, '', 'Settled: markers gone, the board normal, Orion in the Hospital (16 300 ms)');
   film('15560-double', at390, 15560, '&outcome=double', 'Two strikes, two hits (B2 and A3): one star each, identical (15 560 ms)');
+  film('16300-double', at390, 16300, '&outcome=double', 'Two hits settled: Lyra and Orion Injured in the Hospital at H3 and H5, as the after-state names them (16 300 ms)');
+  film('16300-double-r7', at390, 16300, '&outcome=double', 'Seven players, two hits settled: Lyra and Orion at H2 and H3 (16 300 ms)', 7);
   film('15560-miss', at390, 15560, '&outcome=miss', 'A strike that missed: nothing anywhere, the same as a round with no strike (15 560 ms)');
-  for (const [name, t, about] of [['0040-markers', 40, 'markers in with an 80 ms fade'], ['4960-fade', 4960, 'one 80 ms fade to the dark: no flicker, no sparks'], ['8000-dark', 8000, 'the static dark, a still spark in each caption'], ['15420-back', 15420, 'one 80 ms fade back; a still burst at B2'], ['15700-burst', 15700, 'the burst held 600 ms beside the position, then gone']]) {
+  for (const [name, t, about] of [['0040-markers', 40, 'markers in with an 80 ms fade'], ['5000-dark', 5000, 'the same cut at previewEndsAt as full motion: no flicker, no sparks, nobody on the page'], ['8000-dark', 8000, 'the static dark, a still bolt in each caption'], ['15420-back', 15420, 'one 80 ms fade back on the resolved board; a still burst at B2'], ['15700-burst', 15700, 'the burst held 600 ms beside the position, then gone']]) {
     film(`reduced-${name}`, at390, t, '&motion=reduced', `Reduced motion: ${about} (${t} ms)`);
   }
   const at320 = [320, 568];
   film('1000-preview', at320, 1000, '', 'The preview on the smallest phone, compact shell (1 s)');
-  film('8000-dark', at320, 8000, '', 'The dark on the smallest phone: the strip fills the Command band (8 s)');
-  film('8000-disabler-confirm', at320, 8000, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'The Disabler\'s confirmation on the smallest phone: 44 px buttons (8 s)');
+  film('8000-dark', at320, 8000, '', 'The dark on the smallest phone: the line in the compact top bar (8 s)');
+  film('8000-disabler-confirm', at320, 8000, '&viewer=disabler&bound=room-b&step=confirm&pick=2', 'The Disabler\'s choice on the smallest phone: tap it again to strike (8 s)');
+  film('8000-disabler-command', at320, 8000, '&viewer=disabler&bound=command-room&step=confirm&pick=1', 'C1 chosen on the smallest phone: nothing covers it (8 s)');
+  film('15200-disabler-waiting', at320, 15200, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300', 'Waiting for the answer after the deadline, on the smallest phone (15.2 s)');
   film('15560-star', at320, 15560, '', 'The star on the smallest phone (15 560 ms)');
   return shots;
 }
@@ -127,28 +144,37 @@ const MEASURE = `(() => {
   return { rooms, pointer, unfit: Boolean(document.querySelector('.v2-unfit')), scrolls: document.documentElement.scrollHeight > innerHeight + 1, navTop: nav?.top ?? null, boardBottom: board?.bottom ?? null, lowest, shell: document.documentElement.dataset.shell ?? null, fallback: document.documentElement.dataset.fallback ?? null, pass: pass ? { left: pass.left, top: pass.top, width: pass.width, height: pass.height } : null };
 })()`;
 
-/** Reads a film frame back: its stage, every marker and press area, the strip, and any name on the page. */
+/** Reads a film frame back: its stage, every marker, press area and seat, the board's place, the top bar and its line, and any name on the page. */
 const MEASURE_FILM = `(() => {
   const rooms = {};
+  const box = node => { const b = node.getBoundingClientRect(); return { left: b.left, top: b.top, width: b.width, height: b.height }; };
   for (const room of document.querySelectorAll('.v2-room[data-room]')) {
-    const box = room.getBoundingClientRect();
-    const inner = { left: box.left + room.clientLeft, top: box.top + room.clientTop };
-    const rect = node => { const b = node.getBoundingClientRect(); return { left: b.left - inner.left, top: b.top - inner.top, width: b.width, height: b.height }; };
+    const b = room.getBoundingClientRect();
+    const inner = { left: b.left + room.clientLeft, top: b.top + room.clientTop };
+    const rect = node => { const r = node.getBoundingClientRect(); return { left: r.left - inner.left, top: r.top - inner.top, width: r.width, height: r.height }; };
     rooms[room.dataset.room] = {
+      box: box(room),
       markers: [...room.querySelectorAll('.v2-marker')].filter(node => !node.hidden).map(node => ({ ...rect(node), style: node.dataset.style, label: node.getAttribute('aria-label') })),
       hits: [...room.querySelectorAll('.v2-hit')].map(rect),
       people: room.querySelectorAll('.v2-fig, .v2-tag').length,
+      tags: [...room.querySelectorAll('.v2-tag[data-seat]')].map(node => ({ seat: Number(node.dataset.seat), x: rect(node).left + rect(node).width / 2 })),
+      figures: [...room.querySelectorAll('.v2-fig[data-seat]')].map(node => Number(node.dataset.seat)),
       spark: room.querySelector('.v2-spark') ? rect(room.querySelector('.v2-spark')) : null,
       caption: room.querySelector('.v2-cap') ? rect(room.querySelector('.v2-cap')) : null,
       panel: { width: room.clientWidth, height: room.clientHeight },
     };
   }
-  const strip = document.querySelector('.v2-strip:not([hidden])');
-  const board = document.querySelector('.v2-board').getBoundingClientRect();
-  const s = strip?.getBoundingClientRect();
+  const top = document.querySelector('.v2-top');
+  const line = document.querySelector('.v2-top__line');
   const app = document.getElementById('v2-app');
   const labels = [...app.querySelectorAll('[aria-label]')].map(node => node.getAttribute('aria-label')).join(' ');
-  return { stage: document.documentElement.dataset.stage, rooms, strip: s ? { left: s.left, top: s.top - board.top, width: s.width, height: s.height, background: getComputedStyle(strip).backgroundColor } : null, text: app.textContent + ' ' + labels, scrolls: document.documentElement.scrollHeight > innerHeight + 1 };
+  return {
+    stage: document.documentElement.dataset.stage, rooms,
+    board: box(document.querySelector('.v2-board')),
+    top: { ...box(top), overflows: top.scrollHeight > top.clientHeight + 0.5 },
+    line: line && !line.hidden ? { ...box(line), text: line.textContent, cut: line.scrollWidth > line.clientWidth + 0.5 } : null,
+    text: app.textContent + ' ' + labels, scrolls: document.documentElement.scrollHeight > innerHeight + 1,
+  };
 })()`;
 
 function problemsOfFilm(shot, measured) {
@@ -159,11 +185,24 @@ function problemsOfFilm(shot, measured) {
   const outcome = BLACKOUT_OUTCOMES[query.get('outcome') ?? 'hit'];
   const viewer = query.get('viewer') ?? 'observer';
   const bound = query.get('bound') ?? 'room-b';
-  const frame = blackoutFrame(shot.film.t, { outcomeAt: Number(query.get('r') ?? 15400), hits: outcome.hits, reduced: query.get('motion') === 'reduced', windowId: query.get('window') ?? 'w-demo-r3' });
+  const outcomeAt = Number(query.get('r') ?? 15400);
+  const t = shot.film.t;
+  const frame = blackoutFrame(t, { outcomeAt, hits: outcome.hits, reduced: query.get('motion') === 'reduced', windowId: query.get('window') ?? 'w-demo-r3' });
+  const selection = addressSelection(query);
   const board = fitBoardV2({ width, height }, roster);
   const expected = boardRects({ width, height }, roster);
   if (measured.scrolls) problems.push('the page scrolls');
   if (measured.stage !== frame.stage) problems.push(`the page is at ${measured.stage}; the film says ${frame.stage}`);
+  // The board never moves: the rooms are where fit.mjs puts them, whatever the top bar shows.
+  if (Math.abs(measured.board.top - board.boardTop) > 0.6) problems.push(`the board starts at ${measured.board.top}; fit.mjs ${board.boardTop}`);
+  for (const room of BOARD_ROOMS) {
+    const drawnBox = measured.rooms[room]?.box;
+    const want = board.boxes[room];
+    if (!drawnBox || Math.abs(drawnBox.left - want.left) > 0.6 || Math.abs(drawnBox.top - want.top) > 0.6 || Math.abs(drawnBox.width - want.width) > 0.6 || Math.abs(drawnBox.height - want.height) > 0.6) problems.push(`${room}: not at fit.mjs's box`);
+  }
+  // Where everyone is: the frozen snapshot until the outcome settles, then the outcome's after-state.
+  const settleAt = Math.max(outcomeAt, lightsBackAt(outcomeAt));
+  const seats = t >= settleAt ? settledSeats(outcome, roster) : fixtureSeats('mixed', roster);
   for (const [room, drawn] of Object.entries(measured.rooms)) {
     const want = expected[room];
     if (frame.markers.opacity > 0 && drawn.markers.length !== want.length) problems.push(`${room}: ${drawn.markers.length} markers, ${want.length} slots`);
@@ -173,12 +212,25 @@ function problemsOfFilm(shot, measured) {
       if (Math.abs(m.left + m.width / 2 - r.marker[0]) > 0.6 || Math.abs(m.top + m.height / 2 - r.marker[1]) > 0.6) problems.push(`${room} marker ${i + 1} moved`);
       if (m.label !== `Position ${i + 1}`) problems.push(`${room} marker ${i + 1} is named ${m.label}`);
     });
-    // Press areas: only the eligible Disabler's, in the bound room, while the selection is open; each a whole slot press area.
-    const live = viewer === 'disabler' && room === bound && frame.selection;
+    // Press areas: only the eligible Disabler's, in the bound room, while the selection is open and nothing is sent; each a whole slot press area.
+    const live = viewer === 'disabler' && room === bound && frame.selection && selection.step !== 'sent';
     if (!live && drawn.hits.length) problems.push(`${room}: press areas on a screen that has none`);
     if (live && drawn.hits.length !== want.length) problems.push(`${room}: ${drawn.hits.length} press areas, ${want.length} slots`);
     if (live) drawn.hits.forEach((h, i) => { const r = want[i]; if (Math.abs(h.left - r.left) > 0.6 || Math.abs(h.top - r.top) > 0.6 || Math.abs(h.width - r.side) > 0.6) problems.push(`${room} press area ${i + 1} is not the slot's`); });
     if (frame.people === 'gone' && drawn.people) problems.push(`${room}: people on the page in the dark`);
+    if (frame.people !== 'gone') {
+      // Each seat's tag in its room, at its slot; a figure for it there; nobody else.
+      const here = seats.filter(seat => seat.room === room);
+      const tags = drawn.tags.map(tag => tag.seat).sort((a, b) => a - b);
+      if (JSON.stringify(tags) !== JSON.stringify(here.map(seat => seat.seat).sort((a, b) => a - b))) problems.push(`${room}: seats ${tags.join(',') || 'none'}; expected ${here.map(seat => seat.seat).join(',') || 'none'}`);
+      for (const seat of here) {
+        const tag = drawn.tags.find(entry => entry.seat === seat.seat);
+        const rect = want.find(entry => entry.id === seat.slot);
+        if (tag && rect && Math.abs(tag.x - rect.press[0]) > 1) problems.push(`${room}: seat ${seat.seat}'s tag is not at ${seat.slot}`);
+        if (!drawn.figures.includes(seat.seat)) problems.push(`${room}: no figure for seat ${seat.seat}`);
+      }
+      if (drawn.figures.some(seat => !here.some(entry => entry.seat === seat))) problems.push(`${room}: a figure of someone who is not there`);
+    }
     // The sparks: in every room, from its own light, inside its panel and clear of its caption.
     if (frame.sparks.frame && !drawn.spark) problems.push(`${room}: no spark`);
     if (drawn.spark) {
@@ -190,11 +242,18 @@ function problemsOfFilm(shot, measured) {
   }
   // In the dark, no name anywhere on the page: not in its text, not in a label.
   if (frame.people === 'gone') for (const name of NAMES) if (measured.text.includes(name)) problems.push(`${name} is on the page in the dark`);
-  // The strip: the Command band's box on every player's screen, none on the display.
-  const box = board.boxes['command-room'];
-  const wantStrip = viewer !== 'display' && frame.strip > 0;
-  if (wantStrip !== Boolean(measured.strip)) problems.push(wantStrip ? 'no strip' : 'a strip where there is none');
-  if (wantStrip && measured.strip && (Math.abs(measured.strip.left - box.left) > 0.6 || Math.abs(measured.strip.top - (box.top - board.shell.top)) > 0.6 || Math.abs(measured.strip.width - box.width) > 0.6 || Math.abs(measured.strip.height - box.height) > 0.6)) problems.push('the strip is not the Command band\'s box');
+  // The top bar: its own height; the window's line while the window lasts, inside the bar, above the board, never cut, in the view's words.
+  if (Math.abs(measured.top.height - board.shell.top) > 0.6) problems.push(`the top bar is ${measured.top.height} px; the shell's is ${board.shell.top}`);
+  if (measured.top.overflows) problems.push('the top bar overflows');
+  if (frame.line !== Boolean(measured.line)) problems.push(frame.line ? 'no line in the top bar' : 'a line outside the window');
+  if (measured.line) {
+    const want = lineText(frame, t, { viewer, bound, selection });
+    if (measured.line.text !== want) problems.push(`the line says "${measured.line.text}"; the view's words are "${want}"`);
+    // Inside the bar, above its 2 px gold rule.
+    if (measured.line.top + measured.line.height > measured.top.top + measured.top.height - 2 + 0.6) problems.push('the line runs out of the top bar');
+    if (measured.line.top + measured.line.height > measured.board.top + 0.01) problems.push('the line is over the board');
+    if (measured.line.cut) problems.push(`the line is cut: ${measured.line.text}`);
+  }
   return problems;
 }
 
@@ -279,6 +338,136 @@ export function pointerProbes() {
   return probes;
 }
 
+/**
+ * The Disabler's selection pressed with a real pointer: the browser hit-tests each press
+ * (Input.dispatchMouseEvent), so a press lands on whatever is on top at that point, as a finger
+ * would. Every position of every room a Disabler can be bound to, at the smallest phone and a
+ * common one; the selection's two ends in both motion modes; and a sent position's answers.
+ */
+async function pressTests(browser, server) {
+  const tests = [];
+  const WAIT = 'Position 2 sent. Waiting for the answer.';
+  const open = async (viewport, query) => {
+    const page = await openPage(browser, { width: viewport[0], height: viewport[1], scale: 1 });
+    await page.goto(`${server.origin}/board-v2/index.html?${query}`, 'document.readyState === "complete" && window.__designReady === true');
+    return page;
+  };
+  const press = async (page, [x, y]) => {
+    await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
+    await page.send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
+    await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
+  };
+  const state = page => page.evaluate('window.__blackoutState()');
+  // Each slot's press area in the viewport, from fit.mjs rather than from the page: its centre and its corners 3 px inside.
+  const areas = (viewport, room, roster = 9) => {
+    const board = fitBoardV2({ width: viewport[0], height: viewport[1] }, roster);
+    return slotRects(room, roster, board.panels[room]).map(rect => {
+      const left = board.boxes[room].left + SHELL.border + rect.left, top = board.boxes[room].top + SHELL.border + rect.top;
+      return { centre: [left + rect.side / 2, top + rect.side / 2], points: [[left + rect.side / 2, top + rect.side / 2], [left + 3, top + 3], [left + rect.side - 3, top + 3], [left + 3, top + rect.side - 3], [left + rect.side - 3, top + rect.side - 3]] };
+    });
+  };
+  const base = 'roster=9&fixture=mixed&film=blackout&viewer=disabler';
+
+  // Every position of every room: each point of its press area is its button; a press chooses it; a
+  // second press on the chosen one sends one command; then nothing more can be pressed or sent.
+  for (const viewport of [[320, 568], [390, 844]]) {
+    for (const room of BOARD_ROOMS) {
+      const problems = [];
+      let presses = 0;
+      const page = await open(viewport, `${base}&t=8000&bound=${room}`);
+      const slots = areas(viewport, room);
+      const landed = await page.evaluate(`(${JSON.stringify(slots.map(slot => slot.points))}).map(points => points.map(([x, y]) => { const node = document.elementFromPoint(x, y); const button = node && node.closest('.v2-hit'); return button ? Number(button.dataset.position) : String(node ? node.className || node.tagName : 'nothing'); }))`);
+      landed.forEach((list, index) => list.forEach((where, n) => { if (where !== index + 1) problems.push(`position ${index + 1}, point ${n}: lands on ${where}`); }));
+      for (const [index, slot] of slots.entries()) {
+        await press(page, slot.centre);
+        presses += 1;
+        const now = await state(page);
+        if (now.step !== 'confirm' || now.pick !== index + 1 || now.sends !== 0) problems.push(`a press on position ${index + 1} left ${now.step} ${now.pick}, ${now.sends} sent`);
+        if (now.line !== `Position ${index + 1}: tap it again to strike.`) problems.push(`position ${index + 1}: the line says "${now.line}"`);
+      }
+      await press(page, slots.at(-1).centre);
+      presses += 1;
+      let now = await state(page);
+      if (now.step !== 'sent' || now.pick !== slots.length || now.sends !== 1 || !now.commandId) problems.push(`a second press on position ${slots.length} left ${now.step}, ${now.sends} sent`);
+      if (now.line !== `Sending position ${slots.length}…`) problems.push(`after the send the line says "${now.line}"`);
+      if (await page.evaluate(`document.querySelectorAll('.v2-hit').length`)) problems.push('press areas after the send');
+      const id = now.commandId;
+      for (const slot of [slots[0], slots.at(-1)]) { await press(page, slot.centre); presses += 1; }
+      now = await state(page);
+      if (now.sends !== 1 || now.pick !== slots.length || now.commandId !== id) problems.push('a press after the send changed the selection or sent again');
+      problems.push(...page.problems());
+      await page.close();
+      tests.push({ test: `every position of ${room} at ${vp(viewport)}: each press area's centre and corners are its button; a press chooses, a second press on it sends one command, later presses do nothing`, presses, problems });
+    }
+  }
+
+  // The selection's two ends, in both motion modes: people and names on the page only before 5 000;
+  // a press chooses only in [5 000, 15 000), in Room B and on C1.
+  for (const viewport of [[320, 568], [390, 844]]) {
+    for (const motion of ['', '&motion=reduced']) {
+      for (const room of ['room-b', 'command-room']) {
+        const problems = [];
+        for (const t of [4999, 5000, 5100, 14999, 15000]) {
+          const page = await open(viewport, `${base}&t=${t}&bound=${room}${motion}`);
+          const seen = await page.evaluate(`(() => { const app = document.getElementById('v2-app'); const labels = [...app.querySelectorAll('[aria-label]')].map(node => node.getAttribute('aria-label')).join(' '); return { people: app.querySelectorAll('.v2-fig, .v2-tag').length, text: app.textContent + ' ' + labels }; })()`);
+          const names = NAMES.filter(name => seen.text.includes(name));
+          if (t < 5000 && (!seen.people || !names.length)) problems.push(`${t} ms: nobody on the page in the lit preview`);
+          if (t >= 5000 && (seen.people || names.length)) problems.push(`${t} ms: ${seen.people} figures and tags on the page${names.length ? `, and ${names.join(', ')}` : ''}`);
+          await press(page, areas(viewport, room)[0].centre);
+          const now = await state(page);
+          const selectable = t >= 5000 && t < 15000;
+          if (selectable && (now.step !== 'confirm' || now.pick !== 1)) problems.push(`${t} ms: a press on position 1 did not choose it`);
+          if (!selectable && now.step !== 'choose') problems.push(`${t} ms: a press chose position ${now.pick} with the selection closed`);
+          problems.push(...page.problems().map(problem => `${t} ms: ${problem}`));
+          await page.close();
+        }
+        tests.push({ test: `the selection's ends in ${room} at ${vp(viewport)}${motion ? ', reduced motion' : ''}: people and names until 4 999 ms only; a press chooses position 1 at 5 000, 5 100 and 14 999 ms, and nothing at 4 999 and 15 000`, presses: 5, problems });
+      }
+    }
+  }
+
+  // A sent position's answers: waiting after the deadline until an answer comes; registered or not
+  // only as the answer says; one command, one id, throughout.
+  const flows = [
+    { name: 'an answer that arrives after the deadline', extra: '&replyAt=15300', sendAt: 14800, lines: [[14900, 'Sending position 2…'], [15000, WAIT], [15299, WAIT], [15300, 'Registered: position 2.']] },
+    { name: 'a lost answer, its receipt recovered with the same command id', extra: '&lost=1&recoverAt=15450', sendAt: 14800, lines: [[15000, WAIT], [15300, WAIT], [15449, WAIT], [15450, 'Registered: position 2.']] },
+    { name: 'a lost answer never recovered while the window lasts', extra: '&lost=1', sendAt: 14800, lines: [[15000, WAIT], [15400, WAIT], [15519, WAIT], [15520, null]] },
+    { name: 'the server answering that the position was not registered', extra: '&reply=rejected&replyAt=15200', sendAt: 14990, lines: [[14995, 'Sending position 2…'], [15100, WAIT], [15199, WAIT], [15200, 'Position 2 was not registered.']] },
+  ];
+  for (const flow of flows) {
+    const problems = [];
+    const page = await open([390, 844], `${base}&t=${flow.sendAt}&bound=room-b${flow.extra}`);
+    const slot = areas([390, 844], 'room-b')[1];
+    await press(page, slot.centre);
+    await press(page, slot.centre);
+    const sent = await state(page);
+    if (sent.step !== 'sent' || sent.sends !== 1 || sent.pick !== 2) problems.push(`the two presses left ${sent.step}, ${sent.sends} sent`);
+    for (const [t, line] of flow.lines) {
+      const now = await page.evaluate(`window.__blackoutAt(${t})`);
+      if (now.line !== line) problems.push(`${t} ms: the line says "${now.line}"; expected "${line}"`);
+      if (now.sends !== 1 || now.commandId !== sent.commandId) problems.push(`${t} ms: ${now.sends} commands, id ${now.commandId}`);
+      if (await page.evaluate(`document.querySelectorAll('.v2-hit').length`)) problems.push(`${t} ms: press areas after the send`);
+    }
+    problems.push(...page.problems());
+    await page.close();
+    tests.push({ test: `a position sent at ${flow.sendAt} ms, ${flow.name}`, presses: 2, problems });
+  }
+  // Chosen and never sent: at the deadline the line says only that nothing was sent.
+  {
+    const problems = [];
+    const page = await open([390, 844], `${base}&t=14900&bound=room-b`);
+    await press(page, areas([390, 844], 'room-b')[1].centre);
+    const now = await page.evaluate('window.__blackoutAt(15000)');
+    if (now.line !== 'Time is up: no position was sent.' || now.sends !== 0) problems.push(`at 15 000 ms the line says "${now.line}", ${now.sends} sent`);
+    if (await page.evaluate(`document.querySelectorAll('.v2-hit').length`)) problems.push('press areas after the deadline');
+    if (await page.evaluate(`document.querySelectorAll('.v2-marker[data-style="chosen"]').length`)) problems.push('a chosen marker after the deadline with nothing sent');
+    problems.push(...page.problems());
+    await page.close();
+    tests.push({ test: 'a position chosen at 14 900 ms and never sent: at 15 000 ms nothing was sent, the press areas and the chosen marker gone', presses: 1, problems });
+  }
+  return tests;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const shots = plan();
   await rm(resolve(repoRoot, OUT), { recursive: true, force: true });
@@ -288,6 +477,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const report = [];
   const disclosure = [];
   const probes = [];
+  const interactions = [];
   try {
     const browser = await connect(chrome.endpoint);
     for (const shot of shots) {
@@ -317,40 +507,48 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       if (problems.length) console.log(`PROBLEM probe ${width}x${height} ${probe.roster}p ${probe.safe}: ${problems.join('; ')}`);
     }
     console.log(`Pointer probes: ${probes.length} pages, ${probes.reduce((n, entry) => n + entry.slots, 0)} slots pressed at five points each, ${probes.filter(entry => entry.problems.length).length} with problems`);
+    // The Disabler's selection pressed with a real pointer.
+    interactions.push(...await pressTests(browser, server));
+    for (const entry of interactions) if (entry.problems.length) console.log(`PROBLEM ${entry.test}: ${entry.problems.join('; ')}`);
+    console.log(`Pointer presses: ${interactions.length} tests, ${interactions.reduce((n, entry) => n + entry.presses, 0)} presses, ${interactions.filter(entry => entry.problems.length).length} with problems`);
     // Whole pages that must be the same: a strike that missed and no strike, on any player's screen;
-    // a Blue Disabler's screen and a Red one's. And the strip: the same box and the same dark for a
-    // player and for the Disabler.
+    // a Blue Disabler's screen and a Red one's; the shared display's and a player's. And the top bar:
+    // the same box, rows and type on a player's screen, the Disabler's and the display.
     const pageAt = async (viewport, query) => {
       const page = await openPage(browser, { width: viewport[0], height: viewport[1], scale: 1 });
       await page.goto(`${server.origin}/board-v2/index.html?${query}`, 'document.readyState === "complete" && window.__designReady === true');
       const html = await page.evaluate(`document.getElementById('v2-app').innerHTML`);
-      const strip = await page.evaluate(`(() => { const s = document.querySelector('.v2-strip:not([hidden])'); if (!s) return null; const b = s.getBoundingClientRect(); const c = getComputedStyle(s); return [b.left, b.top, b.width, b.height, c.backgroundColor, c.borderColor, c.opacity].join(' '); })()`);
+      const bar = await page.evaluate(`JSON.stringify(['.v2-top', '.v2-top__row', '.v2-top__line', '.v2-top__phase', '.v2-top__timer'].map(selector => { const node = document.querySelector(selector); if (!node || node.hidden) return null; const b = node.getBoundingClientRect(); const c = getComputedStyle(node); return [selector, b.left, b.top, b.width, b.height, c.backgroundColor, c.color, c.fontSize, c.fontWeight, c.lineHeight, c.borderColor, c.opacity]; }))`);
       await page.close();
-      return { html, strip };
+      return { html, bar };
     };
     const base = 'roster=9&fixture=mixed&film=blackout';
     for (const viewport of [[390, 844], [320, 568]]) {
-      for (const t of [1000, 4360, 4760, 5100, 8000, 15000, 15440, 15560, 16300]) {
+      for (const t of [1000, 4360, 4760, 4999, 5000, 8000, 15000, 15440, 15560, 16300]) {
         for (const reducedMotion of ['', '&motion=reduced']) {
           const [miss, none] = await Promise.all(['miss', 'none'].map(outcome => pageAt(viewport, `${base}&t=${t}&outcome=${outcome}${reducedMotion}`)));
           disclosure.push({ compare: `a missed strike and no strike, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: miss.html === none.html });
         }
       }
-      for (const [t, step] of [[8000, 'choose'], [8000, 'confirm'], [12000, 'registered'], [15200, 'choose']]) {
+      for (const [t, step] of [[8000, 'choose'], [8000, 'confirm'], [12000, 'sent'], [15200, 'confirm']]) {
         const [blue, red] = await Promise.all(['blue', 'red'].map(side => pageAt(viewport, `${base}&t=${t}&viewer=disabler&bound=room-b&step=${step}&pick=2&side=${side}`)));
         disclosure.push({ compare: `a Blue Disabler's screen and a Red one's, ${vp(viewport)}, ${t} ms, ${step}`, same: blue.html === red.html });
       }
-      // While the strip is up: coming up, in the dark, and holding for the outcome.
-      for (const t of [5180, 8000, 15200]) {
-        const [player, disabler] = await Promise.all([pageAt(viewport, `${base}&t=${t}`), pageAt(viewport, `${base}&t=${t}&viewer=disabler&bound=room-b&step=confirm&pick=2`)]);
-        disclosure.push({ compare: `the strip's box, color and opacity on a player's screen and the Disabler's, ${vp(viewport)}, ${t} ms`, same: player.strip !== null && player.strip === disabler.strip });
+      for (const t of [1000, 8000, 15560]) {
+        const [player, display] = await Promise.all([pageAt(viewport, `${base}&t=${t}`), pageAt(viewport, `${base}&t=${t}&viewer=display`)]);
+        disclosure.push({ compare: `the shared display's page and a player's, ${vp(viewport)}, ${t} ms`, same: player.html === display.html });
+      }
+      // The top bar while the line is up: the lit preview, the cut, the dark, and after the deadline.
+      for (const t of [1000, 5000, 8000, 15200]) {
+        const screens = await Promise.all([pageAt(viewport, `${base}&t=${t}`), pageAt(viewport, `${base}&t=${t}&viewer=disabler&bound=room-b&step=confirm&pick=2`), pageAt(viewport, `${base}&t=${t}&viewer=disabler&bound=command-room`), pageAt(viewport, `${base}&t=${t}&viewer=display`)]);
+        disclosure.push({ compare: `the top bar's box, rows and type on a player's screen, two Disablers' and the display, ${vp(viewport)}, ${t} ms`, same: screens.every(screen => screen.bar === screens[0].bar) && JSON.parse(screens[0].bar)[2] !== null });
       }
     }
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     const inputsSha256 = await boardV2InputsSha256(repoRoot);
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
-    await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, disclosure }, null, 2)}\n`);
+    await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure }, null, 2)}\n`);
     for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
@@ -366,6 +564,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const failing = report.filter(entry => entry.problems.length);
   const differing = disclosure.filter(entry => !entry.same);
   const probing = probes.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and two contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing`);
-  if (failing.length || probing.length || differing.length) process.exitCode = 1;
+  const pressing = interactions.filter(entry => entry.problems.length);
+  console.log(`Board-v2 captures: ${report.length} pictures and two contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing`);
+  if (failing.length || probing.length || pressing.length || differing.length) process.exitCode = 1;
 }

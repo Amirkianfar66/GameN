@@ -116,23 +116,28 @@ const { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, sparkPlan } = await load('des
 {
   const problems = [];
   const B = BLACKOUT;
-  // The server's window: five seconds lit, ten dark, the lights out at the preview's end.
+  // The server's window: five seconds lit, ten dark (Q-B03a); the selection in [previewEndsAt, endsAt) only.
   if (B.previewMs !== 5000 || B.windowMs !== 15000) problems.push(`the window is ${B.previewMs} + ${B.windowMs - B.previewMs} ms, not 5 000 + 10 000`);
-  if (B.lightsOut[0] !== B.previewMs) problems.push('the lights do not go out at the preview\'s end');
   if (B.flicker[0] < B.markersIn[1] || B.flicker[1] > B.previewMs) problems.push('the flicker is not inside the lit preview');
-  if (B.reduced.darkAt + B.reduced.fadeMs !== B.previewMs) problems.push('reduced motion is not dark at the preview\'s end');
   const opts = { outcomeAt: 15400, hits: ['B2', 'A3'], windowId: 'w-check' };
   for (const reduced of [false, true]) {
-    for (let t = -500; t <= 17500; t += 10) {
+    // Every millisecond either side of the two boundaries, and every 10 ms of the rest.
+    const moments = [...new Set([...Array.from({ length: 1801 }, (_, i) => -500 + i * 10), 4998, 4999, 5000, 5001, 5100, 14998, 14999, 15000, 15001])].sort((a, b) => a - b);
+    for (const t of moments) {
       const frame = blackoutFrame(t, { ...opts, reduced });
       const where = `${reduced ? 'reduced, ' : ''}${t} ms`;
-      // The full five seconds lit: the people on the board until the preview ends.
-      if (t >= 0 && t < (reduced ? B.reduced.darkAt : B.previewMs) && frame.people !== 'shown') problems.push(`${where}: people leave before the preview ends`);
-      // The full ten seconds dark: nobody on the page, the markers dark, the selection open.
-      if (t >= (reduced ? B.previewMs : B.lightsOut[1]) && t < B.windowMs && (frame.darkness < 1 || frame.people !== 'gone' || frame.markers.style !== 'dark' || frame.markers.opacity < 1)) problems.push(`${where}: not fully dark with the markers up`);
+      // The full five seconds lit: the people on the board until previewEndsAt, in both modes.
+      if (t >= 0 && t < B.previewMs && (frame.people !== 'shown' || frame.peopleOpacity !== 1)) problems.push(`${where}: people leave before the preview ends`);
+      // From previewEndsAt exactly, in both modes, the full ten seconds dark: nobody on the page, the markers dark, the selection open.
+      if (t >= B.previewMs && t < B.windowMs && (frame.darkness !== 1 || frame.people !== 'gone' || frame.peopleOpacity !== 0 || frame.markers.style !== 'dark' || frame.markers.opacity < 1)) problems.push(`${where}: not fully dark with nobody on the page and the markers up`);
       if (frame.selection !== (t >= B.previewMs && t < B.windowMs)) problems.push(`${where}: the selection is ${frame.selection ? 'open' : 'closed'}`);
+      // No selection while anyone is on the page, and nobody back on it before the outcome.
+      if (frame.selection && frame.people !== 'gone') problems.push(`${where}: a selection with people on the page`);
+      if (t >= B.previewMs && t < opts.outcomeAt && frame.people !== 'gone') problems.push(`${where}: people back before the outcome`);
+      // The top bar's line: from the window's opening until the lights start back, with the clock.
+      if (frame.line !== (t >= 0 && (frame.clock !== null))) problems.push(`${where}: the line and the clock disagree`);
       // Reduced motion: no flicker, sparks, impact frames or shake; no fade longer than 80 ms.
-      if (reduced && (frame.sparks.frame || frame.impact.frame || frame.shake[0] || frame.shake[1] || (t < B.reduced.darkAt && frame.darkness > 0))) problems.push(`${where}: motion in the reduced variant`);
+      if (reduced && (frame.sparks.frame || frame.impact.frame || frame.shake[0] || frame.shake[1] || (t < B.previewMs && frame.darkness > 0))) problems.push(`${where}: motion in the reduced variant`);
       // Shake moves the art by 3 px at most, and only where a position was hit.
       if (Math.max(Math.abs(frame.shake[0]), Math.abs(frame.shake[1])) > 3) problems.push(`${where}: a shake over 3 px`);
     }

@@ -1,18 +1,18 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "bfa730e2b9ea9a223d3472fd983136ff1cc5372a9ad343997618341d205eae32",
+  "inputsSha256": "f389bbd4c0ddab74f83b2b58af075b931ef771bb349465b6bf05a7b16e50f65d",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
       "file": "board-320x568-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 320 x 568"
     },
     {
       "file": "board-320x568-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 320 x 568"
     },
     {
@@ -36,13 +36,13 @@
     {
       "file": "board-360x740-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 360 x 740"
     },
     {
       "file": "board-360x740-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 360 x 740"
     },
     {
@@ -66,13 +66,13 @@
     {
       "file": "board-390x844-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 390 x 844"
     },
     {
       "file": "board-390x844-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 390 x 844"
     },
     {
@@ -96,13 +96,13 @@
     {
       "file": "board-430x932-ward.png",
       "group": "board",
-      "query": "roster=9&fixture=ward",
+      "query": "roster=9&fixture=ward&hit=1",
       "about": "Every seat Injured: the nine-berth ward full, at 430 x 932"
     },
     {
       "file": "board-430x932-mixed.png",
       "group": "board",
-      "query": "roster=9&fixture=mixed",
+      "query": "roster=9&fixture=mixed&hit=1",
       "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 430 x 932"
     },
     {
@@ -148,6 +148,36 @@
       "about": "Every fixed slot for 8 players, at 390 x 844"
     },
     {
+      "file": "board-430x601-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "At 430 x 601 the short shell would leave the rooms 21 px short: the compact shell, every target clear of the navigation"
+    },
+    {
+      "file": "board-390x844-safe-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1&safe=47,0,34,0",
+      "about": "At 390 x 844 with safe-area insets of 47 px above and 34 px below: the bars fill them, the board fits the 763 px between"
+    },
+    {
+      "file": "board-1024x768-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A wide, short window (1024 x 768): no shell fits the full width, so the compact shell and a centred board 852 px wide (fallback narrow)"
+    },
+    {
+      "file": "board-844x390-too-short.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A phone on its side (844 x 390): no board fits 390 px, so no board and a message (fallback too-short); never a board under the navigation"
+    },
+    {
+      "file": "board-280x653-too-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A folding phone's cover screen (280 x 653): Rooms B and the Hospital cannot hold their slots at 121 px, so no board and a message (fallback too-narrow)"
+    },
+    {
       "file": "scene-hospital-r9-ward.png",
       "group": "scene",
       "query": "scene=hospital&roster=9&fixture=ward",
@@ -179,7 +209,7 @@
       "file": "blackout-390x844-0150-markers.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=150",
-      "about": "Markers fading in at every slot of every room, empty ones included (150 ms)"
+      "about": "Markers fading in at every slot of every room, empty ones included; the top bar's clock and its line, \"Remember who is where.\" (150 ms)"
     },
     {
       "file": "blackout-390x844-1000-preview.png",
@@ -200,46 +230,82 @@
       "about": "Each room's own light sparking, which light from the window's id; the second dip (4 760 ms)"
     },
     {
-      "file": "blackout-390x844-5100-lights-out.png",
+      "file": "blackout-390x844-4999-last-lit.png",
       "group": "blackout",
-      "query": "roster=9&fixture=mixed&film=blackout&t=5100",
-      "about": "Lights out: the rooms going dark, people and tags fading, markers turning dark, the strip coming up (5 100 ms)"
+      "query": "roster=9&fixture=mixed&film=blackout&t=4999",
+      "about": "The preview's last millisecond: everyone still on the page, and no selection open (4 999 ms)"
+    },
+    {
+      "file": "blackout-390x844-5000-lights-out.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5000",
+      "about": "previewEndsAt exactly: every room dark, nobody and no name on the page, markers dark, the line \"Wait for the lights.\"; the selection opens in this instant (5 000 ms)"
     },
     {
       "file": "blackout-390x844-8000-dark.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=8000",
-      "about": "The dark, any player's screen: faint line work, dark markers, captions at 70%, the strip over the Command band (8 s)"
-    },
-    {
-      "file": "blackout-390x844-8000-display.png",
-      "group": "blackout",
-      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=display",
-      "about": "The dark on the shared display: no strip; the Command Room dark with its marker (8 s)"
+      "about": "The dark on any player's screen: faint line work, dark markers, captions at 70%, the window's line in the top bar and nothing over any room (8 s)"
     },
     {
       "file": "blackout-390x844-8000-disabler-choose.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=choose",
-      "about": "The eligible Disabler's screen, bound to Room B: the same strip, its line theirs; Room B's press areas live (8 s)"
+      "about": "The eligible Disabler's screen, bound to Room B: the same top bar, its line theirs; Room B's press areas live (8 s)"
     },
     {
       "file": "blackout-390x844-8000-disabler-confirm.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
-      "about": "The Disabler chose position 2: its marker gold on their screen only; Strike or Choose again (8 s)"
+      "about": "The Disabler chose position 2: its marker gold on their screen only; a second tap on it strikes (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-command.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=command-room&step=confirm&pick=1",
+      "about": "A Disabler bound to the Command Room chose C1, its one position: nothing covers it (8 s)"
+    },
+    {
+      "file": "blackout-390x844-9200-disabler-sending.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=9200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=9000",
+      "about": "The second tap sent position 2 as one command; the press areas gone; sending (9.2 s)"
     },
     {
       "file": "blackout-390x844-12000-disabler-registered.png",
       "group": "blackout",
-      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=registered&pick=2",
+      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=sent&pick=2",
       "about": "Registered: no answer about the target until the outcome (12 s)"
+    },
+    {
+      "file": "blackout-390x844-15200-disabler-waiting.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "about": "Sent at 14.8 s, no answer yet at the deadline: waiting, never a rejection the server did not give (15.2 s)"
+    },
+    {
+      "file": "blackout-390x844-15350-disabler-late-answer.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15350&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "about": "The answer arrives after the deadline: registered, as it was before the deadline (15.35 s)"
+    },
+    {
+      "file": "blackout-390x844-15450-disabler-lost.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15450&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&lost=1",
+      "about": "The answer was lost: still waiting as the outcome lands; the receipt is recovered with the same command id, and nothing is sent again (15.45 s)"
+    },
+    {
+      "file": "blackout-390x844-15250-disabler-rejected.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15250&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14990&reply=rejected&replyAt=15200",
+      "about": "The server answered that position 2 was not registered (it arrived after the deadline): said only once the server says it (15.25 s)"
     },
     {
       "file": "blackout-390x844-15200-disabler-timeout.png",
       "group": "blackout",
-      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=choose",
-      "about": "The window closed with nothing registered: a consuming miss, said only on the Disabler's screen (15.2 s)"
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "about": "Chosen and never sent by the deadline: time is up, no position was sent (15.2 s)"
     },
     {
       "file": "blackout-390x844-15000-hold.png",
@@ -257,25 +323,37 @@
       "file": "blackout-390x844-15560-star.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=15560",
-      "about": "The comic star; the lights coming back together in every room; B2's room art shaking 3 px, its marker and press area still (15 560 ms)"
+      "about": "The comic star at B2; the lights coming back together in every room, on the resolved board; B2's room art shaking 3 px, its markers and press areas still (15 560 ms)"
     },
     {
       "file": "blackout-390x844-15760-back.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=15760",
-      "about": "The lights back: Orion, at B2, Injured; markers still up (15 760 ms)"
+      "about": "The lights back: Orion Injured in the Hospital at H3, in the gown; B2 empty; markers still up (15 760 ms)"
     },
     {
       "file": "blackout-390x844-16300-settled.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=16300",
-      "about": "Settled: markers gone, the board normal (16 300 ms)"
+      "about": "Settled: markers gone, the board normal, Orion in the Hospital (16 300 ms)"
     },
     {
       "file": "blackout-390x844-15560-double.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=double",
       "about": "Two strikes, two hits (B2 and A3): one star each, identical (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-16300-double.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=16300&outcome=double",
+      "about": "Two hits settled: Lyra and Orion Injured in the Hospital at H3 and H5, as the after-state names them (16 300 ms)"
+    },
+    {
+      "file": "blackout-390x844-16300-double-r7.png",
+      "group": "blackout",
+      "query": "roster=7&fixture=mixed&film=blackout&t=16300&outcome=double",
+      "about": "Seven players, two hits settled: Lyra and Orion at H2 and H3 (16 300 ms)"
     },
     {
       "file": "blackout-390x844-15560-miss.png",
@@ -290,22 +368,22 @@
       "about": "Reduced motion: markers in with an 80 ms fade (40 ms)"
     },
     {
-      "file": "blackout-390x844-reduced-4960-fade.png",
+      "file": "blackout-390x844-reduced-5000-dark.png",
       "group": "blackout",
-      "query": "roster=9&fixture=mixed&film=blackout&t=4960&motion=reduced",
-      "about": "Reduced motion: one 80 ms fade to the dark: no flicker, no sparks (4960 ms)"
+      "query": "roster=9&fixture=mixed&film=blackout&t=5000&motion=reduced",
+      "about": "Reduced motion: the same cut at previewEndsAt as full motion: no flicker, no sparks, nobody on the page (5000 ms)"
     },
     {
       "file": "blackout-390x844-reduced-8000-dark.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&motion=reduced",
-      "about": "Reduced motion: the static dark, a still spark in each caption (8000 ms)"
+      "about": "Reduced motion: the static dark, a still bolt in each caption (8000 ms)"
     },
     {
       "file": "blackout-390x844-reduced-15420-back.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=15420&motion=reduced",
-      "about": "Reduced motion: one 80 ms fade back; a still burst at B2 (15420 ms)"
+      "about": "Reduced motion: one 80 ms fade back on the resolved board; a still burst at B2 (15420 ms)"
     },
     {
       "file": "blackout-390x844-reduced-15700-burst.png",
@@ -323,13 +401,25 @@
       "file": "blackout-320x568-8000-dark.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=8000",
-      "about": "The dark on the smallest phone: the strip fills the Command band (8 s)"
+      "about": "The dark on the smallest phone: the line in the compact top bar (8 s)"
     },
     {
       "file": "blackout-320x568-8000-disabler-confirm.png",
       "group": "blackout",
       "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
-      "about": "The Disabler's confirmation on the smallest phone: 44 px buttons (8 s)"
+      "about": "The Disabler's choice on the smallest phone: tap it again to strike (8 s)"
+    },
+    {
+      "file": "blackout-320x568-8000-disabler-command.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=command-room&step=confirm&pick=1",
+      "about": "C1 chosen on the smallest phone: nothing covers it (8 s)"
+    },
+    {
+      "file": "blackout-320x568-15200-disabler-waiting.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "about": "Waiting for the answer after the deadline, on the smallest phone (15.2 s)"
     },
     {
       "file": "blackout-320x568-15560-star.png",

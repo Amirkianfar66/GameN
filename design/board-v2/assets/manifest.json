@@ -717,8 +717,8 @@
   },
   "films": {
     "file": "design/board-v2/contract/films.json",
-    "version": "board-v2-films-0.1.0",
-    "sha256": "8fe7a280e5831154b605b7e2e603c6ac0fb440efdb082fef4a3060093e8244de",
-    "bytes": 4484
+    "version": "board-v2-films-0.2.0",
+    "sha256": "62a0d019af970df5a1990430043d965ad1bd22f9071edc0b540a81bc8fe1edce",
+    "bytes": 5233
   }
 }

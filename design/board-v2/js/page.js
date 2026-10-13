@@ -76,6 +76,12 @@ function drawFigure(room, slot, seat, { k, tx, ty }) {
   return [body, front];
 }
 
+/** A seat's name tag under its slot's press area: its number and its character's name. */
+function drawTag(seat, rect, panel) {
+  return el('span', { class: 'v2-tag', 'data-seat': String(seat.seat), style: { left: `${rect.press[0]}px`, top: `${Math.min(panel.height - 16, rect.top + rect.side - 14)}px` } },
+    el('b', {}, String(seat.seat)), CREW[seat.character].sign);
+}
+
 function drawRoom(room, box, panel, seats, whole = false) {
   const scene = sceneOf(room, roster);
   // The whole scene at its own size, or framed on its places in a board panel.
@@ -95,10 +101,7 @@ function drawRoom(room, box, panel, seats, whole = false) {
     const seat = seats.find(entry => entry.room === room && entry.slot === slot.id);
     if (seat) {
       art.append(...drawFigure(room, slot, seat, { k, tx, ty }));
-      if (!whole) {
-        section.append(el('span', { class: 'v2-tag', 'data-seat': String(seat.seat), style: { left: `${rect.press[0]}px`, top: `${Math.min(panel.height - 16, rect.top + rect.side - 14)}px` } },
-          el('b', {}, String(seat.seat)), CREW[seat.character].sign));
-      }
+      if (!whole) section.append(drawTag(seat, rect, panel));
     }
     // The whole scene is the art alone: its places' numbers and press areas belong to a board panel.
     if (whole) return;
@@ -154,7 +157,7 @@ function draw() {
   document.documentElement.dataset.shell = shell.tier;
   document.documentElement.dataset.fallback = board.fallback ?? 'none';
   // A film only where a board is drawn: never over the too-short or too-narrow message.
-  if (params.get('film') === 'blackout' && board.fits) mountBlackout({ app, board, roster, seats, params, drawFigure });
+  if (params.get('film') === 'blackout' && board.fits) mountBlackout({ app, board, roster, seats, params, drawFigure, drawTag });
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }

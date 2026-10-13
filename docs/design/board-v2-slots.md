@@ -277,7 +277,7 @@ These were run on this branch in this container after the review's corrections. 
 
 **The accepted drawing candidates are unchanged.** `hospital-ward.mjs` and the 12 ward SVGs are byte for byte the bytes the review accepted (their hashes in `GameN-designer-stack-hashes-2026-10-13.json`); only `slots.mjs` and `fit.mjs`, whose acceptance was withheld, and the evidence files `contract/slots.json` and `assets/manifest.json` changed.
 
-The Blackout's step adds a seventh check, 27 captures and 50 whole-page comparisons to these tools; [blackout-window.md](blackout-window.md#7-verification) has its numbers.
+The Blackout's step adds an eighth check, 37 captures, 23 real-pointer press tests and 62 whole-page comparisons to these tools; [blackout-window.md](blackout-window.md#7-verification) has its numbers.
 
 **Not run:**
 
