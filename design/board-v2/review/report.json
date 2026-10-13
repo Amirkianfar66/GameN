@@ -1,0 +1,2205 @@
+{
+  "devOnly": "mothership:dev-only",
+  "inputsSha256": "2bb8842db81a4cc5142cc029c3eaad9afca3606fece8aff33d4ef1f127cc3bdc",
+  "shots": [
+    {
+      "file": "board-320x568-ward.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-320x568-mixed.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-320x568.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-320x568-stress.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-320x568.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "board-360x740-ward.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-360x740-mixed.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-360x740.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-360x740-stress.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-360x740.png",
+      "viewport": "360x740",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "board-390x844-ward.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-390x844-mixed.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844-stress.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-390x844.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "board-430x932-ward.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-430x932-mixed.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-430x932.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-430x932-stress.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-430x932.png",
+      "viewport": "430x932",
+      "query": "roster=9&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-390x844-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "hospital-390x844-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "slots-390x844-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-430x601-mixed.png",
+      "viewport": "430x601",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-390x844-safe-mixed.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&hit=1&safe=47,0,34,0",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-1024x768-narrow.png",
+      "viewport": "1024x768",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": "narrow",
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "board-844x390-too-short.png",
+      "viewport": "844x390",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": "too-short",
+      "fits": false,
+      "boardProblems": [
+        "the rooms need 376 px more than the board's 292 px"
+      ]
+    },
+    {
+      "file": "board-280x653-too-narrow.png",
+      "viewport": "280x653",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": "too-narrow",
+      "fits": false,
+      "boardProblems": [
+        "room-b: its slots do not fit at 121 px wide",
+        "hospital: its slots do not fit at 121 px wide",
+        "jail: its slots do not fit at 121 px wide",
+        "the rooms need 1353 px more than the board's 555 px"
+      ]
+    },
+    {
+      "file": "scene-hospital-r9-ward.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=9&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r9-mixed.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=9&fixture=mixed",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r8-empty.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=8&fixture=empty",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "scene-hospital-r7-empty.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=7&fixture=empty",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    }
+  ],
+  "probes": [
+    {
+      "viewport": "320x567",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "too-short",
+      "slots": 0,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x589",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x590",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x605",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x606",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x567",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "too-short",
+      "slots": 0,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x589",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x590",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x605",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x606",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x579",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x580",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x602",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x617",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x618",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x579",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x580",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x602",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x617",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x618",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x585",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x586",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x607",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x608",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x623",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x624",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "375x585",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x586",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x607",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x608",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x623",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x624",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "375x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x591",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x592",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x613",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x614",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x629",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x630",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x591",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x592",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x613",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x614",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x629",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x630",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x593",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x594",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x615",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x616",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x631",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x632",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "393x593",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x594",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x615",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x616",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x631",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x632",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "393x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x597",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x598",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x619",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x620",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x635",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x636",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "412x597",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x598",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x619",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x620",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x635",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x636",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "412x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x597",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x598",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x619",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x620",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x635",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x636",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "414x597",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x598",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x619",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x620",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x635",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x636",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "414x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x599",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x621",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x622",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x637",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x638",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "428x599",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x621",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x622",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x637",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x638",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "428x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x599",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x600",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x601",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x621",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x622",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x637",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x638",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x640",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x641",
+      "roster": 7,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x599",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x600",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x601",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x621",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x622",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x637",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x638",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x640",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x641",
+      "roster": 9,
+      "safe": null,
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x672",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x673",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x694",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x695",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x710",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x711",
+      "roster": 9,
+      "safe": "47,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x692",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": "narrow",
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x693",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x714",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x715",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x730",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x731",
+      "roster": 9,
+      "safe": "59,0,34,0",
+      "ceiling": "short",
+      "shell": "short",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    }
+  ]
+}

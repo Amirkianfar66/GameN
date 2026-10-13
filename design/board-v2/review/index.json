@@ -1,0 +1,209 @@
+{
+  "devOnly": "mothership:dev-only",
+  "inputsSha256": "2bb8842db81a4cc5142cc029c3eaad9afca3606fece8aff33d4ef1f127cc3bdc",
+  "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
+  "captures": [
+    {
+      "file": "board-320x568-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 320 x 568"
+    },
+    {
+      "file": "board-320x568-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 320 x 568"
+    },
+    {
+      "file": "slots-320x568.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 320 x 568"
+    },
+    {
+      "file": "slots-320x568-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 320 x 568"
+    },
+    {
+      "file": "hospital-320x568.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 320 x 568 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "board-360x740-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 360 x 740"
+    },
+    {
+      "file": "board-360x740-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 360 x 740"
+    },
+    {
+      "file": "slots-360x740.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 360 x 740"
+    },
+    {
+      "file": "slots-360x740-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 360 x 740"
+    },
+    {
+      "file": "hospital-360x740.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 360 x 740 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "board-390x844-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 390 x 844"
+    },
+    {
+      "file": "board-390x844-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 390 x 844"
+    },
+    {
+      "file": "slots-390x844.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 390 x 844"
+    },
+    {
+      "file": "slots-390x844-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 390 x 844"
+    },
+    {
+      "file": "hospital-390x844.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "board-430x932-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 430 x 932"
+    },
+    {
+      "file": "board-430x932-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 430 x 932"
+    },
+    {
+      "file": "slots-430x932.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 430 x 932"
+    },
+    {
+      "file": "slots-430x932-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 430 x 932"
+    },
+    {
+      "file": "hospital-430x932.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 430 x 932 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "hospital-390x844-r7.png",
+      "group": "hospital",
+      "query": "roster=7&fixture=ward",
+      "about": "The 7-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right"
+    },
+    {
+      "file": "slots-390x844-r7.png",
+      "group": "slots",
+      "query": "roster=7&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot for 7 players, at 390 x 844"
+    },
+    {
+      "file": "hospital-390x844-r8.png",
+      "group": "hospital",
+      "query": "roster=8&fixture=ward",
+      "about": "The 8-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right"
+    },
+    {
+      "file": "slots-390x844-r8.png",
+      "group": "slots",
+      "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot for 8 players, at 390 x 844"
+    },
+    {
+      "file": "board-430x601-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "At 430 x 601 the short shell would leave the rooms 21 px short: the compact shell, every target clear of the navigation"
+    },
+    {
+      "file": "board-390x844-safe-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1&safe=47,0,34,0",
+      "about": "At 390 x 844 with safe-area insets of 47 px above and 34 px below: the bars fill them, the board fits the 763 px between"
+    },
+    {
+      "file": "board-1024x768-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A wide, short window (1024 x 768): no shell fits the full width, so the compact shell and a centred board 852 px wide (fallback narrow)"
+    },
+    {
+      "file": "board-844x390-too-short.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A phone on its side (844 x 390): no board fits 390 px, so no board and a message (fallback too-short); never a board under the navigation"
+    },
+    {
+      "file": "board-280x653-too-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A folding phone's cover screen (280 x 653): Rooms B and the Hospital cannot hold their slots at 121 px, so no board and a message (fallback too-narrow)"
+    },
+    {
+      "file": "scene-hospital-r9-ward.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=9&fixture=ward",
+      "about": "The whole ward scene, 9 players: nine patients, Injured",
+      "sheetHeight": 300
+    },
+    {
+      "file": "scene-hospital-r9-mixed.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=9&fixture=mixed",
+      "about": "The whole ward scene, 9 players: a patient lying, one detained sitting up, one who died, empty berths made up",
+      "sheetHeight": 300
+    },
+    {
+      "file": "scene-hospital-r8-empty.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=8&fixture=empty",
+      "about": "The whole ward scene, 8 players: eight berths, empty and made up; the vitals board in the ninth's place",
+      "sheetHeight": 300
+    },
+    {
+      "file": "scene-hospital-r7-empty.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=7&fixture=empty",
+      "about": "The whole ward scene, 7 players: seven berths; the approved medicine cabinet and the vitals board in the upper places",
+      "sheetHeight": 300
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "devOnly": "mothership:dev-only",
+  "manifestVersion": "board-v2-0.1.0",
+  "status": "proposal",
+  "baseBoard": "board-motion-0.3.0",
+  "baseManifest": "design-0.2.0",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9) and the board's fixed slot table, for the owner's motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "rights": {
+    "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
+    "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
+    "license": "None granted. The repository carries no distribution license.",
+    "reuse": "Use inside the Mothership project only. Any other use needs the game owner's decision (DSN-D06)."
+  },
+  "berths": [
+    {
+      "id": "H1",
+      "row": "front",
+      "column": 0,
+      "gesture": "bedLying",
+      "scale": 1.1,
+      "mirror": false,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Front row, left: lying, an arm across the forehead"
+    },
+    {
+      "id": "H2",
+      "row": "front",
+      "column": 1,
+      "gesture": "bedSitting",
+      "scale": 1.1,
+      "mirror": false,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Front row, middle: sitting up against the pillow"
+    },
+    {
+      "id": "H3",
+      "row": "front",
+      "column": 2,
+      "gesture": "bedLying",
+      "scale": 1.1,
+      "mirror": true,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Front row, right: lying, an arm across the forehead"
+    },
+    {
+      "id": "H4",
+      "row": "middle",
+      "column": 0,
+      "gesture": "bedSitting",
+      "scale": 1,
+      "mirror": false,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Middle row, left: sitting up against the pillow"
+    },
+    {
+      "id": "H5",
+      "row": "middle",
+      "column": 1,
+      "gesture": "bedLying",
+      "scale": 1,
+      "mirror": true,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Middle row, middle: lying, an arm across the forehead"
+    },
+    {
+      "id": "H6",
+      "row": "middle",
+      "column": 2,
+      "gesture": "bedSitting",
+      "scale": 1,
+      "mirror": true,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Middle row, right: sitting up against the pillow"
+    },
+    {
+      "id": "H7",
+      "row": "upper",
+      "column": 0,
+      "gesture": "bedLying",
+      "scale": 0.9,
+      "mirror": false,
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "about": "Upper berth in the wall, left: lying"
+    },
+    {
+      "id": "H8",
+      "row": "upper",
+      "column": 1,
+      "gesture": "bedLying",
+      "scale": 0.9,
+      "mirror": true,
+      "rosters": [
+        8,
+        9
+      ],
+      "about": "Upper berth in the wall, middle: lying (eight and nine players)"
+    },
+    {
+      "id": "H9",
+      "row": "upper",
+      "column": 2,
+      "gesture": "bedLying",
+      "scale": 0.9,
+      "mirror": false,
+      "rosters": [
+        9
+      ],
+      "about": "Upper berth in the wall, right: lying (nine players)"
+    }
+  ],
+  "slotTable": {
+    "file": "design/board-v2/contract/slots.json",
+    "version": "board-v2-0.1.1",
+    "sha256": "ab687508df829b33e13e5b98243615794e14e0ff3b57e793ce6e6f335f1f4785",
+    "bytes": 42744
+  },
+  "scenes": [
+    {
+      "id": "scene.hospital-ward-7.back",
+      "room": "hospital",
+      "roster": 7,
+      "layer": "back",
+      "depth": null,
+      "file": "design/board-v2/assets/scenes/hospital-ward-7.back.svg",
+      "source": "design/source/board/board-hospital.svg",
+      "sourceSha256": "5a9923f6ad1459acb7e96a454d686cf9a7fb6211639d5c4dd40e288300966657",
+      "recolor": "design/source/export-recipes.json#board-hospital",
+      "lifted": [
+        "hospital-space",
+        "hospital-backwall",
+        "hospital-shell",
+        "hospital-edges"
+      ],
+      "viewBox": "0 0 1024 768",
+      "bytes": 23217,
+      "sha256": "3f9e999efcbebba17e7e3a46b88d092e95e205119d6d890444330f8c73635ba0",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward-8.back",
+      "room": "hospital",
+      "roster": 8,
+      "layer": "back",
+      "depth": null,
+      "file": "design/board-v2/assets/scenes/hospital-ward-8.back.svg",
+      "source": "design/source/board/board-hospital.svg",
+      "sourceSha256": "5a9923f6ad1459acb7e96a454d686cf9a7fb6211639d5c4dd40e288300966657",
+      "recolor": "design/source/export-recipes.json#board-hospital",
+      "lifted": [
+        "hospital-space",
+        "hospital-backwall",
+        "hospital-shell",
+        "hospital-edges"
+      ],
+      "viewBox": "0 0 1024 768",
+      "bytes": 24728,
+      "sha256": "15e5e55131239536eb299bca6bc5f567d0bbf3a55f39e0b9b7f94648d429aff9",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward-9.back",
+      "room": "hospital",
+      "roster": 9,
+      "layer": "back",
+      "depth": null,
+      "file": "design/board-v2/assets/scenes/hospital-ward-9.back.svg",
+      "source": "design/source/board/board-hospital.svg",
+      "sourceSha256": "5a9923f6ad1459acb7e96a454d686cf9a7fb6211639d5c4dd40e288300966657",
+      "recolor": "design/source/export-recipes.json#board-hospital",
+      "lifted": [
+        "hospital-space",
+        "hospital-backwall",
+        "hospital-shell",
+        "hospital-edges"
+      ],
+      "viewBox": "0 0 1024 768",
+      "bytes": 25144,
+      "sha256": "f002edcfce36d781a625fc9022d8f0d3d6b1359f8e443ff67f6b493c2702412c",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h1",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h1",
+      "depth": 690,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3468,
+      "sha256": "23c9988d68f05d9702d0e8fc945f56073015e223f72471efcfd829c8673431d8",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h2",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h2",
+      "depth": 690,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3468,
+      "sha256": "341fe66aa6608e91637a88006f2e15fd106abcc96c7db01ebe1b2a729113116c",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h3",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h3",
+      "depth": 690,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3468,
+      "sha256": "bd2e530a98d7e18da00606a9b9ae8269a3369ea5bbfad365309b3428c147373b",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h4",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h4",
+      "depth": 495,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3733,
+      "sha256": "9a3519b8eb884ad6abfe54272b6a1db69f4057a9b6304c73c1940bd690eb76e6",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h5",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h5",
+      "depth": 495,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3733,
+      "sha256": "305bfcc0c80207d865ee91b6672d2556e1b8e3813ace980709f1d99d769787e4",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h6",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h6",
+      "depth": 495,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3733,
+      "sha256": "5afe0564a747cf3f554e9e9a4e16ed5a80e9e318c2c939474f3a9d0a330bb062",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h7",
+      "room": "hospital",
+      "rosters": [
+        7,
+        8,
+        9
+      ],
+      "layer": "berth-h7",
+      "depth": 300,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3365,
+      "sha256": "e65c112c430603629637659110746e9fdf9794db0fa999aae7b000c3401e436b",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h8",
+      "room": "hospital",
+      "rosters": [
+        8,
+        9
+      ],
+      "layer": "berth-h8",
+      "depth": 300,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h8.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3365,
+      "sha256": "54499879b2f5784655457355233ac5c3b50ffe5d316522012c7dc2d06e5696dc",
+      "audience": "public"
+    },
+    {
+      "id": "scene.hospital-ward.berth-h9",
+      "room": "hospital",
+      "rosters": [
+        9
+      ],
+      "layer": "berth-h9",
+      "depth": 300,
+      "file": "design/board-v2/assets/scenes/hospital-ward.berth-h9.svg",
+      "viewBox": "0 0 1024 768",
+      "bytes": 3365,
+      "sha256": "de09d58d584d75af34240099059cb043f94096c62c5df8074173b0cd2120ea38",
+      "audience": "public"
+    }
+  ]
+}
