@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { FullOutcomeEventSchema } from './captain-outcomes.js';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
 import { BoardSlotIdSchema, FullMedicalStatusSchema, validBoardMedicalView } from './board-medical.js';
-import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack } from './full-game-versions.js';
+import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
 export const FULL_PROTOCOL_VERSION = 2 as const;
@@ -10,6 +11,8 @@ export const FactionSchema = z.enum(['Blue', 'Red', 'Alien']);
 const target = { targetSeatId: SeatIdSchema };
 export const FullCommandSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('PASS_TURN') }),
+  z.strictObject({ type: z.literal('CAPTAIN_RELEASE') }),
+  z.strictObject({ type: z.literal('CAPTAIN_EJECT') }),
   z.strictObject({ type: z.literal('MOVE'), destination: z.enum(['Room A', 'Room B', 'Command Room']) }),
   z.strictObject({ type: z.literal('REGISTER_SHOT'), ...target }),
   z.strictObject({ type: z.literal('DISABLE'), ...target }),
@@ -81,7 +84,7 @@ const publicFacts = {
   versions: FullVersionsSchema, matchId: IdentifierSchema, viewRevision: RevisionSchema,
   playerCount: z.union([z.literal(7),z.literal(8),z.literal(9)]), round: z.number().int().min(1).max(5),
   phase: FullPhaseSchema, activeSeatId: SeatIdSchema.nullable(),
-  seats: z.array(z.strictObject({ seatId: SeatIdSchema, health: HealthSchema, location: LocationSchema, jailed:z.boolean(),captain:z.boolean(),revealedFaction:FactionSchema.nullable(),slotId:BoardSlotIdSchema.optional(),medical:FullMedicalStatusSchema.nullable().optional() })).min(7).max(9),
+  seats: z.array(z.strictObject({ seatId: SeatIdSchema, health: HealthSchema, location: LocationSchema.nullable(), jailed:z.boolean(),captain:z.boolean(),revealedFaction:FactionSchema.nullable(),slotId:BoardSlotIdSchema.nullable().optional(),medical:FullMedicalStatusSchema.nullable().optional() })).min(7).max(9),
   ballot: z.strictObject({ eligibleVoters: z.array(SeatIdSchema), eligibleTargets: z.array(SeatIdSchema), releaseTargetSeatId: SeatIdSchema.nullable() }),
   lastTally: FullTallySchema.nullable(),
   voteResult: FullVoteResultSchema.nullable().optional(),
@@ -124,7 +127,7 @@ function validPublicReferences(view:z.infer<typeof FullPublicViewShape>):boolean
   const ids=view.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
   return validBoardMedicalView(view) && validVoteResult(view) && validHackSession(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
     && (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(view.phase.kind) || !supportsDeclaredHack(view.versions) || view.activeSeatId!==null) && (view.phase.kind==='FINISHED'?view.endReveal!==null && view.result!==null:view.endReveal===null && view.result===null)
-    && view.seats.every(s=>s.health==='Eliminated'?s.revealedFaction!==null:view.phase.kind==='FINISHED'||s.revealedFaction===null)
+    && view.seats.every(s=>s.health==='Eliminated'?(s.revealedFaction!==null || (supportsCaptainCommands(view.versions) && s.location===null && view.phase.kind!=='FINISHED')):view.phase.kind==='FINISHED'||s.revealedFaction===null)
     && (!view.result || !view.result.alienCoWinner || view.result.winner==='Blue')
     && ids.length===view.playerCount && new Set(ids).size===view.playerCount && ids.every(id=>Number(id.slice(5))<=view.playerCount)
     && has(view.activeSeatId) && view.ballot.eligibleVoters.every(has) && view.ballot.eligibleTargets.every(has)
@@ -137,7 +140,7 @@ const FullPublicViewShape=z.strictObject({ ...publicFacts, audience:z.strictObje
 export const FullPublicViewSchema = FullPublicViewShape.refine(validPublicReferences, 'Complete roster and valid seat references required');
 export type FullPublicView = z.infer<typeof FullPublicViewSchema>;
 export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.strictObject({kind:z.literal('player'),seatId:SeatIdSchema}),
-  self:z.strictObject({ seatId:SeatIdSchema,role:RoleSchema,movementDestinations:z.array(z.enum(['Room A','Room B','Command Room'])),releaseVoteAvailable:z.boolean(),ordinaryWeapons:z.number().int().nonnegative(),shotAvailable:z.boolean(),rescuesRemaining:z.number().int().nonnegative(),disablerAvailable:z.boolean(),hackAvailable:z.boolean(),scanAvailable:z.boolean(),codeAttemptAvailable:z.boolean() }),
+  self:z.strictObject({ seatId:SeatIdSchema,role:RoleSchema,movementDestinations:z.array(z.enum(['Room A','Room B','Command Room'])),releaseVoteAvailable:z.boolean(),ordinaryWeapons:z.number().int().nonnegative(),shotAvailable:z.boolean(),rescuesRemaining:z.number().int().nonnegative(),disablerAvailable:z.boolean(),hackAvailable:z.boolean(),scanAvailable:z.boolean(),codeAttemptAvailable:z.boolean(),captainCommandUses:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable().optional() }),
   knowledge:z.strictObject({insiderCandidates:z.array(SeatIdSchema),undercoverSeatId:SeatIdSchema.nullable(),code:z.array(SeatIdSchema),scanResults:z.array(z.strictObject({round:z.number().int().min(1).max(5),targetSeatId:SeatIdSchema,guess:FactionSchema,matched:z.boolean(),inCode:z.boolean().nullable()})),protections:z.array(z.strictObject({seatId:SeatIdSchema,activeFromRound:z.number().int(),consumed:z.boolean()}))}),
   legalTargets:z.record(z.string(),z.array(SeatIdSchema)), ownPendingCommandIds:z.array(IdentifierSchema).max(2),
   ownBallot:z.union([SeatIdSchema,z.boolean()]).nullable(), hasVoted:z.boolean(),
@@ -147,6 +150,11 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
   const ids=v.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
   const unique=(items:string[])=>new Set(items).size===items.length && items.every(has);
   const k=v.knowledge,role=v.self.role;
+  if(supportsCaptainCommands(v.versions)) {
+    const current=v.seats.find(s=>s.seatId===v.self.seatId);
+    if(!Object.hasOwn(v.self,'captainCommandUses') || v.self.captainCommandUses===undefined
+      || (current?.captain ? v.self.captainCommandUses===null : v.self.captainCommandUses!==null)) return false;
+  } else if(Object.hasOwn(v.self,'captainCommandUses') || Object.hasOwn(v.legalTargets,'CAPTAIN_RELEASE') || Object.hasOwn(v.legalTargets,'CAPTAIN_EJECT')) return false;
   if(supportsPublicHack(v.versions)) {
     const session=v.hackSession,feedback=v.hackFeedback;
     const partner=session?.actorSeatId===v.self.seatId?session.targetSeatId:session?.targetSeatId===v.self.seatId?session.actorSeatId:null;
@@ -196,5 +204,5 @@ const publicFact=z.discriminatedUnion('type',[
 ]);
 export const FullPublicEventSchema=z.strictObject({...eventContext,audience:z.strictObject({kind:z.literal('public')}),fact:publicFact});
 export const FullPlayerEventSchema=z.strictObject({...eventContext,audience:z.strictObject({kind:z.literal('player'),seatId:SeatIdSchema}),fact:z.union([publicFact,z.strictObject({type:z.literal('COMMAND_REGISTERED'),commandId:IdentifierSchema})])});
-export const FullEventSchema=z.union([FullPublicEventSchema,FullPlayerEventSchema]);
+export const FullEventSchema=z.union([FullPublicEventSchema,FullPlayerEventSchema,FullOutcomeEventSchema]);
 export type FullEvent=z.infer<typeof FullEventSchema>;
