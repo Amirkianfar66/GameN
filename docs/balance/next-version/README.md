@@ -335,16 +335,16 @@ The table and the paragraph under it are printed from the reports that are commi
 <!-- generated:control-runs -->
 | Ruleset | Build | What the build is | Controls run | Passed | Failed | Recorded, nothing expected | Not run |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `in-person-v1-capacity-resolution-2026-10-12` | `abb6839` | full-game-1.3.0, the integration baseline, head of PR #114 | not run |  |  |  |  |
-| `in-person-v1-capacity-resolution-2026-10-12` | `bd4d77c` | full-game-1.4.0, Backend, head of draft PR #125 | not run |  |  |  |  |
-| `in-person-v1-capacity-resolution-2026-10-12` | `a9b77a7` | full-game-1.5.0, Backend, head of draft PR #131 | not run |  |  |  |  |
-| `in-person-v1-vote-results-2026-10-12` | `bd4d77c` | full-game-1.4.0, Backend, head of draft PR #125 | not run |  |  |  |  |
-| `in-person-v1-vote-results-2026-10-12` | `a9b77a7` | full-game-1.5.0, Backend, head of draft PR #131 | not run |  |  |  |  |
-| `in-person-v1-declared-hack-2026-10-12` | `a9b77a7` | full-game-1.5.0, Backend, head of draft PR #131 | not run |  |  |  |  |
+| `in-person-v1-capacity-resolution-2026-10-12` | `abb6839` | full-game-1.3.0, the integration baseline, head of PR #114 | 30 | 27 | 0 | 3 | 0 |
+| `in-person-v1-capacity-resolution-2026-10-12` | `bd4d77c` | full-game-1.4.0, Backend, head of draft PR #125 | 30 | 27 | 0 | 3 | 0 |
+| `in-person-v1-capacity-resolution-2026-10-12` | `a9b77a7` | full-game-1.5.0, Backend, head of draft PR #131 | 30 | 27 | 0 | 3 | 0 |
+| `in-person-v1-vote-results-2026-10-12` | `bd4d77c` | full-game-1.4.0, Backend, head of draft PR #125 | 18 | 18 | 0 | 0 | 0 |
+| `in-person-v1-vote-results-2026-10-12` | `a9b77a7` | full-game-1.5.0, Backend, head of draft PR #131 | 18 | 18 | 0 | 0 | 0 |
+| `in-person-v1-declared-hack-2026-10-12` | `a9b77a7` | full-game-1.5.0, Backend, head of draft PR #131 | 21 | 21 | 0 | 0 | 0 |
 <!-- /generated:control-runs -->
 
 <!-- generated:control-verdict -->
-No report is committed with this document: the controls have not been run for it.
+Run on 2026-10-14, in 6 runs: 147 control runs, 138 passed, 0 failed, 9 recorded with nothing expected, 0 not run. On the build that introduced each ruleset: 1.3, 27 of 27 passed; 1.4, 18 of 18 passed; 1.5, 21 of 21 passed. No control failed on any build, so nothing was found against the vote-result ruleset or the declared-Hack ruleset, nor against a later build playing an earlier ruleset.
 <!-- /generated:control-verdict -->
 
 Every control, every check with what was expected and what the engine did, and the controls of the controls are in [the evidence report](../evidence/2026-10-14-next-version.md). The matrices name, for each case, the control that shows today's behaviour at that point.

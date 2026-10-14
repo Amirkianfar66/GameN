@@ -2927,61 +2927,61 @@ Engine version full-game-1.3.0, ruleset hash `aef288266055bfc6f9905b97ba32624000
 
 - **Expectation read from:** R-RES-01, R-FLOW-03, R-FLOW-07
 - **The next version at this point:** NV-M9-BLK-01. The five-second result exists from the vote-result ruleset on; the window after it is the next version's.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-02: A Hack is one phase of sixty seconds, and only the two read who the partner is
 
 - **Expectation read from:** R-FLOW-06, R-VIEW-07, R-HACK-02, BAL-C12
 - **The next version at this point:** NV-M9-HCK-01, NV-M9-HCK-03. The next version makes the pair public and puts fifteen and five seconds before the sixty.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-03: A move is accepted during the last player's Hack and refused in the Jail vote
 
 - **Expectation read from:** R-MOVE-01, R-FLOW-06
 - **The next version at this point:** NV-M9-MOV-04, NV-M9-MOV-05. The next version closes voluntary movement when the final ordinary turn ends, before that Hack.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-04: A move while a Captain election is being held
 
 - **Expectation read from:** R-MOVE-08
 - **The next version at this point:** NV-M9-MOV-14. The rulebook leaves this open (D16), so nothing is expected here: what the engine does is recorded. The packet does not say what the next version does (NV-F-05).
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: recorded on the build of `abb6839` (full-game-1.3.0); recorded on the build of `bd4d77c` (full-game-1.4.0); recorded on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-05: A Disabler names a player on their own turn, and an injury does not kill with time
 
 - **Expectation read from:** R-ROLE-05, R-ACT-07, R-STATE-02, R-STATE-06
 - **The next version at this point:** NV-M9-BLK-02, NV-M9-HSP-01. In the next version the Disabler names no player, and the patient dies at the end of the following round.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-06: A player who is Jailed and Injured is in Jail
 
 - **Expectation read from:** R-STATE-07, R-ACT-05, R-ACT-06
 - **The next version at this point:** NV-M9-HSP-02. In the next version such a player is in Hospital and stays detained.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-07: A block is read by Undercover and by nobody else
 
 - **Expectation read from:** R-PROT-06, R-VIEW-06, R-PROT-03
 - **The next version at this point:** NV-M9-DEF-01, NV-M9-DEF-03. In the next version the seats in the target's room are told that an attack was blocked.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-08: A release takes the Captain's choice and then a vote
 
 - **Expectation read from:** R-VOTE-05, R-VOTE-06, R-VOTE-07, R-FLOW-13
 - **The next version at this point:** NV-M9-CAP-01. The next version has no release ballot: the Captain releases every prisoner at once, on their own turn.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-09: The showdown moves everybody who is left to the Final Zone
 
 - **Expectation read from:** R-SHOW-01, R-SHOW-02, R-WIN-10
 - **The next version at this point:** NV-M9-SHW-01. In the next version nobody is moved: players stay in their rooms, Hospital and Jail included.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V13-10: An Eliminated player's faction is public in the first phase after the resolution
 
 - **Expectation read from:** R-RES-05, R-VIEW-03
 - **The next version at this point:** NV-M9-CAP-02. After an EJECT the next version shows a player as Eliminated before it shows their faction; today's public view cannot hold that.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-capacity-resolution-2026-10-12`: passed on the build of `abb6839` (full-game-1.3.0); passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 ### `in-person-v1-vote-results-2026-10-12`
 
@@ -2991,37 +2991,37 @@ Engine version full-game-1.4.0, ruleset hash `617173762d5a1589d0adce55d4742a3aa7
 
 - **Expectation read from:** VOTE-RESULT-01, VOTE-RESULT-02, VOTE-RESULT-03
 - **The next version at this point:** NV-M9-BLK-01, NV-M9-VOT-01. The next version keeps this and puts the fifteen-second window between the result and the resolution.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-vote-results-2026-10-12`: passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V14-02: Nothing is accepted during a result
 
 - **Expectation read from:** VOTE-RESULT-04
 - **The next version at this point:** NV-M9-VOT-03. The next version keeps this for the result. For the window after it the packet does not say whether a Code is accepted (NV-F-07).
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-vote-results-2026-10-12`: passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V14-03: A closure that comes late takes nothing from the phase after it
 
 - **Expectation read from:** VOTE-RESULT-04, VOTE-RESULT-05
 - **The next version at this point:** NV-M9-VOT-02. The next version must hold the same for the result, both halves of the window and the phase after the resolution.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-vote-results-2026-10-12`: passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V14-04: An election and its runoff each end in a result, and the elected Captain is placed when the vote closes
 
 - **Expectation read from:** VOTE-RESULT-01, VOTE-RESULT-03, R-CAPT-02, R-CAPT-05
 - **The next version at this point:** NV-M9-VOT-04, NV-M9-VOT-01. Kept by the next version.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-vote-results-2026-10-12`: passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V14-05: A vote in which nobody votes still ends in a result
 
 - **Expectation read from:** VOTE-RESULT-01
 - **The next version at this point:** NV-M9-BLK-01. Kept by the next version.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-vote-results-2026-10-12`: passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V14-06: A release vote ends in a result, and the Jail vote after it has its full time
 
 - **Expectation read from:** VOTE-RESULT-01, VOTE-RESULT-03, R-VOTE-06
 - **The next version at this point:** NV-M9-CAP-01. The next version has no release vote.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-vote-results-2026-10-12`: passed on the build of `bd4d77c` (full-game-1.4.0); passed on the build of `a9b77a7` (full-game-1.5.0).
 
 ### `in-person-v1-declared-hack-2026-10-12`
 
@@ -3031,40 +3031,40 @@ Engine version full-game-1.5.0, ruleset hash `1d8a5e509372ea816af8d6782bf1d73720
 
 - **Expectation read from:** HACK-DECLARE-01, HACK-DECLARE-03, HACK-DECLARE-06
 - **The next version at this point:** NV-M9-HCK-03. Kept by the next version, which fits the entrance into the five seconds.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V15-02: No declaration: the result says so and makes up no side
 
 - **Expectation read from:** HACK-DECLARE-03
 - **The next version at this point:** NV-M9-HCK-04. Kept by the next version.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V15-03: Who may declare what
 
 - **Expectation read from:** HACK-DECLARE-02, R-ROLE-12, R-ROLE-16
 - **The next version at this point:** NV-M9-HCK-02. Kept by the next version.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V15-04: The claim and the partner are read by the two only
 
 - **Expectation read from:** HACK-DECLARE-04, R-VIEW-07
 - **The next version at this point:** NV-M9-HCK-01, NV-M9-HCK-02. The next version keeps the claim private and makes the pair public.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V15-05: A move is accepted in each of the three stages, also in the last player's Hack
 
 - **Expectation read from:** HACK-DECLARE-06, R-MOVE-01
 - **The next version at this point:** NV-M9-MOV-03, NV-M9-MOV-05. The next version keeps the first and reverses the second: after the final ordinary turn nobody moves.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V15-06: Deadlines that come late take nothing from the stage after them
 
 - **Expectation read from:** HACK-DECLARE-07, HACK-DECLARE-03
 - **The next version at this point:** NV-M9-HCK-06. Kept by the next version.
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).
 
 #### CTL-M9-V15-07: A Code is refused in the two preludes and accepted in the conversation
 
 - **Expectation read from:** HACK-DECLARE-06, R-ROLE-15
 - **The next version at this point:** NV-M9-VOT-03. Kept by the next version. Whether a Code is accepted in the window after the vote is not stated (NV-F-07).
-- **Execution:** Not run: no report is committed with this matrix.
+- **Execution:** Run under `in-person-v1-declared-hack-2026-10-12`: passed on the build of `a9b77a7` (full-game-1.5.0).

@@ -89,7 +89,7 @@ export const CONTROL_RUNS = Object.freeze([
 export const CONTRAST_BUILD = 'a9b77a7';
 // True from the commit that carries the reports. Before it the matrix says "not run" for every
 // control, and a test refuses a report that is lying about.
-export const EVIDENCE_COMMITTED = false;
+export const EVIDENCE_COMMITTED = true;
 const evidence = new URL('docs/balance/evidence/', repository);
 export const controlReportName = ({ version, build }) => `2026-10-14-next-controls-${version.toLowerCase()}-engine-${build}.json`;
 export const contrastReportName = () => `2026-10-14-next-controls-contrast-engine-${CONTRAST_BUILD}.json`;

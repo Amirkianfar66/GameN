@@ -1,0 +1,1390 @@
+{
+ "schema": "mothership.balance.next-controls/1",
+ "pins": {
+  "repository": "Amirkianfar66/GameN",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "branch": "HEAD",
+  "workingTreeCommit": "955a1931934af2499e4057bbcbb2bc747091f3ee",
+  "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "ruleSourceHashes": {
+   "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
+   "rules/overlays/direct-shot-decision.json": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be",
+   "rules/overlays/final-showdown-decision.json": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1",
+   "rules/overlays/location-board-layout-v1.json": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691",
+   "rules/overlays/movement-decision.json": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d",
+   "rules/overlays/player-modes-officer.json": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19",
+   "rules/sources/v2.1-decisions.json": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
+  },
+  "v1OverlaySha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "additionalOwnerOverlayHashes": {
+   "rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183",
+   "rules/overlays/room-capacity-owner-decision-2026-10-11.json": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468",
+   "rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json": "aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e"
+  },
+  "v1ManifestSha256": "451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2",
+  "scenarioFileHashes": {
+   "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+   "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+   "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+   "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+  },
+  "rulebookSha256": "bb47ff66fed5a07631f5df8b9bd6467e557f35aec019662242325fd9bdc14bd0",
+  "engine": {
+   "adapter": "next-version-controls",
+   "engineVersion": "full-game-1.4.0",
+   "rulesetVersion": "in-person-v1-vote-results-2026-10-12",
+   "rulesetHash": "617173762d5a1589d0adce55d4742a3aa70f6d5af03a968b6ab9f90d5392b010",
+   "protocolVersion": 2,
+   "binaryEngineVersion": "full-game-1.5.0",
+   "binaryRulesetVersion": "in-person-v1-declared-hack-2026-10-12",
+   "binaryRulesetHash": "1d8a5e509372ea816af8d6782bf1d73720532ed672ee2f77e2938805976d8d6c"
+  },
+  "engineCommit": "a9b77a7bd535efc8bdb5041cee18fd6526c0e354",
+  "engineCommitBasis": "head of the engine checkout",
+  "engineTreeClean": true,
+  "engineBuildSha256": "fa2d816af4afc907dacbca8e6913b00189e7f140faadf68407bbc64ef3f0516a",
+  "engineOrigin": "built checkout outside this worktree (--engine-root)",
+  "runner": "@mothership/balance controls on an existing version",
+  "node": "v22.21.1",
+  "generatedAt": "2026-10-14T03:56:09.054Z",
+  "suite": "next-version-controls",
+  "rulesetAskedFor": "in-person-v1-vote-results-2026-10-12",
+  "controlsOf": "V14",
+  "controlsSha256": "be9815845221fc6bf3500236ae60963c44a969f70e3d7facaf8dc908dcf5903c",
+  "catalogSha256": "1aa4c25e15d836a4fe05bca40292a3ad7baf80eceed81526b83a4259547428e0",
+  "specification": {
+   "name": "owner-motion-2026-10-13",
+   "packetSha256": "fd90accca7c3e39d86e7f6ab6ac38a1804ac2877523b560fa0c03928bb9a1aca"
+  }
+ },
+ "ruleset": "in-person-v1-vote-results-2026-10-12",
+ "controlsDefined": 23,
+ "totals": {
+  "total": 18,
+  "passed": 18,
+  "failed": 0,
+  "recorded": 0,
+  "notRun": 0
+ },
+ "byMode": {
+  "7": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0,
+   "recorded": 0,
+   "notRun": 0
+  },
+  "8": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0,
+   "recorded": 0,
+   "notRun": 0
+  },
+  "9": {
+   "total": 6,
+   "passed": 6,
+   "failed": 0,
+   "recorded": 0,
+   "notRun": 0
+  }
+ },
+ "runs": [
+  {
+   "id": "CTL-M7-V14-01",
+   "code": "V14-01",
+   "mode": 7,
+   "title": "A Jail vote ends in a result of five seconds; what it decides applies at once, and the round resolves afterwards",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the phase after the Jail vote",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "it opens at the closing of the vote",
+     "expected": 1800000480000,
+     "observed": 1800000480000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "the player is Jailed during the result",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and in Jail",
+     "expected": "Jail",
+     "observed": "Jail",
+     "ok": true
+    },
+    {
+     "label": "the registered attack has not resolved yet",
+     "expected": "Healthy",
+     "observed": "Healthy",
+     "ok": true
+    },
+    {
+     "label": "the outcome is public",
+     "expected": "PLAYER_JAILED",
+     "observed": "PLAYER_JAILED",
+     "ok": true
+    },
+    {
+     "label": "with the player it names",
+     "expected": "seat-5",
+     "observed": "seat-5",
+     "ok": true
+    },
+    {
+     "label": "and the total for that player",
+     "expected": 4,
+     "observed": 4,
+     "ok": true
+    },
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the twin run was voted by other players",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "with other voters and the same total the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of each player who voted in both runs",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "after the result the attack has resolved",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "the next phase",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "opens when the result ends",
+     "expected": 1800000485000,
+     "observed": 1800000485000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 17,
+   "commandsSent": 10
+  },
+  {
+   "id": "CTL-M7-V14-02",
+   "code": "V14-02",
+   "mode": 7,
+   "title": "Nothing is accepted during a result",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the result of Round 1 is open",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "a move",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a ballot",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "no destination is offered",
+     "expected": 0,
+     "observed": 0,
+     "ok": true
+    },
+    {
+     "label": "in the Jail vote of Round 5 the Hacker can still enter the Code",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the result of Round 5 is open",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the Code is not on offer during it",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "a Code sent during it",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is not used",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 52,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M7-V14-03",
+   "code": "V14-03",
+   "mode": 7,
+   "title": "A closure that comes late takes nothing from the phase after it",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "asked one millisecond early, the vote stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "closed two seconds late, the result opens then",
+     "expected": 1800000482000,
+     "observed": 1800000482000,
+     "ok": true
+    },
+    {
+     "label": "and lasts its five seconds",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "asked one millisecond early, the result stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "closed three seconds late, the next phase opens then",
+     "expected": 1800000490000,
+     "observed": 1800000490000,
+     "ok": true
+    },
+    {
+     "label": "and has its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 9,
+   "commandsSent": 0
+  },
+  {
+   "id": "CTL-M7-V14-04",
+   "code": "V14-04",
+   "mode": 7,
+   "title": "An election and its runoff each end in a result, and the elected Captain is placed when the vote closes",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "a tie ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "that says a runoff is needed",
+     "expected": "RUNOFF_REQUIRED",
+     "observed": "RUNOFF_REQUIRED",
+     "ok": true
+    },
+    {
+     "label": "nobody is Captain yet",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "then the runoff",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "between the two who tied",
+     "expected": "[\"seat-1\",\"seat-2\"]",
+     "observed": "[\"seat-1\",\"seat-2\"]",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the runoff ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "that names the winner",
+     "expected": "CAPTAIN_ELECTED",
+     "observed": "CAPTAIN_ELECTED",
+     "ok": true
+    },
+    {
+     "label": "who is Captain during the result",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and in Command Room",
+     "expected": "Command Room",
+     "observed": "Command Room",
+     "ok": true
+    },
+    {
+     "label": "then the first turn of Round 2",
+     "expected": "ORDINARY_TURN",
+     "observed": "ORDINARY_TURN",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 13,
+   "commandsSent": 7
+  },
+  {
+   "id": "CTL-M7-V14-05",
+   "code": "V14-05",
+   "mode": 7,
+   "title": "A vote in which nobody votes still ends in a result",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "after a Jail vote without ballots",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "NO_JAIL_SELECTION",
+     "observed": "NO_JAIL_SELECTION",
+     "ok": true
+    },
+    {
+     "label": "then the election",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "after an election without ballots",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "NO_CAPTAIN_ELECTED",
+     "observed": "NO_CAPTAIN_ELECTED",
+     "ok": true
+    },
+    {
+     "label": "then the first turn of Round 2",
+     "expected": "ORDINARY_TURN",
+     "observed": "ORDINARY_TURN",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 11,
+   "commandsSent": 0
+  },
+  {
+   "id": "CTL-M7-V14-06",
+   "code": "V14-06",
+   "mode": 7,
+   "title": "A release vote ends in a result, and the Jail vote after it has its full time",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the choice is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the approvals are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the release vote ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "PLAYER_RELEASED",
+     "observed": "PLAYER_RELEASED",
+     "ok": true
+    },
+    {
+     "label": "the player is free during the result",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "then the Jail vote",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 21,
+   "commandsSent": 11
+  },
+  {
+   "id": "CTL-M8-V14-01",
+   "code": "V14-01",
+   "mode": 8,
+   "title": "A Jail vote ends in a result of five seconds; what it decides applies at once, and the round resolves afterwards",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the phase after the Jail vote",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "it opens at the closing of the vote",
+     "expected": 1800000540000,
+     "observed": 1800000540000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "the player is Jailed during the result",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and in Jail",
+     "expected": "Jail",
+     "observed": "Jail",
+     "ok": true
+    },
+    {
+     "label": "the registered attack has not resolved yet",
+     "expected": "Healthy",
+     "observed": "Healthy",
+     "ok": true
+    },
+    {
+     "label": "the outcome is public",
+     "expected": "PLAYER_JAILED",
+     "observed": "PLAYER_JAILED",
+     "ok": true
+    },
+    {
+     "label": "with the player it names",
+     "expected": "seat-5",
+     "observed": "seat-5",
+     "ok": true
+    },
+    {
+     "label": "and the total for that player",
+     "expected": 4,
+     "observed": 4,
+     "ok": true
+    },
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the twin run was voted by other players",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "with other voters and the same total the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of each player who voted in both runs",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "after the result the attack has resolved",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "the next phase",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "opens when the result ends",
+     "expected": 1800000545000,
+     "observed": 1800000545000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 19,
+   "commandsSent": 10
+  },
+  {
+   "id": "CTL-M8-V14-02",
+   "code": "V14-02",
+   "mode": 8,
+   "title": "Nothing is accepted during a result",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the result of Round 1 is open",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "a move",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a ballot",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "no destination is offered",
+     "expected": 0,
+     "observed": 0,
+     "ok": true
+    },
+    {
+     "label": "in the Jail vote of Round 5 the Hacker can still enter the Code",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the result of Round 5 is open",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the Code is not on offer during it",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "a Code sent during it",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is not used",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 57,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M8-V14-03",
+   "code": "V14-03",
+   "mode": 8,
+   "title": "A closure that comes late takes nothing from the phase after it",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "asked one millisecond early, the vote stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "closed two seconds late, the result opens then",
+     "expected": 1800000542000,
+     "observed": 1800000542000,
+     "ok": true
+    },
+    {
+     "label": "and lasts its five seconds",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "asked one millisecond early, the result stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "closed three seconds late, the next phase opens then",
+     "expected": 1800000550000,
+     "observed": 1800000550000,
+     "ok": true
+    },
+    {
+     "label": "and has its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 10,
+   "commandsSent": 0
+  },
+  {
+   "id": "CTL-M8-V14-04",
+   "code": "V14-04",
+   "mode": 8,
+   "title": "An election and its runoff each end in a result, and the elected Captain is placed when the vote closes",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "a tie ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "that says a runoff is needed",
+     "expected": "RUNOFF_REQUIRED",
+     "observed": "RUNOFF_REQUIRED",
+     "ok": true
+    },
+    {
+     "label": "nobody is Captain yet",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "then the runoff",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "between the two who tied",
+     "expected": "[\"seat-1\",\"seat-2\"]",
+     "observed": "[\"seat-1\",\"seat-2\"]",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the runoff ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "that names the winner",
+     "expected": "CAPTAIN_ELECTED",
+     "observed": "CAPTAIN_ELECTED",
+     "ok": true
+    },
+    {
+     "label": "who is Captain during the result",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and in Command Room",
+     "expected": "Command Room",
+     "observed": "Command Room",
+     "ok": true
+    },
+    {
+     "label": "then the first turn of Round 2",
+     "expected": "ORDINARY_TURN",
+     "observed": "ORDINARY_TURN",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 14,
+   "commandsSent": 7
+  },
+  {
+   "id": "CTL-M8-V14-05",
+   "code": "V14-05",
+   "mode": 8,
+   "title": "A vote in which nobody votes still ends in a result",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "after a Jail vote without ballots",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "NO_JAIL_SELECTION",
+     "observed": "NO_JAIL_SELECTION",
+     "ok": true
+    },
+    {
+     "label": "then the election",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "after an election without ballots",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "NO_CAPTAIN_ELECTED",
+     "observed": "NO_CAPTAIN_ELECTED",
+     "ok": true
+    },
+    {
+     "label": "then the first turn of Round 2",
+     "expected": "ORDINARY_TURN",
+     "observed": "ORDINARY_TURN",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 12,
+   "commandsSent": 0
+  },
+  {
+   "id": "CTL-M8-V14-06",
+   "code": "V14-06",
+   "mode": 8,
+   "title": "A release vote ends in a result, and the Jail vote after it has its full time",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the choice is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the approvals are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the release vote ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "PLAYER_RELEASED",
+     "observed": "PLAYER_RELEASED",
+     "ok": true
+    },
+    {
+     "label": "the player is free during the result",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "then the Jail vote",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 23,
+   "commandsSent": 11
+  },
+  {
+   "id": "CTL-M9-V14-01",
+   "code": "V14-01",
+   "mode": 9,
+   "title": "A Jail vote ends in a result of five seconds; what it decides applies at once, and the round resolves afterwards",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the phase after the Jail vote",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "it opens at the closing of the vote",
+     "expected": 1800000600000,
+     "observed": 1800000600000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "the player is Jailed during the result",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and in Jail",
+     "expected": "Jail",
+     "observed": "Jail",
+     "ok": true
+    },
+    {
+     "label": "the registered attack has not resolved yet",
+     "expected": "Healthy",
+     "observed": "Healthy",
+     "ok": true
+    },
+    {
+     "label": "the outcome is public",
+     "expected": "PLAYER_JAILED",
+     "observed": "PLAYER_JAILED",
+     "ok": true
+    },
+    {
+     "label": "with the player it names",
+     "expected": "seat-5",
+     "observed": "seat-5",
+     "ok": true
+    },
+    {
+     "label": "and the total for that player",
+     "expected": 5,
+     "observed": 5,
+     "ok": true
+    },
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the twin run was voted by other players",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "with other voters and the same total the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of each player who voted in both runs",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "after the result the attack has resolved",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "the next phase",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "opens when the result ends",
+     "expected": 1800000605000,
+     "observed": 1800000605000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 21,
+   "commandsSent": 12
+  },
+  {
+   "id": "CTL-M9-V14-02",
+   "code": "V14-02",
+   "mode": 9,
+   "title": "Nothing is accepted during a result",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the result of Round 1 is open",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "a move",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a ballot",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "no destination is offered",
+     "expected": 0,
+     "observed": 0,
+     "ok": true
+    },
+    {
+     "label": "in the Jail vote of Round 5 the Hacker can still enter the Code",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the result of Round 5 is open",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the Code is not on offer during it",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "a Code sent during it",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is not used",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 62,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M9-V14-03",
+   "code": "V14-03",
+   "mode": 9,
+   "title": "A closure that comes late takes nothing from the phase after it",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "asked one millisecond early, the vote stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "closed two seconds late, the result opens then",
+     "expected": 1800000602000,
+     "observed": 1800000602000,
+     "ok": true
+    },
+    {
+     "label": "and lasts its five seconds",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "asked one millisecond early, the result stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "closed three seconds late, the next phase opens then",
+     "expected": 1800000610000,
+     "observed": 1800000610000,
+     "ok": true
+    },
+    {
+     "label": "and has its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 11,
+   "commandsSent": 0
+  },
+  {
+   "id": "CTL-M9-V14-04",
+   "code": "V14-04",
+   "mode": 9,
+   "title": "An election and its runoff each end in a result, and the elected Captain is placed when the vote closes",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "a tie ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "that says a runoff is needed",
+     "expected": "RUNOFF_REQUIRED",
+     "observed": "RUNOFF_REQUIRED",
+     "ok": true
+    },
+    {
+     "label": "nobody is Captain yet",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "then the runoff",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "between the two who tied",
+     "expected": "[\"seat-1\",\"seat-2\"]",
+     "observed": "[\"seat-1\",\"seat-2\"]",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the runoff ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "that names the winner",
+     "expected": "CAPTAIN_ELECTED",
+     "observed": "CAPTAIN_ELECTED",
+     "ok": true
+    },
+    {
+     "label": "who is Captain during the result",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and in Command Room",
+     "expected": "Command Room",
+     "observed": "Command Room",
+     "ok": true
+    },
+    {
+     "label": "then the first turn of Round 2",
+     "expected": "ORDINARY_TURN",
+     "observed": "ORDINARY_TURN",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 15,
+   "commandsSent": 7
+  },
+  {
+   "id": "CTL-M9-V14-05",
+   "code": "V14-05",
+   "mode": 9,
+   "title": "A vote in which nobody votes still ends in a result",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "after a Jail vote without ballots",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "NO_JAIL_SELECTION",
+     "observed": "NO_JAIL_SELECTION",
+     "ok": true
+    },
+    {
+     "label": "then the election",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "after an election without ballots",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "NO_CAPTAIN_ELECTED",
+     "observed": "NO_CAPTAIN_ELECTED",
+     "ok": true
+    },
+    {
+     "label": "then the first turn of Round 2",
+     "expected": "ORDINARY_TURN",
+     "observed": "ORDINARY_TURN",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 13,
+   "commandsSent": 0
+  },
+  {
+   "id": "CTL-M9-V14-06",
+   "code": "V14-06",
+   "mode": 9,
+   "title": "A release vote ends in a result, and the Jail vote after it has its full time",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the choice is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the approvals are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the release vote ends in a result",
+     "expected": "VOTE_RESULT",
+     "observed": "VOTE_RESULT",
+     "ok": true
+    },
+    {
+     "label": "the outcome",
+     "expected": "PLAYER_RELEASED",
+     "observed": "PLAYER_RELEASED",
+     "ok": true
+    },
+    {
+     "label": "the player is free during the result",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "then the Jail vote",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 25,
+   "commandsSent": 13
+  }
+ ]
+}

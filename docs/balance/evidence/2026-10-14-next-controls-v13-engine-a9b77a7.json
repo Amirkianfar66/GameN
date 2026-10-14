@@ -1,0 +1,1594 @@
+{
+ "schema": "mothership.balance.next-controls/1",
+ "pins": {
+  "repository": "Amirkianfar66/GameN",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "branch": "HEAD",
+  "workingTreeCommit": "955a1931934af2499e4057bbcbb2bc747091f3ee",
+  "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "ruleSourceHashes": {
+   "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
+   "rules/overlays/direct-shot-decision.json": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be",
+   "rules/overlays/final-showdown-decision.json": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1",
+   "rules/overlays/location-board-layout-v1.json": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691",
+   "rules/overlays/movement-decision.json": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d",
+   "rules/overlays/player-modes-officer.json": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19",
+   "rules/sources/v2.1-decisions.json": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
+  },
+  "v1OverlaySha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "additionalOwnerOverlayHashes": {
+   "rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183",
+   "rules/overlays/room-capacity-owner-decision-2026-10-11.json": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468",
+   "rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json": "aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e"
+  },
+  "v1ManifestSha256": "451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2",
+  "scenarioFileHashes": {
+   "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+   "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+   "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+   "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+  },
+  "rulebookSha256": "bb47ff66fed5a07631f5df8b9bd6467e557f35aec019662242325fd9bdc14bd0",
+  "engine": {
+   "adapter": "next-version-controls",
+   "engineVersion": "full-game-1.3.0",
+   "rulesetVersion": "in-person-v1-capacity-resolution-2026-10-12",
+   "rulesetHash": "aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e",
+   "protocolVersion": 2,
+   "binaryEngineVersion": "full-game-1.5.0",
+   "binaryRulesetVersion": "in-person-v1-declared-hack-2026-10-12",
+   "binaryRulesetHash": "1d8a5e509372ea816af8d6782bf1d73720532ed672ee2f77e2938805976d8d6c"
+  },
+  "engineCommit": "a9b77a7bd535efc8bdb5041cee18fd6526c0e354",
+  "engineCommitBasis": "head of the engine checkout",
+  "engineTreeClean": true,
+  "engineBuildSha256": "fa2d816af4afc907dacbca8e6913b00189e7f140faadf68407bbc64ef3f0516a",
+  "engineOrigin": "built checkout outside this worktree (--engine-root)",
+  "runner": "@mothership/balance controls on an existing version",
+  "node": "v22.21.1",
+  "generatedAt": "2026-10-14T03:56:08.520Z",
+  "suite": "next-version-controls",
+  "rulesetAskedFor": "in-person-v1-capacity-resolution-2026-10-12",
+  "controlsOf": "V13",
+  "controlsSha256": "be9815845221fc6bf3500236ae60963c44a969f70e3d7facaf8dc908dcf5903c",
+  "catalogSha256": "1aa4c25e15d836a4fe05bca40292a3ad7baf80eceed81526b83a4259547428e0",
+  "specification": {
+   "name": "owner-motion-2026-10-13",
+   "packetSha256": "fd90accca7c3e39d86e7f6ab6ac38a1804ac2877523b560fa0c03928bb9a1aca"
+  }
+ },
+ "ruleset": "in-person-v1-capacity-resolution-2026-10-12",
+ "controlsDefined": 23,
+ "totals": {
+  "total": 30,
+  "passed": 27,
+  "failed": 0,
+  "recorded": 3,
+  "notRun": 0
+ },
+ "byMode": {
+  "7": {
+   "total": 10,
+   "passed": 9,
+   "failed": 0,
+   "recorded": 1,
+   "notRun": 0
+  },
+  "8": {
+   "total": 10,
+   "passed": 9,
+   "failed": 0,
+   "recorded": 1,
+   "notRun": 0
+  },
+  "9": {
+   "total": 10,
+   "passed": 9,
+   "failed": 0,
+   "recorded": 1,
+   "notRun": 0
+  }
+ },
+ "runs": [
+  {
+   "id": "CTL-M7-V13-01",
+   "code": "V13-01",
+   "mode": 7,
+   "title": "The Jail vote closes straight into the resolution: there is no result window",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote is a window of sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the phase after the Jail vote",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "it opens at the closing of the vote",
+     "expected": 1800000480000,
+     "observed": 1800000480000,
+     "ok": true
+    },
+    {
+     "label": "the attack has resolved by then",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 8,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M7-V13-02",
+   "code": "V13-02",
+   "mode": 7,
+   "title": "A Hack is one phase of sixty seconds, and only the two read who the partner is",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the turn",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the public view names the initiator as the active player",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "the initiator reads the partner",
+     "expected": "seat-4",
+     "observed": "seat-4",
+     "ok": true
+    },
+    {
+     "label": "the partner reads the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "nobody else reads a partner",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the request to the Hacker is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with another partner the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of a player in the other room",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 2,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M7-V13-03",
+   "code": "V13-03",
+   "mode": 7,
+   "title": "A move is accepted during the last player's Hack and refused in the Jail vote",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the last player's Hack request is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the last turn",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "a move during that Hack",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Insider is offered Room A during that Hack",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the phase after that Hack",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    },
+    {
+     "label": "the Insider is offered nothing in the Jail vote",
+     "expected": 0,
+     "observed": 0,
+     "ok": true
+    },
+    {
+     "label": "a move in the Jail vote",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 8,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M7-V13-04",
+   "code": "V13-04",
+   "mode": 7,
+   "title": "A move while a Captain election is being held",
+   "status": "recorded",
+   "checks": [],
+   "records": [
+    {
+     "label": "the Cracker is offered a destination during the election",
+     "observed": true
+    },
+    {
+     "label": "a move sent during the election",
+     "observed": "REGISTERED"
+    },
+    {
+     "label": "the round whose move it used",
+     "observed": 2
+    }
+   ],
+   "error": null,
+   "phasesClosed": 8,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M7-V13-05",
+   "code": "V13-05",
+   "mode": 7,
+   "title": "A Disabler names a player on their own turn, and an injury does not kill with time",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable names a player in the same room and is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the use is spent when it is accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the target is Injured after Round 1",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "and in Hospital",
+     "expected": "Hospital",
+     "observed": "Hospital",
+     "ok": true
+    },
+    {
+     "label": "three rounds later, with no Rescue, the target is still Injured",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 36,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M7-V13-06",
+   "code": "V13-06",
+   "mode": 7,
+   "title": "A player who is Jailed and Injured is in Jail",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "health",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "Jailed",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "location",
+     "expected": "Jail",
+     "observed": "Jail",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 8,
+   "commandsSent": 5
+  },
+  {
+   "id": "CTL-M7-V13-07",
+   "code": "V13-07",
+   "mode": 7,
+   "title": "A block is read by Undercover and by nobody else",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the grant is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the grant is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the attacked player is Healthy",
+     "expected": "Healthy",
+     "observed": "Healthy",
+     "ok": true
+    },
+    {
+     "label": "the Protection is used up",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the public view is the same as in a run without the attack",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the attacked player's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "a room-mate's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "Undercover's view differs",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 34,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M7-V13-08",
+   "code": "V13-08",
+   "mode": 7,
+   "title": "A release takes the Captain's choice and then a vote",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider is Captain",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "after the turns the Captain is asked",
+     "expected": "RELEASE_CHOICE",
+     "observed": "RELEASE_CHOICE",
+     "ok": true
+    },
+    {
+     "label": "the choice is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "then everybody votes",
+     "expected": "RELEASE_VOTE",
+     "observed": "RELEASE_VOTE",
+     "ok": true
+    },
+    {
+     "label": "the prisoner is still in Jail during the vote",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the approvals are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "released when the vote closes",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "back in the room they were last in",
+     "expected": "Room A",
+     "observed": "Room A",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote follows",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 18,
+   "commandsSent": 11
+  },
+  {
+   "id": "CTL-M7-V13-09",
+   "code": "V13-09",
+   "mode": 7,
+   "title": "The showdown moves everybody who is left to the Final Zone",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the ballots of Round 1 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the ballots of Round 2 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the ballots of Round 3 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "no winner after Round 5: the showdown opens",
+     "expected": "SHOWDOWN",
+     "observed": "SHOWDOWN",
+     "ok": true
+    },
+    {
+     "label": "every player is in the Final Zone",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the prisoners are still Jailed there",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 44,
+   "commandsSent": 12
+  },
+  {
+   "id": "CTL-M7-V13-10",
+   "code": "V13-10",
+   "mode": 7,
+   "title": "An Eliminated player's faction is public in the first phase after the resolution",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the shot is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "public health",
+     "expected": "Eliminated",
+     "observed": "Eliminated",
+     "ok": true
+    },
+    {
+     "label": "public faction, in the same view",
+     "expected": "Alien",
+     "observed": "Alien",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 35,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M8-V13-01",
+   "code": "V13-01",
+   "mode": 8,
+   "title": "The Jail vote closes straight into the resolution: there is no result window",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote is a window of sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the phase after the Jail vote",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "it opens at the closing of the vote",
+     "expected": 1800000540000,
+     "observed": 1800000540000,
+     "ok": true
+    },
+    {
+     "label": "the attack has resolved by then",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 9,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M8-V13-02",
+   "code": "V13-02",
+   "mode": 8,
+   "title": "A Hack is one phase of sixty seconds, and only the two read who the partner is",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the turn",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the public view names the initiator as the active player",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "the initiator reads the partner",
+     "expected": "seat-4",
+     "observed": "seat-4",
+     "ok": true
+    },
+    {
+     "label": "the partner reads the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "nobody else reads a partner",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the request to the Hacker is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with another partner the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of a player in the other room",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 2,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M8-V13-03",
+   "code": "V13-03",
+   "mode": 8,
+   "title": "A move is accepted during the last player's Hack and refused in the Jail vote",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the last player's Hack request is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the last turn",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "a move during that Hack",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Insider is offered Room A during that Hack",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the phase after that Hack",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    },
+    {
+     "label": "the Insider is offered nothing in the Jail vote",
+     "expected": 0,
+     "observed": 0,
+     "ok": true
+    },
+    {
+     "label": "a move in the Jail vote",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 9,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M8-V13-04",
+   "code": "V13-04",
+   "mode": 8,
+   "title": "A move while a Captain election is being held",
+   "status": "recorded",
+   "checks": [],
+   "records": [
+    {
+     "label": "the Cracker is offered a destination during the election",
+     "observed": true
+    },
+    {
+     "label": "a move sent during the election",
+     "observed": "REGISTERED"
+    },
+    {
+     "label": "the round whose move it used",
+     "observed": 2
+    }
+   ],
+   "error": null,
+   "phasesClosed": 9,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M8-V13-05",
+   "code": "V13-05",
+   "mode": 8,
+   "title": "A Disabler names a player on their own turn, and an injury does not kill with time",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable names a player in the same room and is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the use is spent when it is accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the target is Injured after Round 1",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "and in Hospital",
+     "expected": "Hospital",
+     "observed": "Hospital",
+     "ok": true
+    },
+    {
+     "label": "three rounds later, with no Rescue, the target is still Injured",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 40,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M8-V13-06",
+   "code": "V13-06",
+   "mode": 8,
+   "title": "A player who is Jailed and Injured is in Jail",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "health",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "Jailed",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "location",
+     "expected": "Jail",
+     "observed": "Jail",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 9,
+   "commandsSent": 5
+  },
+  {
+   "id": "CTL-M8-V13-07",
+   "code": "V13-07",
+   "mode": 8,
+   "title": "A block is read by Undercover and by nobody else",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the grant is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the grant is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the attacked player is Healthy",
+     "expected": "Healthy",
+     "observed": "Healthy",
+     "ok": true
+    },
+    {
+     "label": "the Protection is used up",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the public view is the same as in a run without the attack",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the attacked player's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "a room-mate's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "Undercover's view differs",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 38,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M8-V13-08",
+   "code": "V13-08",
+   "mode": 8,
+   "title": "A release takes the Captain's choice and then a vote",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider is Captain",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "after the turns the Captain is asked",
+     "expected": "RELEASE_CHOICE",
+     "observed": "RELEASE_CHOICE",
+     "ok": true
+    },
+    {
+     "label": "the choice is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "then everybody votes",
+     "expected": "RELEASE_VOTE",
+     "observed": "RELEASE_VOTE",
+     "ok": true
+    },
+    {
+     "label": "the prisoner is still in Jail during the vote",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the approvals are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "released when the vote closes",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "back in the room they were last in",
+     "expected": "Room A",
+     "observed": "Room A",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote follows",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 20,
+   "commandsSent": 11
+  },
+  {
+   "id": "CTL-M8-V13-09",
+   "code": "V13-09",
+   "mode": 8,
+   "title": "The showdown moves everybody who is left to the Final Zone",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the ballots of Round 1 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the ballots of Round 2 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "no winner after Round 5: the showdown opens",
+     "expected": "SHOWDOWN",
+     "observed": "SHOWDOWN",
+     "ok": true
+    },
+    {
+     "label": "every player is in the Final Zone",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the prisoners are still Jailed there",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 49,
+   "commandsSent": 8
+  },
+  {
+   "id": "CTL-M8-V13-10",
+   "code": "V13-10",
+   "mode": 8,
+   "title": "An Eliminated player's faction is public in the first phase after the resolution",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the shot is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "public health",
+     "expected": "Eliminated",
+     "observed": "Eliminated",
+     "ok": true
+    },
+    {
+     "label": "public faction, in the same view",
+     "expected": "Alien",
+     "observed": "Alien",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 39,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M9-V13-01",
+   "code": "V13-01",
+   "mode": 9,
+   "title": "The Jail vote closes straight into the resolution: there is no result window",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote is a window of sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the phase after the Jail vote",
+     "expected": "CAPTAIN_ELECTION",
+     "observed": "CAPTAIN_ELECTION",
+     "ok": true
+    },
+    {
+     "label": "it opens at the closing of the vote",
+     "expected": 1800000600000,
+     "observed": 1800000600000,
+     "ok": true
+    },
+    {
+     "label": "the attack has resolved by then",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 10,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M9-V13-02",
+   "code": "V13-02",
+   "mode": 9,
+   "title": "A Hack is one phase of sixty seconds, and only the two read who the partner is",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the turn",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "the public view names the initiator as the active player",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "the initiator reads the partner",
+     "expected": "seat-4",
+     "observed": "seat-4",
+     "ok": true
+    },
+    {
+     "label": "the partner reads the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "nobody else reads a partner",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the request to the Hacker is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with another partner the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of a player in the other room",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 2,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M9-V13-03",
+   "code": "V13-03",
+   "mode": 9,
+   "title": "A move is accepted during the last player's Hack and refused in the Jail vote",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the last player's Hack request is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the last turn",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "a move during that Hack",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Insider is offered Room A during that Hack",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the phase after that Hack",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    },
+    {
+     "label": "the Insider is offered nothing in the Jail vote",
+     "expected": 0,
+     "observed": 0,
+     "ok": true
+    },
+    {
+     "label": "a move in the Jail vote",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 10,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M9-V13-04",
+   "code": "V13-04",
+   "mode": 9,
+   "title": "A move while a Captain election is being held",
+   "status": "recorded",
+   "checks": [],
+   "records": [
+    {
+     "label": "the Cracker is offered a destination during the election",
+     "observed": true
+    },
+    {
+     "label": "a move sent during the election",
+     "observed": "REGISTERED"
+    },
+    {
+     "label": "the round whose move it used",
+     "observed": 2
+    }
+   ],
+   "error": null,
+   "phasesClosed": 10,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M9-V13-05",
+   "code": "V13-05",
+   "mode": 9,
+   "title": "A Disabler names a player on their own turn, and an injury does not kill with time",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable names a player in the same room and is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the use is spent when it is accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the target is Injured after Round 1",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "and in Hospital",
+     "expected": "Hospital",
+     "observed": "Hospital",
+     "ok": true
+    },
+    {
+     "label": "three rounds later, with no Rescue, the target is still Injured",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 44,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M9-V13-06",
+   "code": "V13-06",
+   "mode": 9,
+   "title": "A player who is Jailed and Injured is in Jail",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the ballots are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "health",
+     "expected": "Injured",
+     "observed": "Injured",
+     "ok": true
+    },
+    {
+     "label": "Jailed",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "location",
+     "expected": "Jail",
+     "observed": "Jail",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 10,
+   "commandsSent": 6
+  },
+  {
+   "id": "CTL-M9-V13-07",
+   "code": "V13-07",
+   "mode": 9,
+   "title": "A block is read by Undercover and by nobody else",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the grant is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the grant is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the attacked player is Healthy",
+     "expected": "Healthy",
+     "observed": "Healthy",
+     "ok": true
+    },
+    {
+     "label": "the Protection is used up",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the public view is the same as in a run without the attack",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the attacked player's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "a room-mate's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "Undercover's view differs",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 42,
+   "commandsSent": 3
+  },
+  {
+   "id": "CTL-M9-V13-08",
+   "code": "V13-08",
+   "mode": 9,
+   "title": "A release takes the Captain's choice and then a vote",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider is Captain",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "after the turns the Captain is asked",
+     "expected": "RELEASE_CHOICE",
+     "observed": "RELEASE_CHOICE",
+     "ok": true
+    },
+    {
+     "label": "the choice is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "then everybody votes",
+     "expected": "RELEASE_VOTE",
+     "observed": "RELEASE_VOTE",
+     "ok": true
+    },
+    {
+     "label": "the prisoner is still in Jail during the vote",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the approvals are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "released when the vote closes",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "back in the room they were last in",
+     "expected": "Room A",
+     "observed": "Room A",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote follows",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 22,
+   "commandsSent": 13
+  },
+  {
+   "id": "CTL-M9-V13-09",
+   "code": "V13-09",
+   "mode": 9,
+   "title": "The showdown moves everybody who is left to the Final Zone",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the ballots of Round 1 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the ballots of Round 2 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the ballots of Round 3 are accepted",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "no winner after Round 5: the showdown opens",
+     "expected": "SHOWDOWN",
+     "observed": "SHOWDOWN",
+     "ok": true
+    },
+    {
+     "label": "every player is in the Final Zone",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the prisoners are still Jailed there",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 54,
+   "commandsSent": 15
+  },
+  {
+   "id": "CTL-M9-V13-10",
+   "code": "V13-10",
+   "mode": 9,
+   "title": "An Eliminated player's faction is public in the first phase after the resolution",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Disable is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the shot is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "public health",
+     "expected": "Eliminated",
+     "observed": "Eliminated",
+     "ok": true
+    },
+    {
+     "label": "public faction, in the same view",
+     "expected": "Alien",
+     "observed": "Alien",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 43,
+   "commandsSent": 2
+  }
+ ]
+}
