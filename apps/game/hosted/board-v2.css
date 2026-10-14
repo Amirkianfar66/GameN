@@ -121,3 +121,10 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 .bv2-block-fx { position:absolute; inset:0; z-index:3100; pointer-events:none; }
 .bv2-block-fx span { position:absolute; background-position:center; background-size:contain; background-repeat:no-repeat; }
 .bv2-block-fx strong { position:absolute; text-align:center; box-sizing:border-box; background:var(--bv2-gold); color:var(--bv2-ink); border:2px solid var(--bv2-ink); font-size:12px; line-height:13px; padding:1px 4px; }
+/* The private body scrolls inside its measured sheet. The separate claim carries the Hack pair. */
+#app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) { display:flex!important; flex-direction:column; gap:0; margin-left:0!important; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) .phone-panel-head { flex:none; min-height:44px; height:44px; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) .ms-private__panel { flex:1; min-height:0; overflow:auto; animation:none!important; transform:none!important; }
+#app .ms-shell[data-board-layout="board-v2"] #ms-hack-with { display:none; }
+#app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="true"] { padding:0; border:0; }
+#app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="false"] .bv2-claim-show { position:sticky; bottom:0; height:44px; }
