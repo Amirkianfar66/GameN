@@ -46,3 +46,5 @@ export { renderTableShell } from './markup/table-shell.js';
 
 export { renderComicPlayerShell, renderComicTableShell, renderComicRoleCard } from './markup/comic-shell.js';
 export type { ComicContext, ComicIdentity } from './markup/comic-shell.js';
+
+export { buildHackFeedback } from './model/hack-feedback.js';

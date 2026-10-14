@@ -28,9 +28,8 @@ export interface ScreenFrame<Model> {
    */
   readonly focus: { readonly seq: number; readonly targetId: string } | null;
   /**
-   * Goes up each time private content leaves the screen. Whatever private text a host put
-   * into the document outside the model's own markup, a spoken line for instance, must
-   * leave with it.
+   * Goes up when private content leaves the screen or its feedback authority changes.
+   * Any retained private live text in the host must leave with that authority.
    */
   readonly privacyEpoch: number;
 }
@@ -77,6 +76,8 @@ interface ScreenConfig<View, Input, Model> {
   readonly phaseOf: (view: View) => PhaseFacts;
   /** An authoritative public-only screen can close the private layer without losing recovery. */
   readonly concealPrivate?: (view: View | null) => boolean;
+  /** A changed or expired private feedback identity withdraws retained live text, keeping recovery intact. */
+  readonly privateAnnouncementScope?: (input: Input) => string | null;
   /** Called for every redraw and before every intent is judged, so it may bring other state up to date. */
   readonly buildInput: (environment: ShellEnvironment, view: View | null, local: LocalState) => Input;
   readonly buildModel: (input: Input) => Model;
@@ -103,6 +104,7 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
   let focusIsPrivate = false;
   let privacyEpoch = 0;
   let privateWasOpen = false;
+  let privateAnnouncementScope: string | null = null;
   let tick: unknown = null;
   let stopSession: (() => void) | null = null;
   let stopWatching: (() => void) | null = null;
@@ -135,6 +137,12 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
     tick = null;
 
     const { input, model, remainingMs } = compute();
+    const nextScope = config.privateAnnouncementScope?.(input) ?? null;
+    if (nextScope !== privateAnnouncementScope) {
+      privateAnnouncementScope = nextScope;
+      privacyEpoch += 1;
+      privateAnnouncement = null;
+    }
     const privateOpen = local.pageVisible && local.privateRevealed;
     if (privateWasOpen && !privateOpen) {
       privacyEpoch += 1;

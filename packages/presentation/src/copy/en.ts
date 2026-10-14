@@ -84,6 +84,8 @@ export const en = {
     // The server's own phase kinds under wire protocol 2, named and nothing more.
     kind: {
       HACK: 'Hack',
+      HACK_DECLARE: 'Hack declaration',
+      HACK_RESULT: 'Hack claim',
       CAPTAIN_ELECTION: 'Captain election',
       RELEASE_CHOICE: 'Release choice',
       RELEASE_VOTE: 'Release vote',
@@ -216,6 +218,7 @@ export const en = {
     // The names of the actions, as the approved rules name them. "Protection" is the
     // Undercover's grant; "Disable" is a Disabler's attack; "Hack" is the standard Hack.
     kind: {
+      'declare-hack-side': 'Declare a side',
       pass: 'Pass', move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot',
       vote: 'Vote', 'release-choice': 'Release request', 'release-vote': 'Release vote',
       scan: 'Scan', supply: 'Supply', code: 'Code attempt',
@@ -238,6 +241,7 @@ export const en = {
       tooFew: 'Too few players to choose right now',
     },
     open: {
+      'declare-hack-side': 'Choose a side',
       pass: 'Pass turn', move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
       hack: 'Choose a player', 'showdown-shot': 'Choose a target',
       vote: 'Cast your ballot', 'release-choice': 'Choose', 'release-vote': 'Cast your ballot',
@@ -247,6 +251,7 @@ export const en = {
       ? 'One action of yours is registered and waiting to be resolved.'
       : `${count} actions of yours are registered and waiting to be resolved.`),
     choosePrompt: {
+      'declare-hack-side': 'Which side do you declare?',
       pass: 'End your turn now?', move: 'Where do you move?', shot: 'Choose a target', disable: 'Choose a target', protect: 'Who is the Protection for?', rescue: 'Who is the Rescue for?',
       hack: 'Who do you request a Hack with?', 'showdown-shot': 'Choose a target',
       'release-choice': 'Ask for a release vote for which jailed player?',
@@ -269,6 +274,7 @@ export const en = {
     } satisfies Record<TargetActionKind, (who: string) => string>,
     // About this screen, not about the game: there is no control here that takes a command back.
     consequence: {
+      'declare-hack-side': 'Your accepted declaration is final. The two participants will see this claim.',
       pass: 'Your turn ends when the server accepts Pass.',
       move: 'You cannot change or withdraw it here once the server accepts it.',
       shot: 'You cannot change or withdraw it here once it is registered.',
@@ -289,11 +295,13 @@ export const en = {
       code: 'This is your one Code attempt in this match. You cannot change it once the server accepts it.',
     } satisfies Record<ActionKind, string>,
     confirm: {
+      'declare-hack-side': 'Declare side',
       pass: 'Pass', move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
       'showdown-shot': 'Register shot', vote: 'Cast ballot', 'release-choice': 'Confirm choice', 'release-vote': 'Cast ballot',
       scan: 'Scan', supply: 'Register Supply', code: 'Submit Code attempt',
     } satisfies Record<ActionKind, string>,
     submitting: {
+      'declare-hack-side': 'Sending your declaration to the server…',
       pass: 'Passing your turn…', move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
       protect: 'Sending your Protection to the server…', rescue: 'Sending your Rescue to the server…', hack: 'Sending your Hack request to the server…',
       'showdown-shot': 'Sending your shot to the server…', vote: 'Sending your ballot to the server…',

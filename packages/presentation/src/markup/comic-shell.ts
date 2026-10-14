@@ -5,7 +5,7 @@ import { en } from '../copy/en.js';
 import type { ActionBoardMarksModel, CardButtonModel, ConnectedActionCardModel, ConnectedPlayerShellModel, InsiderSetModel, SeatModel, TableShellModel } from '../model/types.js';
 import { h, isElement } from './node.js';
 import type { MarkupAttributeValue, MarkupChild, MarkupElement, MarkupNode } from './node.js';
-import { renderConnectedPlayerShell } from './connected-player.js';
+import { renderConnectedPlayerShell, renderHackFeedback } from './connected-player.js';
 import { renderButton } from './player-shell.js';
 import { renderTableShell } from './table-shell.js';
 import { hiddenText, renderZones } from './parts.js';
@@ -403,7 +403,8 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       if (dockedAction && card) return h('section', { class: 'ms-private phone-action-dock',
         'data-region': 'private', 'data-open': 'true', 'aria-labelledby': 'ms-private-heading', 'data-focus-fallback': 'ms-phone-actions',
       }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
-      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null, h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
+      h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null,
+        renderHackFeedback(privateContent?.hackFeedback ?? null), h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };

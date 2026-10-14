@@ -1,3 +1,4 @@
+import { declaredHackView } from './hack-scenarios.mjs';
 // mothership:dev-only
 //
 // Board simulation: the release's own player (or display) screen, controller, host, styles
@@ -40,7 +41,8 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get('scenario') ?? 'spread';
-const definition = SCENARIOS[id];
+const isDeclaredHack = id.startsWith('declared-hack-');
+const definition = isDeclaredHack ? { ...SCENARIOS.spread, title: 'Synthetic declared-Hack consumer fixture', self: id.endsWith('initiator') ? 1 : 3, role: id.endsWith('initiator') ? 'Cracker' : 'Undercover' } : SCENARIOS[id];
 const display = params.get('as') === 'display';
 const latency = Number(params.get('latency') ?? 450);
 const self = `seat-${definition?.self ?? 3}`;
@@ -62,6 +64,9 @@ const timeLeft = Math.min(60_000, Math.max(1_000, Number(params.get('time-left')
 const phaseStart = params.has('phase-start') ? Number(params.get('phase-start')) : null;
 if (phaseStart !== null && (!Number.isSafeInteger(phaseStart) || phaseStart <= 0)) throw new Error('Invalid fixed fixture phase start');
 const started = phaseStart ?? Date.now() - (42_000 - timeLeft);
+let hackStage = params.get('hack-stage') ?? 'HACK_DECLARE';
+let hackStarted = phaseStart ?? Date.now() - 250;
+let hackSide = params.get('declared-side') === 'none' ? null : params.get('declared-side') ?? 'Blue';
 let revision = 1;
 let awaitingResult = params.has('await-result'), resultStarted = started;
 let moved = null;
@@ -69,7 +74,8 @@ const publicOverrides = new Map();
 let deadlineExpired = false, terminal = null;
 const listeners = new Map();
 const viewFor = () => {
-  const view = display ? publicView(definition, resultStarted, revision, moved) : playerView(definition, resultStarted, revision, moved);
+  const baseView = display ? publicView(definition, resultStarted, revision, moved) : playerView(definition, resultStarted, revision, moved);
+  const view = isDeclaredHack ? declaredHackView(baseView, { stage: hackStage, startedAt: hackStarted, side: hackSide, publicOnly: display }) : baseView;
   if (awaitingResult && definition.voteResult) {
     view.phase = { id: 'fixture-vote-open', kind: definition.voteResult.kind, startedAt: started, endsAt: started + 60000 };
     view.voteResult = null; view.lastTally = null;
@@ -85,6 +91,7 @@ const viewFor = () => {
     view.activeSeatId = null;
     view.ballot = { eligibleVoters: [], eligibleTargets: [], releaseTargetSeatId: null };
     if ('voteResult' in view) view.voteResult = null;
+    if ('hackFeedback' in view) { view.hackFeedback = null; view.hackPartnerSeatId = null; }
     if (terminal === 'finished') {
       const roles = ['Insider', 'Cracker', 'Officer', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
       view.result = { winner: 'Blue', alienCoWinner: true };
@@ -161,6 +168,8 @@ window.__simulation = {
   scenario: id, title: definition.title, log, operations,
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** Synthetic server closes the vote; the consumer still only reads its next snapshot. */
+  /** Explicit authored snapshot delivery; no animation or browser timer advances a game. */
+  hack(stage, side = 'Blue') { if (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(stage)) throw new Error('Unknown fixture Hack stage'); hackStage = stage; hackSide = side; hackStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   showResult() { awaitingResult = false; resultStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },

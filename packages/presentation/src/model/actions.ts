@@ -1,3 +1,4 @@
+import { supportsDeclaredHack } from '@mothership/contracts';
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import type { ActionChoice, ActionKind, CompoundActionKind, FactionName, SeatBallotKind, TargetActionKind } from './types.js';
 
@@ -7,7 +8,7 @@ import type { ActionChoice, ActionKind, CompoundActionKind, FactionName, SeatBal
 
 /** Every action the connected phone knows how to offer, in the order it lists them. */
 export const ACTION_KINDS: readonly ActionKind[] = [
-  'pass', 'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote',
+  'declare-hack-side', 'pass', 'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote',
 ];
 
 /**
@@ -74,6 +75,15 @@ export function offeredTargets(view: FullPlayerView, kind: TargetActionKind): re
  */
 export function offeredChoices(view: FullPlayerView, kind: Exclude<ActionKind, CompoundActionKind>): readonly ActionChoice[] | null {
   switch (kind) {
+    case 'declare-hack-side':
+      return supportsDeclaredHack(view.versions) && view.phase.kind === 'HACK_DECLARE'
+        && view.audience.seatId === view.self.seatId
+        && view.activeSeatId !== view.self.seatId && view.hackPartnerSeatId === view.activeSeatId
+        && view.hackFeedback?.phaseId === view.phase.id && view.hackFeedback.hackId === view.phase.id
+        && view.hackFeedback.round === view.round && view.hackFeedback.status === 'AWAITING_DECLARATION'
+        && view.hackFeedback.declaredSide === null
+        && view.legalTargets.DECLARE_HACK_SIDE?.length === 1 && view.legalTargets.DECLARE_HACK_SIDE[0] === view.self.seatId
+          ? FACTIONS.map(declaredSide => ({ kind, declaredSide })) : null;
     case 'pass':
       return view.phase.kind === 'ORDINARY_TURN' && view.activeSeatId === view.self.seatId
         && view.legalTargets.PASS_TURN?.includes(view.self.seatId) ? [{ kind }] : null;
@@ -179,6 +189,7 @@ export function isOffered(view: FullPlayerView, choice: ActionChoice): boolean {
  */
 export function choiceValue(choice: ActionChoice): string {
   switch (choice.kind) {
+    case 'declare-hack-side': return choice.declaredSide;
     case 'pass': return 'pass';
     case 'move': return choice.destination;
     case 'release-vote': return RELEASE_ANSWERS.find(([, approve]) => approve === choice.approve)?.[0] ?? NOBODY;

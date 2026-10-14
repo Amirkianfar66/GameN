@@ -3,6 +3,7 @@ import { supportsVoteResults } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { displaySeconds, FINAL_SECONDS, isCurrent, phaseSummary, resolveScreen, seatNumber } from './common.js';
 import { describeAction } from './connected-player.js';
+import { buildHackFeedback } from './hack-feedback.js';
 import { matchOutcome, matchOutcomeLines } from './result.js';
 import { resolveShotGate } from './shot.js';
 import { eligibleVoters, publishedTally, tallyResult } from './votes.js';
@@ -242,12 +243,20 @@ const ACTION_CHOOSING: readonly ActionStep[] = ['choosing', 'confirming'];
  */
 export function createConnectedPlayerAnnouncer(): Announcer<ConnectedPlayerInput> {
   const shared = createAnnouncer<ConnectedPlayerInput>(input => input.view?.self.seatId ?? null);
+  const heardHacks = new Set<string>();
   let heard: ActionStep = 'idle';
   let previousStep: ActionStep = 'idle';
   let previousPhaseId: string | null = null;
   return {
     next(input) {
       const out = shared.next(input);
+      const feedback = input.view === null ? null : buildHackFeedback(input, input.view);
+      const claimKey = feedback === null ? null : `${input.view?.matchId}:${feedback.id}`;
+      if (feedback?.stage === 'HACK_RESULT' && claimKey !== null && !heardHacks.has(claimKey)) {
+        out.push(privately('polite', `${feedback.message} ${feedback.note}`));
+        heardHacks.add(claimKey);
+        if (heardHacks.size > 64) heardHacks.delete(heardHacks.values().next().value!);
+      }
       const { step } = input.action;
       const phaseId = input.view?.phase.id ?? null;
       // Nothing private is put into words unless the private panel is open in front of the
