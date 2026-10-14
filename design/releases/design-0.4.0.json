@@ -126,9 +126,9 @@
     "apps/game/hosted/board-v2-drawing/scene-kit.mjs": "055640dad54bbc1b8b0be409e9a694acf8c02ead44feaaa2c0b07a10a1322e46",
     "apps/game/hosted/board-v2-drawing/slots.mjs": "2881bd68bbe9869811813dba6013fac5c1dcea4c8626ae2b2d7e1f0e9a09946b",
     "apps/game/hosted/board-v2-drawing/turns.mjs": "717d24e1175120b42742c7a10cba71235ac20dfcc3d8bc2285bdd473ad78cfe4",
-    "apps/game/hosted/board-v2-host.mjs": "0b1a41a297426ad1a83e5886f249bc53dbccbc86c726aafc27dc8c37ca1fcde2",
+    "apps/game/hosted/board-v2-host.mjs": "99803f374b0710aa8297bf7865d149fa71b22dbbf6cad6e333c2ef0c18a19149",
     "apps/game/hosted/board-v2-scene.mjs": "7d3ab0d3a8a6be7801ba1cdca680517cba982242f871a42e648f0a8e899262af",
-    "apps/game/hosted/board-v2.css": "9c46de1d7e74d50611ffb8233040535e3ca2ce1ab4479f15bb748a16f6a8aff1",
+    "apps/game/hosted/board-v2.css": "9762aa1f33f65a8577ccc9a648dc7b2ad1ad15ccf7a6ac9c15ed485820f8be55",
     "apps/game/hosted/capsule-lifecycle.mjs": "22735895480e97fad5a531a58a8058d4f88709f9a54828dc91e5f845bfabc5e3",
     "apps/game/hosted/claude-phone-kit.css": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
     "apps/game/hosted/comic-assets.mjs": "1947b2f13dd39277d816a16e3da8d59860dd2e69ad83398ff658d80bf3f46431",
@@ -202,5 +202,5 @@
   },
   "claudeBoardCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
   "claudeSetupCommit": "27be8749b51775fee3a0d81b62a3cdabedafe1be",
-  "nativeConsumerCommit": "63153fa0aa17fe91d930b919b5434bec71bd691f"
+  "nativeConsumerCommit": "e561f297e4f06286da76541efbfee25e79605dcd"
 }
