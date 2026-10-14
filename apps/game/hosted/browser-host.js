@@ -3,10 +3,10 @@ import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
 import { fitBoard } from './board-layout.mjs';
 import { applySceneBoard } from './scene-board.mjs';
+import { applyPhoneKit } from './phone-kit.mjs';
 import { createStripCues } from './strip-cues.mjs';
 import { createInsiderFile } from './insider-file.mjs';
 import { createAbilityCues } from './ability-cues.mjs';
-import { applyPhoneFrame } from './phone-feedback.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A command identifier is random and means nothing. randomUUID needs a secure context,
@@ -169,9 +169,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const opened = Boolean(sheet) && !privateWasOpen;
     privateWasOpen = Boolean(sheet);
     // Stations and bands first, so motion measures where every character finally stands.
-    applyPhoneFrame(root);
     fitBoard(root);
     applySceneBoard(root, frame.model);
+    applyPhoneKit(root, frame.model);
     comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
     abilityCues.after(frame.model);

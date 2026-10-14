@@ -344,7 +344,11 @@ function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext
 /** Add the approved artwork without changing action availability, targets or authority. */
 export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context: ComicContext = {}): MarkupElement {
   const match = model.match;
-  const source = renderConnectedPlayerShell(model);
+  // The functional shell keeps one private panel. The illustrated phone gives its current
+  // Hack feedback a separate row, while the command card retains its own recovery lifecycle.
+  const content = match?.privateArea.content;
+  const source = renderConnectedPlayerShell(match && content ? { ...model, match: { ...match,
+    privateArea: { ...match.privateArea, content: { ...content, hackFeedback: null } } } } : model);
   if (!match) return source;
   const phoneView = context.phoneView ?? (match.privateArea.open ? 'actions' : 'board');
   const footer = source.children.find(child => isElement(child) && classHas(child, 'ms-footer')) as MarkupElement;
@@ -369,7 +373,8 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   const privateContent = match.privateArea.content;
   const voteResultPanel = renderVoteResultPanel(match.voteResult, context);
   const card = phoneView === 'actions' && !match.result && !match.voteResult ? privateContent?.actions.card : undefined;
-  const dockedAction = card !== undefined && card.body.step !== 'idle';
+  const hackFeedback = ['actions','role'].includes(phoneView) ? privateContent?.hackFeedback ?? null : null;
+  const dockedAction = card !== undefined && (card.body.step !== 'idle' || hackFeedback !== null);
   const passCard = phoneView === 'board' && !match.privateArea.open && !match.result && !match.voteResult ? match.passTurn.card : null;
   // Selection cues live only on this player's explicitly open action surface. The shared
   // display and the ordinary public board never receive legal targets or picks.
@@ -404,7 +409,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         'data-region': 'private', 'data-open': 'true', 'aria-labelledby': 'ms-private-heading', 'data-focus-fallback': 'ms-phone-actions',
       }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
       h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null,
-        renderHackFeedback(privateContent?.hackFeedback ?? null), h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
+        h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
@@ -456,7 +461,8 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       // focus lands on the strip's question, and the next Tab reaches its answers, then the
       // characters. The page's grid still draws the strip above navigation.
       const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard, context)) : null;
-      children.splice(privateIndex + 1, 0, ...(passStatus ? [passStatus] : []), board);
+      children.splice(privateIndex + 1, 0, ...(passStatus ? [passStatus] : []),
+        h('div', { 'data-region': 'private-hack' }, renderHackFeedback(hackFeedback)), board);
       // The illustrated board is accompanied by a complete text reading path. Keeping it
       // in a native disclosure preserves its state and focus during countdown redraws.
       children.push(h('section', { id: 'phone-menu-panel', class: 'phone-menu', hidden: phoneView !== 'more', 'aria-labelledby': 'phone-menu-heading' },
