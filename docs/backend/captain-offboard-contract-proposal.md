@@ -34,7 +34,7 @@ pendingCaptainReveal: null | { round: number; seatIds: SeatId[] };
 
 Both uses start false; neither resets on round/title change. Keep legacy release-ballot state/semantics exact on old tuples. New direct powers use the dedicated flags, never manufacture a selected-prisoner ballot. `pendingCaptainReveal` contains only fresh living EJECT victims, without roles/factions in the public record. Its round is the current normal round; IDs are unique retained off-board Eliminated seats. It clears at the complete normal resolution reveal checkpoint, before victory/next round/showdown. A match aborted before that checkpoint retains its existing no-end-reveal behavior and never reveals the pending factions merely due to reload.
 
-The existing private journal records the exact captured set, result and predecessor through deterministic replay; no new public source/attacker identifier or mutable client list is authoritative. Final state validation rejects a pending reveal that has survived into a later round/showdown/finished state. Terminal FINISHED still reveals exact roles/Code under existing rules.
+The existing private command journal records inputs, actor, trusted time, generated identifiers and receipt. Ordered deterministic replay from the recorded SETUP reconstructs each committed predecessor, exact captured set and resulting state; no new public source/attacker identifier or mutable client list is authoritative. Final state validation rejects a pending reveal that has survived into a later round/showdown/finished state. Terminal FINISHED still reveals exact roles/Code under existing rules.
 
 ## Retained off-board seats
 
@@ -61,7 +61,7 @@ Empty Jail, bodies-only Jail, only medical detainees, invalid timing/title/locat
 
 ## Preserve the existing victory formula
 
-Deferring victory does not itself broaden Alien's simultaneous-elimination condition. The historical owner overlay `in-person-v1-owner-decisions-2026-10-06.json` defines both actual factions losing their final survivor in the same complete resolution stage/checkpoint. Current `resolveRound` captures faction survivors at entry; `evaluateVictory` explicitly refuses to infer simultaneity merely because both factions are absent. Do not silently move that baseline to round start or add an Alien-last-survivor shortcut.
+Deferring victory does not itself broaden Alien's simultaneous-elimination condition. V1-19 in the historical owner overlay `in-person-v1-owner-decisions-2026-10-06.json` defines both actual factions losing their final survivor in the same complete resolution stage/checkpoint. Current `resolveRound` captures faction survivors at entry; `evaluateVictory` explicitly refuses to infer simultaneity merely because both factions are absent. Do not silently move that baseline to round start or add an Alien-last-survivor shortcut.
 
 Independent Balance/Integration review must bind direct-command stage accounting before implementation: compare one atomic EJECT that removes both actual factions' last survivors against EJECT removing one faction followed by a later registered effect/due Hospital death removing the other. Record actual complete-stage before/after evidence under the existing formula, including deferred evaluation; identify any needed private journal/state evidence rather than inventing a public fact or gameplay exception. This proposal does not assign an unreviewed winner to those companion cases. They are an explicit implementation/audit dependency, not an unresolved owner rule or a change to frozen 1.7.
 
