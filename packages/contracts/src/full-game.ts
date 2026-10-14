@@ -1,10 +1,11 @@
+import { FullCloneStatusSchema } from './clone.js';
 import { BlackoutRoomSchema, FullBlackoutPublicSchema, FullBlackoutTargetingSchema, validBlackoutPublic, blackoutSlotIds } from './blackout.js';
 import { z } from 'zod';
 import { FullOutcomeEventSchema } from './captain-outcomes.js';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
 import { BoardSlotIdSchema, FullMedicalStatusSchema, validBoardMedicalView } from './board-medical.js';
-import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands, supportsBlackout } from './full-game-versions.js';
+import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands, supportsBlackout, supportsClone } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
 export const FULL_PROTOCOL_VERSION = 2 as const;
@@ -15,6 +16,7 @@ export const FullCommandSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('CAPTAIN_RELEASE') }),
   z.strictObject({ type: z.literal('CAPTAIN_EJECT') }),
   z.strictObject({ type: z.literal('REQUEST_BLACKOUT') }),
+  z.strictObject({ type: z.literal('ACTIVATE_CLONE') }),
   z.strictObject({ type: z.literal('SELECT_BLACKOUT_SLOT'),snapshotId:IdentifierSchema,room:BlackoutRoomSchema,slotId:BoardSlotIdSchema }),
   z.strictObject({ type: z.literal('MOVE'), destination: z.enum(['Room A', 'Room B', 'Command Room']) }),
   z.strictObject({ type: z.literal('REGISTER_SHOT'), ...target }),
@@ -144,7 +146,7 @@ const FullPublicViewShape=z.strictObject({ ...publicFacts, audience:z.strictObje
 export const FullPublicViewSchema = FullPublicViewShape.refine(validPublicReferences, 'Complete roster and valid seat references required');
 export type FullPublicView = z.infer<typeof FullPublicViewSchema>;
 export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.strictObject({kind:z.literal('player'),seatId:SeatIdSchema}),
-  self:z.strictObject({ seatId:SeatIdSchema,role:RoleSchema,movementDestinations:z.array(z.enum(['Room A','Room B','Command Room'])),releaseVoteAvailable:z.boolean(),ordinaryWeapons:z.number().int().nonnegative(),shotAvailable:z.boolean(),rescuesRemaining:z.number().int().nonnegative(),disablerAvailable:z.boolean(),hackAvailable:z.boolean(),scanAvailable:z.boolean(),codeAttemptAvailable:z.boolean(),blackoutTargeting:FullBlackoutTargetingSchema.nullable().optional(),captainCommandUses:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable().optional() }),
+  self:z.strictObject({ seatId:SeatIdSchema,role:RoleSchema,movementDestinations:z.array(z.enum(['Room A','Room B','Command Room'])),releaseVoteAvailable:z.boolean(),ordinaryWeapons:z.number().int().nonnegative(),shotAvailable:z.boolean(),rescuesRemaining:z.number().int().nonnegative(),disablerAvailable:z.boolean(),hackAvailable:z.boolean(),scanAvailable:z.boolean(),codeAttemptAvailable:z.boolean(),cloneStatus:FullCloneStatusSchema.nullable().optional(),blackoutTargeting:FullBlackoutTargetingSchema.nullable().optional(),captainCommandUses:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable().optional() }),
   knowledge:z.strictObject({insiderCandidates:z.array(SeatIdSchema),undercoverSeatId:SeatIdSchema.nullable(),code:z.array(SeatIdSchema),scanResults:z.array(z.strictObject({round:z.number().int().min(1).max(5),targetSeatId:SeatIdSchema,guess:FactionSchema,matched:z.boolean(),inCode:z.boolean().nullable()})),protections:z.array(z.strictObject({seatId:SeatIdSchema,activeFromRound:z.number().int(),consumed:z.boolean()}))}),
   legalTargets:z.record(z.string(),z.array(SeatIdSchema)), ownPendingCommandIds:z.array(IdentifierSchema).max(2),
   ownBallot:z.union([SeatIdSchema,z.boolean()]).nullable(), hasVoted:z.boolean(),
@@ -154,6 +156,14 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
   const ids=v.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
   const unique=(items:string[])=>new Set(items).size===items.length && items.every(has);
   const k=v.knowledge,role=v.self.role;
+  if(supportsClone(v.versions)) {
+    const c=v.self.cloneStatus,current=v.seats.find(s=>s.seatId===v.self.seatId);
+    if(!Object.hasOwn(v.self,'cloneStatus') || c===undefined || (role==='Alien' ? c===null : c!==null))return false;
+    if(c!==null && (c.activatedRound!==null && c.activatedRound>v.round || c.active && (!c.used || c.expiresAfterRound===null || c.expiresAfterRound<v.round || current?.health==='Eliminated' || ['SHOWDOWN','FINISHED','ABORTED'].includes(v.phase.kind))))return false;
+    if(c!==null && c.used && !c.active && current?.health!=='Eliminated' && !['SHOWDOWN','FINISHED','ABORTED'].includes(v.phase.kind) && c.expiresAfterRound!==null && v.round<=c.expiresAfterRound)return false;
+    const offer=v.legalTargets['ACTIVATE_CLONE'];
+    if(offer!==undefined && (role!=='Alien' || c===null || c.used || current?.health!=='Healthy' || current.jailed || v.phase.kind!=='ORDINARY_TURN' || v.activeSeatId!==v.self.seatId || offer.length!==1 || offer[0]!==v.self.seatId))return false;
+  } else if(Object.hasOwn(v.self,'cloneStatus') || Object.hasOwn(v.legalTargets,'ACTIVATE_CLONE'))return false;
   if(supportsBlackout(v.versions)) {
     const t=v.self.blackoutTargeting,current=v.seats.find(s=>s.seatId===v.self.seatId);
     if(!Object.hasOwn(v.self,'blackoutTargeting') || t===undefined || Object.hasOwn(v.legalTargets,'DISABLE'))return false;
