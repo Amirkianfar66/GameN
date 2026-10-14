@@ -1,14 +1,14 @@
-import { supportsBoardMedical } from '@mothership/contracts';
+import { supportsBlackout, supportsBoardMedical, supportsCaptainCommands } from '@mothership/contracts';
 import type { FullMedicalStatus } from '@mothership/contracts';
 import { isCurrent } from './common.js';
 import type { AudienceFacts, PublicBoardModel, PublicSeat, ShellEnvironment } from './types.js';
 
 /** Copy the shared validated placement; never allocate from occupancy or infer an episode. */
 export function boardSeatProps(view: AudienceFacts, seat: PublicSeat): {
-  readonly slotId?: string; readonly medical?: FullMedicalStatus | null;
+  readonly slotId?: string | null; readonly medical?: FullMedicalStatus | null;
 } {
   if (!supportsBoardMedical(view.versions) || !('slotId' in seat) || !('medical' in seat)
-    || typeof seat.slotId !== 'string' || seat.medical === undefined) return {};
+    || !(typeof seat.slotId === 'string' || supportsCaptainCommands(view.versions) && seat.slotId === null && seat.location === null && seat.health === 'Eliminated') || seat.medical === undefined) return {};
   return { slotId: seat.slotId, medical: seat.medical === null ? null : { ...seat.medical } };
 }
 
@@ -16,12 +16,20 @@ export function publicBoardProps(view: AudienceFacts, environment: ShellEnvironm
   if (!supportsBoardMedical(view.versions)) return {};
   const phase = view.phase;
   const duration = phase.endsAt === null ? null : phase.endsAt - phase.startedAt;
-  const nowMs = duration !== null && environment.deadline.kind === 'running'
+  const nowMs = environment.serverNowMs ?? (duration !== null && environment.deadline.kind === 'running'
     ? phase.endsAt! - Math.max(0, Math.min(duration, environment.deadline.remainingMs))
-    : phase.endsAt !== null && environment.deadline.kind === 'expired' ? phase.endsAt : null;
+    : phase.endsAt !== null && environment.deadline.kind === 'expired' ? phase.endsAt : null);
   return { boardLayout: { id: 'board-v2-0.1.1', playerCount: view.playerCount,
+    seats: view.seats.map(seat => ({ seatId: seat.seatId, location: seat.location, health: seat.health, jailed: seat.jailed, ...boardSeatProps(view, seat) })),
+    ...(supportsBlackout(view.versions) && 'blackout' in view ? { blackout: view.blackout ?? null } : {}),
     clock: { phaseId: phase.id, kind: phase.kind, startedAt: phase.startedAt, endsAt: phase.endsAt,
       nowMs, current: isCurrent(environment) && nowMs !== null } } };
+}
+
+/** Unknown/stale timing conceals a frozen roster conservatively. */
+export function boardIsDark(view: AudienceFacts, environment: ShellEnvironment): boolean {
+  const board = publicBoardProps(view, environment).boardLayout;
+  return Boolean(board?.blackout && view.phase.kind === 'BLACKOUT' && (!board.clock.current || board.clock.nowMs === null || board.clock.nowMs >= board.blackout.darkStartsAt));
 }
 
 export function medicalOpportunityText(medical: FullMedicalStatus): string {

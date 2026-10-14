@@ -124,9 +124,9 @@
     "apps/game/hosted/board-v2-drawing/scene-kit.mjs": "055640dad54bbc1b8b0be409e9a694acf8c02ead44feaaa2c0b07a10a1322e46",
     "apps/game/hosted/board-v2-drawing/slots.mjs": "2881bd68bbe9869811813dba6013fac5c1dcea4c8626ae2b2d7e1f0e9a09946b",
     "apps/game/hosted/board-v2-drawing/turns.mjs": "717d24e1175120b42742c7a10cba71235ac20dfcc3d8bc2285bdd473ad78cfe4",
-    "apps/game/hosted/board-v2-host.mjs": "3fe02aa7e4b9f0fc7ff0b095a4ae12accf9fcbb6a8c60e0b54b7615fb6d05604",
-    "apps/game/hosted/board-v2-scene.mjs": "77a8383983c607e6c2a149990c37777573b950df810b05b48c0c141da6ca77ca",
-    "apps/game/hosted/board-v2.css": "7ad329b9f33ca637d042fc996c5eb58219e93c45508b4f821c82092fe9a118e4",
+    "apps/game/hosted/board-v2-host.mjs": "fadb1742ef188ed9e28038c2ff6eb9c31315808782b4335946fcc20c1621e962",
+    "apps/game/hosted/board-v2-scene.mjs": "7d3ab0d3a8a6be7801ba1cdca680517cba982242f871a42e648f0a8e899262af",
+    "apps/game/hosted/board-v2.css": "9c46de1d7e74d50611ffb8233040535e3ca2ce1ab4479f15bb748a16f6a8aff1",
     "apps/game/hosted/capsule-lifecycle.mjs": "22735895480e97fad5a531a58a8058d4f88709f9a54828dc91e5f845bfabc5e3",
     "apps/game/hosted/claude-phone-kit.css": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
     "apps/game/hosted/scene-drawing/body.mjs": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513",
@@ -140,7 +140,10 @@
     "apps/game/hosted/scene-drawing/phone-kit-art.mjs": "713b860ffaaa91ba6610457d39b6c818bad9aad28fb4967f830d21c0dcf61e86",
     "apps/game/hosted/scene-drawing/rig.mjs": "e73d4815b8d5afb457fad712c97136bb69384176c8e7e6335f89d101f63dad5d",
     "apps/game/hosted/scene-drawing/scenes.mjs": "97e4f509bb4b2608f176d0638aab8c9233fcb84c5ff6412e310f75eadb2accfa",
-    "apps/game/hosted/scene-drawing/wardrobe.mjs": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3"
+    "apps/game/hosted/scene-drawing/wardrobe.mjs": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3",
+    "apps/game/src/connected/outcome-feed.ts": "cecb5fc8e9c6e6a58dda03856a849e4b1a442658a6d33c6678c29688e107831b",
+    "apps/game/hosted/board-v2-blackout.mjs": "b4b86db92de905605912c25a2e7bbd6c0f0c06c9df3ee1e7449174e1dfa0c789",
+    "apps/game/hosted/setup-art.css": "8ca3cf09ba864e2178e4ed021acc62c92f0e3308fb42faf70c83ce6210837d83"
   },
   "bundles": {
     "abilities": {

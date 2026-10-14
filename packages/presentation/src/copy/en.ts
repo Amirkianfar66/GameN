@@ -220,6 +220,7 @@ export const en = {
     // Undercover's grant; "Disable" is a Disabler's attack; "Hack" is the standard Hack.
     kind: {
       'declare-hack-side': 'Declare a side',
+      'captain-release': 'Captain Release', 'captain-eject': 'Captain Eject', 'blackout-request': 'Blackout', 'blackout-slot': 'Frozen position', 'activate-clone': 'Clone',
       pass: 'Pass', move: 'Move', shot: 'Shot', disable: 'Disable', protect: 'Protection', rescue: 'Rescue', hack: 'Hack', 'showdown-shot': 'Showdown shot',
       vote: 'Vote', 'release-choice': 'Release request', 'release-vote': 'Release vote',
       scan: 'Scan', supply: 'Supply', code: 'Code attempt',
@@ -243,6 +244,7 @@ export const en = {
     },
     open: {
       'declare-hack-side': 'Choose a side',
+      'captain-release': 'Release all detained players', 'captain-eject': 'Eject all jailed players', 'blackout-request': 'Request Blackout', 'blackout-slot': 'Choose a frozen position', 'activate-clone': 'Activate Clone',
       pass: 'Pass turn', move: 'Choose where to move', shot: 'Choose a target', disable: 'Choose a target', protect: 'Choose a player', rescue: 'Choose a player',
       hack: 'Choose a player', 'showdown-shot': 'Choose a target',
       vote: 'Cast your ballot', 'release-choice': 'Choose', 'release-vote': 'Cast your ballot',
@@ -253,6 +255,7 @@ export const en = {
       : `${count} actions of yours are registered and waiting to be resolved.`),
     choosePrompt: {
       'declare-hack-side': 'Which side do you declare?',
+      'captain-release': 'Release all detained players?', 'captain-eject': 'Eject all jailed players?', 'blackout-request': 'Request Blackout?', 'blackout-slot': 'Choose a frozen position', 'activate-clone': 'Activate Clone?',
       pass: 'End your turn now?', move: 'Where do you move?', shot: 'Choose a target', disable: 'Choose a target', protect: 'Who is the Protection for?', rescue: 'Who is the Rescue for?',
       hack: 'Who do you request a Hack with?', 'showdown-shot': 'Choose a target',
       'release-choice': 'Ask for a release vote for which jailed player?',
@@ -276,6 +279,7 @@ export const en = {
     // About this screen, not about the game: there is no control here that takes a command back.
     consequence: {
       'declare-hack-side': 'Your accepted declaration is final. The two participants will see this claim.',
+      'captain-release': 'This consumes the Captain office’s once-only Release for the whole match.', 'captain-eject': 'This consumes the Captain office’s once-only Eject for the whole match and eliminates the current Jail occupants.', 'blackout-request': 'This consumes your main action for this round.', 'blackout-slot': 'An accepted position cannot be changed. Empty, own and eliminated positions are valid choices.', 'activate-clone': 'This consumes your main action and your once-only Clone. Your private status gives its expiry round.',
       pass: 'Your turn ends when the server accepts Pass.',
       move: 'You cannot change or withdraw it here once the server accepts it.',
       shot: 'You cannot change or withdraw it here once it is registered.',
@@ -297,12 +301,14 @@ export const en = {
     } satisfies Record<ActionKind, string>,
     confirm: {
       'declare-hack-side': 'Declare side',
+      'captain-release': 'Release', 'captain-eject': 'Eject', 'blackout-request': 'Request Blackout', 'blackout-slot': 'Select position', 'activate-clone': 'Activate Clone',
       pass: 'Pass', move: 'Move', shot: 'Register shot', disable: 'Register Disable', protect: 'Register Protection', rescue: 'Register Rescue', hack: 'Request Hack',
       'showdown-shot': 'Register shot', vote: 'Cast ballot', 'release-choice': 'Confirm choice', 'release-vote': 'Cast ballot',
       scan: 'Scan', supply: 'Register Supply', code: 'Submit Code attempt',
     } satisfies Record<ActionKind, string>,
     submitting: {
       'declare-hack-side': 'Sending your declaration to the server…',
+      'captain-release': 'Sending Release…', 'captain-eject': 'Sending Eject…', 'blackout-request': 'Registering Blackout…', 'blackout-slot': 'Registering frozen position…', 'activate-clone': 'Activating Clone…',
       pass: 'Passing your turn…', move: 'Sending your move to the server…', shot: 'Sending your shot to the server…', disable: 'Sending your Disable to the server…',
       protect: 'Sending your Protection to the server…', rescue: 'Sending your Rescue to the server…', hack: 'Sending your Hack request to the server…',
       'showdown-shot': 'Sending your shot to the server…', vote: 'Sending your ballot to the server…',

@@ -102,3 +102,8 @@ test('compact progress changes only timer presentation and never advances the st
   progress.update(value,{status:'synced',serverNowMs:30000});assert.equal(s.nodes.get('setup-countdown').textContent,'0:00');
   assert.equal(progress.node.attrs['data-stage'],'choosing');assert.equal(s.nodes.get('setup-progress-status').hidden,true);s.control.dispose();
 });
+
+test('loaded new common setup art does not opt a historical prepared role into its treatment',()=>{
+ const s=make({artState:()=>({bundles:['setup-art'],settled:true})});s.publish('choosing');assert.equal(s.control.node.attrs['data-setup-art'],'true');
+ s.publish('awaiting-ready',true);s.role(role);assert.equal(s.control.node.attrs['data-setup-art'],'false');s.control.dispose();
+});

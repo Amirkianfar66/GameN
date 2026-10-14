@@ -91,3 +91,33 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 #app .ms-shell[data-board-layout="board-v2"] .bv2-command-body,
 #app .ms-shell[data-board-layout="board-v2"] .bv2-command-body p { color:var(--bv2-paper); }
 #app .ms-shell[data-board-layout="board-v2"] .bv2-claim-show { min-width:44px; min-height:44px; height:100%; width:100%; margin:0; padding:0 8px; color:var(--bv2-paper); background:var(--bv2-navy-mid); border:0; font-size:.875rem; }
+/* Visible connection and technical receipt recovery stay usable without private role data. */
+#app .ms-shell[data-board-layout="board-v2"] .ms-banners { position:fixed; inset:auto; z-index:6350; box-sizing:border-box; clip-path:none; overflow:auto; height:auto; padding:8px; color:var(--bv2-paper); background:var(--bv2-navy); border:2px solid var(--bv2-gold); border-radius:8px 8px 0 0; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-banners[hidden] { display:none; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-banner--connection { margin:0; padding:0; border:0; background:transparent; color:var(--bv2-paper); font-size:.75rem; line-height:1.25; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-banner--connection p { margin:0; color:var(--bv2-paper); }
+#app .ms-shell[data-board-layout="board-v2"] .ms-banners button,
+#app .ms-shell[data-board-layout="board-v2"] .bv2-recovery button { position:fixed; z-index:6450; min-width:44px; min-height:44px; margin:0; padding:4px; box-sizing:border-box; color:var(--bv2-paper); background:var(--bv2-navy-mid); border:2px solid var(--bv2-gold); border-radius:8px; font-size:.75rem; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-recovery { position:fixed; z-index:6380; box-sizing:border-box; padding:6px 8px; background:var(--bv2-navy); color:var(--bv2-paper); border:0; overflow:auto; font-size:.75rem; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-recovery p { margin:0; color:var(--bv2-paper); }
+/* The visual ring is rounded; the entire approved square remains hit-testable. */
+#app .ms-shell[data-board-layout="board-v2"] .bv2-seat-target { border:0; border-radius:0; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-seat-target::before { content:''; position:absolute; inset:0; pointer-events:none; border:2px dashed var(--bv2-gold-light); border-radius:10px; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-pick { pointer-events:none; }
+/* Public drawing lettering stays at the reviewed size when controls/text are enlarged. */
+#app .ms-shell[data-board-layout="board-v2"] .bv2-caption { font-size:12px; line-height:14px; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-nameplate { font-size:10px; line-height:14px; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-private,
+#app .ms-shell[data-board-layout="board-v2"] .phone-action-dock,
+#app .ms-shell[data-board-layout="board-v2"] .phone-menu { animation:none!important; transform:none!important; }
+/* Neutral fixed-slot lighting belongs to every phone and display. Private controls are a sibling of the inert public board. */
+.bv2-night-layer { position:absolute; background-size:100% 100%; background-repeat:no-repeat; pointer-events:none; z-index:3000; }
+.bv2-night-layer[data-night-layer^="marker"] { z-index:3010; }
+.bv2-night-layer[data-night-layer="spark"] { z-index:3020; }
+.bv2-blackout-controls { position:absolute; inset:0; z-index:4500; pointer-events:none; }
+.bv2-slot-target { position:absolute; pointer-events:auto; min-width:44px; min-height:44px; border:2px solid var(--bv2-gold); color:var(--bv2-paper); background:var(--bv2-navy); font-size:12px; border-radius:0; padding:0; }
+.bv2-outcomes { position:fixed; z-index:6100; pointer-events:none; padding:6px; background:var(--bv2-navy); color:var(--bv2-paper); font-size:12px; white-space:pre-line; max-height:100px; overflow:auto; }
+.bv2-outcomes[hidden] { display:none; }
+.bv2-block-fx { position:absolute; inset:0; z-index:3100; pointer-events:none; }
+.bv2-block-fx span { position:absolute; background-position:center; background-size:contain; background-repeat:no-repeat; }
+.bv2-block-fx strong { position:absolute; text-align:center; box-sizing:border-box; background:var(--bv2-gold); color:var(--bv2-ink); border:2px solid var(--bv2-ink); font-size:12px; line-height:13px; padding:1px 4px; }

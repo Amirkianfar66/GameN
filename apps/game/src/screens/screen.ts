@@ -112,8 +112,10 @@ export function createScreen<View, Input, Model extends { readonly screen: strin
 
   function compute(): { input: Input; model: Model; remainingMs: number | null } {
     const state = session.getState();
-    const deadline = state.view === null ? { kind: 'unsynced' } as const : estimateDeadline(config.phaseOf(state.view), session.readClock());
+    const clockReading = session.readClock();
+    const deadline = state.view === null ? { kind: 'unsynced' } as const : estimateDeadline(config.phaseOf(state.view), clockReading);
     const environment: ShellEnvironment = {
+      serverNowMs: clockReading.status === 'synced' ? clockReading.serverNowMs : null,
       mode: session.mode,
       connection: state.connection,
       problem: state.problem,

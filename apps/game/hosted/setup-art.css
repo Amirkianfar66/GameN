@@ -1,0 +1,51 @@
+/* Native selector adaptation of Claude #116 slice 8. The common setup-art supplement gates this treatment. */
+/* A taken card: its taker's seat, stamped across it (span.ab-taken, aria-hidden: the card's name says "taken by Player 4"). */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-picker { isolation: isolate; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option .ab-taken {
+  position: absolute; z-index: 1; left: 50%; bottom: 30%; translate: -50% 0; transform: rotate(var(--ms-stamp-rotation)); pointer-events: none;
+  box-sizing: border-box; width: max-content; max-width: calc(100% - 6px); padding: 1px 6px; text-align: center; line-height: 1.05;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px;
+}
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option .ab-taken { padding: 3px 9px; border-color: transparent; background: var(--ms-color-paper) var(--ab-asset-dossier-stamp) center / 100% 100% no-repeat; }
+/* A card too narrow for the whole word at the reader's text size keeps the seat's number, larger: the card's name still says it all. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option { container-type: inline-size; }
+@container (max-width: 6.5em) {
+  [data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option .ab-taken__word { display: none; }
+  [data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option .ab-taken { padding-inline: 8px; font-size: 0.9rem; }
+}
+/* The seat's own pick on its way to the server: its ring dashed; kept dashed after a lost answer, until Retry selection. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option:is([data-sending="true"],[data-sending="kept"]) { border-style: dashed; box-shadow: none; }
+/* Confirmed: the release's check (the card's ::after), stamped: a caption-yellow disc holding the kit's tick. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option[data-confirmed="true"]::after {
+  content: ''; top: 0.25rem; right: 0.25rem; width: 26px; height: 26px; padding: 0; box-sizing: border-box;
+  background: var(--ms-color-caption) var(--ab-asset-dossier-tick) center / 18px 18px no-repeat; border: 2px solid var(--ms-color-ink);
+}
+/* The pop's burst, around the card for its 220 ms: the approved fx-landing-burst, behind the card. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option .ab-burst { position: absolute; z-index: -1; inset: -16%; pointer-events: none; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .crew-option .ab-burst { background: var(--ms-asset-fx-landing-burst-paper) center / contain no-repeat; }
+
+/* The role card's back: the kit's picture inside the release's border, its words on a caption band below the seal. The seal
+   carries the closed eye, so the release's icon over the words stands down while the picture is there. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .phone-role-back { isolation: isolate; background: var(--ms-color-steel-shadow) var(--ab-asset-setup-back) center / cover no-repeat; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .phone-role-back::before { display: none; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .phone-role-surface .phone-role-back { align-content: end; padding-bottom: 2.4rem; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .phone-role-back .ab-back-words {
+  position: relative; isolation: isolate; max-width: 76%; padding: 0.45rem 1rem; text-align: center; line-height: 1.15;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ms-color-ink);
+}
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .phone-role-back .ab-back-words::before {
+  content: ''; position: absolute; z-index: -1; inset: 0; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); transform: skewX(var(--ms-caption-skew));
+}
+/* Ready: the card put away, face down, and READY stamped across its seal (span.ab-ready-stamp, aria-hidden: the note's name
+   says it). Without the picture, the release's check stays. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] #setup-ready-waiting .ab-ready-stamp { display: none; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] #setup-ready-waiting { color: transparent; }
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] #setup-ready-waiting .ab-ready-stamp {
+  display: block; position: absolute; left: 50%; top: 50%; translate: -50% -50%; transform: rotate(var(--ms-stamp-rotation));
+  padding: 0.45rem 1.1rem 0.45rem 2.7rem; white-space: nowrap;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ms-color-ink);
+  background: var(--ms-color-paper) var(--ab-asset-dossier-tick) 0.75rem center / 1.5rem 1.5rem no-repeat; border: 3px solid var(--ms-color-ink); border-radius: 6px;
+}
+/* The turn: the back turns away and the face turns in (setup.js turnUp()); both stay flat, so neither shows its reverse. */
+[data-art~="setup-art"] .connected-player-setup[data-setup-art="true"] .phone-role-surface :is(.phone-role-back, .ms-role-card--full) { backface-visibility: hidden; }
