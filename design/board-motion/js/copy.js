@@ -231,4 +231,6 @@ export const PROPOSED = {
   roomFull: 'Full',
   moveFullLabel: location => `Move to ${location}, full`,
   captionFull: ', full',
+  // The new phases' names (issues #119 and #120): no release words exist for them yet. The Hack's prelude is the Hack's.
+  phaseKind: { VOTE_RESULT: 'Vote result', HACK_DECLARE: 'Hack', HACK_RESULT: 'Hack' },
 };

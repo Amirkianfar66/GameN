@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · vote-empty-cell · generated, do not edit by hand
+  The empty cell: nobody sent to Jail. Audience: every screen.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 180"><!-- empty cell --><rect x="10" y="14" width="140" height="150" rx="6" fill="#B9C4D3" stroke="#151923" stroke-width="4"/><rect x="22" y="112" width="116" height="14" rx="3" fill="#55657E" stroke="#151923" stroke-width="3"/><path d="M34 126 V146 M126 126 V146" stroke="#151923" stroke-width="5"/><path d="M30 14 V164" stroke="#151923" stroke-width="7"/><path d="M28.8 18 V160" stroke="#F7D886" stroke-width="1.6" opacity="0.7"/><path d="M55 14 V164" stroke="#151923" stroke-width="7"/><path d="M53.8 18 V160" stroke="#F7D886" stroke-width="1.6" opacity="0.7"/><path d="M80 14 V164" stroke="#151923" stroke-width="7"/><path d="M78.8 18 V160" stroke="#F7D886" stroke-width="1.6" opacity="0.7"/><path d="M105 14 V164" stroke="#151923" stroke-width="7"/><path d="M103.8 18 V160" stroke="#F7D886" stroke-width="1.6" opacity="0.7"/><path d="M130 14 V164" stroke="#151923" stroke-width="7"/><path d="M128.8 18 V160" stroke="#F7D886" stroke-width="1.6" opacity="0.7"/></svg>

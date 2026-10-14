@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · vote-tie-burst · generated, do not edit by hand
+  The burst between tied players. Audience: every screen.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><!-- tie burst --><path d="M97.53 56.68 L77.62 61.72 L87.82 79.55 L68.05 73.96 L67.98 94.5 L53.66 79.78 L43.32 97.53 L38.28 77.62 L20.45 87.82 L26.04 68.05 L5.5 67.98 L20.22 53.66 L2.47 43.32 L22.38 38.28 L12.18 20.45 L31.95 26.04 L32.02 5.5 L46.34 20.22 L56.68 2.47 L61.72 22.38 L79.55 12.18 L73.96 31.95 L94.5 32.02 L79.78 46.34 Z" fill="#E9B64E" stroke="#151923" stroke-width="4" stroke-linejoin="round"/><path d="M85.65 55.01 L72.09 59.38 L78.37 72.16 L64.44 69.17 L63.49 83.38 L52.92 73.82 L44.99 85.65 L40.62 72.09 L27.84 78.37 L30.83 64.44 L16.62 63.49 L26.18 52.92 L14.35 44.99 L27.91 40.62 L21.63 27.84 L35.56 30.83 L36.51 16.62 L47.08 26.18 L55.01 14.35 L59.38 27.91 L72.16 21.63 L69.17 35.56 L83.38 36.51 L73.82 47.08 Z" fill="#F7D886" opacity="0.6"/></svg>

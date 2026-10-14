@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · vote-captain-star · generated, do not edit by hand
+  The Captain's star that lands at the elected player's shoulder. Audience: every screen.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><!-- captain star --><circle cx="32" cy="32" r="29" fill="#0A1530" stroke="#151923" stroke-width="3"/><circle cx="32" cy="32" r="24.5" fill="none" stroke="#E9B64E" stroke-width="2.5"/><path d="M32 16.5 L36.5 27.31 L48.17 28.25 L39.28 35.86 L41.99 47.25 L32 41.15 L22.01 47.25 L24.72 35.86 L15.83 28.25 L27.5 27.31 Z" fill="#E9B64E" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 25.5 L34.12 30.59 L39.61 31.03 L35.42 34.61 L36.7 39.97 L32 37.1 L27.3 39.97 L28.58 34.61 L24.39 31.03 L29.88 30.59 Z" fill="#F7D886" opacity="0.7"/></svg>

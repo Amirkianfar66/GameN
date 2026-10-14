@@ -33,9 +33,12 @@
 //     a reconnect).
 //   - Reduced motion: nobody walks, jolts or falls; arrival and status changes use the 80 ms
 //     fade. The facts and the controls are the same.
+//   - Clothes (issue #121): a figure wears its room's clothes (dress.js). Moving, it leaves and
+//     crosses in the clothes of the room it left and lands in the clothes of the room it
+//     reaches, the change hidden in the landing's puff; hit where it is, it keeps its clothes.
 
 import { h } from './h.js';
-import { drawFigure } from './board.js';
+import { drawDressedFigure, outfitOfRoom } from './dress.js';
 import { INJURED, skeletonOf } from '../figures/gestures.mjs';
 import { FRAME } from '../figures/body.mjs';
 import { TIMELINES, sample, walkPose } from '../figures/motion.mjs';
@@ -93,8 +96,8 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     if (!piece) return;
     const body = piece.querySelector('.bm-piece__body');
     body.dataset.drawn = '';
-    drawFigure(body, piece.querySelector('.bm-piece__front'), piece.dataset.character, piece.dataset.gesture, `${board.prefix}${seat}`);
     delete piece.dataset.moving;
+    drawDressedFigure(body, piece.querySelector('.bm-piece__front'), piece.dataset.character, piece.dataset.gesture, `${board.prefix}${seat}`, undefined, piece.dataset.outfit ?? 'crew');
   }
   const entryFor = seat => { if (!running.has(seat)) running.set(seat, { animations: [], timers: [], nodes: [], raf: 0, restore: null }); return running.get(seat); };
   // A storyboard hold keeps every cue on screen: nothing is taken away by a timer.
@@ -192,7 +195,7 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
       burst(seat, was);
       const total = keys[keys.length - 1].at;
       entry.restore = () => restoreCurrent(seat);
-      choreograph(seat, piece, total, t => drawFigure(body, front, character, '*', prefix, sample(keys, t)), () => { entry.restore(); entry.restore = null; });
+      choreograph(seat, piece, total, t => drawDressedFigure(body, front, character, '*', prefix, sample(keys, t), piece.dataset.outfit ?? 'crew'), () => { entry.restore(); entry.restore = null; });
       return;
     }
     if (!moving) return;
@@ -206,6 +209,8 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     const into = TIMELINES.arrive(to, MOVE.settle, walk(1.5));
     const total = opening + MOVE.accent + MOVE.settle;
     const ghost = echo(seat, was);
+    // The clothes of the room left, until the figure lands in the room it reaches.
+    const leaving = outfitOfRoom(was.room), landing = piece.dataset.outfit ?? outfitOfRoom(now.room);
     const flyer = h('span', { class: 'bm-flyer', 'data-character': character, 'aria-hidden': 'true' });
     fx.append(flyer);
     entry.nodes.push(flyer);
@@ -231,7 +236,7 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
     choreograph(seat, flyer, total, t => {
       if (t < opening) {
         if (stage !== 'out') { stage = 'out'; flyer.hidden = true; if (ghost) ghost.hidden = false; }
-        if (ghost) drawFigure(ghost.querySelector('.bm-piece__body'), ghost.querySelector('.bm-piece__front'), character, '*', `${prefix}e`, sample(out, t));
+        if (ghost) drawDressedFigure(ghost.querySelector('.bm-piece__body'), ghost.querySelector('.bm-piece__front'), character, '*', `${prefix}e`, sample(out, t), leaving);
       } else if (t < opening + MOVE.accent) {
         if (stage !== 'across') { stage = 'across'; if (ghost) ghost.hidden = true; flyer.hidden = false; }
         const u = (t - opening) / MOVE.accent;
@@ -240,10 +245,10 @@ export function createDirector({ board, status, fx, result = null, reduced, onCu
         const ay = was.anchor[1] + (now.anchor[1] - was.anchor[1]) * eased - Math.sin(Math.PI * eased) * 0.06 * Math.hypot(now.anchor[0] - was.anchor[0], now.anchor[1] - was.anchor[1]);
         const unit = was.unit + (now.unit - was.unit) * eased;
         place(flyer, [ax, ay], unit, goingRight);
-        drawFigure(flyer, null, character, '*', `${prefix}w`, walk(u * 1.5));
+        drawDressedFigure(flyer, null, character, '*', `${prefix}w`, walk(u * 1.5), leaving);
       } else {
         if (stage !== 'in') { stage = 'in'; flyer.hidden = true; delete piece.dataset.moving; }
-        drawFigure(body, front, character, '*', `${prefix}i`, sample(into, t - opening - MOVE.accent));
+        drawDressedFigure(body, front, character, '*', `${prefix}i`, sample(into, t - opening - MOVE.accent), landing);
       }
     }, () => { entry.restore(); entry.restore = null; flyer.remove(); ghost?.remove(); later(seat, 340, () => { trail?.remove(); puff?.remove(); }); });
   }
