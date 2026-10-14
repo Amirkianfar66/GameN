@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { FullPhaseSchema, FullPublicViewSchema, FullPlayerViewSchema, FullEventSchema, fullRoomCapacityForVersions } from '@mothership/contracts';
-import { createFullGame, advanceFullGame, projectFullGame, FULL_GAME_VERSION_PINS, RESOLUTION_FULL_GAME_VERSION_PINS, CAPACITY_FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
+import { createFullGame, advanceFullGame, projectFullGame, VOTE_RESULT_FULL_GAME_VERSION_PINS as FULL_GAME_VERSION_PINS, RESOLUTION_FULL_GAME_VERSION_PINS, CAPACITY_FULL_GAME_VERSION_PINS, PASS_FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS } from '@mothership/engine';
 
 const assets='vote-contract-fixture';
 const setup={playerCount:7,roleOrder:['Insider','Cracker','Blue Disabler','Supplier','Undercover','Hacker','Alien'],codeExtraSeatIds:['seat-1','seat-2','seat-3'],

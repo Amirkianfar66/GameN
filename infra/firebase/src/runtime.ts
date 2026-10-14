@@ -1,8 +1,10 @@
-import { FullAssetManifestVersionSchema } from '@mothership/contracts';
+import { FullAssetManifestVersionSchema, DECLARED_HACK_VERSION_PINS } from '@mothership/contracts';
 export interface RuntimeConfiguration {
   projectId: string;
   emulator: boolean;
   assetManifestVersion: string;
+  creationVersions?: typeof DECLARED_HACK_VERSION_PINS;
+  historicalAssetManifestVersion?: string;
   allowedOrigins: readonly string[];
   functionsEmulator?: string;
   authEmulatorHost?: string;
@@ -60,6 +62,17 @@ export function assertRuntimeEnvironment(environment: Record<string, string | un
   const assetManifestVersion = environment['MOTHERSHIP_ASSET_MANIFEST_VERSION'] ?? (emulator ? '0.0.0-no-assets' : undefined);
   if (!FullAssetManifestVersionSchema.safeParse(assetManifestVersion).success
     || (!emulator && assetManifestVersion === '0.0.0-no-assets')) throw new Error('An explicit production asset manifest version is required');
+  const creationProfile = environment['MOTHERSHIP_NEW_MATCH_PROFILE'];
+  if (creationProfile !== undefined && creationProfile !== 'declared-hack-1.5') throw new Error('Unsupported new-match release profile');
+  if ((creationProfile === 'declared-hack-1.5') !== (assetManifestVersion === 'design-0.3.0')) {
+    throw new Error('Declared-Hack creation requires the reviewed design-0.3.0 release profile and manifest together');
+  }
+  const historicalAssetManifestVersion = creationProfile === 'declared-hack-1.5'
+    ? environment['MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION'] : undefined;
+  if (creationProfile === 'declared-hack-1.5' && (!FullAssetManifestVersionSchema.safeParse(historicalAssetManifestVersion).success
+    || historicalAssetManifestVersion !== 'v1-preview-469bf64fe98cac5a')) {
+    throw new Error('An explicit historical asset manifest is required for the new-match release profile');
+  }
 
   let allowedOrigins: string[];
   if (environment['MOTHERSHIP_ALLOWED_ORIGINS'] === undefined) {
@@ -82,6 +95,8 @@ export function assertRuntimeEnvironment(environment: Record<string, string | un
   }
   return {
     projectId, emulator, assetManifestVersion: assetManifestVersion!, allowedOrigins: Object.freeze([...allowedOrigins]),
+    ...(creationProfile === 'declared-hack-1.5' ? { creationVersions: DECLARED_HACK_VERSION_PINS,
+      historicalAssetManifestVersion: historicalAssetManifestVersion! } : {}),
     ...(emulator ? { functionsEmulator: 'true', authEmulatorHost: environment['FIREBASE_AUTH_EMULATOR_HOST']!, firestoreEmulatorHost: environment['FIRESTORE_EMULATOR_HOST']!, ...(environment['CLOUD_TASKS_EMULATOR_HOST'] === undefined ? {} : { tasksEmulatorHost: environment['CLOUD_TASKS_EMULATOR_HOST'] }) } : {}),
   };
 }
