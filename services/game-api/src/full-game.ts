@@ -12,7 +12,7 @@ import {
   CrewCharacterIdSchema, FullPracticeBotsDocumentSchema, FullSetPracticeBotsRequestSchema, FullSetPracticeBotsResponseSchema, PRACTICE_BOT_POLICY_VERSION,
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
-import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
+import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullAdvanceResponse, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
@@ -50,6 +50,7 @@ type SetupOutboxRecord = Omit<V1SetupDeadlineIntent, 'status'> & {
   nextAttemptAt: number; leaseUntil: number | null; leaseToken: string | null;
 };
 type SetupDeadlineResult = { status: 'advanced' | 'unchanged' | 'too-early' | 'failed' | 'blocked'; retryAfterMs?: number };
+type EarlyDeadlineResult = { status: 'too-early'; retryAfterMs: number };
 
 export type StoredV1Setup = Omit<FullGameSetup, 'roundOrders'> & { storageCodecVersion: 1; roundOrders: Array<{ seatIds: SeatId[] }> };
 export type StoredV1State = Omit<FullGameState, 'setup'> & { storageCodecVersion: 1; setup: StoredV1Setup };
@@ -1096,7 +1097,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       });
     } catch { return failure('UNAVAILABLE'); }
   }
-  async function transition(matchId: string, phaseId: string, deadlineToken: string | null, uid: string | null) {
+  async function transition(matchId: string, phaseId: string, deadlineToken: string | null, uid: string): Promise<FullAdvanceResponse>;
+  async function transition(matchId: string, phaseId: string, deadlineToken: string, uid: null): Promise<FullAdvanceResponse | EarlyDeadlineResult>;
+  async function transition(matchId: string, phaseId: string, deadlineToken: string | null, uid: string | null): Promise<FullAdvanceResponse | EarlyDeadlineResult> {
     const base = db.collection('matches').doc(matchId), nextPhaseId = newId(), nextDeadlineToken = newId(), eventId = newId();
     try {
       return await db.runTransaction(async tx => {
@@ -1109,6 +1112,13 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         if (!supported(state)) return failure('UNSUPPORTED_PROTOCOL');
         const bindings = await tx.get(base.collection('seats'));
         const now = clock(), context = { now, phaseId, deadlineToken: deadlineToken ?? state.deadlineToken ?? '', nextPhaseId, nextDeadlineToken };
+        // Only the trusted queue needs to distinguish early delivery from a
+        // completed/stale timer. Decide from this transaction's current state;
+        // public advance keeps its existing unchanged response before expiry.
+        if (uid === null && state.phase.id === phaseId && state.deadlineToken === deadlineToken
+          && state.phase.endsAt !== null && now < state.phase.endsAt) {
+          return { status: 'too-early' as const, retryAfterMs: state.phase.endsAt - now };
+        }
         const evaluated = advanceFullGame(state, context);
         if (budget !== null) tx.set(budget.ref, budget.data);
         if (evaluated.advanced) {
@@ -1397,6 +1407,9 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       if (candidate === null) return { status: 'unchanged' };
       const result = await runDeadline({ matchId: candidate.matchId, phaseId: candidate.phaseId, deadlineToken: candidate.deadlineToken });
       if (isFailure(result)) return defer(result.error.code === 'UNAVAILABLE' ? 'failed' : 'blocked');
+      // A clock correction between candidate selection and evaluation must not
+      // turn early work into bot execution or a completed repair acknowledgment.
+      if ('status' in result) return defer('failed');
       // A nine-bot election can have 19 real slots (movement, votes and Code).
       // Drain at most two bounded batches, retaining a durable continuation if
       // concurrency exposes more work. No engine-write trigger is assumed here.

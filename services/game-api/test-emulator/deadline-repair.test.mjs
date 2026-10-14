@@ -108,6 +108,26 @@ test('pending and live/expired leases retain the enqueue path', async () => {
   assert.equal((await ref.get()).get('nextAttemptAt'), (await h.current()).phase.endsAt);
 });
 
+test('a clock correction after repair selection retains the early deadline for retry without effects', async () => {
+  const h = await harness(), { ref, state } = await dispatched(h);
+  const records = await journal(h); h.setTime(state.phase.endsAt);
+  let transactions = 0;
+  const repair = h.repairWith(async callback => {
+    const result = await db.runTransaction(callback);
+    if (++transactions === 1) h.setTime(state.phase.endsAt - 1);
+    return result;
+  });
+  assert.equal((await repair.repairOutbox(noEnqueue, { limit: 1 })).failed, 1);
+  assert.deepEqual(await h.current(), state); assert.deepEqual(await journal(h), records);
+  const pending = await ref.get(); assert.equal(pending.get('status'), 'dispatched');
+  assert.ok(pending.get('nextAttemptAt') > state.phase.endsAt);
+  h.setTime(pending.get('nextAttemptAt'));
+  await h.repair.repairOutbox(noEnqueue, { limit: 1 });
+  assert.notEqual((await h.current()).phase.id, state.phase.id);
+  assert.equal((await ref.get()).get('status'), 'completed');
+  assert.equal((await journal(h)).filter(record => record.kind === 'DEADLINE' && record.phaseId === state.phase.id).length, 1);
+});
+
 test('bounded cursor pages retire stale dispatched history without advancing a future current phase', async () => {
   const h = await harness(); const old = [];
   for (let index = 0; index < 3; index++) { const item = await dispatched(h); old.push(item); h.setTime(h.now() + 1000); await command(h, index + 1, { type: 'PASS_TURN' }); }
