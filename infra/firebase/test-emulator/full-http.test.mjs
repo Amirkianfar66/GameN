@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { observeSetupDeadline, setupDocument } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
-import { FullPublicViewSchema, FullPlayerViewSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema, FullSetupPlayerViewSchema } from '@mothership/contracts';
+import { FullPublicViewSchema, FullPlayerViewSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema, FullSetupPlayerViewSchema, FullVersionsSchema, supportsVoteResults, sameFullGameplayPins, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity, refreshEmulatorIdentity, firestoreRequest } from '../test/helpers.mjs';
 
 const operations = new Set(['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch']);
@@ -83,9 +83,28 @@ test('real V1 Functions authenticate seven players, wait both setup windows, reg
   for (let index=0;index<players.length;index++) {
     const own=await readView(`${root}/setupPlayerViews/${players[index].uid}`,players[index],FullSetupPlayerViewSchema);
     assert.equal((await firestoreRequest(`${root}/setupPlayerViews/${players[index].uid}`,{idToken:host.idToken})).status,403);
-    const ready=await invoke('v1ReadyForMatch',setupRequest({bindingRevision:own.bindingRevision,dealId:own.dealId}),players[index]);
+    const versions=FullVersionsSchema.parse(own.versions);
+    const needsAcceptance=supportsVoteResults(versions);
+    if (needsAcceptance) {
+      assert.ok([VOTE_RESULT_VERSION_PINS,DECLARED_HACK_VERSION_PINS].some(pins=>sameFullGameplayPins(versions,pins)),
+        'Review HTTP fixture support before acknowledging a new prepared gameplay tuple');
+      assert.ok(['0.0.0-no-assets','design-0.2.0'].includes(versions.assetManifestVersion),
+        'Review HTTP fixture support before acknowledging a new prepared asset manifest');
+    }
+    // Retain the exact intent for unknown-outcome retries. Historical bodies
+    // keep their original shape; only explicitly supported new deals are echoed.
+    const readyBody=setupRequest({bindingRevision:own.bindingRevision,dealId:own.dealId,
+      ...(needsAcceptance?{acceptedVersions:versions}:{})});
+    const ready=await invoke('v1ReadyForMatch',readyBody,players[index]);
     assert.equal(ready.status,200,JSON.stringify(ready.body));
     assert.equal(FullReadyForMatchResponseSchema.parse(ready.body).stage,'awaiting-ready');
+    if (index===0) {
+      const retried=await invoke('v1ReadyForMatch',readyBody,players[index]);
+      assert.equal(retried.status,200,JSON.stringify(retried.body));
+      const {serverTimeMs:_acceptedTime,...acceptedReady}=FullReadyForMatchResponseSchema.parse(ready.body);
+      const {serverTimeMs:_retriedTime,...retriedReady}=FullReadyForMatchResponseSchema.parse(retried.body);
+      assert.deepEqual(retriedReady,acceptedReady,'Ready replay returns the original accepted result for the same intent and pins');
+    }
     assert.equal((await firestoreRequest(`${root}/views/public`,{idToken:display.idToken})).status,403);
   }
   assert.equal((await setupDocument(h)).stage,'awaiting-ready');
