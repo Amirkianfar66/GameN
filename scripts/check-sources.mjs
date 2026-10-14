@@ -84,3 +84,13 @@ assert.deepEqual(publicHack.decisions.map(d=>d.id),Array.from({length:6},(_,i)=>
 assert.ok(model.includes(hash(publicHackPath)) && model.includes(publicHack.ruleset_version) && model.includes(publicHack.engine_version));
 assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(publicHackPath)));
 console.log('Public Hack draft integrity: public pair and approved turn-stage movement isolated to exact new tuple; creation defaults unchanged');
+
+const boardMedicalPath = 'rules/overlays/board-medical-owner-decision-2026-10-14.json';
+const boardMedical = json(boardMedicalPath);
+assert.equal(boardMedical.status,'confirmed'); assert.equal(boardMedical.protocol_version,2);
+assert.equal(boardMedical.parent_ruleset.hash,hash(publicHackPath));
+assert.equal(boardMedical.logical_layout,'board-v2-0.1.1');
+assert.deepEqual(boardMedical.decisions.map(d=>d.id),Array.from({length:7},(_,i)=>`BOARD-MEDICAL-${String(i+1).padStart(2,'0')}`));
+assert.ok(model.includes(hash(boardMedicalPath)) && model.includes(boardMedical.ruleset_version) && model.includes(boardMedical.engine_version));
+assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(boardMedicalPath)));
+console.log('Board/medical draft integrity: final owner slots and episode rules bound to separate inactive tuple; historical pins preserved');

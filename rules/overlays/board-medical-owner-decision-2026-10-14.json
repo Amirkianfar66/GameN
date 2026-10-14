@@ -1,0 +1,58 @@
+{
+  "decision_id": "board-medical-owner-decision-2026-10-14",
+  "status": "confirmed",
+  "decided_on": "2026-10-14",
+  "authority": "Final closed owner packet G-05/G-07/G-09 and rules-contracts, implementation authorized by issues #139 and #142. Reversible candidate only; affected-role adoption reviews remain required.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/142",
+  "base_commit": "9d23adb14a30227984720c459891d00510451475",
+  "owner_specification": {
+    "packet_sha256": "b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743",
+    "sections": [
+      "G-05",
+      "G-07",
+      "G-09",
+      "rules-contracts"
+    ]
+  },
+  "parent_ruleset": {
+    "version": "in-person-v1-public-hack-2026-10-14",
+    "hash": "28bc2eb81e3687c63746018e392227ded1989f398e2667495e0b6f499f0f3969"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.7.0",
+  "ruleset_version": "in-person-v1-board-medical-2026-10-14",
+  "logical_layout": "board-v2-0.1.1",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "BOARD-MEDICAL-01",
+      "decision": "Server-owned stable logical slots A1-A5, B1-B5, J1-J5, C1 and H1 through starting player count. Bodies retain places; preserve unchanged occupants and holes, allocate entrants lowest free in ascending player number. A/B/Jail capacity five; Healthy free Captain-only Command one; Hospital starting roster size. No Final Zone on this tuple."
+    },
+    {
+      "id": "BOARD-MEDICAL-02",
+      "decision": "Every unblocked Healthy-to-Injured transition immediately changes logical location to Hospital, including detained players. Detention remains independent. Physical Jail occupants plus detained Hospital patients awaiting return cannot exceed five. Fail impossible restored states."
+    },
+    {
+      "id": "BOARD-MEDICAL-03",
+      "decision": "Each fresh injury creates a server-only numbered episode admitted in round R. R1-R4 due death is after R+1 Rescue and R3 Supply; healing clears episode, later injury creates a fresh one. No-op Rescue, detention and reload do not extend it. Second hit eliminates before Rescue. Due death bypasses protection."
+    },
+    {
+      "id": "BOARD-MEDICAL-04",
+      "decision": "Resolve stored actor order Main then Shot, Rescue, R3 Supply, due episode deaths, final placement, authorized reveals and full-stage victory. Free healed Hospital places first. Healed detainees return to Jail; free healed/Command returners use last actual A/B, fallback other ordinary room, ascending player number. Forced transfers spend no voluntary move."
+    },
+    {
+      "id": "BOARD-MEDICAL-05",
+      "decision": "R4 injuries are due after R5 Rescue. Fresh R5/showdown injury has no aging deadline, extra round or Rescue window. Showdown keeps actual locations/detention; all living may register one existing special shot bypassing room/Command and ordinary injury/detention restrictions. Resolve entire registered batch in stored R5 order including shots from earlier-eliminated shooters. Existing protection and full-batch victory apply."
+    },
+    {
+      "id": "BOARD-MEDICAL-06",
+      "decision": "Public/player seats expose exact slotId and nullable medical admittedRound/rescueDueAfterRound/rescueOpportunity. Server computes rescue opportunity from current episode, round and phase; reconnect does not restart an episode. Do not expose private episode count, attacker, role or source. Legacy tuples omit these fields and retain exact behavior."
+    },
+    {
+      "id": "BOARD-MEDICAL-07",
+      "decision": "Inherit exact 1.6 public Hack and G-09 movement boundaries. Capsule remains scenery. Preserve every historical gameplay tuple, receipts, journals, creation/deal/default/art pins."
+    }
+  ],
+  "companion_boundary": "Direct physical-Jail Captain RELEASE/EJECT with independent global use flags and real nullable off-board placement requires a separately reviewed companion. This inactive candidate omits incompatible legacy remote RELEASE phases/commands; no substitute power, fake room, off-board field or complete standalone ruleset release claim. Blackout, Clone, room outcomes and art pairing remain separate dependencies.",
+  "version_policy": "Draft implementation only, no creation profile/default/art activation, migration, merge or deployment. Integration confirms new version allocation and eventual immutable art binding before adoption."
+}
