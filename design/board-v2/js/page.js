@@ -160,7 +160,7 @@ function draw() {
   document.documentElement.dataset.fallback = board.fallback ?? 'none';
   // A film only where a board is drawn: never over the too-short or too-narrow message.
   if (params.get('film') === 'blackout' && board.fits) mountBlackout({ app, board, roster, seats, params, drawFigure, drawTag });
-  if (params.get('film') === 'blocked' && board.fits) mountBlockedPage({ app, board, roster, seats, params, drawFigure });
+  if (params.get('film') === 'blocked' && board.fits) mountBlockedPage({ app, board, roster, seats, params });
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }

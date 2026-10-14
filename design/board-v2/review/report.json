@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "ffa7736b9a424b1f23a0ecb671759fc1dc39015437eead6d95208309c26fb240",
+  "inputsSha256": "0cdbd61a6acd37a4a267647f546d8baae9db7d708651f0da118c963d3facd98b",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -780,9 +780,49 @@
       "boardProblems": []
     },
     {
+      "file": "blocked-390x844-0280-injured.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
       "file": "blocked-390x844-0760-injured.png",
       "viewport": "390x844",
       "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-2500-injured-done.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-injured.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&injured=1&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-injured-outsider.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1&viewer=outsider",
       "problems": [],
       "shell": null,
       "fallback": null,
@@ -863,6 +903,16 @@
       "file": "blocked-320x568-0760-label.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-320x568-0760-injured.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
       "problems": [],
       "shell": null,
       "fallback": null,
@@ -3207,6 +3257,14 @@
       "same": true
     },
     {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 760 ms",
+      "same": true
+    },
+    {
       "compare": "the display with a block and with none, 390x844, 60 ms",
       "same": true
     },
@@ -3220,6 +3278,26 @@
     },
     {
       "compare": "the display with a block and with none, 390x844, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 2500 ms",
       "same": true
     },
     {
@@ -3343,6 +3421,14 @@
       "same": true
     },
     {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
       "compare": "the display with a block and with none, 390x844, 60 ms, reduced motion",
       "same": true
     },
@@ -3356,6 +3442,26 @@
     },
     {
       "compare": "the display with a block and with none, 390x844, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 2500 ms, reduced motion",
       "same": true
     },
     {
@@ -3471,6 +3577,14 @@
       "same": true
     },
     {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 760 ms",
+      "same": true
+    },
+    {
       "compare": "the display with a block and with none, 320x568, 60 ms",
       "same": true
     },
@@ -3484,6 +3598,26 @@
     },
     {
       "compare": "the display with a block and with none, 320x568, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 2500 ms",
       "same": true
     },
     {
@@ -3607,6 +3741,14 @@
       "same": true
     },
     {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
       "compare": "the display with a block and with none, 320x568, 60 ms, reduced motion",
       "same": true
     },
@@ -3620,6 +3762,26 @@
     },
     {
       "compare": "the display with a block and with none, 320x568, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 2500 ms, reduced motion",
       "same": true
     },
     {

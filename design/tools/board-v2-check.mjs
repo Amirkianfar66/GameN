@@ -54,6 +54,7 @@ const { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, sparkPlan } = await load('des
 const { BLOCKED, STAR_SIZE, blockedContract, blockedEnd, blockedFrame, blockedStartInBlackout } = await load('design/board-v2/films/blocked.mjs');
 const { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_SIZE, shieldColorDistances } = await load('design/board-v2/fx/blocked.mjs');
 const { BLACKOUT_OUTCOMES } = await load('design/board-v2/js/fixtures.mjs');
+const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -216,6 +217,17 @@ const { BLACKOUT_OUTCOMES } = await load('design/board-v2/js/fixtures.mjs');
   if (blockedStartInBlackout(15400) !== 15400 + BLACKOUT.lightsReturn[1] || blockedStartInBlackout(15400, { reduced: true }) !== 15400 + BLACKOUT.reduced.fadeMs) problems.push('a block in the Blackout does not start once the lights are back');
   if (blockedStartInBlackout(20000) !== 20000 || blockedStartInBlackout(null) !== null) problems.push('a late outcome or no outcome starts a block');
   for (let t = 0; t <= 19000; t += 50) if (JSON.stringify(blackoutFrame(t, { outcomeAt: 15400, hits: BLACKOUT_OUTCOMES.blocked.hits, windowId: 'w-check' })) !== JSON.stringify(blackoutFrame(t, { outcomeAt: 15400, hits: BLACKOUT_OUTCOMES.miss.hits, windowId: 'w-check' }))) { problems.push(`${t} ms: the Blackout's public film differs for a block and a miss`); break; }
+  // The review page's examples: the already-Injured target is the fixture's Injured patient in the Hospital at every roster,
+  // and no example target is ever Injured outside the Hospital (G-05). The page reads the fixture and changes nobody.
+  for (const roster of ROSTERS) {
+    const seats = fixtureSeats('mixed', roster);
+    const [patient] = blockedTargets(new URLSearchParams('injured=1'), seats);
+    if (patient?.room !== 'hospital' || patient?.health !== 'Injured') problems.push(`${roster} players: the already-Injured example is not a patient in the Hospital`);
+    for (const query of ['', 'targets=B2,B4', 'injured=1', 'targets=A1,C1,H1,J2,B4']) {
+      for (const seat of blockedTargets(new URLSearchParams(query), seats)) if (seat.health === 'Injured' && seat.room !== 'hospital') problems.push(`${roster} players, ${query || 'the default'}: an Injured target in ${seat.room}`);
+    }
+    for (const outcome of Object.values(BLACKOUT_OUTCOMES)) for (const id of outcome.blocks) { const seat = seats.find(entry => entry.slot === id); if (seat?.health === 'Injured' && seat.room !== 'hospital') problems.push(`${roster} players: a Blackout block on an Injured target in ${seat.room}`); }
+  }
   // Its colors are far from every faction accent, and those are the tokens'.
   const tokens = await json('packages/design-tokens/src/tokens-0.4.0.json');
   if (JSON.stringify(FACTION_ACCENTS) !== JSON.stringify(tokens.color?.factionPrivateOrRevealed)) problems.push('the faction accents measured against are not tokens-0.4.0\'s');
@@ -240,7 +252,7 @@ const { BLACKOUT_OUTCOMES } = await load('design/board-v2/js/fixtures.mjs');
   if (!films || JSON.stringify(films.films?.[1]) !== JSON.stringify(blockedContract())) problems.push('contract/films.json does not hold the film\'s contract: run design/tools/board-v2-assets.mjs');
   if (blockedContract().audience.film.indexOf('room-visible') !== 0) problems.push('the film is not room-visible');
   if (STAR_SIZE !== 1.6) problems.push(`the incoming star is ${STAR_SIZE} press sides, not the Blackout impact's 1.6`);
-  check('ATTACK BLOCKED: the storyboard\'s beats, the same film for every defense, a miss to everyone outside the room, its colors apart from the faction accents and its flash under a quarter of a panel', problems);
+  check('ATTACK BLOCKED: the storyboard\'s beats, the same film for every defense, a miss to everyone outside the room, its colors apart from the faction accents, its flash under a quarter of a panel, and the already-Injured example a patient in the Hospital', problems);
 }
 
 // ---------- The slots ----------

@@ -13,8 +13,21 @@ Nothing here is a rule, a server contract or an adopted asset:
 | Branch | `claude/designer-attack-blocked`, stacked on PR #129 (`claude/designer-blackout-window`, corrected at `6154166`), itself on PR #128, PR #127 and the integration baseline `abb6839`. #129's corrections are merged in: the Blackout's line in the top bar instead of the strip, the cut at `previewEndsAt`, the Hospital placement after a hit and the pending receipts |
 | Why stacked | The film draws on #128's fixed slots and layout, and on #129's impact star and Blackout |
 | Toolchain | Node 22.21.1, npm 10.9.4, headless Chromium 141 |
-| New files | `design/board-v2/fx/blocked.mjs`, `design/board-v2/films/blocked.mjs`, `design/board-v2/js/blocked-view.mjs`, 7 files under `design/board-v2/assets/fx/`, one test file, this page |
+| New files | `design/board-v2/fx/blocked.mjs`, `design/board-v2/films/blocked.mjs`, `design/board-v2/fx/label-box.mjs`, `design/board-v2/js/blocked-view.mjs`, 7 files under `design/board-v2/assets/fx/`, one test file, this page |
 | Changed | #129's review page, fixtures, Blackout view, asset tool, capture tool, check, contact sheet, `contract/films.json` and manifest (now `board-v2-0.3.0`). The Blackout's film is unchanged; its contract gains one line on blocks. Nothing outside `design/board-v2/`, `design/tools/board-v2-*`, `packages/design-tokens/test/` and `docs/design/` |
+
+## Correction after the Integration review of 14 October 2026
+
+The review confirmed the six earlier findings corrected and found one new defect here (P3): the review page's already-Injured example (`&injured=1`) redrew Orion at B2 as Injured in Room B. Every Injured character is a Hospital patient (G-05, G-07), so that picture showed a state the game never has. It was the review page's fixture, not the film or its art.
+
+| | Before | Now |
+| --- | --- | --- |
+| The example's target | Orion, Healthy at B2 in the fixture, redrawn Injured in Room B by the page | **Rigel, the fixture's Injured patient at H1 in the Hospital, in the gown**: the first Injured patient in the Hospital on the mixed board, at every roster |
+| What the page changes | The target's health | **Nothing.** `blockedTargets()` reads the targets from the fixture; the page draws them where and as the fixture has them, and the film adds to the picture only. With `&injured=1`, a named target must already be an Injured patient in the Hospital, or the page refuses it |
+| Checks | One picture | The capture checks on every frame that every target is in its room, at its slot, in its health, and in the gown when it is a patient. The example's picture is redrawn and five are new (full and reduced motion, after the film, outside the Hospital, the smallest phone). Outsiders and the display are identical with and without the block on the patient, and both defenses are identical on it. A unit test and the static check hold the example to an Injured patient in the Hospital at 7, 8 and 9 players |
+| The label rule | `labelBox()` inside the review page's controller | **`design/board-v2/fx/label-box.mjs`**, a pure module, so that a client can port the placement without the controller. Its logic is unchanged |
+
+The film, its art and its timing are unchanged: `films/blocked.mjs`, `fx/blocked.mjs` and the 7 effects files are byte for byte as reviewed. So are the six earlier corrections.
 
 ## 1. What the room's occupants see
 
@@ -112,11 +125,11 @@ Frontend has reviewed none of this, and nothing has been adopted.
 3. It changes nothing else: not the target's health, name tag, slot or press area.
 4. Keep one polite live region for room facts on every screen. Fill it only on the recipients' screens, with "Attack blocked on Orion." while the label is up, and empty it after. Hide the label itself from screen readers.
 5. At the end, remove every node the film added. Leave no class or attribute behind.
-6. Place the label by `labelBox()` (`design/board-v2/js/blocked-view.mjs`) from its laid-out size, before any transform.
+6. Place the label by `labelBox()` (`design/board-v2/fx/label-box.mjs`) from its laid-out size, before any transform.
 7. In the Blackout, start the film at `blockedStartInBlackout(R)`. The public batch never carries a block.
 8. Ship the effects files in the common bundle, never fetched on demand: a block never waits on a request, and no request tells a block from none.
 
-**Not to port:** the rest of `design/board-v2/js/blocked-view.mjs`, `blackout-view.mjs`, `page.js` and `fixtures.mjs`. They are a review page and synthetic fixtures. The page's `&play=1` runs the film from a local clock for review only.
+**Not to port:** the whole of `design/board-v2/js/blocked-view.mjs`, `blackout-view.mjs`, `page.js` and `fixtures.mjs`. They are a review page's controllers and synthetic fixtures. The page's `&play=1` runs the film from a local clock for review only, and its targets come from a fixture. A client draws its targets from the authoritative board and never changes a health or a place for the film: the target of a block is wherever the state says it is, an Injured target in the Hospital in the gown.
 
 **Review page options** (`design/board-v2/index.html?roster=9&fixture=mixed&film=blocked`):
 
@@ -127,7 +140,7 @@ Frontend has reviewed none of this, and nothing has been adopted.
 | `&targets=B2` (or `B2,B4`) | The blocked targets' slots |
 | `&viewer=occupant\|outsider\|display\|art` | A player in the targets' room, a player elsewhere, the display, or the art review: every target's room at once, which no screen ever receives |
 | `&cause=clone\|protection` | Changes nothing |
-| `&injured=1` | The target was already Injured |
+| `&injured=1` | The already-Injured example: without `&targets`, the fixture's first Injured patient in the Hospital (Rigel at H1, in the gown); with `&targets`, each must already be one. The page changes no one's health or place |
 | `&motion=reduced` | The reduced-motion variant |
 
 In the Blackout: `&film=blackout&outcome=blocked&in=room-b` is a Room B occupant's screen, and `&in=room-a` a Room A player's.
@@ -145,14 +158,14 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 
 | Check | Result |
 | --- | --- |
-| `node design/tools/board-v2-check.mjs` | **9 / 9.** #129's eight and the film's own. It checks the storyboard's beats and end times, and that a defense, an attacker, a grantor, a count or a direction fed in changes nothing. It checks reduced motion without motion, the brace at 2 px at most and home by 900 ms, the words exactly while the label is up, and nothing drawn outside the film. In the Blackout, a block publishes no hit, draws a miss's public film and starts once the lights are back. The faction accents are the tokens', and every shield color is at least 30 from them. With a hit and a block in one Blackout there are at most three flashes a second. Every slot of a room blocked at once flashes under a quarter of the panel, at eight phone sizes and three rosters. `films.json` is current |
-| `node design/tools/board-v2-capture.mjs` | **92 pictures and three contact sheets, 0 with problems**, 22 of them the film's. On every frame of the film it checks the page's stage, and that each part is on the page exactly while the film draws it, on the recipients' screens alone, with nothing left after the end. It checks every label is inside its panel and off its caption, only the target's figure is braced, by the film's offset, and the live region's words. The Blackout's own measurements also run on the film's four Blackout frames |
-| The same run: **194 whole-page comparisons, 0 differing** | #129's 62, and 132 for this film. A block by either defense on an occupant's screen, at eight moments (32). An outsider's screen and the display, with a block and without, at four moments (32). The Blackout's blocked strike against a miss on a Room A player's screen, on the display and on a screen with no room, at five moments (60). The same on a Room B occupant's screen before the lights are back (8). Each at 390 × 844 and 320 × 568, with and without reduced motion |
+| `node design/tools/board-v2-check.mjs` | **9 / 9.** #129's eight and the film's own. It holds the review page's already-Injured example to an Injured patient in the Hospital at 7, 8 and 9 players, and no example target Injured outside it. It checks the storyboard's beats and end times, and that a defense, an attacker, a grantor, a count or a direction fed in changes nothing. It checks reduced motion without motion, the brace at 2 px at most and home by 900 ms, the words exactly while the label is up, and nothing drawn outside the film. In the Blackout, a block publishes no hit, draws a miss's public film and starts once the lights are back. The faction accents are the tokens', and every shield color is at least 30 from them. With a hit and a block in one Blackout there are at most three flashes a second. Every slot of a room blocked at once flashes under a quarter of the panel, at eight phone sizes and three rosters. `films.json` is current |
+| `node design/tools/board-v2-capture.mjs` | **97 pictures and three contact sheets, 0 with problems**, 27 of them the film's. On every frame of the film it checks the page's stage, and that each part is on the page exactly while the film draws it, on the recipients' screens alone, with nothing left after the end. It checks that every target is drawn in its room, at its slot, in its health, and in the gown when it is a patient (from the figure's own ids), on every screen, during the film and once it is over. It checks every label is inside its panel and off its caption, only the target's figure is braced, by the film's offset, and the live region's words. The Blackout's own measurements also run on the film's four Blackout frames |
+| The same run: **222 whole-page comparisons, 0 differing** | #129's 62, and 160 for this film. A block by either defense on an occupant's screen, at eight moments (32), and on the Hospital patient at three (12). An outsider's screen and the display, with a block and without, at four moments (32), and with the block on the Hospital patient at two (16). The Blackout's blocked strike against a miss on a Room A player's screen, on the display and on a screen with no room, at five moments (60). The same on a Room B occupant's screen before the lights are back (8). Each at 390 × 844 and 320 × 568, with and without reduced motion |
 | The same run: **every slot's label** | Every slot of every room blocked at once, at four phones and three rosters: 12 pages of 23 to 25 labels, 0 problems. Every label is inside its panel and off its caption |
 | The same run: #129's **23 real-pointer press tests** (129 presses) and **186 pointer probes** | 0 problems, with this film's code on the page |
 | `node design/tools/board-v2-assets.mjs --check` | 39 files current |
-| `npm test --workspace @mothership/design-tokens` | **247 / 247**, 7 of them in `blocked.test.mjs` (one updated for #129's per-roster after-state: a block moves nobody) |
-| Existing checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion and phone-kit assets current; `typecheck`; `check:toolchain`, `check:workspace`, `check:sources`; tooling 130 / 130 |
+| `npm test --workspace @mothership/design-tokens` | **248 / 248**, 8 of them in `blocked.test.mjs`: one new for the already-Injured example (an Injured patient in the Hospital at every roster, the fixture unchanged, a non-patient refused), one updated earlier for #129's per-roster after-state |
+| Existing checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7 and its flows 109 / 109; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion and phone-kit assets current; `typecheck`, `build`; `check:toolchain`, `check:workspace`, `check:sources`; tooling 130 / 130; `git diff --check` clean |
 
 **Not run:**
 
@@ -167,6 +180,7 @@ Whether players read the shield as a block, and not as a hit, is for a table of 
 
 - **Backend's room fact and its audience** (section 6). Until they exist, nothing here reaches players.
 - **The showdown.** A special shot blocked by Protection uses this film for the authorized room viewers (motion requirements, Showdown); Clone never blocks a special shot (Q-C01b). The showdown is not drawn on board v2 yet.
+- **The label in a full ward.** Above a front-row patient (Rigel at H1), the label covers the name tag of the patient in the berth behind for its 1.8 s; the press areas stay above it. The placement rule (`fx/label-box.mjs`) avoids the panel's edges and the caption, not other tags. Whether to move it off neighbouring tags is for review.
 - **The copy:** "Attack blocked" and "Attack blocked on Orion."
 - **Sound:** none here. Room-specific audio is silent by default for in-person play (G-04); any sound must be identical for both defenses and reach only the room's authorized recipients.
 - **The owner has not seen this film.**

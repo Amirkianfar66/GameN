@@ -51,7 +51,8 @@ const { BLACKOUT_OUTCOMES, fixtureSeats, settledSeats } = await import(pathToFil
 const { addressSelection, lineText } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blackout-view.mjs')).href);
 const { BOARD_ROOMS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/slots.mjs')).href);
 const { blockedFrame, blockedStartInBlackout } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blocked.mjs')).href);
-const { LABEL_MARGIN } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blocked-view.mjs')).href);
+const { LABEL_MARGIN } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/label-box.mjs')).href);
+const { blockedTargets } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blocked-view.mjs')).href);
 const { CREW } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/figures/crew.mjs')).href);
 const NAMES = Object.values(CREW).map(member => member.sign);
 
@@ -131,7 +132,12 @@ function plan() {
   blocked('0760-label', at390, 760, '', 'ATTACK BLOCKED above Orion, who is back in place; the words in the live region (760 ms)');
   blocked('2320-fading', at390, 2320, '', 'The label fading (2 320 ms)');
   blocked('2500-done', at390, 2500, '', 'Done: nothing the film added is left on the page (2 500 ms)');
-  blocked('0760-injured', at390, 760, '&injured=1', 'An Injured target stays Injured: bandage kept, no healing glow (760 ms)');
+  // The already-Injured example: the fixture's Injured patient in the Hospital, Rigel at H1 in the gown, on a Hospital occupant's screen.
+  blocked('0280-injured', at390, 280, '&injured=1', 'The already-Injured example: the bubble round Rigel, a patient at H1 in the Hospital, braced 2 px in the gown (280 ms)');
+  blocked('0760-injured', at390, 760, '&injured=1', 'The already-Injured example: ATTACK BLOCKED over Rigel, still Injured at H1 in the gown: bandage kept, no healing glow (760 ms)');
+  blocked('2500-injured-done', at390, 2500, '&injured=1', 'After the block: Rigel still Injured at H1 in the gown; nothing the film added is left (2 500 ms)');
+  blocked('reduced-0800-injured', at390, 800, '&injured=1&motion=reduced', 'Reduced motion, the already-Injured example: a still ring and the label over Rigel at H1 (800 ms)');
+  blocked('0280-injured-outsider', at390, 280, '&injured=1&viewer=outsider', 'The already-Injured example on a screen outside the Hospital: nothing at all (280 ms)');
   blocked('0280-double', at390, 280, '&targets=B2,B4', 'Two blocks at one checkpoint, each on its own target (280 ms)');
   blocked('0280-outsider', at390, 280, '&viewer=outsider', 'A player in another room at the same moment: nothing at all (280 ms)');
   blocked('0280-display', at390, 280, '&viewer=display', 'The shared display at the same moment: nothing at all (280 ms)');
@@ -140,6 +146,7 @@ function plan() {
   }
   blocked('0280-bubble', at320, 280, '', 'The bubble on the smallest phone, clipped to Room B\'s panel (280 ms)');
   blocked('0760-label', at320, 760, '', 'The label on the smallest phone: the two words stacked to fit the panel (760 ms)');
+  blocked('0760-injured', at320, 760, '&injured=1', 'The already-Injured example on the smallest phone: the label over Rigel at H1 (760 ms)');
   blocked('art-0280', at390, 280, '&viewer=art&targets=A1,C1,H1,J2,B4', 'Art review only, which no screen ever receives: a block in every room at once, on each room\'s colors (280 ms)');
   blocked('art-0760', at390, 760, '&viewer=art&targets=A1,C1,H1,J2,B4', 'Art review only: the label in every room, above its target or below its name tag, never over a caption (760 ms)');
   // In the Blackout: a blocked strike published at 15 400, a miss on every screen but Room B's occupants'.
@@ -222,6 +229,9 @@ const MEASURE_BLOCKED = `(() => {
       caption: caption ? box(caption) : null,
       panel: { width: room.clientWidth, height: room.clientHeight },
       braced: [...room.querySelectorAll('.v2-fig')].filter(node => node.style.translate).map(node => ({ seat: Number(node.dataset.seat), translate: node.style.translate })),
+      // Who is drawn here, as the figure's own ids say it (s<seat><slot><health initial>), and whether in the gown.
+      figures: [...room.querySelectorAll('.v2-fig[data-seat]')].map(node => ({ seat: Number(node.dataset.seat), id: node.querySelector('[id]')?.id ?? '', gown: node.innerHTML.includes('-print)') })),
+      tags: [...room.querySelectorAll('.v2-tag[data-seat]')].map(node => Number(node.dataset.seat)),
     };
   }
   return { stage: document.documentElement.dataset.stage, film: document.documentElement.dataset.film, rooms, live: document.querySelector('[data-live=room]')?.textContent ?? null, scrolls: document.documentElement.scrollHeight > innerHeight + 1 };
@@ -245,18 +255,32 @@ function blockedExpected(shot) {
   const reduced = query.get('motion') === 'reduced';
   const viewer = query.get('viewer') ?? (query.get('film') === 'blackout' ? 'observer' : 'occupant');
   const blackout = query.get('film') === 'blackout';
-  const targets = blackout ? BLACKOUT_OUTCOMES[query.get('outcome') ?? 'hit'].blocks : (query.get('targets') ?? 'B2').split(',').filter(Boolean);
-  const blocks = targets.map(id => seats.find(entry => entry.slot === id)).filter(seat => {
+  const targets = blackout ? BLACKOUT_OUTCOMES[query.get('outcome') ?? 'hit'].blocks.map(id => seats.find(entry => entry.slot === id)) : blockedTargets(query, seats);
+  const blocks = targets.filter(seat => {
     if (blackout) return viewer !== 'display' && seat.room === query.get('in');
     return viewer === 'occupant' || viewer === 'art';
   });
   const t = blackout ? shot.blocked.t - blockedStartInBlackout(Number(query.get('r') ?? 15400), { reduced }) : shot.blocked.t;
-  return { blocks, frame: blockedFrame(t, { reduced }), blackout };
+  return { blocks, targets, frame: blockedFrame(t, { reduced }), blackout };
 }
 
 function problemsOfBlocked(shot, measured) {
   const problems = [];
-  const { blocks, frame, blackout } = blockedExpected(shot);
+  const { blocks, targets, frame, blackout } = blockedExpected(shot);
+  // Every target, on every screen and at every moment, is the fixture's: in its room, at its slot, in its health, a patient in the gown.
+  for (const seat of targets) {
+    for (const [room, drawn] of Object.entries(measured.rooms)) {
+      const figures = drawn.figures.filter(figure => figure.seat === seat.seat);
+      if (room !== seat.room && (figures.length || drawn.tags.includes(seat.seat))) problems.push(`target seat ${seat.seat} drawn in ${room}; the fixture has it in ${seat.room}`);
+      if (room !== seat.room) continue;
+      if (!figures.length || !drawn.tags.includes(seat.seat)) problems.push(`target seat ${seat.seat} is not drawn in ${room}`);
+      for (const figure of figures) {
+        const [, slot, health] = /^s\d+([A-Z]\d+)([HIE])/.exec(figure.id) ?? [];
+        if (slot !== seat.slot || health !== seat.health[0]) problems.push(`target seat ${seat.seat} drawn as ${figure.id}; the fixture has ${seat.slot}, ${seat.health}`);
+        if (seat.room === 'hospital' && !figure.gown) problems.push(`target seat ${seat.seat} is not in the gown`);
+      }
+    }
+  }
   if (measured.scrolls) problems.push('the page scrolls');
   if (!blackout && measured.stage !== (blocks.length ? frame.stage : 'none')) problems.push(`the page is at ${measured.stage}; the film says ${blocks.length ? frame.stage : 'none'}`);
   // Each part on the page exactly while the film draws it, on the recipients' screens alone; nothing after the end.
@@ -666,6 +690,16 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
             const [block, none] = await Promise.all(['B2', ''].map(targets => pageAt(viewport, `${blockedBase}&t=${t}&viewer=${viewer}&targets=${targets}${reducedMotion}`)));
             disclosure.push({ compare: `${viewer === 'display' ? 'the display' : 'an outsider\'s screen'} with a block and with none, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: block.html === none.html });
           }
+          // The already-Injured example: a block on Rigel in the Hospital is nothing at all off the Hospital's screens.
+          for (const t of [280, 760]) {
+            const [block, none] = await Promise.all([pageAt(viewport, `${blockedBase}&t=${t}&viewer=${viewer}&injured=1${reducedMotion}`), pageAt(viewport, `${blockedBase}&t=${t}&viewer=${viewer}&targets=${reducedMotion}`)]);
+            disclosure.push({ compare: `${viewer === 'display' ? 'the display' : 'an outsider\'s screen'} with a block on the Hospital patient and with none, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: block.html === none.html });
+          }
+        }
+        // The already-Injured example by either defense, on a Hospital occupant's screen.
+        for (const t of [280, 760, 2500]) {
+          const [clone, protection] = await Promise.all(['clone', 'protection'].map(cause => pageAt(viewport, `${blockedBase}&t=${t}&injured=1&cause=${cause}${reducedMotion}`)));
+          disclosure.push({ compare: `a block on the Hospital patient by either defense, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: clone.html === protection.html });
         }
         for (const t of [15440, 15560, 16200, 16700, 17500]) {
           for (const [who, extra] of [['a Room A player\'s screen', '&in=room-a'], ['the display', '&viewer=display&in=room-b'], ['a screen with no room given', '']]) {

@@ -26,7 +26,8 @@
 | `js/blackout-view.mjs` | The window on the review page (`&film=blackout`) |
 | `fx/blocked.mjs` | ATTACK BLOCKED's art: the shield, the ring and the particles, and their colors' distance from the faction accents. Editable source |
 | `films/blocked.mjs` | ATTACK BLOCKED as a film: its beats, and what it draws at any moment, the same for every defense |
-| `js/blocked-view.mjs` | ATTACK BLOCKED on the review page (`&film=blocked`, and in the Blackout), with where its label goes |
+| `fx/label-box.mjs` | Where ATTACK BLOCKED's label goes in its panel: the placement rule alone, pure geometry |
+| `js/blocked-view.mjs` | ATTACK BLOCKED on the review page (`&film=blocked`, and in the Blackout). A controller: not to be ported |
 | `js/fixtures.mjs` | Synthetic boards for review (test-only) |
 | `js/page.js`, `index.html`, `css/page.css` | The review page: a phone-sized board, or one room's whole scene |
 | `contact.html` | The contact sheet of the captures |
@@ -57,4 +58,4 @@ node design/tools/serve.mjs               # then open /board-v2/index.html
 | `&safe=47,0,34,0` | Safe-area insets (top, right, bottom, left) |
 | `?scene=hospital` | The whole ward scene at 1024 × 768 |
 | `&film=blackout` | The Blackout's lighting window, with `&t=`, `&play=1`, `&outcome=`, `&viewer=`, `&in=`, `&motion=reduced` and the rest listed in `js/blackout-view.mjs` |
-| `&film=blocked` | ATTACK BLOCKED, with `&t=`, `&play=1`, `&targets=`, `&viewer=`, `&cause=`, `&injured=1` and `&motion=reduced`, listed in `js/blocked-view.mjs` |
+| `&film=blocked` | ATTACK BLOCKED, with `&t=`, `&play=1`, `&targets=`, `&viewer=`, `&cause=`, `&injured=1` (the fixture's Injured patient in the Hospital) and `&motion=reduced`, listed in `js/blocked-view.mjs` |

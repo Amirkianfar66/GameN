@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "ffa7736b9a424b1f23a0ecb671759fc1dc39015437eead6d95208309c26fb240",
+  "inputsSha256": "0cdbd61a6acd37a4a267647f546d8baae9db7d708651f0da118c963d3facd98b",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -470,10 +470,34 @@
       "about": "Done: nothing the film added is left on the page (2 500 ms)"
     },
     {
+      "file": "blocked-390x844-0280-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1",
+      "about": "The already-Injured example: the bubble round Rigel, a patient at H1 in the Hospital, braced 2 px in the gown (280 ms)"
+    },
+    {
       "file": "blocked-390x844-0760-injured.png",
       "group": "blocked",
       "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
-      "about": "An Injured target stays Injured: bandage kept, no healing glow (760 ms)"
+      "about": "The already-Injured example: ATTACK BLOCKED over Rigel, still Injured at H1 in the gown: bandage kept, no healing glow (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-2500-injured-done.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500&injured=1",
+      "about": "After the block: Rigel still Injured at H1 in the gown; nothing the film added is left (2 500 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&injured=1&motion=reduced",
+      "about": "Reduced motion, the already-Injured example: a still ring and the label over Rigel at H1 (800 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-injured-outsider.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1&viewer=outsider",
+      "about": "The already-Injured example on a screen outside the Hospital: nothing at all (280 ms)"
     },
     {
       "file": "blocked-390x844-0280-double.png",
@@ -522,6 +546,12 @@
       "group": "blocked",
       "query": "roster=9&fixture=mixed&film=blocked&t=760",
       "about": "The label on the smallest phone: the two words stacked to fit the panel (760 ms)"
+    },
+    {
+      "file": "blocked-320x568-0760-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "about": "The already-Injured example on the smallest phone: the label over Rigel at H1 (760 ms)"
     },
     {
       "file": "blocked-390x844-art-0280.png",

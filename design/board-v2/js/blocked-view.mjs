@@ -16,14 +16,17 @@
 //                           another room, the shared display, or the art review: every target's room
 //                           at once, which no screen ever receives
 //   &cause=clone|protection the defense: changes nothing, which is the point
-//   &injured=1              the target was already Injured: it stays Injured
+//   &injured=1              the already-Injured example: without &targets, the target is the
+//                           fixture's first Injured patient in the Hospital (on the mixed board, Rigel
+//                           at H1, in the gown); with &targets, every target must already be one. The
+//                           page never changes anyone's health, room or slot: it draws the fixture
 //   &motion=reduced         the device's reduced-motion setting
 
 import { CREW } from '../../board-motion/figures/crew.mjs';
-import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { STAR_SIZE, blockedEnd, blockedFrame } from '../films/blocked.mjs';
 import { SHIELD_SIZE } from '../fx/blocked.mjs';
-import { sceneOf, slotsOf } from '../scenes/slots.mjs';
+import { LABEL_MARGIN, labelBox } from '../fx/label-box.mjs';
+import { slotsOf } from '../scenes/slots.mjs';
 import { slotRects } from './fit.mjs';
 
 const FX = '../board-v2/assets/fx';
@@ -37,33 +40,6 @@ function el(tag, attrs = {}, ...kids) {
   }
   for (const kid of kids.flat()) if (kid !== null && kid !== undefined) node.append(kid);
   return node;
-}
-
-/** The label's margin from the panel's edges and from the room's caption, in px. */
-export const LABEL_MARGIN = 2;
-
-const overlaps = (a, b) => a.left < b.left + b.width && b.left < a.left + a.width && a.top < b.top + b.height && b.top < a.top + a.height;
-
-/**
- * Where ATTACK BLOCKED goes for a target: centred on its press point, LABEL_MARGIN inside the
- * panel, and never over the room's caption. Above the target's press area; where that leaves the
- * panel or meets the caption, below its name tag; where neither fits, as high as the caption
- * allows. `size` is the label's [width, height]; `caption` the caption's box in the panel, or null.
- * Returns { left, top, place } with place 'above', 'below' or 'clamped'.
- */
-export function labelBox({ rect, panel, size: [width, height], caption = null }) {
-  const m = LABEL_MARGIN;
-  const left = Math.max(m, Math.min(panel.width - width - m, rect.press[0] - width / 2));
-  const guard = caption ? { left: caption.left - m, top: caption.top - m, width: caption.width + 2 * m, height: caption.height + 2 * m } : null;
-  const fits = top => top >= m && top + height <= panel.height - m && !(guard && overlaps({ left, top, width, height }, guard));
-  // The name tag's bottom, as page.js draws it: at the foot of the press area, kept inside the panel.
-  const tagBottom = Math.min(panel.height - 16, rect.top + rect.side - 14) + 16;
-  const above = rect.top - height - m;
-  if (fits(above)) return { left, top: above, place: 'above' };
-  const below = tagBottom + m;
-  if (fits(below)) return { left, top: below, place: 'below' };
-  const floor = guard && guard.left < left + width && left < guard.left + guard.width ? guard.top + guard.height : m;
-  return { left, top: Math.max(floor, Math.min(panel.height - height - m, above)), place: 'clamped' };
 }
 
 /**
@@ -127,34 +103,46 @@ export function roomLive(app) {
   };
 }
 
+/**
+ * The blocked targets, as the review address names them: the fixture's occupants at &targets
+ * (default B2), or, for &injured=1 without &targets, the fixture's first Injured patient in the
+ * Hospital. Each is the fixture's own seat, in the room, slot and health the fixture gives: an
+ * Injured character is a Hospital patient (G-05), so a target named with &injured=1 must already
+ * be one. Nothing here moves anyone or changes a health.
+ */
+export function blockedTargets(params, seats) {
+  const injured = params.get('injured') === '1';
+  const patients = seats.filter(seat => seat.room === 'hospital' && seat.health === 'Injured');
+  if (injured && !params.has('targets') && !patients.length) throw new Error('injured=1 needs an Injured patient in the Hospital, and this fixture has none');
+  const ids = params.has('targets') ? params.get('targets').split(',').filter(Boolean) : injured ? [patients[0].slot] : ['B2'];
+  return ids.map(id => {
+    const seat = seats.find(entry => entry.slot === id);
+    if (!seat) throw new Error(`Nobody at ${id} in the fixture`);
+    if (injured && !patients.includes(seat)) throw new Error(`injured=1 shows an already-Injured target, who is a patient in the Hospital; ${id} is ${seat.health} in ${seat.room}`);
+    return seat;
+  });
+}
+
 /** The ?film=blocked review page: one checkpoint's blocks, on the screen the viewer gives. */
-export function mountBlockedPage({ app, board, roster, seats, params, drawFigure }) {
+export function mountBlockedPage({ app, board, roster, seats, params }) {
   const reduced = params.get('motion') === 'reduced';
   const viewer = params.get('viewer') ?? 'occupant';
-  const targets = (params.get('targets') ?? 'B2').split(',').filter(Boolean);
+  const targets = blockedTargets(params, seats);
   document.documentElement.dataset.film = 'blocked';
   document.documentElement.dataset.motion = reduced ? 'reduced' : 'full';
   const top = app.querySelector('.v2-top');
   top.querySelector('.v2-top__label').replaceWith(el('span', { class: 'v2-top__phase' }, 'Round 3: attacks'));
   // The blocks this screen receives: the targets' room's occupants only.
   const say = roomLive(app);
-  const rooms = new Set(targets.map(id => seats.find(entry => entry.slot === id)?.room));
+  const rooms = new Set(targets.map(seat => seat.room));
   if (viewer === 'occupant' && rooms.size > 1) throw new Error('An occupant is in one room: give targets in one room, or viewer=art');
   const blocks = [];
-  for (const id of targets) {
-    const seat = seats.find(entry => entry.slot === id);
-    if (!seat) throw new Error(`Nobody at ${id} in the fixture`);
+  for (const seat of targets) {
+    // The target as page.js drew it from the fixture: its room, its slot, its health and clothes. The film adds to it and changes none of them.
     const room = seat.room;
     const section = app.querySelector(`.v2-room[data-room="${room}"]`);
     const panel = board.panels[room];
-    const { k, tx, ty } = frameScene(sceneOf(room, roster), panel);
-    const index = slotsOf(room, roster).findIndex(slot => slot.id === id);
-    const slot = slotsOf(room, roster)[index];
-    // An Injured target is drawn Injured, and stays so.
-    if (params.get('injured') === '1') {
-      for (const node of section.querySelectorAll(`.v2-fig[data-seat="${seat.seat}"]`)) node.remove();
-      section.querySelector('.v2-art').append(...drawFigure(room, slot, { ...seat, health: 'Injured' }, { k, tx, ty }));
-    }
+    const index = slotsOf(room, roster).findIndex(slot => slot.id === seat.slot);
     if (viewer !== 'occupant' && viewer !== 'art') continue;
     blocks.push(mountBlocked({ section, rect: slotRects(room, roster, panel)[index], panel, figures: () => [...section.querySelectorAll(`.v2-fig[data-seat="${seat.seat}"]`)], name: CREW[seat.character].sign, reduced }));
   }

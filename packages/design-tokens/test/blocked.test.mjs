@@ -1,8 +1,9 @@
 // mothership:dev-only
 //
-// ATTACK BLOCKED (design/board-v2/films/blocked.mjs, fx/blocked.mjs, js/blocked-view.mjs;
-// docs/design/attack-blocked.md): the film's beats, its single treatment for every defense, its
-// reduced variant, its place in the Blackout, its art and where its label goes. These test the
+// ATTACK BLOCKED (design/board-v2/films/blocked.mjs, fx/blocked.mjs, fx/label-box.mjs,
+// js/blocked-view.mjs; docs/design/attack-blocked.md): the film's beats, its single treatment for
+// every defense, its reduced variant, its place in the Blackout, its art, where its label goes and
+// whom the review page's examples show. These test the
 // proposal's own modules: none of them is a rule, a server contract or a measurement of a phone,
 // and none says anything about who can block what.
 import assert from 'node:assert/strict';
@@ -11,8 +12,9 @@ import { test } from 'node:test';
 import { BLACKOUT, blackoutFrame } from '../../../design/board-v2/films/blackout.mjs';
 import { BLOCKED, STAR_SIZE, blockedContract, blockedEnd, blockedFrame, blockedStartInBlackout } from '../../../design/board-v2/films/blocked.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, PARTICLE_FRAMES, SHIELD, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_SIZE, blockParticlesSvg, blockRingSvg, cie76, shieldColorDistances, shieldSvg } from '../../../design/board-v2/fx/blocked.mjs';
-import { LABEL_MARGIN, labelBox } from '../../../design/board-v2/js/blocked-view.mjs';
-import { BLACKOUT_OUTCOMES } from '../../../design/board-v2/js/fixtures.mjs';
+import { LABEL_MARGIN, labelBox } from '../../../design/board-v2/fx/label-box.mjs';
+import { blockedTargets } from '../../../design/board-v2/js/blocked-view.mjs';
+import { BLACKOUT_OUTCOMES, fixtureSeats } from '../../../design/board-v2/js/fixtures.mjs';
 import { fitBoardV2, slotRects } from '../../../design/board-v2/js/fit.mjs';
 import { BOARD_ROOMS, ROSTERS } from '../../../design/board-v2/scenes/slots.mjs';
 
@@ -166,4 +168,28 @@ test('the label: above its target, else below its name tag, inside the panel and
       }
     }
   }
+});
+
+test('the already-Injured example is a patient in the Hospital, drawn as the fixture has them: the block changes no health, room or slot', () => {
+  const address = query => new URLSearchParams(query);
+  for (const roster of ROSTERS) {
+    const seats = fixtureSeats('mixed', roster);
+    const before = JSON.stringify(seats);
+    // injured=1 alone: the fixture's first Injured patient in the Hospital, Rigel at H1, the fixture's own seat.
+    const [patient, ...others] = blockedTargets(address('injured=1'), seats);
+    assert.equal(others.length, 0);
+    assert.equal(patient, seats.find(seat => seat.slot === 'H1'), `${roster}`);
+    assert.deepEqual({ seat: patient.seat, room: patient.room, slot: patient.slot, health: patient.health }, { seat: 2, room: 'hospital', slot: 'H1', health: 'Injured' }, `${roster}`);
+    // Every target named with injured=1 must already be an Injured patient in the Hospital.
+    assert.throws(() => blockedTargets(address('injured=1&targets=B2'), seats), /Hospital/);
+    if (roster >= 8) assert.equal(blockedTargets(address('injured=1&targets=H2'), seats)[0].slot, 'H2');
+    if (roster === 9) assert.throws(() => blockedTargets(address('injured=1&targets=H4'), seats), /Eliminated/);
+    // Without injured=1, the default and named targets are the fixture's, in their own health.
+    assert.deepEqual(blockedTargets(address(''), seats).map(seat => [seat.slot, seat.room, seat.health]), [['B2', 'room-b', 'Healthy']]);
+    assert.throws(() => blockedTargets(address('targets=H9'), seats.filter(seat => seat.slot !== 'H9')), /Nobody at H9/);
+    // Reading the targets changes nothing in the fixture.
+    assert.equal(JSON.stringify(seats), before, `${roster}`);
+  }
+  // No Injured patient, no already-Injured example.
+  assert.throws(() => blockedTargets(address('injured=1'), fixtureSeats('empty', 9)), /no/);
 });
