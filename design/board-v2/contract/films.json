@@ -181,6 +181,127 @@
         "L1": "the brace moves the target's figure art only",
         "L6": "press areas never move"
       }
+    },
+    {
+      "id": "private-capsule",
+      "storyboard": "S2",
+      "status": "proposal",
+      "audience": {
+        "film": "public: every phone and the shared display, the same; the pair, their entrance, the conversation scene and their exit are public (G-02; rules-contracts, Audiences and delivery)",
+        "claim": "participant-private, not part of this film: the declared side and its card stay in the two participants' own panel (design/phone-kit/js/hack.js), which the film never covers and never reads"
+      },
+      "clock": "Milliseconds from the authoritative start of the stage (the result stage, the conversation, the conversation's end), from the server's deadlines; never a local start time and never an animation's end.",
+      "inputs": [
+        "stage (declare, result, talk, exit, idle)",
+        "t (from the stage's authoritative start)",
+        "the public pair: two seat ids, ordered by player number (P1 the lower)",
+        "each participant's public place, health and detention, from the board (the latest authoritative)",
+        "the exchange's public id (the seated variations' seed)",
+        "reduced (the device setting)"
+      ],
+      "notInputs": [
+        "the declared side or the claim",
+        "which participant asked",
+        "who is speaking, a microphone or any sound",
+        "a role, a faction or a defense",
+        "an animation's completion"
+      ],
+      "server": {
+        "declareMaxMs": 15000,
+        "resultMs": 5000,
+        "talkMs": 60000
+      },
+      "beats": [
+        {
+          "stage": "declare",
+          "what": "Both participants outlined at their places in caption yellow, with the capsule's badge, once the projection names the pair"
+        },
+        {
+          "stage": "result",
+          "from": 0,
+          "to": 700,
+          "what": "The outline and the badge (in by 300 ms); the private claim card on the participants' own phones is theirs, beside the board"
+        },
+        {
+          "stage": "result",
+          "from": 700,
+          "to": 1420,
+          "what": "Each stands (120 ms), steps toward the capsule's side and fades out of its room; its away marker comes up at its slot, which keeps its press area"
+        },
+        {
+          "stage": "result",
+          "from": 1250,
+          "to": 3600,
+          "what": "The capsule's door slides open (1 250 to 1 550 ms). P1 comes in at 1 550 and walks behind the table to its chair (1 050 ms), P2 at 2 000 straight to its own (900 ms); each turns and sits (330 ms). The door slides shut (3 300 to 3 600 ms)"
+        },
+        {
+          "stage": "result",
+          "at": 3600,
+          "what": "The door-status light lights. Settled, still, until the conversation starts: 1 400 ms to spare inside the stage"
+        },
+        {
+          "stage": "talk",
+          "from": 0,
+          "to": 60000,
+          "what": "Both seated; quiet variations on a schedule seeded by the exchange's public id (lean in, sit back, a nod, an open hand, a hand at the chin, a blink), unrelated to speech; the top bar counts the conversation's server time down from 1:00"
+        },
+        {
+          "stage": "exit",
+          "from": 0,
+          "to": 1600,
+          "what": "The light goes out and the door opens (300 ms); both stand (300 to 420 ms) and walk their paths back to the doorway, fading in it, P2 gone at 1 120 ms and P1 at 1 300; the door shuts (1 300 to 1 600 ms)"
+        },
+        {
+          "stage": "exit",
+          "from": 1120,
+          "to": 2230,
+          "what": "As each leaves the capsule it steps back in at its latest authoritative place, where the board has it now (600 ms), and settles into its gesture (330 ms); its away marker fades. Nothing waits for this"
+        }
+      ],
+      "reduced": {
+        "what": "No walking, no steps, no variations. Result: the outline and badge; at 700 ms the people fade (80 ms) to their away markers and appear seated in the capsule, its door shown open until 1 100 ms, then shut and the light lit. Exit: the door shown open for 400 ms while the people fade (80 ms) from the capsule back to their places.",
+        "fadeMs": 80
+      },
+      "reconnect": "Draws the stage's settled state at the current server time: in the result stage and the conversation, the pair seated, the door shut and its light lit, the away markers at their places; after it, everyone at their places and the capsule empty. The entrance and the exit are never replayed, and the minute is never restarted.",
+      "loading": "Draws only the seats the public projection names: none, one or two. With none, the capsule as when idle (its door shut, its light off) under the stage's top bar; with one, that one's film alone. A seat named after its part began is drawn settled. Nobody is invented while a projection is awaited.",
+      "away": {
+        "opacity": 0.35,
+        "saturation": 0
+      },
+      "paths": {
+        "P1": [
+          [
+            368,
+            374
+          ],
+          [
+            164,
+            480
+          ],
+          [
+            164,
+            650
+          ]
+        ],
+        "P2": [
+          [
+            368,
+            374
+          ],
+          [
+            348,
+            650
+          ]
+        ],
+        "units": "scene units of the 512 x 768 capsule (its feet); the way out is the same path backward",
+        "cadence": "the approved public move's: 1.5 two-step cycles per 450 ms",
+        "scale": "the doorway's (0.9) in the doorway to the seat's (1.05) at the chairs, by depth"
+      },
+      "layers": {
+        "capsule": "its own panel beside the Command Room, exactly half its width (fit.mjs { capsule: true }); back, door, the participants, busy; no slots: its only targets are each seated participant's own seat (scenes/capsule.mjs capsuleTargets(), 44 px), as its slot is",
+        "home": "the participant's own room, its figure layer: the away marker at its slot; the step out is clipped to the room's panel",
+        "tags": "every name tag stays: at the slot, and under each seated participant in the capsule"
+      }
     }
   ]
 }

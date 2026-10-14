@@ -14,6 +14,9 @@
 //   (design/board-v2/films/blackout.mjs, contract/films.json);
 // - the shared ATTACK BLOCKED art (design/board-v2/fx/blocked.mjs): the shield, its ring and its
 //   particles, and that film's timeline (design/board-v2/films/blocked.mjs) in contract/films.json;
+// - the private-talk capsule (design/board-v2/scenes/capsule.mjs): its empty cabin, its door's four
+//   positions, its door-status light, its badge and its dark drawing for the Blackout, and its
+//   film's timeline (design/board-v2/films/capsule.mjs) in contract/films.json;
 // - the manifest, with every file's size and hash.
 //
 //   node design/tools/board-v2-assets.mjs           writes design/board-v2/assets/, contract/slots.json and contract/films.json
@@ -31,6 +34,8 @@ import { composeScene } from '../board-motion/scenes/compose.mjs';
 import { SCENES } from '../board-motion/scenes/index.mjs';
 import { BLACKOUT, FILMS_VERSION, blackoutContract } from '../board-v2/films/blackout.mjs';
 import { BLOCKED, blockedContract } from '../board-v2/films/blocked.mjs';
+import { CAPSULE_FILM, capsuleContract } from '../board-v2/films/capsule.mjs';
+import { BADGE_SIZE, BESIDE, CAPSULE_ACCENTS, CAPSULE_RECOLOR, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VERSION, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, capsuleBadgeSvg, capsuleLayers } from '../board-v2/scenes/capsule.mjs';
 import { BLOCKED_VERSION, PARTICLE_FRAMES, SHIELD, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_RADIUS, SHIELD_SIZE, FACTION_ACCENTS, MIN_ACCENT_DISTANCE, blockParticlesSvg, blockRingSvg, shieldColorDistances, shieldSvg } from '../board-v2/fx/blocked.mjs';
 import { WARD_BERTHS, WARD_ROSTERS, wardScene } from '../board-v2/scenes/hospital-ward.mjs';
 import { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, LIGHTING_VERSION, NIGHT, SPARK_BOX, SPARK_LIGHT, SPARK_ORIGIN, boltIconSvg, impactSvg, markerSvg, nightMarkup, sparkSvg } from '../board-v2/scenes/lighting.mjs';
@@ -41,8 +46,8 @@ const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/assets';
 const SLOTS_FILE = 'design/board-v2/contract/slots.json';
 const FILMS_FILE = 'design/board-v2/contract/films.json';
-/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED. */
-export const ASSETS_VERSION = 'board-v2-0.3.0';
+/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule. */
+export const ASSETS_VERSION = 'board-v2-0.4.0';
 const kebab = id => id.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 const kebabAll = ids => ids.map(kebab);
 const sha = content => createHash('sha256').update(content).digest('hex');
@@ -94,7 +99,8 @@ export async function planAssets(root = repoRoot) {
   files.set(SLOTS_FILE, slotsJson);
   const lighting = await planLighting(root, files);
   const fx = planBlocked(files);
-  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract()] };
+  const capsule = planCapsule(files);
+  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract()] };
   const filmsJson = `${JSON.stringify(films, null, 2)}\n`;
   files.set(FILMS_FILE, filmsJson);
   const recipes = JSON.parse(await readFile(resolve(root, 'design/source/export-recipes.json'), 'utf8'));
@@ -104,7 +110,7 @@ export async function planAssets(root = repoRoot) {
     status: 'proposal',
     baseBoard: 'board-motion-0.3.0',
     baseManifest: 'design-0.2.0',
-    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art and the shared ATTACK BLOCKED effects, for the owner\'s motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
+    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects and the private-talk capsule, for the owner\'s motion specification of 13 October 2026 and the owner\'s capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
       origin: 'The approved Hospital\'s groups copied element for element from the repository\'s original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream: a Claude Code session working for the game owner.',
@@ -116,6 +122,7 @@ export async function planAssets(root = repoRoot) {
     scenes,
     lighting,
     fx,
+    capsule,
     films: { file: FILMS_FILE, version: FILMS_VERSION, sha256: sha(filmsJson), bytes: Buffer.byteLength(filmsJson) },
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -218,6 +225,59 @@ function planBlocked(files) {
   add(`${OUT}/fx/fx-block-ring.svg`, header('ring', 'The energy ring that absorbs the attack; the film grows and fades it.') + blockRingSvg(),
     { id: 'fx.block-ring', kind: 'ring', ms: BLOCKED.absorb });
   return { version: BLOCKED_VERSION, colors: SHIELD, factionAccents: FACTION_ACCENTS, colorDistances: { method: 'CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0', atLeast: MIN_ACCENT_DISTANCE, toNearestFactionAccent: shieldColorDistances() }, shieldRadius: SHIELD_RADIUS, shieldSize: SHIELD_SIZE, flashRadius: SHIELD_FLASH_RADIUS, files: entries };
+}
+
+/**
+ * The private-talk capsule: its empty cabin (back), its door at each of its positions (door-0 shut
+ * to door-3 open), its door-status light lit (busy), its badge, and the cabin with its lights out
+ * for the Blackout window (dark: back and the shut door, by the Blackout's night rule; the
+ * capsule is empty whenever the window runs). Adds the files to `files`; returns the manifest's
+ * capsule section.
+ */
+function planCapsule(files) {
+  const header = (name, purpose) => `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 capsule proposal ${CAPSULE_VERSION} · ${name} · generated, do not edit by hand
+  ${purpose}
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/capsule.mjs. Scenery, not a room: no slots, no press areas. Not in the reviewed manifest design-0.2.0.
+-->
+`;
+  const entries = [];
+  const add = (file, content, entry) => {
+    files.set(file, content);
+    entries.push({ ...entry, file, bytes: Buffer.byteLength(content), sha256: sha(content), audience: 'public' });
+  };
+  const [w, h] = CAPSULE_SIZE;
+  const layers = capsuleLayers();
+  add(`${OUT}/capsule/back.svg`, header('back', 'The capsule, empty: its cabin, the doorway (shut by door-0), the lamp over the table, the two chairs facing each other, the door-status light unlit.') + layers.back,
+    { id: 'capsule.back', kind: 'back', viewBox: `0 0 ${w} ${h}` });
+  for (let i = 0; i < DOOR_FRAMES; i += 1) {
+    const what = i === 0 ? 'shut' : i === DOOR_FRAMES - 1 ? 'open (no leaf: the doorway clear)' : `${i} of ${DOOR_FRAMES - 1} open`;
+    add(`${OUT}/capsule/door-${i}.svg`, header(`door ${i}`, `The door's two leaves, ${what}, drawn over the back and under the participants.`) + layers[`door-${i}`],
+      { id: `capsule.door-${i}`, kind: 'door', position: i, viewBox: `0 0 ${w} ${h}` });
+  }
+  add(`${OUT}/capsule/busy.svg`, header('busy', 'The door-status light lit along the doorway\'s header in caption yellow, drawn over everything while the two are inside. Public: it says the capsule is in use, nothing more; never red or blue, so that no side can be read into it.') + layers.busy,
+    { id: 'capsule.busy', kind: 'busy', viewBox: `0 0 ${w} ${h}` });
+  add(`${OUT}/capsule/badge.svg`, header('badge', `The pair's badge: a capsule with two heads in it, at the participants' places while the board names them, ${BADGE_SIZE} units drawn 22 px square. No microphone, no sound, no side.`) + capsuleBadgeSvg(),
+    { id: 'capsule.badge', kind: 'badge', viewBox: `0 0 ${BADGE_SIZE} ${BADGE_SIZE}` });
+  const lit = layers.back.replace(/<\/svg>\s*$/, `  <g data-from="door-0.svg">${bodyOf(layers['door-0'])}</g>\n</svg>\n`);
+  add(`${OUT}/capsule/dark.svg`, header('dark', `The capsule with its lights out, empty and shut, for the Blackout window: back and door-0 by the night rule of design/board-v2/scenes/lighting.mjs (low ${NIGHT.low}, high ${NIGHT.high}, line ${NIGHT.line}). Nobody is in the capsule while the window runs.`) + nightMarkup(lit),
+    { id: 'capsule.dark', kind: 'dark', viewBox: `0 0 ${w} ${h}` });
+  return {
+    version: CAPSULE_VERSION,
+    scenery: 'Not a room: no slots and no tag; it changes no location, occupancy, capacity, eligibility, movement or immunity (G-02). Its only targets are each seated participant\'s own seat (capsuleTargets()), as its slot is.',
+    targets: 'capsuleTargets(panel): a 44 px square per seated participant, on its chest, inside the panel, below the caption (CAPTION_CLEAR) and apart; live only while that participant is drawn seated',
+    layout: 'fit.mjs fitBoardV2(viewport, roster, { capsule: true }): beside the Command Room, on its right, in the top band; the band\'s inside width less the gap and the four borders shared 2:1.',
+    recolor: CAPSULE_RECOLOR,
+    accents: CAPSULE_ACCENTS,
+    door: DOOR,
+    doorway: DOORWAY,
+    seats: CAPSULE_SEATS.map(seat => ({ id: seat.id, side: seat.side, at: seat.at, scale: seat.scale, mirror: seat.mirror, beside: BESIDE[seat.id], normalized: [Number((seat.at[0] / w).toFixed(4)), Number((seat.at[1] / h).toFixed(4))], path: PATHS[seat.id] })),
+    paths: 'Each seat\'s path in: the points its feet pass, from the doorway to its stop beside its chair (scene units); the way out is the same path backward. Neither crosses the table.',
+    view: CAPSULE_VIEW,
+    film: { id: CAPSULE_FILM.id, file: FILMS_FILE },
+    files: entries,
+  };
 }
 
 /** Everything under assets/ that the plan no longer makes: removed when writing, reported when checking. */

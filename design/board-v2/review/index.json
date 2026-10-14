@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "0cdbd61a6acd37a4a267647f546d8baae9db7d708651f0da118c963d3facd98b",
+  "inputsSha256": "bb547e286d95b6a660d0dfc1efeb310e8905e7e77b48155a0396cb918f164a11",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -588,6 +588,379 @@
       "group": "blocked",
       "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
       "about": "The Blackout's block on the smallest phone (16 700 ms)"
+    },
+    {
+      "file": "capsule-320x568-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 320 x 568"
+    },
+    {
+      "file": "capsule-360x740-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 360 x 740"
+    },
+    {
+      "file": "capsule-390x844-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 390 x 844"
+    },
+    {
+      "file": "capsule-430x932-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 430 x 932"
+    },
+    {
+      "file": "capsule-390x844-declare-4000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000",
+      "about": "The declaration, once the projection names the pair: Vega and Orion outlined at their places with the capsule's badge; the declaration's time in the top bar (4 s)"
+    },
+    {
+      "file": "capsule-390x844-result-0400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=400",
+      "about": "The result stage: the outline and the badge; the claim card is on the participants' own phones (400 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-1200.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=1200",
+      "about": "Each has stood and is stepping toward the capsule's side, fading out of its room; its away marker (gray, faint, the badge, its name tag) at its slot (1 200 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-2000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2000",
+      "about": "The door open; Vega walking behind the table toward the far chair (2 000 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400",
+      "about": "Vega coming forward beside the far chair; Orion walking in to the near one (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-2750.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2750",
+      "about": "Vega turning and sitting; Orion at his chair (2 750 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-3600.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&hit=1",
+      "about": "Settled: both seated, the door shut, its light lit; 1 400 ms to spare before the conversation (3 600 ms); each seated participant a 44 px target for its own seat"
+    },
+    {
+      "file": "capsule-390x844-talk-0000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=0",
+      "about": "The conversation's authoritative start: the top bar at 1:00 from the server; both seated"
+    },
+    {
+      "file": "capsule-390x844-talk-30000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&hit=1",
+      "about": "Halfway: the quiet variations, seeded by the exchange's public id, unrelated to speech (0:30); every slot, C1 and both seated participants' own targets pressed"
+    },
+    {
+      "file": "capsule-390x844-exit-0360.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=360",
+      "about": "The conversation's end: the light out, the door open, both standing (360 ms)"
+    },
+    {
+      "file": "capsule-390x844-exit-0800.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=800",
+      "about": "Both walking their paths back to the doorway (800 ms)"
+    },
+    {
+      "file": "capsule-390x844-exit-1250.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=1250",
+      "about": "Orion back at B2, stepping in; Vega fading in the doorway, then back at A1 (1 250 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-result-0760.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=760&motion=reduced",
+      "about": "Reduced motion: the people faded (80 ms) to their away markers and seated in the capsule, its door shown open (760 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-result-1100.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=1100&motion=reduced",
+      "about": "Reduced motion: the door shut and the light lit: settled (1 100 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-talk-30000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&motion=reduced",
+      "about": "Reduced motion: both seated, still: no variations (0:30)"
+    },
+    {
+      "file": "capsule-390x844-reduced-exit-0040.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=40&motion=reduced",
+      "about": "Reduced motion: the door shown open while the people fade back to their places (40 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-exit-0400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=400&motion=reduced",
+      "about": "Reduced motion: the door shut, everyone at their places (400 ms)"
+    },
+    {
+      "file": "capsule-390x844-talk-20000-patient-prisoner.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=20000&pair=2,4&hit=1",
+      "about": "Rigel, a patient (H1), in the gown with the bandage and a hunch, and Atlas, a prisoner (J2), in the prison suit, hands together: seated (20 s)"
+    },
+    {
+      "file": "capsule-390x844-result-2400-patient-prisoner.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&pair=2,4",
+      "about": "Rigel walking in with the approved stagger, in the gown; Atlas in the prison suit (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-talk-20000-captain-detainee.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=20000&pair=7,8",
+      "about": "Juno, the Captain (C1), beside her own Command Room, and Mira, detained in the Hospital (H2), in the gown, hands together (20 s)"
+    },
+    {
+      "file": "capsule-390x844-result-1200-captain-detainee.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=1200&pair=7,8",
+      "about": "Juno stepping out of the Command Room and Mira out of the Hospital, their slots kept (1 200 ms)"
+    },
+    {
+      "file": "capsule-390x844-loading-0.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&known=0",
+      "about": "The projection names nobody yet: the stage's top bar; the capsule as when idle; nobody invented (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-loading-1.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&known=1",
+      "about": "The projection names one: Vega's film alone; Orion untouched at B2 (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-late.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&late=1",
+      "about": "Orion named after his part began: drawn settled, seated, while Vega still walks (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-reconnect-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&settled=1",
+      "about": "A reconnect in the result stage: the settled state, nothing replayed (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-reconnect-exit-0800.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=800&settled=1",
+      "about": "A reconnect during the exit: everyone at their places, the capsule empty, nothing replayed (800 ms)"
+    },
+    {
+      "file": "capsule-390x844-moved-exit-1250.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=1250&moved=5:B5",
+      "about": "Orion's latest authoritative place is B5: he steps back in there, not at B2 (1 250 ms)"
+    },
+    {
+      "file": "capsule-390x844-participant-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant",
+      "about": "A participant's screen: the stand-in for their own claim panel where the phone puts it, never under the film (2 400 ms)"
+    },
+    {
+      "file": "capsule-320x568-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400",
+      "about": "The entrance on the smallest phone (2 400 ms)"
+    },
+    {
+      "file": "capsule-320x568-talk-30000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&hit=1",
+      "about": "The conversation on the smallest phone: both tags whole in the capsule, both seated participants' targets 44 px beside C1's (0:30)"
+    },
+    {
+      "file": "capsule-320x568-exit-0800.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=800",
+      "about": "The exit on the smallest phone (800 ms)"
+    },
+    {
+      "file": "capsule-320x568-participant-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant",
+      "about": "A participant's screen on the smallest phone: the claim panel's stand-in clear of the film (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-talk-30000-r7.png",
+      "group": "capsule",
+      "query": "roster=7&fixture=mixed&film=capsule&stage=talk&t=30000",
+      "about": "7 players: the capsule beside the Command Room, the conversation (0:30)"
+    },
+    {
+      "file": "capsule-390x844-talk-30000-r8.png",
+      "group": "capsule",
+      "query": "roster=8&fixture=mixed&film=capsule&stage=talk&t=30000",
+      "about": "8 players: the capsule beside the Command Room, the conversation (0:30)"
+    },
+    {
+      "file": "capsule-sheet.png",
+      "group": "capsule",
+      "query": "sheet=capsule",
+      "about": "The capsule's art for review: its layers (empty, the door's four positions, occupied, dark), the badge, the seats' anchors and the paths, and every pose by public status",
+      "sheetHeight": 460
+    },
+    {
+      "file": "turns-390x844-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "about": "A character choice open (a Code, during the conversation): the board is the chooser. Every living character ringed where it is, Vega and Orion at their slots and in the capsule; Orion and Mira chosen. The choosing row in the navigation's box, the Pass hidden; the top bar says what is chosen"
+    },
+    {
+      "file": "turns-320x568-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "about": "A participant choosing on the smallest phone: the sheet folded to its tab at the row's start; every target pressable"
+    },
+    {
+      "file": "turns-390x844-choosing-safe.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=47,0,34,0&hit=1",
+      "about": "With 47/34 px safe areas: the choosing row takes the navigation's box, its inset included"
+    },
+    {
+      "file": "turns-390x844-result-0400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (400 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-390x844-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (2400 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-390x844-result-3600.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (3600 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-320x568-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "The private result through the entrance on the smallest phone (2 400 ms)"
+    },
+    {
+      "file": "turns-390x844-talk-receipt.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "about": "The conversation: the claim, and a sent command's recovery row with its 44 px Check again"
+    },
+    {
+      "file": "turns-390x844-talk-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A participant confirming a Code in the conversation: the claim folded to its row, the confirmation's words, Cancel and Confirm pinned either side of the Pass"
+    },
+    {
+      "file": "turns-390x844-declare-offer.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "about": "The declaration: its claim and the offer"
+    },
+    {
+      "file": "turns-390x844-declare-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "about": "The side choice: three stand-in choices; the claim folded where both do not fit"
+    },
+    {
+      "file": "turns-320x568-talk-receipt.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "about": "The conversation: the claim, and a sent command's recovery row with its 44 px Check again"
+    },
+    {
+      "file": "turns-320x568-talk-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A participant confirming a Code in the conversation: the claim folded to its row, the confirmation's words, Cancel and Confirm pinned either side of the Pass"
+    },
+    {
+      "file": "turns-320x568-declare-offer.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "about": "The declaration: its claim and the offer"
+    },
+    {
+      "file": "turns-320x568-declare-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "about": "The side choice: three stand-in choices; the claim folded where both do not fit"
+    },
+    {
+      "file": "turns-390x844-declare-side-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-confirm&hit=1",
+      "about": "The declaration's confirmation, the claim folded"
+    },
+    {
+      "file": "turns-390x844-rescue-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&ui=sheet&command=rescue-confirm&hit=1",
+      "about": "Another player's confirmation: no claim; the capsule idle"
+    },
+    {
+      "file": "turns-390x844-text2-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&text=2&hit=1",
+      "about": "200% text: the top bar 124 px, chosen before the board is laid out; every target still 44 px; the choosing row's words at 200%"
+    },
+    {
+      "file": "turns-390x844-text2-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2&hit=1",
+      "about": "200% text: the private result whole in the sheet through the entrance (2 400 ms)"
+    },
+    {
+      "file": "turns-390x844-text2-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&text=2&hit=1",
+      "about": "200% text: the confirmation scrolls inside the sheet; its 64 px actions stay pinned"
+    },
+    {
+      "file": "turns-375x667-text2-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&text=2&hit=1",
+      "about": "200% text at 375 x 667: the narrower board (fallback narrow); the side choice scrolls inside the sheet"
+    },
+    {
+      "file": "turns-320x568-text2-too-short.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=sheet&claim=conversation&text=2&hit=1",
+      "about": "200% text at 320 x 568: no board fits below the 124 px top bar, so the explicit too-short page with the navigation, as the owner decided"
+    },
+    {
+      "file": "turns-320x568-safe-too-short.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=20,0,16,0&hit=1",
+      "about": "320 x 568 with 20/16 px safe areas: 36 px short at any text size, so the too-short page, as the owner decided"
     }
   ]
 }
