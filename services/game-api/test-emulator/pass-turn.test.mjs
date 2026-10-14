@@ -227,8 +227,14 @@ test('simultaneous duplicate PASS, a different PASS and an early deadline make e
   for (const response of repeats) assert.deepEqual(response.receipt, repeats[0].receipt);
   assert.equal([repeats[0], separate].filter(response => response.receipt.status === 'accepted').length, 1);
   assert.equal([repeats[0], separate].filter(response => response.receipt.code === 'PHASE_CLOSED').length, 1);
-  const reconciledDeadline = await settle(deadline, () => h.service.runDeadline(job(state)), FullAdvanceResponseSchema);
-  assert.equal(reconciledDeadline.result, 'unchanged');
+  // The queue can evaluate before PASS commits (early current task) or after it
+  // (stale task). Neither ordering may advance the following turn.
+  if (deadline.status === 'too-early') assert.deepEqual(deadline, { status: 'too-early', retryAfterMs: state.phase.endsAt - h.now() });
+  else {
+    const reconciledDeadline = await settle(deadline, () => h.service.runDeadline(job(state)), FullAdvanceResponseSchema);
+    assert.equal(reconciledDeadline.result, 'unchanged');
+  }
+  assert.equal(FullAdvanceResponseSchema.parse(await h.service.runDeadline(job(state))).result, 'unchanged');
   assert.equal((await h.current()).activeSeatId, 'seat-2');
   assert.equal((await h.base.collection('outbox').get()).size, 2);
   await decisions(h, payload.commandId); await decisions(h, other.commandId); await replay(h);
