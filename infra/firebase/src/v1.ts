@@ -12,6 +12,7 @@ import {
   FullBeginSetupRequestSchema, FullBeginSetupResponseSchema,
   FullConfirmSetupChoiceRequestSchema, FullConfirmSetupChoiceResponseSchema,
   FullReadyForMatchRequestSchema, FullReadyForMatchResponseSchema,
+  FullAdvanceResponseSchema,
 } from '@mothership/contracts';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type { RuntimeConfiguration } from './runtime.js';
@@ -223,7 +224,16 @@ export function createV1DeadlineHandler(service: Pick<V1Service, 'runDeadline' |
       || !['matchId', 'phaseId', 'deadlineToken'].every(key => typeof (payload as Record<string, unknown>)[key] === 'string' && identity.test((payload as Record<string, string>)[key]!))) throw new Error('Invalid deadline task');
     let result: unknown;
     try { result = await service.runDeadline(payload as V1Deadline); } catch { throw new Error('Deadline evaluation unavailable'); }
-    if (result !== null && typeof result === 'object' && 'ok' in result && result.ok === false) throw new Error('Deadline evaluation unavailable');
+    if (result !== null && typeof result === 'object' && !Array.isArray(result) && 'status' in result && result.status === 'too-early') {
+      if (Object.keys(result).length !== 2 || !('retryAfterMs' in result)
+        || !Number.isSafeInteger(result.retryAfterMs) || (result.retryAfterMs as number) <= 0) throw new Error('Deadline evaluation unavailable');
+      // An early current task is live work. Fail delivery so Cloud Tasks retains
+      // and retries the same phase/token instead of dropping its future timer.
+      throw new Error('Deadline has not elapsed');
+    }
+    const parsed = FullAdvanceResponseSchema.safeParse(result);
+    if (!parsed.success || 'ok' in parsed.data || parsed.data.matchId !== (payload as V1Deadline).matchId
+      || parsed.data.phaseId !== (payload as V1Deadline).phaseId) throw new Error('Deadline evaluation unavailable');
     await createV1PracticeBotsHandler(service)((payload as V1Deadline).matchId);
   };
 }

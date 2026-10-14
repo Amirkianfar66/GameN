@@ -315,17 +315,17 @@ for (const count of [7, 8, 9]) {
     const publicView = FullPublicViewSchema.parse((await h.base.collection('views').doc('public').get()).data());
     assert.equal(Object.hasOwn(publicView, 'hackFeedback'), false); assert.equal(Object.hasOwn(publicView, 'hackPartnerSeatId'), false);
     h.setTime(result.phase.endsAt - 1);
-    const earlyResult = FullAdvanceResponseSchema.parse(await h.service.runDeadline({ matchId: h.base.id,
-      phaseId: result.phase.id, deadlineToken: result.deadlineToken }));
-    assert.equal(earlyResult.result, 'unchanged'); assert.deepEqual(await current(h), result);
+    const earlyResult = await h.service.runDeadline({ matchId: h.base.id,
+      phaseId: result.phase.id, deadlineToken: result.deadlineToken });
+    assert.deepEqual(earlyResult, { status: 'too-early', retryAfterMs: 1 }); assert.deepEqual(await current(h), result);
     const talk = await deadline(h, result);
     assert.equal(talk.phase.kind, 'HACK'); assert.equal(talk.phase.startedAt, result.phase.endsAt);
     assert.equal(talk.phase.endsAt, talk.phase.startedAt + 60_000);
     assert.equal(talk.hackFeedback.hackId, opened.phase.id); assert.equal(talk.hackFeedback.phaseId, talk.phase.id);
     h.setTime(talk.phase.endsAt - 1);
-    const early = FullAdvanceResponseSchema.parse(await h.service.runDeadline({ matchId: h.base.id,
-      phaseId: talk.phase.id, deadlineToken: talk.deadlineToken }));
-    assert.equal(early.result, 'unchanged'); assert.deepEqual(await current(h), talk);
+    const early = await h.service.runDeadline({ matchId: h.base.id,
+      phaseId: talk.phase.id, deadlineToken: talk.deadlineToken });
+    assert.deepEqual(early, { status: 'too-early', retryAfterMs: 1 }); assert.deepEqual(await current(h), talk);
     const next = await deadline(h, talk);
     assert.equal(next.phase.kind, 'ORDINARY_TURN'); assert.equal(next.activeSeatId, 'seat-2');
     assert.equal(next.phase.startedAt, talk.phase.endsAt); assert.equal(next.phase.endsAt - next.phase.startedAt, 60_000);

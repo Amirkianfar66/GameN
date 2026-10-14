@@ -122,19 +122,19 @@ export async function exerciseAutomaticDeclaredHack({ base, players, display, in
   await intentFor(initial.phase);
   const declared = await observeNext(initial, 'HACK_DECLARE', 15_000), hackId = declared.phase.id;
   assert.equal(declared.activeSeatId, initiator);
-  await assertPrivateFeedback(declared, hackId, 'AWAITING_DECLARATION');
+  await assertPrivateFeedback(declared.phase, hackId, 'AWAITING_DECLARATION');
   // No declaration command is sent. Actual server/task time decides the result.
   const result = await observeNext(declared, 'HACK_RESULT', 5000);
   assert.equal(result.activeSeatId, initiator);
-  await assertPrivateFeedback(result, hackId, 'NO_DECLARATION');
+  await assertPrivateFeedback(result.phase, hackId, 'NO_DECLARATION');
   assert.equal((await firestoreRequest(`${base.path}/playerViews/${playerFor(target).uid}`,
     { idToken: display.idToken })).status, 403, 'A display cannot read the private claim result');
   const talk = await observeNext(result, 'HACK', 60_000);
   assert.equal(talk.activeSeatId, initiator);
-  await assertPrivateFeedback(talk, hackId, 'NO_DECLARATION');
+  await assertPrivateFeedback(talk.phase, hackId, 'NO_DECLARATION');
   const following = await observeNext(talk, 'ORDINARY_TURN', 60_000);
   assert.notEqual(following.activeSeatId, initiator);
-  await assertPrivateFeedback(following, hackId, null);
+  await assertPrivateFeedback(following.phase, hackId, null);
 
   const records = (await base.collection('events').get()).docs.map(doc => doc.data());
   const registrations = records.filter(record => record.kind === 'COMMAND' && record.request.commandId === command.commandId);

@@ -119,8 +119,10 @@ test('V1 task enqueue validates stable IDs and repairs already-created acknowled
 
 test('V1 task route rejects extra fields and fails retryably on backend failure', async () => {
   let calls = 0;
-  const handler = createV1DeadlineHandler({ runPracticeBots: async () => ({ status: 'unchanged', processed: 0 }), runDeadline: async () => { calls++; return { result: 'unchanged' }; } });
   const payload = { matchId: 'match-a', phaseId: 'phase-a', deadlineToken: 'deadline-a' };
+  const handler = createV1DeadlineHandler({ runPracticeBots: async () => ({ status: 'unchanged', processed: 0 }), runDeadline: async () => {
+    calls++; return { protocolVersion: 2, matchId: payload.matchId, phaseId: payload.phaseId, serverTimeMs: 123, result: 'unchanged' };
+  } });
   await handler(payload); assert.equal(calls, 1);
   await assert.rejects(handler({ ...payload, force: true })); assert.equal(calls, 1);
   await assert.rejects(createV1DeadlineHandler({ runPracticeBots: async () => ({ status: 'unchanged', processed: 0 }), runDeadline: async () => ({ ok: false, error: { code: 'UNAVAILABLE' } }) })(payload));

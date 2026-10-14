@@ -15,6 +15,7 @@ import {
 import { createV1Service } from '../dist/index.js';
 import { encodeV1Setup, encodeV1State, decodeV1Setup, decodeV1State } from '../dist/full-game.js';
 import { assertLocalEmulators, createEmulatorIdentity, firestoreRequest } from '../../../infra/firebase/test/helpers.mjs';
+import { createV1DeadlineHandler } from '../../../infra/firebase/dist/v1.js';
 
 let app, db;
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -206,14 +207,47 @@ async function declaration(h, state, side = 'Blue', target = 'seat-2') {
   assert.equal(response.ok, true, JSON.stringify(response)); assert.equal(response.receipt.status, 'accepted');
   return { request, receipt: response.receipt, state: await h.current() };
 }
-async function assertNoContinuation(h, state) {
+async function assertNoContinuation(h, state, early = false) {
   const records = await journal(h), counts = await audienceCounts(h);
-  const response = FullAdvanceResponseSchema.parse(await h.service.runDeadline(job(state)));
-  assert.equal(response.result, 'unchanged');
+  const response = await h.service.runDeadline(job(state));
+  if (early) assert.deepEqual(response, { status: 'too-early', retryAfterMs: state.phase.endsAt - h.now() });
+  else assert.equal(FullAdvanceResponseSchema.parse(response).result, 'unchanged');
   assert.deepEqual(await journal(h), records); assert.deepEqual(await audienceCounts(h), counts);
 }
 
 for (const playerCount of [7, 8, 9]) {
+  test(`${playerCount} seats: early queue delivery retries every Hack window while public advance and stale tasks stay unchanged`, async () => {
+    const h = await seed(playerCount);
+    await accept(h, 'seat-1', { type: 'REQUEST_HACK', targetSeatId: 'seat-2' });
+    const handler = createV1DeadlineHandler(h.service), previous = [];
+    for (const [kind, nextKind, duration] of [
+      ['ORDINARY_TURN', 'HACK_DECLARE', 15_000], ['HACK_DECLARE', 'HACK_RESULT', 5000],
+      ['HACK_RESULT', 'HACK', 60_000], ['HACK', 'ORDINARY_TURN', 60_000],
+    ]) {
+      const state = await h.current(); assert.equal(state.phase.kind, kind);
+      h.setTime(state.phase.endsAt - 1);
+      const records = await journal(h), counts = await audienceCounts(h);
+      assert.deepEqual(await h.service.runDeadline(job(state)), { status: 'too-early', retryAfterMs: 1 });
+      await assert.rejects(handler(job(state)), /^Error: Deadline has not elapsed$/);
+      assert.equal(FullAdvanceResponseSchema.parse(await h.service.advance(h.display.uid,
+        { protocolVersion: 2, matchId: h.base.id, phaseId: state.phase.id })).result, 'unchanged');
+      assert.equal(FullAdvanceResponseSchema.parse(await h.service.runDeadline({ ...job(state), deadlineToken: randomUUID() })).result, 'unchanged');
+      for (const old of previous) assert.equal(FullAdvanceResponseSchema.parse(await h.service.runDeadline(old)).result, 'unchanged');
+      assert.deepEqual(await h.current(), state); assert.deepEqual(await journal(h), records);
+      assert.deepEqual(await audienceCounts(h), counts); await assertStored(h);
+      h.setTime(state.phase.endsAt);
+      await handler(job(state));
+      const next = await h.current(); assert.equal(next.phase.kind, nextKind);
+      assert.equal(next.phase.startedAt, h.now()); assert.equal(next.phase.endsAt - next.phase.startedAt, duration);
+      const committed = await journal(h);
+      assert.equal(committed.filter(record => record.kind === 'DEADLINE' && record.phaseId === state.phase.id).length, 1);
+      await handler(job(state));
+      assert.deepEqual(await h.current(), next); assert.deepEqual(await journal(h), committed);
+      previous.push(job(state));
+    }
+    await assertReplay(h);
+  });
+
   for (const close of ['pass', 'expiry']) test(`${playerCount} seats: ${close}, early declaration, five-second private result and full sixty-second talk persist and replay`, async () => {
     const h = await seed(playerCount), { state: opened } = await openHack(h, { close });
     const hackId = opened.phase.id;
@@ -241,7 +275,7 @@ for (const playerCount of [7, 8, 9]) {
     assert.equal(stale.receipt.status, 'rejected'); assert.equal(stale.receipt.code, 'PHASE_CLOSED');
     const blocked = await submit(h, 'seat-2', { type: 'DECLARE_HACK_SIDE', declaredSide: 'Blue' });
     assert.equal(blocked.receipt.status, 'rejected'); assert.equal(blocked.receipt.code, 'NOT_ALLOWED');
-    h.setTime(result.phase.startedAt + 4999); await assertNoContinuation(h, result);
+    h.setTime(result.phase.startedAt + 4999); await assertNoContinuation(h, result, true);
     h.setTime(result.phase.endsAt);
     const raced = await Promise.all(Array.from({ length: 3 }, () => retryUnavailable(() => h.service.runDeadline(job(result)))));
     assert.deepEqual(raced.map(response => FullAdvanceResponseSchema.parse(response).result).sort(), ['advanced', 'unchanged', 'unchanged']);
@@ -249,7 +283,7 @@ for (const playerCount of [7, 8, 9]) {
     assert.equal(talk.phase.startedAt, h.now()); assert.equal(talk.phase.endsAt, h.now() + 60_000);
     await assertExchange(h, talk, 'seat-2', hackId, 'DECLARED', 'Blue');
     await assertNoContinuation(h, result);
-    h.setTime(talk.phase.endsAt - 1); await assertNoContinuation(h, talk);
+    h.setTime(talk.phase.endsAt - 1); await assertNoContinuation(h, talk, true);
     const next = await expire(h); assert.equal(next.phase.kind, 'ORDINARY_TURN'); assert.equal(next.activeSeatId, 'seat-2');
     for (const view of Object.values(projectFullGame(next).players)) {
       assert.equal(view.hackFeedback, null); assert.equal(view.hackPartnerSeatId, null);
@@ -268,11 +302,13 @@ for (const playerCount of [7, 8, 9]) {
         retryUnavailable(() => h.service.submit(h.players[1].uid, request)),
         retryUnavailable(() => h.service.runDeadline(job(opened))),
       ]);
-      const response = FullCommandResponseSchema.parse(submitted), advanced = FullAdvanceResponseSchema.parse(deadline);
+      const response = FullCommandResponseSchema.parse(submitted);
       assert.equal(response.ok, true, JSON.stringify(response));
       assert.equal(response.receipt.status, elapsed === 14_999 ? 'accepted' : 'rejected');
       if (elapsed === 15_000) assert.equal(response.receipt.code, 'PHASE_CLOSED');
-      assert.equal(advanced.result, elapsed === 14_999 ? 'unchanged' : 'advanced');
+      if (elapsed === 14_999 && deadline.status === 'too-early') {
+        assert.deepEqual(deadline, { status: 'too-early', retryAfterMs: 1 });
+      } else assert.equal(FullAdvanceResponseSchema.parse(deadline).result, elapsed === 14_999 ? 'unchanged' : 'advanced');
       const result = await h.current(); assert.equal(result.phase.kind, 'HACK_RESULT');
       assert.equal(result.phase.startedAt, h.now()); assert.equal(result.phase.endsAt, h.now() + 5000);
       await assertExchange(h, result, 'seat-2', opened.phase.id,
