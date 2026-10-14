@@ -1,15 +1,17 @@
 import assert from 'node:assert/strict';
 import { createHash, randomUUID } from 'node:crypto';
 import {
-  DECLARED_HACK_VERSION_PINS, sameFullGameplayPins,
+  CLONE_VERSION_PINS, DECLARED_HACK_VERSION_PINS, sameFullGameplayPins,
   FullCommandResponseSchema, FullLookupResponseSchema, FullPublicViewSchema, FullPlayerViewSchema,
 } from '@mothership/contracts';
 import { firestoreRequest } from '../test/helpers.mjs';
 
 // Real Functions smoke only. Admin is used for local journal/outbox READS.
 // No clock injection, engine write, Pass, advance, task dispatch or worker call
-// supplies any transition. The caller explicitly selects the reviewed 1.5/art mode.
-export async function exerciseAutomaticDeclaredHack({ base, players, display, invoke, readView }) {
+// supplies any transition. The caller explicitly selects the reviewed 1.5 or 1.10 gameplay/art mode.
+export async function exerciseAutomaticDeclaredHack({ base, players, display, invoke, readView, expectedPins = DECLARED_HACK_VERSION_PINS }) {
+  assert.ok([DECLARED_HACK_VERSION_PINS,CLONE_VERSION_PINS].some(pins=>sameFullGameplayPins(pins,expectedPins)));
+  const publicCapsule=sameFullGameplayPins(expectedPins,CLONE_VERSION_PINS);
   const matchId = base.id, publicPath = `${base.path}/views/public`;
   const expires = performance.now() + 210_000;
   const pause = () => new Promise(resolve => setTimeout(resolve, 200));
@@ -21,8 +23,8 @@ export async function exerciseAutomaticDeclaredHack({ base, players, display, in
     return identity;
   };
   const initial = await publicView();
-  assert.ok(sameFullGameplayPins(initial.versions, DECLARED_HACK_VERSION_PINS),
-    'Automatic declared-Hack acceptance must execute the explicit 1.5 gameplay tuple');
+  assert.ok(sameFullGameplayPins(initial.versions, expectedPins),
+    'Automatic declared-Hack acceptance must execute its explicitly reviewed gameplay tuple');
   assert.equal(initial.phase.kind, 'ORDINARY_TURN');
   const initiator = initial.activeSeatId;
   assert.ok(initiator);
@@ -100,6 +102,7 @@ export async function exerciseAutomaticDeclaredHack({ base, players, display, in
       assert.equal(current.phase.id, phase.id, 'The expected private stage must still be current when observed');
       if (views.every(view => view.phase.id === current.phase.id)) {
         assert.equal(Object.hasOwn(current, 'hackFeedback'), false);
+        if(publicCapsule) assert.deepEqual(current.hackSession,status===null?null:{hackId,actorSeatId:initiator,targetSeatId:target});
         assert.equal(Object.hasOwn(current, 'hackPartnerSeatId'), false);
         for (const view of views) {
           assert.deepEqual(view.versions, initial.versions);

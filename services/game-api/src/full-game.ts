@@ -16,6 +16,7 @@ import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBe
 import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, captainCommandsEnabled, blackoutEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
+import { selectPreparedArt } from './prepared-art.js';
 import { jointStartingRooms, jointStartingRoomAssignmentCount } from './joint-starting-rooms.js';
 import type { FullGameSetup, FullGameState, FullGameplayVersions } from '@mothership/engine';
 
@@ -172,9 +173,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
   const newMatchVersions = Object.freeze({ protocolVersion: creationVersions.protocolVersion, engineVersion: creationVersions.engineVersion,
     rulesetVersion: creationVersions.rulesetVersion, rulesetHash: creationVersions.rulesetHash });
   function preparedAssetVersion(versions: FullGameplayVersions): string {
-    if (historicalAssetManifestVersion === undefined) return assetManifestVersion;
-    if (!voteResultEnabled(versions)) return historicalAssetManifestVersion;
-    return declaredHackEnabled(versions) ? assetManifestVersion : 'design-0.2.0';
+    return selectPreparedArt(versions, assetManifestVersion, historicalAssetManifestVersion);
   }
   function drawInitialRoom(): Room {
     const room = randomInitialRoom();

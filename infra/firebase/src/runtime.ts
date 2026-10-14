@@ -1,9 +1,9 @@
-import { FullAssetManifestVersionSchema, DECLARED_HACK_VERSION_PINS } from '@mothership/contracts';
+import { FullAssetManifestVersionSchema, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS } from '@mothership/contracts';
 export interface RuntimeConfiguration {
   projectId: string;
   emulator: boolean;
   assetManifestVersion: string;
-  creationVersions?: typeof DECLARED_HACK_VERSION_PINS;
+  creationVersions?: typeof DECLARED_HACK_VERSION_PINS | typeof CLONE_VERSION_PINS;
   historicalAssetManifestVersion?: string;
   allowedOrigins: readonly string[];
   functionsEmulator?: string;
@@ -19,6 +19,12 @@ const emulatorNames = new Set([
   'FIREBASE_EMULATOR_HUB', 'FIREBASE_LOGGING_EMULATOR_HOST', 'FIREBASE_FIRESTORE_EMULATOR_ADDRESS',
   'CLOUD_TASKS_EMULATOR_HOST', 'CLOUD_EVENTARC_EMULATOR_HOST',
 ]);
+// An explicit release switch selects newly created matches only. Existing matches
+// and prepared deals keep their own immutable gameplay and artwork pins.
+const releaseProfiles = {
+  'declared-hack-1.5': { art: 'design-0.3.0', pins: DECLARED_HACK_VERSION_PINS },
+  'board-v2-1.10': { art: 'design-0.4.0', pins: CLONE_VERSION_PINS },
+} as const;
 function localPort(value: string | undefined, port: number): boolean {
   return value !== undefined && Number(value.match(loopback)?.[1]) === port;
 }
@@ -63,13 +69,14 @@ export function assertRuntimeEnvironment(environment: Record<string, string | un
   if (!FullAssetManifestVersionSchema.safeParse(assetManifestVersion).success
     || (!emulator && assetManifestVersion === '0.0.0-no-assets')) throw new Error('An explicit production asset manifest version is required');
   const creationProfile = environment['MOTHERSHIP_NEW_MATCH_PROFILE'];
-  if (creationProfile !== undefined && creationProfile !== 'declared-hack-1.5') throw new Error('Unsupported new-match release profile');
-  if ((creationProfile === 'declared-hack-1.5') !== (assetManifestVersion === 'design-0.3.0')) {
-    throw new Error('Declared-Hack creation requires the reviewed design-0.3.0 release profile and manifest together');
+  if (creationProfile !== undefined && !Object.hasOwn(releaseProfiles, creationProfile)) throw new Error('Unsupported new-match release profile');
+  const release = creationProfile === undefined ? undefined : releaseProfiles[creationProfile as keyof typeof releaseProfiles];
+  if (release ? assetManifestVersion !== release.art : Object.values(releaseProfiles).some(candidate => candidate.art === assetManifestVersion)) {
+    throw new Error('Creation requires its exact reviewed release profile and art manifest together');
   }
-  const historicalAssetManifestVersion = creationProfile === 'declared-hack-1.5'
+  const historicalAssetManifestVersion = release !== undefined
     ? environment['MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION'] : undefined;
-  if (creationProfile === 'declared-hack-1.5' && (!FullAssetManifestVersionSchema.safeParse(historicalAssetManifestVersion).success
+  if (release !== undefined && (!FullAssetManifestVersionSchema.safeParse(historicalAssetManifestVersion).success
     || historicalAssetManifestVersion !== 'v1-preview-469bf64fe98cac5a')) {
     throw new Error('An explicit historical asset manifest is required for the new-match release profile');
   }
@@ -95,7 +102,7 @@ export function assertRuntimeEnvironment(environment: Record<string, string | un
   }
   return {
     projectId, emulator, assetManifestVersion: assetManifestVersion!, allowedOrigins: Object.freeze([...allowedOrigins]),
-    ...(creationProfile === 'declared-hack-1.5' ? { creationVersions: DECLARED_HACK_VERSION_PINS,
+    ...(release !== undefined ? { creationVersions: release.pins,
       historicalAssetManifestVersion: historicalAssetManifestVersion! } : {}),
     ...(emulator ? { functionsEmulator: 'true', authEmulatorHost: environment['FIREBASE_AUTH_EMULATOR_HOST']!, firestoreEmulatorHost: environment['FIRESTORE_EMULATOR_HOST']!, ...(environment['CLOUD_TASKS_EMULATOR_HOST'] === undefined ? {} : { tasksEmulatorHost: environment['CLOUD_TASKS_EMULATOR_HOST'] }) } : {}),
   };
