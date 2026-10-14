@@ -114,7 +114,7 @@ export const en = {
     others: 'Also here',
     alone: 'No other players are here.',
     empty: 'No players here.',
-    name: (location: LocationName): string => location,
+    name: (location: LocationName): string => location ?? 'Off board',
   },
 
   marker: {

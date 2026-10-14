@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { basename, resolve } from 'node:path';
 import { ART_BUNDLES } from './art.mjs';
 import { readRuntimeArtRelease, assertRuntimeArtBundle } from '../../../scripts/runtime-art-release.mjs';
+import { prepareBoardV2Art } from '../../../scripts/board-v2-art-candidate.mjs';
 
 // Integration-authorized trial additions. The base reviewed manifest remains separate.
 export const TRIAL_ART = Object.freeze({
@@ -34,6 +35,9 @@ export function comicAssetsPlugin(root) {
   return {
     name: 'mothership-production-comic-art',
     buildStart() {
+      const candidate = prepareBoardV2Art(root);
+      if (candidate.sha256 !== '5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2') throw Error('Board V2 candidate derivative drift');
+      this.emitFile({ type: 'asset', fileName: candidate.url.slice(1), source: candidate.stylesheet });
       const release = readRuntimeArtRelease(root);
       const manifest = JSON.parse(readFileSync(resolve(root, 'design/exports/asset-manifest.json'), 'utf8'));
       if (manifest.manifestVersion !== 'design-0.2.0') throw new Error('Comic manifest needs integration review');

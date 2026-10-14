@@ -72,6 +72,7 @@ function applyActionIntent(flow: ActionFlow, intent: ShellIntent): boolean | nul
     // The control carried a name. The flow takes it only if the server's view offers exactly that next.
     case 'action/choose': return flow.pick(intent.value);
     case 'action/back': return flow.back();
+    case 'action/cancel': return flow.cancel();
     case 'action/confirm': return flow.confirm();
     case 'action/check-again': return flow.checkAgain();
     case 'action/dismiss': return flow.dismiss();

@@ -3,6 +3,7 @@ import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
 import { fitBoard } from './board-layout.mjs';
 import { applySceneBoard } from './scene-board.mjs';
+import { createBoardV2Host } from './board-v2-host.mjs';
 import { applyPhoneKit } from './phone-kit.mjs';
 import { createPhoneKitCues } from './phone-kit-cues.mjs';
 import { createStripCues } from './strip-cues.mjs';
@@ -87,6 +88,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   container.replaceChildren(root, polite, assertive, fx);
 
   const comicMotion = createComicMotion(root, { fx });
+  const boardV2 = createBoardV2Host(root);
   const stripCues = createStripCues(root);
   const insiderFile = createInsiderFile(root);
   const abilityCues = createAbilityCues(root);
@@ -171,11 +173,12 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const opened = Boolean(sheet) && !privateWasOpen;
     privateWasOpen = Boolean(sheet);
     // Stations and bands first, so motion measures where every character finally stands.
-    fitBoard(root);
-    applySceneBoard(root, frame.model);
+    const hasBoardV2 = boardV2.after(frame.model);
+    if (!hasBoardV2) { fitBoard(root); applySceneBoard(root, frame.model); }
     applyPhoneKit(root, frame.model);
     phoneKitCues.after(frame.model);
-    comicMotion.after(frame.model, beforeMotion);
+    if (hasBoardV2) comicMotion.settle();
+    else comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
     abilityCues.after(frame.model);
     insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced' || motion.matches,
@@ -341,7 +344,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     const nextSize = [root.clientWidth, root.clientHeight];
     if (nextSize.some((size, index) => size !== fittedSize[index])) comicMotion.settle();
     fittedSize = nextSize;
-    fitBoard(root); applySceneBoard(root, screen.getFrame().model);
+    if (!boardV2.after(screen.getFrame().model)) { fitBoard(root); applySceneBoard(root, screen.getFrame().model); }
   }) : null;
   resized?.observe(root);
   root.addEventListener('click', onClick);
@@ -366,6 +369,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     onDispose();
     resized?.disconnect();
     comicMotion.dispose();
+    boardV2.dispose();
     stripCues.dispose();
     phoneKitCues.dispose();
     insiderFile.dispose();

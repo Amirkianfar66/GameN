@@ -1445,3 +1445,14 @@ test('Pass requires its own server hint, current time/view/foreground, and no un
   await s.host.advance(GUARD);
   s.observe(nextPhase(playerView()));assert.equal(s.flow.pass(),false);
 });
+
+test('Cancel discards a partial unsent choice and cannot discard uncertain command recovery', async () => {
+  const h = setup(); h.observe(codeView());
+  assert.equal(h.flow.open('code'), true); assert.equal(h.flow.pick('seat-1'), true); assert.equal(h.flow.pick('seat-2'), true);
+  assert.equal(h.flow.cancel(), true); assert.equal(h.state().step, 'idle'); assert.equal(h.sent.length, 0);
+  assert.equal(h.flow.open('code'), true);
+  for (const value of ['seat-1','seat-2','seat-3','seat-4']) h.flow.pick(value);
+  await h.host.advance(GUARD); assert.equal(h.flow.confirm(), true); await flush();
+  const kept = h.host.kept; assert.ok(kept); assert.equal(h.flow.cancel(), false); assert.equal(h.host.kept, kept); assert.equal(h.sent.length, 1);
+  h.flow.dispose();
+});

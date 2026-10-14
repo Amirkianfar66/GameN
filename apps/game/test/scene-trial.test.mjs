@@ -23,7 +23,10 @@ test('ported drawing bytes and generated bundles match their reviewed source has
   for (const [file, pin] of Object.entries(proof.styles)) assert.equal(digest(readFileSync(join(root, 'apps/game/hosted', file))), pin.sha256, file);
   const emitted = [];
   comicAssetsPlugin(root).buildStart.call({ emitFile: asset => emitted.push(asset) });
-  assert.equal(emitted.length, 5);
+  assert.equal(emitted.length, 6);
+  const boardV2 = emitted.find(asset => asset.fileName === 'art/board-v2.art.5dedbf2450.css');
+  assert.ok(boardV2, 'The uniform reviewed Board V2 supplement is emitted independently of the five historical bundles');
+  assert.equal(createHash('sha256').update(boardV2.source).digest('hex'), '5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2');
   for (const name of ['scene-art', 'abilities']) {
     const bundle = emitted.find(asset => asset.fileName === ART_BUNDLES[name].slice(1));
     assert.equal(digest(bundle.source), TRIAL_ART[name].runtimeHash);

@@ -1,4 +1,4 @@
-import type { FullPlayerView, FullPublicView, FullVoteResult, PlayerView, PublicView, SeatId } from '@mothership/contracts';
+import type { FullMedicalStatus, FullPlayerView, FullPublicView, FullVoteResult, PlayerView, PublicView, SeatId } from '@mothership/contracts';
 
 /** A composed public view of either wire protocol. The shells read what both have, and what protocol 2 adds when it is there. */
 export type PublicFacts = PublicView | FullPublicView;
@@ -195,12 +195,13 @@ export type ShellIntent =
   /** value names a destination, a seat or an answer, exactly as the control carried it. The screen checks it against what is offered. */
   | { readonly type: 'action/choose'; readonly value: string }
   | { readonly type: 'action/back' }
+  | { readonly type: 'action/cancel' }
   | { readonly type: 'action/confirm' }
   | { readonly type: 'action/check-again' }
   | { readonly type: 'action/dismiss' };
 export type ShellIntentType = ShellIntent['type'];
 
-export type MarkerKind = 'self' | 'turn' | 'health' | 'jail' | 'captain' | 'faction';
+export type MarkerKind = 'self' | 'turn' | 'health' | 'jail' | 'captain' | 'faction' | 'medical';
 export interface MarkerModel {
   readonly kind: MarkerKind;
   /** Selects a shape and border treatment. Meaning is always carried by the label. */
@@ -219,6 +220,9 @@ export interface SeatModel {
   readonly health: HealthState;
   readonly jailed: boolean;
   readonly captain: boolean;
+  /** Exact Board-medical tuple only; historical models omit both properties. */
+  readonly slotId?: string;
+  readonly medical?: FullMedicalStatus | null;
   readonly markers: readonly MarkerModel[];
 }
 
@@ -456,6 +460,7 @@ export interface TableMatchModel {
   /** New public-Hack capability only; historical models omit these fields. */
   readonly playerCount?: number;
   readonly capsule?: PublicCapsuleModel | null;
+  readonly boardLayout?: PublicBoardModel;
   readonly phase: PhaseStripModel;
   /** Null while the match is being played, and for a view that cannot carry an end. */
   readonly result: ResultModel | null;
@@ -620,6 +625,7 @@ export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'priva
   readonly phaseKind: FullPlayerView['phase']['kind'];
   readonly playerCount?: number;
   readonly capsule?: PublicCapsuleModel | null;
+  readonly boardLayout?: PublicBoardModel;
   /** Ending your own turn is role-neutral; it does not require revealing the private card. */
   /**
    * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose
@@ -647,6 +653,17 @@ export interface PublicCapsuleModel {
   readonly remainingMs: number;
   readonly current: boolean;
   readonly inTime: boolean;
+}
+
+/** Existing authoritative phase facts, copied for public paint interpolation only. */
+export interface PublicBoardModel {
+  readonly id: 'board-v2-0.1.1';
+  readonly playerCount: number;
+  readonly clock: {
+    readonly phaseId: string; readonly kind: PhaseFacts['kind'];
+    readonly startedAt: number; readonly endsAt: number | null;
+    readonly nowMs: number | null; readonly current: boolean;
+  };
 }
 
 export interface ConnectedPlayerShellModel extends ShellModelBase {

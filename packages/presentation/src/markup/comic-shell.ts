@@ -63,6 +63,7 @@ function decoratePublic(node: MarkupNode, context: ComicContext, seat: string | 
   const identity = current === null ? undefined : identityFor(context, current);
   const attrs = { ...node.attrs };
   if (ownSeat && identity && character(identity.characterId)) attrs['data-character'] = character(identity.characterId)!;
+  if (ownSeat && identity?.displayName) attrs['data-display-name'] = identity.displayName;
   let children = node.children.map(child => decoratePublic(child, context, current));
   const named = classHas(node, 'ms-seat__name') || classHas(node, 'ms-target__name') || (node.tag === 'th' && node.attrs.scope === 'row');
   if (named && current && identity?.displayName) children = [...nameParts(current, identity.displayName)];
@@ -269,7 +270,8 @@ function renderOwnBoard(
  * regions are those of the release's action card, so focus, redraw and the command controller
  * are unchanged; only the seat answers are gone from it, because they are on the board.
  */
-function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext): MarkupElement {
+function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext, boardV2 = false): MarkupElement {
+  if (boardV2) return renderBoardV2Action(card);
   const body = card.body;
   const sourceArt = stripArt(card, context);
   // The Code's identities are already on its picked characters and in the exact prompt.
@@ -353,6 +355,45 @@ function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext
   );
 }
 
+/** Native flow controls in Claude's fixed choosing row / lower sheet. No new wire action. */
+function renderBoardV2Action(card: ConnectedActionCardModel): MarkupElement {
+  const body = card.body;
+  const characterChoice = body.step === 'choosing' && body.choices.some(choice => choice.number !== null);
+  const title = h('h4', { class: 'ms-card__title ms-visually-hidden', id: SHELL_IDS.actionTitle, tabindex: '-1' }, card.title);
+  const line = (text: string) => h('p', { class: 'ms-card__prompt', id: SHELL_IDS.actionStep, tabindex: '-1' }, text);
+  let content: MarkupChild[] = [];
+  let controls: MarkupChild[] = [];
+  if (characterChoice && body.step === 'choosing') {
+    const count = card.board.picked.length;
+    const total = card.kind === 'code' ? 4 : card.kind === 'supply' ? 2 : 1;
+    const compactPrompt = card.kind === 'code' ? `Code: choose ${total - count}` : card.kind === 'supply' ? `Supply: choose ${total - count}` : `${card.title}: choose a player`;
+    const prompt = line(compactPrompt);
+    content = [{ ...prompt, attrs: { ...prompt.attrs, 'aria-label': `${card.title}: ${body.prompt}`, title: body.prompt } }, hiddenText(body.note), hiddenText(body.progress ?? '')];
+    controls = [h('button', { type: 'button', id: 'bv2-choice-private', 'data-board-private': 'toggle', 'aria-label': 'Show private claim and command status' }, 'Status'),
+      h('button', { type: 'button', id: 'ms-action-cancel', 'data-intent': 'action/cancel' }, 'Cancel'),
+      count > 0 ? h('button', { type: 'button', id: body.back.id, 'data-intent': body.back.intent, 'aria-label': body.back.label }, 'Undo') : null,
+      h('span', { class: 'bv2-choice-count', role: 'status' }, `${count} of ${total}`)];
+  } else switch (body.step) {
+    case 'idle':
+      content = [h('p', { class: 'ms-card__prompt' }, 'Choose an action')];
+      controls = body.offers.filter(o => o.kind === 'declare-hack-side' && o.open).map(o => h('button', { type: 'button', id: o.open!.id, 'data-intent': 'action/open', 'data-kind': o.kind }, o.label));
+      break;
+    case 'choosing':
+      content = [line(body.prompt), h('p', { class: 'ms-card__text' }, body.note), h('ul', { class: 'ms-targets bv2-side-choices' }, body.choices.map(choice => h('li', null,
+        h('button', { type: 'button', id: choice.id, 'data-intent': 'action/choose', 'data-value': choice.value }, choice.label))))];
+      controls = [renderButton(body.back)];
+      break;
+    case 'confirming': content = [line(body.prompt), h('p', { class: 'ms-card__text' }, body.consequence)]; controls = [renderButton(body.back), renderButton(body.confirm)]; break;
+    case 'busy': content = [line(body.text)]; break;
+    case 'result': content = [line(body.text), body.detail ? h('p', { class: 'ms-card__text' }, body.detail) : null]; controls = body.action ? [renderButton(body.action)] : []; break;
+  }
+  return h('div', { class: 'ms-card phone-strip bv2-command', 'data-action': 'connected' }, title,
+    h('div', { class: `ms-card__state${characterChoice ? ' bv2-choosing' : ''}`, 'data-region': 'action', 'data-status': card.status, 'data-step': body.step,
+      'data-kind': card.kind, 'data-focus-fallback': SHELL_IDS.actionTitle },
+      h('div', { class: 'bv2-command-body' }, h('p', { class: 'ms-card__status' }, card.statusLabel), ...content),
+      h('div', { class: 'ms-card__controls bv2-command-controls', 'data-region': 'action-controls' }, ...controls)));
+}
+
 /** Add the approved artwork without changing action availability, targets or authority. */
 export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context: ComicContext = {}): MarkupElement {
   const match = model.match;
@@ -422,8 +463,8 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
         'data-region': 'private', 'data-open': 'true', 'aria-labelledby': 'ms-private-heading', 'data-focus-fallback': 'ms-phone-actions',
       }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
       h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null,
-        h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
-      if (hackFeedback && phoneView === 'actions') return h('div', { 'data-region': 'private' });
+        h('div', { class: 'ms-actions' }, renderActionStrip(card, context, Boolean(match!.boardLayout)))));
+      if (hackFeedback && phoneView === 'actions' && !match!.boardLayout) return h('div', { 'data-region': 'private' });
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
@@ -474,7 +515,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       // The strip, the tray or a Pass receipt comes before the board in reading and focus order:
       // focus lands on the strip's question, and the next Tab reaches its answers, then the
       // characters. The page's grid still draws the strip above navigation.
-      const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard, context)) : null;
+      const passStatus = passCard ? h('section', { class: 'phone-action-dock phone-pass-status', 'data-region': 'pass-status', 'aria-label': 'Turn status', 'aria-live': 'polite' }, renderActionStrip(passCard, context, Boolean(match!.boardLayout))) : null;
       children.splice(privateIndex + 1, 0, ...(passStatus ? [passStatus] : []),
         h('div', { 'data-region': 'private-hack' }, renderHackFeedback(hackFeedback)), board);
       // The illustrated board is accompanied by a complete text reading path. Keeping it

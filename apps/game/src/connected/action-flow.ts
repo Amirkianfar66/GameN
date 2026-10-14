@@ -90,6 +90,8 @@ export interface ActionFlow {
   /** A whole choice at once. */
   choose(choice: ActionChoice): boolean;
   back(): boolean;
+  /** Discard only an unsent choice. Never discards a request or receipt recovery. */
+  cancel(): boolean;
   confirm(): boolean;
   checkAgain(): boolean;
   dismiss(): boolean;
@@ -625,6 +627,11 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
       if (state.step === 'confirming') state = { step: 'choosing', kind: state.choice.kind, picked: [], phaseId: state.phaseId };
       else if (state.step === 'choosing') state = state.picked.length > 0 ? { ...state, picked: state.picked.slice(0, -1) } : { step: 'idle' };
       else return false;
+      return true;
+    },
+    cancel() {
+      if (disposed || (state.step !== 'choosing' && state.step !== 'confirming')) return false;
+      state = { step: 'idle' };
       return true;
     },
     confirm() {

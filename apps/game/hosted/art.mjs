@@ -8,6 +8,19 @@ export const ART_BUNDLES = Object.freeze({
   abilities: '/art/abilities.art.f7ff31a86d.css',
 });
 
+// Reviewed common candidate supplement. Historical release bundles/pins are unchanged.
+export const BOARD_V2_ART_URL = '/art/board-v2.art.5dedbf2450.css';
+export function loadBoardV2Art(document = globalThis.document) {
+  return new Promise(resolve => {
+    const link = document.createElement('link'); link.rel = 'stylesheet'; link.href = BOARD_V2_ART_URL;
+    link.addEventListener('load', () => {
+      const names = new Set((document.documentElement.dataset.art ?? '').split(' ').filter(Boolean)); names.add('board-v2-art');
+      document.documentElement.dataset.art = [...names].join(' '); document.dispatchEvent(new Event('mothership:art-ready')); resolve(true);
+    }, { once: true });
+    link.addEventListener('error', () => resolve(false), { once: true });document.head.append(link);
+  });
+}
+
 export function bundlesFor(device, { abilities = true, scenes = true } = {}) {
   return ['public-board', ...(device === 'player' ? ['player-ui', 'roles'] : []), ...(scenes ? ['scene-art'] : []), ...(device === 'player' && abilities ? ['abilities'] : [])];
 }
@@ -24,6 +37,6 @@ export async function loadArt(device, document = globalThis.document, options = 
     // the gate through a subsequent launch; this attempt keeps its text fallback.
     globalThis.setTimeout(() => resolve(null), 8000);
   })));
-  document.documentElement.dataset.art = arrived.filter(Boolean).join(' ');
+  document.documentElement.dataset.art = [...new Set([...(document.documentElement.dataset.art ?? '').split(' ').filter(Boolean), ...arrived.filter(Boolean)])].join(' ');
   document.dispatchEvent?.(new Event('mothership:art-ready'));
 }

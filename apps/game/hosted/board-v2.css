@@ -29,3 +29,65 @@
 #app .ms-shell[data-board-layout="board-v2"] .phone-nav button[aria-pressed="true"]::before { content:none; }
 #app .ms-shell[data-board-layout="board-v2"] .phone-nav .phone-pass { position:absolute; z-index:6500; display:grid; place-items:center; margin:0; border-radius:50%; background:var(--bv2-gold); color:var(--bv2-ink); border:3px solid var(--bv2-ink); box-shadow:none; font-family:inherit; font-size:.6875rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
 #app .ms-shell[data-board-layout="board-v2"] .phone-nav .phone-pass:disabled { background:var(--bv2-gold); color:var(--bv2-ink); border:3px solid var(--bv2-ink); opacity:.45; box-shadow:none; }
+/* Owned native selector/layout adaptation of the reviewed 3599cfe turns components. */
+body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; }
+#app .ms-shell[data-board-layout="board-v2"] { height:100dvh; min-height:0; overflow:hidden; display:block; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-main { display:block; width:100%; height:100dvh; min-height:0; max-width:none; margin:0; padding:0; overflow:hidden; }
+#app .ms-shell[data-board-layout="board-v2"] > .ms-header,
+#app .ms-shell[data-board-layout="board-v2"] .ms-title,
+#app .ms-shell[data-board-layout="board-v2"] .ms-panel__heading,
+#app .ms-shell[data-board-layout="board-v2"] .phone-self { display:none; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-banners { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+#app .ms-shell[data-board-layout="board-v2"] .ms-board { position:fixed; inset:0; width:100vw; height:100dvh; margin:0; padding:0; border:0; background:var(--bv2-canvas); overflow:hidden; border-radius:0; transform:none; box-shadow:none; }
+.bv2-mount { position:absolute; inset:0; }
+.bv2-board { inset:0; width:100%; height:100%; }
+.bv2-room-heading { margin:0; }
+.bv2-actor { display:contents; }
+.bv2-seat-target { border:2px dashed var(--bv2-gold-light); border-radius:10px; }
+.bv2-pick { position:absolute; z-index:4400; display:grid; place-items:center; width:18px; height:18px; border-radius:50%; background:var(--bv2-ink); border:2px solid var(--bv2-gold-light); color:var(--bv2-gold-light); font-size:11px; font-weight:900; }
+.bv2-away { position:absolute; z-index:3500; width:22px; height:22px; background:var(--bv2-layer-art) center/100% 100% no-repeat; }
+.bv2-too-short { position:absolute; inset:90px 20px auto; padding:16px; color:var(--bv2-paper); font-size:1rem; border:2px solid var(--bv2-gold); background:var(--bv2-navy); }
+#app .ms-shell[data-board-layout="board-v2"] .ms-phase { position:fixed; z-index:5500; min-height:0!important; box-sizing:border-box; margin:0; padding:2px 6px!important; display:flex!important; flex-flow:row nowrap; align-items:center; justify-content:space-between; gap:4px; border:0!important; border-radius:0; transform:none; background:var(--bv2-navy); color:var(--bv2-paper); box-shadow:none; overflow:hidden; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-phase__round,
+#app .ms-shell[data-board-layout="board-v2"] .ms-phase__detail,
+#app .ms-shell[data-board-layout="board-v2"] .pk-who { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+#app .ms-shell[data-board-layout="board-v2"] .ms-phase__label { margin:0; font-size:.875rem; font-weight:800; line-height:1.15; max-width:calc(100% - 90px); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-timer { flex:none; min-width:76px; height:auto; padding:0 4px; margin:0; display:grid; place-items:center; font-size:1rem; background:transparent; border:1px solid var(--bv2-gold)!important; border-radius:7px; box-shadow:none; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-timer__digits { font-size:1.5rem; line-height:1.1; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-timer__note { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+#app .ms-shell[data-board-layout="board-v2"] .phone-nav { position:fixed; min-height:0!important; margin:0; padding:0; box-sizing:border-box; border-radius:0; background:var(--bv2-navy); }
+#app .ms-shell[data-board-layout="board-v2"] .phone-nav > button { min-height:44px; height:var(--bv2-nav-controls); padding:0 4px; font-size:.75rem; }
+#app .ms-shell[data-board-layout="board-v2"] .phone-nav .phone-pass { min-height:44px!important; min-width:44px!important; transform:none!important; max-width:none; margin:0!important; padding:0; font-size:.6875rem; }
+#app .ms-shell[data-board-layout="board-v2"] .phone-pass::before { content:none; }
+#app .ms-shell[data-board-layout="board-v2"] .phone-pass span { color:var(--bv2-ink); }
+#app .ms-shell[data-board-layout="board-v2"][data-board-choosing="true"] .phone-nav { visibility:hidden; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"],
+#app .ms-shell[data-board-layout="board-v2"] .phone-menu { position:fixed; inset:auto; z-index:6100; box-sizing:border-box; max-height:none; max-block-size:none; min-height:0; margin:0; padding:8px; width:auto; border:2px solid var(--bv2-gold); border-radius:10px 10px 0 0; background:var(--bv2-navy); overflow:auto; box-shadow:none; }
+#app .ms-shell[data-board-layout="board-v2"] .phone-action-dock { position:fixed; inset:auto; z-index:6200; box-sizing:border-box; min-height:0; margin:0; padding:6px 8px; border:0; background:var(--bv2-navy); overflow:visible; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command { margin:0; padding:0; min-height:0; border:0; background:transparent; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command .ms-card__state { display:block; margin:0; padding:0; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command-body { box-sizing:border-box; padding:3px 2px; font-size:.75rem; line-height:1.35; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command-body > p { margin:0 0 6px; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command-controls > button { position:fixed; z-index:6450; min-height:44px; min-width:44px; margin:0; padding:4px; border:2px solid var(--bv2-gold); border-radius:8px; box-sizing:border-box; color:var(--bv2-paper); background:var(--bv2-navy-mid); font-size:.875rem; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command-controls > .ms-button--primary { color:var(--bv2-ink); background:var(--bv2-gold); }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-choosing .ms-card__status { display:none; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-choosing .bv2-command-body { padding:0; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-choosing #ms-action-step { position:fixed; z-index:5550; display:flex; align-items:center; margin:0; padding:2px 4px; box-sizing:border-box; background:var(--bv2-navy); color:var(--bv2-paper); overflow:hidden; font-size:.875rem; line-height:1.1; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-choosing .bv2-command-controls { position:fixed; z-index:6550; display:flex; align-items:center; justify-content:space-around; gap:4px; padding:0 4px; box-sizing:border-box; background:var(--bv2-navy); }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-choosing .bv2-command-controls > button { position:static; width:auto; min-width:44px; height:44px; flex:1; font-size:.75rem; }
+.bv2-choice-count { flex:1; text-align:center; color:var(--bv2-paper); font-size:.75rem; white-space:nowrap; }
+#app .ms-shell[data-board-layout="board-v2"] .hack-feedback { position:fixed; inset:auto; z-index:6300; box-sizing:border-box; min-height:0; margin:0; padding:6px 8px; overflow:auto; border:2px solid var(--bv2-gold); border-radius:8px; background:var(--bv2-navy); }
+#app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="true"] > :not(.bv2-claim-show) { display:none; }
+.bv2-claim-show { min-width:44px; min-height:44px; height:100%; width:100%; margin:0; padding:0; color:var(--bv2-paper); background:var(--bv2-navy-mid); font-size:.875rem; }
+#app .ms-shell[data-board-layout="board-v2"][data-board-choosing="true"][data-board-private-tab="false"] .hack-feedback { display:none; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-side-choices { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; padding:0; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-side-choices button { min-width:44px; min-height:44px; width:100%; font-size:.875rem; padding:4px; }
+#app .ms-shell[data-board-layout="board-v2"] #ms-phone-board { grid-column:1; }
+#app .ms-shell[data-board-layout="board-v2"] #ms-phone-actions { grid-column:2; }
+#app .ms-shell[data-board-layout="board-v2"] #ms-private-toggle { grid-column:4; }
+#app .ms-shell[data-board-layout="board-v2"] #ms-phone-more { grid-column:5; }
+#app .ms-shell[data-board-layout="board-v2"][data-board-fits="false"] .phone-action-dock { display:none; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-seat-target { padding:0; border:2px dashed var(--bv2-gold-light); border-radius:10px; background:transparent; box-shadow:none; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command-body,
+#app .ms-shell[data-board-layout="board-v2"] .bv2-command-body p { color:var(--bv2-paper); }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-claim-show { min-width:44px; min-height:44px; height:100%; width:100%; margin:0; padding:0 8px; color:var(--bv2-paper); background:var(--bv2-navy-mid); border:0; font-size:.875rem; }

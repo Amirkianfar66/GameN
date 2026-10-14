@@ -1,3 +1,4 @@
+import { supportsBoardMedical } from '@mothership/contracts';
 import type { FullVoteResult } from '@mothership/contracts';
 import { isCurrent, isSeatId, seatNumber } from './common.js';
 import type { AudienceFacts, PhaseFacts, ShellEnvironment, VoteResultModel } from './types.js';
@@ -14,13 +15,17 @@ const HEADINGS = {
 } as const satisfies Record<VoteResultModel['outcome'], string>;
 
 /** Copy follows the explicit outcome, never a maximum/count or the next round's phase. */
-export function voteResultSummary(result: VoteResultFacts): string {
+export function voteResultSummary(result: VoteResultFacts, view?: AudienceFacts): string {
   const selected = result.selectedSeatId === null ? null : `Player ${seatNumber(result.selectedSeatId)}`;
   switch (result.outcome) {
     case 'CAPTAIN_ELECTED': return `${selected} is Captain.`;
     case 'RUNOFF_REQUIRED': return 'The vote is tied. A new runoff follows.';
     case 'NO_CAPTAIN_ELECTED': return 'The vote selected no Captain.';
-    case 'PLAYER_JAILED': return `${selected} goes to Jail.`;
+    case 'PLAYER_JAILED': {
+      const seat = view?.seats.find(seat => seat.seatId === result.selectedSeatId);
+      return view && supportsBoardMedical(view.versions) && seat?.location === 'Hospital' && seat.health === 'Injured' && seat.jailed
+        ? `${selected} is detained in Hospital.` : `${selected} goes to Jail.`;
+    }
     case 'NO_JAIL_SELECTION': return result.tiedSeatIds.length > 0 ? 'The vote is tied. No one goes to Jail.' : 'The vote selected no one for Jail.';
     case 'PLAYER_RELEASED': return `${selected} is released.`;
     case 'RELEASE_DENIED': return `${selected} is not released.`;
@@ -31,6 +36,7 @@ export function buildVoteResult(
   result: VoteResultFacts | null,
   phase: PhaseFacts,
   environment: ShellEnvironment,
+  view?: AudienceFacts,
 ): VoteResultModel | null {
   if (result === null || phase.kind !== 'VOTE_RESULT' || phase.id !== result.id
     || phase.startedAt !== result.startedAt || phase.endsAt !== result.endsAt
@@ -41,7 +47,7 @@ export function buildVoteResult(
     ? result.yesCount === null ? [] : [`${result.yesCount} Yes · ${result.eligibleVoterCount} eligible voters`]
     : [`${result.eligibleVoterCount} eligible voters`, `${result.eligibleVoterCount - counts.reduce((total, count) => total + count.votes, 0)} abstentions or missing ballots`];
   return { id: result.id, round: result.round, kind: result.kind, outcome: result.outcome, heading: HEADINGS[result.outcome],
-    summary: voteResultSummary(result), selectedSeatId: result.selectedSeatId, tiedSeatIds: [...result.tiedSeatIds].sort((a,b) => seatNumber(a)-seatNumber(b)), counts,
+    summary: voteResultSummary(result, view), selectedSeatId: result.selectedSeatId, tiedSeatIds: [...result.tiedSeatIds].sort((a,b) => seatNumber(a)-seatNumber(b)), counts,
     eligibleVoterCount: result.eligibleVoterCount, yesCount: result.yesCount,
     elapsedMs: Math.max(0,Math.min(5000,5000-environment.deadline.remainingMs)), lines };
 }

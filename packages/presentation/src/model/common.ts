@@ -1,4 +1,6 @@
+import { supportsBoardMedical } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
+import { boardSeatProps, medicalOpportunityText } from './public-board.js';
 import { en } from '../copy/en.js';
 import type {
   AudienceFacts, BannerModel, BlockedModel, DataSourceMode, DeadlineEstimate, LocationName, MarkerModel, MatchDetailsModel,
@@ -54,7 +56,9 @@ export function buildSeats(view: AudienceView, selfSeatId: SeatId | null): SeatM
       if (isSelf) markers.push({ kind: 'self', variant: 'self', label: en.marker.self });
       if (isActive) markers.push({ kind: 'turn', variant: 'active', label: en.marker.turn });
       markers.push({ kind: 'health', variant: seat.health.toLowerCase(), label: en.marker.health(seat.health) });
-      if (seat.jailed) markers.push({ kind: 'jail', variant: 'jailed', label: en.marker.jailed });
+      const placement = boardSeatProps(view, seat);
+      if (seat.jailed) markers.push({ kind: 'jail', variant: 'jailed', label: supportsBoardMedical(view.versions) && seat.location === 'Hospital' ? 'Detained in Hospital' : en.marker.jailed });
+      if (placement.medical) markers.push({ kind: 'medical', variant: 'rescue-opportunity', label: medicalOpportunityText(placement.medical) });
       if (seat.captain) markers.push({ kind: 'captain', variant: 'captain', label: en.marker.captain });
       // A faction is public only once the server reveals it, and is shown only then.
       if ('revealedFaction' in seat && seat.revealedFaction !== null) {
@@ -62,7 +66,7 @@ export function buildSeats(view: AudienceView, selfSeatId: SeatId | null): SeatM
       }
       return {
         seatId: seat.seatId, number, label: isSelf ? en.seat.labelSelf(number) : en.seat.label(number),
-        isSelf, isActive, location: seat.location, health: seat.health, jailed: seat.jailed, captain: seat.captain, markers,
+        isSelf, isActive, location: seat.location, health: seat.health, jailed: seat.jailed, captain: seat.captain, ...placement, markers,
       };
     })
     .sort((a, b) => a.number - b.number);
