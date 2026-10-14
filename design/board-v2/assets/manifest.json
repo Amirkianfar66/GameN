@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.2.0",
+  "manifestVersion": "board-v2-0.3.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table and the Blackout's lighting art, for the owner's motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art and the shared ATTACK BLOCKED effects, for the owner's motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -715,10 +715,179 @@
       }
     ]
   },
+  "fx": {
+    "version": "board-v2-blocked-0.1.0",
+    "colors": {
+      "core": "#FFFFFF",
+      "glow": "#E8FBFF",
+      "rim": "#A6E6F0",
+      "deep": "#3EA6BC"
+    },
+    "factionAccents": {
+      "blue": "#70AFFF",
+      "red": "#FF8C8C",
+      "alien": "#C4A4FF"
+    },
+    "colorDistances": {
+      "method": "CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0",
+      "atLeast": 30,
+      "toNearestFactionAccent": {
+        "core": {
+          "nearest": "blue",
+          "distance": 55
+        },
+        "glow": {
+          "nearest": "blue",
+          "distance": 50
+        },
+        "rim": {
+          "nearest": "blue",
+          "distance": 43
+        },
+        "deep": {
+          "nearest": "blue",
+          "distance": 37
+        }
+      }
+    },
+    "shieldRadius": 84,
+    "shieldSize": 2.1,
+    "flashRadius": 32,
+    "files": [
+      {
+        "id": "fx.shield-1",
+        "kind": "shield",
+        "frame": 1,
+        "ms": [
+          120,
+          200
+        ],
+        "flashRadius": 32,
+        "file": "design/board-v2/assets/fx/fx-shield-1.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 1804,
+        "sha256": "5a2953714b267417aacc38703502f14f8e063b065e3caa0570d90b7943ce6835",
+        "audience": "room-visible"
+      },
+      {
+        "id": "fx.block-particles-1",
+        "kind": "particles",
+        "frame": 1,
+        "ms": [
+          360,
+          620
+        ],
+        "file": "design/board-v2/assets/fx/fx-block-particles-1.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 1926,
+        "sha256": "495367131022102d948829e8510add0a934fbe9402de5afefdd2f9ed23c0fb72",
+        "audience": "room-visible"
+      },
+      {
+        "id": "fx.shield-2",
+        "kind": "shield",
+        "frame": 2,
+        "ms": [
+          200,
+          360
+        ],
+        "flashRadius": null,
+        "file": "design/board-v2/assets/fx/fx-shield-2.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 1917,
+        "sha256": "87036cc95529618901f1c0d524b8794eb9938d4b2f7b12a688a28dc8c9a864c9",
+        "audience": "room-visible"
+      },
+      {
+        "id": "fx.block-particles-2",
+        "kind": "particles",
+        "frame": 2,
+        "ms": [
+          360,
+          620
+        ],
+        "file": "design/board-v2/assets/fx/fx-block-particles-2.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 1926,
+        "sha256": "7b98b6d31a858b83427b1bc811315accff82bac96b032fc82f7d9c6a765eb180",
+        "audience": "room-visible"
+      },
+      {
+        "id": "fx.shield-3",
+        "kind": "shield",
+        "frame": 3,
+        "ms": [
+          360,
+          620
+        ],
+        "flashRadius": null,
+        "file": "design/board-v2/assets/fx/fx-shield-3.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 3078,
+        "sha256": "feb871f35592db45d452fae1ae367ae7ba8ecd3ae38eb653db49ec0d9c47367d",
+        "audience": "room-visible"
+      },
+      {
+        "id": "fx.block-particles-3",
+        "kind": "particles",
+        "frame": 3,
+        "ms": [
+          360,
+          620
+        ],
+        "file": "design/board-v2/assets/fx/fx-block-particles-3.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 1908,
+        "sha256": "e7d06d2afd9e6f974ee0b90620c070c185e2d2cd73dcdc312513c23876c08ad7",
+        "audience": "room-visible"
+      },
+      {
+        "id": "fx.block-ring",
+        "kind": "ring",
+        "ms": [
+          360,
+          620
+        ],
+        "file": "design/board-v2/assets/fx/fx-block-ring.svg",
+        "viewBox": "0 0 200 200",
+        "anchor": [
+          100,
+          100
+        ],
+        "bytes": 802,
+        "sha256": "9cd561a8bc28ba5f5ca8441d70a15de2a9bdcb1cf7ba619872555bca45facc4f",
+        "audience": "room-visible"
+      }
+    ]
+  },
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "62a0d019af970df5a1990430043d965ad1bd22f9071edc0b540a81bc8fe1edce",
-    "bytes": 5233
+    "sha256": "cc22bc167b6e4380d8cf952bc8b8b01d241d03409a919081d3d6c3f7af52b551",
+    "bytes": 8690
   }
 }

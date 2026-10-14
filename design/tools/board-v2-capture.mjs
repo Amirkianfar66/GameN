@@ -25,11 +25,16 @@
 // that everyone is where the outcome leaves them (a hit patient in the Hospital). It presses the
 // page with a real pointer (Input.dispatchMouseEvent): every position of every room a Disabler
 // can be bound to, at both ends of the dark (4 999, 5 000, 5 100, 14 999 and 15 000 ms, in both
-// motion modes), and a sent position's answers (late, lost, rejected, never sent). Then it
+// motion modes), and a sent position's answers (late, lost, rejected, never sent). On every frame
+// of ATTACK BLOCKED it measures that only the target's room's occupants' screens hold the film,
+// each part on the page exactly while the film draws it and nothing after its end, the label
+// inside its panel and off the caption, only the target's figure braced, and the live region's
+// words. It places the label for every slot of every room at every phone and roster. Then it
 // compares whole pages: a strike that missed against a round with no strike, a Blue Disabler's
-// screen against a Red one's, the display's against a player's, and the top bar's box on every
-// screen, which must be the same. These are statements about desktop Chromium laying out a review
-// page from synthetic fixtures, not measurements of a phone and nothing about a match.
+// screen against a Red one's, the display's against a player's, the top bar's box on every screen,
+// a block by either defense, and an outsider's or the display's screen with a block and without,
+// which must be the same. These are statements about desktop Chromium laying out a review page
+// from synthetic fixtures, not measurements of a phone and nothing about a match.
 
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -45,6 +50,9 @@ const { BLACKOUT, blackoutFrame, lightsBackAt } = await import(pathToFileURL(res
 const { BLACKOUT_OUTCOMES, fixtureSeats, settledSeats } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fixtures.mjs')).href);
 const { addressSelection, lineText } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blackout-view.mjs')).href);
 const { BOARD_ROOMS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/slots.mjs')).href);
+const { blockedFrame, blockedStartInBlackout } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blocked.mjs')).href);
+const { LABEL_MARGIN } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/label-box.mjs')).href);
+const { blockedTargets } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blocked-view.mjs')).href);
 const { CREW } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/figures/crew.mjs')).href);
 const NAMES = Object.values(CREW).map(member => member.sign);
 
@@ -115,6 +123,38 @@ function plan() {
   film('8000-disabler-command', at320, 8000, '&viewer=disabler&bound=command-room&step=confirm&pick=1', 'C1 chosen on the smallest phone: nothing covers it (8 s)');
   film('15200-disabler-waiting', at320, 15200, '&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300', 'Waiting for the answer after the deadline, on the smallest phone (15.2 s)');
   film('15560-star', at320, 15560, '', 'The star on the smallest phone (15 560 ms)');
+  // ATTACK BLOCKED: on the mixed board, Orion at B2, on a Room B occupant's screen unless the shot says otherwise.
+  const blocked = (name, viewport, t, extra, about) => shots.push({ file: `blocked-${vp(viewport)}-${name}.png`, group: 'blocked', viewport, query: `roster=9&fixture=mixed&film=blocked&t=${t}${extra}`, about, blocked: { t } });
+  blocked('0060-incoming', at390, 60, '', 'Incoming: a source-free star at Orion\'s chest, as a hit\'s; nothing yet says blocked (60 ms)');
+  blocked('0160-flash', at390, 160, '', 'The shield flashes on: a white-hot core in a pale hexagon (160 ms)');
+  blocked('0280-bubble', at390, 280, '', 'The bubble blooming towards 1.05 of its size; Orion braced 2 px, the art only (280 ms)');
+  blocked('0480-absorb', at390, 480, '', 'The ring absorbing the attack, eight particles scattering, the shield spent (480 ms)');
+  blocked('0760-label', at390, 760, '', 'ATTACK BLOCKED above Orion, who is back in place; the words in the live region (760 ms)');
+  blocked('2320-fading', at390, 2320, '', 'The label fading (2 320 ms)');
+  blocked('2500-done', at390, 2500, '', 'Done: nothing the film added is left on the page (2 500 ms)');
+  // The already-Injured example: the fixture's Injured patient in the Hospital, Rigel at H1 in the gown, on a Hospital occupant's screen.
+  blocked('0280-injured', at390, 280, '&injured=1', 'The already-Injured example: the bubble round Rigel, a patient at H1 in the Hospital, braced 2 px in the gown (280 ms)');
+  blocked('0760-injured', at390, 760, '&injured=1', 'The already-Injured example: ATTACK BLOCKED over Rigel, still Injured at H1 in the gown: bandage kept, no healing glow (760 ms)');
+  blocked('2500-injured-done', at390, 2500, '&injured=1', 'After the block: Rigel still Injured at H1 in the gown; nothing the film added is left (2 500 ms)');
+  blocked('reduced-0800-injured', at390, 800, '&injured=1&motion=reduced', 'Reduced motion, the already-Injured example: a still ring and the label over Rigel at H1 (800 ms)');
+  blocked('0280-injured-outsider', at390, 280, '&injured=1&viewer=outsider', 'The already-Injured example on a screen outside the Hospital: nothing at all (280 ms)');
+  blocked('0280-double', at390, 280, '&targets=B2,B4', 'Two blocks at one checkpoint, each on its own target (280 ms)');
+  blocked('0280-outsider', at390, 280, '&viewer=outsider', 'A player in another room at the same moment: nothing at all (280 ms)');
+  blocked('0280-display', at390, 280, '&viewer=display', 'The shared display at the same moment: nothing at all (280 ms)');
+  for (const [name, t, about] of [['0040-in', 40, 'a still ring and the label, in over 80 ms'], ['0800-hold', 800, 'held 1 600 ms: no star, bloom, brace or particles'], ['1800-done', 1800, 'gone at 1 760 ms']]) {
+    blocked(`reduced-${name}`, at390, t, '&motion=reduced', `Reduced motion: ${about} (${t} ms)`);
+  }
+  blocked('0280-bubble', at320, 280, '', 'The bubble on the smallest phone, clipped to Room B\'s panel (280 ms)');
+  blocked('0760-label', at320, 760, '', 'The label on the smallest phone: the two words stacked to fit the panel (760 ms)');
+  blocked('0760-injured', at320, 760, '&injured=1', 'The already-Injured example on the smallest phone: the label over Rigel at H1 (760 ms)');
+  blocked('art-0280', at390, 280, '&viewer=art&targets=A1,C1,H1,J2,B4', 'Art review only, which no screen ever receives: a block in every room at once, on each room\'s colors (280 ms)');
+  blocked('art-0760', at390, 760, '&viewer=art&targets=A1,C1,H1,J2,B4', 'Art review only: the label in every room, above its target or below its name tag, never over a caption (760 ms)');
+  // In the Blackout: a blocked strike published at 15 400, a miss on every screen but Room B's occupants'.
+  const inBlackout = (name, viewport, t, extra, about) => shots.push({ file: `blocked-${vp(viewport)}-blackout-${name}.png`, group: 'blocked', viewport, query: `roster=9&fixture=mixed&film=blackout&outcome=blocked&t=${t}${extra}`, about, film: { t }, blocked: { t } });
+  inBlackout('16200-occupant', at390, 16200, '&in=room-b', 'The Blackout, a blocked strike: on a Room B occupant\'s screen the shield once the lights are fully back (16 200 ms; the outcome at 15 400)');
+  inBlackout('16700-occupant', at390, 16700, '&in=room-b', 'The Blackout: ATTACK BLOCKED on the Room B occupant\'s screen (16 700 ms)');
+  inBlackout('16700-outsider', at390, 16700, '&in=room-a', 'The Blackout at the same moment on a Room A player\'s screen: a miss (16 700 ms)');
+  inBlackout('16700-occupant', at320, 16700, '&in=room-b', 'The Blackout\'s block on the smallest phone (16 700 ms)');
   return shots;
 }
 
@@ -176,6 +216,95 @@ const MEASURE_FILM = `(() => {
     text: app.textContent + ' ' + labels, scrolls: document.documentElement.scrollHeight > innerHeight + 1,
   };
 })()`;
+
+/** Reads ATTACK BLOCKED back: each room's film nodes, labels (layout boxes), caption and braced figures, and the live region. */
+const MEASURE_BLOCKED = `(() => {
+  const rooms = {};
+  for (const room of document.querySelectorAll('.v2-room[data-room]')) {
+    const box = node => ({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth, height: node.offsetHeight });
+    const caption = room.querySelector('.v2-cap');
+    rooms[room.dataset.room] = {
+      parts: [...room.querySelectorAll('.v2-block')].map(node => [...node.classList].find(name => name.startsWith('v2-block__')).slice('v2-block__'.length)).sort(),
+      labels: [...room.querySelectorAll('.v2-block__label')].map(node => ({ ...box(node), place: node.dataset.place, stacked: node.classList.contains('v2-block__label--stack') })),
+      caption: caption ? box(caption) : null,
+      panel: { width: room.clientWidth, height: room.clientHeight },
+      braced: [...room.querySelectorAll('.v2-fig')].filter(node => node.style.translate).map(node => ({ seat: Number(node.dataset.seat), translate: node.style.translate })),
+      // Who is drawn here, as the figure's own ids say it (s<seat><slot><health initial>), and whether in the gown.
+      figures: [...room.querySelectorAll('.v2-fig[data-seat]')].map(node => ({ seat: Number(node.dataset.seat), id: node.querySelector('[id]')?.id ?? '', gown: node.innerHTML.includes('-print)') })),
+      tags: [...room.querySelectorAll('.v2-tag[data-seat]')].map(node => Number(node.dataset.seat)),
+    };
+  }
+  return { stage: document.documentElement.dataset.stage, film: document.documentElement.dataset.film, rooms, live: document.querySelector('[data-live=room]')?.textContent ?? null, scrolls: document.documentElement.scrollHeight > innerHeight + 1 };
+})()`;
+
+/** A label's layout box: inside its panel by the margin, and off its room's caption. */
+function labelProblems(where, label, room) {
+  const problems = [];
+  const m = LABEL_MARGIN - 0.5;
+  if (label.left < m || label.top < m || label.left + label.width > room.panel.width - m || label.top + label.height > room.panel.height - m) problems.push(`${where}: the label leaves its panel`);
+  const c = room.caption;
+  if (c && label.left < c.left + c.width && c.left < label.left + label.width && label.top < c.top + c.height && c.top < label.top + label.height) problems.push(`${where}: the label is over the caption`);
+  return problems;
+}
+
+/** What ATTACK BLOCKED should draw on a shot's screen, from its query alone. */
+function blockedExpected(shot) {
+  const query = new URLSearchParams(shot.query);
+  const roster = Number(query.get('roster') ?? 9);
+  const seats = fixtureSeats(query.get('fixture') ?? 'ward', roster);
+  const reduced = query.get('motion') === 'reduced';
+  const viewer = query.get('viewer') ?? (query.get('film') === 'blackout' ? 'observer' : 'occupant');
+  const blackout = query.get('film') === 'blackout';
+  const targets = blackout ? BLACKOUT_OUTCOMES[query.get('outcome') ?? 'hit'].blocks.map(id => seats.find(entry => entry.slot === id)) : blockedTargets(query, seats);
+  const blocks = targets.filter(seat => {
+    if (blackout) return viewer !== 'display' && seat.room === query.get('in');
+    return viewer === 'occupant' || viewer === 'art';
+  });
+  const t = blackout ? shot.blocked.t - blockedStartInBlackout(Number(query.get('r') ?? 15400), { reduced }) : shot.blocked.t;
+  return { blocks, targets, frame: blockedFrame(t, { reduced }), blackout };
+}
+
+function problemsOfBlocked(shot, measured) {
+  const problems = [];
+  const { blocks, targets, frame, blackout } = blockedExpected(shot);
+  // Every target, on every screen and at every moment, is the fixture's: in its room, at its slot, in its health, a patient in the gown.
+  for (const seat of targets) {
+    for (const [room, drawn] of Object.entries(measured.rooms)) {
+      const figures = drawn.figures.filter(figure => figure.seat === seat.seat);
+      if (room !== seat.room && (figures.length || drawn.tags.includes(seat.seat))) problems.push(`target seat ${seat.seat} drawn in ${room}; the fixture has it in ${seat.room}`);
+      if (room !== seat.room) continue;
+      if (!figures.length || !drawn.tags.includes(seat.seat)) problems.push(`target seat ${seat.seat} is not drawn in ${room}`);
+      for (const figure of figures) {
+        const [, slot, health] = /^s\d+([A-Z]\d+)([HIE])/.exec(figure.id) ?? [];
+        if (slot !== seat.slot || health !== seat.health[0]) problems.push(`target seat ${seat.seat} drawn as ${figure.id}; the fixture has ${seat.slot}, ${seat.health}`);
+        if (seat.room === 'hospital' && !figure.gown) problems.push(`target seat ${seat.seat} is not in the gown`);
+      }
+    }
+  }
+  if (measured.scrolls) problems.push('the page scrolls');
+  if (!blackout && measured.stage !== (blocks.length ? frame.stage : 'none')) problems.push(`the page is at ${measured.stage}; the film says ${blocks.length ? frame.stage : 'none'}`);
+  // Each part on the page exactly while the film draws it, on the recipients' screens alone; nothing after the end.
+  const parts = [frame.star.on && 'star', frame.shield.frame && 'shield', frame.ring.opacity > 0 && 'ring', frame.particles.frame && 'particles', frame.label.opacity > 0 && 'label'].filter(Boolean);
+  for (const [room, drawn] of Object.entries(measured.rooms)) {
+    const here = blocks.filter(seat => seat.room === room);
+    const want = here.flatMap(() => parts).sort();
+    if (drawn.parts.join() !== want.join()) problems.push(`${room}: the film draws ${drawn.parts.join(', ') || 'nothing'}; it should draw ${want.join(', ') || 'nothing'}`);
+    drawn.labels.forEach((label, i) => problems.push(...labelProblems(`${room} label ${i + 1}`, label, drawn)));
+    // The brace: the targets' figures alone, by the film's offset; never anyone else.
+    const braces = frame.brace[0] !== 0 || frame.brace[1] !== 0;
+    for (const figure of drawn.braced) {
+      const [dx, dy] = figure.translate.split(' ').map(parseFloat);
+      if (!here.some(seat => seat.seat === figure.seat)) problems.push(`${room}: seat ${figure.seat} moved, who was not attacked`);
+      else if (!braces || Math.abs(dx - frame.brace[0]) > 0.005 || Math.abs((dy || 0) - frame.brace[1]) > 0.005) problems.push(`${room}: seat ${figure.seat} braced by ${figure.translate}; the film says ${braces ? frame.brace.join(', ') : 'nothing'}`);
+    }
+    if (braces && here.length && !drawn.braced.length) problems.push(`${room}: the target does not brace`);
+  }
+  // The words: in the live region while a label is up, naming the character alone; the region on every screen, empty elsewhere.
+  const words = frame.announce ? blocks.map(seat => `Attack blocked on ${CREW[seat.character].sign}.`).join(' ') : '';
+  if (measured.live === null) problems.push('no live region for room facts');
+  else if (measured.live !== words) problems.push(`the live region says "${measured.live}"; it should say "${words}"`);
+  return problems;
+}
 
 function problemsOfFilm(shot, measured) {
   const problems = [];
@@ -476,6 +605,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const chrome = await launchBrowser();
   const report = [];
   const disclosure = [];
+  const labels = [];
   const probes = [];
   const interactions = [];
   try {
@@ -486,8 +616,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       await page.goto(`${server.origin}/board-v2/index.html?${shot.query}`, 'document.readyState === "complete" && window.__designReady === true');
       const measured = shot.measure ? await page.evaluate(MEASURE) : null;
       const filmed = shot.film ? await page.evaluate(MEASURE_FILM) : null;
+      const blockedMeasured = shot.blocked ? await page.evaluate(MEASURE_BLOCKED) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...page.problems()];
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...page.problems()];
       const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')) }) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fallback: fit?.fallback ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
@@ -544,12 +675,71 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
         disclosure.push({ compare: `the top bar's box, rows and type on a player's screen, two Disablers' and the display, ${vp(viewport)}, ${t} ms`, same: screens.every(screen => screen.bar === screens[0].bar) && JSON.parse(screens[0].bar)[2] !== null });
       }
     }
+    // ATTACK BLOCKED: the same film whichever defense blocked the attack; on an outsider's screen and
+    // the display, a block is nothing at all; in the Blackout, a miss everywhere but the target's room,
+    // and the same as a miss there too until the lights are back.
+    const blockedBase = 'roster=9&fixture=mixed&film=blocked';
+    for (const viewport of [[390, 844], [320, 568]]) {
+      for (const reducedMotion of ['', '&motion=reduced']) {
+        for (const t of [60, 160, 280, 480, 760, 1700, 2320, 2500]) {
+          const [clone, protection] = await Promise.all(['clone', 'protection'].map(cause => pageAt(viewport, `${blockedBase}&t=${t}&cause=${cause}${reducedMotion}`)));
+          disclosure.push({ compare: `a block by either defense on an occupant's screen, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: clone.html === protection.html });
+        }
+        for (const viewer of ['outsider', 'display']) {
+          for (const t of [60, 280, 760, 2500]) {
+            const [block, none] = await Promise.all(['B2', ''].map(targets => pageAt(viewport, `${blockedBase}&t=${t}&viewer=${viewer}&targets=${targets}${reducedMotion}`)));
+            disclosure.push({ compare: `${viewer === 'display' ? 'the display' : 'an outsider\'s screen'} with a block and with none, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: block.html === none.html });
+          }
+          // The already-Injured example: a block on Rigel in the Hospital is nothing at all off the Hospital's screens.
+          for (const t of [280, 760]) {
+            const [block, none] = await Promise.all([pageAt(viewport, `${blockedBase}&t=${t}&viewer=${viewer}&injured=1${reducedMotion}`), pageAt(viewport, `${blockedBase}&t=${t}&viewer=${viewer}&targets=${reducedMotion}`)]);
+            disclosure.push({ compare: `${viewer === 'display' ? 'the display' : 'an outsider\'s screen'} with a block on the Hospital patient and with none, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: block.html === none.html });
+          }
+        }
+        // The already-Injured example by either defense, on a Hospital occupant's screen.
+        for (const t of [280, 760, 2500]) {
+          const [clone, protection] = await Promise.all(['clone', 'protection'].map(cause => pageAt(viewport, `${blockedBase}&t=${t}&injured=1&cause=${cause}${reducedMotion}`)));
+          disclosure.push({ compare: `a block on the Hospital patient by either defense, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: clone.html === protection.html });
+        }
+        for (const t of [15440, 15560, 16200, 16700, 17500]) {
+          for (const [who, extra] of [['a Room A player\'s screen', '&in=room-a'], ['the display', '&viewer=display&in=room-b'], ['a screen with no room given', '']]) {
+            const [block, miss] = await Promise.all(['blocked', 'miss'].map(outcome => pageAt(viewport, `${base}&t=${t}&outcome=${outcome}${extra}${reducedMotion}`)));
+            disclosure.push({ compare: `the Blackout's blocked strike and a miss on ${who}, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: block.html === miss.html });
+          }
+        }
+        // The target's room's occupant: nothing until the lights are fully back.
+        for (const t of reducedMotion ? [15420] : [15440, 15560, 15900]) {
+          const [block, miss] = await Promise.all(['blocked', 'miss'].map(outcome => pageAt(viewport, `${base}&t=${t}&outcome=${outcome}&in=room-b${reducedMotion}`)));
+          disclosure.push({ compare: `the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, ${vp(viewport)}, ${t} ms${reducedMotion ? ', reduced motion' : ''}`, same: block.html === miss.html });
+        }
+      }
+    }
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
+    // The label for every slot of every room: every slot taken, each blocked at once (the art review's
+    // screen, which no player receives), measured but not pictured.
+    for (const viewport of VIEWPORTS) {
+      for (const roster of [7, 8, 9]) {
+        const targets = fixtureSeats('stress', roster).map(seat => seat.slot).join(',');
+        const page = await openPage(browser, { width: viewport[0], height: viewport[1], scale: 1 });
+        await page.goto(`${server.origin}/board-v2/index.html?roster=${roster}&fixture=stress&film=blocked&viewer=art&targets=${targets}&t=760`, 'document.readyState === "complete" && window.__designReady === true');
+        const measuredLabels = await page.evaluate(MEASURE_BLOCKED);
+        await page.close();
+        const problems = [];
+        let count = 0;
+        for (const [room, drawn] of Object.entries(measuredLabels.rooms)) {
+          count += drawn.labels.length;
+          drawn.labels.forEach((label, i) => problems.push(...labelProblems(`${room} label ${i + 1}`, label, drawn)));
+        }
+        if (count !== targets.split(',').length) problems.push(`${count} labels for ${targets.split(',').length} slots`);
+        labels.push({ viewport: vp(viewport), roster, labels: count, stacked: Object.values(measuredLabels.rooms).flatMap(drawn => drawn.labels).filter(label => label.stacked).length, problems });
+        console.log(`${problems.length ? 'PROBLEM' : 'ok     '} every slot's label, ${vp(viewport)}, ${roster} players${problems.length ? `: ${problems.join('; ')}` : ''}`);
+      }
+    }
     const inputsSha256 = await boardV2InputsSha256(repoRoot);
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
-    await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure }, null, 2)}\n`);
-    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout']]) {
+    await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure, labels }, null, 2)}\n`);
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
       await page.fitHeight();
@@ -565,6 +755,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const differing = disclosure.filter(entry => !entry.same);
   const probing = probes.filter(entry => entry.problems.length);
   const pressing = interactions.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and two contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing`);
-  if (failing.length || probing.length || pressing.length || differing.length) process.exitCode = 1;
+  const misplaced = labels.filter(entry => entry.problems.length);
+  console.log(`Board-v2 captures: ${report.length} pictures and three contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
+  if (failing.length || probing.length || pressing.length || differing.length || misplaced.length) process.exitCode = 1;
 }

@@ -13,7 +13,8 @@
         "markers": "public",
         "line": "public box: the window's line, a second row of the top bar from the window's opening until the lights start back, the same box on every phone and the display. It says \"Remember who is where.\" in the lit preview and \"Wait for the lights.\" in the dark on every screen but the eligible Disabler's, whose line is their own selection (owner-private). The top bar is above the board, so the line covers no position",
         "selection": "owner-private: the eligible Disabler's own phone, in their bound room only",
-        "outcome": "public: the round's published batch (authorized hits only; a miss shows nothing anywhere)"
+        "outcome": "public: the round's published batch (authorized hits only; a miss shows nothing anywhere)",
+        "blocks": "room-visible: a blocked strike is a miss in public; ATTACK BLOCKED (S4, films/blocked.mjs) plays only for its room's occupants, once the lights are back"
       },
       "clock": "Milliseconds from the window's opening: previewEndsAt - 5000. Drawn from the trusted previewEndsAt and endsAt, never from a local start time.",
       "inputs": [
@@ -107,6 +108,78 @@
         "L6": "press areas: never moved, never shaken",
         "L7": "room captions (70% in the dark)",
         "L10": "top bar and navigation: never dimmed; the top bar carries the window's clock and line (public box; the eligible Disabler's line private)"
+      }
+    },
+    {
+      "id": "attack-blocked",
+      "storyboard": "S4",
+      "status": "proposal",
+      "audience": {
+        "film": "room-visible: only the occupants the server authorizes at the checkpoint, from the room fact it sends them. Never the display, the host or anyone outside the room: no banner, count or sound",
+        "announcement": "the same recipients, while the label is up: \"Attack blocked on <name>.\" in a polite live region that every screen has and only theirs fills. It names the affected character only"
+      },
+      "clock": "Milliseconds from the room fact's checkpoint. Played live only: never on a reconnect, never for a stale checkpoint.",
+      "inputs": [
+        "t (from the checkpoint)",
+        "reduced (the device setting)",
+        "the target's slot (where to draw it)"
+      ],
+      "notInputs": [
+        "the defense that blocked the attack, or its kind",
+        "the attacker or the kind of attack",
+        "a grantor",
+        "a count of blocks or of uses left",
+        "a direction"
+      ],
+      "sizes": {
+        "shield": "2.1 x the target's press side, centred on its press point",
+        "star": "1.6 x the press side, as a hit's"
+      },
+      "label": "Centred on the press point, 2 px inside the panel and never over the room's caption: above the press area, else below the name tag; the two words stacked where one line is wider than the panel",
+      "beats": [
+        {
+          "id": "incoming",
+          "from": 0,
+          "to": 120,
+          "what": "A source-free comic star at the chest (the press point), as a hit's: no direction or trail"
+        },
+        {
+          "id": "shield",
+          "from": 120,
+          "to": 360,
+          "what": "The hexagonal shield flashes on and blooms from 0.8 to 1.05 of its size; the figure braces (2 px back), its art only"
+        },
+        {
+          "id": "absorb",
+          "from": 360,
+          "to": 620,
+          "what": "The ring expands and fades; eight symmetric particles scatter; the shield is spent"
+        },
+        {
+          "id": "return",
+          "from": 620,
+          "to": 900,
+          "what": "The figure is back in its authoritative pose. An Injured character stays Injured: bandage kept, no healing glow"
+        },
+        {
+          "id": "label",
+          "from": 620,
+          "to": 2420,
+          "what": "ATTACK BLOCKED, caption yellow on ink: held 1600 ms, faded over 200 ms"
+        }
+      ],
+      "reduced": {
+        "what": "A still ring and the label: in over 80 ms, held 1 600 ms, out over 80 ms. No star, bloom, brace or particles",
+        "fadeMs": 80,
+        "holdMs": 1600
+      },
+      "blackout": "In the Blackout a block is a miss on every screen but its room's occupants', whose film starts once the lights are fully back: R + 520 (reduced, R + 80)",
+      "several": "Several blocks at one checkpoint each play on their own target, together",
+      "residue": "Every node the film adds is removed when it ends; nothing is left on the page",
+      "layers": {
+        "L4": "the room-visible effects layer, clipped to the room's panel; mounted only for the authorized recipients",
+        "L1": "the brace moves the target's figure art only",
+        "L6": "press areas never move"
       }
     }
   ]

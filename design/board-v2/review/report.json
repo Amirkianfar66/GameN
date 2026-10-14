@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "f389bbd4c0ddab74f83b2b58af075b931ef771bb349465b6bf05a7b16e50f65d",
+  "inputsSha256": "0cdbd61a6acd37a4a267647f546d8baae9db7d708651f0da118c963d3facd98b",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -703,6 +703,276 @@
       "file": "blackout-320x568-15560-star.png",
       "viewport": "320x568",
       "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0060-incoming.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=60",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0160-flash.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=160",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-bubble.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0480-absorb.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=480",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0760-label.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-2320-fading.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2320",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-2500-done.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-injured.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0760-injured.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-2500-injured-done.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-injured.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&injured=1&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-injured-outsider.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1&viewer=outsider",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-double.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&targets=B2,B4",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-outsider.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=outsider",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-0280-display.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=display",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-reduced-0040-in.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=40&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-hold.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-reduced-1800-done.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=1800&motion=reduced",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-320x568-0280-bubble.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-320x568-0760-label.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-320x568-0760-injured.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-art-0280.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=art&targets=A1,C1,H1,J2,B4",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-art-0760.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&viewer=art&targets=A1,C1,H1,J2,B4",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-blackout-16200-occupant.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16200&in=room-b",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-blackout-16700-occupant.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-390x844-blackout-16700-outsider.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-a",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "blocked-320x568-blackout-16700-occupant.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
       "problems": [],
       "shell": null,
       "fallback": null,
@@ -2937,6 +3207,732 @@
     {
       "compare": "the top bar's box, rows and type on a player's screen, two Disablers' and the display, 320x568, 15200 ms",
       "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 60 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 160 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 480 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 1700 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 2320 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 60 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 60 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 16200 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 16200 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 16200 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 16700 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 16700 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 16700 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 17500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 17500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 17500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 390x844, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 390x844, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 390x844, 15900 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 60 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 160 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 480 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 1700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 2320 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 390x844, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 60 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 390x844, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 60 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 390x844, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 390x844, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 16200 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 16200 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 16200 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 16700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 16700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 16700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 390x844, 17500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 390x844, 17500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 390x844, 17500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 390x844, 15420 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 60 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 160 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 480 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 1700 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 2320 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 60 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 60 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 280 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 760 ms",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 2500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 16200 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 16200 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 16200 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 16700 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 16700 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 16700 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 17500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 17500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 17500 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 320x568, 15440 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 320x568, 15560 ms",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 320x568, 15900 ms",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 60 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 160 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 480 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 1700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 2320 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block by either defense on an occupant's screen, 320x568, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 60 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block and with none, 320x568, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "an outsider's screen with a block on the Hospital patient and with none, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 60 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block and with none, 320x568, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the display with a block on the Hospital patient and with none, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 280 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 760 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "a block on the Hospital patient by either defense, 320x568, 2500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 15440 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 15560 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 16200 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 16200 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 16200 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 16700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 16700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 16700 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room A player's screen, 320x568, 17500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on the display, 320x568, 17500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a screen with no room given, 320x568, 17500 ms, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Blackout's blocked strike and a miss on a Room B occupant's screen before the lights are back, 320x568, 15420 ms, reduced motion",
+      "same": true
+    }
+  ],
+  "labels": [
+    {
+      "viewport": "320x568",
+      "roster": 7,
+      "labels": 23,
+      "stacked": 22,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 8,
+      "labels": 24,
+      "stacked": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 9,
+      "labels": 25,
+      "stacked": 24,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 7,
+      "labels": 23,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 8,
+      "labels": 24,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 9,
+      "labels": 25,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 7,
+      "labels": 23,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 8,
+      "labels": 24,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 9,
+      "labels": 25,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 7,
+      "labels": 23,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 8,
+      "labels": 24,
+      "stacked": 0,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 9,
+      "labels": 25,
+      "stacked": 0,
+      "problems": []
     }
   ]
 }

@@ -9,8 +9,11 @@
 //
 //   &t=<ms>                 the moment, from the window's opening (default 8000)
 //   &play=1                 play the window from 0, again and again
-//   &outcome=hit|double|miss|none   the round's published outcome (default hit): one hit, two,
-//                           a strike that missed, no strike at all. A miss and no strike draw the same
+//   &outcome=hit|double|miss|none|blocked   the round's outcome (default hit): one hit, two, a
+//                           strike that missed, no strike at all, a strike that was blocked. A miss and
+//                           no strike draw the same, and so does a block, but for its room's occupants
+//   &in=<room>              the viewer's room, for its room-visible facts (default none, as on the
+//                           display): a block plays ATTACK BLOCKED (S4) there once the lights are back
 //   &r=<ms>                 when the outcome is published (default 15400)
 //   &window=<id>            the window's public id (default w-demo-r3): which light sparks in each room
 //   &motion=reduced         the device's reduced-motion setting
@@ -30,7 +33,7 @@
 // The public picture is blackoutFrame(t, { outcomeAt, hits, reduced, windowId }): nothing a
 // request, a side or a viewer could change. The top bar's line is the same box on every screen;
 // only its words, the chosen marker and the press areas belong to the viewer, and only on the
-// eligible Disabler's own screen.
+// eligible Disabler's own screen; and a block's film to its room's occupants (js/blocked-view.mjs).
 //
 // The selection: a tap on a position chooses it on the phone, and nothing is sent; a tap on
 // another position chooses that one instead; a second tap on the chosen position sends it, once,
@@ -46,10 +49,12 @@
 import { CREW } from '../../board-motion/figures/crew.mjs';
 import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { BLACKOUT, blackoutFrame, lightsBackAt } from '../films/blackout.mjs';
+import { blockedEnd, blockedStartInBlackout } from '../films/blocked.mjs';
 import { SPARK_BOX, SPARK_ORIGIN } from '../scenes/lighting.mjs';
 import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
 import { slotRects } from './fit.mjs';
 import { BLACKOUT_OUTCOMES } from './fixtures.mjs';
+import { mountBlocked, roomLive } from './blocked-view.mjs';
 
 const LIGHTING = '../board-v2/assets/lighting';
 const clockText = ms => `0:${String(Math.ceil(ms / 1000)).padStart(2, '0')}`;
@@ -184,6 +189,20 @@ export function mountBlackout({ app, board, roster, seats, params, drawFigure, d
   const live = el('p', { class: 'v2-sr', 'aria-live': 'polite' });
   app.append(live);
 
+  // ---------- ATTACK BLOCKED: room-visible, on the screens of the target's room's occupants ----------
+  // Not in the published batch: a room fact for the occupants alone. Every other screen draws a miss.
+  const inRoom = viewer === 'display' ? null : params.get('in');
+  const blockedFrom = blockedStartInBlackout(outcomeAt, { reduced });
+  const say = roomLive(app);
+  const blocks = (outcome.blocks ?? []).flatMap(id => {
+    const seat = seats.find(entry => entry.slot === id);
+    if (!seat || seat.room !== inRoom) return [];
+    const r = rooms[seat.room];
+    const index = slotsOf(seat.room, roster).findIndex(slot => slot.id === id);
+    const figures = () => [...r.section.querySelectorAll(`.v2-fig[data-seat="${seat.seat}"]`)];
+    return [mountBlocked({ section: r.section, rect: r.rects[index], panel: r.panel, figures, name: CREW[seat.character].sign, reduced })];
+  });
+
   // ---------- the top bar: the window's clock, and its line in a second row ----------
   // The same box on every screen: above the board, so it covers no position.
   const top = app.querySelector('.v2-top');
@@ -267,6 +286,7 @@ export function mountBlackout({ app, board, roster, seats, params, drawFigure, d
     if (line.textContent !== words) line.textContent = words;
     phase.textContent = frame.clock ? frame.clock.label : 'Round 3';
     timer.textContent = frame.clock ? clockText(frame.clock.remainingMs) : '';
+    say(blocks.map(block => block(t - blockedFrom)));
     return frame;
   }
 
@@ -289,7 +309,8 @@ export function mountBlackout({ app, board, roster, seats, params, drawFigure, d
   window.__blackoutState = () => ({ ...selection, sends, receipt: receiptAt(selection, lastT), line: line.hidden ? null : line.textContent });
   if (playing) {
     const start = performance.now();
-    const length = outcomeAt + BLACKOUT.markersOut[1] + 1200;
+    // Long enough for a block's film, where this screen has one.
+    const length = Math.max(outcomeAt + BLACKOUT.markersOut[1] + 1200, blocks.length ? blockedFrom + blockedEnd(reduced) + 600 : 0);
     let lap = -1;
     const tick = now => {
       // Every lap is a new window: the selection starts again.

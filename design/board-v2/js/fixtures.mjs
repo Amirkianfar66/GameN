@@ -22,25 +22,30 @@ export const FIXTURES = Object.freeze(['ward', 'mixed', 'stress', 'empty']);
  * normal-round schedule step 9), each at the lowest free berth taken in player-number order, written
  * out here by hand: the drawing layer allocates nothing and infers no placement, and Backend's stored
  * slotId decides the berth. Every seat not named stays where it was. A miss and a round with no strike
- * are the same picture by design. Test-only, like every fixture: no rule decides these here.
+ * are the same picture by design. `blocks` are not in the published batch: they are the room facts
+ * that only the blocked target's room's occupants receive (ATTACK BLOCKED, S4), so a block is a
+ * miss on every other screen, and nobody moves. Test-only, like every fixture: no rule decides these here.
  */
 const settled = (seat, room, slot, health) => Object.freeze({ seat, room, slot, health });
 const perRoster = entries => Object.freeze(Object.fromEntries(Object.entries(entries).map(([roster, list]) => [roster, Object.freeze(list)])));
 export const BLACKOUT_OUTCOMES = Object.freeze({
   hit: Object.freeze({
     hits: Object.freeze(['B2']),
+    blocks: Object.freeze([]),
     after: perRoster({ 7: [settled(5, 'hospital', 'H2', 'Injured')], 8: [settled(5, 'hospital', 'H3', 'Injured')], 9: [settled(5, 'hospital', 'H3', 'Injured')] }),
   }),
   double: Object.freeze({
     hits: Object.freeze(['B2', 'A3']),
+    blocks: Object.freeze([]),
     after: perRoster({
       7: [settled(3, 'hospital', 'H2', 'Injured'), settled(5, 'hospital', 'H3', 'Injured')],
       8: [settled(3, 'hospital', 'H3', 'Injured'), settled(5, 'hospital', 'H4', 'Injured')],
       9: [settled(3, 'hospital', 'H3', 'Injured'), settled(5, 'hospital', 'H5', 'Injured')],
     }),
   }),
-  miss: Object.freeze({ hits: Object.freeze([]), after: perRoster({ 7: [], 8: [], 9: [] }) }),
-  none: Object.freeze({ hits: Object.freeze([]), after: perRoster({ 7: [], 8: [], 9: [] }) }),
+  miss: Object.freeze({ hits: Object.freeze([]), blocks: Object.freeze([]), after: perRoster({ 7: [], 8: [], 9: [] }) }),
+  none: Object.freeze({ hits: Object.freeze([]), blocks: Object.freeze([]), after: perRoster({ 7: [], 8: [], 9: [] }) }),
+  blocked: Object.freeze({ hits: Object.freeze([]), blocks: Object.freeze(['B2']), after: perRoster({ 7: [], 8: [], 9: [] }) }),
 });
 
 /** The mixed board once an outcome is resolved: every seat where the outcome's after-state puts it, every other seat unmoved. */

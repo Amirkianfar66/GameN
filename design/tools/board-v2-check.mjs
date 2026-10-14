@@ -51,6 +51,10 @@ const { SCENES } = await load('design/board-motion/scenes/index.mjs');
 const { frameScene } = await load('design/board-motion/scenes/frame.mjs');
 const { BLACKOUT, blackoutContract, blackoutFlashes, blackoutFrame } = await load('design/board-v2/films/blackout.mjs');
 const { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, sparkPlan } = await load('design/board-v2/scenes/lighting.mjs');
+const { BLOCKED, STAR_SIZE, blockedContract, blockedEnd, blockedFrame, blockedStartInBlackout } = await load('design/board-v2/films/blocked.mjs');
+const { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_SIZE, shieldColorDistances } = await load('design/board-v2/fx/blocked.mjs');
+const { BLACKOUT_OUTCOMES } = await load('design/board-v2/js/fixtures.mjs');
+const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -100,16 +104,17 @@ const { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, sparkPlan } = await load('des
   try { planned = await planAssets(repoRoot); } catch (error) { problems.push(`the ward cannot be built: ${String(error.message).split('\n')[0]}`); }
   for (const [path, content] of planned) if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-v2-assets.mjs makes: run it`);
   for (const path of await filesUnder('design/board-v2/assets')) if (!planned.has(path)) problems.push(`${path}: not made by design/tools/board-v2-assets.mjs`);
-  const lighting = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')).lighting.files : [];
+  const manifest = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')) : null;
+  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files] : [];
   for (const [path, content] of planned) {
     if (!path.endsWith('.svg')) continue;
     if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(content)) problems.push(`${path}: outside the drawing vocabulary`);
     // A room is drawn in its scene's 1024 x 768 box; a sprite in the box its manifest entry gives.
-    const sprite = lighting.find(entry => entry.file === path && entry.kind !== 'dark-room');
+    const sprite = sprites.find(entry => entry.file === path && entry.kind !== 'dark-room');
     const box = sprite ? sprite.viewBox : '0 0 1024 768';
     if (!content.includes(`viewBox="${box}"`)) problems.push(`${path}: not in its ${box} box`);
   }
-  check('the ward and the lighting art are built from the approved rooms, current, and inside the drawing vocabulary', problems);
+  check('the ward, the lighting and the effects art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
 }
 
 // ---------- The Blackout's lighting window ----------
@@ -176,6 +181,78 @@ const { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, sparkPlan } = await load('des
   if (!films || JSON.stringify(films.films?.[0]) !== JSON.stringify(blackoutContract())) problems.push('contract/films.json is not the film\'s: run design/tools/board-v2-assets.mjs');
   for (const word of ROLE_WORDS) if (JSON.stringify(films ?? {}).includes(word)) problems.push(`contract/films.json names ${word}`);
   check('the Blackout\'s window: five seconds lit and ten dark, its film only public inputs, three flashes a second at most and none over a quarter of a panel', problems);
+}
+
+// ---------- ATTACK BLOCKED (S4) ----------
+{
+  const problems = [];
+  const B = BLOCKED;
+  // The storyboard's beats: incoming 0-120, the shield 120-360 from 0.8 to 1.05, absorbed 360-620,
+  // the figure home by 900, the label from 620 held 1 600 and faded over 200; reduced 80 / 1 600 / 80.
+  const beats = [B.incoming.join(), B.shieldFlash[0], B.shieldBubble[1], B.shieldScale.join(), B.absorb.join(), B.brace.to, B.label.from, B.label.holdMs, B.label.fadeMs, B.reduced.fadeMs, B.reduced.holdMs].join(' ');
+  if (beats !== '0,120 120 360 0.8,1.05 360,620 900 620 1600 200 80 1600') problems.push(`the beats are ${beats}, not the storyboard's`);
+  if (blockedEnd(false) !== 2420 || blockedEnd(true) !== 1760) problems.push(`the film ends at ${blockedEnd(false)} ms (reduced ${blockedEnd(true)}), not 2 420 (1 760)`);
+  for (const reduced of [false, true]) {
+    const end = blockedEnd(reduced);
+    for (let t = -200; t <= 3000; t += 5) {
+      const frame = blockedFrame(t, { reduced });
+      const where = `${reduced ? 'reduced, ' : ''}${t} ms`;
+      // Its only inputs are t and the setting: a defense, an attacker, a grantor, a count or a direction changes nothing.
+      const json = JSON.stringify(frame);
+      for (const extra of [{ cause: 'clone' }, { cause: 'protection' }, { defense: 'other', attacker: 3, grantor: 6, count: 2, usesLeft: 0, direction: 'left' }]) if (JSON.stringify(blockedFrame(t, { reduced, ...extra })) !== json) problems.push(`${where}: ${Object.keys(extra).join(', ')} changes the film`);
+      // Reduced motion: a still ring and the label, no star, shield, particles or brace, no fade over 80 ms.
+      if (reduced && (frame.star.on || frame.shield.frame || frame.particles.frame || frame.brace[0] || frame.brace[1] || frame.ring.scale !== 1)) problems.push(`${where}: motion in the reduced variant`);
+      // The brace: a reduced jolt of 2 px at most, home by 900 ms.
+      if (Math.hypot(...frame.brace) > Math.hypot(...B.brace.offset) + 0.01) problems.push(`${where}: a brace over ${Math.hypot(...B.brace.offset).toFixed(1)} px`);
+      if (t >= B.brace.to && (frame.brace[0] || frame.brace[1])) problems.push(`${where}: the figure is not home`);
+      // The words while the label is up, and only then; and nothing at all before the start or after the end.
+      if (frame.announce !== frame.label.opacity > 0) problems.push(`${where}: the words and the label disagree`);
+      const drawn = frame.star.on || frame.shield.frame || frame.ring.opacity > 0 || frame.particles.frame || frame.label.opacity > 0 || frame.brace[0] || frame.brace[1];
+      if ((t < 0 || t >= end) && drawn) problems.push(`${where}: something drawn outside the film`);
+      if (frame.done !== t >= end) problems.push(`${where}: done is ${frame.done}`);
+    }
+  }
+  // In the Blackout: a block is a miss in public and starts once the lights are fully back.
+  if (BLACKOUT_OUTCOMES.blocked.hits.length) problems.push('the Blackout\'s blocked outcome publishes a hit');
+  if (blockedStartInBlackout(15400) !== 15400 + BLACKOUT.lightsReturn[1] || blockedStartInBlackout(15400, { reduced: true }) !== 15400 + BLACKOUT.reduced.fadeMs) problems.push('a block in the Blackout does not start once the lights are back');
+  if (blockedStartInBlackout(20000) !== 20000 || blockedStartInBlackout(null) !== null) problems.push('a late outcome or no outcome starts a block');
+  for (let t = 0; t <= 19000; t += 50) if (JSON.stringify(blackoutFrame(t, { outcomeAt: 15400, hits: BLACKOUT_OUTCOMES.blocked.hits, windowId: 'w-check' })) !== JSON.stringify(blackoutFrame(t, { outcomeAt: 15400, hits: BLACKOUT_OUTCOMES.miss.hits, windowId: 'w-check' }))) { problems.push(`${t} ms: the Blackout's public film differs for a block and a miss`); break; }
+  // The review page's examples: the already-Injured target is the fixture's Injured patient in the Hospital at every roster,
+  // and no example target is ever Injured outside the Hospital (G-05). The page reads the fixture and changes nobody.
+  for (const roster of ROSTERS) {
+    const seats = fixtureSeats('mixed', roster);
+    const [patient] = blockedTargets(new URLSearchParams('injured=1'), seats);
+    if (patient?.room !== 'hospital' || patient?.health !== 'Injured') problems.push(`${roster} players: the already-Injured example is not a patient in the Hospital`);
+    for (const query of ['', 'targets=B2,B4', 'injured=1', 'targets=A1,C1,H1,J2,B4']) {
+      for (const seat of blockedTargets(new URLSearchParams(query), seats)) if (seat.health === 'Injured' && seat.room !== 'hospital') problems.push(`${roster} players, ${query || 'the default'}: an Injured target in ${seat.room}`);
+    }
+    for (const outcome of Object.values(BLACKOUT_OUTCOMES)) for (const id of outcome.blocks) { const seat = seats.find(entry => entry.slot === id); if (seat?.health === 'Injured' && seat.room !== 'hospital') problems.push(`${roster} players: a Blackout block on an Injured target in ${seat.room}`); }
+  }
+  // Its colors are far from every faction accent, and those are the tokens'.
+  const tokens = await json('packages/design-tokens/src/tokens-0.4.0.json');
+  if (JSON.stringify(FACTION_ACCENTS) !== JSON.stringify(tokens.color?.factionPrivateOrRevealed)) problems.push('the faction accents measured against are not tokens-0.4.0\'s');
+  for (const [name, { nearest, distance }] of Object.entries(shieldColorDistances())) if (distance < MIN_ACCENT_DISTANCE) problems.push(`the shield's ${name} is ${distance} from the ${nearest} accent`);
+  // Flashes: the shield's one, with the Blackout's, three a second at most; its white core, with every
+  // slot of a room blocked at once at the largest the flash frame draws it, a quarter of the panel at most.
+  const flashScale = Math.max(...Array.from({ length: B.shieldFlash[1] - B.shieldFlash[0] }, (_, i) => blockedFrame(B.shieldFlash[0] + i).shield.scale));
+  const withBlock = [...blackoutFlashes({ outcomeAt: 15400, hits: ['A3'] }), { at: blockedStartInBlackout(15400) + B.shieldFlash[0] }];
+  for (let from = -1000; from <= 19000; from += 10) if (withBlock.filter(flash => flash.at >= from && flash.at < from + 1000).length > BLACKOUT.flashLimit.perSecond) { problems.push(`more than ${BLACKOUT.flashLimit.perSecond} flashes in the second from ${from} ms with a hit and a block`); break; }
+  for (const [width, height] of VIEWPORTS) {
+    for (const roster of ROSTERS) {
+      const board = fitBoardV2({ width, height }, roster);
+      for (const room of BOARD_ROOMS) {
+        const panel = board.panels[room];
+        const cores = slotRects(room, roster, panel).reduce((sum, rect) => sum + Math.PI * ((SHIELD_FLASH_RADIUS / SHIELD_BOX) * SHIELD_SIZE * rect.side * flashScale) ** 2, 0);
+        if (cores / (panel.width * panel.height) > BLACKOUT.flashLimit.panelShare) problems.push(`${width}x${height}, ${roster} players, ${room}: every slot blocked at once flashes ${Math.round((100 * cores) / (panel.width * panel.height))}% of the panel`);
+      }
+    }
+  }
+  // The contract is the module's, and names no role.
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  if (!films || JSON.stringify(films.films?.[1]) !== JSON.stringify(blockedContract())) problems.push('contract/films.json does not hold the film\'s contract: run design/tools/board-v2-assets.mjs');
+  if (blockedContract().audience.film.indexOf('room-visible') !== 0) problems.push('the film is not room-visible');
+  if (STAR_SIZE !== 1.6) problems.push(`the incoming star is ${STAR_SIZE} press sides, not the Blackout impact's 1.6`);
+  check('ATTACK BLOCKED: the storyboard\'s beats, the same film for every defense, a miss to everyone outside the room, its colors apart from the faction accents, its flash under a quarter of a panel, and the already-Injured example a patient in the Hospital', problems);
 }
 
 // ---------- The slots ----------

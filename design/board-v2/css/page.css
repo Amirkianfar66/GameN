@@ -70,3 +70,12 @@ html[data-shell="tall"] .v2-top--window { gap: 3px; }
 html[data-shell="tall"] .v2-top--window .v2-top__phase { font-size: 13px; line-height: 17px; }
 html[data-shell="tall"] .v2-top--window .v2-top__timer { font-size: 16px; line-height: 20px; }
 html[data-shell="tall"] .v2-top__line { font-size: 13px; line-height: 17px; }
+
+/* ---------- ATTACK BLOCKED (js/blocked-view.mjs): room-visible, on the occupants' screens only ----------
+   L4: above the room's public effects and markers (L3), under the press areas (L6) and the captions (L7). */
+.v2-block { position: absolute; z-index: 3620; max-width: none; pointer-events: none; user-select: none; }
+.v2-block__star { z-index: 3610; }
+.v2-block__ring { z-index: 3615; }
+.v2-block__particles { z-index: 3625; }
+.v2-block__label { z-index: 3630; padding: 2px 8px; background: var(--v2-ink); color: var(--v2-gold); border: 2px solid var(--v2-gold); font: 800 12px/16px "Arial Narrow", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; text-align: center; transform-origin: 50% 50%; }
+.v2-block__label--stack > span { display: block; }

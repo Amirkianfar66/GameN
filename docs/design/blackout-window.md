@@ -40,7 +40,7 @@ It is the same on every phone and the display, every normal round, whether or no
 | 5 000–15 000 ms | Static dark, the full ten seconds; the selection is open in `[5 000, 15 000)` |
 | From 15 000 ms | Dark until the round's outcome is published, at most 1.5 s more (a presentation proposal: see section 8) |
 | R to R+320 ms | At each **authorized hit**, at its frozen position: a white flash, a comic star, its rays breaking. The hit room's art shakes 3 px for 160 ms; its markers, captions and press areas never move. **At a miss, nothing anywhere** |
-| R+120 to R+520 ms | Every room's lights come back together, on the resolved board: everyone where the authoritative state puts them, a hit patient in the Hospital at the slot it names, in the gown. The top bar's clock and line go as the lights start back |
+| R+120 to R+520 ms | Every room's lights come back together, on the resolved board: everyone where the authoritative state puts them, a hit patient in the Hospital at the slot it names, in the gown. The top bar's clock and line go as the lights start back. **A blocked strike is a miss here too.** Only its room's occupants then see ATTACK BLOCKED, from R+520 ms ([attack-blocked.md](attack-blocked.md)) |
 | R+520 to R+900 ms | The markers fade out; the board is normal |
 
 The cut at 5 000 ms is one change of light, not a flash: the lights stay off for at least ten seconds.
@@ -162,7 +162,8 @@ Frontend has reviewed none of this, and nothing has been adopted.
 | --- | --- |
 | `&t=` | The moment, in ms |
 | `&play=1` | Plays the film |
-| `&outcome=hit\|double\|miss\|none` | The published outcome |
+| `&outcome=hit\|double\|miss\|none\|blocked` | The outcome. `blocked` publishes nothing: it is a miss but for its room's occupants |
+| `&in=` | The viewer's room, for its room-visible facts: with `outcome=blocked`, `&in=room-b` is an occupant's screen |
 | `&r=` | When the outcome is published |
 | `&window=` | The window's id |
 | `&motion=reduced` | The reduced-motion variant |
@@ -177,7 +178,7 @@ Frontend has reviewed none of this, and nothing has been adopted.
 1. **A public lighting window every normal round:** `{windowId, previewEndsAt, endsAt}`. It runs whether or not anyone asked for a strike.
 2. **`seats[].slotId`**, frozen from the window's opening to its end (#128's dependency), and the resolved board's seats at their stored slots, a hit patient's Hospital `slotId` included.
 3. **The eligible Disabler's own binding**, in their private view only: `{windowId, boundRoom, selectable, selectedSlotId}`, the selection command with a stable id, its receipt, and receipt recovery by that id.
-4. **The round's published batch**, with each authorized hit's `slotId` and the publication's checkpoint. Two accepted attacks stay two records. Nothing about a request, a side, a miss or a defense is public.
+4. **The round's published batch**, with each authorized hit's `slotId` and the publication's checkpoint. Two accepted attacks stay two records. Nothing about a request, a side, a miss or a defense is public. A block goes only to its room's occupants, as a room fact ([attack-blocked.md](attack-blocked.md), section 6).
 5. **Integration:** the named-file approval of `films/blackout.mjs` (new bytes after the corrections) and of the unchanged `lighting.mjs` and its 17 files, already accepted as drawing candidates.
 
 ## 7. Verification
