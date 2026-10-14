@@ -211,7 +211,7 @@ for (const playerCount of [7, 8, 9]) {
     assert.equal(blocked.receipt.status, 'rejected'); assert.equal(blocked.receipt.code, 'NOT_ALLOWED');
     const persisted = await h.current(), events = await journal(h), audiences = await audienceCounts(h);
     h.setTime(resultState.phase.startedAt + 4999);
-    assert.equal(FullAdvanceResponseSchema.parse(await h.service.runDeadline(job(resultState))).result, 'unchanged');
+    assert.deepEqual(await h.service.runDeadline(job(resultState)), { status: 'too-early', retryAfterMs: 1 });
     assert.deepEqual(await h.current(), persisted); assert.deepEqual(await journal(h), events);
     h.setTime(resultState.phase.endsAt);
     const concurrent = await Promise.all(Array.from({ length: 3 }, () => h.service.runDeadline(job(resultState))));
@@ -314,7 +314,7 @@ for (const playerCount of [7, 8, 9]) {
     assert.equal(blocked.receipt.status, 'rejected'); assert.equal(blocked.receipt.code, 'NOT_ALLOWED');
     assert.equal((await h.current()).codeSubmitted, false); assert.equal(projectFullGame(await h.current()).public.endReveal, null);
     h.setTime(result.phase.startedAt + 4999);
-    assert.equal(FullAdvanceResponseSchema.parse(await h.service.runDeadline(job(result))).result, 'unchanged');
+    assert.deepEqual(await h.service.runDeadline(job(result)), { status: 'too-early', retryAfterMs: 1 });
     assert.equal((await h.current()).phase.kind, 'VOTE_RESULT');
     const terminal = await expire(h); assert.equal(terminal.phase.kind, 'FINISHED'); assert.equal(terminal.result.winner, 'Blue');
     assert.equal(terminal.phase.endsAt, null); assert.notEqual(projectFullGame(terminal).public.endReveal, null);

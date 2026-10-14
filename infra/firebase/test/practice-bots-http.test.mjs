@@ -171,7 +171,8 @@ test('successful and stale deadlines both run bounded practice work after evalua
   const payload = { matchId: 'synthetic-match', phaseId: 'synthetic-phase', deadlineToken: 'synthetic-deadline' };
   for (const result of ['advanced', 'unchanged']) {
     const calls = [];
-    const handler = createV1DeadlineHandler({ runDeadline: async given => { assert.deepEqual(given, payload); calls.push('deadline'); return { result }; },
+    const handler = createV1DeadlineHandler({ runDeadline: async given => { assert.deepEqual(given, payload); calls.push('deadline');
+      return { protocolVersion: 2, matchId: payload.matchId, phaseId: payload.phaseId, serverTimeMs: 123, result }; },
       runPracticeBots: async (matchId, options) => { assert.equal(matchId, payload.matchId); assert.deepEqual(options, { limit: 18 }); calls.push('bots'); return { status: 'unchanged', processed: 0 }; },
     });
     await handler(payload); assert.deepEqual(calls, ['deadline', 'bots']);
@@ -185,5 +186,6 @@ test('deadline failure skips bots, and bot failure after successful deadline rem
     await assert.rejects(createV1DeadlineHandler({ runDeadline, runPracticeBots: async () => { botCalls++; return { status: 'unchanged', processed: 0 }; } })(payload), /Deadline evaluation unavailable/);
   }
   assert.equal(botCalls, 0);
-  await assert.rejects(createV1DeadlineHandler({ runDeadline: async () => ({ result: 'advanced' }), runPracticeBots: async () => ({ status: 'failed', processed: 0 }) })(payload), /Practice bot evaluation unavailable/);
+  await assert.rejects(createV1DeadlineHandler({ runDeadline: async () => ({ protocolVersion: 2, matchId: payload.matchId, phaseId: payload.phaseId,
+    serverTimeMs: 123, result: 'advanced' }), runPracticeBots: async () => ({ status: 'failed', processed: 0 }) })(payload), /Practice bot evaluation unavailable/);
 });
