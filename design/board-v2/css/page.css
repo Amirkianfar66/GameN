@@ -80,7 +80,7 @@ html[data-shell="tall"] .v2-top__line { font-size: 13px; line-height: 17px; }
 .v2-block__label { z-index: 3630; padding: 2px 8px; background: var(--v2-ink); color: var(--v2-gold); border: 2px solid var(--v2-gold); font: 800 12px/16px "Arial Narrow", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; text-align: center; transform-origin: 50% 50%; }
 .v2-block__label--stack > span { display: block; }
 
-/* ---------- the private-talk capsule (js/capsule-view.mjs): scenery beside the Command Room, nothing on it to press ----------
+/* ---------- the private-talk capsule (js/capsule-view.mjs): scenery beside the Command Room; its only targets are its seated participants' own ----------
    Its caption is the fixed kind, its two words stacked where one line would not fit. At their places the participants'
    figures go gray and faint (the away marker) and wear the capsule's badge; their slots keep their press areas. */
 .v2-cap--capsule { padding: 3px 7px; font-size: 11px; letter-spacing: 0.05em; white-space: nowrap; }

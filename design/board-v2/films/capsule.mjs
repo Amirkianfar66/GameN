@@ -345,6 +345,6 @@ export function capsuleContract() {
     loading: 'Draws only the seats the public projection names: none, one or two. With none, the capsule as when idle (its door shut, its light off) under the stage\'s top bar; with one, that one\'s film alone. A seat named after its part began is drawn settled. Nobody is invented while a projection is awaited.',
     away: film.away,
     paths: { P1: PATHS.P1, P2: PATHS.P2, units: 'scene units of the 512 x 768 capsule (its feet); the way out is the same path backward', cadence: 'the approved public move\'s: 1.5 two-step cycles per 450 ms', scale: 'the doorway\'s (0.9) in the doorway to the seat\'s (1.05) at the chairs, by depth' },
-    layers: { capsule: 'its own panel beside the Command Room (fit.mjs { capsule: true }); back, door, the participants, busy; no press areas', home: 'the participant\'s own room, its figure layer: the away marker at its slot; the step out is clipped to the room\'s panel', tags: 'every name tag stays: at the slot, and under each seated participant in the capsule' },
+    layers: { capsule: 'its own panel beside the Command Room, exactly half its width (fit.mjs { capsule: true }); back, door, the participants, busy; no slots: its only targets are each seated participant\'s own seat (scenes/capsule.mjs capsuleTargets(), 44 px), as its slot is', home: 'the participant\'s own room, its figure layer: the away marker at its slot; the step out is clipped to the room\'s panel', tags: 'every name tag stays: at the slot, and under each seated participant in the capsule' },
   };
 }

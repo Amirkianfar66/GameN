@@ -56,7 +56,7 @@ const { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, SHIELD_BOX, SHIELD_FLASH_RADIUS, S
 const { BLACKOUT_OUTCOMES } = await load('design/board-v2/js/fixtures.mjs');
 const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
 const { CAPSULE_FILM, CAPSULE_STAGES, capsuleContract, capsuleEnd, capsuleFrame, seatedPose } = await load('design/board-v2/films/capsule.mjs');
-const { BESIDE, CAPSULE_ACCENTS, CAPSULE_KEEP, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, DECK, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TABLE, TAG_STRIP, frameCapsule } = await load('design/board-v2/scenes/capsule.mjs');
+const { BESIDE, CAPSULE_ACCENTS, CAPSULE_KEEP, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, CAPTION_CLEAR, DECK, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TABLE, TAG_STRIP, capsuleTargets, frameCapsule } = await load('design/board-v2/scenes/capsule.mjs');
 const { LOOP, POSE_NAMES, capsuleLoop, sittingPose, walkingPose } = await load('design/board-v2/figures/capsule.mjs');
 const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
 
@@ -265,8 +265,9 @@ const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
   const F = CAPSULE_FILM;
   const ids = CAPSULE_SEATS.map(seat => seat.id);
   // The layout: on a phone, every room where it is without the capsule and the Command Room in its
-  // place, the capsule on its right, as tall, 2:1 within a pixel, its right edge the band's; C1 a
-  // whole press area of 44 px and clear of the Pass; at every phone width, inset and height.
+  // place, the capsule on its right, as tall, exactly 2:1, its right edge the band's; C1 and each
+  // seated participant's own target a whole 44 px press area, clear of the Pass; at every phone
+  // width, inset and height.
   let layouts = 0;
   for (const width of WIDTHS) {
     for (const safe of INSETS) {
@@ -285,7 +286,17 @@ const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
           if (['left', 'top', 'height'].some(key => command[key] !== plain.boxes['command-room'][key])) problems.push(`${where}: the Command Room moves with the capsule`);
           if (Math.abs(capsule.left - (command.left + command.width + board.shell.gap)) > 0.01 || capsule.top !== command.top || capsule.height !== command.height) problems.push(`${where}: the capsule is not beside the Command Room, as tall`);
           if (Math.abs(capsule.left + capsule.width - (plain.boxes['command-room'].left + plain.boxes['command-room'].width)) > 0.01) problems.push(`${where}: the capsule does not end where the band ends`);
-          if (Math.abs(board.panels['command-room'].width - 2 * board.panels[CAPSULE.id].width) > 1) problems.push(`${where}: ${board.panels['command-room'].width} and ${board.panels[CAPSULE.id].width} px are not 2:1`);
+          if (Math.abs(board.panels['command-room'].width - 2 * board.panels[CAPSULE.id].width) > 1e-6) problems.push(`${where}: ${board.panels['command-room'].width} and ${board.panels[CAPSULE.id].width} px are not exactly 2:1`);
+          // Each seated participant's own target: 44 px, whole inside the panel, below the caption, apart from the other's and clear of the Pass.
+          const panel = board.panels[CAPSULE.id];
+          const targets = capsuleTargets(panel);
+          for (const target of targets) {
+            if (target.side < 44 || target.left < -0.01 || target.left + target.side > panel.width + 0.01 || target.top < CAPTION_CLEAR - 0.01 || target.top + target.side > panel.height + 0.01) problems.push(`${where}: ${target.id}'s target is not a whole 44 px square below the caption`);
+            const left = capsule.left + board.shell.border + target.left, top = capsule.top + board.shell.border + target.top;
+            const dx = Math.max(left - board.pass.cx, 0, board.pass.cx - (left + target.side)), dy = Math.max(top - board.pass.cy, 0, board.pass.cy - (top + target.side));
+            if (Math.hypot(dx, dy) <= board.pass.r) problems.push(`${where}: ${target.id}'s target is under the Pass`);
+          }
+          if (targets[0].left + targets[0].side > targets[1].left + 0.01) problems.push(`${where}: the two targets in the capsule overlap`);
           if (!slotsFit('command-room', roster, board.panels['command-room'])) problems.push(`${where}: C1 does not fit the Command Room's panel`);
           for (const rect of slotRects('command-room', roster, board.panels['command-room'])) if (rect.side < 44) problems.push(`${where}: C1 is ${rect.side} px`);
           for (const slot of passClearance({ width, height }, roster, { insets, capsule: true })) if (slot.clearance <= 0) problems.push(`${where}, ${slot.id}: under the Pass`);
@@ -417,7 +428,7 @@ const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
   for (const word of ROLE_WORDS) if (JSON.stringify(contract).includes(word)) problems.push(`the capsule's contract names ${word}`);
   for (const input of ['the declared side', 'who is speaking', 'an animation\'s completion']) if (!contract.notInputs.some(entry => entry.includes(input))) problems.push(`the contract does not rule out ${input}`);
   if (CAPSULE_STAGES.join() !== 'idle,declare,result,talk,exit') problems.push(`the stages are ${CAPSULE_STAGES.join(', ')}`);
-  check(`the private-talk capsule: beside the Command Room at 2:1, every other room where it is without it (${layouts} phone layouts), the seated pair's heads always in view (${framings} framings); the entrance inside the result stage with a second to spare, the minute the server's, the exit blocking nothing; only public inputs; never in two places; a reconnect and the reduced variant play nothing; the paths clear of the table; patients and prisoners as the board draws them; no faction color`, problems);
+  check(`the private-talk capsule: beside the Command Room at exactly 2:1, every other room where it is without it, each seated participant a whole 44 px target apart from the other's (${layouts} phone layouts), the seated pair's heads always in view (${framings} framings); the entrance inside the result stage with a second to spare, the minute the server's, the exit blocking nothing; only public inputs; never in two places; a reconnect and the reduced variant play nothing; the paths clear of the table; patients and prisoners as the board draws them; no faction color`, problems);
 }
 
 // ---------- The slots ----------

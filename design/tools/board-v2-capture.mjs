@@ -36,7 +36,8 @@
 // which must be the same. With the private-talk capsule (?capsule=1 and &film=capsule) it measures
 // that the capsule is where fit.mjs puts it, beside the Command Room and half its width, and every
 // room where fit.mjs puts it at every stage; that every slot keeps its press area and a pointer
-// lands on it, while nothing in the capsule can be pressed; that the capsule's door, light, people
+// lands on it, and in the capsule only each seated participant's own target, whole, 44 px, below
+// the caption and apart from the other's, where a pointer lands too; that the capsule's door, light, people
 // and tags are the film's, the people dressed as the board dresses them; that each participant's
 // place keeps its name tag, with its away marker and badge as the film says, and nobody else is
 // touched; that the top bar keeps its box and says the stage and the server's countdown; that no
@@ -178,9 +179,9 @@ function plan() {
   capsule('result-2000', at390, '&stage=result&t=2000', 'The door open; Vega walking behind the table toward the far chair (2 000 ms)');
   capsule('result-2400', at390, '&stage=result&t=2400', 'Vega coming forward beside the far chair; Orion walking in to the near one (2 400 ms)');
   capsule('result-2750', at390, '&stage=result&t=2750', 'Vega turning and sitting; Orion at his chair (2 750 ms)');
-  capsule('result-3600', at390, '&stage=result&t=3600', 'Settled: both seated, the door shut, its light lit; 1 400 ms to spare before the conversation (3 600 ms)');
+  capsule('result-3600', at390, '&stage=result&t=3600', 'Settled: both seated, the door shut, its light lit; 1 400 ms to spare before the conversation (3 600 ms); each seated participant a 44 px target for its own seat', { measure: true });
   capsule('talk-0000', at390, '&stage=talk&t=0', 'The conversation\'s authoritative start: the top bar at 1:00 from the server; both seated');
-  capsule('talk-30000', at390, '&stage=talk&t=30000', 'Halfway: the quiet variations, seeded by the exchange\'s public id, unrelated to speech (0:30)');
+  capsule('talk-30000', at390, '&stage=talk&t=30000', 'Halfway: the quiet variations, seeded by the exchange\'s public id, unrelated to speech (0:30); every slot, C1 and both seated participants\' own targets pressed', { measure: true });
   capsule('exit-0360', at390, '&stage=exit&t=360', 'The conversation\'s end: the light out, the door open, both standing (360 ms)');
   capsule('exit-0800', at390, '&stage=exit&t=800', 'Both walking their paths back to the doorway (800 ms)');
   capsule('exit-1250', at390, '&stage=exit&t=1250', 'Orion back at B2, stepping in; Vega fading in the doorway, then back at A1 (1 250 ms)');
@@ -191,7 +192,7 @@ function plan() {
     ['exit-0040', '&stage=exit&t=40', 'the door shown open while the people fade back to their places (40 ms)'],
     ['exit-0400', '&stage=exit&t=400', 'the door shut, everyone at their places (400 ms)'],
   ]) capsule(`reduced-${name}`, at390, `${query}&motion=reduced`, `Reduced motion: ${about}`);
-  capsule('talk-20000-patient-prisoner', at390, '&stage=talk&t=20000&pair=2,4', 'Rigel, a patient (H1), in the gown with the bandage and a hunch, and Atlas, a prisoner (J2), in the prison suit, hands together: seated (20 s)');
+  capsule('talk-20000-patient-prisoner', at390, '&stage=talk&t=20000&pair=2,4', 'Rigel, a patient (H1), in the gown with the bandage and a hunch, and Atlas, a prisoner (J2), in the prison suit, hands together: seated (20 s)', { measure: true });
   capsule('result-2400-patient-prisoner', at390, '&stage=result&t=2400&pair=2,4', 'Rigel walking in with the approved stagger, in the gown; Atlas in the prison suit (2 400 ms)');
   capsule('talk-20000-captain-detainee', at390, '&stage=talk&t=20000&pair=7,8', 'Juno, the Captain (C1), beside her own Command Room, and Mira, detained in the Hospital (H2), in the gown, hands together (20 s)');
   capsule('result-1200-captain-detainee', at390, '&stage=result&t=1200&pair=7,8', 'Juno stepping out of the Command Room and Mira out of the Hospital, their slots kept (1 200 ms)');
@@ -203,7 +204,7 @@ function plan() {
   capsule('moved-exit-1250', at390, '&stage=exit&t=1250&moved=5:B5', 'Orion\'s latest authoritative place is B5: he steps back in there, not at B2 (1 250 ms)');
   capsule('participant-result-2400', at390, '&stage=result&t=2400&viewer=participant', 'A participant\'s screen: the stand-in for their own claim panel where the phone puts it, never under the film (2 400 ms)');
   capsule('result-2400', at320, '&stage=result&t=2400', 'The entrance on the smallest phone (2 400 ms)');
-  capsule('talk-30000', at320, '&stage=talk&t=30000', 'The conversation on the smallest phone: both tags whole in the capsule (0:30)');
+  capsule('talk-30000', at320, '&stage=talk&t=30000', 'The conversation on the smallest phone: both tags whole in the capsule, both seated participants\' targets 44 px beside C1\'s (0:30)', { measure: true });
   capsule('exit-0800', at320, '&stage=exit&t=800', 'The exit on the smallest phone (800 ms)');
   capsule('participant-result-2400', at320, '&stage=result&t=2400&viewer=participant', 'A participant\'s screen on the smallest phone: the claim panel\'s stand-in clear of the film (2 400 ms)');
   for (const roster of [7, 8]) capsule(`talk-30000-r${roster}`, at390, '&stage=talk&t=30000', `${roster} players: the capsule beside the Command Room, the conversation (0:30)`, { roster });
@@ -393,7 +394,8 @@ const MEASURE_CAPSULE = `(() => {
       busy: Boolean(capsule.querySelector('[data-layer="busy"]')),
       figures: [...capsule.querySelectorAll('.v2-fig[data-capsule]')].map(node => ({ id: node.dataset.capsule, seat: Number(node.dataset.seat), state: node.dataset.state, outfit: node.dataset.outfit })),
       tags: [...capsule.querySelectorAll('.v2-tag')].map(node => ({ seat: Number(node.dataset.seat), ...box(node) })),
-      press: capsule.querySelectorAll('button, a, input, [tabindex], .v2-press, .v2-hit, .v2-slot-hit').length,
+      targets: [...capsule.querySelectorAll('[data-capsule-target]')].map(node => ({ id: node.dataset.capsuleTarget, seat: Number(node.dataset.seat), ...box(node) })),
+      press: capsule.querySelectorAll('button:not([data-capsule-target]), a, input, [tabindex]:not([data-capsule-target]), .v2-press, .v2-hit, .v2-slot-hit:not([data-capsule-target])').length,
     } : null,
     top: box(document.querySelector('.v2-top')),
     nav: box(document.querySelector('.v2-nav')),
@@ -446,10 +448,21 @@ function problemsOfCapsule(shot, measured) {
   for (const caption of measured.captions) if (caption.cut || caption.right > caption.panelWidth + 0.5 || caption.bottom > caption.panelHeight + 0.5) problems.push(`${caption.room}: its caption is cut or leaves its panel`);
   const c = measured.capsule;
   if (!c) return [...problems, 'no capsule drawn'];
-  // The capsule: its door and light as the film says, the people it says and no one else, dressed as the board dresses them; nothing to press.
+  // The capsule: its door and light as the film says, the people it says and no one else, dressed as the board dresses them;
+  // nothing to press but each seated participant's own target, with &hit=1: 44 px, inside, below the caption, apart.
   if (c.door !== `door-${frame.door}`) problems.push(`the door is ${c.door}; the film says door-${frame.door}`);
   if (c.busy !== frame.busy) problems.push(`the light is ${c.busy ? 'lit' : 'out'}; the film says ${frame.busy ? 'lit' : 'out'}`);
-  if (c.press) problems.push(`${c.press} things to press in the capsule`);
+  if (c.press) problems.push(`${c.press} things to press in the capsule besides its seated participants' targets`);
+  const seatedIds = ids.filter(id => frame.people[id]?.capsule.state === 'seated');
+  const hits = new URLSearchParams(shot.query).get('hit') === '1';
+  if (c.targets.map(target => target.id).sort().join() !== (hits ? seatedIds : []).join()) problems.push(`targets in the capsule for ${c.targets.map(target => target.id).join(', ') || 'nobody'}; seated: ${seatedIds.join(', ') || 'nobody'}`);
+  for (const target of c.targets) {
+    if (target.seat !== named[ids.indexOf(target.id)]) problems.push(`${target.id}'s target is seat ${target.seat}`);
+    if (Math.min(target.width, target.height) < 43.5) problems.push(`${target.id}'s target is ${Math.min(target.width, target.height).toFixed(1)} px`);
+    if (target.left < c.inner.left - 0.5 || target.right > c.inner.right + 0.5 || target.top < c.inner.top - 0.5 || target.bottom > c.inner.bottom + 0.5) problems.push(`${target.id}'s target leaves the capsule`);
+    if (overlap(target, c.caption)) problems.push(`${target.id}'s target is under the caption`);
+  }
+  if (c.targets.length === 2 && overlap(c.targets[0], c.targets[1])) problems.push('the two targets in the capsule overlap');
   const inside = ids.filter(id => frame.people[id] && frame.people[id].capsule.state !== 'empty' && frame.people[id].capsule.opacity > 0);
   if (c.figures.map(figure => figure.id).sort().join() !== inside.join()) problems.push(`in the capsule: ${c.figures.map(figure => figure.id).join(', ') || 'nobody'}; the film has ${inside.join(', ') || 'nobody'}`);
   const seatOf = number => seats.find(entry => entry.seat === number);

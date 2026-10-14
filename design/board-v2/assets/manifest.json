@@ -886,7 +886,8 @@
   },
   "capsule": {
     "version": "board-v2-capsule-0.1.0",
-    "scenery": "Not a room: no slots, no press areas, no tag; it changes no location, occupancy, capacity, eligibility, movement or immunity (G-02).",
+    "scenery": "Not a room: no slots and no tag; it changes no location, occupancy, capacity, eligibility, movement or immunity (G-02). Its only targets are each seated participant's own seat (capsuleTargets()), as its slot is.",
+    "targets": "capsuleTargets(panel): a 44 px square per seated participant, on its chest, inside the panel, below the caption (CAPTION_CLEAR) and apart; live only while that participant is drawn seated",
     "layout": "fit.mjs fitBoardV2(viewport, roster, { capsule: true }): beside the Command Room, on its right, in the top band; the band's inside width less the gap and the four borders shared 2:1.",
     "recolor": {
       "#222B3A": "#0D1733",
@@ -1070,7 +1071,7 @@
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "79e475cad13c7376d17bb1b63be47211881fb6cf4b4da4e116cbd85ec456f909",
-    "bytes": 14663
+    "sha256": "28294bfe94b15eb217caf931c4341dc8ffb01a0434e1b653f8d0ff070f03dfef",
+    "bytes": 14799
   }
 }

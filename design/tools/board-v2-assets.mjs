@@ -265,7 +265,8 @@ function planCapsule(files) {
     { id: 'capsule.dark', kind: 'dark', viewBox: `0 0 ${w} ${h}` });
   return {
     version: CAPSULE_VERSION,
-    scenery: 'Not a room: no slots, no press areas, no tag; it changes no location, occupancy, capacity, eligibility, movement or immunity (G-02).',
+    scenery: 'Not a room: no slots and no tag; it changes no location, occupancy, capacity, eligibility, movement or immunity (G-02). Its only targets are each seated participant\'s own seat (capsuleTargets()), as its slot is.',
+    targets: 'capsuleTargets(panel): a 44 px square per seated participant, on its chest, inside the panel, below the caption (CAPTION_CLEAR) and apart; live only while that participant is drawn seated',
     layout: 'fit.mjs fitBoardV2(viewport, roster, { capsule: true }): beside the Command Room, on its right, in the top band; the band\'s inside width less the gap and the four borders shared 2:1.',
     recolor: CAPSULE_RECOLOR,
     accents: CAPSULE_ACCENTS,

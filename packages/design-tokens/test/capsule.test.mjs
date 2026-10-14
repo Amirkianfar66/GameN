@@ -9,7 +9,7 @@ import { test } from 'node:test';
 import { CAPSULE, capsuleSplit, fitBoardV2, slotRects } from '../../../design/board-v2/js/fit.mjs';
 import { BOARD_ROOMS, ROSTERS } from '../../../design/board-v2/scenes/slots.mjs';
 import { CADENCE, CAPSULE_FILM, capsuleContract, capsuleEnd, capsuleFrame, capsulePerson, homePerson, seatedPose } from '../../../design/board-v2/films/capsule.mjs';
-import { BESIDE, CAPSULE_ACCENTS, CAPSULE_KEEP, CAPSULE_SEATS, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TABLE, TAG_STRIP, capsuleLayers, frameCapsule } from '../../../design/board-v2/scenes/capsule.mjs';
+import { BESIDE, CAPSULE_ACCENTS, CAPSULE_KEEP, CAPSULE_SEATS, CAPSULE_VIEW, CAPTION_CLEAR, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TABLE, TAG_STRIP, capsuleLayers, capsuleTargets, frameCapsule } from '../../../design/board-v2/scenes/capsule.mjs';
 import { CAPSULE_POSES, LOOP, POSE_NAMES, capsuleLoop, sittingPose, statusOf, walkingPose } from '../../../design/board-v2/figures/capsule.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 
@@ -26,11 +26,11 @@ test('the capsule sits on the Command Room\'s right, as tall, half its width, an
       assert.equal(plain.boxes[CAPSULE.id], undefined);
       assert.equal(board.capsule, true);
       const command = board.boxes['command-room'], capsule = board.boxes[CAPSULE.id];
-      assert.ok(Math.abs(board.panels['command-room'].width - 2 * board.panels[CAPSULE.id].width) <= 1, `${width}x${height}`);
+      assert.ok(Math.abs(board.panels['command-room'].width - 2 * board.panels[CAPSULE.id].width) < 1e-9, `${width}x${height}: exactly 2:1`);
       assert.equal(capsule.top, command.top);
       assert.equal(capsule.height, command.height);
-      assert.equal(capsule.left, command.left + command.width + board.shell.gap);
-      assert.equal(capsule.left + capsule.width, plain.boxes['command-room'].left + plain.boxes['command-room'].width);
+      assert.ok(Math.abs(capsule.left - (command.left + command.width + board.shell.gap)) < 1e-9);
+      assert.ok(Math.abs(capsule.left + capsule.width - (plain.boxes['command-room'].left + plain.boxes['command-room'].width)) < 1e-9);
       for (const room of BOARD_ROOMS.filter(name => name !== 'command-room')) assert.deepEqual(board.boxes[room], plain.boxes[room], `${width}x${height} ${room}`);
       assert.deepEqual(board.bands, plain.bands);
       assert.equal(board.shell.tier, plain.shell.tier);
@@ -38,8 +38,9 @@ test('the capsule sits on the Command Room\'s right, as tall, half its width, an
       assert.ok(c1.side >= 44);
     }
   }
-  // The split: the band less a gap and four borders, 2:1.
-  assert.deepEqual(capsuleSplit(380), { command: 245, capsule: 122 });
+  // The split: the band less a gap and four borders, exactly 2:1.
+  const split = capsuleSplit(380);
+  assert.ok(Math.abs(split.capsule - 367 / 3) < 1e-9 && Math.abs(split.command - 2 * split.capsule) < 1e-9);
 });
 
 test('the cabin covers its panel and keeps the pair first: the light and their heads, the floor cropped first', () => {
@@ -57,6 +58,22 @@ test('the cabin covers its panel and keeps the pair first: the light and their h
   const short = { width: 136, height: 96 };
   const framed = frameCapsule(short);
   assert.ok(Math.abs(CAPSULE_KEEP.bottom * framed.k + framed.ty - (short.height - TAG_STRIP)) < 0.01);
+});
+
+test('each seated participant is its own 44 px target in the capsule, whole, below the caption and apart', () => {
+  for (const [width, height] of PHONES) {
+    for (const roster of ROSTERS) {
+      const panel = fitBoardV2({ width, height }, roster, { capsule: true }).panels[CAPSULE.id];
+      const [p1, p2] = capsuleTargets(panel);
+      assert.deepEqual([p1.id, p2.id], ['P1', 'P2']);
+      for (const target of [p1, p2]) {
+        assert.ok(target.side >= 44);
+        assert.ok(target.left >= 0 && target.left + target.side <= panel.width + 1e-9, `${width}x${height} ${target.id} across`);
+        assert.ok(target.top >= CAPTION_CLEAR && target.top + target.side <= panel.height + 1e-9, `${width}x${height} ${target.id} down`);
+      }
+      assert.ok(p1.left + p1.side <= p2.left + 1e-9, `${width}x${height}: apart`);
+    }
+  }
 });
 
 test('the entrance plays inside the five-second result stage: out of their rooms, through the door, seated, the door shut', () => {

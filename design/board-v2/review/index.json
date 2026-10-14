@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "1601a2cb497f7f7938a93a0a406ccc50663b9623bccc7b4f113dcd3f3f81ce0e",
+  "inputsSha256": "98dd36b135f00ff5e887ea8539bd64ef0b70957fa0732721bf94db34839f0b6a",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -652,8 +652,8 @@
     {
       "file": "capsule-390x844-result-3600.png",
       "group": "capsule",
-      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600",
-      "about": "Settled: both seated, the door shut, its light lit; 1 400 ms to spare before the conversation (3 600 ms)"
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&hit=1",
+      "about": "Settled: both seated, the door shut, its light lit; 1 400 ms to spare before the conversation (3 600 ms); each seated participant a 44 px target for its own seat"
     },
     {
       "file": "capsule-390x844-talk-0000.png",
@@ -664,8 +664,8 @@
     {
       "file": "capsule-390x844-talk-30000.png",
       "group": "capsule",
-      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000",
-      "about": "Halfway: the quiet variations, seeded by the exchange's public id, unrelated to speech (0:30)"
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&hit=1",
+      "about": "Halfway: the quiet variations, seeded by the exchange's public id, unrelated to speech (0:30); every slot, C1 and both seated participants' own targets pressed"
     },
     {
       "file": "capsule-390x844-exit-0360.png",
@@ -718,7 +718,7 @@
     {
       "file": "capsule-390x844-talk-20000-patient-prisoner.png",
       "group": "capsule",
-      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=20000&pair=2,4",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=20000&pair=2,4&hit=1",
       "about": "Rigel, a patient (H1), in the gown with the bandage and a hunch, and Atlas, a prisoner (J2), in the prison suit, hands together: seated (20 s)"
     },
     {
@@ -790,8 +790,8 @@
     {
       "file": "capsule-320x568-talk-30000.png",
       "group": "capsule",
-      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000",
-      "about": "The conversation on the smallest phone: both tags whole in the capsule (0:30)"
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&hit=1",
+      "about": "The conversation on the smallest phone: both tags whole in the capsule, both seated participants' targets 44 px beside C1's (0:30)"
     },
     {
       "file": "capsule-320x568-exit-0800.png",

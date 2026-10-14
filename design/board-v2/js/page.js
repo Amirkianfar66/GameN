@@ -159,7 +159,7 @@ function draw() {
       const box = board.boxes[room];
       surface.append(drawRoom(room, { left: box.left - board.boardLeft, top: box.top - board.boardTop }, board.panels[room], seats));
     }
-    // The capsule, where the layout has one: scenery beside the Command Room, nothing on it to press.
+    // The capsule, where the layout has one: scenery beside the Command Room, no slots of its own.
     if (board.capsule) {
       const box = board.boxes[CAPSULE.id];
       const section = drawCapsulePanel({ left: box.left - board.boardLeft, top: box.top - board.boardTop }, board.panels[CAPSULE.id]);

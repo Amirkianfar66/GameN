@@ -18,6 +18,8 @@
 //                          own claim panel (never its content), to show the film never covers it
 //   &exchange=<id>         the exchange's public id: the seed of the seated variations (default x-review)
 //   &motion=reduced        the device's reduced-motion setting
+//   &hit=1                 every target as a button, as for the board's slots: here each seated
+//                          participant's own target (capsuleTargets()), for pointer tests
 //
 // ?sheet=capsule draws the capsule's art on one sheet for the art review (drawCapsuleSheet): no board.
 
@@ -28,7 +30,7 @@ import { dressedFigureSvg, outfitFor } from '../../board-motion/figures/wardrobe
 import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { CAPSULE_FILM, capsuleEnd, capsuleFrame, capsulePerson, homePerson } from '../films/capsule.mjs';
 import { POSE_NAMES, sittingPose, statusOf, walkingPose } from '../figures/capsule.mjs';
-import { BADGE_SIZE, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TAG_STRIP, frameCapsule } from '../scenes/capsule.mjs';
+import { BADGE_SIZE, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TAG_STRIP, capsuleTargets, frameCapsule } from '../scenes/capsule.mjs';
 import { LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
 import { SHELL, CAPSULE, slotRects } from './fit.mjs';
 
@@ -59,8 +61,8 @@ const CAPTION_WORDS = ['Private', 'talk'];
 
 /**
  * The capsule's panel on the board: its cabin framed in the panel (frameCapsule), its door shut,
- * and its caption, the fixed kind, its two words stacked where one line would not fit. No press
- * areas, no slots, no tag: nothing on it can be pressed.
+ * and its caption, the fixed kind, its two words stacked where one line would not fit. No slots
+ * and no tag; its only targets are its seated participants' own, which mountCapsule() adds.
  */
 export function drawCapsulePanel(box, panel) {
   const { k, tx, ty } = frameCapsule(panel);
@@ -92,6 +94,7 @@ export function mountCapsule({ app, board, roster, seats, params, drawFigure, dr
   const capsule = app.querySelector('.v2-capsule');
   const capsulePanel = board.panels[CAPSULE.id];
   const capsuleFrameIn = frameCapsule(capsulePanel);
+  const targets = capsuleTargets(capsulePanel);
 
   // A voluntary move accepted meanwhile: the seat's latest place, redrawn there as the board would.
   const moved = params.get('moved');
@@ -174,6 +177,13 @@ export function mountCapsule({ app, board, roster, seats, params, drawFigure, dr
           capsule.append(tag);
           added.push(tag);
           tags.push(tag);
+        }
+        // Seated, it is a target for its own seat too (&hit=1 draws it, as the slots' are drawn).
+        if (person.capsule.state === 'seated' && params.get('hit') === '1') {
+          const rect = targets.find(entry => entry.id === p.id);
+          const button = el('button', { class: 'v2-slot-hit', type: 'button', 'data-slot': `capsule-${p.id}`, 'data-capsule-target': p.id, 'data-seat': String(p.seat.seat), 'aria-label': `${CREW[p.seat.character].sign}, in the private talk`, style: { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.side}px`, height: `${rect.side}px` } });
+          capsule.append(button);
+          added.push(button);
         }
         names.push(`${p.seat.seat} ${CREW[p.seat.character].sign}`);
       }

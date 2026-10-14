@@ -298,7 +298,7 @@
         "scale": "the doorway's (0.9) in the doorway to the seat's (1.05) at the chairs, by depth"
       },
       "layers": {
-        "capsule": "its own panel beside the Command Room (fit.mjs { capsule: true }); back, door, the participants, busy; no press areas",
+        "capsule": "its own panel beside the Command Room, exactly half its width (fit.mjs { capsule: true }); back, door, the participants, busy; no slots: its only targets are each seated participant's own seat (scenes/capsule.mjs capsuleTargets(), 44 px), as its slot is",
         "home": "the participant's own room, its figure layer: the away marker at its slot; the step out is clipped to the room's panel",
         "tags": "every name tag stays: at the slot, and under each seated participant in the capsule"
       }

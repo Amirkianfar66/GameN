@@ -86,19 +86,20 @@ const captionOf = (room, shell) => (room === 'hospital' || room === 'jail' ? she
 
 /**
  * The private-talk capsule (the owner's request of 14 October 2026, recorded by Integration;
- * docs/design/private-capsule.md): a permanent panel beside the Command Room, on its right, in
- * the top band. The band's inside width less the gap between the two panels and their four
- * borders is shared 2:1, so the capsule is half the Command Room's width (to the pixel the
- * rounding leaves). It is scenery, not a room: no slots, no press areas and no tag; its caption
- * is the fixed kind. fitBoardV2() lays it out only when asked ({ capsule: true }); without it,
- * every layout is the one before.
+ * issue #139; docs/design/private-capsule.md): a permanent panel beside the Command Room, on its
+ * right, in the top band. The band's inside width less the gap between the two panels and their
+ * four borders is shared exactly 2:1, so the capsule's inside is exactly half the Command Room's
+ * (fractional pixels, as the rest of the layout). It is scenery, not a room: no slots and no tag;
+ * its caption is the fixed kind. Its only targets are each seated participant's own seat
+ * (scenes/capsule.mjs capsuleTargets()). fitBoardV2() lays it out only when asked
+ * ({ capsule: true }); without it, every layout is the one before.
  */
 export const CAPSULE = Object.freeze({ id: 'capsule', side: 'right', share: Object.freeze([2, 1]) });
-/** The Command Room's and the capsule's panel widths (their insides) in a top band of this inside width. */
+/** The Command Room's and the capsule's panel widths (their insides) in a top band of this inside width: exactly 2:1. */
 export function capsuleSplit(inner, shell = SHELL) {
   const room = inner - shell.gap - 4 * shell.border;
-  const command = Math.round((room * CAPSULE.share[0]) / (CAPSULE.share[0] + CAPSULE.share[1]));
-  return { command, capsule: room - command };
+  const capsule = (room * CAPSULE.share[1]) / (CAPSULE.share[0] + CAPSULE.share[1]);
+  return { command: capsule * CAPSULE.share[0], capsule };
 }
 
 /**

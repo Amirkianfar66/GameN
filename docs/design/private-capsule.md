@@ -20,30 +20,55 @@ Nothing here is a rule, a server contract or an adopted asset:
 | New | `design/board-v2/scenes/capsule.mjs`, `figures/capsule.mjs`, `films/capsule.mjs`, `js/capsule-view.mjs`, 8 SVGs under `assets/capsule/`, one test file, this page, and the capsule's review pictures |
 | Changed | `js/fit.mjs` (the capsule is an option; without it every layout is byte for byte #130's), the review page, its stylesheet and contact sheet, the asset, capture and check tools, `contract/films.json` and the manifest (now `board-v2-0.4.0`). Nothing outside `design/board-v2/`, `design/tools/board-v2-*`, `packages/design-tokens/test/` and `docs/design/` |
 
+## Revision after Integration's comments on #130 (14 October 2026)
+
+Integration's three comments on #130 (10:32, 11:02 and 12:01 UTC), with Frontend's measured control sizes (`docs/frontend/capsule-ui-layout-constraints.md` at `2d4e852`), asked for more than the first push gave. This revision does two of the asks:
+
+| Ask | Now |
+| --- | --- |
+| Command : capsule interiors **exactly** 2:1 | `capsuleSplit()` shares the band exactly (fractional pixels, as the rest of the layout): 244.67 and 122.33 px at 390 × 844. It was 245 and 122 |
+| **Both capsule actors and C1 each an independent ≥ 44 px target** with clear inner-corner hits | `capsuleTargets(panel)`: while a participant is drawn seated, a 44 px square on its chest is a control for its own seat, as its slot is. Both are whole inside the panel, below the caption and apart, at every phone layout. A real pointer at each one's centre and four inner corners lands on it, as at C1's and every slot's (section 8) |
+
+**Not done here: the fit with the real controls.** Frontend's measurements show that at 320 × 568 the unchanged all-slot board has no spare height, and it is 36 px short with 20/16 px safe areas. It cannot also take a 53–63 px choosing dock or a 70–83 px private claim without covering targets, shrinking them, scrolling, or declaring the size unsupported, and each of those breaks an approved rule. Nor is it only the smallest phone:
+
+| Phone (CSS px) | Height to spare beside the board, with the capsule, worst roster |
+| --- | --- |
+| 320 × 568 | 0 |
+| 320 × 568, 20/16 px safe areas | −36: the "too short" message |
+| 375 × 553 (an iPhone SE in Safari, its bars shown) | −33: the "too short" message, as before the capsule |
+| 390 × 664 (Safari, its bars shown) | 34 |
+| 360 × 640 | 38 |
+| 375 × 667 | 43 |
+| 360 × 740 | 122 |
+| 390 × 844, 47/34 px safe areas | 133 |
+| 390 × 844 | 214 |
+
+In a strip of their own, a 63 px choosing row needs a phone at least 631 px tall, and that row with an 83 px claim and its margin at least 720 px (no safe areas; from `fitBoardV2()` in this session). The options and these numbers are with the owner. Until the owner decides, `fitBoardV2()` lays out the board and the capsule only.
+
 The review pictures are `design/board-v2/review/capsule-*.png`. **`contact-capsule.png` is the phone preview:** synthetic participants (Vega and Orion unless a picture says otherwise) on the review page's mixed fixture. `capsule-sheet.png` is the art on one sheet.
 
 ## 1. Where it is
 
-**Command on the left, the capsule on its right**, in the top band, as Integration recommended (the owner allows either side). After the gap between them and their four borders, the band's width is shared 2:1, so the capsule's panel is half the Command Room's, to the pixel the rounding leaves. It is as tall as the Command Room.
+**Command on the left, the capsule on its right**, in the top band, as Integration recommended (the owner allows either side). After the gap between them and their four borders, the band's width is shared exactly 2:1, so the capsule's panel is exactly half the Command Room's (fractional pixels, as the rest of the layout). It is as tall as the Command Room.
 
 **The capsule takes part of the Command Room's width and nothing else.** On every phone width up to 430 px, with and without safe-area insets, every other room is exactly where it is without the capsule. The shell, the bands, the Pass and the navigation are unchanged too, and the Command Room keeps its place and height (checked at 23 265 layouts). C1 stays a whole 44 px press area, clear of the Pass. On a wide window, where C1 needs less height in the narrower panel, the bands may be shared differently.
 
-| Phone | Shell | Command panel (px, inside) without → with | Capsule panel | Capsule box (left, top, width, height) | C1 | Cabin scale |
-| --- | --- | --- | --- | --- | --- | --- |
-| 320 × 568 | compact | 306 → 198 | 99 × 96 | 212, 38, 103, 100 | 44 | 0.193 |
-| 360 × 640 | short | 346 → 225 | 112 × 110.8 | 239, 49, 116, 114.8 | 44 | 0.219 |
-| 360 × 740 | tall | 346 → 225 | 112 × 143.6 | 239, 57, 116, 147.6 | 44 | 0.250 |
-| 375 × 667 | tall | 361 → 235 | 117 × 112.8 | 249, 57, 121, 116.8 | 44 | 0.229 |
-| 390 × 844 | tall | 376 → 245 | 122 × 189.7 | 259, 57, 126, 193.7 | 44 | 0.272 |
-| 393 × 852 | tall | 379 → 247 | 123 × 192.9 | 261, 57, 127, 196.9 | 44 | 0.275 |
-| 414 × 896 | tall | 400 → 261 | 130 × 217.8 | 275, 57, 134, 221.8 | 44 | 0.290 |
-| 430 × 932 | tall | 416 → 271 | 136 × 239.3 | 285, 57, 140, 243.3 | 44 | 0.312 |
+| Phone | Shell | Command panel (px, inside) without → with | Capsule panel | Capsule box (left, top, width, height) | C1 | Seated targets (left, top; 44 px) | Cabin scale |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 320 × 568 | compact | 306 → 198 | 99 × 96 | 212, 38, 103, 100 | 44 | P1 3.14, 52; P2 51.86, 52 | 0.193 |
+| 360 × 640 | short | 346 → 224.67 | 112.33 × 110.83 | 238.67, 49, 116.33, 114.83 | 44 | P1 6.52, 66.83; P2 61.81, 66.83 | 0.219 |
+| 360 × 740 | tall | 346 → 224.67 | 112.33 × 143.61 | 238.67, 57, 116.33, 147.61 | 44 | P1 2.57, 89.92; P2 65.76, 89.92 | 0.251 |
+| 375 × 667 | tall | 361 → 234.67 | 117.33 × 112.78 | 248.67, 57, 121.33, 116.78 | 44 | P1 7.79, 68.78; P2 65.54, 68.78 | 0.229 |
+| 390 × 844 | tall | 376 → 244.67 | 122.33 × 189.68 | 258.67, 57, 126.33, 193.68 | 44 | P1 4.76, 116.53; P2 73.57, 116.53 | 0.273 |
+| 393 × 852 | tall | 379 → 246.67 | 123.33 × 192.95 | 260.67, 57, 127.33, 196.95 | 44 | P1 4.98, 118.52; P2 74.35, 118.52 | 0.275 |
+| 414 × 896 | tall | 400 → 260.67 | 130.33 × 217.84 | 274.67, 57, 134.33, 221.84 | 44 | P1 6.51, 135.33; P2 79.82, 135.33 | 0.291 |
+| 430 × 932 | tall | 416 → 271.33 | 135.67 × 239.28 | 285.33, 57, 139.67, 243.28 | 44 | P1 6.58, 152.47; P2 85.09, 152.47 | 0.312 |
 
 Nine players; seven and eight are the same in the top band.
 
 - **It is always there and empty when idle**: door shut, light off, nobody in it. Nothing shifts or grows when a conversation begins or ends: the layout does not know whether one is on.
 - **Its label is the board's caption: PRIVATE TALK**, the fixed kind (as the Hospital's and the Jail's). Where one line would not fit (320 × 568), its two words stack. Nothing else is written in it.
-- **Nothing in it can be pressed.** It has no slots, no press areas and no tag of its own. The participants keep their slots, press areas and name tags at their real places throughout.
+- **It has no slots and no tag of its own.** The participants keep their slots, press areas and name tags at their real places throughout. **While a participant is drawn seated in the capsule, a 44 px square on its chest is a target for its own seat too** (`capsuleTargets()`), so a target choice that offers it can be made at the character people see. The two are whole inside the panel, below its caption and apart. While it walks, its slot alone is its target.
 - **The top bar and the navigation never move.** The review page puts the stage's words and the server's countdown in the top bar (section 3).
 
 **The cabin in its panel** (`frameCapsule()`): the cabin always covers the panel. Its scale is the larger of covering the panel and fitting `CAPSULE_VIEW`, from above the status light to the chairs' feet. Across, it centres on that view. Up and down, **the pair comes first**:
@@ -54,9 +79,9 @@ Nine players; seven and eight are the same in the top band.
 
 At every phone size checked (15 675 framings, widths 320 to 430 px, heights 480 to 1 000 px, five inset cases, three rosters) the pair's heads are whole and above their name tags. At the eight phones in the table the status light is whole too.
 
-**The light is what gives way.** On short screens, 360 px wide and more, the band can be too tall for the panel above the tags. There the light's top is cropped, by up to 22 px at 430 × 600: in 6 171 of 34 128 layouts scanned in this session. On tall, narrow panels the light's right end can lose up to 3.5 px.
+**The light is what gives way.** On short screens, 360 px wide and more, the band can be too tall for the panel above the tags. There the light's top is cropped, by up to 21.5 px (430 × 700 with 44/34 px safe areas): in 6 216 of 34 128 layouts scanned in this session. On tall, narrow panels the light's right end can lose up to 3.4 px.
 
-The cabin is framed at about the Command Room's scale: 0.95 to 1.0 of it on the taller phones (from 360 × 740 up), 0.87 on the short ones (320 × 568, 360 × 640, 375 × 667). Its seated people are drawn a little smaller than the Captain at C1 (0.87 of the Captain's size at 390 × 844).
+The cabin is framed at about the Command Room's scale: 0.95 to 1.0 of it on the taller phones (from 360 × 740 up), 0.87 on the short ones (320 × 568, 360 × 640, 375 × 667). Its seated people are drawn a little smaller than the Captain at C1 (0.88 of the Captain's size at 390 × 844).
 
 ## 2. The art
 
@@ -167,7 +192,7 @@ The entrance and the exit are never replayed, and the minute is never restarted.
 
 Frontend has reviewed none of this. Please review the 2:1 fit, the framing and the rig before anything is ported.
 
-**Layout.** Call `fitBoardV2(viewport, roster, { insets, capsule: true })`. It returns `panels.capsule`, `boxes.capsule` and `capsule: true`; the Command Room's panel is its 2:1 share. Without the option every result is byte for byte #130's (49 680 layouts compared). Draw the capsule as scenery: no press areas, no slots, no tag.
+**Layout.** Call `fitBoardV2(viewport, roster, { insets, capsule: true })`. It returns `panels.capsule`, `boxes.capsule` and `capsule: true`; the Command Room's panel is its exact 2:1 share. Without the option every result is byte for byte #130's (49 680 layouts compared). Draw the capsule as scenery: no slots and no tag. Its only targets are `capsuleTargets(panel)`: each seated participant's own seat, live while that participant is drawn seated, mapped to the same seat command as its slot.
 
 **Layers in the capsule's panel**, bottom to top:
 
@@ -188,15 +213,16 @@ Frame them with `frameCapsule(panel)`. Clip everything to the panel.
 
 **Rules the review page keeps, which a client must keep too:**
 
-1. Start nothing from a local clock: `t` is from the stage's authoritative start, from the server's deadlines (section 6).
-2. Draw only the seats the public projection names (`hackSession`, section 6). Never infer the partner from hidden data, a claim, a pending request or a private panel. Order the pair by player number, never by who asked.
-3. On a reconnect, a late name or a stale stage, draw the settled state (`known: 'settled'`). Never replay.
-4. Draw each participant at its latest authoritative place, health and detention, live. The exit returns it to wherever the board has it then, never to where it left.
-5. The film never covers the participants' own claim panel. On the review page a stand-in marks where the phone puts it (`&viewer=participant`), and the capture checks the two never overlap.
-6. Ship the eight SVGs in the common bundle, never fetched on demand.
-7. In the Blackout's dark, draw `dark.svg` for the capsule, as the rooms are drawn dark. The review page does not combine the two films.
-8. The top bar's words on the review page ("Hack: declaring", "Hack: result", "Private talk") are stand-ins. The countdown is the server's.
-9. The 2:1 band is measured with the review page's bars only. #141 notes that Frontend still has to measure its own action, claim and receipt rows, and the 320 × 568 safe-area case, against this band.
+1. Keep every target live and where `fit.mjs` and `capsuleTargets()` put it: C1, every slot (the participants' included, under their away markers) and, while seated, the participants' own targets in the capsule. A tap on either of a participant's targets is the same seat.
+2. Start nothing from a local clock: `t` is from the stage's authoritative start, from the server's deadlines (section 6).
+3. Draw only the seats the public projection names (`hackSession`, section 6). Never infer the partner from hidden data, a claim, a pending request or a private panel. Order the pair by player number, never by who asked.
+4. On a reconnect, a late name or a stale stage, draw the settled state (`known: 'settled'`). Never replay.
+5. Draw each participant at its latest authoritative place, health and detention, live. The exit returns it to wherever the board has it then, never to where it left.
+6. The film never covers the participants' own claim panel. On the review page a stand-in marks where the phone puts it (`&viewer=participant`), and the capture checks the two never overlap.
+7. Ship the eight SVGs in the common bundle, never fetched on demand.
+8. In the Blackout's dark, draw `dark.svg` for the capsule, as the rooms are drawn dark. The review page does not combine the two films.
+9. The top bar's words on the review page ("Hack: declaring", "Hack: result", "Private talk") are stand-ins. The countdown is the server's.
+10. The 2:1 band is measured with the review page's bars only. Frontend's measured action, claim and receipt rows (`2d4e852`) do not fit beside the all-slot board at 320 × 568; their treatment is with the owner (the revision note at the top of this page).
 
 **Not to port:** `design/board-v2/js/capsule-view.mjs`, `page.js` and `fixtures.mjs`. They are a review page's controllers and synthetic fixtures. Its `&play=1` runs the film from a local clock for review only.
 
@@ -244,18 +270,18 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 
 | Check | Result |
 | --- | --- |
-| `node design/tools/board-v2-check.mjs` | **10 / 10.** #130's nine, and the capsule's own: (1) the layout at 23 265 phone layouts (11 widths, 5 inset cases, heights 540 to 960 px, 3 rosters): every other room where it is without the capsule, the capsule beside the Command Room and as tall, 2:1 within a pixel, C1 44 px and clear of the Pass. (2) The framing at 15 675 more: the pair's heads whole and above their name tags; at the eight phones the status light whole. (3) The film at every 10 ms of the declaration, the result stage and the exit, and every 250 ms of the conversation, in both motion modes. It checks only public inputs, nobody in two places, the door open whenever someone walks through it, the light only with both seated, settled by 3 600 ms, back by 2 230 ms, nothing played in the reduced variant, nobody drawn with none named, nobody invented with one, and nothing replayed on a reconnect. (4) Both paths clear of the table and on the deck. (5) The bandage and a prisoner's hands together at every pose and walk phase, and no bandage on anyone not Injured (the stagger is in the unit tests). (6) The variations' schedule the same on every screen, the two never in step. (7) The status light, badge and outline 30 or more from every faction accent, and tokens'. (8) `films.json` current, its contract public, naming no role. It also checks that the captures are current and that every probe, press and comparison passed |
-| `node design/tools/board-v2-capture.mjs` | **136 pictures and four contact sheets, 0 with problems**, 39 of them the capsule's. On every capsule picture it checks no scroll; every room and the capsule at `fit.mjs`'s boxes, 2:1; the bars in their places; the top bar's timer the server's; every caption on one line inside its panel. It checks the door, the light and the people in the capsule as the film says, each dressed as the board dresses it, with their tags inside the panel, apart and off the caption, and nothing pressable. It checks every seat's tag at its slot, the participants' included; the away markers, outlines, badges and moving figures as the film says; nobody else touched. It checks the claim panel's stand-in never under the film, and no side or role word on the page |
+| `node design/tools/board-v2-check.mjs` | **10 / 10.** #130's nine, and the capsule's own: (1) the layout at 23 265 phone layouts (11 widths, 5 inset cases, heights 540 to 960 px, 3 rosters): every other room where it is without the capsule, the capsule beside the Command Room and as tall, exactly 2:1 (within 10⁻⁶ px), C1 44 px and clear of the Pass, and each seated participant's own target a whole 44 px square inside the capsule, below its caption, apart from the other's and clear of the Pass. (2) The framing at 15 675 more: the pair's heads whole and above their name tags; at the eight phones the status light whole. (3) The film at every 10 ms of the declaration, the result stage and the exit, and every 250 ms of the conversation, in both motion modes. It checks only public inputs, nobody in two places, the door open whenever someone walks through it, the light only with both seated, settled by 3 600 ms, back by 2 230 ms, nothing played in the reduced variant, nobody drawn with none named, nobody invented with one, and nothing replayed on a reconnect. (4) Both paths clear of the table and on the deck. (5) The bandage and a prisoner's hands together at every pose and walk phase, and no bandage on anyone not Injured (the stagger is in the unit tests). (6) The variations' schedule the same on every screen, the two never in step. (7) The status light, badge and outline 30 or more from every faction accent, and tokens'. (8) `films.json` current, its contract public, naming no role. It also checks that the captures are current and that every probe, press and comparison passed |
+| `node design/tools/board-v2-capture.mjs` | **136 pictures and four contact sheets, 0 with problems**, 39 of them the capsule's. On every capsule picture it checks no scroll; every room and the capsule at `fit.mjs`'s boxes, 2:1; the bars in their places; the top bar's timer the server's; every caption on one line inside its panel. It checks the door, the light and the people in the capsule as the film says, each dressed as the board dresses it, with their tags inside the panel, apart and off the caption. Nothing in the capsule is pressable but, on the four pictures that draw the press areas, each seated participant's own target: for its own seat, 44 px, inside the panel, below the caption and apart. It checks every seat's tag at its slot, the participants' included; the away markers, outlines, badges and moving figures as the film says; nobody else touched. It checks the claim panel's stand-in never under the film, and no side or role word on the page |
 | The same run: **284 whole-page comparisons, 0 differing** | #130's 222, and 62 for the capsule, each at 390 × 844 and 320 × 568, with and without reduced motion: the display's page and a player's at nine moments of every stage (36); a reconnect's board and the film's settled board at five moments (20); the page after the exit and the idle page (4); and the top bar's box at five stages (2) |
-| The same run: **206 pointer probes** | #130's 186, and 20 with the capsule: every slot of every roster at four phones with the capsule empty (12 pages), and while the film plays at 320 × 568 and 390 × 844 (8 pages). Every slot's press area is its own button at its centre and four corners, C1 included, and nothing in the capsule can be pressed. 0 problems |
+| The same run: **206 pointer probes** | #130's 186, and 20 with the capsule: every slot of every roster at four phones with the capsule empty (12 pages), and while the film plays at 320 × 568 and 390 × 844 (8 pages). Every slot's press area, C1's included, and while the pair is seated each participant's own target in the capsule, is its own button at its centre and at its four corners 3 px inside; nothing else in the capsule can be pressed. 4 920 press areas in all, 0 problems |
 | The same run: #130's **23 real-pointer press tests** (129 presses) and **12 label placements** | 0 problems, with the capsule's code on the page |
-| Pictures byte for byte the same | `capsule-390x844-idle.png`, `capsule-390x844-reconnect-exit-0800.png` and `capsule-390x844-reduced-exit-0400.png` (`5119dbf7…`): after the exit, a reconnect during it and the reduced exit leave exactly the idle board. Every review picture made before this step re-rendered byte for byte the same |
-| `fitBoardV2()` without the capsule | **49 680 layouts byte for byte #130's** (`ebf0263`), boards and slot rects: 16 widths from 280 to 1 024 px, heights 380 to 1 000 px, five inset cases, three rosters. A comparison run in this session, not a committed check |
+| Pictures byte for byte the same | `capsule-390x844-idle.png`, `capsule-390x844-reconnect-exit-0800.png` and `capsule-390x844-reduced-exit-0400.png` (`78851c93…`): after the exit, a reconnect during it and the reduced exit leave exactly the idle board. Every review picture made before the capsule re-rendered byte for byte the same, and so did the five 320 × 568 capsule pictures and the sheet from the first push (`4f3d25b`), where the band already split into whole pixels |
+| `fitBoardV2()` without the capsule | **49 680 layouts byte for byte #130's** (`ebf0263`), boards and slot rects: 16 widths from 280 to 1 024 px, heights 380 to 1 000 px, five inset cases, three rosters. A comparison run in this session on this revision, not a committed check |
 | `node design/tools/board-v2-assets.mjs --check` | 47 files current |
-| `npm test --workspace @mothership/design-tokens` | **260 / 260**, 12 of them in `capsule.test.mjs` |
+| `npm test --workspace @mothership/design-tokens` | **261 / 261**, 13 of them in `capsule.test.mjs` |
 | Existing checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7 and its flows 109 / 109; ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion, phone-kit and ability assets current; `typecheck`, `build`; `check:toolchain`, `check:workspace`, `check:sources`; tooling 130 / 130; `git diff --check` clean |
 
-The captures' inputs hash is `1601a2cb497f7f7938a93a0a406ccc50663b9623bccc7b4f113dcd3f3f81ce0e`.
+The captures' inputs hash is `98dd36b135f00ff5e887ea8539bd64ef0b70957fa0732721bf94db34839f0b6a`.
 
 **Not run:**
 
@@ -274,7 +300,7 @@ Read every file at this page's commit. Every file carries the `mothership:dev-on
 
 | Module | What it is | Exports |
 | --- | --- | --- |
-| `design/board-v2/scenes/capsule.mjs` | The capsule's art and geometry, `board-v2-capsule-0.1.0` | `CAPSULE_VERSION`, `CAPSULE_SIZE`, `CAPSULE_RECOLOR`, `CAPSULE_ACCENTS`, `DECK`, `DOOR`, `DOOR_FRAMES`, `TABLE`, `CAPSULE_SEATS`, `DOORWAY`, `BESIDE`, `PATHS`, `recolorCapsule`, `capsuleLayers`, `CAPSULE_VIEW`, `CAPSULE_KEEP`, `TAG_STRIP`, `frameCapsule`, `BADGE_SIZE`, `capsuleBadgeSvg` |
+| `design/board-v2/scenes/capsule.mjs` | The capsule's art and geometry, `board-v2-capsule-0.1.0` | `CAPSULE_VERSION`, `CAPSULE_SIZE`, `CAPSULE_RECOLOR`, `CAPSULE_ACCENTS`, `DECK`, `DOOR`, `DOOR_FRAMES`, `TABLE`, `CAPSULE_SEATS`, `DOORWAY`, `BESIDE`, `PATHS`, `recolorCapsule`, `capsuleLayers`, `CAPSULE_VIEW`, `CAPSULE_KEEP`, `TAG_STRIP`, `frameCapsule`, `CAPTION_CLEAR`, `capsuleTargets`, `BADGE_SIZE`, `capsuleBadgeSvg` |
 | `design/board-v2/figures/capsule.mjs` | The poses by public status and the variations' schedule | `CAPSULE_POSES`, `POSE_NAMES`, `statusOf`, `sittingPose`, `walkingPose`, `LOOP`, `capsuleLoop` |
 | `design/board-v2/films/capsule.mjs` | The film | `CAPSULE_STAGES`, `CAPSULE_FILM`, `CADENCE`, `capsuleFrame`, `capsuleEnd`, `seatedPose`, `capsulePerson`, `homePerson`, `capsuleContract` |
 | `design/board-v2/js/fit.mjs` | **Changed:** the layout gains `CAPSULE`, `capsuleSplit()` and the `capsule` option. Every other export and every result without the option are #130's | as at `ebf0263`, plus `CAPSULE` and `capsuleSplit` |
@@ -282,10 +308,10 @@ Read every file at this page's commit. Every file carries the `mothership:dev-on
 To check every file, run `sha256sum -c` on this block from the repository root:
 
 ```
-609cae048ea24c777803fda9488880b649dbf653b229c7d2d81bb25996da2553  design/board-v2/scenes/capsule.mjs
+51150af446d8553d687ebc621451fb49b962d8cf4435ef843e0f7b79c8fdc3b6  design/board-v2/scenes/capsule.mjs
 a90ae47382d5ec2bc152c1e915bc5a34c258821228bd769b9b76c7472975adc2  design/board-v2/figures/capsule.mjs
-d664e3d447f076ab0bd1b8d91fce9437ccd39354496941cf8e2a0472657d780a  design/board-v2/films/capsule.mjs
-b959106a7b78c4fe493209ef1c1dc471c6835b9807330eb2193ef86a6f31f2b6  design/board-v2/js/fit.mjs
+889b2dc4b30dfeede373f8cbc38ec860d0f829502aef899b3c9c17debeef798b  design/board-v2/films/capsule.mjs
+fdd9976755605266f7514a9beb5cbee8a11daf75773299849a8059cd844fc688  design/board-v2/js/fit.mjs
 1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5  design/board-v2/assets/capsule/back.svg
 63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e  design/board-v2/assets/capsule/door-0.svg
 ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f  design/board-v2/assets/capsule/door-1.svg
@@ -296,31 +322,31 @@ f624378a91c11f67f7ffc7c4fd15e65eccc5287f57f0b50a75b5332988761dc7  design/board-v
 bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185  design/board-v2/assets/capsule/dark.svg
 ```
 
-**Of the 57 files** in [board-v2-frontend-handoff.md](board-v2-frontend-handoff.md) (pinned at `ebf0263`), one changes: `design/board-v2/js/fit.mjs`, `637d9895…7d0be6` → `b959106a7b78c4fe493209ef1c1dc471c6835b9807330eb2193ef86a6f31f2b6`. The other 56 are byte for byte as listed there. `contract/slots.json` is unchanged too.
+**Of the 57 files** in [board-v2-frontend-handoff.md](board-v2-frontend-handoff.md) (pinned at `ebf0263`), one changes: `design/board-v2/js/fit.mjs`, `637d9895…7d0be6` → `fdd9976755605266f7514a9beb5cbee8a11daf75773299849a8059cd844fc688`. The other 56 are byte for byte as listed there. `contract/slots.json` is unchanged too.
 
 **Evidence, not for import:** the generated contract and manifest (records for review, not a runtime manifest), the review page's controller and stylesheets (not to port), the tools and the tests.
 
 ```
-79e475cad13c7376d17bb1b63be47211881fb6cf4b4da4e116cbd85ec456f909  design/board-v2/contract/films.json
-560d9648c483eda68d93fb3fb64d7871eb07a708e35368ee1b41d28520d34cb5  design/board-v2/assets/manifest.json
+28294bfe94b15eb217caf931c4341dc8ffb01a0434e1b653f8d0ff070f03dfef  design/board-v2/contract/films.json
+781f913784385fcc9842e450c52a4eb730e8106098db24dfafe055c86d7ee918  design/board-v2/assets/manifest.json
 ab687508df829b33e13e5b98243615794e14e0ff3b57e793ce6e6f335f1f4785  design/board-v2/contract/slots.json
-1095caf321781fa614b19391a6258f0ed86181c5eb7b095701a82198c5a80c98  design/board-v2/js/capsule-view.mjs
-bd2219cb9cbacba0087061019f5da7fac70fa77753af76ba3c2ef6c6096949b8  design/board-v2/js/page.js
-c1cd497a889ca66c37189334b53d381a26ab296c4abce01ac4a372a09297265b  design/board-v2/css/page.css
+58bb872e13ee4cb8e79d43c38c6877ca95cb66588bad925b7dee04d42172e6f1  design/board-v2/js/capsule-view.mjs
+fddb624fbace3eaaafa05e8be6583bd5b1188b8c6182ad3290af8970a69a4e36  design/board-v2/js/page.js
+7acf710688ac9df9e79a4e63122706969932872dbd63e0c8f78bbd5612829184  design/board-v2/css/page.css
 740a5e24074991cc9ea097d201ee35c1bcb49cfe773a77bc3348c72650bb8f62  design/board-v2/contact.html
-e8f54f3c915c32499397a8d457352bb8e5103082c79a94242a9b5c0d50998b8c  design/tools/board-v2-assets.mjs
-57a58ca80a9afc213d243149b7657d10834fb706b7c3b86b43993271f26bec5f  design/tools/board-v2-capture.mjs
-baf233ce91612b724024420e1c9fba9fa9a80e0972fb0f791d88ae0dc49838c2  design/tools/board-v2-check.mjs
-51225d1e037ce36e53d4b11300b6228770862ef660b1c62c642b1c41eb711533  packages/design-tokens/test/capsule.test.mjs
+3b0e2a0dd519a699b0f482254aed6fb4152ab24257f597d9ff079926d06bcce5  design/tools/board-v2-assets.mjs
+1a781c1b545c27630e716fb50a4dac56c8f1a3fb80ad471f7ec7f802f9829d7d  design/tools/board-v2-capture.mjs
+bd2bdab5007a1355518f335aa6c5ea6d09592523deb0baecf8a4df9241d97b77  design/tools/board-v2-check.mjs
+07d65e9dbf09eb8ca6f69972903a93851d6d0cbf0ecdc90627a1aa794aa35595  packages/design-tokens/test/capsule.test.mjs
 ```
 
 **The phone preview and its records:**
 
 ```
-e88085633e0e106eb3525d4aa6784889a27c47ec22ded8be5b15c88e30d50da4  design/board-v2/review/contact-capsule.png
+efc652a3c12e6fc95b483c476c02eef765dc8bb04cfabe6af42df2b48b0b531f  design/board-v2/review/contact-capsule.png
 ea1f292a9e913e10566422368bd42485c953c5920a4615eea63bd60d9a0bece2  design/board-v2/review/capsule-sheet.png
-4a421aefb851bd98aee69b12d32d0bbc12718b9d72538110d81b2d950d01d0c4  design/board-v2/review/index.json
-ffd84087235021b6aed261d08b721585a21ca1554005efca8b51a9a3b8fdcabc  design/board-v2/review/report.json
+dd3943d1e341f9d65fe3de603ed43e03bfa47bdf387648413c243619b37f4717  design/board-v2/review/index.json
+af0a5dd41817aab438f3509438d73ddc59931d1cef4e3222d99ab2a02418a88b  design/board-v2/review/report.json
 ```
 
 **Every capsule picture:**
@@ -331,39 +357,39 @@ ffd84087235021b6aed261d08b721585a21ca1554005efca8b51a9a3b8fdcabc  design/board-v
 50f26b15828b35a95b16ec8048f8e19758cd31b5977ac7be57d996885729c970  design/board-v2/review/capsule-320x568-participant-result-2400.png
 c48777e94458f791a2f92d1a7a76449867818399720959eafe2840964ac8a3df  design/board-v2/review/capsule-320x568-result-2400.png
 c5a7e008a1036a8fc97e860986ca1640b53d1d877747a5d6e43dc98acf025dea  design/board-v2/review/capsule-320x568-talk-30000.png
-1afe46b11e84d5fbf106da3812b5a3edd8591b82f14e579d8195d8564c08fb98  design/board-v2/review/capsule-360x740-idle.png
-d885c1457b7f8e2564d4b8b5beb19c7f32c1481be329b0d263f24503629aba62  design/board-v2/review/capsule-390x844-declare-4000.png
-7ec61f1d95db96c3eb2864e3bce44e3aaed12189bdfde635e248ef48b92709cb  design/board-v2/review/capsule-390x844-exit-0360.png
-a424560f7465afd08ee8d47bffa0b8b9f500c2ebe04257bf8e38f80de8918d45  design/board-v2/review/capsule-390x844-exit-0800.png
-b4da5ad235c9ccb5e31c55a94bc6d7a7db9b53680c830a650cce6075c2632e02  design/board-v2/review/capsule-390x844-exit-1250.png
-5119dbf71b35750c2be6d29a1a1eff31f5b54feb256ebf90622345d71066638d  design/board-v2/review/capsule-390x844-idle.png
-127ce7bbfd4ed99c719ea52b9fd4fa5e179ca6c52897945aa8349f04c8c3573d  design/board-v2/review/capsule-390x844-late.png
-f87483bc6dd6d740278d6805e28e8f09d0886ecf554ae33299356dddd11e1cf0  design/board-v2/review/capsule-390x844-loading-0.png
-075a6a4f8b30bae7c2631c2b399f6c70fe1cfd4823e89ce1331481dcb035b107  design/board-v2/review/capsule-390x844-loading-1.png
-8eb5b27bdd5c95ea39d5351b1ae5b6e05c131f18d87b9af5a5ca046038d026ad  design/board-v2/review/capsule-390x844-moved-exit-1250.png
-248170fe166116f099c22d376f2ff8c417f734dc62aa0c35353595a08a78c542  design/board-v2/review/capsule-390x844-participant-result-2400.png
-5119dbf71b35750c2be6d29a1a1eff31f5b54feb256ebf90622345d71066638d  design/board-v2/review/capsule-390x844-reconnect-exit-0800.png
-7f08dfb86ff4476fd5e16cf3e02137e0062b43b3ace965bb088f5feadb0c2d69  design/board-v2/review/capsule-390x844-reconnect-result-2400.png
-04786f8c9d606feadd9667c4295e319db8442bd0f42d5d43ba121f9171ea597a  design/board-v2/review/capsule-390x844-reduced-exit-0040.png
-5119dbf71b35750c2be6d29a1a1eff31f5b54feb256ebf90622345d71066638d  design/board-v2/review/capsule-390x844-reduced-exit-0400.png
-a806cf300e0bcb0d13d9a59e377aa3c47e59b29fdad3362edcbe5d9d14e235f9  design/board-v2/review/capsule-390x844-reduced-result-0760.png
-4a629e389904717555f7027607af5f060032b9e27537719a60cabf6cd887c2d5  design/board-v2/review/capsule-390x844-reduced-result-1100.png
-d50bf13eb2fecb68f8a2a88bae5accb6e4088e834721cb96e1af319f259af551  design/board-v2/review/capsule-390x844-reduced-talk-30000.png
-dedd167cfb3907cac5e874aba07c16ca82a56888d30cd1615a40b590a4ecb352  design/board-v2/review/capsule-390x844-result-0400.png
-0cd048b04cf3576f3a06153cc01e3282d003f69d14302dd11743f8a13b2305c6  design/board-v2/review/capsule-390x844-result-1200-captain-detainee.png
-73aa6eda443e364babb3b981ffbd498d28659e6f90017d04e73762153e20afe2  design/board-v2/review/capsule-390x844-result-1200.png
-5f11b2535792ba6b399f1b901bf917e9bff0622531448ccbd60c763039de02c1  design/board-v2/review/capsule-390x844-result-2000.png
-72117ab2e8fd8acbf4a59383ecdc6e0f9d32f6a7d6bdc45b5e0e682561e08f24  design/board-v2/review/capsule-390x844-result-2400-patient-prisoner.png
-1a2e3b698bae873b9f4935f1e24cd1349739af46d167d744693191227f1b556e  design/board-v2/review/capsule-390x844-result-2400.png
-ea97b83f2e31928d19c550eb39efd6f40aca9b4222687af7b85f09b43ee1704c  design/board-v2/review/capsule-390x844-result-2750.png
-93d282c535bebd9ecea08d93562797f67c708e13f712d425c817f6ce99558c8c  design/board-v2/review/capsule-390x844-result-3600.png
-c90117e0ee4af352f2b19c6e0f9959b16193bd7db112198e2a504204e0188106  design/board-v2/review/capsule-390x844-talk-0000.png
-bea66a23177eeee8766a6318d0e2030a69eb0861b09752caa61f6e9ceccfb267  design/board-v2/review/capsule-390x844-talk-20000-captain-detainee.png
-fe83d2aef304bb8b43675adb1fbac4d7e3d385cab596400f3396c75f55967f4e  design/board-v2/review/capsule-390x844-talk-20000-patient-prisoner.png
-879429bf28132cbe6eb641d2453a6a550708b1a551828010f0fa352649745121  design/board-v2/review/capsule-390x844-talk-30000-r7.png
-2042501bdbe5d06d817c982e0e0474f068b56963e94ba0e1ad655e35cffc37df  design/board-v2/review/capsule-390x844-talk-30000-r8.png
-dc703cffb11538da1117a2b465836e2f3d5aeb359094e912b8fe891bd156e299  design/board-v2/review/capsule-390x844-talk-30000.png
-17f8b6fa2c30bec0a5ce65ed57f726b052f463330b71f72aaa739d8793833ee4  design/board-v2/review/capsule-430x932-idle.png
+58a38f18ca8fdc8414b065db674ac2725a60513647717bcc711ca649510dde0b  design/board-v2/review/capsule-360x740-idle.png
+8e1a1dee02aa2e720a3fadab4e71b1199b9506b5deedcdbc0414a38c82779037  design/board-v2/review/capsule-390x844-declare-4000.png
+7f1c237aafaab7302bdf35b37265e50bf6a9da9c640e51e3f6fd4d662a80847f  design/board-v2/review/capsule-390x844-exit-0360.png
+133a216a635daa7adbb702abd8b4ed2c714ec3601ac198c658a066a85ca42659  design/board-v2/review/capsule-390x844-exit-0800.png
+d52fd99870c0f708c6583d4ad6beda08292535e7975675cbcc31ea068d92847f  design/board-v2/review/capsule-390x844-exit-1250.png
+78851c93da4bcf9a8d67bdd7c9b0af45c9d8a21584f0e6108ad4c442e86907f3  design/board-v2/review/capsule-390x844-idle.png
+a0452a59da59e724e1c849599ad3dc7bc756a3cc394037ff6afcd1019842eedb  design/board-v2/review/capsule-390x844-late.png
+2473aa486a4e42de71e86443a5c816685d1a62f0d618081522be3284ac298b87  design/board-v2/review/capsule-390x844-loading-0.png
+e126730d9a24d9c6961510808f54c913174fe158be8e65326ff28869ce379a9a  design/board-v2/review/capsule-390x844-loading-1.png
+a7090fe2491bc8f81d25706b1747d33c496a06bbe865330f7bb29eb4ccdf9a28  design/board-v2/review/capsule-390x844-moved-exit-1250.png
+9c4c94aa404024fd61d62772b390553e7fe1dce92c01e89e260d1cd342de7504  design/board-v2/review/capsule-390x844-participant-result-2400.png
+78851c93da4bcf9a8d67bdd7c9b0af45c9d8a21584f0e6108ad4c442e86907f3  design/board-v2/review/capsule-390x844-reconnect-exit-0800.png
+29b8ad838af9cc481f2efe44eb5e44a96740c10b2068ca94f60b12ee0e1a5ff6  design/board-v2/review/capsule-390x844-reconnect-result-2400.png
+a0644ef6421c0ef0533e40cf73493a3d246ccf5682c553e3313bd562205a973e  design/board-v2/review/capsule-390x844-reduced-exit-0040.png
+78851c93da4bcf9a8d67bdd7c9b0af45c9d8a21584f0e6108ad4c442e86907f3  design/board-v2/review/capsule-390x844-reduced-exit-0400.png
+a579ad9fd4cbcb0ea6d519f91b24611b8a1a473e0313263780c31ebfe8c54526  design/board-v2/review/capsule-390x844-reduced-result-0760.png
+fa8f7eb5f43821312a29be0b7626c05408d9e6fb1cc5351874863ffb7929f7c8  design/board-v2/review/capsule-390x844-reduced-result-1100.png
+a50e329dc11bac2936f2faa527a6e69bb9842af9381733ffbd559639a025961e  design/board-v2/review/capsule-390x844-reduced-talk-30000.png
+12c7802a1f2fa1e99617b1c1e6a35d97423726c280b99e223f34d8a804e2741c  design/board-v2/review/capsule-390x844-result-0400.png
+002f39006b46dcb51e01a3b0319c00ac4bf4c903b5cded708ffdf76fd55ff297  design/board-v2/review/capsule-390x844-result-1200-captain-detainee.png
+9d52b851564fed3776bfa232a8189085eac85e585f9d4d625a8d70c93fe746ec  design/board-v2/review/capsule-390x844-result-1200.png
+9ab74ee38d70d125d891afeaf960e6d729a7f5a8e16fb505fcc766176c517831  design/board-v2/review/capsule-390x844-result-2000.png
+93c1a8d906d72ac37ebdf646813eec23216dbfdd96d46e9c2c60a6e9e9f5c082  design/board-v2/review/capsule-390x844-result-2400-patient-prisoner.png
+de2e36e1bd837881a1221ddc7d9af31e2867724f98e76bd8dab2288034ea6fef  design/board-v2/review/capsule-390x844-result-2400.png
+a59f01fd546ad530093dbb7452f03eca24a2af0723a9b9513bb5b9dc31b4b215  design/board-v2/review/capsule-390x844-result-2750.png
+accfc107669b79b6fed28ffba690e9bea525ca484948c3e24c21e78286ec3e5b  design/board-v2/review/capsule-390x844-result-3600.png
+476b36561c7e127218ecf2ea78a6f3ee486ba706db3b8365621d85ef42fba947  design/board-v2/review/capsule-390x844-talk-0000.png
+060736599995982a0a5a40cc64634009ca7b18590b712bdbd990ca96331b36fd  design/board-v2/review/capsule-390x844-talk-20000-captain-detainee.png
+86e62dc6db8eb88c10749119011c6fc7385a5f60ca985ad01e30e7df839b5c48  design/board-v2/review/capsule-390x844-talk-20000-patient-prisoner.png
+6897c6b2d5bfe9ee6753ded1d86471e5c9c36ffcf2d22b32a1b33154a81f3051  design/board-v2/review/capsule-390x844-talk-30000-r7.png
+a69b94e1e05871c22ff8108c10338aa079371d11fc24191260eddb4a679362ab  design/board-v2/review/capsule-390x844-talk-30000-r8.png
+98f459c3b287a6a55193b2af6832a4c96124866e61f09cb160717c71a04174f4  design/board-v2/review/capsule-390x844-talk-30000.png
+44ae88d5d394c9ae3f51f4fac20f727e253f5a7016cf22212d860667f3c32151  design/board-v2/review/capsule-430x932-idle.png
 ```
 
 ## 10. Changes from the review's S2

@@ -8,10 +8,11 @@
 //
 // It is scenery, not a room. A Hack's two participants are drawn walking there and sitting there
 // for the conversation, but they stay where the authoritative state has them: in their room, at
-// their slot, which keeps its press area. The capsule has no slots, no press areas and no tag,
-// changes no location, occupancy, capacity, eligibility, movement or immunity, and is empty
-// whenever no exchange is on. fit.mjs lays it out beside the Command Room, half its width
-// ({ capsule: true }).
+// their slot, which keeps its press area. The capsule has no slots and no tag, changes no
+// location, occupancy, capacity, eligibility, movement or immunity, and is empty whenever no
+// exchange is on. While a participant is drawn seated there, it is also a 44 px target for its
+// own seat (capsuleTargets()), as its slot is. fit.mjs lays it out beside the Command Room,
+// exactly half its width ({ capsule: true }).
 //
 // The room: a small cabin of dark metal behind a sliding door, two chairs facing each other
 // across a small round table, one lamp hanging over it, a door-status light over the door and a
@@ -20,7 +21,7 @@
 // front edge at 748), so that at half the Command Room's width it is framed at about the Command
 // Room's scale: 0.95 to 1.0 of it on the taller phones (from 360 x 740 up), 0.87 of it on the
 // short ones (320 x 568, 360 x 640, 375 x 667). Its seated people are drawn a little smaller than
-// the Captain at C1 (0.87 of the Captain's size at 390 x 844).
+// the Captain at C1 (0.88 of the Captain's size at 390 x 844).
 //
 // Like every scene, it is drawn in the neutral steel family, ink and paper, then printed in its
 // own colors by a recolor map: CAPSULE_RECOLOR, a deep navy turning violet in the light (S2's
@@ -85,8 +86,8 @@ export const TABLE = Object.freeze({ cx: 256, top: 574, rx: 78, ry: 17, foot: 65
  * Presentation anchors only: not slots, not targets, not locations.
  */
 export const CAPSULE_SEATS = Object.freeze([
-  Object.freeze({ id: 'P1', side: 'left', chair: 126, at: Object.freeze([134.4, 650]), scale: 1.05, mirror: true }),
-  Object.freeze({ id: 'P2', side: 'right', chair: 386, at: Object.freeze([377.6, 650]), scale: 1.05, mirror: false }),
+  Object.freeze({ id: 'P1', side: 'left', chair: 126, at: Object.freeze([134.4, 650]), chest: Object.freeze([130, 560]), scale: 1.05, mirror: true }),
+  Object.freeze({ id: 'P2', side: 'right', chair: 386, at: Object.freeze([377.6, 650]), chest: Object.freeze([382, 560]), scale: 1.05, mirror: false }),
 ]);
 /** Where an entering or leaving participant stands in the open doorway: on its sill, smaller for being further back. */
 export const DOORWAY = Object.freeze({ at: Object.freeze([368, BACK + 2]), scale: 0.9 });
@@ -325,6 +326,30 @@ export function frameCapsule({ width, height }) {
       : room - CAPSULE_KEEP.bottom * k;
   const ty = Math.min(0, Math.max(height - h * k, want));
   return { k, tx, ty };
+}
+
+/** How far below its panel's top a capsule target starts (CSS px): clear of the caption, whose two words stacked end 35 px down. */
+export const CAPTION_CLEAR = 36;
+
+/**
+ * Each seated participant's own target in the capsule's panel (CSS px, the panel's inside): a
+ * square of `side` (44 px) on its chest, moved inward to stay whole inside the panel and below
+ * the caption, and apart from the other's (they may share an edge). While a participant is drawn
+ * seated it is a control for its own seat, as its slot is; while it walks, its slot alone is.
+ * The capsule has no other target; C1 is in the Command Room's own panel.
+ */
+export function capsuleTargets(panel, { side = 44 } = {}) {
+  const { k, tx, ty } = frameCapsule(panel);
+  const clamp = (value, low, high) => Math.min(Math.max(value, low), high);
+  const [a, b] = CAPSULE_SEATS.map(seat => ({
+    id: seat.id,
+    left: clamp(seat.chest[0] * k + tx - side / 2, 0, panel.width - side),
+    top: clamp(seat.chest[1] * k + ty - side / 2, CAPTION_CLEAR, panel.height - side),
+    side,
+  }));
+  const overlap = a.left + side - b.left;
+  if (overlap > 0) { a.left = Math.max(0, a.left - overlap / 2); b.left = Math.min(panel.width - side, a.left + side); }
+  return [a, b];
 }
 
 /** The badge's size in its own units (it is drawn 22 CSS pixels square, as a Blackout position number is). */
