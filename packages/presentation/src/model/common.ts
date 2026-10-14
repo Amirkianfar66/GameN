@@ -1,4 +1,4 @@
-import { supportsBoardMedical } from '@mothership/contracts';
+import { supportsBlackout, supportsBoardMedical } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
 import { boardSeatProps, medicalOpportunityText } from './public-board.js';
 import { en } from '../copy/en.js';
@@ -127,12 +127,16 @@ function phaseDetail(view: AudienceView): string | null {
 }
 
 export function buildPhaseStrip(view: AudienceView, selfSeatId: SeatId | null, deadline: DeadlineEstimate): PhaseStripModel {
+  const blackout = supportsBlackout(view.versions) && 'blackout' in view ? view.blackout : null;
+  const nowMs = view.phase.endsAt !== null && deadline.kind === 'running' ? view.phase.endsAt - deadline.remainingMs : null;
+  const preview = blackout && nowMs !== null && nowMs < blackout.darkStartsAt;
+  const shownDeadline = preview ? { kind: 'running' as const, remainingMs: blackout.darkStartsAt - nowMs! } : deadline;
   const round = 'voteResult' in view && view.voteResult !== null && view.voteResult !== undefined ? view.voteResult.round : view.round;
   return {
     roundLabel: en.phase.round(round),
-    phaseLabel: phaseLabel(view, selfSeatId),
+    phaseLabel: blackout ? preview ? 'Blackout preview' : 'Lights out' : phaseLabel(view, selfSeatId),
     detail: phaseDetail(view),
-    timer: buildTimer(deadline),
+    timer: buildTimer(shownDeadline),
   };
 }
 

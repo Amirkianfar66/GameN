@@ -1,6 +1,6 @@
 import { deleteApp, initializeApp } from 'firebase/app';
 import { browserSessionPersistence, connectAuthEmulator, initializeAuth, inMemoryPersistence, signInAnonymously } from 'firebase/auth';
-import { collection, connectFirestoreEmulator, doc, initializeFirestore, memoryLocalCache, onSnapshot } from 'firebase/firestore';
+import { collection, connectFirestoreEmulator, doc, initializeFirestore, memoryLocalCache, onSnapshot, query, where } from 'firebase/firestore';
 import { collectionPath, documentPath } from '../connected/paths.js';
 import { V1_OPERATIONS } from '../connected/transport.js';
 import type { ConnectedTransport, ListenerFailure } from '../connected/transport.js';
@@ -125,7 +125,10 @@ export function createEmulatorTransport(options: EmulatorTransportOptions): Emul
     listenCollection(target, listener) {
       const [first, ...rest] = collectionPath(target);
       if (first === undefined) throw new TypeError('Not a documented listener path');
-      return track(onSnapshot(collection(database, first, ...rest), { includeMetadataChanges: true },
+      const source = collection(database, first, ...rest);
+      const audienceQuery = target.kind === 'public-events' ? query(source, where('audience.kind', '==', 'public'))
+        : target.kind === 'player-events' ? query(source, where('audience.kind', '==', 'player'), where('audience.seatId', '==', target.seatId)) : source;
+      return track(onSnapshot(audienceQuery, { includeMetadataChanges: true },
         snapshot => listener.onSnapshot({
           value: snapshot.docs.map(item => ({ id: item.id, data: item.data() as unknown })),
           fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites,

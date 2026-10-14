@@ -30,7 +30,8 @@ export type DocumentTarget =
   | { readonly kind: 'admission'; readonly matchId: string; readonly admissionId: string };
 
 /** A collection the caller may listen to. Host only: every admission request of its match. */
-export type CollectionTarget = { readonly kind: 'admissions'; readonly matchId: string };
+export type CollectionTarget = { readonly kind: 'admissions' | 'public-events'; readonly matchId: string }
+  | { readonly kind: 'player-events'; readonly matchId: string; readonly seatId: string };
 
 export interface Snapshot<Value> {
   readonly value: Value;

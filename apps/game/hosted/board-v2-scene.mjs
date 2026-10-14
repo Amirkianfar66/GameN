@@ -19,6 +19,7 @@ export function boardV2SceneFrame(roster,seats,{panels,pressAreas}) {
  for(const seat of seats){
   if(!/^seat-[1-9]$/.test(seat.seatId)||Number(seat.seatId.slice(5))>roster||usedSeats.has(seat.seatId))problems.push('invalid or duplicate seat');
   usedSeats.add(seat.seatId);
+  if(seat.location===null&&seat.slotId===null&&seat.health==='Eliminated')continue;
   const room=BOARD_ROOMS.find(room=>LOCATION_OF[room]===seat.location);
   if(!room||!slotsOf(room,roster).some(slot=>slot.id===seat.slotId))problems.push(`${seat.seatId}: missing or incompatible stored slot`);
   if(usedSlots.has(seat.slotId))problems.push('duplicate stored slot');usedSlots.add(seat.slotId);
@@ -63,7 +64,7 @@ const setBox=(node,box)=>{for(const [property,key]of [['left','left'],['top','to
  * Hidden cinematic actors keep their world anchor for the current-return resolver; their
  * exact same choice objects are returned to the capsule painter, never silently dropped.
  */
-export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,capsule=null,canMove=false,pass=null}={}) {
+export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,capsule=null,canMove=false,pass=null,blackout=null}={}) {
  if(frame.problems.length)return {painted:false,problems:frame.problems,capsuleChoices:[]};
  const document=root.ownerDocument;
  const create=(tag,className)=>{const n=document.createElement(tag);n.className=className;return n;};
@@ -72,6 +73,9 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
   const heading=create('h2','ms-visually-hidden');heading.id='ms-comic-board-heading';heading.textContent='The ship';board.append(heading);
   owned=root._boardV2Paint={board,rooms:new Map(),actors:new Map(),capsuleActors:new Map()};}
  const {board,rooms,actors}=owned;
+ const dark=blackout?.dark===true;
+ board.inert=dark;board.setAttribute('aria-hidden',String(dark));
+ root.dataset.blackout=dark?'dark':blackout?'preview':'none';
  if(!root.contains(board))root.replaceChildren(board);
  const setTarget=(actor,id,rect,choice,picked,description)=>{
   let target=actor.querySelector('.bv2-seat-target');
@@ -97,13 +101,13 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
    const key=JSON.stringify([who.characterId,who.outfit,person.sk,layer]);
    if(node._figureKey!==key){node.innerHTML=CREW[who.characterId]?dressedFigureSvg(CREW[who.characterId],person.sk,{outfit:who.outfit,prefix:`bv2-${who.seatId}-${actor.dataset.place}-${layer}`,layer}):'';node._figureKey=key;}
    setBox(node,{left:scene.tx+person.at[0]*scene.k-(ax-bx)*unit,top:scene.ty+person.at[1]*scene.k-(ay-by)*unit,width:box*unit,height:box*unit});
-   node.dataset.mirror=String(person.mirror);node.style.opacity=String(opacity);node.style.filter=ghost?'grayscale(1)':'';
+   node.dataset.mirror=String(person.mirror);node.style.opacity=String(opacity*(blackout?.film.peopleOpacity??1));node.style.filter=ghost?'grayscale(1)':'';
    node.style.zIndex=String(layer==='body'?2*Math.round(who.depth):1500+Math.round(who.depth));
   }
  };
- const all=frame.rooms.flatMap(r=>r.figures),present=new Set(all.map(f=>f.seatId));
+ const all=dark?[]:frame.rooms.flatMap(r=>r.figures),present=new Set(all.map(f=>f.seatId));
  for(const [id,actor]of actors)if(!present.has(id)){actor.remove();actors.delete(id);}
- const bySeat=new Map(all.map(f=>[f.seatId,f])),pair=capsule?.seatIds??[];
+ const bySeat=new Map(all.map(f=>[f.seatId,f])),pair=dark?[]:capsule?.seatIds??[];
  for(const room of frame.rooms){
   let section=rooms.get(room.room);
   if(!section){section=create('section','bv2-room');section.dataset.room=room.room;section.setAttribute('aria-label',LOCATION_OF[room.room]);rooms.set(room.room,section);board.append(section);}
@@ -119,7 +123,7 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
    let layer=section.querySelector(`[data-art-layer="${asset.id}"]`);if(!layer){layer=create('span','bv2-layer');layer.dataset.artLayer=asset.id;layer.setAttribute('aria-hidden','true');section.append(layer);}
    layer.style.setProperty('--bv2-layer-art',`var(${asset.cssVar})`);setBox(layer,{left:room.frame.tx,top:room.frame.ty,width:1024*room.frame.k,height:768*room.frame.k});layer.style.zIndex=String(z);
   }
-  for(const who of room.figures){
+  for(const who of dark?[]:room.figures){
    let actor=actors.get(who.seatId);if(!actor){actor=create('div','bv2-actor');actor.dataset.seat=who.seatId;actor.dataset.place='world';actors.set(who.seatId,actor);}if(actor.parentNode!==section)section.append(actor);
    actor.dataset.slot=who.slotId;actor.dataset.character=who.characterId;actor.dataset.health=who.health;actor.setAttribute('aria-label',`${who.displayName??`Player ${who.seatId.slice(5)}`}, ${who.location}, ${who.health}${who.jailed?', detained':''}`);
    const index=pair.indexOf(who.seatId),personState=index<0?null:capsule.film.people[`P${index+1}`];

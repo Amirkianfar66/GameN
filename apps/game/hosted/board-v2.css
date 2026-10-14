@@ -110,3 +110,14 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 #app .ms-shell[data-board-layout="board-v2"] .ms-private,
 #app .ms-shell[data-board-layout="board-v2"] .phone-action-dock,
 #app .ms-shell[data-board-layout="board-v2"] .phone-menu { animation:none!important; transform:none!important; }
+/* Neutral fixed-slot lighting belongs to every phone and display. Private controls are a sibling of the inert public board. */
+.bv2-night-layer { position:absolute; background-size:100% 100%; background-repeat:no-repeat; pointer-events:none; z-index:3000; }
+.bv2-night-layer[data-night-layer^="marker"] { z-index:3010; }
+.bv2-night-layer[data-night-layer="spark"] { z-index:3020; }
+.bv2-blackout-controls { position:absolute; inset:0; z-index:4500; pointer-events:none; }
+.bv2-slot-target { position:absolute; pointer-events:auto; min-width:44px; min-height:44px; border:2px solid var(--bv2-gold); color:var(--bv2-paper); background:var(--bv2-navy); font-size:12px; border-radius:0; padding:0; }
+.bv2-outcomes { position:fixed; z-index:6100; pointer-events:none; padding:6px; background:var(--bv2-navy); color:var(--bv2-paper); font-size:12px; white-space:pre-line; max-height:100px; overflow:auto; }
+.bv2-outcomes[hidden] { display:none; }
+.bv2-block-fx { position:absolute; inset:0; z-index:3100; pointer-events:none; }
+.bv2-block-fx span { position:absolute; background-position:center; background-size:contain; background-repeat:no-repeat; }
+.bv2-block-fx strong { position:absolute; text-align:center; box-sizing:border-box; background:var(--bv2-gold); color:var(--bv2-ink); border:2px solid var(--bv2-ink); font-size:12px; line-height:13px; padding:1px 4px; }

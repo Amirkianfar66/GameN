@@ -1,4 +1,4 @@
-import { supportsDeclaredHack } from '@mothership/contracts';
+import { supportsBlackout, supportsCaptainCommands, supportsClone, supportsDeclaredHack } from '@mothership/contracts';
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import type { ActionChoice, ActionKind, CompoundActionKind, FactionName, SeatBallotKind, TargetActionKind } from './types.js';
 
@@ -8,7 +8,7 @@ import type { ActionChoice, ActionKind, CompoundActionKind, FactionName, SeatBal
 
 /** Every action the connected phone knows how to offer, in the order it lists them. */
 export const ACTION_KINDS: readonly ActionKind[] = [
-  'declare-hack-side', 'pass', 'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote',
+  'captain-release', 'captain-eject', 'blackout-request', 'blackout-slot', 'activate-clone', 'declare-hack-side', 'pass', 'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote',
 ];
 
 /**
@@ -84,6 +84,21 @@ export function offeredChoices(view: FullPlayerView, kind: Exclude<ActionKind, C
         && view.hackFeedback.declaredSide === null
         && view.legalTargets.DECLARE_HACK_SIDE?.length === 1 && view.legalTargets.DECLARE_HACK_SIDE[0] === view.self.seatId
           ? FACTIONS.map(declaredSide => ({ kind, declaredSide })) : null;
+    case 'captain-release':
+    case 'captain-eject': {
+      const name = kind === 'captain-release' ? 'CAPTAIN_RELEASE' : 'CAPTAIN_EJECT';
+      return supportsCaptainCommands(view.versions) && view.legalTargets[name]?.includes(view.self.seatId) ? [{ kind }] : null;
+    }
+    case 'blackout-request':
+      return supportsBlackout(view.versions) && view.legalTargets.REQUEST_BLACKOUT?.includes(view.self.seatId) ? [{ kind }] : null;
+    case 'activate-clone':
+      return supportsClone(view.versions) && view.legalTargets.ACTIVATE_CLONE?.includes(view.self.seatId) ? [{ kind }] : null;
+    case 'blackout-slot': {
+      const t = view.self.blackoutTargeting;
+      return supportsBlackout(view.versions) && t && view.phase.kind === 'BLACKOUT' && t.snapshotId === view.phase.id && t.selectedSlotId === null
+        && view.legalTargets.SELECT_BLACKOUT_SLOT?.includes(view.self.seatId)
+        ? t.slotIds.map(slotId => ({ kind, snapshotId: t.snapshotId, room: t.room, slotId })) : null;
+    }
     case 'pass':
       return view.phase.kind === 'ORDINARY_TURN' && view.activeSeatId === view.self.seatId
         && view.legalTargets.PASS_TURN?.includes(view.self.seatId) ? [{ kind }] : null;
@@ -190,6 +205,8 @@ export function isOffered(view: FullPlayerView, choice: ActionChoice): boolean {
 export function choiceValue(choice: ActionChoice): string {
   switch (choice.kind) {
     case 'declare-hack-side': return choice.declaredSide;
+    case 'captain-release': case 'captain-eject': case 'blackout-request': case 'activate-clone': return choice.kind;
+    case 'blackout-slot': return choice.slotId;
     case 'pass': return 'pass';
     case 'move': return choice.destination;
     case 'release-vote': return RELEASE_ANSWERS.find(([, approve]) => approve === choice.approve)?.[0] ?? NOBODY;
@@ -201,5 +218,6 @@ export function choiceValue(choice: ActionChoice): string {
 }
 
 export function sameChoice(a: ActionChoice, b: ActionChoice): boolean {
+  if (a.kind === 'blackout-slot' && b.kind === 'blackout-slot') return a.snapshotId === b.snapshotId && a.room === b.room && a.slotId === b.slotId;
   return a.kind === b.kind && choiceValue(a) === choiceValue(b);
 }

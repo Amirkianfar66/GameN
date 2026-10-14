@@ -1,7 +1,7 @@
 import { deleteApp, initializeApp } from 'firebase/app';
 import { getToken, initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
 import { browserSessionPersistence, initializeAuth, signInAnonymously } from 'firebase/auth';
-import { collection, doc, initializeFirestore, memoryLocalCache, onSnapshot } from 'firebase/firestore';
+import { collection, doc, initializeFirestore, memoryLocalCache, onSnapshot, query, where } from 'firebase/firestore';
 import { collectionPath, documentPath } from '../connected/paths.js';
 import type { ConnectedTransport } from '../connected/transport.js';
 import { readHostedConfiguration } from './hosted-config.js';
@@ -71,7 +71,9 @@ export function createHostedTransport(input: unknown): HostedTransport {
       const [first, ...rest] = collectionPath(target);
       if (first === undefined) throw new TypeError('Not a documented listener path');
       return track(listenWithVerification(verification, (deliver, fail) =>
-        onSnapshot(collection(database, first, ...rest), { includeMetadataChanges: true },
+        onSnapshot(target.kind === 'public-events' ? query(collection(database, first, ...rest), where('audience.kind', '==', 'public'))
+          : target.kind === 'player-events' ? query(collection(database, first, ...rest), where('audience.kind', '==', 'player'), where('audience.seatId', '==', target.seatId))
+          : collection(database, first, ...rest), { includeMetadataChanges: true },
           snapshot => deliver({ value: snapshot.docs.map(item => ({ id: item.id, data: item.data() as unknown })),
             fresh: !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites }), fail), listener));
     },

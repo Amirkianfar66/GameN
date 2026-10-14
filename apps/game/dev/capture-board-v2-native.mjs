@@ -1,0 +1,28 @@
+// mothership:dev-only
+// Real client/service/Rules browser proof from a legal synthetic initial journal.
+globalThis[Symbol.for('mothership:dev-only')]=true;
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {launchBrowser,connect,openPage,sleep} from './capture/browser.mjs';
+const out='/private/tmp/gamen-bv2-native';await mkdir(out,{recursive:true});
+for(let i=0;i<200;i++){try{if((await fetch('http://127.0.0.1:19291/status')).ok)break;}catch{}await sleep(100);}
+const handle=await launchBrowser(),browser=await connect(handle.endpoint),pages=[],records=[];
+const status=()=>fetch('http://127.0.0.1:19291/status').then(r=>r.json());
+async function capture(p,name){const state=await status(),dom=await p.evaluate(`({targets:document.querySelectorAll('.bv2-seat-target').length,figures:document.querySelectorAll('.bv2-actor').length,capsule:[...document.querySelectorAll('.bv2-capsule .bv2-actor')].map(n=>({seat:n.dataset.seat,state:n.dataset.state})),text:document.body.innerText,stored:sessionStorage.getItem('mothership:unresolved-command')})`);records.push({name,state,dom});await p.screenshot(out+'/'+name+'.png',{viewport:true});}
+try{
+ const seven=await openPage(browser,{width:390,height:844,mobile:true,ownContext:true});pages.push(seven);await seven.goto('http://127.0.0.1:5197/native.html?seat=seat-7','document.querySelector("[data-renderer=board-v2]")',15000);await seven.foreground();await seven.tap('#ms-phone-actions');await seven.tap('[data-kind="declare-hack-side"]');await seven.tap('#ms-action-choice-red');await sleep(450);await seven.tap('#ms-action-confirm');
+ await seven.waitFor('window.__native.model().match.phaseKind==="HACK_RESULT"','native declared result',5000);await capture(seven,'native-target-result');
+ const six=await openPage(browser,{width:320,height:568,mobile:true,ownContext:true});pages.push(six);await six.goto('http://127.0.0.1:5197/native.html?seat=seat-6','document.querySelector("[data-renderer=board-v2]")',15000);await six.foreground();await capture(six,'native-initiator-result');
+ const display=await openPage(browser,{width:1100,height:860,ownContext:true});pages.push(display);await display.goto('http://127.0.0.1:5197/native.html?seat=display','document.querySelector("[data-renderer=board-v2]")',15000);await display.foreground();await capture(display,'native-display-result');assert.equal(await display.evaluate('Boolean(document.querySelector(".hack-feedback"))'),false);
+ await seven.foreground();await seven.waitFor('window.__native.model().match.phaseKind==="HACK"','full native conversation',10000);const talk=await status();assert.equal(talk.phase.endsAt-talk.phase.startedAt,60000);await capture(seven,'native-full60-talk');
+ if(await seven.evaluate('Boolean(document.querySelector("#ms-action-dismiss"))')){await seven.waitFor('!document.querySelector("#ms-action-dismiss").disabled','receipt control ready',3000);await seven.tap('#ms-action-dismiss');}
+ await seven.tap('#ms-phone-board');await seven.tap('[data-move-room="Room A"]');await sleep(450);await seven.tap('#ms-action-confirm');await seven.waitFor('document.querySelector(".bv2-actor[data-seat=seat-7][data-place=world]").dataset.slot.startsWith("A")','latest actual native movement',5000);await capture(seven,'native-moved-during-talk');
+ await six.foreground();await six.tap('#ms-phone-actions');await six.tap('[data-kind="code"]');assert.equal(await six.evaluate('document.querySelectorAll(".bv2-seat-target").length'),11);await six.tap('#ms-action-cancel');await capture(six,'native-code-offered-during-talk');
+ const late=await openPage(browser,{width:390,height:844,mobile:true,ownContext:true});pages.push(late);await late.goto('http://127.0.0.1:5197/native.html?seat=display','document.querySelector(".bv2-capsule .bv2-actor[data-state=seated]")',15000);await capture(late,'native-late-observer-settled');
+ console.log('Native receipt, pair privacy, full60 interval, movement and live Code checks passed; waiting for actual conversation deadline.');
+ const remaining=(await status()).phase.endsAt-(await seven.evaluate('window.__native.model().match.boardLayout.clock.nowMs'));
+ if(remaining>0)await sleep(remaining+200);
+ await seven.foreground();await seven.waitFor('window.__native.model().match.phaseKind!=="HACK"','automatic local-worker native deadline',7000);await sleep(1500);await capture(seven,'native-return-latest-slot');assert.equal(await seven.evaluate('document.querySelector(".bv2-actor[data-seat=seat-7][data-place=world]").dataset.slot.startsWith("A")'),true);assert.equal(await seven.evaluate('document.querySelector(".bv2-capsule .bv2-actor")'),null);
+ const done=await status(),declarations=done.requests.filter(r=>r.type==='DECLARE_HACK_SIDE'),receipts=done.requests.filter(r=>r.operation==='receipt'&&r.commandId===declarations[0].commandId);assert.equal(declarations.length,1);assert.ok(receipts.length>0,'Accepted socket-loss is reconciled using the original command id');assert.equal(await seven.evaluate('sessionStorage.getItem("mothership:unresolved-command")'),null);
+ console.log('Native browser journey passed with receipt recovery and latest-slot return.');
+}finally{await writeFile(out+'/browser-native-records.json',JSON.stringify({scope:'Chromium actual production controller/host, real local Auth credentials and Firestore Rules, real service decisions after legal synthetic SETUP journal, real elapsed local deadline worker; not production Firebase Web SDK/Functions/Cloud Tasks, native random setup or physical-device acceptance.',records,exceptions:browser.events.filter(e=>e.method==='Runtime.exceptionThrown')},null,2)+'\n');for(const p of pages)await p.close();browser.close();await handle.close();}

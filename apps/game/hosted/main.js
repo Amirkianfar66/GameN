@@ -25,10 +25,11 @@ import './ability-art.css';
 import './phase-feedback.css';
 import './claude-phone-kit.css';
 import './board-v2.css';
+import './setup-art.css';
 import { disclosure, dock, copyControl, choiceTiles, publicSlots, initialRoomWords } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';
-import { loadArt, loadBoardV2Art } from './art.mjs';
+import { loadArt } from './art.mjs';
 import { createPracticeControls } from './practice-controls.js';
 
 // What this page keeps across a reload, per tab: which kind of device it is and the
@@ -65,7 +66,6 @@ const api = createConnectedApi(transport, ports);
 const deviceKind = new URLSearchParams(window.location.search).get('as');
 document.body.dataset.device = ['host', 'player', 'display'].includes(deviceKind) ? deviceKind : 'entry';
 void loadArt(deviceKind);
-void loadBoardV2Art();
 
 function el(tag, text, attributes = {}) {
   const node = document.createElement(tag);

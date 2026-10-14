@@ -8,6 +8,7 @@ import { createScreen } from '../screens/screen.js';
 import type { ScreenController, ScreenHost } from '../screens/screen.js';
 import { DEFAULT_SESSION_TIMING } from '../session/audience-session.js';
 import type { SessionTiming } from '../session/audience-session.js';
+import { createOutcomeFeed } from './outcome-feed.js';
 import { createActionFlow } from './action-flow.js';
 import type { ActionFlow, ActionFlowTiming } from './action-flow.js';
 import { createConnectedApi } from './api.js';
@@ -20,8 +21,8 @@ import type { ConnectedTransport } from './transport.js';
 // wire protocol 2. They are the same screen controller as the fixture's, fed by a session
 // over the backend's view document; everything they show comes from that view.
 //
-// This branch consumes views only. Presentation events and cues belong to the event
-// director, which is reviewed separately.
+// Exact successor tuples additionally consume validated live audience occurrences.
+// Those occurrences never replace or advance authoritative gameplay views.
 
 export interface ConnectedTableScreenOptions {
   readonly transport: ConnectedTransport;
@@ -36,6 +37,7 @@ export interface ConnectedTableScreenOptions {
 export function createConnectedTableScreen(options: ConnectedTableScreenOptions): ScreenController<TableShellModel> {
   const api = createConnectedApi(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const session = createConnectedPublicSession({ ...options, api });
+  const outcomes = createOutcomeFeed(options.transport, options.matchId);
   const catchUp = createDeadlineCatchUp({ api, ports: options.ports, matchId: options.matchId, order: 0, timing: options.catchUpTiming });
   return createScreen<FullPublicView, TableShellInput, TableShellModel>({
     session,
@@ -43,15 +45,19 @@ export function createConnectedTableScreen(options: ConnectedTableScreenOptions)
     host: options.host,
     phaseOf: view => view.phase,
     buildInput(environment, view, local) {
+      const reading = session.readClock();
+      outcomes.observe(view, reading.status === 'synced' ? reading.serverNowMs : null, isCurrent(environment), local.pageVisible);
       // The display asks the server to look at a deadline it believes has passed. It changes
       // nothing itself: the phase on screen is replaced only by the next authoritative view.
       catchUp.observe({ phaseId: view?.phase.id ?? null, current: isCurrent(environment), expired: environment.deadline.kind === 'expired', foreground: local.pageVisible });
       return { ...environment, view };
     },
-    buildModel: buildTableShellModel,
+    buildModel(input) { const model = buildTableShellModel(input); return model.match ? { ...model, match: { ...model.match, outcomes: outcomes.read() } } : model; },
+    watch: onChange => outcomes.subscribe(onChange),
     announcer: createTableAnnouncer(),
     handleIntent: () => null,
     dispose() {
+      outcomes.dispose();
       catchUp.dispose();
       api.cancelPending();
     },
@@ -84,6 +90,7 @@ function applyActionIntent(flow: ActionFlow, intent: ShellIntent): boolean | nul
 export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOptions): ScreenController<ConnectedPlayerShellModel> {
   const api = createConnectedApi(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const session = createConnectedPlayerSession({ ...options, api });
+  const outcomes = createOutcomeFeed(options.transport, options.matchId, options.seatId);
   const flow = createActionFlow({ api, ports: options.ports, matchId: options.matchId, seatId: options.seatId, timing: options.actionTiming });
   // A phone asks later than a display would, and each seat at its own moment.
   const catchUp = createDeadlineCatchUp({ api, ports: options.ports, matchId: options.matchId, order: Number(options.seatId.slice(5)), timing: options.catchUpTiming });
@@ -98,6 +105,8 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
       return feedback === null ? null : JSON.stringify([input.view?.matchId, feedback.id, feedback.phaseId, feedback.stage, feedback.declaredSide]);
     },
     buildInput(environment, view, local) {
+      const reading = session.readClock();
+      outcomes.observe(view, reading.status === 'synced' ? reading.serverNowMs : null, isCurrent(environment), local.pageVisible);
       // The server refused this device the match: the seat is no longer its own. Whatever it
       // was doing with a command is dropped, and nothing more is asked about it.
       if (environment.problem === 'no-access') flow.release();
@@ -108,6 +117,7 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
         current: isCurrent(environment),
         // Only a countdown this device can trust and that is still running lets a command start.
         inTime: environment.deadline.kind === 'running',
+        serverNowMs: view?.phase.endsAt != null && environment.deadline.kind === 'running' ? view.phase.endsAt - environment.deadline.remainingMs : null,
         panelOpen: local.pageVisible && local.privateRevealed && view !== null,
         foreground: local.pageVisible,
       });
@@ -115,7 +125,7 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
       catchUp.observe({ phaseId: view?.phase.id ?? null, current: isCurrent(environment), expired: environment.deadline.kind === 'expired', foreground: local.pageVisible });
       return { ...environment, view, privacy: { concealed: !local.pageVisible, revealed: local.privateRevealed }, action: flow.getState() };
     },
-    buildModel: buildConnectedPlayerShellModel,
+    buildModel(input) { const model = buildConnectedPlayerShellModel(input); return model.match ? { ...model, match: { ...model.match, outcomes: outcomes.read() } } : model; },
     announcer: createConnectedPlayerAnnouncer(),
     handleIntent(intent, { local, model }) {
       if (intent.type === 'private/toggle') {
@@ -142,9 +152,10 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
         },
       };
     },
-    watch: onChange => flow.subscribe(onChange),
+    watch: onChange => { const stops = [flow.subscribe(onChange), outcomes.subscribe(onChange)]; return () => stops.forEach(stop => stop()); },
     dispose() {
       flow.dispose();
+      outcomes.dispose();
       catchUp.dispose();
       api.cancelPending();
     },
