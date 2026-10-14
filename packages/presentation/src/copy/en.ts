@@ -84,6 +84,7 @@ export const en = {
     // The server's own phase kinds under wire protocol 2, named and nothing more.
     kind: {
       HACK: 'Hack',
+      BLACKOUT: 'Blackout',
       HACK_DECLARE: 'Hack declaration',
       HACK_RESULT: 'Hack claim',
       CAPTAIN_ELECTION: 'Captain election',

@@ -12,7 +12,7 @@ function fixture(t, files) {
   for (const file of files) writeFileSync(join(root, file), '');
   return root;
 }
-const functions = ['services/game-api/test-emulator/service.test.mjs', 'infra/firebase/test-emulator/full-http.test.mjs', 'infra/firebase/test-emulator/v1-practice-bots-functions.test.mjs'];
+const functions = ['services/game-api/test-emulator/service.test.mjs', 'infra/firebase/test-emulator/full-http.test.mjs', 'infra/firebase/test-emulator/blackout-functions.test.mjs', 'infra/firebase/test-emulator/v1-practice-bots-functions.test.mjs'];
 
 test('emulator grouping retains every suite and isolates newly added service tests from live triggers', t => {
   const extra = ['services/game-api/test-emulator/new-fixture.test.mjs', 'infra/firebase/test-emulator/new-rules.test.mjs'];
