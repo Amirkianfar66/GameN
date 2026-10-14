@@ -248,7 +248,7 @@
   },
   "metadataFiles": {
     "apps/game/hosted/board-v2-host.mjs": {
-      "sha256": "fadb1742ef188ed9e28038c2ff6eb9c31315808782b4335946fcc20c1621e962",
+      "sha256": "0b1a41a297426ad1a83e5886f249bc53dbccbc86c726aafc27dc8c37ca1fcde2",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -281,7 +281,7 @@
     "runtimeCatalogSha256": "d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f"
   },
   "nativeConsumerReview": {
-    "sourceCommit": "2aeaefacf5f0de9f1c26b6e8bbb5c445314df023",
+    "sourceCommit": "63153fa0aa17fe91d930b919b5434bec71bd691f",
     "scope": "Native fixed-slot, Blackout, room-event, capsule, setup and recovery consumers reviewed by Integration and Backend. Only existing metadata literal exceptions renewed; pure drawing hashes and historical source bytes unchanged. Browser acceptance and exact release CI remain separate gates."
   }
 }
