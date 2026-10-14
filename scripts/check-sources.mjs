@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { prepareSetupArt } from './setup-art-candidate.mjs';
+import { prepareBoardV2MotionArt } from './board-v2-motion-art.mjs';
 import { verifyBoardV2RuntimePorts } from './board-v2-runtime-ports.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -9,6 +11,7 @@ const read = path => readFileSync(new URL(path, root));
 const json = path => JSON.parse(read(path));
 const hash = path => createHash('sha256').update(read(path)).digest('hex');
 console.log(`Board V2 exact runtime ports: ${verifyBoardV2RuntimePorts(fileURLToPath(root))} approved source/derivative pairs`);
+console.log(`Reviewed common setup/motion art: ${prepareSetupArt(fileURLToPath(root)).assetCount + prepareBoardV2MotionArt(fileURLToPath(root)).assetCount} exact SVGs`);
 const lock = json('docs/bootstrap-source-lock.json');
 for (const entry of lock.files) assert.equal(hash(entry.path), entry.sha256, `Changed source: ${entry.path}`);
 const rules = json('rules/source-manifest.json');

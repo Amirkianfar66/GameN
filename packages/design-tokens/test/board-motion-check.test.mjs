@@ -28,7 +28,7 @@ function scratchCopy() {
   scratchRoots.push(root);
   // The fence uses the already-pinned TypeScript parser; no dependency is installed in scratch copies.
   symlinkSync(join(repoRoot, 'node_modules'), join(root, 'node_modules'), 'dir');
-  for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'design/releases', 'design/board-v2', 'scripts/runtime-art-release.mjs', 'scripts/board-v2-art-candidate.mjs', 'docs/design', 'packages/design-tokens/src',
+  for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'design/releases', 'design/board-v2', 'scripts/runtime-art-release.mjs', 'scripts/board-v2-art-candidate.mjs', 'scripts/board-v2-motion-art.mjs', 'scripts/setup-art-candidate.mjs', 'design/setup-art', 'docs/design', 'packages/design-tokens/src',
     'design/abilities/css', 'design/abilities/js', 'design/abilities/assets',
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
     mkdirSync(dirname(join(root, path)), { recursive: true });

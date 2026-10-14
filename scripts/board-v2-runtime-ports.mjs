@@ -6,7 +6,9 @@ const sha=x=>createHash('sha256').update(x).digest('hex');
 export function verifyBoardV2RuntimePorts(root) {
  const bytes=readFileSync(resolve(root,'design/releases/board-v2-runtime-ports.json'));
  if(sha(bytes)!=='b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac')throw Error('Board V2 reviewed port catalog drift');
- const catalog=JSON.parse(bytes);
+ const motionBytes=readFileSync(resolve(root,'design/releases/board-v2-motion-ports.json'));
+ if(sha(motionBytes)!=='d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f')throw Error('Board V2 reviewed motion port catalog drift');
+ const catalog={entries:[...JSON.parse(bytes).entries,...JSON.parse(motionBytes).entries]};
  const directory='apps/game/hosted/board-v2-drawing/';
  const expected=catalog.entries.map(entry=>entry.runtime).sort();
  const actual=readdirSync(resolve(root,directory),{withFileTypes:true,recursive:true})

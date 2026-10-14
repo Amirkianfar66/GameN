@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · ability art proposal · the role card's back
+  Original vector artwork made for this repository. Rights and provenance: design/abilities/assets/manifest.json.
+
+  The back of the seat's own role card, as the reading stage deals it face down: THE SAME BACK FOR EVERY ROLE, so that
+  a glance at a phone tells nobody anything. A field of the steel's hatch, halftone heavier toward its edges, speed
+  lines, and the closed eye of the reviewed icon-private (design/source/cards/ui-icons.svg) on a paper seal over a
+  caption-yellow burst. Drawn to be laid out with background-size: cover in a card of any height: everything that
+  matters is in the middle 200 x 240, and the frame is the card's own border, not the picture's.
+
+  Colors are token values (tokens 0.4.0): steel, ink, paper and the caption yellow.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 440" width="280" height="440">
+  <defs>
+    <pattern id="setup-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="9" height="9" fill="#202837"/>
+      <path d="M0 0 V9" fill="none" stroke="#222B3A" stroke-width="2.6"/>
+    </pattern>
+    <pattern id="setup-dots-fine" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="3.5" cy="3.5" r="1.1" fill="#10141C"/>
+    </pattern>
+    <pattern id="setup-dots" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="3.5" cy="3.5" r="2" fill="#10141C"/>
+    </pattern>
+  </defs>
+
+  <!-- The back, 240 x 400. -->
+  <g transform="translate(20 20)">
+    <g id="setup-back">
+      <rect width="240" height="400" fill="url(#setup-hatch)"/>
+      <path d="M0 0 H240 V400 H0 Z M38 38 V362 H202 V38 Z" fill="url(#setup-dots-fine)" fill-rule="evenodd"/>
+      <path d="M0 0 H240 V400 H0 Z M16 16 V384 H224 V16 Z" fill="url(#setup-dots)" fill-rule="evenodd"/>
+      <path d="M120 104 V62 M120 296 V338 M32 200 H14 M208 200 H226 M58 138 L36 116 M182 138 L204 116 M58 262 L36 284 M182 262 L204 284" fill="none" stroke="#55657E" stroke-width="3" stroke-linecap="round"/>
+      <path d="M120.0 118.0 L131.3 136.0 L148.0 122.9 L152.5 143.7 L172.7 137.2 L169.8 158.2 L191.0 159.0 L181.1 177.8 L200.8 185.8 L185.0 200.0 L200.8 214.2 L181.1 222.2 L191.0 241.0 L169.8 241.8 L172.7 262.8 L152.5 256.3 L148.0 277.1 L131.3 264.0 L120.0 282.0 L108.7 264.0 L92.0 277.1 L87.5 256.3 L67.3 262.8 L70.2 241.8 L49.0 241.0 L58.9 222.2 L39.2 214.2 L55.0 200.0 L39.2 185.8 L58.9 177.8 L49.0 159.0 L70.2 158.2 L67.3 137.2 L87.5 143.7 L92.0 122.9 L108.7 136.0 Z" fill="#151923" transform="translate(4 5)"/>
+      <path d="M120.0 118.0 L131.3 136.0 L148.0 122.9 L152.5 143.7 L172.7 137.2 L169.8 158.2 L191.0 159.0 L181.1 177.8 L200.8 185.8 L185.0 200.0 L200.8 214.2 L181.1 222.2 L191.0 241.0 L169.8 241.8 L172.7 262.8 L152.5 256.3 L148.0 277.1 L131.3 264.0 L120.0 282.0 L108.7 264.0 L92.0 277.1 L87.5 256.3 L67.3 262.8 L70.2 241.8 L49.0 241.0 L58.9 222.2 L39.2 214.2 L55.0 200.0 L39.2 185.8 L58.9 177.8 L49.0 159.0 L70.2 158.2 L67.3 137.2 L87.5 143.7 L92.0 122.9 L108.7 136.0 Z" fill="#F7C52B" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="120" cy="200" r="52" fill="#F4EBDD" stroke="#151923" stroke-width="4"/>
+      <circle cx="120" cy="200" r="43" fill="none" stroke="#CBBBA2" stroke-width="2" stroke-dasharray="5 4"/>
+      <g fill="none" stroke="#151923" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" transform="translate(120 197) scale(1.9) translate(-16 -16)">
+        <path d="M4 13 C9 21 23 21 28 13"/>
+        <path d="M8.5 18.5 L6 23 M16 20 V25 M23.5 18.5 L26 23"/>
+      </g>
+    </g>
+  </g>
+</svg>
