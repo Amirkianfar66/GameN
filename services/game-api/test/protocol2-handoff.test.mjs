@@ -40,8 +40,12 @@ test('historical protocol-2 handoff preserves every original endpoint and gamepl
     assert.equal(schema.safeParse({ ...request, actorSeatId: 'seat-5' }).success, false, endpoint);
     assert.equal(schema.safeParse({ ...request, protocolVersion: 1 }).success, false, endpoint);
   }
-  // Preserve the immutable historical artifact; new versioned declarations have separate acceptance coverage.
-  const expected = FullCommandSchema.options.map(schema => schema.shape.type.value).filter(type => type !== 'DECLARE_HACK_SIDE').sort();
+  // Freeze original command coverage independently of future immutable tuples.
+  // New declaration/Captain commands have separate native/versioned acceptance.
+  const expected = ['DISABLE','MOVE','PASS_TURN','PROTECT','REGISTER_SHOT','RELEASE_CHOICE','RELEASE_VOTE',
+    'REQUEST_HACK','RESCUE','SCAN','SHOWDOWN_SHOT','SUBMIT_CODE','SUPPLY','VOTE'].sort();
+  const current = FullCommandSchema.options.map(schema => schema.shape.type.value);
+  for (const type of expected) assert.ok(current.includes(type), `Historical command removed: ${type}`);
   assert.deepEqual(examples.commandRequests.map(request => request.command.type).sort(), expected);
   for (const request of examples.commandRequests) {
     assert.deepEqual(FullCommandRequestSchema.parse(request), request);
