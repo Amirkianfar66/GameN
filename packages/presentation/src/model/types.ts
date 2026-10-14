@@ -626,6 +626,8 @@ export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'priva
   readonly playerCount?: number;
   readonly capsule?: PublicCapsuleModel | null;
   readonly boardLayout?: PublicBoardModel;
+  /** Player-only technical state, visible without opening role or target information. */
+  readonly commandRecovery?: { readonly text: string; readonly canCheck: boolean; readonly disabled: boolean } | null;
   /** Ending your own turn is role-neutral; it does not require revealing the private card. */
   /**
    * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose

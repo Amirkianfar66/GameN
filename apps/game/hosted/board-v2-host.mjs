@@ -9,7 +9,7 @@ import {createBoardV2Capsule} from './board-v2-capsule.mjs';
 const px=n=>`${n}px`;
 const box=(node,r)=>{if(!node||!r)return;for(const name of ['left','top','width','height'])if(Number.isFinite(r[name]))node.style[name]=px(r[name]);};
 const safeInsets=document=>{
- const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);
+ const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:var(--bv2-safe-top,env(safe-area-inset-top)) var(--bv2-safe-right,env(safe-area-inset-right)) var(--bv2-safe-bottom,env(safe-area-inset-bottom)) var(--bv2-safe-left,env(safe-area-inset-left))';document.body.append(probe);
  const s=getComputedStyle(probe),out={top:parseFloat(s.paddingTop)||0,right:parseFloat(s.paddingRight)||0,bottom:parseFloat(s.paddingBottom)||0,left:parseFloat(s.paddingLeft)||0};probe.remove();return out;
 };
 
@@ -33,7 +33,12 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(sample.animate&&document.visibilityState==='visible')raf=requestAnimationFrame(paint);else raf=null;
  }
  function controls(){
-  const {board,choosing,sheet}=layout;
+  const {board,choosing}=layout;
+  const fallbackTop=Math.min(board.navTop-150,Math.max(board.insets.top+board.shell.top+100,holder.querySelector('.bv2-too-short')?.getBoundingClientRect().bottom+8||0));
+  const sheet=layout.sheet??{left:board.insets.left+8,top:fallbackTop,width:board.usable.width-16,height:board.navTop-fallbackTop,
+   body:{height:board.navTop-fallbackTop-52},actions:{top:board.navTop-48,height:44,
+    start:{left:board.insets.left+8,width:board.pass.cx-board.pass.r-board.insets.left-14},
+    end:{left:board.pass.cx+board.pass.r+6,width:window.innerWidth-board.insets.right-board.pass.cx-board.pass.r-14}}};
   const nativeChoose=root.querySelector('.bv2-choosing');
   const choosingSeats=layout.fits&&Boolean(nativeChoose);
   root.dataset.boardChoosing=String(choosingSeats);root.dataset.boardPrivateTab=String(choosingSeats&&tab);
@@ -42,6 +47,14 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   const pass=root.querySelector('.phone-pass');if(pass){box(pass,{left:board.pass.cx-board.pass.r,top:board.pass.cy-board.pass.r-board.navTop,width:2*board.pass.r,height:2*board.pass.r});}
   const phase=root.querySelector('.ms-phase');
   if(phase){box(phase,{left:board.insets.left,top:board.insets.top,width:board.usable.width,height:board.shell.top});phase.style.setProperty('--bv2-header-height',px(board.shell.top));}
+  const banners=root.querySelector('.ms-banners');
+  if(banners){box(banners,sheet);banners.style.maxHeight=px(sheet.height);banners.hidden=!banners.querySelector('.ms-banner--connection');}
+  const reconnect=banners?.querySelector('[data-intent="session/reconnect"]');
+  if(reconnect)box(reconnect,{left:sheet.actions.start.left,top:sheet.actions.top,width:sheet.actions.start.width,height:sheet.actions.height});
+  const recovery=root.querySelector('.bv2-recovery');
+  if(recovery){const top=sheet.top+(banners&&!banners.hidden?Math.min(sheet.body.height-30,banners.querySelector('.ms-banner__text')?.getBoundingClientRect().height??70)+8:0);
+   box(recovery,{left:sheet.left,top,width:sheet.width,height:Math.max(44,board.navTop-top)});
+   box(recovery.querySelector('[data-intent="action/check-again"]'),{left:sheet.actions.end.left,top:sheet.actions.top,width:sheet.actions.end.width,height:sheet.actions.height});}
   if(!layout.fits)return;
   for(const surface of root.querySelectorAll('.ms-private[data-open="true"],.phone-menu,.phone-action-dock')){
    box(surface,sheet);surface.style.setProperty('--bv2-sheet-height',px(sheet.height));

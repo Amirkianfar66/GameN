@@ -121,7 +121,7 @@ const receipts = new Map();
 let receiptAvailable = params.get('answer') !== 'lost';
 const operations = [];
 const transport = {
-  mode: 'emulator',
+  mode: isBoardV2 ? 'fixture' : 'emulator',
   currentUid: () => 'simulation-uid',
   signIn: async () => 'simulation-uid',
   async post(operation, body) {
@@ -158,7 +158,7 @@ const transport = {
 const ports = browserPorts();
 const screen = display
   ? createConnectedTableScreen({ transport, matchId: MATCH, ports, host: { reload: () => window.location.reload() } })
-  : createConnectedPlayerScreen({ transport, matchId: MATCH, seatId: self, ports, host: { reload: () => window.location.reload() } });
+  : createConnectedPlayerScreen({ transport, matchId: MATCH, seatId: self, ports, host: { reload: () => window.location.reload() }, ...(params.has('fast-recovery')?{actionTiming:{recheckDelaysMs:[30,30,30]}}:{}) });
 const feeds = createComicFeeds({ transport, ports, matchId: MATCH, ...(display ? {} : { seatId: self }) });
 let frameCount = 0;
 const stopCounting = screen.subscribe(() => { frameCount += 1; });
@@ -175,7 +175,7 @@ window.__simulation = {
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** Synthetic server closes the vote; the consumer still only reads its next snapshot. */
   /** Explicit authored snapshot delivery; no animation or browser timer advances a game. */
-  hack(stage, side = 'Blue') { if (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(stage)) throw new Error('Unknown fixture Hack stage'); hackStage = stage; hackSide = side; hackStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  hack(stage, side = 'Blue') { if (!['HACK_DECLARE','HACK_RESULT','HACK',...(isBoardV2?['idle']:[])].includes(stage)) throw new Error('Unknown fixture Hack stage'); hackStage = stage; hackSide = side; hackStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   showResult() { awaitingResult = false; resultStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The public update a server would send: the player's own seat in another room. */
   move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },

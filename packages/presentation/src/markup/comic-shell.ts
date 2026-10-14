@@ -368,7 +368,7 @@ function renderBoardV2Action(card: ConnectedActionCardModel): MarkupElement {
     const total = card.kind === 'code' ? 4 : card.kind === 'supply' ? 2 : 1;
     const compactPrompt = card.kind === 'code' ? `Code: choose ${total - count}` : card.kind === 'supply' ? `Supply: choose ${total - count}` : `${card.title}: choose a player`;
     const prompt = line(compactPrompt);
-    content = [{ ...prompt, attrs: { ...prompt.attrs, 'aria-label': `${card.title}: ${body.prompt}`, title: body.prompt } }, hiddenText(body.note), hiddenText(body.progress ?? '')];
+    content = [{ ...prompt, attrs: { ...prompt.attrs, 'aria-label': `${card.title}: ${body.prompt}` } }, hiddenText(body.note), hiddenText(body.progress ?? '')];
     controls = [h('button', { type: 'button', id: 'bv2-choice-private', 'data-board-private': 'toggle', 'aria-label': 'Show private claim and command status' }, 'Status'),
       h('button', { type: 'button', id: 'ms-action-cancel', 'data-intent': 'action/cancel' }, 'Cancel'),
       count > 0 ? h('button', { type: 'button', id: body.back.id, 'data-intent': body.back.intent, 'aria-label': body.back.label }, 'Undo') : null,
@@ -531,7 +531,11 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   }
   const current = { ...context, phoneView, practice: model.connection === 'live' ? context.practice ?? null : null };
   const rendered = decoratePublic(withPracticeNotice(visit(source), current), current) as MarkupElement;
-  return { ...rendered, attrs: { ...rendered.attrs, 'data-phone-view': phoneView, 'data-action-dock': String(dockedAction || passCard !== null) } };
+  const recovery = match.boardLayout && !match.privateArea.open && match.commandRecovery && !passCard
+    ? h('section', { class: 'bv2-recovery', 'data-region': 'command-recovery', 'aria-label': 'Command recovery' },
+      h('p', { role: 'status' }, match.commandRecovery.text), match.commandRecovery.canCheck
+        ? h('button', { type: 'button', id: 'ms-action-check', 'data-intent': 'action/check-again', disabled: match.commandRecovery.disabled }, 'Check again') : null) : null;
+  return { ...rendered, attrs: { ...rendered.attrs, 'data-phone-view': phoneView, 'data-action-dock': String(dockedAction || passCard !== null) }, children: [...rendered.children, ...(recovery ? [recovery] : [])] };
 }
 
 export function renderComicTableShell(model: TableShellModel, context: ComicContext = {}): MarkupElement {

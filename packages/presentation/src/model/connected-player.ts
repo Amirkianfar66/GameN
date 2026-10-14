@@ -390,6 +390,10 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     versions: view.versions,
     ...publicCapsuleProps(view, input),
     ...publicBoardProps(view, input),
+    ...(publicBoardProps(view, input).boardLayout ? { commandRecovery:
+      input.action.step === 'unknown' ? { text: 'The outcome of your sent command is still unknown.', canCheck: true, disabled: !input.action.armed }
+      : input.action.step === 'checking' || input.action.step === 'submitting' ? { text: 'Checking whether your sent command was accepted.', canCheck: false, disabled: true }
+      : null } : {}),
     phaseKind: view.phase.kind,
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),

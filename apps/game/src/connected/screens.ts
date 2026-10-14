@@ -124,6 +124,9 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
         return { local: { ...local, privateRevealed: !local.privateRevealed } };
       }
       if (intent.type === 'action/pass') return local.pageVisible && model.match?.passTurn.available && flow.pass() ? {} : null;
+      if (local.pageVisible && model.match?.commandRecovery?.canCheck && intent.type === 'action/check-again') {
+        return applyActionIntent(flow, intent) === true ? {} : null;
+      }
       // The neutral Pass receipt can be checked or dismissed with the private card closed.
       if (local.pageVisible && model.match?.passTurn.card && (intent.type === 'action/check-again' || intent.type === 'action/dismiss')) {
         return applyActionIntent(flow, intent) === true ? {} : null;
