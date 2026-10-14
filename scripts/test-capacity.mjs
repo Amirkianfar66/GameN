@@ -121,7 +121,9 @@ export async function runCapacityGate(checkout=root) {
     ['playouts','walk.mjs',['--seeds','200','--rooms','capped','--room-capacity','5'],assertCapacityWalk],
   ]) {
     const file=join(directory,`${name}.json`);
-    runBalanceProcess(process.execPath,[join(checkout,'tools/balance/scripts',script),...common,...args,'--out',file],checkout,join(directory,`${name}.log`));
+    // Keep all 600 playouts; slower runners need the same bounded allowance as
+    // the historical controls. Scenario execution retains the shorter limit.
+    runBalanceProcess(process.execPath,[join(checkout,'tools/balance/scripts',script),...common,...args,'--out',file],checkout,join(directory,`${name}.log`),undefined,name==='playouts'?1_200_000:600_000);
     check(readBalanceReport(file),contract,{startedAt,finishedAt:Date.now()});
     same(readBalanceProvenance(checkout),provenance,'checkout changed during checks');
     same(engineBuildDigest(checkout),contract.build,'build changed during checks');

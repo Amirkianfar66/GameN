@@ -18,6 +18,7 @@ import { planCoverage, COVERAGE_PATH } from './board-motion-docs.mjs';
 import { boardMotionInputsSha256 } from './lib/board-motion-inputs.mjs';
 import { offerProblems } from './lib/board-motion-offers.mjs';
 import { productionDrawingProblems } from './lib/drawing-port-fence.mjs';
+import { readReleaseActionCoverage } from './lib/release-action-coverage.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const text = path => readFile(resolve(repoRoot, path), 'utf8');
@@ -34,7 +35,7 @@ const load = path => import(pathToFileURL(resolve(repoRoot, path)).href);
 const ROLE_WORDS = ['Officer', 'Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
 const TOOLS = ['design/tools/board-motion-assets.mjs', 'design/tools/board-motion-capture.mjs', 'design/tools/board-motion-check.mjs', 'design/tools/board-motion-docs.mjs',
   'design/tools/board-motion-flows.mjs', 'design/tools/lib/board-motion-inputs.mjs', 'design/tools/lib/drawing-port-fence.mjs', 'design/tools/lib/reviewed-drawing-ports.json'];
-const coverage = await json('design/board-motion/contract/coverage.json');
+const coverage = await readReleaseActionCoverage(repoRoot);
 const cues = await json('design/board-motion/contract/cues.json');
 // The prototype's own modules run here in Node. One that does not load is refused by name below,
 // after the fence check, which reads files as text and so still says why.
@@ -177,7 +178,7 @@ if (loadError) {
     for (const cue of action.cues) if (!cueIds.has(cue)) problems.push(`${action.kind}: unknown cue ${cue}`);
     if (action.scenarios.length === 0) problems.push(`${action.kind}: no scenario`);
     for (const id of action.scenarios) if (!scenarioIds.has(id)) problems.push(`${action.kind}: no scenario ${id}`);
-    if (!['move', 'pass', 'release-vote'].includes(action.kind) && !action.cues.includes('cue-target-eligible')) problems.push(`${action.kind}: names players and has no eligible cue`);
+    if (!['move', 'pass', 'release-vote', 'declare-hack-side'].includes(action.kind) && !action.cues.includes('cue-target-eligible')) problems.push(`${action.kind}: names players and has no eligible cue`);
   }
   const scan = coverage.actions.find(action => action.kind === 'scan');
   if (JSON.stringify(scan?.inline) !== JSON.stringify(factions)) problems.push(`the Scan's answers are not the contract's factions (${factions.join(', ')})`);

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { basename, resolve } from 'node:path';
 import { ART_BUNDLES } from './art.mjs';
+import { readRuntimeArtRelease, assertRuntimeArtBundle } from '../../../scripts/runtime-art-release.mjs';
 
 // Integration-authorized trial additions. The base reviewed manifest remains separate.
 export const TRIAL_ART = Object.freeze({
@@ -28,22 +29,26 @@ export function trialStylesheet(root, name) {
   return runtime;
 }
 
-/** Only the three complete, hashed production bundles cross the asset boundary. */
+/** Emit the complete reviewed art set uniformly; never select it by private role. */
 export function comicAssetsPlugin(root) {
   return {
     name: 'mothership-production-comic-art',
     buildStart() {
+      const release = readRuntimeArtRelease(root);
       const manifest = JSON.parse(readFileSync(resolve(root, 'design/exports/asset-manifest.json'), 'utf8'));
       if (manifest.manifestVersion !== 'design-0.2.0') throw new Error('Comic manifest needs integration review');
       for (const [name, url] of Object.entries(ART_BUNDLES)) {
         if (name === 'scene-art' || name === 'abilities') {
-          this.emitFile({ type: 'asset', fileName: url.slice(1), source: trialStylesheet(root, name) });
+          const source = trialStylesheet(root, name);
+          assertRuntimeArtBundle(release, name, url, source);
+          this.emitFile({ type: 'asset', fileName: url.slice(1), source });
           continue;
         }
         const sheet = manifest.bundles[name].stylesheet;
         if (!sheet.path.startsWith(`design/exports/${name}/`) || basename(sheet.path) !== basename(url)) throw new Error('Comic bundle path drift');
         const source = readFileSync(resolve(root, sheet.path));
         if (createHash('sha256').update(source).digest('hex') !== sheet.sha256) throw new Error('Comic bundle hash drift');
+        assertRuntimeArtBundle(release, name, url, source);
         this.emitFile({ type: 'asset', fileName: url.slice(1), source });
       }
     },
