@@ -1,5 +1,5 @@
 import type { FullPublicView } from './full-game.js';
-import { VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, PUBLIC_HACK_VERSION_PINS } from './full-game-versions.js';
+import { VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, PUBLIC_HACK_VERSION_PINS, supportsBoardMedical } from './full-game-versions.js';
 
 type GameplayVersions = Pick<FullPublicView['versions'], 'protocolVersion' | 'engineVersion' | 'rulesetVersion' | 'rulesetHash'>;
 type Location = FullPublicView['seats'][number]['location'];
@@ -18,7 +18,12 @@ const CAPPED_TUPLES: readonly GameplayVersions[] = [
  * Unknown/mixed tuples and historical uncapped matches must not acquire a FULL
  * label from the currently deployed binary. Use server offers to enable moves.
  */
-export function fullRoomCapacityForVersions(versions: GameplayVersions, location: Location): number | null {
+export function fullRoomCapacityForVersions(versions: GameplayVersions, location: Location, playerCount?: 7 | 8 | 9): number | null {
+  if (supportsBoardMedical(versions)) {
+    if (location === 'Command Room') return 1;
+    if (location === 'Hospital') return playerCount !== undefined && [7,8,9].includes(playerCount) ? playerCount : null;
+    return ['Room A','Room B','Jail'].includes(location) ? 5 : null;
+  }
   const known = CAPPED_TUPLES.some(tuple => tuple.protocolVersion === versions.protocolVersion
     && tuple.engineVersion === versions.engineVersion && tuple.rulesetVersion === versions.rulesetVersion
     && tuple.rulesetHash === versions.rulesetHash);

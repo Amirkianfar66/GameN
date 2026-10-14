@@ -7,6 +7,9 @@ export const FULL_RULESET_HASH = 'aef288266055bfc6f9905b97ba3262400044af84c689db
 export type FullGameplayVersions = Pick<FullPublicView['versions'], 'protocolVersion' | 'engineVersion' | 'rulesetVersion' | 'rulesetHash'>;
 export const FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const, engineVersion: FULL_ENGINE_VERSION,
   rulesetVersion: FULL_RULESET_VERSION, rulesetHash: FULL_RULESET_HASH });
+export const BOARD_MEDICAL_FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const,
+  engineVersion: 'full-game-1.7.0', rulesetVersion: 'in-person-v1-board-medical-2026-10-14',
+  rulesetHash: '82be55c66a9925712d4cce1e1a56ff4f7aae001c363c2ba93e3267b6e6e70275' });
 export const PUBLIC_HACK_FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const,
   engineVersion: 'full-game-1.6.0', rulesetVersion: 'in-person-v1-public-hack-2026-10-14',
   rulesetHash: '28bc2eb81e3687c63746018e392227ded1989f398e2667495e0b6f499f0f3969' });
@@ -28,10 +31,11 @@ const sameGameplayVersions = (versions: FullGameplayVersions, pins: FullGameplay
   && versions.rulesetVersion === pins.rulesetVersion && versions.rulesetHash === pins.rulesetHash;
 // Support exact reviewed tuples; mixing a new engine with an old ruleset is invalid.
 export const isSupportedFullGameVersions = (versions: FullGameplayVersions): boolean =>
-  sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPACITY_FULL_GAME_VERSION_PINS)
+  sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPACITY_FULL_GAME_VERSION_PINS)
     || sameGameplayVersions(versions, PASS_FULL_GAME_VERSION_PINS)
     || sameGameplayVersions(versions, LEGACY_FULL_GAME_VERSION_PINS);
-export const publicHackEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS);
+export const boardMedicalEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS);
+export const publicHackEnabled = (versions: FullGameplayVersions): boolean => boardMedicalEnabled(versions) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS);
 export const declaredHackEnabled = (versions: FullGameplayVersions): boolean => publicHackEnabled(versions) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS);
 export const voteResultEnabled = (versions: FullGameplayVersions): boolean => declaredHackEnabled(versions) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS);
 export const resolutionPlacementEnabled = (versions: FullGameplayVersions): boolean => voteResultEnabled(versions) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS);

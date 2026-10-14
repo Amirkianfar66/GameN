@@ -4,10 +4,12 @@ import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled, boardMedicalEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
 import { placeResolvedSeats } from './placement.js';
+import { moveBoardSeat } from './slots.js';
+import { initializeMedicalState, assertMedicalState, recordMedicalDamage, healMedicalSeat, applyDueMedicalDeaths, placeImmediateMedicalSeat, placeMedicalSeats, projectMedicalStatus } from './medical.js';
 
 const clone = <T>(value:T):T => JSON.parse(JSON.stringify(value)) as T;
 const alive = (seat: GameSeat) => seat.health !== 'Eliminated';
@@ -50,7 +52,7 @@ function nextTurn(state: FullGameState, context: FullGameContext): void {
     phase(state,'ORDINARY_TURN',context); state.activeSeatId = state.turnOrder[state.turnIndex]!;
   } else {
     const captain = state.seats.find(s => s.captain);
-    if (captain && !state.releaseUsed && state.seats.some(s=>s.jailed && alive(s))) {
+    if (!boardMedicalEnabled(state.versions) && captain && !state.releaseUsed && state.seats.some(s=>s.jailed && alive(s))) {
       phase(state,'RELEASE_CHOICE',context); state.activeSeatId = captain.seatId;
       state.eligibleTargets = state.seats.filter(s=>s.jailed && alive(s)).map(s=>s.seatId); state.releaseChoiceMade=false;
     } else openJailVote(state,context);
@@ -96,6 +98,7 @@ function loseCaptain(state: FullGameState, seat: GameSeat) {
   if (seat.location === 'Command Room' && !resolutionPlacementEnabled(state.versions)) seat.location=ordinaryReturnDestination(state,seat);
 }
 function placement(state: FullGameState, seat: GameSeat) {
+  if (boardMedicalEnabled(state.versions)) { placeImmediateMedicalSeat(state,seat); return; }
   if (!ready(seat)) loseCaptain(state,seat);
   if (seat.jailed) {
     // At most one successful Jail tally per round over five rounds. Fail closed on
@@ -116,6 +119,7 @@ function attack(state: FullGameState, target: GameSeat) {
   if (target.protection && !target.protection.consumed && target.protection.activeFromRound <= state.round) {
     target.protection.consumed=true; return;
   }
+  if (boardMedicalEnabled(state.versions)) { recordMedicalDamage(state,target); return; }
   target.health=target.health === 'Healthy' ? 'Injured' : 'Eliminated';
   if (target.captain) loseCaptain(state,target);
 }
@@ -139,7 +143,8 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
     for (const actorId of state.turnOrder) for (const q of state.queued.filter(q=>q.actorSeatId===actorId)) {
       if (q.command.type==='RESCUE') {
         const target=find(state,q.command.targetSeatId)!;
-        if (target.health==='Injured') target.health='Healthy';
+        if (boardMedicalEnabled(state.versions)) healMedicalSeat(target);
+        else if (target.health==='Injured') target.health='Healthy';
       }
     }
     if (state.round===3) {
@@ -154,7 +159,8 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
           successfulRecipientSeatIds:[...successfulRecipientSeatIds].sort() });
       }
     }
-    if (resolutionPlacementEnabled(state.versions)) placeResolvedSeats(state);
+    if (boardMedicalEnabled(state.versions)) { applyDueMedicalDeaths(state); placeMedicalSeats(state); }
+    else if (resolutionPlacementEnabled(state.versions)) placeResolvedSeats(state);
     else {
       // Preserve the exact 1.2 healed-first pass, including its audited return bug.
       // Earlier tuples retain the original single pass.
@@ -164,13 +170,14 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
       for (const s of state.seats) placement(state,s);
     }
   }
+  if (showdown && boardMedicalEnabled(state.versions)) placeMedicalSeats(state);
   const simultaneousElimination=blueBefore && redBefore && !factionSurvives(state,'Blue') && !factionSurvives(state,'Red');
   state.result=evaluateVictory({ seats:state.seats,round:state.round,correctCode:state.correctCode,
     codeEligibleNow:state.round===5,simultaneousElimination,finalCheckpoint:showdown });
   state.queued=[]; state.pendingHack=null;
   if (state.result) { phase(state,'FINISHED',context); return; }
   if (state.round===5) {
-    for (const seat of state.seats.filter(alive)) { seat.location='Final Zone'; seat.specialShotAvailable=true; }
+    for (const seat of state.seats.filter(alive)) { if (!boardMedicalEnabled(state.versions)) seat.location='Final Zone'; seat.specialShotAvailable=true; }
     phase(state,'SHOWDOWN',context); return;
   }
   state.round++;
@@ -195,7 +202,8 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
     ...(voteResultEnabled(recordedVersions)?{voteResult:null,voteResultContinuation:null}:{}),
     ...(declaredHackEnabled(recordedVersions)?{hackFeedback:null}:{}),
     viewRevisions:{public:0,players:Object.fromEntries(seatIds.map(id=>[id,0]))}};
-  beginRound(state,context); return state;
+  if (boardMedicalEnabled(state.versions)) initializeMedicalState(state);
+  beginRound(state,context); assertMedicalState(state); return state;
 }
 const ordinaryShotAllowed=(state:FullGameState, actor:GameSeat)=>ready(actor) && actor.ordinaryWeapons>0
   && (actor.role==='Officer' ? !actor.officerShotSpent : state.round>=4);
@@ -234,6 +242,7 @@ function revise(before:FullGameState,after:FullGameState):FullGameState {
   return after;
 }
 export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:FullCommandRequest,context:FullGameContext):{state:FullGameState;receipt:FullReceipt} {
+  assertMedicalState(before);
   validateContext(context); FullCommandRequestSchema.parse(request);
   const receiptBase={protocolVersion:2 as const,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId};
   const reject=(code:'PHASE_CLOSED'|'NOT_ALLOWED')=>({state:before,receipt:{...receiptBase,status:'rejected' as const,code}});
@@ -252,19 +261,21 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
     case 'MOVE':
       if (!movementWindowOpen(state)||!ready(actor)||actor.movedInRound||!['Room A','Room B','Command Room'].includes(actor.location)
         ||command.destination===actor.location||(command.destination==='Command Room'&&!actor.captain)||!roomHasSpace(state,command.destination)) return reject('NOT_ALLOWED');
-      actor.location=command.destination; if(command.destination!=='Command Room')actor.lastRoom=command.destination; actor.movedInRound=true; break;
+      if (boardMedicalEnabled(state.versions)) moveBoardSeat(state,actor,command.destination);
+      else actor.location=command.destination;
+      if(command.destination!=='Command Room')actor.lastRoom=command.destination; actor.movedInRound=true; break;
     case 'SUBMIT_CODE':
       if (actor.role!=='Hacker'||state.round!==5||state.codeSubmitted||['SHOWDOWN','HACK_DECLARE','HACK_RESULT'].includes(state.phase.kind)||command.seatIds.some(id=>!find(state,id))) return reject('NOT_ALLOWED');
       state.codeSubmitted=true;state.correctCode=[...command.seatIds].sort().join(',')===state.code.join(',');break;
     case 'RELEASE_VOTE':
-      if(state.phase.kind!=='RELEASE_VOTE'||!state.eligibleVoters.includes(actorSeatId)||state.ballots.some(b=>b.voterSeatId===actorSeatId))return reject('NOT_ALLOWED');
+      if(boardMedicalEnabled(state.versions)||state.phase.kind!=='RELEASE_VOTE'||!state.eligibleVoters.includes(actorSeatId)||state.ballots.some(b=>b.voterSeatId===actorSeatId))return reject('NOT_ALLOWED');
       state.ballots.push({voterSeatId:actorSeatId,targetSeatId:null,approve:command.approve});break;
     case 'VOTE':
       if(!['JAIL_VOTE','CAPTAIN_ELECTION'].includes(state.phase.kind)||!state.eligibleVoters.includes(actorSeatId)||state.ballots.some(b=>b.voterSeatId===actorSeatId)
         ||(command.targetSeatId!==null&&!state.eligibleTargets.includes(command.targetSeatId)))return reject('NOT_ALLOWED');
       state.ballots.push({voterSeatId:actorSeatId,targetSeatId:command.targetSeatId,approve:null});break;
     case 'RELEASE_CHOICE':
-      if(state.phase.kind!=='RELEASE_CHOICE'||state.activeSeatId!==actorSeatId||state.releaseChoiceMade||(command.targetSeatId!==null&&!state.eligibleTargets.includes(command.targetSeatId)))return reject('NOT_ALLOWED');
+      if(boardMedicalEnabled(state.versions)||state.phase.kind!=='RELEASE_CHOICE'||state.activeSeatId!==actorSeatId||state.releaseChoiceMade||(command.targetSeatId!==null&&!state.eligibleTargets.includes(command.targetSeatId)))return reject('NOT_ALLOWED');
       state.releaseChoiceMade=true;state.releaseTargetSeatId=command.targetSeatId; if(command.targetSeatId!==null)state.releaseUsed=true;break;
     case 'SUPPLY':
       if(command.targetSeatIds.some(id=>!allowed['SUPPLY']?.includes(id)))return reject('NOT_ALLOWED');
@@ -293,6 +304,7 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
   return {state:revise(before,state),receipt:{...receiptBase,status:'accepted',code:'REGISTERED'}};
 }
 export function advanceFullGame(before:FullGameState,context:FullGameContext & {phaseId:string;deadlineToken:string}):{state:FullGameState;advanced:boolean} {
+  assertMedicalState(before);
   validateContext(context);
   if(context.phaseId!==before.phase.id||context.deadlineToken!==before.deadlineToken||before.phase.endsAt===null||context.now<before.phase.endsAt)return {state:before,advanced:false};
   requireNewPhaseIdentifiers(before, context);
@@ -330,11 +342,11 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
       const result=tallyElection({eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,ballots:state.ballots.map(b=>({voterSeatId:b.voterSeatId,targetSeatId:b.targetSeatId}))});
       state.lastTally={kind:'CAPTAIN_ELECTION',counts:result.counts,eligibleVoterCount:result.eligibleVoterCount,yesCount:null,selectedSeatId:result.winnerSeatId,released:null};
       if(voteResultEnabled(state.versions)) {
-        if(result.winnerSeatId) {const captain=find(state,result.winnerSeatId)!;captain.captain=true;captain.location='Command Room';}
+        if(result.winnerSeatId) {const captain=find(state,result.winnerSeatId)!;captain.captain=true;if(boardMedicalEnabled(state.versions))moveBoardSeat(state,captain,'Command Room');else captain.location='Command Room';}
         openVoteResult(state,context,before.phase.id,result.winnerSeatId?'CAPTAIN_ELECTED':result.tiedSeatIds.length?'RUNOFF_REQUIRED':'NO_CAPTAIN_ELECTED',
           result.tiedSeatIds.length?'CAPTAIN_RUNOFF':'BEGIN_ROUND',result.tiedSeatIds);break;
       }
-      if(result.winnerSeatId) {const captain=find(state,result.winnerSeatId)!;captain.captain=true;captain.location='Command Room';beginRound(state,context);}
+      if(result.winnerSeatId) {const captain=find(state,result.winnerSeatId)!;captain.captain=true;if(boardMedicalEnabled(state.versions))moveBoardSeat(state,captain,'Command Room');else captain.location='Command Room';beginRound(state,context);}
       else if(result.tiedSeatIds.length>0)openElection(state,context,result.tiedSeatIds);
       else beginRound(state,context);break;
     }
@@ -359,13 +371,16 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
   state.journalSequence++;return {state:revise(before,state),advanced:true};
 }
 export function abortFullGame(before:FullGameState,context:FullGameContext):FullGameState {
+  assertMedicalState(before);
   validateContext(context);if(context.now<before.phase.startedAt)throw new Error('Abort cannot precede the current phase');if(before.phase.endsAt===null)return before;
   const state=clone(before);phase(state,'ABORTED',context);state.queued=[];state.pendingHack=null;state.journalSequence++;return revise(before,state);
 }
 export function projectFullGame(state:FullGameState) {
+  assertMedicalState(state);
   const terminal=state.phase.kind==='FINISHED';
   const facts={versions:state.versions,matchId:state.matchId,viewRevision:state.viewRevisions.public,playerCount:state.playerCount,round:state.round,phase:state.phase,activeSeatId:state.activeSeatId,
-    seats:state.seats.map(s=>({seatId:s.seatId,health:s.health,location:s.location,jailed:s.jailed,captain:s.captain,revealedFaction:s.health==='Eliminated'?s.faction:null})),
+    seats:state.seats.map(s=>({seatId:s.seatId,health:s.health,location:s.location,jailed:s.jailed,captain:s.captain,revealedFaction:s.health==='Eliminated'?s.faction:null,
+      ...(boardMedicalEnabled(state.versions)?{slotId:s.slotId!,medical:projectMedicalStatus(state,s)}:{})})),
     ballot:{eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,releaseTargetSeatId:state.phase.kind==='RELEASE_VOTE'?state.releaseTargetSeatId:null},lastTally:state.lastTally,result:state.result,
     ...(voteResultEnabled(state.versions)?{voteResult:state.voteResult??null}:{}),
     ...(publicHackEnabled(state.versions)?{hackSession:state.activeHack && state.hackFeedback

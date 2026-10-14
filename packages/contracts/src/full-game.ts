@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
+import { BoardSlotIdSchema, FullMedicalStatusSchema, validBoardMedicalView } from './board-medical.js';
 import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
@@ -80,7 +81,7 @@ const publicFacts = {
   versions: FullVersionsSchema, matchId: IdentifierSchema, viewRevision: RevisionSchema,
   playerCount: z.union([z.literal(7),z.literal(8),z.literal(9)]), round: z.number().int().min(1).max(5),
   phase: FullPhaseSchema, activeSeatId: SeatIdSchema.nullable(),
-  seats: z.array(z.strictObject({ seatId: SeatIdSchema, health: HealthSchema, location: LocationSchema, jailed:z.boolean(),captain:z.boolean(),revealedFaction:FactionSchema.nullable() })).min(7).max(9),
+  seats: z.array(z.strictObject({ seatId: SeatIdSchema, health: HealthSchema, location: LocationSchema, jailed:z.boolean(),captain:z.boolean(),revealedFaction:FactionSchema.nullable(),slotId:BoardSlotIdSchema.optional(),medical:FullMedicalStatusSchema.nullable().optional() })).min(7).max(9),
   ballot: z.strictObject({ eligibleVoters: z.array(SeatIdSchema), eligibleTargets: z.array(SeatIdSchema), releaseTargetSeatId: SeatIdSchema.nullable() }),
   lastTally: FullTallySchema.nullable(),
   voteResult: FullVoteResultSchema.nullable().optional(),
@@ -121,7 +122,7 @@ function validHackSession(view:z.infer<typeof FullPublicViewShape>):boolean {
 }
 function validPublicReferences(view:z.infer<typeof FullPublicViewShape>):boolean {
   const ids=view.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
-  return validVoteResult(view) && validHackSession(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
+  return validBoardMedicalView(view) && validVoteResult(view) && validHackSession(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
     && (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(view.phase.kind) || !supportsDeclaredHack(view.versions) || view.activeSeatId!==null) && (view.phase.kind==='FINISHED'?view.endReveal!==null && view.result!==null:view.endReveal===null && view.result===null)
     && view.seats.every(s=>s.health==='Eliminated'?s.revealedFaction!==null:view.phase.kind==='FINISHED'||s.revealedFaction===null)
     && (!view.result || !view.result.alienCoWinner || view.result.winner==='Blue')

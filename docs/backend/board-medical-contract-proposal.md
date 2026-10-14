@@ -4,9 +4,9 @@ Status: concrete provisional contract for affected Frontend, Claude Balance and 
 
 Branch `codex/backend-board-medical` starts clean at `9d23adb14a30227984720c459891d00510451475` (#140), preserving that worktree. Deployed ancestor is `37f573afca9023e8e4a92375375cea96638d120f`. Rule authority is the final owner packet `b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743`, G-05/G-07/G-09 and rules-contracts, with implementation authorized by #139/#142. No owner decision is reopened.
 
-## Proposed separate version
+## Separate provisional version
 
-Propose protocol 2 / engine `full-game-1.7.0` / ruleset `in-person-v1-board-medical-2026-10-14`, parent exact 1.6 capsule tuple. Integration must confirm this allocation and final immutable overlay/hash/art binding. Pinned 1.6 behavior is unchanged. The tuple binds logical layout `board-v2-0.1.1`; the future reviewed immutable manifest maps that identity to geometry, with no mutable layout or pixel authority in a view.
+Integration confirmed protocol 2 / engine `full-game-1.7.0` / ruleset `in-person-v1-board-medical-2026-10-14`, parent exact 1.6 capsule tuple. Integration confirmed the allocation in its PR #143 review. Overlay SHA-256 is `82be55c66a9925712d4cce1e1a56ff4f7aae001c363c2ba93e3267b6e6e70275`; final immutable art binding remains a separate adoption gate. Pinned 1.6 behavior is unchanged. The tuple binds logical layout `board-v2-0.1.1`; the future reviewed immutable manifest maps that identity to geometry, with no mutable layout or pixel authority in a view.
 
 ## Public and player snapshots
 
@@ -26,7 +26,7 @@ Public/player projections contain identical authorized placement/medical facts. 
 
 `medical` is non-null exactly while Injured; every Injured player is in Hospital, including detainees. `admittedRound` is the authoritative current episode's admission, not the client's first observation. Admissions R1–R4 have `rescueDueAfterRound = admittedRound + 1`; new R5/showdown injuries have null, with no sixth round or extra Rescue window. `CURRENT_NORMAL_ROUND` means the due normal round is in progress, `NEXT_NORMAL_ROUND` a later normal round remains, `NO_ADDITIONAL_ROUND` the terminal exception/showdown, and `CLOSED` an ended/aborted match. The server computes the indicator from the episode, round and phase. Reconnect receives the same current deadline/indicator; clients do not invent age or a wall-clock countdown. This expresses a rescue opportunity, not a guaranteed rescue or revival.
 
-Healthy and Eliminated seats have `medical: null`; Hospital bodies keep their numbered place. Healing atomically returns a detainee to Jail or a free patient to last actual A/B with fallback. Match-end/recovery views retain actual positions and settle presentation without historical animation replay. No medical field identifies an attacker, Cracker, protection source, role, private command or event ordering.
+Healthy and Eliminated seats have `medical: null`; Hospital bodies keep their numbered place. Healing atomically returns a detainee to Jail or a free patient to last actual A/B with fallback. Match-end/recovery views retain actual positions and settle presentation without historical animation replay. No medical field identifies an attacker, Cracker, protection source, role, private command or event ordering. Current final medical facts cannot reconstruct transient injury plus Rescue or second-hit outcomes; sanitized authoritative outcome events remain an explicit companion dependency for those animations.
 
 Legacy tuples through 1.6 omit both properties, including null-valued forms. Strict schemas reject absent new fields, wrong room/slot, out-of-roster H slots, duplicates, invalid medical round/indicator combinations, injury outside Hospital and impossible detention-return capacity. The public capacity helper will accept an optional starting `playerCount`; new-tuple Hospital labels require it, with no guessed five-bed fallback. Existing callers/tuples retain their existing behavior.
 
@@ -52,6 +52,6 @@ Proposed companion schema for review: retained eliminated seat with `location: n
 
 ## Review and acceptance
 
-Frontend: review `slotId`, medical names/statuses and capacity-helper starting-count input; bind existing Designer anchors without allocating/caching slots; use the authoritative opportunity after reconnect and latest slot for capsule return. Claude Balance: independently audit 7/8/9 initial allocation, bodies/holes, competing moves, atomic forced returns, Hospital-only injury, detained vote/heal/return, episodes/no-op/second hit, Rescue-before-death, R2/R3/R4/R5/showdown, full-batch victory and exact historical controls. No claims about human social balance.
+Frontend accepted these exact field names/statuses and the capacity-helper input at [PR #143 comment 6168098225](https://github.com/Amirkianfar66/GameN/pull/143#issuecomment-6168098225); bind existing Designer anchors without allocating/caching slots; use the authoritative opportunity after reconnect and latest slot for capsule return. Claude Balance: independently audit 7/8/9 initial allocation, bodies/holes, competing moves, atomic forced returns, Hospital-only injury, detained vote/heal/return, episodes/no-op/second hit, Rescue-before-death, R2/R3/R4/R5/showdown, full-batch victory and exact historical controls. No claims about human social balance.
 
 Backend will run meaningful contract/engine and real Auth/Firestore journal/recovery/receipt/competition tests, production exclusion/package checks, full verification and CI on a clean candidate. Report actual results, not planned/manual cases as passed. Keep the #140 candidate and all existing creation/deal/match/art pins intact.

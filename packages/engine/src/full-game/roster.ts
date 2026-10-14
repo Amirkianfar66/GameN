@@ -10,6 +10,10 @@ export interface GameSeat {
   role: Role;
   faction: Faction;
   location: PublicView['seats'][number]['location'];
+  // New Board/medical tuple only; historical saves omit these properties.
+  slotId?: string;
+  medicalEpisodeCount?: number;
+  medicalEpisode?: { number: number; admittedRound: number; deathDueAfterRound: number | null } | null;
   health: PublicView['seats'][number]['health'];
   jailed: boolean;
   captain: boolean;
