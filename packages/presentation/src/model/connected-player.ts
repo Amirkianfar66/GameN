@@ -1,4 +1,4 @@
-import { supportsDeclaredHack } from '@mothership/contracts';
+import { supportsCaptainCommands, supportsClone, supportsDeclaredHack } from '@mothership/contracts';
 import { buildHackFeedback } from './hack-feedback.js';
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
@@ -16,7 +16,7 @@ import type {
 import { buildVotePanel, ownBallotLine } from './votes.js';
 import { buildVoteResult } from './phase-feedback.js';
 import { publicCapsuleProps } from './public-capsule.js';
-import { publicBoardProps } from './public-board.js';
+import { boardIsDark, publicBoardProps } from './public-board.js';
 
 // A player's phone connected under wire protocol 2. Everything outside the private panel is
 // built by the same functions as for every other audience. Inside it there is one card for
@@ -80,9 +80,12 @@ function seatChoice(view: FullPlayerView, seatId: SeatId, seats: readonly SeatMo
 function choiceModel(view: FullPlayerView, choice: Exclude<ActionChoice, { kind: 'scan' | 'supply' | 'code' }>, seats: readonly SeatModel[]): ActionChoiceModel {
   const value = choiceValue(choice);
   if (choice.kind === 'declare-hack-side') return answerChoice(value, choice.declaredSide);
+  if (['captain-release', 'captain-eject', 'blackout-request', 'activate-clone'].includes(choice.kind)) return answerChoice(value, en.action.kind[choice.kind]);
+  if (choice.kind === 'blackout-slot') return answerChoice(value, `Position ${choice.slotId}`);
   if (choice.kind === 'pass') return answerChoice(value, 'Pass');
   if (choice.kind === 'move') return answerChoice(value, en.location.name(choice.destination));
   if (choice.kind === 'release-vote') return answerChoice(value, choice.approve === null ? en.action.ballot.abstain : choice.approve ? en.action.ballot.yes : en.action.ballot.no);
+  if (!('targetSeatId' in choice)) return answerChoice(value, en.action.kind[choice.kind]);
   // The answer that names nobody: an abstention in a vote, no request from the Captain.
   if (choice.targetSeatId === null) return answerChoice(value, choice.kind === 'vote' ? en.action.ballot.abstain : en.action.ballot.noRequest);
   return seatChoice(view, choice.targetSeatId, seats);
@@ -94,7 +97,7 @@ function choices(view: FullPlayerView, kind: ActionKind, picked: readonly string
     // Seats in seat order; a guess is one of the factions, named as it is.
     const options = [...(nextOptions(view, kind, picked) ?? [])];
     return options.sort((a, b) => (isSeatId(a) && isSeatId(b) ? seatNumber(a) - seatNumber(b) : 0))
-      .map(value => (isSeatId(value) ? seatChoice(view, value, seats) : answerChoice(value, value)));
+      .map(value => isSeatId(value) && kind === 'code' && (view.phase.kind === 'BLACKOUT' || view.seats.some(seat => seat.location === null)) ? answerChoice(value, seatName(view, value)) : (isSeatId(value) ? seatChoice(view, value, seats) : answerChoice(value, value)));
   }
   const offered = [...(offeredChoices(view, kind) ?? [])] as Exclude<ActionChoice, { kind: 'scan' | 'supply' | 'code' }>[];
   // Seats in seat order, with the answer that names nobody after them. Places and answers stay as the view gives them.
@@ -139,6 +142,11 @@ function undoLabel(view: FullPlayerView, picked: readonly string[]): string {
 function confirmPrompt(choice: ActionChoice, view: FullPlayerView): string {
   const who = (seatId: SeatId): string => whoIs(seatId, view.self.seatId);
   switch (choice.kind) {
+    case 'captain-release': return 'Release everyone detained in Jail or Hospital?';
+    case 'captain-eject': return 'Eject everyone currently in Jail?';
+    case 'blackout-request': return 'Request a Blackout in place of your main action?';
+    case 'activate-clone': return 'Activate your once-only Clone?';
+    case 'blackout-slot': return `Select frozen position ${choice.slotId}?`;
     case 'declare-hack-side': return `Declare ${choice.declaredSide}?`;
     case 'pass': return 'End your turn now?';
     case 'move': return en.action.confirmMove(choice.destination);
@@ -164,6 +172,11 @@ const consequence = (choice: ActionChoice): string =>
 /** What the server accepted, in the words of its receipt. Never what came of it. */
 function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
   switch (choice.kind) {
+    case 'captain-release': return 'Captain Release accepted.';
+    case 'captain-eject': return 'Captain Eject accepted.';
+    case 'blackout-request': return 'Blackout request registered.';
+    case 'activate-clone': return 'Clone activation accepted.';
+    case 'blackout-slot': return `Frozen position ${choice.slotId} registered.`;
     case 'declare-hack-side': return `Declaration of ${choice.declaredSide} accepted.`;
     case 'pass': return 'Turn passed.';
     case 'move': return en.action.moved(choice.destination);
@@ -184,6 +197,10 @@ function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
 /** Where the outcome of an accepted command is to be read. A receipt is not an outcome. */
 function acceptedDetail(choice: ActionChoice): string {
   switch (choice.kind) {
+    case 'captain-release': case 'captain-eject': return 'The current public board shows the resulting placement and health.';
+    case 'blackout-request': return 'The authoritative phase will open the shared Blackout window.';
+    case 'activate-clone': return 'Your private Clone status shows the current expiry.';
+    case 'blackout-slot': return 'Your accepted frozen position is final. The server resolves the effect.';
     case 'declare-hack-side': return 'The private Hack claim follows the current server phase.';
     case 'pass': return 'The next phase is shown at the top of the board.';
     case 'move': return en.action.movedDetail;
@@ -224,6 +241,7 @@ const NO_MARKS: ActionBoardMarksModel = { eligible: [], picked: [], numbered: fa
 /** The seats a choice names, in the order they were picked. A move names a room; a release vote, the public ballot's subject. */
 function chosenSeats(choice: ActionChoice): SeatId[] {
   switch (choice.kind) {
+    case 'captain-release': case 'captain-eject': case 'blackout-request': case 'blackout-slot': case 'activate-clone':
     case 'declare-hack-side':
     case 'pass':
     case 'move':
@@ -235,7 +253,7 @@ function chosenSeats(choice: ActionChoice): SeatId[] {
 }
 
 /** Kinds whose choice is made by tapping characters on the board. */
-const namesSeats = (kind: ActionKind): boolean => kind !== 'declare-hack-side' && kind !== 'pass' && kind !== 'move' && kind !== 'release-vote';
+const namesSeats = (kind: ActionKind): boolean => kind !== 'declare-hack-side' && kind !== 'pass' && kind !== 'move' && kind !== 'release-vote' && !['captain-release', 'captain-eject', 'blackout-request', 'blackout-slot', 'activate-clone'].includes(kind);
 
 /**
  * What the player's own command marks on the board. The press areas are exactly the seats the
@@ -338,6 +356,10 @@ function buildCard(input: ConnectedPlayerInput, view: FullPlayerView, seats: rea
   if (choice?.kind === 'release-vote' && choice.approve !== null && view.ballot.releaseTargetSeatId !== null) artSeats.push(view.ballot.releaseTargetSeatId);
   return {
     title, kind,
+    privateStatus: [
+      ...(supportsCaptainCommands(view.versions) && view.self.captainCommandUses ? [`Captain Release: ${view.self.captainCommandUses.releaseUsed ? 'used' : 'one use remaining'}. Captain Eject: ${view.self.captainCommandUses.ejectUsed ? 'used' : 'one use remaining'}.`] : []),
+      ...(supportsClone(view.versions) && view.self.cloneStatus ? [view.self.cloneStatus.active ? `Clone active through Round ${view.self.cloneStatus.expiresAfterRound}.` : view.self.cloneStatus.used ? 'Clone inactive; its once-only use is spent.' : 'Clone unused.'] : []),
+    ],
     status, statusLabel: en.action.status[status], selected: !['idle', 'accepted', 'not-accepted'].includes(status), body,
     // Keep sent commands and receipt recovery in the strip, but do not paint their choices
     // against stale facts or a deadline this device cannot still trust as running.
@@ -382,6 +404,7 @@ function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, sea
 }
 
 function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): ConnectedPlayerMatchModel {
+  const dark = boardIsDark(view, input);
   const selfSeatId = view.self.seatId;
   const seats = buildSeats(view, selfSeatId);
   const self = seats.find(seat => seat.isSelf);
@@ -390,12 +413,17 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     versions: view.versions,
     ...publicCapsuleProps(view, input),
     ...publicBoardProps(view, input),
+    ...(publicBoardProps(view, input).boardLayout ? { boardLayout: { ...publicBoardProps(view, input).boardLayout!, dark } } : {}),
+    ...(publicBoardProps(view, input).boardLayout ? { commandRecovery:
+      input.action.step === 'unknown' ? { text: 'The outcome of your sent command is still unknown.', canCheck: true, disabled: !input.action.armed }
+      : input.action.step === 'checking' || input.action.step === 'submitting' ? { text: 'Checking whether your sent command was accepted.', canCheck: false, disabled: true }
+      : null } : {}),
     phaseKind: view.phase.kind,
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),
     location: {
-      heading: en.location.heading, name: self.location, statusLabel: en.location.status, self,
-      othersHeading: en.location.others, others: seats.filter(seat => !seat.isSelf && seat.location === self.location), aloneText: en.location.alone,
+      heading: en.location.heading, name: dark ? null : self.location, statusLabel: en.location.status, self: dark ? { ...self, markers: [] } : self,
+      othersHeading: en.location.others, others: dark ? [] : seats.filter(seat => !seat.isSelf && seat.location === self.location), aloneText: en.location.alone,
     },
     passTurn: {
       available: !input.privacy.concealed && mayStart(input) && openness(view, 'pass') === 'open'
@@ -408,7 +436,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
     vote: buildVotePanel(view),
     result: buildResult(view, selfSeatId),
     voteResult: buildVoteResult(view.voteResult ?? null, view.phase, input, view),
-    roster: { heading: en.roster.playerHeading, zones: buildZones(seats) },
+    roster: { heading: en.roster.playerHeading, zones: buildZones(dark ? [] : seats) },
     details: buildDetails(view, input.mode),
   };
 }

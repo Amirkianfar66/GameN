@@ -1,6 +1,6 @@
 import { FullCommandSchema, FullPlayerViewSchema } from '@mothership/contracts';
 import type { FullCommand, FullPlayerView, SeatId } from '@mothership/contracts';
-import { FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, declaredHackEnabled } from '@mothership/engine';
+import { FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, declaredHackEnabled, blackoutEnabled } from '@mothership/engine';
 
 // This is a practice heuristic over one authorized audience, not a balance model.
 // Reviewed parent and ordinary-turn Pass overlay; Powers off. Pass remains player intent.
@@ -33,7 +33,14 @@ export function choosePracticeBotActions(input: FullPlayerView): readonly FullCo
     commands.push({type:'DECLARE_HACK_SIDE',declaredSide});
   }
 
+  if(blackoutEnabled(view.versions) && view.phase.kind==='BLACKOUT' && view.self.blackoutTargeting?.selectedSlotId===null) {
+    const targeting=view.self.blackoutTargeting;
+    // Policy uses only its authorized neutral slot list; trusted service time gates submission.
+    commands.push({type:'SELECT_BLACKOUT_SLOT',snapshotId:targeting.snapshotId,room:targeting.room,slotId:targeting.slotIds[0]!});
+  }
   if (ownTurn) {
+    if(targets('ACTIVATE_CLONE').includes(self.seatId))commands.push({type:'ACTIVATE_CLONE'});
+    if(targets('REQUEST_BLACKOUT').includes(self.seatId))commands.push({type:'REQUEST_BLACKOUT'});
     if (view.self.role === 'Cracker' && view.self.rescuesRemaining > 0) {
       const target = targets('RESCUE').find(seat => view.seats.find(candidate => candidate.seatId === seat)?.health === 'Injured');
       if (target) commands.push({ type: 'RESCUE', targetSeatId: target });
@@ -87,7 +94,7 @@ export function choosePracticeBotActions(input: FullPlayerView): readonly FullCo
 
   // Movement can be available outside one's ordinary turn, including Hack/election.
   if (['ORDINARY_TURN', 'HACK', 'HACK_DECLARE', 'HACK_RESULT', 'CAPTAIN_ELECTION'].includes(view.phase.kind)
-    && self.health === 'Healthy' && !self.jailed && ['Room A', 'Room B', 'Command Room'].includes(self.location)
+    && self.health === 'Healthy' && !self.jailed && (self.location!==null && ['Room A', 'Room B', 'Command Room'].includes(self.location))
     && !(self.captain && self.location === 'Command Room')) {
     const preference = self.captain ? ['Command Room', 'Room A', 'Room B'] as const : ['Room A', 'Room B'] as const;
     const destination = preference.find(room => room !== self.location && view.self.movementDestinations.includes(room));

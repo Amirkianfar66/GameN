@@ -18,16 +18,25 @@ function candidate(t) {
   }
   return { destination, manifest };
 }
-test('the deployed art identity names the verified complete release and its declared-Hack tuple', () => {
+test('the new art identity names the complete Board V2 release and exact Clone tuple', () => {
   const manifest = readRuntimeArtRelease(root);
-  assert.equal(manifest.manifestVersion, 'design-0.3.0');
-  assert.equal(manifest.gameplayPins.engineVersion, 'full-game-1.5.0');
+  assert.equal(manifest.manifestVersion, 'design-0.4.0');
+  assert.equal(manifest.gameplayPins.engineVersion, 'full-game-1.10.0');
   assert.match(manifest.manifestSha256, /^[a-f0-9]{64}$/);
+});
+test('the historical declared-Hack source and runtime artwork remain independently verifiable', () => {
+  const historical = readRuntimeArtRelease(root, 'design-0.3.0');
+  assert.equal(historical.gameplayPins.engineVersion, 'full-game-1.5.0');
+  assert.equal(historical.manifestSha256, '588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf');
+  assert.equal(Object.keys(historical.bundles).length, 5);
 });
 for (const [name, mutate] of [
   ['reused historical version', m => { m.manifestVersion = 'design-0.2.0'; }],
   ['crossed gameplay tuple', m => { m.gameplayPins.engineVersion = 'full-game-1.4.0'; }],
   ['missing public bundle', m => { delete m.bundles['public-board']; }],
+  ['missing board supplement', m => { delete m.bundles['board-v2-art']; }],
+  ['missing motion supplement', m => { delete m.bundles['board-v2-motion-art']; }],
+  ['missing setup supplement', m => { delete m.bundles['setup-art']; }],
   ['role-selected remote art URL', m => { m.bundles.roles.url = 'https://example.invalid/alien.css'; }],
   ['empty runtime inventory', m => { m.runtimeFiles = {}; }],
   ['escaping source path', m => { m.sources['../outside'] = 'a'.repeat(64); }],

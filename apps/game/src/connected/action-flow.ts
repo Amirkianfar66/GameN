@@ -70,6 +70,7 @@ export interface ActionFlowContext {
    * while this device has no trusted clock to tell: not knowing is not permission.
    */
   readonly inTime: boolean;
+  readonly serverNowMs?: number | null;
   /** The private panel is open in the foreground. Once it is not, a choice that was not sent is dropped. */
   readonly panelOpen: boolean;
   readonly foreground: boolean;
@@ -163,6 +164,11 @@ export function offeredChoices(view: FullPlayerView, kind: ActionKind): ActionCh
 function commandOf(choice: ActionChoice): unknown {
   switch (choice.kind) {
     case 'declare-hack-side': return { type: 'DECLARE_HACK_SIDE', declaredSide: choice.declaredSide };
+    case 'captain-release': return { type: 'CAPTAIN_RELEASE' };
+    case 'captain-eject': return { type: 'CAPTAIN_EJECT' };
+    case 'blackout-request': return { type: 'REQUEST_BLACKOUT' };
+    case 'activate-clone': return { type: 'ACTIVATE_CLONE' };
+    case 'blackout-slot': return { type: 'SELECT_BLACKOUT_SLOT', snapshotId: choice.snapshotId, room: choice.room, slotId: choice.slotId };
     case 'pass': return { type: 'PASS_TURN' };
     case 'move': return { type: 'MOVE', destination: choice.destination };
     case 'vote':
@@ -264,7 +270,8 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
 
   /** The interface would let the player start or send something right now. */
   const canAct = (): boolean => context.view !== null && context.current && context.inTime && context.panelOpen;
-  const offered = (choice: ActionChoice): boolean => context.view !== null && isOffered(context.view, choice);
+  const slotWindowOpen = (): boolean => { const t = context.view?.self.blackoutTargeting; return Boolean(t && context.serverNowMs != null && context.serverNowMs >= t.darkStartsAt && context.serverNowMs < t.endsAt); };
+  const offered = (choice: ActionChoice): boolean => context.view !== null && isOffered(context.view, choice) && (choice.kind !== 'blackout-slot' || slotWindowOpen());
 
   /** True while this is still the command the flow is waiting on. Late answers find it false. */
   function isOpen(pending: Pending): boolean {
@@ -597,12 +604,17 @@ export function createActionFlow(options: ActionFlowOptions): ActionFlow {
     open(kind) {
       if (kind === 'pass') return false;
       if (disposed || state.step !== 'idle' || !canAct() || context.view === null) return false;
-      if (openness(context.view, kind) !== 'open') return false;
+      if (openness(context.view, kind) !== 'open' || kind === 'blackout-slot' && !slotWindowOpen()) return false;
+      if (['captain-release', 'captain-eject', 'blackout-request', 'activate-clone'].includes(kind)) {
+        const choice = offeredChoices(context.view, kind)[0]; if (!choice) return false;
+        state = { step: 'confirming', choice, phaseId: context.view.phase.id }; arm(); return true;
+      }
       state = { step: 'choosing', kind, picked: [], phaseId: context.view.phase.id };
       return true;
     },
     pick(value) {
       if (disposed || state.step !== 'choosing' || !canAct() || context.view === null) return false;
+      if (state.kind === 'blackout-slot' && !slotWindowOpen()) return false;
       // Only what the view offers next, given what is already picked, can be picked.
       if (!(nextOptions(context.view, state.kind, state.picked) ?? []).includes(value)) return false;
       const picked = [...state.picked, value];

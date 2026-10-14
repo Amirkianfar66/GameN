@@ -13,11 +13,38 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullAdvanceResponse, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, captainCommandsEnabled, blackoutEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
+import { selectPreparedArt } from './prepared-art.js';
 import { jointStartingRooms, jointStartingRoomAssignmentCount } from './joint-starting-rooms.js';
 import type { FullGameSetup, FullGameState, FullGameplayVersions } from '@mothership/engine';
+
+/** Presentation-only clinical positions. Never mutate or infer persisted occupancy.
+ * Reserve the starting public Hospital geometry, then place new clinical subjects
+ * numerically. The union is a subset of the unique starting roster, so it fits.
+ */
+export function clinicalPresentationAnchors(before:FullGameState|null,after:FullGameState):Record<string,string> {
+  const records=after.outcomes?.slice(before?.outcomes?.length??0).filter(o=>o.fact.type==='MEDICAL_OUTCOME')??[];
+  if(records.length===0) return {};
+  const available=Array.from({length:after.playerCount},(_,i)=>`HV${i+1}`);
+  const anchors:Record<string,string>={},occupied=new Set<string>();
+  for(const seat of before?.seats??[]) if(seat.location==='Hospital') {
+    if(typeof seat.slotId!=='string' || !/^H[1-9]$/.test(seat.slotId)) throw new Error('Invalid starting clinical placement');
+    const anchor=`HV${seat.slotId.slice(1)}`;
+    if(!available.includes(anchor) || occupied.has(anchor)) throw new Error('Invalid starting clinical geometry');
+    occupied.add(anchor);anchors[seat.seatId]=anchor;
+  }
+  const ids=[...new Set(records.map(o=>o.fact.type==='MEDICAL_OUTCOME'?o.fact.seatId:''))].sort((a,b)=>Number(a.slice(5))-Number(b.slice(5)));
+  for(const id of ids) {
+    if(!after.seats.some(s=>s.seatId===id)) throw new Error('Unknown clinical subject');
+    if(anchors[id]!==undefined) continue;
+    const anchor=available.find(id=>!occupied.has(id));
+    if(anchor===undefined) throw new Error('Clinical vignette capacity exceeded');
+    occupied.add(anchor);anchors[id]=anchor;
+  }
+  return Object.fromEntries(ids.map(id=>[id,anchors[id]!]));
+}
 
 type FailureCode = FullFailure['error']['code'];
 type Success = Extract<FullOperationResponse, { ok: true }>;
@@ -146,9 +173,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
   const newMatchVersions = Object.freeze({ protocolVersion: creationVersions.protocolVersion, engineVersion: creationVersions.engineVersion,
     rulesetVersion: creationVersions.rulesetVersion, rulesetHash: creationVersions.rulesetHash });
   function preparedAssetVersion(versions: FullGameplayVersions): string {
-    if (historicalAssetManifestVersion === undefined) return assetManifestVersion;
-    if (!voteResultEnabled(versions)) return historicalAssetManifestVersion;
-    return declaredHackEnabled(versions) ? assetManifestVersion : 'design-0.2.0';
+    return selectPreparedArt(versions, assetManifestVersion, historicalAssetManifestVersion);
   }
   function drawInitialRoom(): Room {
     const room = randomInitialRoom();
@@ -332,6 +357,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
         }
       }
     }
+    const publishedAt=clock(),clinicalAnchors=clinicalPresentationAnchors(before,after);
     for (const audience of audiences) {
       if (digest(audience.old ?? null) === digest(audience.view)) continue;
       const view = audience.view;
@@ -342,12 +368,24 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       if (before !== null) for (const current of after.seats) {
         const previous = before.seats.find(s => s.seatId === current.seatId);
         if (previous?.health !== current.health) facts.push({ type: 'PUBLIC_HEALTH_CHANGED', seatId: current.seatId, health: current.health });
-        if (previous?.location !== current.location) facts.push({ type: 'PUBLIC_MOVE', seatId: current.seatId, location: current.location });
+        if (previous?.location !== current.location || (captainCommandsEnabled(after.versions) && previous?.slotId!==current.slotId)) {
+          if(captainCommandsEnabled(after.versions)) facts.push({type:'BOARD_PLACEMENT_CHANGED',phaseId:before.phase.id,round:before.round,seatId:current.seatId,location:current.location,slotId:current.slotId});
+          else facts.push({ type: 'PUBLIC_MOVE', seatId: current.seatId, location: current.location });
+        }
       }
       if (command && view.audience.kind === 'player' && view.audience.seatId === command.actorSeatId) facts.push({ type: 'COMMAND_REGISTERED', commandId: command.commandId });
+      const outcomes=after.outcomes?.slice(before?.outcomes?.length??0)??[];
+      // Cross-subject order must not encode hidden actor/command order. Preserve each subject's clinical chronology.
+      const visible=outcomes.filter(o=>o.recipientSeatIds===null || (view.audience.kind==='player' && o.recipientSeatIds.includes(view.audience.seatId)));
+      visible.sort((a,b)=>('seatId' in a.fact?a.fact.seatId:'').localeCompare('seatId' in b.fact?b.fact.seatId:''));
+      const batchId=hash([eventId,audience.key,'clinical-batch']);
+      facts.push(...visible.map(o=>o.fact.type==='MEDICAL_OUTCOME'?{...o.fact,presentationAnchor:{kind:'CLINICAL_VIGNETTE',batchId,anchorId:clinicalAnchors[o.fact.seatId],slotCount:after.playerCount}}:o.fact));
       facts.forEach((fact, ordinal) => {
-        const event = FullEventSchema.parse({ protocolVersion: 2, matchId: after.matchId, eventId: `${eventId}-${ordinal}`,
-          viewRevision: view.viewRevision, audience: view.audience, fact });
+        const outcome=['CAPTAIN_OUTCOME','MEDICAL_OUTCOME','BOARD_PLACEMENT_CHANGED','ATTACK_BLOCKED'].includes(fact['type'] as string);
+        const occurrenceId=outcome?hash([eventId,audience.key,ordinal]):`${eventId}-${ordinal}`;
+        const event = FullEventSchema.parse({ protocolVersion: 2, matchId: after.matchId, eventId: occurrenceId,
+          viewRevision: view.viewRevision, audience: view.audience, fact,
+          ...(outcome?{outcomeId:occurrenceId,publishedAt,expiresAt:publishedAt+30_000,versions:{protocolVersion:after.versions.protocolVersion,engineVersion:after.versions.engineVersion,rulesetVersion:after.versions.rulesetVersion,rulesetHash:after.versions.rulesetHash}}:{}) });
         tx.create(base.collection('audienceEvents').doc(audience.key).collection('items').doc(`${view.viewRevision}-${ordinal}`), event);
       });
     }
@@ -937,6 +975,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             const actorSeatId = binding.id as SeatId;
             const view = FullPlayerViewSchema.parse(projectFullGame(state).players[actorSeatId]);
             for (const command of choosePracticeBotActions(view)) {
+              // Do not create a durable premature rejection for this one deterministic slot.
+              if(command.type==='SELECT_BLACKOUT_SLOT' && blackoutEnabled(state.versions) && state.blackout && now<state.blackout.darkStartsAt)continue;
               // One deterministic slot per command type and phase; changing observations cannot create a retry with new intent.
               const commandId = hash([PRACTICE_BOT_POLICY_VERSION, matchId, state.phase.id, actorSeatId, command.type]);
               const receiptRef = base.collection('receipts').doc(hash([actorSeatId, commandId]));

@@ -22,7 +22,7 @@ export function fullRoomCapacityForVersions(versions: GameplayVersions, location
   if (supportsBoardMedical(versions)) {
     if (location === 'Command Room') return 1;
     if (location === 'Hospital') return playerCount !== undefined && [7,8,9].includes(playerCount) ? playerCount : null;
-    return ['Room A','Room B','Jail'].includes(location) ? 5 : null;
+    return location!==null && ['Room A','Room B','Jail'].includes(location) ? 5 : null;
   }
   const known = CAPPED_TUPLES.some(tuple => tuple.protocolVersion === versions.protocolVersion
     && tuple.engineVersion === versions.engineVersion && tuple.rulesetVersion === versions.rulesetVersion

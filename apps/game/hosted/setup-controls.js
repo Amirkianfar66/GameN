@@ -1,3 +1,4 @@
+import { CLONE_VERSION_PINS, sameFullGameplayPins } from '@mothership/contracts';
 import { createRoleConfirmation } from './role-confirmation.js';
 import { currentArtState, readyCompatibility } from './ready-compatibility.mjs';
 
@@ -61,11 +62,20 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
   const status = el('p', '', { id: 'crew-status', role: 'status' });
   const retry = el('button', 'Retry selection', { type: 'button', id: 'crew-save' });
   const readyNote = el('div', '✓', { id: 'setup-ready-waiting', class: 'phone-role-back', role: 'status', 'aria-label': 'Ready. Waiting for the timer and other players.', tabindex: '-1' });
+  readyNote.append(el('span', 'Ready', { class: 'ab-ready-stamp', 'aria-hidden': 'true' }));
   const compatibilityNote = el('p', '', { id: 'setup-compatibility', role: 'status' });
   const reloadButton = el('button', 'Reload app', { type: 'button', id: 'setup-compatibility-reload' });
   reloadButton.addEventListener('click', reload);
   const choiceKey = `setup-choice ${matchId} ${seatId}`, readyKey = `setup-ready ${matchId} ${seatId}`;
-  let selected = null, busy = false, closed = false, notice = '', choiceRevision = null, readyAccepted = null, previousStage = null;
+  let selected = null, busy = false, closed = false, notice = '', choiceRevision = null, readyAccepted = null, previousStage = null, previousConfirmed = null;
+  const motions = new Set();
+  const reduced = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const settle = () => { for (const motion of motions) motion.cancel(); motions.clear(); };
+  const animate = (target, frames, options) => {
+    if (reduced?.matches || !target?.animate) return;
+    const motion = target.animate(frames, options); motions.add(motion);
+    motion.finished.then(() => motions.delete(motion), () => motions.delete(motion));
+  };
   const roleKey = own => own ? `${own.dealId}/${seatId}/${own.bindingRevision}` : null;
   const role = createRoleConfirmation({ el, onReady: async key => {
     const own = feed.own();
@@ -85,23 +95,31 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
   const buttons = ['Vega', 'Rigel', 'Lyra', 'Atlas', 'Orion', 'Nova', 'Juno', 'Mira', 'Echo'].map((callSign, index) => {
     const id = `c${index + 1}`;
     const button = el('button', callSign, { type: 'button', class: 'crew-option', 'data-character': id, 'aria-pressed': 'false' });
+    const stamp = el('span', undefined, { class: 'ab-taken', 'aria-hidden': 'true' });
+    const stampNumber = el('span', '');
+    stamp.append(el('span', 'Player ', { class: 'ab-taken__word' }), stampNumber); stamp.hidden = true; button.append(stamp);
     button.addEventListener('click', async () => {
       if (button.disabled) return;
       selected = id; notice = '';
       await confirm();
     });
-    grid.append(button); return { id, callSign, button };
+    grid.append(button); return { id, callSign, button, stamp, stampNumber };
   });
   function draw() {
     if (closed) return;
     const setup = feed.public(), binding = feed.binding(), doc = identities.identities();
     const ownSeat = setup?.seats.find(seat => seat.seatId === seatId);
     const identity = doc?.seats.find(seat => seat.seatId === seatId);
+    const prepared = feed.own();
+    const artwork = artState().bundles?.includes('setup-art') === true && (setup?.stage === 'choosing'
+      || prepared !== null && sameFullGameplayPins(prepared.versions, CLONE_VERSION_PINS) && prepared.versions.assetManifestVersion === 'design-0.4.0');
+    node.setAttribute('data-setup-art', String(artwork));
     clock?.setActive(['choosing', 'awaiting-ready'].includes(setup?.stage));
     const reading = clock?.read() ?? { status: 'unsynced' };
     progress.update(setup, reading, doc?.seats ?? []);
     node.setAttribute('data-stage', setup?.stage ?? 'connecting');
-    if (previousStage !== setup?.stage) { previousStage = setup?.stage; role.conceal(); onStageChange(); }
+    const readingStarted = previousStage === 'choosing' && setup?.stage === 'awaiting-ready';
+    if (previousStage !== setup?.stage) { previousStage = setup?.stage; settle(); role.conceal(); onStageChange(); }
     const expired = setup?.stage === 'choosing' && reading.status === 'synced' && reading.serverNowMs >= setup.choosingEndsAt;
     picker.hidden = setup?.stage !== 'choosing';
     const currentKey = setup?.dealId && binding ? `${setup.dealId}/${seatId}/${binding.bindingRevision}` : null;
@@ -120,8 +138,18 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
       entry.button.setAttribute('aria-pressed', String(selected === entry.id));
       entry.button.setAttribute('data-taken', String(holder !== undefined));
       entry.button.setAttribute('data-confirmed', String(ownSeat?.confirmed === true && selected === entry.id));
+      entry.button.setAttribute('data-sending', selected === entry.id && setup?.stage === 'choosing' && (busy || kept !== null) ? kept !== null ? 'kept' : 'true' : 'false');
+      entry.stamp.hidden = holder === undefined;
+      entry.stampNumber.textContent = holder?.seatId.slice(5) ?? '';
       entry.button.setAttribute('aria-label', holder ? `${entry.callSign}, taken by Player ${holder.seatId.slice(5)}` : entry.callSign);
     }
+    if (artwork && previousConfirmed === false && ownSeat?.confirmed === true) {
+      const tile = buttons.find(entry => entry.id === selected)?.button;
+      animate(tile, [{ transform: 'scale(1)' }, { transform: 'scale(1.07)', offset: .45 }, { transform: 'scale(1)' }], { duration: 220, easing: 'ease-out' });
+      animate(tile, [{ opacity: 0, transform: 'scale(2.2) rotate(-18deg)' }, { opacity: 1, transform: 'none' }], { pseudoElement: '::after', duration: 220, easing: 'ease-out' });
+    }
+    previousConfirmed = ownSeat?.confirmed ?? null;
+    if (expired) settle();
     retry.hidden = kept === null || ownSeat?.confirmed === true || expired;
     retry.disabled = busy || expired || binding === null || setup?.stage !== 'choosing';
     status.textContent = notice || (kept && !busy ? 'Connection interrupted. Retry your selection.' : '');
@@ -136,7 +164,8 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
     if (key !== null && ownSeat?.ready) lifecycle.abandon(readyKey);
     role.update(own === null || confirmedReady ? null : { key, role: own.self.role, characterId: identity?.characterId ?? null,
       playerCount: setup?.playerCount, ready: ownSeat?.ready === true || readyAccepted === key,
-      canConfirm: ['historical', 'supported'].includes(compatible?.kind) || lifecycle.unsettled(readyKey) !== null, retry: lifecycle.unsettled(readyKey) !== null });
+      canConfirm: ['historical', 'supported'].includes(compatible?.kind) || lifecycle.unsettled(readyKey) !== null, retry: lifecycle.unsettled(readyKey) !== null, artwork });
+    if (readingStarted && artwork) role.opening();
   }
   async function confirm() {
     const binding = feed.binding(), setup = feed.public();
@@ -158,9 +187,10 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
   node.append(progress.node, picker, readyNote, compatibilityNote, reloadButton, role.node);
   const artReady = () => draw();
   globalThis.document?.addEventListener?.('mothership:art-ready', artReady);
+  reduced?.addEventListener?.('change', settle);
   const stops = [feed.subscribe(draw), identities.subscribe(draw)];
   draw();
-  return { node, refresh: draw, conceal() { role.conceal(); },
-    dispose() { closed = true; globalThis.document?.removeEventListener?.('mothership:art-ready', artReady); stops.forEach(stop => stop()); role.dispose(); node.replaceChildren(); },
+  return { node, refresh: draw, conceal() { settle(); role.conceal(); },
+    dispose() { closed = true; settle(); reduced?.removeEventListener?.('change', settle); globalThis.document?.removeEventListener?.('mothership:art-ready', artReady); stops.forEach(stop => stop()); role.dispose(); node.replaceChildren(); },
   };
 }

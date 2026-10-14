@@ -1,7 +1,7 @@
 {
   "devOnly": "mothership:dev-only",
   "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6",
-  "version": "drawing-port-adoption-4",
+  "version": "drawing-port-adoption-6",
   "sourceHashes": {
     "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
     "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
@@ -27,7 +27,12 @@
     "design/board-v2/figures/capsule.mjs": "a90ae47382d5ec2bc152c1e915bc5a34c258821228bd769b9b76c7472975adc2",
     "design/board-v2/films/capsule.mjs": "889b2dc4b30dfeede373f8cbc38ec860d0f829502aef899b3c9c17debeef798b",
     "design/board-v2/js/fit.mjs": "fdd9976755605266f7514a9beb5cbee8a11daf75773299849a8059cd844fc688",
-    "design/board-v2/js/turns.mjs": "12cb3d6d3386ae7a0021f10a0a1c173747039134857b62b6dde89851d6ab5ab0"
+    "design/board-v2/js/turns.mjs": "12cb3d6d3386ae7a0021f10a0a1c173747039134857b62b6dde89851d6ab5ab0",
+    "design/board-v2/scenes/lighting.mjs": "ed8ce0def1b0c0b965a6b59a52c91c60a0184c5ad86f042eda63108cc70968ad",
+    "design/board-v2/films/blackout.mjs": "361c57acf83e12952fe964cd9567816623e658b36eb1413c68047da51520ef88",
+    "design/board-v2/fx/blocked.mjs": "6408b5229172f157086236ec4463e73c9e0ab3aa6755d968ff2552707fd3ef0a",
+    "design/board-v2/fx/label-box.mjs": "86acb6f2de5fea096c34b5c336dcc327cfcc17cfda4e6cd3e0ab5a814e63d45c",
+    "design/board-v2/films/blocked.mjs": "984cf4a53e1dfbc3984d4caabe9fa6631621824ab624e8de8502d7c13ff21b24"
   },
   "ports": {
     "apps/game/hosted/scene-drawing/body.mjs": {
@@ -120,6 +125,31 @@
       "source": "design/board-v2/js/turns.mjs",
       "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
       "sha256": "717d24e1175120b42742c7a10cba71235ac20dfcc3d8bc2285bdd473ad78cfe4"
+    },
+    "apps/game/hosted/board-v2-drawing/lighting.mjs": {
+      "source": "design/board-v2/scenes/lighting.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "35134c4966b508f2a7b09931844f0f09eb07c4da8900c7fc9f35571ee5231e83"
+    },
+    "apps/game/hosted/board-v2-drawing/blackout-film.mjs": {
+      "source": "design/board-v2/films/blackout.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "e93bdc54e4511e247193fbe892d13305c7f77fb2f095b048df9fbde630a10c9b"
+    },
+    "apps/game/hosted/board-v2-drawing/blocked-fx.mjs": {
+      "source": "design/board-v2/fx/blocked.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "938821be87f00fb24376df2c5d9713dbf4f579c5f13ad2f01d096a5182837f95"
+    },
+    "apps/game/hosted/board-v2-drawing/label-box.mjs": {
+      "source": "design/board-v2/fx/label-box.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "b341c8880c499709857597129d9faaa1c5e5a1a66e39afe5bce40a4d2f591cf0"
+    },
+    "apps/game/hosted/board-v2-drawing/blocked-film.mjs": {
+      "source": "design/board-v2/films/blocked.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "44ba4ced119e91f6f20078286da880db0b4e3429a8d896f7c72574831ecacbdc"
     }
   },
   "styles": {
@@ -138,14 +168,14 @@
   },
   "buildFiles": {
     "apps/game/hosted/comic-assets.mjs": {
-      "sha256": "3567274b334e9ef8c627fe39b322ab126f77537fe36d048ba1f3b91e53a6e15a",
+      "sha256": "1947b2f13dd39277d816a16e3da8d59860dd2e69ad83398ff658d80bf3f46431",
       "assetHashes": {
         "design/board-motion/assets/manifest.json": "1983f9ad21e0a71b43bf865a2b1aeff11b7ad2f96ffc57dce4b5dcc788148c7a",
         "design/board-motion/assets/board-motion.scenes.css": "bf80c2fd41dad78f2b65b5e643b9e2c3fe05407d2d281b82cf45d6d6c4cf5e20",
         "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
         "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
         "design/releases/design-0.3.0.json": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
-        "scripts/runtime-art-release.mjs": "bce98c93c73aed212d9c7855ccce837da29cc9c3dbea860f76d1c773c4eaddcd",
+        "scripts/runtime-art-release.mjs": "f72a8877607ac0edc73c652f098e0722e7a97f3f4535086803097026fc2ba74c",
         "design/releases/board-v2-art-candidate.json": "0412d616c0b6ab37d9f6f80fb34115aad4db6275b042697af1b58634289f577c",
         "scripts/board-v2-art-candidate.mjs": "3a4237520a1dcc10188e375ae3f33c5fb42304fbd28fe227585fe518e2871e8a",
         "design/releases/board-v2-runtime-ports.json": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
@@ -168,7 +198,39 @@
         "design/board-v2/assets/capsule/door-3.svg": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7",
         "design/board-v2/assets/capsule/busy.svg": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9",
         "design/board-v2/assets/capsule/badge.svg": "f624378a91c11f67f7ffc7c4fd15e65eccc5287f57f0b50a75b5332988761dc7",
-        "design/board-v2/assets/capsule/dark.svg": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185"
+        "design/board-v2/assets/capsule/dark.svg": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185",
+        "scripts/setup-art-candidate.mjs": "ef1b9e8fc451a6ff4658db1351530a78b7140179be17eed0137758742e72fde2",
+        "scripts/board-v2-motion-art.mjs": "60dac0df0510b9fbc1110d8c1553f9df3c4385cf1b1bb18a869b48f74441b8b8",
+        "design/releases/setup-art-candidate.json": "e611fd0f50bd4f032ecae39eecb63e982681ddb8f9365397708784dc72ef92ab",
+        "design/releases/board-v2-motion-art.json": "dc38bedc9ffba87ac6226213911bed1b093290146a26389a6e90ee40796f793c",
+        "design/releases/board-v2-motion-ports.json": "d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f",
+        "design/board-v2/assets/lighting/command-room.dark.svg": "bdea7e82684acf648d0bb07e5b1e1b448ad1a3f2ad898d32d372f05fd37ef062",
+        "design/board-v2/assets/lighting/fx-bolt.svg": "a7c8c39268fa60ff0b17a365320a2debe2b3d148851d5e2fae2722aa395256b2",
+        "design/board-v2/assets/lighting/fx-impact-1.svg": "89cd1c3e8a369dc469482fcc932b921cbd30c1064c7c4caf3a61b8554bdaa6d7",
+        "design/board-v2/assets/lighting/fx-impact-2.svg": "270f1524b75e8e0766e6cc77fbd279788cccb25c0f8520d9be06845506144cdc",
+        "design/board-v2/assets/lighting/fx-impact-3.svg": "13ae42ec493b63447589ea0408e1168597dbd44cb127aea17264025fe6228f6d",
+        "design/board-v2/assets/lighting/fx-spark-1.svg": "2a9c2ed545716e798b382b0e214b1234958f1a6771203225ddd156cf01cff7cd",
+        "design/board-v2/assets/lighting/fx-spark-2.svg": "e8abe0f10b6c78cbfb1bc65853192a2c9a7280ff34d292610e0b29fc2b0aa90a",
+        "design/board-v2/assets/lighting/fx-spark-3.svg": "3a3fdc53881a1b295cbac96e026e06eff9e5c4d6d3e98e97ca588936ede83fb8",
+        "design/board-v2/assets/lighting/hospital-ward-7.dark.svg": "b0a97110562e43dab092255659dbffd5e53eaa3135935075ca046abd7fe33116",
+        "design/board-v2/assets/lighting/hospital-ward-8.dark.svg": "8b9c0993b717b5efde745929842d2e26e2a1e8acdcd1182656260e22aa06c536",
+        "design/board-v2/assets/lighting/hospital-ward-9.dark.svg": "11400d87f23638f9dc6f17be5ce2d18205b2caf2ac2633cda437d682775efdd0",
+        "design/board-v2/assets/lighting/jail.dark.svg": "c0978c8e1cd1678c19a412ea295af7fd8ac2f8bff56839af0bb286ee0cfae638",
+        "design/board-v2/assets/lighting/marker-chosen.svg": "750be4f6199f6d477bd80051ca5e829211be3f8750c3e1cfa56a90f9943137c2",
+        "design/board-v2/assets/lighting/marker-dark.svg": "7f9038db74409b6893da8eb9d61190cf6a956f6d398d4cf1fe760c2baf7f131e",
+        "design/board-v2/assets/lighting/marker-preview.svg": "be484a8351be652a96c0403754bd44288347a1c723ff19581b8671f4c8d11364",
+        "design/board-v2/assets/lighting/room-a.dark.svg": "8988d6b617a4295ad14a25b562987774d4a64722a41a47cb7960c5ef8c54efc3",
+        "design/board-v2/assets/lighting/room-b.dark.svg": "b8676a47b4604e87c6db02b97a9805221b19591b9babd268ccb2f8fd3fbf1b2b",
+        "design/board-v2/assets/fx/fx-block-particles-1.svg": "495367131022102d948829e8510add0a934fbe9402de5afefdd2f9ed23c0fb72",
+        "design/board-v2/assets/fx/fx-block-particles-2.svg": "7b98b6d31a858b83427b1bc811315accff82bac96b032fc82f7d9c6a765eb180",
+        "design/board-v2/assets/fx/fx-block-particles-3.svg": "e7d06d2afd9e6f974ee0b90620c070c185e2d2cd73dcdc312513c23876c08ad7",
+        "design/board-v2/assets/fx/fx-block-ring.svg": "9cd561a8bc28ba5f5ca8441d70a15de2a9bdcb1cf7ba619872555bca45facc4f",
+        "design/board-v2/assets/fx/fx-shield-1.svg": "5a2953714b267417aacc38703502f14f8e063b065e3caa0570d90b7943ce6835",
+        "design/board-v2/assets/fx/fx-shield-2.svg": "87036cc95529618901f1c0d524b8794eb9938d4b2f7b12a688a28dc8c9a864c9",
+        "design/board-v2/assets/fx/fx-shield-3.svg": "feb871f35592db45d452fae1ae367ae7ba8ecd3ae38eb653db49ec0d9c47367d",
+        "design/setup-art/source/setup.svg": "a8a8891200443b692ad236e75cd504c5d6f8045f804d359447b25c18cd2e59f1",
+        "design/setup-art/assets/setup-back.svg": "201eab9994fdb57c8a728a57d30f349b50bcd473cb4dd9f8bcb609e072b21fec",
+        "design/setup-art/source/abilities.css": "c35301a25322cf853af4f4820bdba0733ec0d632be88e45a9c3acda14086adb7"
       },
       "permittedLiterals": [
         "board-motion/assets/manifest.json",
@@ -177,7 +239,7 @@
       ]
     }
   },
-  "scope": "Owner-authorized release integration: retain the historical pure drawing ports and ability stylesheet, replace provisional phone-feedback ports with exact reviewed Claude phone-kit derivatives. No prototype imports or directory exemption. Add eight exact Board V2 drawing/layout derivatives, the uniform common-art build supplement and reviewed native metadata literals. No prototype controller, fixture or directory exemption; no release/profile activation.",
+  "scope": "Owner-authorized release integration: retain the historical pure drawing ports and ability stylesheet, replace provisional phone-feedback ports with exact reviewed Claude phone-kit derivatives. No prototype imports or directory exemption. Add eight exact Board V2 drawing/layout derivatives, the uniform common-art build supplement and reviewed native metadata literals. No prototype controller, fixture or directory exemption; no release/profile activation. Add five exact S1/S4 pure derivatives and uniform setup/motion supplements. Final native consumer acceptance is separately recorded.",
   "styleSourceCommit": "d87163358ea85878fd3e9e4ffb347c4e71d6de5d",
   "phoneKitAdoption": {
     "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
@@ -186,19 +248,19 @@
   },
   "metadataFiles": {
     "apps/game/hosted/board-v2-host.mjs": {
-      "sha256": "3fe02aa7e4b9f0fc7ff0b095a4ae12accf9fcbb6a8c60e0b54b7615fb6d05604",
+      "sha256": "99803f374b0710aa8297bf7865d149fa71b22dbbf6cad6e333c2ef0c18a19149",
       "permittedLiterals": [
         "board-v2"
       ]
     },
     "apps/game/hosted/board-v2-scene.mjs": {
-      "sha256": "77a8383983c607e6c2a149990c37777573b950df810b05b48c0c141da6ca77ca",
+      "sha256": "7d3ab0d3a8a6be7801ba1cdca680517cba982242f871a42e648f0a8e899262af",
       "permittedLiterals": [
         "board-v2"
       ]
     },
     "apps/game/hosted/board-v2.css": {
-      "sha256": "7ad329b9f33ca637d042fc996c5eb58219e93c45508b4f821c82092fe9a118e4",
+      "sha256": "9762aa1f33f65a8577ccc9a648dc7b2ad1ad15ccf7a6ac9c15ed485820f8be55",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -212,5 +274,14 @@
     "runtimeCatalog": "design/releases/board-v2-runtime-ports.json",
     "runtimeCatalogSha256": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
     "scope": "Pure derivatives and exact native metadata only. No final gameplay/art pairing, default profile activation or Designer film acceptance."
+  },
+  "boardV2MotionAdoption": {
+    "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+    "runtimeCatalog": "design/releases/board-v2-motion-ports.json",
+    "runtimeCatalogSha256": "d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f"
+  },
+  "nativeConsumerReview": {
+    "sourceCommit": "e561f297e4f06286da76541efbfee25e79605dcd",
+    "scope": "Native fixed-slot, Blackout, room-event, capsule, setup and recovery consumers reviewed by Integration and Backend. Only existing metadata literal exceptions renewed; pure drawing hashes and historical source bytes unchanged. Browser acceptance and exact release CI remain separate gates."
   }
 }

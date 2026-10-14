@@ -1,4 +1,4 @@
-import type { FullMedicalStatus, FullPlayerView, FullPublicView, FullVoteResult, PlayerView, PublicView, SeatId } from '@mothership/contracts';
+import type { FullBlackoutTargeting, FullMedicalStatus, FullPlayerView, FullPublicView, FullVoteResult, PlayerView, PublicView, SeatId } from '@mothership/contracts';
 
 /** A composed public view of either wire protocol. The shells read what both have, and what protocol 2 adds when it is there. */
 export type PublicFacts = PublicView | FullPublicView;
@@ -45,6 +45,7 @@ export interface MotionSettingsInput {
 }
 
 export interface ShellEnvironment {
+  readonly serverNowMs?: number | null;
   readonly mode: DataSourceMode;
   readonly connection: ConnectionStatus;
   readonly problem: ShellProblem | null;
@@ -131,9 +132,12 @@ export type ReleaseVoteKind = 'release-vote';
  * seat and a guessed faction, a Supply names two seats, a Code attempt names four.
  */
 export type CompoundActionKind = 'scan' | 'supply' | 'code';
-export type ActionKind = 'declare-hack-side' | 'pass' | 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
+export type TargetlessActionKind = 'captain-release' | 'captain-eject' | 'blackout-request' | 'activate-clone';
+export type ActionKind = TargetlessActionKind | 'blackout-slot' | 'declare-hack-side' | 'pass' | 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
+  | { readonly kind: TargetlessActionKind }
+  | { readonly kind: 'blackout-slot'; readonly snapshotId: string; readonly room: FullBlackoutTargeting['room']; readonly slotId: string }
   | { readonly kind: 'declare-hack-side'; readonly declaredSide: FactionName }
   | { readonly kind: 'pass' }
   | { readonly kind: 'move'; readonly destination: Destination }
@@ -221,7 +225,7 @@ export interface SeatModel {
   readonly jailed: boolean;
   readonly captain: boolean;
   /** Exact Board-medical tuple only; historical models omit both properties. */
-  readonly slotId?: string;
+  readonly slotId?: string | null;
   readonly medical?: FullMedicalStatus | null;
   readonly markers: readonly MarkerModel[];
 }
@@ -461,6 +465,7 @@ export interface TableMatchModel {
   readonly playerCount?: number;
   readonly capsule?: PublicCapsuleModel | null;
   readonly boardLayout?: PublicBoardModel;
+  readonly outcomes?: readonly OutcomePresentationModel[];
   readonly phase: PhaseStripModel;
   /** Null while the match is being played, and for a view that cannot carry an end. */
   readonly result: ResultModel | null;
@@ -537,6 +542,7 @@ export type ConnectedActionStatus = 'idle' | 'choosing' | 'confirming' | 'submit
 
 /** The one card for the player's own command. One command at a time, so one card. */
 export interface ConnectedActionCardModel {
+  readonly privateStatus?: readonly string[];
   readonly title: string;
   /** The action the card is about, or null when idle or when a reloaded page does not know it. */
   readonly kind: ActionKind | null;
@@ -626,6 +632,9 @@ export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'priva
   readonly playerCount?: number;
   readonly capsule?: PublicCapsuleModel | null;
   readonly boardLayout?: PublicBoardModel;
+  readonly outcomes?: readonly OutcomePresentationModel[];
+  /** Player-only technical state, visible without opening role or target information. */
+  readonly commandRecovery?: { readonly text: string; readonly canCheck: boolean; readonly disabled: boolean } | null;
   /** Ending your own turn is role-neutral; it does not require revealing the private card. */
   /**
    * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose
@@ -656,7 +665,16 @@ export interface PublicCapsuleModel {
 }
 
 /** Existing authoritative phase facts, copied for public paint interpolation only. */
+export interface OutcomePresentationModel {
+  readonly eventId: string; readonly viewRevision: number; readonly publishedAt: number; readonly expiresAt: number;
+  readonly fact: import('@mothership/contracts').FullOutcomeFact;
+  readonly presentationAnchor?: import('@mothership/contracts').ClinicalPresentationAnchor;
+}
+
 export interface PublicBoardModel {
+  readonly blackout?: { readonly snapshotId: string; readonly darkStartsAt: number } | null;
+  readonly seats?: readonly { readonly seatId: SeatId; readonly location: LocationName; readonly health: HealthState; readonly jailed: boolean; readonly slotId?: string | null }[];
+  readonly dark?: boolean;
   readonly id: 'board-v2-0.1.1';
   readonly playerCount: number;
   readonly clock: {

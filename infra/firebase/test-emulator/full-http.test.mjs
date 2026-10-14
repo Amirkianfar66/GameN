@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { observeSetupDeadline, setupDocument } from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
-import { FullPublicViewSchema, FullPlayerViewSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema, FullSetupPlayerViewSchema, FullVersionsSchema, supportsVoteResults, sameFullGameplayPins, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS } from '@mothership/contracts';
+import { FullPublicViewSchema, FullPlayerViewSchema, FullBeginSetupResponseSchema, FullConfirmSetupChoiceResponseSchema, FullReadyForMatchResponseSchema, FullSetupPlayerViewSchema, FullVersionsSchema, supportsVoteResults, sameFullGameplayPins, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS } from '@mothership/contracts';
 import { assertLocalEmulators, projectId, createEmulatorIdentity, refreshEmulatorIdentity, firestoreRequest } from '../test/helpers.mjs';
 import { exerciseAutomaticDeclaredHack } from './hack-http-helper.mjs';
 
@@ -39,8 +39,10 @@ const requestId=()=>randomUUID();
 test('real V1 Functions authenticate seven players, wait setup, preserve retries and exercise the configured gameplay profile', { timeout: 300_000 }, async () => {
   assertLocalEmulators();
   const releaseProfile=process.env.MOTHERSHIP_NEW_MATCH_PROFILE;
-  assert.ok(releaseProfile===undefined || releaseProfile==='declared-hack-1.5','Use an explicitly reviewed creation profile');
+  assert.ok(releaseProfile===undefined || releaseProfile==='declared-hack-1.5' || releaseProfile==='board-v2-1.10','Use an explicitly reviewed creation profile');
   const declaredRelease=releaseProfile==='declared-hack-1.5';
+  const boardRelease=releaseProfile==='board-v2-1.10';
+  if (boardRelease) assert.equal(process.env.MOTHERSHIP_ASSET_MANIFEST_VERSION,'design-0.4.0');
   if (declaredRelease) assert.equal(process.env.MOTHERSHIP_ASSET_MANIFEST_VERSION,'design-0.3.0');
   const app=initializeApp({projectId},'timed-http-'+randomUUID()),db=getFirestore(app);
   try {
@@ -91,11 +93,12 @@ test('real V1 Functions authenticate seven players, wait setup, preserve retries
     const versions=FullVersionsSchema.parse(own.versions);
     const needsAcceptance=supportsVoteResults(versions);
     if (needsAcceptance) {
-      assert.ok([VOTE_RESULT_VERSION_PINS,DECLARED_HACK_VERSION_PINS].some(pins=>sameFullGameplayPins(versions,pins)),
+      assert.ok([VOTE_RESULT_VERSION_PINS,DECLARED_HACK_VERSION_PINS,CLONE_VERSION_PINS].some(pins=>sameFullGameplayPins(versions,pins)),
         'Review HTTP fixture support before acknowledging a new prepared gameplay tuple');
-      assert.ok(['0.0.0-no-assets','design-0.2.0','design-0.3.0'].includes(versions.assetManifestVersion),
+      assert.ok(['0.0.0-no-assets','design-0.2.0','design-0.3.0','design-0.4.0'].includes(versions.assetManifestVersion),
         'Review HTTP fixture support before acknowledging a new prepared asset manifest');
     }
+    if (boardRelease) assert.deepEqual(versions,{...CLONE_VERSION_PINS,assetManifestVersion:'design-0.4.0'});
     // Retain the exact intent for unknown-outcome retries. Historical bodies
     // keep their original shape; only explicitly supported new deals are echoed.
     const readyBody=setupRequest({bindingRevision:own.bindingRevision,dealId:own.dealId,
@@ -116,7 +119,7 @@ test('real V1 Functions authenticate seven players, wait setup, preserve retries
   assert.equal((await h.base.collection('engine').doc('current').get()).exists,false);
   await observeSetupDeadline(h,reading);
   const publicView=await readView(`${root}/views/public`,display,FullPublicViewSchema);
-  assert.equal(publicView.versions.engineVersion,declaredRelease?'full-game-1.5.0':'full-game-1.3.0');
+  assert.equal(publicView.versions.engineVersion,boardRelease?'full-game-1.10.0':declaredRelease?'full-game-1.5.0':'full-game-1.3.0');
   if (declaredRelease) assert.equal(publicView.versions.assetManifestVersion,'design-0.3.0');
   assert.equal(publicView.playerCount,7);assert.equal(publicView.phase.kind,'ORDINARY_TURN');
   assert.equal(publicView.phase.endsAt-publicView.phase.startedAt,60_000);
@@ -152,7 +155,8 @@ test('real V1 Functions authenticate seven players, wait setup, preserve retries
   const updated=await readView(`${root}/views/public`,display,FullPublicViewSchema);
   assert.equal(updated.seats.find(seat=>seat.seatId===privateView.self.seatId).location,command.command.destination);
   assert.equal((await firestoreRequest(`${root}/playerViews/${actor.uid}`,{idToken:display.idToken})).status,403);
-  if (declaredRelease) await exerciseAutomaticDeclaredHack({base:h.base,players,display,invoke,readView});
+  if (declaredRelease || boardRelease) await exerciseAutomaticDeclaredHack({base:h.base,players,display,invoke,readView,
+    expectedPins:boardRelease?CLONE_VERSION_PINS:DECLARED_HACK_VERSION_PINS});
   const aborted=await invoke('v1AbortMatch',{protocolVersion:2,matchId,requestId:requestId()},host);
   assert.equal(aborted.status,200,JSON.stringify(aborted.body));assert.equal(aborted.body.ok,true);
   const terminal=await readView(`${root}/views/public`,display,FullPublicViewSchema);

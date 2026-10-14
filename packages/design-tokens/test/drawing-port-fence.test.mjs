@@ -68,7 +68,8 @@ ${geometry}`;
     assert.equal(contentSha256(value), pins.ports[runtime].sha256);
     await write(root, runtime, value);
   }
-  const catalog=JSON.parse(await readFile(resolve(repo,'design/releases/board-v2-runtime-ports.json'),'utf8'));
+  const catalog={entries:[]};
+  for (const path of ['design/releases/board-v2-runtime-ports.json','design/releases/board-v2-motion-ports.json']) catalog.entries.push(...JSON.parse(await readFile(resolve(repo,path),'utf8')).entries);
   for(const entry of catalog.entries) {
     let value=(await original(entry.source)).replace(/^\/\/ mothership:dev-only\n/,'');
     for(const [from,to] of Object.entries(entry.imports)) value=value.replaceAll("'"+from+"'","'"+to+"'");
@@ -81,7 +82,7 @@ ${geometry}`;
     assert.equal(contentSha256(content),pin.sha256);
     await write(root,path,content);
   }
-  const plugin = await readFile(resolve(repo, 'packages/design-tokens/test/fixtures/reviewed-board-v2-comic-assets.txt'));
+  const plugin = await readFile(resolve(repo, 'packages/design-tokens/test/fixtures/reviewed-board-v2-release-comic-assets.txt'));
   assert.equal(contentSha256(plugin), pins.buildFiles['apps/game/hosted/comic-assets.mjs'].sha256);
   await write(root, 'apps/game/hosted/comic-assets.mjs', plugin);
   for (const [runtime, fixture] of [
@@ -207,7 +208,7 @@ test('removed provisional drawing paths cannot re-enter as unreviewed files', as
 });
 
 test('all eight Board V2 ports reproduce from the reviewed original sources', async () => {
-  assert.equal(verifyBoardV2RuntimePorts(await seed()),8);
+  assert.equal(verifyBoardV2RuntimePorts(await seed()),13);
 });
 test('Board V2 refuses an extra controller and a missing reviewed derivative', async () => {
   const root=await seed();
