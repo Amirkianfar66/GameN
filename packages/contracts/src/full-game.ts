@@ -1,9 +1,10 @@
+import { BlackoutRoomSchema, FullBlackoutPublicSchema, FullBlackoutTargetingSchema, validBlackoutPublic, blackoutSlotIds } from './blackout.js';
 import { z } from 'zod';
 import { FullOutcomeEventSchema } from './captain-outcomes.js';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
 import { BoardSlotIdSchema, FullMedicalStatusSchema, validBoardMedicalView } from './board-medical.js';
-import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands } from './full-game-versions.js';
+import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands, supportsBlackout } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
 export const FULL_PROTOCOL_VERSION = 2 as const;
@@ -13,6 +14,8 @@ export const FullCommandSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('PASS_TURN') }),
   z.strictObject({ type: z.literal('CAPTAIN_RELEASE') }),
   z.strictObject({ type: z.literal('CAPTAIN_EJECT') }),
+  z.strictObject({ type: z.literal('REQUEST_BLACKOUT') }),
+  z.strictObject({ type: z.literal('SELECT_BLACKOUT_SLOT'),snapshotId:IdentifierSchema,room:BlackoutRoomSchema,slotId:BoardSlotIdSchema }),
   z.strictObject({ type: z.literal('MOVE'), destination: z.enum(['Room A', 'Room B', 'Command Room']) }),
   z.strictObject({ type: z.literal('REGISTER_SHOT'), ...target }),
   z.strictObject({ type: z.literal('DISABLE'), ...target }),
@@ -41,8 +44,8 @@ export const FullFailureSchema = z.strictObject({ ok: z.literal(false), serverTi
   error: z.strictObject({ code: z.enum(['UNAUTHENTICATED','FORBIDDEN','INVALID_REQUEST','UNSUPPORTED_PROTOCOL','COMMAND_ID_CONFLICT','REQUEST_ID_CONFLICT','UNAVAILABLE','RATE_LIMITED']), retryAfterMs: TimestampSchema.nullable().optional() }) });
 export type FullFailure = z.infer<typeof FullFailureSchema>;
 export const FullPhaseSchema = z.strictObject({ id: IdentifierSchema,
-  kind: z.enum(['ORDINARY_TURN','HACK','HACK_DECLARE','HACK_RESULT','CAPTAIN_ELECTION','RELEASE_CHOICE','RELEASE_VOTE','JAIL_VOTE','SHOWDOWN','VOTE_RESULT','FINISHED','ABORTED']),
-  startedAt: TimestampSchema, endsAt: TimestampSchema.nullable() }).refine(p => ['FINISHED','ABORTED'].includes(p.kind) ? p.endsAt === null : p.endsAt !== null && p.endsAt - p.startedAt === (p.kind === 'HACK_DECLARE' ? 15_000 : ['VOTE_RESULT','HACK_RESULT'].includes(p.kind) ? 5_000 : 60_000), 'Exact live phase duration and no terminal deadline');
+  kind: z.enum(['ORDINARY_TURN','HACK','HACK_DECLARE','HACK_RESULT','CAPTAIN_ELECTION','RELEASE_CHOICE','RELEASE_VOTE','JAIL_VOTE','SHOWDOWN','BLACKOUT','VOTE_RESULT','FINISHED','ABORTED']),
+  startedAt: TimestampSchema, endsAt: TimestampSchema.nullable() }).refine(p => ['FINISHED','ABORTED'].includes(p.kind) ? p.endsAt === null : p.endsAt !== null && p.endsAt - p.startedAt === (['HACK_DECLARE','BLACKOUT'].includes(p.kind) ? 15_000 : ['VOTE_RESULT','HACK_RESULT'].includes(p.kind) ? 5_000 : 60_000), 'Exact live phase duration and no terminal deadline');
 export type FullPhase = z.infer<typeof FullPhaseSchema>;
 export const FullAssetManifestVersionSchema = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/);
 export const FullVersionsSchema = z.strictObject({ protocolVersion: z.literal(2), rulesetVersion: IdentifierSchema,
@@ -89,6 +92,7 @@ const publicFacts = {
   lastTally: FullTallySchema.nullable(),
   voteResult: FullVoteResultSchema.nullable().optional(),
   hackSession: FullHackSessionSchema.nullable().optional(),
+  blackout:FullBlackoutPublicSchema.nullable().optional(),
   result: z.strictObject({ winner:z.enum(['Blue','Red','Alien','Draw']),alienCoWinner:z.boolean() }).nullable(),
   endReveal: z.strictObject({ roles:z.array(z.strictObject({seatId:SeatIdSchema,role:RoleSchema})),code:z.array(SeatIdSchema).length(4) }).nullable(),
 };
@@ -125,7 +129,7 @@ function validHackSession(view:z.infer<typeof FullPublicViewShape>):boolean {
 }
 function validPublicReferences(view:z.infer<typeof FullPublicViewShape>):boolean {
   const ids=view.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
-  return validBoardMedicalView(view) && validVoteResult(view) && validHackSession(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
+  return validBlackoutPublic(view) && validBoardMedicalView(view) && validVoteResult(view) && validHackSession(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
     && (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(view.phase.kind) || !supportsDeclaredHack(view.versions) || view.activeSeatId!==null) && (view.phase.kind==='FINISHED'?view.endReveal!==null && view.result!==null:view.endReveal===null && view.result===null)
     && view.seats.every(s=>s.health==='Eliminated'?(s.revealedFaction!==null || (supportsCaptainCommands(view.versions) && s.location===null && view.phase.kind!=='FINISHED')):view.phase.kind==='FINISHED'||s.revealedFaction===null)
     && (!view.result || !view.result.alienCoWinner || view.result.winner==='Blue')
@@ -140,7 +144,7 @@ const FullPublicViewShape=z.strictObject({ ...publicFacts, audience:z.strictObje
 export const FullPublicViewSchema = FullPublicViewShape.refine(validPublicReferences, 'Complete roster and valid seat references required');
 export type FullPublicView = z.infer<typeof FullPublicViewSchema>;
 export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.strictObject({kind:z.literal('player'),seatId:SeatIdSchema}),
-  self:z.strictObject({ seatId:SeatIdSchema,role:RoleSchema,movementDestinations:z.array(z.enum(['Room A','Room B','Command Room'])),releaseVoteAvailable:z.boolean(),ordinaryWeapons:z.number().int().nonnegative(),shotAvailable:z.boolean(),rescuesRemaining:z.number().int().nonnegative(),disablerAvailable:z.boolean(),hackAvailable:z.boolean(),scanAvailable:z.boolean(),codeAttemptAvailable:z.boolean(),captainCommandUses:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable().optional() }),
+  self:z.strictObject({ seatId:SeatIdSchema,role:RoleSchema,movementDestinations:z.array(z.enum(['Room A','Room B','Command Room'])),releaseVoteAvailable:z.boolean(),ordinaryWeapons:z.number().int().nonnegative(),shotAvailable:z.boolean(),rescuesRemaining:z.number().int().nonnegative(),disablerAvailable:z.boolean(),hackAvailable:z.boolean(),scanAvailable:z.boolean(),codeAttemptAvailable:z.boolean(),blackoutTargeting:FullBlackoutTargetingSchema.nullable().optional(),captainCommandUses:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable().optional() }),
   knowledge:z.strictObject({insiderCandidates:z.array(SeatIdSchema),undercoverSeatId:SeatIdSchema.nullable(),code:z.array(SeatIdSchema),scanResults:z.array(z.strictObject({round:z.number().int().min(1).max(5),targetSeatId:SeatIdSchema,guess:FactionSchema,matched:z.boolean(),inCode:z.boolean().nullable()})),protections:z.array(z.strictObject({seatId:SeatIdSchema,activeFromRound:z.number().int(),consumed:z.boolean()}))}),
   legalTargets:z.record(z.string(),z.array(SeatIdSchema)), ownPendingCommandIds:z.array(IdentifierSchema).max(2),
   ownBallot:z.union([SeatIdSchema,z.boolean()]).nullable(), hasVoted:z.boolean(),
@@ -150,6 +154,16 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
   const ids=v.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
   const unique=(items:string[])=>new Set(items).size===items.length && items.every(has);
   const k=v.knowledge,role=v.self.role;
+  if(supportsBlackout(v.versions)) {
+    const t=v.self.blackoutTargeting,current=v.seats.find(s=>s.seatId===v.self.seatId);
+    if(!Object.hasOwn(v.self,'blackoutTargeting') || t===undefined || Object.hasOwn(v.legalTargets,'DISABLE'))return false;
+    if(t!==null && (v.phase.kind!=='BLACKOUT' || !['Blue Disabler','Red Disabler'].includes(role)
+      || current?.health!=='Healthy' || current.jailed || current.location!==t.room || t.snapshotId!==v.blackout?.snapshotId
+      || t.darkStartsAt!==v.blackout.darkStartsAt || t.endsAt!==v.phase.endsAt
+      || JSON.stringify(t.slotIds)!==JSON.stringify(blackoutSlotIds(t.room,v.playerCount))))return false;
+    const selecting=v.legalTargets['SELECT_BLACKOUT_SLOT'];
+    if(selecting!==undefined && (t===null || t.selectedSlotId!==null || selecting.length!==1 || selecting[0]!==v.self.seatId))return false;
+  } else if(Object.hasOwn(v.self,'blackoutTargeting') || Object.hasOwn(v.legalTargets,'REQUEST_BLACKOUT') || Object.hasOwn(v.legalTargets,'SELECT_BLACKOUT_SLOT'))return false;
   if(supportsCaptainCommands(v.versions)) {
     const current=v.seats.find(s=>s.seatId===v.self.seatId);
     if(!Object.hasOwn(v.self,'captainCommandUses') || v.self.captainCommandUses===undefined

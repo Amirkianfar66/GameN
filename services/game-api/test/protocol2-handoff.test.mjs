@@ -45,7 +45,7 @@ test('historical protocol-2 handoff preserves every original endpoint and gamepl
   const expected = ['DISABLE','MOVE','PASS_TURN','PROTECT','REGISTER_SHOT','RELEASE_CHOICE','RELEASE_VOTE',
     'REQUEST_HACK','RESCUE','SCAN','SHOWDOWN_SHOT','SUBMIT_CODE','SUPPLY','VOTE'].sort();
   const current = FullCommandSchema.options.map(schema => schema.shape.type.value);
-  const reviewedSuccessors = ['DECLARE_HACK_SIDE','CAPTAIN_RELEASE','CAPTAIN_EJECT'];
+  const reviewedSuccessors = ['DECLARE_HACK_SIDE','CAPTAIN_RELEASE','CAPTAIN_EJECT','REQUEST_BLACKOUT','SELECT_BLACKOUT_SLOT'];
   assert.deepEqual([...current].sort(), [...expected, ...reviewedSuccessors].sort(),
     'Every new command needs explicit successor review and its own native/versioned acceptance');
   assert.deepEqual(examples.commandRequests.map(request => request.command.type).sort(), expected);

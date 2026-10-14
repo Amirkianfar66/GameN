@@ -13,7 +13,7 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullAdvanceResponse, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, captainCommandsEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, captainCommandsEnabled, blackoutEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
 import { jointStartingRooms, jointStartingRoomAssignmentCount } from './joint-starting-rooms.js';
@@ -382,7 +382,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const batchId=hash([eventId,audience.key,'clinical-batch']);
       facts.push(...visible.map(o=>o.fact.type==='MEDICAL_OUTCOME'?{...o.fact,presentationAnchor:{kind:'CLINICAL_VIGNETTE',batchId,anchorId:clinicalAnchors[o.fact.seatId],slotCount:after.playerCount}}:o.fact));
       facts.forEach((fact, ordinal) => {
-        const outcome=['CAPTAIN_OUTCOME','MEDICAL_OUTCOME','BOARD_PLACEMENT_CHANGED'].includes(fact['type'] as string);
+        const outcome=['CAPTAIN_OUTCOME','MEDICAL_OUTCOME','BOARD_PLACEMENT_CHANGED','ATTACK_BLOCKED'].includes(fact['type'] as string);
         const occurrenceId=outcome?hash([eventId,audience.key,ordinal]):`${eventId}-${ordinal}`;
         const event = FullEventSchema.parse({ protocolVersion: 2, matchId: after.matchId, eventId: occurrenceId,
           viewRevision: view.viewRevision, audience: view.audience, fact,
@@ -976,6 +976,8 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
             const actorSeatId = binding.id as SeatId;
             const view = FullPlayerViewSchema.parse(projectFullGame(state).players[actorSeatId]);
             for (const command of choosePracticeBotActions(view)) {
+              // Do not create a durable premature rejection for this one deterministic slot.
+              if(command.type==='SELECT_BLACKOUT_SLOT' && blackoutEnabled(state.versions) && state.blackout && now<state.blackout.darkStartsAt)continue;
               // One deterministic slot per command type and phase; changing observations cannot create a retry with new intent.
               const commandId = hash([PRACTICE_BOT_POLICY_VERSION, matchId, state.phase.id, actorSeatId, command.type]);
               const receiptRef = base.collection('receipts').doc(hash([actorSeatId, commandId]));
