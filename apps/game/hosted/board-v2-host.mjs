@@ -146,9 +146,10 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(claim){box(claim,{left:sheet.left,top:sheet.top,width:sheet.width});claim.style.maxHeight=px(sheet.capacity);claim.style.height='auto';
    claimHeight=claim.getBoundingClientRect().height;
    const command=docks.find(d=>!d.querySelector('.bv2-choosing'));
-   const body=command?.querySelector('.bv2-command-body');
-   const intrinsic=body?.scrollHeight??0;
-   const fold=Boolean(command)&&model.match.capsule?.stage!=='HACK_RESULT'&&claimHeight+intrinsic+6+sheet.actions.height>sheet.capacity;
+   const idleActions=root.dataset.phoneView==='actions'?root.querySelector('.ms-private[data-open="true"]:not(.phone-action-dock)'):null;
+   const body=command?.querySelector('.bv2-command-body')??idleActions?.querySelector('.ms-private__panel');
+   const intrinsic=(body?.scrollHeight??0)+(idleActions?.querySelector('.phone-panel-head')?.getBoundingClientRect().height??0);
+   const fold=Boolean(command||idleActions)&&model.match.capsule?.stage!=='HACK_RESULT'&&claimHeight+intrinsic+6+sheet.actions.height>sheet.capacity;
    claim.dataset.folded=String(fold);
    let reveal=claim.querySelector('.bv2-claim-show');
    if(fold){if(!reveal){reveal=document.createElement('button');reveal.type='button';reveal.className='bv2-claim-show';reveal.id='bv2-claim-show';reveal.dataset.boardClaim='show';reveal.textContent='Show claim';claim.append(reveal);}claimHeight=sheet.actions.height;claim.style.height=px(claimHeight);}
