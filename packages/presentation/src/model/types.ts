@@ -409,6 +409,7 @@ export interface HackFeedbackModel {
   readonly phaseId: string;
   readonly stage: 'HACK_DECLARE' | 'HACK_RESULT' | 'HACK';
   readonly declaringSeatId: SeatId;
+  readonly elapsedMs: number;
   readonly heading: string;
   readonly message: string;
   readonly note: string;
@@ -428,6 +429,7 @@ export interface VoteResultModel {
   readonly counts: readonly { readonly seatId: SeatId; readonly votes: number }[];
   readonly eligibleVoterCount: number;
   readonly yesCount: number | null;
+  readonly elapsedMs: number;
   readonly lines: readonly string[];
 }
 

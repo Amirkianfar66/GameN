@@ -39,7 +39,7 @@ try {
    await page.screenshot(join(output,`${width}x${height}-private-hack-enlarged.png`),{viewport:true});
    await page.tap('#ms-action-dismiss');await sleep(100);
    f=await record(page,'enlarged-receipt-control-reachable',size);assert.equal(f.commands,1);
-   assert.equal(await page.evaluate("document.querySelector('.ms-card__state')?.dataset.step"),'idle');assert.match(f.claim,/claims BLUE/);
+   assert.equal(await page.evaluate("document.querySelector('.phone-strip')"),null,'Dismissing the receipt removes the empty action tray');assert.match(f.claim,/claims BLUE/);
   } finally {await page.close();}
  }
  const display=await openPage(browser,{width:1280,height:720,ownContext:true});

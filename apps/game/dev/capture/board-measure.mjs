@@ -61,6 +61,12 @@ export const MEASURE = `(() => {
     const label = button.querySelector('span:last-child');
     return label && !inside(box(label), box(button), 0.5);
   }).map(button => button.textContent.trim());
+  const navigation = [...document.querySelectorAll('.phone-nav button')].map(button => {
+    const b=box(button), top=document.elementFromPoint(b.x+b.w/2,b.y+b.h/2);
+    const raised=button.id === 'ms-phone-pass' ? document.elementFromPoint(b.x+b.w/2,b.y+10) : null;
+    return {id:button.id,visible:visible(button),onScreen:inside(b,viewport),disabled:button.disabled,
+      hit:top===button||button.contains(top),raisedHit:raised===null?null:raised===button||button.contains(raised),box:b};
+  });
   const html = document.getElementById('app').innerHTML;
   return {
     viewport: [innerWidth, innerHeight],
@@ -73,7 +79,7 @@ export const MEASURE = `(() => {
     stripStep: document.querySelector('.phone-strip > .ms-card__state')?.dataset.step ?? null,
     stamp: (() => { const s = document.querySelector('.phone-strip > .ms-card__state > .ms-card__status'); return s && getComputedStyle(s).clipPath === 'none' ? s.textContent : null; })(),
     tray: !!document.querySelector('[data-phone-view="actions"][data-action-dock="false"] .ms-private[data-open="true"]'),
-    targets, overlaps, smallControls: small, statusClipped, bannerIconOverText, navLabelsOut, flyersOver,
+    targets, overlaps, smallControls: small, statusClipped, bannerIconOverText, navLabelsOut, navigation, flyersOver,
     marks: Object.fromEntries(['eligible', 'selected', 'picked', 'pending', 'other'].map(state => [state, [...document.querySelectorAll('.ms-board .ms-seat[data-board-target="' + state + '"]')].map(seat => seat.dataset.seat)])),
     ghost: document.querySelector('.phone-move-ghost')?.dataset.state ?? null,
     pass: (() => { const p = document.querySelector('#ms-phone-pass'); return p ? (p.disabled ? 'unavailable' : 'available') : document.querySelector('.phone-nav__slot') ? 'absent' : null; })(),
@@ -104,6 +110,8 @@ export function problemsOf(measured, { phone = true } = {}) {
     measured.statusClipped && 'status bar clips its content',
     measured.bannerIconOverText && 'the connection banner\'s icon lies over its words',
     ...(measured.navLabelsOut ?? []).map(label => `navigation label "${label}" runs past its button`),
+    ...(phone && measured.navigation ? (measured.navigation.length!==5 ? ['five-button navigation absent'] : measured.navigation.filter(n=>!n.visible||!n.onScreen||!n.disabled&&!n.hit).map(n=>`navigation ${n.id} hidden, off screen or covered`)) : []),
+    ...(phone && measured.navigation ? measured.navigation.filter(n=>n.id==='ms-phone-pass' && n.raisedHit === false).map(()=> 'raised Pass circle is covered') : []),
     ...(measured.flyersOver ?? []).map(layer => `a moving character would be drawn over ${layer}`),
   ].filter(Boolean);
 }

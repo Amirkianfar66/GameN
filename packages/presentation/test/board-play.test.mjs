@@ -80,7 +80,8 @@ test('for every action the press areas are exactly the seats the view offers, in
     assert.deepEqual(marks(html, 'other').sort(), seats(7).filter(seat => !offered.includes(seat)).sort(), kind);
     // No seat is offered twice, and the strip never lists a seat: the characters are on the board.
     assert.doesNotMatch(strip(markup), /data-value="seat-/, kind);
-    assert.match(strip(markup), new RegExp(`class="phone-strip__kind">[^<]+</span><span class="ms-visually-hidden">: </span>`), kind);
+    if (kind === 'code') assert.match(strip(markup),/Choose the four players of your Code attempt/);
+    else assert.match(strip(markup), new RegExp(`class="phone-strip__kind">[^<]+</span><span class="ms-visually-hidden">: </span>`), kind);
   }
 });
 

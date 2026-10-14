@@ -72,7 +72,7 @@ export function applyPhoneKit(root, model) {
       if (!CREW[subject.character] || !subject.facts) continue;
       const gesture = subject.facts.health === 'Injured' ? 'stand+injured' : subject.facts.health === 'Eliminated' ? 'stand+still' : 'stand';
       figures.append(span(document,'pk-vr__fig',dressedFigureSvg(CREW[subject.character],skeletonOf(gesture),{
-        outfit:outfitFor(subject.facts.location),prefix:`phone-vote-${subject.id}`,layer:'all',
+        outfit:outfitFor(subject.facts.location),prefix:`phone-vote-${subject.id}`,layer:'body',
       })));
     }
     const piece = span(document,`pk-vr__piece pk-vr__piece--${composition.piece}`,RESULT_ART[composition.piece]());

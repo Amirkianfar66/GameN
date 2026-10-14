@@ -46,15 +46,18 @@ try {
       const page = await openPage(browser, { width: size[0], height: size[1], mobile: true, ownContext: true });
       try {
         if (mode === 'safe-area') await page.send('Emulation.setSafeAreaInsetsOverride', { insets: { top: 20, bottom: 16, left: 0, right: 0 } });
-        if (mode === 'enlarged') await page.send('Page.setFontSizes', { fontSizes: { standard: 28 } });
+        if (mode === 'enlarged') await page.send('Page.setFontSizes', { fontSizes: { standard: 32 } });
         const name = `${size.join('x')}-${mode}-${scenario}`;
         await page.goto(`${base}?scenario=${scenario}`, "document.querySelector('.ms-board[data-scenes=\"true\"] .ms-token[data-figure]')", 20_000);
+        if (mode === 'enlarged') await page.evaluate("document.documentElement.style.fontSize='32px'");
         await page.foreground();
         await record(page, `${name}-board`, size, mode === 'enlarged');
         await page.tap('#ms-phone-actions');
         await page.tap(`#ms-action-open-${action}`);
         await record(page, `${name}-targeting`, size, mode === 'enlarged');
-        for (const n of picks) { await page.tap(`.phone-character-target[data-value="seat-${n}"]`); await sleep(160); }
+        for (const [index,n] of picks.entries()) { await page.tap(`.phone-character-target[data-value="seat-${n}"]`); await sleep(160);
+          if (action === 'code' && index < picks.length - 1) await record(page, `${name}-partial-${index + 1}`, size, mode === 'enlarged');
+        }
         await record(page, `${name}-confirm`, size, mode === 'enlarged');
         if (scenario === 'phone-released-waiting') {
           const jailed = await page.evaluate("!!document.querySelector('.ms-seat[data-seat=\"seat-9\"] .ms-marker--jail')");
@@ -68,6 +71,6 @@ try {
   browser.close();
   await processHandle.close();
 }
-const failures = facts.filter(row => row.problems.length && !row.enlarged);
-console.log(`${facts.length} measurements; ${failures.length} normal-size failures; enlarged text reported separately`);
+const failures = facts.filter(row => row.problems.length);
+console.log(`${facts.length} measurements; ${failures.filter(row=>!row.enlarged).length} normal-size failures; ${failures.filter(row=>row.enlarged).length} enlarged-text failures`);
 if (failures.length) process.exitCode = 1;

@@ -4,6 +4,7 @@ import { createComicMotion } from './comic-motion.mjs';
 import { fitBoard } from './board-layout.mjs';
 import { applySceneBoard } from './scene-board.mjs';
 import { applyPhoneKit } from './phone-kit.mjs';
+import { createPhoneKitCues } from './phone-kit-cues.mjs';
 import { createStripCues } from './strip-cues.mjs';
 import { createInsiderFile } from './insider-file.mjs';
 import { createAbilityCues } from './ability-cues.mjs';
@@ -89,6 +90,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const stripCues = createStripCues(root);
   const insiderFile = createInsiderFile(root);
   const abilityCues = createAbilityCues(root);
+  const phoneKitCues = createPhoneKitCues(root);
   let rootAttributes = {};
   let drawn = null;
   let spokenSeq = 0;
@@ -172,6 +174,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     fitBoard(root);
     applySceneBoard(root, frame.model);
     applyPhoneKit(root, frame.model);
+    phoneKitCues.after(frame.model);
     comicMotion.after(frame.model, beforeMotion);
     stripCues.after();
     abilityCues.after(frame.model);
@@ -364,6 +367,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     resized?.disconnect();
     comicMotion.dispose();
     stripCues.dispose();
+    phoneKitCues.dispose();
     insiderFile.dispose();
     abilityCues.dispose();
     root.removeEventListener('click', onClick);
