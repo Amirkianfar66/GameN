@@ -10,7 +10,7 @@
   "baseManifest": "design/exports/asset-manifest.json",
   "baseManifestVersion": "design-0.2.0",
   "claudePhoneKitCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
-  "scope": "Complete uniform base, scene and ability bundles plus exact reviewed Claude wardrobe/phone-kit drawing derivatives. Prototype controllers and clocks excluded.",
+  "scope": "Complete uniform base, scene and ability bundles, exact reviewed Claude wardrobe/phone-kit drawing derivatives, and the reviewed production phone stylesheet adaptation. Prototype controllers and clocks excluded.",
   "sources": {
     "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
     "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
@@ -45,6 +45,7 @@
   },
   "runtimeFiles": {
     "apps/game/hosted/ability-drawing.css": "639cf452ddfd0edd37f859aab2ffb64a91812204f673db32c16e8161a01a5d10",
+    "apps/game/hosted/claude-phone-kit.css": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
     "apps/game/hosted/scene-drawing/body.mjs": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513",
     "apps/game/hosted/scene-drawing/crew.mjs": "d2147b981140504d47d2fecfbcf0d2efd5860cfe4929d2e3238173289ac8a093",
     "apps/game/hosted/scene-drawing/frame.mjs": "da22de905a2e0615723bd63745614d6f5d393271aeed34166fab177df4b2f9ba",

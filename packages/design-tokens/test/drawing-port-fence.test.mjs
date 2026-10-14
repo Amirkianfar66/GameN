@@ -70,9 +70,14 @@ ${geometry}`;
   const plugin = await readFile(resolve(repo, 'packages/design-tokens/test/fixtures/reviewed-comic-assets.txt'));
   assert.equal(contentSha256(plugin), pins.buildFiles['apps/game/hosted/comic-assets.mjs'].sha256);
   await write(root, 'apps/game/hosted/comic-assets.mjs', plugin);
-  const style = await readFile(resolve(repo, 'packages/design-tokens/test/fixtures/reviewed-ability-drawing.txt'));
-  assert.equal(contentSha256(style), pins.styles['apps/game/hosted/ability-drawing.css'].sha256);
-  await write(root, 'apps/game/hosted/ability-drawing.css', style);
+  for (const [runtime, fixture] of [
+    ['apps/game/hosted/ability-drawing.css', 'reviewed-ability-drawing.txt'],
+    ['apps/game/hosted/claude-phone-kit.css', 'reviewed-claude-phone-kit.txt'],
+  ]) {
+    const style = await readFile(resolve(repo, 'packages/design-tokens/test/fixtures', fixture));
+    assert.equal(contentSha256(style), pins.styles[runtime].sha256);
+    await write(root, runtime, style);
+  }
   return root;
 }
 async function append(root, path, text) { await write(root, path, await readFile(resolve(root, path), 'utf8') + '\n' + text); }
@@ -127,6 +132,14 @@ test('a changed build manifest or source CSS fails despite an unchanged approved
 test('the corrected stylesheet source cannot revert while the geometry stays frozen', async () => {
   const root = await seed(); await append(root, 'design/abilities/css/abilities.css', '/* unreviewed source */');
   await refuses(root, /corrected stylesheet source hash differs from d871633/);
+});
+test('the reviewed phone stylesheet and its Claude source cannot drift independently', async () => {
+  const runtimeRoot = await seed();
+  await append(runtimeRoot, 'apps/game/hosted/claude-phone-kit.css', '/* unreviewed runtime */');
+  await refuses(runtimeRoot, /claude-phone-kit\.css: reviewed drawing stylesheet content hash differs/);
+  const sourceRoot = await seed();
+  await append(sourceRoot, 'design/phone-kit/css/phone-kit.css', '/* unreviewed source */');
+  await refuses(sourceRoot, /corrected stylesheet source hash differs from 5c9a151/);
 });
 test('the build-only exception neither travels with a copied file nor allows injected imports', async () => {
   const root = await seed(); const plugin = await readFile(resolve(root, 'apps/game/hosted/comic-assets.mjs'));

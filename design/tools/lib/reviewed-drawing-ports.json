@@ -78,6 +78,12 @@
       "source": "design/abilities/css/abilities.css",
       "sourceSha256": "cfcc1e29239840a22210df26a8c09439101f658f1e11f5fd7ab89f21b2e6b808",
       "sourceCommit": "d87163358ea85878fd3e9e4ffb347c4e71d6de5d"
+    },
+    "apps/game/hosted/claude-phone-kit.css": {
+      "sha256": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
+      "source": "design/phone-kit/css/phone-kit.css",
+      "sourceSha256": "fd56e406b635929f438ec853fb673bc540720d661d9c625bb033dbfa464f0c6e",
+      "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7"
     }
   },
   "buildFiles": {
@@ -88,7 +94,7 @@
         "design/board-motion/assets/board-motion.scenes.css": "bf80c2fd41dad78f2b65b5e643b9e2c3fe05407d2d281b82cf45d6d6c4cf5e20",
         "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
         "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
-        "design/releases/design-0.3.0.json": "2c0fb40cd20ef4f0c46707010921c1206f0ee54ed7a293a2b3aee13160b0a3ba",
+        "design/releases/design-0.3.0.json": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
         "scripts/runtime-art-release.mjs": "bce98c93c73aed212d9c7855ccce837da29cc9c3dbea860f76d1c773c4eaddcd"
       },
       "permittedLiterals": [
@@ -103,6 +109,6 @@
   "phoneKitAdoption": {
     "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
     "sourceManifest": "design/phone-kit/assets/manifest.json",
-    "scope": "Exactly two pure Claude drawing derivatives; only the leading dev-only comment is removed. No prototype controller, fixture, timing or layout module is adopted."
+    "scope": "Exactly two pure Claude drawing derivatives; only their leading dev-only comment is removed. The production stylesheet adaptation has a separate reviewed runtime hash and frozen Claude source hash. No prototype controller, fixture, timing or layout module is adopted."
   }
 }
