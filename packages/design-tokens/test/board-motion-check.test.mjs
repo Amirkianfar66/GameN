@@ -28,7 +28,7 @@ function scratchCopy() {
   scratchRoots.push(root);
   // The fence uses the already-pinned TypeScript parser; no dependency is installed in scratch copies.
   symlinkSync(join(repoRoot, 'node_modules'), join(root, 'node_modules'), 'dir');
-  for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'design/releases', 'scripts/runtime-art-release.mjs', 'docs/design', 'packages/design-tokens/src',
+  for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'design/releases', 'design/board-v2', 'scripts/runtime-art-release.mjs', 'scripts/board-v2-art-candidate.mjs', 'scripts/board-v2-motion-art.mjs', 'scripts/setup-art-candidate.mjs', 'design/setup-art', 'docs/design', 'packages/design-tokens/src',
     'design/abilities/css', 'design/abilities/js', 'design/abilities/assets',
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
@@ -293,5 +293,42 @@ describe('mistakes the board-motion check refuses', { concurrency: 6 }, () => {
     append(root, 'docs/design/board-motion-coverage.md', 'A hand-written note.');
     edit(root, 'docs/design/board-motion-handoff.md', text => text.replaceAll('`move-ghost`', 'the tentative place').replaceAll('GAP-2', 'the capacity question'));
     refuses(await check(root), /board-motion-coverage\.md is out of date/, /the handoff does not name component move-ghost/, /the handoff does not name GAP-2/);
+  });
+});
+
+// Source validation is release-scoped; future mechanic names need an explicit
+// registry entry and separate acceptance, never credit from frozen art.
+describe('historical release versus explicit successor validation',()=>{
+  test('known successor command additions do not demand redraw of historical art',async()=>{
+    const root=scratchCopy();
+    edit(root,'packages/contracts/src/full-game.ts',text=>text
+      .replace(/  z\.strictObject\(\{ type: z\.literal\('REQUEST_BLACKOUT'\) \}\),\n/g,'')
+      .replace("  z.strictObject({ type: z.literal('PASS_TURN') }),", "  z.strictObject({ type: z.literal('REQUEST_BLACKOUT') }),\n  z.strictObject({ type: z.literal('PASS_TURN') }),"));
+    const result=await check(root);assert.equal(result.status,0,result.output);
+  });
+  test('reviewed successor action names remain separate from frozen historical art',async()=>{
+    const root=scratchCopy();edit(root,'packages/presentation/src/model/actions.ts',text=>text.replace("  'declare-hack-side',","  'captain-release', 'captain-eject', 'declare-hack-side',"));
+    const result=await check(root);assert.equal(result.status,0,result.output);assert.match(result.output,/15 actions/);
+  });
+  test('unknown command and action additions fail instead of escaping historical coverage',async()=>{
+    const root=scratchCopy();
+    edit(root,'packages/contracts/src/full-game.ts',text=>text.replace("  z.strictObject({ type: z.literal('PASS_TURN') }),", "  z.strictObject({ type: z.literal('UNREVIEWED_POWER') }),\n  z.strictObject({ type: z.literal('PASS_TURN') }),"));
+    edit(root,'packages/presentation/src/model/actions.ts',text=>text.replace("  'declare-hack-side',", "  'unreviewed-action', 'declare-hack-side',"));
+    refuses(await check(root),/unreviewed successor command UNREVIEWED_POWER/,/unreviewed successor action unreviewed-action/);
+  });
+  test('pin key order is irrelevant to semantic coverage while exact historical keys remain required',async()=>{
+    // Test semantic comparison without changing the separately hash-pinned manifest.
+    const {historicalReleaseCoverageProblems,HISTORICAL_RELEASE_ACTIONS,HISTORICAL_RELEASE_PINS}=await import(pathToFileURL(join(repoRoot,'design/tools/lib/historical-release-actions.mjs')).href);
+    const coverage={actions:Object.entries(HISTORICAL_RELEASE_ACTIONS).map(([kind,command])=>({kind,command}))};
+    const kinds=Object.keys(HISTORICAL_RELEASE_ACTIONS),commands=Object.values(HISTORICAL_RELEASE_ACTIONS);
+    const manifest={manifestVersion:'design-0.3.0',gameplayPins:Object.fromEntries(Object.entries(HISTORICAL_RELEASE_PINS).reverse())};
+    assert.deepEqual(historicalReleaseCoverageProblems(coverage,kinds,commands,manifest),[]);
+    manifest.gameplayPins.extra='unreviewed';assert.ok(historicalReleaseCoverageProblems(coverage,kinds,commands,manifest).includes('historical art gameplay tuple differs'));
+  });
+  test('historical tuple tampering and removal of a historical command still fail',async()=>{
+    const root=scratchCopy();
+    editJson(root,'design/releases/design-0.3.0.json',m=>{m.gameplayPins.engineVersion='full-game-1.8.0';});
+    edit(root,'packages/contracts/src/full-game.ts',text=>text.replace("type: z.literal('REQUEST_HACK')","type: z.literal('UNREVIEWED_HACK')"));
+    refuses(await check(root),/historical art gameplay tuple differs/,/historical command REQUEST_HACK removed from schema/);
   });
 });

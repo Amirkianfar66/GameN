@@ -458,6 +458,19 @@ test('production code that reaches into the prototype is refused', async () => {
   refuses(await check(root), /apps\/game\/src\/insider-file\.ts: production code refers to the ability-art prototype/);
 });
 
+test('an ability prototype import added to the exact lighting port is refused', async () => {
+  const root = scratchCopy();
+  append(root, 'apps/game/hosted/board-v2-drawing/lighting.mjs', "import '../../../../../design/abilities/js/dossier.js';");
+  refuses(await check(root), /board-v2-drawing\/lighting\.mjs: production code refers to the ability-art prototype/);
+});
+
+test('the reviewed lighting comment exception cannot be moved to another file', async () => {
+  const root = scratchCopy();
+  const content = readFileSync(join(root, 'apps/game/hosted/board-v2-drawing/lighting.mjs'), 'utf8');
+  write(root, 'apps/game/hosted/unreviewed-lighting.mjs', content);
+  refuses(await check(root), /unreviewed-lighting\.mjs: production code refers to the ability-art prototype/);
+});
+
 test('a prototype file without its development-only mark is refused', async () => {
   const root = scratchCopy();
   write(root, 'design/abilities/js/extra.js', 'export const extra = 1;\n');

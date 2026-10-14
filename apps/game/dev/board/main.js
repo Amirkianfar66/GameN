@@ -1,4 +1,5 @@
 import { declaredHackView } from './hack-scenarios.mjs';
+import { boardV2View } from './board-v2-scenarios.mjs';
 // mothership:dev-only
 //
 // Board simulation: the release's own player (or display) screen, controller, host, styles
@@ -33,8 +34,10 @@ import '../../hosted/scene-board.css';
 import '../../hosted/ability-art.css';
 import '../../hosted/phase-feedback.css';
 import '../../hosted/claude-phone-kit.css';
+import '../../hosted/board-v2.css';
+import '../../hosted/setup-art.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
-import { loadArt } from '../../hosted/art.mjs';
+import { loadArt,loadBoardV2Art } from '../../hosted/art.mjs';
 import { identities, MATCH, ownAcknowledgments, playerView, publicView, SCENARIOS } from './scenarios.mjs';
 
 globalThis[Symbol.for('mothership:dev-only')] = true;
@@ -42,16 +45,18 @@ globalThis[Symbol.for('mothership:dev-only')] = true;
 const params = new URLSearchParams(window.location.search);
 const id = params.get('scenario') ?? 'spread';
 const isDeclaredHack = id.startsWith('declared-hack-');
-const definition = isDeclaredHack ? { ...SCENARIOS.spread, title: 'Synthetic declared-Hack consumer fixture', self: id.endsWith('initiator') ? 1 : 3, role: id.endsWith('initiator') ? 'Cracker' : 'Undercover' } : SCENARIOS[id];
+const isBoardV2 = id==='board-v2';
+const definition = isBoardV2 ? {...SCENARIOS.spread,title:'Synthetic Board V2 native-field fixture',self:6,role:'Hacker'} : isDeclaredHack ? { ...SCENARIOS.spread, title: 'Synthetic declared-Hack consumer fixture', self: id.endsWith('initiator') ? 1 : 3, role: id.endsWith('initiator') ? 'Cracker' : 'Undercover' } : SCENARIOS[id];
 const display = params.get('as') === 'display';
 const latency = Number(params.get('latency') ?? 450);
-const self = `seat-${definition?.self ?? 3}`;
+const self = isBoardV2 ? params.get('seat')??'seat-6' : `seat-${definition?.self ?? 3}`;
 
 const tokenStyle = document.createElement('style');
 tokenStyle.textContent = shellTokenStylesheet(nextDesignTokens);
 document.head.append(tokenStyle);
 document.body.dataset.device = display ? 'display' : 'player';
 await loadArt(display ? 'display' : 'player', document, { abilities: params.get('kit') !== 'off', scenes: params.get('scenes') !== 'off' });
+await loadBoardV2Art();
 
 const app = document.getElementById('app');
 if (!definition) throw new Error(`Unknown scenario ${id}`);
@@ -66,7 +71,7 @@ if (phaseStart !== null && (!Number.isSafeInteger(phaseStart) || phaseStart <= 0
 const started = phaseStart ?? Date.now() - (42_000 - timeLeft);
 let hackStage = params.get('hack-stage') ?? 'HACK_DECLARE';
 let hackStarted = phaseStart ?? Date.now() - 250;
-let hackSide = params.get('declared-side') === 'none' ? null : params.get('declared-side') ?? 'Blue';
+let hackSide = params.get('declared-side') === 'none' ? null : params.get('declared-side') ?? (isBoardV2 ? 'Red' : 'Blue');
 let revision = 1;
 let awaitingResult = params.has('await-result'), resultStarted = started;
 let moved = null;
@@ -74,6 +79,7 @@ const publicOverrides = new Map();
 let deadlineExpired = false, terminal = null;
 const listeners = new Map();
 const viewFor = () => {
+  if(isBoardV2)return boardV2View({stage:hackStage==='idle'?'ORDINARY_TURN':hackStage,startedAt:hackStarted,count:Number(params.get('roster')??9),revision,publicOnly:display,side:hackSide,overrides:publicOverrides,profile:params.get('profile')??'medical',seatId:self,role:params.get('role')??'Hacker'});
   const baseView = display ? publicView(definition, resultStarted, revision, moved) : playerView(definition, resultStarted, revision, moved);
   const view = isDeclaredHack ? declaredHackView(baseView, { stage: hackStage, startedAt: hackStarted, side: hackSide, publicOnly: display }) : baseView;
   if (awaitingResult && definition.voteResult) {
@@ -116,7 +122,7 @@ const receipts = new Map();
 let receiptAvailable = params.get('answer') !== 'lost';
 const operations = [];
 const transport = {
-  mode: 'emulator',
+  mode: isBoardV2 ? 'fixture' : 'emulator',
   currentUid: () => 'simulation-uid',
   signIn: async () => 'simulation-uid',
   async post(operation, body) {
@@ -153,7 +159,7 @@ const transport = {
 const ports = browserPorts();
 const screen = display
   ? createConnectedTableScreen({ transport, matchId: MATCH, ports, host: { reload: () => window.location.reload() } })
-  : createConnectedPlayerScreen({ transport, matchId: MATCH, seatId: self, ports, host: { reload: () => window.location.reload() } });
+  : createConnectedPlayerScreen({ transport, matchId: MATCH, seatId: self, ports, host: { reload: () => window.location.reload() }, ...(params.has('fast-recovery')?{actionTiming:{recheckDelaysMs:[30,30,30]}}:{}) });
 const feeds = createComicFeeds({ transport, ports, matchId: MATCH, ...(display ? {} : { seatId: self }) });
 let frameCount = 0;
 const stopCounting = screen.subscribe(() => { frameCount += 1; });
@@ -165,14 +171,15 @@ feeds.start();
 if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce-motion', checked: true });
 
 window.__simulation = {
+  model: () => screen.getFrame().model,
   scenario: id, title: definition.title, log, operations,
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** Synthetic server closes the vote; the consumer still only reads its next snapshot. */
   /** Explicit authored snapshot delivery; no animation or browser timer advances a game. */
-  hack(stage, side = 'Blue') { if (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(stage)) throw new Error('Unknown fixture Hack stage'); hackStage = stage; hackSide = side; hackStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  hack(stage, side = 'Blue') { if (!['HACK_DECLARE','HACK_RESULT','HACK',...(isBoardV2?['idle','BLACKOUT']:[])].includes(stage)) throw new Error('Unknown fixture Hack stage'); hackStage = stage; hackSide = side; hackStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   showResult() { awaitingResult = false; resultStarted = Date.now(); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** The public update a server would send: the player's own seat in another room. */
-  move(destination) { moved = destination; revision += 1; publish(display ? 'public-view' : 'player-view'); },
+  move(destination) { moved = destination; if(isBoardV2)publicOverrides.set(self,{location:destination,slotId:destination==='Room A'?'A3':'B1'}); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   /** Synthetic public updates for motion/resize regressions; parsed again before publication. */
   publicSeat(n, fields) { publicOverrides.set(`seat-${n}`, { ...(publicOverrides.get(`seat-${n}`) ?? {}), ...fields }); revision += 1; publish(display ? 'public-view' : 'player-view'); },
   motion(reduced) { screen.dispatch({ type: 'settings/reduce-motion', checked: reduced }); },

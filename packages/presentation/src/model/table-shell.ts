@@ -4,15 +4,21 @@ import { buildResult } from './result.js';
 import type { TableMatchModel, TableShellInput, TableShellModel } from './types.js';
 import { buildVotePanel } from './votes.js';
 import { buildVoteResult, voteResultOf } from './phase-feedback.js';
+import { publicCapsuleProps } from './public-capsule.js';
+import { boardIsDark, publicBoardProps } from './public-board.js';
 
 function buildMatch(input: TableShellInput, view: NonNullable<TableShellInput['view']>): TableMatchModel {
   // The table has no seat of its own, so nothing here can be phrased from a player's side.
-  const seats = buildSeats(view, null);
+  const dark = boardIsDark(view, input);
+  const seats = dark ? [] : buildSeats(view, null);
   return {
     versions: view.versions,
+    ...publicCapsuleProps(view, input),
+    ...publicBoardProps(view, input),
+    ...(publicBoardProps(view, input).boardLayout ? { boardLayout: { ...publicBoardProps(view, input).boardLayout!, dark } } : {}),
     phase: buildPhaseStrip(view, null, input.deadline),
     result: buildResult(view, null),
-    voteResult: buildVoteResult(voteResultOf(view), view.phase, input),
+    voteResult: buildVoteResult(voteResultOf(view), view.phase, input, view),
     vote: buildVotePanel(view),
     board: { heading: en.roster.boardHeading, zones: buildZones(seats) },
     roster: {

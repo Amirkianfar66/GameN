@@ -1,8 +1,9 @@
 # Reviewed Board-v2 common art candidate
 
-This prepares the exact Claude Hospital ward and adjacent Private Capsule artwork for
-the playable integration in issue #139. The deployed 1.5 / `design-0.3.0` release,
-historical manifests, creation profiles and frontend renderer remain unchanged.
+This records the exact Claude Hospital ward and adjacent Private Capsule artwork
+prepared in #147 for playable integration in issue #139. Frontend #150 now consumes
+the candidate through its native board adapter. The deployed 1.5 / `design-0.3.0`
+release, historical manifests and creation profiles remain unchanged.
 
 Base: Backend #143 at `f953c1565acc13c7cbe8c00c3b1c90cc67818881`.
 The twelve ward SVGs are byte-identical to Designer #130 at
@@ -11,9 +12,12 @@ byte-identical to Designer #144 at `4f3d25bb356e0652188dfb880c3a9248ea7d55ef`.
 The source catalog records every path, source commit, SHA-256 and viewBox.
 
 Integration reviewed the source drawings in #141 comment 6167856709 and #144
-comment 6168298233. The latter still requires the smallest-phone safe-area fit and
-two directly selectable capsule characters to be corrected. This bundle does not
-adopt that fit, controllers, fixtures, review-page stylesheets or new gameplay.
+comment 6168298233. The capsule targeting/layout follow-ups were subsequently
+reviewed at #144 `f15782aa39d7e84cff305ef5eaa60d8768e2b71c`; its drawing bytes are
+unchanged from `3599cfe`. The common SVGs remain byte-identical to the earlier
+catalog attribution above. The separate source-port adoption records the exact
+native derivatives. Prototype controllers, fixtures and review-page stylesheets
+remain excluded. Phone/device acceptance is separate from source review.
 
 ## Common bundle
 
@@ -37,9 +41,9 @@ The catalog distinguishes source `sceneDepth` from `paintZIndex`: ward fronts us
 These values do not allocate or move a gameplay slot.
 
 Call `prepareBoardV2Art(repositoryRoot)` from a reviewed build adapter to obtain the
-stylesheet, URL and digest. Nothing calls it from Hosting yet. Final adoption needs
-the source/derivative fence, complete immutable art manifest, exact gameplay pairing
-and connected Frontend evidence. Original source files retain their development
+stylesheet, URL and digest. Frontend #150 calls it from the build adapter and emits
+the same reviewed stylesheet. Final activation still needs a complete immutable
+art manifest, exact gameplay pairing and connected Frontend evidence. Original source files retain their development
 headers; the browser must receive only the verified generated stylesheet and
 separately reviewed pure drawing ports.
 
@@ -53,7 +57,8 @@ separately reviewed pure drawing ports.
 - The tests are included by the existing `npm run test:tooling` glob.
 - `git diff --check` passed.
 
-Full verification, combined browser tests, real-phone/screen-reader checks, final
-source-port adoption and deployment have not been performed by this candidate.
+Full verification, combined browser tests, real-phone/screen-reader checks and
+deployment have not been performed by the original common-art candidate.
+The later source-port checks are recorded in `board-v2-source-adoption.md`.
 The pending Backend and Frontend PRs keep their own verification evidence. This
 source bundle introduces no gameplay decision, new deadline, permission or service.

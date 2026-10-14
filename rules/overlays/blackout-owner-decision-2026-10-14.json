@@ -1,0 +1,51 @@
+{
+  "decision_id": "blackout-owner-decision-2026-10-14",
+  "status": "confirmed",
+  "decided_on": "2026-10-14",
+  "authority": "Closed owner G-01/G-04 and rules-contracts; owner implementation completion delegated through Integration; reserved1.9 allocation on #139; affected-role readers reviewed separately.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/148",
+  "base_commit": "eb94f9d2702fbe0c50db2266019e494736d3a762",
+  "owner_specification": {
+    "packet_sha256": "b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743",
+    "sections": [
+      "G-01",
+      "G-04",
+      "rules-contracts"
+    ]
+  },
+  "parent_ruleset": {
+    "version": "in-person-v1-captain-outcomes-2026-10-14",
+    "hash": "0f84f61cf9407c45ccef7e99c28556d7ede64f06f7dd3284ca6782bbf7a5f030"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.9.0",
+  "ruleset_version": "in-person-v1-blackout-2026-10-14",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "BLACKOUT-01",
+      "decision": "Every normal round after Jail vote and full5-second tally/result opens the same15-second BLACKOUT phase:5lit+10dark. No actor/faction/request count or correlated public start/end; no early completion or movement."
+    },
+    {
+      "id": "BLACKOUT-02",
+      "decision": "Disablers privately register targetless REQUEST_BLACKOUT on their Healthy/free own ordinary turn, reserving Main Action. Cancel ineligible requesters at admission without lifetime spending. Bind admitted actors to current room and freeze all physical slots/health; retained bodies and empty positions remain."
+    },
+    {
+      "id": "BLACKOUT-03",
+      "decision": "SELECT_BLACKOUT_SLOT requires exact snapshot and bound room, valid logical slot and half-open dark interval. First valid intent locks and spends the lifetime use; exact retries recover receipt. Unknown/wrong input rejects without lock/spend. Admitted timeout at fullwindowend spends once; empty/self/dead-snapshot misses have no damage, replacement or self-hit."
+    },
+    {
+      "id": "BLACKOUT-04",
+      "decision": "Collect both final attempts before damage; retain both legitimate same-slot attacks, stored actor order Main then Shot. Frozen target survives relocation/actor changes, recheck actual target health/defenses. Command-target immunity remains. Earlier elimination produces no replacement or refund."
+    },
+    {
+      "id": "ROOM-DEFENSE-01",
+      "decision": "For each block freeze subject and all actual physical-room occupants immediately before effect, including retained bodies. Deliver identical generic ATTACK_BLOCKED facts only to those seat audiences, excluding later entrants/offboard/outsiders/nonparticipating host/shared display. No cause/grantor/attacker/hidden role/resource cue; canonical subject publication and common checkpoint timestamps independent of hidden order."
+    },
+    {
+      "id": "BLACKOUT-COMPATIBILITY-01",
+      "decision": "Inherit exact1.8 Captain/medical/Hack/clinical anchors. Replace direct targeted DISABLE only in exact1.9. R5 Code retains existing anytime restrictions; Blackout itself grants no further character-based role action. Preserve all1.0\u20131.8 tuples/replay/default/profile/art; Clone follows1.10."
+    }
+  ],
+  "version_policy": "Inactive candidate; no default/profile/art activation, migration, merge, cloud or deployment. Independent Balance and affected consumer acceptance remain gates."
+}

@@ -29,7 +29,7 @@ export function hackPicture(feedback) {
   return feedback.declaredSide === null ? 'hack-side-none' : { Blue: 'hack-side-blue', Red: 'hack-side-red', Alien: 'hack-side-alien' }[feedback.declaredSide] ?? null;
 }
 
-const seatNode = (root, id) => /^seat-[1-9]$/.test(id ?? '') ? root.querySelector(`.ms-seat[data-seat="${id}"]`) : null;
+const seatNode = (root, id) => /^seat-[1-9]$/.test(id ?? '') ? root.querySelector(`.ms-seat[data-seat="${id}"]`) ?? root.querySelector(`.bv2-actor[data-seat="${id}"]`) : null;
 const span = (document, className, svg) => {
   const node = document.createElement('span'); node.className = className;
   if (svg) node.innerHTML = svg; // Reviewed pure SVG only; never a name or server string.

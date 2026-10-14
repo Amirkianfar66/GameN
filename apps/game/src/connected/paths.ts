@@ -1,4 +1,4 @@
-import { IdentifierSchema } from '@mothership/contracts';
+import { IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { CollectionTarget, DocumentTarget } from './transport.js';
 
 // The documented listener paths, relative to the database root, and nothing else. Every
@@ -40,5 +40,11 @@ export function documentPath(target: DocumentTarget, uid: string): readonly stri
 
 /** The path of one collection, as a list of segments. */
 export function collectionPath(target: CollectionTarget): readonly string[] {
-  return ['matches', segment(target.matchId, 'match identifier'), 'admissions'];
+  const root = ['matches', segment(target.matchId, 'match identifier')];
+  if (target.kind === 'public-events') return [...root, 'audienceEvents', 'public', 'items'];
+  if (target.kind === 'player-events') {
+    if (!SeatIdSchema.safeParse(target.seatId).success) throw new TypeError('Not a valid event audience');
+    return [...root, 'audienceEvents', `p-${target.seatId}`, 'items'];
+  }
+  return [...root, 'admissions'];
 }

@@ -1,3 +1,4 @@
+import { captainCommandsEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 import type { GameSeat } from './roster.js';
 
@@ -33,6 +34,10 @@ function collectSlots(state: FullGameState, complete: boolean, allowMissing: boo
       throw new Error('Invalid board roster');
     }
     ids.add(seat.seatId);
+    if(seat.location===null) {
+      if(!captainCommandsEnabled(state.versions) || seat.slotId!==null || seat.health!=='Eliminated' || seat.jailed || seat.captain || seat.medicalEpisode!==null) throw new Error('Invalid offboard placement');
+      continue;
+    }
     const available = slotIdsFor(seat.location, state.playerCount);
     const count = (counts.get(seat.location) ?? 0) + 1;
     if (count > available.length) throw new Error('Board room capacity exceeded');

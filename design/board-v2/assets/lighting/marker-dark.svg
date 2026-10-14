@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 lighting proposal board-v2-lighting-0.1.0 · position marker, dark · generated, do not edit by hand
+  Lights out: a dark disc, a faint steel ring. Drawn at 22 px in the upper right corner of its slot's press area; its numeral is the page's text, never in the art.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/lighting.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"><g data-layer="marker-dark"><circle cx="22" cy="22" r="20.4" fill="none" stroke="#33405A" stroke-width="2.6"/><circle cx="22" cy="22" r="16.8" fill="#0C1018" stroke="#8C9BB4" stroke-width="3.4"/></g></svg>

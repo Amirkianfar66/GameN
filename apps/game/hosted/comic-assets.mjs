@@ -3,6 +3,9 @@ import { createHash } from 'node:crypto';
 import { basename, resolve } from 'node:path';
 import { ART_BUNDLES } from './art.mjs';
 import { readRuntimeArtRelease, assertRuntimeArtBundle } from '../../../scripts/runtime-art-release.mjs';
+import { prepareBoardV2Art } from '../../../scripts/board-v2-art-candidate.mjs';
+import { prepareSetupArt } from '../../../scripts/setup-art-candidate.mjs';
+import { prepareBoardV2MotionArt } from '../../../scripts/board-v2-motion-art.mjs';
 
 // Integration-authorized trial additions. The base reviewed manifest remains separate.
 export const TRIAL_ART = Object.freeze({
@@ -35,6 +38,18 @@ export function comicAssetsPlugin(root) {
     name: 'mothership-production-comic-art',
     buildStart() {
       const release = readRuntimeArtRelease(root);
+      // Historical sources remain independently verifiable after adding the new art.
+      readRuntimeArtRelease(root, 'design-0.3.0');
+      const candidate = prepareBoardV2Art(root);
+      if (candidate.sha256 !== '5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2') throw Error('Board V2 candidate derivative drift');
+      assertRuntimeArtBundle(release, 'board-v2-art', candidate.url, candidate.stylesheet);
+      this.emitFile({ type: 'asset', fileName: candidate.url.slice(1), source: candidate.stylesheet });
+      const setup = prepareSetupArt(root);
+      assertRuntimeArtBundle(release, 'setup-art', setup.url, setup.stylesheet);
+      this.emitFile({ type: 'asset', fileName: setup.url.slice(1), source: setup.stylesheet });
+      const motion = prepareBoardV2MotionArt(root);
+      assertRuntimeArtBundle(release, 'board-v2-motion-art', motion.url, motion.stylesheet);
+      this.emitFile({ type: 'asset', fileName: motion.url.slice(1), source: motion.stylesheet });
       const manifest = JSON.parse(readFileSync(resolve(root, 'design/exports/asset-manifest.json'), 'utf8'));
       if (manifest.manifestVersion !== 'design-0.2.0') throw new Error('Comic manifest needs integration review');
       for (const [name, url] of Object.entries(ART_BUNDLES)) {

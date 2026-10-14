@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+  "scope": "One common role-independent S1/S4 supplement. Original SVG bytes preserved.",
+  "assets": [
+    {
+      "id": "command-room-dark",
+      "source": "design/board-v2/assets/lighting/command-room.dark.svg",
+      "sha256": "bdea7e82684acf648d0bb07e5b1e1b448ad1a3f2ad898d32d372f05fd37ef062",
+      "cssVariable": "--board-v2-motion-command-room-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "fx-bolt",
+      "source": "design/board-v2/assets/lighting/fx-bolt.svg",
+      "sha256": "a7c8c39268fa60ff0b17a365320a2debe2b3d148851d5e2fae2722aa395256b2",
+      "cssVariable": "--board-v2-motion-fx-bolt",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-impact-1",
+      "source": "design/board-v2/assets/lighting/fx-impact-1.svg",
+      "sha256": "89cd1c3e8a369dc469482fcc932b921cbd30c1064c7c4caf3a61b8554bdaa6d7",
+      "cssVariable": "--board-v2-motion-fx-impact-1",
+      "viewBox": "0 0 160 160"
+    },
+    {
+      "id": "fx-impact-2",
+      "source": "design/board-v2/assets/lighting/fx-impact-2.svg",
+      "sha256": "270f1524b75e8e0766e6cc77fbd279788cccb25c0f8520d9be06845506144cdc",
+      "cssVariable": "--board-v2-motion-fx-impact-2",
+      "viewBox": "0 0 160 160"
+    },
+    {
+      "id": "fx-impact-3",
+      "source": "design/board-v2/assets/lighting/fx-impact-3.svg",
+      "sha256": "13ae42ec493b63447589ea0408e1168597dbd44cb127aea17264025fe6228f6d",
+      "cssVariable": "--board-v2-motion-fx-impact-3",
+      "viewBox": "0 0 160 160"
+    },
+    {
+      "id": "fx-spark-1",
+      "source": "design/board-v2/assets/lighting/fx-spark-1.svg",
+      "sha256": "2a9c2ed545716e798b382b0e214b1234958f1a6771203225ddd156cf01cff7cd",
+      "cssVariable": "--board-v2-motion-fx-spark-1",
+      "viewBox": "0 0 120 120"
+    },
+    {
+      "id": "fx-spark-2",
+      "source": "design/board-v2/assets/lighting/fx-spark-2.svg",
+      "sha256": "e8abe0f10b6c78cbfb1bc65853192a2c9a7280ff34d292610e0b29fc2b0aa90a",
+      "cssVariable": "--board-v2-motion-fx-spark-2",
+      "viewBox": "0 0 120 120"
+    },
+    {
+      "id": "fx-spark-3",
+      "source": "design/board-v2/assets/lighting/fx-spark-3.svg",
+      "sha256": "3a3fdc53881a1b295cbac96e026e06eff9e5c4d6d3e98e97ca588936ede83fb8",
+      "cssVariable": "--board-v2-motion-fx-spark-3",
+      "viewBox": "0 0 120 120"
+    },
+    {
+      "id": "hospital-ward-7-dark",
+      "source": "design/board-v2/assets/lighting/hospital-ward-7.dark.svg",
+      "sha256": "b0a97110562e43dab092255659dbffd5e53eaa3135935075ca046abd7fe33116",
+      "cssVariable": "--board-v2-motion-hospital-ward-7-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "hospital-ward-8-dark",
+      "source": "design/board-v2/assets/lighting/hospital-ward-8.dark.svg",
+      "sha256": "8b9c0993b717b5efde745929842d2e26e2a1e8acdcd1182656260e22aa06c536",
+      "cssVariable": "--board-v2-motion-hospital-ward-8-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "hospital-ward-9-dark",
+      "source": "design/board-v2/assets/lighting/hospital-ward-9.dark.svg",
+      "sha256": "11400d87f23638f9dc6f17be5ce2d18205b2caf2ac2633cda437d682775efdd0",
+      "cssVariable": "--board-v2-motion-hospital-ward-9-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "jail-dark",
+      "source": "design/board-v2/assets/lighting/jail.dark.svg",
+      "sha256": "c0978c8e1cd1678c19a412ea295af7fd8ac2f8bff56839af0bb286ee0cfae638",
+      "cssVariable": "--board-v2-motion-jail-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "marker-chosen",
+      "source": "design/board-v2/assets/lighting/marker-chosen.svg",
+      "sha256": "750be4f6199f6d477bd80051ca5e829211be3f8750c3e1cfa56a90f9943137c2",
+      "cssVariable": "--board-v2-motion-marker-chosen",
+      "viewBox": "0 0 44 44"
+    },
+    {
+      "id": "marker-dark",
+      "source": "design/board-v2/assets/lighting/marker-dark.svg",
+      "sha256": "7f9038db74409b6893da8eb9d61190cf6a956f6d398d4cf1fe760c2baf7f131e",
+      "cssVariable": "--board-v2-motion-marker-dark",
+      "viewBox": "0 0 44 44"
+    },
+    {
+      "id": "marker-preview",
+      "source": "design/board-v2/assets/lighting/marker-preview.svg",
+      "sha256": "be484a8351be652a96c0403754bd44288347a1c723ff19581b8671f4c8d11364",
+      "cssVariable": "--board-v2-motion-marker-preview",
+      "viewBox": "0 0 44 44"
+    },
+    {
+      "id": "room-a-dark",
+      "source": "design/board-v2/assets/lighting/room-a.dark.svg",
+      "sha256": "8988d6b617a4295ad14a25b562987774d4a64722a41a47cb7960c5ef8c54efc3",
+      "cssVariable": "--board-v2-motion-room-a-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "room-b-dark",
+      "source": "design/board-v2/assets/lighting/room-b.dark.svg",
+      "sha256": "b8676a47b4604e87c6db02b97a9805221b19591b9babd268ccb2f8fd3fbf1b2b",
+      "cssVariable": "--board-v2-motion-room-b-dark",
+      "viewBox": "0 0 1024 768"
+    },
+    {
+      "id": "fx-block-particles-1",
+      "source": "design/board-v2/assets/fx/fx-block-particles-1.svg",
+      "sha256": "495367131022102d948829e8510add0a934fbe9402de5afefdd2f9ed23c0fb72",
+      "cssVariable": "--board-v2-motion-fx-block-particles-1",
+      "viewBox": "0 0 200 200"
+    },
+    {
+      "id": "fx-block-particles-2",
+      "source": "design/board-v2/assets/fx/fx-block-particles-2.svg",
+      "sha256": "7b98b6d31a858b83427b1bc811315accff82bac96b032fc82f7d9c6a765eb180",
+      "cssVariable": "--board-v2-motion-fx-block-particles-2",
+      "viewBox": "0 0 200 200"
+    },
+    {
+      "id": "fx-block-particles-3",
+      "source": "design/board-v2/assets/fx/fx-block-particles-3.svg",
+      "sha256": "e7d06d2afd9e6f974ee0b90620c070c185e2d2cd73dcdc312513c23876c08ad7",
+      "cssVariable": "--board-v2-motion-fx-block-particles-3",
+      "viewBox": "0 0 200 200"
+    },
+    {
+      "id": "fx-block-ring",
+      "source": "design/board-v2/assets/fx/fx-block-ring.svg",
+      "sha256": "9cd561a8bc28ba5f5ca8441d70a15de2a9bdcb1cf7ba619872555bca45facc4f",
+      "cssVariable": "--board-v2-motion-fx-block-ring",
+      "viewBox": "0 0 200 200"
+    },
+    {
+      "id": "fx-shield-1",
+      "source": "design/board-v2/assets/fx/fx-shield-1.svg",
+      "sha256": "5a2953714b267417aacc38703502f14f8e063b065e3caa0570d90b7943ce6835",
+      "cssVariable": "--board-v2-motion-fx-shield-1",
+      "viewBox": "0 0 200 200"
+    },
+    {
+      "id": "fx-shield-2",
+      "source": "design/board-v2/assets/fx/fx-shield-2.svg",
+      "sha256": "87036cc95529618901f1c0d524b8794eb9938d4b2f7b12a688a28dc8c9a864c9",
+      "cssVariable": "--board-v2-motion-fx-shield-2",
+      "viewBox": "0 0 200 200"
+    },
+    {
+      "id": "fx-shield-3",
+      "source": "design/board-v2/assets/fx/fx-shield-3.svg",
+      "sha256": "feb871f35592db45d452fae1ae367ae7ba8ecd3ae38eb653db49ec0d9c47367d",
+      "cssVariable": "--board-v2-motion-fx-shield-3",
+      "viewBox": "0 0 200 200"
+    }
+  ]
+}

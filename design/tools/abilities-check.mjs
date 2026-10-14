@@ -7,6 +7,7 @@
 //   node design/tools/abilities-check.mjs
 
 import { readFile, readdir, stat } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { planAbilityAssets } from './abilities-assets.mjs';
@@ -316,7 +317,18 @@ const functionBody = (source, name) => {
   if (!/if \(!cardVisible\(\)\) \{[\s\S]*?closedFolder\(/.test(drawCard)) problems.push('a hidden card does not show the closed folder');
   if (/insiderFile|fileFor/.test(drawCard.slice(drawCard.indexOf('if (!cardVisible())'), drawCard.indexOf('// Built only while open')))) problems.push('the hidden card builds the private file');
   for (const dir of ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src']) {
-    for (const path of await filesUnder(dir)) if ((await text(path)).includes('design/abilities')) problems.push(`${path}: production code refers to the ability-art prototype`);
+    for (const path of await filesUnder(dir)) {
+      const content = await text(path);
+      if (!content.includes('design/abilities')) continue;
+      // The reviewed pure lighting port preserves a historical palette comment.
+      // Permit only those exact bytes at that exact path, never a directory or
+      // an import added to the port. The shared drawing fence verifies its source.
+      const lightingPath = 'apps/game/hosted/board-v2-drawing/lighting.mjs';
+      const policy = JSON.parse(await text('design/tools/lib/reviewed-drawing-ports.json'));
+      const exactLightingComment = path === lightingPath
+        && createHash('sha256').update(content).digest('hex') === policy.ports[lightingPath]?.sha256;
+      if (!exactLightingComment) problems.push(`${path}: production code refers to the ability-art prototype`);
+    }
   }
   for (const path of await filesUnder(ROOT)) {
     if (!/\.(?:js|mjs|css|json|html|md)$/.test(path) || path.startsWith(`${ROOT}/assets/`) || path.startsWith(`${ROOT}/review/`)) continue;

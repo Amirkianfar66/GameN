@@ -7,6 +7,7 @@ import {
   FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullReadyForMatchResponseSchema,
   FullCommandResponseSchema, FullAdvanceResponseSchema, FullPlayerViewSchema, FullPublicViewSchema,
   FullSetupPlayerViewSchema, FullSetupDocumentSchema,
+  CLONE_VERSION_PINS,
 } from '@mothership/contracts';
 import {
   FULL_GAME_VERSION_PINS, RESOLUTION_FULL_GAME_VERSION_PINS, DECLARED_HACK_FULL_GAME_VERSION_PINS,
@@ -182,6 +183,30 @@ async function assertReplay(h) {
 }
 
 for (const count of [7, 8, 9]) {
+  test(`${count} seats: the Board V2 worker preserves an unprepared 1.5 lobby and accepted Ready receipts`, async () => {
+    const h = await lobby(count, { creationVersions: RELEASE_PINS, assetManifestVersion: RELEASE_ASSET });
+    h.recreate({ creationVersions: CLONE_VERSION_PINS, assetManifestVersion: 'design-0.4.0', historicalAssetManifestVersion: HISTORICAL_ASSET });
+    const deal = await prepare(h, RELEASE_ASSET);
+    const { state, accepted } = await readyAndLaunch(h, { acknowledge: true });
+    assert.deepEqual(state.versions, { ...RELEASE_PINS, assetManifestVersion: RELEASE_ASSET });
+    for (const { player, body, response } of accepted) assert.deepEqual(
+      withoutTime(await h.service.readyForMatch(player.uid, body)), withoutTime(response));
+    assert.deepEqual(await prepared(h), deal);
+    await assertReplay(h);
+  });
+  test(`${count} seats: native Board V2 creation and staged Ready retain the exact new five-pin agreement`, async () => {
+    const h = await lobby(count, { creationVersions: CLONE_VERSION_PINS, assetManifestVersion: 'design-0.4.0', historicalAssetManifestVersion: HISTORICAL_ASSET });
+    const deal = await prepare(h, 'design-0.4.0');
+    const { state, accepted } = await readyAndLaunch(h, { acknowledge: true, rejectMissing: true });
+    assert.deepEqual(state.versions, { ...CLONE_VERSION_PINS, assetManifestVersion: 'design-0.4.0' });
+    h.recreate({ creationVersions: RELEASE_PINS, assetManifestVersion: RELEASE_ASSET });
+    assert.deepEqual(await prepared(h), deal);
+    for (const { player, body, response } of accepted) assert.deepEqual(
+      withoutTime(await h.service.readyForMatch(player.uid, body)), withoutTime(response));
+    await command(h, h.players[0], { type: 'PASS_TURN' });
+    assert.deepEqual((await current(h)).versions, deal.versions);
+    await assertReplay(h);
+  });
   test(`${count} seats: unconfigured native creation and historical Ready retain the 1.3 default`, async () => {
     const h = await lobby(count), deal = await prepare(h);
     assert.deepEqual(deal.versions, { ...RESOLUTION_FULL_GAME_VERSION_PINS, assetManifestVersion: 'design-0.2.0' });

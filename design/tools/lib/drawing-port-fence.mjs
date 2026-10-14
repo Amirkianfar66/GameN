@@ -9,7 +9,7 @@ import ts from 'typescript';
 
 export const REVIEWED_DRAWING_PORTS = JSON.parse(readFileSync(new URL('./reviewed-drawing-ports.json', import.meta.url), 'utf8'));
 export const contentSha256 = value => createHash('sha256').update(value).digest('hex');
-const SCENE_DIRECTORY = 'apps/game/hosted/scene-drawing/';
+const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/'];
 const DIRECTORIES = ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src'];
 
 function normalize(value) {
@@ -65,15 +65,19 @@ export async function productionDrawingProblems(root) {
   let usesDrawingPorts = false;
   for (const path of files.sort()) {
     const bytes = await read(path), content = bytes.toString('utf8'), hash = contentSha256(bytes);
-    const port = policy.ports[path], style = policy.styles[path], build = policy.buildFiles[path];
+    const port = policy.ports[path], style = policy.styles[path], build = policy.buildFiles[path], metadata = policy.metadataFiles?.[path];
     const reviewedPort = port?.sha256 === hash, reviewedStyle = style?.sha256 === hash, reviewedBuild = build?.sha256 === hash;
-    if (path.startsWith(SCENE_DIRECTORY)) {
+    const reviewedMetadata = metadata?.sha256 === hash;
+    const drawingPath = DRAWING_DIRECTORIES.some(directory => path.startsWith(directory));
+    if (drawingPath) {
       usesDrawingPorts = true;
       if (!port) problems.push(`${path}: unreviewed file in the adopted drawing ports`);
       else if (!reviewedPort) problems.push(`${path}: reviewed drawing port content hash differs`);
     }
-    if (port && !path.startsWith(SCENE_DIRECTORY) && !reviewedPort) problems.push(`${path}: reviewed drawing port content hash differs`);
+    if (port && !drawingPath && !reviewedPort) problems.push(`${path}: reviewed drawing port content hash differs`);
     if (style && !reviewedStyle) problems.push(`${path}: reviewed drawing stylesheet content hash differs`);
+    if (metadata && !reviewedMetadata) problems.push(`${path}: reviewed native metadata file content hash differs`);
+    if (build && !reviewedBuild) problems.push(`${path}: reviewed build adapter content hash differs`);
     if (reviewedStyle) {
       const source = await read(style.source).catch(() => null);
       if (source === null || contentSha256(source) !== style.sourceSha256) problems.push(`${path}: corrected stylesheet source hash differs from ${style.sourceCommit}`);
@@ -84,7 +88,14 @@ export async function productionDrawingProblems(root) {
         if (actual === null || contentSha256(actual) !== expected) problems.push(`${path}: reviewed build asset input differs: ${asset}`);
       }
     }
-    const permitted = new Set(reviewedBuild ? build.permittedLiterals.map(normalize) : []);
+    // These are exact literal values at exact reviewed file hashes. Moving the
+    // file or changing even one byte loses the exception. They permit native
+    // data attributes and retained explanatory text, never arbitrary paths.
+    const permitted = new Set([
+      ...(reviewedBuild ? build.permittedLiterals : []),
+      ...(reviewedPort ? port.permittedLiterals ?? [] : []),
+      ...(reviewedMetadata ? metadata.permittedLiterals : []),
+    ].map(normalize));
     const forbidden = prototypeReferences(path, content).filter(value => !permitted.has(normalize(value)));
     if (forbidden.length || (content.toLowerCase().includes('board-motion') && !reviewedPort && !reviewedStyle && !reviewedBuild)) {
       const family = forbidden.map(value => normalize(value).match(/(?:^|\/)(phone-feedback|phone-kit|board-v2|board-motion)(?:\/|$)/)?.[1]).find(Boolean) ?? 'board-motion';

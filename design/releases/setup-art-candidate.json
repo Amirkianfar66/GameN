@@ -1,0 +1,27 @@
+{
+  "schema": "mothership.setup-art-sources/1",
+  "sourceCommit": "27be8749b51775fee3a0d81b62a3cdabedafe1be",
+  "sourcePullRequest": 116,
+  "sources": [
+    {
+      "path": "design/setup-art/source/setup.svg",
+      "originalPath": "design/abilities/source/setup.svg",
+      "sha256": "a8a8891200443b692ad236e75cd504c5d6f8045f804d359447b25c18cd2e59f1"
+    },
+    {
+      "path": "design/setup-art/assets/setup-back.svg",
+      "originalPath": "design/abilities/assets/setup-back.svg",
+      "sha256": "201eab9994fdb57c8a728a57d30f349b50bcd473cb4dd9f8bcb609e072b21fec"
+    },
+    {
+      "path": "design/setup-art/source/abilities.css",
+      "originalPath": "design/abilities/css/abilities.css",
+      "sha256": "c35301a25322cf853af4f4820bdba0733ec0d632be88e45a9c3acda14086adb7"
+    }
+  ],
+  "asset": {
+    "path": "design/setup-art/assets/setup-back.svg",
+    "viewBox": "0 0 240 400",
+    "cssVariable": "--ab-asset-setup-back"
+  }
+}

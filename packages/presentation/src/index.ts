@@ -48,3 +48,4 @@ export { renderComicPlayerShell, renderComicTableShell, renderComicRoleCard } fr
 export type { ComicContext, ComicIdentity } from './markup/comic-shell.js';
 
 export { buildHackFeedback } from './model/hack-feedback.js';
+export { publicCapsuleProps } from './model/public-capsule.js';

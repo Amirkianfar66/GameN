@@ -24,6 +24,8 @@ import './scene-board.css';
 import './ability-art.css';
 import './phase-feedback.css';
 import './claude-phone-kit.css';
+import './board-v2.css';
+import './setup-art.css';
 import { disclosure, dock, copyControl, choiceTiles, publicSlots, initialRoomWords } from './phone-ui.js';
 import { createPlayerSetup, createSetupProgress } from './setup-controls.js';
 import { createSetupClock } from './setup-clock.js';
