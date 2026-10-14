@@ -10,6 +10,7 @@ const directories = ['services/game-api/test-emulator', 'infra/firebase/test-emu
 const httpSuites = new Set([
   'services/game-api/test-emulator/service.test.mjs',
   'infra/firebase/test-emulator/full-http.test.mjs',
+  'infra/firebase/test-emulator/blackout-functions.test.mjs',
   'infra/firebase/test-emulator/v1-practice-bots-functions.test.mjs',
 ]);
 
