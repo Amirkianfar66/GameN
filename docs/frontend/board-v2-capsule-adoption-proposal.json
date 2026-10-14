@@ -1,0 +1,129 @@
+{
+  "status": "Unapplied exact-file proposal; Integration must review pins, manifest and source fence before runtime adoption",
+  "baseCommit": "37f573afca9023e8e4a92375375cea96638d120f",
+  "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+  "drawingCommit": "ebf0263d92cbe66c67a4ce5c64b822a3658031e8",
+  "sourcePr": "https://github.com/Amirkianfar66/GameN/pull/130",
+  "ports": {
+    "apps/game/hosted/board-v2-drawing/slots.mjs": {
+      "source": "design/board-v2/scenes/slots.mjs",
+      "sourceSha256": "cf329360c86b512d83a9ab4a2df5a7147ba30d7e716c82a7ffa27c5308dadbc1",
+      "runtimeSha256": "2881bd68bbe9869811813dba6013fac5c1dcea4c8626ae2b2d7e1f0e9a09946b",
+      "transformation": "Remove first dev-only comment line and rewrite only the listed imports",
+      "imports": {
+        "../../board-motion/figures/gestures.mjs": "../scene-drawing/gestures.mjs",
+        "../../board-motion/scenes/frame.mjs": "../scene-drawing/frame.mjs",
+        "../../board-motion/scenes/index.mjs": "../scene-drawing/scenes.mjs"
+      }
+    },
+    "apps/game/hosted/board-v2-drawing/hospital-ward.mjs": {
+      "source": "design/board-v2/scenes/hospital-ward.mjs",
+      "sourceSha256": "d6af092a86322a81cc941bc41aade276063b5ba209a18a402a1c5195096dc2be",
+      "runtimeSha256": "ce1ca9ddb4ec5f00f30514b61a43f93d7b3ee233fdd2a35cb98db74dd7940c55",
+      "transformation": "Remove first dev-only comment line and rewrite only the listed imports",
+      "imports": {
+        "../../board-motion/figures/body.mjs": "../scene-drawing/body.mjs",
+        "../../board-motion/figures/gestures.mjs": "../scene-drawing/gestures.mjs",
+        "../../board-motion/scenes/frame.mjs": "../scene-drawing/frame.mjs",
+        "../../board-motion/scenes/kit.mjs": "./scene-kit.mjs"
+      }
+    },
+    "apps/game/hosted/board-v2-drawing/fit.mjs": {
+      "source": "design/board-v2/js/fit.mjs",
+      "sourceSha256": "637d98955361d11e067d326e4ac0a95177334c77661bc9d177edf801ad7d0be6",
+      "runtimeSha256": "0f65338919c248af4ce20b94db2da4f4231a4ed97440d2b78312c7e43581de2f",
+      "transformation": "Remove first dev-only comment line and rewrite only the listed imports",
+      "imports": {
+        "../../board-motion/scenes/frame.mjs": "../scene-drawing/frame.mjs",
+        "../scenes/slots.mjs": "./slots.mjs"
+      }
+    },
+    "apps/game/hosted/board-v2-drawing/scene-kit.mjs": {
+      "source": "design/board-motion/scenes/kit.mjs",
+      "sourceSha256": "9e9489bfddaa37ccac06b049934e097b068cae54539a455c151a66935055c14b",
+      "runtimeSha256": "055640dad54bbc1b8b0be409e9a694acf8c02ead44feaaa2c0b07a10a1322e46",
+      "transformation": "Remove first dev-only comment line and rewrite only the listed imports",
+      "imports": {}
+    }
+  },
+  "assets": [
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward-7.back.svg",
+      "sourceSha256": "3f9e999efcbebba17e7e3a46b88d092e95e205119d6d890444330f8c73635ba0",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward-8.back.svg",
+      "sourceSha256": "15e5e55131239536eb299bca6bc5f567d0bbf3a55f39e0b9b7f94648d429aff9",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward-9.back.svg",
+      "sourceSha256": "f002edcfce36d781a625fc9022d8f0d3d6b1359f8e443ff67f6b493c2702412c",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg",
+      "sourceSha256": "23c9988d68f05d9702d0e8fc945f56073015e223f72471efcfd829c8673431d8",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg",
+      "sourceSha256": "341fe66aa6608e91637a88006f2e15fd106abcc96c7db01ebe1b2a729113116c",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg",
+      "sourceSha256": "bd2e530a98d7e18da00606a9b9ae8269a3369ea5bbfad365309b3428c147373b",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg",
+      "sourceSha256": "9a3519b8eb884ad6abfe54272b6a1db69f4057a9b6304c73c1940bd690eb76e6",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg",
+      "sourceSha256": "305bfcc0c80207d865ee91b6672d2556e1b8e3813ace980709f1d99d769787e4",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg",
+      "sourceSha256": "5afe0564a747cf3f554e9e9a4e16ed5a80e9e318c2c939474f3a9d0a330bb062",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg",
+      "sourceSha256": "e65c112c430603629637659110746e9fdf9794db0fa999aae7b000c3401e436b",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h8.svg",
+      "sourceSha256": "54499879b2f5784655457355233ac5c3b50ffe5d316522012c7dc2d06e5696dc",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    },
+    {
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h9.svg",
+      "sourceSha256": "de09d58d584d75af34240099059cb043f94096c62c5df8074173b0cd2120ea38",
+      "disposition": "Exact SVG for common scene bundle; no per-role, per-claim or per-participant request"
+    }
+  ],
+  "style": {
+    "source": "design/board-v2/css/page.css",
+    "sourceSha256": "7046e8c95857c361f82e9d1eb2f2776ea5b414c238e49cc132fc4c0739b20a72",
+    "disposition": "Review-page stylesheet excluded as a whole; exact component values are inputs to a future owned selector adaptation"
+  },
+  "pending": "Claude capsule drawings/film/poses and revised fit module; no guessed source file or hash",
+  "excluded": [
+    "design/board-v2/js/page.js",
+    "design/board-v2/js/blackout-view.mjs",
+    "design/board-v2/js/blocked-view.mjs",
+    "design/board-v2/js/fixtures.mjs",
+    "design/board-v2/css/page.css as a runtime stylesheet",
+    "design/board-v2/contract/*.json as runtime data",
+    "design/board-v2/assets/manifest.json as runtime manifest",
+    "design/board-v2/review and design/tools controllers"
+  ],
+  "deferred": "Lighting/Blackout/ATTACK BLOCKED candidate packs stay inventoried separately; they are not prerequisites for the captions, nameplates, navigation or capsule public data boundary.",
+  "wardManifestSha256": "c2984de7d98b3d224c4c513a47bbfe2229ccb34cb8a6f9580347ddff91620414"
+}
