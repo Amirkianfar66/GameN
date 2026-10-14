@@ -15,8 +15,9 @@ function frameWhen(screen, check, label) {
   }, check, label);
 }
 
-// Real local Functions, Auth and Rules reads with real server deadlines. The one lost
-// response is arranged in the test transport after the service decides the command.
+// Real local Functions, Auth and Rules reads with real server deadlines. The lost command
+// response and unavailable receipt channel are arranged in the test transport; the real
+// stored receipt is restored only after the current result is concealed.
 // Ready acknowledgment here is fixture-only; this is not hosted art/version acceptance.
 test('connected: a declared Hack claim stays private and a lost reply recovers the original command across the result phase', { timeout: 150_000 }, async t => {
   const { host, display, players, matchId, publicView } = await startedMatch(t);
@@ -36,8 +37,10 @@ test('connected: a declared Hack claim stays private and a lost reply recovers t
   assert.deepEqual(declaration.legalTargets.DECLARE_HACK_SIDE, [target.seatId]);
 
   const kept = { value: null, load() { return this.value; }, save(value) { this.value = value; }, clear() { this.value = null; } };
-  let declarations = 0;
+  let declarations = 0, allowReceipts = false;
   const transport = { ...target.transport, async post(operation, body) {
+    if (operation === 'v1Receipt' && !allowReceipts)
+      return { ok: false, serverTimeMs: Date.now(), error: { code: 'UNAVAILABLE' } };
     const result = await target.transport.post(operation, body);
     if (operation !== 'v1Command' || body.command.type !== 'DECLARE_HACK_SIDE') return result;
     declarations += 1;
@@ -71,6 +74,8 @@ test('connected: a declared Hack claim stays private and a lost reply recovers t
   assert.doesNotMatch(kept.value, /declaredSide|DECLARE_HACK_SIDE|Blue|Red|Alien/);
   screen.setPageVisible(false);
   assert.doesNotMatch(toHtml(renderComicPlayerShell(screen.getFrame().model)), /claims|hack-feedback/);
+  assert.equal(kept.value, JSON.stringify(saved), 'Concealment preserves the unresolved identifiers');
+  allowReceipts = true;
   screen.setPageVisible(true);
   assert.equal(screen.getFrame().model.match.privateArea.open, false);
   screen.dispatch({ type: 'private/toggle' });
