@@ -59,6 +59,12 @@ EJECT requires at least one living detained physical-Jail occupant, then elimina
 
 Empty Jail, bodies-only Jail, only medical detainees, invalid timing/title/location and already-used commands reject without changing state or spending the allowance. An accepted command spends exactly its own global allowance atomically. After RELEASE, a subsequent EJECT normally finds no eligible living target and spends no use; reverse order is analogous. Competing new IDs observe transaction order; exact retries recover the same receipt before phase/eligibility checks, and conflicting ID reuse cannot change intent.
 
+## Preserve the existing victory formula
+
+Deferring victory does not itself broaden Alien's simultaneous-elimination condition. The historical owner overlay `in-person-v1-owner-decisions-2026-10-06.json` defines both actual factions losing their final survivor in the same complete resolution stage/checkpoint. Current `resolveRound` captures faction survivors at entry; `evaluateVictory` explicitly refuses to infer simultaneity merely because both factions are absent. Do not silently move that baseline to round start or add an Alien-last-survivor shortcut.
+
+Independent Balance/Integration review must bind direct-command stage accounting before implementation: compare one atomic EJECT that removes both actual factions' last survivors against EJECT removing one faction followed by a later registered effect/due Hospital death removing the other. Record actual complete-stage before/after evidence under the existing formula, including deferred evaluation; identify any needed private journal/state evidence rather than inventing a public fact or gameplay exception. This proposal does not assign an unreviewed winner to those companion cases. They are an explicit implementation/audit dependency, not an unresolved owner rule or a change to frozen 1.7.
+
 ## Event and consumer boundary
 
 Publish neutral current health/placement facts atomically. Existing PUBLIC_MOVE has non-null locations and no gameplay tuple; widening it globally would change legacy event contracts. Proposed companion implementation must avoid emitting a physical-room PUBLIC_MOVE for an off-board transition. A strict current snapshot supplies nullable placement; existing authorized neutral health facts may still be emitted. Do not replace null with a fake destination to satisfy an old event schema.
