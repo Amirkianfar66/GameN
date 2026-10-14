@@ -111,6 +111,8 @@
   },
   "runtimeFiles": {
     "apps/game/hosted/ability-drawing.css": "639cf452ddfd0edd37f859aab2ffb64a91812204f673db32c16e8161a01a5d10",
+    "apps/game/hosted/art.mjs": "dc9719acf0ddbf77dfe1e51f0be5d5e92f0a2bbdaf878831e8d33acfba4623ef",
+    "apps/game/hosted/board-v2-blackout.mjs": "b4b86db92de905605912c25a2e7bbd6c0f0c06c9df3ee1e7449174e1dfa0c789",
     "apps/game/hosted/board-v2-drawing/blackout-film.mjs": "e93bdc54e4511e247193fbe892d13305c7f77fb2f095b048df9fbde630a10c9b",
     "apps/game/hosted/board-v2-drawing/blocked-film.mjs": "44ba4ced119e91f6f20078286da880db0b4e3429a8d896f7c72574831ecacbdc",
     "apps/game/hosted/board-v2-drawing/blocked-fx.mjs": "938821be87f00fb24376df2c5d9713dbf4f579c5f13ad2f01d096a5182837f95",
@@ -129,6 +131,10 @@
     "apps/game/hosted/board-v2.css": "9c46de1d7e74d50611ffb8233040535e3ca2ce1ab4479f15bb748a16f6a8aff1",
     "apps/game/hosted/capsule-lifecycle.mjs": "22735895480e97fad5a531a58a8058d4f88709f9a54828dc91e5f845bfabc5e3",
     "apps/game/hosted/claude-phone-kit.css": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
+    "apps/game/hosted/comic-assets.mjs": "1947b2f13dd39277d816a16e3da8d59860dd2e69ad83398ff658d80bf3f46431",
+    "apps/game/hosted/main.js": "eaaeeaf09a218c611ee8b73eeda65f53871b9ee6aece235caa00d7441b467287",
+    "apps/game/hosted/ready-compatibility.mjs": "55047d0a68cd833cf8c7f383d96f5f40a716c1f6d7a852a3b53df0389667b14e",
+    "apps/game/hosted/role-confirmation.js": "e743796818532021d931f2e77020c969922d1bcaa5170cb82b5e8451bdaae68e",
     "apps/game/hosted/scene-drawing/body.mjs": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513",
     "apps/game/hosted/scene-drawing/crew.mjs": "d2147b981140504d47d2fecfbcf0d2efd5860cfe4929d2e3238173289ac8a093",
     "apps/game/hosted/scene-drawing/frame.mjs": "da22de905a2e0615723bd63745614d6f5d393271aeed34166fab177df4b2f9ba",
@@ -141,9 +147,24 @@
     "apps/game/hosted/scene-drawing/rig.mjs": "e73d4815b8d5afb457fad712c97136bb69384176c8e7e6335f89d101f63dad5d",
     "apps/game/hosted/scene-drawing/scenes.mjs": "97e4f509bb4b2608f176d0638aab8c9233fcb84c5ff6412e310f75eadb2accfa",
     "apps/game/hosted/scene-drawing/wardrobe.mjs": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3",
+    "apps/game/hosted/setup-art.css": "8ca3cf09ba864e2178e4ed021acc62c92f0e3308fb42faf70c83ce6210837d83",
+    "apps/game/hosted/setup-controls.js": "83f82bbb2b0ca70a0658a4d9d8587cd50bb8ae125c69a3792579ce3cf1ddcf18",
+    "apps/game/src/browser/firebase-transport.ts": "db11dcf11a81a4388c1b5a5ff682eda6ffbf115831869aedc74b12f0f383da3a",
+    "apps/game/src/browser/hosted-transport.ts": "d4054a9497682295c1df4c41a6f972f14870b18319327eb4197b77422f856415",
+    "apps/game/src/connected/action-flow.ts": "8744878e047cad28de23d0c0e00f67a46fa30a7f976dd65453606d7f43baf374",
     "apps/game/src/connected/outcome-feed.ts": "cecb5fc8e9c6e6a58dda03856a849e4b1a442658a6d33c6678c29688e107831b",
-    "apps/game/hosted/board-v2-blackout.mjs": "b4b86db92de905605912c25a2e7bbd6c0f0c06c9df3ee1e7449174e1dfa0c789",
-    "apps/game/hosted/setup-art.css": "8ca3cf09ba864e2178e4ed021acc62c92f0e3308fb42faf70c83ce6210837d83"
+    "apps/game/src/connected/paths.ts": "32c7d8d3b23258c4ea9b21ca9db1e14569872eb475ac13814e445fd604738f97",
+    "apps/game/src/connected/screens.ts": "9776fd729d2750077534a3a313e0bb8db02a191b5ae5c511ad1c7c60217d895e",
+    "apps/game/src/connected/transport.ts": "f984bc554caf1098ffbdb2c4eeeaec97416f0084a447e2729df038fd26cb0958",
+    "apps/game/src/screens/screen.ts": "b6a9e17126c9203bfc98ef2bddd84d4ef0d1bc9dfd7eaa014b1d9a0feba8d789",
+    "packages/presentation/src/copy/en.ts": "b3db4c193445bca3391dd353c2af4ed61add2ff5c37799375f851f8448d85ee8",
+    "packages/presentation/src/markup/comic-shell.ts": "d72985bb3c996167ae22cafa6d45343607746c6d41021efacae90d586539a349",
+    "packages/presentation/src/model/actions.ts": "b6dc9ebe8c9ec3e744e375b0e1be450886a49771c9ea0f0251d5f789cb433a58",
+    "packages/presentation/src/model/common.ts": "0863a64274aa87a4f7f1e4d20cdabc9e979daa39072c8014282014a2798a2927",
+    "packages/presentation/src/model/connected-player.ts": "be6dab5b5343536ddd7fb321dccf8ab980999e964f67b544d0f8156aa813b76a",
+    "packages/presentation/src/model/public-board.ts": "edf586f415b589d7fbc74f707d03f41745846bf5964cff13831bdde6bec0f740",
+    "packages/presentation/src/model/table-shell.ts": "59ec3bb6ce5a684fc23782a5e09eb92dcd22c9875c689ded2117426266b2a1bb",
+    "packages/presentation/src/model/types.ts": "51a4a49b238675f4c2fe0eb048e94beb55422c510f18d7a3418be0590e0a02f7"
   },
   "bundles": {
     "abilities": {
@@ -180,5 +201,6 @@
     }
   },
   "claudeBoardCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
-  "claudeSetupCommit": "27be8749b51775fee3a0d81b62a3cdabedafe1be"
+  "claudeSetupCommit": "27be8749b51775fee3a0d81b62a3cdabedafe1be",
+  "nativeConsumerCommit": "2aeaefacf5f0de9f1c26b6e8bbb5c445314df023"
 }

@@ -307,13 +307,15 @@ describe('historical release versus explicit successor validation',()=>{
     const result=await check(root);assert.equal(result.status,0,result.output);
   });
   test('reviewed successor action names remain separate from frozen historical art',async()=>{
-    const root=scratchCopy();edit(root,'packages/presentation/src/model/actions.ts',text=>text.replace("  'declare-hack-side',","  'captain-release', 'captain-eject', 'declare-hack-side',"));
+    const root=scratchCopy();edit(root,'packages/presentation/src/model/actions.ts',text=>text
+      .replace("'captain-release', 'captain-eject', ", '')
+      .replace("'declare-hack-side',", "'declare-hack-side', 'captain-eject', 'captain-release',"));
     const result=await check(root);assert.equal(result.status,0,result.output);assert.match(result.output,/15 actions/);
   });
   test('unknown command and action additions fail instead of escaping historical coverage',async()=>{
     const root=scratchCopy();
     edit(root,'packages/contracts/src/full-game.ts',text=>text.replace("  z.strictObject({ type: z.literal('PASS_TURN') }),", "  z.strictObject({ type: z.literal('UNREVIEWED_POWER') }),\n  z.strictObject({ type: z.literal('PASS_TURN') }),"));
-    edit(root,'packages/presentation/src/model/actions.ts',text=>text.replace("  'declare-hack-side',", "  'unreviewed-action', 'declare-hack-side',"));
+    edit(root,'packages/presentation/src/model/actions.ts',text=>text.replace("'declare-hack-side',", "'unreviewed-action', 'declare-hack-side',"));
     refuses(await check(root),/unreviewed successor command UNREVIEWED_POWER/,/unreviewed successor action unreviewed-action/);
   });
   test('pin key order is irrelevant to semantic coverage while exact historical keys remain required',async()=>{

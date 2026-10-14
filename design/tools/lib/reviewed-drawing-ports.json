@@ -1,7 +1,7 @@
 {
   "devOnly": "mothership:dev-only",
   "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6",
-  "version": "drawing-port-adoption-5",
+  "version": "drawing-port-adoption-6",
   "sourceHashes": {
     "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
     "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
@@ -248,19 +248,19 @@
   },
   "metadataFiles": {
     "apps/game/hosted/board-v2-host.mjs": {
-      "sha256": "3fe02aa7e4b9f0fc7ff0b095a4ae12accf9fcbb6a8c60e0b54b7615fb6d05604",
+      "sha256": "fadb1742ef188ed9e28038c2ff6eb9c31315808782b4335946fcc20c1621e962",
       "permittedLiterals": [
         "board-v2"
       ]
     },
     "apps/game/hosted/board-v2-scene.mjs": {
-      "sha256": "77a8383983c607e6c2a149990c37777573b950df810b05b48c0c141da6ca77ca",
+      "sha256": "7d3ab0d3a8a6be7801ba1cdca680517cba982242f871a42e648f0a8e899262af",
       "permittedLiterals": [
         "board-v2"
       ]
     },
     "apps/game/hosted/board-v2.css": {
-      "sha256": "7ad329b9f33ca637d042fc996c5eb58219e93c45508b4f821c82092fe9a118e4",
+      "sha256": "9c46de1d7e74d50611ffb8233040535e3ca2ce1ab4479f15bb748a16f6a8aff1",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -279,5 +279,9 @@
     "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
     "runtimeCatalog": "design/releases/board-v2-motion-ports.json",
     "runtimeCatalogSha256": "d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f"
+  },
+  "nativeConsumerReview": {
+    "sourceCommit": "2aeaefacf5f0de9f1c26b6e8bbb5c445314df023",
+    "scope": "Native fixed-slot, Blackout, room-event, capsule, setup and recovery consumers reviewed by Integration and Backend. Only existing metadata literal exceptions renewed; pure drawing hashes and historical source bytes unchanged. Browser acceptance and exact release CI remain separate gates."
   }
 }
