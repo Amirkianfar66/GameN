@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {FullCommandRequestSchema,FullPlayerViewSchema,FullPublicViewSchema,FullPhaseSchema,FullPublicEventSchema,FullPlayerEventSchema} from '@mothership/contracts';
-import {FULL_GAME_VERSION_PINS,VOTE_RESULT_FULL_GAME_VERSION_PINS,createFullGame,executeFullGame,advanceFullGame,projectFullGame} from '@mothership/engine';
+import {DECLARED_HACK_FULL_GAME_VERSION_PINS as FULL_GAME_VERSION_PINS,VOTE_RESULT_FULL_GAME_VERSION_PINS,createFullGame,executeFullGame,advanceFullGame,projectFullGame} from '@mothership/engine';
 import {choosePracticeBotActions} from '../../services/game-api/dist/practice-bot-policy.js';
 const rolesFor=n=>['Insider','Cracker','Blue Disabler','Supplier','Undercover','Hacker','Alien',...(n>=8?['Red Disabler']:[]),...(n===9?['Officer']:[])];
 let serial=0;

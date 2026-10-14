@@ -14,7 +14,10 @@ All client operations are JSON `POST` requests to second-generation Cloud Functi
 | `v1RequestAdmission` | `requestAdmission` | Request a seat using the room code and Room A/B starting room |
 | `v1ApproveAdmission` | `approveAdmission` | Host approves a pending identity into a specific vacant seat |
 | `v1AdmitDisplay` | `admitDisplay` | Host admits an Auth UID for public tabletop projections |
-| `v1StartMatch` | `startMatch` | Host starts a fully admitted roster with server-generated roles/code/order |
+| `v1StartMatch` | `startMatch` | Historical accepted-request replay only; new direct starts are forbidden |
+| `v1BeginSetup` | `beginSetup` | Host opens the full character-selection window for a complete roster |
+| `v1ConfirmSetupChoice` | `confirmSetupChoice` | Current bound player confirms their public character/name |
+| `v1ReadyForMatch` | `readyForMatch` | Current bound player acknowledges the prepared deal after role reading |
 | `v1Command` | `submit` | Register a protocol-2 game command using a stable command ID |
 | `v1Receipt` | `lookup` | Recover the caller's own receipt after a lost response |
 | `v1Advance` | `advance` | An admitted client requests evaluation of the current phase after its deadline |
@@ -77,6 +80,8 @@ The host reads `control/session` and admission requests, which contain administr
 
 - `MOTHERSHIP_ASSET_MANIFEST_VERSION`: a 1–128 character identifier beginning with an ASCII letter/digit and otherwise containing letters, digits, dots, underscores or hyphens, identifying the reviewed asset manifest. The local placeholder `0.0.0-no-assets` is rejected in production. This is a configuration pin; it does not create or verify real design assets.
 - `MOTHERSHIP_ALLOWED_ORIGINS`: an optional JSON array of at most 16 unique, exact canonical HTTPS origins. No paths, wildcards or credentials are accepted. The production default is empty: requests carrying any browser `Origin` are denied until their exact origin is configured. Requests without `Origin` still require Auth and App Check.
+
+New declared-Hack creation is a separate explicit release configuration. See [vote/Hack release configuration](vote-hack-release-configuration.md) for the exact profile, new/historical art routing, staged setup/Ready and deployment/drain order. The global default stays at historical 1.3; deploying supported handlers does not itself authorize changing existing gameplay pins.
 
 Do not copy demo environment variables into a deployed runtime. The presence of any emulator environment variable requires the complete local `demo-mothership` suite: Auth 9199, Firestore 8180, Functions 5101, and `FUNCTIONS_EMULATOR=true`. Every host must be loopback. Only the Firebase CLI's known optional Tasks 9499, Eventarc 9299, hub 4500, logging 4600 and Firestore address alias 8180 are allowed; unknown emulator variables, mixed production/demo project IDs and remote emulator hosts fail closed. Enqueue additionally requires the validated Tasks 9499 host in demo mode; a missing Tasks emulator leaves a retryable outbox failure instead of falling back to the cloud Tasks API.
 

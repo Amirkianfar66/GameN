@@ -13,7 +13,7 @@ import {
   FullAssetManifestVersionSchema, FullLobbyIdentityDocumentSchema, FullSetLobbyIdentityRequestSchema, FullSetLobbyIdentityResponseSchema, OwnAcknowledgmentsSchema, SeatSessionSchema,
 } from '@mothership/contracts';
 import type { FullSetupDocument, FullSetupPlayerView, FullSetupErrorCode, FullBeginSetupResponse, FullConfirmSetupChoiceResponse, FullReadyForMatchResponse, FullCommandRequest, FullFailure, FullPlayerView, FullReceipt, FullOperationResponse, SeatId, FullLobbyIdentityDocument, FullSetLobbyIdentityResponse, FullSetPracticeBotsResponse, FullPracticeBotsDocument } from '@mothership/contracts';
-import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
+import { createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments, buildRoster, FULL_GAME_VERSION_PINS, LEGACY_FULL_GAME_VERSION_PINS, isSupportedFullGameVersions, roomCapacityEnabled, jointStartingRoomsEnabled, voteResultEnabled, declaredHackEnabled, MAX_ROOM_OCCUPANTS, assertInitialRoomCapacity } from '@mothership/engine';
 
 import { choosePracticeBotActions } from './practice-bot-policy.js';
 import { jointStartingRooms, jointStartingRoomAssignmentCount } from './joint-starting-rooms.js';
@@ -133,10 +133,22 @@ function randomSetup(playerCount: 7 | 8 | 9, shuffle: Shuffler): Omit<FullGameSe
     roundOrders: Array.from({ length: 5 }, () => shuffle(ids)) };
 }
 
-export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuffle = secureShuffle, randomInitialRoom = secureInitialRoom, randomStartingRoomRank = randomInt, assetManifestVersion = '0.0.0-no-assets' }: {
-  db: Firestore; clock?: () => number; newId?: () => string; shuffle?: Shuffler; randomInitialRoom?: RoomRandomizer; randomStartingRoomRank?: (maximum: number) => number; assetManifestVersion?: string;
+export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuffle = secureShuffle, randomInitialRoom = secureInitialRoom, randomStartingRoomRank = randomInt, assetManifestVersion = '0.0.0-no-assets', creationVersions = FULL_GAME_VERSION_PINS, historicalAssetManifestVersion }: {
+  db: Firestore; clock?: () => number; newId?: () => string; shuffle?: Shuffler; randomInitialRoom?: RoomRandomizer; randomStartingRoomRank?: (maximum: number) => number; assetManifestVersion?: string; creationVersions?: FullGameplayVersions; historicalAssetManifestVersion?: string;
 }) {
   if (!FullAssetManifestVersionSchema.safeParse(assetManifestVersion).success) throw new Error('Invalid asset manifest version');
+  if (historicalAssetManifestVersion !== undefined && (!FullAssetManifestVersionSchema.safeParse(historicalAssetManifestVersion).success
+    || historicalAssetManifestVersion === 'design-0.3.0')) throw new Error('Invalid historical asset manifest version');
+  if (creationVersions === null || typeof creationVersions !== 'object' || !isSupportedFullGameVersions(creationVersions)) throw new Error('Unsupported new-match gameplay pins');
+  // Configuration selects new creation only. Never consult it when loading a
+  // stored lobby, prepared deal, match or receipt. Copy to prevent caller mutation.
+  const newMatchVersions = Object.freeze({ protocolVersion: creationVersions.protocolVersion, engineVersion: creationVersions.engineVersion,
+    rulesetVersion: creationVersions.rulesetVersion, rulesetHash: creationVersions.rulesetHash });
+  function preparedAssetVersion(versions: FullGameplayVersions): string {
+    if (historicalAssetManifestVersion === undefined) return assetManifestVersion;
+    if (!voteResultEnabled(versions)) return historicalAssetManifestVersion;
+    return declaredHackEnabled(versions) ? assetManifestVersion : 'design-0.2.0';
+  }
   function drawInitialRoom(): Room {
     const room = randomInitialRoom();
     if (room !== 'Room A' && room !== 'Room B') throw new Error('Invalid initial room draw');
@@ -360,7 +372,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const control: Control = { protocolVersion: 2, hostUid: uid, playerCount: body['playerCount'] as 7 | 8 | 9, status: 'lobby', lifecycleVersion: SETUP_LIFECYCLE_VERSION, gameStarted: false, roomCode, createdAt: now };
       return { response: success(now, { matchId, roomCode, playerCount: control.playerCount, status: 'lobby' }), write: () => {
         tx.create(codeRef, { matchId }); tx.create(base.collection('control').doc('session'), control);
-        tx.create(base.collection('engine').doc('gameplayPins'), FULL_GAME_VERSION_PINS);
+        tx.create(base.collection('engine').doc('gameplayPins'), newMatchVersions);
         tx.create(base.collection('members').doc(uid), { kind: 'display' });
         tx.create(base.collection('lobby').doc('public'), lobby(base, control, []));
         tx.create(base.collection('identities').doc('public'), identityDocument(base.id));
@@ -749,7 +761,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
           assertRecordedRoomMap(decodeV1Setup(recordedSetup), gameplayVersions, recordedRooms);
           const deal: PreparedDeal = { schemaVersion: 1, protocolVersion: 2, lifecycleVersion: SETUP_LIFECYCLE_VERSION, dealId,
             setupId: payload.setupId, readingStartedAt: now, readingEndsAt, readingDeadlineToken: readingToken, preparedAt: now,
-            versions: { ...gameplayVersions, assetManifestVersion },
+            versions: { ...gameplayVersions, assetManifestVersion: preparedAssetVersion(gameplayVersions) },
             setup: recordedSetup };
           const progress = FullSetupDocumentSchema.parse({ ...current, revision: current.revision + 1,
             stage: 'awaiting-ready', dealId, readingStartedAt: now, readingEndsAt,

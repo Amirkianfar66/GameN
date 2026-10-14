@@ -193,6 +193,16 @@ export function createV1SetupRepairHandler(service: Pick<V1Service, 'repairSetup
       || !('failed' in result) || result.failed !== 0) throw new Error('Setup deadline repair unavailable');
   };
 }
+export function createV1RepairHandler(service: Pick<V1Service, 'repairOutbox'>, enqueue: V1Enqueue) {
+  return async (): Promise<void> => {
+    let result: unknown;
+    try { result = await service.repairOutbox(enqueue, { limit: 100 }); }
+    catch { throw new Error('Deadline repair unavailable'); }
+    if (result === null || typeof result !== 'object'
+      || !['dispatched', 'unchanged', 'failed', 'blocked'].every(key => key in result && Number.isSafeInteger((result as Record<string, unknown>)[key]) && ((result as Record<string, number>)[key] ?? -1) >= 0)
+      || !('failed' in result) || result.failed !== 0) throw new Error('Deadline repair unavailable');
+  };
+}
 export function createV1PracticeBotsHandler(service: Pick<V1Service, 'runPracticeBots'>) {
   return async (matchId: unknown): Promise<void> => {
     if (typeof matchId !== 'string' || !identity.test(matchId)) throw new Error('Invalid practice bot match');
@@ -269,8 +279,7 @@ export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
     await createV1PracticeBotsHandler(resolveContext().service)(event.params.matchId);
   });
   // One bounded page per invocation; pending intents outside the page remain eligible next minute.
-  const repairDeadlines = onSchedule({ schedule: 'every 1 minutes', region: 'us-central1', timeoutSeconds: 60 }, async () => {
-    await resolveContext().service.repairOutbox(enqueue, { limit: 100 });
-  });
+  const repairDeadlines = onSchedule({ schedule: 'every 1 minutes', region: 'us-central1', timeoutSeconds: 60 },
+    () => createV1RepairHandler(resolveContext().service, enqueue)());
   return { ...endpoints, deadlineTask, dispatchDeadline, repairDeadlines, runPracticeBots, setupDeadlineTask, dispatchSetupDeadline, repairSetupDeadlines };
 }
