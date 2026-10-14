@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+  "scope": "Exact S1 and S4 pure drawing derivatives; no prototype controller or fixture. Server-authorized native consumers reviewed separately.",
+  "entries": [
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/lighting.mjs",
+      "runtimeSha256": "35134c4966b508f2a7b09931844f0f09eb07c4da8900c7fc9f35571ee5231e83",
+      "source": "design/board-v2/scenes/lighting.mjs",
+      "sourceSha256": "ed8ce0def1b0c0b965a6b59a52c91c60a0184c5ad86f042eda63108cc70968ad",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "imports": {
+        "../../board-motion/scenes/kit.mjs": "./scene-kit.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/blackout-film.mjs",
+      "runtimeSha256": "e93bdc54e4511e247193fbe892d13305c7f77fb2f095b048df9fbde630a10c9b",
+      "source": "design/board-v2/films/blackout.mjs",
+      "sourceSha256": "361c57acf83e12952fe964cd9567816623e658b36eb1413c68047da51520ef88",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "imports": {
+        "../scenes/lighting.mjs": "./lighting.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/blocked-fx.mjs",
+      "runtimeSha256": "938821be87f00fb24376df2c5d9713dbf4f579c5f13ad2f01d096a5182837f95",
+      "source": "design/board-v2/fx/blocked.mjs",
+      "sourceSha256": "6408b5229172f157086236ec4463e73c9e0ab3aa6755d968ff2552707fd3ef0a",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "imports": {
+        "../../board-motion/scenes/kit.mjs": "./scene-kit.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/label-box.mjs",
+      "runtimeSha256": "b341c8880c499709857597129d9faaa1c5e5a1a66e39afe5bce40a4d2f591cf0",
+      "source": "design/board-v2/fx/label-box.mjs",
+      "sourceSha256": "86acb6f2de5fea096c34b5c336dcc327cfcc17cfda4e6cd3e0ab5a814e63d45c",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "imports": {}
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/blocked-film.mjs",
+      "runtimeSha256": "44ba4ced119e91f6f20078286da880db0b4e3429a8d896f7c72574831ecacbdc",
+      "source": "design/board-v2/films/blocked.mjs",
+      "sourceSha256": "984cf4a53e1dfbc3984d4caabe9fa6631621824ab624e8de8502d7c13ff21b24",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "imports": {
+        "../fx/blocked.mjs": "./blocked-fx.mjs",
+        "./blackout.mjs": "./blackout-film.mjs"
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 lighting proposal board-v2-lighting-0.1.0 · still bolt · generated, do not edit by hand
+  Reduced motion: the power failure as a still bolt in each room's caption, in place of the flicker and the sparks. The same in every room.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/lighting.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g data-layer="fx-bolt"><path d="M14.5 2 L5.5 13.2 L11.2 13.2 L8.8 22 L18.5 9.8 L12.6 9.8 Z" fill="#F7C52B" stroke="#151923" stroke-width="2" stroke-linejoin="round"/></g></svg>

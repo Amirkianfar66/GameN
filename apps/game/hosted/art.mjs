@@ -10,15 +10,27 @@ export const ART_BUNDLES = Object.freeze({
 
 // Reviewed common candidate supplement. Historical release bundles/pins are unchanged.
 export const BOARD_V2_ART_URL = '/art/board-v2.art.5dedbf2450.css';
-export function loadBoardV2Art(document = globalThis.document) {
+export const SETUP_ART_URL = '/art/setup.art.f196649c9c.css';
+export const BOARD_V2_MOTION_ART_URL = '/art/board-v2-motion.art.7793869d6b.css';
+export const COMMON_ART_BUNDLES = Object.freeze({ 'board-v2-art': BOARD_V2_ART_URL, 'setup-art': SETUP_ART_URL, 'board-v2-motion-art': BOARD_V2_MOTION_ART_URL });
+function noteArrival(document, name) {
+  const names = new Set((document.documentElement.dataset.art ?? '').split(' ').filter(Boolean));
+  names.add(name); document.documentElement.dataset.art = [...names].join(' ');
+  document.dispatchEvent?.(new Event('mothership:art-ready'));
+}
+function loadBundle(document, name, url) {
   return new Promise(resolve => {
-    const link = document.createElement('link'); link.rel = 'stylesheet'; link.href = BOARD_V2_ART_URL;
+    const link = document.createElement('link'); link.rel = 'stylesheet'; link.href = url;
+    const timer = globalThis.setTimeout(() => resolve(null), 8000);
     link.addEventListener('load', () => {
-      const names = new Set((document.documentElement.dataset.art ?? '').split(' ').filter(Boolean)); names.add('board-v2-art');
-      document.documentElement.dataset.art = [...names].join(' '); document.dispatchEvent(new Event('mothership:art-ready')); resolve(true);
+      globalThis.clearTimeout(timer); noteArrival(document, name); resolve(name);
     }, { once: true });
-    link.addEventListener('error', () => resolve(false), { once: true });document.head.append(link);
+    link.addEventListener('error', () => { globalThis.clearTimeout(timer); resolve(null); }, { once: true });
+    document.head.append(link);
   });
+}
+export function loadBoardV2Art(document = globalThis.document) {
+  return loadBundle(document, 'board-v2-art', BOARD_V2_ART_URL).then(name => name !== null);
 }
 
 export function bundlesFor(device, { abilities = true, scenes = true } = {}) {
@@ -26,17 +38,14 @@ export function bundlesFor(device, { abilities = true, scenes = true } = {}) {
 }
 
 export async function loadArt(device, document = globalThis.document, options = {}) {
-  const arrived = await Promise.all(bundlesFor(device, options).map(name => new Promise(resolve => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = ART_BUNDLES[name];
-    link.addEventListener('load', () => resolve(name), { once: true });
-    link.addEventListener('error', () => resolve(null), { once: true });
-    document.head.append(link);
-    // A slow/offline art response must never hold the game. Late success may still set
-    // the gate through a subsequent launch; this attempt keeps its text fallback.
-    globalThis.setTimeout(() => resolve(null), 8000);
-  })));
-  document.documentElement.dataset.art = [...new Set([...(document.documentElement.dataset.art ?? '').split(' ').filter(Boolean), ...arrived.filter(Boolean)])].join(' ');
+  document.documentElement.dataset.artSettled = 'false';
+  // The same complete supplements load before any private role is consulted.
+  // Historical bundles keep their original URLs and are checked independently.
+  await Promise.all([
+    ...bundlesFor(device, options).map(name => loadBundle(document, name, ART_BUNDLES[name])),
+    ...Object.entries(COMMON_ART_BUNDLES).map(([name, url]) => loadBundle(document, name, url)),
+  ]);
+  document.documentElement.dataset.art ??= '';
+  document.documentElement.dataset.artSettled = 'true';
   document.dispatchEvent?.(new Event('mothership:art-ready'));
 }
