@@ -422,6 +422,18 @@ test('the static checks fail unless every test ran and passed', () => {
     assert.equal(result.status, 1, `${stray}: ${result.stdout}`);
     assert.match(result.stderr, /look like test files and are not run by this check/);
   }
+  // A test registered from another module is reported under that module, where its skip would not be seen.
+  const elsewhere = directory('static-elsewhere', "import './more.mjs';\ntest('one', () => {});");
+  writeFileSync(join(elsewhere, 'more.mjs'), "import test from 'node:test';\ntest('elsewhere', { skip: true }, () => {});\n");
+  const hidden = strict(elsewhere);
+  assert.equal(hidden.status, 1, hidden.stdout);
+  assert.match(hidden.stderr, /Of 1 test in 1 file: tests were registered from a file this check does not list \(more\.mjs\)\./);
+  // A file may take the bodies of its tests from another module, as long as it registers them itself.
+  const borrowed = directory('static-borrowed', "import { checks } from './more.mjs';\nfor (const [name, run] of checks) test(name, run);");
+  writeFileSync(join(borrowed, 'more.mjs'), "export const checks = [['one', () => {}], ['two', () => {}]];\n");
+  const counted = strict(borrowed);
+  assert.equal(counted.status, 0, counted.stderr);
+  assert.match(counted.stdout, /Static checks: 2 tests in 1 file, all passed/);
   // Nothing may filter the tests from outside the command line either.
   for (const options of ['--test-skip-pattern=two', '--test-name-pattern=one', '--max-old-space-size=256 --test-only']) {
     const filtered = strict(join(work, 'static-passing'), [], { NODE_OPTIONS: options });

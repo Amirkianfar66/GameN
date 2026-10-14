@@ -1,0 +1,1555 @@
+{
+ "schema": "mothership.balance.next-controls/1",
+ "pins": {
+  "repository": "Amirkianfar66/GameN",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "branch": "HEAD",
+  "workingTreeCommit": "955a1931934af2499e4057bbcbb2bc747091f3ee",
+  "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "ruleSourceHashes": {
+   "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
+   "rules/overlays/direct-shot-decision.json": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be",
+   "rules/overlays/final-showdown-decision.json": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1",
+   "rules/overlays/location-board-layout-v1.json": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691",
+   "rules/overlays/movement-decision.json": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d",
+   "rules/overlays/player-modes-officer.json": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19",
+   "rules/sources/v2.1-decisions.json": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
+  },
+  "v1OverlaySha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "additionalOwnerOverlayHashes": {
+   "rules/overlays/ordinary-turn-pass-owner-decision-2026-10-08.json": "a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183",
+   "rules/overlays/room-capacity-owner-decision-2026-10-11.json": "e4f72a7990c84dddb35d5b5416e33a33ad114394da7b6db2890fcb2d0d561468",
+   "rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json": "aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e"
+  },
+  "v1ManifestSha256": "451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2",
+  "scenarioFileHashes": {
+   "mode-7.scenarios.json": "7362e623e97d85bcb32382cb94991149f28638ae62967db34bc1e9bccc3f7782",
+   "mode-8.scenarios.json": "a31f78ad73aec5a3ffa1614031b2e4958da139dd7c327f59c183db590b460f71",
+   "mode-9.scenarios.json": "a4a32ea4b39bf3bfe5c507027843ac976efa8eec999f2a0646c93b6357a9d1f4",
+   "unsupported.scenarios.json": "f4c4a7c044c4596f4be251c0338aff23daa4f749dff90bb267022d83b706ee9c"
+  },
+  "rulebookSha256": "bb47ff66fed5a07631f5df8b9bd6467e557f35aec019662242325fd9bdc14bd0",
+  "engine": {
+   "adapter": "next-version-controls",
+   "engineVersion": "full-game-1.5.0",
+   "rulesetVersion": "in-person-v1-declared-hack-2026-10-12",
+   "rulesetHash": "1d8a5e509372ea816af8d6782bf1d73720532ed672ee2f77e2938805976d8d6c",
+   "protocolVersion": 2,
+   "binaryEngineVersion": "full-game-1.5.0",
+   "binaryRulesetVersion": "in-person-v1-declared-hack-2026-10-12",
+   "binaryRulesetHash": "1d8a5e509372ea816af8d6782bf1d73720532ed672ee2f77e2938805976d8d6c"
+  },
+  "engineCommit": "a9b77a7bd535efc8bdb5041cee18fd6526c0e354",
+  "engineCommitBasis": "head of the engine checkout",
+  "engineTreeClean": true,
+  "engineBuildSha256": "fa2d816af4afc907dacbca8e6913b00189e7f140faadf68407bbc64ef3f0516a",
+  "engineOrigin": "built checkout outside this worktree (--engine-root)",
+  "runner": "@mothership/balance controls on an existing version",
+  "node": "v22.21.1",
+  "generatedAt": "2026-10-14T03:56:09.302Z",
+  "suite": "next-version-controls",
+  "rulesetAskedFor": "in-person-v1-declared-hack-2026-10-12",
+  "controlsOf": "V15",
+  "controlsSha256": "be9815845221fc6bf3500236ae60963c44a969f70e3d7facaf8dc908dcf5903c",
+  "catalogSha256": "1aa4c25e15d836a4fe05bca40292a3ad7baf80eceed81526b83a4259547428e0",
+  "specification": {
+   "name": "owner-motion-2026-10-13",
+   "packetSha256": "fd90accca7c3e39d86e7f6ab6ac38a1804ac2877523b560fa0c03928bb9a1aca"
+  }
+ },
+ "ruleset": "in-person-v1-declared-hack-2026-10-12",
+ "controlsDefined": 23,
+ "totals": {
+  "total": 21,
+  "passed": 21,
+  "failed": 0,
+  "recorded": 0,
+  "notRun": 0
+ },
+ "byMode": {
+  "7": {
+   "total": 7,
+   "passed": 7,
+   "failed": 0,
+   "recorded": 0,
+   "notRun": 0
+  },
+  "8": {
+   "total": 7,
+   "passed": 7,
+   "failed": 0,
+   "recorded": 0,
+   "notRun": 0
+  },
+  "9": {
+   "total": 7,
+   "passed": 7,
+   "failed": 0,
+   "recorded": 0,
+   "notRun": 0
+  }
+ },
+ "runs": [
+  {
+   "id": "CTL-M7-V15-01",
+   "code": "V15-01",
+   "mode": 7,
+   "title": "Fifteen, five, sixty: a declaration ends the first stage early",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the turn",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "it opens when the turn closes",
+     "expected": 1800000060000,
+     "observed": 1800000060000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 15000,
+     "observed": 15000,
+     "ok": true
+    },
+    {
+     "label": "the active player stays the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "the declaration, four seconds in",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the result opens at the declaration",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "the active player stays the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "then the conversation",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "opening when the result ends",
+     "expected": 1800000069000,
+     "observed": 1800000069000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "then the next player's turn",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M7-V15-02",
+   "code": "V15-02",
+   "mode": 7,
+   "title": "No declaration: the result says so and makes up no side",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "asked one millisecond before the fifteen seconds, the stage stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "after fifteen seconds without a declaration",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the Insider reads that no side was declared",
+     "expected": "NO_DECLARATION",
+     "observed": "NO_DECLARATION",
+     "ok": true
+    },
+    {
+     "label": "and the Insider reads no side",
+     "expected": null,
+     "observed": null,
+     "ok": true
+    },
+    {
+     "label": "the Supplier reads that no side was declared",
+     "expected": "NO_DECLARATION",
+     "observed": "NO_DECLARATION",
+     "ok": true
+    },
+    {
+     "label": "and the Supplier reads no side",
+     "expected": null,
+     "observed": null,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "then the conversation, sixty seconds",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M7-V15-03",
+   "code": "V15-03",
+   "mode": 7,
+   "title": "Who may declare what",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the initiator cannot declare",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a Blue player declaring Red",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the stage is still open",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "a Blue player declaring Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declaring Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to the Alien is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Alien declaring Red",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 5,
+   "commandsSent": 8
+  },
+  {
+   "id": "CTL-M7-V15-04",
+   "code": "V15-04",
+   "mode": 7,
+   "title": "The claim and the partner are read by the two only",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declares Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the initiator reads the declared side",
+     "expected": "Blue",
+     "observed": "Blue",
+     "ok": true
+    },
+    {
+     "label": "the target reads the declared side",
+     "expected": "Blue",
+     "observed": "Blue",
+     "ok": true
+    },
+    {
+     "label": "nobody else reads any feedback",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "nobody else reads a partner",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the public view has no feedback field",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declares Red",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with the other side declared the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and every uninvolved player's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to the Alien is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Alien declares Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with another target the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of every player who is in neither pair",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 6,
+   "commandsSent": 6
+  },
+  {
+   "id": "CTL-M7-V15-05",
+   "code": "V15-05",
+   "mode": 7,
+   "title": "A move is accepted in each of the three stages, also in the last player's Hack",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Alien's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "declaration stage",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "result stage",
+     "expected": "HACK_RESULT",
+     "observed": "HACK_RESULT",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "conversation stage",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote follows",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 10,
+   "commandsSent": 4
+  },
+  {
+   "id": "CTL-M7-V15-06",
+   "code": "V15-06",
+   "mode": 7,
+   "title": "Deadlines that come late take nothing from the stage after them",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "declaration closed two seconds late: the result opens then",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and lasts five seconds",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "result closed two seconds late: the conversation opens then",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and lasts sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M7-V15-07",
+   "code": "V15-07",
+   "mode": 7,
+   "title": "A Code is refused in the two preludes and accepted in the conversation",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "a Code in the declaration stage",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a Code in the result stage",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is still unused",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "a Code in the conversation",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is used",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 47,
+   "commandsSent": 4
+  },
+  {
+   "id": "CTL-M8-V15-01",
+   "code": "V15-01",
+   "mode": 8,
+   "title": "Fifteen, five, sixty: a declaration ends the first stage early",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the turn",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "it opens when the turn closes",
+     "expected": 1800000060000,
+     "observed": 1800000060000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 15000,
+     "observed": 15000,
+     "ok": true
+    },
+    {
+     "label": "the active player stays the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "the declaration, four seconds in",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the result opens at the declaration",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "the active player stays the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "then the conversation",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "opening when the result ends",
+     "expected": 1800000069000,
+     "observed": 1800000069000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "then the next player's turn",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M8-V15-02",
+   "code": "V15-02",
+   "mode": 8,
+   "title": "No declaration: the result says so and makes up no side",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "asked one millisecond before the fifteen seconds, the stage stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "after fifteen seconds without a declaration",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the Insider reads that no side was declared",
+     "expected": "NO_DECLARATION",
+     "observed": "NO_DECLARATION",
+     "ok": true
+    },
+    {
+     "label": "and the Insider reads no side",
+     "expected": null,
+     "observed": null,
+     "ok": true
+    },
+    {
+     "label": "the Supplier reads that no side was declared",
+     "expected": "NO_DECLARATION",
+     "observed": "NO_DECLARATION",
+     "ok": true
+    },
+    {
+     "label": "and the Supplier reads no side",
+     "expected": null,
+     "observed": null,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "then the conversation, sixty seconds",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M8-V15-03",
+   "code": "V15-03",
+   "mode": 8,
+   "title": "Who may declare what",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the initiator cannot declare",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a Blue player declaring Red",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the stage is still open",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "a Blue player declaring Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declaring Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to the Alien is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Alien declaring Red",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 5,
+   "commandsSent": 8
+  },
+  {
+   "id": "CTL-M8-V15-04",
+   "code": "V15-04",
+   "mode": 8,
+   "title": "The claim and the partner are read by the two only",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declares Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the initiator reads the declared side",
+     "expected": "Blue",
+     "observed": "Blue",
+     "ok": true
+    },
+    {
+     "label": "the target reads the declared side",
+     "expected": "Blue",
+     "observed": "Blue",
+     "ok": true
+    },
+    {
+     "label": "nobody else reads any feedback",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "nobody else reads a partner",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the public view has no feedback field",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declares Red",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with the other side declared the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and every uninvolved player's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to the Alien is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Alien declares Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with another target the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of every player who is in neither pair",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 6,
+   "commandsSent": 6
+  },
+  {
+   "id": "CTL-M8-V15-05",
+   "code": "V15-05",
+   "mode": 8,
+   "title": "A move is accepted in each of the three stages, also in the last player's Hack",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Red Disabler's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "declaration stage",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "result stage",
+     "expected": "HACK_RESULT",
+     "observed": "HACK_RESULT",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "conversation stage",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote follows",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 11,
+   "commandsSent": 4
+  },
+  {
+   "id": "CTL-M8-V15-06",
+   "code": "V15-06",
+   "mode": 8,
+   "title": "Deadlines that come late take nothing from the stage after them",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "declaration closed two seconds late: the result opens then",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and lasts five seconds",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "result closed two seconds late: the conversation opens then",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and lasts sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M8-V15-07",
+   "code": "V15-07",
+   "mode": 8,
+   "title": "A Code is refused in the two preludes and accepted in the conversation",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "a Code in the declaration stage",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a Code in the result stage",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is still unused",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "a Code in the conversation",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is used",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 51,
+   "commandsSent": 4
+  },
+  {
+   "id": "CTL-M9-V15-01",
+   "code": "V15-01",
+   "mode": 9,
+   "title": "Fifteen, five, sixty: a declaration ends the first stage early",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the phase after the turn",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "it opens when the turn closes",
+     "expected": 1800000060000,
+     "observed": 1800000060000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 15000,
+     "observed": 15000,
+     "ok": true
+    },
+    {
+     "label": "the active player stays the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "the declaration, four seconds in",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the result opens at the declaration",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "the active player stays the initiator",
+     "expected": "seat-1",
+     "observed": "seat-1",
+     "ok": true
+    },
+    {
+     "label": "then the conversation",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "opening when the result ends",
+     "expected": 1800000069000,
+     "observed": 1800000069000,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    },
+    {
+     "label": "then the next player's turn",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "with its sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 2
+  },
+  {
+   "id": "CTL-M9-V15-02",
+   "code": "V15-02",
+   "mode": 9,
+   "title": "No declaration: the result says so and makes up no side",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "asked one millisecond before the fifteen seconds, the stage stays open",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "after fifteen seconds without a declaration",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the Insider reads that no side was declared",
+     "expected": "NO_DECLARATION",
+     "observed": "NO_DECLARATION",
+     "ok": true
+    },
+    {
+     "label": "and the Insider reads no side",
+     "expected": null,
+     "observed": null,
+     "ok": true
+    },
+    {
+     "label": "the Supplier reads that no side was declared",
+     "expected": "NO_DECLARATION",
+     "observed": "NO_DECLARATION",
+     "ok": true
+    },
+    {
+     "label": "and the Supplier reads no side",
+     "expected": null,
+     "observed": null,
+     "ok": true
+    },
+    {
+     "label": "its length",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "then the conversation, sixty seconds",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M9-V15-03",
+   "code": "V15-03",
+   "mode": 9,
+   "title": "Who may declare what",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the initiator cannot declare",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a Blue player declaring Red",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the stage is still open",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "a Blue player declaring Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declaring Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to the Alien is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Alien declaring Red",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 5,
+   "commandsSent": 8
+  },
+  {
+   "id": "CTL-M9-V15-04",
+   "code": "V15-04",
+   "mode": 9,
+   "title": "The claim and the partner are read by the two only",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declares Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the initiator reads the declared side",
+     "expected": "Blue",
+     "observed": "Blue",
+     "ok": true
+    },
+    {
+     "label": "the target reads the declared side",
+     "expected": "Blue",
+     "observed": "Blue",
+     "ok": true
+    },
+    {
+     "label": "nobody else reads any feedback",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "nobody else reads a partner",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the public view has no feedback field",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to Undercover is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "Undercover declares Red",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with the other side declared the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and every uninvolved player's view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "the Cracker's request to the Alien is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Alien declares Blue",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "with another target the public view is the same",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and so is the view of every player who is in neither pair",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 6,
+   "commandsSent": 6
+  },
+  {
+   "id": "CTL-M9-V15-05",
+   "code": "V15-05",
+   "mode": 9,
+   "title": "A move is accepted in each of the three stages, also in the last player's Hack",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Officer's request to the Hacker is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "declaration stage",
+     "expected": "HACK_DECLARE",
+     "observed": "HACK_DECLARE",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "result stage",
+     "expected": "HACK_RESULT",
+     "observed": "HACK_RESULT",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "conversation stage",
+     "expected": "HACK",
+     "observed": "HACK",
+     "ok": true
+    },
+    {
+     "label": "a move in it",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the Jail vote follows",
+     "expected": "JAIL_VOTE",
+     "observed": "JAIL_VOTE",
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 12,
+   "commandsSent": 4
+  },
+  {
+   "id": "CTL-M9-V15-06",
+   "code": "V15-06",
+   "mode": 9,
+   "title": "Deadlines that come late take nothing from the stage after them",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "declaration closed two seconds late: the result opens then",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and lasts five seconds",
+     "expected": 5000,
+     "observed": 5000,
+     "ok": true
+    },
+    {
+     "label": "result closed two seconds late: the conversation opens then",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    },
+    {
+     "label": "and lasts sixty seconds",
+     "expected": 60000,
+     "observed": 60000,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 3,
+   "commandsSent": 1
+  },
+  {
+   "id": "CTL-M9-V15-07",
+   "code": "V15-07",
+   "mode": 9,
+   "title": "A Code is refused in the two preludes and accepted in the conversation",
+   "status": "passed",
+   "checks": [
+    {
+     "label": "the Insider's request to the Supplier is accepted",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "a Code in the declaration stage",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "a Code in the result stage",
+     "expected": "NOT_ALLOWED",
+     "observed": "NOT_ALLOWED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is still unused",
+     "expected": false,
+     "observed": false,
+     "ok": true
+    },
+    {
+     "label": "a Code in the conversation",
+     "expected": "REGISTERED",
+     "observed": "REGISTERED",
+     "ok": true
+    },
+    {
+     "label": "the attempt is used",
+     "expected": true,
+     "observed": true,
+     "ok": true
+    }
+   ],
+   "records": [],
+   "error": null,
+   "phasesClosed": 55,
+   "commandsSent": 4
+  }
+ ]
+}

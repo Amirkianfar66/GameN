@@ -14,11 +14,16 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `capacity/mode-7.scenarios.json`, `capacity/mode-8.scenarios.json`, `capacity/mode-9.scenarios.json` | The room-capacity fixtures of issue #96, a suite of its own, one file per mode. They run under the ruleset that has the rule; the Version 1 catalogue runs under the rulesets before it |
 | `capacity/catalog.mjs`, `capacity/files.mjs` | Their authoring source, and reading and writing them. The rows they cite beside the rulebook's are in `docs/balance/capacity-audit.md` |
 | `support/capacity-tables.mjs` | The tables of that audit that are arithmetic, as text, so that a test can hold the document to them |
+| `next-version/catalog.mjs` | The acceptance cases of the next version, written against the owner's specification of 13 October 2026. Specifications of cases, not fixtures: the commands they need do not exist, and none has been run |
+| `next-version/mode-7.acceptance.json`, `mode-8.acceptance.json`, `mode-9.acceptance.json` | Those cases for each number of players, generated. The readable matrices are in `docs/balance/next-version/` |
+| `next-version/spec.mjs`, `next-version/register.mjs` | The hashes of the packet and its sections and register entries; the findings, assumptions and needs the cases point to |
+| `next-version/controls.mjs` | Controls on the three versions that exist, with the small driver that plays them. Each is run under its own ruleset and no other |
+| `next-version/files.mjs`, `next-version/tables.mjs`, `next-version/checks.mjs` | Writing the files and the matrices; the tables of the audit and of the evidence report; the static checks of the suite, which `scenarios.test.mjs` registers |
 | `adapters/full-game-v1.mjs` | Binding to Backend's full-game engine API |
 | `support/stub.mjs` | A scripted stand-in for an engine, used only to test the runner and the invariants |
 | `support/leaks.mjs` | The deliberate leaks: a wrapper that makes a binding tell somebody one thing it may not, so that the paired cases can be seen to notice |
 | `support/gate-reports.mjs` | Reports written from the catalogue for the tests of the report gate. Not results |
-| `*.test.mjs` | Static checks, run on `node:test`, in six files. `capacity.test.mjs` checks the capacity suite, its rows, its invariants and the audit's tables. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
+| `*.test.mjs` | Static checks, run on `node:test`, in six files. `scenarios.test.mjs` also registers the checks of the next-version cases. `capacity.test.mjs` checks the capacity suite, its rows, its invariants and the audit's tables. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
 
 ## What a scenario is
 
@@ -119,6 +124,21 @@ npm run engine-gate --workspace @mothership/balance -- --engine-root /path/to/a/
 ```
 
 It needs clean commits on both sides. `docs/balance/README.md` describes the gate. In CI the gate for a merge is Integration's own guard, which runs these same commands; `docs/balance/integration-requests.md` says how the two relate.
+
+## The cases of the next version
+
+`next-version/` is not a third suite of fixtures. Its cases specify what the next version has to do in one situation each: who is where, what is sent and when, and what must then be true, visible and timed. Each names the sections and register entries of the specification it rests on, and says whether its expectation is stated there, derived, or a reading where the specification does not settle the point. `docs/balance/next-version/README.md` is the audit they belong to.
+
+None of them can be run and none is counted as anything but **not run**. When an engine names a ruleset for that specification, the engine cases are bound to fixtures in the format above, with the expectations as they are written.
+
+What can be run are the controls: short fixed lines through an engine of an existing version, held to that version's own rules.
+
+```sh
+npm run next-controls --workspace @mothership/balance -- --ruleset in-person-v1-vote-results-2026-10-12 --engine-root /path/to/built/checkout --require-engine
+npm run next-controls-contrast --workspace @mothership/balance -- --engine-root /path/to/built/checkout
+```
+
+The first runs the controls written for the named ruleset, and nothing if the engine does not name it. A control whose rule is open holds the engine to nothing and is reported as recorded, never as passed. The second runs each control on purpose under the ruleset it is contrasted with, where it must fail; a control that passed there could not tell the two versions apart.
 
 ## Adding or changing a scenario
 

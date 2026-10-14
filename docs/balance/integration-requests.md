@@ -213,6 +213,36 @@ One order does all of it and mends BAL-REQ-13 as well: when a round has resolved
 
 No question on the capacity rule is open after these decisions, as far as the audit has found.
 
+## BAL-REQ-15
+
+**An answer to the findings on the specification of 13 October.** Asked on 14 October 2026, with the audit of that specification ([next-version/README.md](next-version/README.md)).
+
+The audit found three places where two passages of the packet, or the packet and a decision it keeps, cannot both hold, and six where neither says what an implementation needs. Four findings change what a correct engine does in situations that legal play reaches: where a player lies who is eliminated by a second hit in the stage that first hurt them (NV-F-01); who counts as being in the room for a block when several attacks resolve in one stage (NV-F-02); which Hospital positions players hurt in one stage take (NV-F-03); and whether an EJECT earlier in the round and the deaths at its end are "at the same time" for the Alien's sole win (NV-F-04).
+
+One sentence answers the first three: within a resolution stage nobody changes place; places are assigned once, when the stage is complete, from the health each player ends it with; and a block is shown to the seats that were in the room when the stage began. It also leaves NV-F-08 with one question, whether an injury undone in the same resolution is shown. NV-F-04 touches the wording of an owner decision (V1-19) and is the owner's to confirm.
+
+Asked of Integration: record an answer to each finding, in the packet or in an overlay, before the contract of the next version is fixed. The cases that turn on each answer are listed in the audit. Where the packet or a decision it keeps gives an answer, a case expects that answer; where neither does, the reading the audit recommends. Each gives the other outcome beside its expectation, and Balance changes them to whatever is decided.
+
+## BAL-REQ-16
+
+**The packet where a test can read it.** The six files of the specification are local and uncommitted. The audit records their hashes and cannot check one reference against them from inside the repository.
+
+Asked of Integration: commit the packet, or pin its six hashes in a file of the repository. Balance then adds a test that holds the recorded hashes to the committed files.
+
+## BAL-REQ-17
+
+**A seventh static test file.** `tests/tooling/balance-runner.test.mjs` holds `tests/scenarios/` to exactly six test files. The checks of the next-version suite are therefore collected in `tests/scenarios/next-version/checks.mjs` and registered from `scenarios.test.mjs`. They are run, counted and reported like every other test, and `npm run verify` passes unchanged.
+
+Asked of Integration: allow a seventh file, `next-version.test.mjs`, and add it to the list of required files. Balance then moves the registration into it. Nothing waits for this.
+
+One change to the static check comes with the suite: `static-tests.mjs` now fails when a test is registered from a module that the check does not list, because the runner reports such a test under that module, where a skip would go unseen.
+
+## BAL-REQ-18
+
+**Pins for the next-version files, when there is something to hold them to.** This work adds files and changes none that Integration pins: the rulebook, the Version 1 catalogue and its exception list, the engine binding, the capacity fixtures and the capacity audit are byte for byte the pinned ones.
+
+Asked of Integration: nothing now. When a ruleset for the specification exists, the acceptance catalogue and its three files are what to pin, as for the other suites, and the controls on the existing versions are what a branch that changes an earlier ruleset's behaviour should be asked to pass.
+
 ## Where each request stands
 
 Backend answered every request in its reconciliation (PR [#39](https://github.com/Amirkianfar66/GameN/pull/39) at `e6923b3ffd6f47beb3b7a5963ce5f423c7b08e8e`, a draft, unmerged). The middle column is that document's disposition in short; its own wording is the authority.
@@ -231,11 +261,15 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | BAL-C15, BAL-C16, BAL-C17 | Advisory follow-ups. No new canon follows from them | Agreed |
 | BAL-REQ-8 | Answered by PR #65 and PR #67 on 7 October: the read exists and the binding uses it; the catalogue was adopted at commit `7d63089` | The binding patch is taken over. Open in one respect: adopt the head of this branch in place of `7d63089` |
 | BAL-REQ-9 | Answered by PR #64 on 7 October: a decision record and a separate identity document | Reviewed by reading; no objection. The rulebook row waits for the record to be merged |
-| BAL-REQ-10 | Not answered yet: asked on 11 October | Open |
-| BAL-REQ-11 | Not answered yet. Backend's PR #98 does the same by a patch to the binding | Open: this binding in place of the patch |
-| BAL-REQ-12 | Not answered yet: asked on 11 October | Open. The owner has decided when rooms are drawn; it waits for Backend |
-| BAL-REQ-13 | Not answered yet: asked on 11 October | Open. Three fixtures fail until it is mended |
-| BAL-REQ-14 | Not answered yet: asked on 11 October | Open. Twelve fixtures fail until the decisions are implemented |
+| BAL-REQ-10 | Answered by the integration baseline, PR #114 at `abb6839`: `scripts/test-capacity.mjs` runs the capacity suite and the capped playouts under `in-person-v1-capacity-resolution-2026-10-12` in every `npm run verify` | Closed. The gate holds the suite to 107 passed, none failed, none blocked and 15 not run, and 200 playouts for each number of players |
+| BAL-REQ-11 | Answered by PR #114: the binding of PR #104 is the pinned one, with two lines added, and `scripts/test-balance.mjs` asks for `in-person-v1-pass-2026-10-08` by name | Closed |
+| BAL-REQ-12 | Answered by Backend's PR #98 at `d5d1459`, which PR #114 integrates: one joint draw when the roster first completes | Answered. Balance has read it and has not run the service; the fixture for it stays manual |
+| BAL-REQ-13 | Answered by PR #98 at `d5d1459`, as engine 1.3 | Closed. The case that showed the defect is among the 107 that pass in the capacity gate. The failure of 11 October is a record of engine 1.2 at `dd04f68`, not a finding against an engine of today |
+| BAL-REQ-14 | Answered: the six decisions are the overlay `rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json`, and engine 1.3 implements them | Closed. The four cases that held those decisions pass in the capacity gate |
+| BAL-REQ-15 | Not answered yet: asked on 14 October | Open. The cases of the next version that rest on a reading wait for it |
+| BAL-REQ-16 | Not answered yet: asked on 14 October | Open |
+| BAL-REQ-17 | Not answered yet: asked on 14 October | Open. Nothing waits for it |
+| BAL-REQ-18 | Nothing is asked yet | Waits for a ruleset of the next version |
 
 ## What Balance does next, and what it waits for
 
@@ -249,4 +283,5 @@ Backend answered every request in its reconciliation (PR [#39](https://github.co
 | Complete playtest records | BAL-REQ-2 |
 | A separate powers-on suite | D10 |
 | Re-seat the Version 1 catalogue so that it can run under the capacity ruleset, with a new rulebook revision that takes in the capacity rows | The capacity ruleset on a branch the rulebook's sources are read from, and Integration's agreement to move the pins |
-| Run the capacity suite again and commit the report | Backend's answer to BAL-REQ-13 and BAL-REQ-14 |
+| Bind the engine cases of the next version to executable fixtures, one by one, with the expectations as they are written | An engine that names a ruleset for the specification of 13 October and lets a test adapter read what the cases assert (needs BE-01 and BE-13 of the audit) |
+| Change the cases that rest on a reading to what is decided | BAL-REQ-15 |

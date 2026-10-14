@@ -23,7 +23,9 @@
     "controls": "tsc --build && node scripts/controls.mjs",
     "gate": "tsc --build && node scripts/gate.mjs",
     "engine-gate": "tsc --build && node scripts/engine-gate.mjs",
-    "capacity-compat": "tsc --build && node scripts/capacity-compat.mjs"
+    "capacity-compat": "tsc --build && node scripts/capacity-compat.mjs",
+    "next-controls": "tsc --build && node scripts/next-controls.mjs",
+    "next-controls-contrast": "tsc --build && node scripts/next-controls-contrast.mjs"
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0",
