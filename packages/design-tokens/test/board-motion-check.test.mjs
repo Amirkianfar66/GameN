@@ -306,6 +306,10 @@ describe('historical release versus explicit successor validation',()=>{
       .replace("  z.strictObject({ type: z.literal('PASS_TURN') }),", "  z.strictObject({ type: z.literal('REQUEST_BLACKOUT') }),\n  z.strictObject({ type: z.literal('PASS_TURN') }),"));
     const result=await check(root);assert.equal(result.status,0,result.output);
   });
+  test('reviewed successor action names remain separate from frozen historical art',async()=>{
+    const root=scratchCopy();edit(root,'packages/presentation/src/model/actions.ts',text=>text.replace("  'declare-hack-side',","  'captain-release', 'captain-eject', 'declare-hack-side',"));
+    const result=await check(root);assert.equal(result.status,0,result.output);assert.match(result.output,/15 actions/);
+  });
   test('unknown command and action additions fail instead of escaping historical coverage',async()=>{
     const root=scratchCopy();
     edit(root,'packages/contracts/src/full-game.ts',text=>text.replace("  z.strictObject({ type: z.literal('PASS_TURN') }),", "  z.strictObject({ type: z.literal('UNREVIEWED_POWER') }),\n  z.strictObject({ type: z.literal('PASS_TURN') }),"));

@@ -10,7 +10,8 @@ export const HISTORICAL_RELEASE_ACTIONS=Object.freeze({
 export const KNOWN_SUCCESSOR_COMMANDS=Object.freeze({CAPTAIN_RELEASE:'full-game-1.8.0',CAPTAIN_EJECT:'full-game-1.8.0',
   REQUEST_BLACKOUT:'full-game-1.9.0',SELECT_BLACKOUT_SLOT:'full-game-1.9.0',ACTIVATE_CLONE:'full-game-1.10.0'});
 // Add exact affected-consumer kind names only with its reviewed adoption patch.
-export const KNOWN_SUCCESSOR_ACTIONS=Object.freeze({});
+export const KNOWN_SUCCESSOR_ACTIONS=Object.freeze({'captain-release':'CAPTAIN_RELEASE','captain-eject':'CAPTAIN_EJECT',
+  'blackout-request':'REQUEST_BLACKOUT','blackout-slot':'SELECT_BLACKOUT_SLOT'});
 export function historicalReleaseCoverageProblems(coverage,kinds,commands,manifest) {
   const problems=[];
   const pins=manifest.gameplayPins;
@@ -25,6 +26,7 @@ export function historicalReleaseCoverageProblems(coverage,kinds,commands,manife
     if(coverage.actions.some(action=>action.kind===kind && action.command!==command))problems.push(`historical action ${kind} has the wrong command`);
   }
   for(const kind of kinds)if(!Object.hasOwn(HISTORICAL_RELEASE_ACTIONS,kind) && !Object.hasOwn(KNOWN_SUCCESSOR_ACTIONS,kind))problems.push(`unreviewed successor action ${kind}`);
+  for(const kind of kinds)if(Object.hasOwn(KNOWN_SUCCESSOR_ACTIONS,kind) && !commands.includes(KNOWN_SUCCESSOR_ACTIONS[kind]))problems.push(`successor action ${kind} has no reviewed command`);
   for(const command of commands)if(!Object.values(HISTORICAL_RELEASE_ACTIONS).includes(command) && !Object.hasOwn(KNOWN_SUCCESSOR_COMMANDS,command))problems.push(`unreviewed successor command ${command}`);
   for(const action of coverage.actions)if(!Object.hasOwn(HISTORICAL_RELEASE_ACTIONS,action.kind))problems.push(`action ${action.kind} is not an action of the release`);
   return problems;
