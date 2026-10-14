@@ -18,7 +18,9 @@ function initializeRuntime() {
   const app=getApps().find(candidate=>candidate.name==='[DEFAULT]') ?? initializeApp({projectId:configuration.projectId});
   if(app.options.projectId!==configuration.projectId) throw new Error('Firebase app project does not match the validated runtime');
   const db=getFirestore(app),legacy=createGameService({db});
-  const full=createV1Service({db,assetManifestVersion:configuration.assetManifestVersion});
+  const full=createV1Service({db,assetManifestVersion:configuration.assetManifestVersion,
+    ...(configuration.creationVersions===undefined?{}:{creationVersions:configuration.creationVersions}),
+    ...(configuration.historicalAssetManifestVersion===undefined?{}:{historicalAssetManifestVersion:configuration.historicalAssetManifestVersion})});
   const dependencies={service:legacy,
     verifyIdToken:(token:string)=>getAuth(app).verifyIdToken(token,true),
     verifyAppCheckToken:(token:string)=>getAppCheck(app).verifyToken(token),

@@ -8,7 +8,7 @@ import {
   FullSetupDocumentSchema, FullSetupPlayerViewSchema, FullPublicViewSchema, FullVersionsSchema,
 } from '@mothership/contracts';
 import {
-  FULL_GAME_VERSION_PINS, VOTE_RESULT_FULL_GAME_VERSION_PINS, RESOLUTION_FULL_GAME_VERSION_PINS,
+  FULL_GAME_VERSION_PINS, DECLARED_HACK_FULL_GAME_VERSION_PINS, VOTE_RESULT_FULL_GAME_VERSION_PINS, RESOLUTION_FULL_GAME_VERSION_PINS,
 } from '@mothership/engine';
 import { createV1Service } from '../dist/index.js';
 import { beginStagedSetup, confirmStagedChoices } from './staged-start-helper.mjs';
@@ -20,18 +20,15 @@ import { assertLocalEmulators, projectId, createEmulatorIdentity } from '../../.
 // an injected clock; these cases do not establish Functions or manifest loading.
 const profiles = [
   { name: 'vote-results 1.4', pins: VOTE_RESULT_FULL_GAME_VERSION_PINS },
-  // The vote-only branch has not introduced 1.5. Cover its exact tuple as soon
-  // as the reviewed Hack branch exports it, without inventing pins or skips.
-  ...(FULL_GAME_VERSION_PINS.engineVersion === 'full-game-1.5.0'
-    ? [{ name: 'declared-Hack 1.5', pins: FULL_GAME_VERSION_PINS }] : []),
+  { name: 'declared-Hack 1.5', pins: DECLARED_HACK_FULL_GAME_VERSION_PINS },
 ];
 const preparedAsset = 'readiness-compatibility-assets-v1';
 let app, db, serial = 0;
 before(() => {
   assertLocalEmulators();
   assert.equal(profiles[0].pins.engineVersion, 'full-game-1.4.0');
-  assert.ok(['full-game-1.4.0', 'full-game-1.5.0'].includes(FULL_GAME_VERSION_PINS.engineVersion),
-    'Review the supported profile coverage before introducing another current tuple');
+  assert.deepEqual(FULL_GAME_VERSION_PINS, RESOLUTION_FULL_GAME_VERSION_PINS,
+    'New-version acceptance must not replace the historical default or silently drop a profile');
   app = initializeApp({ projectId }, `readiness-compatibility-${randomUUID()}`);
   db = getFirestore(app);
 });

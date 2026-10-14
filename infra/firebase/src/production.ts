@@ -10,7 +10,9 @@ function initializeRuntime() {
   const configuration=assertRuntimeEnvironment(process.env);
   const app=getApps().find(candidate=>candidate.name==='[DEFAULT]') ?? initializeApp({projectId:configuration.projectId});
   if(app.options.projectId!==configuration.projectId)throw new Error('Firebase app project does not match the validated runtime');
-  return {app,configuration,service:createV1Service({db:getFirestore(app),assetManifestVersion:configuration.assetManifestVersion})};
+  return {app,configuration,service:createV1Service({db:getFirestore(app),assetManifestVersion:configuration.assetManifestVersion,
+    ...(configuration.creationVersions===undefined?{}:{creationVersions:configuration.creationVersions}),
+    ...(configuration.historicalAssetManifestVersion===undefined?{}:{historicalAssetManifestVersion:configuration.historicalAssetManifestVersion})})};
 }
 let runtime:ReturnType<typeof initializeRuntime>|undefined;
 const getRuntime=()=>runtime ??= initializeRuntime();
